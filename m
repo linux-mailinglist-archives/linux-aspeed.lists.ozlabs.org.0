@@ -1,38 +1,68 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D662FE69
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 16:51:21 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCDB12FE68
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 16:51:16 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45F9WQ0FwzzDqTl
-	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2019 00:51:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45F9WW1GNkzDqWK
+	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2019 00:51:19 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=arm.com
- (client-ip=217.140.101.70; helo=foss.arm.com;
- envelope-from=liviu.dudau@arm.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::542; helo=mail-pg1-x542.google.com;
+ envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=arm.com
-Received: from foss.arm.com (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
- by lists.ozlabs.org (Postfix) with ESMTP id 44kg6Q34p2zDqLy;
- Wed, 17 Apr 2019 21:31:09 +1000 (AEST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A8085374;
- Wed, 17 Apr 2019 04:31:06 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.72.51.249])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0BC4C3F68F;
- Wed, 17 Apr 2019 04:31:06 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id 57CDD68240D; Wed, 17 Apr 2019 12:31:04 +0100 (BST)
-Date: Wed, 17 Apr 2019 12:31:04 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
+ dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="gQGELDqs"; 
+ dkim-atps=neutral
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44kp7n6WRQzDq9Q;
+ Thu, 18 Apr 2019 02:47:49 +1000 (AEST)
+Received: by mail-pg1-x542.google.com with SMTP id k3so12267270pga.6;
+ Wed, 17 Apr 2019 09:47:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=poQZSPBu4YQfn3r4OZ1wNx/GAVM1bj6ZMDX0BEmv8/M=;
+ b=gQGELDqscYlMGr7UBq2XFLOyI59pjVFf6uLp37uaiNdcnSHyqUrjNG43DDjCUepXQk
+ w9LxHFAJ8z1BlK57+OqPfoP6tJCQwBzaqxytD/6IB5tPW9ClKf0qRtSHRiAL4LQhkIuP
+ VbDk2mOIYAL4YtqNEEbeoeaeMvXJA+nhkNXHlxpwCo//sCc2i2Zf+SElCzB5JksqHo7j
+ VvZY5fea26afq8j63C+55DlKY9QI0TchP9Sp6AWsJy9BbzQT10Y8A87GO+d8dIlnGbpG
+ y0cHWu7qpKVfW8mF1PrBGG28pgR0F+grO+tB5C0XLEKAKDexz5P+Rx8XiW85b7hSGcFU
+ aJcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to:user-agent;
+ bh=poQZSPBu4YQfn3r4OZ1wNx/GAVM1bj6ZMDX0BEmv8/M=;
+ b=O6JnYSQELLNcCvczbBb3Enz5eXQoo+UMvSqZGTjT3NTI8mRQ100xeT2VxGeMjYhJHy
+ ezFnFyYoOr5joFwUJjNG0oLpXt0YNQSrC4qCchAgxgpAKO5K6o36M8kn546nctvg/BYH
+ D9Sk0RQXltCrjmFYCkt4BuRfflPoWEr1MGb0/MZr2AGgaQ7QAbnKldmvAO5GzaWrElyC
+ hrxtt34VtzwOvD5iJfapvceVdCy2SAsariV0NksQ0+7E/XVdZsjtgqRIZ7zArVj01yQm
+ QlUMNyHJfaWBMnl0OmwDYIl2DkkQf/l6Ay0mmW66NZPMFdSH6qKuJ23BBpb1VllhwiEO
+ 8+2w==
+X-Gm-Message-State: APjAAAXARCPqm8fD3vIRl2f+g8OWmFyg/7qeUODj+OoucL+t6W0sgHAk
+ TjqyJtY9C/wG76eylqD54Xg=
+X-Google-Smtp-Source: APXvYqwxWTWxZhT2CDsx3copaf3CxAV6GSt/1fBUZ3nABITYzMaPv5qL1mTsEZBumVIlqQffZWkn4w==
+X-Received: by 2002:aa7:9627:: with SMTP id r7mr789786pfg.245.1555519664302;
+ Wed, 17 Apr 2019 09:47:44 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id t5sm57903621pfl.106.2019.04.17.09.47.42
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 17 Apr 2019 09:47:43 -0700 (PDT)
+Date: Wed, 17 Apr 2019 09:47:41 -0700
+From: Guenter Roeck <linux@roeck-us.net>
 To: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Subject: Re: [PATCH v3 21/21] docs: hwmon: Add an index file and rename docs
  to *.rst
-Message-ID: <20190417113104.GW15144@e110455-lin.cambridge.arm.com>
+Message-ID: <20190417164741.GA12147@roeck-us.net>
 References: <cover.1555494108.git.mchehab+samsung@kernel.org>
  <efbe0a2b5be35026c3a2dbdb9090c4fbd932c9a2.1555494108.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
@@ -40,8 +70,8 @@ Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <efbe0a2b5be35026c3a2dbdb9090c4fbd932c9a2.1555494108.git.mchehab+samsung@kernel.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Mailman-Approved-At: Fri, 31 May 2019 00:50:54 +1000
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Mailman-Approved-At: Fri, 31 May 2019 00:50:55 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,24 +87,24 @@ Cc: Mark Rutland <mark.rutland@arm.com>, Dirk Eibach <eibach@gdsys.de>,
  linux-aspeed@lists.ozlabs.org,
  Linux Doc Mailing List <linux-doc@vger.kernel.org>,
  Clemens Ladisch <clemens@ladisch.de>, Kamil Debski <kamil@wypas.org>,
- linux-kernel@vger.kernel.org, Huang Rui <ray.huang@amd.com>,
- Paul Mackerras <paulus@samba.org>,
+ Marc Hulsman <m.hulsman@tudelft.nl>, devicetree@vger.kernel.org,
+ Huang Rui <ray.huang@amd.com>, Paul Mackerras <paulus@samba.org>,
+ Jim Cromie <jim.cromie@gmail.com>,
  Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
  Jonathan Corbet <corbet@lwn.net>, Michael Ellerman <mpe@ellerman.id.au>,
- Guenter Roeck <linux@roeck-us.net>,
- Steve Glendinning <steve.glendinning@shawell.net>, devicetree@vger.kernel.org,
- Jean Delvare <jdelvare@suse.com>,
+ Steve Glendinning <steve.glendinning@shawell.net>,
+ Fenghua Yu <fenghua.yu@intel.com>, Jean Delvare <jdelvare@suse.com>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
  Mauro Carvalho Chehab <mchehab@infradead.org>,
  Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh+dt@kernel.org>,
- Rudolf Marek <r.marek@assembler.cz>, Juerg Haefliger <juergh@gmail.com>,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ Rudolf Marek <r.marek@assembler.cz>, linux-arm-kernel@lists.infradead.org,
+ linux-hwmon@vger.kernel.org,
  Support Opensource <support.opensource@diasemi.com>,
  George Joseph <george.joseph@fairview5.com>,
- Andreas Werner <andreas.werner@men.de>, Jim Cromie <jim.cromie@gmail.com>,
- patches@opensource.cirrus.com, Marc Hulsman <m.hulsman@tudelft.nl>,
- Fenghua Yu <fenghua.yu@intel.com>, Sudeep Holla <sudeep.holla@arm.com>,
- linuxppc-dev@lists.ozlabs.org
+ Andreas Werner <andreas.werner@men.de>, patches@opensource.cirrus.com,
+ linux-kernel@vger.kernel.org, Juerg Haefliger <juergh@gmail.com>,
+ Sudeep Holla <sudeep.holla@arm.com>, linuxppc-dev@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
@@ -84,6 +114,17 @@ On Wed, Apr 17, 2019 at 06:46:29AM -0300, Mauro Carvalho Chehab wrote:
 > and add an index.
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+
+I applied all patches except this one, which fails due to a conflict in
+ab8500. I also notice that this file has not been touched by your series,
+which is odd. At the same time, patch 20/21 is missing from your series,
+and has been missing all along. Does the missing patch possibly touch
+Documentation/hwmon/ab8500 ?
+
+Thanks,
+Guenter
+
 > ---
 >  .../devicetree/bindings/hwmon/g762.txt        |   2 +-
 >  Documentation/hwmon/{ab8500 => ab8500.rst}    |   2 +-
@@ -230,14 +271,6 @@ On Wed, Apr 17, 2019 at 06:46:29AM -0300, Mauro Carvalho Chehab wrote:
 >  Documentation/hwmon/{ucd9200 => ucd9200.rst}  |   4 +-
 >  .../{userspace-tools => userspace-tools.rst}  |   0
 >  .../hwmon/{vexpress => vexpress.rst}          |   0
-
-For the vexpress part:
-
-Acked-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Best regards,
-Liviu
-
 >  Documentation/hwmon/{via686a => via686a.rst}  |   0
 >  Documentation/hwmon/{vt1211 => vt1211.rst}    |   0
 >  .../hwmon/{w83627ehf => w83627ehf.rst}        |   0
@@ -2153,21 +2186,3 @@ Liviu
 >  	 *
 >  	 * pullup/down_ohm: 0 for infinite / not-connected
 >  	 *
-> -- 
-> 2.20.1
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
