@@ -2,69 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665C62FE77
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 16:52:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F962FE78
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 16:52:23 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45F9XZ3QnkzDqDZ
-	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2019 00:52:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45F9Xh0sdZzDqV3
+	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2019 00:52:20 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=lenovo.com
- (client-ip=67.219.250.4; helo=mail1.bemta24.messagelabs.com;
+ (client-ip=67.219.250.211; helo=mail1.bemta24.messagelabs.com;
  envelope-from=pengms1@lenovo.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=lenovo.com
 Received: from mail1.bemta24.messagelabs.com (mail1.bemta24.messagelabs.com
- [67.219.250.4])
+ [67.219.250.211])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 44q0401h0szDqTX;
- Wed, 24 Apr 2019 22:29:03 +1000 (AEST)
-Received: from [67.219.250.102] (using TLSv1.2 with cipher
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44q6yD0vqhzDqS4;
+ Thu, 25 Apr 2019 03:39:31 +1000 (AEST)
+Received: from [67.219.251.54] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
- by server-4.bemta.az-a.us-west-2.aws.symcld.net id 72/72-25145-98650CC5;
- Wed, 24 Apr 2019 12:28:57 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMIsWRWlGSWpSXmKPExsWSLveKVbcz7EC
- Mwcn50ha7LnNYzNj7gNli/pFzrBa/z/9lttj0+BqrRfPqc8wWl3fNYbNYev0ik8WplhcsFq17
- j7Bb7D2wkcWB2+Nq+y52jzXz1jB6LNhU6nHx4zFmj02rOtk8Ni+p9zg/YyGjx+dNcgEcUayZe
- Un5FQmsGV27r7MWvGtmrOi5/YWpgfFmVhcjF4eQQAeTxLwLbWwQznxGiV3t91m7GDk52ATUJE
- 7OvscKkhAR+Mgo8f/kHbAqZoFJjBINX64wg1QJC9hKrFwymRHEZhFQldj/7AU7iM0r4CzxonM
- aG4gtISAncfNcJ/MERs4FjAyrGC2SijLTM0pyEzNzdA0NDHQNDY10DY1BtLleYpVuol5psW55
- anGJrpFeYnmxXnFlbnJOil5easkmRmDgpRQ0le5gvLI8/RCjJAeTkihvueyBGCG+pPyUyozE4
- oz4otKc1OJDjDIcHEoSvIWhQDnBotT01Iq0zBxgDMCkJTh4lER41YBxIMRbXJCYW5yZDpE6xa
- goJc6rDpIQAElklObBtcHi7hKjrJQwLyMDA4MQT0FqUW5mCar8K0ZxDkYlYV5NkO08mXklcNN
- fAS1mAlpcbwG2uCQRISXVwDh90mm2/sAlt1fGVa/Z8t6sJ5PRwkajYs+Xq/zOZy6/ZVMzbwrv
- N7dPmZnX8mmVYEaKZ8OVluvlh/1via7VqJM6WfmfbYd23b1LETOeRD/8oVdjx9+88uXDS/MlX
- dwfNWixOsVOXS6nqNqzVvzjBc5PiotVKu7UlqlMe29664b8yQObox6o7lZiKc5INNRiLipOBA
- CyqIgXtgIAAA==
+ by server-4.bemta.az-c.us-west-2.aws.symcld.net id CF/F4-08672-E4F90CC5;
+ Wed, 24 Apr 2019 17:39:26 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMIsWRWlGSWpSXmKPExsWSLveKVddv/oE
+ Yg8XvpS12XeawmLH3AbPF/CPnWC1+n//LbLHp8TVWi+bV55gtLu+aw2ax9PpFJotTLS9YLFr3
+ HmG32HtgI4sDt8fV9l3sHmvmrWH0WLCp1OPix2PMHptWdbJ5bF5S73F+xkJGj8+b5AI4olgz8
+ 5LyKxJYM77v6WcsmNnKWHF7yS72BsZn2V2MXBxCAh1MEruXPGeHcOYzSqy+sw7I4eRgE1CTOD
+ n7HitIQkTgI6PE/5N32EAcZoFJjBINX64wg1QJC9hKdKw+zQJiswioSjybv5YRxOYVcJa4OuE
+ rE4gtISAncfNcJ/MERs4FjAyrGC2SijLTM0pyEzNzdA0NDHQNDY10DY0tdQ0tjfQSq3ST9UqL
+ dctTi0t0gdzyYr3iytzknBS9vNSSTYzAwEsp6D6wg/HdivRDjJIcTEqivEs7D8QI8SXlp1RmJ
+ BZnxBeV5qQWH2KU4eBQkuD9Nw8oJ1iUmp5akZaZA4wBmLQEB4+SCG8ySJq3uCAxtzgzHSJ1il
+ FRSpw3GiQhAJLIKM2Da4PF3SVGWSlhXkYGBgYhnoLUotzMElT5V4ziHIxKwrwnQKbwZOaVwE1
+ /BbSYCWhxvQXY4pJEhJRUA6PL6RcH3899dcb9HV9i8InLFT76Ox4/M2x7yvp4dbyZsY86n0ir
+ jdm9J9eecvNsyK/siWo8axM59c3HXUuDGzeVMkmvndT//e6tvAU75eqeXK/6eC1t5coDi3/Pn
+ jbvjtGuWRyveedzFRXppJjsUtOKcN1q/EZvikWp0mtTRfYbvxY0cgQtndyoxFKckWioxVxUnA
+ gAdc36wrYCAAA=
 X-Env-Sender: pengms1@lenovo.com
-X-Msg-Ref: server-8.tower-326.messagelabs.com!1556108934!6509030!1
+X-Msg-Ref: server-7.tower-366.messagelabs.com!1556127563!2454202!1
 X-Originating-IP: [103.30.234.5]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.31.5; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 1439 invoked from network); 24 Apr 2019 12:28:56 -0000
+Received: (qmail 26466 invoked from network); 24 Apr 2019 17:39:25 -0000
 Received: from unknown (HELO apsmtp.lenovo.com) (103.30.234.5)
- by server-8.tower-326.messagelabs.com with DHE-RSA-AES256-GCM-SHA384 encrypted
- SMTP; 24 Apr 2019 12:28:56 -0000
+ by server-7.tower-366.messagelabs.com with DHE-RSA-AES256-GCM-SHA384 encrypted
+ SMTP; 24 Apr 2019 17:39:25 -0000
 Received: from smtpinternal.lenovo.com (unknown [10.96.80.15])
  (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by Forcepoint Email with ESMTPS id AA8E61E7882F9BF9AB4E;
- Wed, 24 Apr 2019 20:28:53 +0800 (CST)
+ by Forcepoint Email with ESMTPS id 99AF7F2340F99A0CEF25;
+ Thu, 25 Apr 2019 01:39:22 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.245.100.154])
- by Forcepoint Email with ESMTP id 436762F6EFDD8296EDDD;
- Wed, 24 Apr 2019 20:28:53 +0800 (CST)
+ by Forcepoint Email with ESMTP id 3718ED2413E745C53151;
+ Thu, 25 Apr 2019 01:39:22 +0800 (CST)
 From: Andrew Peng <pengms1@lenovo.com>
 To: venture@google.com, benjaminfair@google.com, linux-kernel@vger.kernel.org,
  linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, andrew@aj.id.au, mark.rutland@arm.com,
  robh+dt@kernel.org
-Subject: [PATCH v3] ARM: dts: aspeed: Adding Lenovo Hr630 BMC
-Date: Wed, 24 Apr 2019 20:28:46 +0800
-Message-Id: <1556108926-233682-1-git-send-email-pengms1@lenovo.com>
+Subject: [PATCH v4] ARM: dts: aspeed: Adding Lenovo Hr630 BMC
+Date: Thu, 25 Apr 2019 01:39:10 +0800
+Message-Id: <1556127550-234791-1-git-send-email-pengms1@lenovo.com>
 X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Fri, 31 May 2019 00:50:56 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -96,6 +96,8 @@ Signed-off-by: Andrew Peng <pengms1@lenovo.com>
 Signed-off-by: Yonghui Liu <liuyh21@lenovo.com>
 Signed-off-by: Lisa Liu <liuyj19@lenovo.com>
 ---
+Changes in v4:
+ - add pca9546 switch aliases name.
 Changes in v3:
  - revise i2c switch aliases name.
 Changes in v2:
@@ -104,8 +106,8 @@ Changes in v2:
  - remove "Licensed under..." sentence.
 
  arch/arm/boot/dts/Makefile                    |   3 +-
- arch/arm/boot/dts/aspeed-bmc-lenovo-hr630.dts | 886 ++++++++++++++++++++++++++
- 2 files changed, 888 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/aspeed-bmc-lenovo-hr630.dts | 890 ++++++++++++++++++++++++++
+ 2 files changed, 892 insertions(+), 1 deletion(-)
  create mode 100644 arch/arm/boot/dts/aspeed-bmc-lenovo-hr630.dts
 
 diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
@@ -121,10 +123,10 @@ index f4f5aea..375e53b 100644
 +	aspeed-bmc-lenovo-hr630.dtb
 diff --git a/arch/arm/boot/dts/aspeed-bmc-lenovo-hr630.dts b/arch/arm/boot/dts/aspeed-bmc-lenovo-hr630.dts
 new file mode 100644
-index 0000000..5c45523
+index 0000000..41d5689
 --- /dev/null
 +++ b/arch/arm/boot/dts/aspeed-bmc-lenovo-hr630.dts
-@@ -0,0 +1,886 @@
+@@ -0,0 +1,890 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +/*
 + * Device Tree file for Lenovo Hr630 platform
@@ -146,6 +148,10 @@ index 0000000..5c45523
 +		pca9545_i2c1 = &i2c_fbp1;
 +		pca9545_i2c2 = &i2c_fbp2;
 +		pca9545_i2c3 = &i2c_fbp3;
++		pca9546_i2c0 = &i2c_riser2;
++		pca9546_i2c1 = &i2c_pcie4;
++		pca9546_i2c2 = &i2c_riser1;
++		pca9546_i2c3 = &i2c_ocp;
 +	};
 +
 +	chosen {
