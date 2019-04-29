@@ -1,62 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1674DD21
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2019 09:52:03 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 44sxh13XdzzDqMM
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2019 17:52:01 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC6BCDD30
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2019 09:53:53 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 44sxk73GFLzDqMr
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2019 17:53:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::842; helo=mail-qt1-x842.google.com;
+ (client-ip=2607:f8b0:4864:20::841; helo=mail-qt1-x841.google.com;
  envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="JnaDK3rL"; 
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="bCja6Qsa"; 
  dkim-atps=neutral
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 44sxgx0bGFzDqKs
- for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Apr 2019 17:51:54 +1000 (AEST)
-Received: by mail-qt1-x842.google.com with SMTP id h16so5195695qtk.6
- for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Apr 2019 00:51:54 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44sxk26WtpzDq9D
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Apr 2019 17:53:46 +1000 (AEST)
+Received: by mail-qt1-x841.google.com with SMTP id i31so2129822qti.13
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Apr 2019 00:53:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o/wmIhe4nVJv0ub+Zm2BlY4rD9+LMhSkxOTZOnjTqAA=;
- b=JnaDK3rLVxBeSbdPaTiJhcsOtXtzO9cNySiXWlsE5w+lj0KZKm15wU8vDzTYOSAlqm
- EmCQCqUSFilei1MO3YR+pHoWcrnhKrUboEs/6zvzj4Dk2ldjLjZkdVoANx/RMKz4s4yG
- 0rDmq3sz8SfxAO26FjsKRA2fQXqJPtIfwGKHc=
+ :cc; bh=5t3ha+L/fYSXvu7o0ySbyVykauyPN6EAUxnPIHb4CJ0=;
+ b=bCja6QsaoKBuddwyLN7Ymwyx1swIpERjorOwhUMNvQjppCPYWWn45unKFCXWw6v8NV
+ tLMMy49XYA18pN+j2THaZlgHJgmRrmkZtLeKXFb2yDOhxo0pzsV/rC6ZTN5nUPEmrvxw
+ H8Inbo6e5paggfmsXww73Z3oLs2/WZaWoI3H4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=o/wmIhe4nVJv0ub+Zm2BlY4rD9+LMhSkxOTZOnjTqAA=;
- b=LaPVOESiq9Yw99+/JR+i86p9NY92QksYT3yiaknd1gsZg7JUZOS7+Tkjpfu6FSxCgy
- ePCUkC3ExxIA8M3EoMsss7sdYsjsjiSUXrIfEBeJRWxFoRrAIbt024nCYZTpX6z7HUWD
- cQ8xKqA/dDs56U2AZlUr3giUDNUcblCW+lu7gUQjlso7oWdmWAZu+UrH4K7PsGcvMpEO
- mZvGSJFvQJJ3MgXaMkLkt5TBtiFFEIdrYio3bjCMEaBu/kIYfBuLNkO8jEy/MxhzUQ2Y
- F8FZRiQxw+JsxXGFlKmpares09/FdJ38QxgYNvXj35reZTS62LtFnxiuEX/ZtJC2K+NN
- bAXQ==
-X-Gm-Message-State: APjAAAXlbrorQPdpE9IHY0QZPuG7mUtdO7yvBHulhFvCD8mRu5HFuAt8
- uOVncUNzAJLh3a0yY+nRrLSaacW5M1xY2JPaWqY=
-X-Google-Smtp-Source: APXvYqyMZFsWN6kgsok8mRvbEOnKo2YP2o/YvFTM5PkjD6J+ugLl8ckNCMjgT7cwvnyaUovJ0SCbOKC95qDEoQeNkhs=
-X-Received: by 2002:a0c:986d:: with SMTP id e42mr47259276qvd.51.1556524312305; 
- Mon, 29 Apr 2019 00:51:52 -0700 (PDT)
+ bh=5t3ha+L/fYSXvu7o0ySbyVykauyPN6EAUxnPIHb4CJ0=;
+ b=RI2Jhn6jEpnbJMizw5tLrQSDuXPnOwQI3JErX+DQTYahMgWeFiT6+ytvAIHUP05AbF
+ CRuQbJjTQ1iyANwhf2ZkaO3vU+fLUqfd414bbjPUSr/iKNSv52+W4jay4jHHVl9V/1Hb
+ 0SH0wdZRLuY6YZKZ1+xvH3eh4ezTkzI0+uaPWRIvzpIaZdy7lvfmrqjdMEn9G1U2kRFF
+ 9/rHuBRhOhBTw+v8HhfffrONpiDZhT6Q08mPtEmh8KQdbMtWd3RoV/7u6rDg1+sFESJC
+ FBgT3bS0f/wwsFu6+AL/DKE+zjI+UaTq8HYCYU+sQaUV+qDHKuAZn0PA2Mn5T1tNQ0W8
+ KgEA==
+X-Gm-Message-State: APjAAAWg0qioS6SpJOtcaO0P/Vu46uK+2a5uKsa0A9CsUyYzylfyGC7B
+ tfaMpPhcja9r+du4YPI2TlBolByPxtQk0O//ifI=
+X-Google-Smtp-Source: APXvYqx48H9AYPZuMFrqfPObYS55llABgvbLwiFiYW98pm7xlm9uxMeurzruoh/LKxJaOVfxTRXM1+nMdxblh/TRCwg=
+X-Received: by 2002:ac8:169b:: with SMTP id r27mr33552179qtj.235.1556524424431; 
+ Mon, 29 Apr 2019 00:53:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <1556119194-10917-1-git-send-email-eajames@linux.ibm.com>
-In-Reply-To: <1556119194-10917-1-git-send-email-eajames@linux.ibm.com>
+References: <20190425194903.144569-1-venture@google.com>
+In-Reply-To: <20190425194903.144569-1-venture@google.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 29 Apr 2019 07:51:40 +0000
-Message-ID: <CACPK8XcncJuMMK-MQuu29dbeZbU57+a84RL+kuN9LkctZpFZfA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] ARM: dts: aspeed-g5: Add video engine
-To: Eddie James <eajames@linux.ibm.com>
+Date: Mon, 29 Apr 2019 07:53:31 +0000
+Message-ID: <CACPK8XeDS0RfF1SSTuFbSoO9a7N6qDZShovj5yF56Pc9PA6nDQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ARM: dts: aspeed: quanta-q71: Enable p2a node
+To: Patrick Venture <venture@google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -70,51 +70,24 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, hverkuil@xs4all.nl,
- Rob Herring <robh+dt@kernel.org>, mchehab@kernel.org,
- linux-media@vger.kernel.org
+ devicetree <devicetree@vger.kernel.org>, arm <arm@kernel.org>,
+ linux-aspeed@lists.ozlabs.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 24 Apr 2019 at 15:20, Eddie James <eajames@linux.ibm.com> wrote:
+On Thu, 25 Apr 2019 at 19:49, Patrick Venture <venture@google.com> wrote:
 >
-> Add a node to describe the video engine on the AST2500.
+> Enable the aspeed-p2a-ctrl node and configure with memory-region to
+> enable mmap access.
 >
-> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> Signed-off-by: Patrick Venture <venture@google.com>
 
 Applied to the aspeed SoC tree.
 
 Cheers,
 
 Joel
-
-> ---
->  arch/arm/boot/dts/aspeed-g5.dtsi | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
-> index 85ed9db..c6d5edc 100644
-> --- a/arch/arm/boot/dts/aspeed-g5.dtsi
-> +++ b/arch/arm/boot/dts/aspeed-g5.dtsi
-> @@ -243,6 +243,16 @@
->                                 status = "disabled";
->                         };
->
-> +                       video: video@1e700000 {
-> +                               compatible = "aspeed,ast2500-video-engine";
-> +                               reg = <0x1e700000 0x1000>;
-> +                               clocks = <&syscon ASPEED_CLK_GATE_VCLK>,
-> +                                        <&syscon ASPEED_CLK_GATE_ECLK>;
-> +                               clock-names = "vclk", "eclk";
-> +                               interrupts = <7>;
-> +                               status = "disabled";
-> +                       };
-> +
->                         sram: sram@1e720000 {
->                                 compatible = "mmio-sram";
->                                 reg = <0x1e720000 0x9000>;      // 36K
-> --
-> 1.8.3.1
->
