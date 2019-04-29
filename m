@@ -2,68 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45B82E87F
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2019 19:12:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12895E884
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2019 19:13:14 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 44tB6l64d3zDq5W
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2019 03:12:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 44tB7W4PP3zDqRX
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2019 03:13:11 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=google.com
- (client-ip=2607:f8b0:4864:20::644; helo=mail-pl1-x644.google.com;
- envelope-from=venture@google.com; receiver=<UNKNOWN>)
+ spf=none (mailfrom) smtp.mailfrom=lixom.net
+ (client-ip=2607:f8b0:4864:20::142; helo=mail-it1-x142.google.com;
+ envelope-from=olof@lixom.net; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=reject dis=none) header.from=google.com
+ dmarc=none (p=none dis=none) header.from=lixom.net
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=google.com header.i=@google.com header.b="RHPyhmdJ"; 
+ unprotected) header.d=lixom-net.20150623.gappssmtp.com
+ header.i=@lixom-net.20150623.gappssmtp.com header.b="UWe7teRV"; 
  dkim-atps=neutral
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
+Received: from mail-it1-x142.google.com (mail-it1-x142.google.com
+ [IPv6:2607:f8b0:4864:20::142])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 44tB6Z3d30zDqDQ
- for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Apr 2019 03:12:22 +1000 (AEST)
-Received: by mail-pl1-x644.google.com with SMTP id o5so5357384pls.12
- for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Apr 2019 10:12:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44tB7P3msgzDq5W
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Apr 2019 03:13:03 +1000 (AEST)
+Received: by mail-it1-x142.google.com with SMTP id r85so208378itc.2
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Apr 2019 10:13:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=lixom-net.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qUQwHR2VNeOE5MlCJ+FwXuCGuTGwhtdasJmtn1jXdiM=;
- b=RHPyhmdJuh4p9le7C8dnOEN+s/+kDEu7SpmvlvI4SYn8Wx81kzFxa/oxWR1hteJ5Dl
- OgDZ7UUSq4AcAcTrbT1g1ecqpA1ph7ueHeLKH8e3KvuIoYfHr3hwHNfZrfDwwOiwl8p9
- R29BMEjov8i+HamY04UYLVJfLDYgjroc3TxdDWUtHURJcAd2ymXMChRj6GrN8M8ENvFX
- WinMBAnsx/OzkDhZM2VhFw8LudtbHa41OLHMB8U/tzUszERAQRRYosfRyA95PXqiFi8Z
- FmebDEB/falILN7pKubBCOe0VN7vC4txcuSGuhj+IbXoQVvSL/9CwA9pq3BMLWvDTMV8
- MdgQ==
+ :cc; bh=25fiyi7j1Bbc8JQlGA4N04qFKyRP6T12Pl+h/G3rDyI=;
+ b=UWe7teRVNHnVVVX7AxpBK7ppMB7htmVYCLs2maddnhAQN3s3CmuabCZeOMH8mGI/+6
+ /JAfjgHvCS2HhFocaMlJd0BXxYtS9navSccjbvY6qbHBMMr4XEP05Vux6hRDc7FRqF9t
+ kiOiH9k0iz1UZcROEN79XDk6Y4qZ4lS4HzZB2oSvWSi83Rn8F2YFkjGPBu66JMg3b00L
+ 7fc+GysM/pjBsAmOQm4Bn8C/JvFBndEdO1r5YjJ9N0VM9tkAqjSOPKtK1qzYDc9iIoYW
+ FuK/BnRIigm4/uC2qkKopwb616CzVTL2ueBStfTT9+WDc3wTMj6WBvJkt9HrY9wm4l1G
+ xNXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=qUQwHR2VNeOE5MlCJ+FwXuCGuTGwhtdasJmtn1jXdiM=;
- b=V3GgO8LuITbLKzZoe3oDNutcJjrPhrzPZfdqxarDg4hqug6BX2SMrclgzAdm5Mn/Qi
- K7cfmeECYUA4MzJhSHPZeQ5dbcVAqNxXjfyK1tEiiCxu1aFdYMaGcW9IcD7BsC88Sz5u
- Owmlakc5cLdYF1DyXCPt9DrTx4uTtqyAiPM0iWumk8oLiNmdD9xW5pQWhVUKjxP0bPfD
- dOEymalzuE7Zs9BNP10FHtryfA8qEewNCfW/0qD1fnIBcoegU0gifdER5BPemNgPc903
- aRCkIBsEXBziB9m1znXrrsiAcKc682zc5VqFLROX/fYa6uJk/xhrQbBeJJXuH+5ZkhqA
- h/Nw==
-X-Gm-Message-State: APjAAAU6AbT7ZcOkbYRy6EHdZ0EDJX0ZzByX6/j/BDg/f1hDbbni8Sfy
- 6L75/+Mx+brh2o3J/V9wmKMd5fCo7fquwAlbZ63ynw==
-X-Google-Smtp-Source: APXvYqxq59dYK855wXF2UaGJJlas8QKc5gdt2Tmc79lygnKF06mh76NgaeqWYhNzCj+xE1WIeZANTXTtJj3hhk6vfL0=
-X-Received: by 2002:a17:902:7d8f:: with SMTP id
- a15mr62322314plm.3.1556557937999; 
- Mon, 29 Apr 2019 10:12:17 -0700 (PDT)
+ bh=25fiyi7j1Bbc8JQlGA4N04qFKyRP6T12Pl+h/G3rDyI=;
+ b=afHq3cbtAouUyjt1T0VYEu0Me2FGaP+LGrCJi/71ebBBbt8975CagPLXjpRJUwBP8t
+ sZStM7rbCBoffXpcQoG/0163ky/ZrzMkkpuSA2rJrigOyyULy/QBvic9e6U+a4OZiLIL
+ +CPq1HPVDX8KzZAVUvzHWcypa2Rq5GaVWAYcdpeNJLKWqyrKGdA7aY/Dv3Ou1AYvwbSo
+ pvY3BboCT/IqAY5vo5YVfVMQZNbxZzARoAatSIjFWmhv4029zGg9KsN4m29gG1fjhnfT
+ 4gcd/wvAwzv9hWiQG/5xTrGCZtw0k0z7xfXgAxLTtG4kElQYhv30SL0PS9nvU3I79DMC
+ abcA==
+X-Gm-Message-State: APjAAAXRkudnAyFdzPu96BVl3mjb741+9rryyYXSu87Q29Pl0T8j0J/O
+ dEQ/K6H/h+38P0TdY5NyQ5V7E7x8qsIutMtGMV31qQ==
+X-Google-Smtp-Source: APXvYqweY4l9yaoGv4MZCSEVnHgtdmzETHUyk5nS1Ww7LwbZsUOtMDtCJk63xjgrLfehIEYLnqh+/O9ZQ0ZLjkXKcqk=
+X-Received: by 2002:a24:58c:: with SMTP id 134mr87853itl.103.1556557980790;
+ Mon, 29 Apr 2019 10:13:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190423142629.120717-1-venture@google.com>
  <CAO=notzjzpt0WHfJEWXMGgkoJU8UiLnqZnrGrPs-dRH5GNdJyQ@mail.gmail.com>
  <CAO=notz9QVoqKLrhJ3kx9FHja5+Mh68f36O36+1ewLG+SanmOA@mail.gmail.com>
  <20190425172549.GA12376@kroah.com> <20190429165137.mwj4ehhwerunbef4@localhost>
 In-Reply-To: <20190429165137.mwj4ehhwerunbef4@localhost>
-From: Patrick Venture <venture@google.com>
-Date: Mon, 29 Apr 2019 10:12:06 -0700
-Message-ID: <CAO=notwewAeeLz=LsOcSj=DakLGW0KjeDHALP5Nv2ckgkRqnFA@mail.gmail.com>
+From: Olof Johansson <olof@lixom.net>
+Date: Mon, 29 Apr 2019 10:12:48 -0700
+Message-ID: <CAOesGMg49z4Gip-bLK-h7+LSLa4Fu68r11gT2EV8E8xMCPGDxg@mail.gmail.com>
 Subject: Re: [PATCH v2] soc: add aspeed folder and misc drivers
-To: Olof Johansson <olof@lixom.net>
+To: Greg KH <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -77,7 +78,7 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: linux-aspeed@lists.ozlabs.org, Arnd Bergmann <arnd@arndb.de>,
- Greg KH <gregkh@linuxfoundation.org>,
+ Patrick Venture <venture@google.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, soc@kernel.org,
  arm-soc <arm@kernel.org>,
  "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
@@ -114,24 +115,20 @@ On Mon, Apr 29, 2019 at 10:08 AM Olof Johansson <olof@lixom.net> wrote:
 >
 > I'm totally confused. This is the second "PATCH v2" of this patch that I came
 > across, I already applied the first.
-
-I think the issue here was that I added to the CC list another email
-and so you may see the v2  without that mailing list, and a v2 with it
---
-
-Does this require a v3?  I honestly didn't think so, but this was the
-first time I had to add more people without needing other changes.
-
 >
 > Patrick: Follow up with incremental patch in case there's any difference.
 > Meanwhile, please keep in mind that you're adding a lot of work for people when
 > you respin patches without following up on the previous version. Thanks!
 
-w.r.t this patch series.  I found an issue with v1, and released a v2
-with the detail of what changed.  I thought that was the correct
-approach.  I apologize for creating extra work, that's something
-nobody needs.
+Not only that, but subthreads were cc:d to arm@kernel.org and some
+were not, so I missed the overnight conversation on the topic.
 
->
->
-> -Olof
+If this email thread is any indication of how the code will be
+flowing, there's definitely need for more structure. Joel, I'm hoping
+you'll coordinate.
+
+I'm with Arnd on whether the code should be in drivers/soc or not --
+most of it likely should not.
+
+
+-Olof
