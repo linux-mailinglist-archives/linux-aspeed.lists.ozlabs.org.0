@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6BCDD30
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2019 09:53:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB87DD34
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2019 09:54:14 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 44sxk73GFLzDqMr
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2019 17:53:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 44sxkW6py6zDqMX
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2019 17:54:11 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -16,46 +16,46 @@ Authentication-Results: lists.ozlabs.org;
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="bCja6Qsa"; 
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="QBxjZ6/o"; 
  dkim-atps=neutral
 Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
  [IPv6:2607:f8b0:4864:20::841])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 44sxk26WtpzDq9D
- for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Apr 2019 17:53:46 +1000 (AEST)
-Received: by mail-qt1-x841.google.com with SMTP id i31so2129822qti.13
- for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Apr 2019 00:53:46 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44sxkR4BxczDq9D
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Apr 2019 17:54:07 +1000 (AEST)
+Received: by mail-qt1-x841.google.com with SMTP id c35so10910697qtk.3
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Apr 2019 00:54:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5t3ha+L/fYSXvu7o0ySbyVykauyPN6EAUxnPIHb4CJ0=;
- b=bCja6QsaoKBuddwyLN7Ymwyx1swIpERjorOwhUMNvQjppCPYWWn45unKFCXWw6v8NV
- tLMMy49XYA18pN+j2THaZlgHJgmRrmkZtLeKXFb2yDOhxo0pzsV/rC6ZTN5nUPEmrvxw
- H8Inbo6e5paggfmsXww73Z3oLs2/WZaWoI3H4=
+ :cc; bh=KWgCkKPfgLe0gODXDRVabcCo8RdveLj5EodL4BepQwo=;
+ b=QBxjZ6/oxpq6tExNEmdlt5qqmHZSVRrvHDTc+7z7QFME9MlAxao2y0Mf3fgL3QOvUn
+ 3ojdnuE2FRclx7G+rgsgtX3VxxZKTU8/OUyHqQ7s87OLiGU3feI17TVpZJSZHtNF6M/Y
+ OPlvuHIJCVasxqLTvKkkAhRm+bN9gyfTk/0hk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5t3ha+L/fYSXvu7o0ySbyVykauyPN6EAUxnPIHb4CJ0=;
- b=RI2Jhn6jEpnbJMizw5tLrQSDuXPnOwQI3JErX+DQTYahMgWeFiT6+ytvAIHUP05AbF
- CRuQbJjTQ1iyANwhf2ZkaO3vU+fLUqfd414bbjPUSr/iKNSv52+W4jay4jHHVl9V/1Hb
- 0SH0wdZRLuY6YZKZ1+xvH3eh4ezTkzI0+uaPWRIvzpIaZdy7lvfmrqjdMEn9G1U2kRFF
- 9/rHuBRhOhBTw+v8HhfffrONpiDZhT6Q08mPtEmh8KQdbMtWd3RoV/7u6rDg1+sFESJC
- FBgT3bS0f/wwsFu6+AL/DKE+zjI+UaTq8HYCYU+sQaUV+qDHKuAZn0PA2Mn5T1tNQ0W8
- KgEA==
-X-Gm-Message-State: APjAAAWg0qioS6SpJOtcaO0P/Vu46uK+2a5uKsa0A9CsUyYzylfyGC7B
- tfaMpPhcja9r+du4YPI2TlBolByPxtQk0O//ifI=
-X-Google-Smtp-Source: APXvYqx48H9AYPZuMFrqfPObYS55llABgvbLwiFiYW98pm7xlm9uxMeurzruoh/LKxJaOVfxTRXM1+nMdxblh/TRCwg=
-X-Received: by 2002:ac8:169b:: with SMTP id r27mr33552179qtj.235.1556524424431; 
- Mon, 29 Apr 2019 00:53:44 -0700 (PDT)
+ bh=KWgCkKPfgLe0gODXDRVabcCo8RdveLj5EodL4BepQwo=;
+ b=s1IoKXz4PbHt8IWeB+IPoJwkQkQzr+SkNn/7thYQji4DHMGpK1/Fh3DRyTHopkYzHA
+ tvE8pL511jCnj8+E6EOE4TDbEyuQ+HmUjzIVxvxA0Q0GcCAu1U7iDN82RNMwDKTfCp+b
+ SHHzljZJBvoNgvt6fU7arBEotiCWPeRcQe1kFJcIyPHqX7NUyJXdIW/XDfamzghZNInj
+ RP5Uw+LumvbXfjCI2aC4GJzTapXYkQgpZ4pNrLFnQcRSNmL2Q8BWVPi8evb01WvPFOXy
+ v7+Nj4rI8qjEYnfNPsIKYjNf2Qe2d4KDc8Ixfil4daCpON2h3IX1xHv4M1FZVsFsponI
+ Iiqw==
+X-Gm-Message-State: APjAAAV4DyfG0kXWLVfE56n1ycA3JZM5PZtLJNrpU0sbl9j23fXi4rjX
+ nuzxNEUvSKuVgWHa/k1MAsoZateugPmuXkT2Fqg=
+X-Google-Smtp-Source: APXvYqzuweVqEIbGAUxpYzmfY5Jlihfnu2PP5Rq/2cEC87hGr9WIb/S7SiEJVR+p6CHs6sv5l0jiC6+WCcgT8ud376E=
+X-Received: by 2002:ac8:2565:: with SMTP id 34mr49117430qtn.37.1556524445302; 
+ Mon, 29 Apr 2019 00:54:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190425194903.144569-1-venture@google.com>
-In-Reply-To: <20190425194903.144569-1-venture@google.com>
+References: <20190425194853.140617-1-venture@google.com>
+In-Reply-To: <20190425194853.140617-1-venture@google.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 29 Apr 2019 07:53:31 +0000
-Message-ID: <CACPK8XeDS0RfF1SSTuFbSoO9a7N6qDZShovj5yF56Pc9PA6nDQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ARM: dts: aspeed: quanta-q71: Enable p2a node
+Date: Mon, 29 Apr 2019 07:53:53 +0000
+Message-ID: <CACPK8XchRsfJkB_p07g6LOyakaq8XH9yM3ve9annfNTTkGY4rg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ARM: dts: aspeed: Add aspeed-p2a-ctrl node
 To: Patrick Venture <venture@google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -79,10 +79,11 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 25 Apr 2019 at 19:49, Patrick Venture <venture@google.com> wrote:
+On Thu, 25 Apr 2019 at 19:48, Patrick Venture <venture@google.com> wrote:
 >
-> Enable the aspeed-p2a-ctrl node and configure with memory-region to
-> enable mmap access.
+> Add a node for the aspeed-p2a-ctrl module.  This node, when enabled will
+> disable the PCI-to-AHB bridge and then allow control of this bridge via
+> ioctls, and access via mmap.
 >
 > Signed-off-by: Patrick Venture <venture@google.com>
 
