@@ -1,83 +1,68 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A9B1055E
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 May 2019 07:55:33 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9956EBEC
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Apr 2019 23:09:14 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 44tHMq2D8rzDqQs
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Apr 2019 07:09:11 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 44v70g1VCwzDqSf
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 May 2019 15:55:31 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=linux.ibm.com
- (client-ip=148.163.158.5; helo=mx0a-001b2d01.pphosted.com;
- envelope-from=anoo@linux.ibm.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::841; helo=mail-qt1-x841.google.com;
+ envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=linux.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="POuz/+h9"; 
+ dkim-atps=neutral
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 44tHMc6xBlzDqP2
- for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Apr 2019 07:09:00 +1000 (AEST)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x3TL1vRX132856
- for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Apr 2019 17:08:55 -0400
-Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2s66shcs25-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Apr 2019 17:08:55 -0400
-Received: from localhost
- by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <linux-aspeed@lists.ozlabs.org> from <anoo@linux.ibm.com>;
- Mon, 29 Apr 2019 22:08:55 +0100
-Received: from b03cxnp08028.gho.boulder.ibm.com (9.17.130.20)
- by e33.co.us.ibm.com (192.168.1.133) with IBM ESMTP SMTP Gateway: Authorized
- Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 29 Apr 2019 22:08:52 +0100
-Received: from b03ledav002.gho.boulder.ibm.com
- (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x3TL8pHU4129186
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 29 Apr 2019 21:08:51 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EE40613604F;
- Mon, 29 Apr 2019 21:08:50 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A49B5136051;
- Mon, 29 Apr 2019 21:08:50 +0000 (GMT)
-Received: from habcap11p1.aus.stglabs.ibm.com (unknown [9.41.164.53])
- by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 29 Apr 2019 21:08:50 +0000 (GMT)
-From: Adriana Kobylak <anoo@linux.ibm.com>
-To: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org
-Subject: [PATCH dev-5.0 v3] ARM: dts: aspeed: Add Swift BMC machine
-Date: Mon, 29 Apr 2019 16:08:48 -0500
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <5bbc8649-5a38-fe38-9a97-9c4ec582b511@linux.ibm.com>
-References: <5bbc8649-5a38-fe38-9a97-9c4ec582b511@linux.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 19042921-0036-0000-0000-00000AB06AA8
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011019; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000285; SDB=6.01196236; UDB=6.00627323; IPR=6.00977085; 
- MB=3.00026654; MTD=3.00000008; XFM=3.00000015; UTC=2019-04-29 21:08:53
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19042921-0037-0000-0000-00004B943529
-Message-Id: <1556572128-20917-1-git-send-email-anoo@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-04-29_12:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1904290137
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44v70V2cKJzDqC0;
+ Wed,  1 May 2019 15:55:22 +1000 (AEST)
+Received: by mail-qt1-x841.google.com with SMTP id c35so19097951qtk.3;
+ Tue, 30 Apr 2019 22:55:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=vh2Ozgk0VmlPQd7PW8aAJh/gHpZAsKkiYtAyIwnbr/E=;
+ b=POuz/+h9A6e9HtZJ2mOy0y+TPu6sTG1JgVQfIh14dO+62rxifGgdHrT5qY81Ewd3yW
+ jkgCoBr2ZZQDjWi8yXm4oBs5jadxHRAJDp8ciLb15BxwZ1tP3xT3u2/RAbwk/VZVmbmo
+ +fwMoqpJ5hGr2IudZxWQIe5RprBgIJjGqGFHo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vh2Ozgk0VmlPQd7PW8aAJh/gHpZAsKkiYtAyIwnbr/E=;
+ b=ANNGWB9UDXTWxC6EHoFE+uWuEDWSpSkwUWg8ytIT9Pn50XNtRBvd0ovUqzgP4PDF5K
+ nCTkZSb84j4GHEC6v+6fpfAu+Phxd5RNnx2SRLRDaiI0PkD1MxqGExb3vY+cNUTa3JVl
+ oTFQdW3qWqgMxT+EZqaatvoixqP9v3Y9YrQ59PQQeHnwyB7okKeNI85NWzRWQPNhKLPd
+ PCSI1odHkxr9L2A9etLCsrQs4iapzroHG98+qEIik5rXZ3NaOYSzLMJmi1Ey5aY8CdDD
+ kvM5vJkj2nLWOrgks0MZ4FHX9jreJo0I3dQ9GoKXTwry7Xb+y4awdEErIBCrFUfDY/Id
+ wcIQ==
+X-Gm-Message-State: APjAAAVgoLYr2adHO7ox8emiBwNQxGnM52/JzrAJG06smv9Mm1JqGO4v
+ ZTnAMajl4J2aVuw0L+xdIArIFIllju2F/H6zRRg=
+X-Google-Smtp-Source: APXvYqxonRKsHrdfDd26bCtYo5fYsPcn3rMvyjaIMrcN1fbhQt90CyHYfzk0ETV5lzOVeHWMy1Qs006deJEcWgUr4oU=
+X-Received: by 2002:a0c:948e:: with SMTP id j14mr27304455qvj.245.1556690118487; 
+ Tue, 30 Apr 2019 22:55:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190116220154.1026171-1-vijaykhemka@fb.com>
+ <1547787502.2061444.1637712576.1F1E21B4@webmail.messagingengine.com>
+ <DCD8D2E5-DB18-427C-AA8F-18289E9AB0AB@fb.com>
+In-Reply-To: <DCD8D2E5-DB18-427C-AA8F-18289E9AB0AB@fb.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Wed, 1 May 2019 05:55:07 +0000
+Message-ID: <CACPK8Xdgv1YVgeykf0grSpR3LXTGa45hoBwZVq+zWgR0anhmTg@mail.gmail.com>
+Subject: Re: [PATCH v2] misc: aspeed-lpc-ctrl: make parameter optional
+To: Vijay Khemka <vijaykhemka@fb.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,870 +74,217 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Adriana Kobylak <anoo@us.ibm.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "openbmc @ lists . ozlabs . org" <openbmc@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Adriana Kobylak <anoo@us.ibm.com>
+On Fri, 18 Jan 2019 at 20:12, Vijay Khemka <vijaykhemka@fb.com> wrote:
+>
+> Hi Andrew,
+> Thanks for this review, I will have a follow up patch for this return val=
+ues.
 
-The Swift BMC is an ASPEED ast2500 based BMC that is part of
-a Power9 server. This adds the device tree description for
-most upstream components.
+Did you send a follow up patch to fix the return values?
 
-Signed-off-by: Adriana Kobylak <anoo@us.ibm.com>
----
- arch/arm/boot/dts/Makefile                 |   1 +
- arch/arm/boot/dts/aspeed-bmc-opp-swift.dts | 828 +++++++++++++++++++++++++++++
- 2 files changed, 829 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
+Greg, is there any reason why you did not merge this one? 5.2 will
+have device trees that depend on this patch's behavior.
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index bd40148..b82a24d 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1244,6 +1244,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-opp-lanyang.dtb \
- 	aspeed-bmc-opp-palmetto.dtb \
- 	aspeed-bmc-opp-romulus.dtb \
-+	aspeed-bmc-opp-swift.dtb \
- 	aspeed-bmc-opp-witherspoon.dtb \
- 	aspeed-bmc-opp-zaius.dtb \
- 	aspeed-bmc-portwell-neptune.dtb \
-diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
-new file mode 100644
-index 0000000..8d44e3c
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
-@@ -0,0 +1,828 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/dts-v1/;
-+#include "aspeed-g5.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+#include <dt-bindings/leds/leds-pca955x.h>
-+
-+/ {
-+	model = "Swift BMC";
-+	compatible = "ibm,swift-bmc", "aspeed,ast2500";
-+
-+	chosen {
-+		stdout-path = &uart5;
-+		bootargs = "console=ttyS4,115200 earlyprintk";
-+	};
-+
-+	memory@80000000 {
-+		reg = <0x80000000 0x20000000>;
-+	};
-+
-+	reserved-memory {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges;
-+
-+		flash_memory: region@98000000 {
-+			no-map;
-+			reg = <0x98000000 0x04000000>; /* 64M */
-+		};
-+
-+		gfx_memory: framebuffer {
-+			size = <0x01000000>;
-+			alignment = <0x01000000>;
-+			compatible = "shared-dma-pool";
-+			reusable;
-+		};
-+	};
-+
-+	gpio-keys {
-+		compatible = "gpio-keys";
-+
-+		air-water {
-+			label = "air-water";
-+			gpios = <&gpio ASPEED_GPIO(B, 5) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(B, 5)>;
-+		};
-+
-+		checkstop {
-+			label = "checkstop";
-+			gpios = <&gpio ASPEED_GPIO(J, 2) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(J, 2)>;
-+		};
-+
-+		ps0-presence {
-+			label = "ps0-presence";
-+			gpios = <&gpio ASPEED_GPIO(R, 7) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(R, 7)>;
-+		};
-+
-+		ps1-presence {
-+			label = "ps1-presence";
-+			gpios = <&gpio ASPEED_GPIO(N, 0) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(N, 0)>;
-+		};
-+
-+		oppanel-presence {
-+			label = "oppanel-presence";
-+			gpios = <&gpio ASPEED_GPIO(A, 7) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(A, 7)>;
-+		};
-+
-+		opencapi-riser-presence {
-+			label = "opencapi-riser-presence";
-+			gpios = <&gpio ASPEED_GPIO(I, 0) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(I, 0)>;
-+		};
-+	};
-+
-+	iio-hwmon-battery {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc 12>;
-+	};
-+
-+	gpio-keys-polled {
-+		compatible = "gpio-keys-polled";
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		poll-interval = <1000>;
-+
-+		scm0-presence {
-+			label = "scm0-presence";
-+			gpios = <&pca9552 6 GPIO_ACTIVE_LOW>;
-+			linux,code = <6>;
-+		};
-+
-+		scm1-presence {
-+			label = "scm1-presence";
-+			gpios = <&pca9552 7 GPIO_ACTIVE_LOW>;
-+			linux,code = <7>;
-+		};
-+
-+		cpu0vrm-presence {
-+			label = "cpu0vrm-presence";
-+			gpios = <&pca9552 12 GPIO_ACTIVE_LOW>;
-+			linux,code = <12>;
-+		};
-+
-+		cpu1vrm-presence {
-+			label = "cpu1vrm-presence";
-+			gpios = <&pca9552 13 GPIO_ACTIVE_LOW>;
-+			linux,code = <13>;
-+		};
-+
-+		fan0-presence {
-+			label = "fan0-presence";
-+			gpios = <&pca0 5 GPIO_ACTIVE_LOW>;
-+			linux,code = <5>;
-+		};
-+
-+		fan1-presence {
-+			label = "fan1-presence";
-+			gpios = <&pca0 6 GPIO_ACTIVE_LOW>;
-+			linux,code = <6>;
-+		};
-+
-+		fan2-presence {
-+			label = "fan2-presence";
-+			gpios = <&pca0 7 GPIO_ACTIVE_LOW>;
-+			linux,code = <7>;
-+		};
-+
-+		fan3-presence {
-+			label = "fan3-presence";
-+			gpios = <&pca0 8 GPIO_ACTIVE_LOW>;
-+			linux,code = <8>;
-+		};
-+
-+		fanboost-presence {
-+			label = "fanboost-presence";
-+			gpios = <&pca0 9 GPIO_ACTIVE_LOW>;
-+			linux,code = <9>;
-+		};
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		fan0 {
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&pca0 0 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		fan1 {
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&pca0 1 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		fan2 {
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&pca0 2 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		fan3 {
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&pca0 3 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		fanboost {
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&pca0 4 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		front-fault {
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&pca1 2 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		front-power {
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&pca1 3 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		front-id {
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&pca1 0 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		rear-fault {
-+			gpios = <&gpio ASPEED_GPIO(N, 2) GPIO_ACTIVE_LOW>;
-+		};
-+
-+		rear-id {
-+			gpios = <&gpio ASPEED_GPIO(N, 4) GPIO_ACTIVE_LOW>;
-+		};
-+
-+		rear-power {
-+			gpios = <&gpio ASPEED_GPIO(N, 3) GPIO_ACTIVE_LOW>;
-+		};
-+	};
-+
-+	fsi: gpio-fsi {
-+		compatible = "fsi-master-gpio", "fsi-master";
-+		#address-cells = <2>;
-+		#size-cells = <0>;
-+		no-gpio-delays;
-+
-+		clock-gpios = <&gpio ASPEED_GPIO(AA, 0) GPIO_ACTIVE_HIGH>;
-+		data-gpios = <&gpio ASPEED_GPIO(E, 0) GPIO_ACTIVE_HIGH>;
-+		mux-gpios = <&gpio ASPEED_GPIO(P, 4) GPIO_ACTIVE_HIGH>;
-+		enable-gpios = <&gpio ASPEED_GPIO(P, 0) GPIO_ACTIVE_HIGH>;
-+		trans-gpios = <&gpio ASPEED_GPIO(P, 3) GPIO_ACTIVE_HIGH>;
-+	};
-+
-+	iio-hwmon-dps310 {
-+		compatible = "iio-hwmon";
-+		io-channels = <&dps 0>;
-+	};
-+
-+};
-+
-+&fmc {
-+	status = "okay";
-+
-+	flash@0 {
-+		status = "okay";
-+		label = "bmc";
-+		m25p,fast-read;
-+		spi-max-frequency = <100000000>;
-+		partitions {
-+			#address-cells = < 1 >;
-+			#size-cells = < 1 >;
-+			compatible = "fixed-partitions";
-+			u-boot@0 {
-+				reg = < 0 0x60000 >;
-+				label = "u-boot";
-+			};
-+			u-boot-env@60000 {
-+				reg = < 0x60000 0x20000 >;
-+				label = "u-boot-env";
-+			};
-+			obmc-ubi@80000 {
-+				reg = < 0x80000 0x7F80000>;
-+				label = "obmc-ubi";
-+			};
-+		};
-+	};
-+
-+	flash@1 {
-+		status = "okay";
-+		label = "alt-bmc";
-+		m25p,fast-read;
-+		spi-max-frequency = <100000000>;
-+		partitions {
-+			#address-cells = < 1 >;
-+			#size-cells = < 1 >;
-+			compatible = "fixed-partitions";
-+			u-boot@0 {
-+				reg = < 0 0x60000 >;
-+				label = "alt-u-boot";
-+			};
-+			u-boot-env@60000 {
-+				reg = < 0x60000 0x20000 >;
-+				label = "alt-u-boot-env";
-+			};
-+			obmc-ubi@80000 {
-+				reg = < 0x80000 0x7F80000>;
-+				label = "alt-obmc-ubi";
-+			};
-+		};
-+	};
-+};
-+
-+&spi1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_spi1_default>;
-+
-+	flash@0 {
-+		status = "okay";
-+		label = "pnor";
-+		m25p,fast-read;
-+		spi-max-frequency = <100000000>;
-+	};
-+};
-+
-+&uart1 {
-+	/* Rear RS-232 connector */
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_txd1_default
-+			&pinctrl_rxd1_default
-+			&pinctrl_nrts1_default
-+			&pinctrl_ndtr1_default
-+			&pinctrl_ndsr1_default
-+			&pinctrl_ncts1_default
-+			&pinctrl_ndcd1_default
-+			&pinctrl_nri1_default>;
-+};
-+
-+&uart2 {
-+	/* APSS */
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_txd2_default &pinctrl_rxd2_default>;
-+};
-+
-+&uart5 {
-+	status = "okay";
-+};
-+
-+&lpc_ctrl {
-+	status = "okay";
-+	memory-region = <&flash_memory>;
-+	flash = <&spi1>;
-+};
-+
-+&mbox {
-+	status = "okay";
-+};
-+
-+&mac0 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii1_default>;
-+	use-ncsi;
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+
-+	/* MUX ->
-+	 *    Samtec 1
-+	 *    Samtec 2
-+	 */
-+};
-+
-+&i2c3 {
-+	status = "okay";
-+
-+	max31785@52 {
-+		compatible = "maxim,max31785a";
-+		reg = <0x52>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		fan@0 {
-+			compatible = "pmbus-fan";
-+			reg = <0>;
-+			tach-pulses = <2>;
-+			maxim,fan-rotor-input = "tach";
-+			maxim,fan-pwm-freq = <25000>;
-+			maxim,fan-no-watchdog;
-+			maxim,fan-no-fault-ramp;
-+			maxim,fan-ramp = <2>;
-+			maxim,fan-fault-pin-mon;
-+		};
-+
-+		fan@1 {
-+			compatible = "pmbus-fan";
-+			reg = <1>;
-+			tach-pulses = <2>;
-+			maxim,fan-rotor-input = "tach";
-+			maxim,fan-pwm-freq = <25000>;
-+			maxim,fan-no-watchdog;
-+			maxim,fan-no-fault-ramp;
-+			maxim,fan-ramp = <2>;
-+			maxim,fan-fault-pin-mon;
-+		};
-+
-+		fan@2 {
-+			compatible = "pmbus-fan";
-+			reg = <2>;
-+			tach-pulses = <2>;
-+			maxim,fan-rotor-input = "tach";
-+			maxim,fan-pwm-freq = <25000>;
-+			maxim,fan-no-watchdog;
-+			maxim,fan-no-fault-ramp;
-+			maxim,fan-ramp = <2>;
-+			maxim,fan-fault-pin-mon;
-+		};
-+
-+		fan@3 {
-+			compatible = "pmbus-fan";
-+			reg = <3>;
-+			tach-pulses = <2>;
-+			maxim,fan-rotor-input = "tach";
-+			maxim,fan-pwm-freq = <25000>;
-+			maxim,fan-no-watchdog;
-+			maxim,fan-no-fault-ramp;
-+			maxim,fan-ramp = <2>;
-+			maxim,fan-fault-pin-mon;
-+		};
-+
-+		fan@4 {
-+			compatible = "pmbus-fan";
-+			reg = <4>;
-+			tach-pulses = <2>;
-+			maxim,fan-rotor-input = "tach";
-+			maxim,fan-pwm-freq = <25000>;
-+			maxim,fan-no-watchdog;
-+			maxim,fan-no-fault-ramp;
-+			maxim,fan-ramp = <2>;
-+			maxim,fan-fault-pin-mon;
-+		};
-+	};
-+
-+	pca0: pca9552@60 {
-+		compatible = "nxp,pca9552";
-+		reg = <0x60>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		gpio@0 {
-+			reg = <0>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@1 {
-+			reg = <1>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@2 {
-+			reg = <2>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@3 {
-+			reg = <3>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@4 {
-+			reg = <4>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@5 {
-+			reg = <5>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@6 {
-+			reg = <6>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@7 {
-+			reg = <7>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@8 {
-+			reg = <8>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@9 {
-+			reg = <9>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@10 {
-+			reg = <10>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@11 {
-+			reg = <11>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@12 {
-+			reg = <12>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@13 {
-+			reg = <13>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@14 {
-+			reg = <14>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@15 {
-+			reg = <15>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+	};
-+
-+	power-supply@68 {
-+		compatible = "ibm,cffps1";
-+		reg = <0x68>;
-+	};
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c64";
-+		reg = <0x50>;
-+	};
-+
-+	power-supply@69 {
-+		compatible = "ibm,cffps1";
-+		reg = <0x69>;
-+	};
-+
-+	eeprom@51 {
-+		compatible = "atmel,24c64";
-+		reg = <0x51>;
-+	};
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+
-+	dps: dps310@76 {
-+		compatible = "infineon,dps310";
-+		reg = <0x76>;
-+		#io-channel-cells = <0>;
-+	};
-+
-+	tmp275@48 {
-+		compatible = "ti,tmp275";
-+		reg = <0x48>;
-+	};
-+
-+	si7021a20@20 {
-+		compatible = "si,si7021a20";
-+		reg = <0x20>;
-+	};
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c64";
-+		reg = <0x50>;
-+	};
-+
-+	pca1: pca9551@60 {
-+		compatible = "nxp,pca9551";
-+		reg = <0x60>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		gpio@0 {
-+			reg = <0>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@1 {
-+			reg = <1>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@2 {
-+			reg = <2>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@3 {
-+			reg = <3>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@4 {
-+			reg = <4>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@5 {
-+			reg = <5>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@6 {
-+			reg = <6>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@7 {
-+			reg = <7>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+	};
-+};
-+
-+&i2c8 {
-+	status = "okay";
-+
-+	pca9552: pca9552@60 {
-+		compatible = "nxp,pca9552";
-+		reg = <0x60>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		gpio-line-names = "PS_SMBUS_RESET_N", "APSS_RESET_N",
-+			"GPU0_TH_OVERT_N_BUFF",	"GPU1_TH_OVERT_N_BUFF",
-+			"GPU2_TH_OVERT_N_BUFF", "GPU3_TH_OVERT_N_BUFF",
-+			"P9_SCM0_PRES",	"P9_SCM1_PRES",
-+			"GPU0_PWR_GOOD_BUFF", "GPU1_PWR_GOOD_BUFF",
-+			"GPU2_PWR_GOOD_BUFF", "GPU3_PWR_GOOD_BUFF",
-+			"PRESENT_VRM_CP0_N", "PRESENT_VRM_CP1_N",
-+			"12V_BREAKER_FLT_N", "THROTTLE_UNLATCHED_N";
-+
-+		gpio@0 {
-+			reg = <0>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@1 {
-+			reg = <1>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@2 {
-+			reg = <2>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@3 {
-+			reg = <3>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@4 {
-+			reg = <4>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@5 {
-+			reg = <5>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@6 {
-+			reg = <6>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@7 {
-+			reg = <7>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@8 {
-+			reg = <8>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@9 {
-+			reg = <9>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@10 {
-+			reg = <10>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@11 {
-+			reg = <11>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@12 {
-+			reg = <12>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@13 {
-+			reg = <13>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@14 {
-+			reg = <14>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+
-+		gpio@15 {
-+			reg = <15>;
-+			type = <PCA955X_TYPE_GPIO>;
-+		};
-+	};
-+
-+	rtc@32 {
-+		compatible = "epson,rx8900";
-+		reg = <0x32>;
-+	};
-+
-+	eeprom@51 {
-+		compatible = "atmel,24c64";
-+		reg = <0x51>;
-+	};
-+
-+	ucd90160@64 {
-+		compatible = "ti,ucd90160";
-+		reg = <0x64>;
-+	};
-+};
-+
-+&i2c9 {
-+	status = "okay";
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c64";
-+		reg = <0x50>;
-+	};
-+
-+	tmp423a@4c {
-+		compatible = "ti,tmp423";
-+		reg = <0x4c>;
-+	};
-+
-+	ir35221@71 {
-+		compatible = "infineon,ir35221";
-+		reg = <0x71>;
-+	};
-+
-+	ir35221@72 {
-+		compatible = "infineon,ir35221";
-+		reg = <0x72>;
-+	};
-+};
-+
-+&i2c10 {
-+	status = "okay";
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c64";
-+		reg = <0x50>;
-+	};
-+
-+	tmp423a@4c {
-+		compatible = "ti,tmp423";
-+		reg = <0x4c>;
-+	};
-+
-+	ir35221@71 {
-+		compatible = "infineon,ir35221";
-+		reg = <0x71>;
-+	};
-+
-+	ir35221@72 {
-+		compatible = "infineon,ir35221";
-+		reg = <0x72>;
-+	};
-+};
-+
-+&i2c11 {
-+	/* MUX
-+	 *   -> PCIe Slot 0
-+	 *   -> PCIe Slot 1
-+	 *   -> PCIe Slot 2
-+	 *   -> PCIe Slot 3
-+	 */
-+	status = "okay";
-+};
-+
-+&i2c12 {
-+	status = "okay";
-+
-+	tmp275@48 {
-+		compatible = "ti,tmp275";
-+		reg = <0x48>;
-+	};
-+
-+	tmp275@4a {
-+		compatible = "ti,tmp275";
-+		reg = <0x4a>;
-+	};
-+};
-+
-+&i2c13 {
-+	status = "okay";
-+};
-+
-+&vuart {
-+	status = "okay";
-+};
-+
-+&gfx {
-+	status = "okay";
-+	memory-region = <&gfx_memory>;
-+};
-+
-+&pinctrl {
-+	aspeed,external-nodes = <&gfx &lhc>;
-+};
-+
-+&wdt1 {
-+	aspeed,reset-type = "none";
-+	aspeed,external-signal;
-+	aspeed,ext-push-pull;
-+	aspeed,ext-active-high;
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_wdtrst1_default>;
-+};
-+
-+&wdt2 {
-+	aspeed,alt-boot;
-+};
-+
-+&ibt {
-+	status = "okay";
-+};
-+
-+&adc {
-+	status = "okay";
-+};
-+
-+#include "ibm-power9-dual.dtsi"
--- 
-1.8.3.1
+Cheers,
 
+Joel
+
+> =EF=BB=BFOn 1/17/19, 8:58 PM, "Andrew Jeffery" <andrew@aj.id.au> wrote:
+>
+>     Hi Vijay,
+>
+>     Thanks for doing the work to fix the driver. Some minor queries/point=
+s
+>     below.
+>
+>     On Thu, 17 Jan 2019, at 08:31, Vijay Khemka wrote:
+>     > Makiing memory-region and flash as optional parameter in device
+>     > tree if user needs to use these parameter through ioctl then
+>     > need to define in devicetree.
+>     >
+>     > Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+>     > ---
+>     >  drivers/misc/aspeed-lpc-ctrl.c | 58 +++++++++++++++++++++---------=
+----
+>     >  1 file changed, 36 insertions(+), 22 deletions(-)
+>     >
+>     > diff --git a/drivers/misc/aspeed-lpc-ctrl.c b/drivers/misc/aspeed-l=
+pc-
+>     > ctrl.c
+>     > index a024f8042259..332210e06e98 100644
+>     > --- a/drivers/misc/aspeed-lpc-ctrl.c
+>     > +++ b/drivers/misc/aspeed-lpc-ctrl.c
+>     > @@ -68,6 +68,7 @@ static long aspeed_lpc_ctrl_ioctl(struct file *fi=
+le,
+>     > unsigned int cmd,
+>     >           unsigned long param)
+>     >  {
+>     >   struct aspeed_lpc_ctrl *lpc_ctrl =3D file_aspeed_lpc_ctrl(file);
+>     > + struct device *dev =3D file->private_data;
+>     >   void __user *p =3D (void __user *)param;
+>     >   struct aspeed_lpc_ctrl_mapping map;
+>     >   u32 addr;
+>     > @@ -90,6 +91,12 @@ static long aspeed_lpc_ctrl_ioctl(struct file *f=
+ile,
+>     > unsigned int cmd,
+>     >           if (map.window_id !=3D 0)
+>     >                   return -EINVAL;
+>     >
+>     > +         /* If memory-region is not described in device tree */
+>     > +         if (!lpc_ctrl->mem_size) {
+>     > +                 dev_err(dev, "Didn't find reserved memory\n");
+>     > +                 return -EINVAL;
+>
+>     I feel like EINVAL isn't quite right - it's pretty generic, and the p=
+arameter
+>     value changes its validity with the devicetree context. My gut instin=
+ct
+>     would be to use EINVAL for parameter values that violate assumptions
+>     of the driver rather than violate configuration of the driver. Maybe =
+ENXIO
+>     ("No such device or address") is an improvement: "I can't map that de=
+vice
+>     because there's no such device or address"?
+>
+>     > +         }
+>     > +
+>     >           map.size =3D lpc_ctrl->mem_size;
+>     >
+>     >           return copy_to_user(p, &map, sizeof(map)) ? -EFAULT : 0;
+>     > @@ -126,9 +133,18 @@ static long aspeed_lpc_ctrl_ioctl(struct file
+>     > *file, unsigned int cmd,
+>     >                   return -EINVAL;
+>     >
+>     >           if (map.window_type =3D=3D ASPEED_LPC_CTRL_WINDOW_FLASH) =
+{
+>     > +                 if (!lpc_ctrl->pnor_size) {
+>     > +                         dev_err(dev, "Didn't find host pnor flash=
+\n");
+>     > +                         return -EINVAL;
+>
+>     See the error code discussion above. Also, this is userspace's error =
+not
+>     the kernel's, so I think dev_err() is a bit harsh. Probably best to j=
+ust let
+>     userspace log the error if it thinks the it is concerning.
+>
+>     > +                 }
+>     >                   addr =3D lpc_ctrl->pnor_base;
+>     >                   size =3D lpc_ctrl->pnor_size;
+>     >           } else if (map.window_type =3D=3D ASPEED_LPC_CTRL_WINDOW_=
+MEMORY) {
+>     > +                 /* If memory-region is not described in device tr=
+ee */
+>     > +                 if (!lpc_ctrl->mem_size) {
+>     > +                         dev_err(dev, "Didn't find reserved memory=
+\n");
+>     > +                         return -EINVAL;
+>
+>     as above.
+>
+>     > +                 }
+>     >                   addr =3D lpc_ctrl->mem_base;
+>     >                   size =3D lpc_ctrl->mem_size;
+>     >           } else {
+>     > @@ -196,17 +212,17 @@ static int aspeed_lpc_ctrl_probe(struct
+>     > platform_device *pdev)
+>     >   if (!lpc_ctrl)
+>     >           return -ENOMEM;
+>     >
+>     > + /* If flash is described in device tree then store */
+>     >   node =3D of_parse_phandle(dev->of_node, "flash", 0);
+>     >   if (!node) {
+>     > -         dev_err(dev, "Didn't find host pnor flash node\n");
+>     > -         return -ENODEV;
+>     > - }
+>     > -
+>     > - rc =3D of_address_to_resource(node, 1, &resm);
+>     > - of_node_put(node);
+>     > - if (rc) {
+>     > -         dev_err(dev, "Couldn't address to resource for flash\n");
+>     > -         return rc;
+>     > +         dev_dbg(dev, "Didn't find host pnor flash node\n");
+>     > + } else {
+>     > +         rc =3D of_address_to_resource(node, 1, &resm);
+>     > +         of_node_put(node);
+>     > +         if (rc) {
+>     > +                 dev_err(dev, "Couldn't address to resource for fl=
+ash\n");
+>     > +                 return rc;
+>     > +         }
+>     >   }
+>     >
+>     >   lpc_ctrl->pnor_size =3D resource_size(&resm);
+>     > @@ -214,22 +230,22 @@ static int aspeed_lpc_ctrl_probe(struct
+>     > platform_device *pdev)
+>     >
+>     >   dev_set_drvdata(&pdev->dev, lpc_ctrl);
+>     >
+>     > + /* If memory-region is described in device tree then store */
+>     >   node =3D of_parse_phandle(dev->of_node, "memory-region", 0);
+>     >   if (!node) {
+>     > -         dev_err(dev, "Didn't find reserved memory\n");
+>     > -         return -EINVAL;
+>     > - }
+>     > +         dev_dbg(dev, "Didn't find reserved memory\n");
+>     > + } else {
+>     > +         rc =3D of_address_to_resource(node, 0, &resm);
+>     > +         of_node_put(node);
+>     > +         if (rc) {
+>     > +                 dev_err(dev, "Couldn't address to resource for re=
+served memory\n");
+>     > +                 return -ENOMEM;
+>
+>     Wow, I think this is an abuse of ENOMEM. Its description is "Out of m=
+emory"
+>     which doesn't really reflect the problem here.
+>
+>     Not really your fault though, maybe we'll fix that with some follow-u=
+p patches.
+>
+>     Cheers,
+>
+>     Andrew
+>
+>     > +         }
+>     >
+>     > - rc =3D of_address_to_resource(node, 0, &resm);
+>     > - of_node_put(node);
+>     > - if (rc) {
+>     > -         dev_err(dev, "Couldn't address to resource for reserved m=
+emory\n");
+>     > -         return -ENOMEM;
+>     > +         lpc_ctrl->mem_size =3D resource_size(&resm);
+>     > +         lpc_ctrl->mem_base =3D resm.start;
+>     >   }
+>     >
+>     > - lpc_ctrl->mem_size =3D resource_size(&resm);
+>     > - lpc_ctrl->mem_base =3D resm.start;
+>     > -
+>     >   lpc_ctrl->regmap =3D syscon_node_to_regmap(
+>     >                   pdev->dev.parent->of_node);
+>     >   if (IS_ERR(lpc_ctrl->regmap)) {
+>     > @@ -258,8 +274,6 @@ static int aspeed_lpc_ctrl_probe(struct
+>     > platform_device *pdev)
+>     >           goto err;
+>     >   }
+>     >
+>     > - dev_info(dev, "Loaded at %pr\n", &resm);
+>     > -
+>     >   return 0;
+>     >
+>     >  err:
+>     > --
+>     > 2.17.1
+>     >
+>
+>
