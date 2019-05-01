@@ -2,54 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D061059C
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 May 2019 08:46:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E70F910B93
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 May 2019 18:49:43 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 44v87R70nhzDqMt
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 May 2019 16:46:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 44vPWT1lPmzDqK6
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 02:49:41 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=linuxfoundation.org
- (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linuxfoundation.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.b="R78rUUaI"; 
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::643; helo=mail-pl1-x643.google.com;
+ envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="DZAZlVyv"; 
  dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
+ [IPv6:2607:f8b0:4864:20::643])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 44v85t5XrVzDqCw;
- Wed,  1 May 2019 16:45:06 +1000 (AEST)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BAD6920651;
- Wed,  1 May 2019 06:45:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1556693104;
- bh=zSQyJXYEzJbwz+ZrGQYkRZ+BmF0JOB9TUf4M8D0kTPk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=R78rUUaILBs4zPfIzHECy3LSHnmS8twK2vndMD6FgCnljFexsHGWNcM5HQforE769
- aoitIA8d6kWE11+5/Se19N9SpRiWEHn5hSFxXq93ohaCsnZ+OuGZpUc0ItXxXeWasJ
- +S0L1s/uBoC62Jq7g7b18xRDAc8ke8QCYqCElF1s=
-Date: Wed, 1 May 2019 08:45:02 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH v2] misc: aspeed-lpc-ctrl: make parameter optional
-Message-ID: <20190501064501.GA20816@kroah.com>
-References: <20190116220154.1026171-1-vijaykhemka@fb.com>
- <1547787502.2061444.1637712576.1F1E21B4@webmail.messagingengine.com>
- <DCD8D2E5-DB18-427C-AA8F-18289E9AB0AB@fb.com>
- <CACPK8Xdgv1YVgeykf0grSpR3LXTGa45hoBwZVq+zWgR0anhmTg@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44vPVV2S7dzDq9V;
+ Thu,  2 May 2019 02:48:48 +1000 (AEST)
+Received: by mail-pl1-x643.google.com with SMTP id w24so8441247plp.2;
+ Wed, 01 May 2019 09:48:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=a82ckZo73SGxA8ey3aK0omtfrwDTACIRQAmbz4zxBz8=;
+ b=DZAZlVyv2Zj8QW2ZVaA4F2WxBgm+TYZTAM4t/5EOeChgCJ7BD4Ft2Dzmnf3x6+ydz1
+ XakRftqblAOckP3MeN3ccDznp09ppAFe871YQDxI1Qj+FuNPuoY1ouHhz5kI+3ZQ3PV3
+ /L68VP9/OZfwUxqTI2ADGPFduqoKJR0cQ/ilRG4LirfK9AWJ1nlO4sVAtoc4jAZjVELX
+ dwxVevKkDwYvFLwv52/XqZAeyBzWSZ5CO4uvi+nyaZGWjFQjY/27kRLDK4iQOVPv1bS3
+ pYU7oLCM3TjBP/5voYoXBOCWgkWx+/gNSfwEsWL5ioDvofaSRT3AzcJ5BrlWCeZEJ+vp
+ 9TMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=a82ckZo73SGxA8ey3aK0omtfrwDTACIRQAmbz4zxBz8=;
+ b=X8RMOTrkHIyNkaaRUfQ+Ezbuotk5C7QoSIUJrMCr0KN0ms+L5bYubJr5qw7ExAw9mp
+ JpI9mYvPT00Kv41ugIkt63rjbDWN1q2vYVq5/4GODecb4WFgOCytFV+iwNrZhUMgmpZu
+ anjV6QDw2GGLlOxWtoKLYjYR5jdcjMw675r9L1L6t1xJT3YIbowWiKimabItcpuZk4kq
+ G13ulVKe1S5uSs/a7d8oHRtpGVJArs53OHG0e2bmLU40ETsV2BGX1vgr9NipNcIi/fh9
+ zEOUrOPOlGERkrGRpvDusl8Bxke5ngBv7tf9gFlmLTQu4vTVU/9RUR/QVYmc+Q54heD/
+ JqjQ==
+X-Gm-Message-State: APjAAAWhk9Fe2FUayKs+2BRu5/LKVfTLHh1H/pNaMPFB1W7PLNmNKqZZ
+ VGYJBXN9haFfGn4AAYszrAE=
+X-Google-Smtp-Source: APXvYqxW8qIcb4HhSImxk+i+ozqc55UYdRTl9MHwDSKvhigyPhTtplKP1yE1tqeQ0DpYt8I1Y+S+aA==
+X-Received: by 2002:a17:902:163:: with SMTP id
+ 90mr79079707plb.34.1556729325186; 
+ Wed, 01 May 2019 09:48:45 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id r76sm62426017pfa.39.2019.05.01.09.48.44
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 01 May 2019 09:48:44 -0700 (PDT)
+Date: Wed, 1 May 2019 09:48:43 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: linux-hwmon@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH 1/6] thermal: Introduce
+ devm_thermal_of_cooling_device_register
+Message-ID: <20190501164843.GA16333@roeck-us.net>
+References: <1555617500-10862-1-git-send-email-linux@roeck-us.net>
+ <1555617500-10862-2-git-send-email-linux@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACPK8Xdgv1YVgeykf0grSpR3LXTGa45hoBwZVq+zWgR0anhmTg@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <1555617500-10862-2-git-send-email-linux@roeck-us.net>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,28 +84,33 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "openbmc @ lists . ozlabs . org" <openbmc@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Jean Delvare <jdelvare@suse.com>, Tomer Maimon <tmaimon77@gmail.com>,
+ Nancy Yuen <yuenn@google.com>, Patrick Venture <venture@google.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Kamil Debski <kamil@wypas.org>, Tali Perry <tali.perry1@gmail.com>,
+ Eduardo Valentin <edubezval@gmail.com>, Avi Fishman <avifishman70@gmail.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, May 01, 2019 at 05:55:07AM +0000, Joel Stanley wrote:
-> On Fri, 18 Jan 2019 at 20:12, Vijay Khemka <vijaykhemka@fb.com> wrote:
-> >
-> > Hi Andrew,
-> > Thanks for this review, I will have a follow up patch for this return values.
+On Thu, Apr 18, 2019 at 12:58:15PM -0700, Guenter Roeck wrote:
+> thermal_of_cooling_device_register() and thermal_cooling_device_register()
+> are typically called from driver probe functions, and
+> thermal_cooling_device_unregister() is called from remove functions. This
+> makes both a perfect candidate for device managed functions.
 > 
-> Did you send a follow up patch to fix the return values?
+> Introduce devm_thermal_of_cooling_device_register(). This function can
+> also be used to replace thermal_cooling_device_register() by passing a NULL
+> pointer as device node. The new function requires both struct device *
+> and struct device_node * as parameters since the struct device_node *
+> parameter is not always identical to dev->of_node.
 > 
-> Greg, is there any reason why you did not merge this one? 5.2 will
-> have device trees that depend on this patch's behavior.
+> Don't introduce a device managed remove function since it is not needed
+> at this point.
+> 
 
-No idea, if it needs to be applied, please resend.
+Any feedback / thoughts / comments ?
 
-thanks,
-
-greg k-h
+Thanks,
+Guenter
