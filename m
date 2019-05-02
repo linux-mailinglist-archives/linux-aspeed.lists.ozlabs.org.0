@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB59112C3
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 07:51:15 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1952E112A3
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 07:37:07 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 44vkXw469rzDqRJ
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 15:37:04 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 44vksC4dLdzDqQB
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 15:51:11 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -16,73 +16,67 @@ Authentication-Results: lists.ozlabs.org;
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="KkmtCpp5"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="IuSFGQ01"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="ItC1yIb4"; dkim-atps=neutral
+ header.b="JcetNQVy"; dkim-atps=neutral
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 44vkXk4ns6zDqBH
- for <linux-aspeed@lists.ozlabs.org>; Thu,  2 May 2019 15:36:54 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44vks75D92zDqNX
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  2 May 2019 15:51:05 +1000 (AEST)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id BA00C447;
- Thu,  2 May 2019 01:36:51 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id C89CE480;
+ Thu,  2 May 2019 01:51:02 -0400 (EDT)
 Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Thu, 02 May 2019 01:36:52 -0400
+ by compute4.internal (MEProxy); Thu, 02 May 2019 01:51:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=VVPLNvJqLTRIxlA9WfUjwDFR5mx5/VC
- Npyk17hOq70s=; b=KkmtCpp5pX7kKXJnFP+rBkIPYbkb+HdNkYVeBXd4PfCuOlY
- XaXI0w8jT/gbYMWld1+KoG8OSX0+A5dac5SRpTaxCxa91cH/Io7bm7SEnNxSyvT6
- wUpBg4CgXXFQgipO9cz7XJazfXu34WziE6qxfem55DiIdFuyJkm1B/h51fOkcXj8
- NxP64g2hl+qipYxc4hvbpP42oonKg7GPMwuBn19dXglBrqAKn+eNZWnUl5+xrgbi
- ofFk1rqbiFkdjKh5ZVcdYhOFwUBb5D6f+BZdwCZV2SNPdfHgPWGNRk3xkuJQA040
- byObJbc6xHpy4BWhUlUnaLti6zZMV5DfdtmUfqw==
+ mime-version:message-id:in-reply-to:references:date:from:to
+ :subject:content-type; s=fm2; bh=y/nqmfkFMDIlQD44MclMNSze29WFNWS
+ xtIL8mUypNcQ=; b=IuSFGQ01a1ZEl5KNNfEs8ClBy51Xn5fjIcf7E6dzyB1LthQ
+ eq+TgLnbyFHoRIn3Dx9VDRRmTcYqn6sa9D4KfsX5CB25BUQUxgtZ214TXA5JZkVW
+ JpzioAPnVuw/mEO4JNo0VMSa64J+QN4ngWCf9Js/UJwsqdyGlZgdKAWXNkPeoanw
+ vUDiChX9/cugkEJuhznZdrPS9uOzUGwGzoDE/rVU/zzUTeMnH29jOr0BIwJ2YR74
+ X1UbWWxt8jrCCnigLNfFKvsUdzHvp3RGJZ527FsksSrz6WEbq/rrChhVockUQTfq
+ 1NZ6bJMdsR3U80buw0Ar8fBq4dBgevDrS9TiZug==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ messagingengine.com; h=content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=VVPLNv
- JqLTRIxlA9WfUjwDFR5mx5/VCNpyk17hOq70s=; b=ItC1yIb4aL6oEdTOUaHEoW
- VmWW/Zx7deM7jyRaiRNoLHGxAHJjdhrujqJu+qwsaXnxZ1frM1AV+Wr8JJrFDe4r
- YQtKN8T/804ZWi9MJM1GsZmk6nitDdRnXriVinHaROZdu15cQc9uz9d4WuT35CBd
- +FYdbzxF+f91c7cjGk5PfMvF4JRCUlJjUoTxgv/JnvXbODKNns48Z1rcywZX7xxd
- pCmnR8KcQYL89hyCBJmdMWMNIa1o27XQyfuFSeP6asGdXTHzpFWperbWQSSdeDag
- ohMjBU/PHlOgyHkmPMRdF6jLkJX8G5XOm3jmlKPsdM3p0SUhpkfN3rke7v52GqYw
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=y/nqmf
+ kFMDIlQD44MclMNSze29WFNWSxtIL8mUypNcQ=; b=JcetNQVy66vuG3uEQaiz6J
+ 0sNKuUH/B7mPDcfR611nY/tO4ODUkqiz85RS9klL3AynpXWMaMwJfmgLnkYE5Eex
+ EnlKVsFOq5LMcBXKdXTB4Nw7spBuuaWwSizWAMXPWUcyRZ1QmjW+l6HlDJWnf1lg
+ Ryfa/ibcmehebqD5912HObWFsx7tK9OYxC5jrR8og691rqP/Ek63yD/ROvJeIOZB
+ Vc21bNBFxdCCjhBzhBH28jgfBVTdjwyzw0QPbZLQtaFE6Q+Y9hMERxvVSOM9MnKm
+ joV/oxycQXzIQbHiXFP5BhikwZIftWpadPu3pPvtuJU6iL2TKWwFRRx9LqqbCwWg
  ==
-X-ME-Sender: <xms:8oHKXAV8ZuivDfOjTWhwdalrdj8dJ6xkhu93fRBYjzXsZa9cqiATKQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrieekgdekkecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:RYXKXB2o0JeVqxzxZChAWzwZkeJkzSAbMdi8Ry7SR85BJciJmWVIUg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrieekgdeludcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
  vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
  hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
  ufhiiigvpedt
-X-ME-Proxy: <xmx:8oHKXGNTdMdX-16sG5MwL68QWOEyx_mAfPXiClpW3XoY3Tl1jK-Fbg>
- <xmx:8oHKXIdYeI8FDDzijIQJAmFGBjSlWkqUUAujCgJgiqp080FDRFXfdA>
- <xmx:8oHKXFyiTKoKlyETEd8okMyxg5XXDMNZMuuM5RZ0su25-R2UUhRetQ>
- <xmx:84HKXE86Rb3uHd9Y-VJnBv4WAqjvTzkTUpAiXznsSjx4DXSfGmn3eQ>
+X-ME-Proxy: <xmx:RYXKXPcYpkllySZfUEQARv_qaXu11C5QhSh0rQAy4WSaHc32S8rF4w>
+ <xmx:RYXKXHePqMrQwXCblqwNcDba-iPJM7g72oPjZI1Uep7H27ty3oUTuw>
+ <xmx:RYXKXKzboRl62pPvc-VoOMDOwj0ZI61LUxtCpg3Xbwy3Vr62NWkqCA>
+ <xmx:RoXKXFOasveRMVryvmJlL6YZx90oeJn4VnG7ozBRVFykD7YtZnRU_Q>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 131F87C6D9; Thu,  2 May 2019 01:36:50 -0400 (EDT)
+ id 694BA7C6D9; Thu,  2 May 2019 01:51:01 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.1.6-449-gfb3fc5a-fmstable-20190430v1
 Mime-Version: 1.0
-Message-Id: <29919040-1dbd-4950-9bcf-29fe9f1407d2@www.fastmail.com>
-In-Reply-To: <08e21a55c7e746cda83694845c2b3429@TWMBX02.aspeed.com>
-References: <1890791123.3393899.1556750986902.JavaMail.zimbra@raptorengineeringinc.com>
- <f35bf045-48e4-432f-8239-29f8f6746158@www.fastmail.com>
- <d5a0e5a855144fd6bb65c569b37dedfa@TWMBX02.aspeed.com>
- <313461427.3426138.1556768056285.JavaMail.zimbra@raptorengineeringinc.com>
- <921172cf50484d839bd30fa27ecf525e@TWMBX02.aspeed.com>
- <46d7b027-0f88-47e3-a132-e59b7640c867@www.fastmail.com>
- <08e21a55c7e746cda83694845c2b3429@TWMBX02.aspeed.com>
-Date: Thu, 02 May 2019 01:36:49 -0400
+Message-Id: <128da9c8-d138-47b9-b323-b845bd93ca2f@www.fastmail.com>
+In-Reply-To: <236762130.3394112.1556751009128.JavaMail.zimbra@raptorengineeringinc.com>
+References: <236762130.3394112.1556751009128.JavaMail.zimbra@raptorengineeringinc.com>
+Date: Thu, 02 May 2019 01:51:00 -0400
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Ryan Chen" <ryan_chen@aspeedtech.com>,
- "Timothy Pearson" <tpearson@raptorengineering.com>
-Subject: =?UTF-8?Q?Re:_[PATCH_2/3]_aspeed/pinctrl:_Fix_simultaneous_RS-232_/_PWM_?=
- =?UTF-8?Q?and_DVO_outputs_on_AST2500_devices?=
+To: "Timothy Pearson" <tpearson@raptorengineering.com>,
+ linux-aspeed@lists.ozlabs.org, "Ryan Chen" <ryan_chen@aspeedtech.com>
+Subject: =?UTF-8?Q?Re:_[PATCH_3/3]_aspeed/pinctrl:_Fix_simultaneous_DVO_and_seria?=
+ =?UTF-8?Q?l_outputs_on_AST2500_devices?=
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -95,73 +89,94 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Morris Mao <morris_mao@aspeedtech.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
 
-On Thu, 2 May 2019, at 14:29, Ryan Chen wrote:
-> > ----- Original Message -----
-> > > From: "Ryan Chen" <ryan_chen@aspeedtech.com>
-> > > To: "Andrew Jeffery" <andrew@aj.id.au>, "Timothy Pearson" <tpearson@raptorengineering.com>, "linux-aspeed"
-> > > <linux-aspeed@lists.ozlabs.org>
-> > > Cc: "Morris Mao" <morris_mao@aspeedtech.com>
-> > > Sent: Wednesday, May 1, 2019 10:06:25 PM
-> > > Subject: RE: [PATCH 2/3] aspeed/pinctrl: Fix simultaneous RS-232 / 
-> > > PWM and DVO outputs on AST2500 devices
-> > 
-> > >>On Thu, 2 May 2019, at 08:20, Timothy Pearson wrote:
-> > >> There appears to be a small error in the pinmux table on pages 130 
-> > >>and
-> > >> 131 of the AST2500 datasheet v1.6.  Specifically, the COND2 
-> > >>requirement used to mux the surrounding pins to DVI was 
-> > >>inadvertently replicated to pins V1, W1, V2, and W2 in the table, 
-> > >>which do not incorporate DVI functionality.
-> > >> 
-> > >> As a result of this error, both serial TX lines and the PWM 0/1 
-> > >> outputs were overriding the VPO pinmux settings when VPO was 
-> > >> enabled in the pinmux hogs.
-> > >> 
-> > >> This patch has been verified to function on Blackbird hardware.  
-> > >> Both serial TXD pins and PWM0/PWM1 were functionally tested with 
-> > >> SCU94[1:0] set to 0x1.
-> > > 
-> > > Hello Tim.
-> > > 
-> > > The AST2500 pwm0/1 configure need following condition, the 
-> > > SCU94[1:0] is 0x1, it should not work.
-> > > Could you help confirm it?
-> > > 
-> > > v2 : pwm 0 : scu88[0] = 1 & scu 94[1:0] = 0 & scu90[5] = 0
-> > > w2 : pwm 1 : scu88[1] = 1 & scu 94[1:0] = 0 & scu90[5] = 0
-> > 
-> > >>I can confirm that with SCU94[1:0] == 0x1 the PWM0 and PWM1 outputs work correctly -- this was tested on our Blackbird >>hardware.  If you are reading from the datasheet, I suspect there are a few errors in it relating to the relatively rarely used DVO >>mux settings.
-> > 
-> > Yes it can work after check with designer, if you don't enable the CRT 
-> > driver, it will work.
-> > But for safety.
+On Thu, 2 May 2019, at 08:20, Timothy Pearson wrote:
+> There appears to be a significant error in the pinmux table starting on
+> page 127 of the AST2500 datasheet v1.6.  Specifically, the COND2 (DVO)
+> requirement is incorrectly applied to multiple digital video input (DVI)
+> muxed pins, and no DVI-specific condition is provided.  This results in
+> the serial devices incorrectly overriding the DVO pinmuxes and disabling
+> the DVO pins.
 > 
-> >>What do you mean by "for safety"?
+> Create a new condition code (COND6) for DVI enable, and update the most
+> seriously affected pins to use the new condition code.
 > 
-> Sorry, my point is if gfx driver also loaded, it will impact.
-> But, It is ok for this modification. 
+> Signed-off-by: Timothy Pearson <tpearson@raptorengineering.com>
+> ---
+>  drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c | 17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c 
+> b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+> index 6f357a11e89a..676f90d3c5f3 100644
+> --- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+> +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+> @@ -29,6 +29,7 @@
+>  
+>  #define COND1		{ ASPEED_IP_SCU, SCU90, BIT(6), 0, 0 }
+>  #define COND2		{ ASPEED_IP_SCU, SCU94, GENMASK(1, 0), 0, 0 }
+> +#define COND6		{ ASPEED_IP_SCU, SCU90, GENMASK(5, 4), 0, 0 }
+>  
+>  /* LHCR0 is offset from the end of the H8S/2168-compatible registers */
+>  #define LHCR0		0x20
+> @@ -660,8 +661,8 @@ SSSF_PIN_DECL(T2, GPIOL0, NCTS1, SIG_DESC_SET(SCU84, 16));
+>  
+>  #define T1 89
+>  #define T1_DESC		SIG_DESC_SET(SCU84, 17)
+> -SIG_EXPR_LIST_DECL_SINGLE(VPIDE, VPI24, VPI_24_RSVD_DESC, T1_DESC, COND2);
+> -SIG_EXPR_LIST_DECL_SINGLE(NDCD1, NDCD1, T1_DESC, COND2);
+> +SIG_EXPR_LIST_DECL_SINGLE(VPIDE, VPI24, VPI_24_RSVD_DESC, T1_DESC, COND6);
+> +SIG_EXPR_LIST_DECL_SINGLE(NDCD1, NDCD1, T1_DESC, COND6);
 
-Okay, that's enough confirmation for the moment.
+I feel like you didn't test this patch, because VPI_24_RSVD_DESC (the DVI condition)
+requires SCU90[5]=0b1, but your introduction of COND6 requires SCU90[5:4]=0b00 for
+the mux configuration to succeed. This can't work - bit 5 of SCU90 can not
+simultaneously take the values 1 and 0.
 
-> Due to pinctrl gfx pwm is separate 
-> driver setting. 
-> 
-> 
-> > You need also and with COND2 for pwm driver loaded.
-> 
-> >>I'm confused here because it sounds like from Tim's experiment PWM0 / PWM1 work without the dependency on COND2 >>despite VPO being enabled, and the designer confirms as much, but we shouldn't do it?
-> 
-> >>Regardless, in summary you're saying that for TXD1 and RXD1 the change to remove the dependence on COND2 is appropriate, but not for PWM0 and PWM1?
-> 
-> > 
-> > 
-> >
+Ryan: Can we just drop the COND2 requirement for function 2 of balls T1, U2, P4 and P3?
+I think that gets us where we need to be?
+
+Cheers,
+
+Andrew
+
+>  MS_PIN_DECL(T1, GPIOL1, VPIDE, NDCD1);
+>  FUNC_GROUP_DECL(NDCD1, T1);
+>  
+> @@ -674,22 +675,22 @@ FUNC_GROUP_DECL(NDSR1, U1);
+>  
+>  #define U2 91
+>  #define U2_DESC		SIG_DESC_SET(SCU84, 19)
+> -SIG_EXPR_LIST_DECL_SINGLE(VPIHS, VPI24, VPI_24_RSVD_DESC, U2_DESC, COND2);
+> -SIG_EXPR_LIST_DECL_SINGLE(NRI1, NRI1, U2_DESC, COND2);
+> +SIG_EXPR_LIST_DECL_SINGLE(VPIHS, VPI24, VPI_24_RSVD_DESC, U2_DESC, COND6);
+> +SIG_EXPR_LIST_DECL_SINGLE(NRI1, NRI1, U2_DESC, COND6);
+>  MS_PIN_DECL(U2, GPIOL3, VPIHS, NRI1);
+>  FUNC_GROUP_DECL(NRI1, U2);
+>  
+>  #define P4 92
+>  #define P4_DESC		SIG_DESC_SET(SCU84, 20)
+> -SIG_EXPR_LIST_DECL_SINGLE(VPIVS, VPI24, VPI_24_RSVD_DESC, P4_DESC, COND2);
+> -SIG_EXPR_LIST_DECL_SINGLE(NDTR1, NDTR1, P4_DESC, COND2);
+> +SIG_EXPR_LIST_DECL_SINGLE(VPIVS, VPI24, VPI_24_RSVD_DESC, P4_DESC, COND6);
+> +SIG_EXPR_LIST_DECL_SINGLE(NDTR1, NDTR1, P4_DESC, COND6);
+>  MS_PIN_DECL(P4, GPIOL4, VPIVS, NDTR1);
+>  FUNC_GROUP_DECL(NDTR1, P4);
+>  
+>  #define P3 93
+>  #define P3_DESC		SIG_DESC_SET(SCU84, 21)
+> -SIG_EXPR_LIST_DECL_SINGLE(VPICLK, VPI24, VPI_24_RSVD_DESC, P3_DESC, COND2);
+> -SIG_EXPR_LIST_DECL_SINGLE(NRTS1, NRTS1, P3_DESC, COND2);
+> +SIG_EXPR_LIST_DECL_SINGLE(VPICLK, VPI24, VPI_24_RSVD_DESC, P3_DESC, COND6);
+> +SIG_EXPR_LIST_DECL_SINGLE(NRTS1, NRTS1, P3_DESC, COND6);
+>  MS_PIN_DECL(P3, GPIOL5, VPICLK, NRTS1);
+>  FUNC_GROUP_DECL(NRTS1, P3);
+>  
+> -- 
+> 2.11.0
 >
