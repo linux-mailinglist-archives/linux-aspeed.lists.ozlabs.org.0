@@ -2,68 +2,82 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03BC3111E7
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 05:34:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FFD5111EA
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 05:38:23 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 44vgqV4LVqzDqRJ
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 13:34:30 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 44vgvx1N0zzDqRM
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 13:38:21 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (mailfrom)
- smtp.mailfrom=raptorengineering.com (client-ip=23.155.224.45;
- helo=mail.rptsys.com; envelope-from=tpearson@raptorengineering.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=raptorengineering.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=raptorengineering.com header.i=@raptorengineering.com
- header.b="nmWaNwqC"; dkim-atps=neutral
-Received: from mail.rptsys.com (mail.rptsys.com [23.155.224.45])
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=66.111.4.28; helo=out4-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="MCI5iyqk"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="wtQsRlEW"; dkim-atps=neutral
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 44vgqL3KfFzDqPC
- for <linux-aspeed@lists.ozlabs.org>; Thu,  2 May 2019 13:34:21 +1000 (AEST)
-Received: from localhost (localhost [127.0.0.1])
- by mail.rptsys.com (Postfix) with ESMTP id 119D1E02890;
- Wed,  1 May 2019 22:34:18 -0500 (CDT)
-Received: from mail.rptsys.com ([127.0.0.1])
- by localhost (vali.starlink.edu [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id sW3L1P_boy4I; Wed,  1 May 2019 22:34:17 -0500 (CDT)
-Received: from localhost (localhost [127.0.0.1])
- by mail.rptsys.com (Postfix) with ESMTP id 1DD42E02891;
- Wed,  1 May 2019 22:34:17 -0500 (CDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rptsys.com 1DD42E02891
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raptorengineering.com; s=B8E824E6-0BE2-11E6-931D-288C65937AAD;
- t=1556768057; bh=ywYMR9ZVp0MoECDr3XcubMSoZ/dilmm5JsK8j/81x/k=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=nmWaNwqCoFyUtuo7LY1VAywmSxZizsOvPzGgaxafUAAfG8TqdTs02Eh+E3ZDohbxy
- pwMPbEerdwP4zPd8uXRHWtNA/VJJ6fZarjKhY1QCKrbrxSlMrhzp2ABnds0DDzXx1F
- PfeKofQy0bh2C7CUGpFm9anUMPO3jKzDIyIGVkw4=
-X-Virus-Scanned: amavisd-new at rptsys.com
-Received: from mail.rptsys.com ([127.0.0.1])
- by localhost (vali.starlink.edu [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id zk9ReeHMqDEp; Wed,  1 May 2019 22:34:17 -0500 (CDT)
-Received: from vali.starlink.edu (unknown [192.168.3.2])
- by mail.rptsys.com (Postfix) with ESMTP id F2477E02890;
- Wed,  1 May 2019 22:34:16 -0500 (CDT)
-Date: Wed, 1 May 2019 22:34:16 -0500 (CDT)
-From: Timothy Pearson <tpearson@raptorengineering.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Message-ID: <313461427.3426138.1556768056285.JavaMail.zimbra@raptorengineeringinc.com>
-In-Reply-To: <d5a0e5a855144fd6bb65c569b37dedfa@TWMBX02.aspeed.com>
-References: <1890791123.3393899.1556750986902.JavaMail.zimbra@raptorengineeringinc.com>
- <f35bf045-48e4-432f-8239-29f8f6746158@www.fastmail.com>
- <d5a0e5a855144fd6bb65c569b37dedfa@TWMBX02.aspeed.com>
-Subject: Re: [PATCH 2/3] aspeed/pinctrl: Fix simultaneous RS-232 / PWM and
- DVO outputs on AST2500 devices
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: Zimbra 8.5.0_GA_3042 (ZimbraWebClient - FF65 (Linux)/8.5.0_GA_3042)
-Thread-Topic: aspeed/pinctrl: Fix simultaneous RS-232 / PWM and DVO outputs on
- AST2500 devices
-Thread-Index: AdUAlAXpS154mlgPT4yc4y3VL8kZB2RDAL2h
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44vgvr37qNzDqPb
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  2 May 2019 13:38:16 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 0B19E23331;
+ Wed,  1 May 2019 23:38:14 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Wed, 01 May 2019 23:38:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=/n72BNTxkHX6NBIhd/p5zL3KWP3/PyG
+ ZP2hQM7vw20g=; b=MCI5iyqkxaOgf7gRkwsEyLdoVFv0ejIzogXrM5ekkDV/z8h
+ FxMwd5TgN4J37kmrcQ60tZK9eoaGbMgFkCVsmEWjL007YQ+PeWrvZA0nctQI5EyI
+ ii+jCwyBSCFCMjAFvUYK4uPGhEpDe6dVcWVDWy0ZW9eYoHh0JSiPJbbO0Bj3/OGh
+ +tBxenwgWEpjpFQaLDZjsP6rVRlVzQYbRg5KJW9La+NszgHM2lvJ9OLLglRCHO69
+ mhSWBvycruQdEGdsR6ikmoy9uZwj/nPDe4E81Idqm3eZEJJL/+ReTC1QV7sI+6Gt
+ kq27oXv17kGtaW5tKfNmERE2Y+FDEOhhQjeSp4g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=/n72BN
+ TxkHX6NBIhd/p5zL3KWP3/PyGZP2hQM7vw20g=; b=wtQsRlEWn9LGA3wllkwogB
+ +9IPhc8LV+jYBhTFcDSteo4siYvFgakXicppdkTH7RKXJwuJAq7ZuRatJgoXwk1f
+ 5A21MywhFDBjRgMpVG+SbT8QoNMYn2KKRaX9yBrrBjAcim3kqznimK8+aOOqd08Z
+ IS9TjSjb5VsxPSGGM8Z6cjk55QRoeqsvPa+0cj/4tnFgv9YgV89ioDV6n8kI6IML
+ jC8JsKQtUf2btrtgAdzJfqGYShNUakvVTPkRZjonUrU/f1aA90ruNc0vrV0KCeVk
+ Z4VbWHCkRZZFBDiwGRliE0P1YbKdQ8hGHaPUIsYQC+wG9eGHF79lmOwasOb9fqBw
+ ==
+X-ME-Sender: <xms:JGbKXJeVDYPhK2I_6dtDBKZ_-uHfi6kKdOH0dySElkcytqfmmcJPng>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrieekgdeifecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
+ hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
+ ufhiiigvpedt
+X-ME-Proxy: <xmx:JWbKXM-jrg1l0Jasczh8con4d15w5bcHnH6pN8BbKKyBXChpRk40UA>
+ <xmx:JWbKXAkIXxtOu7ThHOUEue5AM-etYDn2uoI-uCg_ivhBw0gLtHPVeQ>
+ <xmx:JWbKXNhoDkiZEUf7UaQ4ZBAd5wjOE0HRHjyESWCdorZjmr5E893Hmw>
+ <xmx:JWbKXEugwosNKIJ6WZT66--1DRz-JP8KllqUjyAmXtB9Np4nUB0cCA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id CD7177C6D9; Wed,  1 May 2019 23:38:12 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-449-gfb3fc5a-fmstable-20190430v1
+Mime-Version: 1.0
+Message-Id: <ad47a332-125b-49c6-bf06-2b414ad446be@www.fastmail.com>
+In-Reply-To: <20190426165655.218228-1-venture@google.com>
+References: <20190426165655.218228-1-venture@google.com>
+Date: Wed, 01 May 2019 23:38:12 -0400
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Patrick Venture" <venture@google.com>, "Arnd Bergmann" <arnd@arndb.de>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Joel Stanley" <joel@jms.id.au>
+Subject: Re: [PATCH] misc: aspeed-p2a-ctrl: fix mixed declarations
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,42 +89,57 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Morris Mao <morris_mao@aspeedtech.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, arm@kernel.org,
+ linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
------ Original Message -----
-> From: "Ryan Chen" <ryan_chen@aspeedtech.com>
-> To: "Andrew Jeffery" <andrew@aj.id.au>, "Timothy Pearson" <tpearson@raptorengineering.com>, "linux-aspeed"
-> <linux-aspeed@lists.ozlabs.org>
-> Cc: "Morris Mao" <morris_mao@aspeedtech.com>
-> Sent: Wednesday, May 1, 2019 10:06:25 PM
-> Subject: RE: [PATCH 2/3] aspeed/pinctrl: Fix simultaneous RS-232 / PWM and DVO outputs on AST2500 devices
 
->>On Thu, 2 May 2019, at 08:20, Timothy Pearson wrote:
->> There appears to be a small error in the pinmux table on pages 130 and
->> 131 of the AST2500 datasheet v1.6.  Specifically, the COND2
->> requirement used to mux the surrounding pins to DVI was inadvertently
->> replicated to pins V1, W1, V2, and W2 in the table, which do not
->> incorporate DVI functionality.
->> 
->> As a result of this error, both serial TX lines and the PWM 0/1
->> outputs were overriding the VPO pinmux settings when VPO was enabled
->> in the pinmux hogs.
->> 
->> This patch has been verified to function on Blackbird hardware.  Both
->> serial TXD pins and PWM0/PWM1 were functionally tested with SCU94[1:0]
->> set to 0x1.
-> 
-> Hello Tim.
-> 
-> The AST2500 pwm0/1 configure need following condition, the SCU94[1:0] is 0x1, it
-> should not work.
-> Could you help confirm it?
-> 
-> v2 : pwm 0 : scu88[0] = 1 & scu 94[1:0] = 0 & scu90[5] = 0
-> w2 : pwm 1 : scu88[1] = 1 & scu 94[1:0] = 0 & scu90[5] = 0
 
-I can confirm that with SCU94[1:0] == 0x1 the PWM0 and PWM1 outputs work correctly -- this was tested on our Blackbird hardware.  If you are reading from the datasheet, I suspect there are a few errors in it relating to the relatively rarely used DVO mux settings.
+On Sat, 27 Apr 2019, at 02:27, Patrick Venture wrote:
+> Fix up mixed declarations and code in aspeed_p2a_mmap.
+> 
+> Tested: Verified the build had the error and that this patch resolved it
+> and there were no other warnings or build errors associated with
+> compilation of this driver.
+> 
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Patrick Venture <venture@google.com>
+
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+
+> ---
+>  drivers/misc/aspeed-p2a-ctrl.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/misc/aspeed-p2a-ctrl.c 
+> b/drivers/misc/aspeed-p2a-ctrl.c
+> index 9736821972ef..b60fbeaffcbd 100644
+> --- a/drivers/misc/aspeed-p2a-ctrl.c
+> +++ b/drivers/misc/aspeed-p2a-ctrl.c
+> @@ -100,6 +100,7 @@ static void aspeed_p2a_disable_bridge(struct 
+> aspeed_p2a_ctrl *p2a_ctrl)
+>  static int aspeed_p2a_mmap(struct file *file, struct vm_area_struct 
+> *vma)
+>  {
+>  	unsigned long vsize;
+> +	pgprot_t prot;
+>  	struct aspeed_p2a_user *priv = file->private_data;
+>  	struct aspeed_p2a_ctrl *ctrl = priv->parent;
+>  
+> @@ -107,7 +108,7 @@ static int aspeed_p2a_mmap(struct file *file, 
+> struct vm_area_struct *vma)
+>  		return -EINVAL;
+>  
+>  	vsize = vma->vm_end - vma->vm_start;
+> -	pgprot_t prot = vma->vm_page_prot;
+> +	prot = vma->vm_page_prot;
+>  
+>  	if (vma->vm_pgoff + vsize > ctrl->mem_base + ctrl->mem_size)
+>  		return -EINVAL;
+> -- 
+> 2.21.0.593.g511ec345e18-goog
+> 
+>
