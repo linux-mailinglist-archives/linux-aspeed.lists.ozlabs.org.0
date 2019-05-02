@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 064DB11115
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 04:05:23 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E4D11106
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 03:57:22 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 44vdgN3bp6zDqNy
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 11:57:20 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 44vdrc2YzXzDqNd
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 12:05:20 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -16,67 +16,67 @@ Authentication-Results: lists.ozlabs.org;
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="oZkf6TJG"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="ND3M0h0R"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="DRFqc7bU"; dkim-atps=neutral
+ header.b="BJGNLqBy"; dkim-atps=neutral
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
  [66.111.4.28])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 44vdg737r9zDqN0
- for <linux-aspeed@lists.ozlabs.org>; Thu,  2 May 2019 11:57:06 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44vdrT6FBkzDqCx
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  2 May 2019 12:05:13 +1000 (AEST)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 798A2230B4;
- Wed,  1 May 2019 21:57:03 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 2221323281;
+ Wed,  1 May 2019 22:05:11 -0400 (EDT)
 Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Wed, 01 May 2019 21:57:03 -0400
+ by compute4.internal (MEProxy); Wed, 01 May 2019 22:05:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to
- :subject:content-type; s=fm2; bh=OGsSs2KlqnlLozHMQ4NHosgwgiN5NbP
- 45XyUriKwyFE=; b=oZkf6TJGGPX/gPVOT1NArMFL8yWDDdfl9Ae5HUUJ9D36DZ8
- xWUo2/TRo5o5oHGToNidDhyIex7sPbCQfs0tjT1vusG+Nl3JR0F/tzdK7onFtYvx
- UkqsfCmFqcicjlpbmVpQVCnpJI/KqteBMikXTJLDSma5tjyC02hmZTYO+V2vuyyO
- RuYylPqGohF7QQ2NA5vPhI5jkcTS0h0FmzgFHQEFIs7qTofeyi67liiLFd30VCGS
- 8h1NaUU1euvafsqNGgt3jjq/9LPiwt0SlHTyeHsIjJZ3YUz88VVvyPw4E7ER16qp
- iwj8bus951f6NApGyoCGsuthZw/0fX9eAyYFWxA==
+ :subject:content-type; s=fm2; bh=bZeERvGAnYQ52FPuYTSYIQK3NANXy16
+ 44x52Qktc3kM=; b=ND3M0h0R+VkvPg58n22g3wxdDeewZCSuNbI6DZTbdEcI4Xv
+ 3b3o+QfjTdrbJnc59hsGhqmbwvDa4s9EgChuXma2KvlJFR3fColr4FqlG1zL4SCX
+ DXOhUu2zdTR1+as61fcd6Uy3F9fcYsaF4hF4wa34epDfhSAjA6aNr2x9s//JSxJK
+ aRPW5AKGdh3QOR4bJW29lAvJ6Sjvz4iOtbye0uMB0+9jvrLlwEJzCuAtP32gVZ+j
+ +uXSFAg+cV4eSHpEzs6tBUko+IHT8z/pNvUTWr/8zlqWCXzbaM8DjHPfxsUZaozx
+ E/NWzNO0xSy6i+9ez3gJfMc2ci8KmalgwQOikOA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=OGsSs2
- KlqnlLozHMQ4NHosgwgiN5NbP45XyUriKwyFE=; b=DRFqc7bUgT+LvVx86/hLqE
- YfNX8MMbGMf9iZkWpw1mKcQNfsf2JjHVn1ZIMWDlmTVq8qMlEDk3o8ADOwNjGN1N
- 23/iq2JcAHRF4rC1uoj4bHEy32NiAiD4jkY9M9fPdtgEzONbd86lqWFMYwpcgw5v
- EBSfS3M+2jPiiTBUdz4ff+Sth861w1BfmhjWWmI58KGI8huAOCSDjbizgUOXvS5T
- jakWkTc2kXIG/PdRVE5xGhwCE0Ks+opJT2+vlfHdjTZWbg0MYFufaf9hxXsMmy9j
- XZnyTtE2R/aTImJgHdIVEI7UrDhn0c67Rmgx1ZUuuV4hA+q0rb87ZUtsToyQyMXg
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=bZeERv
+ GAnYQ52FPuYTSYIQK3NANXy1644x52Qktc3kM=; b=BJGNLqBy6laTdBEmqhbdGz
+ owRfwkAm6UNPLxzz2QYM4rAA0PzY9qC4Ib6podRVpd27O+bWYxVhXDXSTqOtjUqO
+ wRkiPjNlPv5j9G9mQUda9kwJE5hfto57Rm+c0DwGxOFwb67zQrAT5CR/vL0cxt9h
+ ieyOSVjlwVggs51BT3etTXAzzDg1tojCPdKfcdns7nisb/38TZFmCKKZQbbgHqGU
+ EtMzOezrnIRQxiEcMOIunCdOsLafKcpfO8i9Jj/LWr3ZIXT3OrWFyxguKxIalprO
+ I5hg6jks+Z3I2r6KIaH9HoH46KusNz2k3Kvf2QI1DqGPJJykSk/pPvQpsnUqd+GA
  ==
-X-ME-Sender: <xms:b07KXBbo6K51Zr-_Edz-P1FPJxbGMzJ2Wii_bMRTwdD9g0LWFi1HNQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrieekgdegfecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:VlDKXP0-7JDl3mUMasmFXzvjwDMWYsJj7q6q1rNcxO0tOd8hqKWbaA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrieekgdeggecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
  vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
  hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
  ufhiiigvpedt
-X-ME-Proxy: <xmx:b07KXBDZRLnsRBFc1qqggYcwkuN1HMA3seOFPUUj1n2wCM2LfsVYUA>
- <xmx:b07KXLae-a6tYMmvzCDn2JJ_bD4xQYMGejDqCeHfGNG9UhAKWLX60g>
- <xmx:b07KXJkyc7hDbwqWcIeInQAERQG0_Ua2n2JImQdLLbYr8bUlX81IPQ>
- <xmx:b07KXENFq-Tt4aooMXJLnfi7zmP38XpqaSGxBW6cWX6tcyj-CqSm2Q>
+X-ME-Proxy: <xmx:VlDKXAjasqCW5MicFv07bjhzUGNp_A6566wKwmhlJDwv0gFQKf6-jg>
+ <xmx:VlDKXAHLDisxzBc76a96bW4A7KlX62lilUkgFT7dpuZzKIZHCNt2YA>
+ <xmx:VlDKXMUG0jFClqQAnbwqdvtvulMcGCPTjc_jsQ0BvmmIlBP7HmG2qQ>
+ <xmx:V1DKXHj0o9b3s2MA2RZbkoZyuJYpWUwJI-nlFn0ECLP_X7gPI0ZkaQ>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 111AC7C7F9; Wed,  1 May 2019 21:57:03 -0400 (EDT)
+ id 298617C6D9; Wed,  1 May 2019 22:05:10 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.1.6-449-gfb3fc5a-fmstable-20190430v1
 Mime-Version: 1.0
-Message-Id: <a39f9067-740c-4177-bb20-b55778ccaf7b@www.fastmail.com>
-In-Reply-To: <1681003008.3393892.1556750962226.JavaMail.zimbra@raptorengineeringinc.com>
-References: <1681003008.3393892.1556750962226.JavaMail.zimbra@raptorengineeringinc.com>
-Date: Wed, 01 May 2019 21:57:02 -0400
+Message-Id: <f35bf045-48e4-432f-8239-29f8f6746158@www.fastmail.com>
+In-Reply-To: <1890791123.3393899.1556750986902.JavaMail.zimbra@raptorengineeringinc.com>
+References: <1890791123.3393899.1556750986902.JavaMail.zimbra@raptorengineeringinc.com>
+Date: Wed, 01 May 2019 22:05:09 -0400
 From: "Andrew Jeffery" <andrew@aj.id.au>
 To: "Timothy Pearson" <tpearson@raptorengineering.com>,
- linux-aspeed@lists.ozlabs.org
-Subject: =?UTF-8?Q?Re:_[PATCH_1/3]_drm/aspeed:_Preserve_DVO_configuration_bits_du?=
- =?UTF-8?Q?ring_initialization?=
+ linux-aspeed@lists.ozlabs.org, "Ryan Chen" <ryan_chen@aspeedtech.com>
+Subject: =?UTF-8?Q?Re:_[PATCH_2/3]_aspeed/pinctrl:_Fix_simultaneous_RS-232_/_PWM_?=
+ =?UTF-8?Q?and_DVO_outputs_on_AST2500_devices?=
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -95,44 +95,76 @@ Sender: "Linux-aspeed"
 
 
 
-On Thu, 2 May 2019, at 08:19, Timothy Pearson wrote:
-> GFX064 contains DVO enable and mode bits.  These are hardware specific, 
-> configured
-> via the pinmux from the DT, and should not be cleared during startup.
+On Thu, 2 May 2019, at 08:20, Timothy Pearson wrote:
+> There appears to be a small error in the pinmux table on pages 130 and
+> 131 of the AST2500 datasheet v1.6.  Specifically, the COND2 requirement
+> used to mux the surrounding pins to DVI was inadvertently replicated to
+> pins V1, W1, V2, and W2 in the table, which do not incorporate DVI
+> functionality.
+> 
+> As a result of this error, both serial TX lines and the PWM 0/1 outputs
+> were overriding the VPO pinmux settings when VPO was enabled in the
+> pinmux hogs.
+> 
+> This patch has been verified to function on Blackbird hardware.  Both
+> serial TXD pins and PWM0/PWM1 were functionally tested with SCU94[1:0]
+> set to 0x1.
 > 
 > Signed-off-by: Timothy Pearson <tpearson@raptorengineering.com>
 > ---
->  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c 
-> b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> index 713a3975852b..1a7a9a000e2e 100644
-> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> @@ -98,6 +98,7 @@ static int aspeed_gfx_load(struct drm_device *drm)
->  	struct aspeed_gfx *priv;
->  	struct resource *res;
->  	int ret;
-> +	u32 reg;
+> diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c 
+> b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+> index 187abd7693cf..6f357a11e89a 100644
+> --- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+> +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+> @@ -696,14 +696,14 @@ FUNC_GROUP_DECL(NRTS1, P3);
+>  #define V1 94
+>  #define V1_DESC		SIG_DESC_SET(SCU84, 22)
+>  SIG_EXPR_LIST_DECL_SINGLE(DASHV1, DASHV1, VPIRSVD_DESC, V1_DESC);
+> -SIG_EXPR_LIST_DECL_SINGLE(TXD1, TXD1, V1_DESC, COND2);
+> +SIG_EXPR_LIST_DECL_SINGLE(TXD1, TXD1, V1_DESC);
+>  MS_PIN_DECL(V1, GPIOL6, DASHV1, TXD1);
+>  FUNC_GROUP_DECL(TXD1, V1);
 >  
->  	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
->  	if (!priv)
-> @@ -146,7 +147,9 @@ static int aspeed_gfx_load(struct drm_device *drm)
+>  #define W1 95
+>  #define W1_DESC		SIG_DESC_SET(SCU84, 23)
+>  SIG_EXPR_LIST_DECL_SINGLE(DASHW1, DASHW1, VPIRSVD_DESC, W1_DESC);
+> -SIG_EXPR_LIST_DECL_SINGLE(RXD1, RXD1, W1_DESC, COND2);
+> +SIG_EXPR_LIST_DECL_SINGLE(RXD1, RXD1, W1_DESC);
+>  MS_PIN_DECL(W1, GPIOL7, DASHW1, RXD1);
+>  FUNC_GROUP_DECL(RXD1, W1);
 >  
->  	/* Sanitize control registers */
->  	writel(0, priv->base + CRT_CTRL1);
-> -	writel(0, priv->base + CRT_CTRL2);
-> +	/* Preserve CRT_CTRL2[7:6] (DVO configuration) */
-> +	reg = readl(priv->base + CRT_CTRL2) & 0xc0;
+> @@ -766,14 +766,14 @@ FUNC_GROUP_DECL(RXD2, T5);
+>  #define V2 104
+>  #define V2_DESC         SIG_DESC_SET(SCU88, 0)
+>  SIG_EXPR_LIST_DECL_SINGLE(DASHN0, DASHN0, VPIRSVD_DESC, V2_DESC);
+> -SIG_EXPR_LIST_DECL_SINGLE(PWM0, PWM0, V2_DESC, COND2);
+> +SIG_EXPR_LIST_DECL_SINGLE(PWM0, PWM0, V2_DESC);
+>  MS_PIN_DECL(V2, GPION0, DASHN0, PWM0);
+>  FUNC_GROUP_DECL(PWM0, V2);
+>  
+>  #define W2 105
+>  #define W2_DESC         SIG_DESC_SET(SCU88, 1)
+>  SIG_EXPR_LIST_DECL_SINGLE(DASHN1, DASHN1, VPIRSVD_DESC, W2_DESC);
+> -SIG_EXPR_LIST_DECL_SINGLE(PWM1, PWM1, W2_DESC, COND2);
+> +SIG_EXPR_LIST_DECL_SINGLE(PWM1, PWM1, W2_DESC);
+>  MS_PIN_DECL(W2, GPION1, DASHN1, PWM1);
+>  FUNC_GROUP_DECL(PWM1, W2);
 
-I'd prefer we go the route of adding #defines for each bit, then OR'ing them
-to create an appropriate mask. This seems a little opaque, even if we have
-the comment.
+This looks reasonable to me. I'd like Ryan to chime in though.
 
-> +	writel(reg, priv->base + CRT_CTRL2);
->  
->  	aspeed_gfx_setup_mode_config(drm);
+Ryan, can you confirm the datasheet needs correction here?
+
+Tim: You need to send these to a broader audience than the linux-aspeed@
+list. Please use ./scripts/get_maintainer.pl to determine the appropriate
+people to send to. This at least needs to go to Linus Walleij, who maintains
+pinctrl.
+
+Andrew
+
 >  
 > -- 
 > 2.11.0
