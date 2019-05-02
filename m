@@ -1,67 +1,83 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id C009F10F5A
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 00:50:19 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 44vYWY2fgYzDqNs
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 08:50:17 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E4D11106
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 03:57:22 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 44vdgN3bp6zDqNy
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 11:57:20 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (mailfrom)
- smtp.mailfrom=raptorengineering.com (client-ip=23.155.224.45;
- helo=mail.rptsys.com; envelope-from=tpearson@raptorengineering.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=raptorengineering.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=raptorengineering.com header.i=@raptorengineering.com
- header.b="ECYHj8Cf"; dkim-atps=neutral
-Received: from mail.rptsys.com (mail.rptsys.com [23.155.224.45])
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=66.111.4.28; helo=out4-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="oZkf6TJG"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="DRFqc7bU"; dkim-atps=neutral
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 44vYWR73l8zDqNR
- for <linux-aspeed@lists.ozlabs.org>; Thu,  2 May 2019 08:50:11 +1000 (AEST)
-Received: from localhost (localhost [127.0.0.1])
- by mail.rptsys.com (Postfix) with ESMTP id EAC19DE42C8
- for <linux-aspeed@lists.ozlabs.org>; Wed,  1 May 2019 17:50:09 -0500 (CDT)
-Received: from mail.rptsys.com ([127.0.0.1])
- by localhost (vali.starlink.edu [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id d_ega8gGj7OL for <linux-aspeed@lists.ozlabs.org>;
- Wed,  1 May 2019 17:50:09 -0500 (CDT)
-Received: from localhost (localhost [127.0.0.1])
- by mail.rptsys.com (Postfix) with ESMTP id 5E051DE0D0B
- for <linux-aspeed@lists.ozlabs.org>; Wed,  1 May 2019 17:50:09 -0500 (CDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rptsys.com 5E051DE0D0B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raptorengineering.com; s=B8E824E6-0BE2-11E6-931D-288C65937AAD;
- t=1556751009; bh=h6GTR6VrMeuoBDOTUnLF6zWL6RdlDJaBh1UCSa46dd0=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=ECYHj8CfH2MQJTBftj6R/DYffY8CHFw/wegMeNOOEvDIhDrX1RnLj7/+E+GSZFOsU
- jK5vq0Q8OLpDFiR0kBT5fnBTY5u0gvJR+oWmPkKjbm/lJStx1e9F5es5p7ge6dvuXW
- 5AVI08i4aJJekJr+cg/umesCA29E47EarXhIYUkU=
-X-Virus-Scanned: amavisd-new at rptsys.com
-Received: from mail.rptsys.com ([127.0.0.1])
- by localhost (vali.starlink.edu [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id fdRLdjan0Q4m for <linux-aspeed@lists.ozlabs.org>;
- Wed,  1 May 2019 17:50:09 -0500 (CDT)
-Received: from vali.starlink.edu (vali.starlink.edu [192.168.3.21])
- by mail.rptsys.com (Postfix) with ESMTP id 43428DE42AA
- for <linux-aspeed@lists.ozlabs.org>; Wed,  1 May 2019 17:50:09 -0500 (CDT)
-Date: Wed, 1 May 2019 17:50:09 -0500 (CDT)
-From: Timothy Pearson <tpearson@raptorengineering.com>
-To: linux-aspeed@lists.ozlabs.org
-Message-ID: <236762130.3394112.1556751009128.JavaMail.zimbra@raptorengineeringinc.com>
-Subject: [PATCH 3/3] aspeed/pinctrl: Fix simultaneous DVO and serial outputs
- on AST2500 devices
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: Zimbra 8.5.0_GA_3042 (ZimbraWebClient - FF65 (Linux)/8.5.0_GA_3042)
-Thread-Index: Xh5W532prkv6dfq3HRVRlSXsoaPquA==
-Thread-Topic: aspeed/pinctrl: Fix simultaneous DVO and serial outputs on
- AST2500 devices
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44vdg737r9zDqN0
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  2 May 2019 11:57:06 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 798A2230B4;
+ Wed,  1 May 2019 21:57:03 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Wed, 01 May 2019 21:57:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to
+ :subject:content-type; s=fm2; bh=OGsSs2KlqnlLozHMQ4NHosgwgiN5NbP
+ 45XyUriKwyFE=; b=oZkf6TJGGPX/gPVOT1NArMFL8yWDDdfl9Ae5HUUJ9D36DZ8
+ xWUo2/TRo5o5oHGToNidDhyIex7sPbCQfs0tjT1vusG+Nl3JR0F/tzdK7onFtYvx
+ UkqsfCmFqcicjlpbmVpQVCnpJI/KqteBMikXTJLDSma5tjyC02hmZTYO+V2vuyyO
+ RuYylPqGohF7QQ2NA5vPhI5jkcTS0h0FmzgFHQEFIs7qTofeyi67liiLFd30VCGS
+ 8h1NaUU1euvafsqNGgt3jjq/9LPiwt0SlHTyeHsIjJZ3YUz88VVvyPw4E7ER16qp
+ iwj8bus951f6NApGyoCGsuthZw/0fX9eAyYFWxA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=OGsSs2
+ KlqnlLozHMQ4NHosgwgiN5NbP45XyUriKwyFE=; b=DRFqc7bUgT+LvVx86/hLqE
+ YfNX8MMbGMf9iZkWpw1mKcQNfsf2JjHVn1ZIMWDlmTVq8qMlEDk3o8ADOwNjGN1N
+ 23/iq2JcAHRF4rC1uoj4bHEy32NiAiD4jkY9M9fPdtgEzONbd86lqWFMYwpcgw5v
+ EBSfS3M+2jPiiTBUdz4ff+Sth861w1BfmhjWWmI58KGI8huAOCSDjbizgUOXvS5T
+ jakWkTc2kXIG/PdRVE5xGhwCE0Ks+opJT2+vlfHdjTZWbg0MYFufaf9hxXsMmy9j
+ XZnyTtE2R/aTImJgHdIVEI7UrDhn0c67Rmgx1ZUuuV4hA+q0rb87ZUtsToyQyMXg
+ ==
+X-ME-Sender: <xms:b07KXBbo6K51Zr-_Edz-P1FPJxbGMzJ2Wii_bMRTwdD9g0LWFi1HNQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrieekgdegfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
+ hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
+ ufhiiigvpedt
+X-ME-Proxy: <xmx:b07KXBDZRLnsRBFc1qqggYcwkuN1HMA3seOFPUUj1n2wCM2LfsVYUA>
+ <xmx:b07KXLae-a6tYMmvzCDn2JJ_bD4xQYMGejDqCeHfGNG9UhAKWLX60g>
+ <xmx:b07KXJkyc7hDbwqWcIeInQAERQG0_Ua2n2JImQdLLbYr8bUlX81IPQ>
+ <xmx:b07KXENFq-Tt4aooMXJLnfi7zmP38XpqaSGxBW6cWX6tcyj-CqSm2Q>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 111AC7C7F9; Wed,  1 May 2019 21:57:03 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-449-gfb3fc5a-fmstable-20190430v1
+Mime-Version: 1.0
+Message-Id: <a39f9067-740c-4177-bb20-b55778ccaf7b@www.fastmail.com>
+In-Reply-To: <1681003008.3393892.1556750962226.JavaMail.zimbra@raptorengineeringinc.com>
+References: <1681003008.3393892.1556750962226.JavaMail.zimbra@raptorengineeringinc.com>
+Date: Wed, 01 May 2019 21:57:02 -0400
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Timothy Pearson" <tpearson@raptorengineering.com>,
+ linux-aspeed@lists.ozlabs.org
+Subject: =?UTF-8?Q?Re:_[PATCH_1/3]_drm/aspeed:_Preserve_DVO_configuration_bits_du?=
+ =?UTF-8?Q?ring_initialization?=
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,72 +93,48 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-There appears to be a significant error in the pinmux table starting on
-page 127 of the AST2500 datasheet v1.6.  Specifically, the COND2 (DVO)
-requirement is incorrectly applied to multiple digital video input (DVI)
-muxed pins, and no DVI-specific condition is provided.  This results in
-the serial devices incorrectly overriding the DVO pinmuxes and disabling
-the DVO pins.
 
-Create a new condition code (COND6) for DVI enable, and update the most
-seriously affected pins to use the new condition code.
 
-Signed-off-by: Timothy Pearson <tpearson@raptorengineering.com>
----
- drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+On Thu, 2 May 2019, at 08:19, Timothy Pearson wrote:
+> GFX064 contains DVO enable and mode bits.  These are hardware specific, 
+> configured
+> via the pinmux from the DT, and should not be cleared during startup.
+> 
+> Signed-off-by: Timothy Pearson <tpearson@raptorengineering.com>
+> ---
+>  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c 
+> b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> index 713a3975852b..1a7a9a000e2e 100644
+> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> @@ -98,6 +98,7 @@ static int aspeed_gfx_load(struct drm_device *drm)
+>  	struct aspeed_gfx *priv;
+>  	struct resource *res;
+>  	int ret;
+> +	u32 reg;
+>  
+>  	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+>  	if (!priv)
+> @@ -146,7 +147,9 @@ static int aspeed_gfx_load(struct drm_device *drm)
+>  
+>  	/* Sanitize control registers */
+>  	writel(0, priv->base + CRT_CTRL1);
+> -	writel(0, priv->base + CRT_CTRL2);
+> +	/* Preserve CRT_CTRL2[7:6] (DVO configuration) */
+> +	reg = readl(priv->base + CRT_CTRL2) & 0xc0;
 
-diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-index 6f357a11e89a..676f90d3c5f3 100644
---- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-+++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-@@ -29,6 +29,7 @@
- 
- #define COND1		{ ASPEED_IP_SCU, SCU90, BIT(6), 0, 0 }
- #define COND2		{ ASPEED_IP_SCU, SCU94, GENMASK(1, 0), 0, 0 }
-+#define COND6		{ ASPEED_IP_SCU, SCU90, GENMASK(5, 4), 0, 0 }
- 
- /* LHCR0 is offset from the end of the H8S/2168-compatible registers */
- #define LHCR0		0x20
-@@ -660,8 +661,8 @@ SSSF_PIN_DECL(T2, GPIOL0, NCTS1, SIG_DESC_SET(SCU84, 16));
- 
- #define T1 89
- #define T1_DESC		SIG_DESC_SET(SCU84, 17)
--SIG_EXPR_LIST_DECL_SINGLE(VPIDE, VPI24, VPI_24_RSVD_DESC, T1_DESC, COND2);
--SIG_EXPR_LIST_DECL_SINGLE(NDCD1, NDCD1, T1_DESC, COND2);
-+SIG_EXPR_LIST_DECL_SINGLE(VPIDE, VPI24, VPI_24_RSVD_DESC, T1_DESC, COND6);
-+SIG_EXPR_LIST_DECL_SINGLE(NDCD1, NDCD1, T1_DESC, COND6);
- MS_PIN_DECL(T1, GPIOL1, VPIDE, NDCD1);
- FUNC_GROUP_DECL(NDCD1, T1);
- 
-@@ -674,22 +675,22 @@ FUNC_GROUP_DECL(NDSR1, U1);
- 
- #define U2 91
- #define U2_DESC		SIG_DESC_SET(SCU84, 19)
--SIG_EXPR_LIST_DECL_SINGLE(VPIHS, VPI24, VPI_24_RSVD_DESC, U2_DESC, COND2);
--SIG_EXPR_LIST_DECL_SINGLE(NRI1, NRI1, U2_DESC, COND2);
-+SIG_EXPR_LIST_DECL_SINGLE(VPIHS, VPI24, VPI_24_RSVD_DESC, U2_DESC, COND6);
-+SIG_EXPR_LIST_DECL_SINGLE(NRI1, NRI1, U2_DESC, COND6);
- MS_PIN_DECL(U2, GPIOL3, VPIHS, NRI1);
- FUNC_GROUP_DECL(NRI1, U2);
- 
- #define P4 92
- #define P4_DESC		SIG_DESC_SET(SCU84, 20)
--SIG_EXPR_LIST_DECL_SINGLE(VPIVS, VPI24, VPI_24_RSVD_DESC, P4_DESC, COND2);
--SIG_EXPR_LIST_DECL_SINGLE(NDTR1, NDTR1, P4_DESC, COND2);
-+SIG_EXPR_LIST_DECL_SINGLE(VPIVS, VPI24, VPI_24_RSVD_DESC, P4_DESC, COND6);
-+SIG_EXPR_LIST_DECL_SINGLE(NDTR1, NDTR1, P4_DESC, COND6);
- MS_PIN_DECL(P4, GPIOL4, VPIVS, NDTR1);
- FUNC_GROUP_DECL(NDTR1, P4);
- 
- #define P3 93
- #define P3_DESC		SIG_DESC_SET(SCU84, 21)
--SIG_EXPR_LIST_DECL_SINGLE(VPICLK, VPI24, VPI_24_RSVD_DESC, P3_DESC, COND2);
--SIG_EXPR_LIST_DECL_SINGLE(NRTS1, NRTS1, P3_DESC, COND2);
-+SIG_EXPR_LIST_DECL_SINGLE(VPICLK, VPI24, VPI_24_RSVD_DESC, P3_DESC, COND6);
-+SIG_EXPR_LIST_DECL_SINGLE(NRTS1, NRTS1, P3_DESC, COND6);
- MS_PIN_DECL(P3, GPIOL5, VPICLK, NRTS1);
- FUNC_GROUP_DECL(NRTS1, P3);
- 
--- 
-2.11.0
+I'd prefer we go the route of adding #defines for each bit, then OR'ing them
+to create an appropriate mask. This seems a little opaque, even if we have
+the comment.
+
+> +	writel(reg, priv->base + CRT_CTRL2);
+>  
+>  	aspeed_gfx_setup_mode_config(drm);
+>  
+> -- 
+> 2.11.0
+> 
+>
