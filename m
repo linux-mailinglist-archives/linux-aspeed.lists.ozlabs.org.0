@@ -2,62 +2,88 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635AC111F0
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 05:47:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF561121E
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 06:15:49 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 44vh6K0bf3zDqR1
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 13:47:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 44vhl62gGNzDqR1
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 May 2019 14:15:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (mailfrom) smtp.mailfrom=aspeedtech.com
- (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com;
- envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=64.147.123.21; helo=wout5-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="VN+0vS1R"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="nn6gaBuA"; dkim-atps=neutral
+X-Greylist: delayed 584 seconds by postgrey-1.36 at bilbo;
+ Thu, 02 May 2019 14:15:35 AEST
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 44vh6D4hvkzDqPG
- for <linux-aspeed@lists.ozlabs.org>; Thu,  2 May 2019 13:47:16 +1000 (AEST)
-Received: from mail.aspeedtech.com (twmbx02.aspeed.com [192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id x423eC5d069679;
- Thu, 2 May 2019 11:40:12 +0800 (GMT-8)
- (envelope-from ryan_chen@aspeedtech.com)
-Received: from TWMBX01.aspeed.com (192.168.0.23) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.620.29; Thu, 2 May
- 2019 11:47:04 +0800
-Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX01.aspeed.com
- (192.168.0.23) with Microsoft SMTP Server (TLS) id 15.0.620.29; Thu, 2 May
- 2019 11:47:02 +0800
-Received: from TWMBX02.aspeed.com ([fe80::997d:c0a7:f01f:e1a7]) by
- TWMBX02.aspeed.com ([fe80::997d:c0a7:f01f:e1a7%12]) with mapi id
- 15.00.0620.020; Thu, 2 May 2019 11:47:03 +0800
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: Timothy Pearson <tpearson@raptorengineering.com>
-Subject: RE: [PATCH 2/3] aspeed/pinctrl: Fix simultaneous RS-232 / PWM and
- DVO outputs on AST2500 devices
-Thread-Topic: [PATCH 2/3] aspeed/pinctrl: Fix simultaneous RS-232 / PWM and
- DVO outputs on AST2500 devices
-Thread-Index: AdUAlAXpS154mlgPT4yc4y3VL8kZB2RDAL2hZEHNz/A=
-Date: Thu, 2 May 2019 03:47:02 +0000
-Message-ID: <921172cf50484d839bd30fa27ecf525e@TWMBX02.aspeed.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44vhkv6J65zDqPG
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  2 May 2019 14:15:35 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 4C30966C;
+ Thu,  2 May 2019 00:05:46 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Thu, 02 May 2019 00:05:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=2hYgo8k4pDiewUZp5w3MFzocN3XoRgy
+ dlOphL5du7YI=; b=VN+0vS1R/PUb/3TpNObPdp7RCQAvd9CesiSWRON7U04qj6o
+ Gb2R68fKKLFg9dhISJD/pdQelAWI8Q+ftX1aHpEs+vHJUCZpHDFsB79Atq5ZeqTI
+ djrX8l3uU06A7OONboOImiMvCVREBqfvhHOqLV1zA/S7XUYSPMFk7xxd+r3b8fTm
+ 5bLvhqbExZsX+BReDFsgxsIaLQqIWvvWeq1rLLMklBfdki0/l5btVSV9gOQGCMZR
+ u4gvllTOaS6MagMjkpXQ7+ZPVUUo2mFVTJboHJ9jHhZ+TO+YL9EuPlqiC5lp0lXF
+ p7vaaEjvgZznPEzvbbb0+lk31uZ9R1PmUHOAf/A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=2hYgo8
+ k4pDiewUZp5w3MFzocN3XoRgydlOphL5du7YI=; b=nn6gaBuAnIzc5KUgCqP3Ih
+ TD7SzNVpM5RnQx4ruD/2nge2+j+uvJ7CYCQbsvJLLstKlww1eoe+AljQ1KqjvdSi
+ v7CEd5vvhEm0CEz93rHqE0hIZlr1cnG+zS254wF7sncT1EVjV35uCB+d6EuB9jGl
+ Nz8hY40BbBf4MrEykILchhDwzbdAFxjkSWVXnxukKwOtUiaJ10QDPwNHxlNGaa2W
+ WhUawgmfIomupp8ACENC5AXTQAspMVES8/4Kr3ONPtClXPNRO20ca/bgP2dZrLzz
+ hM21UOcSCkuu2L4/L2vaFZKwpqLnxq5wVH3nNc875W0qeZFtG+oN1ySzic3WfXoQ
+ ==
+X-ME-Sender: <xms:mGzKXAkrwnG4IHZoQpxfLgoclVPmhQwLhvWe4ksAZ0RjDKDvSxvMxA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrieekgdejtdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
+ hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
+ ufhiiigvpedt
+X-ME-Proxy: <xmx:mGzKXBfIsaAM_fB6_fMuX-vH_20NgkyyEIZbLQsNVhZI65IWItb7Eg>
+ <xmx:mGzKXNWFnDC0jrtmPx-3rIupsExJMtGJU6OZvYc8DLxYuXANdiQVMA>
+ <xmx:mGzKXFGxNSGH_Zdy1-WMnr5_aSSUdtA9srQwWopyZPD_V8Lbpy2jig>
+ <xmx:mWzKXHqCLgIuZ8Bmn7Y182FcIMFHGByfy3qt4LW2U-JZ1PPGW6gKNQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 8AE5B7C6D9; Thu,  2 May 2019 00:05:44 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-449-gfb3fc5a-fmstable-20190430v1
+Mime-Version: 1.0
+Message-Id: <46d7b027-0f88-47e3-a132-e59b7640c867@www.fastmail.com>
+In-Reply-To: <921172cf50484d839bd30fa27ecf525e@TWMBX02.aspeed.com>
 References: <1890791123.3393899.1556750986902.JavaMail.zimbra@raptorengineeringinc.com>
  <f35bf045-48e4-432f-8239-29f8f6746158@www.fastmail.com>
  <d5a0e5a855144fd6bb65c569b37dedfa@TWMBX02.aspeed.com>
  <313461427.3426138.1556768056285.JavaMail.zimbra@raptorengineeringinc.com>
-In-Reply-To: <313461427.3426138.1556768056285.JavaMail.zimbra@raptorengineeringinc.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.0.81]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com x423eC5d069679
+ <921172cf50484d839bd30fa27ecf525e@TWMBX02.aspeed.com>
+Date: Thu, 02 May 2019 00:05:44 -0400
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Ryan Chen" <ryan_chen@aspeedtech.com>,
+ "Timothy Pearson" <tpearson@raptorengineering.com>
+Subject: =?UTF-8?Q?Re:_[PATCH_2/3]_aspeed/pinctrl:_Fix_simultaneous_RS-232_/_PWM_?=
+ =?UTF-8?Q?and_DVO_outputs_on_AST2500_devices?=
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,37 +101,63 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-LS0tLS0gT3JpZ2luYWwgTWVzc2FnZSAtLS0tLQ0KPiBGcm9tOiAiUnlhbiBDaGVuIiA8cnlhbl9j
-aGVuQGFzcGVlZHRlY2guY29tPg0KPiBUbzogIkFuZHJldyBKZWZmZXJ5IiA8YW5kcmV3QGFqLmlk
-LmF1PiwgIlRpbW90aHkgUGVhcnNvbiIgPHRwZWFyc29uQHJhcHRvcmVuZ2luZWVyaW5nLmNvbT4s
-ICJsaW51eC1hc3BlZWQiDQo+IDxsaW51eC1hc3BlZWRAbGlzdHMub3psYWJzLm9yZz4NCj4gQ2M6
-ICJNb3JyaXMgTWFvIiA8bW9ycmlzX21hb0Bhc3BlZWR0ZWNoLmNvbT4NCj4gU2VudDogV2VkbmVz
-ZGF5LCBNYXkgMSwgMjAxOSAxMDowNjoyNSBQTQ0KPiBTdWJqZWN0OiBSRTogW1BBVENIIDIvM10g
-YXNwZWVkL3BpbmN0cmw6IEZpeCBzaW11bHRhbmVvdXMgUlMtMjMyIC8gUFdNIA0KPiBhbmQgRFZP
-IG91dHB1dHMgb24gQVNUMjUwMCBkZXZpY2VzDQoNCj4+T24gVGh1LCAyIE1heSAyMDE5LCBhdCAw
-ODoyMCwgVGltb3RoeSBQZWFyc29uIHdyb3RlOg0KPj4gVGhlcmUgYXBwZWFycyB0byBiZSBhIHNt
-YWxsIGVycm9yIGluIHRoZSBwaW5tdXggdGFibGUgb24gcGFnZXMgMTMwIA0KPj5hbmQNCj4+IDEz
-MSBvZiB0aGUgQVNUMjUwMCBkYXRhc2hlZXQgdjEuNi4gIFNwZWNpZmljYWxseSwgdGhlIENPTkQy
-ICANCj4+cmVxdWlyZW1lbnQgdXNlZCB0byBtdXggdGhlIHN1cnJvdW5kaW5nIHBpbnMgdG8gRFZJ
-IHdhcyBpbmFkdmVydGVudGx5ICANCj4+cmVwbGljYXRlZCB0byBwaW5zIFYxLCBXMSwgVjIsIGFu
-ZCBXMiBpbiB0aGUgdGFibGUsIHdoaWNoIGRvIG5vdCAgDQo+PmluY29ycG9yYXRlIERWSSBmdW5j
-dGlvbmFsaXR5Lg0KPj4gDQo+PiBBcyBhIHJlc3VsdCBvZiB0aGlzIGVycm9yLCBib3RoIHNlcmlh
-bCBUWCBsaW5lcyBhbmQgdGhlIFBXTSAwLzEgDQo+PiBvdXRwdXRzIHdlcmUgb3ZlcnJpZGluZyB0
-aGUgVlBPIHBpbm11eCBzZXR0aW5ncyB3aGVuIFZQTyB3YXMgZW5hYmxlZCANCj4+IGluIHRoZSBw
-aW5tdXggaG9ncy4NCj4+IA0KPj4gVGhpcyBwYXRjaCBoYXMgYmVlbiB2ZXJpZmllZCB0byBmdW5j
-dGlvbiBvbiBCbGFja2JpcmQgaGFyZHdhcmUuICBCb3RoIA0KPj4gc2VyaWFsIFRYRCBwaW5zIGFu
-ZCBQV00wL1BXTTEgd2VyZSBmdW5jdGlvbmFsbHkgdGVzdGVkIHdpdGggDQo+PiBTQ1U5NFsxOjBd
-IHNldCB0byAweDEuDQo+IA0KPiBIZWxsbyBUaW0uDQo+IA0KPiBUaGUgQVNUMjUwMCBwd20wLzEg
-Y29uZmlndXJlIG5lZWQgZm9sbG93aW5nIGNvbmRpdGlvbiwgdGhlIFNDVTk0WzE6MF0gDQo+IGlz
-IDB4MSwgaXQgc2hvdWxkIG5vdCB3b3JrLg0KPiBDb3VsZCB5b3UgaGVscCBjb25maXJtIGl0Pw0K
-PiANCj4gdjIgOiBwd20gMCA6IHNjdTg4WzBdID0gMSAmIHNjdSA5NFsxOjBdID0gMCAmIHNjdTkw
-WzVdID0gMA0KPiB3MiA6IHB3bSAxIDogc2N1ODhbMV0gPSAxICYgc2N1IDk0WzE6MF0gPSAwICYg
-c2N1OTBbNV0gPSAwDQoNCj4+SSBjYW4gY29uZmlybSB0aGF0IHdpdGggU0NVOTRbMTowXSA9PSAw
-eDEgdGhlIFBXTTAgYW5kIFBXTTEgb3V0cHV0cyB3b3JrIGNvcnJlY3RseSAtLSB0aGlzIHdhcyB0
-ZXN0ZWQgb24gb3VyIEJsYWNrYmlyZCA+PmhhcmR3YXJlLiAgSWYgeW91IGFyZSByZWFkaW5nIGZy
-b20gdGhlIGRhdGFzaGVldCwgSSBzdXNwZWN0IHRoZXJlIGFyZSBhIGZldyBlcnJvcnMgaW4gaXQg
-cmVsYXRpbmcgdG8gdGhlIHJlbGF0aXZlbHkgcmFyZWx5IHVzZWQgRFZPID4+bXV4IHNldHRpbmdz
-Lg0KDQpZZXMgaXQgY2FuIHdvcmsgYWZ0ZXIgY2hlY2sgd2l0aCBkZXNpZ25lciwgaWYgeW91IGRv
-bid0IGVuYWJsZSB0aGUgQ1JUIGRyaXZlciwgaXQgd2lsbCB3b3JrLg0KQnV0IGZvciBzYWZldHku
-IFlvdSBuZWVkIGFsc28gYW5kIHdpdGggQ09ORDIgZm9yIHB3bSBkcml2ZXIgbG9hZGVkLg0KDQoN
-Cg==
+
+
+On Thu, 2 May 2019, at 13:17, Ryan Chen wrote:
+> ----- Original Message -----
+> > From: "Ryan Chen" <ryan_chen@aspeedtech.com>
+> > To: "Andrew Jeffery" <andrew@aj.id.au>, "Timothy Pearson" <tpearson@raptorengineering.com>, "linux-aspeed"
+> > <linux-aspeed@lists.ozlabs.org>
+> > Cc: "Morris Mao" <morris_mao@aspeedtech.com>
+> > Sent: Wednesday, May 1, 2019 10:06:25 PM
+> > Subject: RE: [PATCH 2/3] aspeed/pinctrl: Fix simultaneous RS-232 / PWM 
+> > and DVO outputs on AST2500 devices
+> 
+> >>On Thu, 2 May 2019, at 08:20, Timothy Pearson wrote:
+> >> There appears to be a small error in the pinmux table on pages 130 
+> >>and
+> >> 131 of the AST2500 datasheet v1.6.  Specifically, the COND2  
+> >>requirement used to mux the surrounding pins to DVI was inadvertently  
+> >>replicated to pins V1, W1, V2, and W2 in the table, which do not  
+> >>incorporate DVI functionality.
+> >> 
+> >> As a result of this error, both serial TX lines and the PWM 0/1 
+> >> outputs were overriding the VPO pinmux settings when VPO was enabled 
+> >> in the pinmux hogs.
+> >> 
+> >> This patch has been verified to function on Blackbird hardware.  Both 
+> >> serial TXD pins and PWM0/PWM1 were functionally tested with 
+> >> SCU94[1:0] set to 0x1.
+> > 
+> > Hello Tim.
+> > 
+> > The AST2500 pwm0/1 configure need following condition, the SCU94[1:0] 
+> > is 0x1, it should not work.
+> > Could you help confirm it?
+> > 
+> > v2 : pwm 0 : scu88[0] = 1 & scu 94[1:0] = 0 & scu90[5] = 0
+> > w2 : pwm 1 : scu88[1] = 1 & scu 94[1:0] = 0 & scu90[5] = 0
+> 
+> >>I can confirm that with SCU94[1:0] == 0x1 the PWM0 and PWM1 outputs work correctly -- this was tested on our Blackbird >>hardware.  If you are reading from the datasheet, I suspect there are a few errors in it relating to the relatively rarely used DVO >>mux settings.
+> 
+> Yes it can work after check with designer, if you don't enable the CRT 
+> driver, it will work.
+> But for safety.
+
+What do you mean by "for safety"?
+
+> You need also and with COND2 for pwm driver loaded.
+
+I'm confused here because it sounds like from Tim's experiment PWM0
+/ PWM1 work without the dependency on COND2 despite VPO being
+enabled, and the designer confirms as much, but we shouldn't do it?
+
+Regardless, in summary you're saying that for TXD1 and RXD1 the
+change to remove the dependence on COND2 is appropriate, but
+not for PWM0 and PWM1?
+
+Andrew
+
+> 
+> 
+>
