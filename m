@@ -1,86 +1,82 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1376C129B2
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 May 2019 10:18:37 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED42A1259F
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 May 2019 02:40:53 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 44wCwg3XbZzDqRn
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 May 2019 10:40:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 44wQ4p436MzDqcK
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 May 2019 18:18:34 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=64.147.123.25; helo=wout2-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=linaro.org
+ (client-ip=2a00:1450:4864:20::444; helo=mail-wr1-x444.google.com;
+ envelope-from=daniel.lezcano@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
+ dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="kbFewV/q"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="BrT9rp+8"; dkim-atps=neutral
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=linaro.org header.i=@linaro.org header.b="KOwMT0Cl"; 
+ dkim-atps=neutral
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 44wCs03rngzDqHJ
- for <linux-aspeed@lists.ozlabs.org>; Fri,  3 May 2019 10:37:39 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id AE3A1729;
- Thu,  2 May 2019 20:37:36 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Thu, 02 May 2019 20:37:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=MoCNAzuXS7otpzRVqNVdqTJcfA2KCAd
- CGw1JbvsxJ+E=; b=kbFewV/qmNlbgvtvoCPnEu3OLNQTzL3l3nymk8LGJcPWUdI
- 1UTZqVgrFCySx+wXJ1kDllQkcqwi15ZMp3Xdzramyp3rrdj1FJ45BTaIOIpRg+RO
- yxCgmF9GQ4HWUIEDzxO5xuvUbbU5Stsbx81OHFtwj5bk44khTHFwpxGZbrfncsf9
- 8KBYKV1KO1IzYXbX6U1lpQbSS3cliZIIa9ansF3Vp7RPwYYF61b73x/4RplrEJLX
- ZOuZ2Q0GBLvkGVsYKURFmjDWzmtadMwGQ5LyJr9EI6MpOaXeLTcQlMeFAN+CW6IP
- 881FsH7qVMczLd0Q/5W7fMF/BToH6nSJ3I6VOXQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=MoCNAz
- uXS7otpzRVqNVdqTJcfA2KCAdCGw1JbvsxJ+E=; b=BrT9rp+8cWxZI4HCh3FvxY
- 8BmOh2U3PCnhg6TyXQqiXz1r3p+XhM8u3L3O4AWTQ9eHDrYd5YPHhEcRXwFUSKyy
- pdewHOad3j8PBs5cN6CFWLdOg1hDBxd2402gdEL4tprBZEpAw+thJ7vIsoaNv6iG
- yH2acXqkGCpxKU2DSvV/pifGkkuv344PGnnxh7oBcPguWGXwTIxYryDFZEKc8Kl4
- OKu74481pQlVdFjXhOHJlToV+Ns2Mj1MN3bm38r+LermHCpE4MFcvTLt/Pjb9Mdb
- 3u5B0unyfrVX59U+EgsGYZCS8Zkym52zsKkcHMV3+zeY2+1BwRaYOhI8i06GoEXA
- ==
-X-ME-Sender: <xms:To3LXBdDwmvt-7i_wSUWCRN5yGLvv-9RjK37_coU9-D-eRxS-9Ir2g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrjedtgdefjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
- hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
- ufhiiigvpedt
-X-ME-Proxy: <xmx:To3LXAe8CtEUbBL04mtKbfev8Ot0j6YHlCimeoKOCm-kHSUgSoFz9w>
- <xmx:To3LXP0TlFzRi-GUMbJja8VAd9jZO9ADCNg2NKZO4gDGVXycpBrF0Q>
- <xmx:To3LXI5idhfZ7EgZRgsM4hH7uSavGmixBm6RZR61o_39dBmXfZM6Sg>
- <xmx:UI3LXP7o9kOyrZpICgzMChtFzHVr4JnO2QP-MLKJV60wDPccRmxHeA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 790687C6D9; Thu,  2 May 2019 20:37:34 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-449-gfb3fc5a-fmstable-20190430v1
-Mime-Version: 1.0
-Message-Id: <ce2192a1-a8d8-426a-9687-9eb71aeb2966@www.fastmail.com>
-In-Reply-To: <1968156380.3538229.1556825858913.JavaMail.zimbra@raptorengineeringinc.com>
-References: <236762130.3394112.1556751009128.JavaMail.zimbra@raptorengineeringinc.com>
- <128da9c8-d138-47b9-b323-b845bd93ca2f@www.fastmail.com>
- <1991472336.3446950.1556778801333.JavaMail.zimbra@raptorengineeringinc.com>
- <e2388fbc-e664-4338-a0f5-d34a3621c3fb@www.fastmail.com>
- <1968156380.3538229.1556825858913.JavaMail.zimbra@raptorengineeringinc.com>
-Date: Thu, 02 May 2019 20:36:44 -0400
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Timothy Pearson" <tpearson@raptorengineering.com>
-Subject: =?UTF-8?Q?Re:_[PATCH_3/3]_aspeed/pinctrl:_Fix_simultaneous_DVO_and_seria?=
- =?UTF-8?Q?l_outputs_on_AST2500_devices?=
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44wPmx1HLxzDqpr
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  3 May 2019 18:04:48 +1000 (AEST)
+Received: by mail-wr1-x444.google.com with SMTP id s15so6567112wra.12
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 03 May 2019 01:04:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TpXqJQI7PVBHDytg+IGA8i8m1/XYj0MrND3X98mgWRU=;
+ b=KOwMT0Cl9efaAA08+DXGflf+klv1sSVEHKxtGUL+CBB2gxt07xyd+GyRUCCFVKzsBF
+ vKFUzaTq0/DOqlmb39mbYs9iH9RkOcgL/KAAeaSaMlUscaGj/bjbj+P1qApNVwESdscJ
+ g+1LJrqUlO8vcWihy8sZ39L1L6LS1ajt0o5fzIYYJaQhvca+WfuJGXFbdFR2rcym4b4t
+ zBYkf1Llb/Z3r2f2Mqm8DStMLgaZcHBFBYpuH2Uow5/FZOaBijtEgoGFhaFs2w3Lbcsf
+ fUx7d6Qd9AwY90DycZfziK6toE6kMAjg8Mx+cK1CNVyDwdMXuzYcxD1e3vRmAV6UcGSV
+ 1pBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TpXqJQI7PVBHDytg+IGA8i8m1/XYj0MrND3X98mgWRU=;
+ b=ajr0yjYwIlh56P7yqDul/IYQAVR0EigTgDoJmr7Q2H7oZc/stNYq4dhqlGT+dLpLzs
+ ce8HTtwDIZG35hxy9t3IilWx3TFH4PUvNmGRkcn/NZoyx5X81W0MV8XJUik7IWAl5kut
+ waWrS6cZ3hFJHy/PY1GaGaXsxXFHRE442VOxunoL4myBow/h6DA0TiqSPZaDbAxQ9Nk4
+ fxFJvJzrgpOOkQ8tZoTykdGbXctGn7tE8j6z8Tzbepuwc17u4gQqXg9Ve6IG4AHClyKj
+ AV5uDHjawjux3AVfZzYIWt+0iHBgAe198RWiaoYJmtNnsJSDmnifjFCXuv4nSz+QN4nv
+ I4WA==
+X-Gm-Message-State: APjAAAVzXf5Q1NhxOmd2K1V/msyfJqI7gMgT0PMkxIr6OOgKlKpE0D0b
+ MLbAww7MMo3F/lmFYC9SdAVXjQ==
+X-Google-Smtp-Source: APXvYqzRH5TpkdzGloadzIxAtQZsM2JgxqfDy9oibY2Qrd4ctA1Tpc85qqJ9ZfJamG8tTMt5Vi3YIQ==
+X-Received: by 2002:a5d:430f:: with SMTP id h15mr5756534wrq.132.1556870681778; 
+ Fri, 03 May 2019 01:04:41 -0700 (PDT)
+Received: from [192.168.0.41] (223.235.129.77.rev.sfr.net. [77.129.235.223])
+ by smtp.googlemail.com with ESMTPSA id k1sm1159060wmi.48.2019.05.03.01.04.39
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 03 May 2019 01:04:41 -0700 (PDT)
+Subject: Re: [PATCH 1/6] thermal: Introduce
+ devm_thermal_of_cooling_device_register
+To: Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+ linux-pm@vger.kernel.org
+References: <1555617500-10862-1-git-send-email-linux@roeck-us.net>
+ <1555617500-10862-2-git-send-email-linux@roeck-us.net>
+ <20190501164843.GA16333@roeck-us.net>
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <c8a26b7d-2775-e13f-21b7-dbc901ea3b0b@linaro.org>
+Date: Fri, 3 May 2019 10:04:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190501164843.GA16333@roeck-us.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,119 +88,45 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>
+Cc: Jean Delvare <jdelvare@suse.com>, Tomer Maimon <tmaimon77@gmail.com>,
+ Nancy Yuen <yuenn@google.com>, Patrick Venture <venture@google.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Kamil Debski <kamil@wypas.org>, Tali Perry <tali.perry1@gmail.com>,
+ Eduardo Valentin <edubezval@gmail.com>, Avi Fishman <avifishman70@gmail.com>,
+ Zhang Rui <rui.zhang@intel.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Fri, 3 May 2019, at 05:07, Timothy Pearson wrote:
+On 01/05/2019 18:48, Guenter Roeck wrote:
+> On Thu, Apr 18, 2019 at 12:58:15PM -0700, Guenter Roeck wrote:
+>> thermal_of_cooling_device_register() and thermal_cooling_device_register()
+>> are typically called from driver probe functions, and
+>> thermal_cooling_device_unregister() is called from remove functions. This
+>> makes both a perfect candidate for device managed functions.
+>>
+>> Introduce devm_thermal_of_cooling_device_register(). This function can
+>> also be used to replace thermal_cooling_device_register() by passing a NULL
+>> pointer as device node. The new function requires both struct device *
+>> and struct device_node * as parameters since the struct device_node *
+>> parameter is not always identical to dev->of_node.
+>>
+>> Don't introduce a device managed remove function since it is not needed
+>> at this point.
+>>
 > 
-> 
-> ----- Original Message -----
-> > From: "Andrew Jeffery" <andrew@aj.id.au>
-> > To: "Timothy Pearson" <tpearson@raptorengineering.com>
-> > Cc: "linux-aspeed" <linux-aspeed@lists.ozlabs.org>, "Ryan Chen" <ryan_chen@aspeedtech.com>
-> > Sent: Thursday, May 2, 2019 1:40:39 AM
-> > Subject: Re: [PATCH 3/3] aspeed/pinctrl: Fix simultaneous DVO and serial outputs on AST2500 devices
-> 
-> > On Thu, 2 May 2019, at 16:03, Timothy Pearson wrote:
-> >> 
-> >> 
-> >> ----- Original Message -----
-> >> > From: "Andrew Jeffery" <andrew@aj.id.au>
-> >> > To: "Timothy Pearson" <tpearson@raptorengineering.com>, "linux-aspeed"
-> >> > <linux-aspeed@lists.ozlabs.org>, "Ryan Chen"
-> >> > <ryan_chen@aspeedtech.com>
-> >> > Sent: Thursday, May 2, 2019 12:51:00 AM
-> >> > Subject: Re: [PATCH 3/3] aspeed/pinctrl: Fix simultaneous DVO and serial outputs
-> >> > on AST2500 devices
-> >> 
-> >> > On Thu, 2 May 2019, at 08:20, Timothy Pearson wrote:
-> >> >> There appears to be a significant error in the pinmux table starting on
-> >> >> page 127 of the AST2500 datasheet v1.6.  Specifically, the COND2 (DVO)
-> >> >> requirement is incorrectly applied to multiple digital video input (DVI)
-> >> >> muxed pins, and no DVI-specific condition is provided.  This results in
-> >> >> the serial devices incorrectly overriding the DVO pinmuxes and disabling
-> >> >> the DVO pins.
-> >> >> 
-> >> >> Create a new condition code (COND6) for DVI enable, and update the most
-> >> >> seriously affected pins to use the new condition code.
-> >> >> 
-> >> >> Signed-off-by: Timothy Pearson <tpearson@raptorengineering.com>
-> >> >> ---
-> >> >>  drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c | 17 +++++++++--------
-> >> >>  1 file changed, 9 insertions(+), 8 deletions(-)
-> >> >> 
-> >> >> diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-> >> >> b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-> >> >> index 6f357a11e89a..676f90d3c5f3 100644
-> >> >> --- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-> >> >> +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-> >> >> @@ -29,6 +29,7 @@
-> >> >>  
-> >> >>  #define COND1		{ ASPEED_IP_SCU, SCU90, BIT(6), 0, 0 }
-> >> >>  #define COND2		{ ASPEED_IP_SCU, SCU94, GENMASK(1, 0), 0, 0 }
-> >> >> +#define COND6		{ ASPEED_IP_SCU, SCU90, GENMASK(5, 4), 0, 0 }
-> >> >>  
-> >> >>  /* LHCR0 is offset from the end of the H8S/2168-compatible registers */
-> >> >>  #define LHCR0		0x20
-> >> >> @@ -660,8 +661,8 @@ SSSF_PIN_DECL(T2, GPIOL0, NCTS1, SIG_DESC_SET(SCU84, 16));
-> >> >>  
-> >> >>  #define T1 89
-> >> >>  #define T1_DESC		SIG_DESC_SET(SCU84, 17)
-> >> >> -SIG_EXPR_LIST_DECL_SINGLE(VPIDE, VPI24, VPI_24_RSVD_DESC, T1_DESC, COND2);
-> >> >> -SIG_EXPR_LIST_DECL_SINGLE(NDCD1, NDCD1, T1_DESC, COND2);
-> >> >> +SIG_EXPR_LIST_DECL_SINGLE(VPIDE, VPI24, VPI_24_RSVD_DESC, T1_DESC, COND6);
-> >> >> +SIG_EXPR_LIST_DECL_SINGLE(NDCD1, NDCD1, T1_DESC, COND6);
-> >> > 
-> >> > I feel like you didn't test this patch, because VPI_24_RSVD_DESC (the DVI
-> >> > condition)
-> >> > requires SCU90[5]=0b1, but your introduction of COND6 requires SCU90[5:4]=0b00
-> >> > for
-> >> > the mux configuration to succeed. This can't work - bit 5 of SCU90 can not
-> >> > simultaneously take the values 1 and 0.
-> >> 
-> >> That's correct -- I don't have hardware that supports DVI available to
-> >> test with.
-> > 
-> > Okay. In that case I'm not prepared to ACK changes here, much less changes with
-> > that fail in this way. The current implementation at least follows what is
-> > dictated by
-> > the programming guide and is at least correct in theory.
-> > 
-> > As Ryan is not confident there are no negative side-effects to not following the
-> > configuration dictated by the programming guide, changes like this have a real
-> > up-hill battle on their hands.
-> > 
-> > Cheers,
-> > 
-> > Andrew
-> 
-> There is a negative effect right now in that enabling either UART will 
-> force disable the DVO pinmuxes.  While I agree the patch needs 
-> additional work, as it stands right now DVO will not function 
-> simultaneously with the UART without a patched kernel.
-> 
-> From where I stand I am fairly confident in a documentation error, 
-> however I do not have access to the hardware required to prove this.  
-> Can someone at ASpeed look at the HDL and verify or correct the 
-> documentation?  We have already caught one documentation error relating 
-> to COND2 and DVO, and verified that one in hardware.
+> Any feedback / thoughts / comments ?
 
-Right - it's odd that there's a dependency on COND2 when COND2 relates to
-VPO, but the pins in question are VPI pins, and you're not interested in VPI.
+Hi Guenter,
 
-Ryan and I have spoken about it but he's deferred to the designer's opinion
-which is that we should follow what's specified in the datasheet.
+I have comments about your patch but I need some time to double check in
+the current code how the 'of' and 'devm' are implemented.
 
-Given the complexity of the pinmux I'm going to set the bar for accepting these
-patches at "you need to convince Aspeed to correct the programming guide".
-I understand that might be annoying, but I need to be conservative to cater to
-the stability of everyone's use-cases, and not just accept patches contrary to the
-datasheet to enable your "conflicting" design. I appreciate that your experiments
-indicate the datasheet is misleading in some circumstances, but let's get Aspeed
-on board with that.
 
-Andrew
+-- 
+ <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
+
