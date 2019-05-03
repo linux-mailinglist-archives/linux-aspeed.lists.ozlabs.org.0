@@ -2,80 +2,84 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A39312498
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 May 2019 00:35:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED42A1259F
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 May 2019 02:40:53 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 44w97P1wsSzDqRn
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 May 2019 08:34:57 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 44wCwg3XbZzDqRn
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 May 2019 10:40:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=64.147.123.21; helo=wout5-smtp.messagingengine.com;
+ (client-ip=64.147.123.25; helo=wout2-smtp.messagingengine.com;
  envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="WSg6OpOL"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="kbFewV/q"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="ituBuaIj"; dkim-atps=neutral
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
+ header.b="BrT9rp+8"; dkim-atps=neutral
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 44w97J5d4XzDqPG
- for <linux-aspeed@lists.ozlabs.org>; Fri,  3 May 2019 08:34:52 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44wCs03rngzDqHJ
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  3 May 2019 10:37:39 +1000 (AEST)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 10C578E8;
- Thu,  2 May 2019 18:34:50 -0400 (EDT)
+ by mailout.west.internal (Postfix) with ESMTP id AE3A1729;
+ Thu,  2 May 2019 20:37:36 -0400 (EDT)
 Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Thu, 02 May 2019 18:34:50 -0400
+ by compute4.internal (MEProxy); Thu, 02 May 2019 20:37:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to
- :subject:content-type; s=fm2; bh=/q13aJIQ9mTOKCqXMXint6reH3JWEaW
- 9DkRsfVp0DQ8=; b=WSg6OpOL1EhY/FEYyopx6RiMYml6Cj1tqRsGstvZO88QRTp
- MV+f0cFqvjtnPHY3zyVlqAVaKWHXULnNGhefnKSawee/hAw5hzl3sxXuD+slr6t4
- bmpVJAR02zy0uoIAA4aaUJt7XdZgF/D8qfFdkeiCP/XyoShuYUAHT3flb0udrbDD
- hGRWiUHZWrPn6s80zKNK+NTGQpTSIKsjtnv745O24pIRAwvQQPWVWgpDD/GWrVbj
- zT9U5iEEhlO+QRiaYBfE3gIJDrpvuTbT4tbDIZeVrfZ0k2vkf9PytmC/vMHOJK+a
- UxufCGCLDXmJ+qP/yTiooP1+GAZoBxTOgl759+Q==
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=MoCNAzuXS7otpzRVqNVdqTJcfA2KCAd
+ CGw1JbvsxJ+E=; b=kbFewV/qmNlbgvtvoCPnEu3OLNQTzL3l3nymk8LGJcPWUdI
+ 1UTZqVgrFCySx+wXJ1kDllQkcqwi15ZMp3Xdzramyp3rrdj1FJ45BTaIOIpRg+RO
+ yxCgmF9GQ4HWUIEDzxO5xuvUbbU5Stsbx81OHFtwj5bk44khTHFwpxGZbrfncsf9
+ 8KBYKV1KO1IzYXbX6U1lpQbSS3cliZIIa9ansF3Vp7RPwYYF61b73x/4RplrEJLX
+ ZOuZ2Q0GBLvkGVsYKURFmjDWzmtadMwGQ5LyJr9EI6MpOaXeLTcQlMeFAN+CW6IP
+ 881FsH7qVMczLd0Q/5W7fMF/BToH6nSJ3I6VOXQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=content-type:date:from:in-reply-to
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=/q13aJ
- IQ9mTOKCqXMXint6reH3JWEaW9DkRsfVp0DQ8=; b=ituBuaIjJ1egLzOESKsROC
- 7Q0kDA5JzafQGTLQDdZTY3w8UJDwSYZiwPojI56nMG+Lza96mRX6HoLarGXPnKhu
- QM58TJwgKErD9CDMe+af9fK8HKB1NcTA3q60gTZGK6yrx0K+4dXOGPTGuFQdgN6U
- pWJHfRl22Wd3kTDJSpC42IBIN+L4I2zgV5L0bu0ZulDywzOtH/LX+d1GQXSXHDLv
- UNUrdYN7M98JoqRNnwngmU50Vy0MQqtnf2cOa112ZuckaNNmpXPksZa7NI1Scbb4
- 3vEcG5ZUKsAi9z19acXOp5sDzoqgjn0kQlxgRoaxO7sDFxQVAktpA8eYmqwwPp4Q
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=MoCNAz
+ uXS7otpzRVqNVdqTJcfA2KCAdCGw1JbvsxJ+E=; b=BrT9rp+8cWxZI4HCh3FvxY
+ 8BmOh2U3PCnhg6TyXQqiXz1r3p+XhM8u3L3O4AWTQ9eHDrYd5YPHhEcRXwFUSKyy
+ pdewHOad3j8PBs5cN6CFWLdOg1hDBxd2402gdEL4tprBZEpAw+thJ7vIsoaNv6iG
+ yH2acXqkGCpxKU2DSvV/pifGkkuv344PGnnxh7oBcPguWGXwTIxYryDFZEKc8Kl4
+ OKu74481pQlVdFjXhOHJlToV+Ns2Mj1MN3bm38r+LermHCpE4MFcvTLt/Pjb9Mdb
+ 3u5B0unyfrVX59U+EgsGYZCS8Zkym52zsKkcHMV3+zeY2+1BwRaYOhI8i06GoEXA
  ==
-X-ME-Sender: <xms:iXDLXHACGQXuglYZlRjXxIaAJbxai4w4d2NBQXjy0K7EoSkMRTYp8w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrjedtgdduudcutefuodetggdotefrodftvf
+X-ME-Sender: <xms:To3LXBdDwmvt-7i_wSUWCRN5yGLvv-9RjK37_coU9-D-eRxS-9Ir2g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrjedtgdefjecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
  vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
  hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
  ufhiiigvpedt
-X-ME-Proxy: <xmx:iXDLXDquRZ70z2ToCBt05kjZcyjSMdd_1sBZZNV6nHurWAmPWeZMWQ>
- <xmx:iXDLXILyZpJ8gV1dFOJKZgbIsMHP4EG1nUgYhgKWovV_dZFeCqHpPA>
- <xmx:iXDLXNKqs2W2_piLW1b0DuC1kxHon4ARCoCoMUZ3lwUmoCcCp47kbg>
- <xmx:iXDLXAkBaXOa29y82HKmURUa72SzCEURUJhHgI4lcN3bKQQiiqSfaA>
+X-ME-Proxy: <xmx:To3LXAe8CtEUbBL04mtKbfev8Ot0j6YHlCimeoKOCm-kHSUgSoFz9w>
+ <xmx:To3LXP0TlFzRi-GUMbJja8VAd9jZO9ADCNg2NKZO4gDGVXycpBrF0Q>
+ <xmx:To3LXI5idhfZ7EgZRgsM4hH7uSavGmixBm6RZR61o_39dBmXfZM6Sg>
+ <xmx:UI3LXP7o9kOyrZpICgzMChtFzHVr4JnO2QP-MLKJV60wDPccRmxHeA>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id ED0B77C6D9; Thu,  2 May 2019 18:34:48 -0400 (EDT)
+ id 790687C6D9; Thu,  2 May 2019 20:37:34 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.1.6-449-gfb3fc5a-fmstable-20190430v1
 Mime-Version: 1.0
-Message-Id: <c41d689b-74e5-4689-a12a-70ecb0aad9d0@www.fastmail.com>
-In-Reply-To: <671575004.3553124.1556833901812.JavaMail.zimbra@raptorengineeringinc.com>
-References: <671575004.3553124.1556833901812.JavaMail.zimbra@raptorengineeringinc.com>
-Date: Thu, 02 May 2019 18:34:48 -0400
+Message-Id: <ce2192a1-a8d8-426a-9687-9eb71aeb2966@www.fastmail.com>
+In-Reply-To: <1968156380.3538229.1556825858913.JavaMail.zimbra@raptorengineeringinc.com>
+References: <236762130.3394112.1556751009128.JavaMail.zimbra@raptorengineeringinc.com>
+ <128da9c8-d138-47b9-b323-b845bd93ca2f@www.fastmail.com>
+ <1991472336.3446950.1556778801333.JavaMail.zimbra@raptorengineeringinc.com>
+ <e2388fbc-e664-4338-a0f5-d34a3621c3fb@www.fastmail.com>
+ <1968156380.3538229.1556825858913.JavaMail.zimbra@raptorengineeringinc.com>
+Date: Thu, 02 May 2019 20:36:44 -0400
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Timothy Pearson" <tpearson@raptorengineering.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>
-Subject: Re: [PATCH 2/2] drm/aspeed: Add DVO output option to GFX driver
+To: "Timothy Pearson" <tpearson@raptorengineering.com>
+Subject: =?UTF-8?Q?Re:_[PATCH_3/3]_aspeed/pinctrl:_Fix_simultaneous_DVO_and_seria?=
+ =?UTF-8?Q?l_outputs_on_AST2500_devices?=
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -88,175 +92,119 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
 
-On Fri, 3 May 2019, at 07:21, Timothy Pearson wrote:
-> The AST2500 offers an alternate GFX output mode over DVO.
-> Enable DVO or VGA output mode conditionally based on two new
-> device tree properties, output-vga and output-dvo.
-
-You can't add properties without updating the bindings documentation.
-Please fix this, and make sure to Cc the devicetree maintainers
-(./scripts/get_maintainer.pl).
-
+On Fri, 3 May 2019, at 05:07, Timothy Pearson wrote:
 > 
-> Signed-off-by: Timothy Pearson <tpearson@raptorengineering.com>
-> ---
->  drivers/gpu/drm/aspeed/aspeed_gfx.h      |  6 ++++++
->  drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c | 29 +++++++++++++++++++++++------
->  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c  | 17 ++++++++++++++++-
->  3 files changed, 45 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx.h 
-> b/drivers/gpu/drm/aspeed/aspeed_gfx.h
-> index b34c97613aaf..6f9bc01191c0 100644
-> --- a/drivers/gpu/drm/aspeed/aspeed_gfx.h
-> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx.h
-> @@ -14,6 +14,8 @@ struct aspeed_gfx {
->  	struct drm_simple_display_pipe	pipe;
->  	struct drm_connector		connector;
->  	struct drm_fbdev_cma		*fbdev;
-> +
-> +	u8				output_mode;
->  };
->  
->  int aspeed_gfx_create_pipe(struct drm_device *drm);
-> @@ -105,3 +107,7 @@ int aspeed_gfx_create_output(struct drm_device *drm);
->  
->  /* Default Threshold Seting */
->  #define G5_CRT_THROD_VAL	(CRT_THROD_LOW(0x24) | CRT_THROD_HIGH(0x3C))
-> +
-> +/* Output mode */
-> +#define OUTPUT_VGA	0x1
-> +#define OUTPUT_DVO	0x2
-> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c 
-> b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-> index 15db9e426ec4..ee16f9011d70 100644
-> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-> @@ -1,5 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  // Copyright 2018 IBM Corporation
-> +// Copyright 2019 Raptor Engineering, LLC
->  
->  #include <linux/clk.h>
->  #include <linux/reset.h>
-> @@ -59,11 +60,21 @@ static void aspeed_gfx_enable_controller(struct 
-> aspeed_gfx *priv)
->  	u32 ctrl1 = readl(priv->base + CRT_CTRL1);
->  	u32 ctrl2 = readl(priv->base + CRT_CTRL2);
->  
-> -	/* SCU2C: set DAC source for display output to Graphics CRT (GFX) */
-> -	regmap_update_bits(priv->scu, 0x2c, BIT(16), BIT(16));
-> +	if (priv->output_mode & OUTPUT_VGA) {
-> +		/* SCU2C: set DAC source for display output to Graphics CRT (GFX) */
-> +		regmap_update_bits(priv->scu, 0x2c, BIT(16), BIT(16));
-> +	}
-> +	if (priv->output_mode & OUTPUT_DVO) {
-> +		/* SCU2C: set DVO source for display output to Graphics CRT (GFX) */
-> +		regmap_update_bits(priv->scu, 0x2c, BIT(18), BIT(18));
-> +	}
->  
->  	writel(ctrl1 | CRT_CTRL_EN, priv->base + CRT_CTRL1);
-> -	writel(ctrl2 | CRT_CTRL_DAC_EN, priv->base + CRT_CTRL2);
-> +
-> +	if (priv->output_mode & OUTPUT_VGA)
-> +		writel(ctrl2 | CRT_CTRL_DAC_EN, priv->base + CRT_CTRL2);
-> +	if (priv->output_mode & OUTPUT_DVO)
-> +		writel(ctrl2 | CRT_CTRL_DVO_EN, priv->base + CRT_CTRL2);
+> ----- Original Message -----
+> > From: "Andrew Jeffery" <andrew@aj.id.au>
+> > To: "Timothy Pearson" <tpearson@raptorengineering.com>
+> > Cc: "linux-aspeed" <linux-aspeed@lists.ozlabs.org>, "Ryan Chen" <ryan_chen@aspeedtech.com>
+> > Sent: Thursday, May 2, 2019 1:40:39 AM
+> > Subject: Re: [PATCH 3/3] aspeed/pinctrl: Fix simultaneous DVO and serial outputs on AST2500 devices
+> 
+> > On Thu, 2 May 2019, at 16:03, Timothy Pearson wrote:
+> >> 
+> >> 
+> >> ----- Original Message -----
+> >> > From: "Andrew Jeffery" <andrew@aj.id.au>
+> >> > To: "Timothy Pearson" <tpearson@raptorengineering.com>, "linux-aspeed"
+> >> > <linux-aspeed@lists.ozlabs.org>, "Ryan Chen"
+> >> > <ryan_chen@aspeedtech.com>
+> >> > Sent: Thursday, May 2, 2019 12:51:00 AM
+> >> > Subject: Re: [PATCH 3/3] aspeed/pinctrl: Fix simultaneous DVO and serial outputs
+> >> > on AST2500 devices
+> >> 
+> >> > On Thu, 2 May 2019, at 08:20, Timothy Pearson wrote:
+> >> >> There appears to be a significant error in the pinmux table starting on
+> >> >> page 127 of the AST2500 datasheet v1.6.  Specifically, the COND2 (DVO)
+> >> >> requirement is incorrectly applied to multiple digital video input (DVI)
+> >> >> muxed pins, and no DVI-specific condition is provided.  This results in
+> >> >> the serial devices incorrectly overriding the DVO pinmuxes and disabling
+> >> >> the DVO pins.
+> >> >> 
+> >> >> Create a new condition code (COND6) for DVI enable, and update the most
+> >> >> seriously affected pins to use the new condition code.
+> >> >> 
+> >> >> Signed-off-by: Timothy Pearson <tpearson@raptorengineering.com>
+> >> >> ---
+> >> >>  drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c | 17 +++++++++--------
+> >> >>  1 file changed, 9 insertions(+), 8 deletions(-)
+> >> >> 
+> >> >> diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+> >> >> b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+> >> >> index 6f357a11e89a..676f90d3c5f3 100644
+> >> >> --- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+> >> >> +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+> >> >> @@ -29,6 +29,7 @@
+> >> >>  
+> >> >>  #define COND1		{ ASPEED_IP_SCU, SCU90, BIT(6), 0, 0 }
+> >> >>  #define COND2		{ ASPEED_IP_SCU, SCU94, GENMASK(1, 0), 0, 0 }
+> >> >> +#define COND6		{ ASPEED_IP_SCU, SCU90, GENMASK(5, 4), 0, 0 }
+> >> >>  
+> >> >>  /* LHCR0 is offset from the end of the H8S/2168-compatible registers */
+> >> >>  #define LHCR0		0x20
+> >> >> @@ -660,8 +661,8 @@ SSSF_PIN_DECL(T2, GPIOL0, NCTS1, SIG_DESC_SET(SCU84, 16));
+> >> >>  
+> >> >>  #define T1 89
+> >> >>  #define T1_DESC		SIG_DESC_SET(SCU84, 17)
+> >> >> -SIG_EXPR_LIST_DECL_SINGLE(VPIDE, VPI24, VPI_24_RSVD_DESC, T1_DESC, COND2);
+> >> >> -SIG_EXPR_LIST_DECL_SINGLE(NDCD1, NDCD1, T1_DESC, COND2);
+> >> >> +SIG_EXPR_LIST_DECL_SINGLE(VPIDE, VPI24, VPI_24_RSVD_DESC, T1_DESC, COND6);
+> >> >> +SIG_EXPR_LIST_DECL_SINGLE(NDCD1, NDCD1, T1_DESC, COND6);
+> >> > 
+> >> > I feel like you didn't test this patch, because VPI_24_RSVD_DESC (the DVI
+> >> > condition)
+> >> > requires SCU90[5]=0b1, but your introduction of COND6 requires SCU90[5:4]=0b00
+> >> > for
+> >> > the mux configuration to succeed. This can't work - bit 5 of SCU90 can not
+> >> > simultaneously take the values 1 and 0.
+> >> 
+> >> That's correct -- I don't have hardware that supports DVI available to
+> >> test with.
+> > 
+> > Okay. In that case I'm not prepared to ACK changes here, much less changes with
+> > that fail in this way. The current implementation at least follows what is
+> > dictated by
+> > the programming guide and is at least correct in theory.
+> > 
+> > As Ryan is not confident there are no negative side-effects to not following the
+> > configuration dictated by the programming guide, changes like this have a real
+> > up-hill battle on their hands.
+> > 
+> > Cheers,
+> > 
+> > Andrew
+> 
+> There is a negative effect right now in that enabling either UART will 
+> force disable the DVO pinmuxes.  While I agree the patch needs 
+> additional work, as it stands right now DVO will not function 
+> simultaneously with the UART without a patched kernel.
+> 
+> From where I stand I am fairly confident in a documentation error, 
+> however I do not have access to the hardware required to prove this.  
+> Can someone at ASpeed look at the HDL and verify or correct the 
+> documentation?  We have already caught one documentation error relating 
+> to COND2 and DVO, and verified that one in hardware.
 
-I'm mildly concerned about the use of writel() given that the GFX MMIO region
-is covered by a regmap to assist pinmux.
+Right - it's odd that there's a dependency on COND2 when COND2 relates to
+VPO, but the pins in question are VPI pins, and you're not interested in VPI.
 
-Joel, can you expand on this? I know you're not a fan of regmap, but IMO we
-should be consistent.
+Ryan and I have spoken about it but he's deferred to the designer's opinion
+which is that we should follow what's specified in the datasheet.
 
-$ git grep CRT_CTRL2 -- drivers/gpu/drm/aspeed/
-drivers/gpu/drm/aspeed/aspeed_gfx.h:#define CRT_CTRL2           0x64 /* CRT Control II */
-drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c:       u32 ctrl2 = readl(priv->base + CRT_CTRL2);
-drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c:       writel(ctrl2 | CRT_CTRL_DAC_EN, priv->base + CRT_CTRL2);
-drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c:       u32 ctrl2 = readl(priv->base + CRT_CTRL2);
-drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c:       writel(ctrl2 & ~CRT_CTRL_DAC_EN, priv->base + CRT_CTRL2);
-drivers/gpu/drm/aspeed/aspeed_gfx_drv.c:        writel(0, priv->base + CRT_CTRL2);
+Given the complexity of the pinmux I'm going to set the bar for accepting these
+patches at "you need to convince Aspeed to correct the programming guide".
+I understand that might be annoying, but I need to be conservative to cater to
+the stability of everyone's use-cases, and not just accept patches contrary to the
+datasheet to enable your "conflicting" design. I appreciate that your experiments
+indicate the datasheet is misleading in some circumstances, but let's get Aspeed
+on board with that.
 
 Andrew
-
->  }
->  
->  static void aspeed_gfx_disable_controller(struct aspeed_gfx *priv)
-> @@ -72,9 +83,15 @@ static void aspeed_gfx_disable_controller(struct 
-> aspeed_gfx *priv)
->  	u32 ctrl2 = readl(priv->base + CRT_CTRL2);
->  
->  	writel(ctrl1 & ~CRT_CTRL_EN, priv->base + CRT_CTRL1);
-> -	writel(ctrl2 & ~CRT_CTRL_DAC_EN, priv->base + CRT_CTRL2);
-> -
-> -	regmap_update_bits(priv->scu, 0x2c, BIT(16), 0);
-> +	if (priv->output_mode & OUTPUT_VGA)
-> +		writel(ctrl2 & ~CRT_CTRL_DAC_EN, priv->base + CRT_CTRL2);
-> +	if (priv->output_mode & OUTPUT_DVO)
-> +		writel(ctrl2 & ~CRT_CTRL_DVO_EN, priv->base + CRT_CTRL2);
-> +
-> +	if (priv->output_mode & OUTPUT_VGA)
-> +		regmap_update_bits(priv->scu, 0x2c, BIT(16), 0);
-> +	if (priv->output_mode & OUTPUT_DVO)
-> +		regmap_update_bits(priv->scu, 0x2c, BIT(18), 0);
->  }
->  
->  static void aspeed_gfx_crtc_mode_set_nofb(struct aspeed_gfx *priv)
-> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c 
-> b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> index 7e9072fd0ef0..17a22dd0922a 100644
-> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> @@ -1,5 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  // Copyright 2018 IBM Corporation
-> +// Copyright 2019 Raptor Engineering, LLC
->  
->  #include <linux/clk.h>
->  #include <linux/dma-mapping.h>
-> @@ -50,7 +51,8 @@
->   * is the ARM's internal display controller.
->   *
->   * The driver only supports a simple configuration consisting of a 40MHz
-> - * pixel clock, fixed by hardware limitations, and the VGA output path.
-> + * pixel clock, fixed by hardware limitations.  It supports DVO output
-> + * mode as well based on device tree configuration.
->   *
->   * The driver was written with the 'AST2500 Software Programming Guide' v17,
->   * which is available under NDA from ASPEED.
-> @@ -95,6 +97,7 @@ static irqreturn_t aspeed_gfx_irq_handler(int irq, void *data)
->  static int aspeed_gfx_load(struct drm_device *drm)
->  {
->  	struct platform_device *pdev = to_platform_device(drm->dev);
-> +	struct device_node *nc = drm->dev->of_node;
->  	struct aspeed_gfx *priv;
->  	struct resource *res;
->  	int ret;
-> @@ -145,6 +148,18 @@ static int aspeed_gfx_load(struct drm_device *drm)
->  	}
->  	clk_prepare_enable(priv->clk);
->  
-> +	if (of_property_read_bool(nc, "output-vga"))
-> +		priv->output_mode |= OUTPUT_VGA;
-> +	else if (of_property_read_bool(nc, "output-dvo"))
-> +		priv->output_mode |= OUTPUT_DVO;
-> +	else
-> +		priv->output_mode = OUTPUT_VGA;
-> +
-> +	if (priv->output_mode & OUTPUT_VGA)
-> +		DRM_INFO("Enabling VGA output\n");
-> +	if (priv->output_mode & OUTPUT_DVO)
-> +		DRM_INFO("Enabling DVO output\n");
-> +
->  	/* Sanitize control registers */
->  	writel(0, priv->base + CRT_CTRL1);
->  	/* Preserve CRT_CTRL2[7:6] (DVO configuration) */
-> -- 
-> 2.11.0
->
