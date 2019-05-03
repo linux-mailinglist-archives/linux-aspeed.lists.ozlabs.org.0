@@ -1,82 +1,117 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1376C129B2
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 May 2019 10:18:37 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 44wQ4p436MzDqcK
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 May 2019 18:18:34 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05FFB1336D
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 May 2019 19:55:59 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 44wftz6px2zDqnx
+	for <lists+linux-aspeed@lfdr.de>; Sat,  4 May 2019 03:55:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=linaro.org
- (client-ip=2a00:1450:4864:20::444; helo=mail-wr1-x444.google.com;
- envelope-from=daniel.lezcano@linaro.org; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=fb.com
+ (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
+ envelope-from=prvs=0026a40fa9=vijaykhemka@fb.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.b="KOwMT0Cl"; 
- dkim-atps=neutral
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=pass (p=none dis=none) header.from=fb.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=fb.com header.i=@fb.com header.b="BDuS+z8e"; 
+ dkim=pass (1024-bit key;
+ unprotected) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com
+ header.b="VowosDDT"; dkim-atps=neutral
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
+ [67.231.145.42])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 44wPmx1HLxzDqpr
- for <linux-aspeed@lists.ozlabs.org>; Fri,  3 May 2019 18:04:48 +1000 (AEST)
-Received: by mail-wr1-x444.google.com with SMTP id s15so6567112wra.12
- for <linux-aspeed@lists.ozlabs.org>; Fri, 03 May 2019 01:04:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TpXqJQI7PVBHDytg+IGA8i8m1/XYj0MrND3X98mgWRU=;
- b=KOwMT0Cl9efaAA08+DXGflf+klv1sSVEHKxtGUL+CBB2gxt07xyd+GyRUCCFVKzsBF
- vKFUzaTq0/DOqlmb39mbYs9iH9RkOcgL/KAAeaSaMlUscaGj/bjbj+P1qApNVwESdscJ
- g+1LJrqUlO8vcWihy8sZ39L1L6LS1ajt0o5fzIYYJaQhvca+WfuJGXFbdFR2rcym4b4t
- zBYkf1Llb/Z3r2f2Mqm8DStMLgaZcHBFBYpuH2Uow5/FZOaBijtEgoGFhaFs2w3Lbcsf
- fUx7d6Qd9AwY90DycZfziK6toE6kMAjg8Mx+cK1CNVyDwdMXuzYcxD1e3vRmAV6UcGSV
- 1pBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TpXqJQI7PVBHDytg+IGA8i8m1/XYj0MrND3X98mgWRU=;
- b=ajr0yjYwIlh56P7yqDul/IYQAVR0EigTgDoJmr7Q2H7oZc/stNYq4dhqlGT+dLpLzs
- ce8HTtwDIZG35hxy9t3IilWx3TFH4PUvNmGRkcn/NZoyx5X81W0MV8XJUik7IWAl5kut
- waWrS6cZ3hFJHy/PY1GaGaXsxXFHRE442VOxunoL4myBow/h6DA0TiqSPZaDbAxQ9Nk4
- fxFJvJzrgpOOkQ8tZoTykdGbXctGn7tE8j6z8Tzbepuwc17u4gQqXg9Ve6IG4AHClyKj
- AV5uDHjawjux3AVfZzYIWt+0iHBgAe198RWiaoYJmtNnsJSDmnifjFCXuv4nSz+QN4nv
- I4WA==
-X-Gm-Message-State: APjAAAVzXf5Q1NhxOmd2K1V/msyfJqI7gMgT0PMkxIr6OOgKlKpE0D0b
- MLbAww7MMo3F/lmFYC9SdAVXjQ==
-X-Google-Smtp-Source: APXvYqzRH5TpkdzGloadzIxAtQZsM2JgxqfDy9oibY2Qrd4ctA1Tpc85qqJ9ZfJamG8tTMt5Vi3YIQ==
-X-Received: by 2002:a5d:430f:: with SMTP id h15mr5756534wrq.132.1556870681778; 
- Fri, 03 May 2019 01:04:41 -0700 (PDT)
-Received: from [192.168.0.41] (223.235.129.77.rev.sfr.net. [77.129.235.223])
- by smtp.googlemail.com with ESMTPSA id k1sm1159060wmi.48.2019.05.03.01.04.39
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 03 May 2019 01:04:41 -0700 (PDT)
-Subject: Re: [PATCH 1/6] thermal: Introduce
- devm_thermal_of_cooling_device_register
-To: Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
- linux-pm@vger.kernel.org
-References: <1555617500-10862-1-git-send-email-linux@roeck-us.net>
- <1555617500-10862-2-git-send-email-linux@roeck-us.net>
- <20190501164843.GA16333@roeck-us.net>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <c8a26b7d-2775-e13f-21b7-dbc901ea3b0b@linaro.org>
-Date: Fri, 3 May 2019 10:04:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190501164843.GA16333@roeck-us.net>
-Content-Type: text/plain; charset=utf-8
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44wftr2qh6zDqmf
+ for <linux-aspeed@lists.ozlabs.org>; Sat,  4 May 2019 03:55:44 +1000 (AEST)
+Received: from pps.filterd (m0044008.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x43HnTrd003674; Fri, 3 May 2019 10:55:28 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=facebook;
+ bh=T1+PyZlfOY456C8gUfUETJ3a+G1Xz0PR2jZAEOHF0Og=;
+ b=BDuS+z8e3KLtZb/ojhZJpiLJlSKOY/WwZl7KYS9Bsm/Uz5AHixAM1mwugWI+8cG6D24Y
+ aohg3P+3Lq1Z/NpoWsA4a3rV562bXUlVGESvrptX9Cb/KHogO+YhTG6i3wA8xtMxNhBF
+ TpRbu+GrLvgYF+Jd7OLkTGrPxFTP0KR/pYY= 
+Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
+ by mx0a-00082601.pphosted.com with ESMTP id 2s8r2q0gu6-9
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+ Fri, 03 May 2019 10:55:28 -0700
+Received: from prn-hub03.TheFacebook.com (2620:10d:c081:35::127) by
+ prn-hub04.TheFacebook.com (2620:10d:c081:35::128) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.1713.5; Fri, 3 May 2019 10:55:10 -0700
+Received: from NAM01-SN1-obe.outbound.protection.outlook.com (192.168.54.28)
+ by o365-in.thefacebook.com (192.168.16.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.1.1713.5
+ via Frontend Transport; Fri, 3 May 2019 10:55:10 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector1-fb-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T1+PyZlfOY456C8gUfUETJ3a+G1Xz0PR2jZAEOHF0Og=;
+ b=VowosDDToVtJWx4hdqdCzyfADYjKVDhXPjD5BbxVaceGTSLIjUrz3MMR1ZjcBDUg4FLMMZfU9gi6V7y904ODNE50n6Es7OwtW9Mtu1JfJM95ntwoVT9gLDbOr63L1u8yyc1hYBEayswDZZJjBDsSW4n3YKghhcsY3C0GWlbVc6k=
+Received: from CY4PR15MB1269.namprd15.prod.outlook.com (10.172.177.11) by
+ CY4PR15MB1174.namprd15.prod.outlook.com (10.172.176.150) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1856.11; Fri, 3 May 2019 17:55:09 +0000
+Received: from CY4PR15MB1269.namprd15.prod.outlook.com
+ ([fe80::1039:c5b1:f43e:14e9]) by CY4PR15MB1269.namprd15.prod.outlook.com
+ ([fe80::1039:c5b1:f43e:14e9%3]) with mapi id 15.20.1856.012; Fri, 3 May 2019
+ 17:55:09 +0000
+From: Vijay Khemka <vijaykhemka@fb.com>
+To: Andrew Jeffery <andrew@aj.id.au>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] misc: aspeed-lpc-ctrl: Correct return values
+Thread-Topic: [PATCH] misc: aspeed-lpc-ctrl: Correct return values
+Thread-Index: AQHVAG6o4KVG8sqx1k+1toi7Kc7idaZXYvaAgAACkQCAAdbzAA==
+Date: Fri, 3 May 2019 17:55:08 +0000
+Message-ID: <84663B1E-0FD1-4B71-A49C-AB70110CB8A0@fb.com>
+References: <20190501223836.1670096-1-vijaykhemka@fb.com>
+ <20190502064021.GA14911@kroah.com>
+ <6defa7bc-ec29-4418-b05c-fb96c03621f6@www.fastmail.com>
+In-Reply-To: <6defa7bc-ec29-4418-b05c-fb96c03621f6@www.fastmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [2620:10d:c090:200::1:64bc]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 41b6dcf0-260e-48ef-9ad1-08d6cff07b8d
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);
+ SRVR:CY4PR15MB1174; 
+x-ms-traffictypediagnostic: CY4PR15MB1174:
+x-microsoft-antispam-prvs: <CY4PR15MB11742C05CBC5A74EC137413DDD350@CY4PR15MB1174.namprd15.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 0026334A56
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(376002)(346002)(396003)(39860400002)(366004)(199004)(189003)(54534003)(68736007)(81166006)(8676002)(6506007)(33656002)(6486002)(256004)(53936002)(229853002)(6436002)(81156014)(478600001)(6116002)(8936002)(7736002)(305945005)(6246003)(36756003)(186003)(6512007)(2616005)(14454004)(4326008)(25786009)(66946007)(73956011)(5660300002)(91956017)(76116006)(66446008)(64756008)(66556008)(66476007)(2906002)(82746002)(102836004)(71200400001)(86362001)(54906003)(316002)(99286004)(76176011)(486006)(446003)(11346002)(71190400001)(476003)(46003)(110136005)(83716004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR15MB1174;
+ H:CY4PR15MB1269.namprd15.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 64lekfhQtxv2fSur7zSLlQP/F35x2lVEYy0chf1qQPMxdmx0Pg//Ll0uzW73crfUb2VHHzngClTAzvK6Ui6MbGhW5yv2/HB4xf1XZBrshwgh6TZJOLfjRmoPt35f2RmumCcM6EHVUC4ycCbD3ZmmlCSxB/FpKjKANZkJpOF0f2LVO7OnzZc/DFHG0QKKtF9g5MzBWwND9KlYRBDn4EezYOeoD05bjkwVvk90sqWo60xFmwYewJz4WD3u4ciiFaonRq642sWam0TidcZ7oyqoZgG6E/sEoCy898uzTDqyHYJwYFop1w9MnnU7s/o0Sbikf+sKNQSKHwjv5aPfJPnuaVjq5fqEjM3zYJv8Cfy/+/PgikoXj9+JOcI4LpZd1fXF7Rv0oSy9MV2glFB08xx7vmOUrrXgInqWCjMW2lOs92M=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D153A408E414AE49AE218F82F088A8C1@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41b6dcf0-260e-48ef-9ad1-08d6cff07b8d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 May 2019 17:55:08.9490 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR15MB1174
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-05-03_11:, , signatures=0
+X-Proofpoint-Spam-Reason: safe
+X-FB-Internal: Safe
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,45 +123,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Jean Delvare <jdelvare@suse.com>, Tomer Maimon <tmaimon77@gmail.com>,
- Nancy Yuen <yuenn@google.com>, Patrick Venture <venture@google.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Kamil Debski <kamil@wypas.org>, Tali Perry <tali.perry1@gmail.com>,
- Eduardo Valentin <edubezval@gmail.com>, Avi Fishman <avifishman70@gmail.com>,
- Zhang Rui <rui.zhang@intel.com>
+Cc: Sai Dasari <sdasari@fb.com>, Arnd Bergmann <arnd@arndb.de>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 01/05/2019 18:48, Guenter Roeck wrote:
-> On Thu, Apr 18, 2019 at 12:58:15PM -0700, Guenter Roeck wrote:
->> thermal_of_cooling_device_register() and thermal_cooling_device_register()
->> are typically called from driver probe functions, and
->> thermal_cooling_device_unregister() is called from remove functions. This
->> makes both a perfect candidate for device managed functions.
->>
->> Introduce devm_thermal_of_cooling_device_register(). This function can
->> also be used to replace thermal_cooling_device_register() by passing a NULL
->> pointer as device node. The new function requires both struct device *
->> and struct device_node * as parameters since the struct device_node *
->> parameter is not always identical to dev->of_node.
->>
->> Don't introduce a device managed remove function since it is not needed
->> at this point.
->>
-> 
-> Any feedback / thoughts / comments ?
-
-Hi Guenter,
-
-I have comments about your patch but I need some time to double check in
-the current code how the 'of' and 'devm' are implemented.
-
-
--- 
- <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
-
+DQoNCu+7v09uIDUvMS8xOSwgMTE6NDkgUE0sICJBbmRyZXcgSmVmZmVyeSIgPGFuZHJld0Bhai5p
+ZC5hdT4gd3JvdGU6DQoNCiAgICANCiAgICANCiAgICBPbiBUaHUsIDIgTWF5IDIwMTksIGF0IDE2
+OjEwLCBHcmVnIEtyb2FoLUhhcnRtYW4gd3JvdGU6DQogICAgPiBPbiBXZWQsIE1heSAwMSwgMjAx
+OSBhdCAwMzozODozNlBNIC0wNzAwLCBWaWpheSBLaGVta2Egd3JvdGU6DQogICAgPiA+IENvcnJl
+Y3RlZCBzb21lIG9mIHJldHVybiB2YWx1ZXMgd2l0aCBhcHByb3ByaWF0ZSBtZWFuaW5ncy4NCiAg
+ICA+ID4gDQogICAgPiA+IFNpZ25lZC1vZmYtYnk6IFZpamF5IEtoZW1rYSA8dmlqYXlraGVta2FA
+ZmIuY29tPg0KICAgID4gPiAtLS0NCiAgICA+ID4gIGRyaXZlcnMvbWlzYy9hc3BlZWQtbHBjLWN0
+cmwuYyB8IDE1ICsrKysrKystLS0tLS0tLQ0KICAgID4gPiAgMSBmaWxlIGNoYW5nZWQsIDcgaW5z
+ZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkNCiAgICA+ID4gDQogICAgPiA+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL21pc2MvYXNwZWVkLWxwYy1jdHJsLmMgYi9kcml2ZXJzL21pc2MvYXNwZWVkLWxw
+Yy1jdHJsLmMNCiAgICA+ID4gaW5kZXggMzMyMjEwZTA2ZTk4Li45N2FlMzQxMTA5ZDUgMTAwNjQ0
+DQogICAgPiA+IC0tLSBhL2RyaXZlcnMvbWlzYy9hc3BlZWQtbHBjLWN0cmwuYw0KICAgID4gPiAr
+KysgYi9kcml2ZXJzL21pc2MvYXNwZWVkLWxwYy1jdHJsLmMNCiAgICA+ID4gQEAgLTY4LDcgKzY4
+LDYgQEAgc3RhdGljIGxvbmcgYXNwZWVkX2xwY19jdHJsX2lvY3RsKHN0cnVjdCBmaWxlICpmaWxl
+LCB1bnNpZ25lZCBpbnQgY21kLA0KICAgID4gPiAgCQl1bnNpZ25lZCBsb25nIHBhcmFtKQ0KICAg
+ID4gPiAgew0KICAgID4gPiAgCXN0cnVjdCBhc3BlZWRfbHBjX2N0cmwgKmxwY19jdHJsID0gZmls
+ZV9hc3BlZWRfbHBjX2N0cmwoZmlsZSk7DQogICAgPiA+IC0Jc3RydWN0IGRldmljZSAqZGV2ID0g
+ZmlsZS0+cHJpdmF0ZV9kYXRhOw0KICAgID4gPiAgCXZvaWQgX191c2VyICpwID0gKHZvaWQgX191
+c2VyICopcGFyYW07DQogICAgPiA+ICAJc3RydWN0IGFzcGVlZF9scGNfY3RybF9tYXBwaW5nIG1h
+cDsNCiAgICA+ID4gIAl1MzIgYWRkcjsNCiAgICA+IA0KICAgID4gVGhpcyBjaGFuZ2UgaXMgbm90
+IHJlZmxlY3RlZCBpbiB5b3VyIGNoYW5nZWxvZyB0ZXh0IDooDQogICAgPiANCiAgICA+IFBsZWFz
+ZSBmaXggdXAsIG9yIGJyZWFrIHRoaXMgdXAgaW50byBtdWx0aXBsZSBwYXRjaGVzLg0KICAgIA0K
+ICAgIFRoZSByZXR1cm4gdmFsdWUgZml4ZXMgc2hvdWxkIGFsc28gYmUgc3F1YXNoZWQgaW50byB0
+aGUgcGF0Y2ggdGhhdCBpbnRyb2R1Y2VkIHRob3NlIGxpbmVzDQogICAgZ2l2ZW4gaXQgaGFzbid0
+IHlldCBiZWVuIGFwcGxpZWQuDQogICAgDQogICAgRnVydGhlciwgSUlSQyBJIHByZXZpb3VzbHkg
+c3VnZ2VzdGVkIHJlbW92aW5nIHRoZSBkZXZfZXJyKClzIGVudGlyZWx5LCBub3QganVzdCBzd2l0
+Y2hpbmcNCiAgICB0aGVtIHRvIHByX2VycigpLiBSZXR1cm5pbmcgYW4gZXJyb3IgY29kZSBpcyBl
+bm91Z2ggSU1PLCB0aGVyZSdzIG5vIG5lZWQgdG8gcG9sbHV0ZSB0aGUNCiAgICBrZXJuZWwgbG9n
+cyB3aXRoIGFwcGxpY2F0aW9uLWxldmVsIGVycm9ycy4gT3IgbWFrZSB0aGVtIGRldl9kYmcoKS4N
+Cg0KQWxyaWdodCwgSSB3aWxsIHJlcGxhY2Ugd2l0aCBkZXZfZGJnKCksIGluZm9ybWF0aW9uIGNh
+biBzdGlsbCBiZSBleHRyYWN0ZWQgYnkgdXNlciB3aXRoIGRlYnVnLg0KICAgIA0KICAgIEFuZHJl
+dw0KICAgIA0KICAgID4gDQogICAgPiBncmVnIGstaA0KICAgID4NCiAgICANCg0K
