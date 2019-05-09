@@ -1,46 +1,75 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF5218434
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 May 2019 05:43:57 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ABF0183A5
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 May 2019 04:17:15 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 44zxn44NL4zDqLp
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 May 2019 12:17:12 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 44zzj61xR7zDqM5
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 May 2019 13:43:54 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=permerror (mailfrom)
- smtp.mailfrom=kernel.crashing.org (client-ip=63.228.1.57;
- helo=gate.crashing.org; envelope-from=benh@kernel.crashing.org;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=kernel.crashing.org
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (mailfrom) smtp.mailfrom=fb.com
+ (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
+ envelope-from=prvs=0032c47d90=taoren@fb.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=fb.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=fb.com header.i=@fb.com header.b="i7532dnc"; 
+ dkim-atps=neutral
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
+ [67.231.145.42])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 44zxmw5pgWzDqJq
- for <linux-aspeed@lists.ozlabs.org>; Thu,  9 May 2019 12:17:04 +1000 (AEST)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x492Gja6014515;
- Wed, 8 May 2019 21:16:47 -0500
-Message-ID: <b682cc6a480f2b8a5e14c5c001fa1927467d4e18.camel@kernel.crashing.org>
-Subject: Re: [PATCH 1/7] media: aspeed: fix a kernel warning on clk control
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>, Eddie James
- <eajames@linux.ibm.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Joel
- Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
-Date: Thu, 09 May 2019 12:16:45 +1000
-In-Reply-To: <3786afed-c34d-e3f0-4cd5-620185807091@linux.intel.com>
-References: <20190502191317.29698-1-jae.hyun.yoo@linux.intel.com>
- <20190502191317.29698-2-jae.hyun.yoo@linux.intel.com>
- <1ec7397cb164b40877839bbc90f79b5942675fdb.camel@kernel.crashing.org>
- <6e93467e-1556-3cfd-b15c-c12b6907f526@linux.intel.com>
- <3b4269d829467870f0b6adac18089b93114fcd3c.camel@kernel.crashing.org>
- <3786afed-c34d-e3f0-4cd5-620185807091@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+ by lists.ozlabs.org (Postfix) with ESMTPS id 44zzhz3ckjzDqKT
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  9 May 2019 13:43:42 +1000 (AEST)
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x493dbRC003287
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 8 May 2019 20:43:39 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=facebook;
+ bh=2Xq1fZbSGx7sGAlCfhWxlUKOgKugdwrzKDQf0B0Gy7o=;
+ b=i7532dnch13vYyLG1dGVBG7jjVx1rTKFZ6aWW6ohde7ET6fwUSYFs8gux3GB1lajxhaT
+ 0QQD490sewPMEpZL00kdsck+KG9aNjcEVNP/lMbr+Lmg4yDUqO4VXv+WCBoM2QxCGHlQ
+ Z43JqssVvU/c4TOl5ehng0bu2svtqIAPWA4= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by mx0a-00082601.pphosted.com with ESMTP id 2scbsy03sj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 08 May 2019 20:43:38 -0700
+Received: from mx-out.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:82::f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 8 May 2019 20:43:37 -0700
+Received: by devvm24792.prn1.facebook.com (Postfix, from userid 150176)
+ id A5EDA14791B0E; Wed,  8 May 2019 20:43:36 -0700 (PDT)
+Smtp-Origin-Hostprefix: devvm
+From: Tao Ren <taoren@fb.com>
+Smtp-Origin-Hostname: devvm24792.prn1.facebook.com
+To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+ <openbmc@lists.ozlabs.org>
+Smtp-Origin-Cluster: prn1c35
+Subject: [PATCH] ARM: dts: aspeed: cmm: enable ehci host controllers
+Date: Wed, 8 May 2019 20:43:34 -0700
+Message-ID: <20190509034334.2165789-1-taoren@fb.com>
+X-Mailer: git-send-email 2.17.1
+X-FB-Internal: Safe
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-05-09_02:, , signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=744 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1905090022
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,39 +81,33 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 2019-05-08 at 18:19 -0700, Jae Hyun Yoo wrote:
-> I changed that from a bool because the maintainer of this code, Eddie
-> doesn't like adding of an additional flag. I'll change it back with
-> codes in the first submit:
-> https://www.spinics.net/lists/linux-media/msg148955.html
-> 
-> Eddie,
-> Please let me know if you have any objection on that.
+Enable ehci0 and ehci1 USB host controllers on Facebook Backpack CMM BMC.
 
-Ok, so random flags ... ugh.
+Signed-off-by: Tao Ren <taoren@fb.com>
+---
+ arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Well, you can approach it either way. Have them all be bitops or all be
-bool.
-
-The tricky thing however is that if they are bitops you need to ensure
-that they are *all* manipulated under the same lock. If not you have to
-use the atomic bitops variants.
-
-The reason I don't like that is that experience shows that most uses of
-such atomic variants in drivers usually are failed attempts at papering
-over broken locking.
-
-If everything is covered by a lock, then using the non-atomic versions
-is more efficient, but so is using bool (optionally with :1 bitfield
-qualifiers to avoid wasting memory), which from a pure C language
-perspective I think is more expressive of what you are doing and more
-readable.
-
-Cheers,
-Ben.
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts
+index 43aba4071a5c..d519d307aa2a 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts
+@@ -372,3 +372,11 @@
+ &adc {
+ 	status = "okay";
+ };
++
++&ehci0 {
++	status = "okay";
++};
++
++&ehci1 {
++	status = "okay";
++};
+-- 
+2.17.1
 
