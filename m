@@ -2,79 +2,123 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 705B51A966
-	for <lists+linux-aspeed@lfdr.de>; Sat, 11 May 2019 22:23:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D8212FE6D
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 16:51:37 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 451dnL4y9QzDqM0
-	for <lists+linux-aspeed@lfdr.de>; Sun, 12 May 2019 06:23:18 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45F9Wp5zkMzDqWf
+	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2019 00:51:34 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::543; helo=mail-pg1-x543.google.com;
- envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=samsung.com
+ (client-ip=210.118.77.11; helo=mailout1.w1.samsung.com;
+ envelope-from=m.szyprowski@samsung.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="aM7dbPPs"; 
+ dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=samsung.com header.i=@samsung.com header.b="T1u5t3p/"; 
  dkim-atps=neutral
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+X-Greylist: delayed 573 seconds by postgrey-1.36 at bilbo;
+ Tue, 21 May 2019 01:31:03 AEST
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 451dmN1w9YzDqK6;
- Sun, 12 May 2019 06:22:27 +1000 (AEST)
-Received: by mail-pg1-x543.google.com with SMTP id t187so4666245pgb.13;
- Sat, 11 May 2019 13:22:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rLgXhVsDP/RzKSE+JdEI3qNT7K7MffBqtup5zZ8tHdc=;
- b=aM7dbPPsnspFks6phirtx9698Y0IsGto7C9UDT80WCowD101CpiPlyueVSOOSS4CfY
- rdUXmIGf4U5p2oHyI40ORwkVJPk6jMXUTME3sGn3ON5ZQ+XFLYiVN+Eu/fi6/9uZvkj5
- zRXR0e0BIzU6PM4HHEoI9hzRCtbvzL2zjiChylaRXSgxQw0UUV9NEL0sT1Ni0VDzhobJ
- BDqJEqRykfDS+779cLnXsMw+PlrBrlnoS7Ky8uYGGxYLiZNAtOfz2pMnhxNYIcuuAilI
- PQ+w3eqQj1Ju11J8TzECeV+wFqWMtZNpKrJ5OyEZHqZkmn3Zg70vXcdBYXtIItkdSiHv
- kJ3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rLgXhVsDP/RzKSE+JdEI3qNT7K7MffBqtup5zZ8tHdc=;
- b=ehB1VsFFnKksNLsCdugAD7zrVjYIJ3zZACbm8FgG2OuXwc8CfhdcXjwsWbAvf3n4rf
- UBmvcqkIf5meyCWqFi+okwnAnUkVwLjzwJIxEqskB0FBf+7gravniCPs403/7YlqLZck
- hAMB2G548pNVuejplM2keAl1YfzuCPRAFo0HFOWIrJYzgj/mPJUQViUhl5ANN2NRUtFl
- N5TWpqougwAqIUJZWDaIXPohDv2MVeXgXMAVbkdtk+io6jKAN7X/6peYY0Y8iW3vUoY2
- 6PoQh5SPfCY4sGTAeshF3Yv6d3x+Dyuxflfd5FHXvUtMoHlOGgK6QhxLjXBeReG6C5rE
- vU1A==
-X-Gm-Message-State: APjAAAW2wgfJS0P0gZ+czyJQgtYIVONfiSlZVkVogMGnTeNv7AlMqgCT
- AWgkRnpSFFbgF5q6dGOfd8c=
-X-Google-Smtp-Source: APXvYqw7yzV+NDnCGKPsyV6bDr4MyF9Eb869MU13gsl+ZlVdT1mderC/okBMSyIxf8Ec3QlKhM5xhQ==
-X-Received: by 2002:a65:6658:: with SMTP id z24mr22907719pgv.323.1557606144344; 
- Sat, 11 May 2019 13:22:24 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- c23sm22145201pfp.0.2019.05.11.13.22.20
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 11 May 2019 13:22:22 -0700 (PDT)
-Subject: Re: [PATCH 1/6] thermal: Introduce
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4572sz17yHzDqBY
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 21 May 2019 01:31:02 +1000 (AEST)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20190520152124euoutp01c30e7a4cfd4f1af02d99d22468a2db81~gbVV5G5ey0461204612euoutp013
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 20 May 2019 15:21:24 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20190520152124euoutp01c30e7a4cfd4f1af02d99d22468a2db81~gbVV5G5ey0461204612euoutp013
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1558365684;
+ bh=J1X4EmSFet1xv1ATf3YAc3lureile2lYrE0P/YhGX7g=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=T1u5t3p/vPH5x7HndiEO4Lc6+hgzyEopHOEA4thww3VK7imn4XQPBm2+s3KMwxD5i
+ Uvdx7yHZwL+8NALuyTSG3y4H5ltBLocsl3XGqISGUxTjWbfO+KL0qsYOPOuNTZnj/3
+ rEHoRzxXW3gNv+G90k5OU5Dtd36YPZG2UmHlVPps=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20190520152124eucas1p1971851798a6267dea61f3ce69999c31f~gbVVH26vB2063020630eucas1p1p;
+ Mon, 20 May 2019 15:21:24 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 11.25.04325.3F5C2EC5; Mon, 20
+ May 2019 16:21:23 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20190520152123eucas1p1b4ea0e5743585885ba0dcbe5e6a8fd92~gbVUX8yHJ2147521475eucas1p1l;
+ Mon, 20 May 2019 15:21:23 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20190520152123eusmtrp1f6885226016ac0595cef3d27081b1944~gbVUJsNF52462924629eusmtrp1i;
+ Mon, 20 May 2019 15:21:23 +0000 (GMT)
+X-AuditID: cbfec7f5-b75ff700000010e5-ae-5ce2c5f3d2f5
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 48.F9.04140.2F5C2EC5; Mon, 20
+ May 2019 16:21:22 +0100 (BST)
+Received: from [106.120.50.25] (unknown [106.120.50.25]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20190520152122eusmtip2017c6ac5b995989fe3f57058f874c320~gbVTK5E6D0640106401eusmtip2M;
+ Mon, 20 May 2019 15:21:21 +0000 (GMT)
+Subject: Re: [PATCH 6/6] hwmon: (pwm-fan) Use
  devm_thermal_of_cooling_device_register
-To: Eduardo Valentin <edubezval@gmail.com>
-References: <1555617500-10862-1-git-send-email-linux@roeck-us.net>
- <1555617500-10862-2-git-send-email-linux@roeck-us.net>
- <20190511190415.GA22816@localhost.localdomain>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <4be54a9c-ccc9-5489-6938-c66229d361b3@roeck-us.net>
-Date: Sat, 11 May 2019 13:22:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+To: Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+ linux-pm@vger.kernel.org
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <a2a41672-4345-15fa-5fc1-87ca6dc575a0@samsung.com>
+Date: Mon, 20 May 2019 17:21:20 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190511190415.GA22816@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <1555617500-10862-7-git-send-email-linux@roeck-us.net>
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sf0yMcRz2vfe9995a175d6LMoc0OyiWJ8N9aYbO/6w/jDMmUcXtXUZXeV
+ QlNKtevHEqvr0C+WFsmdRFeR6JdU0o+FWuE2+mV0EUl0vYf+e57n+zx7Ps/2ZSlZLuPMBivD
+ eZVSESJnbOmKhh/ta8317wLW68e9iLGTJT+y00VEry0TE23NIEVyzS4kr6tHTFoz9pCf7b8o
+ ktOUJCaG97NS/M02iiSN3EOk03iFIea0p4iYCp6LyIdPnSLyLOEjTUxv0xlirI2TkKnyYURq
+ avU0SZwqYrYt5rqTjBIuV9dEc5W6fgmXb4jgrlUPibiOLw0U19dTzXB3r5/l2rUFiKucjJVw
+ 6eUliCsr76Y5s8GV63oaJ9ltv99261E+JDiSV63zPmQblFr1gjlReCAqpfK2JBbpd2mQDQt4
+ I+T8NjAaZMvKcDGC3qokkUAmEGSfK6QFYkbQcyUL/Y0Uz0wg4eHGbCRFb42MIfiYEk9bXI7Y
+ Dy6MpMy5FuJBBBPPmsUWQuEqGtIe9DIWF4M9QTOmmcNS7A0Jjy2FLEvjlaBJXGqBi3AAFJqt
+ DgdozjHNOWzwDuh9GGaRKbwM4u9dpgTsBK9NeXP3AO5jYWC8jRGu9oGOhFtW7AjDjeUSAS+F
+ louptBCIR/C2rVQikFQEnee01s1b4Eljh9jSTGF3KDOuE+TtcLH4A2WRAdtD75iDcIQ9ZFZk
+ W2UpJCfKBPcq0DXe/lf7+MVLKgPJdfOW6ebN0c2bo/vfm4/oEuTER6hDA3n1BiV/0kOtCFVH
+ KAM9joSFGtDsr22Zafz6AD2cPlyHMIvkdtKgS+8CZGJFpDo6tA4BS8kXSje4DQTIpEcV0ad4
+ VdhBVUQIr65DS1ha7iQ9vWDQX4YDFeH8cZ4/wav+vopYG+dYdL5sk0PJVteYInrnqO/OkkrX
+ oWKtaHRBRbWz14zLwP1jm/uz3mj8fyUn+O1x+e62yXDA9bPjGd8jx0c2T+b7ZobXl0672fko
+ Te8bxq/GTHkv73ZLs4mqTX6VtS+mwmn6EXZppR0eRd0537xaOVyV2bfXzj1LHNe2cbj0y4r6
+ q2e/TQbLaXWQwnMNpVIr/gAknRpHsQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHKsWRmVeSWpSXmKPExsVy+t/xe7qfjj6KMZjx0dpi12UOi5/T+5gs
+ Ns5Yz2oxY+8DZot5n2Ut5l+5xmpxdkKgxe/zf5ktZp5oZ7XY9Bgo1Lz6HLNF++utjBaXd81h
+ s/jce4TR4snCM0wWz99dZrI41fKCxeLJwz42i10HGtktfm15xWix98BGFou2X8vYHMQ8rrbv
+ YveYN+sEi8fOWXfZPRZsKvVYvOclk8fFj8eYPe5c28PmsXlJvcf5GQsZPXZ+b2D36NuyitFj
+ /ZarLB6fN8l5XDnSyB7AF6VnU5RfWpKqkJFfXGKrFG1oYaRnaGmhZ2RiqWdobB5rZWSqpG9n
+ k5Kak1mWWqRvl6CX0bP7AlvBotiK7p3r2BsYN/p1MXJySAiYSKz494Wxi5GLQ0hgKaPE8/sn
+ mSASMhInpzWwQtjCEn+udbGB2EICrxklWnZogNjCAuESE193M4LYIgIPGCXObPcBGcQssJtF
+ 4u+zYywQDdUSr2evBCtiEzCU6HoLMYhXwE6i5eAioBoODhYBVYmuNhmQsKhAjMSJqVvYIUoE
+ JU7OfAJWwingLHFjXz5ImFnATGLe5ofMELa8RPPW2VC2uMStJ/OZJjAKzULSPQtJyywkLbOQ
+ tCxgZFnFKJJaWpybnltspFecmFtcmpeul5yfu4kRmFa2Hfu5ZQdj17vgQ4wCHIxKPLwZUx7F
+ CLEmlhVX5h5ilOBgVhLhNVa/HyPEm5JYWZValB9fVJqTWnyI0RTotYnMUqLJ+cCUl1cSb2hq
+ aG5haWhubG5sZqEkztshcDBGSCA9sSQ1OzW1ILUIpo+Jg1OqgdH8sO+MQwGuimuXfczW//Hh
+ BQ+f6bn1M/dt2JZUNXllvvhv8UuPaorz6h9VJZw14g6JYNbSW/jt0tTvluJbrHjvljcxy77s
+ vbr962aR7ekpEvslv2p0nPvZnLkhy3pX8cYv/gytbMtm//y8cfGGu6YTu5O8y08HiRkHCweu
+ Nr+tYRa43byxjFOJpTgj0VCLuag4EQChB3cLQQMAAA==
+X-CMS-MailID: 20190520152123eucas1p1b4ea0e5743585885ba0dcbe5e6a8fd92
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20190520152123eucas1p1b4ea0e5743585885ba0dcbe5e6a8fd92
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190520152123eucas1p1b4ea0e5743585885ba0dcbe5e6a8fd92
+References: <1555617500-10862-1-git-send-email-linux@roeck-us.net>
+ <1555617500-10862-7-git-send-email-linux@roeck-us.net>
+ <CGME20190520152123eucas1p1b4ea0e5743585885ba0dcbe5e6a8fd92@eucas1p1.samsung.com>
+X-Mailman-Approved-At: Fri, 31 May 2019 00:50:54 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,166 +130,360 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
- Kamil Debski <kamil@wypas.org>, Tomer Maimon <tmaimon77@gmail.com>,
- linux-aspeed@lists.ozlabs.org, linux-pm@vger.kernel.org,
- Patrick Venture <venture@google.com>, openbmc@lists.ozlabs.org,
+Cc: Jean Delvare <jdelvare@suse.com>, Tomer Maimon <tmaimon77@gmail.com>,
+ Nancy Yuen <yuenn@google.com>, Patrick Venture <venture@google.com>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- linux-kernel@vger.kernel.org, Tali Perry <tali.perry1@gmail.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>,
- Avi Fishman <avifishman70@gmail.com>, Zhang Rui <rui.zhang@intel.com>,
- Nancy Yuen <yuenn@google.com>, linux-arm-kernel@lists.infradead.org
+ Kamil Debski <kamil@wypas.org>, Tali Perry <tali.perry1@gmail.com>,
+ Eduardo Valentin <edubezval@gmail.com>, Avi Fishman <avifishman70@gmail.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Lukasz Majewski <lukma@denx.de>,
+ Zhang Rui <rui.zhang@intel.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Eduardo,
+Dear All,
 
-On 5/11/19 12:04 PM, Eduardo Valentin wrote:
-> Hello Guenter,
-> 
-> On Thu, Apr 18, 2019 at 12:58:15PM -0700, Guenter Roeck wrote:
->> thermal_of_cooling_device_register() and thermal_cooling_device_register()
->> are typically called from driver probe functions, and
->> thermal_cooling_device_unregister() is called from remove functions. This
->> makes both a perfect candidate for device managed functions.
->>
->> Introduce devm_thermal_of_cooling_device_register(). This function can
->> also be used to replace thermal_cooling_device_register() by passing a NULL
->> pointer as device node. The new function requires both struct device *
->> and struct device_node * as parameters since the struct device_node *
->> parameter is not always identical to dev->of_node.
->>
->> Don't introduce a device managed remove function since it is not needed
->> at this point.
-> 
-> I don't have any objection on adding this API. Only a minor thing below:
-> 
-> 
->>
->> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
->> ---
->>   drivers/thermal/thermal_core.c | 49 ++++++++++++++++++++++++++++++++++++++++++
->>   include/linux/thermal.h        |  5 +++++
->>   2 files changed, 54 insertions(+)
->>
->> diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
->> index 6590bb5cb688..e0b530603db6 100644
->> --- a/drivers/thermal/thermal_core.c
->> +++ b/drivers/thermal/thermal_core.c
->> @@ -1046,6 +1046,55 @@ thermal_of_cooling_device_register(struct device_node *np,
->>   }
->>   EXPORT_SYMBOL_GPL(thermal_of_cooling_device_register);
->>   
->> +static void thermal_cooling_device_release(struct device *dev, void *res)
->> +{
->> +	thermal_cooling_device_unregister(
->> +				*(struct thermal_cooling_device **)res);
->> +}
->> +
->> +/**
->> + * devm_thermal_of_cooling_device_register() - register an OF thermal cooling
->> + *					       device
->> + * @dev:	a valid struct device pointer of a sensor device.
->> + * @np:		a pointer to a device tree node.
->> + * @type:	the thermal cooling device type.
->> + * @devdata:	device private data.
->> + * @ops:	standard thermal cooling devices callbacks.
->> + *
->> + * This function will register a cooling device with device tree node reference.
->> + * This interface function adds a new thermal cooling device (fan/processor/...)
->> + * to /sys/class/thermal/ folder as cooling_device[0-*]. It tries to bind itself
->> + * to all the thermal zone devices registered at the same time.
->> + *
->> + * Return: a pointer to the created struct thermal_cooling_device or an
->> + * ERR_PTR. Caller must check return value with IS_ERR*() helpers.
->> + */
->> +struct thermal_cooling_device *
->> +devm_thermal_of_cooling_device_register(struct device *dev,
->> +				struct device_node *np,
->> +				char *type, void *devdata,
->> +				const struct thermal_cooling_device_ops *ops)
->> +{
->> +	struct thermal_cooling_device **ptr, *tcd;
->> +
->> +	ptr = devres_alloc(thermal_cooling_device_release, sizeof(*ptr),
->> +			   GFP_KERNEL);
->> +	if (!ptr)
->> +		return ERR_PTR(-ENOMEM);
->> +
->> +	tcd = __thermal_cooling_device_register(np, type, devdata, ops);
->> +	if (IS_ERR(tcd)) {
->> +		devres_free(ptr);
->> +		return tcd;
->> +	}
->> +
->> +	*ptr = tcd;
->> +	devres_add(dev, ptr);
->> +
->> +	return tcd;
->> +}
->> +EXPORT_SYMBOL_GPL(devm_thermal_of_cooling_device_register);
->> +
->>   static void __unbind(struct thermal_zone_device *tz, int mask,
->>   		     struct thermal_cooling_device *cdev)
->>   {
->> diff --git a/include/linux/thermal.h b/include/linux/thermal.h
->> index 5f4705f46c2f..43cf4fdd71d4 100644
->> --- a/include/linux/thermal.h
->> +++ b/include/linux/thermal.h
->> @@ -447,6 +447,11 @@ struct thermal_cooling_device *thermal_cooling_device_register(char *, void *,
->>   struct thermal_cooling_device *
->>   thermal_of_cooling_device_register(struct device_node *np, char *, void *,
->>   				   const struct thermal_cooling_device_ops *);
->> +struct thermal_cooling_device *
->> +devm_thermal_of_cooling_device_register(struct device *dev,
->> +				struct device_node *np,
->> +				char *type, void *devdata,
->> +				const struct thermal_cooling_device_ops *ops);
-> 
-> We need to stub this in case thermal is not selected.
-> 
+On 2019-04-18 21:58, Guenter Roeck wrote:
+> Use devm_thermal_of_cooling_device_register() to register the cooling
+> device. Also use devm_add_action_or_reset() to stop the fan on device
+> removal, and to disable the pwm. Introduce a local 'dev' variable in
+> the probe function to make the code easier to read.
+>
+> As a side effect, this fixes a bug seen if pwm_fan_of_get_cooling_data()
+> returned an error. In that situation, the pwm was not disabled, and
+> the fan was not stopped. Using devm functions also ensures that the
+> pwm is disabled and that the fan is stopped only after the hwmon device
+> has been unregistered.
+>
+> Cc: Lukasz Majewski <l.majewski@samsung.com>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-Yes. Sorry, that completely slipped my mind.
 
->>   void thermal_cooling_device_unregister(struct thermal_cooling_device *);
->>   struct thermal_zone_device *thermal_zone_get_zone_by_name(const char *name);
->>   int thermal_zone_get_temp(struct thermal_zone_device *tz, int *temp);
-> 
-> Something like:
-> 
-> 
-> diff --git a/include/linux/thermal.h b/include/linux/thermal.h
-> index 43cf4fd..9b1b365 100644
-> --- a/include/linux/thermal.h
-> +++ b/include/linux/thermal.h
-> @@ -508,6 +508,14 @@ static inline struct thermal_cooling_device *
->   thermal_of_cooling_device_register(struct device_node *np,
->          char *type, void *devdata, const struct thermal_cooling_device_ops *ops)
->   { return ERR_PTR(-ENODEV); }
-> +struct thermal_cooling_device *
-> +devm_thermal_of_cooling_device_register(struct device *dev,
-> +                               struct device_node *np,
-> +                               char *type, void *devdata,
-> +                               const struct thermal_cooling_device_ops *ops)
+I've noticed the following lockdep warning after this commit during CPU 
+hotplug tests on TM2e board (ARM64 Exynos5433). It looks like a false 
+positive, but it would be nice to annotate it somehow in the code to 
+make lockdep happy:
+
+--->8---
+
+IRQ 8: no longer affine to CPU5
+CPU5: shutdown
+IRQ 9: no longer affine to CPU6
+CPU6: shutdown
+
+======================================================
+WARNING: possible circular locking dependency detected
+5.2.0-rc1+ #6093 Not tainted
+------------------------------------------------------
+cpuhp/7/43 is trying to acquire lock:
+00000000d1a60be3 (thermal_list_lock){+.+.}, at: 
+thermal_cooling_device_unregister+0x34/0x1c0
+
+but task is already holding lock:
+00000000a6a56c92 (&policy->rwsem){++++}, at: cpufreq_offline+0x68/0x228
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #3 (&policy->rwsem){++++}:
+        down_write+0x48/0x98
+        cpufreq_cpu_acquire+0x20/0x58
+        cpufreq_update_policy+0x28/0xc0
+        cpufreq_set_cur_state+0x44/0x70
+        thermal_cdev_update+0x7c/0x240
+        step_wise_throttle+0x4c/0x88
+        handle_thermal_trip+0xc0/0x348
+        thermal_zone_device_update.part.7+0x6c/0x250
+        thermal_zone_device_update+0x28/0x38
+        exynos_tmu_work+0x28/0x70
+        process_one_work+0x298/0x6c0
+        worker_thread+0x48/0x430
+        kthread+0x100/0x130
+        ret_from_fork+0x10/0x18
+
+-> #2 (&cdev->lock){+.+.}:
+        __mutex_lock+0x90/0x890
+        mutex_lock_nested+0x1c/0x28
+        thermal_zone_bind_cooling_device+0x2cc/0x3e0
+        of_thermal_bind+0x9c/0xf8
+        __thermal_cooling_device_register+0x1a4/0x388
+        thermal_of_cooling_device_register+0xc/0x18
+        __cpufreq_cooling_register+0x360/0x410
+        of_cpufreq_cooling_register+0x84/0xf8
+        cpufreq_online+0x414/0x720
+        cpufreq_add_dev+0x78/0x88
+        subsys_interface_register+0xa4/0xf8
+        cpufreq_register_driver+0x140/0x1e0
+        dt_cpufreq_probe+0xb0/0x130
+        platform_drv_probe+0x50/0xa8
+        really_probe+0x1b0/0x2a0
+        driver_probe_device+0x58/0x100
+        __device_attach_driver+0x90/0xc0
+        bus_for_each_drv+0x70/0xc8
+        __device_attach+0xdc/0x140
+        device_initial_probe+0x10/0x18
+        bus_probe_device+0x94/0xa0
+        device_add+0x39c/0x5c8
+        platform_device_add+0x110/0x248
+        platform_device_register_full+0x134/0x178
+        cpufreq_dt_platdev_init+0x114/0x14c
+        do_one_initcall+0x84/0x430
+        kernel_init_freeable+0x440/0x534
+        kernel_init+0x10/0x108
+        ret_from_fork+0x10/0x18
+
+-> #1 (&tz->lock){+.+.}:
+        __mutex_lock+0x90/0x890
+        mutex_lock_nested+0x1c/0x28
+        thermal_zone_bind_cooling_device+0x2b8/0x3e0
+        of_thermal_bind+0x9c/0xf8
+        __thermal_cooling_device_register+0x1a4/0x388
+        thermal_of_cooling_device_register+0xc/0x18
+        __cpufreq_cooling_register+0x360/0x410
+        of_cpufreq_cooling_register+0x84/0xf8
+        cpufreq_online+0x414/0x720
+        cpufreq_add_dev+0x78/0x88
+        subsys_interface_register+0xa4/0xf8
+        cpufreq_register_driver+0x140/0x1e0
+        dt_cpufreq_probe+0xb0/0x130
+        platform_drv_probe+0x50/0xa8
+        really_probe+0x1b0/0x2a0
+        driver_probe_device+0x58/0x100
+        __device_attach_driver+0x90/0xc0
+        bus_for_each_drv+0x70/0xc8
+        __device_attach+0xdc/0x140
+        device_initial_probe+0x10/0x18
+        bus_probe_device+0x94/0xa0
+        device_add+0x39c/0x5c8
+        platform_device_add+0x110/0x248
+        platform_device_register_full+0x134/0x178
+        cpufreq_dt_platdev_init+0x114/0x14c
+        do_one_initcall+0x84/0x430
+        kernel_init_freeable+0x440/0x534
+        kernel_init+0x10/0x108
+        ret_from_fork+0x10/0x18
+
+-> #0 (thermal_list_lock){+.+.}:
+        lock_acquire+0xdc/0x260
+        __mutex_lock+0x90/0x890
+        mutex_lock_nested+0x1c/0x28
+        thermal_cooling_device_unregister+0x34/0x1c0
+        cpufreq_cooling_unregister+0x78/0xd0
+        cpufreq_offline+0x200/0x228
+        cpuhp_cpufreq_offline+0xc/0x18
+        cpuhp_invoke_callback+0xd0/0xcb0
+        cpuhp_thread_fun+0x1e8/0x258
+        smpboot_thread_fn+0x1b4/0x2d0
+        kthread+0x100/0x130
+        ret_from_fork+0x10/0x18
+
+other info that might help us debug this:
+
+Chain exists of:
+   thermal_list_lock --> &cdev->lock --> &policy->rwsem
+
+  Possible unsafe locking scenario:
+
+        CPU0                    CPU1
+        ----                    ----
+   lock(&policy->rwsem);
+                                lock(&cdev->lock);
+                                lock(&policy->rwsem);
+   lock(thermal_list_lock);
+
+  *** DEADLOCK ***
+
+3 locks held by cpuhp/7/43:
+  #0: 00000000ae30cc2b (cpu_hotplug_lock.rw_sem){++++}, at: 
+cpuhp_thread_fun+0x34/0x258
+  #1: 00000000a0e2460a (cpuhp_state-down){+.+.}, at: 
+cpuhp_thread_fun+0x178/0x258
+  #2: 00000000a6a56c92 (&policy->rwsem){++++}, at: 
+cpufreq_offline+0x68/0x228
+
+stack backtrace:
+CPU: 7 PID: 43 Comm: cpuhp/7 Not tainted 5.2.0-rc1+ #6093
+Hardware name: Samsung TM2E board (DT)
+Call trace:
+  dump_backtrace+0x0/0x158
+  show_stack+0x14/0x20
+  dump_stack+0xc8/0x114
+  print_circular_bug+0x1cc/0x2d8
+  __lock_acquire+0x18f4/0x20f8
+  lock_acquire+0xdc/0x260
+  __mutex_lock+0x90/0x890
+  mutex_lock_nested+0x1c/0x28
+  thermal_cooling_device_unregister+0x34/0x1c0
+  cpufreq_cooling_unregister+0x78/0xd0
+  cpufreq_offline+0x200/0x228
+  cpuhp_cpufreq_offline+0xc/0x18
+  cpuhp_invoke_callback+0xd0/0xcb0
+  cpuhp_thread_fun+0x1e8/0x258
+  smpboot_thread_fn+0x1b4/0x2d0
+  kthread+0x100/0x130
+  ret_from_fork+0x10/0x18
+IRQ 10: no longer affine to CPU7
+
+--->8---
+
+> ---
+>   drivers/hwmon/pwm-fan.c | 73 ++++++++++++++++++++-----------------------------
+>   1 file changed, 29 insertions(+), 44 deletions(-)
+>
+> diff --git a/drivers/hwmon/pwm-fan.c b/drivers/hwmon/pwm-fan.c
+> index 167221c7628a..0243ba70107e 100644
+> --- a/drivers/hwmon/pwm-fan.c
+> +++ b/drivers/hwmon/pwm-fan.c
+> @@ -207,33 +207,44 @@ static int pwm_fan_of_get_cooling_data(struct device *dev,
+>   	return 0;
+>   }
+>   
+> +static void pwm_fan_regulator_disable(void *data)
 > +{
-> +       return ERR_PTR(-ENODEV);
+> +	regulator_disable(data);
 > +}
->   static inline void thermal_cooling_device_unregister(
->          struct thermal_cooling_device *cdev)
->   { }
-> ~
-> 
-> 
-> If you want I can amend this to your patch and apply it.
-> 
-Please do.
+> +
+> +static void pwm_fan_pwm_disable(void *data)
+> +{
+> +	pwm_disable(data);
+> +}
+> +
+>   static int pwm_fan_probe(struct platform_device *pdev)
+>   {
+>   	struct thermal_cooling_device *cdev;
+> +	struct device *dev = &pdev->dev;
+>   	struct pwm_fan_ctx *ctx;
+>   	struct device *hwmon;
+>   	int ret;
+>   	struct pwm_state state = { };
+>   
+> -	ctx = devm_kzalloc(&pdev->dev, sizeof(*ctx), GFP_KERNEL);
+> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+>   	if (!ctx)
+>   		return -ENOMEM;
+>   
+>   	mutex_init(&ctx->lock);
+>   
+> -	ctx->pwm = devm_of_pwm_get(&pdev->dev, pdev->dev.of_node, NULL);
+> +	ctx->pwm = devm_of_pwm_get(dev, dev->of_node, NULL);
+>   	if (IS_ERR(ctx->pwm)) {
+>   		ret = PTR_ERR(ctx->pwm);
+>   
+>   		if (ret != -EPROBE_DEFER)
+> -			dev_err(&pdev->dev, "Could not get PWM: %d\n", ret);
+> +			dev_err(dev, "Could not get PWM: %d\n", ret);
+>   
+>   		return ret;
+>   	}
+>   
+>   	platform_set_drvdata(pdev, ctx);
+>   
+> -	ctx->reg_en = devm_regulator_get_optional(&pdev->dev, "fan");
+> +	ctx->reg_en = devm_regulator_get_optional(dev, "fan");
+>   	if (IS_ERR(ctx->reg_en)) {
+>   		if (PTR_ERR(ctx->reg_en) != -ENODEV)
+>   			return PTR_ERR(ctx->reg_en);
+> @@ -242,10 +253,11 @@ static int pwm_fan_probe(struct platform_device *pdev)
+>   	} else {
+>   		ret = regulator_enable(ctx->reg_en);
+>   		if (ret) {
+> -			dev_err(&pdev->dev,
+> -				"Failed to enable fan supply: %d\n", ret);
+> +			dev_err(dev, "Failed to enable fan supply: %d\n", ret);
+>   			return ret;
+>   		}
+> +		devm_add_action_or_reset(dev, pwm_fan_regulator_disable,
+> +					 ctx->reg_en);
+>   	}
+>   
+>   	ctx->pwm_value = MAX_PWM;
+> @@ -257,62 +269,36 @@ static int pwm_fan_probe(struct platform_device *pdev)
+>   
+>   	ret = pwm_apply_state(ctx->pwm, &state);
+>   	if (ret) {
+> -		dev_err(&pdev->dev, "Failed to configure PWM\n");
+> -		goto err_reg_disable;
+> +		dev_err(dev, "Failed to configure PWM\n");
+> +		return ret;
+>   	}
+> +	devm_add_action_or_reset(dev, pwm_fan_pwm_disable, ctx->pwm);
+>   
+> -	hwmon = devm_hwmon_device_register_with_groups(&pdev->dev, "pwmfan",
+> +	hwmon = devm_hwmon_device_register_with_groups(dev, "pwmfan",
+>   						       ctx, pwm_fan_groups);
+>   	if (IS_ERR(hwmon)) {
+> -		dev_err(&pdev->dev, "Failed to register hwmon device\n");
+> -		ret = PTR_ERR(hwmon);
+> -		goto err_pwm_disable;
+> +		dev_err(dev, "Failed to register hwmon device\n");
+> +		return PTR_ERR(hwmon);
+>   	}
+>   
+> -	ret = pwm_fan_of_get_cooling_data(&pdev->dev, ctx);
+> +	ret = pwm_fan_of_get_cooling_data(dev, ctx);
+>   	if (ret)
+>   		return ret;
+>   
+>   	ctx->pwm_fan_state = ctx->pwm_fan_max_state;
+>   	if (IS_ENABLED(CONFIG_THERMAL)) {
+> -		cdev = thermal_of_cooling_device_register(pdev->dev.of_node,
+> -							  "pwm-fan", ctx,
+> -							  &pwm_fan_cooling_ops);
+> +		cdev = devm_thermal_of_cooling_device_register(dev,
+> +			dev->of_node, "pwm-fan", ctx, &pwm_fan_cooling_ops);
+>   		if (IS_ERR(cdev)) {
+> -			dev_err(&pdev->dev,
+> +			dev_err(dev,
+>   				"Failed to register pwm-fan as cooling device");
+> -			ret = PTR_ERR(cdev);
+> -			goto err_pwm_disable;
+> +			return PTR_ERR(cdev);
+>   		}
+>   		ctx->cdev = cdev;
+>   		thermal_cdev_update(cdev);
+>   	}
+>   
+>   	return 0;
+> -
+> -err_pwm_disable:
+> -	state.enabled = false;
+> -	pwm_apply_state(ctx->pwm, &state);
+> -
+> -err_reg_disable:
+> -	if (ctx->reg_en)
+> -		regulator_disable(ctx->reg_en);
+> -
+> -	return ret;
+> -}
+> -
+> -static int pwm_fan_remove(struct platform_device *pdev)
+> -{
+> -	struct pwm_fan_ctx *ctx = platform_get_drvdata(pdev);
+> -
+> -	thermal_cooling_device_unregister(ctx->cdev);
+> -	if (ctx->pwm_value)
+> -		pwm_disable(ctx->pwm);
+> -
+> -	if (ctx->reg_en)
+> -		regulator_disable(ctx->reg_en);
+> -
+> -	return 0;
+>   }
+>   
+>   #ifdef CONFIG_PM_SLEEP
+> @@ -380,7 +366,6 @@ MODULE_DEVICE_TABLE(of, of_pwm_fan_match);
+>   
+>   static struct platform_driver pwm_fan_driver = {
+>   	.probe		= pwm_fan_probe,
+> -	.remove		= pwm_fan_remove,
+>   	.driver	= {
+>   		.name		= "pwm-fan",
+>   		.pm		= &pwm_fan_pm,
 
-> Also, do you prefer me to collect only this patch and you would collect hwmon changes,
-> or are you ok if I collect all the series?
-> 
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-Please go ahead and collect the entire series.
-
-Thanks,
-Guenter
