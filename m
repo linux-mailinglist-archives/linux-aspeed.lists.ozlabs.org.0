@@ -2,52 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD2C24E6B
-	for <lists+linux-aspeed@lfdr.de>; Tue, 21 May 2019 13:59:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FCA424E8C
+	for <lists+linux-aspeed@lfdr.de>; Tue, 21 May 2019 14:02:52 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 457Z6s6DHYzDqLS
-	for <lists+linux-aspeed@lfdr.de>; Tue, 21 May 2019 21:59:01 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 457ZCF4fbyzDqJC
+	for <lists+linux-aspeed@lfdr.de>; Tue, 21 May 2019 22:02:49 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=209.85.160.193; helo=mail-qt1-f193.google.com;
+ (client-ip=209.85.222.193; helo=mail-qk1-f193.google.com;
  envelope-from=arndbergmann@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=arndb.de
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
- [209.85.160.193])
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+ [209.85.222.193])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 457Z6k5TrzzDqD0
- for <linux-aspeed@lists.ozlabs.org>; Tue, 21 May 2019 21:58:54 +1000 (AEST)
-Received: by mail-qt1-f193.google.com with SMTP id l3so9298452qtj.5
- for <linux-aspeed@lists.ozlabs.org>; Tue, 21 May 2019 04:58:54 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 457ZC56kkKzDqJ1
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 21 May 2019 22:02:41 +1000 (AEST)
+Received: by mail-qk1-f193.google.com with SMTP id z128so10848061qkb.6
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 21 May 2019 05:02:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=RG1Hs0ESwnRVet51hMjdxLPwpJh7ZatYL2HtJdlc+r8=;
- b=qXvN+JD9ax7VUrpuvb0UcAoC+6Mygxes4897ZGHeZOoAJ9aJApgXP47iiKdSGi6HxU
- G6e/4NwsIHZfWUzxmkzB7Fdd4af02dk1aFsGhxpJ0F8pOUuzPp1bo+A3nuKuMQGVz6Sd
- XWtjfDw0ZVTt/AjH/EqNrPyCnDu3geAsxnJtTnNS48MyXu60XIz5vfvRR5mazzm8t4HU
- +Pwz3Ghc8K0l/rd3YHJRY/RBE/MluHaHUQEMWgUlUnV2ulETHEJ3r/omHplwL2kZZO8n
- Xb+yQZEg1C+5l9sxn4lpmVITNbieiNAI9p4I8UllSsdNsCS8GYhJXcX3hF8Bf/zYrYPE
- 4itw==
-X-Gm-Message-State: APjAAAUiqpEXrJvgr8B6GeF1dAFsyzjNHN5MwiapuuZ/4NMIyDJ5tmim
- IGvbrzJWQ+STgq1v7kNo1pVR4i1JvVR7iFVrMbg=
-X-Google-Smtp-Source: APXvYqypDXVBS4ifbaE5zemqBahreul8x/ODVifparRdwfQ7naR5cZfsaWocJlLatNxgSqyZ9gsjCSMSIipNIKjRplI=
-X-Received: by 2002:a0c:9e55:: with SMTP id z21mr65483709qve.45.1558439930891; 
- Tue, 21 May 2019 04:58:50 -0700 (PDT)
+ bh=FFHpERDGAM7rYKa/XXAMVPCU2p7ieNvbmiVwbMmHz6o=;
+ b=o7zp34Ddjp2nHVwn8w+ozj1XeACrJL1JLJpXrsw7q5ytm0Y/Q1YDDbE3b+gfgZz8NZ
+ fO/JhIq4yfboA4YUrpkarN3tz7ph5LxO5CII7AGtfmZl0i6a77nWAk+lVwIAj8r9Gc1X
+ m8JjPj03UHhBCJPA///+B3WrIaDM5SHfHTIuFlD+ywBuMagalrWn8q6QroG0JoSAjI1F
+ 2wjE+PTMbBw72QuuiATkt4YdeFHpNvxE9YfU2f8cAPADO6Af1Ah43j6k/xipkHyTfPcg
+ qbl1OTIhQUyvb1+e3xWQLFcZFlj+0jVD1xuYpmieJ+J+JUa/UtY38k2jS6DfIq27PJf6
+ 7L/w==
+X-Gm-Message-State: APjAAAWmm0D2fHwTfGRzunxk2ekCLx1i+NFPqYmwc6JBBcjlN9EjNGJK
+ Re3XV96D9+IUql9VRrUZLzs5KNjortD4ILPaFLKMhg3Q
+X-Google-Smtp-Source: APXvYqz+JNxFrC1K8efOBIeJxisvtNkhhdYJVswIOoiVcFFJwa08OrBzOczrjY+m5IfqdGqcpIBYRLgf3CiTps9SNfc=
+X-Received: by 2002:a05:620a:1085:: with SMTP id
+ g5mr46695715qkk.182.1558440159035; 
+ Tue, 21 May 2019 05:02:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <1558383565-11821-1-git-send-email-eajames@linux.ibm.com>
- <1558383565-11821-6-git-send-email-eajames@linux.ibm.com>
-In-Reply-To: <1558383565-11821-6-git-send-email-eajames@linux.ibm.com>
+ <1558383565-11821-3-git-send-email-eajames@linux.ibm.com>
+In-Reply-To: <1558383565-11821-3-git-send-email-eajames@linux.ibm.com>
 From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 21 May 2019 13:58:34 +0200
-Message-ID: <CAK8P3a0W=kUxTU7M5diSL3pcFQydXbB0ABwqj6NUhKj2hQC_wg@mail.gmail.com>
-Subject: Re: [PATCH v2 5/7] drivers/soc: xdma: Add debugfs entries
+Date: Tue, 21 May 2019 14:02:22 +0200
+Message-ID: <CAK8P3a2HSOsw33VhAk4Z8ARiYn4jG68Ec7fynKbrFWUNDo37Wg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/7] drivers/soc: Add Aspeed XDMA Engine Driver
 To: Eddie James <eajames@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -70,63 +71,43 @@ Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On Mon, May 20, 2019 at 10:19 PM Eddie James <eajames@linux.ibm.com> wrote:
-
->  struct aspeed_xdma_client {
-> @@ -656,6 +662,92 @@ static int aspeed_xdma_init_mem(struct aspeed_xdma *ctx)
->         return 0;
->  }
->
-> +#if IS_ENABLED(CONFIG_DEBUG_FS)
-> +static ssize_t aspeed_xdma_debugfs_vga_read(struct file *file,
-> +                                           char __user *buf, size_t len,
-> +                                           loff_t *offset)
-> +{
-> +       int rc;
-
-
-I think it would be more readable to move the IS_ENABLED()
-check into the function and do
-
-         if (!IS_ENABLED(CONFIG_DEBUG_FS))
-                  return;
-
-in the init_debugfs() function.
-
-> +       struct inode *inode = file_inode(file);
-> +       struct aspeed_xdma *ctx = inode->i_private;
-> +       void __iomem *vga = ioremap(ctx->vga_phys, ctx->vga_size);
-> +       loff_t offs = *offset;
-> +       void *tmp;
+> diff --git a/include/uapi/linux/aspeed-xdma.h b/include/uapi/linux/aspeed-xdma.h
+> new file mode 100644
+> index 0000000..2a4bd13
+> --- /dev/null
+> +++ b/include/uapi/linux/aspeed-xdma.h
+> @@ -0,0 +1,26 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +/* Copyright IBM Corp 2019 */
 > +
-> +       if (!vga)
-> +               return -ENOMEM;
+> +#ifndef _UAPI_LINUX_ASPEED_XDMA_H_
+> +#define _UAPI_LINUX_ASPEED_XDMA_H_
 > +
-> +       if (len + offs > ctx->vga_size) {
-> +               iounmap(vga);
-> +               return -EINVAL;
-> +       }
-
-The usual read() behavior is to use truncate the
-read at the maximum size, rather than return an
-error for an access beyond the end of file.
-
+> +#include <linux/types.h>
 > +
-> +       tmp = kzalloc(len, GFP_KERNEL);
-> +       if (!tmp) {
-> +               iounmap(vga);
-> +               return -ENOMEM;
-> +       }
+> +/*
+> + * aspeed_xdma_op
+> + *
+> + * upstream: boolean indicating the direction of the DMA operation; upstream
+> + *           means a transfer from the BMC to the host
+> + *
+> + * host_addr: the DMA address on the host side, typically configured by PCI
+> + *            subsystem
+> + *
+> + * len: the size of the transfer in bytes; it should be a multiple of 16 bytes
+> + */
+> +struct aspeed_xdma_op {
+> +       __u32 upstream;
+> +       __u64 host_addr;
+> +       __u32 len;
+> +};
+> +
+> +#endif /* _UAPI_LINUX_ASPEED_XDMA_H_ */
 
-Use 'goto out;' to consolidate the unmap/free here?
+If this is a user space interface, please remove the holes in the
+data structure.
 
-> +static void aspeed_xdma_init_debugfs(struct aspeed_xdma *ctx)
-> +{
-> +       ctx->debugfs_dir = debugfs_create_dir(DEVICE_NAME, NULL);
-> +       if (IS_ERR_OR_NULL(ctx->debugfs_dir)) {
+I don't see how this is actually used in this patch, maybe you meant
+the definition to be part of another patch?
 
-debugfs_create_dir() never returns NULL.
-
-Usually if you have to use IS_ERR_OR_NULL() in your code, that
-is a bug, or a very badly defined interface.
-
-      Arnd
+    Arnd
