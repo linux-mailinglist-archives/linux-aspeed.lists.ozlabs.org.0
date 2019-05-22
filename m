@@ -2,55 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A8A824EA1
-	for <lists+linux-aspeed@lfdr.de>; Tue, 21 May 2019 14:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C6425B20
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 May 2019 02:23:31 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 457ZHf4gLHzDqLW
-	for <lists+linux-aspeed@lfdr.de>; Tue, 21 May 2019 22:06:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 457tdr73P9zDqNJ
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 May 2019 10:23:28 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=209.85.222.195; helo=mail-qk1-f195.google.com;
- envelope-from=arndbergmann@gmail.com; receiver=<UNKNOWN>)
+ (client-ip=2607:f8b0:4864:20::241; helo=mail-oi1-x241.google.com;
+ envelope-from=bjwyman@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=arndb.de
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
- [209.85.222.195])
+ dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="IIqbvkNm"; 
+ dkim-atps=neutral
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 457ZHX4hQpzDqJC
- for <linux-aspeed@lists.ozlabs.org>; Tue, 21 May 2019 22:06:30 +1000 (AEST)
-Received: by mail-qk1-f195.google.com with SMTP id q197so10842003qke.7
- for <linux-aspeed@lists.ozlabs.org>; Tue, 21 May 2019 05:06:30 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 457tdg6TxgzDqLn;
+ Wed, 22 May 2019 10:23:19 +1000 (AEST)
+Received: by mail-oi1-x241.google.com with SMTP id r136so265765oie.7;
+ Tue, 21 May 2019 17:23:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Kzpqczefs29aUKJQ46tYt2demPTD2jJ/hbJuDAYK7dM=;
+ b=IIqbvkNmAN358FP3iICvLElEx/qPl8CXFzG51rFJHG4wkcKYgtsCasGDHiFj8ChKD2
+ ZBkOvaDLCrzOSnoEgd3GZyhIsCDV6vCbc45+lBX53p9X0tfaNw6UbEENSjAqnH0GhrAG
+ 6JpTPExGWtUS5t+qPQ5edRiSmhI4efURYeOmv9jIJfFRRzThdMFa3xXhPYF1VMoxSnYV
+ dctFhhqZ3+bXv0lg4PbVjLla0xdawvz68pfHm78YQn3HyZFXkiEo3qTFcoA3j0A0hpQC
+ 3Z1zCVquIzSrs2Mq/6LQU+fnx5asaR7yc5P/UUDGfaj93KYrRiakxU0mM0FCiD75HBdN
+ dFrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=SVsTcwbSXyDKa9FaSATioyfgfATBsO2UVB5hXgNRDGU=;
- b=ieEjMx1OK0sPKmRZaKJ54qo+DM5ucJHE3WxR4ExVVv2EHH/FCrWyIz/mrKLiu57zKY
- fRwUYsNG4XyjPyLYeyA6Arzu3FiOuTsMzZjxrXk9cPt0p1ZSuvbV+eMKr1vWIYSYRzzY
- HCXlfGVDwxbDyVGbcQ/MiuPXxob2G9Zuqs33DaQxjqv1rY64Ofbm9xivaoBXugERZqoD
- QnI0xomV7lU2DeI0eFWYdmfIqXbjphkoHpKlL0h+QrDlNmPhZ9qzvbGITycL1OIJkwCE
- MdUQOjuG/LHSYRNXgoUlMX4aj+yBSIKj4XYtoTKHk5401oSLMcEWlb9GY88HASw1GBMa
- kKLg==
-X-Gm-Message-State: APjAAAWpkcOavxMzYnSFW+pL4byDCYQhcXZXojRXiyqbt0eoN9FPViC5
- nFpOc/hcEZpIKOWRj5LXhh/YMLI2EQYui9knpGo=
-X-Google-Smtp-Source: APXvYqwtbMXWbcpZkpurvbTnz8ZSYDkvuMAiZAitynBUdC5HgLlJCLa614LeBCFxuz8JnW/vd1HtztDq3B07yoz2uQw=
-X-Received: by 2002:a05:620a:1085:: with SMTP id
- g5mr46716572qkk.182.1558440387587; 
- Tue, 21 May 2019 05:06:27 -0700 (PDT)
+ bh=Kzpqczefs29aUKJQ46tYt2demPTD2jJ/hbJuDAYK7dM=;
+ b=XCvV/Umu3K1UJiOXAK3e0CoLPXiLAIaCTdapvlUKgDLMXyq7GPxSEKnXerM4TIKs92
+ 65GJerIIxj+zq0/Ao0ikJmbqqE9QBeNzQ9VZ6ky/deFZCgkIz0zY05+ShrSbeTGWvcH7
+ HiBikURe5V3XtsW909r6uZal5PJUb74m8G0UemBA2G50h74gi4EOjDO99SC+/saeaVbC
+ ps1jGcKGvoZLcAulnG5cElVOuZUNbW7XkNj87wheS0vLl1TtEWy5kKSrOAV8FQ6MNpNl
+ Jlf/xlylw74VSbxWL5O80wRCVhyH6KViYxUX5aSPvA8SwDV231nf1ORhv4S6urmXpXSI
+ W+TA==
+X-Gm-Message-State: APjAAAURgc882xtq35OILfdHHDc5d6TkghdaWDWuDHCY8oTaNNyjBA15
+ SD+uH/MKs3+NC315a833YWt35kvZBj36osWj+Pk=
+X-Google-Smtp-Source: APXvYqyG5C6Im0OtpU8QzNS3fdYR8KoynoitCCajclviRcAHWwGGsh7ztWGb+uXnUyzAFtDzIEnVOXo4H3EiO2X0YKk=
+X-Received: by 2002:aca:f20b:: with SMTP id q11mr5436712oih.4.1558484595234;
+ Tue, 21 May 2019 17:23:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <1558383565-11821-1-git-send-email-eajames@linux.ibm.com>
- <1558383565-11821-5-git-send-email-eajames@linux.ibm.com>
-In-Reply-To: <1558383565-11821-5-git-send-email-eajames@linux.ibm.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 21 May 2019 14:06:10 +0200
-Message-ID: <CAK8P3a1DxtZFtgHbM7RmcadvRd8ZzjYXjR41OxhDkiKg55CTMQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/7] drivers/soc: xdma: Add PCI device configuration
- sysfs
-To: Eddie James <eajames@linux.ibm.com>
+References: <1558383435-38811-1-git-send-email-anoo@linux.ibm.com>
+In-Reply-To: <1558383435-38811-1-git-send-email-anoo@linux.ibm.com>
+From: Brandon Wyman <bjwyman@gmail.com>
+Date: Tue, 21 May 2019 19:23:05 -0500
+Message-ID: <CAK_vbW2474g00xqoNU-Qd5DJ31mk5vcQvcr1GKxL8mGZ-Dqxfw@mail.gmail.com>
+Subject: Re: [PATCH dev-5.1] ARM: dts: aspeed: swift: Add pca9539 devices
+To: Adriana Kobylak <anoo@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -63,25 +72,196 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- linux-aspeed@lists.ozlabs.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>
+Cc: OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Adriana Kobylak <anoo@us.ibm.com>, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, May 20, 2019 at 10:21 PM Eddie James <eajames@linux.ibm.com> wrote:
+On Mon, May 20, 2019 at 3:17 PM Adriana Kobylak <anoo@linux.ibm.com> wrote:
 >
-> The AST2500 has two PCI devices embedded. The XDMA engine can use either
-> device to perform DMA transfers. Users need the capability to choose
-> which device to use. This commit therefore adds two sysfs files that
-> toggle the AST2500 and XDMA engine between the two PCI devices.
+> From: Adriana Kobylak <anoo@us.ibm.com>
 >
-> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> Add the pca9539 devices to the Swift device tree.
+>
+> Signed-off-by: Adriana Kobylak <anoo@us.ibm.com>
 > ---
->  drivers/soc/aspeed/aspeed-xdma.c | 64 ++++++++++++++++++++++++++++++++++++++++
+>  arch/arm/boot/dts/aspeed-bmc-opp-swift.dts | 146 +++++++++++++++++++++++++++++
+>  1 file changed, 146 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
+> index 9610637..270c923 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
+> @@ -732,6 +732,79 @@
+>                 compatible = "infineon,ir35221";
+>                 reg = <0x72>;
+>         };
+> +
+> +       pca2: pca9539@74 {
+> +               compatible = "nxp,pca9539";
+> +               reg = <0x74>;
 
-This patch needs to come with a corresponding file in Documentation/ABI/
+This looks like the right bus, address, and chip/compatible type, but
+what follows after I am not 100% certain on. I do not know the
+specifics of how to indicate these are input GPIO pins.
 
-       Arnd
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +               gpio-controller;
+> +               #gpio-cells = <2>;
+> +
+> +               gpio@0 {
+> +                       reg = <0>;
+> +               };
+> +
+> +               gpio@1 {
+> +                       reg = <1>;
+> +               };
+> +
+> +               gpio@2 {
+> +                       reg = <2>;
+> +               };
+> +
+> +               gpio@3 {
+> +                       reg = <3>;
+> +               };
+> +
+> +               gpio@4 {
+> +                       reg = <4>;
+> +               };
+> +
+> +               gpio@5 {
+> +                       reg = <5>;
+> +               };
+> +
+> +               gpio@6 {
+> +                       reg = <6>;
+> +               };
+> +
+> +               gpio@7 {
+> +                       reg = <7>;
+> +               };
+> +
+> +               gpio@8 {
+> +                       reg = <8>;
+> +               };
+> +
+> +               gpio@9 {
+> +                       reg = <9>;
+> +               };
+> +
+> +               gpio@10 {
+> +                       reg = <10>;
+> +               };
+> +
+> +               gpio@11 {
+> +                       reg = <11>;
+> +               };
+> +
+> +               gpio@12 {
+> +                       reg = <12>;
+> +               };
+> +
+> +               gpio@13 {
+> +                       reg = <13>;
+> +               };
+> +
+> +               gpio@14 {
+> +                       reg = <14>;
+> +               };
+> +
+> +               gpio@15 {
+> +                       reg = <15>;
+> +               };
+> +       };
+>  };
+>
+>  &i2c10 {
+> @@ -756,6 +829,79 @@
+>                 compatible = "infineon,ir35221";
+>                 reg = <0x72>;
+>         };
+> +
+> +       pca3: pca9539@74 {
+> +               compatible = "nxp,pca9539";
+> +               reg = <0x74>;
+
+This looks like the correct bus, address, and type as well, but again,
+not sure on how to make sure they are GPIO input pins.
+
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +               gpio-controller;
+> +               #gpio-cells = <2>;
+> +
+> +               gpio@0 {
+> +                       reg = <0>;
+> +               };
+> +
+> +               gpio@1 {
+> +                       reg = <1>;
+> +               };
+> +
+> +               gpio@2 {
+> +                       reg = <2>;
+> +               };
+> +
+> +               gpio@3 {
+> +                       reg = <3>;
+> +               };
+> +
+> +               gpio@4 {
+> +                       reg = <4>;
+> +               };
+> +
+> +               gpio@5 {
+> +                       reg = <5>;
+> +               };
+> +
+> +               gpio@6 {
+> +                       reg = <6>;
+> +               };
+> +
+> +               gpio@7 {
+> +                       reg = <7>;
+> +               };
+> +
+> +               gpio@8 {
+> +                       reg = <8>;
+> +               };
+> +
+> +               gpio@9 {
+> +                       reg = <9>;
+> +               };
+> +
+> +               gpio@10 {
+> +                       reg = <10>;
+> +               };
+> +
+> +               gpio@11 {
+> +                       reg = <11>;
+> +               };
+> +
+> +               gpio@12 {
+> +                       reg = <12>;
+> +               };
+> +
+> +               gpio@13 {
+> +                       reg = <13>;
+> +               };
+> +
+> +               gpio@14 {
+> +                       reg = <14>;
+> +               };
+> +
+> +               gpio@15 {
+> +                       reg = <15>;
+> +               };
+> +       };
+>  };
+>
+>  &i2c11 {
+> --
+> 1.8.3.1
+>
