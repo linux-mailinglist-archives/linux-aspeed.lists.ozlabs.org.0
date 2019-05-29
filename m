@@ -2,84 +2,133 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE4B62D38A
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2019 04:00:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D182A2D424
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2019 05:12:29 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45DDSj0fXwzDqQK
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2019 12:00:37 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45DG3b091dzDqP3
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2019 13:12:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.28; helo=out4-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="p6dl5bzD"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="JqcyNamq"; dkim-atps=neutral
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45DDSL5gjKzDqQ5
- for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2019 12:00:18 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 5CA0921FB5;
- Tue, 28 May 2019 22:00:15 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Tue, 28 May 2019 22:00:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=dlc53IBOkSiD1cNJTaXRxiWXEJHrTor
- ic23hUYCRqC0=; b=p6dl5bzDLh/yjgsl38thCiHBTu1NiTa3FnUSaE1rxt84EDN
- X8C6yph+Vylp+eI3uA6FGMp+Id8ZiZCLYYNwJxOAAiXnorcjUcJye3GdMWZAOKVj
- 9mBoMtBBpGdKkTt2rdwATOmj/sQkAaNT/Ti/j8TVJKvCghAOnO0uS42iL1INindJ
- rR5vNkH+k4+rMYgiFJUC/U6IJwAoopzEa4UmnWcC4MGsvKXGz8ih7vT/8s/dSnqL
- iI6cFELlsddpaMx0/n8Eto+Q2/RZvknA6pJ851yq+dmWgYXHVRr5I3+IRUfICO/K
- PtH50uo+wlRtJGzzvVJHw5cKU5n+ZaWUpk9cgqQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=dlc53I
- BOkSiD1cNJTaXRxiWXEJHrToric23hUYCRqC0=; b=JqcyNamqu7tP9cvJUmavXh
- JAXe6my8TQxMp8lHwKBxJTh7rbp77nDcjOCdfC4vyeRT2OaF1BTCXnVmIjb3NVbP
- j+/MG9bhYzc4hB/ogykl8y52BF1Cw4oTNelOT/5XSCiSPszdkDG5PselJhw3jGkZ
- 5CAKX16kbOmzqlcOHUFLmkykurEIKHqbelLAXn9HJ0SEixgXFkEGgv0OAs4pFi2K
- eo08tBPmuRJmrIh/q2UQ7OQA0/etMX7Srg3x7EP4ehMHwuvl2P3TBGlliAfljXLt
- YfKgcsNVG9sARt7fNGMp4VnFcB9KUSv0Twy58LfqdIBZNxC7KlBhm+Ru7yqRQzoQ
- ==
-X-ME-Sender: <xms:reftXMl0FnaCAIeRS5CR9IlAZ8ZJ5tUK1AdeZQK3Y0M8kN7Qkhciug>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddruddviedgheduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:reftXEqMiHbJhE5i2NZ-mXeKl-NK0iqTAVjymI2tVf2OWyod0PNm4A>
- <xmx:reftXA-AzznNp4LLTdNivUODgvf3QYAOf8KIxPIFIgzDqEdcKh5YuQ>
- <xmx:reftXPN1xwsbGYOVYulxBphHCVE2FCHmOqXGmVFqr-uXFSAg0nXUsA>
- <xmx:r-ftXPzJlzd3uKn9wPg23LmkCQmUPdda0Y5brmsm8GXAHfHiIf0Ktw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 49A3CE00A1; Tue, 28 May 2019 22:00:13 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-555-g49357e1-fmstable-20190528v2
-Mime-Version: 1.0
-Message-Id: <39ca244a-1243-4039-9dcb-7eb2183908d4@www.fastmail.com>
-In-Reply-To: <687e4a77-0df1-4982-1edd-9d0559c489fe@linux.vnet.ibm.com>
-References: <1558383565-11821-1-git-send-email-eajames@linux.ibm.com>
- <1558383565-11821-3-git-send-email-eajames@linux.ibm.com>
- <CAK8P3a2HSOsw33VhAk4Z8ARiYn4jG68Ec7fynKbrFWUNDo37Wg@mail.gmail.com>
- <687e4a77-0df1-4982-1edd-9d0559c489fe@linux.vnet.ibm.com>
-Date: Wed, 29 May 2019 11:29:35 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Eddie James" <eajames@linux.vnet.ibm.com>,
- "Arnd Bergmann" <arnd@arndb.de>, "Eddie James" <eajames@linux.ibm.com>
-Subject: Re: [PATCH v2 2/7] drivers/soc: Add Aspeed XDMA Engine Driver
-Content-Type: text/plain
+ spf=pass (mailfrom) smtp.mailfrom=cisco.com
+ (client-ip=173.37.86.72; helo=rcdn-iport-1.cisco.com;
+ envelope-from=sschaeck@cisco.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none)
+ header.from=cisco.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=cisco.com header.i=@cisco.com header.b="JQ4ZXBNT"; 
+ dkim=pass (1024-bit key;
+ unprotected) header.d=cisco.onmicrosoft.com header.i=@cisco.onmicrosoft.com
+ header.b="Tqd35wk0"; dkim-atps=neutral
+X-Greylist: delayed 71 seconds by postgrey-1.36 at bilbo;
+ Wed, 29 May 2019 13:12:16 AEST
+Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45DG3N1TWxzDqBP
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2019 13:12:15 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=cisco.com; i=@cisco.com; l=1352; q=dns/txt; s=iport;
+ t=1559099536; x=1560309136;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=Sdulz10sBIhnJIx8fDZdylJ9FoEjzCor9wR+V9xoFE0=;
+ b=JQ4ZXBNT8S7nuxJocV202pFAso+bDZE8B8/OdRYazsxGr+/q0b5iqfSQ
+ GjxIWXYIxNzTWJ1XjjYlbh4MogEzOD9dnS29kEOvabGYIzcRq5le08n7U
+ uMhjD6qMX604C3OHHbK7Oo91PZucuimzEV+9a3b69w8jonxExRfQRwv4x s=;
+IronPort-PHdr: =?us-ascii?q?9a23=3AzjqGjxQkDbo/uCXTgBZNRqHDmNpsv++ubAcI9p?=
+ =?us-ascii?q?oqja5Pea2//pPkeVbS/uhpkESXBNfA8/wRje3QvuigQmEG7Zub+FE6OJ1XH1?=
+ =?us-ascii?q?5g640NmhA4RsuMCEn1NvnvOjchF8RLWVRm13q6KkNSXs35Yg6arw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0ChAABp9+1c/4kNJK1lHAEBAQQBAQc?=
+ =?us-ascii?q?EAQGBUwUBAQsBgT1QA4E+IAQLKIdaA48AgleXLYEuFIEQA1QJAQEBDAEBLQI?=
+ =?us-ascii?q?BAYRAAoJjIzYHDgEDAQEEAQECAQRtHAyFSwEBBBIVGQEBNwEPAgEIGB0RMiU?=
+ =?us-ascii?q?CBAENBSKDAIFrAx0BnhoCgTiIX4FtM4J5AQEFgQYBhAMYgg8JgTQBi1IXgUA?=
+ =?us-ascii?q?/gREnH4IeLj6ELBiDPIImk2CUeQkCgg2TFhuWS4xwlXgCBAIEBQIOAQEFgVY?=
+ =?us-ascii?q?LJoFXcBVlAYJBgg8MF4NNihwBNnKBKY1jAQE?=
+X-IronPort-AV: E=Sophos;i="5.60,525,1549929600"; d="scan'208";a="564674925"
+Received: from alln-core-4.cisco.com ([173.36.13.137])
+ by rcdn-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+ 29 May 2019 03:10:57 +0000
+Received: from XCH-ALN-017.cisco.com (xch-aln-017.cisco.com [173.36.7.27])
+ by alln-core-4.cisco.com (8.15.2/8.15.2) with ESMTPS id x4T3Avv5019255
+ (version=TLSv1.2 cipher=AES256-SHA bits=256 verify=FAIL);
+ Wed, 29 May 2019 03:10:57 GMT
+Received: from xhs-aln-003.cisco.com (173.37.135.120) by XCH-ALN-017.cisco.com
+ (173.36.7.27) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
+ Tue, 28 May 2019 22:10:56 -0500
+Received: from xhs-rcd-003.cisco.com (173.37.227.248) by xhs-aln-003.cisco.com
+ (173.37.135.120) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
+ Tue, 28 May 2019 22:10:56 -0500
+Received: from NAM05-DM3-obe.outbound.protection.outlook.com (72.163.14.9) by
+ xhs-rcd-003.cisco.com (173.37.227.248) with Microsoft SMTP Server
+ (TLS) id
+ 15.0.1473.3 via Frontend Transport; Tue, 28 May 2019 22:10:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cisco.onmicrosoft.com; 
+ s=selector2-cisco-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B59HeDLnmBJtwbhJij9ITHV/Zkb7RsiodX/MnX980z8=;
+ b=Tqd35wk0xDYKzIlbG48ztOKMex2MD0vIRm9+YZzkCLujvZY9y00ASkDOiFiUgwRptysloaaK14XeGa0IPvuZxwhXioDkJcefkGsLKK8jXeElAODhLyw5eV4cHUS6NwndeQLVrGzjAIkrsLSze88bOEtrqhzX7XaZ3AnoOk1kRYk=
+Received: from BY5PR11MB4007.namprd11.prod.outlook.com (10.255.161.92) by
+ BY5PR11MB4183.namprd11.prod.outlook.com (10.255.162.161) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1922.23; Wed, 29 May 2019 03:10:54 +0000
+Received: from BY5PR11MB4007.namprd11.prod.outlook.com
+ ([fe80::1de7:32f5:3a7b:ae21]) by BY5PR11MB4007.namprd11.prod.outlook.com
+ ([fe80::1de7:32f5:3a7b:ae21%5]) with mapi id 15.20.1922.021; Wed, 29 May 2019
+ 03:10:54 +0000
+From: "Stefan Schaeckeler (sschaeck)" <sschaeck@cisco.com>
+To: Andrew Jeffery <andrew@aj.id.au>, YueHaibing <yuehaibing@huawei.com>,
+ Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "james.morse@arm.com" <james.morse@arm.com>, Joel Stanley <joel@jms.id.au>
+Subject: Re: [PATCH -next] EDAC: aspeed: Remove set but not used variable 'np'
+Thread-Topic: [PATCH -next] EDAC: aspeed: Remove set but not used variable 'np'
+Thread-Index: AQHVEwgkpwm7NMGqKUyhE4ayNBdRIKaBVTwA//+nlwA=
+Date: Wed, 29 May 2019 03:10:54 +0000
+Message-ID: <960D5667-41E7-47F3-9C0A-726CA919B82D@cisco.com>
+References: <20190525144153.2028-1-yuehaibing@huawei.com>
+ <04f103fb-54b1-4911-8164-44b20bfd1e72@www.fastmail.com>
+In-Reply-To: <04f103fb-54b1-4911-8164-44b20bfd1e72@www.fastmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/10.19.0.190512
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=sschaeck@cisco.com; 
+x-originating-ip: [2001:420:c0c8:1002::23a]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: da4acbc0-d7fa-40d7-c0d6-08d6e3e34381
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:BY5PR11MB4183; 
+x-ms-traffictypediagnostic: BY5PR11MB4183:
+x-microsoft-antispam-prvs: <BY5PR11MB4183B04A05AC67C88A772AC0C71F0@BY5PR11MB4183.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3173;
+x-forefront-prvs: 0052308DC6
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(366004)(396003)(39860400002)(136003)(376002)(346002)(189003)(199004)(6436002)(6246003)(6486002)(4326008)(71190400001)(71200400001)(83716004)(66476007)(99286004)(14444005)(76116006)(73956011)(66446008)(64756008)(66556008)(2501003)(229853002)(82746002)(256004)(36756003)(86362001)(305945005)(54906003)(25786009)(66946007)(6512007)(8936002)(186003)(68736007)(476003)(446003)(11346002)(6116002)(14454004)(7736002)(53936002)(5660300002)(2906002)(7416002)(486006)(81156014)(58126008)(81166006)(316002)(6506007)(102836004)(8676002)(110136005)(53546011)(76176011)(478600001)(33656002)(2616005)(46003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:BY5PR11MB4183;
+ H:BY5PR11MB4007.namprd11.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: cisco.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: AghqIJs59cYjUuUMuNNC5Q4ehQp8qSYJum6+gIx7AhhZQBQo7KWB3jXiBi7dIsX6BnLF1+HuS2yi7NoJdH/Bo1Z/mD321tvHvMLP7G+Hd8tElngXXNfnE3PUJR7wxKxnKwrPy6GukNZaBeOEhI9LrGXWO29Y2g2yCEXon0F329khucXeuAAnBjguh6/9wXl7PdAwG/Np7pLOAujZ21UY3COWwmT7Yepb9Ped2DgIIZ3HDhfLjv742N/RWL5//23H+E2YOl9NNcuN4tTyZlCk+jExupEjVcTUAEH9V6Xabzbjskpj7pX5D9Bvpvp2oNLZMbigBeEaoEY2+t3BRAs2Pma2H/keeMf/zegmWiQnEg8atCpRmrst5z8ZB7GhcfRLGATc4n1ynuqDb1xiMbcowSMh+HkZZCcGq3XQ6uz9jZM=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <3293C5D8B6EA624CB924C20630669181@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: da4acbc0-d7fa-40d7-c0d6-08d6e3e34381
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 May 2019 03:10:54.7573 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: sschaeck@cisco.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4183
+X-OriginatorOrg: cisco.com
+X-Outbound-SMTP-Client: 173.36.7.27, xch-aln-017.cisco.com
+X-Outbound-Node: alln-core-4.cisco.com
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,60 +140,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- linux-aspeed@lists.ozlabs.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>
+Cc: "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On  Tuesday, May 28, 2019 at 6:27 PM, Andrew Jeffery wrote:
+> On Sun, 26 May 2019, at 00:12, YueHaibing wrote:
+> > Fixes gcc '-Wunused-but-set-variable' warning:
+> >
+> > drivers/edac/aspeed_edac.c: In function aspeed_probe:
+> > drivers/edac/aspeed_edac.c:284:22: warning: variable np set but not
+> > used [-Wunused-but-set-variable]
+> >
+> > It is never used and can be removed.
+> >
+> > Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+>
+> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
 
+Reviewed-by: Stefan Schaeckeler <sschaeck@cisco.com>
 
-On Sat, 25 May 2019, at 01:39, Eddie James wrote:
-> 
-> On 5/21/19 7:02 AM, Arnd Bergmann wrote:
-> > On Mon, May 20, 2019 at 10:19 PM Eddie James <eajames@linux.ibm.com> wrote:
-> >> diff --git a/include/uapi/linux/aspeed-xdma.h b/include/uapi/linux/aspeed-xdma.h
-> >> new file mode 100644
-> >> index 0000000..2a4bd13
-> >> --- /dev/null
-> >> +++ b/include/uapi/linux/aspeed-xdma.h
-> >> @@ -0,0 +1,26 @@
-> >> +/* SPDX-License-Identifier: GPL-2.0+ */
-> >> +/* Copyright IBM Corp 2019 */
-> >> +
-> >> +#ifndef _UAPI_LINUX_ASPEED_XDMA_H_
-> >> +#define _UAPI_LINUX_ASPEED_XDMA_H_
-> >> +
-> >> +#include <linux/types.h>
-> >> +
-> >> +/*
-> >> + * aspeed_xdma_op
-> >> + *
-> >> + * upstream: boolean indicating the direction of the DMA operation; upstream
-> >> + *           means a transfer from the BMC to the host
-> >> + *
-> >> + * host_addr: the DMA address on the host side, typically configured by PCI
-> >> + *            subsystem
-> >> + *
-> >> + * len: the size of the transfer in bytes; it should be a multiple of 16 bytes
-> >> + */
-> >> +struct aspeed_xdma_op {
-> >> +       __u32 upstream;
-> >> +       __u64 host_addr;
-> >> +       __u32 len;
-> >> +};
-> >> +
-> >> +#endif /* _UAPI_LINUX_ASPEED_XDMA_H_ */
-> > If this is a user space interface, please remove the holes in the
-> > data structure.
-> 
-> 
-> Surely it's 4-byte aligned and there won't be holes??
+> > ---
+> >  drivers/edac/aspeed_edac.c | 4 ----
+> >  1 file changed, 4 deletions(-)
+> >
+> > diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
+> > index 11833c0a5d07..5634437bb39d 100644
+> > --- a/drivers/edac/aspeed_edac.c
+> > +++ b/drivers/edac/aspeed_edac.c
+> > @@ -281,15 +281,11 @@ static int aspeed_probe(struct platform_device *p=
+dev)
+> >  	struct device *dev =3D &pdev->dev;
+> >  	struct edac_mc_layer layers[2];
+> >  	struct mem_ctl_info *mci;
+> > -	struct device_node *np;
+> >  	struct resource *res;
+> >  	void __iomem *regs;
+> >  	u32 reg04;
+> > 	int rc;
+> >
+> > -	/* setup regmap */
+> > -	np =3D dev->of_node;
+> > -
+> >  	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> >  	if (!res)
+> >  		return -ENOENT;
+> > --
+> > 2.17.1
 
-__u64 is 8-byte aligned, so you have a hole after upstream.
-
-Easiest just to put upstream after len?
-
-Andrew
