@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109472D34E
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2019 03:27:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE4B62D38A
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2019 04:00:39 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45DCkh4TLSzDqQs
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2019 11:27:40 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45DDSj0fXwzDqQK
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 May 2019 12:00:37 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -16,69 +16,69 @@ Authentication-Results: lists.ozlabs.org;
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="LS3OzXUP"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="p6dl5bzD"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="7qswdVOl"; dkim-atps=neutral
+ header.b="JqcyNamq"; dkim-atps=neutral
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
  [66.111.4.28])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45DCkJ4rqvzDqRM
- for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2019 11:27:20 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45DDSL5gjKzDqQ5
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2019 12:00:18 +1000 (AEST)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 524D02203E;
- Tue, 28 May 2019 21:27:18 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 5CA0921FB5;
+ Tue, 28 May 2019 22:00:15 -0400 (EDT)
 Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Tue, 28 May 2019 21:27:18 -0400
+ by compute4.internal (MEProxy); Tue, 28 May 2019 22:00:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=ioeB7zHzuIrWPlycdQWlBGq8mtTxytQ
- LMO5+tIc96Og=; b=LS3OzXUPrbKqiJbL/pQVT1MOVVOLo0+E78YZXJwv1DpXruf
- Y3EncH+L0nN+izLmvqtPA83EWSEX+v2552DeODXpV1erb4L+vkGD3nVEBIBZw9sm
- OuR30rXhiCxmfx+LGZjtoViVbT4/FBfs6JiVkrG+iLsij2gpR+riYxtNa8qpFkc0
- gamh++e/Wa9GJ3wpZobvoTlMsrCwjJ+s1YAKOnruIuS3bmIIOMb2xsBsZ4VW3lJj
- Y02sZb4dCrd68pIeF8BSFcutQwq3qCP/dJbmrid5p0xjuakUlkz/b2dFyF0eSqE5
- jqae/CrC6u2XcaDqB2C6PX91ETJ1hQJxr82/s2g==
+ :subject:content-type; s=fm2; bh=dlc53IBOkSiD1cNJTaXRxiWXEJHrTor
+ ic23hUYCRqC0=; b=p6dl5bzDLh/yjgsl38thCiHBTu1NiTa3FnUSaE1rxt84EDN
+ X8C6yph+Vylp+eI3uA6FGMp+Id8ZiZCLYYNwJxOAAiXnorcjUcJye3GdMWZAOKVj
+ 9mBoMtBBpGdKkTt2rdwATOmj/sQkAaNT/Ti/j8TVJKvCghAOnO0uS42iL1INindJ
+ rR5vNkH+k4+rMYgiFJUC/U6IJwAoopzEa4UmnWcC4MGsvKXGz8ih7vT/8s/dSnqL
+ iI6cFELlsddpaMx0/n8Eto+Q2/RZvknA6pJ851yq+dmWgYXHVRr5I3+IRUfICO/K
+ PtH50uo+wlRtJGzzvVJHw5cKU5n+ZaWUpk9cgqQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ioeB7z
- HzuIrWPlycdQWlBGq8mtTxytQLMO5+tIc96Og=; b=7qswdVOlE1f9vJrwsJhoSE
- jV3vZHzZk0EoBNB+HKPtenBhp5sGO19cz9qrOBv5JoICgK6IIDVBuVdyEdyreiJt
- 8gszj6Hpz+pCnLkUH4x1jW/nJ9gw45WZRi2du9T7OZlV44TrvlK/GSmEe8/nyHDl
- 40eNjgftT+ttN2I1C/NojHm6nHQAr6EturFeysDAqTT2qBeUbcN5eDbVEGWysR7X
- SVYCAQmVw+eRli37zjajA+2vrjW659hiWQ4ZTTuupzJSSbJT0sgQpH1/DIamN6FW
- 6r/4ATUBTk8RIHXda43qaUIZPK4AaxHl++sSQuKB7xMPif67R+Ehw35XlCUk28ZQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=dlc53I
+ BOkSiD1cNJTaXRxiWXEJHrToric23hUYCRqC0=; b=JqcyNamqu7tP9cvJUmavXh
+ JAXe6my8TQxMp8lHwKBxJTh7rbp77nDcjOCdfC4vyeRT2OaF1BTCXnVmIjb3NVbP
+ j+/MG9bhYzc4hB/ogykl8y52BF1Cw4oTNelOT/5XSCiSPszdkDG5PselJhw3jGkZ
+ 5CAKX16kbOmzqlcOHUFLmkykurEIKHqbelLAXn9HJ0SEixgXFkEGgv0OAs4pFi2K
+ eo08tBPmuRJmrIh/q2UQ7OQA0/etMX7Srg3x7EP4ehMHwuvl2P3TBGlliAfljXLt
+ YfKgcsNVG9sARt7fNGMp4VnFcB9KUSv0Twy58LfqdIBZNxC7KlBhm+Ru7yqRQzoQ
  ==
-X-ME-Sender: <xms:9N_tXLiz0FV_kq6p9HMQVm8b9GwTjYANLQpCEKbfhcbreVLkNG6wdQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddruddviedggeehucetufdoteggodetrfdotf
+X-ME-Sender: <xms:reftXMl0FnaCAIeRS5CR9IlAZ8ZJ5tUK1AdeZQK3Y0M8kN7Qkhciug>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddruddviedgheduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
  rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
  grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
  rhfuihiivgeptd
-X-ME-Proxy: <xmx:9N_tXLCRm4BGk27OuOe1ur6tyqa-6U06n2BL-N-Z6wL5FEUvaSAuHg>
- <xmx:9N_tXNqMOY8haizNcQXR51DiO96ZyDlZGA7RCousVe5ICapsxn-ebQ>
- <xmx:9N_tXCtIugJuRak_0OyMewJoejHMcP4Ymiu80TXHHI4NBgpy3-x5tw>
- <xmx:9t_tXGV3PMpaR97hvvy9j8WxwcyOGvhcCUp7fC7MjiCi6DXjsFb-pQ>
+X-ME-Proxy: <xmx:reftXEqMiHbJhE5i2NZ-mXeKl-NK0iqTAVjymI2tVf2OWyod0PNm4A>
+ <xmx:reftXA-AzznNp4LLTdNivUODgvf3QYAOf8KIxPIFIgzDqEdcKh5YuQ>
+ <xmx:reftXPN1xwsbGYOVYulxBphHCVE2FCHmOqXGmVFqr-uXFSAg0nXUsA>
+ <xmx:r-ftXPzJlzd3uKn9wPg23LmkCQmUPdda0Y5brmsm8GXAHfHiIf0Ktw>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id C2A78E00A1; Tue, 28 May 2019 21:27:16 -0400 (EDT)
+ id 49A3CE00A1; Tue, 28 May 2019 22:00:13 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.1.6-555-g49357e1-fmstable-20190528v2
 Mime-Version: 1.0
-Message-Id: <04f103fb-54b1-4911-8164-44b20bfd1e72@www.fastmail.com>
-In-Reply-To: <20190525144153.2028-1-yuehaibing@huawei.com>
-References: <20190525144153.2028-1-yuehaibing@huawei.com>
-Date: Wed, 29 May 2019 10:57:16 +0930
+Message-Id: <39ca244a-1243-4039-9dcb-7eb2183908d4@www.fastmail.com>
+In-Reply-To: <687e4a77-0df1-4982-1edd-9d0559c489fe@linux.vnet.ibm.com>
+References: <1558383565-11821-1-git-send-email-eajames@linux.ibm.com>
+ <1558383565-11821-3-git-send-email-eajames@linux.ibm.com>
+ <CAK8P3a2HSOsw33VhAk4Z8ARiYn4jG68Ec7fynKbrFWUNDo37Wg@mail.gmail.com>
+ <687e4a77-0df1-4982-1edd-9d0559c489fe@linux.vnet.ibm.com>
+Date: Wed, 29 May 2019 11:29:35 +0930
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: YueHaibing <yuehaibing@huawei.com>,
- "Stefan M Schaeckeler" <sschaeck@cisco.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "Mauro Carvalho Chehab" <mchehab@kernel.org>, james.morse@arm.com,
- "Joel Stanley" <joel@jms.id.au>
-Subject: Re: [PATCH -next] EDAC: aspeed: Remove set but not used variable 'np'
+To: "Eddie James" <eajames@linux.vnet.ibm.com>,
+ "Arnd Bergmann" <arnd@arndb.de>, "Eddie James" <eajames@linux.ibm.com>
+Subject: Re: [PATCH v2 2/7] drivers/soc: Add Aspeed XDMA Engine Driver
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -91,53 +91,60 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-edac@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
+ linux-aspeed@lists.ozlabs.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
 
-On Sun, 26 May 2019, at 00:12, YueHaibing wrote:
-> Fixes gcc '-Wunused-but-set-variable' warning:
+On Sat, 25 May 2019, at 01:39, Eddie James wrote:
 > 
-> drivers/edac/aspeed_edac.c: In function aspeed_probe:
-> drivers/edac/aspeed_edac.c:284:22: warning: variable np set but not 
-> used [-Wunused-but-set-variable]
+> On 5/21/19 7:02 AM, Arnd Bergmann wrote:
+> > On Mon, May 20, 2019 at 10:19 PM Eddie James <eajames@linux.ibm.com> wrote:
+> >> diff --git a/include/uapi/linux/aspeed-xdma.h b/include/uapi/linux/aspeed-xdma.h
+> >> new file mode 100644
+> >> index 0000000..2a4bd13
+> >> --- /dev/null
+> >> +++ b/include/uapi/linux/aspeed-xdma.h
+> >> @@ -0,0 +1,26 @@
+> >> +/* SPDX-License-Identifier: GPL-2.0+ */
+> >> +/* Copyright IBM Corp 2019 */
+> >> +
+> >> +#ifndef _UAPI_LINUX_ASPEED_XDMA_H_
+> >> +#define _UAPI_LINUX_ASPEED_XDMA_H_
+> >> +
+> >> +#include <linux/types.h>
+> >> +
+> >> +/*
+> >> + * aspeed_xdma_op
+> >> + *
+> >> + * upstream: boolean indicating the direction of the DMA operation; upstream
+> >> + *           means a transfer from the BMC to the host
+> >> + *
+> >> + * host_addr: the DMA address on the host side, typically configured by PCI
+> >> + *            subsystem
+> >> + *
+> >> + * len: the size of the transfer in bytes; it should be a multiple of 16 bytes
+> >> + */
+> >> +struct aspeed_xdma_op {
+> >> +       __u32 upstream;
+> >> +       __u64 host_addr;
+> >> +       __u32 len;
+> >> +};
+> >> +
+> >> +#endif /* _UAPI_LINUX_ASPEED_XDMA_H_ */
+> > If this is a user space interface, please remove the holes in the
+> > data structure.
 > 
-> It is never used and can be removed.
 > 
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> Surely it's 4-byte aligned and there won't be holes??
 
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+__u64 is 8-byte aligned, so you have a hole after upstream.
 
-> ---
->  drivers/edac/aspeed_edac.c | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
-> index 11833c0a5d07..5634437bb39d 100644
-> --- a/drivers/edac/aspeed_edac.c
-> +++ b/drivers/edac/aspeed_edac.c
-> @@ -281,15 +281,11 @@ static int aspeed_probe(struct platform_device *pdev)
->  	struct device *dev = &pdev->dev;
->  	struct edac_mc_layer layers[2];
->  	struct mem_ctl_info *mci;
-> -	struct device_node *np;
->  	struct resource *res;
->  	void __iomem *regs;
->  	u32 reg04;
->  	int rc;
->  
-> -	/* setup regmap */
-> -	np = dev->of_node;
-> -
->  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->  	if (!res)
->  		return -ENOENT;
-> -- 
-> 2.17.1
-> 
-> 
->
+Easiest just to put upstream after len?
+
+Andrew
