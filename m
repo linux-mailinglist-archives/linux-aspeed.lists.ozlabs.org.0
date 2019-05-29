@@ -1,50 +1,49 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1082E854
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 00:35:46 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 315222E85C
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 00:35:51 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45Dlsv3MxnzDqMy
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 08:35:47 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45Dlsr3bkfzDqNt
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 08:35:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=fb.com
- (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
+ (client-ip=67.231.153.30; helo=mx0a-00082601.pphosted.com;
  envelope-from=prvs=1052dfd69e=vijaykhemka@fb.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=fb.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=fb.com header.i=@fb.com header.b="TIcEBMZd"; 
+ unprotected) header.d=fb.com header.i=@fb.com header.b="iyGeSHJO"; 
  dkim-atps=neutral
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
- [67.231.145.42])
+Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com
+ [67.231.153.30])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45Dlsg4kjpzDqLf
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45Dlsg3lYfzDqLW
  for <linux-aspeed@lists.ozlabs.org>; Thu, 30 May 2019 08:35:32 +1000 (AEST)
-Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x4TMVcjU029423
- for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2019 15:35:28 -0700
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+ by m0001303.ppops.net (8.16.0.27/8.16.0.27) with SMTP id x4TMXBKp022986
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2019 15:35:29 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
  h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=facebook;
- bh=22SNMUgGB2CXoUFYzuPVQZ60CnMhuhMebQ8GsCZJlx4=;
- b=TIcEBMZduyEZ2+pyhqCpYJ66Oe/TmavFKgqpMRBjOUZa8UJ+VDBNQVGeq7OnE82rLA2W
- tbNIpG7fAVXVz07oOrrnhR8jNLUq1eQJs7sAMPHXPDksMemWWoZxTkaNHKGuftWWUthy
- 5tbIQyQM1WoWLw7BE39jyydQA0XV/zHd6E4= 
-Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
- by mx0a-00082601.pphosted.com with ESMTP id 2ssn0x2xb1-5
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
- for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2019 15:35:28 -0700
-Received: from mx-out.facebook.com (2620:10d:c081:10::13) by
- mail.thefacebook.com (2620:10d:c081:35::130) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.1713.5;
- Wed, 29 May 2019 15:35:25 -0700
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=facebook; bh=E/7CawHUgsSjWEZbZXxUdQdn9jE5t8ujO/dmm4aOm50=;
+ b=iyGeSHJOgzWUSNcQW0RgCHD4GLx9W0odmIlt4R+6DXHtmm52FsjmLzlyPZsSqMVjsXpn
+ ikUXEi/2nx9R4etwaPyZFKI6vi6YfeepO2N2tflZpZqmz8p5+/BNFNL0z7hVck5P/Id3
+ bjmR2sHszNZ2Zcm02aZxyytfZABbP6wPVko= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by m0001303.ppops.net with ESMTP id 2st2yjr08t-2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2019 15:35:29 -0700
+Received: from mx-out.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 29 May 2019 15:35:28 -0700
 Received: by devvm4117.prn2.facebook.com (Postfix, from userid 167582)
- id 1D93CE882C2F; Wed, 29 May 2019 15:35:25 -0700 (PDT)
+ id CC02DE882C31; Wed, 29 May 2019 15:35:26 -0700 (PDT)
 Smtp-Origin-Hostprefix: devvm
 From: Vijay Khemka <vijaykhemka@fb.com>
 Smtp-Origin-Hostname: devvm4117.prn2.facebook.com
@@ -52,10 +51,12 @@ To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
  Jonathan Corbet <corbet@lwn.net>, <linux-hwmon@vger.kernel.org>,
  <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 Smtp-Origin-Cluster: prn2c23
-Subject: [PATCH 1/2] hwmon: pmbus: Add Infineon PXE1610 VR driver
-Date: Wed, 29 May 2019 15:35:08 -0700
-Message-ID: <20190529223511.4059120-1-vijaykhemka@fb.com>
+Subject: [PATCH 2/2] Docs: hwmon: pmbus: Add PXE1610 driver
+Date: Wed, 29 May 2019 15:35:09 -0700
+Message-ID: <20190529223511.4059120-2-vijaykhemka@fb.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190529223511.4059120-1-vijaykhemka@fb.com>
+References: <20190529223511.4059120-1-vijaykhemka@fb.com>
 X-FB-Internal: Safe
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -66,7 +67,7 @@ X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1905290140
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1905290139
 X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -85,175 +86,104 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Added pmbus driver for the new device Infineon pxe1610
-voltage regulator. It also supports similar family device
-PXE1110 and PXM1310.
+Added support for Infenion PXE1610 driver
 
 Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
 ---
- drivers/hwmon/pmbus/Kconfig   |   9 +++
- drivers/hwmon/pmbus/Makefile  |   1 +
- drivers/hwmon/pmbus/pxe1610.c | 119 ++++++++++++++++++++++++++++++++++
- 3 files changed, 129 insertions(+)
- create mode 100644 drivers/hwmon/pmbus/pxe1610.c
+ Documentation/hwmon/pxe1610 | 84 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 84 insertions(+)
+ create mode 100644 Documentation/hwmon/pxe1610
 
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 30751eb9550a..338ef9b5a395 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -154,6 +154,15 @@ config SENSORS_MAX8688
- 	  This driver can also be built as a module. If so, the module will
- 	  be called max8688.
- 
-+config SENSORS_PXE1610
-+	tristate "Infineon PXE1610"
-+	help
-+	  If you say yes here you get hardware monitoring support for Infineon
-+	  PXE1610.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called pxe1610.
-+
- config SENSORS_TPS40422
- 	tristate "TI TPS40422"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index 2219b9300316..b0fbd017a91a 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -18,6 +18,7 @@ obj-$(CONFIG_SENSORS_MAX20751)	+= max20751.o
- obj-$(CONFIG_SENSORS_MAX31785)	+= max31785.o
- obj-$(CONFIG_SENSORS_MAX34440)	+= max34440.o
- obj-$(CONFIG_SENSORS_MAX8688)	+= max8688.o
-+obj-$(CONFIG_SENSORS_PXE1610)	+= pxe1610.o
- obj-$(CONFIG_SENSORS_TPS40422)	+= tps40422.o
- obj-$(CONFIG_SENSORS_TPS53679)	+= tps53679.o
- obj-$(CONFIG_SENSORS_UCD9000)	+= ucd9000.o
-diff --git a/drivers/hwmon/pmbus/pxe1610.c b/drivers/hwmon/pmbus/pxe1610.c
+diff --git a/Documentation/hwmon/pxe1610 b/Documentation/hwmon/pxe1610
 new file mode 100644
-index 000000000000..01e267944df5
+index 000000000000..b5c83edf027a
 --- /dev/null
-+++ b/drivers/hwmon/pmbus/pxe1610.c
-@@ -0,0 +1,119 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Hardware monitoring driver for Infineon PXE1610
-+ *
-+ * Copyright (c) 2019 Facebook Inc
-+ *
-+ */
++++ b/Documentation/hwmon/pxe1610
+@@ -0,0 +1,84 @@
++Kernel driver pxe1610
++=====================
 +
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include "pmbus.h"
++Supported chips:
++  * Infinion PXE1610
++    Prefix: 'pxe1610'
++    Addresses scanned: -
++    Datasheet: Datasheet is not publicly available.
 +
-+/*
-+ * Identify chip parameters.
-+ */
-+static int pxe1610_identify(struct i2c_client *client,
-+			  struct pmbus_driver_info *info)
-+{
-+	if (pmbus_check_byte_register(client, 0, PMBUS_VOUT_MODE)) {
-+		int vout_mode;
++  * Infinion PXE1110
++    Prefix: 'pxe1110'
++    Addresses scanned: -
++    Datasheet: Datasheet is not publicly available.
 +
-+		vout_mode = pmbus_read_byte_data(client, 0, PMBUS_VOUT_MODE);
-+		switch (vout_mode & 0x1f) {
-+		case 1:
-+			info->vrm_version = vr12;
-+		break;
-+		case 2:
-+			info->vrm_version = vr13;
-+		break;
-+		default:
-+			return -ENODEV;
-+		}
-+	}
-+	return 0;
-+}
++  * Infinion PXM1310
++    Prefix: 'pxm1310'
++    Addresses scanned: -
++    Datasheet: Datasheet is not publicly available.
 +
-+static int pxe1610_probe(struct i2c_client *client,
-+			 const struct i2c_device_id *id)
-+{
-+	struct pmbus_driver_info *info;
-+	u8 buf[I2C_SMBUS_BLOCK_MAX];
-+	int ret;
++Author: Vijay Khemka <vijaykhemka@fb.com>
 +
-+	if (!i2c_check_functionality(client->adapter,
-+				     I2C_FUNC_SMBUS_READ_BYTE_DATA
-+				| I2C_FUNC_SMBUS_READ_WORD_DATA
-+				| I2C_FUNC_SMBUS_READ_BLOCK_DATA))
-+		return -ENODEV;
 +
-+	/* By default this device doesn't boot to page 0, so set page 0
-+	 * to access all pmbus registers.
-+	 */
-+	i2c_smbus_write_byte_data(client, 0, 0);
++Description
++-----------
 +
-+	/* Read Manufacturer id */
-+	ret = i2c_smbus_read_block_data(client, PMBUS_MFR_ID, buf);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "Failed to read PMBUS_MFR_ID\n");
-+		return ret;
-+	}
-+	if (ret != 2 || strncmp(buf, "XP", strlen("XP"))) {
-+		dev_err(&client->dev, "MFR_ID unrecognised\n");
-+		return -ENODEV;
-+	}
++PXE1610 is a Multi-rail/Multiphase Digital Controllers and
++it is compliant to Intel VR13 DC-DC converter specifications.
 +
-+	info = devm_kzalloc(&client->dev, sizeof(struct pmbus_driver_info),
-+			    GFP_KERNEL);
-+	if (!info)
-+		return -ENOMEM;
 +
-+	info->format[PSC_VOLTAGE_IN] = linear;
-+	info->format[PSC_VOLTAGE_OUT] = vid;
-+	info->format[PSC_CURRENT_IN] = linear;
-+	info->format[PSC_CURRENT_OUT] = linear;
-+	info->format[PSC_POWER] = linear;
-+	info->format[PSC_TEMPERATURE] = linear;
++Usage Notes
++-----------
 +
-+	info->func[0] = PMBUS_HAVE_VIN
-+		| PMBUS_HAVE_VOUT | PMBUS_HAVE_IIN
-+		| PMBUS_HAVE_IOUT | PMBUS_HAVE_PIN
-+		| PMBUS_HAVE_POUT | PMBUS_HAVE_TEMP
-+		| PMBUS_HAVE_STATUS_VOUT | PMBUS_HAVE_STATUS_IOUT
-+		| PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP;
-+	info->func[1] = info->func[0];
-+	info->func[2] = info->func[0];
++This driver can be enabled with kernel config CONFIG_SENSORS_PXE1610
++set to 'y' or 'm'(for module).
 +
-+	info->pages = id->driver_data;
-+	info->identify = pxe1610_identify;
++This driver does not probe for PMBus devices. You will have
++to instantiate devices explicitly.
 +
-+	return pmbus_do_probe(client, id, info);
-+}
++Example: the following commands will load the driver for an PXE1610
++at address 0x70 on I2C bus #4:
 +
-+static const struct i2c_device_id pxe1610_id[] = {
-+	{"pxe1610", 3},
-+	{"pxe1110", 3},
-+	{"pxm1310", 3},
-+	{}
-+};
++# modprobe pxe1610
++# echo pxe1610 0x70 > /sys/bus/i2c/devices/i2c-4/new_device
 +
-+MODULE_DEVICE_TABLE(i2c, pxe1610_id);
++It can also be instantiated by declaring in device tree if it is
++built as a kernel not as a module.
 +
-+/* This is the driver that will be inserted */
-+static struct i2c_driver pxe1610_driver = {
-+	.driver = {
-+		   .name = "pxe1610",
-+		   },
-+	.probe = pxe1610_probe,
-+	.remove = pmbus_do_remove,
-+	.id_table = pxe1610_id,
-+};
 +
-+module_i2c_driver(pxe1610_driver);
++Sysfs attributes
++----------------
 +
-+MODULE_AUTHOR("Vijay Khemka <vijaykhemka@fb.com>");
-+MODULE_DESCRIPTION("PMBus driver for Infineon PXE1610, PXE1110 and PXM1310");
-+MODULE_LICENSE("GPL");
++curr1_label		"iin"
++curr1_input		Measured input current
++curr1_alarm		Current high alarm
++
++curr[2-4]_label		"iout[1-3]"
++curr[2-4]_input		Measured output current
++curr[2-4]_crit		Critical maximum current
++curr[2-4]_crit_alarm	Current critical high alarm
++
++in1_label		"vin"
++in1_input		Measured input voltage
++in1_crit		Critical maximum input voltage
++in1_crit_alarm		Input voltage critical high alarm
++
++in[2-4]_label		"vout[1-3]"
++in[2-4]_input		Measured output voltage
++in[2-4]_lcrit		Critical minimum output voltage
++in[2-4]_lcrit_alarm	Output voltage critical low alarm
++in[2-4]_crit		Critical maximum output voltage
++in[2-4]_crit_alarm	Output voltage critical high alarm
++
++power1_label		"pin"
++power1_input		Measured input power
++power1_alarm		Input power high alarm
++
++power[2-4]_label	"pout[1-3]"
++power[2-4]_input	Measured output power
++
++temp[1-3]_input		Measured temperature
++temp[1-3]_crit		Critical high temperature
++temp[1-3]_crit_alarm	Chip temperature critical high alarm
++temp[1-3]_max		Maximum temperature
++temp[1-3]_max_alarm	Chip temperature high alarm
 -- 
 2.17.1
 
