@@ -1,74 +1,63 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE1082E854
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 00:35:46 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45Dlsr3bkfzDqNt
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 08:35:44 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A695F2E9BA
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 02:34:35 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 45DpVw0SCCzDqK5
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 10:34:32 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=fb.com
- (client-ip=67.231.153.30; helo=mx0a-00082601.pphosted.com;
- envelope-from=prvs=1052dfd69e=vijaykhemka@fb.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::742; helo=mail-qk1-x742.google.com;
+ envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=fb.com
+ dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=fb.com header.i=@fb.com header.b="iyGeSHJO"; 
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="nW0+RjTg"; 
  dkim-atps=neutral
-Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com
- [67.231.153.30])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45Dlsg3lYfzDqLW
- for <linux-aspeed@lists.ozlabs.org>; Thu, 30 May 2019 08:35:32 +1000 (AEST)
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
- by m0001303.ppops.net (8.16.0.27/8.16.0.27) with SMTP id x4TMXBKp022986
- for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2019 15:35:29 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type; s=facebook; bh=E/7CawHUgsSjWEZbZXxUdQdn9jE5t8ujO/dmm4aOm50=;
- b=iyGeSHJOgzWUSNcQW0RgCHD4GLx9W0odmIlt4R+6DXHtmm52FsjmLzlyPZsSqMVjsXpn
- ikUXEi/2nx9R4etwaPyZFKI6vi6YfeepO2N2tflZpZqmz8p5+/BNFNL0z7hVck5P/Id3
- bjmR2sHszNZ2Zcm02aZxyytfZABbP6wPVko= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by m0001303.ppops.net with ESMTP id 2st2yjr08t-2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2019 15:35:29 -0700
-Received: from mx-out.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:83::5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 29 May 2019 15:35:28 -0700
-Received: by devvm4117.prn2.facebook.com (Postfix, from userid 167582)
- id CC02DE882C31; Wed, 29 May 2019 15:35:26 -0700 (PDT)
-Smtp-Origin-Hostprefix: devvm
-From: Vijay Khemka <vijaykhemka@fb.com>
-Smtp-Origin-Hostname: devvm4117.prn2.facebook.com
-To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Jonathan Corbet <corbet@lwn.net>, <linux-hwmon@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Smtp-Origin-Cluster: prn2c23
-Subject: [PATCH 2/2] Docs: hwmon: pmbus: Add PXE1610 driver
-Date: Wed, 29 May 2019 15:35:09 -0700
-Message-ID: <20190529223511.4059120-2-vijaykhemka@fb.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190529223511.4059120-1-vijaykhemka@fb.com>
-References: <20190529223511.4059120-1-vijaykhemka@fb.com>
-X-FB-Internal: Safe
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45DpVl5Y05zDqJH
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 30 May 2019 10:34:23 +1000 (AEST)
+Received: by mail-qk1-x742.google.com with SMTP id l128so2786812qke.2
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 29 May 2019 17:34:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KHD+sHVUPLQmygDU5dgl8aDe2PTeVVrxe8ejiYsJbzA=;
+ b=nW0+RjTgr112JeSC0qx2gUZmFr6cGCDqdl+BpCHWqJuE+d78Bs5iJJebC6syz05H1g
+ APITCHaqFOtnhiPTw51uDWFk0zRdcaug6U0SqwHUL+FX62RpIXyMwquSehD4D9wCa9Nz
+ DjkgdB2ypi/hj1qa/QKZLnb8qvc1wkMBkifao=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KHD+sHVUPLQmygDU5dgl8aDe2PTeVVrxe8ejiYsJbzA=;
+ b=aLRJnwL38Zx3uR529lSmVLcN0Y3bNaMGm4JrovVjr3iDCuh1HDXvrBXYZvzWbIKPBo
+ +kJOLZKxXBYv0l4SumSVW5v40NDSkYso6azZghmyBhr3ad1XaaHDk9np3BJ/4LaQCdOl
+ lSW2/H0dqIrJ8kdpqvSk21M+k66xVhZr5+DS2c+BoQUHOPT1QuQZkKNbAw98bNBZUMwL
+ 2miWWiWx9t2B0KVw0IWrWUb8myN1S9VnIqynUO0yESgqTP76Ha6DVxqsWnPUjQmNlXXP
+ FJjX7qlNVbWA4P7uE3PwRt6CMJEfZKtP5MmhQggtKlYLMpiG14nriqZmuS0IOT+W4vAI
+ tKAw==
+X-Gm-Message-State: APjAAAXJ2Pt5u5uCrw0y8jOrm/ReiauG/oAq7VnLo+AWjCei3DWPFEdP
+ GiWiDKvQQouT7/EvnFQhZQw4egHBU1g2VWu+gWw=
+X-Google-Smtp-Source: APXvYqxYyCeKyYUztJa3DHENKeZigts1pQtuupR+90lPSZNjZI5bKFuOpg4mU0O5bqKNHFmvb0879Dook4z1MhjB/qo=
+X-Received: by 2002:a37:a10b:: with SMTP id k11mr713236qke.76.1559176459320;
+ Wed, 29 May 2019 17:34:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-05-29_12:, , signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1905290139
-X-FB-Internal: deliver
+References: <20190527112753.1681-1-a.filippov@yadro.com>
+In-Reply-To: <20190527112753.1681-1-a.filippov@yadro.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 30 May 2019 00:34:04 +0000
+Message-ID: <CACPK8XeXh8uiQ6f5LWJRBJ=VwMAvdPHOo34uHhWZyMFBG2HVqw@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: aspeed: g4: add video engine support
+To: Alexander Filippov <a.filippov@yadro.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,110 +69,125 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, sdasari@fb.com,
- linux-aspeed@lists.ozlabs.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Added support for Infenion PXE1610 driver
+Hi Alexander,
 
-Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
----
- Documentation/hwmon/pxe1610 | 84 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 84 insertions(+)
- create mode 100644 Documentation/hwmon/pxe1610
+On Mon, 27 May 2019 at 11:28, Alexander Filippov <a.filippov@yadro.com> wrote:
+>
+> Add a node to describe the video engine and VGA scratch registers on
+> AST2400.
 
-diff --git a/Documentation/hwmon/pxe1610 b/Documentation/hwmon/pxe1610
-new file mode 100644
-index 000000000000..b5c83edf027a
---- /dev/null
-+++ b/Documentation/hwmon/pxe1610
-@@ -0,0 +1,84 @@
-+Kernel driver pxe1610
-+=====================
-+
-+Supported chips:
-+  * Infinion PXE1610
-+    Prefix: 'pxe1610'
-+    Addresses scanned: -
-+    Datasheet: Datasheet is not publicly available.
-+
-+  * Infinion PXE1110
-+    Prefix: 'pxe1110'
-+    Addresses scanned: -
-+    Datasheet: Datasheet is not publicly available.
-+
-+  * Infinion PXM1310
-+    Prefix: 'pxm1310'
-+    Addresses scanned: -
-+    Datasheet: Datasheet is not publicly available.
-+
-+Author: Vijay Khemka <vijaykhemka@fb.com>
-+
-+
-+Description
-+-----------
-+
-+PXE1610 is a Multi-rail/Multiphase Digital Controllers and
-+it is compliant to Intel VR13 DC-DC converter specifications.
-+
-+
-+Usage Notes
-+-----------
-+
-+This driver can be enabled with kernel config CONFIG_SENSORS_PXE1610
-+set to 'y' or 'm'(for module).
-+
-+This driver does not probe for PMBus devices. You will have
-+to instantiate devices explicitly.
-+
-+Example: the following commands will load the driver for an PXE1610
-+at address 0x70 on I2C bus #4:
-+
-+# modprobe pxe1610
-+# echo pxe1610 0x70 > /sys/bus/i2c/devices/i2c-4/new_device
-+
-+It can also be instantiated by declaring in device tree if it is
-+built as a kernel not as a module.
-+
-+
-+Sysfs attributes
-+----------------
-+
-+curr1_label		"iin"
-+curr1_input		Measured input current
-+curr1_alarm		Current high alarm
-+
-+curr[2-4]_label		"iout[1-3]"
-+curr[2-4]_input		Measured output current
-+curr[2-4]_crit		Critical maximum current
-+curr[2-4]_crit_alarm	Current critical high alarm
-+
-+in1_label		"vin"
-+in1_input		Measured input voltage
-+in1_crit		Critical maximum input voltage
-+in1_crit_alarm		Input voltage critical high alarm
-+
-+in[2-4]_label		"vout[1-3]"
-+in[2-4]_input		Measured output voltage
-+in[2-4]_lcrit		Critical minimum output voltage
-+in[2-4]_lcrit_alarm	Output voltage critical low alarm
-+in[2-4]_crit		Critical maximum output voltage
-+in[2-4]_crit_alarm	Output voltage critical high alarm
-+
-+power1_label		"pin"
-+power1_input		Measured input power
-+power1_alarm		Input power high alarm
-+
-+power[2-4]_label	"pout[1-3]"
-+power[2-4]_input	Measured output power
-+
-+temp[1-3]_input		Measured temperature
-+temp[1-3]_crit		Critical high temperature
-+temp[1-3]_crit_alarm	Chip temperature critical high alarm
-+temp[1-3]_max		Maximum temperature
-+temp[1-3]_max_alarm	Chip temperature high alarm
--- 
-2.17.1
+The scratch registers are unrelated to the video engine. As Andrew
+pointed out, the bindings are not upstream either.
 
+Can you re-spin this patch wit just the video engine changes?
+
+We also need a platform to enable and test this on. Can you submit the
+device tree for your system?
+
+>
+> These changes were copied from aspeed-g5.dtsi
+>
+> Signed-off-by: Alexander Filippov <a.filippov@yadro.com>
+> ---
+>  arch/arm/boot/dts/aspeed-g4.dtsi | 62 ++++++++++++++++++++++++++++++++
+>  1 file changed, 62 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/aspeed-g4.dtsi b/arch/arm/boot/dts/aspeed-g4.dtsi
+> index 6011692df15a..adc1804918df 100644
+> --- a/arch/arm/boot/dts/aspeed-g4.dtsi
+> +++ b/arch/arm/boot/dts/aspeed-g4.dtsi
+> @@ -168,6 +168,10 @@
+>                                         compatible = "aspeed,g4-pinctrl";
+>                                 };
+>
+> +                               vga_scratch: scratch {
+> +                                       compatible = "aspeed,bmc-misc";
+> +                               };
+> +
+>                                 p2a: p2a-control {
+>                                         compatible = "aspeed,ast2400-p2a-ctrl";
+>                                         status = "disabled";
+> @@ -195,6 +199,16 @@
+>                                 reg = <0x1e720000 0x8000>;      // 32K
+>                         };
+>
+> +                       video: video@1e700000 {
+> +                               compatible = "aspeed,ast2400-video-engine";
+> +                               reg = <0x1e700000 0x1000>;
+> +                               clocks = <&syscon ASPEED_CLK_GATE_VCLK>,
+> +                                        <&syscon ASPEED_CLK_GATE_ECLK>;
+> +                               clock-names = "vclk", "eclk";
+> +                               interrupts = <7>;
+> +                               status = "disabled";
+> +                       };
+> +
+>                         gpio: gpio@1e780000 {
+>                                 #gpio-cells = <2>;
+>                                 gpio-controller;
+> @@ -1408,6 +1422,54 @@
+>         };
+>  };
+>
+> +&vga_scratch {
+> +       dac_mux {
+> +               offset = <0x2c>;
+> +               bit-mask = <0x3>;
+> +               bit-shift = <16>;
+> +       };
+> +       vga0 {
+> +               offset = <0x50>;
+> +               bit-mask = <0xffffffff>;
+> +               bit-shift = <0>;
+> +       };
+> +       vga1 {
+> +               offset = <0x54>;
+> +               bit-mask = <0xffffffff>;
+> +               bit-shift = <0>;
+> +       };
+> +       vga2 {
+> +               offset = <0x58>;
+> +               bit-mask = <0xffffffff>;
+> +               bit-shift = <0>;
+> +       };
+> +       vga3 {
+> +               offset = <0x5c>;
+> +               bit-mask = <0xffffffff>;
+> +               bit-shift = <0>;
+> +       };
+> +       vga4 {
+> +               offset = <0x60>;
+> +               bit-mask = <0xffffffff>;
+> +               bit-shift = <0>;
+> +       };
+> +       vga5 {
+> +               offset = <0x64>;
+> +               bit-mask = <0xffffffff>;
+> +               bit-shift = <0>;
+> +       };
+> +       vga6 {
+> +               offset = <0x68>;
+> +               bit-mask = <0xffffffff>;
+> +               bit-shift = <0>;
+> +       };
+> +       vga7 {
+> +               offset = <0x6c>;
+> +               bit-mask = <0xffffffff>;
+> +               bit-shift = <0>;
+> +       };
+> +};
+> +
+>  &sio_regs {
+>         sio_2b {
+>                 offset = <0xf0>;
+> --
+> 2.20.1
+>
