@@ -2,82 +2,81 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17F22F25E
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 06:21:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C292F717
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 07:30:38 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45DvY160zjzDqGQ
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 14:21:41 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45Dx4X3NVpzDqTN
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 May 2019 15:30:36 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.27; helo=out3-smtp.messagingengine.com;
+ (client-ip=66.111.4.29; helo=out5-smtp.messagingengine.com;
  envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="Bqih8YLn"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="DVsyE+X8"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="LZC8KP36"; dkim-atps=neutral
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
+ header.b="cFyFExWa"; dkim-atps=neutral
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45Dv6Y4VbhzDqDt
- for <linux-aspeed@lists.ozlabs.org>; Thu, 30 May 2019 14:02:13 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45Dx4Q0tV7zDqT1
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 30 May 2019 15:30:30 +1000 (AEST)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id DAB2C21FA7;
- Thu, 30 May 2019 00:02:10 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id ABA8021B42;
+ Thu, 30 May 2019 01:30:27 -0400 (EDT)
 Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Thu, 30 May 2019 00:02:10 -0400
+ by compute4.internal (MEProxy); Thu, 30 May 2019 01:30:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=qyIi9G9ln+NMQWurPQHYWug6XmoD14N
- 6qzo4ZOFsaOY=; b=Bqih8YLnL2VC2g+8JAzRNlikdAjAGB7W19vPi3fcYrRVV7e
- o/CrIuGMifez0eB8jpJNdT/3Ft6BTkjteYu/PwkWi01a8DKDkcxN1P3pn6oMKBFs
- QRvzEDSWFKBrsCoa3SRTzrFKDibbndeWhntyz4zOaSlwIpq0ectk3a025ay5jSQT
- IXXQO64v5jlt5iGoKPVKlIiiOZ4lbqqrmriyFTSQ0U+UvHVVzQFcBX0oatx8djiK
- aiFoiK4XTJ0+WlhzIQIWgdlROF+y+cWorvXm6ky2NC8EEBB24O/kx6NDl1ihPd3n
- 1LqP34eLwfFJJKdtc2FrWTctonW4g1OYa3kQ7Sg==
+ :subject:content-type; s=fm2; bh=CzFtZ9I8cNfdZpCeL+UPORC3ICYpQX5
+ KalmGG602HJg=; b=DVsyE+X8EZQsJqyYiTsTIT78wC1usk00mmn1QgTjw8aJfMB
+ /xLNKmYskf1OgW/QRQxUzyLJ4GKjswGVLPpY/vvUNOKQrfXa1JPhSNHslT8JqjAy
+ 1UENXTroSWRaWXlKiSLj06ZSRi6qbSm8RGRHJa3YqNoBEQbdg40AwfDDgCRsnNUA
+ YavQAmIyWoOYzL7qWaebzwFEV1yDDO8MiW6Wi2RXjSH9P/HK96DbULZ2gRpezUIS
+ HK3Vnob6yJphrVX43wCBsuji9MNa72EWKy5GnCwneMdiJ9d+GTDGNVMD16AUYvq1
+ IxoBHwTRcCjIcf65oki8M2g+Gg5Gg09eX8NyhOQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=qyIi9G
- 9ln+NMQWurPQHYWug6XmoD14N6qzo4ZOFsaOY=; b=LZC8KP36MjQNGAwMOKxclA
- pMXHy4rTEv/bM4O19IlKlhkg9CFwS42Cx2e4A5D0hbprPIJbPeWhiNmWO5Otx2s/
- aqemrxMMLW0cIC0iI+fsUjAEiacuz7Wm6SxDcUGaZZxjqYYObOHR7ziyUESY3io5
- H1RMZP6OGTEjHBJLIF1gQ4q78rAzWB50aXrpJTDcqn+FWmmlGpUk3eszmyrvUlSA
- xrpmD1q12nFIBQ8Fs6ZEt26rRxykBm0jnLLTmUJkvwaatyjkMX2BcDcycnU17kam
- tTR+n0YwzNrDn+6ejRMleun6pKTb6oOosyUqte84SY+tThZ1MghWLd1mVFYJvp6w
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=CzFtZ9
+ I8cNfdZpCeL+UPORC3ICYpQX5KalmGG602HJg=; b=cFyFExWaa6RvA0mSG6Wp3X
+ GcR05ifkLyAGsnrfjI9uy2DrcAohOCWS7DuIGlK/+OB27HJn0wWe8r+RdNgCPW1a
+ q99dkV15OogxhlaPL8g4JxK7KenK+j5/ODiuR70UpIn1/VTcj9mLyMikY1NZfGJ6
+ gSBuHlWuHkwOTY/CzPNZtXUCKmiJh3sIusaOQz/ipVZKz9TgSnnttyRHdpHBGP3g
+ R6YoL/xS7FBJh7XFInGf+xziUA3C3qjQAy2DaHgmLV7ixavj6nqBC0PLGavR4dRm
+ JsKD54xZHNgWIX3CDivtpTGUGIitZEQhXyRkw8J9vkj+UxRUWmBTW0NT2XJtjHLw
  ==
-X-ME-Sender: <xms:wVXvXLxY60qWGyq1NkgwT9ZIUo-I84eI-TfgQ3hHyPRM5wXt2YSXTw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddruddvkedgjeejucetufdoteggodetrfdotf
+X-ME-Sender: <xms:cmrvXJbPZLx8TJ8KdHwMpH5wrvGX2bmAp7ZY0RBxeW00P-ckfO0shw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddruddvkedgleegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
  rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
  grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
  rhfuihiivgeptd
-X-ME-Proxy: <xmx:wVXvXLFrjku1qhknIzEIpz4qiDiCkouHHrUfCykEWlCaNsp_vmcZKw>
- <xmx:wVXvXAt51U9RjzmNfIFa_u7Y_fZHKFovUOxOk4pE4HNwTbv88Jlykg>
- <xmx:wVXvXPXDjBNLjDSJDw3ZueJ9r8XapTg_fk_y9387Y9eiOVhV8gyJQQ>
- <xmx:wlXvXA0uNKJw6-La1QmRmdQMkjtYDAyVdfVWexWCs1Ko-T3eNXa3TA>
+X-ME-Proxy: <xmx:cmrvXFowtEqPt7N8i6upVHrKgl0Lusi3Hqr2l57jgGFo2h7hM6gtGg>
+ <xmx:cmrvXNoRtSn9-uFwWAwU-kG89-khz3PtbkrMvkAdExtIqadQE0s_3w>
+ <xmx:cmrvXP1rYyWJu8tvy05WeAOaYlexZ4u0Cn_-f908UWl_mu_EzTtslQ>
+ <xmx:c2rvXFf5DBzK4kZ0617dC3MnfyPnsO-Wkm1zxSfFLcCKwy1nYB29og>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 33313E00A1; Thu, 30 May 2019 00:02:09 -0400 (EDT)
+ id F326EE00A1; Thu, 30 May 2019 01:30:25 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.1.6-555-g49357e1-fmstable-20190528v2
 Mime-Version: 1.0
-Message-Id: <fe36fbac-e29c-4210-9af2-defca62e9c2a@www.fastmail.com>
-In-Reply-To: <20190529172103.1130525-1-vijaykhemka@fb.com>
-References: <20190529172103.1130525-1-vijaykhemka@fb.com>
-Date: Thu, 30 May 2019 13:32:08 +0930
+Message-Id: <58b74556-cbf0-4da2-9392-4c4ac40ad760@www.fastmail.com>
+In-Reply-To: <1559153408-31190-2-git-send-email-eajames@linux.ibm.com>
+References: <1559153408-31190-1-git-send-email-eajames@linux.ibm.com>
+ <1559153408-31190-2-git-send-email-eajames@linux.ibm.com>
+Date: Thu, 30 May 2019 15:00:25 +0930
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Vijay Khemka" <vijaykhemka@fb.com>, "Joel Stanley" <joel@jms.id.au>,
- "Patrick Venture" <venture@google.com>, "Olof Johansson" <olof@lixom.net>,
- "Arnd Bergmann" <arnd@arndb.de>, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] soc: aspeed: lpc-ctrl: make parameter optional
+To: "Eddie James" <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
+Subject: =?UTF-8?Q?Re:_[PATCH_v3_1/8]_dt-bindings:_soc:_Add_Aspeed_XDMA_engine_bi?=
+ =?UTF-8?Q?nding_documentation?=
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -90,153 +89,63 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sai Dasari <sdasari@fb.com>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
 
-On Thu, 30 May 2019, at 02:51, Vijay Khemka wrote:
-> Makiing
-
-Typo here, but I'd prefer to see this patch go in, so
-
-> memory-region and flash as optional parameter in device
-> tree if user needs to use these parameter through ioctl then
-> need to define in devicetree.
+On Thu, 30 May 2019, at 03:40, Eddie James wrote:
+> Document the bindings.
 > 
-> Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> ---
+>  .../devicetree/bindings/soc/aspeed/xdma.txt        | 23 ++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/soc/aspeed/xdma.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/soc/aspeed/xdma.txt 
+> b/Documentation/devicetree/bindings/soc/aspeed/xdma.txt
+> new file mode 100644
+> index 0000000..85e82ea
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/soc/aspeed/xdma.txt
+> @@ -0,0 +1,23 @@
+> +* Device tree bindings for the Aspeed XDMA Engine
+> +
+> +The XDMA Engine embedded in the AST2500 SOC can perform automatic DMA
+> +operations over PCI between the AST2500 (acting as a BMC) and a host 
+> processor.
+> +
+> +Required properties:
+> +
+> + - compatible		"aspeed,ast2500-xdma"
+> + - reg			contains the offset and length of the memory region
+> +			assigned to the XDMA registers
+> + - resets		reset specifier for the syscon reset associated with
+> +			the XDMA engine
+> + - interrupts		the interrupt associated with the XDMA engine on this
+> +			platform
+
+The indentation is quite distracting. If you rev the series can you fix it?
+
+Otherwise,
 
 Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
 
-> ---
->  drivers/soc/aspeed/aspeed-lpc-ctrl.c | 58 +++++++++++++++++-----------
->  1 file changed, 36 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/soc/aspeed/aspeed-lpc-ctrl.c 
-> b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
-> index a024f8042259..aca13779764a 100644
-> --- a/drivers/soc/aspeed/aspeed-lpc-ctrl.c
-> +++ b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
-> @@ -68,6 +68,7 @@ static long aspeed_lpc_ctrl_ioctl(struct file *file, 
-> unsigned int cmd,
->  		unsigned long param)
->  {
->  	struct aspeed_lpc_ctrl *lpc_ctrl = file_aspeed_lpc_ctrl(file);
-> +	struct device *dev = file->private_data;
->  	void __user *p = (void __user *)param;
->  	struct aspeed_lpc_ctrl_mapping map;
->  	u32 addr;
-> @@ -90,6 +91,12 @@ static long aspeed_lpc_ctrl_ioctl(struct file *file, 
-> unsigned int cmd,
->  		if (map.window_id != 0)
->  			return -EINVAL;
->  
-> +		/* If memory-region is not described in device tree */
-> +		if (!lpc_ctrl->mem_size) {
-> +			dev_dbg(dev, "Didn't find reserved memory\n");
-> +			return -ENXIO;
-> +		}
 > +
->  		map.size = lpc_ctrl->mem_size;
->  
->  		return copy_to_user(p, &map, sizeof(map)) ? -EFAULT : 0;
-> @@ -126,9 +133,18 @@ static long aspeed_lpc_ctrl_ioctl(struct file 
-> *file, unsigned int cmd,
->  			return -EINVAL;
->  
->  		if (map.window_type == ASPEED_LPC_CTRL_WINDOW_FLASH) {
-> +			if (!lpc_ctrl->pnor_size) {
-> +				dev_dbg(dev, "Didn't find host pnor flash\n");
-> +				return -ENXIO;
-> +			}
->  			addr = lpc_ctrl->pnor_base;
->  			size = lpc_ctrl->pnor_size;
->  		} else if (map.window_type == ASPEED_LPC_CTRL_WINDOW_MEMORY) {
-> +			/* If memory-region is not described in device tree */
-> +			if (!lpc_ctrl->mem_size) {
-> +				dev_dbg(dev, "Didn't find reserved memory\n");
-> +				return -ENXIO;
-> +			}
->  			addr = lpc_ctrl->mem_base;
->  			size = lpc_ctrl->mem_size;
->  		} else {
-> @@ -196,17 +212,17 @@ static int aspeed_lpc_ctrl_probe(struct 
-> platform_device *pdev)
->  	if (!lpc_ctrl)
->  		return -ENOMEM;
->  
-> +	/* If flash is described in device tree then store */
->  	node = of_parse_phandle(dev->of_node, "flash", 0);
->  	if (!node) {
-> -		dev_err(dev, "Didn't find host pnor flash node\n");
-> -		return -ENODEV;
-> -	}
-> -
-> -	rc = of_address_to_resource(node, 1, &resm);
-> -	of_node_put(node);
-> -	if (rc) {
-> -		dev_err(dev, "Couldn't address to resource for flash\n");
-> -		return rc;
-> +		dev_dbg(dev, "Didn't find host pnor flash node\n");
-> +	} else {
-> +		rc = of_address_to_resource(node, 1, &resm);
-> +		of_node_put(node);
-> +		if (rc) {
-> +			dev_err(dev, "Couldn't address to resource for flash\n");
-> +			return rc;
-> +		}
->  	}
->  
->  	lpc_ctrl->pnor_size = resource_size(&resm);
-> @@ -214,22 +230,22 @@ static int aspeed_lpc_ctrl_probe(struct 
-> platform_device *pdev)
->  
->  	dev_set_drvdata(&pdev->dev, lpc_ctrl);
->  
-> +	/* If memory-region is described in device tree then store */
->  	node = of_parse_phandle(dev->of_node, "memory-region", 0);
->  	if (!node) {
-> -		dev_err(dev, "Didn't find reserved memory\n");
-> -		return -EINVAL;
-> -	}
-> +		dev_dbg(dev, "Didn't find reserved memory\n");
-> +	} else {
-> +		rc = of_address_to_resource(node, 0, &resm);
-> +		of_node_put(node);
-> +		if (rc) {
-> +			dev_err(dev, "Couldn't address to resource for reserved memory\n");
-> +			return -ENXIO;
-> +		}
->  
-> -	rc = of_address_to_resource(node, 0, &resm);
-> -	of_node_put(node);
-> -	if (rc) {
-> -		dev_err(dev, "Couldn't address to resource for reserved memory\n");
-> -		return -ENOMEM;
-> +		lpc_ctrl->mem_size = resource_size(&resm);
-> +		lpc_ctrl->mem_base = resm.start;
->  	}
->  
-> -	lpc_ctrl->mem_size = resource_size(&resm);
-> -	lpc_ctrl->mem_base = resm.start;
-> -
->  	lpc_ctrl->regmap = syscon_node_to_regmap(
->  			pdev->dev.parent->of_node);
->  	if (IS_ERR(lpc_ctrl->regmap)) {
-> @@ -258,8 +274,6 @@ static int aspeed_lpc_ctrl_probe(struct 
-> platform_device *pdev)
->  		goto err;
->  	}
->  
-> -	dev_info(dev, "Loaded at %pr\n", &resm);
-> -
->  	return 0;
->  
->  err:
+> +Example:
+> +
+> +    xdma@1e6e7000 {
+> +        compatible = "aspeed,ast2500-xdma";
+> +        reg = <0x1e6e7000 0x100>;
+> +        resets = <&syscon ASPEED_RESET_XDMA>;
+> +        interrupts = <6>;
+> +    };
 > -- 
-> 2.17.1
+> 1.8.3.1
 > 
 >
