@@ -1,65 +1,82 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id D957E3085F
-	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2019 08:12:52 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45FYyp0YnxzDqYC
-	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2019 16:12:50 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C404F308F2
+	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2019 08:47:46 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 45FZl36HbXzDrhS
+	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2019 16:47:43 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=yadro.com
- (client-ip=89.207.88.251; helo=mta-01.yadro.com;
- envelope-from=a.filippov@yadro.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=66.111.4.29; helo=out5-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=yadro.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=yadro.com header.i=@yadro.com header.b="lELKoW63"; 
- dkim-atps=neutral
-Received: from mta-01.yadro.com (mta-01.yadro.com [89.207.88.251])
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="auoLB1VP"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="abRTm+US"; dkim-atps=neutral
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45FYyg2JV7zDqWJ
- for <linux-aspeed@lists.ozlabs.org>; Fri, 31 May 2019 16:12:43 +1000 (AEST)
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 6C29341908;
- Fri, 31 May 2019 06:12:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :x-mailer:message-id:date:date:subject:subject:from:from
- :received:received:received; s=mta-01; t=1559283159; x=
- 1561097560; bh=SCXLQ59EkJt74ZCKzs0o5+P00fxCfvb01ft9hUstgws=; b=l
- ELKoW63pk+IIFoHcjr5yMFPwETyehBNtzileh9RWF+dM2iEGvnQ7VbhNdnt1l+bf
- SfCrJe3rqV0T1FXWyGXkg0YDYNsMQuVtCWDmI82ci7WfGcHuot7fhZwgal9s6ybA
- nWi4qpiyBokP+/j6NpNH41WWK5cnVOLPQfJyBzAKN8=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BY4-P44u-onI; Fri, 31 May 2019 09:12:39 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 0A14041860;
- Fri, 31 May 2019 09:12:39 +0300 (MSK)
-Received: from bbwork.lan (172.17.14.115) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 31
- May 2019 09:12:38 +0300
-From: Alexander Filippov <a.filippov@yadro.com>
-To: <linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH v3] ARM: dts: aspeed: Add YADRO VESNIN BMC
-Date: Fri, 31 May 2019 09:12:07 +0300
-Message-ID: <20190531061207.23079-1-a.filippov@yadro.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45FZPl3nvHzDqgr
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 31 May 2019 16:32:42 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 438CF21C1C;
+ Fri, 31 May 2019 02:32:39 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Fri, 31 May 2019 02:32:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=eHsCSKwiL50isW9M7Os0oH0hIAtyWEL
+ zv22cCRYdRhY=; b=auoLB1VP1juPgobrKAd1pVA5zUgmsi3DOyaz8trU6pX5cX1
+ K/Io6kaR3fhdE4ol5fLtCyKAIwXHniGXbtjsL+NIegsRjNVC7DFtpHxxCmzhhNoe
+ 9ekM9pQ2Xqa7l4XjPFbD4QydRzgexJBirBQ1dbidlo/f8YKPkxAqVICNEDq7hBrZ
+ IaVnhdt++O1T4njqZDIKq6Y/d+NgRUXwe1RHanLRN5tfQoF6CrP+og5xiflwGjdL
+ Oy6Fc7QgBER0JggGhRFOTCfcKhouT34u9gVNJzfegJFgZ6+CHpR9vFgNL+FLqc+z
+ Cl1ECKB6dLekiwpBgMPWO2f7SuDAhTmFJmVWkvQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=eHsCSK
+ wiL50isW9M7Os0oH0hIAtyWELzv22cCRYdRhY=; b=abRTm+US9E9ZGIUSP4C/zM
+ dKnlwOFNHFRyPH/OPxkOoD0VUrq+OIlX67rRkRSKt7FI1MW+y8Cq/3WUUr/XDD9d
+ 26M/1RD554hwtGF4WevSRZsMl7sgfJHXH0HpWxr6glKTm09KIpYj9ZkGgsJIiMlo
+ V0UeALat+Tynmv+ilKzE+KQ/6c1CdyaUvYM0jHb3rwAlHDyC+cDhF+VPsOYT2AqF
+ /l79N1HzisU+qHPN29yKksrVYXpyjqtvowcjwbkJiB4NPike7JPEGHqBaRkK3ZX1
+ A5CtM2lm7UPa8Sn19ws2IQqxVecNnnvmfoYctFoszN6ED5TuobImJfqjljRCrpBQ
+ ==
+X-ME-Sender: <xms:hsrwXJF2ZJXV3OZfOuOgKU0Pdoe2XziXCq1l_JWB3pzLWJuTrFOr7g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudeftddgudduudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehn
+ ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrg
+ hrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushht
+ vghrufhiiigvpedt
+X-ME-Proxy: <xmx:hsrwXOhGorIKqygvxcZgdm6EGTh-zoqZhCaQCnrFDXlcS-bxgaoAIQ>
+ <xmx:hsrwXEoKTJWTAQw_C6Ffe0YWAx733JMAx2QVIoaSkg4b8wXVsDsr7g>
+ <xmx:hsrwXOKSrsA6Xzv15_iVwJnNXYb55uNaGDR9m1ZexPx1da3OmmFE8A>
+ <xmx:h8rwXJug24ECwK9EX88qUWa0l4HNvxxdScC_G-aa3XjFvKhdP7lZzw>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 2D89DE00A1; Fri, 31 May 2019 02:32:38 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-555-g49357e1-fmstable-20190528v2
+Mime-Version: 1.0
+Message-Id: <2966b961-77ca-4371-949c-195b623e344b@www.fastmail.com>
+In-Reply-To: <20190531061207.23079-1-a.filippov@yadro.com>
+References: <20190531061207.23079-1-a.filippov@yadro.com>
+Date: Fri, 31 May 2019 16:02:37 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Alexander A. Filippov" <a.filippov@yadro.com>,
+ linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH v3] ARM: dts: aspeed: Add YADRO VESNIN BMC
 Content-Type: text/plain
-X-Originating-IP: [172.17.14.115]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,274 +89,299 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Alexander Filippov <a.filippov@yadro.com>,
- Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-VESNIN is an OpenPower machine with an Aspeed 2400 BMC SoC manufactured
-by YADRO.
+Hello Alexander,
 
-Signed-off-by: Alexander Filippov <a.filippov@yadro.com>
----
- arch/arm/boot/dts/Makefile                  |   1 +
- arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts | 234 ++++++++++++++++++++
- 2 files changed, 235 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
+On Fri, 31 May 2019, at 15:42, Alexander Filippov wrote:
+> VESNIN is an OpenPower machine with an Aspeed 2400 BMC SoC manufactured
+> by YADRO.
+> 
+> Signed-off-by: Alexander Filippov <a.filippov@yadro.com>
+> ---
+>  arch/arm/boot/dts/Makefile                  |   1 +
+>  arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts | 234 ++++++++++++++++++++
+>  2 files changed, 235 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
+> 
+> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+> index 834cce80d1b8..09a851a4705c 100644
+> --- a/arch/arm/boot/dts/Makefile
+> +++ b/arch/arm/boot/dts/Makefile
+> @@ -1261,6 +1261,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+>  	aspeed-bmc-opp-palmetto.dtb \
+>  	aspeed-bmc-opp-romulus.dtb \
+>  	aspeed-bmc-opp-swift.dtb \
+> +	aspeed-bmc-opp-vesnin.dtb \
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 834cce80d1b8..09a851a4705c 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1261,6 +1261,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-opp-palmetto.dtb \
- 	aspeed-bmc-opp-romulus.dtb \
- 	aspeed-bmc-opp-swift.dtb \
-+	aspeed-bmc-opp-vesnin.dtb \
- 	aspeed-bmc-opp-witherspoon.dtb \
- 	aspeed-bmc-opp-zaius.dtb \
- 	aspeed-bmc-portwell-neptune.dtb \
-diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
-new file mode 100644
-index 000000000000..20f07f5bb4f4
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
-@@ -0,0 +1,234 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+// Copyright 2019 YADRO
-+/dts-v1/;
-+
-+#include "aspeed-g4.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+
-+/ {
-+	model = "Vesnin BMC";
-+	compatible = "yadro,vesnin-bmc", "aspeed,ast2400";
-+
-+	chosen {
-+		stdout-path = &uart5;
-+		bootargs = "console=ttyS4,115200 earlyprintk";
-+	};
-+
-+	memory {
-+		reg = <0x40000000 0x20000000>;
-+	};
-+
-+	reserved-memory {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges;
-+
-+		vga_memory: framebuffer@5f000000 {
-+			no-map;
-+			reg = <0x5f000000 0x01000000>; /* 16MB */
-+		};
-+		flash_memory: region@5c000000 {
-+			no-map;
-+			reg = <0x5c000000 0x02000000>; /* 32M */
-+		};
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		heartbeat {
-+			gpios = <&gpio ASPEED_GPIO(R, 4) GPIO_ACTIVE_LOW>;
-+		};
-+		power_red {
-+			gpios = <&gpio ASPEED_GPIO(N, 1) GPIO_ACTIVE_LOW>;
-+		};
-+
-+		id_blue {
-+			gpios = <&gpio ASPEED_GPIO(O, 0) GPIO_ACTIVE_LOW>;
-+		};
-+
-+		alarm_red {
-+			gpios = <&gpio ASPEED_GPIO(N, 6) GPIO_ACTIVE_LOW>;
-+		};
-+
-+		alarm_yel {
-+			gpios = <&gpio ASPEED_GPIO(N, 7) GPIO_ACTIVE_HIGH>;
-+		};
-+	};
-+
-+	gpio-keys {
-+		compatible = "gpio-keys";
-+
-+		button_checkstop {
-+			label = "checkstop";
-+			linux,code = <74>;
-+			gpios = <&gpio ASPEED_GPIO(P, 5) GPIO_ACTIVE_LOW>;
-+		};
-+
-+		button_identify {
-+			label = "identify";
-+			linux,code = <152>;
-+			gpios = <&gpio ASPEED_GPIO(O, 7) GPIO_ACTIVE_LOW>;
-+		};
-+	};
-+};
-+
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+        label = "bmc";
-+#include "openbmc-flash-layout.dtsi"
-+	};
-+};
-+
-+&spi {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_spi1debug_default>;
-+
-+	flash@0 {
-+		status = "okay";
-+		label = "pnor";
-+		m25p,fast-read;
-+	};
-+};
-+
-+&mac0 {
-+	status = "okay";
-+
-+	use-ncsi;
-+	no-hw-checksum;
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii1_default>;
-+};
-+
-+
-+&uart5 {
-+	status = "okay";
-+};
-+
-+&lpc_ctrl {
-+	status = "okay";
-+	memory-region = <&flash_memory>;
-+	flash = <&spi>;
-+};
-+
-+&ibt {
-+	status = "okay";
-+};
-+
-+&lpc_host {
-+    sio_regs: regs {
-+        compatible = "aspeed,bmc-misc";
-+    };
-+};
-+
-+&mbox {
-+	status = "okay";
-+};
-+
-+&uart3 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_txd2_default &pinctrl_rxd2_default>;
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c256";
-+		reg = <0x50>;
-+		pagesize = <64>;
-+	};
-+};
-+
-+&i2c1 {
-+	status = "okay";
-+
-+	tmp75@49 {
-+		compatible = "ti,tmp75";
-+		reg = <0x49>;
-+	};
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+};
-+
-+&i2c3 {
-+	status = "okay";
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+
-+	occ-hwmon@50 {
-+		compatible = "ibm,p8-occ-hwmon";
-+		reg = <0x50>;
-+	};
-+};
-+
-+&i2c5 {
-+	status = "okay";
-+
-+	occ-hwmon@51 {
-+		compatible = "ibm,p8-occ-hwmon";
-+		reg = <0x51>;
-+	};
-+};
-+
-+&i2c6 {
-+	status = "okay";
-+
-+	w83795g@2f {
-+		compatible = "nuvoton,w83795g";
-+		reg = <0x2f>;
-+	};
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+
-+	occ-hwmon@56 {
-+		compatible = "ibm,p8-occ-hwmon";
-+		reg = <0x56>;
-+	};
-+};
-+
-+&i2c9 {
-+	status = "okay";
-+};
-+
-+&i2c10 {
-+	status = "okay";
-+};
-+
-+&i2c11 {
-+	status = "okay";
-+
-+	occ-hwmon@57 {
-+		compatible = "ibm,p8-occ-hwmon";
-+		reg = <0x57>;
-+	};
-+};
-+
-+&i2c12 {
-+	status = "okay";
-+
-+	rtc@68 {
-+		compatible = "maxim,ds3231";
-+		reg = <0x68>;
-+	};
-+};
-+
-+&i2c13 {
-+	status = "okay";
-+};
-+
-+&vuart {
-+	status = "okay";
-+};
--- 
-2.20.1
+The patch doesn't apply to upstream - the Swift machine only exists in the
+OpenBMC kernel tree. Please rebase the patch onto upstream and resend.
 
+>  	aspeed-bmc-opp-witherspoon.dtb \
+>  	aspeed-bmc-opp-zaius.dtb \
+>  	aspeed-bmc-portwell-neptune.dtb \
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts 
+> b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
+> new file mode 100644
+> index 000000000000..20f07f5bb4f4
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
+> @@ -0,0 +1,234 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +// Copyright 2019 YADRO
+> +/dts-v1/;
+> +
+> +#include "aspeed-g4.dtsi"
+> +#include <dt-bindings/gpio/aspeed-gpio.h>
+> +
+> +/ {
+> +	model = "Vesnin BMC";
+> +	compatible = "yadro,vesnin-bmc", "aspeed,ast2400";
+> +
+> +	chosen {
+> +		stdout-path = &uart5;
+> +		bootargs = "console=ttyS4,115200 earlyprintk";
+> +	};
+> +
+> +	memory {
+> +		reg = <0x40000000 0x20000000>;
+> +	};
+> +
+> +	reserved-memory {
+> +		#address-cells = <1>;
+> +		#size-cells = <1>;
+> +		ranges;
+> +
+> +		vga_memory: framebuffer@5f000000 {
+> +			no-map;
+> +			reg = <0x5f000000 0x01000000>; /* 16MB */
+> +		};
+> +		flash_memory: region@5c000000 {
+> +			no-map;
+> +			reg = <0x5c000000 0x02000000>; /* 32M */
+> +		};
+> +	};
+> +
+> +	leds {
+> +		compatible = "gpio-leds";
+> +
+> +		heartbeat {
+> +			gpios = <&gpio ASPEED_GPIO(R, 4) GPIO_ACTIVE_LOW>;
+> +		};
+> +		power_red {
+> +			gpios = <&gpio ASPEED_GPIO(N, 1) GPIO_ACTIVE_LOW>;
+> +		};
+> +
+> +		id_blue {
+> +			gpios = <&gpio ASPEED_GPIO(O, 0) GPIO_ACTIVE_LOW>;
+> +		};
+> +
+> +		alarm_red {
+> +			gpios = <&gpio ASPEED_GPIO(N, 6) GPIO_ACTIVE_LOW>;
+> +		};
+> +
+> +		alarm_yel {
+> +			gpios = <&gpio ASPEED_GPIO(N, 7) GPIO_ACTIVE_HIGH>;
+> +		};
+> +	};
+> +
+> +	gpio-keys {
+> +		compatible = "gpio-keys";
+> +
+> +		button_checkstop {
+> +			label = "checkstop";
+> +			linux,code = <74>;
+> +			gpios = <&gpio ASPEED_GPIO(P, 5) GPIO_ACTIVE_LOW>;
+> +		};
+> +
+> +		button_identify {
+> +			label = "identify";
+> +			linux,code = <152>;
+> +			gpios = <&gpio ASPEED_GPIO(O, 7) GPIO_ACTIVE_LOW>;
+> +		};
+> +	};
+> +};
+> +
+> +&fmc {
+> +	status = "okay";
+> +	flash@0 {
+> +		status = "okay";
+> +		m25p,fast-read;
+> +        label = "bmc";
+> +#include "openbmc-flash-layout.dtsi"
+> +	};
+> +};
+> +
+> +&spi {
+> +	status = "okay";
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&pinctrl_spi1debug_default>;
+
+Is this how the board is strapped? I'm asking in case it's just copy/paste
+from Palmetto, which was (unfortunately) strapped this way.
+
+> +
+> +	flash@0 {
+> +		status = "okay";
+> +		label = "pnor";
+> +		m25p,fast-read;
+> +	};
+> +};
+> +
+> +&mac0 {
+> +	status = "okay";
+> +
+> +	use-ncsi;
+> +	no-hw-checksum;
+> +
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&pinctrl_rmii1_default>;
+> +};
+> +
+> +
+> +&uart5 {
+> +	status = "okay";
+> +};
+> +
+> +&lpc_ctrl {
+> +	status = "okay";
+> +	memory-region = <&flash_memory>;
+> +	flash = <&spi>;
+> +};
+> +
+> +&ibt {
+> +	status = "okay";
+> +};
+> +
+> +&lpc_host {
+> +    sio_regs: regs {
+> +        compatible = "aspeed,bmc-misc";
+
+The patches for this are not upstream, and won't make it in their current
+form. Please drop this node from the patch.
+
+> +    };
+> +};
+> +
+> +&mbox {
+> +	status = "okay";
+
+This driver is not upstream either, and we plan on dropping it from the
+OpenBMC tree too. Please remove this node from the patch.
+
+Cheers,
+
+Andrew
+
+> +};
+> +
+> +&uart3 {
+> +	status = "okay";
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&pinctrl_txd2_default &pinctrl_rxd2_default>;
+> +};
+> +
+> +&i2c0 {
+> +	status = "okay";
+> +
+> +	eeprom@50 {
+> +		compatible = "atmel,24c256";
+> +		reg = <0x50>;
+> +		pagesize = <64>;
+> +	};
+> +};
+> +
+> +&i2c1 {
+> +	status = "okay";
+> +
+> +	tmp75@49 {
+> +		compatible = "ti,tmp75";
+> +		reg = <0x49>;
+> +	};
+> +};
+> +
+> +&i2c2 {
+> +	status = "okay";
+> +};
+> +
+> +&i2c3 {
+> +	status = "okay";
+> +};
+> +
+> +&i2c4 {
+> +	status = "okay";
+> +
+> +	occ-hwmon@50 {
+> +		compatible = "ibm,p8-occ-hwmon";
+> +		reg = <0x50>;
+> +	};
+> +};
+> +
+> +&i2c5 {
+> +	status = "okay";
+> +
+> +	occ-hwmon@51 {
+> +		compatible = "ibm,p8-occ-hwmon";
+> +		reg = <0x51>;
+> +	};
+> +};
+> +
+> +&i2c6 {
+> +	status = "okay";
+> +
+> +	w83795g@2f {
+> +		compatible = "nuvoton,w83795g";
+> +		reg = <0x2f>;
+> +	};
+> +};
+> +
+> +&i2c7 {
+> +	status = "okay";
+> +
+> +	occ-hwmon@56 {
+> +		compatible = "ibm,p8-occ-hwmon";
+> +		reg = <0x56>;
+> +	};
+> +};
+> +
+> +&i2c9 {
+> +	status = "okay";
+> +};
+> +
+> +&i2c10 {
+> +	status = "okay";
+> +};
+> +
+> +&i2c11 {
+> +	status = "okay";
+> +
+> +	occ-hwmon@57 {
+> +		compatible = "ibm,p8-occ-hwmon";
+> +		reg = <0x57>;
+> +	};
+> +};
+> +
+> +&i2c12 {
+> +	status = "okay";
+> +
+> +	rtc@68 {
+> +		compatible = "maxim,ds3231";
+> +		reg = <0x68>;
+> +	};
+> +};
+> +
+> +&i2c13 {
+> +	status = "okay";
+> +};
+> +
+> +&vuart {
+> +	status = "okay";
+> +};
+> -- 
+> 2.20.1
+> 
+>
