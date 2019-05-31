@@ -2,64 +2,67 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D6A30B1F
-	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2019 11:10:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9004C31278
+	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2019 18:34:34 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45FdvW2RhTzDqSn
-	for <lists+linux-aspeed@lfdr.de>; Fri, 31 May 2019 19:10:15 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45Fqm76HZTzDqb0
+	for <lists+linux-aspeed@lfdr.de>; Sat,  1 Jun 2019 02:34:31 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=yadro.com
- (client-ip=89.207.88.251; helo=mta-01.yadro.com;
- envelope-from=a.filippov@yadro.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=yadro.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=yadro.com header.i=@yadro.com header.b="MtgyKXpn"; 
- dkim-atps=neutral
-Received: from mta-01.yadro.com (mta-01.yadro.com [89.207.88.251])
+ spf=none (mailfrom) smtp.mailfrom=aspeedtech.com
+ (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com;
+ envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=aspeedtech.com
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45FdvP38C3zDqRg
- for <linux-aspeed@lists.ozlabs.org>; Fri, 31 May 2019 19:10:09 +1000 (AEST)
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 742CE41908;
- Fri, 31 May 2019 09:10:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :x-mailer:message-id:date:date:subject:subject:from:from
- :received:received:received; s=mta-01; t=1559293805; x=
- 1561108206; bh=XdggJuNI87v3norq47XBx2lNXy+o2Et1QZHyTn+TLOE=; b=M
- tgyKXpn4aZ21VFsCF1YEWjRswBh1RxApo6mOV9N1lkTj9JQKygGqzSJvFMI69Ii9
- ZiWbQ6EgRTWddP3PzrptQBC2+EUr6cTK6gwyxT3pNF0GRjEziSIy3uTxqbzsoZxN
- k+2dZo7KODYNwLjUWyTRs5LCsKcQ0g8J0HaPAj6Qyo=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Etf4PeSS29vb; Fri, 31 May 2019 12:10:05 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id D390241860;
- Fri, 31 May 2019 12:10:03 +0300 (MSK)
-Received: from bbwork.com (172.17.14.115) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 31
- May 2019 12:10:03 +0300
-From: Alexander Filippov <a.filippov@yadro.com>
-To: <linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH v4] ARM: dts: aspeed: Add YADRO VESNIN BMC
-Date: Fri, 31 May 2019 12:09:50 +0300
-Message-ID: <20190531090950.13466-1-a.filippov@yadro.com>
-X-Mailer: git-send-email 2.20.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45Fqk96ss0zDqXw
+ for <linux-aspeed@lists.ozlabs.org>; Sat,  1 Jun 2019 02:32:48 +1000 (AEST)
+Received: from mail.aspeedtech.com (twmbx02.aspeed.com [192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id x4VGNWqd069565;
+ Sat, 1 Jun 2019 00:23:32 +0800 (GMT-8)
+ (envelope-from ryan_chen@aspeedtech.com)
+Received: from TWMBX01.aspeed.com (192.168.0.23) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.620.29; Sat, 1 Jun
+ 2019 00:32:05 +0800
+Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX01.aspeed.com
+ (192.168.0.23) with Microsoft SMTP Server (TLS) id 15.0.620.29; Sat, 1 Jun
+ 2019 00:32:03 +0800
+Received: from TWMBX02.aspeed.com ([fe80::997d:c0a7:f01f:e1a7]) by
+ TWMBX02.aspeed.com ([fe80::997d:c0a7:f01f:e1a7%12]) with mapi id
+ 15.00.0620.020; Sat, 1 Jun 2019 00:32:03 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: "'Jae Hyun Yoo'" <jae.hyun.yoo@linux.intel.com>, "'Eddie James'"
+ <eajames@linux.vnet.ibm.com>, "'Eddie James'" <eajames@linux.ibm.com>,
+ "'Mauro Carvalho Chehab'" <mchehab@kernel.org>,
+ "'Joel Stanley'" <joel@jms.id.au>, "'Andrew Jeffery'" <andrew@aj.id.au>,
+ "'Benjamin Herrenschmidt'" <benh@kernel.crashing.org>
+Subject: RE: [PATCH v2 11/11] media: aspeed: add a workaround to fix a
+ silicon bug
+Thread-Topic: [PATCH v2 11/11] media: aspeed: add a workaround to fix a
+ silicon bug
+Thread-Index: AQHVEob6ZpZX2zggZUeTBw4ytvPq76aBpHqAgAA4c4CAAxSmAA==
+Date: Fri, 31 May 2019 16:32:03 +0000
+Message-ID: <004c01d517ce$5fc22b00$1f468100$@aspeedtech.com>
+References: <20190524231725.12320-1-jae.hyun.yoo@linux.intel.com>
+ <20190524231725.12320-12-jae.hyun.yoo@linux.intel.com>
+ <03a3cf74-3fd3-982e-ec37-014ed4a13b47@linux.vnet.ibm.com>
+ <cd1814db-4892-bba0-027a-9f51cd49b9b5@linux.intel.com>
+In-Reply-To: <cd1814db-4892-bba0-027a-9f51cd49b9b5@linux.intel.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Microsoft Outlook 16.0
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8A49D50AFDFD5A43A8BB755A3FDD8282@aspeedtech.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.17.14.115]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com x4VGNWqd069565
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,265 +74,88 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Alexander Filippov <a.filippov@yadro.com>,
- Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-VESNIN is an OpenPower machine with an Aspeed 2400 BMC SoC manufactured
-by YADRO.
-
-Signed-off-by: Alexander Filippov <a.filippov@yadro.com>
----
- arch/arm/boot/dts/Makefile                  |   1 +
- arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts | 224 ++++++++++++++++++++
- 2 files changed, 225 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
-
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index dab2914fa293..64a956372fe1 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1272,6 +1272,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-opp-lanyang.dtb \
- 	aspeed-bmc-opp-palmetto.dtb \
- 	aspeed-bmc-opp-romulus.dtb \
-+	aspeed-bmc-opp-vesnin.dtb \
- 	aspeed-bmc-opp-witherspoon.dtb \
- 	aspeed-bmc-opp-zaius.dtb \
- 	aspeed-bmc-portwell-neptune.dtb \
-diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
-new file mode 100644
-index 000000000000..0b9e29c3212e
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
-@@ -0,0 +1,224 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+// Copyright 2019 YADRO
-+/dts-v1/;
-+
-+#include "aspeed-g4.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+
-+/ {
-+	model = "Vesnin BMC";
-+	compatible = "yadro,vesnin-bmc", "aspeed,ast2400";
-+
-+	chosen {
-+		stdout-path = &uart5;
-+		bootargs = "console=ttyS4,115200 earlyprintk";
-+	};
-+
-+	memory {
-+		reg = <0x40000000 0x20000000>;
-+	};
-+
-+	reserved-memory {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges;
-+
-+		vga_memory: framebuffer@5f000000 {
-+			no-map;
-+			reg = <0x5f000000 0x01000000>; /* 16MB */
-+		};
-+		flash_memory: region@5c000000 {
-+			no-map;
-+			reg = <0x5c000000 0x02000000>; /* 32M */
-+		};
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		heartbeat {
-+			gpios = <&gpio ASPEED_GPIO(R, 4) GPIO_ACTIVE_LOW>;
-+		};
-+		power_red {
-+			gpios = <&gpio ASPEED_GPIO(N, 1) GPIO_ACTIVE_LOW>;
-+		};
-+
-+		id_blue {
-+			gpios = <&gpio ASPEED_GPIO(O, 0) GPIO_ACTIVE_LOW>;
-+		};
-+
-+		alarm_red {
-+			gpios = <&gpio ASPEED_GPIO(N, 6) GPIO_ACTIVE_LOW>;
-+		};
-+
-+		alarm_yel {
-+			gpios = <&gpio ASPEED_GPIO(N, 7) GPIO_ACTIVE_HIGH>;
-+		};
-+	};
-+
-+	gpio-keys {
-+		compatible = "gpio-keys";
-+
-+		button_checkstop {
-+			label = "checkstop";
-+			linux,code = <74>;
-+			gpios = <&gpio ASPEED_GPIO(P, 5) GPIO_ACTIVE_LOW>;
-+		};
-+
-+		button_identify {
-+			label = "identify";
-+			linux,code = <152>;
-+			gpios = <&gpio ASPEED_GPIO(O, 7) GPIO_ACTIVE_LOW>;
-+		};
-+	};
-+};
-+
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+        label = "bmc";
-+#include "openbmc-flash-layout.dtsi"
-+	};
-+};
-+
-+&spi {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_spi1debug_default>;
-+
-+	flash@0 {
-+		status = "okay";
-+		label = "pnor";
-+		m25p,fast-read;
-+	};
-+};
-+
-+&mac0 {
-+	status = "okay";
-+
-+	use-ncsi;
-+	no-hw-checksum;
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii1_default>;
-+};
-+
-+
-+&uart5 {
-+	status = "okay";
-+};
-+
-+&lpc_ctrl {
-+	status = "okay";
-+	memory-region = <&flash_memory>;
-+	flash = <&spi>;
-+};
-+
-+&ibt {
-+	status = "okay";
-+};
-+
-+&uart3 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_txd2_default &pinctrl_rxd2_default>;
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c256";
-+		reg = <0x50>;
-+		pagesize = <64>;
-+	};
-+};
-+
-+&i2c1 {
-+	status = "okay";
-+
-+	tmp75@49 {
-+		compatible = "ti,tmp75";
-+		reg = <0x49>;
-+	};
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+};
-+
-+&i2c3 {
-+	status = "okay";
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+
-+	occ-hwmon@50 {
-+		compatible = "ibm,p8-occ-hwmon";
-+		reg = <0x50>;
-+	};
-+};
-+
-+&i2c5 {
-+	status = "okay";
-+
-+	occ-hwmon@51 {
-+		compatible = "ibm,p8-occ-hwmon";
-+		reg = <0x51>;
-+	};
-+};
-+
-+&i2c6 {
-+	status = "okay";
-+
-+	w83795g@2f {
-+		compatible = "nuvoton,w83795g";
-+		reg = <0x2f>;
-+	};
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+
-+	occ-hwmon@56 {
-+		compatible = "ibm,p8-occ-hwmon";
-+		reg = <0x56>;
-+	};
-+};
-+
-+&i2c9 {
-+	status = "okay";
-+};
-+
-+&i2c10 {
-+	status = "okay";
-+};
-+
-+&i2c11 {
-+	status = "okay";
-+
-+	occ-hwmon@57 {
-+		compatible = "ibm,p8-occ-hwmon";
-+		reg = <0x57>;
-+	};
-+};
-+
-+&i2c12 {
-+	status = "okay";
-+
-+	rtc@68 {
-+		compatible = "maxim,ds3231";
-+		reg = <0x68>;
-+	};
-+};
-+
-+&i2c13 {
-+	status = "okay";
-+};
-+
-+&vuart {
-+	status = "okay";
-+};
--- 
-2.20.1
-
+PiANCj4gT24gNS8yNC8xOSA2OjE3IFBNLCBKYWUgSHl1biBZb28gd3JvdGU6DQo+PiBBU1QyNTAw
+IHNpbGljb24gcmV2aXNpb24gQTEgYW5kIEEyIGhhdmUgYSBzaWxpY29uIGJ1ZyB3aGljaCBjYXVz
+ZXMgDQo+PiBleHRyZW1seSBsb25nIGNhcHR1cmluZyB0aW1lIG9uIHNwZWNpZmljIHJlc29sdXRp
+b25zICgxNjgwIHdpZHRoKS4NCj4+IFRvIGZpeCB0aGUgYnVnLCB0aGlzIGNvbW1pdCBhZGp1c3Rz
+IHRoZSBjYXB0dXJpbmcgd2luZG93IHJlZ2lzdGVyIA0KPj4gc2V0dGluZyB0byAxNzI4IGlmIGRl
+dGVjdGVkIHdpZHRoIGlzIDE2ODAuIFRoZSBjb21wcmVzc2lvbiB3aW5kb3cgDQo+PiByZWdpc3Rl
+ciBzZXR0aW5nIHdpbGwgYmUga2VwdCBhcyB0aGUgb3JpZ2luYWwgd2lkdGggc28gb3V0cHV0IHJl
+c3VsdCANCj4+IHdpbGwgYmUgdGhlIHNhbWUuDQo+IA0KPiANCj4gVGhpcyBpcyBhIGJpdCBjdXJp
+b3VzLCB3aHkgMTcyOCBpbiBwYXJ0aWN1bGFyPyBBbmQgd2hhdCBpcyB0aGUgDQo+IGJlaGF2aW9y
+IG9mIHRoZSBWRSB3aGVuIHRoZSBjYXB0dXJlIHdpbmRvdyBpcyBsYXJnZXIgdGhhbiB0aGUgYWN0
+dWFsIA0KPiBzb3VyY2UgcmVzb2x1dGlvbj8NCg0KPkZvciBhbiBleGFtcGxlLCBpZiByZXNvbHV0
+aW9uIGlzIDE2ODB4MTA1MCwgY2FwdHVyaW5nIG9wZXJhdGlvbiB0YWtlcyB2ZXJ5IGxvbmcgdGlt
+ZSBiZWNhdXNlIFZFIGhhcyB0aGUgc2lsaWNvbiBidWcuIFNvIHRoaXMgcGF0Y2ggYWRqdXN0cyB0
+aGUgJ0NhcHR1cmUgV2luZG93JyByZWdpc3RlciBzbGlnaHRseSBsYXJnZXIgdGhhbiA+MTY4MCB0
+byBhdm9pZCB0aGUgaXNzdWUuIEFzIGEgcmVzdWx0LCBzb3VyY2UgYnVmZmVyIHdpbGwgY29weSAx
+NzI4eDEwNTAgZnJhbWVzIGZyb20gdGhlIG9yaWdpbmFsIHNjcmVlbiBidWZmZXIgYnV0IHRoZSBp
+bWFnZSBpcyBzdGlsbCBoYXMgdmFsaWQgaW5mb3JtYXRpb24uDQo+QXMgdGhlIG5leHQgc3RlcCBp
+biBjb21wcmVzc2lvbiBwaGFzZSwgaXQgd2lsbCBzZXQgdGhlICdDb21wcmVzc2lvbiBXaW5kb3cn
+IHJlZ2lzdGVyIGFzICcxNjgweDEwNTAnIHNvIGl0IHdpbGwgY29tcHJlc3MgdXNpbmcgdGhlIG9y
+aWdpbmFsIGltYWdlIHJlc29sdXRpb24gd2hpY2ggaXMgYSBjcm9wcGVkIGltYWdlIGZyb20gdGhl
+ID4nMTcyOHgxMDUwJyBzb3VyY2UgYnVmZmVyLg0KDQo+WW91IGNhbiBjb21wYXJlIHJlc3VsdHMg
+dXNpbmcgdGhlc2Ugc2hlbGwgY29tbWFuZHMgaW4gVWJ1bnR1IEdVSSBkZXNrdG9wLg0KDQo+JCB4
+cmFuZHIgLS1uZXdtb2RlICIxNjgweDEwNTBfNjAuMDAiICAxNDYuMjUgIDE2ODAgMTc4NCAxOTYw
+IDEyNDAgIDEwNTANCj4xMDUzIDEwNTkgMTA4OSAtaHN5bmMgK3ZzeW5jDQo+JCB4cmFuZHIgLS1h
+ZGRtb2RlIFZHQS0xIDE2ODB4MTA1MF82MC4wMCAkIHhyYW5kciAtLW91dHB1dCBWR0EtMSAtLW1v
+ZGUgMTY4MHgxMDUwXzYwLjAwDQoNCj5JJ20gYWxzbyBjdXJpb3VzIGFib3V0IHdoeSB0aGF0IGlz
+IDE3MjguIEFjdHVhbGx5LCB0aGlzIHdvcmthcm91bmQgd2FzIHByb3ZpZGVkIGZyb20gdGhlIGNo
+aXAgdmVuZG9yLCBBc3BlZWQsIGFuZCB0aGV5IHVzZSB0aGlzIGluIHRoZWlyIFNESyBjb2RlIHRv
+by4gTGV0J3MgY2hlY2sgaXQgdG8gUnlhbi4NCg0KDQo+SGkgUnlhbiwNCg0KPkNhbiB5b3UgcGxl
+YXNlIGV4cGxhaW4gd2h5IHRoYXQgaXMgMTcyOCBpbiBwYXJ0aWN1bGFyLg0KDQo+VGhhbmtzLA0K
+PkphZQ0KDQpUaGF0IGhhdmUgdHdvIGZhY3Rvciwgb25lIGlzIGRhdGEgdG9vIGh1Z2UgY2F1c2Ug
+dGhlIG1lbW9yeSBiYW5kd2lkdGggaXMgdG9vIGJ1c3kuICANClRoZSBvdGhlciBpcyB2Z2EgcmVz
+b2x1dGlvbiB3aWR0aCBpcyBub3QgYWxpZ24gdG8gMzIgb3IgNjQgcGl4ZWxzICgzMmJwcCBvciAx
+NmJwcCkuDQpUaG9zZSB3aWxsIGNhdXNlIGVuZ2luZSByZWFkIGxhdGVuY3kgdGltZSB0b28gbG9u
+ZywgbWF5YmUgZW5naW5lIHdpbGwgaGFuZ2UuDQoNClJ5YW4NCg0KPiANCj4gVGhhbmtzLA0KPiAN
+Cj4gRWRkaWUNCj4gDQo+IA0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IEphZSBIeXVuIFlvbyA8amFl
+Lmh5dW4ueW9vQGxpbnV4LmludGVsLmNvbT4NCj4+IC0tLQ0KPj4gdjEgLT4gdjI6DQo+PiAgIE5l
+dy4NCj4+DQo+PiAgIGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vYXNwZWVkLXZpZGVvLmMgfCAyNiAN
+Cj4+ICsrKysrKysrKysrKysrKysrKystLS0tLS0tDQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAxOSBp
+bnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L21lZGlhL3BsYXRmb3JtL2FzcGVlZC12aWRlby5jDQo+PiBiL2RyaXZlcnMvbWVkaWEvcGxhdGZv
+cm0vYXNwZWVkLXZpZGVvLmMNCj4+IGluZGV4IGIwNWIwNzNiNjNiYy4uZjkzOTg5ZjUzMmQ2IDEw
+MDY0NA0KPj4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hc3BlZWQtdmlkZW8uYw0KPj4g
+KysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hc3BlZWQtdmlkZW8uYw0KPj4gQEAgLTgyNCw4
+ICs4MjQsMjcgQEAgc3RhdGljIHZvaWQgYXNwZWVkX3ZpZGVvX3NldF9yZXNvbHV0aW9uKHN0cnVj
+dA0KPj4gYXNwZWVkX3ZpZGVvICp2aWRlbykNCj4+ICAgICAgIHN0cnVjdCB2NGwyX2J0X3RpbWlu
+Z3MgKmFjdCA9ICZ2aWRlby0+YWN0aXZlX3RpbWluZ3M7DQo+PiAgICAgICB1bnNpZ25lZCBpbnQg
+c2l6ZSA9IGFjdC0+d2lkdGggKiBhY3QtPmhlaWdodDsNCj4+ICsgICAgLyogU2V0IGNhcHR1cmUv
+Y29tcHJlc3Npb24gZnJhbWUgc2l6ZXMgKi8NCj4+ICAgICAgIGFzcGVlZF92aWRlb19jYWxjX2Nv
+bXByZXNzZWRfc2l6ZSh2aWRlbywgc2l6ZSk7DQo+PiArICAgIGlmICh2aWRlby0+YWN0aXZlX3Rp
+bWluZ3Mud2lkdGggPT0gMTY4MCkgew0KPj4gKyAgICAgICAgLyoNCj4+ICsgICAgICAgICAqIFRo
+aXMgaXMgYSB3b3JrYXJvdW5kIHRvIGZpeCBhIHNpbGljb24gYnVnIG9uIEExIGFuZCBBMg0KPj4g
+KyAgICAgICAgICogcmV2aXNpb25zLiBTaW5jZSBpdCBkb2Vzbid0IGJyZWFrIGNhcHR1cmluZyBv
+cGVyYXRpb24gb24gDQo+PiArQTANCj4+ICsgICAgICAgICAqIHJldmlzaW9uLCB1c2UgaXQgZm9y
+IGFsbCByZXZpc2lvbnMgd2l0aG91dCBjaGVja2luZyB0aGUNCj4+ICsgICAgICAgICAqIHJldmlz
+aW9uIElELg0KPj4gKyAgICAgICAgICovDQo+PiArICAgICAgICBhc3BlZWRfdmlkZW9fd3JpdGUo
+dmlkZW8sIFZFX0NBUF9XSU5ET1csDQo+PiArICAgICAgICAgICAgICAgICAgIDE3MjggPDwgMTYg
+fCBhY3QtPmhlaWdodCk7DQo+PiArICAgICAgICBzaXplICs9ICgxNzI4IC0gMTY4MCkgKiB2aWRl
+by0+YWN0aXZlX3RpbWluZ3MuaGVpZ2h0Ow0KPj4gKyAgICB9IGVsc2Ugew0KPj4gKyAgICAgICAg
+YXNwZWVkX3ZpZGVvX3dyaXRlKHZpZGVvLCBWRV9DQVBfV0lORE9XLA0KPj4gKyAgICAgICAgICAg
+ICAgICAgICBhY3QtPndpZHRoIDw8IDE2IHwgYWN0LT5oZWlnaHQpOw0KPj4gKyAgICB9DQo+PiAr
+ICAgIGFzcGVlZF92aWRlb193cml0ZSh2aWRlbywgVkVfQ09NUF9XSU5ET1csDQo+PiArICAgICAg
+ICAgICAgICAgYWN0LT53aWR0aCA8PCAxNiB8IGFjdC0+aGVpZ2h0KTsNCj4+ICsgICAgYXNwZWVk
+X3ZpZGVvX3dyaXRlKHZpZGVvLCBWRV9TUkNfU0NBTkxJTkVfT0ZGU0VULCBhY3QtPndpZHRoICog
+DQo+PiArNCk7DQo+PiArDQo+PiAgICAgICAvKiBEb24ndCB1c2UgZGlyZWN0IG1vZGUgYmVsb3cg
+MTAyNCB4IDc2OCAoaXJxcyBkb24ndCBmaXJlKSAqLw0KPj4gICAgICAgaWYgKHNpemUgPCBESVJF
+Q1RfRkVUQ0hfVEhSRVNIT0xEKSB7DQo+PiAgICAgICAgICAgYXNwZWVkX3ZpZGVvX3dyaXRlKHZp
+ZGVvLCBWRV9UR1NfMCwgQEAgLTg0MiwxMyArODYxLDYgQEAgDQo+PiBzdGF0aWMgdm9pZCBhc3Bl
+ZWRfdmlkZW9fc2V0X3Jlc29sdXRpb24oc3RydWN0DQo+PiBhc3BlZWRfdmlkZW8gKnZpZGVvKQ0K
+Pj4gICAgICAgICAgIGFzcGVlZF92aWRlb191cGRhdGUodmlkZW8sIFZFX0NUUkwsIDAsIA0KPj4g
+VkVfQ1RSTF9ESVJFQ1RfRkVUQ0gpOw0KPj4gICAgICAgfQ0KPj4gLSAgICAvKiBTZXQgY2FwdHVy
+ZS9jb21wcmVzc2lvbiBmcmFtZSBzaXplcyAqLw0KPj4gLSAgICBhc3BlZWRfdmlkZW9fd3JpdGUo
+dmlkZW8sIFZFX0NBUF9XSU5ET1csDQo+PiAtICAgICAgICAgICAgICAgYWN0LT53aWR0aCA8PCAx
+NiB8IGFjdC0+aGVpZ2h0KTsNCj4+IC0gICAgYXNwZWVkX3ZpZGVvX3dyaXRlKHZpZGVvLCBWRV9D
+T01QX1dJTkRPVywNCj4+IC0gICAgICAgICAgICAgICBhY3QtPndpZHRoIDw8IDE2IHwgYWN0LT5o
+ZWlnaHQpOw0KPj4gLSAgICBhc3BlZWRfdmlkZW9fd3JpdGUodmlkZW8sIFZFX1NSQ19TQ0FOTElO
+RV9PRkZTRVQsIGFjdC0+d2lkdGggKiANCj4+IDQpOw0KPj4gLQ0KPj4gICAgICAgc2l6ZSAqPSA0
+Ow0KPj4gICAgICAgaWYgKHNpemUgPT0gdmlkZW8tPnNyY3NbMF0uc2l6ZSAvIDIpIHsNCj4gDQo+
+IA0K
