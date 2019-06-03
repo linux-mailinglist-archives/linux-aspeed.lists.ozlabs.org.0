@@ -2,45 +2,81 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548A03171D
-	for <lists+linux-aspeed@lfdr.de>; Sat,  1 Jun 2019 00:16:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C3532620
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Jun 2019 03:29:05 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45FzLv1H7vzDqch
-	for <lists+linux-aspeed@lfdr.de>; Sat,  1 Jun 2019 08:16:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45HHWy0JmBzDqN6
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Jun 2019 11:29:02 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (helo) smtp.helo=mga12.intel.com
- (client-ip=192.55.52.136; helo=mga12.intel.com;
- envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linux.intel.com
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=66.111.4.25; helo=out1-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="UPwa2efQ"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="GHPag7bu"; dkim-atps=neutral
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45FzLJ5sVXzDqZG
- for <linux-aspeed@lists.ozlabs.org>; Sat,  1 Jun 2019 08:16:08 +1000 (AEST)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 31 May 2019 15:16:05 -0700
-X-ExtLoop1: 1
-Received: from maru.jf.intel.com ([10.54.51.75])
- by orsmga001.jf.intel.com with ESMTP; 31 May 2019 15:16:05 -0700
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-To: Eddie James <eajames@linux.ibm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: [PATCH v3 10/10] media: aspeed: add a workaround to fix a silicon bug
-Date: Fri, 31 May 2019 15:15:48 -0700
-Message-Id: <20190531221548.14757-11-jae.hyun.yoo@linux.intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190531221548.14757-1-jae.hyun.yoo@linux.intel.com>
-References: <20190531221548.14757-1-jae.hyun.yoo@linux.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45HHWm23VszDqCc
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  3 Jun 2019 11:28:51 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 1A18E21B6B;
+ Sun,  2 Jun 2019 21:28:49 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Sun, 02 Jun 2019 21:28:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=hP4Wp118CYUjOZy5FQ76Tf1KK73NL/j
+ bE6MU60faow4=; b=UPwa2efQJr7pRU3x3FD40oq1h+NVmQfL6+foK9uBmdprtgB
+ 0rYCBHYdBkq9CmYxJOTqYIHdM+MXX0jqy/5I8uZazlQbjVyQqOeQlJFSdl3DMp1G
+ wAObMQ8Zdh99gz0bHhvf/3FiXHOOsm9OPwQEWph4qG0ZD+e1rb0grNeWRbYy8Mxp
+ U67XoMWxJaMv1NScKxlFV/k6lEK/0Gy3jvno5chDVzPNctGL1bew4u6jp2yMU/mB
+ 7BuWvGZ0V24PYUkJI55ROhgc9aqSc3zXWl/SuGTSXf1tGNnzYrL7MkYrClaaphOP
+ 6Fh8ACQ3szyRUuFSTcop4nbjJ+KtZiXTLxRCdlA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=hP4Wp1
+ 18CYUjOZy5FQ76Tf1KK73NL/jbE6MU60faow4=; b=GHPag7bu9prVLOr/gQW+vg
+ 1EqP341H8G0LzO22ffMQWplc7093cHGmbfIiXfB82xtCmZSIx7fP9NYLGifWiNMf
+ vH/2F+rE+W56LR5Z0hbQKLIMab73LTqRtETzqRQEHZ3elsS8Gm26hNA+vzaa2sU/
+ P28s0A+LC1cLrAJvcNpc9o5Bu50YDTF1EIiP6Ur4/nM5yRkpIoU/wcQirjQPTvVj
+ wBduAYpb3gPenwkezNYjgvfUkitK44FuPAjB0UVnJ2YTPU8he7HNSBgTdnUqrYK+
+ yRRLkbkjtzt6Nh3ZiDPy5HJgTzEJBYDh580oEurf5MpfOvvFY3hwy4DEuB+hYBFw
+ ==
+X-ME-Sender: <xms:z3f0XK6trGKcUl4rIR4_AyjGQDVei5MBnxz5EF1fa2vIGT9Hy5jahQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudefiedggeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
+ rhfuihiivgeptd
+X-ME-Proxy: <xmx:z3f0XOkJa1VCZ4FXWsEm4i0KlnBejThtc9KZU3vwSvmImO64gUBLOg>
+ <xmx:z3f0XJrTz28vU6FFJp8vNQJjGEY3IeRBfjyRbM3CbMpw45ugs8TQJQ>
+ <xmx:z3f0XIBINBqEkki7BsU9BJL63I5dfTO15uh-FrVnGEpuXfKu3DMZvA>
+ <xmx:0Xf0XPzokBWVa_sZ3yAOp_mOMvcpRECpfc065nc8JCUWYP29xBS_TQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id AF983E00A2; Sun,  2 Jun 2019 21:28:47 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-555-g49357e1-fmstable-20190528v2
+Mime-Version: 1.0
+Message-Id: <246c9b25-1c05-4c2f-9185-c438c97ebdec@www.fastmail.com>
+In-Reply-To: <20190531090950.13466-1-a.filippov@yadro.com>
+References: <20190531090950.13466-1-a.filippov@yadro.com>
+Date: Mon, 03 Jun 2019 10:58:47 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Alexander A. Filippov" <a.filippov@yadro.com>,
+ linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH v4] ARM: dts: aspeed: Add YADRO VESNIN BMC
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,77 +88,273 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-AST2500 silicon revision A1 and A2 have a silicon bug which causes
-extremly long capturing time on specific resolutions (1680 width).
-To fix the bug, this commit adjusts the capturing window register
-setting to 1728 if detected width is 1680. The compression window
-register setting will be kept as the original width so output
-result will be the same.
 
-Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
----
-v2 -> v3:
- Added more detail comments why the value 1728 is picked.
 
-v1 -> v2:
- New.
+On Fri, 31 May 2019, at 18:40, Alexander Filippov wrote:
+> VESNIN is an OpenPower machine with an Aspeed 2400 BMC SoC manufactured
+> by YADRO.
+> 
+> Signed-off-by: Alexander Filippov <a.filippov@yadro.com>
 
- drivers/media/platform/aspeed-video.c | 28 ++++++++++++++++++++-------
- 1 file changed, 21 insertions(+), 7 deletions(-)
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
 
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index ba093096a5a7..f899ac3b4a61 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -824,8 +824,29 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
- 	struct v4l2_bt_timings *act = &video->active_timings;
- 	unsigned int size = act->width * act->height;
- 
-+	/* Set capture/compression frame sizes */
- 	aspeed_video_calc_compressed_size(video, size);
- 
-+	if (video->active_timings.width == 1680) {
-+		/*
-+		 * This is a workaround to fix a silicon bug on A1 and A2
-+		 * revisions. Since it doesn't break capturing operation of
-+		 * other revisions, use it for all revisions without checking
-+		 * the revision ID. It picked 1728 which is a very next
-+		 * 64-pixels aligned value to 1680 to minimize memory bandwidth
-+		 * and to get better access speed from video engine.
-+		 */
-+		aspeed_video_write(video, VE_CAP_WINDOW,
-+				   1728 << 16 | act->height);
-+		size += (1728 - 1680) * video->active_timings.height;
-+	} else {
-+		aspeed_video_write(video, VE_CAP_WINDOW,
-+				   act->width << 16 | act->height);
-+	}
-+	aspeed_video_write(video, VE_COMP_WINDOW,
-+			   act->width << 16 | act->height);
-+	aspeed_video_write(video, VE_SRC_SCANLINE_OFFSET, act->width * 4);
-+
- 	/* Don't use direct mode below 1024 x 768 (irqs don't fire) */
- 	if (size < DIRECT_FETCH_THRESHOLD) {
- 		aspeed_video_write(video, VE_TGS_0,
-@@ -842,13 +863,6 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
- 		aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_DIRECT_FETCH);
- 	}
- 
--	/* Set capture/compression frame sizes */
--	aspeed_video_write(video, VE_CAP_WINDOW,
--			   act->width << 16 | act->height);
--	aspeed_video_write(video, VE_COMP_WINDOW,
--			   act->width << 16 | act->height);
--	aspeed_video_write(video, VE_SRC_SCANLINE_OFFSET, act->width * 4);
--
- 	size *= 4;
- 
- 	if (size != video->srcs[0].size) {
--- 
-2.21.0
-
+> ---
+>  arch/arm/boot/dts/Makefile                  |   1 +
+>  arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts | 224 ++++++++++++++++++++
+>  2 files changed, 225 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
+> 
+> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+> index dab2914fa293..64a956372fe1 100644
+> --- a/arch/arm/boot/dts/Makefile
+> +++ b/arch/arm/boot/dts/Makefile
+> @@ -1272,6 +1272,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+>  	aspeed-bmc-opp-lanyang.dtb \
+>  	aspeed-bmc-opp-palmetto.dtb \
+>  	aspeed-bmc-opp-romulus.dtb \
+> +	aspeed-bmc-opp-vesnin.dtb \
+>  	aspeed-bmc-opp-witherspoon.dtb \
+>  	aspeed-bmc-opp-zaius.dtb \
+>  	aspeed-bmc-portwell-neptune.dtb \
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts 
+> b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
+> new file mode 100644
+> index 000000000000..0b9e29c3212e
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
+> @@ -0,0 +1,224 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +// Copyright 2019 YADRO
+> +/dts-v1/;
+> +
+> +#include "aspeed-g4.dtsi"
+> +#include <dt-bindings/gpio/aspeed-gpio.h>
+> +
+> +/ {
+> +	model = "Vesnin BMC";
+> +	compatible = "yadro,vesnin-bmc", "aspeed,ast2400";
+> +
+> +	chosen {
+> +		stdout-path = &uart5;
+> +		bootargs = "console=ttyS4,115200 earlyprintk";
+> +	};
+> +
+> +	memory {
+> +		reg = <0x40000000 0x20000000>;
+> +	};
+> +
+> +	reserved-memory {
+> +		#address-cells = <1>;
+> +		#size-cells = <1>;
+> +		ranges;
+> +
+> +		vga_memory: framebuffer@5f000000 {
+> +			no-map;
+> +			reg = <0x5f000000 0x01000000>; /* 16MB */
+> +		};
+> +		flash_memory: region@5c000000 {
+> +			no-map;
+> +			reg = <0x5c000000 0x02000000>; /* 32M */
+> +		};
+> +	};
+> +
+> +	leds {
+> +		compatible = "gpio-leds";
+> +
+> +		heartbeat {
+> +			gpios = <&gpio ASPEED_GPIO(R, 4) GPIO_ACTIVE_LOW>;
+> +		};
+> +		power_red {
+> +			gpios = <&gpio ASPEED_GPIO(N, 1) GPIO_ACTIVE_LOW>;
+> +		};
+> +
+> +		id_blue {
+> +			gpios = <&gpio ASPEED_GPIO(O, 0) GPIO_ACTIVE_LOW>;
+> +		};
+> +
+> +		alarm_red {
+> +			gpios = <&gpio ASPEED_GPIO(N, 6) GPIO_ACTIVE_LOW>;
+> +		};
+> +
+> +		alarm_yel {
+> +			gpios = <&gpio ASPEED_GPIO(N, 7) GPIO_ACTIVE_HIGH>;
+> +		};
+> +	};
+> +
+> +	gpio-keys {
+> +		compatible = "gpio-keys";
+> +
+> +		button_checkstop {
+> +			label = "checkstop";
+> +			linux,code = <74>;
+> +			gpios = <&gpio ASPEED_GPIO(P, 5) GPIO_ACTIVE_LOW>;
+> +		};
+> +
+> +		button_identify {
+> +			label = "identify";
+> +			linux,code = <152>;
+> +			gpios = <&gpio ASPEED_GPIO(O, 7) GPIO_ACTIVE_LOW>;
+> +		};
+> +	};
+> +};
+> +
+> +&fmc {
+> +	status = "okay";
+> +	flash@0 {
+> +		status = "okay";
+> +		m25p,fast-read;
+> +        label = "bmc";
+> +#include "openbmc-flash-layout.dtsi"
+> +	};
+> +};
+> +
+> +&spi {
+> +	status = "okay";
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&pinctrl_spi1debug_default>;
+> +
+> +	flash@0 {
+> +		status = "okay";
+> +		label = "pnor";
+> +		m25p,fast-read;
+> +	};
+> +};
+> +
+> +&mac0 {
+> +	status = "okay";
+> +
+> +	use-ncsi;
+> +	no-hw-checksum;
+> +
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&pinctrl_rmii1_default>;
+> +};
+> +
+> +
+> +&uart5 {
+> +	status = "okay";
+> +};
+> +
+> +&lpc_ctrl {
+> +	status = "okay";
+> +	memory-region = <&flash_memory>;
+> +	flash = <&spi>;
+> +};
+> +
+> +&ibt {
+> +	status = "okay";
+> +};
+> +
+> +&uart3 {
+> +	status = "okay";
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&pinctrl_txd2_default &pinctrl_rxd2_default>;
+> +};
+> +
+> +&i2c0 {
+> +	status = "okay";
+> +
+> +	eeprom@50 {
+> +		compatible = "atmel,24c256";
+> +		reg = <0x50>;
+> +		pagesize = <64>;
+> +	};
+> +};
+> +
+> +&i2c1 {
+> +	status = "okay";
+> +
+> +	tmp75@49 {
+> +		compatible = "ti,tmp75";
+> +		reg = <0x49>;
+> +	};
+> +};
+> +
+> +&i2c2 {
+> +	status = "okay";
+> +};
+> +
+> +&i2c3 {
+> +	status = "okay";
+> +};
+> +
+> +&i2c4 {
+> +	status = "okay";
+> +
+> +	occ-hwmon@50 {
+> +		compatible = "ibm,p8-occ-hwmon";
+> +		reg = <0x50>;
+> +	};
+> +};
+> +
+> +&i2c5 {
+> +	status = "okay";
+> +
+> +	occ-hwmon@51 {
+> +		compatible = "ibm,p8-occ-hwmon";
+> +		reg = <0x51>;
+> +	};
+> +};
+> +
+> +&i2c6 {
+> +	status = "okay";
+> +
+> +	w83795g@2f {
+> +		compatible = "nuvoton,w83795g";
+> +		reg = <0x2f>;
+> +	};
+> +};
+> +
+> +&i2c7 {
+> +	status = "okay";
+> +
+> +	occ-hwmon@56 {
+> +		compatible = "ibm,p8-occ-hwmon";
+> +		reg = <0x56>;
+> +	};
+> +};
+> +
+> +&i2c9 {
+> +	status = "okay";
+> +};
+> +
+> +&i2c10 {
+> +	status = "okay";
+> +};
+> +
+> +&i2c11 {
+> +	status = "okay";
+> +
+> +	occ-hwmon@57 {
+> +		compatible = "ibm,p8-occ-hwmon";
+> +		reg = <0x57>;
+> +	};
+> +};
+> +
+> +&i2c12 {
+> +	status = "okay";
+> +
+> +	rtc@68 {
+> +		compatible = "maxim,ds3231";
+> +		reg = <0x68>;
+> +	};
+> +};
+> +
+> +&i2c13 {
+> +	status = "okay";
+> +};
+> +
+> +&vuart {
+> +	status = "okay";
+> +};
+> -- 
+> 2.20.1
+> 
+>
