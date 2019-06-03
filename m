@@ -1,60 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6CC933C51
-	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2019 02:04:57 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45HscR1gDJzDqWR
-	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2019 10:04:55 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FAAC33BB4
+	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2019 01:05:23 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 45HrHh5GNgzDqTL
+	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2019 09:05:20 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=ami.com
- (client-ip=63.147.10.42; helo=atlmailgw2.ami.com;
- envelope-from=hongweiz@ami.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::843; helo=mail-qt1-x843.google.com;
+ envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=ami.com
-X-Greylist: delayed 903 seconds by postgrey-1.36 at bilbo;
- Tue, 04 Jun 2019 08:59:24 AEST
-Received: from atlmailgw2.ami.com (atlmailgw2.ami.com [63.147.10.42])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="Fph9kr69"; 
+ dkim-atps=neutral
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
+ [IPv6:2607:f8b0:4864:20::843])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45Hr8r05w4zDqS0
- for <linux-aspeed@lists.ozlabs.org>; Tue,  4 Jun 2019 08:59:23 +1000 (AEST)
-X-AuditID: ac10606f-bd5ff70000003de9-4b-5cf5a2bc2cf5
-Received: from atlms1.us.megatrends.com (atlms1.us.megatrends.com
- [172.16.96.144])
- (using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by atlmailgw2.ami.com (Symantec Messaging Gateway) with SMTP id
- C7.FD.15849.CB2A5FC5; Mon,  3 Jun 2019 18:44:13 -0400 (EDT)
-Received: from hongweiz-Ubuntu-AMI.us.megatrends.com (172.16.98.93) by
- atlms1.us.megatrends.com (172.16.96.144) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Mon, 3 Jun 2019 18:44:12 -0400
-From: Hongwei Zhang <hongweiz@ami.com>
-To: Joel Stanley <joel@jms.id.au>, Linus Walleij <linus.walleij@linaro.org>,
- Andrew Jeffery <andrew@aj.id.au>, Rob Herring <robh+dt@kernel.org>, Mark
- Rutland <mark.rutland@arm.com>
-Subject: [PATCH linux dev-5.1 v1] ARM: dts: aspeed: Add SGPM pinmux
-Date: Mon, 3 Jun 2019 18:43:09 -0400
-Message-ID: <1559601789-27121-1-git-send-email-hongweiz@ami.com>
-X-Mailer: git-send-email 2.7.4
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45HrHX1t30zDqSs;
+ Tue,  4 Jun 2019 09:05:11 +1000 (AEST)
+Received: by mail-qt1-x843.google.com with SMTP id 14so11610720qtf.0;
+ Mon, 03 Jun 2019 16:05:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gKC8wZFQPFd0VqtTDuB/ARVN69VSJ5fdx588jc+YHbA=;
+ b=Fph9kr69BV+Z5ewLR8tUn0LqxNfGrpbUUhyh6Sz9DGsYoQqpSIST+V6e78/Eqf5VwM
+ M2NYCQqLMxpeLpjwUBt1kk9PT55+SqUEDhmUrDp69/235v1Cp3lW9I3LM4cxPi3yrn64
+ o4L9Uile7n5d/VnKpcBwOrfrpE+/DWYcQ5nMM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gKC8wZFQPFd0VqtTDuB/ARVN69VSJ5fdx588jc+YHbA=;
+ b=IqbQCJ2kIqAN1+KG6x0rcimiQHSVKAMe00ZIln6o0HaeyjmWHEvxapiOASKPMaTDCT
+ vFK9dPW+3aflpJGJrOuNg3+gsp3ibVlCLJcv+8G4sNTKgkhO712O+jueD9sHe/Tl2Idy
+ 9UP7o2j6tehvaDZd4hjwsIm7xuPRLpDYEbXZqyz8vsHNXJR5AmY4+gcGTdJw3dVU+Lxo
+ qFFBT1OJYb7tZomlLFYpQnzA/K7Agu/gmDOpc9G+MyyTpAEBONkuaznU3q3nAPiWg8wQ
+ x3fFVMTYVY+bD3EfGFsFlQWQn3X1VgVGdyToi1IsrTulquGUQQ25kOliLx6UzEFD7WzC
+ wfaQ==
+X-Gm-Message-State: APjAAAVI/jCFXQxGjLyzju2An+3RhGrUeFPkNuOTC1jz80ePn8q5S6Z9
+ qAgoP1VulR8fUJ5neLxI/ceIOCHQDY1xUaID97Y=
+X-Google-Smtp-Source: APXvYqx2QJTwlNwzzlPfoov62Kue4C8bYtxTO3h/vLI+WOMXehesYQYiJEk9JUsIFreM1Hku84aoug4H2yLokYZCTec=
+X-Received: by 2002:ac8:5518:: with SMTP id j24mr24944260qtq.255.1559603107854; 
+ Mon, 03 Jun 2019 16:05:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.16.98.93]
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCLMWRmVeSWpSXmKPExsWyRiBhgu7eRV9jDJ5NkLTYdZnDYv6Rc6wW
- v8//ZbaY8mc5k8Wmx9dYLZpXn2O22Dz/D6PF5V1z2CyWXr/IZNG69wi7A5fH1fZd7B5r5q1h
- 9Lj48Rizx6ZVnWwed67tYfPYvKTe4/yMhYwenzfJBXBEcdmkpOZklqUW6dslcGVsubuKqWC2
- RMWfM81MDYzHRboYOTkkBEwkXrz9xQZiCwnsYpK4s6usi5ELyD7EKDH9/C12kASbgJrE3s1z
- mEASIgI7GCU657exgjjMAmcZJTY83MsMUiUs4Czx78NGRhCbRUBFYu2sS2BxXgEHic4rk9kh
- 1slJ3DzXCRUXlDg58wkLiM0sICFx8MULZogzZCVuHXrMBFGvIPG87zHLBEa+WUhaZiFpWcDI
- tIpRKLEkJzcxMye93EgvMTdTLzk/dxMjJKTzdzB+/Gh+iJGJgxHoJQ5mJRHexNtfYoR4UxIr
- q1KL8uOLSnNSiw8xSnOwKInzzgi5HCMkkJ5YkpqdmlqQWgSTZeLglGpgXFWk/GnRonOdGUuS
- Yvj+KN696zD/SIOiGe9i1tu51qxbHpmmTKi+xySVLxDkWlKqesnXKcfL1mijY7nSMhND1wcz
- nFXCAo1vqgbVvpP/wvr8Q3ha28qiqNnlLscamS8/Z7tUU6QdbnZvscfNq0IFhzYXzP59cmJw
- ZLXxjnk29exmpTETWL4rsRRnJBpqMRcVJwIA93vZXlcCAAA=
-X-Mailman-Approved-At: Tue, 04 Jun 2019 10:04:00 +1000
+References: <1559334700-51970-1-git-send-email-anoo@linux.ibm.com>
+ <CACPK8Xc8_SAkxQ1_HTFOkCsV8ejWS=MVXazH+bvDcE=9xKLF8A@mail.gmail.com>
+ <66ef1d874db0bf4963f3ea80d3436c3f@linux.vnet.ibm.com>
+In-Reply-To: <66ef1d874db0bf4963f3ea80d3436c3f@linux.vnet.ibm.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 3 Jun 2019 23:04:55 +0000
+Message-ID: <CACPK8Xdg+epi33nz5f2euLOR3UWNiVSXP52hUcstE=63XnNrjA@mail.gmail.com>
+Subject: Re: [PATCH dev-5.1] ARM: dts: aspeed: swift: Add VDD (IR35219) devices
+To: Adriana Kobylak <anoo@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,81 +71,33 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- Hongwei Zhang <hongweiz@ami.com>, linux-arm-kernel@lists.infradead.org
+Cc: msbarth@linux.ibm.com, OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Adriana Kobylak <anoo@us.ibm.com>, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add SGPM pinmux to ast2500-pinctrl function and group, to prepare for
-supporting SGPIO in AST2500 SoC.
+On Mon, 3 Jun 2019 at 19:37, Adriana Kobylak <anoo@linux.ibm.com> wrote:
+>
+> On 2019-06-03 04:06, Joel Stanley wrote:
+> > On Fri, 31 May 2019 at 20:31, Adriana Kobylak <anoo@linux.ibm.com>
+> > wrote:
+> >>
+> >> From: Adriana Kobylak <anoo@us.ibm.com>
+> >>
+> >> Add the VDD (IR35219) devices to the Swift device tree.
+> >>
+> >> +       ir35219@70 {
+> >> +               compatible = "infineon,ir35219";
+> >
+> > There's no driver for these in our tree. Do you have one coming?
+>
+> Eddie will be writing one [Swift VDD VRM device driver
+> #311](https://github.com/ibm-openbmc/dev/issues/311)
+> Should we put this patch on hold until the driver is done?
 
-Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
----
- Documentation/devicetree/bindings/pinctrl/pinctrl-aspeed.txt | 2 +-
- arch/arm/boot/dts/aspeed-g5.dtsi                             | 5 +++++
- drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c                   | 4 ++++
- 3 files changed, 10 insertions(+), 1 deletion(-)
+Yes. We generally don't put things in the device tree if there's no driver.
 
-diff --git a/Documentation/devicetree/bindings/pinctrl/pinctrl-aspeed.txt b/Documentation/devicetree/bindings/pinctrl/pinctrl-aspeed.txt
-index 3b7266c..8f1c5c4 100644
---- a/Documentation/devicetree/bindings/pinctrl/pinctrl-aspeed.txt
-+++ b/Documentation/devicetree/bindings/pinctrl/pinctrl-aspeed.txt
-@@ -84,7 +84,7 @@ NDCD2 NDCD3 NDCD4 NDSR1 NDSR2 NDSR3 NDSR4 NDTR1 NDTR2 NDTR3 NDTR4 NRI1 NRI2
- NRI3 NRI4 NRTS1 NRTS2 NRTS3 NRTS4 OSCCLK PEWAKE PNOR PWM0 PWM1 PWM2 PWM3 PWM4
- PWM5 PWM6 PWM7 RGMII1 RGMII2 RMII1 RMII2 RXD1 RXD2 RXD3 RXD4 SALT1 SALT10
- SALT11 SALT12 SALT13 SALT14 SALT2 SALT3 SALT4 SALT5 SALT6 SALT7 SALT8 SALT9
--SCL1 SCL2 SD1 SD2 SDA1 SDA2 SGPS1 SGPS2 SIOONCTRL SIOPBI SIOPBO SIOPWREQ
-+SCL1 SCL2 SD1 SD2 SDA1 SDA2 SGPM SGPS1 SGPS2 SIOONCTRL SIOPBI SIOPBO SIOPWREQ
- SIOPWRGD SIOS3 SIOS5 SIOSCI SPI1 SPI1CS1 SPI1DEBUG SPI1PASSTHRU SPI2CK SPI2CS0
- SPI2CS1 SPI2MISO SPI2MOSI TIMER3 TIMER4 TIMER5 TIMER6 TIMER7 TIMER8 TXD1 TXD2
- TXD3 TXD4 UART6 USB11BHID USB2AD USB2AH USB2BD USB2BH USBCKI VGABIOSROM VGAHS
-diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
-index 383510d..d10c3ea 100644
---- a/arch/arm/boot/dts/aspeed-g5.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g5.dtsi
-@@ -1394,6 +1394,11 @@
- 		groups = "SDA2";
- 	};
- 
-+	pinctrl_sgpm_default: sgpm_default {
-+		function = "SGPM";
-+		groups = "SGPM";
-+	};
-+
- 	pinctrl_sgps1_default: sgps1_default {
- 		function = "SGPS1";
- 		groups = "SGPS1";
-diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-index 187abd7..0c89647 100644
---- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-+++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
-@@ -577,6 +577,8 @@ SS_PIN_DECL(N3, GPIOJ2, SGPMO);
- SIG_EXPR_LIST_DECL_SINGLE(SGPMI, SGPM, SIG_DESC_SET(SCU84, 11));
- SS_PIN_DECL(N4, GPIOJ3, SGPMI);
- 
-+FUNC_GROUP_DECL(SGPM, R2, L2, N3, N4);
-+
- #define N5 76
- SIG_EXPR_LIST_DECL_SINGLE(VGAHS, VGAHS, SIG_DESC_SET(SCU84, 12));
- SIG_EXPR_LIST_DECL_SINGLE(DASHN5, DASHN5, SIG_DESC_SET(SCU94, 8));
-@@ -2127,6 +2129,7 @@ static const struct aspeed_pin_group aspeed_g5_groups[] = {
- 	ASPEED_PINCTRL_GROUP(SD2),
- 	ASPEED_PINCTRL_GROUP(SDA1),
- 	ASPEED_PINCTRL_GROUP(SDA2),
-+	ASPEED_PINCTRL_GROUP(SGPM),
- 	ASPEED_PINCTRL_GROUP(SGPS1),
- 	ASPEED_PINCTRL_GROUP(SGPS2),
- 	ASPEED_PINCTRL_GROUP(SIOONCTRL),
-@@ -2296,6 +2299,7 @@ static const struct aspeed_pin_function aspeed_g5_functions[] = {
- 	ASPEED_PINCTRL_FUNC(SD2),
- 	ASPEED_PINCTRL_FUNC(SDA1),
- 	ASPEED_PINCTRL_FUNC(SDA2),
-+	ASPEED_PINCTRL_FUNC(SGPM),
- 	ASPEED_PINCTRL_FUNC(SGPS1),
- 	ASPEED_PINCTRL_FUNC(SGPS2),
- 	ASPEED_PINCTRL_FUNC(SIOONCTRL),
--- 
-2.7.4
+Cheers,
 
+Joel
