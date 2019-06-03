@@ -2,62 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90AF432A65
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Jun 2019 10:05:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6021232B6D
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Jun 2019 11:06:28 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45HSK20NQ2zDqQc
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Jun 2019 18:05:10 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45HTgj6mbSzDqRK
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Jun 2019 19:06:25 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::844; helo=mail-qt1-x844.google.com;
+ (client-ip=2607:f8b0:4864:20::842; helo=mail-qt1-x842.google.com;
  envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="ga6bafZC"; 
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="Jfk/k/nO"; 
  dkim-atps=neutral
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
+ [IPv6:2607:f8b0:4864:20::842])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45HSJs08dzzDqPg
- for <linux-aspeed@lists.ozlabs.org>; Mon,  3 Jun 2019 18:05:00 +1000 (AEST)
-Received: by mail-qt1-x844.google.com with SMTP id 14so8353685qtf.0
- for <linux-aspeed@lists.ozlabs.org>; Mon, 03 Jun 2019 01:05:00 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45HTgc00BjzDqQK;
+ Mon,  3 Jun 2019 19:06:19 +1000 (AEST)
+Received: by mail-qt1-x842.google.com with SMTP id s57so1313436qte.8;
+ Mon, 03 Jun 2019 02:06:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RfaSV+pbk7w6/znlXv1qGSq++xp8hdtnx0rwYlptGts=;
- b=ga6bafZCmHxDV+BcmEwAaQsBBlEZkPFYGOsxhVLqSVdLrMiD8VQTGepUAJnHL2G3wY
- Aji+SLUEIuw0MSIMC3cBG6nJMELOFarVv7dHMqaO1WN8vDLzJlhClRQjA9PX9dYnQY77
- ZTEMJ4wNAzhm4f9EYkjt8OoYi9gVeLbnydEao=
+ :cc; bh=uuTtXgYKCS+rLnCw5KUGVKN51OqOl061vtAgonSVQAU=;
+ b=Jfk/k/nOOv0jJojPBUMsLOuESrqVO/7Eg88kuyfWMSg0PMXOJAPZSV+Vt6+VcCJ9kr
+ 3xqx8V2WtAnTRlT3+bDuxb/4oWhaUJ4OZZbKMiI0KWvWCjbYGTlrg004YiwZQvnrlp/b
+ KpD4eZ+JN+9XpoAu6YcDxHEsBJz8JwPzVG5c0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=RfaSV+pbk7w6/znlXv1qGSq++xp8hdtnx0rwYlptGts=;
- b=Q4B06PROThX0vO612lWinjKKfCdb7BWPVb9CZWUuoIWLqhPD/tq8v8AHPaZmMj6gcE
- S5/wDoLHRuzpVTjCIWAwhkyfwRMHSQ40L5uOiqd2/R1Cjdxxp+0oqUemz3P+QzVNvcaa
- KlIluaDuj0aOGccMl+6MozazDJ9aoqHGegwvL+sDqDorQWyeaiWCMkrTwfT+B+Sf5soQ
- R2yqf2Mb5azsheFW03Ihr+f+lskOqLB028zSxaNUwexGevjDbAFQCmvhJXU5GDG7PikJ
- kQXsEw0FMpYnNVPugqNlEyf2fpAeN2r4Mne0bPBL2SXeXhETAATld5/tpfRYJ1uF2Bi9
- rjBg==
-X-Gm-Message-State: APjAAAVjeHKQPQ32fuvqRxRQEuB/oe+W85w8BpjsoFyv9eF27lnGa2FA
- fAp4VZdMeAiKiK9Q1/pr7ybXgiXNvDtc/jk12qs=
-X-Google-Smtp-Source: APXvYqzsF073EvPFX4Takz8KWZ3H1JBY7zZTMY9VElYM72O2DrEKUU55vAn2In2dlmNN7QDVZrx88Z1tiSxYiMYUjoU=
-X-Received: by 2002:ac8:2493:: with SMTP id s19mr1721030qts.220.1559549097905; 
- Mon, 03 Jun 2019 01:04:57 -0700 (PDT)
+ bh=uuTtXgYKCS+rLnCw5KUGVKN51OqOl061vtAgonSVQAU=;
+ b=h4FfUQ13K+fNkSmX6U0+b9ylzuwteu7wkdg/h9fKWwlCXf1hfVt6G0zH23Qfxhquec
+ 3ki0qH+1pIfJK6dKp4aXUt60q6kHReKeP4m9HUyajeBRZ9+oeyeXGSwFHVFNuUAVn8HT
+ 3fWr/Db6kSMvtRPhtIkJc3C2PRCW6kwhc7Kku6PiiXtD6u7Pa3W2GGqubInZnT6eotvu
+ z5XHu7IXzZPRYM8LSWOzjakYn4p/XM6S1R9QomRpxXQzYgpKq15e7d7Ofm6uh/ZflP2/
+ nGzl1fYZCqprEa9ssb6Wbvehy4j5HCjivEOxgCYxvGPU87Edm5X4wSJGtOsaCi8khK9R
+ bq4A==
+X-Gm-Message-State: APjAAAW01JR9YcLXccwn9SMVVVu2MQQx+jHU1mvs2VVC2Fed7nIgCqaB
+ YGou8VdHOr+87qusf1hqr0n3JthKW9NsWiFL7bE=
+X-Google-Smtp-Source: APXvYqxXL4XpJm4Q9w3aB76cm+fEZ4Vkh8ETi/5J85sfez3A19+tWFwqSG2Zq018aqx/s5lZCatLw6hkwQQUBTRWegM=
+X-Received: by 2002:ac8:5518:: with SMTP id j24mr21468918qtq.255.1559552775802; 
+ Mon, 03 Jun 2019 02:06:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190531090950.13466-1-a.filippov@yadro.com>
- <246c9b25-1c05-4c2f-9185-c438c97ebdec@www.fastmail.com>
-In-Reply-To: <246c9b25-1c05-4c2f-9185-c438c97ebdec@www.fastmail.com>
+References: <1559334700-51970-1-git-send-email-anoo@linux.ibm.com>
+In-Reply-To: <1559334700-51970-1-git-send-email-anoo@linux.ibm.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 3 Jun 2019 08:04:46 +0000
-Message-ID: <CACPK8Xf9emq+rYjT=O8kQfc-oMcKZwAwXwZ1bciDr+R3CyWz+g@mail.gmail.com>
-Subject: Re: [PATCH v4] ARM: dts: aspeed: Add YADRO VESNIN BMC
-To: Andrew Jeffery <andrew@aj.id.au>
+Date: Mon, 3 Jun 2019 09:06:03 +0000
+Message-ID: <CACPK8Xc8_SAkxQ1_HTFOkCsV8ejWS=MVXazH+bvDcE=9xKLF8A@mail.gmail.com>
+Subject: Re: [PATCH dev-5.1] ARM: dts: aspeed: swift: Add VDD (IR35219) devices
+To: Adriana Kobylak <anoo@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -70,27 +69,20 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- "Alexander A. Filippov" <a.filippov@yadro.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Adriana Kobylak <anoo@us.ibm.com>, linux-aspeed@lists.ozlabs.org,
+ msbarth@linux.ibm.co
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 3 Jun 2019 at 01:28, Andrew Jeffery <andrew@aj.id.au> wrote:
-> On Fri, 31 May 2019, at 18:40, Alexander Filippov wrote:
-> > VESNIN is an OpenPower machine with an Aspeed 2400 BMC SoC manufactured
-> > by YADRO.
-> >
-> > Signed-off-by: Alexander Filippov <a.filippov@yadro.com>
+On Fri, 31 May 2019 at 20:31, Adriana Kobylak <anoo@linux.ibm.com> wrote:
 >
-> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+> From: Adriana Kobylak <anoo@us.ibm.com>
+>
+> Add the VDD (IR35219) devices to the Swift device tree.
+>
+> +       ir35219@70 {
+> +               compatible = "infineon,ir35219";
 
-Thanks. Applied to the aspeed dt-for-5.3 branch.
-
-Cheers,
-
-Joel
+There's no driver for these in our tree. Do you have one coming?
