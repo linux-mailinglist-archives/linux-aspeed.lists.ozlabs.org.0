@@ -2,81 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C3532620
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Jun 2019 03:29:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90AF432A65
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Jun 2019 10:05:12 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45HHWy0JmBzDqN6
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Jun 2019 11:29:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45HSK20NQ2zDqQc
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Jun 2019 18:05:10 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.25; helo=out1-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::844; helo=mail-qt1-x844.google.com;
+ envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="UPwa2efQ"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="GHPag7bu"; dkim-atps=neutral
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="ga6bafZC"; 
+ dkim-atps=neutral
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45HHWm23VszDqCc
- for <linux-aspeed@lists.ozlabs.org>; Mon,  3 Jun 2019 11:28:51 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 1A18E21B6B;
- Sun,  2 Jun 2019 21:28:49 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Sun, 02 Jun 2019 21:28:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=hP4Wp118CYUjOZy5FQ76Tf1KK73NL/j
- bE6MU60faow4=; b=UPwa2efQJr7pRU3x3FD40oq1h+NVmQfL6+foK9uBmdprtgB
- 0rYCBHYdBkq9CmYxJOTqYIHdM+MXX0jqy/5I8uZazlQbjVyQqOeQlJFSdl3DMp1G
- wAObMQ8Zdh99gz0bHhvf/3FiXHOOsm9OPwQEWph4qG0ZD+e1rb0grNeWRbYy8Mxp
- U67XoMWxJaMv1NScKxlFV/k6lEK/0Gy3jvno5chDVzPNctGL1bew4u6jp2yMU/mB
- 7BuWvGZ0V24PYUkJI55ROhgc9aqSc3zXWl/SuGTSXf1tGNnzYrL7MkYrClaaphOP
- 6Fh8ACQ3szyRUuFSTcop4nbjJ+KtZiXTLxRCdlA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=hP4Wp1
- 18CYUjOZy5FQ76Tf1KK73NL/jbE6MU60faow4=; b=GHPag7bu9prVLOr/gQW+vg
- 1EqP341H8G0LzO22ffMQWplc7093cHGmbfIiXfB82xtCmZSIx7fP9NYLGifWiNMf
- vH/2F+rE+W56LR5Z0hbQKLIMab73LTqRtETzqRQEHZ3elsS8Gm26hNA+vzaa2sU/
- P28s0A+LC1cLrAJvcNpc9o5Bu50YDTF1EIiP6Ur4/nM5yRkpIoU/wcQirjQPTvVj
- wBduAYpb3gPenwkezNYjgvfUkitK44FuPAjB0UVnJ2YTPU8he7HNSBgTdnUqrYK+
- yRRLkbkjtzt6Nh3ZiDPy5HJgTzEJBYDh580oEurf5MpfOvvFY3hwy4DEuB+hYBFw
- ==
-X-ME-Sender: <xms:z3f0XK6trGKcUl4rIR4_AyjGQDVei5MBnxz5EF1fa2vIGT9Hy5jahQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudefiedggeeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:z3f0XOkJa1VCZ4FXWsEm4i0KlnBejThtc9KZU3vwSvmImO64gUBLOg>
- <xmx:z3f0XJrTz28vU6FFJp8vNQJjGEY3IeRBfjyRbM3CbMpw45ugs8TQJQ>
- <xmx:z3f0XIBINBqEkki7BsU9BJL63I5dfTO15uh-FrVnGEpuXfKu3DMZvA>
- <xmx:0Xf0XPzokBWVa_sZ3yAOp_mOMvcpRECpfc065nc8JCUWYP29xBS_TQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id AF983E00A2; Sun,  2 Jun 2019 21:28:47 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-555-g49357e1-fmstable-20190528v2
-Mime-Version: 1.0
-Message-Id: <246c9b25-1c05-4c2f-9185-c438c97ebdec@www.fastmail.com>
-In-Reply-To: <20190531090950.13466-1-a.filippov@yadro.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45HSJs08dzzDqPg
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  3 Jun 2019 18:05:00 +1000 (AEST)
+Received: by mail-qt1-x844.google.com with SMTP id 14so8353685qtf.0
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 03 Jun 2019 01:05:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RfaSV+pbk7w6/znlXv1qGSq++xp8hdtnx0rwYlptGts=;
+ b=ga6bafZCmHxDV+BcmEwAaQsBBlEZkPFYGOsxhVLqSVdLrMiD8VQTGepUAJnHL2G3wY
+ Aji+SLUEIuw0MSIMC3cBG6nJMELOFarVv7dHMqaO1WN8vDLzJlhClRQjA9PX9dYnQY77
+ ZTEMJ4wNAzhm4f9EYkjt8OoYi9gVeLbnydEao=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RfaSV+pbk7w6/znlXv1qGSq++xp8hdtnx0rwYlptGts=;
+ b=Q4B06PROThX0vO612lWinjKKfCdb7BWPVb9CZWUuoIWLqhPD/tq8v8AHPaZmMj6gcE
+ S5/wDoLHRuzpVTjCIWAwhkyfwRMHSQ40L5uOiqd2/R1Cjdxxp+0oqUemz3P+QzVNvcaa
+ KlIluaDuj0aOGccMl+6MozazDJ9aoqHGegwvL+sDqDorQWyeaiWCMkrTwfT+B+Sf5soQ
+ R2yqf2Mb5azsheFW03Ihr+f+lskOqLB028zSxaNUwexGevjDbAFQCmvhJXU5GDG7PikJ
+ kQXsEw0FMpYnNVPugqNlEyf2fpAeN2r4Mne0bPBL2SXeXhETAATld5/tpfRYJ1uF2Bi9
+ rjBg==
+X-Gm-Message-State: APjAAAVjeHKQPQ32fuvqRxRQEuB/oe+W85w8BpjsoFyv9eF27lnGa2FA
+ fAp4VZdMeAiKiK9Q1/pr7ybXgiXNvDtc/jk12qs=
+X-Google-Smtp-Source: APXvYqzsF073EvPFX4Takz8KWZ3H1JBY7zZTMY9VElYM72O2DrEKUU55vAn2In2dlmNN7QDVZrx88Z1tiSxYiMYUjoU=
+X-Received: by 2002:ac8:2493:: with SMTP id s19mr1721030qts.220.1559549097905; 
+ Mon, 03 Jun 2019 01:04:57 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190531090950.13466-1-a.filippov@yadro.com>
-Date: Mon, 03 Jun 2019 10:58:47 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Alexander A. Filippov" <a.filippov@yadro.com>,
- linux-aspeed@lists.ozlabs.org
+ <246c9b25-1c05-4c2f-9185-c438c97ebdec@www.fastmail.com>
+In-Reply-To: <246c9b25-1c05-4c2f-9185-c438c97ebdec@www.fastmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 3 Jun 2019 08:04:46 +0000
+Message-ID: <CACPK8Xf9emq+rYjT=O8kQfc-oMcKZwAwXwZ1bciDr+R3CyWz+g@mail.gmail.com>
 Subject: Re: [PATCH v4] ARM: dts: aspeed: Add YADRO VESNIN BMC
-Content-Type: text/plain
+To: Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,273 +70,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "Alexander A. Filippov" <a.filippov@yadro.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Fri, 31 May 2019, at 18:40, Alexander Filippov wrote:
-> VESNIN is an OpenPower machine with an Aspeed 2400 BMC SoC manufactured
-> by YADRO.
-> 
-> Signed-off-by: Alexander Filippov <a.filippov@yadro.com>
-
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-
-> ---
->  arch/arm/boot/dts/Makefile                  |   1 +
->  arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts | 224 ++++++++++++++++++++
->  2 files changed, 225 insertions(+)
->  create mode 100644 arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
-> 
-> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-> index dab2914fa293..64a956372fe1 100644
-> --- a/arch/arm/boot/dts/Makefile
-> +++ b/arch/arm/boot/dts/Makefile
-> @@ -1272,6 +1272,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
->  	aspeed-bmc-opp-lanyang.dtb \
->  	aspeed-bmc-opp-palmetto.dtb \
->  	aspeed-bmc-opp-romulus.dtb \
-> +	aspeed-bmc-opp-vesnin.dtb \
->  	aspeed-bmc-opp-witherspoon.dtb \
->  	aspeed-bmc-opp-zaius.dtb \
->  	aspeed-bmc-portwell-neptune.dtb \
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts 
-> b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
-> new file mode 100644
-> index 000000000000..0b9e29c3212e
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
-> @@ -0,0 +1,224 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +// Copyright 2019 YADRO
-> +/dts-v1/;
-> +
-> +#include "aspeed-g4.dtsi"
-> +#include <dt-bindings/gpio/aspeed-gpio.h>
-> +
-> +/ {
-> +	model = "Vesnin BMC";
-> +	compatible = "yadro,vesnin-bmc", "aspeed,ast2400";
-> +
-> +	chosen {
-> +		stdout-path = &uart5;
-> +		bootargs = "console=ttyS4,115200 earlyprintk";
-> +	};
-> +
-> +	memory {
-> +		reg = <0x40000000 0x20000000>;
-> +	};
-> +
-> +	reserved-memory {
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		ranges;
-> +
-> +		vga_memory: framebuffer@5f000000 {
-> +			no-map;
-> +			reg = <0x5f000000 0x01000000>; /* 16MB */
-> +		};
-> +		flash_memory: region@5c000000 {
-> +			no-map;
-> +			reg = <0x5c000000 0x02000000>; /* 32M */
-> +		};
-> +	};
-> +
-> +	leds {
-> +		compatible = "gpio-leds";
-> +
-> +		heartbeat {
-> +			gpios = <&gpio ASPEED_GPIO(R, 4) GPIO_ACTIVE_LOW>;
-> +		};
-> +		power_red {
-> +			gpios = <&gpio ASPEED_GPIO(N, 1) GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		id_blue {
-> +			gpios = <&gpio ASPEED_GPIO(O, 0) GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		alarm_red {
-> +			gpios = <&gpio ASPEED_GPIO(N, 6) GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		alarm_yel {
-> +			gpios = <&gpio ASPEED_GPIO(N, 7) GPIO_ACTIVE_HIGH>;
-> +		};
-> +	};
-> +
-> +	gpio-keys {
-> +		compatible = "gpio-keys";
-> +
-> +		button_checkstop {
-> +			label = "checkstop";
-> +			linux,code = <74>;
-> +			gpios = <&gpio ASPEED_GPIO(P, 5) GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		button_identify {
-> +			label = "identify";
-> +			linux,code = <152>;
-> +			gpios = <&gpio ASPEED_GPIO(O, 7) GPIO_ACTIVE_LOW>;
-> +		};
-> +	};
-> +};
-> +
-> +&fmc {
-> +	status = "okay";
-> +	flash@0 {
-> +		status = "okay";
-> +		m25p,fast-read;
-> +        label = "bmc";
-> +#include "openbmc-flash-layout.dtsi"
-> +	};
-> +};
-> +
-> +&spi {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_spi1debug_default>;
-> +
-> +	flash@0 {
-> +		status = "okay";
-> +		label = "pnor";
-> +		m25p,fast-read;
-> +	};
-> +};
-> +
-> +&mac0 {
-> +	status = "okay";
-> +
-> +	use-ncsi;
-> +	no-hw-checksum;
-> +
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_rmii1_default>;
-> +};
-> +
-> +
-> +&uart5 {
-> +	status = "okay";
-> +};
-> +
-> +&lpc_ctrl {
-> +	status = "okay";
-> +	memory-region = <&flash_memory>;
-> +	flash = <&spi>;
-> +};
-> +
-> +&ibt {
-> +	status = "okay";
-> +};
-> +
-> +&uart3 {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_txd2_default &pinctrl_rxd2_default>;
-> +};
-> +
-> +&i2c0 {
-> +	status = "okay";
-> +
-> +	eeprom@50 {
-> +		compatible = "atmel,24c256";
-> +		reg = <0x50>;
-> +		pagesize = <64>;
-> +	};
-> +};
-> +
-> +&i2c1 {
-> +	status = "okay";
-> +
-> +	tmp75@49 {
-> +		compatible = "ti,tmp75";
-> +		reg = <0x49>;
-> +	};
-> +};
-> +
-> +&i2c2 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c3 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c4 {
-> +	status = "okay";
-> +
-> +	occ-hwmon@50 {
-> +		compatible = "ibm,p8-occ-hwmon";
-> +		reg = <0x50>;
-> +	};
-> +};
-> +
-> +&i2c5 {
-> +	status = "okay";
-> +
-> +	occ-hwmon@51 {
-> +		compatible = "ibm,p8-occ-hwmon";
-> +		reg = <0x51>;
-> +	};
-> +};
-> +
-> +&i2c6 {
-> +	status = "okay";
-> +
-> +	w83795g@2f {
-> +		compatible = "nuvoton,w83795g";
-> +		reg = <0x2f>;
-> +	};
-> +};
-> +
-> +&i2c7 {
-> +	status = "okay";
-> +
-> +	occ-hwmon@56 {
-> +		compatible = "ibm,p8-occ-hwmon";
-> +		reg = <0x56>;
-> +	};
-> +};
-> +
-> +&i2c9 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c10 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c11 {
-> +	status = "okay";
-> +
-> +	occ-hwmon@57 {
-> +		compatible = "ibm,p8-occ-hwmon";
-> +		reg = <0x57>;
-> +	};
-> +};
-> +
-> +&i2c12 {
-> +	status = "okay";
-> +
-> +	rtc@68 {
-> +		compatible = "maxim,ds3231";
-> +		reg = <0x68>;
-> +	};
-> +};
-> +
-> +&i2c13 {
-> +	status = "okay";
-> +};
-> +
-> +&vuart {
-> +	status = "okay";
-> +};
-> -- 
-> 2.20.1
-> 
+On Mon, 3 Jun 2019 at 01:28, Andrew Jeffery <andrew@aj.id.au> wrote:
+> On Fri, 31 May 2019, at 18:40, Alexander Filippov wrote:
+> > VESNIN is an OpenPower machine with an Aspeed 2400 BMC SoC manufactured
+> > by YADRO.
+> >
+> > Signed-off-by: Alexander Filippov <a.filippov@yadro.com>
 >
+> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+
+Thanks. Applied to the aspeed dt-for-5.3 branch.
+
+Cheers,
+
+Joel
