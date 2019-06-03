@@ -1,64 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 312D933BC2
+	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2019 01:08:08 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FAAC33BB4
-	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2019 01:05:23 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45HrHh5GNgzDqTL
-	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2019 09:05:20 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45HrLs5TZDzDqT4
+	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2019 09:08:05 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::843; helo=mail-qt1-x843.google.com;
- envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=linaro.org
+ (client-ip=2a00:1450:4864:20::241; helo=mail-lj1-x241.google.com;
+ envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="Fph9kr69"; 
+ dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=linaro.org header.i=@linaro.org header.b="WnjU0E/r"; 
  dkim-atps=neutral
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
- [IPv6:2607:f8b0:4864:20::843])
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45HrHX1t30zDqSs;
- Tue,  4 Jun 2019 09:05:11 +1000 (AEST)
-Received: by mail-qt1-x843.google.com with SMTP id 14so11610720qtf.0;
- Mon, 03 Jun 2019 16:05:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45HrLm3VSCzDqJs
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  4 Jun 2019 09:07:57 +1000 (AEST)
+Received: by mail-lj1-x241.google.com with SMTP id h11so17879851ljb.2
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 03 Jun 2019 16:07:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gKC8wZFQPFd0VqtTDuB/ARVN69VSJ5fdx588jc+YHbA=;
- b=Fph9kr69BV+Z5ewLR8tUn0LqxNfGrpbUUhyh6Sz9DGsYoQqpSIST+V6e78/Eqf5VwM
- M2NYCQqLMxpeLpjwUBt1kk9PT55+SqUEDhmUrDp69/235v1Cp3lW9I3LM4cxPi3yrn64
- o4L9Uile7n5d/VnKpcBwOrfrpE+/DWYcQ5nMM=
+ :cc; bh=9NFfbp/l7iiiVWginEhWa3ckd/womtHkaNdf8Bm+794=;
+ b=WnjU0E/rAfa9vZPRfObu2NgpsAHWsZFHvUV69mxl3ei5E4u3wUqLrcOWCZxid+etwI
+ idPmXKgOnv9LyIDizXMxnkZQ+rv8mvDL6cTXNKkn9o9jIgCoa8xNvnMpVupFnH/DBubR
+ z7Bbbdf/rBN4ueBDUCIbsmCasr1uaK8BDfV164NMFB9nXdq4W5H6ci7QmylT47TohsdZ
+ UhPArasjBBa8E/NXknmNzB6UoToQJo50DzNz5SA86P600icvEf8/0jXCnibqqjJHvO8X
+ B8hbGJOYCQTjKJyEJew5yq44nQGuynbzdgtPWt1JdD7FsKL6iZSbeNyy+BXMW8o2lh3H
+ 3xSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=gKC8wZFQPFd0VqtTDuB/ARVN69VSJ5fdx588jc+YHbA=;
- b=IqbQCJ2kIqAN1+KG6x0rcimiQHSVKAMe00ZIln6o0HaeyjmWHEvxapiOASKPMaTDCT
- vFK9dPW+3aflpJGJrOuNg3+gsp3ibVlCLJcv+8G4sNTKgkhO712O+jueD9sHe/Tl2Idy
- 9UP7o2j6tehvaDZd4hjwsIm7xuPRLpDYEbXZqyz8vsHNXJR5AmY4+gcGTdJw3dVU+Lxo
- qFFBT1OJYb7tZomlLFYpQnzA/K7Agu/gmDOpc9G+MyyTpAEBONkuaznU3q3nAPiWg8wQ
- x3fFVMTYVY+bD3EfGFsFlQWQn3X1VgVGdyToi1IsrTulquGUQQ25kOliLx6UzEFD7WzC
- wfaQ==
-X-Gm-Message-State: APjAAAVI/jCFXQxGjLyzju2An+3RhGrUeFPkNuOTC1jz80ePn8q5S6Z9
- qAgoP1VulR8fUJ5neLxI/ceIOCHQDY1xUaID97Y=
-X-Google-Smtp-Source: APXvYqx2QJTwlNwzzlPfoov62Kue4C8bYtxTO3h/vLI+WOMXehesYQYiJEk9JUsIFreM1Hku84aoug4H2yLokYZCTec=
-X-Received: by 2002:ac8:5518:: with SMTP id j24mr24944260qtq.255.1559603107854; 
- Mon, 03 Jun 2019 16:05:07 -0700 (PDT)
+ bh=9NFfbp/l7iiiVWginEhWa3ckd/womtHkaNdf8Bm+794=;
+ b=ruAXEPOizbTif+X3DLWNjHoZGwKJ5+2mgCvV2I6eGWzExHJkNFFQiiIY6qLTRw9YyQ
+ gpkUcEWQYVrKkuLlmQxDtDr4/SSxqU7s6KRuesrvAcRxnV2Zv4UIpJnRpcIQ+Pb4FBbR
+ QOsJ0TM96OfJ77wMS5QzR7uZMKWQa/uWs/c1P7lkhLGrZtDqoJwT29k6xCGRyLWPuKHE
+ /2I2zFKXf7Yj4te6fQ814yFkKvRbMuWQHahGbqVbAxC2T32osZYra2qPfFCzDl7u8GVL
+ 2h4Syix4cGLIcOWoVr1vTYMJtfF5wN7b6qQZfqULvil0M1fDMk5vvWV6jzBfsXIdyzxq
+ S0Zg==
+X-Gm-Message-State: APjAAAVtRvsYWHPwHgoe0ylIvBsJrU0wRHLRFVvdaDjNbLB0Oyce6YxC
+ 0qq3hs+kKWyYBjP8u6W9/blQqFvyaNvR9SFMKrrHwQ==
+X-Google-Smtp-Source: APXvYqx/DD8LnqDfO9YJiKsu3INvZtWWGhNNb2rLcK1MCFxZlVhpM9tSmP7auz1Iw4f1nXvHBAfBzZXk3RUmWeEQt6U=
+X-Received: by 2002:a2e:9018:: with SMTP id h24mr8048502ljg.165.1559603272528; 
+ Mon, 03 Jun 2019 16:07:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <1559334700-51970-1-git-send-email-anoo@linux.ibm.com>
- <CACPK8Xc8_SAkxQ1_HTFOkCsV8ejWS=MVXazH+bvDcE=9xKLF8A@mail.gmail.com>
- <66ef1d874db0bf4963f3ea80d3436c3f@linux.vnet.ibm.com>
-In-Reply-To: <66ef1d874db0bf4963f3ea80d3436c3f@linux.vnet.ibm.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 3 Jun 2019 23:04:55 +0000
-Message-ID: <CACPK8Xdg+epi33nz5f2euLOR3UWNiVSXP52hUcstE=63XnNrjA@mail.gmail.com>
-Subject: Re: [PATCH dev-5.1] ARM: dts: aspeed: swift: Add VDD (IR35219) devices
-To: Adriana Kobylak <anoo@linux.ibm.com>
+References: <1559601789-27121-1-git-send-email-hongweiz@ami.com>
+In-Reply-To: <1559601789-27121-1-git-send-email-hongweiz@ami.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 4 Jun 2019 01:07:41 +0200
+Message-ID: <CACRpkdYPHw994Ov0xCfK6tCg60tiuWrRwTcYpMSfOr4G0VKu_Q@mail.gmail.com>
+Subject: Re: [PATCH linux dev-5.1 v1] ARM: dts: aspeed: Add SGPM pinmux
+To: Hongwei Zhang <hongweiz@ami.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -71,33 +72,34 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: msbarth@linux.ibm.com, OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Adriana Kobylak <anoo@us.ibm.com>, linux-aspeed@lists.ozlabs.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 3 Jun 2019 at 19:37, Adriana Kobylak <anoo@linux.ibm.com> wrote:
+Hi Hongwei,
+
+On Tue, Jun 4, 2019 at 12:44 AM Hongwei Zhang <hongweiz@ami.com> wrote:
 >
-> On 2019-06-03 04:06, Joel Stanley wrote:
-> > On Fri, 31 May 2019 at 20:31, Adriana Kobylak <anoo@linux.ibm.com>
-> > wrote:
-> >>
-> >> From: Adriana Kobylak <anoo@us.ibm.com>
-> >>
-> >> Add the VDD (IR35219) devices to the Swift device tree.
-> >>
-> >> +       ir35219@70 {
-> >> +               compatible = "infineon,ir35219";
-> >
-> > There's no driver for these in our tree. Do you have one coming?
+> Add SGPM pinmux to ast2500-pinctrl function and group, to prepare for
+> supporting SGPIO in AST2500 SoC.
 >
-> Eddie will be writing one [Swift VDD VRM device driver
-> #311](https://github.com/ibm-openbmc/dev/issues/311)
-> Should we put this patch on hold until the driver is done?
+> Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
+> ---
+>  Documentation/devicetree/bindings/pinctrl/pinctrl-aspeed.txt | 2 +-
+>  arch/arm/boot/dts/aspeed-g5.dtsi                             | 5 +++++
+>  drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c                   | 4 ++++
 
-Yes. We generally don't put things in the device tree if there's no driver.
+Please try to separate out the change to arch/arm/boot/dts/aspeed-g5.dtsi
+into a separate patch that goes through ARM SoC.
 
-Cheers,
+Other than that it looks fine to me.
 
-Joel
+Yours,
+Linus Walleij
