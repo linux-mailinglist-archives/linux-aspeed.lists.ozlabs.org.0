@@ -2,62 +2,88 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6021232B6D
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Jun 2019 11:06:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF2633927
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Jun 2019 21:38:20 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45HTgj6mbSzDqRK
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Jun 2019 19:06:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45Hlhp414zzDqSV
+	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Jun 2019 05:38:18 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::842; helo=mail-qt1-x842.google.com;
- envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=linux.ibm.com
+ (client-ip=148.163.158.5; helo=mx0a-001b2d01.pphosted.com;
+ envelope-from=anoo@linux.ibm.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="Jfk/k/nO"; 
- dkim-atps=neutral
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=linux.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45HTgc00BjzDqQK;
- Mon,  3 Jun 2019 19:06:19 +1000 (AEST)
-Received: by mail-qt1-x842.google.com with SMTP id s57so1313436qte.8;
- Mon, 03 Jun 2019 02:06:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uuTtXgYKCS+rLnCw5KUGVKN51OqOl061vtAgonSVQAU=;
- b=Jfk/k/nOOv0jJojPBUMsLOuESrqVO/7Eg88kuyfWMSg0PMXOJAPZSV+Vt6+VcCJ9kr
- 3xqx8V2WtAnTRlT3+bDuxb/4oWhaUJ4OZZbKMiI0KWvWCjbYGTlrg004YiwZQvnrlp/b
- KpD4eZ+JN+9XpoAu6YcDxHEsBJz8JwPzVG5c0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uuTtXgYKCS+rLnCw5KUGVKN51OqOl061vtAgonSVQAU=;
- b=h4FfUQ13K+fNkSmX6U0+b9ylzuwteu7wkdg/h9fKWwlCXf1hfVt6G0zH23Qfxhquec
- 3ki0qH+1pIfJK6dKp4aXUt60q6kHReKeP4m9HUyajeBRZ9+oeyeXGSwFHVFNuUAVn8HT
- 3fWr/Db6kSMvtRPhtIkJc3C2PRCW6kwhc7Kku6PiiXtD6u7Pa3W2GGqubInZnT6eotvu
- z5XHu7IXzZPRYM8LSWOzjakYn4p/XM6S1R9QomRpxXQzYgpKq15e7d7Ofm6uh/ZflP2/
- nGzl1fYZCqprEa9ssb6Wbvehy4j5HCjivEOxgCYxvGPU87Edm5X4wSJGtOsaCi8khK9R
- bq4A==
-X-Gm-Message-State: APjAAAW01JR9YcLXccwn9SMVVVu2MQQx+jHU1mvs2VVC2Fed7nIgCqaB
- YGou8VdHOr+87qusf1hqr0n3JthKW9NsWiFL7bE=
-X-Google-Smtp-Source: APXvYqxXL4XpJm4Q9w3aB76cm+fEZ4Vkh8ETi/5J85sfez3A19+tWFwqSG2Zq018aqx/s5lZCatLw6hkwQQUBTRWegM=
-X-Received: by 2002:ac8:5518:: with SMTP id j24mr21468918qtq.255.1559552775802; 
- Mon, 03 Jun 2019 02:06:15 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45Hlgk6BWnzDqLW
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  4 Jun 2019 05:37:22 +1000 (AEST)
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x53JWgKb071703
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 3 Jun 2019 15:37:19 -0400
+Received: from e32.co.us.ibm.com (e32.co.us.ibm.com [32.97.110.150])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2sw68x9sb3-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 03 Jun 2019 15:37:18 -0400
+Received: from localhost
+ by e32.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <linux-aspeed@lists.ozlabs.org> from <anoo@linux.ibm.com>;
+ Mon, 3 Jun 2019 20:37:18 +0100
+Received: from b03cxnp07029.gho.boulder.ibm.com (9.17.130.16)
+ by e32.co.us.ibm.com (192.168.1.132) with IBM ESMTP SMTP Gateway: Authorized
+ Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 3 Jun 2019 20:37:16 +0100
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x53JbDuh19005526
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 3 Jun 2019 19:37:14 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E32FBC6059;
+ Mon,  3 Jun 2019 19:37:13 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B09CBC6055;
+ Mon,  3 Jun 2019 19:37:13 +0000 (GMT)
+Received: from ltc.linux.ibm.com (unknown [9.16.170.189])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon,  3 Jun 2019 19:37:13 +0000 (GMT)
 MIME-Version: 1.0
-References: <1559334700-51970-1-git-send-email-anoo@linux.ibm.com>
-In-Reply-To: <1559334700-51970-1-git-send-email-anoo@linux.ibm.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 3 Jun 2019 09:06:03 +0000
-Message-ID: <CACPK8Xc8_SAkxQ1_HTFOkCsV8ejWS=MVXazH+bvDcE=9xKLF8A@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Mon, 03 Jun 2019 14:38:10 -0500
+From: Adriana Kobylak <anoo@linux.ibm.com>
+To: Joel Stanley <joel@jms.id.au>
 Subject: Re: [PATCH dev-5.1] ARM: dts: aspeed: swift: Add VDD (IR35219) devices
-To: Adriana Kobylak <anoo@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CACPK8Xc8_SAkxQ1_HTFOkCsV8ejWS=MVXazH+bvDcE=9xKLF8A@mail.gmail.com>
+References: <1559334700-51970-1-git-send-email-anoo@linux.ibm.com>
+ <CACPK8Xc8_SAkxQ1_HTFOkCsV8ejWS=MVXazH+bvDcE=9xKLF8A@mail.gmail.com>
+X-Sender: anoo@linux.ibm.com
+User-Agent: Roundcube Webmail/1.0.1
+X-TM-AS-GCONF: 00
+x-cbid: 19060319-0004-0000-0000-00001517BBAB
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011209; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000286; SDB=6.01212771; UDB=6.00637364; IPR=6.00993832; 
+ MB=3.00027168; MTD=3.00000008; XFM=3.00000015; UTC=2019-06-03 19:37:17
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19060319-0005-0000-0000-00008BEA8D61
+Message-Id: <66ef1d874db0bf4963f3ea80d3436c3f@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-06-03_15:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=947 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906030132
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,20 +95,26 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Adriana Kobylak <anoo@us.ibm.com>, linux-aspeed@lists.ozlabs.org,
- msbarth@linux.ibm.co
+Cc: msbarth@linux.ibm.com, OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Adriana Kobylak <anoo@us.ibm.com>, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 31 May 2019 at 20:31, Adriana Kobylak <anoo@linux.ibm.com> wrote:
->
-> From: Adriana Kobylak <anoo@us.ibm.com>
->
-> Add the VDD (IR35219) devices to the Swift device tree.
->
-> +       ir35219@70 {
-> +               compatible = "infineon,ir35219";
+On 2019-06-03 04:06, Joel Stanley wrote:
+> On Fri, 31 May 2019 at 20:31, Adriana Kobylak <anoo@linux.ibm.com> 
+> wrote:
+>> 
+>> From: Adriana Kobylak <anoo@us.ibm.com>
+>> 
+>> Add the VDD (IR35219) devices to the Swift device tree.
+>> 
+>> +       ir35219@70 {
+>> +               compatible = "infineon,ir35219";
+> 
+> There's no driver for these in our tree. Do you have one coming?
 
-There's no driver for these in our tree. Do you have one coming?
+Eddie will be writing one [Swift VDD VRM device driver 
+#311](https://github.com/ibm-openbmc/dev/issues/311)
+Should we put this patch on hold until the driver is done?
+
