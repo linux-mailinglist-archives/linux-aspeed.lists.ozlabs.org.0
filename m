@@ -2,65 +2,82 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07FA3557E
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2019 05:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4C2354FF
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2019 03:31:35 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45JYW30rnLzDqSM
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2019 13:02:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45JWTt4bX6zDqVv
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2019 11:31:30 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=ami.com
- (client-ip=63.147.10.40; helo=atlmailgw1.ami.com;
- envelope-from=hongweiz@ami.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=66.111.4.29; helo=out5-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=ami.com
-Received: from atlmailgw1.ami.com (atlmailgw1.ami.com [63.147.10.40])
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="bmYuQY2v"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="gEOn8Xm0"; dkim-atps=neutral
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45JQt70krRzDqKw
- for <linux-aspeed@lists.ozlabs.org>; Wed,  5 Jun 2019 08:03:42 +1000 (AEST)
-X-AuditID: ac1060b2-2cbff70000003d86-4a-5cf6eab90d42
-Received: from atlms2.us.megatrends.com (atlms2.us.megatrends.com
- [172.16.96.152])
- (using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by atlmailgw1.ami.com (Symantec Messaging Gateway) with SMTP id
- 4B.AE.15750.9BAE6FC5; Tue,  4 Jun 2019 18:03:37 -0400 (EDT)
-Received: from ATLMS1.us.megatrends.com ([fe80::8c55:daf0:ef05:5605]) by
- atlms2.us.megatrends.com ([fe80::29dc:a91e:ea0c:cdeb%12]) with mapi id
- 14.03.0415.000; Tue, 4 Jun 2019 18:03:37 -0400
-From: Hongwei Zhang <Hongweiz@ami.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: RE: [PATCH linux dev-5.1 v1] ARM: dts: aspeed: Add SGPM pinmux
-Thread-Topic: [PATCH linux dev-5.1 v1] ARM: dts: aspeed: Add SGPM pinmux
-Thread-Index: AQHVGl3d/v6MjHMzm0SmoLtXRU7xKqaK0JyAgAE8dbA=
-Date: Tue, 4 Jun 2019 22:03:37 +0000
-Message-ID: <14D3C8298A3B0F42A1EB31EE961CFF8231E4AA@atlms1.us.megatrends.com>
-References: <1559601789-27121-1-git-send-email-hongweiz@ami.com>
- <CACRpkdYPHw994Ov0xCfK6tCg60tiuWrRwTcYpMSfOr4G0VKu_Q@mail.gmail.com>
-In-Reply-To: <CACRpkdYPHw994Ov0xCfK6tCg60tiuWrRwTcYpMSfOr4G0VKu_Q@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.100.241]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrHIsWRmVeSWpSXmKPExsWyRiBhhu7OV99iDN5tULDYdZnDYv6Rc6wW
- v8//ZbaY8mc5k8Wmx9dYLZpXn2O22Dz/D6PF5V1z2CyWXr/IZNG69wi7A5fH1fZd7B5r5q1h
- 9Lj48Rizx6ZVnWwed67tYfPYvKTe4/yMhYwenzfJBXBEcdmkpOZklqUW6dslcGW8m3iTpWAF
- f8Wj27tZGxi/8HUxcnJICJhI/Py6h7WLkYtDSGAXk8TlpzugnEOMEv97FrCAVLEJqEk8/dPA
- DmKLCOhIdG/7CVbELHCPWWLO55dADgeHsIC7xIJ1tRA1HhLTp/9jg7CtJDa9/8YEYrMIqEhc
- P/cdLM4r4Ctx/dBudohl7YwSbbv/gS3gFAiUuLJyOlgDo4CYxPdTa8BsZgFxiVtP5jNBnC0g
- sWTPeWYIW1Ti5eN/rBC2kkTDin9MIPcwC2hKrN+lD9GqKDGl+yE7xF5BiZMzn7BMYBSdhWTq
- LISOWUg6ZiHpWMDIsopRKLEkJzcxMye93FAvMTdTLzk/dxMjJE437WBsuWh+iJGJgxEYdhzM
- SiK8ibe/xAjxpiRWVqUW5ccXleakFh9ilOZgURLnXbnmW4yQQHpiSWp2ampBahFMlomDU6qB
- cdKihp/iwvaPZuYmcTMt/X8jRP/yRpYqY2ZnNv9Gz1OhOj+W6Mg80VE42X19YctqyakLd7mf
- CZzledFnRmnQovvFVUsibs/8nBXw22/9S9uX9QzPHH3dwoR/dQafOy6TXbi3WuC1F3f+7EXG
- kx/f2pCRlHsvpZt5Xj3jvx/2R7Xqel+sZ3jXr8RSnJFoqMVcVJwIAJ80j6fBAgAA
-X-Mailman-Approved-At: Wed, 05 Jun 2019 13:02:07 +1000
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45JWTg2TXSzDqTT
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  5 Jun 2019 11:31:18 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id DECD921B2A;
+ Tue,  4 Jun 2019 21:31:15 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Tue, 04 Jun 2019 21:31:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=ZMvsAP7tsZ6FGrkTx8J6BoVyLNN1cS8
+ mg7hACEWmNsQ=; b=bmYuQY2vcOZ8Pqh6ZQ8OOr4sgAlXpREa293b3GnrGtNMkRh
+ w0O7MUyMw8yCoE7wZbwuWWf8j+eagUg0dgnKi0duy4HhwwJ0TVV8K2cO11lKxhYT
+ mU12rQAms3X4NqCQpmaEfWR+BUqtEpEBCMWtgwhoAPszYDlW3DvLALXKgsRi2PIY
+ QWE6YkcIINhMQMkMhHRf95QqILl7C/7g654Yc3V9ljn5r4ekFt3QYODYGs6S8dAY
+ MHYXGe8QXqP3No79MF0wiyS8Km6fBmZHPkhzNWM/WMtzGlB6NekRQgqf2D/hMCxd
+ uPu5y+Q4YpA5zVcdmH0NCx50kNPhlyjP9Z95EPg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ZMvsAP
+ 7tsZ6FGrkTx8J6BoVyLNN1cS8mg7hACEWmNsQ=; b=gEOn8Xm09umzuo1HpkPTyr
+ mt4Uxs74T3eG76Xz1SmX4ZKlo1I6XAEOvlDmO2mVoVr7nQpLfwC7KxG/64Ue6Rvu
+ QqUGh25dnmDCGC1QEjdlWgODFpX23ZIVq/1HMCMRZ8c5ZEIOoOzF71sSy1Z2ppHL
+ 2uGjd09wHhgzIMNN6bWFdXD6KeKBpbAUBfSdvaXrwAfuPEl8c7zMyp7iObi+VJ7U
+ 5W+NQKH4mJLDGiDucssdGgxDjWXEKjdpYv+fDsrlWcedTcL3T0JGH+Xth6kK5RMQ
+ XvkSCPbn/A3Y3HwjO90Mqa21I9PWNr2GCPpVQF3Qfc7IUWd9Dgh3LfTv2VzE9NsQ
+ ==
+X-ME-Sender: <xms:YRv3XL_PfUlnH_igpi7qRhujQeGDskeviEx-AHKEfevYS-0DJJqaWA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudeguddggeejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
+ rhfuihiivgeptd
+X-ME-Proxy: <xmx:YRv3XKwZkIBuJkrHUczmudGr0toCBoJ0En5RVCrS--VpkhShb_hW8A>
+ <xmx:YRv3XHGaF_r7IdVY6_LTMC6sl2IbAgaVnXEP2RGe9KZgwQPueEb-ig>
+ <xmx:YRv3XK6IQrVBYFTZOkoBPL4M-Jz2g0tBxXpYGVSneNFLHYDbpN4ynQ>
+ <xmx:Yxv3XCf_0V1dbiLxW9uKqENY1uVxxNF_ym6kQUPq33WhCMi9iSzRYQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id CECB5E00A1; Tue,  4 Jun 2019 21:31:13 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-650-g74f8db0-fmstable-20190604v3
+Mime-Version: 1.0
+Message-Id: <b4ba9af9-9d6d-45fa-8552-3aad5258352a@www.fastmail.com>
+In-Reply-To: <1559685212-15857-1-git-send-email-hongweiz@ami.com>
+References: <1559685212-15857-1-git-send-email-hongweiz@ami.com>
+Date: Wed, 05 Jun 2019 11:01:13 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Hongwei Zhang" <hongweiz@ami.com>, "Joel Stanley" <joel@jms.id.au>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "Rob Herring" <robh+dt@kernel.org>, "Mark Rutland" <mark.rutland@arm.com>
+Subject: Re: [PATCH 1/3 linux dev-5.1 v2] ARM: dts: aspeed: Add SGPM pinmux
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,39 +89,85 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, "open list:OPEN FIRMWARE
- AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "open
- list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, Rob
- Herring <robh+dt@kernel.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IExpbnVzIFdhbGxlaWogPGxpbnVzLndh
-bGxlaWpAbGluYXJvLm9yZz4gDQpTZW50OiBNb25kYXksIEp1bmUgMywgMjAxOSA3OjA4IFBNDQpU
-bzogSG9uZ3dlaSBaaGFuZyA8SG9uZ3dlaXpAYW1pLmNvbT4NCkNjOiBKb2VsIFN0YW5sZXkgPGpv
-ZWxAam1zLmlkLmF1PjsgQW5kcmV3IEplZmZlcnkgPGFuZHJld0Bhai5pZC5hdT47IFJvYiBIZXJy
-aW5nIDxyb2JoK2R0QGtlcm5lbC5vcmc+OyBNYXJrIFJ1dGxhbmQgPG1hcmsucnV0bGFuZEBhcm0u
-Y29tPjsgb3BlbiBsaXN0OkdQSU8gU1VCU1lTVEVNIDxsaW51eC1ncGlvQHZnZXIua2VybmVsLm9y
-Zz47IG9wZW4gbGlzdDpPUEVOIEZJUk1XQVJFIEFORCBGTEFUVEVORUQgREVWSUNFIFRSRUUgQklO
-RElOR1MgPGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnPjsgTGludXggQVJNIDxsaW51eC1hcm0t
-a2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmc+OyBsaW51eC1hc3BlZWRAbGlzdHMub3psYWJzLm9y
-ZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZw0KU3ViamVjdDogUmU6IFtQQVRDSCBsaW51
-eCBkZXYtNS4xIHYxXSBBUk06IGR0czogYXNwZWVkOiBBZGQgU0dQTSBwaW5tdXgNCg0KSGkgSG9u
-Z3dlaSwNCg0KT24gVHVlLCBKdW4gNCwgMjAxOSBhdCAxMjo0NCBBTSBIb25nd2VpIFpoYW5nIDxo
-b25nd2VpekBhbWkuY29tPiB3cm90ZToNCj4NCj4gQWRkIFNHUE0gcGlubXV4IHRvIGFzdDI1MDAt
-cGluY3RybCBmdW5jdGlvbiBhbmQgZ3JvdXAsIHRvIHByZXBhcmUgZm9yIA0KPiBzdXBwb3J0aW5n
-IFNHUElPIGluIEFTVDI1MDAgU29DLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBIb25nd2VpIFpoYW5n
-IDxob25nd2VpekBhbWkuY29tPg0KPiAtLS0NCj4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
-aW5kaW5ncy9waW5jdHJsL3BpbmN0cmwtYXNwZWVkLnR4dCB8IDIgKy0NCj4gIGFyY2gvYXJtL2Jv
-b3QvZHRzL2FzcGVlZC1nNS5kdHNpICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDUgKysr
-KysNCj4gIGRyaXZlcnMvcGluY3RybC9hc3BlZWQvcGluY3RybC1hc3BlZWQtZzUuYyAgICAgICAg
-ICAgICAgICAgICB8IDQgKysrKw0KDQpQbGVhc2UgdHJ5IHRvIHNlcGFyYXRlIG91dCB0aGUgY2hh
-bmdlIHRvIGFyY2gvYXJtL2Jvb3QvZHRzL2FzcGVlZC1nNS5kdHNpIGludG8gYSBzZXBhcmF0ZSBw
-YXRjaCB0aGF0IGdvZXMgdGhyb3VnaCBBUk0gU29DLg0KDQpKdXN0IGNvbW1pdHRlZCB0aGUgRFQg
-cGF0Y2ggdG8gX2h0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0
-L2FybS9hcm0tc29jLmdpdCAsIHBsZWFzZSBoZWxwIHRvIHJldmlldy4gVGhhbmtzIQ0KDQoNCk90
-aGVyIHRoYW4gdGhhdCBpdCBsb29rcyBmaW5lIHRvIG1lLg0KDQpZb3VycywNCkxpbnVzIFdhbGxl
-aWoNCg==
+
+
+On Wed, 5 Jun 2019, at 07:23, Hongwei Zhang wrote:
+> Add SGPM pinmux to ast2500-pinctrl function and group, to prepare for
+> supporting SGPIO in AST2500 SoC.
+> 
+> Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
+
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+
+> ---
+>  Documentation/devicetree/bindings/pinctrl/pinctrl-aspeed.txt | 2 +-
+>  drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c                   | 4 ++++
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git 
+> a/Documentation/devicetree/bindings/pinctrl/pinctrl-aspeed.txt 
+> b/Documentation/devicetree/bindings/pinctrl/pinctrl-aspeed.txt
+> index 3b7266c..8f1c5c4 100644
+> --- a/Documentation/devicetree/bindings/pinctrl/pinctrl-aspeed.txt
+> +++ b/Documentation/devicetree/bindings/pinctrl/pinctrl-aspeed.txt
+> @@ -84,7 +84,7 @@ NDCD2 NDCD3 NDCD4 NDSR1 NDSR2 NDSR3 NDSR4 NDTR1 NDTR2 
+> NDTR3 NDTR4 NRI1 NRI2
+>  NRI3 NRI4 NRTS1 NRTS2 NRTS3 NRTS4 OSCCLK PEWAKE PNOR PWM0 PWM1 PWM2 
+> PWM3 PWM4
+>  PWM5 PWM6 PWM7 RGMII1 RGMII2 RMII1 RMII2 RXD1 RXD2 RXD3 RXD4 SALT1 
+> SALT10
+>  SALT11 SALT12 SALT13 SALT14 SALT2 SALT3 SALT4 SALT5 SALT6 SALT7 SALT8 
+> SALT9
+> -SCL1 SCL2 SD1 SD2 SDA1 SDA2 SGPS1 SGPS2 SIOONCTRL SIOPBI SIOPBO 
+> SIOPWREQ
+> +SCL1 SCL2 SD1 SD2 SDA1 SDA2 SGPM SGPS1 SGPS2 SIOONCTRL SIOPBI SIOPBO 
+> SIOPWREQ
+>  SIOPWRGD SIOS3 SIOS5 SIOSCI SPI1 SPI1CS1 SPI1DEBUG SPI1PASSTHRU SPI2CK 
+> SPI2CS0
+>  SPI2CS1 SPI2MISO SPI2MOSI TIMER3 TIMER4 TIMER5 TIMER6 TIMER7 TIMER8 
+> TXD1 TXD2
+>  TXD3 TXD4 UART6 USB11BHID USB2AD USB2AH USB2BD USB2BH USBCKI 
+> VGABIOSROM VGAHS
+> diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c 
+> b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+> index 187abd7..0c89647 100644
+> --- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+> +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+> @@ -577,6 +577,8 @@ SS_PIN_DECL(N3, GPIOJ2, SGPMO);
+>  SIG_EXPR_LIST_DECL_SINGLE(SGPMI, SGPM, SIG_DESC_SET(SCU84, 11));
+>  SS_PIN_DECL(N4, GPIOJ3, SGPMI);
+>  
+> +FUNC_GROUP_DECL(SGPM, R2, L2, N3, N4);
+> +
+>  #define N5 76
+>  SIG_EXPR_LIST_DECL_SINGLE(VGAHS, VGAHS, SIG_DESC_SET(SCU84, 12));
+>  SIG_EXPR_LIST_DECL_SINGLE(DASHN5, DASHN5, SIG_DESC_SET(SCU94, 8));
+> @@ -2127,6 +2129,7 @@ static const struct aspeed_pin_group 
+> aspeed_g5_groups[] = {
+>  	ASPEED_PINCTRL_GROUP(SD2),
+>  	ASPEED_PINCTRL_GROUP(SDA1),
+>  	ASPEED_PINCTRL_GROUP(SDA2),
+> +	ASPEED_PINCTRL_GROUP(SGPM),
+>  	ASPEED_PINCTRL_GROUP(SGPS1),
+>  	ASPEED_PINCTRL_GROUP(SGPS2),
+>  	ASPEED_PINCTRL_GROUP(SIOONCTRL),
+> @@ -2296,6 +2299,7 @@ static const struct aspeed_pin_function 
+> aspeed_g5_functions[] = {
+>  	ASPEED_PINCTRL_FUNC(SD2),
+>  	ASPEED_PINCTRL_FUNC(SDA1),
+>  	ASPEED_PINCTRL_FUNC(SDA2),
+> +	ASPEED_PINCTRL_FUNC(SGPM),
+>  	ASPEED_PINCTRL_FUNC(SGPS1),
+>  	ASPEED_PINCTRL_FUNC(SGPS2),
+>  	ASPEED_PINCTRL_FUNC(SIOONCTRL),
+> -- 
+> 2.7.4
+> 
+>
