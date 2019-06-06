@@ -2,73 +2,51 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272EE365F7
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jun 2019 22:49:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D888C368DD
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jun 2019 02:53:47 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45K19T4GZvzDqLv
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jun 2019 06:49:01 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45K6br6CntzDqcX
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jun 2019 10:53:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::542; helo=mail-pg1-x542.google.com;
- envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="GBnc+Vxa"; 
- dkim-atps=neutral
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ spf=none (mailfrom) smtp.mailfrom=linux.intel.com
+ (client-ip=192.55.52.43; helo=mga05.intel.com;
+ envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=linux.intel.com
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45K18g3dlvzDqPW
- for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Jun 2019 06:48:19 +1000 (AEST)
-Received: by mail-pg1-x542.google.com with SMTP id v11so13055746pgl.5
- for <linux-aspeed@lists.ozlabs.org>; Wed, 05 Jun 2019 13:48:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Du+0bbuODHKY++qb0cbQwd0FfOUyQQ1ecgU3jGLOTGg=;
- b=GBnc+VxaycEV8LoEJ1r8HyAudDX+mOEZkIjNkbqWn4+jiKHCaFAGK3s7nvzmPhASZL
- 4wr4Gp4QaaYqAaTkhLRKbJkPXarMdPfzDWAQK4nqp/ZXMDKtqsayRM5VnlBYiGWaTiHO
- 41Jp8E5EHr06q2z0R3qKRlchNlvxrrL/K0rVJXzhXqvEAGq+KzGARNzjOEOKKUW0OMf0
- gogNNJO4hJOpSPyt44rK2vlSI2SiBlybfnC+L7BMJvm1cPCyPCZ9hMdEYjym68Oh3qjF
- uq21T8xpRoyN6QTZ00I+jde4KZVuQlg1XYzVq0cPqmXhcyKXIFUx9vu21oV7i0hAqaJO
- InZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=Du+0bbuODHKY++qb0cbQwd0FfOUyQQ1ecgU3jGLOTGg=;
- b=JPkuqdBXjRVcAQAN4r6/qVjAHtHSPZYkGfnBuLf9hw3Y9QEXCCk+K+o7nt5O6+x+Ys
- Nc1gR77cLdecjYIcLZe6OspxRyiCQ4ecF5hqpkqKLLDimO3Jk69IK0lUzQbUf6V3gKhU
- UfCuE4l06t/f3dnRIbIKdTgWPC/7NrxyjktodAgsv/XbZrXpwhnx7jQy6wE1RYz8Mxqf
- pLWdwmrcr4dCam7ZmDZGr03InIjes7p/8xOa6B6AtdFRtXK0AKlBdJyGZjYjhjY8XCOM
- CajI1+iXmKSEW78dOPhlST8ngUu+E4ySpwZ01YekPqsXsacENt2WKAapaYYWl/okGsTa
- qTtA==
-X-Gm-Message-State: APjAAAVo+1RnOUKUcEybUlA+qriEthYC+JJ4VpBRGBXa7Cfmf8mWbtZW
- IOLdLhypcsi5Scr/C8w5n5E=
-X-Google-Smtp-Source: APXvYqyQEyylARTcVGEVHqrWdPFSo3XEN3WJWVsYQ1m9KaMLN5RvfVM3nXPiK8CqcHgf+SRezDe/mQ==
-X-Received: by 2002:a63:d008:: with SMTP id z8mr853667pgf.335.1559767694208;
- Wed, 05 Jun 2019 13:48:14 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id v9sm20297166pfm.34.2019.06.05.13.48.12
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 05 Jun 2019 13:48:13 -0700 (PDT)
-Date: Wed, 5 Jun 2019 13:48:11 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Vijay Khemka <vijaykhemka@fb.com>
-Subject: Re: [PATCH v2 2/2] Docs: hwmon: pmbus: Add PXE1610 driver
-Message-ID: <20190605204811.GA32379@roeck-us.net>
-References: <20190530231159.222188-1-vijaykhemka@fb.com>
- <20190530231159.222188-2-vijaykhemka@fb.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45K6bh0XCczDqbF
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Jun 2019 10:53:34 +1000 (AEST)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 05 Jun 2019 17:53:30 -0700
+X-ExtLoop1: 1
+Received: from ntle-mobl7.amr.corp.intel.com (HELO [10.254.36.100])
+ ([10.254.36.100])
+ by fmsmga006.fm.intel.com with ESMTP; 05 Jun 2019 17:53:30 -0700
+Subject: Re: [PATCH v3 10/10] media: aspeed: add a workaround to fix a silicon
+ bug
+To: Eddie James <eajames@linux.ibm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>
+References: <20190531221548.14757-1-jae.hyun.yoo@linux.intel.com>
+ <20190531221548.14757-11-jae.hyun.yoo@linux.intel.com>
+From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Message-ID: <38a8ca27-9991-fe8c-4d89-abdaacd4130b@linux.intel.com>
+Date: Wed, 5 Jun 2019 17:53:29 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190530231159.222188-2-vijaykhemka@fb.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20190531221548.14757-11-jae.hyun.yoo@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,125 +58,84 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
- sdasari@fb.com, linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
+Cc: linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, May 30, 2019 at 04:11:57PM -0700, Vijay Khemka wrote:
-> Added support for Infenion PXE1610 driver
+Hi Eddie,
+
+All patches in this series were queued to linux/media tree except this
+one. Can you please review this patch?
+
+Thanks,
+Jae
+
+On 5/31/2019 3:15 PM, Jae Hyun Yoo wrote:
+> AST2500 silicon revision A1 and A2 have a silicon bug which causes
+> extremly long capturing time on specific resolutions (1680 width).
+> To fix the bug, this commit adjusts the capturing window register
+> setting to 1728 if detected width is 1680. The compression window
+> register setting will be kept as the original width so output
+> result will be the same.
 > 
-Applied, after fixing
-	s/Infenion/Infineon/
-	s/Infinion/Infineon/
-
-Guenter
-
-> Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 > ---
-> Changes in v2:
-> incorporated all the feedback from Guenter Roeck <linux@roeck-us.net>
+> v2 -> v3:
+>   Added more detail comments why the value 1728 is picked.
 > 
->  Documentation/hwmon/pxe1610 | 90 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 90 insertions(+)
->  create mode 100644 Documentation/hwmon/pxe1610
+> v1 -> v2:
+>   New.
 > 
-> diff --git a/Documentation/hwmon/pxe1610 b/Documentation/hwmon/pxe1610
-> new file mode 100644
-> index 000000000000..24825db8736f
-> --- /dev/null
-> +++ b/Documentation/hwmon/pxe1610
-> @@ -0,0 +1,90 @@
-> +Kernel driver pxe1610
-> +=====================
+>   drivers/media/platform/aspeed-video.c | 28 ++++++++++++++++++++-------
+>   1 file changed, 21 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+> index ba093096a5a7..f899ac3b4a61 100644
+> --- a/drivers/media/platform/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -824,8 +824,29 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>   	struct v4l2_bt_timings *act = &video->active_timings;
+>   	unsigned int size = act->width * act->height;
+>   
+> +	/* Set capture/compression frame sizes */
+>   	aspeed_video_calc_compressed_size(video, size);
+>   
+> +	if (video->active_timings.width == 1680) {
+> +		/*
+> +		 * This is a workaround to fix a silicon bug on A1 and A2
+> +		 * revisions. Since it doesn't break capturing operation of
+> +		 * other revisions, use it for all revisions without checking
+> +		 * the revision ID. It picked 1728 which is a very next
+> +		 * 64-pixels aligned value to 1680 to minimize memory bandwidth
+> +		 * and to get better access speed from video engine.
+> +		 */
+> +		aspeed_video_write(video, VE_CAP_WINDOW,
+> +				   1728 << 16 | act->height);
+> +		size += (1728 - 1680) * video->active_timings.height;
+> +	} else {
+> +		aspeed_video_write(video, VE_CAP_WINDOW,
+> +				   act->width << 16 | act->height);
+> +	}
+> +	aspeed_video_write(video, VE_COMP_WINDOW,
+> +			   act->width << 16 | act->height);
+> +	aspeed_video_write(video, VE_SRC_SCANLINE_OFFSET, act->width * 4);
 > +
-> +Supported chips:
-> +  * Infinion PXE1610
-> +    Prefix: 'pxe1610'
-> +    Addresses scanned: -
-> +    Datasheet: Datasheet is not publicly available.
-> +
-> +  * Infinion PXE1110
-> +    Prefix: 'pxe1110'
-> +    Addresses scanned: -
-> +    Datasheet: Datasheet is not publicly available.
-> +
-> +  * Infinion PXM1310
-> +    Prefix: 'pxm1310'
-> +    Addresses scanned: -
-> +    Datasheet: Datasheet is not publicly available.
-> +
-> +Author: Vijay Khemka <vijaykhemka@fb.com>
-> +
-> +
-> +Description
-> +-----------
-> +
-> +PXE1610/PXE1110 are Multi-rail/Multiphase Digital Controllers
-> +and compliant to
-> +	-- Intel VR13 DC-DC converter specifications.
-> +	-- Intel SVID protocol.
-> +Used for Vcore power regulation for Intel VR13 based microprocessors
-> +	-- Servers, Workstations, and High-end desktops
-> +
-> +PXM1310 is a Multi-rail Controllers and it is compliant to
-> +	-- Intel VR13 DC-DC converter specifications.
-> +	-- Intel SVID protocol.
-> +Used for DDR3/DDR4 Memory power regulation for Intel VR13 and
-> +IMVP8 based systems
-> +
-> +
-> +Usage Notes
-> +-----------
-> +
-> +This driver does not probe for PMBus devices. You will have
-> +to instantiate devices explicitly.
-> +
-> +Example: the following commands will load the driver for an PXE1610
-> +at address 0x70 on I2C bus #4:
-> +
-> +# modprobe pxe1610
-> +# echo pxe1610 0x70 > /sys/bus/i2c/devices/i2c-4/new_device
-> +
-> +It can also be instantiated by declaring in device tree
-> +
-> +
-> +Sysfs attributes
-> +----------------
-> +
-> +curr1_label		"iin"
-> +curr1_input		Measured input current
-> +curr1_alarm		Current high alarm
-> +
-> +curr[2-4]_label		"iout[1-3]"
-> +curr[2-4]_input		Measured output current
-> +curr[2-4]_crit		Critical maximum current
-> +curr[2-4]_crit_alarm	Current critical high alarm
-> +
-> +in1_label		"vin"
-> +in1_input		Measured input voltage
-> +in1_crit		Critical maximum input voltage
-> +in1_crit_alarm		Input voltage critical high alarm
-> +
-> +in[2-4]_label		"vout[1-3]"
-> +in[2-4]_input		Measured output voltage
-> +in[2-4]_lcrit		Critical minimum output voltage
-> +in[2-4]_lcrit_alarm	Output voltage critical low alarm
-> +in[2-4]_crit		Critical maximum output voltage
-> +in[2-4]_crit_alarm	Output voltage critical high alarm
-> +
-> +power1_label		"pin"
-> +power1_input		Measured input power
-> +power1_alarm		Input power high alarm
-> +
-> +power[2-4]_label	"pout[1-3]"
-> +power[2-4]_input	Measured output power
-> +
-> +temp[1-3]_input		Measured temperature
-> +temp[1-3]_crit		Critical high temperature
-> +temp[1-3]_crit_alarm	Chip temperature critical high alarm
-> +temp[1-3]_max		Maximum temperature
-> +temp[1-3]_max_alarm	Chip temperature high alarm
+>   	/* Don't use direct mode below 1024 x 768 (irqs don't fire) */
+>   	if (size < DIRECT_FETCH_THRESHOLD) {
+>   		aspeed_video_write(video, VE_TGS_0,
+> @@ -842,13 +863,6 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>   		aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_DIRECT_FETCH);
+>   	}
+>   
+> -	/* Set capture/compression frame sizes */
+> -	aspeed_video_write(video, VE_CAP_WINDOW,
+> -			   act->width << 16 | act->height);
+> -	aspeed_video_write(video, VE_COMP_WINDOW,
+> -			   act->width << 16 | act->height);
+> -	aspeed_video_write(video, VE_SRC_SCANLINE_OFFSET, act->width * 4);
+> -
+>   	size *= 4;
+>   
+>   	if (size != video->srcs[0].size) {
+> 
