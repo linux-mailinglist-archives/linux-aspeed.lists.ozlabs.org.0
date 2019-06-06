@@ -2,116 +2,126 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F4741D8C
-	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Jun 2019 09:23:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB7137C8B
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jun 2019 20:49:43 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45NyyB47mVzDqtj
-	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Jun 2019 17:22:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45KZTJ1bsvzDqkg
+	for <lists+linux-aspeed@lfdr.de>; Fri,  7 Jun 2019 04:49:40 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=kernel.org
- (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=dinguyen@kernel.org; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=fb.com
+ (client-ip=67.231.153.30; helo=mx0b-00082601.pphosted.com;
+ envelope-from=prvs=1060b47a77=vijaykhemka@fb.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
+ dmarc=pass (p=none dis=none) header.from=fb.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.b="QjXfcCXH"; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ unprotected) header.d=fb.com header.i=@fb.com header.b="FUYycRgp"; 
+ dkim=pass (1024-bit key;
+ unprotected) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com
+ header.b="LrkyqAHP"; dkim-atps=neutral
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com
+ [67.231.153.30])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45KSsN2PgmzDqcX
- for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Jun 2019 00:36:39 +1000 (AEST)
-Received: from [192.168.1.31] (cpe-70-114-128-244.austin.res.rr.com
- [70.114.128.244])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 96FD020684;
- Thu,  6 Jun 2019 14:36:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1559831797;
- bh=QN3c86AsOhqUNNGms5nxThdRVIMwAWzxlEniJHv0Z7I=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=QjXfcCXHB9oVQGRYbvr+CazQVQoj8bLOAnyZMtuiwuOO9JgiuPAPj6QLD4fXDG25e
- /Jig0a6WIqaplQVRqVNx6Pb9fY/dLu0oMQaUqfPf8vemM7sn343qiZcoQJT3tWguZz
- tac332Hb3ozwqxvbrJspQEMJ7SE5FlZaAoVemx6g=
-Subject: Re: [PATCH v2] ARM: configs: Remove useless UEVENT_HELPER_PATH
-To: Krzysztof Kozlowski <krzk@kernel.org>, arm@kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
- Russell King <linux@armlinux.org.uk>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, Nicolas Ferre
- <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Vladimir Zapolskiy <vz@mleia.com>, Sylvain Lemieux
- <slemieux.tyco@gmail.com>, Jason Cooper <jason@lakedaemon.net>,
- Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Aaro Koskinen <aaro.koskinen@iki.fi>, Tony Lindgren <tony@atomide.com>,
- Marc Gonzalez <marc.w.gonzalez@free.fr>, Mans Rullgard <mans@mansr.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-omap@vger.kernel.org
-References: <1559636093-26005-1-git-send-email-krzk@kernel.org>
-From: Dinh Nguyen <dinguyen@kernel.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dinguyen@kernel.org; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <3ca9b096-e53e-6434-47ee-2c3d59676fd4@kernel.org>
-Date: Thu, 6 Jun 2019 09:36:33 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <1559636093-26005-1-git-send-email-krzk@kernel.org>
-Content-Type: text/plain; charset=utf-8
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45KZT52nrkzDqjT
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Jun 2019 04:49:24 +1000 (AEST)
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x56ImYMT006422; Thu, 6 Jun 2019 11:49:13 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=facebook;
+ bh=vMFe5i/SrFXIWMGeeB3ZoIy1NfZHjlQEJE5nkdTkgt4=;
+ b=FUYycRgpRjhKDfNp7YiNt/awcHVRe2R3Did16ySi9HL6t/8c0nfEx7aiPFqv+kUGgUMg
+ Ziraokxndqy7mzKuIF62IF9jmm+kZgJoVnUyLOJOcOwoVTeHyWrmA5rTPrf/YVZ7tkqH
+ bSjizGnOXxpx8QEnndTqdbng58pXogXDDZc= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by mx0a-00082601.pphosted.com with ESMTP id 2sy1quhm7h-3
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Thu, 06 Jun 2019 11:49:13 -0700
+Received: from ash-exopmbx101.TheFacebook.com (2620:10d:c0a8:82::b) by
+ ash-exhub203.TheFacebook.com (2620:10d:c0a8:83::5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 6 Jun 2019 11:49:11 -0700
+Received: from ash-exhub101.TheFacebook.com (2620:10d:c0a8:82::e) by
+ ash-exopmbx101.TheFacebook.com (2620:10d:c0a8:82::b) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 6 Jun 2019 11:49:11 -0700
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com (100.104.31.183)
+ by o365-in.thefacebook.com (100.104.35.173) with Microsoft SMTP
+ Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Thu, 6 Jun 2019 11:49:11 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector1-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vMFe5i/SrFXIWMGeeB3ZoIy1NfZHjlQEJE5nkdTkgt4=;
+ b=LrkyqAHPs7gT53Jg7oVKm/HXAqjGOZlO1csWWyjzdFucLJ0y5r5Uy2CehWm/tQD9hCuIL41sEz12AiZVIRv0wZYLAJ5T1Jt0f2KX8RahQJ/fKgIQVP76Dwzw8Q1MplrllbZitxgrMF0jiAu9e7Vs9tiL/olo7BQyMgzDtjRvTZY=
+Received: from CY4PR15MB1269.namprd15.prod.outlook.com (10.172.177.11) by
+ CY4PR15MB1815.namprd15.prod.outlook.com (10.174.54.12) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1965.14; Thu, 6 Jun 2019 18:49:10 +0000
+Received: from CY4PR15MB1269.namprd15.prod.outlook.com
+ ([fe80::c026:bca5:3f4e:9b1f]) by CY4PR15MB1269.namprd15.prod.outlook.com
+ ([fe80::c026:bca5:3f4e:9b1f%3]) with mapi id 15.20.1943.018; Thu, 6 Jun 2019
+ 18:49:10 +0000
+From: Vijay Khemka <vijaykhemka@fb.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v2 2/2] Docs: hwmon: pmbus: Add PXE1610 driver
+Thread-Topic: [PATCH v2 2/2] Docs: hwmon: pmbus: Add PXE1610 driver
+Thread-Index: AQHVFz02+Et6V6j2BECLwxLL8LkLiqaNkX+AgAD7uoA=
+Date: Thu, 6 Jun 2019 18:49:09 +0000
+Message-ID: <27BD2580-6ADD-4389-A891-AE4AE9010E62@fb.com>
+References: <20190530231159.222188-1-vijaykhemka@fb.com>
+ <20190530231159.222188-2-vijaykhemka@fb.com>
+ <20190605204811.GA32379@roeck-us.net>
+In-Reply-To: <20190605204811.GA32379@roeck-us.net>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Wed, 12 Jun 2019 17:21:33 +1000
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [2620:10d:c090:200::3607]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6ce91b56-9132-4c0b-90fa-08d6eaafa94d
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:CY4PR15MB1815; 
+x-ms-traffictypediagnostic: CY4PR15MB1815:
+x-microsoft-antispam-prvs: <CY4PR15MB1815416C3717B05D67063AF3DD170@CY4PR15MB1815.namprd15.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2958;
+x-forefront-prvs: 00603B7EEF
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(39860400002)(136003)(396003)(346002)(366004)(376002)(199004)(189003)(66556008)(5660300002)(478600001)(54906003)(66446008)(66476007)(64756008)(486006)(76176011)(6436002)(102836004)(6506007)(99286004)(6486002)(8676002)(91956017)(305945005)(76116006)(73956011)(46003)(7736002)(66946007)(81166006)(81156014)(68736007)(316002)(8936002)(14454004)(229853002)(11346002)(82746002)(36756003)(71200400001)(71190400001)(83716004)(476003)(86362001)(256004)(186003)(6512007)(4326008)(6116002)(25786009)(33656002)(2616005)(446003)(53936002)(6246003)(2906002)(6916009);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR15MB1815;
+ H:CY4PR15MB1269.namprd15.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: ipAm27EsBJGVZ9oR/mWYGY95IwpOpUKQkyfprAnEW9Mflui6sDiiRjn8cR8PCwJfcl4KexAs0HsRGnegWp1mYvNA8Ns9+GeDnVNDUSwOwZNOFLXC5lT+ko9/so4r7z8TovjJBvw1e70Qo/CW3Wh63Ky6wmLkxcFxvj3/IBb1iIEJpHRWJvsWEQpvYbGIHIS85ARgGR9rbB9UgXb7aAiqUe4pcCwDMsDSarBMjqdFP58poHoU7esJX1cf5D8k4h3jOc69hqOvHt0K3WqjmfjfqPcmNqJcx8vpqj/Vcd9DTnjjB0tNfuQazKWgVZmyPhmkatcVu8teX+7zSh5SGitewcHZU4NrKS3gIw83IZm3VSiobSUNv1oHwHPNBStZOONWZPd6rL8+xlkbucepmQwwDIhRs0dpmgkyJzwk171hbzo=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <287AF5658E53AA4AB309BCB69E7C0105@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ce91b56-9132-4c0b-90fa-08d6eaafa94d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jun 2019 18:49:09.8641 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vijaykhemka@fb.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR15MB1815
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-06-06_13:, , signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906060127
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,41 +133,85 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ Jean Delvare <jdelvare@suse.com>, Sai Dasari <sdasari@fb.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On 6/4/19 3:14 AM, Krzysztof Kozlowski wrote:
-> Remove the CONFIG_UEVENT_HELPER_PATH because:
-> 1. It is disabled since commit 1be01d4a5714 ("driver: base: Disable
->    CONFIG_UEVENT_HELPER by default") as its dependency (UEVENT_HELPER) was
->    made default to 'n',
-> 2. It is not recommended (help message: "This should not be used today
->    [...] creates a high system load") and was kept only for ancient
->    userland,
-> 3. Certain userland specifically requests it to be disabled (systemd
->    README: "Legacy hotplug slows down the system and confuses udev").
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> 
-
-> diff --git a/arch/arm/configs/socfpga_defconfig b/arch/arm/configs/socfpga_defconfig
-> index 6701a975e785..fe2e1e82e233 100644
-> --- a/arch/arm/configs/socfpga_defconfig
-> +++ b/arch/arm/configs/socfpga_defconfig
-> @@ -44,7 +44,6 @@ CONFIG_PCI=y
->  CONFIG_PCI_MSI=y
->  CONFIG_PCIE_ALTERA=y
->  CONFIG_PCIE_ALTERA_MSI=y
-> -CONFIG_UEVENT_HELPER_PATH="/sbin/hotplug"
->  CONFIG_DEVTMPFS=y
->  CONFIG_DEVTMPFS_MOUNT=y
->  CONFIG_MTD=y
-
-For (socfpga_defconfig):
-
-Acked-by: Dinh Nguyen <dinguyen@kernel.org>
+DQoNCu+7v09uIDYvNS8xOSwgMTo0OCBQTSwgIkd1ZW50ZXIgUm9lY2siIDxncm9lY2s3QGdtYWls
+LmNvbSBvbiBiZWhhbGYgb2YgbGludXhAcm9lY2stdXMubmV0PiB3cm90ZToNCg0KICAgIE9uIFRo
+dSwgTWF5IDMwLCAyMDE5IGF0IDA0OjExOjU3UE0gLTA3MDAsIFZpamF5IEtoZW1rYSB3cm90ZToN
+CiAgICA+IEFkZGVkIHN1cHBvcnQgZm9yIEluZmVuaW9uIFBYRTE2MTAgZHJpdmVyDQogICAgPiAN
+CiAgICBBcHBsaWVkLCBhZnRlciBmaXhpbmcNCiAgICAJcy9JbmZlbmlvbi9JbmZpbmVvbi8NCiAg
+ICAJcy9JbmZpbmlvbi9JbmZpbmVvbi8NClRoYW5rcw0KICAgIA0KICAgIEd1ZW50ZXINCiAgICAN
+CiAgICA+IFNpZ25lZC1vZmYtYnk6IFZpamF5IEtoZW1rYSA8dmlqYXlraGVta2FAZmIuY29tPg0K
+ICAgID4gLS0tDQogICAgPiBDaGFuZ2VzIGluIHYyOg0KICAgID4gaW5jb3Jwb3JhdGVkIGFsbCB0
+aGUgZmVlZGJhY2sgZnJvbSBHdWVudGVyIFJvZWNrIDxsaW51eEByb2Vjay11cy5uZXQ+DQogICAg
+PiANCiAgICA+ICBEb2N1bWVudGF0aW9uL2h3bW9uL3B4ZTE2MTAgfCA5MCArKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrDQogICAgPiAgMSBmaWxlIGNoYW5nZWQsIDkwIGluc2Vy
+dGlvbnMoKykNCiAgICA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9od21vbi9w
+eGUxNjEwDQogICAgPiANCiAgICA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2h3bW9uL3B4
+ZTE2MTAgYi9Eb2N1bWVudGF0aW9uL2h3bW9uL3B4ZTE2MTANCiAgICA+IG5ldyBmaWxlIG1vZGUg
+MTAwNjQ0DQogICAgPiBpbmRleCAwMDAwMDAwMDAwMDAuLjI0ODI1ZGI4NzM2Zg0KICAgID4gLS0t
+IC9kZXYvbnVsbA0KICAgID4gKysrIGIvRG9jdW1lbnRhdGlvbi9od21vbi9weGUxNjEwDQogICAg
+PiBAQCAtMCwwICsxLDkwIEBADQogICAgPiArS2VybmVsIGRyaXZlciBweGUxNjEwDQogICAgPiAr
+PT09PT09PT09PT09PT09PT09PT09DQogICAgPiArDQogICAgPiArU3VwcG9ydGVkIGNoaXBzOg0K
+ICAgID4gKyAgKiBJbmZpbmlvbiBQWEUxNjEwDQogICAgPiArICAgIFByZWZpeDogJ3B4ZTE2MTAn
+DQogICAgPiArICAgIEFkZHJlc3NlcyBzY2FubmVkOiAtDQogICAgPiArICAgIERhdGFzaGVldDog
+RGF0YXNoZWV0IGlzIG5vdCBwdWJsaWNseSBhdmFpbGFibGUuDQogICAgPiArDQogICAgPiArICAq
+IEluZmluaW9uIFBYRTExMTANCiAgICA+ICsgICAgUHJlZml4OiAncHhlMTExMCcNCiAgICA+ICsg
+ICAgQWRkcmVzc2VzIHNjYW5uZWQ6IC0NCiAgICA+ICsgICAgRGF0YXNoZWV0OiBEYXRhc2hlZXQg
+aXMgbm90IHB1YmxpY2x5IGF2YWlsYWJsZS4NCiAgICA+ICsNCiAgICA+ICsgICogSW5maW5pb24g
+UFhNMTMxMA0KICAgID4gKyAgICBQcmVmaXg6ICdweG0xMzEwJw0KICAgID4gKyAgICBBZGRyZXNz
+ZXMgc2Nhbm5lZDogLQ0KICAgID4gKyAgICBEYXRhc2hlZXQ6IERhdGFzaGVldCBpcyBub3QgcHVi
+bGljbHkgYXZhaWxhYmxlLg0KICAgID4gKw0KICAgID4gK0F1dGhvcjogVmlqYXkgS2hlbWthIDx2
+aWpheWtoZW1rYUBmYi5jb20+DQogICAgPiArDQogICAgPiArDQogICAgPiArRGVzY3JpcHRpb24N
+CiAgICA+ICstLS0tLS0tLS0tLQ0KICAgID4gKw0KICAgID4gK1BYRTE2MTAvUFhFMTExMCBhcmUg
+TXVsdGktcmFpbC9NdWx0aXBoYXNlIERpZ2l0YWwgQ29udHJvbGxlcnMNCiAgICA+ICthbmQgY29t
+cGxpYW50IHRvDQogICAgPiArCS0tIEludGVsIFZSMTMgREMtREMgY29udmVydGVyIHNwZWNpZmlj
+YXRpb25zLg0KICAgID4gKwktLSBJbnRlbCBTVklEIHByb3RvY29sLg0KICAgID4gK1VzZWQgZm9y
+IFZjb3JlIHBvd2VyIHJlZ3VsYXRpb24gZm9yIEludGVsIFZSMTMgYmFzZWQgbWljcm9wcm9jZXNz
+b3JzDQogICAgPiArCS0tIFNlcnZlcnMsIFdvcmtzdGF0aW9ucywgYW5kIEhpZ2gtZW5kIGRlc2t0
+b3BzDQogICAgPiArDQogICAgPiArUFhNMTMxMCBpcyBhIE11bHRpLXJhaWwgQ29udHJvbGxlcnMg
+YW5kIGl0IGlzIGNvbXBsaWFudCB0bw0KICAgID4gKwktLSBJbnRlbCBWUjEzIERDLURDIGNvbnZl
+cnRlciBzcGVjaWZpY2F0aW9ucy4NCiAgICA+ICsJLS0gSW50ZWwgU1ZJRCBwcm90b2NvbC4NCiAg
+ICA+ICtVc2VkIGZvciBERFIzL0REUjQgTWVtb3J5IHBvd2VyIHJlZ3VsYXRpb24gZm9yIEludGVs
+IFZSMTMgYW5kDQogICAgPiArSU1WUDggYmFzZWQgc3lzdGVtcw0KICAgID4gKw0KICAgID4gKw0K
+ICAgID4gK1VzYWdlIE5vdGVzDQogICAgPiArLS0tLS0tLS0tLS0NCiAgICA+ICsNCiAgICA+ICtU
+aGlzIGRyaXZlciBkb2VzIG5vdCBwcm9iZSBmb3IgUE1CdXMgZGV2aWNlcy4gWW91IHdpbGwgaGF2
+ZQ0KICAgID4gK3RvIGluc3RhbnRpYXRlIGRldmljZXMgZXhwbGljaXRseS4NCiAgICA+ICsNCiAg
+ICA+ICtFeGFtcGxlOiB0aGUgZm9sbG93aW5nIGNvbW1hbmRzIHdpbGwgbG9hZCB0aGUgZHJpdmVy
+IGZvciBhbiBQWEUxNjEwDQogICAgPiArYXQgYWRkcmVzcyAweDcwIG9uIEkyQyBidXMgIzQ6DQog
+ICAgPiArDQogICAgPiArIyBtb2Rwcm9iZSBweGUxNjEwDQogICAgPiArIyBlY2hvIHB4ZTE2MTAg
+MHg3MCA+IC9zeXMvYnVzL2kyYy9kZXZpY2VzL2kyYy00L25ld19kZXZpY2UNCiAgICA+ICsNCiAg
+ICA+ICtJdCBjYW4gYWxzbyBiZSBpbnN0YW50aWF0ZWQgYnkgZGVjbGFyaW5nIGluIGRldmljZSB0
+cmVlDQogICAgPiArDQogICAgPiArDQogICAgPiArU3lzZnMgYXR0cmlidXRlcw0KICAgID4gKy0t
+LS0tLS0tLS0tLS0tLS0NCiAgICA+ICsNCiAgICA+ICtjdXJyMV9sYWJlbAkJImlpbiINCiAgICA+
+ICtjdXJyMV9pbnB1dAkJTWVhc3VyZWQgaW5wdXQgY3VycmVudA0KICAgID4gK2N1cnIxX2FsYXJt
+CQlDdXJyZW50IGhpZ2ggYWxhcm0NCiAgICA+ICsNCiAgICA+ICtjdXJyWzItNF1fbGFiZWwJCSJp
+b3V0WzEtM10iDQogICAgPiArY3VyclsyLTRdX2lucHV0CQlNZWFzdXJlZCBvdXRwdXQgY3VycmVu
+dA0KICAgID4gK2N1cnJbMi00XV9jcml0CQlDcml0aWNhbCBtYXhpbXVtIGN1cnJlbnQNCiAgICA+
+ICtjdXJyWzItNF1fY3JpdF9hbGFybQlDdXJyZW50IGNyaXRpY2FsIGhpZ2ggYWxhcm0NCiAgICA+
+ICsNCiAgICA+ICtpbjFfbGFiZWwJCSJ2aW4iDQogICAgPiAraW4xX2lucHV0CQlNZWFzdXJlZCBp
+bnB1dCB2b2x0YWdlDQogICAgPiAraW4xX2NyaXQJCUNyaXRpY2FsIG1heGltdW0gaW5wdXQgdm9s
+dGFnZQ0KICAgID4gK2luMV9jcml0X2FsYXJtCQlJbnB1dCB2b2x0YWdlIGNyaXRpY2FsIGhpZ2gg
+YWxhcm0NCiAgICA+ICsNCiAgICA+ICtpblsyLTRdX2xhYmVsCQkidm91dFsxLTNdIg0KICAgID4g
+K2luWzItNF1faW5wdXQJCU1lYXN1cmVkIG91dHB1dCB2b2x0YWdlDQogICAgPiAraW5bMi00XV9s
+Y3JpdAkJQ3JpdGljYWwgbWluaW11bSBvdXRwdXQgdm9sdGFnZQ0KICAgID4gK2luWzItNF1fbGNy
+aXRfYWxhcm0JT3V0cHV0IHZvbHRhZ2UgY3JpdGljYWwgbG93IGFsYXJtDQogICAgPiAraW5bMi00
+XV9jcml0CQlDcml0aWNhbCBtYXhpbXVtIG91dHB1dCB2b2x0YWdlDQogICAgPiAraW5bMi00XV9j
+cml0X2FsYXJtCU91dHB1dCB2b2x0YWdlIGNyaXRpY2FsIGhpZ2ggYWxhcm0NCiAgICA+ICsNCiAg
+ICA+ICtwb3dlcjFfbGFiZWwJCSJwaW4iDQogICAgPiArcG93ZXIxX2lucHV0CQlNZWFzdXJlZCBp
+bnB1dCBwb3dlcg0KICAgID4gK3Bvd2VyMV9hbGFybQkJSW5wdXQgcG93ZXIgaGlnaCBhbGFybQ0K
+ICAgID4gKw0KICAgID4gK3Bvd2VyWzItNF1fbGFiZWwJInBvdXRbMS0zXSINCiAgICA+ICtwb3dl
+clsyLTRdX2lucHV0CU1lYXN1cmVkIG91dHB1dCBwb3dlcg0KICAgID4gKw0KICAgID4gK3RlbXBb
+MS0zXV9pbnB1dAkJTWVhc3VyZWQgdGVtcGVyYXR1cmUNCiAgICA+ICt0ZW1wWzEtM11fY3JpdAkJ
+Q3JpdGljYWwgaGlnaCB0ZW1wZXJhdHVyZQ0KICAgID4gK3RlbXBbMS0zXV9jcml0X2FsYXJtCUNo
+aXAgdGVtcGVyYXR1cmUgY3JpdGljYWwgaGlnaCBhbGFybQ0KICAgID4gK3RlbXBbMS0zXV9tYXgJ
+CU1heGltdW0gdGVtcGVyYXR1cmUNCiAgICA+ICt0ZW1wWzEtM11fbWF4X2FsYXJtCUNoaXAgdGVt
+cGVyYXR1cmUgaGlnaCBhbGFybQ0KICAgIA0KDQo=
