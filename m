@@ -1,67 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DDB83B9FB
+	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Jun 2019 18:49:48 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82A373989C
-	for <lists+linux-aspeed@lfdr.de>; Sat,  8 Jun 2019 00:26:06 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45LHDX0Rz5zDqT6
-	for <lists+linux-aspeed@lfdr.de>; Sat,  8 Jun 2019 08:26:04 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45Mzd52k3pzDqPF
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Jun 2019 02:49:45 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=linaro.org
- (client-ip=2a00:1450:4864:20::141; helo=mail-lf1-x141.google.com;
- envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.b="YoToUoWc"; 
+ spf=pass (mailfrom) smtp.mailfrom=linuxfoundation.org
+ (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=linuxfoundation.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.b="TN35St+L"; 
  dkim-atps=neutral
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45LHCs546TzDqMX
- for <linux-aspeed@lists.ozlabs.org>; Sat,  8 Jun 2019 08:25:29 +1000 (AEST)
-Received: by mail-lf1-x141.google.com with SMTP id u10so2706870lfm.12
- for <linux-aspeed@lists.ozlabs.org>; Fri, 07 Jun 2019 15:25:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rGW8Zw9vrerYLKuQT2nRCi+4sph/YuDXDjL6O2OUlyY=;
- b=YoToUoWcx3852gvqkcDqaAMEmvxpkHkiUSN4e9zc8dZ3goxm71AXrawyITaIP5GLLS
- rx8hYH26Xwb+TFFur666Px//Tfwd4vaFmukaXEVxWybwGOTaBZBGIruWs4fpO789FIy6
- AHnYYBcAvstBHMkkTugoQ3vKfE+mGkEWW0d2EV8/DQkiXnUerfubSJdBuU70KlkB2QLa
- HB7QXW6NkYRO8/wG9fo4DrzI2En8SOVEcua2UQk/+9wJ4XDCsURRpCMV2n112gAgRjt/
- g+Wd1S1krdN31vYrT3InbPW9RpSg4p1pHwLs1HVgEEfY/NHDHfgty7gAJ/Au1Rlud4qS
- sDfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rGW8Zw9vrerYLKuQT2nRCi+4sph/YuDXDjL6O2OUlyY=;
- b=VKXSrEBt7lsikn1vQqphSSF+Cp+axP/3YFq2ADTgvMr9rnFWx8iUFeQuPkviZHVlPb
- 02OaQhSLHbplbUa+0NSRZcnBj0OTxiOFf2RV7euR0/ZgIny69F6RjJ3fRN5noR6/iQle
- 9QKsu6yVA7RZD1b24QvQ6Q18qC7kqV9Yc8kXmpxalGy1D75Gju0AIe5B3WXpAKybtI21
- 2d0eHE9H7i4vdQLMOqa3/YFQd4Yw+hExRcCszmpqsscFZf7Gw8AHU1LSMevVGLj1z7Ln
- 5QIc9CJxPlzdjJykOvH1+0opv7czADN/2DbrxotrdbK2EEj0ZiEhTUxy1SUcuxGyyzay
- zc/A==
-X-Gm-Message-State: APjAAAVkCNz7Wjvy+HoaJFfyBK8tYvuPI3MaozfMuvKwp/uzDrmbi95U
- xwFUwVDRG+xb9OU2Posa21D2UN5Ewh+kIxm5MRv1FA==
-X-Google-Smtp-Source: APXvYqxNvBh6hAcA49cetya1d7GzlkGbHULmzKnolLcB2hj9KdHRpewtAF6MLQb+nLBB50KHLqayPIOHqmuTwhkTOL0=
-X-Received: by 2002:ac2:50c4:: with SMTP id h4mr14458737lfm.61.1559946324431; 
- Fri, 07 Jun 2019 15:25:24 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45Mzcw14tjzDqDP
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 11 Jun 2019 02:49:34 +1000 (AEST)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3C0BC206C3;
+ Mon, 10 Jun 2019 16:49:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1560185372;
+ bh=DJWzh4M4XAj7HnA5+HP6vbhzYDiXG0edcx1jVTCzodk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TN35St+LWALMFOUIbNZCi+b2AKvJT7luQr7HO7i0ZYDPGVHb/uaL6ku9c+pEHrNV9
+ aItkt+n3O5qsGddEuzo286gMrtLAE6RNGenXK2AfCNAOJ0wbArn700Fjx6zWdNeFlU
+ DP/D7Zm8gFmoa04wmmEJU8O0ce8DdSFxMXwc52Ro=
+Date: Mon, 10 Jun 2019 18:49:30 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "sudheer.v" <open.sudheer@gmail.com>
+Subject: Re: [patch 1/5] AST2500 DMA UART driver
+Message-ID: <20190610164930.GA32085@kroah.com>
+References: <1559737395-28542-1-git-send-email-open.sudheer@gmail.com>
+ <1559737395-28542-2-git-send-email-open.sudheer@gmail.com>
 MIME-Version: 1.0
-References: <1559684524-15583-1-git-send-email-hongweiz@ami.com>
-In-Reply-To: <1559684524-15583-1-git-send-email-hongweiz@ami.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sat, 8 Jun 2019 00:25:16 +0200
-Message-ID: <CACRpkdYW3rezzJ3XAuuSNNsRiDh9nYNL8NNFjaZ=_NeXrmZbqA@mail.gmail.com>
-Subject: Re: [PATCH 1/3 linux dev-5.1 arm/soc v2] ARM: dts: aspeed: Add SGPM
- pinmux
-To: Hongwei Zhang <hongweiz@ami.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1559737395-28542-2-git-send-email-open.sudheer@gmail.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,27 +59,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ sudheer.veliseti@aspeedtech.com, linux-aspeed@lists.ozlabs.org,
+ shivahshankar.shankarnarayanrao@aspeedtech.com, robh+dt@kernel.org,
+ linux-serial@vger.kernel.org, jslaby@suse.com, mchehab+samsung@kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ sudheer Kumar veliseti <sudheer.open@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Jun 4, 2019 at 11:42 PM Hongwei Zhang <hongweiz@ami.com> wrote:
+On Wed, Jun 05, 2019 at 05:53:11PM +0530, sudheer.v wrote:
+> From: sudheer Kumar veliseti <sudheer.open@gmail.com>
+> 
+> Signed-off-by: sudheer veliseti <sudheer.open@gmail.com>
+> ---
 
-> Add SGPM pinmux to ast2500-pinctrl function and group, to prepare for
-> supporting SGPIO in AST2500 SoC.
->
-> Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
+I can not take a patch without any changelog text at all, especially for
+one that is 1928 lines long :(
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+Please provide a proper changelog and I will be glad to review it.
 
-Please funnel this part of the patch through the ARM SoC
-tree. I guess Joel will queue this?
+thanks,
 
-Yours,
-Linus Walleij
+greg k-h
