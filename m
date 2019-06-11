@@ -2,52 +2,55 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD513BA00
-	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Jun 2019 18:50:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A10A3CCB3
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Jun 2019 15:12:26 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45MzfK2V0PzDqPF
-	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Jun 2019 02:50:49 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45NVlp4fpKzDqYt
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Jun 2019 23:12:22 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=linuxfoundation.org
- (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linuxfoundation.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.b="04Wa46m4"; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=209.85.222.194; helo=mail-qk1-f194.google.com;
+ envelope-from=arndbergmann@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=arndb.de
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+ [209.85.222.194])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45MzfD5MfKzDqDP
- for <linux-aspeed@lists.ozlabs.org>; Tue, 11 Jun 2019 02:50:44 +1000 (AEST)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 09DC5206C3;
- Mon, 10 Jun 2019 16:50:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1560185442;
- bh=IfkuH4QdGGwZoDp+X7T2nRPo/51iLlSiAiiHm/+uJjo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=04Wa46m4OqMS4nMsCoL6Kl0DCTHFMtKfZA/ilxstSrLFpFhir8DuX0YitoR+URRJc
- 2Cb15xkPe9D7qIYa2Q3djy+4hYS7/hrxSnxJkx5hz4phfBKDjmd7jP+lFxKTTKeorI
- kyoWZRk93z+67h6eLwfe3/4+21AiROHdtIjbr6vc=
-Date: Mon, 10 Jun 2019 18:50:40 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "sudheer.v" <open.sudheer@gmail.com>
-Subject: Re: [patch 1/5] AST2500 DMA UART driver
-Message-ID: <20190610165040.GB32085@kroah.com>
-References: <1559737395-28542-1-git-send-email-open.sudheer@gmail.com>
- <1559737395-28542-2-git-send-email-open.sudheer@gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45NVlX6JLrzDqYd;
+ Tue, 11 Jun 2019 23:12:07 +1000 (AEST)
+Received: by mail-qk1-f194.google.com with SMTP id d15so7580693qkl.4;
+ Tue, 11 Jun 2019 06:12:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KyYvnirAncfvqftH8b0du6PTVoUwek5hDeS0HicdvJ8=;
+ b=BQ0BPB/fw6H5AC93JcI7V71NR/q8j3PWBdLOI6AwIMTP6vrjxQBcZ5yohY04W2j502
+ BZnq6Jol0qTaAqHj9Hso/Pk9h0KZcl6U+7ZjJie0DG8T8Z200CCxpJga35bmO2tJcsvY
+ MhfqgiALeFVG5+r99eUtOoatM3D4iLNAw3lUqwRTHKToTozg6Bt5sfvAmKqrqNzxhZZ7
+ 2z1CZuD9waoJ3zeJK1XUBTy0pRpnOdmYsC/bNnsCPMRmXPTgILnzXluf2obh7Igz7rB8
+ VgjnlLA/ZXDMZApg7wRKGXXHkSpRDdXhnx6gC4EYOajnAVzx2UdAvUF+NPZ5GDGImDWl
+ nanw==
+X-Gm-Message-State: APjAAAVTO8XGiJLV0IaJQFuzVw1MTIqvnfC2fKPr4ICIXVA1LOum3PeL
+ Sm9MiJAYNi31Luc3wPqwaNP5efwKuIZlScPeRwk=
+X-Google-Smtp-Source: APXvYqylIdCcVDzvlOPTn/Jad8SMMmSjCbrCYwIscvJcBt34a5gTosawEIrvHbQw778UawvftHqdj+8EU+S0lkdHer0=
+X-Received: by 2002:a05:620a:16c1:: with SMTP id
+ a1mr17486493qkn.269.1560258724850; 
+ Tue, 11 Jun 2019 06:12:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1559737395-28542-2-git-send-email-open.sudheer@gmail.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+References: <20190610133245.306812-1-tmaimon77@gmail.com>
+ <20190610133245.306812-3-tmaimon77@gmail.com>
+In-Reply-To: <20190610133245.306812-3-tmaimon77@gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Tue, 11 Jun 2019 15:11:48 +0200
+Message-ID: <CAK8P3a0s1fdt2yHVjOXffeKPKkwUyJ7DKCZHHMKjx+3j300ZAQ@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] soc: nuvoton: add NPCM LPC BPC driver
+To: Tomer Maimon <tmaimon77@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,40 +62,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- sudheer.veliseti@aspeedtech.com, linux-aspeed@lists.ozlabs.org,
- shivahshankar.shankarnarayanrao@aspeedtech.com, robh+dt@kernel.org,
- linux-serial@vger.kernel.org, jslaby@suse.com, mchehab+samsung@kernel.org,
- linux-arm-kernel@lists.infradead.org,
- sudheer Kumar veliseti <sudheer.open@gmail.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
+ linux-aspeed@lists.ozlabs.org, Avi Fishman <avifishman70@gmail.com>,
+ gregkh <gregkh@linuxfoundation.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Nancy Yuen <yuenn@google.com>, Rob Herring <robh+dt@kernel.org>,
+ Patrick Venture <venture@google.com>, Olof Johansson <olof@lixom.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Jun 05, 2019 at 05:53:11PM +0530, sudheer.v wrote:
-> +
-> +#define CONFIG_UART_DMA_DEBUG
-> +
-> +#ifdef CONFIG_UART_DMA_DEBUG
-> +#define UART_DBG(fmt, args...) pr_debug("%s() " fmt, __func__, ## args)
-> +#else
-> +#define UART_DBG(fmt, args...)
-> +#endif
-> +
-> +#define  CONFIG_UART_TX_DMA_DEBUG 1
-> +
-> +#ifdef CONFIG_UART_TX_DMA_DEBUG
-> +#define UART_TX_DBG(fmt, args...) pr_debug("%s()"fmt, __func__, ## args)
-> +#else
-> +#define UART_TX_DBG(fmt, args...)
-> +#endif
+On Mon, Jun 10, 2019 at 4:19 PM Tomer Maimon <tmaimon77@gmail.com> wrote:
+>
+> Add Nuvoton BMC NPCM BIOS post code (BPC) driver.
+>
+> The NPCM BPC monitoring two I/O address written by
+> the host on the Low Pin Count (LPC) bus, the capure
+> data stored in 128-word FIFO.
+>
+> Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
 
-Why have you left debugging on here?
+We've run into this situation before, but don't have a good solution yet:
 
-Why does your tiny driver have custom debug macros?  Please always use
-the in-kernel standard ones so you can dynamically enable/disable them
-as needed without having to rebuild the code.
+The driver seems useful and well implemented, but I keep having a bad
+feeling about adding a chardev driver into drivers/soc for something that
+is clearly specific to a particular implementation on the hardware side
+but generic on the user interface. The same user interface might be
+used on an Aspeed BMC or any other one, so please coordinate at
+least between Novoton and Aspeed developers on creating a common
+user interface, and review each other's patches.
 
-I stopped reading here, sorry.
+Maybe we can introduce a drivers/bmc/ (or even drivers/openbmc)
+that collects all those user interfaces with a thin abstraction layer
+and one or two hardware specific back-ends?
 
-greg k-h
+        Arnd
