@@ -1,56 +1,58 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EF223CCD1
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Jun 2019 15:21:57 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A10A3CCB3
-	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Jun 2019 15:12:26 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45NVlp4fpKzDqYt
-	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Jun 2019 23:12:22 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45NVyq0pFbzDqZX
+	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Jun 2019 23:21:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=209.85.222.194; helo=mail-qk1-f194.google.com;
- envelope-from=arndbergmann@gmail.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=alien8.de
+ (client-ip=2a01:4f8:190:11c2::b:1457; helo=mail.skyhub.de;
+ envelope-from=bp@alien8.de; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=arndb.de
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
- [209.85.222.194])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=alien8.de header.i=@alien8.de header.b="KCHvj3ZY"; 
+ dkim-atps=neutral
+X-Greylist: delayed 526 seconds by postgrey-1.36 at bilbo;
+ Tue, 11 Jun 2019 23:21:45 AEST
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45NVlX6JLrzDqYd;
- Tue, 11 Jun 2019 23:12:07 +1000 (AEST)
-Received: by mail-qk1-f194.google.com with SMTP id d15so7580693qkl.4;
- Tue, 11 Jun 2019 06:12:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KyYvnirAncfvqftH8b0du6PTVoUwek5hDeS0HicdvJ8=;
- b=BQ0BPB/fw6H5AC93JcI7V71NR/q8j3PWBdLOI6AwIMTP6vrjxQBcZ5yohY04W2j502
- BZnq6Jol0qTaAqHj9Hso/Pk9h0KZcl6U+7ZjJie0DG8T8Z200CCxpJga35bmO2tJcsvY
- MhfqgiALeFVG5+r99eUtOoatM3D4iLNAw3lUqwRTHKToTozg6Bt5sfvAmKqrqNzxhZZ7
- 2z1CZuD9waoJ3zeJK1XUBTy0pRpnOdmYsC/bNnsCPMRmXPTgILnzXluf2obh7Igz7rB8
- VgjnlLA/ZXDMZApg7wRKGXXHkSpRDdXhnx6gC4EYOajnAVzx2UdAvUF+NPZ5GDGImDWl
- nanw==
-X-Gm-Message-State: APjAAAVTO8XGiJLV0IaJQFuzVw1MTIqvnfC2fKPr4ICIXVA1LOum3PeL
- Sm9MiJAYNi31Luc3wPqwaNP5efwKuIZlScPeRwk=
-X-Google-Smtp-Source: APXvYqylIdCcVDzvlOPTn/Jad8SMMmSjCbrCYwIscvJcBt34a5gTosawEIrvHbQw778UawvftHqdj+8EU+S0lkdHer0=
-X-Received: by 2002:a05:620a:16c1:: with SMTP id
- a1mr17486493qkn.269.1560258724850; 
- Tue, 11 Jun 2019 06:12:04 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45NVyd2y1gzDqYk
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 11 Jun 2019 23:21:44 +1000 (AEST)
+Received: from zn.tnic (p200300EC2F0A6800DC92A88D55C2D513.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f0a:6800:dc92:a88d:55c2:d513])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E82661EC0911;
+ Tue, 11 Jun 2019 15:12:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1560258755;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=EJ7VR9sUEWWF+ZecbxZGX04se8PAYDXjUb4dY5s/kD8=;
+ b=KCHvj3ZYpkLfnoRKsXFvWYlmUSfvoaj1TEiKYWgNhqglSi/LYCDwov/V5k+8SIjqzvJoMI
+ qIddH3YStkbgi4BPh7zrK+4/pIcOUOr/iFNHx27X3sBpwtEhkx8MCdrSE3yRUHWd8GXORE
+ 2cxFoWi7Lw3vA5Z/gUeITH0YYX8UOo0=
+Date: Tue, 11 Jun 2019 15:12:29 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: "Stefan Schaeckeler (sschaeck)" <sschaeck@cisco.com>
+Subject: Re: [PATCH -next] EDAC: aspeed: Remove set but not used variable 'np'
+Message-ID: <20190611131229.GF31772@zn.tnic>
+References: <20190525144153.2028-1-yuehaibing@huawei.com>
+ <04f103fb-54b1-4911-8164-44b20bfd1e72@www.fastmail.com>
+ <960D5667-41E7-47F3-9C0A-726CA919B82D@cisco.com>
 MIME-Version: 1.0
-References: <20190610133245.306812-1-tmaimon77@gmail.com>
- <20190610133245.306812-3-tmaimon77@gmail.com>
-In-Reply-To: <20190610133245.306812-3-tmaimon77@gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 11 Jun 2019 15:11:48 +0200
-Message-ID: <CAK8P3a0s1fdt2yHVjOXffeKPKkwUyJ7DKCZHHMKjx+3j300ZAQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] soc: nuvoton: add NPCM LPC BPC driver
-To: Tomer Maimon <tmaimon77@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <960D5667-41E7-47F3-9C0A-726CA919B82D@cisco.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,39 +64,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- linux-aspeed@lists.ozlabs.org, Avi Fishman <avifishman70@gmail.com>,
- gregkh <gregkh@linuxfoundation.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Nancy Yuen <yuenn@google.com>, Rob Herring <robh+dt@kernel.org>,
- Patrick Venture <venture@google.com>, Olof Johansson <olof@lixom.net>
+Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ YueHaibing <yuehaibing@huawei.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "james.morse@arm.com" <james.morse@arm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Jun 10, 2019 at 4:19 PM Tomer Maimon <tmaimon77@gmail.com> wrote:
->
-> Add Nuvoton BMC NPCM BIOS post code (BPC) driver.
->
-> The NPCM BPC monitoring two I/O address written by
-> the host on the Low Pin Count (LPC) bus, the capure
-> data stored in 128-word FIFO.
->
-> Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
+On Wed, May 29, 2019 at 03:10:54AM +0000, Stefan Schaeckeler (sschaeck) wrote:
+> On  Tuesday, May 28, 2019 at 6:27 PM, Andrew Jeffery wrote:
+> > On Sun, 26 May 2019, at 00:12, YueHaibing wrote:
+> > > Fixes gcc '-Wunused-but-set-variable' warning:
+> > >
+> > > drivers/edac/aspeed_edac.c: In function aspeed_probe:
+> > > drivers/edac/aspeed_edac.c:284:22: warning: variable np set but not
+> > > used [-Wunused-but-set-variable]
+> > >
+> > > It is never used and can be removed.
+> > >
+> > > Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> >
+> > Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+> 
+> Reviewed-by: Stefan Schaeckeler <sschaeck@cisco.com>
 
-We've run into this situation before, but don't have a good solution yet:
+Applied, thanks.
 
-The driver seems useful and well implemented, but I keep having a bad
-feeling about adding a chardev driver into drivers/soc for something that
-is clearly specific to a particular implementation on the hardware side
-but generic on the user interface. The same user interface might be
-used on an Aspeed BMC or any other one, so please coordinate at
-least between Novoton and Aspeed developers on creating a common
-user interface, and review each other's patches.
+-- 
+Regards/Gruss,
+    Boris.
 
-Maybe we can introduce a drivers/bmc/ (or even drivers/openbmc)
-that collects all those user interfaces with a thin abstraction layer
-and one or two hardware specific back-ends?
-
-        Arnd
+Good mailing practices for 400: avoid top-posting and trim the reply.
