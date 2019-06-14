@@ -2,59 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 550D943761
-	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Jun 2019 16:54:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB35E45C9E
+	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Jun 2019 14:20:30 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45PmwW26LPzDrB8
-	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Jun 2019 00:54:19 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45QKSW2cvDzDrfW
+	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Jun 2019 22:20:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=kernel.org
- (client-ip=198.145.29.99; helo=mail.kernel.org; envelope-from=krzk@kernel.org;
- receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::741; helo=mail-qk1-x741.google.com;
+ envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
+ dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.b="TcJCjqav"; 
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="iWbnwpM3"; 
  dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45PmwL25nJzDrDq
- for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Jun 2019 00:54:09 +1000 (AEST)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id D525221744
- for <linux-aspeed@lists.ozlabs.org>; Thu, 13 Jun 2019 14:54:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1560437647;
- bh=GYf/+gkGyncHp31uy7FPojBQ7mL+yl6nzbXTfvhlMGc=;
- h=References:In-Reply-To:From:Date:Subject:To:From;
- b=TcJCjqavWAlojNJrYEhlAxJC2cZ5+UcNQ+J8ry2eA6PDcyKHn5GTWrvlFPceYjtSN
- fNESd+v8TcrthsynLoOq6/UUiPKuYYYpkBjUXEUYtQvUnIEhzpGldliabELRtYoQf4
- H75jbCoov7obKq4HVZrmdfy9zEZ/PwTSrtP3JxCc=
-Received: by mail-lj1-f182.google.com with SMTP id t28so18824668lje.9
- for <linux-aspeed@lists.ozlabs.org>; Thu, 13 Jun 2019 07:54:06 -0700 (PDT)
-X-Gm-Message-State: APjAAAUZK+PbUpuM0JtNrKdHndZS4TRjOi7TLTPf0gkKplVlaqSRezdS
- c9sKtvwf/2Ws5TLp3JVnFHcoitE37Geab6LNVb4=
-X-Google-Smtp-Source: APXvYqxHuV7Q03SqzPQJxsXIaEVNMtkbU1nrHhyj83hOaQCq0FDxpomV2Y8SgjCcQw0UPaOf6ZfRnkeRkUssQQzCFAM=
-X-Received: by 2002:a2e:124b:: with SMTP id t72mr39255568lje.143.1560437645055; 
- Thu, 13 Jun 2019 07:54:05 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45QKSL0dQ3zDr0q;
+ Fri, 14 Jun 2019 22:20:17 +1000 (AEST)
+Received: by mail-qk1-x741.google.com with SMTP id c11so1484196qkk.8;
+ Fri, 14 Jun 2019 05:20:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6rc60klXbDdC4U4/MMrqWt/2TewJnLjQ/8r8hSCMd1s=;
+ b=iWbnwpM3Kxebrp9DARy7xnFW6kr0KF6p8qC4q2EsM9P78mqslIAqRrIUj8ZBTUvZfA
+ UiBAhtpSOHng8d69r5N05E8Pd9q3WGFt2mQ34gwLycRcYSw9+j8M02cm6srnmt9Ei8vU
+ ZkeV7zq719zsUoqI2tf7K64TdVSLi9VimJ680=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6rc60klXbDdC4U4/MMrqWt/2TewJnLjQ/8r8hSCMd1s=;
+ b=oJNe26TFKQp/3x4y5bE9/XfxMkdOgNtx+PyOijgc7gBhFyWAuzOafW9lXjnghDt5NG
+ TMHZglI/paD+MUEuYL3X8eokZW16hXb7DzthEtp9IyZNJLT8l2T69Irm4G3xWXOX3bx1
+ R7QOEmEnBJGu1BXY73t9qJJXbBdxkeypo9Lu9G3WGIUHaq7he5oyA8V8TCSvrQBkuGzF
+ wV5mgiMMm6sHhJF5j61zpnjGmXfoR8L92g8+67kmKvei05WB2E/QS3dh0VkXh/nDLzwr
+ qzKxxrkgzW3cNcxTXa6yzZXsgP1sl2RL2eRquGdbJej1/w9e4V09qOokWqVn8qns0GyA
+ dD5A==
+X-Gm-Message-State: APjAAAXX2xfdRy/u4mpdDpvmpWcIcgTvxbHuflNUHSux78OsS4ikNO2h
+ 9zR97RV0G+keJupqyP3FYWGNOP0Efd1Pxe0RTHw=
+X-Google-Smtp-Source: APXvYqyGrNC/mqtxIRaAuWze/JoTz2AsfNmSDrq8G4akumQY0TXEILTuIxe67BM5xQ23Pb3umDQ2KTDTek1Fgy9Gk4A=
+X-Received: by 2002:a37:a743:: with SMTP id q64mr74518182qke.236.1560514813660; 
+ Fri, 14 Jun 2019 05:20:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190604185229.7393-1-krzk@kernel.org>
-In-Reply-To: <20190604185229.7393-1-krzk@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Thu, 13 Jun 2019 16:53:53 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPd4LVFGgonbsuxii-5Fu5wWhxU9yotLHw+OXsPcxYw_3g@mail.gmail.com>
-Message-ID: <CAJKOXPd4LVFGgonbsuxii-5Fu5wWhxU9yotLHw+OXsPcxYw_3g@mail.gmail.com>
-Subject: Re: [PATCH v3] ARM: configs: Remove useless UEVENT_HELPER_PATH
-To: arm@kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Olof Johansson <olof@lixom.net>, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-aspeed@lists.ozlabs.org, linux-omap@vger.kernel.org
+References: <20190509035549.2203169-1-taoren@fb.com>
+ <29d7503b-6c14-4990-aadc-7cbce2897fc2@www.fastmail.com>
+In-Reply-To: <29d7503b-6c14-4990-aadc-7cbce2897fc2@www.fastmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 14 Jun 2019 12:20:01 +0000
+Message-ID: <CACPK8Xe8qNww18hJx2skjYJtsCRLA+uwZsjGUb50u6QLE+wmSg@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: aspeed: Add Facebook YAMP BMC
+To: Andrew Jeffery <andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -67,42 +70,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 4 Jun 2019 at 20:52, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+On Thu, 9 May 2019 at 06:06, Andrew Jeffery <andrew@aj.id.au> wrote:
 >
-> Remove the CONFIG_UEVENT_HELPER_PATH because:
-> 1. It is disabled since commit 1be01d4a5714 ("driver: base: Disable
->    CONFIG_UEVENT_HELPER by default") as its dependency (UEVENT_HELPER) was
->    made default to 'n',
-> 2. It is not recommended (help message: "This should not be used today
->    [...] creates a high system load") and was kept only for ancient
->    userland,
-> 3. Certain userland specifically requests it to be disabled (systemd
->    README: "Legacy hotplug slows down the system and confuses udev").
 >
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> For vexpress:
-> Acked-by: Sudeep Holla <sudeep.holla@arm.com>
 >
-> ---
+> On Thu, 9 May 2019, at 13:26, Tao Ren wrote:
+> > Add initial version of device tree for Facebook YAMP ast2500 BMC.
+> >
+> > Signed-off-by: Tao Ren <taoren@fb.com>
 >
-> Changes since v2:
-> 1. Remove unrelated files.
-> 2. Add Geert's ack.
->
-> Changes sice v3:
-> 1. Change also mini2440_defconfig.
-> 2. Add more acks.
+> Acked-by: Andrew Jeffery <andrew@aj.id.au>
 
-Hi Arnd and Olof,
+Committed to dev-5.1.
 
-Do you want to apply it directly or maybe I can send it along with
-other my defconfig pull request?
+Cheers,
 
-Best regards,
-Krzysztof
+Joel
