@@ -1,85 +1,134 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 082B74AF22
-	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jun 2019 02:41:59 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45T5kD3lqJzDqfP
-	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jun 2019 10:41:56 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3234AF45
+	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jun 2019 03:04:14 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 45T6Cv4MLpzDqQ0
+	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jun 2019 11:04:11 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.27; helo=out3-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=fb.com
+ (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
+ envelope-from=prvs=107391e0c1=taoren@fb.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="Xol0YMad"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="rzs8gDE7"; dkim-atps=neutral
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
+ dmarc=pass (p=none dis=none) header.from=fb.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=fb.com header.i=@fb.com header.b="c1ML6KCy"; 
+ dkim=pass (1024-bit key;
+ unprotected) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com
+ header.b="PRpn2xFl"; dkim-atps=neutral
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
+ [67.231.145.42])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45T5jc4TC3zDqKJ;
- Wed, 19 Jun 2019 10:41:22 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 6089622393;
- Tue, 18 Jun 2019 20:41:18 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Tue, 18 Jun 2019 20:41:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to
- :subject:content-type; s=fm3; bh=+gHRX6cTDmHSKWNNEZDiaV7fmTx8VY6
- 71JKMUQ7FfmQ=; b=Xol0YMadH0jNDydD1NfwOaNXlsouExZ4M1/9uyj0CJJ/jpZ
- LNZvwztse1Y6jz3OP1zBUL0mJnRBH4otttEY/lzAyWs0lnJ7BtmEidtyfwZKq6GB
- cumXGBzbtN2GPt8CSgoRe9u2TnBB2dAixuA8mKav6I9BRIm2bl4+KJ5m+eTYNbzm
- URuxKfgvOf+uYiBbmKOJzJBOaF7WBjNnVJ05e/6py/S5soA6qTSJ2otMxaz9gXDK
- vvxYo2ixeKftG2c11bfIv6MeqU3F1d8QFKsV3kv5IcbY6kMbmaUWXOvB1ggeGOWB
- eIfKvP7lgNkpa8HEhkCf9G4cbvCx9RAnOe/nzZA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=+gHRX6
- cTDmHSKWNNEZDiaV7fmTx8VY671JKMUQ7FfmQ=; b=rzs8gDE7sglQ0dagm6cfWP
- QZ1hyCLw1DVZdOJ0txMIFdOBWwC5rxieibF2JFGcbOfXGhbJGeZoiQjtcT3vDaqi
- jy7al+DQgCaIJ8aSwTXgNCruIYnm+4d6oXksOS9bqDNoLXx9yj5v8i0J70TYBH0E
- l/poxoJsgAbHwLXnu0qXmja+Ncxo7uMJTrCKvdSVgwKqqLLndUO0sMnd78aR0Bh5
- wR4SwMGqoADMlHkRPSa6wD6MSHSL23CSQrdIqwxt2Ww6H1oLk6U4W6Hn5n0a4LTu
- siDDcnpbkmyl8/XXjs9hQDcBtQz1MX/jI+hdpg/PZ/7ET7yrwZHPaQ8kpb74u2Pg
- ==
-X-ME-Sender: <xms:rYQJXa-A0RY1be8EltPd6m24OKzg4pp6JUVwSMzwVIBXG7ux2cfKdw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrtddugdefiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
- hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
- ufhiiigvpedt
-X-ME-Proxy: <xmx:rYQJXRBI4ygcgye6OIWFLY_yQKTMsCXKYOUiVR79cwKYovE7uVkj-g>
- <xmx:rYQJXctlfABcHf2rCDF4pjv5OISMtr_llb2bmbraEhfO_GNeOXYxcg>
- <xmx:rYQJXREyR9Fq_ux5MV_uCxuV26L3guGYh9Xm5Wucd697lLaXUpEa_A>
- <xmx:roQJXVYnljDdqWJlVb4MbfpeVUxSo-2sRru08PzriJHXlgl4mpwubQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 0505FE00A2; Tue, 18 Jun 2019 20:41:17 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-666-gb2312fa-fmstable-20190614v4
-Mime-Version: 1.0
-Message-Id: <d201fadc-0b8e-48df-8e50-bccd5d5019c7@www.fastmail.com>
-In-Reply-To: <20190618042421.1227372-1-taoren@fb.com>
-References: <20190618042421.1227372-1-taoren@fb.com>
-Date: Wed, 19 Jun 2019 10:11:16 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Tao Ren" <taoren@fb.com>, "Rob Herring" <robh+dt@kernel.org>,
- "Mark Rutland" <mark.rutland@arm.com>, "Joel Stanley" <joel@jms.id.au>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- openbmc@lists.ozlabs.org
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45T6CN0DsMzDqJB;
+ Wed, 19 Jun 2019 11:03:36 +1000 (AEST)
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x5J0vRTU031293; Tue, 18 Jun 2019 18:03:16 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : subject :
+ date : message-id : references : in-reply-to : content-type : content-id :
+ content-transfer-encoding : mime-version; s=facebook;
+ bh=lcOwfK8ETlTJM19sU/96XI+6pvU58BB9FCLkC+yB5jw=;
+ b=c1ML6KCy7YgNsyB4CDGxNCe2gnAUfx8H9Y8qb1n0S9RFd4fvUbCtl41zbLecWv2aX3f2
+ z3SOtuuyWMqZHM9TJR774CrsajZ5suMpxg6+p1+nEcMZlbB4frRS6HoR8PrC246D4AMp
+ sPKyxjYAcXArnra73X/zy2KiL85BndfLZxY= 
+Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
+ by mx0a-00082601.pphosted.com with ESMTP id 2t77yjrmfc-3
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+ Tue, 18 Jun 2019 18:03:16 -0700
+Received: from prn-hub06.TheFacebook.com (2620:10d:c081:35::130) by
+ prn-hub03.TheFacebook.com (2620:10d:c081:35::127) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.1713.5; Tue, 18 Jun 2019 18:03:15 -0700
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com (192.168.54.28)
+ by o365-in.thefacebook.com (192.168.16.30) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.1.1713.5
+ via Frontend Transport; Tue, 18 Jun 2019 18:03:15 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector1-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lcOwfK8ETlTJM19sU/96XI+6pvU58BB9FCLkC+yB5jw=;
+ b=PRpn2xFlfmflARQG3DRDR02iqtEfcX6gJQJtWjWSuztvEU83iisTiSbF/Z4CZEqRtOm65QAcwYe4hNbnG4Xg7eFAN6AFmctlRmQjyDc8rT3ltriSCtqoFLSBxoGzR4BK7grg7FAws/wkkVnctNihyeh/4PpUWPJ2JHrofWfC/tA=
+Received: from MWHPR15MB1216.namprd15.prod.outlook.com (10.175.2.17) by
+ MWHPR15MB1615.namprd15.prod.outlook.com (10.175.135.137) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.12; Wed, 19 Jun 2019 01:03:14 +0000
+Received: from MWHPR15MB1216.namprd15.prod.outlook.com
+ ([fe80::d51f:8f19:e2b5:3ae8]) by MWHPR15MB1216.namprd15.prod.outlook.com
+ ([fe80::d51f:8f19:e2b5:3ae8%6]) with mapi id 15.20.1987.014; Wed, 19 Jun 2019
+ 01:03:14 +0000
+From: Tao Ren <taoren@fb.com>
+To: Andrew Jeffery <andrew@aj.id.au>, Rob Herring <robh+dt@kernel.org>, "Mark
+ Rutland" <mark.rutland@arm.com>, Joel Stanley <joel@jms.id.au>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+ <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "openbmc@lists.ozlabs.org"
+ <openbmc@lists.ozlabs.org>
 Subject: Re: [PATCH] ARM: dts: aspeed: Add Facebook Minipack BMC
-Content-Type: text/plain
+Thread-Topic: [PATCH] ARM: dts: aspeed: Add Facebook Minipack BMC
+Thread-Index: AQHVJY22ky4K0dgM8Eq+6c9S8hDKi6aiJEwAgAAGH4A=
+Date: Wed, 19 Jun 2019 01:03:14 +0000
+Message-ID: <9f757278-9d96-b81c-4fc1-21266b68165f@fb.com>
+References: <20190618042421.1227372-1-taoren@fb.com>
+ <d201fadc-0b8e-48df-8e50-bccd5d5019c7@www.fastmail.com>
+In-Reply-To: <d201fadc-0b8e-48df-8e50-bccd5d5019c7@www.fastmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: CO2PR18CA0048.namprd18.prod.outlook.com
+ (2603:10b6:104:2::16) To MWHPR15MB1216.namprd15.prod.outlook.com
+ (2603:10b6:320:22::17)
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [2620:10d:c090:180::1:512]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 136361b0-0df0-435a-00eb-08d6f451e806
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:MWHPR15MB1615; 
+x-ms-traffictypediagnostic: MWHPR15MB1615:
+x-microsoft-antispam-prvs: <MWHPR15MB1615AEC9FFCC9EC233B6762FB2E50@MWHPR15MB1615.namprd15.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-forefront-prvs: 0073BFEF03
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(376002)(346002)(396003)(136003)(39860400002)(47680400002)(199004)(189003)(8676002)(2906002)(305945005)(102836004)(2201001)(76176011)(316002)(5660300002)(31696002)(86362001)(446003)(65956001)(186003)(6436002)(110136005)(256004)(6486002)(2501003)(81156014)(81166006)(58126008)(229853002)(386003)(8936002)(53546011)(6506007)(65806001)(99286004)(66556008)(6512007)(558084003)(46003)(36756003)(65826007)(11346002)(25786009)(68736007)(66446008)(64756008)(52116002)(66476007)(478600001)(7736002)(71200400001)(486006)(71190400001)(31686004)(14454004)(476003)(53936002)(6116002)(2616005)(73956011)(64126003)(6246003)(66946007);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR15MB1615;
+ H:MWHPR15MB1216.namprd15.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: BPaOvNrPkASl/nHq3vpQRWL7KRtX8xSxIJg/EdiEQursq9QwNXqZzmPghvW7vGhQM7gnjp11UKCZISYK1WVUBMyGCJ8TArzprWNaclMpeGwEhfsXUtCf5L1TWEW3MPvwsXt/WIOcLtbr5wM5r+Rv1BxyYuw7ySIFawG1RYfo/sFBs0fzdHsb2ZjNZMGHnpHeoRf4n24g0sByQcDgc8HBBDi9z+Sg/tPY5+7ZAmalQ5CMlJLYxa/Nrml43V31jEzIhUQaecabccCLftMQg7X3knptAfWG0uJ4Mt6KAQOP23V32W6YOER/vX5HUbvmRt8j9Xo4PAFUeEF+ItZmgnMCL7KzACKs1VBLFtn7yPJnBBfNa125IMyL1ejYjOASRD/SXmOPMhOCUoPHg8dZCFPYop2BABmbId80xaFc7uiTwGo=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <58C3D7D2AF2D4C4FA7D0685A248A096C@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 136361b0-0df0-435a-00eb-08d6f451e806
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2019 01:03:14.6163 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: taoren@fb.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR15MB1615
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-06-18_12:, , signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=826 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906190006
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,470 +144,9 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Tue, 18 Jun 2019, at 13:54, Tao Ren wrote:
-> Add initial version of device tree for Facebook Minipack ast2500 BMC.
-> 
-> Signed-off-by: Tao Ren <taoren@fb.com>
-
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-
-> ---
->  arch/arm/boot/dts/Makefile                    |   1 +
->  .../boot/dts/aspeed-bmc-facebook-minipack.dts | 429 ++++++++++++++++++
->  2 files changed, 430 insertions(+)
->  create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-minipack.dts
-> 
-> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-> index 323fb7f13438..4c94e4c8de1e 100644
-> --- a/arch/arm/boot/dts/Makefile
-> +++ b/arch/arm/boot/dts/Makefile
-> @@ -1267,6 +1267,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
->  	aspeed-bmc-arm-centriq2400-rep.dtb \
->  	aspeed-bmc-arm-stardragon4800-rep2.dtb \
->  	aspeed-bmc-facebook-cmm.dtb \
-> +	aspeed-bmc-facebook-minipack.dtb \
->  	aspeed-bmc-facebook-tiogapass.dtb \
->  	aspeed-bmc-facebook-yamp.dtb \
->  	aspeed-bmc-intel-s2600wf.dtb \
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-minipack.dts 
-> b/arch/arm/boot/dts/aspeed-bmc-facebook-minipack.dts
-> new file mode 100644
-> index 000000000000..c05478296446
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-minipack.dts
-> @@ -0,0 +1,429 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +// Copyright (c) 2018 Facebook Inc.
-> +/dts-v1/;
-> +
-> +#include "aspeed-g5.dtsi"
-> +
-> +/ {
-> +	model = "Facebook Minipack 100 BMC";
-> +	compatible = "facebook,minipack-bmc", "aspeed,ast2500";
-> +
-> +	aliases {
-> +		/*
-> +		 * Override the default serial aliases to avoid breaking
-> +		 * the legacy applications.
-> +		 */
-> +		serial0 = &uart5;
-> +		serial1 = &uart1;
-> +		serial2 = &uart2;
-> +		serial3 = &uart3;
-> +		serial4 = &uart4;
-> +
-> +		/*
-> +		 * i2c switch 2-0070, pca9548, 8 child channels assigned
-> +		 * with bus number 16-23.
-> +		 */
-> +		i2c16 = &imux16;
-> +		i2c17 = &imux17;
-> +		i2c18 = &imux18;
-> +		i2c19 = &imux19;
-> +		i2c20 = &imux20;
-> +		i2c21 = &imux21;
-> +		i2c22 = &imux22;
-> +		i2c23 = &imux23;
-> +
-> +		/*
-> +		 * i2c switch 8-0070, pca9548, 8 child channels assigned
-> +		 * with bus number 24-31.
-> +		 */
-> +		i2c24 = &imux24;
-> +		i2c25 = &imux25;
-> +		i2c26 = &imux26;
-> +		i2c27 = &imux27;
-> +		i2c28 = &imux28;
-> +		i2c29 = &imux29;
-> +		i2c30 = &imux30;
-> +		i2c31 = &imux31;
-> +
-> +		/*
-> +		 * i2c switch 9-0070, pca9548, 8 child channels assigned
-> +		 * with bus number 32-39.
-> +		 */
-> +		i2c32 = &imux32;
-> +		i2c33 = &imux33;
-> +		i2c34 = &imux34;
-> +		i2c35 = &imux35;
-> +		i2c36 = &imux36;
-> +		i2c37 = &imux37;
-> +		i2c38 = &imux38;
-> +		i2c39 = &imux39;
-> +
-> +		/*
-> +		 * i2c switch 11-0070, pca9548, 8 child channels assigned
-> +		 * with bus number 40-47.
-> +		 */
-> +		i2c40 = &imux40;
-> +		i2c41 = &imux41;
-> +		i2c42 = &imux42;
-> +		i2c43 = &imux43;
-> +		i2c44 = &imux44;
-> +		i2c45 = &imux45;
-> +		i2c46 = &imux46;
-> +		i2c47 = &imux47;
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = &uart1;
-> +		bootargs = "debug console=ttyS1,9600n8 root=/dev/ram rw";
-> +	};
-> +
-> +	memory@80000000 {
-> +		reg = <0x80000000 0x20000000>;
-> +	};
-> +};
-> +
-> +&wdt1 {
-> +	status = "okay";
-> +	aspeed,reset-type = "system";
-> +};
-> +
-> +&wdt2 {
-> +	status = "okay";
-> +	aspeed,reset-type = "system";
-> +};
-> +
-> +&fmc {
-> +	status = "okay";
-> +	flash@0 {
-> +		status = "okay";
-> +		m25p,fast-read;
-> +		label = "bmc";
-> +#include "facebook-bmc-flash-layout.dtsi"
-> +	};
-> +};
-> +
-> +&uart1 {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_txd1_default
-> +		     &pinctrl_rxd1_default
-> +		     &pinctrl_ncts1_default
-> +		     &pinctrl_ndsr1_default
-> +		     &pinctrl_ndtr1_default
-> +		     &pinctrl_nrts1_default>;
-> +};
-> +
-> +&uart2 {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_txd2_default
-> +		     &pinctrl_rxd2_default>;
-> +};
-> +
-> +&uart3 {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_txd3_default
-> +		     &pinctrl_rxd3_default>;
-> +};
-> +
-> +&uart4 {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_txd4_default
-> +		     &pinctrl_rxd4_default>;
-> +};
-> +
-> +&uart5 {
-> +	status = "okay";
-> +};
-> +
-> +&mac1 {
-> +	status = "okay";
-> +	no-hw-checksum;
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_rgmii2_default &pinctrl_mdio2_default>;
-> +};
-> +
-> +&i2c0 {
-> +	status = "okay";
-> +	bus-frequency = <400000>;
-> +	multi-master;
-> +};
-> +
-> +&i2c1 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c2 {
-> +	status = "okay";
-> +
-> +	i2c-switch@70 {
-> +		compatible = "nxp,pca9548";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <0x70>;
-> +
-> +		imux16: i2c@0 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <0>;
-> +		};
-> +
-> +		imux17: i2c@1 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <1>;
-> +		};
-> +
-> +		imux18: i2c@2 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <2>;
-> +		};
-> +
-> +		imux19: i2c@3 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <3>;
-> +		};
-> +
-> +		imux20: i2c@4 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <4>;
-> +		};
-> +
-> +		imux21: i2c@5 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <5>;
-> +		};
-> +
-> +		imux22: i2c@6 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <6>;
-> +		};
-> +
-> +		imux23: i2c@7 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <7>;
-> +		};
-> +	};
-> +};
-> +
-> +&i2c3 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c4 {
-> +	status = "okay";
-> +	multi-master;
-> +};
-> +
-> +&i2c5 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c6 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c7 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c8 {
-> +	status = "okay";
-> +
-> +	i2c-switch@70 {
-> +		compatible = "nxp,pca9548";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <0x70>;
-> +
-> +		imux24: i2c@0 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <0>;
-> +		};
-> +
-> +		imux25: i2c@1 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <1>;
-> +		};
-> +
-> +		imux26: i2c@2 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <2>;
-> +		};
-> +
-> +		imux27: i2c@3 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <3>;
-> +		};
-> +
-> +		imux28: i2c@4 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <4>;
-> +		};
-> +
-> +		imux29: i2c@5 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <5>;
-> +		};
-> +
-> +		imux30: i2c@6 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <6>;
-> +		};
-> +
-> +		imux31: i2c@7 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <7>;
-> +		};
-> +	};
-> +};
-> +
-> +&i2c9 {
-> +	status = "okay";
-> +
-> +	i2c-switch@70 {
-> +		compatible = "nxp,pca9548";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <0x70>;
-> +
-> +		imux32: i2c@0 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <0>;
-> +		};
-> +
-> +		imux33: i2c@1 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <1>;
-> +		};
-> +
-> +		imux34: i2c@2 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <2>;
-> +		};
-> +
-> +		imux35: i2c@3 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <3>;
-> +		};
-> +
-> +		imux36: i2c@4 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <4>;
-> +		};
-> +
-> +		imux37: i2c@5 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <5>;
-> +		};
-> +
-> +		imux38: i2c@6 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <6>;
-> +		};
-> +
-> +		imux39: i2c@7 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <7>;
-> +		};
-> +	};
-> +};
-> +
-> +&i2c10 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c11 {
-> +	status = "okay";
-> +
-> +	i2c-switch@70 {
-> +		compatible = "nxp,pca9548";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <0x70>;
-> +
-> +		imux40: i2c@0 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <0>;
-> +		};
-> +
-> +		imux41: i2c@1 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <1>;
-> +		};
-> +
-> +		imux42: i2c@2 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <2>;
-> +		};
-> +
-> +		imux43: i2c@3 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <3>;
-> +		};
-> +
-> +		imux44: i2c@4 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <4>;
-> +		};
-> +
-> +		imux45: i2c@5 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <5>;
-> +		};
-> +
-> +		imux46: i2c@6 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <6>;
-> +		};
-> +
-> +		imux47: i2c@7 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <7>;
-> +		};
-> +	};
-> +};
-> +
-> +&i2c12 {
-> +	status = "okay";
-> +};
-> +
-> +&i2c13 {
-> +	status = "okay";
-> +};
-> +
-> +&vhub {
-> +	status = "okay";
-> +};
-> -- 
-> 2.17.1
-> 
->
+T24gNi8xOC8xOSA1OjQxIFBNLCBBbmRyZXcgSmVmZmVyeSB3cm90ZToNCj4gDQo+IA0KPiBPbiBU
+dWUsIDE4IEp1biAyMDE5LCBhdCAxMzo1NCwgVGFvIFJlbiB3cm90ZToNCj4+IEFkZCBpbml0aWFs
+IHZlcnNpb24gb2YgZGV2aWNlIHRyZWUgZm9yIEZhY2Vib29rIE1pbmlwYWNrIGFzdDI1MDAgQk1D
+Lg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRhbyBSZW4gPHRhb3JlbkBmYi5jb20+DQo+IA0KPiBS
+ZXZpZXdlZC1ieTogQW5kcmV3IEplZmZlcnkgPGFuZHJld0Bhai5pZC5hdT4NCg0KVGhhbmtzIGEg
+bG90IGZvciB0aGUgcXVpY2sgcmV2aWV3LCBBbmRyZXchDQoNCg0KQ2hlZXJzLA0KDQpUYW8NCg==
