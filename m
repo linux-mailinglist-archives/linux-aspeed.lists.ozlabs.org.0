@@ -2,54 +2,75 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E174B945
-	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jun 2019 15:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA3E955BEB
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2019 01:03:39 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45TQ8y6DwCzDqMX
-	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jun 2019 23:02:42 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45YMCX3g0jzDqXf
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2019 09:03:36 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (mailfrom) smtp.mailfrom=arndb.de
- (client-ip=212.227.126.187; helo=mout.kundenserver.de;
- envelope-from=arnd@arndb.de; receiver=<UNKNOWN>)
+ spf=none (mailfrom) smtp.mailfrom=lixom.net
+ (client-ip=2a00:1450:4864:20::241; helo=mail-lj1-x241.google.com;
+ envelope-from=olof@lixom.net; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=arndb.de
-X-Greylist: delayed 330 seconds by postgrey-1.36 at bilbo;
- Wed, 19 Jun 2019 23:02:34 AEST
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=lixom.net
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=lixom-net.20150623.gappssmtp.com
+ header.i=@lixom-net.20150623.gappssmtp.com header.b="nwNBXy7u"; 
+ dkim-atps=neutral
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45TQ8p355kzDqGQ
- for <linux-aspeed@lists.ozlabs.org>; Wed, 19 Jun 2019 23:02:33 +1000 (AEST)
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1Md6dH-1iCdyW161r-00aBCA; Wed, 19 Jun 2019 14:56:39 +0200
-From: Arnd Bergmann <arnd@arndb.de>
-To: Joel Stanley <joel@jms.id.au>
-Subject: [PATCH] soc: aspeed: fix probe error handling
-Date: Wed, 19 Jun 2019 14:56:23 +0200
-Message-Id: <20190619125636.1109665-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45TSvL0QKmzDqs8
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Jun 2019 01:06:01 +1000 (AEST)
+Received: by mail-lj1-x241.google.com with SMTP id x25so3639025ljh.2
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 19 Jun 2019 08:06:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=lixom-net.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=BDvPZcVC+gwwybYP6ypnMMEtrxI72JBl/3PlooRRbfQ=;
+ b=nwNBXy7ugHOIpZRcqq/rviBTBBpICuuG2sMFsTUx8q7ghVnffYjoh226yLeNczTF5Q
+ QiiYiaiIc65I16YWjKfCI1sKStqQmEeYP5ZcV45bAlTGIMUkZsZn+RJXNVF4M2oHZ9DJ
+ Kv97PrR2qOCaBip2yTuA05gd2YQGXd+2Xdtcdkp5/Al/FmzdmGFC+Zwg3xHcO/Fz67Vp
+ 8OmnowgxqSMY+JeKLQ/9d6rMl4QVb1w8OGdoW2l3JbxbmsUZAkqjy5LhLC8R9awH0MIj
+ h8ijKFkzC6ZYj2MLpaebB5Jl/XaJPRrnAZL6FT89ThmOITgCtC1jdtrivJusj7h//Rbs
+ /xYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=BDvPZcVC+gwwybYP6ypnMMEtrxI72JBl/3PlooRRbfQ=;
+ b=DlWq+RIwtAwbXZXxJ6MKPtrk5gNAroQ79//cOwP7Hi0XRs7TK9eigsg6n7mKnn0SjD
+ 3eAUPhWxfoGT0M2mnAJa3q3mE6WqYQiUc+PidyOXZWU92MsVupQdPjAiPaEcP3R1IFEu
+ qWvcjRd/iTJGAuLudtnSVhBkd3bTpp0b4jmPjYlkYKIKKUY8pF/yTUqkQgGfvTvK/pEu
+ +eIm7Uo8/BmlbdtNGnitI9RpuCD4D7zmG9OBjq0r/c4Fx2JaZSNCGlm3VC62xrXtKSh9
+ qfrL7LQLzWHikR6epj0HlOX/Ns73ueJSlhP1E8+taq0Fm8QbMz1VbeKLaqAW/DtpuIRl
+ ZCIQ==
+X-Gm-Message-State: APjAAAV/PoXnrMkTXvropf3gyNmNjYTpwf2CiTqKTjcIT3astOqD6Gew
+ dBW8T+tnwXYjBi3FDTGHD3egxQ==
+X-Google-Smtp-Source: APXvYqwx5U2uWXAu+vwQMCy9hcnvOqeOjcjGcEeeSmsWGmC1iZtQE4bHSeFmxejgtQLupjolK6lIwQ==
+X-Received: by 2002:a2e:9188:: with SMTP id f8mr7118830ljg.33.1560956756417;
+ Wed, 19 Jun 2019 08:05:56 -0700 (PDT)
+Received: from localhost (h85-30-9-151.cust.a3fiber.se. [85.30.9.151])
+ by smtp.gmail.com with ESMTPSA id q1sm2736416lfc.79.2019.06.19.08.05.54
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 19 Jun 2019 08:05:54 -0700 (PDT)
+Date: Wed, 19 Jun 2019 07:09:24 -0700
+From: Olof Johansson <olof@lixom.net>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v2] ARM: configs: Remove useless UEVENT_HELPER_PATH
+Message-ID: <20190619140924.cl33iuqndoigldgi@localhost>
+References: <1559636093-26005-1-git-send-email-krzk@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ZJwSOzQMuPpHsrU/+qvC0BE/4HBT6tcQ0i6nWWwdFMZI7Lp37LT
- EhDuHwiX9TgKYWtK3bytwlf9alSchNSd3HIu3+i2ShJqPpZF0IycKFhDZRLr5nSzcurUU8s
- TTlggu2/kKjAzmi0JMsgLMKJmUrck9PseSduRgPAZEBfkRhQNKngF+cstswdqnsCwYfUOtC
- DYfjeGhgOkWZQRKdeV1CA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JIFqcC1Zamc=:jIvFssEuUIxwq79znKYfek
- OHEYYZRIoIPpL8R/ja9A8DHS0mQLgkLLIII5mwtSuH9/Knc7H7Ql7QJ3euomfwKQUtQuIVB/F
- YeU6EOjErZyzBxS9OQiR7CK5yKDH3kytPzEfnbxzusFAcBnln9FSxKyZ8p0oSGeICFWaD3SC/
- whtyE1yHrl5dtfdn3HbJEoKQy360Rmbgn9FuHzjHkrNnPV714vdRjmSvzJ7rV7DIU0OYaqJ6g
- ZzZQAz0dAQPtmofqSNv2/BHRawhc/lms/uHjySPMqArCwXc08jC6+OBC5VoWvqXRo79qXPbv/
- wfnZJ2iRAfIMXN8HegcXi6Z46d5ooXM4adB6l0ubVMa/+6BNYQe1ggCx4rX9q+iAK1TKPfVBN
- Bw8DPa+f4kCTF/feHBqbUSXAc+6s+2Z9cExpNsF8zLn9aHqOjXQG7sPPUmNLN9cJbxJntiApF
- SkUAD9avpXbmtMoXIe6jgvI2FyIWzXj8W7CyWK6cd/5ocbYorN1LIZZdiir2sy+dm8a+C926/
- tPD/0VC9lnnpGszu631GVmeD/ELmKO8W1+x8rglBQ0aEivf97q9/XTP4eprrObHJPAwRrR1PW
- jVRbfFkrvz42lZDOtymbKNG+F+FoLYgj1ySjzaEAEZUv0ddnN1/NHzm4awUjDbdNlFOqFW5k9
- q9Qiw1ztm4sk2iS8W88yDPYYIzDBlDP6CItCX4/j8mIBF8vqLizHY8+hvQJmiBMGo5ix0nfB1
- FJ7ob4bpprgCOunVd9PJUmLXRi/Uwn43geDt6Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1559636093-26005-1-git-send-email-krzk@kernel.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Mailman-Approved-At: Wed, 26 Jun 2019 09:03:28 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,38 +82,53 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org,
- Patrick Venture <venture@google.com>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Andrew Lunn <andrew@lunn.ch>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Mans Rullgard <mans@mansr.com>, linux-aspeed@lists.ozlabs.org,
+ Tony Lindgren <tony@atomide.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ linux-kernel@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Aaro Koskinen <aaro.koskinen@iki.fi>,
+ Gregory Clement <gregory.clement@bootlin.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>, arm@kernel.org,
+ Sylvain Lemieux <slemieux.tyco@gmail.com>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ Jason Cooper <jason@lakedaemon.net>, Arnd Bergmann <arnd@arndb.de>,
+ Marc Gonzalez <marc.w.gonzalez@free.fr>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Vladimir Zapolskiy <vz@mleia.com>, NXP Linux Team <linux-imx@nxp.com>,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Dinh Nguyen <dinguyen@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sudeep Holla <sudeep.holla@arm.com>, Shawn Guo <shawnguo@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-gcc warns that a mising "flash" phandle node leads to undefined
-behavior later:
+On Tue, Jun 04, 2019 at 10:14:53AM +0200, Krzysztof Kozlowski wrote:
+> Remove the CONFIG_UEVENT_HELPER_PATH because:
+> 1. It is disabled since commit 1be01d4a5714 ("driver: base: Disable
+>    CONFIG_UEVENT_HELPER by default") as its dependency (UEVENT_HELPER) was
+>    made default to 'n',
+> 2. It is not recommended (help message: "This should not be used today
+>    [...] creates a high system load") and was kept only for ancient
+>    userland,
+> 3. Certain userland specifically requests it to be disabled (systemd
+>    README: "Legacy hotplug slows down the system and confuses udev").
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> ---
+> 
+> Changes since v2:
+> 1. Remove unrelated files.
+> 2. Add Geert's ack.
 
-drivers/soc/aspeed/aspeed-lpc-ctrl.c: In function 'aspeed_lpc_ctrl_probe':
-drivers/soc/aspeed/aspeed-lpc-ctrl.c:201:18: error: '*((void *)&resm+8)' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+So your other patch added mini2440 in a follow-up patch, but this one doesn't?!
 
-The device cannot work without this node, so just error out here.
+Applied with that fixup.
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/soc/aspeed/aspeed-lpc-ctrl.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/soc/aspeed/aspeed-lpc-ctrl.c b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
-index 239520bb207e..81109d22af6a 100644
---- a/drivers/soc/aspeed/aspeed-lpc-ctrl.c
-+++ b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
-@@ -212,6 +212,7 @@ static int aspeed_lpc_ctrl_probe(struct platform_device *pdev)
- 	node = of_parse_phandle(dev->of_node, "flash", 0);
- 	if (!node) {
- 		dev_dbg(dev, "Didn't find host pnor flash node\n");
-+		return -ENXIO;
- 	} else {
- 		rc = of_address_to_resource(node, 1, &resm);
- 		of_node_put(node);
--- 
-2.20.0
-
+-Olof
