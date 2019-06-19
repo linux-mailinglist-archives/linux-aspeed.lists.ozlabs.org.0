@@ -1,76 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C7F4C2A4
+	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jun 2019 23:01:18 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15614BC60
-	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Jun 2019 17:06:23 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45TSvc1dpQzDqsW
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2019 01:06:20 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45Tcn42NtNzDqsj
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2019 07:01:12 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (mailfrom) smtp.mailfrom=lixom.net
- (client-ip=2a00:1450:4864:20::244; helo=mail-lj1-x244.google.com;
- envelope-from=olof@lixom.net; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=fb.com
+ (client-ip=67.231.153.30; helo=mx0a-00082601.pphosted.com;
+ envelope-from=prvs=107391e0c1=taoren@fb.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=lixom.net
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=lixom-net.20150623.gappssmtp.com
- header.i=@lixom-net.20150623.gappssmtp.com header.b="yEAuqHd/"; 
+ dmarc=pass (p=none dis=none) header.from=fb.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=fb.com header.i=@fb.com header.b="OnjqZJrL"; 
  dkim-atps=neutral
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com
+ [67.231.153.30])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45TSvL6SG3zDqsC
- for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Jun 2019 01:06:06 +1000 (AEST)
-Received: by mail-lj1-x244.google.com with SMTP id i21so3628387ljj.3
- for <linux-aspeed@lists.ozlabs.org>; Wed, 19 Jun 2019 08:06:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lixom-net.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=CLJF5UoD0PkktcnwFEog1D4I3y+sELYQ4QMuolgvp6s=;
- b=yEAuqHd/teD0bEa7Wvv7EtSMZmX8mb6QsDEE3Aerx0LAnx2E4q6Gw+E4oHeMkrbx4X
- L+xDstCW0A1lRuwgSgfSXAYw+P8g9iFRxygf80S2I3D385MHj3PSi2CAKckN85Rcml/M
- GibXtG1D5ovltPNE9NE9LU3HTHrveAE9Y2fReaVv2Gb9J4bLzc9RbfZnHJrhUjp8Gu4z
- j0P7DZ1TPe0OjdPmch+r7FGd7w0u69YMAmiqJ9fpNqsS3DWd8X9mG8TlP+DXaTKcVDhI
- aNbhxe/mhawugb1K+RNV+ZFx1xApKMhMXwOVZIL8ylN8hNFDdEHyThk8HvrWIzdbfzbZ
- xFkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=CLJF5UoD0PkktcnwFEog1D4I3y+sELYQ4QMuolgvp6s=;
- b=L43hNWyFvWYcTnb8qydZ7wt+SDH1ek87JEa6bDQx/xfIz0CsGoPeji9yPm5gXQjS8D
- Rh6tRs2z1cJzzx7jSM2SapKZSrNnPIwXajxsnIVWxDQtBhUwGv9r4bSMHMyxo2rSxI+z
- vkTN6QKVvzTF8VbKSKuYCclCgKVxsXc/pMCbKO0nhEinIMEivY2OPq3TYAmlKqjBL5UH
- fKR6uddwCHTNxcSdeLgtQgmG09NgxOjlOJ7xp6H3/nrCSLyOJv/7Rvk1BKzTf9G3Orh2
- zP60iDdgtpeyTc10CyK5bPhYzlEQKDn3GPW8tWHUq6/3AHX0049Qw/4r1kMgaaSlnZl1
- MOyg==
-X-Gm-Message-State: APjAAAXW2kx6TzTEPA83k808Li1NbHm2glOGjlkxTk7qKmFReibmIT/f
- Lb+LBtcpPbmIgJPoCDp7Jw1QnQ==
-X-Google-Smtp-Source: APXvYqyMLO96BhAhlytIE+Ka8kFdXOnwnlt/Y3Ev1WHd9s/vwbPB0/i4dHhJQ2MiOCAxa7GBxsCb+A==
-X-Received: by 2002:a2e:9155:: with SMTP id q21mr35693704ljg.198.1560956763090; 
- Wed, 19 Jun 2019 08:06:03 -0700 (PDT)
-Received: from localhost (h85-30-9-151.cust.a3fiber.se. [85.30.9.151])
- by smtp.gmail.com with ESMTPSA id t12sm3132540ljj.26.2019.06.19.08.06.01
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 19 Jun 2019 08:06:01 -0700 (PDT)
-Date: Wed, 19 Jun 2019 07:12:30 -0700
-From: Olof Johansson <olof@lixom.net>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH v3] ARM: configs: Remove useless UEVENT_HELPER_PATH
-Message-ID: <20190619141230.rtgeunr23gybv7u2@localhost>
-References: <20190604185229.7393-1-krzk@kernel.org>
- <CAJKOXPd4LVFGgonbsuxii-5Fu5wWhxU9yotLHw+OXsPcxYw_3g@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45Tcmr2V9vzDqsJ
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Jun 2019 07:00:58 +1000 (AEST)
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+ by m0089730.ppops.net (8.16.0.27/8.16.0.27) with SMTP id x5JKwoZc030674
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 19 Jun 2019 14:00:54 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=facebook;
+ bh=WXpeq58S6dL6eDCTC/2yGs+1ISto/uWnTCwAmoTfh00=;
+ b=OnjqZJrLiJuEM9YuXGenPVTHIKLFEsb8VkAlWd4NClMjiVIQiJ3qsMix9leys+TeNh7G
+ ZJqEkXRQq4hW2Po+y/95XFmPMGdY1YVf0hnec3HJZgQmJ7vBzx6ZJdu59XBt3ZYdSvho
+ rVgzbmSGxfQrFlGn/4VftszsaXpJNQy4yVc= 
+Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
+ by m0089730.ppops.net with ESMTP id 2t7s8xgrwf-3
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 19 Jun 2019 14:00:54 -0700
+Received: from mx-out.facebook.com (2620:10d:c081:10::13) by
+ mail.thefacebook.com (2620:10d:c081:35::128) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.1713.5;
+ Wed, 19 Jun 2019 14:00:52 -0700
+Received: by devvm24792.prn1.facebook.com (Postfix, from userid 150176)
+ id B4D83164B5271; Wed, 19 Jun 2019 13:50:10 -0700 (PDT)
+Smtp-Origin-Hostprefix: devvm
+From: Tao Ren <taoren@fb.com>
+Smtp-Origin-Hostname: devvm24792.prn1.facebook.com
+To: Brendan Higgins <brendanhiggins@google.com>, Benjamin Herrenschmidt
+ <benh@kernel.crashing.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+ <andrew@aj.id.au>, Rob Herring <robh+dt@kernel.org>, Mark Rutland
+ <mark.rutland@arm.com>,
+ <linux-i2c@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>
+Smtp-Origin-Cluster: prn1c35
+Subject: [PATCH 1/2] i2c: aspeed: allow to customize base clock divisor
+Date: Wed, 19 Jun 2019 13:50:09 -0700
+Message-ID: <20190619205009.4176588-1-taoren@fb.com>
+X-Mailer: git-send-email 2.17.1
+X-FB-Internal: Safe
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJKOXPd4LVFGgonbsuxii-5Fu5wWhxU9yotLHw+OXsPcxYw_3g@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-06-19_13:, , signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906190172
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,49 +83,142 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, arm@kernel.org, linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Jun 13, 2019 at 04:53:53PM +0200, Krzysztof Kozlowski wrote:
-> On Tue, 4 Jun 2019 at 20:52, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> >
-> > Remove the CONFIG_UEVENT_HELPER_PATH because:
-> > 1. It is disabled since commit 1be01d4a5714 ("driver: base: Disable
-> >    CONFIG_UEVENT_HELPER by default") as its dependency (UEVENT_HELPER) was
-> >    made default to 'n',
-> > 2. It is not recommended (help message: "This should not be used today
-> >    [...] creates a high system load") and was kept only for ancient
-> >    userland,
-> > 3. Certain userland specifically requests it to be disabled (systemd
-> >    README: "Legacy hotplug slows down the system and confuses udev").
-> >
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > For vexpress:
-> > Acked-by: Sudeep Holla <sudeep.holla@arm.com>
-> >
-> > ---
-> >
-> > Changes since v2:
-> > 1. Remove unrelated files.
-> > 2. Add Geert's ack.
-> >
-> > Changes sice v3:
-> > 1. Change also mini2440_defconfig.
-> > 2. Add more acks.
-> 
-> Hi Arnd and Olof,
-> 
-> Do you want to apply it directly or maybe I can send it along with
-> other my defconfig pull request?
+Some intermittent I2C transaction failures are observed on Facebook CMM and
+Minipack (ast2500) BMC platforms, because slave devices (such as CPLD, BIC
+and etc.) NACK the address byte sometimes. The issue can be resolved by
+increasing base clock divisor which affects ASPEED I2C Controller's base
+clock and other AC timing parameters.
 
-Oh, just saw v3, since it didn't thread with v2.
+This patch allows to customize ASPEED I2C Controller's base clock divisor
+in device tree.
 
-Applied already with the equivalent fixups, so we're good.
+Signed-off-by: Tao Ren <taoren@fb.com>
+---
+ drivers/i2c/busses/i2c-aspeed.c | 48 ++++++++++++++++++++++-----------
+ 1 file changed, 33 insertions(+), 15 deletions(-)
 
--Olof
+diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+index 6c8b38fd6e64..e4b1c4c71b62 100644
+--- a/drivers/i2c/busses/i2c-aspeed.c
++++ b/drivers/i2c/busses/i2c-aspeed.c
+@@ -145,7 +145,8 @@ struct aspeed_i2c_bus {
+ 	spinlock_t			lock;
+ 	struct completion		cmd_complete;
+ 	u32				(*get_clk_reg_val)(struct device *dev,
+-							   u32 divisor);
++							   u32 divisor,
++							   u32 base_clk_div);
+ 	unsigned long			parent_clk_frequency;
+ 	u32				bus_frequency;
+ 	/* Transaction state. */
+@@ -778,9 +779,10 @@ static const struct i2c_algorithm aspeed_i2c_algo = {
+ 
+ static u32 aspeed_i2c_get_clk_reg_val(struct device *dev,
+ 				      u32 clk_high_low_mask,
+-				      u32 divisor)
++				      u32 divisor,
++				      u32 base_clk_divisor)
+ {
+-	u32 base_clk_divisor, clk_high_low_max, clk_high, clk_low, tmp;
++	u32 clk_high_low_max, clk_high, clk_low, tmp;
+ 
+ 	/*
+ 	 * SCL_high and SCL_low represent a value 1 greater than what is stored
+@@ -809,10 +811,12 @@ static u32 aspeed_i2c_get_clk_reg_val(struct device *dev,
+ 	 *		((1 << base_clk_divisor) * (clk_high + 1 + clk_low + 1))
+ 	 * The documentation recommends clk_high >= clk_high_max / 2 and
+ 	 * clk_low >= clk_low_max / 2 - 1 when possible; this last constraint
+-	 * gives us the following solution:
++	 * gives us the following solution (unless base_clk_divisor is manually
++	 * configured in device tree):
+ 	 */
+-	base_clk_divisor = divisor > clk_high_low_max ?
+-			ilog2((divisor - 1) / clk_high_low_max) + 1 : 0;
++	if (base_clk_divisor > ASPEED_I2CD_TIME_BASE_DIVISOR_MASK)
++		base_clk_divisor = divisor > clk_high_low_max ?
++				ilog2((divisor - 1) / clk_high_low_max) + 1 : 0;
+ 
+ 	if (base_clk_divisor > ASPEED_I2CD_TIME_BASE_DIVISOR_MASK) {
+ 		base_clk_divisor = ASPEED_I2CD_TIME_BASE_DIVISOR_MASK;
+@@ -843,35 +847,49 @@ static u32 aspeed_i2c_get_clk_reg_val(struct device *dev,
+ 			   & ASPEED_I2CD_TIME_BASE_DIVISOR_MASK);
+ }
+ 
+-static u32 aspeed_i2c_24xx_get_clk_reg_val(struct device *dev, u32 divisor)
++static u32 aspeed_i2c_24xx_get_clk_reg_val(struct device *dev,
++					   u32 divisor,
++					   u32 base_clk_divisor)
+ {
+ 	/*
+ 	 * clk_high and clk_low are each 3 bits wide, so each can hold a max
+ 	 * value of 8 giving a clk_high_low_max of 16.
+ 	 */
+-	return aspeed_i2c_get_clk_reg_val(dev, GENMASK(2, 0), divisor);
++	return aspeed_i2c_get_clk_reg_val(dev, GENMASK(2, 0), divisor,
++					  base_clk_divisor);
+ }
+ 
+-static u32 aspeed_i2c_25xx_get_clk_reg_val(struct device *dev, u32 divisor)
++static u32 aspeed_i2c_25xx_get_clk_reg_val(struct device *dev,
++					   u32 divisor,
++					   u32 base_clk_divisor)
+ {
+ 	/*
+ 	 * clk_high and clk_low are each 4 bits wide, so each can hold a max
+ 	 * value of 16 giving a clk_high_low_max of 32.
+ 	 */
+-	return aspeed_i2c_get_clk_reg_val(dev, GENMASK(3, 0), divisor);
++	return aspeed_i2c_get_clk_reg_val(dev, GENMASK(3, 0), divisor,
++					  base_clk_divisor);
+ }
+ 
+ /* precondition: bus.lock has been acquired. */
+-static int aspeed_i2c_init_clk(struct aspeed_i2c_bus *bus)
++static int aspeed_i2c_init_clk(struct aspeed_i2c_bus *bus,
++			       struct platform_device *pdev)
+ {
+-	u32 divisor, clk_reg_val;
++	int ret;
++	u32 divisor, clk_reg_val, base_clk_divisor;
++
++	ret = of_property_read_u32(pdev->dev.of_node, "base-clock-divisor",
++				   &base_clk_divisor);
++	if (ret < 0)
++		base_clk_divisor = (u32)-1;
+ 
+ 	divisor = DIV_ROUND_UP(bus->parent_clk_frequency, bus->bus_frequency);
+ 	clk_reg_val = readl(bus->base + ASPEED_I2C_AC_TIMING_REG1);
+ 	clk_reg_val &= (ASPEED_I2CD_TIME_TBUF_MASK |
+ 			ASPEED_I2CD_TIME_THDSTA_MASK |
+ 			ASPEED_I2CD_TIME_TACST_MASK);
+-	clk_reg_val |= bus->get_clk_reg_val(bus->dev, divisor);
++	clk_reg_val |= bus->get_clk_reg_val(bus->dev, divisor,
++					    base_clk_divisor);
+ 	writel(clk_reg_val, bus->base + ASPEED_I2C_AC_TIMING_REG1);
+ 	writel(ASPEED_NO_TIMEOUT_CTRL, bus->base + ASPEED_I2C_AC_TIMING_REG2);
+ 
+@@ -888,7 +906,7 @@ static int aspeed_i2c_init(struct aspeed_i2c_bus *bus,
+ 	/* Disable everything. */
+ 	writel(0, bus->base + ASPEED_I2C_FUN_CTRL_REG);
+ 
+-	ret = aspeed_i2c_init_clk(bus);
++	ret = aspeed_i2c_init_clk(bus, pdev);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -989,7 +1007,7 @@ static int aspeed_i2c_probe_bus(struct platform_device *pdev)
+ 	if (!match)
+ 		bus->get_clk_reg_val = aspeed_i2c_24xx_get_clk_reg_val;
+ 	else
+-		bus->get_clk_reg_val = (u32 (*)(struct device *, u32))
++		bus->get_clk_reg_val = (u32 (*)(struct device *, u32, u32))
+ 				match->data;
+ 
+ 	/* Initialize the I2C adapter */
+-- 
+2.17.1
+
