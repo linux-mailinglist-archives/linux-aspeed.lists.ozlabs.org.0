@@ -1,60 +1,60 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id D72124C870
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2019 09:34:39 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ABD54C868
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2019 09:30:41 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45TtlL5qxlzDrBG
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2019 17:30:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45Ttqx1P4bzDrBd
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2019 17:34:37 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (mailfrom) smtp.mailfrom=aspeedtech.com
- (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com;
- envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::844; helo=mail-qt1-x844.google.com;
+ envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="HhCmBNDR"; 
+ dkim-atps=neutral
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45Ttl955tlzDr1q
- for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Jun 2019 17:30:28 +1000 (AEST)
-Received: from mail.aspeedtech.com (twmbx02.aspeed.com [192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id x5K7KDXr014182;
- Thu, 20 Jun 2019 15:20:14 +0800 (GMT-8)
- (envelope-from ryan_chen@aspeedtech.com)
-Received: from TWMBX01.aspeed.com (192.168.0.23) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.620.29; Thu, 20 Jun
- 2019 15:29:55 +0800
-Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX01.aspeed.com
- (192.168.0.23) with Microsoft SMTP Server (TLS) id 15.0.620.29; Thu, 20 Jun
- 2019 15:29:55 +0800
-Received: from TWMBX02.aspeed.com ([fe80::997d:c0a7:f01f:e1a7]) by
- TWMBX02.aspeed.com ([fe80::997d:c0a7:f01f:e1a7%12]) with mapi id
- 15.00.0620.020; Thu, 20 Jun 2019 15:29:53 +0800
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: Tao Ren <taoren@fb.com>, Brendan Higgins <brendanhiggins@google.com>
-Subject: RE: [PATCH 1/2] i2c: aspeed: allow to customize base clock divisor
-Thread-Topic: [PATCH 1/2] i2c: aspeed: allow to customize base clock divisor
-Thread-Index: AQHVJuImmMOIiyHRlUqwfYHYZy+Y4aai9yiAgAASyACAARtXMA==
-Date: Thu, 20 Jun 2019 07:29:53 +0000
-Message-ID: <c610ecede7494c189a92a9a3f6d0fd16@TWMBX02.aspeed.com>
-References: <20190619205009.4176588-1-taoren@fb.com>
- <CAFd5g45TMtXcuqONdkpN_K+c0O+wUw8wkGzcQfV+sO8p5Krc9w@mail.gmail.com>
- <18565fcf-3dc1-b671-f826-e4417e4ad284@fb.com>
-In-Reply-To: <18565fcf-3dc1-b671-f826-e4417e4ad284@fb.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.0.81]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45Ttqr1bVjzDr7P
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Jun 2019 17:34:32 +1000 (AEST)
+Received: by mail-qt1-x844.google.com with SMTP id p15so2254196qtl.3
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Jun 2019 00:34:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=opL2zp18YnmTOfD3nJtvIoIaI7cchsn9/smGdNrpPY0=;
+ b=HhCmBNDRtNjYnwGuG4f3HjzdaUVMsZ7BG2RnVud73GNk2EmJk/OCmTvs30j3n8WxR8
+ gCWqVVTCsCzpBrzJ+rAPvmDMPoV+T9Xrq3D/xG/OrF+Zef45AtmJ2jggaOD313C6wqwT
+ 5bPkRE+APQxX3uwo8e79SEBxnin7s1Rm3mTvs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=opL2zp18YnmTOfD3nJtvIoIaI7cchsn9/smGdNrpPY0=;
+ b=T4/4HXJpr7n/zl6LCx+/N3EVpK9u0Vjn43oU8Y9I9MbeQBc05J+qYHtjMjwgxx3/BG
+ BeRkpRrmWFipqV2X+ejODoVds/DZx76Te6G8PrVxCR6WlQ6RMHCBJPD1QDRvhkl6Ld1w
+ jZijYxPjT+ZRJ0cIOs+mBKQRKI8Lszdb1mbo8xXDhxvEy7DQsM+jdE0MkUxhrob5OR65
+ gij09LGm3KzZD/1dzygKDHDVJvkZGyR26NSu31h+1LkFdwKdDLLuAW3Ei6/qEGInNnZP
+ dXTn/EtMuu3UIsuHUUjArs2CBCD/FK6OxQ5cAVkZyE9W246h0tVw5dEehtQXu+AZ9BIK
+ Rh4Q==
+X-Gm-Message-State: APjAAAVFE5+dn4fEcQ3oJLD9WbaZxZ56MZ/w37PAKaYEG+AR3+02Osd/
+ dgnG/tLmiQ1PLLhDVXPr5O0x1xQzDAVmHsczVco=
+X-Google-Smtp-Source: APXvYqwRxXdtvtt6uzudgb1QKaYmA2gWC+s0AgywtWsHXoMeiZw60VhSib0MRWaRzLMmLIEy16khGqRajUx3G01G1qM=
+X-Received: by 2002:ac8:2493:: with SMTP id s19mr90260592qts.220.1561016068125; 
+ Thu, 20 Jun 2019 00:34:28 -0700 (PDT)
 MIME-Version: 1.0
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com x5K7KDXr014182
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 20 Jun 2019 07:34:16 +0000
+Message-ID: <CACPK8XfMEzqvTGZz7JZxz0XQ0tBHzpJRDxtCEFB-ZzKCyDeuQw@mail.gmail.com>
+Subject: [GIT PULL] ARM: aspeed: dts changes for 5.3
+To: arm <arm@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,73 +66,113 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+Cc: linux-aspeed@lists.ozlabs.org,
  Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGVsbG8gVGFvLA0KCU91ciByZWNvbW1lbmQgYWJvdXQgY2xrIGRpdmlkZXIgc2V0dGluZyBpcyBm
-b2xsb3cgdGhlIGRhdGFzaGVldCBjbG9jayBzZXR0aW5nIHRhYmxlIGZvciBjbG9jayBkaXZpc29y
-LiANCg0KUnlhbiAgDQogDQoJDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBM
-aW51eC1hc3BlZWQgW21haWx0bzpsaW51eC1hc3BlZWQtYm91bmNlcytyeWFuX2NoZW49YXNwZWVk
-dGVjaC5jb21AbGlzdHMub3psYWJzLm9yZ10gT24gQmVoYWxmIE9mIFRhbyBSZW4NClNlbnQ6IFRo
-dXJzZGF5LCBKdW5lIDIwLCAyMDE5IDY6MzMgQU0NClRvOiBCcmVuZGFuIEhpZ2dpbnMgPGJyZW5k
-YW5oaWdnaW5zQGdvb2dsZS5jb20+DQpDYzogTWFyayBSdXRsYW5kIDxtYXJrLnJ1dGxhbmRAYXJt
-LmNvbT47IGRldmljZXRyZWUgPGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnPjsgbGludXgtYXNw
-ZWVkQGxpc3RzLm96bGFicy5vcmc7IE9wZW5CTUMgTWFpbGxpc3QgPG9wZW5ibWNAbGlzdHMub3ps
-YWJzLm9yZz47IExpbnV4IEtlcm5lbCBNYWlsaW5nIExpc3QgPGxpbnV4LWtlcm5lbEB2Z2VyLmtl
-cm5lbC5vcmc+OyBSb2IgSGVycmluZyA8cm9iaCtkdEBrZXJuZWwub3JnPjsgTGludXggQVJNIDxs
-aW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmc+OyBsaW51eC1pMmNAdmdlci5rZXJu
-ZWwub3JnDQpTdWJqZWN0OiBSZTogW1BBVENIIDEvMl0gaTJjOiBhc3BlZWQ6IGFsbG93IHRvIGN1
-c3RvbWl6ZSBiYXNlIGNsb2NrIGRpdmlzb3INCg0KT24gNi8xOS8xOSAyOjI1IFBNLCBCcmVuZGFu
-IEhpZ2dpbnMgd3JvdGU6DQo+IE9uIFdlZCwgSnVuIDE5LCAyMDE5IGF0IDI6MDAgUE0gVGFvIFJl
-biA8dGFvcmVuQGZiLmNvbT4gd3JvdGU6DQo+Pg0KPj4gU29tZSBpbnRlcm1pdHRlbnQgSTJDIHRy
-YW5zYWN0aW9uIGZhaWx1cmVzIGFyZSBvYnNlcnZlZCBvbiBGYWNlYm9vayANCj4+IENNTSBhbmQg
-TWluaXBhY2sgKGFzdDI1MDApIEJNQyBwbGF0Zm9ybXMsIGJlY2F1c2Ugc2xhdmUgZGV2aWNlcyAo
-c3VjaCANCj4+IGFzIENQTEQsIEJJQyBhbmQgZXRjLikgTkFDSyB0aGUgYWRkcmVzcyBieXRlIHNv
-bWV0aW1lcy4gVGhlIGlzc3VlIGNhbiANCj4+IGJlIHJlc29sdmVkIGJ5IGluY3JlYXNpbmcgYmFz
-ZSBjbG9jayBkaXZpc29yIHdoaWNoIGFmZmVjdHMgQVNQRUVEIEkyQyANCj4+IENvbnRyb2xsZXIn
-cyBiYXNlIGNsb2NrIGFuZCBvdGhlciBBQyB0aW1pbmcgcGFyYW1ldGVycy4NCj4+DQo+PiBUaGlz
-IHBhdGNoIGFsbG93cyB0byBjdXN0b21pemUgQVNQRUVEIEkyQyBDb250cm9sbGVyJ3MgYmFzZSBj
-bG9jayANCj4+IGRpdmlzb3IgaW4gZGV2aWNlIHRyZWUuDQo+IA0KPiBGaXJzdCBvZmYsIGFyZSB5
-b3Ugc3VyZSB5b3UgYWN0dWFsbHkgbmVlZCB0aGlzPw0KPiANCj4gWW91IHNob3VsZCBiZSBhYmxl
-IHRvIGFjaGlldmUgYW4gZWZmZWN0aXZlbHkgZXF1aXZhbGVudCByZXN1bHQgYnkganVzdCANCj4g
-bG93ZXJpbmcgdGhlIGBidXMtZnJlcXVlbmN5YCBwcm9wZXJ0eSBzcGVjaWZpZWQgaW4gdGhlIERU
-LiBUaGUgDQo+IGBidXMtZnJlcXVlbmN5YCBwcm9wZXJ0eSB1bHRpbWF0ZWx5IGRldGVybWluZXMg
-YWxsIHRoZSByZWdpc3RlciANCj4gdmFsdWVzLCBhbmQgeW91IHNob3VsZCBiZSBhYmxlIHRvIHNl
-dCBpdCB0byB3aGF0ZXZlciB5b3Ugd2FudCBieSANCj4gcmVmZXJpbmcgdG8gdGhlIEFzcGVlZCBk
-b2N1bWVudGF0aW9uLg0KPiANCj4gTmV2ZXJ0aGVsZXNzLCB0aGUgY29kZSB0aGF0IGRldGVybWlu
-ZXMgdGhlIGNvcnJlY3QgZGl2aWRlcnMgZnJvbSB0aGUgDQo+IGZyZXF1ZW5jeSBpcyBiYXNlZCBv
-biB0aGUgdGFibGVzIGluIHRoZSBBc3BlZWQgZG9jdW1lbnRhdGlvbi4gSSBkb24ndCANCj4gdGhp
-bmsgdGhlIGVxdWF0aW9uIG1ha2VzIHNlbnNlIHdoZW4gdGhlIGJhc2VfY2xrX2Rpdmlzb3IgaXMg
-Zml4ZWQ7IEkgDQo+IG1lYW4gaXQgd2lsbCBwcm9iYWJseSBqdXN0IHNldCB0aGUgb3RoZXIgZGl2
-aXNvciB0byBtYXggb3IgbWluIA0KPiBkZXBlbmRpbmcgb24gdGhlIHZhbHVlcyBjaG9zZW4uIEkg
-dGhpbmsgaWYgc29tZW9uZSByZWFsbHkgd2FudHMgdG8gDQo+IHByb2dyYW0gdGhpcyBwYXJhbWV0
-ZXIgbWFudWFsbHksIHRoZXkgcHJvYmFibHkgd2FudCB0byBzZXQgdGhlIG90aGVyIA0KPiBwYXJh
-bWV0ZXJzIG1hbnVhbGx5IHRvby4NClRoYW5rIHlvdSBmb3IgdGhlIHF1aWNrIHJlc3BvbnNlLCBC
-cmVuZGFuLg0KDQpBc3BlZWQgSTJDIGJ1cyBmcmVxdWVuY3kgaXMgZGVmaW5lZCBieSAzIHBhcmFt
-ZXRlcnMgKGJhc2VfY2xrX2Rpdmlzb3IsIGNsa19oaWdoX3dpZHRoLCBjbGtfbG93X3dpZHRoKSwg
-YW5kIEkgY2hvb3NlIGJhc2VfY2xrX2Rpdmlzb3IgYmVjYXVzZSBpdCBjb250cm9scyBhbGwgdGhl
-IEFzcGVlZCBJMkMgdGltaW5ncyAoc3VjaCBhcyBzZXR1cCB0aW1lIGFuZCBob2xkIHRpbWUpLiBP
-bmNlIGJhc2VfY2xrX2Rpdmlzb3IgaXMgZGVjaWRlZCAoZWl0aGVyIGJ5IHRoZSBjdXJyZW50IGxv
-Z2ljIGluIGkyYy1hc3BlZWQgZHJpdmVyIG9yIG1hbnVhbGx5IHNldCBpbiBkZXZpY2UgdHJlZSks
-IGNsa19oaWdoX3dpZHRoIGFuZCBjbGtfbG93X3dpZHRoIHdpbGwgYmUgY2FsY3VsYXRlZCBieSBp
-MmMtYXNwZWVkIGRyaXZlciB0byBtZWV0IHRoZSBzcGVjaWZpZWQgSTJDIGJ1cyBzcGVlZC4NCg0K
-Rm9yIGV4YW1wbGUsIGJ5IHNldHRpbmcgSTJDIGJ1cyBmcmVxdWVuY3kgdG8gMTAwS0h6IG9uIEFT
-VDI1MDAgcGxhdGZvcm0sIChiYXNlX2Nsb2NrX2Rpdmlzb3IsIGNsa19oaWdoX3dpZHRoLCBjbGtf
-bG93X3dpZHRoKSBpcyBzZXQgdG8gKDMsIDE1LCAxNCkgYnkgb3VyIGRyaXZlci4gQnV0IHNvbWUg
-c2xhdmUgZGV2aWNlcyAob24gQ01NIGkyYy04IGFuZCBNaW5pcGFjayBpMmMtMCkgTkFDSyBieXRl
-IHRyYW5zYWN0aW9ucyB3aXRoIHRoZSBkZWZhdWx0IHRpbWluZyBzZXR0aW5nOiB0aGUgaXNzdWUg
-Y2FuIGJlIHJlc29sdmVkIGJ5IHNldHRpbmcgYmFzZV9jbGtfZGl2aXNvciB0byA0LCBhbmQgKGNs
-a19oaWdoX3dpZHRoLCBjbGtfbG93X3dpZHRoKSB3aWxsIGJlIHNldCB0byAoNywgNykgYnkgb3Vy
-IGkyYy1hc3BlZWQgZHJpdmVyIHRvIGFjaGlldmUgc2ltaWxhciBJMkMgYnVzIHNwZWVkLg0KDQpO
-b3Qgc3VyZSBpZiBteSBhbnN3ZXIgaGVscHMgdG8gYWRkcmVzcyB5b3VyIGNvbmNlcm5zLCBidXQg
-a2luZGx5IGxldCBtZSBrbm93IGlmIHlvdSBoYXZlIGZ1cnRoZXIgcXVlc3Rpb25zL3N1Z2dlc3Rp
-b25zLg0KDQoNClRoYW5rcywNCg0KVGFvDQo=
+Hello ARM maintainers,
+
+Here's the ASPEED device tree changes for 5.3. Most of the patches
+have been baking for a number of weeks, with a few late changes added
+in today.
+
+The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
+
+  Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git \
+    tags/aspeed-5.3-devicetree
+
+for you to fetch changes up to 6084110a0e9c4bff75970f3d68091ceff9e2c2c7:
+
+  ARM: dts: aspeed: Enable video engine on romulus and wtherspoon
+(2019-06-20 16:37:26 +0930)
+
+----------------------------------------------------------------
+ASPEED device tree updates for 5.3
+
+We have various device tree updates from the OpenBMC project to enable
+bits and pieces in existing systems, notably updates to Google's Zaius.
+
+There are some AST2500 machines under development:
+
+  * Lenovo Hr630
+  * IBM Swift
+  * Facebook YAMP
+
+And some AST2400 machines that have been around but out of tree and have
+now joined the party:
+
+  * YADRO VESNIN
+  * Microsoft Olympus
+
+----------------------------------------------------------------
+Adriana Kobylak (2):
+      ARM: dts: aspeed: Add Swift BMC machine
+      ARM: dts: aspeed: swift: Add pca9539 devices
+
+Alexander Filippov (1):
+      ARM: dts: aspeed: Add YADRO VESNIN BMC
+
+Andrew Peng (1):
+      ARM: dts: aspeed: Adding Lenovo Hr630 BMC
+
+Benjamin Herrenschmidt (1):
+      ARM: dts: aspeed: Add Power9 and Power9 CFAM description
+
+Eddie James (1):
+      ARM: dts: aspeed: Enable video engine on romulus and wtherspoon
+
+Hongwei Zhang (1):
+      ARM: dts: aspeed: Add Microsoft Olympus BMC
+
+Joel Stanley (1):
+      ARM: dts: aspeed: Rename flash-controller nodes
+
+John Wang (1):
+      ARM: dts: aspeed: Add Inspur fp5280g2 BMC machine
+
+Maxim Sloyko (1):
+      ARM: dts: aspeed: zaius: add Infineon and Intersil regulators
+
+Patrick Venture (2):
+      ARM: dts: aspeed: Add aspeed-p2a-ctrl node
+      ARM: dts: aspeed: quanta-q71: Enable p2a node
+
+Robert Lippert (2):
+      ARM: dts: aspeed: zaius: update 12V brick I2C address
+      ARM: dts: aspeed: zaius: fixed I2C bus numbers for pcie slots
+
+Tao Ren (2):
+      ARM: dts: aspeed: cmm: enable ehci host controllers
+      ARM: dts: aspeed: Add Facebook YAMP BMC
+
+ arch/arm/boot/dts/Makefile                         |   6 +
+ arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts      |   8 +
+ arch/arm/boot/dts/aspeed-bmc-facebook-yamp.dts     | 160 ++++
+ arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts   | 846 ++++++++++++++++++
+ arch/arm/boot/dts/aspeed-bmc-lenovo-hr630.dts      | 566 ++++++++++++
+ arch/arm/boot/dts/aspeed-bmc-microsoft-olympus.dts | 207 +++++
+ arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dts       |   2 +
+ arch/arm/boot/dts/aspeed-bmc-opp-palmetto.dts      |  22 +
+ arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts       |  14 +
+ arch/arm/boot/dts/aspeed-bmc-opp-swift.dts         | 966 +++++++++++++++++++++
+ arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts        | 224 +++++
+ arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts   |  14 +
+ arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts         | 123 ++-
+ arch/arm/boot/dts/aspeed-bmc-quanta-q71l.dts       |   5 +
+ arch/arm/boot/dts/aspeed-g4.dtsi                   |   8 +-
+ arch/arm/boot/dts/aspeed-g5.dtsi                   |  11 +-
+ arch/arm/boot/dts/ibm-power9-dual.dtsi             | 248 ++++++
+ 17 files changed, 3417 insertions(+), 13 deletions(-)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-yamp.dts
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-lenovo-hr630.dts
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-microsoft-olympus.dts
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
+ create mode 100644 arch/arm/boot/dts/ibm-power9-dual.dtsi
