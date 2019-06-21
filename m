@@ -1,71 +1,81 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F35B4CAE2
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2019 11:32:13 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45TxRZ4lKyzDrG3
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Jun 2019 19:32:10 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA8D4DEDD
+	for <lists+linux-aspeed@lfdr.de>; Fri, 21 Jun 2019 03:57:11 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 45VMJ45dxzzDrMS
+	for <lists+linux-aspeed@lfdr.de>; Fri, 21 Jun 2019 11:57:08 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::543; helo=mail-pg1-x543.google.com;
- envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=66.111.4.29; helo=out5-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
+ dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="Jdg/UCsK"; 
- dkim-atps=neutral
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="fkcN1lTY"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="OU/hxIS7"; dkim-atps=neutral
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45Tx745snjzDr9T
- for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Jun 2019 19:17:51 +1000 (AEST)
-Received: by mail-pg1-x543.google.com with SMTP id f25so1246044pgv.10
- for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Jun 2019 02:17:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=H/N0qHE94BgVcSxh7Y7ddjnVY+VEqSIyYgrIMxgshDU=;
- b=Jdg/UCsKPmIjRfaapYt1gOM5GjjcSZvHtz8ONkgpvHrAWlb9vbnRJMNl4MW4FbYtEw
- 8+YR65T2T2ap5Lwq5+sMJuahof/pFY9ZKkJuf2gUBIelzu163GN+7HW0H+Ku4aKkWBPN
- ITlXlxJGNrnau/yhcjNck0/pYz21gwLdhwooI29uqWwrbEgFPJe2wKt024dcE+KG+Vp+
- zf//1oOezxAGYjrucQmfBYcsUrUDteM5Mwu5XAcx8yY/eRJfguZs2eY1rj5MQEHgax5R
- RoxM3lbwpH2LrteXty6Tn/Mx5Gh42sZZi/AojBszBTgqvPti6KKt4QFtG1yVDu7GmCB1
- 0krQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=H/N0qHE94BgVcSxh7Y7ddjnVY+VEqSIyYgrIMxgshDU=;
- b=rIFQYtRK/O37hJqvXyz8WU7Lv06ITfYYgwB6Ye4mqeteJUPAu2wt98zVYaXqgCwfHf
- ItuQl8sN3pCh8qDSwGAkJA2CsJgru9KvptKidhVb07WCxxNB2mWprnX1js53RJumflBN
- ftNVUL4+GgZsgoLr1aHhLoHYCb0L4Ycm8MvJLqX8lm30UyzR05ybcUp+w+fLEI1nHR2P
- ZGCQBfNXrFivjg6YD+NTQZu0cByijMWX7EWofJWNYp8tguf45yulVs/Pm2NR1hA8AybN
- GlahTAmfg8fb8pNJkE3WCLnV+lzF3qd7Y7RLNQn87PZdrH8nwzXr7ejCM1PAde6M1Rhr
- QYzw==
-X-Gm-Message-State: APjAAAXRRJsIauHRQnmN48QCNWdiVEyNYTJkp0Oy9K8OF8MuCiNrodHe
- dpty7+CJgXHl9zjhhkWpLJU=
-X-Google-Smtp-Source: APXvYqyjRU2XOSFHLaSw2NHSfqeinOcL6lcfQZPbUgKSsSNdlUUmXuhILPthF8TjGwD0ko3/VxzC9w==
-X-Received: by 2002:a17:90a:e38f:: with SMTP id
- b15mr2075612pjz.85.1561022266727; 
- Thu, 20 Jun 2019 02:17:46 -0700 (PDT)
-Received: from voyager.ibm.com ([36.255.48.244])
- by smtp.gmail.com with ESMTPSA id j64sm32324138pfb.126.2019.06.20.02.17.43
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 20 Jun 2019 02:17:46 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: Vijay Khemka <vijaykhemka@fb.com>
-Subject: [PATCH] soc: aspeed: lpc-ctrl: Fix probe error handling
-Date: Thu, 20 Jun 2019 18:47:38 +0930
-Message-Id: <20190620091738.14683-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45VMHt6BCyzDr3V
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 21 Jun 2019 11:56:57 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id B623021D51;
+ Thu, 20 Jun 2019 21:56:54 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Thu, 20 Jun 2019 21:56:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm3; bh=tLnRWlmzorgr7oKoK51UGqpEXN0boNS
+ Id1GRxNsS9NQ=; b=fkcN1lTYXoeI9cd1gv23+GmPU7rKDAEo5/cI5mfSNr40Q7n
+ gIfBDgarfShvxosHbI0W3rcClWGnRrPfdAUwhwY2R3l9H09hj0ZHICKn9oreGeK/
+ 2a+a1T7VEfwWxmSDbEf1Yv8SATvOzETurjMP3K2pXUy4LHbjh4hXJf9Fa1zcF7o5
+ gXV62LwFZqvBIYQzWaukLiYahO0j3/r6QJY+MG87w/mUaxBelxaQRkzxTnKAuH+h
+ DyIs7HK5md5iidQ8Ua8Or3anzFgPu5lW11rHntro4DZaMUrKfoCmwCqaDrT/YvxN
+ D+mnUptyWTXfuY3zsmGWBjSU5WL90wKMCyvSrUA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=tLnRWl
+ mzorgr7oKoK51UGqpEXN0boNSId1GRxNsS9NQ=; b=OU/hxIS7HchVNs+fLkNXjr
+ 6kIkNsjLC8r66mB71V3KWKMeiPcuTvOGvIiMOVUnPAFCA4tyinQELMwqtAKkwSAv
+ suHFuInCTfunqg+dsPFuxS56Qm9iMx//c/HUeAYeH0ksPyRCsYa33ztaYyHMK26N
+ rSL8RCryB3Jb0Aq3lNqjXcDvgxV71C5OWN3QpvZI5Y/gLMnupJ5h8UV44ptilABe
+ t60qa0rJiPGQsraVcXVu5R12//8oFRiU1pqDOP1ikvSnrOj0CYQsJ7BazwpqSDxa
+ 67q6rZAFjxzUlwogZdCp6oyImyLQIc8b2KKlJVL7WcwrYI5Q10/IQClAPPDrJf+Q
+ ==
+X-ME-Sender: <xms:ZTkMXQJULOYGGAlG-9bxfc6vOkU6HmFXRkcsZ7hs665fWX4Ztg6Oug>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrtdehgdehvdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
+ hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
+ ufhiiigvpedt
+X-ME-Proxy: <xmx:ZTkMXY-e64CPx0slVhQw1CIgHJ60s0RwilgiiX10KkqhVXpqU_au1w>
+ <xmx:ZTkMXSCubGC1MkugeHViY-Otddbgb_XyTR4CCDiFhYRN2IgMmSrx4g>
+ <xmx:ZTkMXSroZZNWI3TBnO4rVikVkz4it3z9E2KMIjWp6U9EVkwy5GQZWw>
+ <xmx:ZjkMXaLYIooj5bFey-EiXfXDvK0kiLOnI3jQCL00bttaaXKyLGJE5Q>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 4DC85E00A1; Thu, 20 Jun 2019 21:56:53 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-728-g133121a-fmstable-20190620v1
+Mime-Version: 1.0
+Message-Id: <e321507a-13d1-4eb8-ac7a-53c75a9d9842@www.fastmail.com>
+In-Reply-To: <20190620091738.14683-1-joel@jms.id.au>
+References: <20190620091738.14683-1-joel@jms.id.au>
+Date: Fri, 21 Jun 2019 11:26:52 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Joel Stanley" <joel@jms.id.au>, "Vijay Khemka" <vijaykhemka@fb.com>
+Subject: Re: [PATCH] soc: aspeed: lpc-ctrl: Fix probe error handling
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,39 +93,53 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-gcc warns that a mising "flash" phandle node leads to undefined
-behavior later:
 
-drivers/soc/aspeed/aspeed-lpc-ctrl.c: In function 'aspeed_lpc_ctrl_probe':
-drivers/soc/aspeed/aspeed-lpc-ctrl.c:201:18: error: '*((void *)&resm+8)' may be used uninitialized in this function [-Werror=maybe-uninitialized]
 
-Only set the flash base and size if we find a phandle in the device
-tree.
+On Thu, 20 Jun 2019, at 18:47, Joel Stanley wrote:
+> gcc warns that a mising "flash" phandle node leads to undefined
+> behavior later:
+> 
+> drivers/soc/aspeed/aspeed-lpc-ctrl.c: In function 
+> 'aspeed_lpc_ctrl_probe':
+> drivers/soc/aspeed/aspeed-lpc-ctrl.c:201:18: error: '*((void 
+> *)&resm+8)' may be used uninitialized in this function 
+> [-Werror=maybe-uninitialized]
+> 
+> Only set the flash base and size if we find a phandle in the device
+> tree.
 
-Reported-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- drivers/soc/aspeed/aspeed-lpc-ctrl.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Ugh, yeah. Not sure how I missed that. Thanks for fixing it.
 
-diff --git a/drivers/soc/aspeed/aspeed-lpc-ctrl.c b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
-index aca13779764a..eee26c2d8b52 100644
---- a/drivers/soc/aspeed/aspeed-lpc-ctrl.c
-+++ b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
-@@ -223,10 +223,11 @@ static int aspeed_lpc_ctrl_probe(struct platform_device *pdev)
- 			dev_err(dev, "Couldn't address to resource for flash\n");
- 			return rc;
- 		}
-+
-+		lpc_ctrl->pnor_size = resource_size(&resm);
-+		lpc_ctrl->pnor_base = resm.start;
- 	}
- 
--	lpc_ctrl->pnor_size = resource_size(&resm);
--	lpc_ctrl->pnor_base = resm.start;
- 
- 	dev_set_drvdata(&pdev->dev, lpc_ctrl);
- 
--- 
-2.20.1
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
 
+> 
+> Reported-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> ---
+>  drivers/soc/aspeed/aspeed-lpc-ctrl.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/soc/aspeed/aspeed-lpc-ctrl.c 
+> b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+> index aca13779764a..eee26c2d8b52 100644
+> --- a/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+> +++ b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+> @@ -223,10 +223,11 @@ static int aspeed_lpc_ctrl_probe(struct 
+> platform_device *pdev)
+>  			dev_err(dev, "Couldn't address to resource for flash\n");
+>  			return rc;
+>  		}
+> +
+> +		lpc_ctrl->pnor_size = resource_size(&resm);
+> +		lpc_ctrl->pnor_base = resm.start;
+>  	}
+>  
+> -	lpc_ctrl->pnor_size = resource_size(&resm);
+> -	lpc_ctrl->pnor_base = resm.start;
+>  
+>  	dev_set_drvdata(&pdev->dev, lpc_ctrl);
+>  
+> -- 
+> 2.20.1
+> 
+>
