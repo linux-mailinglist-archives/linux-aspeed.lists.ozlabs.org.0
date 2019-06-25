@@ -2,53 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1978A524D7
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jun 2019 09:32:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6465654C82
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jun 2019 12:42:54 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45XyXz4VBqzDqNx
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jun 2019 17:32:19 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45Y2mq46nPzDqMN
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jun 2019 20:42:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=linuxfoundation.org
- (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linuxfoundation.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.b="QSQEnRsK"; 
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::441; helo=mail-pf1-x441.google.com;
+ envelope-from=open.sudheer@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="f0R/j+8c"; 
  dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45XyWN741lzDqGM
- for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jun 2019 17:30:56 +1000 (AEST)
-Received: from localhost (f4.8f.5177.ip4.static.sl-reverse.com
- [119.81.143.244])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 954C720652;
- Tue, 25 Jun 2019 07:30:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1561447855;
- bh=qOPMdAefONiiQtGyOnVHuNOQa95t20MqHBIrIkRKEUE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QSQEnRsKS6ZadDbgY0eboH0YIJh21cGvWvGF2pMUwxQiFDuUq6eISTrpthg6uIoUZ
- diWOwIoFZt7rST1C3aIR7UZ3yhcoTKhABAjNY1CEdfIi1g5E/6a8kMSr2jB2iZVwGd
- 48TdJfAWfbZ3qIHVtbPKg9UkpWY/ZnN50vuW3lRc=
-Date: Tue, 25 Jun 2019 15:27:15 +0800
-From: Greg KH <gregkh@linuxfoundation.org>
-To: sudheer v <open.sudheer@gmail.com>
-Subject: Re: [patch 0/5] *** DMA based UART driver for AST2500 ***
-Message-ID: <20190625072715.GB18197@kroah.com>
-References: <1561115855-4186-1-git-send-email-open.sudheer@gmail.com>
- <20190621131729.GA9997@kroah.com>
- <CAE-5=DTdo4qDUPRw+Giu=bCcpqu7EdLDt5ddDvqLSgGbuqE1Fg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAE-5=DTdo4qDUPRw+Giu=bCcpqu7EdLDt5ddDvqLSgGbuqE1Fg@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45Y2mh6TmHzDqK9
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jun 2019 20:42:44 +1000 (AEST)
+Received: by mail-pf1-x441.google.com with SMTP id i189so9261507pfg.10
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jun 2019 03:42:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=1uMFvdA9zD0TW36wu1ROblZoYCBPkNlkO2ia2DlAOOo=;
+ b=f0R/j+8cwVS5csLWk6p5Ykg9xNZW0+umrEPAJ3HxBV4gG9Bw2yhyhB9sn49qE5Zrv+
+ AGFN3ejYP8YtKwR7g8vgMWS3lRP/dY6SmujIakxV4B/gwq2fepV15w/4waWXzPY1qZfJ
+ Vk51rxlvmoCKoFn6zALdPIwIj24YqqeCKjywnR6ottpAP7NU1ndYJ4+kHvZkZTf1iL9+
+ /ElGY1TjxP0hHokScFuCqeW4Gvl+8Xxp2d/iwMKwIKu5VY0uaSoLu3ctv8IgDqoHP887
+ unK7l0vZ0ltcYjo+Rg86TIpmX6Wgn5rAYY2vujaTRmhqba2E5tRU01mGmHyNL31LZxxt
+ /DBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=1uMFvdA9zD0TW36wu1ROblZoYCBPkNlkO2ia2DlAOOo=;
+ b=eqhw1ndtoclwqBRVSJ33gPUNNea+fbNYfy9khYBr4kFwiyyzAgJYLTIs9xSuK8vFDh
+ pRF+E05VOJjs1quqpII963q60sy0lMaWGjjKIuqi2UcFmrwAQr3KZdPu+QHvt7anKasZ
+ uyIveWlQaSTEAM3sg3dLZInUfN/bmACqIYgG7bihhF8ou6a69GRFKaTLJ5FuNexhN+Ef
+ pCVt9MrBmlGbTaw4lYgxBDNhPq5CVG6sZaR+bedCXBEpyYlYnZamNJESytwdnejIQqxJ
+ SeFYiRTPb1CkAaBOcBxDAYUxEA33zgqMQdWj7cuCUmcLitcZHh4iQAvlsyAhxiOL+JQ+
+ KDKg==
+X-Gm-Message-State: APjAAAWwrZnxAKnIImEt532JeSs3dzsjVPRg7fVoC3Os1/sNr6k/DE/0
+ KZNra25hzc1dQhQJO6Fvn5k=
+X-Google-Smtp-Source: APXvYqz07ytF5AwY9QhulPVIkFTT7bio8bpxCxvXzud/mQQUQXGy0FbUpYnn5JsBdLZntdfuj+fjHg==
+X-Received: by 2002:a63:f342:: with SMTP id t2mr35787408pgj.83.1561459362300; 
+ Tue, 25 Jun 2019 03:42:42 -0700 (PDT)
+Received: from Pilot130.192.168.0.22 (211-20-114-70.HINET-IP.hinet.net.
+ [211.20.114.70])
+ by smtp.googlemail.com with ESMTPSA id 14sm22026759pfj.36.2019.06.25.03.42.38
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Tue, 25 Jun 2019 03:42:41 -0700 (PDT)
+From: "sudheer.v" <open.sudheer@gmail.com>
+To: gregkh@linuxfoundation.org, jslaby@suse.com, joel@jms.id.au,
+ andrew@aj.id.au, benh@kernel.crashing.org, robh+dt@kernel.org,
+ mark.rutland@arm.com, shivahshankar.shankarnarayanrao@aspeedtech.com,
+ shivahshankar@gmail.com, sudheer.veliseti@aspeedtech.com
+Subject: [patch v3 0/5] *** DMA based UART driver for AST2500 ***
+Date: Tue, 25 Jun 2019 16:14:31 +0530
+Message-Id: <1561459476-14268-1-git-send-email-open.sudheer@gmail.com>
+X-Mailer: git-send-email 1.9.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,30 +76,49 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Sudheer V <sudheer.veliseti@aspeedtech.com>, linux-aspeed@lists.ozlabs.org,
- Shiva shankar <shivahshankar@gmail.com>, linux-kernel@vger.kernel.org,
- ShivahShankar Shakarnarayan rao
- <shivahshankar.shankarnarayanrao@aspeedtech.com>,
- Rob Herring <robh+dt@kernel.org>, linux-serial@vger.kernel.org,
- Jiri Slaby <jslaby@suse.com>, sudheer veliseti <sudheer.open@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ sudheer veliseti <sudheer.open@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Jun 25, 2019 at 10:30:32AM +0530, sudheer v wrote:
-> Hi Greg,
-> When i last submitted patches, i have not added change-logs.
-> and also used custom debugs instead of kernel dynamic debugs.
-> So i have resubmitted the patches , considering you have discarded old set.
-> I want to send any changes suggested  from now on wards  with versioning
-> V1,V2...so on.
-> Is this acceptable for you? or should i submit the patches again as V1 once
-> again.?
+From: sudheer veliseti <sudheer.open@gmail.com>
 
-No, please resend now as a v3 series, with the information that says
-what you changed from the previous versions.
+Hi,
+AST2500 has dedicated Uart DMA controller which has 12 sets of
+Tx and RX channels connected to UART controller directly.
+Since the DMA controller have dedicated buffers and registers,
+there would be little benifit in adding DMA framework overhead.
+So the software for DMA controller is included within the UART driver itself.
 
-thanks,
+Thanks and Regards
+Sudheer.V
 
-greg k-h
+changes in v3:
+- custom debugs replaced with pr_debug in 8250_ast2500_uart_dma.c
+- change logs added in patches
+
+sudheer veliseti (5):
+  AST2500 DMA UART driver
+  build configuration for AST2500 DMA UART driver
+  DT nodes for AST2500 DMA UART driver
+  defconfig and MAINTAINERS updated for AST2500 DMA UART driver
+  Documentation: DT bindings AST2500 DMA UART driver
+
+ .../bindings/serial/ast2500-dma-uart.txt      |   40 +
+ MAINTAINERS                                   |   13 +
+ arch/arm/boot/dts/aspeed-ast2500-evb.dts      |   21 +
+ arch/arm/boot/dts/aspeed-g5.dtsi              |   71 +-
+ arch/arm/configs/aspeed_g5_defconfig          |    1 +
+ .../tty/serial/8250/8250_ast2500_uart_dma.c   | 1879 +++++++++++++++++
+ drivers/tty/serial/8250/Kconfig               |   35 +-
+ drivers/tty/serial/8250/Makefile              |    1 +
+ 8 files changed, 2056 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/serial/ast2500-dma-uart.txt
+ create mode 100644 drivers/tty/serial/8250/8250_ast2500_uart_dma.c
+
+-- 
+2.17.1
+
+
