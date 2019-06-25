@@ -2,67 +2,125 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8FAC55014
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jun 2019 15:18:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A07755710
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jun 2019 20:22:49 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45Y6Db6fFbzDqMd
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jun 2019 23:18:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45YDzV27vWzDqTL
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2019 04:22:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (mailfrom) smtp.mailfrom=lixom.net
- (client-ip=2607:f8b0:4864:20::d41; helo=mail-io1-xd41.google.com;
- envelope-from=olof@lixom.net; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=fb.com
+ (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
+ envelope-from=prvs=10790c7ec8=vijaykhemka@fb.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=lixom.net
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=lixom-net.20150623.gappssmtp.com
- header.i=@lixom-net.20150623.gappssmtp.com header.b="xAhrWmo8"; 
- dkim-atps=neutral
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=pass (p=none dis=none) header.from=fb.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=fb.com header.i=@fb.com header.b="J3+jtjiz"; 
+ dkim=pass (1024-bit key;
+ unprotected) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com
+ header.b="XF8uuWu9"; dkim-atps=neutral
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
+ [67.231.145.42])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45Y6DP5X5QzDqGl
- for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jun 2019 23:18:27 +1000 (AEST)
-Received: by mail-io1-xd41.google.com with SMTP id k20so547894ios.10
- for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jun 2019 06:18:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lixom-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=A6UAI9WWXMf2Qu6aM/WVg80wL6CqlBhaWrohoeZmtwY=;
- b=xAhrWmo8R0p5m/XEwvf6mtW/z8H8tn6MSTYxZaMaqVGrFku4+Apv9I4W7entyO6YKw
- NcT3WTvRI7zN8WPcExzGBVU2Hw+91ynNggAOxCYsjXVD78JR2AU4wsca6qIllAk5T3OC
- 1LvD0CjSDWukhZHBytLAOG3zTKw+NuvBtiO4rhTZM8mA1wBWksMIvNT2+I1wkJRDPZKU
- sGyllvg6ayS+UObypUBlmd4RrGA3VHjrwlHE05/pNemZLitqyxgHABOoV3ywisJ8GshW
- EjK0+jd1UiycJ0hFt3J+3kRjVemnTv8FV7oBSjNMwvTj89fgHKRHHSel6vdCfzEYyTbT
- Cl2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=A6UAI9WWXMf2Qu6aM/WVg80wL6CqlBhaWrohoeZmtwY=;
- b=ugJhvIOJ2Svk3IQVBMp53k0hQiDd9eiBMxfOd9MH2HffqQ87znB2zxVYofzOpjmZ86
- dUbGeXdVfFB79xk0nEsWjJxslgg1t0Nl32zBhPw+viyGhXQGsdHWyH1spwtifVkhZ/Tv
- Qw+dQPpperccBL2wQ366P9TJTQkSpV/TJKf2YAr6HzLWua1/N5GDAv3jByvJDAlHBXxI
- saM2J73bN+kZhh/uaZ7D1qNrasyKCp/JA0hssyo4vF+0CeTfuW2KWGIVQgGELO/3+3z7
- b69/+WrnlHidoyJl5KBL0F1+buQlhmEpAT5bk2dO8ShLrmeZMBJ7H5OsYzyCgkaXtVhM
- W2YA==
-X-Gm-Message-State: APjAAAUseYuYqxKbofMkUyNJxKD2rwOW33b9ofKdxGRaeUS+MHyx6jwh
- 69lG2fPCbFlvUD8fplDy8dgE6WQzX8soWwYw8Lne14nXahBsYA==
-X-Google-Smtp-Source: APXvYqyvlNjne1jPy/BR9Wol/QJjFW5FsU51KCX3hS+df+11wY57vr0sqJtArQCmjQj/hDYaatXVG/kKPLLuG9Af2lI=
-X-Received: by 2002:a6b:1494:: with SMTP id 142mr17350276iou.72.1561468703231; 
- Tue, 25 Jun 2019 06:18:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <CACPK8XfL-U-BeynGQNBp5rPiv1gzD=7DVzyvrgtoL3njU1Kr_A@mail.gmail.com>
-In-Reply-To: <CACPK8XfL-U-BeynGQNBp5rPiv1gzD=7DVzyvrgtoL3njU1Kr_A@mail.gmail.com>
-From: Olof Johansson <olof@lixom.net>
-Date: Tue, 25 Jun 2019 15:18:11 +0200
-Message-ID: <CAOesGMjTBazjfMYEKww_dGuFAZYa7f6JBZDoyyCNaWKvKdpbQw@mail.gmail.com>
-Subject: Re: [GIT PULL] ARM: aspeed: defconfig changes for 5.3
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45YDzJ4NllzDqL9
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jun 2019 04:22:28 +1000 (AEST)
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x5PI7asO004087; Tue, 25 Jun 2019 11:22:22 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=facebook;
+ bh=i5/ZiR3CFzOkPdZMk4xt+ZAvs6ekEPUnmSc2cLFVJVE=;
+ b=J3+jtjizrDGyxUocmRagdjL/znAz1z6VaKWs0gld6Avj4A5QruoWjtZB89b75Mt3ksNX
+ UOASRUiNYX4VLUZ8PQtAvl7EOlrO8l2XuesOk2e+AiT2VgncAijo3mX0+pX9vGe+Nve+
+ 1VrnK6pquQ7qRl1xbI4osS+xYrxmdB1p2iQ= 
+Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
+ by mx0a-00082601.pphosted.com with ESMTP id 2tbjc1smgd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+ Tue, 25 Jun 2019 11:22:22 -0700
+Received: from prn-mbx07.TheFacebook.com (2620:10d:c081:6::21) by
+ prn-hub02.TheFacebook.com (2620:10d:c081:35::126) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.1713.5; Tue, 25 Jun 2019 11:22:21 -0700
+Received: from prn-hub06.TheFacebook.com (2620:10d:c081:35::130) by
+ prn-mbx07.TheFacebook.com (2620:10d:c081:6::21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.1713.5; Tue, 25 Jun 2019 11:22:21 -0700
+Received: from NAM05-DM3-obe.outbound.protection.outlook.com (192.168.54.28)
+ by o365-in.thefacebook.com (192.168.16.30) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.1.1713.5
+ via Frontend Transport; Tue, 25 Jun 2019 11:22:21 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector1-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i5/ZiR3CFzOkPdZMk4xt+ZAvs6ekEPUnmSc2cLFVJVE=;
+ b=XF8uuWu9g5iCgqB3iuctj5Z0maR70hQB4teLvNsX1kFBIMCOtyZcNibZhGkQAXv9o/etbaJKhOdNDTLGaiSZxLuwNMeHpDb0CazjbtEdiZiDtMtfIz48MUutinoOK7lAL+5Ind7FIKGqTqHZOC3TCm+WM2R8R0/V8PTXQdJMvx0=
+Received: from CY4PR15MB1269.namprd15.prod.outlook.com (10.172.177.11) by
+ CY4PR15MB1573.namprd15.prod.outlook.com (10.172.160.10) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2008.16; Tue, 25 Jun 2019 18:22:20 +0000
+Received: from CY4PR15MB1269.namprd15.prod.outlook.com
+ ([fe80::c026:bca5:3f4e:9b1f]) by CY4PR15MB1269.namprd15.prod.outlook.com
+ ([fe80::c026:bca5:3f4e:9b1f%3]) with mapi id 15.20.2008.017; Tue, 25 Jun 2019
+ 18:22:19 +0000
+From: Vijay Khemka <vijaykhemka@fb.com>
 To: Joel Stanley <joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2 1/2] hwmon: pmbus: Add Infineon PXE1610 VR driver
+Thread-Topic: [PATCH v2 1/2] hwmon: pmbus: Add Infineon PXE1610 VR driver
+Thread-Index: AQHVFz0mfbcjc0BylEeA/UB5fafmVKaNkSmAgAD8HwCAHdS8AA==
+Date: Tue, 25 Jun 2019 18:22:19 +0000
+Message-ID: <EAB47703-259E-4AE3-B5D5-C58BB6098787@fb.com>
+References: <20190530231159.222188-1-vijaykhemka@fb.com>
+ <20190605204659.GA32329@roeck-us.net>
+ <75FAE0E3-DE09-416A-90A4-D0AEC0684FC9@fb.com>
+In-Reply-To: <75FAE0E3-DE09-416A-90A4-D0AEC0684FC9@fb.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [2620:10d:c090:200::809d]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 99d6b27e-a679-4223-3f58-08d6f99a0f52
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
+ SRVR:CY4PR15MB1573; 
+x-ms-traffictypediagnostic: CY4PR15MB1573:
+x-microsoft-antispam-prvs: <CY4PR15MB1573964ECFB7653DB338BBD7DDE30@CY4PR15MB1573.namprd15.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3631;
+x-forefront-prvs: 0079056367
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(136003)(39860400002)(376002)(396003)(346002)(189003)(199004)(11346002)(99286004)(446003)(478600001)(33656002)(5660300002)(6246003)(4326008)(76176011)(66946007)(73956011)(2616005)(102836004)(91956017)(486006)(6506007)(476003)(76116006)(53546011)(64756008)(66446008)(66556008)(66476007)(6116002)(186003)(2906002)(6436002)(71200400001)(316002)(68736007)(46003)(4744005)(36756003)(14454004)(71190400001)(86362001)(6512007)(256004)(6916009)(7736002)(81156014)(229853002)(6486002)(305945005)(8676002)(54906003)(8936002)(25786009)(53936002)(81166006);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR15MB1573;
+ H:CY4PR15MB1269.namprd15.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: PKDWHLXtzxxije+VNtsTttusaFYuLHXnUOCLXKyOwXXeAJ3CNIVwcG5YQo/zEuoVlHh8jQtO+BNXs77QFt2sDDkyhagkL5474HQCoOSyLH47AxrkabdxI2pY5eR5wu5irWb+djDR0ay3Xtdy6wIrFmIeMwNMxsjuHEY+Eawl+2DGChS1W00dWWs0N+dJoJWq/Fhqpl4g/+xo7IwpX53XEnmt5cWCrhJ/nKBSWf14sEUKV/X9oezS3taLJS6RQb7MAYCKI1QbVqBr4OTwW2Ufg0LqP5mTpoWhj8+H+2woCDwT4fTgCF5CQgp4jfmZrJWXVKz9VnuE9HOxhgtbUKVVDffebqA3OouMDuDaAKFvXUZxj64nKxkAdILZiPUudotzvqXhI2Em4SaaZyqALAU37/Q5d5LLq/jorpUGaPgDNNY=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <173459D38FEDF84C83DE77F675333DD0@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99d6b27e-a679-4223-3f58-08d6f99a0f52
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jun 2019 18:22:19.5651 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vijaykhemka@fb.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR15MB1573
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-06-25_12:, , signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=944 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906250137
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,58 +132,23 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: arm <arm@kernel.org>, linux-aspeed@lists.ozlabs.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Sai Dasari <sdasari@fb.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi,
-
-Looks like the multi_v5_defconfig changes aren't producing the results
-you're probably expecting -- unless the drivers are pending in
-linux-next?
-
-arch/arm/configs/multi_v5_defconfig:257:warning: override: reassigning
-to symbol ASPEED_LPC_CTRL
-arch/arm/configs/multi_v5_defconfig:258:warning: override: reassigning
-to symbol ASPEED_LPC_SNOOP
-
-
--Olof
-
-On Sat, Jun 22, 2019 at 9:59 AM Joel Stanley <joel@jms.id.au> wrote:
->
-> Hi ARM maintainers,
->
-> Here are some defconfig updates for the ASPEED machines. I haven't
-> sent one for a while, so there's a nice collection of drivers to add.
->
-> The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
->
->   Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git \
->     tags/aspeed-5.3-defconfig
->
-> for you to fetch changes up to 2d8bf3404bb0e65dffb7326f7fb6e96fa3cee418:
->
->   ARM: configs: multi_v5: Add more ASPEED devices (2019-06-22 17:12:17 +0930)
->
-> ----------------------------------------------------------------
-> ASPEED device tree updates for 5.3
->
-> Add new drivers to the ASPEED G4 and G5 defconfigs, and to the armv5
-> multi defconfig.
->
-> ----------------------------------------------------------------
-> Joel Stanley (2):
->       ARM: configs: aspeed: Add new drivers
->       ARM: configs: multi_v5: Add more ASPEED devices
->
->  arch/arm/configs/aspeed_g4_defconfig | 10 ++++++++--
->  arch/arm/configs/aspeed_g5_defconfig | 14 ++++++++++++--
->  arch/arm/configs/multi_v5_defconfig  |  8 ++++++++
->  3 files changed, 28 insertions(+), 4 deletions(-)
+DQoNCu+7v09uIDYvNi8xOSwgMTE6NDkgQU0sICJMaW51eC1hc3BlZWQgb24gYmVoYWxmIG9mIFZp
+amF5IEtoZW1rYSIgPGxpbnV4LWFzcGVlZC1ib3VuY2VzK3ZpamF5a2hlbWthPWZiLmNvbUBsaXN0
+cy5vemxhYnMub3JnIG9uIGJlaGFsZiBvZiB2aWpheWtoZW1rYUBmYi5jb20+IHdyb3RlOg0KDQog
+ICAgDQogICAgDQogICAgT24gNi81LzE5LCAxOjQ3IFBNLCAiR3VlbnRlciBSb2VjayIgPGdyb2Vj
+azdAZ21haWwuY29tIG9uIGJlaGFsZiBvZiBsaW51eEByb2Vjay11cy5uZXQ+IHdyb3RlOg0KICAg
+IA0KICAgICAgICBPbiBUaHUsIE1heSAzMCwgMjAxOSBhdCAwNDoxMTo1NlBNIC0wNzAwLCBWaWph
+eSBLaGVta2Egd3JvdGU6DQogICAgICAgID4gQWRkZWQgcG1idXMgZHJpdmVyIGZvciB0aGUgbmV3
+IGRldmljZSBJbmZpbmVvbiBweGUxNjEwDQogICAgICAgID4gdm9sdGFnZSByZWd1bGF0b3IuIEl0
+IGFsc28gc3VwcG9ydHMgc2ltaWxhciBmYW1pbHkgZGV2aWNlDQogICAgICAgID4gUFhFMTExMCBh
+bmQgUFhNMTMxMC4NCiAgICAgICAgPiANCiAgICAgICAgPiBTaWduZWQtb2ZmLWJ5OiBWaWpheSBL
+aGVta2EgPHZpamF5a2hlbWthQGZiLmNvbT4NCiAgICAgICAgDQogICAgICAgIEFwcGxpZWQuDQog
+ICAgVGhhbmtzDQogICAgICAgIA0KICAgICAgICBUaGFua3MsDQogICAgICAgIEd1ZW50ZXINCg0K
+Sm9lbCwNCkNhbiB5b3UgcGxlYXNlIHB1bGwgdGhpcyBwYXRjaCBpbiBvdXIgYm1jIGxpbnV4IHRy
+ZWUuDQoNClRoYW5rcw0KLVZpamF5DQoNCg==
