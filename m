@@ -1,64 +1,58 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B02563D0
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2019 09:56:09 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45Yb1y6H11zDqSw
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2019 17:56:06 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF9856B41
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2019 15:51:14 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 45Ykvf5mD4zDqW4
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jun 2019 23:51:10 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=linaro.org
- (client-ip=2a00:1450:4864:20::142; helo=mail-lf1-x142.google.com;
- envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=kernel.org
+ (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=robh+dt@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.b="m4n+hEZB"; 
+ dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.b="K6hhUMH5"; 
  dkim-atps=neutral
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45Yb0p30YxzDqSV
- for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jun 2019 17:55:06 +1000 (AEST)
-Received: by mail-lf1-x142.google.com with SMTP id j29so879182lfk.10
- for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jun 2019 00:55:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uxdb5wlFiHBkF0SzBr5FCoS6f7qiRJDmJ1nDITQi0Dw=;
- b=m4n+hEZBjSl7z0DhNNkX163BSsqoZWM4Vv+1gORRGXGEyJ7mgvy8Zc8GCjHlf4UKZz
- SzMf+PwcnfQVBQlF5KWvIDwyzUIxJ7y8dF0ZlSMbLEux5PVwVzK4/wbX9p4C8vgQ/cLs
- OUbHAOtvtatcVcy7T1n4ClVtN3VfJxaFeTz9bcmjm4NswEVlKTTEOdLN3B2cSJv7ML0f
- dvtb1Yp4GYrbdmAvQMxiXVkk1qnZ3vPnuwsJuJsMmiLyQuiZlld8WbxJpyxD51HVUsuJ
- 2K7Yy6aTQwOkloLhCUNTijNxeAkHbkDQA7u5SUW/B8m94CyiFyIogZRFeit4jthgmS/Y
- vi8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uxdb5wlFiHBkF0SzBr5FCoS6f7qiRJDmJ1nDITQi0Dw=;
- b=fb5ePMClqDyvzXbCd89QmLCbyQ63k/pSiNocXd8wLalBKWBxNbbVBjhLogVzTfJXLr
- v8pltccTm9W0YWyTO4gbx8zQ85PKHHiuQaLGOT9cgplwESAzIDUxGeFRoE/ig8wc4c5N
- c2z4GTHConyHD1X0U1/wwa53t5amIc9vzZQpcFKrZWfQDJQ4maArhoMtyZiaTMZt9e3s
- wFsC1oA30I7LeFMQRUHMxR+ATuPImGlzKpFYjvT10ITW4G+P0H8ekU4/Xgqc8m4/THMv
- legzylUwSTsV3hCSNU5WetNSWpeHlWE7g1T9HZqjORzQMzSj5R9W09t+BTFyjOZaPdPx
- MfhA==
-X-Gm-Message-State: APjAAAVodIwu7stqx/wI0Ob79Q4BAkWUrJOjXsf/4eQNQQmQCOk5+6gW
- ugLcNCGJv3UVAtbYGR5OIt69Gu00brsQlys/FU9bDw==
-X-Google-Smtp-Source: APXvYqzo+qALg1dJHN8BZKGNryj1b2QPxrO2/Ylr70oC8XJ11Le0Cn/eflBCqD0MzHpKgDWXJ6rrs+q++1xhp5JnKPs=
-X-Received: by 2002:ac2:50c4:: with SMTP id h4mr1916988lfm.61.1561535701468;
- Wed, 26 Jun 2019 00:55:01 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45Ykqc53zTzDqRm;
+ Wed, 26 Jun 2019 23:47:40 +1000 (AEST)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+ [209.85.160.174])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id D1F7721726;
+ Wed, 26 Jun 2019 13:47:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1561556857;
+ bh=xbcTtYJeHtkAOWy+Y4BUk+BNbPsuIwvlnLNnhX+1kbE=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=K6hhUMH571zGCqoH+SltCC0ALTXIwZR7hjj2dMnfNygUFajBaGEDrYCuNpd32oMcF
+ cJgBqP45JUJWQlR4B52Cp16euCBYOeg+tlTh4/Tw75ulAevv3hqYL1DCkMEGNWARBn
+ 5fmXuabd0RGmmKJb037v73q9wg2oHORaVHTg9uO0=
+Received: by mail-qt1-f174.google.com with SMTP id d23so2418187qto.2;
+ Wed, 26 Jun 2019 06:47:37 -0700 (PDT)
+X-Gm-Message-State: APjAAAWyPxpCQyHwoArKP9azwGtNJLUygZpa4lsLzvM7CXNnahYDgleu
+ wQdis0PCttNEwWOj7eruI57cR4EfvfO+DMZiUQ==
+X-Google-Smtp-Source: APXvYqxwTh2AtcqzMdqyd3UL4Al6jPcPgH+JfvzCErP6dJoimZg5i+XMHYfvKK13aB5Me5B4+99mvI2JcbjJ8yHMUVk=
+X-Received: by 2002:aed:3fb0:: with SMTP id s45mr3947350qth.136.1561556856985; 
+ Wed, 26 Jun 2019 06:47:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190626071430.28556-1-andrew@aj.id.au>
-In-Reply-To: <20190626071430.28556-1-andrew@aj.id.au>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 26 Jun 2019 09:54:50 +0200
-Message-ID: <CACRpkdboxjMmeb8feffyG5JJ7fGPR6hqC8sc+XV5We3TC__LXg@mail.gmail.com>
-Subject: Re: [PATCH 0/8] pinctrl: aspeed: Preparation for AST2600
+ <20190626071430.28556-3-andrew@aj.id.au>
+In-Reply-To: <20190626071430.28556-3-andrew@aj.id.au>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Wed, 26 Jun 2019 07:47:25 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKXPzFYTHos-uvCUtBj-bcsNfrzt5GjxQ=PmgeXpp5J-A@mail.gmail.com>
+Message-ID: <CAL_JsqKXPzFYTHos-uvCUtBj-bcsNfrzt5GjxQ=PmgeXpp5J-A@mail.gmail.com>
+Subject: Re: [PATCH 2/8] dt-bindings: pinctrl: aspeed: Convert AST2400
+ bindings to json-schema
 To: Andrew Jeffery <andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -72,27 +66,118 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, Linus Walleij <linus.walleij@linaro.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Jun 26, 2019 at 9:15 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+On Wed, Jun 26, 2019 at 1:21 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+>
+> Convert ASPEED pinctrl bindings to DT schema format using json-schema
 
-> The ASPEED AST2600 is in the pipeline, and we have enough information to start
-> preparing to upstream support for it. This series lays some ground work;
-> splitting the bindings and dicing the implementation up a little further to
-> facilitate differences between the 2600 and previous SoC generations.
+BTW, ASPEED is one of the remaining platforms needing the top-level
+board bindings converted.
 
-All looks good to me, but Rob should have a glance at the DT bindings
-and YAML syntax before I proceed to apply them.
+>
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> ---
+>  .../pinctrl/aspeed,ast2400-pinctrl.txt        | 80 -------------------
+>  .../pinctrl/aspeed,ast2400-pinctrl.yaml       | 73 +++++++++++++++++
+>  2 files changed, 73 insertions(+), 80 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.txt
+>  create mode 100644 Documentation/devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.yaml
 
-Yours,
-Linus Walleij
+> diff --git a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.yaml
+> new file mode 100644
+> index 000000000000..3b8cf3e51506
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.yaml
+> @@ -0,0 +1,73 @@
+> +# SPDX-License-Identifier: GPL-2.0+
+
+Do you have rights to change the license? If so, the preference is to
+dual license with (GPL-2.0 OR BSD-2-Clause).
+
+BTW, '-or-later' is the preferred form over '+'.
+
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pinctrl/aspeed,ast2400-pinctrl.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ASPEED AST2400 Pin Controller
+> +
+> +maintainers:
+> +  - Andrew Jeffery <andrew@aj.id.au>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +        - enum:
+> +          - aspeed,ast2400-pinctrl
+> +      - items:
+> +        - enum:
+> +          - aspeed,g4-pinctrl
+
+This can be simplified to:
+
+compatible:
+  enum:
+    - aspeed,ast2400-pinctrl
+    - aspeed,g4-pinctrl
+
+> +
+> +required:
+> +  - compatible
+> +
+> +description: |+
+
+description goes before properties.
+
+> +  The pin controller node should be the child of a syscon node with the
+> +  required property:
+> +
+> +  - compatible:     Should be one of the following:
+> +                    "aspeed,ast2400-scu", "syscon", "simple-mfd"
+> +                    "aspeed,g4-scu", "syscon", "simple-mfd"
+> +
+> +  Refer to the the bindings described in
+> +  Documentation/devicetree/bindings/mfd/syscon.txt
+> +
+> +  For the AST2400 pinmux, each mux function has only one associated pin group.
+> +  Each group is named by its function. The following values for the function
+> +  and groups properties are supported:
+> +
+> +  ACPI ADC0 ADC1 ADC10 ADC11 ADC12 ADC13 ADC14 ADC15 ADC2 ADC3 ADC4 ADC5 ADC6
+> +  ADC7 ADC8 ADC9 BMCINT DDCCLK DDCDAT EXTRST FLACK FLBUSY FLWP GPID GPID0 GPID2
+> +  GPID4 GPID6 GPIE0 GPIE2 GPIE4 GPIE6 I2C10 I2C11 I2C12 I2C13 I2C14 I2C3 I2C4
+> +  I2C5 I2C6 I2C7 I2C8 I2C9 LPCPD LPCPME LPCRST LPCSMI MAC1LINK MAC2LINK MDIO1
+> +  MDIO2 NCTS1 NCTS2 NCTS3 NCTS4 NDCD1 NDCD2 NDCD3 NDCD4 NDSR1 NDSR2 NDSR3 NDSR4
+> +  NDTR1 NDTR2 NDTR3 NDTR4 NDTS4 NRI1 NRI2 NRI3 NRI4 NRTS1 NRTS2 NRTS3 OSCCLK
+> +  PWM0 PWM1 PWM2 PWM3 PWM4 PWM5 PWM6 PWM7 RGMII1 RGMII2 RMII1 RMII2 ROM16 ROM8
+> +  ROMCS1 ROMCS2 ROMCS3 ROMCS4 RXD1 RXD2 RXD3 RXD4 SALT1 SALT2 SALT3 SALT4 SD1
+> +  SD2 SGPMCK SGPMI SGPMLD SGPMO SGPSCK SGPSI0 SGPSI1 SGPSLD SIOONCTRL SIOPBI
+> +  SIOPBO SIOPWREQ SIOPWRGD SIOS3 SIOS5 SIOSCI SPI1 SPI1DEBUG SPI1PASSTHRU
+> +  SPICS1 TIMER3 TIMER4 TIMER5 TIMER6 TIMER7 TIMER8 TXD1 TXD2 TXD3 TXD4 UART6
+> +  USB11D1 USB11H2 USB2D1 USB2H1 USBCKI VGABIOS_ROM VGAHS VGAVS VPI18 VPI24
+> +  VPI30 VPO12 VPO24 WDTRST1 WDTRST2
+
+This should be a schema. You need to define child nodes and list these
+as values for 'function' and 'group'. Ideally, the child nodes would
+have some sort of pattern, but if not, you can just match on '^.*$'
+under patternProperties.
+
+BTW, You can put the names under a 'definitions' key and then use
+'$ref' to reference them from function and group to avoid duplicating
+the names. Or use patternProperties with '^(function|group)$'.
+
+Similar comments apply to AST2500 binding.
+
+Rob
