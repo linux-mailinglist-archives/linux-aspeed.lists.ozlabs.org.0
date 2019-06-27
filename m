@@ -1,77 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE204579FB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Jun 2019 05:31:00 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32FE57982
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Jun 2019 04:34:02 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45Z3qq6LnPzDqd7
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Jun 2019 12:33:59 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45Z55Y53FTzDqdD
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Jun 2019 13:30:57 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (mailfrom) smtp.mailfrom=lixom.net
- (client-ip=2a00:1450:4864:20::143; helo=mail-lf1-x143.google.com;
- envelope-from=olof@lixom.net; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::742; helo=mail-qk1-x742.google.com;
+ envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=lixom.net
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=lixom-net.20150623.gappssmtp.com
- header.i=@lixom-net.20150623.gappssmtp.com header.b="ESM1J+uC"; 
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="HhoUPy+/"; 
  dkim-atps=neutral
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45Z3qf28CLzDqcT
- for <linux-aspeed@lists.ozlabs.org>; Thu, 27 Jun 2019 12:33:48 +1000 (AEST)
-Received: by mail-lf1-x143.google.com with SMTP id a25so471734lfg.2
- for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jun 2019 19:33:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lixom-net.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=AZTXmvXr0MWnVP8mYRp82nMN6DVuJ1dopWZlM0gQIj8=;
- b=ESM1J+uCB2a403PXxrQVk7yXkv0gynrduWQJCZbsZKcJF7c0JhLjjsg0t90wiP7PBj
- dEJYGoGMZFoPepm0Be5TrMXHd3A3g1bf0XOjjIQBThrMpyvhTfGXP81fzk0rsEaB23nh
- Wp7ecpJ6ewdma0DXD3n8TClsj8Xchwcf+zYIFUCrLSGA8JpCwqmdNwEaz7nhwuWPbF/F
- IETlzC6i/BK9ha1P/roGicqnajHFitzQ+zvCPqES5XvoHsysVxkuUYsxCFAGrdZhdTJv
- CRNin+Ey8QeTIYTFQZOetxlpq6q06uXNEJqLMCiknYw7R6qA8oDduq8qj2QrhFfQ1TR7
- Fu/w==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45Z55R2KMqzDqcj;
+ Thu, 27 Jun 2019 13:30:50 +1000 (AEST)
+Received: by mail-qk1-x742.google.com with SMTP id d15so542546qkl.4;
+ Wed, 26 Jun 2019 20:30:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PH4AXqM58x9vuCT5X/Gjbq2w5DxoKAA6BzmWgUbnGec=;
+ b=HhoUPy+/s+uM198lB0sSRK5RzLmFemtOSgwIVThA4XV/JBpMKO7XSJKKiUEjIoMHYI
+ cPFhuenDq2eWZI4Nc/J+ol5jiFNl/EJgg+gsRQawWfY78OzG23qrGq4pjTadJccD7LoB
+ Zs00YKlSYCsPNNJISz1TfBni2Pugj6cU1yg1k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=AZTXmvXr0MWnVP8mYRp82nMN6DVuJ1dopWZlM0gQIj8=;
- b=cFCfz4FSXoC3yF1+SMlwbCeNqEqfx3CpRzHU2VxSX8/Pz4mCdYE6O8fJ1ujycVN3s5
- NzVUZG0WZzrPEc13Nw8+DM9AUhUPvLZwEQTZMYi2F2kvRu7OvdIUXbHw81fLWbDLnpVg
- S9rxOenHciFEc6RjCoKJDFUzOjPrcjd0AyBqsaa1rWU1fhINizci9WNtEfhTlcZ92giD
- m/y+1GFrzPq8EgMznGxCkEfc6hf0T38qxIG7b6gnMLwdPyFsDEIoI/slWTEJk5ghD9Pu
- FHscg640vfDoqcNa7srGJPH5ElbiRaD1N2lZ7ZvPOPnSZrQ1IkrKNfEwMphzyzwFTXkB
- y2ZA==
-X-Gm-Message-State: APjAAAWbEmDhtW0XxGcB3eMv3bQjg45ZmwyBajTsDf0mFEDX6jdOyGTd
- ORDYEmeFJKD6Mk3kUpgZmuBqGQ==
-X-Google-Smtp-Source: APXvYqyMnKJm3WFO7Y7nqNNd4BOZBLnGjntyaizVhMTRPh3lYD0ZAjplTZ06cxg4KCYrMVfj9O+fpA==
-X-Received: by 2002:a19:6602:: with SMTP id a2mr629644lfc.25.1561602822023;
- Wed, 26 Jun 2019 19:33:42 -0700 (PDT)
-Received: from localhost (h85-30-9-151.cust.a3fiber.se. [85.30.9.151])
- by smtp.gmail.com with ESMTPSA id n3sm109277lfh.3.2019.06.26.19.33.40
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 26 Jun 2019 19:33:40 -0700 (PDT)
-Date: Wed, 26 Jun 2019 19:18:08 -0700
-From: Olof Johansson <olof@lixom.net>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [GIT PULL] ARM: aspeed: defconfig changes for 5.3
-Message-ID: <20190627021808.47q4n4bhrj75hxzw@localhost>
-References: <CACPK8XfL-U-BeynGQNBp5rPiv1gzD=7DVzyvrgtoL3njU1Kr_A@mail.gmail.com>
- <CAOesGMjTBazjfMYEKww_dGuFAZYa7f6JBZDoyyCNaWKvKdpbQw@mail.gmail.com>
- <CACPK8Xf=vb4To_fxpJiaT-is3BBGg1SUsAc1qtFrBd-FwmPXRA@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PH4AXqM58x9vuCT5X/Gjbq2w5DxoKAA6BzmWgUbnGec=;
+ b=mhKvfVe4YfyqZkvg7PUQIOOyFQyNbkaxJymFyANB0z14pH6FBWOAv+ZrLwlPSgNLS9
+ AwF9+HzIxzYuZnShtGZvPJimCeCn3K/ALO1JoKv8UzUOdRwSkg9IxeYYhcOI1WFFnUTO
+ vWqEoNaaOReiqkAvVdTgQbpd+s4RzHZNr3+2LbZ2BaRfgQI27fleu+9Zt0qd7oqIbcX5
+ zUZQwPXtGeqYzV1/4c+MsOxnW8GdWuV3ZonBY2ys9CTR6SfaPAUTEhaFSZrkwTk+VwnF
+ K0iW/8E9HqijKH3mNtaLsh5Zi7twpZ12xsE/7ECtp6JErEOlbZA9/qCQe/LXajTBjC3b
+ K0sg==
+X-Gm-Message-State: APjAAAV7FhUjC/24q0Tuyb1Wqa7LlhL9ba6z5eup3nLTgqyKUT7wEAqF
+ uGBmyAkKsIoSLImF+am7sQ01f8GsTcwA3ioG9H8=
+X-Google-Smtp-Source: APXvYqzytvrGwxA5InkHOne1NbDI8ndj6XRhPb/DQ8p6hv1uX1zDjyqrKfJPGYZgR1BJKTI5rjNaxEJb8lx/mqSfFe4=
+X-Received: by 2002:ae9:f010:: with SMTP id l16mr1341881qkg.292.1561606246697; 
+ Wed, 26 Jun 2019 20:30:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACPK8Xf=vb4To_fxpJiaT-is3BBGg1SUsAc1qtFrBd-FwmPXRA@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <20190626071430.28556-1-andrew@aj.id.au>
+ <20190626071430.28556-6-andrew@aj.id.au>
+In-Reply-To: <20190626071430.28556-6-andrew@aj.id.au>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 27 Jun 2019 03:30:35 +0000
+Message-ID: <CACPK8XcPxJAOBAnKMKxtiG4Fkz8BPf8KtW1Kc3A9tU_emQviVg@mail.gmail.com>
+Subject: Re: [PATCH 5/8] pinctrl: aspeed: Correct comment that is no longer
+ true
+To: Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,36 +71,45 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: arm <arm@kernel.org>, linux-aspeed@lists.ozlabs.org,
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Jun 26, 2019 at 02:03:45AM +0000, Joel Stanley wrote:
-> On Tue, 25 Jun 2019 at 13:18, Olof Johansson <olof@lixom.net> wrote:
-> >
-> > Hi,
-> >
-> > Looks like the multi_v5_defconfig changes aren't producing the results
-> > you're probably expecting -- unless the drivers are pending in
-> > linux-next?
-> >
-> > arch/arm/configs/multi_v5_defconfig:257:warning: override: reassigning
-> > to symbol ASPEED_LPC_CTRL
-> > arch/arm/configs/multi_v5_defconfig:258:warning: override: reassigning
-> > to symbol ASPEED_LPC_SNOOP
-> 
-> Oops, sorry. I made a mistake when preparing the change and missed the
-> warning when testing. We now have two copies of each of these options
-> in the defconfig (they moved around due to misc -> soc movement).
+On Wed, 26 Jun 2019 at 07:16, Andrew Jeffery <andrew@aj.id.au> wrote:
+>
+> We have handled the GFX register case for quite some time now.
+>
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> ---
+>  drivers/pinctrl/aspeed/pinctrl-aspeed.h | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed.h b/drivers/pinctrl/aspeed/pinctrl-aspeed.h
+> index 4b06ddbc6aec..c5918c4a087c 100644
+> --- a/drivers/pinctrl/aspeed/pinctrl-aspeed.h
+> +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed.h
+> @@ -240,8 +240,7 @@
+>   * opposed to naming them e.g. PINMUX_CTRL_[0-9]). Further, signal expressions
+>   * reference registers beyond those dedicated to pinmux, such as the system
+>   * reset control and MAC clock configuration registers. The AST2500 goes a step
 
-No worries!
+AST2600 too?
 
-> I've sent a follow up patch for you to apply directly. Let me know if
-> that's okay, otherwise I can do a new tag.
+Acked-by: Joel Stanley <joel@jms.id.au>
 
-Patch was fine, applied.
-
-
--Olof
+> - * further and references registers in the graphics IP block, but that isn't
+> - * handled yet.
+> + * further and references registers in the graphics IP block.
+>   */
+>  #define SCU2C           0x2C /* Misc. Control Register */
+>  #define SCU3C           0x3C /* System Reset Control/Status Register */
+> --
+> 2.20.1
+>
