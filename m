@@ -1,60 +1,91 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC89F5C323
+	for <lists+linux-aspeed@lfdr.de>; Mon,  1 Jul 2019 20:39:17 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5188C59FA1
-	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Jun 2019 17:49:31 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45b1RD3GfJzDqvN
-	for <lists+linux-aspeed@lfdr.de>; Sat, 29 Jun 2019 01:49:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45cx3k4m05zDqYP
+	for <lists+linux-aspeed@lfdr.de>; Tue,  2 Jul 2019 04:39:14 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=kernel.org
- (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=robh+dt@kernel.org; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=linux.ibm.com
+ (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com;
+ envelope-from=eajames@linux.ibm.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.b="qiBPRUh2"; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ dmarc=none (p=none dis=none) header.from=linux.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45b1NZ41sszDqtY;
- Sat, 29 Jun 2019 01:47:10 +1000 (AEST)
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
- [209.85.160.174])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3FAAE214AF;
- Fri, 28 Jun 2019 15:47:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1561736828;
- bh=IvQrseI2FT7GlH+2IVTYalj+9dZqPkQ+umge7Io8BYs=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=qiBPRUh2Rl/4JkSewXW0u5fTbCvxhNAiAvyoKPvWUekoyPQH5NWCaeHqoHo8wrx/z
- +F+dnsHWd+I11+gyHYSrt7TBj0HOf3gNZZL6EP0gSEQayXinWtxuzoeLJlLC3Nqneu
- JmWm7oUz6pJSL2mRKcrxq7zpVd4D504DPYgODGcs=
-Received: by mail-qt1-f174.google.com with SMTP id d17so6778695qtj.8;
- Fri, 28 Jun 2019 08:47:08 -0700 (PDT)
-X-Gm-Message-State: APjAAAXCYZ3Ye0xbBuya1zflRDCZ+cmzQB9+kChODr7bw3JX047+p2K0
- BjIhEI+VepdGaIFvNiuwXIVKxokdwyDT1u0/Jg==
-X-Google-Smtp-Source: APXvYqzI7nz1Eud6yl97g4IKf/vW5/y3ZQY7AiYHNAFU5cp6XG9kpOIjyOkxG/G+hIZCgCZpbktv/2gOhf4y7pIKPB0=
-X-Received: by 2002:aed:3f10:: with SMTP id p16mr8736951qtf.110.1561736827529; 
- Fri, 28 Jun 2019 08:47:07 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45cx3c3hMfzDqXr
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  2 Jul 2019 04:39:08 +1000 (AEST)
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x61Iba6N071247
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 1 Jul 2019 14:39:06 -0400
+Received: from e31.co.us.ibm.com (e31.co.us.ibm.com [32.97.110.149])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tfmsgga8f-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 01 Jul 2019 14:39:05 -0400
+Received: from localhost
+ by e31.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <linux-aspeed@lists.ozlabs.org> from <eajames@linux.ibm.com>;
+ Mon, 1 Jul 2019 19:39:04 +0100
+Received: from b03cxnp07028.gho.boulder.ibm.com (9.17.130.15)
+ by e31.co.us.ibm.com (192.168.1.131) with IBM ESMTP SMTP Gateway: Authorized
+ Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 1 Jul 2019 19:39:00 +0100
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x61IcxDG20644208
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 1 Jul 2019 18:38:59 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 41FBE78060;
+ Mon,  1 Jul 2019 18:38:59 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C802C7805E;
+ Mon,  1 Jul 2019 18:38:57 +0000 (GMT)
+Received: from [9.85.191.166] (unknown [9.85.191.166])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon,  1 Jul 2019 18:38:57 +0000 (GMT)
+Subject: Re: [PATCH v3 5/8] drivers/soc: xdma: Add PCI device configuration
+ sysfs
+To: Eduardo Valentin <eduval@amazon.com>
+References: <1559153408-31190-1-git-send-email-eajames@linux.ibm.com>
+ <1559153408-31190-6-git-send-email-eajames@linux.ibm.com>
+ <20190531034502.GH17772@u40b0340c692b58f6553c.ant.amazon.com>
+From: Eddie James <eajames@linux.ibm.com>
+Date: Mon, 1 Jul 2019 13:38:56 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190628023838.15426-1-andrew@aj.id.au>
- <20190628023838.15426-3-andrew@aj.id.au>
-In-Reply-To: <20190628023838.15426-3-andrew@aj.id.au>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Fri, 28 Jun 2019 09:46:56 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKjDyuDjeBBqhF=2ceG2h0WiJC6QKtHJ-=yL3XqxXF0Hw@mail.gmail.com>
-Message-ID: <CAL_JsqKjDyuDjeBBqhF=2ceG2h0WiJC6QKtHJ-=yL3XqxXF0Hw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/8] dt-bindings: pinctrl: aspeed: Convert AST2400
- bindings to json-schema
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190531034502.GH17772@u40b0340c692b58f6553c.ant.amazon.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+x-cbid: 19070118-8235-0000-0000-00000EB115B9
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011361; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000286; SDB=6.01226012; UDB=6.00645408; IPR=6.01007225; 
+ MB=3.00027540; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-01 18:39:03
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19070118-8236-0000-0000-0000463BB197
+Message-Id: <358d0c5b-1473-bb6a-810d-45230b890a55@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-07-01_11:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907010219
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,36 +97,221 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Johnny Huang <johnny_huang@aspeedtech.com>, linux-aspeed@lists.ozlabs.org,
- Linus Walleij <linus.walleij@linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, arnd@arndb.de, linux-kernel@vger.kernel.org,
+ robh+dt@kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Jun 27, 2019 at 8:39 PM Andrew Jeffery <andrew@aj.id.au> wrote:
->
-> Convert ASPEED pinctrl bindings to DT schema format using json-schema
->
-> Cc: Johnny Huang <johnny_huang@aspeedtech.com>
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> ---
-> In v2:
->
-> * Enforce function/group names in bindings
-> * Move description above properties
-> * Simplify specification of compatible
-> * Cleanup license specification
->
->  .../pinctrl/aspeed,ast2400-pinctrl.txt        | 80 ------------------
->  .../pinctrl/aspeed,ast2400-pinctrl.yaml       | 81 +++++++++++++++++++
->  2 files changed, 81 insertions(+), 80 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.txt
->  create mode 100644 Documentation/devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.yaml
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On 5/30/19 10:45 PM, Eduardo Valentin wrote:
+> On Wed, May 29, 2019 at 01:10:05PM -0500, Eddie James wrote:
+>> The AST2500 has two PCI devices embedded. The XDMA engine can use either
+>> device to perform DMA transfers. Users need the capability to choose
+>> which device to use. This commit therefore adds two sysfs files that
+>> toggle the AST2500 and XDMA engine between the two PCI devices.
+>>
+>> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+>> ---
+>>   drivers/soc/aspeed/aspeed-xdma.c | 103 +++++++++++++++++++++++++++++++++++++--
+>>   1 file changed, 100 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/soc/aspeed/aspeed-xdma.c b/drivers/soc/aspeed/aspeed-xdma.c
+>> index 39f6545..ddd5e1e 100644
+>> --- a/drivers/soc/aspeed/aspeed-xdma.c
+>> +++ b/drivers/soc/aspeed/aspeed-xdma.c
+>> @@ -143,6 +143,7 @@ struct aspeed_xdma {
+>>   	void *cmdq_vga_virt;
+>>   	struct gen_pool *vga_pool;
+>>   
+>> +	char pcidev[4];
+>>   	struct miscdevice misc;
+>>   };
+>>   
+>> @@ -165,6 +166,10 @@ struct aspeed_xdma_client {
+>>   	SCU_PCIE_CONF_VGA_EN_IRQ | SCU_PCIE_CONF_VGA_EN_DMA |
+>>   	SCU_PCIE_CONF_RSVD;
+>>   
+>> +static char *_pcidev = "vga";
+>> +module_param_named(pcidev, _pcidev, charp, 0600);
+>> +MODULE_PARM_DESC(pcidev, "Default PCI device used by XDMA engine for DMA ops");
+>> +
+>>   static void aspeed_scu_pcie_write(struct aspeed_xdma *ctx, u32 conf)
+>>   {
+>>   	u32 v = 0;
+>> @@ -512,7 +517,7 @@ static int aspeed_xdma_release(struct inode *inode, struct file *file)
+>>   	.release		= aspeed_xdma_release,
+>>   };
+>>   
+>> -static int aspeed_xdma_init_mem(struct aspeed_xdma *ctx)
+>> +static int aspeed_xdma_init_mem(struct aspeed_xdma *ctx, u32 conf)
+>>   {
+>>   	int rc;
+>>   	u32 scu_conf = 0;
+>> @@ -522,7 +527,7 @@ static int aspeed_xdma_init_mem(struct aspeed_xdma *ctx)
+>>   	const u32 vga_sizes[4] = { 0x800000, 0x1000000, 0x2000000, 0x4000000 };
+>>   	void __iomem *sdmc_base = ioremap(0x1e6e0000, 0x100);
+>>   
+>> -	aspeed_scu_pcie_write(ctx, aspeed_xdma_vga_pcie_conf);
+>> +	aspeed_scu_pcie_write(ctx, conf);
+>>   
+>>   	regmap_read(ctx->scu, SCU_STRAP, &scu_conf);
+>>   	ctx->vga_size = vga_sizes[FIELD_GET(SCU_STRAP_VGA_MEM, scu_conf)];
+>> @@ -598,10 +603,91 @@ static int aspeed_xdma_init_mem(struct aspeed_xdma *ctx)
+>>   	return rc;
+>>   }
+>>   
+>> +static int aspeed_xdma_change_pcie_conf(struct aspeed_xdma *ctx, u32 conf)
+>> +{
+>> +	int rc;
+>> +
+>> +	mutex_lock(&ctx->start_lock);
+>> +	rc = wait_event_interruptible_timeout(ctx->wait,
+>> +					      !test_bit(XDMA_IN_PRG,
+>> +							&ctx->flags),
+>> +					      msecs_to_jiffies(1000));
+>> +	if (rc < 0) {
+>> +		mutex_unlock(&ctx->start_lock);
+>> +		return -EINTR;
+>> +	}
+>> +
+>> +	/* previous op didn't complete, wake up waiters anyway */
+>> +	if (!rc)
+>> +		wake_up_interruptible_all(&ctx->wait);
+>> +
+>> +	reset_control_assert(ctx->reset);
+>> +	msleep(10);
+>> +
+>> +	aspeed_scu_pcie_write(ctx, conf);
+>> +	msleep(10);
+>> +
+>> +	reset_control_deassert(ctx->reset);
+>> +	msleep(10);
+>> +
+>> +	aspeed_xdma_init_eng(ctx);
+>> +
+>> +	mutex_unlock(&ctx->start_lock);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int aspeed_xdma_pcidev_to_conf(struct aspeed_xdma *ctx,
+>> +				      const char *pcidev, u32 *conf)
+>> +{
+>> +	if (!strcasecmp(pcidev, "vga")) {
+>> +		*conf = aspeed_xdma_vga_pcie_conf;
+>> +		return 0;
+>> +	}
+>> +
+>> +	if (!strcasecmp(pcidev, "bmc")) {
+>> +		*conf = aspeed_xdma_bmc_pcie_conf;
+>> +		return 0;
+>> +	}
+> strncasecmp()?
+
+
+Yes, will change, and below.
+
+
+>
+>> +
+>> +	return -EINVAL;
+>> +}
+>> +
+>> +static ssize_t aspeed_xdma_show_pcidev(struct device *dev,
+>> +				       struct device_attribute *attr,
+>> +				       char *buf)
+>> +{
+>> +	struct aspeed_xdma *ctx = dev_get_drvdata(dev);
+>> +
+>> +	return snprintf(buf, PAGE_SIZE - 1, "%s", ctx->pcidev);
+>> +}
+>> +
+>> +static ssize_t aspeed_xdma_store_pcidev(struct device *dev,
+>> +					struct device_attribute *attr,
+>> +					const char *buf, size_t count)
+>> +{
+>> +	u32 conf;
+>> +	struct aspeed_xdma *ctx = dev_get_drvdata(dev);
+>> +	int rc = aspeed_xdma_pcidev_to_conf(ctx, buf, &conf);
+>> +
+>> +	if (rc)
+>> +		return rc;
+>> +
+>> +	rc = aspeed_xdma_change_pcie_conf(ctx, conf);
+>> +	if (rc)
+>> +		return rc;
+>> +
+>> +	strcpy(ctx->pcidev, buf);
+> should we use strncpy() instead?
+>
+>> +	return count;
+>> +}
+>> +static DEVICE_ATTR(pcidev, 0644, aspeed_xdma_show_pcidev,
+>> +		   aspeed_xdma_store_pcidev);
+>> +
+>>   static int aspeed_xdma_probe(struct platform_device *pdev)
+>>   {
+>>   	int irq;
+>>   	int rc;
+>> +	u32 conf;
+>>   	struct resource *res;
+>>   	struct device *dev = &pdev->dev;
+>>   	struct aspeed_xdma *ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+>> @@ -657,7 +743,14 @@ static int aspeed_xdma_probe(struct platform_device *pdev)
+>>   
+>>   	msleep(10);
+>>   
+>> -	rc = aspeed_xdma_init_mem(ctx);
+>> +	if (aspeed_xdma_pcidev_to_conf(ctx, _pcidev, &conf)) {
+>> +		conf = aspeed_xdma_vga_pcie_conf;
+>> +		strcpy(ctx->pcidev, "vga");
+>> +	} else {
+>> +		strcpy(ctx->pcidev, _pcidev);
+>> +	}
+> same...
+>
+>> +
+>> +	rc = aspeed_xdma_init_mem(ctx, conf);
+>>   	if (rc) {
+>>   		reset_control_assert(ctx->reset);
+>>   		return rc;
+>> @@ -682,6 +775,8 @@ static int aspeed_xdma_probe(struct platform_device *pdev)
+>>   		return rc;
+>>   	}
+>>   
+>> +	device_create_file(dev, &dev_attr_pcidev);
+> Should we consider using one of the default attributes here instead of device_create_file()?
+> http://kroah.com/log/blog/2013/06/26/how-to-create-a-sysfs-file-correctly/
+
+
+Doesn't seem to be any way to create attributes per device with that 
+method. Setting the device->groups in probe() doesn't do it.
+
+
+>
+> BTW, was this ABI documented? Is this the same file documented in patch 2?
+
+
+Patch 4, but yes.
+
+
+>
+>> +
+>>   	return 0;
+>>   }
+>>   
+>> @@ -689,6 +784,8 @@ static int aspeed_xdma_remove(struct platform_device *pdev)
+>>   {
+>>   	struct aspeed_xdma *ctx = platform_get_drvdata(pdev);
+>>   
+>> +	device_remove_file(ctx->dev, &dev_attr_pcidev);
+>> +
+>>   	misc_deregister(&ctx->misc);
+>>   	gen_pool_free(ctx->vga_pool, (unsigned long)ctx->cmdq_vga_virt,
+>>   		      XDMA_CMDQ_SIZE);
+>> -- 
+>> 1.8.3.1
+>>
+
