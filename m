@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id B592B5C3FA
-	for <lists+linux-aspeed@lfdr.de>; Mon,  1 Jul 2019 21:55:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 283F45C3F9
+	for <lists+linux-aspeed@lfdr.de>; Mon,  1 Jul 2019 21:55:38 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45cylv6K9gzDqXg
-	for <lists+linux-aspeed@lfdr.de>; Tue,  2 Jul 2019 05:55:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45cylq4nWkzDqY0
+	for <lists+linux-aspeed@lfdr.de>; Tue,  2 Jul 2019 05:55:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -19,62 +19,65 @@ Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
  [148.163.156.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45cykC4mpbzDqYJ
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45cykC3bTNzDqY7
  for <linux-aspeed@lists.ozlabs.org>; Tue,  2 Jul 2019 05:54:11 +1000 (AEST)
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x61Jb93k002450
- for <linux-aspeed@lists.ozlabs.org>; Mon, 1 Jul 2019 15:54:07 -0400
-Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2tfq25v6h2-1
+ x61JbMY9043714
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 1 Jul 2019 15:54:08 -0400
+Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tfqjbaqcs-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-aspeed@lists.ozlabs.org>; Mon, 01 Jul 2019 15:54:07 -0400
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 01 Jul 2019 15:54:08 -0400
 Received: from localhost
- by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <linux-aspeed@lists.ozlabs.org> from <eajames@linux.ibm.com>;
- Mon, 1 Jul 2019 20:54:06 +0100
+ Mon, 1 Jul 2019 20:54:07 +0100
 Received: from b03cxnp08025.gho.boulder.ibm.com (9.17.130.17)
- by e34.co.us.ibm.com (192.168.1.134) with IBM ESMTP SMTP Gateway: Authorized
+ by e33.co.us.ibm.com (192.168.1.133) with IBM ESMTP SMTP Gateway: Authorized
  Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
  Mon, 1 Jul 2019 20:54:03 +0100
 Received: from b03ledav001.gho.boulder.ibm.com
  (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
  by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x61Js2hM50200990
+ x61Js28m61866444
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Mon, 1 Jul 2019 19:54:02 GMT
 Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1DEB26E04E;
+ by IMSVA (Postfix) with ESMTP id D58AC6E052;
  Mon,  1 Jul 2019 19:54:02 +0000 (GMT)
 Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8318C6E052;
- Mon,  1 Jul 2019 19:54:01 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 43F436E04E;
+ Mon,  1 Jul 2019 19:54:02 +0000 (GMT)
 Received: from talon7.ibm.com (unknown [9.41.179.222])
  by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon,  1 Jul 2019 19:54:01 +0000 (GMT)
+ Mon,  1 Jul 2019 19:54:02 +0000 (GMT)
 From: Eddie James <eajames@linux.ibm.com>
 To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH v4 0/8] drivers/soc: Add Aspeed XDMA Engine Driver
-Date: Mon,  1 Jul 2019 14:53:51 -0500
+Subject: [PATCH v4 1/8] dt-bindings: soc: Add Aspeed XDMA engine binding
+ documentation
+Date: Mon,  1 Jul 2019 14:53:52 -0500
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1562010839-1113-1-git-send-email-eajames@linux.ibm.com>
+References: <1562010839-1113-1-git-send-email-eajames@linux.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 19070119-0016-0000-0000-000009C96864
+x-cbid: 19070119-0036-0000-0000-00000AD28F4D
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00011361; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000286; SDB=6.01226037; UDB=6.00645423; IPR=6.01007249; 
- MB=3.00027541; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-01 19:54:05
+ PH=3.00000004; SC=3.00000286; SDB=6.01226037; UDB=6.00645423; IPR=6.01007250; 
+ MB=3.00027541; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-01 19:54:06
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19070119-0017-0000-0000-000043DBA21B
-Message-Id: <1562010839-1113-1-git-send-email-eajames@linux.ibm.com>
+x-cbparentid: 19070119-0037-0000-0000-00004C6EA436
+Message-Id: <1562010839-1113-2-git-send-email-eajames@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-07-01_12:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=990 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1810050000 definitions=main-1907010230
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -93,62 +96,44 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The XDMA engine embedded in the AST2500 SOC performs PCI DMA operations
-between the SOC (acting as a BMC) and a host processor in a server.
+Document the bindings.
 
-This series adds a driver to control the XDMA engine in order to easily
-perform DMA operations to and from the host processor.
-
-Changes since v3:
- - Added a few comments.
- - Change DMA reservation/allocation/mmap to iomap operations.
- - Change miscdevice to "aspeed-xdma".
- - Change default PCI device to the BMC device, not the VGA.
- - Use length-limited string functions (strncpy, strncasecmp)
- - Added more debugfs registers
-
-Changes since v2:
- - Switch to one pci device config sysfs file
- - Add documentation for pci device config sysfs file
- - Add module parameter for pci device config
- - Switch to genalloc instead of custom allocator
- - Fix alignment of user structure
- - Cleaned up debugfs functions
-
-I previously sent this series v1 to drivers/misc, but I'm now fairly certain
-it belongs in drivers/soc, especially since the other Aspeed drivers have been
-moved to soc.
-
-Changes since v1:
- - Correct the XDMA command pitch
- - Don't use packed for the aspeed_xdma_op structure
- - Correct the SCU PCI config change
-
-Eddie James (8):
-  dt-bindings: soc: Add Aspeed XDMA engine binding documentation
-  drivers/soc: Add Aspeed XDMA Engine Driver
-  drivers/soc: xdma: Add user interface
-  Documentation: ABI: Add aspeed-xdma sysfs documentation
-  drivers/soc: xdma: Add PCI device configuration sysfs
-  drivers/soc: xdma: Add debugfs entries
-  ARM: dts: aspeed: Add XDMA Engine
-  ARM: dts: aspeed: witherspoon: Enable XDMA Engine
-
- .../ABI/testing/sysfs-devices-platform-aspeed-xdma |  11 +
- .../devicetree/bindings/soc/aspeed/xdma.txt        |  23 +
- MAINTAINERS                                        |   9 +
- arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts   |   4 +
- arch/arm/boot/dts/aspeed-g5.dtsi                   |   8 +
- drivers/soc/aspeed/Kconfig                         |   8 +
- drivers/soc/aspeed/Makefile                        |   1 +
- drivers/soc/aspeed/aspeed-xdma.c                   | 953 +++++++++++++++++++++
- include/uapi/linux/aspeed-xdma.h                   |  26 +
- 9 files changed, 1043 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-devices-platform-aspeed-xdma
+Reviewed-by: Andrew Jeffrey <andrew@aj.id.au>
+Signed-off-by: Eddie James <eajames@linux.ibm.com>
+---
+ .../devicetree/bindings/soc/aspeed/xdma.txt        | 23 ++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/soc/aspeed/xdma.txt
- create mode 100644 drivers/soc/aspeed/aspeed-xdma.c
- create mode 100644 include/uapi/linux/aspeed-xdma.h
 
+diff --git a/Documentation/devicetree/bindings/soc/aspeed/xdma.txt b/Documentation/devicetree/bindings/soc/aspeed/xdma.txt
+new file mode 100644
+index 0000000..85e82ea
+--- /dev/null
++++ b/Documentation/devicetree/bindings/soc/aspeed/xdma.txt
+@@ -0,0 +1,23 @@
++* Device tree bindings for the Aspeed XDMA Engine
++
++The XDMA Engine embedded in the AST2500 SOC can perform automatic DMA
++operations over PCI between the AST2500 (acting as a BMC) and a host processor.
++
++Required properties:
++
++ - compatible		"aspeed,ast2500-xdma"
++ - reg			contains the offset and length of the memory region
++			assigned to the XDMA registers
++ - resets		reset specifier for the syscon reset associated with
++			the XDMA engine
++ - interrupts		the interrupt associated with the XDMA engine on this
++			platform
++
++Example:
++
++    xdma@1e6e7000 {
++        compatible = "aspeed,ast2500-xdma";
++        reg = <0x1e6e7000 0x100>;
++        resets = <&syscon ASPEED_RESET_XDMA>;
++        interrupts = <6>;
++    };
 -- 
 1.8.3.1
 
