@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32FDA5EAD1
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Jul 2019 19:50:43 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45f7tm20R1zDqQQ
-	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Jul 2019 03:50:40 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F565EADA
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Jul 2019 19:51:05 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 45f7vB1WRdzDqV6
+	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Jul 2019 03:51:02 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -16,37 +16,37 @@ Authentication-Results: lists.ozlabs.org;
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
  header.from=linuxfoundation.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.b="VjtAt9nC"; 
+ unprotected) header.d=kernel.org header.i=@kernel.org header.b="TPsSfCEu"; 
  dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45f7tf3DfGzDqP8
- for <linux-aspeed@lists.ozlabs.org>; Thu,  4 Jul 2019 03:50:34 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45f7v25ChtzDqP8
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  4 Jul 2019 03:50:54 +1000 (AEST)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8EFD921881;
- Wed,  3 Jul 2019 17:50:31 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id CBFCB21881;
+ Wed,  3 Jul 2019 17:50:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1562176232;
- bh=UYmA/xT4ezWnn7ewUd7Eak4QYGhMlv9i0miWbo+Nfo4=;
+ s=default; t=1562176252;
+ bh=LhdcBhsnrhraeLgizT0jLEoW9JPQnXumK31uO9etz2A=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VjtAt9nCYFGimdGv7fcAe1hWuX+iiD5AEuZrwOzJzloozpO6r2YGSJp19bDqH0sU/
- j3a03fyANCdR8XlmfF10rI+mwSxpIK/N/EsuKqdsx9Ddfk2HGnfrurge+iqo18qWKt
- NrSEfDULUkFF7LgMA7xB0UJdohsPVt3cKcw2y7Q4=
-Date: Wed, 3 Jul 2019 19:50:29 +0200
+ b=TPsSfCEuB2yof7PvwE2sRSg8fdm206cTwyGUd4Pnto3QAqzL8T7Mgk4fDOdXBOlLL
+ VW0187SOa7Ukt81KdD3vDld1JyT1X9Qc9F/T2SzDLgOh2a7+OIUA7eSF96dclar4R5
+ xhsiy6PPUeezDFQSJ2ACKxXVxKO3ez2LVpp29HV8=
+Date: Wed, 3 Jul 2019 19:50:50 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: "sudheer.v" <open.sudheer@gmail.com>
-Subject: Re: [patch v3 2/5] build configuration for AST2500 DMA UART driver
-Message-ID: <20190703175029.GB12813@kroah.com>
+Subject: Re: [patch v3 3/5] DT nodes for AST2500 DMA UART driver
+Message-ID: <20190703175050.GC12813@kroah.com>
 References: <1561459476-14268-1-git-send-email-open.sudheer@gmail.com>
- <1561459476-14268-3-git-send-email-open.sudheer@gmail.com>
+ <1561459476-14268-4-git-send-email-open.sudheer@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1561459476-14268-3-git-send-email-open.sudheer@gmail.com>
+In-Reply-To: <1561459476-14268-4-git-send-email-open.sudheer@gmail.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -69,78 +69,16 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Jun 25, 2019 at 04:14:33PM +0530, sudheer.v wrote:
+On Tue, Jun 25, 2019 at 04:14:34PM +0530, sudheer.v wrote:
 > From: sudheer veliseti <sudheer.open@gmail.com>
 > 
-> build config for DMA based UART driver in AST2500.
-> Total Available  UARTs in AST2500 are 4
-> 
-> Signed-off-by: sudheer veliseti <sudheer.open@gmail.com>
-> ---
-> 
-> Changes in v3:
-> - change logs added
-> 
-> drivers/tty/serial/8250/Kconfig  | 35 +++++++++++++++++++++++++++++++-
->  drivers/tty/serial/8250/Makefile |  1 +
->  2 files changed, 35 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/tty/serial/8250/Kconfig b/drivers/tty/serial/8250/Kconfig
-> index 15c2c5463835..c793466a1c47 100644
-> --- a/drivers/tty/serial/8250/Kconfig
-> +++ b/drivers/tty/serial/8250/Kconfig
-> @@ -45,7 +45,7 @@ config SERIAL_8250_DEPRECATED_OPTIONS
->  	  keep the 8250_core.* options around until they revert the changes
->  	  they already did.
->  
-> -	  If 8250 is built as a module, this adds 8250_core alias instead. 
-> +	  If 8250 is built as a module, this adds 8250_core alias instead.
->  
->  	  If you did not notice yet and/or you have userspace from pre-3.7, it
->  	  is safe (and recommended) to say N here.
+> DT node for DMA controller(ast_uart_sdma) doesn't bind to any DMA controller driver.
+> This is because Software for DMA controller is not based on DMA framework,but is dedicated
+> and serves only UARTs in AST2500. ast_uart_sdma node is searched by compatible string in the 
+> driver software.basic use of this node is to provide register base address of DMA controller and DMA irq number(<50>).
+> IRQ of DMA controller is of crucial importance, which does RX and TX of UART data. 
 
-Why did you change this line?
-
-> @@ -189,6 +189,39 @@ config SERIAL_8250_RUNTIME_UARTS
->  	  with the module parameter "nr_uarts", or boot-time parameter
->  	  8250.nr_uarts
->  
-> +config  AST_SERIAL_DMA_UART
-> +        tristate "AST UART driver with DMA"
-> +        select SERIAL_CORE
-> +        help
-> +          UART driver with DMA support for Aspeed BMC AST25XX.
-> +          this driver supports UARTs in AST2500,AST2600. It uses
-> +          DMA channel of DMA engines present in these chips.
-> +          since this dma engine is used only by UARTs it is not
-> +          added as a separate DMA driver instead added as a layer
-> +          within UART driver.
-> +
-> +
-> +config AST_NR_DMA_UARTS
-> +        int "Maximum number of uart dma serial ports"
-> +        depends on AST_SERIAL_DMA_UART
-> +        default "4"
-> +        help
-> +          Set this to the number of serial ports you want the driver
-> +          to support.  This includes any ports discovered via ACPI or
-> +          PCI enumeration and any ports that may be added at run-time
-> +          via hot-plug, or any ISA multi-port serial cards.
-> +
-> +config AST_RUNTIME_DMA_UARTS
-> +        int "Number of uart dma serial ports to register at runtime"
-> +        depends on AST_SERIAL_DMA_UART
-> +        range 0 AST_NR_DMA_UARTS
-> +        default "4"
-> +        help
-> +          Set this to the maximum number of serial ports you want
-> +          the kernel to register at boot time.  This can be overridden
-> +          with the module parameter "nr_uarts", or boot-time parameter
-> +          8250.nr_uarts
-
-That boot paramter is not correct, right?
-
-Are you sure these all work like you think they work?
+Properly line-wrap your changelog.
 
 thanks,
 
