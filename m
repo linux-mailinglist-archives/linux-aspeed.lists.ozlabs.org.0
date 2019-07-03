@@ -1,74 +1,66 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBEF95E009
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Jul 2019 10:41:37 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2FB45C403
-	for <lists+linux-aspeed@lfdr.de>; Mon,  1 Jul 2019 21:56:05 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45cymM1FXrzDqY7
-	for <lists+linux-aspeed@lfdr.de>; Tue,  2 Jul 2019 05:56:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45dvjC0Jw7zDqPG
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Jul 2019 18:41:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=linux.ibm.com
- (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com;
- envelope-from=eajames@linux.ibm.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=linaro.org
+ (client-ip=2a00:1450:4864:20::241; helo=mail-lj1-x241.google.com;
+ envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=linux.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=linaro.org header.i=@linaro.org header.b="iLSnAFiM"; 
+ dkim-atps=neutral
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45cykN0zbZzDqYt
- for <linux-aspeed@lists.ozlabs.org>; Tue,  2 Jul 2019 05:54:19 +1000 (AEST)
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x61JbOjd110305; Mon, 1 Jul 2019 15:54:10 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2tfqcbu8w6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 01 Jul 2019 15:54:10 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x61JYmmG006203;
- Mon, 1 Jul 2019 19:54:09 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma03dal.us.ibm.com with ESMTP id 2tdym6s3wp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 01 Jul 2019 19:54:09 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x61Js8Ws55968092
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 1 Jul 2019 19:54:08 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0605D6E054;
- Mon,  1 Jul 2019 19:54:08 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6ADE96E050;
- Mon,  1 Jul 2019 19:54:07 +0000 (GMT)
-Received: from talon7.ibm.com (unknown [9.41.179.222])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon,  1 Jul 2019 19:54:07 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH v4 8/8] ARM: dts: aspeed: witherspoon: Enable XDMA Engine
-Date: Mon,  1 Jul 2019 14:53:59 -0500
-Message-Id: <1562010839-1113-9-git-send-email-eajames@linux.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1562010839-1113-1-git-send-email-eajames@linux.ibm.com>
-References: <1562010839-1113-1-git-send-email-eajames@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-07-01_12:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=807 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907010230
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45dvgl3wQVzDqP0
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  3 Jul 2019 18:40:18 +1000 (AEST)
+Received: by mail-lj1-x241.google.com with SMTP id v18so1465695ljh.6
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 03 Jul 2019 01:40:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9KQGKN1/JTwYz+i5tykBtO8/dfvkSTRXZ7mV96ulxlo=;
+ b=iLSnAFiMtzOcyZkCnNoQdCnKRs/FrQMu9BQk1miyt08q/upQDSxsM5dd/sr+THA+cz
+ Ma0puGzE/ZswYwh4FVWRnwkJAgjJiowH28UihrQ5Ew/UvWeQ1X3ci4rGe9jCtXrSXrhu
+ VJcSzn2usHUy1hcueneTZAxbX0WIJ/GbSxZcQqCLs5riBu/oyqVMlrHbwbYdGATqrbN6
+ XevkFpUuWujEosPpkR/Vjq9lnzSkFDPYZB9dCECqE0OpBr/Bgz2s7iUQBPkcrmFdU3Py
+ +LZHudN2XD/KZduddVlkuwmpp3WdxkpwOUshIpl7p6/p7b3bfcWeCi9olwlgW6sw26ku
+ wAGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9KQGKN1/JTwYz+i5tykBtO8/dfvkSTRXZ7mV96ulxlo=;
+ b=VVYrvWdJah7UAcBdueRDgdiKsZoCy15ZgFYXB7feRqrLtAwXJ0u4gRbtEHTLmk6L0r
+ NwvjZdtvzX/Yjl3/MQX1NnNPgMthuE6bSFOjvX8egDpKogepLYM3oiT1IOT/+vuOXSJw
+ bDQFpYAphhNd7qrTm8LYJISThklK7Ufp244xImtqkiN8AyzShQcoC2Y6A6ZAOUydUUZE
+ 5kYN43eu7FtrSFQp1DYykh9nIo0proJDHC3q+ShOEUkTKinvkknk3uxt8D2/eHXFFdjo
+ T0rNiTU5ycUEhK7cbAF4ubwKrp+y+f8HeXDIE3LhJXGp6y0/VeK3hg0cPnZAoUVAdGJL
+ QNpA==
+X-Gm-Message-State: APjAAAXslWK0ZPrVwK+smQyL4suoVE9jgB0+iT5SXFW9PcivpR5dBMPk
+ o0xxOAFZVqQ8yghYtSQJkuK3rtzeGLivtmMB33hxeQ==
+X-Google-Smtp-Source: APXvYqwjCAdp2pYFgLkejdEEDh9nRCMtaIIni+TVcrXpKnpbZ14+0z+JW8gDE5GUfqGr6bXIV3oih+tOTO8H8yN1rZI=
+X-Received: by 2002:a2e:650a:: with SMTP id z10mr20360931ljb.28.1562143213537; 
+ Wed, 03 Jul 2019 01:40:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190628023838.15426-1-andrew@aj.id.au>
+In-Reply-To: <20190628023838.15426-1-andrew@aj.id.au>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 3 Jul 2019 10:40:02 +0200
+Message-ID: <CACRpkdaxiFR3ezt4FzhRxpqc4DYYjsbBeysPUaaQH+_QgYjudw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] pinctrl: aspeed: Preparation for AST2600
+To: Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,32 +72,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, arnd@arndb.de,
- eduval@amazon.com, linux-kernel@vger.kernel.org, robh+dt@kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Enable the XDMA engine node.
+Hi Andrew,
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
----
- arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts | 4 ++++
- 1 file changed, 4 insertions(+)
+On Fri, Jun 28, 2019 at 4:39 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+>
+> Hello!
+>
+> The ASPEED AST2600 is in the pipeline, and we have enough information to start
+> preparing to upstream support for it. This series lays some ground work;
+> splitting the bindings and dicing the implementation up a little further to
+> facilitate differences between the 2600 and previous SoC generations.
+>
+> v2 addresses Rob's comments on the bindings conversion patches. v1 can be found
+> here:
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts b/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
-index 31ea34e..1d247cd 100644
---- a/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
-@@ -653,4 +653,8 @@
- 	memory-region = <&video_engine_memory>;
- };
- 
-+&xdma {
-+	status = "okay";
-+};
-+
- #include "ibm-power9-dual.dtsi"
--- 
-1.8.3.1
+I have applied this series, I had to strip some changes of the header
+because it was based on some SPDX cleanups upstream but no
+big deal I think. Check the result please.
 
+Yours,
+Linus Walleij
