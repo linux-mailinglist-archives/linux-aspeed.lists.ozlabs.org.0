@@ -2,81 +2,57 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EAC5F00E
-	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Jul 2019 02:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5064963B76
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jul 2019 20:55:39 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45fJkR6fsTzDqZC
-	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Jul 2019 10:29:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45js2s1CrPzDqWS
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2019 04:55:33 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.224; helo=new2-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=kernel.org
+ (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=robh+dt@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="oHFzw8no"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="bJ2K1ryW"; dkim-atps=neutral
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
+ dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.b="2hvgQEnO"; 
+ dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45fJkG3lBXzDq8X;
- Thu,  4 Jul 2019 10:28:54 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id A7BC91BC6;
- Wed,  3 Jul 2019 20:28:50 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Wed, 03 Jul 2019 20:28:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=OWn2mLh7/XUi0TJMekxt7yvjPNcgULS
- BCoi83C82YNo=; b=oHFzw8noCMYk24pCj0ny/IlupuxDjd+p4ys/R9Ec8OJoqgX
- b3W4LGtgKvAEv8CvF0/syCO2IACosaB667bLAIzW1fCsT4+tekeXDMyl3zEFaOMC
- X3wfdHDxlVZ2cTvRtREUMNFakBGD3FdqJwxIFMPo9D5x+SRmJWwsmgZea8ZIokzx
- qFrQHBEN70Np0VbSVFiJ/FMG6m7Jvf/TSMEiuAnbFyR2Tj5P/2x3ep6feeqpCRUM
- /XQM4H5W+qvlFlPR14RfVf+2+cx9GET41XeY7GI/7STl9Yln4aJ0ywSKGl7l0hKk
- d7EGxMsXHkwxl3k9BOZNgrK3iFSDGCjK9ibJrrw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=OWn2mL
- h7/XUi0TJMekxt7yvjPNcgULSBCoi83C82YNo=; b=bJ2K1ryWC7mcx8ZrhtqG4p
- bjjDnClvZrJYisIta3ipWFXcHpUGkV/rnES74wiSO7RXuYiJVFVOG11bOPSZakuq
- efd8A+CAL9GVQaAiVrOlVZjqmdNj6hfv4JF8muUrXYaOdM8DJysv26hKoV9mgYrz
- UmJmWhxbXsIqSIS52KU/Kh/OU1wznmLyrn8+0mVHz4Uo7fXM75evRKb0Mh9Q6Py0
- mm3IwOJuNDTEtwNCEiqGvlLZwKQP4wClYP0BP01Ts2j/ix14AKaVBexjLqKcAlyA
- fZP4j3Z40fb+1wberXaFsYGNdkKBfKdRRVRg836sXTQlOB5kkMZIg5joW6eXgqSQ
- ==
-X-ME-Sender: <xms:QEgdXaQCmhwW6lVppTwfGyVi11eyWy8KVOPmoh1yLSlVp3N1IFZpbA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrfedugdefhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
- hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
- ufhiiigvpedt
-X-ME-Proxy: <xmx:QEgdXddXftyY9CXDkmK4PtChKPg5uBek0H_VhgWsl11Dtv6_rfcivA>
- <xmx:QEgdXf53eT9-j9HP3nKzzEA7iAzI-6jSOkqbwtDVfPRDkMbXPLzIJw>
- <xmx:QEgdXeYtH0YWySTHIsemK5URyZ09CZlpVSlM3hwA-MMUfvxqQKc5Iw>
- <xmx:QkgdXeWYmYs6ZpjvMHl1vd32N4O17eliMjdtMYZk0YDJLRSaiEL4ig>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id BCEECE00A2; Wed,  3 Jul 2019 20:28:48 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-731-g19d3b16-fmstable-20190627v1
-Mime-Version: 1.0
-Message-Id: <022b6528-7ab3-449f-807d-d711b6d2db51@www.fastmail.com>
-In-Reply-To: <CACRpkdaxiFR3ezt4FzhRxpqc4DYYjsbBeysPUaaQH+_QgYjudw@mail.gmail.com>
-References: <20190628023838.15426-1-andrew@aj.id.au>
- <CACRpkdaxiFR3ezt4FzhRxpqc4DYYjsbBeysPUaaQH+_QgYjudw@mail.gmail.com>
-Date: Thu, 04 Jul 2019 10:28:45 +1000
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Linus Walleij" <linus.walleij@linaro.org>
-Subject: Re: [PATCH v2 0/8] pinctrl: aspeed: Preparation for AST2600
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45js0R1NfTzDqVN
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jul 2019 04:53:26 +1000 (AEST)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 7286E2087F
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  9 Jul 2019 18:53:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1562698404;
+ bh=0ImkJUz3uR/+DVGq2bXGZLAIbe6zf2CjaYLEOlRY4ps=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=2hvgQEnOPWC1SvHHrf8dXGJxWxD4yWceJdhi4hloTlumiiTegaZkuaI/tFneSFCDK
+ 3xeoJtlqtM5pHiqMQ3Mc7kzVGgFdQQZzikumbGqCF12E+X0WA3Aj7p9WbrTWsEAv7l
+ g+RCorpwnDSB1brEdg6kE1alx6PSeliKzH9aqnSI=
+Received: by mail-qt1-f169.google.com with SMTP id l9so14461181qtu.6
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Jul 2019 11:53:24 -0700 (PDT)
+X-Gm-Message-State: APjAAAVn6e1yfkvphF7B/Cu4xcmz2CD3Z5YCs/Wc1wUfLDVWQDE4akwb
+ 506/7QhM6q1Gbjw1PCSYWLhKW5luH61sC3ZjCg==
+X-Google-Smtp-Source: APXvYqylibJKKbin92OddAtVOLNyjL4xzmkeD9zXAOF4W4EKSaAZ0cVt6KqwCFYn1XAIrYpKX6ExRt5TG60yMAb0li0=
+X-Received: by 2002:aed:3f10:: with SMTP id p16mr20147515qtf.110.1562698403737; 
+ Tue, 09 Jul 2019 11:53:23 -0700 (PDT)
+MIME-Version: 1.0
+References: <1562184069-22332-1-git-send-email-hongweiz@ami.com>
+In-Reply-To: <1562184069-22332-1-git-send-email-hongweiz@ami.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 9 Jul 2019 12:53:12 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+0z4OZ7qbaiUva1v5xCKXpsaPBZ9tj_M4HbEihsU_MfA@mail.gmail.com>
+Message-ID: <CAL_Jsq+0z4OZ7qbaiUva1v5xCKXpsaPBZ9tj_M4HbEihsU_MfA@mail.gmail.com>
+Subject: Re: [linux,dev-5.1 v1] dt-bindings: gpio: aspeed: Add SGPIO support
+To: Hongwei Zhang <hongweiz@ami.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,40 +64,26 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, Linus Walleij <linus.walleij@linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Wed, Jul 3, 2019 at 2:01 PM Hongwei Zhang <hongweiz@ami.com> wrote:
+>
+> Add bindings to support SGPIO on AST2400 or AST2500.
+>
+> Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
+> ---
+>  .../devicetree/bindings/gpio/sgpio-aspeed.txt      | 36 ++++++++++++++++++++++
+
+Is this SGPIO as in the blinky lights for HDDs in servers? If so, that
+has nothing to do with Linux GPIO subsystem.
+
+BTW, You might want to look at Calxeda highbank SATA driver. It has a
+bit-banged SGPIO interface using GPIO lines in it.
 
 
-On Wed, 3 Jul 2019, at 18:40, Linus Walleij wrote:
-> Hi Andrew,
-> 
-> On Fri, Jun 28, 2019 at 4:39 AM Andrew Jeffery <andrew@aj.id.au> wrote:
-> >
-> > Hello!
-> >
-> > The ASPEED AST2600 is in the pipeline, and we have enough information to start
-> > preparing to upstream support for it. This series lays some ground work;
-> > splitting the bindings and dicing the implementation up a little further to
-> > facilitate differences between the 2600 and previous SoC generations.
-> >
-> > v2 addresses Rob's comments on the bindings conversion patches. v1 can be found
-> > here:
-> 
-> I have applied this series, I had to strip some changes of the header
-> because it was based on some SPDX cleanups upstream but no
-> big deal I think. Check the result please.
-
-Thanks. Have you pushed the branch yet? I just fetched your pinctrl tree
-and can't see the patches.
-
-Andrew
+Rob
