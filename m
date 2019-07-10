@@ -1,57 +1,59 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF34864A83
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2019 18:10:52 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45kPLL1PpWzDqgW
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jul 2019 02:10:50 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADEC864A92
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2019 18:14:42 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 45kPQm07z4zDqY3
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jul 2019 02:14:40 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=ami.com
- (client-ip=63.147.10.40; helo=atlmailgw1.ami.com;
- envelope-from=hongweiz@ami.com; receiver=<UNKNOWN>)
+ spf=none (mailfrom) smtp.mailfrom=perches.com
+ (client-ip=216.40.44.180; helo=smtprelay.hostedemail.com;
+ envelope-from=joe@perches.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=ami.com
-Received: from atlmailgw1.ami.com (atlmailgw1.ami.com [63.147.10.40])
+ dmarc=none (p=none dis=none) header.from=perches.com
+Received: from smtprelay.hostedemail.com (smtprelay0180.hostedemail.com
+ [216.40.44.180])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45kNML2z12zDqkp
- for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jul 2019 01:26:36 +1000 (AEST)
-X-AuditID: ac1060b2-f7fff70000002be5-6f-5d2603ad989d
-Received: from atlms1.us.megatrends.com (atlms1.us.megatrends.com
- [172.16.96.144])
- (using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by atlmailgw1.ami.com (Symantec Messaging Gateway) with SMTP id
- B6.00.11237.DA3062D5; Wed, 10 Jul 2019 11:26:37 -0400 (EDT)
-Received: from hongweiz-Ubuntu-AMI.us.megatrends.com (172.16.98.93) by
- atlms1.us.megatrends.com (172.16.96.144) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Wed, 10 Jul 2019 11:26:32 -0400
-From: Hongwei Zhang <hongweiz@ami.com>
-To: Bartosz Golaszewski <bgolaszewski@baylibre.com>, Joel Stanley
- <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, Linus Walleij
- <linus.walleij@linaro.org>
-Subject: [PATCH 2/3 v2] ARM: dts: aspeed: Add SGPIO driver
-Date: Wed, 10 Jul 2019 11:26:22 -0400
-Message-ID: <1562772382-6555-1-git-send-email-hongweiz@ami.com>
-X-Mailer: git-send-email 2.7.4
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45kNp10xlGzDqVN;
+ Thu, 11 Jul 2019 01:46:14 +1000 (AEST)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay05.hostedemail.com (Postfix) with ESMTP id C502F1802912E;
+ Wed, 10 Jul 2019 15:46:09 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com,
+ :::::::::::::::::::::::::::::::::::::::::::,
+ RULES_HIT:41:355:379:599:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2198:2199:2393:2553:2559:2562:2692:2731:2828:2917:3138:3139:3140:3141:3142:3353:3622:3865:3866:3867:3868:3870:3871:3872:3873:3874:4250:4321:5007:6691:6742:7875:7904:10004:10400:10848:11026:11232:11473:11658:11914:12296:12297:12740:12760:12895:13069:13311:13357:13439:14096:14097:14659:21080:21220:21326:21451:21627:30012:30034:30054:30056:30090:30091,
+ 0,
+ RBL:23.242.196.136:@perches.com:.lbl8.mailshell.net-62.14.0.180 64.201.201.201,
+ CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none, DomainCache:0,
+ MSF:not bulk, SPF:fn, MSBL:0, DNSBL:neutral, Custom_rules:0:0:0, LFtime:25,
+ LUA_SUMMARY:none
+X-HE-Tag: range96_50d7d845d712e
+X-Filterd-Recvd-Size: 3121
+Received: from XPS-9350 (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
+ (Authenticated sender: joe@perches.com)
+ by omf13.hostedemail.com (Postfix) with ESMTPA;
+ Wed, 10 Jul 2019 15:45:54 +0000 (UTC)
+Message-ID: <b9c3b83c9be50286062ae8cefd5d38e2baa0fb22.camel@perches.com>
+Subject: Re: [PATCH 00/12] treewide: Fix GENMASK misuses
+From: Joe Perches <joe@perches.com>
+To: Russell King - ARM Linux admin <linux@armlinux.org.uk>, Johannes Berg
+ <johannes@sipsolutions.net>
+Date: Wed, 10 Jul 2019 08:45:53 -0700
+In-Reply-To: <20190710094337.wf2lftxzfjq2etro@shell.armlinux.org.uk>
+References: <cover.1562734889.git.joe@perches.com>
+ <5fa1fa6998332642c49e2d5209193ffe2713f333.camel@sipsolutions.net>
+ <20190710094337.wf2lftxzfjq2etro@shell.armlinux.org.uk>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.16.98.93]
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKLMWRmVeSWpSXmKPExsWyRiBhgu5aZrVYg4s/hC12Xeaw+DL3FIvF
- 7/N/mS2m/FnOZLHp8TVWi+bV55gtNs//w2hxedccNgcOj6vtu9g93t9oZfe4+PEYs8eda3vY
- PDYvqfc4P2Mho8fnTXIB7FFcNimpOZllqUX6dglcGS19J5gL2hIqum4dY29gvOPbxcjJISFg
- IvHy2THmLkYuDiGBXUwSz9a+Z4JwDjNKXLy+nwWkik1ATWLv5jlgCRGBRYwSX3/PZAdxmAXW
- M0p0LV/OBlIlLGAlcXrXD6AqDg4WAVWJcwfcQMK8AvYSzxvmMEKsk5O4ea6TGSIuKHFy5hOw
- BcwCEhIHX7wAiwsJyErcOvSYCaJeQeJ532OWCYx8s5C0zELSsoCRaRWjUGJJTm5iZk56uaFe
- Ym6mXnJ+7iZGSNBu2sHYctH8ECMTB+MhRgkOZiUR3n3uyrFCvCmJlVWpRfnxRaU5qcWHGKU5
- WJTEeVeu+RYjJJCeWJKanZpakFoEk2Xi4JRqYDzh9fNQL9NxvaPBXG0/Xolfsbtg57cyUer6
- jO6cq5w9J0SNwycn7xBTZjp2Lsloh0vTYcnTli8Y4p51+Elxfr9x+XOiVKz1gs+rrXTqg1JC
- HQpWnPE41LtB68OqWXwlc67qfVr2b7tyFMcnjXuSGpsvxj+c/L3gdO7WAoHgu6tEvG/erpEy
- K1ZiKc5INNRiLipOBAC9e7/ESAIAAA==
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,477 +65,60 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Hongwei Zhang <hongweiz@ami.com>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
+Cc: devel@driverdev.osuosl.org, linux-mmc@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-aspeed@lists.ozlabs.org,
+ Patrick Venture <venture@google.com>, openbmc@lists.ozlabs.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, Nancy Yuen <yuenn@google.com>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ netdev@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add SGPIO driver support for Aspeed AST2500 SoC.
+On Wed, 2019-07-10 at 10:43 +0100, Russell King - ARM Linux admin wrote:
+> On Wed, Jul 10, 2019 at 11:17:31AM +0200, Johannes Berg wrote:
+> > On Tue, 2019-07-09 at 22:04 -0700, Joe Perches wrote:
+> > > These GENMASK uses are inverted argument order and the
+> > > actual masks produced are incorrect.  Fix them.
+> > > 
+> > > Add checkpatch tests to help avoid more misuses too.
+> > > 
+> > > Joe Perches (12):
+> > >   checkpatch: Add GENMASK tests
+> > 
+> > IMHO this doesn't make a lot of sense as a checkpatch test - just throw
+> > in a BUILD_BUG_ON()?
 
-Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
----
- drivers/gpio/sgpio-aspeed.c | 450 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 450 insertions(+)
- create mode 100644 drivers/gpio/sgpio-aspeed.c
+I tried that.
 
-diff --git a/drivers/gpio/sgpio-aspeed.c b/drivers/gpio/sgpio-aspeed.c
-new file mode 100644
-index 0000000..0743d22
---- /dev/null
-+++ b/drivers/gpio/sgpio-aspeed.c
-@@ -0,0 +1,450 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright 2019 American Megatrends International LLC.
-+ *
-+ * Author: Karthikeyan Mani <karthikeyanm@amiindia.co.in>
-+ */
-+
-+#include <linux/gpio/driver.h>
-+#include <linux/gpio/aspeed.h>
-+#include <linux/hashtable.h>
-+#include <linux/init.h>
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/pinctrl/consumer.h>
-+#include <linux/platform_device.h>
-+#include <linux/spinlock.h>
-+#include <linux/string.h>
-+
-+#define NR_SGPIO        80
-+
-+struct aspeed_sgpio {
-+	struct gpio_chip chip;
-+	spinlock_t lock;
-+	void __iomem *base;
-+	int irq;
-+};
-+
-+struct aspeed_sgpio_bank {
-+	uint16_t    val_regs;
-+	uint16_t    rdata_reg;
-+	uint16_t    irq_regs;
-+	const char  names[4][3];
-+};
-+
-+/*
-+ * Note: The "value" register returns the input value sampled on the
-+ *       line even when the GPIO is configured as an output. Since
-+ *       that input goes through synchronizers, writing, then reading
-+ *       back may not return the written value right away.
-+ *
-+ *       The "rdata" register returns the content of the write latch
-+ *       and thus can be used to read back what was last written
-+ *       reliably.
-+ */
-+
-+static const struct aspeed_sgpio_bank aspeed_sgpio_banks[] = {
-+	{
-+		.val_regs = 0x0000,
-+		.rdata_reg = 0x0070,
-+		.irq_regs = 0x0004,
-+		.names = { "A", "B", "C", "D" },
-+	},
-+	{
-+		.val_regs = 0x001C,
-+		.rdata_reg = 0x0074,
-+		.irq_regs = 0x0020,
-+		.names = { "E", "F", "G", "H" },
-+	},
-+	{
-+		.val_regs = 0x0038,
-+		.rdata_reg = 0x0078,
-+		.irq_regs = 0x003C,
-+		.names = { "I", "J" },
-+	},
-+};
-+
-+enum aspeed_sgpio_reg {
-+	reg_val,
-+	reg_rdata,
-+	reg_irq_enable,
-+	reg_irq_type0,
-+	reg_irq_type1,
-+	reg_irq_type2,
-+	reg_irq_status,
-+};
-+
-+#define GPIO_VAL_VALUE      0x00
-+#define GPIO_VAL_DIR        0x04
-+#define GPIO_IRQ_ENABLE     0x00
-+#define GPIO_IRQ_TYPE0      0x04
-+#define GPIO_IRQ_TYPE1      0x08
-+#define GPIO_IRQ_TYPE2      0x0C
-+#define GPIO_IRQ_STATUS     0x10
-+
-+/* This will be resolved at compile time */
-+static inline void __iomem *bank_reg(struct aspeed_sgpio *gpio,
-+				     const struct aspeed_sgpio_bank *bank,
-+				     const enum aspeed_sgpio_reg reg)
-+{
-+	switch (reg) {
-+	case reg_val:
-+		return gpio->base + bank->val_regs + GPIO_VAL_VALUE;
-+	case reg_rdata:
-+		return gpio->base + bank->rdata_reg;
-+	case reg_irq_enable:
-+		return gpio->base + bank->irq_regs + GPIO_IRQ_ENABLE;
-+	case reg_irq_type0:
-+		return gpio->base + bank->irq_regs + GPIO_IRQ_TYPE0;
-+	case reg_irq_type1:
-+		return gpio->base + bank->irq_regs + GPIO_IRQ_TYPE1;
-+	case reg_irq_type2:
-+		return gpio->base + bank->irq_regs + GPIO_IRQ_TYPE2;
-+	case reg_irq_status:
-+		return gpio->base + bank->irq_regs + GPIO_IRQ_STATUS;
-+	default:
-+		/* acturally if code runs to here, it's an error case */
-+		WARN_ON(reg);
-+		return gpio->base;
-+	}
-+}
-+
-+#define GPIO_BANK(x)    ((x) >> 5)
-+#define GPIO_OFFSET(x)  ((x) & 0x1f)
-+#define GPIO_BIT(x)     BIT(GPIO_OFFSET(x))
-+
-+static const struct aspeed_sgpio_bank *to_bank(unsigned int offset)
-+{
-+	unsigned int bank = GPIO_BANK(offset);
-+
-+	WARN_ON(bank >= ARRAY_SIZE(aspeed_sgpio_banks));
-+	return &aspeed_sgpio_banks[bank];
-+}
-+
-+static int aspeed_sgpio_get(struct gpio_chip *gc, unsigned int offset)
-+{
-+	struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
-+	const struct aspeed_sgpio_bank *bank = to_bank(offset);
-+
-+	return !!(ioread32(bank_reg(gpio, bank, reg_val)) & GPIO_BIT(offset));
-+}
-+
-+static void aspeed_sgpio_set(struct gpio_chip *gc, unsigned int offset, int val)
-+{
-+	struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
-+	const struct aspeed_sgpio_bank *bank = to_bank(offset);
-+	unsigned long flags;
-+	void __iomem *addr;
-+	u32 reg = 0;
-+
-+	spin_lock_irqsave(&gpio->lock, flags);
-+
-+	addr = bank_reg(gpio, bank, reg_val);
-+
-+	if (val)
-+		reg |= GPIO_BIT(offset);
-+	else
-+		reg &= ~GPIO_BIT(offset);
-+
-+	iowrite32(reg, addr);
-+	spin_unlock_irqrestore(&gpio->lock, flags);
-+}
-+
-+static int aspeed_sgpio_dir_in(struct gpio_chip *gc, unsigned int offset)
-+{
-+	/* By default all SGPIO Pins are input */
-+	return 0;
-+}
-+
-+static int aspeed_sgpio_dir_out(struct gpio_chip *gc, unsigned int offset, int val)
-+{
-+	return 0;
-+}
-+
-+static int aspeed_sgpio_get_direction(struct gpio_chip *gc, unsigned int offset)
-+{
-+	/* By default all SGPIO Pins are input */
-+	return 1;
-+
-+}
-+
-+static inline int irqd_to_aspeed_sgpio_data(struct irq_data *d,
-+					    struct aspeed_sgpio **gpio,
-+					    const struct aspeed_sgpio_bank **bank,
-+					    u32 *bit, int *offset)
-+{
-+	struct aspeed_sgpio *internal;
-+
-+	*offset = irqd_to_hwirq(d);
-+
-+	internal = irq_data_get_irq_chip_data(d);
-+
-+	*gpio = internal;
-+	*bank = to_bank(*offset);
-+	*bit = GPIO_BIT(*offset);
-+
-+	return 0;
-+}
-+
-+static void aspeed_sgpio_irq_ack(struct irq_data *d)
-+{
-+	const struct aspeed_sgpio_bank *bank;
-+	struct aspeed_sgpio *gpio;
-+	unsigned long flags;
-+	void __iomem *status_addr;
-+	int rc, offset;
-+	u32 bit;
-+
-+	rc = irqd_to_aspeed_sgpio_data(d, &gpio, &bank, &bit, &offset);
-+	if (rc)
-+		return;
-+
-+	status_addr = bank_reg(gpio, bank, reg_irq_status);
-+
-+	spin_lock_irqsave(&gpio->lock, flags);
-+
-+	iowrite32(bit, status_addr);
-+
-+	spin_unlock_irqrestore(&gpio->lock, flags);
-+}
-+
-+static void aspeed_sgpio_irq_set_mask(struct irq_data *d, bool set)
-+{
-+	const struct aspeed_sgpio_bank *bank;
-+	struct aspeed_sgpio *gpio;
-+	unsigned long flags;
-+	u32 reg, bit;
-+	void __iomem *addr;
-+	int rc, offset;
-+
-+	rc = irqd_to_aspeed_sgpio_data(d, &gpio, &bank, &bit, &offset);
-+	if (rc)
-+		return;
-+
-+	addr = bank_reg(gpio, bank, reg_irq_enable);
-+
-+	spin_lock_irqsave(&gpio->lock, flags);
-+
-+	reg = ioread32(addr);
-+	if (set)
-+		reg |= bit;
-+	else
-+		reg &= ~bit;
-+
-+	iowrite32(reg, addr);
-+
-+	spin_unlock_irqrestore(&gpio->lock, flags);
-+}
-+
-+static void aspeed_sgpio_irq_mask(struct irq_data *d)
-+{
-+	aspeed_sgpio_irq_set_mask(d, false);
-+}
-+
-+static void aspeed_sgpio_irq_unmask(struct irq_data *d)
-+{
-+	aspeed_sgpio_irq_set_mask(d, true);
-+}
-+
-+static int aspeed_sgpio_set_type(struct irq_data *d, unsigned int type)
-+{
-+	u32 type0 = 0;
-+	u32 type1 = 0;
-+	u32 type2 = 0;
-+	u32 bit, reg;
-+	const struct aspeed_sgpio_bank *bank;
-+	irq_flow_handler_t handler;
-+	struct aspeed_sgpio *gpio;
-+	unsigned long flags;
-+	void __iomem *addr;
-+	int rc, offset;
-+
-+	rc = irqd_to_aspeed_sgpio_data(d, &gpio, &bank, &bit, &offset);
-+	if (rc)
-+		return -EINVAL;
-+
-+	switch (type & IRQ_TYPE_SENSE_MASK) {
-+	case IRQ_TYPE_EDGE_BOTH:
-+		type2 |= bit;
-+		/* fall through */
-+	case IRQ_TYPE_EDGE_RISING:
-+		type0 |= bit;
-+		/* fall through */
-+	case IRQ_TYPE_EDGE_FALLING:
-+		handler = handle_edge_irq;
-+		break;
-+	case IRQ_TYPE_LEVEL_HIGH:
-+		type0 |= bit;
-+		/* fall through */
-+	case IRQ_TYPE_LEVEL_LOW:
-+		type1 |= bit;
-+		handler = handle_level_irq;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	spin_lock_irqsave(&gpio->lock, flags);
-+
-+	addr = bank_reg(gpio, bank, reg_irq_type0);
-+	reg = ioread32(addr);
-+	reg = (reg & ~bit) | type0;
-+	iowrite32(reg, addr);
-+
-+	addr = bank_reg(gpio, bank, reg_irq_type1);
-+	reg = ioread32(addr);
-+	reg = (reg & ~bit) | type1;
-+	iowrite32(reg, addr);
-+
-+	addr = bank_reg(gpio, bank, reg_irq_type2);
-+	reg = ioread32(addr);
-+	reg = (reg & ~bit) | type2;
-+	iowrite32(reg, addr);
-+
-+	spin_unlock_irqrestore(&gpio->lock, flags);
-+
-+	irq_set_handler_locked(d, handler);
-+
-+	return 0;
-+}
-+
-+static void aspeed_sgpio_irq_handler(struct irq_desc *desc)
-+{
-+	struct gpio_chip *gc = irq_desc_get_handler_data(desc);
-+	struct irq_chip *ic = irq_desc_get_chip(desc);
-+	struct aspeed_sgpio *data = gpiochip_get_data(gc);
-+	unsigned int i, p, girq;
-+	unsigned long reg;
-+
-+	chained_irq_enter(ic, desc);
-+
-+	for (i = 0; i < ARRAY_SIZE(aspeed_sgpio_banks); i++) {
-+		const struct aspeed_sgpio_bank *bank = &aspeed_sgpio_banks[i];
-+
-+		reg = ioread32(bank_reg(data, bank, reg_irq_status));
-+
-+		for_each_set_bit(p, &reg, 32) {
-+			girq = irq_find_mapping(gc->irq.domain, i * 32 + p);
-+			generic_handle_irq(girq);
-+		}
-+
-+	}
-+
-+	chained_irq_exit(ic, desc);
-+}
-+
-+static struct irq_chip aspeed_sgpio_irqchip = {
-+	.name       = "aspeed-sgpio",
-+	.irq_ack    = aspeed_sgpio_irq_ack,
-+	.irq_mask   = aspeed_sgpio_irq_mask,
-+	.irq_unmask = aspeed_sgpio_irq_unmask,
-+	.irq_set_type   = aspeed_sgpio_set_type,
-+};
-+
-+static int aspeed_sgpio_setup_irqs(struct aspeed_sgpio *gpio,
-+				   struct platform_device *pdev)
-+{
-+	int rc, i;
-+	const struct aspeed_sgpio_bank *bank;
-+
-+	rc = platform_get_irq(pdev, 0);
-+	if (rc < 0)
-+		return rc;
-+
-+	gpio->irq = rc;
-+
-+	/* Disable IRQ and clear Interrupt status registers for all SPGIO Pins. */
-+	for (i = 0; i < ARRAY_SIZE(aspeed_sgpio_banks); i++) {
-+		bank =  &aspeed_sgpio_banks[i];
-+		/* disable irq enable bits */
-+		iowrite32(0x00000000, bank_reg(gpio, bank, reg_irq_enable));
-+		/* clear status bits */
-+		iowrite32(0xffffffff, bank_reg(gpio, bank, reg_irq_status));
-+	}
-+
-+	rc = gpiochip_irqchip_add(&gpio->chip, &aspeed_sgpio_irqchip,
-+				  0, handle_bad_irq, IRQ_TYPE_NONE);
-+	if (rc) {
-+		dev_info(&pdev->dev, "Could not add irqchip\n");
-+		return rc;
-+	}
-+
-+	gpiochip_set_chained_irqchip(&gpio->chip, &aspeed_sgpio_irqchip,
-+				     gpio->irq, aspeed_sgpio_irq_handler);
-+
-+	/* set IRQ settings and Enable Interrupt */
-+	for (i = 0; i < ARRAY_SIZE(aspeed_sgpio_banks); i++) {
-+		bank = &aspeed_sgpio_banks[i];
-+		/* set falling or level-low irq */
-+		iowrite32(0x00000000, bank_reg(gpio, bank, reg_irq_type0));
-+		/* trigger type is edge */
-+		iowrite32(0x00000000, bank_reg(gpio, bank, reg_irq_type1));
-+		/* dual edge trigger mode. */
-+		iowrite32(0xffffffff, bank_reg(gpio, bank, reg_irq_type2));
-+		/* enable irq */
-+		iowrite32(0xffffffff, bank_reg(gpio, bank, reg_irq_enable));
-+	}
-+
-+	return 0;
-+}
-+
-+static int aspeed_sgpio_request(struct gpio_chip *chip, unsigned int offset)
-+{
-+	return (offset < NR_SGPIO);
-+}
-+
-+static const struct of_device_id aspeed_sgpio_of_table[] = {
-+	{ .compatible = "aspeed,ast2400-sgpio" },
-+	{ .compatible = "aspeed,ast2500-sgpio" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, aspeed_sgpio_of_table);
-+
-+static int __init aspeed_sgpio_probe(struct platform_device *pdev)
-+{
-+	struct aspeed_sgpio *gpio;
-+	struct resource *res;
-+	int rc;
-+
-+	gpio = devm_kzalloc(&pdev->dev, sizeof(*gpio), GFP_KERNEL);
-+	if (!gpio)
-+		return -ENOMEM;
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	gpio->base = devm_ioremap_resource(&pdev->dev, res);
-+	if (IS_ERR(gpio->base))
-+		return PTR_ERR(gpio->base);
-+
-+	spin_lock_init(&gpio->lock);
-+
-+	gpio->chip.parent = &pdev->dev;
-+	gpio->chip.ngpio = NR_SGPIO;
-+	gpio->chip.direction_input = aspeed_sgpio_dir_in;
-+	gpio->chip.direction_output = aspeed_sgpio_dir_out;
-+	gpio->chip.get_direction = aspeed_sgpio_get_direction;
-+	gpio->chip.request = aspeed_sgpio_request;
-+	gpio->chip.free = NULL;
-+	gpio->chip.get = aspeed_sgpio_get;
-+	gpio->chip.set = aspeed_sgpio_set;
-+	gpio->chip.set_config = NULL;
-+	gpio->chip.label = dev_name(&pdev->dev);
-+	gpio->chip.base = -1;
-+
-+	rc = devm_gpiochip_add_data(&pdev->dev, &gpio->chip, gpio);
-+	if (rc < 0)
-+		return rc;
-+
-+	return aspeed_sgpio_setup_irqs(gpio, pdev);
-+}
-+
-+static struct platform_driver aspeed_sgpio_driver = {
-+	.driver = {
-+		.name = KBUILD_MODNAME,
-+		.of_match_table = aspeed_sgpio_of_table,
-+	},
-+};
-+
-+module_platform_driver_probe(aspeed_sgpio_driver, aspeed_sgpio_probe);
-+MODULE_DESCRIPTION("Aspeed Serial GPIO Driver");
-+MODULE_LICENSE("GPL");
--- 
-2.7.4
+It'd can't be done as it's used in declarations
+and included in asm files and it uses the UL()
+macro.
+
+I also tried just making it do the right thing
+whatever the argument order.
+
+Oh well.
+
+> My personal take on this is that GENMASK() is really not useful, it's
+> just pure obfuscation and leads to exactly these kinds of mistakes.
+> 
+> Yes, I fully understand the argument that you can just specify the
+> start and end bits, and it _in theory_ makes the code more readable.
+> 
+> However, the problem is when writing code.  GENMASK(a, b).  Is a the
+> starting bit or ending bit?  Is b the number of bits?  It's confusing
+> and causes mistakes resulting in incorrect code.  A BUILD_BUG_ON()
+> can catch some of the cases, but not all of them.
+
+It's a horrid little macro and I agree with Russell.
+
+I also think if it existed at all it should have been
+GENMASK(low, high) not GENMASK(high, low).
+
+I
 
