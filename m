@@ -2,80 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A075564833
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2019 16:22:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E24E5648B2
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2019 16:54:48 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45kLxN616dzDqPW
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jul 2019 00:22:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45kMfZ2kJCzDqJf
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jul 2019 00:54:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.230; helo=new4-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=ami.com
+ (client-ip=63.147.10.42; helo=atlmailgw2.ami.com;
+ envelope-from=hongweiz@ami.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="areAKHtP"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="wCog5qhN"; dkim-atps=neutral
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
+ dmarc=none (p=none dis=none) header.from=ami.com
+Received: from atlmailgw2.ami.com (atlmailgw2.ami.com [63.147.10.42])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45kLpd02GFzDqZn
- for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jul 2019 00:16:40 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 726D31D4F;
- Wed, 10 Jul 2019 10:16:38 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 10 Jul 2019 10:16:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=hxr9rAkA622TK
- EeIYyzO2M20ZsYcXiucnCHO2V4I4XA=; b=areAKHtPvHhhk2atRuVIY6bIScL3j
- AtZjMr1MhlAaIq9k/BNx0zDddWVUR5cfO1ar82i0Vg7FpsenbmnTPH940DSWzIln
- RAmq4Eg1T3DvGzT1ETPZgwvwFbCHQGKFmSJOBUocESPOt7x+IucXiR7oNVsnZ9ex
- WM1x0vTCJjiqDcQMBpL1N45su8pqCZjUrWsbs/wfOflfuBvzMXI6nNW94lnr4S9b
- 2XjZCJAQ+QI2G63j1/7h1GU6vYPtOQiaSHV/jFWbk7+RV+rkRobNQ627JWAQ8MLU
- QGZbXL7MlieIklku1ADNJnSCiPQ7L2Mh4uPmDjCTX+/6OrVODwuNQ+aXA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=hxr9rAkA622TKEeIYyzO2M20ZsYcXiucnCHO2V4I4XA=; b=wCog5qhN
- +nhu22i1lMRNnb0t7uU+EFfFly+EGoPZRiGU1twIJX6p54uVCGJWFhLrP8dKGAOo
- sTrAU/t2G58aQzyNloR4K1cJNeWqYBGB6M1UrFb8fMZr0PiZD/+C8AwTsYnU/iOj
- 2xwEZv31Rk4m7an+vzpQ/6u//38U6frQK02Emd1pGK7tNjeHoNrUXQ47LNIijh+8
- Rm65q+sNJnQ4norW/Hk7z25Y306vWS8ZeMfl4+uNht0qmoZW5Xjr1MBDe93Ic+3g
- mJEyDXjTyQ97uHtvS3kJCRy11iEoEP/5d1IXgXH/u++8Rfpp9CITAWo18Bcif4TB
- oaTGyDr9cH5PKw==
-X-ME-Sender: <xms:RvMlXXz3piyptaXlF9kJLSVTx5VFM3_wOWLPz-LSs9JkqIM4T0vCqQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrgeeigdejiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
- ertddtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghj
- rdhiugdrrghuqeenucfkphepudegrddvrdekhedrvddvnecurfgrrhgrmhepmhgrihhlfh
- hrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:RvMlXTGWXm2hEWctzy2YswFEDWE9L4QO0J91cR0CkHpx1p8hlWU0CA>
- <xmx:RvMlXV6SIN_oxeiq0Q-kDsrDepHs_vgNR2gHziqp536LMW00ZBr2VA>
- <xmx:RvMlXZDCpx7adrfbJ_VYRExQKG9w6zXbjSz1SMqnJ5rBnctsHyttqg>
- <xmx:RvMlXcpErZBQVihBigDUT0YLJHRBpQscIwfcktOLis6tfgo-X92HSg>
-Received: from localhost.localdomain
- (ppp14-2-85-22.adl-apt-pir-bras31.tpg.internode.on.net [14.2.85.22])
- by mail.messagingengine.com (Postfix) with ESMTPA id 7C7E338008F;
- Wed, 10 Jul 2019 10:16:33 -0400 (EDT)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: linux-mmc@vger.kernel.org
-Subject: [PATCH 2/2] mmc: Add support for the ASPEED SD controller
-Date: Wed, 10 Jul 2019 23:46:11 +0930
-Message-Id: <20190710141611.21159-3-andrew@aj.id.au>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190710141611.21159-1-andrew@aj.id.au>
-References: <20190710141611.21159-1-andrew@aj.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45kMfP14ZCzDq67
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jul 2019 00:54:35 +1000 (AEST)
+X-AuditID: ac10606f-bbfff70000003de9-bb-5d25fc271c4c
+Received: from atlms1.us.megatrends.com (atlms1.us.megatrends.com
+ [172.16.96.144])
+ (using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by atlmailgw2.ami.com (Symantec Messaging Gateway) with SMTP id
+ 62.38.15849.82CF52D5; Wed, 10 Jul 2019 10:54:32 -0400 (EDT)
+Received: from ATLMS2.us.megatrends.com ([fe80::29dc:a91e:ea0c:cdeb]) by
+ atlms1.us.megatrends.com ([fe80::8c55:daf0:ef05:5605%12]) with mapi id
+ 14.03.0415.000; Wed, 10 Jul 2019 10:54:31 -0400
+From: Hongwei Zhang <Hongweiz@ami.com>
+To: Andrew Jeffery <andrew@aj.id.au>, Bartosz Golaszewski
+ <bgolaszewski@baylibre.com>, Joel Stanley <joel@jms.id.au>, Linus Walleij
+ <linus.walleij@linaro.org>
+Subject: RE: [PATCH 2/3 v1] ARM: dts: aspeed: Add SGPIO driver
+Thread-Topic: [PATCH 2/3 v1] ARM: dts: aspeed: Add SGPIO driver
+Thread-Index: AdU3L18QRwrQLptrQ+KtIqfSSx1hWg==
+Date: Wed, 10 Jul 2019 14:54:31 +0000
+Message-ID: <14D3C8298A3B0F42A1EB31EE961CFF82AA8F4335@atlms2.us.megatrends.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.100.241]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupikeLIzCtJLcpLzFFi42JZI5AwQVfjj2qswYuX/Ba7LnNYfJl7isXi
+ 9/m/zBZT/ixnstj0+BqrRfPqc8wWm+f/YbS4vGsOmwOHx9X2Xewe72+0sntc/HiM2ePOtT1s
+ HpuX1Hucn7GQ0ePzJrkA9igum5TUnMyy1CJ9uwSujE3Tp7EXfJzOWHGn5T1jA+OV0i5GTg4J
+ AROJQ/s7mLsYuTiEBHYxSVz8dIkdwjnMKNE3cyETSBWbgJrE0z8NYAkRgUWMEkcW3mcHSTAL
+ bGOS+HPdFsQWFrCT+HH1LSuILSJgL3Gpew0LhK0ncbtvAlg9i4CqxJ/1d5lBbF4Bf4nZzVPA
+ FjAKiEl8P7WGCWKmuMStJ/OZIM4TkFiy5zwzhC0q8fLxP1YIW0miYcU/qHodiQW7P7FB2NoS
+ yxa+hpovKHFy5hOWCYzCs5CMnYWkZRaSlllIWhYwsqxiFEosyclNzMxJLzfSS8zN1EvOz93E
+ CImv/B2MHz+aH2Jk4mA8xCjBwawkwrvPXTlWiDclsbIqtSg/vqg0J7X4EKM0B4uSOO+qNd9i
+ hATSE0tSs1NTC1KLYLJMHJxSDYzT5gfYT9go7hv8s3WRiVvJrLWLz6xIPGB6LsPzdcSRzUyv
+ eF2/L3uiHeLsNl1f9XVP4m3Jc/W+X9+9uHMkeqqKNKee9O51Ms9Wsa7UcPLZf5DfIvPIu1pB
+ 15DXSVdmTj2XM702uuf738ct0Z5c5v+fJO+a9cVt0c3PT4Vrj3hp7915bbLyLtt2JZbijERD
+ Leai4kQAky75450CAAA=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,392 +70,633 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, ulf.hansson@linaro.org,
- linux-aspeed@lists.ozlabs.org, ryanchen.aspeed@gmail.com,
- adrian.hunter@intel.com, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ Hongwei Zhang <Hongweiz@ami.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add a minimal driver for ASPEED's SD controller, which exposes two
-SDHCIs.
+Hello Andrew,
 
-The ASPEED design implements a common register set for the SDHCIs, and
-moves some of the standard configuration elements out to this common
-area (e.g. 8-bit mode, and card detect configuration which is not
-currently supported).
+Thanks for your review and comments, please find our inline response at bel=
+ow.
+I will email updated driver code separately, because Outlook breaks source =
+code's tabs.
 
-The SD controller has a dedicated hardware interrupt that is shared
-between the slots. The common register set exposes information on which
-slot triggered the interrupt; early revisions of the patch introduced an
-irqchip for the register, but reality is it doesn't behave as an
-irqchip, and the result fits awkwardly into the irqchip APIs. Instead
-I've taken the simple approach of using the IRQ as a shared IRQ with
-some minor performance impact for the second slot.
+There is one place need your more input for clarification, which is about D=
+ATA_READ/DATA_VALUE registers,=20
+please see it at below.
 
-Ryan was the original author of the patch - I've taken his work and
-massaged it to drop the irqchip support and rework the devicetree
-integration. The driver has been smoke tested under qemu against a
-minimal SD controller model and lightly tested on an ast2500-evb.
+Best Regards,
+-- Hongwei
 
-Signed-off-by: Ryan Chen <ryanchen.aspeed@gmail.com>
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
- drivers/mmc/host/Kconfig           |  12 ++
- drivers/mmc/host/Makefile          |   1 +
- drivers/mmc/host/sdhci-of-aspeed.c | 307 +++++++++++++++++++++++++++++
- 3 files changed, 320 insertions(+)
- create mode 100644 drivers/mmc/host/sdhci-of-aspeed.c
+> From:	Andrew Jeffery <andrew@aj.id.au>
+> Sent:	Wednesday, July 3, 2019 8:06 PM
+> To:	Hongwei Zhang; Bartosz Golaszewski; Joel Stanley; Linus Walleij
+> Cc:	linux-gpio@vger.kernel.org; linux-arm-kernel@lists.infradead.org; lin=
+ux-aspeed@lists.ozlabs.org;=20
+> linux-kernel@vger.kernel.org
+> Subject:	Re: [PATCH 2/3 linux,dev-5.1 v1] ARM: dts: aspeed: Add SGPIO dri=
+ver
+>=20
+> Hello Hongwei,
+>=20
+> As this is patch is sent to the upstream lists (linux-gpio@ etc) please d=
+rop the OpenBMC-specific=20
+> "linux,dev-5.1" from the subject.
+>=20
 
-diff --git a/drivers/mmc/host/Kconfig b/drivers/mmc/host/Kconfig
-index 931770f17087..2bb5e1264b3d 100644
---- a/drivers/mmc/host/Kconfig
-+++ b/drivers/mmc/host/Kconfig
-@@ -154,6 +154,18 @@ config MMC_SDHCI_OF_ARASAN
- 
- 	  If unsure, say N.
- 
-+config MMC_SDHCI_OF_ASPEED
-+	tristate "SDHCI OF support for the ASPEED SDHCI controller"
-+	depends on MMC_SDHCI_PLTFM
-+	depends on OF
-+	help
-+	  This selects the ASPEED Secure Digital Host Controller Interface.
-+
-+	  If you have a controller with this interface, say Y or M here. You
-+	  also need to enable an appropriate bus interface.
-+
-+	  If unsure, say N.
-+
- config MMC_SDHCI_OF_AT91
- 	tristate "SDHCI OF support for the Atmel SDMMC controller"
- 	depends on MMC_SDHCI_PLTFM
-diff --git a/drivers/mmc/host/Makefile b/drivers/mmc/host/Makefile
-index 73578718f119..390ee162fe71 100644
---- a/drivers/mmc/host/Makefile
-+++ b/drivers/mmc/host/Makefile
-@@ -84,6 +84,7 @@ obj-$(CONFIG_MMC_SDHCI_ESDHC_IMX)	+= sdhci-esdhc-imx.o
- obj-$(CONFIG_MMC_SDHCI_DOVE)		+= sdhci-dove.o
- obj-$(CONFIG_MMC_SDHCI_TEGRA)		+= sdhci-tegra.o
- obj-$(CONFIG_MMC_SDHCI_OF_ARASAN)	+= sdhci-of-arasan.o
-+obj-$(CONFIG_MMC_SDHCI_OF_ASPEED)	+= sdhci-of-aspeed.o
- obj-$(CONFIG_MMC_SDHCI_OF_AT91)		+= sdhci-of-at91.o
- obj-$(CONFIG_MMC_SDHCI_OF_ESDHC)	+= sdhci-of-esdhc.o
- obj-$(CONFIG_MMC_SDHCI_OF_HLWD)		+= sdhci-of-hlwd.o
-diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-new file mode 100644
-index 000000000000..23fad19787db
---- /dev/null
-+++ b/drivers/mmc/host/sdhci-of-aspeed.c
-@@ -0,0 +1,307 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/* Copyright (C) 2019 ASPEED Technology Inc. */
-+
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/io.h>
-+#include <linux/mmc/host.h>
-+#include <linux/module.h>
-+#include <linux/of_address.h>
-+#include <linux/of.h>
-+#include <linux/of_platform.h>
-+#include <linux/platform_device.h>
-+#include <linux/spinlock.h>
-+
-+#include "sdhci-pltfm.h"
-+
-+#define ASPEED_SDC_INFO		0x00
-+#define   ASPEED_SDC_S1MMC8	BIT(25)
-+#define   ASPEED_SDC_S0MMC8	BIT(24)
-+
-+struct aspeed_sdc {
-+	struct clk *clk;
-+
-+	spinlock_t lock;
-+	void __iomem *regs;
-+};
-+
-+struct aspeed_sdhci {
-+	struct aspeed_sdc *parent;
-+	u32 width_mask;
-+};
-+
-+static void aspeed_sdc_bus_width(struct aspeed_sdc *sdc,
-+				 struct aspeed_sdhci *sdhci, bool bus8)
-+{
-+	u32 info;
-+
-+	/* Set/clear 8 bit mode */
-+	spin_lock(&sdc->lock);
-+	info = readl(sdc->regs + ASPEED_SDC_INFO);
-+	if (bus8)
-+		info |= sdhci->width_mask;
-+	else
-+		info &= ~sdhci->width_mask;
-+	writel(info, sdc->regs + ASPEED_SDC_INFO);
-+	spin_unlock(&sdc->lock);
-+}
-+
-+static void aspeed_sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
-+{
-+	unsigned long timeout;
-+	int div;
-+	u16 clk;
-+
-+	if (clock == host->clock)
-+		return;
-+
-+	sdhci_writew(host, 0, SDHCI_CLOCK_CONTROL);
-+
-+	if (clock == 0)
-+		goto out;
-+
-+	for (div = 1; div < 256; div *= 2) {
-+		if ((host->max_clk / div) <= clock)
-+			break;
-+	}
-+	div >>= 1;
-+
-+	clk = div << SDHCI_DIVIDER_SHIFT;
-+	clk |= SDHCI_CLOCK_INT_EN;
-+	sdhci_writew(host, clk, SDHCI_CLOCK_CONTROL);
-+
-+	/* Wait max 20 ms */
-+	timeout = 20;
-+	while (!((clk = sdhci_readw(host, SDHCI_CLOCK_CONTROL))
-+		 & SDHCI_CLOCK_INT_STABLE)) {
-+		if (timeout == 0) {
-+			pr_err("%s: Internal clock never stabilised.\n",
-+			       mmc_hostname(host->mmc));
-+			return;
-+		}
-+		timeout--;
-+		mdelay(1);
-+	}
-+
-+	clk |= SDHCI_CLOCK_CARD_EN;
-+	sdhci_writew(host, clk, SDHCI_CLOCK_CONTROL);
-+
-+out:
-+	host->clock = clock;
-+}
-+
-+static void aspeed_sdhci_set_bus_width(struct sdhci_host *host, int width)
-+{
-+	struct sdhci_pltfm_host *pltfm_priv;
-+	struct aspeed_sdhci *aspeed_sdhci;
-+	struct aspeed_sdc *aspeed_sdc;
-+	u8 ctrl;
-+
-+	pltfm_priv = sdhci_priv(host);
-+	aspeed_sdhci = sdhci_pltfm_priv(pltfm_priv);
-+	aspeed_sdc = aspeed_sdhci->parent;
-+
-+	/* Set/clear 8-bit mode */
-+	aspeed_sdc_bus_width(aspeed_sdc, aspeed_sdhci,
-+			     width == MMC_BUS_WIDTH_8);
-+
-+	/* Set/clear 1 or 4 bit mode */
-+	ctrl = sdhci_readb(host, SDHCI_HOST_CONTROL);
-+	if (width == MMC_BUS_WIDTH_4)
-+		ctrl |= SDHCI_CTRL_4BITBUS;
-+	else
-+		ctrl &= ~SDHCI_CTRL_4BITBUS;
-+	sdhci_writeb(host, ctrl, SDHCI_HOST_CONTROL);
-+}
-+
-+static const struct sdhci_ops aspeed_sdhci_ops = {
-+	.set_clock = aspeed_sdhci_set_clock,
-+	.get_max_clock = sdhci_pltfm_clk_get_max_clock,
-+	.set_bus_width = aspeed_sdhci_set_bus_width,
-+	.get_timeout_clock = sdhci_pltfm_clk_get_max_clock,
-+	.reset = sdhci_reset,
-+	.set_uhs_signaling = sdhci_set_uhs_signaling,
-+};
-+
-+static const struct sdhci_pltfm_data aspeed_sdc_pdata = {
-+	.ops = &aspeed_sdhci_ops,
-+	.quirks = SDHCI_QUIRK_CAP_CLOCK_BASE_BROKEN,
-+	.quirks2 = SDHCI_QUIRK2_CLOCK_DIV_ZERO_BROKEN,
-+};
-+
-+static int aspeed_sdhci_probe(struct platform_device *pdev)
-+{
-+	struct sdhci_pltfm_host *pltfm_host;
-+	struct aspeed_sdhci *dev;
-+	struct sdhci_host *host;
-+	u32 slot;
-+	int ret;
-+
-+	host = sdhci_pltfm_init(pdev, &aspeed_sdc_pdata, sizeof(*dev));
-+	if (IS_ERR(host))
-+		return PTR_ERR(host);
-+
-+	pltfm_host = sdhci_priv(host);
-+	dev = sdhci_pltfm_priv(pltfm_host);
-+	dev->parent = dev_get_drvdata(pdev->dev.parent);
-+
-+	ret = of_property_read_u32(pdev->dev.of_node, "slot", &slot);
-+	if (ret < 0)
-+		return ret;
-+	else if (slot > 2)
-+		return -EINVAL;
-+
-+	dev->width_mask = !slot ? ASPEED_SDC_S0MMC8 : ASPEED_SDC_S1MMC8;
-+
-+	sdhci_get_of_property(pdev);
-+
-+	pltfm_host->clk = devm_clk_get(&pdev->dev, NULL);
-+	if (IS_ERR(pltfm_host->clk))
-+		return PTR_ERR(pltfm_host->clk);
-+
-+	ret = clk_prepare_enable(pltfm_host->clk);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Unable to enable SDIO clock\n");
-+		goto err_pltfm_free;
-+	}
-+
-+	ret = mmc_of_parse(host->mmc);
-+	if (ret)
-+		goto err_sdhci_add;
-+
-+	ret = sdhci_add_host(host);
-+	if (ret)
-+		goto err_sdhci_add;
-+
-+	return 0;
-+
-+err_sdhci_add:
-+	clk_disable_unprepare(pltfm_host->clk);
-+err_pltfm_free:
-+	sdhci_pltfm_free(pdev);
-+	return ret;
-+}
-+
-+static int aspeed_sdhci_remove(struct platform_device *pdev)
-+{
-+	struct sdhci_pltfm_host *pltfm_host;
-+	struct sdhci_host *host;
-+	int dead;
-+
-+	host = platform_get_drvdata(pdev);
-+	pltfm_host = sdhci_priv(host);
-+
-+	dead = readl(host->ioaddr + SDHCI_INT_STATUS) == 0xffffffff;
-+
-+	sdhci_remove_host(host, dead);
-+
-+	clk_disable_unprepare(pltfm_host->clk);
-+
-+	sdhci_pltfm_free(pdev);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id aspeed_sdhci_of_match[] = {
-+	{ .compatible = "aspeed,ast2400-sdhci", },
-+	{ .compatible = "aspeed,ast2500-sdhci", },
-+	{ }
-+};
-+
-+MODULE_DEVICE_TABLE(of, aspeed_sdhci_of_match);
-+
-+static struct platform_driver aspeed_sdhci_driver = {
-+	.driver		= {
-+		.name	= "sdhci-aspeed",
-+		.of_match_table = aspeed_sdhci_of_match,
-+	},
-+	.probe		= aspeed_sdhci_probe,
-+	.remove		= aspeed_sdhci_remove,
-+};
-+
-+module_platform_driver(aspeed_sdhci_driver);
-+
-+static int aspeed_sdc_probe(struct platform_device *pdev)
-+
-+{
-+	struct device_node *parent, *child;
-+	struct aspeed_sdc *sdc;
-+	int ret;
-+
-+	sdc = devm_kzalloc(&pdev->dev, sizeof(*sdc), GFP_KERNEL);
-+	if (!sdc)
-+		return -ENOMEM;
-+
-+	spin_lock_init(&sdc->lock);
-+
-+	sdc->clk = devm_clk_get(&pdev->dev, NULL);
-+	if (IS_ERR(sdc->clk))
-+		return PTR_ERR(sdc->clk);
-+
-+	ret = clk_prepare_enable(sdc->clk);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Unable to enable SDCLK\n");
-+		return ret;
-+	}
-+
-+	sdc->regs = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(sdc->regs)) {
-+		ret = PTR_ERR(sdc->regs);
-+		goto err_clk;
-+	}
-+
-+	dev_set_drvdata(&pdev->dev, sdc);
-+
-+	parent = pdev->dev.of_node;
-+	for_each_available_child_of_node(parent, child) {
-+		struct platform_device *cpdev;
-+
-+		cpdev = of_platform_device_create(child, NULL, &pdev->dev);
-+		if (IS_ERR(cpdev)) {
-+			of_node_put(child);
-+			ret = PTR_ERR(pdev);
-+			goto err_clk;
-+		}
-+	}
-+
-+	return 0;
-+
-+err_clk:
-+	clk_disable_unprepare(sdc->clk);
-+	return ret;
-+}
-+
-+static int aspeed_sdc_remove(struct platform_device *pdev)
-+{
-+	struct aspeed_sdc *sdc = dev_get_drvdata(&pdev->dev);
-+
-+	clk_disable_unprepare(sdc->clk);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id aspeed_sdc_of_match[] = {
-+	{ .compatible = "aspeed,ast2400-sdc", .data = &aspeed_sdc_pdata },
-+	{ .compatible = "aspeed,ast2500-sdc", .data = &aspeed_sdc_pdata },
-+	{ }
-+};
-+
-+MODULE_DEVICE_TABLE(of, aspeed_sdc_of_match);
-+
-+static struct platform_driver aspeed_sdc_driver = {
-+	.driver		= {
-+		.name	= "sdc-aspeed",
-+		.pm	= &sdhci_pltfm_pmops,
-+		.of_match_table = aspeed_sdc_of_match,
-+	},
-+	.probe		= aspeed_sdc_probe,
-+	.remove		= aspeed_sdc_remove,
-+};
-+
-+module_platform_driver(aspeed_sdc_driver);
-+
-+MODULE_DESCRIPTION("Driver for the ASPEED SD/SDIO/SDHCI Controllers");
-+MODULE_AUTHOR("Ryan Chen <ryan_chen@aspeedtech.com>");
-+MODULE_AUTHOR("Andrew Jeffery <andrew@aj.id.au>");
-+MODULE_LICENSE("GPL v2");
--- 
-2.20.1
+Got it but to be more specific, for the situation of mixed recipients, shou=
+ld I send out separate emails with=20
+different subject line format in the future?
 
+> Also, it looks like you may have manually added the series revision (v1).
+> For the record you can make `git format-patch` do this for you with the `=
+-v`option (e.g. if you really want=20
+> it here, `-v 1`).
+>=20
+> On Thu, 4 Jul 2019, at 07:09, Hongwei Zhang wrote:
+> > Add SGPIO driver support for Aspeed AST2500 SoC.
+> >=20
+> > Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
+> > ---
+> >  drivers/gpio/sgpio-aspeed.c | 470=20
+> > ++++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 470 insertions(+)
+> >  create mode 100644 drivers/gpio/sgpio-aspeed.c
+> >=20
+> > diff --git a/drivers/gpio/sgpio-aspeed.c b/drivers/gpio/sgpio-aspeed.c=
+=20
+> > new file mode 100644 index 0000000..108ed13
+> > --- /dev/null
+> > +++ b/drivers/gpio/sgpio-aspeed.c
+> > @@ -0,0 +1,470 @@
+> > +/*
+> > + * Copyright 2019 American Megatrends International LLC.=20
+> > + *
+> > + * This program is free software; you can redistribute it and/or
+> > + * modify it under the terms of the GNU General Public License
+> > + * as published by the Free Software Foundation; either version
+> > + * 2 of the License, or (at your option) any later version.
+>=20
+> You should use the SPDX license identifier here rather than the GPL blurb=
+, and it should be the first line=20
+> of the file. Keep your copyright line in place though:
+>=20
+OK
+
+> // SPDX-License-Identifier: GPL-2.0-or-later // Copyright 2019 American M=
+egatrends International LLC.
+>=20
+> > + */
+> > +
+> > +#include <linux/gpio/driver.h>
+> > +#include <linux/gpio/aspeed.h>
+> > +#include <linux/hashtable.h>
+> > +#include <linux/init.h>
+> > +#include <linux/io.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/pinctrl/consumer.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/spinlock.h>
+> > +#include <linux/string.h>
+> > +
+> > +#define NR_SGPIO        80
+> > +
+> > +struct aspeed_sgpio {
+> > +	struct gpio_chip chip;
+> > +	spinlock_t lock;
+> > +	void __iomem *base;
+> > +	int irq;
+> > +};
+> > +
+> > +struct aspeed_sgpio_bank {
+> > +	uint16_t    val_regs;
+> > +	uint16_t    rdata_reg;
+> > +	uint16_t    irq_regs;
+> > +	const char  names[4][3];
+> > +};
+> > +
+> > +/*
+> > + * Note: The "value" register returns the input value sampled on the
+> > + *       line even when the GPIO is configured as an output. Since
+> > + *       that input goes through synchronizers, writing, then reading
+> > + *       back may not return the written value right away.
+> > + *
+> > + *       The "rdata" register returns the content of the write latch
+> > + *       and thus can be used to read back what was last written
+> > + *       reliably.
+> > + */
+> > +
+> > +static const struct aspeed_sgpio_bank aspeed_sgpio_banks[] =3D {
+> > +	{
+> > +		.val_regs =3D 0x0000,
+> > +		.rdata_reg =3D 0x0070,
+> > +		.irq_regs =3D 0x0004,
+> > +		.names =3D { "A", "B", "C", "D" },
+> > +	},
+> > +	{
+> > +		.val_regs =3D 0x001C,
+> > +		.rdata_reg =3D 0x0074,
+> > +		.irq_regs =3D 0x0020,
+> > +		.names =3D { "E", "F", "G", "H" },
+> > +	},
+> > +	{
+> > +		.val_regs =3D 0x0038,
+> > +		.rdata_reg =3D 0x0078,
+> > +		.irq_regs =3D 0x003C,
+> > +		.names =3D { "I", "J" },
+> > +	},
+> > +};
+> > +
+> > +enum aspeed_sgpio_reg {
+> > +	reg_val,
+> > +	reg_rdata,
+> > +	reg_irq_enable,
+> > +	reg_irq_type0,
+> > +	reg_irq_type1,
+> > +	reg_irq_type2,
+> > +	reg_irq_status,
+> > +};
+> > +
+> > +#define GPIO_VAL_VALUE      0x00
+> > +#define GPIO_VAL_DIR        0x04
+> > +#define GPIO_IRQ_ENABLE     0x00
+> > +#define GPIO_IRQ_TYPE0      0x04
+> > +#define GPIO_IRQ_TYPE1      0x08
+> > +#define GPIO_IRQ_TYPE2      0x0C
+> > +#define GPIO_IRQ_STATUS     0x10
+> > +
+> > +/* This will be resolved at compile time */ static inline void=20
+> > +__iomem *bank_reg(struct aspeed_sgpio *gpio,
+> > +				     const struct aspeed_sgpio_bank *bank,
+> > +				     const enum aspeed_sgpio_reg reg) {
+> > +	switch (reg) {
+> > +	case reg_val:
+> > +		return gpio->base + bank->val_regs + GPIO_VAL_VALUE;
+> > +	case reg_rdata:
+> > +		return gpio->base + bank->rdata_reg;
+> > +	case reg_irq_enable:
+> > +		return gpio->base + bank->irq_regs + GPIO_IRQ_ENABLE;
+> > +	case reg_irq_type0:
+> > +		return gpio->base + bank->irq_regs + GPIO_IRQ_TYPE0;
+> > +	case reg_irq_type1:
+> > +		return gpio->base + bank->irq_regs + GPIO_IRQ_TYPE1;
+> > +	case reg_irq_type2:
+> > +		return gpio->base + bank->irq_regs + GPIO_IRQ_TYPE2;
+> > +	case reg_irq_status:
+> > +		return gpio->base + bank->irq_regs + GPIO_IRQ_STATUS;
+> > +	}
+> > +	BUG_ON(1);
+>=20
+> This isn't appropriate - we shouldn't take down the kernel on a faulty pe=
+ripheral access. Please change=20
+> this to WARN().
+>=20
+              -  Cannot change it to WARN(), it throws build error, warning=
+: control reaches end of non-void=20
+                 function [-Wreturn-type], so I add WARN_ON() in the switch=
+'s 'default: ' case statement, and
+                 followed with a return(gpio->base) to mute the [-Wreturn-t=
+ype] compiling warning.
+
+> > +}
+> > +
+> > +#define GPIO_BANK(x)    ((x) >> 5)
+> > +#define GPIO_OFFSET(x)  ((x) & 0x1f)
+> > +#define GPIO_BIT(x)     BIT(GPIO_OFFSET(x))
+> > +
+> > +static const struct aspeed_sgpio_bank *to_bank(unsigned int offset) {
+> > +	unsigned int bank =3D GPIO_BANK(offset);
+> > +
+> > +	WARN_ON(bank >=3D ARRAY_SIZE(aspeed_sgpio_banks));
+> > +	return &aspeed_sgpio_banks[bank];
+> > +}
+> > +
+> > +static inline bool have_gpio(struct aspeed_sgpio *gpio, unsigned int
+> > offset)
+> > +{
+> > +	const struct aspeed_sgpio_bank *bank =3D to_bank(offset);
+> > +	unsigned int group =3D GPIO_OFFSET(offset) / 8;
+> > +
+> > +	return bank->names[group][0] !=3D '\0';
+>=20
+> Lets just drop have_gpio() altogether, it's a contiguous set of 80 GPIOs.
+> At best this should just be:
+>=20
+> static inline bool have_gpio(struct aspeed_sgpio *gpio, unsigned int offs=
+et) {
+>     return offset < NR_SGPIO;
+> }
+>=20
+> But lets just assume that we've properly configured the gpio subsystem fo=
+r the controller and remove it=20
+> completely.
+>=20
+
+Karthik - [Addressed] Removed have_gpio()
+
+> > +}
+> > +
+> > +static int aspeed_sgpio_get(struct gpio_chip *gc, unsigned int=20
+> > +offset) {
+> > +	struct aspeed_sgpio *gpio =3D gpiochip_get_data(gc);
+> > +	const struct aspeed_sgpio_bank *bank =3D to_bank(offset);
+> > +
+> > +	return !!(ioread32(bank_reg(gpio, bank, reg_val)) &=20
+> > +GPIO_BIT(offset)); }
+> > +
+> > +static void __aspeed_sgpio_set(struct gpio_chip *gc, unsigned int
+> > offset,
+> > +			       int val)
+>=20
+> No need to split this out from aspeed_sgpio_set() below. Separating the i=
+mplementation was necessary=20
+> in the parallel GPIO driver for reasons that aren't relevant here.
+>=20
+
+Karthik - [Addressed] Merged into single API itself.
+
+> > +{
+> > +	struct aspeed_sgpio *gpio =3D gpiochip_get_data(gc);
+> > +	const struct aspeed_sgpio_bank *bank =3D to_bank(offset);
+> > +	void __iomem *addr;
+> > +	u32 reg;
+> > +
+> > +	addr =3D bank_reg(gpio, bank, reg_val);
+> > +
+> > +	if (val)
+> > +		reg |=3D GPIO_BIT(offset);
+> > +	else
+> > +		reg &=3D ~GPIO_BIT(offset);
+> > +
+> > +	iowrite32(reg, addr);
+> > +}
+> > +
+> > +static void aspeed_sgpio_set(struct gpio_chip *gc, unsigned int offset=
+,
+> > +			     int val)
+> > +{
+> > +	struct aspeed_sgpio *gpio =3D gpiochip_get_data(gc);
+> > +	unsigned long flags;
+> > +
+> > +	spin_lock_irqsave(&gpio->lock, flags);
+> > +
+> > +	__aspeed_sgpio_set(gc, offset, val);
+> > +
+> > +	spin_unlock_irqrestore(&gpio->lock, flags); }
+> > +
+> > +static int aspeed_sgpio_dir_in(struct gpio_chip *gc, unsigned int
+> > offset)
+> > +{
+> > +	/* By default all SGPIO Pins are input */
+>=20
+> Right, but with your implementation below you can never mark them as outp=
+ut.
+>=20
+
+Karthik - [Addressed] Just return success if user space try to set dir as i=
+nput or output.
+
+> > +	return 0;
+> > +}
+> > +
+> > +static int aspeed_sgpio_get_direction(struct gpio_chip *gc, unsigned
+> > int offset)
+> > +{
+> > +	/* By default all SGPIO Pins are input */
+> > +	return 1;
+>=20
+> As above. Given my understanding of SGPIO, I think you should be implemen=
+ting both dir_in() and=20
+> dir_out(), and capturing which state userspace "wants" the GPIO to be in,=
+ and directing reads/writes to=20
+> the DATA_READ/DATA_VALUE registers as appropriate. There's no state we ne=
+ed to modify in the=20
+> hardware, but that doesn't mean we shouldn't capture the intent of usersp=
+ace at all.
+>=20
+
+Karthik -  Just return success if user space try to set dir as input or out=
+put.=20
+                 But I don't understand the point directing reads/writes to=
+ the DATA_READ/DATA_VALUE Registers.=20
+                 If userspace configured GPIO as input, Then get_gpio() sho=
+uld return reg_rdata value?
+                 If userspace configured GPIO as output, Then get_gpio() sh=
+ould return reg_val value?
+                 Please clarify.
+
+> > +
+> > +}
+> > +
+> > +static inline int irqd_to_aspeed_sgpio_data(struct irq_data *d,
+> > +					    struct aspeed_sgpio **gpio,
+> > +					    const struct aspeed_sgpio_bank **bank,
+> > +					    u32 *bit, int *offset)
+> > +{
+> > +	struct aspeed_sgpio *internal;
+> > +
+> > +	*offset =3D irqd_to_hwirq(d);
+> > +
+> > +	internal =3D irq_data_get_irq_chip_data(d);
+> > +
+> > +	*gpio =3D internal;
+> > +	*bank =3D to_bank(*offset);
+> > +	*bit =3D GPIO_BIT(*offset);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static void aspeed_sgpio_irq_ack(struct irq_data *d) {
+> > +	const struct aspeed_sgpio_bank *bank;
+> > +	struct aspeed_sgpio *gpio;
+> > +	unsigned long flags;
+> > +	void __iomem *status_addr;
+> > +	int rc, offset;
+> > +	u32 bit;
+> > +
+> > +	rc =3D irqd_to_aspeed_sgpio_data(d, &gpio, &bank, &bit, &offset);
+> > +	if (rc)
+> > +		return;
+> > +
+> > +	status_addr =3D bank_reg(gpio, bank, reg_irq_status);
+> > +
+> > +	spin_lock_irqsave(&gpio->lock, flags);
+> > +
+> > +	iowrite32(bit, status_addr);
+> > +
+> > +	spin_unlock_irqrestore(&gpio->lock, flags); }
+> > +
+> > +static void aspeed_sgpio_irq_set_mask(struct irq_data *d, bool set) {
+> > +	const struct aspeed_sgpio_bank *bank;
+> > +	struct aspeed_sgpio *gpio;
+> > +	unsigned long flags;
+> > +	u32 reg, bit;
+> > +	void __iomem *addr;
+> > +	int rc, offset;
+> > +
+> > +	rc =3D irqd_to_aspeed_sgpio_data(d, &gpio, &bank, &bit, &offset);
+> > +	if (rc)
+> > +		return;
+> > +
+> > +	addr =3D bank_reg(gpio, bank, reg_irq_enable);
+> > +
+> > +	spin_lock_irqsave(&gpio->lock, flags);
+> > +
+> > +	reg =3D ioread32(addr);
+> > +	if (set)
+> > +		reg |=3D bit;
+> > +	else
+> > +		reg &=3D ~bit;
+> > +
+> > +	iowrite32(reg, addr);
+> > +
+> > +	spin_unlock_irqrestore(&gpio->lock, flags); }
+> > +
+> > +static void aspeed_sgpio_irq_mask(struct irq_data *d) {
+> > +	aspeed_sgpio_irq_set_mask(d, false); }
+> > +
+> > +static void aspeed_sgpio_irq_unmask(struct irq_data *d) {
+> > +	aspeed_sgpio_irq_set_mask(d, true);
+> > +}
+> > +
+> > +static int aspeed_sgpio_set_type(struct irq_data *d, unsigned int=20
+> > +type) {
+> > +	u32 type0 =3D 0;
+> > +	u32 type1 =3D 0;
+> > +	u32 type2 =3D 0;
+> > +	u32 bit, reg;
+> > +	const struct aspeed_sgpio_bank *bank;
+> > +	irq_flow_handler_t handler;
+> > +	struct aspeed_sgpio *gpio;
+> > +	unsigned long flags;
+> > +	void __iomem *addr;
+> > +	int rc, offset;
+> > +
+> > +	rc =3D irqd_to_aspeed_sgpio_data(d, &gpio, &bank, &bit, &offset);
+> > +	if (rc)
+> > +		return -EINVAL;
+> > +
+> > +	switch (type & IRQ_TYPE_SENSE_MASK) {
+> > +	case IRQ_TYPE_EDGE_BOTH:
+> > +		type2 |=3D bit;
+> > +		/* fall through */
+> > +	case IRQ_TYPE_EDGE_RISING:
+> > +		type0 |=3D bit;
+> > +		/* fall through */
+> > +	case IRQ_TYPE_EDGE_FALLING:
+> > +		handler =3D handle_edge_irq;
+> > +		break;
+> > +	case IRQ_TYPE_LEVEL_HIGH:
+> > +		type0 |=3D bit;
+> > +		/* fall through */
+> > +	case IRQ_TYPE_LEVEL_LOW:
+> > +		type1 |=3D bit;
+> > +		handler =3D handle_level_irq;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	spin_lock_irqsave(&gpio->lock, flags);
+> > +
+> > +	addr =3D bank_reg(gpio, bank, reg_irq_type0);
+> > +	reg =3D ioread32(addr);
+> > +	reg =3D (reg & ~bit) | type0;
+> > +	iowrite32(reg, addr);
+> > +
+> > +	addr =3D bank_reg(gpio, bank, reg_irq_type1);
+> > +	reg =3D ioread32(addr);
+> > +	reg =3D (reg & ~bit) | type1;
+> > +	iowrite32(reg, addr);
+> > +
+> > +	addr =3D bank_reg(gpio, bank, reg_irq_type2);
+> > +	reg =3D ioread32(addr);
+> > +	reg =3D (reg & ~bit) | type2;
+> > +	iowrite32(reg, addr);
+> > +
+> > +	spin_unlock_irqrestore(&gpio->lock, flags);
+> > +
+> > +	irq_set_handler_locked(d, handler);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static void aspeed_sgpio_irq_handler(struct irq_desc *desc) {
+> > +	struct gpio_chip *gc =3D irq_desc_get_handler_data(desc);
+> > +	struct irq_chip *ic =3D irq_desc_get_chip(desc);
+> > +	struct aspeed_sgpio *data =3D gpiochip_get_data(gc);
+> > +	unsigned int i, p, girq;
+> > +	unsigned long reg;
+> > +
+> > +	chained_irq_enter(ic, desc);
+> > +
+> > +	for (i =3D 0; i < ARRAY_SIZE(aspeed_sgpio_banks); i++) {
+> > +		const struct aspeed_sgpio_bank *bank =3D &aspeed_sgpio_banks[i];
+> > +
+> > +		reg =3D ioread32(bank_reg(data, bank, reg_irq_status));
+> > +
+> > +		for_each_set_bit(p, &reg, 32) {
+> > +			girq =3D irq_find_mapping(gc->irq.domain, i * 32 + p);
+> > +			generic_handle_irq(girq);
+> > +		}
+> > +
+> > +	}
+> > +
+> > +	chained_irq_exit(ic, desc);
+> > +}
+> > +
+> > +static struct irq_chip aspeed_sgpio_irqchip =3D {
+> > +	.name       =3D "aspeed-sgpio",
+> > +	.irq_ack    =3D aspeed_sgpio_irq_ack,
+> > +	.irq_mask   =3D aspeed_sgpio_irq_mask,
+> > +	.irq_unmask =3D aspeed_sgpio_irq_unmask,
+> > +	.irq_set_type   =3D aspeed_sgpio_set_type,
+> > +};
+> > +
+> > +static int aspeed_sgpio_setup_irqs(struct aspeed_sgpio *gpio,
+> > +				   struct platform_device *pdev)
+> > +{
+> > +	int rc, i;
+> > +	const struct aspeed_sgpio_bank *bank;
+> > +
+> > +	rc =3D platform_get_irq(pdev, 0);
+> > +	if (rc < 0)
+> > +		return rc;
+> > +
+> > +	gpio->irq =3D rc;
+> > +
+> > +	/* Disable IRQ and clear Interrupt status registers for all SPGIO
+> > Pins. */
+> > +	for (i =3D 0; i < ARRAY_SIZE(aspeed_sgpio_banks); i++) {
+> > +		bank =3D  &aspeed_sgpio_banks[i];
+> > +		/* disable irq enable bits */
+> > +		iowrite32(0x00000000, bank_reg(gpio, bank, reg_irq_enable));
+> > +		/* clear status bits */
+> > +		iowrite32(0xffffffff, bank_reg(gpio, bank, reg_irq_status));
+> > +	}
+> > +
+> > +	rc =3D gpiochip_irqchip_add(&gpio->chip, &aspeed_sgpio_irqchip,
+> > +				  0, handle_bad_irq, IRQ_TYPE_NONE);
+> > +	if (rc) {
+> > +		dev_info(&pdev->dev, "Could not add irqchip\n");
+> > +		return rc;
+> > +	}
+> > +
+> > +	gpiochip_set_chained_irqchip(&gpio->chip, &aspeed_sgpio_irqchip,
+> > +				     gpio->irq, aspeed_sgpio_irq_handler);
+> > +
+> > +	/* set IRQ settings and Enable Interrupt */
+> > +	for (i =3D 0; i < ARRAY_SIZE(aspeed_sgpio_banks); i++) {
+> > +		bank =3D &aspeed_sgpio_banks[i];
+> > +		/* set falling or level-low irq */
+> > +		iowrite32(0x00000000, bank_reg(gpio, bank, reg_irq_type0));
+> > +		/* trigger type is edge */
+> > +		iowrite32(0x00000000, bank_reg(gpio, bank, reg_irq_type1));
+> > +		/* dual edge trigger mode. */
+> > +		iowrite32(0xffffffff, bank_reg(gpio, bank, reg_irq_type2));
+> > +		/* enable irq */
+> > +		iowrite32(0xffffffff, bank_reg(gpio, bank, reg_irq_enable));
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int aspeed_sgpio_request(struct gpio_chip *chip, unsigned int
+> > offset)
+> > +{
+> > +	if (!have_gpio(gpiochip_get_data(chip), offset))
+> > +		return -ENODEV;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct of_device_id aspeed_sgpio_of_table[] =3D {
+> > +	{ .compatible =3D "aspeed,ast2400-sgpio", .data =3D NULL, },
+> > +	{ .compatible =3D "aspeed,ast2500-sgpio", .data =3D NULL,},
+>=20
+> You can drop the assignment to data.
+>=20
+
+Karthik - [Addressed]  dropped data parameter
+
+> > +	{}
+> > +};
+> > +MODULE_DEVICE_TABLE(of, aspeed_sgpio_of_table);
+> > +
+> > +static int __init aspeed_sgpio_probe(struct platform_device *pdev) {
+> > +	const struct of_device_id *gpio_id;
+> > +	struct aspeed_sgpio *gpio;
+> > +	struct resource *res;
+> > +	int rc, i;
+> > +
+> > +	gpio =3D devm_kzalloc(&pdev->dev, sizeof(*gpio), GFP_KERNEL);
+> > +	if (!gpio)
+> > +		return -ENOMEM;
+> > +
+> > +	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > +	gpio->base =3D devm_ioremap_resource(&pdev->dev, res);
+> > +	if (IS_ERR(gpio->base))
+> > +		return PTR_ERR(gpio->base);
+> > +
+> > +	spin_lock_init(&gpio->lock);
+> > +
+> > +	gpio_id =3D of_match_node(aspeed_sgpio_of_table, pdev->dev.of_node);
+> > +	if (!gpio_id)
+> > +		return -EINVAL;
+>=20
+> gpio_id isn't used, so you can drop the of_match_node() above.
+>=20
+
+Karthik - [Addressed]  dropped gpio_id
+
+> > +
+> > +	gpio->chip.parent =3D &pdev->dev;
+> > +	gpio->chip.ngpio =3D NR_SGPIO;
+> > +	gpio->chip.direction_input =3D aspeed_sgpio_dir_in;
+> > +	gpio->chip.direction_output =3D NULL;
+>=20
+> We can do outputs too - we shouldn't be omitting the direction_output cal=
+lback, see the discussion=20
+> above about dir_in()/dir_out()/get_direction()
+>=20
+
+Karthik - [Addressed]  Added output API also.
+
+> Andrew
+>=20
+> > +	gpio->chip.get_direction =3D aspeed_sgpio_get_direction;
+> > +	gpio->chip.request =3D aspeed_sgpio_request;
+> > +	gpio->chip.free =3D NULL;
+> > +	gpio->chip.get =3D aspeed_sgpio_get;
+> > +	gpio->chip.set =3D aspeed_sgpio_set;
+> > +	gpio->chip.set_config =3D NULL;
+> > +	gpio->chip.label =3D dev_name(&pdev->dev);
+> > +	gpio->chip.base =3D -1;
+> > +
+> > +	rc =3D devm_gpiochip_add_data(&pdev->dev, &gpio->chip, gpio);
+> > +	if (rc < 0)
+> > +		return rc;
+> > +
+> > +	return aspeed_sgpio_setup_irqs(gpio, pdev); }
+> > +
+> > +static struct platform_driver aspeed_sgpio_driver =3D {
+> > +	.driver =3D {
+> > +		.name =3D KBUILD_MODNAME,
+> > +		.of_match_table =3D aspeed_sgpio_of_table,
+> > +	},
+> > +};
+> > +
+> > +module_platform_driver_probe(aspeed_sgpio_driver,=20
+> > +aspeed_sgpio_probe); MODULE_DESCRIPTION("Aspeed Serial GPIO Driver");=
+=20
+> > +MODULE_LICENSE("GPL");
+> > --
+> > 2.7.4
+> >=20
+> >
