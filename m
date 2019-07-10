@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD4663F12
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2019 04:01:07 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45k2Tq4mF9zDqZ9
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2019 12:01:03 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC9963F25
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2019 04:16:17 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 45k2qL45R4zDqZW
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2019 12:16:14 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -16,65 +16,65 @@ Authentication-Results: lists.ozlabs.org;
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="cjGnS0LQ"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="N5HOs7+r"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="l8wM/ukD"; dkim-atps=neutral
+ header.b="rFoFNF7V"; dkim-atps=neutral
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45k2St18NqzDqZP
- for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jul 2019 12:00:13 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45k2qD3B06zDqY5
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jul 2019 12:16:08 +1000 (AEST)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 2C3BE22493;
- Tue,  9 Jul 2019 22:00:10 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 2EC4122460;
+ Tue,  9 Jul 2019 22:16:05 -0400 (EDT)
 Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Tue, 09 Jul 2019 22:00:10 -0400
+ by compute4.internal (MEProxy); Tue, 09 Jul 2019 22:16:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=lzL/P/6XyszwFm6GR1tak3ZTNCxTfU8
- xFHl3trMlzBo=; b=cjGnS0LQ/zRspsmBRBkhxGxS171JISRFA57HNB5zx6DtsWZ
- 1gbg+wBMvXfB/nYBRarwW09O0P3miQBh71wFet2rjgdbUrdwlQ5iHQGr6EQ03B/I
- 6bEHtsp8sEkzjhGWmtdXlVvTb2pmJY9IhaosjABz4hUI47C264v3uVwK/SqSCm83
- iVclJXGh768M18FK5vjVDf3OXt3TCHsHG039IsX5R7KYezfEMcx2rTDgDCYN1uIZ
- hjybXhn5DvhoJ0iNgwgkJfkR7/KiSYxB1mhWzGH5kiQGjkvC1x0D3Ng9tU0hhrIg
- uw57Uyvutnk3Aeh4pF8/RoamEfpYtPzwxc6KZEg==
+ :subject:content-type; s=fm3; bh=5bWrIcP8UjAg5UmoomU2W8F9lAlb5kN
+ yGswff6nCzsI=; b=N5HOs7+r/2TZvYRABQ4YWWnYO2Ie8R/7nMD6N3kktwfqBsc
+ WFBGym4M379zo71+ww9HItVnfeB+UfwDN0ImjXLJn0ObHQhKAMJYelRmTpiq8Yew
+ +b/fMAxaPcLLvHZr8zmf90JfWqg+THvTNaTR+2bzgFJ8YI7+XiF3wJ7QTeRg64ky
+ jFeGA+wL7FmPh4Om49B1wfHybk7FYpKEE8tcbBvCa3FLOqLRBHlQgbrOcl1VChhd
+ fTtr5u7kd6D5v3wj6lLdDNGicPCPYkIIagN2IWFZxM2XhF1B4xZ5vXlIlIp9OI1i
+ 1QT0G+pmCzKmK50fMWD0rLVk2Y+1IEDCZ3d2IvA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=lzL/P/
- 6XyszwFm6GR1tak3ZTNCxTfU8xFHl3trMlzBo=; b=l8wM/ukDu2ovfJId8tYGOL
- 4rfZH+YbNLTR94C9XeJYypnkPSF1jEwRaf+ZZ3F+nyYx8HUcKZQDkEJX6qdRL1qe
- WW3GVmmMxvyqzVr4Cu11z805KzDjEFl/ms5MJBE804Y7bRMhK3cevhXEMxftYJuC
- DWn4/aZpZ6c5oCy4Lmg/w5GqJeQVZaozUav7to8N7N/a+cU4WZGRBd1DvDsMRVme
- 1hpYSBItxRGMC03yYgIGJ4RwHz9wPPKUvFFkwuOYUTZCX6jqALNE9pB5+s7p9N4B
- zWYYdhiZA4+oj87XYcSxx+sgTVFSWdPf+9+h02tmBh7SUsIg7Zt9wN+mPsYa2x1g
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=5bWrIc
+ P8UjAg5UmoomU2W8F9lAlb5kNyGswff6nCzsI=; b=rFoFNF7VTheq4MajAP4eWv
+ tCsH1eTUG0hw6Jrj4alZRgVhsi9z+1yo5Ki4CcyHJeTQrUKgA0eBjlBT4cpB+zbh
+ YwnEMC9DNOCYG9yj0wXMcPpNLc61O0XEGuVi4N3pCtoON5S3G535G8rKiDI+ST5x
+ JvXYjl0BYv7/OT8u48OCPXIjzRlq1NSXcNYUo0bn9ptWy8Kt+To1Ax4EA9CrCLq/
+ USWx/QMWwveWfEX/khKk3vNvAejc6gXrxAoDyvXuQVXgmjeMWOiautovFyB/Gnte
+ ce571NETXRQCPiZdoQov0gMqwyvSbnQZvf4MKq8WrZbbW9/yyrHrUmbmJhr6x8Qw
  ==
-X-ME-Sender: <xms:qEYlXd1lMHkppkzm8FQurPkOYfEKQC7WnYE9xF4Bh7baDoKnQpaWyQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrgeeggdehvdcutefuodetggdotefrodftvf
+X-ME-Sender: <xms:ZEolXR3XnW_F9wcBrukA_vPC2dshfB1wGZn2h4ZUZ0bQjppNTjH8wQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrgeehgddtvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
  vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
  hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
  ufhiiigvpedt
-X-ME-Proxy: <xmx:qEYlXSvhixOSJI878hkt76xxXtqqHcU-otcrEBLoXfHkwvE816z23Q>
- <xmx:qEYlXdgQOiEwFeu2THopzBZOCC-eBGTDUi8Vj3O8xvuSwonmmmiJsw>
- <xmx:qEYlXRCdhKj-5_bFThl0r4KwWf18GbiE07xIQORcF7PvUAJ63Yewrg>
- <xmx:qkYlXd1hRoVOSyjICp5kBBVXf_E_2Zll_0ZULRUhQ1Rm5-OZJf9nkA>
+X-ME-Proxy: <xmx:ZEolXS43bZlKOBuVAFi2pePMIKLwiGbiXq37QxMkh0yqvzh_t-HQFA>
+ <xmx:ZEolXQKfowdlI6P6qiLUQ9hrUZy1MZCBAAWumnxtXs0luTEi4dUC1Q>
+ <xmx:ZEolXeY3Rp21OAB7TFnCNpY1KXNW-ANyIw6U73CgV89AwKq_qGmvuQ>
+ <xmx:ZUolXeCjcCokGqAaci2yJaWt4bTUso15OfSVoGw9WKt9nsq8t9lb8Q>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id D3530E0193; Tue,  9 Jul 2019 22:00:08 -0400 (EDT)
+ id 660EFE0193; Tue,  9 Jul 2019 22:16:04 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.1.6-731-g19d3b16-fmstable-20190627v1
 Mime-Version: 1.0
-Message-Id: <90c0c965-00ae-4f7a-a6f5-258572398bb0@www.fastmail.com>
-In-Reply-To: <CAL_Jsq+0z4OZ7qbaiUva1v5xCKXpsaPBZ9tj_M4HbEihsU_MfA@mail.gmail.com>
+Message-Id: <9c998f5f-42ef-43bd-b024-839ee00126de@www.fastmail.com>
+In-Reply-To: <1562184069-22332-1-git-send-email-hongweiz@ami.com>
 References: <1562184069-22332-1-git-send-email-hongweiz@ami.com>
- <CAL_Jsq+0z4OZ7qbaiUva1v5xCKXpsaPBZ9tj_M4HbEihsU_MfA@mail.gmail.com>
-Date: Wed, 10 Jul 2019 11:30:14 +0930
+Date: Wed, 10 Jul 2019 11:46:09 +0930
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Rob Herring" <robh+dt@kernel.org>, "Hongwei Zhang" <hongweiz@ami.com>
+To: "Hongwei Zhang" <hongweiz@ami.com>, devicetree@vger.kernel.org,
+ "Joel Stanley" <joel@jms.id.au>, "Linus Walleij" <linus.walleij@linaro.org>
 Subject: Re: [linux,dev-5.1 v1] dt-bindings: gpio: aspeed: Add SGPIO support
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -88,32 +88,95 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, Linus Walleij <linus.walleij@linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
 
-On Wed, 10 Jul 2019, at 04:23, Rob Herring wrote:
-> On Wed, Jul 3, 2019 at 2:01 PM Hongwei Zhang <hongweiz@ami.com> wrote:
-> >
-> > Add bindings to support SGPIO on AST2400 or AST2500.
-> >
-> > Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
-> > ---
-> >  .../devicetree/bindings/gpio/sgpio-aspeed.txt      | 36 ++++++++++++++++++++++
+On Thu, 4 Jul 2019, at 05:31, Hongwei Zhang wrote:
+> Add bindings to support SGPIO on AST2400 or AST2500.
 > 
-> Is this SGPIO as in the blinky lights for HDDs in servers? If so, that
-> has nothing to do with Linux GPIO subsystem.
+> Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
+> ---
+>  .../devicetree/bindings/gpio/sgpio-aspeed.txt      | 36 ++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
 > 
+> diff --git a/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt 
+> b/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
+> new file mode 100644
+> index 0000000..f5fc6ef
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
+> @@ -0,0 +1,36 @@
+> +Aspeed SGPIO controller Device Tree Bindings
+> +-------------------------------------------
+> +
+> +Required properties:
+> +- compatible		: Either "aspeed,ast2400-sgpio" or "aspeed,ast2500-sgpio"
+> +
+> +- #gpio-cells 		: Should be two
+> +			  - First cell is the GPIO line number
+> +			  - Second cell is used to specify optional
+> +			    parameters (unused)
+> +
+> +- reg			: Address and length of the register set for the device
+> +- gpio-controller	: Marks the device node as a GPIO controller.
+> +- interrupts		: Interrupt specifier (see interrupt bindings for
+> +			  details)
+> +- interrupt-controller	: Mark the GPIO controller as an 
+> interrupt-controller
 
-No, this is just literal serialised GPIO, which can be used with e.g. nexperia
-74LV595 / 74LV165 parts.
+As this is a serial GPIO controller, a critical piece of configuration
+information is how many GPIOs we wish to serialise. This is done
+in multiples of 8, up to 80 pins.
 
-There is a separate chunk of IP in the SoC that acts as an SFF-8485 (blinky
-lights) slave monitor.
+The bindings need to describe the "ngpios" property from the
+generic GPIO bindings and how this affects the behaviour of
+the controller.
+
+We also need to add the "bus-frequency" property here to control
+the rate of SGPMCK.
+
+> +
+> +Optional properties:
+> +
+> +- clocks                : A phandle to the clock to use for debounce 
+> timings
+
+We need this, but not for the reason specified, and it should be a
+required property. We need PCLK (the APB clock) to derive the SGPIO
+bus frequency. Despite what the datasheet blurb says, there's no
+debounce control for the SGPIO master (this is a copy/paste mistake
+from the description of the parallel GPIO master).
+
+> +
+> +The sgpio and interrupt properties are further described in their 
+> respective
+> +bindings documentation:
+> +
+> +- Documentation/devicetree/bindings/sgpio/gpio.txt
+> +- Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
+> +
+> +  Example:
+> +	sgpio@1e780200 {
+> +		#gpio-cells = <2>;
+> +		compatible = "aspeed,ast2500-sgpio";
+> +		gpio-controller;
+> +		interrupts = <40>;
+> +		reg = <0x1e780200 0x0100>;
+> +		interrupt-controller;
+> +	};
+
+You'll need to fix up the example after making the changes mentioned
+above.
 
 Andrew
+
+> -- 
+> 2.7.4
+> 
+>
