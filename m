@@ -1,57 +1,82 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544BB64AA6
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jul 2019 18:21:02 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45kPZ36XN4zDqlK
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jul 2019 02:20:59 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1891664FB8
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jul 2019 02:56:59 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 45kd1M6crWzDqgs
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Jul 2019 10:56:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (mailfrom) smtp.mailfrom=perches.com
- (client-ip=216.40.44.43; helo=smtprelay.hostedemail.com;
- envelope-from=joe@perches.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=66.111.4.224; helo=new2-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=perches.com
-Received: from smtprelay.hostedemail.com (smtprelay0043.hostedemail.com
- [216.40.44.43])
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="aHdt9kG3"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="I/65hYuq"; dkim-atps=neutral
+Received: from new2-smtp.messagingengine.com (unknown [66.111.4.224])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45kPDt35nHzDqq8
- for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jul 2019 02:06:06 +1000 (AEST)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
- [10.5.19.251])
- by smtpgrave06.hostedemail.com (Postfix) with ESMTP id EF2DA801570D
- for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jul 2019 16:06:02 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay03.hostedemail.com (Postfix) with ESMTP id A05E28368EF4;
- Wed, 10 Jul 2019 16:01:31 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 
-X-HE-Tag: balls52_46dfd74d6cd5c
-X-Filterd-Recvd-Size: 2713
-Received: from XPS-9350.home (cpe-23-242-196-136.socal.res.rr.com
- [23.242.196.136]) (Authenticated sender: joe@perches.com)
- by omf18.hostedemail.com (Postfix) with ESMTPA;
- Wed, 10 Jul 2019 16:01:26 +0000 (UTC)
-Message-ID: <c94a0a50c41c7530354b4a662ee945212424c8c7.camel@perches.com>
-Subject: Re: [PATCH 00/12] treewide: Fix GENMASK misuses
-From: Joe Perches <joe@perches.com>
-To: Russell King - ARM Linux admin <linux@armlinux.org.uk>, Johannes Berg
- <johannes@sipsolutions.net>
-Date: Wed, 10 Jul 2019 09:01:25 -0700
-In-Reply-To: <b9c3b83c9be50286062ae8cefd5d38e2baa0fb22.camel@perches.com>
-References: <cover.1562734889.git.joe@perches.com>
- <5fa1fa6998332642c49e2d5209193ffe2713f333.camel@sipsolutions.net>
- <20190710094337.wf2lftxzfjq2etro@shell.armlinux.org.uk>
- <b9c3b83c9be50286062ae8cefd5d38e2baa0fb22.camel@perches.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45kd1D5czVzDqgC
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Jul 2019 10:56:47 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C158EBA1;
+ Wed, 10 Jul 2019 20:56:34 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Wed, 10 Jul 2019 20:56:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm3; bh=oNe9eio8XYT1BZ4ZF/+0zEh/gS2//e+
+ l2qNxRtVLoLs=; b=aHdt9kG3CNNk/uJNVaKK+zTZTYd4G2PBndNMU3gfzXo3K8a
+ H793vKvHpSsnsJAc2+SKuNPiw+aOx+rfHrSZXKLZD1C30e+EbB10RphqxX0mM0p7
+ SWHCucYCRZQH3lcTXVq1C0V5JdOP6jhe6GN38FQiBfZCYTNaO/wJOElWgQ26lMoP
+ Vjuq4NX70Cc0ihAB5bD93RD3o84lCTNPB2wrytWuqOfH7XcoojwrjAF8yrEhK30q
+ 60fJqLau8FubRMml3YZiWGSlqtunOHSy6b12Lk3eQubDHrz46VGNKQYmwX1YxSV+
+ 450qZDGvD9Q0dcvxKpalpkFkE+SXeHiAp2WBL4g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=oNe9ei
+ o8XYT1BZ4ZF/+0zEh/gS2//e+l2qNxRtVLoLs=; b=I/65hYuq2zmn5keq+6C8PH
+ NxwdkOpfvf1nyNERs9UJOWKby6CQftNAf4LvRRAnnWhaXBoCrHzlrCi1GUjTv9XH
+ 0OTvkchXsDFEo2zz0spJWg0hmKRr0qyqSlNlKNZqIkAN0kC5zCiVPzWaDVo88KMp
+ WzvkSivVALoHRvU1/MkAZtYbr/T8nRw6xRpBHJahFqlAxtfAE6agadB6hoorcXvh
+ J77GmLUM/FCzPx8XMJV8HgrnSGdZJPR2O4hWf2mVhjhHXQFUlBorVE4rbarjRBkF
+ 1yjwPtcAuViFAVQDdUhBTAfJWWCzYh4TpytmwFrZILcWU893ypf1k87dCJYelFaA
+ ==
+X-ME-Sender: <xms:QYkmXR8lZT_adM_lv3N9h5gHa0sVr9t71HeQW5r_VtHynhQ44X3RpA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrgeejgdegtdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucffohhmrg
+ hinhepuggvvhhitggvthhrvggvrdhorhhgnecurfgrrhgrmhepmhgrihhlfhhrohhmpegr
+ nhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:QYkmXZ-dI5mb9WW_DtQ7ayc-IDbLdgupyOdtfYdKdxcwThFCQcC4Tw>
+ <xmx:QYkmXaDjBSZiQd2_f78ntiAjohRf-ODs9K0mhJsgmBdCop1P17LjZQ>
+ <xmx:QYkmXZy0giH8SK5oBoAtC5Ynbt3J9YMxpvD5u9L32f9cmjteRwnlkg>
+ <xmx:QokmXU5ofQenOuvHGAvTquwCH-_TqDcub4tzkQ7aKa6kmVdoIA-wKA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 925B3E0162; Wed, 10 Jul 2019 20:56:33 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-731-g19d3b16-fmstable-20190627v1
+Mime-Version: 1.0
+Message-Id: <3b0788cf-eee4-48b2-901d-d2ab6716ab1b@www.fastmail.com>
+In-Reply-To: <CAL_JsqKrYcUbn_02z9GQO6U4rz7k=p3kB7_G0tKmv25MMZZNQg@mail.gmail.com>
+References: <20190710141611.21159-1-andrew@aj.id.au>
+ <20190710141611.21159-2-andrew@aj.id.au>
+ <CAL_JsqKrYcUbn_02z9GQO6U4rz7k=p3kB7_G0tKmv25MMZZNQg@mail.gmail.com>
+Date: Thu, 11 Jul 2019 10:26:39 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Rob Herring" <robh+dt@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: mmc: Document Aspeed SD controller
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,53 +88,205 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, linux-mmc@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-aspeed@lists.ozlabs.org,
- Patrick Venture <venture@google.com>, openbmc@lists.ozlabs.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, Nancy Yuen <yuenn@google.com>,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- netdev@vger.kernel.org, linux-amlogic@lists.infradead.org,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-aspeed@lists.ozlabs.org,
+ Ryan Chen <ryanchen.aspeed@gmail.com>, linux-mmc <linux-mmc@vger.kernel.org>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 2019-07-10 at 08:45 -0700, Joe Perches wrote:
-> On Wed, 2019-07-10 at 10:43 +0100, Russell King - ARM Linux admin wrote:
-> > On Wed, Jul 10, 2019 at 11:17:31AM +0200, Johannes Berg wrote:
-> > > On Tue, 2019-07-09 at 22:04 -0700, Joe Perches wrote:
-> > > > These GENMASK uses are inverted argument order and the
-> > > > actual masks produced are incorrect.  Fix them.
-> > > > 
-> > > > Add checkpatch tests to help avoid more misuses too.
-> > > > 
-> > > > Joe Perches (12):
-> > > >   checkpatch: Add GENMASK tests
-> > > 
-> > > IMHO this doesn't make a lot of sense as a checkpatch test - just throw
-> > > in a BUILD_BUG_ON()?
+
+
+On Thu, 11 Jul 2019, at 01:20, Rob Herring wrote:
+> On Wed, Jul 10, 2019 at 8:16 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+> >
+> > The ASPEED SD/SDIO/eMMC controller exposes two slots implementing the
+> > SDIO Host Specification v2.00, with 1 or 4 bit data buses, or an 8 bit
+> > data bus if only a single slot is enabled.
+> >
+> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> > ---
+> >  .../bindings/mmc/sdhci-of-aspeed.yaml         | 91 +++++++++++++++++++
 > 
-> I tried that.
+> aspeed,sdhci.yaml
+
+Ack. Previously I had separate documents for different compatibles, wasn't sure
+how to tackle name one document covering multiple compatibles.
+
 > 
-> It'd can't be done as it's used in declarations
-> and included in asm files and it uses the UL()
-> macro.
+> >  1 file changed, 91 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/mmc/sdhci-of-aspeed.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/mmc/sdhci-of-aspeed.yaml b/Documentation/devicetree/bindings/mmc/sdhci-of-aspeed.yaml
+> > new file mode 100644
+> > index 000000000000..e98a2ac4d46d
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/mmc/sdhci-of-aspeed.yaml
+> > @@ -0,0 +1,91 @@
+> > +# SPDX-License-Identifier: GPL-2.0-or-later
 > 
-> I also tried just making it do the right thing
-> whatever the argument order.
+> The preferred license is (GPL-2.0 OR BSD-2-Clause) if that is okay with you.
 
-I forgot.
+I should poke people internally again, I had asked, just haven't got a clear
+answer. What was the justification for the preference (just so I can pass that
+on)?
 
-I also made all those arguments when it was
-introduced in 2013.
+> 
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/mmc/sdhci-of-aspeed.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: ASPEED SD/SDIO/eMMC Controller
+> > +
+> > +maintainers:
+> > +  - Andrew Jeffery <andrew@aj.id.au>
+> > +  - Ryan Chen <ryanchen.aspeed@gmail.com>
+> > +
+> > +description: |+
+> > +  The ASPEED SD/SDIO/eMMC controller exposes two slots implementing the SDIO
+> > +  Host Specification v2.00, with 1 or 4 bit data buses, or an 8 bit data bus if
+> > +  only a single slot is enabled.
+> > +
+> > +  The two slots are supported by a common configuration area. As the SDHCIs for
+> > +  the slots are dependent on the common configuration area, they are described
+> > +  as child nodes.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum: [ aspeed,ast2400-sdc, aspeed,ast2500-sdc ]
+> > +  reg:
+> > +    description: Common configuration registers
+> 
+> This should have a 'maxItems: 1'. Same for the child reg.
 
-https://lore.kernel.org/patchwork/patch/414248/
+Ack.
 
-> Oh well.
+> 
+> > +  ranges: true
+> > +  clocks:
+> > +    maxItems: 1
+> > +    description: The SD/SDIO controller clock gate
+> > +  sdhci:
+> 
+> This needs to be a pattern (under patternProperties) as these have
+> unit-addresses.
 
-yeah.
+Ah, I didn't think about that.
 
+> 
+> > +    type: object
+> > +    properties:
+> > +      compatible:
+> > +        allOf:
+> > +          - enum: [ aspeed,ast2400-sdhci, aspeed,ast2500-sdhci ]
+> > +          - const: sdhci
+> 
+> This condition can never be true. What you need is s/allOf/items/.
+> However, 'sdhci' is not really a useful compatible because every
+> implementation has quirks, so I'd drop it.
 
+Yeah, I was tossing up whether to include "sdhci". I'll drop it as you
+suggest.
+
+Pity the shorthand doesn't work how I expected. Might explain
+some of the behaviour I was seeing with the bindings make targets
+though.
+
+> 
+> > +      reg:
+> > +        description: The SDHCI registers
+> > +      clocks:
+> > +        maxItems: 1
+> > +        description: The SD bus clock
+> > +      slot:
+> > +        allOf:
+> > +          - $ref: /schemas/types.yaml#/definitions/uint32
+> > +          - enum: [0, 1]
+> 
+> Is this really needed? Offset 0x100 is slot 0 and offset 0x200 is slot
+> 1. Does that ever change?
+
+It doesn't in the SoCs at hand, but the downstream impact (driver
+implementation) is that you need to derive the slot index from the
+address and I was trying to avoid that. The slot index influences
+some bit index calculations.
+
+> 
+> > +      interrupts:
+> > +        maxItems: 1
+> > +        description: The SD interrupt shared between both slots
+> > +    required:
+> > +      - compatible
+> > +      - reg
+> > +      - clocks
+> > +      - slot
+> > +      - interrupts
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - ranges
+> > +  - clocks
+> 
+> #address-cells and #size-cells are required too.
+
+Ack.
+
+> 
+> You should also add 'additionalProperties: false' here so other random
+> properties can't be present.
+
+Ah yes. Will fix.
+
+> 
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/aspeed-clock.h>
+> > +    sdc@1e740000 {
+> > +            compatible = "aspeed,ast2500-sdc";
+> > +            reg = <0x1e740000 0x100>;
+> > +            #address-cells = <1>;
+> > +            #size-cells = <1>;
+> > +            ranges;
+> 
+> It's preferred to limit the range here and then the child addresses
+> are 0x100 and 0x200.
+
+Okay. Was just trying to dodge mental arithmetic where I could, but
+if that's the preference then I'll fix it up.
+
+Thanks for the review!
+
+Andrew
+
+> 
+> > +            clocks = <&syscon ASPEED_CLK_GATE_SDCLK>;
+> > +
+> > +            sdhci0: sdhci@1e740100 {
+> > +                    compatible = "aspeed,ast2500-sdhci", "sdhci";
+> > +                    reg = <0x1e740100 0x100>;
+> > +                    slot = <0>;
+> > +                    interrupts = <26>;
+> > +                    sdhci,auto-cmd12;
+> > +                    clocks = <&syscon ASPEED_CLK_SDIO>;
+> > +            };
+> > +
+> > +            sdhci1: sdhci@1e740200 {
+> > +                    compatible = "aspeed,ast2500-sdhci", "sdhci";
+> > +                    reg = <0x1e740200 0x100>;
+> > +                    slot = <1>;
+> > +                    interrupts = <26>;
+> > +                    sdhci,auto-cmd12;
+> > +                    clocks = <&syscon ASPEED_CLK_SDIO>;
+> > +            };
+> > +    };
+> > --
+> > 2.20.1
+> >
+>
