@@ -1,82 +1,127 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 091FC726FC
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jul 2019 06:51:22 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B328726BC
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jul 2019 06:37:32 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45tjHr6SqgzDqCB
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jul 2019 14:37:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45tjbq23ZWzDqDf
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jul 2019 14:51:19 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=64.147.123.25; helo=wout2-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=samsung.com
+ (client-ip=210.118.77.11; helo=mailout1.w1.samsung.com;
+ envelope-from=a.hajda@samsung.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="VoE/gpTM"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="1APxdPuM"; dkim-atps=neutral
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
+ dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=samsung.com header.i=@samsung.com header.b="OriKHNe8"; 
+ dkim-atps=neutral
+X-Greylist: delayed 408 seconds by postgrey-1.36 at bilbo;
+ Fri, 12 Jul 2019 23:01:06 AEST
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45tbrh0RPPzDqCh;
- Wed, 24 Jul 2019 10:32:03 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 0584255C;
- Tue, 23 Jul 2019 20:31:58 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Tue, 23 Jul 2019 20:31:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=uLRLTCbzkIIHhhADCs6N7TqPfh+fkdO
- sYatioPY/LkY=; b=VoE/gpTMmDWQepgjtm8nLIJjGlU2a8Cw6aaKqdfdRyUADc8
- mec8W1A9bIrp4yx0CN3q408PhdvsTItZ1hAn9T9cAmPiUTVGdLrAqw2p4eZ/IX41
- EuokkHdCv2/UU9tXa9bCWclO8oAh+lHAoeL5UiIcsAvPSuvMLF+zgb2tLYL3cc0B
- oVG+GMn8BlLHDQpT7Pii7CXtQGnujPndosqZHZve20KaWEshSrtfdfNfvAVxmwiJ
- WCDEpK2gNPG1ou1WhS/3wfY9m/fp+xVPitaeI1aB5qv9P+xrRU7J+jiUrUuXyoVY
- mzMYX696ZP3cVbqEJ0yLwV/YS96sqOhMKCUv2IA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=uLRLTC
- bzkIIHhhADCs6N7TqPfh+fkdOsYatioPY/LkY=; b=1APxdPuMvpYCXaJZkTEjm4
- z20JfvbaBf/Q0OPGbO5e3CW7z6tCCJb/Tc4d7WTg+2q6+4Qjbg+/vou9eTk9oV3+
- UFiyAgLjIhEc8bbA6t9sKOwqZkmaJV6jSR2jo9Uu0VgKO1V2cHdr0Y/77PgTvc7w
- g4ZQCaxhYwgAJwXWq5BtxcnD7TnpD4rU15ggSUSrOan1dIf5jZzMjnHLkf5v7ube
- IHXb4QFK/kD6bgG9xE5Bon3cdgOKFWxz0VEfI0lEgnxLVPTdse0ZzYRnylRLlpN4
- JO5tcH6Y0reH2cQdIXNFc+IfCkAEoY6tpR32qDm6LlhlQgbX2/y6Dg9r62WWSnoQ
- ==
-X-ME-Sender: <xms:_qY3XSdmOVyqJ58pRa-HqZ9wuH-gy78UOiQ88P2EpdPg8pCYS_KR9A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrjeelgdefhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
- hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
- ufhiiigvpedt
-X-ME-Proxy: <xmx:_qY3XadAE95y9WHPYzfANd8lvKYE3f5OxJfkg9-DUp7jSxxzMj82-w>
- <xmx:_qY3XQoSzClL5pFe9_Mzzvbf669WXcLQc9Vq2fEkJLJu-syhC6essA>
- <xmx:_qY3XSz1LnwrUuXBLuMyLVrmBxL9FM51204x2RjUxB1mgKGsLMqJTg>
- <xmx:_qY3XRReKggT3bSb1I2P9eppFC600GU34TYJxa74w7Ew6W3ArqWsoA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 29575E0129; Tue, 23 Jul 2019 20:31:58 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-736-gdfb8e44-fmstable-20190718v2
-Mime-Version: 1.0
-Message-Id: <7f2c08f5-a04d-499c-b59b-3d62d7f025af@www.fastmail.com>
-In-Reply-To: <20190719203037.11795-1-mspinler@linux.ibm.com>
-References: <20190719203037.11795-1-mspinler@linux.ibm.com>
-Date: Wed, 24 Jul 2019 10:02:12 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Matt Spinler" <mspinler@linux.ibm.com>, "Joel Stanley" <joel@jms.id.au>, 
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org
-Subject: Re: [PATCH linux dev-5.2] ARM: dts: aspeed: swift: Fix FSI GPIOs
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45lY2V0x7yzDqSx
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jul 2019 23:01:04 +1000 (AEST)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20190712125410euoutp016d9efd458e105ba97aaf1bd01e50eb5e~wqg6e3oee2621726217euoutp01B
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jul 2019 12:54:10 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20190712125410euoutp016d9efd458e105ba97aaf1bd01e50eb5e~wqg6e3oee2621726217euoutp01B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1562936050;
+ bh=SvNBqsasmMJ35pKfe52wEDcdzqVXxeLAO+14YQc5HjA=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=OriKHNe8UYzZneVkTvcpZv+t3OzcXzcmVNnPOI2m7DRKxa2BI4rJQ9sl38PxEHdJ/
+ z9ZUHDm9Gl97K7j7IhjMBIn7vpm1JglfjPxOXhi8yL0erVZpWX4HsYsLGXjDGHwgEe
+ +UvcA/OMfMSmTdvpJZdW+IbbInAkdpVzA415FVRU=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20190712125409eucas1p1366c6c3b34756b2e52d0491dc1246412~wqg50NMA31697116971eucas1p1H;
+ Fri, 12 Jul 2019 12:54:09 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id D0.42.04325.1F2882D5; Fri, 12
+ Jul 2019 13:54:09 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20190712125408eucas1p166fd03846592d11ffbea036072607dc4~wqg4_69BW2455424554eucas1p1g;
+ Fri, 12 Jul 2019 12:54:08 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20190712125408eusmtrp2e23ca1e107a35086ef09c865cf042369~wqg4wiEm00521605216eusmtrp29;
+ Fri, 12 Jul 2019 12:54:08 +0000 (GMT)
+X-AuditID: cbfec7f5-fbbf09c0000010e5-ef-5d2882f10e25
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 00.7C.04146.0F2882D5; Fri, 12
+ Jul 2019 13:54:08 +0100 (BST)
+Received: from [106.120.51.74] (unknown [106.120.51.74]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20190712125407eusmtip1755535a5147b6e9225a0e62a4bb7f407~wqg36aWav0388503885eusmtip1e;
+ Fri, 12 Jul 2019 12:54:07 +0000 (GMT)
+Subject: Re: [PATCH 00/12] treewide: Fix GENMASK misuses
+To: Joe Perches <joe@perches.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Patrick Venture <venture@google.com>, Nancy
+ Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, Andrew
+ Jeffery <andrew@aj.id.au>, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ netdev@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-wireless@vger.kernel.org,
+ linux-media@vger.kernel.org
+From: Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <469b0d3d-9466-b287-5ca3-27f3d01ff3cd@samsung.com>
+Date: Fri, 12 Jul 2019 14:54:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.0
+MIME-Version: 1.0
+In-Reply-To: <cover.1562734889.git.joe@perches.com>
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0hTYRjHfXfOzo7a6rjUPVhkza5CmhT1RiEmYQciqC/WEqmVB4vcis1Z
+ 5gfFe9oNDbVNdIWlmalpq1zOahPtouYtsTJX6gepLEJHqaXtdIz89nv+z+3/vLw0Icui/Ojj
+ mnhOq1HFKSgP8n7LZMf676lrozcUji7FxTVVFO7tsomwpYfGRdYPBG5sm5LgXuc3ChsdwyQ2
+ GT1x3XCfGKfd7iBwSfNXEvdYiil8vtYsxj1pXQg3z15COKdvRIy/VAxIcIvJF79IHyWx9cld
+ EmdO3aTCfNjXWRYJWzueSrGDTXaSNdXp2WdF0yTryG0VsfVlyeyromuInajsI9inTSHseN2y
+ vZ4HPbbHcHHHEzhtcOhhj2OPhx3EqdzVZ26V7EpBNv8cRNPAbILyehd60DKmAkHHzCwlBBMI
+ hiyPiBzk7grGEVhfB/LMN5g/j0qEonIE6VNFcx1jCB7+zBLxVYsZDGb7R5JPeDM1JAzk5BN8
+ QDAFCDqHL/6dSzHr4Hf9G4pnKRMKF57lSXgmmVVgGbGLefZhImHSdG6uxgueXx0heePuzEZo
+ cy7nZYLxhzSzkRBYDm9HSkX8LmCaaejLqEKC752Qm/eOFHgxfGq9JxF4Kcw2lIoETgZHRToh
+ NGcjMNc2EEJiG9hbu8T8YsJlusYSLMg74O1Tq0h4yIXQP+YleFgIefcLCUGWQnamTKheAY52
+ 89xAOdzodFKXkcIw7zDDvGsM864x/N9rQmQlknN6nTqW023UcKeDdCq1Tq+JDTp6Ul2HXN/z
+ 5Uyr8yFq+nXEhhgaKRZI+7euiZaJVQm6RLUNAU0ovKWVsy5JGqNKPMtpTx7S6uM4nQ0toUmF
+ XJrk9iFKxsSq4rkTHHeK0/7Limh3vxR0YOX76qmhPb4VsjBlZ1R7bUto150DARJnRPd1ercn
+ HPFKqQ7Ux1jRWGjs4KFuL3l/5nSEttnXe8wncrBEtD8lo1eZOGmPLMtvLG9veBBo2qL8QU/8
+ XHvFLSY+nKXCjWL1vtJGzUDA5uBFSv8CY9VN/e6LjfiHmyEyVSlJT8pUkLpjqpBAQqtT/QH2
+ QnULmgMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFKsWRmVeSWpSXmKPExsVy+t/xu7ofmjRiDa4uVrCYs34Nm8WVi4eY
+ LHZd5rCYsfcBs8WeM7/YLa58fc9mMfv+YxaLBbO5LTY9vsZq0bz6HLPFvCPvWCwu75rDZtGz
+ YSurxeXmi4wWR/73M1p0XXvCavFmxR12i2MLxCxOtbxgsdh7YCOLRduvZWwOoh5X23exe2z4
+ 3MTmcW/fYRaPBZtKPU7M+M3icb/7OJPH5iX1HudnLGT0+LLqGrPHwX2GHp83yQVwR+nZFOWX
+ lqQqZOQXl9gqRRtaGOkZWlroGZlY6hkam8daGZkq6dvZpKTmZJalFunbJehl7H98n7mgW61i
+ 5Tz3BsZD8l2MnBwSAiYSW1+/YO9i5OIQEljKKHHweTcTREJcYvf8t8wQtrDEn2tdbCC2kMBr
+ RonZ90xBbGEBC4mthx+ygDSLCKxnkXi3s4cZxGEWmMYoMeX1OSaIsW2MEt1H1rGCtLAJaEr8
+ 3XwTbBSvgJ1E74lJ7CA2i4CqxK4nh4FqODhEBcIkjp7IgygRlDg58wkLSJhTwFjizFcFkDCz
+ gLrEn3mXmCFseYnmrbOhbHGJW0/mM01gFJqFpHsWkpZZSFpmIWlZwMiyilEktbQ4Nz232FCv
+ ODG3uDQvXS85P3cTIzBdbDv2c/MOxksbgw8xCnAwKvHw3rBUjxViTSwrrsw9xCjBwawkwrvq
+ P1CINyWxsiq1KD++qDQntfgQoynQaxOZpUST84GpLK8k3tDU0NzC0tDc2NzYzEJJnLdD4GCM
+ kEB6YklqdmpqQWoRTB8TB6dUA6Ob0u0C22WmNaeeTtq1bteBOQGX5jl2LlJ9vsfuNc+PpSWN
+ DG9370iKnTd/97uCkh0rvP7O4U9ht+s2WZ+WFuPVZfJF40+opO0DE5WA5ByBypJfyw7O/mB/
+ e6H2IoaZnRYOy3z+v6//2zEl6wjXBZ16dcfumb6NL5PemQo5Bz97Kly2PsT++BMlluKMREMt
+ 5qLiRAAlheMYLQMAAA==
+X-CMS-MailID: 20190712125408eucas1p166fd03846592d11ffbea036072607dc4
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20190710050444epcas1p250f7aa0f8798a7757df51d66f5970c2a
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190710050444epcas1p250f7aa0f8798a7757df51d66f5970c2a
+References: <CGME20190710050444epcas1p250f7aa0f8798a7757df51d66f5970c2a@epcas1p2.samsung.com>
+ <cover.1562734889.git.joe@perches.com>
+X-Mailman-Approved-At: Wed, 24 Jul 2019 14:50:53 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,49 +133,120 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Matt Spinler <spinler@us.ibm.com>
+Cc: linux-iio@vger.kernel.org, devel@driverdev.osuosl.org,
+ alsa-devel@alsa-project.org, linux-mmc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Joe,
 
-
-On Sat, 20 Jul 2019, at 06:01, Matt Spinler wrote:
-> From: Matt Spinler <spinler@us.ibm.com>
-> 
-> Change the FSI clock and data GPIOs to match what the hardware turned
-> out to use.
-> 
-> Signed-off-by: Matt Spinler <spinler@us.ibm.com>
-
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-
-And yeah, please make sure to include relevant lists in the future as Olof
-mentioned.
-
-Andrew
-
-> ---
->  arch/arm/boot/dts/aspeed-bmc-opp-swift.dts | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts 
-> b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
-> index caac895c60b4..f14f745b34ca 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
-> @@ -207,8 +207,8 @@
->  		#size-cells = <0>;
->  		no-gpio-delays;
->  
-> -		clock-gpios = <&gpio ASPEED_GPIO(AA, 0) GPIO_ACTIVE_HIGH>;
-> -		data-gpios = <&gpio ASPEED_GPIO(E, 0) GPIO_ACTIVE_HIGH>;
-> +		clock-gpios = <&gpio ASPEED_GPIO(P, 1) GPIO_ACTIVE_HIGH>;
-> +		data-gpios = <&gpio ASPEED_GPIO(P, 2) GPIO_ACTIVE_HIGH>;
->  		mux-gpios = <&gpio ASPEED_GPIO(P, 4) GPIO_ACTIVE_HIGH>;
->  		enable-gpios = <&gpio ASPEED_GPIO(P, 0) GPIO_ACTIVE_HIGH>;
->  		trans-gpios = <&gpio ASPEED_GPIO(P, 3) GPIO_ACTIVE_HIGH>;
-> -- 
-> 2.22.0
-> 
+On 10.07.2019 07:04, Joe Perches wrote:
+> These GENMASK uses are inverted argument order and the
+> actual masks produced are incorrect.  Fix them.
 >
+> Add checkpatch tests to help avoid more misuses too.
+>
+> Joe Perches (12):
+>   checkpatch: Add GENMASK tests
+>   clocksource/drivers/npcm: Fix misuse of GENMASK macro
+>   drm: aspeed_gfx: Fix misuse of GENMASK macro
+>   iio: adc: max9611: Fix misuse of GENMASK macro
+>   irqchip/gic-v3-its: Fix misuse of GENMASK macro
+>   mmc: meson-mx-sdio: Fix misuse of GENMASK macro
+>   net: ethernet: mediatek: Fix misuses of GENMASK macro
+>   net: stmmac: Fix misuses of GENMASK macro
+>   rtw88: Fix misuse of GENMASK macro
+>   phy: amlogic: G12A: Fix misuse of GENMASK macro
+>   staging: media: cedrus: Fix misuse of GENMASK macro
+>   ASoC: wcd9335: Fix misuse of GENMASK macro
+>
+>  drivers/clocksource/timer-npcm7xx.c               |  2 +-
+>  drivers/gpu/drm/aspeed/aspeed_gfx.h               |  2 +-
+>  drivers/iio/adc/max9611.c                         |  2 +-
+>  drivers/irqchip/irq-gic-v3-its.c                  |  2 +-
+>  drivers/mmc/host/meson-mx-sdio.c                  |  2 +-
+>  drivers/net/ethernet/mediatek/mtk_eth_soc.h       |  2 +-
+>  drivers/net/ethernet/mediatek/mtk_sgmii.c         |  2 +-
+>  drivers/net/ethernet/stmicro/stmmac/descs.h       |  2 +-
+>  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  4 ++--
+>  drivers/net/wireless/realtek/rtw88/rtw8822b.c     |  2 +-
+>  drivers/phy/amlogic/phy-meson-g12a-usb2.c         |  2 +-
+>  drivers/staging/media/sunxi/cedrus/cedrus_regs.h  |  2 +-
+>  scripts/checkpatch.pl                             | 15 +++++++++++++++
+>  sound/soc/codecs/wcd-clsh-v2.c                    |  2 +-
+>  14 files changed, 29 insertions(+), 14 deletions(-)
+>
+After adding following compile time check:
+
+------
+
+diff --git a/Makefile b/Makefile
+index 5102b2bbd224..ac4ea5f443a9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -457,7 +457,7 @@ KBUILD_AFLAGS   := -D__ASSEMBLY__ -fno-PIE
+ KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
+                   -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
+                   -Werror=implicit-function-declaration
+-Werror=implicit-int \
+-                  -Wno-format-security \
++                  -Wno-format-security -Werror=div-by-zero \
+                   -std=gnu89
+ KBUILD_CPPFLAGS := -D__KERNEL__
+ KBUILD_AFLAGS_KERNEL :=
+diff --git a/include/linux/bits.h b/include/linux/bits.h
+index 669d69441a62..61d74b103055 100644
+--- a/include/linux/bits.h
++++ b/include/linux/bits.h
+@@ -19,11 +19,11 @@
+  * GENMASK_ULL(39, 21) gives us the 64bit vector 0x000000ffffe00000.
+  */
+ #define GENMASK(h, l) \
+-       (((~UL(0)) - (UL(1) << (l)) + 1) & \
++       (((~UL(0)) - (UL(1) << (l)) + 1 + 0/((h) >= (l))) & \
+         (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+ 
+ #define GENMASK_ULL(h, l) \
+-       (((~ULL(0)) - (ULL(1) << (l)) + 1) & \
++       (((~ULL(0)) - (ULL(1) << (l)) + 1 + 0/((h) >= (l))) & \
+         (~ULL(0) >> (BITS_PER_LONG_LONG - 1 - (h))))
+ 
+ #endif /* __LINUX_BITS_H */
+
+-------
+
+I was able to detect one more GENMASK misue (AARCH64, allyesconfig):
+
+  CC      drivers/phy/rockchip/phy-rockchip-inno-hdmi.o
+In file included from ../include/linux/bitops.h:5:0,
+                 from ../include/linux/kernel.h:12,
+                 from ../include/linux/clk.h:13,
+                 from ../drivers/phy/rockchip/phy-rockchip-inno-hdmi.c:9:
+../drivers/phy/rockchip/phy-rockchip-inno-hdmi.c: In function
+‘inno_hdmi_phy_rk3328_power_on’:
+../include/linux/bits.h:22:37: error: division by zero [-Werror=div-by-zero]
+  (((~UL(0)) - (UL(1) << (l)) + 1 + 0/((h) >= (l))) & \
+                                     ^
+../drivers/phy/rockchip/phy-rockchip-inno-hdmi.c:24:42: note: in
+expansion of macro ‘GENMASK’
+ #define UPDATE(x, h, l)  (((x) << (l)) & GENMASK((h), (l)))
+                                          ^~~~~~~
+../drivers/phy/rockchip/phy-rockchip-inno-hdmi.c:201:50: note: in
+expansion of macro ‘UPDATE’
+ #define RK3328_TERM_RESISTOR_CALIB_SPEED_7_0(x)  UPDATE(x, 7, 9)
+                                                  ^~~~~~
+../drivers/phy/rockchip/phy-rockchip-inno-hdmi.c:1046:26: note: in
+expansion of macro ‘RK3328_TERM_RESISTOR_CALIB_SPEED_7_0’
+   inno_write(inno, 0xc6, RK3328_TERM_RESISTOR_CALIB_SPEED_7_0(v));
+
+
+Of course I do not advise to add the check as is to Kernel - it is
+undefined behavior area AFAIK.
+
+
+Regards
+
+Andrzej
+
