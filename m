@@ -2,58 +2,55 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45DB266F80
-	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jul 2019 15:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F65A675BD
+	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jul 2019 22:14:33 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45lY6G2DZHzDqQ5
-	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jul 2019 23:04:22 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45lkfZ0YgMzDqmb
+	for <lists+linux-aspeed@lfdr.de>; Sat, 13 Jul 2019 06:14:30 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=kernel.org
- (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=robh+dt@kernel.org; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=ami.com
+ (client-ip=63.147.10.40; helo=atlmailgw1.ami.com;
+ envelope-from=hongweiz@ami.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.b="tn4/f9n/"; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ dmarc=none (p=none dis=none) header.from=ami.com
+Received: from atlmailgw1.ami.com (atlmailgw1.ami.com [63.147.10.40])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45lY651vPgzDqPl
- for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jul 2019 23:04:12 +1000 (AEST)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7477A208E4
- for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jul 2019 13:04:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1562936650;
- bh=j08i/yzt8yihm95wbKxIa8ANHeLTJGyB1LowMPZRoQs=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=tn4/f9n/k299HHdLN0F6ScJZKf/VYffpnnAYh+PPAzA7ZjRWQFYrqKf+oTQV+fuy4
- ACXtzrbqpM/naLe0Cz/a11svW1mUDqExyut4Wh/u8EXdbSDYghpYV5xdCObec1WWpU
- LNbCdcMo3gwFzWE9scGST+eZVaGIXGMXzio+pSbQ=
-Received: by mail-qt1-f182.google.com with SMTP id n11so7951786qtl.5
- for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jul 2019 06:04:10 -0700 (PDT)
-X-Gm-Message-State: APjAAAUTgkVg43xHn+3yjWCmnTVmkrQ3qGB4lWqTAhaNEh3pDIGWpKMj
- UqNaqyGbxvCKtIswY4+GAeehOT7LDKBjdND4Kw==
-X-Google-Smtp-Source: APXvYqy0Gw33CPTr5i9Ny8C1aCwNSn1BsAcArqdhs4L6Ao3k4lrTO3dV3h27CfJYvsBcR6H2d01/a3fqfjUcmFKloV0=
-X-Received: by 2002:a0c:b786:: with SMTP id l6mr6598069qve.148.1562936649734; 
- Fri, 12 Jul 2019 06:04:09 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45lkfB6lMnzDqX6
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 13 Jul 2019 06:14:07 +1000 (AEST)
+X-AuditID: ac1060b2-3fdff70000003a7d-24-5d28ea136749
+Received: from atlms1.us.megatrends.com (atlms1.us.megatrends.com
+ [172.16.96.144])
+ (using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by atlmailgw1.ami.com (Symantec Messaging Gateway) with SMTP id
+ F5.C9.14973.31AE82D5; Fri, 12 Jul 2019 16:14:11 -0400 (EDT)
+Received: from hongweiz-Ubuntu-AMI.us.megatrends.com (172.16.98.93) by
+ atlms1.us.megatrends.com (172.16.96.144) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Fri, 12 Jul 2019 16:14:03 -0400
+From: Hongwei Zhang <hongweiz@ami.com>
+To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, Linus
+ Walleij <linus.walleij@linaro.org>, <devicetree@vger.kernel.org>
+Subject: [PATCH 2/3 v2] dt-bindings: gpio: aspeed: Add SGPIO support
+Date: Fri, 12 Jul 2019 16:14:00 -0400
+Message-ID: <1562962440-15908-1-git-send-email-hongweiz@ami.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20190712033214.24713-1-andrew@aj.id.au>
- <20190712033214.24713-2-andrew@aj.id.au>
-In-Reply-To: <20190712033214.24713-2-andrew@aj.id.au>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Fri, 12 Jul 2019 07:03:57 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq++J+K2goHiNrHJGnL6vrLjmKhM+vpYO=sTnmv6fm2sog@mail.gmail.com>
-Message-ID: <CAL_Jsq++J+K2goHiNrHJGnL6vrLjmKhM+vpYO=sTnmv6fm2sog@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: mmc: Document Aspeed SD controller
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [172.16.98.93]
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHLMWRmVeSWpSXmKPExsWyRiBhgq7wK41Yg6nnFSx2Xeaw+DL3FIvF
+ /CPnWC1+n//LbDHlz3Imi02Pr7FaNK8+x2yxef4fRovLu+awWSy9fpHJonXvEXYHbo+r7bvY
+ PdbMW8Po8f5GK7vHxY/HmD02repk87hzbQ+bx+Yl9R7nZyxk9Pi8SS6AM4rLJiU1J7MstUjf
+ LoErY9+ehUwF0wUqTn3eydzAOJu3i5GDQ0LARKJ9V0oXIxeHkMAuJonbr+6yQDiHGSWuv//O
+ 3sXIycEmoCaxd/McJpCEiEAvo8TCr4vBHGaB1UwS7RuOg1UJC7hIrDjbywZiswioSnSduscC
+ YvMKOEj8/vcMrEZCQE7i5rlOZoi4oMTJmU/AapgFJCQOvngBFhcSkJW4degxE0S9gsTzvscs
+ Exj5ZiFpmYWkZQEj0ypGocSSnNzEzJz0ckO9xNxMveT83E2MkDDftIOx5aL5IUYmDsZDjBIc
+ zEoivKv+q8cK8aYkVlalFuXHF5XmpBYfYpTmYFES51255luMkEB6YklqdmpqQWoRTJaJg1Oq
+ gXHrH3H5dyUOYndeT792gKF/9TWfu/JlgYeeynnI3Y85Usbu+/belScZh3c/qHo/3/7V0+Yz
+ j6JvzazNPCyYoJQt2nG577PPld4XzYuFhApW35PqC5m+ib00fXuDtfr82ODzTw+W9XvZvf/v
+ /iLwx+r2r8VfFdf+bDk1c7K8xk7eexIfAoXeX7JUYinOSDTUYi4qTgQADUXdmGECAAA=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,39 +62,72 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>, linux-aspeed@lists.ozlabs.org,
- Ryan Chen <ryanchen.aspeed@gmail.com>, linux-mmc <linux-mmc@vger.kernel.org>,
- Adrian Hunter <adrian.hunter@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-aspeed@lists.ozlabs.org,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, Hongwei Zhang <hongweiz@ami.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Jul 11, 2019 at 9:32 PM Andrew Jeffery <andrew@aj.id.au> wrote:
->
-> The ASPEED SD/SDIO/eMMC controller exposes two slots implementing the
-> SDIO Host Specification v2.00, with 1 or 4 bit data buses, or an 8 bit
-> data bus if only a single slot is enabled.
->
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> ---
-> In v2:
->
-> * Rename to aspeed,sdhci.yaml
-> * Rename sd-controller compatible
-> * Add `maxItems: 1` for reg properties
-> * Move sdhci subnode description to patternProperties
-> * Drop sdhci compatible requirement
-> * #address-cells and #size-cells are required
-> * Prevent additional properties
-> * Implement explicit ranges in example
-> * Remove slot property
->
->  .../devicetree/bindings/mmc/aspeed,sdhci.yaml | 90 +++++++++++++++++++
->  1 file changed, 90 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+Add bindings to support SGPIO on AST2400 or AST2500.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
+---
+ .../devicetree/bindings/gpio/sgpio-aspeed.txt      | 43 ++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100755 Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
+
+diff --git a/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt b/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
+new file mode 100755
+index 0000000..3ae2b79
+--- /dev/null
++++ b/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
+@@ -0,0 +1,43 @@
++Aspeed SGPIO controller Device Tree Bindings
++-------------------------------------------
++
++Required properties:
++- compatible		: Either "aspeed,ast2400-sgpio" or "aspeed,ast2500-sgpio"
++
++- #gpio-cells 		: Should be two
++			  - First cell is the GPIO line number
++			  - Second cell is used to specify optional
++			    parameters (unused)
++
++- reg			: Address and length of the register set for the device
++- gpio-controller	: Marks the device node as a GPIO controller.
++- interrupts		: Interrupt specifier (see interrupt bindings for
++			  details)
++
++- interrupt-controller	: Mark the GPIO controller as an interrupt-controller
++
++- nr-gpios		: number of GPIO pins to serialise. (should be multiple of 8, up to 80 pins)
++			  if not specified, defaults to 80.
++
++- clocks               : A phandle to the APB clock for SGPM clock division
++
++- bus-frequency	: SGPM CLK frequency, if not specified defaults to 1 MHz
++
++
++The sgpio and interrupt properties are further described in their respective bindings documentation:
++
++- Documentation/devicetree/bindings/sgpio/gpio.txt
++- Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
++
++  Example:
++	sgpio@1e780200 {
++		#gpio-cells = <2>;
++		compatible = "aspeed,ast2500-sgpio";
++		gpio-controller;
++		interrupts = <40>;
++		reg = <0x1e780200 0x0100>;
++		clocks = <&syscon ASPEED_CLK_APB>;
++		interrupt-controller;
++		nr-gpios = <80>;
++		bus-frequency = <1000000>;
++	};
+-- 
+2.7.4
+
