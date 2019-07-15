@@ -1,67 +1,82 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702D8675CF
-	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jul 2019 22:19:11 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45lklv5MntzDr0K
-	for <lists+linux-aspeed@lfdr.de>; Sat, 13 Jul 2019 06:19:07 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F45768239
+	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Jul 2019 04:28:12 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 45n6rn38cbzDqTX
+	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Jul 2019 12:28:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=ami.com
- (client-ip=63.147.10.42; helo=atlmailgw2.ami.com;
- envelope-from=hongweiz@ami.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=66.111.4.224; helo=new2-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=ami.com
-Received: from atlmailgw2.ami.com (atlmailgw2.ami.com [63.147.10.42])
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="fHpRPwIC"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="z2aeZBA5"; dkim-atps=neutral
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45lklT1d4zzDqXv
- for <linux-aspeed@lists.ozlabs.org>; Sat, 13 Jul 2019 06:18:44 +1000 (AEST)
-X-AuditID: ac10606f-d27ff70000003324-2c-5d28eb20fe7f
-Received: from atlms1.us.megatrends.com (atlms1.us.megatrends.com
- [172.16.96.144])
- (using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by atlmailgw2.ami.com (Symantec Messaging Gateway) with SMTP id
- 2A.D9.13092.02BE82D5; Fri, 12 Jul 2019 16:18:40 -0400 (EDT)
-Received: from ATLMS2.us.megatrends.com ([fe80::29dc:a91e:ea0c:cdeb]) by
- atlms1.us.megatrends.com ([fe80::8c55:daf0:ef05:5605%12]) with mapi id
- 14.03.0415.000; Fri, 12 Jul 2019 16:18:40 -0400
-From: Hongwei Zhang <Hongweiz@ami.com>
-To: Andrew Jeffery <andrew@aj.id.au>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, Joel Stanley <joel@jms.id.au>, Linus Walleij
- <linus.walleij@linaro.org>
-Subject: RE: [linux,dev-5.1 v1] dt-bindings: gpio: aspeed: Add SGPIO support
-Thread-Topic: [linux,dev-5.1 v1] dt-bindings: gpio: aspeed: Add SGPIO support
-Thread-Index: AQHVMdoYoxHDUhbFgEKYqLGYV+TuK6bDajmAgAQPB2A=
-Date: Fri, 12 Jul 2019 20:18:39 +0000
-Message-ID: <14D3C8298A3B0F42A1EB31EE961CFF82AA8F46AD@atlms2.us.megatrends.com>
-References: <1562184069-22332-1-git-send-email-hongweiz@ami.com>
- <9c998f5f-42ef-43bd-b024-839ee00126de@www.fastmail.com>
-In-Reply-To: <9c998f5f-42ef-43bd-b024-839ee00126de@www.fastmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.100.241]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEIsWRmVeSWpSXmKPExsWyRiBhgq7Ca41Yg2ddlha7LnNYzD9yjtXi
- 9/m/zBZT/ixnsmhefY7Z4vKuOWwWS69fZLJo3XuE3YHD42r7LnaPNfPWMHpc/HiM2WPTqk42
- jzvX9rB5nJ+xkNHj8ya5APYoLpuU1JzMstQifbsEroyJXbeZCnZLV8y/+4utgXGeWBcjJ4eE
- gInE77YNLCC2kMAuJonpTZVdjFxA9mFGiRsHJrOCJNgE1CSe/mlgB0mICKxhlLh59igjiMMs
- cJZRYs2lL8wgVcICPhInfi4HGyUi4CvRfaaFEcK2kthwpRksziKgKvHg8H8mEJtXwF/iat8M
- dojVVRIrdveAbeMUcJFYMm0LG4jNKCAm8f3UGrB6ZgFxiVtP5jNBnC0gsWTPeWYIW1Ti5eN/
- rBC2kkTDin9Q9ToSC3Z/YoOwtSWWLXzNDLFXUOLkzCcsExhFZyEZOwtJyywkLbOQtCxgZFnF
- KJRYkpObmJmTXm6kl5ibqZecn7uJERKP+TsYP340P8TIxMF4iFGCg1lJhHfVf/VYId6UxMqq
- 1KL8+KLSnNTiQ4zSHCxK4ryr1nyLERJITyxJzU5NLUgtgskycXBKNTDOuNgu7FYhZ62Vr6Pq
- paWRFbEkjbs2XfKugNzi21e3xUjVbLjafTqRc3HIdtGHGWXSfLwpk/dmy91riZzT2Lfkg/vV
- fxaJzdebb7861LTeOGKN49vGJ3Vbvn9TvLlxxb4XpQaHNl1TS34WsVFsVZl5hPgsbbfv5V8c
- GR9tV9GYu2/Z4d9hn/mVWIozEg21mIuKEwGO1G0stQIAAA==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45n6nB0MZxzDqJP
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 15 Jul 2019 12:25:01 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 069CC2168;
+ Sun, 14 Jul 2019 22:24:58 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Sun, 14 Jul 2019 22:24:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm3; bh=00zoTVROvxcCRZfuc+kLyg0UtigAI/x
+ bsJPy243TfLs=; b=fHpRPwICa67kCO89BAwoHx1yyUSOgjITPsuHoXz6lbrw9kG
+ /z8U+42Pa6f2mezVuaSbN3TmZDvIjmuRpDZbFgHwnAaMROJ44oeMI7j9ncaM4ZkP
+ zxK3wcI1L1NAj5OxE06GBqI+rev07sAezzz43dvH2SUx4FlaJbrC1FOJq6jbavzW
+ AcikbwWb8+U6GwoumxqrWuIGp0NAODVAUvCcWEbrRnJr+wJIJq61z92NNji5U17o
+ SV1/XlXNckli7WqDkLl1XD9XOY3wx1200xPyb87TrAoS4dzi19NhmJO2VPQ7DrDz
+ oitdKEREAX2/FYG9c3GDQukMfTPF4p1WIBRIvbw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=00zoTV
+ ROvxcCRZfuc+kLyg0UtigAI/xbsJPy243TfLs=; b=z2aeZBA5VmrOvZ3cGXcy+g
+ O6DLd8lgULbaYvv2rSnN1FRnqHUIKy1bEENY/KHmDp7LFlHForjT2jQmVZt+1bzl
+ ujbj91Jln3DmlnGpCfYyrLuWad0S7mPKh4P3JDP6EH2BJEW4UNE87Ry213lBJs/T
+ 9ZtAcRu+2hxt5C/msG675AxIMahImu1DWa1toxMyNC80swauhdTXR21I+kqHVGTZ
+ KEbSczMUM1hfnxQwAanYYPWfRL8gqZSmwkGslVy4gFowCIYYkhkzCgRJLX+90+9y
+ n0RFABy4xpaWifz9td+t9yYCF1EvFUkRb5PWFGEOyNYOcX0xYtU6U3J/Nb9UGHJg
+ ==
+X-ME-Sender: <xms:-eMrXU54XSNslOJlbKdqw8zHwUCkLik-pxvgXnIR7OpKkBbyDvb9-w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrheejgdefudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
+ hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
+ ufhiiigvpedt
+X-ME-Proxy: <xmx:-eMrXQvfAmTA9LEiTnANuwjVYb4WzTH6THbrPy__IqM1ADMFDpWgeA>
+ <xmx:-eMrXRum6CMDp-TB5OMFULIZvHCOMV6_5fBX2wfoh0nzClPNe0pieA>
+ <xmx:-eMrXYuzFuR-Po6RzCknBU-Ixh7VdIUUCfSRMjInr1AefPEhLmFfIg>
+ <xmx:-eMrXSulcM1yTrA5R3F2qUopJbHtaPW5UFy3TyzLrIDnMlfi4Xvslg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 3A8EFE00CC; Sun, 14 Jul 2019 22:24:57 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-731-g19d3b16-fmstable-20190627v1
+Mime-Version: 1.0
+Message-Id: <56d7603a-c1b9-4893-871d-2aee17329e40@www.fastmail.com>
+In-Reply-To: <1562962440-15908-1-git-send-email-hongweiz@ami.com>
+References: <1562962440-15908-1-git-send-email-hongweiz@ami.com>
+Date: Mon, 15 Jul 2019 11:55:06 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Hongwei Zhang" <hongweiz@ami.com>, "Joel Stanley" <joel@jms.id.au>,
+ "Linus Walleij" <linus.walleij@linaro.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH 2/3 v2] dt-bindings: gpio: aspeed: Add SGPIO support
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,52 +88,32 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-aspeed@lists.ozlabs.org,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Thanks for your review, Andrew,
+Hello Hongwei,
 
-Just submitted an updated binding document, with new proper subject line:
-
-[PATCH 2/3 v2] dt-bindings: gpio: aspeed: Add SGPIO support
-
-Regards,
---Hongwei
-
------Original Message-----
-From: Andrew Jeffery <andrew@aj.id.au>=20
-Sent: Tuesday, July 9, 2019 10:16 PM
-To: Hongwei Zhang <Hongweiz@ami.com>; devicetree@vger.kernel.org; Joel Stan=
-ley <joel@jms.id.au>; Linus Walleij <linus.walleij@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>; Mark Rutland <mark.rutland@arm.com>; =
-linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org
-Subject: Re: [linux,dev-5.1 v1] dt-bindings: gpio: aspeed: Add SGPIO suppor=
-t
-
-
-
-On Thu, 4 Jul 2019, at 05:31, Hongwei Zhang wrote:
+On Sat, 13 Jul 2019, at 05:44, Hongwei Zhang wrote:
 > Add bindings to support SGPIO on AST2400 or AST2500.
->=20
+> 
 > Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
 > ---
->  .../devicetree/bindings/gpio/sgpio-aspeed.txt      | 36 ++++++++++++++++=
-++++++
->  1 file changed, 36 insertions(+)
->  create mode 100644=20
-> Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
->=20
-> diff --git a/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
+>  .../devicetree/bindings/gpio/sgpio-aspeed.txt      | 43 ++++++++++++++++++++++
+>  1 file changed, 43 insertions(+)
+>  create mode 100755 Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt 
 > b/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
-> new file mode 100644
-> index 0000000..f5fc6ef
+> new file mode 100755
+> index 0000000..3ae2b79
 > --- /dev/null
 > +++ b/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
-> @@ -0,0 +1,36 @@
+> @@ -0,0 +1,43 @@
 > +Aspeed SGPIO controller Device Tree Bindings
 > +-------------------------------------------
 > +
@@ -134,55 +129,50 @@ On Thu, 4 Jul 2019, at 05:31, Hongwei Zhang wrote:
 > +- gpio-controller	: Marks the device node as a GPIO controller.
 > +- interrupts		: Interrupt specifier (see interrupt bindings for
 > +			  details)
-> +- interrupt-controller	: Mark the GPIO controller as an=20
+> +
+> +- interrupt-controller	: Mark the GPIO controller as an 
 > interrupt-controller
+> +
+> +- nr-gpios		: number of GPIO pins to serialise. (should be multiple of 
+> 8, up to 80 pins)
+> +			  if not specified, defaults to 80.
 
-As this is a serial GPIO controller, a critical piece of configuration info=
-rmation is how many GPIOs we wish to serialise. This is done in multiples o=
-f 8, up to 80 pins.
+This appears to be a statement about the driver implementation, but bindings
+documents are about describing hardware. Reading the datasheet it actually
+appears the ASPEED SGPIO hardware comes up in what is "technically" a
+forbidden state (equivalent to `nr-gpios = <0>;`), though the device is also
+disabled at this point, so it's probably moot. The point is the true default
+value from a hardware perspective is 0, not 80, so if we're going to talk about
+default values, 0 would be more appropriate. However:
 
-The bindings need to describe the "ngpios" property from the generic GPIO b=
-indings and how this affects the behaviour of the controller.
-
-We also need to add the "bus-frequency" property here to control the rate o=
-f SGPMCK.
+You've also listed nr-gpios under the "Required properties" header, but the
+description suggests it's optional. It's either one or the other, please lets be
+clear about it. On that front, lets make it nr-gpios *not* optional (i.e. make it
+required) thus force the specification of how many SGPIOs we want to emit
+on the bus. This value is coupled to the platform design, so I don't think
+there's ever a scenario where we want nr-gpios to take a default value.
 
 > +
-> +Optional properties:
+> +- clocks               : A phandle to the APB clock for SGPM clock 
+> division
 > +
-> +- clocks                : A phandle to the clock to use for debounce=20
-> timings
+> +- bus-frequency	: SGPM CLK frequency, if not specified defaults to 1 
+> MHz
 
-We need this, but not for the reason specified, and it should be a required=
- property. We need PCLK (the APB clock) to derive the SGPIO bus frequency. =
-Despite what the datasheet blurb says, there's no debounce control for the =
-SGPIO master (this is a copy/paste mistake from the description of the para=
-llel GPIO master).
+Again here with the default value - SGPM CLK period is derived from PCLK by
+the expression `period = PCLK * 2 *(GPIO254[31:16] + 1)`, where GPIO254's
+initialisation state is `GPIO254[31:16] = 0`, which gives a default SGPM bus
+frequency of PCLK / 2. This is likely not going to be 1MHz (more like ~12MHz).
 
-> +
-> +The sgpio and interrupt properties are further described in their
-> respective
-> +bindings documentation:
-> +
-> +- Documentation/devicetree/bindings/sgpio/gpio.txt
-> +-=20
-> +Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
-> +
-> +  Example:
-> +	sgpio@1e780200 {
-> +		#gpio-cells =3D <2>;
-> +		compatible =3D "aspeed,ast2500-sgpio";
-> +		gpio-controller;
-> +		interrupts =3D <40>;
-> +		reg =3D <0x1e780200 0x0100>;
-> +		interrupt-controller;
-> +	};
+Lets just make the property required. That way we avoid any ambiguity about
+the bus frequency and thus don't need words about defaults that turn out to
+be about the driver, not about the hardware.
 
-You'll need to fix up the example after making the changes mentioned above.
+Finally, when updating patches in response to feedback, please send the full
+series again, and bump the series version number. That way people can review
+a coherent set of patches and not have to hunt around and (fail to) collate the
+correct combination. It makes it easier to say "Reviewed-by:" on your patches :)
+
+Cheers,
 
 Andrew
-
-> --
-> 2.7.4
->=20
->
