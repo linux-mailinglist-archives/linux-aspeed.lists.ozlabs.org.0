@@ -1,59 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id E653769F6D
+	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jul 2019 01:17:17 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A118B69F26
-	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jul 2019 00:48:54 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45ndxJ04JpzDqRP
-	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jul 2019 08:48:52 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45nfZ31hdqzDqVn
+	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jul 2019 09:17:15 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=209.85.166.66; helo=mail-io1-f66.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+ (client-ip=2607:f8b0:4864:20::844; helo=mail-qt1-x844.google.com;
+ envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
- [209.85.166.66])
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="NciHeA2W"; 
+ dkim-atps=neutral
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45ndxB2MQWzDqQ5
- for <linux-aspeed@lists.ozlabs.org>; Tue, 16 Jul 2019 08:48:45 +1000 (AEST)
-Received: by mail-io1-f66.google.com with SMTP id f4so36833154ioh.6
- for <linux-aspeed@lists.ozlabs.org>; Mon, 15 Jul 2019 15:48:45 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45nfYx72f5zDqTZ
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 16 Jul 2019 09:17:08 +1000 (AEST)
+Received: by mail-qt1-x844.google.com with SMTP id n11so17524722qtl.5
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 15 Jul 2019 16:17:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pTNuKPARTwySyUt6RIFwHeD+C8HBpvsST+SWVc23gcE=;
+ b=NciHeA2We081hI3Qkgy7AsZ4nH44Dn6IxDoqldO6ifze6wPVXdFKbE8AM5STJCFvLJ
+ zAzk1MW5K+j1l8Hw0gXSwU/9hPTUGMVRTKzA8V0temLm9qvAZdpESJ2GASDYsk/AcpMS
+ ueOHQEI6JDttZMhdVRPWTHypHdvviexml1ykc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xDVgMC3pgMI66Qfbn4dKj97wxKc85WWhYTVyq+wpXho=;
- b=A3n4HMzNpMMmeeXQBo616oMZKMe8qfoAJuWcZyGUjDPPGT7XYLll8pq5PGNDQDWg0v
- QEca8sovL9qBIDgihUtGUnDfQ62SG1C8IiJIcRF4oA9Yij348A7ooP6OH29gXmE8h+6N
- 7EukPm+KYye3iNJg04MNmjYBgHF8r7JY4NDwn/a4UN35WMFxOxMtBpeHT2sIPjwU0gtW
- ywDcRsTL3SOwlydnkXG+8QKIBcbuJFQ0vtfaECTDcCTN42/j9hRHHZ8cO+xookLWqQVl
- yiLW8ZGFEGq+/JQOgnwXmgwKV7pjfmUI60kibCWxKS3bAWEcTX860Rs+S+oxSLzt4YRZ
- OXEg==
-X-Gm-Message-State: APjAAAW9WiEs/ygeoQ1mKuPEL1pO5g7xTw/mTUAjmH099P+6U4nMXFRa
- 55cNfI3KV4eZBf1QpivI+w==
-X-Google-Smtp-Source: APXvYqzgHu4vzbb6DbWm2vals8wB1vp8H0ICorDGecZ9nvzGessLbPgiUZ0qbKixMnW6J9/fMT2+xg==
-X-Received: by 2002:a05:6602:219a:: with SMTP id
- b26mr4773812iob.55.1563230923181; 
- Mon, 15 Jul 2019 15:48:43 -0700 (PDT)
-Received: from xps15.herring.priv ([64.188.179.249])
- by smtp.googlemail.com with ESMTPSA id t14sm17185778ioi.60.2019.07.15.15.48.42
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 15 Jul 2019 15:48:42 -0700 (PDT)
-From: Rob Herring <robh@kernel.org>
-To: devicetree@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
- Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH] dt-bindings: pinctrl: aspeed: Fix AST2500 example errors
-Date: Mon, 15 Jul 2019 16:48:41 -0600
-Message-Id: <20190715224841.6771-1-robh@kernel.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pTNuKPARTwySyUt6RIFwHeD+C8HBpvsST+SWVc23gcE=;
+ b=SgOH31fjMSitfoyDRkbxyGEsRXDT7gbXtXbpQZsXGLTGQo+Ba5EpNEzYvDtkCVvj5L
+ 9L3Ey/HyBvDA5i9M6qarne/qkC8yKiC8UfzN7S1ET0/h6vWuRxR+iSiFYRBcnVyJBJgZ
+ H90emBeE8mvFptXELOBHZCnVwNMCjHdrNAoIph18Ai/PtC+jAl/8u1wCbG/8jdabrxMD
+ c+g5EAxOEFP6XZi/BWRQmAw1LFgMLDK4WwVj/GA97ui8kyI0HPQVB86WmX+SdzKuykJo
+ X3nEkMb5XHAU9y+ggLeyuOXKxAg7P6alAP1XMM5cN0fPMYiFSrV8ctXhtKLeAlivDTgY
+ KdKQ==
+X-Gm-Message-State: APjAAAV5yhDkuqgqx+3gA4/Wd9M6ZQMuUxHjTh79+dtyoEjydhSbgRp/
+ VWrfuWTN3lP7DuFrB8X3W0xwo/DPEyIRj8basdw=
+X-Google-Smtp-Source: APXvYqxJc0v4ISkcLVlzLQuZxh/PhnbAl/t86nXT4ZSfAmxjOFMBAbcwYkAY/GLZVXs2nz+WYpc9JkkiXxXZDyNlGzw=
+X-Received: by 2002:ac8:2d69:: with SMTP id o38mr20058126qta.169.1563232625324; 
+ Mon, 15 Jul 2019 16:17:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190715223725.12924-1-robh@kernel.org>
+In-Reply-To: <20190715223725.12924-1-robh@kernel.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 15 Jul 2019 23:16:54 +0000
+Message-ID: <CACPK8Xdz98CQzgE2KCjz8eOhPtx=H8jTe1hVT7LvP77U_gGASQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: pinctrl: aspeed: Fix 'compatible' schema
+ errors
+To: Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,55 +70,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org
+Cc: devicetree <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
+ Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The schema examples are now validated against the schema itself. The
-AST2500 pinctrl schema has a couple of errors:
+On Mon, 15 Jul 2019 at 22:37, Rob Herring <robh@kernel.org> wrote:
+>
+> The Aspeed pinctl schema have errors in the 'compatible' schema:
+>
+> Documentation/devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.yaml: \
+> properties:compatible:enum: ['aspeed', 'ast2400-pinctrl', 'aspeed', 'g4-pinctrl'] has non-unique elements
+> Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml: \
+> properties:compatible:enum: ['aspeed', 'ast2500-pinctrl', 'aspeed', 'g5-pinctrl'] has non-unique elements
+>
+> Flow style sequences have to be quoted if the vales contain ','. Fix
+> this by using the more common one line per entry formatting.
 
-Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.example.dt.yaml: \
-example-0: $nodename:0: 'example-0' does not match '^(bus|soc|axi|ahb|apb)(@[0-9a-f]+)?$'
-Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.example.dt.yaml: \
-pinctrl: aspeed,external-nodes: [[1, 2]] is too short
+>
+>  properties:
+>    compatible:
+> -    enum: [ aspeed,ast2400-pinctrl, aspeed,g4-pinctrl ]
+> +    enum:
+> +      - aspeed,ast2400-pinctrl
+> +      - aspeed,g4-pinctrl
 
-Fixes: 0a617de16730 ("dt-bindings: pinctrl: aspeed: Convert AST2500 bindings to json-schema")
-Cc: Andrew Jeffery <andrew@aj.id.au>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Joel Stanley <joel@jms.id.au>
-Cc: linux-aspeed@lists.ozlabs.org
-Cc: linux-gpio@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- .../devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml  | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+Thanks for the fix. However, we've standardised on the first form for
+all of our device trees, so we can drop the second compatible string
+from the bindings.
 
-diff --git a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml
-index a464cfa0cba3..3e6d85318577 100644
---- a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml
-+++ b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml
-@@ -76,9 +76,6 @@ required:
- 
- examples:
-   - |
--    compatible = "simple-bus";
--    ranges;
--
-     apb {
-         compatible = "simple-bus";
-         #address-cells = <1>;
-@@ -91,7 +88,7 @@ examples:
- 
-             pinctrl: pinctrl {
-                 compatible = "aspeed,g5-pinctrl";
--                aspeed,external-nodes = <&gfx &lhc>;
-+                aspeed,external-nodes = <&gfx>, <&lhc>;
- 
-                 pinctrl_i2c3_default: i2c3_default {
-                     function = "I2C3";
--- 
-2.20.1
+I think Andrew already has a patch cooking to do this.
 
+Cheers,
+
+Joel
