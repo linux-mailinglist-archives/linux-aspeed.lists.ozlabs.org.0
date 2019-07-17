@@ -1,86 +1,63 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F1526BD7E
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Jul 2019 15:44:00 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319036B53B
-	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Jul 2019 05:59:27 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45pNn8341YzDqPk
-	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Jul 2019 13:59:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45pdlb5pmSzDqXN
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Jul 2019 23:43:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.229; helo=new3-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=kernel.org
+ (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=robh+dt@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="DhsuuKEx"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="HTsZBQ5Q"; dkim-atps=neutral
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
+ dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.b="u9xbWDZZ"; 
+ dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45pNlv1rLTzDqTF
- for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Jul 2019 13:58:19 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id CFD5721F1;
- Tue, 16 Jul 2019 23:58:16 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Tue, 16 Jul 2019 23:58:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=7Kdhi4X59fRaX9BlrrSVCJVURd/WfMF
- FykQ50ZgZyNs=; b=DhsuuKExeeTQFKi0vfZAjumQFLgV8B2f7odFp/bnfPE03M/
- 6ZtJRE4TYCdrPEztEzQtcrBwfWixCOJO/20E3kEhYzg/xIeMFnwI93X98zqH6DRm
- pbWVkUK85zkzLAR2lL0inZ0Q1WcODlhrfvPEPJzsa4UUNLwfBqHSu40se5KFD5qv
- vkB0DYhuprc8RwKmTTUFz7eyM4FKBwcrZS2uBo2L6jFAAmEtNIyj26Yz0hmHuM2S
- qfCdKPVLAB7hu2s9B1guhDP8ZCBlQeCDy0KXPw5L9zQFBEOPf+//F6qmWws69AEF
- eo17oubYBHvjuX+H71vhhx/xF9iUYvnVnAS8Xrw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=7Kdhi4
- X59fRaX9BlrrSVCJVURd/WfMFFykQ50ZgZyNs=; b=HTsZBQ5Q15RDtChXdnGRqb
- cndQnVjFvbB6k4zmY0r6J/Y/EKh2FkdZ30MEkNTd/rNdnd1HsTYPBj8U+Ux+Kyl2
- Dt2rLSwbVBMntmHyi3iKknjIN0wM9LPC+2M04qEdBihkS/v1QjP5/JKFz+5Ah3uf
- YqQLFu/EvyCIWKmYzhCGttLEDBiI/UtxecX6axrKdcPybuXf+XDA80YfxBLAkS/v
- 9tT7xX/q3N1Upmil2XLO9ahkbbO+PIg4SPA4zQ5RzEzlnjdB9Ob9i7CUCrzstCYv
- 165p0YgmCNzVPZg4wNedNnnWZrwYEKHWZiRAe2J5hJDhnSOFFoPST0eUn5DL9r6A
- ==
-X-ME-Sender: <xms:1ZwuXdaosgMfe3B7l1BaktbXWTBMtpPl-ra3tud9soZqbx5xJPySDA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddriedugdejkecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucffohhmrg
- hinhepuggvvhhitggvthhrvggvrdhorhhgpdifrhhithhinhhgqdhstghhvghmrgdrmhgu
- necurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuve
- hluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:1ZwuXYocL_GqGv4FsoyjivAOobFVhK3V4Nq1xrys8zftqMlS8744IA>
- <xmx:1ZwuXa8PlsEroWBqpGp2zqbpWQxC618TdllQoYPKltAu4PB02qcfPA>
- <xmx:1ZwuXf_wToUY0t73T0YeuGwKfGKsik7sYkW8ojuCnVuA6xA4E_y91Q>
- <xmx:2JwuXfl34humbqJzGQtb2LlJj8wND-q3vC7QOD0iCyO3Y4nUcPGWgw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 5AAA3E00CC; Tue, 16 Jul 2019 23:58:13 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-731-g19d3b16-fmstable-20190627v1
-Mime-Version: 1.0
-Message-Id: <e7b472a8-73ae-4f39-a3e4-9e2d9dbcd01e@www.fastmail.com>
-In-Reply-To: <CAL_JsqKMo_uv4Ur-D4NaUXk94hGJeRt5fg+0998dDjJCTgumGg@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45pdkz4fYNzDqLw
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Jul 2019 23:43:22 +1000 (AEST)
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
+ [209.85.160.181])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2529221841
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Jul 2019 13:43:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1563371000;
+ bh=b+x+b4NCqFKQ+1PNG6IM4VpJY3IU3W3bJdwBExP8rdA=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=u9xbWDZZC5YP0yalQ3negtPPV6BVZQ7wi56ltY7eHOOf0YgpNzBzoxcBwtzW7mOmx
+ WgxFC+nSg1y8MCnUwLtH2v+vmN1vTtdlMQNxWqrBKBKlMD9Z7XKDDL71WWbQa2P2OG
+ GvIirxmMJMNfM0J/46BHFApAo/Kj0P/Bk+RoUxgw=
+Received: by mail-qt1-f181.google.com with SMTP id k10so23394659qtq.1
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Jul 2019 06:43:20 -0700 (PDT)
+X-Gm-Message-State: APjAAAUfQ+L4TFVLoNg+ph289rmj19f3CV6lAjvfZQ6JTo16+cEZb+zO
+ VFMF9KTiGu4hnf5ts1eNtet/yUB8uVeejvhi0Q==
+X-Google-Smtp-Source: APXvYqxemI43ftnjQzG6EZtYAR1PGmByDgQ7cM1LN44uorEnKyt8XBd/ehLX6DVgzgxWIxy+3Uz0PjttXYb+ejOST8U=
+X-Received: by 2002:a0c:acef:: with SMTP id n44mr29346792qvc.39.1563370999272; 
+ Wed, 17 Jul 2019 06:43:19 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190712033214.24713-1-andrew@aj.id.au>
  <20190712033214.24713-2-andrew@aj.id.au>
  <CAL_JsqLkOtsAxj9NvNB=EEkH00k-dtNedNY042uuntSmcjhDhA@mail.gmail.com>
  <3fe55ea9-b949-48a0-9eab-90ad3bc1ee2a@www.fastmail.com>
  <CAL_JsqKMo_uv4Ur-D4NaUXk94hGJeRt5fg+0998dDjJCTgumGg@mail.gmail.com>
-Date: Wed, 17 Jul 2019 13:27:59 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Rob Herring" <robh+dt@kernel.org>
+ <e7b472a8-73ae-4f39-a3e4-9e2d9dbcd01e@www.fastmail.com>
+In-Reply-To: <e7b472a8-73ae-4f39-a3e4-9e2d9dbcd01e@www.fastmail.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Wed, 17 Jul 2019 07:43:07 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKYL5yv8E=aKD1fJwXx1LLdUAs_ZFrc5k1dHsB9u+2ing@mail.gmail.com>
+Message-ID: <CAL_JsqKYL5yv8E=aKD1fJwXx1LLdUAs_ZFrc5k1dHsB9u+2ing@mail.gmail.com>
 Subject: Re: [PATCH v2 1/2] dt-bindings: mmc: Document Aspeed SD controller
-Content-Type: text/plain
+To: Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,104 +80,101 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Wed, 17 Jul 2019, at 00:27, Rob Herring wrote:
-> On Mon, Jul 15, 2019 at 6:36 PM Andrew Jeffery <andrew@aj.id.au> wrote:
-> >
-> >
-> >
-> > On Tue, 16 Jul 2019, at 07:47, Rob Herring wrote:
-> > > On Thu, Jul 11, 2019 at 9:32 PM Andrew Jeffery <andrew@aj.id.au> wrote:
-> > > >
-> > > > The ASPEED SD/SDIO/eMMC controller exposes two slots implementing the
-> > > > SDIO Host Specification v2.00, with 1 or 4 bit data buses, or an 8 bit
-> > > > data bus if only a single slot is enabled.
-> > > >
-> > > > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> > > > ---
-> > > > In v2:
-> > > >
-> > > > * Rename to aspeed,sdhci.yaml
-> > > > * Rename sd-controller compatible
-> > > > * Add `maxItems: 1` for reg properties
-> > > > * Move sdhci subnode description to patternProperties
-> > > > * Drop sdhci compatible requirement
-> > > > * #address-cells and #size-cells are required
-> > > > * Prevent additional properties
-> > > > * Implement explicit ranges in example
-> > > > * Remove slot property
-> > > >
-> > > >  .../devicetree/bindings/mmc/aspeed,sdhci.yaml | 90 +++++++++++++++++++
-> > > >  1 file changed, 90 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..67a691c3348c
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
-> > > > @@ -0,0 +1,90 @@
-> > > > +# SPDX-License-Identifier: GPL-2.0-or-later
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: ASPEED SD/SDIO/eMMC Controller
-> > > > +
-> > > > +maintainers:
-> > > > +  - Andrew Jeffery <andrew@aj.id.au>
-> > > > +  - Ryan Chen <ryanchen.aspeed@gmail.com>
-> > > > +
-> > > > +description: |+
-> > > > +  The ASPEED SD/SDIO/eMMC controller exposes two slots implementing the SDIO
-> > > > +  Host Specification v2.00, with 1 or 4 bit data buses, or an 8 bit data bus if
-> > > > +  only a single slot is enabled.
-> > > > +
-> > > > +  The two slots are supported by a common configuration area. As the SDHCIs for
-> > > > +  the slots are dependent on the common configuration area, they are described
-> > > > +  as child nodes.
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    enum: [ aspeed,ast2400-sd-controller, aspeed,ast2500-sd-controller ]
+On Tue, Jul 16, 2019 at 9:58 PM Andrew Jeffery <andrew@aj.id.au> wrote:
+>
+>
+>
+> On Wed, 17 Jul 2019, at 00:27, Rob Herring wrote:
+> > On Mon, Jul 15, 2019 at 6:36 PM Andrew Jeffery <andrew@aj.id.au> wrote:
 > > >
-> > > This is actually a list of 4 strings. Please reformat to 1 per line.
+> > >
+> > >
+> > > On Tue, 16 Jul 2019, at 07:47, Rob Herring wrote:
+> > > > On Thu, Jul 11, 2019 at 9:32 PM Andrew Jeffery <andrew@aj.id.au> wrote:
+> > > > >
+> > > > > The ASPEED SD/SDIO/eMMC controller exposes two slots implementing the
+> > > > > SDIO Host Specification v2.00, with 1 or 4 bit data buses, or an 8 bit
+> > > > > data bus if only a single slot is enabled.
+> > > > >
+> > > > > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> > > > > ---
+> > > > > In v2:
+> > > > >
+> > > > > * Rename to aspeed,sdhci.yaml
+> > > > > * Rename sd-controller compatible
+> > > > > * Add `maxItems: 1` for reg properties
+> > > > > * Move sdhci subnode description to patternProperties
+> > > > > * Drop sdhci compatible requirement
+> > > > > * #address-cells and #size-cells are required
+> > > > > * Prevent additional properties
+> > > > > * Implement explicit ranges in example
+> > > > > * Remove slot property
+> > > > >
+> > > > >  .../devicetree/bindings/mmc/aspeed,sdhci.yaml | 90 +++++++++++++++++++
+> > > > >  1 file changed, 90 insertions(+)
+> > > > >  create mode 100644 Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+> > > > >
+> > > > > diff --git a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+> > > > > new file mode 100644
+> > > > > index 000000000000..67a691c3348c
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+> > > > > @@ -0,0 +1,90 @@
+> > > > > +# SPDX-License-Identifier: GPL-2.0-or-later
+> > > > > +%YAML 1.2
+> > > > > +---
+> > > > > +$id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > +
+> > > > > +title: ASPEED SD/SDIO/eMMC Controller
+> > > > > +
+> > > > > +maintainers:
+> > > > > +  - Andrew Jeffery <andrew@aj.id.au>
+> > > > > +  - Ryan Chen <ryanchen.aspeed@gmail.com>
+> > > > > +
+> > > > > +description: |+
+> > > > > +  The ASPEED SD/SDIO/eMMC controller exposes two slots implementing the SDIO
+> > > > > +  Host Specification v2.00, with 1 or 4 bit data buses, or an 8 bit data bus if
+> > > > > +  only a single slot is enabled.
+> > > > > +
+> > > > > +  The two slots are supported by a common configuration area. As the SDHCIs for
+> > > > > +  the slots are dependent on the common configuration area, they are described
+> > > > > +  as child nodes.
+> > > > > +
+> > > > > +properties:
+> > > > > +  compatible:
+> > > > > +    enum: [ aspeed,ast2400-sd-controller, aspeed,ast2500-sd-controller ]
+> > > >
+> > > > This is actually a list of 4 strings. Please reformat to 1 per line.
+> > >
+> > > On reflection that's obvious, but also a somewhat subtle interaction with the
+> > > preference for no quotes (the obvious caveat being "except where required").
 > >
-> > On reflection that's obvious, but also a somewhat subtle interaction with the
-> > preference for no quotes (the obvious caveat being "except where required").
-> 
-> It wasn't something I'd run into before. I'm working on a check, but
-> unfortunately we can only check for quotes not needed and can't check
-> for missing quotes.
-> 
-> > Thanks for pointing it out.
+> > It wasn't something I'd run into before. I'm working on a check, but
+> > unfortunately we can only check for quotes not needed and can't check
+> > for missing quotes.
 > >
-> > I have been running `make dt_binding_check` and `make dtbs_check` over
-> > these, looks like I need to up my game a bit though. Do you do additional things
-> > in your workflow?
-> 
-> That should have thrown the warnings. If you aren't seeing those, do
-> you have dtschema package installed (see
-> Documentation/devicetree/writing-schema.md)?
+> > > Thanks for pointing it out.
+> > >
+> > > I have been running `make dt_binding_check` and `make dtbs_check` over
+> > > these, looks like I need to up my game a bit though. Do you do additional things
+> > > in your workflow?
+> >
+> > That should have thrown the warnings. If you aren't seeing those, do
+> > you have dtschema package installed (see
+> > Documentation/devicetree/writing-schema.md)?
+>
+> I do have it installed, but as mentioned previously there's a fair few
+> warnings emitted currently by the Aspeed devicetrees, so it might have
+> got lost in the noise. I've started to clean that up, though probably need
+> some direction there too.
+>
+> Separately I'm currently trying to track down an issue where I get errors
+> on the Aspeed dts cpu nodes about failing to match the riscv CPU
+> compatibles, it seems dt-validate isn't finding the ARM CPU compatible
+> strings. It feels more annoying to track down that I'd like.
 
-I do have it installed, but as mentioned previously there's a fair few
-warnings emitted currently by the Aspeed devicetrees, so it might have
-got lost in the noise. I've started to clean that up, though probably need
-some direction there too.
+There's a fix in today's linux-next for that and it should be in
+Linus' tree in a few days.
 
-Separately I'm currently trying to track down an issue where I get errors
-on the Aspeed dts cpu nodes about failing to match the riscv CPU
-compatibles, it seems dt-validate isn't finding the ARM CPU compatible
-strings. It feels more annoying to track down that I'd like.
-
-> Or it could be erroring
-> out on something else first. There's a few breakages that I'm trying
-> to fix.
-
-Okay. I'll keep an eye on the dt-schema repo.
-
-Cheers,
-
-Andrew
+Rob
