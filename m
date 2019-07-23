@@ -2,83 +2,80 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA2670E45
-	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Jul 2019 02:41:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB4670EDD
+	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Jul 2019 03:56:28 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45t05Y5gzFzDqDF
-	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Jul 2019 10:41:05 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45t1mT5f60zDqWL
+	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Jul 2019 11:56:25 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.29; helo=out5-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::643; helo=mail-pl1-x643.google.com;
+ envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
+ dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="DjNggeZh"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="V7D/POwf"; dkim-atps=neutral
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="DL1hJknP"; 
+ dkim-atps=neutral
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
+ [IPv6:2607:f8b0:4864:20::643])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45t05P1wG1zDqDF;
- Tue, 23 Jul 2019 10:40:57 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id E858321ADD;
- Mon, 22 Jul 2019 20:40:53 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Mon, 22 Jul 2019 20:40:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=ea1eXoWpqlHrh4PNFoOkJoobCbGJqdR
- 95gve43bppWY=; b=DjNggeZhNCdlUyyXFp/MmWpcb5mpCX+fqULx2XOFp6E93B2
- Ltob4RpUXyYQPuJ7JaThvGuSymQMqZlXhDuUSW6BdVJbWBEbFYNXOifRdowWfF0v
- JEznR2696Gy3jLhH4DAVxmJZUnPjbCiSTu6c49Mc7q7mGlXPXh0iYsnG7A1JyZpB
- nVLytB6ltwXLHnPO+HgjY7sdlD6n/Z9xS8vyIv2CHBFSQJUM72na7mckeAXdaBt1
- hbmyMhJl5dcM5csC77iC4Pp1oSHq8hh89DqMTCPyMgeDmOXRKFl2j50mJbMpL8Dy
- eR5wHd3AOr17y3RP8fqqklB35uoIekvXXphKJWA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ea1eXo
- WpqlHrh4PNFoOkJoobCbGJqdR95gve43bppWY=; b=V7D/POwfWqx3e195N9nylY
- bJGvoMjjjR5Nf1ouybjiuQMsoTNVdPtxsy7rC2rCUjsZdLxUiUYFCBcRigMu8vM1
- K0gRp6acAUPCre71uUbdGTHAgmNs7w+gkFC53nQqN/1xreRfTmGL8pyYuDHWq3V5
- poR9pOYPcDr5od64qCtYJT3FJrM9/L5S227Dbo/9aM8w+bcWR+o3A3evYjeMuvm1
- z+EnIKQGgUTn8pOItTSHHXJ0SXPbVJlo6Q9JoPmD6xhiLGpEPQSqWdMzM5KJwi6W
- JEMAJIOQgIkPfI54dTt3g+x/007BklffUU4cdfMNP2fvEK4rqITrWMYGVeTU8Tqw
- ==
-X-ME-Sender: <xms:lFc2XeNDnMeJr4rp5MVqPG6mIg4Zs6FZXXLNv8X0jSM_irSPMfnpMg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrjeehgdefiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
- hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
- ufhiiigvpedt
-X-ME-Proxy: <xmx:lFc2XZEkqdx5hDVDbeupnTb98R46EHs38zSO0lGb2RK1vNNPa9fUSA>
- <xmx:lFc2Xejz3xuRF1XqrEHhBUBIpP_4eTJYS8NHfR7KSJBjVKBohv109w>
- <xmx:lFc2XdyuQHF1IV7_N0c5UtkPbJeJ3JjUMizDxbWC7vq97se4LVjSOA>
- <xmx:lVc2Xa2wwkaO0XYuvZUn2EcOcqHUPuaRIaeFvHitgdI9V0FV297XMg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 4C3ADE074B; Mon, 22 Jul 2019 20:40:52 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-736-gdfb8e44-fmstable-20190718v2
-Mime-Version: 1.0
-Message-Id: <a0a8162e-c21b-4b3d-b096-1676c5cc9758@www.fastmail.com>
-In-Reply-To: <20190723003216.2910042-1-vijaykhemka@fb.com>
-References: <20190723003216.2910042-1-vijaykhemka@fb.com>
-Date: Tue, 23 Jul 2019 10:11:05 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Vijay Khemka" <vijaykhemka@fb.com>, "Rob Herring" <robh+dt@kernel.org>,
- "Mark Rutland" <mark.rutland@arm.com>, "Joel Stanley" <joel@jms.id.au>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ARM: dts: aspeed: tiogapass: Add VR devices
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45t1mP1DhGzDqR1;
+ Tue, 23 Jul 2019 11:56:18 +1000 (AEST)
+Received: by mail-pl1-x643.google.com with SMTP id t14so19906973plr.11;
+ Mon, 22 Jul 2019 18:56:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zdeVjAmSrferDd7T8hxsXdL0gr4l2xZ9zqxhMuU3IN4=;
+ b=DL1hJknP7dOl9CjvZmvtrrFSLoqcpqlmYiN2kZoCeny4znXR65bo8ivkfAHSiRM8Io
+ ciV5lejw6TLu5OncuR3jGwZHKmjXVnQpbP2HlGNCp5/18DPVq0rEGMRIk7NYUXKy9SQz
+ AE359Z3Ib+/HgL9RChLa4wN7g0Vmm3Ubqrjglfe5yCw7/Y4pGBbi5JwE9SQD6McdFs/Y
+ hdWQVG5eWZWRRNYC/wR0Z8IrBVFFuB8XzTj1CdTuQ/Wq0aynAWQ8W2wPHvlMahAq6O74
+ ESiKZsWT+vZH5vvL2fcLwpdekXs87EFTsfQkYJmbOPZc2f1wPEgwIucBUAyT7rABq7sx
+ WjEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zdeVjAmSrferDd7T8hxsXdL0gr4l2xZ9zqxhMuU3IN4=;
+ b=sEIjZ1CURg+esMhl/kQvSKzeNsNAF2TAXDo0NtQU2or8MNKJWFY4IIFhUsMmC+RZ3q
+ 7KYbDQu68PbhnFkakUPJTOn4L67tRMNQmX1st+oCJoZF3bVnRKlTRkqaK/1JaOw1F3Oc
+ L8wMlPfBatU2V2gcid/LoZI8VVeDcarlsImt13sbZp4Yh2RbxM6QL3RjY0d0m7kGu8yI
+ lc20QAwywyJX/aUypLEJAXIcGoIZb3PNkau3znnK6AnBVSM8ugkQKdGk2OfnPXZ6gSQX
+ R6sP93mqd3lQ2ns+u2v1BWMzyp9K7XYSaRHoGqVBLtIL9LJ2+c9CqV7PGZID3aO8a76F
+ goNg==
+X-Gm-Message-State: APjAAAV74RrIByzx4vrOjA5kUlaBvzAhDR/oT/1AQaGSOsQzOsJgW3DC
+ V7VLVWH2KGaZIBpo2GzufuI=
+X-Google-Smtp-Source: APXvYqzKhsXfltpbJVJRV5E8B+0BKmnIOshdtuCdiVOvUrS5QqQf/Dmwvk82qizj9HvksQeH3+gOmg==
+X-Received: by 2002:a17:902:44f:: with SMTP id
+ 73mr78998934ple.192.1563846976747; 
+ Mon, 22 Jul 2019 18:56:16 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ s11sm12752287pgc.78.2019.07.22.18.56.14
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 22 Jul 2019 18:56:15 -0700 (PDT)
+Subject: Re: [PATCH] dt-bindings: hwmon: Add binding for pxe1610
+To: Vijay Khemka <vijaykhemka@fb.com>
+References: <20190722192451.1947348-1-vijaykhemka@fb.com>
+ <20190722192451.1947348-2-vijaykhemka@fb.com>
+ <20190722200622.GA20435@roeck-us.net>
+ <6E2B35D8-B538-4C96-B289-27A87ECD74DB@fb.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Message-ID: <d3137d6b-8bf8-4da6-9da7-a42b8bc68fbd@roeck-us.net>
+Date: Mon, 22 Jul 2019 18:56:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <6E2B35D8-B538-4C96-B289-27A87ECD74DB@fb.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,77 +87,64 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "openbmc @ lists . ozlabs . org" <openbmc@lists.ozlabs.org>,
- Sai Dasari <sdasari@fb.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ Jean Delvare <jdelvare@suse.com>, Sai Dasari <sdasari@fb.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "openbmc @ lists . ozlabs . org" <openbmc@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Tue, 23 Jul 2019, at 10:04, Vijay Khemka wrote:
-> Adds voltage regulators Infineon pxe1610 devices to Facebook
-> tiogapass platform.
+On 7/22/19 5:12 PM, Vijay Khemka wrote:
 > 
-> Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+> 
+> ﻿On 7/22/19, 1:06 PM, "Guenter Roeck" <groeck7@gmail.com on behalf of linux@roeck-us.net> wrote:
+> 
+>      On Mon, Jul 22, 2019 at 12:24:48PM -0700, Vijay Khemka wrote:
+>      > Added new DT binding document for Infineon PXE1610 devices.
+>      >
+>      > Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+>      > ---
+>      >  .../devicetree/bindings/hwmon/pxe1610.txt         | 15 +++++++++++++++
+>      >  1 file changed, 15 insertions(+)
+>      >  create mode 100644 Documentation/devicetree/bindings/hwmon/pxe1610.txt
+>      >
+>      > diff --git a/Documentation/devicetree/bindings/hwmon/pxe1610.txt b/Documentation/devicetree/bindings/hwmon/pxe1610.txt
+>      > new file mode 100644
+>      > index 000000000000..635daf4955db
+>      > --- /dev/null
+>      > +++ b/Documentation/devicetree/bindings/hwmon/pxe1610.txt
+>      > @@ -0,0 +1,15 @@
+>      > +pxe1610 properties
+>      > +
+>      > +Required properties:
+>      > +- compatible: Must be one of the following:
+>      > +	- "infineon,pxe1610" for pxe1610
+>      > +	- "infineon,pxe1110" for pxe1610
+>      > +	- "infineon,pxm1310" for pxm1310
+>      > +- reg: I2C address
+>      > +
+>      > +Example:
+>      > +
+>      > +vr@48 {
+>      > +	compatible = "infineon,pxe1610";
+>      > +	reg = <0x48>;
+>      > +};
+>      
+>      Wouldn't it be better to add this to
+>      ./Documentation/devicetree/bindings/trivial-devices.txt ?
+> Sure, I didn't know about this file. I will add and send another patch. It is
+> Documentation/devicetree/bindings/trivial-devices.yaml. How do I abandon
+> this patch or just leave it.
+>      
 
-Acked-by: Andrew Jeffery <andrew@aj.id.au>
+When you send v2, just add the device to the trivial-devices file instead
+and describe the differences to v1 (ie this patch).
 
-> ---
-> In v2: Renamed vr to regulator and fixed some typo in commit message.
-> 
->  .../dts/aspeed-bmc-facebook-tiogapass.dts     | 36 +++++++++++++++++++
->  1 file changed, 36 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts 
-> b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-> index c4521eda787c..e722e9aef907 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-> @@ -144,6 +144,42 @@
->  &i2c5 {
->  	status = "okay";
->  	// CPU Voltage regulators
-> +	regulator@48 {
-> +		compatible = "infineon,pxe1610";
-> +		reg = <0x48>;
-> +	};
-> +	regulator@4a {
-> +		compatible = "infineon,pxe1610";
-> +		reg = <0x4a>;
-> +	};
-> +	regulator@50 {
-> +		compatible = "infineon,pxe1610";
-> +		reg = <0x50>;
-> +	};
-> +	regulator@52 {
-> +		compatible = "infineon,pxe1610";
-> +		reg = <0x52>;
-> +	};
-> +	regulator@58 {
-> +		compatible = "infineon,pxe1610";
-> +		reg = <0x58>;
-> +	};
-> +	regulator@5a {
-> +		compatible = "infineon,pxe1610";
-> +		reg = <0x5a>;
-> +	};
-> +	regulator@68 {
-> +		compatible = "infineon,pxe1610";
-> +		reg = <0x68>;
-> +	};
-> +	regulator@70 {
-> +		compatible = "infineon,pxe1610";
-> +		reg = <0x70>;
-> +	};
-> +	regulator@72 {
-> +		compatible = "infineon,pxe1610";
-> +		reg = <0x72>;
-> +	};
->  };
->  
->  &i2c6 {
-> -- 
-> 2.17.1
-> 
->
+Guenter
+
