@@ -1,60 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A76670F13
-	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Jul 2019 04:19:40 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45t2HF6FyMzDqW4
-	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Jul 2019 12:19:37 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8DF97259F
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jul 2019 05:57:46 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 45thPz44RDzDqKX
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jul 2019 13:57:43 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::841; helo=mail-qt1-x841.google.com;
- envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=kernel.org
+ (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=robh+dt@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
+ dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="TOwnZ4Kg"; 
+ unprotected) header.d=kernel.org header.i=@kernel.org header.b="IDFS8+WN"; 
  dkim-atps=neutral
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45t2GG28khzDqPB;
- Tue, 23 Jul 2019 12:18:45 +1000 (AEST)
-Received: by mail-qt1-x841.google.com with SMTP id l9so40413996qtu.6;
- Mon, 22 Jul 2019 19:18:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vcC4RShVO4GBc+sW4MyK+3YODcf2RJ2zchY27GABnL8=;
- b=TOwnZ4KgvqrleYyt69kjA8Pa9iW5g09uAt5QjslSfRRn8IKi1esZ7HH1t1kr3eWn62
- HwvE1GIGFI6YVmc+kPriQ5kLlktrExjmXA39je9MWxpYWvJ3WHlYOp/XPt9YQGPAzJDw
- l8DiX0FJaHPr+AY0jKpkagQRf57jvHPnKWM58=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vcC4RShVO4GBc+sW4MyK+3YODcf2RJ2zchY27GABnL8=;
- b=ElnpdN4P1A+LvTlGyQAxNBKLWEL/6vsqWJGL1ACsn5conpeZe7DVbtH/Ekls76iXX7
- QvJQSXHXvhJNNGUAxNVU4GJDLawqs3QfkZw40WrhHygi4RYnvYgki5y9kXCjW+Ljb89U
- +EAln1mUssql8wpfc3POvkpCwy4hWRCOoADmaxcYzEmuAzDQ3kAWtHwNpP+l9ODWzGnL
- +zLoY6H32JA5je9NoHJdvSBE2zet9RxfY1+3K/gbHbywxtk3gsorgIoSK8ZT8+9KgVKe
- FxszJpVCpOfzDQAy5P3sQ8S27emZ8erKY6hvEvt5Uh4L1Bk7uoZGuaXff5pu2u9Ev/b5
- +aNw==
-X-Gm-Message-State: APjAAAVXVYK+EEX8+HjP8Adm1y2uuZJoSlYTyK7hlG5i4JMS5O0AmPr/
- HnrM34ktpvj68KcuWWtQ++nmgnErgYsucllyIMY=
-X-Google-Smtp-Source: APXvYqyKa4qglKbb1MdjCrqmWrNbSYFG/mfrDWZwOC07dy0d8FYB/4HTZQLyEyfhsZkvbBQEqQWHNxVW+HOmbCsiWG0=
-X-Received: by 2002:a0c:afd5:: with SMTP id t21mr52827407qvc.105.1563848321880; 
- Mon, 22 Jul 2019 19:18:41 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45tLxk4SnPzDq9j;
+ Wed, 24 Jul 2019 00:50:34 +1000 (AEST)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 12E8322839;
+ Tue, 23 Jul 2019 14:50:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1563893431;
+ bh=NWY3jIvmqwRnEzth0vMKEw2NgpGjrUlBjW0KeFbTm5o=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=IDFS8+WNAeGLOnDIvNmXlG7K9oKwlVq7Z+RmdL9ze2zCJFUZz5fvjP3elsU3XWct6
+ tVyeZxrFlS7zl0MIWuIyAUvMa0HUuQ4I5w6wcCdPzbRvoQe13OtzfjBPi+FTsf6Yem
+ y09h8D/vh1Vta4RvFOm8i+sZwmHxidcnx17LNy6o=
+Received: by mail-qt1-f169.google.com with SMTP id l9so42171007qtu.6;
+ Tue, 23 Jul 2019 07:50:31 -0700 (PDT)
+X-Gm-Message-State: APjAAAUiiq3R1fSES8PJdfUadXmZZZVP7If+Z7OLPK0StHLMEtiDYFzb
+ /702ts0SqrpYMFrrS4h1rieG9qMS3sfGFT5/wQ==
+X-Google-Smtp-Source: APXvYqwBju742Uv1oJ/wgPhfyE4ujnFUKj5HTZyO6Z9MYKgunw2Xd7cpXwgfdumZPHvlQwtgggvcrJUV0jigeCY0Eso=
+X-Received: by 2002:a0c:b786:: with SMTP id l6mr55369242qve.148.1563893430142; 
+ Tue, 23 Jul 2019 07:50:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190723002052.2878847-1-vijaykhemka@fb.com>
 In-Reply-To: <20190723002052.2878847-1-vijaykhemka@fb.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 23 Jul 2019 02:18:29 +0000
-Message-ID: <CACPK8XfGxUpBU4iNG5TwE=3J1aEZAZ=nnVvrT74LQ-F0kqkw2Q@mail.gmail.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 23 Jul 2019 08:50:18 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+uAjK6+xzkyOhcH96tZuqv7i6Nz5_nhUQkZ2adt2gutA@mail.gmail.com>
+Message-ID: <CAL_Jsq+uAjK6+xzkyOhcH96tZuqv7i6Nz5_nhUQkZ2adt2gutA@mail.gmail.com>
 Subject: Re: [PATCH] dt-bindings: Add pxe1610 as a trivial device
 To: Vijay Khemka <vijaykhemka@fb.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -69,25 +64,44 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, Jiri Kosina <trivial@kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>, Anson Huang <anson.huang@nxp.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Jiri Kosina <trivial@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Anson Huang <anson.huang@nxp.com>, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
  Patrick Venture <venture@google.com>,
  "openbmc @ lists . ozlabs . org" <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Jeremy Gebben <jgebben@sweptlaser.com>, Rob Herring <robh+dt@kernel.org>,
- linux-aspeed@lists.ozlabs.org, Sai Dasari <sdasari@fb.com>,
- Guenter Roeck <linux@roeck-us.net>
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Jeremy Gebben <jgebben@sweptlaser.com>, linux-aspeed@lists.ozlabs.org,
+ sdasari@fb.com, Guenter Roeck <linux@roeck-us.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 23 Jul 2019 at 00:46, Vijay Khemka <vijaykhemka@fb.com> wrote:
+On Mon, Jul 22, 2019 at 6:46 PM Vijay Khemka <vijaykhemka@fb.com> wrote:
 >
 > The pxe1610 is a voltage regulator from Infineon. It also supports
 > other VRs pxe1110 and pxm1310 from Infineon.
 >
 > Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+> ---
+>  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
+> index 2e742d399e87..1be648828a31 100644
+> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
+> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
+> @@ -99,6 +99,8 @@ properties:
+>              # Infineon IR38064 Voltage Regulator
+>            - infineon,ir38064
+>              # Infineon SLB9635 (Soft-) I2C TPM (old protocol, max 100khz)
+> +          - infineon,pxe1610
+> +            # Infineon PXE1610, PXE1110 and PXM1310 Voltage Regulators
 
-Acked-by: Joel Stanley <joel@jms.id.au>
+The comment goes above the entry.
+
+>            - infineon,slb9635tt
+>              # Infineon SLB9645 I2C TPM (new protocol, max 400khz)
+>            - infineon,slb9645tt
+> --
+> 2.17.1
+>
