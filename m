@@ -1,84 +1,78 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28DF372971
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jul 2019 10:02:33 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 998D5726FD
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jul 2019 06:51:28 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45tjbx1wJyzDqGc
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jul 2019 14:51:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45tnrQ3tBvzDqKv
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jul 2019 18:02:30 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=us.ibm.com
- (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com;
- envelope-from=spinler@us.ibm.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=66.111.4.29; helo=out5-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=us.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="HK56g/HV"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="qXG2dnB9"; dkim-atps=neutral
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45r2TZ4FLMzDqv8
- for <linux-aspeed@lists.ozlabs.org>; Sat, 20 Jul 2019 06:21:31 +1000 (AEST)
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x6JKGV11046071
- for <linux-aspeed@lists.ozlabs.org>; Fri, 19 Jul 2019 16:21:27 -0400
-Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2tukh2k6hm-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-aspeed@lists.ozlabs.org>; Fri, 19 Jul 2019 16:21:27 -0400
-Received: from localhost
- by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <linux-aspeed@lists.ozlabs.org> from <spinler@us.ibm.com>;
- Fri, 19 Jul 2019 21:21:26 +0100
-Received: from b01cxnp22033.gho.pok.ibm.com (9.57.198.23)
- by e12.ny.us.ibm.com (146.89.104.199) with IBM ESMTP SMTP Gateway: Authorized
- Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 19 Jul 2019 21:21:24 +0100
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x6JKLNr931261182
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 19 Jul 2019 20:21:23 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A9ADAB2068;
- Fri, 19 Jul 2019 20:21:23 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 60C59B205F;
- Fri, 19 Jul 2019 20:21:23 +0000 (GMT)
-Received: from vertramp.rchland.ibm.com (unknown [9.10.99.128])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri, 19 Jul 2019 20:21:23 +0000 (GMT)
-From: Matt Spinler <spinler@us.ibm.com>
-To: joel@jms.id.au, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org
-Subject: [PATCH linux dev-5.2] ARM: dts: aspeed: swift: Fix FSI GPIOs
-Date: Fri, 19 Jul 2019 15:21:04 -0500
-X-Mailer: git-send-email 2.22.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45tnrF11q9zDqJW
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 24 Jul 2019 18:02:20 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id A18E920319;
+ Wed, 24 Jul 2019 04:02:15 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 24 Jul 2019 04:02:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=vGMWGeup4fNzBdqplWpmo0KCMG
+ AiAgFTbEnQSTgMS68=; b=HK56g/HVg7olzOkStP/bNLJiK1e596UnMP1SS9zmpq
+ DcxuWhwgipRBQma979wtZj7OEG8RE+WJmTANr6j/+t00qyjPTATHZZlXypDPI4yI
+ /UhfEG/jZUPiEkTtfgC0lSKxoYW6izXQgelkTsXOtxMvPm8P1+mUPWMdmWGdgaFK
+ TlB9HFROrQloJx+DnozOkRpYvqNHzpkc0ZcOHwQNC8S6nFEXbpMzOwJ7z/nMu22a
+ rbInz7r0SriT163TaNqdDFAfHEbHNFie8zVy2QjVA+y7QL78tsVlknBdWCOm4M9f
+ oNXY8ncaL5HQcSH4Ft5pk5kdvMluu4dp8bJzSwPLvOIQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=vGMWGeup4fNzBdqpl
+ Wpmo0KCMGAiAgFTbEnQSTgMS68=; b=qXG2dnB9/a5jAOKSV4Mfpt0EtZce6DMla
+ Bf3Q034MHyMPF9PTvYQhxnR+LhSfbB7gOGTaqMk7sr8hOpKjcHh/Adu3xFHswJ/z
+ 9tz5S7d/A92vi/xxz5vd969Rqvb50sppbo/mP/KZ+0SxIBd/wAmX10lRR18HeCHz
+ 2V0nWZk0j/WRVjWRGzMFG68NwNglb1bNsr4PjlT9So+Khq5tQj0ldZ5AoeYLAlBv
+ tEjpKiotE9GTuzcEVb82rcMjuAMBetPVgdFvwbgo4Oq3s7eM5Pzui4DIX/GEoNZL
+ 72mJH63GH+OBbDrcJOamw0If6jokF6iXNHzc25V+fhk4cnh6l5d2g==
+X-ME-Sender: <xms:hhA4Xc1tNkdzUhn-zrJu5xW3TSs8vVRXoQ9skZ0yAH_R5H_x8BKhWQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrjeelgdduvdejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegrjhdr
+ ihgurdgruheqnecuffhomhgrihhnpehpihhnmhhugidruggvvhenucfkphepvddtvddrke
+ durddukedrfedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhi
+ ugdrrghunecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:hhA4XYkYcL0yZZz8mdIJesNj919MKI1wUoZQu3Ew72Du930NqOECww>
+ <xmx:hhA4XU9FJwCLsbei9ZKsQ3LzbSKl46g61krowX8BUxI5QBYhWlFnkQ>
+ <xmx:hhA4XVrWzcP7utJyM8zwbOff2s_hnZVjcgYaWS_2wwp0DsFD2IUZfg>
+ <xmx:hxA4XbXgAdQt9x85E0BUjZN7CPqM_bJXBMIQBjNYsOfvnj2F7-9jNA>
+Received: from mistburn.au.ibm.com (bh02i525f01.au.ibm.com [202.81.18.30])
+ by mail.messagingengine.com (Postfix) with ESMTPA id E71C1380074;
+ Wed, 24 Jul 2019 04:02:11 -0400 (EDT)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: linux-gpio@vger.kernel.org
+Subject: [PATCH] pinctrl: aspeed-g5: Delay acquisition of regmaps
+Date: Wed, 24 Jul 2019 17:31:55 +0930
+Message-Id: <20190724080155.12209-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19071920-0060-0000-0000-000003633BDB
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011458; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000287; SDB=6.01234549; UDB=6.00650596; IPR=6.01015882; 
- MB=3.00027804; MTD=3.00000008; XFM=3.00000015; UTC=2019-07-19 20:21:26
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19071920-0061-0000-0000-00004A37AAE7
-Message-Id: <20190719202104.11488-1-spinler@us.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-07-19_12:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=927 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907190219
-X-Mailman-Approved-At: Wed, 24 Jul 2019 14:50:53 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,34 +84,277 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Matt Spinler <spinler@us.ibm.com>
+Cc: linux-aspeed@lists.ozlabs.org, linus.walleij@linaro.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Change the FSI clock and data GPIOs to match what the hardware turned
-out to use.
+While sorting out some devicetree issues I found that the pinctrl driver
+was failing to acquire its GFX regmap even though the phandle was
+present in the devicetree:
 
-Signed-off-by: Matt Spinler <spinler@us.ibm.com>
+    [    0.124190] aspeed-g5-pinctrl 1e6e2000.syscon:pinctrl: No GFX phandle found, some mux configurations may fail
+
+Without access to the GFX regmap we fail to configure the mux for the
+VPO function:
+
+    [    1.548866] pinctrl core: add 1 pinctrl maps
+    [    1.549826] aspeed-g5-pinctrl 1e6e2000.syscon:pinctrl: found group selector 164 for VPO
+    [    1.550638] aspeed-g5-pinctrl 1e6e2000.syscon:pinctrl: request pin 144 (V20) for 1e6e6000.display
+    [    1.551346] aspeed-g5-pinctrl 1e6e2000.syscon:pinctrl: request pin 145 (U19) for 1e6e6000.display
+    ...
+    [    1.562057] aspeed-g5-pinctrl 1e6e2000.syscon:pinctrl: request pin 218 (T22) for 1e6e6000.display
+    [    1.562541] aspeed-g5-pinctrl 1e6e2000.syscon:pinctrl: request pin 219 (R20) for 1e6e6000.display
+    [    1.563113] Muxing pin 144 for VPO
+    [    1.563456] Want SCU8C[0x00000001]=0x1, got 0x0 from 0x00000000
+    [    1.564624] aspeed_gfx 1e6e6000.display: Error applying setting, reverse things back
+
+This turned out to be a simple problem of timing: The ASPEED pinctrl
+driver is probed during arch_initcall(), while GFX is processed much
+later. As such the GFX syscon is not yet registered during the pinctrl
+probe() and we get an -EPROBE_DEFER when we try to look it up, however
+we must not defer probing the pinctrl driver for the inability to mux
+some GFX-related functions.
+
+Switch to lazily grabbing the regmaps when they're first required by the
+mux configuration. This generates a bit of noise in the patch as we have
+to drop the `const` qualifier on arguments for several function
+prototypes, but has the benefit of working.
+
+I've smoke tested this for the ast2500-evb under qemu with a dummy
+graphics device. We now succeed in our attempts to configure the SoC's
+VPO pinmux function.
+
+Fixes: 7d29ed88acbb ("pinctrl: aspeed: Read and write bits in LPC and GFX controllers")
+Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 ---
- arch/arm/boot/dts/aspeed-bmc-opp-swift.dts | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c |  2 +-
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c | 92 +++++++++++++++-------
+ drivers/pinctrl/aspeed/pinctrl-aspeed.c    | 12 ++-
+ drivers/pinctrl/aspeed/pinmux-aspeed.h     |  5 +-
+ 4 files changed, 74 insertions(+), 37 deletions(-)
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
-index caac895c60b4..f14f745b34ca 100644
---- a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
-@@ -207,8 +207,8 @@
- 		#size-cells = <0>;
- 		no-gpio-delays;
+diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c
+index 384396cbb22d..22256576b69a 100644
+--- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c
++++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c
+@@ -2412,7 +2412,7 @@ static const struct aspeed_pin_config aspeed_g4_configs[] = {
+ 	{ PIN_CONFIG_INPUT_DEBOUNCE, { C14, B14 }, SCUA8, 27 },
+ };
  
--		clock-gpios = <&gpio ASPEED_GPIO(AA, 0) GPIO_ACTIVE_HIGH>;
--		data-gpios = <&gpio ASPEED_GPIO(E, 0) GPIO_ACTIVE_HIGH>;
-+		clock-gpios = <&gpio ASPEED_GPIO(P, 1) GPIO_ACTIVE_HIGH>;
-+		data-gpios = <&gpio ASPEED_GPIO(P, 2) GPIO_ACTIVE_HIGH>;
- 		mux-gpios = <&gpio ASPEED_GPIO(P, 4) GPIO_ACTIVE_HIGH>;
- 		enable-gpios = <&gpio ASPEED_GPIO(P, 0) GPIO_ACTIVE_HIGH>;
- 		trans-gpios = <&gpio ASPEED_GPIO(P, 3) GPIO_ACTIVE_HIGH>;
+-static int aspeed_g4_sig_expr_set(const struct aspeed_pinmux_data *ctx,
++static int aspeed_g4_sig_expr_set(struct aspeed_pinmux_data *ctx,
+ 				  const struct aspeed_sig_expr *expr,
+ 				  bool enable)
+ {
+diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+index 053101f795a2..ba6438ac4d72 100644
+--- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
++++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+@@ -2507,6 +2507,61 @@ static struct aspeed_pin_config aspeed_g5_configs[] = {
+ 	{ PIN_CONFIG_INPUT_DEBOUNCE, { A20, B19 }, SCUA8, 27 },
+ };
+ 
++static struct regmap *aspeed_g5_acquire_regmap(struct aspeed_pinmux_data *ctx,
++					       int ip)
++{
++	if (ip == ASPEED_IP_SCU) {
++		WARN(!ctx->maps[ip], "Missing SCU syscon!");
++		return ctx->maps[ip];
++	}
++
++	if (ip >= ASPEED_NR_PINMUX_IPS)
++		return ERR_PTR(-EINVAL);
++
++	if (likely(ctx->maps[ip]))
++		return ctx->maps[ip];
++
++	if (ip == ASPEED_IP_GFX) {
++		struct device_node *node;
++		struct regmap *map;
++
++		node = of_parse_phandle(ctx->dev->of_node,
++					"aspeed,external-nodes", 0);
++		if (node) {
++			map = syscon_node_to_regmap(node);
++			of_node_put(node);
++			if (IS_ERR(map))
++				return map;
++		} else
++			return ERR_PTR(-ENODEV);
++
++		ctx->maps[ASPEED_IP_GFX] = map;
++		dev_dbg(ctx->dev, "Acquired GFX regmap");
++		return map;
++	}
++
++	if (ip == ASPEED_IP_LPC) {
++		struct device_node *node;
++		struct regmap *map;
++
++		node = of_parse_phandle(ctx->dev->of_node,
++					"aspeed,external-nodes", 1);
++		if (node) {
++			map = syscon_node_to_regmap(node->parent);
++			of_node_put(node);
++			if (IS_ERR(map))
++				return map;
++		} else
++			map = ERR_PTR(-ENODEV);
++
++		ctx->maps[ASPEED_IP_LPC] = map;
++		dev_dbg(ctx->dev, "Acquired LPC regmap");
++		return map;
++	}
++
++	return ERR_PTR(-EINVAL);
++}
++
+ /**
+  * Configure a pin's signal by applying an expression's descriptor state for
+  * all descriptors in the expression.
+@@ -2520,7 +2575,7 @@ static struct aspeed_pin_config aspeed_g5_configs[] = {
+  * Return: 0 if the expression is configured as requested and a negative error
+  * code otherwise
+  */
+-static int aspeed_g5_sig_expr_set(const struct aspeed_pinmux_data *ctx,
++static int aspeed_g5_sig_expr_set(struct aspeed_pinmux_data *ctx,
+ 				  const struct aspeed_sig_expr *expr,
+ 				  bool enable)
+ {
+@@ -2531,9 +2586,15 @@ static int aspeed_g5_sig_expr_set(const struct aspeed_pinmux_data *ctx,
+ 		const struct aspeed_sig_desc *desc = &expr->descs[i];
+ 		u32 pattern = enable ? desc->enable : desc->disable;
+ 		u32 val = (pattern << __ffs(desc->mask));
++		struct regmap *map;
+ 
+-		if (!ctx->maps[desc->ip])
+-			return -ENODEV;
++		map = aspeed_g5_acquire_regmap(ctx, desc->ip);
++		if (IS_ERR(map)) {
++			dev_err(ctx->dev,
++				"Failed to acquire regmap for IP block %d\n",
++				desc->ip);
++			return PTR_ERR(map);
++		}
+ 
+ 		/*
+ 		 * Strap registers are configured in hardware or by early-boot
+@@ -2641,34 +2702,11 @@ static struct pinctrl_desc aspeed_g5_pinctrl_desc = {
+ static int aspeed_g5_pinctrl_probe(struct platform_device *pdev)
+ {
+ 	int i;
+-	struct regmap *map;
+-	struct device_node *node;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(aspeed_g5_pins); i++)
+ 		aspeed_g5_pins[i].number = i;
+ 
+-	node = of_parse_phandle(pdev->dev.of_node, "aspeed,external-nodes", 0);
+-	map = syscon_node_to_regmap(node);
+-	of_node_put(node);
+-	if (IS_ERR(map)) {
+-		dev_warn(&pdev->dev, "No GFX phandle found, some mux configurations may fail\n");
+-		map = NULL;
+-	}
+-	aspeed_g5_pinctrl_data.pinmux.maps[ASPEED_IP_GFX] = map;
+-
+-	node = of_parse_phandle(pdev->dev.of_node, "aspeed,external-nodes", 1);
+-	if (node) {
+-		map = syscon_node_to_regmap(node->parent);
+-		if (IS_ERR(map)) {
+-			dev_warn(&pdev->dev, "LHC parent is not a syscon, some mux configurations may fail\n");
+-			map = NULL;
+-		}
+-	} else {
+-		dev_warn(&pdev->dev, "No LHC phandle found, some mux configurations may fail\n");
+-		map = NULL;
+-	}
+-	of_node_put(node);
+-	aspeed_g5_pinctrl_data.pinmux.maps[ASPEED_IP_LPC] = map;
++	aspeed_g5_pinctrl_data.pinmux.dev = &pdev->dev;
+ 
+ 	return aspeed_pinctrl_probe(pdev, &aspeed_g5_pinctrl_desc,
+ 			&aspeed_g5_pinctrl_data);
+diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed.c b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
+index 535db3de490b..54933665b5f8 100644
+--- a/drivers/pinctrl/aspeed/pinctrl-aspeed.c
++++ b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
+@@ -71,7 +71,7 @@ int aspeed_pinmux_get_fn_groups(struct pinctrl_dev *pctldev,
+ 	return 0;
+ }
+ 
+-static int aspeed_sig_expr_enable(const struct aspeed_pinmux_data *ctx,
++static int aspeed_sig_expr_enable(struct aspeed_pinmux_data *ctx,
+ 				  const struct aspeed_sig_expr *expr)
+ {
+ 	int ret;
+@@ -86,7 +86,7 @@ static int aspeed_sig_expr_enable(const struct aspeed_pinmux_data *ctx,
+ 	return 0;
+ }
+ 
+-static int aspeed_sig_expr_disable(const struct aspeed_pinmux_data *ctx,
++static int aspeed_sig_expr_disable(struct aspeed_pinmux_data *ctx,
+ 				   const struct aspeed_sig_expr *expr)
+ {
+ 	int ret;
+@@ -109,7 +109,7 @@ static int aspeed_sig_expr_disable(const struct aspeed_pinmux_data *ctx,
+  *
+  * Return: 0 if all expressions are disabled, otherwise a negative error code
+  */
+-static int aspeed_disable_sig(const struct aspeed_pinmux_data *ctx,
++static int aspeed_disable_sig(struct aspeed_pinmux_data *ctx,
+ 			      const struct aspeed_sig_expr **exprs)
+ {
+ 	int ret = 0;
+@@ -217,8 +217,7 @@ int aspeed_pinmux_set_mux(struct pinctrl_dev *pctldev, unsigned int function,
+ {
+ 	int i;
+ 	int ret;
+-	const struct aspeed_pinctrl_data *pdata =
+-		pinctrl_dev_get_drvdata(pctldev);
++	struct aspeed_pinctrl_data *pdata = pinctrl_dev_get_drvdata(pctldev);
+ 	const struct aspeed_pin_group *pgroup = &pdata->pinmux.groups[group];
+ 	const struct aspeed_pin_function *pfunc =
+ 		&pdata->pinmux.functions[function];
+@@ -306,8 +305,7 @@ int aspeed_gpio_request_enable(struct pinctrl_dev *pctldev,
+ 			       unsigned int offset)
+ {
+ 	int ret;
+-	const struct aspeed_pinctrl_data *pdata =
+-		pinctrl_dev_get_drvdata(pctldev);
++	struct aspeed_pinctrl_data *pdata = pinctrl_dev_get_drvdata(pctldev);
+ 	const struct aspeed_pin_desc *pdesc = pdata->pins[offset].drv_data;
+ 	const struct aspeed_sig_expr ***prios, **funcs, *expr;
+ 
+diff --git a/drivers/pinctrl/aspeed/pinmux-aspeed.h b/drivers/pinctrl/aspeed/pinmux-aspeed.h
+index 329d54d48667..52d299b59ce2 100644
+--- a/drivers/pinctrl/aspeed/pinmux-aspeed.h
++++ b/drivers/pinctrl/aspeed/pinmux-aspeed.h
+@@ -702,11 +702,12 @@ struct aspeed_pin_function {
+ struct aspeed_pinmux_data;
+ 
+ struct aspeed_pinmux_ops {
+-	int (*set)(const struct aspeed_pinmux_data *ctx,
++	int (*set)(struct aspeed_pinmux_data *ctx,
+ 		   const struct aspeed_sig_expr *expr, bool enabled);
+ };
+ 
+ struct aspeed_pinmux_data {
++	struct device *dev;
+ 	struct regmap *maps[ASPEED_NR_PINMUX_IPS];
+ 
+ 	const struct aspeed_pinmux_ops *ops;
+@@ -725,7 +726,7 @@ int aspeed_sig_expr_eval(const struct aspeed_pinmux_data *ctx,
+ 			 const struct aspeed_sig_expr *expr,
+ 			 bool enabled);
+ 
+-static inline int aspeed_sig_expr_set(const struct aspeed_pinmux_data *ctx,
++static inline int aspeed_sig_expr_set(struct aspeed_pinmux_data *ctx,
+ 				      const struct aspeed_sig_expr *expr,
+ 				      bool enabled)
+ {
 -- 
-2.22.0
+2.20.1
 
