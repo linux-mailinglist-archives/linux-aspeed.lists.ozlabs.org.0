@@ -2,67 +2,78 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FF7874376
-	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Jul 2019 04:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C26E574FC7
+	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Jul 2019 15:41:29 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45vGwg3LXwzDqMd
-	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Jul 2019 12:52:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45vYK23ZdzzDqHw
+	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Jul 2019 23:41:26 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::741; helo=mail-qk1-x741.google.com;
- envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=linux.ibm.com
+ (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com;
+ envelope-from=anoo@linux.ibm.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="VWLm7pb1"; 
- dkim-atps=neutral
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=linux.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45vGwX3HyJzDqM0
- for <linux-aspeed@lists.ozlabs.org>; Thu, 25 Jul 2019 12:52:43 +1000 (AEST)
-Received: by mail-qk1-x741.google.com with SMTP id r6so35403442qkc.0
- for <linux-aspeed@lists.ozlabs.org>; Wed, 24 Jul 2019 19:52:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TYbaU/RcXXoDnrZeMQ94CuW6JxA4bBgoJMHBj+E8c3U=;
- b=VWLm7pb1QP2B0tihwP9USNElFOTjEp6/v4Hd70rru6K+fpcBLvsEDPhud9KTe7tp1C
- gOYRrkbY5+tRQ2nBFGxx4CHJMbUfjVlQcbyTAYX2Zp31qb6KjaBAMSvULqFBUzF8Kb53
- /HA80hSPJspYIH/79t0OEPIUrlEg+sessZKds=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TYbaU/RcXXoDnrZeMQ94CuW6JxA4bBgoJMHBj+E8c3U=;
- b=i7QQF6W9q+0GyRwl8990kEEN3y7SJwpmq4ooujoKE8SneRd1zW7u9hLCiNlKytzD7o
- s2ngxh1fZl05i6kg5Dwrkx9fuLwBXECmDeCBZDpQvZkoxpl0zbWY9v1ubMoIiefLeolb
- GQhSRA2Bt1/YoiaKk3kUb+Y+WN9X1HGXTFx7zjvJ8vTrEhIhltNoMPFVRhG+GcVjklhc
- jXNQtV7EG+22kAbVJVbFgcXXVp9LZuOh63ISetC5W+fWP0gxJo+C1PHOm4pjXpmdVgMa
- Bs5B8OfILzm1nkuG1RuEEbdxW9OolwMbR/mxbsXWBy/HEoRDmBw9Em95+PUGzUbxYX4g
- 3ANg==
-X-Gm-Message-State: APjAAAVjH8/rMgI6+X00N4QbhkDR7B8UHjTC9y6o4/8o9lsgV42+NSry
- Pc/Z0K6/wR9dO78Wsg2dNUZBt2FXFJGftLEtF8Q=
-X-Google-Smtp-Source: APXvYqyM3sqW/iwNxySOMbv+KfAtuOilJ1tOA6mmxNVc4AhyblxyzikTIraPFFcFyT9J6TSPJ9ksANxa4ctyvg2uzs8=
-X-Received: by 2002:a37:a1d6:: with SMTP id
- k205mr56474155qke.171.1564023159729; 
- Wed, 24 Jul 2019 19:52:39 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45vYGF6NFNzDqPT;
+ Thu, 25 Jul 2019 23:39:00 +1000 (AEST)
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x6PDbcUJ059200; Thu, 25 Jul 2019 09:38:51 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tyd6ps0cg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Jul 2019 09:38:51 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x6PDZam1007939;
+ Thu, 25 Jul 2019 13:38:46 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma04dal.us.ibm.com with ESMTP id 2tx61n6w0x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 25 Jul 2019 13:38:46 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x6PDcjuG40436048
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 25 Jul 2019 13:38:45 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C9749283C2;
+ Thu, 25 Jul 2019 13:38:45 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 18B88283AC;
+ Thu, 25 Jul 2019 13:38:45 +0000 (GMT)
+Received: from ltc.linux.ibm.com (unknown [9.16.170.189])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu, 25 Jul 2019 13:38:44 +0000 (GMT)
 MIME-Version: 1.0
-References: <cover.1562734889.git.joe@perches.com>
- <cddd7ad7e9f81dec1e86c106f04229d21fc21920.1562734889.git.joe@perches.com>
- <2a0c5ef5c7e20b190156908991e4c964a501d80a.camel@perches.com>
- <4f6709f8-381f-415c-8569-798b074b66c5@www.fastmail.com>
- <4e5bc8d61436024a30a8fb6a1516e29e23a75ede.camel@perches.com>
-In-Reply-To: <4e5bc8d61436024a30a8fb6a1516e29e23a75ede.camel@perches.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 25 Jul 2019 02:52:27 +0000
-Message-ID: <CACPK8Xd3+iwkuw-Ofwf+Hy1Ez5-1pBvnk_G4xT72ZQdOVd7Sag@mail.gmail.com>
-Subject: Re: [PATCH 03/12] drm: aspeed_gfx: Fix misuse of GENMASK macro
-To: Joe Perches <joe@perches.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Thu, 25 Jul 2019 08:41:52 -0500
+From: Adriana Kobylak <anoo@linux.ibm.com>
+To: Andrew Jeffery <andrew@aj.id.au>
+Subject: Re: [PATCH linux dev-5.2] ARM: dts: aspeed: swift: Fix FSI GPIOs
+In-Reply-To: <7f2c08f5-a04d-499c-b59b-3d62d7f025af@www.fastmail.com>
+References: <20190719203037.11795-1-mspinler@linux.ibm.com>
+ <7f2c08f5-a04d-499c-b59b-3d62d7f025af@www.fastmail.com>
+Message-ID: <28d5c3f99df3c11bc04ba5d79626fec8@linux.vnet.ibm.com>
+X-Sender: anoo@linux.ibm.com
+User-Agent: Roundcube Webmail/1.0.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-07-25_05:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1907250159
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,54 +85,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Matt Spinler <spinler@us.ibm.com>, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, Matt Spinler <mspinler@linux.ibm.com>,
+ openbmc <openbmc-bounces+anoo=linux.ibm.com@lists.ozlabs.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 25 Jul 2019 at 01:18, Joe Perches <joe@perches.com> wrote:
->
-> On Thu, 2019-07-25 at 10:40 +0930, Andrew Jeffery wrote:
-> >
-> > On Thu, 25 Jul 2019, at 02:46, Joe Perches wrote:
-> > > On Tue, 2019-07-09 at 22:04 -0700, Joe Perches wrote:
-> > > > Arguments are supposed to be ordered high then low.
-> > > >
-> > > > Signed-off-by: Joe Perches <joe@perches.com>
-> > > > ---
-> > > >  drivers/gpu/drm/aspeed/aspeed_gfx.h | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx.h b/drivers/gpu/drm/aspeed/aspeed_gfx.h
-> > > > index a10358bb61ec..095ea03e5833 100644
-> > > > --- a/drivers/gpu/drm/aspeed/aspeed_gfx.h
-> > > > +++ b/drivers/gpu/drm/aspeed/aspeed_gfx.h
-> > > > @@ -74,7 +74,7 @@ int aspeed_gfx_create_output(struct drm_device *drm);
-> > > >  /* CTRL2 */
-> > > >  #define CRT_CTRL_DAC_EN                  BIT(0)
-> > > >  #define CRT_CTRL_VBLANK_LINE(x)          (((x) << 20) & CRT_CTRL_VBLANK_LINE_MASK)
-> > > > -#define CRT_CTRL_VBLANK_LINE_MASK        GENMASK(20, 31)
-> > > > +#define CRT_CTRL_VBLANK_LINE_MASK        GENMASK(31, 20)
-> >
-> > Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
->
-> This hardly needs a review, it needs to be applied.
-> There's a nominal git tree for aspeed here:
->
-> T:      git git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
->
-> But who's going to do apply this?
+On 2019-07-23 19:32, Andrew Jeffery wrote:
+> On Sat, 20 Jul 2019, at 06:01, Matt Spinler wrote:
+>> From: Matt Spinler <spinler@us.ibm.com>
+>> 
+>> Change the FSI clock and data GPIOs to match what the hardware turned
+>> out to use.
+>> 
+>> Signed-off-by: Matt Spinler <spinler@us.ibm.com>
+> 
+> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
 
-This is a DRM patch, so it goes through the DRM tree. I am a
-co-maintainer there and can apply it once I remember how to drive the
-tools.
+Reviewed-by: Adriana Kobylak <anoo@us.ibm.com>
 
-(FYI, this macro is not used by the current driver).
+Schematics have been updated.
 
-Cheers,
-
-Joel
+> 
+> And yeah, please make sure to include relevant lists in the future as 
+> Olof
+> mentioned.
+> 
+> Andrew
+> 
+>> ---
+>>  arch/arm/boot/dts/aspeed-bmc-opp-swift.dts | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>> 
+>> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
+>> b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
+>> index caac895c60b4..f14f745b34ca 100644
+>> --- a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
+>> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
+>> @@ -207,8 +207,8 @@
+>>  		#size-cells = <0>;
+>>  		no-gpio-delays;
+>> 
+>> -		clock-gpios = <&gpio ASPEED_GPIO(AA, 0) GPIO_ACTIVE_HIGH>;
+>> -		data-gpios = <&gpio ASPEED_GPIO(E, 0) GPIO_ACTIVE_HIGH>;
+>> +		clock-gpios = <&gpio ASPEED_GPIO(P, 1) GPIO_ACTIVE_HIGH>;
+>> +		data-gpios = <&gpio ASPEED_GPIO(P, 2) GPIO_ACTIVE_HIGH>;
+>>  		mux-gpios = <&gpio ASPEED_GPIO(P, 4) GPIO_ACTIVE_HIGH>;
+>>  		enable-gpios = <&gpio ASPEED_GPIO(P, 0) GPIO_ACTIVE_HIGH>;
+>>  		trans-gpios = <&gpio ASPEED_GPIO(P, 3) GPIO_ACTIVE_HIGH>;
+>> --
+>> 2.22.0
+>> 
+>> 
