@@ -2,69 +2,71 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6645476766
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2019 15:26:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFCA76767
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2019 15:26:28 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45w8x61Mb0zDq9Q
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2019 23:26:18 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45w8xF3TfCzDqQW
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2019 23:26:25 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::542; helo=mail-pg1-x542.google.com;
+ (client-ip=2607:f8b0:4864:20::442; helo=mail-pf1-x442.google.com;
  envelope-from=open.sudheer@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="h0pEeb8e"; 
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="EUDfHT3Y"; 
  dkim-atps=neutral
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45w8wM19mRzDqQG
- for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2019 23:25:39 +1000 (AEST)
-Received: by mail-pg1-x542.google.com with SMTP id s1so18492196pgr.2
- for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2019 06:25:39 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45w8wS2TMJzDq9Q
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2019 23:25:44 +1000 (AEST)
+Received: by mail-pf1-x442.google.com with SMTP id c3so1397967pfa.13
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2019 06:25:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=MquKBd9hqVjp/9J/EBQwb+pNJa32VY/RVtfqOZkVTYM=;
- b=h0pEeb8eJmv0OWlzU8c/oZZxxlqWUWnjqI7h0wMYSo1EDOqzSN8fzh9i5qaJbRTsMJ
- ZXXj1+P+jyzfKrIS31BiT9UYFd05eHa3hQxp3hE/0SaWhzM+gqKTXP6Ie1ctglELY9ep
- bMyP82ohvp7tUxGMEFgBwZWi7dY4wrsxBNqd5SaV0Q4gJqm2cAx3IO6Vu1dAveBFKivY
- ji2ISZUSgNCVwozsCuOc8udRSAJAWv4qxWQ4wYL/Gu0yVu93lwdNL5oPEqi8Mp40xTY9
- vZnKKuLISbJ+FK7ANJ06/n838OV7DTM0c0dTEfMUk1ojzRwTkCdZ0KBf011mhIpVN7Xd
- ADww==
+ bh=XnwQtA++4ZLQs18Zi/kVWI3WT0kdxj4T2Lu+EaH+lNM=;
+ b=EUDfHT3Y1h+g5qNNasOMRbGs4FROTTau5miuZF1wBpoiCwIxlfrvi6feHwz+MTe7yf
+ zXyLaRMXduj9kqj1QWbGuzaDVllBTUprvYCfp7LUt39JcqNTTkBnpkZWkrTnCeBdPhOS
+ 9KmCcO/qmA/CS5V5zQ+qt5llyJYjaEgCjnzsEeZNtUeefrPFIBZjZdQDFqFvjBHsrmns
+ GM6kH6J01Gd4FfX/YwyMyD8R5EWeBgLObSCniqX5monH6I6g6I96uhRds/gg+2WpyNsm
+ 7P8K68ue70jt8NvnT+rF58SwQX4OQ/fPbJlL095xFhDLLhzR+zV2vYVnb6pzgSHcpDvi
+ DBVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=MquKBd9hqVjp/9J/EBQwb+pNJa32VY/RVtfqOZkVTYM=;
- b=MoDF2Wroqh0kNMJZ9Or7U6UwQv0xXU/hwJw1EHe9tF65d7Ser1rTTB20JSVqKi0xJH
- G5YiQsKsLt2yC4ppqJdtkU+ack3BVEvgVuNyN1gHDwV+rtUXgXN25b/m2ZaQbShPhQjV
- yyJDG4w/Qcjrd9HLNDR+VWO7G6ulg/g7hC+yFNOE07jRpM9ZqkxDFshbNYnCLpdgzZxR
- fyy2TmrGZX4RUdwl5w52QOXwNFOv442PNiu76ToGC+Mq/kaBjZ2msK3mFQGi3VUwkSut
- /DcENiFXBKRCPMT8LtwCvDvbPoUPgYSB2bWeTqQ47MwxnW/cacI5Pd9XdAV3Pf9QD4xX
- U7Tg==
-X-Gm-Message-State: APjAAAVF0amw2KxPrb1GTcQ7MhktXaUPyLGEXUYzfXBKVhzbYwP7izIE
- yOqjb1fORcDs8oUN/Z8UOqw=
-X-Google-Smtp-Source: APXvYqylom4Oby1O6RsLiZ+JCG1HqcBX0N6tZc7gxaPQuePmybgdxMkBUpAzRhY5+z/zhx5R3s/MHQ==
-X-Received: by 2002:a63:490a:: with SMTP id w10mr89969624pga.6.1564147537087; 
- Fri, 26 Jul 2019 06:25:37 -0700 (PDT)
+ bh=XnwQtA++4ZLQs18Zi/kVWI3WT0kdxj4T2Lu+EaH+lNM=;
+ b=JSq3InqAwyPxTKhT/nIocUyHu29XkAzW/SaKOth6UxANEhEfZfM5qaZuqNxMzdTDE5
+ WvDUz9vweAb2zZjBseitoBv0x7cJ4Y2+mEKVwygK6XrcAxTIWuv0iXrATMl8aI619V9V
+ MWBzqtXpVf4hNUL8hajqI8FRj/imOpV53fK0b5/t+FRDLkfwflBua0nIpFAh5/pizkDC
+ Fj2iKTXoqjaAe5zbpwpDcjIy0aN81SXvxyyhfjJuVvndGzRX/TJXTg35+ZUrfsNRXtcn
+ QEBZoHGzCQTvCHCFZ9A24Uy7oCpNkRyVWRJAW9Fl2BsGcgsCkdg0wKoTIp3DOtFL7csa
+ 5i8Q==
+X-Gm-Message-State: APjAAAWTrgFjN3hHR6gTKO2fiTd+JfqrSab8QunsCIqxb/bqYfBfrlAN
+ IhvsTjJSRn7Ye2e3Im3bDsw=
+X-Google-Smtp-Source: APXvYqzTWZbkX606qEM14eI+153drc1gKBISCMCaxjG+FvU99HV0t2kzhGHkSgxYnarXYG3KfRm3dw==
+X-Received: by 2002:a62:1ac8:: with SMTP id
+ a191mr22270899pfa.164.1564147541492; 
+ Fri, 26 Jul 2019 06:25:41 -0700 (PDT)
 Received: from Pilot130.192.168.0.22 (211-20-114-70.HINET-IP.hinet.net.
  [211.20.114.70])
- by smtp.googlemail.com with ESMTPSA id k36sm54544603pgl.42.2019.07.26.06.25.34
+ by smtp.googlemail.com with ESMTPSA id k36sm54544603pgl.42.2019.07.26.06.25.38
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Fri, 26 Jul 2019 06:25:36 -0700 (PDT)
+ Fri, 26 Jul 2019 06:25:40 -0700 (PDT)
 From: "sudheer.v" <open.sudheer@gmail.com>
 To: gregkh@linuxfoundation.org, jslaby@suse.com, joel@jms.id.au,
  andrew@aj.id.au, benh@kernel.crashing.org, robh+dt@kernel.org,
  mark.rutland@arm.com, shivahshankar.shankarnarayanrao@aspeedtech.com,
  sudheer.veliseti@aspeedtech.com
-Subject: [patch v4 3/5] DT nodes for AST2500 DMA UART driver
-Date: Fri, 26 Jul 2019 18:57:18 +0530
-Message-Id: <1564147640-30753-4-git-send-email-open.sudheer@gmail.com>
+Subject: [patch v4 4/5] defconfig and MAINTAINERS updated for AST2500 DMA UART
+ driver
+Date: Fri, 26 Jul 2019 18:57:19 +0530
+Message-Id: <1564147640-30753-5-git-send-email-open.sudheer@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1564147640-30753-1-git-send-email-open.sudheer@gmail.com>
 References: <1564147640-30753-1-git-send-email-open.sudheer@gmail.com>
@@ -88,149 +90,56 @@ Sender: "Linux-aspeed"
 
 From: sudheer veliseti <sudheer.open@gmail.com>
 
-DT node for DMA controller(ast_uart_sdma) doesn't bind to any DMA controller driver.
-This is because Software for DMA controller is not based on DMA framework,but is dedicated
-and serves only UARTs in AST2500. ast_uart_sdma node is searched by compatible string in the 
-driver software.basic use of this node is to provide register base address of DMA controller and DMA irq number(<50>).
-IRQ of DMA controller is of crucial importance, which does RX and TX of UART data. 
-
-uart nodes dma_uart1,2...etc binds to the platform driver.
-irq numbers <9>,<32>,<33>,<34> in dma_uart nodes install ISRs which are of not much interest in uart data TX/RX .
-
+defconfig changes to add DMA based UART in AST2500
+Maintainers File updated.
 
 Signed-off-by: sudheer veliseti <sudheer.open@gmail.com>
 ---
 
-changes from v3->v4:
--
-changes from v2->v3:
-- change logs added
+Changes in v4:
+- config name changed to CONFIG_SERIAL_AST_DMA_UART as per convention
+Changes in v3:
+- Added changes logs 
 
- arch/arm/boot/dts/aspeed-ast2500-evb.dts | 21 +++++++
- arch/arm/boot/dts/aspeed-g5.dtsi         | 71 ++++++++++++++++++++++--
- 2 files changed, 88 insertions(+), 4 deletions(-)
+MAINTAINERS                          | 12 ++++++++++++
+ arch/arm/configs/aspeed_g5_defconfig |  1 +
+ 2 files changed, 13 insertions(+)
 
-diff --git a/arch/arm/boot/dts/aspeed-ast2500-evb.dts b/arch/arm/boot/dts/aspeed-ast2500-evb.dts
-index 5dbb33c10c4f..4da09fbe94df 100644
---- a/arch/arm/boot/dts/aspeed-ast2500-evb.dts
-+++ b/arch/arm/boot/dts/aspeed-ast2500-evb.dts
-@@ -64,6 +64,27 @@
- 	status = "okay";
- };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 997e27ab492f..d814a52ecf99 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1347,6 +1347,18 @@ F:	drivers/crypto/axis
+ F:	drivers/pinctrl/pinctrl-artpec*
+ F:	Documentation/devicetree/bindings/pinctrl/axis,artpec6-pinctrl.txt
  
-+&ast_uart_sdma {
-+	status = "okay";
-+};
++ARM/ASPEED DMA UART DRIVER
++M:	sudheer v <sudheer.open@gmail.com>
++R:	Joel Stanley <joel@jms.id.au>
++R:	Andrew Jeffery <andrew@aj.id.au>
++R:	Vinod Koul <vkoul@kernel.org>
++L:	dmaengine@vger.kernel.org
++L:	openbmc@lists.ozlabs.org
++L:	linux-aspeed@lists.ozlabs.org
++S:	Maintained
++F:	drivers/tty/serial/8250/8250_aspeed_uart_dma.c
++F:	Documentation/devicetree/bindings/serial/ast-sdma-uart.txt
 +
-+&dma_uart1 {
-+	status = "okay";
-+};
-+
-+&dma_uart2 {
-+	status = "okay";
-+};
-+
-+&dma_uart3 {
-+	status = "okay";
-+};
-+
-+&dma_uart4 {
-+	status = "okay";
-+};
-+
-+
- &mac0 {
- 	status = "okay";
- 
-diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
-index 674746513031..fb7b3ed463de 100644
---- a/arch/arm/boot/dts/aspeed-g5.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g5.dtsi
-@@ -23,10 +23,10 @@
- 		i2c11 = &i2c11;
- 		i2c12 = &i2c12;
- 		i2c13 = &i2c13;
--		serial0 = &uart1;
--		serial1 = &uart2;
--		serial2 = &uart3;
--		serial3 = &uart4;
-+		serial0 = &dma_uart1;
-+		serial1 = &dma_uart2;
-+		serial2 = &dma_uart3;
-+		serial3 = &dma_uart4;
- 		serial4 = &uart5;
- 		serial5 = &vuart;
- 		peci0 = &peci0;
-@@ -497,6 +497,69 @@
- 				status = "disabled";
- 			};
- 
-+			ast_uart_sdma: uart_sdma@1e79e000 {
-+				compatible = "aspeed,ast-uart-sdma";
-+				reg = <0x1e79e000 0x400>;
-+				interrupts = <50>;
-+				status = "disabled";
-+			};
-+
-+			dma_uart1: dma_uart1@1e783000{
-+				compatible = "aspeed,ast-sdma-uart";
-+				reg = <0x1e783000 0x1000>;
-+				reg-shift = <2>;
-+				interrupts = <9>;
-+				clocks = <&syscon ASPEED_CLK_GATE_UART1CLK>;
-+				dma-channel = <0>;
-+				no-loopback-test;
-+				pinctrl-names = "default";
-+				pinctrl-0 = <&pinctrl_txd1_default
-+							 &pinctrl_rxd1_default>;
-+				status = "disabled";
-+			};
-+
-+			dma_uart2: dma_uart2@1e78d000{
-+				compatible = "aspeed,ast-sdma-uart";
-+				reg = <0x1e78d000 0x1000>;
-+				reg-shift = <2>;
-+				interrupts = <32>;
-+				clocks = <&syscon ASPEED_CLK_GATE_UART2CLK>;
-+				dma-channel = <1>;
-+				no-loopback-test;
-+				pinctrl-names = "default";
-+				pinctrl-0 = <&pinctrl_txd2_default
-+							 &pinctrl_rxd2_default>;
-+				status = "disabled";
-+			};
-+
-+			dma_uart3: dma_uart3@1e78e000{
-+				compatible = "aspeed,ast-sdma-uart";
-+				reg = <0x1e78e000 0x1000>;
-+				reg-shift = <2>;
-+				interrupts = <33>;
-+				clocks = <&syscon ASPEED_CLK_GATE_UART3CLK>;
-+				dma-channel = <2>;
-+				no-loopback-test;
-+				pinctrl-names = "default";
-+				pinctrl-0 = <&pinctrl_txd3_default
-+							 &pinctrl_rxd3_default>;
-+				status = "disabled";
-+			};
-+
-+			dma_uart4: dma_uart4@1e78f000{
-+				compatible = "aspeed,ast-sdma-uart";
-+				reg = <0x1e78f000 0x1000>;
-+				reg-shift = <2>;
-+				interrupts = <34>;
-+				clocks = <&syscon ASPEED_CLK_GATE_UART4CLK>;
-+				dma-channel = <3>;
-+				no-loopback-test;
-+				pinctrl-names = "default";
-+				pinctrl-0 = <&pinctrl_txd4_default
-+							 &pinctrl_rxd4_default>;
-+				status = "disabled";
-+			};
-+
- 			i2c: bus@1e78a000 {
- 				compatible = "simple-bus";
- 				#address-cells = <1>;
+ ARM/ASPEED I2C DRIVER
+ M:	Brendan Higgins <brendanhiggins@google.com>
+ R:	Benjamin Herrenschmidt <benh@kernel.crashing.org>
+diff --git a/arch/arm/configs/aspeed_g5_defconfig b/arch/arm/configs/aspeed_g5_defconfig
+index 1849cbc161b4..fc17cc9ddc00 100644
+--- a/arch/arm/configs/aspeed_g5_defconfig
++++ b/arch/arm/configs/aspeed_g5_defconfig
+@@ -144,6 +144,7 @@ CONFIG_SERIAL_8250=y
+ CONFIG_SERIAL_8250_CONSOLE=y
+ CONFIG_SERIAL_8250_NR_UARTS=6
+ CONFIG_SERIAL_8250_RUNTIME_UARTS=6
++CONFIG_SERIAL_AST_DMA_UART=y
+ CONFIG_SERIAL_8250_EXTENDED=y
+ CONFIG_SERIAL_8250_ASPEED_VUART=y
+ CONFIG_SERIAL_8250_SHARE_IRQ=y
 -- 
 2.17.1
 
