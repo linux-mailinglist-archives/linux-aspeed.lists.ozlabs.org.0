@@ -2,72 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id D712676768
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2019 15:26:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AFBC77901
+	for <lists+linux-aspeed@lfdr.de>; Sat, 27 Jul 2019 15:44:34 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45w8xM1ZbSzDqGv
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Jul 2019 23:26:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45wnHg1jNPzDqLS
+	for <lists+linux-aspeed@lfdr.de>; Sat, 27 Jul 2019 23:44:31 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (mailfrom)
+ smtp.mailfrom=flex--osk.bounces.google.com (client-ip=2607:f8b0:4864:20::74a;
+ helo=mail-qk1-x74a.google.com;
+ envelope-from=31vq8xqmkdgamqiemmejc.amkjglsv-8qnccbjgqrq.mxj89q.mpe@flex--osk.bounces.google.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::541; helo=mail-pg1-x541.google.com;
- envelope-from=open.sudheer@gmail.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
+ dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="LoDzl5dV"; 
+ unprotected) header.d=google.com header.i=@google.com header.b="cPxvUeg2"; 
  dkim-atps=neutral
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
+Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com
+ [IPv6:2607:f8b0:4864:20::74a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45w8wX4pMzzDqGv
- for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2019 23:25:48 +1000 (AEST)
-Received: by mail-pg1-x541.google.com with SMTP id w10so24805412pgj.7
- for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Jul 2019 06:25:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=DCfqG2JMRKwxzIsSj479KFdZDqfmx3j+5mtM0thRZ58=;
- b=LoDzl5dV4EQI2pUj8qVRXOAIoTnhZqceQpnFZnYzGnjVxpbtUcLiRPGuN6wt1cfrk8
- 9puIruzvHJiQfOZv5PZZd+FF2dgvSd71Ci1ZZsjg7m86JizzgmNPqKMYoXdTIvJXHsOq
- NwrVoe5f9PBdtRH6N66l5YJxfuFP/gD2F802dhFBTC1SiuwOy1MruAO0NLhYsCq4wZOf
- W0p7+pUa1PZq7pPtfk6RsgItcl4726Ceg/Hk1AB1UoURdYRIUBJi5U5lW32rWnPFVBmL
- ZLWuVXX3k3ADP/NhY8j8zdnTzj7neDsmjmOy8n4vuaEr5QmFHjVNvBHoTOFwObaHUPMG
- zgDA==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45wnFs4QGFzDqFY
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 27 Jul 2019 23:42:48 +1000 (AEST)
+Received: by mail-qk1-x74a.google.com with SMTP id d11so47630918qkb.20
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 27 Jul 2019 06:42:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=ymvuXtYVyAeoSM229fRKSMujJvzD8jiyBkagF0beL30=;
+ b=cPxvUeg2rmbb+ciZPrlIW3cqjM8M7aek4RnGcN+7TCE77K3iOFeVsuf8d1fW3Mx+kQ
+ Bz+if+U7MBxI1QhIn2Dvc+tIl3uFAtBG5jerBjksYBTRBnSmNZHhx1iY9PmsClQPikk0
+ k56+NgHPQEVPidzO0tYghcUTedctvgo8WB11ZgXXGoJiuiynAGjzA70/inV4xLcuykUI
+ XOCqgk7xxZj01ow5ve3wPfA90lGrwWLJMALru/U+I6h/OyPQrD6oD+ItgriLUjBChYk0
+ tWSER6dgrExS8mM95QoarmPrsTddK95bP9FR2xolsddZXs4fnWQJBxwLHDu4KyfaSXf0
+ e7sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=DCfqG2JMRKwxzIsSj479KFdZDqfmx3j+5mtM0thRZ58=;
- b=SGmIoTkoRkuvd3yq2xvrvK+dUzOxF8yfHzVSCCyd1ODcmqA7gIFgVoEht4nROzYMH0
- 8oMXXzrrZyiq+scAXnbsKQD56ERZnXet0n4SaP8o3tdhgau221Yn+T2BHyHa3acVTGSZ
- khVayvwzMZRUuPdqV82R47P1Mk8EW6vplgPqEBinBVeGFm8ZPB8QgAWQHU+xidMFEm/d
- qah8oAnxfig/T/BkEDXLy42tmMlSYqfGw8v7c/cNHKFj76REQ4XvzbryOw9aKT0cWDgM
- A8TW1GsFlbnUvhstR6TGUSVS47XPBgqAkoEtMkYd6hXJOGi66kkOm+VtQV0gUXf9Y9QO
- c7pw==
-X-Gm-Message-State: APjAAAUgLx/pgcgiLv+742nAJg1OxZR65zbWHO5a4eHo2L/1H6inEcHR
- VoBX5JFGWRllfg2IGqaCNi0=
-X-Google-Smtp-Source: APXvYqxJ0TvnmiWTXBEyq2/z1dvr4VEXVLgB/9ZQJw4kX1R9wOUtS6Lanafe6ZYS4kpvndxZEF77AQ==
-X-Received: by 2002:a65:5b8e:: with SMTP id i14mr90112067pgr.188.1564147546371; 
- Fri, 26 Jul 2019 06:25:46 -0700 (PDT)
-Received: from Pilot130.192.168.0.22 (211-20-114-70.HINET-IP.hinet.net.
- [211.20.114.70])
- by smtp.googlemail.com with ESMTPSA id k36sm54544603pgl.42.2019.07.26.06.25.43
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Fri, 26 Jul 2019 06:25:45 -0700 (PDT)
-From: "sudheer.v" <open.sudheer@gmail.com>
-To: gregkh@linuxfoundation.org, jslaby@suse.com, joel@jms.id.au,
- andrew@aj.id.au, benh@kernel.crashing.org, robh+dt@kernel.org,
- mark.rutland@arm.com, shivahshankar.shankarnarayanrao@aspeedtech.com,
- sudheer.veliseti@aspeedtech.com
-Subject: [patch v4 5/5] Documentation: DT bindings AST2500 DMA UART driver
-Date: Fri, 26 Jul 2019 18:57:20 +0530
-Message-Id: <1564147640-30753-6-git-send-email-open.sudheer@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1564147640-30753-1-git-send-email-open.sudheer@gmail.com>
-References: <1564147640-30753-1-git-send-email-open.sudheer@gmail.com>
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=ymvuXtYVyAeoSM229fRKSMujJvzD8jiyBkagF0beL30=;
+ b=RRhpYhxy0JR1MVksIRQdc6UvtwEn1RdLx5zNkje6cDpwWcW3c+3/FO8j46XYtXcZTb
+ a7goPcuxpC+VfBDNk6WZbuxMNsMybGC+fH/9SlsiFXy8LE0YLL0OaltTM3M3MVUewOd+
+ BlixA57S5ct5r/atp5wABU9ucgR+16RkDqJDMmD5lAkTavR+zskZ3Fx1nM+/HvuOR7UZ
+ KR5Q1JMHT8HAg3pbdFoDUrTq3gJh5ZNuAa3YNkcYrKWEnWMsqfRfaiUbD723Gs/vwqzV
+ IzSrJkDVvj9zuow+9RIlRLYW+coLkqja26mmcycih8aGsUsdgp4b0s/VTZNb10Eec651
+ F60A==
+X-Gm-Message-State: APjAAAVoSR7kOCecvN1xDEfuC01g0qlTS5cKhlIal10cKs0TTJw1oVRU
+ UZxNWY2BasIdFO0gtOvJFDxvPVs=
+X-Google-Smtp-Source: APXvYqyw0cYe/eB+h5vbkCOW06axIGup1wJt8vcrMsbtvu3UyeJ3ZXAKUlCvBgZY7al58EDTHoE2ScI=
+X-Received: by 2002:a37:b381:: with SMTP id
+ c123mr68205028qkf.349.1564234965253; 
+ Sat, 27 Jul 2019 06:42:45 -0700 (PDT)
+Date: Sat, 27 Jul 2019 09:42:42 -0400
+Message-Id: <20190727134242.49847-1-osk@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.22.0.709.g102302147b-goog
+Subject: [PATCH] drivers/tty/serial/8250: Make Aspeed VUART SIRQ polarity
+ configurable
+From: Oskar Senft <osk@google.com>
+To: joel@jms.id.au, andrew@aj.id.au
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,78 +73,110 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- sudheer veliseti <sudheer.open@gmail.com>
+Cc: openbmc@lists.ozlabs.org, Oskar Senft <osk@google.com>,
+ linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: sudheer veliseti <sudheer.open@gmail.com>
+Make the SIRQ polarity for Aspeed 24xx/25xx VUART configurable via
+sysfs. It is required on some host platforms (e.g. TYAN S7106) to
+reconfigure this setting from the default to enable the host to receive
+interrupts from the VUART.
 
-documentation for Dt bindings for DMA based UARTs in AST2500
+The setting is configurable via sysfs rather than device-tree to stay in
+line with other related configurable settings.
 
-Signed-off-by: sudheer veliseti <sudheer.open@gmail.com>
+Tested: Verified on TYAN S7106 mainboard.
+Signed-off-by: Oskar Senft <osk@google.com>
 ---
+ .../ABI/stable/sysfs-driver-aspeed-vuart      | 10 ++++-
+ drivers/tty/serial/8250/8250_aspeed_vuart.c   | 39 +++++++++++++++++++
+ 2 files changed, 48 insertions(+), 1 deletion(-)
 
-Changes in v4:
--
-Changes in v3:
-- change logs added
-
-.../bindings/serial/ast2500-dma-uart.txt      | 43 +++++++++++++++++++
- 1 file changed, 43 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/serial/ast2500-dma-uart.txt
-
-diff --git a/Documentation/devicetree/bindings/serial/ast2500-dma-uart.txt b/Documentation/devicetree/bindings/serial/ast2500-dma-uart.txt
-new file mode 100644
-index 000000000000..6ebc60b51d4c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/serial/ast2500-dma-uart.txt
-@@ -0,0 +1,43 @@
-+DT Bindings DMA UART for AST25XX:
+diff --git a/Documentation/ABI/stable/sysfs-driver-aspeed-vuart b/Documentation/ABI/stable/sysfs-driver-aspeed-vuart
+index 8062953ce77b..64fad87ad964 100644
+--- a/Documentation/ABI/stable/sysfs-driver-aspeed-vuart
++++ b/Documentation/ABI/stable/sysfs-driver-aspeed-vuart
+@@ -6,10 +6,18 @@ Description:	Configures which IO port the host side of the UART
+ Users:		OpenBMC.  Proposed changes should be mailed to
+ 		openbmc@lists.ozlabs.org
+ 
+-What:		/sys/bus/platform/drivers/aspeed-vuart*/sirq
++What:		/sys/bus/platform/drivers/aspeed-vuart/*/sirq
+ Date:		April 2017
+ Contact:	Jeremy Kerr <jk@ozlabs.org>
+ Description:	Configures which interrupt number the host side of
+ 		the UART will appear on the host <-> BMC LPC bus.
+ Users:		OpenBMC.  Proposed changes should be mailed to
+ 		openbmc@lists.ozlabs.org
 +
-+node for DMA controller:
-+                       ast_uart_sdma: uart_sdma@1e79e000 {
-+                               compatible = "aspeed,ast-uart-sdma";
-+                               reg = <0x1e79e000 0x400>;
-+                               interrupts = <50>;
-+                               status = "disabled";
-+                       };
-+this node  doesn't binds with any driver.
-+DMA controller is handled as a separate SW layer,
-+and is included in the same driver.
-+This DMA controller node is included in DT
-+just for Register and interrupt details
++What:		/sys/bus/platform/drivers/aspeed-vuart/*/sirq_polarity
++Date:		July 2019
++Contact:	Oskar Senft <osk@google.com>
++Description:	Configures the polarity of the serial interrupt to the
++		host via the BMC LPC bus.
++Users:		OpenBMC.  Proposed changes should be mailed to
++		openbmc@lists.ozlabs.org
+diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+index 0438d9a905ce..ef0a6ff69841 100644
+--- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
++++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+@@ -22,6 +22,7 @@
+ 
+ #define ASPEED_VUART_GCRA		0x20
+ #define ASPEED_VUART_GCRA_VUART_EN		BIT(0)
++#define ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY	BIT(1)
+ #define ASPEED_VUART_GCRA_DISABLE_HOST_TX_DISCARD BIT(5)
+ #define ASPEED_VUART_GCRB		0x24
+ #define ASPEED_VUART_GCRB_HOST_SIRQ_MASK	GENMASK(7, 4)
+@@ -131,8 +132,46 @@ static ssize_t sirq_store(struct device *dev, struct device_attribute *attr,
+ 
+ static DEVICE_ATTR_RW(sirq);
+ 
++static ssize_t sirq_polarity_show(struct device *dev,
++				  struct device_attribute *attr, char *buf)
++{
++	struct aspeed_vuart *vuart = dev_get_drvdata(dev);
++	u8 reg;
 +
++	reg = readb(vuart->regs + ASPEED_VUART_GCRA);
++	reg &= ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
 +
++	return snprintf(buf, PAGE_SIZE - 1, "%u\n", reg ? 1 : 0);
++}
 +
-+node for DMA-UARTS :
++static ssize_t sirq_polarity_store(struct device *dev,
++				   struct device_attribute *attr,
++				   const char *buf, size_t count)
++{
++	struct aspeed_vuart *vuart = dev_get_drvdata(dev);
++	unsigned long val;
++	int err;
++	u8 reg;
 +
++	err = kstrtoul(buf, 0, &val);
++	if (err)
++		return err;
 +
-+Required properties:
++	reg = readb(vuart->regs + ASPEED_VUART_GCRA);
++	if (val != 0)
++		reg |= ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
++	else
++		reg &= ~ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
++	writeb(reg, vuart->regs + ASPEED_VUART_GCRA);
 +
-+- compatible: "aspeed,ast-sdma-uart"
-+- reg: The base address of the UART register bank
-+- interrupts: should contain interrupt specifier.
-+- clocks: Clock driving the hardware;
-+- pinctrl-0 : list of pinconfigurations
-+- dma-channel: channel of DMA-controller which is used
++	return count;
++}
 +
-+Example:
++static DEVICE_ATTR_RW(sirq_polarity);
 +
-+	dma_uart1: dma_uart1@1e783000{
-+        compatible = "aspeed,ast-sdma-uart";
-+        reg = <0x1e783000 0x1000>;
-+        reg-shift = <2>;
-+        interrupts = <9>;
-+        clocks = <&syscon ASPEED_CLK_GATE_UART1CLK>;
-+        dma-channel = <0>;
-+        no-loopback-test;
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&pinctrl_txd1_default &pinctrl_rxd1_default>;
-+        status = "disabled";
-+        };
+ static struct attribute *aspeed_vuart_attrs[] = {
+ 	&dev_attr_sirq.attr,
++	&dev_attr_sirq_polarity.attr,
+ 	&dev_attr_lpc_address.attr,
+ 	NULL,
+ };
 -- 
-2.17.1
+2.22.0.709.g102302147b-goog
 
