@@ -1,81 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id B98DA78D8D
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Jul 2019 16:14:12 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34657784CD
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Jul 2019 07:58:50 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45xpsM0LpNzDqLb
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Jul 2019 15:58:47 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45y1rv5hxNzDqLx
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jul 2019 00:14:07 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.230; helo=new4-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=lunn.ch
+ (client-ip=185.16.172.187; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="Dw6PonkA"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="Oj2LF3sh"; dkim-atps=neutral
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
+ dmarc=none (p=none dis=none) header.from=lunn.ch
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=lunn.ch header.i=@lunn.ch header.b="HDBTO8bO"; 
+ dkim-atps=neutral
+X-Greylist: delayed 2416 seconds by postgrey-1.36 at bilbo;
+ Tue, 30 Jul 2019 00:13:26 AEST
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45xppc2scszDqLY
- for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Jul 2019 15:56:24 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 59A6C128B;
- Mon, 29 Jul 2019 01:56:21 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 29 Jul 2019 01:56:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=HZcia/IfVzkvd
- lkvnb5LKV31CBZHUGSpuuBvYoxo1kk=; b=Dw6PonkAQzMpPGOlYMlzy6fMIWPO7
- NELN9tBaFrE/4vuMZoeuTXrYhxFVhRDnU+GFTUZrpMrCwHeaSdCoDkiiH59nmakZ
- 1/1xMrSQ8kOyDdbVqiSpsIFwZiaglSu9mkKD99jPprOapaEGAaKiieSJ3BcDuj7i
- HTAi62HC7gzZC/tev582lmkc8QrwGtOWdqRO0VzNXmIkutKR4BMFiihAN7MZMi1E
- bUMn+ocPwSTG7vq/fvr9ZYQctNnaqgufhSAp58046F4W8DhvgPkC0D7YaA6CqZCv
- Iq+mQBiFJHYimvillMTtaCFTHUyLo+JpAQGtokI7vZXsiEWMxnaGTKPkA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=HZcia/IfVzkvdlkvnb5LKV31CBZHUGSpuuBvYoxo1kk=; b=Oj2LF3sh
- 4eXv9FGk77JYK9ecw4TdDwMcY07FVd/1XQ/hg1KC0vg3YIYsBo1p3Ce/XaYjW9Tr
- N2TU9llPZNRfmIEj9jhGONdUrEfqkjsJVPnygHCz+7cZPB+b9gs4LDchZ+je9mmf
- hJbLBfjAlo+QZ8d1a9I3gFMnNpVfREsHwh+ubUx5fLz5nMPw++IqRTay6GZitvI8
- TcRWpQ5d2uGoyAuD6wdl4YqKOSstVK1G2rK2kW9jXn92k31OsIdyJjwpCjyxwJd7
- a9zD9h1VnuzxyZXqYlZDIT73qGUM1sysXfcWJkdPkND5LddUYvtiNoQBjBtTL8Bt
- n8q4SfkfMaxgAg==
-X-ME-Sender: <xms:hYo-XbWC8Zawu7lwSu9fOZAjwO3uC1ibYGUcOGF64JfuW6bYec2L9Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrledtgddutddtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
- dtredttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegr
- jhdrihgurdgruheqnecukfhppedvtddvrdekuddrudekrdeftdenucfrrghrrghmpehmrg
- hilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghrufhiiigv
- peef
-X-ME-Proxy: <xmx:hYo-XRiO-dyPOXd2LHbsXvBR-E-PzMkPl5q9PEtXWXlcO0lqVYL-LQ>
- <xmx:hYo-Xe-N0QP6WER8tuq5aieHNppmoUYFWW86TpcSAGayTZl6r8Ctsw>
- <xmx:hYo-XTAUqp09CWwdx5x72Wv6NoYGMEnI_GS0rfgCRIAhzBq8KVA8Gg>
- <xmx:hYo-XWtGUQ13A45zMMTOV49YyjjWmLEuksPLZNpNZ7rsfz6K3w_5vw>
-Received: from mistburn.au.ibm.com (bh02i525f01.au.ibm.com [202.81.18.30])
- by mail.messagingengine.com (Postfix) with ESMTPA id 6CD7B80060;
- Mon, 29 Jul 2019 01:56:17 -0400 (EDT)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: linux-gpio@vger.kernel.org
-Subject: [PATCH v2 5/6] pinctrl: aspeed: Add SIG_DESC_CLEAR() helper
-Date: Mon, 29 Jul 2019 15:26:03 +0930
-Message-Id: <20190729055604.13239-6-andrew@aj.id.au>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190729055604.13239-1-andrew@aj.id.au>
-References: <20190729055604.13239-1-andrew@aj.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45y1r62HZszDq96
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jul 2019 00:13:25 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+ s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=U3tRa9QfgN1HYp59kKYY38Ral1fkU/m2XaKVscV3imU=; b=HDBTO8bOTZVjt8lna6mpSqKPsk
+ wHSqFCzFxaLqaO0X2AJ/xnLlmNWIs/QcMOcPun/pP3vEl6E92+wES/7zMVV2CwjYirvKD+Fx5CTvG
+ OURuoajnEZxy2u2QyFW5Kv3HH3RrMDBGyklzW7e8/4iSmvXZ2bJhT3+wv+vnyconzdKg=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.89)
+ (envelope-from <andrew@lunn.ch>)
+ id 1hs5li-0001HY-QM; Mon, 29 Jul 2019 15:32:50 +0200
+Date: Mon, 29 Jul 2019 15:32:50 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Andrew Jeffery <andrew@aj.id.au>
+Subject: Re: [PATCH 2/4] net: phy: Add mdio-aspeed
+Message-ID: <20190729133250.GB4110@lunn.ch>
+References: <20190729043926.32679-1-andrew@aj.id.au>
+ <20190729043926.32679-3-andrew@aj.id.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190729043926.32679-3-andrew@aj.id.au>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,34 +60,182 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- johnny_huang@aspeedtech.com, linux-aspeed@lists.ozlabs.org,
- linus.walleij@linaro.org, ryanchen.aspeed@gmail.com,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, f.fainelli@gmail.com,
+ linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org, davem@davemloft.net,
+ linux-arm-kernel@lists.infradead.org, hkallweit1@gmail.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The complement of SIG_DESC_SET().
+On Mon, Jul 29, 2019 at 02:09:24PM +0930, Andrew Jeffery wrote:
+> The AST2600 design separates the MDIO controllers from the MAC, which is
+> where they were placed in the AST2400 and AST2500. Further, the register
+> interface is reworked again, so now we have three possible different
+> interface implementations, however this driver only supports the
+> interface provided by the AST2600. The AST2400 and AST2500 will continue
+> to be supported by the MDIO support embedded in the FTGMAC100 driver.
+> 
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> ---
+>  drivers/net/phy/Kconfig       |  13 +++
+>  drivers/net/phy/Makefile      |   1 +
+>  drivers/net/phy/mdio-aspeed.c | 159 ++++++++++++++++++++++++++++++++++
+>  3 files changed, 173 insertions(+)
+>  create mode 100644 drivers/net/phy/mdio-aspeed.c
+> 
+> diff --git a/drivers/net/phy/Kconfig b/drivers/net/phy/Kconfig
+> index 20f14c5fbb7e..206d8650ee7f 100644
+> --- a/drivers/net/phy/Kconfig
+> +++ b/drivers/net/phy/Kconfig
+> @@ -21,6 +21,19 @@ config MDIO_BUS
+>  
+>  if MDIO_BUS
+>  
+> +config MDIO_ASPEED
+> +	tristate "ASPEED MDIO bus controller"
+> +	depends on ARCH_ASPEED || COMPILE_TEST
+> +	depends on OF_MDIO && HAS_IOMEM
+> +	help
+> +	  This module provides a driver for the independent MDIO bus
+> +	  controllers found in the ASPEED AST2600 SoC. This is a driver for the
+> +	  third revision of the ASPEED MDIO register interface - the first two
+> +	  revisions are the "old" and "new" interfaces found in the AST2400 and
+> +	  AST2500, embedded in the MAC. For legacy reasons, FTGMAC100 driver
+> +	  continues to drive the embedded MDIO controller for the AST2400 and
+> +	  AST2500 SoCs, so say N if AST2600 support is not required.
+> +
+>  config MDIO_BCM_IPROC
+>  	tristate "Broadcom iProc MDIO bus controller"
+>  	depends on ARCH_BCM_IPROC || COMPILE_TEST
+> diff --git a/drivers/net/phy/Makefile b/drivers/net/phy/Makefile
+> index 839acb292c38..ba07c27e4208 100644
+> --- a/drivers/net/phy/Makefile
+> +++ b/drivers/net/phy/Makefile
+> @@ -22,6 +22,7 @@ libphy-$(CONFIG_LED_TRIGGER_PHY)	+= phy_led_triggers.o
+>  obj-$(CONFIG_PHYLINK)		+= phylink.o
+>  obj-$(CONFIG_PHYLIB)		+= libphy.o
+>  
+> +obj-$(CONFIG_MDIO_ASPEED)	+= mdio-aspeed.o
+>  obj-$(CONFIG_MDIO_BCM_IPROC)	+= mdio-bcm-iproc.o
+>  obj-$(CONFIG_MDIO_BCM_UNIMAC)	+= mdio-bcm-unimac.o
+>  obj-$(CONFIG_MDIO_BITBANG)	+= mdio-bitbang.o
+> diff --git a/drivers/net/phy/mdio-aspeed.c b/drivers/net/phy/mdio-aspeed.c
+> new file mode 100644
+> index 000000000000..71496a9ff54a
+> --- /dev/null
+> +++ b/drivers/net/phy/mdio-aspeed.c
+> @@ -0,0 +1,159 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/* Copyright (C) 2019 IBM Corp. */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/delay.h>
+> +#include <linux/mdio.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_mdio.h>
+> +#include <linux/phy.h>
+> +#include <linux/platform_device.h>
+> +
+> +#define DRV_NAME "mdio-aspeed"
+> +
+> +#define ASPEED_MDIO_CTRL		0x0
+> +#define   ASPEED_MDIO_CTRL_FIRE		BIT(31)
+> +#define   ASPEED_MDIO_CTRL_ST		BIT(28)
+> +#define     ASPEED_MDIO_CTRL_ST_C45	0
+> +#define     ASPEED_MDIO_CTRL_ST_C22	1
+> +#define   ASPEED_MDIO_CTRL_OP		GENMASK(27, 26)
+> +#define     MDIO_C22_OP_WRITE		0b01
+> +#define     MDIO_C22_OP_READ		0b10
+> +#define   ASPEED_MDIO_CTRL_PHYAD	GENMASK(25, 21)
+> +#define   ASPEED_MDIO_CTRL_REGAD	GENMASK(20, 16)
+> +#define   ASPEED_MDIO_CTRL_MIIWDATA	GENMASK(15, 0)
+> +
+> +#define ASPEED_MDIO_DATA		0x4
+> +#define   ASPEED_MDIO_DATA_MDC_THRES	GENMASK(31, 24)
+> +#define   ASPEED_MDIO_DATA_MDIO_EDGE	BIT(23)
+> +#define   ASPEED_MDIO_DATA_MDIO_LATCH	GENMASK(22, 20)
+> +#define   ASPEED_MDIO_DATA_IDLE		BIT(16)
+> +#define   ASPEED_MDIO_DATA_MIIRDATA	GENMASK(15, 0)
+> +
+> +#define ASPEED_MDIO_RETRIES		10
+> +
+> +struct aspeed_mdio {
+> +	void __iomem *base;
+> +};
+> +
+> +static int aspeed_mdio_read(struct mii_bus *bus, int addr, int regnum)
+> +{
+> +	struct aspeed_mdio *ctx = bus->priv;
+> +	u32 ctrl;
+> +	int i;
+> +
+> +	dev_dbg(&bus->dev, "%s: addr: %d, regnum: %d\n", __func__, addr,
+> +		regnum);
+> +
+> +	/* Just clause 22 for the moment */
+> +	ctrl = ASPEED_MDIO_CTRL_FIRE
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
- drivers/pinctrl/aspeed/pinmux-aspeed.h | 1 +
- 1 file changed, 1 insertion(+)
+Hi Andrew
 
-diff --git a/drivers/pinctrl/aspeed/pinmux-aspeed.h b/drivers/pinctrl/aspeed/pinmux-aspeed.h
-index 474820df6263..c59e936a7dde 100644
---- a/drivers/pinctrl/aspeed/pinmux-aspeed.h
-+++ b/drivers/pinctrl/aspeed/pinmux-aspeed.h
-@@ -508,6 +508,7 @@ struct aspeed_pin_desc {
-  * @idx: The bit index in the register
-  */
- #define SIG_DESC_SET(reg, idx) SIG_DESC_IP_BIT(ASPEED_IP_SCU, reg, idx, 1)
-+#define SIG_DESC_CLEAR(reg, idx) SIG_DESC_IP_BIT(ASPEED_IP_SCU, reg, idx, 0)
- 
- #define SIG_DESC_LIST_SYM(sig, group) sig_descs_ ## sig ## _ ## group
- #define SIG_DESC_LIST_DECL(sig, group, ...) \
--- 
-2.20.1
+In the binding, you say C45 is supported. Here you don't. It would be
+nice to be consistent.
 
+
+> +		| FIELD_PREP(ASPEED_MDIO_CTRL_ST, ASPEED_MDIO_CTRL_ST_C22)
+> +		| FIELD_PREP(ASPEED_MDIO_CTRL_OP, MDIO_C22_OP_READ)
+> +		| FIELD_PREP(ASPEED_MDIO_CTRL_PHYAD, addr)
+> +		| FIELD_PREP(ASPEED_MDIO_CTRL_REGAD, regnum);
+> +
+> +	iowrite32(ctrl, ctx->base + ASPEED_MDIO_CTRL);
+> +
+> +	for (i = 0; i < ASPEED_MDIO_RETRIES; i++) {
+> +		u32 data;
+> +
+> +		data = ioread32(ctx->base + ASPEED_MDIO_DATA);
+> +		if (data & ASPEED_MDIO_DATA_IDLE)
+> +			return FIELD_GET(ASPEED_MDIO_DATA_MIIRDATA, data);
+> +
+> +		udelay(100);
+> +	}
+
+One of the readx_poll_timeout functions could be used.
+
+> +
+> +	dev_err(&bus->dev, "MDIO read failed\n");
+> +	return -EIO;
+> +}
+> +
+> +static int aspeed_mdio_write(struct mii_bus *bus, int addr, int regnum, u16 val)
+> +{
+> +	struct aspeed_mdio *ctx = bus->priv;
+> +	u32 ctrl;
+> +	int i;
+> +
+> +	dev_dbg(&bus->dev, "%s: addr: %d, regnum: %d, val: 0x%x\n",
+> +		__func__, addr, regnum, val);
+> +
+> +	/* Just clause 22 for the moment */
+> +	ctrl = ASPEED_MDIO_CTRL_FIRE
+> +		| FIELD_PREP(ASPEED_MDIO_CTRL_ST, ASPEED_MDIO_CTRL_ST_C22)
+> +		| FIELD_PREP(ASPEED_MDIO_CTRL_OP, MDIO_C22_OP_WRITE)
+> +		| FIELD_PREP(ASPEED_MDIO_CTRL_PHYAD, addr)
+> +		| FIELD_PREP(ASPEED_MDIO_CTRL_REGAD, regnum)
+> +		| FIELD_PREP(ASPEED_MDIO_CTRL_MIIWDATA, val);
+> +
+> +	iowrite32(ctrl, ctx->base + ASPEED_MDIO_CTRL);
+> +
+> +	for (i = 0; i < ASPEED_MDIO_RETRIES; i++) {
+> +		ctrl = ioread32(ctx->base + ASPEED_MDIO_CTRL);
+> +		if (!(ctrl & ASPEED_MDIO_CTRL_FIRE))
+> +			return 0;
+> +
+> +		udelay(100);
+> +	}
+
+readx_poll_timeout() here as well.
+
+Otherwise this looks good.
+
+	  Andrew
