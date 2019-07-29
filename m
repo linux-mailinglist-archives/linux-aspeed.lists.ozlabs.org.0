@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5281178273
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Jul 2019 01:41:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E20EC782C6
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Jul 2019 02:19:24 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45xfTy6P3nzDqQr
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Jul 2019 09:41:26 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45xgKk0kfMzDqSD
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Jul 2019 10:19:22 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -16,66 +16,69 @@ Authentication-Results: lists.ozlabs.org;
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="eK8A1Thu"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="AN2Jn6aj"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="pNeZHonu"; dkim-atps=neutral
+ header.b="RvL5HyBh"; dkim-atps=neutral
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45xfTm6qJbzDq7F
- for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Jul 2019 09:41:15 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45xgKf3TpKzDqQX
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Jul 2019 10:19:17 +1000 (AEST)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id C65CD108B;
- Sun, 28 Jul 2019 19:41:12 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 36537275C;
+ Sun, 28 Jul 2019 20:19:15 -0400 (EDT)
 Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Sun, 28 Jul 2019 19:41:12 -0400
+ by compute4.internal (MEProxy); Sun, 28 Jul 2019 20:19:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=U4RDuA+FSEF8yU1ZGRvQY82lPLeCcjf
- hhcly0ZZX73U=; b=eK8A1ThuZVoK4sXEsuVOEEhAwXkF1Yy77aDYbCW9IrJ/OYo
- n/Xq54zf6PMwyMfx+kR6Wjxy46DHAU1UqJgSiHeCNXWdBiOfDJ2aUg+TdbGCJNXi
- yvByaeGHqMHHt3+7CX6mhuUBnjjnqKvlL+HOYEIOrFtNCF9WaOq8w/d+us4s/QSE
- 5G+F6AF2yLRoX8MR0YTB5Wnpz0T7KAlp1/kWKuL8iUyL+BR28Knb31AoAZPWNKIA
- LsgMqG25wyLYu2vqIJXFjC3KwyDZyB7LFortsXGniIuL4UCzfgWM3COAOmU7W64X
- WRm2hez+5RNzFeLKhYZGyIyU0sqyR3PyECBTEpw==
+ :subject:content-type; s=fm3; bh=ZaBV2C4kcU2j90Xx9xhANj1+D6R+dqi
+ /cMwH32iQiLk=; b=AN2Jn6aj3Ndb7FDQKdqY+7+0Kov53aEYqBfngMb+BEPdGxZ
+ 5IaURHicr7mJry4jUn/1K6WmhFsNgmMG1W8VqD3hQmkwRUb29ZOHU/8ICHyUMtOY
+ 5Z64SKwwuUnb/R3jopwHiCwr5mTO2sdDckb0NGGOZj2iQ7wRCMMpF7NRBMIi9qQd
+ DMFHerb4KZMWpg8f8sThl7dvwTuuggBL5Q5orbsvmtbTgDPM7/3M1kn5+I2p9W2d
+ oye1BHk8pSGlBlXCrOrPwFroREeDbj/b0ahJkCKmtG084Rip8w6Jhu71bIASBkJu
+ mdBqH6b4cM2pmiVIJiehmGaoCxsSk/6lIYKq6Zg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=U4RDuA
- +FSEF8yU1ZGRvQY82lPLeCcjfhhcly0ZZX73U=; b=pNeZHonuKkVktSvIThlH/V
- fYL19ZQpECOIQs61lYsbRiQT7BVt2YitAJRtljv0NPSYHnj3KlE32wRLolJg5KL8
- UshJdoM0O2VOJEWzarRdOr335PaRZlxb3zLATuhD/4LlRwGSNWy2j4n14njuSZj5
- u9vJcualcV6GIcCK/CoF87dREOmijBshNYL8B8hvXas13tWoezDwGNjMKCcLeEeH
- xoDjie8OTu5frdKQ4rh2YvtiusrBCiMKCq3c4qAEyqvfjzNw2QeDOVBpvE+U8xmm
- v+qi1Ucu35yzKfMPn7UsQX2Zin5Ad4NnHGUqVf4piNJaXMx4SFPPmagXLB7CzhYA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ZaBV2C
+ 4kcU2j90Xx9xhANj1+D6R+dqi/cMwH32iQiLk=; b=RvL5HyBh0DUD0RIRe1PzDp
+ pWPYq/kpMQNA5WHRHfD6UJeJuWqQigmNndntwRLEZKWFeNO3m5r9Q6/pcRpC/4Vx
+ 5nrkx8psO3rGIgMtosIjBm03FHtP1lUkm5833FzrGSKZd9DwAwIum6BFgapcihtw
+ wKCACSHxUSjzmcd/7f4YQzhDb/S63injf7j17YsCLm9ppknDA9K/RLitKElsJwah
+ OdT8Z0liDVwcUB38KiqFE5YARTaVv5kYngmOf5V6rtJj29Ke+LZe9Ni61UupgXLe
+ 1xgrN7aeKadMhDfoiZIr/XVqOM4F0xfNw6mUbIBuj5uFTWyt3kd5r2ngah15JxcQ
  ==
-X-ME-Sender: <xms:lTI-Xf0D-h9NjPtChndbt_AZAEcGOgba9qUFHi71HCoRLpxCds5Hjg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrledtgddvgecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:gDs-XRTA3sOVdKQ_PvnYsBzcW-JEsEPYEp8wPASR1Ckvwzq0a8GfsQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrledtgdefvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
- hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
- ufhiiigvpedt
-X-ME-Proxy: <xmx:lTI-XaIJins3UcM1v_qAS1wAwJcnzQH3zB9Z9iJzd-dsfWe_JnEAxw>
- <xmx:lTI-XV1gZJJ5wfub7rrZbuhLNdfqfhc-KxeMMkbZWoy-6-Xk7KjPIA>
- <xmx:lTI-XVyjXvVm-gpkrvZRwv0CJYJOEjsyW5wxW2m5b8pmEw8-alJt4Q>
- <xmx:mDI-XVdQMfBvgBauhlEZAvpotqZ8mpaX0JOXEV8Mkk2lONrbFJDrkw>
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucffohhmrg
+ hinhepghhithhhuhgsrdgtohhmnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgv
+ fiesrghjrdhiugdrrghunecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:gDs-XYrGrmm6FT4UYtSWbpr9FAZ_oVdHrBC3ZZfJRtAIMewJc8kcSQ>
+ <xmx:gDs-Xf7412SKBdRpBdv-oWG9Yb1U-HaI7l_XXdTj2lkkq5k1xKdELg>
+ <xmx:gDs-XaSV42JjLyUGDTW780FSW72zPKrWPfN-r0y6e7cu-hNHqoYIYA>
+ <xmx:gzs-Xc23kcZgumQfrQXfszx1Wy7cOzCTOZ4SmZOvMLj8td_z_NQwgA>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 3062AE00A2; Sun, 28 Jul 2019 19:41:09 -0400 (EDT)
+ id ABD1DE00A5; Sun, 28 Jul 2019 20:19:12 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.1.6-736-gdfb8e44-fmstable-20190718v2
 Mime-Version: 1.0
-Message-Id: <950b8374-2a06-44fe-a1fc-87be17e7d608@www.fastmail.com>
-In-Reply-To: <CACRpkdb4pEdPHbo=3+fJXe9WG8K7A2_xVMtKWCJCfEawDO5wBw@mail.gmail.com>
-References: <20190711041942.23202-1-andrew@aj.id.au>
- <CACRpkdb4pEdPHbo=3+fJXe9WG8K7A2_xVMtKWCJCfEawDO5wBw@mail.gmail.com>
-Date: Mon, 29 Jul 2019 09:11:28 +0930
+Message-Id: <f2875111-9ba9-43b7-b2a4-d00c8725f5a0@www.fastmail.com>
+In-Reply-To: <CACRpkdZxsF9gQj0VicVLsPKXg6rKA1mLwbywmazOf0w8PLnOfA@mail.gmail.com>
+References: <1563564291-9692-1-git-send-email-hongweiz@ami.com>
+ <1563564291-9692-2-git-send-email-hongweiz@ami.com>
+ <CACRpkdYhVoP75ZDfASW+DH5yf-a5diitiXsh7eLsJx5hsTC9sQ@mail.gmail.com>
+ <ef9d9c17-6e2d-4a4e-ac44-f8da4bb3b8eb@www.fastmail.com>
+ <CACRpkdZxsF9gQj0VicVLsPKXg6rKA1mLwbywmazOf0w8PLnOfA@mail.gmail.com>
+Date: Mon, 29 Jul 2019 09:49:31 +0930
 From: "Andrew Jeffery" <andrew@aj.id.au>
 To: "Linus Walleij" <linus.walleij@linaro.org>
-Subject: Re: [PATCH 0/6] pinctrl: aspeed: Add AST2600 pinmux support
+Subject: Re: [v5 1/2] dt-bindings: gpio: aspeed: Add SGPIO support
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -90,11 +93,11 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>,
  "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Johnny Huang <johnny_huang@aspeedtech.com>,
- linux-aspeed@lists.ozlabs.org, Ryan Chen <ryanchen.aspeed@gmail.com>,
+ <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Hongwei Zhang <hongweiz@ami.com>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
@@ -102,23 +105,63 @@ Sender: "Linux-aspeed"
 
 
 
-On Mon, 29 Jul 2019, at 08:44, Linus Walleij wrote:
-> On Thu, Jul 11, 2019 at 6:19 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+On Mon, 29 Jul 2019, at 09:04, Linus Walleij wrote:
+> On Mon, Jul 22, 2019 at 3:42 AM Andrew Jeffery <andrew@aj.id.au> wrote:
 > 
-> > This series adds pinmux support for the AST2600. Some more rework was required
-> > on top of the previous cleanup series, but this rework was focussed on
-> > supporting features of the AST2600 pinmux rather than fixing issues with the
-> > existing infrastructure for the ASPEED drivers. Due to the dependences it's
-> > based on top of pinctrl/devel, so should avoid any more SPDX issues.
+> > If the clock driver owns the control register, it also needs to know how
+> > many GPIOs we want to emit on the bus. This seems like an awkward
+> > configuration parameter for a clock driver.
 > >
-> > ASPEED have been testing the patches on hardware, so even for an initial pass
-> > there's some confidence in the implementation.
+> > To avoid the weird parameter we could protect the control register
+> > with a lock shared between the clock driver and the SGPIO driver. This
+> > way the SGPIO driver could have the ngpios parameter, and request
+> > the clock after its written the ngpios value to the control register. A
+> > regmap would be useful here to avoid the resource clash and it also
+> > provides the required lock.
 > 
-> I'm unsure if I need to wait for the DT bindings to be fixed on this
-> series?
+> Nah. Too complicated.
+> 
+> What about using the clock API locally (in the singleton driver,
+> much as it is today) though, to give the right abstraction?
+> 
+> See
+> drivers/gpu/drm/pl111/pl111_display.c
+> pl111_init_clock_divider() for an example of a local
+> clock.
 
-Yeah, I need to, sorry for the delay. Been distracted by other stuff.
+Thanks, I'll take a look at that.
 
-Will send a v2 shortly.
+> 
+> > However, that aside, we can't simply enable the bus in the clock
+> > enable callback if enable is called per-bank, as it is called once on
+> > the first request with further requests simply refcounted as you
+> > mentioned. This is exactly the behaviour we can't tolerate with the
+> > bus: it must only be enabled after the last GPIO bank is registered,
+> > when we know the total number of GPIOs to emit.
+> 
+> So the bus needs to know the total number of GPIOs or
+> everything breaks, and that is the blocker for this
+> divide-and-conquer approach.
+> 
+> Why does the bus need to know the total number of GPIOs?
+> 
+> (Maybe the answer is elsewhere in the thread...)
+
+I didn't answer it explicitly, my apologies.
+
+The behaviour is to periodically emit the state of all enabled GPIOs
+(i.e. the ngpios value), one per bus clock cycle. There's no explicit
+addressing scheme, the protocol encodes the value for a given GPIO
+by its position in the data stream relative to a pulse on the "load data"
+(LD) line, whose envelope covers the clock cycle for the last GPIO in
+the sequence. Similar to SPI the bus has both out and in lines, which
+cater to output/input GPIOs.
+
+A rough timing diagram for a 16-GPIO configuration looks like what
+I've pasted here:
+
+https://gist.github.com/amboar/c9543af1957854474b8c05ab357f0675
+
+Hope that helps.
 
 Andrew
