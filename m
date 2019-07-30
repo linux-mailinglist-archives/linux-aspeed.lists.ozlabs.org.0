@@ -1,65 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C20279E61
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jul 2019 03:53:57 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45yKNM1BrvzDqS3
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jul 2019 11:53:55 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC7479E65
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jul 2019 03:54:54 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 45yKPQ705CzDqLK
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jul 2019 11:54:50 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (mailfrom)
- smtp.mailfrom=flex--osk.bounces.google.com (client-ip=2607:f8b0:4864:20::74a;
- helo=mail-qk1-x74a.google.com;
- envelope-from=3xqi_xqmkdje9d519916z.x97638fi-vdazzy63ded.9k6vwd.9c1@flex--osk.bounces.google.com;
+ smtp.mailfrom=flex--osk.bounces.google.com (client-ip=2607:f8b0:4864:20::849;
+ helo=mail-qt1-x849.google.com;
+ envelope-from=3yai_xqmkdjqcg84cc492.0ca96bil-ygd22196ghg.cn9yzg.cf4@flex--osk.bounces.google.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=google.com header.i=@google.com header.b="obSxPLVX"; 
+ unprotected) header.d=google.com header.i=@google.com header.b="n+Z9JB/7"; 
  dkim-atps=neutral
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com
- [IPv6:2607:f8b0:4864:20::74a])
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com
+ [IPv6:2607:f8b0:4864:20::849])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45yKJR4H6ZzDqRH
- for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jul 2019 11:50:25 +1000 (AEST)
-Received: by mail-qk1-x74a.google.com with SMTP id t196so53680200qke.0
- for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Jul 2019 18:50:25 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45yKJV4H3xzDqQs
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jul 2019 11:50:28 +1000 (AEST)
+Received: by mail-qt1-x849.google.com with SMTP id s9so57001745qtn.14
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Jul 2019 18:50:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=XhtnPgPdJLEODnhelBCfXYYebt+drQqz99ntQ+W4VXY=;
- b=obSxPLVX6W8OAtWYiuurB+F7hjGZnwAQ73mHfChT2pafrLmMr2sNq1aGn7aqqIxwjH
- qeE8ijz2I6mHIDhPtDwqVfVKYbt4PULCn1liLpvNQE4RQbMFhrNYZcZ4RQAaXl/8gDjn
- anCmoIh/RIE55UkTF0Qo6ipqMn9tGffySD9lnKCwMjT2hw32GFsuNY29N9NzvqONiVnR
- H6PiLZcBg9ayWI7L9JSJ8wTvFAhd/5pwK+Ev2TsCcJA5LjYFBM7l0V9bM90kIfRzGejN
- 0OFvAyqB5ZX5TeMrhzs+CyrAURHqPey/4zb8cdExh64cOQ+IR4EVpI6P4clnZ7bWeXUx
- 9BzQ==
+ :cc; bh=LpSmR4b0xsEvJgpOdGCDfTto9aNZn9W9ZEvgfMG3rU0=;
+ b=n+Z9JB/7+yBqfM7M5CQ4JfnRJKCLJHbjUBKlqCRbGaWmT7sM71Rl/Ln55cpsQUFCNV
+ 3wOZyBuD/VrcXvnyOc9eXVSmoHLLxs/QU8S251xOWd4H/iP4cexTEY3+p9PKakDjEkS+
+ nFrhY0mhF3DhA9hFJh7jyFPtFvutc1B3o6ARw7bmPTKvF/nbhmVglND3WGn37ZaajfSr
+ PpYM+WcHQNq3vrPPEFSoq4lLqWlmpzOAUphZ11KytmnyghERmeY4+qJBFbgrUfBnDKKr
+ OIjlQ0fkgR/d6lboWS9q3nZFIssi1abR9uhiyM6jHs0D8Pzkc58FTm+O8tS5ENA5WNdH
+ WNFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=XhtnPgPdJLEODnhelBCfXYYebt+drQqz99ntQ+W4VXY=;
- b=r/ibc4htTjz2pw7/lzAS+bZ7XzVjn5Su1j0TEga2H2ET+ETLYGbyRUldS2MMHL5f0f
- ZIXHwJePx3G298XqppH9+UfIAHkie5Cg7iH8k8ndBr3PRbbYSJNS35FfeYfWwtDrEBVk
- xFgdZTOKXJrzEhHYnDK58tyjvjiCRG3Do2zRq31m8cnkXBboo6wre9k+WbT0SNLqtXdf
- CwWGZvP9N2MgguGr9KfimjVZfzp3AvCfOmj77PZH9mHEzzV/2fAsD0OYHjkYNRf8P0Wp
- bpAITyYcD0STTn/B938IJXZVsJoMi0WqUc+ENcEeF6Wjccr+LaHckN+0VG5S9NgEF7kO
- Vgxw==
-X-Gm-Message-State: APjAAAWUADIr/9C2EH1atAjaGY5rwEGkJIf6JTzCqQvmFexvdrHHr4JF
- ck5+NZUfkSECrJxKCgtnXrvhc7o=
-X-Google-Smtp-Source: APXvYqxgvr9rQU4bepJKvgC4/F+pqbpBd++0qokNvxjficvCtUEw5GJEq/TFR3/KjOlNBjt2zcz3Prs=
-X-Received: by 2002:ac8:2f43:: with SMTP id k3mr80932816qta.179.1564451422658; 
- Mon, 29 Jul 2019 18:50:22 -0700 (PDT)
-Date: Mon, 29 Jul 2019 21:49:54 -0400
+ bh=LpSmR4b0xsEvJgpOdGCDfTto9aNZn9W9ZEvgfMG3rU0=;
+ b=kW57KKvMTX3xpckI+hmBoyDNVIxuJ0GNTAo7EHyQTp6249wn2Ntz4JxD+gUxjA4bvZ
+ VMAwaI1RYiVkZzTlT7B8vG6HKszay6glRsfCGJIAfTSYrkZ24zOt/f8mbXmIq0KCcDYD
+ xrI5H1VDV9OJjeKrjLcrlbFgfnf0/C57+axIYppQDRTHsP8ARuzLhwv1+DBjM4bLifo5
+ dBoChZKPW8WwvBKEDoe1piYHqc7kL+OSz1GJt4LUWFZVhf+afvBYy0v3oKj2jOmh/vSr
+ 0FwgZJFoMburCoobcpcCaw+ucTq7tGIXNtNJ7cq6f7ujWJHBLixZ6c9/pZFIH/+7iEuI
+ tLoQ==
+X-Gm-Message-State: APjAAAXMJzIg89uKhbU5RO/dMpShrwLy5I8pMRHL1uu/V4to8EKcGLU/
+ BylJMRg4lrHNBeJOSe0kUbglPb4=
+X-Google-Smtp-Source: APXvYqwB1qBkD8kSdwW4LDuQuPMLSX3wGN70fmkaUdUDS8w6O0shojId1cD6/PWExM+aM0J2H/rhKaA=
+X-Received: by 2002:a0c:ffc5:: with SMTP id h5mr81464007qvv.43.1564451425070; 
+ Mon, 29 Jul 2019 18:50:25 -0700 (PDT)
+Date: Mon, 29 Jul 2019 21:49:55 -0400
 In-Reply-To: <20190730014955.34059-1-osk@google.com>
-Message-Id: <20190730014955.34059-2-osk@google.com>
+Message-Id: <20190730014955.34059-3-osk@google.com>
 Mime-Version: 1.0
 References: <20190730014955.34059-1-osk@google.com>
 X-Mailer: git-send-email 2.22.0.709.g102302147b-goog
-Subject: [PATCH v2 2/3] dt-bindings: misc: Bindings doc for aspeed-uart-routing
+Subject: [PATCH v2 3/3] ARM: dts: aspeed: Add uart-routing node
 From: Oskar Senft <osk@google.com>
 To: joel@jms.id.au, andrew@aj.id.au
 Content-Type: text/plain; charset="UTF-8"
@@ -80,63 +80,52 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Device tree bindings documentation for the aspeed-uart-routing driver.
+Add a node for the aspeed-uart-routing module. This node, when enabled
+will provide control of the Aspeed UART routing via sysfs.
 
 Signed-off-by: Oskar Senft <osk@google.com>
 ---
 Changes since v1:
- Split out bindings documentation from driver commit.
- Added bindings for AST2400.
+ Added AST2400.
 
- .../bindings/misc/aspeed-uart-routing.txt     | 39 +++++++++++++++++++
- 1 file changed, 39 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/misc/aspeed-uart-routing.txt
+ arch/arm/boot/dts/aspeed-g4.dtsi | 6 ++++++
+ arch/arm/boot/dts/aspeed-g5.dtsi | 6 ++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/misc/aspeed-uart-routing.txt b/Documentation/devicetree/bindings/misc/aspeed-uart-routing.txt
-new file mode 100644
-index 000000000000..bb9ce689d56b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/misc/aspeed-uart-routing.txt
-@@ -0,0 +1,39 @@
-+======================================================================
-+Device tree bindings for Aspeed AST2400/AST2500 UART Routing Control Driver
-+======================================================================
+diff --git a/arch/arm/boot/dts/aspeed-g4.dtsi b/arch/arm/boot/dts/aspeed-g4.dtsi
+index dd4b0b15afcf..d855bc19d677 100644
+--- a/arch/arm/boot/dts/aspeed-g4.dtsi
++++ b/arch/arm/boot/dts/aspeed-g4.dtsi
+@@ -326,6 +326,12 @@
+ 						status = "disabled";
+ 					};
+ 				};
 +
-+The Aspeed AST2500 allows to dynamically route the inputs for the built-in
-+UARTS and physical serial I/O ports.
++				uart_routing: uart_routing@9c {
++					compatible = "aspeed,ast2400-uart-routing";
++					reg = <0x9c 0x4>;
++					status = "disabled";
++				};
+ 			};
+ 
+ 			uart2: serial@1e78d000 {
+diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
+index 7149ff3b6fb3..9e561504042a 100644
+--- a/arch/arm/boot/dts/aspeed-g5.dtsi
++++ b/arch/arm/boot/dts/aspeed-g5.dtsi
+@@ -440,6 +440,12 @@
+ 						status = "disabled";
+ 					};
+ 				};
 +
-+Required properties:
-+===================
-+
-+ - compatible: must be one of:
-+	- "aspeed,ast2400-uart-routing"
-+	- "aspeed,ast2500-uart-routing"
-+
-+Optional properties:
-+===================
-+
-+The uart-routing node should be the child of a lpc node with the required
-+property:
-+
-+- compatible : Should be one of the following:
-+		"aspeed,ast2400-lpc", "simple-mfd"
-+		"aspeed,ast2500-lpc", "simple-mfd"
-+
-+Example
-+===================
-+
-+g5 Example
-+----------
-+
-+lpc: lpc@1e789000 {
-+	compatible = "aspeed,ast2500-lpc", "simple-mfd";
-+	reg = <0x1e789000 0x1000>;
-+
-+	uart_routing: uart_routing@9c {
-+		compatible = "aspeed,ast2500-uart-routing";
-+		reg = <0x9c 0x4>;
-+	};
-+};
++				uart_routing: uart_routing@9c {
++					compatible = "aspeed,ast2500-uart-routing";
++					reg = <0x9c 0x4>;
++					status = "disabled";
++				};
+ 			};
+ 
+ 			uart2: serial@1e78d000 {
 -- 
 2.22.0.709.g102302147b-goog
 
