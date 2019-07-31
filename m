@@ -2,83 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F44E7B75C
-	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 02:52:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9AE07B79F
+	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 03:35:36 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45yvyQ4pcQzDqZN
-	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 10:51:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45ywwj3JmyzDqYq
+	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 11:35:33 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (mailfrom)
+ smtp.mailfrom=flex--osk.bounces.google.com (client-ip=2607:f8b0:4864:20::e4a;
+ helo=mail-vs1-xe4a.google.com;
+ envelope-from=3e_baxqmkdoywasowwotm.kwutqvcf-iaxmmltqaba.whtija.wzo@flex--osk.bounces.google.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.25; helo=out1-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
+ dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="CnYUEzdC"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="HE+pGjXe"; dkim-atps=neutral
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=google.com header.i=@google.com header.b="lnqfmVuI"; 
+ dkim-atps=neutral
+Received: from mail-vs1-xe4a.google.com (mail-vs1-xe4a.google.com
+ [IPv6:2607:f8b0:4864:20::e4a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45yvyF5wtQzDqYB
- for <linux-aspeed@lists.ozlabs.org>; Wed, 31 Jul 2019 10:51:49 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 3B41B22355;
- Tue, 30 Jul 2019 20:51:47 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Tue, 30 Jul 2019 20:51:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=WkqnO80XQGbOw0Ei+zqy93YBShBkfdf
- rZbBtahOCbg8=; b=CnYUEzdC5FmVKkQjCItKDf894o0mbql8NHjYrDgJBwqCOZE
- CzaCHHmZOJWWIzkSZyFNXasRKrRkIaUnw/KYMrEhL1bkiJDbOaOI+ozbtqhnFCcH
- sPR0vNedfC8UtjF0uDu5aV8ck8/8GR5dQLEvALJYX5F0nmBJKScueh7ZxTINeL2o
- PSBnp44bpOmk/4FstOF0E5Smsn9ezRyl2gw/Zha8BBGxHHg3n/ZsXDqeFfJIeNJW
- oQSzw9BzIXP5RoIZh/h8pqS2ekYJeGbEtCzy9SmUeFAFVRC/amOEwmPMpcSdUlCp
- lw8rncuDCH+s+KbBizNw2sxevCX+Tv1sgMjuFiw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=WkqnO8
- 0XQGbOw0Ei+zqy93YBShBkfdfrZbBtahOCbg8=; b=HE+pGjXeCiOjdp9/fMzXl4
- ZORrRuJNcpovUiXEExpvlNX6hLeHs92QUYyVrAVcQDcIo5yrUdbPl7VX38RRggdi
- bn3aQwAn5B4r/pP2/WSEcN/SSzmbVluf184bAtR/jpC3bmobP5+5EuMHPvEo8+XS
- J2XBT7vIFFsxPjj2QUuz4LNlZMeHG6BlfcrV848lhV82fG2t98Tk+myNzxkq2dL5
- RgMvNwWqIxtF5FZQFDriEauJ8PWgagq9xzjaP5yjgDsYQJgag0BYiJoL8dIeQ4hM
- dWv+exabk/aOYbuOd63aH1r0QJz0Yv70xO4pL3qzGg/JDVxBTqaL1e8heEN3tyRw
- ==
-X-ME-Sender: <xms:IOZAXZRwekMKM4CeGWOxRZOOulIU4KYw6xu4tO0Zfb6IFSz2WeD_yw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrleeggdegudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
- hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
- ufhiiigvpedt
-X-ME-Proxy: <xmx:IOZAXY7KQdrzTTMG2992i6iBLQ3vmHyFbwiBmR6yuj1n92MOHh7lew>
- <xmx:IOZAXVWEGLOy5ZlYBGdSj1VizZZ7_3ZqO_ArvQnXYIoyY3pOBDj6BQ>
- <xmx:IOZAXbBLSc0pqPSAG1SMxW07flktczXBLKyOpM1ihtko9u49i_J0Nw>
- <xmx:I-ZAXb7wMk34b1FCp5LZwFF9281XhplUDVaJYaRxYJ-LRBQGz4w9_Q>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id B84EBE00A2; Tue, 30 Jul 2019 20:51:44 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-799-g925e343-fmstable-20190729v1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45ywvJ1ghKzDqYq
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 31 Jul 2019 11:34:15 +1000 (AEST)
+Received: by mail-vs1-xe4a.google.com with SMTP id x22so17476228vsj.1
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jul 2019 18:34:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=d2sWsZYwop/FlZD2sslunw1XpgNZEW/d3Zvm+DXDThk=;
+ b=lnqfmVuII8vLJomjxRWE8WtUicmV5dshtalbAPTKX4vej097pN/0nouRFUFVQDVjtO
+ BEVg/4WRje82jt3tbzDjruPPFjYipP5YwpE+NFfX3z3NiihN6qOpysy8zBqNszFP00Fb
+ uTAOxPmIL3lWWkr4IMrMfTXNuSMSwX+f5pvWN912uTR7zskPICTQw0+OW1HbkRCC+ADG
+ IxSEsfigGnIrLkZeNDCBEI8+YEEDqj7Z8JxOeANzxRCsRbeYhEgAUA41QAn0U9uE2W53
+ bD7EcC2BAeYP2683fGyezZVrrhOqFVa7ywC86IGb7vZ2JPZR8cmBbBJzAHlE9d6Hkd9P
+ aJ+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=d2sWsZYwop/FlZD2sslunw1XpgNZEW/d3Zvm+DXDThk=;
+ b=DQI8fXnQ1XZ5R6w8zLT9/0bjkPHX624JfYBHtKq/AsNHP1Tt1mmTHWEt2jAtfJjTJ2
+ +Lt3VyZrr7DjVgaVX/JNSF/7f2hkdz84thFhnzsOJZP3q0ONCesII8xAV/KXdRB7q4X5
+ w6EoFKijFZt5+AC2yi6i4yII3tpq7tIDHIEuPJ+BGf3vwotM3piYwDYRt71MzyelDgk4
+ rC08YzB2mcRt5EHnumbVTdptoJTQd3r4DDtCqXnC1ltOz0PQ4U2z3TO+xIFoHcOkQga/
+ JjmH3qp5ooZihOirrLlUHsGYMDO7aqGmnfKpIdOTjhGxeccASyoDjcuI8qAUD3GIDCOb
+ lkUw==
+X-Gm-Message-State: APjAAAVMwkCIkP8OcCrCV31qSBHCJEUoeWJuNutgM7SrA8kxvYVHxqeR
+ vSPub9sb5FsA3XD38zs5h++nw4Q=
+X-Google-Smtp-Source: APXvYqyG0L9Yj7lhRAqqpt80c1tlP4H2oqVMRnvB7LFmMJOwO8AEB/TpxqCFDW73Q61xO2ur51YhdWc=
+X-Received: by 2002:a1f:1d58:: with SMTP id d85mr46622787vkd.13.1564536851278; 
+ Tue, 30 Jul 2019 18:34:11 -0700 (PDT)
+Date: Tue, 30 Jul 2019 21:34:02 -0400
+Message-Id: <20190731013404.243755-1-osk@google.com>
 Mime-Version: 1.0
-Message-Id: <155d7473-fdf6-4a01-bda4-5cbb9c7e2822@www.fastmail.com>
-In-Reply-To: <20190730060029.25268-1-Ben_Pai@wistron.com>
-References: <20190730060029.25268-1-Ben_Pai@wistron.com>
-Date: Wed, 31 Jul 2019 10:21:58 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Ben Pai" <Ben_Pai@wistron.com>, "Rob Herring" <robh+dt@kernel.org>,
- mark.rutland@arm.com, "Joel Stanley" <joel@jms.id.au>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ARM: dts: aspeed: Add Mihawk BMC platform
-Content-Type: text/plain
+X-Mailer: git-send-email 2.22.0.709.g102302147b-goog
+Subject: [PATCH v2 1/3] drivers/tty/serial/8250: Make Aspeed VUART SIRQ
+ polarity configurable
+From: Oskar Senft <osk@google.com>
+To: joel@jms.id.au, andrew@aj.id.au
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,1016 +72,196 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: wangat@tw.ibm.com
+Cc: openbmc@lists.ozlabs.org, Oskar Senft <osk@google.com>,
+ linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Ben,
+Make the SIRQ polarity for Aspeed AST24xx/25xx VUART configurable via
+sysfs. This setting need to be changed on specific host platforms
+depending on the selected host interface (LPC / eSPI).
 
-Thanks for the patch! Some minor comments below.
+The setting is configurable via sysfs rather than device-tree to stay in
+line with other related configurable settings.
 
-On Tue, 30 Jul 2019, at 15:30, Ben Pai wrote:
-> The Mihawk BMC is an ASPEED ast2500 based BMC that is part of an
-> OpenPower Power9 server.
-> 
-> This adds the device tree description for most upstream components. It
-> is a squashed commit from the OpenBMC kernel tree.
+On AST2500 the VUART SIRQ polarity can be auto-configured by reading the
+LPC/eSPI interface configuration from the HW strap table.
 
-That it's a squashed commit isn't relevant, neither is the mention of the OpenBMC
-kernel tree. I'd drop both from the commit message.
+Tested: Verified on TYAN S7106 mainboard.
+Signed-off-by: Oskar Senft <osk@google.com>
+---
+ .../ABI/stable/sysfs-driver-aspeed-vuart      | 10 ++-
+ drivers/tty/serial/8250/8250_aspeed_vuart.c   | 82 +++++++++++++++++++
+ drivers/tty/serial/8250/Kconfig               |  1 +
+ 3 files changed, 92 insertions(+), 1 deletion(-)
 
-> 
-> Signed-off-by: Ben Pai <Ben_Pai@wistron.com>
-> ---
->  arch/arm/boot/dts/Makefile                  |   1 +
->  arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts | 922 ++++++++++++++++++++
->  2 files changed, 923 insertions(+)
->  create mode 100755 arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
-> 
-> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-> index eb6de52c1936..262345544359 100644
-> --- a/arch/arm/boot/dts/Makefile
-> +++ b/arch/arm/boot/dts/Makefile
-> @@ -1281,5 +1281,6 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
->  	aspeed-bmc-opp-vesnin.dtb \
->  	aspeed-bmc-opp-witherspoon.dtb \
->  	aspeed-bmc-opp-zaius.dtb \
-> +	aspeed-bmc-opp-mihawk.dtb \
->  	aspeed-bmc-portwell-neptune.dtb \
->  	aspeed-bmc-quanta-q71l.dtb
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts 
-> b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
-> new file mode 100755
-> index 000000000000..cfa20e0b2939
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
-> @@ -0,0 +1,922 @@
-> +/dts-v1/;
-> +
-> +#include "aspeed-g5.dtsi"
-> +#include <dt-bindings/gpio/aspeed-gpio.h>
-> +#include <dt-bindings/leds/leds-pca955x.h>
-> +
-> +/ {
-> +	model = "Mihawk BMC";
-> +	compatible = "ibm,mihawk-bmc", "aspeed,ast2500";
+diff --git a/Documentation/ABI/stable/sysfs-driver-aspeed-vuart b/Documentation/ABI/stable/sysfs-driver-aspeed-vuart
+index 8062953ce77b..64fad87ad964 100644
+--- a/Documentation/ABI/stable/sysfs-driver-aspeed-vuart
++++ b/Documentation/ABI/stable/sysfs-driver-aspeed-vuart
+@@ -6,10 +6,18 @@ Description:	Configures which IO port the host side of the UART
+ Users:		OpenBMC.  Proposed changes should be mailed to
+ 		openbmc@lists.ozlabs.org
+ 
+-What:		/sys/bus/platform/drivers/aspeed-vuart*/sirq
++What:		/sys/bus/platform/drivers/aspeed-vuart/*/sirq
+ Date:		April 2017
+ Contact:	Jeremy Kerr <jk@ozlabs.org>
+ Description:	Configures which interrupt number the host side of
+ 		the UART will appear on the host <-> BMC LPC bus.
+ Users:		OpenBMC.  Proposed changes should be mailed to
+ 		openbmc@lists.ozlabs.org
++
++What:		/sys/bus/platform/drivers/aspeed-vuart/*/sirq_polarity
++Date:		July 2019
++Contact:	Oskar Senft <osk@google.com>
++Description:	Configures the polarity of the serial interrupt to the
++		host via the BMC LPC bus.
++Users:		OpenBMC.  Proposed changes should be mailed to
++		openbmc@lists.ozlabs.org
+diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+index 0438d9a905ce..e0e441c38541 100644
+--- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
++++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+@@ -14,6 +14,8 @@
+ #include <linux/of_address.h>
+ #include <linux/of_irq.h>
+ #include <linux/of_platform.h>
++#include <linux/regmap.h>
++#include <linux/mfd/syscon.h>
+ #include <linux/tty.h>
+ #include <linux/tty_flip.h>
+ #include <linux/clk.h>
+@@ -22,6 +24,7 @@
+ 
+ #define ASPEED_VUART_GCRA		0x20
+ #define ASPEED_VUART_GCRA_VUART_EN		BIT(0)
++#define ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY	BIT(1)
+ #define ASPEED_VUART_GCRA_DISABLE_HOST_TX_DISCARD BIT(5)
+ #define ASPEED_VUART_GCRB		0x24
+ #define ASPEED_VUART_GCRB_HOST_SIRQ_MASK	GENMASK(7, 4)
+@@ -131,8 +134,53 @@ static ssize_t sirq_store(struct device *dev, struct device_attribute *attr,
+ 
+ static DEVICE_ATTR_RW(sirq);
+ 
++static ssize_t sirq_polarity_show(struct device *dev,
++				  struct device_attribute *attr, char *buf)
++{
++	struct aspeed_vuart *vuart = dev_get_drvdata(dev);
++	u8 reg;
++
++	reg = readb(vuart->regs + ASPEED_VUART_GCRA);
++	reg &= ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
++
++	return snprintf(buf, PAGE_SIZE - 1, "%u\n", reg ? 1 : 0);
++}
++
++static void aspeed_vuart_set_sirq_polarity(struct aspeed_vuart *vuart,
++					   bool polarity)
++{
++	u8 reg = readb(vuart->regs + ASPEED_VUART_GCRA);
++
++	if (polarity)
++		reg |= ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
++	else
++		reg &= ~ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
++
++	writeb(reg, vuart->regs + ASPEED_VUART_GCRA);
++}
++
++static ssize_t sirq_polarity_store(struct device *dev,
++				   struct device_attribute *attr,
++				   const char *buf, size_t count)
++{
++	struct aspeed_vuart *vuart = dev_get_drvdata(dev);
++	unsigned long val;
++	int err;
++
++	err = kstrtoul(buf, 0, &val);
++	if (err)
++		return err;
++
++	aspeed_vuart_set_sirq_polarity(vuart, val != 0);
++
++	return count;
++}
++
++static DEVICE_ATTR_RW(sirq_polarity);
++
+ static struct attribute *aspeed_vuart_attrs[] = {
+ 	&dev_attr_sirq.attr,
++	&dev_attr_sirq_polarity.attr,
+ 	&dev_attr_lpc_address.attr,
+ 	NULL,
+ };
+@@ -302,6 +350,27 @@ static int aspeed_vuart_handle_irq(struct uart_port *port)
+ 	return 1;
+ }
+ 
++static void aspeed_vuart_auto_configure_sirq_polarity(
++	struct aspeed_vuart *vuart, struct device_node *syscon_np,
++	u32 reg_offset, u32 reg_mask)
++{
++	struct regmap *regmap;
++	u32 value;
++
++	regmap = syscon_node_to_regmap(syscon_np);
++	if (IS_ERR(regmap)) {
++		dev_warn(vuart->dev,
++			 "could not get regmap for espi-enabled\n");
++		return;
++	}
++	if (regmap_read(regmap, reg_offset, &value)) {
++		dev_warn(vuart->dev, "could not read hw strap table\n");
++		return;
++	}
++
++	aspeed_vuart_set_sirq_polarity(vuart, (value & reg_mask) == 0);
++}
++
+ static int aspeed_vuart_probe(struct platform_device *pdev)
+ {
+ 	struct uart_8250_port port;
+@@ -310,6 +379,7 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
+ 	struct resource *res;
+ 	u32 clk, prop;
+ 	int rc;
++	struct of_phandle_args espi_enabled_args;
+ 
+ 	np = pdev->dev.of_node;
+ 
+@@ -402,6 +472,18 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
+ 
+ 	vuart->line = rc;
+ 
++	rc = of_parse_phandle_with_fixed_args(
++		np, "espi-enabled", 2, 0, &espi_enabled_args);
++	if (rc < 0) {
++		dev_warn(&pdev->dev, "espi-enabled property not found\n");
++	} else {
++		aspeed_vuart_auto_configure_sirq_polarity(
++			vuart, espi_enabled_args.np,
++			espi_enabled_args.args[0],
++			BIT(espi_enabled_args.args[1]));
++		of_node_put(espi_enabled_args.np);
++	}
++
+ 	aspeed_vuart_set_enabled(vuart, true);
+ 	aspeed_vuart_set_host_tx_discard(vuart, true);
+ 	platform_set_drvdata(pdev, vuart);
+diff --git a/drivers/tty/serial/8250/Kconfig b/drivers/tty/serial/8250/Kconfig
+index 509f6a3bb9ff..98e25781a293 100644
+--- a/drivers/tty/serial/8250/Kconfig
++++ b/drivers/tty/serial/8250/Kconfig
+@@ -243,6 +243,7 @@ config SERIAL_8250_ASPEED_VUART
+ 	tristate "Aspeed Virtual UART"
+ 	depends on SERIAL_8250
+ 	depends on OF
++	depends on REGMAP && MFD_SYSCON
+ 	help
+ 	  If you want to use the virtual UART (VUART) device on Aspeed
+ 	  BMC platforms, enable this option. This enables the 16550A-
+-- 
+2.22.0.709.g102302147b-goog
 
-I think this should be "ips,mihawk-bmc". You may also need to add "ips" to the
-vendor-prefixes list. 
-
-> +
-> +
-> +	chosen {
-> +		stdout-path = &uart5;
-> +		bootargs = "console=ttyS4,115200 earlyprintk";
-> +	};
-> +
-> +	memory@80000000 {
-> +		reg = <0x80000000 0x20000000>; /* address and size of RAM(512MB) */
-> +	};
-> +
-> +	reserved-memory {
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		ranges;
-> +
-> +		flash_memory: region@98000000 {
-> +			no-map;
-> +			reg = <0x98000000 0x04000000>; /* 64M */
-> +		};
-> +
-> +		gfx_memory: framebuffer {
-> +			size = <0x01000000>;
-> +			alignment = <0x01000000>;
-> +			compatible = "shared-dma-pool";
-> +			reusable;
-> +		};
-> +
-> +		video_engine_memory: jpegbuffer {
-> +			size = <0x02000000>;	/* 32MM */
-> +			alignment = <0x01000000>;
-> +			compatible = "shared-dma-pool";
-> +			reusable;
-> +		};
-> +	};
-> +
-> +	gpio-keys {
-> +		compatible = "gpio-keys";
-> +
-> +		air-water {
-> +			label = "air-water";
-> +			gpios = <&gpio ASPEED_GPIO(F, 6) GPIO_ACTIVE_LOW>;
-> +			linux,code = <ASPEED_GPIO(F, 6)>;
-> +		};
-> +
-> +		checkstop {
-> +			label = "checkstop";
-> +			gpios = <&gpio ASPEED_GPIO(J, 2) GPIO_ACTIVE_LOW>;
-> +			linux,code = <ASPEED_GPIO(J, 2)>;
-> +		};
-> +
-> +		ps0-presence {
-> +			label = "ps0-presence";
-> +			gpios = <&gpio ASPEED_GPIO(Z, 2) GPIO_ACTIVE_LOW>;
-> +			linux,code = <ASPEED_GPIO(Z, 2)>;
-> +		};
-> +
-> +		ps1-presence {
-> +			label = "ps1-presence";
-> +			gpios = <&gpio ASPEED_GPIO(Z, 0) GPIO_ACTIVE_LOW>;
-> +			linux,code = <ASPEED_GPIO(Z, 0)>;
-> +		};
-> +		id-button {
-> +			label = "id-button";
-> +			gpios = <&gpio ASPEED_GPIO(F, 1) GPIO_ACTIVE_LOW>;
-> +			linux,code = <ASPEED_GPIO(F, 1)>;
-> +		};
-> +	};
-> +
-> +	gpio-keys-polled {
-> +		compatible = "gpio-keys-polled";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-
-Please remove the #address-cells and #size-cells properties, they aren't
-relevant for gpio-keys-polled.
-
-> +		poll-interval = <1000>;
-> +
-> +		fan0-presence {
-> +			label = "fan0-presence";
-> +			gpios = <&pca9552 9 GPIO_ACTIVE_LOW>;
-> +			linux,code = <9>;
-> +		};
-> +
-> +		fan1-presence {
-> +			label = "fan1-presence";
-> +			gpios = <&pca9552 10 GPIO_ACTIVE_LOW>;
-> +			linux,code = <10>;
-> +		};
-> +
-> +		fan2-presence {
-> +			label = "fan2-presence";
-> +			gpios = <&pca9552 11 GPIO_ACTIVE_LOW>;
-> +			linux,code = <11>;
-> +		};
-> +
-> +		fan3-presence {
-> +			label = "fan3-presence";
-> +			gpios = <&pca9552 12 GPIO_ACTIVE_LOW>;
-> +			linux,code = <12>;
-> +		};
-> +
-> +		fan4-presence {
-> +			label = "fan4-presence";
-> +			gpios = <&pca9552 13 GPIO_ACTIVE_LOW>;
-> +			linux,code = <13>;
-> +		};
-> +
-> +		fan5-presence {
-> +			label = "fan5-presence";
-> +			gpios = <&pca9552 14 GPIO_ACTIVE_LOW>;
-> +			linux,code = <14>;
-> +		};
-> +	};
-> +
-> +	leds {
-> +		compatible = "gpio-leds";
-> +
-> +		fault {
-> +			retain-state-shutdown;
-> +			default-state = "keep";
-> +			gpios = <&gpio ASPEED_GPIO(AA, 0) GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		power {
-> +			retain-state-shutdown;
-> +			default-state = "keep";
-> +			gpios = <&gpio ASPEED_GPIO(AA, 1) GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		rear-id {
-> +			retain-state-shutdown;
-> +			default-state = "keep";
-> +			gpios = <&gpio ASPEED_GPIO(AA, 2) GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		rear-g {
-> +			retain-state-shutdown;
-> +			default-state = "keep";
-> +			gpios = <&gpio ASPEED_GPIO(AA, 4) GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		rear-ok {
-> +			retain-state-shutdown;
-> +			default-state = "keep";
-> +			gpios = <&gpio ASPEED_GPIO(Y, 0) GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		fan0 {
-> +			retain-state-shutdown;
-> +			default-state = "keep";
-> +			gpios = <&pca9552 0 GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		fan1 {
-> +			retain-state-shutdown;
-> +			default-state = "keep";
-> +			gpios = <&pca9552 1 GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		fan2 {
-> +			retain-state-shutdown;
-> +			default-state = "keep";
-> +			gpios = <&pca9552 2 GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		fan3 {
-> +			retain-state-shutdown;
-> +			default-state = "keep";
-> +			gpios = <&pca9552 3 GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		fan4 {
-> +			retain-state-shutdown;
-> +			default-state = "keep";
-> +			gpios = <&pca9552 4 GPIO_ACTIVE_LOW>;
-> +		};
-> +
-> +		fan5 {
-> +			retain-state-shutdown;
-> +			default-state = "keep";
-> +			gpios = <&pca9552 5 GPIO_ACTIVE_LOW>;
-> +		};
-> +	};
-> +
-> +	fsi: gpio-fsi {
-> +		compatible = "fsi-master-gpio", "fsi-master";
-> +		#address-cells = <2>;
-> +		#size-cells = <0>;
-> +		no-gpio-delays;
-> +
-> +		clock-gpios = <&gpio ASPEED_GPIO(E, 6) GPIO_ACTIVE_HIGH>;
-> +		data-gpios = <&gpio ASPEED_GPIO(E, 7) GPIO_ACTIVE_HIGH>;
-> +		mux-gpios = <&gpio ASPEED_GPIO(E, 5) GPIO_ACTIVE_HIGH>;
-> +		enable-gpios = <&gpio ASPEED_GPIO(D, 0) GPIO_ACTIVE_HIGH>;
-> +		trans-gpios = <&gpio ASPEED_GPIO(R, 2) GPIO_ACTIVE_HIGH>;
-> +	};
-> +	iio-hwmon-12v {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 0>;
-> +	};
-> +	
-> +	iio-hwmon-5v {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 1>;
-> +	};
-> +	
-> +	iio-hwmon-3v {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 2>;
-> +	};
-> +		
-> +	iio-hwmon-vdd0 {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 3>;
-> +	};
-> +	
-> +	iio-hwmon-vdd1 {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 4>;
-> +	};
-> +	
-> +	iio-hwmon-vcs0 {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 5>;
-> +	};
-> +	
-> +	iio-hwmon-vcs1 {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 6>;
-> +	};
-> +
-> +	iio-hwmon-vdn0 {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 7>;
-> +	};
-> +	
-> +	iio-hwmon-vdn1 {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 8>;
-> +	};
-> +	
-> +	iio-hwmon-vio0 {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 9>;
-> +	};
-> +	
-> +	iio-hwmon-vio1 {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 10>;
-> +	};
-> +	
-> +	iio-hwmon-vddra {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 11>;
-> +	};
-> +	
-> +	iio-hwmon-vddrb {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 13>;
-> +	};
-> +	
-> +	iio-hwmon-vddrc {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 14>;
-> +	};
-> +	
-> +	iio-hwmon-vddrd {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 15>;
-> +	};
-> +	
-> +	iio-hwmon-battery {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&adc 12>;
-> +	};
-> +};
-> +
-> +&pwm_tacho {
-> +	status = "okay";
-> +	/*compatible = "aspeed,ast2500-pwm-tacho";
-> +	#address-cells = <1>;
-> +	#size-cells = <1>;
-> +	reg = <0x1e786000 0x1000>;
-> +	clocks = <&pwm_tacho_fixed_clk>;*/
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_pwm0_default &pinctrl_pwm1_default
-> +		&pinctrl_pwm2_default &pinctrl_pwm3_default
-> +		&pinctrl_pwm4_default &pinctrl_pwm5_default>;
-> +
-> +	fan@0 {
-> +		reg = <0x00>;
-> +		aspeed,fan-tach-ch = /bits/ 8 <0x00>;
-> +	};
-> +
-> +	fan@1 {
-> +		reg = <0x01>;
-> +		aspeed,fan-tach-ch = /bits/ 8 <0x01>;
-> +	};
-> +
-> +	fan@2 {
-> +		reg = <0x02>;
-> +		aspeed,fan-tach-ch = /bits/ 8 <0x02>;
-> +	};
-> +
-> +	fan@3 {
-> +		reg = <0x03>;
-> +		aspeed,fan-tach-ch = /bits/ 8 <0x03>;
-> +	};
-> +
-> +	fan@4 {
-> +		reg = <0x04>;
-> +		aspeed,fan-tach-ch = /bits/ 8 <0x04>;
-> +	};
-> +
-> +	fan@5 {
-> +		reg = <0x05>;
-> +		aspeed,fan-tach-ch = /bits/ 8 <0x05>;
-> +	};
-> +
-> +	fan@6 {
-> +		reg = <0x00>;
-> +		aspeed,fan-tach-ch = /bits/ 8 <0x06>;
-> +	};
-> +
-> +	fan@7 {
-> +		reg = <0x01>;
-> +		aspeed,fan-tach-ch = /bits/ 8 <0x07>;
-> +	};
-> +
-> +	fan@8 {
-> +		reg = <0x02>;
-> +		aspeed,fan-tach-ch = /bits/ 8 <0x08>;
-> +	};
-> +
-> +	fan@9 {
-> +		reg = <0x03>;
-> +		aspeed,fan-tach-ch = /bits/ 8 <0x09>;
-> +	};
-> +
-> +	fan@10 {
-> +		reg = <0x04>;
-> +		aspeed,fan-tach-ch = /bits/ 8 <0x0a>;
-> +	};
-> +
-> +	fan@11 {
-> +		reg = <0x05>;
-> +		aspeed,fan-tach-ch = /bits/ 8 <0x0b>;
-> +	};
-> +};
-> +
-> +&fmc {
-> +	status = "okay";
-> +	flash@0 {
-> +		status = "okay";
-> +		label = "bmc";
-> +		m25p,fast-read;
-> +		spi-max-frequency = <50000000>;
-> +		partitions {
-> +			#address-cells = < 1 >;
-> +			#size-cells = < 1 >;
-> +			compatible = "fixed-partitions";
-> +			u-boot@0 {
-> +				reg = < 0 0x60000 >;
-> +				label = "u-boot";
-> +			};
-> +			u-boot-env@60000 {
-> +				reg = < 0x60000 0x20000 >;
-> +				label = "u-boot-env";
-> +			};
-> +			obmc-ubi@80000 {
-> +				reg = < 0x80000 0x1F80000 >;
-> +				label = "obmc-ubi";
-> +			};
-> +		};
-> +	};
-> +	flash@1 {
-> +		status = "okay";
-> +		label = "alt-bmc";
-> +		m25p,fast-read;
-> +		spi-max-frequency = <50000000>;
-> +		partitions {
-> +			#address-cells = < 1 >;
-> +			#size-cells = < 1 >;
-> +			compatible = "fixed-partitions";
-> +			u-boot@0 {
-> +				reg = < 0 0x60000 >;
-> +				label = "alt-u-boot";
-> +			};
-> +			u-boot-env@60000 {
-> +				reg = < 0x60000 0x20000 >;
-> +				label = "alt-u-boot-env";
-> +			};
-> +			obmc-ubi@80000 {
-> +				reg = < 0x80000 0x1F80000 >;
-> +				label = "alt-obmc-ubi";
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&spi1 {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_spi1_default>;
-> +
-> +	flash@0 {
-> +		status = "okay";
-> +		label = "pnor";
-> +		m25p,fast-read;
-> +		spi-max-frequency = <100000000>;
-> +	};
-> +};
-> +
-> +&lpc_ctrl {
-> +	status = "okay";
-> +	memory-region = <&flash_memory>;
-> +	flash = <&spi1>;
-> +};
-> +
-> +&uart1 {
-> +	/* Rear RS-232 connector */
-> +	status = "okay";
-> +
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_txd1_default
-> +			&pinctrl_rxd1_default
-> +			&pinctrl_nrts1_default
-> +			&pinctrl_ndtr1_default
-> +			&pinctrl_ndsr1_default
-> +			&pinctrl_ncts1_default
-> +			&pinctrl_ndcd1_default
-> +			&pinctrl_nri1_default>;
-> +};
-> +
-> +&uart2 {
-> +	/* APSS */
-> +	status = "okay";
-> +
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_txd2_default &pinctrl_rxd2_default>;
-> +};
-> +
-> +&uart5 {
-> +	status = "okay";
-> +};
-> +
-> +&mac0 {
-> +	status = "okay";
-> +
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_rmii1_default>;
-> +	use-ncsi;
-> +};
-> +
-> +&mac1 {
-> +	status = "okay";
-> +
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_rgmii2_default &pinctrl_mdio2_default>;
-> +};
-> +
-> +&i2c0 {
-> +	status = "disabled";
-> +};
-> +
-> +&i2c1 {
-> +	status = "disabled";
-> +};
-> +
-> +&i2c2 {
-> +	status = "okay";
-> +
-> +	/* SAMTEC P0 */
-> +	/* SAMTEC P1 */
-> +	
-> +};
-> +
-> +&i2c3 {
-> +	status = "okay";
-> +
-> +	/* APSS */
-> +	/* CPLD */
-> +
-> +	/* PCA9516 (repeater) ->
-> +	 *    CLK Buffer 9FGS9092
-> +	 *    CLK Buffer 9DBL0651BKILFT
-> +	 *    CLK Buffer 9DBL0651BKILFT
-> +	 *    Power Supply 0
-> +	 *    Power Supply 1
-> +	 *    PCA 9552 LED
-> +	 */
-> +	 
-> +	power-supply@58 {
-> +		compatible = "ibm,cffps1";
-> +		reg = <0x58>;
-> +	};
-> +
-> +	power-supply@5b {
-> +		compatible = "ibm,cffps1";
-> +		reg = <0x5b>;
-> +	};
-> +
-> +	pca9552: pca9552@60 {
-> +		compatible = "nxp,pca9552";
-> +		reg = <0x60>;
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		gpio-controller;
-> +		#gpio-cells = <2>;
-> +
-> +		gpio@0 {
-> +			reg = <0>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +		gpio@1 {
-> +			reg = <1>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +		gpio@2 {
-> +			reg = <2>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +		gpio@3 {
-> +			reg = <3>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +		gpio@4 {
-> +			reg = <4>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +		gpio@5 {
-> +			reg = <5>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +		gpio@6 {
-> +			reg = <6>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +		gpio@7 {
-> +			reg = <7>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +		gpio@8 {
-> +			reg = <8>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +		gpio@9 {
-> +			reg = <9>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +		gpio@10 {
-> +			reg = <10>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +		gpio@11 {
-> +			reg = <11>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +		gpio@12 {
-> +			reg = <12>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +		gpio@13 {
-> +			reg = <13>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +		gpio@14 {
-> +			reg = <14>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +		gpio@15 {
-> +			reg = <15>;
-> +			type = <PCA955X_TYPE_GPIO>;
-> +		};
-> +
-> +	};
-> +
-> +};
-> +
-> +&i2c4 {
-> +	status = "okay";
-> +
-> +	/* CP0 VDD & VCS : IR35221 */
-> +	/* CP0 VDN : IR35221 */
-> +	/* CP0 VIO : IR38064 */
-> +        /* CP0 VDDR : PXM1330 */
-> +
-> +	ir35221@70 {
-> +		compatible = "infineon,ir35221";
-> +		reg = <0x70>;
-> +	};
-> +
-> +	ir35221@72 {
-> +		compatible = "infineon,ir35221";
-> +		reg = <0x72>;
-> +	};
-> +
-> +};
-> +
-> +&i2c5 {
-> +	status = "okay";
-> +	
-> +	/* CP0 VDD & VCS : IR35221 */
-> +	/* CP0 VDN : IR35221 */
-> +	/* CP0 VIO : IR38064 */
-> +        /* CP0 VDDR : PXM1330 */
-> +
-> +	ir35221@70 {
-> +		compatible = "infineon,ir35221";
-> +		reg = <0x70>;
-> +	};
-> +
-> +	ir35221@72 {
-> +		compatible = "infineon,ir35221";
-> +		reg = <0x72>;
-> +	};
-> +	
-> +};
-> +
-> +&i2c6 {
-> +	status = "okay";
-> +	
-> +	/* pca9548 -> NVMe1 to 8 */
-> +	
-> +	pca9548@70 {
-> +		compatible = "nxp,pca9548";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <0x70>;
-> +	};
-> +	
-> +};
-> +
-> +&i2c7 {
-> +	status = "okay";
-> +	
-> +	/* pca9548 -> NVMe9 to 16 */
-> +	
-> +	pca9548@70 {
-> +		compatible = "nxp,pca9548";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <0x70>;
-> +	};
-> +	
-> +};
-> +
-> +&i2c8 {
-> +	status = "okay";
-> +
-> +	/* FSI CLK/DAT */
-
-This comment doesn't make sense?
-
-> +	eeprom@50 {
-> +		compatible = "atmel,24c64";
-> +		reg = <0x50>;
-> +	};
-> +};
-> +
-> +&i2c9 {
-> +	status = "okay";
-> +	
-> +	/* pca9545 Riser -> 
-> +	* 	PCIe x8  Slot3 
-> +	* 	PCIe x16 slot4 
-> +	* 	PCIe x8  slot5 
-> +	* 	I2C BMC RISER PCA9554
-> +	* 	BMC SCL/SDA PCA9554 
-> +	* 	PCA9554
-> +	*/
-> +	
-> +	/* pca9545 -> 
-> +	* 	PCIe x16 Slot1 
-> +	* 	PCIe x8  slot2 
-> +	* 	PEX8748 
-> +	*/
-> +
-> +	pca9545riser@70 {
-> +		compatible = "nxp,pca9545";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <0x70>;
-> +
-> +		/*interrupt-parent = <&ipic>;*/
-> +		/*interrupts = <17 IRQ_TYPE_LEVEL_LOW>;*/
-> +		i2c-mux-idle-disconnect;
-> +		interrupt-controller;
-> +		#interrupt-cells = <2>;
-> +	};
-> +	
-> +	pca9545@71 {
-> +		compatible = "nxp,pca9545";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <0x71>;
-> +
-> +		/*interrupt-parent = <&ipic>;*/
-> +		/*interrupts = <17 IRQ_TYPE_LEVEL_LOW>;*/
-> +		i2c-mux-idle-disconnect;
-> +		interrupt-controller;
-> +		#interrupt-cells = <2>;	
-> +	};
-> +};
-> +
-> +&i2c10 {
-> +	status = "okay";
-> +	
-> +	/* pca9545 Riser -> 
-> +	* 	PCIe x8  Slot8 
-> +	* 	PCIe x16 slot9 
-> +	* 	PCIe x8  slot10 
-> +	* 	I2C BMC RISER PCA9554
-> +	* 	BMC SCL/SDA PCA9554 
-> +	* 	PCA9554
-> +	*/
-> +	
-> +	/* pca9545 -> 
-> +	* 	PCIe x16 Slot1 
-> +	* 	PCIe x8  slot2 
-> +	* 	PEX8748 
-> +	*/
-> +	
-> +	pca9545riser@70 {
-> +		compatible = "nxp,pca9545";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <0x70>;
-> +
-> +		/*interrupt-parent = <&ipic>;*/
-> +		/*interrupts = <17 IRQ_TYPE_LEVEL_LOW>;*/
-
-Remove the commented properties.
-
-> +		i2c-mux-idle-disconnect;
-> +		interrupt-controller;
-> +		#interrupt-cells = <2>;
-> +	};
-> +	
-> +	pca9545@71 {
-> +		compatible = "nxp,pca9545";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <0x71>;
-> +
-> +		/*interrupt-parent = <&ipic>;*/
-> +		/*interrupts = <17 IRQ_TYPE_LEVEL_LOW>;*/
-
-Again here.
-
-> +		i2c-mux-idle-disconnect;
-> +		interrupt-controller;
-> +		#interrupt-cells = <2>;	
-> +	};
-> +};
-> +
-> +&i2c11 {
-> +	status = "okay";
-> +	
-> +	/* TPM */
-> +	/* RTC RX8900CE */
-> +	/* FPGA for power sequence */
-> +	/* TMP275A */
-> +	/* TMP275A */
-> +	/* EMC1462 */
-> +
-> +	tpm@57 {
-> +		compatible = "infineon,slb9645tt";
-> +		reg = <0x57>;
-> +	};
-> +	
-> +	rtc@32 {
-> +		compatible = "epson,rx8900";
-> +		reg = <0x32>;
-> +	};
-> +	
-> +	tmp275@48 {
-> +		compatible = "ti,tmp275";
-> +		reg = <0x48>;
-> +	};
-> +	
-> +	tmp275@49 {
-> +		compatible = "ti,tmp275";
-> +		reg = <0x49>;
-> +	};
-> +
-> +    /* chip emc1462 use emc1403 driver */
-> +    emc1403@4c {
-> +        compatible = "smsc,emc1403";
-> +        reg = <0x4c>;
-> +    };
-> +
-> +};
-> +
-> +&i2c12 {
-> +	status = "okay";
-> +
-> +	/* pca9545 ->
-> +	*	SAS BP1
-> +	*	SAS BP2
-> +	*	NVMe BP
-> +	*	M.2 riser
-> +	*/
-> +	
-> +	pca9545@70 {
-> +		compatible = "nxp,pca9545";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <0x70>;
-> +
-> +		/*interrupt-parent = <&ipic>;*/
-> +		/*interrupts = <17 IRQ_TYPE_LEVEL_LOW>;*/
-> +		interrupt-controller;
-> +		#interrupt-cells = <2>;
-> +		
-> +		i2c@0 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <0>;
-> +			
-> +			eeprom@50 {
-> +				compatible = "atmel,24c64";
-> +				reg = <0x50>;
-> +			};
-> +		};
-> +		
-> +		i2c@1 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <1>;
-> +			
-> +			eeprom@50 {
-> +				compatible = "atmel,24c64";
-> +				reg = <0x50>;
-> +			};
-> +		};
-> +		
-> +		i2c@2 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <2>;
-> +			
-> +			eeprom@50 {
-> +				compatible = "atmel,24c64";
-> +				reg = <0x50>;
-> +			};
-> +		};
-> +		
-> +		i2c@3 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <3>;
-> +			
-> +			tmp275@48 {
-> +				compatible = "ti,tmp275";
-> +				reg = <0x48>;
-> +			};
-> +		};
-> +		
-> +	};
-> +	
-> +};
-> +
-> +&i2c13 {
-> +	status = "okay";
-> +	
-> +	/* pca9548 ->
-> +	*	NVMe BP
-> +	*	NVMe HDD17 to 24
-> +	*/
-> +	
-> +	pca9548@70 {
-> +		compatible = "nxp,pca9548";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <0x70>;
-> +	};	
-> +};
-> +
-> +&vuart {
-> +	status = "okay";
-> +};
-> +
-> +&gfx {
-> +	status = "okay";
-> +	memory-region = <&gfx_memory>;
-> +};
-> +
-> +&pinctrl {
-> +	aspeed,external-nodes = <&gfx &lhc>;
-
-This is already provided by aspeed-g5.dtsi, please drop it.
-
-> +};
-> +
-> +&adc {
-> +	status = "okay";
-
-Please add the pinmux properties to mux the ADC lines that you're using
-
-> +};
-> +
-> +&wdt1 {
-> +	aspeed,reset-type = "none";
-> +	aspeed,external-signal;
-> +	aspeed,ext-push-pull;
-> +	aspeed,ext-active-high;
-> +
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&pinctrl_wdtrst1_default>;
-> +};
-> +
-> +&wdt2 {
-> +	aspeed,alt-boot;
-> +};
-> +
-> +&ibt {
-> +	status = "okay";
-> +};
-> +
-> +&vhub {
-> +	status = "okay";
-> +};
-> +
-> +&video {
-> +	status = "okay";
-> +	memory-region = <&video_engine_memory>;
-> +};
-> +
-> +#include "ibm-power9-dual.dtsi"
-> \ No newline at end of file
-
-Add a newline here to avoid the warning.
-
-> -- 
-> 2.17.1
-> 
-> 
-> ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-> This email contains confidential or legally privileged information and 
-> is for the sole use of its intended recipient. 
-> Any unauthorized review, use, copying or distribution of this email or 
-> the content of this email is strictly prohibited.
-> If you are not the intended recipient, you may reply to the sender and 
-> should delete this e-mail immediately.
-> ---------------------------------------------------------------------------------------------------------------------------------------------------------------
->
-
-Please try to avoid posting footers like this to public mailing lists.
-
-Cheers,
-
-Andrew
