@@ -2,66 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A53BD7B7A0
-	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 03:35:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5950E7B7A3
+	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 03:36:46 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45ywws2WkVzDqW2
-	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 11:35:41 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45ywy30rDwzDqW2
+	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 11:36:43 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (mailfrom)
- smtp.mailfrom=flex--osk.bounces.google.com (client-ip=2607:f8b0:4864:20::84a;
- helo=mail-qt1-x84a.google.com;
- envelope-from=3ffbaxqmkdogycuqyyqvo.mywvsxeh-kczoonvscdc.yjvklc.ybq@flex--osk.bounces.google.com;
+ smtp.mailfrom=flex--osk.bounces.google.com (client-ip=2607:f8b0:4864:20::c49;
+ helo=mail-yw1-xc49.google.com;
+ envelope-from=3f_baxqmkdooaewsaasxq.oayxuzgj-mebqqpxuefe.alxmne.ads@flex--osk.bounces.google.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=google.com header.i=@google.com header.b="Iog/Gj/R"; 
+ unprotected) header.d=google.com header.i=@google.com header.b="mXq/CPEu"; 
  dkim-atps=neutral
-Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com
- [IPv6:2607:f8b0:4864:20::84a])
+Received: from mail-yw1-xc49.google.com (mail-yw1-xc49.google.com
+ [IPv6:2607:f8b0:4864:20::c49])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45ywvJ1s5CzDqYt
- for <linux-aspeed@lists.ozlabs.org>; Wed, 31 Jul 2019 11:34:16 +1000 (AEST)
-Received: by mail-qt1-x84a.google.com with SMTP id l16so53367708qtq.16
- for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jul 2019 18:34:16 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45ywvN2gzXzDqYp
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 31 Jul 2019 11:34:18 +1000 (AEST)
+Received: by mail-yw1-xc49.google.com with SMTP id c70so49287585ywa.20
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jul 2019 18:34:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=Zp7XOXGgqgS84ECJzPjkmEakVRYPXqlWmSUTXdVq/Lg=;
- b=Iog/Gj/RN63oNAo/bT6kmB1wL9LvJybMwVe1Df6I0GW14ZS09ftL521WNREZLwnwvQ
- DtVAkNN0q+eyHB2nfhOpCzooJ/yX39I68yFeiHQ4ipMFsiIbMiN/8mcGddflyL+vRHK6
- MHWFt9Skp3yzC6I9/OhOhIMxVp7JLGfB2s1h6xTJTbFDrIzkPWdO6VEryvcSqKxEAO2X
- 6I7ErXWHCXoqS2aTS/tlEigY+NiwYYIkhYuAkLgz6AvTkOCtmZkVSfFQrru4hL4qXZhG
- /5NRCLbcMcUvnlhQhrW/6h5z6nlIG8SlARKHurproXUhTEZBu/3G8MBsQHGp6FLkNaet
- fMww==
+ :cc; bh=9WyeISlJbiUqrCi6lFo17ItZ78ZU9RlgShR/IG9yUJA=;
+ b=mXq/CPEuqMDu0oIi9GtioUwgQhFYYXBa0hdekWBzdp0yCnJJ7DbS9jaNo60B3qKCR7
+ qsT61/wZ0l6cmPbvbe5Aih0EFrVDLvjjosva0udh+6Da7VwnRYteG41fwBZQL3iNpR2z
+ RvkiNCP8n8xlibPCrXKA5UwjIOIZ1usTt2tDib6f1FK1uqL87giFZeku/1l/3DnPT+2J
+ u5rR5gu9XyM9TIs8Jx8S7hOV7EC7re542q3mKRsbzNMEl6FDTa3KGrgMPghTOBEGpl6o
+ QrWScx1d5e0MOMwrfz5EQejoFEQYdpfRyJIGmIz7SPwMjSZpaxldkeOmcOkdOiv+9pPy
+ rdjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=Zp7XOXGgqgS84ECJzPjkmEakVRYPXqlWmSUTXdVq/Lg=;
- b=XJsEqTCP65ZTR4vQMD0qK/KldJa/WjzHyxpMnr2NORl34FDIj1aBFjHOnf4w/IGmQs
- kC0/MibG57s8QVrp6ZDp24eBALQqCjOS/CUVh9o0oxi7ELbAPcq8/p2+Xq9n5oQJY8Kn
- CnzcDbcJHq/kb4aABGzUzo845KZ71pzI2qNWwJx6837BNjHGv/j38Z1M1CAqhayuBHql
- ywFuBB/+lDpYeuq7vjtlByKSc4AztP3aVUFNkGWvJrNtg+S7o1Ht0zSeBP6xx1M6pltB
- YcGgRzBhX/Ba9R0BhdFmcJsNYCMv5TaRgZ2VVOcAIh/esA3S5aqGCgFncYfQB5fhAEo6
- JtEw==
-X-Gm-Message-State: APjAAAXUkFjbrnpyIGHrrzaZDwx96GkjTEm+ywaEYb5xuS5CZvYisl40
- aYtOLcPCUD1Emy91TQWRhIdbBXQ=
-X-Google-Smtp-Source: APXvYqwiUn//YjhOfk55fYLDZLioaBBPG9E86sxxoOgvhBh7wd/zP4nWVp62v6Az9J114YqGF+AO7g4=
-X-Received: by 2002:a37:5f82:: with SMTP id
- t124mr71235338qkb.180.1564536853625; 
- Tue, 30 Jul 2019 18:34:13 -0700 (PDT)
-Date: Tue, 30 Jul 2019 21:34:03 -0400
+ bh=9WyeISlJbiUqrCi6lFo17ItZ78ZU9RlgShR/IG9yUJA=;
+ b=QL/0mmZOLZTYL/7eVa7hiX3hrC7CxTttVoHaO17iuZIpo6pzg0eHno1L0LqmmXDSiI
+ Q01j/teeGAQncGI5qJdfQNpu5k4yl6ojo9xB1tqGyD93DeyjDiwVHyzOqF5safnwfXFd
+ a7JOhskqjgVVfBqHFiy6DEOwUWXkUV8wU288fT8x6aeuxPIG5vA2RGaRXaD8BBT6Of6L
+ MzTsPnpQ7/c4dPyA8SkcI0X0koZ6NP42kEod6kXoKo99QuF8JcDhC1WwdCBTJj4SM301
+ awRtLLWQCJWmDjYoYjGmkF+lT0iw6LKj1dohivqQa/0uMF0uhT2CZaoQRdoaVz3mZS5U
+ BUyw==
+X-Gm-Message-State: APjAAAX7weYgxbl+xLelDD5yJEOqaz0chEAf7qJ76QqLcTcYLklNTWnT
+ 6zE4nh3lSHkWFc0Izd5BhFFuDdY=
+X-Google-Smtp-Source: APXvYqx12g6sWicwLbqnC2MIrYvaN+A4d84GFJX8U3/Pdr4ImsFo9hfnHfACqi3plJ0YfhNNlFXRjJI=
+X-Received: by 2002:a81:a453:: with SMTP id b80mr71139020ywh.485.1564536855530; 
+ Tue, 30 Jul 2019 18:34:15 -0700 (PDT)
+Date: Tue, 30 Jul 2019 21:34:04 -0400
 In-Reply-To: <20190731013404.243755-1-osk@google.com>
-Message-Id: <20190731013404.243755-2-osk@google.com>
+Message-Id: <20190731013404.243755-3-osk@google.com>
 Mime-Version: 1.0
 References: <20190731013404.243755-1-osk@google.com>
 X-Mailer: git-send-email 2.22.0.709.g102302147b-goog
-Subject: [PATCH v2 2/3] dt-bindings: serial: 8250: Add documentation for
- espi-enabled.
+Subject: [PATCH v2 3/3] arm: dts: aspeed: Add vuart espi-enabled to
+ aspeed-g5.dtsi
 From: Oskar Senft <osk@google.com>
 To: joel@jms.id.au, andrew@aj.id.au
 Content-Type: text/plain; charset="UTF-8"
@@ -82,30 +81,25 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add documentation for 8250_aspeed_vuart's espi-enabled property that
-enables to auto-configure the VUART's SIRQ polarity.
+Enable auto-configuration of VUART SIRQ polarity on AST2500.
 
 Signed-off-by: Oskar Senft <osk@google.com>
 ---
- Documentation/devicetree/bindings/serial/8250.txt | 5 +++++
- 1 file changed, 5 insertions(+)
+ arch/arm/boot/dts/aspeed-g5.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/serial/8250.txt b/Documentation/devicetree/bindings/serial/8250.txt
-index 20d351f268ef..4b8b9e502179 100644
---- a/Documentation/devicetree/bindings/serial/8250.txt
-+++ b/Documentation/devicetree/bindings/serial/8250.txt
-@@ -56,6 +56,11 @@ Optional properties:
- - {rts,cts,dtr,dsr,rng,dcd}-gpios: specify a GPIO for RTS/CTS/DTR/DSR/RI/DCD
-   line respectively. It will use specified GPIO instead of the peripheral
-   function pin for the UART feature. If unsure, don't specify this property.
-+- espi-enabled: Only applicable to aspeed,ast2500-vuart. Value is a phandle to
-+  aspeed,ast2500-scu syscon alongside register offset and bit number to
-+  identify whether the system is in eSPI mode. This is used to auto-configure
-+  SIRQ polarity on the vuart.
-+  Example: espi-enabled = <&syscon 0x70 25>
+diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
+index 01ffe70f64d5..9e561504042a 100644
+--- a/arch/arm/boot/dts/aspeed-g5.dtsi
++++ b/arch/arm/boot/dts/aspeed-g5.dtsi
+@@ -351,6 +351,7 @@
+ 				interrupts = <8>;
+ 				clocks = <&syscon ASPEED_CLK_APB>;
+ 				no-loopback-test;
++				espi-enabled = <&syscon 0x70 25>;
+ 				status = "disabled";
+ 			};
  
- Note:
- * fsl,ns16550:
 -- 
 2.22.0.709.g102302147b-goog
 
