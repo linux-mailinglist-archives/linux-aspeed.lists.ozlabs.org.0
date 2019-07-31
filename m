@@ -2,75 +2,82 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4C27B7B2
-	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 03:40:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D9C7B82D
+	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 05:13:26 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45yx2H3RnFzDqTW
-	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 11:40:23 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45yz5c08l0zDqbp
+	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 13:13:24 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=google.com
- (client-ip=2a00:1450:4864:20::542; helo=mail-ed1-x542.google.com;
- envelope-from=osk@google.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=66.111.4.26; helo=out2-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=reject dis=none) header.from=google.com
+ dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=google.com header.i=@google.com header.b="ELuYXHOZ"; 
- dkim-atps=neutral
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="TyfUodp6"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="G4fyzKkr"; dkim-atps=neutral
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45ywyM0RD9zDqQs
- for <linux-aspeed@lists.ozlabs.org>; Wed, 31 Jul 2019 11:36:58 +1000 (AEST)
-Received: by mail-ed1-x542.google.com with SMTP id w13so64223480eds.4
- for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jul 2019 18:36:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DsjiIzdN9C98Ln51xC2Wnm3ph4LSpWp5IFiT/PBCHqU=;
- b=ELuYXHOZnR/dx1Gf62Lc+shY4Gh5hzlv4BgBu8g5ifzT0AUlWxkfZok0YcP49iJ6yQ
- sVng7xxwqXAcjZSZGBbkBxYmmkTm061mNFiQRnxZSdsK1oMhHHUDPG0060SpOR6JDt9I
- i/488z3hbLEcu7WIkjaYHQYqtap5XQOoc3i9KkaADXkrXk0YmOmQT0Dj3oWfAc2k+9ui
- i365f8QFsXKDjBttSBG6i11kPMErq+NfBdivtNn0PbwyAHQhm76PZl7ASwnZU/oA2RaU
- jBi1F7Ln3ry3qRY6o8+IlNzCBcCLozXGD7HEEJgpTLV6EJ6e9gOuIKgpW7IyGsW+0bv2
- gr0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DsjiIzdN9C98Ln51xC2Wnm3ph4LSpWp5IFiT/PBCHqU=;
- b=LHRsHe7GQhbVjZK+l66eMppPjBwMuGEZlNeG1D0qJ5zzkgJBmTMxctxTA9lpOQavzi
- sfw9/PZmSUoQ0v4t2WFgDrbPoRAUlY2Y6ww0Dg9hBmujBnb+laQZV0/4A7ppkV+psn55
- UGosegwStv/XQg1CA/b4WxnSmxL9R1En6fRqFtxFRXsqUvecAHrUHE95pzqV75cB8nEm
- WPr0zvuyeQOHfwjgKTs/XMjSrU8gY79Fgq55qTFajtgnLLklWZWHGadJyvG2ljQtN4R5
- ucjkzCVfqLc4AxIVGkY81yhsOyv4isCf7Ei3FUE+flBtEVmZ6vloVZxvcbotVJJwSc13
- yReg==
-X-Gm-Message-State: APjAAAXMldO5Gah8s2RpeHHYbrVMeC22q8z7Ef85HtOJFETB80JT6FOv
- Yb7jv0947rSygekRVFUixBYg3BYBGWN+R3D+RG7FVg==
-X-Google-Smtp-Source: APXvYqzvPkqLHko10kwS49zlk2PVVdqc5YS/aqGlw7JT6wn5gSrGx1C4EJtFYnHO2sins0ZSEByYpiTZdAuhcQ5HXjs=
-X-Received: by 2002:a17:906:9147:: with SMTP id
- y7mr92291605ejw.66.1564537013340; 
- Tue, 30 Jul 2019 18:36:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190727134242.49847-1-osk@google.com>
- <9fb8c99449cebd68fb5975890dedaa06ce7808ae.camel@kernel.crashing.org>
- <CABoTLcRPXffZuKy-DTFUVKJQRydSzMDynYRgBbZ_470iVN1KnA@mail.gmail.com>
- <CABoTLcTSFvQruPRnoRPgiWjOXNDOCSnAXVesG7f1WAuLLLVSSg@mail.gmail.com>
- <6b31627a8c5a2616c83783550517961b7ed8f3cb.camel@ozlabs.org>
- <CABoTLcQF4_He15F5oO0Pxjdm6f7pLCxBF77cz7wR=jjWaednYQ@mail.gmail.com>
- <9855284dfa4c4d4a52441553691c7b4b08a9cc34.camel@ozlabs.org>
- <CABoTLcS2Pepyfc8A-gzm+Nh2T5yCCmexCC94K8Pm=4mtM4JHBA@mail.gmail.com>
- <53f2c3aa-9502-4989-9c22-1a7f1c74cf47@www.fastmail.com>
-In-Reply-To: <53f2c3aa-9502-4989-9c22-1a7f1c74cf47@www.fastmail.com>
-From: Oskar Senft <osk@google.com>
-Date: Tue, 30 Jul 2019 21:36:36 -0400
-Message-ID: <CABoTLcQ_BB1VpgCXNcseKaS6y=htk+dW-xSPQ4fV-Re0jEsAxQ@mail.gmail.com>
-Subject: Re: [PATCH] drivers/tty/serial/8250: Make Aspeed VUART SIRQ polarity
- configurable
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: multipart/alternative; boundary="000000000000eb68cd058ef02875"
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45yz5G35YfzDqZP;
+ Wed, 31 Jul 2019 13:13:05 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id E802C2089D;
+ Tue, 30 Jul 2019 23:13:00 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Tue, 30 Jul 2019 23:13:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm3; bh=Os4kyQEaIKRJ7mL6sANrafcKtrpvoRz
+ xKXH6bleWE4E=; b=TyfUodp6+stoBnZOtnQz8vcPs3DXerH0OoBY+FLkvQlEfni
+ ehWWVecw2avMP/G6JUNbfb9xcrNQ/B/ar6b5vXUz7omkyjvbBYEJZ5SQ35UXAfh5
+ p3W0yyf/nwIob9p+gCHC7CJJ7KTYKXYYCchO3uY8nEy3sEkHXxW7GBGelNY1oi6q
+ rDEqEDPFHKSRVJ0IYMNBW0oOKe/dQgXe89Pm313KKKBuSsOlgFiOkqIxipAbPi3k
+ ZW+IDgUIyzBc7VmVh9J2BFFMWmopSaDJM8EuPuUsPjtpDqfeoo3gg3ydeZ3I9po+
+ 9ZugU/c8F3UPVFhmK4/KTXGlCp27p2mA8NCIE6A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Os4kyQ
+ EaIKRJ7mL6sANrafcKtrpvoRzxKXH6bleWE4E=; b=G4fyzKkr8HCt5T7c7ehwwY
+ 4MrON7N3Fis3WAHj0MwYXKd2nXumVBYpnYIM29BhAyD9vks3YQQezk1fKfpXMK53
+ zRVIpW7l1alr3Assl3w81fEueuUia0OLGxObPcOu57PLoO7Ai1oQ0fmiHdfa+ekZ
+ AN7DfgDM3sk0CS5zh4KgZ93yuGV9eQrI4glSXjY2qESRAYM0luy1GmTGh8AFLmEk
+ nTllThzkvKqv4YuJBNBLAEq94L0R7GzoWOnglXW9JkWOb8KsYnDIs4PPLJyS3QFJ
+ mZRTANlk3a0T50SlvYfoCKeNu5/8/2LjhKvis3ymm2KPvgc8UFjagb7JOqg6ADfw
+ ==
+X-ME-Sender: <xms:PAdBXdiTUSm90OENxknvFJDzGaMOUGj8AiTcyb0469Y46UHuLAyPAA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrleeggdeilecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
+ hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
+ ufhiiigvpedt
+X-ME-Proxy: <xmx:PAdBXVT7EUuN_qFzZjRvDSM1hY6EZku5aWI_tOmhvxKjNEjY-pa41g>
+ <xmx:PAdBXUlXCCzF0EWtrXssCpTVJnySyjL21EEujsLFThSPb0v0zmC9jg>
+ <xmx:PAdBXf7SWQXqorwGPnmtP4vJdji8rC99iyiCytDwXNNFCj-Ek2SE7g>
+ <xmx:PAdBXezR4wnEjxDB0ujxYl6leL7LHKu4MkoXx9GadUlqO3RiEiMaVw>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 02D76E00A4; Tue, 30 Jul 2019 23:12:59 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-799-g925e343-fmstable-20190729v1
+Mime-Version: 1.0
+Message-Id: <b4670171-e161-4d7a-91dc-a1e5a95f7dbc@www.fastmail.com>
+In-Reply-To: <20190731013404.243755-2-osk@google.com>
+References: <20190731013404.243755-1-osk@google.com>
+ <20190731013404.243755-2-osk@google.com>
+Date: Wed, 31 Jul 2019 12:42:48 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Oskar Senft" <osk@google.com>, "Joel Stanley" <joel@jms.id.au>
+Subject: =?UTF-8?Q?Re:_[PATCH_v2_2/3]_dt-bindings:_serial:_8250:_Add_documentatio?=
+ =?UTF-8?Q?n_for_espi-enabled.?=
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,189 +89,54 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: OpenBMC Maillist <openbmc@lists.ozlabs.org>, Jeremy Kerr <jk@ozlabs.org>,
- linux-aspeed@lists.ozlabs.org
+Cc: openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---000000000000eb68cd058ef02875
-Content-Type: text/plain; charset="UTF-8"
+Hi Oskar,
 
-Done. I submitted just a v2 of the patch alongside the other bits and
-pieces that are required to make this work.
+On Wed, 31 Jul 2019, at 11:04, Oskar Senft wrote:
+> Add documentation for 8250_aspeed_vuart's espi-enabled property that
+> enables to auto-configure the VUART's SIRQ polarity.
+> 
+> Signed-off-by: Oskar Senft <osk@google.com>
+> ---
+>  Documentation/devicetree/bindings/serial/8250.txt | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/serial/8250.txt 
+> b/Documentation/devicetree/bindings/serial/8250.txt
+> index 20d351f268ef..4b8b9e502179 100644
+> --- a/Documentation/devicetree/bindings/serial/8250.txt
+> +++ b/Documentation/devicetree/bindings/serial/8250.txt
+> @@ -56,6 +56,11 @@ Optional properties:
+>  - {rts,cts,dtr,dsr,rng,dcd}-gpios: specify a GPIO for 
+> RTS/CTS/DTR/DSR/RI/DCD
+>    line respectively. It will use specified GPIO instead of the 
+> peripheral
+>    function pin for the UART feature. If unsure, don't specify this 
+> property.
+> +- espi-enabled: Only applicable to aspeed,ast2500-vuart.
 
-Let me know if that works for you or if there's anything that should be
-changed.
+Bit of a bikeshed, but:
 
-Oskar.
+Given it's ASPEED-specific I expect you should use a vendor prefix for the
+property, e.g. aspeed,espi-enabled.
 
-On Sun, Jul 28, 2019 at 11:02 PM Andrew Jeffery <andrew@aj.id.au> wrote:
+However, as I understand it you want to determine what polarity the SIRQ
+should be regardless of which of eSPI or LPC are enabled, so I don't think
+the property name should be an explicit statement about eSPI. Maybe
+"aspeed,sirq-polarity-sense"? Anyway, see the point below:
 
->
->
-> On Mon, 29 Jul 2019, at 11:51, Oskar Senft wrote:
-> >
-> > Hi Jeremy
-> >
-> > > Somewhat offtopic, but are you sure you want to enable the SuperIO
-> > >  device?
-> > No :-D I'm aware of CVE-2019-6260. I just listed it as a potential
-> > source of SIRQs.
-> > > > The VUART is covered by this code and we don't have a PUART driver
-> > >  > yet.
-> > >  >
-> > >  > It might make sense to have this as a global setting which each
-> driver
-> > >  > could read. But wouldn't this be an exercise for the future where we
-> > >  > actually have a second device? I don't think the Aspeed currently
-> has
-> > >  > any other devices that could generate a SIRQ (except for the PUART
-> for
-> > >  > which there's no driver).
-> > >
-> > >  We have a bunch of SIRQ sources that we use (on OpenPOWER platforms) -
-> > >  the BT interface, the KCS interface, the UARTs, and the mbox hardware.
-> > >  It's not just the VUART/PUART :)
-> > Interesting. From what Aspeed explained, the SIRQ polarity for UARTs is
-> > inverted to that for other devices. I haven't looked into how other
-> > devices work, to be honest. Do we set the polarity there explicitly?
-> > > > Having said that, ideally I'd like the SIRQ polarity to be auto-
-> > >  > configured from the LPC/eSPI HW pin strap anyway. I have the code
-> for
-> > >  > that almost done. Maybe we shouldn't even have the sysfs interface
-> for
-> > >  > it and I should strip that out?
-> > >
-> > >  Yeah, I think I agree with that. The only downside is that the
-> > >  individual drivers will now need to poke at the SCU to query the
-> > >  LPC/eSPI configuration. If you can find a nice way to do that, then
-> that
-> > >  sounds like the best approach. Can you query it through the parent bus
-> > >  perhaps?
-> > I'm experimenting with this:
-> > syscon_regmap_lookup_by_compatible("aspeed,ast2500-scu");
-> >
-> > I'll need to think on how to make this work on both ast2400 and
-> > ast2500, though. I actually need to have a look at the ast2400 data
-> > sheet wrt. VUART registers, too!
-> >
-> > The structure is this:
-> > apb {
-> >  syscon {
-> >  ...
-> >  }
-> >  vuart {
-> >  ...
-> >  }
-> > }
-> >
-> > So the vuart is a sibling of syscon, which holds the registers. I guess
-> > I'll have to go with "by_compatible"?
->
-> It might be better to add a property to the UART DT node that references
-> the SCU syscon by phandle, that way you don't need to muck around
-> with compatible names for the SCU syscon.
->
-> Andrew
->
+Please use ./scripts/get_maintainer.pl to determine where to send the
+series - Copying just the linux-aspeed@ list for upstream patches is not
+enough. For instance the series needs to at least go via the linux-serial@
+list given that's the affected subsystem, and you're adding to the
+devicetree binding so you need to send to the devicetree@ list as well
+(you'll need an ack from Rob Herring). The get_maintainer.pl script will
+give you all the information you need.
 
---000000000000eb68cd058ef02875
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cheers,
 
-<div dir=3D"ltr">Done. I submitted just a v2 of the patch alongside the oth=
-er bits and pieces that are required to make this work.<div><br></div><div>=
-Let me know if that works for you or if there&#39;s anything that should be=
- changed.</div><div><br></div><div>Oskar.</div></div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jul 28, 2019 at 11:0=
-2 PM Andrew Jeffery &lt;<a href=3D"mailto:andrew@aj.id.au">andrew@aj.id.au<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><=
-br>
-<br>
-On Mon, 29 Jul 2019, at 11:51, Oskar Senft wrote:<br>
-&gt; <br>
-&gt; Hi Jeremy<br>
-&gt; <br>
-&gt; &gt; Somewhat offtopic, but are you sure you want to enable the SuperI=
-O<br>
-&gt; &gt;=C2=A0 device?<br>
-&gt; No :-D I&#39;m aware of CVE-2019-6260. I just listed it as a potential=
- <br>
-&gt; source of SIRQs.<br>
-&gt; &gt; &gt; The VUART is covered by this code and we don&#39;t have a PU=
-ART driver<br>
-&gt; &gt;=C2=A0 &gt; yet.<br>
-&gt; &gt;=C2=A0 &gt; <br>
-&gt; &gt;=C2=A0 &gt; It might make sense to have this as a global setting w=
-hich each driver<br>
-&gt; &gt;=C2=A0 &gt; could read. But wouldn&#39;t this be an exercise for t=
-he future where we<br>
-&gt; &gt;=C2=A0 &gt; actually have a second device? I don&#39;t think the A=
-speed currently has<br>
-&gt; &gt;=C2=A0 &gt; any other devices that could generate a SIRQ (except f=
-or the PUART for<br>
-&gt; &gt;=C2=A0 &gt; which there&#39;s no driver).<br>
-&gt; &gt; <br>
-&gt; &gt;=C2=A0 We have a bunch of SIRQ sources that we use (on OpenPOWER p=
-latforms) -<br>
-&gt; &gt;=C2=A0 the BT interface, the KCS interface, the UARTs, and the mbo=
-x hardware.<br>
-&gt; &gt;=C2=A0 It&#39;s not just the VUART/PUART :)<br>
-&gt; Interesting. From what Aspeed explained, the SIRQ polarity for UARTs i=
-s <br>
-&gt; inverted to that for other devices. I haven&#39;t looked into how othe=
-r <br>
-&gt; devices work, to be honest. Do we set the polarity there explicitly?<b=
-r>
-&gt; &gt; &gt; Having said that, ideally I&#39;d like the SIRQ polarity to =
-be auto-<br>
-&gt; &gt;=C2=A0 &gt; configured from the LPC/eSPI HW pin strap anyway. I ha=
-ve the code for<br>
-&gt; &gt;=C2=A0 &gt; that almost done. Maybe we shouldn&#39;t even have the=
- sysfs interface for<br>
-&gt; &gt;=C2=A0 &gt; it and I should strip that out?<br>
-&gt; &gt; <br>
-&gt; &gt;=C2=A0 Yeah, I think I agree with that. The only downside is that =
-the <br>
-&gt; &gt;=C2=A0 individual drivers will now need to poke at the SCU to quer=
-y the<br>
-&gt; &gt;=C2=A0 LPC/eSPI configuration. If you can find a nice way to do th=
-at, then that<br>
-&gt; &gt;=C2=A0 sounds like the best approach. Can you query it through the=
- parent bus<br>
-&gt; &gt;=C2=A0 perhaps?<br>
-&gt; I&#39;m experimenting with this:<br>
-&gt; syscon_regmap_lookup_by_compatible(&quot;aspeed,ast2500-scu&quot;);<br=
->
-&gt; <br>
-&gt; I&#39;ll need to think on how to make this work on both ast2400 and <b=
-r>
-&gt; ast2500, though. I actually need to have a look at the ast2400 data <b=
-r>
-&gt; sheet wrt. VUART registers, too!<br>
-&gt; <br>
-&gt; The structure is this:<br>
-&gt; apb {<br>
-&gt;=C2=A0 syscon {<br>
-&gt;=C2=A0 ...<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 vuart {<br>
-&gt;=C2=A0 ...<br>
-&gt;=C2=A0 }<br>
-&gt; }<br>
-&gt; <br>
-&gt; So the vuart is a sibling of syscon, which holds the registers. I gues=
-s <br>
-&gt; I&#39;ll have to go with &quot;by_compatible&quot;?<br>
-<br>
-It might be better to add a property to the UART DT node that references<br=
->
-the SCU syscon by phandle, that way you don&#39;t need to muck around<br>
-with compatible names for the SCU syscon.<br>
-<br>
-Andrew<br>
-</blockquote></div>
-
---000000000000eb68cd058ef02875--
+Andrew
