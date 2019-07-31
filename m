@@ -1,48 +1,46 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB9A7D36B
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2019 04:52:09 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45zZZZ6m35zDqnl
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2019 12:52:06 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E56327D36C
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2019 04:52:13 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 45zZZf4kNxzDqnD
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2019 12:52:10 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=wistron.com
- (client-ip=103.200.3.19; helo=segapp03.wistron.com;
+ (client-ip=103.200.3.19; helo=segapp01.wistron.com;
  envelope-from=ben_pai@wistron.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=wistron.com
-X-Greylist: delayed 302 seconds by postgrey-1.36 at bilbo;
- Tue, 30 Jul 2019 16:05:44 AEST
-Received: from segapp03.wistron.com (segapp02.wistron.com [103.200.3.19])
- by lists.ozlabs.org (Postfix) with ESMTP id 45yQyw6B90zDqTF
- for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jul 2019 16:05:44 +1000 (AEST)
-Received: from EXCHAPP01.whq.wistron (unverified [10.37.38.24]) by 
- TWNHUMSW4.wistron.com (Clearswift SMTPRS 5.6.0) with ESMTP id 
- <Td94f978787c0a81672148c@TWNHUMSW4.wistron.com>; Tue, 30 Jul 2019 
- 14:00:33 +0800
-Received: from EXCHAPP01.whq.wistron (10.37.38.24) by EXCHAPP01.whq.wistron 
- (10.37.38.24) with Microsoft SMTP Server 
+Received: from segapp01.wistron.com (segapp02.wistron.com [103.200.3.19])
+ by lists.ozlabs.org (Postfix) with ESMTP id 45z5BJ4ngbzDqC0
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 31 Jul 2019 17:47:48 +1000 (AEST)
+Received: from EXCHAPP04.whq.wistron (unverified [10.37.38.27]) by 
+ TWNHUMSW5.wistron.com (Clearswift SMTPRS 5.6.0) with ESMTP id 
+ <Td9552003cbc0a816731b24@TWNHUMSW5.wistron.com>; Wed, 31 Jul 2019 
+ 15:47:44 +0800
+Received: from EXCHAPP02.whq.wistron (10.37.38.25) by EXCHAPP04.whq.wistron 
+ (10.37.38.27) with Microsoft SMTP Server 
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 
- 15.1.1713.5; Tue, 30 Jul 2019 14:00:32 +0800
-Received: from gitserver.wistron.com (10.37.38.233) by EXCHAPP01.whq.wistron 
- (10.37.38.24) with Microsoft SMTP Server id 15.1.1713.5 via Frontend
- Transport; Tue, 30 Jul 2019 14:00:32 +0800
+ 15.1.1713.5; Wed, 31 Jul 2019 15:47:44 +0800
+Received: from gitserver.wistron.com (10.37.38.233) by EXCHAPP02.whq.wistron 
+ (10.37.38.25) with Microsoft SMTP Server id 15.1.1713.5 via Frontend
+ Transport; Wed, 31 Jul 2019 15:47:44 +0800
 From: Ben Pai <Ben_Pai@wistron.com>
 To: <robh+dt@kernel.org>, <mark.rutland@arm.com>, <joel@jms.id.au>, 
  <andrew@aj.id.au>, <devicetree@vger.kernel.org>, 
  <linux-arm-kernel@lists.infradead.org>, 
  <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] ARM: dts: aspeed: Add Mihawk BMC platform
-Date: Tue, 30 Jul 2019 14:00:29 +0800
-Message-ID: <20190730060029.25268-1-Ben_Pai@wistron.com>
+Subject: [PATCH v2 2/2] ARM: dts: aspeed: Add Mihawk BMC platform
+Date: Wed, 31 Jul 2019 15:47:42 +0800
+Message-ID: <20190731074742.23456-1-Ben_Pai@wistron.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
-X-TM-SNTS-SMTP: B8F3A59F9A568685DBD873CF6FDF86BFBFE5BE878EEFCCE1F7C2FDDB36AE387C2000:8
+X-TM-SNTS-SMTP: F6462273D35799C51D6855563088327188136FB9E641F90DCE5E2B8E0A421B3B2000:8
 Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Thu, 01 Aug 2019 12:52:00 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -64,14 +62,11 @@ Sender: "Linux-aspeed"
 The Mihawk BMC is an ASPEED ast2500 based BMC that is part of an
 OpenPower Power9 server.
 
-This adds the device tree description for most upstream components. It
-is a squashed commit from the OpenBMC kernel tree.
-
 Signed-off-by: Ben Pai <Ben_Pai@wistron.com>
 ---
  arch/arm/boot/dts/Makefile                  |   1 +
- arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts | 922 ++++++++++++++++++++
- 2 files changed, 923 insertions(+)
+ arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts | 907 ++++++++++++++++++++
+ 2 files changed, 908 insertions(+)
  create mode 100755 arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
 
 diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
@@ -87,10 +82,10 @@ index eb6de52c1936..262345544359 100644
  	aspeed-bmc-quanta-q71l.dtb
 diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
 new file mode 100755
-index 000000000000..cfa20e0b2939
+index 000000000000..913c94326f3f
 --- /dev/null
 +++ b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
-@@ -0,0 +1,922 @@
+@@ -0,0 +1,907 @@
 +/dts-v1/;
 +
 +#include "aspeed-g5.dtsi"
@@ -172,7 +167,6 @@ index 000000000000..cfa20e0b2939
 +	gpio-keys-polled {
 +		compatible = "gpio-keys-polled";
 +		#address-cells = <1>;
-+		#size-cells = <0>;
 +		poll-interval = <1000>;
 +
 +		fan0-presence {
@@ -748,7 +742,6 @@ index 000000000000..cfa20e0b2939
 +&i2c8 {
 +	status = "okay";
 +
-+	/* FSI CLK/DAT */
 +	eeprom@50 {
 +		compatible = "atmel,24c64";
 +		reg = <0x50>;
@@ -779,8 +772,6 @@ index 000000000000..cfa20e0b2939
 +		#size-cells = <0>;
 +		reg = <0x70>;
 +
-+		/*interrupt-parent = <&ipic>;*/
-+		/*interrupts = <17 IRQ_TYPE_LEVEL_LOW>;*/
 +		i2c-mux-idle-disconnect;
 +		interrupt-controller;
 +		#interrupt-cells = <2>;
@@ -792,8 +783,6 @@ index 000000000000..cfa20e0b2939
 +		#size-cells = <0>;
 +		reg = <0x71>;
 +
-+		/*interrupt-parent = <&ipic>;*/
-+		/*interrupts = <17 IRQ_TYPE_LEVEL_LOW>;*/
 +		i2c-mux-idle-disconnect;
 +		interrupt-controller;
 +		#interrupt-cells = <2>;	
@@ -824,8 +813,6 @@ index 000000000000..cfa20e0b2939
 +		#size-cells = <0>;
 +		reg = <0x70>;
 +
-+		/*interrupt-parent = <&ipic>;*/
-+		/*interrupts = <17 IRQ_TYPE_LEVEL_LOW>;*/
 +		i2c-mux-idle-disconnect;
 +		interrupt-controller;
 +		#interrupt-cells = <2>;
@@ -837,8 +824,6 @@ index 000000000000..cfa20e0b2939
 +		#size-cells = <0>;
 +		reg = <0x71>;
 +
-+		/*interrupt-parent = <&ipic>;*/
-+		/*interrupts = <17 IRQ_TYPE_LEVEL_LOW>;*/
 +		i2c-mux-idle-disconnect;
 +		interrupt-controller;
 +		#interrupt-cells = <2>;	
@@ -875,11 +860,11 @@ index 000000000000..cfa20e0b2939
 +		reg = <0x49>;
 +	};
 +
-+    /* chip emc1462 use emc1403 driver */
-+    emc1403@4c {
-+        compatible = "smsc,emc1403";
-+        reg = <0x4c>;
-+    };
++	/* chip emc1462 use emc1403 driver */
++	emc1403@4c {
++        	compatible = "smsc,emc1403";
++        	reg = <0x4c>;
++    	};
 +
 +};
 +
@@ -899,8 +884,6 @@ index 000000000000..cfa20e0b2939
 +		#size-cells = <0>;
 +		reg = <0x70>;
 +
-+		/*interrupt-parent = <&ipic>;*/
-+		/*interrupts = <17 IRQ_TYPE_LEVEL_LOW>;*/
 +		interrupt-controller;
 +		#interrupt-cells = <2>;
 +		
@@ -977,10 +960,6 @@ index 000000000000..cfa20e0b2939
 +	memory-region = <&gfx_memory>;
 +};
 +
-+&pinctrl {
-+	aspeed,external-nodes = <&gfx &lhc>;
-+};
-+
 +&adc {
 +	status = "okay";
 +};
@@ -1013,7 +992,7 @@ index 000000000000..cfa20e0b2939
 +};
 +
 +#include "ibm-power9-dual.dtsi"
-\ No newline at end of file
++
 -- 
 2.17.1
 
