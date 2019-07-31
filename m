@@ -1,83 +1,78 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D9C7B82D
-	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 05:13:26 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45yz5c08l0zDqbp
-	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 13:13:24 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6E17B933
+	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 07:43:43 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 45z2R01tGnzDqZC
+	for <lists+linux-aspeed@lfdr.de>; Wed, 31 Jul 2019 15:43:40 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.26; helo=out2-smtp.messagingengine.com;
+ (client-ip=66.111.4.224; helo=new2-smtp.messagingengine.com;
  envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="TyfUodp6"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="g7MN1DY1"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="G4fyzKkr"; dkim-atps=neutral
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
+ header.b="i5xBkoT3"; dkim-atps=neutral
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45yz5G35YfzDqZP;
- Wed, 31 Jul 2019 13:13:05 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45z2Ll6CcWzDqXR
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 31 Jul 2019 15:39:58 +1000 (AEST)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id E802C2089D;
- Tue, 30 Jul 2019 23:13:00 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Tue, 30 Jul 2019 23:13:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=Os4kyQEaIKRJ7mL6sANrafcKtrpvoRz
- xKXH6bleWE4E=; b=TyfUodp6+stoBnZOtnQz8vcPs3DXerH0OoBY+FLkvQlEfni
- ehWWVecw2avMP/G6JUNbfb9xcrNQ/B/ar6b5vXUz7omkyjvbBYEJZ5SQ35UXAfh5
- p3W0yyf/nwIob9p+gCHC7CJJ7KTYKXYYCchO3uY8nEy3sEkHXxW7GBGelNY1oi6q
- rDEqEDPFHKSRVJ0IYMNBW0oOKe/dQgXe89Pm313KKKBuSsOlgFiOkqIxipAbPi3k
- ZW+IDgUIyzBc7VmVh9J2BFFMWmopSaDJM8EuPuUsPjtpDqfeoo3gg3ydeZ3I9po+
- 9ZugU/c8F3UPVFhmK4/KTXGlCp27p2mA8NCIE6A==
+ by mailnew.nyi.internal (Postfix) with ESMTP id 0E6642D4F;
+ Wed, 31 Jul 2019 01:39:54 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 31 Jul 2019 01:39:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=f6SwHiquskKyzal6BVgx/Zrb83
+ M7d3YW34Dxd8xOi/I=; b=g7MN1DY1j9rZdpYORY8nL/SkjVPP9amQQ6Ol+aXOL1
+ 75Cgfy18cKd6+ssH0oOz3n7yYP+nlnPSqod16gcxdXcMx9pE14K2SFSf6/luls5u
+ JphFHxcZh/ovi/Q4uGC7Og/ct+1NnN9zCnNk3sa1m+ocS2693kgbjimy3t4qegds
+ hZII0pm/H8nklvVIkOOQ3JrwKtCZ7u4DGygNFPhNSA7lKtbH5vxxCsmkOGl7YT5W
+ RBbJSRWOqsaK2lK1GMWmf9PMZnZxHagbU29IJaGEtPyserJhpVEoRXthPev7LbGi
+ eXngVDCjC0WBidytA0t07ccGFSO9lGSFuVCl8wBYw8uA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Os4kyQ
- EaIKRJ7mL6sANrafcKtrpvoRzxKXH6bleWE4E=; b=G4fyzKkr8HCt5T7c7ehwwY
- 4MrON7N3Fis3WAHj0MwYXKd2nXumVBYpnYIM29BhAyD9vks3YQQezk1fKfpXMK53
- zRVIpW7l1alr3Assl3w81fEueuUia0OLGxObPcOu57PLoO7Ai1oQ0fmiHdfa+ekZ
- AN7DfgDM3sk0CS5zh4KgZ93yuGV9eQrI4glSXjY2qESRAYM0luy1GmTGh8AFLmEk
- nTllThzkvKqv4YuJBNBLAEq94L0R7GzoWOnglXW9JkWOb8KsYnDIs4PPLJyS3QFJ
- mZRTANlk3a0T50SlvYfoCKeNu5/8/2LjhKvis3ymm2KPvgc8UFjagb7JOqg6ADfw
- ==
-X-ME-Sender: <xms:PAdBXdiTUSm90OENxknvFJDzGaMOUGj8AiTcyb0469Y46UHuLAyPAA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrleeggdeilecutefuodetggdotefrodftvf
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=f6SwHiquskKyzal6B
+ Vgx/Zrb83M7d3YW34Dxd8xOi/I=; b=i5xBkoT3kOfJ7Fozu8U1x3mCDqVDbaGJi
+ hW5j7MVRghRgV4UUqd7BsH+FN1J5Ffey9ZReBvuVB51o9kaDcNQ/tJGbJ1cdw3m1
+ jFJcbTap/SsQj4NW7jmsyhcVwGAcN5fwekb6ohoymp4NjfnNCOdtccLepKOo/169
+ /7jgkGAWQzcX1gMu3UdiGLLpMnuzOhghv6uqG+KqRdnPzp0drOrRM3cvb70dUcUl
+ mveg0t1PJ+C4DvGiVpbFo0iwbQWzvxeGJb0rRUAmglkQwwqpfRBYBFkoEqRUkdNi
+ NI2P0sJCs3ehdBaCR0St9p7NktQyf5qW/iv9aPQ7xRgqeACnHvtUg==
+X-ME-Sender: <xms:qClBXZXWhe-ZQDDEHt39xzZJV1vT5Nk1WP4T8AYQICf5aoyLv9SzqA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrleeggdelkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
- hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
- ufhiiigvpedt
-X-ME-Proxy: <xmx:PAdBXVT7EUuN_qFzZjRvDSM1hY6EZku5aWI_tOmhvxKjNEjY-pa41g>
- <xmx:PAdBXUlXCCzF0EWtrXssCpTVJnySyjL21EEujsLFThSPb0v0zmC9jg>
- <xmx:PAdBXf7SWQXqorwGPnmtP4vJdji8rC99iyiCytDwXNNFCj-Ek2SE7g>
- <xmx:PAdBXezR4wnEjxDB0ujxYl6leL7LHKu4MkoXx9GadUlqO3RiEiMaVw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 02D76E00A4; Tue, 30 Jul 2019 23:12:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-799-g925e343-fmstable-20190729v1
-Mime-Version: 1.0
-Message-Id: <b4670171-e161-4d7a-91dc-a1e5a95f7dbc@www.fastmail.com>
-In-Reply-To: <20190731013404.243755-2-osk@google.com>
-References: <20190731013404.243755-1-osk@google.com>
- <20190731013404.243755-2-osk@google.com>
-Date: Wed, 31 Jul 2019 12:42:48 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Oskar Senft" <osk@google.com>, "Joel Stanley" <joel@jms.id.au>
-Subject: =?UTF-8?Q?Re:_[PATCH_v2_2/3]_dt-bindings:_serial:_8250:_Add_documentatio?=
- =?UTF-8?Q?n_for_espi-enabled.?=
-Content-Type: text/plain
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+ dtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghjrdhi
+ ugdrrghuqeenucffohhmrghinhepohiilhgrsghsrdhorhhgnecukfhppedvtddvrdekud
+ drudekrdeftdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgu
+ rdgruhenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:qClBXTpGDNuSmIbPncJh21n4Sf0ss0RejHuzWA4hv3rAOLNcRuRxMw>
+ <xmx:qClBXaVOdGKEcDyq-7JxJ0S_ajEy6NdCoqsQTywn439lc82Dng4C5w>
+ <xmx:qClBXUGdN3rrLeLl3XtvCSrNpwfDySjv8adf7tD_SwRNJ9jE38lxGw>
+ <xmx:qilBXVZcJHTBJAO8KEKpy2dp-GtEoJUAEkilKJiKZf9U4ox-z_TfPQ>
+Received: from mistburn.au.ibm.com (bh02i525f01.au.ibm.com [202.81.18.30])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 05C728005C;
+ Wed, 31 Jul 2019 01:39:47 -0400 (EDT)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: netdev@vger.kernel.org
+Subject: [PATCH net-next v2 0/4] net: phy: Add AST2600 MDIO support
+Date: Wed, 31 Jul 2019 15:09:55 +0930
+Message-Id: <20190731053959.16293-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,54 +84,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org
+Cc: mark.rutland@arm.com, andrew@lunn.ch, f.fainelli@gmail.com,
+ linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org, davem@davemloft.net,
+ linux-arm-kernel@lists.infradead.org, hkallweit1@gmail.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Oskar,
+Hello,
 
-On Wed, 31 Jul 2019, at 11:04, Oskar Senft wrote:
-> Add documentation for 8250_aspeed_vuart's espi-enabled property that
-> enables to auto-configure the VUART's SIRQ polarity.
-> 
-> Signed-off-by: Oskar Senft <osk@google.com>
-> ---
->  Documentation/devicetree/bindings/serial/8250.txt | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/serial/8250.txt 
-> b/Documentation/devicetree/bindings/serial/8250.txt
-> index 20d351f268ef..4b8b9e502179 100644
-> --- a/Documentation/devicetree/bindings/serial/8250.txt
-> +++ b/Documentation/devicetree/bindings/serial/8250.txt
-> @@ -56,6 +56,11 @@ Optional properties:
->  - {rts,cts,dtr,dsr,rng,dcd}-gpios: specify a GPIO for 
-> RTS/CTS/DTR/DSR/RI/DCD
->    line respectively. It will use specified GPIO instead of the 
-> peripheral
->    function pin for the UART feature. If unsure, don't specify this 
-> property.
-> +- espi-enabled: Only applicable to aspeed,ast2500-vuart.
+v2 of the ASPEED MDIO series addresses comments from Rob on the devicetree
+bindings and Andrew on the driver itself.
 
-Bit of a bikeshed, but:
+v1 of the series can be found here:
 
-Given it's ASPEED-specific I expect you should use a vendor prefix for the
-property, e.g. aspeed,espi-enabled.
+http://patchwork.ozlabs.org/cover/1138140/
 
-However, as I understand it you want to determine what polarity the SIRQ
-should be regardless of which of eSPI or LPC are enabled, so I don't think
-the property name should be an explicit statement about eSPI. Maybe
-"aspeed,sirq-polarity-sense"? Anyway, see the point below:
-
-Please use ./scripts/get_maintainer.pl to determine where to send the
-series - Copying just the linux-aspeed@ list for upstream patches is not
-enough. For instance the series needs to at least go via the linux-serial@
-list given that's the affected subsystem, and you're adding to the
-devicetree binding so you need to send to the devicetree@ list as well
-(you'll need an ack from Rob Herring). The get_maintainer.pl script will
-give you all the information you need.
-
-Cheers,
+Please review!
 
 Andrew
+
+Andrew Jeffery (4):
+  dt-bindings: net: Add aspeed,ast2600-mdio binding
+  net: phy: Add mdio-aspeed
+  net: ftgmac100: Add support for DT phy-handle property
+  net: ftgmac100: Select ASPEED MDIO driver for the AST2600
+
+ .../bindings/net/aspeed,ast2600-mdio.yaml     |  45 +++++
+ drivers/net/ethernet/faraday/Kconfig          |   1 +
+ drivers/net/ethernet/faraday/ftgmac100.c      |  37 ++++-
+ drivers/net/phy/Kconfig                       |  13 ++
+ drivers/net/phy/Makefile                      |   1 +
+ drivers/net/phy/mdio-aspeed.c                 | 157 ++++++++++++++++++
+ 6 files changed, 250 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
+ create mode 100644 drivers/net/phy/mdio-aspeed.c
+
+-- 
+2.20.1
+
