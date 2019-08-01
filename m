@@ -2,51 +2,82 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADE897D44D
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2019 06:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B90D87D503
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2019 07:45:41 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 45zcNT6ydQzDqpf
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2019 14:13:29 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 45zfQp4bl3zDqfv
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2019 15:45:38 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=lunn.ch
- (client-ip=185.16.172.187; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch;
- receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=66.111.4.28; helo=out4-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=lunn.ch
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=lunn.ch header.i=@lunn.ch header.b="CIUuwPXn"; 
- dkim-atps=neutral
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="c3dr1lWk"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="JsKzzgmp"; dkim-atps=neutral
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 45zcNP2gzRzDqmd
- for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Aug 2019 14:13:25 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
- s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=i+xiGwhXdJqGFKHqNYypzsb8d9FKCTcmAUxJJlCFCNI=; b=CIUuwPXn0RK28+cotr87ARLIvL
- mS9mHR9aQTtLi8bLMfnrNg3BENvxGbcSp8+LRgyLGeQ67jlmHoXSvu2U7pDZCsvEA44gqmGIoj0Fu
- 1RhUrkitFjyGylmeRoH8fuwuppTxVQk7Y3NKHwhDKdMK4qEtH5bndaS58/EQ0DiznRTI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.89)
- (envelope-from <andrew@lunn.ch>)
- id 1ht29T-0001Lk-96; Thu, 01 Aug 2019 05:53:15 +0200
-Date: Thu, 1 Aug 2019 05:53:15 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH net-next v2 2/4] net: phy: Add mdio-aspeed
-Message-ID: <20190801035315.GG2713@lunn.ch>
-References: <20190731053959.16293-1-andrew@aj.id.au>
- <20190731053959.16293-3-andrew@aj.id.au>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190731053959.16293-3-andrew@aj.id.au>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 45zfQb6pyczDqVd
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Aug 2019 15:45:27 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id A69C0207E1;
+ Thu,  1 Aug 2019 01:45:23 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Thu, 01 Aug 2019 01:45:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm3; bh=ikk9XWI/PaloHpfzYfJtJOTFwmWnC+0
+ JCdYs26D7ubs=; b=c3dr1lWkMo5FSBT8lrLsCneT0ER9KaOWAen1lPJ/wlWkYD+
+ F3Kmfml5a07j1yCb4s8Viy1CUWnpejg8CDu0KA5iTw0nSF3qC7NQqTV657E5hVap
+ pSQR1Pf8Wgou7XoLYuZ4qudaorYvMy2xrptaEvXmVTht1kW1w+Mlojv60ywB12bb
+ fG3Ty3Chl/dMWLtjwoB60usxxKlck9JuHYL/HAknm5ol2jNCRQ5QTYFofGMDSADH
+ Ac94iEGVdzLwoG2YqlB6AaaGfl2OrzOspnvLtYBwBnn6hLF/M4ka+HvB4iDZ747J
+ zM/CB4CEMMtecKqqIkfgoBojRQWHoJpIvIbgVzA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ikk9XW
+ I/PaloHpfzYfJtJOTFwmWnC+0JCdYs26D7ubs=; b=JsKzzgmpM0pAwDfOFWmIwy
+ e/gkpP11y8xh4J5E+5Un3MJJvj6+kBcaPZP6NDENM20ed/dJYPGZFeLMRjC9jV9X
+ Dqrzgn1S25oXgX+lx3hf9cO9axVEH4ivwRWfGifTyqdwomgpZaCAnnG4eYzh6scC
+ WIpjXLemDL50BI5V42NeIsfdrFSHHHPKA0FMw9/q9JMWSnVRRIJDTq/vTUWsrFkc
+ YV0dqm+NLi3r7DQRmDFYyBAl9XobaJM7ZdBMhEBMGsy7REetXwiVStDKkEooTKHq
+ ChEcckQ+d2OGXGZEJoz//Q4vQqVL5ncl0+2LNP122XoQgPiLUHWgzSIMRn873jkw
+ ==
+X-ME-Sender: <xms:cnxCXZVcGZ-455p_bs-LgSCuUcxEUsQjAFwH5XFLyD8cPPPD-UFwCw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrleeigdeliecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
+ hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
+ ufhiiigvpedt
+X-ME-Proxy: <xmx:cnxCXVQZ-SI3cyKIbEqkpWS00qvrgEQGxGZ91gMOKDy0EMzP2EVh8Q>
+ <xmx:cnxCXQGaiX7f4V_3p0_o7VOwBTVPNBIzU41xNJjUBySxz-berHYqVQ>
+ <xmx:cnxCXdS_CSb-UN8ZrY2Xcmzsmy8hJzu_ASfyRT9L9fSYSMOPNs8M3A>
+ <xmx:c3xCXYeXDra6wsCCxx5QzKiSgLq2LCV_21ukNLHu4uHAyrtgDo0zLA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 67318E00A1; Thu,  1 Aug 2019 01:45:22 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-799-g925e343-fmstable-20190729v1
+Mime-Version: 1.0
+Message-Id: <3691f6cb-2451-43f7-9f00-d5693071ba59@www.fastmail.com>
+In-Reply-To: <9d0f2b20-e6f6-419c-a866-c4a0dd92aa63@www.fastmail.com>
+References: <20190724081313.12934-1-andrew@aj.id.au>
+ <CACRpkdapypySGPrLgSMSNy1fzkca2BfMUGzf3koFWQZ-M5VOvg@mail.gmail.com>
+ <9d0f2b20-e6f6-419c-a866-c4a0dd92aa63@www.fastmail.com>
+Date: Thu, 01 Aug 2019 15:15:42 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Linus Walleij" <linus.walleij@linaro.org>
+Subject: Re: [PATCH 0/3] ARM: dts: aspeed: Deprecate g[45]-style compatibles
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,27 +89,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, f.fainelli@gmail.com,
- linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org, davem@davemloft.net,
- linux-arm-kernel@lists.infradead.org, hkallweit1@gmail.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Jul 31, 2019 at 03:09:57PM +0930, Andrew Jeffery wrote:
-> The AST2600 design separates the MDIO controllers from the MAC, which is
-> where they were placed in the AST2400 and AST2500. Further, the register
-> interface is reworked again, so now we have three possible different
-> interface implementations, however this driver only supports the
-> interface provided by the AST2600. The AST2400 and AST2500 will continue
-> to be supported by the MDIO support embedded in the FTGMAC100 driver.
-> 
-> The hardware supports both C22 and C45 mode, but for the moment only C22
-> support is implemented.
-> 
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-    Andrew
+On Tue, 30 Jul 2019, at 10:27, Andrew Jeffery wrote:
+> 
+> 
+> On Tue, 30 Jul 2019, at 07:23, Linus Walleij wrote:
+> > On Wed, Jul 24, 2019 at 10:13 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+> > 
+> > > It's probably best if we push the three patches all through one tree rather
+> > > than fragmenting. Is everyone happy if Joel applies them to the aspeed tree?
+> > 
+> > If you are sure it will not collide with parallell work in the
+> > pinctrl tree, yes.
+> > Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> > 
+> > (If it does collide I'd prefer to take the pinctrl patches and fix the
+> > conflicts in my tree.)
+> 
+> Fair enough, I don't know the answer so I'll poke around. I don't 
+> really mind
+> where the series goes in, I just want to avoid landing only part of it 
+> if I split it up.
+
+Okay, it currently conflicts with my cleanup-devicetree-warnings series.
+
+Joel, do you mind if Linus takes this series through the pinctrl tree, given
+the fix to the devicetrees is patch 1/3?
+
+Andrew
