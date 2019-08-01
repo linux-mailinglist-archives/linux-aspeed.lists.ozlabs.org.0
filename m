@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id D37687E34F
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Aug 2019 21:28:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0637F7E61D
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2019 00:59:31 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4600hJ5b9YzDqlK
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2019 05:28:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4605Mh49x5zDqqY
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2019 08:59:28 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -16,43 +16,43 @@ Authentication-Results: lists.ozlabs.org;
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.b="AJmxA9Fm"; 
+ unprotected) header.d=kernel.org header.i=@kernel.org header.b="ROPgtKq1"; 
  dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4600h26nVszDqkW
- for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2019 05:28:18 +1000 (AEST)
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
- [209.85.160.172])
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4605MW4ZvwzDqhN
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2019 08:59:19 +1000 (AEST)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
+ [209.85.160.177])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id E8AF820838
- for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Aug 2019 19:28:15 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9EB682084C
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Aug 2019 22:59:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1564687696;
- bh=CnTyOHs6SVPD1w0DZxSy57arQjcDX8yCyKR8zuV7UPc=;
+ s=default; t=1564700356;
+ bh=kASyP8PGtZ0rL4jNIcUKrCyx7pYnuPev55DZJBaSklM=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=AJmxA9FmWeOsBWZUFy3ErUg4ADjGh33PiiugWsllosOwjDUYT/lSsgzVnjoRTmfUa
- zup0Pu4ArZeOrchdy0VzO485ZZYNrkwJqGolYbyinExTgVdumvFGopJvjHSiE7PuaO
- JdSLBxc4+608xwjeDmmqudyImj5QdJcbGkaUuHtc=
-Received: by mail-qt1-f172.google.com with SMTP id w17so27153081qto.10
- for <linux-aspeed@lists.ozlabs.org>; Thu, 01 Aug 2019 12:28:15 -0700 (PDT)
-X-Gm-Message-State: APjAAAUVM8FG6DFrAMBykuSCf6dNRkddAJq1Po4QQWsIm77GflFTMZEB
- qAM/ov4cK0hBxP9aCvOE8/Yh3ow52+eSq2Lseg==
-X-Google-Smtp-Source: APXvYqzlhYnhmMohXfDZ9ASXmbVGD8xUiPZIJ8UtRmzEU5RQAOSZAo/eqAX2FWifALpuTHRkWrebH4tRnMBwnNlzdTE=
-X-Received: by 2002:ac8:368a:: with SMTP id a10mr92120637qtc.143.1564687695120; 
- Thu, 01 Aug 2019 12:28:15 -0700 (PDT)
+ b=ROPgtKq1KfpdkUQ/WwkuPZRlwKqXTl1UN7SM2HkqlXAf4hBAf34AxZLKGFbw4ZZ2J
+ Uc27k6aqlqJJcItuknCk0YjdoQ5+l3aRVFpB/S+S3eE1o1tMYWccEuM7PbSu/SAS3d
+ ld0XgBlBhhkxkSUs+J+EeCsS0vdcL9RptovKV4Ts=
+Received: by mail-qt1-f177.google.com with SMTP id d23so72094048qto.2
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 01 Aug 2019 15:59:16 -0700 (PDT)
+X-Gm-Message-State: APjAAAWOv0wgIjlLNFBt7rp9N5yT9tWXchRnpnZYEihDyqns2zN/bUB3
+ uK5JWO3HHkKpuJxyyIO5ILYQCbVzspyW2qyDqg==
+X-Google-Smtp-Source: APXvYqx7WFIk+rochGPuukRrKofUEOPYVHhKW5sYMVeD23Voa28zVM0mZV9ERrGM3Tnt9e7Ssjzs/qZQDedTHVoiqog=
+X-Received: by 2002:a0c:b627:: with SMTP id f39mr96371146qve.72.1564700355781; 
+ Thu, 01 Aug 2019 15:59:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <1564147640-30753-1-git-send-email-open.sudheer@gmail.com>
- <1564147640-30753-4-git-send-email-open.sudheer@gmail.com>
-In-Reply-To: <1564147640-30753-4-git-send-email-open.sudheer@gmail.com>
+References: <20190730062316.32037-1-andrew@aj.id.au>
+ <20190730062316.32037-2-andrew@aj.id.au>
+In-Reply-To: <20190730062316.32037-2-andrew@aj.id.au>
 From: Rob Herring <robh+dt@kernel.org>
-Date: Thu, 1 Aug 2019 13:28:03 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+jP6iDdthmXdKVroq5NLWNKgBoZ8Y99TwccFFAerfKBA@mail.gmail.com>
-Message-ID: <CAL_Jsq+jP6iDdthmXdKVroq5NLWNKgBoZ8Y99TwccFFAerfKBA@mail.gmail.com>
-Subject: Re: [patch v4 3/5] DT nodes for AST2500 DMA UART driver
-To: "sudheer.v" <open.sudheer@gmail.com>
+Date: Thu, 1 Aug 2019 16:59:04 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+oZRREV=VjYUxT3WphOa5tBaF1pvS_JKSphBY=3XB5MA@mail.gmail.com>
+Message-ID: <CAL_Jsq+oZRREV=VjYUxT3WphOa5tBaF1pvS_JKSphBY=3XB5MA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: mmc: Document Aspeed SD controller
+To: Andrew Jeffery <andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -66,179 +66,151 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Sudheer V <sudheer.veliseti@aspeedtech.com>, linux-aspeed@lists.ozlabs.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jslaby@suse.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-aspeed@lists.ozlabs.org,
+ Ryan Chen <ryanchen.aspeed@gmail.com>, linux-mmc <linux-mmc@vger.kernel.org>,
+ Adrian Hunter <adrian.hunter@intel.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- ShivahShankar Shakarnarayan rao
- <shivahshankar.shankarnarayanrao@aspeedtech.com>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- sudheer veliseti <sudheer.open@gmail.com>
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Jul 26, 2019 at 7:25 AM sudheer.v <open.sudheer@gmail.com> wrote:
+On Tue, Jul 30, 2019 at 12:23 AM Andrew Jeffery <andrew@aj.id.au> wrote:
 >
-> From: sudheer veliseti <sudheer.open@gmail.com>
+> The ASPEED SD/SDIO/eMMC controller exposes two slots implementing the
+> SDIO Host Specification v2.00, with 1 or 4 bit data buses, or an 8 bit
+> data bus if only a single slot is enabled.
 >
-> DT node for DMA controller(ast_uart_sdma) doesn't bind to any DMA controller driver.
-> This is because Software for DMA controller is not based on DMA framework,but is dedicated
-> and serves only UARTs in AST2500. ast_uart_sdma node is searched by compatible string in the
-> driver software.basic use of this node is to provide register base address of DMA controller and DMA irq number(<50>).
-> IRQ of DMA controller is of crucial importance, which does RX and TX of UART data.
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 >
-> uart nodes dma_uart1,2...etc binds to the platform driver.
-> irq numbers <9>,<32>,<33>,<34> in dma_uart nodes install ISRs which are of not much interest in uart data TX/RX .
->
->
-> Signed-off-by: sudheer veliseti <sudheer.open@gmail.com>
 > ---
+> v3:
+> * Fix compatible enums
+> * Add AST2600 compatibles
+> * Describe #address-cells / #size-cells
+> ---
+>  .../devicetree/bindings/mmc/aspeed,sdhci.yaml | 100 ++++++++++++++++++
+>  1 file changed, 100 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
 >
-> changes from v3->v4:
-> -
-> changes from v2->v3:
-> - change logs added
->
->  arch/arm/boot/dts/aspeed-ast2500-evb.dts | 21 +++++++
->  arch/arm/boot/dts/aspeed-g5.dtsi         | 71 ++++++++++++++++++++++--
->  2 files changed, 88 insertions(+), 4 deletions(-)
->
-> diff --git a/arch/arm/boot/dts/aspeed-ast2500-evb.dts b/arch/arm/boot/dts/aspeed-ast2500-evb.dts
-> index 5dbb33c10c4f..4da09fbe94df 100644
-> --- a/arch/arm/boot/dts/aspeed-ast2500-evb.dts
-> +++ b/arch/arm/boot/dts/aspeed-ast2500-evb.dts
-> @@ -64,6 +64,27 @@
->         status = "okay";
->  };
->
-> +&ast_uart_sdma {
-> +       status = "okay";
-> +};
+> diff --git a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+> new file mode 100644
+> index 000000000000..dd2a00c59641
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+> @@ -0,0 +1,100 @@
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +&dma_uart1 {
-> +       status = "okay";
-> +};
+> +title: ASPEED SD/SDIO/eMMC Controller
 > +
-> +&dma_uart2 {
-> +       status = "okay";
-> +};
+> +maintainers:
+> +  - Andrew Jeffery <andrew@aj.id.au>
+> +  - Ryan Chen <ryanchen.aspeed@gmail.com>
 > +
-> +&dma_uart3 {
-> +       status = "okay";
-> +};
+> +description: |+
+> +  The ASPEED SD/SDIO/eMMC controller exposes two slots implementing the SDIO
+> +  Host Specification v2.00, with 1 or 4 bit data buses, or an 8 bit data bus if
+> +  only a single slot is enabled.
 > +
-> +&dma_uart4 {
-> +       status = "okay";
-> +};
+> +  The two slots are supported by a common configuration area. As the SDHCIs for
+> +  the slots are dependent on the common configuration area, they are described
+> +  as child nodes.
 > +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - aspeed,ast2400-sd-controller
+> +      - aspeed,ast2500-sd-controller
+> +      - aspeed,ast2600-sd-controller
+> +  reg:
+> +    maxItems: 1
+> +    description: Common configuration registers
+> +  "#address-cells":
+> +    const: 1
+> +  "#size-cells":
+> +    const: 1
+> +  ranges: true
+> +  clocks:
+> +    maxItems: 1
+> +    description: The SD/SDIO controller clock gate
 > +
->  &mac0 {
->         status = "okay";
->
-> diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
-> index 674746513031..fb7b3ed463de 100644
-> --- a/arch/arm/boot/dts/aspeed-g5.dtsi
-> +++ b/arch/arm/boot/dts/aspeed-g5.dtsi
-> @@ -23,10 +23,10 @@
->                 i2c11 = &i2c11;
->                 i2c12 = &i2c12;
->                 i2c13 = &i2c13;
-> -               serial0 = &uart1;
-> -               serial1 = &uart2;
-> -               serial2 = &uart3;
-> -               serial3 = &uart4;
-> +               serial0 = &dma_uart1;
-> +               serial1 = &dma_uart2;
-> +               serial2 = &dma_uart3;
-> +               serial3 = &dma_uart4;
->                 serial4 = &uart5;
->                 serial5 = &vuart;
->                 peci0 = &peci0;
-> @@ -497,6 +497,69 @@
->                                 status = "disabled";
->                         };
->
-> +                       ast_uart_sdma: uart_sdma@1e79e000 {
-> +                               compatible = "aspeed,ast-uart-sdma";
-> +                               reg = <0x1e79e000 0x400>;
-> +                               interrupts = <50>;
-> +                               status = "disabled";
-> +                       };
-> +
-> +                       dma_uart1: dma_uart1@1e783000{
-> +                               compatible = "aspeed,ast-sdma-uart";
-> +                               reg = <0x1e783000 0x1000>;
+> +patternProperties:
+> +  "^sdhci@[0-9a-f]+$":
 
-Now you have 2 nodes at the same address. That's not valid. Please
-build your dtbs with 'W=1' which will warn against this. Adding DMA
-support should not be a whole new node. Nodes correspond to h/w
-blocks, not drivers.
+This should probably have:
 
-The old node has a reset, you don't need that? Seems strange too that
-only 1 uart has a reset.
+allOf:
+  - $ref: mmc-controller.yaml
 
-> +                               reg-shift = <2>;
-> +                               interrupts = <9>;
-> +                               clocks = <&syscon ASPEED_CLK_GATE_UART1CLK>;
-> +                               dma-channel = <0>;
+Another new thing in 5.3. :)
 
-This is the channel in ast_uart_sdma? Just because you decided not to
-do a DMA engine driver, doesn't mean you can't use the DMA binding.
-Considering you need to map clients to the provider, use the DMA
-binding.
+> +    type: object
+> +    properties:
+> +      compatible:
+> +        enum:
+> +          - aspeed,ast2400-sdhci
+> +          - aspeed,ast2500-sdhci
+> +          - aspeed,ast2600-sdhci
+> +      reg:
+> +        maxItems: 1
+> +        description: The SDHCI registers
+> +      clocks:
+> +        maxItems: 1
+> +        description: The SD bus clock
+> +      interrupts:
+> +        maxItems: 1
+> +        description: The SD interrupt shared between both slots
+> +    required:
+> +      - compatible
+> +      - reg
+> +      - clocks
+> +      - interrupts
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - ranges
+> +  - clocks
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/aspeed-clock.h>
+> +    sdc@1e740000 {
+> +            compatible = "aspeed,ast2500-sd-controller";
+> +            reg = <0x1e740000 0x100>;
+> +            #address-cells = <1>;
+> +            #size-cells = <1>;
+> +            ranges = <0 0x1e740000 0x10000>;
+> +            clocks = <&syscon ASPEED_CLK_GATE_SDCLK>;
+> +
+> +            sdhci0: sdhci@100 {
+> +                    compatible = "aspeed,ast2500-sdhci";
+> +                    reg = <0x100 0x100>;
+> +                    interrupts = <26>;
+> +                    sdhci,auto-cmd12;
 
-> +                               no-loopback-test;
-> +                               pinctrl-names = "default";
-> +                               pinctrl-0 = <&pinctrl_txd1_default
-> +                                                        &pinctrl_rxd1_default>;
-> +                               status = "disabled";
-> +                       };
+Not documented. Maybe should be common, but there's only a few users.
+
+> +                    clocks = <&syscon ASPEED_CLK_SDIO>;
+> +            };
 > +
-> +                       dma_uart2: dma_uart2@1e78d000{
-> +                               compatible = "aspeed,ast-sdma-uart";
-> +                               reg = <0x1e78d000 0x1000>;
-> +                               reg-shift = <2>;
-> +                               interrupts = <32>;
-> +                               clocks = <&syscon ASPEED_CLK_GATE_UART2CLK>;
-> +                               dma-channel = <1>;
-> +                               no-loopback-test;
-> +                               pinctrl-names = "default";
-> +                               pinctrl-0 = <&pinctrl_txd2_default
-> +                                                        &pinctrl_rxd2_default>;
-> +                               status = "disabled";
-> +                       };
-> +
-> +                       dma_uart3: dma_uart3@1e78e000{
-> +                               compatible = "aspeed,ast-sdma-uart";
-> +                               reg = <0x1e78e000 0x1000>;
-> +                               reg-shift = <2>;
-> +                               interrupts = <33>;
-> +                               clocks = <&syscon ASPEED_CLK_GATE_UART3CLK>;
-> +                               dma-channel = <2>;
-> +                               no-loopback-test;
-> +                               pinctrl-names = "default";
-> +                               pinctrl-0 = <&pinctrl_txd3_default
-> +                                                        &pinctrl_rxd3_default>;
-> +                               status = "disabled";
-> +                       };
-> +
-> +                       dma_uart4: dma_uart4@1e78f000{
-> +                               compatible = "aspeed,ast-sdma-uart";
-> +                               reg = <0x1e78f000 0x1000>;
-> +                               reg-shift = <2>;
-> +                               interrupts = <34>;
-> +                               clocks = <&syscon ASPEED_CLK_GATE_UART4CLK>;
-> +                               dma-channel = <3>;
-> +                               no-loopback-test;
-> +                               pinctrl-names = "default";
-> +                               pinctrl-0 = <&pinctrl_txd4_default
-> +                                                        &pinctrl_rxd4_default>;
-> +                               status = "disabled";
-> +                       };
-> +
->                         i2c: bus@1e78a000 {
->                                 compatible = "simple-bus";
->                                 #address-cells = <1>;
+> +            sdhci1: sdhci@200 {
+> +                    compatible = "aspeed,ast2500-sdhci";
+> +                    reg = <0x200 0x100>;
+> +                    interrupts = <26>;
+> +                    sdhci,auto-cmd12;
+> +                    clocks = <&syscon ASPEED_CLK_SDIO>;
+> +            };
+> +    };
 > --
-> 2.17.1
+> 2.20.1
 >
