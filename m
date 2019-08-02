@@ -2,65 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904E87EC81
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2019 08:15:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B937ECAF
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2019 08:32:39 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 460H2f31z2zDqhb
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2019 16:15:22 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 460HQX5c5tzDqtl
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2019 16:32:36 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::844; helo=mail-qt1-x844.google.com;
+ (client-ip=2607:f8b0:4864:20::744; helo=mail-qk1-x744.google.com;
  envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="PgP7focY"; 
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="cTOZX6Px"; 
  dkim-atps=neutral
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
+ [IPv6:2607:f8b0:4864:20::744])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 460H2Y4g7qzDqWK
- for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2019 16:15:14 +1000 (AEST)
-Received: by mail-qt1-x844.google.com with SMTP id h18so72833630qtm.9
- for <linux-aspeed@lists.ozlabs.org>; Thu, 01 Aug 2019 23:15:14 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 460HPQ75lZzDqnD;
+ Fri,  2 Aug 2019 16:31:37 +1000 (AEST)
+Received: by mail-qk1-x744.google.com with SMTP id t8so53978984qkt.1;
+ Thu, 01 Aug 2019 23:31:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NJK0vgby3QC9u2a5qKlpfOibBVA+YhLUqRUYNCsX67s=;
- b=PgP7focY6IphrJ0Ka6VBAFp34SGs4AFVlbQ8h+T5hEgGjrsGAtyfS5VtWYxuf1fB3m
- G+G/whb1JuWvP8jS5gKDkp8csr8jyEVbEGfMgycCRW987rpX71qlDCuF5C+foPZpnr8s
- eFjM9tysfTKhL3Cuoj+drO25SsCwBeC4Ja5tw=
+ :cc:content-transfer-encoding;
+ bh=cU53kLwgvXwi7YmNfuNjyU7Fjnwocbh+C31lAE2HzLg=;
+ b=cTOZX6PxGxXFImrywl7zCwC/CJrBlmNZKDI4Dd7SOu2wZvajdyC1nqkKNmdH1Fetdg
+ a4Vu4mfrdmF4K7QkrHUYRJ4eTrR51A2uPiNtwIo04a7PJ+o9If/oNwd0JNBA+5Cr99rC
+ JTmZnW2X6Xtt1WrTb7RY3VbfHgAKMXbbbRAjg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NJK0vgby3QC9u2a5qKlpfOibBVA+YhLUqRUYNCsX67s=;
- b=BrNu7ax+L2rPx41/n0ZOaR9SC8+FPNU//0VLimGzFnEf6PXEQ/4/aK5dudz1YZqrtN
- FEq12WILzmwrqWnN/kZPRh8jyVyDkDgOPllsrN6suV2/YuyAlxinobnmwLJv0zBFW+0U
- n9enQsGUUlCw0/plUg9eHuHSjjAAMGRnDacRczAvBwveNgQA40rC6564RzQ+wtFcHZbG
- f2X3GaY4TgNPbqpLZGMfyiwEwGskPwEE6wzXNNlUAy9F6PFMfJhEnBIQhGUvpxrhcG9m
- n/mDcUtbPkQ0QuXhEEF0vtkdIH1QZl482vjLLeMPj8/h4SO7lTJFTtPH5QSy2Xye2b9w
- 9eIQ==
-X-Gm-Message-State: APjAAAVn+dfES7wdRVUmOMfif4Xfqp15Jk48PwTWcb7oyFY4ufGS9Zws
- Sv86omCT2UC+Dmtx7WLUJ6xynuEOV6Q6vk6DCe4=
-X-Google-Smtp-Source: APXvYqxWVuZjhzsME6hUNKy4bA2amIPVfDbn9cMpQvV9ctZBzTD1Uxuckz0CHPM+oREl2o6o08TXkm81e59OxjE6k6I=
-X-Received: by 2002:ac8:1887:: with SMTP id s7mr94164225qtj.220.1564726512547; 
- Thu, 01 Aug 2019 23:15:12 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=cU53kLwgvXwi7YmNfuNjyU7Fjnwocbh+C31lAE2HzLg=;
+ b=HARF2U8Bzu/0XUK5RHv6cNhGhqslkF1MNFoJWyzSVHhrPm1A2isLAfj25hwCL/wZoH
+ yNDQyjqT4HRNkuredC7BYg8PmWjocymjFL89rVUP5NpMFb9U9zYXhELi28ggWoF1suhk
+ pgXbCzcz9UKpwvl4dhF7eGYr1csiL1IGpCbLQjk+GEuV1cc6Q5AMECLPXs3gScngykRd
+ Y0CSXj1ulSLeppPS8edrmQ/62BlmtsOh80jrRckujPDMsFlgBBFFUNNdkWBa/W/bJxJW
+ sufoyXW+d54TekYOdFg7SfIh6L1Iqt8adwmjN9ryp0lJqSIz6pOoJcTiTXcol62hGOAM
+ h4Rw==
+X-Gm-Message-State: APjAAAVfAFL7GyqAAfQrk0PkfZn/VmXLH4BNs7khKFy8fL58MfsbaOcD
+ RzhGx/fqZuIUj6EFTKlcimgmh0c8/uKv5Lo5siw=
+X-Google-Smtp-Source: APXvYqycpdU0Ot7OSszfb9qsAobDtrU0SbtRJPSehpAqubHj0m1A4ozadPuePm+cp+fofQLhkzNkPzk0PDDfC3RngLc=
+X-Received: by 2002:a37:a1d6:: with SMTP id
+ k205mr88446327qke.171.1564727493972; 
+ Thu, 01 Aug 2019 23:31:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190724081313.12934-1-andrew@aj.id.au>
- <CACRpkdapypySGPrLgSMSNy1fzkca2BfMUGzf3koFWQZ-M5VOvg@mail.gmail.com>
- <9d0f2b20-e6f6-419c-a866-c4a0dd92aa63@www.fastmail.com>
- <3691f6cb-2451-43f7-9f00-d5693071ba59@www.fastmail.com>
-In-Reply-To: <3691f6cb-2451-43f7-9f00-d5693071ba59@www.fastmail.com>
+References: <20190723002052.2878847-1-vijaykhemka@fb.com>
+ <CAL_Jsq+uAjK6+xzkyOhcH96tZuqv7i6Nz5_nhUQkZ2adt2gutA@mail.gmail.com>
+ <CAL_Jsq+Kw0TFW_v54Y2QHcChqpNDYhFyCSO5Cj-be9yLSCq-Pw@mail.gmail.com>
+ <F7BAC53E-925E-4FA4-815D-ACB82DF8D240@fb.com>
+In-Reply-To: <F7BAC53E-925E-4FA4-815D-ACB82DF8D240@fb.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 2 Aug 2019 06:15:01 +0000
-Message-ID: <CACPK8XcWK9Gf=pW5ds=3muoXHAWnyYfHcVSVh+anaTigtMO8yA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] ARM: dts: aspeed: Deprecate g[45]-style compatibles
-To: Andrew Jeffery <andrew@aj.id.au>
+Date: Fri, 2 Aug 2019 06:31:22 +0000
+Message-ID: <CACPK8XehEoakQxvQhC1cU5tvZaVbLOARtZ4xc6dD8sx9WDiPuA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Add pxe1610 as a trivial device
+To: Vijay Khemka <vijaykhemka@fb.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,53 +76,47 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linus Walleij <linus.walleij@linaro.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Jiri Kosina <trivial@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Anson Huang <anson.huang@nxp.com>, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Patrick Venture <venture@google.com>,
+ "openbmc @ lists . ozlabs . org" <openbmc@lists.ozlabs.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+ Jeremy Gebben <jgebben@sweptlaser.com>, Rob Herring <robh+dt@kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ Sai Dasari <sdasari@fb.com>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 1 Aug 2019 at 05:45, Andrew Jeffery <andrew@aj.id.au> wrote:
->
->
->
-> On Tue, 30 Jul 2019, at 10:27, Andrew Jeffery wrote:
-> >
-> >
-> > On Tue, 30 Jul 2019, at 07:23, Linus Walleij wrote:
-> > > On Wed, Jul 24, 2019 at 10:13 AM Andrew Jeffery <andrew@aj.id.au> wrote:
-> > >
-> > > > It's probably best if we push the three patches all through one tree rather
-> > > > than fragmenting. Is everyone happy if Joel applies them to the aspeed tree?
-> > >
-> > > If you are sure it will not collide with parallell work in the
-> > > pinctrl tree, yes.
-> > > Acked-by: Linus Walleij <linus.walleij@linaro.org>
-> > >
-> > > (If it does collide I'd prefer to take the pinctrl patches and fix the
-> > > conflicts in my tree.)
-> >
-> > Fair enough, I don't know the answer so I'll poke around. I don't
-> > really mind
-> > where the series goes in, I just want to avoid landing only part of it
-> > if I split it up.
->
-> Okay, it currently conflicts with my cleanup-devicetree-warnings series.
->
-> Joel, do you mind if Linus takes this series through the pinctrl tree, given
-> the fix to the devicetrees is patch 1/3?
+Add pxe1610 as a trivial device
 
-It depends if you plan more changes to that part of the device tree
-this merge window :)
 
-Linus, perhaps the safer option is for me to take 1/3 through my tree
-and you can take the rest through yours?
 
-Cheers,
+On Tue, 23 Jul 2019 at 17:14, Vijay Khemka <vijaykhemka@fb.com> wrote:
+>
+> =EF=BB=BFOn 7/23/19, 7:53 AM, "Rob Herring" <robh+dt@kernel.org> wrote:
+>
+>     On Tue, Jul 23, 2019 at 8:50 AM Rob Herring <robh+dt@kernel.org> wrot=
+e:
+>     >
+>     > On Mon, Jul 22, 2019 at 6:46 PM Vijay Khemka <vijaykhemka@fb.com> w=
+rote:
+>     > >
+>     > > The pxe1610 is a voltage regulator from Infineon. It also support=
+s
+>     > > other VRs pxe1110 and pxm1310 from Infineon.
+>
+>     What happened to the other compatibles? S/w doesn't need to know the
+>     differences?
+> As far as driver is concerned, it doesn't need to know differences.
 
-Joel
+You have these three IDs in the driver:
+
+ pxm1310
+ pxm1310
+ pxe1610
+
+So all three could be listed in the documentation?
+
+Rob, is this what you wanted Vijay to do?
