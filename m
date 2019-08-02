@@ -2,58 +2,74 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0637F7E61D
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2019 00:59:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F3CC7E751
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2019 02:55:41 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4605Mh49x5zDqqY
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2019 08:59:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4607xk1r80zDqXf
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Aug 2019 10:55:38 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=kernel.org
- (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=robh+dt@kernel.org; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=fb.com
+ (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
+ envelope-from=prvs=31170bfc9b=taoren@fb.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
+ dmarc=pass (p=none dis=none) header.from=fb.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.b="ROPgtKq1"; 
+ unprotected) header.d=fb.com header.i=@fb.com header.b="pjMqlFj9"; 
  dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
+ [67.231.145.42])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4605MW4ZvwzDqhN
- for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2019 08:59:19 +1000 (AEST)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9EB682084C
- for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Aug 2019 22:59:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1564700356;
- bh=kASyP8PGtZ0rL4jNIcUKrCyx7pYnuPev55DZJBaSklM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ROPgtKq1KfpdkUQ/WwkuPZRlwKqXTl1UN7SM2HkqlXAf4hBAf34AxZLKGFbw4ZZ2J
- Uc27k6aqlqJJcItuknCk0YjdoQ5+l3aRVFpB/S+S3eE1o1tMYWccEuM7PbSu/SAS3d
- ld0XgBlBhhkxkSUs+J+EeCsS0vdcL9RptovKV4Ts=
-Received: by mail-qt1-f177.google.com with SMTP id d23so72094048qto.2
- for <linux-aspeed@lists.ozlabs.org>; Thu, 01 Aug 2019 15:59:16 -0700 (PDT)
-X-Gm-Message-State: APjAAAWOv0wgIjlLNFBt7rp9N5yT9tWXchRnpnZYEihDyqns2zN/bUB3
- uK5JWO3HHkKpuJxyyIO5ILYQCbVzspyW2qyDqg==
-X-Google-Smtp-Source: APXvYqx7WFIk+rochGPuukRrKofUEOPYVHhKW5sYMVeD23Voa28zVM0mZV9ERrGM3Tnt9e7Ssjzs/qZQDedTHVoiqog=
-X-Received: by 2002:a0c:b627:: with SMTP id f39mr96371146qve.72.1564700355781; 
- Thu, 01 Aug 2019 15:59:15 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4607wY03PhzDqPG
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  2 Aug 2019 10:54:35 +1000 (AEST)
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x720oTg7020941
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 1 Aug 2019 17:54:32 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=facebook;
+ bh=wSqxGybIKecyyVIsqLECehRQGEaZiy1ZFVNmGqs+abs=;
+ b=pjMqlFj9g22sI15tek45YU1Vw21RQIg0DCzhiaS4kPF7fReth2cv1oLWrC8HylBpprso
+ c1gPsJaCwZb/nDOPqUVN/guVPgyqIzB39bniUowzitpIJ/pxZMjqsUryy9cMiil50DPl
+ AdmIs2Cbd8TxQ5tQfLN4zUvcThV6oywySb0= 
+Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
+ by mx0a-00082601.pphosted.com with ESMTP id 2u485k0jkq-3
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 01 Aug 2019 17:54:32 -0700
+Received: from mx-out.facebook.com (2620:10d:c081:10::13) by
+ mail.thefacebook.com (2620:10d:c081:35::127) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.1713.5;
+ Thu, 1 Aug 2019 17:54:31 -0700
+Received: by devvm24792.prn1.facebook.com (Postfix, from userid 150176)
+ id 31DA3187F6C4D; Thu,  1 Aug 2019 17:54:29 -0700 (PDT)
+Smtp-Origin-Hostprefix: devvm
+From: Tao Ren <taoren@fb.com>
+Smtp-Origin-Hostname: devvm24792.prn1.facebook.com
+To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+ <openbmc@lists.ozlabs.org>
+Smtp-Origin-Cluster: prn1c35
+Subject: [PATCH] ARM: dts: aspeed: Add Facebook Wedge40 BMC
+Date: Thu, 1 Aug 2019 17:54:27 -0700
+Message-ID: <20190802005427.467841-1-taoren@fb.com>
+X-Mailer: git-send-email 2.17.1
+X-FB-Internal: Safe
 MIME-Version: 1.0
-References: <20190730062316.32037-1-andrew@aj.id.au>
- <20190730062316.32037-2-andrew@aj.id.au>
-In-Reply-To: <20190730062316.32037-2-andrew@aj.id.au>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Thu, 1 Aug 2019 16:59:04 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+oZRREV=VjYUxT3WphOa5tBaF1pvS_JKSphBY=3XB5MA@mail.gmail.com>
-Message-ID: <CAL_Jsq+oZRREV=VjYUxT3WphOa5tBaF1pvS_JKSphBY=3XB5MA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: mmc: Document Aspeed SD controller
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-08-01_10:, , signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1908020004
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,152 +81,179 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>, linux-aspeed@lists.ozlabs.org,
- Ryan Chen <ryanchen.aspeed@gmail.com>, linux-mmc <linux-mmc@vger.kernel.org>,
- Adrian Hunter <adrian.hunter@intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Jul 30, 2019 at 12:23 AM Andrew Jeffery <andrew@aj.id.au> wrote:
->
-> The ASPEED SD/SDIO/eMMC controller exposes two slots implementing the
-> SDIO Host Specification v2.00, with 1 or 4 bit data buses, or an 8 bit
-> data bus if only a single slot is enabled.
->
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
->
-> ---
-> v3:
-> * Fix compatible enums
-> * Add AST2600 compatibles
-> * Describe #address-cells / #size-cells
-> ---
->  .../devicetree/bindings/mmc/aspeed,sdhci.yaml | 100 ++++++++++++++++++
->  1 file changed, 100 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
->
-> diff --git a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
-> new file mode 100644
-> index 000000000000..dd2a00c59641
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
-> @@ -0,0 +1,100 @@
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ASPEED SD/SDIO/eMMC Controller
-> +
-> +maintainers:
-> +  - Andrew Jeffery <andrew@aj.id.au>
-> +  - Ryan Chen <ryanchen.aspeed@gmail.com>
-> +
-> +description: |+
-> +  The ASPEED SD/SDIO/eMMC controller exposes two slots implementing the SDIO
-> +  Host Specification v2.00, with 1 or 4 bit data buses, or an 8 bit data bus if
-> +  only a single slot is enabled.
-> +
-> +  The two slots are supported by a common configuration area. As the SDHCIs for
-> +  the slots are dependent on the common configuration area, they are described
-> +  as child nodes.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2400-sd-controller
-> +      - aspeed,ast2500-sd-controller
-> +      - aspeed,ast2600-sd-controller
-> +  reg:
-> +    maxItems: 1
-> +    description: Common configuration registers
-> +  "#address-cells":
-> +    const: 1
-> +  "#size-cells":
-> +    const: 1
-> +  ranges: true
-> +  clocks:
-> +    maxItems: 1
-> +    description: The SD/SDIO controller clock gate
-> +
-> +patternProperties:
-> +  "^sdhci@[0-9a-f]+$":
+Add initial version of device tree for Facebook Wedge40 AST2400 BMC
+platform.
 
-This should probably have:
+Signed-off-by: Tao Ren <taoren@fb.com>
+---
+ arch/arm/boot/dts/Makefile                    |   1 +
+ .../boot/dts/aspeed-bmc-facebook-wedge40.dts  | 141 ++++++++++++++++++
+ 2 files changed, 142 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-wedge40.dts
 
-allOf:
-  - $ref: mmc-controller.yaml
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 39a05a10a2a2..dfc1011eb3f2 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -1273,6 +1273,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+ 	aspeed-bmc-facebook-cmm.dtb \
+ 	aspeed-bmc-facebook-minipack.dtb \
+ 	aspeed-bmc-facebook-tiogapass.dtb \
++	aspeed-bmc-facebook-wedge40.dtb \
+ 	aspeed-bmc-facebook-yamp.dtb \
+ 	aspeed-bmc-intel-s2600wf.dtb \
+ 	aspeed-bmc-inspur-fp5280g2.dtb \
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-wedge40.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-wedge40.dts
+new file mode 100644
+index 000000000000..764633964ac1
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-wedge40.dts
+@@ -0,0 +1,141 @@
++// SPDX-License-Identifier: GPL-2.0+
++// Copyright (c) 2018 Facebook Inc.
++/dts-v1/;
++
++#include "aspeed-g4.dtsi"
++
++/ {
++	model = "Facebook Wedge 40 BMC";
++	compatible = "facebook,wedge40-bmc", "aspeed,ast2400";
++
++	aliases {
++		/*
++		 * Override the default uart aliases to avoid breaking
++		 * the legacy applications.
++		 */
++		serial0 = &uart5;
++		serial1 = &uart1;
++		serial2 = &uart3;
++		serial3 = &uart4;
++	};
++
++	chosen {
++		stdout-path = &uart3;
++		bootargs = "debug console=ttyS2,9600n8 root=/dev/ram rw";
++	};
++
++	memory@40000000 {
++		reg = <0x40000000 0x20000000>;
++	};
++};
++
++&wdt1 {
++	status = "okay";
++	aspeed,reset-type = "system";
++};
++
++&wdt2 {
++	status = "disabled";
++};
++
++&fmc {
++	status = "okay";
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "fmc0";
++#include "facebook-bmc-flash-layout.dtsi"
++	};
++};
++
++&uart1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_txd1_default
++		     &pinctrl_rxd1_default>;
++};
++
++&uart3 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_txd3_default
++		     &pinctrl_rxd3_default>;
++};
++
++&uart4 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_txd4_default
++		     &pinctrl_rxd4_default>;
++};
++
++&uart5 {
++	status = "okay";
++};
++
++&mac1 {
++	status = "okay";
++	no-hw-checksum;
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rgmii2_default &pinctrl_mdio2_default>;
++};
++
++&i2c0 {
++	status = "okay";
++};
++
++&i2c1 {
++	status = "okay";
++};
++
++&i2c2 {
++	status = "okay";
++};
++
++&i2c3 {
++	status = "okay";
++};
++
++&i2c4 {
++	status = "okay";
++};
++
++&i2c5 {
++	status = "okay";
++};
++
++&i2c6 {
++	status = "okay";
++};
++
++&i2c7 {
++	status = "okay";
++};
++
++&i2c8 {
++	status = "okay";
++};
++
++&i2c9 {
++	status = "okay";
++};
++
++&i2c10 {
++	status = "okay";
++};
++
++&i2c11 {
++	status = "okay";
++};
++
++&i2c12 {
++	status = "okay";
++};
++
++&i2c13 {
++	status = "okay";
++};
++
++&vhub {
++	status = "okay";
++};
+-- 
+2.17.1
 
-Another new thing in 5.3. :)
-
-> +    type: object
-> +    properties:
-> +      compatible:
-> +        enum:
-> +          - aspeed,ast2400-sdhci
-> +          - aspeed,ast2500-sdhci
-> +          - aspeed,ast2600-sdhci
-> +      reg:
-> +        maxItems: 1
-> +        description: The SDHCI registers
-> +      clocks:
-> +        maxItems: 1
-> +        description: The SD bus clock
-> +      interrupts:
-> +        maxItems: 1
-> +        description: The SD interrupt shared between both slots
-> +    required:
-> +      - compatible
-> +      - reg
-> +      - clocks
-> +      - interrupts
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +  - ranges
-> +  - clocks
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/aspeed-clock.h>
-> +    sdc@1e740000 {
-> +            compatible = "aspeed,ast2500-sd-controller";
-> +            reg = <0x1e740000 0x100>;
-> +            #address-cells = <1>;
-> +            #size-cells = <1>;
-> +            ranges = <0 0x1e740000 0x10000>;
-> +            clocks = <&syscon ASPEED_CLK_GATE_SDCLK>;
-> +
-> +            sdhci0: sdhci@100 {
-> +                    compatible = "aspeed,ast2500-sdhci";
-> +                    reg = <0x100 0x100>;
-> +                    interrupts = <26>;
-> +                    sdhci,auto-cmd12;
-
-Not documented. Maybe should be common, but there's only a few users.
-
-> +                    clocks = <&syscon ASPEED_CLK_SDIO>;
-> +            };
-> +
-> +            sdhci1: sdhci@200 {
-> +                    compatible = "aspeed,ast2500-sdhci";
-> +                    reg = <0x200 0x100>;
-> +                    interrupts = <26>;
-> +                    sdhci,auto-cmd12;
-> +                    clocks = <&syscon ASPEED_CLK_SDIO>;
-> +            };
-> +    };
-> --
-> 2.20.1
->
