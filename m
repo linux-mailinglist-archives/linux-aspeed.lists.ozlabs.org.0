@@ -1,84 +1,139 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1BA828C3
-	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Aug 2019 02:39:12 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 462bNq5S28zDqXD
-	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Aug 2019 10:39:07 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A5A83A59
+	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Aug 2019 22:36:37 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 4635yV1bRZzDr61
+	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Aug 2019 06:36:34 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.230; helo=new4-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=fb.com
+ (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
+ envelope-from=prvs=3121eb8562=vijaykhemka@fb.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="ZGfMkscq"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="SuoNoSB0"; dkim-atps=neutral
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
+ dmarc=pass (p=none dis=none) header.from=fb.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=fb.com header.i=@fb.com header.b="MsyF1wiS"; 
+ dkim=pass (1024-bit key;
+ unprotected) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com
+ header.b="YfVmjK6p"; dkim-atps=neutral
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
+ [67.231.145.42])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 462bNY0vF9zDqSn
- for <linux-aspeed@lists.ozlabs.org>; Tue,  6 Aug 2019 10:38:51 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id EB5B52307;
- Mon,  5 Aug 2019 20:38:47 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Mon, 05 Aug 2019 20:38:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=x/FmbQA70Z4mje3y7VGtwApl9xp6RTV
- VRLXboLhs2Fk=; b=ZGfMkscqBzdJrmqsA76P07XYPKAByfmKxaJlWOgGcYyoh9M
- sAMv+9LxEvw7F9Tc2j0VSPOAzYCeq6EYXZkt/1yqDnjTm83/9wVj2fiKfms4Do7u
- BH66HBfVN2EQhrsAneqJUPEwOlNF9qTsdp+zPawpHkEmaMeZmJCtVg5ZJ1adT2ue
- 2Ia7S/WYRx5Nlw14UlgZfgCO6pMPrFwb4T/MF3RZWscFMSMAM0aqImq1SPMjBubF
- t2QgkRraeYwbCGbW+Y7xmIqbghI7ulOhhQy3pNsgd07Xrd1mpK6cE1lJJn/LpSNS
- 1Ot9lgrKOpFmgtuSx0At/JhI2t6O7j1nb5prqMg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=x/FmbQ
- A70Z4mje3y7VGtwApl9xp6RTVVRLXboLhs2Fk=; b=SuoNoSB0MGyMGuV9TmVmin
- OVkbJSgM74uliWJdHaFH5pfCfEst4COYfXuaQsRNfURCvyqpcHu143/qNO3+CHa+
- vRKLoNPniz7pQng1cj+d8MpAgl2F/HTJIhMkFtXdtmOlY3Bvsvrxn4/CHJKLeg5w
- xto0yJATXsx8QXMQ69xdSMDqOFuHo0LEGke+5IrqQoMw0uOivZBDM67186zit2NO
- NWg+OfvQPjFZyMVR6qyh9ZAxj+F5NFz+U/tyyROxrOXwNjrLeT3dWv+jUZqMktoE
- GX2dgYRA2c/WS89D99wNpaD/cZFtdWYeVB1I+px/oIQKKlyGKUpvze0pd+kZ80pQ
- ==
-X-ME-Sender: <xms:FsxIXT8wMy-ydYcbV5G-ZVOSE-QDHzUWny3Y5l8ZNrln4XSOve3ZQg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddruddtledgfeelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:FsxIXZwvIstLosN--5ek9_dPgLXA7RM2KIeV4QaCF5PW_bCqGHMEaw>
- <xmx:FsxIXV-5zm2SKq2_OxzcVbsmGTftaF6L8671VDaaMtixr6YzNgQCLQ>
- <xmx:FsxIXXMqEjsNp8tvzrKNlCqD4jbHgzelhLqJO9LgFFaQYn5pEUy1iQ>
- <xmx:F8xIXY3W9NCJ9W17PBCvX4_MUuGxFvQl-n5qb-Frqv7y-GGv9uYJQQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 8E116E00A2; Mon,  5 Aug 2019 20:38:46 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-799-g925e343-fmstable-20190729v1
-Mime-Version: 1.0
-Message-Id: <222b7a32-7c69-4af1-a72f-433e671604d3@www.fastmail.com>
-In-Reply-To: <497ab8d6-24aa-c505-a1fa-e71fa1560da1@intel.com>
-References: <20190805025155.9020-1-andrew@aj.id.au>
- <20190805025155.9020-3-andrew@aj.id.au>
- <497ab8d6-24aa-c505-a1fa-e71fa1560da1@intel.com>
-Date: Tue, 06 Aug 2019 10:09:11 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Adrian Hunter" <adrian.hunter@intel.com>,
- linux-mmc <linux-mmc@vger.kernel.org>
-Subject: Re: [PATCH v4 2/2] mmc: Add support for the ASPEED SD controller
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4635yF6H6JzDqWM;
+ Wed,  7 Aug 2019 06:36:16 +1000 (AEST)
+Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x76KCce5011103; Tue, 6 Aug 2019 13:36:00 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=facebook;
+ bh=LDXuH0raVHMTDBYZ19uGzRZvCmTl1kH5bdFSFQrIonc=;
+ b=MsyF1wiSp8uLVnJALpcwBgjD0dt+YwhUbivh3ZsHkttsLuCrZqbebjBJSw2RsPQNfhqf
+ ojyqFRSac76/yXyM3tE1bHu8fxJdahTRzcfpFQjAaj5Xx7WVae1jn/W8yTpO5mN49K4v
+ 2/YJ09KaFxhkeg/edlfKJiJNCVTK3W7OKSg= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by mx0a-00082601.pphosted.com with ESMTP id 2u7a4y9qsn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Tue, 06 Aug 2019 13:36:00 -0700
+Received: from ash-exopmbx201.TheFacebook.com (2620:10d:c0a8:83::8) by
+ ash-exhub204.TheFacebook.com (2620:10d:c0a8:83::4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 6 Aug 2019 13:35:58 -0700
+Received: from ash-exhub204.TheFacebook.com (2620:10d:c0a8:83::4) by
+ ash-exopmbx201.TheFacebook.com (2620:10d:c0a8:83::8) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 6 Aug 2019 13:35:58 -0700
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com (100.104.31.183)
+ by o365-in.thefacebook.com (100.104.36.100) with Microsoft SMTP
+ Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Tue, 6 Aug 2019 13:35:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=a1CIT/pW+bJgj8neEJVhNv+Ml7I0+BRR6ZHYF+5t29TuAiufcFDnG7Wi8h8caVCvQXP07QJznKXUL7YR07gVymFWofZlFRIdo/kKPVFVujJ6woauvYgrhgLN/PicaTwxeLG5Z41ycPxK1ToX91xD96lRukxiQvsSKrM0g9NZL0iCcYxntj0NF/XH4dzvy0KZUPTmuYcuk8KLaPy2+iVXPvedvQ48AE++vjnYvo/0K+NblHcTo68/hEOw2ZZvj9UzqGdqwx+INQxVBczxaRWJS+jB9Apvu40yRb9jsnhz5eMmkgp/gLqRV4QmMGH8mwprSTluwJk/VdM4PSRge7Te7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LDXuH0raVHMTDBYZ19uGzRZvCmTl1kH5bdFSFQrIonc=;
+ b=OtA8JbhX5hBYYuSD9I1xdeCwjZ2AMoG/7i0OnmYHHl8yxPm3wZGmT1ko0ClcHUS7vP4+w5he2gpx5N6r4kGyPMdUC06iYNSNseNoYd3gN5iaTardWwdgGi8LdXSzjjAlb79bUqyq07rTwdvCoUm+FtMxK37R570zx6n7dlV7qD6H09zLWwkRQKdo4MgqDtVbo7wBT6ENQ3c0A9wgdjtuseEGJmXCuNqTAgAtGFVvOnneXK776ezIj524jvGnbFAx0RWEnZ5/jzBfDZcIfDMntOXKAX62NSQT535XZvSdMDWrjvZwO7lrDFqYZT6jnpsO1v7YEMMxSyYs7VzwY8AT9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=fb.com;dmarc=pass action=none header.from=fb.com;dkim=pass
+ header.d=fb.com;arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector2-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LDXuH0raVHMTDBYZ19uGzRZvCmTl1kH5bdFSFQrIonc=;
+ b=YfVmjK6p31PR4/v6vOFm3TzfbMJxiaeoV8Lk6xssi2QzItdOPj39rdCn8SJCX6OWNTqwNiLNsZA9uAoFqW93pxUiVy8aXjEmUCsGG87rPI7BlDvY9e+ICh3eXR8U0SvLs7gcvCIeCYzoxGzgi+6KHNwjZ7QMoRhTP71jTEel374=
+Received: from CY4PR15MB1269.namprd15.prod.outlook.com (10.172.177.11) by
+ CY4PR15MB1287.namprd15.prod.outlook.com (10.172.181.8) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2136.20; Tue, 6 Aug 2019 20:35:43 +0000
+Received: from CY4PR15MB1269.namprd15.prod.outlook.com
+ ([fe80::8c93:f913:124:8dd0]) by CY4PR15MB1269.namprd15.prod.outlook.com
+ ([fe80::8c93:f913:124:8dd0%8]) with mapi id 15.20.2136.018; Tue, 6 Aug 2019
+ 20:35:43 +0000
+From: Vijay Khemka <vijaykhemka@fb.com>
+To: Joel Stanley <joel@jms.id.au>
+Subject: Re: [PATCH] dt-bindings: Add pxe1610 as a trivial device
+Thread-Topic: [PATCH] dt-bindings: Add pxe1610 as a trivial device
+Thread-Index: AQHVQPAx3fyCvJ4gPEWA6m7KAh2pXabYSgMAgAAAqID//7IWgIAPeSsAgAa/44A=
+Date: Tue, 6 Aug 2019 20:35:43 +0000
+Message-ID: <E47FF678-1B81-4C00-9328-B0452D74E62D@fb.com>
+References: <20190723002052.2878847-1-vijaykhemka@fb.com>
+ <CAL_Jsq+uAjK6+xzkyOhcH96tZuqv7i6Nz5_nhUQkZ2adt2gutA@mail.gmail.com>
+ <CAL_Jsq+Kw0TFW_v54Y2QHcChqpNDYhFyCSO5Cj-be9yLSCq-Pw@mail.gmail.com>
+ <F7BAC53E-925E-4FA4-815D-ACB82DF8D240@fb.com>
+ <CACPK8XehEoakQxvQhC1cU5tvZaVbLOARtZ4xc6dD8sx9WDiPuA@mail.gmail.com>
+In-Reply-To: <CACPK8XehEoakQxvQhC1cU5tvZaVbLOARtZ4xc6dD8sx9WDiPuA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [2620:10d:c090:200::1:f3bb]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d64a5e45-dd7c-4dda-a8fb-08d71aada76b
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:CY4PR15MB1287; 
+x-ms-traffictypediagnostic: CY4PR15MB1287:
+x-microsoft-antispam-prvs: <CY4PR15MB1287E53A7F5209E18720D46CDDD50@CY4PR15MB1287.namprd15.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-forefront-prvs: 0121F24F22
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(376002)(346002)(39860400002)(136003)(396003)(366004)(189003)(199004)(36756003)(316002)(5660300002)(102836004)(8936002)(53546011)(76176011)(229853002)(256004)(476003)(6506007)(99286004)(86362001)(25786009)(305945005)(54906003)(2906002)(478600001)(7416002)(14454004)(6436002)(6512007)(46003)(6486002)(64756008)(6246003)(66446008)(4326008)(81156014)(81166006)(446003)(6116002)(66556008)(66476007)(66946007)(6916009)(91956017)(486006)(53936002)(33656002)(4744005)(8676002)(71200400001)(186003)(71190400001)(76116006)(2616005)(11346002)(7736002)(68736007);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:CY4PR15MB1287;
+ H:CY4PR15MB1269.namprd15.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: SWQioAlyBZyEFTV6cQE7gwmU+sFGgdYIklyLaz7hwaYx6grPGO7Wmofb2PHgpnoX+q+n0xYYRTajjaXkp/I0CCvvbR8RV0taR4iTin5tg3r8WzoqXb/WdnSknEm5Phg9lM4h1EW0zltcZLen/S/zvC8VL63r0TakYSgs+whe8xQsnBxuwpkPGI/sPFJo1hE8TJfDQveOPEn505yiSN52qySJzS4ZZWaBwEfgRkqDFSCS1edU/v2C4mgE9NcsRcp1zz/wuQB1bXtR4bvza1jWmUOFNhQCs5gCDLES8C2o9zGun7MWlMTg4Ez2f4JfTP3Yf3lp4dB5xsrQrxS9dt8yvXs39kXBaAWXmk6qttXVAwbvgn4DYKDn5xjBB4A9vsjnpu+NO/bdOHQewMs/EP9bZwzaEYRCn7MQsXCtnNPayds=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7157F82B2A3E1544A74117E5DB728CBD@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: d64a5e45-dd7c-4dda-a8fb-08d71aada76b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2019 20:35:43.5470 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vijaykhemka@fb.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR15MB1287
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-08-06_10:, , signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1908060178
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,427 +145,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>, linux-aspeed@lists.ozlabs.org,
- Ryan Chen <ryanchen.aspeed@gmail.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Jiri Kosina <trivial@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Anson Huang <anson.huang@nxp.com>, Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Patrick Venture <venture@google.com>,
+ "openbmc @ lists . ozlabs . org" <openbmc@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Jeremy Gebben <jgebben@sweptlaser.com>, Rob Herring <robh+dt@kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ Sai Dasari <sdasari@fb.com>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Mon, 5 Aug 2019, at 23:08, Adrian Hunter wrote:
-> On 5/08/19 5:51 AM, Andrew Jeffery wrote:
-> > Add a minimal driver for ASPEED's SD controller, which exposes two
-> > SDHCIs.
-> > 
-> > The ASPEED design implements a common register set for the SDHCIs, and
-> > moves some of the standard configuration elements out to this common
-> > area (e.g. 8-bit mode, and card detect configuration which is not
-> > currently supported).
-> > 
-> > The SD controller has a dedicated hardware interrupt that is shared
-> > between the slots. The common register set exposes information on which
-> > slot triggered the interrupt; early revisions of the patch introduced an
-> > irqchip for the register, but reality is it doesn't behave as an
-> > irqchip, and the result fits awkwardly into the irqchip APIs. Instead
-> > I've taken the simple approach of using the IRQ as a shared IRQ with
-> > some minor performance impact for the second slot.
-> > 
-> > Ryan was the original author of the patch - I've taken his work and
-> > massaged it to drop the irqchip support and rework the devicetree
-> > integration. The driver has been smoke tested under qemu against a
-> > minimal SD controller model and lightly tested on an ast2500-evb.
-> > 
-> > Signed-off-by: Ryan Chen <ryanchen.aspeed@gmail.com>
-> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> 
-> One minor comment otherwise:
-> 
-> Acked-by: Adrian Hunter <adrian.hunter@intel.com>
-> 
-> > 
-> > ---
-> > v3: No change
-> > v2:
-> > * Add AST2600 compatible
-> > * Drop SDHCI_QUIRK2_CLOCK_DIV_ZERO_BROKEN
-> > * Ensure slot number is valid
-> > * Fix build with CONFIG_MODULES
-> > * Fix module license string
-> > * Non-PCI devices won't die
-> > * Rename aspeed_sdc_configure_8bit_mode()
-> > * Rename aspeed_sdhci_pdata
-> > * Switch to sdhci_enable_clk()
-> > * Use PTR_ERR() on the right `struct platform_device *`
-> > ---
-> >  drivers/mmc/host/Kconfig           |  12 ++
-> >  drivers/mmc/host/Makefile          |   1 +
-> >  drivers/mmc/host/sdhci-of-aspeed.c | 328 +++++++++++++++++++++++++++++
-> >  3 files changed, 341 insertions(+)
-> >  create mode 100644 drivers/mmc/host/sdhci-of-aspeed.c
-> > 
-> > diff --git a/drivers/mmc/host/Kconfig b/drivers/mmc/host/Kconfig
-> > index 14d89a108edd..0f8a230de2f3 100644
-> > --- a/drivers/mmc/host/Kconfig
-> > +++ b/drivers/mmc/host/Kconfig
-> > @@ -154,6 +154,18 @@ config MMC_SDHCI_OF_ARASAN
-> >  
-> >  	  If unsure, say N.
-> >  
-> > +config MMC_SDHCI_OF_ASPEED
-> > +	tristate "SDHCI OF support for the ASPEED SDHCI controller"
-> > +	depends on MMC_SDHCI_PLTFM
-> > +	depends on OF
-> > +	help
-> > +	  This selects the ASPEED Secure Digital Host Controller Interface.
-> > +
-> > +	  If you have a controller with this interface, say Y or M here. You
-> > +	  also need to enable an appropriate bus interface.
-> > +
-> > +	  If unsure, say N.
-> > +
-> >  config MMC_SDHCI_OF_AT91
-> >  	tristate "SDHCI OF support for the Atmel SDMMC controller"
-> >  	depends on MMC_SDHCI_PLTFM
-> > diff --git a/drivers/mmc/host/Makefile b/drivers/mmc/host/Makefile
-> > index 73578718f119..390ee162fe71 100644
-> > --- a/drivers/mmc/host/Makefile
-> > +++ b/drivers/mmc/host/Makefile
-> > @@ -84,6 +84,7 @@ obj-$(CONFIG_MMC_SDHCI_ESDHC_IMX)	+= sdhci-esdhc-imx.o
-> >  obj-$(CONFIG_MMC_SDHCI_DOVE)		+= sdhci-dove.o
-> >  obj-$(CONFIG_MMC_SDHCI_TEGRA)		+= sdhci-tegra.o
-> >  obj-$(CONFIG_MMC_SDHCI_OF_ARASAN)	+= sdhci-of-arasan.o
-> > +obj-$(CONFIG_MMC_SDHCI_OF_ASPEED)	+= sdhci-of-aspeed.o
-> >  obj-$(CONFIG_MMC_SDHCI_OF_AT91)		+= sdhci-of-at91.o
-> >  obj-$(CONFIG_MMC_SDHCI_OF_ESDHC)	+= sdhci-of-esdhc.o
-> >  obj-$(CONFIG_MMC_SDHCI_OF_HLWD)		+= sdhci-of-hlwd.o
-> > diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-> > new file mode 100644
-> > index 000000000000..d31785ec90d7
-> > --- /dev/null
-> > +++ b/drivers/mmc/host/sdhci-of-aspeed.c
-> > @@ -0,0 +1,328 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +/* Copyright (C) 2019 ASPEED Technology Inc. */
-> > +/* Copyright (C) 2019 IBM Corp. */
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/device.h>
-> > +#include <linux/io.h>
-> > +#include <linux/mmc/host.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of_address.h>
-> > +#include <linux/of.h>
-> > +#include <linux/of_platform.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/spinlock.h>
-> > +
-> > +#include "sdhci-pltfm.h"
-> > +
-> > +#define ASPEED_SDC_INFO		0x00
-> > +#define   ASPEED_SDC_S1MMC8	BIT(25)
-> > +#define   ASPEED_SDC_S0MMC8	BIT(24)
-> > +
-> > +struct aspeed_sdc {
-> > +	struct clk *clk;
-> > +	struct resource *res;
-> > +
-> > +	spinlock_t lock;
-> > +	void __iomem *regs;
-> > +};
-> > +
-> > +struct aspeed_sdhci {
-> > +	struct aspeed_sdc *parent;
-> > +	u32 width_mask;
-> > +};
-> > +
-> > +static void aspeed_sdc_configure_8bit_mode(struct aspeed_sdc *sdc,
-> > +					   struct aspeed_sdhci *sdhci,
-> > +					   bool bus8)
-> > +{
-> > +	u32 info;
-> > +
-> > +	/* Set/clear 8 bit mode */
-> > +	spin_lock(&sdc->lock);
-> > +	info = readl(sdc->regs + ASPEED_SDC_INFO);
-> > +	if (bus8)
-> > +		info |= sdhci->width_mask;
-> > +	else
-> > +		info &= ~sdhci->width_mask;
-> > +	writel(info, sdc->regs + ASPEED_SDC_INFO);
-> > +	spin_unlock(&sdc->lock);
-> > +}
-> > +
-> > +static void aspeed_sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
-> > +{
-> > +	int div;
-> > +	u16 clk;
-> > +
-> > +	if (clock == host->clock)
-> > +		return;
-> > +
-> > +	sdhci_writew(host, 0, SDHCI_CLOCK_CONTROL);
-> > +
-> > +	if (clock == 0)
-> > +		goto out;
-> > +
-> > +	for (div = 1; div < 256; div *= 2) {
-> > +		if ((host->max_clk / div) <= clock)
-> > +			break;
-> > +	}
-> > +	div >>= 1;
-> > +
-> > +	clk = div << SDHCI_DIVIDER_SHIFT;
-> > +
-> > +	sdhci_enable_clk(host, clk);
-> > +
-> > +out:
-> > +	host->clock = clock;
-> > +}
-> > +
-> > +static void aspeed_sdhci_set_bus_width(struct sdhci_host *host, int width)
-> > +{
-> > +	struct sdhci_pltfm_host *pltfm_priv;
-> > +	struct aspeed_sdhci *aspeed_sdhci;
-> > +	struct aspeed_sdc *aspeed_sdc;
-> > +	u8 ctrl;
-> > +
-> > +	pltfm_priv = sdhci_priv(host);
-> > +	aspeed_sdhci = sdhci_pltfm_priv(pltfm_priv);
-> > +	aspeed_sdc = aspeed_sdhci->parent;
-> > +
-> > +	/* Set/clear 8-bit mode */
-> > +	aspeed_sdc_configure_8bit_mode(aspeed_sdc, aspeed_sdhci,
-> > +				       width == MMC_BUS_WIDTH_8);
-> > +
-> > +	/* Set/clear 1 or 4 bit mode */
-> > +	ctrl = sdhci_readb(host, SDHCI_HOST_CONTROL);
-> > +	if (width == MMC_BUS_WIDTH_4)
-> > +		ctrl |= SDHCI_CTRL_4BITBUS;
-> > +	else
-> > +		ctrl &= ~SDHCI_CTRL_4BITBUS;
-> > +	sdhci_writeb(host, ctrl, SDHCI_HOST_CONTROL);
-> > +}
-> > +
-> > +static const struct sdhci_ops aspeed_sdhci_ops = {
-> > +	.set_clock = aspeed_sdhci_set_clock,
-> > +	.get_max_clock = sdhci_pltfm_clk_get_max_clock,
-> > +	.set_bus_width = aspeed_sdhci_set_bus_width,
-> > +	.get_timeout_clock = sdhci_pltfm_clk_get_max_clock,
-> > +	.reset = sdhci_reset,
-> > +	.set_uhs_signaling = sdhci_set_uhs_signaling,
-> > +};
-> > +
-> > +static const struct sdhci_pltfm_data aspeed_sdhci_pdata = {
-> > +	.ops = &aspeed_sdhci_ops,
-> > +	.quirks = SDHCI_QUIRK_CAP_CLOCK_BASE_BROKEN,
-> > +};
-> > +
-> > +static inline int aspeed_sdhci_calculate_slot(struct aspeed_sdhci *dev,
-> > +					      struct resource *res)
-> > +{
-> > +	resource_size_t delta;
-> > +
-> > +	if (!res || resource_type(res) != IORESOURCE_MEM)
-> > +		return -EINVAL;
-> > +
-> > +	if (res->start < dev->parent->res->start)
-> > +		return -EINVAL;
-> > +
-> > +	delta = res->start - dev->parent->res->start;
-> > +	if (delta & (0x100 - 1))
-> > +		return -EINVAL;
-> > +
-> > +	return (delta / 0x100) - 1;
-> > +}
-> > +
-> > +static int aspeed_sdhci_probe(struct platform_device *pdev)
-> > +{
-> > +	struct sdhci_pltfm_host *pltfm_host;
-> > +	struct aspeed_sdhci *dev;
-> > +	struct sdhci_host *host;
-> > +	struct resource *res;
-> > +	int slot;
-> > +	int ret;
-> > +
-> > +	host = sdhci_pltfm_init(pdev, &aspeed_sdhci_pdata, sizeof(*dev));
-> > +	if (IS_ERR(host))
-> > +		return PTR_ERR(host);
-> > +
-> > +	pltfm_host = sdhci_priv(host);
-> > +	dev = sdhci_pltfm_priv(pltfm_host);
-> > +	dev->parent = dev_get_drvdata(pdev->dev.parent);
-> > +
-> > +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > +	slot = aspeed_sdhci_calculate_slot(dev, res);
-> > +
-> > +	if (slot < 0)
-> > +		return slot;
-> > +	else if (slot >= 2)
-> > +		return -EINVAL;
-> > +
-> > +	dev_info(&pdev->dev, "Configuring for slot %d\n", slot);
-> > +	dev->width_mask = !slot ? ASPEED_SDC_S0MMC8 : ASPEED_SDC_S1MMC8;
-> > +
-> > +	sdhci_get_of_property(pdev);
-> > +
-> > +	pltfm_host->clk = devm_clk_get(&pdev->dev, NULL);
-> > +	if (IS_ERR(pltfm_host->clk))
-> > +		return PTR_ERR(pltfm_host->clk);
-> > +
-> > +	ret = clk_prepare_enable(pltfm_host->clk);
-> > +	if (ret) {
-> > +		dev_err(&pdev->dev, "Unable to enable SDIO clock\n");
-> > +		goto err_pltfm_free;
-> > +	}
-> > +
-> > +	ret = mmc_of_parse(host->mmc);
-> > +	if (ret)
-> > +		goto err_sdhci_add;
-> > +
-> > +	ret = sdhci_add_host(host);
-> > +	if (ret)
-> > +		goto err_sdhci_add;
-> > +
-> > +	return 0;
-> > +
-> > +err_sdhci_add:
-> > +	clk_disable_unprepare(pltfm_host->clk);
-> > +err_pltfm_free:
-> > +	sdhci_pltfm_free(pdev);
-> > +	return ret;
-> > +}
-> > +
-> > +static int aspeed_sdhci_remove(struct platform_device *pdev)
-> > +{
-> > +	struct sdhci_pltfm_host *pltfm_host;
-> > +	struct sdhci_host *host;
-> > +	int dead = 0;
-> > +
-> > +	host = platform_get_drvdata(pdev);
-> > +	pltfm_host = sdhci_priv(host);
-> > +
-> > +	sdhci_remove_host(host, dead);
-> > +
-> > +	clk_disable_unprepare(pltfm_host->clk);
-> > +
-> > +	sdhci_pltfm_free(pdev);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct of_device_id aspeed_sdhci_of_match[] = {
-> > +	{ .compatible = "aspeed,ast2400-sdhci", },
-> > +	{ .compatible = "aspeed,ast2500-sdhci", },
-> > +	{ .compatible = "aspeed,ast2600-sdhci", },
-> > +	{ }
-> > +};
-> > +
-> > +static struct platform_driver aspeed_sdhci_driver = {
-> > +	.driver		= {
-> > +		.name	= "sdhci-aspeed",
-> > +		.of_match_table = aspeed_sdhci_of_match,
-> > +	},
-> > +	.probe		= aspeed_sdhci_probe,
-> > +	.remove		= aspeed_sdhci_remove,
-> > +};
-> > +
-> > +static int aspeed_sdc_probe(struct platform_device *pdev)
-> > +
-> > +{
-> > +	struct device_node *parent, *child;
-> > +	struct aspeed_sdc *sdc;
-> > +	int ret;
-> > +
-> > +	sdc = devm_kzalloc(&pdev->dev, sizeof(*sdc), GFP_KERNEL);
-> > +	if (!sdc)
-> > +		return -ENOMEM;
-> > +
-> > +	spin_lock_init(&sdc->lock);
-> > +
-> > +	sdc->clk = devm_clk_get(&pdev->dev, NULL);
-> > +	if (IS_ERR(sdc->clk))
-> > +		return PTR_ERR(sdc->clk);
-> > +
-> > +	ret = clk_prepare_enable(sdc->clk);
-> > +	if (ret) {
-> > +		dev_err(&pdev->dev, "Unable to enable SDCLK\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	sdc->res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > +	sdc->regs = devm_ioremap_resource(&pdev->dev, sdc->res);
-> > +	if (IS_ERR(sdc->regs)) {
-> > +		ret = PTR_ERR(sdc->regs);
-> > +		goto err_clk;
-> > +	}
-> > +
-> > +	dev_set_drvdata(&pdev->dev, sdc);
-> > +
-> > +	parent = pdev->dev.of_node;
-> > +	for_each_available_child_of_node(parent, child) {
-> > +		struct platform_device *cpdev;
-> > +
-> > +		cpdev = of_platform_device_create(child, NULL, &pdev->dev);
-> > +		if (IS_ERR(cpdev)) {
-> > +			of_node_put(child);
-> > +			ret = PTR_ERR(cpdev);
-> > +			goto err_clk;
-> > +		}
-> > +	}
-> > +
-> > +	return 0;
-> > +
-> > +err_clk:
-> > +	clk_disable_unprepare(sdc->clk);
-> > +	return ret;
-> > +}
-> > +
-> > +static int aspeed_sdc_remove(struct platform_device *pdev)
-> > +{
-> > +	struct aspeed_sdc *sdc = dev_get_drvdata(&pdev->dev);
-> > +
-> > +	clk_disable_unprepare(sdc->clk);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct of_device_id aspeed_sdc_of_match[] = {
-> > +	{ .compatible = "aspeed,ast2400-sd-controller", },
-> > +	{ .compatible = "aspeed,ast2500-sd-controller", },
-> > +	{ .compatible = "aspeed,ast2600-sd-controller", },
-> > +	{ }
-> > +};
-> > +
-> > +MODULE_DEVICE_TABLE(of, aspeed_sdc_of_match);
-> > +
-> > +static struct platform_driver aspeed_sdc_driver = {
-> > +	.driver		= {
-> > +		.name	= "sd-controller-aspeed",
-> > +		.pm	= &sdhci_pltfm_pmops,
-> > +		.of_match_table = aspeed_sdc_of_match,
-> > +	},
-> > +	.probe		= aspeed_sdc_probe,
-> > +	.remove		= aspeed_sdc_remove,
-> > +};
-> > +
-> > +static int __init aspeed_sdc_init(void)
-> > +{
-> > +	int rc;
-> > +
-> > +	rc = platform_driver_register(&aspeed_sdhci_driver);
-> > +	if (rc < 0)
-> > +		return rc;
-> > +
-> > +	return platform_driver_register(&aspeed_sdc_driver);
-> 
-> Shouldn't aspeed_sdhci_driver be unregistered here if there was an error.
-
-Yeah, fair point. I'll send a v5 to fix that.
-
-Thanks for the feedback.
-
-Andrew
+Sm9lbCwNCkkgaGF2ZSBhZGRlZCBhbGwgMyBpZCBpbiB0aGUgZG9jdW1lbnRhdGlvbiBwYXRjaCBh
+bmQgSSBhbSBub3Qgc3VyZSBpZiB0aGF0IHBhdGNoIGhhcyBiZWVuIGFwcGxpZWQgb3Igbm90Lg0K
+DQpSZWdhcmRzDQotVmlqYXkNCg0K77u/T24gOC8xLzE5LCAxMTozMSBQTSwgIkpvZWwgU3Rhbmxl
+eSIgPGpvZWxAam1zLmlkLmF1PiB3cm90ZToNCg0KICAgIEFkZCBweGUxNjEwIGFzIGEgdHJpdmlh
+bCBkZXZpY2UNCiAgICANCiAgICANCiAgICANCiAgICBPbiBUdWUsIDIzIEp1bCAyMDE5IGF0IDE3
+OjE0LCBWaWpheSBLaGVta2EgPHZpamF5a2hlbWthQGZiLmNvbT4gd3JvdGU6DQogICAgPg0KICAg
+ID4gT24gNy8yMy8xOSwgNzo1MyBBTSwgIlJvYiBIZXJyaW5nIiA8cm9iaCtkdEBrZXJuZWwub3Jn
+PiB3cm90ZToNCiAgICA+DQogICAgPiAgICAgT24gVHVlLCBKdWwgMjMsIDIwMTkgYXQgODo1MCBB
+TSBSb2IgSGVycmluZyA8cm9iaCtkdEBrZXJuZWwub3JnPiB3cm90ZToNCiAgICA+ICAgICA+DQog
+ICAgPiAgICAgPiBPbiBNb24sIEp1bCAyMiwgMjAxOSBhdCA2OjQ2IFBNIFZpamF5IEtoZW1rYSA8
+dmlqYXlraGVta2FAZmIuY29tPiB3cm90ZToNCiAgICA+ICAgICA+ID4NCiAgICA+ICAgICA+ID4g
+VGhlIHB4ZTE2MTAgaXMgYSB2b2x0YWdlIHJlZ3VsYXRvciBmcm9tIEluZmluZW9uLiBJdCBhbHNv
+IHN1cHBvcnRzDQogICAgPiAgICAgPiA+IG90aGVyIFZScyBweGUxMTEwIGFuZCBweG0xMzEwIGZy
+b20gSW5maW5lb24uDQogICAgPg0KICAgID4gICAgIFdoYXQgaGFwcGVuZWQgdG8gdGhlIG90aGVy
+IGNvbXBhdGlibGVzPyBTL3cgZG9lc24ndCBuZWVkIHRvIGtub3cgdGhlDQogICAgPiAgICAgZGlm
+ZmVyZW5jZXM/DQogICAgPiBBcyBmYXIgYXMgZHJpdmVyIGlzIGNvbmNlcm5lZCwgaXQgZG9lc24n
+dCBuZWVkIHRvIGtub3cgZGlmZmVyZW5jZXMuDQogICAgDQogICAgWW91IGhhdmUgdGhlc2UgdGhy
+ZWUgSURzIGluIHRoZSBkcml2ZXI6DQogICAgDQogICAgIHB4bTEzMTANCiAgICAgcHhtMTMxMA0K
+ICAgICBweGUxNjEwDQogICAgDQogICAgU28gYWxsIHRocmVlIGNvdWxkIGJlIGxpc3RlZCBpbiB0
+aGUgZG9jdW1lbnRhdGlvbj8NCiAgICANCiAgICBSb2IsIGlzIHRoaXMgd2hhdCB5b3Ugd2FudGVk
+IFZpamF5IHRvIGRvPw0KICAgIA0KDQo=
