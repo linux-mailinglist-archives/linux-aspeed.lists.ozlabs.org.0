@@ -2,85 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C6186EE0
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Aug 2019 02:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 395B2889D7
+	for <lists+linux-aspeed@lfdr.de>; Sat, 10 Aug 2019 10:14:30 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 464RDr6grkzDqvn
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Aug 2019 10:38:36 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 465FJM1JTTzDr8R
+	for <lists+linux-aspeed@lfdr.de>; Sat, 10 Aug 2019 18:14:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.230; helo=new4-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=linaro.org
+ (client-ip=2a00:1450:4864:20::241; helo=mail-lj1-x241.google.com;
+ envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
+ dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="Ffx6KwVw"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="N5RUPgeA"; dkim-atps=neutral
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=linaro.org header.i=@linaro.org header.b="VnJxbftI"; 
+ dkim-atps=neutral
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 464RDg2T2szDqtY
- for <linux-aspeed@lists.ozlabs.org>; Fri,  9 Aug 2019 10:38:26 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id B5AF02687;
- Thu,  8 Aug 2019 20:38:21 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Thu, 08 Aug 2019 20:38:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to
- :subject:content-type; s=fm3; bh=qzgxGTZsCJlvV+dr0gENjfvelG+V+hv
- DaK0KMe9R8B0=; b=Ffx6KwVwOmajjT7vxnEXIp+p/A4+WuIBUt6KPvR9e0rnVEw
- 4jTCNBTUskMYYse+3gkG8HSlNZrOYm3boUcw8X3gS87V66Q4qMOlcDnTABC0OYoT
- o7eC9BbkU+ZVI1pdGlj826pZGcKN6kpIqr59yUgTRofmwLGW8hu07IxY3bzCus+a
- 0y3qxmNHBFJxmJCf6pMuRlEty0fbLawuSgKTxmCyH2qfZfdpljWMHDWx5JR5Huts
- 3hwSylwSCA88fB26CybC8wSClOP/Ijt3AOU+/FmlfaW9QoK4NWV4sAL4CXZ42zDE
- 0Z6dLJAZU1BJfGsLoBXA4rY5zwlvbkg+K8pu7bw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=qzgxGT
- ZsCJlvV+dr0gENjfvelG+V+hvDaK0KMe9R8B0=; b=N5RUPgeAxWz+56KbGktHZv
- 9freKvjIoKumB99CKFG0upclkvmCvSdG5Kz4kbZ2scT9qzDdzR5yb84FN/GB1n+6
- UM2K2meYeno617yTwdXi6Bb3v9qRrG5SM86tolzM3d0jJpMQBBLhi6t1oAet/D0f
- X/VOz+vD9q8ASlc4vAGeIHEp/viMN2Xr+5FXQc1flObHrjK9IiATcOj77QglrYvs
- RMFOcqxoiIiM9CCqdFbhWvtiJI940ZJ1IQi6caNF+o5NdM9lO5q+vxCnnJtKrBjN
- Qxtd07hqnCM04oiSgevPQjodFnhe2AWhUz0Jo2ldfHwOBtdxmHWGXorQwasl5OXg
- ==
-X-ME-Sender: <xms:e8BMXakxzKbCeQxN1dJ589Vs7dWxGpbsSHwHOiNQBP-MeR8sI94-dw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudduiedgfeehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:e8BMXQQY7GwMuZxOfl3_Dq-J9dvjb6Sq_2N8cvcnEehV9C63rQbzJA>
- <xmx:e8BMXbSBmUk3NhIc9ZUZ_susRr3k3bI0oL74DBvBzCrv7FpOYwuM-A>
- <xmx:e8BMXZ4HSfUlXwVgDHFEdkmhJiaiazPpaPsLfnpciwwMu0bZB2NmJg>
- <xmx:fcBMXVl3zLd7qKFTPNBayx2gKdugbBCuQ8hC0VTcBL6ncmDKaPbrwA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 64ECEE00A2; Thu,  8 Aug 2019 20:38:19 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-808-g930a1a1-fmstable-20190805v2
-Mime-Version: 1.0
-Message-Id: <7335d5d1-77c7-4cfe-9ba5-2fc81e3e69eb@www.fastmail.com>
-In-Reply-To: <20190808075104.15928-1-nishkadg.linux@gmail.com>
-References: <20190808075104.15928-1-nishkadg.linux@gmail.com>
-Date: Fri, 09 Aug 2019 10:08:45 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Nishka Dasgupta" <nishkadg.linux@gmail.com>, marek.vasut@gmail.com,
- tudor.ambarus@microchip.com, dwmw2@infradead.org,
- computersforpeace@gmail.com, miquel.raynal@bootlin.com, richard@nod.at,
- vigneshr@ti.com, "Joel Stanley" <joel@jms.id.au>,
- linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org
-Subject: Re: [PATCH] mtd: spi-nor: aspeed-smc: Add of_node_put()
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 465FH14sNQzDr61
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 10 Aug 2019 18:13:14 +1000 (AEST)
+Received: by mail-lj1-x241.google.com with SMTP id v24so94289836ljg.13
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 10 Aug 2019 01:13:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oqsU2heLXHHBs96Q5jI1j5tMoKsUDIBVmfyGumKZ6LM=;
+ b=VnJxbftIzPrqH4FoIz+w63T9HvLAwPyuIAzFqmtEtWAsLj/01rK86PGFGuGpSqWYv+
+ EOc3pJBX5N72NrROGYfkzRIEBM/NZHAtlunaj25jmAa22WMIK6W8WaeA6NQrcRQ890ve
+ gTKEzqoNeorIPkcAkbULvIA82MectHdfWgQVc2tti+zAedXKseEDZCsXl4IK+jsWOZyk
+ R7BDcza0vJn1D+S49B4cTvaTLZpzO5Zji8UHdpqukz0sSpuhB6HNFG8n8zxgS0EkyZrb
+ 5PC++TGzLIxcQd3/xU9h8T2WbaloLuBlyrUH/bwdms17HdBtBey1e6TEAlNNF3mOqFH5
+ GZ8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oqsU2heLXHHBs96Q5jI1j5tMoKsUDIBVmfyGumKZ6LM=;
+ b=rLjyO5/guWmBmwKOb9rsK7XvN017ARdOUJRLeg7b8FDOrgO9hszAsZNfZKwCC8VKFd
+ gD7XhxcdpacRFWKOKCRDeXZoAKho6KSEX4WINdKCxxn0bG4otqY/lMeKF9I4gX3iJ0Rj
+ 3FX0SZL5XRCmjeoUZyxsx5PlqRBodB1d1tZ7GZVEKx+lCDBpgTv/UbW7ddAp26zQosWn
+ TdMOlEl+JNngjTuL1bhN5NBY5tCjvJTjIJxJ7OOdA3v/x/ZhGmsXgxuCougeP7LQLdJ+
+ mEPD0eCcEFDS2Q67vLqBx+mK7xwympu9qNB+w1oA7NUW8nh3u+E01b2P11vsq9Fvpu6f
+ 68vQ==
+X-Gm-Message-State: APjAAAXDgW0FMnvbw+WtSUMAT+/2DcsbkvA4bfSirB52gynarNUJ1SD5
+ jDpF0UMuumkzG+7ohp+0jn4p06VC47nqxTm317+1CA==
+X-Google-Smtp-Source: APXvYqw5IJDtu+KvWNV5b+0f7BnCDMIkmE9siMLHoOIDt6M7/m7Z1qUizRn9O0DLYl+XLv2UlhKWmwCr8OjDx7Cm5k0=
+X-Received: by 2002:a2e:8756:: with SMTP id q22mr13818205ljj.108.1565424790000; 
+ Sat, 10 Aug 2019 01:13:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190807003037.48457-1-natechancellor@gmail.com>
+In-Reply-To: <20190807003037.48457-1-natechancellor@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sat, 10 Aug 2019 10:12:57 +0200
+Message-ID: <CACRpkdbDgOQXfxgM4dEyzBRhtske3=V+858B7J8jGExnJE5fJQ@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: aspeed: g6: Remove const specifier from
+ aspeed_g6_sig_expr_set's ctx parameter
+To: Nathan Chancellor <natechancellor@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,22 +73,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ clang-built-linux@googlegroups.com,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Wed, Aug 7, 2019 at 2:32 AM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
 
+> clang errors:
+>
+> drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c:2325:9: error: incompatible
+> pointer types initializing 'int (*)(struct aspeed_pinmux_data *, const
+> struct aspeed_sig_expr *, bool)' with an expression of type 'int (const
+> struct aspeed_pinmux_data *, const struct aspeed_sig_expr *, bool)'
+> [-Werror,-Wincompatible-pointer-types]
+>         .set = aspeed_g6_sig_expr_set,
+>                ^~~~~~~~~~~~~~~~~~~~~~
+> 1 error generated.
+>
+> Commit 674fa8daa8c9 ("pinctrl: aspeed-g5: Delay acquisition of regmaps")
+> changed the set function pointer declaration and the g6 one wasn't
+> updated (I assume because it wasn't merged yet).
+>
+> Fixes: 2eda1cdec49f ("pinctrl: aspeed: Add AST2600 pinmux support")
+> Link: https://github.com/ClangBuiltLinux/linux/issues/632
+> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
 
-On Thu, 8 Aug 2019, at 17:21, Nishka Dasgupta wrote:
-> Each iteration of for_each_available_child_of_node puts the previous
-> node, but in the case of a break from the middle of the loop, there is
-> no put, thus causing a memory leak. Upon termination of the loop
-> (whether by break or a natural exit), either ret will have a non-zero
-> value or child will be NULL. Hence add an of_node_put() that will
-> execute only when ret has a non-zero value, as calling of_node_put() on
-> a possible NULL value does not cause any further issues.
-> Issue found with Coccinelle.
-> 
-> Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
+Patch applied with Andrew's ACK.
 
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+Yours,
+Linus Walleij
