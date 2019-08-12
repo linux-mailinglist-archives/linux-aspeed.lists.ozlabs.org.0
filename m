@@ -1,67 +1,84 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 395B2889D7
-	for <lists+linux-aspeed@lfdr.de>; Sat, 10 Aug 2019 10:14:30 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E288951C
+	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Aug 2019 02:52:12 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 465FJM1JTTzDr8R
-	for <lists+linux-aspeed@lfdr.de>; Sat, 10 Aug 2019 18:14:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 466HP46Y4bzDqdZ
+	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Aug 2019 10:52:08 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=linaro.org
- (client-ip=2a00:1450:4864:20::241; helo=mail-lj1-x241.google.com;
- envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=64.147.123.19; helo=wout3-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linaro.org
+ dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.b="VnJxbftI"; 
- dkim-atps=neutral
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="OQek2Bg6"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="l4EgbgtF"; dkim-atps=neutral
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
+ [64.147.123.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 465FH14sNQzDr61
- for <linux-aspeed@lists.ozlabs.org>; Sat, 10 Aug 2019 18:13:14 +1000 (AEST)
-Received: by mail-lj1-x241.google.com with SMTP id v24so94289836ljg.13
- for <linux-aspeed@lists.ozlabs.org>; Sat, 10 Aug 2019 01:13:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oqsU2heLXHHBs96Q5jI1j5tMoKsUDIBVmfyGumKZ6LM=;
- b=VnJxbftIzPrqH4FoIz+w63T9HvLAwPyuIAzFqmtEtWAsLj/01rK86PGFGuGpSqWYv+
- EOc3pJBX5N72NrROGYfkzRIEBM/NZHAtlunaj25jmAa22WMIK6W8WaeA6NQrcRQ890ve
- gTKEzqoNeorIPkcAkbULvIA82MectHdfWgQVc2tti+zAedXKseEDZCsXl4IK+jsWOZyk
- R7BDcza0vJn1D+S49B4cTvaTLZpzO5Zji8UHdpqukz0sSpuhB6HNFG8n8zxgS0EkyZrb
- 5PC++TGzLIxcQd3/xU9h8T2WbaloLuBlyrUH/bwdms17HdBtBey1e6TEAlNNF3mOqFH5
- GZ8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oqsU2heLXHHBs96Q5jI1j5tMoKsUDIBVmfyGumKZ6LM=;
- b=rLjyO5/guWmBmwKOb9rsK7XvN017ARdOUJRLeg7b8FDOrgO9hszAsZNfZKwCC8VKFd
- gD7XhxcdpacRFWKOKCRDeXZoAKho6KSEX4WINdKCxxn0bG4otqY/lMeKF9I4gX3iJ0Rj
- 3FX0SZL5XRCmjeoUZyxsx5PlqRBodB1d1tZ7GZVEKx+lCDBpgTv/UbW7ddAp26zQosWn
- TdMOlEl+JNngjTuL1bhN5NBY5tCjvJTjIJxJ7OOdA3v/x/ZhGmsXgxuCougeP7LQLdJ+
- mEPD0eCcEFDS2Q67vLqBx+mK7xwympu9qNB+w1oA7NUW8nh3u+E01b2P11vsq9Fvpu6f
- 68vQ==
-X-Gm-Message-State: APjAAAXDgW0FMnvbw+WtSUMAT+/2DcsbkvA4bfSirB52gynarNUJ1SD5
- jDpF0UMuumkzG+7ohp+0jn4p06VC47nqxTm317+1CA==
-X-Google-Smtp-Source: APXvYqw5IJDtu+KvWNV5b+0f7BnCDMIkmE9siMLHoOIDt6M7/m7Z1qUizRn9O0DLYl+XLv2UlhKWmwCr8OjDx7Cm5k0=
-X-Received: by 2002:a2e:8756:: with SMTP id q22mr13818205ljj.108.1565424790000; 
- Sat, 10 Aug 2019 01:13:10 -0700 (PDT)
-MIME-Version: 1.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 466HNt48wQzDqcV;
+ Mon, 12 Aug 2019 10:51:57 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id A1B5321E;
+ Sun, 11 Aug 2019 20:51:54 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Sun, 11 Aug 2019 20:51:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm3; bh=/vRZS0DH6BibYTI+jPSXeATx8DCWgvz
+ KB2bf68zgCYQ=; b=OQek2Bg6nPx+MsQpoORrSMQGYewK50sRAfUejX06ZLWlOBG
+ gn7XgbylvKurPPS5ys0R5IVfpXhTFMDXdWyX0mKClfr7T75O5bD3f7IJCU8Gh1s9
+ YLSS1rsgbUsk6QfhyFv/srD+1BbDXgAD/89Y6r5vMCbhP9aHbxgE3KuY82EDN/lr
+ ZvhX5WsHp78jWXRxsr1DhvuTJ+Kwk7Fe9op7n1PpfNiGdGVukF2WR1N6g33Be3Vc
+ bM/HCQrRjmhxp7v/owwpJezKnNwEDyY3ZcYKrLEIXy9CSCRiHnaPJmHKzW+D760P
+ DtNmt1qWG4i9DP9UQQSYbunB5/D26fewO9BxAow==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=/vRZS0
+ DH6BibYTI+jPSXeATx8DCWgvzKB2bf68zgCYQ=; b=l4EgbgtFwY2Rpc1UyNz2W+
+ SVRmVfLyLc4sGVwItuaAv9LJ/jyolnlF5S9783mgLebzuLBhoA29b1mfBtjfXlts
+ nt6Qa/vDIhZUFwfSEXXitbVgP54MPr45swxOvFlpy1+X3/48Sn0flYvsdCrocClv
+ MS3KOs2ZS3tyoY8zAwtSmlqSnwXglqStBVKdLy+19+/SJEqTHkK1H2fie7Hp1zmr
+ s/KUU61alWy7z+Exs29OZunIrAoHKqq2YxK/idCRFkgRJ9dDk7/GeUA6L/jk0Y2V
+ rtlWVclnKR7Ik144F39sFM0Y3e3Uk4/gh97MJmSnTUM/2RfPfMPFeW61hPmPH+9A
+ ==
+X-ME-Sender: <xms:KbhQXUG9-62aDcJWln-0fRcKkW7dmXKPACWIugq9hkhX3w-TU-muhQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddruddvfedggeduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuffhomh
+ grihhnpehgihhthhhusgdrtghomhenucfrrghrrghmpehmrghilhhfrhhomheprghnughr
+ vgifsegrjhdrihgurdgruhenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:KbhQXU9W_omMMMEsdmyjaJCTtlhrXfmQ3KUB8ekL7_ANC9twYQ9hXA>
+ <xmx:KbhQXby0EuRf6TnVmdBphx1eiSVUUC8rYJuvXidsen8cy4t_cOTOeg>
+ <xmx:KbhQXQOaNCOxABK2Jby3AbZlBGd4snluNAwo42JMlCx9npfu7ftg5g>
+ <xmx:KrhQXTalqmfKIW_ZqyRhUrTSCKbpaRqhFzQ2d9LCJDTIvYS19-x12w>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 0A5CCE00A2; Sun, 11 Aug 2019 20:51:52 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-809-g8e5c451-fmstable-20190809v1
+Mime-Version: 1.0
+Message-Id: <e5aa4940-41d8-4c35-9783-09548e406885@www.fastmail.com>
+In-Reply-To: <CACRpkdbDgOQXfxgM4dEyzBRhtske3=V+858B7J8jGExnJE5fJQ@mail.gmail.com>
 References: <20190807003037.48457-1-natechancellor@gmail.com>
-In-Reply-To: <20190807003037.48457-1-natechancellor@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sat, 10 Aug 2019 10:12:57 +0200
-Message-ID: <CACRpkdbDgOQXfxgM4dEyzBRhtske3=V+858B7J8jGExnJE5fJQ@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: aspeed: g6: Remove const specifier from
- aspeed_g6_sig_expr_set's ctx parameter
-To: Nathan Chancellor <natechancellor@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ <CACRpkdbDgOQXfxgM4dEyzBRhtske3=V+858B7J8jGExnJE5fJQ@mail.gmail.com>
+Date: Mon, 12 Aug 2019 10:21:55 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Linus Walleij" <linus.walleij@linaro.org>,
+ "Nathan Chancellor" <natechancellor@gmail.com>
+Subject: =?UTF-8?Q?Re:_[PATCH]_pinctrl:_aspeed:_g6:_Remove_const_specifier_from_a?=
+ =?UTF-8?Q?speed=5Fg6=5Fsig=5Fexpr=5Fset's_ctx_parameter?=
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,29 +100,38 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Aug 7, 2019 at 2:32 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
 
-> clang errors:
->
-> drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c:2325:9: error: incompatible
-> pointer types initializing 'int (*)(struct aspeed_pinmux_data *, const
-> struct aspeed_sig_expr *, bool)' with an expression of type 'int (const
-> struct aspeed_pinmux_data *, const struct aspeed_sig_expr *, bool)'
-> [-Werror,-Wincompatible-pointer-types]
->         .set = aspeed_g6_sig_expr_set,
->                ^~~~~~~~~~~~~~~~~~~~~~
-> 1 error generated.
->
-> Commit 674fa8daa8c9 ("pinctrl: aspeed-g5: Delay acquisition of regmaps")
-> changed the set function pointer declaration and the g6 one wasn't
-> updated (I assume because it wasn't merged yet).
->
-> Fixes: 2eda1cdec49f ("pinctrl: aspeed: Add AST2600 pinmux support")
-> Link: https://github.com/ClangBuiltLinux/linux/issues/632
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
 
-Patch applied with Andrew's ACK.
+On Sat, 10 Aug 2019, at 17:43, Linus Walleij wrote:
+> On Wed, Aug 7, 2019 at 2:32 AM Nathan Chancellor
+> <natechancellor@gmail.com> wrote:
+> 
+> > clang errors:
+> >
+> > drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c:2325:9: error: incompatible
+> > pointer types initializing 'int (*)(struct aspeed_pinmux_data *, const
+> > struct aspeed_sig_expr *, bool)' with an expression of type 'int (const
+> > struct aspeed_pinmux_data *, const struct aspeed_sig_expr *, bool)'
+> > [-Werror,-Wincompatible-pointer-types]
+> >         .set = aspeed_g6_sig_expr_set,
+> >                ^~~~~~~~~~~~~~~~~~~~~~
+> > 1 error generated.
+> >
+> > Commit 674fa8daa8c9 ("pinctrl: aspeed-g5: Delay acquisition of regmaps")
+> > changed the set function pointer declaration and the g6 one wasn't
+> > updated (I assume because it wasn't merged yet).
+> >
+> > Fixes: 2eda1cdec49f ("pinctrl: aspeed: Add AST2600 pinmux support")
+> > Link: https://github.com/ClangBuiltLinux/linux/issues/632
+> > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> 
+> Patch applied with Andrew's ACK.
 
-Yours,
-Linus Walleij
+FYI this fixes pinctrl/for-next which is likely where Nathan ran into the issue,
+however to fix pinctrl/devel we'll need a back-merge of pinctrl/fixes, or to
+apply 674fa8daa8c9 ("pinctrl: aspeed-g5: Delay acquisition of regmaps") to
+pinctrl/devel also.
+
+Fixing that bug was unfortunate timing wrt the 2600 driver.
+
+Andrew
