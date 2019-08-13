@@ -1,71 +1,69 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDD5A733E
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:12:25 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D4F8A7340
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:12:36 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46NGmP4lHvzDqlj
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:12:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46NGmc58ZvzDqld
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:12:32 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::543; helo=mail-pg1-x543.google.com;
+ (client-ip=2607:f8b0:4864:20::444; helo=mail-pf1-x444.google.com;
  envelope-from=nishkadg.linux@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="BtojRtPb"; 
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="Qg+zDHw9"; 
  dkim-atps=neutral
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4640td51zpzDqCb
- for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Aug 2019 17:51:21 +1000 (AEST)
-Received: by mail-pg1-x543.google.com with SMTP id w3so6408863pgt.13
- for <linux-aspeed@lists.ozlabs.org>; Thu, 08 Aug 2019 00:51:21 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4672xJ16jnzDqGc
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 13 Aug 2019 16:34:11 +1000 (AEST)
+Received: by mail-pf1-x444.google.com with SMTP id f17so47010941pfn.6
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 12 Aug 2019 23:34:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=SSnnmihUYLaKXzyTPjYYLBxGDRScrz3svy/ObDo3mAc=;
- b=BtojRtPbMAjLmUGMQJ7ClEybpXmv1+Mi+UUo849LLaPZo5nuf6jZnK6D3bQwIswvED
- kbYiM1hgXX4lE8iBai3WptwYBKYczV6YmPJv2Dvc47CpcvGV10QThi+ZVyDdzWcoIGR+
- 2As0qPeitNIQIzWxcGvN9W2M/hn7heivuNUKGcWEJ9iFfFdBSlSq5pmQQI+zkafMN6jU
- uPtznbzr6CKpnEcRdMY1nUpmGoZQ9zqz+7C8CNR3vWzjrcwB9+kn4YTGjCuYKNsVM8qE
- 7+XQ+dYeInr435rJCAzO5e31+XRunfkyMHyycSnQdfUJpGAR0kkjcSx+3tRGIgJI3AkQ
- RifA==
+ bh=GYvMpGNobVf3AqFb3xy5KgnpYbwIyZqHqD10LEnethw=;
+ b=Qg+zDHw9r6HZYqflIIV14xf3Uu6U8FtbmN0aBGEn/uk46YC4wb8qwCDmPmzGJV62Z1
+ WceSQ6S+tpYamK00BOiIl+8BSOKKbH1L3drOX/2ho7A8kcRVQNICkBRRrUrO0n+Gtbui
+ idhYt4DiFtRvwxoT4L5EwB2Zom7HVG2MRXG7XBVjjOy0X686r6oA6m5iAtmhn33Se0/V
+ +dTEX4khpmAI4UxF9EeXYccq8z/YDXktgj++QPcTkY/wAp/Gmeq1UD+HZ6F7rBxgfy48
+ oZMYoZvo+B1KpvxsYDpaGw0P8nd0PAn347JUf2dYolE9K9Z6FiVBxGLZn4t70QYVAgZ3
+ eHFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=SSnnmihUYLaKXzyTPjYYLBxGDRScrz3svy/ObDo3mAc=;
- b=UMIlxo3lmIzfaaqZ7kq1qCsL3iTistlJ8Lq773d0155095ck2fVckrl/+LuDl/UK5z
- P6HwxpnywCSDtyeY09s7FUG4LCBMSbyUbKb3S3MhsVXvLy8rr/4dIP/UzqUIfmMrl1LM
- ry4Cq2Zdmo1HDU45sNbL4jemj6LDVcVbtoYItJbf1px8lTe0YA+KgMVzYbPaLNPZMSBk
- l74b5EWh31C6CF8LmbBty34STNUHO4W04QiAZNUklMxMBzLPfK6mz+koRGI3jJduzGtj
- 3uvkAqMOgmtbF5PQYm0pyaMqE2ZYqYJuSTVakD7pmKrzjKmqKnNZS7ET9Nmeid+c8KOS
- ZZAA==
-X-Gm-Message-State: APjAAAUlpRNkbc9G7F5DPCuNWv/vgAW0wyNAcNzBOUdfpOyHQ2slgXgo
- K3UzUKQlhdqjicfXi7c18tg=
-X-Google-Smtp-Source: APXvYqzb4BAVBg0ifb2x9rYLwX8aneK9iIJBFsc6LtMuNn4lmieiAChuS3Dt/gOZYeg60hNjARY1iw==
-X-Received: by 2002:a63:c50f:: with SMTP id f15mr11538416pgd.372.1565250678430; 
- Thu, 08 Aug 2019 00:51:18 -0700 (PDT)
-Received: from localhost.localdomain ([122.163.44.6])
- by smtp.gmail.com with ESMTPSA id c69sm3279009pje.6.2019.08.08.00.51.13
+ bh=GYvMpGNobVf3AqFb3xy5KgnpYbwIyZqHqD10LEnethw=;
+ b=l7aP7vi5nstOnUXrOid2zXMX1Hajg9x0Eewc2z28bHgycLZrW/6GMyeeol+KSuLMcd
+ G1uevuPuifN0RMGdSiWaUhV62yhgDqpDthYCDg/0cQnoUBIFtgd+91T3OPmURnhGQq0H
+ +lvXZJKRwSgHlZ1xIgFKqwZNVG9rdnD/o7fW3c7c85Pzis7rbWAo0dn7VIcIk3fzO+gE
+ /5SsaDSEmxm37MowRX5+IVn8tyVsuyzhsgC6lCLYDhql+f/v175UCF6Rl4HU6Np+sVd8
+ gQ1H1Dt4oAkETqnkTi+nb3utMVrkSr9aoi6xTmWjWtcF06u7rP12a7Giseru1zoH7crm
+ Yfig==
+X-Gm-Message-State: APjAAAW6wpoJooKmua3Q7NI3oiowhiqjSeDQslCZNNtlq7l4gsa+3D64
+ zDEkCtMi/l+rTnoUHeTnqRE=
+X-Google-Smtp-Source: APXvYqwfms220Vinc5FlyiGQRBQG8JL5P/Qy34knvYhc+hDf7+JQAwz3oRsAYwjQjm6J5gH30+i+ww==
+X-Received: by 2002:a62:8648:: with SMTP id x69mr11624925pfd.92.1565678049875; 
+ Mon, 12 Aug 2019 23:34:09 -0700 (PDT)
+Received: from localhost.localdomain ([122.163.110.75])
+ by smtp.gmail.com with ESMTPSA id m34sm624871pje.5.2019.08.12.23.34.06
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 08 Aug 2019 00:51:17 -0700 (PDT)
+ Mon, 12 Aug 2019 23:34:09 -0700 (PDT)
 From: Nishka Dasgupta <nishkadg.linux@gmail.com>
-To: marek.vasut@gmail.com, tudor.ambarus@microchip.com, dwmw2@infradead.org,
- computersforpeace@gmail.com, miquel.raynal@bootlin.com, richard@nod.at,
- vigneshr@ti.com, joel@jms.id.au, andrew@aj.id.au,
- linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org
-Subject: [PATCH] mtd: spi-nor: aspeed-smc: Add of_node_put()
-Date: Thu,  8 Aug 2019 13:21:04 +0530
-Message-Id: <20190808075104.15928-1-nishkadg.linux@gmail.com>
+To: joel@jms.id.au, airlied@linux.ie, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, andrew@aj.id.au,
+ linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] drm/aspeed: gfc_crtc: Make structure aspeed_gfx_funcs constant
+Date: Tue, 13 Aug 2019 12:03:55 +0530
+Message-Id: <20190813063355.25549-1-nishkadg.linux@gmail.com>
 X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -86,36 +84,30 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Each iteration of for_each_available_child_of_node puts the previous
-node, but in the case of a break from the middle of the loop, there is
-no put, thus causing a memory leak. Upon termination of the loop
-(whether by break or a natural exit), either ret will have a non-zero
-value or child will be NULL. Hence add an of_node_put() that will
-execute only when ret has a non-zero value, as calling of_node_put() on
-a possible NULL value does not cause any further issues.
+The static structure aspeed_gfx_funcs, of type
+drm_simple_display_pipe_funcs, is used only as an argument to
+drm_simple_display_pipe_init(), which does not modify it. Hence make it
+constant to protect it from unintended modification.
 Issue found with Coccinelle.
 
 Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
 ---
- drivers/mtd/spi-nor/aspeed-smc.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/mtd/spi-nor/aspeed-smc.c b/drivers/mtd/spi-nor/aspeed-smc.c
-index 19b8757325d2..009c1da8574c 100644
---- a/drivers/mtd/spi-nor/aspeed-smc.c
-+++ b/drivers/mtd/spi-nor/aspeed-smc.c
-@@ -836,8 +836,10 @@ static int aspeed_smc_setup_flash(struct aspeed_smc_controller *controller,
- 		controller->chips[cs] = chip;
- 	}
- 
--	if (ret)
-+	if (ret) {
-+		of_node_put(child);
- 		aspeed_smc_unregister(controller);
-+	}
- 
- 	return ret;
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+index 15db9e426ec4..2184b8be6fd4 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+@@ -215,7 +215,7 @@ static void aspeed_gfx_disable_vblank(struct drm_simple_display_pipe *pipe)
+ 	writel(reg | CRT_CTRL_VERTICAL_INTR_STS, priv->base + CRT_CTRL1);
  }
+ 
+-static struct drm_simple_display_pipe_funcs aspeed_gfx_funcs = {
++static const struct drm_simple_display_pipe_funcs aspeed_gfx_funcs = {
+ 	.enable		= aspeed_gfx_pipe_enable,
+ 	.disable	= aspeed_gfx_pipe_disable,
+ 	.update		= aspeed_gfx_pipe_update,
 -- 
 2.19.1
 
