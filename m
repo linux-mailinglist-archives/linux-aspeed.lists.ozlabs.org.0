@@ -1,80 +1,72 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 697918D19F
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2019 12:56:35 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id B79B58DBBA
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2019 19:27:52 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 467mjX1hpHzDqsH
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2019 20:56:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 467xP15cSDzDqtm
+	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Aug 2019 03:27:49 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=linaro.org
- (client-ip=2a00:1450:4864:20::341; helo=mail-wm1-x341.google.com;
- envelope-from=lee.jones@linaro.org; receiver=<UNKNOWN>)
+ spf=none (mailfrom) smtp.mailfrom=ffwll.ch
+ (client-ip=2a00:1450:4864:20::542; helo=mail-ed1-x542.google.com;
+ envelope-from=daniel@ffwll.ch; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.b="SdT02fPi"; 
+ dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=ffwll.ch header.i=@ffwll.ch header.b="S4LZ0ZhI"; 
  dkim-atps=neutral
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 467mgT6JZ8zDqpd
- for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Aug 2019 20:54:45 +1000 (AEST)
-Received: by mail-wm1-x341.google.com with SMTP id p74so4185099wme.4
- for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Aug 2019 03:54:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=tT1WBkErjAogTXzuIr64b4Ipw6zSwCNCCPdgxI3cPic=;
- b=SdT02fPizF4VsboyubypNXDpHVLnbdZbIsuPH+ovAlV5oBYyfxf+IqaHkW/lXVSOgg
- kwC+GscgHbhE+BM34hlIzT1cHQV6ngH7tNC6TG6DmwZgNBLe2MCZ3Jmg07GXmPHYOjbr
- k8NQN/NtlfNnCZyMXOYOJxsiWf1JmP53Mq5BITPOgRDzYyO3Cs8pF9uq2ZIMQNO8QJF9
- o884eKSq00ZGTYrgQWUjcD9Rs6p7yHWWqjEpnGMmjiHchQLPx/2yM62XgRZYSEQ7tqg2
- rDfQ/uBtjTxdZcZUQXerWQzzjolGQb0sTjZZnUuqFYftQRe7QZM7gpY1vADKoRV3FXTd
- puUw==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 467xNq2qF4zDqgd
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Aug 2019 03:27:34 +1000 (AEST)
+Received: by mail-ed1-x542.google.com with SMTP id h13so7737186edq.10
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Aug 2019 10:27:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=+2YJRbop7obhJvx6M/oXULPH/J+nom3HFlj8fZHLgck=;
+ b=S4LZ0ZhIFTLmy+dmmZbaLaOg0YS4AVm25WTeqTC5q04TLFmuKXix6ea6GroX69AccQ
+ TVsyDYKimeexBM+zMbTI7uThBz1wKxoZ2LA/DsPjtLnCxTpInBlf253wnioU/rbc30kx
+ lxmEzhEsWTICGjuh7wAQdG5twlk69J1nGF1g0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=tT1WBkErjAogTXzuIr64b4Ipw6zSwCNCCPdgxI3cPic=;
- b=VjLnZ/XGF0vV6HNpecLteQE7m3dw/f7OKzA8tqYkSqNunpXATwK1xQQ8MrB6QuMTnY
- eQaoD7u6Pcsm8wNM1VbTeo7y/BIguOrWPI1WFSHn9ZfMjZuJI4dTAcKZB2IUYCUdsgp5
- 15kF7hNVKB2w3qrWP/tYk9EpXTsPlKEZsci4pvQVOeUmzuzTh7Ev1GugsRSoa5/YVIL3
- U2rAZT0/avT5eR9GqwxpQB70JDphlqKbpw6EjmeBaE4x9Wps0c8uqLfAQ5f+mMhuJ1ju
- bloCNn9elFhvNZB88nXXfiq/PrNuES2pVF/7FWvH86HZFPuo4sEgd9OdJHl6QdoogY9P
- qItQ==
-X-Gm-Message-State: APjAAAVHSXa94xUL59+hTKWQ6l0yBpmudeFhdm2ETI0Wc+h1YtFRFPWb
- KH+Fw3kNv1H5HDj0sBMIRy5UiQ==
-X-Google-Smtp-Source: APXvYqyKLin58q1G/qvQ8vEt+Ct9hq4RH5l/rpi6T0U8tdIutWirP+pgkhY/ww5FQqvj81PeYCpPOA==
-X-Received: by 2002:a1c:a8c9:: with SMTP id r192mr8019337wme.43.1565780080798; 
- Wed, 14 Aug 2019 03:54:40 -0700 (PDT)
-Received: from dell ([2.27.35.255])
- by smtp.gmail.com with ESMTPSA id e9sm2998336wrm.43.2019.08.14.03.54.38
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 14 Aug 2019 03:54:39 -0700 (PDT)
-Date: Wed, 14 Aug 2019 11:54:37 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 3/3] dt-bindings: aspeed: Remove mention of deprecated
- compatibles
-Message-ID: <20190814105437.GE26727@dell>
-References: <20190724081313.12934-1-andrew@aj.id.au>
- <20190724081313.12934-4-andrew@aj.id.au>
- <CACRpkdZCJWeZO6CFvkq4uhnX+o_q_AfkDZ=a2kmUgbS3JtDqfA@mail.gmail.com>
- <20190812101504.GF26727@dell>
- <CACRpkdapA_-yp4ihY3S+CHMmDMKU2b0u=sj2UhJ-cvv39Dji_g@mail.gmail.com>
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=+2YJRbop7obhJvx6M/oXULPH/J+nom3HFlj8fZHLgck=;
+ b=m3EPKFRxoHZhs8P0Jvker1uDMPcSMmObPa9r39rcarh3WW0DnqAELXj3bBO5DCUa+c
+ iU50Ewx3JmKLfgH/+Tx9bkt/XuGSg9DbWqpl5C3/5ZaY6iB1VMJfk3ZnK4hh9HAn6qyf
+ nmtaRXdDoHwgKcrH0ZDofiQzoY1f6Ty+8S/trK4YqN9ycLp8z2a3o2DabURV0dt+oMaX
+ ixMwy2vNFNkDGe8wXoNCBB28Sy3jnYfpG2XXz38XLicSzVS7PvWk/8zuf/aXNrMVobDE
+ TEKpvZ8n4YT9z9uhZAFt91sweKrOZMyANrT4C/JEakLPjmmwZ/gUmcc6++zLblVTG5IT
+ cJGQ==
+X-Gm-Message-State: APjAAAWT47xDnJs/C0fyPcWDNj0sBPUNMwy3Uk/3/CwA6PVJtu02W7Dt
+ dVSubl2mqTgVo4w5x/t3dIXGBg==
+X-Google-Smtp-Source: APXvYqxDenh8FqJ/E7jAQeR7LkcaMiSGhd2axDUeDfcgpFNQ91SfeEo1ZCMhZXrO8haciNGMe7XFWQ==
+X-Received: by 2002:a50:ed94:: with SMTP id h20mr814730edr.59.1565803650087;
+ Wed, 14 Aug 2019 10:27:30 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+ by smtp.gmail.com with ESMTPSA id f6sm72806edk.79.2019.08.14.10.27.29
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 14 Aug 2019 10:27:29 -0700 (PDT)
+Date: Wed, 14 Aug 2019 19:27:27 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Nishka Dasgupta <nishkadg.linux@gmail.com>
+Subject: Re: [PATCH] drm/aspeed: gfc_crtc: Make structure aspeed_gfx_funcs
+ constant
+Message-ID: <20190814172727.GQ7444@phenom.ffwll.local>
+References: <20190813063355.25549-1-nishkadg.linux@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdapA_-yp4ihY3S+CHMmDMKU2b0u=sj2UhJ-cvv39Dji_g@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20190813063355.25549-1-nishkadg.linux@gmail.com>
+X-Operating-System: Linux phenom 4.19.0-5-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,43 +78,45 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-aspeed@lists.ozlabs.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 14 Aug 2019, Linus Walleij wrote:
-
-> On Mon, Aug 12, 2019 at 12:15 PM Lee Jones <lee.jones@linaro.org> wrote:
-> > On Mon, 05 Aug 2019, Linus Walleij wrote:
-> >
-> > > On Wed, Jul 24, 2019 at 10:13 AM Andrew Jeffery <andrew@aj.id.au> wrote:
-> > >
-> > > > Guide readers away from using the aspeed,g[45].* compatible patterns.
-> > > >
-> > > > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> > >
-> > > Patch applied to the pinctrl tree.
-> >
-> > With my Ack?
+On Tue, Aug 13, 2019 at 12:03:55PM +0530, Nishka Dasgupta wrote:
+> The static structure aspeed_gfx_funcs, of type
+> drm_simple_display_pipe_funcs, is used only as an argument to
+> drm_simple_display_pipe_init(), which does not modify it. Hence make it
+> constant to protect it from unintended modification.
+> Issue found with Coccinelle.
 > 
-> Sorry no. :( Was I too trigger-happy?
-> 
-> Usually I take Rob's ACK as authoritative for anything under
-> Documentation/devicetree but if you have concerns about the
-> patch from an MFD point of view I will revert it pending further
-> discussion.
+> Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
 
-No need.  I would have Acked it.
+Applied, thanks for your patch.
+> ---
+>  drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+> index 15db9e426ec4..2184b8be6fd4 100644
+> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+> @@ -215,7 +215,7 @@ static void aspeed_gfx_disable_vblank(struct drm_simple_display_pipe *pipe)
+>  	writel(reg | CRT_CTRL_VERTICAL_INTR_STS, priv->base + CRT_CTRL1);
+>  }
+>  
+> -static struct drm_simple_display_pipe_funcs aspeed_gfx_funcs = {
+> +static const struct drm_simple_display_pipe_funcs aspeed_gfx_funcs = {
+>  	.enable		= aspeed_gfx_pipe_enable,
+>  	.disable	= aspeed_gfx_pipe_disable,
+>  	.update		= aspeed_gfx_pipe_update,
+> -- 
+> 2.19.1
+> 
 
 -- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
