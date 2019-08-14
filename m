@@ -1,70 +1,80 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C978CEA8
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2019 10:41:43 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 697918D19F
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2019 12:56:35 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 467jjw5nmgzDqJB
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2019 18:41:40 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 467mjX1hpHzDqsH
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Aug 2019 20:56:32 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=linaro.org
- (client-ip=2a00:1450:4864:20::142; helo=mail-lf1-x142.google.com;
- envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
+ (client-ip=2a00:1450:4864:20::341; helo=mail-wm1-x341.google.com;
+ envelope-from=lee.jones@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.b="r2pSn+Kr"; 
+ unprotected) header.d=linaro.org header.i=@linaro.org header.b="SdT02fPi"; 
  dkim-atps=neutral
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 467jjp3L0tzDqHX
- for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Aug 2019 18:41:32 +1000 (AEST)
-Received: by mail-lf1-x142.google.com with SMTP id c19so78770753lfm.10
- for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Aug 2019 01:41:32 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 467mgT6JZ8zDqpd
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Aug 2019 20:54:45 +1000 (AEST)
+Received: by mail-wm1-x341.google.com with SMTP id p74so4185099wme.4
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Aug 2019 03:54:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KzpALMQhsAYiuMs6y6iJLV3dLZWeIJlGmnisMykIAis=;
- b=r2pSn+KrIj0p/r1Jh1Qa8oRX30gNZzgGkBpwKkDEJNczG7E+VnEvwitjkTtXDi+iiY
- 4quGEaWmppl+rGwEtCxpw/UZ3hBqlm+OVntmnenzCFo/I6+LXJxNE7F5nzZUYPGfUZiM
- xiG/6RYIi+mV1854OvRiWUXHkXNDPIzy+8pHNKtKmSgN6mwGISjCmBFoX1/xBh582HPF
- 0rE/0WduaDy2igRu2LN3eXNSIweY7DEhtBe8nqhlALJP8Xv3yu9U1R/0vGBigFAmvlLa
- PAsFJPhwguzevp0v5g/p6gMTOOiq08hxCCU/MhScC+UZSJVOlkN0kzs35xo7Oo+fvBp+
- LgMg==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=tT1WBkErjAogTXzuIr64b4Ipw6zSwCNCCPdgxI3cPic=;
+ b=SdT02fPizF4VsboyubypNXDpHVLnbdZbIsuPH+ovAlV5oBYyfxf+IqaHkW/lXVSOgg
+ kwC+GscgHbhE+BM34hlIzT1cHQV6ngH7tNC6TG6DmwZgNBLe2MCZ3Jmg07GXmPHYOjbr
+ k8NQN/NtlfNnCZyMXOYOJxsiWf1JmP53Mq5BITPOgRDzYyO3Cs8pF9uq2ZIMQNO8QJF9
+ o884eKSq00ZGTYrgQWUjcD9Rs6p7yHWWqjEpnGMmjiHchQLPx/2yM62XgRZYSEQ7tqg2
+ rDfQ/uBtjTxdZcZUQXerWQzzjolGQb0sTjZZnUuqFYftQRe7QZM7gpY1vADKoRV3FXTd
+ puUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KzpALMQhsAYiuMs6y6iJLV3dLZWeIJlGmnisMykIAis=;
- b=jysurIVGfdYrIoAIOOjL5ttCwGhmvwB6caVyehwlzcVOPasNLtixOQu9I+XltZTGV1
- pOBVx1LEFCJGLwMCBQeQ3r1qtgWQmQEaR7EBlToOU0tM9iVXwbh6IXSxPQfmYH4aok9c
- 52I790EqVQNhdoErUWtdiJV1SXtnrCVKqPVIwjJoks0zP2xGQ+iEgwgwq6w97t2yo1/4
- KsDfszZ1/gPx6SPEx9aFHtAKLkWF7SJpF14PayqL+CmkDdXgDFaS6HTP7gkc8nyYks2p
- WUF6F6T0v8bJpGL8zdDLBANdJMW92ebvo/o3eeSsEfvPCqjntJXLZwGcn5QoJP+QIA0f
- NHkQ==
-X-Gm-Message-State: APjAAAXF1NFAkdKuW3woF9km7V5IUDdXwxghs9v+9LWxRs3nWaKMTgT3
- 7KrakN4hzUDWldmH/7YvnukvbsoNsuopoYycPUgcMw==
-X-Google-Smtp-Source: APXvYqx5nqnXeVYMCMOMXqQ9fV6cH2bSPFPCrhICg/SdR9VyEVww1xueQTgGw2t8u9djOnijC0ljUID4vf6sSeDgNCQ=
-X-Received: by 2002:ac2:4c07:: with SMTP id t7mr22886155lfq.152.1565772089303; 
- Wed, 14 Aug 2019 01:41:29 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=tT1WBkErjAogTXzuIr64b4Ipw6zSwCNCCPdgxI3cPic=;
+ b=VjLnZ/XGF0vV6HNpecLteQE7m3dw/f7OKzA8tqYkSqNunpXATwK1xQQ8MrB6QuMTnY
+ eQaoD7u6Pcsm8wNM1VbTeo7y/BIguOrWPI1WFSHn9ZfMjZuJI4dTAcKZB2IUYCUdsgp5
+ 15kF7hNVKB2w3qrWP/tYk9EpXTsPlKEZsci4pvQVOeUmzuzTh7Ev1GugsRSoa5/YVIL3
+ U2rAZT0/avT5eR9GqwxpQB70JDphlqKbpw6EjmeBaE4x9Wps0c8uqLfAQ5f+mMhuJ1ju
+ bloCNn9elFhvNZB88nXXfiq/PrNuES2pVF/7FWvH86HZFPuo4sEgd9OdJHl6QdoogY9P
+ qItQ==
+X-Gm-Message-State: APjAAAVHSXa94xUL59+hTKWQ6l0yBpmudeFhdm2ETI0Wc+h1YtFRFPWb
+ KH+Fw3kNv1H5HDj0sBMIRy5UiQ==
+X-Google-Smtp-Source: APXvYqyKLin58q1G/qvQ8vEt+Ct9hq4RH5l/rpi6T0U8tdIutWirP+pgkhY/ww5FQqvj81PeYCpPOA==
+X-Received: by 2002:a1c:a8c9:: with SMTP id r192mr8019337wme.43.1565780080798; 
+ Wed, 14 Aug 2019 03:54:40 -0700 (PDT)
+Received: from dell ([2.27.35.255])
+ by smtp.gmail.com with ESMTPSA id e9sm2998336wrm.43.2019.08.14.03.54.38
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 14 Aug 2019 03:54:39 -0700 (PDT)
+Date: Wed, 14 Aug 2019 11:54:37 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 3/3] dt-bindings: aspeed: Remove mention of deprecated
+ compatibles
+Message-ID: <20190814105437.GE26727@dell>
 References: <20190724081313.12934-1-andrew@aj.id.au>
  <20190724081313.12934-4-andrew@aj.id.au>
  <CACRpkdZCJWeZO6CFvkq4uhnX+o_q_AfkDZ=a2kmUgbS3JtDqfA@mail.gmail.com>
  <20190812101504.GF26727@dell>
-In-Reply-To: <20190812101504.GF26727@dell>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 14 Aug 2019 10:41:17 +0200
-Message-ID: <CACRpkdapA_-yp4ihY3S+CHMmDMKU2b0u=sj2UhJ-cvv39Dji_g@mail.gmail.com>
-Subject: Re: [PATCH 3/3] dt-bindings: aspeed: Remove mention of deprecated
- compatibles
-To: Lee Jones <lee.jones@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+ <CACRpkdapA_-yp4ihY3S+CHMmDMKU2b0u=sj2UhJ-cvv39Dji_g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACRpkdapA_-yp4ihY3S+CHMmDMKU2b0u=sj2UhJ-cvv39Dji_g@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,25 +97,32 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Aug 12, 2019 at 12:15 PM Lee Jones <lee.jones@linaro.org> wrote:
-> On Mon, 05 Aug 2019, Linus Walleij wrote:
->
-> > On Wed, Jul 24, 2019 at 10:13 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+On Wed, 14 Aug 2019, Linus Walleij wrote:
+
+> On Mon, Aug 12, 2019 at 12:15 PM Lee Jones <lee.jones@linaro.org> wrote:
+> > On Mon, 05 Aug 2019, Linus Walleij wrote:
 > >
-> > > Guide readers away from using the aspeed,g[45].* compatible patterns.
+> > > On Wed, Jul 24, 2019 at 10:13 AM Andrew Jeffery <andrew@aj.id.au> wrote:
 > > >
-> > > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> > > > Guide readers away from using the aspeed,g[45].* compatible patterns.
+> > > >
+> > > > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> > >
+> > > Patch applied to the pinctrl tree.
 > >
-> > Patch applied to the pinctrl tree.
->
-> With my Ack?
+> > With my Ack?
+> 
+> Sorry no. :( Was I too trigger-happy?
+> 
+> Usually I take Rob's ACK as authoritative for anything under
+> Documentation/devicetree but if you have concerns about the
+> patch from an MFD point of view I will revert it pending further
+> discussion.
 
-Sorry no. :( Was I too trigger-happy?
+No need.  I would have Acked it.
 
-Usually I take Rob's ACK as authoritative for anything under
-Documentation/devicetree but if you have concerns about the
-patch from an MFD point of view I will revert it pending further
-discussion.
-
-Yours,
-Linus Walleij
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
