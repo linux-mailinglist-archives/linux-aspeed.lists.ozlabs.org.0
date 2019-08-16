@@ -1,69 +1,72 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD8B90522
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Aug 2019 17:59:55 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00CB690524
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Aug 2019 18:00:01 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4697Lb6GwkzDrVB
-	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Aug 2019 01:59:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4697Lj5XZDzDrKj
+	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Aug 2019 01:59:57 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::441; helo=mail-pf1-x441.google.com;
+ (client-ip=2607:f8b0:4864:20::442; helo=mail-pf1-x442.google.com;
  envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="vTW0wZ3Z"; 
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="riVGsWza"; 
  dkim-atps=neutral
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4697Js55kwzDrfW
- for <linux-aspeed@lists.ozlabs.org>; Sat, 17 Aug 2019 01:58:20 +1000 (AEST)
-Received: by mail-pf1-x441.google.com with SMTP id 196so3326864pfz.8
- for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Aug 2019 08:58:20 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4697Jw3H0YzDrbn
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 17 Aug 2019 01:58:24 +1000 (AEST)
+Received: by mail-pf1-x442.google.com with SMTP id v12so3321225pfn.10
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Aug 2019 08:58:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PoloVULM911anludKTQHYfSvmuLN6FTBR2hjXpDeBXY=;
- b=vTW0wZ3ZuNxw8rzOf7RKNLMdbJDK9Gz96Y1tf/keYFne0Sz53pJtgzLdxZG+sfluOX
- PosHcRRZxxTLnFtYkrtPUG/2bx+OOjICVlI+ZGngX20OncUlOi9p0E0WROb0yj7wP05H
- mv8cE1G3F6wzNiiasfpemOgmrTDKs/8LfQD2/p8NZ5scPd1CBrxlUoJNSafvN5ikxFHj
- HbfpKOU7sksv/B6NAmaT3X05oT6xBqlGydkU4DjRGtucdN/ERgH3zrpmrzFveHm7JGX1
- sq4CPUN+qZTLLxs3LpYB2LzXx/ywcNWbhipakKlwTByqmYrvDxc3m74O0IuX0VnVVcR9
- V/cA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=zglRUo87FrQV2zX9KKFbhlLEMq8IJXox2mwKvEQ1BRM=;
+ b=riVGsWzaiZrh4uyngeP2RJwEeuP8SQCbxRX/4QwDFNTYsvkuyZshqUaPQg/YccV6DR
+ IsifDMnM9N3rTY2+Tg3e/H950a0CWgcN5UKaFLCcdg3WiLO1Jm6XF3uEoIgyBieq2+lP
+ vbX/2HDHoQRqUe2ud7LPRHIJJoXLkjUJVhf/ilp0ViYIG5gxhhZJeRZcwsu/f5oVQGLe
+ oLodkSlKQ4lVSfXWGG7qMgA0Tpf51nEBJXUnbzjwWW32YAmPiohbHpkPgH+nQ80qHNEL
+ f1KA23kW0V3DU/9S/isEeerAxXYU/QmjzZkvaHFNFBK5bqEl6+AnRmILwdkdJOkZybZx
+ ue8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=PoloVULM911anludKTQHYfSvmuLN6FTBR2hjXpDeBXY=;
- b=IpqVMD2vqWpV+5pjV8W/PjbpciUZNv6wHbORGlvHFm8Vi2NQfFlMAFKYXeWn8+7Qdi
- 9k4Z+fAaOVsyMC71DM4G/RtVBxRcKUCNIh9sYxIxLCJXdaMrK9U36kMkLFPQOgW6/eDQ
- YJW2RPwATdaXyed9O5RebZwLrFHrDPao63oXnJBstnY7+E0nf33Ujyv920vvTi+qkfTh
- XjAUNvzDwD6PTPx8cZNwfM1nZP0K2xetCZ5tgAaJD5polj7oWmxm1A+lQMs48ogG/1Zv
- dTsb0GaP4SwRuwkqde9DbEXbA2wTBv3rnkpKydG6PYMV8BAB/t8r2G8n9pkH2kwX6rq0
- ++/w==
-X-Gm-Message-State: APjAAAXk3qk7dFAzUKiJtOKoYFu5C/f/t5hNveH32g0R7S2xZasRcZDg
- DPGLKMZvKyR4/TlRLn2ydws=
-X-Google-Smtp-Source: APXvYqwO2QPstr1atjcPz6YfyQbIQS/NHnTkmgQZY8GHgLSuWsv1jS7yJiG0Xt0T9Ay9tYauuz+M7w==
-X-Received: by 2002:a63:fe17:: with SMTP id p23mr8368278pgh.103.1565971097219; 
- Fri, 16 Aug 2019 08:58:17 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=zglRUo87FrQV2zX9KKFbhlLEMq8IJXox2mwKvEQ1BRM=;
+ b=mgSTTzKAuhyUax+48EZBCgd3eFmu44b7En0j14ymvjPWNexjOKVVKdoErA9p/lA6dD
+ YgtnSdYHWN40x/pv0yhn5oLSvVHSxfkSQuY1Kv/n/8dFKfnMjI2ogtxtFEbgyxADAT9y
+ 5oRhXDr61nydGOUeogrQIEjRsmBIh4yigaQxAjY+GyAoSDSzKo6kcF8OyERbXvJCduJh
+ MfFiRNO0V8DPqgtnJRaSF1MXWR0wxq88pGnYtgRlaI+ZKuA0Eb76V2phHxfBHmX61Ufz
+ aKVCzrEDsrSZ+uvjgore/h/lB9DFvzox6gXzWrI90iX7X7oXJdXM6hqGjRdDRRlcPxQe
+ pRnQ==
+X-Gm-Message-State: APjAAAXT3TFEbCSa+/asV9SnW0q+xUOVMPKAhNGwuBzZqZHpKDwZZPpZ
+ FX9EiLcb6ErFFQZjV7qKyR3mTFgU
+X-Google-Smtp-Source: APXvYqwnRgwkT9B1gYcGwvd2PVFCvv/IFEGurXHnnHC9Vjw+S0WcEONGxRvS1+5KwwDQ2FyHNn8iEA==
+X-Received: by 2002:a17:90a:c08f:: with SMTP id
+ o15mr8108462pjs.31.1565971101434; 
+ Fri, 16 Aug 2019 08:58:21 -0700 (PDT)
 Received: from localhost.localdomain ([45.124.203.19])
- by smtp.gmail.com with ESMTPSA id s24sm5746052pgm.3.2019.08.16.08.58.13
+ by smtp.gmail.com with ESMTPSA id s24sm5746052pgm.3.2019.08.16.08.58.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Aug 2019 08:58:16 -0700 (PDT)
+ Fri, 16 Aug 2019 08:58:20 -0700 (PDT)
 From: Joel Stanley <joel@jms.id.au>
 To: Stephen Boyd <sboyd@kernel.org>,
  Michael Turquette <mturquette@baylibre.com>
-Subject: [PATCH 0/2] clk: Add driver for ast2600
-Date: Sat, 17 Aug 2019 01:28:04 +0930
-Message-Id: <20190816155806.22869-1-joel@jms.id.au>
+Subject: [PATCH 1/2] clk: aspeed: Move structures to header
+Date: Sat, 17 Aug 2019 01:28:05 +0930
+Message-Id: <20190816155806.22869-2-joel@jms.id.au>
 X-Mailer: git-send-email 2.23.0.rc1
+In-Reply-To: <20190816155806.22869-1-joel@jms.id.au>
+References: <20190816155806.22869-1-joel@jms.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -84,28 +87,190 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello clock maintainers,
+They will be reused by the ast2600 driver.
 
-This adds a new driver for the ast2600 BMC's clocks. It's a separate
-from the existing aspeed one as the ast2600 changes enough from the
-previous generation to make it hard to support with one driver.
-
-It has been tested on the ast2600 evaluation board.
-
-Joel Stanley (2):
-  clk: aspeed: Move structures to header
-  clk: Add support for AST2600 SoC
-
- drivers/clk/Makefile                      |   1 +
- drivers/clk/clk-aspeed.c                  |  63 +-
- drivers/clk/clk-aspeed.h                  |  76 +++
- drivers/clk/clk-ast2600.c                 | 711 ++++++++++++++++++++++
- include/dt-bindings/clock/ast2600-clock.h | 116 ++++
- 5 files changed, 906 insertions(+), 61 deletions(-)
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ drivers/clk/clk-aspeed.c | 63 ++--------------------------------
+ drivers/clk/clk-aspeed.h | 74 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 76 insertions(+), 61 deletions(-)
  create mode 100644 drivers/clk/clk-aspeed.h
- create mode 100644 drivers/clk/clk-ast2600.c
- create mode 100644 include/dt-bindings/clock/ast2600-clock.h
 
+diff --git a/drivers/clk/clk-aspeed.c b/drivers/clk/clk-aspeed.c
+index 898291501f45..44df54d87ad4 100644
+--- a/drivers/clk/clk-aspeed.c
++++ b/drivers/clk/clk-aspeed.c
+@@ -14,6 +14,8 @@
+ 
+ #include <dt-bindings/clock/aspeed-clock.h>
+ 
++#include "clk-aspeed.h"
++
+ #define ASPEED_NUM_CLKS		36
+ 
+ #define ASPEED_RESET2_OFFSET	32
+@@ -42,48 +44,6 @@ static struct clk_hw_onecell_data *aspeed_clk_data;
+ 
+ static void __iomem *scu_base;
+ 
+-/**
+- * struct aspeed_gate_data - Aspeed gated clocks
+- * @clock_idx: bit used to gate this clock in the clock register
+- * @reset_idx: bit used to reset this IP in the reset register. -1 if no
+- *             reset is required when enabling the clock
+- * @name: the clock name
+- * @parent_name: the name of the parent clock
+- * @flags: standard clock framework flags
+- */
+-struct aspeed_gate_data {
+-	u8		clock_idx;
+-	s8		reset_idx;
+-	const char	*name;
+-	const char	*parent_name;
+-	unsigned long	flags;
+-};
+-
+-/**
+- * struct aspeed_clk_gate - Aspeed specific clk_gate structure
+- * @hw:		handle between common and hardware-specific interfaces
+- * @reg:	register controlling gate
+- * @clock_idx:	bit used to gate this clock in the clock register
+- * @reset_idx:	bit used to reset this IP in the reset register. -1 if no
+- *		reset is required when enabling the clock
+- * @flags:	hardware-specific flags
+- * @lock:	register lock
+- *
+- * Some of the clocks in the Aspeed SoC must be put in reset before enabling.
+- * This modified version of clk_gate allows an optional reset bit to be
+- * specified.
+- */
+-struct aspeed_clk_gate {
+-	struct clk_hw	hw;
+-	struct regmap	*map;
+-	u8		clock_idx;
+-	s8		reset_idx;
+-	u8		flags;
+-	spinlock_t	*lock;
+-};
+-
+-#define to_aspeed_clk_gate(_hw) container_of(_hw, struct aspeed_clk_gate, hw)
+-
+ /* TODO: ask Aspeed about the actual parent data */
+ static const struct aspeed_gate_data aspeed_gates[] = {
+ 	/*				 clk rst   name			parent	flags */
+@@ -208,13 +168,6 @@ static struct clk_hw *aspeed_ast2500_calc_pll(const char *name, u32 val)
+ 			mult, div);
+ }
+ 
+-struct aspeed_clk_soc_data {
+-	const struct clk_div_table *div_table;
+-	const struct clk_div_table *eclk_div_table;
+-	const struct clk_div_table *mac_div_table;
+-	struct clk_hw *(*calc_pll)(const char *name, u32 val);
+-};
+-
+ static const struct aspeed_clk_soc_data ast2500_data = {
+ 	.div_table = ast2500_div_table,
+ 	.eclk_div_table = ast2500_eclk_div_table,
+@@ -315,18 +268,6 @@ static const struct clk_ops aspeed_clk_gate_ops = {
+ 	.is_enabled = aspeed_clk_is_enabled,
+ };
+ 
+-/**
+- * struct aspeed_reset - Aspeed reset controller
+- * @map: regmap to access the containing system controller
+- * @rcdev: reset controller device
+- */
+-struct aspeed_reset {
+-	struct regmap			*map;
+-	struct reset_controller_dev	rcdev;
+-};
+-
+-#define to_aspeed_reset(p) container_of((p), struct aspeed_reset, rcdev)
+-
+ static const u8 aspeed_resets[] = {
+ 	/* SCU04 resets */
+ 	[ASPEED_RESET_XDMA]	= 25,
+diff --git a/drivers/clk/clk-aspeed.h b/drivers/clk/clk-aspeed.h
+new file mode 100644
+index 000000000000..92d384367c25
+--- /dev/null
++++ b/drivers/clk/clk-aspeed.h
+@@ -0,0 +1,74 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Structures used by ASPEED clock drivers
++ *
++ * Copyright 2019 IBM Corp.
++ */
++
++/**
++ * struct aspeed_gate_data - Aspeed gated clocks
++ * @clock_idx: bit used to gate this clock in the clock register
++ * @reset_idx: bit used to reset this IP in the reset register. -1 if no
++ *             reset is required when enabling the clock
++ * @name: the clock name
++ * @parent_name: the name of the parent clock
++ * @flags: standard clock framework flags
++ */
++struct aspeed_gate_data {
++	u8		clock_idx;
++	s8		reset_idx;
++	const char	*name;
++	const char	*parent_name;
++	unsigned long	flags;
++};
++
++/**
++ * struct aspeed_clk_gate - Aspeed specific clk_gate structure
++ * @hw:		handle between common and hardware-specific interfaces
++ * @reg:	register controlling gate
++ * @clock_idx:	bit used to gate this clock in the clock register
++ * @reset_idx:	bit used to reset this IP in the reset register. -1 if no
++ *		reset is required when enabling the clock
++ * @flags:	hardware-specific flags
++ * @lock:	register lock
++ *
++ * Some of the clocks in the Aspeed SoC must be put in reset before enabling.
++ * This modified version of clk_gate allows an optional reset bit to be
++ * specified.
++ */
++struct aspeed_clk_gate {
++	struct clk_hw	hw;
++	struct regmap	*map;
++	u8		clock_idx;
++	s8		reset_idx;
++	u8		flags;
++	spinlock_t	*lock;
++};
++
++#define to_aspeed_clk_gate(_hw) container_of(_hw, struct aspeed_clk_gate, hw)
++
++/**
++ * struct aspeed_reset - Aspeed reset controller
++ * @map: regmap to access the containing system controller
++ * @rcdev: reset controller device
++ */
++struct aspeed_reset {
++	struct regmap			*map;
++	struct reset_controller_dev	rcdev;
++};
++
++#define to_aspeed_reset(p) container_of((p), struct aspeed_reset, rcdev)
++
++/**
++ * struct aspeed_clk_soc_data - Aspeed SoC specific divisor information
++ * @div_table: Common divider lookup table
++ * @eclk_div_table: Divider lookup table for ECLK
++ * @mac_div_table: Divider lookup table for MAC (Ethernet) clocks
++ * @calc_pll: Callback to maculate common PLL settings
++ */
++struct aspeed_clk_soc_data {
++	const struct clk_div_table *div_table;
++	const struct clk_div_table *eclk_div_table;
++	const struct clk_div_table *mac_div_table;
++	struct clk_hw *(*calc_pll)(const char *name, u32 val);
++};
 -- 
 2.23.0.rc1
 
