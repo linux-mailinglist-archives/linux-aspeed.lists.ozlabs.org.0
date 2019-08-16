@@ -2,82 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA7F8E47F
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Aug 2019 07:38:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD8B90522
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Aug 2019 17:59:55 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 468Fbm4gd4zDr55
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Aug 2019 15:38:12 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4697Lb6GwkzDrVB
+	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Aug 2019 01:59:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.230; helo=new4-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::441; helo=mail-pf1-x441.google.com;
+ envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
+ dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="f7SS+Nng"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="zt8Uh/pJ"; dkim-atps=neutral
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="vTW0wZ3Z"; 
+ dkim-atps=neutral
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 468FbX3XrszDqjY
- for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Aug 2019 15:37:59 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id C34372DFF;
- Thu, 15 Aug 2019 01:37:55 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Thu, 15 Aug 2019 01:37:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=5zsQDb8xUp+LgDRGio1PmqyOCn5+LVk
- X68USrKI2P1I=; b=f7SS+NngSiN2MY8ZVfjtKzTX/WdFhVuem59D8+tBGrODWzK
- 0XFfg8rSDDfWrYCDmCkuD0OXzcPTx3rKyBFaEN9YOElltnhgGSO19zx93gUWQ69a
- /kvo75Le7nnshw7K6OUaqswfHGj+SNif2UBjMcMXDGpUdMBvaZISOHEVfthbIbrJ
- iuwnwT+0TG9M2JXResQJ39I2NRkU5JNdn0KLZDWR9EEIBq5fGGjtLv8MYJKW1+tQ
- X4l0/oVjNitjJBs+tGcLvTNwUrL7Yot4lSDkx2it4crriCORiMG2u/HCIxi1ICwn
- ztSUEXv5Mvf9c2n4EimmDAnTzVjqvh1H5J+RCvA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=5zsQDb
- 8xUp+LgDRGio1PmqyOCn5+LVkX68USrKI2P1I=; b=zt8Uh/pJpoj61NZsNQnvEg
- MlsVP6A4kxWb/LIsMK0edIwb5QODzedzq2O+voUTByOjTGmhnsNOnqSAcO/iTLlx
- BlomLDsYocRxwDYdFsU7fujadg5Ed9havpyiG8NwYhyvokCtTMpWwvumY45wiCpX
- ByokDpteFFZmT+aNFBP0iO8FzJYV9lzOqyGUVmNDaDuBQInukP0KKQTgaxclTBSA
- am0DfrALmhc8uyU2rAbhh+urmh0Te2sup+78O9nFIFvz81KYDB2rP39dRrF92rei
- MzLb+uSC1/p4PN+Hzp/mehtC1TTscZSoxovVqN6fy2cn4i9yIWGS8h82xmxyhWAg
- ==
-X-ME-Sender: <xms:su9UXUAW21DLb-w8jMydQFPfwgNAwS9zj8W8LDYH2d9pWPk6GN4i8A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudeftddgieekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:su9UXaDeB60dyQ98Gp1LGhakQt2wYK3LrSfhMoK8X4W7KqX83dEG8w>
- <xmx:su9UXQEx739iNbtcoK-xFIbATPfw7RbYxP9Lwd29yFrpiqZ_rwif4g>
- <xmx:su9UXdlfxTeYvBADe5OwKlLOTp7gzbU4vMyyd_lyHlYey_6iArZDOQ>
- <xmx:s-9UXc0H-Dg-LhOuQV81L2q2oCwrlLKoGs-9EEAB1vUYeQ98OIbogA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 52037E00A4; Thu, 15 Aug 2019 01:37:54 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-869-g2d94aad-fmstable-20190814v1
-Mime-Version: 1.0
-Message-Id: <6c94aada-9c4a-4f55-9a43-349282ad12af@www.fastmail.com>
-In-Reply-To: <CACPK8Xe6Zp1uOqEffEc0b6oGa7portEAifGPRqb876HmA+oZeg@mail.gmail.com>
-References: <20190807003629.2974-1-andrew@aj.id.au>
- <20190807003629.2974-2-andrew@aj.id.au>
- <CACPK8Xe6Zp1uOqEffEc0b6oGa7portEAifGPRqb876HmA+oZeg@mail.gmail.com>
-Date: Thu, 15 Aug 2019 15:08:24 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Joel Stanley" <joel@jms.id.au>
-Subject: Re: [PATCH v5 1/2] dt-bindings: mmc: Document Aspeed SD controller
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4697Js55kwzDrfW
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 17 Aug 2019 01:58:20 +1000 (AEST)
+Received: by mail-pf1-x441.google.com with SMTP id 196so3326864pfz.8
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Aug 2019 08:58:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PoloVULM911anludKTQHYfSvmuLN6FTBR2hjXpDeBXY=;
+ b=vTW0wZ3ZuNxw8rzOf7RKNLMdbJDK9Gz96Y1tf/keYFne0Sz53pJtgzLdxZG+sfluOX
+ PosHcRRZxxTLnFtYkrtPUG/2bx+OOjICVlI+ZGngX20OncUlOi9p0E0WROb0yj7wP05H
+ mv8cE1G3F6wzNiiasfpemOgmrTDKs/8LfQD2/p8NZ5scPd1CBrxlUoJNSafvN5ikxFHj
+ HbfpKOU7sksv/B6NAmaT3X05oT6xBqlGydkU4DjRGtucdN/ERgH3zrpmrzFveHm7JGX1
+ sq4CPUN+qZTLLxs3LpYB2LzXx/ywcNWbhipakKlwTByqmYrvDxc3m74O0IuX0VnVVcR9
+ V/cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=PoloVULM911anludKTQHYfSvmuLN6FTBR2hjXpDeBXY=;
+ b=IpqVMD2vqWpV+5pjV8W/PjbpciUZNv6wHbORGlvHFm8Vi2NQfFlMAFKYXeWn8+7Qdi
+ 9k4Z+fAaOVsyMC71DM4G/RtVBxRcKUCNIh9sYxIxLCJXdaMrK9U36kMkLFPQOgW6/eDQ
+ YJW2RPwATdaXyed9O5RebZwLrFHrDPao63oXnJBstnY7+E0nf33Ujyv920vvTi+qkfTh
+ XjAUNvzDwD6PTPx8cZNwfM1nZP0K2xetCZ5tgAaJD5polj7oWmxm1A+lQMs48ogG/1Zv
+ dTsb0GaP4SwRuwkqde9DbEXbA2wTBv3rnkpKydG6PYMV8BAB/t8r2G8n9pkH2kwX6rq0
+ ++/w==
+X-Gm-Message-State: APjAAAXk3qk7dFAzUKiJtOKoYFu5C/f/t5hNveH32g0R7S2xZasRcZDg
+ DPGLKMZvKyR4/TlRLn2ydws=
+X-Google-Smtp-Source: APXvYqwO2QPstr1atjcPz6YfyQbIQS/NHnTkmgQZY8GHgLSuWsv1jS7yJiG0Xt0T9Ay9tYauuz+M7w==
+X-Received: by 2002:a63:fe17:: with SMTP id p23mr8368278pgh.103.1565971097219; 
+ Fri, 16 Aug 2019 08:58:17 -0700 (PDT)
+Received: from localhost.localdomain ([45.124.203.19])
+ by smtp.gmail.com with ESMTPSA id s24sm5746052pgm.3.2019.08.16.08.58.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Aug 2019 08:58:16 -0700 (PDT)
+From: Joel Stanley <joel@jms.id.au>
+To: Stephen Boyd <sboyd@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>
+Subject: [PATCH 0/2] clk: Add driver for ast2600
+Date: Sat, 17 Aug 2019 01:28:04 +0930
+Message-Id: <20190816155806.22869-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.23.0.rc1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,62 +77,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Ryan Chen <ryanchen.aspeed@gmail.com>, linux-mmc <linux-mmc@vger.kernel.org>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hello clock maintainers,
 
+This adds a new driver for the ast2600 BMC's clocks. It's a separate
+from the existing aspeed one as the ast2600 changes enough from the
+previous generation to make it hard to support with one driver.
 
-On Thu, 15 Aug 2019, at 15:06, Joel Stanley wrote:
-> On Wed, 7 Aug 2019 at 00:38, Andrew Jeffery <andrew@aj.id.au> wrote:
-> >
-> > The ASPEED SD/SDIO/MMC controller exposes two slots implementing the
-> > SDIO Host Specification v2.00, with 1 or 4 bit data buses, or an 8 bit
-> > data bus if only a single slot is enabled.
-> >
-> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> 
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
-> 
-> Two minor comments below.
-> 
-> > +++ b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
-> > @@ -0,0 +1,105 @@
-> > +# SPDX-License-Identifier: GPL-2.0-or-later
-> 
-> No "Copyright IBM" ?
+It has been tested on the ast2600 evaluation board.
 
-I'm going rogue.
+Joel Stanley (2):
+  clk: aspeed: Move structures to header
+  clk: Add support for AST2600 SoC
 
-That reminds me I should chase up where we got to with the binding
-licensing.
+ drivers/clk/Makefile                      |   1 +
+ drivers/clk/clk-aspeed.c                  |  63 +-
+ drivers/clk/clk-aspeed.h                  |  76 +++
+ drivers/clk/clk-ast2600.c                 | 711 ++++++++++++++++++++++
+ include/dt-bindings/clock/ast2600-clock.h | 116 ++++
+ 5 files changed, 906 insertions(+), 61 deletions(-)
+ create mode 100644 drivers/clk/clk-aspeed.h
+ create mode 100644 drivers/clk/clk-ast2600.c
+ create mode 100644 include/dt-bindings/clock/ast2600-clock.h
 
-> 
-> > +%YAML 1.2
-> > +---
-> 
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/aspeed-clock.h>
-> > +    sdc@1e740000 {
-> > +            compatible = "aspeed,ast2500-sd-controller";
-> > +            reg = <0x1e740000 0x100>;
-> > +            #address-cells = <1>;
-> > +            #size-cells = <1>;
-> > +            ranges = <0 0x1e740000 0x10000>;
-> 
-> According to the datasheet this could be 0x20000. It does not matter
-> though, as there's nothing in it past 0x300.
+-- 
+2.23.0.rc1
 
-Good catch.
-
-Andrew
