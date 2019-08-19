@@ -2,83 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F2C91A6D
-	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Aug 2019 02:16:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E865391AEE
+	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Aug 2019 04:04:17 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46BZGb3zdRzDr9Q
-	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Aug 2019 10:16:23 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46Bcg261KNzDqw6
+	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Aug 2019 12:04:14 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.29; helo=out5-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::843; helo=mail-qt1-x843.google.com;
+ envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="psSHkY+5"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="isN5gHRC"; dkim-atps=neutral
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="eAkzqdRH"; 
+ dkim-atps=neutral
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
+ [IPv6:2607:f8b0:4864:20::843])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46BZGT6kxkzDr7b
- for <linux-aspeed@lists.ozlabs.org>; Mon, 19 Aug 2019 10:16:17 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 3A75F2067B;
- Sun, 18 Aug 2019 20:16:15 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Sun, 18 Aug 2019 20:16:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=o2Y1ru/g1rfm03mCKVr9rWJkvfhNUkl
- tmb3ZwidhSuY=; b=psSHkY+5FWcPlcoDP+crqOmhYIIE8nGc8bCYtjYjios5y/w
- 6kpcrAwDzIt3ZfWCNdOHKL7MC1S0y9ebXNiNn+pWBlsVwaR6DkEORgcJkEmTED1n
- Pt68Z9fH3J8+bd709iDFoVB58eotO0+NJn7qhsmydELYOPb9DovxPH1dqOn8j/WN
- 8lsTOJ33B2XEemBSngwvI/w38kRcwliUfzMGTAgrtre2iO54b/pWUFpQOLRAg2As
- GrVVeRxhdbRdZ4SRbBPF8sU8V7EHwiLjtCX0XT8AtsJcSxdTrRLIMqRb9Ep/9Rk4
- JfYOuQqYwyL1lj9PeF/NQh0okM/0+VgTx0hLRsA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=o2Y1ru
- /g1rfm03mCKVr9rWJkvfhNUkltmb3ZwidhSuY=; b=isN5gHRCsKr9HVk+MlmwTl
- V73aHgQn1EnDRgQGL13nbYwwYw3GdCWpOZVeyhbRQ2lgdPBVCAbl6HAmxH8dPSW6
- WNc0WASRKpdwk0YfOQf103A51O6dO4iQ/HEq5pxDd94abbnxB/JZUXqW+eB6NrK0
- ICtF1uEPykbon6S11LPYCaFtD7ufEVUShCETGorqgFgYeMSMIaiVyVHXenRqjywQ
- 5azfaBUwdp5c6Sv43DiVIciB+Ikw5LrC8XkwNqi5D44Hta2jsPQR3z7l58MN/iDE
- VZNS8Xq61KliTn6t+leJgz4SUNDWCjPR6r+moPdx/hlZPxAXL5frChHkyL2mLh2A
- ==
-X-ME-Sender: <xms:TepZXca803avgHkIwbyggRpX9e_hA74psYMUjL1hkBmM0AbA01GdoA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudefkedgfedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:TepZXeKUDBEIbqj2u9y6mEzGBqWgi0vyY-O9F4cDqRZ7_JrLerfgYQ>
- <xmx:TepZXYtQKv-sQ0iBQm9mD3JhHlEKJUEETtL7yoYSxOJnPk7FEbqxEQ>
- <xmx:TepZXSUCo_rcAzLiaxKVYGJXAzxVoqzOkIE2TC7t1CTQnZ8YuF7oyw>
- <xmx:T-pZXZkjnesKGK3SeR7_DYnqN2_-qcnmYDZcyy7JhDdMLCA8H1F01w>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 6330BE00A3; Sun, 18 Aug 2019 20:16:13 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-869-g2d94aad-fmstable-20190814v1
-Mime-Version: 1.0
-Message-Id: <efbc1e57-5c5e-4ff4-af94-d18b017d64ab@www.fastmail.com>
-In-Reply-To: <20190816160347.23393-2-joel@jms.id.au>
-References: <20190816160347.23393-1-joel@jms.id.au>
- <20190816160347.23393-2-joel@jms.id.au>
-Date: Mon, 19 Aug 2019 09:46:46 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Joel Stanley" <joel@jms.id.au>,
- "Wim Van Sebroeck" <wim@linux-watchdog.org>,
- "Guenter Roeck" <linux@roeck-us.net>, "Rob Herring" <robh+dt@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: watchdog: Add ast2600 compatible
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46Bcfy08nLzDqc5
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 19 Aug 2019 12:04:09 +1000 (AEST)
+Received: by mail-qt1-x843.google.com with SMTP id y26so322763qto.4
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 18 Aug 2019 19:04:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FdqGTZilsvAWJPaR0r/39oQNhzP+xm4M+Hqj2f46Le4=;
+ b=eAkzqdRHxj7xl3kdMzG92M7hwnZCYFCErUC8N9g4vwMUz9x7GxI8gB6LRTI7evg9r7
+ GxsfBoyyVf9vAUgqjNSxcW/qJZySMptuMHbrE2T1o6VOrFU0Z0z+5aGIgMSQM9pKFObO
+ 5dQU4vqa82LdalDmFhWSJIc8Eiw5uU/RjebCA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FdqGTZilsvAWJPaR0r/39oQNhzP+xm4M+Hqj2f46Le4=;
+ b=TlC1rnxJ1ahfyb6s6tBFkty5lhNv8+rO+ZX1zTF6EnwlMdJJiPA431ObBdH4jUbq9s
+ QYQf3ilsWYhYpyOcC/t0cnsigCrWj/JwY8mg4UatdQ1rJTX1GciHreu5RpYrky3w9bMu
+ 1BGbul86kdXhTc1nkpjV3BjymE40TfypSCRQH9BwGwiLNsHR9RwMZyjaFik3OdjwXOfc
+ S6I1BEUM93dscMAqPjeZUpHIg9Ql/vfHAw4Ievu3hTL/s2nuZJnrEsK+FelNKUCV/eJB
+ nvHBYucAkc6gEHjj9Eq1UtRjE7DmchIrkajW/fd0CrGDI0q7Kr+p3JGT2LodHmF879dq
+ IfTw==
+X-Gm-Message-State: APjAAAX109G9fcrXkShE3rujcqz4kfhOrwvn982SHkjrN1XndW2zz1fn
+ MqUm/cuyTa8hM8vzpYfw6X7LkZ8rmwBJPjk1a4s=
+X-Google-Smtp-Source: APXvYqwaqW1bDbSfWZoN/blgOOuB7rbNcyl7kFtP95yF52dZJtwbw4h7rCAX8fzCnG8TYPmCF1JZE9109RjBT+A7qVI=
+X-Received: by 2002:ac8:24b4:: with SMTP id s49mr18690956qts.255.1566180246129; 
+ Sun, 18 Aug 2019 19:04:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190816155806.22869-1-joel@jms.id.au>
+ <20190816155806.22869-3-joel@jms.id.au>
+ <20190816171441.3B8F720665@mail.kernel.org>
+In-Reply-To: <20190816171441.3B8F720665@mail.kernel.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 19 Aug 2019 02:03:54 +0000
+Message-ID: <CACPK8Xf3C36KMgDmmRtNFqVFHzZx81ko+=54PA4+d5xPitum3g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] clk: Add support for AST2600 SoC
+To: Stephen Boyd <sboyd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,39 +71,81 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-watchdog@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, linux-clk@vger.kernel.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Sat, 17 Aug 2019, at 01:34, Joel Stanley wrote:
-> This adds a compatible for the ast2600, a new ASPEED SoC.
-> 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-
-> ---
->  Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt 
-> b/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
-> index c5077a1f5cb3..d78d4a8fb868 100644
-> --- a/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
-> +++ b/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
-> @@ -4,6 +4,7 @@ Required properties:
->   - compatible: must be one of:
->  	- "aspeed,ast2400-wdt"
->  	- "aspeed,ast2500-wdt"
-> +	- "aspeed,ast2600-wdt"
->  
->   - reg: physical base address of the controller and length of memory mapped
->     region
-> -- 
-> 2.23.0.rc1
-> 
+On Fri, 16 Aug 2019 at 17:14, Stephen Boyd <sboyd@kernel.org> wrote:
 >
+> Quoting Joel Stanley (2019-08-16 08:58:06)
+> > diff --git a/drivers/clk/clk-ast2600.c b/drivers/clk/clk-ast2600.c
+> > new file mode 100644
+> > index 000000000000..083d5299238c
+> > --- /dev/null
+> > +++ b/drivers/clk/clk-ast2600.c
+> > @@ -0,0 +1,701 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +// Copyright IBM Corp
+> > +// Copyright ASPEED Technology
+> > +
+> [...]
+> > +#define ASPEED_DPLL_PARAM              0x260
+> > +
+> > +#define ASPEED_G6_STRAP1               0x500
+> > +
+> > +/* Globally visible clocks */
+> > +static DEFINE_SPINLOCK(aspeed_clk_lock);
+>
+> I guess we can be guaranteed that the two drivers aren't compiled into
+> the same image? Otherwise this will alias with clk-aspeed.c and make
+> kallsyms annoying to use.
+
+I will change the name.
+
+>
+> > +
+> > +/* Keeps track of all clocks */
+> > +static struct clk_hw_onecell_data *aspeed_g6_clk_data;
+> > +
+> > +static void __iomem *scu_g6_base;
+> > +
+> > +static const struct aspeed_gate_data aspeed_g6_gates[] = {
+> > +       /*                                  clk rst  name               parent   flags */
+> > +       [ASPEED_CLK_GATE_MCLK]          = {  0, -1, "mclk-gate",        "mpll",  CLK_IS_CRITICAL }, /* SDRAM */
+>
+> Please document CLK_IS_CRITICAL usage. I guess it's memory so never turn
+> it off?
+
+Yes.
+
+I added some comments and removed some uses that I didn't know the
+reason for. We can add them back later if required, with the
+reasoning.
+
+> > +static const char * const vclk_parent_names[] = {
+>
+> Can you use the new way of specifying clk parents instead of just using
+> strings?
+
+How does this work? I had a browse of the APIs in clk-provider.h and
+it appeared the functions all take char *s still.
+
+> > +       hw = clk_hw_register_fixed_factor(NULL, "ahb", "hpll", 0, 1, axi_div * ahb_div);
+>
+> There aren't checks for if these things fail. I guess it doesn't matter
+> and just let it fail hard?
+
+I think that's sensible here. If the system has run out of memory this
+early on then there's not going to be much that works.
+
+Thanks for the review. I've fixed all of the style issues you
+mentioned, but would appreciate some guidance on the parent API.
+
+Cheers,
+
+Joel
