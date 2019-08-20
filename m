@@ -2,73 +2,55 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2237596567
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2019 17:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B7B496B19
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2019 23:05:56 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46CZxs49g9zDrG2
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2019 01:50:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46Cjxr5T84zDql2
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2019 07:05:52 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::444; helo=mail-pf1-x444.google.com;
- envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=ami.com
+ (client-ip=63.147.10.42; helo=atlmailgw2.ami.com;
+ envelope-from=hongweiz@ami.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="fNasBHcc"; 
- dkim-atps=neutral
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=ami.com
+Received: from atlmailgw2.ami.com (atlmailgw2.ami.com [63.147.10.42])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46CZxg1PDpzDrFP
- for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2019 01:50:14 +1000 (AEST)
-Received: by mail-pf1-x444.google.com with SMTP id w26so3617303pfq.12
- for <linux-aspeed@lists.ozlabs.org>; Tue, 20 Aug 2019 08:50:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=lYiV05ocruj81X/Vth9fboH+MCkm6RCCkzLgC1xVrmw=;
- b=fNasBHccmJLzP/62U4MV9sBWbQm7OW+UP4o3L47p/QOfrEwB12oFGN1SUeDNxTesTG
- oFVXAGPB/0yKLhB93KvtK39OGt91m5yjXxqiOI+Ne/g4PgiHtP6CnP+emNtm0S5AvRms
- wgLB3LlUTYNcu+oBWwl0mANSxbB8JPDz87T+ueLDw0vAvDTOpKYRKCXog9R0fmkLFIPi
- xzQou+UdcpRw5UdaAiachGeHx8UiMO5DSO/+NrOHHqD3BqcTTUABMqZt3SgFTXKwTSba
- S8dz/yisSiv/DmwTMJJoBD3YdQ0WsmL+fLh8i0MgTfW7wG4rpT5ju3QIDkhGNtSNHAG1
- 7vmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=lYiV05ocruj81X/Vth9fboH+MCkm6RCCkzLgC1xVrmw=;
- b=G7Mr8+ttXG+VYKAIhfG4+JK7ZhSjmhm6FMwWKMv0nxxmoYH3svpYVtN5CjA+l2C46R
- KIwzGtvhrJDEwu+ByftHo2xZ9Jc8jSXRxvwrKY+SUNC+O4F9UPnf7Vntvl/nACa0HG15
- mMNEaWwpcJZkR3lbdsrE4EIcFlSecdWepMOiyxq4qyDAOeKYBhkzr4YCqjnNT3nG8diU
- qLxjVGHwNZOscIHEW8im4ZtBGAeC5CX0FjuWyPlAtRAQ3tsTjhWxu8wNVMqmw66Hpkcx
- TvKgnMoNU9D6hzdLNgkcgY9C5d3XSvRyII/2lYVN/agV3nLUqkCABsP9xTy1E8z0YtPw
- f85Q==
-X-Gm-Message-State: APjAAAXjj5Wm2xr/PzZqRra5fx99EoneWfC0g/Mks6LvKHgBZD0OH8To
- b9JPljtdni2QjkGJhhj4rkc=
-X-Google-Smtp-Source: APXvYqzcVZHhyB9DOXrMXzkr2BAV66JOb9oS1kaW6MbhIGd5s+OPyrNHhQiJmgISgBG2USF+eV4rvg==
-X-Received: by 2002:a62:f204:: with SMTP id m4mr31653953pfh.7.1566316212404;
- Tue, 20 Aug 2019 08:50:12 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id a6sm399723pjv.30.2019.08.20.08.50.11
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 20 Aug 2019 08:50:11 -0700 (PDT)
-Date: Tue, 20 Aug 2019 08:50:10 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH v2 2/2] watchdog: aspeed: Add support for AST2600
-Message-ID: <20190820155010.GA20408@roeck-us.net>
-References: <20190819051738.17370-1-joel@jms.id.au>
- <20190819051738.17370-3-joel@jms.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46CjxZ64QMzDqrZ
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2019 07:05:36 +1000 (AEST)
+X-AuditID: ac10606f-d27ff70000003324-96-5d5c609dc94e
+Received: from atlms1.us.megatrends.com (atlms1.us.megatrends.com
+ [172.16.96.144])
+ (using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by atlmailgw2.ami.com (Symantec Messaging Gateway) with SMTP id
+ 07.00.13092.D906C5D5; Tue, 20 Aug 2019 17:05:33 -0400 (EDT)
+Received: from hongweiz-Ubuntu-AMI.us.megatrends.com (172.16.98.93) by
+ atlms1.us.megatrends.com (172.16.96.144) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Tue, 20 Aug 2019 17:05:31 -0400
+From: Hongwei Zhang <hongweiz@ami.com>
+To: Andrew Jeffery <andrew@aj.id.au>, Linus Walleij
+ <linus.walleij@linaro.org>, <linux-gpio@vger.kernel.org>
+Subject: [v8]  gpio: aspeed: Add SGPIO driver
+Date: Tue, 20 Aug 2019 17:05:27 -0400
+Message-ID: <1566335128-31498-1-git-send-email-hongweiz@ami.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190819051738.17370-3-joel@jms.id.au>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Type: text/plain
+X-Originating-IP: [172.16.98.93]
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHLMWRmVeSWpSXmKPExsWyRiBhgu7chJhYgzevJC12Xeaw+DL3FIvF
+ /CPnWC1+n//LbDHlz3Imi02Pr7FaNK8+x2yxef4fRovLu+awWSy9fpHJonXvEXYHbo+r7bvY
+ PdbMW8Po8f5GK7vHxY/HmD02repk87hzbQ+bx+Yl9R7nZyxk9Pi8SS6AM4rLJiU1J7MstUjf
+ LoErY83Hp4wFH9kr/nTPYW1g7GLrYuTkkBAwkWjZ9JW9i5GLQ0hgF5NE895dzBDOYUaJtbP3
+ MYFUsQmoSezdPAfMFhHIkzi8/i0rSBGzwCkmiRn7OllBEsICuhJzT99gBrFZBFQlvi7ZwwJi
+ 8wo4SMzrX8QOsU5O4ua5TmaIuKDEyZlPwGqYBSQkDr54ARYXEpCVuHXoMRNEvYLE877HLBMY
+ +WYhaZmFpGUBI9MqRqHEkpzcxMyc9HIjvcTcTL3k/NxNjJAwz9/B+PGj+SFGJg7GQ4wSHMxK
+ IrwVc6JihXhTEiurUovy44tKc1KLDzFKc7AoifOuWvMtRkggPbEkNTs1tSC1CCbLxMEp1cB4
+ 42BnLHv5g70MSy2WzQ4v/H3l96nHfpd3JGdMVjmR6rzsmNCVH7x/LzGkfrlsez5T5pTaVsM/
+ bX/LbOoM7XZ+vMr2vv/as6yvh5WFC7sNJQyVGN/5bP/DfchekfnKp2PnXI88S1mV9Fv9Z8PX
+ Pv+rOTcDpjlHR4lPytwtzVG+zaXtLn+c47owJZbijERDLeai4kQARbmDwmECAAA=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,50 +62,44 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, Hongwei Zhang <hongweiz@ami.com>,
  linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Aug 19, 2019 at 02:47:38PM +0930, Joel Stanley wrote:
-> From: Ryan Chen <ryan_chen@aspeedtech.com>
-> 
-> The ast2600 can be supported by the same code as the ast2500.
-> 
-> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
+Hello,
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+This short series introduce dt-binding document and a driver for the 
+Aspeed AST2500 SGPIO controller. Please review.
 
-> ---
-> v2:
->  Reuse ast2500 config structure
-> ---
->  drivers/watchdog/aspeed_wdt.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
-> index cc71861e033a..5b64bc2e8788 100644
-> --- a/drivers/watchdog/aspeed_wdt.c
-> +++ b/drivers/watchdog/aspeed_wdt.c
-> @@ -34,6 +34,7 @@ static const struct aspeed_wdt_config ast2500_config = {
->  static const struct of_device_id aspeed_wdt_of_table[] = {
->  	{ .compatible = "aspeed,ast2400-wdt", .data = &ast2400_config },
->  	{ .compatible = "aspeed,ast2500-wdt", .data = &ast2500_config },
-> +	{ .compatible = "aspeed,ast2600-wdt", .data = &ast2500_config },
->  	{ },
->  };
->  MODULE_DEVICE_TABLE(of, aspeed_wdt_of_table);
-> @@ -259,7 +260,8 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
->  		set_bit(WDOG_HW_RUNNING, &wdt->wdd.status);
->  	}
->  
-> -	if (of_device_is_compatible(np, "aspeed,ast2500-wdt")) {
-> +	if ((of_device_is_compatible(np, "aspeed,ast2500-wdt")) ||
-> +		(of_device_is_compatible(np, "aspeed,ast2600-wdt"))) {
->  		u32 reg = readl(wdt->base + WDT_RESET_WIDTH);
->  
->  		reg &= config->ext_pulse_width_mask;
+[v8]:   Changes between v7 and v8:
+        - v7 updates based on Linus' feedback 
+        - since Linus has already merged sgpio-aspeed.txt, I only include
+	  the driver here to avoid confusion.
+
+[v7]:   Changes between v6 and v7:
+        - fix missing variable 'reg' assign issue in aspeed_sgpio_set()
+        - v6 feedback updates
+
+[v6]:   Changes between v5 and v6:
+        - fix a bug in aspeed_sgpio_dir_out()
+        - v5 feedback updates, some comments cleanup
+
+The related SGPM pinmux dt-binding document, dts, and pinctrl driver
+updates have been accepted and merged:
+_http://patchwork.ozlabs.org/patch/1110210/
+
+Hongwei Zhang (1):
+  gpio: aspeed: Add SGPIO driver
+
+ drivers/gpio/sgpio-aspeed.c | 533 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 533 insertions(+)
+ create mode 100644 drivers/gpio/sgpio-aspeed.c
+
+-- 
+2.7.4
+
