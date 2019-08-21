@@ -1,78 +1,116 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E419A7351
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:13:44 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF55A7352
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:13:47 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46NGnx3V3FzDqr6
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:13:41 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46NGp06CNBzDqq8
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:13:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=google.com
- (client-ip=2a00:1450:4864:20::443; helo=mail-wr1-x443.google.com;
- envelope-from=maennich@google.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=yadro.com
+ (client-ip=89.207.88.252; helo=mta-01.yadro.com;
+ envelope-from=a.amelkin@yadro.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=google.com header.i=@google.com header.b="uFvB4ztT"; 
+ dmarc=pass (p=none dis=none) header.from=yadro.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=yadro.com header.i=@yadro.com header.b="CygUZYzx"; 
  dkim-atps=neutral
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46DClD0kTwzDqm6
- for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Aug 2019 02:28:23 +1000 (AEST)
-Received: by mail-wr1-x443.google.com with SMTP id t16so2637184wra.6
- for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2019 09:28:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=ywUCIB+cRj4cRKcIpwpQFY+NrjfdLRDV76eNoo3hv/0=;
- b=uFvB4ztTYbbnWUcXOBHe8H8LAboUxJ40gdIQ8giCnWFtsb9UgOEjxHLhk991t4jTGN
- eCF76EMqqZcwUUggeElvFMdSv3nd9GMdRRD9/ueZ3l1sGFh5qp4rzV/F9exy0Pan40hz
- 4PQXQbcn/bS4V4Ul6j8X/xkS1A8t6hbKtC0+feu4M4x0ug7E9eohpDOGPbdTZEdGE5xp
- oWXf5eGy9tXHQQNCAJ9qKHkVI+1qxH9DjXQVHnnzGFDT8vXyGGF07ivgT28hGYHqtMYz
- uRt7OuhZuQdSsp1AC48M9oSsPdaOf8XzF4sRuu6fi+yDIBmpequ4bcfS0OekejftB9Zu
- GYlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ywUCIB+cRj4cRKcIpwpQFY+NrjfdLRDV76eNoo3hv/0=;
- b=jSOoguw3dl7KA0ZywGpO0lWqA/UmE16pyb7Ux5HDouxF7rNTywpijDW7+7Icqem4OS
- HGxrr9hAFuIWeuPn+Ul6OsbK+uU+mu42kZ1z/zkz58u2Hy99fytESvQpOf9B7yEvfNAb
- vToBsA6ejzV6L+SJ3zfXJ+La1Im/P5r6QG08rOyjsB6ldUWu/ujLshynRJwf64xPWkRg
- H4iP/Na48VQTKgbdq1x5gOm2lnoclzQxqHIGrW8wZn0N+cLOHlmzFd9dKhfspKnHEmFr
- gQjW6+v+vNF6BaOu26umsZ8ukirQ5m97+DAZ/XZAxkGM6iEB3WhWm53bKQb/1j6/YHNg
- cTIQ==
-X-Gm-Message-State: APjAAAWgY34qXpokGAM40qDINlGSyE+ZIb2RwB6vin7BLvP6OxnN1xIy
- BaM4FIP8LGXJNV3O653wj5hWBg==
-X-Google-Smtp-Source: APXvYqzzf/pBZTUAqrSrh8E6fLbQ03SLEZocUzQ/q912ZaLgwow4co7GX1wxWZBSfdK4XkjU4huGbA==
-X-Received: by 2002:adf:e750:: with SMTP id c16mr2099535wrn.199.1566404897059; 
- Wed, 21 Aug 2019 09:28:17 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
- by smtp.gmail.com with ESMTPSA id u130sm1026138wmg.28.2019.08.21.09.28.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Aug 2019 09:28:16 -0700 (PDT)
-Date: Wed, 21 Aug 2019 17:28:12 +0100
-From: Matthias Maennich <maennich@google.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v3 11/11] RFC: watchdog: export core symbols in
- WATCHDOG_CORE namespace
-Message-ID: <20190821162812.GB77665@google.com>
-References: <20190813121733.52480-1-maennich@google.com>
- <20190821114955.12788-1-maennich@google.com>
- <20190821114955.12788-12-maennich@google.com>
- <20190821145911.GA6521@roeck-us.net>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46DFNq4RjjzDr4q
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Aug 2019 03:42:32 +1000 (AEST)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id AFE4542ED1;
+ Wed, 21 Aug 2019 17:42:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-type:content-type:in-reply-to:mime-version:user-agent
+ :date:date:message-id:organization:from:from:references:subject
+ :subject:received:received:received; s=mta-01; t=1566409346; x=
+ 1568223747; bh=xIeCTG9Uz22zsCzXQQcRPKCuWiLSlzzny3Ofg3KMqrM=; b=C
+ ygUZYzxeNDDZsAd1Y8pjbWQRuQYz7lWpGDfdk66k25LEeLA9Z6B59XCjoyCbypzj
+ 0Dl+3fdP7w9iUNu+K5GUe/HrWfQY6spO1RBB7C8Ub2lL1bBtJgO73I2V3GNUAkTE
+ nfRXgPfhuAMOv5bj/z7bIed7+oeYPxafC3Lj6Y3GFk=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id a46nstZX5FLF; Wed, 21 Aug 2019 20:42:26 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id AFA2D404CB;
+ Wed, 21 Aug 2019 20:42:25 +0300 (MSK)
+Received: from [172.17.14.197] (172.17.14.197) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 21
+ Aug 2019 20:42:25 +0300
+Subject: Re: [PATCH 3/3] watchdog/aspeed: add support for dual boot
+To: Guenter Roeck <linux@roeck-us.net>, Ivan Mikhaylov <i.mikhaylov@yadro.com>
+References: <1f2cd155057e5ab0cdb20a9a11614bbb09bb49ad.camel@yadro.com>
+ <20190821163220.GA11547@roeck-us.net>
+From: Alexander Amelkin <a.amelkin@yadro.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=a.amelkin@yadro.com; prefer-encrypt=mutual; keydata=
+ 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
+ dTYsE5wSxM06T2l/MILupCNZ7A==
+Organization: YADRO
+Message-ID: <9e7fe5cc-ba1b-b8b6-69c5-c3c6cf508a36@yadro.com>
+Date: Wed, 21 Aug 2019 20:42:24 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20190821145911.GA6521@roeck-us.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Approved-At: Wed, 04 Sep 2019 05:12:13 +1000
+In-Reply-To: <20190821163220.GA11547@roeck-us.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="Zcz065VrMDkDOXBxE02mg9C55JMy5xq8G"
+X-Originating-IP: [172.17.14.197]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+X-Mailman-Approved-At: Wed, 04 Sep 2019 05:12:12 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,165 +122,177 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Tomer Maimon <tmaimon77@gmail.com>, lucas.de.marchi@gmail.com,
- linux-stm32@st-md-mailman.stormreply.com, linux-arch@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, Kevin Hilman <khilman@baylibre.com>,
- Michal Simek <michal.simek@xilinx.com>,
- Ludovic Desroches <ludovic.desroches@microchip.com>, mingo@redhat.com,
- geert@linux-m68k.org, NXP Linux Team <linux-imx@nxp.com>,
- Tomas Winkler <tomas.winkler@intel.com>, Jean Delvare <jdelvare@suse.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, tglx@linutronix.de,
- michal.lkml@markovi.net, Scott Branden <sbranden@broadcom.com>,
- gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-aspeed@lists.ozlabs.org, yamada.masahiro@socionext.com,
- Thierry Reding <thierry.reding@gmail.com>,
- Alexandre Torgue <alexandre.torgue@st.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Kukjin Kim <kgene@kernel.org>, kernel-team@android.com, sspatil@google.com,
- linux-watchdog@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, pombredanne@nexb.com,
- linux-m68k@lists.linux-m68k.org, linux-rpi-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, maco@android.com,
- linux-arm-kernel@lists.infradead.org, Barry Song <baohua@kernel.org>,
- Johannes Thumshirn <morbidrsa@gmail.com>, oneukum@suse.com,
- Patrice Chotard <patrice.chotard@st.com>, Stefan Wahren <wahrenst@gmx.net>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, kstewart@linuxfoundation.org,
- usb-storage@lists.one-eyed-alien.net, linux-tegra@vger.kernel.org,
- patches@opensource.cirrus.com, joel@joelfernandes.org, sam@ravnborg.org,
- linux-rtc@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
- Eric Anholt <eric@anholt.net>, Krzysztof Kozlowski <krzk@kernel.org>,
- Nancy Yuen <yuenn@google.com>, Chen-Yu Tsai <wens@csie.org>,
- bcm-kernel-feedback-list@broadcom.com, stern@rowland.harvard.edu,
- arnd@arndb.de, Ray Jui <rjui@broadcom.com>, Vladimir Zapolskiy <vz@mleia.com>,
- Orson Zhai <orsonzhai@gmail.com>, linux-hwmon@vger.kernel.org,
- Support Opensource <support.opensource@diasemi.com>,
- Andreas Werner <andreas.werner@men.de>, Avi Fishman <avifishman70@gmail.com>,
- maco@google.com, jeyu@kernel.org, Shawn Guo <shawnguo@kernel.org>,
- Baruch Siach <baruch@tkos.co.il>, Mans Rullgard <mans@mansr.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>,
- Jerry Hoemann <jerry.hoemann@hpe.com>, Tali Perry <tali.perry1@gmail.com>,
- hpa@zytor.com, linux-scsi@vger.kernel.org, openbmc@lists.ozlabs.org,
- x86@kernel.org, Andy Gross <agross@kernel.org>,
- Marc Gonzalez <marc.w.gonzalez@free.fr>,
- William Breathitt Gray <vilhelm.gray@gmail.com>,
- linux-mediatek@lists.infradead.org, Fabio Estevam <festevam@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Alessandro Zummo <a.zummo@towertech.it>, Baolin Wang <baolin.wang@linaro.org>,
- Patrick Venture <venture@google.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, linux-modules@vger.kernel.org
+Cc: linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Guenter!
+--Zcz065VrMDkDOXBxE02mg9C55JMy5xq8G
+Content-Type: multipart/mixed; boundary="SnUXFFWAI4JAXfpsQj9YgvBg6Fs71xEPL";
+ protected-headers="v1"
+From: Alexander Amelkin <a.amelkin@yadro.com>
+To: Guenter Roeck <linux@roeck-us.net>, Ivan Mikhaylov <i.mikhaylov@yadro.com>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, linux-watchdog@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <9e7fe5cc-ba1b-b8b6-69c5-c3c6cf508a36@yadro.com>
+Subject: Re: [PATCH 3/3] watchdog/aspeed: add support for dual boot
+References: <1f2cd155057e5ab0cdb20a9a11614bbb09bb49ad.camel@yadro.com>
+ <20190821163220.GA11547@roeck-us.net>
+In-Reply-To: <20190821163220.GA11547@roeck-us.net>
 
-On Wed, 21 Aug, 07:59, Guenter Roeck wrote:
->On Wed, Aug 21, 2019 at 12:49:26PM +0100, Matthias Maennich wrote:
->> Modules using these symbols are required to explicitly import the
->> namespace. This patch was generated with the following steps and serves
->> as a reference to use the symbol namespace feature:
+--SnUXFFWAI4JAXfpsQj9YgvBg6Fs71xEPL
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+
+21.08.2019 19:32, Guenter Roeck wrote:
+> On Wed, Aug 21, 2019 at 06:57:43PM +0300, Ivan Mikhaylov wrote:
+>> Set WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION into WDT_CLEAR_TIMEOUT_S=
+TATUS
+>> to clear out boot code source and re-enable access to the primary SPI =
+flash
+>> chip while booted via wdt2 from the alternate chip.
 >>
->>  1) Use EXPORT_SYMBOL_NS* macros instead of EXPORT_SYMBOL* for symbols
->>     in watchdog_core.c
->>  2) make  (see warnings during modpost about missing imports)
->>  3) make nsdeps
->>
->> I used 'allmodconfig' for the above steps to ensure all occurrences are
->> patched.
->>
->> Defining DEFAULT_SYMBOL_NAMESPACE in the Makefile is not trivial in this
->> case as not only watchdog_core is defined in drivers/watchdog/Makefile.
->> Hence this patch uses the variant of using the EXPORT_SYMBOL_NS* macros
->> to export into a different namespace.
->>
->I don't have the context, and thus I am missing the point of this patch
->set. Whatever it is supposed to accomplish, it seems extreme to me
->to require extra code in each driver for it.
+>> AST2400 datasheet says:
+>> "In the 2nd flash booting mode, all the address mapping to CS0# would =
+be
+>> re-directed to CS1#. And CS0# is not accessable under this mode. To ac=
+cess
+>> CS0#, firmware should clear the 2nd boot mode register in the WDT2 sta=
+tus
+>> register WDT30.bit[1]."
+> Is there reason to not do this automatically when loading the module
+> in alt-boot mode ? What means does userspace have to determine if CS0
+> or CS1 is active at any given time ? If there is reason to ever have CS=
+1
+> active instead of CS0, what means would userspace have to enable it ?
+
+Yes, there is. The driver is loaded long before the filesystems are mount=
+ed. The filesystems, in the event of alternate/recovery boot, need to be =
+mounted from the same chip that the kernel was booted. For one reason bec=
+ause the main chip at CS0 is most probably corrupt. If you clear that bit=
+ when driver is loaded, your software will not know that and will try to =
+mount the wrong filesystems. The whole idea of ASPEED's switching chipsel=
+ects is to have identical firmware in both chips, without the need to pro=
+cess the alternate boot state in any way except for indicating a successf=
+ul boot and restoring access to CS0 when needed.
+
+The userspace can read bootstatus sysfs node to determine if an alternate=
+ boot has occured.
+
+With ASPEED, CS1 is activated automatically by wdt2 when system fails to =
+boot from the primary flash chip (at CS0) and disable the watchdog to ind=
+icate a successful boot. When that happens, both CS0 and CS1 controls=C2=A0=
+ get routed in hardware to CS1 line, making the primary flash chip inacce=
+ssible. Depending on the architecture of the user-space software, it may =
+choose to re-enable access to the primary chip via CS0 at different times=
+=2E There must be a way to do so.
+
+> If userspace can not really determine if CS1 or CS0 is active, all it c=
+ould
+> ever do was to enable CS0 to be in a deterministic state. If so, it doe=
+sn't
+> make sense to ever have CS1 active, and re-enabling CS0 could be automa=
+tic.
 >
+> Similar, if CS1 can ever be enabled, there is no means for userspace to=
+ ensure
+> that some other application did not re-enable CS0 while it believes tha=
+t CS1
+> is enabled. If there is no means for userspace to enable CS1, it can ne=
+ver be
+> sure what is enabled (because some other entity may have enabled CS0 wh=
+ile
+> userspace just thought that CS1 is still enabled). Again, the only mean=
+s
+> to guarantee a well defined state would be to explicitly enable CS0 and=
+ provive
+> no means to enable CS1. Again, this could be done during boot, not requ=
+iring
+> an explicit request from userspace.
 
-Unfortunately, get_maintainer.pl has helped me too much and this series
-got blocked by some mailing lists due to the large amount of recipients.
-Following versions will be sent to the previous audience + the
-linux-watchdog list.
-For context, the full series (including previous versions) can be found
-on lore at
-https://lore.kernel.org/lkml/20180716122125.175792-1-maco@android.com/
-and the cover letter for v3 has made it to linux-amlogic
-https://lore.kernel.org/linux-amlogic/20190821114955.12788-1-maennich@google.com/
+Please understand that activation of CS1 in place of CS0 is NOT a softwar=
+e choice!
 
->Anyway, WATCHDOG_CORE would be the default namespace (if it is what
->I think it is) for watchdog drivers, even though not all watchdog drivers
->use it. As such, I am missing an explanation why defining it in Makefile
->is not trivial. "... as not only watchdog_core is defined in
->drivers/watchdog/Makefile" does not mean anything to me and is not a real
 
-True, that is a bit out of context. Especially considering you did not
-receive any other messages of that series.
-Defining a namespace a symbol should be exported to can be done in
-different ways. All of them effectively change the EXPORT_SYMBOL*
-macro's behaviour. The method I am referring to is using
+>> +	if (unlikely(!wdt))
+>> +		return -ENODEV;
+>> +
+> How would this ever happen, and how / where is drvdata set to NULL ?
 
-  ccflags-y += -DDEFAULT_SYMBOL_NAMESPACE=WATCHDOG_CORE
+This is purely for robustness. Seeing a pointer obtained via a function a=
+ccessed without first checking it for validity makes me nervous.
 
-directly in drivers/watchdog/Makefile. Since this would also apply the
-namespace to exports in non-core modules it would be incorrect. Thus I
-used the method of applying the namespace directly by changing the
-EXPORT_SYMBOL macro expansion.
+This code most probably adds nothing at the assembly level.
 
->explanation. Also, it is not immediately obvious to me why "select
->WATCHDOG_CORE" in Kconfig would not automatically imply that WATCHDOG_CORE
->is used by a given driver, and why it is impossible to use that
->information to avoid the per-driver changes.
 >
+>> +	writel(WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION,
+>> +			wdt->base + WDT_CLEAR_TIMEOUT_STATUS);
+>> +	wdt->wdd.bootstatus |=3D WDIOF_EXTERN1;
+> The variable reflects the _boot status_. It should not change after boo=
+ting.
+Is there any documentation that dictates that? All I could find is
 
-One intention of this patch series is to make exporting and using of
-namespaces explicit. As such, the subsystem exporting symbols is
-defining the namespace it exports to and the module using a namespace is
-supposed to explicitly declare its usage via import. In case of watchdog
-(and probably other cases) it might make sense to find a way to
-implicitly import the namespace for in-tree drivers in the same area.
+"bootstatus: status of the device after booting". That doesn't look to me=
+ like it absolutely can not change to reflect the updated status (that is=
+, to reflect that the originally set up alternate CS routing has been res=
+et to normal).
 
->I am also missing an explanation why WATCHDOG_CORE is going to be a
->separate namespace to start with. Maybe that discussion has happened,
->but I don't recall being advised or asked or told about it. Are we also
->going to have a new HWMON_CORE namespace ? And the same for each other
->subsystem in the kernel ?
+If you absolutely disallow that, I think we could make 'access_cs0' reada=
+ble instead, so it could report the current state of the boot code select=
+ion bit. Reverted, I suppose. That way 'access_cs0' would report 1 after =
+1 has been written to it (it wouldn't be possible to write a zero).
+
+> @@ -223,6 +248,9 @@ static int aspeed_wdt_probe(struct platform_device =
+*pdev)
+> =20
+>  	wdt->ctrl =3D WDT_CTRL_1MHZ_CLK;
+> =20
+> +	if (of_property_read_bool(np, "aspeed,alt-boot"))
+> +		wdt->wdd.groups =3D bswitch_groups;
+> +
+> Why does this have to be separate to the existing evaluation of
+> aspeed,alt-boot, and why does the existing code not work ?
 >
+> Also, is it guaranteed that this does not interfer with existing
+> support for alt-boot ?
 
-This very patch is an RFC to demonstrate how Symbol Namespaces would be
-used based on the current implementation (the other RFC as part of this
-series is for the introduction of the namespace USB_STORAGE).
-WATCHDOG_CORE serves as one of two examples. I do not think the two RFC
-patches should be merged along with this series.
+I think Ivan will comment on this.
 
->Since this is being added to the watchdog API, it will have to be
->documented accordingly. Watchdog driver writers, both inside and outside
->the watchdog subsystem, will need to know that they now have to add an
->additional boilerplate declaration into their drivers.
->
+With best regards,
+Alexander Amelkin,
+BIOS/BMC Team Lead, YADRO
+https://yadro.com
 
-Completely agree. This is just an RFC that omits these details as it
-purely focuses on the introduction and consequences of such a namespace
-to demonstrate how the feature works.
 
->Last but not least, combining patches affecting multiple subsystems in a
->single patch will make it difficult to apply and will likely result in
->conflicts. Personally I would prefer a split into one patch per affected
->subsystem. Also, please keep in mind that new pending watchdog drivers
->won't have the new boilerplate.
 
-I understand the point. Especially as I am already now affected by the
-long list of recipients when sending this patch. The problem with single
-patches here is, that once a symbol is exported into a namespace, all
-modules using it have to declare that import to avoid a warning at
-compile time and module load time. Hence the all-in-one approach.
-Luckily, the patch series also provides a way to address such a warning
-(via `make nsdeps`) that creates the necessary source code fix as a
-single line per module and namespace right after MODULE_LICENSE(). That
-is how this patch was created in the first place.
+--SnUXFFWAI4JAXfpsQj9YgvBg6Fs71xEPL--
 
-Cheers,
-Matthias
+--Zcz065VrMDkDOXBxE02mg9C55JMy5xq8G
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBCAAGBQJdXYKAAAoJEOiTWHtbdBeNwLsP/0FvGr6UXRAiPRCYZ3wthrpT
+PH3OT/GLRq1M/EFC13osP39HpoI2Vbk5jOeGBm1iw49bYTokTI14jgHrKJmXAlGB
+A9XAw/KSnctu4JnLRkmx1xrPpjNjRTtzf1Ta5YZ6mzsnou0Qogcb2u9J1NnRqWsF
+qWEo7GkIi4JHLRdgAVu4cm5RGaznUTyo2NiDqQQ/HAjnUx0CYhIGiR6Gv5QPYI+S
+vGAnCLCu7XQQP1RUzO7CF+5nwQg0OL2SSKqTlkPTw2L5ZUhPAS73jX8xu+jPIRb8
+ZCj8ccx0ErRsg/fodWBwVm3nVcCTHZ4Mo/JnmWIGZBotw8/+nA9jTMhOfoiUjbPP
+tDEGQ+U1a+gQw4iTJl8d/OejCCXWXhlaolRd4vnhyVSNhVtKabJcLMROoI9/q530
+W7md3BueFfdBcE0J3fWxbs5slfgoS0Jp36tG8hFphzjlXN82mAhjv9CSLVx5vONi
+j7lJnHnpX1Z/XB4Dsd64UqoxHAOlGstfE3FkizZPGwq/WxDzYyJ6GBIfnmwqawX4
+5SWuHwtID4SqSzMMBm66ypoy3t002sgX0EMIEvM8g2D9I7BKvufGjPtxCBr74+ux
+ZlFdecol9jQodn56fSiTUCg00SIEo/UQ5MALUxKWXtqtBRMRRITwI8D4mNAS1sNB
+TqGRTLoE/uBRq+aOGmla
+=yA26
+-----END PGP SIGNATURE-----
+
+--Zcz065VrMDkDOXBxE02mg9C55JMy5xq8G--
