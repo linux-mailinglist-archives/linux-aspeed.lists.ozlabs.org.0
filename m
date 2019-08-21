@@ -1,73 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04E598031
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2019 18:34:37 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C9498261
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2019 20:10:26 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46DCtL694fzDrFY
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Aug 2019 02:34:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46DG0t5wZmzDqfX
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Aug 2019 04:10:22 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::643; helo=mail-pl1-x643.google.com;
+ (client-ip=2607:f8b0:4864:20::644; helo=mail-pl1-x644.google.com;
  envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="UcVOc4tB"; 
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="fw2gO6TC"; 
  dkim-atps=neutral
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46DCqt28WjzDrJq
- for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Aug 2019 02:32:25 +1000 (AEST)
-Received: by mail-pl1-x643.google.com with SMTP id f19so1608428plr.3
- for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2019 09:32:25 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46DG0k4j3WzDqXP
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Aug 2019 04:10:14 +1000 (AEST)
+Received: by mail-pl1-x644.google.com with SMTP id t14so1732520plr.11
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2019 11:10:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=pDSd7SGk/DY6GuxuuavhgDxlL+IufA63dRDI3AQTbS4=;
- b=UcVOc4tBUOwmoJfipEg8MeVlXJDmigZScACSk87Msp47DaE/lPpGmF06Lcg7rzyoGE
- AqSxpFcQfVTKoSxtyA4vu6ZwnMIVz8YSGtAFerKUX9kK7h5WLLm+pIb6rd0o75bBwOKb
- mWL7kOqv6CwibF4Gi1nFzhpmogzAyGUpVMFO/FZzZTM98xbRhROy0FxH4aT4U/+J/yTv
- iB4yPOwCZxlKJBndqDhwJ4t6FHiIowZWYgcB5q3/EAPwzn8U11OEwlE40+MpW4C4Rc/L
- Fc4iFUWO4EtoZA1YDKE86WFDr/KIfj21I1BUzYUsOwoZPIQnN+rCFUuMKOC9yVSUDE3D
- yfjQ==
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=BRaE3rjeT8FCEq2Zbhrcwzz/PytLOULw+1k5/xkFYgY=;
+ b=fw2gO6TC8tNLS0jC+pLn1ymEqa+6Ggr3tFsCMDsJFC3AdAQD7uyifHENer7jG+2UUJ
+ ocONF3pHy7Z8RN9i1YQb2yGYVRkp2UbPS4r74gmmmzwc7h8NIp3aUIW3N9N3s90+4rWy
+ JSptEtCHiSGU85fm6dw+A3PLYMgwU5O04BGuEcBm+x5pNGG2MYIFFyRwMn/5zwDHiV3A
+ Cz6pHDAWf04QiXkyXp9A+yp9tqVBtTZMM0zN7V6Oid9atVKXC8NZyO9ggtSOSbB11SXx
+ M00zwElWK5r1FQ4PhG1wyNHSPurcUwKL9ugCvQAcWfcpwJ12BCQ1dLTLf3chKJquE+VN
+ OGLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=pDSd7SGk/DY6GuxuuavhgDxlL+IufA63dRDI3AQTbS4=;
- b=CSGDVagK+IemDZIETHVqvaawfpVfkYQQd4J9wPtHui9wq+SUpKuWGjZZWz1tUfRFvQ
- CWn+SxFLidzPwsFxhJqLKqUNcDDQpY0lEzZV2tpvI4UaEaRd8ptFiu7klvu2ooRhqVPH
- 84hKaQ8uaMZzWrb62rzkrVK1V89awa3/C9359rlaUhAprZWoYUxeYf32pc5Ca4Lksvh4
- lDhS733qFeK2l7UXuQAFxLitSNjl5QkHTb+F/OABa6HGsmd8Du9gIipOy7o/Qg3z+8Ss
- eDgbr9hT5HBfuc8u/XU44LhPmgMMN2hLr5L6GoRB+gqpqpu4QRsrPthgn/xZV3Ti5jzj
- SiWw==
-X-Gm-Message-State: APjAAAXEbmNSwAa+2YCkYsrCpmXgNRaet1BnQEroPyIawVqxPdEZ+MGX
- MocdTdcbycatOmcJ0oHEZsw=
-X-Google-Smtp-Source: APXvYqygLt6JnGdpnnQo0Yur5Q+gq4DxiD8HmafW1pMiWWteLsUUEZ3r2fvMrKKz1FF5ZBiKAnkR8w==
-X-Received: by 2002:a17:902:d70a:: with SMTP id
- w10mr32715980ply.251.1566405142614; 
- Wed, 21 Aug 2019 09:32:22 -0700 (PDT)
+ :references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to:user-agent;
+ bh=BRaE3rjeT8FCEq2Zbhrcwzz/PytLOULw+1k5/xkFYgY=;
+ b=ngxne8tTT9vampQzMBkswtiZeQq/N0zoBSS3TXp5JFR0d0BcsZBp676BrqHLc7Ygyu
+ USB41lo2n/g/fayCmNxje4gkoA4wl5xsZjI5uCqnKIJy6f/i+7wO3n5DR5TEN3XJm6sZ
+ KqAMraUvHzZpfgqlK5gudTHSoujkKEnUQNIMnob4iH2xSuv1V3teIN2bkrINruWGEQj0
+ e382oM9BbVDxLsq7RJJsL1cZKjn/y2k2iD6BS2Tr+PTWmeCOjO8R961tZQ299G6f2hSK
+ irHJU4DKuNVXkYRGh8ggzew66VwNukYnProi6j62Rcb93dFN5dFefD6UuGo7FRU29sYo
+ pwDA==
+X-Gm-Message-State: APjAAAWzTkbi0b6ExLZ04l+f7XiX2IJ2DnfgHUO4WWYAu0dAUlONdR8l
+ Jt9R4JmqUE+X3hyA4RSfgt4=
+X-Google-Smtp-Source: APXvYqw7jrvERpK0TvcG5LufdB/a+fUB8Dtj+XOTHWONJ/0UKlGLuryo1MgZMuVh02WFzQekc1vi3w==
+X-Received: by 2002:a17:902:9a41:: with SMTP id
+ x1mr18562143plv.88.1566411010884; 
+ Wed, 21 Aug 2019 11:10:10 -0700 (PDT)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id o130sm29917759pfg.171.2019.08.21.09.32.21
+ by smtp.gmail.com with ESMTPSA id l4sm23809086pff.50.2019.08.21.11.10.09
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 21 Aug 2019 09:32:21 -0700 (PDT)
-Date: Wed, 21 Aug 2019 09:32:20 -0700
+ Wed, 21 Aug 2019 11:10:10 -0700 (PDT)
+Date: Wed, 21 Aug 2019 11:10:09 -0700
 From: Guenter Roeck <linux@roeck-us.net>
-To: Ivan Mikhaylov <i.mikhaylov@yadro.com>
+To: Alexander Amelkin <a.amelkin@yadro.com>
 Subject: Re: [PATCH 3/3] watchdog/aspeed: add support for dual boot
-Message-ID: <20190821163220.GA11547@roeck-us.net>
+Message-ID: <20190821181008.GB15127@roeck-us.net>
 References: <1f2cd155057e5ab0cdb20a9a11614bbb09bb49ad.camel@yadro.com>
+ <20190821163220.GA11547@roeck-us.net>
+ <9e7fe5cc-ba1b-b8b6-69c5-c3c6cf508a36@yadro.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1f2cd155057e5ab0cdb20a9a11614bbb09bb49ad.camel@yadro.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9e7fe5cc-ba1b-b8b6-69c5-c3c6cf508a36@yadro.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -81,123 +85,115 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Alexander Amelkin <a.amelkin@yadro.com>, linux-kernel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Ivan Mikhaylov <i.mikhaylov@yadro.com>,
  Wim Van Sebroeck <wim@linux-watchdog.org>,
  linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Aug 21, 2019 at 06:57:43PM +0300, Ivan Mikhaylov wrote:
-> Set WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION into WDT_CLEAR_TIMEOUT_STATUS
-> to clear out boot code source and re-enable access to the primary SPI flash
-> chip while booted via wdt2 from the alternate chip.
+On Wed, Aug 21, 2019 at 08:42:24PM +0300, Alexander Amelkin wrote:
+> 21.08.2019 19:32, Guenter Roeck wrote:
+> > On Wed, Aug 21, 2019 at 06:57:43PM +0300, Ivan Mikhaylov wrote:
+> >> Set WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION into WDT_CLEAR_TIMEOUT_STATUS
+> >> to clear out boot code source and re-enable access to the primary SPI flash
+> >> chip while booted via wdt2 from the alternate chip.
+> >>
+> >> AST2400 datasheet says:
+> >> "In the 2nd flash booting mode, all the address mapping to CS0# would be
+> >> re-directed to CS1#. And CS0# is not accessable under this mode. To access
+> >> CS0#, firmware should clear the 2nd boot mode register in the WDT2 status
+> >> register WDT30.bit[1]."
+> > Is there reason to not do this automatically when loading the module
+> > in alt-boot mode ? What means does userspace have to determine if CS0
+> > or CS1 is active at any given time ? If there is reason to ever have CS1
+> > active instead of CS0, what means would userspace have to enable it ?
 > 
-> AST2400 datasheet says:
-> "In the 2nd flash booting mode, all the address mapping to CS0# would be
-> re-directed to CS1#. And CS0# is not accessable under this mode. To access
-> CS0#, firmware should clear the 2nd boot mode register in the WDT2 status
-> register WDT30.bit[1]."
-
-Is there reason to not do this automatically when loading the module
-in alt-boot mode ? What means does userspace have to determine if CS0
-or CS1 is active at any given time ? If there is reason to ever have CS1
-active instead of CS0, what means would userspace have to enable it ?
-
-If userspace can not really determine if CS1 or CS0 is active, all it could
-ever do was to enable CS0 to be in a deterministic state. If so, it doesn't
-make sense to ever have CS1 active, and re-enabling CS0 could be automatic.
-
-Similar, if CS1 can ever be enabled, there is no means for userspace to ensure
-that some other application did not re-enable CS0 while it believes that CS1
-is enabled. If there is no means for userspace to enable CS1, it can never be
-sure what is enabled (because some other entity may have enabled CS0 while
-userspace just thought that CS1 is still enabled). Again, the only means
-to guarantee a well defined state would be to explicitly enable CS0 and provive
-no means to enable CS1. Again, this could be done during boot, not requiring
-an explicit request from userspace.
-
+> Yes, there is. The driver is loaded long before the filesystems are mounted. The filesystems, in the event of alternate/recovery boot, need to be mounted from the same chip that the kernel was booted. For one reason because the main chip at CS0 is most probably corrupt. If you clear that bit when driver is loaded, your software will not know that and will try to mount the wrong filesystems. The whole idea of ASPEED's switching chipselects is to have identical firmware in both chips, without the need to process the alternate boot state in any way except for indicating a successful boot and restoring access to CS0 when needed.
 > 
-> Signed-off-by: Ivan Mikhaylov <i.mikhaylov@yadro.com>
-> ---
->  drivers/watchdog/aspeed_wdt.c | 30 ++++++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
+> The userspace can read bootstatus sysfs node to determine if an alternate boot has occured.
 > 
-> diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
-> index cc71861e033a..858e62f1c7ba 100644
-> --- a/drivers/watchdog/aspeed_wdt.c
-> +++ b/drivers/watchdog/aspeed_wdt.c
-> @@ -53,6 +53,8 @@ MODULE_DEVICE_TABLE(of, aspeed_wdt_of_table);
->  #define   WDT_CTRL_ENABLE		BIT(0)
->  #define WDT_TIMEOUT_STATUS	0x10
->  #define   WDT_TIMEOUT_STATUS_BOOT_SECONDARY	BIT(1)
-> +#define WDT_CLEAR_TIMEOUT_STATUS	0x14
-> +#define   WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION	BIT(0)
->  
->  /*
->   * WDT_RESET_WIDTH controls the characteristics of the external pulse (if
-> @@ -165,6 +167,29 @@ static int aspeed_wdt_restart(struct watchdog_device *wdd,
->  	return 0;
->  }
->  
-> +static ssize_t access_cs0_store(struct device *dev,
-> +			      struct device_attribute *attr,
-> +			      const char *buf, size_t size)
-> +{
-> +	struct aspeed_wdt *wdt = dev_get_drvdata(dev);
-> +
-> +	if (unlikely(!wdt))
-> +		return -ENODEV;
-> +
+> With ASPEED, CS1 is activated automatically by wdt2 when system fails to boot from the primary flash chip (at CS0) and disable the watchdog to indicate a successful boot. When that happens, both CS0 and CS1 controls  get routed in hardware to CS1 line, making the primary flash chip inaccessible. Depending on the architecture of the user-space software, it may choose to re-enable access to the primary chip via CS0 at different times. There must be a way to do so.
+> 
+So by activating cs0, userspace would essentially pull its own root file system
+from underneath itself ?
 
-How would this ever happen, and how / where is drvdata set to NULL ?
-
-> +	writel(WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION,
-> +			wdt->base + WDT_CLEAR_TIMEOUT_STATUS);
-> +	wdt->wdd.bootstatus |= WDIOF_EXTERN1;
-
-The variable reflects the _boot status_. It should not change after booting.
-
-> +
-> +	return size;
-> +}
-> +static DEVICE_ATTR_WO(access_cs0);
-> +
-> +static struct attribute *bswitch_attrs[] = {
-> +	&dev_attr_access_cs0.attr,
-> +	NULL
-> +};
-> +ATTRIBUTE_GROUPS(bswitch);
-> +
->  static const struct watchdog_ops aspeed_wdt_ops = {
->  	.start		= aspeed_wdt_start,
->  	.stop		= aspeed_wdt_stop,
-> @@ -223,6 +248,9 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
->  
->  	wdt->ctrl = WDT_CTRL_1MHZ_CLK;
->  
-> +	if (of_property_read_bool(np, "aspeed,alt-boot"))
-> +		wdt->wdd.groups = bswitch_groups;
-> +
-Why does this have to be separate to the existing evaluation of
-aspeed,alt-boot, and why does the existing code not work ?
-
-Also, is it guaranteed that this does not interfer with existing
-support for alt-boot ?
-
->  	/*
->  	 * Control reset on a per-device basis to ensure the
->  	 * host is not affected by a BMC reboot
-> @@ -309,6 +337,8 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
->  	if (status & WDT_TIMEOUT_STATUS_BOOT_SECONDARY)
->  		wdt->wdd.bootstatus = WDIOF_CARDRESET;
->  
-> +	dev_set_drvdata(dev, wdt);
-> +
->  	return devm_watchdog_register_device(dev, &wdt->wdd);
->  }
->  
-> -- 
-> 2.20.1
+> > If userspace can not really determine if CS1 or CS0 is active, all it could
+> > ever do was to enable CS0 to be in a deterministic state. If so, it doesn't
+> > make sense to ever have CS1 active, and re-enabling CS0 could be automatic.
+> >
+> > Similar, if CS1 can ever be enabled, there is no means for userspace to ensure
+> > that some other application did not re-enable CS0 while it believes that CS1
+> > is enabled. If there is no means for userspace to enable CS1, it can never be
+> > sure what is enabled (because some other entity may have enabled CS0 while
+> > userspace just thought that CS1 is still enabled). Again, the only means
+> > to guarantee a well defined state would be to explicitly enable CS0 and provive
+> > no means to enable CS1. Again, this could be done during boot, not requiring
+> > an explicit request from userspace.
+> 
+> Please understand that activation of CS1 in place of CS0 is NOT a software choice!
 > 
 > 
+> >> +	if (unlikely(!wdt))
+> >> +		return -ENODEV;
+> >> +
+> > How would this ever happen, and how / where is drvdata set to NULL ?
+> 
+> This is purely for robustness. Seeing a pointer obtained via a function accessed without first checking it for validity makes me nervous.
+> 
+This is not how kernel code is commonly written.
+Sure, we could add similar checks to each sysfs access code in the kernel,
+blowing up its size significantly. I do not see a point of this.
+
+> This code most probably adds nothing at the assembly level.
+> 
+That seems quite unlikely. Please demonstrate.
+
+> >
+> >> +	writel(WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION,
+> >> +			wdt->base + WDT_CLEAR_TIMEOUT_STATUS);
+> >> +	wdt->wdd.bootstatus |= WDIOF_EXTERN1;
+> > The variable reflects the _boot status_. It should not change after booting.
+> Is there any documentation that dictates that? All I could find is
+> 
+> "bootstatus: status of the device after booting". That doesn't look to me like it absolutely can not change to reflect the updated status (that is, to reflect that the originally set up alternate CS routing has been reset to normal).
+> 
+You choose to interpret "after booting" in a kind of novel way,
+which I find a bit disturbing. I am not really sure how else to
+describe "boot status" in a way that does not permit such
+reinterpratation of the term.
+
+On top of that, how specifically would "WDIOF_EXTERN1" reflect
+what you claim it does ? Not only you are hijacking bootstatus9
+(which is supposed to describe the reason for a reboot), you
+are also hijacking WDIOF_EXTERN1. That seems highly arbitrary
+to me, and is not really how an API/ABI should be used.
+
+Guenter
+
+> If you absolutely disallow that, I think we could make 'access_cs0' readable instead, so it could report the current state of the boot code selection bit. Reverted, I suppose. That way 'access_cs0' would report 1 after 1 has been written to it (it wouldn't be possible to write a zero).
+> 
+> > @@ -223,6 +248,9 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
+> >  
+> >  	wdt->ctrl = WDT_CTRL_1MHZ_CLK;
+> >  
+> > +	if (of_property_read_bool(np, "aspeed,alt-boot"))
+> > +		wdt->wdd.groups = bswitch_groups;
+> > +
+> > Why does this have to be separate to the existing evaluation of
+> > aspeed,alt-boot, and why does the existing code not work ?
+> >
+> > Also, is it guaranteed that this does not interfer with existing
+> > support for alt-boot ?
+> 
+> I think Ivan will comment on this.
+> 
+> With best regards,
+> Alexander Amelkin,
+> BIOS/BMC Team Lead, YADRO
+> https://yadro.com
+> 
+> 
+
+
+
