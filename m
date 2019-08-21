@@ -1,58 +1,71 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2E096B87
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Aug 2019 23:36:36 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8357C9714E
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2019 06:57:16 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46CkdF3rJKzDr9N
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2019 07:36:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46CwPk0hNdzDqY6
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2019 14:57:14 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=ami.com
- (client-ip=63.147.10.42; helo=atlmailgw2.ami.com;
- envelope-from=hongweiz@ami.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::542; helo=mail-pg1-x542.google.com;
+ envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=ami.com
-Received: from atlmailgw2.ami.com (atlmailgw2.ami.com [63.147.10.42])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="kML78E9Z"; 
+ dkim-atps=neutral
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46Ckd72zXvzDr82
- for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2019 07:36:27 +1000 (AEST)
-X-AuditID: ac10606f-d11ff70000003324-7f-5d5c67d8e1ba
-Received: from atlms1.us.megatrends.com (atlms1.us.megatrends.com
- [172.16.96.144])
- (using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by atlmailgw2.ami.com (Symantec Messaging Gateway) with SMTP id
- 51.10.13092.8D76C5D5; Tue, 20 Aug 2019 17:36:24 -0400 (EDT)
-Received: from hongweiz-Ubuntu-AMI.us.megatrends.com (172.16.98.93) by
- atlms1.us.megatrends.com (172.16.96.144) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Tue, 20 Aug 2019 17:36:23 -0400
-From: Hongwei Zhang <hongweiz@ami.com>
-To: Andrew Jeffery <andrew@aj.id.au>, Linus Walleij
- <linus.walleij@linaro.org>, <linux-gpio@vger.kernel.org>
-Subject: [v7 2/2] gpio: aspeed: Add SGPIO driver
-Date: Tue, 20 Aug 2019 17:35:55 -0400
-Message-ID: <1566336955-31808-1-git-send-email-hongweiz@ami.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1564603297-1391-1-git-send-email-hongweiz@ami.com>
-References: <1564603297-1391-1-git-send-email-hongweiz@ami.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46CwPb37HhzDqQZ
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2019 14:57:07 +1000 (AEST)
+Received: by mail-pg1-x542.google.com with SMTP id d1so595728pgp.4
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 20 Aug 2019 21:57:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=F3L4II85eG5+Ju0PiHDYgaOg83dmrN2U4zsjrFTvtVk=;
+ b=kML78E9Z1HY+LqS0ocE+R+cMN1dL8FMwBoo6lyCPnO9Z8D3Vqpq3umvLjFElQSBX1v
+ AYAwJhVbDwa25PuCimdjnsdS5F1lmRkJXeCxFei+Xxhz/TrP2PJR9uqmL5b4Gb4ZTmCk
+ Muxur/MJCO3cRCQuZBH8aZvAZ4n65gNk2uXUTfGFWIBHISVH5fsXguZMxuiFzI6m75+F
+ ogQ/QXu9tj0aFF4lIxy8tvIF7r4r5OzIXgUtUTbc3nP0wd9PWeod4szuBj/Une4ahb2J
+ M4gxvM0CweUIKFRiG3yr3pg837YWTKOCxx6zasTO7tcd0b8xXnKfqTZ7NFp92IqMbflB
+ nc3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=F3L4II85eG5+Ju0PiHDYgaOg83dmrN2U4zsjrFTvtVk=;
+ b=b8NnSARNDjnSM2eHNfk6nri7CGxLl8Ysg5rSOiLD0waGGQZsFibeg97qw4KCGJh61Q
+ +gqqo+cAI02OWop79bHk4Xmvj+4mhYihF0N8icWPgcBueaphSEjffTwvvDzM9W4b3Wap
+ 0jhs1fOGq70UsBKpfts3BOW6Ksse/rR7VuLB+ZkFl6NxyWazb41WAhamc2E73KMpqDco
+ Bhp1nb+smGxisb2aq0rLuwIG7KP0a4JbfKrJ4vixpdIxTbpCqU6TcgG8pxy5ZYqQL0l5
+ q02CpomfzON9mfKDa0hd3HO0LYNfpQgcfAcetnO9NtU5vUkGfvSanrf73EbXamZ0adaI
+ IxNg==
+X-Gm-Message-State: APjAAAXL2sG3TY2HgYEmNxa9f6FuOot9DHlI+xFvCqiHydp7MjQTDyYO
+ O6XDoVHC1VYNZsPpc2Umm5M=
+X-Google-Smtp-Source: APXvYqzSOY46Y5UrW2/vAhHHp3XzP2p/mtKr9xpqX2YfPZx41r5z1RlkJxKGMekNLx4bEdSyXmD22w==
+X-Received: by 2002:aa7:9477:: with SMTP id t23mr34247104pfq.29.1566363423580; 
+ Tue, 20 Aug 2019 21:57:03 -0700 (PDT)
+Received: from voyager.ibm.com ([36.255.48.244])
+ by smtp.gmail.com with ESMTPSA id x16sm12279629pff.99.2019.08.20.21.57.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Aug 2019 21:57:03 -0700 (PDT)
+From: Joel Stanley <joel@jms.id.au>
+To: Andrew Jeffery <andrew@aj.id.au>,
+	Adriana Kobylak <anoo@us.ibm.com>
+Subject: [PATCH] ARM: dts: aspeed: swift: Add eMMC device
+Date: Wed, 21 Aug 2019 14:26:55 +0930
+Message-Id: <20190821045655.21752-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.16.98.93]
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFLMWRmVeSWpSXmKPExsWyRiBhgu6N9JhYg9PXNC12Xeaw+DL3FIvF
- 7/N/mS2m/FnOZLHp8TVWi+bV55gtNs//w2hxedccNgcOj6vtu9g93t9oZfe4+PEYs8eda3vY
- PDYvqfc4P2Mho8fnTXIB7FFcNimpOZllqUX6dglcGS8Wr2UqWC5ace54SAPjLIEuRk4OCQET
- iW/tLcxdjFwcQgK7mCSe991ggnAOM0q8ftjIClLFJqAmsXfzHCYQW0QgT+Lw+resIEXMAo8Z
- JXa/2sDWxcjBISxgIHFshR5IDYuAqsTtC//ZQGxeAQeJqwefMUNsk5O4ea4TzOYEiv/6tY4J
- pFVIwF5i6vdqiHJBiZMzn7CA2MwCEhIHX7wAKxcSkJW4degxE8QYBaA7H7NMYBSYhaRlFpKW
- BYxMqxiFEktychMzc9LLjfQSczP1kvNzNzFCwjt/B+PHj+aHGJk4GA8xSnAwK4nwVsyJihXi
- TUmsrEotyo8vKs1JLT7EKM3BoiTOu2rNtxghgfTEktTs1NSC1CKYLBMHp1QDoz/nZY7d3c8E
- 8nStLkcrd8rdc2+/PrVxTXfHnzUH3vhWeZzeenvfqS839a0+Jkq08Oud9Ui7J6wuY7H5ivDm
- 5/pbLqlOL7iqyNh1Uz288Y9UxirmJj1t0Z9LWkuSmyvsNht8Pnov9PiGXOHi/Yd+bhT9pRQh
- FfHrX5Eb+9cJ8y8qB/zOLAy5oMRSnJFoqMVcVJwIAEQvkZ9dAgAA
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,88 +77,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Hongwei Zhang <hongweiz@ami.com>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Linus,
+Swift contains an eMMC device attached to the second SDHCI controller.
 
-Thanks for your review! I just submitted v8 to the list, please help to review it again.
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ arch/arm/boot/dts/aspeed-bmc-opp-swift.dts | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Since you have already merged the dt-binding document [v7 1/2], and I don't have your
-update to this file, so to avoid confusion, I only include the driver code in v8.
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
+index f14f745b34ca..25bc0e1bbced 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
+@@ -963,4 +963,15 @@
+ 	status = "okay";
+ };
+ 
++&sdmmc {
++       status = "okay";
++};
++
++&sdhci1 {
++       status = "okay";
++
++       pinctrl-names = "default";
++       pinctrl-0 = <&pinctrl_sd2_default>;
++};
++
+ #include "ibm-power9-dual.dtsi"
+-- 
+2.23.0.rc1
 
-Regards,
---Hongwei 
-
-> From:	Linus Walleij <linus.walleij@linaro.org>
-> Sent:	Wednesday, August 14, 2019 4:09 AM
-> To:	Hongwei Zhang
-> Cc:	Andrew Jeffery; open list:GPIO SUBSYSTEM; Joel Stanley; linux-aspeed; Bartosz Golaszewski; 
-> linux-kernel@vger.kernel.org; Linux ARM
-> Subject:	Re: [v7 2/2] gpio: aspeed: Add SGPIO driver
-> 
-> Hi Hongwei,
-> 
-> thanks for your patch!
-> 
-> I have now merged the bindings so you only need to respin this patch.
-> 
-> On Wed, Jul 31, 2019 at 10:02 PM Hongwei Zhang <hongweiz@ami.com> wrote:
-> 
-> > Add SGPIO driver support for Aspeed AST2500 SoC.
-> >
-> > Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
-> > Reviewed-by:   Andrew Jeffery <andrew@aj.id.au>
-> 
-> I guess I need to go with this, there are some minor things I still want to be fixed:
-> 
-> > +static void __aspeed_sgpio_set(struct gpio_chip *gc, unsigned int 
-> > +offset, int val)
-> 
-> I don't like __underscore_functions because their semantic is ambiguous.
-> 
-
-done, please see v8.
-
-> Rename this something like aspeed_sgpio_commit() or whatever best fits the actual use.
-> 
-> > +static int aspeed_sgpio_setup_irqs(struct aspeed_sgpio *gpio,
-> > +                                  struct platform_device *pdev) {
-> (...)
-> > +       rc = gpiochip_irqchip_add(&gpio->chip, &aspeed_sgpio_irqchip,
-> > +                                 0, handle_bad_irq, IRQ_TYPE_NONE);
-> (...)
-> > +       gpiochip_set_chained_irqchip(&gpio->chip, &aspeed_sgpio_irqchip,
-> > +                                    gpio->irq, 
-> > + aspeed_sgpio_irq_handler);
-> 
-> We do not set up chained irqchips like this anymore, sorry.
-> 
-> I am currently rewriting all existing chained drivers to pass an initialized irqchip when registering the 
-> whole gpio chip.
-> See drivers/gpio/TODO.
-> 
-> Here are examples:
-> https://lore.kernel.org/linux-gpio/20190811080539.15647-1-linus.walleij@linaro.org/
-> https://lore.kernel.org/linux-gpio/20190812132554.18313-1-linus.walleij@linaro.org/
-> 
-
-done, please see v8.
-
-> > +       /* set all SGPIO pins as input (1). */
-> > +       memset(gpio->dir_in, 0xff, sizeof(gpio->dir_in));
-> 
-> Do the irqchip set-up here, before adding the gpio_chip.
-> 
-> > +       rc = devm_gpiochip_add_data(&pdev->dev, &gpio->chip, gpio);
-> > +       if (rc < 0)
-> > +               return rc;
-> > +
-> > +       return aspeed_sgpio_setup_irqs(gpio, pdev);
-> 
-> Yours,
-> Linus Walleij
