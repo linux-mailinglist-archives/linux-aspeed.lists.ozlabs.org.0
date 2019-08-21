@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EACC3A734C
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:13:26 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF21FA734D
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:13:29 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46NGnb1Wn9zDql2
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:13:23 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46NGng1rnNzDqlg
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:13:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -16,44 +16,44 @@ Authentication-Results: lists.ozlabs.org;
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=yadro.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=yadro.com header.i=@yadro.com header.b="tySjT9Pu"; 
+ unprotected) header.d=yadro.com header.i=@yadro.com header.b="XuASEHZZ"; 
  dkim-atps=neutral
 Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46DBp80VK8zDqQf
- for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Aug 2019 01:45:51 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46DBxl2221zDqjp
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Aug 2019 01:52:27 +1000 (AEST)
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 29FB042ED0;
- Wed, 21 Aug 2019 15:45:47 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id 2E05142ED0;
+ Wed, 21 Aug 2019 15:52:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-transfer-encoding:mime-version:user-agent:content-type
  :content-type:organization:date:date:from:from:subject:subject
- :message-id:received:received:received; s=mta-01; t=1566402346;
- x=1568216747; bh=l6hXSToi6B7BPKUDMLc5WGRAC3dF5cH6u+mmAmA9gVY=; b=
- tySjT9PuYDuZltTGkMIgAmsuKDAn5Lesh6Yz4K/aaOcdtzZDmZWhXzOGiLX/bojz
- HRcM4z5hfMNcAC7t/1d6pQVQ1rn1mlOxb7cFRs0esW7n4vaWp6BZXz2U5USIHDoe
- 7AGCufUvZuDaurjkQ1jaweSwcy14N5E8n4rhBGeIocM=
+ :message-id:received:received:received; s=mta-01; t=1566402743;
+ x=1568217144; bh=pOc3KLiQCgqwQcr8n6hsHD5m1EFrOU7bcNFQtatabT8=; b=
+ XuASEHZZRwvvUATkU2u1FcGIrD4HSAQKr07D8arfRKO8d3PH4qoMl113V/7VG+qt
+ DFvR4RSpUEGrdWp5nnKj6cizV5AaCtOdq83kVRJ3xEm7rxLJc6xVc862i9q+47mr
+ NfHev9oMvRc3WK1Nkm5/pAJnatYzgwjPBFT1CoMBivo=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IKKO0pJygjwO; Wed, 21 Aug 2019 18:45:46 +0300 (MSK)
+ with ESMTP id 4SUR6-yrjwhX; Wed, 21 Aug 2019 18:52:23 +0300 (MSK)
 Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
  [172.17.10.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id E2FAB4120B;
- Wed, 21 Aug 2019 18:45:43 +0300 (MSK)
+ by mta-01.yadro.com (Postfix) with ESMTPS id E51774120B;
+ Wed, 21 Aug 2019 18:52:22 +0300 (MSK)
 Received: from localhost.localdomain (172.17.15.69) by
  T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.669.32; Wed, 21 Aug 2019 18:45:43 +0300
-Message-ID: <2d690bc4d00a3b911d7c50a909aa7f27870ea092.camel@yadro.com>
-Subject: 
+ 15.1.669.32; Wed, 21 Aug 2019 18:52:22 +0300
+Message-ID: <f27c52df7ddd460695d6ed1d7823a65a72012361.camel@yadro.com>
+Subject: [PATCH 0/3] add dual-boot support
 From: Ivan Mikhaylov <i.mikhaylov@yadro.com>
 To: Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
  <linux@roeck-us.net>
-Date: Wed, 21 Aug 2019 18:45:36 +0300
+Date: Wed, 21 Aug 2019 18:52:22 +0300
 Organization: YADRO
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
@@ -80,11 +80,6 @@ Cc: linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org, Alexander
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
-
-From 1687adb615ceb7a4013712604f177dc906059667 Mon Sep 17 00:00:00 2001
-From: Ivan Mikhaylov <i.mikhaylov@yadro.com>
-Date: Wed, 21 Aug 2019 18:21:05 +
-Subject: [PATCH 0/3] add dual-boot support
 
 ASPEED SoCs support dual-boot feature for SPI Flash.
 When strapped appropriately, the SoC starts wdt2 (/dev/watchdog1)
