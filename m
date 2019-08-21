@@ -2,72 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4F8A7340
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A13A3A7342
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:12:46 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46NGmc58ZvzDqld
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:12:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46NGmq3pxdzDqq8
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:12:43 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (mailfrom)
+ smtp.mailfrom=flex--maennich.bounces.google.com
+ (client-ip=2607:f8b0:4864:20::e49; helo=mail-vs1-xe49.google.com;
+ envelope-from=33dbdxqgkdkmpdhqqlfkjrrjoh.frpolqxa-dvshhgolvwv.rcodev.ruj@flex--maennich.bounces.google.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::444; helo=mail-pf1-x444.google.com;
- envelope-from=nishkadg.linux@gmail.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
+ dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="Qg+zDHw9"; 
+ unprotected) header.d=google.com header.i=@google.com header.b="aFsPSold"; 
  dkim-atps=neutral
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
+Received: from mail-vs1-xe49.google.com (mail-vs1-xe49.google.com
+ [IPv6:2607:f8b0:4864:20::e49])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4672xJ16jnzDqGc
- for <linux-aspeed@lists.ozlabs.org>; Tue, 13 Aug 2019 16:34:11 +1000 (AEST)
-Received: by mail-pf1-x444.google.com with SMTP id f17so47010941pfn.6
- for <linux-aspeed@lists.ozlabs.org>; Mon, 12 Aug 2019 23:34:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GYvMpGNobVf3AqFb3xy5KgnpYbwIyZqHqD10LEnethw=;
- b=Qg+zDHw9r6HZYqflIIV14xf3Uu6U8FtbmN0aBGEn/uk46YC4wb8qwCDmPmzGJV62Z1
- WceSQ6S+tpYamK00BOiIl+8BSOKKbH1L3drOX/2ho7A8kcRVQNICkBRRrUrO0n+Gtbui
- idhYt4DiFtRvwxoT4L5EwB2Zom7HVG2MRXG7XBVjjOy0X686r6oA6m5iAtmhn33Se0/V
- +dTEX4khpmAI4UxF9EeXYccq8z/YDXktgj++QPcTkY/wAp/Gmeq1UD+HZ6F7rBxgfy48
- oZMYoZvo+B1KpvxsYDpaGw0P8nd0PAn347JUf2dYolE9K9Z6FiVBxGLZn4t70QYVAgZ3
- eHFQ==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46D5fw1bDvzDq83
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2019 21:54:08 +1000 (AEST)
+Received: by mail-vs1-xe49.google.com with SMTP id r17so635218vsp.4
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2019 04:54:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=dbeW0AhXXR+v+YpCW2kANc+N3K5c0SZUYgqqbrZZvE4=;
+ b=aFsPSoldM0Bd3aP9qJf30Ez9RAxoobocKtreV6qZLpZt8GkW7vl5cqWuJrbWh976Yb
+ O6PJiYAMkAVxNpXHI4U394FvT0flIvSg+jsiI7gtohdkD4B6wlBMzDmUcAHTPDgXSYn0
+ XNELYY9SOwcG2+YLsILGLD72LxV62fTC3S2cEs6KtuTBjsa3i6n6N5uxjKvV0MwRSz6V
+ RA6jA3/uX5YE3XaHxektIv6xLOwNvbtx5jCPbkW6UZFn0RUB/19f1mkieVvh9lJfx/uh
+ GTw8bLjusCSmCyuEUFWe99eIkgh0CfPTuSyKXKPwxKWjvT7+jE7jXHWOaEgwgtxCUe1d
+ 8rlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GYvMpGNobVf3AqFb3xy5KgnpYbwIyZqHqD10LEnethw=;
- b=l7aP7vi5nstOnUXrOid2zXMX1Hajg9x0Eewc2z28bHgycLZrW/6GMyeeol+KSuLMcd
- G1uevuPuifN0RMGdSiWaUhV62yhgDqpDthYCDg/0cQnoUBIFtgd+91T3OPmURnhGQq0H
- +lvXZJKRwSgHlZ1xIgFKqwZNVG9rdnD/o7fW3c7c85Pzis7rbWAo0dn7VIcIk3fzO+gE
- /5SsaDSEmxm37MowRX5+IVn8tyVsuyzhsgC6lCLYDhql+f/v175UCF6Rl4HU6Np+sVd8
- gQ1H1Dt4oAkETqnkTi+nb3utMVrkSr9aoi6xTmWjWtcF06u7rP12a7Giseru1zoH7crm
- Yfig==
-X-Gm-Message-State: APjAAAW6wpoJooKmua3Q7NI3oiowhiqjSeDQslCZNNtlq7l4gsa+3D64
- zDEkCtMi/l+rTnoUHeTnqRE=
-X-Google-Smtp-Source: APXvYqwfms220Vinc5FlyiGQRBQG8JL5P/Qy34knvYhc+hDf7+JQAwz3oRsAYwjQjm6J5gH30+i+ww==
-X-Received: by 2002:a62:8648:: with SMTP id x69mr11624925pfd.92.1565678049875; 
- Mon, 12 Aug 2019 23:34:09 -0700 (PDT)
-Received: from localhost.localdomain ([122.163.110.75])
- by smtp.gmail.com with ESMTPSA id m34sm624871pje.5.2019.08.12.23.34.06
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 12 Aug 2019 23:34:09 -0700 (PDT)
-From: Nishka Dasgupta <nishkadg.linux@gmail.com>
-To: joel@jms.id.au, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, andrew@aj.id.au,
- linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] drm/aspeed: gfc_crtc: Make structure aspeed_gfx_funcs constant
-Date: Tue, 13 Aug 2019 12:03:55 +0530
-Message-Id: <20190813063355.25549-1-nishkadg.linux@gmail.com>
-X-Mailer: git-send-email 2.19.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 04 Sep 2019 05:12:12 +1000
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=dbeW0AhXXR+v+YpCW2kANc+N3K5c0SZUYgqqbrZZvE4=;
+ b=RsygxILz1epyteR56EgSZdccjh4BteA+9ldqR/WoD5QnXuBud8T4B7aclxr0AzYJ5L
+ BVsMbsJiHWrKLXOQ1ItDb8L9E0JG5Hna0Qy3W/CZNdTE87D1Q6YQh6hXp/lZEvjchkWw
+ nkZMTj1HCDfTcgksF/Uj87IlWX1utC8DiS3JngVkKt+zOWg/zEUcp0gVprvlP5P8n2Ds
+ WhPRUMnc261yw/Tw21opKT7twwa1yS7OGH2NFEB7FNlJFvrERMtjLRrjq9taYTfwqmlN
+ f2FL1SaZjgupDgaBTVr4J+lccFiidV5QAFt0UonjZRwCfs2fj5rMKcoki9Boli7XCq9S
+ wIcw==
+X-Gm-Message-State: APjAAAWOFN4yFxidFx+6SBwZadN/GVjfgbdcYCNU/O0t4t02yRSRVS+T
+ farFD46P/GJrgztOK1VaVk6KbTSGtGVKcg==
+X-Google-Smtp-Source: APXvYqzEhKafXMjJoeTZyC7zvtkDGEgBz64AYQQy+0Uw+lMBm7os5APWm8dgDVK460ybb2au7ed1CCFcEK0k1Q==
+X-Received: by 2002:a1f:3887:: with SMTP id f129mr12005868vka.15.1566388444681; 
+ Wed, 21 Aug 2019 04:54:04 -0700 (PDT)
+Date: Wed, 21 Aug 2019 12:49:15 +0100
+In-Reply-To: <20190813121733.52480-1-maennich@google.com>
+Message-Id: <20190821114955.12788-1-maennich@google.com>
+Mime-Version: 1.0
+References: <20190813121733.52480-1-maennich@google.com>
+X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
+Subject: [PATCH v3 00/11] Symbol Namespaces
+From: Matthias Maennich <maennich@google.com>
+To: linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Wed, 04 Sep 2019 05:12:13 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,35 +75,250 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Nishka Dasgupta <nishkadg.linux@gmail.com>
+Cc: kstewart@linuxfoundation.org, oneukum@suse.com,
+ linux-stm32@st-md-mailman.stormreply.com, linux-aspeed@lists.ozlabs.org,
+ usb-storage@lists.one-eyed-alien.net, Toru Komatsu <k0ma@utam0k.jp>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ David Howells <dhowells@redhat.com>, yamada.masahiro@socionext.com,
+ Will Deacon <will@kernel.org>, patches@opensource.cirrus.com,
+ Michael Ellerman <mpe@ellerman.id.au>, hpa@zytor.com, joel@joelfernandes.org,
+ bcm-kernel-feedback-list@broadcom.com, sam@ravnborg.org, cocci@systeme.lip6.fr,
+ linux-arch@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
+ openbmc@lists.ozlabs.org, x86@kernel.org, lucas.de.marchi@gmail.com,
+ Nancy Yuen <yuenn@google.com>, mingo@redhat.com, geert@linux-m68k.org,
+ NXP Linux Team <linux-imx@nxp.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Patrick Venture <venture@google.com>, stern@rowland.harvard.edu,
+ kernel-team@android.com, Dan Williams <dan.j.williams@intel.com>,
+ Ingo Molnar <mingo@kernel.org>, linux-rtc@vger.kernel.org,
+ Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>, sspatil@google.com,
+ linux-watchdog@vger.kernel.org, arnd@arndb.de, linux-kbuild@vger.kernel.org,
+ Jani Nikula <jani.nikula@intel.com>, linux-arm-msm@vger.kernel.org,
+ jeyu@kernel.org, maennich@google.com, Julia Lawall <julia.lawall@lip6.fr>,
+ linux-m68k@lists.linux-m68k.org, linux-mediatek@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, tglx@linutronix.de, maco@android.com,
+ linux-arm-kernel@lists.infradead.org, Adrian Reber <adrian@lisas.de>,
+ linux-hwmon@vger.kernel.org, michal.lkml@markovi.net,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, Alexey Gladkov <gladkov.alexey@gmail.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Nicolas Pitre <nico@fluxnic.net>,
+ Patrick Bellasi <patrick.bellasi@arm.com>, Richard Guy Briggs <rgb@redhat.com>,
+ maco@google.com, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ pombredanne@nexb.com, Tejun Heo <tj@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "David S. Miller" <davem@davemloft.net>, linux-modules@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The static structure aspeed_gfx_funcs, of type
-drm_simple_display_pipe_funcs, is used only as an argument to
-drm_simple_display_pipe_init(), which does not modify it. Hence make it
-constant to protect it from unintended modification.
-Issue found with Coccinelle.
+As of Linux 5.3-rc5, there are 31205 [1] exported symbols in the kernel.
+That is a growth of roughly 1000 symbols since 4.17 (30206 [2]).  There
+seems to be some consensus amongst kernel devs that the export surface
+is too large, and hard to reason about.
 
-Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
----
- drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Generally, these symbols fall in one of these categories:
+1) Symbols actually meant for drivers
+2) Symbols that are only exported because functionality is split over
+   multiple modules, yet they really shouldn't be used by modules outside
+   of their own subsystem
+3) Symbols really only meant for in-tree use
 
-diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-index 15db9e426ec4..2184b8be6fd4 100644
---- a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-+++ b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-@@ -215,7 +215,7 @@ static void aspeed_gfx_disable_vblank(struct drm_simple_display_pipe *pipe)
- 	writel(reg | CRT_CTRL_VERTICAL_INTR_STS, priv->base + CRT_CTRL1);
- }
- 
--static struct drm_simple_display_pipe_funcs aspeed_gfx_funcs = {
-+static const struct drm_simple_display_pipe_funcs aspeed_gfx_funcs = {
- 	.enable		= aspeed_gfx_pipe_enable,
- 	.disable	= aspeed_gfx_pipe_disable,
- 	.update		= aspeed_gfx_pipe_update,
+When module developers try to upstream their code, it regularly turns
+out that they are using exported symbols that they really shouldn't be
+using. This problem is even bigger for drivers that are currently
+out-of-tree, which may be using many symbols that they shouldn't be
+using, and that break when those symbols are removed or modified.
+
+This patch allows subsystem maintainers to partition their exported
+symbols into separate namespaces, and module authors to import such
+namespaces only when needed.
+
+This allows subsystem maintainers to more easily limit availability of
+these namespaced symbols to other parts of the kernel. It can also be
+used to partition the set of exported symbols for documentation
+purposes; for example, a set of symbols that is really only used for
+debugging could be in a "SUBSYSTEM_DEBUG" namespace.
+
+I continued the work mainly done by Martijn Coenen.
+
+Changes in v2:
+- Rather than adding and evaluating separate sections __knsimport_NS,
+  use modinfo tags to declare the namespaces a module introduces.
+  Adjust modpost and the module loader accordingly.
+- Also add support for reading multiple modinfo values for the same tag
+  to allow list-like access to modinfo tags.
+- The macros in export.h have been cleaned up to avoid redundancy in the
+  macro parameters (ns, nspost, nspost2).
+- The introduction of relative references in the ksymtab entries caused
+  a rework of the macros to accommodate that configuration as well.
+- Alignment of kernel_symbol in the ksymtab needed to be fixed to allow
+  growing the kernel_symbol struct.
+- Modpost does now also append the namespace suffix to the symbol
+  entries in Module.symvers.
+- The configuration option MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS allows
+  relaxing the enforcement of properly declared namespace imports at
+  module loading time.
+- Symbols can be collectively exported into a namespace by defining
+  DEFAULT_SYMBOL_NAMESPACE in the corresponding Makefile.
+- The requirement for a very recent coccinelle spatch has been lifted by
+  simplifying the script.
+- nsdeps does now ensures MODULE_IMPORT_NS statements are sorted when
+  patching the module source files.
+- Some minor bugs have been addressed in nsdeps to allow it to work with
+  modules that have more than one source file.
+- The RFC for the usb-storage symbols has been simplified by using
+  DEFAULT_SYMBOL_NAMESPACE=USB_STORAGE rather than explicitly exporting
+  each and every symbol into that new namespace.
+
+Changes in v3:
+- Reword the documentation for the
+  MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS option for clarification.
+- Fix printed required version of spatch in coccinelle script.
+- Adopt kbuild changes for modpost: .mod files are no longer generated
+  in .tmp_versions. Similarely, generate the .ns_deps files in the tree
+  along with the .mod files. Also, nsdeps now uses modules.order as
+  source for the list modules to consider.
+- Add an RFC patch to introduce the namespace WATCHDOG_CORE for symbols
+  exported in watchdog_core.c.
+
+This patch series was developed against Linus' master (15d90b242290).
+
+[1] git grep "^EXPORT_SYMBOL\w*(" v5.3-rc5 | wc -l
+[2] git grep "^EXPORT_SYMBOL\w*(" v4.17    | wc -l
+
+
+Matthias Maennich (11):
+  module: support reading multiple values per modinfo tag
+  export: explicitly align struct kernel_symbol
+  module: add support for symbol namespaces.
+  modpost: add support for symbol namespaces
+  module: add config option MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
+  export: allow definition default namespaces in Makefiles or sources
+  modpost: add support for generating namespace dependencies
+  scripts: Coccinelle script for namespace dependencies.
+  usb-storage: remove single-use define for debugging
+  RFC: usb-storage: export symbols in USB_STORAGE namespace
+  RFC: watchdog: export core symbols in WATCHDOG_CORE namespace
+
+ .gitignore                                  |   1 +
+ MAINTAINERS                                 |   5 +
+ Makefile                                    |  14 +-
+ arch/m68k/include/asm/export.h              |   1 -
+ drivers/hwmon/ftsteutates.c                 |   1 +
+ drivers/hwmon/sch56xx-common.c              |   1 +
+ drivers/rtc/rtc-abx80x.c                    |   1 +
+ drivers/usb/storage/Makefile                |   2 +
+ drivers/usb/storage/alauda.c                |   1 +
+ drivers/usb/storage/cypress_atacb.c         |   1 +
+ drivers/usb/storage/datafab.c               |   1 +
+ drivers/usb/storage/debug.h                 |   2 -
+ drivers/usb/storage/ene_ub6250.c            |   1 +
+ drivers/usb/storage/freecom.c               |   1 +
+ drivers/usb/storage/isd200.c                |   1 +
+ drivers/usb/storage/jumpshot.c              |   1 +
+ drivers/usb/storage/karma.c                 |   1 +
+ drivers/usb/storage/onetouch.c              |   1 +
+ drivers/usb/storage/realtek_cr.c            |   1 +
+ drivers/usb/storage/scsiglue.c              |   2 +-
+ drivers/usb/storage/sddr09.c                |   1 +
+ drivers/usb/storage/sddr55.c                |   1 +
+ drivers/usb/storage/shuttle_usbat.c         |   1 +
+ drivers/usb/storage/uas.c                   |   1 +
+ drivers/watchdog/armada_37xx_wdt.c          |   1 +
+ drivers/watchdog/asm9260_wdt.c              |   1 +
+ drivers/watchdog/aspeed_wdt.c               |   1 +
+ drivers/watchdog/at91sam9_wdt.c             |   1 +
+ drivers/watchdog/atlas7_wdt.c               |   1 +
+ drivers/watchdog/bcm2835_wdt.c              |   1 +
+ drivers/watchdog/bcm47xx_wdt.c              |   1 +
+ drivers/watchdog/bcm7038_wdt.c              |   1 +
+ drivers/watchdog/bcm_kona_wdt.c             |   1 +
+ drivers/watchdog/bd70528_wdt.c              |   1 +
+ drivers/watchdog/cadence_wdt.c              |   1 +
+ drivers/watchdog/da9052_wdt.c               |   1 +
+ drivers/watchdog/da9055_wdt.c               |   1 +
+ drivers/watchdog/da9062_wdt.c               |   1 +
+ drivers/watchdog/da9063_wdt.c               |   1 +
+ drivers/watchdog/davinci_wdt.c              |   1 +
+ drivers/watchdog/digicolor_wdt.c            |   1 +
+ drivers/watchdog/dw_wdt.c                   |   1 +
+ drivers/watchdog/ebc-c384_wdt.c             |   1 +
+ drivers/watchdog/ep93xx_wdt.c               |   1 +
+ drivers/watchdog/ftwdt010_wdt.c             |   1 +
+ drivers/watchdog/gpio_wdt.c                 |   1 +
+ drivers/watchdog/hpwdt.c                    |   1 +
+ drivers/watchdog/i6300esb.c                 |   1 +
+ drivers/watchdog/iTCO_wdt.c                 |   1 +
+ drivers/watchdog/ie6xx_wdt.c                |   1 +
+ drivers/watchdog/imgpdc_wdt.c               |   1 +
+ drivers/watchdog/imx2_wdt.c                 |   1 +
+ drivers/watchdog/intel-mid_wdt.c            |   1 +
+ drivers/watchdog/it87_wdt.c                 |   1 +
+ drivers/watchdog/kempld_wdt.c               |   1 +
+ drivers/watchdog/lpc18xx_wdt.c              |   1 +
+ drivers/watchdog/max63xx_wdt.c              |   1 +
+ drivers/watchdog/max77620_wdt.c             |   1 +
+ drivers/watchdog/mei_wdt.c                  |   1 +
+ drivers/watchdog/mena21_wdt.c               |   1 +
+ drivers/watchdog/menf21bmc_wdt.c            |   1 +
+ drivers/watchdog/menz69_wdt.c               |   1 +
+ drivers/watchdog/meson_gxbb_wdt.c           |   1 +
+ drivers/watchdog/meson_wdt.c                |   1 +
+ drivers/watchdog/mlx_wdt.c                  |   1 +
+ drivers/watchdog/moxart_wdt.c               |   1 +
+ drivers/watchdog/mtk_wdt.c                  |   1 +
+ drivers/watchdog/ni903x_wdt.c               |   1 +
+ drivers/watchdog/nic7018_wdt.c              |   1 +
+ drivers/watchdog/npcm_wdt.c                 |   1 +
+ drivers/watchdog/of_xilinx_wdt.c            |   1 +
+ drivers/watchdog/omap_wdt.c                 |   1 +
+ drivers/watchdog/pm8916_wdt.c               |   1 +
+ drivers/watchdog/qcom-wdt.c                 |   1 +
+ drivers/watchdog/rave-sp-wdt.c              |   1 +
+ drivers/watchdog/renesas_wdt.c              |   1 +
+ drivers/watchdog/retu_wdt.c                 |   1 +
+ drivers/watchdog/rn5t618_wdt.c              |   1 +
+ drivers/watchdog/rza_wdt.c                  |   1 +
+ drivers/watchdog/s3c2410_wdt.c              |   1 +
+ drivers/watchdog/sama5d4_wdt.c              |   1 +
+ drivers/watchdog/sirfsoc_wdt.c              |   1 +
+ drivers/watchdog/softdog.c                  |   1 +
+ drivers/watchdog/sp5100_tco.c               |   1 +
+ drivers/watchdog/sprd_wdt.c                 |   1 +
+ drivers/watchdog/st_lpc_wdt.c               |   1 +
+ drivers/watchdog/stmp3xxx_rtc_wdt.c         |   1 +
+ drivers/watchdog/stpmic1_wdt.c              |   1 +
+ drivers/watchdog/sunxi_wdt.c                |   1 +
+ drivers/watchdog/tangox_wdt.c               |   1 +
+ drivers/watchdog/tegra_wdt.c                |   1 +
+ drivers/watchdog/tqmx86_wdt.c               |   1 +
+ drivers/watchdog/ts4800_wdt.c               |   1 +
+ drivers/watchdog/ts72xx_wdt.c               |   1 +
+ drivers/watchdog/twl4030_wdt.c              |   1 +
+ drivers/watchdog/uniphier_wdt.c             |   1 +
+ drivers/watchdog/via_wdt.c                  |   1 +
+ drivers/watchdog/w83627hf_wdt.c             |   1 +
+ drivers/watchdog/watchdog_core.c            |  10 +-
+ drivers/watchdog/wdat_wdt.c                 |   1 +
+ drivers/watchdog/wm831x_wdt.c               |   1 +
+ drivers/watchdog/wm8350_wdt.c               |   1 +
+ drivers/watchdog/xen_wdt.c                  |   1 +
+ drivers/watchdog/ziirave_wdt.c              |   1 +
+ include/asm-generic/export.h                |  14 +-
+ include/linux/export.h                      |  92 +++++++++++--
+ include/linux/module.h                      |   2 +
+ init/Kconfig                                |  13 ++
+ kernel/module.c                             |  67 +++++++++-
+ scripts/Makefile.modpost                    |   4 +-
+ scripts/coccinelle/misc/add_namespace.cocci |  23 ++++
+ scripts/mod/modpost.c                       | 137 ++++++++++++++++++--
+ scripts/mod/modpost.h                       |   9 ++
+ scripts/nsdeps                              |  56 ++++++++
+ 114 files changed, 504 insertions(+), 46 deletions(-)
+ create mode 100644 scripts/coccinelle/misc/add_namespace.cocci
+ create mode 100644 scripts/nsdeps
+
 -- 
-2.19.1
+2.23.0.rc1.153.gdeed80330f-goog
 
