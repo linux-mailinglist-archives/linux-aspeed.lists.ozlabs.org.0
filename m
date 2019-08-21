@@ -2,73 +2,57 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32A1971CB
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2019 07:56:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8991297CD8
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2019 16:26:12 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46CxkD2D2lzDqyj
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Aug 2019 15:56:36 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46D9296QM1zDr99
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Aug 2019 00:26:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::642; helo=mail-pl1-x642.google.com;
- envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=ami.com
+ (client-ip=63.147.10.42; helo=atlmailgw2.ami.com;
+ envelope-from=hongweiz@ami.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="nLUkfdAc"; 
- dkim-atps=neutral
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=ami.com
+Received: from atlmailgw2.ami.com (atlmailgw2.ami.com [63.147.10.42])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46Cxk023p7zDqbp
- for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2019 15:56:24 +1000 (AEST)
-Received: by mail-pl1-x642.google.com with SMTP id t14so708772plr.11
- for <linux-aspeed@lists.ozlabs.org>; Tue, 20 Aug 2019 22:56:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Cl+8p7IjwOmu/57vcjZR8WI0fB01MFPdHX/I9mopYKM=;
- b=nLUkfdAcnMwMhCbckNJld74SrWq6OJpEZghk3AlLw3YrLeLkd64vM9dz4WPn0GSpUd
- sx2GEozETcKoqjFCb8CTrGGLggcZbhN33h+Zbv+wtoBllPojJGO6ktF6HfynDuVRJU/0
- MF13E62ssTk4bpVK+K9jjvpXJWpOmtTlgK7Vm3bsIaWD0tNZ4liKtl46D7Z363KldTzk
- G75OzMmWg9rvAQFlBzW/acDAxTz8A+7TXDElu7W7pYlKWED403UpAfhlsNl4NWMDqzS1
- TCntO4Jbxl8iTEVeO1TW0TteJqF14AEI86GZNB5VYi+xSRIlwWpMQqCaHTlrCj0q4Ezj
- qLqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Cl+8p7IjwOmu/57vcjZR8WI0fB01MFPdHX/I9mopYKM=;
- b=N+9ZC6Ck9LcKDHT45TnYaBEglZjJqdmBVrDf7awKmRVpSAI6gdWXU0z2QCCSXUQTUl
- q/FvK5rQdJf5pxK+PlDqypAYaemTqXPS/JoAh8t3+Y+XpdcmnefV0nbfRlbPsqGRrA4R
- WE0a766LJncy3qOOqxiRPmP78/QA1Q0+EmzWfkYm000XFdujNyg9CbjPkLJ9Hec1yl57
- OTXnopKI0BU13Mym26rtT4JD+Jt615RQYek17OsoEFuI1shjF4xiT/kRWTYZcqb/k6MF
- yMvjYhh/xUbuwASthTibUsONGFZ9EvHDBmmJvHhCkD0mziAWhfZBMMzWXkzcaiyWsZ3V
- 0R2A==
-X-Gm-Message-State: APjAAAVDZXGLZOXbX7UU7/MpEqQ3WbLocTVEs8Ghl+bmfEWUm3u8Hlr/
- UZAFhOND6jA1kDEQApXZszQ=
-X-Google-Smtp-Source: APXvYqzYQs1jmaRyUy+/+2oBaJRR5DJBG64wLpMysrA/dlWTCgTRjmToDLsMqmOik2O6WLD/5OCBCQ==
-X-Received: by 2002:a17:902:9b94:: with SMTP id
- y20mr32176648plp.260.1566366982431; 
- Tue, 20 Aug 2019 22:56:22 -0700 (PDT)
-Received: from voyager.ibm.com ([36.255.48.244])
- by smtp.gmail.com with ESMTPSA id m9sm26568254pfh.84.2019.08.20.22.56.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Aug 2019 22:56:21 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Olof Johansson <olof@lixom.net>
-Subject: [PATCH 7/7] ARM: configs: aspeed_g5: Enable AST2600
-Date: Wed, 21 Aug 2019 15:25:30 +0930
-Message-Id: <20190821055530.8720-8-joel@jms.id.au>
-X-Mailer: git-send-email 2.23.0.rc1
-In-Reply-To: <20190821055530.8720-1-joel@jms.id.au>
-References: <20190821055530.8720-1-joel@jms.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46D91v4T1NzDr99
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Aug 2019 00:25:53 +1000 (AEST)
+X-AuditID: ac10606f-d11ff70000003324-16-5d5d546dd669
+Received: from atlms1.us.megatrends.com (atlms1.us.megatrends.com
+ [172.16.96.144])
+ (using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by atlmailgw2.ami.com (Symantec Messaging Gateway) with SMTP id
+ C0.22.13092.D645D5D5; Wed, 21 Aug 2019 10:25:49 -0400 (EDT)
+Received: from hongweiz-Ubuntu-AMI.us.megatrends.com (172.16.98.93) by
+ atlms1.us.megatrends.com (172.16.96.144) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Wed, 21 Aug 2019 10:25:49 -0400
+From: Hongwei Zhang <hongweiz@ami.com>
+To: Andrew Jeffery <andrew@aj.id.au>, Linus Walleij
+ <linus.walleij@linaro.org>, <linux-gpio@vger.kernel.org>
+Subject: [v7 2/2] gpio: aspeed: Add SGPIO driver
+Date: Wed, 21 Aug 2019 10:25:21 -0400
+Message-ID: <1566397521-987-1-git-send-email-hongweiz@ami.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1564603297-1391-3-git-send-email-hongweiz@ami.com>
+References: <1564603297-1391-1-git-send-email-hongweiz@ami.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.16.98.93]
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFLMWRmVeSWpSXmKPExsWyRiBhgm5eSGysQc8WRotdlzksvsw9xWLx
+ +/xfZospf5YzWWx6fI3Vonn1OWaLzfP/MFpc3jWHzYHD42r7LnaP9zda2T0ufjzG7HHn2h42
+ j81L6j3Oz1jI6PF5k1wAexSXTUpqTmZZapG+XQJXxsvmU+wF30QrDtz4wdrAeEugi5GTQ0LA
+ ROLxv1nMXYxcHEICu5gk7j1aAOUcZpQ4+2gSG0gVm4CaxN7Nc5hAbBGBPInD69+yghQxCzxm
+ lNj9agNQEQeHsICBxLEVeiA1LAKqEs0nvjGChHkF7CRe9RRCLJOTuHmukxnE5hRwkPh2ZikT
+ SImQgL3E1O/VIGFeAUGJkzOfsIDYzAISEgdfvAArFxKQlbh16DETxBgFied9j1kmMArMQtIy
+ C0nLAkamVYxCiSU5uYmZOenlRnqJuZl6yfm5mxgh4Z2/g/HjR/NDjEwcjIcYJTiYlUR4K+ZE
+ xQrxpiRWVqUW5ccXleakFh9ilOZgURLnXbXmW4yQQHpiSWp2ampBahFMlomDU6qBMaN26021
+ Rc+yboS911XPNT16UXBaXcXDd0cdW33z/wiW3y7e53mQ9bWP7vdFc/RWP9X8nXj6/7mjUxdH
+ LvvhzjI1N1pLf81hPu0PLUs2+s54UJi+4v1jNu9qHTPPLKG/l3haWosFnNOeOV7w/RLGuitm
+ SpBe/II+iZOPdQ5Wisrf/NOret81TomlOCPRUIu5qDgRAOsOQLZdAgAA
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,82 +64,90 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Hongwei Zhang <hongweiz@ami.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-CONFIG_STRICT_KERNEL_RWX is enabled by default with ARMv7.
+Hello Linus,
 
-Turn on HIGHMEM as the EVB has 2GB of RAM, and not all is usable without
-hihgmem.
+Thanks for your review! I just submitted v8 to the list, please help to review it again.
 
-The SoC contains Cortex A7 supporting VFP and has two CPUs.
+Since you have already merged the dt-binding document [v7 1/2], and I don't have your
+update to this file, so to avoid confusion, I only include the driver code in v8.
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- arch/arm/configs/aspeed_g5_defconfig | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+Regards,
+--Hongwei 
 
-diff --git a/arch/arm/configs/aspeed_g5_defconfig b/arch/arm/configs/aspeed_g5_defconfig
-index 426d8e0c9890..597536cc9573 100644
---- a/arch/arm/configs/aspeed_g5_defconfig
-+++ b/arch/arm/configs/aspeed_g5_defconfig
-@@ -21,21 +21,26 @@ CONFIG_PERF_EVENTS=y
- CONFIG_SLAB=y
- CONFIG_SLAB_FREELIST_RANDOM=y
- CONFIG_ARCH_MULTI_V6=y
--# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_ASPEED=y
- CONFIG_MACH_ASPEED_G5=y
-+CONFIG_MACH_ASPEED_G6=y
- # CONFIG_CACHE_L2X0 is not set
-+CONFIG_SMP=y
-+# CONFIG_ARM_CPU_TOPOLOGY is not set
- CONFIG_VMSPLIT_2G=y
-+CONFIG_NR_CPUS=2
-+CONFIG_HIGHMEM=y
- CONFIG_UACCESS_WITH_MEMCPY=y
- CONFIG_SECCOMP=y
- # CONFIG_ATAGS is not set
- CONFIG_ZBOOT_ROM_TEXT=0x0
- CONFIG_ZBOOT_ROM_BSS=0x0
- CONFIG_KEXEC=y
--# CONFIG_SUSPEND is not set
-+CONFIG_VFP=y
-+CONFIG_NEON=y
-+CONFIG_KERNEL_MODE_NEON=y
- CONFIG_FIRMWARE_MEMMAP=y
- CONFIG_JUMP_LABEL=y
--CONFIG_STRICT_KERNEL_RWX=y
- # CONFIG_BLK_DEV_BSG is not set
- # CONFIG_BLK_DEBUG_FS is not set
- # CONFIG_MQ_IOSCHED_DEADLINE is not set
-@@ -140,10 +145,12 @@ CONFIG_ASPEED_BT_IPMI_BMC=y
- CONFIG_HW_RANDOM_TIMERIOMEM=y
- # CONFIG_I2C_COMPAT is not set
- CONFIG_I2C_CHARDEV=y
-+CONFIG_I2C_MUX=y
- CONFIG_I2C_MUX_PCA9541=y
- CONFIG_I2C_MUX_PCA954x=y
- CONFIG_I2C_ASPEED=y
- CONFIG_I2C_FSI=y
-+CONFIG_SPI=y
- CONFIG_GPIOLIB=y
- CONFIG_GPIO_SYSFS=y
- CONFIG_GPIO_ASPEED=y
-@@ -194,6 +201,10 @@ CONFIG_USB_CONFIGFS_F_LB_SS=y
- CONFIG_USB_CONFIGFS_F_FS=y
- CONFIG_USB_CONFIGFS_F_HID=y
- CONFIG_USB_CONFIGFS_F_PRINTER=y
-+CONFIG_MMC=y
-+CONFIG_MMC_SDHCI=y
-+CONFIG_MMC_SDHCI_PLTFM=y
-+CONFIG_MMC_SDHCI_OF_ASPEED=y
- CONFIG_NEW_LEDS=y
- CONFIG_LEDS_CLASS=y
- CONFIG_LEDS_CLASS_FLASH=y
--- 
-2.23.0.rc1
+P.S. sorry previous response used wrong In-Reply-To ID, so resent it again.
 
+> From:	Linus Walleij <linus.walleij@linaro.org>
+> Sent:	Wednesday, August 14, 2019 4:09 AM
+> To:	Hongwei Zhang
+> Cc:	Andrew Jeffery; open list:GPIO SUBSYSTEM; Joel Stanley; linux-aspeed; Bartosz Golaszewski; 
+> linux-kernel@vger.kernel.org; Linux ARM
+> Subject:	Re: [v7 2/2] gpio: aspeed: Add SGPIO driver
+> 
+> Hi Hongwei,
+> 
+> thanks for your patch!
+> 
+> I have now merged the bindings so you only need to respin this patch.
+> 
+> On Wed, Jul 31, 2019 at 10:02 PM Hongwei Zhang <hongweiz@ami.com> wrote:
+> 
+> > Add SGPIO driver support for Aspeed AST2500 SoC.
+> >
+> > Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
+> > Reviewed-by:   Andrew Jeffery <andrew@aj.id.au>
+> 
+> I guess I need to go with this, there are some minor things I still want to be fixed:
+> 
+> > +static void __aspeed_sgpio_set(struct gpio_chip *gc, unsigned int 
+> > +offset, int val)
+> 
+> I don't like __underscore_functions because their semantic is ambiguous.
+> 
+
+done, please see v8.
+
+> Rename this something like aspeed_sgpio_commit() or whatever best fits the actual use.
+> 
+> > +static int aspeed_sgpio_setup_irqs(struct aspeed_sgpio *gpio,
+> > +                                  struct platform_device *pdev) {
+> (...)
+> > +       rc = gpiochip_irqchip_add(&gpio->chip, &aspeed_sgpio_irqchip,
+> > +                                 0, handle_bad_irq, IRQ_TYPE_NONE);
+> (...)
+> > +       gpiochip_set_chained_irqchip(&gpio->chip, &aspeed_sgpio_irqchip,
+> > +                                    gpio->irq, 
+> > + aspeed_sgpio_irq_handler);
+> 
+> We do not set up chained irqchips like this anymore, sorry.
+> 
+> I am currently rewriting all existing chained drivers to pass an initialized irqchip when registering the 
+> whole gpio chip.
+> See drivers/gpio/TODO.
+> 
+> Here are examples:
+> https://lore.kernel.org/linux-gpio/20190811080539.15647-1-linus.walleij@linaro.org/
+> https://lore.kernel.org/linux-gpio/20190812132554.18313-1-linus.walleij@linaro.org/
+> 
+
+done, please see v8.
+
+> > +       /* set all SGPIO pins as input (1). */
+> > +       memset(gpio->dir_in, 0xff, sizeof(gpio->dir_in));
+> 
+> Do the irqchip set-up here, before adding the gpio_chip.
+> 
+> > +       rc = devm_gpiochip_add_data(&pdev->dev, &gpio->chip, gpio);
+> > +       if (rc < 0)
+> > +               return rc;
+> > +
+> > +       return aspeed_sgpio_setup_irqs(gpio, pdev);
+> 
+> Yours,
+> Linus Walleij
