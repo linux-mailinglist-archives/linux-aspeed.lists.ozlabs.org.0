@@ -2,69 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C51B7A7355
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:13:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED1CA7356
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:13:56 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46NGp45JbhzDqm6
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:13:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46NGp854PvzDqq8
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:13:52 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=fluxnic.net
- (client-ip=64.147.108.86; helo=pb-sasl-trial2.pobox.com;
- envelope-from=nico@fluxnic.net; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=yadro.com
+ (client-ip=89.207.88.252; helo=mta-01.yadro.com;
+ envelope-from=i.mikhaylov@yadro.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=fluxnic.net
+ dmarc=pass (p=none dis=none) header.from=yadro.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=pobox.com header.i=@pobox.com header.b="coNCGrqw"; 
- dkim=fail reason="key not found in DNS" (0-bit key;
- secure) header.d=fluxnic.net header.i=@fluxnic.net header.b="Bm6jH5Te"; 
+ unprotected) header.d=yadro.com header.i=@yadro.com header.b="Q+bcAN9B"; 
  dkim-atps=neutral
-Received: from pb-sasl-trial2.pobox.com (pb-sasl-trial2.pobox.com
- [64.147.108.86])
+Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46DKW90R3wzDqSd;
- Thu, 22 Aug 2019 06:48:16 +1000 (AEST)
-Received: from pb-sasl-trial2.pobox.com (localhost.local [127.0.0.1])
- by pb-sasl-trial2.pobox.com (Postfix) with ESMTP id 9CC8E19709;
- Wed, 21 Aug 2019 16:48:12 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
- :cc:subject:in-reply-to:message-id:references:mime-version
- :content-type; s=sasl; bh=gHPWV6ywNNDw4FaVfFzykWXQZaE=; b=coNCGr
- qwt7i3R4tUyQi0ZhT3/3VIDhWBBLTzAw70AivukbL9ghU9nPl7F0FIRPBuvKPbKw
- c7CalAaCzCWnkkCCcwbqy1o3zKk9TWKjPdhJsnfKwF9VQuO/B09UmksTxgYUz9wu
- bRu8C5k5LKc4Gf9x7hn/+DaQYD2aeK8p0IeXw=
-Received: from pb-smtp1.nyi.icgroup.com (pb-smtp1.pobox.com [10.90.30.53])
- by pb-sasl-trial2.pobox.com (Postfix) with ESMTP id 79D5119708;
- Wed, 21 Aug 2019 16:48:12 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type;
- s=2016-12.pbsmtp; bh=tGJUtEAORBsdDqaz81artd/xlpJm4+O0vI06mhjfh+c=;
- b=Bm6jH5TeJ8u7zHDr3U+j7uM4LAxY52cFgZwdS2EFFWXNFK9GQtn5eZUA1GzXW9KWEcBn6hCr6F+jjjS1njBtHu40IijCBy9feUsunydCJOnkBH26hfO8gr4uvy5QgPrfiAWE7p+UCt2+09N9I0cpH0M/jOvLnV1kk5DmQyr29ak=
-Received: from yoda.home (unknown [24.203.50.76])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46Df5C47N1zDr8q
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Aug 2019 19:15:27 +1000 (AEST)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 1EAAA411F9;
+ Thu, 22 Aug 2019 09:15:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-transfer-encoding:mime-version:user-agent:content-type
+ :content-type:organization:references:in-reply-to:date:date:from
+ :from:subject:subject:message-id:received:received:received; s=
+ mta-01; t=1566465322; x=1568279723; bh=xp4rY3o0M1wxzRezMXTNY4/zZ
+ Y+MCsy/eXZ7EF9Njsg=; b=Q+bcAN9BSsRThV9GpNDHrHQDoMM1IB3j9QOV2i2sX
+ rBBn3ufrgMs7oc2FFll6f/+BoXeUG5KN7w8LxDgEvXgQ1nVAytmlaimve+VXjWpN
+ KmozJuWXEWlOsrHz6y0DxBk5hAOmqQYrVHtQCUtAsJ5Cw3excV/RTCIUQKSp9j1d
+ FA=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id r3TcHeHOiQDd; Thu, 22 Aug 2019 12:15:22 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by pb-smtp1.pobox.com (Postfix) with ESMTPSA id DB83015BE3C;
- Wed, 21 Aug 2019 16:48:11 -0400 (EDT)
-Received: from xanadu.home (xanadu.home [192.168.2.2])
- by yoda.home (Postfix) with ESMTPSA id E8EF12DA023B;
- Wed, 21 Aug 2019 16:48:10 -0400 (EDT)
-Date: Wed, 21 Aug 2019 16:48:10 -0400 (EDT)
-From: Nicolas Pitre <nico@fluxnic.net>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v3 00/11] Symbol Namespaces
-In-Reply-To: <20190821133737.GB4890@kroah.com>
-Message-ID: <nycvar.YSQ.7.76.1908211642050.19480@knanqh.ubzr>
-References: <20190813121733.52480-1-maennich@google.com>
- <20190821114955.12788-1-maennich@google.com>
- <nycvar.YSQ.7.76.1908210840490.19480@knanqh.ubzr>
- <20190821133737.GB4890@kroah.com>
-User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 4877541240;
+ Thu, 22 Aug 2019 12:15:20 +0300 (MSK)
+Received: from localhost.localdomain (172.17.15.69) by
+ T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.669.32; Thu, 22 Aug 2019 12:15:20 +0300
+Message-ID: <a022c0590f0fbf22cc8476b5ef3f1c22746429ac.camel@yadro.com>
+Subject: Re: [PATCH 3/3] watchdog/aspeed: add support for dual boot
+From: Ivan Mikhaylov <i.mikhaylov@yadro.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Date: Thu, 22 Aug 2019 12:15:20 +0300
+In-Reply-To: <20190821163220.GA11547@roeck-us.net>
+References: <1f2cd155057e5ab0cdb20a9a11614bbb09bb49ad.camel@yadro.com>
+ <20190821163220.GA11547@roeck-us.net>
+Organization: YADRO
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: FD6832B8-C454-11E9-A575-46F8B7964D18-78420484!pb-smtp1.pobox.com
-X-Mailman-Approved-At: Wed, 04 Sep 2019 05:12:13 +1000
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.17.15.69]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+X-Mailman-Approved-At: Wed, 04 Sep 2019 05:12:14 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,59 +77,61 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: kstewart@linuxfoundation.org, oneukum@suse.com,
- linux-aspeed@lists.ozlabs.org, usb-storage@lists.one-eyed-alien.net,
- Toru Komatsu <k0ma@utam0k.jp>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- David Howells <dhowells@redhat.com>, yamada.masahiro@socionext.com,
- Will Deacon <will@kernel.org>, patches@opensource.cirrus.com,
- Michael Ellerman <mpe@ellerman.id.au>, hpa@zytor.com, joel@joelfernandes.org,
- bcm-kernel-feedback-list@broadcom.com, sam@ravnborg.org, cocci@systeme.lip6.fr,
- linux-arch@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-scsi@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
- openbmc@lists.ozlabs.org, x86@kernel.org, lucas.de.marchi@gmail.com,
- Nancy Yuen <yuenn@google.com>, mingo@redhat.com, geert@linux-m68k.org,
- NXP Linux Team <linux-imx@nxp.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Patrick Venture <venture@google.com>, stern@rowland.harvard.edu,
- kernel-team@android.com, Dan Williams <dan.j.williams@intel.com>,
- Ingo Molnar <mingo@kernel.org>, linux-rtc@vger.kernel.org,
- Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>, sspatil@google.com,
- linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-kbuild@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>,
- linux-arm-msm@vger.kernel.org, jeyu@kernel.org,
- Matthias Maennich <maennich@google.com>, Julia Lawall <julia.lawall@lip6.fr>,
- linux-m68k@lists.linux-m68k.org, linux-mediatek@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-amlogic@lists.infradead.org, tglx@linutronix.de, maco@android.com,
- linux-arm-kernel@lists.infradead.org, Adrian Reber <adrian@lisas.de>,
- linux-hwmon@vger.kernel.org, michal.lkml@markovi.net,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- Alexey Gladkov <gladkov.alexey@gmail.com>, linux-usb@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org,
- Patrick Bellasi <patrick.bellasi@arm.com>, Richard Guy Briggs <rgb@redhat.com>,
- maco@google.com, Pengutronix Kernel Team <kernel@pengutronix.de>,
- pombredanne@nexb.com, Tejun Heo <tj@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "David S. Miller" <davem@davemloft.net>, linux-modules@vger.kernel.org
+Cc: linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Alexander Amelkin <a.amelkin@yadro.com>, linux-kernel@vger.kernel.org,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 21 Aug 2019, Greg KH wrote:
-
-> On Wed, Aug 21, 2019 at 08:46:47AM -0400, Nicolas Pitre wrote:
+On Wed, 2019-08-21 at 09:32 -0700, Guenter Roeck wrote:
 > 
-> > One solution for drastically reducing the effective export surface is to 
-> > have CONFIG_TRIM_UNUSED_KSYMS=y. This is more extreme than symbol 
-> > namespace, but might be worth mentioning nevertheless.
+> > +	writel(WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION,
+> > +			wdt->base + WDT_CLEAR_TIMEOUT_STATUS);
+> > +	wdt->wdd.bootstatus |= WDIOF_EXTERN1;
 > 
-> Oh that's amazing, I never noticed that feature.  That is a nice thing,
-> thanks for pointing it out.
+> The variable reflects the _boot status_. It should not change after booting.
 
-For those interested, this feature was demonstrated with numbers here:
+Okay, then perhaps may we set 'status' handler for watchdog device and check 
+'status' file? Right now 'bootstatus' and 'status' are same because there is no
+handler for 'status'.
 
-https://lwn.net/Articles/746780/
+> > +
+> > +	return size;
+> > +}
+> > +static DEVICE_ATTR_WO(access_cs0);
+> > +
+> > +static struct attribute *bswitch_attrs[] = {
+> > +	&dev_attr_access_cs0.attr,
+> > +	NULL
+> > +};
+> > +ATTRIBUTE_GROUPS(bswitch);
+> > +
+> >  static const struct watchdog_ops aspeed_wdt_ops = {
+> >  	.start		= aspeed_wdt_start,
+> >  	.stop		= aspeed_wdt_stop,
+> > @@ -223,6 +248,9 @@ static int aspeed_wdt_probe(struct platform_device
+> > *pdev)
+> >  
+> >  	wdt->ctrl = WDT_CTRL_1MHZ_CLK;
+> >  
+> > +	if (of_property_read_bool(np, "aspeed,alt-boot"))
+> > +		wdt->wdd.groups = bswitch_groups;
+> > +
+> Why does this have to be separate to the existing evaluation of
+> aspeed,alt-boot, and why does the existing code not work ?
+> 
+> Also, is it guaranteed that this does not interfer with existing
+> support for alt-boot ?
 
+It doesn't, it just provides for ast2400 switch to cs0 at side 1(cs1). Problem
+is that only one flash chip(side 1/cs1) is accessible on alternate boot, there
+is citation from the documentation in commit body. So if by some reason side 0
+is corrupted, need to switch into alternate boot to cs1, do the load from it,
+drop that bit to make side 0 accessible and do the flash of first side. On
+ast2500/2600 this problem is solved already, in alternate boot there both flash
+chips are present. It's additional requirement for alternate boot on ast2400, to
+make the possibility to access at all side 0 flash chip after we boot to the
+alternate side.
 
-Nicolas
