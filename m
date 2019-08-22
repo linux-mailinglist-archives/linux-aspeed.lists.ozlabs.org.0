@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A40A7359
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:14:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C942A735A
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:14:13 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46NGpR511wzDq9V
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:14:07 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46NGpW0qtCzDqlQ
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:14:11 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -16,44 +16,46 @@ Authentication-Results: lists.ozlabs.org;
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=yadro.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=yadro.com header.i=@yadro.com header.b="hKIl6fK+"; 
+ unprotected) header.d=yadro.com header.i=@yadro.com header.b="lem5IMtG"; 
  dkim-atps=neutral
 Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46DnCb3hYSzDqD2
- for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Aug 2019 00:36:27 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46Dr7r4rSvzDq69
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Aug 2019 02:45:56 +1000 (AEST)
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 8A69942ED3;
- Thu, 22 Aug 2019 14:36:24 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id 340C142ED0;
+ Thu, 22 Aug 2019 16:45:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-type:content-type:in-reply-to:mime-version:user-agent
  :date:date:message-id:organization:from:from:references:subject
- :subject:received:received:received; s=mta-01; t=1566484582; x=
- 1568298983; bh=KjLZ/dXb03wCeLlcNpYc1sfR2QBhG4qiGXMw3VhDuCI=; b=h
- KIl6fK+ADBPFXUBs4nGI6DG4Ws8k+GDr1X5QqlQVHb9KjG9I2Yb9pq8Mz3cgp154
- EQiRcBGjakvt56n3c4qo54o3sJyWb/im+VOl0DtHktQxhVbkKAVhFat6vDGASqT6
- 2kquwOsBC2X11clFMIzlQteIAbZ7Jv6qyaJOtPoX0Y=
+ :subject:received:received:received; s=mta-01; t=1566492350; x=
+ 1568306751; bh=LLSfhjZ20UrvmFyJq5xWniuCu6bmNYlvnVKbsaRQT+I=; b=l
+ em5IMtGjuww6S3ubO3pVFjgLlBClF1l6ScWEkqV1ChoSHkEEot7RJPxm0N92b1Ny
+ vVtZWkhqE+2O/0cyiSfBZaCKuFh+ubycfhdWJrAIEQMlO7dFc6oMBwhbGjaP8JUs
+ pUEUqUD1hzjnrP4Ycbjvn2451WYGTFGXvn4L9iGosM=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qq5hMQ1PA2LM; Thu, 22 Aug 2019 17:36:22 +0300 (MSK)
+ with ESMTP id MT5ByLDJR1cr; Thu, 22 Aug 2019 19:45:50 +0300 (MSK)
 Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
  [172.17.10.102])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 8F97A412D3;
- Thu, 22 Aug 2019 17:36:22 +0300 (MSK)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 368E342ECD;
+ Thu, 22 Aug 2019 19:45:49 +0300 (MSK)
 Received: from [172.17.14.197] (172.17.14.197) by T-EXCH-02.corp.yadro.com
  (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 22
- Aug 2019 17:36:22 +0300
+ Aug 2019 19:45:48 +0300
 Subject: Re: [PATCH 3/3] watchdog/aspeed: add support for dual boot
 To: Guenter Roeck <linux@roeck-us.net>
 References: <1f2cd155057e5ab0cdb20a9a11614bbb09bb49ad.camel@yadro.com>
  <20190821163220.GA11547@roeck-us.net>
  <9e7fe5cc-ba1b-b8b6-69c5-c3c6cf508a36@yadro.com>
  <20190821181008.GB15127@roeck-us.net>
+ <5cb20f52-884a-b921-c904-ebf244092318@yadro.com>
+ <20190822160127.GA6992@roeck-us.net>
 From: Alexander Amelkin <a.amelkin@yadro.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=a.amelkin@yadro.com; prefer-encrypt=mutual; keydata=
@@ -100,15 +102,15 @@ Autocrypt: addr=a.amelkin@yadro.com; prefer-encrypt=mutual; keydata=
  KijxDkPtWeXDLbMgH1kA46gTPJWxsm0c45w7c3aXhXl4hOgXp+iWDTOT83tJU0zoD9hYlpZf
  dTYsE5wSxM06T2l/MILupCNZ7A==
 Organization: YADRO
-Message-ID: <5cb20f52-884a-b921-c904-ebf244092318@yadro.com>
-Date: Thu, 22 Aug 2019 17:36:21 +0300
+Message-ID: <0bce44fc-0d03-511d-245a-8f867a6e067b@yadro.com>
+Date: Thu, 22 Aug 2019 19:45:48 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20190821181008.GB15127@roeck-us.net>
+In-Reply-To: <20190822160127.GA6992@roeck-us.net>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="YIEW7bBuQgeLRG8A8mPFaUjOFyaWm03jp"
+ boundary="Ph7UczBb1taROq5iq7Drmb3GLE2mw8Tfa"
 X-Originating-IP: [172.17.14.197]
 X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
  T-EXCH-02.corp.yadro.com (172.17.10.102)
@@ -132,8 +134,8 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---YIEW7bBuQgeLRG8A8mPFaUjOFyaWm03jp
-Content-Type: multipart/mixed; boundary="CGCf03BkzPVvByrHDZk8giv8pTtRj2ooY";
+--Ph7UczBb1taROq5iq7Drmb3GLE2mw8Tfa
+Content-Type: multipart/mixed; boundary="c04A7lFeUTafm5XtcA5KOfAygNkAorqeW";
  protected-headers="v1"
 From: Alexander Amelkin <a.amelkin@yadro.com>
 To: Guenter Roeck <linux@roeck-us.net>
@@ -142,147 +144,122 @@ Cc: Ivan Mikhaylov <i.mikhaylov@yadro.com>,
  Andrew Jeffery <andrew@aj.id.au>, linux-watchdog@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
  linux-kernel@vger.kernel.org
-Message-ID: <5cb20f52-884a-b921-c904-ebf244092318@yadro.com>
+Message-ID: <0bce44fc-0d03-511d-245a-8f867a6e067b@yadro.com>
 Subject: Re: [PATCH 3/3] watchdog/aspeed: add support for dual boot
 References: <1f2cd155057e5ab0cdb20a9a11614bbb09bb49ad.camel@yadro.com>
  <20190821163220.GA11547@roeck-us.net>
  <9e7fe5cc-ba1b-b8b6-69c5-c3c6cf508a36@yadro.com>
  <20190821181008.GB15127@roeck-us.net>
-In-Reply-To: <20190821181008.GB15127@roeck-us.net>
+ <5cb20f52-884a-b921-c904-ebf244092318@yadro.com>
+ <20190822160127.GA6992@roeck-us.net>
+In-Reply-To: <20190822160127.GA6992@roeck-us.net>
 
---CGCf03BkzPVvByrHDZk8giv8pTtRj2ooY
+--c04A7lFeUTafm5XtcA5KOfAygNkAorqeW
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Language: en-US
 
-21.08.2019 21:10, Guenter Roeck wrote:
-> On Wed, Aug 21, 2019 at 08:42:24PM +0300, Alexander Amelkin wrote:
->> 21.08.2019 19:32, Guenter Roeck wrote:
->>> On Wed, Aug 21, 2019 at 06:57:43PM +0300, Ivan Mikhaylov wrote:
->>>> Set WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION into WDT_CLEAR_TIMEOUT=
-_STATUS
->>>> to clear out boot code source and re-enable access to the primary SP=
-I flash
->>>> chip while booted via wdt2 from the alternate chip.
+22.08.2019 19:01, Guenter Roeck wrote:
+> On Thu, Aug 22, 2019 at 05:36:21PM +0300, Alexander Amelkin wrote:
+>> 21.08.2019 21:10, Guenter Roeck wrote:
+>>> On Wed, Aug 21, 2019 at 08:42:24PM +0300, Alexander Amelkin wrote:
+>>>> 21.08.2019 19:32, Guenter Roeck wrote:
+>>>>> On Wed, Aug 21, 2019 at 06:57:43PM +0300, Ivan Mikhaylov wrote:
+>>>>>> Set WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION into WDT_CLEAR_TIMEO=
+UT_STATUS
+>>>>>> to clear out boot code source and re-enable access to the primary =
+SPI flash
+>>>>>> chip while booted via wdt2 from the alternate chip.
+>>>>>>
+>>>>>> AST2400 datasheet says:
+>>>>>> "In the 2nd flash booting mode, all the address mapping to CS0# wo=
+uld be
+>>>>>> re-directed to CS1#. And CS0# is not accessable under this mode. T=
+o access
+>>>>>> CS0#, firmware should clear the 2nd boot mode register in the WDT2=
+ status
+>>>>>> register WDT30.bit[1]."
+>>>>> Is there reason to not do this automatically when loading the modul=
+e
+>>>>> in alt-boot mode ? What means does userspace have to determine if C=
+S0
+>>>>> or CS1 is active at any given time ? If there is reason to ever hav=
+e CS1
+>>>>> active instead of CS0, what means would userspace have to enable it=
+ ?
+>>>> Yes, there is. The driver is loaded long before the filesystems are =
+mounted.
+>>>> The filesystems, in the event of alternate/recovery boot, need to be=
+ mounted
+>>>> from the same chip that the kernel was booted. For one reason becaus=
+e the main
+>>>> chip at CS0 is most probably corrupt. If you clear that bit when dri=
+ver is
+>>>> loaded, your software will not know that and will try to mount the w=
+rong
+>>>> filesystems. The whole idea of ASPEED's switching chipselects is to =
+have
+>>>> identical firmware in both chips, without the need to process the al=
+ternate
+>>>> boot state in any way except for indicating a successful boot and re=
+storing
+>>>> access to CS0 when needed.
 >>>>
->>>> AST2400 datasheet says:
->>>> "In the 2nd flash booting mode, all the address mapping to CS0# woul=
-d be
->>>> re-directed to CS1#. And CS0# is not accessable under this mode. To =
-access
->>>> CS0#, firmware should clear the 2nd boot mode register in the WDT2 s=
-tatus
->>>> register WDT30.bit[1]."
->>> Is there reason to not do this automatically when loading the module
->>> in alt-boot mode ? What means does userspace have to determine if CS0=
-
->>> or CS1 is active at any given time ? If there is reason to ever have =
-CS1
->>> active instead of CS0, what means would userspace have to enable it ?=
-
->> Yes, there is. The driver is loaded long before the filesystems are mo=
-unted.
->> The filesystems, in the event of alternate/recovery boot, need to be m=
-ounted
->> from the same chip that the kernel was booted. For one reason because =
-the main
->> chip at CS0 is most probably corrupt. If you clear that bit when drive=
-r is
->> loaded, your software will not know that and will try to mount the wro=
-ng
->> filesystems. The whole idea of ASPEED's switching chipselects is to ha=
-ve
->> identical firmware in both chips, without the need to process the alte=
+>>>> The userspace can read bootstatus sysfs node to determine if an alte=
 rnate
->> boot state in any way except for indicating a successful boot and rest=
-oring
->> access to CS0 when needed.
+>>>> boot has occured.
+>>>>
+>>>> With ASPEED, CS1 is activated automatically by wdt2 when system fail=
+s to boot
+>>>> from the primary flash chip (at CS0) and disable the watchdog to ind=
+icate a
+>>>> successful boot. When that happens, both CS0 and CS1 controls=C2=A0 =
+get routed in
+>>>> hardware to CS1 line, making the primary flash chip inaccessible. De=
+pending
+>>>> on the architecture of the user-space software, it may choose to re-=
+enable
+>>>> access to the primary chip via CS0 at different times. There must be=
+ a way to do so.
+>>>>
+>>> So by activating cs0, userspace would essentially pull its own root f=
+ile system
+>>> from underneath itself ?
+>> Exactly. That's why for alternate boot the firmware would usually copy=
+
+>> all filesystems to memory and mount from there. Some embedded systems
+>> do that always, regardless of which chip they boot from.
 >>
->> The userspace can read bootstatus sysfs node to determine if an altern=
-ate
->> boot has occured.
+> That is different, though, to what you said earlier. Linux would then s=
+tart
+> with a clean file system, and not need access to the file system in cs1=
+ at all.
+> Clearing the flag when starting the driver would then be ok.
+
+I don't see how that is different. Copying to memory may be done by start=
+up
+scripts that run after the driver is loaded, so they need to read the dat=
+a from
+the chip they are booted from. That is how it is done in OpenBMC, for ins=
+tance.
+Other flavors of firmware may choose a different approach.
+Having the control available via sysfs gives more flexibility.
+
+>> However, to be able to recover the main flash chip, the system needs C=
+S0
+>> to function as such (not as CS1). That's why this control is needed.
 >>
->> With ASPEED, CS1 is activated automatically by wdt2 when system fails =
-to boot
->> from the primary flash chip (at CS0) and disable the watchdog to indic=
-ate a
->> successful boot. When that happens, both CS0 and CS1 controls=C2=A0 ge=
-t routed in
->> hardware to CS1 line, making the primary flash chip inaccessible. Depe=
-nding
->> on the architecture of the user-space software, it may choose to re-en=
-able
->> access to the primary chip via CS0 at different times. There must be a=
- way to do so.
->>
-> So by activating cs0, userspace would essentially pull its own root fil=
-e system
-> from underneath itself ?
+> If what you said is correct, not really. It should be fine and create m=
+ore
+> predictive behavior if the probe function selects cs0 automatically.
 
-Exactly. That's why for alternate boot the firmware would usually copy
-all filesystems to memory and mount from there. Some embedded systems
-do that always, regardless of which chip they boot from.
-
-However, to be able to recover the main flash chip, the system needs CS0
-to function as such (not as CS1). That's why this control is needed.
-
-As Ivan mentioned, for AST2500 and the upcoming AST2600 the behavior
-is slightly different. They don't just connect both CS controls to CS1 bu=
-t instead
-swap them so the primary chip becomes secondary from the software point
-of view. The means to restore the normal wiring may still be needed.
-
->
->> This code most probably adds nothing at the assembly level.
->>
-> That seems quite unlikely. Please demonstrate.
-
-Yes, you were right. It adds 7 instructions. We'll drop the check.
-It's just my DO-178 background, I add 'robustness' checks everywhere.
-
->>>> +	writel(WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION,
->>>> +			wdt->base + WDT_CLEAR_TIMEOUT_STATUS);
->>>> +	wdt->wdd.bootstatus |=3D WDIOF_EXTERN1;
->>> The variable reflects the _boot status_. It should not change after b=
-ooting.
->> Is there any documentation that dictates that? All I could find is
->>
->> "bootstatus: status of the device after booting". That doesn't look to=
- me like it absolutely can not change to reflect the updated status (that=
- is, to reflect that the originally set up alternate CS routing has been =
-reset to normal).
->>
-> You choose to interpret "after booting" in a kind of novel way,
-> which I find a bit disturbing. I am not really sure how else to
-> describe "boot status" in a way that does not permit such
-> reinterpratation of the term.
-
-How about "Reflects reasons that caused a reboot, remains constant until =
-the next boot" ?
-
-> On top of that, how specifically would "WDIOF_EXTERN1" reflect
-> what you claim it does ? Not only you are hijacking bootstatus9
-> (which is supposed to describe the reason for a reboot), you
-> are also hijacking WDIOF_EXTERN1. That seems highly arbitrary
-> to me, and is not really how an API/ABI should be used.
-
-We used WDIOF_EXTERN1 because:
-
-1. We thought that bootstatus _can_ change
-
-2. We thought that adding extra bits wouldn't be appreciated
-
-Now as you clarified that assumption 1 was wrong we are going to implemen=
-t status as I proposed earlier:
-
->
->> I think we could make 'access_cs0' readable instead, so it could repor=
-t the
->> current state of the boot code selection bit. Reverted, I suppose. Tha=
-t
->> way 'access_cs0' would report 1 after 1 has been written to it (it wou=
-ldn't
->> be possible to write a zero).
+Well, this is not a function for home users. This is for servers. You won=
+'t
+even find an ASPEED BMC chip in a home PC. Aspeed's dual-boot is quite
+an advanced feature and people willing to use it are expected to be able
+to predict the behavior. To me, as an embedded systems developer,
+automatic selection of cs0 by probe is a limitation. I prefer flexibility=
+=2E
 
 With best regards,
 Alexander Amelkin,
@@ -291,9 +268,9 @@ https://yadro.com
 
 
 
---CGCf03BkzPVvByrHDZk8giv8pTtRj2ooY--
+--c04A7lFeUTafm5XtcA5KOfAygNkAorqeW--
 
---YIEW7bBuQgeLRG8A8mPFaUjOFyaWm03jp
+--Ph7UczBb1taROq5iq7Drmb3GLE2mw8Tfa
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -301,19 +278,19 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQIcBAEBCAAGBQJdXqhlAAoJEOiTWHtbdBeNGSMP/1EdyFby2fvhiS+viqTox7Yh
-XBOSBOEbl1OohoMq87ZG6rhT5uuT+C+drxz+WIEP1wt2YgOS0gNO6ODsL9G9FZNf
-PYns9R2pKHQ+5oMqP7FalU9EoCJiHdGK6/HrP/QERHTt4+lVNeJg+GrbaNOaIZew
-qFsst9KCBmGxDJHv6j4sHExZBvsrP1P9+1q7LrJHP2ep3hWAKYcYlzsGooXtrFQH
-oSNeQJxW9o3OXwMihIYoDLyfsUpazxTw8p/+t6EO4sopjP5Hh3LGbGskM1NdFVkc
-sLFGBhX5qmMxRQhBHyIdCJz9c0D6uhTp5MfcllQf7+FVo+0QLo8WVSxGLUoP4TH5
-BttQvU+7H7DCRu5WxBj00LhPS2wK1Xb2KJ1agoo7QSr/5RpNqyFRGKIykQmWNm/X
-TJ/Ru3IMUQl8HC2C3ihddw7CRm5js2X0n45HI+7BjqkO5e+yW7he/nIRDgm19udU
-ChkkjqMKRUAC4aOQWxDMEC20PMjsi+3r0eiF5BCgQJ6qIzlzU18V6JHCiaCGENr0
-um1OktmfkT5SPqDJgDw0QX/7e/jIJD0mA5HZgKVQmtTPJEUN+YyHSWvseJKdyR6S
-4/4udiV8wCHdXIgjgSAxcCrRKqX9zfjurOZUA0LneS3a88jfP2D5GLBV51+wIB1I
-xf+LRRJj90D2ov79r4dD
-=nMHV
+iQIcBAEBCAAGBQJdXsa8AAoJEOiTWHtbdBeNpz8QAMJqCodfgFfuRbOjdovLu46D
+K9uudfxOQCsAFxY+VgXu1E5Zso5OotrYjofklDbIb6Q9ZS3UgiNA4+UrWJ6Yhjnp
+Md6mh9ADb24rTpaPE74rj2JpyJz9jDwBB+C5ONnKPAcr0tXLjis+anVtDjHvQ8cK
+wOZKytgC2omgF5Xrlu0SjhVxf+kqHBpo69SCfMWsp0NIZzlTCovJH1IX54rC176k
+XpjeVIT4EzzdiRN/r6Ft8BfiD/JaYUs0OLCWckHTUCelHMCRKMsyzTKNwp3FE5sH
+qgeOqzgcN8Nj4ZvaVnzmiH/r61+NNArtLJaqsJJywXDA7+v0KkxV5urWghxD8FMs
+OUwnotJqSquXO7k9VcTnZQK/aeQvBoRdWfTpiybK5df61U26STEQzMAr5pslnDRl
+kJLiY32929QyDiIGy8yYcmvMRrvDotuPK+XtaJN20IISRnM6T6e6q+3mRCzAvykn
+LcjRcVUs+49DMuTswUNRxl7YggZaRwOqHGrEhPQv5LbZmvm2JtQwa+loV0/32mVp
+uajzhKaazw4JzUjvPDl5oVJX6+fEj+8/iFJksRRhs7De/rBhwxn1OmWcWeh4UMJ4
+T3muwenl131/Sb3ufnGfPnG+oSd2TKlpKH4oi0dXuhu5EFkV3QQ7jWMbnJ+9m+d9
+zs/9X7nt2Kc2pO2vcTne
+=G5CA
 -----END PGP SIGNATURE-----
 
---YIEW7bBuQgeLRG8A8mPFaUjOFyaWm03jp--
+--Ph7UczBb1taROq5iq7Drmb3GLE2mw8Tfa--
