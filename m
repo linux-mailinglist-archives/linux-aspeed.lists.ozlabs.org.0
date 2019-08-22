@@ -1,72 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B06A6A7357
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:14:01 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7A2A7358
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:14:06 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46NGpG5BYGzDqr6
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:13:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46NGpN2NT2zDqRJ
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:14:04 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=linaro.org
- (client-ip=2607:f8b0:4864:20::a44; helo=mail-vk1-xa44.google.com;
- envelope-from=ulf.hansson@linaro.org; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=yadro.com
+ (client-ip=89.207.88.252; helo=mta-01.yadro.com;
+ envelope-from=i.mikhaylov@yadro.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.b="rBGmCN2T"; 
+ dmarc=pass (p=none dis=none) header.from=yadro.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=yadro.com header.i=@yadro.com header.b="WrFYMZ73"; 
  dkim-atps=neutral
-Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
- [IPv6:2607:f8b0:4864:20::a44])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46Dk4L3BfTzDrPy
- for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Aug 2019 22:14:58 +1000 (AEST)
-Received: by mail-vk1-xa44.google.com with SMTP id z67so1497992vkd.5
- for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Aug 2019 05:14:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=001ZjFQMxb/zCLk3zcyFqNqBIiCvp+5VqdO2trNiRjw=;
- b=rBGmCN2TSFf+woRq1U6/8fgdOQP55ndxj6XdO2EdMKOeGV2MrzU8rvwexXqn72Xj03
- 3I8c//L8dMyqiq7nE5jvcTkI4B0Rx7q0EtsmX/2Txly9jCIZd67IEQR3P8FwpE8V6W7z
- mwvCR8G9OPcGTa1Ajb3KI7CPl5HDZbPsyHblwWWMZlR920QJ1MQiljgf68A6WiMzYKL5
- ZWH+8SZqMK3Z3Z8weGjBTh1dxKZVJpQB00Y1CPBOii/AhCl4uzkCyBotPMpyvY8X0PJ+
- uWvN0QpzLt2ack1QdKqeFGY5rKmZfI65PQ16PC1MYg/rHNriK/R+nUSHHC/SbdEksOn1
- y2Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=001ZjFQMxb/zCLk3zcyFqNqBIiCvp+5VqdO2trNiRjw=;
- b=W2GQKGHvA3RFi3sgclu6x0t00FE7DQOdG4NFy2+RqQhlUpR+5UVnX1LTPtBUpBxUKr
- /hkAnkT6/yQtJAxudi1rRXEa7ErJ9tQSSQgOttG5SFC78yKCtavrqVCIzRB2PMevkJvA
- 16Fe7vung5AoCAEyVr8vpc/2sVpDnaONV11//nRRoEpYdLZyiRtfMGacrCFJ8Y4B0qeK
- eHMalTG25dkmSeYFG5QiJXlDHusVjcUmJXV5HlICEVYnezB95x9m65MAKn/sKUb7lP0I
- zaWQnjE8idvNwFaSmP7QGr63dXH703njm9jRNyocme3HwxSmeoMR+imQOgFTEIAk9jZp
- ScMg==
-X-Gm-Message-State: APjAAAUqfiC5yZJ0Tjw80Hd1P26+p0GjYkYUNP3Jz3c7c9IhWatO6Pej
- XQouMY6iLFCCqaV5kda8ZAJzmBoDUtVvblMsymh/+g==
-X-Google-Smtp-Source: APXvYqwOUeGGRRhaJGbVZ+SG70B06PdKeEzkxHgHaunrpKDQKwl27GuCbI2yR22beKWFZus69SGWNY0cH93dmwthMeg=
-X-Received: by 2002:a1f:5602:: with SMTP id k2mr9999325vkb.36.1566476093048;
- Thu, 22 Aug 2019 05:14:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190807003629.2974-1-andrew@aj.id.au>
- <20190807003629.2974-2-andrew@aj.id.au>
- <CACPK8Xe6Zp1uOqEffEc0b6oGa7portEAifGPRqb876HmA+oZeg@mail.gmail.com>
- <6c94aada-9c4a-4f55-9a43-349282ad12af@www.fastmail.com>
- <CAPDyKFrDPxFMm710Z25i-euOT2rrgCNXVa4na-fye0xamMXq_A@mail.gmail.com>
- <c78d4c45-477b-4078-b269-aec72571c8cd@www.fastmail.com>
-In-Reply-To: <c78d4c45-477b-4078-b269-aec72571c8cd@www.fastmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 22 Aug 2019 14:14:16 +0200
-Message-ID: <CAPDyKFrWMjaqv8z6HnmDn12c2SsjU6fEzjZesxj=nwbP9YRiPw@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] dt-bindings: mmc: Document Aspeed SD controller
-To: Andrew Jeffery <andrew@aj.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46Dmxt4Nh3zDqsM
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Aug 2019 00:24:34 +1000 (AEST)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 13D5142ED0;
+ Thu, 22 Aug 2019 14:24:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-transfer-encoding:mime-version:user-agent:content-type
+ :content-type:organization:references:in-reply-to:date:date:from
+ :from:subject:subject:message-id:received:received:received; s=
+ mta-01; t=1566483869; x=1568298270; bh=1bYRqwEu9883JdGs0AKW2xnM1
+ tOirxhg2R2RAn574Yw=; b=WrFYMZ73tDcLaxuzNV0YP82ZaIl/Pp8Edk3uPxpMK
+ 2ELuiFrr+5kF4vHxMbil5kIVphU9p12SI+Orutc0p05tPpvMSIcSo8OVVvFg3lWf
+ ZkErBrZrmQRBminqZyhRsaMlBhrLgDK7zshIKKLd3fkL+v6WWQftTyWtM8wWmBq6
+ ls=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Pu7N4TeU8Is4; Thu, 22 Aug 2019 17:24:29 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 876BC412D3;
+ Thu, 22 Aug 2019 17:24:28 +0300 (MSK)
+Received: from localhost.localdomain (172.17.15.69) by
+ T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.669.32; Thu, 22 Aug 2019 17:24:28 +0300
+Message-ID: <550d98a41f8c36effb8147201d6c5fdc762994ea.camel@yadro.com>
+Subject: Re: [PATCH 3/3] watchdog/aspeed: add support for dual boot
+From: Ivan Mikhaylov <i.mikhaylov@yadro.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Date: Thu, 22 Aug 2019 17:24:27 +0300
+In-Reply-To: <20190822135528.GB8144@roeck-us.net>
+References: <1f2cd155057e5ab0cdb20a9a11614bbb09bb49ad.camel@yadro.com>
+ <20190821163220.GA11547@roeck-us.net>
+ <a022c0590f0fbf22cc8476b5ef3f1c22746429ac.camel@yadro.com>
+ <20190822135528.GB8144@roeck-us.net>
+Organization: YADRO
 Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Wed, 04 Sep 2019 05:12:11 +1000
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.17.15.69]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+X-Mailman-Approved-At: Wed, 04 Sep 2019 05:12:14 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,79 +79,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Ryan Chen <ryanchen.aspeed@gmail.com>, linux-mmc <linux-mmc@vger.kernel.org>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Alexander Amelkin <a.amelkin@yadro.com>, linux-kernel@vger.kernel.org,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 22 Aug 2019 at 13:55, Andrew Jeffery <andrew@aj.id.au> wrote:
->
->
->
-> On Thu, 22 Aug 2019, at 21:15, Ulf Hansson wrote:
-> > On Thu, 15 Aug 2019 at 07:37, Andrew Jeffery <andrew@aj.id.au> wrote:
-> > >
-> > >
-> > >
-> > > On Thu, 15 Aug 2019, at 15:06, Joel Stanley wrote:
-> > > > On Wed, 7 Aug 2019 at 00:38, Andrew Jeffery <andrew@aj.id.au> wrote:
-> > > > >
-> > > > > The ASPEED SD/SDIO/MMC controller exposes two slots implementing the
-> > > > > SDIO Host Specification v2.00, with 1 or 4 bit data buses, or an 8 bit
-> > > > > data bus if only a single slot is enabled.
-> > > > >
-> > > > > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> > > >
-> > > > Reviewed-by: Joel Stanley <joel@jms.id.au>
-> > > >
-> > > > Two minor comments below.
-> > > >
-> > > > > +++ b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
-> > > > > @@ -0,0 +1,105 @@
-> > > > > +# SPDX-License-Identifier: GPL-2.0-or-later
-> > > >
-> > > > No "Copyright IBM" ?
-> > >
-> > > I'm going rogue.
-> > >
-> > > That reminds me I should chase up where we got to with the binding
-> > > licensing.
-> > >
-> > > >
-> > > > > +%YAML 1.2
-> > > > > +---
-> > > >
-> > > > > +
-> > > > > +examples:
-> > > > > +  - |
-> > > > > +    #include <dt-bindings/clock/aspeed-clock.h>
-> > > > > +    sdc@1e740000 {
-> > > > > +            compatible = "aspeed,ast2500-sd-controller";
-> > > > > +            reg = <0x1e740000 0x100>;
-> > > > > +            #address-cells = <1>;
-> > > > > +            #size-cells = <1>;
-> > > > > +            ranges = <0 0x1e740000 0x10000>;
-> > > >
-> > > > According to the datasheet this could be 0x20000. It does not matter
-> > > > though, as there's nothing in it past 0x300.
-> > >
-> > > Good catch.
-> > >
-> >
-> > Are you planning on sending a v6 or you want me to apply this and you
-> > can post a patch on top?
->
-> Yeah, sorry, I wasn't very clear there. I was hoping just to do a follow-up
-> patch with the cleanups if you're okay with that?
+On Thu, 2019-08-22 at 06:55 -0700, Guenter Roeck wrote:
+> On Thu, Aug 22, 2019 at 12:15:20PM +0300, Ivan Mikhaylov wrote:
+> > On Wed, 2019-08-21 at 09:32 -0700, Guenter Roeck wrote:
+> > > > +	writel(WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION,
+> > > > +			wdt->base + WDT_CLEAR_TIMEOUT_STATUS);
+> > > > +	wdt->wdd.bootstatus |= WDIOF_EXTERN1;
+> > > 
+> > > The variable reflects the _boot status_. It should not change after
+> > > booting.
+> > 
+> > Okay, then perhaps may we set 'status' handler for watchdog device and
+> > check 
+> > 'status' file? Right now 'bootstatus' and 'status' are same because there is
+> > no
+> > handler for 'status'.
+> > 
+> 
+> You would still have to redefine one of the status bits to mean something
+> driver specific. You would also still have two different flags to read
+> and control cs0 - to read the status, you would read an ioctl (or the
+> status sysfs attribute), to write it you would write into access_cs0.
+> 
+> I guess I must be missing something. What is the problem with using
+> access_cs0 for both ?
+> 
+> Guenter
+> 
 
-That's fine. V5 applied for next, thanks!
+There is no problem, I'll do that way, thanks!
 
-Kind regards
-Uffe
