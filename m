@@ -1,65 +1,85 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id B74A998A7D
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Aug 2019 06:44:06 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2821992B6
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Aug 2019 13:57:53 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46DX441PYGzDqtm
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Aug 2019 14:44:04 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46DjhY1c7hzDqV9
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Aug 2019 21:57:49 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::743; helo=mail-qk1-x743.google.com;
- envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=66.111.4.230; helo=new4-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="D1q9lH02"; 
- dkim-atps=neutral
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
- [IPv6:2607:f8b0:4864:20::743])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="heb4RNlk"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="MEIM/3bH"; dkim-atps=neutral
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46DX3x45gJzDqss
- for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Aug 2019 14:43:57 +1000 (AEST)
-Received: by mail-qk1-x743.google.com with SMTP id m2so3971007qki.12
- for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Aug 2019 21:43:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OJYGyBg/ceLSDjtApXeg+QYPHZlKNwzKjUa+6OSFeUo=;
- b=D1q9lH02crG0hVsSBHPDz4Ty4HHcz8uyhNg9zQlxODrOvuYxeTHbGEOpCeARUKNIc8
- CsKSL/M/Vp4b0TkraUwdiA0FHEyNiShpWbpIh6c/sY45K/P791GuVCHgLILJz4fPi1rH
- LL/0LmTxDTPyzUpomzWrXr+nNoZOwBRCJHWNI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OJYGyBg/ceLSDjtApXeg+QYPHZlKNwzKjUa+6OSFeUo=;
- b=GWt7BusPYnmWsY2pSai6EzxQ0O1EI41umTvZCQSItN7lHtFAUHf6ZL7/5V8Ur/3SPP
- 2CeJdvRkIfG8ofqs5J4PMBOlFEXT1ZRQGcaJlfeFItYHLcfDuAGfmNfHt2Y5z1mwPFHE
- vDB4y9wnZ0LZ1X2JWAzfhgBYoWvUgOtU+RolOt1Gu4ioi056zjIR9h9qhOdYnN3QqcYM
- hkSRVA+lH6SLhX+6IZ8qWvDUOCXsKtGQ5rwMshqNrcJnqf8RjrrOK3hftH9p1m5G4/s+
- ulEz4O+ug4Fp5wUiAr8ZOu/yCl7eMKalgVEjJFzULfjUHvrAURL5kyGD20/6bOOGvn4T
- Icnw==
-X-Gm-Message-State: APjAAAVl9Rc2T3MELOzK6KGiY41wvXHFQ4EekkrMEzCkFBM0jL+Bu2uT
- cKK30jLt3NEprs1xahxVEIIc+LnbXRXD6atuye4=
-X-Google-Smtp-Source: APXvYqw7+6RHrrapRSIiCA1W4LX4FEsS39J4H0GHx8pMtsjmQmcpotn5m7W2/GkBsc1gILGchs2Kr22CmwLnNjW//2Y=
-X-Received: by 2002:a37:649:: with SMTP id 70mr34466573qkg.208.1566449033127; 
- Wed, 21 Aug 2019 21:43:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190821055530.8720-1-joel@jms.id.au>
- <20190821055530.8720-8-joel@jms.id.au>
- <faf79f9d-baa1-4c8c-a35b-c5d97ad6df8b@www.fastmail.com>
-In-Reply-To: <faf79f9d-baa1-4c8c-a35b-c5d97ad6df8b@www.fastmail.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 22 Aug 2019 04:43:41 +0000
-Message-ID: <CACPK8Xe=mq_Zuw6vsFtb=42ZodbHcizX9QwUoRzY0cDdoWr-Fw@mail.gmail.com>
-Subject: Re: [PATCH 7/7] ARM: configs: aspeed_g5: Enable AST2600
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46DjdY1xd6zDr6v
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Aug 2019 21:55:12 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 6C0AD1174;
+ Thu, 22 Aug 2019 07:55:08 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Thu, 22 Aug 2019 07:55:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm3; bh=zSJauXLFTt8FQXHSlqnwC5NrdUuNC7V
+ HRKBipmoRJdY=; b=heb4RNlkCmWc7wvfj7j8Rt9uoYjYOFLWgs0NIxIojr5kZMT
+ D9Df7dJCG+Yab+3QD5oJKByXQ89US4AU3N8ekxbt4aWOzHvfST54N/qNAppAxQlh
+ wkNiufu110JRd0I+yVa132Mum168IgXiEHMChstVTBSpWR9vhtwJWiUWidJsyTrd
+ N8Rs6791JPsFq0im3wvOdIl8w5lLPaElZTkrXLrHbYsJhQeSn/tvcMIOuxCFpk/D
+ oSXGZLOLOZv21cY9F8U80taZxrtxBCs4wsblTDej4BBaKywE1rkclqosnjpsx+8t
+ EK8WC6YZqYFOLFzi+IeGUX2aTkJZu+9mmxuRbmA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=zSJauX
+ LFTt8FQXHSlqnwC5NrdUuNC7VHRKBipmoRJdY=; b=MEIM/3bHWqZn7L00pCocy9
+ IodbZoNJGAn9RRMErPLnplhfBcW3iVEISY/iFJyCfA9M0NybFkfsRfI4AiK/+mSJ
+ ac05sSBMQMFcPC7JQtrGBx6byDbw+XjdkDrC6//7D1BsNxtXFRCfx/AE3flbwItF
+ H0es8drXgSQ5upSzBxhrDvBEojIQ7FoECCHGMke5oMGJJpL0632oDLU6/YC8wDsK
+ necKhXlgIHPZ+8arUzZ1LkgFmJyzSLDLdJT+bs5ZOvF2KPofLOb4i5o5L+rr4IOL
+ cOrVgDiqk/2QLjbqqO6G8jLCDo7tlAMmr3qZB74FxDTYVxtDSjGgBSIDBPwCUs/A
+ ==
+X-ME-Sender: <xms:m4JeXT6I4UBQ0qr8jl0ELmtNTLNRx9CLFsUS7_jsTEVK8RhKDtt-ew>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudegiedgtddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
+ rhfuihiivgeptd
+X-ME-Proxy: <xmx:m4JeXf63ejuLicYWDghgGybdL-6oSIhCb_Nw6jkeYOQpf8azJxo8pA>
+ <xmx:m4JeXV-sGWjJYX2i6u8iMn3yQC_g3L8hai70ELfkAqqmTouOFz-T1A>
+ <xmx:m4JeXd_bIx8VxH6JTvHGVtif74ia7vPGAZmBFIU6miSPxSD2Bh-G3g>
+ <xmx:nIJeXe1xfSUuGvdvoZeaP7FbUh4Hu97elHgqQwJfJoEtDsMHM4c1hg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 633BCE00A4; Thu, 22 Aug 2019 07:55:07 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-916-g49fca03-fmstable-20190821v7
+Mime-Version: 1.0
+Message-Id: <c78d4c45-477b-4078-b269-aec72571c8cd@www.fastmail.com>
+In-Reply-To: <CAPDyKFrDPxFMm710Z25i-euOT2rrgCNXVa4na-fye0xamMXq_A@mail.gmail.com>
+References: <20190807003629.2974-1-andrew@aj.id.au>
+ <20190807003629.2974-2-andrew@aj.id.au>
+ <CACPK8Xe6Zp1uOqEffEc0b6oGa7portEAifGPRqb876HmA+oZeg@mail.gmail.com>
+ <6c94aada-9c4a-4f55-9a43-349282ad12af@www.fastmail.com>
+ <CAPDyKFrDPxFMm710Z25i-euOT2rrgCNXVa4na-fye0xamMXq_A@mail.gmail.com>
+Date: Thu, 22 Aug 2019 21:25:24 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Ulf Hansson" <ulf.hansson@linaro.org>
+Subject: Re: [PATCH v5 1/2] dt-bindings: mmc: Document Aspeed SD controller
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,31 +93,72 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>,
  devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Ryan Chen <ryanchen.aspeed@gmail.com>, linux-mmc <linux-mmc@vger.kernel.org>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 22 Aug 2019 at 02:07, Andrew Jeffery <andrew@aj.id.au> wrote:
-> > +CONFIG_MMC=y
-> > +CONFIG_MMC_SDHCI=y
-> > +CONFIG_MMC_SDHCI_PLTFM=y
-> > +CONFIG_MMC_SDHCI_OF_ASPEED=y
->
-> The patches haven't yet been applied to the MMC tree, maybe we should
-> add this later?
 
-When enabling drivers in the same merge window as they go into the
-tree we will always be in this situation.
 
-If the driver doesn't make it in this merge window, or first has has
-changes, the worst that will happen is the kconfig name changes and I
-need to update it later. I think we're safe to include it as-is.
+On Thu, 22 Aug 2019, at 21:15, Ulf Hansson wrote:
+> On Thu, 15 Aug 2019 at 07:37, Andrew Jeffery <andrew@aj.id.au> wrote:
+> >
+> >
+> >
+> > On Thu, 15 Aug 2019, at 15:06, Joel Stanley wrote:
+> > > On Wed, 7 Aug 2019 at 00:38, Andrew Jeffery <andrew@aj.id.au> wrote:
+> > > >
+> > > > The ASPEED SD/SDIO/MMC controller exposes two slots implementing the
+> > > > SDIO Host Specification v2.00, with 1 or 4 bit data buses, or an 8 bit
+> > > > data bus if only a single slot is enabled.
+> > > >
+> > > > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> > >
+> > > Reviewed-by: Joel Stanley <joel@jms.id.au>
+> > >
+> > > Two minor comments below.
+> > >
+> > > > +++ b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+> > > > @@ -0,0 +1,105 @@
+> > > > +# SPDX-License-Identifier: GPL-2.0-or-later
+> > >
+> > > No "Copyright IBM" ?
+> >
+> > I'm going rogue.
+> >
+> > That reminds me I should chase up where we got to with the binding
+> > licensing.
+> >
+> > >
+> > > > +%YAML 1.2
+> > > > +---
+> > >
+> > > > +
+> > > > +examples:
+> > > > +  - |
+> > > > +    #include <dt-bindings/clock/aspeed-clock.h>
+> > > > +    sdc@1e740000 {
+> > > > +            compatible = "aspeed,ast2500-sd-controller";
+> > > > +            reg = <0x1e740000 0x100>;
+> > > > +            #address-cells = <1>;
+> > > > +            #size-cells = <1>;
+> > > > +            ranges = <0 0x1e740000 0x10000>;
+> > >
+> > > According to the datasheet this could be 0x20000. It does not matter
+> > > though, as there's nothing in it past 0x300.
+> >
+> > Good catch.
+> >
+> 
+> Are you planning on sending a v6 or you want me to apply this and you
+> can post a patch on top?
 
-Thanks for the review.
+Yeah, sorry, I wasn't very clear there. I was hoping just to do a follow-up
+patch with the cleanups if you're okay with that?
 
-Cheers,
-
-Joel
+Andrew
