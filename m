@@ -2,73 +2,45 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF8E9B1CD
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Aug 2019 16:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E0F9B82A
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Aug 2019 23:30:13 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46FNs22XcqzDsGt
-	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Aug 2019 00:22:30 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46FZLV5snfzDsFw
+	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Aug 2019 07:30:10 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::542; helo=mail-pg1-x542.google.com;
- envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="MX6bUf+/"; 
- dkim-atps=neutral
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ spf=none (mailfrom) smtp.mailfrom=linux.intel.com
+ (client-ip=192.55.52.43; helo=mga05.intel.com;
+ envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=linux.intel.com
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46FNnk5M1hzDrj2;
- Sat, 24 Aug 2019 00:19:38 +1000 (AEST)
-Received: by mail-pg1-x542.google.com with SMTP id e11so5868354pga.5;
- Fri, 23 Aug 2019 07:19:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=ATCgi1Sogh8xX//ITzLr0C3oCB9rJq6klExJFgC99wk=;
- b=MX6bUf+/9Pr+Mih2RzamjzGFDvamjBBVObGGRSU2DW4pK8Lh6MpQt0E6uHZsSAVS7f
- YenWpoaVjJG+XxFvAeS9QB7xfnXUcyjXMpkuyjfbx5dkYHOTZegtXuGZ8P0BOEklfQn+
- yQdsCWD9bOYS/WF06y738602EXzJkdiDKxhYV6E5v73tFv+S9FdaTBY+0ZKyhbXjIvZG
- utPTLaJSBlIOs/B+tCpcXqzenocmxxqNEdgvJvwt3DZ4/p01AhF/ER/AeZu9kzMM9e9O
- QT3aaYnKAmUP8Q62w7oDoThj3aixcTac36nJA47OoZMsTT6yGuvatR+asjCuzQh8A07O
- k2Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=ATCgi1Sogh8xX//ITzLr0C3oCB9rJq6klExJFgC99wk=;
- b=QYRNL/oKaFkbDdBD9dLf3ClNteTwzEOOJK95JEYZtG1Vof0J1atb1dSfekTIAqrKHQ
- 5oQmE5fIlJvQvV6ivec/Pcp0wHwBeTgPoSxNgFL64CZNtQOflmk5enumOrlRyxahA6u7
- /bQ7uk1E3ibEpnAhbzAM/rRpFEf6fNorfurKjdzRyu33Dfee1xISI8SzAPllYBSo7Mpv
- BVrTNQbZ/zRKwh26hx8A72zAEKltjMFOhnXa38tdn69Sommf15HVga9SU5+lD1WgcddH
- Z6tw0pqNC6jQNgdYq4Z2UnZ0/jRwuiGlRSc7pSQr3ONnD6FvG2B0tXOVm3tPnOvqjX30
- +Zcw==
-X-Gm-Message-State: APjAAAWdg+dTAPWu4/s2tk7bRrwWfBjYkamiLLHShno2w9br3hp49uYS
- coOtQyeXKp3+W2CcE/mrjCE=
-X-Google-Smtp-Source: APXvYqxULzxl6gBv9C/yDCUlvYScoI2YH9z2w7u10ezY3qZ82ieomNLXNu8OJeZ7a3FW6rb7HwkbZQ==
-X-Received: by 2002:a65:4c4d:: with SMTP id l13mr4137814pgr.156.1566569973137; 
- Fri, 23 Aug 2019 07:19:33 -0700 (PDT)
-Received: from localhost (108-223-40-66.lightspeed.sntcca.sbcglobal.net.
- [108.223.40.66])
- by smtp.gmail.com with ESMTPSA id x24sm2099614pgl.84.2019.08.23.07.19.30
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 23 Aug 2019 07:19:31 -0700 (PDT)
-Date: Fri, 23 Aug 2019 07:19:30 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Ivan Mikhaylov <i.mikhaylov@yadro.com>
-Subject: Re: [PATCH v1 3/3] watchdog/aspeed: add support for dual boot
-Message-ID: <20190823141930.GA11610@roeck-us.net>
-References: <fafd757238e204b2566f216f1d6a4bef4b4906c5.camel@yadro.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46FZLN74qDzDrp4;
+ Sat, 24 Aug 2019 07:30:03 +1000 (AEST)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 23 Aug 2019 14:29:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,422,1559545200"; d="scan'208";a="330841452"
+Received: from maru.jf.intel.com ([10.54.51.77])
+ by orsmga004.jf.intel.com with ESMTP; 23 Aug 2019 14:29:59 -0700
+From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+To: Eddie James <eajames@linux.ibm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: [PATCH] media: aspeed: fix an incorrect return code on buffer
+ allocation failure
+Date: Fri, 23 Aug 2019 14:29:57 -0700
+Message-Id: <20190823212957.26043-1-jae.hyun.yoo@linux.intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fafd757238e204b2566f216f1d6a4bef4b4906c5.camel@yadro.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,118 +52,32 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, Alexander Amelkin <a.amelkin@yadro.com>,
- linux-kernel@vger.kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org,
+ linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Aug 23, 2019 at 12:35:28PM +0300, Ivan Mikhaylov wrote:
-> Set WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION into WDT_CLEAR_TIMEOUT_STATUS
-> to clear out boot code source and re-enable access to the primary SPI flash
-> chip while booted via wdt2 from the alternate chip.
-> 
-> AST2400 datasheet says:
-> "In the 2nd flash booting mode, all the address mapping to CS0# would be
-> re-directed to CS1#. And CS0# is not accessable under this mode. To access
-> CS0#, firmware should clear the 2nd boot mode register in the WDT2 status
-> register WDT30.bit[1]."
-> 
-> Signed-off-by: Ivan Mikhaylov <i.mikhaylov@yadro.com>
-> ---
->  drivers/watchdog/aspeed_wdt.c | 44 ++++++++++++++++++++++++++++++++++-
->  1 file changed, 43 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
-> index cc71861e033a..62bf95cb741f 100644
-> --- a/drivers/watchdog/aspeed_wdt.c
-> +++ b/drivers/watchdog/aspeed_wdt.c
-> @@ -53,6 +53,8 @@ MODULE_DEVICE_TABLE(of, aspeed_wdt_of_table);
->  #define   WDT_CTRL_ENABLE		BIT(0)
->  #define WDT_TIMEOUT_STATUS	0x10
->  #define   WDT_TIMEOUT_STATUS_BOOT_SECONDARY	BIT(1)
-> +#define WDT_CLEAR_TIMEOUT_STATUS	0x14
-> +#define   WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION	BIT(0)
->  
->  /*
->   * WDT_RESET_WIDTH controls the characteristics of the external pulse (if
-> @@ -165,6 +167,42 @@ static int aspeed_wdt_restart(struct watchdog_device *wdd,
->  	return 0;
->  }
->  
-> +/* access_cs0 shows if cs0 is accessible, hence the reverted bit */
-> +static ssize_t access_cs0_show(struct device *dev,
-> +		struct device_attribute *attr, char *buf)
-> +{
-> +	struct aspeed_wdt *wdt = dev_get_drvdata(dev);
-> +
+It returns '0' even when a failure happens on jpeg buffer allocation
+so this commit fixes the issue.
 
-Unnecessary empty line.
+Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+---
+ drivers/media/platform/aspeed-video.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> +	uint32_t status = readl(wdt->base + WDT_TIMEOUT_STATUS);
-> +
-> +	return sprintf(buf, "%u\n",
-> +			!(status & WDT_TIMEOUT_STATUS_BOOT_SECONDARY));
-> +}
-> +
-> +static ssize_t access_cs0_store(struct device *dev,
-> +			      struct device_attribute *attr,
-> +			      const char *buf, size_t size)
-> +{
-> +	struct aspeed_wdt *wdt = dev_get_drvdata(dev);
-> +	unsigned long val = 0;
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+index f899ac3b4a61..94f97d96dabc 100644
+--- a/drivers/media/platform/aspeed-video.c
++++ b/drivers/media/platform/aspeed-video.c
+@@ -1624,6 +1624,7 @@ static int aspeed_video_init(struct aspeed_video *video)
+ 	if (!aspeed_video_alloc_buf(video, &video->jpeg,
+ 				    VE_JPEG_HEADER_SIZE)) {
+ 		dev_err(dev, "Failed to allocate DMA for JPEG header\n");
++		rc = -ENOMEM;
+ 		goto err_release_reserved_mem;
+ 	}
+ 
+-- 
+2.7.4
 
-Unnecessary initialization.
-
-> +
-> +	if (kstrtoul(buf, 10, &val))
-> +		return -EINVAL;
-> +
-> +	if (val)
-> +		writel(WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION,
-> +			wdt->base + WDT_CLEAR_TIMEOUT_STATUS);
-> +
-> +	return size;
-> +}
-> +static DEVICE_ATTR_RW(access_cs0);
-> +
-> +static struct attribute *bswitch_attrs[] = {
-> +	&dev_attr_access_cs0.attr,
-
-The attribute needs to be documented.
-
-> +	NULL
-> +};
-> +ATTRIBUTE_GROUPS(bswitch);
-> +
->  static const struct watchdog_ops aspeed_wdt_ops = {
->  	.start		= aspeed_wdt_start,
->  	.stop		= aspeed_wdt_stop,
-> @@ -306,8 +344,12 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
->  	}
->  
->  	status = readl(wdt->base + WDT_TIMEOUT_STATUS);
-> -	if (status & WDT_TIMEOUT_STATUS_BOOT_SECONDARY)
-> +	if (status & WDT_TIMEOUT_STATUS_BOOT_SECONDARY) {
->  		wdt->wdd.bootstatus = WDIOF_CARDRESET;
-> +		wdt->wdd.groups = bswitch_groups;
-> +	}
-
-So the attribute would only exist if the boot was from the secondary
-flash, and it would exist even if it wasn't needed (ie on ast2500 /
-ast2600) ? Well, if that is what you want, who am I to argue, but
-you'll have to document it accordingly. When you do so, please also
-document what happens on ast2500 / ast2600 when the attribute exists
-and is written.
-
-> +
-> +	dev_set_drvdata(dev, wdt);
->  
->  	return devm_watchdog_register_device(dev, &wdt->wdd);
->  }
-> -- 
-> 2.20.1
-> 
-> 
