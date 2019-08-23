@@ -1,56 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5329A038
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Aug 2019 21:39:59 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 320999AB87
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Aug 2019 11:42:26 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46Dvxm6xtczDrfr
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Aug 2019 05:39:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46FGdp6ZzTzDrgb
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Aug 2019 19:42:22 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (mailfrom)
- smtp.mailfrom=bombadil.infradead.org (client-ip=2607:7c80:54:e::133;
- helo=bombadil.infradead.org; envelope-from=mchehab@bombadil.infradead.org;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
+ spf=pass (mailfrom) smtp.mailfrom=linaro.org
+ (client-ip=2a00:1450:4864:20::242; helo=mail-lj1-x242.google.com;
+ envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=linaro.org header.i=@linaro.org header.b="D7pMMnHd"; 
+ dkim-atps=neutral
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46DvxY1f8VzDrdj;
- Fri, 23 Aug 2019 05:39:44 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=RSitoDJz4cp7sECCKIxCe+i7CBRQ0J6tJd1l3i9ahjw=; b=ryisBR1755MQF2JA8y7uWhGt7N
- qVp4VOrktmGNz11oGS1R5/levY1FvXHSPs2DTwuO6q6SdXg5DVdTY+nSw1+NiD49G/U/TnZ3i9WZi
- Q6QYOIXLvPhBl4LmaQB9jjvdivL8xUFFTFl2+IOcpWOOB2sj3MAeCiZ1XriXimu85FpEja+Cvgqn9
- xs9AfehXdxRNYsUI/our+3ct/UV2R7mDh7TmRws25xWGg7KomSZDhi2pPmEZNpypX5IYdzCCGN0at
- TkfX6Nrt8DSTbGN6owvB9mZdq79//VZVMRH+xFv60BIzOKEZiUXqSrdGPmlQXYypJYWimzhH7Ow//
- ZS99B7qQ==;
-Received: from [177.133.63.56] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
- id 1i0svr-0002lT-KY; Thu, 22 Aug 2019 19:39:39 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
- (envelope-from <mchehab@bombadil.infradead.org>)
- id 1i0svo-0007IN-Em; Thu, 22 Aug 2019 16:39:36 -0300
-From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: [PATCH 3/7] media: aspeed-video: address a protential usage of an
- unit var
-Date: Thu, 22 Aug 2019 16:39:30 -0300
-Message-Id: <7c85f7dc159927a7316dc13f52697f157fb6e2bd.1566502743.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <4a411ba155eb062b6575aba0824123c840806c0b.1566502743.git.mchehab+samsung@kernel.org>
-References: <4a411ba155eb062b6575aba0824123c840806c0b.1566502743.git.mchehab+samsung@kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46FGdh5DhpzDrfv
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Aug 2019 19:42:14 +1000 (AEST)
+Received: by mail-lj1-x242.google.com with SMTP id l14so8290533lje.2
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Aug 2019 02:42:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=G9mRsUodr8INx8kLiQuFLT6wntAGfHnLDVBZoZICFTI=;
+ b=D7pMMnHdfqhTHEbILraVb+LJvXqHH0oAURqSthG109P6NhNjxj8dD1tTBKCsoZE6Wg
+ +ZVyTADxuYmkbpWAU9YFNL+rpYNJAnnwAf1p4HUn77wkRPYNFoWUreoo8oq8nyQy+da8
+ Y4EaWT/NZVIPTHhT/82Y8zlr/QsGAQEGJRBB/8CGdQOZKAilJteJ6NRHVCfWJ0EfLQkw
+ ADRGbxPFwc43sXCSwFxqXc2rliWafXYyjNHb6g3A31lCi37BDlIFfaYbwMXOlolMDvVK
+ 5IW1yX/qn1VkdCUaFjnINEp+cGHSctJDS1HErbvHADRBx7bEijJbDa9sf0CIZlN889Vp
+ +S1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=G9mRsUodr8INx8kLiQuFLT6wntAGfHnLDVBZoZICFTI=;
+ b=TN51fH1H6jGiJztDQpbHL77n8lcQ/gxTACFKdtp59g1Um1g2pcrZoA36GeMHwwPSjw
+ lbDTP/vhuGWyEOBvjXQT4Nduwb7UOPNsyzl84LZhUE+yspu0tfOBs7O+Pz0YiqW30gdz
+ ublwICW03fO5jineDJFlM71wmXjdWcb0k0AUv6nj5ZLSuoCr1VvJahZ+s5kiG6X7xSe+
+ nL4Qwyf9zM7IG8lRCGDAatA5vVePAl/tdrolVTCkMHFw7HGjKPZbubt9qlilxqgKUCCR
+ 7S+rD87T7w70EWAq97MfADOCQxIEw8tvS1gvxHD66kUuGC/+ROHiXspRSYt8S2MjrwD+
+ gjtQ==
+X-Gm-Message-State: APjAAAWnEWeQdTV+JU7sRC23qN3aVsx+o/rQc3L25/xXKt/taEnqBq5+
+ zWlgGOVoHUzCqJHZ9KYg4lv5CWJZYAm52IoFrjhK5w==
+X-Google-Smtp-Source: APXvYqxbUW9mwdFAw8PYUVklPhImRXOOG2mrpV80i8O7nFOQr4/Kq5cY8eZfZBLO11XOblNgr1rWKltULlseXo8MMs4=
+X-Received: by 2002:a2e:781a:: with SMTP id t26mr2368029ljc.28.1566553330329; 
+ Fri, 23 Aug 2019 02:42:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1566335128-31498-1-git-send-email-hongweiz@ami.com>
+ <1566335128-31498-2-git-send-email-hongweiz@ami.com>
+In-Reply-To: <1566335128-31498-2-git-send-email-hongweiz@ami.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 23 Aug 2019 11:41:58 +0200
+Message-ID: <CACRpkdaa3tWw_LC6Ce9Ru4gFji_SquitmsDqThRj114=Fro2zg@mail.gmail.com>
+Subject: Re: [v8 1/1] gpio: aspeed: Add SGPIO driver
+To: Hongwei Zhang <hongweiz@ami.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +73,25 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- Mauro Carvalho Chehab <mchehab@infradead.org>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-While this might not occur in practice, if the device is doing
-the right thing, it would be teoretically be possible to have
-both hsync_counter and vsync_counter negatives.
+On Tue, Aug 20, 2019 at 11:05 PM Hongwei Zhang <hongweiz@ami.com> wrote:
 
-If this ever happen, ctrl will be undefined, but the driver
-will still call:
+> Add SGPIO driver support for Aspeed AST2500 SoC.
+>
+> Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
+> Reviewed-by:   Andrew Jeffery <andrew@aj.id.au>
 
-	aspeed_video_update(video, VE_CTRL, 0, ctrl);
+This v8 patch applied for v5.4, thanks!
 
-Change the code to prevent this to happen.
-
-This was warned by cppcheck:
-
-	[drivers/media/platform/aspeed-video.c:653]: (error) Uninitialized variable: ctrl
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- drivers/media/platform/aspeed-video.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index f899ac3b4a61..4ef37cfc8446 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -630,7 +630,7 @@ static void aspeed_video_check_and_set_polarity(struct aspeed_video *video)
- 	}
- 
- 	if (hsync_counter < 0 || vsync_counter < 0) {
--		u32 ctrl;
-+		u32 ctrl = 0;
- 
- 		if (hsync_counter < 0) {
- 			ctrl = VE_CTRL_HSYNC_POL;
-@@ -650,7 +650,8 @@ static void aspeed_video_check_and_set_polarity(struct aspeed_video *video)
- 				V4L2_DV_VSYNC_POS_POL;
- 		}
- 
--		aspeed_video_update(video, VE_CTRL, 0, ctrl);
-+		if (ctrl)
-+			aspeed_video_update(video, VE_CTRL, 0, ctrl);
- 	}
- }
- 
--- 
-2.21.0
-
+Yours,
+Linus Walleij
