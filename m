@@ -1,86 +1,80 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053349C6FF
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Aug 2019 03:32:17 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F689C72C
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Aug 2019 04:16:12 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46Gvcr35bDzDqQJ
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Aug 2019 11:32:12 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46GwbX6VPLzDqcJ
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Aug 2019 12:16:08 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=64.147.123.25; helo=wout2-smtp.messagingengine.com;
+ (client-ip=66.111.4.29; helo=out5-smtp.messagingengine.com;
  envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="ArrOsJbq"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="fQj6puKz"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="AbT9WAIJ"; dkim-atps=neutral
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
+ header.b="N4Jrnv7N"; dkim-atps=neutral
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46Gvcg42zjzDqBl;
- Mon, 26 Aug 2019 11:32:03 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46GwbJ3l9jzDqXZ
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Aug 2019 12:15:55 +1000 (AEST)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 9612039E;
- Sun, 25 Aug 2019 21:32:00 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Sun, 25 Aug 2019 21:32:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=GQy9HXGKBleVZguowV/+z3W+P9jSPkD
- lUZyUbUOI3MQ=; b=ArrOsJbq1b1aUx1WRMwKSoeZtJW1HmVpiiDf6P773HnPNyS
- cnXrvx7M0QFUG591al+NS4RD/jyl/I15ZbAqIoFdvlsSXh8Lw5GUVM3BsXSuAuI8
- h1PI0zhNozJHSAhyy2cZkYWY1hOHYg5OyvMpM5/973YxNEEcxKDoe5hndNL3o4Tw
- nmJk8nPfJgJNNH0EusawWmmgSa3OuinCzIje7N2bmaM2QTxjKSC9Fh1Tumg+klQC
- Bib1Sqr6NAJ34bS5wA8HPMkQZhoUwhl5Uew7zz7DAYDOfcelxCENwAUYu2j+vXWu
- pIyjeowXHJIIXBaERukCSUolZEUTofhpvTZ/FsQ==
+ by mailout.nyi.internal (Postfix) with ESMTP id C673621F18;
+ Sun, 25 Aug 2019 22:15:52 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Sun, 25 Aug 2019 22:15:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=5HH0SDUDjRUO/CjnMqxbLxtd9W
+ vPtHdd1vX8IagkIVU=; b=fQj6puKz2T8eR411RhHtM0GGLu7IKaPpkIZcw5LLEy
+ djuvXoAnCMjVSALDV6vxlPeDNsxB6UOcQiuFfezoN12Mos5C2yDhCiwkstD4tI6g
+ ctDs5n6mvhc7u9KmHxWyKt0vlSmRio22Mmz5w/2FBYPxCMsXmrBexTbhsgKFIa7c
+ QiX0hhb6tDoZLDAhZ8s6pc9mDLbi8PHe1IG51ErssC9JGhDcdSf3QYjaMNtb6jY8
+ mDYyfETSusbESJw6gTYRr3x6PmwvSfzWWMpj2gSTIP5uZzvviDj/2idQ87vP6o2V
+ echX0LOopFfC1dPQ5YHlr7rcKi7srI08N6DTsOZx6GpA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=GQy9HX
- GKBleVZguowV/+z3W+P9jSPkDlUZyUbUOI3MQ=; b=AbT9WAIJKJpiYR/fWC3eiD
- FFNskaxsxJXacirhFwmeANOQ11K0HyoO5UslpymcdnFd7AjXt3qr/pn+YsBNKht9
- O0Nzh184cFZ0GWGLbWXh2lXTGW47LuJhwiG4dXJB02LBxiPK+FMOBF0bapeqLCqr
- iRmvbgis5Dm/gvjEYqA1+jiAcdhxtaLhZm7hawvepZCbczZQfsOjbhXfRwmJ9wDx
- WDvtPFkjKyoAz5LEvNb29dUTrlGTigtf1ZGIzueMeLBnpzHFJcc07okjUlCmgvHC
- BrC0Vc0lmx2UAf/FcmPYdA64/exI6MdRPeoOPgbtQWIDYITv4YjzBGOVlvqpN9TA
- ==
-X-ME-Sender: <xms:jjZjXQaQoAKLZtRZpOcz71-Kz-rmHzSd8kA4Oc3-FFk4-Q_wlBTb9Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudehfedggeekucetufdoteggodetrfdotf
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=5HH0SDUDjRUO/CjnM
+ qxbLxtd9WvPtHdd1vX8IagkIVU=; b=N4Jrnv7NNhn1eGNqUYS3qwdxiypPeW/6j
+ rSIAdhu9HgDrfmjq0mwJJZ7M0EzfY6cvzHJvYVomrUnJQFxA/1PRRaJMtYIkOKjv
+ T3oaFzbF6kyMsDdqKQHICCzpn3iaSrTrTYcgWC8nFzZt+N6u2HT5wUtGiGk1NQHP
+ b3xv2vHtO3amFPLXBG7Ns1bPKcvAEgcTPLyJZhDlxsAuyX314FxbOfTcpDi/23k1
+ XU6+8hflfJzztEsBvYyAnrMYjj1ETxrXqM9q8cBlq9Q2J2LiGYe89nUc1fpxVNLK
+ 55OnG/kjco8SjmQ5rKLfV1qSa8+D60/dfUj1zvGWmMWlPxefu69HA==
+X-ME-Sender: <xms:10BjXQGSpxfbAIpcIv70Rp73osgLgwxN3j51fLtu_XALTZVjFrIcjQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudehfedgheekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:jjZjXRYuTTIg_vp0l4bq8Fy1NHLyytS7OiQwPF0RqdIURjRdtYMw4g>
- <xmx:jjZjXVzMTOb6vHjfuvx0tEvjjNF9ZZDq5PVz8aiq8oGmKO3y0frygQ>
- <xmx:jjZjXde7j_0jZdm--XMEXaGE4gEU0H9DbQIyUZsGLLNPq2zv0GEWtQ>
- <xmx:kDZjXfKz5t6OblkKf3AJy3PvdFtm26e1vjvP1qD1_Vl9JYX85c_HlQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 5EA86E00A3; Sun, 25 Aug 2019 21:31:58 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-916-g49fca03-fmstable-20190821v7
-Mime-Version: 1.0
-Message-Id: <588f6cbd-b6ca-4f43-8034-80956ee56bb8@www.fastmail.com>
-In-Reply-To: <20190823212957.26043-1-jae.hyun.yoo@linux.intel.com>
-References: <20190823212957.26043-1-jae.hyun.yoo@linux.intel.com>
-Date: Mon, 26 Aug 2019 11:02:19 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Jae Hyun Yoo" <jae.hyun.yoo@linux.intel.com>,
- "Eddie James" <eajames@linux.ibm.com>,
- "Mauro Carvalho Chehab" <mchehab@kernel.org>,
- "Joel Stanley" <joel@jms.id.au>,
- "Benjamin Herrenschmidt" <benh@kernel.crashing.org>
-Subject: =?UTF-8?Q?Re:_[PATCH]_media:_aspeed:_fix_an_incorrect_return_code_on_buf?=
- =?UTF-8?Q?fer_allocation_failure?=
-Content-Type: text/plain
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegrjhdr
+ ihgurdgruheqnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghdpohiilhgrsg
+ hsrdhorhhgnecukfhppedvtdefrdehjedrvdduhedrudejkeenucfrrghrrghmpehmrghi
+ lhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghrufhiiigvpe
+ dt
+X-ME-Proxy: <xmx:10BjXdkFl7e-VF5gE6JjtHG3ZC7-VDrfzqQd7gV1i9cvzy5Fmv7R6w>
+ <xmx:10BjXVJgRS60gm0H1Ym9yue7ySzyFC-QVRALFQ-QyYuLrWCtJ2Ztqw>
+ <xmx:10BjXWa4qv6pxmPO0zo4HSZcYcQGFhIBsjzPnvbqjsAHtffjx232iw>
+ <xmx:2EBjXbNjGDuQGIz_Mc6dzbexqDPS-0-yUKkfvgRPIX6dE683ZlV97Q>
+Received: from localhost.localdomain (203-57-215-178.dyn.iinet.net.au
+ [203.57.215.178])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 3C828D6005D;
+ Sun, 25 Aug 2019 22:15:47 -0400 (EDT)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: linux-mmc@vger.kernel.org
+Subject: [PATCH] dt-bindings: mmc: aspeed: Update example ranges property
+Date: Mon, 26 Aug 2019 11:46:19 +0930
+Message-Id: <20190826021620.11915-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,41 +86,52 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org,
- linux-media@vger.kernel.org
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, ulf.hansson@linaro.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+The example node in the binding uses the AST2500 compatible string for
+the SD controller with a 64kiB ranges property, but the SD controller is
+allocated 128kiB of MMIO space according to the AST2500 datasheet. Fix
+the example to correctly reflect the hardware in the AST2500, however it
+should be noted that the MMIO region is reduced to 64kiB in the AST2600
+where a second SD controller block has been introduced into the address
+space.
 
+Also add the IBM copyright header that I left out of the initial patch.
 
-On Sat, 24 Aug 2019, at 07:00, Jae Hyun Yoo wrote:
-> It returns '0' even when a failure happens on jpeg buffer allocation
-> so this commit fixes the issue.
-> 
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Suggested-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+---
+Hi Ulf, this is the follow-up fix as discussed here:
 
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+http://patchwork.ozlabs.org/patch/1143090/
 
-> ---
->  drivers/media/platform/aspeed-video.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/platform/aspeed-video.c 
-> b/drivers/media/platform/aspeed-video.c
-> index f899ac3b4a61..94f97d96dabc 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -1624,6 +1624,7 @@ static int aspeed_video_init(struct aspeed_video 
-> *video)
->  	if (!aspeed_video_alloc_buf(video, &video->jpeg,
->  				    VE_JPEG_HEADER_SIZE)) {
->  		dev_err(dev, "Failed to allocate DMA for JPEG header\n");
-> +		rc = -ENOMEM;
->  		goto err_release_reserved_mem;
->  	}
->  
-> -- 
-> 2.7.4
-> 
->
+ Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+index 570f8c72662b..200de9396036 100644
+--- a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
++++ b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+@@ -1,4 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-or-later
++# Copyright 2019 IBM Corp.
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+@@ -84,7 +85,7 @@ examples:
+             reg = <0x1e740000 0x100>;
+             #address-cells = <1>;
+             #size-cells = <1>;
+-            ranges = <0 0x1e740000 0x10000>;
++            ranges = <0 0x1e740000 0x20000>;
+             clocks = <&syscon ASPEED_CLK_GATE_SDCLK>;
+ 
+             sdhci0: sdhci@100 {
+-- 
+2.20.1
+
