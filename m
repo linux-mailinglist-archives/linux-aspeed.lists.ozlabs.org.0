@@ -2,86 +2,46 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B19EA9C767
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Aug 2019 04:51:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D949CF39
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Aug 2019 14:12:46 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46GxMm4MlfzDqcg
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Aug 2019 12:51:00 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46H9qv37wdzDqW0
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Aug 2019 22:12:43 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=64.147.123.20; helo=wout4-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=huawei.com
+ (client-ip=45.249.212.190; helo=huawei.com;
+ envelope-from=weiyongjun1@huawei.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="bCUZLT+Q"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="PGYKpzkJ"; dkim-atps=neutral
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
+ dmarc=none (p=none dis=none) header.from=huawei.com
+X-Greylist: delayed 941 seconds by postgrey-1.36 at bilbo;
+ Mon, 26 Aug 2019 22:12:35 AEST
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46GxMT3x30zDqbl;
- Mon, 26 Aug 2019 12:50:45 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 4F8B1351;
- Sun, 25 Aug 2019 22:50:41 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Sun, 25 Aug 2019 22:50:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=moWMgQCDhujoC+j8abBt3m/E1h8l0To
- 9/QbmDbkmg28=; b=bCUZLT+QiXSx1IUJAEAhJiDLQyuKTwf82FLSxfZBLL6euKT
- yoybApEWnKwUuJTqkjiDiZaVdiMFDY3PHYBcM/7zs8rs9nPzhli/xRGEEu0is+NF
- +LpGJWhV58jkhnoeaaK6wCsS+xzbL5BbiCqoZ8G3YoBN0Le7EQgph8MFSpoADQsA
- u9dNimN/NDEmUb0g41bRG9L8dviCYKuUQFKRB1pNtIftiaLx4z8Q7ScpinhH+Ikh
- sG7Y0sJEZLAmzN18K+vRdYbI7ErVrUSDnBW2GyU2wnrg9h3CAH2Fp/uA2GnP9KyJ
- HQH8Q2u2dIEKxyxgDqRpzrmtYHyFyOEpiNiY9wg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=moWMgQ
- CDhujoC+j8abBt3m/E1h8l0To9/QbmDbkmg28=; b=PGYKpzkJybgsc8jWwoUmeM
- UP9mTgnYzIN2ymIcXLSBHuLK7exH/KVE1IMQ1j7Y5hxzvB3QpdFodRs2gIQBf2HS
- vozoNo1tC26w2V63FprL0KchXIWbNdiLcH5PKmRhcZMIAqkluASo8zIizXFuWWBB
- r7zKWIn4dQW6j03TXkki1P40ZM8+aXpI48wjNEZgDwx2STvvea8AiGgBzlpugzXg
- 8mS9DeRMpZ3+1FSL/75m94yFQZXNCIKfwOFs6YwaA/kCniYnP1MCSP0OSpPGdK3k
- viwavo2GxbVl2tb1r60ZQLZnT79Bi4mYM2BjFBwCTPuWQBekXkp0aCOMeU5eaI4g
- ==
-X-ME-Sender: <xms:_0hjXd9nX2hgbfW83F3K9dqn2U5N0iSudTwmTGy2C_Iz72HKBBmt6w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudehfedgieegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:_0hjXbzz0p305wGifpsc2Moo9elQsbzp6jm8ZGSSnnV-S2YHopRPKA>
- <xmx:_0hjXa4K9-ZZ_iQmOFq7g0oCppGBfjGPAQQXXRgZgN3B4QjlkTnkrQ>
- <xmx:_0hjXS_bmJXkvndFwAVfXYhRCnJRXpBWhuEqfD44px1TqAIUdWji0g>
- <xmx:AEljXXWHeKXXyIHP4hWDUqKq2iQtbUDpWNklEOFPVKUf9m10ovbtzg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 88EFAE00AC; Sun, 25 Aug 2019 22:50:39 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-916-g49fca03-fmstable-20190821v7
-Mime-Version: 1.0
-Message-Id: <758d249b-81c1-4e26-b3d5-ce79d86231b9@www.fastmail.com>
-In-Reply-To: <588f6cbd-b6ca-4f43-8034-80956ee56bb8@www.fastmail.com>
-References: <20190823212957.26043-1-jae.hyun.yoo@linux.intel.com>
- <588f6cbd-b6ca-4f43-8034-80956ee56bb8@www.fastmail.com>
-Date: Mon, 26 Aug 2019 12:20:59 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Jae Hyun Yoo" <jae.hyun.yoo@linux.intel.com>,
- "Eddie James" <eajames@linux.ibm.com>,
- "Mauro Carvalho Chehab" <mchehab@kernel.org>,
- "Joel Stanley" <joel@jms.id.au>,
- "Benjamin Herrenschmidt" <benh@kernel.crashing.org>
-Subject: =?UTF-8?Q?Re:_[PATCH]_media:_aspeed:_fix_an_incorrect_return_code_on_buf?=
- =?UTF-8?Q?fer_allocation_failure?=
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46H9ql5txJzDqSc
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Aug 2019 22:12:35 +1000 (AEST)
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 038A03A17AC74FA5FB94;
+ Mon, 26 Aug 2019 19:56:47 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.439.0; Mon, 26 Aug 2019 19:56:38 +0800
+From: Wei Yongjun <weiyongjun1@huawei.com>
+To: Adrian Hunter <adrian.hunter@intel.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+ <andrew@aj.id.au>
+Subject: [PATCH -next] mmc: aspeed: Fix return value check in
+ aspeed_sdc_probe()
+Date: Mon, 26 Aug 2019 12:00:13 +0000
+Message-ID: <20190826120013.183435-1-weiyongjun1@huawei.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,28 +53,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org,
- linux-media@vger.kernel.org
+Cc: linux-mmc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ Wei Yongjun <weiyongjun1@huawei.com>, linux-aspeed@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+In case of error, the function of_platform_device_create() returns
+NULL pointer not ERR_PTR(). The IS_ERR() test in the return value
+check should be replaced with NULL test.
+
+Fixes: 09eed7fffd33 ("mmc: Add support for the ASPEED SD controller")
+Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+---
+ drivers/mmc/host/sdhci-of-aspeed.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
+index 8bb095ca2fa9..d5acb5afc50f 100644
+--- a/drivers/mmc/host/sdhci-of-aspeed.c
++++ b/drivers/mmc/host/sdhci-of-aspeed.c
+@@ -261,9 +261,9 @@ static int aspeed_sdc_probe(struct platform_device *pdev)
+ 		struct platform_device *cpdev;
+ 
+ 		cpdev = of_platform_device_create(child, NULL, &pdev->dev);
+-		if (IS_ERR(cpdev)) {
++		if (!cpdev) {
+ 			of_node_put(child);
+-			ret = PTR_ERR(cpdev);
++			ret = -ENODEV;
+ 			goto err_clk;
+ 		}
+ 	}
 
 
-On Mon, 26 Aug 2019, at 11:02, Andrew Jeffery wrote:
-> 
-> 
-> On Sat, 24 Aug 2019, at 07:00, Jae Hyun Yoo wrote:
-> > It returns '0' even when a failure happens on jpeg buffer allocation
-> > so this commit fixes the issue.
-> > 
-> > Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> 
-> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
 
-Keep my Reviewed-by, but can you please do a v2 that adds a Fixes: tag
-and also Cc stable with the patch?
-
-Cheers,
-
-Andrew
