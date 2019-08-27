@@ -2,72 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FD4A7368
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:15:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB28A736A
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:15:06 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46NGqS5jbyzDqq8
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:15:00 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46NGqW6m1kzDqkx
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:15:03 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=linaro.org
- (client-ip=2607:f8b0:4864:20::e44; helo=mail-vs1-xe44.google.com;
- envelope-from=ulf.hansson@linaro.org; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=yadro.com
+ (client-ip=89.207.88.252; helo=mta-01.yadro.com;
+ envelope-from=i.mikhaylov@yadro.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.b="S1KWANYd"; 
+ dmarc=pass (p=none dis=none) header.from=yadro.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=yadro.com header.i=@yadro.com header.b="wIZvuPAh"; 
  dkim-atps=neutral
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
- [IPv6:2607:f8b0:4864:20::e44])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46Hqy63PZJzDqY5
- for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Aug 2019 23:50:21 +1000 (AEST)
-Received: by mail-vs1-xe44.google.com with SMTP id j25so13451996vsq.12
- for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Aug 2019 06:50:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Azqn8B8zEoK6qeo0gqFEO5Y6U0l3RHxOtMnA5UrW9xo=;
- b=S1KWANYd3hxj20Oktt/812hJNXbDjSq+iPYkPPc2E0UYVq1fPky1u8+0m7jBg5Qjsu
- 9saaDiWsSk4C8ciJjV6vtKC78MxSVKTNzdP982jnw2N/G8BpDzqPlr8nffUPXrF0A1pK
- ptEiM0eRGUZHJCu9UxuZkDRv75hDXvbeqpB7J7f6Bu8mWSP1mf5PW6de3EGQH6LDOdLU
- NuaDp6E1e5rMaQpoxVA6l/lPkC2bnH8xfK6WpgUUcG0Oo3jjCr0WIfP26jhk+RgHKM4C
- r+Eq5tnea8njJrkwp+1DEfxMt7F0Vuf4R0p7KVhTzeoTFopw9bSjA0Rk0eSiGj5Gk+7U
- hhtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Azqn8B8zEoK6qeo0gqFEO5Y6U0l3RHxOtMnA5UrW9xo=;
- b=rQua4Y/LoDtj82F0fkjjBS1lsK6sO1XshkMJKnrO6fU0sEe6aWD15GoKzdlyXp7t16
- ieYWGVTnNsgc3K70dVs/w47aV30fHEpNIxGgcblmTDPE+P/EcMw1d/IwkDJcJqRw4nvJ
- +U1jXElWrq/IF8wIschGSrwqbUIWH8VfVDl64vdVu0wKwug7kaW+aIkOq1bHjz/RmH01
- kpg6KUY8wZdGYQsdO2HeHlz+F0c5WKHowNSGWa7Zu3quBa4verkoXdqA0Xp8LbnEAvtw
- uTm2gvlfFZVq1iEcOHjqwAv+Rvlz2JyG/0DHfry7M8ntSHByyacW6OObu127Eud2lwUN
- XdKA==
-X-Gm-Message-State: APjAAAVtuZppXswakB76Wk5XSkgmdA5/S7OyOBcsWjeMHhZuJnHh4Hqg
- kJOO/EuZuS7rsy9oDPW/Vqmxt2sTIYVLioPJLOGRaA==
-X-Google-Smtp-Source: APXvYqx1yncYH92Ikl/BgP+ETxGhkpBu01ffZ2ej/nlflY0sLbDKUCylNmbGeeDyd6Kvh74U3dWYaZ9FdZniZqF64rY=
-X-Received: by 2002:a67:e287:: with SMTP id g7mr13476377vsf.200.1566913819149; 
- Tue, 27 Aug 2019 06:50:19 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46Hw320WsjzDqWq;
+ Wed, 28 Aug 2019 02:54:53 +1000 (AEST)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 83D5541240;
+ Tue, 27 Aug 2019 16:54:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-type:content-type:content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:date:subject:subject:from:from
+ :received:received:received; s=mta-01; t=1566924888; x=
+ 1568739289; bh=Z6gOnxcpev6cYIQbp+Z/8lEArpM2TigF6DeTVeb0yng=; b=w
+ IZvuPAhtKbGrDL5vI541Byi3k4t/VVG8qlxhkPunYd0WpeJ8YxjKh1Narniy9dem
+ gqxvb8gdhzrAWRek8M10GRCU9wiYNGyMn2DQ21BrZI8oZAWk2gdgqmLrIW9AJJmJ
+ 2D6x5oUQ08DHixWWLaLfZfSOqALYiYTykR4ioyqonI=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id DLqQlwXm_mOd; Tue, 27 Aug 2019 19:54:48 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id B8B3041209;
+ Tue, 27 Aug 2019 19:54:47 +0300 (MSK)
+Received: from localhost.dev.yadro.com (172.17.15.69) by
+ T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.669.32; Tue, 27 Aug 2019 19:54:47 +0300
+From: Ivan Mikhaylov <i.mikhaylov@yadro.com>
+To: Guenter Roeck <linux@roeck-us.net>, Wim Van Sebroeck
+ <wim@linux-watchdog.org>
+Subject: [PATCH v3 0/4] add dual-boot support
+Date: Tue, 27 Aug 2019 19:54:22 +0300
+Message-ID: <20190827165426.17037-1-i.mikhaylov@yadro.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190826120013.183435-1-weiyongjun1@huawei.com>
- <20190826130343.GA23584@kadam>
- <629128e7-cc91-412f-8946-668fac2eb3b9@www.fastmail.com>
- <alpine.DEB.2.21.1908270845410.2537@hadrien>
-In-Reply-To: <alpine.DEB.2.21.1908270845410.2537@hadrien>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 27 Aug 2019 15:49:43 +0200
-Message-ID: <CAPDyKFqXLG7VCh+9oQQ4HD=6dHQLY1PHEkmC+atnB-zDntKULA@mail.gmail.com>
-Subject: Re: [PATCH -next] mmc: aspeed: Fix return value check in
- aspeed_sdc_probe()
-To: Julia Lawall <julia.lawall@lip6.fr>,
- Dan Carpenter <dan.carpenter@oracle.com>, 
- Andrew Jeffery <andrew@aj.id.au>, Wei Yongjun <weiyongjun1@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Wed, 04 Sep 2019 05:12:11 +1000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.17.15.69]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
+X-Mailman-Approved-At: Wed, 04 Sep 2019 05:12:15 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,45 +73,49 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- linux-mmc <linux-mmc@vger.kernel.org>, kernel-janitors@vger.kernel.org,
- Adrian Hunter <adrian.hunter@intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, Alexander Amelkin <a.amelkin@yadro.com>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Ivan Mikhaylov <i.mikhaylov@yadro.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 27 Aug 2019 at 02:47, Julia Lawall <julia.lawall@lip6.fr> wrote:
->
->
->
-> On Tue, 27 Aug 2019, Andrew Jeffery wrote:
->
-> >
-> >
-> > On Mon, 26 Aug 2019, at 22:34, Dan Carpenter wrote:
-> > > > Fixes: 09eed7fffd33 ("mmc: Add support for the ASPEED SD controller")
-> > >                         ^^^^
-> > > When we're adding new files, could we use the prefix for the new driver
-> > > instead of just the subsystem?  "mmc: aspeed: Add new driver"?
-> > > Otherwise it's tricky to know what people want for the driver.
-> >
-> > I don't have any issue with the request, but I don't understand this last
-> > bit. What do you mean by "it's tricky to know what people want for the
-> > driver"?
->
-> There is no obvious algorithm that tells how to go from a file name to an
-> appropriate subject line prefix.
+ASPEED SoCs support dual-boot feature for SPI Flash.
+When strapped appropriately, the SoC starts wdt2 (/dev/watchdog1)
+and if within a minute it is not disabled, it goes off and reboots
+the SoC from an alternate SPI Flash chip by changing CS0 controls
+to actually drive CS1 line.
 
-For MMC we normally use the name of the host driver file (excluding
-".c") as part of the prefix.
+When booted from alternate chip, in order to access the main chip
+at CS0, the user must reset the appropriate bit in the watchdog
+hardware. There is no interface that would allow to do that from
+an embedded firmware startup script.
 
-For this case that means I amended the header into: mmc:
-sdhci-of-aspeed: Fix return value check in aspeed_sdc_probe() and
-applied it for next.
+This commit implements support for that feature:
 
-I also took the liberty to change this for the other related patches
-for the "aspeed" driver to follow the same pattern.
+* Enable 'alt-boot' option for wdt2
 
-Kind regards
-Uffe
+* Enable secondary SPI flash chip
+
+* Make it possible to get access to the primary SPI flash chip at CS0
+  after booting from the alternate chip at CS1. A sysfs interface is added
+  to provide an easy way for embedded firmware startup scripts to clear
+  the chip select bit to gain access to the primary flash chip in order
+  to allow for recovery of its contents.
+
+Ivan Mikhaylov (4):
+  vesnin: add wdt2 section with alt-boot option
+  vesnin: add secondary SPI flash chip
+  watchdog/aspeed: add support for dual boot
+  aspeed/watchdog: Add access_cs0 option for alt-boot
+
+ .../ABI/testing/sysfs-class-watchdog          | 34 ++++++++++
+ arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts   | 12 ++++
+ drivers/watchdog/aspeed_wdt.c                 | 65 ++++++++++++++++++-
+ 3 files changed, 110 insertions(+), 1 deletion(-)
+
+-- 
+2.20.1
+
