@@ -2,72 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64EBFA7366
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA0DA7367
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 21:15:00 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46NGqJ1S5FzDqDx
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:14:52 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46NGqN5pN0zDqDx
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 05:14:56 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=yadro.com
- (client-ip=89.207.88.252; helo=mta-01.yadro.com;
- envelope-from=i.mikhaylov@yadro.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=linaro.org
+ (client-ip=2607:f8b0:4864:20::e42; helo=mail-vs1-xe42.google.com;
+ envelope-from=ulf.hansson@linaro.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=yadro.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=yadro.com header.i=@yadro.com header.b="QNwHTQH6"; 
+ dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=linaro.org header.i=@linaro.org header.b="bhjl/ew8"; 
  dkim-atps=neutral
-Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
+ [IPv6:2607:f8b0:4864:20::e42])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46Hk3y3gczzDqtG;
- Tue, 27 Aug 2019 19:25:02 +1000 (AEST)
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id CA33742ECC;
- Tue, 27 Aug 2019 09:24:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-transfer-encoding:mime-version:user-agent:content-type
- :content-type:organization:references:in-reply-to:date:date:from
- :from:subject:subject:message-id:received:received:received; s=
- mta-01; t=1566897896; x=1568712297; bh=m1oceRiF1Qn5bpG3Kcq7B21nL
- l0SDA1suLrzuRV2RYc=; b=QNwHTQH6Jdn9Kgs9RTfRZNE6geyuX8ZoE5YgCjSFv
- zPxnaVeQA02q/7LwHDTCh233tUyfe3F1UCUOohyoG+1zO3G0Z3U6q3faEywoX/Jd
- fivRSfSAod/yPoImQLJgOT0ef+bWyenioM7KckGVab4ZiQKOAFFSwfJjgeIE+YVk
- uk=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id B_j679UsMczu; Tue, 27 Aug 2019 12:24:56 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 2DC3E42ECA;
- Tue, 27 Aug 2019 12:24:55 +0300 (MSK)
-Received: from localhost.localdomain (172.17.15.69) by
- T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.669.32; Tue, 27 Aug 2019 12:24:54 +0300
-Message-ID: <818746d20661b51914a7802dcbe0081352900b05.camel@yadro.com>
-Subject: Re: [PATCH v2 3/4] watchdog/aspeed: add support for dual boot
-From: Ivan Mikhaylov <i.mikhaylov@yadro.com>
-To: Guenter Roeck <linux@roeck-us.net>, Wim Van Sebroeck
- <wim@linux-watchdog.org>
-Date: Tue, 27 Aug 2019 12:24:45 +0300
-In-Reply-To: <0df27d36-b45f-2059-6ead-a09ceb4b7605@roeck-us.net>
-References: <20190826104636.19324-1-i.mikhaylov@yadro.com>
- <20190826104636.19324-4-i.mikhaylov@yadro.com>
- <0df27d36-b45f-2059-6ead-a09ceb4b7605@roeck-us.net>
-Organization: YADRO
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46Hqy63RnNzDqYB
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Aug 2019 23:50:19 +1000 (AEST)
+Received: by mail-vs1-xe42.google.com with SMTP id y62so13484699vsb.6
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Aug 2019 06:50:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nPR2CQfWmgZTkvcpGyqAZkf0myEhVejsZD6gsIT8RYg=;
+ b=bhjl/ew8Pdmkn2py/fJ8FKDq4d1wSwcKFwpAqCni+esZ62NP1wDMuTrPNmksJfOg+Y
+ My7X+wD93QUDR0E3hIw3E1A8iE7iMuv3TRRMCS3eIOphYFDZF6fKOzuCq2zdoUxjVHh6
+ 3+WsdoF0ZGK3YXkZHXokWSPcVEecQW0K0NSoyk88GKCLv84yCim1xpARfVciR67DTXNJ
+ KbB7KkvbrM16nS6EQSKVHuZdTISASCfdZ4mJetpH93xPtPxg9o2VfQdTvVIiIslYhgQa
+ G0PTMTp7ZX6VsTVAGrRDF/zQd9Z+fdlvN31tSNuTNgvkcvZSwUdXdRF7/PPw9J8ppeB9
+ VJWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nPR2CQfWmgZTkvcpGyqAZkf0myEhVejsZD6gsIT8RYg=;
+ b=iInWQj45HsWg2dZdWgcvXEsb2b5iNf/oXkADr5YE3NMVugpnhAzW6YlkSodm1aS9r9
+ XC1I+rfYD0UAJgF+ffCUXZ7cpzOjra0i4D8RdQ9dfqvVeRi1NHzDPofOiCHkwmFhQjEA
+ 79y2AgfydswtsU3ULPbNsqLlY80N3jL3Ec6hgXqBSAFfZcuPf9PxaXPDH8+BWclvuizr
+ XdQIB+8UHFzs9sLFBEZig1dfcCOClX7HLCEWk0SKtVtHKQdK8kUt2JGhfTGrNiX3ROcC
+ wn3PehDSlVtHSV4ONsPzqcUzs4zJ8nljjimBGVZodeeRyWcaZp7Vq2bNwTa887bwvUYM
+ SMEg==
+X-Gm-Message-State: APjAAAUmdpyftOs6SqTiOIms3JJa5e3nUk2M1H4xeG2wMrTaQv357N+x
+ JqiaYI60lN8KhyLqlocZFy+NGkg+uEoNjdxxYYQ7kA==
+X-Google-Smtp-Source: APXvYqzQ8I7Ep8k3tduFMMa8uUTlPd+Xy5TxZlq8ti8zHd5KPR80iTc/2sx/Oh/nNRZf59jUJo5lhvjPC3uSaxWvRL4=
+X-Received: by 2002:a67:fe4e:: with SMTP id m14mr14252340vsr.34.1566913815413; 
+ Tue, 27 Aug 2019 06:50:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.17.15.69]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-X-Mailman-Approved-At: Wed, 04 Sep 2019 05:12:15 +1000
+References: <20190826021620.11915-1-andrew@aj.id.au>
+In-Reply-To: <20190826021620.11915-1-andrew@aj.id.au>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 27 Aug 2019 15:49:39 +0200
+Message-ID: <CAPDyKFroS-Z+4QYitmYrCugPV_f4u1MDJiRkDxGWvVjsU=9RgA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: mmc: aspeed: Update example ranges property
+To: Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Wed, 04 Sep 2019 05:12:11 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,77 +73,67 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, Alexander
- Amelkin <a.amelkin@yadro.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 2019-08-26 at 17:14 -0700, Guenter Roeck wrote:
-> > +/*
-> > + * At alternate side the 'access_cs0' sysfs node provides:
-> > + *   ast2400: a way to get access to the primary SPI flash chip at CS0
-> > + *            after booting from the alternate chip at CS1.
-> > + *   ast2500: a way to restore the normal address mapping from
-> > + *            (CS0->CS1, CS1->CS0) to (CS0->CS0, CS1->CS1).
-> > + *
-> > + * Clearing the boot code selection and timeout counter also resets to the
-> > + * initial state the chip select line mapping. When the SoC is in normal
-> > + * mapping state (i.e. booted from CS0), clearing those bits does nothing
-> > for
-> > + * both versions of the SoC. For alternate boot mode (booted from CS1 due
-> > to
-> > + * wdt2 expiration) the behavior differs as described above.
-> > + *
-> The above needs to be in the sysfs attribute documentation as well.
+On Mon, 26 Aug 2019 at 04:15, Andrew Jeffery <andrew@aj.id.au> wrote:
+>
+> The example node in the binding uses the AST2500 compatible string for
+> the SD controller with a 64kiB ranges property, but the SD controller is
+> allocated 128kiB of MMIO space according to the AST2500 datasheet. Fix
+> the example to correctly reflect the hardware in the AST2500, however it
+> should be noted that the MMIO region is reduced to 64kiB in the AST2600
+> where a second SD controller block has been introduced into the address
+> space.
+>
+> Also add the IBM copyright header that I left out of the initial patch.
+>
+> Suggested-by: Joel Stanley <joel@jms.id.au>
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 
-My apologies but I didn't find any suitable, only watchdog parameters with
-dtbindings file, where should I put it? Documentation/watchdog/aspeed-wdt-
-sysfs.rst?
+Applied for next, thanks!
 
-> > + * This option can be used with wdt2 (watchdog1) only.
-> 
-> This implies a specific watchdog numbering which is not guaranteed.
-> Someone might implement a system with some external watchdog.
-> 
-> > + */
-> > +static DEVICE_ATTR_RW(access_cs0);
-> > +
-> > +static struct attribute *bswitch_attrs[] = {
-> > +	&dev_attr_access_cs0.attr,
-> > +	NULL
-> > +};
-> > +ATTRIBUTE_GROUPS(bswitch);
-> > +
-> >   static const struct watchdog_ops aspeed_wdt_ops = {
-> >   	.start		= aspeed_wdt_start,
-> >   	.stop		= aspeed_wdt_stop,
-> > @@ -306,9 +359,16 @@ static int aspeed_wdt_probe(struct platform_device
-> > *pdev)
-> >   	}
-> >   
-> >   	status = readl(wdt->base + WDT_TIMEOUT_STATUS);
-> > -	if (status & WDT_TIMEOUT_STATUS_BOOT_SECONDARY)
-> > +	if (status & WDT_TIMEOUT_STATUS_BOOT_SECONDARY) {
-> >   		wdt->wdd.bootstatus = WDIOF_CARDRESET;
-> >   
-> > +		if (of_device_is_compatible(np, "aspeed,ast2400-wdt") ||
-> > +			of_device_is_compatible(np, "aspeed,ast2500-wdt"))
-> > +			wdt->wdd.groups = bswitch_groups;
+FYI, I took the liberty to amend all aspeed patches, by putting
+"sdhci-of-aspeed" as the prefix of the commit message header.
 
-> Kind of odd that the attribute only exists if the system booted from the
-> second flash, but if that is what you want I won't object. Just make sure
-> that this is explained properly.
-Perhaps dts configuration option would be better solution for it then? "force-
-cs0-switch" as example? Also, if it would be an option, dtbindings/wdt file for
-documentation will be the right place for it. Usage of this at side 0 will not
-get any good/bad results, it just makes user confused, so I decided to put it
-only at side 1. It works only for ast2400/2500 board unfortunately, for 2600
-there is big difference in switching mechanism. Any other thoughts how to make
-it better?
+Kind regards
+Uffe
 
-Thanks.
 
+> ---
+> Hi Ulf, this is the follow-up fix as discussed here:
+>
+> http://patchwork.ozlabs.org/patch/1143090/
+>
+>  Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+> index 570f8c72662b..200de9396036 100644
+> --- a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+> @@ -1,4 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-or-later
+> +# Copyright 2019 IBM Corp.
+>  %YAML 1.2
+>  ---
+>  $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+> @@ -84,7 +85,7 @@ examples:
+>              reg = <0x1e740000 0x100>;
+>              #address-cells = <1>;
+>              #size-cells = <1>;
+> -            ranges = <0 0x1e740000 0x10000>;
+> +            ranges = <0 0x1e740000 0x20000>;
+>              clocks = <&syscon ASPEED_CLK_GATE_SDCLK>;
+>
+>              sdhci0: sdhci@100 {
+> --
+> 2.20.1
+>
