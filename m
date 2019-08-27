@@ -1,76 +1,57 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F4B9F16D
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Aug 2019 19:22:09 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F329F3D5
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Aug 2019 22:13:11 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46HwfP40g0zDqQS
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2019 03:22:05 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46J0Rn2TJRzDqht
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2019 06:13:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::543; helo=mail-pg1-x543.google.com;
- envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
+ (client-ip=209.85.160.193; helo=mail-qt1-f193.google.com;
+ envelope-from=arndbergmann@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="Iauj4YMD"; 
- dkim-atps=neutral
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
+ dmarc=none (p=none dis=none) header.from=arndb.de
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+ [209.85.160.193])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46HwfF1SzwzDqSv;
- Wed, 28 Aug 2019 03:21:57 +1000 (AEST)
-Received: by mail-pg1-x543.google.com with SMTP id w10so13048454pgj.7;
- Tue, 27 Aug 2019 10:21:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=zRigP/msiQiDSPdu4zbzx+Q8x/ih7vzlwsY6a8Wz66s=;
- b=Iauj4YMDxlI7eSu/g9BPoFQBxpnhpWIfR4fBeRCtD1F+hz08fDxiccP5oYfoAH7en3
- bTcbEs/SFVl9UkpYreup9INiGKmMuerTPULnaBtTUygkNG0nbaoMSyflf3ERPTRpMLSP
- VVfD+4qV6SHX/L8+KcYbfan27OAC0eVHgWPrr/r0ugUUblmgOSBvN3t+cz0PmxOiN277
- /+gewSrztdybZcF91zFblvsW6WTD/D8pBvNHBm5DD8inJL4925TLHvKitxges+MpkKYc
- rwXDYio+g1DLNHBP7uCu8EKOZZXsGRXU1BcmPBdX4Q+FJZwICl99e6kCKvcIJY5YU3qd
- Rtbw==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46J0RV1366zDqcv
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Aug 2019 06:12:51 +1000 (AEST)
+Received: by mail-qt1-f193.google.com with SMTP id u34so374317qte.2
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Aug 2019 13:12:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=zRigP/msiQiDSPdu4zbzx+Q8x/ih7vzlwsY6a8Wz66s=;
- b=CywAfCkyprI367npDCg6v6RbVcDdWUKl3aWjJHF9DxhXpAn/x+UW70vyJDBhQ+nO31
- 9nsCx4JF9CLO8D2Eo/iSrEdbE0fD6BSmpi/cOxf/mC/la6LOA+Ak2+x9pjgq6hcdZeB9
- SIJhm24DbVbXin91soO1vENVeTaz0ilUm7qdclAUM0bepgjedvHY+6w0TjFd5UvMtXP5
- rTEzy0PdW2LOoOPIK5TdV1mVmiIQeoHcyK60QGGqKCWNUoAZFTxTx5lS2ZKJ1SwiqsDB
- CBw/lJnbiNkiF7OMdzK764znMspo72hn4s6cPZL32Kux4QyrgQJLinTfQE5H5YVKhwM+
- ElSQ==
-X-Gm-Message-State: APjAAAVvtj2N9MIkF7/xmKAvmqXkVwGFV2fp89+12obweuS1nA3bfvv+
- t3xL553bSN8gQTNQa8pXsG0=
-X-Google-Smtp-Source: APXvYqyKRhppJ/qA2UBq6ZMaVWHjlMRhLmiVaZLdW9FTrJ4pwB3mo84sMTVDrIA1/lMdfAUIYt8F0A==
-X-Received: by 2002:a62:4ed1:: with SMTP id
- c200mr27207401pfb.218.1566926513664; 
- Tue, 27 Aug 2019 10:21:53 -0700 (PDT)
-Received: from localhost (108-223-40-66.lightspeed.sntcca.sbcglobal.net.
- [108.223.40.66])
- by smtp.gmail.com with ESMTPSA id 6sm15692223pfa.7.2019.08.27.10.21.52
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 27 Aug 2019 10:21:53 -0700 (PDT)
-Date: Tue, 27 Aug 2019 10:21:52 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Ivan Mikhaylov <i.mikhaylov@yadro.com>
-Subject: Re: [PATCH v3 3/4] watchdog/aspeed: add support for dual boot
-Message-ID: <20190827172151.GA31588@roeck-us.net>
-References: <20190827165426.17037-1-i.mikhaylov@yadro.com>
- <20190827165426.17037-4-i.mikhaylov@yadro.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Le7/DPty+666pMSSFBSolUxx7aiRXx8yMy4J1BfqBIQ=;
+ b=BOmg+KvJsvMGXu3SJHE1pkoTBj4CKaxYzAt23ql5+zCgCFqngsa7Rih/BVA4J1umNA
+ RNhjkko5cb6y67PoJ+qH1zfJDgVN9FSk9g9z3tMJfMoA3K6sbuTDLDsOspRg+KseCfBr
+ apz1xVGG56rAqwU0utVckEGCoHEgkeWb/DljiWqDqm7z5UCP1dG6Ib3ZV31JtGP4I5w7
+ awXXaCMPhgh+Ktw5wNZqxLEaAM8405EA1TxkWIZTDrBrKKCNM+2CantrsvEo7ZHESFdG
+ nP/JAxBPTERoYwkZ2SZ0kuV7o8d8m8S+4QNqEETI8EHMRI3yjuDQjY1wPzUJ6Ti6HZdL
+ ae5A==
+X-Gm-Message-State: APjAAAUOiNCkib4cCs8pNsKWYkCSrbqDUvolwpkikgzsRwbfK/3FlqV9
+ kFz0ZkNRaom0MmsD/RIKMlZ+W4U6s/S6DoNZIcE=
+X-Google-Smtp-Source: APXvYqyEurgHAvSLKroxFOuP9U5ayE6Ghq9iJgArGFYndN0YDBGMpGHoMWmlrrisgnTI8voyhgeUAwkLXq8DOartowY=
+X-Received: by 2002:aed:3363:: with SMTP id u90mr689168qtd.7.1566936769088;
+ Tue, 27 Aug 2019 13:12:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190827165426.17037-4-i.mikhaylov@yadro.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20190821055530.8720-1-joel@jms.id.au>
+ <20190821055530.8720-8-joel@jms.id.au>
+ <faf79f9d-baa1-4c8c-a35b-c5d97ad6df8b@www.fastmail.com>
+ <CACPK8Xe=mq_Zuw6vsFtb=42ZodbHcizX9QwUoRzY0cDdoWr-Fw@mail.gmail.com>
+In-Reply-To: <CACPK8Xe=mq_Zuw6vsFtb=42ZodbHcizX9QwUoRzY0cDdoWr-Fw@mail.gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Tue, 27 Aug 2019 22:12:33 +0200
+Message-ID: <CAK8P3a1Dgzrw7nuQR_YJYXSF7Owop2Hpd80bAL0OPhzHMHcbPg@mail.gmail.com>
+Subject: Re: [PATCH 7/7] ARM: configs: aspeed_g5: Enable AST2600
+To: Joel Stanley <joel@jms.id.au>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,32 +63,36 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, Alexander Amelkin <a.amelkin@yadro.com>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Aug 27, 2019 at 07:54:25PM +0300, Ivan Mikhaylov wrote:
-> Set WDT_CLEAR_TIMEOUT_AND_BOOT_CODE_SELECTION into WDT_CLEAR_TIMEOUT_STATUS
-> to clear out boot code source and re-enable access to the primary SPI flash
-> chip while booted via wdt2 from the alternate chip.
-> 
-> AST2400 datasheet says:
-> "In the 2nd flash booting mode, all the address mapping to CS0# would be
-> re-directed to CS1#. And CS0# is not accessable under this mode. To access
-> CS0#, firmware should clear the 2nd boot mode register in the WDT2 status
-> register WDT30.bit[1]."
-> 
-> Signed-off-by: Ivan Mikhaylov <i.mikhaylov@yadro.com>
+On Thu, Aug 22, 2019 at 6:43 AM Joel Stanley <joel@jms.id.au> wrote:
+>
+> On Thu, 22 Aug 2019 at 02:07, Andrew Jeffery <andrew@aj.id.au> wrote:
+> > > +CONFIG_MMC=y
+> > > +CONFIG_MMC_SDHCI=y
+> > > +CONFIG_MMC_SDHCI_PLTFM=y
+> > > +CONFIG_MMC_SDHCI_OF_ASPEED=y
+> >
+> > The patches haven't yet been applied to the MMC tree, maybe we should
+> > add this later?
+>
+> When enabling drivers in the same merge window as they go into the
+> tree we will always be in this situation.
+>
+> If the driver doesn't make it in this merge window, or first has has
+> changes, the worst that will happen is the kconfig name changes and I
+> need to update it later. I think we're safe to include it as-is.
 
-Please run "checkpatch --strict" on this patch and fix the reported problems
-(I _did_ ask for proper multi-line aligment before, but there are a couple
-of other issues as well).
+Yes, that's fine.
 
-Thanks,
-Guenter
+Please also enable all the drivers you need in multi_v7_defconfig
+now, preferably as loadable modules.
+
+
+      Arnd
