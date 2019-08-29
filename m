@@ -2,56 +2,79 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F329F3D5
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Aug 2019 22:13:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73ACBA1272
+	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Aug 2019 09:17:51 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46J0Rn2TJRzDqht
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Aug 2019 06:13:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46Jv8D089tzDrLs
+	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Aug 2019 17:17:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=209.85.160.193; helo=mail-qt1-f193.google.com;
- envelope-from=arndbergmann@gmail.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=66.111.4.29; helo=out5-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=arndb.de
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
- [209.85.160.193])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="EHmXLhKd"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="HGuxF0et"; dkim-atps=neutral
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46J0RV1366zDqcv
- for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Aug 2019 06:12:51 +1000 (AEST)
-Received: by mail-qt1-f193.google.com with SMTP id u34so374317qte.2
- for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Aug 2019 13:12:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Le7/DPty+666pMSSFBSolUxx7aiRXx8yMy4J1BfqBIQ=;
- b=BOmg+KvJsvMGXu3SJHE1pkoTBj4CKaxYzAt23ql5+zCgCFqngsa7Rih/BVA4J1umNA
- RNhjkko5cb6y67PoJ+qH1zfJDgVN9FSk9g9z3tMJfMoA3K6sbuTDLDsOspRg+KseCfBr
- apz1xVGG56rAqwU0utVckEGCoHEgkeWb/DljiWqDqm7z5UCP1dG6Ib3ZV31JtGP4I5w7
- awXXaCMPhgh+Ktw5wNZqxLEaAM8405EA1TxkWIZTDrBrKKCNM+2CantrsvEo7ZHESFdG
- nP/JAxBPTERoYwkZ2SZ0kuV7o8d8m8S+4QNqEETI8EHMRI3yjuDQjY1wPzUJ6Ti6HZdL
- ae5A==
-X-Gm-Message-State: APjAAAUOiNCkib4cCs8pNsKWYkCSrbqDUvolwpkikgzsRwbfK/3FlqV9
- kFz0ZkNRaom0MmsD/RIKMlZ+W4U6s/S6DoNZIcE=
-X-Google-Smtp-Source: APXvYqyEurgHAvSLKroxFOuP9U5ayE6Ghq9iJgArGFYndN0YDBGMpGHoMWmlrrisgnTI8voyhgeUAwkLXq8DOartowY=
-X-Received: by 2002:aed:3363:: with SMTP id u90mr689168qtd.7.1566936769088;
- Tue, 27 Aug 2019 13:12:49 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46Jv8019CpzDqnR;
+ Thu, 29 Aug 2019 17:17:35 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id EFFA32235F;
+ Thu, 29 Aug 2019 03:17:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 29 Aug 2019 03:17:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=fNZ4xh9uT1X3X9+GMF7S9M4Khb
+ ZuAQ0dU82+LfdKRIU=; b=EHmXLhKdqEQBUyL306orSymEN4gb3qidnBa9u0FxOq
+ zd0YytrNno08Kqv5NSjc38Pr+Lr/jHcl8rGOr9jgksKhxt7iJHzoF3oHrdlou1le
+ eGEdsY8S3rAUCZJd8rhMlGPKH3FDTgvQP9L5vtXfTQDCI9bqf4eVjoDVoAcRN5M6
+ gDL/NkA/TEYP251tUEDLugtVheOKGHkgtWYZpnm5fGbQ1gDZ5TdTyWg2r5kRKSBu
+ sE5HQAf3utvq++HcB/AJBS8YGl+Lr7Vd4BDBtBsAlh9ykmytk1cG3gcgUiHIvfBF
+ vfhjF97n7OQaNeBZlQn8ukokVsL/dQpGPJvnTdfre7vw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=fNZ4xh9uT1X3X9+GM
+ F7S9M4KhbZuAQ0dU82+LfdKRIU=; b=HGuxF0etWnXEN6y4boSnGGQXpJH7ly3Eq
+ Ez0ulWry3Yo98dj/8yqbpwFnaajas3Wtx/Jah2C+neEDDsjWkEOGifv6LumpomAN
+ 85lln7PI1lRXjMNNFPu4RjenLEXOJarR1qzet0OLketJRs5FT62VNvCYcYtcvOGq
+ 8hxK0IjaOvZb0sxlE4PM8EAIHaR6vC/d3QaSuhxzbvlNfpqJ3tFx6COEUekxfc3s
+ c1Jhy0obR8leSFKNUWmYSsU3aa2898nhm2UvbdAjG3oRqt1QyIZKvGqfCgA2HXoR
+ roZ7D9AuQaCBB0+fE3vp5U5gRFF7Izya6kPh2AWv0bqgrxg4rtkgw==
+X-ME-Sender: <xms:C3xnXR5TNsg2nfSkDmIJdHg-sBClwUmgNEp3HiP0nlCg5X0yjIkmig>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudeiuddguddujecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheptehnughrvgif
+ ucflvghffhgvrhihuceorghnughrvgifsegrjhdrihgurdgruheqnecukfhppedvtdefrd
+ ehjedrvdduhedrudejkeenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegr
+ jhdrihgurdgruhenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:C3xnXWVPSGN_N4m99OBLSxYNVhByx2iL3arujMGJK5q4fDY6RIurlw>
+ <xmx:C3xnXV2UuDik2kCDKF1TGivDCpdlJ_22fKEJZnjxGl17oAVQ5HFXkQ>
+ <xmx:C3xnXT09aVDRCJ9IvAZhY18NPHbvMgkAFCBYkMcKggnkf7G1i5rb-g>
+ <xmx:C3xnXeuKEklshHhzeEVxMLz14cBWL7fN9Dvh3fO1L_Ha2DAkiLxeZg>
+Received: from localhost.localdomain (203-57-215-178.dyn.iinet.net.au
+ [203.57.215.178])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 59BFDD6005A;
+ Thu, 29 Aug 2019 03:17:28 -0400 (EDT)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: linux-gpio@vger.kernel.org
+Subject: [PATCH pinctrl/fixes] pinctrl: aspeed: Fix spurious mux failures on
+ the AST2500
+Date: Thu, 29 Aug 2019 16:47:38 +0930
+Message-Id: <20190829071738.2523-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190821055530.8720-1-joel@jms.id.au>
- <20190821055530.8720-8-joel@jms.id.au>
- <faf79f9d-baa1-4c8c-a35b-c5d97ad6df8b@www.fastmail.com>
- <CACPK8Xe=mq_Zuw6vsFtb=42ZodbHcizX9QwUoRzY0cDdoWr-Fw@mail.gmail.com>
-In-Reply-To: <CACPK8Xe=mq_Zuw6vsFtb=42ZodbHcizX9QwUoRzY0cDdoWr-Fw@mail.gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 27 Aug 2019 22:12:33 +0200
-Message-ID: <CAK8P3a1Dgzrw7nuQR_YJYXSF7Owop2Hpd80bAL0OPhzHMHcbPg@mail.gmail.com>
-Subject: Re: [PATCH 7/7] ARM: configs: aspeed_g5: Enable AST2600
-To: Joel Stanley <joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,36 +86,156 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-aspeed@lists.ozlabs.org, linus.walleij@linaro.org,
+ linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Aug 22, 2019 at 6:43 AM Joel Stanley <joel@jms.id.au> wrote:
->
-> On Thu, 22 Aug 2019 at 02:07, Andrew Jeffery <andrew@aj.id.au> wrote:
-> > > +CONFIG_MMC=y
-> > > +CONFIG_MMC_SDHCI=y
-> > > +CONFIG_MMC_SDHCI_PLTFM=y
-> > > +CONFIG_MMC_SDHCI_OF_ASPEED=y
-> >
-> > The patches haven't yet been applied to the MMC tree, maybe we should
-> > add this later?
->
-> When enabling drivers in the same merge window as they go into the
-> tree we will always be in this situation.
->
-> If the driver doesn't make it in this merge window, or first has has
-> changes, the worst that will happen is the kconfig name changes and I
-> need to update it later. I think we're safe to include it as-is.
+Commit 674fa8daa8c9 ("pinctrl: aspeed-g5: Delay acquisition of regmaps")
+was determined to be a partial fix to the problem of acquiring the LPC
+Host Controller and GFX regmaps: The AST2500 pin controller may need to
+fetch syscon regmaps during expression evaluation as well as when
+setting mux state. For example, this case is hit by attempting to export
+pins exposing the LPC Host Controller as GPIOs.
 
-Yes, that's fine.
+An optional eval() hook is added to the Aspeed pinmux operation struct
+and called from aspeed_sig_expr_eval() if the pointer is set by the
+SoC-specific driver. This enables the AST2500 to perform the custom
+action of acquiring its regmap dependencies as required.
 
-Please also enable all the drivers you need in multi_v7_defconfig
-now, preferably as loadable modules.
+John Wang tested the fix on an Inspur FP5280G2 machine (AST2500-based)
+where the issue was found, and I've booted the fix on Witherspoon
+(AST2500) and Palmetto (AST2400) machines, and poked at relevant pins
+under QEMU by forcing mux configurations via devmem before exporting
+GPIOs to exercise the driver.
 
+Fixes: 7d29ed88acbb ("pinctrl: aspeed: Read and write bits in LPC and GFX controllers")
+Fixes: 674fa8daa8c9 ("pinctrl: aspeed-g5: Delay acquisition of regmaps")
+Reported-by: John Wang <wangzqbj@inspur.com>
+Tested-by: John Wang <wangzqbj@inspur.com>
+Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 
-      Arnd
+---
+Hi Linus,
+
+The timing of merging the AST2600 (g6) driver and 674fa8daa8c9 ("pinctrl:
+aspeed-g5: Delay acquisition of regmaps") caused a bit of a rough spot a
+few weeks back. This fix doesn't cause any such disruption - I've
+developed it on top of pinctrl/fixes and back-merged the result into
+pinctrl/devel to test for build breakage (via CONFIG_COMPILE_TEST to
+enable all of the g4, g5 and g6 drivers). All three ASPEED pinctrl
+drivers built successfully, so it should be enough to simply take this
+patch through pinctrl/fixes and leave pinctrl/devel as is for the 5.4
+merge window.
+---
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c | 30 +++++++++++++++++++++-
+ drivers/pinctrl/aspeed/pinmux-aspeed.c     |  7 +++--
+ drivers/pinctrl/aspeed/pinmux-aspeed.h     |  7 ++---
+ 3 files changed, 38 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+index ba6438ac4d72..ff84d1afd229 100644
+--- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
++++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+@@ -2552,7 +2552,7 @@ static struct regmap *aspeed_g5_acquire_regmap(struct aspeed_pinmux_data *ctx,
+ 			if (IS_ERR(map))
+ 				return map;
+ 		} else
+-			map = ERR_PTR(-ENODEV);
++			return ERR_PTR(-ENODEV);
+ 
+ 		ctx->maps[ASPEED_IP_LPC] = map;
+ 		dev_dbg(ctx->dev, "Acquired LPC regmap");
+@@ -2562,6 +2562,33 @@ static struct regmap *aspeed_g5_acquire_regmap(struct aspeed_pinmux_data *ctx,
+ 	return ERR_PTR(-EINVAL);
+ }
+ 
++static int aspeed_g5_sig_expr_eval(struct aspeed_pinmux_data *ctx,
++				   const struct aspeed_sig_expr *expr,
++				   bool enabled)
++{
++	int ret;
++	int i;
++
++	for (i = 0; i < expr->ndescs; i++) {
++		const struct aspeed_sig_desc *desc = &expr->descs[i];
++		struct regmap *map;
++
++		map = aspeed_g5_acquire_regmap(ctx, desc->ip);
++		if (IS_ERR(map)) {
++			dev_err(ctx->dev,
++				"Failed to acquire regmap for IP block %d\n",
++				desc->ip);
++			return PTR_ERR(map);
++		}
++
++		ret = aspeed_sig_desc_eval(desc, enabled, ctx->maps[desc->ip]);
++		if (ret <= 0)
++			return ret;
++	}
++
++	return 1;
++}
++
+ /**
+  * Configure a pin's signal by applying an expression's descriptor state for
+  * all descriptors in the expression.
+@@ -2647,6 +2674,7 @@ static int aspeed_g5_sig_expr_set(struct aspeed_pinmux_data *ctx,
+ }
+ 
+ static const struct aspeed_pinmux_ops aspeed_g5_ops = {
++	.eval = aspeed_g5_sig_expr_eval,
+ 	.set = aspeed_g5_sig_expr_set,
+ };
+ 
+diff --git a/drivers/pinctrl/aspeed/pinmux-aspeed.c b/drivers/pinctrl/aspeed/pinmux-aspeed.c
+index 839c01b7953f..57305ca838a7 100644
+--- a/drivers/pinctrl/aspeed/pinmux-aspeed.c
++++ b/drivers/pinctrl/aspeed/pinmux-aspeed.c
+@@ -78,11 +78,14 @@ int aspeed_sig_desc_eval(const struct aspeed_sig_desc *desc,
+  * neither the enabled nor disabled state. Thus we must explicitly test for
+  * either condition as required.
+  */
+-int aspeed_sig_expr_eval(const struct aspeed_pinmux_data *ctx,
++int aspeed_sig_expr_eval(struct aspeed_pinmux_data *ctx,
+ 			 const struct aspeed_sig_expr *expr, bool enabled)
+ {
++	int ret;
+ 	int i;
+-	int ret;
++
++	if (ctx->ops->eval)
++		return ctx->ops->eval(ctx, expr, enabled);
+ 
+ 	for (i = 0; i < expr->ndescs; i++) {
+ 		const struct aspeed_sig_desc *desc = &expr->descs[i];
+diff --git a/drivers/pinctrl/aspeed/pinmux-aspeed.h b/drivers/pinctrl/aspeed/pinmux-aspeed.h
+index 52d299b59ce2..db3457c86f48 100644
+--- a/drivers/pinctrl/aspeed/pinmux-aspeed.h
++++ b/drivers/pinctrl/aspeed/pinmux-aspeed.h
+@@ -702,6 +702,8 @@ struct aspeed_pin_function {
+ struct aspeed_pinmux_data;
+ 
+ struct aspeed_pinmux_ops {
++	int (*eval)(struct aspeed_pinmux_data *ctx,
++		    const struct aspeed_sig_expr *expr, bool enabled);
+ 	int (*set)(struct aspeed_pinmux_data *ctx,
+ 		   const struct aspeed_sig_expr *expr, bool enabled);
+ };
+@@ -722,9 +724,8 @@ struct aspeed_pinmux_data {
+ int aspeed_sig_desc_eval(const struct aspeed_sig_desc *desc, bool enabled,
+ 			 struct regmap *map);
+ 
+-int aspeed_sig_expr_eval(const struct aspeed_pinmux_data *ctx,
+-			 const struct aspeed_sig_expr *expr,
+-			 bool enabled);
++int aspeed_sig_expr_eval(struct aspeed_pinmux_data *ctx,
++			 const struct aspeed_sig_expr *expr, bool enabled);
+ 
+ static inline int aspeed_sig_expr_set(struct aspeed_pinmux_data *ctx,
+ 				      const struct aspeed_sig_expr *expr,
+-- 
+2.20.1
+
