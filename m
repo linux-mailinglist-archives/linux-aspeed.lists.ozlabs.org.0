@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09860A3184
-	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Aug 2019 09:48:39 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68BF4A31DB
+	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Aug 2019 10:08:32 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46KWnJ00ZpzF0Vf
-	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Aug 2019 17:48:36 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46KXDF6M5tzF0WF
+	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Aug 2019 18:08:29 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -16,68 +16,69 @@ Authentication-Results: lists.ozlabs.org;
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="Gm2vqLZR"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="n0aPpAgu"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="gGd/ZFur"; dkim-atps=neutral
+ header.b="mzkzZvd0"; dkim-atps=neutral
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46KWl85fhLzDsRY;
- Fri, 30 Aug 2019 17:46:44 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46KXBr2p8qzDsy8;
+ Fri, 30 Aug 2019 18:07:16 +1000 (AEST)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 5D68120A34;
- Fri, 30 Aug 2019 03:46:42 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 30 Aug 2019 03:46:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=2Kccgmz9rjelR
- IO9aczulPQlBm48n9tsTFBim9C8Ml0=; b=Gm2vqLZREqLxAukDM2yV1i9iRpLfD
- kGEaAs8Or3YMclJd02jJ/gWPn+ixd82VkTgoIgv5rDbSoh0tdu9mMFLCIrQabSrJ
- t0JP8ZnYtiJ7/4tEZQUDc0kFBR1qxJWYRk7/GB9QxKhX4u4MFvRKHJ50ICU1NhU9
- dhepCKIw+dM3jSCVp844BFWK6iHbN2W1VYtCLwClOFwQQNE67MgI7qAvTPSba8QU
- 0tM/q00t2Jahn1e2zEayOEgmHDitp158M6csj43vdXwF+W+R+vba5dUBdLL0mhn8
- DJVpWUzhp83qi+hDZGgIwPw/NTY5u47E9SAEWLCUEgo5cDVhyUjVT2FSw==
+ by mailout.nyi.internal (Postfix) with ESMTP id D576521F85;
+ Fri, 30 Aug 2019 04:07:13 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Fri, 30 Aug 2019 04:07:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm3; bh=mo3FGA/ipO1SkoDh6reUgvlvk0/ODyc
+ GbN5cHOI6jnw=; b=n0aPpAguaYco15CyvLywybHNtVAc7mwuO0pzWP7wvOL4Fmd
+ OHnEHaQlsdNU43xwYceWhMfk0QCz/vRpljxyPR10myZhHJVk1Gr7/KPCeBw5+CB4
+ rsIfQB2bGMlSGIbOzvzO7vyDNrcKKDaPmgLmiH7MG+t/IxiusWysKBHZ029vMFcN
+ S0Krms1cHcWwhachZ/SpXZzfkmlkZF79rP4Qr8E27Q3n/Z1j98vaCGU6p79BPDR9
+ YW4gOcuI7qdImGvS8MxiEbUtER2pPj407Y70L9vm7zalsX0X89TSMuUzW3duN31X
+ Xfw1iYF40TOZLCIUFXCq+eaK5gC5HLZOeg/97eQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=2Kccgmz9rjelRIO9aczulPQlBm48n9tsTFBim9C8Ml0=; b=gGd/ZFur
- YFw1xQhxP0fenQwUuAJeUJ9AT7Z86GjJCtNWV7jp8s2f0OkCFjrDM54UheVpcvhA
- VBzzRGbtOQb+/1r/SxJwf42YPfQA6ysXEI+xvwkYrkLF1SQwTV52NYQzv/5sTsAo
- sfiVJ8QFx8FsiWHdAap09KGlbxeZXoQUCWFzykDBG3YiQQc5yJKRbbgFJsd2ivEH
- Ypp33OTOT6dKZMNtCAP725KG4t6IyMokaVXRRKA2C2x3xXr9NyHrt4oss/tUg9Hq
- TL0L19WM5fXfTXS63dx2y9VDgY2OaJta9h2zTC2h4jnXonPISmh74ck7S7FnJ4nD
- xv+ILEoNi1cRdg==
-X-ME-Sender: <xms:YtRoXW5coA30Yg9-8ujHS4OCJT0dOkZzBQESCUuxdq7GRpB5lXvL7w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudeifedguddvudcutefuodetggdotefrod
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=mo3FGA
+ /ipO1SkoDh6reUgvlvk0/ODycGbN5cHOI6jnw=; b=mzkzZvd0ilqrs1ghrHg095
+ 4/hgqzJqavdRgmvLYcfAaOMtjE21M6bmrY8A/BqbnnO7QQL9hvuA5TecsbcOfe/V
+ YZKBAdep8xDUafpohYs2i9/D5XRepasXcqyTCbd0K/eAQLBxjxzkIJknsY7GW5O2
+ 0N0mDb965foTBJlGEkAl+iOuj2rCcHh8y6StPCCCHky2JP0vrae2plX8QDxSElVz
+ 253LLLn8I4cVWNb2iXN6ynFFrVDF6I6sfTLAMjVhM+qft/OTohxwxCer6uRxOygk
+ UOdiBZIc+QqdHxumWzsNMRE1Fu2ZFSPpZEpAo+kxlAOkC/Jp0kLg1ofv9vb4XplQ
+ ==
+X-ME-Sender: <xms:MNloXTYaESaR0JSN118H7OZG185uey1gsSKEmiVHTMutfzqTQg_J9A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudeifedguddvhecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
- ertdertddtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfies
- rghjrdhiugdrrghuqeenucfkphepvddtfedrheejrddvudehrddujeeknecurfgrrhgrmh
- epmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgvrhfu
- ihiivgeptd
-X-ME-Proxy: <xmx:YtRoXbRhpxaTEEZY-MQ__dgsXKyp9mTTATLlEPrVUWABIn62YcCMMQ>
- <xmx:YtRoXTNUZEAS98Uur4qxtkIG_a9MjoqWPBx_bxYHmqq5YwORKn_O6Q>
- <xmx:YtRoXZrikDXWjnbU3CF2bWYcvLIjwdhp-Ddty2rbYsBMqKZvAP1GkA>
- <xmx:YtRoXcKKvyBVr4a9so2vV2qm05RAkgmdr1XO74g7wKsXnf_UUOgNmg>
-Received: from localhost.localdomain (203-57-215-178.dyn.iinet.net.au
- [203.57.215.178])
- by mail.messagingengine.com (Postfix) with ESMTPA id 14361D60057;
- Fri, 30 Aug 2019 03:46:38 -0400 (EDT)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: linux-mmc@vger.kernel.org
-Subject: [PATCH 2/2] mmc: sdhci-of-aspeed: Allow max-frequency limitation of
- SDCLK
-Date: Fri, 30 Aug 2019 17:16:44 +0930
-Message-Id: <20190830074644.10936-3-andrew@aj.id.au>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190830074644.10936-1-andrew@aj.id.au>
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehn
+ ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrg
+ hrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushht
+ vghrufhiiigvpedt
+X-ME-Proxy: <xmx:MNloXT-po1mRFzcl375CIW70RgDLvtoMWD7LT-XdpGLI1cV0WAUcCw>
+ <xmx:MNloXcSQnVT8SQGscGN27QMrZG3RRnEyPrYhFmMEP1bc10tTn7cExg>
+ <xmx:MNloXVf0fHcgZhm7rUT-VcyoCr5kRV23qDXo6iioTUw0zOrr7TyHAw>
+ <xmx:MdloXXgLtRc6wEEsmbh66N09Tq0Y2R7LAtKNg-C-z3TQJ0m21n2U6A>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id B2443E00A3; Fri, 30 Aug 2019 04:07:12 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-154-gfa7592a-fmstable-20190829v1
+Mime-Version: 1.0
+Message-Id: <6feca359-34ce-445e-87bf-62fa063d785f@www.fastmail.com>
+In-Reply-To: <CAPDyKFrKXfB1F2dh63KrkCiKGbmbBWaAM16vJqtQncnF4YctQw@mail.gmail.com>
 References: <20190830074644.10936-1-andrew@aj.id.au>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ <20190830074644.10936-2-andrew@aj.id.au>
+ <CAPDyKFrKXfB1F2dh63KrkCiKGbmbBWaAM16vJqtQncnF4YctQw@mail.gmail.com>
+Date: Fri, 30 Aug 2019 17:37:34 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Ulf Hansson" <ulf.hansson@linaro.org>
+Subject: =?UTF-8?Q?Re:_[PATCH_1/2]_mmc:_sdhci-of-aspeed:_Uphold_clocks-on_post-co?=
+ =?UTF-8?Q?ndition_of_set=5Fclock()?=
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,77 +90,54 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: ulf.hansson@linaro.org, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, ryanchen.aspeed@gmail.com, adrian.hunter@intel.com,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ linux-mmc <linux-mmc@vger.kernel.org>, openbmc@lists.ozlabs.org,
+ Ryan Chen <ryanchen.aspeed@gmail.com>, Adrian Hunter <adrian.hunter@intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add a get_max_clock() handler to sdhci-of-aspeed to report f_max as the
-maximum clock rate if it is set. This enables artificial limitation of
-the bus speed via max-frequency in the devicetree for e.g. the AST2600
-evaluation board where I am seeing errors at 200MHz.
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
- drivers/mmc/host/sdhci-of-aspeed.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-index a9175ca85696..5cc00abcd71f 100644
---- a/drivers/mmc/host/sdhci-of-aspeed.c
-+++ b/drivers/mmc/host/sdhci-of-aspeed.c
-@@ -52,16 +52,24 @@ static void aspeed_sdc_configure_8bit_mode(struct aspeed_sdc *sdc,
- 
- static void aspeed_sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
- {
-+	struct sdhci_pltfm_host *pltfm_host;
-+	unsigned long parent;
- 	int div;
- 	u16 clk;
- 
-+	pltfm_host = sdhci_priv(host);
-+	parent = clk_get_rate(pltfm_host->clk);
-+
- 	sdhci_writew(host, 0, SDHCI_CLOCK_CONTROL);
- 
- 	if (clock == 0)
- 		goto out;
- 
-+	if (WARN_ON(clock > host->max_clk))
-+		clock = host->max_clk;
-+
- 	for (div = 1; div < 256; div *= 2) {
--		if ((host->max_clk / div) <= clock)
-+		if ((parent / div) <= clock)
- 			break;
- 	}
- 	div >>= 1;
-@@ -74,6 +82,14 @@ static void aspeed_sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
- 	host->clock = clock;
- }
- 
-+static unsigned int aspeed_sdhci_get_max_clock(struct sdhci_host *host)
-+{
-+	if (host->mmc->f_max)
-+		return host->mmc->f_max;
-+
-+	return sdhci_pltfm_clk_get_max_clock(host);
-+}
-+
- static void aspeed_sdhci_set_bus_width(struct sdhci_host *host, int width)
- {
- 	struct sdhci_pltfm_host *pltfm_priv;
-@@ -100,7 +116,7 @@ static void aspeed_sdhci_set_bus_width(struct sdhci_host *host, int width)
- 
- static const struct sdhci_ops aspeed_sdhci_ops = {
- 	.set_clock = aspeed_sdhci_set_clock,
--	.get_max_clock = sdhci_pltfm_clk_get_max_clock,
-+	.get_max_clock = aspeed_sdhci_get_max_clock,
- 	.set_bus_width = aspeed_sdhci_set_bus_width,
- 	.get_timeout_clock = sdhci_pltfm_clk_get_max_clock,
- 	.reset = sdhci_reset,
--- 
-2.20.1
+On Fri, 30 Aug 2019, at 17:31, Ulf Hansson wrote:
+> On Fri, 30 Aug 2019 at 09:46, Andrew Jeffery <andrew@aj.id.au> wrote:
+> >
+> > The early-exit didn't seem to matter on the AST2500, but on the AST2600
+> > the SD clock genuinely may not be running on entry to
+> > aspeed_sdhci_set_clock(). Remove the early exit to ensure we always run
+> > sdhci_enable_clk().
+> >
+> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> > ---
+> >  drivers/mmc/host/sdhci-of-aspeed.c | 3 ---
+> >  1 file changed, 3 deletions(-)
+> >
+> > diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
+> > index d5acb5afc50f..a9175ca85696 100644
+> > --- a/drivers/mmc/host/sdhci-of-aspeed.c
+> > +++ b/drivers/mmc/host/sdhci-of-aspeed.c
+> > @@ -55,9 +55,6 @@ static void aspeed_sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
+> >         int div;
+> >         u16 clk;
+> >
+> > -       if (clock == host->clock)
+> > -               return;
+> > -
+> >         sdhci_writew(host, 0, SDHCI_CLOCK_CONTROL);
+> >
+> >         if (clock == 0)
+> > --
+> > 2.20.1
+> >
+> 
+> Further down in aspeed_sdhci_set_clock() you should probably also
+> remove the assignment of host->clock = clock, as that is already
+> managed by sdhci_set_ios().
 
+Ah, I'll fix that in a v2 once I have your thoughts on patch 2/2.
+
+Thanks for the lightning quick feedback!
+
+Andrew
