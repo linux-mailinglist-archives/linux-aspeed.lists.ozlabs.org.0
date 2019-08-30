@@ -1,84 +1,72 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BF4A31DB
-	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Aug 2019 10:08:32 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AA12A3B9B
+	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Aug 2019 18:10:17 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46KXDF6M5tzF0WF
-	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Aug 2019 18:08:29 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46Kkw46m82zDr3F
+	for <lists+linux-aspeed@lfdr.de>; Sat, 31 Aug 2019 02:10:12 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.26; helo=out2-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=linux.ibm.com
+ (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com;
+ envelope-from=eajames@linux.ibm.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="n0aPpAgu"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="mzkzZvd0"; dkim-atps=neutral
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
+ dmarc=none (p=none dis=none) header.from=linux.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46KXBr2p8qzDsy8;
- Fri, 30 Aug 2019 18:07:16 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id D576521F85;
- Fri, 30 Aug 2019 04:07:13 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Fri, 30 Aug 2019 04:07:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=mo3FGA/ipO1SkoDh6reUgvlvk0/ODyc
- GbN5cHOI6jnw=; b=n0aPpAguaYco15CyvLywybHNtVAc7mwuO0pzWP7wvOL4Fmd
- OHnEHaQlsdNU43xwYceWhMfk0QCz/vRpljxyPR10myZhHJVk1Gr7/KPCeBw5+CB4
- rsIfQB2bGMlSGIbOzvzO7vyDNrcKKDaPmgLmiH7MG+t/IxiusWysKBHZ029vMFcN
- S0Krms1cHcWwhachZ/SpXZzfkmlkZF79rP4Qr8E27Q3n/Z1j98vaCGU6p79BPDR9
- YW4gOcuI7qdImGvS8MxiEbUtER2pPj407Y70L9vm7zalsX0X89TSMuUzW3duN31X
- Xfw1iYF40TOZLCIUFXCq+eaK5gC5HLZOeg/97eQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=mo3FGA
- /ipO1SkoDh6reUgvlvk0/ODycGbN5cHOI6jnw=; b=mzkzZvd0ilqrs1ghrHg095
- 4/hgqzJqavdRgmvLYcfAaOMtjE21M6bmrY8A/BqbnnO7QQL9hvuA5TecsbcOfe/V
- YZKBAdep8xDUafpohYs2i9/D5XRepasXcqyTCbd0K/eAQLBxjxzkIJknsY7GW5O2
- 0N0mDb965foTBJlGEkAl+iOuj2rCcHh8y6StPCCCHky2JP0vrae2plX8QDxSElVz
- 253LLLn8I4cVWNb2iXN6ynFFrVDF6I6sfTLAMjVhM+qft/OTohxwxCer6uRxOygk
- UOdiBZIc+QqdHxumWzsNMRE1Fu2ZFSPpZEpAo+kxlAOkC/Jp0kLg1ofv9vb4XplQ
- ==
-X-ME-Sender: <xms:MNloXTYaESaR0JSN118H7OZG185uey1gsSKEmiVHTMutfzqTQg_J9A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudeifedguddvhecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehn
- ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrg
- hrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushht
- vghrufhiiigvpedt
-X-ME-Proxy: <xmx:MNloXT-po1mRFzcl375CIW70RgDLvtoMWD7LT-XdpGLI1cV0WAUcCw>
- <xmx:MNloXcSQnVT8SQGscGN27QMrZG3RRnEyPrYhFmMEP1bc10tTn7cExg>
- <xmx:MNloXVf0fHcgZhm7rUT-VcyoCr5kRV23qDXo6iioTUw0zOrr7TyHAw>
- <xmx:MdloXXgLtRc6wEEsmbh66N09Tq0Y2R7LAtKNg-C-z3TQJ0m21n2U6A>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id B2443E00A3; Fri, 30 Aug 2019 04:07:12 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-154-gfa7592a-fmstable-20190829v1
-Mime-Version: 1.0
-Message-Id: <6feca359-34ce-445e-87bf-62fa063d785f@www.fastmail.com>
-In-Reply-To: <CAPDyKFrKXfB1F2dh63KrkCiKGbmbBWaAM16vJqtQncnF4YctQw@mail.gmail.com>
-References: <20190830074644.10936-1-andrew@aj.id.au>
- <20190830074644.10936-2-andrew@aj.id.au>
- <CAPDyKFrKXfB1F2dh63KrkCiKGbmbBWaAM16vJqtQncnF4YctQw@mail.gmail.com>
-Date: Fri, 30 Aug 2019 17:37:34 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Ulf Hansson" <ulf.hansson@linaro.org>
-Subject: =?UTF-8?Q?Re:_[PATCH_1/2]_mmc:_sdhci-of-aspeed:_Uphold_clocks-on_post-co?=
- =?UTF-8?Q?ndition_of_set=5Fclock()?=
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46Kkvw0ypQzDr1F
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 31 Aug 2019 02:10:01 +1000 (AEST)
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x7UG7uu9141674; Fri, 30 Aug 2019 12:09:50 -0400
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2uq3waqgyq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Aug 2019 12:09:50 -0400
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7UG5D45001624;
+ Fri, 30 Aug 2019 16:09:48 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma04wdc.us.ibm.com with ESMTP id 2ujvv73pn8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Aug 2019 16:09:48 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x7UG9lfO52232670
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 30 Aug 2019 16:09:47 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B1ECF6A04F;
+ Fri, 30 Aug 2019 16:09:47 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D80386A051;
+ Fri, 30 Aug 2019 16:09:46 +0000 (GMT)
+Received: from talon7.ibm.com (unknown [9.41.179.222])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 30 Aug 2019 16:09:46 +0000 (GMT)
+From: Eddie James <eajames@linux.ibm.com>
+To: linux-hwmon@vger.kernel.org
+Subject: [PATCH 0/3] pmbus: ibm-cffps: Add support for version 2 of PSU
+Date: Fri, 30 Aug 2019 11:09:42 -0500
+Message-Id: <1567181385-22129-1-git-send-email-eajames@linux.ibm.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-08-30_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1906280000 definitions=main-1908300160
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,54 +78,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- linux-mmc <linux-mmc@vger.kernel.org>, openbmc@lists.ozlabs.org,
- Ryan Chen <ryanchen.aspeed@gmail.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jdelvare@suse.com,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ robh+dt@kernel.org, linux@roeck-us.net
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Version 2 of this PSU supports a second page of data and changes the
+format of the FW version command. Use the devicetree binding (or the I2C
+device ID) to determine which version the driver should use. Therefore add
+the new compatible string to the devicetree documentation and change the
+Swift system devicetree to use version 2.
 
+Eddie James (3):
+  dt-bindings: hwmon: Document ibm,cffps2 compatible string
+  ARM: dts: aspeed: swift: Change power supplies to version 2
+  pmbus: ibm-cffps: Add support for version 2 of the PSU
 
-On Fri, 30 Aug 2019, at 17:31, Ulf Hansson wrote:
-> On Fri, 30 Aug 2019 at 09:46, Andrew Jeffery <andrew@aj.id.au> wrote:
-> >
-> > The early-exit didn't seem to matter on the AST2500, but on the AST2600
-> > the SD clock genuinely may not be running on entry to
-> > aspeed_sdhci_set_clock(). Remove the early exit to ensure we always run
-> > sdhci_enable_clk().
-> >
-> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> > ---
-> >  drivers/mmc/host/sdhci-of-aspeed.c | 3 ---
-> >  1 file changed, 3 deletions(-)
-> >
-> > diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-> > index d5acb5afc50f..a9175ca85696 100644
-> > --- a/drivers/mmc/host/sdhci-of-aspeed.c
-> > +++ b/drivers/mmc/host/sdhci-of-aspeed.c
-> > @@ -55,9 +55,6 @@ static void aspeed_sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
-> >         int div;
-> >         u16 clk;
-> >
-> > -       if (clock == host->clock)
-> > -               return;
-> > -
-> >         sdhci_writew(host, 0, SDHCI_CLOCK_CONTROL);
-> >
-> >         if (clock == 0)
-> > --
-> > 2.20.1
-> >
-> 
-> Further down in aspeed_sdhci_set_clock() you should probably also
-> remove the assignment of host->clock = clock, as that is already
-> managed by sdhci_set_ios().
+ .../devicetree/bindings/hwmon/ibm,cffps1.txt       |   8 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-swift.dts         |   4 +-
+ drivers/hwmon/pmbus/ibm-cffps.c                    | 109 ++++++++++++++++-----
+ 3 files changed, 94 insertions(+), 27 deletions(-)
 
-Ah, I'll fix that in a v2 once I have your thoughts on patch 2/2.
+-- 
+1.8.3.1
 
-Thanks for the lightning quick feedback!
-
-Andrew
