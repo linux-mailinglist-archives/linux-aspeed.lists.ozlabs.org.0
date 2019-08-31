@@ -2,73 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14ACAA3E3E
-	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Aug 2019 21:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C184A44D3
+	for <lists+linux-aspeed@lfdr.de>; Sat, 31 Aug 2019 16:53:11 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46Kq1r37BZzDqMF
-	for <lists+linux-aspeed@lfdr.de>; Sat, 31 Aug 2019 05:15:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46LK8h3N9ZzDqxX
+	for <lists+linux-aspeed@lfdr.de>; Sun,  1 Sep 2019 00:53:08 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=linux.ibm.com
- (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com;
- envelope-from=eajames@linux.ibm.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::443; helo=mail-pf1-x443.google.com;
+ envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=linux.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="kC6LfR9k"; 
+ dkim-atps=neutral
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46Kpx272mwzDr6K
- for <linux-aspeed@lists.ozlabs.org>; Sat, 31 Aug 2019 05:11:18 +1000 (AEST)
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x7UIqJxb093132; Fri, 30 Aug 2019 15:11:10 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2uq6g6pfh4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Aug 2019 15:11:10 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7UItUpx002656;
- Fri, 30 Aug 2019 19:11:09 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma03dal.us.ibm.com with ESMTP id 2umpcu31yx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Aug 2019 19:11:09 +0000
-Received: from b03ledav002.gho.boulder.ibm.com
- (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x7UJB70E34275640
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 30 Aug 2019 19:11:07 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AE5AC136066;
- Fri, 30 Aug 2019 19:11:07 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 23048136051;
- Fri, 30 Aug 2019 19:11:07 +0000 (GMT)
-Received: from talon7.ibm.com (unknown [9.41.179.222])
- by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 30 Aug 2019 19:11:07 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: linux-hwmon@vger.kernel.org
-Subject: [PATCH v2 3/3] pmbus: ibm-cffps: Add support for version 2 of the PSU
-Date: Fri, 30 Aug 2019 14:11:03 -0500
-Message-Id: <1567192263-15065-4-git-send-email-eajames@linux.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1567192263-15065-1-git-send-email-eajames@linux.ibm.com>
-References: <1567192263-15065-1-git-send-email-eajames@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-08-30_07:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908300179
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46LK8b38StzDqF3
+ for <linux-aspeed@lists.ozlabs.org>; Sun,  1 Sep 2019 00:53:00 +1000 (AEST)
+Received: by mail-pf1-x443.google.com with SMTP id q10so1363900pfl.0
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 31 Aug 2019 07:53:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=9BDuDRjmF116OgtDaHNeOzO00s8uzxNdezpyBuRSAeQ=;
+ b=kC6LfR9kBk1TZjb1CVjCLOPJJm+I4pY1IDqTkD2ktfZ9E6LJl3xMN5KYJdrLrjVZDH
+ Zx6eEptthNTXQtoISm9+zgEkF/uDSn/GP8LXPZAfLjVtSvRiRPpEeIAaEtUqiy64UQ7J
+ T7ortflVdD9g1ZRmTwvR1TDWIUokzUPmvrQ/8RbRGwG+vM82HogHrtycaXCYMMGusGjD
+ M3Iy3Z79Q4ugJbkD1tmXDBFj2+D4woKp7DjCAR7ReyePDNQJGpzTzQ21vVB99wT76sau
+ ebX5VH80r39qQGEXKM3i8SSudG+p42fpvLyvyZC5xO38X+ZfjDAiK2pSn6zQFydkWthv
+ r1/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=9BDuDRjmF116OgtDaHNeOzO00s8uzxNdezpyBuRSAeQ=;
+ b=jj17snx0AV2Kn+tj6yG3vR59qjyLokOG4tdpmpAM5Letux1g5MipZzYVLpBMFbKdgy
+ 0zLESb3bHwep9PxjW4DFdcdCWbFBxtA0VLt57R2Y74rXQ2FR0GXzZedHYVZAkGBM9Z7N
+ WgxTELlr68HoWCs0lgQEYQyXfHycEistSLet+iDuIiUZyiuaKR+hmMcpDp8BM9FmaW9c
+ IPFTK2bp2PQIb+jHSlaFqk55AVgLwX27mXUWUGk4fHg8rXDcEW2WCbVoIxDV1FWdkuoa
+ yL2MFLamJqjovuP4HVHlMFtbD7H19zdqFlWH/lh+slWrOzL5JjcjSXU2EW/TId1lyvJX
+ aPtg==
+X-Gm-Message-State: APjAAAVEHERlBa5F9UtxoKrYLazFTWajoqrtESgT35whCOWaupkO2WEf
+ UtmSuFsnRJzWmkTwYQccIME=
+X-Google-Smtp-Source: APXvYqz8+XI6fkaN065GcPbaUGwdNg8Rs/XLz0t7x/vxuFhL+XJ63s6WVe7ccozksx2DwOh7IAdxKQ==
+X-Received: by 2002:a65:4c4d:: with SMTP id l13mr17260595pgr.156.1567263175393; 
+ Sat, 31 Aug 2019 07:52:55 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id e21sm10121157pfi.13.2019.08.31.07.52.53
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 31 Aug 2019 07:52:54 -0700 (PDT)
+Date: Sat, 31 Aug 2019 07:52:53 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Joel Stanley <joel@jms.id.au>
+Subject: Re: [PATCH v2 1/2] dt-bindings: watchdog: Add ast2600 compatible
+Message-ID: <20190831145252.GA6062@roeck-us.net>
+References: <20190819051738.17370-1-joel@jms.id.au>
+ <20190819051738.17370-2-joel@jms.id.au>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190819051738.17370-2-joel@jms.id.au>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,235 +80,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jdelvare@suse.com,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org, linux@roeck-us.net
+Cc: devicetree@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Version 2 of the PSU supports a second page of data and changes the
-format of the FW version. Use the devicetree binding to differentiate
-between the version the driver should use.
+On Mon, Aug 19, 2019 at 02:47:37PM +0930, Joel Stanley wrote:
+> This adds a compatible for the ast2600, a new ASPEED SoC.
+> 
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
----
-Changes since v1:
- - use an enum for the version instead of integers 1, 2, etc
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
- drivers/hwmon/pmbus/ibm-cffps.c | 110 ++++++++++++++++++++++++++++++++--------
- 1 file changed, 88 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/hwmon/pmbus/ibm-cffps.c b/drivers/hwmon/pmbus/ibm-cffps.c
-index ee2ee9e..d44745e 100644
---- a/drivers/hwmon/pmbus/ibm-cffps.c
-+++ b/drivers/hwmon/pmbus/ibm-cffps.c
-@@ -12,6 +12,7 @@
- #include <linux/leds.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-+#include <linux/of_device.h>
- #include <linux/pmbus.h>
- 
- #include "pmbus.h"
-@@ -20,8 +21,9 @@
- #define CFFPS_PN_CMD				0x9B
- #define CFFPS_SN_CMD				0x9E
- #define CFFPS_CCIN_CMD				0xBD
--#define CFFPS_FW_CMD_START			0xFA
--#define CFFPS_FW_NUM_BYTES			4
-+#define CFFPS_FW_CMD				0xFA
-+#define CFFPS1_FW_NUM_BYTES			4
-+#define CFFPS2_FW_NUM_WORDS			3
- #define CFFPS_SYS_CONFIG_CMD			0xDA
- 
- #define CFFPS_INPUT_HISTORY_CMD			0xD6
-@@ -52,6 +54,8 @@ enum {
- 	CFFPS_DEBUGFS_NUM_ENTRIES
- };
- 
-+enum versions { cffps1, cffps2 };
-+
- struct ibm_cffps_input_history {
- 	struct mutex update_lock;
- 	unsigned long last_update;
-@@ -61,6 +65,7 @@ struct ibm_cffps_input_history {
- };
- 
- struct ibm_cffps {
-+	enum versions version;
- 	struct i2c_client *client;
- 
- 	struct ibm_cffps_input_history input_history;
-@@ -132,6 +137,8 @@ static ssize_t ibm_cffps_debugfs_op(struct file *file, char __user *buf,
- 	struct ibm_cffps *psu = to_psu(idxp, idx);
- 	char data[I2C_SMBUS_BLOCK_MAX] = { 0 };
- 
-+	pmbus_set_page(psu->client, 0);
-+
- 	switch (idx) {
- 	case CFFPS_DEBUGFS_INPUT_HISTORY:
- 		return ibm_cffps_read_input_history(psu, buf, count, ppos);
-@@ -152,16 +159,36 @@ static ssize_t ibm_cffps_debugfs_op(struct file *file, char __user *buf,
- 		rc = snprintf(data, 5, "%04X", rc);
- 		goto done;
- 	case CFFPS_DEBUGFS_FW:
--		for (i = 0; i < CFFPS_FW_NUM_BYTES; ++i) {
--			rc = i2c_smbus_read_byte_data(psu->client,
--						      CFFPS_FW_CMD_START + i);
--			if (rc < 0)
--				return rc;
-+		switch (psu->version) {
-+		case cffps1:
-+			for (i = 0; i < CFFPS1_FW_NUM_BYTES; ++i) {
-+				rc = i2c_smbus_read_byte_data(psu->client,
-+							      CFFPS_FW_CMD +
-+								i);
-+				if (rc < 0)
-+					return rc;
-+
-+				snprintf(&data[i * 2], 3, "%02X", rc);
-+			}
- 
--			snprintf(&data[i * 2], 3, "%02X", rc);
--		}
-+			rc = i * 2;
-+			break;
-+		case cffps2:
-+			for (i = 0; i < CFFPS2_FW_NUM_WORDS; ++i) {
-+				rc = i2c_smbus_read_word_data(psu->client,
-+							      CFFPS_FW_CMD +
-+								i);
-+				if (rc < 0)
-+					return rc;
-+
-+				snprintf(&data[i * 4], 5, "%04X", rc);
-+			}
- 
--		rc = i * 2;
-+			rc = i * 4;
-+			break;
-+		default:
-+			return -EOPNOTSUPP;
-+		}
- 		goto done;
- 	default:
- 		return -EINVAL;
-@@ -279,6 +306,8 @@ static void ibm_cffps_led_brightness_set(struct led_classdev *led_cdev,
- 			psu->led_state = CFFPS_LED_ON;
- 	}
- 
-+	pmbus_set_page(psu->client, 0);
-+
- 	rc = i2c_smbus_write_byte_data(psu->client, CFFPS_SYS_CONFIG_CMD,
- 				       psu->led_state);
- 	if (rc < 0)
-@@ -299,6 +328,8 @@ static int ibm_cffps_led_blink_set(struct led_classdev *led_cdev,
- 	if (led_cdev->brightness == LED_OFF)
- 		return 0;
- 
-+	pmbus_set_page(psu->client, 0);
-+
- 	rc = i2c_smbus_write_byte_data(psu->client, CFFPS_SYS_CONFIG_CMD,
- 				       CFFPS_LED_BLINK);
- 	if (rc < 0)
-@@ -328,15 +359,32 @@ static void ibm_cffps_create_led_class(struct ibm_cffps *psu)
- 		dev_warn(dev, "failed to register led class: %d\n", rc);
- }
- 
--static struct pmbus_driver_info ibm_cffps_info = {
--	.pages = 1,
--	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
--		PMBUS_HAVE_PIN | PMBUS_HAVE_FAN12 | PMBUS_HAVE_TEMP |
--		PMBUS_HAVE_TEMP2 | PMBUS_HAVE_TEMP3 | PMBUS_HAVE_STATUS_VOUT |
--		PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_INPUT |
--		PMBUS_HAVE_STATUS_TEMP | PMBUS_HAVE_STATUS_FAN12,
--	.read_byte_data = ibm_cffps_read_byte_data,
--	.read_word_data = ibm_cffps_read_word_data,
-+static struct pmbus_driver_info ibm_cffps_info[] = {
-+	[cffps1] = {
-+		.pages = 1,
-+		.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
-+			PMBUS_HAVE_PIN | PMBUS_HAVE_FAN12 | PMBUS_HAVE_TEMP |
-+			PMBUS_HAVE_TEMP2 | PMBUS_HAVE_TEMP3 |
-+			PMBUS_HAVE_STATUS_VOUT | PMBUS_HAVE_STATUS_IOUT |
-+			PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP |
-+			PMBUS_HAVE_STATUS_FAN12,
-+		.read_byte_data = ibm_cffps_read_byte_data,
-+		.read_word_data = ibm_cffps_read_word_data,
-+	},
-+	[cffps2] = {
-+		.pages = 2,
-+		.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
-+			PMBUS_HAVE_PIN | PMBUS_HAVE_FAN12 | PMBUS_HAVE_TEMP |
-+			PMBUS_HAVE_TEMP2 | PMBUS_HAVE_TEMP3 |
-+			PMBUS_HAVE_STATUS_VOUT | PMBUS_HAVE_STATUS_IOUT |
-+			PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP |
-+			PMBUS_HAVE_STATUS_FAN12,
-+		.func[1] = PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
-+			PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 | PMBUS_HAVE_TEMP3 |
-+			PMBUS_HAVE_STATUS_VOUT | PMBUS_HAVE_STATUS_IOUT,
-+		.read_byte_data = ibm_cffps_read_byte_data,
-+		.read_word_data = ibm_cffps_read_word_data,
-+	},
- };
- 
- static struct pmbus_platform_data ibm_cffps_pdata = {
-@@ -347,12 +395,21 @@ static int ibm_cffps_probe(struct i2c_client *client,
- 			   const struct i2c_device_id *id)
- {
- 	int i, rc;
-+	enum versions vs;
- 	struct dentry *debugfs;
- 	struct dentry *ibm_cffps_dir;
- 	struct ibm_cffps *psu;
-+	const void *md = of_device_get_match_data(&client->dev);
-+
-+	if (md)
-+		vs = (enum versions)md;
-+	else if (id)
-+		vs = (enum versions)id->driver_data;
-+	else
-+		vs = cffps1;
- 
- 	client->dev.platform_data = &ibm_cffps_pdata;
--	rc = pmbus_do_probe(client, id, &ibm_cffps_info);
-+	rc = pmbus_do_probe(client, id, &ibm_cffps_info[vs]);
- 	if (rc)
- 		return rc;
- 
-@@ -364,6 +421,7 @@ static int ibm_cffps_probe(struct i2c_client *client,
- 	if (!psu)
- 		return 0;
- 
-+	psu->version = vs;
- 	psu->client = client;
- 	mutex_init(&psu->input_history.update_lock);
- 	psu->input_history.last_update = jiffies - HZ;
-@@ -405,13 +463,21 @@ static int ibm_cffps_probe(struct i2c_client *client,
- }
- 
- static const struct i2c_device_id ibm_cffps_id[] = {
--	{ "ibm_cffps1", 1 },
-+	{ "ibm_cffps1", cffps1 },
-+	{ "ibm_cffps2", cffps2 },
- 	{}
- };
- MODULE_DEVICE_TABLE(i2c, ibm_cffps_id);
- 
- static const struct of_device_id ibm_cffps_of_match[] = {
--	{ .compatible = "ibm,cffps1" },
-+	{
-+		.compatible = "ibm,cffps1",
-+		.data = (void *)cffps1
-+	},
-+	{
-+		.compatible = "ibm,cffps2",
-+		.data = (void *)cffps2
-+	},
- 	{}
- };
- MODULE_DEVICE_TABLE(of, ibm_cffps_of_match);
--- 
-1.8.3.1
-
+> ---
+> v2:
+>  - Add Andrew's r-b
+> ---
+>  Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt b/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
+> index c5077a1f5cb3..d78d4a8fb868 100644
+> --- a/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
+> +++ b/Documentation/devicetree/bindings/watchdog/aspeed-wdt.txt
+> @@ -4,6 +4,7 @@ Required properties:
+>   - compatible: must be one of:
+>  	- "aspeed,ast2400-wdt"
+>  	- "aspeed,ast2500-wdt"
+> +	- "aspeed,ast2600-wdt"
+>  
+>   - reg: physical base address of the controller and length of memory mapped
+>     region
