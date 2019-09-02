@@ -2,82 +2,57 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D40ADA4ED2
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Sep 2019 07:26:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A496A5856
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Sep 2019 15:47:52 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46MJVG6HhtzDqcc
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Sep 2019 15:26:46 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46MWcN57tqzDqbW
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Sep 2019 23:47:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.29; helo=out5-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=209.85.128.66; helo=mail-wm1-f66.google.com;
+ envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="IMcXpfcB"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="ESPCQrNG"; dkim-atps=neutral
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+ [209.85.128.66])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46MJV11zDRzDqH1;
- Mon,  2 Sep 2019 15:26:32 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 059DF210AF;
- Mon,  2 Sep 2019 01:26:29 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Mon, 02 Sep 2019 01:26:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=SfesOFiKN1IfZZTahtZmg0P++GiClFR
- iJzFNrBgRNCw=; b=IMcXpfcBx+4mIhFADnDJHiKjLIz6NUxMbOOK3QHwW66TKF3
- bQ2KBIVCA7xnkPDZDw9RB9bzlUWT/NUmBQMamxExN4PxhRRn/1KRB1ogw7VzQ8bU
- FGtJnWb3tlikUfLuMo67teT2whLCa8LA827GX3M5llOQyhW+YTbrUsBmVeQlvSXv
- HOedDzKU1xSlgBQOoW8lvq7WTCBRoiCectrKnffi/JQ3G37QKyuQw7hWq4mKm8Tt
- m9cZZIQIoJYbqxhP+Qvj4i7KFXoeqTGTeg4ogRrgF1hZbVwf4kK478ryTqV31Z7J
- cHwZZrCSV+1o6XYsT0jYHfXUdQGZDqW4orVYA/A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=SfesOF
- iKN1IfZZTahtZmg0P++GiClFRiJzFNrBgRNCw=; b=ESPCQrNGWZa3NWUnEGIJum
- szo+Ykhaei18sNqyeJ/3SMCaCb7GfzRBTRnUctTgvScmfn3pzcDivrTLLtk79lXG
- MMh6Ph+lbW0j4c0A5ZH4bFtHYevohVl2WYt9v/ajQevBj0flX62VeN1GmXX+GlQu
- eRO+TvL/gCBSQZj5kJdIPkzON42BnYIL60uadEg53X8qCld6oOWoa0aW3ACT9RVT
- PYARH5YQ8G8T+WtzJKNdXTzZ0WNwojpJg3wN1FldLip2lnb8+6v7tlAEvJGqGW1F
- 2HbH4r5GStVpO2L4cb2AH4w2K19W+I8aODt8i3RsPQgqbWPTwCLAz2DTjgnDIARQ
- ==
-X-ME-Sender: <xms:BKhsXa3JC6op-0jITHMraScWLdeddq1uvR1E197VSMO9D7zMMgUV_w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrudeiledgleefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:BKhsXVHsJdGTzihUkDM-ilLiRsvCKpM2BC7T8kiv4to7bcCbnrJyXw>
- <xmx:BKhsXTg632nPnfwjd06QPazju0OdQwar-ylxSp4OXRFBZ4IiyWSVfQ>
- <xmx:BKhsXbZM53rJ4CXHUNv1YZf4xHKOIV_WrS42S3C8uCvFHRfi2ee8QA>
- <xmx:BahsXY_KYrJX_0AyZT3k_lph9CBrcD_nZYKufQYiRw4sHkeqHUjtJg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id F1E03E00A3; Mon,  2 Sep 2019 01:26:27 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-154-gfa7592a-fmstable-20190829v1
-Mime-Version: 1.0
-Message-Id: <83570e25-b20a-4a17-85ea-15a9a53289bf@www.fastmail.com>
-In-Reply-To: <CACPK8XfYgEUfaK6rtr+FdEq-Vau6d4wE2Rvfp6Q4G2-kjVLT0g@mail.gmail.com>
-References: <20190902035842.2747-1-andrew@aj.id.au>
- <20190902035842.2747-2-andrew@aj.id.au>
- <CACPK8XfYgEUfaK6rtr+FdEq-Vau6d4wE2Rvfp6Q4G2-kjVLT0g@mail.gmail.com>
-Date: Mon, 02 Sep 2019 14:56:38 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Joel Stanley" <joel@jms.id.au>, "Arnd Bergmann" <arnd@arndb.de>
-Subject: Re: [PATCH v2 1/4] mmc: sdhci-of-aspeed: Fix link failure for SPARC
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46MWQV1RBbzDqcG
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  2 Sep 2019 23:39:13 +1000 (AEST)
+Received: by mail-wm1-f66.google.com with SMTP id t9so14651051wmi.5
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 02 Sep 2019 06:39:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:date:from:subject:references
+ :in-reply-to:cc:cc:to;
+ bh=Ljep6bH+jK/y7KzX9TmuYtR3XGnID6enl5X5Nz5+kmY=;
+ b=Qrt4ygErbxbSVin5CywCFet8WrOO2YHke59duefC2lOl6Ri0JCEfKgyb9JDuzLYXcy
+ wA2yF+d4kzsNBltB085+gLoOX+2iZorMIytAF3Zu8gYExfCamPkMLxnaCi28vyHYXOw6
+ zsSEnZ0sPtV98h9w75aVN8Bb+FkybGYfqudM/jr8s8ydM6HFPD1OOqcQm8kHYgXG5WGs
+ UZ6WxF2f2vgj5SAZu5NkoIHn1XlvDy6bRm+bXfRU6nKgkLvHfgpm3Jz6alyjGgFqIj/U
+ 34i0wIuOzhWqFaUl6Ks5Virkypa9TdsBXK5HAiGZ9FZa07rc5SFlG9ewZxfdwF5fV1Mj
+ oVjA==
+X-Gm-Message-State: APjAAAWqZ/TSvaj96kjpAmOhLHE3iS12Xd0E2Be/Er2XkkL/rYaeoe61
+ K1ZK3i61wW1cwTYOdcWOHA==
+X-Google-Smtp-Source: APXvYqxpPvpnT9a93gVp+b7ar8pc3AEKNSZ5yS0Q62pduvGJgd3oF79YWeSiKcS4TSsXPrd6GYW4Nw==
+X-Received: by 2002:a7b:c091:: with SMTP id r17mr33360948wmh.74.1567431549560; 
+ Mon, 02 Sep 2019 06:39:09 -0700 (PDT)
+Received: from localhost ([212.187.182.166])
+ by smtp.gmail.com with ESMTPSA id m18sm5952612wrg.97.2019.09.02.06.39.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Sep 2019 06:39:08 -0700 (PDT)
+Message-ID: <5d6d1b7c.1c69fb81.7f479.9ca6@mx.google.com>
+Date: Mon, 02 Sep 2019 14:39:08 +0100
+From: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2 1/3] dt-bindings: hwmon: Document ibm,
+ cffps2 compatible string
+References: <1567192263-15065-1-git-send-email-eajames@linux.ibm.com>
+ <1567192263-15065-2-git-send-email-eajames@linux.ibm.com>
+In-Reply-To: <1567192263-15065-2-git-send-email-eajames@linux.ibm.com>
+To: Eddie James <eajames@linux.ibm.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,70 +64,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, kbuild test robot <lkp@intel.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- linux-mmc <linux-mmc@vger.kernel.org>, Adrian Hunter <adrian.hunter@intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, jdelvare@suse.com,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ robh+dt@kernel.org, mark.rutland@arm.com, linux@roeck-us.net
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Mon, 2 Sep 2019, at 13:42, Joel Stanley wrote:
-> On Mon, 2 Sep 2019 at 03:58, Andrew Jeffery <andrew@aj.id.au> wrote:
-> >
-> > Resolves the following build error reported by the 0-day bot:
-> >
-> >     ERROR: "of_platform_device_create" [drivers/mmc/host/sdhci-of-aspeed.ko] undefined!
-> >
-> > SPARC does not set CONFIG_OF_ADDRESS so the symbol is missing. Guard the
-> > callsite to maintain build coverage for the rest of the driver.
-> >
-> > Reported-by: kbuild test robot <lkp@intel.com>
-> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> > ---
-> >  drivers/mmc/host/sdhci-of-aspeed.c | 38 ++++++++++++++++++++----------
-> >  1 file changed, 25 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-> > index d5acb5afc50f..96ca494752c5 100644
-> > --- a/drivers/mmc/host/sdhci-of-aspeed.c
-> > +++ b/drivers/mmc/host/sdhci-of-aspeed.c
-> > @@ -224,10 +224,30 @@ static struct platform_driver aspeed_sdhci_driver = {
-> >         .remove         = aspeed_sdhci_remove,
-> >  };
-> >
-> > -static int aspeed_sdc_probe(struct platform_device *pdev)
-> > -
-> > +static int aspeed_sdc_create_sdhcis(struct platform_device *pdev)
-> >  {
-> > +#if defined(CONFIG_OF_ADDRESS)
+On Fri, 30 Aug 2019 14:11:01 -0500, Eddie James wrote:
+> Document the compatible string for version 2 of the IBM CFFPS PSU.
 > 
-> This is going to be untested code forever, as no one will be running
-> on a chip with this hardware present but OF_ADDRESS disabled.
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> ---
+>  Documentation/devicetree/bindings/hwmon/ibm,cffps1.txt | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 > 
-> How about we make the driver depend on OF_ADDRESS instead?
 
-Testing is split into two pieces here: compile-time and run-time.
-Clearly the run-time behaviour is going to be broken on configurations
-without CONFIG_OF_ADDRESS (SPARC as mentioned), but I don't think
-that means we shouldn't allow it to be compiled in that case
-(e.g. CONFIG_COMPILE_TEST performs a similar role).
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-With respect to compile-time it's possible to compile either path as
-demonstrated by the build failure report.
-
-Having said that there's no reason we  couldn't do what you suggest,
-just it wasn't the existing solution pattern for the problem (there are
-several other drivers that suffered the same bug that were fixed in the
-style of this patch). Either way works, it's all somewhat academic.
-Your suggestion is more obvious in terms of correctness, but this
-patch is basically just code motion (the only addition is the `#if`/
-`#endif` lines over what was already there if we disregard the
-function declaration/invocation). I'll change it if there are further
-complaints and a reason to do a v3.
-
-Andrew
