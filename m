@@ -2,52 +2,51 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4640AA687A
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 14:21:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6A1A6AB4
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 16:03:47 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46N5f00ZswzDqSH
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Sep 2019 22:21:12 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46N7wG1qhTzDqjd
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Sep 2019 00:03:42 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=209.85.160.193; helo=mail-qt1-f193.google.com;
+ (client-ip=209.85.160.196; helo=mail-qt1-f196.google.com;
  envelope-from=arndbergmann@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=arndb.de
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
- [209.85.160.193])
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+ [209.85.160.196])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46N5c36cDnzDqjk
- for <linux-aspeed@lists.ozlabs.org>; Tue,  3 Sep 2019 22:19:31 +1000 (AEST)
-Received: by mail-qt1-f193.google.com with SMTP id j10so1915617qtp.8
- for <linux-aspeed@lists.ozlabs.org>; Tue, 03 Sep 2019 05:19:31 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46N7w80hmYzDqC3
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  4 Sep 2019 00:03:35 +1000 (AEST)
+Received: by mail-qt1-f196.google.com with SMTP id r15so14374188qtn.12
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 03 Sep 2019 07:03:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=R/DJSIYh3EZbUDsekqE/ejrRQcrXwQMXahelu/bLINw=;
- b=kKvTQYTya7Ar/WYdVpEZFM1riQpGeHo6A1+DSL2kdSmWMVxd/GkcTbVpcXa9vs1ZAq
- nl3a9KgyLWH/6xHLUxMTZbLU4xRNtVllCjLQ/CjG9KmnCNemGdwHXTgc1hk9psbH6rHD
- c5d1hzjqsmx4hBafzMDkYxLv4xAzhZETXJO2piSr6f16qAbkCHCpEcdWpBkCecO5FymT
- oztuKBa9JeDh5eIm5TyYvZgU4H1mYDmSJdVogvkP38Be2JUAxmHMUQer5el4EeJA0A8z
- paWx38VBXI96TUSf8dlaeVe6jzA8lCVm37YNf87CQgXFVr8ISZTt1bmxJdzJGdbN0avY
- 0ozQ==
-X-Gm-Message-State: APjAAAVH45tq/2kZFdWoo9yg6S/tpvq2gScaS+kdisJYgLJ3/cC43oYP
- udaznYTD1ODGvRqMGcUE9WEKMQQU70KNamj3Q1M=
-X-Google-Smtp-Source: APXvYqxUj37k1++cYore/URYWpEsEnW1S2Ofa5QY6WaKXK8xM6pwsheHaibNOfPqghaplWoJUOSoL1+Ar/OVPAZ9i7U=
-X-Received: by 2002:a05:6214:80a:: with SMTP id
- df10mr4999512qvb.93.1567513167699; 
- Tue, 03 Sep 2019 05:19:27 -0700 (PDT)
+ bh=RVjcyrTn4gmDwaWy/oDAvPimC2fsZRy5y2KkmSMwcNE=;
+ b=aBeC4V0bXDpMbsx2n/oAJyKlrJgdF04pUOu4GKtM+9cVcGxTcKcbLPS7evgd+oDV6M
+ sYMsT4ij2UVXI3thiIMVw83dgQ51DAtWq7iI6N38vd3KtM49cbFN5q8/H/vr6jrEgPjR
+ ju2SWMzGqAfgzFbrMJDIB4jc9L6vY5W9yqStYab0AAosItY/QUr+aKCiXFi0N2/r7w6q
+ AN3bENPWgAwW7NUQNyGa8Mn7tSuTa4adDhy/nUwDIGLst8ynY7+q959u2ZftdGoCDs+R
+ jisrf40GUBLYxX27+B4d5tNuYmlK/PKYmmJjP3gvVb+Y7o2y6Z/KhhOWfDnERwhq44Dp
+ AYaA==
+X-Gm-Message-State: APjAAAX9Xeubg+a4JDujz+Hcz+ZTmD1vGhUcnJ6PPA8URXvumxYV8H1y
+ 4Zgk9VXF1a54FZrgr7XHVzsm+w1G+50nUroBcIk=
+X-Google-Smtp-Source: APXvYqw9BG/l25Dkw35xsVDHMole0pNrF60Y3lZr+y8NOpkdhMtbpNunOg2VHNuf+yIq2qZ6wFtkW0wyNXxoz3HjzpE=
+X-Received: by 2002:ac8:5306:: with SMTP id t6mr20276918qtn.204.1567519412900; 
+ Tue, 03 Sep 2019 07:03:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <CACPK8Xc1aSp5fXL3cEzC9SJsCXG2JwsSPpQrW3a09dkvhCyHHA@mail.gmail.com>
-In-Reply-To: <CACPK8Xc1aSp5fXL3cEzC9SJsCXG2JwsSPpQrW3a09dkvhCyHHA@mail.gmail.com>
+References: <CACPK8XfKHpNYXNE_VRaLeGUQa7-hkmUS0nsPfaeSLE4sckKFHg@mail.gmail.com>
+In-Reply-To: <CACPK8XfKHpNYXNE_VRaLeGUQa7-hkmUS0nsPfaeSLE4sckKFHg@mail.gmail.com>
 From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 3 Sep 2019 14:19:11 +0200
-Message-ID: <CAK8P3a10eKP6cJUw-SHam1zBMZe-FOhVcBn01TT_VVFYHrUA-w@mail.gmail.com>
-Subject: Re: [GIT PULL] ARM: aspeed: arch changes for 5.4
+Date: Tue, 3 Sep 2019 16:03:15 +0200
+Message-ID: <CAK8P3a1ESGrYOO4Xa3ikQ=E_vy9-sizTmcJkaqvFPYAaQ52DBQ@mail.gmail.com>
+Subject: Re: [GIT PULL] ARM: aspeed: devicetree changes for 5.4
 To: Joel Stanley <joel@jms.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -69,25 +68,18 @@ Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On Sun, Aug 25, 2019 at 4:10 PM Joel Stanley <joel@jms.id.au> wrote:
+> ----------------------------------------------------------------
+> ASPEED device tree updates for 5.4
 >
-> Hello ARM Maintainers,
+> New machines:
 >
-> Here's my first mach-aspeed pull request. We finally had to add some
-> code here to support SMP on the shiny new ASPEED AST2600.
+>  - Facebook Wedge100, Wedge40 and Minipack
+>  - Lenovo Hr855xg2
+>  - Wistron Mihawk
 >
-> The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
->
->   Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git \
->     tags/aspeed-5.4-arch
->
+> There's a few other updates, notably some changes to to use the newly
+> added SDHCI driver.
 
-Pulled into arm/soc branch, after changing Olof's patchwork wrapper script
-to ignore the '\' character at the line break.
-
-Thanks
+Pulled into arm/dt, thanks!
 
        Arnd
