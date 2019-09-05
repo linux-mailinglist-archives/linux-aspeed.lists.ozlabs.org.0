@@ -1,70 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1360AA61D
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2019 16:41:55 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63757AA68C
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2019 16:53:44 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46PNgH4zThzDqTw
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2019 00:41:47 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46PNwz66KmzDr27
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2019 00:53:39 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=google.com
- (client-ip=2a00:1450:4864:20::544; helo=mail-ed1-x544.google.com;
- envelope-from=osk@google.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (mailfrom)
+ smtp.mailfrom=flex--osk.bounces.google.com (client-ip=2607:f8b0:4864:20::a49;
+ helo=mail-vk1-xa49.google.com;
+ envelope-from=3pb5xxqmkdjcfjb7ff7c5.3fdc9elo-1jg554c9jkj.fqc12j.fi7@flex--osk.bounces.google.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=google.com header.i=@google.com header.b="fS0Qwwm4"; 
+ unprotected) header.d=google.com header.i=@google.com header.b="nToKRiBC"; 
  dkim-atps=neutral
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
+Received: from mail-vk1-xa49.google.com (mail-vk1-xa49.google.com
+ [IPv6:2607:f8b0:4864:20::a49])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46PNg217B9zDqHR
- for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2019 00:41:33 +1000 (AEST)
-Received: by mail-ed1-x544.google.com with SMTP id s49so2969754edb.1
- for <linux-aspeed@lists.ozlabs.org>; Thu, 05 Sep 2019 07:41:33 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46PNr12jQFzDqcL
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2019 00:49:21 +1000 (AEST)
+Received: by mail-vk1-xa49.google.com with SMTP id c199so1039823vkc.4
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 05 Sep 2019 07:49:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sHWtT5iV/isQMi999bxAmxXT3ZJW1HcrRcSR8kXm7Y0=;
- b=fS0Qwwm4XcPrR56xCzeN/8RQuZjS1xxcyMXZ61KYaNiK2ngdi5RTaUggYoM5QqWqRJ
- czAxSk7rQuHXVfux40Pc5ZkwMzCXpe3thOXiq0hODCUTB3y8blkVDITTaY+bgXIS4CtK
- kpNWyVRoTRQ22ha0/ElfCuxwn0t22lq4cGA//YfB2eVgnCoDwptI1pNQKEdvphCypOkO
- eNjVHDRovLZ429FrN0md7ijb1wwPhFwuuljZdDxhNqA/dmTVnGY4wSwAugjTxYfY2Yi1
- sXfF9XpAOigqWlIJCJ9OxtO7qx47v/EcnAHYEK8sAynr3jJsa2TMk/Cxz8kSDjo9bm7o
- GfNg==
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=LFWsK2QZ8bVXSHheMKtLsdY0S0oitbaw2viAl6b9YRQ=;
+ b=nToKRiBCwB6R+Wv2qaPXm7X9v1PLvu8s3PL/XUsIGgq6IDiAmrB0JDTPMaBhi9lmkA
+ 2PRGQPF6JcBtbEWUC4B2kvXeGUFnzpsMEB1QoAdqIJGHqL1DX0xZThcZr2nqM0zafeCB
+ mGasaJtCwA1BB6n6iodDP/y/5me8ncb8w+QP0EA5hFg41AgEHF1qq5IcZXyq6RHv9mg2
+ KGPOZW5VAa0EsSfSKgh8XepycO2GKD/U7DoPLJNm3GN1P9/Z2GJmVm9rNYrF3B7Ocxlw
+ /JrakuhfbQXfb9N20paa1tiJ7p2oZ56kjiYS1ecJ0GHE+D+9J4OTgQ2Ep69UMYpvNyAQ
+ WNVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sHWtT5iV/isQMi999bxAmxXT3ZJW1HcrRcSR8kXm7Y0=;
- b=kRdy5wNfBj3+KzsKiLQhWiOvmsb90K2MPhtXE4+awWk1MCHPNyZGXqrTGaGgUP0GKA
- FBhmeo8EGgsAIr1k1kZ0bD0BRZSqw2YYx4IeMoab5S0ZHfkTSPkD2Not7+y08OiauhT0
- nTYMXUL9nsHo2KO9tGVdLRZusVxN13givjKk5/XyOqowCaRNUQ4Q08aQOdaZfk4Qa4lh
- 4I23S/rGrzNNmPitUU9z8U97m/k0Y2no4laNa/eXKkSyjIVo2PWtW0oVHgInF8rRjwa1
- f+ydmDhdIZAonslZNtmZZrv0F7BCgsGnvsq17POcJHET2JJZ6MD0XVf3yrjBcJ/jcoPr
- a+Fw==
-X-Gm-Message-State: APjAAAVH8Ru6zQ1VtdwU0LA9mBwooxnsRAiCjbyr/au2zVEYhcsBT8Zy
- evQacvLdUwqNyuCoHs5Nl9sUCGQ9bv69Ta1Waoyd1Q==
-X-Google-Smtp-Source: APXvYqwqfiJYjqeVQyGNwDRAslc051uOxKZP9nnN2i+wIun4idVWyMnLkULGI7ok6m5nFZaY/Nqm9fskhj7xxUMgTgM=
-X-Received: by 2002:a17:906:583:: with SMTP id 3mr3076608ejn.74.1567694489686; 
- Thu, 05 Sep 2019 07:41:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190731013404.243755-1-osk@google.com>
- <20190731013404.243755-2-osk@google.com>
- <b4670171-e161-4d7a-91dc-a1e5a95f7dbc@www.fastmail.com>
- <f1d2757119807a48833eba193cd9b443dde0ccba.camel@ozlabs.org>
-In-Reply-To: <f1d2757119807a48833eba193cd9b443dde0ccba.camel@ozlabs.org>
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=LFWsK2QZ8bVXSHheMKtLsdY0S0oitbaw2viAl6b9YRQ=;
+ b=TsVqKPbZdC5Sfh4XKg4caMGdgD9EE/qCUlak71MzbHM9Zzty0otY995yIDW8duomXt
+ Ge2O33e4CWyK5UUaxj86r/HAKe/uD4nfuGIB6XZ2izF9wAmj0Q3DiZGftFsu1bPoUW9Z
+ Yd59/jv0TPxWZnDXWmZdHSj7uBWGS1uaull2RIoJUUnlHtnFCSErXaajNpg6gl6OGJ78
+ 7TsTOxvfrHj1jSQaYp9MKdlsNBdiokRFPdK5aDaKO/oa/XuLc+HSMIrsp4pt0M0Ru9hb
+ NOFOX4Nnnff8e9B9U+gDSgTrzroXBkN2sZRJxeCbI/v4NX0PqWazgMm+PEAAt5LsvLAg
+ TZoQ==
+X-Gm-Message-State: APjAAAUObt6xVud+ADuoYxhvxejTtrdRU4//M6ks+o3bSQ5CW/3pn0JF
+ TC615ZKsExTQ+88rwMxuh9dv658=
+X-Google-Smtp-Source: APXvYqxeIMwEoSy2MaWbECwQxT+FzZFA/C0q7vBr3W8SzYyTQvFCaPXQyOq5yue5Qew81uUEEcJFFso=
+X-Received: by 2002:a1f:410f:: with SMTP id o15mr1715102vka.82.1567694500426; 
+ Thu, 05 Sep 2019 07:41:40 -0700 (PDT)
+Date: Thu,  5 Sep 2019 10:41:28 -0400
+Message-Id: <20190905144130.220713-1-osk@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
+Subject: [PATCH v3 1/3] drivers/tty/serial/8250: Make Aspeed VUART SIRQ
+ polarity configurable
 From: Oskar Senft <osk@google.com>
-Date: Thu, 5 Sep 2019 10:41:13 -0400
-Message-ID: <CABoTLcTR-iNEftk8ThnyBKn0qD2+jTAOFmZAdGciVXj6KJJcww@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] dt-bindings: serial: 8250: Add documentation for
- espi-enabled.
-To: Jeremy Kerr <jk@ozlabs.org>, Andrew Jeffery <andrew@aj.id.au>
-Content-Type: multipart/alternative; boundary="0000000000002d4d2f0591cf514a"
+To: joel@jms.id.au, andrew@aj.id.au, robh+dt@kernel.org, 
+ gregkh@linuxfoundation.org, jk@ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,72 +73,196 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: OpenBMC Maillist <openbmc@lists.ozlabs.org>, linux-aspeed@lists.ozlabs.org
+Cc: devicetree@vger.kernel.org, openbmc@lists.ozlabs.org,
+ linux-serial@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Oskar Senft <osk@google.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---0000000000002d4d2f0591cf514a
-Content-Type: text/plain; charset="UTF-8"
+Make the SIRQ polarity for Aspeed AST24xx/25xx VUART configurable via
+sysfs. This setting need to be changed on specific host platforms
+depending on the selected host interface (LPC / eSPI).
 
-Hi Andrew and Jeremy
+The setting is configurable via sysfs rather than device-tree to stay in
+line with other related configurable settings.
 
-Thanks for both your input, that was helpful. I'm sorry it took me so long
-to get back to this. I hope it's in better shape now.
+On AST2500 the VUART SIRQ polarity can be auto-configured by reading a
+bit from a configuration register, e.g. the LPC/eSPI interface
+configuration bit.
 
-> Given it's ASPEED-specific I expect you should use a vendor prefix for the
-> > property, e.g. aspeed,espi-enabled.
->
-That was a very good point.
+Tested: Verified on TYAN S7106 mainboard.
+Signed-off-by: Oskar Senft <osk@google.com>
+---
+ .../ABI/stable/sysfs-driver-aspeed-vuart      | 11 ++-
+ drivers/tty/serial/8250/8250_aspeed_vuart.c   | 84 +++++++++++++++++++
+ drivers/tty/serial/8250/Kconfig               |  1 +
+ 3 files changed, 95 insertions(+), 1 deletion(-)
 
+diff --git a/Documentation/ABI/stable/sysfs-driver-aspeed-vuart b/Documentation/ABI/stable/sysfs-driver-aspeed-vuart
+index 8062953ce77b..950cafc9443a 100644
+--- a/Documentation/ABI/stable/sysfs-driver-aspeed-vuart
++++ b/Documentation/ABI/stable/sysfs-driver-aspeed-vuart
+@@ -6,10 +6,19 @@ Description:	Configures which IO port the host side of the UART
+ Users:		OpenBMC.  Proposed changes should be mailed to
+ 		openbmc@lists.ozlabs.org
+ 
+-What:		/sys/bus/platform/drivers/aspeed-vuart*/sirq
++What:		/sys/bus/platform/drivers/aspeed-vuart/*/sirq
+ Date:		April 2017
+ Contact:	Jeremy Kerr <jk@ozlabs.org>
+ Description:	Configures which interrupt number the host side of
+ 		the UART will appear on the host <-> BMC LPC bus.
+ Users:		OpenBMC.  Proposed changes should be mailed to
+ 		openbmc@lists.ozlabs.org
++
++What:		/sys/bus/platform/drivers/aspeed-vuart/*/sirq_polarity
++Date:		July 2019
++Contact:	Oskar Senft <osk@google.com>
++Description:	Configures the polarity of the serial interrupt to the
++		host via the BMC LPC bus.
++		Set to 0 for active-low or 1 for active-high.
++Users:		OpenBMC.  Proposed changes should be mailed to
++		openbmc@lists.ozlabs.org
+diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+index 0438d9a905ce..6e67fd89445a 100644
+--- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
++++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+@@ -14,6 +14,8 @@
+ #include <linux/of_address.h>
+ #include <linux/of_irq.h>
+ #include <linux/of_platform.h>
++#include <linux/regmap.h>
++#include <linux/mfd/syscon.h>
+ #include <linux/tty.h>
+ #include <linux/tty_flip.h>
+ #include <linux/clk.h>
+@@ -22,6 +24,7 @@
+ 
+ #define ASPEED_VUART_GCRA		0x20
+ #define ASPEED_VUART_GCRA_VUART_EN		BIT(0)
++#define ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY	BIT(1)
+ #define ASPEED_VUART_GCRA_DISABLE_HOST_TX_DISCARD BIT(5)
+ #define ASPEED_VUART_GCRB		0x24
+ #define ASPEED_VUART_GCRB_HOST_SIRQ_MASK	GENMASK(7, 4)
+@@ -131,8 +134,53 @@ static ssize_t sirq_store(struct device *dev, struct device_attribute *attr,
+ 
+ static DEVICE_ATTR_RW(sirq);
+ 
++static ssize_t sirq_polarity_show(struct device *dev,
++				  struct device_attribute *attr, char *buf)
++{
++	struct aspeed_vuart *vuart = dev_get_drvdata(dev);
++	u8 reg;
++
++	reg = readb(vuart->regs + ASPEED_VUART_GCRA);
++	reg &= ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
++
++	return snprintf(buf, PAGE_SIZE - 1, "%u\n", reg ? 1 : 0);
++}
++
++static void aspeed_vuart_set_sirq_polarity(struct aspeed_vuart *vuart,
++					   bool polarity)
++{
++	u8 reg = readb(vuart->regs + ASPEED_VUART_GCRA);
++
++	if (polarity)
++		reg |= ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
++	else
++		reg &= ~ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
++
++	writeb(reg, vuart->regs + ASPEED_VUART_GCRA);
++}
++
++static ssize_t sirq_polarity_store(struct device *dev,
++				   struct device_attribute *attr,
++				   const char *buf, size_t count)
++{
++	struct aspeed_vuart *vuart = dev_get_drvdata(dev);
++	unsigned long val;
++	int err;
++
++	err = kstrtoul(buf, 0, &val);
++	if (err)
++		return err;
++
++	aspeed_vuart_set_sirq_polarity(vuart, val != 0);
++
++	return count;
++}
++
++static DEVICE_ATTR_RW(sirq_polarity);
++
+ static struct attribute *aspeed_vuart_attrs[] = {
+ 	&dev_attr_sirq.attr,
++	&dev_attr_sirq_polarity.attr,
+ 	&dev_attr_lpc_address.attr,
+ 	NULL,
+ };
+@@ -302,8 +350,30 @@ static int aspeed_vuart_handle_irq(struct uart_port *port)
+ 	return 1;
+ }
+ 
++static void aspeed_vuart_auto_configure_sirq_polarity(
++	struct aspeed_vuart *vuart, struct device_node *syscon_np,
++	u32 reg_offset, u32 reg_mask)
++{
++	struct regmap *regmap;
++	u32 value;
++
++	regmap = syscon_node_to_regmap(syscon_np);
++	if (IS_ERR(regmap)) {
++		dev_warn(vuart->dev,
++			 "could not get regmap for aspeed,sirq-polarity-sense\n");
++		return;
++	}
++	if (regmap_read(regmap, reg_offset, &value)) {
++		dev_warn(vuart->dev, "could not read hw strap table\n");
++		return;
++	}
++
++	aspeed_vuart_set_sirq_polarity(vuart, (value & reg_mask) == 0);
++}
++
+ static int aspeed_vuart_probe(struct platform_device *pdev)
+ {
++	struct of_phandle_args sirq_polarity_sense_args;
+ 	struct uart_8250_port port;
+ 	struct aspeed_vuart *vuart;
+ 	struct device_node *np;
+@@ -402,6 +472,20 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
+ 
+ 	vuart->line = rc;
+ 
++	rc = of_parse_phandle_with_fixed_args(
++		np, "aspeed,sirq-polarity-sense", 2, 0,
++		&sirq_polarity_sense_args);
++	if (rc < 0) {
++		dev_dbg(&pdev->dev,
++			"aspeed,sirq-polarity-sense property not found\n");
++	} else {
++		aspeed_vuart_auto_configure_sirq_polarity(
++			vuart, sirq_polarity_sense_args.np,
++			sirq_polarity_sense_args.args[0],
++			BIT(sirq_polarity_sense_args.args[1]));
++		of_node_put(sirq_polarity_sense_args.np);
++	}
++
+ 	aspeed_vuart_set_enabled(vuart, true);
+ 	aspeed_vuart_set_host_tx_discard(vuart, true);
+ 	platform_set_drvdata(pdev, vuart);
+diff --git a/drivers/tty/serial/8250/Kconfig b/drivers/tty/serial/8250/Kconfig
+index 509f6a3bb9ff..98e25781a293 100644
+--- a/drivers/tty/serial/8250/Kconfig
++++ b/drivers/tty/serial/8250/Kconfig
+@@ -243,6 +243,7 @@ config SERIAL_8250_ASPEED_VUART
+ 	tristate "Aspeed Virtual UART"
+ 	depends on SERIAL_8250
+ 	depends on OF
++	depends on REGMAP && MFD_SYSCON
+ 	help
+ 	  If you want to use the virtual UART (VUART) device on Aspeed
+ 	  BMC platforms, enable this option. This enables the 16550A-
+-- 
+2.23.0.187.g17f5b7556c-goog
 
-> > However, as I understand it you want to determine what polarity the SIRQ
-> > should be regardless of which of eSPI or LPC are enabled, so I don't
-> think
-> > the property name should be an explicit statement about eSPI. Maybe
-> > "aspeed,sirq-polarity-sense"?
->
-> Yep, +1 on Andrew's comments here. This property isn't an indication on
-> whether espi is enabled, but a method to detect it.
->
-I agree. I was so focused on functionality that I didn't look at this with
-a wider view.
-
-I'll send v3 of the patch that contains appropriate changes. I'll also
-include further lists and individuals to get OKs as needed.
-
-Thanks
-Oskar.
-
---0000000000002d4d2f0591cf514a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Andrew and Jeremy<div><br></div><div>T=
-hanks for both your input, that was helpful. I&#39;m sorry it took me so lo=
-ng to get back to this. I hope it&#39;s in better shape now.</div><div><br>=
-</div></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">&gt; Given it&#39;s ASPEED-specific I expect you should use a=
- vendor prefix for the<br>
-&gt; property, e.g. aspeed,espi-enabled.<br></blockquote><div>That was a ve=
-ry good point.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">&gt; However, as I understand it you want to determine what pol=
-arity the SIRQ<br>
-&gt; should be regardless of which of eSPI or LPC are enabled, so I don&#39=
-;t think<br>
-&gt; the property name should be an explicit statement about eSPI. Maybe<br=
->
-&gt; &quot;aspeed,sirq-polarity-sense&quot;?<br>
-<br>
-Yep, +1 on Andrew&#39;s comments here. This property isn&#39;t an indicatio=
-n on<br>
-whether espi is enabled, but a method to detect it.<br></blockquote><div>I =
-agree. I was so focused on functionality that I didn&#39;t look at this wit=
-h a wider view.</div><div><br></div><div>I&#39;ll send v3 of the patch that=
- contains appropriate changes. I&#39;ll also include further lists and indi=
-viduals to get OKs as needed.</div><div><br></div><div>Thanks</div><div>Osk=
-ar.</div></div></div>
-
---0000000000002d4d2f0591cf514a--
