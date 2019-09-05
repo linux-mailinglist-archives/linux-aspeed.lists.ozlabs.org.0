@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F30AA611
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2019 16:41:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1360AA61D
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2019 16:41:55 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46PNfl3FppzDqPn
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2019 00:41:19 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46PNgH4zThzDqTw
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2019 00:41:47 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -16,53 +16,55 @@ Authentication-Results: lists.ozlabs.org;
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=google.com header.i=@google.com header.b="bETFv/AE"; 
+ unprotected) header.d=google.com header.i=@google.com header.b="fS0Qwwm4"; 
  dkim-atps=neutral
 Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
  [IPv6:2a00:1450:4864:20::544])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46PNbv0Q90zDqKM
- for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2019 00:38:48 +1000 (AEST)
-Received: by mail-ed1-x544.google.com with SMTP id z9so2904818edq.8
- for <linux-aspeed@lists.ozlabs.org>; Thu, 05 Sep 2019 07:38:48 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46PNg217B9zDqHR
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2019 00:41:33 +1000 (AEST)
+Received: by mail-ed1-x544.google.com with SMTP id s49so2969754edb.1
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 05 Sep 2019 07:41:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z9qGYuvzOKgfE3VSf4A7hjyBrq/wsFQ0ELo9HQginn0=;
- b=bETFv/AEsOjp6qNvUkCj0+WWT3HyrhgruPHhGegUatQbeUr+k2ZLPC9/yib2dthl/g
- HXqve5NkdUzb1wzAPcGMBe1VpcPfkNWKKo98L/LVnW0OljndFxjrEsKcWoYD9wABQkVB
- GoMcJiHBsG8oAISuuy9xY3rsu80o8ZhiOzj5sCGukBdcKmG8mKYTPPNRq8R+fHvdGOdO
- wdJXqH9NhPuYfz12oIwvyWCMPQZvKQdbWklNegRgt9P1pf/ibd5jZXUYFjxd7+p6uiHR
- sPv7GcnoAqT8bVFpDE+3nSY8MnKi3ii5gItHzLLW9g3XykJTV7MAYiije4ptUPC6uwXl
- U3uA==
+ :cc; bh=sHWtT5iV/isQMi999bxAmxXT3ZJW1HcrRcSR8kXm7Y0=;
+ b=fS0Qwwm4XcPrR56xCzeN/8RQuZjS1xxcyMXZ61KYaNiK2ngdi5RTaUggYoM5QqWqRJ
+ czAxSk7rQuHXVfux40Pc5ZkwMzCXpe3thOXiq0hODCUTB3y8blkVDITTaY+bgXIS4CtK
+ kpNWyVRoTRQ22ha0/ElfCuxwn0t22lq4cGA//YfB2eVgnCoDwptI1pNQKEdvphCypOkO
+ eNjVHDRovLZ429FrN0md7ijb1wwPhFwuuljZdDxhNqA/dmTVnGY4wSwAugjTxYfY2Yi1
+ sXfF9XpAOigqWlIJCJ9OxtO7qx47v/EcnAHYEK8sAynr3jJsa2TMk/Cxz8kSDjo9bm7o
+ GfNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=z9qGYuvzOKgfE3VSf4A7hjyBrq/wsFQ0ELo9HQginn0=;
- b=n+Y8NKpTC1DOD3DfVplUbQgGaC60eGnEB3Uek0Vpwwxo32UK2ZWqCLY1Kax5ANZyFI
- KMDJ+Zn7st4McXL7gzPpYGHlmnL3JtADkW9gow4aDEglE3UhD7bf33VkkMnGqhRPHQ2D
- aLKDZCglvQhFVFl+yL2zCc6DzhJezyl/K8eQPpthkFvDLEs6sknamAYHA3fjZ/ypQzyy
- rtxhxQihfXhVtzg1dDnclx2wQsBeE/pkkp53Gc+2c188OK/NZmz9oJT1yNzKQx7/JdN+
- 4/sqY/kY5cerzq0HwcJpWTsOgGfMJ6jJzjJ3Chrlg3ezlAk+1SMRRIdrCdLIz/oZxw/A
- 8TyA==
-X-Gm-Message-State: APjAAAWkQjTeDjKs/cdxFul1H+MNBhCKNkrI+gQ1Q7tyGEn3yh3JHlIu
- a+GE2Ky0hIrODgvQJRLzTb0oJu9trKJh0Q2GLDAktA==
-X-Google-Smtp-Source: APXvYqx/3uKTAYSvYqtkWjmW6yllkZx6L37FPwfh8NaB+a0K2KpQMK/WOjsrjiGVWRGG3OnhfAXscudqwK7xWwMPSNE=
-X-Received: by 2002:aa7:da18:: with SMTP id r24mr4238016eds.37.1567694321951; 
- Thu, 05 Sep 2019 07:38:41 -0700 (PDT)
+ bh=sHWtT5iV/isQMi999bxAmxXT3ZJW1HcrRcSR8kXm7Y0=;
+ b=kRdy5wNfBj3+KzsKiLQhWiOvmsb90K2MPhtXE4+awWk1MCHPNyZGXqrTGaGgUP0GKA
+ FBhmeo8EGgsAIr1k1kZ0bD0BRZSqw2YYx4IeMoab5S0ZHfkTSPkD2Not7+y08OiauhT0
+ nTYMXUL9nsHo2KO9tGVdLRZusVxN13givjKk5/XyOqowCaRNUQ4Q08aQOdaZfk4Qa4lh
+ 4I23S/rGrzNNmPitUU9z8U97m/k0Y2no4laNa/eXKkSyjIVo2PWtW0oVHgInF8rRjwa1
+ f+ydmDhdIZAonslZNtmZZrv0F7BCgsGnvsq17POcJHET2JJZ6MD0XVf3yrjBcJ/jcoPr
+ a+Fw==
+X-Gm-Message-State: APjAAAVH8Ru6zQ1VtdwU0LA9mBwooxnsRAiCjbyr/au2zVEYhcsBT8Zy
+ evQacvLdUwqNyuCoHs5Nl9sUCGQ9bv69Ta1Waoyd1Q==
+X-Google-Smtp-Source: APXvYqwqfiJYjqeVQyGNwDRAslc051uOxKZP9nnN2i+wIun4idVWyMnLkULGI7ok6m5nFZaY/Nqm9fskhj7xxUMgTgM=
+X-Received: by 2002:a17:906:583:: with SMTP id 3mr3076608ejn.74.1567694489686; 
+ Thu, 05 Sep 2019 07:41:29 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190731013404.243755-1-osk@google.com>
- <a2ff0b6edb87d5495dd8e683e95d3b719e55f970.camel@ozlabs.org>
-In-Reply-To: <a2ff0b6edb87d5495dd8e683e95d3b719e55f970.camel@ozlabs.org>
+ <20190731013404.243755-2-osk@google.com>
+ <b4670171-e161-4d7a-91dc-a1e5a95f7dbc@www.fastmail.com>
+ <f1d2757119807a48833eba193cd9b443dde0ccba.camel@ozlabs.org>
+In-Reply-To: <f1d2757119807a48833eba193cd9b443dde0ccba.camel@ozlabs.org>
 From: Oskar Senft <osk@google.com>
-Date: Thu, 5 Sep 2019 10:38:24 -0400
-Message-ID: <CABoTLcS2z-RtUcm_QNcNC2Pvo4GSg29qpuOnvh+W=UTe+4ehkA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] drivers/tty/serial/8250: Make Aspeed VUART SIRQ
- polarity configurable
-To: Jeremy Kerr <jk@ozlabs.org>
-Content-Type: multipart/alternative; boundary="0000000000002da1b50591cf47d0"
+Date: Thu, 5 Sep 2019 10:41:13 -0400
+Message-ID: <CABoTLcTR-iNEftk8ThnyBKn0qD2+jTAOFmZAdGciVXj6KJJcww@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] dt-bindings: serial: 8250: Add documentation for
+ espi-enabled.
+To: Jeremy Kerr <jk@ozlabs.org>, Andrew Jeffery <andrew@aj.id.au>
+Content-Type: multipart/alternative; boundary="0000000000002d4d2f0591cf514a"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,208 +81,67 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---0000000000002da1b50591cf47d0
+--0000000000002d4d2f0591cf514a
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Jeremy
+Hi Andrew and Jeremy
 
-Thanks for your comments, they were really helpful!
+Thanks for both your input, that was helpful. I'm sorry it took me so long
+to get back to this. I hope it's in better shape now.
 
-
-> > +What:
-> /sys/bus/platform/drivers/aspeed-vuart/*/sirq_polarity
-> > +Date:                July 2019
-> > +Contact:     Oskar Senft <osk@google.com>
-> > +Description: Configures the polarity of the serial interrupt to the
-> > +             host via the BMC LPC bus.
+> Given it's ASPEED-specific I expect you should use a vendor prefix for the
+> > property, e.g. aspeed,espi-enabled.
 >
-> Can you mention what the value represents? 1/0 don't really indicate a
-> specific polarity.
+That was a very good point.
+
+
+> > However, as I understand it you want to determine what polarity the SIRQ
+> > should be regardless of which of eSPI or LPC are enabled, so I don't
+> think
+> > the property name should be an explicit statement about eSPI. Maybe
+> > "aspeed,sirq-polarity-sense"?
 >
-Good point. Not sure why I didn't do that initially.
-
-
-> > @@ -310,6 +379,7 @@ static int aspeed_vuart_probe(struct platform_device
-> *pdev)
-> >       struct resource *res;
-> >       u32 clk, prop;
-> >       int rc;
-> > +     struct of_phandle_args espi_enabled_args;
-> Minor: can you reverse-christmas-tree this?
+> Yep, +1 on Andrew's comments here. This property isn't an indication on
+> whether espi is enabled, but a method to detect it.
 >
-Oops, yeah. Sorry! Conflicting coding styles in my head got confused.
+I agree. I was so focused on functionality that I didn't look at this with
+a wider view.
 
-
-> > +     rc = of_parse_phandle_with_fixed_args(
-> > +             np, "espi-enabled", 2, 0, &espi_enabled_args);
-> > +     if (rc < 0) {
-> > +             dev_warn(&pdev->dev, "espi-enabled property not found\n");
-> That may just be a matter of changing this to dev_debug.
->
-That was my intent, sorry for that.
-
-I'll send v3 with those changes in a few minutes.
+I'll send v3 of the patch that contains appropriate changes. I'll also
+include further lists and individuals to get OKs as needed.
 
 Thanks
 Oskar.
 
-
-On Wed, Sep 4, 2019 at 9:14 PM Jeremy Kerr <jk@ozlabs.org> wrote:
-
-> Hi Oskar,
->
-> Looks good to me, some minor comments though:
->
-> > +
-> > +What:
-> /sys/bus/platform/drivers/aspeed-vuart/*/sirq_polarity
-> > +Date:                July 2019
-> > +Contact:     Oskar Senft <osk@google.com>
-> > +Description: Configures the polarity of the serial interrupt to the
-> > +             host via the BMC LPC bus.
->
-> Can you mention what the value represents? 1/0 don't really indicate a
-> specific polarity.
->
-> Alternatively, we could use descriptive values (say, "active-low" /
-> "idle-low").
->
-> > @@ -310,6 +379,7 @@ static int aspeed_vuart_probe(struct platform_device
-> *pdev)
-> >       struct resource *res;
-> >       u32 clk, prop;
-> >       int rc;
-> > +     struct of_phandle_args espi_enabled_args;
->
-> Minor: can you reverse-christmas-tree this?
->
-> > @@ -402,6 +472,18 @@ static int aspeed_vuart_probe(struct
-> platform_device *pdev)
-> >
-> >       vuart->line = rc;
-> >
-> > +     rc = of_parse_phandle_with_fixed_args(
-> > +             np, "espi-enabled", 2, 0, &espi_enabled_args);
-> > +     if (rc < 0) {
-> > +             dev_warn(&pdev->dev, "espi-enabled property not found\n");
->
-> In the binding spec, you've listed this property at optional, but here
-> we dev_warn() if its not present. Can we default to existing behaviour
-> if it's not there?
->
-> That may just be a matter of changing this to dev_debug.
->
-> Cheers,
->
->
-> Jeremy
->
->
-
---0000000000002da1b50591cf47d0
+--0000000000002d4d2f0591cf514a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Jeremy</div><div dir=3D"ltr"><br></div=
-><div>Thanks for your comments, they were really=C2=A0helpful!</div><div cl=
-ass=3D"gmail_quote"><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Andrew and Jeremy<div><br></div><div>T=
+hanks for both your input, that was helpful. I&#39;m sorry it took me so lo=
+ng to get back to this. I hope it&#39;s in better shape now.</div><div><br>=
+</div></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">&gt; Given it&#39;s ASPEED-specific I expect you should use a=
+ vendor prefix for the<br>
+&gt; property, e.g. aspeed,espi-enabled.<br></blockquote><div>That was a ve=
+ry good point.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
 e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">&gt; +What:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 /sys/bus/platform/drivers/aspeed-vuart/*/sirq_polarity<br>
-&gt; +Date:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 July 201=
-9<br>
-&gt; +Contact:=C2=A0 =C2=A0 =C2=A0Oskar Senft &lt;<a href=3D"mailto:osk@goo=
-gle.com" target=3D"_blank">osk@google.com</a>&gt;<br>
-&gt; +Description: Configures the polarity of the serial interrupt to the<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0host via the BMC LPC =
-bus.<br>
+g-left:1ex">&gt; However, as I understand it you want to determine what pol=
+arity the SIRQ<br>
+&gt; should be regardless of which of eSPI or LPC are enabled, so I don&#39=
+;t think<br>
+&gt; the property name should be an explicit statement about eSPI. Maybe<br=
+>
+&gt; &quot;aspeed,sirq-polarity-sense&quot;?<br>
 <br>
-Can you mention what the value represents? 1/0 don&#39;t really indicate a<=
-br>
-specific polarity.<br></blockquote><div>Good point. Not sure why I didn&#39=
-;t do that initially.</div><div>=C2=A0</div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">&gt; @@ -310,6 +379,7 @@ static int aspeed_vuart_probe(s=
-truct platform_device *pdev)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct resource *res;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clk, prop;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0int rc;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct of_phandle_args espi_enabled_args;<br>
-Minor: can you reverse-christmas-tree this?<br></blockquote><div>Oops, yeah=
-. Sorry! Conflicting coding styles in my head got confused.</div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">&gt; +=C2=A0 =C2=
-=A0 =C2=A0rc =3D of_parse_phandle_with_fixed_args(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0np, &quot;espi-enable=
-d&quot;, 2, 0, &amp;espi_enabled_args);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (rc &lt; 0) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_warn(&amp;pdev-&g=
-t;dev, &quot;espi-enabled property not found\n&quot;);<br>That may just be =
-a matter of changing this to dev_debug.<br></blockquote><div>That was my in=
-tent, sorry for that.</div><div><br></div><div>I&#39;ll send v3 with those =
-changes in a few minutes.</div><div><br></div><div>Thanks</div><div>Oskar.<=
-/div><div><br></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"=
-ltr" class=3D"gmail_attr">On Wed, Sep 4, 2019 at 9:14 PM Jeremy Kerr &lt;<a=
- href=3D"mailto:jk@ozlabs.org">jk@ozlabs.org</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">Hi Oskar,<br>
-<br>
-Looks good to me, some minor comments though:<br>
-<br>
-&gt; +<br>
-&gt; +What:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /sys/bus=
-/platform/drivers/aspeed-vuart/*/sirq_polarity<br>
-&gt; +Date:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 July 201=
-9<br>
-&gt; +Contact:=C2=A0 =C2=A0 =C2=A0Oskar Senft &lt;<a href=3D"mailto:osk@goo=
-gle.com" target=3D"_blank">osk@google.com</a>&gt;<br>
-&gt; +Description: Configures the polarity of the serial interrupt to the<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0host via the BMC LPC =
-bus.<br>
-<br>
-Can you mention what the value represents? 1/0 don&#39;t really indicate a<=
-br>
-specific polarity.<br>
-<br>
-Alternatively, we could use descriptive values (say, &quot;active-low&quot;=
- /<br>
-&quot;idle-low&quot;).<br>
-<br>
-&gt; @@ -310,6 +379,7 @@ static int aspeed_vuart_probe(struct platform_devi=
-ce *pdev)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct resource *res;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0u32 clk, prop;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0int rc;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct of_phandle_args espi_enabled_args;<br>
-<br>
-Minor: can you reverse-christmas-tree this?<br>
-<br>
-&gt; @@ -402,6 +472,18 @@ static int aspeed_vuart_probe(struct platform_dev=
-ice *pdev)<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0vuart-&gt;line =3D rc;<br>
-&gt;=C2=A0 <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0rc =3D of_parse_phandle_with_fixed_args(<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0np, &quot;espi-enable=
-d&quot;, 2, 0, &amp;espi_enabled_args);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (rc &lt; 0) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_warn(&amp;pdev-&g=
-t;dev, &quot;espi-enabled property not found\n&quot;);<br>
-<br>
-In the binding spec, you&#39;ve listed this property at optional, but here<=
-br>
-we dev_warn() if its not present. Can we default to existing behaviour<br>
-if it&#39;s not there?<br>
-<br>
-That may just be a matter of changing this to dev_debug.<br>
-<br>
-Cheers,<br>
-<br>
-<br>
-Jeremy<br>
-<br>
-</blockquote></div>
+Yep, +1 on Andrew&#39;s comments here. This property isn&#39;t an indicatio=
+n on<br>
+whether espi is enabled, but a method to detect it.<br></blockquote><div>I =
+agree. I was so focused on functionality that I didn&#39;t look at this wit=
+h a wider view.</div><div><br></div><div>I&#39;ll send v3 of the patch that=
+ contains appropriate changes. I&#39;ll also include further lists and indi=
+viduals to get OKs as needed.</div><div><br></div><div>Thanks</div><div>Osk=
+ar.</div></div></div>
 
---0000000000002da1b50591cf47d0--
+--0000000000002d4d2f0591cf514a--
