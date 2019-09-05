@@ -2,62 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63757AA68C
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2019 16:53:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C576AA68E
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2019 16:53:50 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46PNwz66KmzDr27
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2019 00:53:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46PNx73NXgzDr2s
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2019 00:53:47 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (mailfrom)
- smtp.mailfrom=flex--osk.bounces.google.com (client-ip=2607:f8b0:4864:20::a49;
- helo=mail-vk1-xa49.google.com;
- envelope-from=3pb5xxqmkdjcfjb7ff7c5.3fdc9elo-1jg554c9jkj.fqc12j.fi7@flex--osk.bounces.google.com;
+ smtp.mailfrom=flex--osk.bounces.google.com (client-ip=2607:f8b0:4864:20::849;
+ helo=mail-qt1-x849.google.com;
+ envelope-from=3pr5xxqmkdjggkc8gg8d6.4gedafmp-2kh665daklk.grd23k.gj8@flex--osk.bounces.google.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=google.com header.i=@google.com header.b="nToKRiBC"; 
+ unprotected) header.d=google.com header.i=@google.com header.b="BtnXfkFF"; 
  dkim-atps=neutral
-Received: from mail-vk1-xa49.google.com (mail-vk1-xa49.google.com
- [IPv6:2607:f8b0:4864:20::a49])
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com
+ [IPv6:2607:f8b0:4864:20::849])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46PNr12jQFzDqcL
- for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2019 00:49:21 +1000 (AEST)
-Received: by mail-vk1-xa49.google.com with SMTP id c199so1039823vkc.4
- for <linux-aspeed@lists.ozlabs.org>; Thu, 05 Sep 2019 07:49:21 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46PNr51z4lzDqK6
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2019 00:49:25 +1000 (AEST)
+Received: by mail-qt1-x849.google.com with SMTP id c13so2725189qtp.21
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 05 Sep 2019 07:49:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=LFWsK2QZ8bVXSHheMKtLsdY0S0oitbaw2viAl6b9YRQ=;
- b=nToKRiBCwB6R+Wv2qaPXm7X9v1PLvu8s3PL/XUsIGgq6IDiAmrB0JDTPMaBhi9lmkA
- 2PRGQPF6JcBtbEWUC4B2kvXeGUFnzpsMEB1QoAdqIJGHqL1DX0xZThcZr2nqM0zafeCB
- mGasaJtCwA1BB6n6iodDP/y/5me8ncb8w+QP0EA5hFg41AgEHF1qq5IcZXyq6RHv9mg2
- KGPOZW5VAa0EsSfSKgh8XepycO2GKD/U7DoPLJNm3GN1P9/Z2GJmVm9rNYrF3B7Ocxlw
- /JrakuhfbQXfb9N20paa1tiJ7p2oZ56kjiYS1ecJ0GHE+D+9J4OTgQ2Ep69UMYpvNyAQ
- WNVQ==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=RaOdMEdHWabRyA48tWifREdKC/PQMtkOlsK8xXnOLlg=;
+ b=BtnXfkFFib9LY2N7CLMrbVvS73v4Eq6wm+VbGidSpNhFCD42EtMTDvVL8+G02UX2lJ
+ 6hfjWa8pXNEsKJfxRxDoiJ6Js2le/D2knnMzOom9h3YZXu6WCmWpYxSPqhxIf8XvjDqK
+ 4mY6MhLeCLz8/uWepBTNX4NevsjTbdtjpmk3VvfemuGiEPKEMVJGs1z5NKuM2TNKIIoy
+ rU9+aiGOOrDooEWyk2m/Kjd8XrbaMEzSWl/SESdIm9GPtZki1ifsqtx7xqM3Ww2w7UL0
+ 9GgqgjK2Efr4Fibow4GjVnEev3fd78/76t9xWzithNMZm/vJerJGWBfYf/js6NCc21jt
+ WkqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=LFWsK2QZ8bVXSHheMKtLsdY0S0oitbaw2viAl6b9YRQ=;
- b=TsVqKPbZdC5Sfh4XKg4caMGdgD9EE/qCUlak71MzbHM9Zzty0otY995yIDW8duomXt
- Ge2O33e4CWyK5UUaxj86r/HAKe/uD4nfuGIB6XZ2izF9wAmj0Q3DiZGftFsu1bPoUW9Z
- Yd59/jv0TPxWZnDXWmZdHSj7uBWGS1uaull2RIoJUUnlHtnFCSErXaajNpg6gl6OGJ78
- 7TsTOxvfrHj1jSQaYp9MKdlsNBdiokRFPdK5aDaKO/oa/XuLc+HSMIrsp4pt0M0Ru9hb
- NOFOX4Nnnff8e9B9U+gDSgTrzroXBkN2sZRJxeCbI/v4NX0PqWazgMm+PEAAt5LsvLAg
- TZoQ==
-X-Gm-Message-State: APjAAAUObt6xVud+ADuoYxhvxejTtrdRU4//M6ks+o3bSQ5CW/3pn0JF
- TC615ZKsExTQ+88rwMxuh9dv658=
-X-Google-Smtp-Source: APXvYqxeIMwEoSy2MaWbECwQxT+FzZFA/C0q7vBr3W8SzYyTQvFCaPXQyOq5yue5Qew81uUEEcJFFso=
-X-Received: by 2002:a1f:410f:: with SMTP id o15mr1715102vka.82.1567694500426; 
- Thu, 05 Sep 2019 07:41:40 -0700 (PDT)
-Date: Thu,  5 Sep 2019 10:41:28 -0400
-Message-Id: <20190905144130.220713-1-osk@google.com>
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=RaOdMEdHWabRyA48tWifREdKC/PQMtkOlsK8xXnOLlg=;
+ b=hDBtGhkAPumgR9+yHoVr17Lm6NsC1ZYDVyasX+KIw+tTPv9A5pQC/YbyOa7NHRHKNV
+ J66s7EvUMjS25xN4bRvLeN8YdrqHHDPHhGmlZlpAVR9g/UwuWvfC7HorIsCyJ95A+qBG
+ osK7aeaqapMCFlPZs9OE4o60lkOI3RJ89l7225KR7Tli2A2KX4RmkUxFQjeYYddu+lfs
+ i06e5hlkXz+juKL4rXt/dLG3uyhlVvqINfla8qOBr13bb/S2LZRC/j3mTTElqDy8ysMn
+ cWEjrBL1oY5SjHL6nZ2/N78T3oqnb4uxpQGY0r6ZY2UGaItIS/j7Fyr6/UUTVfs3hazp
+ TYVg==
+X-Gm-Message-State: APjAAAX5oI8sqVxY6/0sPh8u8jzNpSgp+DS1GHCysCzkIW84cErrzzw3
+ ModBI0diQ174b9Yky8JKJ6WjCFY=
+X-Google-Smtp-Source: APXvYqzkDOBp79PXpEAipYZadtwGS7ZnIH63SZDea9FHuBgDn4feswfOL5kDKxXMwh4xwbR5YKHd0wE=
+X-Received: by 2002:a37:9d3:: with SMTP id 202mr3162654qkj.391.1567694501708; 
+ Thu, 05 Sep 2019 07:41:41 -0700 (PDT)
+Date: Thu,  5 Sep 2019 10:41:29 -0400
+In-Reply-To: <20190905144130.220713-1-osk@google.com>
+Message-Id: <20190905144130.220713-2-osk@google.com>
 Mime-Version: 1.0
+References: <20190905144130.220713-1-osk@google.com>
 X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
-Subject: [PATCH v3 1/3] drivers/tty/serial/8250: Make Aspeed VUART SIRQ
- polarity configurable
+Subject: [PATCH v3 2/3] dt-bindings: serial: 8250: Add aspeed,
+ sirq-polarity-sense.
 From: Oskar Senft <osk@google.com>
 To: joel@jms.id.au, andrew@aj.id.au, robh+dt@kernel.org, 
  gregkh@linuxfoundation.org, jk@ozlabs.org
@@ -80,189 +83,30 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Make the SIRQ polarity for Aspeed AST24xx/25xx VUART configurable via
-sysfs. This setting need to be changed on specific host platforms
-depending on the selected host interface (LPC / eSPI).
+Add documentation for 8250_aspeed_vuart's aspeed,sirq-polarity-sense
+property that enables to auto-configure the VUART's SIRQ polarity.
 
-The setting is configurable via sysfs rather than device-tree to stay in
-line with other related configurable settings.
-
-On AST2500 the VUART SIRQ polarity can be auto-configured by reading a
-bit from a configuration register, e.g. the LPC/eSPI interface
-configuration bit.
-
-Tested: Verified on TYAN S7106 mainboard.
 Signed-off-by: Oskar Senft <osk@google.com>
 ---
- .../ABI/stable/sysfs-driver-aspeed-vuart      | 11 ++-
- drivers/tty/serial/8250/8250_aspeed_vuart.c   | 84 +++++++++++++++++++
- drivers/tty/serial/8250/Kconfig               |  1 +
- 3 files changed, 95 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/serial/8250.txt | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/ABI/stable/sysfs-driver-aspeed-vuart b/Documentation/ABI/stable/sysfs-driver-aspeed-vuart
-index 8062953ce77b..950cafc9443a 100644
---- a/Documentation/ABI/stable/sysfs-driver-aspeed-vuart
-+++ b/Documentation/ABI/stable/sysfs-driver-aspeed-vuart
-@@ -6,10 +6,19 @@ Description:	Configures which IO port the host side of the UART
- Users:		OpenBMC.  Proposed changes should be mailed to
- 		openbmc@lists.ozlabs.org
+diff --git a/Documentation/devicetree/bindings/serial/8250.txt b/Documentation/devicetree/bindings/serial/8250.txt
+index 20d351f268ef..55700f20f6ee 100644
+--- a/Documentation/devicetree/bindings/serial/8250.txt
++++ b/Documentation/devicetree/bindings/serial/8250.txt
+@@ -56,6 +56,11 @@ Optional properties:
+ - {rts,cts,dtr,dsr,rng,dcd}-gpios: specify a GPIO for RTS/CTS/DTR/DSR/RI/DCD
+   line respectively. It will use specified GPIO instead of the peripheral
+   function pin for the UART feature. If unsure, don't specify this property.
++- aspeed,sirq-polarity-sense: Only applicable to aspeed,ast2500-vuart.
++  phandle to aspeed,ast2500-scu compatible syscon alongside register offset
++  and bit number to identify how the SIRQ polarity should be configured.
++  One possible data source is the LPC/eSPI mode bit.
++  Example: aspeed,sirq-polarity-sense = <&syscon 0x70 25>
  
--What:		/sys/bus/platform/drivers/aspeed-vuart*/sirq
-+What:		/sys/bus/platform/drivers/aspeed-vuart/*/sirq
- Date:		April 2017
- Contact:	Jeremy Kerr <jk@ozlabs.org>
- Description:	Configures which interrupt number the host side of
- 		the UART will appear on the host <-> BMC LPC bus.
- Users:		OpenBMC.  Proposed changes should be mailed to
- 		openbmc@lists.ozlabs.org
-+
-+What:		/sys/bus/platform/drivers/aspeed-vuart/*/sirq_polarity
-+Date:		July 2019
-+Contact:	Oskar Senft <osk@google.com>
-+Description:	Configures the polarity of the serial interrupt to the
-+		host via the BMC LPC bus.
-+		Set to 0 for active-low or 1 for active-high.
-+Users:		OpenBMC.  Proposed changes should be mailed to
-+		openbmc@lists.ozlabs.org
-diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
-index 0438d9a905ce..6e67fd89445a 100644
---- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
-+++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
-@@ -14,6 +14,8 @@
- #include <linux/of_address.h>
- #include <linux/of_irq.h>
- #include <linux/of_platform.h>
-+#include <linux/regmap.h>
-+#include <linux/mfd/syscon.h>
- #include <linux/tty.h>
- #include <linux/tty_flip.h>
- #include <linux/clk.h>
-@@ -22,6 +24,7 @@
- 
- #define ASPEED_VUART_GCRA		0x20
- #define ASPEED_VUART_GCRA_VUART_EN		BIT(0)
-+#define ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY	BIT(1)
- #define ASPEED_VUART_GCRA_DISABLE_HOST_TX_DISCARD BIT(5)
- #define ASPEED_VUART_GCRB		0x24
- #define ASPEED_VUART_GCRB_HOST_SIRQ_MASK	GENMASK(7, 4)
-@@ -131,8 +134,53 @@ static ssize_t sirq_store(struct device *dev, struct device_attribute *attr,
- 
- static DEVICE_ATTR_RW(sirq);
- 
-+static ssize_t sirq_polarity_show(struct device *dev,
-+				  struct device_attribute *attr, char *buf)
-+{
-+	struct aspeed_vuart *vuart = dev_get_drvdata(dev);
-+	u8 reg;
-+
-+	reg = readb(vuart->regs + ASPEED_VUART_GCRA);
-+	reg &= ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
-+
-+	return snprintf(buf, PAGE_SIZE - 1, "%u\n", reg ? 1 : 0);
-+}
-+
-+static void aspeed_vuart_set_sirq_polarity(struct aspeed_vuart *vuart,
-+					   bool polarity)
-+{
-+	u8 reg = readb(vuart->regs + ASPEED_VUART_GCRA);
-+
-+	if (polarity)
-+		reg |= ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
-+	else
-+		reg &= ~ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
-+
-+	writeb(reg, vuart->regs + ASPEED_VUART_GCRA);
-+}
-+
-+static ssize_t sirq_polarity_store(struct device *dev,
-+				   struct device_attribute *attr,
-+				   const char *buf, size_t count)
-+{
-+	struct aspeed_vuart *vuart = dev_get_drvdata(dev);
-+	unsigned long val;
-+	int err;
-+
-+	err = kstrtoul(buf, 0, &val);
-+	if (err)
-+		return err;
-+
-+	aspeed_vuart_set_sirq_polarity(vuart, val != 0);
-+
-+	return count;
-+}
-+
-+static DEVICE_ATTR_RW(sirq_polarity);
-+
- static struct attribute *aspeed_vuart_attrs[] = {
- 	&dev_attr_sirq.attr,
-+	&dev_attr_sirq_polarity.attr,
- 	&dev_attr_lpc_address.attr,
- 	NULL,
- };
-@@ -302,8 +350,30 @@ static int aspeed_vuart_handle_irq(struct uart_port *port)
- 	return 1;
- }
- 
-+static void aspeed_vuart_auto_configure_sirq_polarity(
-+	struct aspeed_vuart *vuart, struct device_node *syscon_np,
-+	u32 reg_offset, u32 reg_mask)
-+{
-+	struct regmap *regmap;
-+	u32 value;
-+
-+	regmap = syscon_node_to_regmap(syscon_np);
-+	if (IS_ERR(regmap)) {
-+		dev_warn(vuart->dev,
-+			 "could not get regmap for aspeed,sirq-polarity-sense\n");
-+		return;
-+	}
-+	if (regmap_read(regmap, reg_offset, &value)) {
-+		dev_warn(vuart->dev, "could not read hw strap table\n");
-+		return;
-+	}
-+
-+	aspeed_vuart_set_sirq_polarity(vuart, (value & reg_mask) == 0);
-+}
-+
- static int aspeed_vuart_probe(struct platform_device *pdev)
- {
-+	struct of_phandle_args sirq_polarity_sense_args;
- 	struct uart_8250_port port;
- 	struct aspeed_vuart *vuart;
- 	struct device_node *np;
-@@ -402,6 +472,20 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
- 
- 	vuart->line = rc;
- 
-+	rc = of_parse_phandle_with_fixed_args(
-+		np, "aspeed,sirq-polarity-sense", 2, 0,
-+		&sirq_polarity_sense_args);
-+	if (rc < 0) {
-+		dev_dbg(&pdev->dev,
-+			"aspeed,sirq-polarity-sense property not found\n");
-+	} else {
-+		aspeed_vuart_auto_configure_sirq_polarity(
-+			vuart, sirq_polarity_sense_args.np,
-+			sirq_polarity_sense_args.args[0],
-+			BIT(sirq_polarity_sense_args.args[1]));
-+		of_node_put(sirq_polarity_sense_args.np);
-+	}
-+
- 	aspeed_vuart_set_enabled(vuart, true);
- 	aspeed_vuart_set_host_tx_discard(vuart, true);
- 	platform_set_drvdata(pdev, vuart);
-diff --git a/drivers/tty/serial/8250/Kconfig b/drivers/tty/serial/8250/Kconfig
-index 509f6a3bb9ff..98e25781a293 100644
---- a/drivers/tty/serial/8250/Kconfig
-+++ b/drivers/tty/serial/8250/Kconfig
-@@ -243,6 +243,7 @@ config SERIAL_8250_ASPEED_VUART
- 	tristate "Aspeed Virtual UART"
- 	depends on SERIAL_8250
- 	depends on OF
-+	depends on REGMAP && MFD_SYSCON
- 	help
- 	  If you want to use the virtual UART (VUART) device on Aspeed
- 	  BMC platforms, enable this option. This enables the 16550A-
+ Note:
+ * fsl,ns16550:
 -- 
 2.23.0.187.g17f5b7556c-goog
 
