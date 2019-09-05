@@ -2,51 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED03A97DF
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2019 03:14:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C17A97E4
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2019 03:16:23 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46P2mJ43QbzDqwJ
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2019 11:14:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46P2nv6LPpzDqws
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Sep 2019 11:16:19 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::529; helo=mail-pg1-x529.google.com;
+ envelope-from=rashmica.g@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="mzLpXBBS"; 
+ dkim-atps=neutral
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
+ [IPv6:2607:f8b0:4864:20::529])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46P2m92XdzzDqS4;
- Thu,  5 Sep 2019 11:14:49 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=ozlabs.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- secure) header.d=ozlabs.org header.i=@ozlabs.org header.b="MAX0yV+2"; 
- dkim-atps=neutral
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 46P2m83bY3z9s4Y;
- Thu,  5 Sep 2019 11:14:48 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ozlabs.org; s=201707;
- t=1567646089; bh=VZEXu/8K0wET31tHvAZUGkrnyI6iOlA5d0sDOsyL6qU=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=MAX0yV+2PtlTCMb3yIbqhfIdafdziRZsbExW3+Qn3T+yml9P0YftaSBDKL9bme+OV
- VOGYjqPI4PQBbvZoMsH/W7uLBaDPXEEm4f+9/TQiSakZS3FCGgd9CH7/P89OHdyjFM
- dx0SWZgbF3Pr4bXI7jTaJDll8Ch1lfonfBG8G7XCxoEKuvysLTX6UfHb8j5o/gMvHz
- XDc3e4LxiiVOtApTNh7yjtrvIPB2b8JyQA+2yXcRs+Gpx9rT64Ne+GxkCzmBwLU/re
- mHp8fNxYujlsRbJ1ixkcRXvVAK3c5bBZV2VIH6jecueG/JZ1xipCn0OSaiM3X459QF
- h5XZBivas2cFg==
-Message-ID: <a2ff0b6edb87d5495dd8e683e95d3b719e55f970.camel@ozlabs.org>
-Subject: Re: [PATCH v2 1/3] drivers/tty/serial/8250: Make Aspeed VUART SIRQ
- polarity configurable
-From: Jeremy Kerr <jk@ozlabs.org>
-To: Oskar Senft <osk@google.com>, joel@jms.id.au, andrew@aj.id.au
-Date: Thu, 05 Sep 2019 09:14:44 +0800
-In-Reply-To: <20190731013404.243755-1-osk@google.com>
-References: <20190731013404.243755-1-osk@google.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46P2nl5hbwzDqy6
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  5 Sep 2019 11:16:11 +1000 (AEST)
+Received: by mail-pg1-x529.google.com with SMTP id d1so413422pgp.4
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 04 Sep 2019 18:16:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z3Ei8FyHzXCEAswMjYYL2sgHBCg2TC7hkQhTjvYG8KY=;
+ b=mzLpXBBSjIfPoEznzDVi8hEGCoi8iPdVtV8Hzs4xr0PPj03usX/NK85vi1/SC3DNJ8
+ cbZm8aJV/muvSP7U5x2czXSHfhO8XhBRtYzUArCTgPG2U9p6fC9vhcLGmJCOq9QXy/9t
+ CqH78HGJ00MSIcznSifqNso3bpZsBijFDPVDgPHJ6++c9yIaodj1B+YLBgFe+97RUrOJ
+ sxIpfha+z/sQQqJAKYoxfeq+BT3sVV1vSsS5gEArAfjltMN1X7UnOWbwlraaWgwArNeq
+ UoQiewIqDIxmx42RFeNT2rw7VX8+4GIdY0qDdLSI2SIDPTkhU7xpEkVJGYxnEmFYLjP1
+ waRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z3Ei8FyHzXCEAswMjYYL2sgHBCg2TC7hkQhTjvYG8KY=;
+ b=YeYsRxTAXOS6EoP+KvhfjgnyQyzEyxD3LErA2ALe1xJPD6sYI8P8A4coewTEkCmTOu
+ R8ug8pcW2xzlFwTbSIMJB5H6DBlgWyOD2o2ea1l0gfa7E9Cs9/rExZVzJn91VrxH+lI8
+ wfYbpCICdUfGRux8VZ1r9G2RmeBLO4X1vGHNwTq8fZLmbG3Sf3nqcfYR+cKb3xFzMOeV
+ ExngUzwRWLMIQ5xpNrvUs4iiAoKM7xXeTBwA2UBOMrQl+j3eT8j5rTVYoN2ZvnGQfhWv
+ /M+4S15nhMvFgkEkn5IjAb1w/BTACK5J2fWU6Q8HvsYYRBZJ8hDiL6z26Ctuo2/LFdpy
+ /qRQ==
+X-Gm-Message-State: APjAAAWTrRyIO3OE7/Vo6Zf5fBR0v9hNkEP42epaGFY+Urb2QPUgMu7z
+ ITdqAfaCAdrJW5AZQK8Pdec=
+X-Google-Smtp-Source: APXvYqzTqKmk34vcZ/2Fksg66IicendpcLZGFN0xLJvxlsd5PmuspSmVqBJQBYhJ3l6UV1K7WLBbzA==
+X-Received: by 2002:a65:4304:: with SMTP id j4mr837941pgq.419.1567646168290;
+ Wed, 04 Sep 2019 18:16:08 -0700 (PDT)
+Received: from rashmica.ozlabs.ibm.com ([122.99.82.10])
+ by smtp.gmail.com with ESMTPSA id v43sm6300914pjb.1.2019.09.04.18.16.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Sep 2019 18:16:07 -0700 (PDT)
+From: Rashmica Gupta <rashmica.g@gmail.com>
+To: linus.walleij@linaro.org
+Subject: [PATCH v2 0/4] Add ast2600 gpio support 
+Date: Thu,  5 Sep 2019 11:16:00 +1000
+Message-Id: <20190905011600.15821-1-rashmica.g@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,53 +76,25 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org
+Cc: linux-aspeed@lists.ozlabs.org, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Oskar,
+v2: More verbose commit messages, using DIV_ROUND_UP().
 
-Looks good to me, some minor comments though:
+Rashmica Gupta (4):
+  gpio/aspeed: Fix incorrect number of banks
+  gpio/aspeed: Setup irqchip dynamically
+  gpio: Add in ast2600 details to Aspeed driver
+  gpio: dt-bindings: Update documentation with ast2600 controllers
 
-> +
-> +What:		/sys/bus/platform/drivers/aspeed-vuart/*/sirq_polarity
-> +Date:		July 2019
-> +Contact:	Oskar Senft <osk@google.com>
-> +Description:	Configures the polarity of the serial interrupt to the
-> +		host via the BMC LPC bus.
+ drivers/gpio/gpio-aspeed.c                    | 48 ++++++++++++++-----
+ .../devicetree/bindings/gpio/gpio-aspeed.txt  |  3 +-
+ 2 files changed, 38 insertions(+), 13 deletions(-)
 
-Can you mention what the value represents? 1/0 don't really indicate a
-specific polarity.
-
-Alternatively, we could use descriptive values (say, "active-low" /
-"idle-low").
-
-> @@ -310,6 +379,7 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
->  	struct resource *res;
->  	u32 clk, prop;
->  	int rc;
-> +	struct of_phandle_args espi_enabled_args;
-
-Minor: can you reverse-christmas-tree this?
-
-> @@ -402,6 +472,18 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
->  
->  	vuart->line = rc;
->  
-> +	rc = of_parse_phandle_with_fixed_args(
-> +		np, "espi-enabled", 2, 0, &espi_enabled_args);
-> +	if (rc < 0) {
-> +		dev_warn(&pdev->dev, "espi-enabled property not found\n");
-
-In the binding spec, you've listed this property at optional, but here
-we dev_warn() if its not present. Can we default to existing behaviour
-if it's not there?
-
-That may just be a matter of changing this to dev_debug.
-
-Cheers,
-
-
-Jeremy
+-- 
+2.20.1
 
