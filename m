@@ -2,66 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0573FAB266
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2019 08:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D66AB26C
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2019 08:26:14 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46PncT3YnhzDr7n
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2019 16:25:45 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46Pncz11hMzDr7g
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Sep 2019 16:26:11 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::443; helo=mail-pf1-x443.google.com;
+ (client-ip=2607:f8b0:4864:20::643; helo=mail-pl1-x643.google.com;
  envelope-from=rashmica.g@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="KHw7ngbg"; 
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="ADimNP2N"; 
  dkim-atps=neutral
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
+ [IPv6:2607:f8b0:4864:20::643])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46PncJ5RbdzDr7F
- for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2019 16:25:34 +1000 (AEST)
-Received: by mail-pf1-x443.google.com with SMTP id h195so3668248pfe.5
- for <linux-aspeed@lists.ozlabs.org>; Thu, 05 Sep 2019 23:25:34 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46Pncm2ShWzDr7F
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Sep 2019 16:26:00 +1000 (AEST)
+Received: by mail-pl1-x643.google.com with SMTP id 4so2614011pld.10
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 05 Sep 2019 23:26:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=tB2RNxXRErmJ9e3PrRrfYZt/4IO0/YJdN93uotJXzmg=;
- b=KHw7ngbgKFGwXSFYuiQbGQBfie880OX2vpp7L7MkL1sULSWNTS+amLlNfeUx7rmuOp
- E9CSHIH+Snd+pHoNvNkmoZPMxy2VDvQqTpqGVu6G2n6Yu2DJQ33iR4a+b1nOTbCtdCkJ
- Ut6L9cfoS+yOgTUVEvlrjqyUeOHn17ryGyo0lFFLqh/mokWzyKNTkzYqmMrymwaxFF3e
- 8wFtNMlScmfR4ntuMwoNwxaxjHmJI0iqON9yO31sLfTs/v1XFrEicM7OsWR1Rdtvjce9
- WdKepwAaq6dsMxsIXT8ilMO01Lezvk7CaRhJA6DSiYSJRoGNPSlNApc3uZpDPQIdBFK8
- 9knQ==
+ bh=nRxcumHCoieD4YHhJDBwA9IBTCoCwLTVhc9o3nRRDkI=;
+ b=ADimNP2ND3VOH2ln0p+yNfF/DGU2qkBipN72ljAr/PczQvTfbrKsX07vY8Zdwngoar
+ LhdZEUosmuWvZxdURnHwN7oYANLXkw1O7D6cD5OJp5+/tCkczEX/nk5v6+w2CXfSDCk9
+ L8eHl7xI6P/RcTjbsUVJuQNkq6YLcLN6H3OV6ApvAePbpWSpsOyYEqqqvMNYFtcxKvQR
+ cbG2R/hIbwiZcQaSbzwjgw2yVtC0T4zgOKxeF049FwRTUIo7ETmaEAstIajleYpZtZKM
+ C42BxBvR8hUAH8v2LxsxzjNdxPxoxqeK2II8PyPVrsFPJubqbesfhTTe9RIflLXv6b83
+ 6QLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=tB2RNxXRErmJ9e3PrRrfYZt/4IO0/YJdN93uotJXzmg=;
- b=O1Gmftn2f1KolUCQSe9vrfnkaEtkT9i5L2sYSf+PaMEE5zG+89cIUhjC1OifJzXbuY
- NU7je/vXBw2x6dbKv9qJ+vdYKBfQmW8R6mmtCpWqZOaVcIeybWRG7OvJOAopQw8wqbVX
- S4/3+tYeUtfsRehK2L/1AJu1bhgxa1I8R7AcTtDlcPFV7qIG5aSob8ih2t6CI/VySZJi
- SrzG1ZWgIHYyjEwZvZ4S/ss6F7nN3EhQ/GsVJmBp5vW3A98Yyn++afv9QmrVTCRRz63P
- wlxfZPa82JsNL6SWyZQf1IVOtr1a6Pt1sVtxnhj6abIBuXqOYFleWfM5gLBYOfA/RB90
- 6FmQ==
-X-Gm-Message-State: APjAAAVWN7EjoFGl307BABphasvkgI/lYybl0yBQax22lpDGURYV5wOR
- qdcOIVPrg7GAVngnB8y24BA=
-X-Google-Smtp-Source: APXvYqyQA5o7Nplg7Mz6cACJYxVi92CNBUmDeAZ/6//NQuySZy9WiwRBzeJBgCrM660faJtp+bFQrg==
-X-Received: by 2002:a63:6f41:: with SMTP id k62mr6650552pgc.32.1567751130676; 
- Thu, 05 Sep 2019 23:25:30 -0700 (PDT)
+ bh=nRxcumHCoieD4YHhJDBwA9IBTCoCwLTVhc9o3nRRDkI=;
+ b=VlB7wr5c0Eh/z8/tIdGMD3AU6v4pRYQbnPOBWIdsmZqgif6HAEwGqjewWXcINGPub4
+ E2CKSby1N2AQhX7v0t0VBD0PJ05Z6sVQgY4phkmPbDiiKEAZg2sQ7+ohTYTU+lI0EPUe
+ WPjGa0T8Zk24r+wecryxMMbfctYVDUrpL30pp2l962FFI3QXvl7feG37/03DZ+SFaRNn
+ 2onCEROYKhhr92mHZesRwm4OWibOAXIjFAHaFUcBAWSzklzc3Q3vxJEDtyNKpZ2TfWO2
+ BgmO5N2KPihZoxw0zONwjIyF9AjZ5OFHuCRge01nO15ybY/3gGUsxlKw1FGrkF5ItwEp
+ Qmig==
+X-Gm-Message-State: APjAAAX42C+yQHBoI3YrNI5UXkOmOYn3W+ZlVWbKcSttqnnYC47LOQz0
+ q1uG70ryia0rNUr0hmVQlcM=
+X-Google-Smtp-Source: APXvYqxAHm7TEMjvZZG+IKwNgVMQW4iXvRHQ3UYm4fIeZ5CGft2zoBZMr3vCIp78S9acysQdbufG3A==
+X-Received: by 2002:a17:902:748b:: with SMTP id
+ h11mr7587383pll.269.1567751158029; 
+ Thu, 05 Sep 2019 23:25:58 -0700 (PDT)
 Received: from rashmica.ozlabs.ibm.com ([122.99.82.10])
- by smtp.gmail.com with ESMTPSA id b5sm7950688pfp.38.2019.09.05.23.25.26
+ by smtp.gmail.com with ESMTPSA id y192sm6244998pfg.141.2019.09.05.23.25.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Sep 2019 23:25:30 -0700 (PDT)
+ Thu, 05 Sep 2019 23:25:57 -0700 (PDT)
 From: Rashmica Gupta <rashmica.g@gmail.com>
 To: linus.walleij@linaro.org
-Subject: [PATCH v3 0/5] Add ast2600 gpio support
-Date: Fri,  6 Sep 2019 16:25:10 +1000
-Message-Id: <20190906062510.13191-1-rashmica.g@gmail.com>
+Subject: [PATCH v3 1/5] dt-bindings: gpio: aspeed: Update documentation with
+ ast2600 controllers
+Date: Fri,  6 Sep 2019 16:25:47 +1000
+Message-Id: <20190906062547.13264-1-rashmica.g@gmail.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -90,23 +92,41 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-v3: Different ordering of patches, using ngpio property to distinguish between
-the two ast2600 gpio controllers, fixed typos of 3.6V.
+The ast2600 is a new generation of SoC from ASPEED. Similarly to the
+ast2400 and ast2500, it has a GPIO controller for it's 3.3V GPIO pins.
+Additionally, it has a GPIO controller for 36 1.8V GPIO pins.  We use
+the ngpio property to differentiate between these controllers.
 
-v2: More verbose commit messages, using DIV_ROUND_UP().
+Signed-off-by: Rashmica Gupta <rashmica.g@gmail.com>
+---
+ Documentation/devicetree/bindings/gpio/gpio-aspeed.txt | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Rashmica Gupta (5):
-  dt-bindings: gpio: aspeed: Update documentation with ast2600
-    controllers
-  gpio/aspeed: Fix incorrect number of banks
-  gpio/aspeed: Setup irqchip dynamically
-  gpios: Use ngpio property from device tree if available
-  gpio: Add in ast2600 details to Aspeed driver
-
- drivers/gpio/gpio-aspeed.c                    | 52 ++++++++++++-------
- .../devicetree/bindings/gpio/gpio-aspeed.txt  |  7 ++-
- 2 files changed, 39 insertions(+), 20 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/gpio/gpio-aspeed.txt b/Documentation/devicetree/bindings/gpio/gpio-aspeed.txt
+index 7e9b586770b0..b2033fc3a71a 100644
+--- a/Documentation/devicetree/bindings/gpio/gpio-aspeed.txt
++++ b/Documentation/devicetree/bindings/gpio/gpio-aspeed.txt
+@@ -2,7 +2,8 @@ Aspeed GPIO controller Device Tree Bindings
+ -------------------------------------------
+ 
+ Required properties:
+-- compatible		: Either "aspeed,ast2400-gpio" or "aspeed,ast2500-gpio"
++- compatible		: Either "aspeed,ast2400-gpio", "aspeed,ast2500-gpio",
++					or "aspeed,ast2600-gpio".
+ 
+ - #gpio-cells 		: Should be two
+ 			  - First cell is the GPIO line number
+@@ -17,7 +18,9 @@ Required properties:
+ 
+ Optional properties:
+ 
+-- clocks                : A phandle to the clock to use for debounce timings
++- clocks		: A phandle to the clock to use for debounce timings
++- ngpios		: Number of GPIOs controlled by this controller. Should	be set
++				  when there are multiple GPIO controllers on a SoC (ast2600).
+ 
+ The gpio and interrupt properties are further described in their respective
+ bindings documentation:
 -- 
 2.20.1
 
