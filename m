@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6080EAC24E
-	for <lists+linux-aspeed@lfdr.de>; Sat,  7 Sep 2019 00:04:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F44AC276
+	for <lists+linux-aspeed@lfdr.de>; Sat,  7 Sep 2019 00:24:00 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46QBRN2tK6zDrCW
-	for <lists+linux-aspeed@lfdr.de>; Sat,  7 Sep 2019 08:04:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46QBt45sGkzDrCv
+	for <lists+linux-aspeed@lfdr.de>; Sat,  7 Sep 2019 08:23:56 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -16,39 +16,37 @@ Authentication-Results: lists.ozlabs.org;
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.b="sP6sCyo5"; 
+ unprotected) header.d=kernel.org header.i=@kernel.org header.b="DZ6igBgM"; 
  dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46QBQ71nNrzDrDT
- for <linux-aspeed@lists.ozlabs.org>; Sat,  7 Sep 2019 08:03:10 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46QBss00mfzDr8H
+ for <linux-aspeed@lists.ozlabs.org>; Sat,  7 Sep 2019 08:23:44 +1000 (AEST)
 Received: from kernel.org (unknown [104.132.0.74])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6C8742081B;
- Fri,  6 Sep 2019 22:03:08 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E63C2207FC;
+ Fri,  6 Sep 2019 22:23:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1567807388;
- bh=JYOTkYYE3g9CREcW4Rr1oQgc7T/eq+7DhhZhFapLkq8=;
+ s=default; t=1567808622;
+ bh=bZdcjHRTRictQKuKHROlwLDaTmKRAORwUFoQbRhpj28=;
  h=In-Reply-To:References:To:From:Cc:Subject:Date:From;
- b=sP6sCyo5xiItbKXA2QHUtl2blDkXsni7Mgxs4uuomLLMvb2Eib+I1px0DIRy7OMUA
- UzF5N1e9CJMlOgYUX0zcdjUxVoFEs5v/AZNeGj2DTaDvv4xNlGDr4ESI+s57DvxZD6
- JT2HajE5DVqfglx5YrEaoDDuPkkASHqo80KmRetU=
+ b=DZ6igBgMOMpRoIV4Lq6HqTpdhr2Z7iGqIkhs8+ySpg6iV9iUejH5iUEkMTxD4A0VZ
+ aX9iy9LAUaxyqPWfQJdUPXtfHMOGVO8gpngAezv1MyZ1MD0b+z3A/JWBNGzQFDC8JY
+ HQ3HdZ14sHe6zjmvhx7iYeToJ8rKdCyCLnTCCKzg=
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CACPK8Xf3C36KMgDmmRtNFqVFHzZx81ko+=54PA4+d5xPitum3g@mail.gmail.com>
-References: <20190816155806.22869-1-joel@jms.id.au>
- <20190816155806.22869-3-joel@jms.id.au>
- <20190816171441.3B8F720665@mail.kernel.org>
- <CACPK8Xf3C36KMgDmmRtNFqVFHzZx81ko+=54PA4+d5xPitum3g@mail.gmail.com>
-To: Joel Stanley <joel@jms.id.au>
+In-Reply-To: <20190825141848.17346-2-joel@jms.id.au>
+References: <20190825141848.17346-1-joel@jms.id.au>
+ <20190825141848.17346-2-joel@jms.id.au>
+To: Joel Stanley <joel@jms.id.au>, Michael Turquette <mturquette@baylibre.com>
 From: Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH 2/2] clk: Add support for AST2600 SoC
+Subject: Re: [PATCH v2 1/2] clk: aspeed: Move structures to header
 User-Agent: alot/0.8.1
-Date: Fri, 06 Sep 2019 15:03:07 -0700
-Message-Id: <20190906220308.6C8742081B@mail.kernel.org>
+Date: Fri, 06 Sep 2019 15:23:41 -0700
+Message-Id: <20190906222341.E63C2207FC@mail.kernel.org>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,79 +58,18 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
  Rob Herring <robh+dt@kernel.org>, linux-clk@vger.kernel.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Quoting Joel Stanley (2019-08-18 19:03:54)
-> On Fri, 16 Aug 2019 at 17:14, Stephen Boyd <sboyd@kernel.org> wrote:
-> >
-> > Quoting Joel Stanley (2019-08-16 08:58:06)
-> > > +static const char * const vclk_parent_names[] =3D {
-> >
-> > Can you use the new way of specifying clk parents instead of just using
-> > strings?
+Quoting Joel Stanley (2019-08-25 07:18:47)
+> They will be reused by the ast2600 driver.
 >=20
-> How does this work? I had a browse of the APIs in clk-provider.h and
-> it appeared the functions all take char *s still.
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> ---
 
-Sorry I didn't reply earlier. I'm going to write a kernel-doc to
-describe how to write a "modern" clk driver which should hopefully help
-here.
-
-The gist is that you can fill out a clk_parent_data array or a clk_hw
-array and set the .name and .fw_name and .index in the clk_parent_data
-array to indicate which clks to get from the DT node's "clocks" and
-"clock-names" properties.
-
->=20
-> > > +       hw =3D clk_hw_register_fixed_factor(NULL, "ahb", "hpll", 0, 1=
-, axi_div * ahb_div);
-
-Take this one for example. If 'hpll' is actually a clk_hw pointer in
-hand, then you could do something like:
-
-	clk_hw_register_fixed_factor_parent_hw(NULL, "ahb", &hpll, 0, 1, axi_div *=
- ahb_div);
-
-And if it's something like a clock from DT you could do
-
-	struct clk_parent_data pdata =3D {
-		.name =3D "hpll",
-		.fw_name =3D <clock-names string>,
-		.index =3D <whatever clock index it is>
-	};
-
-	clk_hw_register_fixed_factor_parent_data(NULL, "ahb", &pdata, 0, 1, axi_di=
-v * ahb_div);
-
-I haven't actually written the clk_hw_register_fixed_factor_*() APIs,
-because I'm thinking that it would be better to register the pdata with
-some more parameters so that the
-clk_hw_register_fixed_factor_parent_data() API becomes more like:
-
-	clk_hw_register_fixed_factor_parent_data(NULL, "ahb", "hpll",
-		<clock-names string>, <whatever clock index it is>, 0, 1,
-		axi_div * ahb_div);
-
-Because there's only one parent. For the mux clk it will be a pointer to
-parent_data because I don't see a way around it.
-
-> >
-> > There aren't checks for if these things fail. I guess it doesn't matter
-> > and just let it fail hard?
->=20
-> I think that's sensible here. If the system has run out of memory this
-> early on then there's not going to be much that works.
->=20
-> Thanks for the review. I've fixed all of the style issues you
-> mentioned, but would appreciate some guidance on the parent API.
->=20
-
-Cool! Thanks.
+Applied to clk-next
 
