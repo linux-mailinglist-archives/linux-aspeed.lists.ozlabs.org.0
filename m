@@ -2,73 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41813AFC55
-	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Sep 2019 14:16:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA0EAFF97
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Sep 2019 17:08:18 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46T19071PPzF36C
-	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Sep 2019 22:16:36 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46T4z26Mx4zF3HH
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2019 01:08:14 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::441; helo=mail-pf1-x441.google.com;
- envelope-from=rashmica.g@gmail.com; receiver=<UNKNOWN>)
+ (client-ip=2607:f8b0:4864:20::841; helo=mail-qt1-x841.google.com;
+ envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="T+AzYIEU"; 
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="JhSfdGDL"; 
  dkim-atps=neutral
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46NYRG5fJfzDqlV
- for <linux-aspeed@lists.ozlabs.org>; Wed,  4 Sep 2019 16:13:30 +1000 (AEST)
-Received: by mail-pf1-x441.google.com with SMTP id y72so4963133pfb.12
- for <linux-aspeed@lists.ozlabs.org>; Tue, 03 Sep 2019 23:13:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/J2boyPn+qcY/K0vnmvhFTTJFIHHHtzjypsfGFGhgdk=;
- b=T+AzYIEUXfUowK7oaDioOyQfgljXCgF5OaLeVOZDs5si9YNS62iHvZYF7QPPWxoMuD
- 6HZoj9lzZMst3evVF0QG+nXAFRWyTTfNe+b4E+h9aBaBl8CaInKHf+pZGjQktMzzlEyS
- HPNpOSDNvBsS1d0T59kOyxX0yOuiQVzLIo1D/hymPSUPqgY+ZFRe3b3dSJPdOMgWbONz
- XvbCScG2k/yOAyjE4AfT144iEbaku+wFeuwj856zrB+uPkd+g7LsFBwlQVtZxyT5dwXx
- hb3V4Ke7j/tgHPb2wYdr0vtUMJXXvKhK8Lz9SZ5Ad7ed0rq0j23lIoyWDfziHTJgqVtW
- vamg==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46T4Y30124zF3Br;
+ Thu, 12 Sep 2019 00:49:10 +1000 (AEST)
+Received: by mail-qt1-x841.google.com with SMTP id o12so25613046qtf.3;
+ Wed, 11 Sep 2019 07:49:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=A5XOn0vC4GPgnCNAb2xJhPh7fm7Qsc3YVcoeu66V0ow=;
+ b=JhSfdGDLWHQchSsKTTbaYL2d3lanGWh1bU6snzqMqlYUsbTmgquu741IO2y4CzLnnn
+ xFF9+5sLDaKVVLzlMzpM5GNJHAe0EdZjfADYanypoGJBIcqS7xQozfjP/J0VtWg1MKnl
+ T/6lk/ytL2NJX3N6br94MvUgja326wcjG36kI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/J2boyPn+qcY/K0vnmvhFTTJFIHHHtzjypsfGFGhgdk=;
- b=pdzHDhxaJv7W+41T1iLGvqENNQWP4F9bep5Hz+as4Amk1z1Mo4uNg9vtu37pAETl7t
- he9skUeMeNkGVk6cuz8VAVlegXpNTfarT1fvFn+I7tNAhyVHbksUitW99+juFdxJj8SN
- TWnWjifj+7vGio86zsCBCX9FiwTBMXr7ekgmx6mnI4NXzdonf9oeyHfRJiCCsO0pTfPt
- 8d/iGtQGUqZ1w/ks8PCRjfCfRGdnsrOf9abNNU/e9ClkJzm76mTAKGoaAY0mlrCMTSg5
- MvaZxGWHGwYDERhOp0MBWlu0qnNivcQKnfP/noYvrJLTaSc6yXoUit9T7OiXaKSRHdnf
- b/bg==
-X-Gm-Message-State: APjAAAXjdasgJIercj7D2j1gs2dExE8cV6q4jeETeCblxn3zbwPCO61T
- IqLoqnK7S8br01a0jObYsek=
-X-Google-Smtp-Source: APXvYqx0ThSaW+fHUBqyw3dqUD0Oa30Gmx83hxepmA1ZcStILNrjdla4WSXq4PxIDnAoPGKQ4jNvJQ==
-X-Received: by 2002:a65:5a8c:: with SMTP id c12mr32988229pgt.73.1567577609134; 
- Tue, 03 Sep 2019 23:13:29 -0700 (PDT)
-Received: from rashmica.ozlabs.ibm.com ([122.99.82.10])
- by smtp.gmail.com with ESMTPSA id i9sm42443093pgo.46.2019.09.03.23.13.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Sep 2019 23:13:28 -0700 (PDT)
-From: Rashmica Gupta <rashmica.g@gmail.com>
-To: linus.walleij@linaro.org, linux-gpio@vger.kernel.org,
- bgolaszewski@baylibre.com
-Subject: [PATCH 4/4] gpio: Update documentation with ast2600 controllers
-Date: Wed,  4 Sep 2019 16:12:45 +1000
-Message-Id: <20190904061245.30770-4-rashmica.g@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190904061245.30770-1-rashmica.g@gmail.com>
-References: <20190904061245.30770-1-rashmica.g@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=A5XOn0vC4GPgnCNAb2xJhPh7fm7Qsc3YVcoeu66V0ow=;
+ b=T0v4hZ1tPH50/ueF4erm/mlScvrzbJ1PnZGMlfcW8JwUhs1Isan33iPeR3OFfFgqmS
+ TbycCDK5XoiA2cFwsiHkNj8MT4JACa7/zfnt7/f8g2V2yWE3XSzCoNu1tanST9vHvNUj
+ Vb9c9TRDo8lgLxT58jbYd1vdQ8N34WPeEF0wiSEp8Z08bIAJIbmkdvGbdO6rGmFVA7Xn
+ 0sYuapRHtwYG/7rBYb8tqZaPns19NuYGueHy81RD/uYUJtAg/i87uUUyNBPhmIsrfmcY
+ +8jgXMHfBDW08fuH+GERWc/o5NVW7d16CE31Z0KvgD2LF2jnEQm1IVUrxJoQj4xteL3B
+ 69Rw==
+X-Gm-Message-State: APjAAAUpum79s8o2xmzmGE5x9roC/jMZOi5dOG3uBg70aSrkXDxr6Cp0
+ 0/17hf8j2qYYoYL8gakmwt+6Oz3XUJAXHD9g0ss=
+X-Google-Smtp-Source: APXvYqwWsmekgnVOZyP3ztRXLVkJUawqY8waZNluPJpoBtGqhHcgvfBOQH1tISxUZoQoAh6xx+1tOYTyMaOU7g5POGA=
+X-Received: by 2002:ac8:2e94:: with SMTP id h20mr36118219qta.234.1568213346860; 
+ Wed, 11 Sep 2019 07:49:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 11 Sep 2019 22:16:16 +1000
+References: <20190910213734.3112330-1-vijaykhemka@fb.com>
+ <bd5eab2e-6ba6-9e27-54d4-d9534da9d5f7@gmail.com>
+In-Reply-To: <bd5eab2e-6ba6-9e27-54d4-d9534da9d5f7@gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Wed, 11 Sep 2019 14:48:54 +0000
+Message-ID: <CACPK8XcS4iKfKigPbPg0BFbmjbT-kdyjiPDXjk1k5XaS5bCdAA@mail.gmail.com>
+Subject: Re: [PATCH] ftgmac100: Disable HW checksum generation on AST2500
+To: Florian Fainelli <f.fainelli@gmail.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,31 +71,64 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Kate Stewart <kstewart@linuxfoundation.org>, Andrew Lunn <andrew@lunn.ch>,
+ Sai Dasari <sdasari@fb.com>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ netdev@vger.kernel.org,
+ "openbmc @ lists . ozlabs . org" <openbmc@lists.ozlabs.org>,
+ YueHaibing <yuehaibing@huawei.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Luis Chamberlain <mcgrof@kernel.org>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Signed-off-by: Rashmica Gupta <rashmica.g@gmail.com>
----
- Documentation/devicetree/bindings/gpio/gpio-aspeed.txt | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Hi Ben,
 
-diff --git a/Documentation/devicetree/bindings/gpio/gpio-aspeed.txt b/Documentation/devicetree/bindings/gpio/gpio-aspeed.txt
-index 7e9b586770b0..cd388797e07c 100644
---- a/Documentation/devicetree/bindings/gpio/gpio-aspeed.txt
-+++ b/Documentation/devicetree/bindings/gpio/gpio-aspeed.txt
-@@ -2,7 +2,8 @@ Aspeed GPIO controller Device Tree Bindings
- -------------------------------------------
- 
- Required properties:
--- compatible		: Either "aspeed,ast2400-gpio" or "aspeed,ast2500-gpio"
-+- compatible		: Either "aspeed,ast2400-gpio", "aspeed,ast2500-gpio",
-+					  "aspeed,ast2600-gpio", or "aspeed,ast2600-1-8v-gpio"
- 
- - #gpio-cells 		: Should be two
- 			  - First cell is the GPIO line number
--- 
-2.20.1
+On Tue, 10 Sep 2019 at 22:05, Florian Fainelli <f.fainelli@gmail.com> wrote:
+>
+> On 9/10/19 2:37 PM, Vijay Khemka wrote:
+> > HW checksum generation is not working for AST2500, specially with IPV6
+> > over NCSI. All TCP packets with IPv6 get dropped. By disabling this
+> > it works perfectly fine with IPV6.
+> >
+> > Verified with IPV6 enabled and can do ssh.
+>
+> How about IPv4, do these packets have problem? If not, can you continue
+> advertising NETIF_F_IP_CSUM but take out NETIF_F_IPV6_CSUM?
+>
+> >
+> > Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+> > ---
+> >  drivers/net/ethernet/faraday/ftgmac100.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/net/ethernet/faraday/ftgmac100.c b/drivers/net/ethernet/faraday/ftgmac100.c
+> > index 030fed65393e..591c9725002b 100644
+> > --- a/drivers/net/ethernet/faraday/ftgmac100.c
+> > +++ b/drivers/net/ethernet/faraday/ftgmac100.c
+> > @@ -1839,8 +1839,9 @@ static int ftgmac100_probe(struct platform_device *pdev)
+> >       if (priv->use_ncsi)
+> >               netdev->hw_features |= NETIF_F_HW_VLAN_CTAG_FILTER;
+> >
+> > -     /* AST2400  doesn't have working HW checksum generation */
+> > -     if (np && (of_device_is_compatible(np, "aspeed,ast2400-mac")))
+> > +     /* AST2400  and AST2500 doesn't have working HW checksum generation */
+> > +     if (np && (of_device_is_compatible(np, "aspeed,ast2400-mac") ||
+> > +                of_device_is_compatible(np, "aspeed,ast2500-mac")))
 
+Do you recall under what circumstances we need to disable hardware checksumming?
+
+Cheers,
+
+Joel
+
+> >               netdev->hw_features &= ~NETIF_F_HW_CSUM;
+> >       if (np && of_get_property(np, "no-hw-checksum", NULL))
+> >               netdev->hw_features &= ~(NETIF_F_HW_CSUM | NETIF_F_RXCSUM);
+> >
+>
+>
+> --
+> Florian
