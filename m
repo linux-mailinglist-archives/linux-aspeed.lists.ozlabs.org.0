@@ -1,83 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A20B0D07
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2019 12:36:47 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78264B132F
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2019 19:05:42 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46TZvJ6tNczF4FF
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2019 20:36:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46TlX23fVZzF4k9
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Sep 2019 03:05:38 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.29; helo=out5-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="NHMNQMg+"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="SXH9K8WE"; dkim-atps=neutral
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
+ spf=none (mailfrom) smtp.mailfrom=linux.intel.com
+ (client-ip=134.134.136.65; helo=mga03.intel.com;
+ envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=linux.intel.com
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46TZgZ0YTrzF4CR;
- Thu, 12 Sep 2019 20:26:32 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id CDAA322245;
- Thu, 12 Sep 2019 06:26:27 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Thu, 12 Sep 2019 06:26:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=hH6krjDyM1ef7cBjth9GvNBMbTUI9b+
- 39ETpeM1V4vs=; b=NHMNQMg+HFPouEvMQ00sKE/W0BsIAYFMCmqPDrTUQO6EqlR
- 0wh/LUFfCkK9s3vYt2qjyKQvYd4tFrh0P/t00fYORmhhxbXQqQj4bzkZ2uaWfPk+
- n3qrYCOHYv30kvYh+P+myvR4uJg/mKyMOd1Ay0Iz1wtq0QXaArzQieqCrNvwU2qs
- 1bTfGjrhRV7DSto1+GrQ0gvyJyzfgBUEaRDfKugJ23ZYqC71h3fgj6CKARc/ZGw/
- 4Ml53ei0IbK/SWxVNT4+jV2iUfiCOTU2NTrmow3LFuPGtUxQZa0Z5amAV6dj1w1s
- MA10yj0+f/TMChNfXg04bVJXrWeX52EQDpSWS6Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=hH6krj
- DyM1ef7cBjth9GvNBMbTUI9b+39ETpeM1V4vs=; b=SXH9K8WEkJux2WUVSDI78n
- AOj3buJkf8DgR3jYi7VHNH2a3c4uqEsc/dGKY1uknNvnrgJfp6dJZk7gWVHwC9zi
- S1SpNPI6ChUtzJEojbDYRGZP/EL2sMlMWX4KHJygDIapXlMsKS+9xPLdKbPhImRg
- S4BoBRe+i1MpHIubusilRTqr5GB6nAVmchSAQItbTYxHHN5/67E/her2lw18oQiD
- 8SxcH9CoFvKxXBcCBNHbzGTm7WltTmzg1kPQrxxAJxZp/F8v+/I6XLNTqRNck2I8
- kN6nri4R6vUf4Pu2nWEfiH23TIZDHwTK/CofWJ58x/5u9IaUZgODEQWsTngifRPA
- ==
-X-ME-Sender: <xms:Uh16XSVBjtb16JkF2tIvIYISZaCxuUrOVo92Ul0Z-4MDK0VbF0HJ-Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrtdehgddviecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
- hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
- ufhiiigvpedt
-X-ME-Proxy: <xmx:Uh16XQL3Oxbb0GmE0XZZDmuKp1_PaBTv2QJpPgBENmsyMaV6XdHv1Q>
- <xmx:Uh16XcveF0GiadG_lUbwsrsYyUrA5VLiSrWrVGY1iO1MG0bb3U-1fA>
- <xmx:Uh16XVJ3HgoxVidgB2HsX8LfawoOQtQ02K13OoyzQrzvTnhobwfVEw>
- <xmx:Ux16XUk7PROLbEoYHv_ELhTN8sOnkupa5QZJq7d4yxrADFT3zS1jnA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id DB132E00A9; Thu, 12 Sep 2019 06:26:26 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-237-gf35468d-fmstable-20190912v1
-Mime-Version: 1.0
-Message-Id: <c51f0ef0-cd1a-47db-8551-706c5864e0be@www.fastmail.com>
-In-Reply-To: <CACRpkdYW_PX7npB+b1YJ4pfFQNLVOsMx2hpKtntBeHg=C1j-Cg@mail.gmail.com>
-References: <20190829071738.2523-1-andrew@aj.id.au>
- <CACRpkdYW_PX7npB+b1YJ4pfFQNLVOsMx2hpKtntBeHg=C1j-Cg@mail.gmail.com>
-Date: Thu, 12 Sep 2019 19:56:05 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Linus Walleij" <linus.walleij@linaro.org>
-Subject: =?UTF-8?Q?Re:_[PATCH_pinctrl/fixes]_pinctrl:_aspeed:_Fix_spurious_mux_fa?=
- =?UTF-8?Q?ilures_on_the_AST2500?=
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46TlVY6HpXzF4jq;
+ Fri, 13 Sep 2019 03:04:20 +1000 (AEST)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2019 10:04:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,492,1559545200"; d="scan'208";a="190048964"
+Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.148])
+ ([10.7.153.148])
+ by orsmga006.jf.intel.com with ESMTP; 12 Sep 2019 10:04:16 -0700
+Subject: Re: [PATCH -next 1/2] media: aspeed: refine hsync/vsync polarity
+ setting logic
+To: Andrew Jeffery <andrew@aj.id.au>, Eddie James <eajames@linux.ibm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Joel Stanley <joel@jms.id.au>
+References: <20190910190756.31432-1-jae.hyun.yoo@linux.intel.com>
+ <20190910190756.31432-2-jae.hyun.yoo@linux.intel.com>
+ <a11026fa-f2bb-47a2-b792-6009c2bbe63d@www.fastmail.com>
+From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Message-ID: <564501a5-f4db-b1ed-76b5-9e76c29aa7d4@linux.intel.com>
+Date: Thu, 12 Sep 2019 10:04:16 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <a11026fa-f2bb-47a2-b792-6009c2bbe63d@www.fastmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,46 +58,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org,
+ linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Andrew,
 
-
-On Thu, 12 Sep 2019, at 17:53, Linus Walleij wrote:
-> On Thu, Aug 29, 2019 at 8:17 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+On 9/11/2019 10:33 PM, Andrew Jeffery wrote:
+> On Wed, 11 Sep 2019, at 04:37, Jae Hyun Yoo wrote:
+>> This commit refines hsync/vsync polarity setting logic by making
+>> also clearing register bits possible based on probed sync state
+>> accordingly.
 > 
-> > Commit 674fa8daa8c9 ("pinctrl: aspeed-g5: Delay acquisition of regmaps")
-> > was determined to be a partial fix to the problem of acquiring the LPC
-> > Host Controller and GFX regmaps: The AST2500 pin controller may need to
-> > fetch syscon regmaps during expression evaluation as well as when
-> > setting mux state. For example, this case is hit by attempting to export
-> > pins exposing the LPC Host Controller as GPIOs.
-> >
-> > An optional eval() hook is added to the Aspeed pinmux operation struct
-> > and called from aspeed_sig_expr_eval() if the pointer is set by the
-> > SoC-specific driver. This enables the AST2500 to perform the custom
-> > action of acquiring its regmap dependencies as required.
-> >
-> > John Wang tested the fix on an Inspur FP5280G2 machine (AST2500-based)
-> > where the issue was found, and I've booted the fix on Witherspoon
-> > (AST2500) and Palmetto (AST2400) machines, and poked at relevant pins
-> > under QEMU by forcing mux configurations via devmem before exporting
-> > GPIOs to exercise the driver.
-> >
-> > Fixes: 7d29ed88acbb ("pinctrl: aspeed: Read and write bits in LPC and GFX controllers")
-> > Fixes: 674fa8daa8c9 ("pinctrl: aspeed-g5: Delay acquisition of regmaps")
-> > Reported-by: John Wang <wangzqbj@inspur.com>
-> > Tested-by: John Wang <wangzqbj@inspur.com>
-> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> That was tough to parse, but I think I understand. Trying to rephrase:
 > 
-> Applied for fixes already yesterday!
+> Enable clearing of hsync/vsync plarity bits based on probed sync state.
 
-Thanks! Hoping to avoid such late fixes in the future...
+Correct.
 
-Andrew
+> What was the issue that drove the change? Do you know why it was done
+> the way it was prior to this patch?
+
+Because this driver detects weird resolutions sometimes. Investigated
+that it uses
+     aspeed_video_update(video, VE_CTRL, 0, ctrl);
+so only setting of polarity bits is available. Means that clearing of
+the bits isn't available so it can't set back the polarities to normal.
+
+To fix the issue, this patch makes it use
+     aspeed_video_write(video, VE_CTRL, ctrl);
+instead of above one with adding bit masking code changes.
+
+Thanks,
+Jae
