@@ -2,51 +2,71 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E5DB1334
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2019 19:06:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD38B14B4
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Sep 2019 21:08:59 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46TlXw36rhzF4k0
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Sep 2019 03:06:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46TpGH6XlBzF4wR
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Sep 2019 05:08:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (mailfrom) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.120; helo=mga04.intel.com;
- envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linux.intel.com
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ spf=pass (mailfrom) smtp.mailfrom=fb.com
+ (client-ip=67.231.153.30; helo=mx0a-00082601.pphosted.com;
+ envelope-from=prvs=4158dbe1fb=vijaykhemka@fb.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=fb.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=fb.com header.i=@fb.com header.b="Loexyj1P"; 
+ dkim-atps=neutral
+Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com
+ [67.231.153.30])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46TlXm3gCPzDqrn;
- Fri, 13 Sep 2019 03:06:15 +1000 (AEST)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2019 10:06:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,492,1559545200"; d="scan'208";a="190049683"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.148])
- ([10.7.153.148])
- by orsmga006.jf.intel.com with ESMTP; 12 Sep 2019 10:06:12 -0700
-Subject: Re: [PATCH -next 2/2] media: aspeed: set hsync and vsync polarities
- to normal before starting mode detection
-To: Andrew Jeffery <andrew@aj.id.au>, Eddie James <eajames@linux.ibm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Joel Stanley <joel@jms.id.au>
-References: <20190910190756.31432-1-jae.hyun.yoo@linux.intel.com>
- <20190910190756.31432-3-jae.hyun.yoo@linux.intel.com>
- <5c5538e7-4b7a-4d13-b4ac-584be4090d48@www.fastmail.com>
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <490bc4d9-e471-3b0f-49c9-39e99af95d62@linux.intel.com>
-Date: Thu, 12 Sep 2019 10:06:12 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46Tp9q5RjbzF3Nl
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Sep 2019 05:04:59 +1000 (AEST)
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+ by m0089730.ppops.net (8.16.0.42/8.16.0.42) with SMTP id x8CIxNdU011805
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Sep 2019 12:04:54 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=facebook;
+ bh=WH/ktTfc54pI4Hqq22UNfMBhilMTMzVAZzYnwRWMNsA=;
+ b=Loexyj1Pr8iz2u1kwfPzSD+fckPUep7KBLxOB01cCpIRaCnM3M8w86Ea5PreO0lt+Ash
+ Ng6EEt0Ylb9W8z1Wrr6w1URzn285vGM14W7K7Nr801DW0Kl4G5Mnzox+w83uhHKnru07
+ HGZBcgPjFLY4rQ+dn57SLSWloJfZ4rl2mWM= 
+Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
+ by m0089730.ppops.net with ESMTP id 2uytd90fpe-9
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Sep 2019 12:04:54 -0700
+Received: from mx-out.facebook.com (2620:10d:c081:10::13) by
+ mail.thefacebook.com (2620:10d:c081:35::129) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.1713.5;
+ Thu, 12 Sep 2019 12:04:54 -0700
+Received: by devvm4117.prn2.facebook.com (Postfix, from userid 167582)
+ id CE0851353DBE2; Thu, 12 Sep 2019 12:04:53 -0700 (PDT)
+Smtp-Origin-Hostprefix: devvm
+From: Vijay Khemka <vijaykhemka@fb.com>
+Smtp-Origin-Hostname: devvm4117.prn2.facebook.com
+To: Samuel Mendoza-Jonas <sam@mendozajonas.com>, "David S. Miller"
+ <davem@davemloft.net>, <netdev@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Smtp-Origin-Cluster: prn2c23
+Subject: [PATCH] net/ncsi: Disable global multicast filter
+Date: Thu, 12 Sep 2019 12:04:50 -0700
+Message-ID: <20190912190451.2362220-1-vijaykhemka@fb.com>
+X-Mailer: git-send-email 2.17.1
+X-FB-Internal: Safe
 MIME-Version: 1.0
-In-Reply-To: <5c5538e7-4b7a-4d13-b4ac-584be4090d48@www.fastmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
+ definitions=2019-09-12_10:2019-09-11,2019-09-12 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ phishscore=0
+ lowpriorityscore=0 adultscore=0 clxscore=1015 mlxlogscore=998 spamscore=0
+ bulkscore=0 malwarescore=0 suspectscore=0 priorityscore=1501
+ impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1908290000 definitions=main-1909120199
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,27 +78,207 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org,
- linux-media@vger.kernel.org
+Cc: "openbmc @ lists . ozlabs . org" <openbmc@lists.ozlabs.org>, sdasari@fb.com,
+ linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 9/11/2019 10:39 PM, Andrew Jeffery wrote:
-> 
-> 
-> On Wed, 11 Sep 2019, at 04:37, Jae Hyun Yoo wrote:
->> Sometimes it detects a weird resolution such as 1024x287 when the
->> actual resolution is 1024x768. To resolve such an issue, this
->> commit adds clearing for hsync and vsync polarity register bits
->> at the beginning of the first mode detection. This is recommended
->> in the datasheet.
-> 
-> I guess this answers my question on the previous patch's commit
-> message. Maybe it should be in both?
+Disabling multicast filtering from NCSI if it is supported. As it
+should not filter any multicast packets. In current code, multicast
+filter is enabled and with an exception of optional field supported
+by device are disabled filtering.
 
-I think the previous patch is a bug fix and this one is an enhancement
-patch. Better splitting them.
+Mainly I see if goal is to disable filtering for IPV6 packets then let
+it disabled for every other types as well. As we are seeing issues with
+LLDP not working with this enabled filtering. And there are other issues
+with IPV6.
 
-Thanks,
-Jae
+By Disabling this multicast completely, it is working for both IPV6 as
+well as LLDP.
+
+Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+---
+ net/ncsi/internal.h    |  7 +--
+ net/ncsi/ncsi-manage.c | 98 +++++-------------------------------------
+ 2 files changed, 12 insertions(+), 93 deletions(-)
+
+diff --git a/net/ncsi/internal.h b/net/ncsi/internal.h
+index 0b3f0673e1a2..ad3fd7f1da75 100644
+--- a/net/ncsi/internal.h
++++ b/net/ncsi/internal.h
+@@ -264,9 +264,7 @@ enum {
+ 	ncsi_dev_state_config_ev,
+ 	ncsi_dev_state_config_sma,
+ 	ncsi_dev_state_config_ebf,
+-#if IS_ENABLED(CONFIG_IPV6)
+-	ncsi_dev_state_config_egmf,
+-#endif
++	ncsi_dev_state_config_dgmf,
+ 	ncsi_dev_state_config_ecnt,
+ 	ncsi_dev_state_config_ec,
+ 	ncsi_dev_state_config_ae,
+@@ -295,9 +293,6 @@ struct ncsi_dev_priv {
+ #define NCSI_DEV_RESET		8            /* Reset state of NC          */
+ 	unsigned int        gma_flag;        /* OEM GMA flag               */
+ 	spinlock_t          lock;            /* Protect the NCSI device    */
+-#if IS_ENABLED(CONFIG_IPV6)
+-	unsigned int        inet6_addr_num;  /* Number of IPv6 addresses   */
+-#endif
+ 	unsigned int        package_probe_id;/* Current ID during probe    */
+ 	unsigned int        package_num;     /* Number of packages         */
+ 	struct list_head    packages;        /* List of packages           */
+diff --git a/net/ncsi/ncsi-manage.c b/net/ncsi/ncsi-manage.c
+index 755aab66dcab..bce8b443289d 100644
+--- a/net/ncsi/ncsi-manage.c
++++ b/net/ncsi/ncsi-manage.c
+@@ -14,7 +14,6 @@
+ #include <net/sock.h>
+ #include <net/addrconf.h>
+ #include <net/ipv6.h>
+-#include <net/if_inet6.h>
+ #include <net/genetlink.h>
+ 
+ #include "internal.h"
+@@ -978,9 +977,7 @@ static void ncsi_configure_channel(struct ncsi_dev_priv *ndp)
+ 	case ncsi_dev_state_config_ev:
+ 	case ncsi_dev_state_config_sma:
+ 	case ncsi_dev_state_config_ebf:
+-#if IS_ENABLED(CONFIG_IPV6)
+-	case ncsi_dev_state_config_egmf:
+-#endif
++	case ncsi_dev_state_config_dgmf:
+ 	case ncsi_dev_state_config_ecnt:
+ 	case ncsi_dev_state_config_ec:
+ 	case ncsi_dev_state_config_ae:
+@@ -1033,23 +1030,23 @@ static void ncsi_configure_channel(struct ncsi_dev_priv *ndp)
+ 		} else if (nd->state == ncsi_dev_state_config_ebf) {
+ 			nca.type = NCSI_PKT_CMD_EBF;
+ 			nca.dwords[0] = nc->caps[NCSI_CAP_BC].cap;
+-			if (ncsi_channel_is_tx(ndp, nc))
++			/* if multicast global filtering is supported then
++			 * disable it so that all multicast packet will be
++			 * forwarded to management controller
++			 */
++			if (nc->caps[NCSI_CAP_GENERIC].cap &
++			     NCSI_CAP_GENERIC_MC)
++				nd->state = ncsi_dev_state_config_dgmf;
++			else if (ncsi_channel_is_tx(ndp, nc))
+ 				nd->state = ncsi_dev_state_config_ecnt;
+ 			else
+ 				nd->state = ncsi_dev_state_config_ec;
+-#if IS_ENABLED(CONFIG_IPV6)
+-			if (ndp->inet6_addr_num > 0 &&
+-			    (nc->caps[NCSI_CAP_GENERIC].cap &
+-			     NCSI_CAP_GENERIC_MC))
+-				nd->state = ncsi_dev_state_config_egmf;
+-		} else if (nd->state == ncsi_dev_state_config_egmf) {
+-			nca.type = NCSI_PKT_CMD_EGMF;
+-			nca.dwords[0] = nc->caps[NCSI_CAP_MC].cap;
++		} else if (nd->state == ncsi_dev_state_config_dgmf) {
++			nca.type = NCSI_PKT_CMD_DGMF;
+ 			if (ncsi_channel_is_tx(ndp, nc))
+ 				nd->state = ncsi_dev_state_config_ecnt;
+ 			else
+ 				nd->state = ncsi_dev_state_config_ec;
+-#endif /* CONFIG_IPV6 */
+ 		} else if (nd->state == ncsi_dev_state_config_ecnt) {
+ 			if (np->preferred_channel &&
+ 			    nc != np->preferred_channel)
+@@ -1483,70 +1480,6 @@ int ncsi_process_next_channel(struct ncsi_dev_priv *ndp)
+ 	return -ENODEV;
+ }
+ 
+-#if IS_ENABLED(CONFIG_IPV6)
+-static int ncsi_inet6addr_event(struct notifier_block *this,
+-				unsigned long event, void *data)
+-{
+-	struct inet6_ifaddr *ifa = data;
+-	struct net_device *dev = ifa->idev->dev;
+-	struct ncsi_dev *nd = ncsi_find_dev(dev);
+-	struct ncsi_dev_priv *ndp = nd ? TO_NCSI_DEV_PRIV(nd) : NULL;
+-	struct ncsi_package *np;
+-	struct ncsi_channel *nc;
+-	struct ncsi_cmd_arg nca;
+-	bool action;
+-	int ret;
+-
+-	if (!ndp || (ipv6_addr_type(&ifa->addr) &
+-	    (IPV6_ADDR_LINKLOCAL | IPV6_ADDR_LOOPBACK)))
+-		return NOTIFY_OK;
+-
+-	switch (event) {
+-	case NETDEV_UP:
+-		action = (++ndp->inet6_addr_num) == 1;
+-		nca.type = NCSI_PKT_CMD_EGMF;
+-		break;
+-	case NETDEV_DOWN:
+-		action = (--ndp->inet6_addr_num == 0);
+-		nca.type = NCSI_PKT_CMD_DGMF;
+-		break;
+-	default:
+-		return NOTIFY_OK;
+-	}
+-
+-	/* We might not have active channel or packages. The IPv6
+-	 * required multicast will be enabled when active channel
+-	 * or packages are chosen.
+-	 */
+-	np = ndp->active_package;
+-	nc = ndp->active_channel;
+-	if (!action || !np || !nc)
+-		return NOTIFY_OK;
+-
+-	/* We needn't enable or disable it if the function isn't supported */
+-	if (!(nc->caps[NCSI_CAP_GENERIC].cap & NCSI_CAP_GENERIC_MC))
+-		return NOTIFY_OK;
+-
+-	nca.ndp = ndp;
+-	nca.req_flags = 0;
+-	nca.package = np->id;
+-	nca.channel = nc->id;
+-	nca.dwords[0] = nc->caps[NCSI_CAP_MC].cap;
+-	ret = ncsi_xmit_cmd(&nca);
+-	if (ret) {
+-		netdev_warn(dev, "Fail to %s global multicast filter (%d)\n",
+-			    (event == NETDEV_UP) ? "enable" : "disable", ret);
+-		return NOTIFY_DONE;
+-	}
+-
+-	return NOTIFY_OK;
+-}
+-
+-static struct notifier_block ncsi_inet6addr_notifier = {
+-	.notifier_call = ncsi_inet6addr_event,
+-};
+-#endif /* CONFIG_IPV6 */
+-
+ static int ncsi_kick_channels(struct ncsi_dev_priv *ndp)
+ {
+ 	struct ncsi_dev *nd = &ndp->ndev;
+@@ -1725,11 +1658,6 @@ struct ncsi_dev *ncsi_register_dev(struct net_device *dev,
+ 	}
+ 
+ 	spin_lock_irqsave(&ncsi_dev_lock, flags);
+-#if IS_ENABLED(CONFIG_IPV6)
+-	ndp->inet6_addr_num = 0;
+-	if (list_empty(&ncsi_dev_list))
+-		register_inet6addr_notifier(&ncsi_inet6addr_notifier);
+-#endif
+ 	list_add_tail_rcu(&ndp->node, &ncsi_dev_list);
+ 	spin_unlock_irqrestore(&ncsi_dev_lock, flags);
+ 
+@@ -1896,10 +1824,6 @@ void ncsi_unregister_dev(struct ncsi_dev *nd)
+ 
+ 	spin_lock_irqsave(&ncsi_dev_lock, flags);
+ 	list_del_rcu(&ndp->node);
+-#if IS_ENABLED(CONFIG_IPV6)
+-	if (list_empty(&ncsi_dev_list))
+-		unregister_inet6addr_notifier(&ncsi_inet6addr_notifier);
+-#endif
+ 	spin_unlock_irqrestore(&ncsi_dev_lock, flags);
+ 
+ 	ncsi_unregister_netlink(nd->dev);
+-- 
+2.17.1
+
