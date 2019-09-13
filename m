@@ -1,53 +1,78 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37BE2B23EF
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Sep 2019 18:15:56 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 742C1B2427
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Sep 2019 18:35:53 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46VLN94hHDzF3ZH
-	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Sep 2019 02:15:53 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46VLq93xVlzF4lG
+	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Sep 2019 02:35:49 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (mailfrom) smtp.mailfrom=linux.intel.com
- (client-ip=134.134.136.31; helo=mga06.intel.com;
- envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linux.intel.com
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ spf=pass (mailfrom) smtp.mailfrom=linux.ibm.com
+ (client-ip=148.163.158.5; helo=mx0a-001b2d01.pphosted.com;
+ envelope-from=eajames@linux.ibm.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=linux.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46VLM76t4HzF3ry;
- Sat, 14 Sep 2019 02:14:58 +1000 (AEST)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2019 09:14:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,489,1559545200"; d="scan'208";a="336937990"
-Received: from unknown (HELO [10.7.153.148]) ([10.7.153.148])
- by orsmga004.jf.intel.com with ESMTP; 13 Sep 2019 09:14:55 -0700
-Subject: Re: [PATCH -next 2/2] media: aspeed: set hsync and vsync polarities
- to normal before starting mode detection
-To: Andrew Jeffery <andrew@aj.id.au>, Eddie James <eajames@linux.ibm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Joel Stanley <joel@jms.id.au>
-References: <20190910190756.31432-1-jae.hyun.yoo@linux.intel.com>
- <20190910190756.31432-3-jae.hyun.yoo@linux.intel.com>
- <5c5538e7-4b7a-4d13-b4ac-584be4090d48@www.fastmail.com>
- <490bc4d9-e471-3b0f-49c9-39e99af95d62@linux.intel.com>
- <2c24c8a9-b357-4948-8744-3900ed28012c@www.fastmail.com>
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <46c1fc35-1e9f-c08b-1c9f-ef5d82c46659@linux.intel.com>
-Date: Fri, 13 Sep 2019 09:14:55 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <2c24c8a9-b357-4948-8744-3900ed28012c@www.fastmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46VLpq0t0WzF4Wt
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 14 Sep 2019 02:35:30 +1000 (AEST)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8DGWSXg095030; Fri, 13 Sep 2019 12:35:19 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2v0cjewbn8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Sep 2019 12:35:19 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x8DGX7x9096532;
+ Fri, 13 Sep 2019 12:35:18 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2v0cjewbmu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Sep 2019 12:35:18 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x8DGYrLC005706;
+ Fri, 13 Sep 2019 16:35:17 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma04dal.us.ibm.com with ESMTP id 2uytdx2em9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Sep 2019 16:35:17 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8DGZHUm24445206
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 13 Sep 2019 16:35:17 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2357FAE063;
+ Fri, 13 Sep 2019 16:35:17 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5AD84AE05F;
+ Fri, 13 Sep 2019 16:35:16 +0000 (GMT)
+Received: from talon7.ibm.com (unknown [9.41.179.222])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri, 13 Sep 2019 16:35:16 +0000 (GMT)
+From: Eddie James <eajames@linux.ibm.com>
+To: linux-aspeed@lists.ozlabs.org
+Subject: [PATCH 0/2] i2c: Aspeed: Add AST2600 compatible string
+Date: Fri, 13 Sep 2019 11:35:08 -0500
+Message-Id: <1568392510-866-1-git-send-email-eajames@linux.ibm.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-09-13_07:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=575 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1909130167
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,38 +84,24 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org,
- linux-media@vger.kernel.org
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, brendanhiggins@google.com,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 9/12/2019 5:18 PM, Andrew Jeffery wrote:
-> 
-> 
-> On Fri, 13 Sep 2019, at 02:36, Jae Hyun Yoo wrote:
->> On 9/11/2019 10:39 PM, Andrew Jeffery wrote:
->>>
->>>
->>> On Wed, 11 Sep 2019, at 04:37, Jae Hyun Yoo wrote:
->>>> Sometimes it detects a weird resolution such as 1024x287 when the
->>>> actual resolution is 1024x768. To resolve such an issue, this
->>>> commit adds clearing for hsync and vsync polarity register bits
->>>> at the beginning of the first mode detection. This is recommended
->>>> in the datasheet.
->>>
->>> I guess this answers my question on the previous patch's commit
->>> message. Maybe it should be in both?
->>
->> I think the previous patch is a bug fix and this one is an enhancement
->> patch. Better splitting them.
-> 
-> I wasn't suggesting squashing the patches, I was suggesting updating
-> the commit message of the first patch to better justify/explain the
-> change.
+Update the Aspeed I2C driver with the AST2600 compatible string. The default
+driver behavior works fine with the AST2600. A new compatible string is needed
+to avoid the AST2400 and AST2500 behavior.
 
-Okay. Will update the commit message of the first patch.
+Eddie James (2):
+  i2c: Aspeed: Add AST2600 compatible
+  dt-bindings: i2c: Aspeed: Add AST2600 compatible
 
-Thanks,
-Jae
+ Documentation/devicetree/bindings/i2c/i2c-aspeed.txt | 3 ++-
+ drivers/i2c/busses/i2c-aspeed.c                      | 4 ++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+-- 
+1.8.3.1
 
