@@ -1,75 +1,57 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5075EB64F0
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Sep 2019 15:44:38 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D57FB7CDB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Sep 2019 16:33:12 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46YLnG0D6XzF3qf
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Sep 2019 23:44:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46Yzps2YjnzDqfC
+	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Sep 2019 00:33:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::644; helo=mail-pl1-x644.google.com;
- envelope-from=groeck7@gmail.com; receiver=<UNKNOWN>)
+ spf=none (mailfrom) smtp.mailfrom=arndb.de
+ (client-ip=217.72.192.75; helo=mout.kundenserver.de;
+ envelope-from=arnd@arndb.de; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="qS7h3ZDA"; 
- dkim-atps=neutral
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=arndb.de
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46YLgB0KwyzF39Z
- for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Sep 2019 23:39:17 +1000 (AEST)
-Received: by mail-pl1-x644.google.com with SMTP id w10so3196841plq.5
- for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Sep 2019 06:39:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=3coPOKz829YesHs8WeDQ/ai4YhjPoVLGbSy497MH0Io=;
- b=qS7h3ZDAoTFnRgGv1UvQCSos0CEKYa1Ol1rQOd4jzD/JiSP6N5vVOwdF3Z8RuVSoZr
- 1mDJJ7fYVFpPwIN02QXU82nX1V+QV9KrobEe4wkD83KdWXbj43Yh4BTcbIURV2Napwuy
- IgdbW27UiEIT0qhx5u4WUTm62RgWNpl+ewghEdfF28M0X8pHIJn5YRfGbPLFERi2EzQh
- uW5DYqh/4bV9ON4D8XGmAcLmkChMCsh/jlDakaMQu2SgxvoiopdjqpLss1xB9NPiOefk
- 2VRAUUDEYjHdTJ8B2l6jpzLuUONFWHhdDDGzYQSKQr8A3J3URqnCeq/KL0chK7/u1pRV
- g+Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=3coPOKz829YesHs8WeDQ/ai4YhjPoVLGbSy497MH0Io=;
- b=YOwZV0Cdq/pm7VkOiW1eP5WhlRX6NSmdiG/1NGgdpkI0MV2rXRi4Mazr3Z8s/Tu6N9
- MDKzNCSzqyMwy+iEBF2Pxxa114VjxILNItrj2PGoFT7KfJtPBGdXONx4+uJncBYno+1j
- 7hUOBhZAurJcFgo788jzzCRi6vlNa/hWjK5btFSS6ShBCsC3EMPbXN6YwaGR1/lOYuNN
- HJDmx9QAjIf/l0Lku72K+kw0sB565CYvziAqLYwclIzQMy1NUwUEqerYHC7wi6v17RVD
- 8Z7HyXIDRBzqgt7/cEtS6LvVi+mqg+OYuRYK5gwczjU8pPwyGel6Df6RkuBzum7zLGsd
- w1zA==
-X-Gm-Message-State: APjAAAVHIjkcW9kHOBBV4TpxzI5LuzAlJh2FZeAKT44aA5sDilsm+VIA
- 1PiR11gGndVQ77SKqaNGWU0=
-X-Google-Smtp-Source: APXvYqx81mSybzdQj0FZPyN7+YBbDAJ170gLkLCt6Wq3XQvIapP6vM/UArMpEQXp4CHtzTBTBTmctA==
-X-Received: by 2002:a17:902:8f90:: with SMTP id
- z16mr4266870plo.138.1568813953713; 
- Wed, 18 Sep 2019 06:39:13 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id 197sm18396233pge.39.2019.09.18.06.39.13
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 18 Sep 2019 06:39:13 -0700 (PDT)
-Date: Wed, 18 Sep 2019 06:39:12 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Markus Elfring <Markus.Elfring@web.de>
-Subject: Re: [PATCH] hwmon: (aspeed-pwm-tacho) Use
- devm_platform_ioremap_resource() in aspeed_pwm_tacho_probe()
-Message-ID: <20190918133912.GA14788@roeck-us.net>
-References: <cd5bab7b-9333-2a43-bcf0-a47bbbe719eb@web.de>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46YzpP2TcdzF4wG
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 20 Sep 2019 00:32:43 +1000 (AEST)
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.145]) with ESMTPA (Nemesis) id
+ 1MZSym-1igOhi1TOw-00WWXn; Thu, 19 Sep 2019 16:26:56 +0200
+From: Arnd Bergmann <arnd@arndb.de>
+To: Joel Stanley <joel@jms.id.au>
+Subject: [PATCH] ARM: aspeed: ast2500 is ARMv6K
+Date: Thu, 19 Sep 2019 16:26:38 +0200
+Message-Id: <20190919142654.1578823-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cd5bab7b-9333-2a43-bcf0-a47bbbe719eb@web.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:V9tdOUDtuGUe068WcZJL2K9tTtIESlF6Je8IaB76YM9nrgqfI4E
+ b9qk+sCm+bba7I2po2I9hVnAaQqWXex61vapONgnrXW5FHiohTQgglQZlibOGxhEKD9qzot
+ Yw4hDZaMBz+tIKqYvR3HhRYIKZl74HVupJ+bkdOqekLBPujC2cL0vvyRSjIwpN8aMcyTxXV
+ Ql3aJeSt7/5UyABhcXDmQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:WWLG3lrdZpI=:Puk+tZFZzd1BhXZOo/oxWu
+ M6q0jw/gIAPOfIZtrvx1EEA/AV2wJfQs6130JFczBH/MHAv0tANF7UyUSW4+ax4j8+zq/jII7
+ beaw6pp12VJ5BFOBqL+YJafpGpcYcl8j9PqjgFONABZRwbJWIV2OZNRlc2T54eRixNxH4D6BM
+ bN+TO4Ml2pkKpnvlx4Xg5kPr6o86/xw5oulgGiuWS9L9b1BZe/eHtRQMLm9HE/ZBSrj+dQK7b
+ i3bqiPfraoRqsgJrauKMuOxwdmjYgU42pD1YpTiZFPRkurLYcbo1MxhVkkv9Umz8k8W6TQ3fL
+ xY2gDDf1K/8GVxZyWw/xRpjMiy+PdDS3xZ+S4zfqQb8MITEdOqzjXp9o0+k0kTiwMQxcx4RgV
+ 0lAY6XqrYyf/r1AZKOr7NdpvKkjZ1RZQstqk+5ljgTgmbmG6WPkHQh4bRXkmd0T7rqPoPEfXx
+ RleAKH2YnNim3zzjBd0VJLqpSFJ1p+MZWfo1SwIXalwvk3U0QC8ExeoKNx1OT7gtbe5bI41+U
+ Jx1xDj/gc9yMk4VoqUi5wv5nF1U9/yRkq9pDYDwRDRdUDbhWhGtzSWFJeLZzDcnM1q4+gSlg9
+ rn4ZQCw1Ze4/spBugGYcjJMsdGJADf8gBDouWeZM9paKtweyNuJUTrNEQ/2DPhEkwL5gIdicc
+ WoJvWdDL9Ps7mwKRdLWxd6jK+pshiZ2hyd0BeKXBR+se99cokK5yk4e9cXRyYjWlFOfsl4T7J
+ oue7xueddWAzgSFxC3IL82mxz8oAvKYPe7l9y5m6iyJ92NK433AtO3YcRsTMs5WqRS7167lh1
+ 5zwF1+PgbWvIIifjUxW6XfhTdINFa8omBIBlEUXFdrWCbkqGX0Q9N9VpNOssJi95sUyJtxrDR
+ dPTPrc38W0ANMQG6/aqZGYWZn0l5nB0i/egUZOMRzXAqI/4T8EryYj9xM9MJkWb94r2VO3gQd
+ Vc93Rsm2dQIkiHkXyjFbfxNwuTUokcSd/xH9h49japuwvN4RnoLKnSs2UAy5A18gwEIZF+/KW
+ txu62006A1blY3xW2tkkvIxX4gqblwz854NcN/zpAQKU
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,58 +63,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
- linux-aspeed@lists.ozlabs.org, kernel-janitors@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- linux-arm-kernel@lists.infradead.org,
- Himanshu Jha <himanshujha199640@gmail.com>
+Cc: linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Sep 18, 2019 at 10:20:09AM +0200, Markus Elfring wrote:
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Wed, 18 Sep 2019 10:12:31 +0200
-> 
-> Simplify this function implementation by using a known wrapper function.
-> 
-> This issue was detected by using the Coccinelle software.
-> 
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+Linux supports both the original ARMv6 level (early ARM1136) and ARMv6K
+(later ARM1136, ARM1176 and ARM11mpcore).
 
-Applied to hwmon-next.
+ast2500 falls into the second categoy, being based on arm1176jzf-s.
+This is enabled by default when using ARCH_MULTI_V6, so we should
+not 'select CPU_V6'.
 
-Thanks,
-Guenter
+Removing this will lead to more efficient use of atomic instructions.
 
-> ---
->  drivers/hwmon/aspeed-pwm-tacho.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
-> 
-> --
-> 2.23.0
-> 
-> diff --git a/drivers/hwmon/aspeed-pwm-tacho.c b/drivers/hwmon/aspeed-pwm-tacho.c
-> index 40c489be62ea..33fb54845bf6 100644
-> --- a/drivers/hwmon/aspeed-pwm-tacho.c
-> +++ b/drivers/hwmon/aspeed-pwm-tacho.c
-> @@ -891,17 +891,12 @@ static int aspeed_pwm_tacho_probe(struct platform_device *pdev)
->  	struct device_node *np, *child;
->  	struct aspeed_pwm_tacho_data *priv;
->  	void __iomem *regs;
-> -	struct resource *res;
->  	struct device *hwmon;
->  	struct clk *clk;
->  	int ret;
-> 
->  	np = dev->of_node;
-> -
-> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	if (!res)
-> -		return -ENOENT;
-> -	regs = devm_ioremap_resource(dev, res);
-> +	regs = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(regs))
->  		return PTR_ERR(regs);
->  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ arch/arm/mach-aspeed/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/arch/arm/mach-aspeed/Kconfig b/arch/arm/mach-aspeed/Kconfig
+index a293137f5814..163931a03136 100644
+--- a/arch/arm/mach-aspeed/Kconfig
++++ b/arch/arm/mach-aspeed/Kconfig
+@@ -26,7 +26,6 @@ config MACH_ASPEED_G4
+ config MACH_ASPEED_G5
+ 	bool "Aspeed SoC 5th Generation"
+ 	depends on ARCH_MULTI_V6
+-	select CPU_V6
+ 	select PINCTRL_ASPEED_G5 if !CC_IS_CLANG
+ 	select FTTMR010_TIMER
+ 	help
+-- 
+2.20.0
+
