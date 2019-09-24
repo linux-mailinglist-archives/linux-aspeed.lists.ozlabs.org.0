@@ -2,143 +2,79 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9188CBD289
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Sep 2019 21:22:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B13DABD299
+	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Sep 2019 21:27:14 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46dB024jbzzDqdf
-	for <lists+linux-aspeed@lfdr.de>; Wed, 25 Sep 2019 05:22:10 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46dB5q67lHzDqf1
+	for <lists+linux-aspeed@lfdr.de>; Wed, 25 Sep 2019 05:27:11 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=fb.com
- (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
- envelope-from=prvs=4170c4e664=vijaykhemka@fb.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=linux.ibm.com
+ (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com;
+ envelope-from=eajames@linux.ibm.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=fb.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=fb.com header.i=@fb.com header.b="J3oJEU/y"; 
- dkim=pass (1024-bit key;
- unprotected) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com
- header.b="P5FrKCDt"; dkim-atps=neutral
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
- [67.231.145.42])
+ dmarc=none (p=none dis=none) header.from=linux.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46d7RP4kX3zDqGv;
- Wed, 25 Sep 2019 03:27:05 +1000 (AEST)
-Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- x8OHK2TF019779; Tue, 24 Sep 2019 10:26:03 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=h8Q4F8eezugsr5weNnKhptLbffREhARy57Ig5U4cGVk=;
- b=J3oJEU/yOWH/Lq5HA7oUpwlOLzNC8zwhKLBVKmv6qmWDHBC0I9geRcx5+u4AWS6wlAgR
- oqqYqckjZ0+TfWwXd3fY6cMWDnMFzPZ2Hzy2M1ITPSOXRX/ffJ63+pVwadf70L3z1R4j
- QIdy/QzAOs3dS5ygNpd1duYvMEP7WhOJoj4= 
-Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
- by mx0a-00082601.pphosted.com with ESMTP id 2v7q74846c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Tue, 24 Sep 2019 10:26:03 -0700
-Received: from prn-mbx06.TheFacebook.com (2620:10d:c081:6::20) by
- prn-hub06.TheFacebook.com (2620:10d:c081:35::130) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.1713.5; Tue, 24 Sep 2019 10:26:02 -0700
-Received: from prn-hub02.TheFacebook.com (2620:10d:c081:35::126) by
- prn-mbx06.TheFacebook.com (2620:10d:c081:6::20) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.1713.5; Tue, 24 Sep 2019 10:26:02 -0700
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com (192.168.54.28)
- by o365-in.thefacebook.com (192.168.16.26) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.1.1713.5
- via Frontend Transport; Tue, 24 Sep 2019 10:26:02 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ApLe0JGOKGqKxQ+53Xm0AaYESojgdRFEQmkJYVVxvKE05E5w4G9FSwDu/qAKHLvpX3On2qA1bYDCJ8iGNrxvwEw/gURPjJH3jRoxqDeqWxRayJ8JNtWIMLxvjELiaYHb0JQwvgnKT9Kj2KLQv2NaOq7EUoAAOYKoVbqmTZuE6LQQ4owO4tGzpf9gQ81jsH6s+tJyMDN1FEJ0i9uvGsDJEubFjW/gdcnbjizC6lo3N7NSP3ctNYOY0YTNzsr/eWtUXF6yj19GN/YuSp+BpxqzUAr4gyByMUVU15EVbJVA69Ys4/R75ky1GBxH1U18Dmbc+DVik/phsPFiOximsNeogw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h8Q4F8eezugsr5weNnKhptLbffREhARy57Ig5U4cGVk=;
- b=Cl8iew7/gX/Hdg80K9+K33oAylSxOFMMyG4FtST/C3qqp6s439aTt14Gi5Dj+XfzsSKQ35ZQ3Uyttsfyis4r/4GM+Pz4S4IAZcc3ECLjWy3AB+6EE8/pcUlBYxOeER93VTA0lUs1ZYq51SpSQOyjGH0li6MWo4j8EbPoVlPd8/vr1HXDfjTx6DLPedRs9AEa8ypJiJyvqEdU9hjgbr8ohJN70Y3PG/w3Bl4XQ/WsjKcLmg+YvQv3gqGwYrhiUzskUEhs/XvzoSaOPWCEN6blORnqYmCGI94mBLqw3G0LQRSBJ9pkqj/QzTztDXr6vaFFCTz3gkN9qUl93zxMj2b6Ig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h8Q4F8eezugsr5weNnKhptLbffREhARy57Ig5U4cGVk=;
- b=P5FrKCDt3BRtmjk6KUo0KOm0OQxgxzwt9hFOtrahJ5PY9I/PadpTF4DOwErw4ekDncT9cOhz3A3+127EqgFHEKNp3kTCMnVVHChYTGLsOfWpnJw8YmgeOI3rp1XZTYPALLNwXj24bpNG9qSnNPTrvLFjVmxC7XHjpIdPz0YirA4=
-Received: from BY5PR15MB3636.namprd15.prod.outlook.com (52.133.252.91) by
- BY5PR15MB3524.namprd15.prod.outlook.com (52.133.252.12) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.26; Tue, 24 Sep 2019 17:26:01 +0000
-Received: from BY5PR15MB3636.namprd15.prod.outlook.com
- ([fe80::bc3e:c80f:b59e:98aa]) by BY5PR15MB3636.namprd15.prod.outlook.com
- ([fe80::bc3e:c80f:b59e:98aa%6]) with mapi id 15.20.2284.023; Tue, 24 Sep 2019
- 17:26:01 +0000
-From: Vijay Khemka <vijaykhemka@fb.com>
-To: "David S. Miller" <davem@davemloft.net>, Florian Fainelli
- <f.fainelli@gmail.com>, YueHaibing <yuehaibing@huawei.com>, Andrew Lunn
- <andrew@lunn.ch>, Kate Stewart <kstewart@linuxfoundation.org>, "Mauro
- Carvalho Chehab" <mchehab+samsung@kernel.org>, Luis Chamberlain
- <mcgrof@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "joel@jms.id.au" <joel@jms.id.au>
-Subject: Re: [PATCH v2] ftgmac100: Disable HW checksum generation on AST2500
-Thread-Topic: [PATCH v2] ftgmac100: Disable HW checksum generation on AST2500
-Thread-Index: AQHVaNxN2w/kFAC/x0er+VWda7SKWKcv1qsAgArchwA=
-Date: Tue, 24 Sep 2019 17:26:00 +0000
-Message-ID: <D8D8FCD0-4C30-4734-B2BD-4BCF2D90950B@fb.com>
-References: <20190911194453.2595021-1-vijaykhemka@fb.com>
- <8C4C62C8-8835-4D33-B317-A75DD1DBB7A3@fb.com>
-In-Reply-To: <8C4C62C8-8835-4D33-B317-A75DD1DBB7A3@fb.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [2620:10d:c090:200::2:d29f]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9bb39c2a-f84a-4ffb-b601-08d741144536
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:BY5PR15MB3524; 
-x-ms-traffictypediagnostic: BY5PR15MB3524:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR15MB3524A32CEA8402AF4D230D97DD840@BY5PR15MB3524.namprd15.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5516;
-x-forefront-prvs: 0170DAF08C
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(346002)(376002)(366004)(136003)(39860400002)(396003)(189003)(199004)(14444005)(229853002)(6506007)(478600001)(316002)(256004)(53546011)(476003)(2616005)(2906002)(71200400001)(102836004)(86362001)(7416002)(6116002)(486006)(2501003)(46003)(99286004)(14454004)(5660300002)(186003)(6436002)(71190400001)(446003)(305945005)(54906003)(6246003)(33656002)(66446008)(76176011)(6486002)(66556008)(2201001)(11346002)(64756008)(7736002)(25786009)(81166006)(66946007)(110136005)(66476007)(6512007)(8936002)(36756003)(81156014)(4326008)(8676002)(91956017)(76116006)(921003)(1121003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BY5PR15MB3524;
- H:BY5PR15MB3636.namprd15.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 2b4b61OlhaN/ZIccfMqqpKVyU6dQOgd0KIMz+i1qP+RVkx2PjxORao9IbpA9oYCso/HUNEeR8kh6WZE5HKRGcRt5tDKJ5U0flgEEhcRFdKKmvDFFasaMM9pmFzulrDZk2Hkbz3L74SXW+BXoNAsOw8znyw6oWqZ05swBOLgOYIb5LuMEHNtX+O7OFpmOV/BfvHl+Mt6s3pCmdLaaOUJxOp/WwGbFm74ld8+MM8CVkNRmFYqhzoiiJWJg5FBkoqJNSg1tENQZhyqDkcpeG5a26BQOEqPFwyaL7ayNwS5Mo3zOWo58xqwHXRReaOClanjenHPAkNTGOztJgYVVVISTYE6djQjofzyinOE1ix898NHT9YBAMYWkdzYi48bw7FoIDrFD3zVwoObrUP/OfcaCvFGKmo7hcf+hzLp4V3XyNo8=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F546C34149EB2C438CC2E7F3EDE9E547@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46d8QL37k6zDqYp
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Sep 2019 04:11:22 +1000 (AEST)
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x8OHqaUA092052; Tue, 24 Sep 2019 14:11:01 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2v7n2vrt25-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 Sep 2019 14:11:01 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x8OI9keN009051;
+ Tue, 24 Sep 2019 18:11:00 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma02wdc.us.ibm.com with ESMTP id 2v5bg6xrnu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 Sep 2019 18:11:00 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x8OIAxlA53477786
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 24 Sep 2019 18:10:59 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 84DB028065;
+ Tue, 24 Sep 2019 18:10:59 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C65EA28059;
+ Tue, 24 Sep 2019 18:10:58 +0000 (GMT)
+Received: from [9.80.233.40] (unknown [9.80.233.40])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue, 24 Sep 2019 18:10:58 +0000 (GMT)
+Subject: Re: [PATCH 2/4] irqchip: Add Aspeed SCU interrupt controller
+To: Marc Zyngier <maz@kernel.org>, linux-kernel@vger.kernel.org
+References: <1569341672-27632-1-git-send-email-eajames@linux.ibm.com>
+ <1569341672-27632-3-git-send-email-eajames@linux.ibm.com>
+ <3e866ea1-ee45-8067-09db-422d6c843fca@kernel.org>
+From: Eddie James <eajames@linux.ibm.com>
+Message-ID: <cc3af988-53a4-b241-a61e-b6bb4f964852@linux.ibm.com>
+Date: Tue, 24 Sep 2019 13:10:58 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9bb39c2a-f84a-4ffb-b601-08d741144536
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Sep 2019 17:26:00.9501 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ovmbaMilkLgnaE9LojwdBz3aZT65qiH6kRuUjegfAnK2vOVKy1juqU27I6MM+6hCmspmEv/LQtwA9RWdijrQWg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR15MB3524
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-09-24_07:2019-09-23,2019-09-24 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- malwarescore=0
- clxscore=1015 priorityscore=1501 suspectscore=0 lowpriorityscore=0
- mlxscore=0 impostorscore=0 phishscore=0 bulkscore=0 adultscore=0
- spamscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1908290000 definitions=main-1909240151
-X-FB-Internal: deliver
+In-Reply-To: <3e866ea1-ee45-8067-09db-422d6c843fca@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-09-24_07:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1909240154
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,51 +86,303 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "openbmc @ lists . ozlabs . org" <openbmc@lists.ozlabs.org>,
- Sai Dasari <sdasari@fb.com>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jason@lakedaemon.net,
+ linux-aspeed@lists.ozlabs.org, robh+dt@kernel.org, tglx@linutronix.de
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Rmxvcmlhbi9Kb2VsLA0KQ2FuIHlvdSBwbGVhc2UgbG9vayBpbnRvIGJlbG93IHBhdGNoIGFuZCBs
-ZXQgbWUga25vdyB3aG8gY2FuIGFwcGx5IHRoaXMuDQoNClJlZ2FyZHMNCi1WaWpheQ0KDQrvu79P
-biA5LzE3LzE5LCAxMjozNCBQTSwgIlZpamF5IEtoZW1rYSIgPHZpamF5a2hlbWthQGZiLmNvbT4g
-d3JvdGU6DQoNCiAgICBQbGVhc2UgcmV2aWV3IGJlbG93IHBhdGNoIGFuZCBwcm92aWRlIHlvdXIg
-dmFsdWFibGUgZmVlZGJhY2suDQogICAgDQogICAgUmVnYXJkcw0KICAgIC1WaWpheQ0KICAgIA0K
-ICAgIE9uIDkvMTEvMTksIDE6MDUgUE0sICJWaWpheSBLaGVta2EiIDx2aWpheWtoZW1rYUBmYi5j
-b20+IHdyb3RlOg0KICAgIA0KICAgICAgICBIVyBjaGVja3N1bSBnZW5lcmF0aW9uIGlzIG5vdCB3
-b3JraW5nIGZvciBBU1QyNTAwLCBzcGVjaWFsbHkgd2l0aCBJUFY2DQogICAgICAgIG92ZXIgTkNT
-SS4gQWxsIFRDUCBwYWNrZXRzIHdpdGggSVB2NiBnZXQgZHJvcHBlZC4gQnkgZGlzYWJsaW5nIHRo
-aXMNCiAgICAgICAgaXQgd29ya3MgcGVyZmVjdGx5IGZpbmUgd2l0aCBJUFY2LiBBcyBpdCB3b3Jr
-cyBmb3IgSVBWNCBzbyBlbmFibGVkDQogICAgICAgIGh3IGNoZWNrc3VtIGJhY2sgZm9yIElQVjQu
-DQogICAgICAgIA0KICAgICAgICBWZXJpZmllZCB3aXRoIElQVjYgZW5hYmxlZCBhbmQgY2FuIGRv
-IHNzaC4NCiAgICAgICAgDQogICAgICAgIFNpZ25lZC1vZmYtYnk6IFZpamF5IEtoZW1rYSA8dmlq
-YXlraGVta2FAZmIuY29tPg0KICAgICAgICAtLS0NCiAgICAgICAgQ2hhbmdlcyBzaW5jZSB2MToN
-CiAgICAgICAgIEVuYWJsZWQgSVBWNCBodyBjaGVja3N1bSBnZW5lcmF0aW9uIGFzIGl0IHdvcmtz
-IGZvciBJUFY0Lg0KICAgICAgICANCiAgICAgICAgIGRyaXZlcnMvbmV0L2V0aGVybmV0L2ZhcmFk
-YXkvZnRnbWFjMTAwLmMgfCAxMyArKysrKysrKysrKystDQogICAgICAgICAxIGZpbGUgY2hhbmdl
-ZCwgMTIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KICAgICAgICANCiAgICAgICAgZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L2ZhcmFkYXkvZnRnbWFjMTAwLmMgYi9kcml2
-ZXJzL25ldC9ldGhlcm5ldC9mYXJhZGF5L2Z0Z21hYzEwMC5jDQogICAgICAgIGluZGV4IDAzMGZl
-ZDY1MzkzZS4uMDI1NWEyOGQyOTU4IDEwMDY0NA0KICAgICAgICAtLS0gYS9kcml2ZXJzL25ldC9l
-dGhlcm5ldC9mYXJhZGF5L2Z0Z21hYzEwMC5jDQogICAgICAgICsrKyBiL2RyaXZlcnMvbmV0L2V0
-aGVybmV0L2ZhcmFkYXkvZnRnbWFjMTAwLmMNCiAgICAgICAgQEAgLTE4NDIsOCArMTg0MiwxOSBA
-QCBzdGF0aWMgaW50IGZ0Z21hYzEwMF9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2
-KQ0KICAgICAgICAgCS8qIEFTVDI0MDAgIGRvZXNuJ3QgaGF2ZSB3b3JraW5nIEhXIGNoZWNrc3Vt
-IGdlbmVyYXRpb24gKi8NCiAgICAgICAgIAlpZiAobnAgJiYgKG9mX2RldmljZV9pc19jb21wYXRp
-YmxlKG5wLCAiYXNwZWVkLGFzdDI0MDAtbWFjIikpKQ0KICAgICAgICAgCQluZXRkZXYtPmh3X2Zl
-YXR1cmVzICY9IH5ORVRJRl9GX0hXX0NTVU07DQogICAgICAgICsNCiAgICAgICAgKwkvKiBBU1Qy
-NTAwIGRvZXNuJ3QgaGF2ZSB3b3JraW5nIEhXIGNoZWNrc3VtIGdlbmVyYXRpb24gZm9yIElQVjYN
-CiAgICAgICAgKwkgKiBidXQgaXQgd29ya3MgZm9yIElQVjQsIHNvIGRpc2FibGluZyBodyBjaGVj
-a3N1bSBhbmQgZW5hYmxpbmcNCiAgICAgICAgKwkgKiBpdCBmb3Igb25seSBJUFY0Lg0KICAgICAg
-ICArCSAqLw0KICAgICAgICArCWlmIChucCAmJiAob2ZfZGV2aWNlX2lzX2NvbXBhdGlibGUobnAs
-ICJhc3BlZWQsYXN0MjUwMC1tYWMiKSkpIHsNCiAgICAgICAgKwkJbmV0ZGV2LT5od19mZWF0dXJl
-cyAmPSB+TkVUSUZfRl9IV19DU1VNOw0KICAgICAgICArCQluZXRkZXYtPmh3X2ZlYXR1cmVzIHw9
-IE5FVElGX0ZfSVBfQ1NVTTsNCiAgICAgICAgKwl9DQogICAgICAgICsNCiAgICAgICAgIAlpZiAo
-bnAgJiYgb2ZfZ2V0X3Byb3BlcnR5KG5wLCAibm8taHctY2hlY2tzdW0iLCBOVUxMKSkNCiAgICAg
-ICAgLQkJbmV0ZGV2LT5od19mZWF0dXJlcyAmPSB+KE5FVElGX0ZfSFdfQ1NVTSB8IE5FVElGX0Zf
-UlhDU1VNKTsNCiAgICAgICAgKwkJbmV0ZGV2LT5od19mZWF0dXJlcyAmPSB+KE5FVElGX0ZfSFdf
-Q1NVTSB8IE5FVElGX0ZfUlhDU1VNDQogICAgICAgICsJCQkJCSB8IE5FVElGX0ZfSVBfQ1NVTSk7
-DQogICAgICAgICAJbmV0ZGV2LT5mZWF0dXJlcyB8PSBuZXRkZXYtPmh3X2ZlYXR1cmVzOw0KICAg
-ICAgICAgDQogICAgICAgICAJLyogcmVnaXN0ZXIgbmV0d29yayBkZXZpY2UgKi8NCiAgICAgICAg
-LS0gDQogICAgICAgIDIuMTcuMQ0KICAgICAgICANCiAgICAgICAgDQogICAgDQogICAgDQoNCg==
+
+On 9/24/19 11:47 AM, Marc Zyngier wrote:
+> Eddie,
+>
+> On 24/09/2019 17:14, Eddie James wrote:
+>> The Aspeed SOCs provide some interrupts through the System Control
+>> Unit registers. Add an interrupt controller that provides these
+>> interrupts to the system.
+>>
+>> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+>> ---
+>>   MAINTAINERS                         |   1 +
+>>   drivers/irqchip/Makefile            |   2 +-
+>>   drivers/irqchip/irq-aspeed-scu-ic.c | 199 ++++++++++++++++++++++++++++++++++++
+>>   3 files changed, 201 insertions(+), 1 deletion(-)
+>>   create mode 100644 drivers/irqchip/irq-aspeed-scu-ic.c
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 4a1687b..f3f6c3d 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -2655,6 +2655,7 @@ M:	Eddie James <eajames@linux.ibm.com>
+>>   L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
+>>   S:	Maintained
+>>   F:	Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2xxx-scu-ic.txt
+>> +F:	drivers/irqchip/irq-aspeed-scu-ic.c
+>>   F:	include/dt-bindings/interrupt-controller/aspeed-scu-ic.h
+>>   
+>>   ASPEED VIDEO ENGINE DRIVER
+>> diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
+>> index cc7c439..fce6b1d 100644
+>> --- a/drivers/irqchip/Makefile
+>> +++ b/drivers/irqchip/Makefile
+>> @@ -86,7 +86,7 @@ obj-$(CONFIG_MVEBU_PIC)			+= irq-mvebu-pic.o
+>>   obj-$(CONFIG_MVEBU_SEI)			+= irq-mvebu-sei.o
+>>   obj-$(CONFIG_LS_SCFG_MSI)		+= irq-ls-scfg-msi.o
+>>   obj-$(CONFIG_EZNPS_GIC)			+= irq-eznps.o
+>> -obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-vic.o irq-aspeed-i2c-ic.o
+>> +obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-vic.o irq-aspeed-i2c-ic.o irq-aspeed-scu-ic.o
+>>   obj-$(CONFIG_STM32_EXTI) 		+= irq-stm32-exti.o
+>>   obj-$(CONFIG_QCOM_IRQ_COMBINER)		+= qcom-irq-combiner.o
+>>   obj-$(CONFIG_IRQ_UNIPHIER_AIDET)	+= irq-uniphier-aidet.o
+>> diff --git a/drivers/irqchip/irq-aspeed-scu-ic.c b/drivers/irqchip/irq-aspeed-scu-ic.c
+>> new file mode 100644
+>> index 0000000..a23802d
+>> --- /dev/null
+>> +++ b/drivers/irqchip/irq-aspeed-scu-ic.c
+>> @@ -0,0 +1,199 @@
+>> +// SPDX-License-Identifier: GPL-2.0+
+>> +/*
+>> + * Aspeed AST24XX, AST25XX, and AST26XX SCU Interrupt Controller
+>> + * Copyright 2019 IBM Corporation
+>> + *
+>> + * Eddie James <eajames@linux.ibm.com>
+>> + */
+>> +
+>> +#include <linux/bitops.h>
+>> +#include <linux/irq.h>
+>> +#include <linux/irqchip.h>
+>> +#include <linux/irqchip/chained_irq.h>
+>> +#include <linux/irqdomain.h>
+>> +#include <linux/of_address.h>
+>> +#include <linux/of_irq.h>
+>> +#include <linux/io.h>
+>> +
+>> +#define ASPEED_SCU_IC_SHIFT		0
+>> +#define ASPEED_SCU_IC_ENABLE		GENMASK(6, ASPEED_SCU_IC_SHIFT)
+>> +#define ASPEED_SCU_IC_NUM_IRQS		7
+>> +#define ASPEED_SCU_IC_STATUS_SHIFT	16
+>> +
+>> +#define ASPEED_AST2600_SCU_IC0_SHIFT	0
+>> +#define ASPEED_AST2600_SCU_IC0_ENABLE	\
+>> +	GENMASK(5, ASPEED_AST2600_SCU_IC0_SHIFT)
+>> +#define ASPEED_AST2600_SCU_IC0_NUM_IRQS	6
+>> +
+>> +#define ASPEED_AST2600_SCU_IC1_SHIFT	4
+>> +#define ASPEED_AST2600_SCU_IC1_ENABLE	\
+>> +	GENMASK(5, ASPEED_AST2600_SCU_IC1_SHIFT)
+>> +#define ASPEED_AST2600_SCU_IC1_NUM_IRQS	2
+>> +
+>> +struct aspeed_scu_ic {
+>> +	unsigned long irq_enable;
+>> +	unsigned long irq_shift;
+>> +	unsigned int num_irqs;
+>> +	void __iomem *regs;
+>> +	struct irq_domain *irq_domain;
+>> +};
+>> +
+>> +static void aspeed_scu_ic_irq_handler(struct irq_desc *desc)
+>> +{
+>> +	unsigned int irq;
+>> +	unsigned long bit;
+>> +	unsigned long enabled;
+>> +	unsigned long max;
+>> +	unsigned long status;
+>> +	struct aspeed_scu_ic *scu_ic = irq_desc_get_handler_data(desc);
+>> +	struct irq_chip *chip = irq_desc_get_chip(desc);
+>> +
+>> +	chained_irq_enter(chip, desc);
+>> +
+>> +	status = readl(scu_ic->regs);
+> You may want to be easy on the interconnect and turn these readl/writel
+> into their relaxed version. This will remove a number of unnecessary
+> barriers.
+
+
+Sure thing.
+
+
+>
+>> +	enabled = status & scu_ic->irq_enable;
+>> +	status = (status >> ASPEED_SCU_IC_STATUS_SHIFT) & enabled;
+> This masking looks weird. Does it mean that the status register is split
+> in half, with the two half serving different purposes? This requires
+> some documentation...
+
+
+That's correct. The top half is the status bits and the bottom half is 
+the enable bits. I'll add some comments.
+
+
+>
+>> +
+>> +	bit = scu_ic->irq_shift;
+>> +	max = scu_ic->num_irqs + bit;
+>> +
+>> +	for_each_set_bit_from(bit, &status, max) {
+>> +		irq = irq_find_mapping(scu_ic->irq_domain,
+>> +				       bit - scu_ic->irq_shift);
+>> +		generic_handle_irq(irq);
+>> +
+>> +		writel(enabled | BIT(bit + ASPEED_SCU_IC_STATUS_SHIFT),
+>> +		       scu_ic->regs);
+>> +	}
+>> +
+>> +	chained_irq_exit(chip, desc);
+>> +}
+>> +
+>> +static void aspeed_scu_ic_irq_mask(struct irq_data *data)
+>> +{
+>> +	struct aspeed_scu_ic *scu_ic = irq_data_get_irq_chip_data(data);
+>> +	unsigned long bit = BIT(data->hwirq + scu_ic->irq_shift);
+>> +	unsigned long reg = readl(scu_ic->regs);
+>> +
+>> +	writel((reg & ~bit) & scu_ic->irq_enable, scu_ic->regs);
+> What if you have another CPU masking or unmasking another interrupt at
+> the same time? These RMW operations need to be protected.
+
+
+Good point, thanks.
+
+
+>
+>> +}
+>> +
+>> +static void aspeed_scu_ic_irq_unmask(struct irq_data *data)
+>> +{
+>> +	struct aspeed_scu_ic *scu_ic = irq_data_get_irq_chip_data(data);
+>> +	unsigned long bit = BIT(data->hwirq + scu_ic->irq_shift);
+>> +	unsigned long reg = readl(scu_ic->regs);
+>> +
+>> +	writel((reg | bit) & scu_ic->irq_enable, scu_ic->regs);
+>> +}
+>> +
+>> +struct irq_chip aspeed_scu_ic_chip = {
+>> +	.name		= "aspeed-scu-ic",
+>> +	.irq_mask	= aspeed_scu_ic_irq_mask,
+>> +	.irq_unmask	= aspeed_scu_ic_irq_unmask,
+> In an SMP system, you may want to provide an affinity callback returning
+> -EINVAL.
+
+
+OK.
+
+
+>
+>> +};
+>> +
+>> +static int aspeed_scu_ic_map(struct irq_domain *domain, unsigned int irq,
+>> +			     irq_hw_number_t hwirq)
+>> +{
+>> +	irq_set_chip_and_handler(irq, &aspeed_scu_ic_chip, handle_simple_irq);
+>> +	irq_set_chip_data(irq, domain->host_data);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static const struct irq_domain_ops aspeed_scu_ic_domain_ops = {
+>> +	.map = aspeed_scu_ic_map,
+>> +};
+>> +
+>> +static int aspeed_scu_ic_of_init_common(struct aspeed_scu_ic *scu_ic,
+>> +					struct device_node *node)
+>> +{
+>> +	int irq;
+>> +	int rc = 0;
+>> +
+>> +	scu_ic->regs = of_iomap(node, 0);
+>> +	if (!scu_ic->regs) {
+>> +		rc = -ENOMEM;
+>> +		goto err_free;
+>> +	}
+>> +
+>> +	irq = irq_of_parse_and_map(node, 0);
+>> +	if (irq < 0) {
+>> +		rc = irq;
+>> +		goto err_iounmap;
+>> +	}
+>> +
+>> +	scu_ic->irq_domain = irq_domain_add_linear(node, scu_ic->num_irqs,
+>> +						   &aspeed_scu_ic_domain_ops,
+>> +						   scu_ic);
+>> +	if (!scu_ic->irq_domain) {
+>> +		rc = -ENOMEM;
+>> +		goto err_iounmap;
+>> +	}
+>> +
+>> +	irq_set_chained_handler_and_data(irq, aspeed_scu_ic_irq_handler,
+>> +					 scu_ic);
+>> +
+>> +	return 0;
+>> +
+>> +err_iounmap:
+>> +	iounmap(scu_ic->regs);
+>> +
+>> +err_free:
+>> +	kfree(scu_ic);
+>> +
+>> +	return rc;
+>> +}
+>> +
+>> +static int __init aspeed_scu_ic_of_init(struct device_node *node,
+>> +					struct device_node *parent)
+>> +{
+>> +	struct aspeed_scu_ic *scu_ic = kzalloc(sizeof(*scu_ic), GFP_KERNEL);
+>> +
+>> +	if (!scu_ic)
+>> +		return -ENOMEM;
+>> +
+>> +	scu_ic->irq_enable = ASPEED_SCU_IC_ENABLE;
+>> +	scu_ic->irq_shift = ASPEED_SCU_IC_SHIFT;
+>> +	scu_ic->num_irqs = ASPEED_SCU_IC_NUM_IRQS;
+>> +
+>> +	return aspeed_scu_ic_of_init_common(scu_ic, node);
+>> +}
+>> +
+>> +static int __init aspeed_ast2600_scu_ic0_of_init(struct device_node *node,
+>> +						 struct device_node *parent)
+>> +{
+>> +	struct aspeed_scu_ic *scu_ic = kzalloc(sizeof(*scu_ic), GFP_KERNEL);
+>> +
+>> +	if (!scu_ic)
+>> +		return -ENOMEM;
+>> +
+>> +	scu_ic->irq_enable = ASPEED_AST2600_SCU_IC0_ENABLE;
+>> +	scu_ic->irq_shift = ASPEED_AST2600_SCU_IC0_SHIFT;
+>> +	scu_ic->num_irqs = ASPEED_AST2600_SCU_IC0_NUM_IRQS;
+>> +
+>> +	return aspeed_scu_ic_of_init_common(scu_ic, node);
+>> +}
+>> +
+>> +static int __init aspeed_ast2600_scu_ic1_of_init(struct device_node *node,
+>> +						 struct device_node *parent)
+>> +{
+>> +	struct aspeed_scu_ic *scu_ic = kzalloc(sizeof(*scu_ic), GFP_KERNEL);
+>> +
+>> +	if (!scu_ic)
+>> +		return -ENOMEM;
+>> +
+>> +	scu_ic->irq_enable = ASPEED_AST2600_SCU_IC1_ENABLE;
+>> +	scu_ic->irq_shift = ASPEED_AST2600_SCU_IC1_SHIFT;
+>> +	scu_ic->num_irqs = ASPEED_AST2600_SCU_IC1_NUM_IRQS;
+>> +
+>> +	return aspeed_scu_ic_of_init_common(scu_ic, node);
+>> +}
+>> +
+>> +IRQCHIP_DECLARE(ast2400_scu_ic, "aspeed,ast2400-scu-ic", aspeed_scu_ic_of_init);
+>> +IRQCHIP_DECLARE(ast2500_scu_ic, "aspeed,ast2500-scu-ic", aspeed_scu_ic_of_init);
+>> +IRQCHIP_DECLARE(ast2600_scu_ic0, "aspeed,ast2600-scu-ic0",
+>> +		aspeed_ast2600_scu_ic0_of_init);
+>> +IRQCHIP_DECLARE(ast2600_scu_ic1, "aspeed,ast2600-scu-ic1",
+>> +		aspeed_ast2600_scu_ic1_of_init);
+>>
+> This otherwise looks nice and clean.
+
+
+Thanks for the quick review!
+
+
+Eddie
+
+
+>
+> 	M.
