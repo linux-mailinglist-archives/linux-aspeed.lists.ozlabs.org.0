@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3576DBD29B
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Sep 2019 21:27:24 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83FC2BD29C
+	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Sep 2019 21:27:27 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46dB606nxTzDqSQ
-	for <lists+linux-aspeed@lfdr.de>; Wed, 25 Sep 2019 05:27:20 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46dB646qRdzDqZ3
+	for <lists+linux-aspeed@lfdr.de>; Wed, 25 Sep 2019 05:27:24 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -18,44 +18,42 @@ Authentication-Results: lists.ozlabs.org;
 Received: from atlmailgw2.ami.com (atlmailgw2.ami.com [63.147.10.42])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46d9Yj4c6XzDqT4
- for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Sep 2019 05:02:48 +1000 (AEST)
-X-AuditID: ac10606f-35bff7000000187d-96-5d8a68556f82
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46d9fj3vHMzDqCD
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Sep 2019 05:07:09 +1000 (AEST)
+X-AuditID: ac10606f-371ff7000000187d-bd-5d8a695ae257
 Received: from atlms1.us.megatrends.com (atlms1.us.megatrends.com
  [172.16.96.144])
  (using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (Client did not present a certificate)
  by atlmailgw2.ami.com (Symantec Messaging Gateway) with SMTP id
- 00.0A.06269.5586A8D5; Tue, 24 Sep 2019 15:02:45 -0400 (EDT)
+ 53.0A.06269.A596A8D5; Tue, 24 Sep 2019 15:07:06 -0400 (EDT)
 Received: from hongweiz-Ubuntu-AMI.us.megatrends.com (172.16.98.93) by
  atlms1.us.megatrends.com (172.16.96.144) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Tue, 24 Sep 2019 15:02:45 -0400
+ 14.3.408.0; Tue, 24 Sep 2019 15:07:05 -0400
 From: Hongwei Zhang <hongweiz@ami.com>
 To: Andrew Jeffery <andrew@aj.id.au>, Linus Walleij
  <linus.walleij@linaro.org>, <linux-gpio@vger.kernel.org>, Joel Stanley
  <joel@jms.id.au>
-Subject: [v1, 0/1] gpio: dts: aspeed: Add SGPIO driver
-Date: Tue, 24 Sep 2019 15:02:20 -0400
-Message-ID: <1569351740-6285-2-git-send-email-hongweiz@ami.com>
+Subject: [v1, 1/1] gpio: dts: aspeed: Add SGPIO driver
+Date: Tue, 24 Sep 2019 15:07:01 -0400
+Message-ID: <1569352021-6383-1-git-send-email-hongweiz@ami.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1569351740-6285-1-git-send-email-hongweiz@ami.com>
-References: <1569351740-6285-1-git-send-email-hongweiz@ami.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [172.16.98.93]
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrEIsWRmVeSWpSXmKPExsWyRiBhgm5oRlesQecNS4s569ewWey6zGHx
- /8NuRovv+2exWvyddIzdounQKTaLL3NPsVjMP3KO1eL3+b/MFlP+LGey2PT4GqtF8+pzzBab
- 5/9htLi8aw6bxaGpexktll6/yGTx/lMnk0Xr3iPsFjemNLBZ7L33mdFBxONq+y52jzXz1jB6
- XL52kdnj969JjB7vb7Sye1z8eIzZY9OqTjaPO9f2sHmcmPGbxWPCogOMHpuX1Hucn7GQ0eNv
- 41d2jxPTv7N4fN4kF8AfxWWTkpqTWZZapG+XwJUxcct+5oL3YhXzP0xnbmCcJ9TFyMkhIWAi
- sfNRO1sXIxeHkMAuJolDJ58zQziHGSUWfz7AAlLFJqAmsXfzHCaQhIhAP6PEgjlzwRxmga2s
- EtsPNLGCVAkLmEl0Tp0LZrMIqEp0nX7ICGLzCthL/Fiygh1in5zEzXOdzCA2p4CDxOXFH8A2
- CAHVrF5wEqpeUOLkzCdgcWYBCYmDL14wQ9TIStw69JgJYo6CxPO+xywTGAVmIWmZhaRlASPT
- KkahxJKc3MTMnPRyI73E3Ey95PzcTYyQeM3fwfjxo/khRiYOxkOMEhzMSiK8s2S6YoV4UxIr
- q1KL8uOLSnNSiw8xSnOwKInzrlrzLUZIID2xJDU7NbUgtQgmy8TBKdXAWF8y6cKvGLcrDjcc
- gm7uCVx1dPt3yXfnuMvSFc9JMb4I7D1uvXRP1rTtJUsvXGVIObRykVXvhXkX303/qzPBS+b9
- wjwNr8fbelqf3y61VFJgS12XpjPnk+Ujy2OiUxlrHWab/XKfse7Hd03vAsN66eiw3Yu39xed
- V7CK7DopeMBIY15z2boHXUosxRmJhlrMRcWJAK0+dlrFAgAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJIsWRmVeSWpSXmKPExsWyRiBhgm5UZleswbwDchZz1q9hs9h1mcPi
+ /4fdjBbf989itfg76Ri7RdOhU2wWX+aeYrGYf+Qcq8Xv83+ZLab8Wc5ksenxNVaL5tXnmC02
+ z//DaHF51xw2i0NT9zJaLL1+kcni/adOJovWvUfYLW5MaWCz2HvvM6ODiMfV9l3sHmvmrWH0
+ uHztIrPH71+TGD3e32hl97j48Rizx6ZVnWwed67tYfM4MeM3i8eERQcYPTYvqfc4P2Mho8ff
+ xq/sHiemf2fx+LxJLoA/issmJTUnsyy1SN8ugStj4pb9zAXvxSrmf5jO3MA4T6iLkZNDQsBE
+ 4kHrLNYuRi4OIYFdTBL7PxxlgnAOM0p8f9DOBlLFJqAmsXfzHLCEiEA/o8SCOXPBHGaBrawS
+ 2w80sYJUCQuYSfy4voURxGYRUJW4/3QpcxcjBwevgL3E3ANREOvkJG6e62QGsXkFBCVOznzC
+ AmIzC0hIHHzxAiwuJCArcevQYyaIegWJ532PWSYw8s1C0jILScsCRqZVjEKJJTm5iZk56eVG
+ eom5mXrJ+bmbGCHRl7+D8eNH80OMTByMhxglOJiVRHhnyXTFCvGmJFZWpRblxxeV5qQWH2KU
+ 5mBREuddteZbjJBAemJJanZqakFqEUyWiYNTqoFx4/ULpzZMeppaYRe75IJeVuHe9497rhuU
+ 11h8V7YW9b7FtjU9l+vcuRX6xyvEi4IyHnVunfDr7fXSqXw7J04umtvC/fBc2wZOg/mnX5q+
+ qNOs03ubd4Kxav/+bPtF0eeyljvFz2//5yh5t/xog6Kyvl2mVxrvNflgJlbx00r+KgqffE4b
+ KLxUYinOSDTUYi4qTgQACJ9vhawCAAA=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
