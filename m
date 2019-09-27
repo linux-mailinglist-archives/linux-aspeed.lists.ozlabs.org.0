@@ -1,44 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D4DDBFB51
-	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Sep 2019 00:28:03 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8E2C049D
+	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Sep 2019 13:50:57 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46fV1W6tGlzDqyS
-	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Sep 2019 08:27:59 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46fqqx5jqVzDqfP
+	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Sep 2019 21:50:53 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (mailfrom) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.115; helo=mga14.intel.com;
- envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linux.intel.com
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ spf=pass (mailfrom) smtp.mailfrom=linaro.org
+ (client-ip=2a00:1450:4864:20::141; helo=mail-lf1-x141.google.com;
+ envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=linaro.org header.i=@linaro.org header.b="dHkG+HnC"; 
+ dkim-atps=neutral
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46fV1N0Qp2zDqxf;
- Fri, 27 Sep 2019 08:27:50 +1000 (AEST)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 26 Sep 2019 15:27:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,553,1559545200"; d="scan'208";a="192972129"
-Received: from maru.jf.intel.com ([10.54.51.77])
- by orsmga003.jf.intel.com with ESMTP; 26 Sep 2019 15:27:46 -0700
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-To: Eddie James <eajames@linux.ibm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH] media: aspeed: clear garbage interrupts
-Date: Thu, 26 Sep 2019 15:27:43 -0700
-Message-Id: <20190926222743.18546-1-jae.hyun.yoo@linux.intel.com>
-X-Mailer: git-send-email 2.23.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46fqqm2qRQzDqNm
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Sep 2019 21:50:42 +1000 (AEST)
+Received: by mail-lf1-x141.google.com with SMTP id w6so1707410lfl.2
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Sep 2019 04:50:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jtkPzUdh0BjwnTFcU6cDEv31BuC4wG3MpqjO9vOb5nc=;
+ b=dHkG+HnC9dM6qd1tsawE2B77CGjpChpBeEsSBUvLKNrVXpX+osBDmU/jLYHZPm1B/P
+ 2dyDxSkFmTP8ieUdkcZKpDi2kNeo10lBoWrXT9wdZ615R12K9KGFf6J/OrMdVyWQEX/z
+ wYgpsuDlMp9FCPoF7j0EiuKNEMBtaw/LYAUt7RIkCAlVR/MANI5zfMMqmxqGDQcnXtAL
+ 2OY3vl+bQvPLR8uEP6OVKQm7w0g52y6Li38Svuxw5AE7QBLcb9eP1aPHP9bXfcFj5qG3
+ 0/jxw0iG4icNXkyuWt9atKmkl1Z8zGcUZmaUcKj8BAHOSFFYokiX4pBiyg/QJksov5nt
+ 4GIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jtkPzUdh0BjwnTFcU6cDEv31BuC4wG3MpqjO9vOb5nc=;
+ b=FX2enr25mp9HfA0kuf8RMPZAUDMSHXk3Dd0tg8kDX037xuCSjmn+pCBht9w7FRrVtH
+ oz7YFvwp5r1gcJAaqSUp8DFaJnMDtJEnsdkmh0go70KMj+EGzJ6D16YXok+5IONyUyMH
+ MSQ/ajcjb+yZ6ywaaPhacIaerBQwysL/ZzE5XGrRfqUJfy2MlaHToHqpTDY4j3UUEIIP
+ PKbnbIQOCLB7CU0AG99I2eP7DxSQT7Paviok/29T7moWNGGNpcjXTgUs+Jj35f9+zYW0
+ kLVNCkjJk7Wlq0q7z8yASMmZSZiEH8gBu6LsUtdP//KdQEMHqA41ZNGm1cR7SLpbWrJx
+ u8hA==
+X-Gm-Message-State: APjAAAUWqNcBxewQUFjbtFYeKwhsitHlHV9yyWg20KruMwyshfBPrhLd
+ xr3KU4/Bay4Bb/ET3N/rUNMcWXoGpU8QX75E8/yIsQ==
+X-Google-Smtp-Source: APXvYqyF/AMU9HIQoJBR4mgMcIh/XR7QQxXA0oPACvNrMQJcYHLmYcQQw76chmDwmpMjtdY1kzoSIQzHJDEllWzZAzI=
+X-Received: by 2002:a19:48c3:: with SMTP id v186mr2493316lfa.141.1569585039656; 
+ Fri, 27 Sep 2019 04:50:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1569439337-10482-1-git-send-email-hongweiz@ami.com>
+ <1569439337-10482-3-git-send-email-hongweiz@ami.com>
+In-Reply-To: <1569439337-10482-3-git-send-email-hongweiz@ami.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 27 Sep 2019 13:50:28 +0200
+Message-ID: <CACRpkdY4RsqAOykyS-9GEFvF--3bmf=UjzADx8U18z=gTHBb4g@mail.gmail.com>
+Subject: Re: [v2, 2/2] gpio: dts: aspeed: Add SGPIO driver
+To: Hongwei Zhang <hongweiz@ami.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,80 +73,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: openbmc@lists.ozlabs.org, Jae Hyun Yoo <jae.hyun.yoo@intel.com>,
- linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Russell King <linux@armlinux.org.uk>, Mike Rapoport <rppt@linux.ibm.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ Doug Anderson <armlinux@m.disordat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Jae Hyun Yoo <jae.hyun.yoo@intel.com>
+On Wed, Sep 25, 2019 at 9:22 PM Hongwei Zhang <hongweiz@ami.com> wrote:
 
-CAPTURE_COMPLETE and FRAME_COMPLETE interrupts come even when these
-are disabled in the VE_INTERRUPT_CTRL register and eventually this
-behavior causes disabling irq itself like below:
+> Add SGPIO driver support for Aspeed AST2500 SoC.
+>
+> Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
 
-[10055.108784] irq 23: nobody cared (try booting with the "irqpoll" option)
-[10055.115525] CPU: 0 PID: 331 Comm: swampd Tainted: G        W         5.3.0-4fde000-dirty-d683e2e #1
-[10055.124565] Hardware name: Generic DT based system
-[10055.129355] Backtrace:
-[10055.131854] [<80107d7c>] (dump_backtrace) from [<80107fb0>] (show_stack+0x20/0x24)
-[10055.139431]  r7:00000017 r6:00000001 r5:00000000 r4:9d51dc00
-[10055.145120] [<80107f90>] (show_stack) from [<8074bf50>] (dump_stack+0x20/0x28)
-[10055.152361] [<8074bf30>] (dump_stack) from [<80150ffc>] (__report_bad_irq+0x40/0xc0)
-[10055.160109] [<80150fbc>] (__report_bad_irq) from [<80150f2c>] (note_interrupt+0x23c/0x294)
-[10055.168374]  r9:015b6e60 r8:00000000 r7:00000017 r6:00000001 r5:00000000 r4:9d51dc00
-[10055.176136] [<80150cf0>] (note_interrupt) from [<8014df1c>] (handle_irq_event_percpu+0x88/0x98)
-[10055.184835]  r10:7eff7910 r9:015b6e60 r8:00000000 r7:9d417600 r6:00000001 r5:00000002
-[10055.192657]  r4:9d51dc00 r3:00000000
-[10055.196248] [<8014de94>] (handle_irq_event_percpu) from [<8014df64>] (handle_irq_event+0x38/0x4c)
-[10055.205113]  r5:80b56d50 r4:9d51dc00
-[10055.208697] [<8014df2c>] (handle_irq_event) from [<80151f1c>] (handle_level_irq+0xbc/0x12c)
-[10055.217037]  r5:80b56d50 r4:9d51dc00
-[10055.220623] [<80151e60>] (handle_level_irq) from [<8014d4b8>] (generic_handle_irq+0x30/0x44)
-[10055.229052]  r5:80b56d50 r4:00000017
-[10055.232648] [<8014d488>] (generic_handle_irq) from [<8014d524>] (__handle_domain_irq+0x58/0xb4)
-[10055.241356] [<8014d4cc>] (__handle_domain_irq) from [<801021e4>] (avic_handle_irq+0x68/0x70)
-[10055.249797]  r9:015b6e60 r8:00c5387d r7:00c5387d r6:ffffffff r5:9dd33fb0 r4:9d402380
-[10055.257539] [<8010217c>] (avic_handle_irq) from [<80101e34>] (__irq_usr+0x54/0x80)
-[10055.265105] Exception stack(0x9dd33fb0 to 0x9dd33ff8)
-[10055.270152] 3fa0:                                     015d0530 00000000 00000000 015d0538
-[10055.278328] 3fc0: 015d0530 015b6e60 00000000 00000000 0052c5d0 015b6e60 7eff7910 7eff7918
-[10055.286496] 3fe0: 76ce5614 7eff7908 0050e2f4 76a3a08c 20000010 ffffffff
-[10055.293104]  r5:20000010 r4:76a3a08c
-[10055.296673] handlers:
-[10055.298967] [<79f218a5>] irq_default_primary_handler threaded [<1de88514>] aspeed_video_irq
-[10055.307344] Disabling IRQ #23
+I sent a separate patch to fix this up the way I want it with the file
+named gpio-aspeed-sgpio.c and CONFIG_GPIO_ASPEED_SGPIO.
 
-To fix this issue, this commit makes the interrupt handler clear
-these garbage interrupts. This driver enables and uses only
-COMP_COMPLETE interrupt instead for frame handling.
+I don't want to mix up the namespaces of something Aspeed-generic
+with the namespace of the GPIO subsystem. SGPIO is the name
+of a specific Aspeed component.
 
-Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@intel.com>
----
- drivers/media/platform/aspeed-video.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index eb12f3793062..e842f99d20a9 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -606,6 +606,16 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
- 			aspeed_video_start_frame(video);
- 	}
- 
-+	/*
-+	 * CAPTURE_COMPLETE and FRAME_COMPLETE interrupts come even when these
-+	 * are disabled in the VE_INTERRUPT_CTRL register so clear them to
-+	 * prevent unnecessary interrupt calls.
-+	 */
-+	if (sts & VE_INTERRUPT_CAPTURE_COMPLETE)
-+		sts &= ~VE_INTERRUPT_CAPTURE_COMPLETE;
-+	if (sts & VE_INTERRUPT_FRAME_COMPLETE)
-+		sts &= ~VE_INTERRUPT_FRAME_COMPLETE;
-+
- 	return sts ? IRQ_NONE : IRQ_HANDLED;
- }
- 
--- 
-2.23.0
-
+Yours,
+Linus Walleij
