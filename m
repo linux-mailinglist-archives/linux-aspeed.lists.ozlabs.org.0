@@ -2,66 +2,60 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8E2C049D
-	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Sep 2019 13:50:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB65C0901
+	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Sep 2019 17:56:25 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46fqqx5jqVzDqfP
-	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Sep 2019 21:50:53 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46fxH905HgzDr0d
+	for <lists+linux-aspeed@lfdr.de>; Sat, 28 Sep 2019 01:56:21 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=linaro.org
- (client-ip=2a00:1450:4864:20::141; helo=mail-lf1-x141.google.com;
- envelope-from=linus.walleij@linaro.org; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=ami.com
+ (client-ip=63.147.10.40; helo=atlmailgw1.ami.com;
+ envelope-from=hongweiz@ami.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.b="dHkG+HnC"; 
- dkim-atps=neutral
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=ami.com
+Received: from atlmailgw1.ami.com (atlmailgw1.ami.com [63.147.10.40])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46fqqm2qRQzDqNm
- for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Sep 2019 21:50:42 +1000 (AEST)
-Received: by mail-lf1-x141.google.com with SMTP id w6so1707410lfl.2
- for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Sep 2019 04:50:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jtkPzUdh0BjwnTFcU6cDEv31BuC4wG3MpqjO9vOb5nc=;
- b=dHkG+HnC9dM6qd1tsawE2B77CGjpChpBeEsSBUvLKNrVXpX+osBDmU/jLYHZPm1B/P
- 2dyDxSkFmTP8ieUdkcZKpDi2kNeo10lBoWrXT9wdZ615R12K9KGFf6J/OrMdVyWQEX/z
- wYgpsuDlMp9FCPoF7j0EiuKNEMBtaw/LYAUt7RIkCAlVR/MANI5zfMMqmxqGDQcnXtAL
- 2OY3vl+bQvPLR8uEP6OVKQm7w0g52y6Li38Svuxw5AE7QBLcb9eP1aPHP9bXfcFj5qG3
- 0/jxw0iG4icNXkyuWt9atKmkl1Z8zGcUZmaUcKj8BAHOSFFYokiX4pBiyg/QJksov5nt
- 4GIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jtkPzUdh0BjwnTFcU6cDEv31BuC4wG3MpqjO9vOb5nc=;
- b=FX2enr25mp9HfA0kuf8RMPZAUDMSHXk3Dd0tg8kDX037xuCSjmn+pCBht9w7FRrVtH
- oz7YFvwp5r1gcJAaqSUp8DFaJnMDtJEnsdkmh0go70KMj+EGzJ6D16YXok+5IONyUyMH
- MSQ/ajcjb+yZ6ywaaPhacIaerBQwysL/ZzE5XGrRfqUJfy2MlaHToHqpTDY4j3UUEIIP
- PKbnbIQOCLB7CU0AG99I2eP7DxSQT7Paviok/29T7moWNGGNpcjXTgUs+Jj35f9+zYW0
- kLVNCkjJk7Wlq0q7z8yASMmZSZiEH8gBu6LsUtdP//KdQEMHqA41ZNGm1cR7SLpbWrJx
- u8hA==
-X-Gm-Message-State: APjAAAUWqNcBxewQUFjbtFYeKwhsitHlHV9yyWg20KruMwyshfBPrhLd
- xr3KU4/Bay4Bb/ET3N/rUNMcWXoGpU8QX75E8/yIsQ==
-X-Google-Smtp-Source: APXvYqyF/AMU9HIQoJBR4mgMcIh/XR7QQxXA0oPACvNrMQJcYHLmYcQQw76chmDwmpMjtdY1kzoSIQzHJDEllWzZAzI=
-X-Received: by 2002:a19:48c3:: with SMTP id v186mr2493316lfa.141.1569585039656; 
- Fri, 27 Sep 2019 04:50:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <1569439337-10482-1-git-send-email-hongweiz@ami.com>
- <1569439337-10482-3-git-send-email-hongweiz@ami.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46fxGx4H8DzDqyS
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 28 Sep 2019 01:56:06 +1000 (AEST)
+X-AuditID: ac1060b2-7a7ff700000017bd-67-5d8e310ed195
+Received: from atlms1.us.megatrends.com (atlms1.us.megatrends.com
+ [172.16.96.144])
+ (using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by atlmailgw1.ami.com (Symantec Messaging Gateway) with SMTP id
+ D0.07.06077.E013E8D5; Fri, 27 Sep 2019 11:55:58 -0400 (EDT)
+Received: from hongweiz-Ubuntu-AMI.us.megatrends.com (172.16.98.93) by
+ atlms1.us.megatrends.com (172.16.96.144) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Fri, 27 Sep 2019 11:56:01 -0400
+From: Hongwei Zhang <hongweiz@ami.com>
+To: Linus Walleij <linus.walleij@linaro.org>, Andrew Jeffery
+ <andrew@aj.id.au>, <linux-gpio@vger.kernel.org>, Joel Stanley
+ <joel@jms.id.au>
+Subject: [v2, 2/2] gpio: dts: aspeed: Add SGPIO driver
+Date: Fri, 27 Sep 2019 11:55:48 -0400
+Message-ID: <1569599748-31181-1-git-send-email-hongweiz@ami.com>
+X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1569439337-10482-3-git-send-email-hongweiz@ami.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 27 Sep 2019 13:50:28 +0200
-Message-ID: <CACRpkdY4RsqAOykyS-9GEFvF--3bmf=UjzADx8U18z=gTHBb4g@mail.gmail.com>
-Subject: Re: [v2, 2/2] gpio: dts: aspeed: Add SGPIO driver
-To: Hongwei Zhang <hongweiz@ami.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <1569439337-10482-3-git-send-email-hongweiz@ami.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [172.16.98.93]
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrPIsWRmVeSWpSXmKPExsWyRiBhgi6fYV+sQfcOE4s569ewWey6zGHx
+ /8NuRovv+2exWvyddIzdounQKTaLL3NPsVjMP3KO1eL3+b/MFlP+LGey2PT4GqtF8+pzzBab
+ 5/9htLi8aw6bxaGpexktll6/yGTx/lMnk0Xr3iPsFjemNLBZ7L33mdFBxONq+y52jzXz1jB6
+ XL52kdnj969JjB7vb7Sye1z8eIzZY9OqTjaPO9f2sHmcmPGbxWPCogOMHpuX1Hucn7GQ0eNv
+ 41d2jxPTv7N4fN4kF8AfxWWTkpqTWZZapG+XwJXx8YNzwQrmir0fP7I1MJ5i6mLk5JAQMJE4
+ fKWFGcQWEtjFJPG2waGLkQvIPswo8ax7ERtIgk1ATWLv5jlMIAkRgX5Gies7mthAHGaBrawS
+ 2w80sYJUCQuYSSydMY29i5GDg0VAVeLGznCQMK+Ag0RT63c2iG1yEjfPdYJt4xRwlNjWsJMJ
+ YrODxLtHLawQ9YISJ2c+YQGxmQUkJA6+eAF1nazErUOPoa5WkHje95hlAqPALCQts5C0LGBk
+ WsUolFiSk5uYmZNebqiXmJupl5yfu4kREqmbdjC2XDQ/xMjEwXiIUYKDWUmE1zeyJ1aINyWx
+ siq1KD++qDQntfgQozQHi5I478o132KEBNITS1KzU1MLUotgskwcnFINjCs/Buk+L37G2a/y
+ ZvfFi6uVZnSJd3IVin/leb1R6JVMmqL4Is/UmgfObbbfsuN/qZ3e/bu8z23dnbI1zZt91RyV
+ zTr1g6W1WEpeZIh2uN/pMow84L2YN9jWTUquIPRUzh2jyxrnBPedfFecmCbFF8y/RKD6l0Fx
+ y7TiNzoB9ivecGxu0lugxFKckWioxVxUnAgAf+/1tsICAAA=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,38 +67,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org,
  Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>, linux-kernel@vger.kernel.org,
  Russell King <linux@armlinux.org.uk>, Mike Rapoport <rppt@linux.ibm.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
  Rob Herring <robh+dt@kernel.org>,
  Benjamin Gaignard <benjamin.gaignard@linaro.org>,
  Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
  Doug Anderson <armlinux@m.disordat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Masahiro Yamada <yamada.masahiro@socionext.com>
+ Andrew Morton <akpm@linux-foundation.org>, Hongwei Zhang <hongweiz@ami.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Sep 25, 2019 at 9:22 PM Hongwei Zhang <hongweiz@ami.com> wrote:
+Thanks Linus,
 
-> Add SGPIO driver support for Aspeed AST2500 SoC.
->
-> Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
+> 
+> I sent a separate patch to fix this up the way I want it with the file named gpio-aspeed-sgpio.c and 
+> CONFIG_GPIO_ASPEED_SGPIO.
+> 
+> I don't want to mix up the namespaces of something Aspeed-generic with the namespace of the GPIO 
+> subsystem. SGPIO is the name of a specific Aspeed component.
+> 
+> Yours,
+> Linus Walleij
 
-I sent a separate patch to fix this up the way I want it with the file
-named gpio-aspeed-sgpio.c and CONFIG_GPIO_ASPEED_SGPIO.
+I agree and gpio-aspeed-sgpio.c is better.
 
-I don't want to mix up the namespaces of something Aspeed-generic
-with the namespace of the GPIO subsystem. SGPIO is the name
-of a specific Aspeed component.
-
-Yours,
-Linus Walleij
+Regards,
+--Hongwei
