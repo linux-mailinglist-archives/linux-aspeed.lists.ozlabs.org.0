@@ -2,51 +2,47 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC8FC47DE
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Oct 2019 08:36:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C192C9076
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Oct 2019 20:12:50 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46jmcd4qtmzDqWj
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Oct 2019 16:36:17 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46k44H0S27zDqKK
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2019 04:12:47 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (mailfrom) smtp.mailfrom=aspeedtech.com
- (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com;
- envelope-from=chiawei_wang@aspeedtech.com; receiver=<UNKNOWN>)
+ spf=none (mailfrom) smtp.mailfrom=linux.intel.com
+ (client-ip=134.134.136.31; helo=mga06.intel.com;
+ envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+ header.from=linux.intel.com
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46jmCx2d1hzDqVd;
- Wed,  2 Oct 2019 16:18:21 +1000 (AEST)
-Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
- by twspam01.aspeedtech.com with ESMTP id x925vDQw005821;
- Wed, 2 Oct 2019 13:57:13 +0800 (GMT-8)
- (envelope-from chiawei_wang@aspeedtech.com)
-Received: from mail.aspeedtech.com (twmbx02.aspeed.com [192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id x925uHxR005679;
- Wed, 2 Oct 2019 13:56:17 +0800 (GMT-8)
- (envelope-from chiawei_wang@aspeedtech.com)
-Received: from localhost.localdomain (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.620.29; Wed, 2 Oct
- 2019 14:12:13 +0800
-From: "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>
-To: <jae.hyun.yoo@linux.intel.com>
-Subject: [PATCH 2/2] dt-bindings: peci: aspeed: Add AST2600 compatible
-Date: Wed, 2 Oct 2019 14:12:00 +0800
-Message-ID: <20191002061200.29888-3-chiawei_wang@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191002061200.29888-1-chiawei_wang@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46k42s4PwQzDqRt;
+ Thu,  3 Oct 2019 04:11:31 +1000 (AEST)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Oct 2019 11:11:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,249,1566889200"; d="scan'208";a="343404682"
+Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.143])
+ ([10.7.153.143])
+ by orsmga004.jf.intel.com with ESMTP; 02 Oct 2019 11:11:28 -0700
+Subject: Re: [PATCH 0/2] peci: aspeed: Add AST2600 compatible
+To: "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>
 References: <20191002061200.29888-1-chiawei_wang@aspeedtech.com>
+From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Message-ID: <70044749-785b-6ff3-7a28-fb049dcfec54@linux.intel.com>
+Date: Wed, 2 Oct 2019 11:11:28 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX01.aspeed.com (192.168.0.23) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com x925uHxR005679
+In-Reply-To: <20191002061200.29888-1-chiawei_wang@aspeedtech.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,25 +62,25 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Document the AST2600 PECI controller compatible string.
+Hi Chia-Wei,
 
-Signed-off-by: Chia-Wei, Wang <chiawei_wang@aspeedtech.com>
----
- Documentation/devicetree/bindings/peci/peci-aspeed.txt | 1 +
- 1 file changed, 1 insertion(+)
+On 10/1/2019 11:11 PM, Chia-Wei, Wang wrote:
+> Update the Aspeed PECI driver with the AST2600 compatible string.
+> A new comptabile string is needed for the extended HW feature of
+> AST2600.
+> 
+> Chia-Wei, Wang (2):
+>    peci: aspeed: Add AST2600 compatible string
+>    dt-bindings: peci: aspeed: Add AST2600 compatible
+> 
+>   Documentation/devicetree/bindings/peci/peci-aspeed.txt | 1 +
+>   drivers/peci/peci-aspeed.c                             | 1 +
+>   2 files changed, 2 insertions(+)
+> 
 
-diff --git a/Documentation/devicetree/bindings/peci/peci-aspeed.txt b/Documentation/devicetree/bindings/peci/peci-aspeed.txt
-index cdca73a3b7d8..cddd2d2aa58f 100644
---- a/Documentation/devicetree/bindings/peci/peci-aspeed.txt
-+++ b/Documentation/devicetree/bindings/peci/peci-aspeed.txt
-@@ -4,6 +4,7 @@ Required properties:
- - compatible        : Should be one of:
- 			"aspeed,ast2400-peci"
- 			"aspeed,ast2500-peci"
-+			"aspeed,ast2600-peci"
- - reg               : Should contain PECI controller registers location and
- 		      length.
- - #address-cells    : Should be <1> required to define a client address.
--- 
-2.17.1
+PECI subsystem isn't in linux upstream yet so you should submit it into
+OpenBMC dev-5.3 tree only.
 
+Cheers,
+
+Jae
