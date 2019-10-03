@@ -1,57 +1,51 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF04CC96C0
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2019 04:37:39 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F0FCA370
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2019 18:20:35 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46kHGn0Ln0zDqXV
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Oct 2019 12:37:37 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46kdXD5yqrzDqQR
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Oct 2019 02:20:28 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=temperror (mailfrom) smtp.mailfrom=aspeedtech.com
- (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com;
- envelope-from=chiawei_wang@aspeedtech.com; receiver=<UNKNOWN>)
+ spf=none (mailfrom) smtp.mailfrom=linux.intel.com
+ (client-ip=192.55.52.115; helo=mga14.intel.com;
+ envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from twspam01.aspeedtech.com (unknown [211.20.114.71])
+ header.from=linux.intel.com
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46kHGW52J2zDqWW;
- Thu,  3 Oct 2019 12:36:23 +1000 (AEST)
-Received: from mail.aspeedtech.com (twmbx02.aspeed.com [192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id x932J6BT043282;
- Thu, 3 Oct 2019 10:19:06 +0800 (GMT-8)
- (envelope-from chiawei_wang@aspeedtech.com)
-Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.620.29; Thu, 3 Oct
- 2019 10:35:03 +0800
-Received: from TWMBX02.aspeed.com ([fe80::997d:c0a7:f01f:e1a7]) by
- TWMBX02.aspeed.com ([fe80::997d:c0a7:f01f:e1a7%12]) with mapi id
- 15.00.0620.020; Thu, 3 Oct 2019 10:35:02 +0800
-From: ChiaWei Wang <chiawei_wang@aspeedtech.com>
-To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>, Joel Stanley <joel@jms.id.au>
-Subject: RE: [PATCH 0/2] peci: aspeed: Add AST2600 compatible
-Thread-Topic: [PATCH 0/2] peci: aspeed: Add AST2600 compatible
-Thread-Index: AQHVeOhVfyr8hf/PLEOlKG455HFAV6dHIbEAgABBZgCAABszgIAAsqtw
-Date: Thu, 3 Oct 2019 02:35:02 +0000
-Message-ID: <4af9eb8fa6fd41fc87708fc8afdcc83e@TWMBX02.aspeed.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46kdWz4MBJzDqQR;
+ Fri,  4 Oct 2019 02:20:13 +1000 (AEST)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 03 Oct 2019 09:20:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,253,1566889200"; d="scan'208";a="185962567"
+Received: from unknown (HELO [10.7.153.143]) ([10.7.153.143])
+ by orsmga008.jf.intel.com with ESMTP; 03 Oct 2019 09:20:10 -0700
+Subject: Re: [PATCH 0/2] peci: aspeed: Add AST2600 compatible
+To: ChiaWei Wang <chiawei_wang@aspeedtech.com>, Joel Stanley <joel@jms.id.au>
 References: <20191002061200.29888-1-chiawei_wang@aspeedtech.com>
  <70044749-785b-6ff3-7a28-fb049dcfec54@linux.intel.com>
  <CACPK8XfBxC+4PHHCkMoXr+twjfWaovcJ5c=hfCmHRJ6LpGNeFg@mail.gmail.com>
  <03d21443-aa9a-a126-dc77-a21f14f708c9@linux.intel.com>
-In-Reply-To: <03d21443-aa9a-a126-dc77-a21f14f708c9@linux.intel.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.0.133]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <4af9eb8fa6fd41fc87708fc8afdcc83e@TWMBX02.aspeed.com>
+From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Message-ID: <b219c8e9-4f72-f91c-ba57-96ffab82ff2e@linux.intel.com>
+Date: Thu, 3 Oct 2019 09:20:10 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com x932J6BT043282
+In-Reply-To: <4af9eb8fa6fd41fc87708fc8afdcc83e@TWMBX02.aspeed.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,8 +59,8 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>,
  devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, OpenBMC
- Maillist <openbmc@lists.ozlabs.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
  Jason M Biils <jason.m.bills@linux.intel.com>,
@@ -75,46 +69,15 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGkgSmFlIEh5dW4sDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KRm9yIG5vdyBzaG91bGQg
-SSB1c2UgR2l0SHViIHB1bGwtcmVxdWVzdCB0byBzdWJtaXQgdGhlIHBhdGNoZXMgb2YgUEVDSS1y
-ZWxhdGVkIGNoYW5nZSB0byBPcGVuQk1DIGRldi01LjMgdHJlZSBvbmx5Pw0KDQpSZWdhcmRzLA0K
-Q2hpYXdlaQ0KDQoqKioqKioqKioqKioqIEVtYWlsIENvbmZpZGVudGlhbGl0eSBOb3RpY2UgKioq
-KioqKioqKioqKioqKioqKioNCkRJU0NMQUlNRVI6DQpUaGlzIG1lc3NhZ2UgKGFuZCBhbnkgYXR0
-YWNobWVudHMpIG1heSBjb250YWluIGxlZ2FsbHkgcHJpdmlsZWdlZCBhbmQvb3Igb3RoZXIgY29u
-ZmlkZW50aWFsIGluZm9ybWF0aW9uLiBJZiB5b3UgaGF2ZSByZWNlaXZlZCBpdCBpbiBlcnJvciwg
-cGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGJ5IHJlcGx5IGUtbWFpbCBhbmQgaW1tZWRpYXRlbHkg
-ZGVsZXRlIHRoZSBlLW1haWwgYW5kIGFueSBhdHRhY2htZW50cyB3aXRob3V0IGNvcHlpbmcgb3Ig
-ZGlzY2xvc2luZyB0aGUgY29udGVudHMuIFRoYW5rIHlvdS4NCg0KDQotLS0tLU9yaWdpbmFsIE1l
-c3NhZ2UtLS0tLQ0KRnJvbTogSmFlIEh5dW4gWW9vIFttYWlsdG86amFlLmh5dW4ueW9vQGxpbnV4
-LmludGVsLmNvbV0gDQpTZW50OiBUaHVyc2RheSwgT2N0b2JlciAzLCAyMDE5IDc6NDMgQU0NClRv
-OiBKb2VsIFN0YW5sZXkgPGpvZWxAam1zLmlkLmF1Pg0KQ2M6IENoaWFXZWkgV2FuZyA8Y2hpYXdl
-aV93YW5nQGFzcGVlZHRlY2guY29tPjsgSmFzb24gTSBCaWlscyA8amFzb24ubS5iaWxsc0BsaW51
-eC5pbnRlbC5jb20+OyBSb2IgSGVycmluZyA8cm9iaCtkdEBrZXJuZWwub3JnPjsgTWFyayBSdXRs
-YW5kIDxtYXJrLnJ1dGxhbmRAYXJtLmNvbT47IEFuZHJldyBKZWZmZXJ5IDxhbmRyZXdAYWouaWQu
-YXU+OyBsaW51eC1hc3BlZWQgPGxpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnPjsgT3BlbkJN
-QyBNYWlsbGlzdCA8b3BlbmJtY0BsaXN0cy5vemxhYnMub3JnPjsgZGV2aWNldHJlZSA8ZGV2aWNl
-dHJlZUB2Z2VyLmtlcm5lbC5vcmc+OyBMaW51eCBBUk0gPGxpbnV4LWFybS1rZXJuZWxAbGlzdHMu
-aW5mcmFkZWFkLm9yZz47IExpbnV4IEtlcm5lbCBNYWlsaW5nIExpc3QgPGxpbnV4LWtlcm5lbEB2
-Z2VyLmtlcm5lbC5vcmc+OyBSeWFuIENoZW4gPHJ5YW5fY2hlbkBhc3BlZWR0ZWNoLmNvbT4NClN1
-YmplY3Q6IFJlOiBbUEFUQ0ggMC8yXSBwZWNpOiBhc3BlZWQ6IEFkZCBBU1QyNjAwIGNvbXBhdGli
-bGUNCg0KT24gMTAvMi8yMDE5IDM6MDUgUE0sIEpvZWwgU3RhbmxleSB3cm90ZToNCj4gT24gV2Vk
-LCAyIE9jdCAyMDE5IGF0IDE4OjExLCBKYWUgSHl1biBZb28gPGphZS5oeXVuLnlvb0BsaW51eC5p
-bnRlbC5jb20+IHdyb3RlOg0KPj4NCj4+IEhpIENoaWEtV2VpLA0KPj4NCj4+IE9uIDEwLzEvMjAx
-OSAxMToxMSBQTSwgQ2hpYS1XZWksIFdhbmcgd3JvdGU6DQo+Pj4gVXBkYXRlIHRoZSBBc3BlZWQg
-UEVDSSBkcml2ZXIgd2l0aCB0aGUgQVNUMjYwMCBjb21wYXRpYmxlIHN0cmluZy4NCj4+PiBBIG5l
-dyBjb21wdGFiaWxlIHN0cmluZyBpcyBuZWVkZWQgZm9yIHRoZSBleHRlbmRlZCBIVyBmZWF0dXJl
-IG9mIA0KPj4+IEFTVDI2MDAuDQo+Pj4NCj4+PiBDaGlhLVdlaSwgV2FuZyAoMik6DQo+Pj4gICAg
-IHBlY2k6IGFzcGVlZDogQWRkIEFTVDI2MDAgY29tcGF0aWJsZSBzdHJpbmcNCj4+PiAgICAgZHQt
-YmluZGluZ3M6IHBlY2k6IGFzcGVlZDogQWRkIEFTVDI2MDAgY29tcGF0aWJsZQ0KPj4+DQo+Pj4g
-ICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3BlY2kvcGVjaS1hc3BlZWQudHh0
-IHwgMSArDQo+Pj4gICAgZHJpdmVycy9wZWNpL3BlY2ktYXNwZWVkLmMgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHwgMSArDQo+Pj4gICAgMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMo
-KykNCj4+Pg0KPj4NCj4+IFBFQ0kgc3Vic3lzdGVtIGlzbid0IGluIGxpbnV4IHVwc3RyZWFtIHll
-dCBzbyB5b3Ugc2hvdWxkIHN1Ym1pdCBpdCANCj4+IGludG8gT3BlbkJNQyBkZXYtNS4zIHRyZWUg
-b25seS4NCj4gDQo+IE9wZW5CTUMgaGFzIGJlZW4gY2FycnlpbmcgdGhlIG91dCBvZiB0cmVlIHBh
-dGNoZXMgZm9yIHNvbWUgdGltZSBub3cuIEkgDQo+IGhhdmVuJ3Qgc2VlbiBhIG5ldyB2ZXJzaW9u
-IHBvc3RlZCBmb3IgYSB3aGlsZS4gRG8geW91IGhhdmUgYSB0aW1lbGluZSANCj4gZm9yIHdoZW4g
-eW91IHBsYW4gdG8gc3VibWl0IGl0IHVwc3RyZWFtPw0KDQpUaGFua3MgZm9yIHlvdXIgZWZmb3J0
-IGZvciBjYXJyeWluZyB0aGUgb3V0IG9mIHRyZWUgcGF0Y2hlcyBpbiBPcGVuQk1DLg0KSSBkb24n
-dCBoYXZlIGEgZXhhY3QgdGltZWxpbmUgYnV0IEknbSBnb25uYSB1cHN0cmVhbSBpdCBhcyBzb29u
-IGFzIGl0IGdldHMgcmVhZHkuDQoNClRoYW5rcywNCg0KSmFlDQo=
+On 10/2/2019 7:35 PM, ChiaWei Wang wrote:
+> Hi Jae Hyun,
+> 
+> Thanks for the feedback.
+> For now should I use GitHub pull-request to submit the patches of PECI-related change to OpenBMC dev-5.3 tree only?
+
+You could submit this patch series to OpenBMC mailing list with
+[PATCH linux dev-5.3] prefix.
+
+Thanks,
+
+Jae
