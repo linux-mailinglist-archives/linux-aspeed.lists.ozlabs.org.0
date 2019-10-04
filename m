@@ -2,87 +2,49 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4E5CC070
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Oct 2019 18:27:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56122CC10F
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Oct 2019 18:50:09 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46lFdn0QGczDqfK
-	for <lists+linux-aspeed@lfdr.de>; Sat,  5 Oct 2019 02:27:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46lG7x4F1dzDqfP
+	for <lists+linux-aspeed@lfdr.de>; Sat,  5 Oct 2019 02:50:05 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=softfail (mailfrom) smtp.mailfrom=kaod.org
- (client-ip=148.163.158.5; helo=mx0a-001b2d01.pphosted.com;
+ spf=pass (mailfrom) smtp.mailfrom=kaod.org
+ (client-ip=87.98.178.36; helo=5.mo3.mail-out.ovh.net;
  envelope-from=clg@kaod.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=kaod.org
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46lFdc3c16zDqdP
- for <linux-aspeed@lists.ozlabs.org>; Sat,  5 Oct 2019 02:27:11 +1000 (AEST)
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x94GQ0PZ085390
- for <linux-aspeed@lists.ozlabs.org>; Fri, 4 Oct 2019 12:27:02 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ve7huw7xk-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-aspeed@lists.ozlabs.org>; Fri, 04 Oct 2019 12:26:43 -0400
-Received: from localhost
- by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <linux-aspeed@lists.ozlabs.org> from <clg@kaod.org>;
- Fri, 4 Oct 2019 17:23:45 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
- by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 4 Oct 2019 17:23:41 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x94GNdIU19398814
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 4 Oct 2019 16:23:40 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 94EC3A4053;
- Fri,  4 Oct 2019 16:23:39 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7FBBAA4051;
- Fri,  4 Oct 2019 16:23:39 +0000 (GMT)
-Received: from smtp.tls.ibm.com (unknown [9.101.4.1])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  4 Oct 2019 16:23:39 +0000 (GMT)
-Received: from yukon.kaod.org (sig-9-145-169-184.de.ibm.com [9.145.169.184])
- by smtp.tls.ibm.com (Postfix) with ESMTP id 5CE092201B7;
- Fri,  4 Oct 2019 18:23:38 +0200 (CEST)
-Subject: Re: [PATCH 06/16] mtd: spi-nor: fix options for mx66l51235f
+X-Greylist: delayed 8427 seconds by postgrey-1.36 at bilbo;
+ Sat, 05 Oct 2019 02:49:58 AEST
+Received: from 5.mo3.mail-out.ovh.net (5.mo3.mail-out.ovh.net [87.98.178.36])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46lG7p2HXFzDqdg
+ for <linux-aspeed@lists.ozlabs.org>; Sat,  5 Oct 2019 02:49:24 +1000 (AEST)
+Received: from player792.ha.ovh.net (unknown [10.108.42.23])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id EE04E22A2BD
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Oct 2019 14:00:19 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2229-223.w90-76.abo.wanadoo.fr [90.76.50.223])
+ (Authenticated sender: clg@kaod.org)
+ by player792.ha.ovh.net (Postfix) with ESMTPSA id 7A24FAA65865;
+ Fri,  4 Oct 2019 12:00:04 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: linux-mtd@lists.infradead.org, Tudor Ambarus <tudor.ambarus@microchip.com>
+Subject: [PATCH 02/16] mtd: spi-nor: aspeed: Add support for SPI dual IO read
+ mode
+Date: Fri,  4 Oct 2019 13:59:05 +0200
+Message-Id: <20191004115919.20788-3-clg@kaod.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191004115919.20788-1-clg@kaod.org>
 References: <20191004115919.20788-1-clg@kaod.org>
- <20191004115919.20788-7-clg@kaod.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Date: Fri, 4 Oct 2019 18:23:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
 MIME-Version: 1.0
-In-Reply-To: <20191004115919.20788-7-clg@kaod.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19100416-0016-0000-0000-000002B41351
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19100416-0017-0000-0000-0000331523F4
-Message-Id: <f3be7794-f157-5872-b540-6474c516beb4@kaod.org>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-10-04_09:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=962 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910040145
+X-Ovh-Tracer-Id: 3770357314044005299
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrhedugdegtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,57 +58,128 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>, Vignesh Raghavendra <vigneshr@ti.com>,
  linux-aspeed@lists.ozlabs.org, Richard Weinberger <richard@nod.at>,
- Alexander Amelkin <a.amelkin@yadro.com>,
- Alexander Soldatov <a.soldatov@yadro.com>, Marek Vasut <marek.vasut@gmail.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lei YU <mine260309@gmail.com>,
+ Marek Vasut <marek.vasut@gmail.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
  Brian Norris <computersforpeace@gmail.com>,
  David Woodhouse <dwmw2@infradead.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 04/10/2019 13:59, Cédric Le Goater wrote:
-> From: Alexander Soldatov <a.soldatov@yadro.com>
-> 
-> Currently in driver spi-nor there is a line for mx66l51235l.
-> According to Macronix site there is no such part number.
-> The chip detected as such is actually mx66l51235f.
-> 
-> According to the datasheet for mx66l51235f,
-> "The device default is in 24-bit address mode" (section 9-10).
-> Hence we removed SPI_NOR_4B_OPCODES option with this commit.
+Implements support for the dual IO read mode on aspeed SMC/FMC
+controllers which uses both MISO and MOSI lines for data during a read
+to double the read bandwidth.
 
-This patch has been discussed already on the list and it was decided 
-that it should not be merged. Please drop it. 
+Based on work from Robert Lippert <roblip@gmail.com>
 
-Sorry for the noise,
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+---
+ drivers/mtd/spi-nor/aspeed-smc.c | 56 +++++++++++++++++++++++++-------
+ 1 file changed, 44 insertions(+), 12 deletions(-)
 
-C.  
-
-> OpenBMC-Staging-Count: 7
-> Fixes: d342b6a973af ("mtd: spi-nor: enable 4B opcodes for mx66l51235l")
-> Cc: Alexander Amelkin <a.amelkin@yadro.com>
-> Signed-off-by: Alexander Soldatov <a.soldatov@yadro.com>
-> Reviewed-by: Cédric Le Goater <clg@kaod.org>
-> Reviewed-by: Lei YU <mine260309@gmail.com>
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->  drivers/mtd/spi-nor/spi-nor.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/mtd/spi-nor/spi-nor.c b/drivers/mtd/spi-nor/spi-nor.c
-> index 1d8621d43160..b1165673cd93 100644
-> --- a/drivers/mtd/spi-nor/spi-nor.c
-> +++ b/drivers/mtd/spi-nor/spi-nor.c
-> @@ -2294,7 +2294,7 @@ static const struct flash_info spi_nor_ids[] = {
->  	{ "mx25v8035f",  INFO(0xc22314, 0, 64 * 1024,  16,
->  			 SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },
->  	{ "mx25l25655e", INFO(0xc22619, 0, 64 * 1024, 512, 0) },
-> -	{ "mx66l51235l", INFO(0xc2201a, 0, 64 * 1024, 1024, SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ | SPI_NOR_4B_OPCODES) },
-> +	{ "mx66l51235f", INFO(0xc2201a, 0, 64 * 1024, 1024, SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },
->  	{ "mx66u51235f", INFO(0xc2253a, 0, 64 * 1024, 1024, SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ | SPI_NOR_4B_OPCODES) },
->  	{ "mx66l1g45g",  INFO(0xc2201b, 0, 64 * 1024, 2048, SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },
->  	{ "mx66l1g55g",  INFO(0xc2261b, 0, 64 * 1024, 2048, SPI_NOR_QUAD_READ) },
-> 
+diff --git a/drivers/mtd/spi-nor/aspeed-smc.c b/drivers/mtd/spi-nor/aspeed-smc.c
+index 148bbc934efc..c775e0612613 100644
+--- a/drivers/mtd/spi-nor/aspeed-smc.c
++++ b/drivers/mtd/spi-nor/aspeed-smc.c
+@@ -369,18 +369,49 @@ static void aspeed_smc_send_cmd_addr(struct spi_nor *nor, u8 cmd, u32 addr)
+ 	}
+ }
+ 
++static int aspeed_smc_get_io_mode(struct aspeed_smc_chip *chip)
++{
++	switch (chip->nor.read_proto) {
++	case SNOR_PROTO_1_1_1:
++		return 0;
++	case SNOR_PROTO_1_1_2:
++		return CONTROL_IO_DUAL_DATA;
++	case SNOR_PROTO_1_2_2:
++		return CONTROL_IO_DUAL_ADDR_DATA;
++	default:
++		dev_err(chip->nor.dev, "unsupported SPI read mode\n");
++		return -EINVAL;
++	}
++}
++
++static void aspeed_smc_set_io_mode(struct aspeed_smc_chip *chip, u32 io_mode)
++{
++	u32 ctl;
++
++	if (io_mode > 0) {
++		ctl = readl(chip->ctl) & ~CONTROL_IO_MODE_MASK;
++		ctl |= io_mode;
++		writel(ctl, chip->ctl);
++	}
++}
++
+ static ssize_t aspeed_smc_read_user(struct spi_nor *nor, loff_t from,
+ 				    size_t len, u_char *read_buf)
+ {
+ 	struct aspeed_smc_chip *chip = nor->priv;
+ 	int i;
+ 	u8 dummy = 0xFF;
++	int io_mode = aspeed_smc_get_io_mode(chip);
+ 
+ 	aspeed_smc_start_user(nor);
+ 	aspeed_smc_send_cmd_addr(nor, nor->read_opcode, from);
+ 	for (i = 0; i < chip->nor.read_dummy / 8; i++)
+ 		aspeed_smc_write_to_ahb(chip->ahb_base, &dummy, sizeof(dummy));
+ 
++	/* Set IO mode only for data */
++	if (io_mode == CONTROL_IO_DUAL_DATA)
++		aspeed_smc_set_io_mode(chip, io_mode);
++
+ 	aspeed_smc_read_from_ahb(read_buf, chip->ahb_base, len);
+ 	aspeed_smc_stop_user(nor);
+ 	return len;
+@@ -731,6 +762,7 @@ static int aspeed_smc_chip_setup_finish(struct aspeed_smc_chip *chip)
+ {
+ 	struct aspeed_smc_controller *controller = chip->controller;
+ 	const struct aspeed_smc_info *info = controller->info;
++	int io_mode;
+ 	u32 cmd;
+ 
+ 	if (chip->nor.addr_width == 4 && info->set_4b)
+@@ -753,22 +785,21 @@ static int aspeed_smc_chip_setup_finish(struct aspeed_smc_chip *chip)
+ 	 * TODO: Adjust clocks if fast read is supported and interpret
+ 	 * SPI-NOR flags to adjust controller settings.
+ 	 */
+-	if (chip->nor.read_proto == SNOR_PROTO_1_1_1) {
+-		if (chip->nor.read_dummy == 0)
+-			cmd = CONTROL_COMMAND_MODE_NORMAL;
+-		else
+-			cmd = CONTROL_COMMAND_MODE_FREAD;
+-	} else {
+-		dev_err(chip->nor.dev, "unsupported SPI read mode\n");
+-		return -EINVAL;
+-	}
++	io_mode = aspeed_smc_get_io_mode(chip);
++	if (io_mode < 0)
++		return io_mode;
+ 
+-	chip->ctl_val[smc_read] |= cmd |
++	if (chip->nor.read_dummy == 0)
++		cmd = CONTROL_COMMAND_MODE_NORMAL;
++	else
++		cmd = CONTROL_COMMAND_MODE_FREAD;
++
++	chip->ctl_val[smc_read] |= cmd | io_mode |
+ 		chip->nor.read_opcode << CONTROL_COMMAND_SHIFT |
+ 		CONTROL_IO_DUMMY_SET(chip->nor.read_dummy / 8);
+ 
+-	dev_dbg(controller->dev, "base control register: %08x\n",
+-		chip->ctl_val[smc_read]);
++	dev_info(controller->dev, "read control register: %08x\n",
++		 chip->ctl_val[smc_read]);
+ 	return 0;
+ }
+ 
+@@ -778,6 +809,7 @@ static int aspeed_smc_setup_flash(struct aspeed_smc_controller *controller,
+ 	const struct spi_nor_hwcaps hwcaps = {
+ 		.mask = SNOR_HWCAPS_READ |
+ 			SNOR_HWCAPS_READ_FAST |
++			SNOR_HWCAPS_READ_1_1_2 |
+ 			SNOR_HWCAPS_PP,
+ 	};
+ 	const struct aspeed_smc_info *info = controller->info;
+-- 
+2.21.0
 
