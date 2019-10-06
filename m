@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB48D077E
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 08:43:49 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C9CBD077F
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 08:43:53 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46p4S24zPmzDqLD
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 17:43:46 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46p4S63qS5zDqL9
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 17:43:50 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -18,14 +18,14 @@ Authentication-Results: lists.ozlabs.org;
 Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46mKjF6DWNzDqMl
- for <linux-aspeed@lists.ozlabs.org>; Sun,  6 Oct 2019 21:34:09 +1100 (AEDT)
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 18EA8E99386BAB02B13E;
- Sun,  6 Oct 2019 18:34:07 +0800 (CST)
-Received: from localhost (10.133.213.239) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.439.0; Sun, 6 Oct 2019
- 18:33:59 +0800
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46mKjH6w7HzDqMl
+ for <linux-aspeed@lists.ozlabs.org>; Sun,  6 Oct 2019 21:34:11 +1100 (AEDT)
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 1EA89D08BB2E59D6385F;
+ Sun,  6 Oct 2019 18:34:09 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Sun, 6 Oct 2019
+ 18:34:03 +0800
 From: YueHaibing <yuehaibing@huawei.com>
 To: <a.zummo@towertech.it>, <alexandre.belloni@bootlin.com>, <joel@jms.id.au>, 
  <andrew@aj.id.au>, <nicolas.ferre@microchip.com>,
@@ -39,10 +39,10 @@ To: <a.zummo@towertech.it>, <alexandre.belloni@bootlin.com>, <joel@jms.id.au>,
  <mcoquelin.stm32@gmail.com>, <alexandre.torgue@st.com>, <mripard@kernel.org>, 
  <wens@csie.org>, <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
  <linux@prisktech.co.nz>, <michal.simek@xilinx.com>
-Subject: [PATCH -next 33/34] rtc: xgene: use devm_platform_ioremap_resource()
+Subject: [PATCH -next 34/34] rtc: zynqmp: use devm_platform_ioremap_resource()
  to simplify code
-Date: Sun, 6 Oct 2019 18:29:52 +0800
-Message-ID: <20191006102953.57536-34-yuehaibing@huawei.com>
+Date: Sun, 6 Oct 2019 18:29:53 +0800
+Message-ID: <20191006102953.57536-35-yuehaibing@huawei.com>
 X-Mailer: git-send-email 2.10.2.windows.1
 In-Reply-To: <20191006102953.57536-1-yuehaibing@huawei.com>
 References: <20191006102953.57536-1-yuehaibing@huawei.com>
@@ -76,30 +76,31 @@ This is detected by coccinelle.
 
 Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/rtc/rtc-xgene.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/rtc/rtc-zynqmp.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/rtc/rtc-xgene.c b/drivers/rtc/rtc-xgene.c
-index 9683fbf..603c4e4 100644
---- a/drivers/rtc/rtc-xgene.c
-+++ b/drivers/rtc/rtc-xgene.c
-@@ -137,7 +137,6 @@ static irqreturn_t xgene_rtc_interrupt(int irq, void *id)
- static int xgene_rtc_probe(struct platform_device *pdev)
+diff --git a/drivers/rtc/rtc-zynqmp.c b/drivers/rtc/rtc-zynqmp.c
+index 2c76275..55646e0 100644
+--- a/drivers/rtc/rtc-zynqmp.c
++++ b/drivers/rtc/rtc-zynqmp.c
+@@ -195,7 +195,6 @@ static irqreturn_t xlnx_rtc_interrupt(int irq, void *id)
+ static int xlnx_rtc_probe(struct platform_device *pdev)
  {
- 	struct xgene_rtc_dev *pdata;
+ 	struct xlnx_rtc_dev *xrtcdev;
 -	struct resource *res;
  	int ret;
- 	int irq;
  
-@@ -147,8 +146,7 @@ static int xgene_rtc_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, pdata);
- 	pdata->dev = &pdev->dev;
+ 	xrtcdev = devm_kzalloc(&pdev->dev, sizeof(*xrtcdev), GFP_KERNEL);
+@@ -211,9 +210,7 @@ static int xlnx_rtc_probe(struct platform_device *pdev)
+ 	xrtcdev->rtc->ops = &xlnx_rtc_ops;
+ 	xrtcdev->rtc->range_max = U32_MAX;
  
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	pdata->csr_base = devm_ioremap_resource(&pdev->dev, res);
-+	pdata->csr_base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(pdata->csr_base))
- 		return PTR_ERR(pdata->csr_base);
+-
+-	xrtcdev->reg_base = devm_ioremap_resource(&pdev->dev, res);
++	xrtcdev->reg_base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(xrtcdev->reg_base))
+ 		return PTR_ERR(xrtcdev->reg_base);
  
 -- 
 2.7.4
