@@ -2,30 +2,32 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BECB7D0790
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 08:44:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965CCD0768
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 08:42:45 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46p4TK0HKMzDqLK
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 17:44:53 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46p4Qp49yQzDqK9
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 17:42:42 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=huawei.com
- (client-ip=45.249.212.191; helo=huawei.com;
- envelope-from=yuehaibing@huawei.com; receiver=<UNKNOWN>)
+ (client-ip=45.249.212.35; helo=huawei.com; envelope-from=yuehaibing@huawei.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=huawei.com
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
+X-Greylist: delayed 61 seconds by postgrey-1.36 at bilbo;
+ Sun, 06 Oct 2019 21:33:16 AEDT
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46mL2k00zFzDqQ9
- for <linux-aspeed@lists.ozlabs.org>; Sun,  6 Oct 2019 21:49:17 +1100 (AEDT)
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id C7F4B840B5C69430D32B;
- Sun,  6 Oct 2019 18:33:08 +0800 (CST)
-Received: from localhost (10.133.213.239) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.439.0; Sun, 6 Oct 2019
- 18:32:59 +0800
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46mKhD1tM1zDqMl
+ for <linux-aspeed@lists.ozlabs.org>; Sun,  6 Oct 2019 21:33:16 +1100 (AEDT)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id C08A8B84E3AD5F14C7C3;
+ Sun,  6 Oct 2019 18:33:13 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server id 14.3.439.0; Sun, 6 Oct 2019
+ 18:33:03 +0800
 From: YueHaibing <yuehaibing@huawei.com>
 To: <a.zummo@towertech.it>, <alexandre.belloni@bootlin.com>, <joel@jms.id.au>, 
  <andrew@aj.id.au>, <nicolas.ferre@microchip.com>,
@@ -39,10 +41,10 @@ To: <a.zummo@towertech.it>, <alexandre.belloni@bootlin.com>, <joel@jms.id.au>,
  <mcoquelin.stm32@gmail.com>, <alexandre.torgue@st.com>, <mripard@kernel.org>, 
  <wens@csie.org>, <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
  <linux@prisktech.co.nz>, <michal.simek@xilinx.com>
-Subject: [PATCH -next 17/34] rtc: mt7622: use devm_platform_ioremap_resource()
- to simplify code
-Date: Sun, 6 Oct 2019 18:29:36 +0800
-Message-ID: <20191006102953.57536-18-yuehaibing@huawei.com>
+Subject: [PATCH -next 18/34] rtc: mv: use devm_platform_ioremap_resource() to
+ simplify code
+Date: Sun, 6 Oct 2019 18:29:37 +0800
+Message-ID: <20191006102953.57536-19-yuehaibing@huawei.com>
 X-Mailer: git-send-email 2.10.2.windows.1
 In-Reply-To: <20191006102953.57536-1-yuehaibing@huawei.com>
 References: <20191006102953.57536-1-yuehaibing@huawei.com>
@@ -50,7 +52,7 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.133.213.239]
 X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Wed, 09 Oct 2019 17:41:39 +1100
+X-Mailman-Approved-At: Wed, 09 Oct 2019 17:41:38 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,30 +78,30 @@ This is detected by coccinelle.
 
 Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/rtc/rtc-mt7622.c | 4 +---
+ drivers/rtc/rtc-mv.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/rtc/rtc-mt7622.c b/drivers/rtc/rtc-mt7622.c
-index 16bd26b..f1e3563 100644
---- a/drivers/rtc/rtc-mt7622.c
-+++ b/drivers/rtc/rtc-mt7622.c
-@@ -303,7 +303,6 @@ MODULE_DEVICE_TABLE(of, mtk_rtc_match);
- static int mtk_rtc_probe(struct platform_device *pdev)
+diff --git a/drivers/rtc/rtc-mv.c b/drivers/rtc/rtc-mv.c
+index ab9db57..d5f190e5 100644
+--- a/drivers/rtc/rtc-mv.c
++++ b/drivers/rtc/rtc-mv.c
+@@ -212,7 +212,6 @@ static const struct rtc_class_ops mv_rtc_alarm_ops = {
+ 
+ static int __init mv_rtc_probe(struct platform_device *pdev)
  {
- 	struct mtk_rtc *hw;
 -	struct resource *res;
- 	int ret;
- 
- 	hw = devm_kzalloc(&pdev->dev, sizeof(*hw), GFP_KERNEL);
-@@ -312,8 +311,7 @@ static int mtk_rtc_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, hw);
+ 	struct rtc_plat_data *pdata;
+ 	u32 rtc_time;
+ 	int ret = 0;
+@@ -221,8 +220,7 @@ static int __init mv_rtc_probe(struct platform_device *pdev)
+ 	if (!pdata)
+ 		return -ENOMEM;
  
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	hw->base = devm_ioremap_resource(&pdev->dev, res);
-+	hw->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(hw->base))
- 		return PTR_ERR(hw->base);
+-	pdata->ioaddr = devm_ioremap_resource(&pdev->dev, res);
++	pdata->ioaddr = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(pdata->ioaddr))
+ 		return PTR_ERR(pdata->ioaddr);
  
 -- 
 2.7.4
