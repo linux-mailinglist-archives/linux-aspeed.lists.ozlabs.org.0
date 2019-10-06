@@ -2,30 +2,30 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021A4D078E
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 08:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDDA7D0787
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 08:44:23 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46p4T81jZwzDqLV
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 17:44:44 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46p4Sh6RpqzDqLJ
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 17:44:20 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=huawei.com
- (client-ip=45.249.212.190; helo=huawei.com;
- envelope-from=yuehaibing@huawei.com; receiver=<UNKNOWN>)
+ (client-ip=45.249.212.35; helo=huawei.com; envelope-from=yuehaibing@huawei.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=huawei.com
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46mL2d2pQmzDqQM
- for <linux-aspeed@lists.ozlabs.org>; Sun,  6 Oct 2019 21:49:13 +1100 (AEDT)
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 65E1162F2BF2303E363C;
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46mL2K1xtfzDqNX
+ for <linux-aspeed@lists.ozlabs.org>; Sun,  6 Oct 2019 21:48:57 +1100 (AEDT)
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 97380DE482CC9E32676D;
  Sun,  6 Oct 2019 18:32:55 +0800 (CST)
-Received: from localhost (10.133.213.239) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.439.0; Sun, 6 Oct 2019
- 18:32:45 +0800
+Received: from localhost (10.133.213.239) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Sun, 6 Oct 2019
+ 18:32:48 +0800
 From: YueHaibing <yuehaibing@huawei.com>
 To: <a.zummo@towertech.it>, <alexandre.belloni@bootlin.com>, <joel@jms.id.au>, 
  <andrew@aj.id.au>, <nicolas.ferre@microchip.com>,
@@ -39,10 +39,10 @@ To: <a.zummo@towertech.it>, <alexandre.belloni@bootlin.com>, <joel@jms.id.au>,
  <mcoquelin.stm32@gmail.com>, <alexandre.torgue@st.com>, <mripard@kernel.org>, 
  <wens@csie.org>, <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
  <linux@prisktech.co.nz>, <michal.simek@xilinx.com>
-Subject: [PATCH -next 13/34] rtc: jz4740: use devm_platform_ioremap_resource()
- to simplify code
-Date: Sun, 6 Oct 2019 18:29:32 +0800
-Message-ID: <20191006102953.57536-14-yuehaibing@huawei.com>
+Subject: [PATCH -next 14/34] rtc: lpc24xx: use
+ devm_platform_ioremap_resource() to simplify code
+Date: Sun, 6 Oct 2019 18:29:33 +0800
+Message-ID: <20191006102953.57536-15-yuehaibing@huawei.com>
 X-Mailer: git-send-email 2.10.2.windows.1
 In-Reply-To: <20191006102953.57536-1-yuehaibing@huawei.com>
 References: <20191006102953.57536-1-yuehaibing@huawei.com>
@@ -76,30 +76,29 @@ This is detected by coccinelle.
 
 Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/rtc/rtc-jz4740.c | 4 +---
+ drivers/rtc/rtc-lpc24xx.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/rtc/rtc-jz4740.c b/drivers/rtc/rtc-jz4740.c
-index 3089645..18023e4 100644
---- a/drivers/rtc/rtc-jz4740.c
-+++ b/drivers/rtc/rtc-jz4740.c
-@@ -307,7 +307,6 @@ static int jz4740_rtc_probe(struct platform_device *pdev)
+diff --git a/drivers/rtc/rtc-lpc24xx.c b/drivers/rtc/rtc-lpc24xx.c
+index a8bb156..00ef16b 100644
+--- a/drivers/rtc/rtc-lpc24xx.c
++++ b/drivers/rtc/rtc-lpc24xx.c
+@@ -194,15 +194,13 @@ static const struct rtc_class_ops lpc24xx_rtc_ops = {
+ static int lpc24xx_rtc_probe(struct platform_device *pdev)
  {
- 	int ret;
- 	struct jz4740_rtc *rtc;
--	struct resource *mem;
- 	const struct platform_device_id *id = platform_get_device_id(pdev);
- 	const struct of_device_id *of_id = of_match_device(
- 			jz4740_rtc_of_match, &pdev->dev);
-@@ -326,8 +325,7 @@ static int jz4740_rtc_probe(struct platform_device *pdev)
- 	if (rtc->irq < 0)
- 		return -ENOENT;
+ 	struct lpc24xx_rtc *rtc;
+-	struct resource *res;
+ 	int irq, ret;
  
--	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	rtc->base = devm_ioremap_resource(&pdev->dev, mem);
-+	rtc->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(rtc->base))
- 		return PTR_ERR(rtc->base);
+ 	rtc = devm_kzalloc(&pdev->dev, sizeof(*rtc), GFP_KERNEL);
+ 	if (!rtc)
+ 		return -ENOMEM;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	rtc->rtc_base = devm_ioremap_resource(&pdev->dev, res);
++	rtc->rtc_base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(rtc->rtc_base))
+ 		return PTR_ERR(rtc->rtc_base);
  
 -- 
 2.7.4
