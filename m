@@ -2,30 +2,30 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2498D0782
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 08:44:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9C7ED0786
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 08:44:19 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46p4SK758NzDqL0
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 17:44:01 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46p4Sd1mdnzDqKf
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 17:44:17 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=huawei.com
- (client-ip=45.249.212.32; helo=huawei.com; envelope-from=yuehaibing@huawei.com;
- receiver=<UNKNOWN>)
+ (client-ip=45.249.212.191; helo=huawei.com;
+ envelope-from=yuehaibing@huawei.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=huawei.com
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46mL1W4SKJzDqNX
- for <linux-aspeed@lists.ozlabs.org>; Sun,  6 Oct 2019 21:48:15 +1100 (AEDT)
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 025DD93548BA88E5F915;
- Sun,  6 Oct 2019 18:32:32 +0800 (CST)
-Received: from localhost (10.133.213.239) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Sun, 6 Oct 2019
- 18:32:22 +0800
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46mL1Y67SWzDqNX
+ for <linux-aspeed@lists.ozlabs.org>; Sun,  6 Oct 2019 21:48:17 +1100 (AEDT)
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 05F8174B22714585E7A4;
+ Sun,  6 Oct 2019 18:32:34 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Sun, 6 Oct 2019
+ 18:32:26 +0800
 From: YueHaibing <yuehaibing@huawei.com>
 To: <a.zummo@towertech.it>, <alexandre.belloni@bootlin.com>, <joel@jms.id.au>, 
  <andrew@aj.id.au>, <nicolas.ferre@microchip.com>,
@@ -39,10 +39,10 @@ To: <a.zummo@towertech.it>, <alexandre.belloni@bootlin.com>, <joel@jms.id.au>,
  <mcoquelin.stm32@gmail.com>, <alexandre.torgue@st.com>, <mripard@kernel.org>, 
  <wens@csie.org>, <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
  <linux@prisktech.co.nz>, <michal.simek@xilinx.com>
-Subject: [PATCH -next 07/34] rtc: davinci: use
+Subject: [PATCH -next 08/34] rtc: digicolor: use
  devm_platform_ioremap_resource() to simplify code
-Date: Sun, 6 Oct 2019 18:29:26 +0800
-Message-ID: <20191006102953.57536-8-yuehaibing@huawei.com>
+Date: Sun, 6 Oct 2019 18:29:27 +0800
+Message-ID: <20191006102953.57536-9-yuehaibing@huawei.com>
 X-Mailer: git-send-email 2.10.2.windows.1
 In-Reply-To: <20191006102953.57536-1-yuehaibing@huawei.com>
 References: <20191006102953.57536-1-yuehaibing@huawei.com>
@@ -76,30 +76,30 @@ This is detected by coccinelle.
 
 Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/rtc/rtc-davinci.c | 4 +---
+ drivers/rtc/rtc-digicolor.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/rtc/rtc-davinci.c b/drivers/rtc/rtc-davinci.c
-index d8e0db2..390b735 100644
---- a/drivers/rtc/rtc-davinci.c
-+++ b/drivers/rtc/rtc-davinci.c
-@@ -469,7 +469,6 @@ static int __init davinci_rtc_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct davinci_rtc *davinci_rtc;
--	struct resource *res;
- 	int ret = 0;
+diff --git a/drivers/rtc/rtc-digicolor.c b/drivers/rtc/rtc-digicolor.c
+index 0aecc3f..200d85b 100644
+--- a/drivers/rtc/rtc-digicolor.c
++++ b/drivers/rtc/rtc-digicolor.c
+@@ -175,7 +175,6 @@ static irqreturn_t dc_rtc_irq(int irq, void *dev_id)
  
- 	davinci_rtc = devm_kzalloc(&pdev->dev, sizeof(struct davinci_rtc), GFP_KERNEL);
-@@ -480,8 +479,7 @@ static int __init davinci_rtc_probe(struct platform_device *pdev)
- 	if (davinci_rtc->irq < 0)
- 		return davinci_rtc->irq;
+ static int __init dc_rtc_probe(struct platform_device *pdev)
+ {
+-	struct resource *res;
+ 	struct dc_rtc *rtc;
+ 	int irq, ret;
+ 
+@@ -183,8 +182,7 @@ static int __init dc_rtc_probe(struct platform_device *pdev)
+ 	if (!rtc)
+ 		return -ENOMEM;
  
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	davinci_rtc->base = devm_ioremap_resource(dev, res);
-+	davinci_rtc->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(davinci_rtc->base))
- 		return PTR_ERR(davinci_rtc->base);
+-	rtc->regs = devm_ioremap_resource(&pdev->dev, res);
++	rtc->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(rtc->regs))
+ 		return PTR_ERR(rtc->regs);
  
 -- 
 2.7.4
