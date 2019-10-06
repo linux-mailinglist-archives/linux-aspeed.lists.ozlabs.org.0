@@ -2,30 +2,30 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735B3D0785
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 08:44:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 986B9D0794
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 08:45:05 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46p4SX72xFzDqJt
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 17:44:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46p4TV1q9FzDqJt
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 17:45:02 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=huawei.com
- (client-ip=45.249.212.32; helo=huawei.com; envelope-from=yuehaibing@huawei.com;
- receiver=<UNKNOWN>)
+ (client-ip=45.249.212.190; helo=huawei.com;
+ envelope-from=yuehaibing@huawei.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=huawei.com
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46mL1W60QbzDqQM
- for <linux-aspeed@lists.ozlabs.org>; Sun,  6 Oct 2019 21:48:15 +1100 (AEDT)
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 821851ED13638A7FF2C3;
- Sun,  6 Oct 2019 18:32:17 +0800 (CST)
-Received: from localhost (10.133.213.239) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Sun, 6 Oct 2019
- 18:32:09 +0800
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46mLLn6rWKzDqNr
+ for <linux-aspeed@lists.ozlabs.org>; Sun,  6 Oct 2019 22:03:13 +1100 (AEDT)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 17625454FCBFFD071292;
+ Sun,  6 Oct 2019 18:32:23 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server id 14.3.439.0; Sun, 6 Oct 2019
+ 18:32:12 +0800
 From: YueHaibing <yuehaibing@huawei.com>
 To: <a.zummo@towertech.it>, <alexandre.belloni@bootlin.com>, <joel@jms.id.au>, 
  <andrew@aj.id.au>, <nicolas.ferre@microchip.com>,
@@ -39,10 +39,10 @@ To: <a.zummo@towertech.it>, <alexandre.belloni@bootlin.com>, <joel@jms.id.au>,
  <mcoquelin.stm32@gmail.com>, <alexandre.torgue@st.com>, <mripard@kernel.org>, 
  <wens@csie.org>, <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
  <linux@prisktech.co.nz>, <michal.simek@xilinx.com>
-Subject: [PATCH -next 03/34] rtc: brcmstb-waketimer: use
+Subject: [PATCH -next 04/34] rtc: at91sam9: use
  devm_platform_ioremap_resource() to simplify code
-Date: Sun, 6 Oct 2019 18:29:22 +0800
-Message-ID: <20191006102953.57536-4-yuehaibing@huawei.com>
+Date: Sun, 6 Oct 2019 18:29:23 +0800
+Message-ID: <20191006102953.57536-5-yuehaibing@huawei.com>
 X-Mailer: git-send-email 2.10.2.windows.1
 In-Reply-To: <20191006102953.57536-1-yuehaibing@huawei.com>
 References: <20191006102953.57536-1-yuehaibing@huawei.com>
@@ -50,7 +50,7 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.133.213.239]
 X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Wed, 09 Oct 2019 17:41:39 +1100
+X-Mailman-Approved-At: Wed, 09 Oct 2019 17:41:40 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,30 +76,30 @@ This is detected by coccinelle.
 
 Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/rtc/rtc-brcmstb-waketimer.c | 4 +---
+ drivers/rtc/rtc-at91sam9.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/rtc/rtc-brcmstb-waketimer.c b/drivers/rtc/rtc-brcmstb-waketimer.c
-index 3e9800f..cb7af87 100644
---- a/drivers/rtc/rtc-brcmstb-waketimer.c
-+++ b/drivers/rtc/rtc-brcmstb-waketimer.c
-@@ -200,7 +200,6 @@ static int brcmstb_waketmr_probe(struct platform_device *pdev)
+diff --git a/drivers/rtc/rtc-at91sam9.c b/drivers/rtc/rtc-at91sam9.c
+index bb3ba7b..e39e898 100644
+--- a/drivers/rtc/rtc-at91sam9.c
++++ b/drivers/rtc/rtc-at91sam9.c
+@@ -334,7 +334,6 @@ static const struct rtc_class_ops at91_rtc_ops = {
+  */
+ static int at91_rtc_probe(struct platform_device *pdev)
  {
- 	struct device *dev = &pdev->dev;
- 	struct brcmstb_waketmr *timer;
--	struct resource *res;
- 	int ret;
+-	struct resource	*r;
+ 	struct sam9_rtc	*rtc;
+ 	int		ret, irq;
+ 	u32		mr;
+@@ -358,8 +357,7 @@ static int at91_rtc_probe(struct platform_device *pdev)
  
- 	timer = devm_kzalloc(dev, sizeof(*timer), GFP_KERNEL);
-@@ -210,8 +209,7 @@ static int brcmstb_waketmr_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, timer);
- 	timer->dev = dev;
+ 	platform_set_drvdata(pdev, rtc);
  
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	timer->base = devm_ioremap_resource(dev, res);
-+	timer->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(timer->base))
- 		return PTR_ERR(timer->base);
+-	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	rtc->rtt = devm_ioremap_resource(&pdev->dev, r);
++	rtc->rtt = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(rtc->rtt))
+ 		return PTR_ERR(rtc->rtt);
  
 -- 
 2.7.4
