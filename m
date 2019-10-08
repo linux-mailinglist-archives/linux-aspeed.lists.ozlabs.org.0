@@ -2,62 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDCAACF20D
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Oct 2019 06:55:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B784CF872
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Oct 2019 13:34:52 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46nQ5B39WszDqNx
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Oct 2019 15:55:10 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46nZyD4Y6bzDqP0
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Oct 2019 22:34:44 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::844; helo=mail-qt1-x844.google.com;
- envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=aj.id.au
+ (client-ip=66.111.4.28; helo=out4-smtp.messagingengine.com;
+ envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="b1UAUxoB"; 
- dkim-atps=neutral
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="OXOEf1pI"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="NFbew7aN"; dkim-atps=neutral
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46nQ5422lSzDqN3
- for <linux-aspeed@lists.ozlabs.org>; Tue,  8 Oct 2019 15:55:03 +1100 (AEDT)
-Received: by mail-qt1-x844.google.com with SMTP id c4so10484150qtn.10
- for <linux-aspeed@lists.ozlabs.org>; Mon, 07 Oct 2019 21:55:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NuipLPrWDOHTna4R81Ns0ysok+dpoazuekwN/UYksCI=;
- b=b1UAUxoBcI9azVyX+4fyfcr8QslbKfW+ZNjl72tAkSBp/Jy1YWJ+tFCP3v/iE6uGZo
- uFsmfF5NevYXiJYD5i7adKbaXEvLAmRipJapvNOvu3mvQmzrlB3fmOhmdHk3VfVgkcIQ
- vSxJM5Stk3ECN5ymfkv9mvlbQe33hpkkFLtxQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NuipLPrWDOHTna4R81Ns0ysok+dpoazuekwN/UYksCI=;
- b=Pcg2ae+VcAj3UvCiK1ATQKJR/KefJHH/aKiQAu/qmH07EljIW86GptQXYyOKeaBJAK
- IwuYJgFprYzp48jue7/eCkvAJTArQMrFeTduPdDAecNVg6filelHjX3wi6k5GPsDH1CP
- qm/XNqrAz3frQIj2WhGf8HEeVXjmyT6QKcd2A5yAjplal2/7ronQBFbORXQSHT0XGRbm
- eMU2+ycYZty4khpBUI6TlDsT2kSvia/sZfCkvUL3+HEbPXMMxwpYNIMM/wW6YV4I5M5J
- sG5CWrvrjCAbQVyEz3vrh6w7R/Mms65VIyY1lVDZn44TgJ01VrGYIax/tx2xZswJNcj9
- VwDw==
-X-Gm-Message-State: APjAAAWz9XVt4/WCSuwLSN5mZiIHRuOzgGgK/+NCJZHiLImshcKrb/3m
- 1C3fWdCaRsBkqDvyuOtkMCbmS6GHzpDXFSIqYVs=
-X-Google-Smtp-Source: APXvYqz5wHXB1nmfXhmlr/qLAPDW3G+ziIzScyrrHSPrhN9j+O+3LkVT/JnM12/t9lcaqiMe59v/oRgpIA9UeoUtEwI=
-X-Received: by 2002:ac8:670c:: with SMTP id e12mr33620565qtp.169.1570510499983; 
- Mon, 07 Oct 2019 21:54:59 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46nZxw532QzDqD3
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  8 Oct 2019 22:34:27 +1100 (AEDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6DA6C20C8D;
+ Tue,  8 Oct 2019 07:34:24 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 08 Oct 2019 07:34:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=POMHwN73ao1VX1XVvng87eUIHu
+ egEN2mJo0ATUF+SyY=; b=OXOEf1pIx5XZ0ox5FfAl5t+OYKHLONEym8sqHCQxJ6
+ Vo0oe30Ejx09yZwPsas7W9SqOb8oliFwwoVbWhq+pYt439X3uY3uJwvpbLGfUSxb
+ ta0z4DcQbl6FqenkmpLZ1cskDxIrpxosWLAo2u6R7FNLVdm0a5Ow2evcdK7WRifu
+ SjA1UOXuSm646fZ4jicKeILwaH7fwrD4005YWfhRNRUqFN8ayXObB6dKe4DFTeDF
+ 9pxp/AsnBTQf6WUJmNOvWHfrl/lkbWApPd0l3GZXv/1GkCVwegOuckvhMzz2Ap1c
+ 6krOWgtGtX4vSVOYJRImd9RtOwB/4XPvI50bivyEyNgw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=POMHwN73ao1VX1XVv
+ ng87eUIHuegEN2mJo0ATUF+SyY=; b=NFbew7aNCP9NXA76QE4YKLrHIat/7qMna
+ 3Bl7XmoCuC8RuOugY2EfJ8q1JKXOJuajWtRoZX8Cy9Dl3GnmOoSi0CMwYi2FuH7i
+ pIYMGRn/jcsqS92XFaUqnZ669+hmutHQVUyYRBledc3XvyXd//Est6mIfDdtMsO1
+ ECTBampCoEQ+vGo7D8+kdFlqTSu2xAKBnajrPzf+702AlIsQr759IKWg+KvRWWRZ
+ P7vLiyTXUbGO2KI7nQ5BRvE3ljX/yc6gN5qIgd8xMPDDDsO0Ww2CpQrfhIETYZik
+ VqF5vQHbwv9bajYuMjIiJb12AuvKs3n/Zzs/v0qiCccGSIHr5g4Mg==
+X-ME-Sender: <xms:P3ScXTKx9szxQfYf8k00yQS_d5JWZFBaRQufZzxcl9uxnsRDvZn_KQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrheelgdegfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+ dtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghjrdhi
+ ugdrrghuqeenucfkphepvddtfedrheejrddvudehrddujeeknecurfgrrhgrmhepmhgrih
+ hlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgvrhfuihiivgep
+ td
+X-ME-Proxy: <xmx:P3ScXZ-iU2Yieq3etzQ-OntBIonjhalisjdnWTwiadUFjNYIU58fCA>
+ <xmx:P3ScXXLxOxTvyDiPHqHN2GT1pYlxbFRzWS7D1iocQ3kd4RTvDz5BGQ>
+ <xmx:P3ScXX_g8RG_akPyo9xQLnqLi30tDmpkf6eBwEfw0DR1NQySwhWRAg>
+ <xmx:QHScXbSDaCra_m8nRs_5Ton2b0jljcgYvhxmGAsJzSorXwzt-vAmvA>
+Received: from mistburn.lan (203-57-215-178.dyn.iinet.net.au [203.57.215.178])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 811BBD6005D;
+ Tue,  8 Oct 2019 07:34:19 -0400 (EDT)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: linux-clk@vger.kernel.org
+Subject: [PATCH 0/2] clk: aspeed: Expose RMII RCLK gate for MACs 1-2 on AST2500
+Date: Tue,  8 Oct 2019 22:05:21 +1030
+Message-Id: <20191008113523.13601-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20191008044153.12734-1-andrew@aj.id.au>
-In-Reply-To: <20191008044153.12734-1-andrew@aj.id.au>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 8 Oct 2019 04:54:47 +0000
-Message-ID: <CACPK8XeKx_W0_b6ZLJzVdtQQOL8eZ3FcscB5TZT5NXMwRi4r6g@mail.gmail.com>
-Subject: Re: [PATCH 0/7] pinctrl: Fixes for AST2600 support
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,65 +84,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, johnny_huang@aspeedtech.com,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Ryan Chen <ryanchen.aspeed@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, sboyd@kernel.org, mturquette@baylibre.com,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 8 Oct 2019 at 04:41, Andrew Jeffery <andrew@aj.id.au> wrote:
->
-> Hello,
->
-> This series resolves several issues found in testing by Johnny Huang from
-> ASPEED, who also contributed the patches to fix them. We'll have more patches
-> from him in the near future (which I'm pretty happy about).
+Hello,
 
-For the series:
+This series is two small changes enable kernel support for controlling the RMII
+RCLK gate on AST2500-based systems. Previously the kernel has assumed u-boot
+has ungated RCLK for networking to function.
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+RMII is commonly used for NCSI, which itself is commonly used for BMC-based
+designs to reduce cabling requirements for the platform.
 
-These patches have been in the OpenBMC tree for a while and look good.
+Please review!
 
-Cheers,
+Andrew
 
-Joel
+Andrew Jeffery (2):
+  dt-bindings: clock: Add AST2500 RMII RCLK definitions
+  clk: aspeed: Add RMII RCLK gates for both AST2500 MACs
 
->
-> The major issue resolved is the way I grouped the eMMC pins. What I had was
-> ugly and I want to get rid of it before the binding is solidified with the 5.4
-> release.
->
-> The remaining fixes are minor issues that stem from lack of documentation or
-> understanding on my part, and at least one brain-fart.
->
-> Please review!
->
-> Andrew
->
-> Andrew Jeffery (4):
->   dt-bindings: pinctrl: aspeed-g6: Rework SD3 function and groups
->   pinctrl: aspeed-g6: Sort pins for sanity
->   pinctrl: aspeed-g6: Fix I2C14 SDA description
->   pinctrl: aspeed-g6: Make SIG_DESC_CLEAR() behave intuitively
->
-> Johnny Huang (3):
->   pinctrl: aspeed-g6: Fix I3C3/I3C4 pinmux configuration
->   pinctrl: aspeed-g6: Fix UART13 group pinmux
->   pinctrl: aspeed-g6: Rename SD3 to EMMC and rework pin groups
->
->  .../pinctrl/aspeed,ast2600-pinctrl.yaml       |  86 ++++++------
->  drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c    | 124 ++++++++----------
->  drivers/pinctrl/aspeed/pinmux-aspeed.h        |   3 +-
->  3 files changed, 98 insertions(+), 115 deletions(-)
->
-> --
-> 2.20.1
->
+ drivers/clk/clk-aspeed.c                 | 27 +++++++++++++++++++++++-
+ include/dt-bindings/clock/aspeed-clock.h |  2 ++
+ 2 files changed, 28 insertions(+), 1 deletion(-)
+
+-- 
+2.20.1
+
