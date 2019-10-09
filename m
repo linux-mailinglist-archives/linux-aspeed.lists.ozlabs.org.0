@@ -2,68 +2,46 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47FFED177C
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 20:21:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5692D1ADB
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 23:23:06 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46pMx93yfKzDqbw
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 05:21:33 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46pRyb4C8YzDqSB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 08:23:03 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=google.com
- (client-ip=2a00:1450:4864:20::544; helo=mail-ed1-x544.google.com;
- envelope-from=osk@google.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=google.com header.i=@google.com header.b="JCk2r4lL"; 
- dkim-atps=neutral
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ spf=pass (helo) smtp.helo=mga12.intel.com
+ (client-ip=192.55.52.136; helo=mga12.intel.com;
+ envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=linux.intel.com
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46pMwx2gzLzDqbC
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Oct 2019 05:21:20 +1100 (AEDT)
-Received: by mail-ed1-x544.google.com with SMTP id l21so2948609edr.5
- for <linux-aspeed@lists.ozlabs.org>; Wed, 09 Oct 2019 11:21:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yHkBccBcnNHpwY488jaSLlc6fd4IiAVQm1KLgC1eDwU=;
- b=JCk2r4lLdEAtEB4tPPfCe4gQXtDKOAj/uTZqZjswgMEGnPOS15TmojLgEWg9okNphe
- AeJnUULN6KjIa4KZEVZaBHInQ1eDypGuDBuuyCdSKoyR8ZJPKDBhIppH6HpDS4jkxN3n
- kcMVYBHYnDz8YP8O4Zob+eAVkuCmR6JaDum4JOPgVXcl9MnHTqhIHFafpcVv4abD2wWR
- XhjBxJiSQ7LAYLN62EhUspq0sCkoYw6oz4VleeqTj9068qJZxY9Q6sgL/WOP8KzdYWgv
- C6zpWOY2j/ctW270naKNeT19e7aMwPErIi8lSgRqOyd1wljb37pqea7d/hBhHPsXd0FJ
- Gusg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yHkBccBcnNHpwY488jaSLlc6fd4IiAVQm1KLgC1eDwU=;
- b=HgsIFJxtjvZe4XqjpPOIWsgr19v4DSdAYJW6b+ChMvaR00S/xFkaruyFbC4yODdj8G
- BKdFjNC5KlnrcknuAlr0QtcUkKTwY7OKeroC8V8hO3t4yJas0xjAq6SkrG2RZk4ZjLD4
- nPbzL0HvGDP9pJFmOZoDsJhxpph+/ECq/DF3ySq9Cc5Xld0YNN3/K7CAibGs7Qnnq8oV
- gTc9ExmZe26s4Ntg71jrwcYw9JRWCQQStyAI3G2QxDS5jFeuoRDCpLiTUrUJ7RBpnaW/
- tiKh8k9Xif4VhTGR12xOJ1mOuFS7lCv/JX7XN1nz2vW5bXnJx2P+w/Zfro3repxrH+Im
- zIOA==
-X-Gm-Message-State: APjAAAX1hLct0xV6GLBuuEE0+9tEesPSgKS5MewWh1LKGK0dI3lGk71V
- v6ww4NmRrtc1QQ3/l28HqLCwyd3KsmZhzofKqBCjTA==
-X-Google-Smtp-Source: APXvYqyzM1iml8cc0UJCa2V8V1tcCpmvzYZc9tBdwMkMDxZm3liqXHTP04Gsb9J6GSLo1BKLFmmGm3WCshLGV92hV3Y=
-X-Received: by 2002:aa7:d04c:: with SMTP id n12mr4125274edo.52.1570645276110; 
- Wed, 09 Oct 2019 11:21:16 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46pRvr1LflzDqW8;
+ Thu, 10 Oct 2019 08:20:38 +1100 (AEDT)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Oct 2019 14:20:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,277,1566889200"; d="scan'208";a="368866255"
+Received: from maru.jf.intel.com ([10.54.51.77])
+ by orsmga005.jf.intel.com with ESMTP; 09 Oct 2019 14:20:35 -0700
+From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+To: Brendan Higgins <brendanhiggins@google.com>,
+ Wolfram Sang <wsa@the-dreams.de>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Joel Stanley <joel@jms.id.au>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Tao Ren <taoren@fb.com>, Cedric Le Goater <clg@kaod.org>
+Subject: [PATCH] i2c: aspeed: fix master pending state handling
+Date: Wed,  9 Oct 2019 14:20:34 -0700
+Message-Id: <20191009212034.20325-1-jae.hyun.yoo@linux.intel.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20190910213734.3112330-1-vijaykhemka@fb.com>
- <bd5eab2e-6ba6-9e27-54d4-d9534da9d5f7@gmail.com>
- <CACPK8XcS4iKfKigPbPg0BFbmjbT-kdyjiPDXjk1k5XaS5bCdAA@mail.gmail.com>
- <95e215664612c0487808c02232852ef2188c95a5.camel@kernel.crashing.org>
-In-Reply-To: <95e215664612c0487808c02232852ef2188c95a5.camel@kernel.crashing.org>
-From: Oskar Senft <osk@google.com>
-Date: Wed, 9 Oct 2019 14:20:59 -0400
-Message-ID: <CABoTLcQ=N4ugYeo5jxbGtBR0nbu_Ri-OV4pE0PP-yvwXX7W+uw@mail.gmail.com>
-Subject: Re: [PATCH] ftgmac100: Disable HW checksum generation on AST2500
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,84 +53,139 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Kate Stewart <kstewart@linuxfoundation.org>, Andrew Lunn <andrew@lunn.ch>,
- Florian Fainelli <f.fainelli@gmail.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, netdev@vger.kernel.org,
- "openbmc @ lists . ozlabs . org" <openbmc@lists.ozlabs.org>,
- YueHaibing <yuehaibing@huawei.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, "David S. Miller" <davem@davemloft.net>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Does HW in the AST2500 actually perform the HW checksum calculation,
-or would that be the responsibility of the NIC that it's talking to
-via NC-SI?
+In case of master pending state, it should not trigger a master
+command, otherwise data could be corrupted because this H/W shares
+the same data buffer for slave and master operations. It also means
+that H/W command queue handling is unreliable because of the buffer
+sharing issue. To fix this issue, it clears command queue if a
+master command is queued in pending state to use S/W solution
+instead of H/W command queue handling. Also, it refines restarting
+mechanism of the pending master command.
 
-(Sorry for the double posting! I had HTML mode enabled by default
-which causes the e-mail to be dropped in some places)
+Fixes: 2e57b7cebb98 ("i2c: aspeed: Add multi-master use case support")
+Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+---
+ drivers/i2c/busses/i2c-aspeed.c | 54 +++++++++++++++++++++------------
+ 1 file changed, 34 insertions(+), 20 deletions(-)
 
+diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+index fa66951b05d0..7b098ff5f5dd 100644
+--- a/drivers/i2c/busses/i2c-aspeed.c
++++ b/drivers/i2c/busses/i2c-aspeed.c
+@@ -108,6 +108,12 @@
+ #define ASPEED_I2CD_S_TX_CMD				BIT(2)
+ #define ASPEED_I2CD_M_TX_CMD				BIT(1)
+ #define ASPEED_I2CD_M_START_CMD				BIT(0)
++#define ASPEED_I2CD_MASTER_CMDS_MASK					       \
++		(ASPEED_I2CD_M_STOP_CMD |				       \
++		 ASPEED_I2CD_M_S_RX_CMD_LAST |				       \
++		 ASPEED_I2CD_M_RX_CMD |					       \
++		 ASPEED_I2CD_M_TX_CMD |					       \
++		 ASPEED_I2CD_M_START_CMD)
+ 
+ /* 0x18 : I2CD Slave Device Address Register   */
+ #define ASPEED_I2CD_DEV_ADDR_MASK			GENMASK(6, 0)
+@@ -336,18 +342,19 @@ static void aspeed_i2c_do_start(struct aspeed_i2c_bus *bus)
+ 	struct i2c_msg *msg = &bus->msgs[bus->msgs_index];
+ 	u8 slave_addr = i2c_8bit_addr_from_msg(msg);
+ 
+-	bus->master_state = ASPEED_I2C_MASTER_START;
+-
+ #if IS_ENABLED(CONFIG_I2C_SLAVE)
+ 	/*
+ 	 * If it's requested in the middle of a slave session, set the master
+ 	 * state to 'pending' then H/W will continue handling this master
+ 	 * command when the bus comes back to the idle state.
+ 	 */
+-	if (bus->slave_state != ASPEED_I2C_SLAVE_INACTIVE)
++	if (bus->slave_state != ASPEED_I2C_SLAVE_INACTIVE) {
+ 		bus->master_state = ASPEED_I2C_MASTER_PENDING;
++		return;
++	}
+ #endif /* CONFIG_I2C_SLAVE */
+ 
++	bus->master_state = ASPEED_I2C_MASTER_START;
+ 	bus->buf_index = 0;
+ 
+ 	if (msg->flags & I2C_M_RD) {
+@@ -422,20 +429,6 @@ static u32 aspeed_i2c_master_irq(struct aspeed_i2c_bus *bus, u32 irq_status)
+ 		}
+ 	}
+ 
+-#if IS_ENABLED(CONFIG_I2C_SLAVE)
+-	/*
+-	 * A pending master command will be started by H/W when the bus comes
+-	 * back to idle state after completing a slave operation so change the
+-	 * master state from 'pending' to 'start' at here if slave is inactive.
+-	 */
+-	if (bus->master_state == ASPEED_I2C_MASTER_PENDING) {
+-		if (bus->slave_state != ASPEED_I2C_SLAVE_INACTIVE)
+-			goto out_no_complete;
+-
+-		bus->master_state = ASPEED_I2C_MASTER_START;
+-	}
+-#endif /* CONFIG_I2C_SLAVE */
+-
+ 	/* Master is not currently active, irq was for someone else. */
+ 	if (bus->master_state == ASPEED_I2C_MASTER_INACTIVE ||
+ 	    bus->master_state == ASPEED_I2C_MASTER_PENDING)
+@@ -462,11 +455,15 @@ static u32 aspeed_i2c_master_irq(struct aspeed_i2c_bus *bus, u32 irq_status)
+ #if IS_ENABLED(CONFIG_I2C_SLAVE)
+ 		/*
+ 		 * If a peer master starts a xfer immediately after it queues a
+-		 * master command, change its state to 'pending' then H/W will
+-		 * continue the queued master xfer just after completing the
+-		 * slave mode session.
++		 * master command, clear the queued master command and change
++		 * its state to 'pending'. To simplify handling of pending
++		 * cases, it uses S/W solution instead of H/W command queue
++		 * handling.
+ 		 */
+ 		if (unlikely(irq_status & ASPEED_I2CD_INTR_SLAVE_MATCH)) {
++			writel(readl(bus->base + ASPEED_I2C_CMD_REG) &
++				~ASPEED_I2CD_MASTER_CMDS_MASK,
++			       bus->base + ASPEED_I2C_CMD_REG);
+ 			bus->master_state = ASPEED_I2C_MASTER_PENDING;
+ 			dev_dbg(bus->dev,
+ 				"master goes pending due to a slave start\n");
+@@ -629,6 +626,14 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
+ 			irq_handled |= aspeed_i2c_master_irq(bus,
+ 							     irq_remaining);
+ 	}
++
++	/*
++	 * Start a pending master command at here if a slave operation is
++	 * completed.
++	 */
++	if (bus->master_state == ASPEED_I2C_MASTER_PENDING &&
++	    bus->slave_state == ASPEED_I2C_SLAVE_INACTIVE)
++		aspeed_i2c_do_start(bus);
+ #else
+ 	irq_handled = aspeed_i2c_master_irq(bus, irq_remaining);
+ #endif /* CONFIG_I2C_SLAVE */
+@@ -691,6 +696,15 @@ static int aspeed_i2c_master_xfer(struct i2c_adapter *adap,
+ 		     ASPEED_I2CD_BUS_BUSY_STS))
+ 			aspeed_i2c_recover_bus(bus);
+ 
++		/*
++		 * If timed out and the state is still pending, drop the pending
++		 * master command.
++		 */
++		spin_lock_irqsave(&bus->lock, flags);
++		if (bus->master_state == ASPEED_I2C_MASTER_PENDING)
++			bus->master_state = ASPEED_I2C_MASTER_INACTIVE;
++		spin_unlock_irqrestore(&bus->lock, flags);
++
+ 		return -ETIMEDOUT;
+ 	}
+ 
+-- 
+2.23.0
 
-On Wed, Oct 9, 2019 at 12:38 AM Benjamin Herrenschmidt
-<benh@kernel.crashing.org> wrote:
->
-> On Wed, 2019-09-11 at 14:48 +0000, Joel Stanley wrote:
-> > Hi Ben,
-> >
-> > On Tue, 10 Sep 2019 at 22:05, Florian Fainelli <f.fainelli@gmail.com>
-> > wrote:
-> > >
-> > > On 9/10/19 2:37 PM, Vijay Khemka wrote:
-> > > > HW checksum generation is not working for AST2500, specially with
-> > > > IPV6
-> > > > over NCSI. All TCP packets with IPv6 get dropped. By disabling
-> > > > this
-> > > > it works perfectly fine with IPV6.
-> > > >
-> > > > Verified with IPV6 enabled and can do ssh.
-> > >
-> > > How about IPv4, do these packets have problem? If not, can you
-> > > continue
-> > > advertising NETIF_F_IP_CSUM but take out NETIF_F_IPV6_CSUM?
-> > >
-> > > >
-> > > > Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
-> > > > ---
-> > > >  drivers/net/ethernet/faraday/ftgmac100.c | 5 +++--
-> > > >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/drivers/net/ethernet/faraday/ftgmac100.c
-> > > > b/drivers/net/ethernet/faraday/ftgmac100.c
-> > > > index 030fed65393e..591c9725002b 100644
-> > > > --- a/drivers/net/ethernet/faraday/ftgmac100.c
-> > > > +++ b/drivers/net/ethernet/faraday/ftgmac100.c
-> > > > @@ -1839,8 +1839,9 @@ static int ftgmac100_probe(struct
-> > > > platform_device *pdev)
-> > > >       if (priv->use_ncsi)
-> > > >               netdev->hw_features |= NETIF_F_HW_VLAN_CTAG_FILTER;
-> > > >
-> > > > -     /* AST2400  doesn't have working HW checksum generation */
-> > > > -     if (np && (of_device_is_compatible(np, "aspeed,ast2400-
-> > > > mac")))
-> > > > +     /* AST2400  and AST2500 doesn't have working HW checksum
-> > > > generation */
-> > > > +     if (np && (of_device_is_compatible(np, "aspeed,ast2400-
-> > > > mac") ||
-> > > > +                of_device_is_compatible(np, "aspeed,ast2500-
-> > > > mac")))
-> >
-> > Do you recall under what circumstances we need to disable hardware
-> > checksumming?
->
-> Any news on this ? AST2400 has no HW checksum logic in HW, AST2500
-> should work for IPV4 fine, we should only selectively disable it for
-> IPV6.
->
-> Can you do an updated patch ?
->
-> Cheers,
-> Ben.
->
