@@ -2,81 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F23BD11F3
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 17:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99836D1776
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Oct 2019 20:19:16 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46pHVV7408zDqTd
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 02:01:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46pMtT6S9xzDqbW
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 05:19:13 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (mailfrom) smtp.mailfrom=linux.vnet.ibm.com
- (client-ip=148.163.158.5; helo=mx0a-001b2d01.pphosted.com;
- envelope-from=eajames@linux.vnet.ibm.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linux.vnet.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ spf=pass (mailfrom) smtp.mailfrom=google.com
+ (client-ip=2a00:1450:4864:20::542; helo=mail-ed1-x542.google.com;
+ envelope-from=osk@google.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=google.com header.i=@google.com header.b="Z9AEm6Ru"; 
+ dkim-atps=neutral
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46pHSW3nfdzDqSn;
- Thu, 10 Oct 2019 01:59:54 +1100 (AEDT)
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x99Ew8Fe140298; Wed, 9 Oct 2019 10:59:39 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2vhekx80vb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 09 Oct 2019 10:59:39 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x99Et8vR012341;
- Wed, 9 Oct 2019 14:59:38 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma03dal.us.ibm.com with ESMTP id 2vejt7k694-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 09 Oct 2019 14:59:38 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x99ExbKJ42533202
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 9 Oct 2019 14:59:37 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7A11D6A047;
- Wed,  9 Oct 2019 14:59:37 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D40166A04F;
- Wed,  9 Oct 2019 14:59:36 +0000 (GMT)
-Received: from [9.41.103.158] (unknown [9.41.103.158])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed,  9 Oct 2019 14:59:36 +0000 (GMT)
-Subject: Re: [PATCH] media: aspeed: clear garbage interrupts
-To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
- Eddie James <eajames@linux.ibm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
-References: <20190926222743.18546-1-jae.hyun.yoo@linux.intel.com>
-From: Eddie James <eajames@linux.vnet.ibm.com>
-Message-ID: <90573930-c53b-9954-99e4-9b37e0661025@linux.vnet.ibm.com>
-Date: Wed, 9 Oct 2019 09:59:36 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46pMtL2SrGzDqbC
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Oct 2019 05:19:05 +1100 (AEDT)
+Received: by mail-ed1-x542.google.com with SMTP id r9so2913881edl.10
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 09 Oct 2019 11:19:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GdMcIrkVKH15vpUv7HcVBbXmDk1cqleVaDGONWikoKA=;
+ b=Z9AEm6RumYtT4MwMoGr/ezGnPA5JfI7D8Y4ALNMR7DBA+fYclAJ8yIHTDfrSDHAm85
+ yHF/8r/qb2hffsUAq1CwYL+xyU7hBtMeUHRE8+ra//56p9E8+8/4GAQS08e41wPS+dv4
+ DSf0S34xU57aGA2IUUH0uUAK7f8yzsUrpvYvdf8dXtRt27qN/XuByxOM7uQ5MxqqZvMd
+ p8AhPXre700CSgdIRexpuz5+Z3cz3HZMPxFLjNcwupgJLj7LvAQIMG01riUWgMKpUN7r
+ IptRlzpzd2UtM2tzgrCZ6z8/mPFAhmVKXe3vzeRdwF8kjC6AmJfGlUKEU2vMwQJzlvV1
+ YmNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GdMcIrkVKH15vpUv7HcVBbXmDk1cqleVaDGONWikoKA=;
+ b=gK2VT1ls78eAXPR33Xzp7mFJtKr3UaEssRjfCSFFCoKcOGBHai98OUWr31x1wC0Opr
+ +VxUFK+FSj3gUSzPBq0ptrttWj25bIQrT5mCPlw9/Lx3QhlExwEgm0C8RW55F2cKtI8y
+ EaKLYiH72EQS7iQ8Lsd7RKDdHvXjgDpO71XtIK2MWDrZCpSqRpD7tmmhFfQEaKNSL1PK
+ gEYarQJLpPe6TQai7qLs2unvgqm2m2wfqWZFW6wnGxN3WTEkgrO6kb9NQSkUp4i5Qxo+
+ gnSaYeTZXGrGUHuFyeD/w5HpAO/n0Q5Aj8/hB2JE48v1E2ePVgPA+8WpbyDF6WZ/liS+
+ q14g==
+X-Gm-Message-State: APjAAAWn92WDzZgSY8N/jlJwAyUT+rVX7lu7y3ptZoQlSEwHfJuFvl2H
+ njUYxl3N9pVK5PlHPyJZ7lKZews6pomMbosgUsEEiA==
+X-Google-Smtp-Source: APXvYqwBizy96e9vLWX0jhNPSqzniOX71ENGCP31zAWjI5HaRjSKoeH7ifKLqiQ1dS13uaDW+ckf7DjkrD8iq2P2LNA=
+X-Received: by 2002:a50:e445:: with SMTP id e5mr4149429edm.257.1570645141363; 
+ Wed, 09 Oct 2019 11:19:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190926222743.18546-1-jae.hyun.yoo@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-10-09_06:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=898 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910090142
+References: <20190910213734.3112330-1-vijaykhemka@fb.com>
+ <bd5eab2e-6ba6-9e27-54d4-d9534da9d5f7@gmail.com>
+ <CACPK8XcS4iKfKigPbPg0BFbmjbT-kdyjiPDXjk1k5XaS5bCdAA@mail.gmail.com>
+ <95e215664612c0487808c02232852ef2188c95a5.camel@kernel.crashing.org>
+In-Reply-To: <95e215664612c0487808c02232852ef2188c95a5.camel@kernel.crashing.org>
+From: Oskar Senft <osk@google.com>
+Date: Wed, 9 Oct 2019 14:18:44 -0400
+Message-ID: <CABoTLcTNwNTua9Neuw5cuFn0Nuz1E6UAakqfkLp1rirbwoQo=w@mail.gmail.com>
+Subject: Re: [PATCH] ftgmac100: Disable HW checksum generation on AST2500
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Florian Fainelli <f.fainelli@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000b8980905947e518b"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,86 +76,168 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: openbmc@lists.ozlabs.org, Jae Hyun Yoo <jae.hyun.yoo@intel.com>,
- linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org
+Cc: Kate Stewart <kstewart@linuxfoundation.org>, Andrew Lunn <andrew@lunn.ch>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, netdev@vger.kernel.org,
+ "openbmc @ lists . ozlabs . org" <openbmc@lists.ozlabs.org>,
+ YueHaibing <yuehaibing@huawei.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Luis Chamberlain <mcgrof@kernel.org>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, "David S. Miller" <davem@davemloft.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+--000000000000b8980905947e518b
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/26/19 5:27 PM, Jae Hyun Yoo wrote:
-> From: Jae Hyun Yoo <jae.hyun.yoo@intel.com>
+Does HW in the AST2500 actually perform the HW checksum calculation, or
+would that be the responsibility of the NIC that it's talking to via NC-SI?
+
+Oskar.
+
+On Wed, Oct 9, 2019 at 12:38 AM Benjamin Herrenschmidt <
+benh@kernel.crashing.org> wrote:
+
+> On Wed, 2019-09-11 at 14:48 +0000, Joel Stanley wrote:
+> > Hi Ben,
+> >
+> > On Tue, 10 Sep 2019 at 22:05, Florian Fainelli <f.fainelli@gmail.com>
+> > wrote:
+> > >
+> > > On 9/10/19 2:37 PM, Vijay Khemka wrote:
+> > > > HW checksum generation is not working for AST2500, specially with
+> > > > IPV6
+> > > > over NCSI. All TCP packets with IPv6 get dropped. By disabling
+> > > > this
+> > > > it works perfectly fine with IPV6.
+> > > >
+> > > > Verified with IPV6 enabled and can do ssh.
+> > >
+> > > How about IPv4, do these packets have problem? If not, can you
+> > > continue
+> > > advertising NETIF_F_IP_CSUM but take out NETIF_F_IPV6_CSUM?
+> > >
+> > > >
+> > > > Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+> > > > ---
+> > > >  drivers/net/ethernet/faraday/ftgmac100.c | 5 +++--
+> > > >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/drivers/net/ethernet/faraday/ftgmac100.c
+> > > > b/drivers/net/ethernet/faraday/ftgmac100.c
+> > > > index 030fed65393e..591c9725002b 100644
+> > > > --- a/drivers/net/ethernet/faraday/ftgmac100.c
+> > > > +++ b/drivers/net/ethernet/faraday/ftgmac100.c
+> > > > @@ -1839,8 +1839,9 @@ static int ftgmac100_probe(struct
+> > > > platform_device *pdev)
+> > > >       if (priv->use_ncsi)
+> > > >               netdev->hw_features |= NETIF_F_HW_VLAN_CTAG_FILTER;
+> > > >
+> > > > -     /* AST2400  doesn't have working HW checksum generation */
+> > > > -     if (np && (of_device_is_compatible(np, "aspeed,ast2400-
+> > > > mac")))
+> > > > +     /* AST2400  and AST2500 doesn't have working HW checksum
+> > > > generation */
+> > > > +     if (np && (of_device_is_compatible(np, "aspeed,ast2400-
+> > > > mac") ||
+> > > > +                of_device_is_compatible(np, "aspeed,ast2500-
+> > > > mac")))
+> >
+> > Do you recall under what circumstances we need to disable hardware
+> > checksumming?
 >
-> CAPTURE_COMPLETE and FRAME_COMPLETE interrupts come even when these
-> are disabled in the VE_INTERRUPT_CTRL register and eventually this
-> behavior causes disabling irq itself like below:
-
-
-Thanks!
-
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
-
-
+> Any news on this ? AST2400 has no HW checksum logic in HW, AST2500
+> should work for IPV4 fine, we should only selectively disable it for
+> IPV6.
 >
-> [10055.108784] irq 23: nobody cared (try booting with the "irqpoll" option)
-> [10055.115525] CPU: 0 PID: 331 Comm: swampd Tainted: G        W         5.3.0-4fde000-dirty-d683e2e #1
-> [10055.124565] Hardware name: Generic DT based system
-> [10055.129355] Backtrace:
-> [10055.131854] [<80107d7c>] (dump_backtrace) from [<80107fb0>] (show_stack+0x20/0x24)
-> [10055.139431]  r7:00000017 r6:00000001 r5:00000000 r4:9d51dc00
-> [10055.145120] [<80107f90>] (show_stack) from [<8074bf50>] (dump_stack+0x20/0x28)
-> [10055.152361] [<8074bf30>] (dump_stack) from [<80150ffc>] (__report_bad_irq+0x40/0xc0)
-> [10055.160109] [<80150fbc>] (__report_bad_irq) from [<80150f2c>] (note_interrupt+0x23c/0x294)
-> [10055.168374]  r9:015b6e60 r8:00000000 r7:00000017 r6:00000001 r5:00000000 r4:9d51dc00
-> [10055.176136] [<80150cf0>] (note_interrupt) from [<8014df1c>] (handle_irq_event_percpu+0x88/0x98)
-> [10055.184835]  r10:7eff7910 r9:015b6e60 r8:00000000 r7:9d417600 r6:00000001 r5:00000002
-> [10055.192657]  r4:9d51dc00 r3:00000000
-> [10055.196248] [<8014de94>] (handle_irq_event_percpu) from [<8014df64>] (handle_irq_event+0x38/0x4c)
-> [10055.205113]  r5:80b56d50 r4:9d51dc00
-> [10055.208697] [<8014df2c>] (handle_irq_event) from [<80151f1c>] (handle_level_irq+0xbc/0x12c)
-> [10055.217037]  r5:80b56d50 r4:9d51dc00
-> [10055.220623] [<80151e60>] (handle_level_irq) from [<8014d4b8>] (generic_handle_irq+0x30/0x44)
-> [10055.229052]  r5:80b56d50 r4:00000017
-> [10055.232648] [<8014d488>] (generic_handle_irq) from [<8014d524>] (__handle_domain_irq+0x58/0xb4)
-> [10055.241356] [<8014d4cc>] (__handle_domain_irq) from [<801021e4>] (avic_handle_irq+0x68/0x70)
-> [10055.249797]  r9:015b6e60 r8:00c5387d r7:00c5387d r6:ffffffff r5:9dd33fb0 r4:9d402380
-> [10055.257539] [<8010217c>] (avic_handle_irq) from [<80101e34>] (__irq_usr+0x54/0x80)
-> [10055.265105] Exception stack(0x9dd33fb0 to 0x9dd33ff8)
-> [10055.270152] 3fa0:                                     015d0530 00000000 00000000 015d0538
-> [10055.278328] 3fc0: 015d0530 015b6e60 00000000 00000000 0052c5d0 015b6e60 7eff7910 7eff7918
-> [10055.286496] 3fe0: 76ce5614 7eff7908 0050e2f4 76a3a08c 20000010 ffffffff
-> [10055.293104]  r5:20000010 r4:76a3a08c
-> [10055.296673] handlers:
-> [10055.298967] [<79f218a5>] irq_default_primary_handler threaded [<1de88514>] aspeed_video_irq
-> [10055.307344] Disabling IRQ #23
+> Can you do an updated patch ?
 >
-> To fix this issue, this commit makes the interrupt handler clear
-> these garbage interrupts. This driver enables and uses only
-> COMP_COMPLETE interrupt instead for frame handling.
+> Cheers,
+> Ben.
 >
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@intel.com>
-> ---
->   drivers/media/platform/aspeed-video.c | 10 ++++++++++
->   1 file changed, 10 insertions(+)
 >
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index eb12f3793062..e842f99d20a9 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -606,6 +606,16 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
->   			aspeed_video_start_frame(video);
->   	}
->   
-> +	/*
-> +	 * CAPTURE_COMPLETE and FRAME_COMPLETE interrupts come even when these
-> +	 * are disabled in the VE_INTERRUPT_CTRL register so clear them to
-> +	 * prevent unnecessary interrupt calls.
-> +	 */
-> +	if (sts & VE_INTERRUPT_CAPTURE_COMPLETE)
-> +		sts &= ~VE_INTERRUPT_CAPTURE_COMPLETE;
-> +	if (sts & VE_INTERRUPT_FRAME_COMPLETE)
-> +		sts &= ~VE_INTERRUPT_FRAME_COMPLETE;
-> +
->   	return sts ? IRQ_NONE : IRQ_HANDLED;
->   }
->   
+
+--000000000000b8980905947e518b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Does HW in the AST2500 actually perform the HW checksum ca=
+lculation, or would that be the responsibility of the NIC that it&#39;s tal=
+king to via NC-SI?<div><br></div><div>Oskar.</div></div><br><div class=3D"g=
+mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 9, 2019 at 12=
+:38 AM Benjamin Herrenschmidt &lt;<a href=3D"mailto:benh@kernel.crashing.or=
+g">benh@kernel.crashing.org</a>&gt; wrote:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">On Wed, 2019-09-11 at 14:48 +0000, Joel Stanley =
+wrote:<br>
+&gt; Hi Ben,<br>
+&gt; <br>
+&gt; On Tue, 10 Sep 2019 at 22:05, Florian Fainelli &lt;<a href=3D"mailto:f=
+.fainelli@gmail.com" target=3D"_blank">f.fainelli@gmail.com</a>&gt;<br>
+&gt; wrote:<br>
+&gt; &gt; <br>
+&gt; &gt; On 9/10/19 2:37 PM, Vijay Khemka wrote:<br>
+&gt; &gt; &gt; HW checksum generation is not working for AST2500, specially=
+ with<br>
+&gt; &gt; &gt; IPV6<br>
+&gt; &gt; &gt; over NCSI. All TCP packets with IPv6 get dropped. By disabli=
+ng<br>
+&gt; &gt; &gt; this<br>
+&gt; &gt; &gt; it works perfectly fine with IPV6.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Verified with IPV6 enabled and can do ssh.<br>
+&gt; &gt; <br>
+&gt; &gt; How about IPv4, do these packets have problem? If not, can you<br=
+>
+&gt; &gt; continue<br>
+&gt; &gt; advertising NETIF_F_IP_CSUM but take out NETIF_F_IPV6_CSUM?<br>
+&gt; &gt; <br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Signed-off-by: Vijay Khemka &lt;<a href=3D"mailto:vijaykhemk=
+a@fb.com" target=3D"_blank">vijaykhemka@fb.com</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt;=C2=A0 drivers/net/ethernet/faraday/ftgmac100.c | 5 +++--<br>
+&gt; &gt; &gt;=C2=A0 1 file changed, 3 insertions(+), 2 deletions(-)<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; diff --git a/drivers/net/ethernet/faraday/ftgmac100.c<br>
+&gt; &gt; &gt; b/drivers/net/ethernet/faraday/ftgmac100.c<br>
+&gt; &gt; &gt; index 030fed65393e..591c9725002b 100644<br>
+&gt; &gt; &gt; --- a/drivers/net/ethernet/faraday/ftgmac100.c<br>
+&gt; &gt; &gt; +++ b/drivers/net/ethernet/faraday/ftgmac100.c<br>
+&gt; &gt; &gt; @@ -1839,8 +1839,9 @@ static int ftgmac100_probe(struct<br>
+&gt; &gt; &gt; platform_device *pdev)<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (priv-&gt;use_ncsi)<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0netdev=
+-&gt;hw_features |=3D NETIF_F_HW_VLAN_CTAG_FILTER;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0/* AST2400=C2=A0 doesn&#39;t have worki=
+ng HW checksum generation */<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0if (np &amp;&amp; (of_device_is_compati=
+ble(np, &quot;aspeed,ast2400-<br>
+&gt; &gt; &gt; mac&quot;)))<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0/* AST2400=C2=A0 and AST2500 doesn&#39;=
+t have working HW checksum<br>
+&gt; &gt; &gt; generation */<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0if (np &amp;&amp; (of_device_is_compati=
+ble(np, &quot;aspeed,ast2400-<br>
+&gt; &gt; &gt; mac&quot;) ||<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 of_=
+device_is_compatible(np, &quot;aspeed,ast2500-<br>
+&gt; &gt; &gt; mac&quot;)))<br>
+&gt; <br>
+&gt; Do you recall under what circumstances we need to disable hardware<br>
+&gt; checksumming?<br>
+<br>
+Any news on this ? AST2400 has no HW checksum logic in HW, AST2500<br>
+should work for IPV4 fine, we should only selectively disable it for<br>
+IPV6.<br>
+<br>
+Can you do an updated patch ?<br>
+<br>
+Cheers,<br>
+Ben.<br>
+<br>
+</blockquote></div>
+
+--000000000000b8980905947e518b--
