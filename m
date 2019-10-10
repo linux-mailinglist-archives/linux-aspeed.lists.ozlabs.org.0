@@ -1,69 +1,138 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F51D1DC4
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 02:54:55 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA514D1DFE
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 03:28:39 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46pXfz2JB6zDqZx
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 11:54:51 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46pYPx366mzDqbB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 12:28:37 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=google.com
- (client-ip=2607:f8b0:4864:20::642; helo=mail-pl1-x642.google.com;
- envelope-from=brendanhiggins@google.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=fb.com
+ (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
+ envelope-from=prvs=5186784b43=taoren@fb.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=google.com header.i=@google.com header.b="nPwQ7FaG"; 
- dkim-atps=neutral
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=pass (p=none dis=none) header.from=fb.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=fb.com header.i=@fb.com header.b="flC9cBsh"; 
+ dkim=pass (1024-bit key;
+ unprotected) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com
+ header.b="al6ceIMG"; dkim-atps=neutral
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
+ [67.231.145.42])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46pXfk5t8FzDqZH
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Oct 2019 11:54:38 +1100 (AEDT)
-Received: by mail-pl1-x642.google.com with SMTP id u20so1907610plq.4
- for <linux-aspeed@lists.ozlabs.org>; Wed, 09 Oct 2019 17:54:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XmAHkEII+O5BWpe2nk4Nc5MTwU/XvqbsURItPKmxjOQ=;
- b=nPwQ7FaGc0DUfnWSsdzjEzfH6xEGw/wwt9Wmx+Ci3kMv2ciLK/v29il60W+6ZrADQO
- fhD60m5Yvvyxoo7xds5xR9TecpQvcCUQ5NuHJv2JJXy2u+fv7in0ExhfQIwSjqbKY9Ic
- bYGjU+u9QHcCirGCGcttbuiD7jkp3ofy/yZ3OGp4S9EGCaVDd56S0uZak3vDDozE1vKY
- xYhbADQSFuA4+fkS66llFWwfemOcD121GRLtC3NS5s8p+f6k0YQAHKFhvOyQt4GgH81b
- WVrLctpq20xFTMFjLeLJq/2BDjb8OXtd6fDo43jWi8XRxDeXwhbLGXw2t9/RoEQQZvgQ
- 4rwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XmAHkEII+O5BWpe2nk4Nc5MTwU/XvqbsURItPKmxjOQ=;
- b=BN98Dy6EZnbwM0proqm9xa7QARWtxX6UbUofYtPbpWF7LEzncf4XvuAWYIBwiUuCd0
- tK9Dofb5VSW9IqJvJBPMIJ+whwZrzlDzvBLDTDgc11Olv6EYzzmMGBB9ZUq8eql6hO0O
- 3mRFp36SftUhqcIv5uMUpWoivOWC3p9Yfb93K26uT+TmGDykeAdn7fHeIstkDYiKqI6R
- U7HsIQHNU8CTRRB4HoBGNc+HxUHqNNT6OkTzMjlElbYsRMAZLTqSOYTusmllASnxEBl2
- oLWWjXBHiI9X+/WtqfNiQBjUTu41dYLn1oA7Feu2wVZNJ/8+I3OaW3OCdWpU+F4ycazg
- /qAQ==
-X-Gm-Message-State: APjAAAWw84bWHqATmu1ChTk92iakLGFUsKLW6YeXqsZBvRUony800cCO
- G+yS6amXprVz0Wyo68q3j9hbuT9T7zXKCNAZKhhQtA==
-X-Google-Smtp-Source: APXvYqzVGeddm0tOX6VFRsj7graTXpfZVK5W6kU2YjDK/bX78FhLZpTvPh38Dq81htaKFx+HrISiCIjc//6bMPZN8CY=
-X-Received: by 2002:a17:902:bb92:: with SMTP id
- m18mr5760172pls.297.1570668875583; 
- Wed, 09 Oct 2019 17:54:35 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46pYPq0WT8zDqYC;
+ Thu, 10 Oct 2019 12:28:23 +1100 (AEDT)
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ x9A1IJE4011219; Wed, 9 Oct 2019 18:26:54 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=facebook;
+ bh=zd3aZvwzJYk15BUYctpAmmc/25qqoMu0W19HM5Xbm3g=;
+ b=flC9cBshTcwUJs9/sFTcv78BMG1ZJ4XMUTZFyahcGgckoN3100+jyEjD5vqZhTT7XTJ5
+ onsqWd2Lg7F9U20/Z4AmsMWIbFeDnF3/7A1ZHtQp8QYRQGIJUjuFuLcgLAELVemM/4Fz
+ Sg9Z4mBXHekmMuC/df/xHTGt3C0cdYH18sA= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by mx0a-00082601.pphosted.com with ESMTP id 2vgpq9tgm8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Wed, 09 Oct 2019 18:26:53 -0700
+Received: from ash-exhub202.TheFacebook.com (2620:10d:c0a8:83::6) by
+ ash-exhub102.TheFacebook.com (2620:10d:c0a8:82::f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 9 Oct 2019 18:26:52 -0700
+Received: from NAM03-BY2-obe.outbound.protection.outlook.com (100.104.31.183)
+ by o365-in.thefacebook.com (100.104.36.103) with Microsoft SMTP
+ Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Wed, 9 Oct 2019 18:26:52 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NfEld6QuwLdkFO1edUxMMvEAFjCFAoKjvoUeGlljLclr7jCatlZUOiQ66dqTcv8YCaJNu7RkMcS/UrTsxooiUDzr6vdsJuOtjyouZsFvSjDO9AZO9SDjTDky9eFJbwx1i6ROmBFq6I2eEij0gahbQFVfyUzG7BYfPymHpQMWy0wbs8U7Nl01vdBjZdj6GswXt7ojWF9GiepkHqLtHEZGfkSnhduRr2Sf3ho9Ejsm60vd/SP8NeoLK7YzXZlspeuaHkpUaeMcj9Y0S/Qfxrn8d2sB/KHfFpoWNZfCz4AhGCdFfotv70CGG/aU6wW8fsbA2CvlQtzQrp95/qf1QD7u9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zd3aZvwzJYk15BUYctpAmmc/25qqoMu0W19HM5Xbm3g=;
+ b=OVw1XNduZGdfy13c8lzT/IQEZSXgpfnHcf9RbxWst/zFicHp8uzEHf8xSPtvLjFui9J34w2up76zozSdb2wPvIReXAXUS8SZw6/TnCuNjemnVGNGQ9zuc0SsuC/ifCLRd6T6FOZxtgvh0/wkBaQNm+4PdGu+Jet2qBT4abAQMI7BdigAUCxWaKoyFZfSBwylOzYYOB/adbzkJdGmLNp6GGzNbSyCFlhMihcXwAPy+LTbU1zTilzXY6yhydiamMFH70iR9eEfwRywKVWalB6qSwTIBVdGlH3zIZ88jNCZoc3GobXPkbh3oKTnHR+R0V7lWFqkXho6oWzoTM2AD2vuxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector2-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zd3aZvwzJYk15BUYctpAmmc/25qqoMu0W19HM5Xbm3g=;
+ b=al6ceIMGbwpGZetnkvf7EEro3QSPqoEZ/bV08/F6ktBYRayg1KnBhaIWI7U1OTNGjt1tAXkeobkPCNNn+eQECuoZY/SJbkrvw/ymrgrLFUdrrqk03U/EUpg6RY+WPfUddp7Q1e4e93euXlv1RtLtZVVJVckluk2rDaRfxX6qKKU=
+Received: from MWHPR15MB1216.namprd15.prod.outlook.com (10.175.2.17) by
+ MWHPR15MB1375.namprd15.prod.outlook.com (10.173.233.21) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2347.16; Thu, 10 Oct 2019 01:26:50 +0000
+Received: from MWHPR15MB1216.namprd15.prod.outlook.com
+ ([fe80::24c9:a1ce:eeeb:9246]) by MWHPR15MB1216.namprd15.prod.outlook.com
+ ([fe80::24c9:a1ce:eeeb:9246%10]) with mapi id 15.20.2347.016; Thu, 10 Oct
+ 2019 01:26:49 +0000
+From: Tao Ren <taoren@fb.com>
+To: Brendan Higgins <brendanhiggins@google.com>, Jae Hyun Yoo
+ <jae.hyun.yoo@linux.intel.com>
+Subject: Re: [PATCH] i2c: aspeed: fix master pending state handling
+Thread-Topic: [PATCH] i2c: aspeed: fix master pending state handling
+Thread-Index: AQHVfud35WuTlVbA0UqacW6NAtrttKdTBpsAgAAPJoA=
+Date: Thu, 10 Oct 2019 01:26:49 +0000
+Message-ID: <43ab0316-78dd-b7b0-c04e-e039d38c3d45@fb.com>
+References: <20191009212034.20325-1-jae.hyun.yoo@linux.intel.com>
+ <20191010003234.GA12710@google.com>
+In-Reply-To: <20191010003234.GA12710@google.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: CO1PR15CA0045.namprd15.prod.outlook.com
+ (2603:10b6:101:1f::13) To MWHPR15MB1216.namprd15.prod.outlook.com
+ (2603:10b6:320:22::17)
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [2620:10d:c090:200::2:8309]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b2305e0f-9df1-4636-1ec6-08d74d20ec26
+x-ms-traffictypediagnostic: MWHPR15MB1375:
+x-microsoft-antispam-prvs: <MWHPR15MB1375A85B19041D02320E947DB2940@MWHPR15MB1375.namprd15.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 018632C080
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(376002)(39860400002)(396003)(136003)(346002)(189003)(199004)(229853002)(54906003)(81166006)(65806001)(65956001)(81156014)(7736002)(7416002)(6486002)(102836004)(110136005)(36756003)(58126008)(14444005)(256004)(8936002)(305945005)(71200400001)(71190400001)(8676002)(5660300002)(316002)(11346002)(46003)(14454004)(478600001)(52116002)(99286004)(66946007)(486006)(76176011)(446003)(476003)(86362001)(6246003)(2906002)(6512007)(186003)(386003)(6436002)(6506007)(2616005)(31686004)(53546011)(31696002)(25786009)(6116002)(66556008)(64756008)(66446008)(66476007)(4326008);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR15MB1375;
+ H:MWHPR15MB1216.namprd15.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: rT2XYrovIIpFfK/FOI3M/V27xRgRs1mXhiR5PctkgC3y3VmsvQ6K/qGIRUY2D94uesFvIRwPJGS8UMc5Z40+45E9P8Gev+XJf65U1sDZ1MzlrFLvxKu1X/4hdyIhldxzh+6y533KZprDVw+Mq5+bQ96ALYCMQePQlVdNGPZsZ6+GPWNYaANTDH4t3RmLZhOgLWy3f87QdQVByw3yuQRAtAtedgx/KWByBufF24cyGFwv6N+Wi+DmKPGS7f/ue0/SXvL3KZQwFhcFUlz6n5d7T1iUWicSTz3dkn+lqta2qkD5WMTfxRlX2R6TKw0a/g/cHXfJ650sI2yltAe1Jf1SkGjh3gM6aTZpgtL/VFkPinj4/5eCCsrvjwMw8ifAeMUJNRTKEbeDc2NSjMTL7yfyEeoYYw8DSH99UjLPEp0hoIQ=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3DC2428602E08C4F8C65A1DA359F1D88@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <CACT4Y+YJ8qK7CrU2S-TY-DVCdt+aY=Wzq7+iiPoDsdGf-m8G8A@mail.gmail.com>
- <CACPK8XcaAa8aRjqV+vYzh71KMp6hEwLi+qV6bcQUC5xATm0zzg@mail.gmail.com>
- <CACT4Y+ZXaz31ktL3XBAb+rVXrGw9+nujC0+kUU6fRin-rGXcuA@mail.gmail.com>
-In-Reply-To: <CACT4Y+ZXaz31ktL3XBAb+rVXrGw9+nujC0+kUU6fRin-rGXcuA@mail.gmail.com>
-From: Brendan Higgins <brendanhiggins@google.com>
-Date: Wed, 9 Oct 2019 17:54:24 -0700
-Message-ID: <CAFd5g45xQvYozyuoFKXXcP6FFBZ6ZOVR-=gQ8J7_MEwWG_QmOg@mail.gmail.com>
-Subject: Re: i2c-aspeed testing with kunit fake and syzkaller
-To: Dmitry Vyukov <dvyukov@google.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2305e0f-9df1-4636-1ec6-08d74d20ec26
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Oct 2019 01:26:49.7065 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yu1Cy0BajlyJG7nG6o1JHgDSvsESl++VzcYTjSofT5W9+T3u7uvFx9C/B7ogeHTA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR15MB1375
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-10-09_11:2019-10-08,2019-10-09 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ mlxlogscore=999
+ bulkscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
+ priorityscore=1501 malwarescore=0 phishscore=0 clxscore=1011 adultscore=0
+ mlxscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1908290000 definitions=main-1910100010
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,99 +144,36 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Wolfram Sang <wsa@the-dreams.de>, syzkaller <syzkaller@googlegroups.com>,
- kunit-dev@googlegroups.com, Shuah Khan <shuah@kernel.org>,
- linux-i2c@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ Wolfram Sang <wsa@the-dreams.de>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Oct 9, 2019 at 12:06 AM Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> On Wed, Oct 9, 2019 at 8:48 AM Joel Stanley <joel@jms.id.au> wrote:
-> >
-> > On Tue, 8 Oct 2019 at 14:44, Dmitry Vyukov <dvyukov@google.com> wrote:
-> > >
-> > > Hi i2c/aspeed-related people,
-> > >
-> > > Some time ago Brendan and myself did an experiment of testing the
-> > > i2c-aspeed driver in a qemu VM (without any hardware/emulation) using
-> > > kunit-based fake hardware. The fake allowed us to get 10 i2c devices
-> > > successfully probe and appear in /dev/. Which in turn allowed us to
-> > > test the actual driver with syzkaller.
-> > > I will just leave here some details and traces as FYI and for future
-> > > reference. I think this is an important precedent in general.
-> >
-> > Wow, this is extensive. It will take me some time to digest it.
-> >
-> > Thanks for sending it along.
-> >
-> > Cheers,
-> >
-> > Joel
-> >
-> >
-> > >
-> > > The kernel branch is here:
-> > > https://github.com/dvyukov/linux/commits/kunit-i2c-stub2
-> > > This is one of kunit branches with this commit on top:
-> > > https://github.com/dvyukov/linux/commit/c9c1706611fdc49679c5bf5bff1e147ab7c7aa79
-> > > This contains lots of hacks to get the fake working on x86 and leave
-> > > persistent devices initialized (rather than shutdown them after
-> > > unit-testing).
->
-> One thing I should have pointed to is the actual "hardware fake":
-> https://github.com/dvyukov/linux/blob/d154ffa80dff44c8b941814d700b22e6cf4c23c2/drivers/i2c/busses/i2c-aspeed-fake.c
->
-> Brendan, in this mode kunit prints whole lot of messages re
-> missed/failed expectations, etc. It probably should have a special
-> mode for platform mock when it does not bother about expectations, at
-> least doesn't print anything.
-
-That's a good point. I will put it on the TODO list. Nevertheless, I
-am afraid there are a lot of things ahead of it (in regard to KUnit).
-(People should let me know if they find this interesting and I will
-try to move it up the priority list.)
-
-> > > This is the kernel config:
-> > > https://gist.githubusercontent.com/dvyukov/72a31dad43b5687e6ffdcdb4cb342175/raw/24b706326e2d9202789fece5bfc17355aadda411/gistfile1.txt
-> > > (some i2c configs + a bunch of debugging configs).
-> > >
-> > > If you boot this kernel with the config in qemu, you should see /dev/i2c-{0,10}.
-> > >
-> > > Probably any syzkaller commit will work, but I just testing on this one:
-> > > https://github.com/google/syzkaller/tree/2ab6c4a4571d4170b0009a5b14b9789b016814b6
-> > > Here is syzkaller config I used:
-> > > https://gist.githubusercontent.com/dvyukov/d0a3c0e9b44cc7d445b36a8a50404ed8/raw/5f6aab34c6515cc4e96dac6cf3a98aaaf5e21b58/gistfile1.txt
-> > >
-> > > Here is kernel coverage we achieved as the result of fuzzing:
-> > > https://drive.google.com/file/d/1JdNshmCWI3crJ3BuVo6uvRuHMBrwH5eB/view?usp=sharing
-> > >
-> > > For crashes, I've got 3 different task hangs:
-> > >
-> > > INFO: task hung in i2c_transfer
-> > > https://gist.githubusercontent.com/dvyukov/25e98a59b643bc868c7489f566ed9eab/raw/67b717488ae9af381a5b0615e5ddf2d226369d3c/gistfile1.txt
-> > >
-> > > INFO: task hung in i2c_smbus_xfer
-> > > https://gist.githubusercontent.com/dvyukov/7ca87fea1b397d46e3393227a34595b9/raw/f5385f025abfc3ad2e91fd4f2616e58c7de8804e/gistfile1.txt
-> > >
-> > > INFO: task hung in aspeed_i2c_master_xfer
-> > > https://gist.githubusercontent.com/dvyukov/dbc51e3ea7034f255c8fd1c99965d91a/raw/a5165e4e6c3b41d593d02fc22996104e468cfab3/gistfile1.txt
-> > >
-> > > And some memory corruptions (non-thread-safe kunit data structures?):
-> > >
-> > > KASAN: use-after-free Read in aspeed_i2c_fake_write_command_reg
-> > > https://gist.githubusercontent.com/dvyukov/6ca5bca5cf7a40a93636360635a4672c/raw/5ad0e7b33907f4b0db102b74c2a11237df612462/gistfile1.txt
-> > >
-> > > KASAN: use-after-free Read in __of_find_property
-> > > https://gist.githubusercontent.com/dvyukov/95ed93a39d38fd215c141b58e5d3ec0f/raw/ea7f2346982a31ab16fca2850f91e1ef11faf687/gistfile1.txt
-> > >
-> > > general protection fault in mock_do_expect
-> > > https://gist.githubusercontent.com/dvyukov/8c2e3def6775d39cb7496b56a77cbcd8/raw/5778337009e21397b484aafe5b24c87ebe64b63f/gistfile1.txt
-> > >
-> > > There are probably a number of things that can be improved in kunit
-> > > platform mock, the fake driver and syzkaller i2c coverage, but this is
-> > > a starting point.
-> > >
-> > > Thanks
+T24gMTAvOS8xOSA1OjMyIFBNLCBCcmVuZGFuIEhpZ2dpbnMgd3JvdGU6DQo+IE9uIFdlZCwgT2N0
+IDA5LCAyMDE5IGF0IDAyOjIwOjM0UE0gLTA3MDAsIEphZSBIeXVuIFlvbyB3cm90ZToNCj4+IElu
+IGNhc2Ugb2YgbWFzdGVyIHBlbmRpbmcgc3RhdGUsIGl0IHNob3VsZCBub3QgdHJpZ2dlciBhIG1h
+c3Rlcg0KPj4gY29tbWFuZCwgb3RoZXJ3aXNlIGRhdGEgY291bGQgYmUgY29ycnVwdGVkIGJlY2F1
+c2UgdGhpcyBIL1cgc2hhcmVzDQo+PiB0aGUgc2FtZSBkYXRhIGJ1ZmZlciBmb3Igc2xhdmUgYW5k
+IG1hc3RlciBvcGVyYXRpb25zLiBJdCBhbHNvIG1lYW5zDQo+PiB0aGF0IEgvVyBjb21tYW5kIHF1
+ZXVlIGhhbmRsaW5nIGlzIHVucmVsaWFibGUgYmVjYXVzZSBvZiB0aGUgYnVmZmVyDQo+PiBzaGFy
+aW5nIGlzc3VlLiBUbyBmaXggdGhpcyBpc3N1ZSwgaXQgY2xlYXJzIGNvbW1hbmQgcXVldWUgaWYg
+YQ0KPj4gbWFzdGVyIGNvbW1hbmQgaXMgcXVldWVkIGluIHBlbmRpbmcgc3RhdGUgdG8gdXNlIFMv
+VyBzb2x1dGlvbg0KPj4gaW5zdGVhZCBvZiBIL1cgY29tbWFuZCBxdWV1ZSBoYW5kbGluZy4gQWxz
+bywgaXQgcmVmaW5lcyByZXN0YXJ0aW5nDQo+PiBtZWNoYW5pc20gb2YgdGhlIHBlbmRpbmcgbWFz
+dGVyIGNvbW1hbmQuDQo+Pg0KPj4gRml4ZXM6IDJlNTdiN2NlYmI5OCAoImkyYzogYXNwZWVkOiBB
+ZGQgbXVsdGktbWFzdGVyIHVzZSBjYXNlIHN1cHBvcnQiKQ0KPj4gU2lnbmVkLW9mZi1ieTogSmFl
+IEh5dW4gWW9vIDxqYWUuaHl1bi55b29AbGludXguaW50ZWwuY29tPg0KPiANCj4gUmV2aWV3ZWQt
+Ynk6IEJyZW5kYW4gSGlnZ2lucyA8YnJlbmRhbmhpZ2dpbnNAZ29vZ2xlLmNvbT4NCj4gDQo+IFdl
+IGRvbid0IGhhdmUgYW55IG11bHRpLW1hc3RlciBzZXR1cHMsIGNhbiB3ZSBnZXQgYSBUZXN0ZWQt
+Ynk/DQoNCkkndmUgYXBwbGllZCB0aGUgcGF0Y2ggdG8gbXkgdHJlZSBhbmQgSSdtIGxvb2tpbmcg
+Zm9yIGEgbWluaXBhY2sgQk1DDQoobWlsdGktbWFzdGVyKSB0byB0ZXN0IHRoZSBwYXRjaC4gV2ls
+bCBjb21lIGJhY2sgd2l0aCByZXN1bHRzIHRvbW9ycm93Lg0KDQoNCkNoZWVycywNCg0KVGFvDQoN
+Cj4gV29sZnJhbSwgc2luY2UgdGhpcyBpcyBhIGJ1Z2ZpeCwgY2FuIHdlIGdldCB0aGlzIGluIDUu
+ND8NCj4gDQo+IFRoYW5rcyENCj4gDQo=
