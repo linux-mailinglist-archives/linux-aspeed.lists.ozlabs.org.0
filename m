@@ -1,63 +1,39 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 266D5D20FF
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 08:48:45 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2768D27ED
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 13:27:00 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46phWF256TzDqw6
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 17:48:41 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46pphL0hctzDr5J
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 22:26:58 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::743; helo=mail-qk1-x743.google.com;
- envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=the-dreams.de
+ (client-ip=88.99.104.3; helo=pokefinder.org; envelope-from=wsa@the-dreams.de;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="CHzh5/CM"; 
- dkim-atps=neutral
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
- [IPv6:2607:f8b0:4864:20::743])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46phW334h5zDqvR;
- Thu, 10 Oct 2019 17:48:31 +1100 (AEDT)
-Received: by mail-qk1-x743.google.com with SMTP id q203so4650118qke.1;
- Wed, 09 Oct 2019 23:48:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HfYimyj7XnI5kt+t6lECNj+HcYUo8K48jVJvvrvxJwU=;
- b=CHzh5/CMtBcl4mAy48yu0PywrvQ0pK9mWsdimHH8jgdHSBLl9cNKhCrpdvO4L0Zaaj
- VwAXU+VhkNVrUCrU3RuyIejzaWyqSWwSxMKr7W1whgRO8OpDt4vjoJVGtbQeBkgKQDGh
- vCtjQzVdaFc0D6pK3nDqrBDXTRMmwVcc0T0PI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HfYimyj7XnI5kt+t6lECNj+HcYUo8K48jVJvvrvxJwU=;
- b=M1eKrOrF+clWpGEvRQZJJCJhkmpecPBpLK9LcrCpPrI40ydrmpZuvFTdD/kmP0TD3A
- B5zKgFujNqGWtD6Q65odBQFPAarrFZxaxZYGacVkah5ramMSdv90NCHIc4E4qZtOOzly
- C4wzwX/pwbDUp490j8OeIMmdV4SaoVr+9K7Weto7RnomynK72EybdCu0u8Gy7jX7CAmT
- PkXTdZMMMhsquNa5nNuwHrSf1LXazrWGKpISJrAQFQ9Gbb7MgUK1dT+2NvghIhnuVCjt
- GlOmdOmqMxGNiIxg6IX8G+uMROAByNmRUHB7HGGo0iJRTOPQVKzu6vN8HgET3Sm3k7kw
- UU7A==
-X-Gm-Message-State: APjAAAX88Tq4T2ru0kW23lE6vdBdqp6u7QeJjCt8nfroBNXfYqSPOi7D
- RfOqbxR2tFien1NA0ZXMYRMFZD17Xke8CLDR4mQ=
-X-Google-Smtp-Source: APXvYqwoWtsEFPJ7Ma76eSNtW4TPaTGucXelYXNVmcWl2X/aPwSWHNNk6gYfy+Y0OlvgYSg2H1snmH4FDyZYbyorRFg=
-X-Received: by 2002:a37:4dca:: with SMTP id a193mr8086400qkb.292.1570690107291; 
- Wed, 09 Oct 2019 23:48:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191009212034.20325-1-jae.hyun.yoo@linux.intel.com>
-In-Reply-To: <20191009212034.20325-1-jae.hyun.yoo@linux.intel.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 10 Oct 2019 06:48:15 +0000
-Message-ID: <CACPK8XfKCSNsQJa2J2jKZJ7LGZh3zXAOfBYnp5X0w=TH4JfSpQ@mail.gmail.com>
+ dmarc=none (p=none dis=none) header.from=the-dreams.de
+Received: from pokefinder.org (sauhun.de [88.99.104.3])
+ by lists.ozlabs.org (Postfix) with ESMTP id 46ppfZ637tzDr4C;
+ Thu, 10 Oct 2019 22:25:25 +1100 (AEDT)
+Received: from localhost (p54B33257.dip0.t-ipconnect.de [84.179.50.87])
+ by pokefinder.org (Postfix) with ESMTPSA id E00F42C01E8;
+ Thu, 10 Oct 2019 08:37:35 +0200 (CEST)
+Date: Thu, 10 Oct 2019 08:37:35 +0200
+From: Wolfram Sang <wsa@the-dreams.de>
+To: Brendan Higgins <brendanhiggins@google.com>
 Subject: Re: [PATCH] i2c: aspeed: fix master pending state handling
-To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20191010063735.GA893@kunai>
+References: <20191009212034.20325-1-jae.hyun.yoo@linux.intel.com>
+ <20191010003234.GA12710@google.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="UugvWAfsgieZRqgk"
+Content-Disposition: inline
+In-Reply-To: <20191010003234.GA12710@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,32 +45,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Wolfram Sang <wsa@the-dreams.de>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Brendan Higgins <brendanhiggins@google.com>, Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-i2c@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ linux-i2c@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 9 Oct 2019 at 21:20, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
->
-> In case of master pending state, it should not trigger a master
-> command, otherwise data could be corrupted because this H/W shares
-> the same data buffer for slave and master operations. It also means
-> that H/W command queue handling is unreliable because of the buffer
-> sharing issue. To fix this issue, it clears command queue if a
-> master command is queued in pending state to use S/W solution
-> instead of H/W command queue handling. Also, it refines restarting
-> mechanism of the pending master command.
->
-> Fixes: 2e57b7cebb98 ("i2c: aspeed: Add multi-master use case support")
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 
-Acked-by: Joel Stanley <joel@jms.id.au>
+--UugvWAfsgieZRqgk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-While reviewing I was concerned about the locking in
-aspeed_i2c_master_xfer. It's a bit hairy, and I am not convinced it is
-without bugs.
+
+> Wolfram, since this is a bugfix, can we get this in 5.4?
+
+Of course! Just giving Tao Ren some time for the Tested-by.
+
+
+--UugvWAfsgieZRqgk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl2e0asACgkQFA3kzBSg
+KbZEfA//eG2wIit8ZvHICrI4HHDAD/xgrOjZcCQHKy+PB5uNFMnEVdGy0ifN2Oml
+NIZvvWUp0hjhw7ZkPI0uJQ/MLGO47R02T9s9IXx5s0OaxYjB3MINRr1r/8SHvY2h
+4CeHFuMbAOdGx6h0vCACwXVpAvjewebvO45bX80AOXq88b8bRtS4Dx9sWIWRS8Fy
+5wpSWP0fFbPCimwIkW8SZE6KZcKy4AenP95Jjxyv7YXGFXDRHgV9xAp5eXDw0ZZR
+lhfsSkIWsQkNqOCDzwXO6IKX+GMu2UMzX8ipsXi0S2u03/HUGnhlxMg04AwH28x5
+iQv7tO0Boj1/OMJ2jfz/QAk0A+C04lo20/z+heHJoBz6BbhFnbXX+tMUzdn070EB
+AHN1pcLMlpPufqEcCBPj0Ky0RP2WH48vFqY+uJnTwAWAFx5quO1/DOYBRyzc4kPW
+FnDv6cgFtQKIbO6UWyGs4dHOttBFs2KSpNWcFaRxUHqUDpR7BBw0Bt8V7f6irsql
+lVPjyAQj5kDm3eA621uZR3/hFP4Ud1hLF1HzF+j9LX/1lA2+PMB/L7E2Yt6Dv+Ba
+1vX55ITdwFTyQ1MKpVileOYL1IY62EcFvUdhi5ahyjQNQtHaslKwa/l4Q/WDpMNu
+7AjPGDDcjnmNTW2DAcdxbHMeN3so766ZPr08ujZezcXZX7BBT14=
+=ApV2
+-----END PGP SIGNATURE-----
+
+--UugvWAfsgieZRqgk--
