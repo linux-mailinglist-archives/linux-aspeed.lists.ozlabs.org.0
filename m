@@ -1,63 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98CCD347D
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Oct 2019 01:42:30 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C60D3481
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Oct 2019 01:43:38 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46q70z47TWzDqS2
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Oct 2019 10:42:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46q72J1LZpzDqQc
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Oct 2019 10:43:36 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=2607:f8b0:4864:20::843; helo=mail-qt1-x843.google.com;
+ (client-ip=2607:f8b0:4864:20::844; helo=mail-qt1-x844.google.com;
  envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="cO4Crqi0"; 
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="g27litSg"; 
  dkim-atps=neutral
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
- [IPv6:2607:f8b0:4864:20::843])
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46q70s70bbzDqQS
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Oct 2019 10:42:21 +1100 (AEDT)
-Received: by mail-qt1-x843.google.com with SMTP id c21so11257795qtj.12
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Oct 2019 16:42:21 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46q72C0VSXzDqQS
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Oct 2019 10:43:30 +1100 (AEDT)
+Received: by mail-qt1-x844.google.com with SMTP id c21so11261226qtj.12
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Oct 2019 16:43:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v9QoBYfKdHi53Oe2RDIOZ1fzd9eCKG99mcIBTMrkokE=;
- b=cO4Crqi0GzQ/SvRKjHRewM/6j5N3rPugEyhlFQAZBlUAKfoJTxKICJKQKZ8FBeVlAr
- zuquO0vrc7zgoMnhK45GwcTxKyziTrdzB+PgfKobgtANFJHI1/2RXmDgqtidhyqVrGOL
- pjOUdH0J3wO5zQ2DAm8yztXLZqxwAdj9HLUyQ=
+ :cc; bh=+99LfkE0Ayp8m1IDOU4Gz0njgEWkjVrScr5OXbe0ExY=;
+ b=g27litSgnBG1fH5c8FdwvHHIU8jfoU7WkY4210zjf7prULOHqvPkg0y/kFCN8MqBrk
+ eur+7x4q+axYsgRyrUBbB0PxrTYmKzpr6/MYZgdhNheCn4BlgugL5Xhr3XOqMfgGTvf+
+ eqBcOiU1wVTRLrXdkllD4uDaYSWfaFJN1F7WQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=v9QoBYfKdHi53Oe2RDIOZ1fzd9eCKG99mcIBTMrkokE=;
- b=Fvizre+yRDJpPBZZPX+5CxH5XavFvFef0UyEKVwRyH7mtFaxloSsxj/DV5gwWBBtqg
- 1/CTKwYEdgTVmfu74OuPDpY8UI4YV+HubznwlgFIXMGkrchuHxhMHka27qQ0oIb2irQN
- lj/0mTE4M8S1iUYxuwWrxIg225044A4PCVrci5WkSUuQqMhI+ZaSWDyvHNwDC4dHgOuI
- 867naS8ozaQ/IZqXQGwCp7g27Im7etNmNiA/s6oMQjU456sxsjcGqrS0rTfLdLIRcf1k
- 6Nky8Ok/cA7oxNzeancpEi524GgbWwTNvNDaTQE20zOQzW3KCpKm3Y8g1Zp5L9ayWHsj
- aTXA==
-X-Gm-Message-State: APjAAAWkRkYkIGVB+q+eQZ6/o/xBeYzAS4HEcLxjuEziGKjYJTUt3wId
- MP0T7lcEoJfqXC3sy2CVw08g/w+GHLugpnY56ws=
-X-Google-Smtp-Source: APXvYqzWepm2QMbtM7Mlxs1tWOx71xVvtmYjHL4TbcTYDDyesblSnW1JaBWkhPEpMEvXlcb/54LEXpm0ZrudpV1tBa8=
-X-Received: by 2002:a0c:f792:: with SMTP id s18mr12877457qvn.20.1570750938971; 
- Thu, 10 Oct 2019 16:42:18 -0700 (PDT)
+ bh=+99LfkE0Ayp8m1IDOU4Gz0njgEWkjVrScr5OXbe0ExY=;
+ b=brfD1/9e6adzMzU8PPhemIOQYthgWHOOu9Jax1ZQ06QHYQfv9vAmt7DOjJ/b7I4mxM
+ Ft3fkbZv7Nc8h8unE1FIjHQlTZp4aao/rBwFaqcd20HExlnmIark6QEYENTsd0Uq8ZhC
+ R/yt2Ib4KUBVVGT2/wGnpMm+6MzEXTPQ9/0ESGGB2QHfBnYAHprpcA5CTSKnFokXCzqs
+ J3HfpnXv/sFHYbgznf9teyIM5PfODBEtKchx/FAsqQ18sYbsdy9hGF7wG7vzevhrVJFu
+ kLAbpzOAsGeKiwqTkfswUrICzEZeRA9seCkf32jctT8cwL2c+/T3XQh1WO8PsGzzE0pu
+ MliQ==
+X-Gm-Message-State: APjAAAXl9CPtsoL2tFOmiyOujeqKB/0yw9f2++S8SPTng6k91TUiXA15
+ eyTMF5cf8geCJPd7YkeKh2hWq5YsBNnd43RlvIs=
+X-Google-Smtp-Source: APXvYqyKAUsDXXorfPQ38wIFUSbSjZKAetsJg1J3PqJn6MQDhqsbpGCV86yHgGv+eMYgGt6cxc2ZBkuC/GpIyIcn7pc=
+X-Received: by 2002:a0c:f702:: with SMTP id w2mr12680741qvn.111.1570751007441; 
+ Thu, 10 Oct 2019 16:43:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191010020725.3990-1-andrew@aj.id.au>
- <20191010020725.3990-2-andrew@aj.id.au>
-In-Reply-To: <20191010020725.3990-2-andrew@aj.id.au>
+ <20191010020725.3990-3-andrew@aj.id.au>
+In-Reply-To: <20191010020725.3990-3-andrew@aj.id.au>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 10 Oct 2019 23:42:07 +0000
-Message-ID: <CACPK8XfqA3O+qWASdZdua8oDqe4GWVjB9HkSu_Aw8jqbQ9QHBw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: clock: Add AST2600 RMII RCLK gate
- definitions
+Date: Thu, 10 Oct 2019 23:43:15 +0000
+Message-ID: <CACPK8XcfNWkv+iiR8xFfDV6puvRpJUAsSMeX0rPe15+N_X75Bg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] clk: ast2600: Add RMII RCLK gates for all four MACs
 To: Andrew Jeffery <andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -84,8 +83,8 @@ Sender: "Linux-aspeed"
 
 On Thu, 10 Oct 2019 at 02:06, Andrew Jeffery <andrew@aj.id.au> wrote:
 >
-> The AST2600 has an explicit gate for the RMII RCLK for each of the four
-> MACs.
+> RCLK is a fixed 50MHz clock derived from HPLL/HCLK that is described by a
+> single gate for each MAC.
 >
 > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 
