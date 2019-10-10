@@ -2,80 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C49CD1E2F
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 04:07:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68EA4D2000
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 07:28:59 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46pZGc19rgzDqDp
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 13:07:20 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46pflC4g3szDqT1
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Oct 2019 16:28:55 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=aj.id.au
- (client-ip=66.111.4.26; helo=out2-smtp.messagingengine.com;
- envelope-from=andrew@aj.id.au; receiver=<UNKNOWN>)
+ spf=pass (mailfrom) smtp.mailfrom=gmail.com
+ (client-ip=2607:f8b0:4864:20::742; helo=mail-qk1-x742.google.com;
+ envelope-from=joel.stan@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="dZgCLK1c"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="GWl/lLxc"; dkim-atps=neutral
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="mgx7nbir"; 
+ dkim-atps=neutral
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46pZGM1yY9zDqbs
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Oct 2019 13:07:07 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 063B921C24;
- Wed,  9 Oct 2019 22:07:05 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 09 Oct 2019 22:07:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=/ZpOKiZozizLe
- 7jyQflbx5yKpx8pRHgLZdXkZKFa2Hg=; b=dZgCLK1cVP859GF3NSW/Y0RSrwbC+
- FN6WHktScdyypzOyLWvLPfer0xRg+AccUNGHtweQbl0V/7rEA6A2z8RgwxWlRppf
- 8S8oQR1B+zrbyMIf8BOWXeyVLjJWpVcoP5tp1Kl2zW1UVM6BiPrN1tC8C/T3EPbJ
- zoH+XdMD4RNeL2vj/WCVYPPERAXhPee3x1xABwjcYtyMHQ5MpO4GgALNv7vLNAfJ
- WoGSeTEuUTuDBRahmsFtEp1ACAPzIXPeh8p6RIrahJZMUrwuqUyBmm1fPGaCmD/Q
- kS9g/whN7xNNayUDLGIDx2cTd+UkAnkk1d/YHUSY47PqqjPjn5jSY5BNg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=/ZpOKiZozizLe7jyQflbx5yKpx8pRHgLZdXkZKFa2Hg=; b=GWl/lLxc
- bDwDADwW7Gay8uPl9LYFTy/HJmEiOslDOI7Ya6VxBCzU1anE7GzrKA5/bgU7XKmi
- MYRJa/+z0xg7z+u7ZVU7JRnWRplo1BK/YqhSvTxFwKt08o569jAaJZlboXxRCIC2
- 5fvVbsGfe+aji3txbJcfMZfbeoGXVZTy8TQ6kGSztUFh7G16s/zbHTwxDHPgRVYF
- IEpCo1RsN0JKLc7z63ihfSU36419lAi6YyDpAiVB9vWV66CP4g2DjRV8QfP8ZSV0
- ekWJ8sjUUbAlaawn/E0AGkUFMdq2LK5jP3brOdCJhLJkv4WN3YFCN1+ovESHkY3/
- Tb5OvO3WwiRMhg==
-X-ME-Sender: <xms:SJKeXRCDD2boWRBZ06LxfDjlEw_q9PncQjxGkElCbdhbBVBYTOkHDw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedriedvgdehjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
- ertddtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghj
- rdhiugdrrghuqeenucfkphepvddtvddrkedurddukedrfedtnecurfgrrhgrmhepmhgrih
- hlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgvrhfuihiivgep
- he
-X-ME-Proxy: <xmx:SZKeXb4ML-jLRL_CgJSaGQz-KUMz2dttoul9go8GTa6Xks3FUKnWPA>
- <xmx:SZKeXfYNjeSU9jK663vzR-J5NZG5PbGSa0Sc9TKHw3AE3tOizsMu2Q>
- <xmx:SZKeXa3rV6bSfAAbSxYoiVckK-CUyJnghswk9lTdZFR0KK2AJIj_bQ>
- <xmx:SZKeXUAV6NAvOGMh1n6aLPgOSbYNwieJ8c5gYee5QWfC6XVgLr_CsQ>
-Received: from mistburn.au.ibm.com (bh02i525f01.au.ibm.com [202.81.18.30])
- by mail.messagingengine.com (Postfix) with ESMTPA id ECAA080059;
- Wed,  9 Oct 2019 22:07:01 -0400 (EDT)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: netdev@vger.kernel.org
-Subject: [PATCH v2 3/3] net: ftgmac100: Ungate RCLK for RMII on ASPEED MACs
-Date: Thu, 10 Oct 2019 12:37:56 +1030
-Message-Id: <20191010020756.4198-4-andrew@aj.id.au>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191010020756.4198-1-andrew@aj.id.au>
-References: <20191010020756.4198-1-andrew@aj.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46pfky57zVzDqSg;
+ Thu, 10 Oct 2019 16:28:42 +1100 (AEDT)
+Received: by mail-qk1-x742.google.com with SMTP id 201so4450354qkd.13;
+ Wed, 09 Oct 2019 22:28:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=r6Hep4iY8u0yDM4dyep+02jvirG1WxfZPi0UCSgzEPA=;
+ b=mgx7nbirD+B+qWsSDYrOWzbCFx0K9ERikuPVhs/EhHAJrKz+tDqgfmUgXGWGRSBrbo
+ UryoiU6AXZ6g1zlqeWA+/eHChgkS7xn/ksIRDyTXhZHZZI91skLOoYs5Y6Z3ls60l2+j
+ NN8svFecFJkunpLR7aajvO1GIMk04+rGWimLs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=r6Hep4iY8u0yDM4dyep+02jvirG1WxfZPi0UCSgzEPA=;
+ b=KGiFY8oiBbfJH4ySeYUYZoarsKoLdFrGC7wok/wIESJMHSue1xBTAH3tLF2Ahjy5Nh
+ UsqKCc8GSzh+BjEFBzi/9kd5QFbfHVpGvXb4vc/ZC3F9+SABZfpM/KtkMnI8m3tYFbOh
+ y5uG6B6nWFasgqpzxAbuYbPvMU65/L6Nq4WVMp/4o47GzPwJCgUdbA5s9NuMNRzmUDU9
+ b350cSizSdNyUgE6OOvLlehz4Nby5DMBPZHoD9XGx5ezlgvgTINrUmq562plwKpq7dXq
+ Bd7egUN/acDoCj0l3YNSbn/1lMuBgv7sblpD9Xrz2yLhaVDf3HXc9vme1eH/aS/S2tow
+ gD/A==
+X-Gm-Message-State: APjAAAW8VdwzEbGkC7Tj3niDrjd67SNGNtsK9sZah/cfmjM3dCHfI1C4
+ M6V3C2q67LN69Rnb4MxRige5uWOn1/lmNI64IaU=
+X-Google-Smtp-Source: APXvYqwH0HMFFELFCxD2oINqI+YV0TL764wqxPt4fBPtvmrISd7LnBC85T0wCOC+E1zA48qshusCVPt0cVV1W/T+8QY=
+X-Received: by 2002:a37:4dca:: with SMTP id a193mr7795691qkb.292.1570685318745; 
+ Wed, 09 Oct 2019 22:28:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191007231313.4700-1-jae.hyun.yoo@linux.intel.com>
+ <20191007231313.4700-4-jae.hyun.yoo@linux.intel.com>
+ <20191008203157.GA184092@google.com>
+ <ac256b3f-2a06-6fa5-72ab-d8f8014d253e@linux.intel.com>
+ <CAFd5g47vLN6NyZR73+EqOqfOPnM7CkGGsCwEn3udnJt99d8KCg@mail.gmail.com>
+In-Reply-To: <CAFd5g47vLN6NyZR73+EqOqfOPnM7CkGGsCwEn3udnJt99d8KCg@mail.gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 10 Oct 2019 05:28:26 +0000
+Message-ID: <CACPK8Xc4JCNDwVfJ4zzsaZvoSmtqgMZwhYO8sv76aRnPiQwK_A@mail.gmail.com>
+Subject: Re: [PATCH 3/5] i2c: aspeed: fix master pending state handling
+To: Brendan Higgins <brendanhiggins@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,119 +73,52 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org, davem@davemloft.net
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, Wolfram Sang <wsa@the-dreams.de>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-i2c@vger.kernel.org, Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The 50MHz RCLK has to be enabled before the RMII interface will function.
+On Tue, 8 Oct 2019 at 21:54, Brendan Higgins <brendanhiggins@google.com> wrote:
+>
+> On Tue, Oct 8, 2019 at 2:13 PM Jae Hyun Yoo
+> <jae.hyun.yoo@linux.intel.com> wrote:
+> >
+> > On 10/8/2019 1:31 PM, Brendan Higgins wrote:
+> > > On Mon, Oct 07, 2019 at 04:13:11PM -0700, Jae Hyun Yoo wrote:
+> > >> In case of master pending state, it should not trigger the master
+> > >> command because this H/W is sharing the same data buffer for slave
+> > >> and master operations, so this commit fixes the issue with making
+> > >> the master command triggering happen when the state goes to active
+> > >> state.
+> > >
+> > > nit: Makes sense, but can you explain what might happen without your
+> > > change?
+> >
+> > If we don't use this fix, a master command could corrupt data in the
+> > shared buffer if H/W is still on processing slave operation at the
+> > timing.
+>
+> Right, can you add that to the commit message?
+>
+> Is this trivially reproducible? We might want to submit this
+> separately as a bugfix.
+>
+> Actually yeah, can you send this separately as a bugfix? I think we
+> might want to include this in 5.4.
+>
+> Wolfram and Joel, what do you think?
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
-v2: Mainly a rework of error case handling, some changes to comments
+Yes, good suggestion. A corruption fix should be merged I think.
 
- drivers/net/ethernet/faraday/ftgmac100.c | 50 +++++++++++++++++++-----
- 1 file changed, 40 insertions(+), 10 deletions(-)
+Always send bug fixes upstream with Fixes tags so they land in the
+stable tree. This is preferable to sending them separately to the
+openbmc for inclusion in that tree, and potentially reaches a wider
+audience.
 
-diff --git a/drivers/net/ethernet/faraday/ftgmac100.c b/drivers/net/ethernet/faraday/ftgmac100.c
-index 9b7af94a40bb..824310253099 100644
---- a/drivers/net/ethernet/faraday/ftgmac100.c
-+++ b/drivers/net/ethernet/faraday/ftgmac100.c
-@@ -90,6 +90,9 @@ struct ftgmac100 {
- 	struct mii_bus *mii_bus;
- 	struct clk *clk;
- 
-+	/* AST2500/AST2600 RMII ref clock gate */
-+	struct clk *rclk;
-+
- 	/* Link management */
- 	int cur_speed;
- 	int cur_duplex;
-@@ -1718,20 +1721,41 @@ static void ftgmac100_ncsi_handler(struct ncsi_dev *nd)
- 		   nd->link_up ? "up" : "down");
- }
- 
--static void ftgmac100_setup_clk(struct ftgmac100 *priv)
-+static int ftgmac100_setup_clk(struct ftgmac100 *priv)
- {
--	priv->clk = devm_clk_get(priv->dev, NULL);
--	if (IS_ERR(priv->clk))
--		return;
-+	struct clk *clk;
-+	int rc;
- 
--	clk_prepare_enable(priv->clk);
-+	clk = devm_clk_get(priv->dev, NULL /* MACCLK */);
-+	if (IS_ERR(clk))
-+		return PTR_ERR(clk);
-+	priv->clk = clk;
-+	rc = clk_prepare_enable(priv->clk);
-+	if (rc)
-+		return rc;
- 
- 	/* Aspeed specifies a 100MHz clock is required for up to
- 	 * 1000Mbit link speeds. As NCSI is limited to 100Mbit, 25MHz
- 	 * is sufficient
- 	 */
--	clk_set_rate(priv->clk, priv->use_ncsi ? FTGMAC_25MHZ :
--			FTGMAC_100MHZ);
-+	rc = clk_set_rate(priv->clk, priv->use_ncsi ? FTGMAC_25MHZ :
-+			  FTGMAC_100MHZ);
-+	if (rc)
-+		goto cleanup_clk;
-+
-+	/* RCLK is for RMII, typically used for NCSI. Optional because its not
-+	 * necessary if it's the AST2400 MAC, or the MAC is configured for
-+	 * RGMII, or the controller is not an ASPEED-based controller.
-+	 */
-+	priv->rclk = devm_clk_get_optional(priv->dev, "RCLK");
-+	rc = clk_prepare_enable(priv->rclk);
-+	if (!rc)
-+		return 0;
-+
-+cleanup_clk:
-+	clk_disable_unprepare(priv->clk);
-+
-+	return rc;
- }
- 
- static int ftgmac100_probe(struct platform_device *pdev)
-@@ -1853,8 +1877,11 @@ static int ftgmac100_probe(struct platform_device *pdev)
- 			goto err_setup_mdio;
- 	}
- 
--	if (priv->is_aspeed)
--		ftgmac100_setup_clk(priv);
-+	if (priv->is_aspeed) {
-+		err = ftgmac100_setup_clk(priv);
-+		if (err)
-+			goto err_ncsi_dev;
-+	}
- 
- 	/* Default ring sizes */
- 	priv->rx_q_entries = priv->new_rx_q_entries = DEF_RX_QUEUE_ENTRIES;
-@@ -1886,8 +1913,10 @@ static int ftgmac100_probe(struct platform_device *pdev)
- 
- 	return 0;
- 
--err_ncsi_dev:
- err_register_netdev:
-+	clk_disable_unprepare(priv->rclk);
-+	clk_disable_unprepare(priv->clk);
-+err_ncsi_dev:
- 	ftgmac100_destroy_mdio(netdev);
- err_setup_mdio:
- 	iounmap(priv->base);
-@@ -1909,6 +1938,7 @@ static int ftgmac100_remove(struct platform_device *pdev)
- 
- 	unregister_netdev(netdev);
- 
-+	clk_disable_unprepare(priv->rclk);
- 	clk_disable_unprepare(priv->clk);
- 
- 	/* There's a small chance the reset task will have been re-queued,
--- 
-2.20.1
+Cheers,
 
+Joel
