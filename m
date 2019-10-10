@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8166DE131
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Oct 2019 01:31:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CCAEDE132
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Oct 2019 01:31:06 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46xGH745jnzDqHw
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Oct 2019 10:30:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46xGHC101ZzDqPl
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Oct 2019 10:31:03 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -19,15 +19,15 @@ Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46pj7n4zMBzDqPv
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Oct 2019 18:16:53 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46pj7x1JP6zDqPv
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Oct 2019 18:17:01 +1100 (AEDT)
 Received: from dhcp-172-31-174-146.wireless.concordia.ca (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3838A28EBEA;
- Thu, 10 Oct 2019 08:16:50 +0100 (BST)
-Date: Thu, 10 Oct 2019 09:16:48 +0200
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id AEEFF290694;
+ Thu, 10 Oct 2019 08:16:57 +0100 (BST)
+Date: Thu, 10 Oct 2019 09:16:54 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: <Tudor.Ambarus@microchip.com>
 Subject: Re: [PATCH v2 07/22] mtd: spi-nor: Rework read_cr()
@@ -81,7 +81,7 @@ On Tue, 24 Sep 2019 07:46:15 +0000
 > with that.
 > 
 
-Same as for patch 5, this should be split in several patches
+Same as for patch 5, this should be split in several patches.
 
 > Vendors are using both the "Configuration Register" and the
 > "Status Register 2" terminology when referring to the second byte
