@@ -2,69 +2,88 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0AAD40FE
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Oct 2019 15:21:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE9A6D41DF
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Oct 2019 15:55:58 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46qT9z3NphzDqT7
-	for <lists+linux-aspeed@lfdr.de>; Sat, 12 Oct 2019 00:21:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46qTxm0NrHzDqbr
+	for <lists+linux-aspeed@lfdr.de>; Sat, 12 Oct 2019 00:55:56 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (mailfrom) smtp.mailfrom=ti.com
- (client-ip=198.47.19.142; helo=fllv0016.ext.ti.com;
- envelope-from=vigneshr@ti.com; receiver=<UNKNOWN>)
+ spf=softfail (mailfrom) smtp.mailfrom=kaod.org
+ (client-ip=148.163.158.5; helo=mx0a-001b2d01.pphosted.com;
+ envelope-from=clg@kaod.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=ti.com header.i=@ti.com header.b="QJcK449t"; 
- dkim-atps=neutral
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ dmarc=none (p=none dis=none) header.from=kaod.org
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46qT1D1d1yzDqXq
- for <linux-aspeed@lists.ozlabs.org>; Sat, 12 Oct 2019 00:13:50 +1100 (AEDT)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9BDD8jY081939;
- Fri, 11 Oct 2019 08:13:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1570799588;
- bh=YLTCfOlEBhXcof9xWJVf65ZhWo8Svt9kMFx3/wfvMnA=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=QJcK449tp6L1Ph2cMGQr6+cCdoXIxnEGEVewj2wNc+rsQ0eJijCa29gNHsSxYLwsE
- FHm6nompV9YItAiKvMiIL2+tbnGREsYP6IqXQzJmZ9A1EMr24qi14igsr7pk5++eFP
- 4xgNThi/pzRd0HcA/jCkHtP/dl2AIGpk8xSFQWP8=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9BDD842087479
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 11 Oct 2019 08:13:08 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 11
- Oct 2019 08:13:04 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 11 Oct 2019 08:13:08 -0500
-Received: from [172.24.145.136] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9BDD2tQ115521;
- Fri, 11 Oct 2019 08:13:03 -0500
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46qTxd61JQzDqWp
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 12 Oct 2019 00:55:46 +1100 (AEDT)
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x9BDqBck134849
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Oct 2019 09:55:37 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2vjtpjh0vs-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Oct 2019 09:55:36 -0400
+Received: from localhost
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <linux-aspeed@lists.ozlabs.org> from <clg@kaod.org>;
+ Fri, 11 Oct 2019 14:55:33 +0100
+Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 11 Oct 2019 14:55:28 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id x9BDsvZn37355984
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 11 Oct 2019 13:54:57 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 97073A405F;
+ Fri, 11 Oct 2019 13:55:27 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 701BDA4054;
+ Fri, 11 Oct 2019 13:55:27 +0000 (GMT)
+Received: from smtp.tls.ibm.com (unknown [9.101.4.1])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 11 Oct 2019 13:55:27 +0000 (GMT)
+Received: from yukon.kaod.org (sig-9-145-63-191.uk.ibm.com [9.145.63.191])
+ by smtp.tls.ibm.com (Postfix) with ESMTP id E8BD22201CE;
+ Fri, 11 Oct 2019 15:55:25 +0200 (CEST)
 Subject: Re: [PATCH 04/16] mtd: spi-nor: aspeed: Add read training
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+To: Boris Brezillon <boris.brezillon@collabora.com>
 References: <20191004115919.20788-1-clg@kaod.org>
  <20191004115919.20788-5-clg@kaod.org>
  <20191011142805.6cc3905c@dhcp-172-31-174-146.wireless.concordia.ca>
-From: Vignesh Raghavendra <vigneshr@ti.com>
-Message-ID: <a933999d-cb3d-ef3c-8a0d-a1f022817543@ti.com>
-Date: Fri, 11 Oct 2019 18:43:33 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Date: Fri, 11 Oct 2019 15:55:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
 In-Reply-To: <20191011142805.6cc3905c@dhcp-172-31-174-146.wireless.concordia.ca>
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-TM-AS-GCONF: 00
+x-cbid: 19101113-0012-0000-0000-0000035732C4
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19101113-0013-0000-0000-000021923FB5
+Message-Id: <3244b1ce-587c-6f12-cc9c-7eee0354e76b@kaod.org>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-10-11_08:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=691 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910110130
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,8 +95,8 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, linux-aspeed@lists.ozlabs.org,
- Tudor Ambarus <tudor.ambarus@microchip.com>,
+Cc: Mark Rutland <mark.rutland@arm.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-aspeed@lists.ozlabs.org, Tudor Ambarus <tudor.ambarus@microchip.com>,
  Richard Weinberger <richard@nod.at>, Marek Vasut <marek.vasut@gmail.com>,
  linux-mtd@lists.infradead.org, Miquel Raynal <miquel.raynal@bootlin.com>,
  Brian Norris <computersforpeace@gmail.com>,
@@ -86,9 +105,7 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Cedric,
-
-On 11/10/19 5:58 PM, Boris Brezillon wrote:
+On 11/10/2019 14:28, Boris Brezillon wrote:
 > On Fri,  4 Oct 2019 13:59:07 +0200
 > Cédric Le Goater <clg@kaod.org> wrote:
 > 
@@ -116,29 +133,33 @@ On 11/10/19 5:58 PM, Boris Brezillon wrote:
 > IIUC, you're using a SPINOR_OP_READ operation to read the golden
 > buffer, and if I'm right, you start reading at offset 0 of the dirmap
 > window (offset 0 in the flash), so basically the first block in the NOR.
+
+Yes.
+
 > What happens if this block is erased? In that case your golden buf will
 > contain only 0xff values, and the read calibration is likely to be
-> useless (how can you determine if timings are good when IO pins always
+> useless 
+
+yes. that is why we have the aspeed_smc_check_calib_data() routine to
+check that the data read makes some sense. If this is not the case, then :
+
+	 "Calibration area too uniform, using low speed"
+
+> (how can you determine if timings are good when IO pins always
 > stay high). Don't we have a command that return non-ff/non-0 data while
-> still being predictable and immutable? Do you expect users to always
+> still being predictable and immutable? 
+
+Not that I know of on these controllers.
+
+> Do you expect users to always
 > flash a pattern that helps calibrating those delays?
+
+This is the case on the OpenBMC systems, AFAICT. 
+
+u-boot.bin should be the data read on the FMC controller and the 
+SPI controller contains the host Firmware which is as random.   
+
 > 
-
-Yes, this is precisely my concern as well. I have been developing
-training sequence for cadence-quadspi controller (requirements are
-similar to what you have here) and found that its better to use read
-only data such as SFDP table data to calibrate. Cadence-quadspi requires
-training only in higher performance modes like Quad/Octal DTR mode and
-needs 16 bytes of known data for calibration. Hence SFDP works well for
-my case.
-But the problem here is that, aspeed controller needs 16K of known data.
-SFDP table is not that big and read beyond address space is not required
-to wrap around.
-Wondering if you really need to read 16K amount of data for calibration?
-
-Regards
-Vignesh
-
 >> +}
 >> +
 >> +static int aspeed_smc_optimize_read(struct aspeed_smc_chip *chip,
@@ -209,6 +230,3 @@ Vignesh
 > 
 > 
 
--- 
-Regards
-Vignesh
