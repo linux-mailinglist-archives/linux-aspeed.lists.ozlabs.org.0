@@ -2,62 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C280D460B
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Oct 2019 19:01:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D558D460F
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Oct 2019 19:01:33 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46qZ3h0RmDzDqch
-	for <lists+linux-aspeed@lfdr.de>; Sat, 12 Oct 2019 04:01:20 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46qZ3t2y5bzDqch
+	for <lists+linux-aspeed@lfdr.de>; Sat, 12 Oct 2019 04:01:30 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=209.85.210.68; helo=mail-ot1-f68.google.com;
+ (client-ip=209.85.167.196; helo=mail-oi1-f196.google.com;
  envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
- [209.85.210.68])
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+ [209.85.167.196])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46qZ3R6DSwzDqZG
- for <linux-aspeed@lists.ozlabs.org>; Sat, 12 Oct 2019 04:01:07 +1100 (AEDT)
-Received: by mail-ot1-f68.google.com with SMTP id 21so8535389otj.11
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Oct 2019 10:01:07 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46qZ3m2WqDzDqZG
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 12 Oct 2019 04:01:24 +1100 (AEDT)
+Received: by mail-oi1-f196.google.com with SMTP id k20so8595983oih.3
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Oct 2019 10:01:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=39fE6RD4L7ek9/ZP7eb4uAgC4lVSQDHBffdSIup/Xc0=;
- b=dXI09mXxslMhgWgC60HlW2IOhWgVW31aSEG2685Y2FhAI7hZ05MLHH24Cpjf7UV+Ix
- 51T+YM7A6Dw3gtbElYJlZc07NjCP8g/tmcISLMGbknbKaqfGecTT3yuOcucpBjsmwB0B
- kqxcqpQpMPCBTRbdUS5xOXXrTdRudPMXBb5M9PfuNH+MzFN76MnRH8MPKhVd6qr7WqPH
- ZHW7zjwN4q21bUnQEZSa9m81da3vm9bHawlZ5F9RMZQfdAy5Q5lUD8rXdjeIYh/A/QxR
- GkhBgbTHfTNmkXZ3upjPyCClKLAGf/quwhgTFocll/Knk/q42WhfUsJ4RQuzz51mW24U
- J58Q==
-X-Gm-Message-State: APjAAAWeWGYm6KrsM4Q8Hazbdw9HPPjZJt5dLzh0ujYGgio1gJh/smHC
- bZJn6X8NxX73ll3TKp8+hw==
-X-Google-Smtp-Source: APXvYqwqGqT7uiHwhdBc7sqpGqwD6vjshKpmaDTSjaMTHJz7K2u/gcWBWDVEgXQTXZ2+vioVbwWrOg==
-X-Received: by 2002:a05:6830:119a:: with SMTP id
- u26mr13662087otq.166.1570813265021; 
- Fri, 11 Oct 2019 10:01:05 -0700 (PDT)
+ bh=mZ12ktNjFYLHaQldgcLq5YbkCfRxwml6HBzJyQjPFcc=;
+ b=pOs5WiTy3pRj5io8EQhhtdWUZFySjMGSFYnhVURH6bm6VmAOJmXH+E3ouOdEWafqay
+ RTUkuPZ5McW2t1r5ix7V4U2+OqwAr4jH6Eo8un3/Uw5tfUTETrTXfKkv+jT+VKwRStCe
+ yBHhikucdBZqmgblrr58mzsShEloDUpyB0QeRE/vGelOs9rsIhJ3xVsoWk7Ks4pj++8x
+ SP37uG5IOGcrCrx8FyG+JvHi6HYo7dEvsq7cYYj09lXtNwihAFplZqGLa+ZFej6KoXij
+ LDXQbaaxS6WiQ1gmCrBTjSq7RT01vIzLlFppH+tBaxsLrwbzVbMMwszzbu2tdnWkWar4
+ gSdA==
+X-Gm-Message-State: APjAAAUsC+tnlR/9RpfZhahhjp30XKeu/3iG/rZOmrcBi1Tw5kcGhNvR
+ +XMUeXKgkHJjdPWLnitcaQ==
+X-Google-Smtp-Source: APXvYqw+dKHsoqTOnX9vla/BlNQ96S8wiRdesNaBW3u1/5nYILYHP7qaKXZdqjpYAEGQlNkuonbBlA==
+X-Received: by 2002:aca:f1d7:: with SMTP id
+ p206mr12295309oih.119.1570813281285; 
+ Fri, 11 Oct 2019 10:01:21 -0700 (PDT)
 Received: from localhost (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id 91sm2915769otn.36.2019.10.11.10.01.04
+ by smtp.gmail.com with ESMTPSA id e5sm2889559otr.81.2019.10.11.10.01.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Oct 2019 10:01:04 -0700 (PDT)
-Date: Fri, 11 Oct 2019 12:01:03 -0500
+ Fri, 11 Oct 2019 10:01:20 -0700 (PDT)
+Date: Fri, 11 Oct 2019 12:01:20 -0500
 From: Rob Herring <robh@kernel.org>
 To: Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH v2 1/2] dt-bindings: clock: Add AST2500 RMII RCLK
+Subject: Re: [PATCH v2 1/2] dt-bindings: clock: Add AST2600 RMII RCLK gate
  definitions
-Message-ID: <20191011170103.GA14903@bogus>
-References: <20191010020655.3776-1-andrew@aj.id.au>
- <20191010020655.3776-2-andrew@aj.id.au>
+Message-ID: <20191011170120.GA15442@bogus>
+References: <20191010020725.3990-1-andrew@aj.id.au>
+ <20191010020725.3990-2-andrew@aj.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191010020655.3776-2-andrew@aj.id.au>
+In-Reply-To: <20191010020725.3990-2-andrew@aj.id.au>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -78,16 +78,14 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 10 Oct 2019 12:36:54 +1030, Andrew Jeffery wrote:
-> The AST2500 has an explicit gate for the RMII RCLK for each of the two
+On Thu, 10 Oct 2019 12:37:24 +1030, Andrew Jeffery wrote:
+> The AST2600 has an explicit gate for the RMII RCLK for each of the four
 > MACs.
 > 
 > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 > ---
-> v2: Drop "_GATE" from symbol names
-> 
->  include/dt-bindings/clock/aspeed-clock.h | 2 ++
->  1 file changed, 2 insertions(+)
+>  include/dt-bindings/clock/ast2600-clock.h | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
 
 Acked-by: Rob Herring <robh@kernel.org>
