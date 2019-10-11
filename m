@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DCAADE134
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Oct 2019 01:31:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B145DE135
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Oct 2019 01:31:19 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46xGHM42x9zDqR0
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Oct 2019 10:31:11 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46xGHS4PF3zDqPN
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Oct 2019 10:31:16 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -19,27 +19,28 @@ Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46pjVh5QRBzDqwl
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Oct 2019 18:33:16 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46qJPD0Fr2zDqXq
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Oct 2019 17:45:33 +1100 (AEDT)
 Received: from dhcp-172-31-174-146.wireless.concordia.ca (unknown
  [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 96F5D290783;
- Thu, 10 Oct 2019 08:33:11 +0100 (BST)
-Date: Thu, 10 Oct 2019 09:33:08 +0200
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D1DE7289C93;
+ Fri, 11 Oct 2019 07:45:26 +0100 (BST)
+Date: Fri, 11 Oct 2019 08:45:22 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: <Tudor.Ambarus@microchip.com>
-Subject: Re: [PATCH v2 09/22] mtd: spi-nor: Fix retlen handling in sst_write()
-Message-ID: <20191010093308.2fe94974@dhcp-172-31-174-146.wireless.concordia.ca>
-In-Reply-To: <20190924074533.6618-10-tudor.ambarus@microchip.com>
-References: <20190924074533.6618-1-tudor.ambarus@microchip.com>
- <20190924074533.6618-10-tudor.ambarus@microchip.com>
+To: Joel Stanley <joel@jms.id.au>
+Subject: Re: [PATCH 00/16] mtd: spi-nor: aspeed: AST2600 support and extensions
+Message-ID: <20191011084503.5b7a7c2c@dhcp-172-31-174-146.wireless.concordia.ca>
+In-Reply-To: <CACPK8Xe__AYvrh40vqjwoM=XKJfp5MeqrMARpFUDGWCyJK6jXQ@mail.gmail.com>
+References: <20191004115919.20788-1-clg@kaod.org>
+ <20191009225555.67622339@dhcp-172-31-174-146.wireless.concordia.ca>
+ <CACPK8Xe__AYvrh40vqjwoM=XKJfp5MeqrMARpFUDGWCyJK6jXQ@mail.gmail.com>
 Organization: Collabora
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Mon, 21 Oct 2019 10:30:07 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -52,136 +53,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, vigneshr@ti.com,
- geert+renesas@glider.be, richard@nod.at, linux-kernel@vger.kernel.org,
- vz@mleia.com, marek.vasut@gmail.com, jonas@norrbonn.se,
- linux-mtd@lists.infradead.org, miquel.raynal@bootlin.com,
- matthias.bgg@gmail.com, linux-mediatek@lists.infradead.org,
- computersforpeace@gmail.com, dwmw2@infradead.org,
- linux-aspeed@lists.ozlabs.org
+Cc: Mark Rutland <mark.rutland@arm.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Tudor Ambarus <tudor.ambarus@microchip.com>,
+ Richard Weinberger <richard@nod.at>, Marek Vasut <marek.vasut@gmail.com>,
+ linux-mtd@lists.infradead.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Brian Norris <computersforpeace@gmail.com>,
+ David Woodhouse <dwmw2@infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 24 Sep 2019 07:46:21 +0000
-<Tudor.Ambarus@microchip.com> wrote:
+On Thu, 10 Oct 2019 23:47:45 +0000
+Joel Stanley <joel@jms.id.au> wrote:
 
-> From: Tudor Ambarus <tudor.ambarus@microchip.com>
-> 
-> In case the write of the first byte failed, retlen was incorrectly
-> incremented to *retlen += actual; on the exit path. retlen should be
-> incremented when actual data was written to the flash.
-> 
-> Rename 'sst_write_err' label to 'out' as it is no longer generic for
-> all the write errors in the sst_write() method, and may introduce
-> confusion.
+> On Wed, 9 Oct 2019 at 20:56, Boris Brezillon
+> <boris.brezillon@collabora.com> wrote:
+> >
+> > Hi Cedric,
+> >
+> > On Fri,  4 Oct 2019 13:59:03 +0200
+> > C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+> > =20
+> > > Hello,
+> > >
+> > > This series first extends the support for the Aspeed AST2500 and
+> > > AST2400 SMC driver. It adds Dual Data support and read training giving
+> > > the best read settings for a given chip. Support for the new AST2600
+> > > SoC is added at the end.
+> > >
+> > > I understand that a new spi_mem framework exists and I do have an
+> > > experimental driver using it. But unfortunately, it is difficult to
+> > > integrate the read training. The Aspeed constraints are not compatible
+> > > and i haven't had the time to extend the current framework. =20
+> >
+> > Hm, I don't think that's a good reason to push new features to the
+> > existing driver, especially since I asked others to migrate their
+> > drivers to spi-mem in the past. I do understand your concerns, and I'll
+> > let the SPI NOR/MTD maintainers make the final call, but I think it'd
+> > be better for the SPI MEM ecosystem to think about this link-training
+> > API (Vignesh needs it for the Cadence driver IIRC) rather than pushing
+> > this kind of feature to spi-nor controller drivers. =20
+>=20
+> As Cedric mentioned, the OpenBMC project has been shipping the read
+> training code for the ast2400/ast2400 for several years now. It would
+> be great to see it in mainline.
+>=20
+> I think it's reasonable to ask for the driver to be moved to the
+> spi-mem subsystem once it has the required APIs.
 
-Renaming the label is indeed a good thing, but should be done in a
-separate patch.
-
-> 
-> Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
-> ---
->  drivers/mtd/spi-nor/spi-nor.c | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/mtd/spi-nor/spi-nor.c b/drivers/mtd/spi-nor/spi-nor.c
-> index 0aee068a5835..be5dee622d51 100644
-> --- a/drivers/mtd/spi-nor/spi-nor.c
-> +++ b/drivers/mtd/spi-nor/spi-nor.c
-> @@ -2665,12 +2665,12 @@ static int sst_write(struct mtd_info *mtd, loff_t to, size_t len,
->  		/* write one byte. */
->  		ret = spi_nor_write_data(nor, to, 1, buf);
->  		if (ret < 0)
-> -			goto sst_write_err;
-> +			goto unlock_and_unprep;
->  		WARN(ret != 1, "While writing 1 byte written %i bytes\n",
->  		     (int)ret);
->  		ret = spi_nor_wait_till_ready(nor);
->  		if (ret)
-> -			goto sst_write_err;
-> +			goto unlock_and_unprep;
->  	}
->  	to += actual;
-
-Not sure we need this new label, we can just have:
-
-	actual = 0;
-	/* Start write from odd address. */
-	if (to % 2) {
-		nor->program_opcode = SPINOR_OP_BP;
-
-		/* write one byte. */
-		ret = spi_nor_write_data(nor, to, 1, buf);
-		if (ret < 0)
-			goto out;
-		WARN(ret != 1, "While writing 1 byte written %i
-		bytes\n", (int)ret);
-		ret = spi_nor_wait_till_ready(nor);
-		if (ret)
-			goto out;
-
-		to++;
-		actual++;
-	}
-
->  
-> @@ -2681,12 +2681,12 @@ static int sst_write(struct mtd_info *mtd, loff_t to, size_t len,
->  		/* write two bytes. */
->  		ret = spi_nor_write_data(nor, to, 2, buf + actual);
->  		if (ret < 0)
-> -			goto sst_write_err;
-> +			goto out;
->  		WARN(ret != 2, "While writing 2 bytes written %i bytes\n",
->  		     (int)ret);
->  		ret = spi_nor_wait_till_ready(nor);
->  		if (ret)
-> -			goto sst_write_err;
-> +			goto out;
->  		to += 2;
->  		nor->sst_write_second = true;
->  	}
-> @@ -2694,35 +2694,35 @@ static int sst_write(struct mtd_info *mtd, loff_t to, size_t len,
->  
->  	ret = spi_nor_write_disable(nor);
->  	if (ret)
-> -		goto sst_write_err;
-> +		goto out;
->  
->  	ret = spi_nor_wait_till_ready(nor);
->  	if (ret)
-> -		goto sst_write_err;
-> +		goto out;
->  
->  	/* Write out trailing byte if it exists. */
->  	if (actual != len) {
->  		ret = spi_nor_write_enable(nor);
->  		if (ret)
-> -			goto sst_write_err;
-> +			goto out;
->  
->  		nor->program_opcode = SPINOR_OP_BP;
->  		ret = spi_nor_write_data(nor, to, 1, buf + actual);
->  		if (ret < 0)
-> -			goto sst_write_err;
-> +			goto out;
->  		WARN(ret != 1, "While writing 1 byte written %i bytes\n",
->  		     (int)ret);
->  		ret = spi_nor_wait_till_ready(nor);
->  		if (ret)
-> -			goto sst_write_err;
-> +			goto out;
->  
->  		ret = spi_nor_write_disable(nor);
->  		if (ret)
-> -			goto sst_write_err;
-> +			goto out;
->  
->  		actual += 1;
->  	}
-> -sst_write_err:
-> +out:
->  	*retlen += actual;
->  unlock_and_unprep:
->  	spi_nor_unlock_and_unprep(nor, SPI_NOR_OPS_WRITE);
-
+Except it won't have the necessary APIs unless someone works on it, and
+adding this feature to existing spi-nor drivers won't help achieving
+this goal.
