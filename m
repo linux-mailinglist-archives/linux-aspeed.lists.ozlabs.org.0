@@ -1,61 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id A78FAD7F82
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Oct 2019 21:02:29 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4A0D8038
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Oct 2019 21:26:16 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46t4Yb1FxtzDqVl
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Oct 2019 06:02:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46t5513YM3zDr0r
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Oct 2019 06:26:13 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (mailfrom) smtp.mailfrom=gmail.com
- (client-ip=209.85.167.194; helo=mail-oi1-f194.google.com;
+ (client-ip=209.85.210.65; helo=mail-ot1-f65.google.com;
  envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
- [209.85.167.194])
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46t4X23kCZzDr2s;
- Wed, 16 Oct 2019 06:01:06 +1100 (AEDT)
-Received: by mail-oi1-f194.google.com with SMTP id a15so17813274oic.0;
- Tue, 15 Oct 2019 12:01:06 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46t54v0vWqzDqBr
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Oct 2019 06:26:06 +1100 (AEDT)
+Received: by mail-ot1-f65.google.com with SMTP id 41so17980966oti.12
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Oct 2019 12:26:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=wDHyOUpqrv7nCNXxMncnfKZuhS0DDSRvQf7daN1HJps=;
- b=ZGLTECSt2Rkc2d46rLghVVTJRYDNvhS0zG6mMuv8maF+QvTKlC8IG3Y7GLnPqxTaaf
- iGO4WCgiN6UBf07kqzGT2molQKy6eskoNYwsVp1L0LKB9kXOlWDT087z/NnumCfyOMvf
- GjlkZx6bbsF7qNzW9iFv336uWHUcMDytT9ZgmnRXgiUbTzAepgo2lbQ0gjYF3qkzItZx
- p1QS+PMDh+Qrj3v1InRkjGglbB42fs//GlZGdKFOA7yWkFsPZalI0+kWs0RWBHm1nAn1
- BX0ejVzpKhRqXN4Bo5gmlFRDdaKPxmxI6PvlZBjnTwVu079I2LAXYtMuR07EOV8NLfnP
- kxtg==
-X-Gm-Message-State: APjAAAW+PHs9n0j4i0kep1EhpSvLj7hy8aZ/a+nhBcQSqJB7MD61k+5l
- axQPKUESfWe0f7EkQKaplw==
-X-Google-Smtp-Source: APXvYqzWSK8f7AUbAV3hUyGym4wGyacoh1czYoWtoJaS6CqSc2Sr8mD/Lh+uTddneZJ19P8nSkiI4Q==
-X-Received: by 2002:aca:1c02:: with SMTP id c2mr41124oic.73.1571166063181;
- Tue, 15 Oct 2019 12:01:03 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=bMN7HsXxW10Z/AXt6bsUTKC+n3cllPgUCAnFiYh55f4=;
+ b=B7+u+fjeuFvXiBrMEfXb/ycPEkKxxu1wMYy6wdquKAb0jTpQdD+xWkGWCwl4TGlB2/
+ JVL+6QNhIqMASdGjro7Fek4Z/2ZaqVbsNwYbQ6bf0Ok/Y0hnDKyFwBmm7jQ0pRHej+OQ
+ ejAFzm22oUhX5F8OZLhh9/Dw36Wuc0SY9/FiHu84lDY//uNFyCBuDbsdWgv+4RJSkHjs
+ D6ebkt01qzTOwUbQ56W4iY7P3sEZC17RBR4C8ZSLMhcFgMkkcFvaWGqYVD+ANfhZdLB6
+ Ym2sikLgMA8IM1ac7rgQTeyh9sIYUCKAs/l6tAUXpUGiudLZOzIS3vBBjLIl8/IfWfpG
+ sQQg==
+X-Gm-Message-State: APjAAAUY39C5SwVstVKl5FN3XDcidY6dF6ROUJFxKGQ0i2CeQf/QFhbd
+ dF4SNZGCL04Qq1FBoN5K6Q==
+X-Google-Smtp-Source: APXvYqwlp5+8r2qKOXYzE3/Ug0686nB0PMhOBNsopPiUJRsFnUZMpsYTSVwqINAlrTQju3xmJY1Q9g==
+X-Received: by 2002:a9d:66c5:: with SMTP id t5mr30074981otm.225.1571167563870; 
+ Tue, 15 Oct 2019 12:26:03 -0700 (PDT)
 Received: from localhost (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id 101sm7119645otd.18.2019.10.15.12.01.02
+ by smtp.gmail.com with ESMTPSA id i2sm7329212otf.19.2019.10.15.12.26.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Oct 2019 12:01:02 -0700 (PDT)
-Date: Tue, 15 Oct 2019 14:01:01 -0500
+ Tue, 15 Oct 2019 12:26:02 -0700 (PDT)
+Date: Tue, 15 Oct 2019 14:26:02 -0500
 From: Rob Herring <robh@kernel.org>
-To: "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>
-Subject: Re: [PATCH 2/2] dt-bindings: peci: aspeed: Add AST2600 compatible
-Message-ID: <20191015190101.GA29195@bogus>
-References: <20191002061200.29888-1-chiawei_wang@aspeedtech.com>
- <20191002061200.29888-3-chiawei_wang@aspeedtech.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 11/16] dt-bindings: mtd: aspeed-smc: Add new comptatible
+ for  AST2600
+Message-ID: <20191015192602.GA2299@bogus>
+References: <20191004115919.20788-1-clg@kaod.org>
+ <20191004115919.20788-12-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20191002061200.29888-3-chiawei_wang@aspeedtech.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191004115919.20788-12-clg@kaod.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -68,21 +71,28 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org,
- jason.m.bills@linux.intel.com, linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Vignesh Raghavendra <vigneshr@ti.com>, linux-aspeed@lists.ozlabs.org,
+ Tudor Ambarus <tudor.ambarus@microchip.com>,
+ Richard Weinberger <richard@nod.at>, Marek Vasut <marek.vasut@gmail.com>,
+ linux-mtd@lists.infradead.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Brian Norris <computersforpeace@gmail.com>,
+ David Woodhouse <dwmw2@infradead.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 2 Oct 2019 14:12:00 +0800, "Chia-Wei, Wang" wrote:
-> Document the AST2600 PECI controller compatible string.
+On Fri,  4 Oct 2019 13:59:14 +0200, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= wrote:
+> The SMC controllers on the AST2600 SoC are very similar to the the
+> AST2500. The SoC has one Firmware Memory Controller and two SPI flash
+> memory controllers.
 > 
-> Signed-off-by: Chia-Wei, Wang <chiawei_wang@aspeedtech.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->  Documentation/devicetree/bindings/peci/peci-aspeed.txt | 1 +
->  1 file changed, 1 insertion(+)
+>  Documentation/devicetree/bindings/mtd/aspeed-smc.txt | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
 
 Acked-by: Rob Herring <robh@kernel.org>
