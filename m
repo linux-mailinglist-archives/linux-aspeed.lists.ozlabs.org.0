@@ -2,67 +2,67 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F3E8D9334
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Oct 2019 16:00:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72816D99EB
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Oct 2019 21:22:07 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46tYqC6THJzDqZC
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Oct 2019 01:00:55 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46thxm5dLJzDqYB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Oct 2019 06:22:04 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::741;
- helo=mail-qk1-x741.google.com; envelope-from=linus.walleij@linaro.org;
+ smtp.mailfrom=google.com (client-ip=2607:f8b0:4864:20::443;
+ helo=mail-pf1-x443.google.com; envelope-from=brendanhiggins@google.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linaro.org
+ dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.b="VTvgClYQ"; 
+ unprotected) header.d=google.com header.i=@google.com header.b="rdImgBV5"; 
  dkim-atps=neutral
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46tYq00dNgzDqRD
- for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Oct 2019 01:00:42 +1100 (AEDT)
-Received: by mail-qk1-x741.google.com with SMTP id h126so22806499qke.10
- for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Oct 2019 07:00:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46thwD2h51zDqcK
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Oct 2019 06:20:44 +1100 (AEDT)
+Received: by mail-pf1-x443.google.com with SMTP id x127so15323664pfb.7
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Oct 2019 12:20:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gqml278NTu5znyLj4o9Te22EdTDlURV2Qw1cIDtLTt4=;
- b=VTvgClYQ4A/Fh9y5c/hd9xtq28k1VhkkJC6Lae1lj1lS9CSeatI4xJUFt7aVOZWMpC
- c70NFA/b7hFsue6/wOXLILAIv1rMEqDmIBvWLgw6pEyTOArvK00uv3y2ezSbJfK//Mo4
- i5r/NkgWwB3lrYFwN5LcQ2tCGu8aeZgWrDRUWzHNOOQGwGamIoEpvEQqymVoEvVUbbPM
- BMHUwKj6KZhVgqPx3JZOk8L73cAWjLzEeo4NDhHQfPwLXBPLSaQKGY3a2evpL/0tLBHW
- 9QGKALZPSodLHlZ5Ia7E3FjNomYdIpr+7Yb013hif8sY1MGNRGE4+poi7QzFf+5L98II
- qPDQ==
+ :cc; bh=nkjcBI/sR0pHQa7Q6ZwYOj6wNZTv9s5BqUzK5l7ttQg=;
+ b=rdImgBV5rSX819CWsaELSfHqCFtbKBlCgDcC1RDvmhUH4cxrZllIk9JJ4A3ft2cndE
+ VEW0TUE7aluFb5sGutlpLF2zLOxMvSjZwYBpPZtUjPS91c1gOcqbTdlVsLDBKyZzpSWr
+ N6IBsIPY8HYN5UsQs0atjxR9M+89To10Rks6ATMcWvWv8du5xxvXx79yxrzCY5rbCd6N
+ X1aNnwHNB6nVARAEp7XKbKHn/2myhZkH1jy8CwLaM36qFh9YNuxoOTcz5Dz2QJBILuA3
+ p93/vdRHF7+ABcOD8H8+CGE+/YqpYaOxrSkiHdYXsVxtuzBjBdn2WRPevotJpnYSBGeg
+ ItaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=gqml278NTu5znyLj4o9Te22EdTDlURV2Qw1cIDtLTt4=;
- b=o85fNq8Y3Ar+4G3XtlRLJdKpnI7+SDrUO2DdqiLBe0Jq2BdG1TvNSo5VtOWnnWLwNZ
- f3ALCf/Y5Duzug3xUgvy5YdsFP3TKpHCWRDqSJgdwMFPpgItk+MKVleySKyu0tk4husr
- mDvjJFdiHrk6cH3WjpPvLPLiKarvjXKpFtCHIKCBw2FEtT4gOWBddakd3QY8wdqwWXt8
- 78EhGhgyaowLG4c36ZeB22TalloM0uN2aY/s+/jRfWHUbogSiWMyQJM9wU0MYxrNzzwd
- +fRtEQssqIUsJaKgf26so8mwQu4P8IH9NVln41JPC8gdguEt/59jp/kBCHX2aIfzqLwm
- QO+w==
-X-Gm-Message-State: APjAAAW8TOImgnZ3gAHaNdbvcPRCEM/NodPZJRUb8jbYBwxAYVtkO/Io
- SNzTq7sLalUFgwMOVZSEiXAS+40TRmBpO34cqEXkFA==
-X-Google-Smtp-Source: APXvYqxE/W8Wym2zPEoThfzgBl+Y8q8y0M/tZiDg5SGuXU2OGToGJCLrZSvaS15buTSq1qqdW86Kkg/8vbhVY6QMYW4=
-X-Received: by 2002:a05:620a:34b:: with SMTP id
- t11mr38547340qkm.213.1571234438671; 
- Wed, 16 Oct 2019 07:00:38 -0700 (PDT)
+ bh=nkjcBI/sR0pHQa7Q6ZwYOj6wNZTv9s5BqUzK5l7ttQg=;
+ b=CUtRsfDvojl7lUuAjYk6PDit1189/dRY9fLhgOw0UwN+SrrcoTnaKYQhrwbyhSbl2O
+ yZjrRcAL4R8l2vKhXDCSPwL3jsP9oUdtp9TM8gwyhXwlz9QTEIrMsr1xvfo9FokOCiN3
+ FfmQDNtU9eETMWtvUldZKO0UuyGuxG8E6GbsIsK4aUE5mD9U0UvQb/1wMfW8sew0f+w5
+ 8hvLGDpd8fAUyQuMWDNBL1zddQL2RI3P18ZnHatKSqsb1CgE5VzLjsMzvalsG/jeab8r
+ vTWrCS7+qZ+IpzlPPDbL1jQmD1IDg+KVIcEmkkSzf2hzNrIFCC/abPlI/BLAUznkwlSy
+ Un2g==
+X-Gm-Message-State: APjAAAVZKnjGZkJpbAzlslfyLiwQkzOdii77tueT2MmVyJmsuvqrycy9
+ PBpQYsgQueaoVCK+L5LKIHk/OdQwW9sprwTN8uIVMA==
+X-Google-Smtp-Source: APXvYqwoWZoU1NQcYrpdH/oqoCAqIzIKZ/BPjYCIHumscCSMLtnNlqQsKoIXYT9B0G5ZK//ak2ZZhT8vfvalCP74+kc=
+X-Received: by 2002:a17:90a:2451:: with SMTP id
+ h75mr7096361pje.131.1571253639855; 
+ Wed, 16 Oct 2019 12:20:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191008044153.12734-1-andrew@aj.id.au>
- <CACRpkda5cWaA7R3XzyiERCCgwUrjnXd+wCBeKvt-wtjex7wNDg@mail.gmail.com>
- <2de90789-c374-4821-89f9-5d5f01e7d2d6@www.fastmail.com>
-In-Reply-To: <2de90789-c374-4821-89f9-5d5f01e7d2d6@www.fastmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 16 Oct 2019 16:00:26 +0200
-Message-ID: <CACRpkdbmbyNmW8tL_L0agBajomPybXsjn9ix_F5-B3fZnfuW9A@mail.gmail.com>
-Subject: Re: [PATCH 0/7] pinctrl: Fixes for AST2600 support
-To: Andrew Jeffery <andrew@aj.id.au>
+References: <20191009212034.20325-1-jae.hyun.yoo@linux.intel.com>
+ <49244d71-cbc3-f2ae-97ac-74b5f68a4816@fb.com>
+ <4ca4083d-23ff-0475-f5fd-ec3745b440b2@linux.intel.com>
+In-Reply-To: <4ca4083d-23ff-0475-f5fd-ec3745b440b2@linux.intel.com>
+From: Brendan Higgins <brendanhiggins@google.com>
+Date: Wed, 16 Oct 2019 12:20:28 -0700
+Message-ID: <CAFd5g47NL79YkVi4nJk63-ZbFXAKW+x1xWFoa26zPpY1+QnUrQ@mail.gmail.com>
+Subject: Re: [PATCH] i2c: aspeed: fix master pending state handling
+To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -76,34 +76,38 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Johnny Huang <johnny_huang@aspeedtech.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Ryan Chen <ryanchen.aspeed@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ Wolfram Sang <wsa@the-dreams.de>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Oct 16, 2019 at 1:42 PM Andrew Jeffery <andrew@aj.id.au> wrote:
-
-> I was hoping to get them into the 5.4 fixes branch: I consider them all fixes
-
-OK I moved them all to fixes.
-
-> > I need a shortlist of anything that should go into v5.4 if anything.
+On Thu, Oct 10, 2019 at 4:52 PM Jae Hyun Yoo
+<jae.hyun.yoo@linux.intel.com> wrote:
 >
-> IMO all of them should go into 5.4, as above.
+> On 10/10/2019 4:29 PM, Tao Ren wrote:
+> > On 10/9/19 2:20 PM, Jae Hyun Yoo wrote:
+> >> In case of master pending state, it should not trigger a master
+> >> command, otherwise data could be corrupted because this H/W shares
+> >> the same data buffer for slave and master operations. It also means
+> >> that H/W command queue handling is unreliable because of the buffer
+> >> sharing issue. To fix this issue, it clears command queue if a
+> >> master command is queued in pending state to use S/W solution
+> >> instead of H/W command queue handling. Also, it refines restarting
+> >> mechanism of the pending master command.
+> >>
+> >> Fixes: 2e57b7cebb98 ("i2c: aspeed: Add multi-master use case support")
+> >> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> >
+> > Tested-by: Tao Ren <taoren@fb.com>
+> >
+> > Tested the patch on Facebook Minipack BMC (multi-master i2c-0 environment) and
+> > everything looks good to me.
 
-OK
-
->  It's there something I can do in the future to communicate this better?
-
-Nah it is a complicated process, things need to be done manually
-at times, overly obsessing with process is counterproductive.
-
-Yours,
-Linus Walleij
+Looks like we got the necessary tested-bys and reviewed-bys. Can we
+apply this for next?
