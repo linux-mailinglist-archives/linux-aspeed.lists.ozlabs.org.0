@@ -2,68 +2,83 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72816D99EB
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Oct 2019 21:22:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3E3DA224
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Oct 2019 01:26:50 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46thxm5dLJzDqYB
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Oct 2019 06:22:04 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46tpN81WL2zDqX2
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Oct 2019 10:26:48 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=google.com (client-ip=2607:f8b0:4864:20::443;
- helo=mail-pf1-x443.google.com; envelope-from=brendanhiggins@google.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.230;
+ helo=new4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=reject dis=none) header.from=google.com
+ dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=google.com header.i=@google.com header.b="rdImgBV5"; 
- dkim-atps=neutral
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="fKdKzNRo"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="omb7k96+"; dkim-atps=neutral
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46thwD2h51zDqcK
- for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Oct 2019 06:20:44 +1100 (AEDT)
-Received: by mail-pf1-x443.google.com with SMTP id x127so15323664pfb.7
- for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Oct 2019 12:20:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nkjcBI/sR0pHQa7Q6ZwYOj6wNZTv9s5BqUzK5l7ttQg=;
- b=rdImgBV5rSX819CWsaELSfHqCFtbKBlCgDcC1RDvmhUH4cxrZllIk9JJ4A3ft2cndE
- VEW0TUE7aluFb5sGutlpLF2zLOxMvSjZwYBpPZtUjPS91c1gOcqbTdlVsLDBKyZzpSWr
- N6IBsIPY8HYN5UsQs0atjxR9M+89To10Rks6ATMcWvWv8du5xxvXx79yxrzCY5rbCd6N
- X1aNnwHNB6nVARAEp7XKbKHn/2myhZkH1jy8CwLaM36qFh9YNuxoOTcz5Dz2QJBILuA3
- p93/vdRHF7+ABcOD8H8+CGE+/YqpYaOxrSkiHdYXsVxtuzBjBdn2WRPevotJpnYSBGeg
- ItaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nkjcBI/sR0pHQa7Q6ZwYOj6wNZTv9s5BqUzK5l7ttQg=;
- b=CUtRsfDvojl7lUuAjYk6PDit1189/dRY9fLhgOw0UwN+SrrcoTnaKYQhrwbyhSbl2O
- yZjrRcAL4R8l2vKhXDCSPwL3jsP9oUdtp9TM8gwyhXwlz9QTEIrMsr1xvfo9FokOCiN3
- FfmQDNtU9eETMWtvUldZKO0UuyGuxG8E6GbsIsK4aUE5mD9U0UvQb/1wMfW8sew0f+w5
- 8hvLGDpd8fAUyQuMWDNBL1zddQL2RI3P18ZnHatKSqsb1CgE5VzLjsMzvalsG/jeab8r
- vTWrCS7+qZ+IpzlPPDbL1jQmD1IDg+KVIcEmkkSzf2hzNrIFCC/abPlI/BLAUznkwlSy
- Un2g==
-X-Gm-Message-State: APjAAAVZKnjGZkJpbAzlslfyLiwQkzOdii77tueT2MmVyJmsuvqrycy9
- PBpQYsgQueaoVCK+L5LKIHk/OdQwW9sprwTN8uIVMA==
-X-Google-Smtp-Source: APXvYqwoWZoU1NQcYrpdH/oqoCAqIzIKZ/BPjYCIHumscCSMLtnNlqQsKoIXYT9B0G5ZK//ak2ZZhT8vfvalCP74+kc=
-X-Received: by 2002:a17:90a:2451:: with SMTP id
- h75mr7096361pje.131.1571253639855; 
- Wed, 16 Oct 2019 12:20:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191009212034.20325-1-jae.hyun.yoo@linux.intel.com>
- <49244d71-cbc3-f2ae-97ac-74b5f68a4816@fb.com>
- <4ca4083d-23ff-0475-f5fd-ec3745b440b2@linux.intel.com>
-In-Reply-To: <4ca4083d-23ff-0475-f5fd-ec3745b440b2@linux.intel.com>
-From: Brendan Higgins <brendanhiggins@google.com>
-Date: Wed, 16 Oct 2019 12:20:28 -0700
-Message-ID: <CAFd5g47NL79YkVi4nJk63-ZbFXAKW+x1xWFoa26zPpY1+QnUrQ@mail.gmail.com>
-Subject: Re: [PATCH] i2c: aspeed: fix master pending state handling
-To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46tpM90h3GzDqC0
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Oct 2019 10:25:54 +1100 (AEDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id E4BBF71D9;
+ Wed, 16 Oct 2019 19:25:49 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Wed, 16 Oct 2019 19:25:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=PyvonOcPHFz8rKcmNUUFHGzSVRwDPRH
+ 8KZMA87K8oiQ=; b=fKdKzNRokgPjUVrX9f1xJPPL5FlrS4plG8on1QguhO/iuAm
+ Lo5Bj90672xyJdYbVyUa3VgU+Y+2HxL9CkP0vDPDXqrFPk+HkdlPyJ4zBZOv6xbR
+ AC06UzWdsdc6mXOjcwLUnmdpUOsjkr4FOvdCxovZ3hqBTA0w1TGdN2G30G0VO3RL
+ y+DaHnPWZIefPFmx6XBoejbEezNpp+qPUdeq4tbizZE0+K4cemSW7YXaAZ1uQ9J6
+ 8Va/knlMgkD3GnObd56nZ5XAmwW1JTMe+VDA8wFrthzeujiwezQhlsCJ5LH0EZHV
+ ajOg3EZJo/sEcpxTujDRiODK+6fjOKw7+beFf4A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=PyvonO
+ cPHFz8rKcmNUUFHGzSVRwDPRH8KZMA87K8oiQ=; b=omb7k96+2VHVf6VjCeeafg
+ 0siHqz/O6s1Oy7hU2nmQ2wlCw8vd3jsuThXLkkCGtgONeG8jLeNFNxXPzZe7+OKn
+ T/7e/jEO//cUsQpRyq8dul+GAUJ3agO093ZnPtkKuf73btmkch0y6Efs/TIK6gtP
+ kVQZpB24Tnqbs+4tnsWgzLDWBwGCUPly78dIr64T4MDegNqzj2pE8BaAug0Fm8OK
+ bv6VUc/RuGRqXlPU+DPQzz2eLqBkn0NHbCZFSNi670PzweDU9nYRrT+Od8LsXGTL
+ dx07/zq5jEtosWNBfLbr8XI27LOg+bN/6TW0mlO2mGuCSkWtAjN9cFveoc2MyShw
+ ==
+X-ME-Sender: <xms:_aanXUngCArMrXAA7-s9c4Qrm5auYWXdza9M0WOYns1PrME8q-OgOQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrjeeigddvtdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
+ hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
+ ufhiiigvpedt
+X-ME-Proxy: <xmx:_aanXSOwracCb3LzQKBJVZOovmxxNA0-0f4Zw9_sMVL51RQo6XuC5g>
+ <xmx:_aanXat8h366CpTcUuN8cE1t1VuiwpVN_HSoPB3fEVwg1In-bqXS2w>
+ <xmx:_aanXVw3N8k8rS7lIIEsu9nO1S99HVu_3B09uTkoA1XFM6F3kpdcWQ>
+ <xmx:_aanXTz6edeXMD7h5uZtGS_XNOlxgfyiI49h0Dnq5VCKKbB13GyWCg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id E351AE00BE; Wed, 16 Oct 2019 19:25:48 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-360-g7dda896-fmstable-20191004v2
+Mime-Version: 1.0
+Message-Id: <5fc76c3b-4727-4c4b-88a1-59c9618ccb30@www.fastmail.com>
+In-Reply-To: <CACRpkdbmbyNmW8tL_L0agBajomPybXsjn9ix_F5-B3fZnfuW9A@mail.gmail.com>
+References: <20191008044153.12734-1-andrew@aj.id.au>
+ <CACRpkda5cWaA7R3XzyiERCCgwUrjnXd+wCBeKvt-wtjex7wNDg@mail.gmail.com>
+ <2de90789-c374-4821-89f9-5d5f01e7d2d6@www.fastmail.com>
+ <CACRpkdbmbyNmW8tL_L0agBajomPybXsjn9ix_F5-B3fZnfuW9A@mail.gmail.com>
+Date: Thu, 17 Oct 2019 09:56:45 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Linus Walleij" <linus.walleij@linaro.org>
+Subject: Re: [PATCH 0/7] pinctrl: Fixes for AST2600 support
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,38 +91,41 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: Mark Rutland <mark.rutland@arm.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- Wolfram Sang <wsa@the-dreams.de>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Johnny Huang <johnny_huang@aspeedtech.com>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Ryan Chen <ryanchen.aspeed@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Oct 10, 2019 at 4:52 PM Jae Hyun Yoo
-<jae.hyun.yoo@linux.intel.com> wrote:
->
-> On 10/10/2019 4:29 PM, Tao Ren wrote:
-> > On 10/9/19 2:20 PM, Jae Hyun Yoo wrote:
-> >> In case of master pending state, it should not trigger a master
-> >> command, otherwise data could be corrupted because this H/W shares
-> >> the same data buffer for slave and master operations. It also means
-> >> that H/W command queue handling is unreliable because of the buffer
-> >> sharing issue. To fix this issue, it clears command queue if a
-> >> master command is queued in pending state to use S/W solution
-> >> instead of H/W command queue handling. Also, it refines restarting
-> >> mechanism of the pending master command.
-> >>
-> >> Fixes: 2e57b7cebb98 ("i2c: aspeed: Add multi-master use case support")
-> >> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> >
-> > Tested-by: Tao Ren <taoren@fb.com>
-> >
-> > Tested the patch on Facebook Minipack BMC (multi-master i2c-0 environment) and
-> > everything looks good to me.
 
-Looks like we got the necessary tested-bys and reviewed-bys. Can we
-apply this for next?
+
+On Thu, 17 Oct 2019, at 00:30, Linus Walleij wrote:
+> On Wed, Oct 16, 2019 at 1:42 PM Andrew Jeffery <andrew@aj.id.au> wrote:
+> 
+> > I was hoping to get them into the 5.4 fixes branch: I consider them all fixes
+> 
+> OK I moved them all to fixes.
+
+Thanks.
+
+> 
+> > > I need a shortlist of anything that should go into v5.4 if anything.
+> >
+> > IMO all of them should go into 5.4, as above.
+> 
+> OK
+> 
+> >  It's there something I can do in the future to communicate this better?
+> 
+> Nah it is a complicated process, things need to be done manually
+> at times, overly obsessing with process is counterproductive.
+
+No worries, happy to carry on as is.
+
+Andrew
