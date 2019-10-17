@@ -2,86 +2,137 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2C90DB851
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Oct 2019 22:32:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08D9DB974
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Oct 2019 00:03:15 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46vLSH75X1zDqdX
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Oct 2019 07:32:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46vNTF1m11zDqLD
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Oct 2019 09:03:13 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record)
- smtp.mailfrom=linux.vnet.ibm.com (client-ip=148.163.158.5;
- helo=mx0b-001b2d01.pphosted.com; envelope-from=eajames@linux.vnet.ibm.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linux.vnet.ibm.com
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
+ (client-ip=67.231.153.30; helo=mx0b-00082601.pphosted.com;
+ envelope-from=prvs=51932c9067=vijaykhemka@fb.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=fb.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=fb.com header.i=@fb.com header.b="ZuPpGPHy"; 
+ dkim=pass (1024-bit key;
+ unprotected) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com
+ header.b="g0uoj/R4"; dkim-atps=neutral
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com
+ [67.231.153.30])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46vLS81jtlzDqcj
- for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Oct 2019 07:32:07 +1100 (AEDT)
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x9HKRAco156556; Thu, 17 Oct 2019 16:31:52 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vpnjan71b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Oct 2019 16:31:52 -0400
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x9HKSEbj158990;
- Thu, 17 Oct 2019 16:31:51 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2vpnjan713-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Oct 2019 16:31:51 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x9HKV9rD022276;
- Thu, 17 Oct 2019 20:31:51 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma03wdc.us.ibm.com with ESMTP id 2vk6f7rytf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Oct 2019 20:31:51 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x9HKVnIJ58130758
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 17 Oct 2019 20:31:50 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C28796E04C;
- Thu, 17 Oct 2019 20:31:49 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3D51B6E053;
- Thu, 17 Oct 2019 20:31:49 +0000 (GMT)
-Received: from [9.41.179.222] (unknown [9.41.179.222])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 17 Oct 2019 20:31:49 +0000 (GMT)
-Subject: Re: AST2600 i2c irq issue
-To: Joel Stanley <joel@jms.id.au>, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
- Brendan Higgins <brendanhiggins@google.com>
-References: <CACPK8XdqFkPgCQcgpM5C_YwfJ86Lmk=hG5zTcfbCDCMncXCJMg@mail.gmail.com>
-From: Eddie James <eajames@linux.vnet.ibm.com>
-Message-ID: <f9fecc04-2a9a-4cbd-a1ff-ffb680b0fec2@linux.vnet.ibm.com>
-Date: Thu, 17 Oct 2019 15:31:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <CACPK8XdqFkPgCQcgpM5C_YwfJ86Lmk=hG5zTcfbCDCMncXCJMg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46vNT00htFzDqCH;
+ Fri, 18 Oct 2019 09:02:58 +1100 (AEDT)
+Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ x9HLwWlk031582; Thu, 17 Oct 2019 15:01:51 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=facebook;
+ bh=0F3O/G09+8RDQ956ALlfFPTWWr5h01TaK8Rg/fDAySA=;
+ b=ZuPpGPHyoM2lO5KzW5LHgIuxbeLKQdnW6ERbVGMxx4tJwCrPBI6If6TXUlM0iou32PPY
+ rCi9lHXPaStNOk2Y7/6Y370I8JQ72bWLCm5GcjYr8p2I9rUxKbyIgA7cO145ciSdQXby
+ lObGxXLB3tg3qK7mf2dDB2D8N3GFCuEwR+Y= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by mx0a-00082601.pphosted.com with ESMTP id 2vpw9r8y9x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Thu, 17 Oct 2019 15:01:51 -0700
+Received: from ash-exhub103.TheFacebook.com (2620:10d:c0a8:82::c) by
+ ash-exhub102.TheFacebook.com (2620:10d:c0a8:82::f) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 17 Oct 2019 15:01:50 -0700
+Received: from NAM05-BY2-obe.outbound.protection.outlook.com (100.104.31.183)
+ by o365-in.thefacebook.com (100.104.35.174) with Microsoft SMTP
+ Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Thu, 17 Oct 2019 15:01:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dDx89fr2QrNMaTHCpUVyAefqcyj5UndIevqomZWgzkWenuoefie9BU/U5wfnbs9bvSnSlHgBpWhH8UFASn0Hfy2jjd1ReZ4wGRFoT60h4t2bYbNb+QUaqlqFOav1YkQ0iu2bhDU+pen6OkCEBk6zPQCbntCWEZR/3fXuYYkGfg8rJHgumgHF/LoW3Ia9oalqNdjNBDjX9XUcqxOT92atwMGtxUslRuODxxX5SyGOPLbL6kRso/vN10p6tZFvacdaOx5bAbp/cTVrK1ev9gr7Ldc9HmrotqyvVTdwikWlMOqNRLEgKHSp22vhBfZtimvVMrF+v4uX9uK9oGvipKtutQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0F3O/G09+8RDQ956ALlfFPTWWr5h01TaK8Rg/fDAySA=;
+ b=hYFRpmUbI9qQ9waTKjONir6sErOuzK5lxm0HmwJ+K6UoqPQ/0LiTBwtSQlUwU3i1dejj47it3w29g9xkngBEEX7nhy9M9G/NqR+E8lFyDyCGmkILCSYAJggusaUElcOMaGVxOF7/JQSVtQ4rp3etM4D/nunard20taxLLh1IVKUi5xg7U8NhkI3vqRZLTRJTkpuxm5Wtl5HgLPHZR5+4NYKOm8X7YlZEAx/HBUDtrHjzt8mykZyv7N4T2Q6co6c1u0fb5DbRwXiZZsnz7s7hWoSRGxFbvALp0QMu3eHcKxD5b78BeaUsUBzVBiPGgoPLky3YJSo6gpmnh0mGioQSgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector2-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0F3O/G09+8RDQ956ALlfFPTWWr5h01TaK8Rg/fDAySA=;
+ b=g0uoj/R4P0myrukAwCuCs0qWosFby2t1zT3Avj6glb8Ht4OU7/2xj0Fjpb1NOXe1A21KVUjEPe5abs8GPL9y7aW1mZr2hDFY8fcBx7lNVZw7NZcUV1BKWzgaTtAH3SjIBWWoQRcF80NcXebrq/wGGG8PUxWwUn6HOanuRFkQ56A=
+Received: from BY5PR15MB3636.namprd15.prod.outlook.com (52.133.252.91) by
+ BY5PR15MB3572.namprd15.prod.outlook.com (52.133.255.88) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2347.16; Thu, 17 Oct 2019 22:01:49 +0000
+Received: from BY5PR15MB3636.namprd15.prod.outlook.com
+ ([fe80::7887:4f9c:70df:285c]) by BY5PR15MB3636.namprd15.prod.outlook.com
+ ([fe80::7887:4f9c:70df:285c%4]) with mapi id 15.20.2347.023; Thu, 17 Oct 2019
+ 22:01:49 +0000
+From: Vijay Khemka <vijaykhemka@fb.com>
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>, "David S. Miller"
+ <davem@davemloft.net>, Kate Stewart <kstewart@linuxfoundation.org>,
+ "Sven Van Asbroeck" <TheSven73@gmail.com>, Mark Brown <broonie@kernel.org>,
+ "Bhupesh Sharma" <bhsharma@redhat.com>, YueHaibing <yuehaibing@huawei.com>,
+ "Mauro Carvalho Chehab" <mchehab+samsung@kernel.org>, Luis Chamberlain
+ <mcgrof@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] ftgmac100: Disable HW checksum generation on AST2500
+Thread-Topic: [PATCH v2] ftgmac100: Disable HW checksum generation on AST2500
+Thread-Index: AQHVgIJ8iNM2JFB8dkCGpaKji+MwkKdeE2WAgADjLwA=
+Date: Thu, 17 Oct 2019 22:01:48 +0000
+Message-ID: <0C0BC813-5A84-403F-9C48-9447AAABD867@fb.com>
+References: <20191011213027.2110008-1-vijaykhemka@fb.com>
+ <3a1176067b745fddfc625bbd142a41913ee3e3a1.camel@kernel.crashing.org>
+In-Reply-To: <3a1176067b745fddfc625bbd142a41913ee3e3a1.camel@kernel.crashing.org>
+Accept-Language: en-US
 Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-10-17_06:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=737 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910170184
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [2620:10d:c090:200::3:f653]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 63c7cef0-b01f-4e89-6bf1-08d7534d9c09
+x-ms-traffictypediagnostic: BY5PR15MB3572:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR15MB35722890CE8F93FAA427069CDD6D0@BY5PR15MB3572.namprd15.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 01930B2BA8
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(376002)(136003)(39860400002)(396003)(366004)(346002)(189003)(199004)(110136005)(6246003)(2906002)(54906003)(6436002)(486006)(316002)(11346002)(6116002)(33656002)(14444005)(446003)(229853002)(7736002)(2616005)(256004)(305945005)(71190400001)(71200400001)(14454004)(478600001)(25786009)(46003)(6486002)(7416002)(476003)(4001150100001)(2201001)(4326008)(186003)(99286004)(6512007)(5660300002)(6506007)(36756003)(76176011)(102836004)(2501003)(81166006)(8676002)(91956017)(76116006)(66946007)(81156014)(66476007)(66446008)(66556008)(86362001)(64756008)(8936002)(921003)(1121003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BY5PR15MB3572;
+ H:BY5PR15MB3636.namprd15.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: iedLVTcCEat0NMZl3WTaE/XSuHEGC3DKCWqF88kg3GrdAxuPgrNMg+YOQfOTDsGGXmXOGGSGY9FZ5RZNRqMMXmkUk5ef5JoMF7qUrQHf5yuNSbvpbxo00V/ez+fzSTAy2muQzj3nyzdJh5QfFzauN7bi9VYRIxxHKs19EV9vj+FYl5ibyelolnDa9G83nl68dgpe+wZYDcVA5VHtCA65L5mA+vIh/y2DOt4d51ZUj7QERgnSTURyW4TGleqehQrHUYpidYRQJd0ZRRA0w2v1pS+GWLiEpQ2Wrgpef6hi3+8+j5gihQPV4NrXb4U4U8QBACW0P/8T1EZZVQp1q0Q4NAkA6xOarbU4hQsa58iUZYyd/9GvKi1YQ5UTJPP2e9zt1X95rjW+QoU86rQLe/+JEggRINBmdBI47q/HnVzRAkE=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B146F1DF5A37764E8AB04AAC4108B5C5@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63c7cef0-b01f-4e89-6bf1-08d7534d9c09
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2019 22:01:48.9516 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CK7iCz1tEqLEYAsnBlaDagDKwbk+uW0tyvwOBhE0LOH87ioiJ5vcmaCxvaIy8UQzeVF7c190b/1qmMeDCEKs3A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR15MB3572
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-10-17_06:2019-10-17,2019-10-17 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ mlxlogscore=948
+ lowpriorityscore=0 mlxscore=0 suspectscore=0 phishscore=0 clxscore=1011
+ adultscore=0 spamscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1908290000 definitions=main-1910170193
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,143 +144,57 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-i2c@vger.kernel.org, linux-aspeed <linux-aspeed@lists.ozlabs.org>
+Cc: "openbmc @ lists . ozlabs . org" <openbmc@lists.ozlabs.org>,
+ Sai Dasari <sdasari@fb.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-On 10/17/19 1:14 AM, Joel Stanley wrote:
-> I have been doing bringup of the ast2600. It contains i2c buses that
-> are register compatible with the ast2500, and I am running them
-> without buffer or DMA mode. This is with v5.3.6, with no patches other
-> than adding the compatible string:
->
-> --- a/drivers/i2c/busses/i2c-aspeed.c
-> +++ b/drivers/i2c/busses/i2c-aspeed.c
-> @@ -938,6 +938,10 @@ static const struct of_device_id
-> aspeed_i2c_bus_of_table[] = {
->                  .compatible = "aspeed,ast2500-i2c-bus",
->                  .data = aspeed_i2c_25xx_get_clk_reg_val,
->          },
-> +       {
-> +               .compatible = "aspeed,ast2600-i2c-bus",
-> +               .data = aspeed_i2c_25xx_get_clk_reg_val,
-> +       },
->          { },
->   };
->
->
-> I see this behavior:
->
-> [   20.981417] aspeed-i2c-bus 1e78a280.i2c-bus: master failed to RX
-> [   20.988259] aspeed-i2c-bus 1e78a280.i2c-bus: irq handled != irq.
-> expected 0x00000014, but was 0x00000010
-> [   22.451265] aspeed-i2c-bus 1e78a200.i2c-bus: master failed to STOP.
-> irq_status:0x0
-> [   22.459909] aspeed-i2c-bus 1e78a200.i2c-bus: irq handled != irq.
-> expected 0x00000010, but was 0x00000000
-> [   22.470604] aspeed-i2c-bus 1e78a200.i2c-bus: irq handled != irq.
-> expected 0x00000011, but was 0x00000000
-> [   29.156951] aspeed-i2c-bus 1e78a280.i2c-bus: master failed to STOP.
-> irq_status:0x0
-> [   29.165601] aspeed-i2c-bus 1e78a280.i2c-bus: irq handled != irq.
-> expected 0x00000010, but was 0x00000000
->
-> It happens on boot, and can also be triggered by placing load on the
-> system. In particular, if I copy a large amount of data to the flash.
->
-> The IRQs are being served on one of the CPUs:
->
->   29:          0          0     GIC-0 142 Level     1e78a080.i2c-bus
->   30:          0          0     GIC-0 143 Level     1e78a100.i2c-bus
->   31:          0          0     GIC-0 144 Level     1e78a180.i2c-bus
->   32:     302596          0     GIC-0 145 Level     1e78a200.i2c-bus
->   33:     197340          0     GIC-0 146 Level     1e78a280.i2c-bus
->   34:     196900          0     GIC-0 147 Level     1e78a300.i2c-bus
->   35:          0          0     GIC-0 149 Level     1e78a400.i2c-bus
->   36:       2199          0     GIC-0 151 Level     1e78a500.i2c-bus
->   37:          0          0     GIC-0 152 Level     1e78a580.i2c-bus
->   38:       3407          0     GIC-0 153 Level     1e78a600.i2c-bus
->   39:          0          0     GIC-0 154 Level     1e78a680.i2c-bus
->   40:          0          0     GIC-0 155 Level     1e78a700.i2c-bus
->
-> Following a hunch, I booted the system with SMP disabled (it's a dual
-> core part). The issue did not reproduce.
->
-> This suggests the driver is lacking locking. I am yet to do any
-> detailed debugging.
-
-
-Been doing some testing.
-
-I'm not sure it's locking, but I think it could have something to do 
-with the fact that the driver only acknowledges (clears the irq status 
-register) the RX done bit way later than the rest of the bits. Is there 
-a reason for this?
-
-It seems to me that we get a second interrupt pending (on the second 
-processor? don't see how as we never see any irqs handled there) for RX 
-done sometimes, immediately after we've cleared it. I've ONLY seen it on 
-RX done. Here's some data to show this:
-
-This is just some custom tracing to track the driver state and the irqs. 
-There was too much traffic for dev_dbg to handle. before is the driver 
-state before the irq, and after is the driver state after the irq.
-
-0: error entries[10]
-     0: irq[00000000] before[inactive] after[start]
-     1: irq[00000001] before[start] after[tx_first]
-     2: irq[00000001] before[tx_first] after[tx]
-     3: irq[00000001] before[tx] after[start]
-     4: irq[00000005] before[start] after[rx_first]
-     5: irq[00000005] before[rx_first] after[rx]
-     6: irq[00000004] before[rx] after[rx]
-     7: irq[00000004] before[rx] after[stop]    << all good, transfer is 
-complete so we send stop.
-     8: irq[00000000] before[stop] after[inactive]    << this is the one 
-that triggers "failed to STOP" below
-     9: irq[00000010] before[inactive] after[inactive]    << now we get 
-the actual stop, but we're in the wrong state and ignore it
-1: error entries[9]
-     0: irq[00000000] before[inactive] after[start]
-     1: irq[00000001] before[start] after[tx_first]
-     2: irq[00000001] before[tx_first] after[tx]
-     3: irq[00000001] before[tx] after[start]
-     4: irq[00000005] before[start] after[rx_first]
-     5: irq[00000005] before[rx_first] after[rx]
-     6: irq[00000004] before[rx] after[rx]     << all good, transfer is 
-continuing
-     7: irq[00000000] before[rx] after[stop]  << no RX during an RX 
-operation causes driver to abort and stop
-     8: irq[00000014] before[stop] after[inactive] << now we get the RX 
-and the stop.
-
-This corresponds to:
-
-[   18.405472] aspeed-i2c-bus 1e78a300.i2c-bus: master failed to STOP. 
-irq_status:0x0
-[   18.414164] aspeed-i2c-bus 1e78a300.i2c-bus: irq handled != irq. 
-expected 0x00000010, but was 0x00000000
-[   21.355422] aspeed-i2c-bus 1e78a300.i2c-bus: master failed to RX
-[   21.363323] aspeed-i2c-bus 1e78a300.i2c-bus: irq handled != irq. 
-expected 0x00000014, but was 0x00000010
-
-
-I don't understand how disabling SMP fixes this, since the second core 
-doesn't seem to ever handle any interrupts. Maybe it's just reporting it 
-wrong? From what I understand of interrupt handling, the second core is 
-allowed to get interrupts while the first is handling an interrupt and 
-has therefore disabled it's own interrupts... correct me if I 
-misunderstand. In this case then, RX done gets triggered on the second 
-core since it's sitting around uncleared in the status register?
-
-
-I was also able to "fix" this by simple returning IRQ_NONE if irq_status 
-== 0 in the interrupt handler. But probably not a good solution.
-
-Eddie
-
-
->
-> Have you seen any behavior like this?
+DQoNCu+7v09uIDEwLzE2LzE5LCA2OjI5IFBNLCAiQmVuamFtaW4gSGVycmVuc2NobWlkdCIgPGJl
+bmhAa2VybmVsLmNyYXNoaW5nLm9yZz4gd3JvdGU6DQoNCiAgICBPbiBGcmksIDIwMTktMTAtMTEg
+YXQgMTQ6MzAgLTA3MDAsIFZpamF5IEtoZW1rYSB3cm90ZToNCiAgICA+IEhXIGNoZWNrc3VtIGdl
+bmVyYXRpb24gaXMgbm90IHdvcmtpbmcgZm9yIEFTVDI1MDAsIHNwZWNpYWxseSB3aXRoDQogICAg
+PiBJUFY2DQogICAgPiBvdmVyIE5DU0kuIEFsbCBUQ1AgcGFja2V0cyB3aXRoIElQdjYgZ2V0IGRy
+b3BwZWQuIEJ5IGRpc2FibGluZyB0aGlzDQogICAgPiBpdCB3b3JrcyBwZXJmZWN0bHkgZmluZSB3
+aXRoIElQVjYuIEFzIGl0IHdvcmtzIGZvciBJUFY0IHNvIGVuYWJsZWQNCiAgICA+IGh3IGNoZWNr
+c3VtIGJhY2sgZm9yIElQVjQuDQogICAgPiANCiAgICA+IFZlcmlmaWVkIHdpdGggSVBWNiBlbmFi
+bGVkIGFuZCBjYW4gZG8gc3NoLg0KICAgIA0KICAgIFNvIHdoaWxlIHRoaXMgcHJvYmFibHkgd29y
+a3MsIEkgZG9uJ3QgdGhpbmsgdGhpcyBpcyB0aGUgcmlnaHQNCiAgICBhcHByb2FjaCwgYXQgbGVh
+c3QgYWNjb3JkaW5nIHRvIHRoZSBjb21tZW50cyBpbiBza2J1ZmYuaA0KDQpUaGlzIGlzIG5vdCBh
+IG1hdHRlciBvZiB1bnN1cHBvcnRlZCBjc3VtLCBpdCBpcyBicm9rZW4gaHcgY3N1bS4gDQpUaGF0
+J3Mgd2h5IHdlIGRpc2FibGUgaHcgY2hlY2tzdW0uIE15IGd1ZXNzIGlzIG9uY2Ugd2UgZGlzYWJs
+ZQ0KSHcgY2hlY2tzdW0sIGl0IHdpbGwgdXNlIHN3IGNoZWNrc3VtLiBTbyBJIGFtIGp1c3QgZGlz
+YWJsaW5nIGh3IA0KQ2hlY2tzdW0uDQogICAgDQogICAgVGhlIGRyaXZlciBzaG91bGQgaGF2ZSBo
+YW5kbGVkIHVuc3VwcG9ydGVkIGNzdW0gdmlhIFNXIGZhbGxiYWNrDQogICAgYWxyZWFkeSBpbiBm
+dGdtYWMxMDBfcHJlcF90eF9jc3VtKCkNCiAgICANCiAgICBDYW4geW91IGNoZWNrIHdoeSB0aGlz
+IGRpZG4ndCB3b3JrIGZvciB5b3UgPw0KICAgIA0KICAgIENoZWVycywNCiAgICBCZW4uDQogICAg
+DQogICAgPiBTaWduZWQtb2ZmLWJ5OiBWaWpheSBLaGVta2EgPHZpamF5a2hlbWthQGZiLmNvbT4N
+CiAgICA+IC0tLQ0KICAgID4gQ2hhbmdlcyBzaW5jZSB2MToNCiAgICA+ICBFbmFibGVkIElQVjQg
+aHcgY2hlY2tzdW0gZ2VuZXJhdGlvbiBhcyBpdCB3b3JrcyBmb3IgSVBWNC4NCiAgICA+IA0KICAg
+ID4gIGRyaXZlcnMvbmV0L2V0aGVybmV0L2ZhcmFkYXkvZnRnbWFjMTAwLmMgfCAxMyArKysrKysr
+KysrKystDQogICAgPiAgMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDEgZGVsZXRp
+b24oLSkNCiAgICA+IA0KICAgID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L2Zh
+cmFkYXkvZnRnbWFjMTAwLmMNCiAgICA+IGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvZmFyYWRheS9m
+dGdtYWMxMDAuYw0KICAgID4gaW5kZXggMDMwZmVkNjUzOTNlLi4wMjU1YTI4ZDI5NTggMTAwNjQ0
+DQogICAgPiAtLS0gYS9kcml2ZXJzL25ldC9ldGhlcm5ldC9mYXJhZGF5L2Z0Z21hYzEwMC5jDQog
+ICAgPiArKysgYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9mYXJhZGF5L2Z0Z21hYzEwMC5jDQogICAg
+PiBAQCAtMTg0Miw4ICsxODQyLDE5IEBAIHN0YXRpYyBpbnQgZnRnbWFjMTAwX3Byb2JlKHN0cnVj
+dA0KICAgID4gcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KICAgID4gIAkvKiBBU1QyNDAwICBkb2Vz
+bid0IGhhdmUgd29ya2luZyBIVyBjaGVja3N1bSBnZW5lcmF0aW9uICovDQogICAgPiAgCWlmIChu
+cCAmJiAob2ZfZGV2aWNlX2lzX2NvbXBhdGlibGUobnAsICJhc3BlZWQsYXN0MjQwMC1tYWMiKSkp
+DQogICAgPiAgCQluZXRkZXYtPmh3X2ZlYXR1cmVzICY9IH5ORVRJRl9GX0hXX0NTVU07DQogICAg
+PiArDQogICAgPiArCS8qIEFTVDI1MDAgZG9lc24ndCBoYXZlIHdvcmtpbmcgSFcgY2hlY2tzdW0g
+Z2VuZXJhdGlvbiBmb3IgSVBWNg0KICAgID4gKwkgKiBidXQgaXQgd29ya3MgZm9yIElQVjQsIHNv
+IGRpc2FibGluZyBodyBjaGVja3N1bSBhbmQgZW5hYmxpbmcNCiAgICA+ICsJICogaXQgZm9yIG9u
+bHkgSVBWNC4NCiAgICA+ICsJICovDQogICAgPiArCWlmIChucCAmJiAob2ZfZGV2aWNlX2lzX2Nv
+bXBhdGlibGUobnAsICJhc3BlZWQsYXN0MjUwMC1tYWMiKSkpDQogICAgPiB7DQogICAgPiArCQlu
+ZXRkZXYtPmh3X2ZlYXR1cmVzICY9IH5ORVRJRl9GX0hXX0NTVU07DQogICAgPiArCQluZXRkZXYt
+Pmh3X2ZlYXR1cmVzIHw9IE5FVElGX0ZfSVBfQ1NVTTsNCiAgICA+ICsJfQ0KICAgID4gKw0KICAg
+ID4gIAlpZiAobnAgJiYgb2ZfZ2V0X3Byb3BlcnR5KG5wLCAibm8taHctY2hlY2tzdW0iLCBOVUxM
+KSkNCiAgICA+IC0JCW5ldGRldi0+aHdfZmVhdHVyZXMgJj0gfihORVRJRl9GX0hXX0NTVU0gfA0K
+ICAgID4gTkVUSUZfRl9SWENTVU0pOw0KICAgID4gKwkJbmV0ZGV2LT5od19mZWF0dXJlcyAmPSB+
+KE5FVElGX0ZfSFdfQ1NVTSB8DQogICAgPiBORVRJRl9GX1JYQ1NVTQ0KICAgID4gKwkJCQkJIHwg
+TkVUSUZfRl9JUF9DU1VNKTsNCiAgICA+ICAJbmV0ZGV2LT5mZWF0dXJlcyB8PSBuZXRkZXYtPmh3
+X2ZlYXR1cmVzOw0KICAgID4gIA0KICAgID4gIAkvKiByZWdpc3RlciBuZXR3b3JrIGRldmljZSAq
+Lw0KICAgIA0KICAgIA0KDQo=
