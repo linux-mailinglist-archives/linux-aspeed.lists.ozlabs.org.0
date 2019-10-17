@@ -1,84 +1,48 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA3E3DA224
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Oct 2019 01:26:50 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6657DA344
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Oct 2019 03:40:29 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46tpN81WL2zDqX2
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Oct 2019 10:26:48 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46tsLL4tt7zDqvr
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Oct 2019 12:40:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.230;
- helo=new4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="fKdKzNRo"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="omb7k96+"; dkim-atps=neutral
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ spf=permerror (SPF Permanent Error: Unknown mechanism
+ found: ip:192.40.192.88/32) smtp.mailfrom=kernel.crashing.org
+ (client-ip=63.228.1.57; helo=gate.crashing.org;
+ envelope-from=benh@kernel.crashing.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=kernel.crashing.org
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46tpM90h3GzDqC0
- for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Oct 2019 10:25:54 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id E4BBF71D9;
- Wed, 16 Oct 2019 19:25:49 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Wed, 16 Oct 2019 19:25:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=PyvonOcPHFz8rKcmNUUFHGzSVRwDPRH
- 8KZMA87K8oiQ=; b=fKdKzNRokgPjUVrX9f1xJPPL5FlrS4plG8on1QguhO/iuAm
- Lo5Bj90672xyJdYbVyUa3VgU+Y+2HxL9CkP0vDPDXqrFPk+HkdlPyJ4zBZOv6xbR
- AC06UzWdsdc6mXOjcwLUnmdpUOsjkr4FOvdCxovZ3hqBTA0w1TGdN2G30G0VO3RL
- y+DaHnPWZIefPFmx6XBoejbEezNpp+qPUdeq4tbizZE0+K4cemSW7YXaAZ1uQ9J6
- 8Va/knlMgkD3GnObd56nZ5XAmwW1JTMe+VDA8wFrthzeujiwezQhlsCJ5LH0EZHV
- ajOg3EZJo/sEcpxTujDRiODK+6fjOKw7+beFf4A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=PyvonO
- cPHFz8rKcmNUUFHGzSVRwDPRH8KZMA87K8oiQ=; b=omb7k96+2VHVf6VjCeeafg
- 0siHqz/O6s1Oy7hU2nmQ2wlCw8vd3jsuThXLkkCGtgONeG8jLeNFNxXPzZe7+OKn
- T/7e/jEO//cUsQpRyq8dul+GAUJ3agO093ZnPtkKuf73btmkch0y6Efs/TIK6gtP
- kVQZpB24Tnqbs+4tnsWgzLDWBwGCUPly78dIr64T4MDegNqzj2pE8BaAug0Fm8OK
- bv6VUc/RuGRqXlPU+DPQzz2eLqBkn0NHbCZFSNi670PzweDU9nYRrT+Od8LsXGTL
- dx07/zq5jEtosWNBfLbr8XI27LOg+bN/6TW0mlO2mGuCSkWtAjN9cFveoc2MyShw
- ==
-X-ME-Sender: <xms:_aanXUngCArMrXAA7-s9c4Qrm5auYWXdza9M0WOYns1PrME8q-OgOQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrjeeigddvtdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
- hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
- ufhiiigvpedt
-X-ME-Proxy: <xmx:_aanXSOwracCb3LzQKBJVZOovmxxNA0-0f4Zw9_sMVL51RQo6XuC5g>
- <xmx:_aanXat8h366CpTcUuN8cE1t1VuiwpVN_HSoPB3fEVwg1In-bqXS2w>
- <xmx:_aanXVw3N8k8rS7lIIEsu9nO1S99HVu_3B09uTkoA1XFM6F3kpdcWQ>
- <xmx:_aanXTz6edeXMD7h5uZtGS_XNOlxgfyiI49h0Dnq5VCKKbB13GyWCg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id E351AE00BE; Wed, 16 Oct 2019 19:25:48 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-360-g7dda896-fmstable-20191004v2
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46ts5R689QzDr7W;
+ Thu, 17 Oct 2019 12:29:14 +1100 (AEDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x9H1Sgc9000334;
+ Wed, 16 Oct 2019 20:28:42 -0500
+Message-ID: <3a1176067b745fddfc625bbd142a41913ee3e3a1.camel@kernel.crashing.org>
+Subject: Re: [PATCH v2] ftgmac100: Disable HW checksum generation on AST2500
+From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To: Vijay Khemka <vijaykhemka@fb.com>, "David S. Miller" <davem@davemloft.net>,
+ Kate Stewart <kstewart@linuxfoundation.org>, Sven
+ Van Asbroeck <TheSven73@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Bhupesh Sharma <bhsharma@redhat.com>,
+ YueHaibing <yuehaibing@huawei.com>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, Luis Chamberlain
+ <mcgrof@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Thu, 17 Oct 2019 12:28:41 +1100
+In-Reply-To: <20191011213027.2110008-1-vijaykhemka@fb.com>
+References: <20191011213027.2110008-1-vijaykhemka@fb.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
 Mime-Version: 1.0
-Message-Id: <5fc76c3b-4727-4c4b-88a1-59c9618ccb30@www.fastmail.com>
-In-Reply-To: <CACRpkdbmbyNmW8tL_L0agBajomPybXsjn9ix_F5-B3fZnfuW9A@mail.gmail.com>
-References: <20191008044153.12734-1-andrew@aj.id.au>
- <CACRpkda5cWaA7R3XzyiERCCgwUrjnXd+wCBeKvt-wtjex7wNDg@mail.gmail.com>
- <2de90789-c374-4821-89f9-5d5f01e7d2d6@www.fastmail.com>
- <CACRpkdbmbyNmW8tL_L0agBajomPybXsjn9ix_F5-B3fZnfuW9A@mail.gmail.com>
-Date: Thu, 17 Oct 2019 09:56:45 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Linus Walleij" <linus.walleij@linaro.org>
-Subject: Re: [PATCH 0/7] pinctrl: Fixes for AST2600 support
-Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,42 +54,68 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Johnny Huang <johnny_huang@aspeedtech.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Ryan Chen <ryanchen.aspeed@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: "openbmc @ lists . ozlabs . org" <openbmc@lists.ozlabs.org>, sdasari@fb.com,
+ linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Thu, 17 Oct 2019, at 00:30, Linus Walleij wrote:
-> On Wed, Oct 16, 2019 at 1:42 PM Andrew Jeffery <andrew@aj.id.au> wrote:
+On Fri, 2019-10-11 at 14:30 -0700, Vijay Khemka wrote:
+> HW checksum generation is not working for AST2500, specially with
+> IPV6
+> over NCSI. All TCP packets with IPv6 get dropped. By disabling this
+> it works perfectly fine with IPV6. As it works for IPV4 so enabled
+> hw checksum back for IPV4.
 > 
-> > I was hoping to get them into the 5.4 fixes branch: I consider them all fixes
-> 
-> OK I moved them all to fixes.
+> Verified with IPV6 enabled and can do ssh.
 
-Thanks.
+So while this probably works, I don't think this is the right
+approach, at least according to the comments in skbuff.h
 
-> 
-> > > I need a shortlist of anything that should go into v5.4 if anything.
-> >
-> > IMO all of them should go into 5.4, as above.
-> 
-> OK
-> 
-> >  It's there something I can do in the future to communicate this better?
-> 
-> Nah it is a complicated process, things need to be done manually
-> at times, overly obsessing with process is counterproductive.
+The driver should have handled unsupported csum via SW fallback
+already in ftgmac100_prep_tx_csum()
 
-No worries, happy to carry on as is.
+Can you check why this didn't work for you ?
 
-Andrew
+Cheers,
+Ben.
+
+> Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+> ---
+> Changes since v1:
+>  Enabled IPV4 hw checksum generation as it works for IPV4.
+> 
+>  drivers/net/ethernet/faraday/ftgmac100.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/faraday/ftgmac100.c
+> b/drivers/net/ethernet/faraday/ftgmac100.c
+> index 030fed65393e..0255a28d2958 100644
+> --- a/drivers/net/ethernet/faraday/ftgmac100.c
+> +++ b/drivers/net/ethernet/faraday/ftgmac100.c
+> @@ -1842,8 +1842,19 @@ static int ftgmac100_probe(struct
+> platform_device *pdev)
+>  	/* AST2400  doesn't have working HW checksum generation */
+>  	if (np && (of_device_is_compatible(np, "aspeed,ast2400-mac")))
+>  		netdev->hw_features &= ~NETIF_F_HW_CSUM;
+> +
+> +	/* AST2500 doesn't have working HW checksum generation for IPV6
+> +	 * but it works for IPV4, so disabling hw checksum and enabling
+> +	 * it for only IPV4.
+> +	 */
+> +	if (np && (of_device_is_compatible(np, "aspeed,ast2500-mac")))
+> {
+> +		netdev->hw_features &= ~NETIF_F_HW_CSUM;
+> +		netdev->hw_features |= NETIF_F_IP_CSUM;
+> +	}
+> +
+>  	if (np && of_get_property(np, "no-hw-checksum", NULL))
+> -		netdev->hw_features &= ~(NETIF_F_HW_CSUM |
+> NETIF_F_RXCSUM);
+> +		netdev->hw_features &= ~(NETIF_F_HW_CSUM |
+> NETIF_F_RXCSUM
+> +					 | NETIF_F_IP_CSUM);
+>  	netdev->features |= netdev->hw_features;
+>  
+>  	/* register network device */
+
