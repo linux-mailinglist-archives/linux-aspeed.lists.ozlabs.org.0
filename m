@@ -2,48 +2,48 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D399FDB9BC
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Oct 2019 00:29:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BBFBDBA14
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Oct 2019 01:15:40 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46vP3H1J51zDqfj
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Oct 2019 09:29:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46vQ4m32hvzDqkq
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Oct 2019 10:15:36 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.43; helo=mga05.intel.com;
- envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
+ spf=permerror (SPF Permanent Error: Unknown mechanism
+ found: ip:192.40.192.88/32) smtp.mailfrom=kernel.crashing.org
+ (client-ip=63.228.1.57; helo=gate.crashing.org;
+ envelope-from=benh@kernel.crashing.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linux.intel.com
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ header.from=kernel.crashing.org
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46vP391gxrzDqdw
- for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Oct 2019 09:29:07 +1100 (AEDT)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 17 Oct 2019 15:29:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,309,1566889200"; d="scan'208";a="280040914"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.143])
- ([10.7.153.143])
- by orsmga001.jf.intel.com with ESMTP; 17 Oct 2019 15:29:04 -0700
-Subject: Re: AST2600 i2c irq issue
-To: Eddie James <eajames@linux.vnet.ibm.com>, Joel Stanley <joel@jms.id.au>,
- Brendan Higgins <brendanhiggins@google.com>
-References: <CACPK8XdqFkPgCQcgpM5C_YwfJ86Lmk=hG5zTcfbCDCMncXCJMg@mail.gmail.com>
- <f9fecc04-2a9a-4cbd-a1ff-ffb680b0fec2@linux.vnet.ibm.com>
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <dbb8635e-a95a-3951-cd65-3428adc461ec@linux.intel.com>
-Date: Thu, 17 Oct 2019 15:29:04 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <f9fecc04-2a9a-4cbd-a1ff-ffb680b0fec2@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+ by lists.ozlabs.org (Postfix) with ESMTPS id 46vQ4b1BKkzDqkK;
+ Fri, 18 Oct 2019 10:15:22 +1100 (AEDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x9HNEmef019088;
+ Thu, 17 Oct 2019 18:14:49 -0500
+Message-ID: <071cf1eeefcbfc14633a13bc2d15ad7392987a88.camel@kernel.crashing.org>
+Subject: Re: [PATCH v2] ftgmac100: Disable HW checksum generation on AST2500
+From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To: Vijay Khemka <vijaykhemka@fb.com>, "David S. Miller" <davem@davemloft.net>,
+ Kate Stewart <kstewart@linuxfoundation.org>, Sven
+ Van Asbroeck <TheSven73@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Bhupesh Sharma <bhsharma@redhat.com>,
+ YueHaibing <yuehaibing@huawei.com>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, Luis Chamberlain
+ <mcgrof@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Date: Fri, 18 Oct 2019 10:14:47 +1100
+In-Reply-To: <0C0BC813-5A84-403F-9C48-9447AAABD867@fb.com>
+References: <20191011213027.2110008-1-vijaykhemka@fb.com>
+ <3a1176067b745fddfc625bbd142a41913ee3e3a1.camel@kernel.crashing.org>
+ <0C0BC813-5A84-403F-9C48-9447AAABD867@fb.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -56,182 +56,113 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-i2c@vger.kernel.org, linux-aspeed <linux-aspeed@lists.ozlabs.org>
+Cc: "openbmc @ lists . ozlabs . org" <openbmc@lists.ozlabs.org>,
+ Sai Dasari <sdasari@fb.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 10/17/2019 1:31 PM, Eddie James wrote:
+On Thu, 2019-10-17 at 22:01 +0000, Vijay Khemka wrote:
 > 
-> On 10/17/19 1:14 AM, Joel Stanley wrote:
->> I have been doing bringup of the ast2600. It contains i2c buses that
->> are register compatible with the ast2500, and I am running them
->> without buffer or DMA mode. This is with v5.3.6, with no patches other
->> than adding the compatible string:
->>
->> --- a/drivers/i2c/busses/i2c-aspeed.c
->> +++ b/drivers/i2c/busses/i2c-aspeed.c
->> @@ -938,6 +938,10 @@ static const struct of_device_id
->> aspeed_i2c_bus_of_table[] = {
->>                  .compatible = "aspeed,ast2500-i2c-bus",
->>                  .data = aspeed_i2c_25xx_get_clk_reg_val,
->>          },
->> +       {
->> +               .compatible = "aspeed,ast2600-i2c-bus",
->> +               .data = aspeed_i2c_25xx_get_clk_reg_val,
->> +       },
->>          { },
->>   };
->>
->>
->> I see this behavior:
->>
->> [   20.981417] aspeed-i2c-bus 1e78a280.i2c-bus: master failed to RX
->> [   20.988259] aspeed-i2c-bus 1e78a280.i2c-bus: irq handled != irq.
->> expected 0x00000014, but was 0x00000010
->> [   22.451265] aspeed-i2c-bus 1e78a200.i2c-bus: master failed to STOP.
->> irq_status:0x0
->> [   22.459909] aspeed-i2c-bus 1e78a200.i2c-bus: irq handled != irq.
->> expected 0x00000010, but was 0x00000000
->> [   22.470604] aspeed-i2c-bus 1e78a200.i2c-bus: irq handled != irq.
->> expected 0x00000011, but was 0x00000000
->> [   29.156951] aspeed-i2c-bus 1e78a280.i2c-bus: master failed to STOP.
->> irq_status:0x0
->> [   29.165601] aspeed-i2c-bus 1e78a280.i2c-bus: irq handled != irq.
->> expected 0x00000010, but was 0x00000000
->>
->> It happens on boot, and can also be triggered by placing load on the
->> system. In particular, if I copy a large amount of data to the flash.
->>
->> The IRQs are being served on one of the CPUs:
->>
->>   29:          0          0     GIC-0 142 Level     1e78a080.i2c-bus
->>   30:          0          0     GIC-0 143 Level     1e78a100.i2c-bus
->>   31:          0          0     GIC-0 144 Level     1e78a180.i2c-bus
->>   32:     302596          0     GIC-0 145 Level     1e78a200.i2c-bus
->>   33:     197340          0     GIC-0 146 Level     1e78a280.i2c-bus
->>   34:     196900          0     GIC-0 147 Level     1e78a300.i2c-bus
->>   35:          0          0     GIC-0 149 Level     1e78a400.i2c-bus
->>   36:       2199          0     GIC-0 151 Level     1e78a500.i2c-bus
->>   37:          0          0     GIC-0 152 Level     1e78a580.i2c-bus
->>   38:       3407          0     GIC-0 153 Level     1e78a600.i2c-bus
->>   39:          0          0     GIC-0 154 Level     1e78a680.i2c-bus
->>   40:          0          0     GIC-0 155 Level     1e78a700.i2c-bus
->>
->> Following a hunch, I booted the system with SMP disabled (it's a dual
->> core part). The issue did not reproduce.
->>
->> This suggests the driver is lacking locking. I am yet to do any
->> detailed debugging.
+> ﻿On 10/16/19, 6:29 PM, "Benjamin Herrenschmidt" <benh@kernel.crashing.org> wrote:
 > 
+>     On Fri, 2019-10-11 at 14:30 -0700, Vijay Khemka wrote:
+>     > HW checksum generation is not working for AST2500, specially with
+>     > IPV6
+>     > over NCSI. All TCP packets with IPv6 get dropped. By disabling this
+>     > it works perfectly fine with IPV6. As it works for IPV4 so enabled
+>     > hw checksum back for IPV4.
+>     > 
+>     > Verified with IPV6 enabled and can do ssh.
+>     
+>     So while this probably works, I don't think this is the right
+>     approach, at least according to the comments in skbuff.h
 > 
-> Been doing some testing.
-> 
-> I'm not sure it's locking, but I think it could have something to do 
-> with the fact that the driver only acknowledges (clears the irq status 
-> register) the RX done bit way later than the rest of the bits. Is there 
-> a reason for this?
-> 
-> It seems to me that we get a second interrupt pending (on the second 
-> processor? don't see how as we never see any irqs handled there) for RX 
-> done sometimes, immediately after we've cleared it. I've ONLY seen it on 
-> RX done. Here's some data to show this:
-> 
-> This is just some custom tracing to track the driver state and the irqs. 
-> There was too much traffic for dev_dbg to handle. before is the driver 
-> state before the irq, and after is the driver state after the irq.
-> 
-> 0: error entries[10]
->      0: irq[00000000] before[inactive] after[start]
->      1: irq[00000001] before[start] after[tx_first]
->      2: irq[00000001] before[tx_first] after[tx]
->      3: irq[00000001] before[tx] after[start]
->      4: irq[00000005] before[start] after[rx_first]
->      5: irq[00000005] before[rx_first] after[rx]
->      6: irq[00000004] before[rx] after[rx]
->      7: irq[00000004] before[rx] after[stop]    << all good, transfer is 
-> complete so we send stop.
->      8: irq[00000000] before[stop] after[inactive]    << this is the one 
-> that triggers "failed to STOP" below
+> This is not a matter of unsupported csum, it is broken hw csum. 
+> That's why we disable hw checksum. My guess is once we disable
+> Hw checksum, it will use sw checksum. So I am just disabling hw 
+> Checksum.
 
-It's really odd. Why does H/W trigger an interrupt without setting any
-flag? Or is it an irq affinity setting issue?
+I don't understand what you are saying. You reported a problem with
+IPV6 checksums generation. The HW doesn't support it. What's "not a
+matter of unsupported csum" ?
 
->      9: irq[00000010] before[inactive] after[inactive]    << now we get 
-> the actual stop, but we're in the wrong state and ignore it
-> 1: error entries[9]
->      0: irq[00000000] before[inactive] after[start]
->      1: irq[00000001] before[start] after[tx_first]
->      2: irq[00000001] before[tx_first] after[tx]
->      3: irq[00000001] before[tx] after[start]
->      4: irq[00000005] before[start] after[rx_first]
->      5: irq[00000005] before[rx_first] after[rx]
->      6: irq[00000004] before[rx] after[rx]     << all good, transfer is 
-> continuing
->      7: irq[00000000] before[rx] after[stop]  << no RX during an RX 
-> operation causes driver to abort and stop
+Your patch uses a *deprecated* bit to tell the network stack to only do
+HW checksum generation on IPV4.
 
-Here again. If it happens, state machine in driver will be broken and it
-would affect the next event handling.
+This bit is deprecated for a reason, again, see skbuff.h. The right
+approach, *which the driver already does*, is to tell the stack that we
+support HW checksuming using NETIF_F_HW_CSUM, and then, in the transmit
+handler, to call skb_checksum_help() to have the SW calculate the
+checksum if it's not a supported type.
 
-I didn't see this issue in AST2500 which has a single core and runs in
-UP kernel. Seems that it can be observed only in AST2600 SMP setting.
+This is exactly what ftgmac100_prep_tx_csum() does. It only enables HW
+checksum generation on supported types and uses skb_checksum_help()
+otherwise, supported types being protocol ETH_P_IP and IP protocol
+being raw IP, TCP and UDP.
 
-Ryan,
-Can you please check it whether it's an expected H/W behavior of AST2600
-or not?
+So this *should* have fallen back to SW for IPV6. So either something
+in my code there is making an incorrect assumption, or something is
+broken in skb_checksum_help() for IPV6 (which I somewhat doubt) or
+something else I can't think of, but setting a *deprecated* flag is
+definitely not the right answer, neither is completely disabling HW
+checksumming.
 
->      8: irq[00000014] before[stop] after[inactive] << now we get the RX 
-> and the stop.
-> 
-> This corresponds to:
-> 
-> [   18.405472] aspeed-i2c-bus 1e78a300.i2c-bus: master failed to STOP. 
-> irq_status:0x0
-> [   18.414164] aspeed-i2c-bus 1e78a300.i2c-bus: irq handled != irq. 
-> expected 0x00000010, but was 0x00000000
-> [   21.355422] aspeed-i2c-bus 1e78a300.i2c-bus: master failed to RX
-> [   21.363323] aspeed-i2c-bus 1e78a300.i2c-bus: irq handled != irq. 
-> expected 0x00000014, but was 0x00000010
-> 
-> 
-> I don't understand how disabling SMP fixes this, since the second core 
-> doesn't seem to ever handle any interrupts. Maybe it's just reporting it 
-> wrong? From what I understand of interrupt handling, the second core is 
-> allowed to get interrupts while the first is handling an interrupt and 
-> has therefore disabled it's own interrupts... correct me if I 
-> misunderstand. In this case then, RX done gets triggered on the second 
-> core since it's sitting around uncleared in the status register?
-> 
-> 
-> I was also able to "fix" this by simple returning IRQ_NONE if irq_status 
-> == 0 in the interrupt handler. But probably not a good solution.
-
-A fix like below, right?
-
-@@ -603,6 +603,9 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void 
-*dev_id)
-
-         spin_lock(&bus->lock);
-         irq_received = readl(bus->base + ASPEED_I2C_INTR_STS_REG);
-+       if (!irq_received)
-+               return IRQ_NONE;
-+
-         /* Ack all interrupts except for Rx done */
-         writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
-                bus->base + ASPEED_I2C_INTR_STS_REG);
-
-
-I think it's a right fix for the issue. At least, we need to prevent
-any driver state corruption. The state machine would run correctly if we
-filtering the garbage interrupt out.
+So can you investigate what's going on a bit more closely please ? I
+can try myself, though I have very little experience with IPV6 and
+probably won't have time before next week.
 
 Cheers,
+Ben.
 
-Jae
+>     The driver should have handled unsupported csum via SW fallback
+>     already in ftgmac100_prep_tx_csum()
+>     
+>     Can you check why this didn't work for you ?
+>     
+>     Cheers,
+>     Ben.
+>     
+>     > Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+>     > ---
+>     > Changes since v1:
+>     >  Enabled IPV4 hw checksum generation as it works for IPV4.
+>     > 
+>     >  drivers/net/ethernet/faraday/ftgmac100.c | 13 ++++++++++++-
+>     >  1 file changed, 12 insertions(+), 1 deletion(-)
+>     > 
+>     > diff --git a/drivers/net/ethernet/faraday/ftgmac100.c
+>     > b/drivers/net/ethernet/faraday/ftgmac100.c
+>     > index 030fed65393e..0255a28d2958 100644
+>     > --- a/drivers/net/ethernet/faraday/ftgmac100.c
+>     > +++ b/drivers/net/ethernet/faraday/ftgmac100.c
+>     > @@ -1842,8 +1842,19 @@ static int ftgmac100_probe(struct
+>     > platform_device *pdev)
+>     >  	/* AST2400  doesn't have working HW checksum generation */
+>     >  	if (np && (of_device_is_compatible(np, "aspeed,ast2400-mac")))
+>     >  		netdev->hw_features &= ~NETIF_F_HW_CSUM;
+>     > +
+>     > +	/* AST2500 doesn't have working HW checksum generation for IPV6
+>     > +	 * but it works for IPV4, so disabling hw checksum and enabling
+>     > +	 * it for only IPV4.
+>     > +	 */
+>     > +	if (np && (of_device_is_compatible(np, "aspeed,ast2500-mac")))
+>     > {
+>     > +		netdev->hw_features &= ~NETIF_F_HW_CSUM;
+>     > +		netdev->hw_features |= NETIF_F_IP_CSUM;
+>     > +	}
+>     > +
+>     >  	if (np && of_get_property(np, "no-hw-checksum", NULL))
+>     > -		netdev->hw_features &= ~(NETIF_F_HW_CSUM |
+>     > NETIF_F_RXCSUM);
+>     > +		netdev->hw_features &= ~(NETIF_F_HW_CSUM |
+>     > NETIF_F_RXCSUM
+>     > +					 | NETIF_F_IP_CSUM);
+>     >  	netdev->features |= netdev->hw_features;
+>     >  
+>     >  	/* register network device */
+>     
+>     
+> 
 
-> Eddie
-> 
-> 
->>
->> Have you seen any behavior like this?
