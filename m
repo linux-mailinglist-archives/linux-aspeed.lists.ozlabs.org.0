@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id F14EEDEC17
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Oct 2019 14:23:30 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1EF8DEC18
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Oct 2019 14:23:38 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46xbQR525zzDqZP
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Oct 2019 23:23:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46xbQb325SzDqZL
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Oct 2019 23:23:35 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -15,23 +15,23 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=the-dreams.de
 Received: from pokefinder.org (sauhun.de [88.99.104.3])
- by lists.ozlabs.org (Postfix) with ESMTP id 46xbQB6BlkzDqZ9
- for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Oct 2019 23:23:14 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTP id 46xbQG2WvPzDqZ9
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Oct 2019 23:23:18 +1100 (AEDT)
 Received: from localhost (p54B33572.dip0.t-ipconnect.de [84.179.53.114])
- by pokefinder.org (Postfix) with ESMTPSA id B54F62C0076;
- Mon, 21 Oct 2019 14:23:12 +0200 (CEST)
-Date: Mon, 21 Oct 2019 14:23:12 +0200
+ by pokefinder.org (Postfix) with ESMTPSA id 9F05D2C040F;
+ Mon, 21 Oct 2019 14:23:16 +0200 (CEST)
+Date: Mon, 21 Oct 2019 14:23:16 +0200
 From: Wolfram Sang <wsa@the-dreams.de>
 To: Eddie James <eajames@linux.ibm.com>
-Subject: Re: [PATCH 1/2] i2c: Aspeed: Add AST2600 compatible
-Message-ID: <20191021122312.GH1145@ninjato>
+Subject: Re: [PATCH 2/2] dt-bindings: i2c: Aspeed: Add AST2600 compatible
+Message-ID: <20191021122316.GI1145@ninjato>
 References: <1568392510-866-1-git-send-email-eajames@linux.ibm.com>
- <1568392510-866-2-git-send-email-eajames@linux.ibm.com>
+ <1568392510-866-3-git-send-email-eajames@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="MGu/vTNewDGZ7tmp"
+ protocol="application/pgp-signature"; boundary="3eH4Qcq5fItR5cpy"
 Content-Disposition: inline
-In-Reply-To: <1568392510-866-2-git-send-email-eajames@linux.ibm.com>
+In-Reply-To: <1568392510-866-3-git-send-email-eajames@linux.ibm.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -52,39 +52,37 @@ Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
---MGu/vTNewDGZ7tmp
+--3eH4Qcq5fItR5cpy
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 13, 2019 at 11:35:09AM -0500, Eddie James wrote:
-> The driver default behavior works with the AST2600. We need a new
-> compatible though to make sure the driver doesn't enable AST2400 or
-> AST2500 behavior.
+On Fri, Sep 13, 2019 at 11:35:10AM -0500, Eddie James wrote:
+> Document the AST2600 I2C bus compatible string.
 >=20
 > Signed-off-by: Eddie James <eajames@linux.ibm.com>
 
 Applied to for-next, thanks!
 
 
---MGu/vTNewDGZ7tmp
+--3eH4Qcq5fItR5cpy
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl2tozAACgkQFA3kzBSg
-KbYdpBAAnGFjPjHU1RjWdIIjcluWngIiPZ4G1nJ1990ogSV1Q2RKuhVRRP/w2D4B
-3iUiqcFxj86bwQdXxTo+Jesvj9OJw7oHgG8x8aP7cUdSDU2PyB+hhl1kOFj3qKd4
-oLsEDK9yftYvg7VGs56wq7IOM4VkVTEprq7x/2Hf7eIt6t8XEk+YI+op9mjmendq
-6yGM9zspyjGyOwyuTpS6zzcGtJ+pHIOkiV9sju5nvaO0UuhzoMFC35kpLYZbm+rX
-go8RSN/CAgOkeeEBYpeUvKnZLk1Ml/nZ/FdR/YCUDkrvAJjkKqBF3LEuLS6+8iE4
-Un/QFG6OEKLCEQu9KVU4dVovTXGjILK7zpvwPW/gr3U5jeJH4c5xto+agWLA8G3F
-q1UWh6GUq3FV4fEqo0InpazTuEdUcBnIcbPZR/QMWSIoE4CWD2SCQoAHyzk3Jrma
-Seyn0WZEMe2zJfhVQXHidgCbc0gO0NYjPqMQeHYhCnWfhk3pJVfzqKJSLCNsJbBX
-xubXKQu3hgZRGv6vqvPZpRp0ItOYL0lv0TCdTu/f5Maxv0cZ3xzCrU7ZndRcaKtE
-QfhMiXOMjhk5H0VRujNpLN5bHH2RDnGOqW4xeJukteVDidyFLJCQMUkEsVAK1y3p
-FUC3TuW6Oypz7/zx74MgTGZFagWixLFBXz6qzEt0rp+6ANibX/4=
-=a1zx
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl2tozQACgkQFA3kzBSg
+KbYW4RAArdkdyER9/nDFPWwqsfMrIVd+zx2BH3gX1AN4YyZk6MrTvGUPAMOfYwbF
+pfdZPEi/zwvgMrbdc6N7oKiNv0pTj83z8zFlku15rp+FaaKCljWRKlVDUMKA5LRK
+T7yOYHCTKSUCgxuw2VvY7eEyPPzuNuodlFr7sz8QGY8JepN1ZyanlvuFPD9FY/3b
+rKfbsmyl6EzlNHjIDCdJJMFjh5T6y8q21uipGq0FcZ/3WLA7sNMgSY7RF5otI820
+nH9D33hHySsYeDe6R69HPoHz+chYGbJ9Ua4am2q9fBiNMZUrrIYQ+WgMbp5Pfxgl
+scG9UT+pzzltQj2JY8i/k1RyR7gOYxJfIr4bvT43iy5G8dMbw72aRmxMg/E2qd0k
+VlB0ZZK/w7gg+h5NTvFC81owsW1UxwtghP/YdH9HJs9D+XiFxnhwA74cdS28bNFq
+fK1XZeYYSSWyCZ690GpOVN22UToHyj8xA7ml+8CU2ivdP39HuMblLIYIHm53bN7M
+uoMI3XSIKLCMJeITDhQOeWdeq9Reu5v/IRUTg06AsWggpARdTYJLRjI/R3wVKhyi
+aq7VIZx0nrbZO+xOE0Rf/l+Lt7/FoEB+Ejpfzj5RmWy8HJcSjE6hb1/DBlfLRvI4
+j1kLtMRTkfguWpIFhhBwhiCRObfLHIiefx17cEgh3zMMWbM6Pio=
+=t3sq
 -----END PGP SIGNATURE-----
 
---MGu/vTNewDGZ7tmp--
+--3eH4Qcq5fItR5cpy--
