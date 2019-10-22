@@ -1,56 +1,41 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA523DF7CC
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Oct 2019 23:57:59 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7568ADFCE8
+	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Oct 2019 06:57:12 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 46xr9K2KYYzDqLM
-	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Oct 2019 08:57:57 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 46y1T10zqfzDqKl
+	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Oct 2019 15:57:09 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=the-dreams.de (client-ip=88.99.104.3; helo=pokefinder.org;
+ envelope-from=wsa@the-dreams.de; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.115; helo=mga14.intel.com;
- envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linux.intel.com
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 46xr974lkYzDqKs;
- Tue, 22 Oct 2019 08:57:46 +1100 (AEDT)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Oct 2019 14:57:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,325,1566889200"; d="scan'208";a="209472729"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.143])
- ([10.7.153.143])
- by orsmga002.jf.intel.com with ESMTP; 21 Oct 2019 14:57:43 -0700
+ dmarc=none (p=none dis=none) header.from=the-dreams.de
+Received: from pokefinder.org (sauhun.de [88.99.104.3])
+ by lists.ozlabs.org (Postfix) with ESMTP id 46y1Sv3wHvzDqFs;
+ Tue, 22 Oct 2019 15:57:00 +1100 (AEDT)
+Received: from localhost (x4e37421f.dyn.telefonica.de [78.55.66.31])
+ by pokefinder.org (Postfix) with ESMTPSA id 884872C0139;
+ Tue, 22 Oct 2019 06:56:56 +0200 (CEST)
+Date: Tue, 22 Oct 2019 06:56:56 +0200
+From: Wolfram Sang <wsa@the-dreams.de>
+To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 Subject: Re: [PATCH i2c-next 1/2] dt-bindings: i2c: aspeed: add hardware
  timeout support
-To: Peter Rosin <peda@axentia.se>, Brendan Higgins
- <brendanhiggins@google.com>, Wolfram Sang <wsa@the-dreams.de>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Joel Stanley <joel@jms.id.au>, Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Andrew Jeffery <andrew@aj.id.au>,
- Tao Ren <taoren@fb.com>, Cedric Le Goater <clg@kaod.org>
+Message-ID: <20191022045655.GA975@kunai>
 References: <20191021202414.17484-1-jae.hyun.yoo@linux.intel.com>
  <20191021202414.17484-2-jae.hyun.yoo@linux.intel.com>
  <0a629f7b-b829-c332-27d8-dc825205ff72@axentia.se>
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <7abf933b-cb18-10af-9c1b-163ec65ffae5@linux.intel.com>
-Date: Mon, 21 Oct 2019 14:57:43 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <7abf933b-cb18-10af-9c1b-163ec65ffae5@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <0a629f7b-b829-c332-27d8-dc825205ff72@axentia.se>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="WIyZ46R2i8wDzkSu"
+Content-Disposition: inline
+In-Reply-To: <7abf933b-cb18-10af-9c1b-163ec65ffae5@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,81 +47,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
+Cc: Mark Rutland <mark.rutland@arm.com>,
  "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
  "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ Brendan Higgins <brendanhiggins@google.com>,
  "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
+ Rob Herring <robh+dt@kernel.org>, Peter Rosin <peda@axentia.se>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Peter,
 
-On 10/21/2019 2:05 PM, Peter Rosin wrote:
-> On 2019-10-21 22:24, Jae Hyun Yoo wrote:
->> Append a binding to support hardware timeout feature.
->>
->> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->> ---
->>   Documentation/devicetree/bindings/i2c/i2c-aspeed.txt | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt b/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
->> index b47f6ccb196a..133bfedf4cdd 100644
->> --- a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
->> +++ b/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
->> @@ -17,6 +17,8 @@ Optional Properties:
->>   - bus-frequency	: frequency of the bus clock in Hz defaults to 100 kHz when not
->>   		  specified
->>   - multi-master	: states that there is another master active on this bus.
->> +- aspeed,hw-timeout-ms	: Hardware timeout in milliseconds. If it's not
->> +			  specified, the H/W timeout feature will be disabled.
->>   
->>   Example:
->>   
->>
-> 
-> Some SMBus clients support a smbus-timeout-disable binding for disabling
-> timeouts like this, for cases where the I2C adapter in question on occasion
-> is unable to keep the pace. Adding that property thus avoids undesired
-> timeouts when the client is SMBus conformant without it. Your new binding
-> is the reverse situation, where you want to add a timeout where one is
-> otherwise missing.
-> 
-> Anyway, since I2C does not have a specified lowest possible frequency, this
-> feels like something that is more in the SMBus arena. Should the property
-> perhaps be a generic property named smbus-timeout-ms, or something like
-> that?
+--WIyZ46R2i8wDzkSu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Well, I tried upstreaming of the generic timeout property a year ago but
-I agreed that the generic bus timeout property can be set by an ioctl
-command so it didn't need to be added into device tree at that time. Not
-sure if any need has come recently but I haven't heard that. This driver
-still uses the generic timeout property which is provided by i2c core
-for handling command timeouts, and it's out of scope from this patch
-series.
 
-> If the above is not wanted or appropriate, then I would personally prefer
-> aspeed,bus-timeout-ms over aspeed,hw-timeout-ms. To me, hw-timeout-ms sounds
-> like a (more serious) timeout between the CPU and the I2C peripheral unit
-> or something like that. But I don't care deeply...
+> Changes I submitted in this patch set is for a different purpose which
+> is very Aspeed H/W specific, and actually it's a more serious timeout
+> setting indeed. If this H/W is used in multi-master environment, it
+> could meet a H/W hang that freezes itself in slave mode and it can't
+> escape from the state. To resolve the specific case, this H/W provides
+> self-recovery feature which monitors abnormal state of SDA, SCL and its
+> H/W state machine using the timeout setting to determine the escape
+> condition.
 
-Changes I submitted in this patch set is for a different purpose which
-is very Aspeed H/W specific, and actually it's a more serious timeout
-setting indeed. If this H/W is used in multi-master environment, it
-could meet a H/W hang that freezes itself in slave mode and it can't
-escape from the state. To resolve the specific case, this H/W provides
-self-recovery feature which monitors abnormal state of SDA, SCL and its
-H/W state machine using the timeout setting to determine the escape
-condition.
+Thanks for the summary. I just wonder on what the timeout value depends.
+Do we really need to put in DT or can we derive it e.g. from the
+compatible value in the driver?
 
-Generally, this H/W timeout value is smaller than the generic bus
-timeout value (I'm using 300ms for the H/W timeout while I'm using 1
-second for the generic bus timeout) so I think it should be
-distinguished from the generic bus timeout.
 
-Thanks,
+--WIyZ46R2i8wDzkSu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Jae
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl2ujBMACgkQFA3kzBSg
+KbYZZg/+ILRBsr6VA2yU97i07DYrhNgIs0GsfqAA3zqC+JhbF/dyORbZWno4fIxZ
++qHvJ6pTQCR/jWA4aP1kO/NL9EU3nWIICyZHIFJpXBtwrH9mGP1+hlnyrWc2uaZC
+JpOw3AKSYevrQb0RksLu16ZddmlMHO0+Qi2rkhh4LGcsdCiUZRSOEeoaQkiyS3Cy
+hsb1uqiGFQFdq/gFv08rpW2ja7TGS/HMzs8RdXlOI03bL6ORXU9QCV6H2oIBl00v
+9YQYHo9lV5PtRTweCpaN0o+9XLmP1y4A7kHS1lr9YVoRVT67HniEisum3t6UPR2H
+B5Ha1IVzBYuqtoq0vhuiowNVmV9OROoM+alQxhw3g6HPT0K+d5GmD9k6aPNXWCod
+rBT7QTBslplAZJNo6R2tGvh0wIYWU0PMJ+ZSsS9YdigSqMXfd8C1p2R6ZphdyCk7
+dHfEaPa4iuUGYaJWiHFROYni/GhG1EBN3kpUSphG5ETA6Ur16blwXyAZy7oVm5xO
+IsIVfsJYBiV/1O77xE7FUF8gXpIalsLLH7/AXH80JexMqZBpu5hg6N6GhbN7K4rl
+wZBpfCNq9Rvy65BvFL4Vmw2elrZmo9S7vYs907eZ1ZJNWB9TVpqe+z0c9FNMuAKx
+o1ZttPvRuKUhoQTMnQ734eW74vmmrl4IfguSGshRymILa5AaX1Q=
+=INXh
+-----END PGP SIGNATURE-----
+
+--WIyZ46R2i8wDzkSu--
