@@ -1,73 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7561F1D95
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Nov 2019 19:32:46 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D7CF2B21
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 10:47:17 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 477Zs74GnfzF5h0
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 05:32:43 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 477z8L5QHkzF6F9
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 20:47:14 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::d42;
+ helo=mail-io1-xd42.google.com; envelope-from=navid.emamdoost@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
- (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
- envelope-from=prvs=6213bc35cd=vijaykhemka@fb.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=fb.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=fb.com header.i=@fb.com header.b="B4EP3hCh"; 
+ dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="gZRJSPMG"; 
  dkim-atps=neutral
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
- [67.231.145.42])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
+ [IPv6:2607:f8b0:4864:20::d42])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 477Zs152lKzF5fP
- for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Nov 2019 05:32:35 +1100 (AEDT)
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xA6IUHLC005921
- for <linux-aspeed@lists.ozlabs.org>; Wed, 6 Nov 2019 10:32:31 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=facebook;
- bh=4y6FEsvQDaUsMRInrcp5pgZP0+p8aYZCVy0t9BJL6WA=;
- b=B4EP3hCh//N4e30XQ5gOtud/65HpgIpPZ611oKQeUFwDNSMoLk1gIfZI/jsFCxRbDWVD
- +4XEAV7f8H5L7+XL3H0ahpSu0hgeSTqX+3nfg/uQtnP18ZcqdEZP3UqwuZFx4bBdlpF9
- q5eV5Txch+pvEJWqvmJDQeOAUNWl4Fi+7dQ= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com with ESMTP id 2w41un0juf-7
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <linux-aspeed@lists.ozlabs.org>; Wed, 06 Nov 2019 10:32:31 -0800
-Received: from 2401:db00:12:909f:face:0:3:0 (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:83::5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 6 Nov 2019 10:32:30 -0800
-Received: by devvm4117.prn2.facebook.com (Postfix, from userid 167582)
- id E8E611633BB83; Wed,  6 Nov 2019 10:29:35 -0800 (PST)
-Smtp-Origin-Hostprefix: devvm
-From: Vijay Khemka <vijaykhemka@fb.com>
-Smtp-Origin-Hostname: devvm4117.prn2.facebook.com
-To: Corey Minyard <minyard@acm.org>, Arnd Bergmann <arnd@arndb.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,
- <openipmi-developer@lists.sourceforge.net>, <linux-kernel@vger.kernel.org>
-Smtp-Origin-Cluster: prn2c23
-Subject: [PATCH v2] drivers: ipmi: Support for both IPMB Req and Resp
-Date: Wed, 6 Nov 2019 10:29:21 -0800
-Message-ID: <20191106182921.1086795-1-vijaykhemka@fb.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 470SZt3P90zDqmJ;
+ Sat, 26 Oct 2019 15:25:36 +1100 (AEDT)
+Received: by mail-io1-xd42.google.com with SMTP id u8so4726597iom.5;
+ Fri, 25 Oct 2019 21:25:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=rHeRkxrHD5GX5EWDlQ98vXy+a783uwWXtM2tQKGXdug=;
+ b=gZRJSPMGxM1UPw1FdEvVFtbG4SqDkm9JN/GP92+GDY/bQVm73xFX5T2lkdkRAXJ9uw
+ 4K927+DEPOjX0v2NhbOsDZjCOyTgg/PgzXqgwivEM6QeBnGHV0CLxMfG1XeHJninS6Jn
+ d3HUaWWFRPVWG+u/urTqRNtrGbQyLiZdTXq6MhvYlWjtoC7vQBAz3Rn6Mb3cxkdt1/Po
+ nUZHC0Eiw1kMMsF1PkX5MSMnY53N8J0Q3vB8vM9pSuefryXU7vr8bduXoiI452R8NKud
+ SwAzjj4yI/LFANHdC8I/m+7ITtp+iUIKP8EtGIgHjMBdZ+gFerdXZYr/VS+jNVHKs/wb
+ 4H6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=rHeRkxrHD5GX5EWDlQ98vXy+a783uwWXtM2tQKGXdug=;
+ b=C9YlHagJLvoJa+HJ63YdtPG3Yy6SppAJTVKbISVIcgzmx0eWIquLO7qmmx8sQl4nsT
+ 1WQ90DB1La47ELuhrnWHMFie/cJjKD/+kCSg4PF5Qwcb4HjXazHxx1w1RDVEsc9dToju
+ J6YZEQ9JZ0LMx/e/Q2dWMwvjAjKDVMtaZHDvutah4d56C9uNzH2PNcIodmkRw2X0O7Wu
+ akonz9RX0RdGutvY5MuMqFwW0VrbR/eSi5KOqJELcX3taskQT2spDMJ+576jDeacX6NP
+ aih+h58NQjaWzfOtkuEa1w7xVdXmQ1IyNb8osOIJ63ASoKCuUigYR7LwwnvnEPcKybsG
+ w5Xg==
+X-Gm-Message-State: APjAAAWA5bx5erdKWZQijRr/Ua4Mr99uQScMuAqs6ykx+1bgZ9zXkVKQ
+ JL+l7Nh8zuQ36qKgxPtptBc=
+X-Google-Smtp-Source: APXvYqwyjakLVT85RTryWMHfy6AKHouMUXRj6cegqSHqrg9AmKKAZBYTX2iEX2LdU+HgQdpe1I/m7g==
+X-Received: by 2002:a5d:980a:: with SMTP id a10mr7426699iol.225.1572063932870; 
+ Fri, 25 Oct 2019 21:25:32 -0700 (PDT)
+Received: from cs-dulles.cs.umn.edu (cs-dulles.cs.umn.edu. [128.101.35.54])
+ by smtp.googlemail.com with ESMTPSA id n123sm452068iod.62.2019.10.25.21.25.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Oct 2019 21:25:32 -0700 (PDT)
+From: Navid Emamdoost <navid.emamdoost@gmail.com>
+To: 
+Subject: [PATCH] media: aspeed-video: Fix memory leaks in aspeed_video_probe
+Date: Fri, 25 Oct 2019 23:25:18 -0500
+Message-Id: <20191026042519.29446-1-navid.emamdoost@gmail.com>
 X-Mailer: git-send-email 2.17.1
-X-FB-Internal: Safe
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-06_06:2019-11-06,2019-11-06 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- phishscore=0 bulkscore=0
- mlxscore=0 spamscore=0 suspectscore=0 impostorscore=0 mlxlogscore=999
- lowpriorityscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911060180
-X-FB-Internal: deliver
+X-Mailman-Approved-At: Thu, 07 Nov 2019 20:47:04 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,79 +73,59 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: cminyard@mvista.com, sdasari@fb.com, linux-aspeed@lists.ozlabs.org
+Cc: linux-aspeed@lists.ozlabs.org, kjlu@umn.edu, openbmc@lists.ozlabs.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, emamd001@umn.edu,
+ smccaman@umn.edu, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Navid Emamdoost <navid.emamdoost@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Removed check for request or response in IPMB packets coming from
-device as well as from host. Now it supports both way communication
-to device via IPMB. Both request and response will be passed to
-application.
+In the implementation of aspeed_video_probe() the allocated memory for
+video should be released in case of failure. Release video if either
+devm_ioremap_resource() or aspeed_video_init() or
+aspeed_video_setup_video() fails.
 
-Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
+Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
 ---
- drivers/char/ipmi/ipmb_dev_int.c | 31 +++++++++----------------------
- 1 file changed, 9 insertions(+), 22 deletions(-)
+ drivers/media/platform/aspeed-video.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/char/ipmi/ipmb_dev_int.c b/drivers/char/ipmi/ipmb_dev_int.c
-index 285e0b8f9a97..ae3bfba27526 100644
---- a/drivers/char/ipmi/ipmb_dev_int.c
-+++ b/drivers/char/ipmi/ipmb_dev_int.c
-@@ -133,9 +133,6 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
- 	rq_sa = GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
- 	netf_rq_lun = msg[NETFN_LUN_IDX];
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+index eb12f3793062..8c473356132d 100644
+--- a/drivers/media/platform/aspeed-video.c
++++ b/drivers/media/platform/aspeed-video.c
+@@ -1663,18 +1663,24 @@ static int aspeed_video_probe(struct platform_device *pdev)
  
--	if (!(netf_rq_lun & NETFN_RSP_BIT_MASK))
--		return -EINVAL;
--
- 	/*
- 	 * subtract rq_sa and netf_rq_lun from the length of the msg passed to
- 	 * i2c_smbus_xfer
-@@ -203,25 +200,16 @@ static u8 ipmb_verify_checksum1(struct ipmb_dev *ipmb_dev, u8 rs_sa)
- 		ipmb_dev->request.checksum1);
+ 	video->base = devm_ioremap_resource(video->dev, res);
+ 
+-	if (IS_ERR(video->base))
+-		return PTR_ERR(video->base);
++	if (IS_ERR(video->base)) {
++		rc = PTR_ERR(video->base);
++		goto free_video;
++	}
+ 
+ 	rc = aspeed_video_init(video);
+ 	if (rc)
+-		return rc;
++		goto free_video;
+ 
+ 	rc = aspeed_video_setup_video(video);
+ 	if (rc)
+-		return rc;
++		goto free_video;
+ 
+ 	return 0;
++
++free_video:
++	kfree(video);
++	return rc;
  }
  
--static bool is_ipmb_request(struct ipmb_dev *ipmb_dev, u8 rs_sa)
-+/*
-+ * Verify if message has proper ipmb header with minimum length
-+ * and correct checksum byte.
-+ */
-+static bool is_ipmb_msg(struct ipmb_dev *ipmb_dev, u8 rs_sa)
- {
--	if (ipmb_dev->msg_idx >= IPMB_REQUEST_LEN_MIN) {
--		if (ipmb_verify_checksum1(ipmb_dev, rs_sa))
--			return false;
-+	if ((ipmb_dev->msg_idx >= IPMB_REQUEST_LEN_MIN) &&
-+	   (!ipmb_verify_checksum1(ipmb_dev, rs_sa)))
-+		return true;
- 
--		/*
--		 * Check whether this is an IPMB request or
--		 * response.
--		 * The 6 MSB of netfn_rs_lun are dedicated to the netfn
--		 * while the remaining bits are dedicated to the lun.
--		 * If the LSB of the netfn is cleared, it is associated
--		 * with an IPMB request.
--		 * If the LSB of the netfn is set, it is associated with
--		 * an IPMB response.
--		 */
--		if (!(ipmb_dev->request.netfn_rs_lun & NETFN_RSP_BIT_MASK))
--			return true;
--	}
- 	return false;
- }
- 
-@@ -273,8 +261,7 @@ static int ipmb_slave_cb(struct i2c_client *client,
- 
- 	case I2C_SLAVE_STOP:
- 		ipmb_dev->request.len = ipmb_dev->msg_idx;
--
--		if (is_ipmb_request(ipmb_dev, GET_8BIT_ADDR(client->addr)))
-+		if (is_ipmb_msg(ipmb_dev, GET_8BIT_ADDR(client->addr)))
- 			ipmb_handle_request(ipmb_dev);
- 		break;
- 
+ static int aspeed_video_remove(struct platform_device *pdev)
 -- 
 2.17.1
 
