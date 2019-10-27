@@ -1,132 +1,124 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24580E541E
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Oct 2019 21:11:52 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 935F8E6132
+	for <lists+linux-aspeed@lfdr.de>; Sun, 27 Oct 2019 08:02:15 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 470DHm67LNzDqtR
-	for <lists+linux-aspeed@lfdr.de>; Sat, 26 Oct 2019 06:11:48 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47180x1ZGCzDqnp
+	for <lists+linux-aspeed@lfdr.de>; Sun, 27 Oct 2019 18:02:09 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
- (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
- envelope-from=prvs=5201f1c293=vijaykhemka@fb.com; receiver=<UNKNOWN>)
+ spf=pass (sender SPF authorized) smtp.mailfrom=web.de
+ (client-ip=212.227.15.3; helo=mout.web.de; envelope-from=markus.elfring@web.de;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=fb.com
+ dmarc=none (p=none dis=none) header.from=web.de
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=fb.com header.i=@fb.com header.b="hJZ3D6oy"; 
- dkim=pass (1024-bit key;
- unprotected) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com
- header.b="enutPeY5"; dkim-atps=neutral
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
- [67.231.145.42])
+ secure) header.d=web.de header.i=@web.de header.b="q1PqP5WG"; 
+ dkim-atps=neutral
+X-Greylist: delayed 339 seconds by postgrey-1.36 at bilbo;
+ Sun, 27 Oct 2019 18:01:53 AEDT
+Received: from mout.web.de (mout.web.de [212.227.15.3])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 470DHX6rC9zDqs1;
- Sat, 26 Oct 2019 06:11:31 +1100 (AEDT)
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- x9PJAYxI008602; Fri, 25 Oct 2019 12:11:23 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=ixPHeucQRcIVsxhzploSBJRXghgFftytSMNEKRKxGFI=;
- b=hJZ3D6oya2nRihlV/Fdf38bcOP2OY8N+uCUrYWNgoudyTQaS5J7dMQYb1j+XE/e/9Xjx
- bl/EV5G3kFBLkLOBLFyeNZ+MX1EzlAkvWKRW/4hox8YSLT6BomIHHsp+PRcWjIwHBTuB
- z6AH9yBsFYasbFnvQNlEHg6mme3ywTfBof8= 
-Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
- by mx0a-00082601.pphosted.com with ESMTP id 2vv228smrp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Fri, 25 Oct 2019 12:11:23 -0700
-Received: from prn-hub01.TheFacebook.com (2620:10d:c081:35::125) by
- prn-hub06.TheFacebook.com (2620:10d:c081:35::130) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.1.1713.5; Fri, 25 Oct 2019 12:11:22 -0700
-Received: from NAM05-DM3-obe.outbound.protection.outlook.com (192.168.54.28)
- by o365-in.thefacebook.com (192.168.16.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.1.1713.5
- via Frontend Transport; Fri, 25 Oct 2019 12:11:22 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hGlyEQJtPa5r9nJeFOI6mbzxq5ZemSH2gVPGBxD8WFxQ9RlIlykBaCemf0Vzvn00UTplvIywJN1qQqAcmgSURO/J6WuEPpnDz/pU+7gI49PTk85vpqL9iwzTUfs8zhfRu2c2qeEZwvJ7LinuX/qLOifx09qYrO2uQuAn58YeLfNjanRsxbLgLAUILkZWI80V/1mdmVe7B87Vg0Q6XsYcm6sasUpEqId99Y3RKEtHEPQLjy0yBBEey1y2mWtyYlrZTEDkwCFN9atmLioWZDl80eebRGFlvxs+4/tLxtOrAAkQ8cuy9XG7IuKT983uRWgsrDnPYsKGI9ZcfViLnGxV8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ixPHeucQRcIVsxhzploSBJRXghgFftytSMNEKRKxGFI=;
- b=ijDiSjWSYooD+X2050KrXvHB6chwv375d3gVvO6MT7ZraeAkKIx5mKEVsu9r6xL1gKJAR2PiCsfAY0TAI0XFxohwgtXcUTnI/5mboLayRZqiKZPBGVlXbCC9soqkSwob2gFjPDMCF7uJxY0Opthm/HNLcZ9PFh8NXKFG7KA3xbSTqdIUVjchxfPP9W0f3ja3FnUGVofZfNRudFL/xJByQqG9v03zSpMnG0DRkQA3vOV3LAI/ZztObJgzLxuKVShUL3pM/uqznOlLs7bHSfyFGk3dr13vgZkJI0H9vy+4oA9D8IdkMs9EadH7s7Rmy0bWDS+wm6X8ItjVa19MQHFUUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ixPHeucQRcIVsxhzploSBJRXghgFftytSMNEKRKxGFI=;
- b=enutPeY5QKsavHp7vEudbcr8geyXlPIMmVQlu1E3p0epguVdWB1ujd9KQs5vEJk5Frl2SQegGENm39pOQGjf0BYgeepTZ4u0vHu69/ym3kxe7VOhCde850fOHd48hgq89VuDMmQ8QUTT3UDIbnDOB3M68WLdglcUKX3J8t7spEs=
-Received: from BY5PR15MB3636.namprd15.prod.outlook.com (52.133.252.91) by
- BY5PR15MB3730.namprd15.prod.outlook.com (10.255.245.28) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2387.24; Fri, 25 Oct 2019 19:11:21 +0000
-Received: from BY5PR15MB3636.namprd15.prod.outlook.com
- ([fe80::7887:4f9c:70df:285c]) by BY5PR15MB3636.namprd15.prod.outlook.com
- ([fe80::7887:4f9c:70df:285c%4]) with mapi id 15.20.2387.021; Fri, 25 Oct 2019
- 19:11:21 +0000
-From: Vijay Khemka <vijaykhemka@fb.com>
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>, "David S. Miller"
- <davem@davemloft.net>
-Subject: Re: [PATCH] net: ethernet: ftgmac100: Fix DMA coherency issue with SW
- checksum
-Thread-Topic: [PATCH] net: ethernet: ftgmac100: Fix DMA coherency issue with
- SW checksum
-Thread-Index: AQHVit6c66EdjV5oI0is+zg9ZLMyJKdrROEA
-Date: Fri, 25 Oct 2019 19:11:21 +0000
-Message-ID: <672FAA6F-5DA7-4AA7-A049-96DF82CEEA18@fb.com>
-References: <572a7d510ace5e5a5ba41c4774d330133291c82a.camel@kernel.crashing.org>
-In-Reply-To: <572a7d510ace5e5a5ba41c4774d330133291c82a.camel@kernel.crashing.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [2620:10d:c090:200::1:a02c]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9c774634-8443-4056-6a1d-08d7597f1ef2
-x-ms-traffictypediagnostic: BY5PR15MB3730:
-x-microsoft-antispam-prvs: <BY5PR15MB37307AACDD3047E108D77E08DD650@BY5PR15MB3730.namprd15.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:644;
-x-forefront-prvs: 02015246A9
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39860400002)(136003)(376002)(366004)(396003)(346002)(189003)(199004)(256004)(99286004)(14444005)(478600001)(8676002)(305945005)(81156014)(81166006)(7736002)(6116002)(66556008)(91956017)(186003)(11346002)(2906002)(66476007)(2616005)(486006)(476003)(64756008)(66446008)(66946007)(46003)(446003)(76116006)(6512007)(76176011)(33656002)(102836004)(6506007)(6246003)(36756003)(6486002)(14454004)(71190400001)(71200400001)(25786009)(54906003)(110136005)(86362001)(4326008)(229853002)(316002)(5660300002)(6436002)(8936002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BY5PR15MB3730;
- H:BY5PR15MB3636.namprd15.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fZOcvYlrA4OFXJS1BReVQf9UCJuZ6zS1t0dCtoi2LHOQraWoDqAZoTsXWYMmD5fEly75p96BXWvcymnFYfedpRSnIyf/9UhIo/ssmb3ZlBmih+PSz+bKdfWrD+x5I32UXA4qSZO68g2jU95iEkypTtERx3s8EcgqmIZvZMalFAZHysmVNWdFgPHOaJKW3TVb/EjqvYXkIiEGMsvpyZAGlGNES2kAtamw76cuqnQhGOp75GjdS7D4JPi2oEPGnjCb/xKZP7TedUpb2N5LHHVELrZf7ytZqLOVKazyMcVUzFWSKZ5oOR4hBL7t6K3kkNof0CnpPkNIR2/EpZV+HqBXeRQXvnvFfuP8IvBsOhJZJjOA3ptbUWk2+a/COsUn8q4HC2UXGQb51F00y/yV8z5c6elGbdGo1O+gnUjzDCVrBYxi4hmtKgt3qe1EvPbc3V8d
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <49B366D14C875646BD4F08CFAC54D4E8@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47180d3tNkzDqgF;
+ Sun, 27 Oct 2019 18:01:52 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1572159702;
+ bh=ARdfih51ut3Wc7cOVlkAxrqjxZ2ICiWrQ62g5bzsKEw=;
+ h=X-UI-Sender-Class:To:Cc:References:Subject:From:Date:In-Reply-To;
+ b=q1PqP5WGtCAdBon6ZLe+Hpj+gG4uuPCpda0k5wgvbuIZKlSQ1oHK/Aa21jpvK+6bD
+ wpb2GmCQN/LQWD5WIrN40fDCHGCxzDO+qZAYujdbzVhA0lsNlw3FVTGX7zhAEJPlhc
+ qPusz84VauMM9r0cF4cGSkQM5PmCiQtFma+hojbg=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.2] ([93.132.56.174]) by smtp.web.de (mrweb002
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LfAfQ-1heV4N06Zc-00ooQ1; Sun, 27
+ Oct 2019 07:55:31 +0100
+To: Navid Emamdoost <navid.emamdoost@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-media@vger.kernel.org, openbmc@lists.ozlabs.org
+References: <20191026042519.29446-1-navid.emamdoost@gmail.com>
+Subject: Re: [PATCH] media: aspeed-video: Fix memory leaks in
+ aspeed_video_probe
+From: Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
+ +v43YoGpDNyhgA0w9CEhuwfZrE91GocMtjLO67TAc2i2nxMc/FJRDI0OemO4VJ9RwID6ltwt
+ mpVJgXGKkNJ1ey+QOXouzlErVvE2fRh+KXXN1Q7fSmTJlAW9XJYHS3BDHb0uRpymRSX3O+E2
+ lA87C7R8qAigPDZi6Z7UmwIA83ZMKXQ5stA0lhPyYgQcM7fh7V4ZYhnR0I5/qkUoxKpqaYLp
+ YHBczVP+Zx/zHOM0KQphOMbU7X3c1pmMruoe6ti9uZzqZSLsF+NKXFEPBS665tQr66HJvZvY
+ GMDlntZFAZ6xQvCC1r3MGoxEC1tuEa24vPCC9RZ9wk2sY5Csbva0WwYv3WKRZZBv8eIhGMxs
+ rcpeGShRFyZ/0BYO53wZAPV1pEhGLLxd8eLN/nEWjJE0ejakPC1H/mt5F+yQBJAzz9JzbToU
+ 5jKLu0SugNI18MspJut8AiA1M44CIWrNHXvWsQ+nnBKHDHHYZu7MoXlOmB32ndsfPthR3GSv
+ jN7YD4Ad724H8fhRijmC1+RpuSce7w2JLj5cYj4MlccmNb8YUxsE8brY2WkXQYS8Ivse39MX
+ BE66MQN0r5DQ6oqgoJ4gHIVBUv/ZwgcmUNS5gQkNCFA0dWXznQARAQABtCZNYXJrdXMgRWxm
+ cmluZyA8TWFya3VzLkVsZnJpbmdAd2ViLmRlPokCVAQTAQgAPhYhBHDP0hzibeXjwQ/ITuU9
+ Figxg9azBQJYNvsQAhsjBQkJZgGABQsJCAcCBhUICQoLAgQWAgMBAh4BAheAAAoJEOU9Figx
+ g9azcyMP/iVihZkZ4VyH3/wlV3nRiXvSreqg+pGPI3c8J6DjP9zvz7QHN35zWM++1yNek7Ar
+ OVXwuKBo18ASlYzZPTFJZwQQdkZSV+atwIzG3US50ZZ4p7VyUuDuQQVVqFlaf6qZOkwHSnk+
+ CeGxlDz1POSHY17VbJG2CzPuqMfgBtqIU1dODFLpFq4oIAwEOG6fxRa59qbsTLXxyw+PzRaR
+ LIjVOit28raM83Efk07JKow8URb4u1n7k9RGAcnsM5/WMLRbDYjWTx0lJ2WO9zYwPgRykhn2
+ sOyJVXk9xVESGTwEPbTtfHM+4x0n0gC6GzfTMvwvZ9G6xoM0S4/+lgbaaa9t5tT/PrsvJiob
+ kfqDrPbmSwr2G5mHnSM9M7B+w8odjmQFOwAjfcxoVIHxC4Cl/GAAKsX3KNKTspCHR0Yag78w
+ i8duH/eEd4tB8twcqCi3aCgWoIrhjNS0myusmuA89kAWFFW5z26qNCOefovCx8drdMXQfMYv
+ g5lRk821ZCNBosfRUvcMXoY6lTwHLIDrEfkJQtjxfdTlWQdwr0mM5ye7vd83AManSQwutgpI
+ q+wE8CNY2VN9xAlE7OhcmWXlnAw3MJLW863SXdGlnkA3N+U4BoKQSIToGuXARQ14IMNvfeKX
+ NphLPpUUnUNdfxAHu/S3tPTc/E/oePbHo794dnEm57LuuQINBFg2+xABEADZg/T+4o5qj4cw
+ nd0G5pFy7ACxk28mSrLuva9tyzqPgRZ2bdPiwNXJUvBg1es2u81urekeUvGvnERB/TKekp25
+ 4wU3I2lEhIXj5NVdLc6eU5czZQs4YEZbu1U5iqhhZmKhlLrhLlZv2whLOXRlLwi4jAzXIZAu
+ 76mT813jbczl2dwxFxcT8XRzk9+dwzNTdOg75683uinMgskiiul+dzd6sumdOhRZR7YBT+xC
+ wzfykOgBKnzfFscMwKR0iuHNB+VdEnZw80XGZi4N1ku81DHxmo2HG3icg7CwO1ih2jx8ik0r
+ riIyMhJrTXgR1hF6kQnX7p2mXe6K0s8tQFK0ZZmYpZuGYYsV05OvU8yqrRVL/GYvy4Xgplm3
+ DuMuC7/A9/BfmxZVEPAS1gW6QQ8vSO4zf60zREKoSNYeiv+tURM2KOEj8tCMZN3k3sNASfoG
+ fMvTvOjT0yzMbJsI1jwLwy5uA2JVdSLoWzBD8awZ2X/eCU9YDZeGuWmxzIHvkuMj8FfX8cK/
+ 2m437UA877eqmcgiEy/3B7XeHUipOL83gjfq4ETzVmxVswkVvZvR6j2blQVr+MhCZPq83Ota
+ xNB7QptPxJuNRZ49gtT6uQkyGI+2daXqkj/Mot5tKxNKtM1Vbr/3b+AEMA7qLz7QjhgGJcie
+ qp4b0gELjY1Oe9dBAXMiDwARAQABiQI8BBgBCAAmFiEEcM/SHOJt5ePBD8hO5T0WKDGD1rMF
+ Alg2+xACGwwFCQlmAYAACgkQ5T0WKDGD1rOYSw/+P6fYSZjTJDAl9XNfXRjRRyJSfaw6N1pA
+ Ahuu0MIa3djFRuFCrAHUaaFZf5V2iW5xhGnrhDwE1Ksf7tlstSne/G0a+Ef7vhUyeTn6U/0m
+ +/BrsCsBUXhqeNuraGUtaleatQijXfuemUwgB+mE3B0SobE601XLo6MYIhPh8MG32MKO5kOY
+ hB5jzyor7WoN3ETVNQoGgMzPVWIRElwpcXr+yGoTLAOpG7nkAUBBj9n9TPpSdt/npfok9ZfL
+ /Q+ranrxb2Cy4tvOPxeVfR58XveX85ICrW9VHPVq9sJf/a24bMm6+qEg1V/G7u/AM3fM8U2m
+ tdrTqOrfxklZ7beppGKzC1/WLrcr072vrdiN0icyOHQlfWmaPv0pUnW3AwtiMYngT96BevfA
+ qlwaymjPTvH+cTXScnbydfOQW8220JQwykUe+sHRZfAF5TS2YCkQvsyf7vIpSqo/ttDk4+xc
+ Z/wsLiWTgKlih2QYULvW61XU+mWsK8+ZlYUrRMpkauN4CJ5yTpvp+Orcz5KixHQmc5tbkLWf
+ x0n1QFc1xxJhbzN+r9djSGGN/5IBDfUqSANC8cWzHpWaHmSuU3JSAMB/N+yQjIad2ztTckZY
+ pwT6oxng29LzZspTYUEzMz3wK2jQHw+U66qBFk8whA7B2uAU1QdGyPgahLYSOa4XAEGb6wbI FEE=
+Message-ID: <bec85427-66b8-e0fa-9ee2-07cc77cf4a7e@web.de>
+Date: Sun, 27 Oct 2019 07:55:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c774634-8443-4056-6a1d-08d7597f1ef2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Oct 2019 19:11:21.0386 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: p5qG5MX0oeaHB3FLSzx34RBLaNgrCtC1tpbxGqMbzT3JZ+HCPt7w0SHpijSjwyj2z1NS4wbL8DLqcE4Tz41jww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR15MB3730
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-10-25_09:2019-10-25,2019-10-25 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- suspectscore=0
- clxscore=1015 mlxlogscore=998 phishscore=0 malwarescore=0 bulkscore=0
- spamscore=0 mlxscore=0 lowpriorityscore=0 impostorscore=0
- priorityscore=1501 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1908290000 definitions=main-1910250173
-X-FB-Internal: deliver
+In-Reply-To: <20191026042519.29446-1-navid.emamdoost@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:FmGICvn0LmSTTD7R93PU62N8WsZYZ6cdVmszCY8Q/JcMVVRUbYb
+ Vp0gqGawU/a6Qlz1JBoLAhB28rowaZFN8uoAfGXOHvvxbqZs8UpzUjC1qx/sPDrngPe0zPp
+ TDOb+KZZFwULLo+UwbuDjrmLxEYbLjOg7cujUQWSEr/+ZGhJ8VPHpmBAKRY5Eyuf9HunTNI
+ dGvxHMQ43a0KQ0Qu/oyjw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yJtLoEaTMRQ=:FVUd+Ra4EuZVLMgJvZF/9h
+ c8dcEJ3bPneK+cvViQemkqAo7WIMkFfm4Edi5a/muFQ8XqZv+vxgrmKqSmJ5LFnrJs6t/bzcm
+ PkcJAW0Gyj9bBor7r5q2AJC+q3x11ht6zL0b6W3PHtE8lCRF7VIyLBp0tcqmBmHx4EB5pN2Kd
+ P1zBAPexrxbCMxQq0PmeGyx7jDkqt1TITElcyY2ahSrN97862by+XHgP4TQI9BkLMm+pyDCj2
+ 4uUULgmzd1JSwHEFYsbzTUecOYExQuFALb0RuBuZS2AakAHO++GjSxs5AbP0AUl8vGfq7BSzs
+ w0h8WK1RYNTieuD4fyCi9z924CQmGxKn3g2vO79d/VI7YdW8fo30RnUPre/fIC+mvH5injwRE
+ 8BvuwVaJCztwgbC3IJeG4SalM750fvwKzfk3ooxfIH7mzdf7ylmMWxTZ07V4Fji0EZ+8E3eHf
+ aMpcL5rWyIWlOdQ5FlM4IdSLmMkk/8mxd8TVUeXKJVOyWw3qUt14GpW5NJ4NR67HcPZLVjlq4
+ YM3LTOHT3TxYZu5UVWA+iY25y2czZm83AylpRL05UCwtPgzsV1EeHVcz+sQdszk4joMjuhADT
+ lrBhoxjUz2mC2Bi7BVHMeqdqQoU9qpS+AYTXMR6LN5QQJmOr5ddlMAGXNSXpSNI33NG88tgeU
+ d2doThMx7+e8871fQk1tI9v4R+5aHuDPfLGcV9HsXMdYgt/xg/v0EG1tY4FfkKHA4P5UQFUMn
+ jGvveZ6m7RdU2JAFuwTPiwT09CePoY5xRiVnaUZOvC7lPWLFfiD32jJ0qgtydhjQ5b3Mxc/SY
+ gFblsBhdenEPVAUEUBMqaQYYUqq4bO/KfHD1Y5XO/ZqMqglNUUYpx72n5JKlA6z60nM5UqaAv
+ Pc1auZZxEyf1QTll2fWvawxMSqh389C+3FcPm/uOFaMVAntnsfR9w5w7K55dI3w4TZH4xk920
+ 2nyzkEHjN0wVsxAuntBTej7YO7tcQEsFeN2qQyWFaF4rCmybSWyO2T/nREZ4NvhstP6Wt6ihA
+ GKcIEODeosCDaBCTVzpwEZt9vVa9MEsEH45n5EcNCtgOVOzIUIFPhJX7+epjo6jSu0/oRFsO6
+ QHQgd30NOwC+I6AjqGI0stdY5aYVMQ76KJdvg9v7ztqWD7ECWrsnTQ4KoewyRypFGH7Z0u8gP
+ 7bZDwGK6VMWHdfzUxxwr5QZYb/GffBdfN+Y/ARiDeQwcZV+PiUg9Xs+tWYE7k8J+njUN53wUq
+ 8ZxTyc0UVe4iHzeOA0AnJhssCa7NgrgyCeuiGsmLyG1HNQAHT0+9LthshGRc=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,59 +130,28 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
+Cc: kernel-janitors@vger.kernel.org, Kangjie Lu <kjlu@umn.edu>,
+ LKML <linux-kernel@vger.kernel.org>, Navid Emamdoost <emamd001@umn.edu>,
+ Stephen McCamant <smccaman@umn.edu>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-TG9va3MgZ29vZCB0byBtZS4gQW5kIEkgaGF2ZSB0ZXN0ZWQgaXQuIEl0IHdvcmtzIHBlcmZlY3Rs
-eSBmaW5lLg0KDQpSZXZpZXdlZC1ieTogVmlqYXkgS2hlbWthIDx2aWpheWtoZW1rYUBmYi5jb20+
-DQpUZXN0ZWQtYnk6IFZpamF5IEtoZW1rYSA8dmlqYXlraGVta2FAZmIuY29tPg0KDQrvu79PbiAx
-MC8yNC8xOSwgNzo0NyBQTSwgIkJlbmphbWluIEhlcnJlbnNjaG1pZHQiIDxiZW5oQGtlcm5lbC5j
-cmFzaGluZy5vcmc+IHdyb3RlOg0KDQogICAgV2UgYXJlIGNhbGxpbmcgdGhlIGNoZWNrc3VtIGhl
-bHBlciBhZnRlciB0aGUgZG1hX21hcF9zaW5nbGUoKQ0KICAgIGNhbGwgdG8gbWFwIHRoZSBwYWNr
-ZXQuIFRoaXMgaXMgaW5jb3JyZWN0IGFzIHRoZSBjaGVja3N1bW1pbmcNCiAgICBjb2RlIHdpbGwg
-dG91Y2ggdGhlIHBhY2tldCBmcm9tIHRoZSBDUFUuIFRoaXMgbWVhbnMgdGhlIGNhY2hlDQogICAg
-d29uJ3QgYmUgcHJvcGVybHkgZmx1c2hlcyAob3IgdGhlIGJvdW5jZSBidWZmZXJpbmcgd2lsbCBs
-ZWF2ZQ0KICAgIHVzIHdpdGggdGhlIHVubW9kaWZpZWQgcGFja2V0IHRvIERNQSkuDQogICAgDQog
-ICAgVGhpcyBtb3ZlcyB0aGUgY2FsY3VsYXRpb24gb2YgdGhlIGNoZWNrc3VtICYgdmxhbiB0YWdz
-IHRvDQogICAgYmVmb3JlIHRoZSBETUEgbWFwcGluZy4NCiAgICANCiAgICBUaGlzIGFsc28gaGFz
-IHRoZSBzaWRlIGVmZmVjdCBvZiBmaXhpbmcgYW5vdGhlciBidWc6IElmIHRoZQ0KICAgIGNoZWNr
-c3VtIGhlbHBlciBmYWlscywgd2UgZ290byAiZHJvcCIgdG8gZHJvcCB0aGUgcGFja2V0LCB3aGlj
-aA0KICAgIHdpbGwgbm90IHVubWFwIHRoZSBETUEgbWFwcGluZy4NCiAgICANCiAgICBTaWduZWQt
-b2ZmLWJ5OiBCZW5qYW1pbiBIZXJyZW5zY2htaWR0IDxiZW5oQGtlcm5lbC5jcmFzaGluZy5vcmc+
-DQogICAgRml4ZXM6IDA1NjkwZDYzM2YzMCBmdGdtYWMxMDA6IFVwZ3JhZGUgdG8gTkVUSUZfRl9I
-V19DU1VNDQogICAgQ0M6IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmcgW3Y0LjEyK10NCiAgICAtLS0N
-CiAgICAgZHJpdmVycy9uZXQvZXRoZXJuZXQvZmFyYWRheS9mdGdtYWMxMDAuYyB8IDI1ICsrKysr
-KysrKysrKy0tLS0tLS0tLS0tLQ0KICAgICAxIGZpbGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygr
-KSwgMTMgZGVsZXRpb25zKC0pDQogICAgDQogICAgZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L2V0
-aGVybmV0L2ZhcmFkYXkvZnRnbWFjMTAwLmMgYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9mYXJhZGF5
-L2Z0Z21hYzEwMC5jDQogICAgaW5kZXggOWI3YWY5NGE0MGJiLi45NmU5NTY1ZjFlMDggMTAwNjQ0
-DQogICAgLS0tIGEvZHJpdmVycy9uZXQvZXRoZXJuZXQvZmFyYWRheS9mdGdtYWMxMDAuYw0KICAg
-ICsrKyBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L2ZhcmFkYXkvZnRnbWFjMTAwLmMNCiAgICBAQCAt
-NzI3LDYgKzcyNywxOCBAQCBzdGF0aWMgbmV0ZGV2X3R4X3QgZnRnbWFjMTAwX2hhcmRfc3RhcnRf
-eG1pdChzdHJ1Y3Qgc2tfYnVmZiAqc2tiLA0KICAgICAJICovDQogICAgIAluZnJhZ3MgPSBza2Jf
-c2hpbmZvKHNrYiktPm5yX2ZyYWdzOw0KICAgICANCiAgICArCS8qIFNldHVwIEhXIGNoZWNrc3Vt
-bWluZyAqLw0KICAgICsJY3N1bV92bGFuID0gMDsNCiAgICArCWlmIChza2ItPmlwX3N1bW1lZCA9
-PSBDSEVDS1NVTV9QQVJUSUFMICYmDQogICAgKwkgICAgIWZ0Z21hYzEwMF9wcmVwX3R4X2NzdW0o
-c2tiLCAmY3N1bV92bGFuKSkNCiAgICArCQlnb3RvIGRyb3A7DQogICAgKw0KICAgICsJLyogQWRk
-IFZMQU4gdGFnICovDQogICAgKwlpZiAoc2tiX3ZsYW5fdGFnX3ByZXNlbnQoc2tiKSkgew0KICAg
-ICsJCWNzdW1fdmxhbiB8PSBGVEdNQUMxMDBfVFhERVMxX0lOU19WTEFOVEFHOw0KICAgICsJCWNz
-dW1fdmxhbiB8PSBza2Jfdmxhbl90YWdfZ2V0KHNrYikgJiAweGZmZmY7DQogICAgKwl9DQogICAg
-Kw0KICAgICAJLyogR2V0IGhlYWRlciBsZW4gKi8NCiAgICAgCWxlbiA9IHNrYl9oZWFkbGVuKHNr
-Yik7DQogICAgIA0KICAgIEBAIC03NTMsMTkgKzc2NSw2IEBAIHN0YXRpYyBuZXRkZXZfdHhfdCBm
-dGdtYWMxMDBfaGFyZF9zdGFydF94bWl0KHN0cnVjdCBza19idWZmICpza2IsDQogICAgIAlpZiAo
-bmZyYWdzID09IDApDQogICAgIAkJZl9jdGxfc3RhdCB8PSBGVEdNQUMxMDBfVFhERVMwX0xUUzsN
-CiAgICAgCXR4ZGVzLT50eGRlczMgPSBjcHVfdG9fbGUzMihtYXApOw0KICAgIC0NCiAgICAtCS8q
-IFNldHVwIEhXIGNoZWNrc3VtbWluZyAqLw0KICAgIC0JY3N1bV92bGFuID0gMDsNCiAgICAtCWlm
-IChza2ItPmlwX3N1bW1lZCA9PSBDSEVDS1NVTV9QQVJUSUFMICYmDQogICAgLQkgICAgIWZ0Z21h
-YzEwMF9wcmVwX3R4X2NzdW0oc2tiLCAmY3N1bV92bGFuKSkNCiAgICAtCQlnb3RvIGRyb3A7DQog
-ICAgLQ0KICAgIC0JLyogQWRkIFZMQU4gdGFnICovDQogICAgLQlpZiAoc2tiX3ZsYW5fdGFnX3By
-ZXNlbnQoc2tiKSkgew0KICAgIC0JCWNzdW1fdmxhbiB8PSBGVEdNQUMxMDBfVFhERVMxX0lOU19W
-TEFOVEFHOw0KICAgIC0JCWNzdW1fdmxhbiB8PSBza2Jfdmxhbl90YWdfZ2V0KHNrYikgJiAweGZm
-ZmY7DQogICAgLQl9DQogICAgLQ0KICAgICAJdHhkZXMtPnR4ZGVzMSA9IGNwdV90b19sZTMyKGNz
-dW1fdmxhbik7DQogICAgIA0KICAgICAJLyogTmV4dCBkZXNjcmlwdG9yICovDQogICAgDQogICAg
-DQogICAgDQoNCg==
+=E2=80=A6
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -1663,18 +1663,24 @@ static int aspeed_video_probe(struct platform_de=
+vice *pdev)
+=E2=80=A6
+> +free_video:
+> +	kfree(video);
+=E2=80=A6
+
+I am curious if there is a need for such a memory release at another place=
+.
+How do you think about to add this function call also to the implementatio=
+n
+of the function =E2=80=9Caspeed_video_remove=E2=80=9D?
+
+Regards,
+Markus
