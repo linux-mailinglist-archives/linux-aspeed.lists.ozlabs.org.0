@@ -2,67 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A526F2B22
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 10:47:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8422F2B23
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 10:47:28 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 477z8T2XXhzF6K0
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 20:47:21 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 477z8Z0XmrzF6Hy
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 20:47:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::d41;
- helo=mail-io1-xd41.google.com; envelope-from=navid.emamdoost@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::144;
+ helo=mail-il1-x144.google.com; envelope-from=navid.emamdoost@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="IEVfVXYq"; 
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="OIvX0idW"; 
  dkim-atps=neutral
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com
+ [IPv6:2607:f8b0:4864:20::144])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4720Z60KFrzDrTK;
- Tue, 29 Oct 2019 03:30:21 +1100 (AEDT)
-Received: by mail-io1-xd41.google.com with SMTP id p6so11400393iod.7;
- Mon, 28 Oct 2019 09:30:21 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4721Bt3DBMzDrZh;
+ Tue, 29 Oct 2019 03:58:43 +1100 (AEDT)
+Received: by mail-il1-x144.google.com with SMTP id a13so8825425ilp.1;
+ Mon, 28 Oct 2019 09:58:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=V/+YXkmrDex7nEr+gkqIoyiFItObqxb735/pgi9TyOw=;
- b=IEVfVXYqi71X+5wVl3Ese6uVmR7+J/VABWSAUt7H4jonMAuWXEZACHPKzDWU8PaTdQ
- lRfIaqsTOOqdC5QeAI95fcxyC2ALi8O2yrs7v2oszQwXMyqLSeu98BMk8/d4Y4HOTZCW
- Ip3dgukKFPd8Z+K/JVq17v79VV8bhl5POK/5YviTYJ19ZSLcyB1vPkcQbC3dx6E+1Op8
- rxl6p/utkpHicJVLDdRasCAKRULk6rq0gId0DIzIyLkCjkQOmXS+tziKwY5XhuGq6VVm
- /TMxt+tb3v26IeEHYmc44XaG8cjhvOKaMysrOafos6Iyr3V6O8RhD5xbccRIugY0lNxW
- YRbw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=VsYOYw/63XAVKPUsYisyXnfblClorjAawHJi/it0oEA=;
+ b=OIvX0idWV6esLVnTUjwsh8UX0Y3MegoKcCrUD36IazFKX/z4o4uXg0RgARV00n2l9A
+ IsJFqlj41Kkp+0TO1kGJBeTa93xlWKkBk2sUsCbSx9I0xYqM23tRWBEsXzZbI9B1KdIm
+ gJK5ScQ+N5hznm3+xbFwlmmllQeuPSzoTwLC2MBXy9aVrEduAt+jm+bZdVrIkQYQdipw
+ eh4+A+1UszCvXqa5t2qNh0QPHipSR5BsWKa/AVAeWpl7mKf3On3n8D2TjXOvoQWqukRD
+ E99/TWyhTaurLqz0QfX0oAbXkzqkEDrmroVb2688sx/hKI4ycpfahn2P7K/IBPjUdnSH
+ A+iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=V/+YXkmrDex7nEr+gkqIoyiFItObqxb735/pgi9TyOw=;
- b=ExpI7cLK0B6TXzKsjRozDD12lDNTlfpKSozrXwH09541qFxA1vT2MlgGJFaROsliy+
- 2XlXf88ry49QCjQir0HDDIp6UKDNpv91b9/WY7ZuBjgKalMBOe6b2SZRH4T5g+ahrLov
- +AhcpGcXvB3oUO4Bb3SjoxcUFeZ1PSRk4plrnDeIgkY2LSdMQhFwaMDUJZV4yaxGpSjG
- aIXJxBjqxEhrCGtHmeKpwfxgxTM8qye0hJSOVKLIRvTUGJYPWz48aAET/9dVaHwwcnKu
- 1wAYtbYlVkkoh6vhUgdqNIecB7DZxhajaFUC0aIjjU83+dN23Km38c9STUcUk95mK85k
- fZkQ==
-X-Gm-Message-State: APjAAAV1Q5d3d+WoLYcOS2Jlx9wuJkgr1RM2q1IOzVVoXIdvAa2wwbue
- +p0PFze7YsqdiV2plsnwK6pbUU4fuDkzksbniHE=
-X-Google-Smtp-Source: APXvYqzk/zLyOx63qqddiGsEf2n1A10g0Xbr4HwW628LXscP5JAk3K//9Mo38REgUHJBpGQfWEZeoUeMnJ3rGvH8ZNI=
-X-Received: by 2002:a02:330e:: with SMTP id c14mr18313186jae.5.1572280217811; 
- Mon, 28 Oct 2019 09:30:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191026042519.29446-1-navid.emamdoost@gmail.com>
- <d9c04318-586a-bfc2-fce6-6218c6bab1d6@linux.intel.com>
-In-Reply-To: <d9c04318-586a-bfc2-fce6-6218c6bab1d6@linux.intel.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=VsYOYw/63XAVKPUsYisyXnfblClorjAawHJi/it0oEA=;
+ b=A+++74winFOBkMdMHPsq1DUGhZjr9gKlRXWcUkVFqhuMP9sUmV/hwisT0Jre42jbvB
+ iQlZ3M4GDrkefE4jN7JZbB7VMt8s7vO1gZw3njSss/ppOyLIVH7Gn3kiBZb+9iaTPLSO
+ CjPigtB0NdVXfh21agW1udLXDKdBCJAopgVZXudDRPvbjkzGqyir0EeQTKYfxnrhu/P6
+ Mx2IZZsbn8v1B6XR846Lxh1iI7ouKlecqRpTr7N2GwUjHrhqe+Unfar+LxZTzaS6tW2l
+ 3PaPotouTm8e/gucckI/ffJW0w4EUUHkm6kfWmGDqOGajk3M6NqU1eJvk+hFhhEYXZyn
+ G9JA==
+X-Gm-Message-State: APjAAAVjqf7+MdDHMNhirJJfYzXMMQ3BmDEiei11dcpD6gEoISmMLb+A
+ biayp70YQuDfzb7hW8MkJUE=
+X-Google-Smtp-Source: APXvYqx2qXlEPCIiPVhl6XhY2JTF9eYwSmAPTLsncPs7iDDy0d9kOOdavwbVbzeSJzJSR1vraAyjIw==
+X-Received: by 2002:a92:9a54:: with SMTP id t81mr22517749ili.197.1572281920640; 
+ Mon, 28 Oct 2019 09:58:40 -0700 (PDT)
+Received: from cs-dulles.cs.umn.edu (cs-dulles.cs.umn.edu. [128.101.35.54])
+ by smtp.googlemail.com with ESMTPSA id l2sm597572ilc.34.2019.10.28.09.58.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Oct 2019 09:58:39 -0700 (PDT)
 From: Navid Emamdoost <navid.emamdoost@gmail.com>
-Date: Mon, 28 Oct 2019 11:30:06 -0500
-Message-ID: <CAEkB2EQXmHJoMJJJULHHFy4gp6a=QiCe5SoxkWehnpKWNVw=_A@mail.gmail.com>
-Subject: Re: [PATCH] media: aspeed-video: Fix memory leaks in
- aspeed_video_probe
-To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+To: jae.hyun.yoo@linux.intel.com
+Subject: [PATCH v2] media: aspeed-video: Fix memory leaks in aspeed_video_probe
+Date: Mon, 28 Oct 2019 11:58:26 -0500
+Message-Id: <20191028165827.24949-1-navid.emamdoost@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <d9c04318-586a-bfc2-fce6-6218c6bab1d6@linux.intel.com>
+References: <d9c04318-586a-bfc2-fce6-6218c6bab1d6@linux.intel.com>
 X-Mailman-Approved-At: Thu, 07 Nov 2019 20:47:04 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -75,79 +76,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Kangjie Lu <kjlu@umn.edu>,
- openbmc@lists.ozlabs.org, LKML <linux-kernel@vger.kernel.org>,
- Navid Emamdoost <emamd001@umn.edu>, Stephen McCamant <smccaman@umn.edu>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: linux-aspeed@lists.ozlabs.org, kjlu@umn.edu, openbmc@lists.ozlabs.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, emamd001@umn.edu,
+ smccaman@umn.edu, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Navid Emamdoost <navid.emamdoost@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Oct 28, 2019 at 11:27 AM Jae Hyun Yoo
-<jae.hyun.yoo@linux.intel.com> wrote:
->
-> Hi Navid,
->
-> On 10/25/2019 9:25 PM, Navid Emamdoost wrote:
-> > In the implementation of aspeed_video_probe() the allocated memory for
-> > video should be released in case of failure. Release video if either
-> > devm_ioremap_resource() or aspeed_video_init() or
-> > aspeed_video_setup_video() fails.
-> >
-> > Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
-> > Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
-> > ---
-> >   drivers/media/platform/aspeed-video.c | 14 ++++++++++----
-> >   1 file changed, 10 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> > index eb12f3793062..8c473356132d 100644
-> > --- a/drivers/media/platform/aspeed-video.c
-> > +++ b/drivers/media/platform/aspeed-video.c
-> > @@ -1663,18 +1663,24 @@ static int aspeed_video_probe(struct platform_device *pdev)
-> >
-> >       video->base = devm_ioremap_resource(video->dev, res);
-> >
-> > -     if (IS_ERR(video->base))
-> > -             return PTR_ERR(video->base);
-> > +     if (IS_ERR(video->base)) {
-> > +             rc = PTR_ERR(video->base);
-> > +             goto free_video;
-> > +     }
-> >
-> >       rc = aspeed_video_init(video);
-> >       if (rc)
-> > -             return rc;
-> > +             goto free_video;
-> >
-> >       rc = aspeed_video_setup_video(video);
-> >       if (rc)
-> > -             return rc;
-> > +             goto free_video;
-> >
-> >       return 0;
-> > +
-> > +free_video:
-> > +     kfree(video);
-> > +     return rc;
-> >   }
-> >
-> >   static int aspeed_video_remove(struct platform_device *pdev)
-> >
->
-> Can we simply change kzalloc in aspeed_video_probe with devm_kzalloc
-> so that we don't need to take care of freeing of video? I think it would
-> be more simpler.
+In the implementation of aspeed_video_probe() the allocated memory for
+video should be released if either devm_ioremap_resource()
+or aspeed_video_init() or aspeed_video_setup_video() fails. Replace
+kzalloc() with devm_kzalloc to avoid explicit release for video.
 
-Sounds a neat plan, will send v2.
+Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
+Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+---
+Changes in v2:
+	-- replace kzalloc with devm_kzalloc based on Jae Hyun Yoo
+suggestion
 
->
-> Cheers,
->
-> Jae
+ drivers/media/platform/aspeed-video.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+index eb12f3793062..2aa8ea2f9824 100644
+--- a/drivers/media/platform/aspeed-video.c
++++ b/drivers/media/platform/aspeed-video.c
+@@ -1646,7 +1646,7 @@ static int aspeed_video_probe(struct platform_device *pdev)
+ {
+ 	int rc;
+ 	struct resource *res;
+-	struct aspeed_video *video = kzalloc(sizeof(*video), GFP_KERNEL);
++	struct aspeed_video *video = devm_kzalloc(sizeof(*video), GFP_KERNEL);
+ 
+ 	if (!video)
+ 		return -ENOMEM;
 -- 
-Navid.
+2.17.1
+
