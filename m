@@ -1,49 +1,47 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF09E77E6
-	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Oct 2019 18:55:45 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F01B5E7CCF
+	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Oct 2019 00:24:35 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4722SZ38ykzDrgs
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Oct 2019 04:55:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4729m061HBzF0Rv
+	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Oct 2019 10:24:32 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.helo=mga12.intel.com (client-ip=192.55.52.136; helo=mga12.intel.com;
- envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linux.intel.com
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=davemloft.net
+ (client-ip=2620:137:e000::1:9; helo=shards.monkeyblade.net;
+ envelope-from=davem@davemloft.net; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=davemloft.net
+Received: from shards.monkeyblade.net (shards.monkeyblade.net
+ [IPv6:2620:137:e000::1:9])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4722SK6nKPzDrdF;
- Tue, 29 Oct 2019 04:55:28 +1100 (AEDT)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2019 10:55:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,240,1569308400"; d="scan'208";a="211502982"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.148])
- ([10.7.153.148])
- by orsmga002.jf.intel.com with ESMTP; 28 Oct 2019 10:55:24 -0700
-Subject: Re: [PATCH v3] media: aspeed-video: Fix memory leaks in
- aspeed_video_probe
-To: Navid Emamdoost <navid.emamdoost@gmail.com>
-References: <da959329-aa40-b6e7-dcc9-48183a8da716@linux.intel.com>
- <20191028171838.28533-1-navid.emamdoost@gmail.com>
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <57550f1e-87b8-79c4-b1d6-7672b1ce11dc@linux.intel.com>
-Date: Mon, 28 Oct 2019 10:55:24 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20191028171838.28533-1-navid.emamdoost@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4729lt1CgpzF0Br;
+ Tue, 29 Oct 2019 10:24:20 +1100 (AEDT)
+Received: from localhost (unknown [IPv6:2601:601:9f00:1e2::d71])
+ (using TLSv1 with cipher AES256-SHA (256/256 bits))
+ (Client did not present a certificate)
+ (Authenticated sender: davem-davemloft)
+ by shards.monkeyblade.net (Postfix) with ESMTPSA id 3910E14BE91D7;
+ Mon, 28 Oct 2019 16:24:11 -0700 (PDT)
+Date: Mon, 28 Oct 2019 16:24:10 -0700 (PDT)
+Message-Id: <20191028.162410.844978847156294593.davem@davemloft.net>
+To: benh@kernel.crashing.org
+Subject: Re: [PATCH] net: ethernet: ftgmac100: Fix DMA coherency issue with
+ SW checksum
+From: David Miller <davem@davemloft.net>
+In-Reply-To: <572a7d510ace5e5a5ba41c4774d330133291c82a.camel@kernel.crashing.org>
+References: <572a7d510ace5e5a5ba41c4774d330133291c82a.camel@kernel.crashing.org>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12
+ (shards.monkeyblade.net [149.20.54.216]);
+ Mon, 28 Oct 2019 16:24:11 -0700 (PDT)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,51 +53,23 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, kjlu@umn.edu, openbmc@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, emamd001@umn.edu, smccaman@umn.edu,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 10/28/2019 10:18 AM, Navid Emamdoost wrote:
-> In the implementation of aspeed_video_probe() the allocated memory for
-> video should be released if either devm_ioremap_resource()
-> or aspeed_video_init() or aspeed_video_setup_video() fails. Replace
-> kzalloc() with devm_kzalloc to avoid explicit release for video.
-> 
-> Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
-> Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
-> ---
-> Changes in v3:
-> 	-- fix call to devm_kzalloc()
+From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Date: Fri, 25 Oct 2019 13:47:24 +1100
 
-Better keep all change history at here.
+> Signed-off-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Fixes: 05690d633f30 ftgmac100: Upgrade to NETIF_F_HW_CSUM
 
-> ---
->   drivers/media/platform/aspeed-video.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index eb12f3793062..70797b41447c 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -1646,7 +1646,8 @@ static int aspeed_video_probe(struct platform_device *pdev)
->   {
->   	int rc;
->   	struct resource *res;
-> -	struct aspeed_video *video = kzalloc(sizeof(*video), GFP_KERNEL);
-> +	struct aspeed_video *video =
-> +		devm_kzalloc(&pdev->dev, sizeof(*video), GFP_KERNEL);
+Please put the commit header string inside double quotes and parenthesis
+(" ")
 
-For a case of assignment in definition section, let it go over the 80
-chars.
+> CC: stable@vger.kernel.org [v4.12+]
 
-With this fixed:
+Do not CC: stable for networking submissions as per the netdev FAQ.
 
-Reviewed-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-
->   	if (!video)
->   		return -ENOMEM;
-> 
+All fixed up, and queued up for -stable, thanks Ben.
