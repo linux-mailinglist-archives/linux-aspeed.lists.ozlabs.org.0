@@ -2,75 +2,72 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 596CEEC816
-	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Nov 2019 18:43:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F3FF063F
+	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Nov 2019 20:50:26 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 474V0K2PzwzF5tc
-	for <lists+linux-aspeed@lfdr.de>; Sat,  2 Nov 2019 04:43:13 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4770dC0nlWzF4p3
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Nov 2019 06:50:23 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::443;
- helo=mail-pf1-x443.google.com; envelope-from=rentao.bupt@gmail.com;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="j/dyk5yK"; 
+ spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
+ (client-ip=67.231.153.30; helo=mx0b-00082601.pphosted.com;
+ envelope-from=prvs=62128af700=vijaykhemka@fb.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=fb.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=fb.com header.i=@fb.com header.b="TlZoVwKa"; 
  dkim-atps=neutral
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com
+ [67.231.153.30])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 474V074Q6RzF5Wg;
- Sat,  2 Nov 2019 04:43:03 +1100 (AEDT)
-Received: by mail-pf1-x443.google.com with SMTP id v19so7541195pfm.3;
- Fri, 01 Nov 2019 10:43:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=QJl/9GvOTo1mXoprS9Z1FVuoJT7cvJ0SfTXW2ZwsvWU=;
- b=j/dyk5yKG+/Zb+2zjd8u2xn3vzhnpgHTuI0xH+uDSZ798ljUjQgKbUMa+y4AKD4szr
- CgKNJadkohLyHsfXr3XjvG8wEdsnapCo57hAincCLWN/bZgW/2PXLq1xqcg1W/6EWxlX
- 8Q0zZtGSnPhMRXK92TNutM7SdHm2GaTJT1EiOdvEbX/utf+AMfyGYxWbnAGkN6djE494
- eHNyGrgpjH6Ar7SWoytBdfhd8Zbi6eiZPw1uRRTV4mx36oZ3kVA0j7mDDTgmfRf0Yty4
- K1Zbd3kSgqOy/yxgWwlbo/e8LYg/9UoTPCZ6G7uHuYn0I8fmFokfdibxNpc94c4tcFJK
- DLVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=QJl/9GvOTo1mXoprS9Z1FVuoJT7cvJ0SfTXW2ZwsvWU=;
- b=REcv0rccSvGkkUaV9mMGz6jJXMvl+GY54u7jzP8V3PQ/uorAia+YZBtlRKP97Xc0vM
- HUszwHGfcaIlt/CG2pAQApSytqV6zBkRHRYfsNE4dM/lv/v+PbwhfK0lIydVKCGoZYIu
- ggCCggM59q4Pltq/PtGOdsYhFnWUICRzowsjSEny2GUIeyp/aj+cedEx5/97TpOaUdnw
- RCSKoVeZNuBBQz1lSGjg8gnv68Doqojitw8OWkg1SZXeUjBMfmOvzLQvhbEhDcKLY20/
- wx2Da2OOqg/joNzR6WLUlagETCfPZA0sJFSKjDgaL8gzy3ocy4jki/1Bpku07pg0BHEx
- /ktw==
-X-Gm-Message-State: APjAAAXgwW67IOGyxqeT9xDbqdQTk0NOTe5NxZ7PXUhfyVBl22YE16CL
- vT95E9cbPqKDX39sExk8KPk=
-X-Google-Smtp-Source: APXvYqzRiEfVYYVOG6O+ih3xK5Ax5k+9SP+dNi0+K0ffGqjJhG2LgDZzVmOsjy+yKL16LdvxRSyadg==
-X-Received: by 2002:a65:4c41:: with SMTP id l1mr14902663pgr.163.1572630180944; 
- Fri, 01 Nov 2019 10:43:00 -0700 (PDT)
-Received: from taoren-ubuntu-R90MNF91 ([2620:10d:c090:200::1:e697])
- by smtp.gmail.com with ESMTPSA id a6sm9045892pja.30.2019.11.01.10.43.00
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 01 Nov 2019 10:43:00 -0700 (PDT)
-Date: Fri, 1 Nov 2019 10:42:57 -0700
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH 1/4] ARM: dts: aspeed: add dtsi for Facebook AST2500
- Network BMCs
-Message-ID: <20191101174257.GB13557@taoren-ubuntu-R90MNF91>
-References: <20191021194820.293556-1-taoren@fb.com>
- <20191021194820.293556-2-taoren@fb.com>
- <CACPK8XfebA9PcpyWkofCJ5fAZ9ddUjQ4ZeCf73KXb51+k_+N1Q@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4770d13GJyzF4nC
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Nov 2019 06:50:11 +1100 (AEDT)
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xA5JYRL8025066
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 5 Nov 2019 11:50:05 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=facebook;
+ bh=42ae6lQDouib7SXvYVJgz4eaHOcxs5NVBwAhqRbqE3M=;
+ b=TlZoVwKau6RJhbK+YbZg+V+JkSwz+7ZCQoEws7zz8hF1wfSOVkAsjMjg4amJDJTYYS10
+ c9zUGiOSOvc8fAmke5TaxD8/iXbG2VFvKGyg9cDBCokXPPA5gwWYbgn1H5T7T0diqjBl
+ zbBUWmt2M3qf11GyuICNjQTL7Mf6DkQkxQI= 
+Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
+ by mx0a-00082601.pphosted.com with ESMTP id 2w2vvbwqqn-6
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 05 Nov 2019 11:50:05 -0800
+Received: from 2401:db00:12:9028:face:0:29:0 (2620:10d:c081:10::13) by
+ mail.thefacebook.com (2620:10d:c081:35::130) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.1713.5;
+ Tue, 5 Nov 2019 11:49:43 -0800
+Received: by devvm4117.prn2.facebook.com (Postfix, from userid 167582)
+ id 4B0241629D96A; Tue,  5 Nov 2019 11:47:34 -0800 (PST)
+Smtp-Origin-Hostprefix: devvm
+From: Vijay Khemka <vijaykhemka@fb.com>
+Smtp-Origin-Hostname: devvm4117.prn2.facebook.com
+To: Corey Minyard <minyard@acm.org>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>,
+ <openipmi-developer@lists.sourceforge.net>, <linux-kernel@vger.kernel.org>
+Smtp-Origin-Cluster: prn2c23
+Subject: [PATCH] drivers: ipmi: Support for both IPMB Req and Resp
+Date: Tue, 5 Nov 2019 11:47:31 -0800
+Message-ID: <20191105194732.1521963-1-vijaykhemka@fb.com>
+X-Mailer: git-send-email 2.17.1
+X-FB-Internal: Safe
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACPK8XfebA9PcpyWkofCJ5fAZ9ddUjQ4ZeCf73KXb51+k_+N1Q@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-11-05_07:2019-11-05,2019-11-05 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ spamscore=0
+ malwarescore=0 phishscore=0 impostorscore=0 mlxlogscore=999
+ priorityscore=1501 clxscore=1015 suspectscore=0 mlxscore=0 bulkscore=0
+ adultscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-1908290000 definitions=main-1911050162
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,51 +79,76 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: cminyard@mvista.com, sdasari@fb.com, linux-aspeed@lists.ozlabs.org,
+ asmaa@mellanox.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Nov 01, 2019 at 10:12:10AM +0000, Joel Stanley wrote:
-> On Mon, 21 Oct 2019 at 19:49, Tao Ren <taoren@fb.com> wrote:
-> >
-> > Introduce "facebook-netbmc-ast2500-common.dtsi" which is included by all
-> > Facebook AST2500 Network BMC platforms. The major purpose is to minimize
-> > duplicated device entries cross Facebook Network BMC dts files.
-> >
-> 
-> > +
-> > +&mac1 {
-> > +       status = "okay";
-> > +       no-hw-checksum;
-> 
-> Was this included to work around the IPv6 issue that Benh recently fixed?
-> 
-> If you can test your platform with
-> 88824e3bf29a2fcacfd9ebbfe03063649f0f3254 applied and the
-> no-hw-checksum property removed, please send a follow up to remove
-> this property.
-> 
-> It's not doing any harm, but by cleaning it up there's less chance
-> others blindly copy the same thing.
-> 
-> Thanks,
-> 
-> Joel
+Removed check for request or response in IPMB packets coming from
+device as well as from host. Now it supports both way communication
+to device via IPMB. Both request and response will be passed to
+application.
 
-Yes. I'm planning to try the patch. Will send out a followup patch to
-remove the line if everything goes fine.
+Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+---
+ drivers/char/ipmi/ipmb_dev_int.c | 29 +----------------------------
+ 1 file changed, 1 insertion(+), 28 deletions(-)
 
-Cheers,
+diff --git a/drivers/char/ipmi/ipmb_dev_int.c b/drivers/char/ipmi/ipmb_dev_int.c
+index 285e0b8f9a97..7201fdb533d8 100644
+--- a/drivers/char/ipmi/ipmb_dev_int.c
++++ b/drivers/char/ipmi/ipmb_dev_int.c
+@@ -133,9 +133,6 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
+ 	rq_sa = GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
+ 	netf_rq_lun = msg[NETFN_LUN_IDX];
+ 
+-	if (!(netf_rq_lun & NETFN_RSP_BIT_MASK))
+-		return -EINVAL;
+-
+ 	/*
+ 	 * subtract rq_sa and netf_rq_lun from the length of the msg passed to
+ 	 * i2c_smbus_xfer
+@@ -203,28 +200,6 @@ static u8 ipmb_verify_checksum1(struct ipmb_dev *ipmb_dev, u8 rs_sa)
+ 		ipmb_dev->request.checksum1);
+ }
+ 
+-static bool is_ipmb_request(struct ipmb_dev *ipmb_dev, u8 rs_sa)
+-{
+-	if (ipmb_dev->msg_idx >= IPMB_REQUEST_LEN_MIN) {
+-		if (ipmb_verify_checksum1(ipmb_dev, rs_sa))
+-			return false;
+-
+-		/*
+-		 * Check whether this is an IPMB request or
+-		 * response.
+-		 * The 6 MSB of netfn_rs_lun are dedicated to the netfn
+-		 * while the remaining bits are dedicated to the lun.
+-		 * If the LSB of the netfn is cleared, it is associated
+-		 * with an IPMB request.
+-		 * If the LSB of the netfn is set, it is associated with
+-		 * an IPMB response.
+-		 */
+-		if (!(ipmb_dev->request.netfn_rs_lun & NETFN_RSP_BIT_MASK))
+-			return true;
+-	}
+-	return false;
+-}
+-
+ /*
+  * The IPMB protocol only supports I2C Writes so there is no need
+  * to support I2C_SLAVE_READ* events.
+@@ -273,9 +248,7 @@ static int ipmb_slave_cb(struct i2c_client *client,
+ 
+ 	case I2C_SLAVE_STOP:
+ 		ipmb_dev->request.len = ipmb_dev->msg_idx;
+-
+-		if (is_ipmb_request(ipmb_dev, GET_8BIT_ADDR(client->addr)))
+-			ipmb_handle_request(ipmb_dev);
++		ipmb_handle_request(ipmb_dev);
+ 		break;
+ 
+ 	default:
+-- 
+2.17.1
 
-Tao
-
-> > +       pinctrl-names = "default";
-> > +       pinctrl-0 = <&pinctrl_rgmii2_default &pinctrl_mdio2_default>;
-> > +};
