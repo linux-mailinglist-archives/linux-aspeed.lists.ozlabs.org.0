@@ -1,77 +1,57 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E30F2B4F
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 10:49:28 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB52F2B51
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 10:49:35 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 477zBs2H5HzF6Ft
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 20:49:25 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 477zC03Y5czDqBZ
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 20:49:32 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=fi.rohmeurope.com (client-ip=178.15.145.194;
- helo=mailgate1.rohmeurope.com;
- envelope-from=prvs=82120a2474=matti.vaittinen@fi.rohmeurope.com;
- receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=linux.intel.com
+ (client-ip=134.134.136.65; helo=mga03.intel.com;
+ envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=fi.rohmeurope.com
-Received: from mailgate1.rohmeurope.com (mailgate1.rohmeurope.com
- [178.15.145.194])
- by lists.ozlabs.org (Postfix) with ESMTP id 476rs72QsDzF3tW
- for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Nov 2019 01:00:10 +1100 (AEDT)
-X-AuditID: c0a8fbf4-199ff70000001fa6-f6-5dc18068d8e7
-Received: from smtp.reu.rohmeu.com (will-cas002.reu.rohmeu.com
- [192.168.251.178])
- by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id
- CB.96.08102.86081CD5; Tue,  5 Nov 2019 15:00:08 +0100 (CET)
-Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
- WILL-CAS002.REu.RohmEu.com ([fe80::fc24:4cbc:e287:8659%12]) with mapi id
- 14.03.0439.000; Tue, 5 Nov 2019 15:00:02 +0100
-From: "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-To: "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>
+ header.from=linux.intel.com
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 476sVL16d4zF3St
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Nov 2019 01:28:57 +1100 (AEDT)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2019 06:28:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,271,1569308400"; d="scan'208";a="195835022"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by orsmga008.jf.intel.com with ESMTP; 05 Nov 2019 06:28:39 -0800
+Received: from andy by smile with local (Exim 4.93-RC1)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1iRzoy-00040T-Om; Tue, 05 Nov 2019 16:28:36 +0200
+Date: Tue, 5 Nov 2019 16:28:36 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
 Subject: Re: [PATCH 00/62] Add definition for GPIO direction
-Thread-Topic: [PATCH 00/62] Add definition for GPIO direction
-Thread-Index: AQHVk8EYmzhgkSAfS0Ot5MRDeZesqad8bpwAgAAJlQCAAAReAIAABYEAgAABmgCAAAa5gA==
-Date: Tue, 5 Nov 2019 14:00:02 +0000
-Message-ID: <a967c764d135ab0f96f6b1df62ac91426c935b44.camel@fi.rohmeurope.com>
+Message-ID: <20191105142836.GS32742@smile.fi.intel.com>
 References: <cover.1572875541.git.matti.vaittinen@fi.rohmeurope.com>
  <20191105122042.GO32742@smile.fi.intel.com>
  <4e6fa62d7022c7b1426477a150a93c899725f5b0.camel@fi.rohmeurope.com>
  <20191105131038.duol3rwwkbuvgvwv@pengutronix.de>
- <938a5ec7b41ae9ce7b0de83764d6b774cfdaa781.camel@fi.rohmeurope.com>
- <20191105133604.d2xcasxw7pwzwvh7@pengutronix.de>
-In-Reply-To: <20191105133604.d2xcasxw7pwzwvh7@pengutronix.de>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [213.255.186.46]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6A3BE4366B287B4BADDE281B8B369397@de.rohmeurope.com>
-Content-Transfer-Encoding: base64
+ <20191105133025.GR32742@smile.fi.intel.com>
+ <20191105134026.vl6h6kghuzmslptx@pengutronix.de>
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf1AUZRjHfXff21uQ1fUAeSWbyRtnGplJo3HoqaGGpmlamaZsbBprYmiJ
- jWOCO7g7GKHBUGSUu1A0yvOEEwiKA5nkLqc8QOVCUfwBxK+IH0agAo2ggikg2i6Xwj/7fuf5
- Pp/n+/zxLEtr9rOhbKLeLBn1YpKW8cdnK+dcL+iyG2Ne7Ly8BmpHLiHobPdS4OlgIX/3YQqs
- tw/TUJN/DsN0cQuGzlwXgjP5v9EwO9GkhqGu98BZiKF3Vx0Fc63zNOyxl2Go+vYUhuvuYQoK
- H/5IgWu4WwU51VdpcB97iMAy66Shw1PEwNHyAxgGBqoQnByboMDSPaKCvGk7A6M1PSq4UH4P
- wZCzCENRxQUMjvkaFUyMbYfT7ssUTE2eUUHjzVsY2m2tNFw/4mZg/hcXhr3OTrmtegRB20wv
- BaM/h0C/260C2/E6BDMeB4a+g98gyJ+sYKBhcApFvSR07fWohRNTuxlh8o9ctWC/doURbHNl
- WPCcDRWsU15aOGUfUAvtd87TgqsqjxH6u+sZwXHxfcFd/pXQaitFQsHtW3L5QQXauvbj5ZFx
- ojl9W2KCftPrny7XzTviUhzaHWPWR1Q2Or7OgvxYwm8m+/pHsAX5sxq+C5HpygNYMTR8MyKF
- uRoLYlmGjySWXrUig/i3yJ47EUoHzf8TTH4YiFV0oNxxKacSKTqIf41UX3MzPv0h6bbfW9CY
- X09cubULPRz/Lqme7aN9sTcp8nvXPlox/GS45VzhwgqIf5bkZU9QvrAQ4rpxX+XbmSfl9a20
- TweTseFH/9e1pGFmCCt70vwG8pNnkw+NIoe+s2GfXkcKrUNq3w6ryMUjI7gArbYvSbAv0vYl
- tH0JbV9ClyBVFSLJYmJSgmiWwjcapbSNRoMuWX4+MyS7kO+yp39Fj71bvIhikRetYSltMBed
- 2BijWRFniM/QiSZdrDEtSTJ5EWFpbRDXbmuI0XDxYkamZDQ8sZ5hsTaEe37oYIyGV7K+kKQU
- yfjEXcuyWsKlZ8pDVxmlBGnH54lJ5kWbYv2U4f6hQSZJHy8ZxTSzLlY5jliTfB2KFSDnwk4Z
- 50wpYrJc9aEtKJwtGCsuo9mOHof8bSquKKM1WG/QS6EhXKQC8AqgS9M/jRtHISzSBnLdihsg
- /+RPp43LQZQc9M7waSXILC5aodmITSUf5KweHuzfJqwMLPn3r4hoW+TXSQEfpWYN2oLaVKNh
- pQ+yjnHNumzV1bvOyNm3N7/xiivs+7LzqT0VK0te/bt0GfrS8OZd7VRf+pUqKni/+9AnO63J
- NzZwpgZ1xorp5+IyT1jrI8azok/WSVsea5qP1vXc/9O/qbbI8/KuNvOyxigtNunE8DDaaBL/
- A4udmjChBAAA
-X-Mailman-Approved-At: Thu, 07 Nov 2019 20:47:02 +1100
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191105134026.vl6h6kghuzmslptx@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Approved-At: Thu, 07 Nov 2019 20:47:04 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,7 +92,6 @@ Cc: "semi.malinen@ge.com" <semi.malinen@ge.com>,
  "grygorii.strashko@ti.com" <grygorii.strashko@ti.com>,
  "ckeepax@opensource.cirrus.com" <ckeepax@opensource.cirrus.com>,
  "alexandre.torgue@st.com" <alexandre.torgue@st.com>,
- "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>,
  "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
  "rjui@broadcom.com" <rjui@broadcom.com>,
  "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
@@ -121,12 +100,13 @@ Cc: "semi.malinen@ge.com" <semi.malinen@ge.com>,
  "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>,
  "ssantosh@kernel.org" <ssantosh@kernel.org>,
  "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>,
  "kernel@pengutronix.de" <kernel@pengutronix.de>,
  "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
  "sbranden@broadcom.com" <sbranden@broadcom.com>,
  "yamada.masahiro@socionext.com" <yamada.masahiro@socionext.com>,
- "info@metux.net" <info@metux.net>,
+ "info@metux.net" <info@metux.net>, "Vaittinen,
+ Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
  "t.scherer@eckelmann.de" <t.scherer@eckelmann.de>,
@@ -137,60 +117,67 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-DQpPbiBUdWUsIDIwMTktMTEtMDUgYXQgMTQ6MzYgKzAxMDAsIFV3ZSBLbGVpbmUtS8O2bmlnIHdy
-b3RlOg0KPiBPbiBUdWUsIE5vdiAwNSwgMjAxOSBhdCAwMTozMDoyMFBNICswMDAwLCBWYWl0dGlu
-ZW4sIE1hdHRpIHdyb3RlOg0KPiA+IE9uIFR1ZSwgMjAxOS0xMS0wNSBhdCAxNDoxMCArMDEwMCwg
-VXdlIEtsZWluZS1Lw7ZuaWcgd3JvdGU6DQo+ID4gPiBIZWxsbywNCj4gPiA+IA0KPiA+ID4gT24g
-VHVlLCBOb3YgMDUsIDIwMTkgYXQgMTI6NTQ6NTVQTSArMDAwMCwgVmFpdHRpbmVuLCBNYXR0aSB3
-cm90ZToNCj4gPiA+ID4gT24gVHVlLCAyMDE5LTExLTA1IGF0IDE0OjIwICswMjAwLCBBbmR5IFNo
-ZXZjaGVua28gd3JvdGU6DQo+ID4gPiA+ID4gSSB3b3VsZCBhbHNvIGxpa2UgdG8gc2VlIGJsb2F0
-LW8tbWV0ZXIgc3RhdGlzdGljcyBiZWZvcmUgYW5kDQo+ID4gPiA+ID4gYWZ0ZXINCj4gPiA+ID4g
-PiB5b3VyIHBhdGNoLg0KPiA+ID4gPiA+IE15IGd1dHMgdGVsbCBtZSB0aGF0IHRoZSByZXN1bHQg
-d2lsbCBiZSBub3QgaW4gdGhlIGZhdm91ciBvZg0KPiA+ID4gPiA+IHlvdXJzDQo+ID4gPiA+ID4g
-c29sdXRpb24uDQo+ID4gPiA+IA0KPiA+ID4gPiBDYW4geW91IHBsZWFzZSB0ZWxsIG1lIHdoYXQg
-dHlwZSBvZiBzdGF0cyB5b3UgaG9wZSB0byBzZWU/IEkNCj4gPiA+ID4gY2FuDQo+ID4gPiA+IHRy
-eQ0KPiA+ID4gPiBnZW5lcmF0aW5nIHdoYXQgeW91IGFyZSBhZnRlci4gVGhlIGNvdmVyIGxldHRl
-ciBjb250YWluZWQNCj4gPiA+ID4gdHlwaWNhbA0KPiA+ID4gPiArLy0NCj4gPiA+ID4gY2hhbmdl
-IHN0YXRzIGZyb20gZ2l0IGFuZCBzdW1tYXJ5Og0KPiA+ID4gPiANCj4gPiA+ID4gNjIgZmlsZXMg
-Y2hhbmdlZCwgMjI4IGluc2VydGlvbnMoKyksIDEwNCBkZWxldGlvbnMoLSkNCj4gPiA+IA0KPiA+
-ID4gSSBndWVzcyBoZSB3YW50cyB0byBzZWUNCj4gPiA+IA0KPiA+ID4gCXNjcmlwdHMvYmxvYXQt
-by1tZXRlciB2bWxpbnV6Lm9sZCB2bWxpbnV6DQo+ID4gPiANCj4gPiA+IC4gSSB3b3VsZCBleHBl
-Y3QgYSAwIHRoZXJlLiBJIGRpZG4ndCBsb29rIGluIGRldGFpbCwgYnV0IGluDQo+ID4gPiBnZW5l
-cmFsIEkNCj4gPiA+IGxpa2UgdGhlIGlkZWEgdG8gZ2l2ZSAwIGFuZCAxIGEgc3ltYm9saWMgbmFt
-ZS4NCj4gPiANCj4gPiBUaGFua3MgVXdlLiBUaGlzIGZhciBJIGhhdmUgb25seSBjcm9zcy1jb21w
-aWxlZCB0aGUgc2VyaWVzIGZvciBhcm0NCj4gPiB3aGljaCBJIHVzZSBmb3IgZGV2ZWxvcGluZyB0
-aGUgUk9ITSBQTUlDcy4gc2NyaXB0cy9ibG9hdC1vLW1ldGVyIC8NCj4gPiB0b29scyBpdCB1c2Vz
-IGRvZXMgbm90IHNlZW0gdG8gcmVjb2duaXplIHRoZSBpbWFnZSBmb3JtYXQgKG5vdCBhDQo+ID4g
-YmlnDQo+ID4gc3VycHJpemUgYXMgbXkgaG9zdCBpcyB4ODZfNjQpLg0KPiANCj4gSXQgd29ya3Mg
-Zm9yIG1lLCBJIGd1ZXNzIHRoYXQncyBiZWNhdXNlIG15IGJpbnV0aWxzIHN1cHBvcnQgc2V2ZXJh
-bA0KPiBhcmNoaXRlY3R1cmVzOg0KPiANCj4gCSQgbm0gLS1oZWxwDQo+IAkuLi4NCj4gCW5tOiBz
-dXBwb3J0ZWQgdGFyZ2V0czogZWxmNjQteDg2LTY0IGVsZjMyLWkzODYgZWxmMzItaWFtY3UNCj4g
-ZWxmMzIteDg2LTY0DQo+IAlwZWktaTM4NiBwZWkteDg2LTY0IGVsZjY0LWwxb20gZWxmNjQtazFv
-bSBlbGY2NC1saXR0bGUgZWxmNjQtDQo+IGJpZw0KPiAJZWxmMzItbGl0dGxlIGVsZjMyLWJpZyBl
-bGY2NC1saXR0bGVhYXJjaDY0IGVsZjY0LWJpZ2FhcmNoNjQNCj4gCWVsZjMyLWxpdHRsZWFhcmNo
-NjQgZWxmMzItYmlnYWFyY2g2NCBlbGYzMi1saXR0bGVhcm0gZWxmMzItDQo+IGJpZ2FybQ0KPiAJ
-ZWxmNjQtYWxwaGEgZWNvZmYtbGl0dGxlYWxwaGEgZWxmMzItbGl0dGxlYXJtLWZkcGljIGVsZjMy
-LQ0KPiBiaWdhcm0tZmRwaWMNCj4gCWVsZjMyLWhwcGEtbGludXggZWxmMzItaHBwYSBlbGY2NC1p
-YTY0LWxpdHRsZSBlbGY2NC1pYTY0LWJpZw0KPiBwZWktaWE2NA0KPiAJZWxmMzItbTMyci1saW51
-eCBlbGYzMi1tMzJybGUtbGludXggZWxmMzItbTY4ayBlbGYzMi0NCj4gdHJhZGJpZ21pcHMNCj4g
-CWVsZjMyLXRyYWRsaXR0bGVtaXBzIGVjb2ZmLWJpZ21pcHMgZWNvZmYtbGl0dGxlbWlwcyBlbGYz
-Mi0NCj4gbnRyYWRiaWdtaXBzDQo+IAllbGY2NC10cmFkYmlnbWlwcyBlbGYzMi1udHJhZGxpdHRs
-ZW1pcHMgZWxmNjQtdHJhZGxpdHRsZW1pcHMNCj4gCWVsZjMyLXBvd2VycGMgYWl4Y29mZi1yczYw
-MDAgZWxmMzItcG93ZXJwY2xlIHBwY2Jvb3QgZWxmNjQtDQo+IHBvd2VycGMNCj4gCWVsZjY0LXBv
-d2VycGNsZSBhaXhjb2ZmNjQtcnM2MDAwIGFpeDVjb2ZmNjQtcnM2MDAwIGVsZjY0LQ0KPiBsaXR0
-bGVyaXNjdg0KPiAJZWxmMzItbGl0dGxlcmlzY3YgZWxmMzItczM5MCBlbGY2NC1zMzkwIGVsZjMy
-LXNoLWxpbnV4IGVsZjMyLQ0KPiBzaGJpZy1saW51eA0KPiAJZWxmMzItc2gtZmRwaWMgZWxmMzIt
-c2hiaWctZmRwaWMgZWxmMzItc3BhcmMgZWxmNjQtc3BhcmMgcGUtDQo+IHg4Ni02NA0KPiAJcGUt
-Ymlnb2JqLXg4Ni02NCBwZS1pMzg2IHBsdWdpbiBzcmVjIHN5bWJvbHNyZWMgdmVyaWxvZyB0ZWto
-ZXgNCj4gYmluYXJ5DQo+IAlpaGV4DQo+IA0KPiAoYWRkZWQgbGluZSBicmVha3MgZm9yIGVhc2ll
-ciByZWFkaW5nKS4gSSBnb3QgdGhpcyBieSBpbnN0YWxsaW5nDQo+IGJpbnV0aWxzLW11bHRpYXJj
-aCAob24gRGViaWFuKS4NCg0KVGhhbmtzIFV3ZSEgVGhhdCB3YXMga2luZCEgSSdtIG9uIEZlZG9y
-YSBidXQgSSBndWVzcyBJIGNhbiBmaW5kIHRoZQ0KbXVsdGlhcmNoIGJpbnV0aWxzIDopIEknbGwg
-dHJ5IHRoYXQgdG9tb3Jyb3cgd2hlbiBJJ20gYmFjayBhdCB0aGUNCm9mZmljZS4gTGV0J3Mgc2Vl
-IHdoYXQga2luZCBvZiByZXN1bHRzIEkgY2FuIGdldCBmcm9tIGl0Lg0KDQpVbmZvcnR1bmF0ZWx5
-IGJ1bmNoIG9mIHRoZSBHUElPcyBkZXBlbmQgb24geDg2IC0gc28gSSBuZWVkIHRvIHNlZSB3aGF0
-DQpJIGNhbiBjb21waWxlIGluIHdpdGggZGVjZW50IGVmZm9ydC4gRm9yIG15IGNvbXBpbGUgdGVz
-dCBJIGp1c3QgaGFja2VkDQp0aGUgTWFrZWZpbGUgdG8gZm9yY2UgYWxsIGluIGFuZCBhZGRlZCBz
-b21lIGR1bW15IG1hY3JvcyB0byBmaXggZmV3DQptaXNzaW5nIGZ1bmN0aW9ucyA6fCBCdXQgSSBn
-dWVzcyBJIGNhbiBnZXQgc29tZSByZXN1bHRzLg0KDQo+IA0KPiBCZXN0IHJlZ2FyZHMNCj4gVXdl
-DQo+IA0KDQo=
+On Tue, Nov 05, 2019 at 02:40:26PM +0100, Uwe Kleine-König wrote:
+> On Tue, Nov 05, 2019 at 03:30:25PM +0200, andriy.shevchenko@linux.intel.com wrote:
+> > On Tue, Nov 05, 2019 at 02:10:38PM +0100, Uwe Kleine-König wrote:
+> > > On Tue, Nov 05, 2019 at 12:54:55PM +0000, Vaittinen, Matti wrote:
+> > > > On Tue, 2019-11-05 at 14:20 +0200, Andy Shevchenko wrote:
+> > > > > I would also like to see bloat-o-meter statistics before and after
+> > > > > your patch.
+> > > > > My guts tell me that the result will be not in the favour of yours
+> > > > > solution.
+> > > > 
+> > > > Can you please tell me what type of stats you hope to see? I can try
+> > > > generating what you are after. The cover letter contained typical +/-
+> > > > change stats from git and summary:
+> > > > 
+> > > > 62 files changed, 228 insertions(+), 104 deletions(-)
+> > > 
+> > > I guess he wants to see
+> > > 
+> > > 	scripts/bloat-o-meter vmlinuz.old vmlinuz
+> > 
+> > Yes, but be sure you have compiled them all and build them all in.
+> > Otherwise you might get wrong result.
+> > 
+> > > . I would expect a 0 there. I didn't look in detail, but in general I
+> > > like the idea to give 0 and 1 a symbolic name.
+> > 
+> > I'll will be fine with that if and only if maintainers are okay. For now,
+> > I don't like the idea to trade bad for worse.
+> 
+> I don't see you concern.
+> 
+> 	int somefunction(...)
+> 	{
+> 		return 1;
+> 	}
+> 
+> is definitively worse than
+> 
+> 	int somefunction(...)
+> 	{
+> 		return GPIO_LINE_DIRECTION_IN;
+> 	}
+> 
+> and after cpp had its go on the source the compiler sees the exact same
+> thing, so I don't expect any size changes. The only change is that to
+> write (or understand) the above code, you have to know that 1
+> corresponds to GPIO input (or was it output?) while in the later
+> function it is obvious that we're talking about an input.
+
+In almost all cases I'm involved in the original code is different:
+
+	return !!foo();
+
+vs.
+
+	if (foo())
+		return A;
+	return B;
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
