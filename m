@@ -1,57 +1,60 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D079F2B33
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 10:48:22 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66AB1F2B2F
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 10:48:11 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 477z9b1SPCzF6K5
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 20:48:19 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 477z9M02LnzF22J
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 20:48:07 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
- helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=209.85.167.67; helo=mail-lf1-f67.google.com;
+ envelope-from=mazziesaccount@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=pengutronix.de
-X-Greylist: delayed 990 seconds by postgrey-1.36 at bilbo;
- Wed, 06 Nov 2019 00:28:42 AEDT
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ header.from=fi.rohmeurope.com
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+ [209.85.167.67])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 476r8p6lMbzF33g
- for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Nov 2019 00:28:41 +1100 (AEDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1iRybh-0004Dl-EK; Tue, 05 Nov 2019 14:10:49 +0100
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
- (envelope-from <ukl@pengutronix.de>)
- id 1iRybW-0006ii-Bg; Tue, 05 Nov 2019 14:10:38 +0100
-Date: Tue, 5 Nov 2019 14:10:38 +0100
-From: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-To: "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-Subject: Re: [PATCH 00/62] Add definition for GPIO direction
-Message-ID: <20191105131038.duol3rwwkbuvgvwv@pengutronix.de>
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 476qmd6Mz7zF4vl
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Nov 2019 00:11:13 +1100 (AEDT)
+Received: by mail-lf1-f67.google.com with SMTP id f5so15094491lfp.1
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 05 Nov 2019 05:11:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=l8Im5R3FQ0f+QIAnNwvzY4o+9bLtjTOzR+ED97CX0bQ=;
+ b=lTEkYfJ2CLnC8J7PUTg+TcjArJ2alTMaHO4XY50QFPgSpajKRfJKOT+XxuPXxsbLiz
+ Ef68CNdIQONQZ/T9Ogh/vh0LTBIIG0G/HEBl0T8J2N1M29Ud/ac7wFA4NLF/e/TdqDnN
+ Vra8+FIzceO4oZjG4vBNbrt1+1dwoiGJnu/nWwkV1ggsFMy9pVuJdchVETJr81pm7Qh7
+ wShWM1r8T1AsSun7e011NY0F/Fx6OmDih9hr2/VK/5g9AgG9BrOkF9DWEpKvt+sqM1oH
+ IC7qNCwGlUTaNPvkw9rV4KHsMJ/zJiMsfSXfJJmgKIZlzwa5h5bqpcqC/E9cibADcO7X
+ xY/g==
+X-Gm-Message-State: APjAAAUtowFpoTxPOcmxECAUe0N5+s+vg+rmZR2nu+Zk1mtPu/BLLeM2
+ Dz+mxJWWqHxzRdEtqFcz0eA=
+X-Google-Smtp-Source: APXvYqxG8YUAy+DwKkIGY9cWv77NiqqeBDme3G0xG3YGsXTNlOyWrcCj6kB+mRP7VfBCxP+SG4zG9Q==
+X-Received: by 2002:a19:5010:: with SMTP id e16mr7124449lfb.49.1572959468332; 
+ Tue, 05 Nov 2019 05:11:08 -0800 (PST)
+Received: from localhost.localdomain ([213.255.186.46])
+ by smtp.gmail.com with ESMTPSA id z22sm8538198ljm.92.2019.11.05.05.11.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Nov 2019 05:11:07 -0800 (PST)
+Date: Tue, 5 Nov 2019 15:10:54 +0200
+From: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+To: matti.vaittinen@fi.rohmeurope.com, mazziesaccount@gmail.com
+Subject: [RESEND PATCH 01/62] gpio: Add definition for GPIO direction
+Message-ID: <9e233d62cc282f3b03196d638f2188d9ab394b75.1572875541.git.matti.vaittinen@fi.rohmeurope.com>
 References: <cover.1572875541.git.matti.vaittinen@fi.rohmeurope.com>
- <20191105122042.GO32742@smile.fi.intel.com>
- <4e6fa62d7022c7b1426477a150a93c899725f5b0.camel@fi.rohmeurope.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4e6fa62d7022c7b1426477a150a93c899725f5b0.camel@fi.rohmeurope.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
-X-Mailman-Approved-At: Thu, 07 Nov 2019 20:47:03 +1100
+In-Reply-To: <cover.1572875541.git.matti.vaittinen@fi.rohmeurope.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Mailman-Approved-At: Thu, 07 Nov 2019 20:47:02 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,85 +66,81 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "semi.malinen@ge.com" <semi.malinen@ge.com>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "david.daney@cavium.com" <david.daney@cavium.com>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- "sathyanarayanan.kuppuswamy@linux.intel.com"
- <sathyanarayanan.kuppuswamy@linux.intel.com>,
- "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
- "ptyser@xes-inc.com" <ptyser@xes-inc.com>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "marek.behun@nic.cz" <marek.behun@nic.cz>,
- "festevam@gmail.com" <festevam@gmail.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
- "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
- "khilman@kernel.org" <khilman@kernel.org>,
- "michal.simek@xilinx.com" <michal.simek@xilinx.com>,
- "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
- "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
- "ludovic.desroches@microchip.com" <ludovic.desroches@microchip.com>,
- "bamv2005@gmail.com" <bamv2005@gmail.com>,
- "nandor.han@ge.com" <nandor.han@ge.com>,
- "bcm-kernel-feedback-list@broadcom.com"
- <bcm-kernel-feedback-list@broadcom.com>,
- "linux-imx@nxp.com" <linux-imx@nxp.com>,
- "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
- "grygorii.strashko@ti.com" <grygorii.strashko@ti.com>,
- "ckeepax@opensource.cirrus.com" <ckeepax@opensource.cirrus.com>,
- "alexandre.torgue@st.com" <alexandre.torgue@st.com>,
- "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
- "rjui@broadcom.com" <rjui@broadcom.com>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "vilhelm.gray@gmail.com" <vilhelm.gray@gmail.com>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>,
- "ssantosh@kernel.org" <ssantosh@kernel.org>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "sbranden@broadcom.com" <sbranden@broadcom.com>,
- "yamada.masahiro@socionext.com" <yamada.masahiro@socionext.com>,
- "info@metux.net" <info@metux.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "t.scherer@eckelmann.de" <t.scherer@eckelmann.de>,
- "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
- "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>
+Cc: Semi Malinen <semi.malinen@ge.com>,
+ Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ linux-aspeed@lists.ozlabs.org, David Daney <david.daney@cavium.com>,
+ Linus Walleij <linus.walleij@linaro.org>, alsa-devel@alsa-project.org,
+ Peter Tyser <ptyser@xes-inc.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Fabio Estevam <festevam@gmail.com>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Marek Vasut <marek.vasut+renesas@gmail.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, Kevin Hilman <khilman@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>, Marek Behun <marek.behun@nic.cz>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ bcm-kernel-feedback-list@broadcom.com,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Bamvor Jian Zhang <bamv2005@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ linux-pwm@vger.kernel.org, Grygorii Strashko <grygorii.strashko@ti.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, linux-omap@vger.kernel.org,
+ Alexandre Torgue <alexandre.torgue@st.com>, Ray Jui <rjui@broadcom.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Nandor Han <nandor.han@ge.com>,
+ William Breathitt Gray <vilhelm.gray@gmail.com>, linux-gpio@vger.kernel.org,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Santosh Shilimkar <ssantosh@kernel.org>, linux-tegra@vger.kernel.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, Scott Branden <sbranden@broadcom.com>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>, "Enrico Weigelt,
+ metux IT consult" <info@metux.net>, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Thorsten Scherer <t.scherer@eckelmann.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, patches@opensource.cirrus.com,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello,
+At least for me it is difficult to remember the meaning of GPIO
+direction values. Define GPIO_LINE_DIRECTION_IN and
+GPIO_LINE_DIRECTION_OUT so that occasional GPIO contributors would
+not need to always check the meaning of hard coded values 1 and 0.
 
-On Tue, Nov 05, 2019 at 12:54:55PM +0000, Vaittinen, Matti wrote:
-> On Tue, 2019-11-05 at 14:20 +0200, Andy Shevchenko wrote:
-> > I would also like to see bloat-o-meter statistics before and after
-> > your patch.
-> > My guts tell me that the result will be not in the favour of yours
-> > solution.
-> 
-> Can you please tell me what type of stats you hope to see? I can try
-> generating what you are after. The cover letter contained typical +/-
-> change stats from git and summary:
-> 
-> 62 files changed, 228 insertions(+), 104 deletions(-)
+Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+---
 
-I guess he wants to see
+Sorry for folks. I do resend this single patch as this was intended
+to be sent for _all_ reviewers. I accidentally did originally send
+this only to those the get_maintainer.py listed for this patch.
 
-	scripts/bloat-o-meter vmlinuz.old vmlinuz
+ include/linux/gpio/driver.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-. I would expect a 0 there. I didn't look in detail, but in general I
-like the idea to give 0 and 1 a symbolic name.
+diff --git a/include/linux/gpio/driver.h b/include/linux/gpio/driver.h
+index 5dd9c982e2cb..cc9ade4552d9 100644
+--- a/include/linux/gpio/driver.h
++++ b/include/linux/gpio/driver.h
+@@ -22,6 +22,9 @@ enum gpio_lookup_flags;
+ 
+ struct gpio_chip;
+ 
++#define GPIO_LINE_DIRECTION_IN	1
++#define GPIO_LINE_DIRECTION_OUT	0
++
+ /**
+  * struct gpio_irq_chip - GPIO interrupt controller
+  */
+-- 
+2.21.0
 
-Best regards
-Uwe
 
 -- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Matti Vaittinen, Linux device drivers
+ROHM Semiconductors, Finland SWDC
+Kiviharjunlenkki 1E
+90220 OULU
+FINLAND
+
+~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
+Simon says - in Latin please.
+~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
+Thanks to Simon Glass for the translation =] 
