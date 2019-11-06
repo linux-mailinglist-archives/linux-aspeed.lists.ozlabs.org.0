@@ -2,58 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4897AF2B58
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 10:49:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A9BF2B3B
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 10:48:41 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 477zCR4CWgzF6HT
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 20:49:55 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 477z9y0rSMzF3jj
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 20:48:38 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::243;
+ helo=mail-oi1-x243.google.com; envelope-from=tcminyard@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=134.134.136.65; helo=mga03.intel.com;
- envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linux.intel.com
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=acm.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="lW8QRsc5"; 
+ dkim-atps=neutral
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 476tZy4g2LzDrS2
- for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Nov 2019 02:18:01 +1100 (AEDT)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2019 07:17:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,271,1569308400"; d="scan'208";a="192129424"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by orsmga007.jf.intel.com with ESMTP; 05 Nov 2019 07:17:45 -0800
-Received: from andy by smile with local (Exim 4.93-RC1)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1iS0aU-0004gk-NK; Tue, 05 Nov 2019 17:17:42 +0200
-Date: Tue, 5 Nov 2019 17:17:42 +0200
-From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 00/62] Add definition for GPIO direction
-Message-ID: <20191105151742.GU32742@smile.fi.intel.com>
-References: <cover.1572875541.git.matti.vaittinen@fi.rohmeurope.com>
- <20191105122042.GO32742@smile.fi.intel.com>
- <4e6fa62d7022c7b1426477a150a93c899725f5b0.camel@fi.rohmeurope.com>
- <20191105131038.duol3rwwkbuvgvwv@pengutronix.de>
- <938a5ec7b41ae9ce7b0de83764d6b774cfdaa781.camel@fi.rohmeurope.com>
- <20191105133604.d2xcasxw7pwzwvh7@pengutronix.de>
- <a967c764d135ab0f96f6b1df62ac91426c935b44.camel@fi.rohmeurope.com>
- <20191105145946.2ye6ujvqzn2d6fqd@pengutronix.de>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4777MB3FlxzF0dp
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Nov 2019 11:53:39 +1100 (AEDT)
+Received: by mail-oi1-x243.google.com with SMTP id n16so19431049oig.2
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 05 Nov 2019 16:53:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=P9Pg0JQBq9olWzIox809pWVr9m3m9tTHnVzraba7SzM=;
+ b=lW8QRsc5AkkZwfN0feDJmRYBr3aYw7pQal8SFSlGBYYB5pyPFlopEm3/fY102S85OD
+ +GWLcgmMtSMJV+7e1b1kHUpvmZQSyGVCJhYvC1KfFxkcd0V7vZKQUjGEzoySz94SNvi+
+ QjCHudKIe5fbXdlgnze8ffVrk8Kg/5tpVZuaywZV+uSdPNEHevH78VeZt5lYrEWYCO6U
+ cMCH0DjXBXYf8u0XGgjKEbbxEmYRI9JdfUYlkFxuCqFN1pXZ5YxDlvyuZ1mQMg1KY2m4
+ hC7Cq+jZvnwOXPVb927XxC86sRxXLQmgAEGEnBbKBhsuvffUUtRe8yEezM5ua+HdcEkZ
+ +s+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition:in-reply-to
+ :user-agent;
+ bh=P9Pg0JQBq9olWzIox809pWVr9m3m9tTHnVzraba7SzM=;
+ b=n6oATsJtnu2a0UGQlHcVnnGJjcd/1Ax6PPmwBNwiBhvzw78wzIziIFt/ZayV5eV5pg
+ H6zEG/4z82qJSiyVHJYQi6/QZcpYliMkoxcQTxG4aWLJMPsnHDUuiIJNWjA4umZnX+Nq
+ OwPDUzIjBtUG4GmA00QE/awbV4xKCFOA/qkP5tjTPWTI1E6Hw1+rP7F7FtGIW/FXA7sB
+ /YDSeaLYc5rl2Zp/Fz6rm7RppP+GfNq6JtffblPlGnLFcbSFwlkpBH6auDHtFvbegxPH
+ fK+r98wx2pFi2xqRfyrjnax3aNUEXLxrQoB+riBSwuDSZvHf4Pz//+KSlo4qPMZSg2r+
+ 5iGg==
+X-Gm-Message-State: APjAAAXXVw0Ad5n7I3y342/9Gz1uBYnn+8ma6bO/YrKZcdLe/VNFs2E9
+ gi2Rf9hs8DkIkM7TpAQ8jQ==
+X-Google-Smtp-Source: APXvYqw5BBxvW9KfjRdTCsJ0Opct2+UrH4BnJ/XsbHqv05DiaZYEZmhjOaQY6LKSrI56LdVdFfjZbg==
+X-Received: by 2002:aca:3889:: with SMTP id f131mr124947oia.14.1573001615578; 
+ Tue, 05 Nov 2019 16:53:35 -0800 (PST)
+Received: from serve.minyard.net ([47.184.136.59])
+ by smtp.gmail.com with ESMTPSA id v13sm1308951ota.53.2019.11.05.16.53.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Nov 2019 16:53:34 -0800 (PST)
+Received: from minyard.net (unknown [192.168.27.180])
+ by serve.minyard.net (Postfix) with ESMTPSA id E48E6180044;
+ Wed,  6 Nov 2019 00:53:33 +0000 (UTC)
+Date: Tue, 5 Nov 2019 18:53:32 -0600
+From: Corey Minyard <minyard@acm.org>
+To: Vijay Khemka <vijaykhemka@fb.com>
+Subject: Re: [PATCH] drivers: ipmi: Support for both IPMB Req and Resp
+Message-ID: <20191106005332.GA2754@minyard.net>
+References: <20191105194732.1521963-1-vijaykhemka@fb.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191105145946.2ye6ujvqzn2d6fqd@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Approved-At: Thu, 07 Nov 2019 20:47:04 +1100
+In-Reply-To: <20191105194732.1521963-1-vijaykhemka@fb.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Thu, 07 Nov 2019 20:47:01 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,79 +84,85 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "semi.malinen@ge.com" <semi.malinen@ge.com>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "david.daney@cavium.com" <david.daney@cavium.com>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- "sathyanarayanan.kuppuswamy@linux.intel.com"
- <sathyanarayanan.kuppuswamy@linux.intel.com>,
- "ptyser@xes-inc.com" <ptyser@xes-inc.com>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "marek.behun@nic.cz" <marek.behun@nic.cz>,
- "festevam@gmail.com" <festevam@gmail.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
- "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
- "khilman@kernel.org" <khilman@kernel.org>,
- "michal.simek@xilinx.com" <michal.simek@xilinx.com>,
- "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
- "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
- "ludovic.desroches@microchip.com" <ludovic.desroches@microchip.com>,
- "bamv2005@gmail.com" <bamv2005@gmail.com>,
- "nandor.han@ge.com" <nandor.han@ge.com>,
- "bcm-kernel-feedback-list@broadcom.com"
- <bcm-kernel-feedback-list@broadcom.com>,
- "linux-imx@nxp.com" <linux-imx@nxp.com>,
- "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
- "grygorii.strashko@ti.com" <grygorii.strashko@ti.com>,
- "ckeepax@opensource.cirrus.com" <ckeepax@opensource.cirrus.com>,
- "alexandre.torgue@st.com" <alexandre.torgue@st.com>,
- "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
- "rjui@broadcom.com" <rjui@broadcom.com>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "vilhelm.gray@gmail.com" <vilhelm.gray@gmail.com>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>,
- "ssantosh@kernel.org" <ssantosh@kernel.org>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "sbranden@broadcom.com" <sbranden@broadcom.com>,
- "yamada.masahiro@socionext.com" <yamada.masahiro@socionext.com>,
- "info@metux.net" <info@metux.net>, "Vaittinen,
- Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "t.scherer@eckelmann.de" <t.scherer@eckelmann.de>,
- "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
- "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>
+Reply-To: minyard@acm.org
+Cc: cminyard@mvista.com, sdasari@fb.com, linux-aspeed@lists.ozlabs.org,
+ Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Nov 05, 2019 at 03:59:46PM +0100, Uwe Kleine-König wrote:
-> On Tue, Nov 05, 2019 at 02:00:02PM +0000, Vaittinen, Matti wrote:
-> > On Tue, 2019-11-05 at 14:36 +0100, Uwe Kleine-König wrote:
-> > Thanks Uwe! That was kind! I'm on Fedora but I guess I can find the
-> > multiarch binutils :) I'll try that tomorrow when I'm back at the
-> > office. Let's see what kind of results I can get from it.
-> > 
-> > Unfortunately bunch of the GPIOs depend on x86 - so I need to see what
-> > I can compile in with decent effort. For my compile test I just hacked
-> > the Makefile to force all in and added some dummy macros to fix few
-> > missing functions :| But I guess I can get some results.
+On Tue, Nov 05, 2019 at 11:47:31AM -0800, Vijay Khemka wrote:
+> Removed check for request or response in IPMB packets coming from
+> device as well as from host. Now it supports both way communication
+> to device via IPMB. Both request and response will be passed to
+> application.
 > 
-> Enable CONFIG_COMPILE_TEST and then you should be able to compile most
-> drivers also on the wrong architecture.
+> Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+> ---
+>  drivers/char/ipmi/ipmb_dev_int.c | 29 +----------------------------
+>  1 file changed, 1 insertion(+), 28 deletions(-)
+> 
+> diff --git a/drivers/char/ipmi/ipmb_dev_int.c b/drivers/char/ipmi/ipmb_dev_int.c
+> index 285e0b8f9a97..7201fdb533d8 100644
+> --- a/drivers/char/ipmi/ipmb_dev_int.c
+> +++ b/drivers/char/ipmi/ipmb_dev_int.c
+> @@ -133,9 +133,6 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
+>  	rq_sa = GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
+>  	netf_rq_lun = msg[NETFN_LUN_IDX];
+>  
+> -	if (!(netf_rq_lun & NETFN_RSP_BIT_MASK))
+> -		return -EINVAL;
+> -
+>  	/*
+>  	 * subtract rq_sa and netf_rq_lun from the length of the msg passed to
+>  	 * i2c_smbus_xfer
+> @@ -203,28 +200,6 @@ static u8 ipmb_verify_checksum1(struct ipmb_dev *ipmb_dev, u8 rs_sa)
+>  		ipmb_dev->request.checksum1);
+>  }
+>  
+> -static bool is_ipmb_request(struct ipmb_dev *ipmb_dev, u8 rs_sa)
+> -{
+> -	if (ipmb_dev->msg_idx >= IPMB_REQUEST_LEN_MIN) {
+> -		if (ipmb_verify_checksum1(ipmb_dev, rs_sa))
+> -			return false;
 
-*Wrong* is a wrong word here. I guess you misspelled *another* / *not native*.
+You still need to check the message length and checksum, you just need
+to ignore the req/resp bit.
 
--- 
-With Best Regards,
-Andy Shevchenko
+-corey
 
-
+> -
+> -		/*
+> -		 * Check whether this is an IPMB request or
+> -		 * response.
+> -		 * The 6 MSB of netfn_rs_lun are dedicated to the netfn
+> -		 * while the remaining bits are dedicated to the lun.
+> -		 * If the LSB of the netfn is cleared, it is associated
+> -		 * with an IPMB request.
+> -		 * If the LSB of the netfn is set, it is associated with
+> -		 * an IPMB response.
+> -		 */
+> -		if (!(ipmb_dev->request.netfn_rs_lun & NETFN_RSP_BIT_MASK))
+> -			return true;
+> -	}
+> -	return false;
+> -}
+> -
+>  /*
+>   * The IPMB protocol only supports I2C Writes so there is no need
+>   * to support I2C_SLAVE_READ* events.
+> @@ -273,9 +248,7 @@ static int ipmb_slave_cb(struct i2c_client *client,
+>  
+>  	case I2C_SLAVE_STOP:
+>  		ipmb_dev->request.len = ipmb_dev->msg_idx;
+> -
+> -		if (is_ipmb_request(ipmb_dev, GET_8BIT_ADDR(client->addr)))
+> -			ipmb_handle_request(ipmb_dev);
+> +		ipmb_handle_request(ipmb_dev);
+>  		break;
+>  
+>  	default:
+> -- 
+> 2.17.1
+> 
