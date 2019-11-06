@@ -1,72 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC16FF2B5D
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 10:50:24 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id DADA1F2B5E
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 10:50:29 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 477zCx6vR0zF5PY
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 20:50:21 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 477zD25c3GzF5Z0
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 20:50:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=fi.rohmeurope.com (client-ip=178.15.145.194;
- helo=mailgate1.rohmeurope.com;
- envelope-from=prvs=32135d5094=matti.vaittinen@fi.rohmeurope.com;
- receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=linux.intel.com
+ (client-ip=134.134.136.100; helo=mga07.intel.com;
+ envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=fi.rohmeurope.com
-Received: from mailgate1.rohmeurope.com (mailgate1.rohmeurope.com
- [178.15.145.194])
- by lists.ozlabs.org (Postfix) with ESMTP id 477Qjb0z7lzF4nG
- for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Nov 2019 23:25:28 +1100 (AEDT)
-X-AuditID: c0a8fbf4-183ff70000001fa6-6c-5dc2bbb4f65b
-Received: from smtp.reu.rohmeu.com (will-cas002.reu.rohmeu.com
- [192.168.251.178])
- by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id
- CC.BC.08102.4BBB2CD5; Wed,  6 Nov 2019 13:25:24 +0100 (CET)
-Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
- WILL-CAS002.REu.RohmEu.com ([fe80::fc24:4cbc:e287:8659%12]) with mapi id
- 14.03.0439.000; Wed, 6 Nov 2019 13:25:18 +0100
-From: "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-To: "sre@kernel.org" <sre@kernel.org>
-Subject: Re: [PATCH v2 0/2] Add definition for GPIO direction
-Thread-Topic: [PATCH v2 0/2] Add definition for GPIO direction
-Thread-Index: AQHVlJrx7wcBaYPaxUmQrQAzc732Rad+AIyA
-Date: Wed, 6 Nov 2019 12:25:18 +0000
-Message-ID: <ddcd02cc6c709837a28cae2cbfa672c506927659.camel@fi.rohmeurope.com>
+ header.from=linux.intel.com
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 477TJm3pvjzF5Jx
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Nov 2019 01:22:46 +1100 (AEDT)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2019 06:22:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,275,1569308400"; d="scan'208";a="227938330"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+ by FMSMGA003.fm.intel.com with ESMTP; 06 Nov 2019 06:22:29 -0800
+Received: from andy by smile with local (Exim 4.93-RC1)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1iSMCY-0004FN-Gs; Wed, 06 Nov 2019 16:22:26 +0200
+Date: Wed, 6 Nov 2019 16:22:26 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Subject: Re: [PATCH v2 2/2] gpio: Use new GPIO_LINE_DIRECTION
+Message-ID: <20191106142226.GB32742@smile.fi.intel.com>
 References: <cover.1573029228.git.matti.vaittinen@fi.rohmeurope.com>
- <20191106120846.5bunrqj3uz4khih5@earth.universe>
-In-Reply-To: <20191106120846.5bunrqj3uz4khih5@earth.universe>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [213.255.186.46]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <FD03FC67CBBBB149AC58086B204B0910@de.rohmeurope.com>
-Content-Transfer-Encoding: base64
+ <42f40109e2926bca197b30fd9624c609653b23e5.1573029228.git.matti.vaittinen@fi.rohmeurope.com>
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Ta0xbZRjOd87p6eFSc9Zy+exc4uqIcUYmxuibOBd+LWfGiZsxMWYED+NA
- yaAlbTHgH9kQgRIcYxDKGeCoreMyomtBt8KEVbYxyKhkgCMDlFE2WORiYLBx9RzqBr++J+9z
- e3+8H0Oqcxktk2qwCCYDn6ajg6mOuhXXG82t3vg3e3Oj4JK/B0F/n5cAzx0Gik9VEFA0V0FC
- U/F1Chaquynoz3MhaC/+nYTlmU4ljA3EQX0ZBUMnWwlY8a2R8I1op6Ch/AoFE+5xAspWLxDg
- Gh9UQG5jLwnu71cRWJfrSbjjqaLhnOM0BSMjDQhapmYIsA76FVC4INIw2fSnArocjxGM1VdR
- UOXsoqBmrUkBM1OfwfxsuwKuPZymoM/mI2Gi0k3D2q8uCvLr+yVFox/BZHMk9LRaYNjtVoDt
- YiuCp54aCu6dOYugeNZJw9XReRQbww3ke5Tcz/OnaG72bp6SE/+6TXO2FTvFeTq03BVxRMn1
- /XuD5FwNhTQ3PNhGczW3jnBux9ecz1aLuJK5aWn8xIk4151h9PHOz0P2J/KWLz9JTTHsO/BF
- iP7v0ftUxrImq9y5SOWgyxorCmIw+zZuKnLQMlazAwhvFOy1omAJ30R4cHBUIhiGZvdj65BS
- 1oSxUXix+x4pa0j2bjgumGvfNGvY9/HtS34iIDqAuxorqAB+Czt680gZU+weXPiwc3OuYj/C
- tjwZM1JZFp5cekUeB0kxkxttm5GI3YULc2Y2I0k2ErseLCkCO7PY0eYjAzgcT42v/z/X4atP
- xzYjSfY1/JNnX8Aai38oLaECeDcuKxpTBjbYgW9V+qkSFCFuaxC33OI2t7jNLW5zn0eKBoTT
- +dS0FN4ixESbhMxok1GfLj3HjekuFDjqhctow3vIiwgGedGLDKELV32Qei1e/UKiMSlbz5v1
- CabMNMHsRZghdWGqY99JnCqJz/5KMBmfUTsZShepenXsTLyalbtOCEKGYHrGvsQwOqzaJX0d
- 9Q6TkCJkJaemWbZoggmSw4O1YWbBkCSY+EyLPkG+jgSzdB4yFSr1Jnsku8qcwadL04C1G73O
- lExV20mms9ppJ9WUwWgQtJGqGy2SlJWl+kzD86JHKJJBOo1qRA4KlX7285xHUgUhVXw4/ptc
- YeG3KG0OOuiz1racO3LBn/zuRNQvJzaWVrNj0y5qQ//IFY/XeB+XNrdV5t+PjugndzMnX944
- +yQ3f5o+3NPh1Sza9BG9dXUN60Mh5d8yBb533nOE+6+H14aKrtK801nK4cR/xt2flgQZDfEP
- vPZV/9B668HoY/abcYf2/BjXq3GmHz1sPp9Zo6PMej5mL2ky8/8BbFL4/JYEAAA=
-X-Mailman-Approved-At: Thu, 07 Nov 2019 20:47:03 +1100
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <42f40109e2926bca197b30fd9624c609653b23e5.1573029228.git.matti.vaittinen@fi.rohmeurope.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Approved-At: Thu, 07 Nov 2019 20:47:04 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,89 +58,163 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "david.daney@cavium.com" <david.daney@cavium.com>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- "sathyanarayanan.kuppuswamy@linux.intel.com"
- <sathyanarayanan.kuppuswamy@linux.intel.com>,
- "ptyser@xes-inc.com" <ptyser@xes-inc.com>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "marek.behun@nic.cz" <marek.behun@nic.cz>,
- "festevam@gmail.com" <festevam@gmail.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
- "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
- "khilman@kernel.org" <khilman@kernel.org>,
- "michal.simek@xilinx.com" <michal.simek@xilinx.com>,
- "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
- "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
- "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>,
- "bamv2005@gmail.com" <bamv2005@gmail.com>,
- "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
- "bcm-kernel-feedback-list@broadcom.com"
- <bcm-kernel-feedback-list@broadcom.com>,
- "linux-imx@nxp.com" <linux-imx@nxp.com>,
- "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
- "grygorii.strashko@ti.com" <grygorii.strashko@ti.com>,
- "ckeepax@opensource.cirrus.com" <ckeepax@opensource.cirrus.com>,
- "alexandre.torgue@st.com" <alexandre.torgue@st.com>,
- "mazziesaccount@gmail.com" <mazziesaccount@gmail.com>,
- "rjui@broadcom.com" <rjui@broadcom.com>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
- "vilhelm.gray@gmail.com" <vilhelm.gray@gmail.com>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>,
- "ssantosh@kernel.org" <ssantosh@kernel.org>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "sbranden@broadcom.com" <sbranden@broadcom.com>,
- "yamada.masahiro@socionext.com" <yamada.masahiro@socionext.com>,
- "info@metux.net" <info@metux.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "t.scherer@eckelmann.de" <t.scherer@eckelmann.de>,
- "ludovic.desroches@microchip.com" <ludovic.desroches@microchip.com>,
- "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
- "patches@opensource.cirrus.com" <patches@opensource.cirrus.com>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>
+Cc: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ linux-aspeed@lists.ozlabs.org, David Daney <david.daney@cavium.com>,
+ Linus Walleij <linus.walleij@linaro.org>, alsa-devel@alsa-project.org,
+ Peter Tyser <ptyser@xes-inc.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Fabio Estevam <festevam@gmail.com>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Marek Vasut <marek.vasut+renesas@gmail.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, Kevin Hilman <khilman@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>, Marek Behun <marek.behun@nic.cz>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ bcm-kernel-feedback-list@broadcom.com,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Bamvor Jian Zhang <bamv2005@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ linux-pwm@vger.kernel.org, Grygorii Strashko <grygorii.strashko@ti.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, mazziesaccount@gmail.com,
+ Ray Jui <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ William Breathitt Gray <vilhelm.gray@gmail.com>, linux-gpio@vger.kernel.org,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Santosh Shilimkar <ssantosh@kernel.org>, linux-tegra@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Scott Branden <sbranden@broadcom.com>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>, "Enrico Weigelt,
+ metux IT consult" <info@metux.net>, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Thorsten Scherer <t.scherer@eckelmann.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, patches@opensource.cirrus.com,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-DQpPbiBXZWQsIDIwMTktMTEtMDYgYXQgMTM6MDggKzAxMDAsIFNlYmFzdGlhbiBSZWljaGVsIHdy
-b3RlOg0KPiBIaSwNCj4gDQo+IE9uIFdlZCwgTm92IDA2LCAyMDE5IGF0IDEwOjUxOjA2QU0gKzAy
-MDAsIE1hdHRpIFZhaXR0aW5lbiB3cm90ZToNCj4gPiBUaGUgcGF0Y2ggc2VyaWVzIGFkZHMgZGVm
-aW5pdGlvbnMgZm9yIEdQSU8gbGluZSBkaXJlY3Rpb25zLg0KPiA+IA0KPiA+IEZvciBvY2Nhc2lv
-bmFsIEdQSU8gY29udHJpYnV0b3IgbGlrZSBtZSBpdCBpcyBhbHdheXMgYSBwYWluIHRvDQo+ID4g
-cmVtZW1iZXINCj4gPiB3aGV0aGVyIDEgb3IgMCB3YXMgdXNlZCBmb3IgR1BJTyBkaXJlY3Rpb24g
-SU5QVVQvT1VUUFVULg0KPiANCj4gTWF5YmUgYWxzbyB1cGRhdGUgdGhlIEdQSU8gZHJpdmVycyBp
-biBwaW5jdHJsPw0KPiANCj4gJCBnaXQgZ3JlcCAtbCBncGlvX2dldF9kaXJlY3Rpb24gZHJpdmVy
-cy9waW5jdHJsDQo+IGRyaXZlcnMvcGluY3RybC9iY20vcGluY3RybC1iY20yODM1LmMNCj4gZHJp
-dmVycy9waW5jdHJsL2JjbS9waW5jdHJsLWlwcm9jLWdwaW8uYw0KPiBkcml2ZXJzL3BpbmN0cmwv
-aW50ZWwvcGluY3RybC1iYXl0cmFpbC5jDQo+IGRyaXZlcnMvcGluY3RybC9pbnRlbC9waW5jdHJs
-LWNoZXJyeXZpZXcuYw0KPiBkcml2ZXJzL3BpbmN0cmwvaW50ZWwvcGluY3RybC1pbnRlbC5jDQo+
-IGRyaXZlcnMvcGluY3RybC9tZWRpYXRlay9waW5jdHJsLW10ay1jb21tb24uYw0KPiBkcml2ZXJz
-L3BpbmN0cmwvbWVkaWF0ZWsvcGluY3RybC1wYXJpcy5jDQo+IGRyaXZlcnMvcGluY3RybC9tdmVi
-dS9waW5jdHJsLWFybWFkYS0zN3h4LmMNCj4gZHJpdmVycy9waW5jdHJsL3BpbmN0cmwtYW1kLmMN
-Cj4gZHJpdmVycy9waW5jdHJsL3BpbmN0cmwtYXQ5MS5jDQo+IGRyaXZlcnMvcGluY3RybC9waW5j
-dHJsLWF4cDIwOS5jDQo+IGRyaXZlcnMvcGluY3RybC9waW5jdHJsLWluZ2VuaWMuYw0KPiBkcml2
-ZXJzL3BpbmN0cmwvcGluY3RybC1vY2Vsb3QuYw0KPiBkcml2ZXJzL3BpbmN0cmwvcGluY3RybC1v
-eG5hcy5jDQo+IGRyaXZlcnMvcGluY3RybC9waW5jdHJsLXBpYzMyLmMNCj4gZHJpdmVycy9waW5j
-dHJsL3BpbmN0cmwtcGlzdGFjaGlvLmMNCj4gZHJpdmVycy9waW5jdHJsL3BpbmN0cmwtcms4MDUu
-Yw0KPiBkcml2ZXJzL3BpbmN0cmwvcGluY3RybC1yb2NrY2hpcC5jDQo+IGRyaXZlcnMvcGluY3Ry
-bC9waW5jdHJsLXJ6YTEuYw0KPiBkcml2ZXJzL3BpbmN0cmwvcGluY3RybC1zdC5jDQo+IGRyaXZl
-cnMvcGluY3RybC9waW5jdHJsLXN0bWZ4LmMNCj4gZHJpdmVycy9waW5jdHJsL3BpbmN0cmwtc3gx
-NTB4LmMNCj4gZHJpdmVycy9waW5jdHJsL3Fjb20vcGluY3RybC1tc20uYw0KPiBkcml2ZXJzL3Bp
-bmN0cmwvc3RtMzIvcGluY3RybC1zdG0zMi5jDQo+IGRyaXZlcnMvcGluY3RybC92dDg1MDAvcGlu
-Y3RybC13bXQuYw0KDQpPdWNoLiBJIGRpZG4ndCBjaGVjayBmcm9tIHBpbmN0cmwgYnV0IEkgc2Vl
-IHRob3NlIHNob3VsZCBiZSBjb252ZXJ0ZWQNCmFzIHdlbGwuIEknbSBhIGJpdCBzaG9ydCBvbiB0
-aW1lIHJpZ2h0IG5vdyBzbyBpZiBhbnlvbmUgZWxzZSBpcw0KaW50ZXJlc3RlZCBJIHdvbid0IG1p
-bmQgOikNCg0KTHVja2lseSB0aGUgdmFsdWUgZm9yIElOIGFuZCBPVVQgaXMgbm90IGNoYW5nZWQg
-LSBvbmx5IHRoZSBkZWZpbmVzIHdlcmUNCmFkZGVkIC0gc28gYWxsIG9mIHRoZSBkcml2ZXJzIGRv
-IG5vdCBuZWVkIHRvIGJlIGRvbmUgYXQgb25jZS4gSWYgbm8gb25lDQplbHNlIHdpbGwgdGFrZSB0
-aGUgcGluY3RybCBwYXJ0IHRoZW4gSSBjYW4gcHJvYmFibHkgZG8gcGluY3RybCBwYXRjaGVzDQpm
-b3IgdjUuNiBjeWNsZS4NCg0KQnIsDQoJTWF0dGkgVmFpdHRpbmVuDQo=
+On Wed, Nov 06, 2019 at 10:54:12AM +0200, Matti Vaittinen wrote:
+> It's hard for occasional GPIO code reader/writer to know if values 0/1
+> equal to IN or OUT. Use defined GPIO_LINE_DIRECTION_IN and
+> GPIO_LINE_DIRECTION_OUT to help them out.
+> 
+> NOTE - for gpio-amd-fch and gpio-bd9571mwv:
+> This commit also changes the return value for direction get to equal 1
+> for direction INPUT. Prior this commit these drivers might have
+> returned some other positive value but 1 for INPUT.
+
+>  drivers/gpio/gpio-ich.c             |  5 ++++-
+
+>  drivers/gpio/gpio-merrifield.c      |  5 ++++-
+
+>  drivers/gpio/gpio-pca953x.c         |  5 ++++-
+
+>  drivers/gpio/gpio-sch.c             |  5 ++++-
+
+>  drivers/gpio/gpio-wcove.c           |  7 +++++--
+
+Since maintainers seems in favour of this and bloat-o-meter shows no difference
+on selected module,
+
+Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+for the stuff I'm involved in.
+
+Thanks!
+
+> diff --git a/drivers/gpio/gpio-ich.c b/drivers/gpio/gpio-ich.c
+> index 90bf7742f9b0..2f086d0aa1f4 100644
+> --- a/drivers/gpio/gpio-ich.c
+> +++ b/drivers/gpio/gpio-ich.c
+> @@ -159,7 +159,10 @@ static bool ichx_gpio_check_available(struct gpio_chip *gpio, unsigned nr)
+>  
+>  static int ichx_gpio_get_direction(struct gpio_chip *gpio, unsigned nr)
+>  {
+> -	return ichx_read_bit(GPIO_IO_SEL, nr);
+> +	if (ichx_read_bit(GPIO_IO_SEL, nr))
+> +		return GPIO_LINE_DIRECTION_IN;
+> +
+> +	return GPIO_LINE_DIRECTION_OUT;
+>  }
+>  
+>  static int ichx_gpio_direction_input(struct gpio_chip *gpio, unsigned nr)
+
+> diff --git a/drivers/gpio/gpio-merrifield.c b/drivers/gpio/gpio-merrifield.c
+> index 2f1e9da81c1e..d4fa6e9560f3 100644
+> --- a/drivers/gpio/gpio-merrifield.c
+> +++ b/drivers/gpio/gpio-merrifield.c
+> @@ -162,7 +162,10 @@ static int mrfld_gpio_get_direction(struct gpio_chip *chip, unsigned int offset)
+>  {
+>  	void __iomem *gpdr = gpio_reg(chip, offset, GPDR);
+>  
+> -	return !(readl(gpdr) & BIT(offset % 32));
+> +	if (readl(gpdr) & BIT(offset % 32))
+> +		return GPIO_LINE_DIRECTION_OUT;
+> +
+> +	return GPIO_LINE_DIRECTION_IN;
+>  }
+>  
+>  static int mrfld_gpio_set_debounce(struct gpio_chip *chip, unsigned int offset,
+
+> diff --git a/drivers/gpio/gpio-pca953x.c b/drivers/gpio/gpio-pca953x.c
+> index de5d1383f28d..82122c3c688a 100644
+> --- a/drivers/gpio/gpio-pca953x.c
+> +++ b/drivers/gpio/gpio-pca953x.c
+> @@ -449,7 +449,10 @@ static int pca953x_gpio_get_direction(struct gpio_chip *gc, unsigned off)
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	return !!(reg_val & bit);
+> +	if (reg_val & bit)
+> +		return GPIO_LINE_DIRECTION_IN;
+> +
+> +	return GPIO_LINE_DIRECTION_OUT;
+>  }
+>  
+>  static void pca953x_gpio_set_multiple(struct gpio_chip *gc,
+
+> diff --git a/drivers/gpio/gpio-sch.c b/drivers/gpio/gpio-sch.c
+> index fb143f28c386..c65f35b68202 100644
+> --- a/drivers/gpio/gpio-sch.c
+> +++ b/drivers/gpio/gpio-sch.c
+> @@ -127,7 +127,10 @@ static int sch_gpio_get_direction(struct gpio_chip *gc, unsigned gpio_num)
+>  {
+>  	struct sch_gpio *sch = gpiochip_get_data(gc);
+>  
+> -	return sch_gpio_reg_get(sch, gpio_num, GIO);
+> +	if (sch_gpio_reg_get(sch, gpio_num, GIO))
+> +		return GPIO_LINE_DIRECTION_IN;
+> +
+> +	return GPIO_LINE_DIRECTION_OUT;
+>  }
+>  
+>  static const struct gpio_chip sch_gpio_chip = {
+
+> diff --git a/drivers/gpio/gpio-wcove.c b/drivers/gpio/gpio-wcove.c
+> index 444fe9e7f04a..8b481b3c1ebe 100644
+> --- a/drivers/gpio/gpio-wcove.c
+> +++ b/drivers/gpio/gpio-wcove.c
+> @@ -170,13 +170,16 @@ static int wcove_gpio_get_direction(struct gpio_chip *chip, unsigned int gpio)
+>  	int ret, reg = to_reg(gpio, CTRL_OUT);
+>  
+>  	if (reg < 0)
+> -		return 0;
+> +		return GPIO_LINE_DIRECTION_OUT;
+>  
+>  	ret = regmap_read(wg->regmap, reg, &val);
+>  	if (ret)
+>  		return ret;
+>  
+> -	return !(val & CTLO_DIR_OUT);
+> +	if (val & CTLO_DIR_OUT)
+> +		return GPIO_LINE_DIRECTION_OUT;
+> +
+> +	return GPIO_LINE_DIRECTION_IN;
+>  }
+>  
+>  static int wcove_gpio_get(struct gpio_chip *chip, unsigned int gpio)
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
