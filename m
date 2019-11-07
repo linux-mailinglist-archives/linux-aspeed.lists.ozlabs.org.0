@@ -1,77 +1,98 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB1EF2F7C
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 14:34:48 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0D13F314D
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Nov 2019 15:23:47 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4784Bs46bYzF6RW
-	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Nov 2019 00:34:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4785HN4LL4zF6FR
+	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Nov 2019 01:23:44 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::341;
- helo=mail-ot1-x341.google.com; envelope-from=tcminyard@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=mellanox.com (client-ip=40.107.1.76;
+ helo=eur02-he1-obe.outbound.protection.outlook.com;
+ envelope-from=asmaa@mellanox.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=acm.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="GbfG07kS"; 
+ dmarc=pass (p=none dis=none) header.from=mellanox.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=Mellanox.com header.i=@Mellanox.com header.b="Dn3OSl6j";
  dkim-atps=neutral
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr10076.outbound.protection.outlook.com [40.107.1.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4784Bd6b8qzF6RC
- for <linux-aspeed@lists.ozlabs.org>; Fri,  8 Nov 2019 00:34:31 +1100 (AEDT)
-Received: by mail-ot1-x341.google.com with SMTP id r24so1968171otk.12
- for <linux-aspeed@lists.ozlabs.org>; Thu, 07 Nov 2019 05:34:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=x+syRc+agoo08pLNzrJjXzWzp/e66MwKC2W+ow4e7bw=;
- b=GbfG07kSp5ixMQ4oonu7FLSf/87Uy4yl6Eiho1GtkM5AKVAv2sZ943At2fCDaBDJT2
- MC31nwMYp8r3iNBjuIHdBKTQUuoO5koaiBvy4wRKxMw3HYaXD6iCcpc+tvDw6ZHQGrhE
- U4UzGO6XTkWpl9D0+A2bVxNF//x9tHk1soaBDw2Yy5Ve6paG+Cirj21kY1zQf36xnnXN
- k2wcFx1K9EY8XEVPZ9i3cGxNtz/8wXqnf4IRh/cmzzKFue7CgK4L28JNaD85kBuwJFaz
- m7ECXnoWR9eHAhtMrQ+ykJLy+IW7yp2bs4DlFbFIsI5kITF14/Tfd3UjV9sWWYqiukwr
- 2mmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to
- :user-agent;
- bh=x+syRc+agoo08pLNzrJjXzWzp/e66MwKC2W+ow4e7bw=;
- b=lFabZ8LnjKhDhc72B/G5C49i1gbQMdcNTyFQ5iTQC6W7mSd/e13H3y1nHRTTVtrM4e
- QJOuEQveVVJArmHler5VQiZVxZjCa81ZX5eESwKytwxKVvhXFNMQ2ocu5+UKMfliXQnb
- XQ3l36v2TxWg0pU5lmOxdG69pMItd6BX0MqdFZRGeJD+qVKg+Jqsx2y+Rtok5vQNgRQ7
- Oza0X0/vdbrCJyUWeLNF2FsKjSHpPyKvjXFFTUH1YkyzgxgdfCtQQeSA6rHoXhbftqkt
- 9Xw9BwNKvdroDiNPnbZqdozt8LEq+gt5JqqqWhzOcyUlJj8djyVBn4d2oUy1eMwwL93+
- PNlA==
-X-Gm-Message-State: APjAAAUnNsDqp8LtgMGm/GxbIUpcx4sdxfCjmvF0UIY2xHMiKNfESyK4
- WCS0Z+G/LKKYVHMDSWiwaw==
-X-Google-Smtp-Source: APXvYqx78JdRY1/hVtPOwuo/shXRgmMvkCD+fJAlFhVerBdkFmI/xeERxi3QZg0O16tnBmjg70TbYA==
-X-Received: by 2002:a9d:365:: with SMTP id 92mr3243984otv.9.1573133667411;
- Thu, 07 Nov 2019 05:34:27 -0800 (PST)
-Received: from serve.minyard.net ([47.184.136.59])
- by smtp.gmail.com with ESMTPSA id 9sm620925ois.16.2019.11.07.05.34.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Nov 2019 05:34:26 -0800 (PST)
-Received: from minyard.net (unknown [192.168.27.180])
- by serve.minyard.net (Postfix) with ESMTPSA id 32E62180046;
- Thu,  7 Nov 2019 13:34:26 +0000 (UTC)
-Date: Thu, 7 Nov 2019 07:34:25 -0600
-From: Corey Minyard <minyard@acm.org>
-To: Vijay Khemka <vijaykhemka@fb.com>
-Subject: Re: [PATCH v2] drivers: ipmi: Support for both IPMB Req and Resp
-Message-ID: <20191107133425.GA10276@minyard.net>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4785HF0nDRzF6CP
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  8 Nov 2019 01:23:35 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DTCpZaaKTYkEckXg2a6AeI/NXwDIw6djG0cCFOsNBhjHrgT3QgD6FPyqIOj7Zh96Oa6mBGaU2YErNjgsI5Aqpa0FeOPdGsto9sRmKY+ot1bfzF65CpZQNvSnFVMiQg9DVvZEnZfO85r3N/BCZMRM4YPlX3+1m21bpMCkRtD6kTmlU/lYoKGS4usyqsdtskxFpC1WoTyyODBrdW60TvLjk+AuRMrx0o8D+vBGxyOK5Iukhl0YkJb6u3hUPhQDeN1DnTcC2vPFtzEoixUWXoC2/VrnDx7na4BiaX3OYezxFsXvkVImyecRryju8TPeSr1oNAxj3ov4ABMKRhZvxW+xDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G2+6w4QLpYPiAqHx/ZIBGv/3ZOriajfvs3sqbZWgrok=;
+ b=Dc0WSmAYKXwAVAhsonkSC0zYi8jyOl6ufQ0ivlOaVpv+papINcNwfy4ySUTRAMCRRXBWiQJFYdpTE5Edfhoyk8B8Mx/WsFfSl2unhUUa6O1DdHC0Bq0S8+ZEDJKMWColhsMez9vctAQ6ET9JAqK2AnmxDF7+OO1g7HzWJwIbROlrk4zYCSB2KdnF/6nataJBjo+Rho5aUuyFgUmC0Z3vfjrKNiKmiHe97ZIvGjvvDT4frUPVJBSipy6LVGPw51SGAbHLIhcIupw/8Pqf2bJOD2REiV4tTW0i8yw+51lx/Lg1eQmBDh94S3gzzxtwiLxu7lyRwuFIcQxGZ14mtpKU6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G2+6w4QLpYPiAqHx/ZIBGv/3ZOriajfvs3sqbZWgrok=;
+ b=Dn3OSl6jDzZfCvnoRts6LWkj7C6SCOwPOHXZswvLTBfQg4RWW++MT6YGsw0BtyoX9r/Kyaurgm8j980AoLJoyjva5ugVaHb2FSjdCoZLS/dV7bYa6Zce2+lFeGwEXVOw9B3NKn+BIIMaIU2fGdicnP0Ja8VcrpDbavAl53uGb2U=
+Received: from DB6PR0501MB2712.eurprd05.prod.outlook.com (10.172.225.17) by
+ DB6PR0501MB2310.eurprd05.prod.outlook.com (10.168.56.135) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2408.24; Thu, 7 Nov 2019 14:23:29 +0000
+Received: from DB6PR0501MB2712.eurprd05.prod.outlook.com
+ ([fe80::99be:5f3a:9871:ecd1]) by DB6PR0501MB2712.eurprd05.prod.outlook.com
+ ([fe80::99be:5f3a:9871:ecd1%12]) with mapi id 15.20.2430.020; Thu, 7 Nov 2019
+ 14:23:29 +0000
+From: Asmaa Mnebhi <Asmaa@mellanox.com>
+To: "minyard@acm.org" <minyard@acm.org>, Vijay Khemka <vijaykhemka@fb.com>
+Subject: RE: [PATCH v2] drivers: ipmi: Support for both IPMB Req and Resp
+Thread-Topic: [PATCH v2] drivers: ipmi: Support for both IPMB Req and Resp
+Thread-Index: AQHVlNCPTAuJYh4uBUOyQnqtKtQrYKd/toOAgAANqzA=
+Date: Thu, 7 Nov 2019 14:23:29 +0000
+Message-ID: <DB6PR0501MB271256AD5BC602AAF90CBDA5DA780@DB6PR0501MB2712.eurprd05.prod.outlook.com>
 References: <20191106182921.1086795-1-vijaykhemka@fb.com>
+ <20191107133425.GA10276@minyard.net>
+In-Reply-To: <20191107133425.GA10276@minyard.net>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Asmaa@mellanox.com; 
+x-originating-ip: [216.156.69.42]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 92d4ea31-f556-47db-934e-08d7638e0f78
+x-ms-traffictypediagnostic: DB6PR0501MB2310:
+x-microsoft-antispam-prvs: <DB6PR0501MB23104B39BD5225C2319E2D33DA780@DB6PR0501MB2310.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2958;
+x-forefront-prvs: 0214EB3F68
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(396003)(376002)(366004)(346002)(39840400004)(136003)(13464003)(189003)(199004)(446003)(6436002)(229853002)(11346002)(71200400001)(71190400001)(476003)(478600001)(7416002)(14454004)(2906002)(486006)(9686003)(55016002)(5660300002)(7696005)(81166006)(81156014)(66066001)(8676002)(76176011)(8936002)(86362001)(66556008)(52536014)(2501003)(76116006)(66946007)(99286004)(64756008)(66446008)(66476007)(80792005)(33656002)(6506007)(53546011)(14444005)(4326008)(74316002)(54906003)(110136005)(25786009)(316002)(305945005)(26005)(3846002)(256004)(186003)(102836004)(7736002)(6246003)(6116002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DB6PR0501MB2310;
+ H:DB6PR0501MB2712.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: BWm3BmpjGGcBxQwh5sB8AbvMZOCpBNNFHC+k76JaqceQxEEMmj4G/OnjoORSJI25CtXn5KI4bwNX98FQ+mdnpMfFz7T6CgTaMJMob3BWIVwXHJULl4+iHq89S33IqUnK7B1m48f79kTZfqbWULneOuQjxzXiz39jVS6/yoZ54LMZTVyO6O7b34S8FxRMNTja2kCrH39HyYV+l4/XqG2V9jk3K8NDAuJjKQlX4s+U9SXEM4osP6Ikjr93AMEpyAEN4lOSIxJnwsg2A0PiPvdU4WSkqRMDKCSdzIa9QX1Mw0jVUUGvs0MbQDiDcL/cQayswSZBqPHtXghflcIPJD3Nb61nLa7EoCJNFDX+fGPWKADPwSL3yGl7mMSrcwneQ2pj4KNtsj05y+n3t8khdu2ntrT25QQp5YHPvV92mZnLnohcotTbfzrSLduXOxMz7yjp
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191106182921.1086795-1-vijaykhemka@fb.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92d4ea31-f556-47db-934e-08d7638e0f78
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2019 14:23:29.0911 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0kivpT510xJ3W6vgpsqPJYakDQKRbOrNlK+ra7B26O7d+dAXNICySM7NAgLe+Qw6CusWQuOGp/61xBm3+4wCjQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0501MB2310
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,49 +104,67 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: cminyard@mvista.com, sdasari@fb.com, linux-aspeed@lists.ozlabs.org,
+Cc: "cminyard@mvista.com" <cminyard@mvista.com>,
+ "sdasari@fb.com" <sdasari@fb.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
  Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "openipmi-developer@lists.sourceforge.net"
+ <openipmi-developer@lists.sourceforge.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Thanks Corey!
+
+-----Original Message-----
+From: Corey Minyard <tcminyard@gmail.com> On Behalf Of Corey Minyard
+Sent: Thursday, November 7, 2019 8:34 AM
+To: Vijay Khemka <vijaykhemka@fb.com>
+Cc: Arnd Bergmann <arnd@arndb.de>; Greg Kroah-Hartman <gregkh@linuxfoundati=
+on.org>; openipmi-developer@lists.sourceforge.net; linux-kernel@vger.kernel=
+.org; cminyard@mvista.com; Asmaa Mnebhi <Asmaa@mellanox.com>; joel@jms.id.a=
+u; linux-aspeed@lists.ozlabs.org; sdasari@fb.com
+Subject: Re: [PATCH v2] drivers: ipmi: Support for both IPMB Req and Resp
+
 On Wed, Nov 06, 2019 at 10:29:21AM -0800, Vijay Khemka wrote:
-> Removed check for request or response in IPMB packets coming from
-> device as well as from host. Now it supports both way communication
-> to device via IPMB. Both request and response will be passed to
+> Removed check for request or response in IPMB packets coming from=20
+> device as well as from host. Now it supports both way communication to=20
+> device via IPMB. Both request and response will be passed to=20
 > application.
-> 
+>=20
 > Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
 
-Thanks, this is in my for-next tree now.  Asnaam, I took your previous
-comments as a "Reviewed-by", if that is ok.
+Thanks, this is in my for-next tree now.  Asnaam, I took your previous comm=
+ents as a "Reviewed-by", if that is ok.
 
 -corey
 
 > ---
 >  drivers/char/ipmi/ipmb_dev_int.c | 31 +++++++++----------------------
 >  1 file changed, 9 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/char/ipmi/ipmb_dev_int.c b/drivers/char/ipmi/ipmb_dev_int.c
+>=20
+> diff --git a/drivers/char/ipmi/ipmb_dev_int.c=20
+> b/drivers/char/ipmi/ipmb_dev_int.c
 > index 285e0b8f9a97..ae3bfba27526 100644
 > --- a/drivers/char/ipmi/ipmb_dev_int.c
 > +++ b/drivers/char/ipmi/ipmb_dev_int.c
-> @@ -133,9 +133,6 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
->  	rq_sa = GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
->  	netf_rq_lun = msg[NETFN_LUN_IDX];
->  
+> @@ -133,9 +133,6 @@ static ssize_t ipmb_write(struct file *file, const ch=
+ar __user *buf,
+>  	rq_sa =3D GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
+>  	netf_rq_lun =3D msg[NETFN_LUN_IDX];
+> =20
 > -	if (!(netf_rq_lun & NETFN_RSP_BIT_MASK))
 > -		return -EINVAL;
 > -
 >  	/*
 >  	 * subtract rq_sa and netf_rq_lun from the length of the msg passed to
 >  	 * i2c_smbus_xfer
-> @@ -203,25 +200,16 @@ static u8 ipmb_verify_checksum1(struct ipmb_dev *ipmb_dev, u8 rs_sa)
+> @@ -203,25 +200,16 @@ static u8 ipmb_verify_checksum1(struct ipmb_dev *ip=
+mb_dev, u8 rs_sa)
 >  		ipmb_dev->request.checksum1);
 >  }
->  
+> =20
 > -static bool is_ipmb_request(struct ipmb_dev *ipmb_dev, u8 rs_sa)
 > +/*
 > + * Verify if message has proper ipmb header with minimum length
@@ -133,13 +172,13 @@ comments as a "Reviewed-by", if that is ok.
 > + */
 > +static bool is_ipmb_msg(struct ipmb_dev *ipmb_dev, u8 rs_sa)
 >  {
-> -	if (ipmb_dev->msg_idx >= IPMB_REQUEST_LEN_MIN) {
+> -	if (ipmb_dev->msg_idx >=3D IPMB_REQUEST_LEN_MIN) {
 > -		if (ipmb_verify_checksum1(ipmb_dev, rs_sa))
 > -			return false;
-> +	if ((ipmb_dev->msg_idx >= IPMB_REQUEST_LEN_MIN) &&
+> +	if ((ipmb_dev->msg_idx >=3D IPMB_REQUEST_LEN_MIN) &&
 > +	   (!ipmb_verify_checksum1(ipmb_dev, rs_sa)))
 > +		return true;
->  
+> =20
 > -		/*
 > -		 * Check whether this is an IPMB request or
 > -		 * response.
@@ -155,17 +194,18 @@ comments as a "Reviewed-by", if that is ok.
 > -	}
 >  	return false;
 >  }
->  
-> @@ -273,8 +261,7 @@ static int ipmb_slave_cb(struct i2c_client *client,
->  
+> =20
+> @@ -273,8 +261,7 @@ static int ipmb_slave_cb(struct i2c_client=20
+> *client,
+> =20
 >  	case I2C_SLAVE_STOP:
->  		ipmb_dev->request.len = ipmb_dev->msg_idx;
+>  		ipmb_dev->request.len =3D ipmb_dev->msg_idx;
 > -
 > -		if (is_ipmb_request(ipmb_dev, GET_8BIT_ADDR(client->addr)))
 > +		if (is_ipmb_msg(ipmb_dev, GET_8BIT_ADDR(client->addr)))
 >  			ipmb_handle_request(ipmb_dev);
 >  		break;
->  
-> -- 
+> =20
+> --
 > 2.17.1
-> 
+>=20
