@@ -2,60 +2,60 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EBE2F5819
-	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Nov 2019 21:20:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F327F581C
+	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Nov 2019 21:20:49 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 478s856ZQRzF6j4
-	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Nov 2019 07:20:05 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 478s8t1rQGzF6sH
+	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Nov 2019 07:20:46 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
  helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=linux.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 478s6m3nqNzF3pb
+ by lists.ozlabs.org (Postfix) with ESMTPS id 478s6n1kynzF3p8
  for <linux-aspeed@lists.ozlabs.org>; Sat,  9 Nov 2019 07:18:56 +1100 (AEDT)
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xA8KHsxa135558; Fri, 8 Nov 2019 15:18:45 -0500
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2w5bdbfpa0-1
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ xA8KHaGt067601; Fri, 8 Nov 2019 15:18:46 -0500
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w5crdvk35-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 08 Nov 2019 15:18:45 -0500
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA8KGRts032219;
- Fri, 8 Nov 2019 20:18:44 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma02dal.us.ibm.com with ESMTP id 2w41ukaefh-1
+ Fri, 08 Nov 2019 15:18:46 -0500
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xA8KGbpw023252;
+ Fri, 8 Nov 2019 20:18:46 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma04wdc.us.ibm.com with ESMTP id 2w41ujw5fp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 08 Nov 2019 20:18:44 +0000
+ Fri, 08 Nov 2019 20:18:46 +0000
 Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
  [9.57.199.106])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xA8KIhXb45482490
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xA8KIi2t21233940
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 8 Nov 2019 20:18:43 GMT
+ Fri, 8 Nov 2019 20:18:44 GMT
 Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8B20F28060;
+ by IMSVA (Postfix) with ESMTP id 6AA0428058;
+ Fri,  8 Nov 2019 20:18:44 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AA9C028059;
  Fri,  8 Nov 2019 20:18:43 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B82DD28064;
- Fri,  8 Nov 2019 20:18:42 +0000 (GMT)
 Received: from talon7.ibm.com (unknown [9.41.103.158])
  by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri,  8 Nov 2019 20:18:42 +0000 (GMT)
+ Fri,  8 Nov 2019 20:18:43 +0000 (GMT)
 From: Eddie James <eajames@linux.ibm.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 09/12] ARM: dts: aspeed: ast2600: Add XDMA Engine
-Date: Fri,  8 Nov 2019 14:18:30 -0600
-Message-Id: <1573244313-9190-10-git-send-email-eajames@linux.ibm.com>
+Subject: [PATCH 10/12] ARM: dts: aspeed: witherspoon: Enable XDMA Engine
+Date: Fri,  8 Nov 2019 14:18:31 -0600
+Message-Id: <1573244313-9190-11-git-send-email-eajames@linux.ibm.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1573244313-9190-1-git-send-email-eajames@linux.ibm.com>
 References: <1573244313-9190-1-git-send-email-eajames@linux.ibm.com>
@@ -66,7 +66,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=847 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=716 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1910280000 definitions=main-1911080195
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -86,42 +86,26 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add a node for the XDMA engine with all the necessary information.
+Enable the XDMA engine node.
 
 Signed-off-by: Eddie James <eajames@linux.ibm.com>
 ---
- arch/arm/boot/dts/aspeed-g6.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-index 65ea2b2..61bd717 100644
---- a/arch/arm/boot/dts/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-@@ -3,6 +3,7 @@
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts b/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
+index 569dad9..0f11335 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
+@@ -658,4 +658,8 @@
+ 	memory-region = <&video_engine_memory>;
+ };
  
- #include <dt-bindings/interrupt-controller/arm-gic.h>
- #include <dt-bindings/clock/ast2600-clock.h>
-+#include <dt-bindings/interrupt-controller/aspeed-scu-ic.h>
- 
- / {
- 	model = "Aspeed BMC";
-@@ -315,6 +316,16 @@
- 				quality = <100>;
- 			};
- 
-+			xdma: xdma@1e6e7000 {
-+				compatible = "aspeed,ast2600-xdma";
-+				reg = <0x1e6e7000 0x100>;
-+				clocks = <&syscon ASPEED_CLK_GATE_BCLK>;
-+				resets = <&syscon ASPEED_RESET_DEV_XDMA>;
-+				interrupts-extended = <&gic GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-+						      <&scu_ic0 ASPEED_AST2600_SCU_IC0_PCIE_PERST_LO_TO_HI>;
-+				status = "disabled";
-+			};
++&xdma {
++	status = "okay";
++};
 +
- 			gpio0: gpio@1e780000 {
- 				#gpio-cells = <2>;
- 				gpio-controller;
+ #include "ibm-power9-dual.dtsi"
 -- 
 1.8.3.1
 
