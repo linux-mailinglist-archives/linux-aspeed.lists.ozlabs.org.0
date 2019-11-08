@@ -1,72 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711CBF3E65
-	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Nov 2019 04:29:29 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB78F45B7
+	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Nov 2019 12:30:16 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 478Qjy22CfzF6jk
-	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Nov 2019 14:29:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 478dNj4bjdzF6cB
+	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Nov 2019 22:30:13 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::644;
- helo=mail-pl1-x644.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::844;
+ helo=mail-qt1-x844.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="U/LqZXmx"; 
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="iGMI9aiS"; 
  dkim-atps=neutral
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 478Qjq5zDbzF6gH
- for <linux-aspeed@lists.ozlabs.org>; Fri,  8 Nov 2019 14:29:17 +1100 (AEDT)
-Received: by mail-pl1-x644.google.com with SMTP id p13so3107393pll.4
- for <linux-aspeed@lists.ozlabs.org>; Thu, 07 Nov 2019 19:29:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BJCUfp8ZkVX+2Q/E2RA51yP281dLV5q+tGMP1kt6Ef8=;
- b=U/LqZXmxhh8yeGmbBFtUj4NR77Lm5hbRR8wTVSBW4aTEN2ZGLfadqRN7ImQUIFSqUy
- sjK0vvA9nvsEcVG+6F7ZEUbp1oDqZVs7y3wsDjSShszolJglwr6/8GnSQGffR/vrqK+j
- Pk+tGPaNICEovggBuwTNSv8EYKs3WKMsIVm5qaPBReQe/0tp1wHMQSyO0bUvBrOKbyTp
- nzJYu8ogUNwqNBa3ZGf087wPssKKXmt16lX17ocJvg3xQ+ySNGOkmgDE0M+dT2XGtRQd
- kOcLa4MvDCWjT/kF9JBmFHW2SjQexsv/GBZfWlG25fy1fdBWyX7hn1MzYuCRfDwCxdTf
- eepQ==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 478dNQ71vzzF6ZW
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  8 Nov 2019 22:29:58 +1100 (AEDT)
+Received: by mail-qt1-x844.google.com with SMTP id g50so6089251qtb.4
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 08 Nov 2019 03:29:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=19tliVy/iIF1NdAW0nZ7cVhCkJOFQ8X7U9RXNc+1Lro=;
+ b=iGMI9aiSpFkL2Xcx4lkbR0yhLSgF8bW9F0DM80XakAiuf87a3LhSrmEqWIMzZyTbqA
+ fkvDVTPzY9blj61tPjO+wW0caVDkIA2zMoLqO3dO7V8u9M9KGCAKoglxHxAar5UVcmEo
+ hxXdCIR+AvMno0NkoNHKMLQCXxI9cNeaSFE7o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=BJCUfp8ZkVX+2Q/E2RA51yP281dLV5q+tGMP1kt6Ef8=;
- b=TvMGI9bdi1VfTAJJyelQMlauKMbaatrIe0AqXpKMly0B9iPZjBEHJrcb/bdMfvYBcN
- GaRPAKAiN9mSwoi0mQIVDTEcTMHChFPxYXErMURtJ75iNMOdGswQah8rHpPJSNrTyV8d
- 7CvUV4/B+jj5fJRrKaBdQgNjS8E7JnpjjDT7tZyihgRtgLZQbHuTXf8MMqKChfW3GaIw
- /+ImEie4ghTa2NdASVTUJzN0FuaOF7MnSG9ouDbdlWRWnyKjm8G2k5OYBPebn8+pa2ku
- 0NM3xpXtjKrpfCCArpUbwYFcMR152RZ+R2PmdWRp+o4WCeRnFDt+kQocgO/woUmDK0kd
- i7Yg==
-X-Gm-Message-State: APjAAAXAAovuqJ7P3Kbm3YoaW+bAMfgAZoh9Mk+C1OiRq8vRefHp8A3Z
- 6DxyFz2xno7Emhd6ErLaqfA=
-X-Google-Smtp-Source: APXvYqwUYaLV2Q5lctEAObWGMEHLJbNchUOQ++A589z1HlK7NWtmUmy5xzScfJRPCcXhohywYKP0ag==
-X-Received: by 2002:a17:902:bb8f:: with SMTP id
- m15mr4371359pls.121.1573183754056; 
- Thu, 07 Nov 2019 19:29:14 -0800 (PST)
-Received: from voyager.ibm.com ([36.255.48.244])
- by smtp.gmail.com with ESMTPSA id c13sm4219194pfo.5.2019.11.07.19.29.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Nov 2019 19:29:13 -0800 (PST)
-From: Joel Stanley <joel@jms.id.au>
-To: Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org
-Subject: [PATCH] watchdog: aspeed: Fix clock behaviour for ast2600
-Date: Fri,  8 Nov 2019 13:59:05 +1030
-Message-Id: <20191108032905.22463-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.24.0.rc1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=19tliVy/iIF1NdAW0nZ7cVhCkJOFQ8X7U9RXNc+1Lro=;
+ b=kcsBYA76DlUI42RXOe3reHbt1bySgvjFLrWtynilYf0rizrOwGcXup18qDHAdsw2bO
+ YSWiu63LxCbArIrvrhe65h4OgHmt8hWpCFR2o0qRVMsYXCJYMO+AySRUSLku29/7DSCi
+ S54hebadb9O/dw/s3aWr86cY32F2FsTq9f+ihGSXvaE2gjkYDfxCodiU7bO3Qx5wMrr+
+ oDsnnnTvjg2Bw35OLlePqISBk03JKDDqOQJnuPE2ZkttJDyaTbcettG5/kmoeFDumiGs
+ 4vKWjR8PpTs5tQfVb1lfXOsRpf24tf19ZxMy5RXoCeop09IX5j6XyLd1aEm83nZ9yEWb
+ WVRw==
+X-Gm-Message-State: APjAAAXE/ZQXaZrYkxjpq1m5RUyMnMMQyeXoWnaCWTBfWJiAvtB01n8Y
+ k3h9i+ORr5D0zyOQS1DYgW5IN/Knvm8S10k6+Yc=
+X-Google-Smtp-Source: APXvYqwKJZ6bO/qaUDabsFFu/MQ2R2cYOCy4YbyBPX5qBunktYtwdlI59RKnWWOSZiCLoSbjjip5Dos01Fg2X3vQ3QI=
+X-Received: by 2002:aed:3baf:: with SMTP id r44mr9788084qte.255.1573212592983; 
+ Fri, 08 Nov 2019 03:29:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191010020725.3990-1-andrew@aj.id.au>
+ <20191010020725.3990-2-andrew@aj.id.au>
+ <CACPK8XcGgGsoLNpCccKPb-5bojQS4c5BePewwocc-z29On7Rjg@mail.gmail.com>
+ <20191107230029.75ED72178F@mail.kernel.org>
+In-Reply-To: <20191107230029.75ED72178F@mail.kernel.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 8 Nov 2019 11:29:41 +0000
+Message-ID: <CACPK8Xe7dmeVjQYObzOw9LdwxH3+1XTcU+RJOZo5C69j8d-yOg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: clock: Add AST2600 RMII RCLK gate
+ definitions
+To: Stephen Boyd <sboyd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,60 +73,58 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, linux-clk@vger.kernel.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The ast2600 no longer uses bit 4 in the control register to indicate a
-1MHz clock (It now controls weather this watchdog is reset by a SOC
-reset). This means we do not want to set it. It also does not need to be
-set for the ast2500, as it is read-only on that SoC.
+On Thu, 7 Nov 2019 at 23:00, Stephen Boyd <sboyd@kernel.org> wrote:
+>
+> Quoting Joel Stanley (2019-10-31 21:50:42)
+> > Hi clock maintainers,
+> >
+> > On Thu, 10 Oct 2019 at 02:06, Andrew Jeffery <andrew@aj.id.au> wrote:
+> > >
+> > > The AST2600 has an explicit gate for the RMII RCLK for each of the four
+> > > MACs.
+> > >
+> > > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> >
+> > I needed this patch and the aspeed-clock.h one for the aspeed dts
+> > tree, so I've put them in a branch called "aspeed-clk-for-v5.5" and
+> > merged that into the aspeed tree. Could you merge that into the clock
+> > tree when you get to merging these ones?
+> >
+> > https://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git/log/?h=aspeed-clk-for-v5.5
+> >
+>
+> Can you send a pull request please?
 
-The comment next to the clock rate selection wandered away from where it
-was set, so put it back next to the register setting it's describing.
+Sure. Here you go. Let me know if you need it in a separate email.
 
-Fixes: b3528b487448 ("watchdog: aspeed: Add support for AST2600")
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- drivers/watchdog/aspeed_wdt.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+The following changes since commit d8d9ad83a497f78edd4016df0919a49628dcafbc:
 
-diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
-index 4ec0906bf12c..7e00960651fa 100644
---- a/drivers/watchdog/aspeed_wdt.c
-+++ b/drivers/watchdog/aspeed_wdt.c
-@@ -258,11 +258,6 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
- 	if (IS_ERR(wdt->base))
- 		return PTR_ERR(wdt->base);
- 
--	/*
--	 * The ast2400 wdt can run at PCLK, or 1MHz. The ast2500 only
--	 * runs at 1MHz. We chose to always run at 1MHz, as there's no
--	 * good reason to have a faster watchdog counter.
--	 */
- 	wdt->wdd.info = &aspeed_wdt_info;
- 	wdt->wdd.ops = &aspeed_wdt_ops;
- 	wdt->wdd.max_hw_heartbeat_ms = WDT_MAX_TIMEOUT_MS;
-@@ -278,7 +273,16 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
- 		return -EINVAL;
- 	config = ofdid->data;
- 
--	wdt->ctrl = WDT_CTRL_1MHZ_CLK;
-+	/*
-+	 * On clock rates:
-+	 *  - ast2400 wdt can run at PCLK, or 1MHz
-+	 *  - ast2500 only runs at 1MHz, hard coding bit 4 to 1
-+	 *  - ast2600 always runs at 1MHz
-+	 *
-+	 * Set the ast2400 to run at 1MHz as it simplifies the driver.
-+	 */
-+	if (of_device_is_compatible(np, "aspeed,ast2400-wdt"))
-+		wdt->ctrl = WDT_CTRL_1MHZ_CLK;
- 
- 	/*
- 	 * Control reset on a per-device basis to ensure the
--- 
-2.24.0.rc1
+  dt-bindings: clock: Add AST2600 RMII RCLK gate definitions
+(2019-11-01 15:01:18 +1030)
 
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
+tags/aspeed-5.5-clk
+
+for you to fetch changes up to d8d9ad83a497f78edd4016df0919a49628dcafbc:
+
+  dt-bindings: clock: Add AST2600 RMII RCLK gate definitions
+(2019-11-01 15:01:18 +1030)
+
+----------------------------------------------------------------
+ASPEED clock device tree bindings for 5.5
+
+----------------------------------------------------------------
+>
