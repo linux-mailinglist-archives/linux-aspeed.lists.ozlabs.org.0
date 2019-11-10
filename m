@@ -2,43 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B128F5D38
-	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Nov 2019 04:37:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE03F69B7
+	for <lists+linux-aspeed@lfdr.de>; Sun, 10 Nov 2019 16:33:21 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4792s20W1jzF6xR
-	for <lists+linux-aspeed@lfdr.de>; Sat,  9 Nov 2019 14:37:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 479yhG1z5dzF36Z
+	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Nov 2019 02:33:18 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=huawei.com (client-ip=45.249.212.191; helo=huawei.com;
- envelope-from=yuehaibing@huawei.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=huawei.com
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ spf=softfail (domain owner discourages use of this
+ host) smtp.mailfrom=kernel.org (client-ip=213.251.177.50;
+ helo=inca-roads.misterjones.org; envelope-from=maz@kernel.org;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+X-Greylist: delayed 2391 seconds by postgrey-1.36 at bilbo;
+ Mon, 11 Nov 2019 02:33:11 AEDT
+Received: from inca-roads.misterjones.org (inca-roads.misterjones.org
+ [213.251.177.50])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4792rw3l0XzF6wn
- for <linux-aspeed@lists.ozlabs.org>; Sat,  9 Nov 2019 14:37:36 +1100 (AEDT)
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 5E7C2D1528BB2E8FAC0A;
- Sat,  9 Nov 2019 11:37:32 +0800 (CST)
-Received: from localhost (10.133.213.239) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Sat, 9 Nov 2019
- 11:37:26 +0800
-From: YueHaibing <yuehaibing@huawei.com>
-To: <jk@ozlabs.org>, <joel@jms.id.au>, <eajames@linux.ibm.com>,
- <andrew@aj.id.au>
-Subject: [PATCH v2 -next] fsi: aspeed: Use devm_kfree in
- aspeed_master_release()
-Date: Sat, 9 Nov 2019 11:36:34 +0800
-Message-ID: <20191109033634.30544-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
-In-Reply-To: <20191109033209.45244-1-yuehaibing@huawei.com>
-References: <20191109033209.45244-1-yuehaibing@huawei.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 479yh71Qh0zF1SW
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Nov 2019 02:31:51 +1100 (AEDT)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
+ helo=why)
+ by cheepnis.misterjones.org with esmtpsa (TLSv1.2:AES256-GCM-SHA384:256)
+ (Exim 4.80) (envelope-from <maz@kernel.org>)
+ id 1iToaY-0002r6-32; Sun, 10 Nov 2019 15:53:14 +0100
+Date: Sun, 10 Nov 2019 14:53:12 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: Eddie James <eajames@linux.ibm.com>
+Subject: Re: [PATCH 02/12] irqchip: Add Aspeed SCU interrupt controller
+Message-ID: <20191110145312.3805b25b@why>
+In-Reply-To: <1573244313-9190-3-git-send-email-eajames@linux.ibm.com>
+References: <1573244313-9190-1-git-send-email-eajames@linux.ibm.com>
+ <1573244313-9190-3-git-send-email-eajames@linux.ibm.com>
+Organization: Approximate
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.133.213.239]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: eajames@linux.ibm.com, linux-kernel@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, andrew@aj.id.au, joel@jms.id.au,
+ jason@lakedaemon.net, tglx@linutronix.de, robh+dt@kernel.org,
+ mark.rutland@arm.com, devicetree@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on cheepnis.misterjones.org);
+ SAEximRunCond expanded to false
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,39 +61,45 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, alistair@popple.id.au,
- YueHaibing <yuehaibing@huawei.com>, linux-kernel@vger.kernel.org,
- gregkh@linuxfoundation.org, linux-arm-kernel@lists.infradead.org,
- linux-fsi@lists.ozlabs.org
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jason@lakedaemon.net,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ robh+dt@kernel.org, tglx@linutronix.de
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-'aspeed' is allocated by devm_kzalloc(), it should not be
-freed by kfree().
+On Fri,  8 Nov 2019 14:18:23 -0600
+Eddie James <eajames@linux.ibm.com> wrote:
 
-Fixes: 1edac1269c02 ("fsi: Add ast2600 master driver")
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
-v2: fix log typos
----
- drivers/fsi/fsi-master-aspeed.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Eddie,
 
-diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-master-aspeed.c
-index 3dd82dd..0f63eec 100644
---- a/drivers/fsi/fsi-master-aspeed.c
-+++ b/drivers/fsi/fsi-master-aspeed.c
-@@ -361,7 +361,7 @@ static void aspeed_master_release(struct device *dev)
- 	struct fsi_master_aspeed *aspeed =
- 		to_fsi_master_aspeed(dev_to_fsi_master(dev));
- 
--	kfree(aspeed);
-+	devm_kfree(dev, aspeed);
- }
- 
- /* mmode encoders */
+> The Aspeed SOCs provide some interrupts through the System Control
+> Unit registers. Add an interrupt controller that provides these
+> interrupts to the system.
+> 
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> ---
+>  MAINTAINERS                         |   1 +
+>  drivers/irqchip/Makefile            |   2 +-
+>  drivers/irqchip/irq-aspeed-scu-ic.c | 233 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 235 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/irqchip/irq-aspeed-scu-ic.c
+
+[...]
+
+> +static int aspeed_scu_ic_map(struct irq_domain *domain, unsigned int irq,
+> +			     irq_hw_number_t hwirq)
+> +{
+> +	irq_set_chip_and_handler(irq, &aspeed_scu_ic_chip, handle_simple_irq);
+
+handle_simple_irq is usually wrong, and works badly with threaded
+interrupts. I suggest you'd change it to handle_level_irq, which
+probably matches the behaviour of the controller.
+
+Otherwise, this looks good.
+
+Thanks,
+
+	M.
 -- 
-2.7.4
-
-
+Jazz is not dead. It just smells funny...
