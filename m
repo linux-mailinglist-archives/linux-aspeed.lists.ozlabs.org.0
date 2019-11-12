@@ -1,101 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 479FEF9E0C
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Nov 2019 00:17:51 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C3AF9CC5
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 23:06:21 +0100 (CET)
-Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47CMJn20JNzF5kh
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Nov 2019 09:06:17 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47CNvH68HFzF5qN
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Nov 2019 10:17:47 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=mellanox.com (client-ip=40.107.0.65;
- helo=eur02-am5-obe.outbound.protection.outlook.com;
- envelope-from=asmaa@mellanox.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=mellanox.com
+ spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
+ (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
+ envelope-from=prvs=621956b8ff=vijaykhemka@fb.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=fb.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=Mellanox.com header.i=@Mellanox.com header.b="hzKfRAUJ";
+ unprotected) header.d=fb.com header.i=@fb.com header.b="EgRvQbn9"; 
  dkim-atps=neutral
-Received: from EUR02-AM5-obe.outbound.protection.outlook.com
- (mail-eopbgr00065.outbound.protection.outlook.com [40.107.0.65])
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
+ [67.231.145.42])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47CMJc0By2zF5h3
- for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Nov 2019 09:06:06 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oA0IJP46yXVcBgcDZZRYwSYThO/bjx2QxUY2tRMXTZX16PbYVi/E+WpwPpN8hrKHwadsb4rGpMI3MyGjXkF8EuvA/xpIGwAMVqP9gxkzQQqxKNCtOZRooCg+Ea2PuhjAcPEdvplwOvp73t+VY2SH1MnPeJN4wYWsf8s23t0Mlde5RrRNJdBLru7W4zgQkPKpJ7QaklKGkXazbef1d5l+RgAyuHRDOBQcvrviMQwWPgDX2wv99QpQxk4aoV9UxfioXTJk3Ftv23DalZrMi1cwAAjJ+wc1zu+WQKhefUUKxwSWn3OKhOe9LnqDWaNSa0aankn89q9u2EnSvH5SfvVH2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Eq+gJzrez38FZSZhBT7GxYJg6olKOnzchDtJYBS0Xjw=;
- b=lAWURvO9DbZ8miOztBkqAQiYQAA53QlaSizHJpTexDDuO1ApBKCqhpqxtYKF73KS7smB5RWRI3m3FrrECdeXM3pv87k8r6aEBxu+1HIqvMoxREO/YsGmFAyz4Oci6VLJqRqC3Y5nm+So+GU/E9SKB2xeDQYSRG/U8H8Db8oZFC/17IlQfR3Ks18CrVbPz0ETXeOqBmMQftA5Bnh5RCfl3DWP48nuzVbIsVEob3FcoKs3I+zAYmS9T87Oc08JB6rZdUsWX8yCP0fMzkEeKwwrdF+K2isBc6dJYgAyt3L6TuVbXUX3el0q79TDWMrnIRpdqEQe3eKSdtvdkRqkgEMeMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Eq+gJzrez38FZSZhBT7GxYJg6olKOnzchDtJYBS0Xjw=;
- b=hzKfRAUJdBURkeJ63BH4WDZMvyY27Ps1klS1/XpbVQe04AIw73Kfj6AwoyEaz/P/Oixzr6kcF1oHIoMW9OxfCmQRUgUBDf+horsX7FXH+kr8dFk71qD0KF4E2nwUOJ6YNT1cjF6FZdz0LPFQdyITAtrrBOFK63RaCcoVikJragc=
-Received: from DB6PR0501MB2712.eurprd05.prod.outlook.com (10.172.225.17) by
- DB6PR0501MB2311.eurprd05.prod.outlook.com (10.168.55.18) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.24; Tue, 12 Nov 2019 22:06:00 +0000
-Received: from DB6PR0501MB2712.eurprd05.prod.outlook.com
- ([fe80::99be:5f3a:9871:ecd1]) by DB6PR0501MB2712.eurprd05.prod.outlook.com
- ([fe80::99be:5f3a:9871:ecd1%12]) with mapi id 15.20.2430.027; Tue, 12 Nov
- 2019 22:06:00 +0000
-From: Asmaa Mnebhi <Asmaa@mellanox.com>
-To: "minyard@acm.org" <minyard@acm.org>, Vijay Khemka <vijaykhemka@fb.com>
-Subject: RE: [PATCH 2/2] drivers: ipmi: Modify max length of IPMB packet
-Thread-Topic: [PATCH 2/2] drivers: ipmi: Modify max length of IPMB packet
-Thread-Index: AQHVmQJk8sCJH6Uy7E6qy5eNUr7iE6eHfQWAgAB3iACAAAk2AIAABexw
-Date: Tue, 12 Nov 2019 22:06:00 +0000
-Message-ID: <DB6PR0501MB27127CF534336BDEB5D005FFDA770@DB6PR0501MB2712.eurprd05.prod.outlook.com>
-References: <20191112023610.3644314-1-vijaykhemka@fb.com>
- <20191112023610.3644314-2-vijaykhemka@fb.com>
- <20191112124845.GE2882@minyard.net>
- <7BC487D6-6ACA-46CE-A751-8367FEDEE647@fb.com>
- <20191112202932.GJ2882@minyard.net>
-In-Reply-To: <20191112202932.GJ2882@minyard.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Asmaa@mellanox.com; 
-x-originating-ip: [216.156.69.42]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 3f809077-af09-45f7-171d-08d767bc8091
-x-ms-traffictypediagnostic: DB6PR0501MB2311:
-x-microsoft-antispam-prvs: <DB6PR0501MB231166F85E7E0D76992DB4F5DA770@DB6PR0501MB2311.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 021975AE46
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(39860400002)(136003)(396003)(366004)(346002)(376002)(189003)(199004)(13464003)(5660300002)(8676002)(9686003)(6246003)(26005)(486006)(476003)(66066001)(305945005)(14454004)(6116002)(6436002)(7736002)(3846002)(52536014)(229853002)(110136005)(86362001)(54906003)(316002)(81156014)(33656002)(81166006)(25786009)(66946007)(71190400001)(66446008)(66556008)(71200400001)(11346002)(2906002)(66476007)(76116006)(2501003)(55016002)(4326008)(7696005)(53546011)(76176011)(6506007)(186003)(102836004)(8936002)(80792005)(478600001)(7416002)(99286004)(446003)(14444005)(256004)(74316002)(64756008);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DB6PR0501MB2311;
- H:DB6PR0501MB2712.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: mellanox.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: I1q4QvZocZrEL1JjvHgTjhko8MX/70ZkkuwQn6Eg8jYcquQfEWglQGuwOXmHN5jPyUX26CDHrLU5GbMGtas6u7d9N9s3FBdzK9K+itQZBXEqWU00ajQjrRHW9H8aYybTj0sEqnAUAP9+v7xxlf2vvJ2Vq+PbvUlH4PEUvLHbkgIvCE/FuPxNbNzj0eTy2qB1DYYqJFhr6XSPufEe9WoNHBci0nLVFh61HpbcItBzaAd4i9MTMpdaLdnpM3c0XV9Ux9pEr3IkEjkBPSPJUSxmore27/YlOGgXU/0TVJ+87Byo8CMPH9sqs090EIL6n+GOiM+4t7fKebHEqR/k5VGRE5pJIUsJdf60W4pxxZ5d5tGz0iCoQhHkCwhhGuOrAxdFwBldhgl5kH1lwj5LCSpaHmQtZNoLrR3GeXGo5vovCCacFTgM/uCJhipw4WVuzn9X
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47CNsC6BF3zF5fY
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Nov 2019 10:15:58 +1100 (AEDT)
+Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xACN5d4b006848
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Nov 2019 15:15:55 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=facebook;
+ bh=VBzDESx2BPi21yALs+izvvoTYhtutvjWaNlW8SC34AM=;
+ b=EgRvQbn942FGD3FE/0sOc4sU0qDCbsATI77xSsnjNAtXZFEc72VC5OdTojcQlDmL8Laf
+ /t38VtjkuZyYYPF8Ap2P4+Wtmx9qdCbaP7q4xhoMPbE09taK0HfTz3MN52rK+JkuDoKB
+ hT6YeSmKId6Q98cDqrM2fqlTd3RApCY9NMk= 
+Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
+ by mx0a-00082601.pphosted.com with ESMTP id 2w7prjcs5a-3
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Nov 2019 15:15:55 -0800
+Received: from 2401:db00:30:6007:face:0:1:0 (2620:10d:c081:10::13) by
+ mail.thefacebook.com (2620:10d:c081:35::125) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.1713.5;
+ Tue, 12 Nov 2019 15:15:53 -0800
+Received: by devvm4117.prn2.facebook.com (Postfix, from userid 167582)
+ id 28F4016946C34; Tue, 12 Nov 2019 15:13:11 -0800 (PST)
+Smtp-Origin-Hostprefix: devvm
+From: Vijay Khemka <vijaykhemka@fb.com>
+Smtp-Origin-Hostname: devvm4117.prn2.facebook.com
+To: Corey Minyard <minyard@acm.org>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
+ <openipmi-developer@lists.sourceforge.net>
+Smtp-Origin-Cluster: prn2c23
+Subject: [PATCH v2] drivers: ipmi: Support raw i2c packet in IPMB
+Date: Tue, 12 Nov 2019 15:13:07 -0800
+Message-ID: <20191112231309.3094727-1-vijaykhemka@fb.com>
+X-Mailer: git-send-email 2.17.1
+X-FB-Internal: Safe
 MIME-Version: 1.0
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f809077-af09-45f7-171d-08d767bc8091
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2019 22:06:00.2890 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hRrXUFfG4Ti47X56zTbCbSjkBsYtnboxSPwihgxvI3U5eSNzMbftsWwxzemi4eCorW00pEvNp5ip7UI4Zk23UQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0501MB2311
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-12_09:2019-11-11,2019-11-12 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ phishscore=0 adultscore=0
+ lowpriorityscore=0 mlxlogscore=999 bulkscore=0 clxscore=1015
+ priorityscore=1501 mlxscore=0 malwarescore=0 spamscore=0 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1911120199
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,65 +79,144 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "cminyard@mvista.com" <cminyard@mvista.com>, Sai Dasari <sdasari@fb.com>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "openipmi-developer@lists.sourceforge.net"
- <openipmi-developer@lists.sourceforge.net>
+Cc: cminyard@mvista.com, sdasari@fb.com, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-QWxzbywgbGV0IG1lIGNsYXJpZnkgb25lIHRoaW5nLiBJdCBkb2Vzbid0IG1hdHRlciBob3cgYmln
-IHRoZSByZXNwb25zZSBpcy4gSW4gbXkgdGVzdGluZywgSSBhbHNvIGhhZCBzb21lIHJlc3BvbnNl
-cyB0aGF0IGFyZSBvdmVyIDEyOCBieXRlcywgYW5kIHRoaXMgZHJpdmVyIHN0aWxsIHdvcmtzLiBJ
-dCBpcyB0aGUgdXNlciBzcGFjZSBwcm9ncmFtIHdoaWNoIGRldGVybWluZXMgdGhlIGxhc3QgYnl0
-ZXMgcmVjZWl2ZWQuIFRoZSAxMjggYnl0ZXMgaXMgdGhlIG1heCBudW1iZXIgb2YgYnl0ZXMgaGFu
-ZGxlZCBieSB5b3VyIGkyYy9zbWJ1cyBkcml2ZXIgYXQgZWFjaCBpMmMgdHJhbnNhY3Rpb24uIE15
-IGkyYyBkcml2ZXIgY2FuIG9ubHkgdHJhbnNtaXQgMTI4IGJ5dGVzIGF0IGEgdGltZS4gU28ganVz
-dCBsaWtlIENvcmV5IHBvaW50ZWQgb3V0LCBpdCB3b3VsZCBiZSBiZXR0ZXIgdG8gcGFzcyB0aGlz
-IHRocm91Z2ggQUNQSS9kZXZpY2UgdHJlZS4NCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
-CkZyb206IENvcmV5IE1pbnlhcmQgPHRjbWlueWFyZEBnbWFpbC5jb20+IE9uIEJlaGFsZiBPZiBD
-b3JleSBNaW55YXJkDQpTZW50OiBUdWVzZGF5LCBOb3ZlbWJlciAxMiwgMjAxOSAzOjMwIFBNDQpU
-bzogVmlqYXkgS2hlbWthIDx2aWpheWtoZW1rYUBmYi5jb20+DQpDYzogQXJuZCBCZXJnbWFubiA8
-YXJuZEBhcm5kYi5kZT47IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlv
-bi5vcmc+OyBvcGVuaXBtaS1kZXZlbG9wZXJAbGlzdHMuc291cmNlZm9yZ2UubmV0OyBsaW51eC1r
-ZXJuZWxAdmdlci5rZXJuZWwub3JnOyBjbWlueWFyZEBtdmlzdGEuY29tOyBBc21hYSBNbmViaGkg
-PEFzbWFhQG1lbGxhbm94LmNvbT47IGpvZWxAam1zLmlkLmF1OyBsaW51eC1hc3BlZWRAbGlzdHMu
-b3psYWJzLm9yZzsgU2FpIERhc2FyaSA8c2Rhc2FyaUBmYi5jb20+DQpTdWJqZWN0OiBSZTogW1BB
-VENIIDIvMl0gZHJpdmVyczogaXBtaTogTW9kaWZ5IG1heCBsZW5ndGggb2YgSVBNQiBwYWNrZXQN
-Cg0KT24gVHVlLCBOb3YgMTIsIDIwMTkgYXQgMDc6NTY6MzRQTSArMDAwMCwgVmlqYXkgS2hlbWth
-IHdyb3RlOg0KPiANCj4gDQo+IO+7v09uIDExLzEyLzE5LCA0OjQ4IEFNLCAiQ29yZXkgTWlueWFy
-ZCIgPHRjbWlueWFyZEBnbWFpbC5jb20gb24gYmVoYWxmIG9mIG1pbnlhcmRAYWNtLm9yZz4gd3Jv
-dGU6DQo+IA0KPiAgICAgT24gTW9uLCBOb3YgMTEsIDIwMTkgYXQgMDY6MzY6MTBQTSAtMDgwMCwg
-VmlqYXkgS2hlbWthIHdyb3RlOg0KPiAgICAgPiBBcyBwZXIgSVBNQiBzcGVjaWZpY2F0aW9uLCBt
-YXhpbXVtIHBhY2tldCBzaXplIHN1cHBvcnRlZCBpcyAyNTUsDQo+ICAgICA+IG1vZGlmaWVkIE1h
-eCBsZW5ndGggdG8gMjQwIGZyb20gMTI4IHRvIGFjY29tbW9kYXRlIG1vcmUgZGF0YS4NCj4gICAg
-IA0KPiAgICAgSSBjb3VsZG4ndCBmaW5kIHRoaXMgaW4gdGhlIElQTUIgc3BlY2lmaWNhdGlvbi4N
-Cj4gICAgIA0KPiAgICAgSUlSQywgdGhlIG1heGltdW0gb24gSTJDIGlzIDMyIGJ5dHMsIGFuZCB0
-YWJsZSA2LTkgaW4gdGhlIElQTUkgc3BlYywNCj4gICAgIHVuZGVyICJJUE1CIE91dHB1dCIgc3Rh
-dGVzOiBUaGUgSVBNQiBzdGFuZGFyZCBtZXNzYWdlIGxlbmd0aCBpcw0KPiAgICAgc3BlY2lmaWVk
-IGFzIDMyIGJ5dGVzLCBtYXhpbXVtLCBpbmNsdWRpbmcgc2xhdmUgYWRkcmVzcy4NCj4gDQo+IFdl
-IGFyZSB1c2luZyBJUE1JIE9FTSBtZXNzYWdlcyBhbmQgb3VyIHJlc3BvbnNlIHNpemUgaXMgYXJv
-dW5kIDE1MCANCj4gYnl0ZXMgRm9yIHNvbWUgb2YgcmVzcG9uc2VzLiBUaGF0J3Mgd2h5IEkgaGFk
-IHNldCBpdCB0byAyNDAgYnl0ZXMuDQoNCkhtbS4gIFdlbGwsIHRoYXQgaXMgYSBwcmV0dHkgc2ln
-bmlmaWNhbnQgdmlvbGF0aW9uIG9mIHRoZSBzcGVjLCBidXQgdGhlcmUncyBub3RoaW5nIGhhcmQg
-aW4gdGhlIHByb3RvY29sIHRoYXQgcHJvaGliaXRzIGl0LCBJIGd1ZXNzLg0KDQpJZiBBc21hYSBp
-cyBvayB3aXRoIHRoaXMsIEknbSBvayB3aXRoIGl0LCB0b28uDQoNCi1jb3JleQ0KDQo+ICAgICAN
-Cj4gICAgIEknbSBub3Qgc3VyZSB3aGVyZSAxMjggY2FtZSBmcm9tLCBidXQgbWF5YmUgaXQgc2hv
-dWxkIGJlIHJlZHVjZWQgdG8gMzEuDQo+ICAgICANCj4gICAgIC1jb3JleQ0KPiAgICAgDQo+ICAg
-ICA+IA0KPiAgICAgPiBTaWduZWQtb2ZmLWJ5OiBWaWpheSBLaGVta2EgPHZpamF5a2hlbWthQGZi
-LmNvbT4NCj4gICAgID4gLS0tDQo+ICAgICA+ICBkcml2ZXJzL2NoYXIvaXBtaS9pcG1iX2Rldl9p
-bnQuYyB8IDIgKy0NCj4gICAgID4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
-ZWxldGlvbigtKQ0KPiAgICAgPiANCj4gICAgID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvY2hhci9p
-cG1pL2lwbWJfZGV2X2ludC5jIGIvZHJpdmVycy9jaGFyL2lwbWkvaXBtYl9kZXZfaW50LmMNCj4g
-ICAgID4gaW5kZXggMjQxOWI5YTkyOGIyLi43ZjkxOThiYmNlOTYgMTAwNjQ0DQo+ICAgICA+IC0t
-LSBhL2RyaXZlcnMvY2hhci9pcG1pL2lwbWJfZGV2X2ludC5jDQo+ICAgICA+ICsrKyBiL2RyaXZl
-cnMvY2hhci9pcG1pL2lwbWJfZGV2X2ludC5jDQo+ICAgICA+IEBAIC0xOSw3ICsxOSw3IEBADQo+
-ICAgICA+ICAjaW5jbHVkZSA8bGludXgvc3BpbmxvY2suaD4NCj4gICAgID4gICNpbmNsdWRlIDxs
-aW51eC93YWl0Lmg+DQo+ICAgICA+ICANCj4gICAgID4gLSNkZWZpbmUgTUFYX01TR19MRU4JCTEy
-OA0KPiAgICAgPiArI2RlZmluZSBNQVhfTVNHX0xFTgkJMjQwDQo+ICAgICA+ICAjZGVmaW5lIElQ
-TUJfUkVRVUVTVF9MRU5fTUlOCTcNCj4gICAgID4gICNkZWZpbmUgTkVURk5fUlNQX0JJVF9NQVNL
-CTB4NA0KPiAgICAgPiAgI2RlZmluZSBSRVFVRVNUX1FVRVVFX01BWF9MRU4JMjU2DQo+ICAgICA+
-IC0tIA0KPiAgICAgPiAyLjE3LjENCj4gICAgID4NCj4gICAgIA0KPiANCg==
+Many IPMB devices doesn't support smbus protocol and current driver
+support only smbus devices. Added support for raw i2c packets.
+
+User can include ipmi_ipmb.h and set xmit type via ioctl.
+
+Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+---
+ drivers/char/ipmi/ipmb_dev_int.c | 54 ++++++++++++++++++++++++++++++++
+ include/uapi/linux/ipmi_ipmb.h   | 17 ++++++++++
+ 2 files changed, 71 insertions(+)
+ create mode 100644 include/uapi/linux/ipmi_ipmb.h
+
+diff --git a/drivers/char/ipmi/ipmb_dev_int.c b/drivers/char/ipmi/ipmb_dev_int.c
+index ae3bfba27526..11f7240f62cc 100644
+--- a/drivers/char/ipmi/ipmb_dev_int.c
++++ b/drivers/char/ipmi/ipmb_dev_int.c
+@@ -18,6 +18,7 @@
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
+ #include <linux/wait.h>
++#include <linux/ipmi_ipmb.h>
+ 
+ #define MAX_MSG_LEN		128
+ #define IPMB_REQUEST_LEN_MIN	7
+@@ -63,6 +64,7 @@ struct ipmb_dev {
+ 	spinlock_t lock;
+ 	wait_queue_head_t wait_queue;
+ 	struct mutex file_mutex;
++	unsigned long xmit_type;
+ };
+ 
+ static inline struct ipmb_dev *to_ipmb_dev(struct file *file)
+@@ -112,6 +114,39 @@ static ssize_t ipmb_read(struct file *file, char __user *buf, size_t count,
+ 	return ret < 0 ? ret : count;
+ }
+ 
++static int ipmb_i2c_write(struct i2c_client *client, u8 *msg)
++{
++	unsigned char *i2c_buf;
++	struct i2c_msg i2c_msg;
++	ssize_t ret;
++	u8 msg_len;
++
++	/*
++	 * subtract 1 byte (rq_sa) from the length of the msg passed to
++	 * raw i2c_transfer
++	 */
++	msg_len = msg[IPMB_MSG_LEN_IDX] - 1;
++
++	i2c_buf = kzalloc(msg_len, GFP_KERNEL);
++	if (!i2c_buf)
++		return -EFAULT;
++
++	/* Copy message to buffer except first 2 bytes (length and address) */
++	memcpy(i2c_buf, msg+2, msg_len);
++
++	i2c_msg.addr = GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
++	i2c_msg.flags = client->flags &
++			(I2C_M_TEN | I2C_CLIENT_PEC | I2C_CLIENT_SCCB);
++	i2c_msg.len = msg_len;
++	i2c_msg.buf = i2c_buf;
++
++	ret = i2c_transfer(client->adapter, &i2c_msg, 1);
++	kfree(i2c_buf);
++
++	return ret;
++
++}
++
+ static ssize_t ipmb_write(struct file *file, const char __user *buf,
+ 			size_t count, loff_t *ppos)
+ {
+@@ -133,6 +168,11 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
+ 	rq_sa = GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
+ 	netf_rq_lun = msg[NETFN_LUN_IDX];
+ 
++	if (ipmb_dev->xmit_type == IPMB_XMIT_TYPE_I2C_RAW) {
++		ret = ipmb_i2c_write(ipmb_dev->client, msg);
++		return (ret == 1) ? count : ret;
++	}
++
+ 	/*
+ 	 * subtract rq_sa and netf_rq_lun from the length of the msg passed to
+ 	 * i2c_smbus_xfer
+@@ -166,11 +206,25 @@ static unsigned int ipmb_poll(struct file *file, poll_table *wait)
+ 	return mask;
+ }
+ 
++static long ipmb_ioctl(struct file *file, unsigned int cmd,
++				unsigned long arg)
++{
++	struct ipmb_dev *ipmb_dev = to_ipmb_dev(file);
++
++	if (cmd == IPMI_IPMB_IOCTL_SET_XMIT_TYPE)
++		ipmb_dev->xmit_type = arg;
++	else
++		return -EINVAL;
++
++	return 0;
++}
++
+ static const struct file_operations ipmb_fops = {
+ 	.owner	= THIS_MODULE,
+ 	.read	= ipmb_read,
+ 	.write	= ipmb_write,
+ 	.poll	= ipmb_poll,
++	.unlocked_ioctl = ipmb_ioctl,
+ };
+ 
+ /* Called with ipmb_dev->lock held. */
+diff --git a/include/uapi/linux/ipmi_ipmb.h b/include/uapi/linux/ipmi_ipmb.h
+new file mode 100644
+index 000000000000..b283752f77f8
+--- /dev/null
++++ b/include/uapi/linux/ipmi_ipmb.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2019, Facebook
++ */
++
++#ifndef _UAPI_LINUX_IPMI_IPMB_H
++#define _UAPI_LINUX_IPMI_IPMB_H
++
++#include <linux/ioctl.h>
++
++#define __IPMI_IPMB_IOCTL_MAGIC        0xC1
++#define IPMI_IPMB_IOCTL_SET_XMIT_TYPE _IO(__IPMI_IPMB_IOCTL_MAGIC, 0x01)
++
++#define IPMB_XMIT_TYPE_SMBUS 0
++#define IPMB_XMIT_TYPE_I2C_RAW 1
++
++#endif /* _UAPI_LINUX_IPMI_IPMB_H */
+-- 
+2.17.1
+
