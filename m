@@ -1,78 +1,98 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABDCF9005
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 13:54:10 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9F48F91DC
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 15:20:08 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47C73f478hzDsP0
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 23:54:06 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47C8ys73ylzF568
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Nov 2019 01:20:05 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::241;
- helo=mail-oi1-x241.google.com; envelope-from=tcminyard@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=mellanox.com (client-ip=40.107.0.52;
+ helo=eur02-am5-obe.outbound.protection.outlook.com;
+ envelope-from=asmaa@mellanox.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=acm.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="hpotNEY2"; 
+ dmarc=pass (p=none dis=none) header.from=mellanox.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=Mellanox.com header.i=@Mellanox.com header.b="cFNkBRzX";
  dkim-atps=neutral
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
- [IPv6:2607:f8b0:4864:20::241])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from EUR02-AM5-obe.outbound.protection.outlook.com
+ (mail-eopbgr00052.outbound.protection.outlook.com [40.107.0.52])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47C6xd43bszDrQc
- for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Nov 2019 23:48:53 +1100 (AEDT)
-Received: by mail-oi1-x241.google.com with SMTP id m193so14658198oig.0
- for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Nov 2019 04:48:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Jzm7986JS/rnjdFEfFSppu8t4BpdNBEDWXZlt0QkzRM=;
- b=hpotNEY2jP9EbNNf1lY01Z4p8VZIHhK5Uf/xk9kM4m5UjiTl2tVwaeqotaFn/MYzSM
- uJ4Mq0BTFkLcY129vsyTy4KaTMfLeqYAmhTOUMsz+471cQqdWkLsqYn13ePb5PP3GQAl
- FIJr/Gs+mx892sKJSAmXY3hBRAXniQmqOLy/dfvlvbfaChxaLoslE362YzCtXxlio1rV
- 4Mplt/KjTVhRNHDLvKzPgCRAPXynQi8sS51oPWq6D3eze9ddnVYHt2/DWrYg8aFEhDuU
- +hV6wWmnaSnWGSqbavzyD+Q+DnsFLOzGeACwqjE0oNyz7ptTjDepUQo8AZgkSrhp54sm
- vKYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to
- :user-agent;
- bh=Jzm7986JS/rnjdFEfFSppu8t4BpdNBEDWXZlt0QkzRM=;
- b=rUNiD2sL7ypgz53tPYxrXZF179kTHoHUP/7CFUx3Nj1p3uizDwYaRCkL/v+2sk0KNV
- CfVUURnK7FzxQHYehun0gxJw8O9tHNCEAyShPodzqof5VQ1XZYjmCAB+HQ5CE8zRELx6
- 9zp38ZOQEyiBwOhMpFn8+FG3kGjefK5n40cHpuAscaLDTEDwYWdi0lOSGeI2ZGwyPte0
- qw1kBY6PDivARP9SihhGXbBfdS+DBgGXcqbIRRaYnmvAeqmbYamCIDWvc+XQycKsEyoA
- 88UXs+A8zKqr0sFWL8kLl8ckdDKcU8qjK0LY0l8oIxDFJyHGNRIQXIP6mUbSr0+n4CxZ
- k0sQ==
-X-Gm-Message-State: APjAAAXpBqcOX2bvy1vKZJWcd7orCKYFYTaXAQYmM+bq8umAxJZ2E5Ku
- ViojbXq4Rd/ZTwCdd7Xvqw==
-X-Google-Smtp-Source: APXvYqxtYYaMppT1AsUoDPjRx/kCU171B9mYR9+ekZc1K7T40+2H65m90zVCtGZFXPwcrcaNpUGmew==
-X-Received: by 2002:aca:58d6:: with SMTP id m205mr3771826oib.32.1573562927956; 
- Tue, 12 Nov 2019 04:48:47 -0800 (PST)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id l32sm6193445otl.74.2019.11.12.04.48.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Nov 2019 04:48:47 -0800 (PST)
-Received: from minyard.net (unknown [192.168.27.180])
- by serve.minyard.net (Postfix) with ESMTPSA id B47A6180046;
- Tue, 12 Nov 2019 12:48:46 +0000 (UTC)
-Date: Tue, 12 Nov 2019 06:48:45 -0600
-From: Corey Minyard <minyard@acm.org>
-To: Vijay Khemka <vijaykhemka@fb.com>
-Subject: Re: [PATCH 2/2] drivers: ipmi: Modify max length of IPMB packet
-Message-ID: <20191112124845.GE2882@minyard.net>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47C8yd4MPkzF4QS
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Nov 2019 01:19:50 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=E+hDa4w4FVkjVCuLFUs53Jm29DqZXFTbxJxT4E4MH77AvL3f+Av4X74vc73ub8qOQg0nfOgAELHCdUI7+uTui+uIgEa2ZZI2UL42xP4c6bPqjDZ19FyVYLl2QEPNbmTwNZT8+Ogbs5zpz63qX+vZyFb31vhHxxZXiAF/nTyOL4/9nvn/k1LSVrg6ALdVqYuyEJv/AdNJZQ3CDBXGFlyYnULHXpaWACGfERoja5cYcBkn+VF48m9ba+tqEMOsScWZgKpG8WwfmqzjGpgYn0GAB9mWz/uPQcV0Vt1bcj51JZioxngyOpkmOOqgJZBnw+/5+xRsJrZcdyAUvgDTvm3/+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AYy7JsrpEVYcwD2IL2OZQ31r0vayf6hsDJOlmOJndu0=;
+ b=UlM+ykYoxOW15wJYsnRyO2cN9MK4FKTNRbC+/OChzb9ricvGbpe6ZEJ2dcAQxV2FM/+N3lm4SpSws92aid6IzNaBBjHExtCdlCNzJgwUSds0ZsCWex7LOYmCZS67i5O4A+aE+dskWcWtxygwepl7coMfd7gIUsNrdT1bG67Kq1WOUeR+6ipOfe9GfRJs1qRhgM3nEUIOCW14XfNv/i5bB9cBCxjIiJ6Mk4PBQThFx51ll/U38f9T/cQdGNVDS25UZfRw8ODGeyIHFp320daTVdbzyIRWy0NKvCkaAimY0V4kObAfRGVdaeFM8l1cwSgKc+DOdu0nfFoCez+R+u/1dg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AYy7JsrpEVYcwD2IL2OZQ31r0vayf6hsDJOlmOJndu0=;
+ b=cFNkBRzXKaTMaYbqDFSqH46fyjbZnKry83j0phKcQgpTN2vsxa0SXLcsQ7iW5b7wEHyEHurlkT1DUDT9FqCIGn9DwZiri41J78jEZjRogxGxQjdroZXuN6yTeiZ735NtSgDFVlTwGsE2NRUUB2+0d0gsC4b83Kt2RxXLvnudKZI=
+Received: from DB6PR0501MB2712.eurprd05.prod.outlook.com (10.172.225.17) by
+ DB6PR0501MB2599.eurprd05.prod.outlook.com (10.168.71.8) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2430.25; Tue, 12 Nov 2019 14:19:43 +0000
+Received: from DB6PR0501MB2712.eurprd05.prod.outlook.com
+ ([fe80::99be:5f3a:9871:ecd1]) by DB6PR0501MB2712.eurprd05.prod.outlook.com
+ ([fe80::99be:5f3a:9871:ecd1%12]) with mapi id 15.20.2430.027; Tue, 12 Nov
+ 2019 14:19:43 +0000
+From: Asmaa Mnebhi <Asmaa@mellanox.com>
+To: "minyard@acm.org" <minyard@acm.org>, Vijay Khemka <vijaykhemka@fb.com>
+Subject: RE: [PATCH 1/2] drivers: ipmi: Support raw i2c packet in IPMB
+Thread-Topic: [PATCH 1/2] drivers: ipmi: Support raw i2c packet in IPMB
+Thread-Index: AQHVmQJhVFa2qHxMQE+ZOphOmDlBEKeHeXcAgAAc2cA=
+Date: Tue, 12 Nov 2019 14:19:43 +0000
+Message-ID: <DB6PR0501MB271273D1EC0CF9CAA67A22CCDA770@DB6PR0501MB2712.eurprd05.prod.outlook.com>
 References: <20191112023610.3644314-1-vijaykhemka@fb.com>
- <20191112023610.3644314-2-vijaykhemka@fb.com>
+ <20191112123602.GD2882@minyard.net>
+In-Reply-To: <20191112123602.GD2882@minyard.net>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Asmaa@mellanox.com; 
+x-originating-ip: [216.156.69.42]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: c3e66bec-4079-4eee-037a-08d7677b5cf8
+x-ms-traffictypediagnostic: DB6PR0501MB2599:
+x-microsoft-antispam-prvs: <DB6PR0501MB259995E630469798C9AD5026DA770@DB6PR0501MB2599.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3383;
+x-forefront-prvs: 021975AE46
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(346002)(136003)(376002)(39860400002)(396003)(366004)(13464003)(199004)(189003)(6246003)(80792005)(2501003)(5660300002)(14454004)(478600001)(6436002)(52536014)(4326008)(229853002)(25786009)(6116002)(3846002)(9686003)(66556008)(66476007)(66946007)(64756008)(66446008)(76116006)(55016002)(110136005)(446003)(486006)(256004)(71190400001)(71200400001)(81156014)(99286004)(7416002)(11346002)(8676002)(54906003)(66066001)(8936002)(476003)(81166006)(74316002)(186003)(7696005)(76176011)(6506007)(53546011)(33656002)(86362001)(7736002)(2906002)(305945005)(316002)(26005)(102836004);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DB6PR0501MB2599;
+ H:DB6PR0501MB2712.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 4Obxb6zYgP23kg4SMlT5/dYX+94pH97Y26wwj2q4bUb6m+I4fAZFU19z5JBzVZZhijOi+Qe9vczStMoKjdZkUw3u9lAjrI/tGwLNNYU0vhYjihJBsfluUzu1nHki0X0UbE37mBbXcu1u5x8kOCu8fGXtaImJ7BF4kOb6uxuVs+ERscW8IszGPwwpzlpg8ed28NXpkkty7FjFILl4nL3qL1xg+IAOozSqAniJTigQksKnN//5IwT9mN1K477IDdNwVz16TiHk+L7z7w4v5tjdZhW5Cpah7LCewttEyViZjBHDANQG1cGKdbAYOtHLygTQJzeLv9skEpB2lsp3SVtAJqGww7WJb+Y/ay3RWW8OXsXqbeVJOqof8vayPEGRglcPgK+X3J5fFHeLt7fNyBMS3UL02CWtMHpnc6crn/2OXMflbcY2EbLS1YMHFwGd14sG
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191112023610.3644314-2-vijaykhemka@fb.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3e66bec-4079-4eee-037a-08d7677b5cf8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2019 14:19:43.3471 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 16k3ZLW91NV+s9QAiSkiMWB8eC2D2BdsqXC/Ue4Egsrhl7/wkpPmh0KDf5w08FeBwoMbyjVesluloRKI2ziXZw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0501MB2599
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,47 +104,126 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: cminyard@mvista.com, sdasari@fb.com, linux-aspeed@lists.ozlabs.org,
+Cc: "cminyard@mvista.com" <cminyard@mvista.com>,
+ "sdasari@fb.com" <sdasari@fb.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
  Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "openipmi-developer@lists.sourceforge.net"
+ <openipmi-developer@lists.sourceforge.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Nov 11, 2019 at 06:36:10PM -0800, Vijay Khemka wrote:
-> As per IPMB specification, maximum packet size supported is 255,
-> modified Max length to 240 from 128 to accommodate more data.
+I agree with corey. You can take a look at the ipmi_ssif.c driver which doe=
+s that.
 
-I couldn't find this in the IPMB specification.
+-----Original Message-----
+From: Corey Minyard <tcminyard@gmail.com> On Behalf Of Corey Minyard
+Sent: Tuesday, November 12, 2019 7:36 AM
+To: Vijay Khemka <vijaykhemka@fb.com>
+Cc: Arnd Bergmann <arnd@arndb.de>; Greg Kroah-Hartman <gregkh@linuxfoundati=
+on.org>; openipmi-developer@lists.sourceforge.net; linux-kernel@vger.kernel=
+.org; cminyard@mvista.com; Asmaa Mnebhi <Asmaa@mellanox.com>; joel@jms.id.a=
+u; linux-aspeed@lists.ozlabs.org; sdasari@fb.com
+Subject: Re: [PATCH 1/2] drivers: ipmi: Support raw i2c packet in IPMB
 
-IIRC, the maximum on I2C is 32 byts, and table 6-9 in the IPMI spec,
-under "IPMB Output" states: The IPMB standard message length is
-specified as 32 bytes, maximum, including slave address.
+On Mon, Nov 11, 2019 at 06:36:09PM -0800, Vijay Khemka wrote:
+> Many IPMB devices doesn't support smbus protocol and current driver=20
+> support only smbus devices. So added support for raw i2c packets.
 
-I'm not sure where 128 came from, but maybe it should be reduced to 31.
+I haven't reviewed this, really, because I have a more general concern...
+
+Is it possible to not do this with a config item?  Can you add something to=
+ the device tree and/or via an ioctl to make this dynamically configurable?=
+  That's more flexible (it can support mixed devices) and is friendlier to =
+users (don't have to get the config right).
+
+Config items for adding new functionality are generally ok.  Config items f=
+or choosing between two mutually exclusive choices are generally not.
 
 -corey
 
-> 
+>=20
 > Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
 > ---
->  drivers/char/ipmi/ipmb_dev_int.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/char/ipmi/ipmb_dev_int.c b/drivers/char/ipmi/ipmb_dev_int.c
-> index 2419b9a928b2..7f9198bbce96 100644
+>  drivers/char/ipmi/Kconfig        |  6 ++++++
+>  drivers/char/ipmi/ipmb_dev_int.c | 30 ++++++++++++++++++++++++++++++
+>  2 files changed, 36 insertions(+)
+>=20
+> diff --git a/drivers/char/ipmi/Kconfig b/drivers/char/ipmi/Kconfig=20
+> index a9cfe4c05e64..e5268443b478 100644
+> --- a/drivers/char/ipmi/Kconfig
+> +++ b/drivers/char/ipmi/Kconfig
+> @@ -139,3 +139,9 @@ config IPMB_DEVICE_INTERFACE
+>  	  Provides a driver for a device (Satellite MC) to
+>  	  receive requests and send responses back to the BMC via
+>  	  the IPMB interface. This module requires I2C support.
+> +
+> +config IPMB_SMBUS_DISABLE
+> +	bool 'Disable SMBUS protocol for sending packet to IPMB device'
+> +	depends on IPMB_DEVICE_INTERFACE
+> +	help
+> +	  provides functionality of sending raw i2c packets to IPMB device.
+> diff --git a/drivers/char/ipmi/ipmb_dev_int.c=20
+> b/drivers/char/ipmi/ipmb_dev_int.c
+> index ae3bfba27526..2419b9a928b2 100644
 > --- a/drivers/char/ipmi/ipmb_dev_int.c
 > +++ b/drivers/char/ipmi/ipmb_dev_int.c
-> @@ -19,7 +19,7 @@
->  #include <linux/spinlock.h>
->  #include <linux/wait.h>
->  
-> -#define MAX_MSG_LEN		128
-> +#define MAX_MSG_LEN		240
->  #define IPMB_REQUEST_LEN_MIN	7
->  #define NETFN_RSP_BIT_MASK	0x4
->  #define REQUEST_QUEUE_MAX_LEN	256
-> -- 
+> @@ -118,6 +118,10 @@ static ssize_t ipmb_write(struct file *file, const c=
+har __user *buf,
+>  	struct ipmb_dev *ipmb_dev =3D to_ipmb_dev(file);
+>  	u8 rq_sa, netf_rq_lun, msg_len;
+>  	union i2c_smbus_data data;
+> +#ifdef CONFIG_IPMB_SMBUS_DISABLE
+> +	unsigned char *i2c_buf;
+> +	struct i2c_msg i2c_msg;
+> +#endif
+>  	u8 msg[MAX_MSG_LEN];
+>  	ssize_t ret;
+> =20
+> @@ -133,6 +137,31 @@ static ssize_t ipmb_write(struct file *file, const c=
+har __user *buf,
+>  	rq_sa =3D GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
+>  	netf_rq_lun =3D msg[NETFN_LUN_IDX];
+> =20
+> +#ifdef CONFIG_IPMB_SMBUS_DISABLE
+> +	/*
+> +	 * subtract 1 byte (rq_sa) from the length of the msg passed to
+> +	 * raw i2c_transfer
+> +	 */
+> +	msg_len =3D msg[IPMB_MSG_LEN_IDX] - 1;
+> +
+> +	i2c_buf =3D kzalloc(msg_len, GFP_KERNEL);
+> +	if (!i2c_buf)
+> +		return -EFAULT;
+> +
+> +	/* Copy message to buffer except first 2 bytes (length and address) */
+> +	memcpy(i2c_buf, msg+2, msg_len);
+> +
+> +	i2c_msg.addr =3D rq_sa;
+> +	i2c_msg.flags =3D ipmb_dev->client->flags &
+> +			(I2C_M_TEN | I2C_CLIENT_PEC | I2C_CLIENT_SCCB);
+> +	i2c_msg.len =3D msg_len;
+> +	i2c_msg.buf =3D i2c_buf;
+> +
+> +	ret =3D i2c_transfer(ipmb_dev->client->adapter, &i2c_msg, 1);
+> +	kfree(i2c_buf);
+> +
+> +	return (ret =3D=3D 1) ? count : ret;
+> +#else
+>  	/*
+>  	 * subtract rq_sa and netf_rq_lun from the length of the msg passed to
+>  	 * i2c_smbus_xfer
+> @@ -149,6 +178,7 @@ static ssize_t ipmb_write(struct file *file, const ch=
+ar __user *buf,
+>  			     I2C_SMBUS_BLOCK_DATA, &data);
+> =20
+>  	return ret ? : count;
+> +#endif
+>  }
+> =20
+>  static unsigned int ipmb_poll(struct file *file, poll_table *wait)
+> --
 > 2.17.1
-> 
+>=20
