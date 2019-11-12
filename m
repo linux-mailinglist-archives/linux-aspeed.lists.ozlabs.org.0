@@ -1,68 +1,68 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C012F8887
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 07:30:01 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D6BF888F
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 07:30:06 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47ByXQ1rv6zF4dh
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 17:29:58 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47ByXW3kFhzDrNW
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 17:30:03 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::541;
- helo=mail-pg1-x541.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::441;
+ helo=mail-pf1-x441.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="F7OVifkj"; 
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="QCkdi+ZI"; 
  dkim-atps=neutral
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47ByWj0g0GzF3xf
- for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Nov 2019 17:29:20 +1100 (AEDT)
-Received: by mail-pg1-x541.google.com with SMTP id h27so11187511pgn.0
- for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Nov 2019 22:29:20 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47ByWl463qzF3x0
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Nov 2019 17:29:23 +1100 (AEDT)
+Received: by mail-pf1-x441.google.com with SMTP id n13so12650274pff.1
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Nov 2019 22:29:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dNvJ2cs4tAGXPExkj7A0Re52pBXDxSxw0BIjvNkjJu8=;
- b=F7OVifkjIrygr9D4R4XtO3tVFDVrpBonHzRqGyS2DVefX7FsMEa/jf8CMjIxiynXFB
- LYIfmNyzluotu/u6ostkZaTt6uPbqCvj1Xx8PrVWCmVuCsCjAnzvCz9M1L6jaiHdiFoT
- oJ0t9lPpK1cdAL68kofm0RehcQstgxKSsYY75CDIYV3u5SGhgH3ZYyDcI9guNl3SGiCv
- KJ9a3oxTci6V8jblG99MmTgQtYaIaiisdoOWuSrRdvQyfRxkpj85THXTDnqDxLnvmyzp
- M6t3Es3v9k0NsRHGcHc0k7QhVz/7lwLQFEwbXiL1bUwOKSK2rqpzVK4GmKwx34joI1s/
- Y2TQ==
+ bh=iAbZBF5j8Y1P7hUcJsCBw21+LuTR3/8WczhaBBqC5k0=;
+ b=QCkdi+ZISodfzvbdFETIEqUgSSp6K0sw8FsoUS2p06yLZlg3HX2TAWvE8uWBBqsvrv
+ ASCgiJ59D8K8DH6BhOUYcVObKEKOFN776oxa2/TNZml45Sb/ugZlzQXFyDATD/JWfWdn
+ rN3/kQTO2RbzY6xSFCvbeRWBo7D7z9rpqqXbb2mP9zu2m62gTmugkifM2z9DVjy/SmVL
+ jJaSWWNalkw27bfuYLft3TyMSmc7hT0inBLxdJ029uKtzi5k9P+rCAhaQ2q9HNUTsV6G
+ f/0KF7+qFYUrzHQih5hNhcLfDYTZDcahQPSUHtsPcWbHYN25NE2teKLoBzENYmrIHmjL
+ CbYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dNvJ2cs4tAGXPExkj7A0Re52pBXDxSxw0BIjvNkjJu8=;
- b=fBSc9z+kXHkraFjqE7RA00/F/aYenYAzDcS3sdtVhzhSG6IlX4HL/ZEb/OfJLaHxKu
- RjWO5ZazLfV2j5hj2jnuq93X5an/fGLr4d69ch4hPfC/jP2t68FKUnqFCA8cVT1IpeH0
- RgL7LxWjkuzxPAktVW/LPq0Klyz8PJ0K1ZlJ1jyfU5mSaawxcdUGArx4nkjwDBy2sqqf
- +9CuUsgeLC/g6RhiI2w9n+Eja3/S1K3cte8NAI7WMJpRBu0X4/grnYiZai+rN9u/ME4n
- AGNn3OO6g8jT94OAS0CrlU9ezzkn0r7Z2JuvfIC6ygLcgZiUCZhcAu9WYhW5UkZ58C6P
- KORw==
-X-Gm-Message-State: APjAAAXQtk9XXDOUspcWqTZ7b+kmpceRpJ9J+QvBDS/x2Y3FCg/a8Lq5
- yXeHNojGzHKVxZJRDEom6jM=
-X-Google-Smtp-Source: APXvYqzqXFq5V6oZb0+sSrZU/+YjVel/HfInYAtocN5GTsK1ZEzVr8+r/pAY5LYYpaa1Ss7xWmUITw==
-X-Received: by 2002:a63:e647:: with SMTP id p7mr14590379pgj.47.1573540158249; 
- Mon, 11 Nov 2019 22:29:18 -0800 (PST)
+ bh=iAbZBF5j8Y1P7hUcJsCBw21+LuTR3/8WczhaBBqC5k0=;
+ b=oMQtPVayMBsfjF5FHBK1RWjPwJNxbDIlcyi9jkebG7TjeUVhozJ/XOYyPKolPYUvCO
+ JQu6zJx1ga9b2h+4rC5y5RiJfv8C1DahZCBNKbdYXKTg0L5rwfYV4mkXLorOZmh/uAHM
+ WnRy2AUTt9Ra7P2/Z/ErVe/GFSQW8yDjT5357lg0SnVUDMs+IFOcE1WoDG1gXCktCZZM
+ WIMEn6UzmE9rTkVyzK//j3mosMPGsrk4boy4H1PN9zrg9lonCFSpGkjmrG+TelHS2OWH
+ iC8zMQUCVAHAY2md5szflLkWrgva+CgLXJbXm4Q0OwpBmFDb47CNoeQ5csZi3E+QkHQ2
+ g0ww==
+X-Gm-Message-State: APjAAAVnx5iwNXALxS2x3Vo1mUenjIvbjy3rjLwHTq3OXJ7Nz1OBTxMT
+ Ngs/ksdkehEwt2oLEHxw97I=
+X-Google-Smtp-Source: APXvYqzcFzXk2d0cG3NG6RVGa0b1UIviUUiS2uyDVvJEKFVJFFpYoRq7HOyZXxUgKN6zMs//YiOn+w==
+X-Received: by 2002:a65:624e:: with SMTP id q14mr32915005pgv.277.1573540161457; 
+ Mon, 11 Nov 2019 22:29:21 -0800 (PST)
 Received: from voyager.ibm.com ([36.255.48.244])
- by smtp.gmail.com with ESMTPSA id x20sm18573707pfa.186.2019.11.11.22.29.15
+ by smtp.gmail.com with ESMTPSA id x20sm18573707pfa.186.2019.11.11.22.29.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Nov 2019 22:29:17 -0800 (PST)
+ Mon, 11 Nov 2019 22:29:20 -0800 (PST)
 From: Joel Stanley <joel@jms.id.au>
 To: Andrew Jeffery <andrew@aj.id.au>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 4/5] ARM: configs: multi_v7: ASPEED network, gpio, FSI
-Date: Tue, 12 Nov 2019 16:58:56 +1030
-Message-Id: <20191112062857.32638-5-joel@jms.id.au>
+Subject: [PATCH 5/5] ARM: config: multi_v5: ASPEED SDHCI, SGPIO
+Date: Tue, 12 Nov 2019 16:58:57 +1030
+Message-Id: <20191112062857.32638-6-joel@jms.id.au>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191112062857.32638-1-joel@jms.id.au>
 References: <20191112062857.32638-1-joel@jms.id.au>
@@ -85,48 +85,36 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Enable drivers used by the ASPEED SoCs so the multi v7 defconfig can run
-on those boards.
+Enable drivers used by the ASPEED AST2400 SoC so the multi v5 defconfig
+can run on those boards.
 
 Signed-off-by: Joel Stanley <joel@jms.id.au>
 ---
- arch/arm/configs/multi_v7_defconfig | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ arch/arm/configs/multi_v5_defconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-index 13ba53286901..124f50dc9cc7 100644
---- a/arch/arm/configs/multi_v7_defconfig
-+++ b/arch/arm/configs/multi_v7_defconfig
-@@ -244,6 +244,7 @@ CONFIG_BGMAC_BCMA=y
- CONFIG_SYSTEMPORT=m
- CONFIG_MACB=y
- CONFIG_NET_CALXEDA_XGMAC=y
-+CONFIG_FTGMAC100=m
- CONFIG_GIANFAR=y
- CONFIG_HIX5HD2_GMAC=y
- CONFIG_E1000E=y
-@@ -437,6 +438,7 @@ CONFIG_PINCTRL_MSM8X74=y
- CONFIG_PINCTRL_MSM8916=y
- CONFIG_PINCTRL_QCOM_SPMI_PMIC=y
- CONFIG_PINCTRL_QCOM_SSBI_PMIC=y
+diff --git a/arch/arm/configs/multi_v5_defconfig b/arch/arm/configs/multi_v5_defconfig
+index bd018873e47a..56315e1f81ff 100644
+--- a/arch/arm/configs/multi_v5_defconfig
++++ b/arch/arm/configs/multi_v5_defconfig
+@@ -165,6 +165,7 @@ CONFIG_SPI_ATMEL=y
+ CONFIG_SPI_IMX=y
+ CONFIG_SPI_ORION=y
+ CONFIG_GPIO_ASPEED=m
 +CONFIG_GPIO_ASPEED_SGPIO=y
- CONFIG_GPIO_DAVINCI=y
- CONFIG_GPIO_DWAPB=y
- CONFIG_GPIO_EM=y
-@@ -1041,6 +1043,13 @@ CONFIG_ROCKCHIP_EFUSE=m
- CONFIG_NVMEM_IMX_OCOTP=y
- CONFIG_NVMEM_SUNXI_SID=y
- CONFIG_NVMEM_VF610_OCOTP=y
-+CONFIG_FSI=m
-+CONFIG_FSI_MASTER_GPIO=m
-+CONFIG_FSI_MASTER_HUB=m
-+CONFIG_FSI_MASTER_ASPEED=m
-+CONFIG_FSI_SCOM=m
-+CONFIG_FSI_SBEFIFO=m
-+CONFIG_FSI_OCC=m
- CONFIG_EXT4_FS=y
- CONFIG_AUTOFS4_FS=y
- CONFIG_MSDOS_FS=y
+ CONFIG_POWER_RESET=y
+ CONFIG_POWER_RESET_GPIO=y
+ CONFIG_POWER_RESET_QNAP=y
+@@ -241,6 +242,9 @@ CONFIG_USB_ASPEED_VHUB=m
+ CONFIG_USB_CONFIGFS=m
+ CONFIG_MMC=y
+ CONFIG_SDIO_UART=y
++CONFIG_MMC_SDHCI=m
++CONFIG_MMC_SDHCI_PLTFM=m
++CONFIG_MMC_SDHCI_OF_ASPEED=m
+ CONFIG_MMC_ATMELMCI=y
+ CONFIG_MMC_MVSDIO=y
+ CONFIG_NEW_LEDS=y
 -- 
 2.24.0
 
