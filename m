@@ -2,72 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D6BF888F
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 07:30:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FDDDF8A33
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 09:12:11 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47ByXW3kFhzDrNW
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 17:30:03 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47C0pJ4SkJzF5J6
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 19:12:08 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::441;
- helo=mail-pf1-x441.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="QCkdi+ZI"; 
- dkim-atps=neutral
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ spf=none (no SPF record) smtp.mailfrom=arndb.de
+ (client-ip=212.227.126.133; helo=mout.kundenserver.de;
+ envelope-from=arnd@arndb.de; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=arndb.de
+X-Greylist: delayed 311 seconds by postgrey-1.36 at bilbo;
+ Tue, 12 Nov 2019 19:11:59 AEDT
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47ByWl463qzF3x0
- for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Nov 2019 17:29:23 +1100 (AEDT)
-Received: by mail-pf1-x441.google.com with SMTP id n13so12650274pff.1
- for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Nov 2019 22:29:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=iAbZBF5j8Y1P7hUcJsCBw21+LuTR3/8WczhaBBqC5k0=;
- b=QCkdi+ZISodfzvbdFETIEqUgSSp6K0sw8FsoUS2p06yLZlg3HX2TAWvE8uWBBqsvrv
- ASCgiJ59D8K8DH6BhOUYcVObKEKOFN776oxa2/TNZml45Sb/ugZlzQXFyDATD/JWfWdn
- rN3/kQTO2RbzY6xSFCvbeRWBo7D7z9rpqqXbb2mP9zu2m62gTmugkifM2z9DVjy/SmVL
- jJaSWWNalkw27bfuYLft3TyMSmc7hT0inBLxdJ029uKtzi5k9P+rCAhaQ2q9HNUTsV6G
- f/0KF7+qFYUrzHQih5hNhcLfDYTZDcahQPSUHtsPcWbHYN25NE2teKLoBzENYmrIHmjL
- CbYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iAbZBF5j8Y1P7hUcJsCBw21+LuTR3/8WczhaBBqC5k0=;
- b=oMQtPVayMBsfjF5FHBK1RWjPwJNxbDIlcyi9jkebG7TjeUVhozJ/XOYyPKolPYUvCO
- JQu6zJx1ga9b2h+4rC5y5RiJfv8C1DahZCBNKbdYXKTg0L5rwfYV4mkXLorOZmh/uAHM
- WnRy2AUTt9Ra7P2/Z/ErVe/GFSQW8yDjT5357lg0SnVUDMs+IFOcE1WoDG1gXCktCZZM
- WIMEn6UzmE9rTkVyzK//j3mosMPGsrk4boy4H1PN9zrg9lonCFSpGkjmrG+TelHS2OWH
- iC8zMQUCVAHAY2md5szflLkWrgva+CgLXJbXm4Q0OwpBmFDb47CNoeQ5csZi3E+QkHQ2
- g0ww==
-X-Gm-Message-State: APjAAAVnx5iwNXALxS2x3Vo1mUenjIvbjy3rjLwHTq3OXJ7Nz1OBTxMT
- Ngs/ksdkehEwt2oLEHxw97I=
-X-Google-Smtp-Source: APXvYqzcFzXk2d0cG3NG6RVGa0b1UIviUUiS2uyDVvJEKFVJFFpYoRq7HOyZXxUgKN6zMs//YiOn+w==
-X-Received: by 2002:a65:624e:: with SMTP id q14mr32915005pgv.277.1573540161457; 
- Mon, 11 Nov 2019 22:29:21 -0800 (PST)
-Received: from voyager.ibm.com ([36.255.48.244])
- by smtp.gmail.com with ESMTPSA id x20sm18573707pfa.186.2019.11.11.22.29.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Nov 2019 22:29:20 -0800 (PST)
-From: Joel Stanley <joel@jms.id.au>
-To: Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 5/5] ARM: config: multi_v5: ASPEED SDHCI, SGPIO
-Date: Tue, 12 Nov 2019 16:58:57 +1030
-Message-Id: <20191112062857.32638-6-joel@jms.id.au>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191112062857.32638-1-joel@jms.id.au>
-References: <20191112062857.32638-1-joel@jms.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47C0p76PJQzF5Cb
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Nov 2019 19:11:58 +1100 (AEDT)
+Received: from mail-qt1-f171.google.com ([209.85.160.171]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MP2zs-1iG5Cm2PKm-00PJ80 for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Nov
+ 2019 09:06:40 +0100
+Received: by mail-qt1-f171.google.com with SMTP id 30so18814111qtz.12
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Nov 2019 00:06:39 -0800 (PST)
+X-Gm-Message-State: APjAAAUPIKJOTNqe3yZ/ZvILI5e4qEJfGhFCG/uSCWVmq3CRT2L0Erh8
+ swbH7/J1si61jov3HquPiTP1t7drdUib3sj6yAY=
+X-Google-Smtp-Source: APXvYqzdm/M1pFpfkmeJ966cvuKqdZng0AcL0hQKs4QX2EH8UkeViUAPx1/kZ0x+CF/V302usIEzAmECJ4FtR8SCpzk=
+X-Received: by 2002:ac8:1908:: with SMTP id t8mr29708341qtj.18.1573545998479; 
+ Tue, 12 Nov 2019 00:06:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191112062857.32638-1-joel@jms.id.au>
+In-Reply-To: <20191112062857.32638-1-joel@jms.id.au>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Tue, 12 Nov 2019 09:06:22 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a0Lhsa7S_Zto74omx7iLNcSbVjSfm4BAOY5NgN5S5gqRg@mail.gmail.com>
+Message-ID: <CAK8P3a0Lhsa7S_Zto74omx7iLNcSbVjSfm4BAOY5NgN5S5gqRg@mail.gmail.com>
+Subject: Re: [PATCH 0/5] ARM: config: ASPEED updates for 5.5
+To: Joel Stanley <joel@jms.id.au>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:ER57j5wOD6HPvBDmVcPm97xmM6tPY59UvnmBAcf2/bFP8oyClx7
+ kzn0ysyGl39VaD60qFeLcFFUEPaxCFCLxL1zDM0+oYpxIGlt5kFqvYcq6kbVk8UG7C3C1x3
+ Ds5eb/Jn5Wf9YZF9okMUyNjKYobI85FtxnhdNGW8jvhgRvK1R4su2Iezb5g8BFHGOsNL1HJ
+ Z7dBx3zTRood5yA4cYRxw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lh8+obCgRNo=:yBmEz+z9dMJc1O5Mb1iuga
+ OCjW3YxqAo1+bCPGYtoEt+0hv7GQKei9DSmce27V0vC7NL7MqTaVtr2LdeebWkY87faigMt8t
+ OnjUoEwTj6aRjT8TTm6yZ/YI4B0P8cMkWhQHTx80+3FfSdzL6tpbMoF+iTzFDlYU0eWeeHOI4
+ x2A+HeuFLSZQWG48fCV2Z5Q7TzMbpgSwQLejzMPGAsevGE7eW9W09s0eiZPMJ9WLsSACveDbB
+ T00ohGSEVOcr7pLyMtelCPdHAvrdm7afBUCCWv40RC4gXnAYa0XMJatwlDZTXP8HOw2jRmREH
+ AlBcOhqyXsPrYroweXgTyjSWzps0awTud2YBlVM2WxTuFybUYzHEaWfgsuqDGVfbrrXOCmhHO
+ HStQ6pmQ/nDmiVZGv30upq4/VFlVfOTy0n69J5GQHsg9MyrebVCSim+JEXqir3KAErxcIF7nr
+ HVyrlpmSvxh2BPD8s1wclPRFavq4KSWRdsE06L+WBnIKNsMv4cJxuzMncwIdLoa82tLDSEVNS
+ cCVkSmT+p+L5ydZ/+Tilx8CewVsT6v2Cn/HSx7kBvRfh6vYBUjG2nKmNRueqaE50qNFceDA5r
+ 8xK1Gs9rnp6FgWNWV+lu5Q+HdPeJthnA3X1oINcWUNQcgRkxx3eDIyM3D00Jl98LgyJBKmZch
+ iV5Ob9bD8i4wl6XpWVN9wik/MFN9tNoeTWv6P8nKDOR1SLaKeSJxObUbuQH2GYRubxj3NnrTs
+ m6DpHdq9ADXaHZtuULlkc/pPf77OcjkB55j9iSxv+5Ftkp3ud9YQaZ+xOuC5dZJa8UTGmn9L6
+ a6eUeGtA836tjk+gpKK18RNlXN0GdwA+v5YgkqONeldrwP+gaDEmUFAxjrXks6bVz6VO+MG3a
+ dNZUg9SVnfauW7q4XvWA==
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,42 +73,19 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- Arnd Bergmann <arnd@arndb.de>
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Enable drivers used by the ASPEED AST2400 SoC so the multi v5 defconfig
-can run on those boards.
+On Tue, Nov 12, 2019 at 7:29 AM Joel Stanley <joel@jms.id.au> wrote:
+>
+> Here are some additions to the defconfigs for ASPEED machines that I
+> intend on sending for 5.5.
+>
+> If you have time to ack them that would be appreciated.
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- arch/arm/configs/multi_v5_defconfig | 4 ++++
- 1 file changed, 4 insertions(+)
+These all look good to me
 
-diff --git a/arch/arm/configs/multi_v5_defconfig b/arch/arm/configs/multi_v5_defconfig
-index bd018873e47a..56315e1f81ff 100644
---- a/arch/arm/configs/multi_v5_defconfig
-+++ b/arch/arm/configs/multi_v5_defconfig
-@@ -165,6 +165,7 @@ CONFIG_SPI_ATMEL=y
- CONFIG_SPI_IMX=y
- CONFIG_SPI_ORION=y
- CONFIG_GPIO_ASPEED=m
-+CONFIG_GPIO_ASPEED_SGPIO=y
- CONFIG_POWER_RESET=y
- CONFIG_POWER_RESET_GPIO=y
- CONFIG_POWER_RESET_QNAP=y
-@@ -241,6 +242,9 @@ CONFIG_USB_ASPEED_VHUB=m
- CONFIG_USB_CONFIGFS=m
- CONFIG_MMC=y
- CONFIG_SDIO_UART=y
-+CONFIG_MMC_SDHCI=m
-+CONFIG_MMC_SDHCI_PLTFM=m
-+CONFIG_MMC_SDHCI_OF_ASPEED=m
- CONFIG_MMC_ATMELMCI=y
- CONFIG_MMC_MVSDIO=y
- CONFIG_NEW_LEDS=y
--- 
-2.24.0
-
+Acked-by: Arnd Bergmann <arnd@arndb.de>
