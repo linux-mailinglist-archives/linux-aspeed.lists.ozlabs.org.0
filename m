@@ -2,80 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B796F7637
-	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Nov 2019 15:18:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37655F85DD
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 02:06:55 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47BXyy0N5pzDrMh
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 01:18:02 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47BqMc4VMNzF504
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 12:06:52 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::644;
- helo=mail-pl1-x644.google.com; envelope-from=groeck7@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=209.85.167.193;
+ helo=mail-oi1-f193.google.com; envelope-from=robherring2@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="vgMKb3pN"; 
- dkim-atps=neutral
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
+ [209.85.167.193])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47BXym5ZdYzDqKH;
- Tue, 12 Nov 2019 01:17:52 +1100 (AEDT)
-Received: by mail-pl1-x644.google.com with SMTP id h13so2491982plr.1;
- Mon, 11 Nov 2019 06:17:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=93RdXzsIh7XerKQ70G4SgAWwA1RTqVLA4QVQaE+nVeA=;
- b=vgMKb3pNimrdFifDzpVs92F8cm3CtbjmJ2qeSxmnYx+db60ceBU5VEo+4rWeupA3VS
- P7xdTsj6iT6ndJL+tS06LB9fAN+o/r1NRurzphtvYLN/9dhWkWbFTVmMZLPHCOVbtawN
- 0hJcB07YNPifUoYxkiNgd1AEyQWdYcIDPo2yfaLCAuIqDMvNS3QodnGfVC5+mLZOUeQz
- yV1hd9jlOfEIJZ/dhknd+GFtb6an6m+dJBpayVm83blb1+GJyTd+hZCZcZT4r5oRn78l
- nNW4qSeLvRm37RIfygsxJ45JQJBDnlD0zoUUI90Tdbc7HeRz0YKbXoFNTEA2KtU/6sZE
- +xwA==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47Bq610FrbzF4Gn
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Nov 2019 11:55:04 +1100 (AEDT)
+Received: by mail-oi1-f193.google.com with SMTP id y194so13280497oie.4
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Nov 2019 16:55:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=93RdXzsIh7XerKQ70G4SgAWwA1RTqVLA4QVQaE+nVeA=;
- b=lvzUf7xCPJDhIngUctKOR+0Neq+04wSsj2wkjiYvR5CMRsCX932+U/pfu96j91oKjK
- w0GxssAce3L/+zNoggoFkL3pfIT0WAueu+61BDt9jqJWC1AcinzWuCB7QXncUfQI2ohk
- uffXLa5PTI2qK6JF1Lzd4JoWbRUT9Z8gYywBvOHIqFpCuSVxO+iR4UtXlK/BTWooNqDT
- bugpcGg0AB9DIW6N2mekwqY5X4XrHCYSJDPBzwkmlpPkOdjOfaZFeJ4XPA7XLAxZIciR
- xg9qlaD4yWlckNQh3Gk25UY1joCKmrDE5T12vFt7ePrKrG9BVwUlpSTqov80osmROfV1
- Hi5w==
-X-Gm-Message-State: APjAAAWDAy1QXh2rY10GRLFHarpoFw/IG6cokm7FzCEleWk/SN2Smx14
- m0WXqOxneiF5QwgyhNFYq5OdvDYA
-X-Google-Smtp-Source: APXvYqyFfD/d/to91cD9Js7V+sQl7S4aV/n6ouG+pxNMxCkhYGyZqnTZZqlJUPWaVA7Ql+w78/EpqQ==
-X-Received: by 2002:a17:902:b40b:: with SMTP id
- x11mr24314029plr.252.1573481869532; 
- Mon, 11 Nov 2019 06:17:49 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- n5sm622739pgg.80.2019.11.11.06.17.48
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 11 Nov 2019 06:17:48 -0800 (PST)
-Subject: Re: [PATCH v2 -next] fsi: aspeed: Use devm_kfree in
- aspeed_master_release()
-To: YueHaibing <yuehaibing@huawei.com>, jk@ozlabs.org, joel@jms.id.au,
- eajames@linux.ibm.com, andrew@aj.id.au
-References: <20191109033209.45244-1-yuehaibing@huawei.com>
- <20191109033634.30544-1-yuehaibing@huawei.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <c2b2ca4c-d164-5c16-d518-f9040b81c5ea@roeck-us.net>
-Date: Mon, 11 Nov 2019 06:17:47 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=pBpMOp1pnVgL27PeyDlmextXWELG5e17FH+NqeYI5mE=;
+ b=XZqfnXC3nTvkMN9aKnQiLDgZAGQh76StPBCD3I+E7AoyBR6qy7aF9Ny0NhcT7lpenQ
+ DO3cU6CIUkJNfsGBFzVGizLMBdjEVkGKSKREXT3gWE//tYCdEw6SiA0dKD/Z6/MSeP7l
+ jjWTBqywnSy8M/Dn8/Tbz23hIpifO85UCjDTIfVtwgG+77WSkJ+sL4o/OtdutOfWAZR5
+ EkFMeyiSfoFNDNjOXSg/hnbnAwaDgGZfwAkYAgNgZuWUK9yTci1FRLLOnfvEbxKpO+Pb
+ SLuhrkzkwomhj32HBzWo71LFn6LR++dqDNnKkfONLAqiAMi8Vtbh01+olf8xSByhfvw7
+ MKdQ==
+X-Gm-Message-State: APjAAAWunt6ELFN3lSIVl5/mbwZCU2ZiyuoG1QabMQnqCz4lV263xOy3
+ nK1JPT763uUT22ig1qXHXw==
+X-Google-Smtp-Source: APXvYqyljVDthsZCN8eV9945YzI8i3G/6sNTkp6Sv0OOGAYMLdcUA3NT8bIiajw8luXTBalycNC9pA==
+X-Received: by 2002:a05:6808:106:: with SMTP id
+ b6mr1537840oie.44.1573520100283; 
+ Mon, 11 Nov 2019 16:55:00 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id 94sm5835461otg.70.2019.11.11.16.54.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Nov 2019 16:54:59 -0800 (PST)
+Date: Mon, 11 Nov 2019 18:54:59 -0600
+From: Rob Herring <robh@kernel.org>
+To: Eddie James <eajames@linux.ibm.com>
+Subject: Re: [PATCH 01/12] dt-bindings: interrupt-controller: Add Aspeed SCU
+ interrupt controller
+Message-ID: <20191112005459.GA6260@bogus>
+References: <1573244313-9190-1-git-send-email-eajames@linux.ibm.com>
+ <1573244313-9190-2-git-send-email-eajames@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20191109033634.30544-1-yuehaibing@huawei.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1573244313-9190-2-git-send-email-eajames@linux.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,40 +70,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, alistair@popple.id.au,
- linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-fsi@lists.ozlabs.org
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jason@lakedaemon.net,
+ linux-aspeed@lists.ozlabs.org, maz@kernel.org, linux-kernel@vger.kernel.org,
+ robh+dt@kernel.org, tglx@linutronix.de
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 11/8/19 7:36 PM, YueHaibing wrote:
-> 'aspeed' is allocated by devm_kzalloc(), it should not be
-> freed by kfree().
+On Fri,  8 Nov 2019 14:18:22 -0600, Eddie James wrote:
+> Document the Aspeed SCU interrupt controller and add an include file
+> for the interrupts it provides.
 > 
-> Fixes: 1edac1269c02 ("fsi: Add ast2600 master driver")
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
 > ---
-> v2: fix log typos
-> ---
->   drivers/fsi/fsi-master-aspeed.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../interrupt-controller/aspeed,ast2xxx-scu-ic.txt | 26 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  7 ++++++
+>  .../interrupt-controller/aspeed-scu-ic.h           | 23 +++++++++++++++++++
+>  3 files changed, 56 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2xxx-scu-ic.txt
+>  create mode 100644 include/dt-bindings/interrupt-controller/aspeed-scu-ic.h
 > 
-> diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-master-aspeed.c
-> index 3dd82dd..0f63eec 100644
-> --- a/drivers/fsi/fsi-master-aspeed.c
-> +++ b/drivers/fsi/fsi-master-aspeed.c
-> @@ -361,7 +361,7 @@ static void aspeed_master_release(struct device *dev)
->   	struct fsi_master_aspeed *aspeed =
->   		to_fsi_master_aspeed(dev_to_fsi_master(dev));
->   
-> -	kfree(aspeed);
-> +	devm_kfree(dev, aspeed);
->   }
->   
->   /* mmode encoders */
-> 
-Same question as before: Why is there a release function in the first place ?
 
-Guenter
+Please add Acked-by/Reviewed-by tags when posting new versions. However,
+there's no need to repost patches *only* to add the tags. The upstream
+maintainer will do that for acks received on the version they apply.
 
+If a tag was not added on purpose, please state why and what changed.
