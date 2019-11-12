@@ -2,78 +2,131 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4D1F9928
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 19:55:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7468EF9A1B
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 20:59:22 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47CH4x3XWzzF5dK
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Nov 2019 05:55:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47CJVH2LBbzF4C1
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Nov 2019 06:59:19 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=mvista.com (client-ip=2607:f8b0:4864:20::242;
- helo=mail-oi1-x242.google.com; envelope-from=cminyard@mvista.com;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=mvista.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=mvista-com.20150623.gappssmtp.com
- header.i=@mvista-com.20150623.gappssmtp.com header.b="C+6bLj8x"; 
- dkim-atps=neutral
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
+ (client-ip=67.231.153.30; helo=mx0a-00082601.pphosted.com;
+ envelope-from=prvs=621956b8ff=vijaykhemka@fb.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=fb.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=fb.com header.i=@fb.com header.b="kUxmHabr"; 
+ dkim=pass (1024-bit key;
+ unprotected) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com
+ header.b="knJKbGG7"; dkim-atps=neutral
+Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com
+ [67.231.153.30])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47CGmT4tJYzF5cd
- for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Nov 2019 05:41:17 +1100 (AEDT)
-Received: by mail-oi1-x242.google.com with SMTP id s71so15756118oih.11
- for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Nov 2019 10:41:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mvista-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=VEGoFwrILa/Bz2Z5av58zC5E/xCfln7dzu7x1nqlQj0=;
- b=C+6bLj8x/BxaJhpnFaG2kWpSLjCPH7N3gGA4B2HmQWBnVa743Xf+w7JU9gGt46ZsqJ
- 35bfMn4pCSCNbbVVegjCjUMxZ0MbyChHS/20CBYzSikRVulk2tgBAsoxEQ8b0KEtn3Zq
- z1FwS8H0h5ct89UqOqVBu9xGfa9kUrQWKNMK4UYzEOJ6UtRptcWR4UqGL26x8nOqTSzB
- exDIh7/vB0GPAjNKA8b4L1TWNZ6iqoBWQ35LNuPHOJ1mnk8UqAEERofFN8EzkKaMGfeH
- D3oPC6kI6U5yx++Km3/uiTcwqhcVjEGvOmf9j/BeSdExzMG1z0syAY9LvYKhRltmkjgg
- 1wRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=VEGoFwrILa/Bz2Z5av58zC5E/xCfln7dzu7x1nqlQj0=;
- b=h/Zh/rAkf5ZK5JTyPz/vjagcOKOS/DplFVA2OJLnuJG2r2uEQDwdTkGckZ7HvFrDdh
- 0sCrhDzH+atzlN3HotBdh7nR/DGd5eooolzYhjwDN0S1TjfWu22S9OxmBzlL9HqnAo/M
- H+l8NpDnM1TgwNtzjU0HUAi5Tv9Afcl/9TtPLAF/yC0b03z6TQdNpZurJMdIM1V0Ntie
- JVODJSJKNld1oAAp9Gm9/+LjEt/iO2kp898bvjVqRpDGjCNlZAVEkahDNGB0f7plciJc
- XcG/s+vKnnY68E4jy/dxztQLRlXdkeR7BIHigy+qnw6chsddab3uT+YZ8aRJehP28uR6
- EQ3w==
-X-Gm-Message-State: APjAAAVAwT2w6AwVVNeGet/8nHLNgDcWUwsxAZ+kCdy6ph9gDOklioy1
- uziZKBarAhF/kUsH+4zM4FpBHw==
-X-Google-Smtp-Source: APXvYqwpIv3p55kAYFjXsw3MARmCQNdjHAUw1xtx7WrcYifyecc6dpULS7L6ofxBsbZAfSjeErr5fg==
-X-Received: by 2002:aca:57d7:: with SMTP id l206mr395543oib.32.1573584073982; 
- Tue, 12 Nov 2019 10:41:13 -0800 (PST)
-Received: from minyard.net ([47.184.136.59])
- by smtp.gmail.com with ESMTPSA id n9sm6636379otn.4.2019.11.12.10.41.12
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 12 Nov 2019 10:41:13 -0800 (PST)
-Date: Tue, 12 Nov 2019 12:41:11 -0600
-From: Corey Minyard <cminyard@mvista.com>
-To: Vijay Khemka <vijaykhemka@fb.com>
-Subject: Re: [PATCH 1/2] drivers: ipmi: Support raw i2c packet in IPMB
-Message-ID: <20191112184111.GA2938@minyard.net>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47CJRR0WNszF5bP
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Nov 2019 06:56:49 +1100 (AEDT)
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+ by m0001303.ppops.net (8.16.0.42/8.16.0.42) with SMTP id xACJrD6F016062;
+ Tue, 12 Nov 2019 11:56:36 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=facebook;
+ bh=OwqTzyJy6I/cpOWZty84Q8k4PzOWW83iEqJVvwBBVVw=;
+ b=kUxmHabry93mpPjdKuA8cR2DxYnedIXzGoxVNJvDJJIJMKtSsF2bfGe3rLRy/pzx/E4b
+ cAZuiDMwbCyL3D10s3cAF7LOh+9JbHXIblOtM4HP+pPB19cLQ2ttToilW5aTkoIsF56O
+ C8qVv0OIKuDONQInSchKrsluAJ/ZuOXb9W4= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by m0001303.ppops.net with ESMTP id 2w7pr9uwn7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Tue, 12 Nov 2019 11:56:36 -0800
+Received: from ash-exhub202.TheFacebook.com (2620:10d:c0a8:83::6) by
+ ash-exhub101.TheFacebook.com (2620:10d:c0a8:82::e) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 12 Nov 2019 11:56:35 -0800
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com (100.104.31.183)
+ by o365-in.thefacebook.com (100.104.36.103) with Microsoft SMTP
+ Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Tue, 12 Nov 2019 11:56:35 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FuBAi14GHv8RtDNDx0kMH+py3oMUBvPgGBqmVIwptMXUaB6OU3EMstTLnGwynVKbG65K3sAI8QruaYbm6xai5b62HuJy2K36wTp/tP250YuyYgzaGteIDCOsWcN76Q9KtvcHrujmNzr+mGLAKDn75ROXKLBLbT310x6wYXhyfVRcLmqSEU7dSvuP35gciVLX85WOiW/aDI92kpLDxQdOXHrPKh5ylXVWPl76UmftXMDrcCEL/Trds+f7hp/wFCbfN8H7ekvZaFrsdGzGq/O3NUWM9RhOBiyxNQges9kph7dVHheD2fJBhHf/fd23I8PC4f6gW8EVtZInMTSMoQ1TlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OwqTzyJy6I/cpOWZty84Q8k4PzOWW83iEqJVvwBBVVw=;
+ b=IqDrsLx1dpCSaiDK80ITWPK+4ea+o1PmsSK129L6JG7H1SR3P5+RzxudwSnH80X6T5PKVBn6MYRAEDAhD2eOU+pBJq1wkoq8BEb9lgaOXjklvw7O+0G4BysTXUtJspjZwWkGVp9qpPN56kfJyV5r6SqZG1ubogW8hxffHpcciwv16HCN8ulrBdHBegZ0AusOmGvdS6eteKfKQAzwmtSevU0TK2/kdlwfdxXTAvvvaHofLxfEBNY/4jGA1a7Wa2zdIC2IlkkASttcSYDdPRT6AeCSxbGV0u+bGft5wNMA+NKMtjNt08aHIQDMEHAt5XhZaoHcJvGgJz17JV5axLlWhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector2-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OwqTzyJy6I/cpOWZty84Q8k4PzOWW83iEqJVvwBBVVw=;
+ b=knJKbGG79VWogkmHJ38ipZvSrl2fnykTyFfXcvDlAaNgqUlA1ru94Ez147tyHPJpMJhOO+IeNuTIuMoFMQ7eiRCaC1lfMZaQ8v8AxoB/CWNRdjbNEwf1e1yxUeeve6SpoIXU02OVb3gVaGzbwMs4HPwTYPUvyrMJIjLJn8Zp1F4=
+Received: from BY5PR15MB3636.namprd15.prod.outlook.com (52.133.252.91) by
+ BY5PR15MB3650.namprd15.prod.outlook.com (52.133.253.209) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2451.23; Tue, 12 Nov 2019 19:56:34 +0000
+Received: from BY5PR15MB3636.namprd15.prod.outlook.com
+ ([fe80::71db:9d2a:500c:d92b]) by BY5PR15MB3636.namprd15.prod.outlook.com
+ ([fe80::71db:9d2a:500c:d92b%4]) with mapi id 15.20.2430.027; Tue, 12 Nov 2019
+ 19:56:34 +0000
+From: Vijay Khemka <vijaykhemka@fb.com>
+To: "minyard@acm.org" <minyard@acm.org>
+Subject: Re: [PATCH 2/2] drivers: ipmi: Modify max length of IPMB packet
+Thread-Topic: [PATCH 2/2] drivers: ipmi: Modify max length of IPMB packet
+Thread-Index: AQHVmQJeBnbge6VCjUulKeqNucSkKaeHfQWA///xaoA=
+Date: Tue, 12 Nov 2019 19:56:34 +0000
+Message-ID: <7BC487D6-6ACA-46CE-A751-8367FEDEE647@fb.com>
 References: <20191112023610.3644314-1-vijaykhemka@fb.com>
- <20191112123602.GD2882@minyard.net>
- <493C2E64-2E41-47FF-BDA6-6EA1DA758016@fb.com>
+ <20191112023610.3644314-2-vijaykhemka@fb.com>
+ <20191112124845.GE2882@minyard.net>
+In-Reply-To: <20191112124845.GE2882@minyard.net>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [2620:10d:c090:200::1:8011]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6b043b65-6513-402b-dbed-08d767aa6bc7
+x-ms-traffictypediagnostic: BY5PR15MB3650:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR15MB3650DE746F790831D1FFB643DD770@BY5PR15MB3650.namprd15.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 021975AE46
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(136003)(396003)(39860400002)(366004)(376002)(189003)(199004)(486006)(76176011)(5660300002)(2906002)(2501003)(6116002)(14444005)(4326008)(81156014)(6506007)(81166006)(6436002)(64756008)(66556008)(66476007)(66446008)(54906003)(25786009)(6512007)(2616005)(66946007)(6246003)(14454004)(86362001)(186003)(102836004)(476003)(8936002)(36756003)(11346002)(446003)(46003)(256004)(6916009)(99286004)(91956017)(316002)(7736002)(305945005)(76116006)(2351001)(229853002)(33656002)(5640700003)(478600001)(6486002)(71200400001)(71190400001)(8676002)(1730700003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BY5PR15MB3650;
+ H:BY5PR15MB3636.namprd15.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: is0Hbmgvqx72XV9vOOwNkKzA0LQ4b8IQnzqRyoLMP7aU/ctxveAew7wUGKk6kurtDpYMqQSr/zpQDhXIBNxoZMfegn7jZNOYKT/WR/3Ll371ub5Yono3wtHr/IplUO5pbH0Y2Uw+WLMHNdr10DIwYHQ1hmhgBWpx7CXvDc4IyKxKT3cUc/iqgyiSfFY7ydFdiLY9a2m6VjXqjI4jFAr8v+JzlUj0RmlRDnO7vyaouS5osPXo1iRQ1Aa3A1e0c4t5KQlg2NfamCbQNGRG7nc+O2len43RisYiJDLBp1xuktGWZUtIEzsxho4iZWmrzpcvy/Zj75lafPnQu88ntcHyGGjqOLinAHCzSr6tjvTBV1eew8eWn+d6/pMu+yZGnYNcswvY5E7yofO+J2PLPsciPeQFELCmfrenE+ziLCsd3DAXEDdf5zUnUySXofYcgCC2
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <BA64DA43BDB6D24685771A81C8BB1078@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <493C2E64-2E41-47FF-BDA6-6EA1DA758016@fb.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b043b65-6513-402b-dbed-08d767aa6bc7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2019 19:56:34.5456 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wbQ3uxyaq0JgxtyeYQgfM2e06SmZ3WNYVptDQmiBQHy0KyjEk+UeuyxZpNdJnSP/DlK46V5j5066vqGK79VMgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR15MB3650
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-12_07:2019-11-11,2019-11-12 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ lowpriorityscore=0
+ suspectscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0
+ clxscore=1015 adultscore=0 phishscore=0 spamscore=0 mlxscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1911120168
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,126 +138,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: cminyard@mvista.com
-Cc: Sai Dasari <sdasari@fb.com>, "minyard@acm.org" <minyard@acm.org>,
+Cc: "cminyard@mvista.com" <cminyard@mvista.com>, Sai Dasari <sdasari@fb.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
  Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "openipmi-developer@lists.sourceforge.net"
- <openipmi-developer@lists.sourceforge.net>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
+ <openipmi-developer@lists.sourceforge.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Nov 12, 2019 at 05:57:25PM +0000, Vijay Khemka wrote:
-> 
-> 
-> ﻿On 11/12/19, 4:36 AM, "Corey Minyard" <tcminyard@gmail.com on behalf of minyard@acm.org> wrote:
-> 
->     On Mon, Nov 11, 2019 at 06:36:09PM -0800, Vijay Khemka wrote:
->     > Many IPMB devices doesn't support smbus protocol and current driver
->     > support only smbus devices. So added support for raw i2c packets.
->     
->     I haven't reviewed this, really, because I have a more general
->     concern...
->     
->     Is it possible to not do this with a config item?  Can you add something
->     to the device tree and/or via an ioctl to make this dynamically
->     configurable?  That's more flexible (it can support mixed devices) and
->     is friendlier to users (don't have to get the config right).
-> I agree with you, I was also not comfortable using config and couldn't find other 
-> Options, I will look into more option now and update patch.
-
-IMHO, device tree is the right way to do this.  You should also have a
-sysfs setting for this, I think.
-
--corey
-
->     
->     Config items for adding new functionality are generally ok.  Config
->     items for choosing between two mutually exclusive choices are
->     generally not.
->     
->     -corey
->     
->     > 
->     > Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
->     > ---
->     >  drivers/char/ipmi/Kconfig        |  6 ++++++
->     >  drivers/char/ipmi/ipmb_dev_int.c | 30 ++++++++++++++++++++++++++++++
->     >  2 files changed, 36 insertions(+)
->     > 
->     > diff --git a/drivers/char/ipmi/Kconfig b/drivers/char/ipmi/Kconfig
->     > index a9cfe4c05e64..e5268443b478 100644
->     > --- a/drivers/char/ipmi/Kconfig
->     > +++ b/drivers/char/ipmi/Kconfig
->     > @@ -139,3 +139,9 @@ config IPMB_DEVICE_INTERFACE
->     >  	  Provides a driver for a device (Satellite MC) to
->     >  	  receive requests and send responses back to the BMC via
->     >  	  the IPMB interface. This module requires I2C support.
->     > +
->     > +config IPMB_SMBUS_DISABLE
->     > +	bool 'Disable SMBUS protocol for sending packet to IPMB device'
->     > +	depends on IPMB_DEVICE_INTERFACE
->     > +	help
->     > +	  provides functionality of sending raw i2c packets to IPMB device.
->     > diff --git a/drivers/char/ipmi/ipmb_dev_int.c b/drivers/char/ipmi/ipmb_dev_int.c
->     > index ae3bfba27526..2419b9a928b2 100644
->     > --- a/drivers/char/ipmi/ipmb_dev_int.c
->     > +++ b/drivers/char/ipmi/ipmb_dev_int.c
->     > @@ -118,6 +118,10 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
->     >  	struct ipmb_dev *ipmb_dev = to_ipmb_dev(file);
->     >  	u8 rq_sa, netf_rq_lun, msg_len;
->     >  	union i2c_smbus_data data;
->     > +#ifdef CONFIG_IPMB_SMBUS_DISABLE
->     > +	unsigned char *i2c_buf;
->     > +	struct i2c_msg i2c_msg;
->     > +#endif
->     >  	u8 msg[MAX_MSG_LEN];
->     >  	ssize_t ret;
->     >  
->     > @@ -133,6 +137,31 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
->     >  	rq_sa = GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
->     >  	netf_rq_lun = msg[NETFN_LUN_IDX];
->     >  
->     > +#ifdef CONFIG_IPMB_SMBUS_DISABLE
->     > +	/*
->     > +	 * subtract 1 byte (rq_sa) from the length of the msg passed to
->     > +	 * raw i2c_transfer
->     > +	 */
->     > +	msg_len = msg[IPMB_MSG_LEN_IDX] - 1;
->     > +
->     > +	i2c_buf = kzalloc(msg_len, GFP_KERNEL);
->     > +	if (!i2c_buf)
->     > +		return -EFAULT;
->     > +
->     > +	/* Copy message to buffer except first 2 bytes (length and address) */
->     > +	memcpy(i2c_buf, msg+2, msg_len);
->     > +
->     > +	i2c_msg.addr = rq_sa;
->     > +	i2c_msg.flags = ipmb_dev->client->flags &
->     > +			(I2C_M_TEN | I2C_CLIENT_PEC | I2C_CLIENT_SCCB);
->     > +	i2c_msg.len = msg_len;
->     > +	i2c_msg.buf = i2c_buf;
->     > +
->     > +	ret = i2c_transfer(ipmb_dev->client->adapter, &i2c_msg, 1);
->     > +	kfree(i2c_buf);
->     > +
->     > +	return (ret == 1) ? count : ret;
->     > +#else
->     >  	/*
->     >  	 * subtract rq_sa and netf_rq_lun from the length of the msg passed to
->     >  	 * i2c_smbus_xfer
->     > @@ -149,6 +178,7 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
->     >  			     I2C_SMBUS_BLOCK_DATA, &data);
->     >  
->     >  	return ret ? : count;
->     > +#endif
->     >  }
->     >  
->     >  static unsigned int ipmb_poll(struct file *file, poll_table *wait)
->     > -- 
->     > 2.17.1
->     > 
->     
-> 
+DQoNCu+7v09uIDExLzEyLzE5LCA0OjQ4IEFNLCAiQ29yZXkgTWlueWFyZCIgPHRjbWlueWFyZEBn
+bWFpbC5jb20gb24gYmVoYWxmIG9mIG1pbnlhcmRAYWNtLm9yZz4gd3JvdGU6DQoNCiAgICBPbiBN
+b24sIE5vdiAxMSwgMjAxOSBhdCAwNjozNjoxMFBNIC0wODAwLCBWaWpheSBLaGVta2Egd3JvdGU6
+DQogICAgPiBBcyBwZXIgSVBNQiBzcGVjaWZpY2F0aW9uLCBtYXhpbXVtIHBhY2tldCBzaXplIHN1
+cHBvcnRlZCBpcyAyNTUsDQogICAgPiBtb2RpZmllZCBNYXggbGVuZ3RoIHRvIDI0MCBmcm9tIDEy
+OCB0byBhY2NvbW1vZGF0ZSBtb3JlIGRhdGEuDQogICAgDQogICAgSSBjb3VsZG4ndCBmaW5kIHRo
+aXMgaW4gdGhlIElQTUIgc3BlY2lmaWNhdGlvbi4NCiAgICANCiAgICBJSVJDLCB0aGUgbWF4aW11
+bSBvbiBJMkMgaXMgMzIgYnl0cywgYW5kIHRhYmxlIDYtOSBpbiB0aGUgSVBNSSBzcGVjLA0KICAg
+IHVuZGVyICJJUE1CIE91dHB1dCIgc3RhdGVzOiBUaGUgSVBNQiBzdGFuZGFyZCBtZXNzYWdlIGxl
+bmd0aCBpcw0KICAgIHNwZWNpZmllZCBhcyAzMiBieXRlcywgbWF4aW11bSwgaW5jbHVkaW5nIHNs
+YXZlIGFkZHJlc3MuDQoNCldlIGFyZSB1c2luZyBJUE1JIE9FTSBtZXNzYWdlcyBhbmQgb3VyIHJl
+c3BvbnNlIHNpemUgaXMgYXJvdW5kIDE1MCBieXRlcw0KRm9yIHNvbWUgb2YgcmVzcG9uc2VzLiBU
+aGF0J3Mgd2h5IEkgaGFkIHNldCBpdCB0byAyNDAgYnl0ZXMuDQogICAgDQogICAgSSdtIG5vdCBz
+dXJlIHdoZXJlIDEyOCBjYW1lIGZyb20sIGJ1dCBtYXliZSBpdCBzaG91bGQgYmUgcmVkdWNlZCB0
+byAzMS4NCiAgICANCiAgICAtY29yZXkNCiAgICANCiAgICA+IA0KICAgID4gU2lnbmVkLW9mZi1i
+eTogVmlqYXkgS2hlbWthIDx2aWpheWtoZW1rYUBmYi5jb20+DQogICAgPiAtLS0NCiAgICA+ICBk
+cml2ZXJzL2NoYXIvaXBtaS9pcG1iX2Rldl9pbnQuYyB8IDIgKy0NCiAgICA+ICAxIGZpbGUgY2hh
+bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCiAgICA+IA0KICAgID4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvY2hhci9pcG1pL2lwbWJfZGV2X2ludC5jIGIvZHJpdmVycy9jaGFyL2lw
+bWkvaXBtYl9kZXZfaW50LmMNCiAgICA+IGluZGV4IDI0MTliOWE5MjhiMi4uN2Y5MTk4YmJjZTk2
+IDEwMDY0NA0KICAgID4gLS0tIGEvZHJpdmVycy9jaGFyL2lwbWkvaXBtYl9kZXZfaW50LmMNCiAg
+ICA+ICsrKyBiL2RyaXZlcnMvY2hhci9pcG1pL2lwbWJfZGV2X2ludC5jDQogICAgPiBAQCAtMTks
+NyArMTksNyBAQA0KICAgID4gICNpbmNsdWRlIDxsaW51eC9zcGlubG9jay5oPg0KICAgID4gICNp
+bmNsdWRlIDxsaW51eC93YWl0Lmg+DQogICAgPiAgDQogICAgPiAtI2RlZmluZSBNQVhfTVNHX0xF
+TgkJMTI4DQogICAgPiArI2RlZmluZSBNQVhfTVNHX0xFTgkJMjQwDQogICAgPiAgI2RlZmluZSBJ
+UE1CX1JFUVVFU1RfTEVOX01JTgk3DQogICAgPiAgI2RlZmluZSBORVRGTl9SU1BfQklUX01BU0sJ
+MHg0DQogICAgPiAgI2RlZmluZSBSRVFVRVNUX1FVRVVFX01BWF9MRU4JMjU2DQogICAgPiAtLSAN
+CiAgICA+IDIuMTcuMQ0KICAgID4gDQogICAgDQoNCg==
