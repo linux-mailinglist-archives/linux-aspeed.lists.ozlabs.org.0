@@ -1,43 +1,72 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517B8F8727
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 04:50:12 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66DF5F8881
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 07:29:34 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47Bv002753zF4yQ
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 14:50:08 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47ByWv35JdzDrNW
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Nov 2019 17:29:31 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=huawei.com (client-ip=45.249.212.32; helo=huawei.com;
- envelope-from=yuehaibing@huawei.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::543;
+ helo=mail-pg1-x543.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=huawei.com
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="QaxvWidy"; 
+ dkim-atps=neutral
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47Btzl4Rs0zF4h0;
- Tue, 12 Nov 2019 14:49:51 +1100 (AEDT)
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 72B4782E77B507D15B6E;
- Tue, 12 Nov 2019 11:49:46 +0800 (CST)
-Received: from localhost (10.133.213.239) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.439.0; Tue, 12 Nov 2019
- 11:49:37 +0800
-From: YueHaibing <yuehaibing@huawei.com>
-To: <jk@ozlabs.org>, <joel@jms.id.au>, <eajames@linux.ibm.com>,
- <andrew@aj.id.au>, <linux@roeck-us.net>
-Subject: [PATCH v3 -next] fsi: aspeed: Fix aspeed device free
-Date: Tue, 12 Nov 2019 11:47:44 +0800
-Message-ID: <20191112034744.10180-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
-In-Reply-To: <20191109033634.30544-1-yuehaibing@huawei.com>
-References: <20191109033634.30544-1-yuehaibing@huawei.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47ByWS5VYszF3wT
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Nov 2019 17:29:08 +1100 (AEDT)
+Received: by mail-pg1-x543.google.com with SMTP id f19so11132868pgk.11
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Nov 2019 22:29:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XPGp0bDrthOzfA7hegg0HdrE+g59AtK+8Aqw3yGjwek=;
+ b=QaxvWidyiyu/WC4jwr6Dr7fWNrjEXsuK8+k2lwcp20i+dtFpszi27dEHjr35N4ERni
+ KP8mCZHU65++MBiFP6fyRgTddbXW9ETVJu8VWnpHKztrocqdYmrnROmBjPCzQaPFrOfB
+ hoTi04TJim9Ey/Mbfg/X4Lgn144h8Ynt7GPuX6PyvrfCIkocWWEpIFUGBmwTIFluOPIv
+ zywWRJgiKZepsYNvkQPPENatXe3FJxICB2Iu4AY7HZGHLT4AIEbr4l6e/rf4McgVBnFk
+ 5lafQXhdMD5BS4HDxSnziaxa347CN0fip7HYV9mWGblYWOk5Euoc+whqihgRBrumgLaT
+ 11qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=XPGp0bDrthOzfA7hegg0HdrE+g59AtK+8Aqw3yGjwek=;
+ b=HH+AV2G5dGVTfwMy+TH0nI9WIgR6Cwfj8pS6Kb52Va83ocFZuqblcQ25BqIFCjiQxn
+ SM4SEibJsnJ1fjafTsbfD0UirwGgxr+TXmnFF2NJO61Q6LWE9YLWd4ZANIL5wpuTKjTu
+ arEdSgEtbO5qWo41XI0a31Ih53GXnSduGvlc2u72lIu0cM/4dUS37BiS4aeX+/JKqLgJ
+ BBhzJMuzTOyzSjHpFfts/fkZLZOuXkEo2Ai+79Wbg+FY3919CLGh9cb9L7wtVhEVcoSA
+ +0SxvGJC6xqZ+ViWhbBwE29Tn84pBhKKkutSXSIMMqNPQIw7x9T/MxK7UUsBeaHSZbiM
+ U4Lg==
+X-Gm-Message-State: APjAAAX1iqdjlvfDExVaVjG59jV1GuMeSW6L6u/St6UPoOYqkQ4tW0Cq
+ KEFCGr5a+eBhVtjCV2cdz/E=
+X-Google-Smtp-Source: APXvYqxZDr43LTlBbbfjee4icvb0baDA8Dz+S7Z0/ESYvBK4mOjE76lo2wUohtQY6toZeJn5TzdhNg==
+X-Received: by 2002:a17:90a:b30d:: with SMTP id
+ d13mr4260964pjr.49.1573540146141; 
+ Mon, 11 Nov 2019 22:29:06 -0800 (PST)
+Received: from voyager.ibm.com ([36.255.48.244])
+ by smtp.gmail.com with ESMTPSA id x20sm18573707pfa.186.2019.11.11.22.29.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Nov 2019 22:29:05 -0800 (PST)
+From: Joel Stanley <joel@jms.id.au>
+To: Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH 0/5] ARM: config: ASPEED updates for 5.5
+Date: Tue, 12 Nov 2019 16:58:52 +1030
+Message-Id: <20191112062857.32638-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.133.213.239]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,63 +78,30 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, alistair@popple.id.au,
- YueHaibing <yuehaibing@huawei.com>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-fsi@lists.ozlabs.org
+Cc: linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ Arnd Bergmann <arnd@arndb.de>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-'aspeed' is allocted by devm_kfree(), it should not be kfree().
-In fact it will be freed while the device released.
-Also we grap reference after fsi_master_register() success,
-so should put it in fsi_master_aspeed_remove().
+Here are some additions to the defconfigs for ASPEED machines that I
+intend on sending for 5.5.
 
-Fixes: 1edac1269c02 ("fsi: Add ast2600 master driver")
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
-v3: remove unneeded release() and put last reference
-v2: fix log typos
----
- drivers/fsi/fsi-master-aspeed.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+If you have time to ack them that would be appreciated.
 
-diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-master-aspeed.c
-index f49742b..01a7f24 100644
---- a/drivers/fsi/fsi-master-aspeed.c
-+++ b/drivers/fsi/fsi-master-aspeed.c
-@@ -350,14 +350,6 @@ static int aspeed_master_break(struct fsi_master *master, int link)
- 	return aspeed_master_write(master, link, 0, addr, &cmd, 4);
- }
- 
--static void aspeed_master_release(struct device *dev)
--{
--	struct fsi_master_aspeed *aspeed =
--		to_fsi_master_aspeed(dev_to_fsi_master(dev));
--
--	kfree(aspeed);
--}
--
- /* mmode encoders */
- static inline u32 fsi_mmode_crs0(u32 x)
- {
-@@ -483,7 +475,6 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
- 	dev_info(&pdev->dev, "hub version %08x (%d links)\n", reg, links);
- 
- 	aspeed->master.dev.parent = &pdev->dev;
--	aspeed->master.dev.release = aspeed_master_release;
- 	aspeed->master.dev.of_node = of_node_get(dev_of_node(&pdev->dev));
- 
- 	aspeed->master.n_links = links;
-@@ -522,6 +513,7 @@ static int fsi_master_aspeed_remove(struct platform_device *pdev)
- 
- 	fsi_master_unregister(&aspeed->master);
- 	clk_disable_unprepare(aspeed->clk);
-+	put_device(&aspeed->master.dev);
- 
- 	return 0;
- }
+Joel Stanley (5):
+  ARM: config: aspeed-g5: Enable 8250_DW quirks
+  ARM: config: aspeed-g5: Add SGPIO and FSI drivers
+  ARM: config: aspeed-g4: Add MMC, and cleanup
+  ARM: configs: multi_v7: ASPEED network, gpio, FSI
+  ARM: config: multi_v5: ASPEED SDHCI, SGPIO
+
+ arch/arm/configs/aspeed_g4_defconfig | 18 ++++++++++++------
+ arch/arm/configs/aspeed_g5_defconfig |  4 ++++
+ arch/arm/configs/multi_v5_defconfig  |  4 ++++
+ arch/arm/configs/multi_v7_defconfig  |  9 +++++++++
+ 4 files changed, 29 insertions(+), 6 deletions(-)
+
 -- 
-2.7.4
-
+2.24.0
 
