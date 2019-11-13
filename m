@@ -1,70 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3A5FA00C
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Nov 2019 02:25:21 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47CRkR0fmCzF5CV
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Nov 2019 12:25:19 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FD12FB453
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Nov 2019 16:53:38 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47Cq0G33YHzF22y
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 02:53:34 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=yadro.com (client-ip=89.207.88.252; helo=mta-01.yadro.com;
+ envelope-from=i.mikhaylov@yadro.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=lixom.net
- (client-ip=2607:f8b0:4864:20::142; helo=mail-il1-x142.google.com;
- envelope-from=olof@lixom.net; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=lixom.net
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=lixom-net.20150623.gappssmtp.com
- header.i=@lixom-net.20150623.gappssmtp.com header.b="xqPjsBmm"; 
+ dmarc=pass (p=none dis=none) header.from=yadro.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=yadro.com header.i=@yadro.com header.b="SkfBtUUT"; 
  dkim-atps=neutral
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
- [IPv6:2607:f8b0:4864:20::142])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47CRkG44xzzF4pS
- for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Nov 2019 12:25:10 +1100 (AEDT)
-Received: by mail-il1-x142.google.com with SMTP id r9so194411ilq.10
- for <linux-aspeed@lists.ozlabs.org>; Tue, 12 Nov 2019 17:25:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lixom-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kv0bDYpcMFJAlS+ruPwaKvrDUfJwNNLe3oX1YHYasiw=;
- b=xqPjsBmmdT7fyxcvbYoimn3Bc9jav+Nt6AoRLPNwcZlpdJmSO+f99qz/DznnoTrfn6
- 0l7CdXXGHLTiJsDITQE/zqA0YveEyusy0rsMe9YJsOCbV0BHKdyNOfn5IZ8os3aKI3j5
- g5nQ/foPXhc3GKaLzCn07b5REAr2hDKrWr1OU6SFdUnxV3tu2o+wixoqPU61wuLgDj9u
- niCwTxKFyG83OTqoobUtCZr8X7A8J9wxmeXR7qsSey2Mnbvrbje1hxNjbwRsSrGIFjwF
- QyWEF0j4dL0Gu34DdiMBe0xTIY9xYBmojNMEPV6ULi7JI8H0mE7IYPFUAxO59QypyeWA
- R+zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kv0bDYpcMFJAlS+ruPwaKvrDUfJwNNLe3oX1YHYasiw=;
- b=QTI4VjfKtkwk1/men3E0m4DJg4VOT7g1eIWYTasAsZj6ETWbKSAzcmYD1zrarSF4Kh
- 0ulzGeO8i416gk2uEKVBL77lyMBFJqve71VIkCB1XX2hcrYSPR4pN6Z6CP31Uyl3HShF
- j1DfvAkD8fubY8YHbXxQC8UQHjh8aDy+HD4SXwt/HMEK53dLFM7TlFHFIs61WdEKwWpW
- BUcmhZbzuDNvizLMO13JvqPykI1YV9w4U+Q4XXjbKBZLa7cgnsvYOOmg3ZXVeW36jsMe
- mVjlAbNgUgUd0RLMWomv74FmaLHtiNgXbGtLylqkoAo6POmIGqX05A9SIpKIBVbikS24
- gQzw==
-X-Gm-Message-State: APjAAAVuE+eRsgrX7vA4kSasRlD5xQKYDBIKJ3mj/rH0M7bNWgr3F8E6
- Lo/uksDAmYOkOWbLjqVo5fFD69xLjrDJ4DUIm8xu0g==
-X-Google-Smtp-Source: APXvYqw9TNzdlqYTyJgNfx5tGze7W4c3t1m0b2beuwXGQWfe+hkWaUbMevbCRiZS4YooA/gZmNw0GF4o9wOiuBPHWsc=
-X-Received: by 2002:a92:1b1c:: with SMTP id b28mr899298ilb.278.1573608306650; 
- Tue, 12 Nov 2019 17:25:06 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47Cpzp46DZzDrP0;
+ Thu, 14 Nov 2019 02:53:03 +1100 (AEDT)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id E4A7042F13;
+ Wed, 13 Nov 2019 15:52:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-type:content-type:content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:date:subject:subject:from:from
+ :received:received:received; s=mta-01; t=1573660379; x=
+ 1575474780; bh=qwaAo++Hxq/xhKzQ+e7L5c5MfPCUE4SJHj8Ci0KK/h0=; b=S
+ kfBtUUTMsrPxsM990AS3KYPEGN4OWIpmmBEpNt7cFQRl74PGvJPQVteXYIRaLuua
+ bkkrkpktHYa5V91c2x/Ou5z7xUis+6GUQI4UGxHvVGfJznmZKiNC7pA9x2d0GdVS
+ CunLu4VvpjqJ8Vw6xR8AEy1q1MY8UpkBkgQUKj1bNA=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6Y2Uh-qbzRR3; Wed, 13 Nov 2019 18:52:59 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 0D11D411D9;
+ Wed, 13 Nov 2019 18:52:53 +0300 (MSK)
+Received: from localhost.dev.yadro.com (172.17.15.69) by
+ T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.669.32; Wed, 13 Nov 2019 18:52:53 +0300
+From: Ivan Mikhaylov <i.mikhaylov@yadro.com>
+To: 
+Subject: [PATCH 0/2] add inversion signal presence support
+Date: Wed, 13 Nov 2019 18:52:35 +0300
+Message-ID: <20191113155237.30646-1-i.mikhaylov@yadro.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <CACPK8Xe8XiJ+oEp3_AXO5Mox-mXWVrOJKQLJMKJxg1WdYCTzMw@mail.gmail.com>
- <20191108183124.r2wdql4rmdbzx2up@localhost>
- <CACPK8XfVOGyr+ntuAhK7dOA=02PBKJYTSkv4HvoJWdppMeJNWg@mail.gmail.com>
-In-Reply-To: <CACPK8XfVOGyr+ntuAhK7dOA=02PBKJYTSkv4HvoJWdppMeJNWg@mail.gmail.com>
-From: Olof Johansson <olof@lixom.net>
-Date: Tue, 12 Nov 2019 17:24:54 -0800
-Message-ID: <CAOesGMitX4U61n6Tc9YtARPo8TsXJUoZoitr8e6iTjs_JWJT=w@mail.gmail.com>
-Subject: Re: [GIT PULL] ARM: aspeed: devicetree changes for 5.5
-To: Joel Stanley <joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.17.15.69]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,41 +70,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: SoC Team <soc@kernel.org>, arm <arm@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org,
+ Adrian Hunter <adrian.hunter@intel.com>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Ivan Mikhaylov <i.mikhaylov@yadro.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Nov 12, 2019 at 4:40 PM Joel Stanley <joel@jms.id.au> wrote:
->
-> Hey Olof,
->
-> On Fri, 8 Nov 2019 at 18:32, Olof Johansson <olof@lixom.net> wrote:
-> > >
-> > >   git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git \
-> > >     tags/aspeed-5.5-devicetree
-> >
-> > This is a weird format. Mind changing your script to not put the '\' at EOL?
-> > It's messing up the parsing scripts, and git doesn't use it.
->
-> I think I added that at your request. I'm happy to do whatever works for you.
+Vesnin BMC uses microSD with card presence signal inversion in the
+schematics. Change the .get_cd callback to detect 'cd-inverted' option
+in dts. There is no WP switch, due to this 'disable-wp' also was added
+into vesnin dts for sdhci.
 
-Hah, quite possible -- we used to cut and paste to a terminal so it
-was useful then. Anyway, I revised my regex here.
+Ivan Mikhaylov (2):
+  aspeed: dts: add sd card for vesnin
+  mmc: sdhci-of-aspeed: add inversion signal presence
 
-> > > ----------------------------------------------------------------
-> >
-> > ... also, there's no shortlog and no diffstat on the pull request. We usually
-> > want to see those.
->
-> In the past git request-pull created those. It seems to have stopped,
-> as I got similar feedback on other pull requests.
->
-> I guess we need to add that manually now.
+ arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts | 13 ++++++++++++
+ drivers/mmc/host/sdhci-of-aspeed.c          | 23 +++++++++++++++++++++
+ 2 files changed, 36 insertions(+)
 
-Yeah, I just saw one more pull request that looked like this. Surprising.
+-- 
+2.20.1
 
-
--Olof
