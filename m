@@ -2,134 +2,80 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A40EFBAAD
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Nov 2019 22:28:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB3FFBB10
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Nov 2019 22:47:49 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47CyR25KQ1zF4wp
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 08:28:46 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47Cyrz3dtYzF7F1
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 08:47:47 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::242;
+ helo=mail-oi1-x242.google.com; envelope-from=tcminyard@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
- (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
- envelope-from=prvs=622020c9b1=vijaykhemka@fb.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=fb.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=fb.com header.i=@fb.com header.b="Y2boQkZf"; 
- dkim=pass (1024-bit key;
- unprotected) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com
- header.b="huSZRcJV"; dkim-atps=neutral
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
- [67.231.145.42])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=acm.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZGE1sAI1"; 
+ dkim-atps=neutral
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47CyQw6WP8zF4Vj
- for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Nov 2019 08:28:39 +1100 (AEDT)
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xADLSTx2016857; Wed, 13 Nov 2019 13:28:30 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=YR+yK3/puMN1xS2qmOj7KCfOtqkPmOKpQil3HQowZw0=;
- b=Y2boQkZfE8mQxEyTvr0857BFO4laaHN73/cxGbJpHOnzoMJ0LOClLsHx8WrbWMqdZPpp
- US0dmurPdWZpbRBPDWvQpgxmpbsIezx7BN8wKbQp+1ziRv+Yb4h1GmiTxYdE+VCtVWEk
- G7o7XBRj0h/CD6LnA6b4oHdvLopIS4qIajg= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com with ESMTP id 2w8rgdgcn2-3
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Wed, 13 Nov 2019 13:28:30 -0800
-Received: from ash-exhub102.TheFacebook.com (2620:10d:c0a8:82::f) by
- ash-exhub202.TheFacebook.com (2620:10d:c0a8:83::6) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 13 Nov 2019 13:28:12 -0800
-Received: from NAM05-CO1-obe.outbound.protection.outlook.com (100.104.31.183)
- by o365-in.thefacebook.com (100.104.35.172) with Microsoft SMTP
- Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Wed, 13 Nov 2019 13:28:12 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=juzVFgIewhqHPPLJXQdZLIyakwRjpljFudrUjl1SKjcMlNe07cMBWq05J1LmOeZN4bA0mh8wRO2/M/dGoopJQTxXEU8ltrz2HUxw7plzBOR6YxUv4us+mst3aNH3AF/MCtt6sfGMDZluX5YQPdb+Bgo0bGnt0y/fFbxb6zrmEsbvnh99qMr55/j2fWc4UK+8rqmZhFZV705XOQHPfxrsZnBiS6/2HXiLwkMvnRrov3EL2g5cThKdd7vD+ObM4rlIRCjghCKbjXH4be86ogDih3XO3tbd+zTHJny/xuPXc/udws/WH8mVNfzlcFZ/GHie9mdOlZjiPoX7g/UM6+qNOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YR+yK3/puMN1xS2qmOj7KCfOtqkPmOKpQil3HQowZw0=;
- b=DOmmXABs2kEW/e3EBMcS9qo4/vrP0GUGiyVqFSFVM1b54jkbo6HryD0wJcJ6ldBmK/P8UQd4jN+q3mX7rBI3QUJwOaXGYv1L7GJ9m4nW7pXqidLSJPmxIcuAwIU8E0E8r+SAl5i928Croy+N6OGjDBAKYd4zlvwT2S4vaoyCHQ0c73CPZJWwlnYr2zsrzYuNSZa9cbT9x2WUrJebX5WG7mg6/C19Bri32pELxu9wtBgQ5ylpCPeuLfjUDJ7hPBItvgW8sjs+peI2wyW7j/S/R+nh1okdx6xXoq+IOizVT61CBEsg6TD79ZbcBL+sqCqVSA4v1bxduTT9IES42OVppA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YR+yK3/puMN1xS2qmOj7KCfOtqkPmOKpQil3HQowZw0=;
- b=huSZRcJVyYJ3AlRCZI1gXTfQ25Qb/aCcuG5E6qMtPfO7WEl6NZUjMOKDLp+0tk+enQkid0UCUFjOZv4ChxON3iwP/7UddrHWWYkbfKttJmIRJD6w+UNjuJhnmnz/1i6NAxs6XMYErqfe5jIh+OCDfNV1BNXjFK8KamyZTf5sOM0=
-Received: from BY5PR15MB3636.namprd15.prod.outlook.com (52.133.252.91) by
- BY5PR15MB3618.namprd15.prod.outlook.com (52.133.254.220) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.25; Wed, 13 Nov 2019 21:28:11 +0000
-Received: from BY5PR15MB3636.namprd15.prod.outlook.com
- ([fe80::71db:9d2a:500c:d92b]) by BY5PR15MB3636.namprd15.prod.outlook.com
- ([fe80::71db:9d2a:500c:d92b%4]) with mapi id 15.20.2430.027; Wed, 13 Nov 2019
- 21:28:11 +0000
-From: Vijay Khemka <vijaykhemka@fb.com>
-To: Asmaa Mnebhi <Asmaa@mellanox.com>, Corey Minyard <minyard@acm.org>, "Arnd
- Bergmann" <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "openipmi-developer@lists.sourceforge.net"
- <openipmi-developer@lists.sourceforge.net>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47Cyrs0DwxzF7Cx
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Nov 2019 08:47:38 +1100 (AEDT)
+Received: by mail-oi1-x242.google.com with SMTP id n14so3233012oie.13
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Nov 2019 13:47:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=Pc7cQHv8eKuylt4BamVYue24j7XUatjlDeaalEngXsI=;
+ b=ZGE1sAI1FX/0817aF8CL0cOgRiiuy79SHphe7PDD6X619//0CimbipWKjj9OxHourt
+ 50kArF0uxa5fpyvxkc7WSr6sgRAODjMcvNMOAoCeVLbMZUQvjA4GmU+c9FTN91MOve7e
+ dfpVyrSTAsxtcaR1FNfGB6y2ddpHtRJ3dX9vjiAJWsq9t+8ENSgITp2CjoiSwaR/0ufJ
+ JXLcyy+F82/xbdX/0jIYxHWwlQLk3rIp6iYkbtVh/SX0PgsjBK6k/WdopKnyLdBcQ3te
+ k3jGg57bcdeHlAe+A3cTEQkbBsxlpqFxyEjzr2mMw7kjDO7j6wvQ9IBysUlBBEhsvwMm
+ ICFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to:user-agent;
+ bh=Pc7cQHv8eKuylt4BamVYue24j7XUatjlDeaalEngXsI=;
+ b=EekXOIdK1LKhxFx7SaG56IIKubilNdTiS3uPGkN3JHJ9U7kEK0UYsLLT4JRVyO1eE6
+ kcj5GaRrjoKZyOXnPKCtmnQRvFhTyKO8UG1XmeO9UzOGVxWy+Ou4gstvWovIf2Cr5mhw
+ HIbrS4uQw05l836Q9Uf4NlDMwgizHxNOd0EgD/OURDsEq83/jgCJAMJ29gFgp2cJJ63o
+ LL8l5g2kKOSYNg7rNje+hgry9rTRfG+ODJQBpaApXum88jFuqyoyzCFTtm/dvXbObgOf
+ IceLkQdhxZtYWABmLDWW9gKSpUbwsnBlu2VmLKJAknlZnjdlFkNwIonD1WQltkrxATPy
+ pAtQ==
+X-Gm-Message-State: APjAAAUdsHXAikge/wxmw68fF2qnGFR/PPt4l521YNM4EOutvjCwKARL
+ ebwHNNEW6NngflShM0xVyg==
+X-Google-Smtp-Source: APXvYqx/I0MG+m8QXEYTbGrRDCwsZsePNxEluLbGTyay3HgyRFUDS13Sfo9kWINqSu4vuRC9aHbZvA==
+X-Received: by 2002:aca:da02:: with SMTP id r2mr740190oig.172.1573681655999;
+ Wed, 13 Nov 2019 13:47:35 -0800 (PST)
+Received: from serve.minyard.net ([47.184.136.59])
+ by smtp.gmail.com with ESMTPSA id d205sm1122028oig.28.2019.11.13.13.47.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Nov 2019 13:47:35 -0800 (PST)
+Received: from minyard.net (unknown [192.168.27.180])
+ by serve.minyard.net (Postfix) with ESMTPSA id 9C9C1180046;
+ Wed, 13 Nov 2019 21:47:34 +0000 (UTC)
+Date: Wed, 13 Nov 2019 15:47:33 -0600
+From: Corey Minyard <minyard@acm.org>
+To: Vijay Khemka <vijaykhemka@fb.com>
 Subject: Re: [PATCH v3] drivers: ipmi: Support raw i2c packet in IPMB
-Thread-Topic: [PATCH v3] drivers: ipmi: Support raw i2c packet in IPMB
-Thread-Index: AQHVmlgx5hC93vJeUkW0xORXbQm1S6eJjmCA//+JUQA=
-Date: Wed, 13 Nov 2019 21:28:10 +0000
-Message-ID: <AC2A7BB8-52D0-4CAF-9C72-58C9CF5A4F55@fb.com>
+Message-ID: <20191113214733.GO2882@minyard.net>
 References: <20191113192325.2821207-1-vijaykhemka@fb.com>
  <DB6PR0501MB2712FAF45EE8CB2D513465A9DA760@DB6PR0501MB2712.eurprd05.prod.outlook.com>
-In-Reply-To: <DB6PR0501MB2712FAF45EE8CB2D513465A9DA760@DB6PR0501MB2712.eurprd05.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [2620:10d:c090:200::63b]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: df6c9e83-6fbc-4f4b-0f51-08d76880624b
-x-ms-traffictypediagnostic: BY5PR15MB3618:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR15MB361839707BB620564F74E3E5DD760@BY5PR15MB3618.namprd15.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-forefront-prvs: 0220D4B98D
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39860400002)(346002)(136003)(366004)(376002)(396003)(189003)(199004)(13464003)(2906002)(316002)(66476007)(66556008)(99286004)(110136005)(64756008)(66946007)(8936002)(91956017)(66446008)(25786009)(4326008)(6246003)(6512007)(6436002)(478600001)(36756003)(14454004)(6116002)(76116006)(54906003)(7416002)(305945005)(229853002)(6486002)(5660300002)(7736002)(14444005)(256004)(81156014)(33656002)(46003)(446003)(11346002)(2616005)(476003)(486006)(71190400001)(86362001)(53546011)(8676002)(2201001)(6506007)(71200400001)(81166006)(76176011)(102836004)(2501003)(186003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BY5PR15MB3618;
- H:BY5PR15MB3636.namprd15.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: q8d4vV0ElpL37/XSlkDYM9GYS2A43htmO/huRlSk0MhlL6qkolEWB5KPvHcpbMmwNvKsXAEklbu6P0VvNoZ1LHqsNmHeZsC1WQIW/Nta+4ltHXQJyJ2HSIRAsiNFKeDK2SqA1uM4JXbsJjx9Xf5A82wn8Eo0BUX4ZViTAv/av52yUsQ4kq/Ppiv6W21XQRHqofWxySt2aVNoQHMHYvtNUAR2WkLvVq0/w1rI2Q3a8vUOhwHuhxKRaC31k7ApdYRYH39gGhz5PmjJdrGmCffngYP6wlviM10Roda5DV+hLtsYhvY1lTxHdgeS3VnwR6i8lFVTQYtfDAeAwcGkKlmLtFLZoFPfMQokSPa6yE66oWFFNVLCQd0T03PqwGtZR9mVeRmRGZRHupoHSrXbpQlJlKXnLpGdJT6Hrr6ycrT1AnKB2T1bkS2EiMm9fSqMPNNN
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C1CD5A6AC5EE4747884D6FB9BD09D300@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ <AC2A7BB8-52D0-4CAF-9C72-58C9CF5A4F55@fb.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: df6c9e83-6fbc-4f4b-0f51-08d76880624b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Nov 2019 21:28:10.9244 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: r7mO9iolA9zL49Vca14qFsjBmBUAUnIvKo6arEk8s8agVA9ka/CKyVqQUpYnnnAmWkCxDj7jk2xAz0Gw2sr0yQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR15MB3618
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-13_05:2019-11-13,2019-11-13 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- lowpriorityscore=0
- mlxlogscore=999 mlxscore=0 suspectscore=0 clxscore=1011 priorityscore=1501
- phishscore=0 spamscore=0 bulkscore=0 adultscore=0 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1911130177
-X-FB-Internal: deliver
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <AC2A7BB8-52D0-4CAF-9C72-58C9CF5A4F55@fb.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,100 +87,162 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Reply-To: minyard@acm.org
 Cc: "cminyard@mvista.com" <cminyard@mvista.com>, Sai Dasari <sdasari@fb.com>,
  "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "wsa@the-dreams.de" <wsa@the-dreams.de>
+ Arnd Bergmann <arnd@arndb.de>, "wsa@the-dreams.de" <wsa@the-dreams.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "openipmi-developer@lists.sourceforge.net"
+ <openipmi-developer@lists.sourceforge.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-DQoNCu+7v09uIDExLzEzLzE5LCAxMjozMyBQTSwgIkFzbWFhIE1uZWJoaSIgPEFzbWFhQG1lbGxh
-bm94LmNvbT4gd3JvdGU6DQoNCiAgICBJbmxpbmUgcmVzcG9uc2U6DQogICAgDQogICAgLS0tLS1P
-cmlnaW5hbCBNZXNzYWdlLS0tLS0NCiAgICBGcm9tOiBWaWpheSBLaGVta2EgPHZpamF5a2hlbWth
-QGZiLmNvbT4gDQogICAgU2VudDogV2VkbmVzZGF5LCBOb3ZlbWJlciAxMywgMjAxOSAyOjIzIFBN
-DQogICAgVG86IENvcmV5IE1pbnlhcmQgPG1pbnlhcmRAYWNtLm9yZz47IEFybmQgQmVyZ21hbm4g
-PGFybmRAYXJuZGIuZGU+OyBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRp
-b24ub3JnPjsgb3BlbmlwbWktZGV2ZWxvcGVyQGxpc3RzLnNvdXJjZWZvcmdlLm5ldDsgbGludXgt
-a2VybmVsQHZnZXIua2VybmVsLm9yZw0KICAgIENjOiB2aWpheWtoZW1rYUBmYi5jb207IGNtaW55
-YXJkQG12aXN0YS5jb207IEFzbWFhIE1uZWJoaSA8QXNtYWFAbWVsbGFub3guY29tPjsgam9lbEBq
-bXMuaWQuYXU7IGxpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnOyBzZGFzYXJpQGZiLmNvbQ0K
-ICAgIFN1YmplY3Q6IFtQQVRDSCB2M10gZHJpdmVyczogaXBtaTogU3VwcG9ydCByYXcgaTJjIHBh
-Y2tldCBpbiBJUE1CDQogICAgDQogICAgTWFueSBJUE1CIGRldmljZXMgZG9lc24ndCBzdXBwb3J0
-IHNtYnVzIHByb3RvY29sIGFuZCBjdXJyZW50IGRyaXZlciBzdXBwb3J0IG9ubHkgc21idXMgZGV2
-aWNlcy4gQWRkZWQgc3VwcG9ydCBmb3IgcmF3IGkyYyBwYWNrZXRzLg0KICAgIA0KICAgIFVzZXIg
-Y2FuIGRlZmluZSB1c2UtaTJjLWJsb2NrIGluIGRldmljZSB0cmVlIHRvIHVzZSBpMmMgcmF3IHRy
-YW5zZmVyLg0KICAgIA0KICAgIEFzbWFhPj4gRml4IHRoZSBkZXNjcmlwdGlvbjogIlRoZSBpcG1i
-X2Rldl9pbnQgZHJpdmVyIG9ubHkgc3VwcG9ydHMgdGhlIHNtYnVzIHByb3RvY29sIGF0IHRoZSBt
-b21lbnQuIEFkZCBzdXBwb3J0IGZvciB0aGUgaTJjIHByb3RvY29sIGFzIHdlbGwuIFRoZXJlIHdp
-bGwgYmUgYSB2YXJpYWJsZSBwYXNzZWQgYnkgdGhvdWdoIHRoZSBkZXZpY2UgdHJlZSBvciBBQ1BJ
-IHRhYmxlIHdoaWNoIHNldHMgdGhlIGNvbmZpZ3VyZXMgdGhlIHByb3RvY29sIGFzIGVpdGhlciBp
-MmMgb3Igc21idXMuIg0KICAgIA0KICAgIFNpZ25lZC1vZmYtYnk6IFZpamF5IEtoZW1rYSA8dmlq
-YXlraGVta2FAZmIuY29tPg0KICAgIC0tLQ0KICAgICBkcml2ZXJzL2NoYXIvaXBtaS9pcG1iX2Rl
-dl9pbnQuYyB8IDQ4ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQogICAgIDEgZmls
-ZSBjaGFuZ2VkLCA0OCBpbnNlcnRpb25zKCspDQogICAgDQogICAgZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvY2hhci9pcG1pL2lwbWJfZGV2X2ludC5jIGIvZHJpdmVycy9jaGFyL2lwbWkvaXBtYl9kZXZf
-aW50LmMNCiAgICBpbmRleCBhZTNiZmJhMjc1MjYuLjE2ZDVkNGI2MzZhOSAxMDA2NDQNCiAgICAt
-LS0gYS9kcml2ZXJzL2NoYXIvaXBtaS9pcG1iX2Rldl9pbnQuYw0KICAgICsrKyBiL2RyaXZlcnMv
-Y2hhci9pcG1pL2lwbWJfZGV2X2ludC5jDQogICAgQEAgLTYzLDYgKzYzLDcgQEAgc3RydWN0IGlw
-bWJfZGV2IHsNCiAgICAgCXNwaW5sb2NrX3QgbG9jazsNCiAgICAgCXdhaXRfcXVldWVfaGVhZF90
-IHdhaXRfcXVldWU7DQogICAgIAlzdHJ1Y3QgbXV0ZXggZmlsZV9tdXRleDsNCiAgICArCWJvb2wg
-dXNlX2kyYzsNCiAgICAgfTsNCiAgICAgDQogICAgQXNtYWE+PiByZW5hbWUgdGhpcyB2YXJpYWJs
-ZSA6IGlzX2kyY19wcm90b2NvbA0KRG9uZS4NCiAgICANCiAgICAgc3RhdGljIGlubGluZSBzdHJ1
-Y3QgaXBtYl9kZXYgKnRvX2lwbWJfZGV2KHN0cnVjdCBmaWxlICpmaWxlKSBAQCAtMTEyLDYgKzEx
-MywzOSBAQCBzdGF0aWMgc3NpemVfdCBpcG1iX3JlYWQoc3RydWN0IGZpbGUgKmZpbGUsIGNoYXIg
-X191c2VyICpidWYsIHNpemVfdCBjb3VudCwNCiAgICAgCXJldHVybiByZXQgPCAwID8gcmV0IDog
-Y291bnQ7DQogICAgIH0NCiAgICAgDQogICAgK3N0YXRpYyBpbnQgaXBtYl9pMmNfd3JpdGUoc3Ry
-dWN0IGkyY19jbGllbnQgKmNsaWVudCwgdTggKm1zZykgew0KICAgICsJdW5zaWduZWQgY2hhciAq
-aTJjX2J1ZjsNCiAgICArCXN0cnVjdCBpMmNfbXNnIGkyY19tc2c7DQogICAgKwlzc2l6ZV90IHJl
-dDsNCiAgICArCXU4IG1zZ19sZW47DQogICAgKw0KICAgICsJLyoNCiAgICArCSAqIHN1YnRyYWN0
-IDEgYnl0ZSAocnFfc2EpIGZyb20gdGhlIGxlbmd0aCBvZiB0aGUgbXNnIHBhc3NlZCB0bw0KICAg
-ICsJICogcmF3IGkyY190cmFuc2Zlcg0KICAgICsJICovDQogICAgKwltc2dfbGVuID0gbXNnW0lQ
-TUJfTVNHX0xFTl9JRFhdIC0gMTsNCiAgICArDQogICAgKwlpMmNfYnVmID0ga3phbGxvYyhtc2df
-bGVuLCBHRlBfS0VSTkVMKTsNCiAgICANCiAgICBBc21hYSA+PiBXZSBkbyBub3Qgd2FudCB0byB1
-c2Uga3phbGxvYyBldmVyeSB0aW1lIHlvdSBleGVjdXRlIHRoaXMgd3JpdGUgZnVuY3Rpb24uIEl0
-IHdvdWxkIGNyZWF0ZSBzbyBtdWNoIGZyYWdtZW50YXRpb24uDQogICAgWW91IGRvbid0IHJlYWxs
-eSBuZWVkIHRvIHVzZSBremFsbG9jIGFueXdheXMuIA0KV2UgbmVlZCB0byBhbGxvY2F0ZSBtZW1v
-cnkgdG8gcGFzcyB0byBpMmNfdHJhbnNmZXIuIFRoYXQncyB3aGF0IGJlaW5nIGRvbmUgaW4gaTJj
-X3NtYnVzX3hmZXIgZnVuY3Rpb24gYXMgd2VsbC4NCiAgICANCiAgICBBbHNvLCB0aGlzIGNvZGUg
-Y2h1bmsgaXMgc2hvcnQsIHNvIHlvdSBjYW4gY2FsbCBpdCBkaXJlY3RseSBmcm9tIHRoZSB3cml0
-ZSBmdW5jdGlvbi4gSSBkb24ndCB0aGluayB5b3UgbmVlZCBhIHNlcGFyYXRlIGZ1bmN0aW9uIGZv
-ciBpdC4NCkkgd2FudGVkIHRvIGtlZXAgdGhpcyBjaGFuZ2UgYXMgY2xlYW4gYXMgcG9zc2libGUu
-DQogICAgDQogICAgKwlpZiAoIWkyY19idWYpDQogICAgKwkJcmV0dXJuIC1FRkFVTFQ7DQogICAg
-Kw0KICAgICsJLyogQ29weSBtZXNzYWdlIHRvIGJ1ZmZlciBleGNlcHQgZmlyc3QgMiBieXRlcyAo
-bGVuZ3RoIGFuZCBhZGRyZXNzKSAqLw0KICAgICsJbWVtY3B5KGkyY19idWYsIG1zZysyLCBtc2df
-bGVuKTsNCiAgICArDQogICAgKwlpMmNfbXNnLmFkZHIgPSBHRVRfN0JJVF9BRERSKG1zZ1tSUV9T
-QV84QklUX0lEWF0pOw0KICAgICsJaTJjX21zZy5mbGFncyA9IGNsaWVudC0+ZmxhZ3MgJg0KICAg
-ICsJCQkoSTJDX01fVEVOIHwgSTJDX0NMSUVOVF9QRUMgfCBJMkNfQ0xJRU5UX1NDQ0IpOw0KICAg
-IEFzbWFhPj4gSSBkb24ndCB0aGluayBpcG1iIHN1cHBvcnRzIDEwIGJpdCBhZGRyZXNzZXMuIFRo
-ZSBtYXggbnVtYmVyIG9mIGJpdHMgaW4gdGhlIElQTUIgYWRkcmVzcyBmaWVsZCBpcyA4Lg0KRG9u
-ZS4NCiAgICANCiAgICArCWkyY19tc2cubGVuID0gbXNnX2xlbjsNCiAgICArCWkyY19tc2cuYnVm
-ID0gaTJjX2J1ZjsNCiAgICArDQogICAgKwlyZXQgPSBpMmNfdHJhbnNmZXIoY2xpZW50LT5hZGFw
-dGVyLCAmaTJjX21zZywgMSk7DQogICAgKwlrZnJlZShpMmNfYnVmKTsNCiAgICArDQogICAgKwly
-ZXR1cm4gcmV0Ow0KICAgICsNCiAgICArfQ0KICAgICsNCiAgICAgc3RhdGljIHNzaXplX3QgaXBt
-Yl93cml0ZShzdHJ1Y3QgZmlsZSAqZmlsZSwgY29uc3QgY2hhciBfX3VzZXIgKmJ1ZiwNCiAgICAg
-CQkJc2l6ZV90IGNvdW50LCBsb2ZmX3QgKnBwb3MpDQogICAgIHsNCiAgICBAQCAtMTMzLDYgKzE2
-NywxMiBAQCBzdGF0aWMgc3NpemVfdCBpcG1iX3dyaXRlKHN0cnVjdCBmaWxlICpmaWxlLCBjb25z
-dCBjaGFyIF9fdXNlciAqYnVmLA0KICAgICAJcnFfc2EgPSBHRVRfN0JJVF9BRERSKG1zZ1tSUV9T
-QV84QklUX0lEWF0pOw0KICAgICAJbmV0Zl9ycV9sdW4gPSBtc2dbTkVURk5fTFVOX0lEWF07DQog
-ICAgIA0KICAgICsJLyogQ2hlY2sgaTJjIGJsb2NrIHRyYW5zZmVyIHZzIHNtYnVzICovDQogICAg
-KwlpZiAoaXBtYl9kZXYtPnVzZV9pMmMpIHsNCiAgICArCQlyZXQgPSBpcG1iX2kyY193cml0ZShp
-cG1iX2Rldi0+Y2xpZW50LCBtc2cpOw0KICAgICsJCXJldHVybiAocmV0ID09IDEpID8gY291bnQg
-OiByZXQ7DQogICAgKwl9DQogICAgKw0KICAgICAJLyoNCiAgICAgCSAqIHN1YnRyYWN0IHJxX3Nh
-IGFuZCBuZXRmX3JxX2x1biBmcm9tIHRoZSBsZW5ndGggb2YgdGhlIG1zZyBwYXNzZWQgdG8NCiAg
-ICAgCSAqIGkyY19zbWJ1c194ZmVyDQogICAgQEAgLTI3Nyw2ICszMTcsNyBAQCBzdGF0aWMgaW50
-IGlwbWJfcHJvYmUoc3RydWN0IGkyY19jbGllbnQgKmNsaWVudCwNCiAgICAgCQkJY29uc3Qgc3Ry
-dWN0IGkyY19kZXZpY2VfaWQgKmlkKQ0KICAgICB7DQogICAgIAlzdHJ1Y3QgaXBtYl9kZXYgKmlw
-bWJfZGV2Ow0KICAgICsJc3RydWN0IGRldmljZV9ub2RlICpucDsNCiAgICAgCWludCByZXQ7DQog
-ICAgIA0KICAgICAJaXBtYl9kZXYgPSBkZXZtX2t6YWxsb2MoJmNsaWVudC0+ZGV2LCBzaXplb2Yo
-KmlwbWJfZGV2KSwgQEAgLTMwMiw2ICszNDMsMTMgQEAgc3RhdGljIGludCBpcG1iX3Byb2JlKHN0
-cnVjdCBpMmNfY2xpZW50ICpjbGllbnQsDQogICAgIAlpZiAocmV0KQ0KICAgICAJCXJldHVybiBy
-ZXQ7DQogICAgIA0KICAgICsJLyogQ2hlY2sgaWYgaTJjIGJsb2NrIHhtaXQgbmVlZHMgdG8gdXNl
-IGluc3RlYWQgb2Ygc21idXMgKi8NCiAgICArCW5wID0gY2xpZW50LT5kZXYub2Zfbm9kZTsNCiAg
-ICArCWlmIChucCAmJiBvZl9nZXRfcHJvcGVydHkobnAsICJ1c2UtaTJjLWJsb2NrIiwgTlVMTCkp
-DQogICAgQXNtYWE+PiBSZW5hbWUgdGhpcyB2YXJpYWJsZSBpMmMtcHJvdG9jb2wuIEFuZCBhbHNv
-LCBhcHBseSB0aGlzIHRvIEFDUEkgYXMgd2VsbC4NCkRvbmUuDQogICAgKwkJaXBtYl9kZXYtPnVz
-ZV9pMmMgPSB0cnVlOw0KICAgICsJZWxzZQ0KICAgICsJCWlwbWJfZGV2LT51c2VfaTJjID0gZmFs
-c2U7DQogICAgKw0KICAgICAJaXBtYl9kZXYtPmNsaWVudCA9IGNsaWVudDsNCiAgICAgCWkyY19z
-ZXRfY2xpZW50ZGF0YShjbGllbnQsIGlwbWJfZGV2KTsNCiAgICAgCXJldCA9IGkyY19zbGF2ZV9y
-ZWdpc3RlcihjbGllbnQsIGlwbWJfc2xhdmVfY2IpOw0KICAgIC0tDQogICAgMi4xNy4xDQogICAg
-DQogICAgDQoNCg==
+On Wed, Nov 13, 2019 at 09:28:10PM +0000, Vijay Khemka wrote:
+> 
+> 
+> ﻿On 11/13/19, 12:33 PM, "Asmaa Mnebhi" <Asmaa@mellanox.com> wrote:
+> 
+>     Inline response:
+>     
+>     -----Original Message-----
+>     From: Vijay Khemka <vijaykhemka@fb.com> 
+>     Sent: Wednesday, November 13, 2019 2:23 PM
+>     To: Corey Minyard <minyard@acm.org>; Arnd Bergmann <arnd@arndb.de>; Greg Kroah-Hartman <gregkh@linuxfoundation.org>; openipmi-developer@lists.sourceforge.net; linux-kernel@vger.kernel.org
+>     Cc: vijaykhemka@fb.com; cminyard@mvista.com; Asmaa Mnebhi <Asmaa@mellanox.com>; joel@jms.id.au; linux-aspeed@lists.ozlabs.org; sdasari@fb.com
+>     Subject: [PATCH v3] drivers: ipmi: Support raw i2c packet in IPMB
+>     
+>     Many IPMB devices doesn't support smbus protocol and current driver support only smbus devices. Added support for raw i2c packets.
+>     
+>     User can define use-i2c-block in device tree to use i2c raw transfer.
+>     
+>     Asmaa>> Fix the description: "The ipmb_dev_int driver only supports the smbus protocol at the moment. Add support for the i2c protocol as well. There will be a variable passed by though the device tree or ACPI table which sets the configures the protocol as either i2c or smbus."
+>     
+>     Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+>     ---
+>      drivers/char/ipmi/ipmb_dev_int.c | 48 ++++++++++++++++++++++++++++++++
+>      1 file changed, 48 insertions(+)
+>     
+>     diff --git a/drivers/char/ipmi/ipmb_dev_int.c b/drivers/char/ipmi/ipmb_dev_int.c
+>     index ae3bfba27526..16d5d4b636a9 100644
+>     --- a/drivers/char/ipmi/ipmb_dev_int.c
+>     +++ b/drivers/char/ipmi/ipmb_dev_int.c
+>     @@ -63,6 +63,7 @@ struct ipmb_dev {
+>      	spinlock_t lock;
+>      	wait_queue_head_t wait_queue;
+>      	struct mutex file_mutex;
+>     +	bool use_i2c;
+>      };
+>      
+>     Asmaa>> rename this variable : is_i2c_protocol
+> Done.
+>     
+>      static inline struct ipmb_dev *to_ipmb_dev(struct file *file) @@ -112,6 +113,39 @@ static ssize_t ipmb_read(struct file *file, char __user *buf, size_t count,
+>      	return ret < 0 ? ret : count;
+>      }
+>      
+>     +static int ipmb_i2c_write(struct i2c_client *client, u8 *msg) {
+>     +	unsigned char *i2c_buf;
+>     +	struct i2c_msg i2c_msg;
+>     +	ssize_t ret;
+>     +	u8 msg_len;
+>     +
+>     +	/*
+>     +	 * subtract 1 byte (rq_sa) from the length of the msg passed to
+>     +	 * raw i2c_transfer
+>     +	 */
+>     +	msg_len = msg[IPMB_MSG_LEN_IDX] - 1;
+>     +
+>     +	i2c_buf = kzalloc(msg_len, GFP_KERNEL);
+>     
+>     Asmaa >> We do not want to use kzalloc every time you execute this write function. It would create so much fragmentation.
+>     You don't really need to use kzalloc anyways. 
+> We need to allocate memory to pass to i2c_transfer. That's what being done in i2c_smbus_xfer function as well.
+>     
+>     Also, this code chunk is short, so you can call it directly from the write function. I don't think you need a separate function for it.
+> I wanted to keep this change as clean as possible.
+
+I'd agree.  Fragmentation is not a big deal here.
+
+However, why not just pass in msg + 2?  That would be cleaner, faster,
+and less wasteful.
+
+>     
+>     +	if (!i2c_buf)
+>     +		return -EFAULT;
+
+-ENOMEM?  (Assuming you keep the malloc)
+
+>     +
+>     +	/* Copy message to buffer except first 2 bytes (length and address) */
+>     +	memcpy(i2c_buf, msg+2, msg_len);
+>     +
+>     +	i2c_msg.addr = GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
+>     +	i2c_msg.flags = client->flags &
+>     +			(I2C_M_TEN | I2C_CLIENT_PEC | I2C_CLIENT_SCCB);
+>     Asmaa>> I don't think ipmb supports 10 bit addresses. The max number of bits in the IPMB address field is 8.
+> Done.
+>     
+>     +	i2c_msg.len = msg_len;
+>     +	i2c_msg.buf = i2c_buf;
+>     +
+>     +	ret = i2c_transfer(client->adapter, &i2c_msg, 1);
+>     +	kfree(i2c_buf);
+>     +
+>     +	return ret;
+>     +
+>     +}
+>     +
+>      static ssize_t ipmb_write(struct file *file, const char __user *buf,
+>      			size_t count, loff_t *ppos)
+>      {
+>     @@ -133,6 +167,12 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
+>      	rq_sa = GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
+>      	netf_rq_lun = msg[NETFN_LUN_IDX];
+>      
+>     +	/* Check i2c block transfer vs smbus */
+>     +	if (ipmb_dev->use_i2c) {
+>     +		ret = ipmb_i2c_write(ipmb_dev->client, msg);
+>     +		return (ret == 1) ? count : ret;
+>     +	}
+>     +
+>      	/*
+>      	 * subtract rq_sa and netf_rq_lun from the length of the msg passed to
+>      	 * i2c_smbus_xfer
+>     @@ -277,6 +317,7 @@ static int ipmb_probe(struct i2c_client *client,
+>      			const struct i2c_device_id *id)
+>      {
+>      	struct ipmb_dev *ipmb_dev;
+>     +	struct device_node *np;
+>      	int ret;
+>      
+>      	ipmb_dev = devm_kzalloc(&client->dev, sizeof(*ipmb_dev), @@ -302,6 +343,13 @@ static int ipmb_probe(struct i2c_client *client,
+>      	if (ret)
+>      		return ret;
+>      
+>     +	/* Check if i2c block xmit needs to use instead of smbus */
+>     +	np = client->dev.of_node;
+>     +	if (np && of_get_property(np, "use-i2c-block", NULL))
+>     Asmaa>> Rename this variable i2c-protocol. And also, apply this to ACPI as well.
+> Done.
+
+I don't think ACPI is that important at the moment.  Rename is good.
+
+>     +		ipmb_dev->use_i2c = true;
+>     +	else
+>     +		ipmb_dev->use_i2c = false;
+
+The above two lines are unnecessary.
+
+-corey
+
+>     +
+>      	ipmb_dev->client = client;
+>      	i2c_set_clientdata(client, ipmb_dev);
+>      	ret = i2c_slave_register(client, ipmb_slave_cb);
+>     --
+>     2.17.1
+>     
+>     
+> 
