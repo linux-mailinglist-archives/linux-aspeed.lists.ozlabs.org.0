@@ -1,74 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1B2FBCAE
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 00:44:06 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47D1R75NrczF6vY
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 10:44:03 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75652FBCD3
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 01:04:40 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47D1ts1Nv1zF79B
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 11:04:37 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=us.ibm.com (client-ip=148.163.158.5;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=miltonm@us.ibm.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
- (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
- envelope-from=prvs=622020c9b1=vijaykhemka@fb.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=fb.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=fb.com header.i=@fb.com header.b="U4GOUjgq"; 
- dkim-atps=neutral
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
- [67.231.145.42])
+ dmarc=none (p=none dis=none) header.from=us.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47D1R04zMnzF6t5
- for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Nov 2019 10:43:55 +1100 (AEDT)
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xADNe16Z003618
- for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Nov 2019 15:43:52 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=facebook;
- bh=zbaKu3NGWU+3w5EZG8JJEocdZKmP6rrWNaeuA8Z5DrM=;
- b=U4GOUjgqB88pRA54qWlIHanSm9dbAtYxsJyO0ujo639GJ0bRdb6QPQTwuNSAd3Lrf1Le
- cq8rGXQa5fgRnnTS+YuT1pu/wOa7/vZAt9No+Zt+y0zjw5jQ9iK4Gn0w0TGqAnltyC9w
- 2EySr+/X0xNortsCbkrZeppLpx5sLnH93F0= 
-Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
- by mx0a-00082601.pphosted.com with ESMTP id 2w8u0t86ne-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
- for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Nov 2019 15:43:52 -0800
-Received: from 2401:db00:30:6007:face:0:1:0 (2620:10d:c081:10::13) by
- mail.thefacebook.com (2620:10d:c081:35::125) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.1713.5;
- Wed, 13 Nov 2019 15:43:51 -0800
-Received: by devvm4117.prn2.facebook.com (Postfix, from userid 167582)
- id C9F3016AC8DCF; Wed, 13 Nov 2019 15:41:34 -0800 (PST)
-Smtp-Origin-Hostprefix: devvm
-From: Vijay Khemka <vijaykhemka@fb.com>
-Smtp-Origin-Hostname: devvm4117.prn2.facebook.com
-To: Corey Minyard <minyard@acm.org>, Arnd Bergmann <arnd@arndb.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,
- <openipmi-developer@lists.sourceforge.net>, <linux-kernel@vger.kernel.org>
-Smtp-Origin-Cluster: prn2c23
-Subject: [PATCH v4] drivers: ipmi: Support raw i2c packet in IPMB
-Date: Wed, 13 Nov 2019 15:41:33 -0800
-Message-ID: <20191113234133.3790374-1-vijaykhemka@fb.com>
-X-Mailer: git-send-email 2.17.1
-X-FB-Internal: Safe
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47D1td0CHvzF78b
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Nov 2019 11:04:24 +1100 (AEDT)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ xADNuXHq139809
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Nov 2019 19:04:20 -0500
+Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com
+ [192.155.248.82])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2w8rphxff7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Nov 2019 19:04:20 -0500
+Received: from localhost
+ by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
+ for <linux-aspeed@lists.ozlabs.org> from <miltonm@us.ibm.com>;
+ Thu, 14 Nov 2019 00:04:19 -0000
+Received: from us1a3-smtp06.a3.dal06.isc4sb.com (10.146.103.243)
+ by smtp.notes.na.collabserv.com (10.106.227.105) with
+ smtp.notes.na.collabserv.com ESMTP; Thu, 14 Nov 2019 00:04:10 -0000
+Received: from us1a3-mail228.a3.dal06.isc4sb.com ([10.146.103.71])
+ by us1a3-smtp06.a3.dal06.isc4sb.com
+ with ESMTP id 2019111400040938-1142723 ;
+ Thu, 14 Nov 2019 00:04:09 +0000 
+In-Reply-To: <20191113155237.30646-3-i.mikhaylov@yadro.com>
+From: "Milton Miller II" <miltonm@us.ibm.com>
+To: Ivan Mikhaylov <i.mikhaylov@yadro.com>
+Date: Thu, 14 Nov 2019 00:04:09 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-13_06:2019-11-13,2019-11-13 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- spamscore=0
- suspectscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0
- priorityscore=1501 phishscore=0 bulkscore=0 mlxlogscore=999
- impostorscore=0 mlxscore=0 clxscore=1015 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-1910280000
- definitions=main-1911130199
-X-FB-Internal: deliver
+Sensitivity: 
+Importance: Normal
+X-Priority: 3 (Normal)
+References: <20191113155237.30646-3-i.mikhaylov@yadro.com>,
+ <20191113155237.30646-1-i.mikhaylov@yadro.com>
+X-Mailer: IBM iNotes ($HaikuForm 1054.1) | IBM Domino Build
+ SCN1812108_20180501T0841_FP62 November 04, 2019 at 09:47
+X-LLNOutbound: False
+X-Disclaimed: 46159
+X-TNEFEvaluated: 1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+x-cbid: 19111400-9463-0000-0000-00000173B243
+X-IBM-SpamModules-Scores: BY=0; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
+ SC=0.40962; ST=0; TS=0; UL=0; ISC=; MB=0.002686
+X-IBM-SpamModules-Versions: BY=3.00012103; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000292; SDB=6.01289727; UDB=6.00684066; IPR=6.01071925; 
+ MB=3.00029520; MTD=3.00000008; XFM=3.00000015; UTC=2019-11-14 00:04:17
+X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
+X-IBM-AV-VERSION: SAVI=2019-11-13 22:35:31 - 6.00010644
+x-cbparentid: 19111400-9464-0000-0000-000049232CB6
+Message-Id: <OF20F73C7F.F32D5A9E-ON002584B1.00836403-002584B2.0000614A@notes.na.collabserv.com>
+Subject: Re:  [PATCH 2/2] mmc: sdhci-of-aspeed: add inversion signal presence
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-11-13_06:, , signatures=0
+X-Proofpoint-Spam-Reason: safe
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,92 +83,85 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: cminyard@mvista.com, sdasari@fb.com, linux-aspeed@lists.ozlabs.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org,
+ Adrian Hunter <adrian.hunter@intel.com>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Many IPMB devices doesn't support smbus protocol and current driver
-support only smbus devices. Added support for raw i2c packets.
+On 11/13/2019 around 09:57AM in some time zone, Ivan Mikhaylov wrote:
+>Change the default .get=5Fcd callback. Add inverted signal card
+>detection
+>check.
+>
+>Signed-off-by: Ivan Mikhaylov <i.mikhaylov@yadro.com>
+>
+>diff --git a/drivers/mmc/host/sdhci-of-aspeed.c
+>b/drivers/mmc/host/sdhci-of-aspeed.c
+>index 8962f6664381..8eded8a6ed8d 100644
+>--- a/drivers/mmc/host/sdhci-of-aspeed.c
+>+++ b/drivers/mmc/host/sdhci-of-aspeed.c
+>@@ -31,6 +31,7 @@ struct aspeed=5Fsdc {
+> struct aspeed=5Fsdhci {
+> 	struct aspeed=5Fsdc *parent;
+> 	u32 width=5Fmask;
+>+	u8 cd=5Finverted;
 
-User can define i2c-protocol in device tree to use i2c raw transfer.
+The mmc core/host.c checks the device tree and stores the
+result as mmc->caps2 & MMC=5FCAP2=5FCD=5FACTIVE=5FHIGH
 
-Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
----
- drivers/char/ipmi/ipmb_dev_int.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+This appears to be accessale as sdhci=5Fhost->mmc->caps2.
 
-diff --git a/drivers/char/ipmi/ipmb_dev_int.c b/drivers/char/ipmi/ipmb_dev_int.c
-index ae3bfba27526..10904bec1de0 100644
---- a/drivers/char/ipmi/ipmb_dev_int.c
-+++ b/drivers/char/ipmi/ipmb_dev_int.c
-@@ -63,6 +63,7 @@ struct ipmb_dev {
- 	spinlock_t lock;
- 	wait_queue_head_t wait_queue;
- 	struct mutex file_mutex;
-+	bool is_i2c_protocol;
- };
- 
- static inline struct ipmb_dev *to_ipmb_dev(struct file *file)
-@@ -112,6 +113,25 @@ static ssize_t ipmb_read(struct file *file, char __user *buf, size_t count,
- 	return ret < 0 ? ret : count;
- }
- 
-+static int ipmb_i2c_write(struct i2c_client *client, u8 *msg)
-+{
-+	struct i2c_msg i2c_msg;
-+
-+	/*
-+	 * subtract 1 byte (rq_sa) from the length of the msg passed to
-+	 * raw i2c_transfer
-+	 */
-+	i2c_msg.len = msg[IPMB_MSG_LEN_IDX] - 1;
-+
-+	/* Assign message to buffer except first 2 bytes (length and address) */
-+	i2c_msg.buf = msg + 2;
-+
-+	i2c_msg.addr = GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
-+	i2c_msg.flags = client->flags & I2C_CLIENT_PEC;
-+
-+	return i2c_transfer(client->adapter, &i2c_msg, 1);
-+}
-+
- static ssize_t ipmb_write(struct file *file, const char __user *buf,
- 			size_t count, loff_t *ppos)
- {
-@@ -133,6 +153,12 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
- 	rq_sa = GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
- 	netf_rq_lun = msg[NETFN_LUN_IDX];
- 
-+	/* Check i2c block transfer vs smbus */
-+	if (ipmb_dev->is_i2c_protocol) {
-+		ret = ipmb_i2c_write(ipmb_dev->client, msg);
-+		return (ret == 1) ? count : ret;
-+	}
-+
- 	/*
- 	 * subtract rq_sa and netf_rq_lun from the length of the msg passed to
- 	 * i2c_smbus_xfer
-@@ -277,6 +303,7 @@ static int ipmb_probe(struct i2c_client *client,
- 			const struct i2c_device_id *id)
- {
- 	struct ipmb_dev *ipmb_dev;
-+	struct device_node *np;
- 	int ret;
- 
- 	ipmb_dev = devm_kzalloc(&client->dev, sizeof(*ipmb_dev),
-@@ -302,6 +329,11 @@ static int ipmb_probe(struct i2c_client *client,
- 	if (ret)
- 		return ret;
- 
-+	/* Check if i2c block xmit needs to use instead of smbus */
-+	np = client->dev.of_node;
-+	if (np && of_get_property(np, "i2c-protocol", NULL))
-+		ipmb_dev->is_i2c_protocol = true;
-+
- 	ipmb_dev->client = client;
- 	i2c_set_clientdata(client, ipmb_dev);
- 	ret = i2c_slave_register(client, ipmb_slave_cb);
--- 
-2.17.1
+Please reuse this bit like the other drivers.
+
+> };
+>=20
+> static void aspeed=5Fsdc=5Fconfigure=5F8bit=5Fmode(struct aspeed=5Fsdc *s=
+dc,
+>@@ -143,6 +144,21 @@ static inline int
+>aspeed=5Fsdhci=5Fcalculate=5Fslot(struct aspeed=5Fsdhci *dev,
+> 	return (delta / 0x100) - 1;
+> }
+>=20
+>+static int aspeed=5Fget=5Fcd(struct mmc=5Fhost *mmc)
+>+{
+>+	struct aspeed=5Fsdhci *aspeed=5Fsdhci;
+>+	struct sdhci=5Fpltfm=5Fhost *pltfm=5Fpriv;
+>+	struct sdhci=5Fhost *host =3D mmc=5Fpriv(mmc);
+>+
+>+	int presence =3D !!(sdhci=5Freadl(host, SDHCI=5FPRESENT=5FSTATE)
+>+			 & SDHCI=5FCARD=5FPRESENT);
+>+
+>+	pltfm=5Fpriv =3D sdhci=5Fpriv(host);
+>+	aspeed=5Fsdhci =3D sdhci=5Fpltfm=5Fpriv(pltfm=5Fpriv);
+>+
+>+	return presence ^ aspeed=5Fsdhci->cd=5Finverted;
+>+}
+>+
+> static int aspeed=5Fsdhci=5Fprobe(struct platform=5Fdevice *pdev)
+> {
+> 	struct sdhci=5Fpltfm=5Fhost *pltfm=5Fhost;
+>@@ -183,6 +199,13 @@ static int aspeed=5Fsdhci=5Fprobe(struct
+>platform=5Fdevice *pdev)
+> 		goto err=5Fpltfm=5Ffree;
+> 	}
+>=20
+>+	dev->cd=5Finverted =3D 0;
+>+	host->mmc=5Fhost=5Fops.get=5Fcd =3D aspeed=5Fget=5Fcd;
+>+	if (of=5Fproperty=5Fread=5Fbool(pdev->dev.of=5Fnode, "cd-inverted")) {
+>+		dev->cd=5Finverted =3D 1;
+>+		dev=5Finfo(&pdev->dev, "aspeed: sdhci: presence signal inversion
+>enabled\n");
+>+	}
+>+
+> 	ret =3D mmc=5Fof=5Fparse(host->mmc);
+> 	if (ret)
+> 		goto err=5Fsdhci=5Fadd;
+>--=20
+>2.20.1
+>
+>
 
