@@ -2,76 +2,59 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75652FBCD3
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 01:04:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47EDCFBE82
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 05:09:45 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47D1ts1Nv1zF79B
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 11:04:37 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47D7Kf0JN1zF72C
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 15:09:42 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=us.ibm.com (client-ip=148.163.158.5;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=miltonm@us.ibm.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f42;
+ helo=mail-qv1-xf42.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=us.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="AEdGfcWC"; 
+ dkim-atps=neutral
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
+ [IPv6:2607:f8b0:4864:20::f42])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47D1td0CHvzF78b
- for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Nov 2019 11:04:24 +1100 (AEDT)
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- xADNuXHq139809
- for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Nov 2019 19:04:20 -0500
-Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com
- [192.155.248.82])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2w8rphxff7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Nov 2019 19:04:20 -0500
-Received: from localhost
- by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
- for <linux-aspeed@lists.ozlabs.org> from <miltonm@us.ibm.com>;
- Thu, 14 Nov 2019 00:04:19 -0000
-Received: from us1a3-smtp06.a3.dal06.isc4sb.com (10.146.103.243)
- by smtp.notes.na.collabserv.com (10.106.227.105) with
- smtp.notes.na.collabserv.com ESMTP; Thu, 14 Nov 2019 00:04:10 -0000
-Received: from us1a3-mail228.a3.dal06.isc4sb.com ([10.146.103.71])
- by us1a3-smtp06.a3.dal06.isc4sb.com
- with ESMTP id 2019111400040938-1142723 ;
- Thu, 14 Nov 2019 00:04:09 +0000 
-In-Reply-To: <20191113155237.30646-3-i.mikhaylov@yadro.com>
-From: "Milton Miller II" <miltonm@us.ibm.com>
-To: Ivan Mikhaylov <i.mikhaylov@yadro.com>
-Date: Thu, 14 Nov 2019 00:04:09 +0000
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47D7KW2xYvzF71W
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Nov 2019 15:09:35 +1100 (AEDT)
+Received: by mail-qv1-xf42.google.com with SMTP id c9so1811427qvz.9
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Nov 2019 20:09:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=xX0IGDGxZ7reuqUqxv2ykfm89rjIDO860DefvQbuA98=;
+ b=AEdGfcWCvY7niHYo86gHc9yGERFpCe6WrSATcr7cwx/TjEmNACXgn8/zSykyRaPTtp
+ j+AMAYeYUZeIWLQxJbTMQgFf+f176qMfkwrUTl/OWJmYCBJ2IEnwlfsQA86lsGV6pGAy
+ yc3z2dohp+S8120xpch2MjrfMQwMbY49rH+ZM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=xX0IGDGxZ7reuqUqxv2ykfm89rjIDO860DefvQbuA98=;
+ b=db4bbgZW6GMHECM0UdN2mXg7hXSE3VB1f+nH7D6u656FBT1t1JS2SoucA9v1CMCcdB
+ f0R7eLk4T3wBVcvDEYfTaw7Mv7rEPRkHe00kanldUJSgucpZtmPz2GLli/IWrIcS41tv
+ OxK29R5d7UL0as0EAoZs1pdqt/Nfo4oFSbv7rGJ8cSx6+/BhJn9foDvymOFsJzGiyElV
+ Yvh5soGWwWKMfgtH6cVfn5eKwmgCjH08F8E4nM9viesyyH7QnSOC1gHpwSrCPRH1nZ7q
+ eZ4sji+WZCPXiUkt6vNAaAD4nweyK1MbVzVr7bidgeHk4rIRTn3ftcbsQYfHrRkhFkJR
+ PcCQ==
+X-Gm-Message-State: APjAAAUUXSI1kDZrfVhmfVt20/UfB1a1V8acjgYK2FVh7NZTsIkQVJV8
+ H4tcVPfj71CumMvysA2701kfMTiER+VNoqcIRIM=
+X-Google-Smtp-Source: APXvYqye5GQ3dpU8avlSfFo3h9SALnUM70KR5nxoGWJtnrLSAdjx65WKjJWWtV5Blx8yCcHEJn80qKk5MMhOZTIqFpI=
+X-Received: by 2002:a0c:edcc:: with SMTP id i12mr5075940qvr.20.1573704571059; 
+ Wed, 13 Nov 2019 20:09:31 -0800 (PST)
 MIME-Version: 1.0
-Sensitivity: 
-Importance: Normal
-X-Priority: 3 (Normal)
-References: <20191113155237.30646-3-i.mikhaylov@yadro.com>,
- <20191113155237.30646-1-i.mikhaylov@yadro.com>
-X-Mailer: IBM iNotes ($HaikuForm 1054.1) | IBM Domino Build
- SCN1812108_20180501T0841_FP62 November 04, 2019 at 09:47
-X-LLNOutbound: False
-X-Disclaimed: 46159
-X-TNEFEvaluated: 1
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-x-cbid: 19111400-9463-0000-0000-00000173B243
-X-IBM-SpamModules-Scores: BY=0; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0;
- SC=0.40962; ST=0; TS=0; UL=0; ISC=; MB=0.002686
-X-IBM-SpamModules-Versions: BY=3.00012103; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000292; SDB=6.01289727; UDB=6.00684066; IPR=6.01071925; 
- MB=3.00029520; MTD=3.00000008; XFM=3.00000015; UTC=2019-11-14 00:04:17
-X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
-X-IBM-AV-VERSION: SAVI=2019-11-13 22:35:31 - 6.00010644
-x-cbparentid: 19111400-9464-0000-0000-000049232CB6
-Message-Id: <OF20F73C7F.F32D5A9E-ON002584B1.00836403-002584B2.0000614A@notes.na.collabserv.com>
-Subject: Re:  [PATCH 2/2] mmc: sdhci-of-aspeed: add inversion signal presence
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-11-13_06:, , signatures=0
-X-Proofpoint-Spam-Reason: safe
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 14 Nov 2019 04:09:19 +0000
+Message-ID: <CACPK8Xc3a=6irkTSfwyPrr=nWv_fa9nMxthtC2AyqFJEWvuMwg@mail.gmail.com>
+Subject: [GIT PULL] ARM: aspeed: defconfig changes for 5.5
+To: arm <arm@kernel.org>, soc@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,85 +66,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org,
- Adrian Hunter <adrian.hunter@intel.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 11/13/2019 around 09:57AM in some time zone, Ivan Mikhaylov wrote:
->Change the default .get=5Fcd callback. Add inverted signal card
->detection
->check.
->
->Signed-off-by: Ivan Mikhaylov <i.mikhaylov@yadro.com>
->
->diff --git a/drivers/mmc/host/sdhci-of-aspeed.c
->b/drivers/mmc/host/sdhci-of-aspeed.c
->index 8962f6664381..8eded8a6ed8d 100644
->--- a/drivers/mmc/host/sdhci-of-aspeed.c
->+++ b/drivers/mmc/host/sdhci-of-aspeed.c
->@@ -31,6 +31,7 @@ struct aspeed=5Fsdc {
-> struct aspeed=5Fsdhci {
-> 	struct aspeed=5Fsdc *parent;
-> 	u32 width=5Fmask;
->+	u8 cd=5Finverted;
+Hello ARM maintainers,
 
-The mmc core/host.c checks the device tree and stores the
-result as mmc->caps2 & MMC=5FCAP2=5FCD=5FACTIVE=5FHIGH
+Here are some defconfig changes for 5.5. There is a diffstat and shortlog below.
 
-This appears to be accessale as sdhci=5Fhost->mmc->caps2.
+The following changes since commit b50a85c023f494047a3767398ca589d1c801f22b:
 
-Please reuse this bit like the other drivers.
+  ARM: config: multi_v5: ASPEED SDHCI, SGPIO (2019-11-13 14:38:39 +1030)
 
-> };
->=20
-> static void aspeed=5Fsdc=5Fconfigure=5F8bit=5Fmode(struct aspeed=5Fsdc *s=
-dc,
->@@ -143,6 +144,21 @@ static inline int
->aspeed=5Fsdhci=5Fcalculate=5Fslot(struct aspeed=5Fsdhci *dev,
-> 	return (delta / 0x100) - 1;
-> }
->=20
->+static int aspeed=5Fget=5Fcd(struct mmc=5Fhost *mmc)
->+{
->+	struct aspeed=5Fsdhci *aspeed=5Fsdhci;
->+	struct sdhci=5Fpltfm=5Fhost *pltfm=5Fpriv;
->+	struct sdhci=5Fhost *host =3D mmc=5Fpriv(mmc);
->+
->+	int presence =3D !!(sdhci=5Freadl(host, SDHCI=5FPRESENT=5FSTATE)
->+			 & SDHCI=5FCARD=5FPRESENT);
->+
->+	pltfm=5Fpriv =3D sdhci=5Fpriv(host);
->+	aspeed=5Fsdhci =3D sdhci=5Fpltfm=5Fpriv(pltfm=5Fpriv);
->+
->+	return presence ^ aspeed=5Fsdhci->cd=5Finverted;
->+}
->+
-> static int aspeed=5Fsdhci=5Fprobe(struct platform=5Fdevice *pdev)
-> {
-> 	struct sdhci=5Fpltfm=5Fhost *pltfm=5Fhost;
->@@ -183,6 +199,13 @@ static int aspeed=5Fsdhci=5Fprobe(struct
->platform=5Fdevice *pdev)
-> 		goto err=5Fpltfm=5Ffree;
-> 	}
->=20
->+	dev->cd=5Finverted =3D 0;
->+	host->mmc=5Fhost=5Fops.get=5Fcd =3D aspeed=5Fget=5Fcd;
->+	if (of=5Fproperty=5Fread=5Fbool(pdev->dev.of=5Fnode, "cd-inverted")) {
->+		dev->cd=5Finverted =3D 1;
->+		dev=5Finfo(&pdev->dev, "aspeed: sdhci: presence signal inversion
->enabled\n");
->+	}
->+
-> 	ret =3D mmc=5Fof=5Fparse(host->mmc);
-> 	if (ret)
-> 		goto err=5Fsdhci=5Fadd;
->--=20
->2.20.1
->
->
+are available in the Git repository at:
 
+  git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
+tags/aspeed-5.5-defconfig
+
+for you to fetch changes up to b50a85c023f494047a3767398ca589d1c801f22b:
+
+  ARM: config: multi_v5: ASPEED SDHCI, SGPIO (2019-11-13 14:38:39 +1030)
+
+----------------------------------------------------------------
+ASPEED device tree updates for 5.5
+
+This adds recently merged drivers to the aspeed g4 and g5 defconfigs,
+and to the multi v5 and v7 shared defconfigs.
+
+----------------------------------------------------------------
+
+Joel Stanley (5):
+      ARM: config: aspeed-g5: Enable 8250_DW quirks
+      ARM: config: aspeed-g5: Add SGPIO and FSI drivers
+      ARM: config: aspeed-g4: Add MMC, and cleanup
+      ARM: configs: multi_v7: ASPEED network, gpio, FSI
+      ARM: config: multi_v5: ASPEED SDHCI, SGPIO
+
+ arch/arm/configs/aspeed_g4_defconfig | 18 ++++++++++++------
+ arch/arm/configs/aspeed_g5_defconfig |  4 ++++
+ arch/arm/configs/multi_v5_defconfig  |  4 ++++
+ arch/arm/configs/multi_v7_defconfig  |  9 +++++++++
+ 4 files changed, 29 insertions(+), 6 deletions(-)
