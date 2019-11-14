@@ -1,78 +1,101 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353FFFC872
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 15:10:53 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47DNgG5fSCzF83F
-	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Nov 2019 01:10:50 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F87FC8A1
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 15:17:09 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47DNpT5fLtzF3S1
+	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Nov 2019 01:17:05 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::244;
- helo=mail-oi1-x244.google.com; envelope-from=tcminyard@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=mellanox.com (client-ip=40.107.8.80;
+ helo=eur04-vi1-obe.outbound.protection.outlook.com;
+ envelope-from=asmaa@mellanox.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=acm.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="NkriC5pv"; 
+ dmarc=pass (p=none dis=none) header.from=mellanox.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=Mellanox.com header.i=@Mellanox.com header.b="h+gRlHXw";
  dkim-atps=neutral
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-eopbgr80080.outbound.protection.outlook.com [40.107.8.80])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47DNg76mPDzF82n
- for <linux-aspeed@lists.ozlabs.org>; Fri, 15 Nov 2019 01:10:43 +1100 (AEDT)
-Received: by mail-oi1-x244.google.com with SMTP id n14so5318161oie.13
- for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Nov 2019 06:10:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=v1je3uNJ00f2WkFNv22rLfEFKIfE+md5iLEXtfYLkWk=;
- b=NkriC5pv5OxJLKQlQfa7bt4z31mrVgV8b2bbwrx8NPt0xKnp03rJM5z5HQiBYS/pcb
- pUICmEXJrG/jOttWU/h8kggoBUrl7EfAmPy3xIH5yiv2/RlW0YltsTat4HgyK5q4EONy
- BEHtmL6+9RP3E34ZHS984e34hMxrFO6/zQk4PMJI/nA6n2Ubd3NDobGmEXOSELpGoU7+
- Ta23OBoHQb4hvg9kESOJVZtQa+gaaz7c8VraLmkiC0Md+cmeLzwRACguNsC4Nqp7i6jG
- BvZy7ZDaXsqkb/IKiM3hSOGLV5OQYdjLNJFXfWnuuoDlYB81rKcbWaT+vaA9X5Pm1sWy
- VLzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to
- :user-agent;
- bh=v1je3uNJ00f2WkFNv22rLfEFKIfE+md5iLEXtfYLkWk=;
- b=D5lB312F3XtxhJQ86Y1SHBIO5gs+MSMWtJBulMvechQVoIrZzaIkNUJhg6RStm6KrB
- cc2Wq6kJo5NvmokPgmv2CrqE/YYpmef1xNM5PylqiS0P4BC6ThaTy5bEUMR5takMLweT
- COOtjMjXNRhZPjbsdM2ElLOQawXGw8hFkApbkFzablmJRXnETdvWdeEKlllVG6q4SNa9
- tt+GgtewIJZL+yck7nRh5g9Mrrx6XBrx3NBoWqLNR2X+zVRNgEojEqMq2PzJaGel4NZh
- dX6dI3hj6UMMyjtyO15Gv+WvPAHvs4zn3Imv/KsetStQeK3/+CRRYhXrKXni+rwSL7Ok
- Uufw==
-X-Gm-Message-State: APjAAAVFqLSYdGBFRQOJfDdKwvn65hqDVIZfLmsU8BnDlS+cYYR2WXdC
- 1NI6XYIT9au7cId7n6d5OQ==
-X-Google-Smtp-Source: APXvYqwwdPFg9kbfOu8MlVF4OmpC/NFAxBtjdVdCziMJOnb/GeNAiULm5YmBziTFP16OKCKo0TXNkA==
-X-Received: by 2002:a05:6808:20f:: with SMTP id
- l15mr3778616oie.39.1573740639585; 
- Thu, 14 Nov 2019 06:10:39 -0800 (PST)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id i195sm1812611oib.55.2019.11.14.06.10.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Nov 2019 06:10:39 -0800 (PST)
-Received: from minyard.net (unknown [192.168.27.180])
- by serve.minyard.net (Postfix) with ESMTPSA id 8514C180044;
- Thu, 14 Nov 2019 14:10:38 +0000 (UTC)
-Date: Thu, 14 Nov 2019 08:10:37 -0600
-From: Corey Minyard <minyard@acm.org>
-To: Vijay Khemka <vijaykhemka@fb.com>
-Subject: Re: [PATCH v4] drivers: ipmi: Support raw i2c packet in IPMB
-Message-ID: <20191114141037.GP2882@minyard.net>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47DNp74LkZzF3BT
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 15 Nov 2019 01:16:46 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XQUJAERYPFReQKHKQQFerN1A3lN5NS3UPupTy9GC4vWNrux63XJ6SpSoESDpke33Zoe8nUd8bnKHbwLTfD+Em8ZldB1S7jWMkAJ/wF/v2rSHqm5LoIyoYrIRie9cuk7KqQzXInNXrVLNaT8OsPR9M5KaPjsUTFatqzhtZ6uYWREONzb2X49NuvAm87ZS+w3AgGlSy3fOOCnwVsb2ahvQvHfJLO/agaLCnIDSa4JY0pzOkAW+uofar3FJIvAtb9KTLad7bMxqWxf7IROfzXZkZVDyUGbZ7jj9XjWC6cNO6S3qisD3GQBxO6VxGiwp6FJ8ed4UZELWGQ1krua0ABtvrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lzkG/kKQlobcXM0xApI4jfRZhS2DhZ39rNCDCYo8L9g=;
+ b=kKRR6E+zHSWjgN8DvCXJ4M4CK3ZbuuVjlsQZhk26W9M0bviLgTe9vVkfws80YRd16NkWsLm3vLJa5TnYF78jyw1iPT+7o9UFlAUBJOCuPJucWV9oA4+iz7GJBPFfzynzQWGAvoKkftBb8RB4MRtsNbtAY/KNX3sfbCGHIuD+7RLIOYlMv0mqeeDIqwCVDPdHWbUgWDYkHzuK+FabBuhOVfqofqmWKpk/qyWSI4GETQ+DyHP6Ia0FUmA6tHp7oWj4kXg7Q0fxuNiKTNcvR+HyD0ezkZsLu7bjV2yn8HJbl+zhj7RvWX3DmxF9Udi9cRHPbBfvjMnfYrViXce9kkpjAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lzkG/kKQlobcXM0xApI4jfRZhS2DhZ39rNCDCYo8L9g=;
+ b=h+gRlHXw0IXl+1lWmfYFyE10UBVK6G09Tux6iKuz6vj1HeUvsvKm/27f5R9faxZCfmG8t/+ljbrV4/JlR4tx3myR1aD4aqSeSvbzABVxmVQVHpcQjvxZuhBN591vTUXUSz3Z2AV/z8wAqASsl8Q1KovTRQqXC+HQg5YwJYsh36w=
+Received: from DB6PR0501MB2712.eurprd05.prod.outlook.com (10.172.225.17) by
+ DB6PR0501MB2664.eurprd05.prod.outlook.com (10.172.230.136) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2451.23; Thu, 14 Nov 2019 14:16:38 +0000
+Received: from DB6PR0501MB2712.eurprd05.prod.outlook.com
+ ([fe80::99be:5f3a:9871:ecd1]) by DB6PR0501MB2712.eurprd05.prod.outlook.com
+ ([fe80::99be:5f3a:9871:ecd1%12]) with mapi id 15.20.2451.027; Thu, 14 Nov
+ 2019 14:16:38 +0000
+From: Asmaa Mnebhi <Asmaa@mellanox.com>
+To: Vijay Khemka <vijaykhemka@fb.com>, Corey Minyard <minyard@acm.org>, Arnd
+ Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "openipmi-developer@lists.sourceforge.net"
+ <openipmi-developer@lists.sourceforge.net>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v4] drivers: ipmi: Support raw i2c packet in IPMB
+Thread-Topic: [PATCH v4] drivers: ipmi: Support raw i2c packet in IPMB
+Thread-Index: AQHVmnw2jQvA7h95R066pXtlC6V86aeKtSxg
+Date: Thu, 14 Nov 2019 14:16:38 +0000
+Message-ID: <DB6PR0501MB2712658DD269E4B22A327A2DDA710@DB6PR0501MB2712.eurprd05.prod.outlook.com>
 References: <20191113234133.3790374-1-vijaykhemka@fb.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <20191113234133.3790374-1-vijaykhemka@fb.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Asmaa@mellanox.com; 
+x-originating-ip: [216.156.69.42]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 62ed0658-f045-400c-b62a-08d7690d4392
+x-ms-traffictypediagnostic: DB6PR0501MB2664:
+x-microsoft-antispam-prvs: <DB6PR0501MB2664A49B68FE9A1B4383F64ADA710@DB6PR0501MB2664.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5236;
+x-forefront-prvs: 02213C82F8
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(366004)(136003)(39860400002)(376002)(396003)(346002)(189003)(199004)(13464003)(52536014)(14444005)(6246003)(256004)(478600001)(305945005)(9686003)(86362001)(66946007)(6506007)(53546011)(6436002)(66556008)(64756008)(66446008)(2906002)(80792005)(55016002)(7736002)(66476007)(7696005)(25786009)(74316002)(5660300002)(2501003)(2201001)(76176011)(81166006)(81156014)(8676002)(186003)(446003)(11346002)(476003)(6116002)(14454004)(110136005)(54906003)(33656002)(229853002)(486006)(66066001)(3846002)(316002)(99286004)(26005)(71190400001)(7416002)(71200400001)(102836004)(8936002)(76116006)(4326008);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DB6PR0501MB2664;
+ H:DB6PR0501MB2712.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Gmt2q9j48u0aistliTOoX9Fi7dhvg9y+uemO+DjhIgKTBejNIpH5uGuPfMMW44RH7wNL7t0Gs3hlCnU261MtRfYtX1tozYgoaY8pM3iG7PXsRFV9d8Jo64c+qsiwvuVgBXBdJPXkOUNWe66ZFaKWXz66J3fMLEr2GXO8VFjYIVXLz3BQN9BWUUCp86Yndq1Zfa225IA4YcQlSd8T9OpqNCnJLrZsmAdUO3MbmXb98UPmq+t+iDS7V5DcU8vhUxcvIgpMmW6FMJyRNW49k/i8cX/NuB1eMJwgCSs2AzHmp/eYKsnpRYPQZxKXvS1CZAkmGudyyZEXNs4mGd8cQiYKM8iOUnwOB2llFE1z2zN0uGLxPPnofpjT6K61vpo0c4ZevkBWYdlX6r0fP53xLZqPOChHRYm9kc/uY3DRvTlGyiRVnPmz4yN9JHGKUA8RigIb
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62ed0658-f045-400c-b62a-08d7690d4392
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Nov 2019 14:16:38.3874 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +OUwh2qkGlN4fdtc2cKsC0CyXjG3vqfKeSpY7oQPav7xpeGSlcoA1xvB/OcitCTPuMOKroCUYfytuMA2meJyMw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0501MB2664
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,113 +107,126 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: cminyard@mvista.com, sdasari@fb.com, linux-aspeed@lists.ozlabs.org,
- Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net
+Cc: "cminyard@mvista.com" <cminyard@mvista.com>,
+ "sdasari@fb.com" <sdasari@fb.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Nov 13, 2019 at 03:41:33PM -0800, Vijay Khemka wrote:
-> Many IPMB devices doesn't support smbus protocol and current driver
-> support only smbus devices. Added support for raw i2c packets.
-> 
-> User can define i2c-protocol in device tree to use i2c raw transfer.
-> 
-> Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+Hi Vijay,
 
-With Aasma's response, I am ok with this.
+You haven't addressed some of my comments.
 
-One thing, though.  This is the slave device on the I2C, not the master
-device that has the issue, right?  So it's at least theoretically
-possible to have one SMBus and one I2C IPMB device on the same master,
-right?
+-----Original Message-----
+From: Vijay Khemka <vijaykhemka@fb.com>=20
+Sent: Wednesday, November 13, 2019 6:42 PM
+To: Corey Minyard <minyard@acm.org>; Arnd Bergmann <arnd@arndb.de>; Greg Kr=
+oah-Hartman <gregkh@linuxfoundation.org>; openipmi-developer@lists.sourcefo=
+rge.net; linux-kernel@vger.kernel.org
+Cc: vijaykhemka@fb.com; cminyard@mvista.com; Asmaa Mnebhi <Asmaa@mellanox.c=
+om>; joel@jms.id.au; linux-aspeed@lists.ozlabs.org; sdasari@fb.com
+Subject: [PATCH v4] drivers: ipmi: Support raw i2c packet in IPMB
 
-For normal I2C, devices are in the device tree and get added to the
-kernel device handling.  It looks like that is not being done in your
-case.  But really, the "right" way to do this is to have the IPMB slaves
-added as Linux devices and address them that way.  I'm not sure this
-will ever be a real issue, but if it is, there will be some work to do
-to fix it.
+Many IPMB devices doesn't support smbus protocol and current driver support=
+ only smbus devices. Added support for raw i2c packets.
 
--corey
+User can define i2c-protocol in device tree to use i2c raw transfer.
 
-> ---
->  drivers/char/ipmi/ipmb_dev_int.c | 32 ++++++++++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
-> 
-> diff --git a/drivers/char/ipmi/ipmb_dev_int.c b/drivers/char/ipmi/ipmb_dev_int.c
-> index ae3bfba27526..10904bec1de0 100644
-> --- a/drivers/char/ipmi/ipmb_dev_int.c
-> +++ b/drivers/char/ipmi/ipmb_dev_int.c
-> @@ -63,6 +63,7 @@ struct ipmb_dev {
->  	spinlock_t lock;
->  	wait_queue_head_t wait_queue;
->  	struct mutex file_mutex;
-> +	bool is_i2c_protocol;
->  };
->  
->  static inline struct ipmb_dev *to_ipmb_dev(struct file *file)
-> @@ -112,6 +113,25 @@ static ssize_t ipmb_read(struct file *file, char __user *buf, size_t count,
->  	return ret < 0 ? ret : count;
->  }
->  
-> +static int ipmb_i2c_write(struct i2c_client *client, u8 *msg)
-> +{
-> +	struct i2c_msg i2c_msg;
-> +
-> +	/*
-> +	 * subtract 1 byte (rq_sa) from the length of the msg passed to
-> +	 * raw i2c_transfer
-> +	 */
-> +	i2c_msg.len = msg[IPMB_MSG_LEN_IDX] - 1;
-> +
-> +	/* Assign message to buffer except first 2 bytes (length and address) */
-> +	i2c_msg.buf = msg + 2;
-> +
-> +	i2c_msg.addr = GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
-> +	i2c_msg.flags = client->flags & I2C_CLIENT_PEC;
-> +
-> +	return i2c_transfer(client->adapter, &i2c_msg, 1);
-> +}
-> +
->  static ssize_t ipmb_write(struct file *file, const char __user *buf,
->  			size_t count, loff_t *ppos)
->  {
-> @@ -133,6 +153,12 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
->  	rq_sa = GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
->  	netf_rq_lun = msg[NETFN_LUN_IDX];
->  
-> +	/* Check i2c block transfer vs smbus */
-> +	if (ipmb_dev->is_i2c_protocol) {
-> +		ret = ipmb_i2c_write(ipmb_dev->client, msg);
-> +		return (ret == 1) ? count : ret;
-> +	}
-> +
->  	/*
->  	 * subtract rq_sa and netf_rq_lun from the length of the msg passed to
->  	 * i2c_smbus_xfer
-> @@ -277,6 +303,7 @@ static int ipmb_probe(struct i2c_client *client,
->  			const struct i2c_device_id *id)
->  {
->  	struct ipmb_dev *ipmb_dev;
-> +	struct device_node *np;
->  	int ret;
->  
->  	ipmb_dev = devm_kzalloc(&client->dev, sizeof(*ipmb_dev),
-> @@ -302,6 +329,11 @@ static int ipmb_probe(struct i2c_client *client,
->  	if (ret)
->  		return ret;
->  
-> +	/* Check if i2c block xmit needs to use instead of smbus */
-> +	np = client->dev.of_node;
-> +	if (np && of_get_property(np, "i2c-protocol", NULL))
-> +		ipmb_dev->is_i2c_protocol = true;
-> +
->  	ipmb_dev->client = client;
->  	i2c_set_clientdata(client, ipmb_dev);
->  	ret = i2c_slave_register(client, ipmb_slave_cb);
-> -- 
-> 2.17.1
-> 
+A>> Please fix the description as suggested in previous comments
+
+Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+---
+ drivers/char/ipmi/ipmb_dev_int.c | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+
+diff --git a/drivers/char/ipmi/ipmb_dev_int.c b/drivers/char/ipmi/ipmb_dev_=
+int.c
+index ae3bfba27526..10904bec1de0 100644
+--- a/drivers/char/ipmi/ipmb_dev_int.c
++++ b/drivers/char/ipmi/ipmb_dev_int.c
+@@ -63,6 +63,7 @@ struct ipmb_dev {
+ 	spinlock_t lock;
+ 	wait_queue_head_t wait_queue;
+ 	struct mutex file_mutex;
++	bool is_i2c_protocol;
+ };
+=20
+ static inline struct ipmb_dev *to_ipmb_dev(struct file *file) @@ -112,6 +1=
+13,25 @@ static ssize_t ipmb_read(struct file *file, char __user *buf, size=
+_t count,
+ 	return ret < 0 ? ret : count;
+ }
+=20
++static int ipmb_i2c_write(struct i2c_client *client, u8 *msg) {
++	struct i2c_msg i2c_msg;
++
++	/*
++	 * subtract 1 byte (rq_sa) from the length of the msg passed to
++	 * raw i2c_transfer
++	 */
++	i2c_msg.len =3D msg[IPMB_MSG_LEN_IDX] - 1;
++
++	/* Assign message to buffer except first 2 bytes (length and address) */
++	i2c_msg.buf =3D msg + 2;
++
++	i2c_msg.addr =3D GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
+
+You can have:
+i2c_msg.flags =3D addr;
+addr being an argument of the ipmb_i2c_write function and passed in ipmb_wr=
+ite. We already define it.
+
++	i2c_msg.flags =3D client->flags & I2C_CLIENT_PEC;
++
++	return i2c_transfer(client->adapter, &i2c_msg, 1); }
++
+ static ssize_t ipmb_write(struct file *file, const char __user *buf,
+ 			size_t count, loff_t *ppos)
+ {
+@@ -133,6 +153,12 @@ static ssize_t ipmb_write(struct file *file, const cha=
+r __user *buf,
+ 	rq_sa =3D GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
+ 	netf_rq_lun =3D msg[NETFN_LUN_IDX];
+=20
++	/* Check i2c block transfer vs smbus */
++	if (ipmb_dev->is_i2c_protocol) {
++		ret =3D ipmb_i2c_write(ipmb_dev->client, msg);
++		return (ret =3D=3D 1) ? count : ret;
++	}
++
+ 	/*
+ 	 * subtract rq_sa and netf_rq_lun from the length of the msg passed to
+ 	 * i2c_smbus_xfer
+@@ -277,6 +303,7 @@ static int ipmb_probe(struct i2c_client *client,
+ 			const struct i2c_device_id *id)
+ {
+ 	struct ipmb_dev *ipmb_dev;
++	struct device_node *np;
+ 	int ret;
+=20
+ 	ipmb_dev =3D devm_kzalloc(&client->dev, sizeof(*ipmb_dev), @@ -302,6 +329=
+,11 @@ static int ipmb_probe(struct i2c_client *client,
+ 	if (ret)
+ 		return ret;
+=20
++	/* Check if i2c block xmit needs to use instead of smbus */
++	np =3D client->dev.of_node;
++	if (np && of_get_property(np, "i2c-protocol", NULL))
++		ipmb_dev->is_i2c_protocol =3D true;
+
+I know Corey said that ACPI is not a priority but many companies (including=
+ mine) use ACPI and I would prefer if we implement it. All you need to do i=
+s use
+device_property_read_u32 function instead of of_get_property:
+ret =3D device_property_read_u32(&client->dev, "i2c-protocol", &ipmb_dev->i=
+s_i2c_protocol);
+This function does the job for both dt and acpi.
+
++
+ 	ipmb_dev->client =3D client;
+ 	i2c_set_clientdata(client, ipmb_dev);
+ 	ret =3D i2c_slave_register(client, ipmb_slave_cb);
+--
+2.17.1
+
