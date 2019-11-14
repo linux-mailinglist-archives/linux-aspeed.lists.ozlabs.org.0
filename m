@@ -2,59 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47EDCFBE82
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 05:09:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28F2FC6AB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 13:55:23 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47D7Kf0JN1zF72C
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 15:09:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47DM084fPvzF7lv
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Nov 2019 23:55:20 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f42;
- helo=mail-qv1-xf42.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=yadro.com (client-ip=89.207.88.252; helo=mta-01.yadro.com;
+ envelope-from=i.mikhaylov@yadro.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
+ dmarc=pass (p=none dis=none) header.from=yadro.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="AEdGfcWC"; 
+ unprotected) header.d=yadro.com header.i=@yadro.com header.b="gsYR//M5"; 
  dkim-atps=neutral
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
- [IPv6:2607:f8b0:4864:20::f42])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47D7KW2xYvzF71W
- for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Nov 2019 15:09:35 +1100 (AEDT)
-Received: by mail-qv1-xf42.google.com with SMTP id c9so1811427qvz.9
- for <linux-aspeed@lists.ozlabs.org>; Wed, 13 Nov 2019 20:09:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=xX0IGDGxZ7reuqUqxv2ykfm89rjIDO860DefvQbuA98=;
- b=AEdGfcWCvY7niHYo86gHc9yGERFpCe6WrSATcr7cwx/TjEmNACXgn8/zSykyRaPTtp
- j+AMAYeYUZeIWLQxJbTMQgFf+f176qMfkwrUTl/OWJmYCBJ2IEnwlfsQA86lsGV6pGAy
- yc3z2dohp+S8120xpch2MjrfMQwMbY49rH+ZM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=xX0IGDGxZ7reuqUqxv2ykfm89rjIDO860DefvQbuA98=;
- b=db4bbgZW6GMHECM0UdN2mXg7hXSE3VB1f+nH7D6u656FBT1t1JS2SoucA9v1CMCcdB
- f0R7eLk4T3wBVcvDEYfTaw7Mv7rEPRkHe00kanldUJSgucpZtmPz2GLli/IWrIcS41tv
- OxK29R5d7UL0as0EAoZs1pdqt/Nfo4oFSbv7rGJ8cSx6+/BhJn9foDvymOFsJzGiyElV
- Yvh5soGWwWKMfgtH6cVfn5eKwmgCjH08F8E4nM9viesyyH7QnSOC1gHpwSrCPRH1nZ7q
- eZ4sji+WZCPXiUkt6vNAaAD4nweyK1MbVzVr7bidgeHk4rIRTn3ftcbsQYfHrRkhFkJR
- PcCQ==
-X-Gm-Message-State: APjAAAUUXSI1kDZrfVhmfVt20/UfB1a1V8acjgYK2FVh7NZTsIkQVJV8
- H4tcVPfj71CumMvysA2701kfMTiER+VNoqcIRIM=
-X-Google-Smtp-Source: APXvYqye5GQ3dpU8avlSfFo3h9SALnUM70KR5nxoGWJtnrLSAdjx65WKjJWWtV5Blx8yCcHEJn80qKk5MMhOZTIqFpI=
-X-Received: by 2002:a0c:edcc:: with SMTP id i12mr5075940qvr.20.1573704571059; 
- Wed, 13 Nov 2019 20:09:31 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47DLzn2L3XzF7lF;
+ Thu, 14 Nov 2019 23:55:01 +1100 (AEDT)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 5E4AE42F10;
+ Thu, 14 Nov 2019 12:54:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-type:content-type:content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:date:subject:subject:from:from
+ :received:received:received; s=mta-01; t=1573736095; x=
+ 1575550496; bh=1/0Qq+Pqgb4cXnVt9/BiuEK56501fDFv5qyLnmzGrmI=; b=g
+ sYR//M5dLQ50dw7ob/6JBxGwYq8Snd8dY/OhCsorE8P7T/Gp9hp780lNehGiEO6n
+ GXqgeaZjOY9u3S4jsuHE3UEIhJz9qCS7GlHvsbyq64vnURwthcpq0621saCIFepu
+ rXLtOnt3lFYyMDAwGzM7HQstnkYODcgYO79nvE4dcQ=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id jq82iZ7X5c2u; Thu, 14 Nov 2019 15:54:55 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 085C3411D9;
+ Thu, 14 Nov 2019 15:54:53 +0300 (MSK)
+Received: from localhost.dev.yadro.com (172.17.15.69) by
+ T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.669.32; Thu, 14 Nov 2019 15:54:53 +0300
+From: Ivan Mikhaylov <i.mikhaylov@yadro.com>
+To: 
+Subject: [PATCH v2 0/2] add inversion signal presence support
+Date: Thu, 14 Nov 2019 15:54:33 +0300
+Message-ID: <20191114125435.27756-1-i.mikhaylov@yadro.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 14 Nov 2019 04:09:19 +0000
-Message-ID: <CACPK8Xc3a=6irkTSfwyPrr=nWv_fa9nMxthtC2AyqFJEWvuMwg@mail.gmail.com>
-Subject: [GIT PULL] ARM: aspeed: defconfig changes for 5.5
-To: arm <arm@kernel.org>, soc@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.17.15.69]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,46 +70,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org,
+ Adrian Hunter <adrian.hunter@intel.com>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Ivan Mikhaylov <i.mikhaylov@yadro.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello ARM maintainers,
+Vesnin BMC uses microSD with card presence signal inversion in the
+schematics. Change the .get_cd callback to detect 'cd-inverted' option
+in dts. There is no WP switch, due to this 'disable-wp' also was added
+into vesnin dts for sdhci.
 
-Here are some defconfig changes for 5.5. There is a diffstat and shortlog below.
+Ivan Mikhaylov (2):
+  aspeed: dts: add sd card for vesnin
+  mmc: sdhci-of-aspeed: add inversion signal presence
 
-The following changes since commit b50a85c023f494047a3767398ca589d1c801f22b:
+ arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts | 13 +++++++++++++
+ drivers/mmc/host/sdhci-of-aspeed.c          | 17 +++++++++++++++++
+ 2 files changed, 30 insertions(+)
 
-  ARM: config: multi_v5: ASPEED SDHCI, SGPIO (2019-11-13 14:38:39 +1030)
+-- 
+2.20.1
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
-tags/aspeed-5.5-defconfig
-
-for you to fetch changes up to b50a85c023f494047a3767398ca589d1c801f22b:
-
-  ARM: config: multi_v5: ASPEED SDHCI, SGPIO (2019-11-13 14:38:39 +1030)
-
-----------------------------------------------------------------
-ASPEED device tree updates for 5.5
-
-This adds recently merged drivers to the aspeed g4 and g5 defconfigs,
-and to the multi v5 and v7 shared defconfigs.
-
-----------------------------------------------------------------
-
-Joel Stanley (5):
-      ARM: config: aspeed-g5: Enable 8250_DW quirks
-      ARM: config: aspeed-g5: Add SGPIO and FSI drivers
-      ARM: config: aspeed-g4: Add MMC, and cleanup
-      ARM: configs: multi_v7: ASPEED network, gpio, FSI
-      ARM: config: multi_v5: ASPEED SDHCI, SGPIO
-
- arch/arm/configs/aspeed_g4_defconfig | 18 ++++++++++++------
- arch/arm/configs/aspeed_g5_defconfig |  4 ++++
- arch/arm/configs/multi_v5_defconfig  |  4 ++++
- arch/arm/configs/multi_v7_defconfig  |  9 +++++++++
- 4 files changed, 29 insertions(+), 6 deletions(-)
