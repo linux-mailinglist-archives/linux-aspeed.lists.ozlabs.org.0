@@ -2,39 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8813FF8E7
-	for <lists+linux-aspeed@lfdr.de>; Sun, 17 Nov 2019 12:18:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A412610005D
+	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Nov 2019 09:33:08 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47G8hQ4RWXzDqYb
-	for <lists+linux-aspeed@lfdr.de>; Sun, 17 Nov 2019 22:17:58 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47Ghzj1XGBzDqWJ
+	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Nov 2019 19:33:05 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=neutral (access neither permitted nor denied)
- smtp.mailfrom=lip6.fr (client-ip=192.134.164.104;
- helo=mail3-relais-sop.national.inria.fr; envelope-from=julia.lawall@lip6.fr;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::843;
+ helo=mail-qt1-x843.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=lip6.fr
-Received: from mail3-relais-sop.national.inria.fr
- (mail3-relais-sop.national.inria.fr [192.134.164.104])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="RPLX7TeW"; 
+ dkim-atps=neutral
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
+ [IPv6:2607:f8b0:4864:20::843])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47G8h83CJSzDqVQ
- for <linux-aspeed@lists.ozlabs.org>; Sun, 17 Nov 2019 22:17:44 +1100 (AEDT)
-X-IronPort-AV: E=Sophos;i="5.68,316,1569276000"; d="scan'208";a="327005876"
-Received: from abo-228-123-68.mrs.modulonet.fr (HELO hadrien) ([85.68.123.228])
- by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2019 12:17:20 +0100
-Date: Sun, 17 Nov 2019 12:17:19 +0100 (CET)
-From: Julia Lawall <julia.lawall@lip6.fr>
-X-X-Sender: jll@hadrien
-To: Eddie James <eajames@linux.ibm.com>
-Subject: Re: [PATCH 06/12] drivers/soc: Add Aspeed XDMA Engine Driver (fwd)
-Message-ID: <alpine.DEB.2.21.1911171216090.2641@hadrien>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47GhzZ1s8LzDqRw
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 18 Nov 2019 19:32:55 +1100 (AEDT)
+Received: by mail-qt1-x843.google.com with SMTP id 30so19280172qtz.12
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 18 Nov 2019 00:32:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=G197wSf8TaiI9/lGYE0rDPhziYwFTRIxBhPoTUbgeBA=;
+ b=RPLX7TeW/GbXiMC3Vh2XCtKZQyv5itThHJSwjyZdRW0TQZ35tz7SDfT53bl+VlpgXb
+ 8FYLFF9p1Yl+aDRafxc+GYOOEoq3/Y+aq+39yIVgo5SopNKmVgMhNkOjz+fV1970xUgU
+ uKWvuBZbbWo5q9t+2UL7a5AEMBvZ60bpK7RU0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=G197wSf8TaiI9/lGYE0rDPhziYwFTRIxBhPoTUbgeBA=;
+ b=RDwj6zjwJhh05hv9ib+eVT9BX1DYWx+mXkVA5O5rFKSCArd0/DnvCW96EVYl67WUg6
+ pm5jkuGCBrrNYEG/rXMaxqiJxXO8cFWQDEFz24eqNSrLeiCiX0+ulrqjhCJLshad4tic
+ H3xfczX5jhfox8Ec0xwGnS238xCy5kGj02V/UOXD48lBn5AZjMEkR220Tj7U0dy6akdV
+ uWmc9PtPrQVuzInLk2f7BeaYLJs0nw6JZtC4o773wAchu6NwmuWPE5DJX2SYM661PK6R
+ UAjIGyTGbpQjjuWArsNGwnB79UEpkswt/k1dqG5z45MYP2gz/roDjk9WCqpK3SsfRzkH
+ WHVg==
+X-Gm-Message-State: APjAAAWlECJpe3XKbzm/vF8V/N0Ak8U404eQcQQnLX1RAQto/WwyWu9M
+ WV9/Z5IIXuKSKYJE6J55jhAks0ifvDcsVadpzW0=
+X-Google-Smtp-Source: APXvYqytLEVzZAuHtu5CpbX/qKPC3Y0ucWn6Og0BcdDsGA1J4wtPHXG9cobEVbysXJFiSglvMc/tM3gWN1oOZIZ7E2Y=
+X-Received: by 2002:aed:3baf:: with SMTP id r44mr25945827qte.255.1574065971965; 
+ Mon, 18 Nov 2019 00:32:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <alpine.DEB.2.21.1911171212140.2641@hadrien>
+In-Reply-To: <alpine.DEB.2.21.1911171212140.2641@hadrien>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 18 Nov 2019 08:32:40 +0000
+Message-ID: <CACPK8XdB7vFThUUCv-eAZM=Qxka_GR2OfcdZza5+9Xs80TCf5A@mail.gmail.com>
+Subject: Re: [PATCH] drivers/soc: fix semicolon.cocci warnings
+To: Julia Lawall <julia.lawall@lip6.fr>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,56 +69,68 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, kbuild-all@lists.01.org,
- jason@lakedaemon.net, linux-aspeed@lists.ozlabs.org, maz@kernel.org,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org, tglx@linutronix.de
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, kbuild-all@lists.01.org,
+ Jason Cooper <jason@lakedaemon.net>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, maz@kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Thomas Gleixner <tglx@linutronix.de>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Please check on the missing iounmap issue.  Patches have beenf
-forwarded for the other issues.
+Hello,
 
-julia
+On Sun, 17 Nov 2019 at 11:13, Julia Lawall <julia.lawall@lip6.fr> wrote:
+>
+> From: kbuild test robot <lkp@intel.com>
+>
+>  Remove unneeded semicolons.
+>
+> Generated by: scripts/coccinelle/misc/semicolon.cocci
+>
+> Fixes: eeb5d52f36e5 ("drivers/soc: Add Aspeed XDMA Engine Driver")
+> CC: Eddie James <eajames@linux.ibm.com>
+> Signed-off-by: kbuild test robot <lkp@intel.com>
+> Signed-off-by: Julia Lawall <julia.lawall@lip6.fr>
+>
+> ---
+>
+> url:    https://github.com/0day-ci/linux/commits/Eddie-James/Aspeed-Add-SCU-interrupt-controller-and-XDMA-engine-drivers/20191110-064846
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git for-next
 
----------- Forwarded message ----------
-Date: Sun, 17 Nov 2019 16:34:53 +0800
-From: kbuild test robot <lkp@intel.com>
-To: kbuild@lists.01.org
-Cc: Julia Lawall <julia.lawall@lip6.fr>
-Subject: Re: [PATCH 06/12] drivers/soc: Add Aspeed XDMA Engine Driver
+I found this confusing, as the branch doesn't contain the patch you're
+referring to.
 
-In-Reply-To: <1573244313-9190-7-git-send-email-eajames@linux.ibm.com>
-References: <1573244313-9190-7-git-send-email-eajames@linux.ibm.com>
+Cheers,
 
-Hi Eddie,
+Joel
 
-I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on joel-aspeed/for-next]
-[also build test WARNING on v5.4-rc7 next-20191115]
-[if your patch is applied to the wrong git tree, please drop us a note to help
-improve the system. BTW, we also suggest to use '--base' option to specify the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
 
-url:    https://github.com/0day-ci/linux/commits/Eddie-James/Aspeed-Add-SCU-interrupt-controller-and-XDMA-engine-drivers/20191110-064846
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git for-next
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
-
->> drivers/soc/aspeed/aspeed-xdma.c:614:2-8: ERROR: missing iounmap; ioremap on line 580 and execution via conditional on line 612
---
->> drivers/soc/aspeed/aspeed-xdma.c:756:2-9: line 756 is redundant because platform_get_irq() already prints an error
---
->> drivers/soc/aspeed/aspeed-xdma.c:610:2-3: Unneeded semicolon
-   drivers/soc/aspeed/aspeed-xdma.c:738:2-3: Unneeded semicolon
-
-Please review and possibly fold the followup patch.
-
----
-0-DAY kernel test infrastructure                 Open Source Technology Center
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
+> :::::: branch date: 7 days ago
+> :::::: commit date: 7 days ago
+>
+>  aspeed-xdma.c |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> --- a/drivers/soc/aspeed/aspeed-xdma.c
+> +++ b/drivers/soc/aspeed/aspeed-xdma.c
+> @@ -607,7 +607,7 @@ static int aspeed_xdma_init(struct aspee
+>
+>                 scu = syscon_regmap_lookup_by_compatible("aspeed,ast2600-scu");
+>                 break;
+> -       };
+> +       }
+>
+>         if (!scu) {
+>                 dev_err(ctx->dev, "Failed to grab SCU regs.\n");
+> @@ -735,7 +735,7 @@ static int aspeed_xdma_probe(struct plat
+>                 ctx->status_bits.ds_comp = XDMA_AST2600_STATUS_DS_COMP;
+>                 ctx->status_bits.ds_dirty = XDMA_AST2600_STATUS_DS_DIRTY;
+>                 break;
+> -       };
+> +       }
+>
+>         ctx->dev = dev;
+>         platform_set_drvdata(pdev, ctx);
