@@ -2,63 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B2D1048CD
-	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Nov 2019 04:06:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A7F1048CE
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Nov 2019 04:06:28 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47JPbL1bsyzDqGn
-	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Nov 2019 14:06:22 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47JPbQ1ZdTzDqCZ
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Nov 2019 14:06:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::544;
+ helo=mail-pg1-x544.google.com; envelope-from=manikandan.hcl.ers.epl@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=hpe.com
- (client-ip=148.163.143.35; helo=mx0b-002e3701.pphosted.com;
- envelope-from=prvs=0215080fb3=jerry.hoemann@hpe.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=hpe.com
-X-Greylist: delayed 1406 seconds by postgrey-1.36 at bilbo;
- Sat, 09 Nov 2019 05:29:18 AEDT
-Received: from mx0b-002e3701.pphosted.com (mx0b-002e3701.pphosted.com
- [148.163.143.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="tC3R1xX7"; 
+ dkim-atps=neutral
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 478phG03VpzF6RG
- for <linux-aspeed@lists.ozlabs.org>; Sat,  9 Nov 2019 05:29:15 +1100 (AEDT)
-Received: from pps.filterd (m0150245.ppops.net [127.0.0.1])
- by mx0b-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xA8I23Rl000866; Fri, 8 Nov 2019 18:05:21 GMT
-Received: from g4t3427.houston.hpe.com (g4t3427.houston.hpe.com
- [15.241.140.73])
- by mx0b-002e3701.pphosted.com with ESMTP id 2w5d0sg54m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 08 Nov 2019 18:05:21 +0000
-Received: from g9t2301.houston.hpecorp.net (g9t2301.houston.hpecorp.net
- [16.220.97.129])
- by g4t3427.houston.hpe.com (Postfix) with ESMTP id 06C3A6C;
- Fri,  8 Nov 2019 18:05:20 +0000 (UTC)
-Received: from anatevka.americas.hpqcorp.net (anatevka.americas.hpqcorp.net
- [10.34.81.30])
- by g9t2301.houston.hpecorp.net (Postfix) with ESMTP id BECA94F;
- Fri,  8 Nov 2019 18:05:17 +0000 (UTC)
-Date: Fri, 8 Nov 2019 11:05:17 -0700
-From: Jerry Hoemann <jerry.hoemann@hpe.com>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH] watchdog: aspeed: Fix clock behaviour for ast2600
-Message-ID: <20191108180517.GB150483@anatevka.americas.hpqcorp.net>
-References: <20191108032905.22463-1-joel@jms.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47GpPX5s96zDqQs
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 18 Nov 2019 23:37:17 +1100 (AEDT)
+Received: by mail-pg1-x544.google.com with SMTP id r18so9558775pgu.13
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 18 Nov 2019 04:37:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=eA/JCApNlYCU5jrBnTYvAgCpSZcMA311vllL5COdNvE=;
+ b=tC3R1xX7Ly//6QapOiAnsxuV4HsZCGw4AD+75iAtE4u88DFAcNSTLWlWXwElelB2Zh
+ tFpNdM+/+5xrT0BkRHGPfOqPKfLnGNoTM6ttfpO5Xb3NPvQYtTxq1AudMI6D6YPTJEF2
+ 9qdTlApxAMQbbWUDxmIeFWp2Elcgn9f+MHmq++Lo1tPXHz3yhVYDPX9gAJzCANfUcBqI
+ Sb12jvKBVlC9bnW6DwrrF4isIX7izBN6aiEeoJZk4tM5GKip4zl9wXHik1+ULg2dwnBW
+ QkbTqfPrjUrGtIgBy5dYGcKMr2aWwjuVnybjEBirTZH4fh8L1mP179+0IfbhHcvCF+3R
+ 2pkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=eA/JCApNlYCU5jrBnTYvAgCpSZcMA311vllL5COdNvE=;
+ b=NmC1wetb+cEnVuMU69QSzL1AzBSfMPpXZUv5ZEyqNeT68eDTFd7eN7G4/dRnrfFCRJ
+ OaYFu+kZVn+eraSweVhbLcq6Wa61G+uqZL++EUFOhMOVlWLf04OLY2ivmIPKRx/pbohT
+ A0izNgwTXT1HGXP/Lp3B25jFxyx+PvoEbcMMi3DOX1Kogpi2BwAxgn8x5ZF02y496V3B
+ XD5E3gngf5tFNZcoyTtRfgjee7AQ69o7SRIZml6U33J8JjIWwKi4qLwDFzD+Zgyj1pVU
+ cPhtIQXyCl8w80wAeBpr71U8thtenxtmv5mg/Gv9NZ0sTzytU9bn1jpFwYOnL+FDoJ4a
+ zlnA==
+X-Gm-Message-State: APjAAAXWwPjevfg2k7mBPClcH9/rX5lEdm6R//9xB6M/w/AGTaYJbzTf
+ PRnotD3ysPRnoLybE5b8cWM=
+X-Google-Smtp-Source: APXvYqyaDNUt4kG2f2KsfysiFDFOgq3pOEIjOR4M85Sqgq0ZyXWWWq9Vy3lHcvYFW8pYfu7N9CadJg==
+X-Received: by 2002:a63:231b:: with SMTP id j27mr21681980pgj.106.1574080635213; 
+ Mon, 18 Nov 2019 04:37:15 -0800 (PST)
+Received: from cnn ([2402:3a80:474:446:ad42:52cf:560a:df52])
+ by smtp.gmail.com with ESMTPSA id i22sm18055887pjx.1.2019.11.18.04.37.11
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 18 Nov 2019 04:37:14 -0800 (PST)
+Date: Mon, 18 Nov 2019 18:07:07 +0530
+From: manikandan-e <manikandan.hcl.ers.epl@gmail.com>
+To: joel@jms.id.au, andrew@aj.id.au
+Subject: [PATCH] ARM: dts: aspeed: Adding Facebook Yosemite V2 BMC
+Message-ID: <20191118123707.GA5560@cnn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191108032905.22463-1-joel@jms.id.au>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-08_06:2019-11-08,2019-11-08 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 impostorscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 priorityscore=1501 phishscore=0
- suspectscore=4 mlxlogscore=999 malwarescore=0 adultscore=0 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
- definitions=main-1911080176
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-Mailman-Approved-At: Thu, 21 Nov 2019 14:06:18 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -71,73 +77,201 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: Jerry.Hoemann@hpe.com
-Cc: linux-arm-kernel@lists.infradead.org, linux-watchdog@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, manikandan.e@hcl.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Nov 08, 2019 at 01:59:05PM +1030, Joel Stanley wrote:
-> The ast2600 no longer uses bit 4 in the control register to indicate a
-> 1MHz clock (It now controls weather this watchdog is reset by a SOC
-> reset). This means we do not want to set it. It also does not need to be
-> set for the ast2500, as it is read-only on that SoC.
+The Yosemite V2 is a facebook multi-node server
+platform that host four OCP server. The BMC
+in the Yosemite V2 platorm based on AST2500 SoC.
 
+This patch adds linux device tree entry related to
+Yosemite V2 specific devices connected to BMC SoC.
 
-s/weather/whether/
+Signed-off-by: manikandan-e <manikandan.hcl.ers.epl@gmail.com>
+---
+ .../boot/dts/aspeed-bmc-facebook-yosemitev2.dts    | 170 +++++++++++++++++++++
+ 1 file changed, 170 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
 
-
-> 
-> The comment next to the clock rate selection wandered away from where it
-> was set, so put it back next to the register setting it's describing.
-> 
-> Fixes: b3528b487448 ("watchdog: aspeed: Add support for AST2600")
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> ---
->  drivers/watchdog/aspeed_wdt.c | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
-> index 4ec0906bf12c..7e00960651fa 100644
-> --- a/drivers/watchdog/aspeed_wdt.c
-> +++ b/drivers/watchdog/aspeed_wdt.c
-> @@ -258,11 +258,6 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
->  	if (IS_ERR(wdt->base))
->  		return PTR_ERR(wdt->base);
->  
-> -	/*
-> -	 * The ast2400 wdt can run at PCLK, or 1MHz. The ast2500 only
-> -	 * runs at 1MHz. We chose to always run at 1MHz, as there's no
-> -	 * good reason to have a faster watchdog counter.
-> -	 */
->  	wdt->wdd.info = &aspeed_wdt_info;
->  	wdt->wdd.ops = &aspeed_wdt_ops;
->  	wdt->wdd.max_hw_heartbeat_ms = WDT_MAX_TIMEOUT_MS;
-> @@ -278,7 +273,16 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
->  		return -EINVAL;
->  	config = ofdid->data;
->  
-> -	wdt->ctrl = WDT_CTRL_1MHZ_CLK;
-> +	/*
-> +	 * On clock rates:
-> +	 *  - ast2400 wdt can run at PCLK, or 1MHz
-> +	 *  - ast2500 only runs at 1MHz, hard coding bit 4 to 1
-> +	 *  - ast2600 always runs at 1MHz
-> +	 *
-> +	 * Set the ast2400 to run at 1MHz as it simplifies the driver.
-> +	 */
-> +	if (of_device_is_compatible(np, "aspeed,ast2400-wdt"))
-> +		wdt->ctrl = WDT_CTRL_1MHZ_CLK;
->  
->  	/*
->  	 * Control reset on a per-device basis to ensure the
-> -- 
-> 2.24.0.rc1
-
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+new file mode 100644
+index 0000000..46a285a
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+@@ -0,0 +1,170 @@
++// SPDX-License-Identifier: GPL-2.0+
++// Copyright (c) 2018 Facebook Inc.
++// Author:
++/dts-v1/;
++
++#include "aspeed-g5.dtsi"
++#include <dt-bindings/gpio/aspeed-gpio.h>
++
++/ {
++	model = "Facebook Yosemitev2 BMC";
++	compatible = "facebook,yosemitev2-bmc", "aspeed,ast2500";
++	aliases {
++		serial0 = &uart1;
++		serial4 = &uart5;
++	};
++	chosen {
++		stdout-path = &uart5;
++		bootargs = "console=ttyS4,115200 earlyprintk";
++	};
++
++	memory@80000000 {
++		reg = <0x80000000 0x20000000>;
++	};
++
++	iio-hwmon {
++		// VOLATAGE SENSOR
++		compatible = "iio-hwmon";
++		io-channels = <&adc 0> , <&adc 1> , <&adc 2> ,  <&adc 3> ,
++		<&adc 4> , <&adc 5> , <&adc 6> ,  <&adc 7> ,
++		<&adc 8> , <&adc 9> , <&adc 10>, <&adc 11> ,
++		<&adc 12> , <&adc 13> , <&adc 14> , <&adc 15> ;
++	};
++};
++
++&fmc {
++	status = "okay";
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++#include "openbmc-flash-layout.dtsi"
++	};
++};
++
++&spi1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_spi1_default>;
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "pnor";
++	};
++};
++
++&lpc_snoop {
++	status = "okay";
++	snoop-ports = <0x80>;
++};
++
++&lpc_ctrl {
++	// Enable lpc clock
++	status = "okay";
++};
++
++&vuart {
++	// VUART Host Console
++	status = "okay";
++};
++
++&uart1 {
++	// Host Console
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_txd1_default
++		     &pinctrl_rxd1_default>;
++};
++
++&uart2 {
++	// SoL Host Console
++	status = "okay";
++};
++
++&uart3 {
++	// SoL BMC Console
++	status = "okay";
++};
++
++&uart5 {
++	// BMC Console
++	status = "okay";
++};
++
++&mac0 {
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rmii1_default>;
++	use-ncsi;
++};
++
++&adc {
++	status = "okay";
++};
++
++&i2c8 {
++	status = "okay";
++	//FRU EEPROM
++	eeprom@51 {
++		compatible = "atmel,24c64";
++		reg = <0x51>;
++		pagesize = <32>;
++	};
++};
++
++&i2c9 {
++	status = "okay";
++	tmp421@4e {
++	//INLET TEMP
++		compatible = "ti,tmp421";
++		reg = <0x4e>;
++	};
++	//OUTLET TEMP
++	tmp421@4f {
++		compatible = "ti,tmp421";
++		reg = <0x4f>;
++	};
++};
++
++&i2c10 {
++	status = "okay";
++	//HSC
++	adm1278@40 {
++		compatible = "adi,adm1278";
++		reg = <0x40>;
++	};
++};
++
++&i2c11 {
++	status = "okay";
++	//MEZZ_TEMP_SENSOR
++	tmp421@1f {
++		compatible = "ti,tmp421";
++		reg = <0x1f>;
++	};
++};
++
++&i2c12 {
++	status = "okay";
++	//MEZZ_FRU
++	eeprom@51 {
++		compatible = "atmel,24c64";
++		reg = <0x51>;
++		pagesize = <32>;
++	};
++};
++
++&pwm_tacho {
++	status = "okay";
++   //FSC
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_pwm0_default &pinctrl_pwm1_default>;
++	fan@0 {
++		reg = <0x00>;
++		aspeed,fan-tach-ch = /bits/ 8 <0x00>;
++	};
++	fan@1 {
++		reg = <0x01>;
++		aspeed,fan-tach-ch = /bits/ 8 <0x02>;
++	};
++};
 -- 
+2.7.4
 
------------------------------------------------------------------------------
-Jerry Hoemann                  Software Engineer   Hewlett Packard Enterprise
------------------------------------------------------------------------------
