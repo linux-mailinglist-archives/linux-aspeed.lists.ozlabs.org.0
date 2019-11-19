@@ -1,66 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89111002F4
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Nov 2019 11:51:21 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47Gm3C1k44zDqQG
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Nov 2019 21:51:19 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5D6101459
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Nov 2019 06:33:23 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47HDxq6bXqzDqd7
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Nov 2019 16:33:19 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=yadro.com (client-ip=89.207.88.252; helo=mta-01.yadro.com;
- envelope-from=i.mikhaylov@yadro.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=yadro.com
+ smtp.mailfrom=linuxfoundation.org (client-ip=198.145.29.99;
+ helo=mail.kernel.org; envelope-from=gregkh@linuxfoundation.org;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=linuxfoundation.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=yadro.com header.i=@yadro.com header.b="MSyJtv3H"; 
+ unprotected) header.d=kernel.org header.i=@kernel.org header.b="HOYmxRHE"; 
  dkim-atps=neutral
-Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47GlyN0SWYzDqML;
- Mon, 18 Nov 2019 21:47:07 +1100 (AEDT)
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id DE08042009;
- Mon, 18 Nov 2019 10:47:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:date:subject
- :subject:from:from:received:received:received; s=mta-01; t=
- 1574074023; x=1575888424; bh=bSKf4yCzpgTW+4k8YJNGqWG52QBL9g0Yq7X
- wprxxbYo=; b=MSyJtv3H0hc/7a7+8fs4AkG/hQC5mYiSzv7Fpyz9mY2gPeXz+7t
- x07Dmb/AUmfe6G/J2fbB+vNkP/8idZLRxJVD7F5RnOlUfYd+1zQLKh3oToBlPBuk
- g8M57OOisit/X281ZMyjsHFJD+VaxsuAywzfikcJqVvTTHGZsyxRm3no=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5ZXqgD56ahqc; Mon, 18 Nov 2019 13:47:03 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47HDxh1fGDzDqXL
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 19 Nov 2019 16:33:11 +1100 (AEDT)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 8B481437F3;
- Mon, 18 Nov 2019 13:47:02 +0300 (MSK)
-Received: from localhost.dev.yadro.com (172.17.15.69) by
- T-EXCH-02.corp.yadro.com (172.17.10.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.669.32; Mon, 18 Nov 2019 13:47:00 +0300
-From: Ivan Mikhaylov <i.mikhaylov@yadro.com>
-To: 
-Subject: [PATCH v3 3/3] mmc: sdhci-of-aspeed: add inversion signal presence
-Date: Mon, 18 Nov 2019 13:46:46 +0300
-Message-ID: <20191118104646.3838-4-i.mikhaylov@yadro.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191118104646.3838-1-i.mikhaylov@yadro.com>
-References: <20191118104646.3838-1-i.mikhaylov@yadro.com>
+ by mail.kernel.org (Postfix) with ESMTPSA id C383221783;
+ Tue, 19 Nov 2019 05:33:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1574141589;
+ bh=AnQeayZI8Q5t0IuDvtp0ycef/61y+WT5LaZc9K/UZ0w=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=HOYmxRHE78vqrtjnHX+g5qo4hrWGXA/7jMAxT49hk1Q0B+dR+G0AdMv7xi8QSzcu/
+ TdcPGc1mjdk+cc7z2HXZx/EqBpQlC7o/rFXWUDcdS1D5omIW6A5SZu1jYVYGlWi79x
+ f/rINGpY7WUhH7PQYyLuryE5M+eUbM7+G4lKwhx8=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 4.19 211/422] ARM: dts: aspeed: Fix I2C bus warnings
+Date: Tue, 19 Nov 2019 06:16:48 +0100
+Message-Id: <20191119051412.266011758@linuxfoundation.org>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191119051400.261610025@linuxfoundation.org>
+References: <20191119051400.261610025@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.17.15.69]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,45 +59,71 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org,
- Adrian Hunter <adrian.hunter@intel.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Ivan Mikhaylov <i.mikhaylov@yadro.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Sasha Levin <sashal@kernel.org>, Rob Herring <robh@kernel.org>,
+ linux-aspeed@lists.ozlabs.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ stable@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add read_l callback in sdhci_ops with flipping of SDHCI_CARD_PRESENT
-bit in case of inverted card detection signal.
+From: Rob Herring <robh@kernel.org>
 
-Signed-off-by: Ivan Mikhaylov <i.mikhaylov@yadro.com>
+[ Upstream commit 1426d40e11f730e0c0fd3700a7048082f87b0e6e ]
 
-diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-index 8962f6664381..56912e30c47e 100644
---- a/drivers/mmc/host/sdhci-of-aspeed.c
-+++ b/drivers/mmc/host/sdhci-of-aspeed.c
-@@ -111,7 +111,19 @@ static void aspeed_sdhci_set_bus_width(struct sdhci_host *host, int width)
- 	sdhci_writeb(host, ctrl, SDHCI_HOST_CONTROL);
- }
+dtc has new checks for I2C buses. The ASpeed dts files have a node named
+'i2c' which causes a false positive warning. As the node is a 'simple-bus',
+correct the node name to be 'bus' to fix the warnings.
+
+arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dtb: Warning (i2c_bus_bridge): /ahb/apb/i2c@1e78a000: incorrect #size-cells for I2C bus
+arch/arm/boot/dts/aspeed-bmc-opp-romulus.dtb: Warning (i2c_bus_bridge): /ahb/apb/i2c@1e78a000: incorrect #size-cells for I2C bus
+arch/arm/boot/dts/aspeed-ast2500-evb.dtb: Warning (i2c_bus_bridge): /ahb/apb/i2c@1e78a000: incorrect #size-cells for I2C bus
+arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dtb: Warning (i2c_bus_bridge): /ahb/apb/i2c@1e78a000: incorrect #size-cells for I2C bus
+arch/arm/boot/dts/aspeed-bmc-intel-s2600wf.dtb: Warning (i2c_bus_bridge): /ahb/apb/i2c@1e78a000: incorrect #size-cells for I2C bus
+arch/arm/boot/dts/aspeed-bmc-opp-palmetto.dtb: Warning (i2c_bus_bridge): /ahb/apb/i2c@1e78a000: incorrect #size-cells for I2C bus
+arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dtb: Warning (i2c_bus_bridge): /ahb/apb/i2c@1e78a000: incorrect #size-cells for I2C bus
+arch/arm/boot/dts/aspeed-bmc-opp-zaius.dtb: Warning (i2c_bus_bridge): /ahb/apb/i2c@1e78a000: incorrect #size-cells for I2C bus
+arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dtb: Warning (i2c_bus_bridge): /ahb/apb/i2c@1e78a000: incorrect #size-cells for I2C bus
+arch/arm/boot/dts/aspeed-bmc-quanta-q71l.dtb: Warning (i2c_bus_bridge): /ahb/apb/i2c@1e78a000: incorrect #size-cells for I2C bus
+
+Cc: Joel Stanley <joel@jms.id.au>
+Cc: Andrew Jeffery <andrew@aj.id.au>
+Cc: linux-aspeed@lists.ozlabs.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/arm/boot/dts/aspeed-g4.dtsi | 2 +-
+ arch/arm/boot/dts/aspeed-g5.dtsi | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/boot/dts/aspeed-g4.dtsi b/arch/arm/boot/dts/aspeed-g4.dtsi
+index b23a983f95a53..69f6b9d2e7e7d 100644
+--- a/arch/arm/boot/dts/aspeed-g4.dtsi
++++ b/arch/arm/boot/dts/aspeed-g4.dtsi
+@@ -350,7 +350,7 @@
+ 				status = "disabled";
+ 			};
  
-+static u32 aspeed_sdhci_readl(struct sdhci_host *host, int reg)
-+{
-+	u32 val = readl(host->ioaddr + reg);
-+
-+	if (unlikely(reg == SDHCI_PRESENT_STATE) &&
-+	    (host->mmc->caps2 & MMC_CAP2_CD_ACTIVE_HIGH))
-+		val ^= SDHCI_CARD_PRESENT;
-+
-+	return val;
-+}
-+
- static const struct sdhci_ops aspeed_sdhci_ops = {
-+	.read_l = aspeed_sdhci_readl,
- 	.set_clock = aspeed_sdhci_set_clock,
- 	.get_max_clock = aspeed_sdhci_get_max_clock,
- 	.set_bus_width = aspeed_sdhci_set_bus_width,
+-			i2c: i2c@1e78a000 {
++			i2c: bus@1e78a000 {
+ 				compatible = "simple-bus";
+ 				#address-cells = <1>;
+ 				#size-cells = <1>;
+diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
+index 87fdc146ff525..d107459fc0f89 100644
+--- a/arch/arm/boot/dts/aspeed-g5.dtsi
++++ b/arch/arm/boot/dts/aspeed-g5.dtsi
+@@ -410,7 +410,7 @@
+ 				status = "disabled";
+ 			};
+ 
+-			i2c: i2c@1e78a000 {
++			i2c: bus@1e78a000 {
+ 				compatible = "simple-bus";
+ 				#address-cells = <1>;
+ 				#size-cells = <1>;
 -- 
 2.20.1
+
+
 
