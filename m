@@ -2,76 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A40104DD2
-	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Nov 2019 09:27:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49969105010
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Nov 2019 11:09:07 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47JXjN0lBYzDqJC
-	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Nov 2019 19:27:04 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47JZz43Jh1zDr5l
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Nov 2019 21:09:04 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::442;
- helo=mail-pf1-x442.google.com; envelope-from=manikandan.hcl.ers.epl@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::342;
+ helo=mail-wm1-x342.google.com; envelope-from=luc.vanoostenryck@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="O18KP3c8"; 
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="prbs1dP8"; 
  dkim-atps=neutral
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47JWsP0x3yzDqVj
- for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Nov 2019 18:48:56 +1100 (AEDT)
-Received: by mail-pf1-x442.google.com with SMTP id 193so1225629pfc.13
- for <linux-aspeed@lists.ozlabs.org>; Wed, 20 Nov 2019 23:48:56 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47JZyr318mzDr5b
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Nov 2019 21:08:52 +1100 (AEDT)
+Received: by mail-wm1-x342.google.com with SMTP id l17so3045625wmh.0
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Nov 2019 02:08:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=0AHoXKBeiHfVOAlJ8eUc0ml1SVtw0bxVrUMv8+xZmSY=;
- b=O18KP3c8MuNE/peTVtVbsMFGzxa1d5zRbE/0MI9YjODcfKHC70NvuQ/hEGRuqgtFze
- i2StBN7mcK+1Ab4mfoEd46g3Sg71PXE9XIK840GAsqZw4ZbKc7NhOV28xordQFsZ9dJG
- ciPgbl8tJxg79uEBDlCbh7hgQ0EZk3KPUnmT5NJZRRxaDW35bOecLOwXTnmLMqaE6yO2
- j3lz5c+aHbLOPPgk3L+h5y1G37rgrGL9Xgm2zypiBeoaLmU97YMeiuABQmAssPol6clI
- xjalaikZ0rPqXKhf9nwDhVyOHoIsIhcGL+3HKrgLdBbjD7Bo6qp3MH2VwMNQMmxKrXnN
- kinA==
+ :content-disposition:in-reply-to;
+ bh=R4hjhKPyQPWEsWK0HmI2zX8e76pSPH6drX+KAe0V84E=;
+ b=prbs1dP81sRgtZ7wMCz80nqk+aX4U4XK85NdUe3WyuZaaGzWb6qcXqMherEtvNOdfQ
+ 0mFggBF0xyVTaVOrAJi9kBoL3Wz2rHwKRiBtK9dd0Cix8BWDWQTxqphMaHDloq0dR2uW
+ cfaEJuWSZRXBi3t8JQ1a9RiTet71dpIlmxSrix9fiPhjr6ViM4JByd+qlWkc1Lw9s6Dn
+ MNPXnRbI/U7zcw5K40Cx1EmUwjrSZKUjVf6KH4pEa+ucjPeoQioSZwwvYerH2K54/sZ/
+ SB33awdggXTa/GgebY19XswcrwnmF8mLAP9YsQ3US8r9L3ZqbmEsEPGe693crpzqwMIp
+ imEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=0AHoXKBeiHfVOAlJ8eUc0ml1SVtw0bxVrUMv8+xZmSY=;
- b=A7PH0CwqsR47ikdfJ0StPpdjyWbvO4ZMjEm0TNPt/gHaP/NxuS/xdOF0nd1FJiLPuI
- +ax2kyTtZzB7lVdQFD4dVaj8cRhyQqSav07g9snceHJDnvemhGNUnaNfKlfNyJGDpbzU
- bKi8SWXzaAZxwEAR3Kn6SKDKmW2p4+5E8dnQKaXUDHX7zlRJR4PDnxY7qjOcuG8PP2+l
- /EjGKdob1m5xhfu4KGxDo2i0kd7gvWaz3rRwqsN9PbTD2CPv5x2Fx9iBxkA7P9SJ5nY3
- AocnIBPb102Jxju+CgafT3Xtby11EJKDooneQ5RvbqnWRg3O1Zr1Mn1DwcIzpYQFxbLQ
- jWhg==
-X-Gm-Message-State: APjAAAUyE2CgtPvbh359Pk/uNg+RCFDQNc7jpbwNdyd6uHSlI2/B/tsw
- 7x5KtVHvA8clQsNvvMCWjE8=
-X-Google-Smtp-Source: APXvYqzvkWa/OpRByvNc2AbV0OfSnNxlcYaG+GEMcyVJa9xbmT9KIDL/JW+GeWTt7/FITTZev9uwmA==
-X-Received: by 2002:aa7:8690:: with SMTP id d16mr8978023pfo.117.1574322532634; 
- Wed, 20 Nov 2019 23:48:52 -0800 (PST)
-Received: from cnn ([2402:3a80:474:4290:5d90:34b2:635a:ec78])
- by smtp.gmail.com with ESMTPSA id s26sm2000234pfh.66.2019.11.20.23.48.48
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 20 Nov 2019 23:48:52 -0800 (PST)
-Date: Thu, 21 Nov 2019 13:18:44 +0530
-From: Manikandan <manikandan.hcl.ers.epl@gmail.com>
-To: Vijay Khemka <vijaykhemka@fb.com>, andrew@aj.id.au
-Subject: Re: [PATCH] ARM: dts: aspeed: Adding Facebook Yosemite V2 BMC
-Message-ID: <20191121074843.GA10607@cnn>
-References: <20191118123707.GA5560@cnn>
- <b2f503f0-0f13-46bc-a1be-c82a42b85797@www.fastmail.com>
- <D34D3A2F-9CD5-4924-8407-F6EB0A4C66B5@fb.com>
+ :mime-version:content-disposition:in-reply-to;
+ bh=R4hjhKPyQPWEsWK0HmI2zX8e76pSPH6drX+KAe0V84E=;
+ b=pK44SWXnkjAfrGW9ujfJ/z1CntdLK2yzSCLM/DZhss7h8CeNgbX3bgaqBMHLpxcZHf
+ LIfoFGdrNR/uGJiMwgHzLq0yXCFV6FdGg+HKp1hVos7YN1wTpPhZ4Rcp+uvml/dkQrAZ
+ dHd70SbTjK6xpVwIvIAF2q5wxFgoqKZTbWzmWrzXRsAgqQKMvyuDfyOsCOEEfQ0PY7rB
+ nqCoDDzhcD52q2w3/JRaZqXs/huLha4dSZUxSdj5xOu2iqr8oxO9i/00QCoAl9A0ilX6
+ 2IWGMQiDrK/0819XdJWyop+31upUAHnGnYzC+oTyLoWozVgwPn8/A0N0XEitMix2YjQA
+ trww==
+X-Gm-Message-State: APjAAAU1AIUfrX6ImJ7YWQzmgIWx1o1+l8cRZRP6SMgVv6MSHKapXZsz
+ Am3jFW1yvfBecmGtixBF+mE=
+X-Google-Smtp-Source: APXvYqwK4BLAl1njfaoGUIR/wJpfPYIvklCz7Cwdpuk+lsOrpbr4tVRvmsBX1oWogL8be666keQqvw==
+X-Received: by 2002:a1c:e08a:: with SMTP id x132mr8950374wmg.146.1574330927887; 
+ Thu, 21 Nov 2019 02:08:47 -0800 (PST)
+Received: from ltop.local ([2a02:a03f:40e1:9900:4082:8c56:ea03:cdcd])
+ by smtp.gmail.com with ESMTPSA id y2sm2568116wmy.2.2019.11.21.02.08.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Nov 2019 02:08:47 -0800 (PST)
+Date: Thu, 21 Nov 2019 11:08:23 +0100
+From: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+To: Joel Stanley <joel@jms.id.au>
+Subject: Re: [PATCH] aspeed: fix snoop_file_poll()'s return type
+Message-ID: <20191121100823.2twowr42nsyykvgg@ltop.local>
+References: <20191120000647.30551-1-luc.vanoostenryck@gmail.com>
+ <787e54c2-2fe3-4afc-a69b-94771726194b@www.fastmail.com>
+ <CACPK8XfO=F-BtCuDqyQODJv=6joYmyFiQ5eOYC5YuDJhcLSJtw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="gKMricLos+KVdGMg"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <D34D3A2F-9CD5-4924-8407-F6EB0A4C66B5@fb.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <CACPK8XfO=F-BtCuDqyQODJv=6joYmyFiQ5eOYC5YuDJhcLSJtw@mail.gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,371 +80,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, manikandan.e@hcl.com,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Cc: Robert Lippert <rlippert@google.com>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Patrick Venture <venture@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
---gKMricLos+KVdGMg
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-
-Hi Andrew/Vijay,
-
-Thanks for the review .
-
-The following changes done in dts and tested in Facebook Yosemite V2 BMC platform,
-  1. LPC feature removed as not supported .
-  2. VUART feature removed as not supported.
-  3. Host UART feature removed as not in the current scope.
-  4. ADC pinctrl details added in dts.
-
-Thanks
-Mani.E
-
-On Wed, Nov 20, 2019 at 06:50:15AM +0000, Vijay Khemka wrote:
+On Thu, Nov 21, 2019 at 02:52:39AM +0000, Joel Stanley wrote:
+> On Wed, 20 Nov 2019 at 05:42, Andrew Jeffery <andrew@aj.id.au> wrote:
+> >
+> > Looks fine to me as POLLIN and EPOLLIN evaluate to the same value despite
+> > the type difference.
 > 
+> I assume Luc was using sparse to check:
 > 
-> ﻿On 11/19/19, 9:56 PM, "Linux-aspeed on behalf of Andrew Jeffery" <linux-aspeed-bounces+vijaykhemka=fb.com@lists.ozlabs.org on behalf of andrew@aj.id.au> wrote:
+> CHECK   ../drivers/soc/aspeed/aspeed-lpc-snoop.c
+> ../drivers/soc/aspeed/aspeed-lpc-snoop.c:112:19: warning: incorrect
+> type in initializer (different base types)
+> ../drivers/soc/aspeed/aspeed-lpc-snoop.c:112:19:    expected
+> restricted __poll_t ( *poll )( ... )
+> ../drivers/soc/aspeed/aspeed-lpc-snoop.c:112:19:    got unsigned int (
+> * )( ... )
 > 
->     
->     
->     On Mon, 18 Nov 2019, at 23:07, manikandan-e wrote:
->     > The Yosemite V2 is a facebook multi-node server
->     > platform that host four OCP server. The BMC
->     > in the Yosemite V2 platorm based on AST2500 SoC.
->     > 
->     > This patch adds linux device tree entry related to
->     > Yosemite V2 specific devices connected to BMC SoC.
->     > 
->     > Signed-off-by: manikandan-e <manikandan.hcl.ers.epl@gmail.com>
->     > ---
->     >  .../boot/dts/aspeed-bmc-facebook-yosemitev2.dts    | 170 +++++++++++++++++++++
->     >  1 file changed, 170 insertions(+)
->     >  create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
->     > 
->     > diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts 
->     > b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
->     > new file mode 100644
->     > index 0000000..46a285a
->     > --- /dev/null
->     > +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
->     > @@ -0,0 +1,170 @@
->     > +// SPDX-License-Identifier: GPL-2.0+
->     > +// Copyright (c) 2018 Facebook Inc.
->     > +// Author:
->     > +/dts-v1/;
->     > +
->     > +#include "aspeed-g5.dtsi"
->     > +#include <dt-bindings/gpio/aspeed-gpio.h>
->     > +
->     > +/ {
->     > +	model = "Facebook Yosemitev2 BMC";
->     > +	compatible = "facebook,yosemitev2-bmc", "aspeed,ast2500";
->     > +	aliases {
->     > +		serial0 = &uart1;
->     > +		serial4 = &uart5;
->     > +	};
->     > +	chosen {
->     > +		stdout-path = &uart5;
->     > +		bootargs = "console=ttyS4,115200 earlyprintk";
->     > +	};
->     > +
->     > +	memory@80000000 {
->     > +		reg = <0x80000000 0x20000000>;
->     > +	};
->     > +
->     > +	iio-hwmon {
->     > +		// VOLATAGE SENSOR
->     > +		compatible = "iio-hwmon";
->     > +		io-channels = <&adc 0> , <&adc 1> , <&adc 2> ,  <&adc 3> ,
->     > +		<&adc 4> , <&adc 5> , <&adc 6> ,  <&adc 7> ,
->     > +		<&adc 8> , <&adc 9> , <&adc 10>, <&adc 11> ,
->     > +		<&adc 12> , <&adc 13> , <&adc 14> , <&adc 15> ;
->     > +	};
->     > +};
->     > +
->     > +&fmc {
->     > +	status = "okay";
->     > +	flash@0 {
->     > +		status = "okay";
->     > +		m25p,fast-read;
->     > +#include "openbmc-flash-layout.dtsi"
->     > +	};
->     > +};
->     > +
->     > +&spi1 {
->     > +	status = "okay";
->     > +	pinctrl-names = "default";
->     > +	pinctrl-0 = <&pinctrl_spi1_default>;
->     > +	flash@0 {
->     > +		status = "okay";
->     > +		m25p,fast-read;
->     > +		label = "pnor";
->     > +	};
->     > +};
->     > +
->     > +&lpc_snoop {
->     > +	status = "okay";
->     > +	snoop-ports = <0x80>;
->     > +};
-> No lpc in Yosemite so please remove.
+> If you fix the return type:
 > 
->     > +
->     > +&lpc_ctrl {
->     > +	// Enable lpc clock
->     > +	status = "okay";
-> Same here remove.
->     
->     Something I'm intending to fix in the devicetrees using LPC is to hog
->     the pins in the pinctrl node. You should consider doing the same here.
->     
->     > +};
->     > +
->     > +&vuart {
->     > +	// VUART Host Console
->     > +	status = "okay";
->     > +};
-> No Vuart.
-> 
->     > +
->     > +&uart1 {
->     > +	// Host Console
->     > +	status = "okay";
->     > +	pinctrl-names = "default";
->     > +	pinctrl-0 = <&pinctrl_txd1_default
->     > +		     &pinctrl_rxd1_default>;
->     > +};
->     > +
->     > +&uart2 {
->     > +	// SoL Host Console
->     > +	status = "okay";
-> 
-> uart1-4 are all assigned for 4 multiple hosts so define accordingly.  
->     
->     Also needs pinctrl configuration.
->     
->     > +};
->     > +
->     > +&uart3 {
->     > +	// SoL BMC Console
->     > +	status = "okay";
->     
->     Again needs pinctrl.
->     
->     > +};
->     > +
->     > +&uart5 {
->     > +	// BMC Console
->     > +	status = "okay";
->     > +};
->     > +
->     > +&mac0 {
->     > +	status = "okay";
->     > +
->     > +	pinctrl-names = "default";
->     > +	pinctrl-0 = <&pinctrl_rmii1_default>;
->     > +	use-ncsi;
->     > +};
->     > +
->     > +&adc {
->     > +	status = "okay";
->     
->     Strongly suggest adding the pinctrl properties here to ensure
->     exclusive access for the ADC pins.
->     
->     Otherwise it looks reasonable.
->     
->     Andrew
->     
-> 
+>   CHECK   ../drivers/soc/aspeed/aspeed-lpc-snoop.c
+> ../drivers/soc/aspeed/aspeed-lpc-snoop.c:106:45: warning: incorrect
+> type in return expression (different base types)
+> ../drivers/soc/aspeed/aspeed-lpc-snoop.c:106:45:    expected restricted __poll_t
+> ../drivers/soc/aspeed/aspeed-lpc-snoop.c:106:45:    got int
 
---gKMricLos+KVdGMg
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment; filename="0001-ARM-dts-aspeed-Adding-Facebook-Yosemite-V2-BMC.patch"
-
-From 9a17872b5faf2c00ab0b572bac0072e44a3d8b91 Mon Sep 17 00:00:00 2001
-From: manikandan-e <manikandan.hcl.ers.epl@gmail.com>
-Date: Thu, 21 Nov 2019 11:57:07 +0530
-Subject: [PATCH] ARM: dts: aspeed: Adding Facebook Yosemite V2 BMC
-
-The Yosemite V2 is a facebook multi-node server
-platform that host four OCP server. The BMC
-in the Yosemite V2 platorm based on AST2500 SoC.
-
-This patch adds linux device tree entry related to
-Yosemite V2 specific devices connected to BMC SoC.
-
-Signed-off-by: manikandan-e <manikandan.hcl.ers.epl@gmail.com>
----
- .../boot/dts/aspeed-bmc-facebook-yosemitev2.dts    | 152 +++++++++++++++++++++
- 1 file changed, 152 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-new file mode 100644
-index 0000000..5f9a2e1
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-@@ -0,0 +1,152 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+// Copyright (c) 2018 Facebook Inc.
-+/dts-v1/;
-+
-+#include "aspeed-g5.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+
-+/ {
-+	model = "Facebook Yosemitev2 BMC";
-+	compatible = "facebook,yosemitev2-bmc", "aspeed,ast2500";
-+	aliases {
-+		serial0 = &uart1;
-+		serial4 = &uart5;
-+	};
-+	chosen {
-+		stdout-path = &uart5;
-+		bootargs = "console=ttyS4,115200 earlyprintk";
-+	};
-+
-+	memory@80000000 {
-+		reg = <0x80000000 0x20000000>;
-+	};
-+
-+	iio-hwmon {
-+		// VOLATAGE SENSOR
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc 0> , <&adc 1> , <&adc 2> ,  <&adc 3> ,
-+		<&adc 4> , <&adc 5> , <&adc 6> ,  <&adc 7> ,
-+		<&adc 8> , <&adc 9> , <&adc 10>, <&adc 11> ,
-+		<&adc 12> , <&adc 13> , <&adc 14> , <&adc 15> ;
-+	};
-+};
-+
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+#include "openbmc-flash-layout.dtsi"
-+	};
-+};
-+
-+&spi1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_spi1_default>;
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "pnor";
-+	};
-+};
-+
-+&uart5 {
-+	// BMC Console
-+	status = "okay";
-+};
-+
-+&mac0 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii1_default>;
-+	use-ncsi;
-+};
-+
-+&adc {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_adc0_default
-+		&pinctrl_adc1_default
-+		&pinctrl_adc2_default
-+		&pinctrl_adc3_default
-+		&pinctrl_adc4_default
-+		&pinctrl_adc5_default
-+		&pinctrl_adc6_default
-+		&pinctrl_adc7_default
-+		&pinctrl_adc8_default
-+		&pinctrl_adc9_default
-+		&pinctrl_adc10_default
-+		&pinctrl_adc11_default
-+		&pinctrl_adc12_default
-+		&pinctrl_adc13_default
-+		&pinctrl_adc14_default
-+		&pinctrl_adc15_default>;
-+};
-+
-+&i2c8 {
-+	status = "okay";
-+	//FRU EEPROM
-+	eeprom@51 {
-+		compatible = "atmel,24c64";
-+		reg = <0x51>;
-+		pagesize = <32>;
-+	};
-+};
-+
-+&i2c9 {
-+	status = "okay";
-+	tmp421@4e {
-+	//INLET TEMP
-+		compatible = "ti,tmp421";
-+		reg = <0x4e>;
-+	};
-+	//OUTLET TEMP
-+	tmp421@4f {
-+		compatible = "ti,tmp421";
-+		reg = <0x4f>;
-+	};
-+};
-+
-+&i2c10 {
-+	status = "okay";
-+	//HSC
-+	adm1278@40 {
-+		compatible = "adi,adm1278";
-+		reg = <0x40>;
-+	};
-+};
-+
-+&i2c11 {
-+	status = "okay";
-+	//MEZZ_TEMP_SENSOR
-+	tmp421@1f {
-+		compatible = "ti,tmp421";
-+		reg = <0x1f>;
-+	};
-+};
-+
-+&i2c12 {
-+	status = "okay";
-+	//MEZZ_FRU
-+	eeprom@51 {
-+		compatible = "atmel,24c64";
-+		reg = <0x51>;
-+		pagesize = <32>;
-+	};
-+};
-+
-+&pwm_tacho {
-+	status = "okay";
-+	//FSC
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_pwm0_default &pinctrl_pwm1_default>;
-+	fan@0 {
-+		reg = <0x00>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x00>;
-+	};
-+	fan@1 {
-+		reg = <0x01>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x02>;
-+	};
-+};
--- 
-2.7.4
-
-
---gKMricLos+KVdGMg--
+Yes, but with the change s/POLLIN/EPOLLIN/ this last warning
+is not issued.
+ 
+Cheers,
+-- Luc
