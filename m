@@ -2,73 +2,83 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49969105010
-	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Nov 2019 11:09:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AEA3105CCF
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Nov 2019 23:45:35 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47JZz43Jh1zDr5l
-	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Nov 2019 21:09:04 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47Jvlv6hJYzDr0q
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Nov 2019 09:45:31 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::342;
- helo=mail-wm1-x342.google.com; envelope-from=luc.vanoostenryck@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.27;
+ helo=out3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
+ dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="prbs1dP8"; 
- dkim-atps=neutral
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="ZH+/ClKx"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="PODPb8be"; dkim-atps=neutral
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47JZyr318mzDr5b
- for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Nov 2019 21:08:52 +1100 (AEDT)
-Received: by mail-wm1-x342.google.com with SMTP id l17so3045625wmh.0
- for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Nov 2019 02:08:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=R4hjhKPyQPWEsWK0HmI2zX8e76pSPH6drX+KAe0V84E=;
- b=prbs1dP81sRgtZ7wMCz80nqk+aX4U4XK85NdUe3WyuZaaGzWb6qcXqMherEtvNOdfQ
- 0mFggBF0xyVTaVOrAJi9kBoL3Wz2rHwKRiBtK9dd0Cix8BWDWQTxqphMaHDloq0dR2uW
- cfaEJuWSZRXBi3t8JQ1a9RiTet71dpIlmxSrix9fiPhjr6ViM4JByd+qlWkc1Lw9s6Dn
- MNPXnRbI/U7zcw5K40Cx1EmUwjrSZKUjVf6KH4pEa+ucjPeoQioSZwwvYerH2K54/sZ/
- SB33awdggXTa/GgebY19XswcrwnmF8mLAP9YsQ3US8r9L3ZqbmEsEPGe693crpzqwMIp
- imEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=R4hjhKPyQPWEsWK0HmI2zX8e76pSPH6drX+KAe0V84E=;
- b=pK44SWXnkjAfrGW9ujfJ/z1CntdLK2yzSCLM/DZhss7h8CeNgbX3bgaqBMHLpxcZHf
- LIfoFGdrNR/uGJiMwgHzLq0yXCFV6FdGg+HKp1hVos7YN1wTpPhZ4Rcp+uvml/dkQrAZ
- dHd70SbTjK6xpVwIvIAF2q5wxFgoqKZTbWzmWrzXRsAgqQKMvyuDfyOsCOEEfQ0PY7rB
- nqCoDDzhcD52q2w3/JRaZqXs/huLha4dSZUxSdj5xOu2iqr8oxO9i/00QCoAl9A0ilX6
- 2IWGMQiDrK/0819XdJWyop+31upUAHnGnYzC+oTyLoWozVgwPn8/A0N0XEitMix2YjQA
- trww==
-X-Gm-Message-State: APjAAAU1AIUfrX6ImJ7YWQzmgIWx1o1+l8cRZRP6SMgVv6MSHKapXZsz
- Am3jFW1yvfBecmGtixBF+mE=
-X-Google-Smtp-Source: APXvYqwK4BLAl1njfaoGUIR/wJpfPYIvklCz7Cwdpuk+lsOrpbr4tVRvmsBX1oWogL8be666keQqvw==
-X-Received: by 2002:a1c:e08a:: with SMTP id x132mr8950374wmg.146.1574330927887; 
- Thu, 21 Nov 2019 02:08:47 -0800 (PST)
-Received: from ltop.local ([2a02:a03f:40e1:9900:4082:8c56:ea03:cdcd])
- by smtp.gmail.com with ESMTPSA id y2sm2568116wmy.2.2019.11.21.02.08.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Nov 2019 02:08:47 -0800 (PST)
-Date: Thu, 21 Nov 2019 11:08:23 +0100
-From: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH] aspeed: fix snoop_file_poll()'s return type
-Message-ID: <20191121100823.2twowr42nsyykvgg@ltop.local>
-References: <20191120000647.30551-1-luc.vanoostenryck@gmail.com>
- <787e54c2-2fe3-4afc-a69b-94771726194b@www.fastmail.com>
- <CACPK8XfO=F-BtCuDqyQODJv=6joYmyFiQ5eOYC5YuDJhcLSJtw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACPK8XfO=F-BtCuDqyQODJv=6joYmyFiQ5eOYC5YuDJhcLSJtw@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47Jvlf4hqBzDqyp
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 22 Nov 2019 09:45:17 +1100 (AEDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id B147922C9D;
+ Thu, 21 Nov 2019 17:45:14 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Thu, 21 Nov 2019 17:45:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=dtxfG1NstJO0gZ3w3rZPANJZr2PPUHV
+ Erzd70gBGFhE=; b=ZH+/ClKxc2IJ3766JJ4Etfw/LlvWwEYV2j5Md6sQP2rKTvH
+ jNSywaGPikAJfhCzCWAXTrrpF51K6rwiI1o/19qJtnMTTbhUVB3s9UPkmSv2DZUm
+ iDcJLLv0/EzzlpxWpZnByRMgmoCBbpegEg2PpE3e8lUnyBEWSQ9Lz6uI5kmzZUT0
+ 0K3XOpbSFpCV/N3vmcfyQ7gUJ75LYZZFWOCLYWoh/WI9aeUfyu0tGkUbwCc9gFn9
+ tYAKjxZFk+k7Q3t+UxwQT9jxpGsspEhWn8hvfrG3+pqaqn7BlWUuUpt1V69uuN/F
+ YnN4qgF6SuQbpsPevyyjzbRpe976p++26NrlZRw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=dtxfG1
+ NstJO0gZ3w3rZPANJZr2PPUHVErzd70gBGFhE=; b=PODPb8beQz48rVN07lqgzy
+ 9NWnIwrrJjbgryblubT/MmPPfRdM3/tAtubpoOCWgSRjXZUD0Sjw8aqOdzE9Ea7R
+ FAwa4OQ/2AGwlfrxZayVEARSbTsI2+Fkii2Vn81FwAO3yfNfqpbBMQQ4Xw3qucU8
+ YioZfsXrthuCtNI5DBpxQ4LSoutGYFFgeoMz46izfhD6dp90y4USobL/myr9gDeI
+ 4a6Dy27wL4Vh/gSVeuTQNNIdQ1Pv6edOSSxyikxnxpAB4ni6qFzUUOb1dpp+cfA2
+ Lu2qnmQxogMkOCacEYUc52RZxwEbl0/iQ5snky5jidN4ORkeuhdHaVGmkWxtl+2A
+ ==
+X-ME-Sender: <xms:eRPXXdE-Mw2ufJuK4b8r3148Xf9W78K2QfoHjCqVI6Agd2PagqHYmQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudehfecutefuodetggdotefrodftvfcurf
+ hrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecuuegr
+ ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+ hrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughrvgif
+ ucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrghmpe
+ hmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghrufhi
+ iigvpedt
+X-ME-Proxy: <xmx:eRPXXVmNawSsD6EQTugb0EdbWZyA9HYxNzSNxF3Lrm646vdt0QIgrQ>
+ <xmx:eRPXXYmon-eNmASI3UnMS9iGijDbuWchEH5aKBOixD7V5pt2AKojKA>
+ <xmx:eRPXXetTE6dJ57zza3usLFCGJ7ER_mOQK9M1lE5Hh06iAvEJPstByw>
+ <xmx:ehPXXbM8L_WFmZyTskLctbFhZxFIv6RfVnX-p7nIePAvKL-CS_kk7Q>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id BC162E00B1; Thu, 21 Nov 2019 17:45:13 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-578-g826f590-fmstable-20191119v1
+Mime-Version: 1.0
+Message-Id: <0fce7468-bb35-4d47-8d5d-abc228e99085@www.fastmail.com>
+In-Reply-To: <20191121074843.GA10607@cnn>
+References: <20191118123707.GA5560@cnn>
+ <b2f503f0-0f13-46bc-a1be-c82a42b85797@www.fastmail.com>
+ <D34D3A2F-9CD5-4924-8407-F6EB0A4C66B5@fb.com> <20191121074843.GA10607@cnn>
+Date: Fri, 22 Nov 2019 09:16:39 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: manikandan-e <manikandan.hcl.ers.epl@gmail.com>,
+ "Vijay Khemka" <vijaykhemka@fb.com>
+Subject: Re: [PATCH] ARM: dts: aspeed: Adding Facebook Yosemite V2 BMC
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,41 +90,30 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Robert Lippert <rlippert@google.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Patrick Venture <venture@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, manikandan.e@hcl.com,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Nov 21, 2019 at 02:52:39AM +0000, Joel Stanley wrote:
-> On Wed, 20 Nov 2019 at 05:42, Andrew Jeffery <andrew@aj.id.au> wrote:
-> >
-> > Looks fine to me as POLLIN and EPOLLIN evaluate to the same value despite
-> > the type difference.
-> 
-> I assume Luc was using sparse to check:
-> 
-> CHECK   ../drivers/soc/aspeed/aspeed-lpc-snoop.c
-> ../drivers/soc/aspeed/aspeed-lpc-snoop.c:112:19: warning: incorrect
-> type in initializer (different base types)
-> ../drivers/soc/aspeed/aspeed-lpc-snoop.c:112:19:    expected
-> restricted __poll_t ( *poll )( ... )
-> ../drivers/soc/aspeed/aspeed-lpc-snoop.c:112:19:    got unsigned int (
-> * )( ... )
-> 
-> If you fix the return type:
-> 
->   CHECK   ../drivers/soc/aspeed/aspeed-lpc-snoop.c
-> ../drivers/soc/aspeed/aspeed-lpc-snoop.c:106:45: warning: incorrect
-> type in return expression (different base types)
-> ../drivers/soc/aspeed/aspeed-lpc-snoop.c:106:45:    expected restricted __poll_t
-> ../drivers/soc/aspeed/aspeed-lpc-snoop.c:106:45:    got int
 
-Yes, but with the change s/POLLIN/EPOLLIN/ this last warning
-is not issued.
- 
+
+On Thu, 21 Nov 2019, at 18:18, Manikandan wrote:
+> 
+> Hi Andrew/Vijay,
+> 
+> Thanks for the review .
+> 
+> The following changes done in dts and tested in Facebook Yosemite V2 
+> BMC platform,
+>   1. LPC feature removed as not supported .
+>   2. VUART feature removed as not supported.
+>   3. Host UART feature removed as not in the current scope.
+>   4. ADC pinctrl details added in dts.
+
+Can you please re-send the patch as a v2 and inline to the mail rather than
+as an attachment?
+
 Cheers,
--- Luc
+
+Andrew
