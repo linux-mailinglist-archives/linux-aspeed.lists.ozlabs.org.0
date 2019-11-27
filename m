@@ -1,62 +1,38 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id E186A10F296
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Dec 2019 23:02:34 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8E910F295
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Dec 2019 23:02:28 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47RfH55lfkzDqP8
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 09:02:25 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47RfHD20MYzDqLh
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 09:02:32 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=prodrive-technologies.com (client-ip=212.61.153.67;
- helo=mail.prodrive-technologies.com;
- envelope-from=roy.van.doormaal@prodrive-technologies.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none)
- header.from=prodrive-technologies.com
-Received: from mail.prodrive-technologies.com (mail.prodrive-technologies.com
- [212.61.153.67])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47MbSn45v3zDq7g;
- Tue, 26 Nov 2019 18:41:43 +1100 (AEDT)
-Received: from mail.prodrive-technologies.com (localhost.localdomain
- [127.0.0.1])
- by localhost (Email Security Appliance) with SMTP id 06A3C32FE2_DDCD732B;
- Tue, 26 Nov 2019 07:41:38 +0000 (GMT)
-Received: from mail.prodrive-technologies.com (mdb-dag.prodrive.nl
- [10.1.1.212])
- (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
- (Client CN "mail.prodrive-technologies.com",
- Issuer "Prodrive Technologies B.V. OV SSL Issuing CA" (verified OK))
- by mail.prodrive-technologies.com (Sophos Email Appliance) with ESMTPS id
- A51DD30B70_DDCD731F; Tue, 26 Nov 2019 07:41:37 +0000 (GMT)
-Received: from lnxclnt2222.Prodrive.nl (10.13.62.32) by EXC03.bk.prodrive.nl
- (10.1.1.212) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1779.2; Tue, 26
- Nov 2019 08:41:37 +0100
-From: Roy van Doormaal <roy.van.doormaal@prodrive-technologies.com>
-To: Brendan Higgins <brendanhiggins@google.com>, Benjamin Herrenschmidt
- <benh@kernel.crashing.org>, Joel Stanley <joel@jms.id.au>, Thomas Gleixner
- <tglx@linutronix.de>, Jason Cooper <jason@lakedaemon.net>, Marc Zyngier
- <maz@kernel.org>, Andrew Jeffery <andrew@aj.id.au>,
- <linux-i2c@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH v2] irqchip/aspeed-i2c-ic: Fix irq domain name memory leak
-Date: Tue, 26 Nov 2019 08:40:25 +0100
-Message-ID: <20191126074025.5112-1-roy.van.doormaal@prodrive-technologies.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191125202937.23133-1-roy.van.doormaal@prodrive-technologies.com>
-References: <20191125202937.23133-1-roy.van.doormaal@prodrive-technologies.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EXC03.bk.prodrive.nl (10.1.1.212) To EXC03.bk.prodrive.nl
- (10.1.1.212)
-X-SASI-RCODE: 200
-X-Mailman-Approved-At: Tue, 03 Dec 2019 09:01:41 +1100
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.mailfrom=arm.com
+ (client-ip=217.140.110.172; helo=foss.arm.com;
+ envelope-from=dietmar.eggemann@arm.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by lists.ozlabs.org (Postfix) with ESMTP id 47NHFr1gvvzDqWF
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Nov 2019 21:34:33 +1100 (AEDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A6DC30E;
+ Wed, 27 Nov 2019 02:34:30 -0800 (PST)
+Received: from dell3630.arm.com (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 890C23F6C4;
+ Wed, 27 Nov 2019 02:34:28 -0800 (PST)
+From: Dietmar Eggemann <dietmar.eggemann@arm.com>
+To: Atish Patra <atish.patra@wdc.com>,
+	Russell King <linux@armlinux.org.uk>
+Subject: [PATCH v2] arm: Fix topology setup in case of CPU hotplug for
+ CONFIG_SCHED_MC
+Date: Wed, 27 Nov 2019 11:33:53 +0100
+Message-Id: <20191127103353.12417-1-dietmar.eggemann@arm.com>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Approved-At: Tue, 03 Dec 2019 09:01:40 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,57 +44,130 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Roy van Doormaal <roy.van.doormaal@prodrive-technologies.com>
+Cc: Ondrej Jirman <megous@megous.com>, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, Sugaya Taichi <sugaya.taichi@socionext.com>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Morten Rasmussen <morten.rasmussen@arm.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The aspeed irqchip driver overwrites the default irq domain name,
-but doesn't free the existing domain name.
-This patch frees the irq domain name before overwriting it.
+Commit ca74b316df96 ("arm: Use common cpu_topology structure and
+functions.") changed cpu_coregroup_mask() from the ARM32 specific
+implementation in arch/arm/include/asm/topology.h to the one shared
+with ARM64 and RISCV in drivers/base/arch_topology.c.
 
-kmemleak trace:
+Currently on ARM32 (TC2 w/ CONFIG_SCHED_MC) the task scheduler setup
+code (w/ CONFIG_SCHED_DEBUG) shows this during CPU hotplug:
 
-unreferenced object 0xb8004c40 (size 64):
-comm "swapper", pid 0, jiffies 4294937303 (age 747.660s)
-hex dump (first 32 bytes):
-3a 61 68 62 3a 61 70 62 3a 62 75 73 40 31 65 37 :ahb:apb:bus@1e7
-38 61 30 30 30 3a 69 6e 74 65 72 72 75 70 74 2d 8a000:interrupt-
-backtrace:
-[<086b59b8>] kmemleak_alloc+0xa8/0xc0
-[<b5a3490c>] __kmalloc_track_caller+0x118/0x1a0
-[<f59c7ced>] kvasprintf+0x5c/0xc0
-[<49275eec>] kasprintf+0x30/0x50
-[<5713064b>] __irq_domain_add+0x184/0x25c
-[<53c594d0>] aspeed_i2c_ic_of_init+0x9c/0x128
-[<d8d7017e>] of_irq_init+0x1ec/0x314
-[<f8405bf1>] irqchip_init+0x1c/0x24
-[<7ef974b3>] init_IRQ+0x30/0x90
-[<87a1438f>] start_kernel+0x28c/0x458
-[< (null)>] (null)
-[<f0763fdf>] 0xffffffff
+  ERROR: groups don't span domain->span
 
-Signed-off-by: Roy van Doormaal <roy.van.doormaal@prodrive-technologies.com>
+It happens to CPUs of the cluster of the CPU which gets hot-plugged
+out on scheduler domain MC.
+
+Turns out that the shared cpu_coregroup_mask() requires that the
+hot-plugged CPU is removed from the core_sibling mask via
+remove_cpu_topology(). Otherwise the 'is core_sibling subset of
+cpumask_of_node()' doesn't work. In this case the task scheduler has to
+deal with cpumask_of_node instead of core_sibling which is wrong on
+scheduler domain MC.
+
+e.g. CPU3 hot-plugged out on TC2 [cluster0: 0,3-4 cluster1: 1-2]:
+
+  cpu_coregroup_mask(): CPU3 cpumask_of_node=0-2,4 core_sibling=0,3-4
+                                                                  ^
+should be:
+
+  cpu_coregroup_mask(): CPU3 cpumask_of_node=0-2,4 core_sibling=0,4
+
+Add remove_cpu_topology() to __cpu_disable() to remove the CPU from the
+topology masks in case of a CPU hotplug out operation.
+
+At the same time tweak store_cpu_topology() slightly so it will call
+update_siblings_masks() in case of CPU hotplug in operation via
+secondary_start_kernel()->smp_store_cpu_info().
+
+This aligns the ARM32 implementation with the ARM64 one.
+
+Guarding remove_cpu_topology() with CONFIG_GENERIC_ARCH_TOPOLOGY is
+necessary since some Arm32 defconfigs (aspeed_g5_defconfig,
+milbeaut_m10v_defconfig, spear13xx_defconfig) specify an explicit
+
+ # CONFIG_ARM_CPU_TOPOLOGY is not set
+
+w/ ./arch/arm/Kconfig: select GENERIC_ARCH_TOPOLOGY if ARM_CPU_TOPOLOGY
+
+Fixes: ca74b316df96 ("arm: Use common cpu_topology structure and functions")
+Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
+Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
+Tested-by: Lukasz Luba <lukasz.luba@arm.com>
+Tested-by: Ondrej Jirman <megous@megous.com>
+Signed-off-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
 ---
+
 Changes in v2:
-- drop irq domain name assignment by the aspeed irqchip driver
----
- drivers/irqchip/irq-aspeed-i2c-ic.c | 2 --
- 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/irqchip/irq-aspeed-i2c-ic.c b/drivers/irqchip/irq-aspeed-i2c-ic.c
-index 8d591c179f81..0bd46f63a3c3 100644
---- a/drivers/irqchip/irq-aspeed-i2c-ic.c
-+++ b/drivers/irqchip/irq-aspeed-i2c-ic.c
-@@ -92,8 +92,6 @@ static int __init aspeed_i2c_ic_of_init(struct device_node *node,
- 		goto err_iounmap;
+- Removed cosmetic cleanup in pr_info() of store_cpu_topology()
+- Guarded remove_cpu_topology() with CONFIG_GENERIC_ARCH_TOPOLOGY
+
+I opted for an #ifdef in __cpu_disable rather than a stub definition of
+remove_cpu_topology() in include/linux/arch_topology.h to keep this
+change small.
+
+ arch/arm/kernel/smp.c      |  4 ++++
+ arch/arm/kernel/topology.c | 10 +++++-----
+ 2 files changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/arch/arm/kernel/smp.c b/arch/arm/kernel/smp.c
+index 4b0bab2607e4..46e1be9e57a8 100644
+--- a/arch/arm/kernel/smp.c
++++ b/arch/arm/kernel/smp.c
+@@ -240,6 +240,10 @@ int __cpu_disable(void)
+ 	if (ret)
+ 		return ret;
+ 
++#ifdef CONFIG_GENERIC_ARCH_TOPOLOGY
++	remove_cpu_topology(cpu);
++#endif
++
+ 	/*
+ 	 * Take this CPU offline.  Once we clear this, we can't return,
+ 	 * and we must not schedule until we're ready to give up the cpu.
+diff --git a/arch/arm/kernel/topology.c b/arch/arm/kernel/topology.c
+index 5b9faba03afb..8d2e61d9e7a6 100644
+--- a/arch/arm/kernel/topology.c
++++ b/arch/arm/kernel/topology.c
+@@ -196,9 +196,8 @@ void store_cpu_topology(unsigned int cpuid)
+ 	struct cpu_topology *cpuid_topo = &cpu_topology[cpuid];
+ 	unsigned int mpidr;
+ 
+-	/* If the cpu topology has been already set, just return */
+-	if (cpuid_topo->core_id != -1)
+-		return;
++	if (cpuid_topo->package_id != -1)
++		goto topology_populated;
+ 
+ 	mpidr = read_cpuid_mpidr();
+ 
+@@ -231,14 +230,15 @@ void store_cpu_topology(unsigned int cpuid)
+ 		cpuid_topo->package_id = -1;
  	}
  
--	i2c_ic->irq_domain->name = "aspeed-i2c-domain";
+-	update_siblings_masks(cpuid);
 -
- 	irq_set_chained_handler_and_data(i2c_ic->parent_irq,
- 					 aspeed_i2c_ic_irq_handler, i2c_ic);
+ 	update_cpu_capacity(cpuid);
  
+ 	pr_info("CPU%u: thread %d, cpu %d, socket %d, mpidr %x\n",
+ 		cpuid, cpu_topology[cpuid].thread_id,
+ 		cpu_topology[cpuid].core_id,
+ 		cpu_topology[cpuid].package_id, mpidr);
++
++topology_populated:
++	update_siblings_masks(cpuid);
+ }
+ 
+ static inline int cpu_corepower_flags(void)
 -- 
-2.20.1
+2.17.1
 
