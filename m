@@ -1,83 +1,63 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22E3410C09C
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Nov 2019 00:27:23 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47NcPN2kh3zDqsN
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Nov 2019 10:27:20 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64EA010C11B
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Nov 2019 01:46:26 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47Nf8Z6zGJzDqsd
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Nov 2019 11:46:22 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.28;
- helo=out4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::841;
+ helo=mail-qt1-x841.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="CtG0VEmf"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="DpByWhco"; dkim-atps=neutral
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="JW2HM0d3"; 
+ dkim-atps=neutral
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47NcPB61mjzDqgk
- for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Nov 2019 10:27:10 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id D30B52268A;
- Wed, 27 Nov 2019 18:27:07 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Wed, 27 Nov 2019 18:27:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=yBXiasXxv0gjhYCb054yfAMOsqC33OB
- WoEwFmmhBlDA=; b=CtG0VEmfW54ClNVWa6lkKSLgU4CLCQgybG6EGbYDalGEPMm
- FsfG7J8/ig4x8DxwEx4qV8A0Ee9hyFFq8lWl3gdqqfoR87ebIFaXR44g+OhSlsmJ
- i0k7hHmyN5LIrZ+S26rzmj088HzrgGasbH9fDkmPxMvu9AmvvPKaMYZ/5w/W75DJ
- kysFPwMZzoDoe0gxM7H7fnP1l1mVEHWMTpXMbARASNSlRPlKec1+xAaz1u/upT8K
- DcswakEHKtFx3GETC2SaeHZnQ2dF1O+ixFwNUL6gyxgKwh3kjCHW94PToi0UN3XC
- 2DTJ+KQLjGJTiO0Rb3eFZcx7YJRxZqT5QTJi+3g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=yBXias
- Xxv0gjhYCb054yfAMOsqC33OBWoEwFmmhBlDA=; b=DpByWhcoz5fQJTyByH06/r
- fV2sTlTnBpTfBb1dElxF+kpeEGdEMDuDgAXddJ94Gs4/oVUHHzJH1L1xq4LDGqnD
- aW+CP5ZJs1JliPsmOKcAvG5tTGujC0QzHLLzbu0i6P3oyDT6nyD38Yf2Mgxj09e+
- vWnRXTxMSDTEemm6vlwA0hPCJQ8bh3xyTHRBRXLKrP/LyAnnaIIA2+APKmrKHuCj
- LOPL9gQQxpg2spwsorgVdpj2HhAmt4ubR3JUZFjfa2CDxX4xEGsAphDemb8rLPfm
- fFyGY38TkaUPPSRg6vM6tR6bWq/muWCVl/45L83/bLxvxU/uavkAS5HMwlZYzkYg
- ==
-X-ME-Sender: <xms:SgbfXUZ0teA62JsetIiouIbDFZ2wIgIqrkoRupzWmriMeaGyUtpNjw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudeiiedgtdelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:SgbfXfYtg8mGRSgkaeRQJoYHgqYG_HscXjG5EWhiN1ea-XhZYQldpg>
- <xmx:SgbfXW1-LZMMZWOA9WIfrTeapZOF5tT2yYOuUDAk2IHQM0AssjTJ5A>
- <xmx:SgbfXdUd-QLH1pe_RzGcVR2_qv5okNT5u4viCWCC_2jLajY4XBTsbA>
- <xmx:SwbfXWwI73HKS4JN_feji9NFDdfWof7FuLFkS5jmB9G3Gj7ny05Edw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 3CAF8E00A2; Wed, 27 Nov 2019 18:27:06 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-578-g826f590-fmstable-20191119v1
-Mime-Version: 1.0
-Message-Id: <01b18f38-2faa-4896-9a61-d0c657596c6f@www.fastmail.com>
-In-Reply-To: <493e2f9ed5aff112519adcdf2d3044bf54c2d91a.1572945709.git.matti.vaittinen@fi.rohmeurope.com>
-References: <cover.1572945709.git.matti.vaittinen@fi.rohmeurope.com>
- <493e2f9ed5aff112519adcdf2d3044bf54c2d91a.1572945709.git.matti.vaittinen@fi.rohmeurope.com>
-Date: Thu, 28 Nov 2019 09:58:35 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Matti Vaittinen" <matti.vaittinen@fi.rohmeurope.com>,
- mazziesaccount@gmail.com
-Subject: Re: [PATCH 07/62] gpio: gpio-aspeed: Use new GPIO_LINE_DIRECTION
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47Nf8Q6sl0zDqCM
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Nov 2019 11:46:12 +1100 (AEDT)
+Received: by mail-qt1-x841.google.com with SMTP id n4so27360427qte.2
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Nov 2019 16:46:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aJeoqcmKSSQvMjifG41URfXpoPD2I45j8yZ0E+rYsGo=;
+ b=JW2HM0d38B3YxpLDeP3VdWE5jC1VN+rWirnpsjbm7P1MG3Qvquz6yXZNb/VcCji6uh
+ B0aao0fYaU+rr3A/SmPrwOt9WA4bI5NBrlIQPqK5v/EKfh9j48phG2kk7fcK0d1D+Blm
+ UhV3sq6Z0f1FOKVWceulCSq6/F+rQ/sWTigVk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aJeoqcmKSSQvMjifG41URfXpoPD2I45j8yZ0E+rYsGo=;
+ b=fI9KA9/zHMK/y2ESeZKkIbhMfTNEP+B9qkWi3ouE1xpuOeP+szuFxqg9f+qC8n7i72
+ JGDG176cXeSAZhhb+bomlt3ltCk2ExXk058XUXejP6Fa25lQRhtpmjsvR8fZ2DuRRKNr
+ C3wChA0oQgIWTnSeYXsdzTKC8QwIvLZTIzTTRffrxTDMIfR1xf5L7kDyeljYhYVnmNYc
+ Z1MWVisb4rG0Xs7k/UhO23qtG+TjGyWhfHmdQQfqOwTERG+z3eDXUBY6zerO4KY+icvR
+ Srk5KVz2CFypalY/QC+Jp/9NG2WhMZDIaSqerC+HLoZeE6WxYuEUorXiBZhY0Kru8dgz
+ 1eGA==
+X-Gm-Message-State: APjAAAUmdWU+IwtZWsd8zBnvyeAcKdekNpp/6XyaTgIZaVYdbBFZY/pk
+ Bd8rBsyz3BL8w/45sFV8bfWmB45/5z48QatT/rE=
+X-Google-Smtp-Source: APXvYqwHl9cUPcDab0I8y61KT4zfdU3MEvfmMOQHLFg4tSI+jEGYfr73nyiTucDoGr+hQ7JGvoonYex7C6ghTlEKCJM=
+X-Received: by 2002:ac8:167c:: with SMTP id x57mr28046701qtk.255.1574901968058; 
+ Wed, 27 Nov 2019 16:46:08 -0800 (PST)
+MIME-Version: 1.0
+References: <20191127060747.GA30829@cnn>
+In-Reply-To: <20191127060747.GA30829@cnn>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 28 Nov 2019 00:45:56 +0000
+Message-ID: <CACPK8Xc4jw_gPqbTZ5tbSBUD0NF3_aRk+aCbGDZBye3CF+n=rg@mail.gmail.com>
+Subject: Re: [PATCH v4] ARM: dts: aspeed: Adding Facebook Yosemite V2 BMC
+To: manikandan-e <manikandan.hcl.ers.epl@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,23 +69,212 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-gpio@vger.kernel.org,
- Linus Walleij <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree <devicetree@vger.kernel.org>, manikandan.e@hcl.com,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Wed, 27 Nov 2019 at 06:07, manikandan-e
+<manikandan.hcl.ers.epl@gmail.com> wrote:
+>
+> The Yosemite V2 is a facebook multi-node server
+> platform that host four OCP server. The BMC
+> in the Yosemite V2 platorm based on AST2500 SoC.
+
+spelling: platform
+
+>
+> This patch adds linux device tree entry related to
+> Yosemite V2 specific devices connected to BMC SoC.
+>
+> Signed-off-by: manikandan-e <manikandan.hcl.ers.epl@gmail.com>
+
+Please see this:
+
+ https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst#n418
+
+ > then you just add a line saying:
+ >
+ > Signed-off-by: Random J Developer <random@developer.example.org>
+ >
+ > using your real name (sorry, no pseudonyms or anonymous contributions.)
+
+Can you make sure you've got your real name there? You can make this
+global with:
+
+ > git config --global user.name "Random J Developer"
+ > git commit --amend --reset-author
 
 
-On Tue, 5 Nov 2019, at 20:42, Matti Vaittinen wrote:
-> It's hard for occasional GPIO code reader/writer to know if values 0/1
-> equal to IN or OUT. Use defined GPIO_LINE_DIRECTION_IN and
-> GPIO_LINE_DIRECTION_OUT to help them out.
-> 
-> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+> ---
+>  .../boot/dts/aspeed-bmc-facebook-yosemitev2.dts    | 150 +++++++++++++++++++++
+>  1 file changed, 150 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+>
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+> new file mode 100644
+> index 0000000..44e2b17
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+> @@ -0,0 +1,150 @@
+> +// SPDX-License-Identifier: GPL-2.0+
 
-Not sure where the series is at, but this looks fine to me:
+The kernel prefers this to be spelt "GPL-2.0-or-later"
 
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+> +// Copyright (c) 2018 Facebook Inc.
+> +/dts-v1/;
+> +
+> +#include "aspeed-g5.dtsi"
+> +#include <dt-bindings/gpio/aspeed-gpio.h>
+> +
+> +/ {
+> +       model = "Facebook Yosemitev2 BMC";
+> +       compatible = "facebook,yosemitev2-bmc", "aspeed,ast2500";
+> +       aliases {
+> +               serial4 = &uart5;
+> +       };
+> +       chosen {
+> +               stdout-path = &uart5;
+> +       };
+> +
+> +       memory@80000000 {
+> +               reg = <0x80000000 0x20000000>;
+> +       };
+> +
+> +       iio-hwmon {
+> +               // VOLATAGE SENSOR
+> +               compatible = "iio-hwmon";
+> +               io-channels = <&adc 0> , <&adc 1> , <&adc 2> ,  <&adc 3> ,
+> +               <&adc 4> , <&adc 5> , <&adc 6> ,  <&adc 7> ,
+> +               <&adc 8> , <&adc 9> , <&adc 10>, <&adc 11> ,
+> +               <&adc 12> , <&adc 13> , <&adc 14> , <&adc 15> ;
+> +       };
+> +};
+> +
+> +&fmc {
+> +       status = "okay";
+> +       flash@0 {
+> +               status = "okay";
+> +               m25p,fast-read;
+> +#include "openbmc-flash-layout.dtsi"
+> +       };
+> +};
+> +
+> +&spi1 {
+> +       status = "okay";
+> +       pinctrl-names = "default";
+> +       pinctrl-0 = <&pinctrl_spi1_default>;
+> +       flash@0 {
+> +               status = "okay";
+> +               m25p,fast-read;
+> +               label = "pnor";
+> +       };
+> +};
+> +
+> +&uart5 {
+> +       // BMC Console
+> +       status = "okay";
+> +};
+> +
+> +&mac0 {
+> +       status = "okay";
+> +       pinctrl-names = "default";
+> +       pinctrl-0 = <&pinctrl_rmii1_default>;
+> +       use-ncsi;
+> +};
+> +
+> +&adc {
+> +       status = "okay";
+> +       pinctrl-names = "default";
+> +       pinctrl-0 = <&pinctrl_adc0_default
+> +                       &pinctrl_adc1_default
+> +                       &pinctrl_adc2_default
+> +                       &pinctrl_adc3_default
+> +                       &pinctrl_adc4_default
+> +                       &pinctrl_adc5_default
+> +                       &pinctrl_adc6_default
+> +                       &pinctrl_adc7_default
+> +                       &pinctrl_adc8_default
+> +                       &pinctrl_adc9_default
+> +                       &pinctrl_adc10_default
+> +                       &pinctrl_adc11_default
+> +                       &pinctrl_adc12_default
+> +                       &pinctrl_adc13_default
+> +                       &pinctrl_adc14_default
+> +                       &pinctrl_adc15_default>;
+> +};
+> +
+> +&i2c8 {
+> +       status = "okay";
+> +       //FRU EEPROM
+> +       eeprom@51 {
+> +               compatible = "atmel,24c64";
+> +               reg = <0x51>;
+> +               pagesize = <32>;
+> +       };
+> +};
+> +
+> +&i2c9 {
+> +       status = "okay";
+> +       tmp421@4e {
+> +       //INLET TEMP
+
+Make this consistent by putting it one line up.
+
+> +               compatible = "ti,tmp421";
+> +               reg = <0x4e>;
+> +       };
+> +       //OUTLET TEMP
+> +       tmp421@4f {
+> +               compatible = "ti,tmp421";
+> +               reg = <0x4f>;
+> +       };
+> +};
+> +
+> +&i2c10 {
+> +       status = "okay";
+> +       //HSC
+> +       adm1278@40 {
+> +               compatible = "adi,adm1278";
+> +               reg = <0x40>;
+> +       };
+> +};
+> +
+> +&i2c11 {
+> +       status = "okay";
+> +       //MEZZ_TEMP_SENSOR
+> +       tmp421@1f {
+> +               compatible = "ti,tmp421";
+> +               reg = <0x1f>;
+> +       };
+> +};
+> +
+> +&i2c12 {
+> +       status = "okay";
+> +       //MEZZ_FRU
+> +       eeprom@51 {
+> +               compatible = "atmel,24c64";
+> +               reg = <0x51>;
+> +               pagesize = <32>;
+> +       };
+> +};
+> +
+> +&pwm_tacho {
+> +       status = "okay";
+> +       //FSC
+> +       pinctrl-names = "default";
+> +       pinctrl-0 = <&pinctrl_pwm0_default &pinctrl_pwm1_default>;
+> +       fan@0 {
+> +               reg = <0x00>;
+> +               aspeed,fan-tach-ch = /bits/ 8 <0x00>;
+> +       };
+> +       fan@1 {
+> +               reg = <0x01>;
+> +               aspeed,fan-tach-ch = /bits/ 8 <0x02>;
+> +       };
+> +};
+> --
+> 2.7.4
+>
