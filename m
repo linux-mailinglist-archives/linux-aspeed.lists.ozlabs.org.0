@@ -2,62 +2,71 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64EA010C11B
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Nov 2019 01:46:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A9E110D01D
+	for <lists+linux-aspeed@lfdr.de>; Fri, 29 Nov 2019 01:08:58 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47Nf8Z6zGJzDqsd
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Nov 2019 11:46:22 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47PFGt5H88zDr9W
+	for <lists+linux-aspeed@lfdr.de>; Fri, 29 Nov 2019 11:08:54 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::841;
- helo=mail-qt1-x841.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1041;
+ helo=mail-pj1-x1041.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="JW2HM0d3"; 
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="dSi7tOOR"; 
  dkim-atps=neutral
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47Nf8Q6sl0zDqCM
- for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Nov 2019 11:46:12 +1100 (AEDT)
-Received: by mail-qt1-x841.google.com with SMTP id n4so27360427qte.2
- for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Nov 2019 16:46:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aJeoqcmKSSQvMjifG41URfXpoPD2I45j8yZ0E+rYsGo=;
- b=JW2HM0d38B3YxpLDeP3VdWE5jC1VN+rWirnpsjbm7P1MG3Qvquz6yXZNb/VcCji6uh
- B0aao0fYaU+rr3A/SmPrwOt9WA4bI5NBrlIQPqK5v/EKfh9j48phG2kk7fcK0d1D+Blm
- UhV3sq6Z0f1FOKVWceulCSq6/F+rQ/sWTigVk=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47PFGc4Sq6zDr8g
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 29 Nov 2019 11:08:40 +1100 (AEDT)
+Received: by mail-pj1-x1041.google.com with SMTP id r67so4728678pjb.0
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Nov 2019 16:08:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PzWN4cL1wf43O1PtpUjZOF/nWFYMcUCUfWytZsUUyVM=;
+ b=dSi7tOORl2Yu58MKpmTJaZq8PC6pMrxWZlc3OrbfzabvskelxTZoHB06vlTrnU9Bfn
+ vObC6N6DPm0iY1OwThGpe2g5fXDvIecJOoZaTQC8IlmTASyCiTH/O8lS1PpvWI61zTx8
+ O6cEiOKKdWoUV6IAl7fmO4uFrYKs9WYuktiGMTtBQ2j9g9q4/fjcV3cA3BHgy2jnzJuh
+ fk4H+hPQgfX6VWg5VCPLTZx8UJPyLdy6pOq2eaCffPuUSnDDuxGTTG4QwSyxp7ln8hnD
+ zPTOiPliJH1UVmPFPsLrVz3IwL94xHiQXmuroN0SawURcRF6ImWYphHDbjo/u0QuEa7/
+ ngYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aJeoqcmKSSQvMjifG41URfXpoPD2I45j8yZ0E+rYsGo=;
- b=fI9KA9/zHMK/y2ESeZKkIbhMfTNEP+B9qkWi3ouE1xpuOeP+szuFxqg9f+qC8n7i72
- JGDG176cXeSAZhhb+bomlt3ltCk2ExXk058XUXejP6Fa25lQRhtpmjsvR8fZ2DuRRKNr
- C3wChA0oQgIWTnSeYXsdzTKC8QwIvLZTIzTTRffrxTDMIfR1xf5L7kDyeljYhYVnmNYc
- Z1MWVisb4rG0Xs7k/UhO23qtG+TjGyWhfHmdQQfqOwTERG+z3eDXUBY6zerO4KY+icvR
- Srk5KVz2CFypalY/QC+Jp/9NG2WhMZDIaSqerC+HLoZeE6WxYuEUorXiBZhY0Kru8dgz
- 1eGA==
-X-Gm-Message-State: APjAAAUmdWU+IwtZWsd8zBnvyeAcKdekNpp/6XyaTgIZaVYdbBFZY/pk
- Bd8rBsyz3BL8w/45sFV8bfWmB45/5z48QatT/rE=
-X-Google-Smtp-Source: APXvYqwHl9cUPcDab0I8y61KT4zfdU3MEvfmMOQHLFg4tSI+jEGYfr73nyiTucDoGr+hQ7JGvoonYex7C6ghTlEKCJM=
-X-Received: by 2002:ac8:167c:: with SMTP id x57mr28046701qtk.255.1574901968058; 
- Wed, 27 Nov 2019 16:46:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20191127060747.GA30829@cnn>
-In-Reply-To: <20191127060747.GA30829@cnn>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=PzWN4cL1wf43O1PtpUjZOF/nWFYMcUCUfWytZsUUyVM=;
+ b=Z7MRi1oi9xtIPalhf3Yf2AbAVGlTDvXiYXkDBc2NMfGi9sHsWZcSLOdmnASsmduADm
+ LOp8HtUCbOwiTcsP8wiLRdKHSJL8D8rMFTCe58QGfRbOjxAeNF/GRhPWYj65MJr/X2MI
+ JS2wy1ZasAZtOkwHlIARAFVcpQbnk/ELw0lKQRYDTJswdFDe2PZr3UyVsBVfEKII9qFf
+ nLkywg9g8qvJjyLPLe5O/rQc8xn7kGoAi1CubG59SIfRJ8Up6LsZuyeyRRqgaPMd+yGw
+ ySzmXEQHYVCxx3c0Xb5pzXIK5w4dcjgr/G2b2URdsePgOgb6jbLBjFaL+RDuJQYknWfN
+ PdgA==
+X-Gm-Message-State: APjAAAWC8NIQqalvSk2n6I6Jp7cVFPR/yerigQBiUasaFMtmWg6VmtnQ
+ YKhPkrkLZTeW5QdNUL2nunY=
+X-Google-Smtp-Source: APXvYqypDkqlvQWSySZaKfJe9FNPi29JX9+IyoO2gKYaFImONyEaQ2/LCAsDEoHGbHnhMZNnjhuHtg==
+X-Received: by 2002:a17:90a:cc18:: with SMTP id
+ b24mr14709846pju.141.1574986116875; 
+ Thu, 28 Nov 2019 16:08:36 -0800 (PST)
+Received: from localhost.localdomain ([45.124.203.14])
+ by smtp.gmail.com with ESMTPSA id d188sm21302075pfa.157.2019.11.28.16.08.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Nov 2019 16:08:35 -0800 (PST)
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 28 Nov 2019 00:45:56 +0000
-Message-ID: <CACPK8Xc4jw_gPqbTZ5tbSBUD0NF3_aRk+aCbGDZBye3CF+n=rg@mail.gmail.com>
-Subject: Re: [PATCH v4] ARM: dts: aspeed: Adding Facebook Yosemite V2 BMC
-To: manikandan-e <manikandan.hcl.ers.epl@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH v2 0/2] reset: Add ast2600 support
+Date: Fri, 29 Nov 2019 10:38:25 +1030
+Message-Id: <20191129000827.650566-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.24.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,212 +78,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>, manikandan.e@hcl.com,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 27 Nov 2019 at 06:07, manikandan-e
-<manikandan.hcl.ers.epl@gmail.com> wrote:
->
-> The Yosemite V2 is a facebook multi-node server
-> platform that host four OCP server. The BMC
-> in the Yosemite V2 platorm based on AST2500 SoC.
+This series adds ast2600 support to the reset-simple driver, and updates
+the device tree documentation for the LPC bindings.
 
-spelling: platform
+v2 fixes a typo in the bindings that Andrew found.
 
->
-> This patch adds linux device tree entry related to
-> Yosemite V2 specific devices connected to BMC SoC.
->
-> Signed-off-by: manikandan-e <manikandan.hcl.ers.epl@gmail.com>
+Brad Bishop (1):
+  reset: simple: Add AST2600 compatibility string
 
-Please see this:
+Joel Stanley (1):
+  dt-bindings: mfd: Add ast2600 to ASPEED LPC
 
- https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst#n418
+ Documentation/devicetree/bindings/mfd/aspeed-lpc.txt | 11 +++++++++--
+ drivers/reset/reset-simple.c                         |  1 +
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
- > then you just add a line saying:
- >
- > Signed-off-by: Random J Developer <random@developer.example.org>
- >
- > using your real name (sorry, no pseudonyms or anonymous contributions.)
+-- 
+2.24.0
 
-Can you make sure you've got your real name there? You can make this
-global with:
-
- > git config --global user.name "Random J Developer"
- > git commit --amend --reset-author
-
-
-> ---
->  .../boot/dts/aspeed-bmc-facebook-yosemitev2.dts    | 150 +++++++++++++++++++++
->  1 file changed, 150 insertions(+)
->  create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
->
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-> new file mode 100644
-> index 0000000..44e2b17
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
-> @@ -0,0 +1,150 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-
-The kernel prefers this to be spelt "GPL-2.0-or-later"
-
-> +// Copyright (c) 2018 Facebook Inc.
-> +/dts-v1/;
-> +
-> +#include "aspeed-g5.dtsi"
-> +#include <dt-bindings/gpio/aspeed-gpio.h>
-> +
-> +/ {
-> +       model = "Facebook Yosemitev2 BMC";
-> +       compatible = "facebook,yosemitev2-bmc", "aspeed,ast2500";
-> +       aliases {
-> +               serial4 = &uart5;
-> +       };
-> +       chosen {
-> +               stdout-path = &uart5;
-> +       };
-> +
-> +       memory@80000000 {
-> +               reg = <0x80000000 0x20000000>;
-> +       };
-> +
-> +       iio-hwmon {
-> +               // VOLATAGE SENSOR
-> +               compatible = "iio-hwmon";
-> +               io-channels = <&adc 0> , <&adc 1> , <&adc 2> ,  <&adc 3> ,
-> +               <&adc 4> , <&adc 5> , <&adc 6> ,  <&adc 7> ,
-> +               <&adc 8> , <&adc 9> , <&adc 10>, <&adc 11> ,
-> +               <&adc 12> , <&adc 13> , <&adc 14> , <&adc 15> ;
-> +       };
-> +};
-> +
-> +&fmc {
-> +       status = "okay";
-> +       flash@0 {
-> +               status = "okay";
-> +               m25p,fast-read;
-> +#include "openbmc-flash-layout.dtsi"
-> +       };
-> +};
-> +
-> +&spi1 {
-> +       status = "okay";
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_spi1_default>;
-> +       flash@0 {
-> +               status = "okay";
-> +               m25p,fast-read;
-> +               label = "pnor";
-> +       };
-> +};
-> +
-> +&uart5 {
-> +       // BMC Console
-> +       status = "okay";
-> +};
-> +
-> +&mac0 {
-> +       status = "okay";
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_rmii1_default>;
-> +       use-ncsi;
-> +};
-> +
-> +&adc {
-> +       status = "okay";
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_adc0_default
-> +                       &pinctrl_adc1_default
-> +                       &pinctrl_adc2_default
-> +                       &pinctrl_adc3_default
-> +                       &pinctrl_adc4_default
-> +                       &pinctrl_adc5_default
-> +                       &pinctrl_adc6_default
-> +                       &pinctrl_adc7_default
-> +                       &pinctrl_adc8_default
-> +                       &pinctrl_adc9_default
-> +                       &pinctrl_adc10_default
-> +                       &pinctrl_adc11_default
-> +                       &pinctrl_adc12_default
-> +                       &pinctrl_adc13_default
-> +                       &pinctrl_adc14_default
-> +                       &pinctrl_adc15_default>;
-> +};
-> +
-> +&i2c8 {
-> +       status = "okay";
-> +       //FRU EEPROM
-> +       eeprom@51 {
-> +               compatible = "atmel,24c64";
-> +               reg = <0x51>;
-> +               pagesize = <32>;
-> +       };
-> +};
-> +
-> +&i2c9 {
-> +       status = "okay";
-> +       tmp421@4e {
-> +       //INLET TEMP
-
-Make this consistent by putting it one line up.
-
-> +               compatible = "ti,tmp421";
-> +               reg = <0x4e>;
-> +       };
-> +       //OUTLET TEMP
-> +       tmp421@4f {
-> +               compatible = "ti,tmp421";
-> +               reg = <0x4f>;
-> +       };
-> +};
-> +
-> +&i2c10 {
-> +       status = "okay";
-> +       //HSC
-> +       adm1278@40 {
-> +               compatible = "adi,adm1278";
-> +               reg = <0x40>;
-> +       };
-> +};
-> +
-> +&i2c11 {
-> +       status = "okay";
-> +       //MEZZ_TEMP_SENSOR
-> +       tmp421@1f {
-> +               compatible = "ti,tmp421";
-> +               reg = <0x1f>;
-> +       };
-> +};
-> +
-> +&i2c12 {
-> +       status = "okay";
-> +       //MEZZ_FRU
-> +       eeprom@51 {
-> +               compatible = "atmel,24c64";
-> +               reg = <0x51>;
-> +               pagesize = <32>;
-> +       };
-> +};
-> +
-> +&pwm_tacho {
-> +       status = "okay";
-> +       //FSC
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_pwm0_default &pinctrl_pwm1_default>;
-> +       fan@0 {
-> +               reg = <0x00>;
-> +               aspeed,fan-tach-ch = /bits/ 8 <0x00>;
-> +       };
-> +       fan@1 {
-> +               reg = <0x01>;
-> +               aspeed,fan-tach-ch = /bits/ 8 <0x02>;
-> +       };
-> +};
-> --
-> 2.7.4
->
