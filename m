@@ -1,37 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id E186A10F296
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Dec 2019 23:02:34 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47RfHD20MYzDqLh
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 09:02:32 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA91310F28D
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Dec 2019 23:01:49 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47RfGL6WQLzDqNZ
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 09:01:46 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=arm.com
- (client-ip=217.140.110.172; helo=foss.arm.com;
- envelope-from=dietmar.eggemann@arm.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by lists.ozlabs.org (Postfix) with ESMTP id 47NHFr1gvvzDqWF
- for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Nov 2019 21:34:33 +1100 (AEDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A6DC30E;
- Wed, 27 Nov 2019 02:34:30 -0800 (PST)
-Received: from dell3630.arm.com (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 890C23F6C4;
- Wed, 27 Nov 2019 02:34:28 -0800 (PST)
-From: Dietmar Eggemann <dietmar.eggemann@arm.com>
-To: Atish Patra <atish.patra@wdc.com>,
-	Russell King <linux@armlinux.org.uk>
-Subject: [PATCH v2] arm: Fix topology setup in case of CPU hotplug for
- CONFIG_SCHED_MC
-Date: Wed, 27 Nov 2019 11:33:53 +0100
-Message-Id: <20191127103353.12417-1-dietmar.eggemann@arm.com>
-X-Mailer: git-send-email 2.17.1
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
+ helo=metis.ext.pengutronix.de; envelope-from=mfe@pengutronix.de;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=pengutronix.de
+X-Greylist: delayed 916 seconds by postgrey-1.36 at bilbo;
+ Sat, 30 Nov 2019 04:41:14 AEDT
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47Phd60fQbzDq7j
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 30 Nov 2019 04:41:12 +1100 (AEDT)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
+ helo=dude02.lab.pengutronix.de)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1iak1U-0003D5-My; Fri, 29 Nov 2019 18:25:40 +0100
+Received: from mfe by dude02.lab.pengutronix.de with local (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1iak1S-0003AL-KV; Fri, 29 Nov 2019 18:25:38 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: support.opensource@diasemi.com, lee.jones@linaro.org, robh+dt@kernel.org,
+ linus.walleij@linaro.org, bgolaszewski@baylibre.com, joel@jms.id.au,
+ andrew@aj.id.au, lgirdwood@gmail.com, broonie@kernel.org
+Subject: [PATCH v3 0/6] DA9062 PMIC features
+Date: Fri, 29 Nov 2019 18:25:31 +0100
+Message-Id: <20191129172537.31410-1-m.felsch@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-Mailman-Approved-At: Tue, 03 Dec 2019 09:01:40 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -44,130 +60,45 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Ondrej Jirman <megous@megous.com>, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, Sugaya Taichi <sugaya.taichi@socionext.com>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Morten Rasmussen <morten.rasmussen@arm.com>, Lukasz Luba <lukasz.luba@arm.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Commit ca74b316df96 ("arm: Use common cpu_topology structure and
-functions.") changed cpu_coregroup_mask() from the ARM32 specific
-implementation in arch/arm/include/asm/topology.h to the one shared
-with ARM64 and RISCV in drivers/base/arch_topology.c.
+Hi,
 
-Currently on ARM32 (TC2 w/ CONFIG_SCHED_MC) the task scheduler setup
-code (w/ CONFIG_SCHED_DEBUG) shows this during CPU hotplug:
+this series address all comments made on [1]. Patch "gpio: add support
+to get local gpio number" is splitted into:
+ - "gpio: treewide rename gpio_chip_hwgpio to gpiod_to_offset"
+ - "gpio: make gpiod_to_offset() available for other users"
+Please check the discussion [1] for more information. You need to apply
+[2] to test the new features.
 
-  ERROR: groups don't span domain->span
+[1] https://lore.kernel.org/lkml/20191127135932.7223-1-m.felsch@pengutronix.de/
+[2] https://lore.kernel.org/linux-gpio/20191129165817.20426-1-m.felsch@pengutronix.de/T/#m3da1fb0d16a37979c74bbcebdb29f3da9e89a9ac
 
-It happens to CPUs of the cluster of the CPU which gets hot-plugged
-out on scheduler domain MC.
+Marco Felsch (6):
+  gpio: treewide rename gpio_chip_hwgpio to gpiod_to_offset
+  gpio: make gpiod_to_offset() available for other users
+  dt-bindings: mfd: da9062: add regulator voltage selection
+    documentation
+  regulator: da9062: add voltage selection gpio support
+  dt-bindings: mfd: da9062: add regulator gpio enable/disable
+    documentation
+  regulator: da9062: add gpio based regulator dis-/enable support
 
-Turns out that the shared cpu_coregroup_mask() requires that the
-hot-plugged CPU is removed from the core_sibling mask via
-remove_cpu_topology(). Otherwise the 'is core_sibling subset of
-cpumask_of_node()' doesn't work. In this case the task scheduler has to
-deal with cpumask_of_node instead of core_sibling which is wrong on
-scheduler domain MC.
+ .../devicetree/bindings/mfd/da9062.txt        |  16 ++
+ drivers/gpio/gpio-aspeed.c                    |  15 +-
+ drivers/gpio/gpiolib-sysfs.c                  |   9 +-
+ drivers/gpio/gpiolib.c                        |  74 +++--
+ drivers/gpio/gpiolib.h                        |   8 -
+ drivers/regulator/da9062-regulator.c          | 258 ++++++++++++++++++
+ include/linux/gpio/private.h                  |  27 ++
+ 7 files changed, 361 insertions(+), 46 deletions(-)
+ create mode 100644 include/linux/gpio/private.h
 
-e.g. CPU3 hot-plugged out on TC2 [cluster0: 0,3-4 cluster1: 1-2]:
-
-  cpu_coregroup_mask(): CPU3 cpumask_of_node=0-2,4 core_sibling=0,3-4
-                                                                  ^
-should be:
-
-  cpu_coregroup_mask(): CPU3 cpumask_of_node=0-2,4 core_sibling=0,4
-
-Add remove_cpu_topology() to __cpu_disable() to remove the CPU from the
-topology masks in case of a CPU hotplug out operation.
-
-At the same time tweak store_cpu_topology() slightly so it will call
-update_siblings_masks() in case of CPU hotplug in operation via
-secondary_start_kernel()->smp_store_cpu_info().
-
-This aligns the ARM32 implementation with the ARM64 one.
-
-Guarding remove_cpu_topology() with CONFIG_GENERIC_ARCH_TOPOLOGY is
-necessary since some Arm32 defconfigs (aspeed_g5_defconfig,
-milbeaut_m10v_defconfig, spear13xx_defconfig) specify an explicit
-
- # CONFIG_ARM_CPU_TOPOLOGY is not set
-
-w/ ./arch/arm/Kconfig: select GENERIC_ARCH_TOPOLOGY if ARM_CPU_TOPOLOGY
-
-Fixes: ca74b316df96 ("arm: Use common cpu_topology structure and functions")
-Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
-Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
-Tested-by: Lukasz Luba <lukasz.luba@arm.com>
-Tested-by: Ondrej Jirman <megous@megous.com>
-Signed-off-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
----
-
-Changes in v2:
-
-- Removed cosmetic cleanup in pr_info() of store_cpu_topology()
-- Guarded remove_cpu_topology() with CONFIG_GENERIC_ARCH_TOPOLOGY
-
-I opted for an #ifdef in __cpu_disable rather than a stub definition of
-remove_cpu_topology() in include/linux/arch_topology.h to keep this
-change small.
-
- arch/arm/kernel/smp.c      |  4 ++++
- arch/arm/kernel/topology.c | 10 +++++-----
- 2 files changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/arch/arm/kernel/smp.c b/arch/arm/kernel/smp.c
-index 4b0bab2607e4..46e1be9e57a8 100644
---- a/arch/arm/kernel/smp.c
-+++ b/arch/arm/kernel/smp.c
-@@ -240,6 +240,10 @@ int __cpu_disable(void)
- 	if (ret)
- 		return ret;
- 
-+#ifdef CONFIG_GENERIC_ARCH_TOPOLOGY
-+	remove_cpu_topology(cpu);
-+#endif
-+
- 	/*
- 	 * Take this CPU offline.  Once we clear this, we can't return,
- 	 * and we must not schedule until we're ready to give up the cpu.
-diff --git a/arch/arm/kernel/topology.c b/arch/arm/kernel/topology.c
-index 5b9faba03afb..8d2e61d9e7a6 100644
---- a/arch/arm/kernel/topology.c
-+++ b/arch/arm/kernel/topology.c
-@@ -196,9 +196,8 @@ void store_cpu_topology(unsigned int cpuid)
- 	struct cpu_topology *cpuid_topo = &cpu_topology[cpuid];
- 	unsigned int mpidr;
- 
--	/* If the cpu topology has been already set, just return */
--	if (cpuid_topo->core_id != -1)
--		return;
-+	if (cpuid_topo->package_id != -1)
-+		goto topology_populated;
- 
- 	mpidr = read_cpuid_mpidr();
- 
-@@ -231,14 +230,15 @@ void store_cpu_topology(unsigned int cpuid)
- 		cpuid_topo->package_id = -1;
- 	}
- 
--	update_siblings_masks(cpuid);
--
- 	update_cpu_capacity(cpuid);
- 
- 	pr_info("CPU%u: thread %d, cpu %d, socket %d, mpidr %x\n",
- 		cpuid, cpu_topology[cpuid].thread_id,
- 		cpu_topology[cpuid].core_id,
- 		cpu_topology[cpuid].package_id, mpidr);
-+
-+topology_populated:
-+	update_siblings_masks(cpuid);
- }
- 
- static inline int cpu_corepower_flags(void)
 -- 
-2.17.1
+2.20.1
 
