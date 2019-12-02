@@ -1,52 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA46710F285
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Dec 2019 22:58:27 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F050210EA89
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Dec 2019 14:11:25 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47RQVM0bVyzDqL2
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 00:11:23 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47RfBS3kVGzDqHn
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 08:58:24 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
- helo=metis.ext.pengutronix.de; envelope-from=p.zabel@pengutronix.de;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::843;
+ helo=mail-qt1-x843.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=pengutronix.de
-X-Greylist: delayed 1027 seconds by postgrey-1.36 at bilbo;
- Tue, 03 Dec 2019 00:11:14 AEDT
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="XWw2EpfR"; 
+ dkim-atps=neutral
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
+ [IPv6:2607:f8b0:4864:20::843])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47RQVB08XQzDqPN
- for <linux-aspeed@lists.ozlabs.org>; Tue,  3 Dec 2019 00:11:13 +1100 (AEDT)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1iblCv-0005Dy-AR; Mon, 02 Dec 2019 13:53:41 +0100
-Message-ID: <2498da189d5e21ae70fb6884df6fc16ecfee2087.camel@pengutronix.de>
-Subject: Re: [PATCH v2 2/2] reset: simple: Add AST2600 compatibility string
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Joel Stanley <joel@jms.id.au>, Lee Jones <lee.jones@linaro.org>, Rob
- Herring <robh+dt@kernel.org>
-Date: Mon, 02 Dec 2019 13:53:37 +0100
-In-Reply-To: <20191129000827.650566-3-joel@jms.id.au>
-References: <20191129000827.650566-1-joel@jms.id.au>
- <20191129000827.650566-3-joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47RfBH4sv4zDqCw;
+ Tue,  3 Dec 2019 08:58:15 +1100 (AEDT)
+Received: by mail-qt1-x843.google.com with SMTP id g24so1412216qtq.11;
+ Mon, 02 Dec 2019 13:58:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VVaXi6VJTkbrgkla/zwTZyQ8K5/Xxz313P0oOuR5JLg=;
+ b=XWw2EpfR9RQ5mqYx+5gAbzvTMmVCWjIReY5TUkcIZu0YmHa4ZB0fXyRpQt2prd/Jt9
+ zB2H7XHyKxEelGbm1Zqadp6pIw230RhAiwSmkhq9kTLZZ1T1oTCTXScsMfTiO9GzVYgi
+ Yhq8U0O6rEwP0mAEFu8/zQqPp/Jyi3YRBrHvQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VVaXi6VJTkbrgkla/zwTZyQ8K5/Xxz313P0oOuR5JLg=;
+ b=CO29vUoGeBrglQIVwKtvFOdlbcCT1Uwy3zzxFkst89843a0QFMAniLMOMkVkvhSXLe
+ +JIqriiwsv1oQaXzhOXY9hB3AUp7yH1rVHu8hlkMCDkhdc7Gt0WMjV9tBSO1/Xb1nJkq
+ tONVa3t7LbtcjxOI5xTFFbI/7Niocj5crUaNQJnyC5CYd1Q20zN1PPfKM5zXH4768JkE
+ 4LBiUNITua9eKz6BLCrCzu5WegvTv+jEHrNjBfjlVO6tI/uKueDVVCqb31EzEzuNbyzw
+ 6sRjXKuleO7zo7jvW3yNPmoOWcI8RAOk/FCQbnuQRoNC063MfGwhcSZpoqOe+LbJEw1Z
+ +Nag==
+X-Gm-Message-State: APjAAAXi0gwy+aGLfPIIoxyMyyfzUE41qGMx01Xj6yhHoFutBGS0QuwF
+ V2GB8RozYhI+rI1EB7dboCw648GvRFkVFBxqcm0=
+X-Google-Smtp-Source: APXvYqwn8km6OVIYCMYJKryuP0QuX/13ylrQEYjCB7m9ABt4yTHTTD4AFAZOfzcAiG0hyJq8vCjs4fCaeUqpwTnDWRE=
+X-Received: by 2002:ac8:4244:: with SMTP id r4mr1769497qtm.169.1575323891858; 
+ Mon, 02 Dec 2019 13:58:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+References: <20191118104646.3838-1-i.mikhaylov@yadro.com>
+ <20191118104646.3838-4-i.mikhaylov@yadro.com>
+ <CAPDyKFrshWd1P9dZGTSuU=5P0L6LSPz=v2nn+0SWi3ZZazKrRw@mail.gmail.com>
+In-Reply-To: <CAPDyKFrshWd1P9dZGTSuU=5P0L6LSPz=v2nn+0SWi3ZZazKrRw@mail.gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 2 Dec 2019 21:57:59 +0000
+Message-ID: <CACPK8XeOgNviNY6gBw74Kvmf=a6d8t4PRbZk1YevxUG035QxUQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] mmc: sdhci-of-aspeed: add inversion signal presence
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,43 +71,34 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Brad Bishop <bradleyb@fuzziesquirrel.com>,
- linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Ivan Mikhaylov <i.mikhaylov@yadro.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 2019-11-29 at 10:38 +1030, Joel Stanley wrote:
-> From: Brad Bishop <bradleyb@fuzziesquirrel.com>
-> 
-> The AST2600 SoC contains the same LPC register set as the AST2500.
+On Wed, 20 Nov 2019 at 12:59, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+>
+> On Mon, 18 Nov 2019 at 11:47, Ivan Mikhaylov <i.mikhaylov@yadro.com> wrote:
+> >
+> > Add read_l callback in sdhci_ops with flipping of SDHCI_CARD_PRESENT
+> > bit in case of inverted card detection signal.
+> >
+> > Signed-off-by: Ivan Mikhaylov <i.mikhaylov@yadro.com>
+>
+> Applied for next, thanks!
+>
+> For clarity, I am leaving patch 1 for arm-soc.
 
-If the LPC register set is exactly the same, shouldn't AST2600 reuse the
-AST2500 compatible, i.e.:
-	compatible = "aspeed,ast2600-lpc-reset", "aspeed,ast2500-lpc-reset";
-?
+Thanks. I'd already sent the aspeed pull request for 5.5, so I'll send
+the device tree patch next merge window.
 
-> 
-> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-> Signed-off-by: Brad Bishop <bradleyb@fuzziesquirrel.com>
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> ---
->  drivers/reset/reset-simple.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/reset/reset-simple.c b/drivers/reset/reset-simple.c
-> index 067e7e7b34f1..795c9063fe7b 100644
-> --- a/drivers/reset/reset-simple.c
-> +++ b/drivers/reset/reset-simple.c
-> @@ -125,6 +125,7 @@ static const struct of_device_id reset_simple_dt_ids[] = {
->  		.data = &reset_simple_active_low },
->  	{ .compatible = "aspeed,ast2400-lpc-reset" },
->  	{ .compatible = "aspeed,ast2500-lpc-reset" },
-> +	{ .compatible = "aspeed,ast2600-lpc-reset" },
->  	{ .compatible = "bitmain,bm1880-reset",
->  		.data = &reset_simple_active_low },
->  	{ .compatible = "snps,dw-high-reset" },
+Cheers,
 
-regards
-Philipp
-
+Joel
