@@ -1,82 +1,86 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A33C10E3EB
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Dec 2019 00:28:44 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47R4F36TcczDqTN
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Dec 2019 10:28:39 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFFF310E4BE
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Dec 2019 03:58:02 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47R8tZ50KFzDqSH
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Dec 2019 13:57:58 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=64.147.123.25;
- helo=wout2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.224;
+ helo=new2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="Gxi2ecUv"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="KN5ig6OZ"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="AIFo9OU6"; dkim-atps=neutral
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
+ header.b="ObHTChLJ"; dkim-atps=neutral
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47R4Dv6cjkzDqS8
- for <linux-aspeed@lists.ozlabs.org>; Mon,  2 Dec 2019 10:28:30 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47R8tG0JsfzDqHm
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  2 Dec 2019 13:57:40 +1100 (AEDT)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id DAA39B59;
- Sun,  1 Dec 2019 18:28:25 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 290347437;
+ Sun,  1 Dec 2019 21:57:37 -0500 (EST)
 Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Sun, 01 Dec 2019 18:28:26 -0500
+ by compute4.internal (MEProxy); Sun, 01 Dec 2019 21:57:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=9iNu/StSTwvVolzT5BSQE4CDTn1BdOH
- wa5OXvvpgJOs=; b=Gxi2ecUvzZT0u5JXvhYuEyFyAhoVoeNh6YkocpxhuEBd9ZE
- pKDO7OqH3tzWx9Odf53njngOz8U7Rf0KjcqsA2zcZGBxxQSE6g+Taxr732qTsG08
- NmMK0jEU15kr8Ec4E3S2Nl5eKbLbVOUITbg6lihDJFoWxTl36mhZOaiprChzXmUM
- gD49lK++GnryC80KPzRhYzGnB/ZjFG478n48NS0dm5tMiKalWdcRmzBr1Nx54aYy
- eSwFXllBGB0Rq4GkQA2LMtAAnCe5FCL3s8nBpRuNbrRwaDCGKeLl19QUAT9UK5Mg
- 4vXS/cBS/iNbSoEx+j32q2Yh/IvjkgEYsr07goA==
+ :subject:content-type; s=fm1; bh=wSdioubNB8nqmTFpTzhR8Z+t1EFlBSz
+ ab3/FKICD/lc=; b=KN5ig6OZEqGfBX/Rumto6i6sx1rtMOhaI6BJN3q2+Q1plY3
+ gt3ok1IjHP6eUgmFtcOhCsUFDHcJMMETwyW1kNkgnzdTNrUhklVNn3Due9mb+PqL
+ ZqFG/vURwhXsGJlBIIneUrXw1bzkotJf+brjGXtr2O11R2AAOXTC4EWDsKuy3MGC
+ jrqr5x+NfKn3/J1Hwq+1VsfTQYuAqJ870yMSQHGVrN4gUgX4UeQrPXV2hxReNeKe
+ GC0l9RII49Hj/E/3fRoENvV3Qh+knzIh5eP1bk0KjXepCUU2WHx5sqiywdqH45gm
+ M9XRrpVA1L+E+OrMvzAx7UTT7YxHVp8Duplcs/w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=9iNu/S
- tSTwvVolzT5BSQE4CDTn1BdOHwa5OXvvpgJOs=; b=AIFo9OU6OhHIk+jHZL7NCj
- wVAxqtexSYOCs8bV5YMdfHkOn2dkJ35OHG2p/T1jwwhp7beGVp7j/CNX2JUvgy+K
- Rv38zwWEB27XYQG+N4x8lgPeEwbUiVcvSO16ZDLSRWBr0st6VbyUKwdzrUjTt9HG
- iYZc4G/fv1NreJO8NkJUnIWqrUnynwOL/nvAoJ7peFYwBVlOHHVeMnHtsOdDQofM
- 4CzR73Q1tkjcha2eq62ZFWUBW3EZjbamemoH33w7DyR+gnnCvcU+IwsFW6n7BVZQ
- vAC/xZDdIxJYspUpbk53JnpG2346a5tV+R5lrIC0hQykhrY54e2Gxs7/9tpBB4JA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=wSdiou
+ bNB8nqmTFpTzhR8Z+t1EFlBSzab3/FKICD/lc=; b=ObHTChLJcDsN9jr4FsX3wC
+ lWsH0ePz6o2+4A88M5NQ1mlCyit4bwpm6LladeMGvBuhNOlcwU3GsoK60ytq2KBO
+ UVmRB857B16cqc24MOabuZXtdqv7u/6u45QtPNgM3lQDK9NauzP2B9ZuxqGhWuRZ
+ 0ZRHe5z1+LTfzeWQ51yCrD8FkYYC1S3FM4DJqtahVUyK2Vi98iPQDiwdnCLpyMH3
+ hJnGI9zsxhQiyds+KEZpAYh17eT0GS7AgPJX6UmurkBlPYphWaC1xDIPyjrX2EBD
+ 8q++nOEBDCEw/dxvOGwD/57PfsYN3HE8qBhWxMYVS8xa7UxPtf/5JsRZb+xAOCzA
  ==
-X-ME-Sender: <xms:l0zkXWGqlPvPlqeFweDYVnRTRqrFsLgv0I4RoqLizKANGEm3AWOP-w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudejgedgudduucetufdoteggodetrfdotf
+X-ME-Sender: <xms:nn3kXVuwQmoyZHo8NP-h5dZ1sCRuuwhVv8cCwxSITjiHYX53v90rFQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudejgedgheefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:l0zkXZOOIMfhOdo9Kh-oTcHz15zXHA9jgJNjO0goshsg7PT9-ZoQbw>
- <xmx:l0zkXZjMnVFO98GRmpUzNo5ftA95gcfDQ0whm5MoDP41vKJ1lzHYbA>
- <xmx:l0zkXZmEvbq1WDF-6IESJw3o5v-q4niA9ufZ7ye1Yfmijiu707Ub1g>
- <xmx:mUzkXUXKA8tAR5JGl0pLx12iUD4EeFZhBtm7wAXV9gRz1pr24PhoVA>
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuffhomh
+ grihhnpehlkhhmlhdrohhrghenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgif
+ segrjhdrihgurdgruhenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:nn3kXS7nl_rKgqz8G8_UUGKTRu9dwi7XOqi9ub_oWK-TZ0csEpwoDg>
+ <xmx:nn3kXUHXAQs9LUR3kqP07XQyZTY4Maq8EjrOeHDBPt_CNA2Zd1X35Q>
+ <xmx:nn3kXZi4vQc-7qxy43gFmEL4YtX_3DCsvfJ2Qn_Hdf9vx8meieuNsA>
+ <xmx:oX3kXTyXveBHH_-eTLcSvff7zDfowtXzhNQEcYDlRMrU2kwRAA6QLA>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 9B780E00A2; Sun,  1 Dec 2019 18:28:23 -0500 (EST)
+ id 9BD7CE00A2; Sun,  1 Dec 2019 21:57:34 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.1.7-578-g826f590-fmstable-20191119v1
 Mime-Version: 1.0
-Message-Id: <09b06ed9-ae1c-4bbe-bcb6-c518c4dfd5d2@www.fastmail.com>
-In-Reply-To: <20191129000827.650566-2-joel@jms.id.au>
-References: <20191129000827.650566-1-joel@jms.id.au>
- <20191129000827.650566-2-joel@jms.id.au>
-Date: Mon, 02 Dec 2019 09:59:57 +1030
+Message-Id: <0ab227da-869a-4533-a361-a825a7e20813@www.fastmail.com>
+In-Reply-To: <20191129172537.31410-2-m.felsch@pengutronix.de>
+References: <20191129172537.31410-1-m.felsch@pengutronix.de>
+ <20191129172537.31410-2-m.felsch@pengutronix.de>
+Date: Mon, 02 Dec 2019 13:29:07 +1030
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Joel Stanley" <joel@jms.id.au>, "Lee Jones" <lee.jones@linaro.org>,
- "Rob Herring" <robh+dt@kernel.org>, "Philipp Zabel" <p.zabel@pengutronix.de>
-Subject: Re: [PATCH v2 1/2] dt-bindings: mfd: Add ast2600 to ASPEED LPC
+To: "Marco Felsch" <m.felsch@pengutronix.de>, support.opensource@diasemi.com, 
+ "Lee Jones" <lee.jones@linaro.org>, "Rob Herring" <robh+dt@kernel.org>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "Bartosz Golaszewski" <bgolaszewski@baylibre.com>,
+ "Joel Stanley" <joel@jms.id.au>, lgirdwood@gmail.com, broonie@kernel.org
+Subject: =?UTF-8?Q?Re:_[PATCH_v3_1/6]_gpio:_treewide_rename_gpio=5Fchip=5Fhwgpio_?=
+ =?UTF-8?Q?to_gpiod=5Fto=5Foffset?=
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -90,6 +94,8 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
  linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
@@ -97,9 +103,26 @@ Sender: "Linux-aspeed"
 
 
 
-On Fri, 29 Nov 2019, at 10:38, Joel Stanley wrote:
-> The AST2600 has the same LPC layout as previous generation SoCs.
+On Sat, 30 Nov 2019, at 03:55, Marco Felsch wrote:
+> During discussion [1] we decided to rename the gpio subsystem local
+> helper so the name is more meaningful for users outside the gpio
+> subsystem. Making the helper public is done by a 2nd patch. The
+> current users are the gpiolib itself and the aspeed gpio driver.
+> The renaming is done by the following command:
 > 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
+>     find ./drivers/gpio -type f -exec sed -i 
+> 's/gpio_chip_hwgpio/gpiod_to_offset/g' {} \;
+> 
+> [1] https://lkml.org/lkml/2019/11/27/357
+> 
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> ---
+> Changelog:
+> v3:
+> - new patch
+> 
+>  drivers/gpio/gpio-aspeed.c   |  6 ++---
+
+For the aspeed portion:
 
 Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
