@@ -1,56 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F40B110097
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 15:48:06 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47S4bR51qwzDqXP
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Dec 2019 01:48:03 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E15D112032
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Dec 2019 00:22:10 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47SJ0b2HpZzDq9D
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Dec 2019 10:22:07 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=robh+dt@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=google.com (client-ip=2607:f8b0:4864:20::644;
+ helo=mail-pl1-x644.google.com; envelope-from=brendanhiggins@google.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.b="NHAZ3wH2"; 
+ dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=google.com header.i=@google.com header.b="P2ym4D4f"; 
  dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47S4bH53qyzDqQH
- for <linux-aspeed@lists.ozlabs.org>; Wed,  4 Dec 2019 01:47:55 +1100 (AEDT)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
- [209.85.219.53])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DC5EB2084B
- for <linux-aspeed@lists.ozlabs.org>; Tue,  3 Dec 2019 14:47:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1575384473;
- bh=qoEpR+iz5sa+F9skDmBKFFgJNfBR3Zy5GUGd1/9m/gQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=NHAZ3wH2XrkrRW3Vb4k1ssmKydPyl3/8ap20PpuI78OfuRUOen5uNTXxq7Luu0/09
- OmyboqlXn3uRHlE5W/DIm96+HpsmaUAy3sSqB5ESw4NeeMr8kdJzIq/fuCb27NY6Bm
- EFDSC0c+p8v+uTQBZuU37XqEFP2uX9+zmKcEyDjk=
-Received: by mail-qv1-f53.google.com with SMTP id b18so1604916qvy.3
- for <linux-aspeed@lists.ozlabs.org>; Tue, 03 Dec 2019 06:47:52 -0800 (PST)
-X-Gm-Message-State: APjAAAVsI+F/HaMopBfRNnUdGHANzKIKyom+Srr6i/yNaaYJWuvKZ2nL
- pqBmHfjQGz/W4e48gvCgY2XVY2XRbn2eXzusfA==
-X-Google-Smtp-Source: APXvYqxrMnC94tLm+z/m6J/edWdsA+e9+yTSEaG1G1r+Sc9Beij7suS2pnqDw5WIbatRieWqQvxMMTtm91WsEIvREJ0=
-X-Received: by 2002:ad4:450a:: with SMTP id k10mr5131884qvu.136.1575384471940; 
- Tue, 03 Dec 2019 06:47:51 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47SHxG5pkzzDq5k
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  4 Dec 2019 10:19:07 +1100 (AEDT)
+Received: by mail-pl1-x644.google.com with SMTP id x13so2296153plr.9
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 03 Dec 2019 15:19:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9aXu3KlzmsFJZ6e1TagDw+H66vR2neNxwDhx8plTDXE=;
+ b=P2ym4D4fL1+2jZqsid93tZ5apni+LjMsWc92QordN593FLqJA+W4QsDirE/huNl5P1
+ knTb5ViKDuyT37oe2VN6u4X65E0qoBXrLkTPFAuJUi/5puCIe1qhO5AoFzYvaAhJhDJ/
+ ZGHsuAM2+IsfbemFqexEjQZ4n4aB/Wh5ZwyttSwHl/fUGPvWV8l/4obp0kKZH4Bn7wN8
+ NCNmGeMIhEC8bdCNINKJ3DfitAYpZweN1bWtt3twrfio7lymvab4N1QAZRZDbCoA8ly6
+ E8ZrLQ9Zp/SCypjcbsQgMv1HiPrzTDj5AEqazdjiq8h5eXDuVNBII9xFODUIIb0IxZ2V
+ PfHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9aXu3KlzmsFJZ6e1TagDw+H66vR2neNxwDhx8plTDXE=;
+ b=FuH+pTGxK8ybfSc5mYtyd+dr8KzzOfDbHtD+7F8Q+WUGznRbxEqH0IQWMmc0GdLelD
+ iCUGzw0fFQYWjob7zNuPx8DZ8HT9N1wMC1+VuZS+m4Wt+qZJ2RROvLRlXoWn04oh5INA
+ 55tmH4AqWmgW5+LMtYTguD+DxJn3jWeFavD1IMeC1xBbtYIQPl+ypBu6usKMINVN4xac
+ K4NfteQr1QoprZ+h9HnyK6dJftW7PyDBdxOTghiastXtKrZGkaBA9fZ2UIxyXbslQX0o
+ q16/YOZGlDdEC5pc6+pKtfzPqWIUfSSOkQmFAR2Ykyqu7nBT2SBfpATHhVExq9qtowQe
+ H7uw==
+X-Gm-Message-State: APjAAAUmqFngxA6DJmNQinB1RPwBS0fdhg6pHzbuav0bYiN6jEjmc5zs
+ oY9TiJcvtxfG27CjI6LhvGQMKSK+fsb45UwCdPUlBA==
+X-Google-Smtp-Source: APXvYqwaPUhrCsgUEC6zT/MsYaJdSktVjMyOaLL/ZwQxaZzTYw2kYgyCxNVMDYa3yDWpwXTVusT3MTlJbF4W8DELTSA=
+X-Received: by 2002:a17:902:7c84:: with SMTP id
+ y4mr417290pll.297.1575415143951; 
+ Tue, 03 Dec 2019 15:19:03 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.08e3a6c95159f017b753d0f240086d1a7923758b.1575369656.git-series.andrew@aj.id.au>
-In-Reply-To: <cover.08e3a6c95159f017b753d0f240086d1a7923758b.1575369656.git-series.andrew@aj.id.au>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Tue, 3 Dec 2019 08:47:40 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLMs1MsNXMFTCVdrkNNx5ktg0_Q=zf6xgiTkeys-T+CNg@mail.gmail.com>
-Message-ID: <CAL_JsqLMs1MsNXMFTCVdrkNNx5ktg0_Q=zf6xgiTkeys-T+CNg@mail.gmail.com>
-Subject: Re: [PATCH 00/14] ARM: dts: aspeed: Cleanup dtc warnings
-To: Andrew Jeffery <andrew@aj.id.au>
+References: <20191125202937.23133-1-roy.van.doormaal@prodrive-technologies.com>
+ <20191126074025.5112-1-roy.van.doormaal@prodrive-technologies.com>
+In-Reply-To: <20191126074025.5112-1-roy.van.doormaal@prodrive-technologies.com>
+From: Brendan Higgins <brendanhiggins@google.com>
+Date: Tue, 3 Dec 2019 15:18:52 -0800
+Message-ID: <CAFd5g450nWm47mFi10W+J=oiaO_sV0fXh3SwH0zxX6ZF1qZ-Xw@mail.gmail.com>
+Subject: Re: [PATCH v2] irqchip/aspeed-i2c-ic: Fix irq domain name memory leak
+To: Roy van Doormaal <roy.van.doormaal@prodrive-technologies.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -63,81 +74,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Xo Wang <xow@google.com>, linux-aspeed@lists.ozlabs.org,
- Ken Chen <chen.kenyy@inventec.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linus Walleij <linus.walleij@linaro.org>, anoo@us.ibm.com,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- yao.yuan@linaro.org, a.filippov@yadro.com,
- Patrick Venture <venture@google.com>,
- =?UTF-8?B?QnJpYW5DLlcg5qWK5ZiJ5YGJIFRBTyBZYW5n?= <yang.brianc.w@inventec.com>,
- Stefan M Schaeckeler <sschaeck@cisco.com>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+Cc: Jason Cooper <jason@lakedaemon.net>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Dec 3, 2019 at 6:02 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+On Mon, Nov 25, 2019 at 11:41 PM Roy van Doormaal
+<roy.van.doormaal@prodrive-technologies.com> wrote:
 >
-> Hello,
+> The aspeed irqchip driver overwrites the default irq domain name,
+> but doesn't free the existing domain name.
+> This patch frees the irq domain name before overwriting it.
 >
-> This series is based on an RFC-ish series I sent quite some time ago to which I
-> have only just been able to circle back. The previous discussion can be found
-> here:
+> kmemleak trace:
 >
-> https://lore.kernel.org/lkml/20190726053959.2003-1-andrew@aj.id.au/
+> unreferenced object 0xb8004c40 (size 64):
+> comm "swapper", pid 0, jiffies 4294937303 (age 747.660s)
+> hex dump (first 32 bytes):
+> 3a 61 68 62 3a 61 70 62 3a 62 75 73 40 31 65 37 :ahb:apb:bus@1e7
+> 38 61 30 30 30 3a 69 6e 74 65 72 72 75 70 74 2d 8a000:interrupt-
+> backtrace:
+> [<086b59b8>] kmemleak_alloc+0xa8/0xc0
+> [<b5a3490c>] __kmalloc_track_caller+0x118/0x1a0
+> [<f59c7ced>] kvasprintf+0x5c/0xc0
+> [<49275eec>] kasprintf+0x30/0x50
+> [<5713064b>] __irq_domain_add+0x184/0x25c
+> [<53c594d0>] aspeed_i2c_ic_of_init+0x9c/0x128
+> [<d8d7017e>] of_irq_init+0x1ec/0x314
+> [<f8405bf1>] irqchip_init+0x1c/0x24
+> [<7ef974b3>] init_IRQ+0x30/0x90
+> [<87a1438f>] start_kernel+0x28c/0x458
+> [< (null)>] (null)
+> [<f0763fdf>] 0xffffffff
 >
-> I've split, shuffled and rebased the series a little, with at least one extra
-> cleanup for the g6 dtsi. This series is just the devicetree changes, the IPMI
-> KCS changes will be posted separately shortly.
->
-> Combined with the KCS changes we achieve similar stats to the RFC series,
-> reducing 264 warnings to 6.
->
-> I've added each patches' tags from last time, but please glance over them
-> again.
->
-> Cheers,
->
-> Andrew
->
-> Andrew Jeffery (14):
->   dt-bindings: pinctrl: aspeed: Add reg property as a hint
->   dt-bindings: misc: Document reg for aspeed,p2a-ctrl nodes
->   ARM: dts: aspeed-g5: Move EDAC node to APB
->   ARM: dts: aspeed-g5: Use recommended generic node name for SDMC
->   ARM: dts: aspeed-g5: Fix aspeed,external-nodes description
->   ARM: dts: vesnin: Add unit address for memory node
->   ARM: dts: fp5280g2: Cleanup gpio-keys-polled properties
->   ARM: dts: swift: Cleanup gpio-keys-polled properties
->   ARM: dts: witherspoon: Cleanup gpio-keys-polled properties
->   ARM: dts: aspeed: Cleanup lpc-ctrl and snoop regs
->   ARM: dts: aspeed: Add reg hints to syscon children
->   ARM: dts: aspeed-g5: Sort LPC child nodes by unit address
->   ARM: dts: aspeed-g6: Cleanup watchdog unit address
->   ARM: dts: ibm-power9-dual: Add a unit address for OCC nodes
->
->  Documentation/devicetree/bindings/misc/aspeed-p2a-ctrl.txt            |  1 +
->  Documentation/devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.yaml |  3 +++
->  Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml |  3 +++
->  arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts                  |  4 ----
->  arch/arm/boot/dts/aspeed-bmc-arm-stardragon4800-rep2.dts              |  4 ----
->  arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts                      | 11 +++++++----
->  arch/arm/boot/dts/aspeed-bmc-intel-s2600wf.dts                        |  4 ----
->  arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dts                          |  4 ----
->  arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts                          |  4 ----
->  arch/arm/boot/dts/aspeed-bmc-opp-swift.dts                            |  6 ------
->  arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts                           |  2 +-
->  arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts                      |  6 ------
->  arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts                            |  2 --
->  arch/arm/boot/dts/aspeed-g4.dtsi                                      | 21 ++++++++++++---------
->  arch/arm/boot/dts/aspeed-g5.dtsi                                      | 49 ++++++++++++++++++++++++++-----------------------
->  arch/arm/boot/dts/aspeed-g6.dtsi                                      |  2 +-
->  arch/arm/boot/dts/ibm-power9-dual.dtsi                                |  4 ++--
->  17 files changed, 56 insertions(+), 74 deletions(-)
+> Signed-off-by: Roy van Doormaal <roy.van.doormaal@prodrive-technologies.com>
 
-Other than patch 5, for the series:
+Acked-by: Brendan Higgins <brendanhiggins@google.com>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Sorry for the delayed response.
