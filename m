@@ -2,79 +2,75 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A5B710FD4C
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 13:08:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5ACD10FDE0
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 13:42:14 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47S13L67qxzDqWS
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 23:08:30 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47S1pC63yrzDqWL
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 23:42:11 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.26;
- helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.224;
+ helo=new2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="KnHFG1qs"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="GaEpkJws"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="Rm3MmifX"; dkim-atps=neutral
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
+ header.b="xFPyLaDo"; dkim-atps=neutral
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47S0xk0JWLzDqW9
- for <linux-aspeed@lists.ozlabs.org>; Tue,  3 Dec 2019 23:03:38 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47S1h01Q9GzDqMp
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  3 Dec 2019 23:36:47 +1100 (AEDT)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id C3E8C22083;
- Tue,  3 Dec 2019 07:03:35 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 9E1836C3C;
+ Tue,  3 Dec 2019 07:36:44 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 03 Dec 2019 07:03:35 -0500
+ by compute4.internal (MEProxy); Tue, 03 Dec 2019 07:36:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=tDbn2lnY4YnA7
- 5X5LYWz7jhosHuxo/9hHasNksDYQ9E=; b=KnHFG1qsnC0CBWROzsm9lLVGD4yXX
- yXsn8x7JfmL1iMicxQ9Bv29H1/ImfJvpNNvzhqUVtwD2RU7NyxFfelvNu+fLskbn
- R12c4F9x3IlOJb6aK2ahWGEbb4lGMHuTrirLaboXsWZFQBl7zPcxfqdmHpEWMZVt
- xpLjzL3SQX5VcS43sOAeMFSagogwYb3QpG4R3TlFORjm2TDCa5DA4Ix/+QPwDAZA
- qeLMZLn54OPBQiQy7d/S1QJKBNQ/WkQG2fZta5QFvAmeX5jmcU3jsM6Sufue3B1Q
- qIVoSx0E04zhNhHYiDWgWHM8UQKLiNyN0/ByOcmIGpPgg0OZgG0Zxl+fA==
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=SOZUq2rJD0QJ8mJKAc7oPLyCtR
+ nzRzApgEKAYYPVX5g=; b=GaEpkJwswsN6B+BGMOIDa5Y6tqbkL7hfWZU0irBbo6
+ KG7zMnNrZiKbtXUzRio3ugQJH0Mc8PtKOBg9L2Q8MTDBI94egRoQJYQRgWAfZI38
+ QPm94qCHFqNHdh1ijPsAqPMmsD4PGZDea6kbqHqURcKfojeuhpG1DTe452JoCzwd
+ UIJZy5ugYhfrRJPnGr5Y3cuA5vZnKUFhps63+HxcNlgXOL6uvUfHK2ML1bPKJq9D
+ AZ7HmMaVQypnu6Nno37etiafDus0S/3FMC9WFiixik3hm27Yp5EYU6RP27LaKEGy
+ 5mC3MX8p5f3AzN1/SktTJpkTlS4x84qn1DoZn3/7Cmlw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=tDbn2lnY4YnA75X5LYWz7jhosHuxo/9hHasNksDYQ9E=; b=Rm3MmifX
- jeHEre1+PElzDzsddqxc2BTQrHIWquaWQ+1Swf87C07BWCxVYqya0CDpBd4R6Hwz
- G94AKvElbOT6ewWpHGCOYwKrLZxVDvsKMaInhyYJHDO7eHIju+E4po2DmCcdh1MR
- jOh8qu6uzqTmNaHSMOZQxgaRljylYsT/JihlbVBF/7X6lQ1j2fiwnn/2ppEl7twB
- ZddbSeCZWi+cetEpaufHo+IJMs2vE/h6wBDhSRThSoUaEMFz2rFRLY4ccZPFq808
- urA9uTyKEShr2ZU9ODPWGn0Lx2VV0KkYhfzAO3l/I3wDyvaDXwU1rcsfHA4N12st
- qGApoVMc/nxrCg==
-X-ME-Sender: <xms:F0_mXUYOT_MKjOxhU5H2gjlKPh-NZCOSBwDnL_WzOpb1jlOqHXwY7w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudejjedgfeejucetufdoteggodetrfdotf
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=SOZUq2rJD0QJ8mJKA
+ c7oPLyCtRnzRzApgEKAYYPVX5g=; b=xFPyLaDoMhBRQSvKGkUUA6EiRHXRfh3Zj
+ zVnkyYOFS87Q8NUOnirCTnkRn0DCd+vuF2AZO+EncBWI6h/rTVkanfFUQoO9ur2f
+ nvLEuOSahNShxbVLUTHd6GD/k58prnFj4VmjtZlLA1HlPOSsSHZ/Qz75TKjuwT0E
+ GRHVTMecdCCO6uXxA+u0912m4q9IpCysrr6wC22UOjOQ8WD3EG0bjEN7dfROSll6
+ yoGA2e9mDcjOuzpLhMlsEXI58WTGN+ChMX5BXIEY9ybgOJRZTne7oFqtXGvq24W3
+ sWejt/OyRnMh3a9NBeyn8wkgxJh40K6bBMVAhx34+mraxSZ0TXVFQ==
+X-ME-Sender: <xms:2lbmXS5ZXg7wiN3SZzGBlY9uTCy7VzlWXnir2E-XQkH4LJAtT6DCWQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudejjedggeefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
- dtredttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegr
- jhdrihgurdgruheqnecukfhppeduudekrddvuddurdelvddrudefnecurfgrrhgrmhepmh
- grihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgvrhfuihii
- vgepudef
-X-ME-Proxy: <xmx:F0_mXZqVPzaBlE9vSyCRRDplhbuuqGw8cMn2T36O9LTbCvZttfhpOw>
- <xmx:F0_mXQvddJzgU4CqVnAzs4k7xGJh3V921k6hJciCtfjQRjYGHvz1ig>
- <xmx:F0_mXTNFpNdOoll9xKxb7AAI3cUWHOuuSPQJIvRXNsZzYL3Z7JVzVw>
- <xmx:F0_mXXJfGDDVZlPr89JXlnzVgi2cAAwhyNrjUe530FXhl5FK2ZrjaQ>
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegrjhdr
+ ihgurdgruheqnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddukedrvd
+ duuddrledvrddufeenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdr
+ ihgurdgruhenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:2lbmXQAgd4zEB8DN8VWm1DnXLPqX67BYXO7D7CcrvPVy3l1ZKI5LLA>
+ <xmx:2lbmXdBfqZgbkxOogcYRNi8dXTx-6YZg5nleIKJN72ruCi4Tm7Hpfw>
+ <xmx:2lbmXRYv-WHhjjXQRna92ewaKh7nE9_y4RRpU1NJjpVLi-CdTw0g8Q>
+ <xmx:3FbmXZ0J4rAA31er-T2wgfz3nONrmvnaA0EuEKbC8cdyf1hiuyqxmw>
 Received: from mistburn.lan (unknown [118.211.92.13])
- by mail.messagingengine.com (Postfix) with ESMTPA id B435530600D2;
- Tue,  3 Dec 2019 07:03:32 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 0E6363060158;
+ Tue,  3 Dec 2019 07:36:37 -0500 (EST)
 From: Andrew Jeffery <andrew@aj.id.au>
-To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH 14/14] ARM: dts: ibm-power9-dual: Add a unit address for OCC
- nodes
-Date: Tue,  3 Dec 2019 22:34:15 +1030
-Message-Id: <895711a51b34e0618761cb9e6594e6734769e1cc.1575369656.git-series.andrew@aj.id.au>
+To: openipmi-developer@lists.sourceforge.net
+Subject: [PATCH 0/3] ipmi: kcs-bmc: Rework bindings to clean up DT warnings
+Date: Tue,  3 Dec 2019 23:08:22 +1030
+Message-Id: <cover.5630f63168ad5cddf02e9796106f8e086c196907.1575376664.git-series.andrew@aj.id.au>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.08e3a6c95159f017b753d0f240086d1a7923758b.1575369656.git-series.andrew@aj.id.au>
-References: <cover.08e3a6c95159f017b753d0f240086d1a7923758b.1575369656.git-series.andrew@aj.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -88,47 +84,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, minyard@acm.org,
+ arnd@arndb.de, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, robh+dt@kernel.org,
  linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-These temporarily have a unit address until userspace is fixed up as
-noted in comments elsewhere in the dtsi.
+Hello,
 
-Fixes the following warning:
+This is a short series reworking the devicetree binding and driver for the
+ASPEED BMC KCS devices. With the number of supported ASPEED BMC devicetrees the
+changes enable removal of more than 100 lines of warning output from dtc.
 
-    arch/arm/boot/dts/ibm-power9-dual.dtsi:89.18-91.6: Warning (unit_address_vs_reg): /gpio-fsi/cfam@0,0/sbefifo@2400/occ: node has a reg or ranges property, but no unit name
-    arch/arm/boot/dts/ibm-power9-dual.dtsi:190.18-192.6: Warning (unit_address_vs_reg): /gpio-fsi/cfam@0,0/hub@3400/cfam@1,0/sbefifo@2400/occ: node has a reg or ranges property, but no unit name
+These changes are extracted from an RFC series posted previously, which can be
+found here:
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
- arch/arm/boot/dts/ibm-power9-dual.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+https://lore.kernel.org/lkml/20190726053959.2003-1-andrew@aj.id.au/
 
-diff --git a/arch/arm/boot/dts/ibm-power9-dual.dtsi b/arch/arm/boot/dts/ibm-power9-dual.dtsi
-index 2abc42eda7b0..a0fa65b44b0f 100644
---- a/arch/arm/boot/dts/ibm-power9-dual.dtsi
-+++ b/arch/arm/boot/dts/ibm-power9-dual.dtsi
-@@ -86,7 +86,7 @@
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 
--			fsi_occ0: occ {
-+			fsi_occ0: occ@1 {
- 				compatible = "ibm,p9-occ";
- 			};
- 		};
-@@ -187,7 +187,7 @@
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 
--			fsi_occ1: occ {
-+			fsi_occ1: occ@2 {
- 				compatible = "ibm,p9-occ";
- 			};
- 		};
+Haiyue has already reviewed the driver patches in that thread so the re-posting
+carries his tags. Since the original series the patches have been rebased on
+top of char-misc/master with no further changes. However, please take a look to
+make sure the patches are still sane.
+
+Cheers,
+
+Andrew
+
+Andrew Jeffery (3):
+  dt-bindings: ipmi: aspeed: Introduce a v2 binding for KCS
+  ipmi: kcs: Finish configuring ASPEED KCS device before enable
+  ipmi: kcs: aspeed: Implement v2 bindings
+
+ Documentation/devicetree/bindings/ipmi/aspeed-kcs-bmc.txt |  20 +-
+ drivers/char/ipmi/kcs_bmc_aspeed.c                        | 151 +++++--
+ 2 files changed, 139 insertions(+), 32 deletions(-)
+
+base-commit: 937d6eefc716a9071f0e3bada19200de1bb9d048
 -- 
 git-series 0.9.1
