@@ -1,55 +1,82 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F9710F291
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Dec 2019 23:02:08 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47RfGk1GWWzDqNT
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 09:02:06 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id F21DE10F4A6
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 02:47:50 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47RlH80kjnzDqNn
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 12:47:48 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
- helo=metis.ext.pengutronix.de; envelope-from=mfe@pengutronix.de;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.29;
+ helo=out5-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=pengutronix.de
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47PhdJ2zlYzDrBf
- for <linux-aspeed@lists.ozlabs.org>; Sat, 30 Nov 2019 04:41:24 +1100 (AEDT)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
- helo=dude02.lab.pengutronix.de)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1iak1U-0003DC-N6; Fri, 29 Nov 2019 18:25:40 +0100
-Received: from mfe by dude02.lab.pengutronix.de with local (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1iak1S-0003Ae-Nq; Fri, 29 Nov 2019 18:25:38 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: support.opensource@diasemi.com, lee.jones@linaro.org, robh+dt@kernel.org,
- linus.walleij@linaro.org, bgolaszewski@baylibre.com, joel@jms.id.au,
- andrew@aj.id.au, lgirdwood@gmail.com, broonie@kernel.org
-Subject: [PATCH v3 6/6] regulator: da9062: add gpio based regulator
- dis-/enable support
-Date: Fri, 29 Nov 2019 18:25:37 +0100
-Message-Id: <20191129172537.31410-7-m.felsch@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191129172537.31410-1-m.felsch@pengutronix.de>
-References: <20191129172537.31410-1-m.felsch@pengutronix.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
-X-Mailman-Approved-At: Tue, 03 Dec 2019 09:01:40 +1100
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="mxMEGJzM"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="TyTYzBCO"; dkim-atps=neutral
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47RlGs58p0zDqM0
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  3 Dec 2019 12:47:33 +1100 (AEDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id B8CFB21FF1;
+ Mon,  2 Dec 2019 20:47:29 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Mon, 02 Dec 2019 20:47:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=IHGr/2BLOU7cV4peRZ4d0rFJNkvQzoo
+ KoZ+eB0IL/RU=; b=mxMEGJzMEEI/sC9g/aiksF+pPa+h10QnP4YNGvYeuAA638L
+ McuJ+NnT9FhzSWt80xUeKdHd4PdRO+awfe/kRB6+o9RO7HUctYo5URSl+/ldkQQ3
+ MrQhKY0YuuzNAhoruKLY9DfID4bF/mb8Y0jBQlm2BAZpCDCYIyaXESkeUk/iHxty
+ ppnnE/yGf02XIqxSv0SK2NJeNedpZh6y1T0MyERp5Dso4FkzcNYuLGqUUZhRdJxy
+ EKiQ6zgPu28F2OKyqqpj+S460FW7JwgAILtZrqc2Br6RmpFihLohV1+MAW3D3C8W
+ syuQnDKBd79eziUFZ4UnHBpRcf2sNFUIgxpt7yg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=IHGr/2
+ BLOU7cV4peRZ4d0rFJNkvQzooKoZ+eB0IL/RU=; b=TyTYzBCOD7yr5+hThshzrb
+ XVBePF1pSkPdmYAzPw3Wr2HhdQ0sy+a8QgdOvHtkHZRSaA4/+C2FBjy6+lBNMMUe
+ wFV+pe0P6esB3s8CCIBUUXW/HbPQ8DUhZqTlM9ed9gYrrFLmy5Kvq1Z1aBwx9ncw
+ tJ5RcjEgUoYHSw4Rk+4jbs5zpiGsu4ZudT8b2dTw5p6vwjGap8Y0kpAsro+WTGeV
+ byn9+p3p3FeknZ2im9gpp4qrmMcgnvj77+IWm4VX13XYKisCu5pj58eszpUfx8k5
+ WEZ/zYA1MjuX5XbOgejTvJnGx+wBbxcU/wk331Lh+75vBX7Dh4dNW8dbGirXs9uw
+ ==
+X-ME-Sender: <xms:sL7lXclCiCQ3Nu6pSpK8scdCncKEJqzP0rmexNk7LcLXA9sqrYIziQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudejiedgfeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
+ rhfuihiivgeptd
+X-ME-Proxy: <xmx:sL7lXTlII7QDy8NaC_DgBwbg7ld_ydSbKnfFc9wcc06fzuZ4B6bcXw>
+ <xmx:sL7lXfpliL-tA1-4oKEa3fktmYiM4deaUeutI8fDVdIaBwRpmW8eGA>
+ <xmx:sL7lXQnC_uiT_I0C-0JYP_2gC7gUyC0--B_GSz5FUxLg6nMd2zWBkQ>
+ <xmx:sb7lXY-H3I1aNtrlulqqNrNxq6PQgve3yfvMOPG23qQuna_yy_jxXg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 335EBE00A2; Mon,  2 Dec 2019 20:47:28 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-611-g2f3e951-fmstable-20191202v1
+Mime-Version: 1.0
+Message-Id: <0ddad614-0f1c-4ca1-bfc5-127ed3c61dc4@www.fastmail.com>
+In-Reply-To: <1569617929-29055-3-git-send-email-eajames@linux.ibm.com>
+References: <1569617929-29055-1-git-send-email-eajames@linux.ibm.com>
+ <1569617929-29055-3-git-send-email-eajames@linux.ibm.com>
+Date: Tue, 03 Dec 2019 12:19:02 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Eddie James" <eajames@linux.ibm.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] irqchip: Add Aspeed SCU interrupt controller
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,264 +88,173 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ Jason Cooper <jason@lakedaemon.net>, linux-aspeed@lists.ozlabs.org,
+ Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ tglx@linutronix.de
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Each regulator can be enabeld/disabled by the internal pmic state
-machine or by a gpio input signal. Typically the OTP configures the
-regulators to be enabled/disabled on a specific sequence number which is
-most the time fine. Sometimes we need to reconfigure that due to a PCB
-bug. This patch adds the support to disable/enable the regulator based
-on a gpio input signal.
 
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
----
-v3:
-- add comment on reg_field
-- append ena_gpi to da9062_regulator_info instead of insert it in the
-  middle
----
- drivers/regulator/da9062-regulator.c | 88 +++++++++++++++++++++++++++-
- 1 file changed, 86 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/regulator/da9062-regulator.c b/drivers/regulator/da9062-regulator.c
-index 6117e631236b..79b08029282a 100644
---- a/drivers/regulator/da9062-regulator.c
-+++ b/drivers/regulator/da9062-regulator.c
-@@ -62,8 +62,13 @@ struct da9062_regulator_info {
- 	 * vsel_gpi:
- 	 * The input port which is used by a regulator to select between
- 	 * voltage-a/b settings.
-+	 *
-+	 * ena_gpi:
-+	 * The input port which is used by a regulator to en-/disable its
-+	 * output.
- 	 */
- 	struct reg_field vsel_gpi;
-+	struct reg_field ena_gpi;
- };
- 
- /* Single regulator settings */
-@@ -78,6 +83,7 @@ struct da9062_regulator {
- 	struct regmap_field			*sleep;
- 	struct regmap_field			*suspend_sleep;
- 	struct regmap_field			*vsel_gpi;
-+	struct regmap_field			*ena_gpi;
- };
- 
- /* Encapsulates all information for the regulators driver */
-@@ -423,7 +429,10 @@ static int da9062_config_gpi(struct device_node *np,
- 		goto free;
- 	}
- 
--	ret = regmap_field_write(regl->vsel_gpi, nr);
-+	if (!strncmp(gpi_id, "ena", 3))
-+		ret = regmap_field_write(regl->ena_gpi, nr);
-+	else
-+		ret = regmap_field_write(regl->vsel_gpi, nr);
- 
- free:
- 	kfree(prop);
-@@ -436,7 +445,13 @@ static int da9062_parse_dt(struct device_node *np,
- 			   const struct regulator_desc *desc,
- 			   struct regulator_config *cfg)
- {
--	return da9062_config_gpi(np, desc, cfg, "vsel");
-+	int error;
-+
-+	error = da9062_config_gpi(np, desc, cfg, "vsel");
-+	if (error)
-+		return error;
-+
-+	return da9062_config_gpi(np, desc, cfg, "ena");
- }
- 
- /* DA9061 Regulator information */
-@@ -481,6 +496,10 @@ static const struct da9062_regulator_info local_da9061_regulator_info[] = {
- 			__builtin_ffs((int)DA9062AA_VBUCK1_GPI_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
- 			__builtin_clz(DA9062AA_VBUCK1_GPI_MASK) - 1),
-+		.ena_gpi = REG_FIELD(DA9062AA_BUCK1_CONT,
-+			__builtin_ffs((int)DA9062AA_BUCK1_GPI_MASK) - 1,
-+			sizeof(unsigned int) * 8 -
-+			__builtin_clz(DA9062AA_BUCK1_GPI_MASK) - 1),
- 	},
- 	{
- 		.desc.id = DA9061_ID_BUCK2,
-@@ -522,6 +541,10 @@ static const struct da9062_regulator_info local_da9061_regulator_info[] = {
- 			__builtin_ffs((int)DA9062AA_VBUCK3_GPI_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
- 			__builtin_clz(DA9062AA_VBUCK3_GPI_MASK) - 1),
-+		.ena_gpi = REG_FIELD(DA9062AA_BUCK3_CONT,
-+			__builtin_ffs((int)DA9062AA_BUCK3_GPI_MASK) - 1,
-+			sizeof(unsigned int) * 8 -
-+			__builtin_clz(DA9062AA_BUCK3_GPI_MASK) - 1),
- 	},
- 	{
- 		.desc.id = DA9061_ID_BUCK3,
-@@ -563,6 +586,10 @@ static const struct da9062_regulator_info local_da9061_regulator_info[] = {
- 			__builtin_ffs((int)DA9062AA_VBUCK4_GPI_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
- 			__builtin_clz(DA9062AA_VBUCK4_GPI_MASK) - 1),
-+		.ena_gpi = REG_FIELD(DA9062AA_BUCK4_CONT,
-+			__builtin_ffs((int)DA9062AA_BUCK4_GPI_MASK) - 1,
-+			sizeof(unsigned int) * 8 -
-+			__builtin_clz(DA9062AA_BUCK4_GPI_MASK) - 1),
- 	},
- 	{
- 		.desc.id = DA9061_ID_LDO1,
-@@ -597,6 +624,10 @@ static const struct da9062_regulator_info local_da9061_regulator_info[] = {
- 			__builtin_ffs((int)DA9062AA_VLDO1_GPI_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
- 			__builtin_clz(DA9062AA_VLDO1_GPI_MASK) - 1),
-+		.ena_gpi = REG_FIELD(DA9062AA_LDO1_CONT,
-+			__builtin_ffs((int)DA9062AA_LDO1_GPI_MASK) - 1,
-+			sizeof(unsigned int) * 8 -
-+			__builtin_clz(DA9062AA_LDO1_GPI_MASK) - 1),
- 		.oc_event = REG_FIELD(DA9062AA_STATUS_D,
- 			__builtin_ffs((int)DA9062AA_LDO1_ILIM_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
-@@ -635,6 +666,10 @@ static const struct da9062_regulator_info local_da9061_regulator_info[] = {
- 			__builtin_ffs((int)DA9062AA_VLDO2_GPI_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
- 			__builtin_clz(DA9062AA_VLDO2_GPI_MASK) - 1),
-+		.ena_gpi = REG_FIELD(DA9062AA_LDO2_CONT,
-+			__builtin_ffs((int)DA9062AA_LDO2_GPI_MASK) - 1,
-+			sizeof(unsigned int) * 8 -
-+			__builtin_clz(DA9062AA_LDO2_GPI_MASK) - 1),
- 		.oc_event = REG_FIELD(DA9062AA_STATUS_D,
- 			__builtin_ffs((int)DA9062AA_LDO2_ILIM_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
-@@ -673,6 +708,10 @@ static const struct da9062_regulator_info local_da9061_regulator_info[] = {
- 			__builtin_ffs((int)DA9062AA_VLDO3_GPI_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
- 			__builtin_clz(DA9062AA_VLDO3_GPI_MASK) - 1),
-+		.ena_gpi = REG_FIELD(DA9062AA_LDO3_CONT,
-+			__builtin_ffs((int)DA9062AA_LDO3_GPI_MASK) - 1,
-+			sizeof(unsigned int) * 8 -
-+			__builtin_clz(DA9062AA_LDO3_GPI_MASK) - 1),
- 		.oc_event = REG_FIELD(DA9062AA_STATUS_D,
- 			__builtin_ffs((int)DA9062AA_LDO3_ILIM_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
-@@ -711,6 +750,10 @@ static const struct da9062_regulator_info local_da9061_regulator_info[] = {
- 			__builtin_ffs((int)DA9062AA_VLDO4_GPI_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
- 			__builtin_clz(DA9062AA_VLDO4_GPI_MASK) - 1),
-+		.ena_gpi = REG_FIELD(DA9062AA_LDO4_CONT,
-+			__builtin_ffs((int)DA9062AA_LDO4_GPI_MASK) - 1,
-+			sizeof(unsigned int) * 8 -
-+			__builtin_clz(DA9062AA_LDO4_GPI_MASK) - 1),
- 		.oc_event = REG_FIELD(DA9062AA_STATUS_D,
- 			__builtin_ffs((int)DA9062AA_LDO4_ILIM_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
-@@ -760,6 +803,10 @@ static const struct da9062_regulator_info local_da9062_regulator_info[] = {
- 			__builtin_ffs((int)DA9062AA_VBUCK1_GPI_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
- 			__builtin_clz(DA9062AA_VBUCK1_GPI_MASK) - 1),
-+		.ena_gpi = REG_FIELD(DA9062AA_BUCK1_CONT,
-+			__builtin_ffs((int)DA9062AA_BUCK1_GPI_MASK) - 1,
-+			sizeof(unsigned int) * 8 -
-+			__builtin_clz(DA9062AA_BUCK1_GPI_MASK) - 1),
- 	},
- 	{
- 		.desc.id = DA9062_ID_BUCK2,
-@@ -801,6 +848,10 @@ static const struct da9062_regulator_info local_da9062_regulator_info[] = {
- 			__builtin_ffs((int)DA9062AA_VBUCK2_GPI_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
- 			__builtin_clz(DA9062AA_VBUCK2_GPI_MASK) - 1),
-+		.ena_gpi = REG_FIELD(DA9062AA_BUCK2_CONT,
-+			__builtin_ffs((int)DA9062AA_BUCK2_GPI_MASK) - 1,
-+			sizeof(unsigned int) * 8 -
-+			__builtin_clz(DA9062AA_BUCK2_GPI_MASK) - 1),
- 	},
- 	{
- 		.desc.id = DA9062_ID_BUCK3,
-@@ -842,6 +893,10 @@ static const struct da9062_regulator_info local_da9062_regulator_info[] = {
- 			__builtin_ffs((int)DA9062AA_VBUCK3_GPI_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
- 			__builtin_clz(DA9062AA_VBUCK3_GPI_MASK) - 1),
-+		.ena_gpi = REG_FIELD(DA9062AA_BUCK3_CONT,
-+			__builtin_ffs((int)DA9062AA_BUCK3_GPI_MASK) - 1,
-+			sizeof(unsigned int) * 8 -
-+			__builtin_clz(DA9062AA_BUCK3_GPI_MASK) - 1),
- 	},
- 	{
- 		.desc.id = DA9062_ID_BUCK4,
-@@ -883,6 +938,10 @@ static const struct da9062_regulator_info local_da9062_regulator_info[] = {
- 			__builtin_ffs((int)DA9062AA_VBUCK4_GPI_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
- 			__builtin_clz(DA9062AA_VBUCK4_GPI_MASK) - 1),
-+		.ena_gpi = REG_FIELD(DA9062AA_BUCK4_CONT,
-+			__builtin_ffs((int)DA9062AA_BUCK4_GPI_MASK) - 1,
-+			sizeof(unsigned int) * 8 -
-+			__builtin_clz(DA9062AA_BUCK4_GPI_MASK) - 1),
- 	},
- 	{
- 		.desc.id = DA9062_ID_LDO1,
-@@ -917,6 +976,10 @@ static const struct da9062_regulator_info local_da9062_regulator_info[] = {
- 			__builtin_ffs((int)DA9062AA_VLDO1_GPI_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
- 			__builtin_clz(DA9062AA_VLDO1_GPI_MASK) - 1),
-+		.ena_gpi = REG_FIELD(DA9062AA_LDO1_CONT,
-+			__builtin_ffs((int)DA9062AA_LDO1_GPI_MASK) - 1,
-+			sizeof(unsigned int) * 8 -
-+			__builtin_clz(DA9062AA_LDO1_GPI_MASK) - 1),
- 		.oc_event = REG_FIELD(DA9062AA_STATUS_D,
- 			__builtin_ffs((int)DA9062AA_LDO1_ILIM_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
-@@ -955,6 +1018,10 @@ static const struct da9062_regulator_info local_da9062_regulator_info[] = {
- 			__builtin_ffs((int)DA9062AA_VLDO2_GPI_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
- 			__builtin_clz(DA9062AA_VLDO2_GPI_MASK) - 1),
-+		.ena_gpi = REG_FIELD(DA9062AA_LDO2_CONT,
-+			__builtin_ffs((int)DA9062AA_LDO2_GPI_MASK) - 1,
-+			sizeof(unsigned int) * 8 -
-+			__builtin_clz(DA9062AA_LDO2_GPI_MASK) - 1),
- 		.oc_event = REG_FIELD(DA9062AA_STATUS_D,
- 			__builtin_ffs((int)DA9062AA_LDO2_ILIM_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
-@@ -993,6 +1060,10 @@ static const struct da9062_regulator_info local_da9062_regulator_info[] = {
- 			__builtin_ffs((int)DA9062AA_VLDO3_GPI_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
- 			__builtin_clz(DA9062AA_VLDO3_GPI_MASK) - 1),
-+		.ena_gpi = REG_FIELD(DA9062AA_LDO3_CONT,
-+			__builtin_ffs((int)DA9062AA_LDO3_GPI_MASK) - 1,
-+			sizeof(unsigned int) * 8 -
-+			__builtin_clz(DA9062AA_LDO3_GPI_MASK) - 1),
- 		.oc_event = REG_FIELD(DA9062AA_STATUS_D,
- 			__builtin_ffs((int)DA9062AA_LDO3_ILIM_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
-@@ -1031,6 +1102,10 @@ static const struct da9062_regulator_info local_da9062_regulator_info[] = {
- 			__builtin_ffs((int)DA9062AA_VLDO4_GPI_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
- 			__builtin_clz(DA9062AA_VLDO4_GPI_MASK) - 1),
-+		.ena_gpi = REG_FIELD(DA9062AA_LDO4_CONT,
-+			__builtin_ffs((int)DA9062AA_LDO4_GPI_MASK) - 1,
-+			sizeof(unsigned int) * 8 -
-+			__builtin_clz(DA9062AA_LDO4_GPI_MASK) - 1),
- 		.oc_event = REG_FIELD(DA9062AA_STATUS_D,
- 			__builtin_ffs((int)DA9062AA_LDO4_ILIM_MASK) - 1,
- 			sizeof(unsigned int) * 8 -
-@@ -1160,6 +1235,15 @@ static int da9062_regulator_probe(struct platform_device *pdev)
- 				return PTR_ERR(regl->vsel_gpi);
- 		}
- 
-+		if (regl->info->ena_gpi.reg) {
-+			regl->ena_gpi = devm_regmap_field_alloc(
-+					&pdev->dev,
-+					chip->regmap,
-+					regl->info->ena_gpi);
-+			if (IS_ERR(regl->ena_gpi))
-+				return PTR_ERR(regl->ena_gpi);
-+		}
-+
- 		/* Register regulator */
- 		memset(&config, 0, sizeof(config));
- 		config.dev = chip->dev;
--- 
-2.20.1
+On Sat, 28 Sep 2019, at 06:28, Eddie James wrote:
+> The Aspeed SOCs provide some interrupts through the System Control
+> Unit registers. Add an interrupt controller that provides these
+> interrupts to the system.
+> 
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> ---
+> Changes since v1:
+>  - add a spinlock to protect read-modify-write operation for irq masking
+>  - use readl/writel relaxed versions
 
+What's your motivation? I might have missed some comments on v1. The
+descriptions make me slightly nervous (not guaranteed to be ordered wrt
+spinlocks).
+
+>  - add a comment explaining the irq status/enable register
+>  - provide affinity callback that returns -EINVAL
+> 
+>  MAINTAINERS                         |   1 +
+>  drivers/irqchip/Makefile            |   2 +-
+>  drivers/irqchip/irq-aspeed-scu-ic.c | 233 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 235 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/irqchip/irq-aspeed-scu-ic.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index c7e028c..b6db122 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2656,6 +2656,7 @@ M:	Eddie James <eajames@linux.ibm.com>
+>  L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
+>  S:	Maintained
+>  
+> F:	Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2xxx-scu-ic.txt
+> +F:	drivers/irqchip/irq-aspeed-scu-ic.c
+>  F:	include/dt-bindings/interrupt-controller/aspeed-scu-ic.h
+>  
+>  ASPEED VIDEO ENGINE DRIVER
+> diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
+> index cc7c439..fce6b1d 100644
+> --- a/drivers/irqchip/Makefile
+> +++ b/drivers/irqchip/Makefile
+> @@ -86,7 +86,7 @@ obj-$(CONFIG_MVEBU_PIC)			+= irq-mvebu-pic.o
+>  obj-$(CONFIG_MVEBU_SEI)			+= irq-mvebu-sei.o
+>  obj-$(CONFIG_LS_SCFG_MSI)		+= irq-ls-scfg-msi.o
+>  obj-$(CONFIG_EZNPS_GIC)			+= irq-eznps.o
+> -obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-vic.o irq-aspeed-i2c-ic.o
+> +obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-vic.o irq-aspeed-i2c-ic.o 
+> irq-aspeed-scu-ic.o
+>  obj-$(CONFIG_STM32_EXTI) 		+= irq-stm32-exti.o
+>  obj-$(CONFIG_QCOM_IRQ_COMBINER)		+= qcom-irq-combiner.o
+>  obj-$(CONFIG_IRQ_UNIPHIER_AIDET)	+= irq-uniphier-aidet.o
+> diff --git a/drivers/irqchip/irq-aspeed-scu-ic.c 
+> b/drivers/irqchip/irq-aspeed-scu-ic.c
+> new file mode 100644
+> index 0000000..64c3ac4
+> --- /dev/null
+> +++ b/drivers/irqchip/irq-aspeed-scu-ic.c
+> @@ -0,0 +1,233 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Aspeed AST24XX, AST25XX, and AST26XX SCU Interrupt Controller
+> + * Copyright 2019 IBM Corporation
+> + *
+> + * Eddie James <eajames@linux.ibm.com>
+> + */
+> +
+> +#include <linux/bitops.h>
+> +#include <linux/irq.h>
+> +#include <linux/irqchip.h>
+> +#include <linux/irqchip/chained_irq.h>
+> +#include <linux/irqdomain.h>
+> +#include <linux/of_address.h>
+> +#include <linux/of_irq.h>
+> +#include <linux/io.h>
+> +#include <linux/spinlock.h>
+> +
+> +#define ASPEED_SCU_IC_SHIFT		0
+> +#define ASPEED_SCU_IC_ENABLE		GENMASK(6, ASPEED_SCU_IC_SHIFT)
+> +#define ASPEED_SCU_IC_NUM_IRQS		7
+> +#define ASPEED_SCU_IC_STATUS_SHIFT	16
+> +
+> +#define ASPEED_AST2600_SCU_IC0_SHIFT	0
+> +#define ASPEED_AST2600_SCU_IC0_ENABLE	\
+> +	GENMASK(5, ASPEED_AST2600_SCU_IC0_SHIFT)
+> +#define ASPEED_AST2600_SCU_IC0_NUM_IRQS	6
+> +
+> +#define ASPEED_AST2600_SCU_IC1_SHIFT	4
+> +#define ASPEED_AST2600_SCU_IC1_ENABLE	\
+> +	GENMASK(5, ASPEED_AST2600_SCU_IC1_SHIFT)
+> +#define ASPEED_AST2600_SCU_IC1_NUM_IRQS	2
+> +
+> +struct aspeed_scu_ic {
+> +	unsigned long irq_enable;
+> +	unsigned long irq_shift;
+
+> +	unsigned int num_irqs;
+> +	void __iomem *reg;
+> +	struct irq_domain *irq_domain;
+> +	spinlock_t lock;
+> +};
+> +
+> +static void aspeed_scu_ic_irq_handler(struct irq_desc *desc)
+> +{
+> +	unsigned int irq;
+> +	unsigned long bit;
+> +	unsigned long enabled;
+> +	unsigned long max;
+> +	unsigned long status;
+> +	struct aspeed_scu_ic *scu_ic = irq_desc_get_handler_data(desc);
+> +	struct irq_chip *chip = irq_desc_get_chip(desc);
+> +
+> +	chained_irq_enter(chip, desc);
+> +
+> +	/*
+> +	 * The SCU IC has just one register to control its operation and read
+> +	 * status. The interrupt enable bits occupy the lower 16 bits of the
+> +	 * register, while the interrupt status bits occupy the upper 16 bits.
+> +	 * The status bit for a given interrupt is always 16 bits shifted from
+> +	 * the enable bit for the same interrupt.
+> +	 * Therefore, perform the IRQ operations in the enable bit space by
+> +	 * shifting the status down to get the mapping and then back up to
+> +	 * clear the bit.
+> +	 */
+> +	status = readl_relaxed(scu_ic->reg);
+> +	enabled = status & scu_ic->irq_enable;
+> +	status = (status >> ASPEED_SCU_IC_STATUS_SHIFT) & enabled;
+> +
+> +	bit = scu_ic->irq_shift;
+> +	max = scu_ic->num_irqs + bit;
+> +
+> +	for_each_set_bit_from(bit, &status, max) {
+> +		irq = irq_find_mapping(scu_ic->irq_domain,
+> +				       bit - scu_ic->irq_shift);
+> +		generic_handle_irq(irq);
+> +
+> +		writel_relaxed(enabled | BIT(bit + ASPEED_SCU_IC_STATUS_SHIFT),
+> +			       scu_ic->reg);
+> +	}
+> +
+> +	chained_irq_exit(chip, desc);
+> +}
+> +
+> +static void aspeed_scu_ic_irq_mask(struct irq_data *data)
+> +{
+> +	struct aspeed_scu_ic *scu_ic = irq_data_get_irq_chip_data(data);
+> +	unsigned long bit = BIT(data->hwirq + scu_ic->irq_shift);
+> +	unsigned long flags;
+> +	unsigned long reg;
+> +
+> +	spin_lock_irqsave(&scu_ic->lock, flags);
+
+The SCU is represented by a syscon in the devicetree, which has a regmap,
+which does it's own locking internally. You could use regmap_update_bits()
+to do an atomic read/modify/write and this will provide consistency for
+other SCU drivers that might be accessing shared registers. Nothing else
+should _currently_ be touching the SCU IRQ status/enable register, but
+using the regmap would give us a consistent approach across all SCU
+drivers.
+
+Andrew
