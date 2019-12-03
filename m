@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8583810FD41
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 13:07:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D65410FD44
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 13:08:03 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47S12f0LGXzDqW9
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 23:07:54 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47S12n1cxGzDqQW
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 23:08:01 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -16,61 +16,62 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="m5T5qZmf"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="RR+21FlI"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="v5t+Q25A"; dkim-atps=neutral
+ header.b="CV8XFhu6"; dkim-atps=neutral
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47S0xN70hJzDqVl
- for <linux-aspeed@lists.ozlabs.org>; Tue,  3 Dec 2019 23:03:19 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47S0xP16wCzDqVp
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  3 Dec 2019 23:03:20 +1100 (AEDT)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 1C9A1223CA;
- Tue,  3 Dec 2019 07:03:15 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 90D9022400;
+ Tue,  3 Dec 2019 07:03:18 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 03 Dec 2019 07:03:15 -0500
+ by compute4.internal (MEProxy); Tue, 03 Dec 2019 07:03:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
  :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=DGJozeGcc7zi+
- 9ieiObmxaR/yTCxk8WMksJfUp/Tyao=; b=m5T5qZmfLcPA0mavShTGN0DsbMADV
- MPJbsV/FVhQsmfG0HvjEs7vAwwpg6xRn/pgzQkEBy/1XUNqWo4lSTxPYqSLKw4dY
- ob4ua0CA1X2eWO567mK6xf9z5GOaqtXTpkZcR9nfRn8MyLugUtQIlNqyg/XOctXH
- pDf5ZQcKO/8pJWy8Aa7X6IMWCMcRRbQoV+KQuqrg951fMK/BRHFIwOPMbwsZMfj8
- 8rDLMSD1T8nIREaSKkX8jrlXuaBwbbIayYpPpfCogxyx0rm88EnyfUgpOKzLj6UC
- RQyLDp6hV66C3aNGWew6anGsqf8sBBIMRKuKGCOJLwsIYllG7aoLGrK/w==
+ :mime-version:content-transfer-encoding; s=fm1; bh=lTMgt1HLjzp8s
+ L+PteL0UcJwaA7usVkuzSVyWJEJXu8=; b=RR+21FlIAVje80xSbGcjFMlUfNPtv
+ nQV+LDgnbhUlm/xqEXPfa/xgWCx/RKNL3oPXX9mHmkeZ5FRSTnfuPSFEICR3Yvtk
+ 2J9EBzNPR7HjQwfcX+K/uEHZ1jcKilZ2/rVFavq/Kq/6LhY+v8vdPCYoTpbN9IEz
+ PtgyiBlXZ+JtyU+YXkgfKO9gRicy6MkWXJ6xELycOJYHYiBRjRj1MqRG2IrZeWQ+
+ sonAPyAhNsDUimjBvpIr6zVyc3gqVI4jlJTeh/wTdyfl65nNlt4oiq6Ucynwcbiv
+ kVyWQpaz5OFRVZgHKCU4iBxPPPWofyIJlvPS1QYgkZCN6X43RM4Aig21Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=DGJozeGcc7zi+9ieiObmxaR/yTCxk8WMksJfUp/Tyao=; b=v5t+Q25A
- M4DXfcf2F/XlOfz+IKVfiFQBH0kmYv3O5LTOeTDcHftTxN2jWAAsTeP3Ejj0ebPV
- C2IOE6wb4x0v0HZ6TEp+wc5AJYbGlx15VJkxKx6mkiCCzH9V5q1PArW8gFK5Mave
- ZFbGhyfW1ryV9ESRyzg/QLalncPMOysVOuvPSHJaVS7jugJldtDRoYG+binIce3b
- gySqtZSmnH765M0DLOtAZJ2soe1dAmmsQrRIffutf9WY0O5ePGm6rnRPcwZaa3hY
- Z074z5x2zfnZVq0h3RGUNKJ+BEUO25sFIEIdeGxk92uKENEVkdkP4SbFHe62+THO
- bNfw9PUdNToxjg==
-X-ME-Sender: <xms:Ak_mXSpVM-lfLMA6g6QGvc-BQciflK2U4AwPZAycyjgmcGMoOW8FWw>
+ fm1; bh=lTMgt1HLjzp8sL+PteL0UcJwaA7usVkuzSVyWJEJXu8=; b=CV8XFhu6
+ gU+QdLhBG5/YK9Yg/ylAugTOryxmjty/zk+dg+JzyJOZQgR5t/7xfAH+y5QLfap+
+ GwpQxBUrL8JJgQ2M7sKybzc83xZY1cz3EkM3+YcKC8mLOX0PRZtYfjYDMBqmR3r+
+ uW+hKvJnycjJP6biVWWe5LXI7k8bvyLYL0T5fDNL95jI9jGGgYm3xsNHRxB5YXNm
+ fxYNweQQN6jNV2WRLYxY+Z1ozWUP0tngQsdHnaev+RbdB6+1taIXTHVmbKrFFkvD
+ jBHC1FKKfyrLNHUSyBI5ks93wH41fw+uv2mJjpnlQAN4+0TkIDLNNExMZd8lXAg9
+ 1uL58/QyGHW8gw==
+X-ME-Sender: <xms:Bk_mXcJfd9IhMsaVQsRCTh7_V0DUtXgb_IUVur1PtrvdtL08QObXSA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudejjedgfeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
  dtredttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegr
  jhdrihgurdgruheqnecukfhppeduudekrddvuddurdelvddrudefnecurfgrrhgrmhepmh
  grihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgvrhfuihii
- vgepie
-X-ME-Proxy: <xmx:A0_mXcXOuWRxD53R8sTvfxDgJxS0u3NJVBbzl5Ym5rauxA8n29cNwQ>
- <xmx:A0_mXR5hxuJA3lilqepPY_PSAhND2eCd512955ipnpszP0JuGdutZQ>
- <xmx:A0_mXS2ViiOG2IgsS-he5FV_Cvzh_DhQ7Ajv51_3dFy9gpIkl-APRA>
- <xmx:A0_mXR5xRlUOIg3dgd_hBf289XiZzFxbbTLnCDMSnu4WFVJ0XS-3Uw>
+ vgepke
+X-ME-Proxy: <xmx:Bk_mXRmnTDCpl1NupdlprVw0iR0DZBrVqZw4CSRbfMT7eFRFSAFh_A>
+ <xmx:Bk_mXRe71vo0pQYdZxVdoYqLADuwUHjvAZHs5IqX1u-LZDOddxsYlQ>
+ <xmx:Bk_mXaW7K2nUD2dRaBz43t1J9ZW4L-zUhpp6_c8FNt_XKxH4woBfjQ>
+ <xmx:Bk_mXde_FPJ7gVUkFek50lKO3_swb8RmNZWmstxWlV3-NiUtJxi9PA>
 Received: from mistburn.lan (unknown [118.211.92.13])
- by mail.messagingengine.com (Postfix) with ESMTPA id CE7C430600D2;
- Tue,  3 Dec 2019 07:03:11 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id B4B8C30600D2;
+ Tue,  3 Dec 2019 07:03:15 -0500 (EST)
 From: Andrew Jeffery <andrew@aj.id.au>
 To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH 08/14] ARM: dts: swift: Cleanup gpio-keys-polled properties
-Date: Tue,  3 Dec 2019 22:34:09 +1030
-Message-Id: <78ea3e17108c7c8fded921f5673777fc415cd66e.1575369656.git-series.andrew@aj.id.au>
+Subject: [PATCH 09/14] ARM: dts: witherspoon: Cleanup gpio-keys-polled
+ properties
+Date: Tue,  3 Dec 2019 22:34:10 +1030
+Message-Id: <dff08baaac1fd2710b2db33fcac73c1411e1af6c.1575369656.git-series.andrew@aj.id.au>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.08e3a6c95159f017b753d0f240086d1a7923758b.1575369656.git-series.andrew@aj.id.au>
 References: <cover.08e3a6c95159f017b753d0f240086d1a7923758b.1575369656.git-series.andrew@aj.id.au>
@@ -88,8 +89,8 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Adriana Kobylak <anoo@us.ibm.com>, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
@@ -98,18 +99,18 @@ dtbs_check gave the following warning:
 
     Warning (avoid_unnecessary_addr_size): /gpio-keys-polled: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
 
-Cc: Adriana Kobylak <anoo@us.ibm.com>
+Cc: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 ---
- arch/arm/boot/dts/aspeed-bmc-opp-swift.dts | 2 --
+ arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts | 2 --
  1 file changed, 2 deletions(-)
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
-index 0831bc1f5a4c..555d79405884 100644
---- a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
-@@ -82,8 +82,6 @@
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts b/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
+index 39ba4d5a787e..dbcd3dd8b405 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
+@@ -77,8 +77,6 @@
  
  	gpio-keys-polled {
  		compatible = "gpio-keys-polled";
@@ -117,6 +118,6 @@ index 0831bc1f5a4c..555d79405884 100644
 -		#size-cells = <0>;
  		poll-interval = <1000>;
  
- 		scm0-presence {
+ 		fan0-presence {
 -- 
 git-series 0.9.1
