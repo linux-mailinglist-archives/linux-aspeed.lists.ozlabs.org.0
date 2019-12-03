@@ -1,82 +1,78 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id F349C10FD38
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 13:07:06 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F21DE10F4A6
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 02:47:50 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47RlH80kjnzDqNn
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 12:47:48 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47S11g6tvqzDqVk
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 23:07:03 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.29;
- helo=out5-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.224;
+ helo=new2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="mxMEGJzM"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="mvRcSmjJ"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="TyTYzBCO"; dkim-atps=neutral
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
+ header.b="BKeODkHb"; dkim-atps=neutral
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47RlGs58p0zDqM0
- for <linux-aspeed@lists.ozlabs.org>; Tue,  3 Dec 2019 12:47:33 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47S0wp6fDTzDqVl
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  3 Dec 2019 23:02:49 +1100 (AEDT)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id B8CFB21FF1;
- Mon,  2 Dec 2019 20:47:29 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Mon, 02 Dec 2019 20:47:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=IHGr/2BLOU7cV4peRZ4d0rFJNkvQzoo
- KoZ+eB0IL/RU=; b=mxMEGJzMEEI/sC9g/aiksF+pPa+h10QnP4YNGvYeuAA638L
- McuJ+NnT9FhzSWt80xUeKdHd4PdRO+awfe/kRB6+o9RO7HUctYo5URSl+/ldkQQ3
- MrQhKY0YuuzNAhoruKLY9DfID4bF/mb8Y0jBQlm2BAZpCDCYIyaXESkeUk/iHxty
- ppnnE/yGf02XIqxSv0SK2NJeNedpZh6y1T0MyERp5Dso4FkzcNYuLGqUUZhRdJxy
- EKiQ6zgPu28F2OKyqqpj+S460FW7JwgAILtZrqc2Br6RmpFihLohV1+MAW3D3C8W
- syuQnDKBd79eziUFZ4UnHBpRcf2sNFUIgxpt7yg==
+ by mailnew.nyi.internal (Postfix) with ESMTP id DD154D04;
+ Tue,  3 Dec 2019 07:02:45 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 03 Dec 2019 07:02:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=ztq7FLHlrns5zu/XcOJ2JlDLPY
+ qZhl4Q876ZoCQ+iMU=; b=mvRcSmjJQh0CRMvAcEkW9kerL29X7umeGBKg/+gbPu
+ 2LoTDXE79vt69JFJbwznqTXvEc7fsEWMmtQAS4KV1ME094Z+gQoBy4oBJ76Qdd7l
+ RpzIrgWbLI8ogu6UqBDkAoOqt55DkxOvI2blo8WIWT20GfEsWJ9UopeMd6WaOhG2
+ bpbRoiDd2Fay8bbe7wEztgU6z5JIYOC6KRg+7IkfXxN4mfW/ku0LjgtrwfI/KqfK
+ Xz4w2IDJa+PPVv4DUFycF7+2HXRR90+/HvRf0xPR1PasF9ypO6ZV8Sf4skCCGwqq
+ J2kjnNTyYwjAuO0MMtUKSbtQ9oB0n7aRuN+2+uR1pkDA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=IHGr/2
- BLOU7cV4peRZ4d0rFJNkvQzooKoZ+eB0IL/RU=; b=TyTYzBCOD7yr5+hThshzrb
- XVBePF1pSkPdmYAzPw3Wr2HhdQ0sy+a8QgdOvHtkHZRSaA4/+C2FBjy6+lBNMMUe
- wFV+pe0P6esB3s8CCIBUUXW/HbPQ8DUhZqTlM9ed9gYrrFLmy5Kvq1Z1aBwx9ncw
- tJ5RcjEgUoYHSw4Rk+4jbs5zpiGsu4ZudT8b2dTw5p6vwjGap8Y0kpAsro+WTGeV
- byn9+p3p3FeknZ2im9gpp4qrmMcgnvj77+IWm4VX13XYKisCu5pj58eszpUfx8k5
- WEZ/zYA1MjuX5XbOgejTvJnGx+wBbxcU/wk331Lh+75vBX7Dh4dNW8dbGirXs9uw
- ==
-X-ME-Sender: <xms:sL7lXclCiCQ3Nu6pSpK8scdCncKEJqzP0rmexNk7LcLXA9sqrYIziQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudejiedgfeeiucetufdoteggodetrfdotf
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ztq7FLHlrns5zu/Xc
+ OJ2JlDLPYqZhl4Q876ZoCQ+iMU=; b=BKeODkHb4W0FDe04Sxq6J57Op9FbaHVGp
+ 3FAQX6K5SH+qqo7dNp/xenvGryg8yB7isLaaPXJczEET9KJejDdGyy8qBWCCZNQU
+ 0jXEBswKRW2Ta41C6Y48NiwyTuULRbfTkOJf0Su/F4/vM1e0eNd8iK+y2GtAhtag
+ Jj+grfGA1KJBvUVtXmFEi0PoR+TnA9u8uq9gsaO7w4PI6098oLwpnzkYhPyW00jk
+ 4WBEP3U55pEbo+6UbQy84nlY+7MleTuSgsK4tTJjGY2PdYTmYsuLGmyOhWc+uxLN
+ /Uh2JioCG1Dv5puImHWf+sgNRsezI1ayvQMoaPWyYaeLdnBgkXmdw==
+X-ME-Sender: <xms:407mXWaFPcTpZik5e3BkQWVrt8snnAJJrRNX-g_hggdEG8OZV3dxeQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudejjedgfeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:sL7lXTlII7QDy8NaC_DgBwbg7ld_ydSbKnfFc9wcc06fzuZ4B6bcXw>
- <xmx:sL7lXfpliL-tA1-4oKEa3fktmYiM4deaUeutI8fDVdIaBwRpmW8eGA>
- <xmx:sL7lXQnC_uiT_I0C-0JYP_2gC7gUyC0--B_GSz5FUxLg6nMd2zWBkQ>
- <xmx:sb7lXY-H3I1aNtrlulqqNrNxq6PQgve3yfvMOPG23qQuna_yy_jxXg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 335EBE00A2; Mon,  2 Dec 2019 20:47:28 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-611-g2f3e951-fmstable-20191202v1
-Mime-Version: 1.0
-Message-Id: <0ddad614-0f1c-4ca1-bfc5-127ed3c61dc4@www.fastmail.com>
-In-Reply-To: <1569617929-29055-3-git-send-email-eajames@linux.ibm.com>
-References: <1569617929-29055-1-git-send-email-eajames@linux.ibm.com>
- <1569617929-29055-3-git-send-email-eajames@linux.ibm.com>
-Date: Tue, 03 Dec 2019 12:19:02 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Eddie James" <eajames@linux.ibm.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] irqchip: Add Aspeed SCU interrupt controller
-Content-Type: text/plain
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegrjhdr
+ ihgurdgruheqnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddukedrvd
+ duuddrledvrddufeenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdr
+ ihgurdgruhenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:407mXaXuS35u7D7UWegYnTOzGj9sNKYYUmSsryisssIRuo7Ufnrs1g>
+ <xmx:407mXRTghfOJ0UqP0hKAv_PzLbm2Dz4kcgpn6weMCcdgfoW9TTdqeA>
+ <xmx:407mXXEqRI_xwvbFpt3JiRbJqP_dtAab5HKNdXWH_zcWMwy4CQfMkw>
+ <xmx:5U7mXe_N_BAFOfuorW227HAYtguJjMdZltqXMAzzltXw98SN-bgYbw>
+Received: from mistburn.lan (unknown [118.211.92.13])
+ by mail.messagingengine.com (Postfix) with ESMTPA id BF15730600AA;
+ Tue,  3 Dec 2019 07:02:36 -0500 (EST)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: linux-aspeed@lists.ozlabs.org
+Subject: [PATCH 00/14] ARM: dts: aspeed: Cleanup dtc warnings
+Date: Tue,  3 Dec 2019 22:34:01 +1030
+Message-Id: <cover.08e3a6c95159f017b753d0f240086d1a7923758b.1575369656.git-series.andrew@aj.id.au>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,173 +84,72 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Jason Cooper <jason@lakedaemon.net>, linux-aspeed@lists.ozlabs.org,
- Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- tglx@linutronix.de
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, xow@google.com,
+ chen.kenyy@inventec.com, gregkh@linuxfoundation.org, linus.walleij@linaro.org,
+ anoo@us.ibm.com, linux-kernel@vger.kernel.org, yao.yuan@linaro.org,
+ a.filippov@yadro.com, robh+dt@kernel.org, yang.brianc.w@inventec.com,
+ venture@google.com, sschaeck@cisco.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hello,
 
+This series is based on an RFC-ish series I sent quite some time ago to which I
+have only just been able to circle back. The previous discussion can be found
+here:
 
-On Sat, 28 Sep 2019, at 06:28, Eddie James wrote:
-> The Aspeed SOCs provide some interrupts through the System Control
-> Unit registers. Add an interrupt controller that provides these
-> interrupts to the system.
-> 
-> Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> ---
-> Changes since v1:
->  - add a spinlock to protect read-modify-write operation for irq masking
->  - use readl/writel relaxed versions
+https://lore.kernel.org/lkml/20190726053959.2003-1-andrew@aj.id.au/
 
-What's your motivation? I might have missed some comments on v1. The
-descriptions make me slightly nervous (not guaranteed to be ordered wrt
-spinlocks).
+I've split, shuffled and rebased the series a little, with at least one extra
+cleanup for the g6 dtsi. This series is just the devicetree changes, the IPMI
+KCS changes will be posted separately shortly.
 
->  - add a comment explaining the irq status/enable register
->  - provide affinity callback that returns -EINVAL
-> 
->  MAINTAINERS                         |   1 +
->  drivers/irqchip/Makefile            |   2 +-
->  drivers/irqchip/irq-aspeed-scu-ic.c | 233 ++++++++++++++++++++++++++++++++++++
->  3 files changed, 235 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/irqchip/irq-aspeed-scu-ic.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c7e028c..b6db122 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2656,6 +2656,7 @@ M:	Eddie James <eajames@linux.ibm.com>
->  L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
->  S:	Maintained
->  
-> F:	Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2xxx-scu-ic.txt
-> +F:	drivers/irqchip/irq-aspeed-scu-ic.c
->  F:	include/dt-bindings/interrupt-controller/aspeed-scu-ic.h
->  
->  ASPEED VIDEO ENGINE DRIVER
-> diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-> index cc7c439..fce6b1d 100644
-> --- a/drivers/irqchip/Makefile
-> +++ b/drivers/irqchip/Makefile
-> @@ -86,7 +86,7 @@ obj-$(CONFIG_MVEBU_PIC)			+= irq-mvebu-pic.o
->  obj-$(CONFIG_MVEBU_SEI)			+= irq-mvebu-sei.o
->  obj-$(CONFIG_LS_SCFG_MSI)		+= irq-ls-scfg-msi.o
->  obj-$(CONFIG_EZNPS_GIC)			+= irq-eznps.o
-> -obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-vic.o irq-aspeed-i2c-ic.o
-> +obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-vic.o irq-aspeed-i2c-ic.o 
-> irq-aspeed-scu-ic.o
->  obj-$(CONFIG_STM32_EXTI) 		+= irq-stm32-exti.o
->  obj-$(CONFIG_QCOM_IRQ_COMBINER)		+= qcom-irq-combiner.o
->  obj-$(CONFIG_IRQ_UNIPHIER_AIDET)	+= irq-uniphier-aidet.o
-> diff --git a/drivers/irqchip/irq-aspeed-scu-ic.c 
-> b/drivers/irqchip/irq-aspeed-scu-ic.c
-> new file mode 100644
-> index 0000000..64c3ac4
-> --- /dev/null
-> +++ b/drivers/irqchip/irq-aspeed-scu-ic.c
-> @@ -0,0 +1,233 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Aspeed AST24XX, AST25XX, and AST26XX SCU Interrupt Controller
-> + * Copyright 2019 IBM Corporation
-> + *
-> + * Eddie James <eajames@linux.ibm.com>
-> + */
-> +
-> +#include <linux/bitops.h>
-> +#include <linux/irq.h>
-> +#include <linux/irqchip.h>
-> +#include <linux/irqchip/chained_irq.h>
-> +#include <linux/irqdomain.h>
-> +#include <linux/of_address.h>
-> +#include <linux/of_irq.h>
-> +#include <linux/io.h>
-> +#include <linux/spinlock.h>
-> +
-> +#define ASPEED_SCU_IC_SHIFT		0
-> +#define ASPEED_SCU_IC_ENABLE		GENMASK(6, ASPEED_SCU_IC_SHIFT)
-> +#define ASPEED_SCU_IC_NUM_IRQS		7
-> +#define ASPEED_SCU_IC_STATUS_SHIFT	16
-> +
-> +#define ASPEED_AST2600_SCU_IC0_SHIFT	0
-> +#define ASPEED_AST2600_SCU_IC0_ENABLE	\
-> +	GENMASK(5, ASPEED_AST2600_SCU_IC0_SHIFT)
-> +#define ASPEED_AST2600_SCU_IC0_NUM_IRQS	6
-> +
-> +#define ASPEED_AST2600_SCU_IC1_SHIFT	4
-> +#define ASPEED_AST2600_SCU_IC1_ENABLE	\
-> +	GENMASK(5, ASPEED_AST2600_SCU_IC1_SHIFT)
-> +#define ASPEED_AST2600_SCU_IC1_NUM_IRQS	2
-> +
-> +struct aspeed_scu_ic {
-> +	unsigned long irq_enable;
-> +	unsigned long irq_shift;
+Combined with the KCS changes we achieve similar stats to the RFC series,
+reducing 264 warnings to 6.
 
-> +	unsigned int num_irqs;
-> +	void __iomem *reg;
-> +	struct irq_domain *irq_domain;
-> +	spinlock_t lock;
-> +};
-> +
-> +static void aspeed_scu_ic_irq_handler(struct irq_desc *desc)
-> +{
-> +	unsigned int irq;
-> +	unsigned long bit;
-> +	unsigned long enabled;
-> +	unsigned long max;
-> +	unsigned long status;
-> +	struct aspeed_scu_ic *scu_ic = irq_desc_get_handler_data(desc);
-> +	struct irq_chip *chip = irq_desc_get_chip(desc);
-> +
-> +	chained_irq_enter(chip, desc);
-> +
-> +	/*
-> +	 * The SCU IC has just one register to control its operation and read
-> +	 * status. The interrupt enable bits occupy the lower 16 bits of the
-> +	 * register, while the interrupt status bits occupy the upper 16 bits.
-> +	 * The status bit for a given interrupt is always 16 bits shifted from
-> +	 * the enable bit for the same interrupt.
-> +	 * Therefore, perform the IRQ operations in the enable bit space by
-> +	 * shifting the status down to get the mapping and then back up to
-> +	 * clear the bit.
-> +	 */
-> +	status = readl_relaxed(scu_ic->reg);
-> +	enabled = status & scu_ic->irq_enable;
-> +	status = (status >> ASPEED_SCU_IC_STATUS_SHIFT) & enabled;
-> +
-> +	bit = scu_ic->irq_shift;
-> +	max = scu_ic->num_irqs + bit;
-> +
-> +	for_each_set_bit_from(bit, &status, max) {
-> +		irq = irq_find_mapping(scu_ic->irq_domain,
-> +				       bit - scu_ic->irq_shift);
-> +		generic_handle_irq(irq);
-> +
-> +		writel_relaxed(enabled | BIT(bit + ASPEED_SCU_IC_STATUS_SHIFT),
-> +			       scu_ic->reg);
-> +	}
-> +
-> +	chained_irq_exit(chip, desc);
-> +}
-> +
-> +static void aspeed_scu_ic_irq_mask(struct irq_data *data)
-> +{
-> +	struct aspeed_scu_ic *scu_ic = irq_data_get_irq_chip_data(data);
-> +	unsigned long bit = BIT(data->hwirq + scu_ic->irq_shift);
-> +	unsigned long flags;
-> +	unsigned long reg;
-> +
-> +	spin_lock_irqsave(&scu_ic->lock, flags);
+I've added each patches' tags from last time, but please glance over them
+again.
 
-The SCU is represented by a syscon in the devicetree, which has a regmap,
-which does it's own locking internally. You could use regmap_update_bits()
-to do an atomic read/modify/write and this will provide consistency for
-other SCU drivers that might be accessing shared registers. Nothing else
-should _currently_ be touching the SCU IRQ status/enable register, but
-using the regmap would give us a consistent approach across all SCU
-drivers.
+Cheers,
 
 Andrew
+
+Andrew Jeffery (14):
+  dt-bindings: pinctrl: aspeed: Add reg property as a hint
+  dt-bindings: misc: Document reg for aspeed,p2a-ctrl nodes
+  ARM: dts: aspeed-g5: Move EDAC node to APB
+  ARM: dts: aspeed-g5: Use recommended generic node name for SDMC
+  ARM: dts: aspeed-g5: Fix aspeed,external-nodes description
+  ARM: dts: vesnin: Add unit address for memory node
+  ARM: dts: fp5280g2: Cleanup gpio-keys-polled properties
+  ARM: dts: swift: Cleanup gpio-keys-polled properties
+  ARM: dts: witherspoon: Cleanup gpio-keys-polled properties
+  ARM: dts: aspeed: Cleanup lpc-ctrl and snoop regs
+  ARM: dts: aspeed: Add reg hints to syscon children
+  ARM: dts: aspeed-g5: Sort LPC child nodes by unit address
+  ARM: dts: aspeed-g6: Cleanup watchdog unit address
+  ARM: dts: ibm-power9-dual: Add a unit address for OCC nodes
+
+ Documentation/devicetree/bindings/misc/aspeed-p2a-ctrl.txt            |  1 +
+ Documentation/devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.yaml |  3 +++
+ Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml |  3 +++
+ arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts                  |  4 ----
+ arch/arm/boot/dts/aspeed-bmc-arm-stardragon4800-rep2.dts              |  4 ----
+ arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts                      | 11 +++++++----
+ arch/arm/boot/dts/aspeed-bmc-intel-s2600wf.dts                        |  4 ----
+ arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dts                          |  4 ----
+ arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts                          |  4 ----
+ arch/arm/boot/dts/aspeed-bmc-opp-swift.dts                            |  6 ------
+ arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts                           |  2 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts                      |  6 ------
+ arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts                            |  2 --
+ arch/arm/boot/dts/aspeed-g4.dtsi                                      | 21 ++++++++++++---------
+ arch/arm/boot/dts/aspeed-g5.dtsi                                      | 49 ++++++++++++++++++++++++++-----------------------
+ arch/arm/boot/dts/aspeed-g6.dtsi                                      |  2 +-
+ arch/arm/boot/dts/ibm-power9-dual.dtsi                                |  4 ++--
+ 17 files changed, 56 insertions(+), 74 deletions(-)
+
+base-commit: 3eca037f2dfce07a31da0a837ac35d6d846614b0
+-- 
+git-series 0.9.1
