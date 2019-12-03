@@ -1,79 +1,60 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A4410FF45
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 14:51:28 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47S3L556K2zDq8M
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Dec 2019 00:51:25 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C8011002C
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Dec 2019 15:31:46 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47S4Db1N9FzDqXR
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Dec 2019 01:31:43 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::b44;
- helo=mail-yb1-xb44.google.com; envelope-from=tcminyard@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=robh+dt@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=acm.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="C1wT1exz"; 
+ dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.b="KZ3PkNns"; 
  dkim-atps=neutral
-Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com
- [IPv6:2607:f8b0:4864:20::b44])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47S35h0f0tzDqJY
- for <linux-aspeed@lists.ozlabs.org>; Wed,  4 Dec 2019 00:40:33 +1100 (AEDT)
-Received: by mail-yb1-xb44.google.com with SMTP id q7so1515891ybk.4
- for <linux-aspeed@lists.ozlabs.org>; Tue, 03 Dec 2019 05:40:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=PWU/7wWJMqFgQOzJgxgiFIVxjVPFwmXizK0TOekZqDg=;
- b=C1wT1exzI2+JnqAQvtk5yzcIapZj8L6gj8q4NmvEZU6boLKk35ngTnivJE6SSaWttN
- thEPw+fkAmaa6Ye7t/7fSQav4HsPD5z+u1qy01HvbBGa7bc7lyCUNgTm4Xh6D8KK2XbG
- eq8GR+xu6toCsxCSrw9fi02f42jNOlCOdJIUnr3qJ5MQrNmpULkuYoUHL5Hfog4ZA7nq
- DEIH3S3pHNNVfS82/mabk7UDpPbdOIPqA8YkiXlWWA7L6g+mhWT+IFpu856wVa4gPQEu
- rAZ3iSXNY2Sm+PVEAO/drBgBFSK5ubZoyANNhnL+FHbH3v/sn6MTRnKR1KPLy/12jJ12
- g5Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to
- :user-agent;
- bh=PWU/7wWJMqFgQOzJgxgiFIVxjVPFwmXizK0TOekZqDg=;
- b=ab9PV2S3RjFI7uk9yl4RKBf8lyyHt+SEJx0A10AROEUaSj+wlVbQweO3Xll/YW+cKV
- 5f7PJy9Gy/YeCQMptNgEyukIODR/lVcDrbRldrt9lZC78/cN8+PG/lTwa9LJu6IY3XQQ
- xzjNyIsZ+qfSXckIlGrnXGrkxz862x+mFEoLHiViRKteXh7LjIaWqxLGLDaw0WQl80qH
- TcPjs3Pk5wvSxECYpJ7Ik13ALKB+HAtL1XS59EqhdTGHASv0WYhaymrg+W1raTx7SL8F
- /JZ0ZnAOmjHLng8ygeAQONuxWRtHc/l6QXo333/qlokRha4ra3JpHRVq/xMppSM8PRAt
- Jn6w==
-X-Gm-Message-State: APjAAAVMD18rjRyoJYJ0KgPnfiDp/yKaRuG+eicRC64T7L4g8eBq51Ot
- TfbOWIG8NKEgHr0ctFCjdw==
-X-Google-Smtp-Source: APXvYqzlVb+uzUqOoJ7sKz3DGqmH2x4xZFKhoXvP+qn/NpgdBgUv9H8D7Fy3Mg2T7hXTvflhiXmg6A==
-X-Received: by 2002:a25:d052:: with SMTP id h79mr4265588ybg.345.1575380429014; 
- Tue, 03 Dec 2019 05:40:29 -0800 (PST)
-Received: from serve.minyard.net ([47.184.136.59])
- by smtp.gmail.com with ESMTPSA id u2sm1451301ywi.61.2019.12.03.05.40.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2019 05:40:28 -0800 (PST)
-Received: from minyard.net (unknown [192.168.27.180])
- by serve.minyard.net (Postfix) with ESMTPSA id 95ED9180059;
- Tue,  3 Dec 2019 13:40:27 +0000 (UTC)
-Date: Tue, 3 Dec 2019 07:40:26 -0600
-From: Corey Minyard <minyard@acm.org>
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH 2/3] ipmi: kcs: Finish configuring ASPEED KCS device
- before enable
-Message-ID: <20191203134026.GI18165@minyard.net>
-References: <cover.5630f63168ad5cddf02e9796106f8e086c196907.1575376664.git-series.andrew@aj.id.au>
- <84315a29b453068373c096c03433e3a326731988.1575376664.git-series.andrew@aj.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47S4DL3BcxzDqVs
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  4 Dec 2019 01:31:29 +1100 (AEDT)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com
+ [209.85.219.41])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4C8112073C
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  3 Dec 2019 14:31:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1575383487;
+ bh=paDjy7hZsmQkcUp7jKSH70ftPLffSgdTsEFpUetgz24=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=KZ3PkNnslqc7BEkuj8s892JHiyp111mpjo13oyKF2LEIsAAcH/hc5JifebD94uck3
+ nvVaUSye1Jaz8ajRoUANeZarO5PaXCebynHCFsWg9UsJyvHq5vbTBbBh+fkKJlWy4n
+ ygD9D5lhomlPo1jbX8Cgfpm0LyJHYR996Q4klzU0=
+Received: by mail-qv1-f41.google.com with SMTP id i3so1563758qvv.7
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 03 Dec 2019 06:31:27 -0800 (PST)
+X-Gm-Message-State: APjAAAWcCDKbbvPL3Llyi5Gb7L0LMXXzvi8RiYykKpWKhprCekg+s59m
+ bEXFY36g/BI7YvAU6yAhMhRc8jwl6CarloPhAw==
+X-Google-Smtp-Source: APXvYqxDBnGQNKjTk3qSKKiOvMvxPKQPV7m6ur08FqhiSl9j9w8DAHBF3481M9puWdGG8hXS2X7yJKuiKlMAjUfp4E0=
+X-Received: by 2002:a05:6214:11ac:: with SMTP id
+ u12mr5420247qvv.85.1575383483847; 
+ Tue, 03 Dec 2019 06:31:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <84315a29b453068373c096c03433e3a326731988.1575376664.git-series.andrew@aj.id.au>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <cover.5630f63168ad5cddf02e9796106f8e086c196907.1575376664.git-series.andrew@aj.id.au>
+ <3da2492c244962c27b21aad87bfa6bf74f568f1d.1575376664.git-series.andrew@aj.id.au>
+In-Reply-To: <3da2492c244962c27b21aad87bfa6bf74f568f1d.1575376664.git-series.andrew@aj.id.au>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 3 Dec 2019 08:31:10 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+3qXJbTu9G42g11PLJH-A0XeSQmJKj0obO32QFna3dEA@mail.gmail.com>
+Message-ID: <CAL_Jsq+3qXJbTu9G42g11PLJH-A0XeSQmJKj0obO32QFna3dEA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: ipmi: aspeed: Introduce a v2 binding for
+ KCS
+To: Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,55 +66,76 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Haiyue Wang <haiyue.wang@linux.intel.com>, linux-aspeed@lists.ozlabs.org,
- arnd@arndb.de, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org, openipmi-developer@lists.sourceforge.net,
- linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Corey Minyard <minyard@acm.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ linux-aspeed@lists.ozlabs.org, openipmi-developer@lists.sourceforge.net,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Dec 03, 2019 at 11:08:24PM +1030, Andrew Jeffery wrote:
-> The currently interrupts are configured after the channel was enabled.
-
-How about:
-
-The interrupts were configured after the channel was enabled, configure
-them before so they will work.
-
--corey
-
-> 
+On Tue, Dec 3, 2019 at 6:36 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+>
+> The v2 binding utilises reg and renames some of the v1 properties.
+>
 > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
-> Reviewed-by: Haiyue Wang <haiyue.wang@linux.intel.com>
 > ---
->  drivers/char/ipmi/kcs_bmc_aspeed.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_bmc_aspeed.c
-> index 3c955946e647..e3dd09022589 100644
-> --- a/drivers/char/ipmi/kcs_bmc_aspeed.c
-> +++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
-> @@ -268,13 +268,14 @@ static int aspeed_kcs_probe(struct platform_device *pdev)
->  	kcs_bmc->io_inputb = aspeed_kcs_inb;
->  	kcs_bmc->io_outputb = aspeed_kcs_outb;
->  
-> +	rc = aspeed_kcs_config_irq(kcs_bmc, pdev);
-> +	if (rc)
-> +		return rc;
-> +
->  	dev_set_drvdata(dev, kcs_bmc);
->  
->  	aspeed_kcs_set_address(kcs_bmc, addr);
->  	aspeed_kcs_enable_channel(kcs_bmc, true);
-> -	rc = aspeed_kcs_config_irq(kcs_bmc, pdev);
-> -	if (rc)
-> -		return rc;
->  
->  	rc = misc_register(&kcs_bmc->miscdev);
->  	if (rc) {
-> -- 
+>  Documentation/devicetree/bindings/ipmi/aspeed-kcs-bmc.txt | 20 +++++---
+>  1 file changed, 14 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/ipmi/aspeed-kcs-bmc.txt b/Documentation/devicetree/bindings/ipmi/aspeed-kcs-bmc.txt
+> index d98a9bf45d6c..76b180ebbde4 100644
+> --- a/Documentation/devicetree/bindings/ipmi/aspeed-kcs-bmc.txt
+> +++ b/Documentation/devicetree/bindings/ipmi/aspeed-kcs-bmc.txt
+> @@ -1,9 +1,10 @@
+> -* Aspeed KCS (Keyboard Controller Style) IPMI interface
+> +# Aspeed KCS (Keyboard Controller Style) IPMI interface
+>
+>  The Aspeed SOCs (AST2400 and AST2500) are commonly used as BMCs
+>  (Baseboard Management Controllers) and the KCS interface can be
+>  used to perform in-band IPMI communication with their host.
+>
+> +## v1
+>  Required properties:
+>  - compatible : should be one of
+>      "aspeed,ast2400-kcs-bmc"
+> @@ -12,14 +13,21 @@ Required properties:
+>  - kcs_chan : The LPC channel number in the controller
+>  - kcs_addr : The host CPU IO map address
+>
+> +## v2
+> +Required properties:
+> +- compatible : should be one of
+> +    "aspeed,ast2400-kcs-bmc-v2"
+> +    "aspeed,ast2500-kcs-bmc-v2"
+> +- reg : The address and size of the IDR, ODR and STR registers
+> +- interrupts : interrupt generated by the controller
+> +- slave-reg : The host CPU IO map address
+
+aspeed,slave-reg
+
+>
+>  Example:
+>
+> -    kcs3: kcs3@0 {
+> -        compatible = "aspeed,ast2500-kcs-bmc";
+> -        reg = <0x0 0x80>;
+> +    kcs3: kcs@24 {
+> +        compatible = "aspeed,ast2500-kcs-bmc-v2";
+> +        reg = <0x24 0x1>, <0x30 0x1>, <0x3c 0x1>;
+
+What are the other registers in this address space? I'm not so sure
+this is an improvement if you end up with a bunch of nodes with single
+registers.
+
+>          interrupts = <8>;
+> -        kcs_chan = <3>;
+> -        kcs_addr = <0xCA2>;
+> +        slave-reg = <0xca2>;
+>          status = "okay";
+>      };
+> --
 > git-series 0.9.1
