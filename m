@@ -2,78 +2,83 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86B821137AD
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Dec 2019 23:37:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A436113B05
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Dec 2019 06:04:48 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47StyD6SBKzDqX2
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Dec 2019 09:37:08 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47T3YT58kfzDqY6
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Dec 2019 16:04:45 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=anoo@linux.ibm.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.221;
+ helo=new1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=linux.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="JifFXqXD"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="J5C25oVY"; dkim-atps=neutral
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47Stx60xXTzDqXQ;
- Thu,  5 Dec 2019 09:36:09 +1100 (AEDT)
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xB4MZtcw079935; Wed, 4 Dec 2019 17:35:55 -0500
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2wnej0veca-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 04 Dec 2019 17:30:58 -0500
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xB4MOnnk012691;
- Wed, 4 Dec 2019 22:29:08 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma02dal.us.ibm.com with ESMTP id 2wkg273hkx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 04 Dec 2019 22:29:08 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- xB4MT7Np24838566
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 4 Dec 2019 22:29:07 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D19A3B205F;
- Wed,  4 Dec 2019 22:29:07 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E102AB2065;
- Wed,  4 Dec 2019 22:29:06 +0000 (GMT)
-Received: from ltc.linux.ibm.com (unknown [9.16.170.189])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed,  4 Dec 2019 22:29:06 +0000 (GMT)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Wed, 04 Dec 2019 16:29:49 -0600
-From: Adriana Kobylak <anoo@linux.ibm.com>
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH 08/14] ARM: dts: swift: Cleanup gpio-keys-polled properties
-In-Reply-To: <78ea3e17108c7c8fded921f5673777fc415cd66e.1575369656.git-series.andrew@aj.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47T3YH5PjRzDqXL
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  5 Dec 2019 16:04:34 +1100 (AEDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C47EA6DB2;
+ Thu,  5 Dec 2019 00:04:30 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Thu, 05 Dec 2019 00:04:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=EbdPnIUWiOwQ643br872/JZSTvD7a10
+ RSKBmMulJSN8=; b=JifFXqXDmEe7Mvb1z3kyfynBxgaVc1qNJQasvCg1ibFlCOy
+ VE7jmuIowcEXu3ZR/MojGGuHJt4fplfhdr+MOJ9sKG1TMirubBwYNmHskB118/x3
+ 7AFKTtSQOVPVUtTrOvhfjHrG6xFKmNpxjkQz33MzREsW1IRWkFrkW7aSn4wTUXjV
+ 19Z6BYa9OrxuzlHn+v3dbu7k0D2mgLUwwiMr7TewBsSKlQazVusvi7UCG2SY4lBK
+ 2+9z5L/6wSRriBHVburZ3BI4OXEU+W2hsi4FtqokaQF99FR4gwVGzldax0YRoxxD
+ bMbMPZ91fU3ZPjAC3q6wmSO+f/2qmgk5BG19WzA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=EbdPnI
+ UWiOwQ643br872/JZSTvD7a10RSKBmMulJSN8=; b=J5C25oVYL4Hrmcp/xn9EpQ
+ Suiiuf+l37jl3j4UGAyk4y/IX0UqjmaaeFLw+mWvgl2dwvZD108oxUcMNmVtCZli
+ 4G2SRVqjWUuWHB+3fqsravRPfIjrvh+Dq13wQRBdCHAyaQhlzJXkFnM01uYeWz/9
+ 6/M/+zTbN/S3WpsWcrEJ34M5ATPjLMXxlkILwceIwzrym0pbDdkAQhFIFspMLEPI
+ DDAsSGCQdVBEKngVbpncS1wKasq5QEKcF6qMUX70NSQRNjwGZkdSkOe1QBUT2LDj
+ mGp3deJ8a0LboMnXCgt1EIal7nW0H2YIvyvZSF1MJytRbzKSjaHbXOK1DLwUOFTg
+ ==
+X-ME-Sender: <xms:3I_oXV4-n2xj8BTQ6IZdHWn4_HoQE0gb58DZXVp9DAFeo5cEODADPg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudektddgjeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
+ rhfuihiivgeptd
+X-ME-Proxy: <xmx:3I_oXXL3ovWDg99Z4a_d3T4syyxV6SnZiclv0munN8sO7ez1w3by_Q>
+ <xmx:3I_oXXe0drsxa0FcWgBtiEdXvXTtkDc4PQRt6RUyvMAcsV2rmyrxqg>
+ <xmx:3I_oXSfKYBb7NbuitaJv2XGY46yQ4yPYWWyRI8hSb2mQohDCqu4eLA>
+ <xmx:3o_oXVQr1kEaHUjP1AuwcUC_0MQAGlHW2-QA2434pVkhZKpJFKw4Rg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 9CFE5E00A2; Thu,  5 Dec 2019 00:04:28 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-612-g13027cc-fmstable-20191203v1
+Mime-Version: 1.0
+Message-Id: <25487d30-d748-445b-aad2-03c4d9241631@www.fastmail.com>
+In-Reply-To: <CAL_JsqJ8p-zs2F-mXkO_egoBtZ8WymM4O-2AaDJMZYeCFS3sLg@mail.gmail.com>
 References: <cover.08e3a6c95159f017b753d0f240086d1a7923758b.1575369656.git-series.andrew@aj.id.au>
- <78ea3e17108c7c8fded921f5673777fc415cd66e.1575369656.git-series.andrew@aj.id.au>
-Message-ID: <450addb633e8572a019ccaec5fd48248@linux.vnet.ibm.com>
-X-Sender: anoo@linux.ibm.com
-User-Agent: Roundcube Webmail/1.0.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-04_03:2019-12-04,2019-12-04 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- phishscore=0 spamscore=0 adultscore=0 malwarescore=0 bulkscore=0
- suspectscore=0 impostorscore=0 mlxlogscore=999 priorityscore=1501
- mlxscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-1912040187
+ <141f068d10b94413a6d0ca73fe07f8e961380e7b.1575369656.git-series.andrew@aj.id.au>
+ <CAL_JsqJ8p-zs2F-mXkO_egoBtZ8WymM4O-2AaDJMZYeCFS3sLg@mail.gmail.com>
+Date: Thu, 05 Dec 2019 15:36:04 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Rob Herring" <robh+dt@kernel.org>
+Subject: =?UTF-8?Q?Re:_[PATCH_05/14]_ARM:_dts:_aspeed-g5:_Fix_aspeed,
+ external-nod?= =?UTF-8?Q?es_description?=
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,44 +90,109 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, Adriana Kobylak <anoo@us.ibm.com>,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org,
- Linux-aspeed <linux-aspeed-bounces+anoo=linux.ibm.com@lists.ozlabs.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Xo Wang <xow@google.com>, linux-aspeed@lists.ozlabs.org,
+ Ken Chen <chen.kenyy@inventec.com>, Adriana Kobylak <anoo@us.ibm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "\(Exiting\) Yao Yuan" <yao.yuan@linaro.org>,
+ =?UTF-8?Q?YangBrianC=2EW_=E6=A5=8A=E5=98=89=E5=81=89_TAO?=
+ <yang.brianc.w@inventec.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 2019-12-03 06:04, Andrew Jeffery wrote:
-> dtbs_check gave the following warning:
-> 
->     Warning (avoid_unnecessary_addr_size): /gpio-keys-polled:
-> unnecessary #address-cells/#size-cells without "ranges" or child "reg"
-> property
-> 
-> Cc: Adriana Kobylak <anoo@us.ibm.com>
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-Reviewed-by: Adriana Kobylak <anoo@us.ibm.com>
-Tested-by: Adriana Kobylak <anoo@us.ibm.com>
 
-> ---
->  arch/arm/boot/dts/aspeed-bmc-opp-swift.dts | 2 --
->  1 file changed, 2 deletions(-)
+On Wed, 4 Dec 2019, at 01:13, Rob Herring wrote:
+> On Tue, Dec 3, 2019 at 6:03 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+> >
+> > The existing approach lead to an error from the dtbs_check:
+> >
+> >     pinctrl: aspeed,external-nodes: [[8, 9]] is too short
 > 
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
-> b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
-> index 0831bc1f5a4c..555d79405884 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
-> @@ -82,8 +82,6 @@
+> This one where we have list of phandles is fixed in dtc. I need to
+> update the kernel's copy.
+
+Ah, cool.
+
 > 
->  	gpio-keys-polled {
->  		compatible = "gpio-keys-polled";
-> -		#address-cells = <1>;
-> -		#size-cells = <0>;
->  		poll-interval = <1000>;
+> > Cc: Adriana Kobylak <anoo@us.ibm.com>
+> > Cc: Brian Yang <yang.brianc.w@inventec.com>
+> > Cc: Joel Stanley <joel@jms.id.au>
+> > Cc: John Wang <wangzqbj@inspur.com>
+> > Cc: Ken Chen <chen.kenyy@inventec.com>
+> > Cc: Tao Ren <taoren@fb.com>
+> > Cc: Xo Wang <xow@google.com>
+> > Cc: Yuan Yao <yao.yuan@linaro.org>
+> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> > Reviewed-by: Joel Stanley <joel@jms.id.au>
+> > ---
+> >  arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts     |  4 +----
+> >  arch/arm/boot/dts/aspeed-bmc-arm-stardragon4800-rep2.dts |  4 +----
+> >  arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts         |  9 +++++++--
+> >  arch/arm/boot/dts/aspeed-bmc-intel-s2600wf.dts           |  4 +----
+> >  arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dts             |  4 +----
+> >  arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts             |  4 +----
+> >  arch/arm/boot/dts/aspeed-bmc-opp-swift.dts               |  4 +----
+> >  arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts         |  4 +----
+> >  arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts               |  2 +--
+> >  arch/arm/boot/dts/aspeed-g5.dtsi                         |  3 +--
+> >  10 files changed, 8 insertions(+), 34 deletions(-)
+> >
+> > diff --git a/arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts b/arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts
+> > index c2ece0b91885..de9612e49c69 100644
+> > --- a/arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts
+> > +++ b/arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts
+> > @@ -211,10 +211,6 @@
+> >         status = "okay";
+> >  };
+> >
+> > -&pinctrl {
+> > -       aspeed,external-nodes = <&gfx &lhc>;
+> > -};
+> > -
+> >  &gpio {
+> >         pin_gpio_c7 {
+> >                 gpio-hog;
+> > diff --git a/arch/arm/boot/dts/aspeed-bmc-arm-stardragon4800-rep2.dts b/arch/arm/boot/dts/aspeed-bmc-arm-stardragon4800-rep2.dts
+> > index 2c29ac037d32..022d0744d786 100644
+> > --- a/arch/arm/boot/dts/aspeed-bmc-arm-stardragon4800-rep2.dts
+> > +++ b/arch/arm/boot/dts/aspeed-bmc-arm-stardragon4800-rep2.dts
+> > @@ -200,10 +200,6 @@
+> >         status = "okay";
+> >  };
+> >
+> > -&pinctrl {
+> > -       aspeed,external-nodes = <&gfx &lhc>;
+> > -};
+> > -
+> >  &gpio {
+> >         pin_gpio_c7 {
+> >                 gpio-hog;
+> > diff --git a/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts b/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
+> > index c17bb7fce7ff..d69da58476fe 100644
+> > --- a/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
+> > +++ b/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
+> > @@ -782,8 +782,13 @@
+> >         memory-region = <&gfx_memory>;
+> >  };
+> >
+> > -&pinctrl {
+> > -       aspeed,external-nodes = <&gfx &lhc>;
+> > +&gpio {
+> > +       pin_gpio_b7 {
+> > +               gpio-hog;
+> > +               gpios = <ASPEED_GPIO(B,7) GPIO_ACTIVE_LOW>;
+> > +               output-high;
+> > +               line-name = "BMC_INIT_OK";
+> > +       };
 > 
->  		scm0-presence {
+> Seems like an unrelated change?
+
+Yeah, that seems to be a bad rebase conflict resolution.
+
+Thanks,
+
+Andrew
