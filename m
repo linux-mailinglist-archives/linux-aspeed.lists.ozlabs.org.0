@@ -2,83 +2,72 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4EBA113B11
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Dec 2019 06:13:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A55114597
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Dec 2019 18:16:29 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47T3m02FBlzDqYL
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Dec 2019 16:13:52 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47TMnj6KWYzDqZk
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Dec 2019 04:16:25 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.221;
- helo=new1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="XkSFWnrs"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="mFtuhQSU"; dkim-atps=neutral
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
+ dmarc=none (p=none dis=none) header.from=linux.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47T3lt5clVzDqXS
- for <linux-aspeed@lists.ozlabs.org>; Thu,  5 Dec 2019 16:13:46 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 171566DFB;
- Thu,  5 Dec 2019 00:13:44 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Thu, 05 Dec 2019 00:13:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=HmY629d09ljX49+gWihMYnlLvvddw8y
- blf8rUOR5/wE=; b=XkSFWnrsqIZKGLVdudWqOUsdB5YtNlYfu/WzJNmOnyi7Za9
- 38ORxDINALsurrmH9koTMeFOuAMZbEdt3jb4NKuSHz1kx+lTQ8xaqEa4ARhDGT4D
- KGfLIlPrgABX0jjuH+qOBWgYSBYhf6XN2TcuNhLmzc4lnObgmWWgUqILS/RSwONj
- 0dok7lVopN++sUQMDj6CcDhMfaGf0RO0rzOcHeFJbECCjlfWyZ7zpQLUflU2t4m3
- O7cOUNTC2iCsFkjBQw5iJqeVUyG/bvlRsBcI+ziZDSYuCJO8AJnT2xLVipUkEmKk
- 5GsqpC7va97/ZkAtZQnZUb+3UJAwaK2HhNrJftA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=HmY629
- d09ljX49+gWihMYnlLvvddw8yblf8rUOR5/wE=; b=mFtuhQSUTGXR6RwrC/ZSqy
- DHtQ5sfJ72Gp+Fl14rqpI8A7opsv9ESRgx9plv2EalC4IRNebJZFDPAbVXGAep4o
- JgsZPzXUfI67INU1Q5h0MO2IeaIdp6pYZXaSdxxkzCukfnYYRgBMl9Kp3NEkQDy3
- +yrfq21UcepbK7ueIDsO974jcDYOwBURh8RF6li/Ko2371GVJkEpfgnv1Y5Bpt6U
- CyfG3o8gCDE3M6qGOD9nLeUR4TIAqzun6+KU/Vaonbonc6Z35lZTYQnrWIFEeK0p
- ukSchr2VVYPg9URotj309OcD4EQh8jjd10uwGTVxU9jR+ABqlVslmU+WCOHbl8aw
- ==
-X-ME-Sender: <xms:BpLoXT9uaXVa-DTA9FwW7wiy_GJt_465bqEkFIhziNC9gaP8vGHyUQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudektddgkedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:BpLoXZ_D9ZZbPr1lny9cZzaTeUS9m8tXYUZA2MppI0yZIXZnp_X2Xg>
- <xmx:BpLoXf_QPUo2GeX0u2WvSXm8b7gNwGJfzBKKQ1G_f6wAJAtDi7mWuw>
- <xmx:BpLoXXE1ahEGOo08cwQHVS1JRmlO5DhCD36h38YcnnRuHi-6wckWRg>
- <xmx:CJLoXbQbKnADxn_5wl7Byr_5lJFU-G_lsmG9VHhHT4bPdTbtQ1IPNg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id AE0DEE00A2; Thu,  5 Dec 2019 00:13:42 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-612-g13027cc-fmstable-20191203v1
-Mime-Version: 1.0
-Message-Id: <cd76d709-683b-44c0-b29f-d31c9dddc75e@www.fastmail.com>
-In-Reply-To: <20191203134026.GI18165@minyard.net>
-References: <cover.5630f63168ad5cddf02e9796106f8e086c196907.1575376664.git-series.andrew@aj.id.au>
- <84315a29b453068373c096c03433e3a326731988.1575376664.git-series.andrew@aj.id.au>
- <20191203134026.GI18165@minyard.net>
-Date: Thu, 05 Dec 2019 15:45:17 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Corey Minyard" <minyard@acm.org>
-Subject: =?UTF-8?Q?Re:_[PATCH_2/3]_ipmi:_kcs:_Finish_configuring_ASPEED_KCS_devic?=
- =?UTF-8?Q?e_before_enable?=
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47TMmj14VtzDqZj
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Dec 2019 04:15:32 +1100 (AEDT)
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xB5H7pWV064799; Thu, 5 Dec 2019 12:15:16 -0500
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wq14kr5e7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Dec 2019 12:15:15 -0500
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xB5HAIYb032681;
+ Thu, 5 Dec 2019 17:15:15 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma03dal.us.ibm.com with ESMTP id 2wkg27mku0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Dec 2019 17:15:14 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xB5HFDeL32244076
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 5 Dec 2019 17:15:13 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B3AC96E053;
+ Thu,  5 Dec 2019 17:15:13 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 04F8B6E050;
+ Thu,  5 Dec 2019 17:15:12 +0000 (GMT)
+Received: from talon7.ibm.com (unknown [9.41.103.158])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu,  5 Dec 2019 17:15:12 +0000 (GMT)
+From: Eddie James <eajames@linux.ibm.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/12] Aspeed: Add SCU interrupt controller and XDMA engine
+ drivers
+Date: Thu,  5 Dec 2019 11:15:00 -0600
+Message-Id: <1575566112-11658-1-git-send-email-eajames@linux.ibm.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-05_05:2019-12-04,2019-12-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0
+ phishscore=0 mlxscore=0 priorityscore=1501 lowpriorityscore=0
+ clxscore=1015 suspectscore=1 adultscore=0 mlxlogscore=552 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912050144
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,28 +79,67 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Haiyue Wang <haiyue.wang@linux.intel.com>, linux-aspeed@lists.ozlabs.org,
- Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- openipmi-developer@lists.sourceforge.net, linux-arm-kernel@lists.infradead.org
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jason@lakedaemon.net,
+ linux-aspeed@lists.ozlabs.org, maz@kernel.org, robh+dt@kernel.org,
+ tglx@linutronix.de
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+This series first adds a driver to control the interrupt controller provided by
+the System Control Unit (SCU) on the AST2500 and AST2600 SOCs. The interrupts
+made available are necessary for the control of the XDMA engine embedded in the
+same Aspeed SOCs.
+This series then adds a driver to control the XDMA engine. This driver was
+previously sent to the list without support for the AST2600, and has been
+refactored significantly to enable that support. The XDMA engine performs
+automatic DMA operations between the Aspeed SOC (acting as a BMC) and a host
+processor.
 
+Changes since v1:
+ - See individual patches
+ - In summary, first the irqchip driver switched to use the parent SCU regmap
+   rather than iomapping it's register. Secondly, the XDMA initialization
+   switched to use properties from the device tree rather than dynamically
+   calculate memory spaces, and system config.
 
-On Wed, 4 Dec 2019, at 00:10, Corey Minyard wrote:
-> On Tue, Dec 03, 2019 at 11:08:24PM +1030, Andrew Jeffery wrote:
-> > The currently interrupts are configured after the channel was enabled.
-> 
-> How about:
-> 
-> The interrupts were configured after the channel was enabled, configure
-> them before so they will work.
+Eddie James (12):
+  dt-bindings: interrupt-controller: Add Aspeed SCU interrupt controller
+  irqchip: Add Aspeed SCU interrupt controller
+  ARM: dts: aspeed: ast2500: Add SCU interrupt controller
+  ARM: dts: aspeed: ast2600: Add SCU interrupt controllers
+  dt-bindings: soc: Add Aspeed XDMA Engine
+  drivers/soc: Add Aspeed XDMA Engine Driver
+  drivers/soc: xdma: Add user interface
+  ARM: dts: aspeed: ast2500: Add XDMA Engine
+  ARM: dts: aspeed: ast2600: Add XDMA Engine
+  ARM: dts: aspeed: witherspoon: Enable XDMA Engine
+  ARM: dts: aspeed: rainier: Enable XDMA engine
+  ARM: dts: aspeed: tacoma: Enable XDMA engine
 
-Hah, yes, that commit message did get a bit mangled. I'll update it.
+ .../interrupt-controller/aspeed,ast2xxx-scu-ic.txt |   23 +
+ .../devicetree/bindings/soc/aspeed/xdma.txt        |   43 +
+ MAINTAINERS                                        |   16 +
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts       |    5 +
+ arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts        |    5 +
+ arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts   |    5 +
+ arch/arm/boot/dts/aspeed-g5.dtsi                   |   25 +-
+ arch/arm/boot/dts/aspeed-g6.dtsi                   |   33 +
+ drivers/irqchip/Makefile                           |    2 +-
+ drivers/irqchip/irq-aspeed-scu-ic.c                |  239 +++++
+ drivers/soc/aspeed/Kconfig                         |    8 +
+ drivers/soc/aspeed/Makefile                        |    1 +
+ drivers/soc/aspeed/aspeed-xdma.c                   | 1007 ++++++++++++++++++++
+ .../interrupt-controller/aspeed-scu-ic.h           |   23 +
+ include/uapi/linux/aspeed-xdma.h                   |   41 +
+ 15 files changed, 1473 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2xxx-scu-ic.txt
+ create mode 100644 Documentation/devicetree/bindings/soc/aspeed/xdma.txt
+ create mode 100644 drivers/irqchip/irq-aspeed-scu-ic.c
+ create mode 100644 drivers/soc/aspeed/aspeed-xdma.c
+ create mode 100644 include/dt-bindings/interrupt-controller/aspeed-scu-ic.h
+ create mode 100644 include/uapi/linux/aspeed-xdma.h
 
-Thanks,
+-- 
+1.8.3.1
 
-Andrew
