@@ -1,86 +1,61 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63BB01183D5
+	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Dec 2019 10:42:29 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C24E1149C5
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Dec 2019 00:18:03 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47TWpw4bfczDqby
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Dec 2019 10:18:00 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47XFTZ5Ny6zDqXt
+	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Dec 2019 20:42:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.230;
- helo=new4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
+ helo=metis.ext.pengutronix.de; envelope-from=mfe@pengutronix.de;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="cC1QZ33w"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="glsgjMMV"; dkim-atps=neutral
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47TWpg6G7JzDq5b
- for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Dec 2019 10:17:47 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id F25596056;
- Thu,  5 Dec 2019 18:17:42 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Thu, 05 Dec 2019 18:17:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=D8lbGIlMZ18hLjs6+rXC0nkBXoWutq8
- kGyoDAM61WFQ=; b=cC1QZ33wwhO3ON234cJV7WeWKsjQsu3AM+62O/5yn+hQu0c
- uKzptXAbSTjvzvMMqmjq0t0jqmIr1TN2hvQyLNrPZgypFJNHaFGVhLk4Fj6o5RvX
- RDxZw8Wd64PPWtH73pOyMVMQg9WkV86kuswV6kdTtr8PMKbRNU22FBkE59wUublR
- 0z2k1NnO9LVLgGPWmPScrsOBVLr2ppxLbaOBpFBhQmmqvJb5L7BwXQRCM3NUT3qE
- BkuzaLgGJwXm5sqrnK13iXJLq8awORQ+ANfaljvZeg3TG6FNYREOH7nqetHoVoyK
- k5FtRzsCDtvVwaTD0HXBVOLvX/Hkz9dv/wQKaiQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=D8lbGI
- lMZ18hLjs6+rXC0nkBXoWutq8kGyoDAM61WFQ=; b=glsgjMMVtVu1GYFVEeFa/P
- nQew7jllOtDaWL3IBMHyiJul+mnzAP01MCA5EqEhymmJi0GymZ56t46bj+Afo3RT
- KOYK3pTGNNUJRYrIUmvrwPhPR/BQ+epM1gEmgvyzynD+H47qOnLgDuUXtRqCoRKD
- onnoXUj9PdzZykhUFwWRgUy8cQFHI8FVuB/sbswBBtyv2KXiUx4A+2XzGdIf+LdT
- DCPIzS8EnpDrfPf3PwTnLN6evbTg+pD9o7e5Wp17nFYIrZfBhiBdYt4fDRKgO2S8
- xktZkDj4L5vWiwMtOrVeiALV+6fQJgbORSHUSbsn+CPLfvfV20iO9Utjg/apuP8w
- ==
-X-ME-Sender: <xms:FZDpXeTTwGGI38eYvtWGeRC1DnWm68J7-5E_TGZspAqE43qaDjoKbw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudekuddgudejvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehn
- ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrg
- hrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushht
- vghrufhiiigvpedt
-X-ME-Proxy: <xmx:FZDpXcKo7VUtlTy3lsqmSInY81M65uFtpqj3pOmg1M1YNtunHnJ_lQ>
- <xmx:FZDpXeB-axUfZd-YOJgvtLWJpRXBAH_s6o46kDwuQ0MJ1DPIaiiPWQ>
- <xmx:FZDpXR13oNqwdquMe_tq9eTCKeSe9y0pIxS6bJ9tMyETplcSNKKA1Q>
- <xmx:FpDpXUIEUd8oU9lm1s8jZB1f5dtmqt3SiiDiPYO-C6VETZGkQq8gdw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 04541E00A2; Thu,  5 Dec 2019 18:17:41 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-612-g13027cc-fmstable-20191203v1
-Mime-Version: 1.0
-Message-Id: <fffcd415-0c9e-43ca-8957-b951c2f047b5@www.fastmail.com>
-In-Reply-To: <CAL_JsqLgmU8m-zT8-K=peENshJx7Gx2Hn9RoZ-zbnqLUmqBQpw@mail.gmail.com>
-References: <cover.5630f63168ad5cddf02e9796106f8e086c196907.1575376664.git-series.andrew@aj.id.au>
- <3da2492c244962c27b21aad87bfa6bf74f568f1d.1575376664.git-series.andrew@aj.id.au>
- <CAL_Jsq+3qXJbTu9G42g11PLJH-A0XeSQmJKj0obO32QFna3dEA@mail.gmail.com>
- <40d554c0-de62-4d45-bbcc-dd3a3aa12a65@www.fastmail.com>
- <CAL_JsqLgmU8m-zT8-K=peENshJx7Gx2Hn9RoZ-zbnqLUmqBQpw@mail.gmail.com>
-Date: Fri, 06 Dec 2019 09:49:04 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Rob Herring" <robh+dt@kernel.org>
-Subject: =?UTF-8?Q?Re:_[PATCH_1/3]_dt-bindings:_ipmi:_aspeed:_Introduce_a_v2_bind?=
- =?UTF-8?Q?ing_for_KCS?=
-Content-Type: text/plain
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=pengutronix.de
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47XFTM35DQzDqW6
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Dec 2019 20:42:13 +1100 (AEDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1iec1b-0006gj-AJ; Tue, 10 Dec 2019 10:41:47 +0100
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1iec1Y-0003yz-IK; Tue, 10 Dec 2019 10:41:44 +0100
+Date: Tue, 10 Dec 2019 10:41:44 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v3 3/6] dt-bindings: mfd: da9062: add regulator voltage
+ selection documentation
+Message-ID: <20191210094144.mxximpuouchy3fqu@pengutronix.de>
+References: <20191129172537.31410-1-m.felsch@pengutronix.de>
+ <20191129172537.31410-4-m.felsch@pengutronix.de>
+ <20191204134631.GT1998@sirena.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191204134631.GT1998@sirena.org.uk>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 10:09:56 up 25 days, 28 min, 32 users,  load average: 0.08, 0.04,
+ 0.01
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,97 +67,78 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Corey Minyard <minyard@acm.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- linux-aspeed@lists.ozlabs.org, openipmi-developer@lists.sourceforge.net,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, support.opensource@diasemi.com,
+ linux-aspeed@lists.ozlabs.org, linux-gpio@vger.kernel.org,
+ linus.walleij@linaro.org, lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
+ bgolaszewski@baylibre.com, robh+dt@kernel.org, kernel@pengutronix.de,
+ lee.jones@linaro.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Mark,
 
-
-On Fri, 6 Dec 2019, at 04:20, Rob Herring wrote:
-> On Wed, Dec 4, 2019 at 11:12 PM Andrew Jeffery <andrew@aj.id.au> wrote:
-> >
-> >
-> >
-> > On Wed, 4 Dec 2019, at 01:01, Rob Herring wrote:
-> > > On Tue, Dec 3, 2019 at 6:36 AM Andrew Jeffery <andrew@aj.id.au> wrote:
-> > > >
-> > > > The v2 binding utilises reg and renames some of the v1 properties.
-> > > >
-> > > > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> > > > ---
-> > > >  Documentation/devicetree/bindings/ipmi/aspeed-kcs-bmc.txt | 20 +++++---
-> > > >  1 file changed, 14 insertions(+), 6 deletions(-)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/ipmi/aspeed-kcs-bmc.txt b/Documentation/devicetree/bindings/ipmi/aspeed-kcs-bmc.txt
-> > > > index d98a9bf45d6c..76b180ebbde4 100644
-> > > > --- a/Documentation/devicetree/bindings/ipmi/aspeed-kcs-bmc.txt
-> > > > +++ b/Documentation/devicetree/bindings/ipmi/aspeed-kcs-bmc.txt
-> > > > @@ -1,9 +1,10 @@
-> > > > -* Aspeed KCS (Keyboard Controller Style) IPMI interface
-> > > > +# Aspeed KCS (Keyboard Controller Style) IPMI interface
-> > > >
-> > > >  The Aspeed SOCs (AST2400 and AST2500) are commonly used as BMCs
-> > > >  (Baseboard Management Controllers) and the KCS interface can be
-> > > >  used to perform in-band IPMI communication with their host.
-> > > >
-> > > > +## v1
-> > > >  Required properties:
-> > > >  - compatible : should be one of
-> > > >      "aspeed,ast2400-kcs-bmc"
-> > > > @@ -12,14 +13,21 @@ Required properties:
-> > > >  - kcs_chan : The LPC channel number in the controller
-> > > >  - kcs_addr : The host CPU IO map address
-> > > >
-> > > > +## v2
-> > > > +Required properties:
-> > > > +- compatible : should be one of
-> > > > +    "aspeed,ast2400-kcs-bmc-v2"
-> > > > +    "aspeed,ast2500-kcs-bmc-v2"
-> > > > +- reg : The address and size of the IDR, ODR and STR registers
-> > > > +- interrupts : interrupt generated by the controller
-> > > > +- slave-reg : The host CPU IO map address
-> > >
-> > > aspeed,slave-reg
-> >
-> > I don't agree, as it's not an aspeed-specific behaviour. This property
-> > controls where the device appears in the host's LPC IO address space,
-> > which is a common problem for any LPC IO device exposed by the BMC
-> > to the host.
+On 19-12-04 13:46, Mark Brown wrote:
+> On Fri, Nov 29, 2019 at 06:25:34PM +0100, Marco Felsch wrote:
 > 
-> Then document it as such. Common properties go into common binding documents.
-
-Fair call.
-
+> > +  Optional regulator device-specific properties:
+> > +  - dlg,vsel-sense-gpios : A GPIO reference to a local general purpose input,
+> > +    the datasheet calls it GPI. The regulator sense the input signal and select
+> > +    the active or suspend voltage settings. If the signal is active the
+> > +    active-settings are applied else the suspend-settings are applied.
+> > +    Attention: Sharing the same GPI for other purposes or across multiple
+> > +    regulators is possible but the polarity setting must equal.
 > 
-> > > >  Example:
-> > > >
-> > > > -    kcs3: kcs3@0 {
-> > > > -        compatible = "aspeed,ast2500-kcs-bmc";
-> > > > -        reg = <0x0 0x80>;
-> > > > +    kcs3: kcs@24 {
-> > > > +        compatible = "aspeed,ast2500-kcs-bmc-v2";
-> > > > +        reg = <0x24 0x1>, <0x30 0x1>, <0x3c 0x1>;
-> > >
-> > > What are the other registers in this address space? I'm not so sure
-> > > this is an improvement if you end up with a bunch of nodes with single
-> > > registers.
-> >
-> > Put into practice the bindings give the following patch: on the AST2500:
-> 
-> Okay, that's an unfortunate interleaving, but seems fine.
+> I'm really confused by this.  As far as I understand it it seems
+> to be doing pinmuxing on the chip using the GPIO bindings which
+> is itself a bit odd and I don't see anything here that configures
+> whatever sets the state of the pins.  Don't we need another GPIO
+> to set the vsel-sense inputs on the PMIC?
 
-"Unfortunate" is a good description for the entire register layout of the LPC
-slave controller.
+Yes the PMIC is very configurable and it took a while till I understand
+it.. @Adam please correct me if I'm wrong.
 
-I'll send a v2.
+The PMIC regulators regardless of the type: ldo or buck can be
+simplified drawn as:
 
-Thanks,
 
-Andrew
+
+da9062-gpio               da9062-regulator
+    
+  +-------------------------------------------------------
+  |                  PMIC
+  |    
+  > GPIO0            +--------------------------+
+  |                  |         REGULATOR-0      |
+  > GPIO1 -------+   |                          |
+  |              +-- > vsel-in    voltage-a-out <
+  > GPIO2        |   |                          |
+  |              |   > enable-in  voltage-b-out <
+  |              |   |                          |
+  |              |   +--------------------------+
+  |              |                              
+  |              |   +--------------------------+                          
+  |              |   |         REGULATOR-1      |                          
+  |              |   |                          |                          
+  |              +-- > vsel-in    voltage-a-out <                          
+  |                  |                          |                          
+  |                  > enable-in  voltage-b-out <
+  |                  |                          |
+  |                  +--------------------------+
+  |
+
+The 'vsel-in' and 'enable-in' regulator inputs must be routed to the
+PMIC GPIOs which must be configured as input. If this is a pinmux in
+your opinion, then yes we need to do that. IMHO it isn't a pinmux
+because from the regulator point of view it is just a GPIO which comes
+from our own gpio-dev (da9062-gpio). So the abstraction is vald. Anyway
+I'm with you that this isn't the typical use-case.
+
+Regards,
+  Marco 
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
