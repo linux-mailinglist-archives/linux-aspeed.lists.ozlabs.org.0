@@ -2,81 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2E011A339
-	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Dec 2019 04:53:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8733911A678
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Dec 2019 10:08:17 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47Xjhj1Gm2zDqkp
-	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Dec 2019 14:53:41 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47Xrgg10RXzDqZP
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Dec 2019 20:08:15 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.25;
- helo=out1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=baylibre.com (client-ip=2607:f8b0:4864:20::742;
+ helo=mail-qk1-x742.google.com; envelope-from=bgolaszewski@baylibre.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
+ dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="Aa0ceLCu"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="ApLBdml7"; dkim-atps=neutral
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=baylibre-com.20150623.gappssmtp.com
+ header.i=@baylibre-com.20150623.gappssmtp.com header.b="S60wH1RH"; 
+ dkim-atps=neutral
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47XjYC3bRFzDqS4
- for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Dec 2019 14:47:11 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id D945622373;
- Tue, 10 Dec 2019 22:47:06 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Tue, 10 Dec 2019 22:47:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=brTnepl9m5s/ksfArYTl/Nhn+h2HCCY
- jrL1gHLQabRI=; b=Aa0ceLCufNUZeaOvxMekuQdZ6rTZrqXpZUtfb1HcEHbolDE
- NvFp56/ta9wB5Bi98c09ELWGUzc5ky0KEFrxA7cXpN6STjSs3yu8WjEkR0VSsfM6
- zKoyT2sIxjgxGiPqszM2BBhZBmAClQsVptbqFV+yJhn+H0t+G5JuiVn+CRuYtJ+n
- QQXVJVEVRAbuZ+iFoImw6q1zVXFeZSqyYOdMTDvbwEscPisgHv1QJHsfNca7N6/u
- Eu9Kt0oSNu5MjJ6fEBbuYhkKx73ySeNMwSJZg1JJ247WEBsOvFwvOjNkltgeiqDH
- ttGlwrNdm7V4y+vZToxaKWuQ8rWGxO9k6z0ckOQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=brTnep
- l9m5s/ksfArYTl/Nhn+h2HCCYjrL1gHLQabRI=; b=ApLBdml7EgXKEBemGF6g+i
- 8WaU1pQv9lgcmYuhO3vLeKF7N9SCSw+Ei1nXEcbMeiGBYNCrRpqWHM7txYkBCZ/1
- V4Wwtlm8On2Ui3mTmaVpW30k0xKfvDUg1avmGYP8wct3zocQ3ELrzRbqWivmwGRA
- gA2f/Sgpo/1MhuZP/F4TH7fFEZrSwTAOSJIGPi6LnnRBmmyuP1dpVhuJ1LL0ad1F
- GH/jNUan/rfTat/0GVDvAB+5QJDbtn4akZvikB54p4rYux1Tt654NulErtcTOItA
- O6yo3LvsbHcb9Ndd/bEBfLxqHql6HRIEZsPrmVhnSSMVV8ZPdJHoLVVoYEbvZcYw
- ==
-X-ME-Sender: <xms:umbwXcLW2pAVcnjhoYa--3sMmbdEnaxe4sZAoaL2-e7MBOT3g901Zw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudelgedgheehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgepvd
-X-ME-Proxy: <xmx:umbwXaimatRuH5D7BzyUWD2zkCeDcvK9eb4gndzlf_yLxyKPY4lyOw>
- <xmx:umbwXYuebxEBGSwAlb5JObPQMygTRkrQPavki8p8fjelv3iQe59xSA>
- <xmx:umbwXcj5didO8Wg2faiIquBOB2EikzTL68BYjD_Xyp2QXekqT6Tavg>
- <xmx:umbwXcj4wTsXn8iPDE5GJEEledoM4pU_Cr1845Jb94LgXatzYTGmUQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id AFEF0E00A2; Tue, 10 Dec 2019 22:47:06 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-679-g1f7ccac-fmstable-20191210v1
-Mime-Version: 1.0
-Message-Id: <5086ee4b-bddb-40c1-9841-005b233f837b@www.fastmail.com>
-In-Reply-To: <1575566112-11658-10-git-send-email-eajames@linux.ibm.com>
-References: <1575566112-11658-1-git-send-email-eajames@linux.ibm.com>
- <1575566112-11658-10-git-send-email-eajames@linux.ibm.com>
-Date: Wed, 11 Dec 2019 14:18:45 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Eddie James" <eajames@linux.ibm.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 09/12] ARM: dts: aspeed: ast2600: Add XDMA Engine
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47XrgX59qKzDqBv
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Dec 2019 20:08:02 +1100 (AEDT)
+Received: by mail-qk1-x742.google.com with SMTP id c17so9097219qkg.7
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Dec 2019 01:08:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+1+2OzonF8JaI5zb2TCQGTWjY1hWFqWalCfMdztL7bw=;
+ b=S60wH1RHuXQ8mOnPL0RhPKzQIGXltV0Cv9h00AH+VYro56n5frUBSr4jG3994daVvT
+ V+vThx0M+M5TKEPRP7rKgYkWR9SLOxLfctebgbS4/teJyPdNqlqYK9Sqae4OYe3pOZfj
+ RbOKuXYBl+rwcuW9scJiI3DZUILjSRdRChb2cUjEMEG/J6gALdSSdCrSN73Zs+Oaq7Ld
+ ncsVZLJRCCbXDi37Bkc0aQABg2eiqLVtoela5xrLAMI6eSLhlktSHK/xO5UF2xLQLYer
+ yMxhiSsTvhVSoG04ZT4mwPZHx/2a+Y7mdi6v2EwwgKDOC/A2904us+0B2fJX/ZY9l4Bm
+ hO1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+1+2OzonF8JaI5zb2TCQGTWjY1hWFqWalCfMdztL7bw=;
+ b=o8GmqxXs6fvH3nSzDNY6uuZmcTNy8g64wFAtYbuy9Wrxud8HFdMkXr60TXr8GKs8lq
+ oVOvGEtH/QQmzfL3L30wNgcTG47ZY4+/sD0vfndGlaTVvjK/bHDSQog4QdZGjSNoaxSK
+ 8jJSU4nAX8qCxZUHWQulbasD7reYaBOrJfksrQaSdZtOz6w5CBBZe5Ws8ucZ7HQd1xLq
+ c1t3BMqodpMULshKw/Zo7czNBWMJLgwRdwjlfwGY31NrsugjZTvfhu40GLkKyXPndroK
+ 9ixaw+DQoGIKlq2KmGyzQwNEtXBxfq3wxNSnQUsE6ypIwJQyk3IIhg3qYBaaSWhqOUUV
+ 8nAw==
+X-Gm-Message-State: APjAAAUye4s4vCcOlzCsN6vS4PpqpIgm9nKtL2CnybeGhtPQZTBcjbBi
+ z/IjRHGyzxS8Dkk3vyKLlHAQjEBpL76tzry7A8zEgQ==
+X-Google-Smtp-Source: APXvYqxo51nvYaIkggIMq8ITtXp9gbKNulM8Wmtc5DRGjuFLLqvLJhg/1ssY8su+0/x7Vipo/ClbnBGeVsB5uoQ3mKs=
+X-Received: by 2002:a37:6255:: with SMTP id w82mr1919216qkb.330.1576055278589; 
+ Wed, 11 Dec 2019 01:07:58 -0800 (PST)
+MIME-Version: 1.0
+References: <20191210202842.2546758-1-arnd@arndb.de>
+ <f6a514d1-44cb-4577-af07-fd2f3fefc974@www.fastmail.com>
+In-Reply-To: <f6a514d1-44cb-4577-af07-fd2f3fefc974@www.fastmail.com>
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date: Wed, 11 Dec 2019 10:07:47 +0100
+Message-ID: <CAMpxmJUD8A1qtmZmOxAq3XojFG5LHu_DS94LC7orinz_O9zY=A@mail.gmail.com>
+Subject: Re: [PATCH] gpio: aspeed: avoid return type warning
+To: Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,81 +77,34 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Jason Cooper <jason@lakedaemon.net>, linux-aspeed@lists.ozlabs.org,
- Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- tglx@linutronix.de
+Cc: linux-aspeed@lists.ozlabs.org, Arnd Bergmann <arnd@arndb.de>,
+ Linus Walleij <linus.walleij@linaro.org>, LKML <linux-kernel@vger.kernel.org>,
+ linux-gpio <linux-gpio@vger.kernel.org>, Hongwei Zhang <hongweiz@ami.com>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Fri, 6 Dec 2019, at 03:45, Eddie James wrote:
-> Add a node for the XDMA engine with all the necessary information. Also
-> add a simple syscon node for the SDRAM memory controller.
-> 
-> Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> ---
-> Changes since v1:
->  - Add a syscon SDRAM controller
->  - Add various properties to XDMA node
-> 
->  arch/arm/boot/dts/aspeed-g6.dtsi | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-> index ead336e..514d685 100644
-> --- a/arch/arm/boot/dts/aspeed-g6.dtsi
-> +++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-> @@ -3,6 +3,7 @@
->  
->  #include <dt-bindings/interrupt-controller/arm-gic.h>
->  #include <dt-bindings/clock/ast2600-clock.h>
-> +#include <dt-bindings/interrupt-controller/aspeed-scu-ic.h>
->  
->  / {
->  	model = "Aspeed BMC";
-> @@ -265,6 +266,11 @@
->  			status = "disabled";
->  		};
->  
-> +		sdmc: sdram@1e6e0000 {
-> +			compatible = "syscon";
-> +			reg = <0x1e6e0000 0xb8>;
-> +		};
-> +
-
-Hopefully we can drop this. We also need to figure out how whatever the solution is interacts
-with the EDAC driver.
-
->  		apb {
->  			compatible = "simple-bus";
->  			#address-cells = <1>;
-> @@ -311,6 +317,19 @@
->  				quality = <100>;
->  			};
->  
-> +			xdma: xdma@1e6e7000 {
-> +				compatible = "aspeed,ast2600-xdma";
-> +				reg = <0x1e6e7000 0x100>;
-> +				clocks = <&syscon ASPEED_CLK_GATE_BCLK>;
-> +				resets = <&syscon ASPEED_RESET_DEV_XDMA>;
-> +				interrupts-extended = <&gic GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-> +						      <&scu_ic0 ASPEED_AST2600_SCU_IC0_PCIE_PERST_LO_TO_HI>;
-> +				pcie-device = "bmc";
-> +				scu = <&syscon>;
-> +				sdmc = <&sdmc>;
-
-sdmc property should go away also.
-
-> +				status = "disabled";
-> +			};
-> +
->  			gpio0: gpio@1e780000 {
->  				#gpio-cells = <2>;
->  				gpio-controller;
-> -- 
-> 1.8.3.1
-> 
+wt., 10 gru 2019 o 23:10 Andrew Jeffery <andrew@aj.id.au> napisa=C5=82(a):
 >
+>
+>
+> On Wed, 11 Dec 2019, at 06:58, Arnd Bergmann wrote:
+> > gcc has a hard time tracking whether BUG_ON(1) ends
+> > execution or not:
+> >
+> > drivers/gpio/gpio-aspeed-sgpio.c: In function 'bank_reg':
+> > drivers/gpio/gpio-aspeed-sgpio.c:112:1: error: control reaches end of
+> > non-void function [-Werror=3Dreturn-type]
+> >
+> > Use the simpler BUG() that gcc knows cannot continue.
+> >
+> > Fixes: f8b410e3695a ("gpio: aspeed-sgpio: Rename and add Kconfig/Makefi=
+le")
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>
+> Acked-by: Andrew Jeffery <andrew@aj.id.au>
+
+Applied for fixes.
+
+Bartosz
