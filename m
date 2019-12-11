@@ -2,61 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D43411BC01
-	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Dec 2019 19:42:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE4B11BC7C
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Dec 2019 20:06:34 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47Y5Pq57wtzDqZP
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2019 05:42:07 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47Y5xz3Pj2zDqt0
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2019 06:06:31 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
- helo=metis.ext.pengutronix.de; envelope-from=mfe@pengutronix.de;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=pengutronix.de
-Received: from metis.ext.pengutronix.de (unknown
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47Y3MQ2pXyzDqMC
- for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Dec 2019 04:09:45 +1100 (AEDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mfe@pengutronix.de>)
- id 1if5UG-0005Y6-BL; Wed, 11 Dec 2019 18:09:20 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
- (envelope-from <mfe@pengutronix.de>)
- id 1if5UE-0002i5-93; Wed, 11 Dec 2019 18:09:18 +0100
-Date: Wed, 11 Dec 2019 18:09:18 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-Subject: Re: [PATCH v3 3/6] dt-bindings: mfd: da9062: add regulator voltage
- selection documentation
-Message-ID: <20191211170918.q7kqkd4lrwwp7jl3@pengutronix.de>
-References: <20191129172537.31410-1-m.felsch@pengutronix.de>
- <20191129172537.31410-4-m.felsch@pengutronix.de>
- <20191204134631.GT1998@sirena.org.uk>
- <20191210094144.mxximpuouchy3fqu@pengutronix.de>
- <AM5PR1001MB099497419E4DCA69D424EC35805A0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
+ (client-ip=67.231.153.30; helo=mx0b-00082601.pphosted.com;
+ envelope-from=prvs=724802d32d=vijaykhemka@fb.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=fb.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=fb.com header.i=@fb.com header.b="JBGbVnOF"; 
+ dkim-atps=neutral
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com
+ [67.231.153.30])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47Y5xs6NzYzDqB0
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Dec 2019 06:06:22 +1100 (AEDT)
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBBIuZqC029399
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Dec 2019 10:56:37 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=facebook;
+ bh=PqYZ5MkS5xr/RKJA/c5ambLv6HkAyscSuq4hPch9jPI=;
+ b=JBGbVnOF4YfQX7ec3iNIc50AvaYarK8EgUgLqlbQ+6fS40gLSKGzWP7uaMNbiAa93SS8
+ OMHf1oCPl/4W+iGiuglu8IBn7x7NBMWVlGYmT0NHzJ28W0xQ8omqJDYqwwCxxlN23RU3
+ IypsnurGzN0yBCgoX15mLMKnj2H2g4JkgNQ= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by mx0a-00082601.pphosted.com with ESMTP id 2wu2gf168m-5
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Dec 2019 10:56:37 -0800
+Received: from intmgw002.41.prn1.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:83::6) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 11 Dec 2019 10:56:19 -0800
+Received: by devvm4117.prn2.facebook.com (Postfix, from userid 167582)
+ id DC9721809CB32; Wed, 11 Dec 2019 10:56:16 -0800 (PST)
+Smtp-Origin-Hostprefix: devvm
+From: Vijay Khemka <vijaykhemka@fb.com>
+Smtp-Origin-Hostname: devvm4117.prn2.facebook.com
+To: <tcminyard@gmail.com>
+Smtp-Origin-Cluster: prn2c23
+Subject: [PATCH v6] drivers: ipmi: Support raw i2c packet in IPMB
+Date: Wed, 11 Dec 2019 10:56:04 -0800
+Message-ID: <20191211185604.1266063-1-vijaykhemka@fb.com>
+X-Mailer: git-send-email 2.17.1
+X-FB-Internal: Safe
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM5PR1001MB099497419E4DCA69D424EC35805A0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 17:23:39 up 26 days,  7:42, 33 users,  load average: 0.00, 0.00, 0.00
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-11_05:2019-12-11,2019-12-11 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ mlxscore=0 adultscore=0
+ bulkscore=0 suspectscore=1 priorityscore=1501 impostorscore=0
+ malwarescore=0 lowpriorityscore=0 spamscore=0 clxscore=1015
+ mlxlogscore=999 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-1910280000 definitions=main-1912110156
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,134 +77,104 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Support Opensource <Support.Opensource@diasemi.com>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
- Mark Brown <broonie@kernel.org>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "lee.jones@linaro.org" <lee.jones@linaro.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: cminyard@mvista.com, sdasari@fb.com, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Adam,
+Many IPMB devices don't support smbus protocol and this driver
+only supports the smbus protocol at the moment.
 
-On 19-12-11 16:14, Adam Thomson wrote:
-> On 10 December 2019 09:42, Marco Felsch wrote:
-> 
-> > Hi Mark,
-> > 
-> > On 19-12-04 13:46, Mark Brown wrote:
-> > > On Fri, Nov 29, 2019 at 06:25:34PM +0100, Marco Felsch wrote:
-> > >
-> > > > +  Optional regulator device-specific properties:
-> > > > +  - dlg,vsel-sense-gpios : A GPIO reference to a local general purpose input,
-> > > > +    the datasheet calls it GPI. The regulator sense the input signal and select
-> > > > +    the active or suspend voltage settings. If the signal is active the
-> > > > +    active-settings are applied else the suspend-settings are applied.
-> > > > +    Attention: Sharing the same GPI for other purposes or across multiple
-> > > > +    regulators is possible but the polarity setting must equal.
-> > >
-> > > I'm really confused by this.  As far as I understand it it seems
-> > > to be doing pinmuxing on the chip using the GPIO bindings which
-> > > is itself a bit odd and I don't see anything here that configures
-> > > whatever sets the state of the pins.  Don't we need another GPIO
-> > > to set the vsel-sense inputs on the PMIC?
-> > 
-> > Yes the PMIC is very configurable and it took a while till I understand
-> > it.. @Adam please correct me if I'm wrong.
-> > 
-> > The PMIC regulators regardless of the type: ldo or buck can be
-> > simplified drawn as:
-> > 
-> > 
-> > 
-> > da9062-gpio               da9062-regulator
-> > 
-> >   +-------------------------------------------------------
-> >   |                  PMIC
-> >   |
-> >   > GPIO0            +--------------------------+
-> >   |                  |         REGULATOR-0      |
-> >   > GPIO1 -------+   |                          |
-> >   |              +-- > vsel-in    voltage-a-out <
-> >   > GPIO2        |   |                          |
-> >   |              |   > enable-in  voltage-b-out <
-> >   |              |   |                          |
-> >   |              |   +--------------------------+
-> >   |              |
-> >   |              |   +--------------------------+
-> >   |              |   |         REGULATOR-1      |
-> >   |              |   |                          |
-> >   |              +-- > vsel-in    voltage-a-out <
-> >   |                  |                          |
-> >   |                  > enable-in  voltage-b-out <
-> >   |                  |                          |
-> >   |                  +--------------------------+
-> >   |
-> > 
-> > The 'vsel-in' and 'enable-in' regulator inputs must be routed to the
-> > PMIC GPIOs which must be configured as input. If this is a pinmux in
-> > your opinion, then yes we need to do that. IMHO it isn't a pinmux
-> > because from the regulator point of view it is just a GPIO which comes
-> > from our own gpio-dev (da9062-gpio). So the abstraction is vald. Anyway
-> > I'm with you that this isn't the typical use-case.
-> 
-> We've had this discussion before and to me it felt more like pinmux than GPIO
-> although I understand we're configuring the GPIO pin as input before then
-> configuring a regulator to take that specific internal GPIO as the control
-> signal. We're defining a specific role to this pin in HW rather than it being a
-> general software handled GPI so it feels like this would be neater under pinmux.
-> There does still need to be a mapping between that pin and the regulator which I
-> guess would be served by passing the pin to the regulator through generic pinmux
-> bindings and then in the regulator code you're simply just enabling the
-> regulator to be controlled from that pin. The HW lets you control multiple
-> regulators from the same input pin so there's a flexibility there to be
-> captured, as you mention.
+Added support for the i2c protocol as well. There will be a variable
+"i2c-protocol" passed by the device tree or ACPI table which determines
+whether the protocol is i2c or smbus.
 
-I know that we already had this discussion but the result was to wait
-for the maintainers input. Since Linus is the pinctrl/gpio maintainer
-and Mark the regulator maintainer we now have some input so we can move
-forward. Linus made some comments on the dt-bindings and on the code but
-he didn't pointed out that this usage is wrong. So I guessed it would be
-fine for him. Mark did his first comments now and I explained the
-current state..
+Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+Reviewed-by: Asmaa Mnebhi <asmaa@mellanox.com>
+---
+ Documentation/IPMB.txt           |  4 ++++
+ drivers/char/ipmi/ipmb_dev_int.c | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-I discussed it with a colleague again and he mentioned that pinctrl
-should be named pinctrl instead it should be named padctrl. We don't
-reconfigure the pad to a other function it is still a device general
-purpose input pad. The hw-signal flow goes always trough the gpio block
-so one argument more for my solution. Also we don't configure the "pad"
-to be a vsel/ena-pin. The hw-pad can only be a gpio or has an alternate
-function (WDKICK for GPIO0, Seq. SYS_EN for GPIO2, Seq. PWR_EN for GPIO4).
-Instead we tell the regulator to use _this_ GPIO e.g. for voltage
-selection so we go the other way around. My last argument why pinctrl
-isn't the correct place is that the GPIO1 can be used for
-regulator-0:vsel-in and for regulator-1:enable-in. So this pad would
-have different states which is invalid IMHO.
-
-Regards,
-  Marco
-
-> > Regards,
-> >   Marco
-> > 
-> > --
-> > Pengutronix e.K.                           |                             |
-> > Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-> > 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-> > Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-> 
-
+diff --git a/Documentation/IPMB.txt b/Documentation/IPMB.txt
+index a6ed8b68bd0f..7a023beff976 100644
+--- a/Documentation/IPMB.txt
++++ b/Documentation/IPMB.txt
+@@ -71,9 +71,13 @@ b) Example for device tree:
+          ipmb@10 {
+                  compatible = "ipmb-dev";
+                  reg = <0x10>;
++                 i2c-protocol;
+          };
+ };
+ 
++If xmit of data to be done using raw i2c block vs smbus
++then "i2c-protocol" needs to be defined as above.
++
+ 2) Manually from Linux:
+ modprobe ipmb-dev-int
+ 
+diff --git a/drivers/char/ipmi/ipmb_dev_int.c b/drivers/char/ipmi/ipmb_dev_int.c
+index ae3bfba27526..68a254c0dd92 100644
+--- a/drivers/char/ipmi/ipmb_dev_int.c
++++ b/drivers/char/ipmi/ipmb_dev_int.c
+@@ -63,6 +63,7 @@ struct ipmb_dev {
+ 	spinlock_t lock;
+ 	wait_queue_head_t wait_queue;
+ 	struct mutex file_mutex;
++	bool is_i2c_protocol;
+ };
+ 
+ static inline struct ipmb_dev *to_ipmb_dev(struct file *file)
+@@ -112,6 +113,25 @@ static ssize_t ipmb_read(struct file *file, char __user *buf, size_t count,
+ 	return ret < 0 ? ret : count;
+ }
+ 
++static int ipmb_i2c_write(struct i2c_client *client, u8 *msg, u8 addr)
++{
++	struct i2c_msg i2c_msg;
++
++	/*
++	 * subtract 1 byte (rq_sa) from the length of the msg passed to
++	 * raw i2c_transfer
++	 */
++	i2c_msg.len = msg[IPMB_MSG_LEN_IDX] - 1;
++
++	/* Assign message to buffer except first 2 bytes (length and address) */
++	i2c_msg.buf = msg + 2;
++
++	i2c_msg.addr = addr;
++	i2c_msg.flags = client->flags & I2C_CLIENT_PEC;
++
++	return i2c_transfer(client->adapter, &i2c_msg, 1);
++}
++
+ static ssize_t ipmb_write(struct file *file, const char __user *buf,
+ 			size_t count, loff_t *ppos)
+ {
+@@ -133,6 +153,12 @@ static ssize_t ipmb_write(struct file *file, const char __user *buf,
+ 	rq_sa = GET_7BIT_ADDR(msg[RQ_SA_8BIT_IDX]);
+ 	netf_rq_lun = msg[NETFN_LUN_IDX];
+ 
++	/* Check i2c block transfer vs smbus */
++	if (ipmb_dev->is_i2c_protocol) {
++		ret = ipmb_i2c_write(ipmb_dev->client, msg, rq_sa);
++		return (ret == 1) ? count : ret;
++	}
++
+ 	/*
+ 	 * subtract rq_sa and netf_rq_lun from the length of the msg passed to
+ 	 * i2c_smbus_xfer
+@@ -302,6 +328,9 @@ static int ipmb_probe(struct i2c_client *client,
+ 	if (ret)
+ 		return ret;
+ 
++	ipmb_dev->is_i2c_protocol
++		= device_property_read_bool(&client->dev, "i2c-protocol");
++
+ 	ipmb_dev->client = client;
+ 	i2c_set_clientdata(client, ipmb_dev);
+ 	ret = i2c_slave_register(client, ipmb_slave_cb);
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.17.1
+
