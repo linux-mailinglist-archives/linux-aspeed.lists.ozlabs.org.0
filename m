@@ -2,70 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8733911A678
-	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Dec 2019 10:08:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D43411BC01
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Dec 2019 19:42:10 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47Xrgg10RXzDqZP
-	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Dec 2019 20:08:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47Y5Pq57wtzDqZP
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2019 05:42:07 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=baylibre.com (client-ip=2607:f8b0:4864:20::742;
- helo=mail-qk1-x742.google.com; envelope-from=bgolaszewski@baylibre.com;
+ smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
+ helo=metis.ext.pengutronix.de; envelope-from=mfe@pengutronix.de;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=baylibre-com.20150623.gappssmtp.com
- header.i=@baylibre-com.20150623.gappssmtp.com header.b="S60wH1RH"; 
- dkim-atps=neutral
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=pengutronix.de
+Received: from metis.ext.pengutronix.de (unknown
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47XrgX59qKzDqBv
- for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Dec 2019 20:08:02 +1100 (AEDT)
-Received: by mail-qk1-x742.google.com with SMTP id c17so9097219qkg.7
- for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Dec 2019 01:08:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+1+2OzonF8JaI5zb2TCQGTWjY1hWFqWalCfMdztL7bw=;
- b=S60wH1RHuXQ8mOnPL0RhPKzQIGXltV0Cv9h00AH+VYro56n5frUBSr4jG3994daVvT
- V+vThx0M+M5TKEPRP7rKgYkWR9SLOxLfctebgbS4/teJyPdNqlqYK9Sqae4OYe3pOZfj
- RbOKuXYBl+rwcuW9scJiI3DZUILjSRdRChb2cUjEMEG/J6gALdSSdCrSN73Zs+Oaq7Ld
- ncsVZLJRCCbXDi37Bkc0aQABg2eiqLVtoela5xrLAMI6eSLhlktSHK/xO5UF2xLQLYer
- yMxhiSsTvhVSoG04ZT4mwPZHx/2a+Y7mdi6v2EwwgKDOC/A2904us+0B2fJX/ZY9l4Bm
- hO1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+1+2OzonF8JaI5zb2TCQGTWjY1hWFqWalCfMdztL7bw=;
- b=o8GmqxXs6fvH3nSzDNY6uuZmcTNy8g64wFAtYbuy9Wrxud8HFdMkXr60TXr8GKs8lq
- oVOvGEtH/QQmzfL3L30wNgcTG47ZY4+/sD0vfndGlaTVvjK/bHDSQog4QdZGjSNoaxSK
- 8jJSU4nAX8qCxZUHWQulbasD7reYaBOrJfksrQaSdZtOz6w5CBBZe5Ws8ucZ7HQd1xLq
- c1t3BMqodpMULshKw/Zo7czNBWMJLgwRdwjlfwGY31NrsugjZTvfhu40GLkKyXPndroK
- 9ixaw+DQoGIKlq2KmGyzQwNEtXBxfq3wxNSnQUsE6ypIwJQyk3IIhg3qYBaaSWhqOUUV
- 8nAw==
-X-Gm-Message-State: APjAAAUye4s4vCcOlzCsN6vS4PpqpIgm9nKtL2CnybeGhtPQZTBcjbBi
- z/IjRHGyzxS8Dkk3vyKLlHAQjEBpL76tzry7A8zEgQ==
-X-Google-Smtp-Source: APXvYqxo51nvYaIkggIMq8ITtXp9gbKNulM8Wmtc5DRGjuFLLqvLJhg/1ssY8su+0/x7Vipo/ClbnBGeVsB5uoQ3mKs=
-X-Received: by 2002:a37:6255:: with SMTP id w82mr1919216qkb.330.1576055278589; 
- Wed, 11 Dec 2019 01:07:58 -0800 (PST)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47Y3MQ2pXyzDqMC
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Dec 2019 04:09:45 +1100 (AEDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1if5UG-0005Y6-BL; Wed, 11 Dec 2019 18:09:20 +0100
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1if5UE-0002i5-93; Wed, 11 Dec 2019 18:09:18 +0100
+Date: Wed, 11 Dec 2019 18:09:18 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
+Subject: Re: [PATCH v3 3/6] dt-bindings: mfd: da9062: add regulator voltage
+ selection documentation
+Message-ID: <20191211170918.q7kqkd4lrwwp7jl3@pengutronix.de>
+References: <20191129172537.31410-1-m.felsch@pengutronix.de>
+ <20191129172537.31410-4-m.felsch@pengutronix.de>
+ <20191204134631.GT1998@sirena.org.uk>
+ <20191210094144.mxximpuouchy3fqu@pengutronix.de>
+ <AM5PR1001MB099497419E4DCA69D424EC35805A0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-References: <20191210202842.2546758-1-arnd@arndb.de>
- <f6a514d1-44cb-4577-af07-fd2f3fefc974@www.fastmail.com>
-In-Reply-To: <f6a514d1-44cb-4577-af07-fd2f3fefc974@www.fastmail.com>
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date: Wed, 11 Dec 2019 10:07:47 +0100
-Message-ID: <CAMpxmJUD8A1qtmZmOxAq3XojFG5LHu_DS94LC7orinz_O9zY=A@mail.gmail.com>
-Subject: Re: [PATCH] gpio: aspeed: avoid return type warning
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <AM5PR1001MB099497419E4DCA69D424EC35805A0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 17:23:39 up 26 days,  7:42, 33 users,  load average: 0.00, 0.00, 0.00
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,34 +68,134 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Arnd Bergmann <arnd@arndb.de>,
- Linus Walleij <linus.walleij@linaro.org>, LKML <linux-kernel@vger.kernel.org>,
- linux-gpio <linux-gpio@vger.kernel.org>, Hongwei Zhang <hongweiz@ami.com>,
- arm-soc <linux-arm-kernel@lists.infradead.org>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Support Opensource <Support.Opensource@diasemi.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+ Mark Brown <broonie@kernel.org>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ "lee.jones@linaro.org" <lee.jones@linaro.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-wt., 10 gru 2019 o 23:10 Andrew Jeffery <andrew@aj.id.au> napisa=C5=82(a):
->
->
->
-> On Wed, 11 Dec 2019, at 06:58, Arnd Bergmann wrote:
-> > gcc has a hard time tracking whether BUG_ON(1) ends
-> > execution or not:
-> >
-> > drivers/gpio/gpio-aspeed-sgpio.c: In function 'bank_reg':
-> > drivers/gpio/gpio-aspeed-sgpio.c:112:1: error: control reaches end of
-> > non-void function [-Werror=3Dreturn-type]
-> >
-> > Use the simpler BUG() that gcc knows cannot continue.
-> >
-> > Fixes: f8b410e3695a ("gpio: aspeed-sgpio: Rename and add Kconfig/Makefi=
-le")
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->
-> Acked-by: Andrew Jeffery <andrew@aj.id.au>
+Hi Adam,
 
-Applied for fixes.
+On 19-12-11 16:14, Adam Thomson wrote:
+> On 10 December 2019 09:42, Marco Felsch wrote:
+> 
+> > Hi Mark,
+> > 
+> > On 19-12-04 13:46, Mark Brown wrote:
+> > > On Fri, Nov 29, 2019 at 06:25:34PM +0100, Marco Felsch wrote:
+> > >
+> > > > +  Optional regulator device-specific properties:
+> > > > +  - dlg,vsel-sense-gpios : A GPIO reference to a local general purpose input,
+> > > > +    the datasheet calls it GPI. The regulator sense the input signal and select
+> > > > +    the active or suspend voltage settings. If the signal is active the
+> > > > +    active-settings are applied else the suspend-settings are applied.
+> > > > +    Attention: Sharing the same GPI for other purposes or across multiple
+> > > > +    regulators is possible but the polarity setting must equal.
+> > >
+> > > I'm really confused by this.  As far as I understand it it seems
+> > > to be doing pinmuxing on the chip using the GPIO bindings which
+> > > is itself a bit odd and I don't see anything here that configures
+> > > whatever sets the state of the pins.  Don't we need another GPIO
+> > > to set the vsel-sense inputs on the PMIC?
+> > 
+> > Yes the PMIC is very configurable and it took a while till I understand
+> > it.. @Adam please correct me if I'm wrong.
+> > 
+> > The PMIC regulators regardless of the type: ldo or buck can be
+> > simplified drawn as:
+> > 
+> > 
+> > 
+> > da9062-gpio               da9062-regulator
+> > 
+> >   +-------------------------------------------------------
+> >   |                  PMIC
+> >   |
+> >   > GPIO0            +--------------------------+
+> >   |                  |         REGULATOR-0      |
+> >   > GPIO1 -------+   |                          |
+> >   |              +-- > vsel-in    voltage-a-out <
+> >   > GPIO2        |   |                          |
+> >   |              |   > enable-in  voltage-b-out <
+> >   |              |   |                          |
+> >   |              |   +--------------------------+
+> >   |              |
+> >   |              |   +--------------------------+
+> >   |              |   |         REGULATOR-1      |
+> >   |              |   |                          |
+> >   |              +-- > vsel-in    voltage-a-out <
+> >   |                  |                          |
+> >   |                  > enable-in  voltage-b-out <
+> >   |                  |                          |
+> >   |                  +--------------------------+
+> >   |
+> > 
+> > The 'vsel-in' and 'enable-in' regulator inputs must be routed to the
+> > PMIC GPIOs which must be configured as input. If this is a pinmux in
+> > your opinion, then yes we need to do that. IMHO it isn't a pinmux
+> > because from the regulator point of view it is just a GPIO which comes
+> > from our own gpio-dev (da9062-gpio). So the abstraction is vald. Anyway
+> > I'm with you that this isn't the typical use-case.
+> 
+> We've had this discussion before and to me it felt more like pinmux than GPIO
+> although I understand we're configuring the GPIO pin as input before then
+> configuring a regulator to take that specific internal GPIO as the control
+> signal. We're defining a specific role to this pin in HW rather than it being a
+> general software handled GPI so it feels like this would be neater under pinmux.
+> There does still need to be a mapping between that pin and the regulator which I
+> guess would be served by passing the pin to the regulator through generic pinmux
+> bindings and then in the regulator code you're simply just enabling the
+> regulator to be controlled from that pin. The HW lets you control multiple
+> regulators from the same input pin so there's a flexibility there to be
+> captured, as you mention.
 
-Bartosz
+I know that we already had this discussion but the result was to wait
+for the maintainers input. Since Linus is the pinctrl/gpio maintainer
+and Mark the regulator maintainer we now have some input so we can move
+forward. Linus made some comments on the dt-bindings and on the code but
+he didn't pointed out that this usage is wrong. So I guessed it would be
+fine for him. Mark did his first comments now and I explained the
+current state..
+
+I discussed it with a colleague again and he mentioned that pinctrl
+should be named pinctrl instead it should be named padctrl. We don't
+reconfigure the pad to a other function it is still a device general
+purpose input pad. The hw-signal flow goes always trough the gpio block
+so one argument more for my solution. Also we don't configure the "pad"
+to be a vsel/ena-pin. The hw-pad can only be a gpio or has an alternate
+function (WDKICK for GPIO0, Seq. SYS_EN for GPIO2, Seq. PWR_EN for GPIO4).
+Instead we tell the regulator to use _this_ GPIO e.g. for voltage
+selection so we go the other way around. My last argument why pinctrl
+isn't the correct place is that the GPIO1 can be used for
+regulator-0:vsel-in and for regulator-1:enable-in. So this pad would
+have different states which is invalid IMHO.
+
+Regards,
+  Marco
+
+> > Regards,
+> >   Marco
+> > 
+> > --
+> > Pengutronix e.K.                           |                             |
+> > Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+> > 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+> > Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> 
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
