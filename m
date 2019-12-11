@@ -1,139 +1,80 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F15511FBF8
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 01:05:13 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B07A11FBF7
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 01:05:09 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47bhNf2mt7zDqY3
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 11:05:06 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47bhNk6P4czDqXw
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 11:05:10 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=diasemi.com (client-ip=85.158.142.5;
- helo=mail1.bemta26.messagelabs.com;
- envelope-from=adam.thomson.opensource@diasemi.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=flex--brendanhiggins.bounces.google.com
+ (client-ip=2607:f8b0:4864:20::549; helo=mail-pg1-x549.google.com;
+ envelope-from=3nepxxq4kahuukxgwtgabzzbglzhhzex.vhf@flex--brendanhiggins.bounces.google.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=diasemi.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=dialogsemiconductor.onmicrosoft.com
- header.i=@dialogsemiconductor.onmicrosoft.com header.b="wML3HsBD"; 
+ dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=google.com header.i=@google.com header.b="BHEbvjoH"; 
  dkim-atps=neutral
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com
- [85.158.142.5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com
+ [IPv6:2607:f8b0:4864:20::549])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47Y27V24dpzDqKN
- for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Dec 2019 03:14:22 +1100 (AEDT)
-Received: from [85.158.142.98] (using TLSv1.2 with cipher
- DHE-RSA-AES256-GCM-SHA384 (256 bits))
- by server-5.bemta.az-a.eu-central-1.aws.symcld.net id 24/AF-19908-3D511FD5;
- Wed, 11 Dec 2019 16:14:11 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA1WTfUxTVxjGOffethekeiltOBKRWaaLG610xHH
- BbZk4kquOhW1ZtumQXeRKG6FgWxi4LMMPpJY4O6AgDQhKgQDqJihCxbER+bB8Rb6sONnQzgFu
- k4rgJh9ZLxfc9t/vfZ8n7/uck3NwVJQj8MWZNB2jUdMJUr4Hpty0crOsX+KMDiq9s4K09uPkk
- 2IbRppGHXyy5HoPj5ztnUfJalMjRv483QrImQE9QubNVSJk7f0hHnmkpgcl60rmANlvLeKTk9
- ZBlMy8dl3w1ipqMMsqoB7ZMwVUo/mugLrpbEOp2urjfOqnoSY+VWf5iuo9dQZQJ+eDqKnatVE
- eu3gqdWxS2mc8peGSHUs2rk3rLhrDMsAlsQG444AoR+Hc9McG4OHiNgx2zzQjXFEH4OyJv/ls
- gREdKHxW82CxEBEmBLaXOxGuGAXQ0nGZzw7jEyTM7fhlkcXETnjy7C2MZZR4yoPmhTCWvYk42
- NByWGAAuMvDwOmFDZw9HBpv3kFYxoj10GwaWRwjJGhoqvwRcLvaASx5OiVgBXfiDVgzaES4Q/
- jBJ4dqUG6XDxx2lCz2IUFAS1MvyrEEjt9f4HF+Bt44bAdcPxB233IssRRW2M08jv1gX0k2YHN
- CIhLm5/gt28t68zGOSWjJzsQ4y4twoSWdayfDzuH6pa0vwaPO00sT18DWi+cw9iiQqMDgwuw4
- YgSbzP9JzXEgLL36mM/xK7DizEPUvHgVXvBGoQMrBVg1CI3VqOKVukRalSBTBAXJFIpgWbDs1
- aDX5PRBGS1nUmR7GbVOQ7tUOf25Vq5NT9ybECdXM7pa4HqecQfQngaQNfOHvAWsxhGpREjNTE
- aLVsYmxaUraa0yRpOSwGhbwBocl0Lh22JntMhLw8QzaftUCa5HvixD3FMqFo55u2ShNplO1Kr
- iOckGZLhxvPgsKsLUSWrG10e4hTURrEmZon4+Yvmr9AE/X28hcHNzE3kmM5pEle7/+gTwwYHU
- W3iPneKpUuueb5pwhUBcIY7H/cmG0NH/Sr4ZSLH+nQeFF5o3bB/23PNu2evvRW4Lm5if66vdv
- XmkUp+VnbEjqezLqt7689V7bA0RoasMMRfXn+q2jga+ebBr8MQVoqlo+u6h8LLkmBeOHf11l3
- Fra165xuZ/Lyrk8bkVNmlEiOJ8eG7k0HhDVN6WjZ3HTGPfkLyR3xW3xR0P0+JHnznEX3t9mot
- Gphb5N3i7b9Vvs6Ts3vd+StToTio1PDwjuCrgI2Sq0Z+xpAZ3Fjr1B+yJBWrN9pwrqx/99W3A
- hy0D+Rtbu1I9wtbVBBz55APJ/p5c36bQ+B329v1JngVTjmpT27Wrl63ppt8k+Lp6Q0FTVsgPA
- xeKIr67TUpOf19l+2KyObBLimmVtOJlVKOl/wFy6hilpQQAAA==
-X-Env-Sender: Adam.Thomson.Opensource@diasemi.com
-X-Msg-Ref: server-28.tower-223.messagelabs.com!1576080850!204737!1
-X-Originating-IP: [104.47.14.53]
-X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.44.22; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 19680 invoked from network); 11 Dec 2019 16:14:11 -0000
-Received: from mail-vi1eur04lp2053.outbound.protection.outlook.com (HELO
- EUR04-VI1-obe.outbound.protection.outlook.com) (104.47.14.53)
- by server-28.tower-223.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 11 Dec 2019 16:14:11 -0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PKxKuCIRIHurc9OxCuwuvLAEEJc1THNaRPIKAV4LeH1/j35rN9rF4bbf5vJ0iBL1oGTX8xkQHs0+4vs+6/v+UMpqG+pUvVOfJdLX53gS7jF1l8VQg3xrtjQiRGZnoNYaJfHlXaDCpwWVnub91NFP7RPH3FheV+EC5AQWXaKEx4KZwG8m8rIv1JFpIVXoXSWBcvC3dT0o+koNRvBB7FTrItpcsw9/YdW4+dcWPkUYfPJc9wP6KRyxv147Vne8ArT1BoU1QkXrmPNkTQcWiyXRZfKMyOZTux1qm3DCUEEuHlupN2l6A7Ve6zcP5w10SRULSonTy5lLNrFlbog75xYImg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AV4w6flc1LNMDmaF8PBCJQQ4yDNZ/5O4DTfYvofgX4A=;
- b=OOsnjoI8dGAYpzbpO+mz7020aKzZmZ4vXLkUF1t29ajWNw2/6Q21iu5txB3iOhewVqao6vKAv2mi8LOMsIIKeX5curlDXDhn/s3sR70C20TcHPuX9KTlJzGQfjnPHGTk8c/5AT/UFODGjlrKBjyvQ8ihQDIxms06nQ88M/bF4Ax5ViN3r8zzeLGtjNyUlM59GPnVwA2J1UHhadwM85zbs/hPbh83HTlc651Xd4RI+hru627YiwaM7gf41zN91aEcKMIL0gmmIVl9zjZ5AIUh0AaMT+14zMl9XFc3cw88KbS+K9bOKGRW1QkCeAoH25IpeR+ccsC8vxMdTEJtvGiZMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
- dkim=pass header.d=diasemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dialogsemiconductor.onmicrosoft.com;
- s=selector1-dialogsemiconductor-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AV4w6flc1LNMDmaF8PBCJQQ4yDNZ/5O4DTfYvofgX4A=;
- b=wML3HsBDuPy42q0zIZDcBzzkvZGTlPEVRIZ1iYFs7gFMGK+xAW6uoNyjnY/1IUpHJZIzHVKTm93FLG4c6kEJundX0jHeTWkinDBG+t6URYcOA6NS9Z2thAwF2hmT8uP61trZldhq5hwLbB0qCDE9L/kJWvrucQuZI1MXsSp05B8=
-Received: from AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM (10.169.154.136) by
- AM5PR1001MB0993.EURPRD10.PROD.OUTLOOK.COM (10.169.154.16) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2516.14; Wed, 11 Dec 2019 16:14:09 +0000
-Received: from AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::5525:87da:ca4:e8df]) by AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::5525:87da:ca4:e8df%7]) with mapi id 15.20.2516.019; Wed, 11 Dec 2019
- 16:14:09 +0000
-From: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-To: Marco Felsch <m.felsch@pengutronix.de>, Mark Brown <broonie@kernel.org>
-Subject: RE: [PATCH v3 3/6] dt-bindings: mfd: da9062: add regulator voltage
- selection documentation
-Thread-Topic: [PATCH v3 3/6] dt-bindings: mfd: da9062: add regulator voltage
- selection documentation
-Thread-Index: AQHVptoKIWnW5XGNx0qiesHaa7KQWaeqBMOAgAkpmQCAAfp+EA==
-Date: Wed, 11 Dec 2019 16:14:09 +0000
-Message-ID: <AM5PR1001MB099497419E4DCA69D424EC35805A0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
-References: <20191129172537.31410-1-m.felsch@pengutronix.de>
- <20191129172537.31410-4-m.felsch@pengutronix.de>
- <20191204134631.GT1998@sirena.org.uk>
- <20191210094144.mxximpuouchy3fqu@pengutronix.de>
-In-Reply-To: <20191210094144.mxximpuouchy3fqu@pengutronix.de>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [193.240.73.196]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0ba1fc48-a343-4396-6502-08d77e552796
-x-ms-traffictypediagnostic: AM5PR1001MB0993:
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM5PR1001MB09933A83114E60F8B00C477BA75A0@AM5PR1001MB0993.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 024847EE92
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(366004)(136003)(39860400002)(396003)(346002)(376002)(199004)(189003)(53546011)(66476007)(66446008)(186003)(2906002)(52536014)(76116006)(64756008)(9686003)(55016002)(66946007)(26005)(86362001)(66556008)(8936002)(5660300002)(6506007)(54906003)(110136005)(478600001)(7696005)(33656002)(71200400001)(966005)(81156014)(8676002)(7416002)(4326008)(81166006)(316002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:AM5PR1001MB0993;
- H:AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:0; MX:1; 
-received-spf: None (protection.outlook.com: diasemi.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: J3sMxB7NYJyFdUcdBWzTaLsyf/I6yD+Kyi+oAz5uXiPKXwDylbhQvR30AVnXAtIJypLkOmYLuXOPaPLHslDod9K/S1yTlNS5gLbeUtmBd5h0QQBe2tkyM7jxq9BEL+X015J8bPKXho42/dbPB9Vxi2Je0XkaEJAvBSd6tsBIwXaus7TufnlOFxDZMtKVk0wsHEGkhJWL057SH/Rght1bj1Y0ArhqKcdzKpUvZ338NBTztpjRhm96XQMhnfzYnKoCJLsuHioTCnUHdevedhV9xu5ObBsCp5vt2GpEr96yBjrc7RCBRgnOenv2MpIgRLA6fd+R+STjbYtnJclyb0LKd0LSMkyXWavsXgUSLADeOeHlliTMuBZqkLS2AQo1IzkLKl1NhF6zdHDpzGwPa00NwUUK1SqvNDrCNE4xBKsEfZUg3YTuW3O9CaVDFWppheWl97VoaJSDUjl+WboYhDDus2fbItdLc2TcBeVW+nxCPEE=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: diasemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ba1fc48-a343-4396-6502-08d77e552796
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2019 16:14:09.5882 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4VWJQ23V7FoYM5Gh3qCXrR4JtPCu6Lf4obwBSx08HRV1S51HSXNikG+uprB8oXz9nP+AIoCTCtzvHERu0U4Hwjk8jvTyVpav2ntto3goBGw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR1001MB0993
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47Y6Qm3WsXzDqJP
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Dec 2019 06:27:53 +1100 (AEDT)
+Received: by mail-pg1-x549.google.com with SMTP id l13so13238652pgt.5
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Dec 2019 11:27:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=KFmQdAdZh8/B/wh1g4c+i5ALsP3kFx6ncDBf/RCXchM=;
+ b=BHEbvjoHWqZ7Nv64QnvdKu9CN/PsQfHYxZZQz1Q10KydrF+m2IHzcnK5CrZKkXxx4b
+ 2YMOz+hd3HzxKnkbWedNtKO00vtCc2M3iMLn8LoGBw3qqR4py04EUe+8nahF6KzgWO/b
+ vx1yhOmUkc/tCU9SZaP784yXIevMeiNK8sTRWzHqze2L7IbBFAHJC4itwqTKgrxGtnjj
+ YeOhn/aOPE4f5oqAfM8DBWqmaHF/yW9Y7gmPjj650DnJ/PPd/Wng33I4+uBaDrD616/p
+ ZRtT+uj/OzuuvRgRQ2d0fDYsZ2aGXgohBEYAYMIdTYa6aIe9iYQrbTB4SE+EyIfKIqoL
+ sEbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=KFmQdAdZh8/B/wh1g4c+i5ALsP3kFx6ncDBf/RCXchM=;
+ b=hyfJQ6sXs+oFo+WH5TeNIvhheRKoSZfW//ZDrdeplWh18se0xYMGhqSr51JgQQzSYf
+ QV6Px8Hfx/AguX9SDt3PEIWQjkiTu4kKrV+q1umBJ6wnQBO/8NqsuopnA3DXMZjXkEty
+ EJIOQ9nB0ktu/hc0z8Y4QKvpmlSsvs8aup0SgZEbuIJ6DiGLo/Q81vrpMY/Oj8FlviyX
+ XYoeDRIBtXBzaHpJQGOBsF49A46d9HVJ53gIqNwgRV6iWsxo74buQBEPFbhpXhVkw6KE
+ qI4S9CDUtTBKYxOrQgyJz4Jmpcrzn2Jgmb450b/teeuRXFeauVx/zscLaAE+mlnJwAU8
+ bZaQ==
+X-Gm-Message-State: APjAAAWkd0puoiindEoMAgTeVCCnEhwDk4m7bUspmspViSstZNUUveIK
+ YG2pffOFaSTFjyFZLo0cNX95m/7fTqfljPbRkCphTA==
+X-Google-Smtp-Source: APXvYqycyWWqOB+1R/dWpmqnOlhdQUifRBeUd7lNrtDIGomABUXQd06geDk/YSSdxQdhxW6XmQloW5ZXtQ6ql5pkVCc82w==
+X-Received: by 2002:a63:f60:: with SMTP id 32mr5943939pgp.206.1576092468990;
+ Wed, 11 Dec 2019 11:27:48 -0800 (PST)
+Date: Wed, 11 Dec 2019 11:27:35 -0800
+Message-Id: <20191211192742.95699-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.24.0.525.g8f36a354ae-goog
+Subject: [PATCH v1 0/7] uml: add unspecified HAS_IOMEM dependencies
+From: Brendan Higgins <brendanhiggins@google.com>
+To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com, 
+ "David S. Miller" <davem@davemloft.net>, Alistar Popple <alistair@popple.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, Antoine Tenart <antoine.tenart@bootlin.com>, 
+ Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, 
+ Boris Brezillon <bbrezillon@kernel.org>, Corentin Labbe <clabbe@baylibre.com>, 
+ Eddie James <eajames@linux.ibm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, Jeremy Kerr <jk@ozlabs.org>, 
+ Joel Stanley <joel@jms.id.au>, Linus Walleij <linus.walleij@linaro.org>, 
+ Michal Simek <michal.simek@xilinx.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Moses Christopher <moseschristopherb@gmail.com>,
+ Piotr Sroka <piotrs@cadence.com>, 
+ Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Mon, 16 Dec 2019 11:04:53 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -146,114 +87,123 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Support Opensource <Support.Opensource@diasemi.com>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "lee.jones@linaro.org" <lee.jones@linaro.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: devel@driverdev.osuosl.org, linux-aspeed@lists.ozlabs.org,
+ linux-um@lists.infradead.org, Brendan Higgins <brendanhiggins@google.com>,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-crypto@vger.kernel.org,
+ davidgow@google.com, netdev@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 10 December 2019 09:42, Marco Felsch wrote:
+# TL;DR
 
-> Hi Mark,
->=20
-> On 19-12-04 13:46, Mark Brown wrote:
-> > On Fri, Nov 29, 2019 at 06:25:34PM +0100, Marco Felsch wrote:
-> >
-> > > +  Optional regulator device-specific properties:
-> > > +  - dlg,vsel-sense-gpios : A GPIO reference to a local general purpo=
-se input,
-> > > +    the datasheet calls it GPI. The regulator sense the input signal=
- and select
-> > > +    the active or suspend voltage settings. If the signal is active =
-the
-> > > +    active-settings are applied else the suspend-settings are applie=
-d.
-> > > +    Attention: Sharing the same GPI for other purposes or across mul=
-tiple
-> > > +    regulators is possible but the polarity setting must equal.
-> >
-> > I'm really confused by this.  As far as I understand it it seems
-> > to be doing pinmuxing on the chip using the GPIO bindings which
-> > is itself a bit odd and I don't see anything here that configures
-> > whatever sets the state of the pins.  Don't we need another GPIO
-> > to set the vsel-sense inputs on the PMIC?
->=20
-> Yes the PMIC is very configurable and it took a while till I understand
-> it.. @Adam please correct me if I'm wrong.
->=20
-> The PMIC regulators regardless of the type: ldo or buck can be
-> simplified drawn as:
->=20
->=20
->=20
-> da9062-gpio               da9062-regulator
->=20
->   +-------------------------------------------------------
->   |                  PMIC
->   |
->   > GPIO0            +--------------------------+
->   |                  |         REGULATOR-0      |
->   > GPIO1 -------+   |                          |
->   |              +-- > vsel-in    voltage-a-out <
->   > GPIO2        |   |                          |
->   |              |   > enable-in  voltage-b-out <
->   |              |   |                          |
->   |              |   +--------------------------+
->   |              |
->   |              |   +--------------------------+
->   |              |   |         REGULATOR-1      |
->   |              |   |                          |
->   |              +-- > vsel-in    voltage-a-out <
->   |                  |                          |
->   |                  > enable-in  voltage-b-out <
->   |                  |                          |
->   |                  +--------------------------+
->   |
->=20
-> The 'vsel-in' and 'enable-in' regulator inputs must be routed to the
-> PMIC GPIOs which must be configured as input. If this is a pinmux in
-> your opinion, then yes we need to do that. IMHO it isn't a pinmux
-> because from the regulator point of view it is just a GPIO which comes
-> from our own gpio-dev (da9062-gpio). So the abstraction is vald. Anyway
-> I'm with you that this isn't the typical use-case.
+This patchset adds a missing HAS_IOMEM dependency to several drivers in
+an attempt to get allyesconfig closer to working for ARCH=um.
 
-We've had this discussion before and to me it felt more like pinmux than GP=
-IO
-although I understand we're configuring the GPIO pin as input before then
-configuring a regulator to take that specific internal GPIO as the control
-signal. We're defining a specific role to this pin in HW rather than it bei=
-ng a
-general software handled GPI so it feels like this would be neater under pi=
-nmux.
-There does still need to be a mapping between that pin and the regulator wh=
-ich I
-guess would be served by passing the pin to the regulator through generic p=
-inmux
-bindings and then in the regulator code you're simply just enabling the
-regulator to be controlled from that pin. The HW lets you control multiple
-regulators from the same input pin so there's a flexibility there to be
-captured, as you mention.
+# What am I trying to do?
 
->=20
-> Regards,
->   Marco
->=20
-> --
-> Pengutronix e.K.                           |                             =
-|
-> Steuerwalder Str. 21                       | http://www.pengutronix.de/  =
-|
-> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    =
-|
-> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 =
-|
+This patchset is part of my attempt to get `make ARCH=um allyesconfig`
+to produce a config that will build *and* boot to init, so that I can
+use it as a mechanism to run tests[1].
+
+This patchset is attempting to deal with
+
+CONFIG_PINCTRL_EQUILIBRIUM=y
+CONFIG_MTD_NAND_CADENCE=y
+CONFIG_FSI_MASTER_ASPEED=y
+CONFIG_CRYPTO_DEV_SAFEXCEL=y
+CONFIG_XIL_AXIS_FIFO=y
+CONFIG_CRYPTO_DEV_AMLOGIC_GXL=y
+CONFIG_XILINX_AXI_EMAC=y
+
+which are selected by `make ARCH=um allyesconfig`, but prevent it from
+building.
+
+# How far away are we from an allyesconfig UML kernel?
+
+I have identified 33 Kconfigs that are selected by allyesconfig, but
+will either not build on UML, or prevent it from booting. They are:
+
+CONFIG_STATIC_LINK=y
+CONFIG_UML_NET_PCAP=y
+CONFIG_NET_PTP_CLASSIFY=y
+CONFIG_IP_VS=y
+CONFIG_BRIDGE_EBT_BROUTE=y
+CONFIG_BRIDGE_EBT_T_FILTER=y
+CONFIG_BRIDGE_EBT_T_NAT=y
+CONFIG_MTD_NAND_CADENCE=y
+CONFIG_MTD_NAND_NANDSIM=y
+CONFIG_BLK_DEV_NULL_BLK=y
+CONFIG_BLK_DEV_RAM=y
+CONFIG_SCSI_DEBUG=y
+CONFIG_NET_VENDOR_XILINX=y
+CONFIG_NULL_TTY=y
+CONFIG_PTP_1588_CLOCK=y
+CONFIG_PINCTRL_EQUILIBRIUM=y
+CONFIG_DMABUF_SELFTESTS=y
+CONFIG_COMEDI=y
+CONFIG_XIL_AXIS_FIFO=y
+CONFIG_EXFAT_FS=y
+CONFIG_STM_DUMMY=y
+CONFIG_FSI_MASTER_ASPEED=y
+CONFIG_JFS_FS=y
+CONFIG_UBIFS_FS=y
+CONFIG_CRAMFS=y
+CONFIG_CRYPTO_DEV_SAFEXCEL=y
+CONFIG_CRYPTO_DEV_AMLOGIC_GXL=y
+CONFIG_KCOV=y
+CONFIG_LKDTM=y
+CONFIG_REED_SOLOMON_TEST=y
+CONFIG_TEST_RHASHTABLE=y
+CONFIG_TEST_MEMINIT=y
+CONFIG_NETWORK_PHY_TIMESTAMPING=y
+
+CONFIG_STATIC_LINK=y and CONFIG_UML_NET_PCAP=y already have fixes on
+their way.
+
+I also have a patchset that just got accepted to fix
+CONFIG_EXFAT_FS=y[2].
+
+So with this patchset and these other three fixes mentioned here, we
+will be about a third of the way there. There is only one more broken
+config that prevents UML from building, CONFIG_LKDTM=y. After this there
+will still be 22 broken configs which will prevent the UML allyesconfig
+kernel from reaching the end of init; nevertheless, this is a good
+milestone where, once reached, we can stop some of this bleeding by
+adding a build test.
+
+# Why won't allyesconfig break again after this series of fixes?
+
+As I mentioned above, I am using UML for testing the kernel, and I am
+currently working on getting my tests to run on KernelCI. As part of our
+testing procedure for KernelCI, we are planning on building a UML kernel
+using allyesconfig and running our tests on it. Thus, we will find out
+very quickly once someone breaks allyesconfig again once we get this all
+working.
+
+Brendan Higgins (7):
+  pinctrl: equilibrium: add unspecified HAS_IOMEM dependency
+  mtd: rawnand: add unspecified HAS_IOMEM dependency
+  net: axienet: add unspecified HAS_IOMEM dependency
+  crypto: inside-secure: add unspecified HAS_IOMEM dependency
+  crypto: amlogic: add unspecified HAS_IOMEM dependency
+  staging: axis-fifo: add unspecified HAS_IOMEM dependency
+  fsi: aspeed: add unspecified HAS_IOMEM dependency
+
+ drivers/crypto/Kconfig              | 2 +-
+ drivers/crypto/amlogic/Kconfig      | 1 +
+ drivers/fsi/Kconfig                 | 1 +
+ drivers/mtd/nand/raw/Kconfig        | 2 +-
+ drivers/net/ethernet/xilinx/Kconfig | 1 +
+ drivers/pinctrl/Kconfig             | 1 +
+ drivers/staging/axis-fifo/Kconfig   | 2 +-
+ 7 files changed, 7 insertions(+), 3 deletions(-)
+
+[1] https://bugzilla.kernel.org/show_bug.cgi?id=205223
+[2] https://patchwork.kernel.org/patch/11273771/
+
+-- 
+2.24.0.525.g8f36a354ae-goog
+
