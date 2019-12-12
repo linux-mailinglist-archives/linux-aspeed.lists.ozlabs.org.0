@@ -2,65 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2738911D111
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2019 16:34:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D134111D1A0
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2019 16:58:05 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47YdBg32hSzDr3l
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 02:34:19 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47Ydk31gl6zDqsG
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 02:58:03 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::144;
- helo=mail-lf1-x144.google.com; envelope-from=linus.walleij@linaro.org;
+ smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
+ helo=metis.ext.pengutronix.de; envelope-from=mfe@pengutronix.de;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.b="iKPEiMkK"; 
- dkim-atps=neutral
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=pengutronix.de
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47YdBS2KhVzDqD8
- for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2019 02:34:07 +1100 (AEDT)
-Received: by mail-lf1-x144.google.com with SMTP id l18so2047028lfc.1
- for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Dec 2019 07:34:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=a3HoIlbnDsQ+bG9LL9JaGOgzii63aNDgW55yKpCip9Q=;
- b=iKPEiMkKQgBQ4g2yPLGxQjeGhMyleGCLknPgXerp//TZbCetjQRPk0GwMRD1WJWWh+
- nrTwHEIOkBB34TYXuOi9YObv2wC3fdH8p08IfQLU9LUXhNp1ObJACUNQryh4iw/iN7/J
- oCIvUcHOAR6nY3v4xCJEPkm5FKaOWK5fGZEvnN8WVIqtXw48XWCRpddOiN/OlQ2aRqgo
- 6ZhVx6Nlt4upYgtta0Yyos1/+smXER5q20OgjRzSWGBMxYavvyZjdM+H5G9HKjXJvlBE
- OBVTQb3i0yF0Ljjqvd5Rt/U8xxg8LDV0m91fNszkUwKDKlVtlWupOQ9+ZvGmKAdeg7Cp
- //Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=a3HoIlbnDsQ+bG9LL9JaGOgzii63aNDgW55yKpCip9Q=;
- b=Lhj1/cEbcvhBayKVKipUKjC9IsSe8glL7FWV/g/KXDFLkfpChGYAgDzMNzNayV7ST8
- fgnHYtA7RM2yLaQrQ69vdWlHEM+GuLjZcdh0RFsm2SOV7/SZXCTKWkVgnHs2rEb+ul66
- 4UA6V7vO7zOOEMFRS2oUEQ+3SSzYMBhNMwk4/dr49HKpjCTGJQ8YX5KpS0C1YGcyAL3+
- JlOkIOv9aSJwQR2kItsrM0H/gN489COJxx+SIJ3OMFBbEJwkpLtW3A50plnalMVuv2xB
- WnTvVlNoCkCcgFakaM7+HjlBQp/7g/VZPeDvh5jg627aX/XfFtSKi5EymA1F8mFkkLle
- Uh5Q==
-X-Gm-Message-State: APjAAAVGO8L7+8Acj29QSA+waXwSAIE2mBnJoz7OtzR3wn/scpdxs8fO
- 3b4NJtqAydF5K09JPWP6xdqQ5abr32aVEEj/NAjVAw==
-X-Google-Smtp-Source: APXvYqxiy9bV88GGh0k1LLBojYnrA1fLF0F8FrE5iWdwSwTFvk+H0DElw5XdBSrCzUI8nlHvxA8+NcTHLRbEJpbUXLc=
-X-Received: by 2002:a19:2389:: with SMTP id j131mr5789532lfj.86.1576164484490; 
- Thu, 12 Dec 2019 07:28:04 -0800 (PST)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47YdgD5FZNzDr3S
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2019 02:55:27 +1100 (AEDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1ifQo8-0002KX-2S; Thu, 12 Dec 2019 16:55:16 +0100
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+ (envelope-from <mfe@pengutronix.de>)
+ id 1ifQo5-000678-TI; Thu, 12 Dec 2019 16:55:13 +0100
+Date: Thu, 12 Dec 2019 16:55:13 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v3 3/6] dt-bindings: mfd: da9062: add regulator voltage
+ selection documentation
+Message-ID: <20191212155513.fevajupxi6omphzf@pengutronix.de>
+References: <20191129172537.31410-1-m.felsch@pengutronix.de>
+ <20191129172537.31410-4-m.felsch@pengutronix.de>
+ <20191204134631.GT1998@sirena.org.uk>
+ <20191210094144.mxximpuouchy3fqu@pengutronix.de>
+ <AM5PR1001MB099497419E4DCA69D424EC35805A0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
+ <20191211170918.q7kqkd4lrwwp7jl3@pengutronix.de>
+ <CACRpkda4PFA=99u33xsXzQND1FaP=8GXGRQULngcd5a=zFepXg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20191202050110.15340-1-andrew@aj.id.au>
-In-Reply-To: <20191202050110.15340-1-andrew@aj.id.au>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 12 Dec 2019 16:27:52 +0100
-Message-ID: <CACRpkdaHXYdHOtCE=_e549rP5DpzP0ayOR4nJmq055Ftiorr-A@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: aspeed-g6: Fix LPC/eSPI mux configuration
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACRpkda4PFA=99u33xsXzQND1FaP=8GXGRQULngcd5a=zFepXg@mail.gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 16:51:05 up 27 days,  7:09, 36 users,  load average: 0.12, 0.17, 0.13
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,26 +70,76 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Support Opensource <Support.Opensource@diasemi.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+ Mark Brown <broonie@kernel.org>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
+ "lee.jones@linaro.org" <lee.jones@linaro.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Dec 2, 2019 at 5:59 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+Hi,
 
-> Early revisions of the AST2600 datasheet are conflicted about the state
-> of the LPC/eSPI strapping bit (SCU510[6]). Conversations with ASPEED
-> determined that the reference pinmux configuration tables were in error
-> and the SCU documentation contained the correct configuration. Update
-> the driver to reflect the state described in the SCU documentation.
->
-> Fixes: 2eda1cdec49f ("pinctrl: aspeed: Add AST2600 pinmux support")
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+On 19-12-12 16:08, Linus Walleij wrote:
+> On Wed, Dec 11, 2019 at 6:09 PM Marco Felsch <m.felsch@pengutronix.de> wrote:
+> 
+> > I discussed it with a colleague again and he mentioned that pinctrl
+> > should be named pinctrl instead it should be named padctrl.
+> 
+> Quoting Documentation/driver-api/pinctl.rst:
+> 
+> (...)
+> Definition of PIN:
+> 
+> - PINS are equal to pads, fingers, balls or whatever packaging input or
+>   output line you want to control and these are denoted by unsigned integers
+>   in the range 0..maxpin.
+> (...)
 
-Patch applied for fixes.
+Okay there is the definition.
 
-Yours,
-Linus Walleij
+> > We don't
+> > reconfigure the pad to a other function it is still a device general
+> > purpose input pad. The hw-signal flow goes always trough the gpio block
+> > so one argument more for my solution. Also we don't configure the "pad"
+> > to be a vsel/ena-pin. The hw-pad can only be a gpio or has an alternate
+> > function (WDKICK for GPIO0, Seq. SYS_EN for GPIO2, Seq. PWR_EN for GPIO4).
+> > Instead we tell the regulator to use _this_ GPIO e.g. for voltage
+> > selection so we go the other way around. My last argument why pinctrl
+> > isn't the correct place is that the GPIO1 can be used for
+> > regulator-0:vsel-in and for regulator-1:enable-in. So this pad would
+> > have different states which is invalid IMHO.
+> 
+> Yeah it is just one of these cases where the silicon designer pulled
+> a line of polysilicone over to the regulator enable signal and put a
+> switch on it and say "so you can also enable the regulator
+> with a signal from here", it can be used in parallel with anything
+> else, which is especially messy.
+
+I didn't say that the design isn't messy ;) I just wanna make the right
+abstraction and IMHO this is the correct abstraction.
+
+Regards,
+  Marco
+
+> Special cases require special handling, since the electronic design
+> of this thing is a bit Rube Goldberg.
+> 
+> Yours,
+> Linus Walleij
+> 
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
