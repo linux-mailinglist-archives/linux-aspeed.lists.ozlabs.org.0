@@ -1,80 +1,48 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F15511FBF8
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 01:05:13 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47bhNk6P4czDqXw
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 11:05:10 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E3211FBF9
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 01:05:18 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47bhNq3GjJzDqYW
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 11:05:15 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=flex--brendanhiggins.bounces.google.com
- (client-ip=2607:f8b0:4864:20::549; helo=mail-pg1-x549.google.com;
- envelope-from=3nepxxq4kahuukxgwtgabzzbglzhhzex.vhf@flex--brendanhiggins.bounces.google.com;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=google.com header.i=@google.com header.b="BHEbvjoH"; 
- dkim-atps=neutral
-Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com
- [IPv6:2607:f8b0:4864:20::549])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47Y6Qm3WsXzDqJP
- for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Dec 2019 06:27:53 +1100 (AEDT)
-Received: by mail-pg1-x549.google.com with SMTP id l13so13238652pgt.5
- for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Dec 2019 11:27:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=KFmQdAdZh8/B/wh1g4c+i5ALsP3kFx6ncDBf/RCXchM=;
- b=BHEbvjoHWqZ7Nv64QnvdKu9CN/PsQfHYxZZQz1Q10KydrF+m2IHzcnK5CrZKkXxx4b
- 2YMOz+hd3HzxKnkbWedNtKO00vtCc2M3iMLn8LoGBw3qqR4py04EUe+8nahF6KzgWO/b
- vx1yhOmUkc/tCU9SZaP784yXIevMeiNK8sTRWzHqze2L7IbBFAHJC4itwqTKgrxGtnjj
- YeOhn/aOPE4f5oqAfM8DBWqmaHF/yW9Y7gmPjj650DnJ/PPd/Wng33I4+uBaDrD616/p
- ZRtT+uj/OzuuvRgRQ2d0fDYsZ2aGXgohBEYAYMIdTYa6aIe9iYQrbTB4SE+EyIfKIqoL
- sEbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=KFmQdAdZh8/B/wh1g4c+i5ALsP3kFx6ncDBf/RCXchM=;
- b=hyfJQ6sXs+oFo+WH5TeNIvhheRKoSZfW//ZDrdeplWh18se0xYMGhqSr51JgQQzSYf
- QV6Px8Hfx/AguX9SDt3PEIWQjkiTu4kKrV+q1umBJ6wnQBO/8NqsuopnA3DXMZjXkEty
- EJIOQ9nB0ktu/hc0z8Y4QKvpmlSsvs8aup0SgZEbuIJ6DiGLo/Q81vrpMY/Oj8FlviyX
- XYoeDRIBtXBzaHpJQGOBsF49A46d9HVJ53gIqNwgRV6iWsxo74buQBEPFbhpXhVkw6KE
- qI4S9CDUtTBKYxOrQgyJz4Jmpcrzn2Jgmb450b/teeuRXFeauVx/zscLaAE+mlnJwAU8
- bZaQ==
-X-Gm-Message-State: APjAAAWkd0puoiindEoMAgTeVCCnEhwDk4m7bUspmspViSstZNUUveIK
- YG2pffOFaSTFjyFZLo0cNX95m/7fTqfljPbRkCphTA==
-X-Google-Smtp-Source: APXvYqycyWWqOB+1R/dWpmqnOlhdQUifRBeUd7lNrtDIGomABUXQd06geDk/YSSdxQdhxW6XmQloW5ZXtQ6ql5pkVCc82w==
-X-Received: by 2002:a63:f60:: with SMTP id 32mr5943939pgp.206.1576092468990;
- Wed, 11 Dec 2019 11:27:48 -0800 (PST)
-Date: Wed, 11 Dec 2019 11:27:35 -0800
-Message-Id: <20191211192742.95699-1-brendanhiggins@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.24.0.525.g8f36a354ae-goog
-Subject: [PATCH v1 0/7] uml: add unspecified HAS_IOMEM dependencies
-From: Brendan Higgins <brendanhiggins@google.com>
-To: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com, 
- "David S. Miller" <davem@davemloft.net>, Alistar Popple <alistair@popple.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, Antoine Tenart <antoine.tenart@bootlin.com>, 
- Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, 
- Boris Brezillon <bbrezillon@kernel.org>, Corentin Labbe <clabbe@baylibre.com>, 
- Eddie James <eajames@linux.ibm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Herbert Xu <herbert@gondor.apana.org.au>, Jeremy Kerr <jk@ozlabs.org>, 
- Joel Stanley <joel@jms.id.au>, Linus Walleij <linus.walleij@linaro.org>, 
- Michal Simek <michal.simek@xilinx.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, 
- Moses Christopher <moseschristopherb@gmail.com>,
- Piotr Sroka <piotrs@cadence.com>, 
- Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>,
- Vignesh Raghavendra <vigneshr@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+ spf=pass (sender SPF authorized) smtp.mailfrom=arm.com
+ (client-ip=217.140.110.172; helo=foss.arm.com;
+ envelope-from=mark.brown@arm.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by lists.ozlabs.org (Postfix) with ESMTP id 47Yf0T2K4WzDr2N
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2019 03:10:30 +1100 (AEDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5435030E;
+ Thu, 12 Dec 2019 08:10:21 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C7FCC3F6CF;
+ Thu, 12 Dec 2019 08:10:20 -0800 (PST)
+Date: Thu, 12 Dec 2019 16:10:19 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [PATCH v3 3/6] dt-bindings: mfd: da9062: add regulator voltage
+ selection documentation
+Message-ID: <20191212161019.GF4310@sirena.org.uk>
+References: <20191129172537.31410-1-m.felsch@pengutronix.de>
+ <20191129172537.31410-4-m.felsch@pengutronix.de>
+ <20191204134631.GT1998@sirena.org.uk>
+ <20191210094144.mxximpuouchy3fqu@pengutronix.de>
+ <AM5PR1001MB099497419E4DCA69D424EC35805A0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
+ <20191211170918.q7kqkd4lrwwp7jl3@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="SxgehGEc6vB0cZwN"
+Content-Disposition: inline
+In-Reply-To: <20191211170918.q7kqkd4lrwwp7jl3@pengutronix.de>
+X-Cookie: We have DIFFERENT amounts of HAIR --
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Approved-At: Mon, 16 Dec 2019 11:04:53 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -87,123 +55,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, linux-aspeed@lists.ozlabs.org,
- linux-um@lists.infradead.org, Brendan Higgins <brendanhiggins@google.com>,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-crypto@vger.kernel.org,
- davidgow@google.com, netdev@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-fsi@lists.ozlabs.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Support Opensource <Support.Opensource@diasemi.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
+ "lee.jones@linaro.org" <lee.jones@linaro.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-# TL;DR
 
-This patchset adds a missing HAS_IOMEM dependency to several drivers in
-an attempt to get allyesconfig closer to working for ARCH=um.
+--SxgehGEc6vB0cZwN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-# What am I trying to do?
+On Wed, Dec 11, 2019 at 06:09:18PM +0100, Marco Felsch wrote:
 
-This patchset is part of my attempt to get `make ARCH=um allyesconfig`
-to produce a config that will build *and* boot to init, so that I can
-use it as a mechanism to run tests[1].
+> so one argument more for my solution. Also we don't configure the "pad"
+> to be a vsel/ena-pin. The hw-pad can only be a gpio or has an alternate
+> function (WDKICK for GPIO0, Seq. SYS_EN for GPIO2, Seq. PWR_EN for GPIO4).
+> Instead we tell the regulator to use _this_ GPIO e.g. for voltage
+> selection so we go the other way around. My last argument why pinctrl
+> isn't the correct place is that the GPIO1 can be used for
+> regulator-0:vsel-in and for regulator-1:enable-in. So this pad would
+> have different states which is invalid IMHO.
 
-This patchset is attempting to deal with
+Note that there's two bits to my concern - one is if we should be using
+gpiolib or pinctrl, the other is what's driving the input (whichever API
+it's configured through) which didn't seem to be mentioned.
 
-CONFIG_PINCTRL_EQUILIBRIUM=y
-CONFIG_MTD_NAND_CADENCE=y
-CONFIG_FSI_MASTER_ASPEED=y
-CONFIG_CRYPTO_DEV_SAFEXCEL=y
-CONFIG_XIL_AXIS_FIFO=y
-CONFIG_CRYPTO_DEV_AMLOGIC_GXL=y
-CONFIG_XILINX_AXI_EMAC=y
+--SxgehGEc6vB0cZwN
+Content-Type: application/pgp-signature; name="signature.asc"
 
-which are selected by `make ARCH=um allyesconfig`, but prevent it from
-building.
+-----BEGIN PGP SIGNATURE-----
 
-# How far away are we from an allyesconfig UML kernel?
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl3yZmoACgkQJNaLcl1U
+h9Ax8Af+NzakOK4jJKQRyY0wT3cczNnHphTUSbJ1zrH7fM+0K/2I8E6301iWfElB
+un6MYIjc8w5BMwLzMZ+Vjd6ZTheXHXnKeJPNNv69Fh4tUOS2vUQ2qRCtKvkLKF5q
+g5xwlTsMi3sBeFJljAoDfttiTvqj5XT1BERgNNPp8MSzQ2FWvKj+rDn+kvNq//Os
+Qf425pla6Go2FYVUSuauWZCQxWkqW7uDzCeDxpNurGvHhTCYNHQf8hAtkyGoGm6V
+UfGnSkypXK7vDrS25gYNIuyDN1RAjGhQIhBHuU3QLzLFNa1ozZ7xtNxnl3pcFvk9
+fzbFegJweraLhfQ7SYhcpiTJUZKQfA==
+=pK4s
+-----END PGP SIGNATURE-----
 
-I have identified 33 Kconfigs that are selected by allyesconfig, but
-will either not build on UML, or prevent it from booting. They are:
-
-CONFIG_STATIC_LINK=y
-CONFIG_UML_NET_PCAP=y
-CONFIG_NET_PTP_CLASSIFY=y
-CONFIG_IP_VS=y
-CONFIG_BRIDGE_EBT_BROUTE=y
-CONFIG_BRIDGE_EBT_T_FILTER=y
-CONFIG_BRIDGE_EBT_T_NAT=y
-CONFIG_MTD_NAND_CADENCE=y
-CONFIG_MTD_NAND_NANDSIM=y
-CONFIG_BLK_DEV_NULL_BLK=y
-CONFIG_BLK_DEV_RAM=y
-CONFIG_SCSI_DEBUG=y
-CONFIG_NET_VENDOR_XILINX=y
-CONFIG_NULL_TTY=y
-CONFIG_PTP_1588_CLOCK=y
-CONFIG_PINCTRL_EQUILIBRIUM=y
-CONFIG_DMABUF_SELFTESTS=y
-CONFIG_COMEDI=y
-CONFIG_XIL_AXIS_FIFO=y
-CONFIG_EXFAT_FS=y
-CONFIG_STM_DUMMY=y
-CONFIG_FSI_MASTER_ASPEED=y
-CONFIG_JFS_FS=y
-CONFIG_UBIFS_FS=y
-CONFIG_CRAMFS=y
-CONFIG_CRYPTO_DEV_SAFEXCEL=y
-CONFIG_CRYPTO_DEV_AMLOGIC_GXL=y
-CONFIG_KCOV=y
-CONFIG_LKDTM=y
-CONFIG_REED_SOLOMON_TEST=y
-CONFIG_TEST_RHASHTABLE=y
-CONFIG_TEST_MEMINIT=y
-CONFIG_NETWORK_PHY_TIMESTAMPING=y
-
-CONFIG_STATIC_LINK=y and CONFIG_UML_NET_PCAP=y already have fixes on
-their way.
-
-I also have a patchset that just got accepted to fix
-CONFIG_EXFAT_FS=y[2].
-
-So with this patchset and these other three fixes mentioned here, we
-will be about a third of the way there. There is only one more broken
-config that prevents UML from building, CONFIG_LKDTM=y. After this there
-will still be 22 broken configs which will prevent the UML allyesconfig
-kernel from reaching the end of init; nevertheless, this is a good
-milestone where, once reached, we can stop some of this bleeding by
-adding a build test.
-
-# Why won't allyesconfig break again after this series of fixes?
-
-As I mentioned above, I am using UML for testing the kernel, and I am
-currently working on getting my tests to run on KernelCI. As part of our
-testing procedure for KernelCI, we are planning on building a UML kernel
-using allyesconfig and running our tests on it. Thus, we will find out
-very quickly once someone breaks allyesconfig again once we get this all
-working.
-
-Brendan Higgins (7):
-  pinctrl: equilibrium: add unspecified HAS_IOMEM dependency
-  mtd: rawnand: add unspecified HAS_IOMEM dependency
-  net: axienet: add unspecified HAS_IOMEM dependency
-  crypto: inside-secure: add unspecified HAS_IOMEM dependency
-  crypto: amlogic: add unspecified HAS_IOMEM dependency
-  staging: axis-fifo: add unspecified HAS_IOMEM dependency
-  fsi: aspeed: add unspecified HAS_IOMEM dependency
-
- drivers/crypto/Kconfig              | 2 +-
- drivers/crypto/amlogic/Kconfig      | 1 +
- drivers/fsi/Kconfig                 | 1 +
- drivers/mtd/nand/raw/Kconfig        | 2 +-
- drivers/net/ethernet/xilinx/Kconfig | 1 +
- drivers/pinctrl/Kconfig             | 1 +
- drivers/staging/axis-fifo/Kconfig   | 2 +-
- 7 files changed, 7 insertions(+), 3 deletions(-)
-
-[1] https://bugzilla.kernel.org/show_bug.cgi?id=205223
-[2] https://patchwork.kernel.org/patch/11273771/
-
--- 
-2.24.0.525.g8f36a354ae-goog
-
+--SxgehGEc6vB0cZwN--
