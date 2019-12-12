@@ -1,84 +1,74 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4274E11C51C
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2019 06:01:04 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47YM7x2zJrzDqv4
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2019 16:01:01 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0CF11CD5D
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2019 13:39:23 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47YYJm0CSTzDr2q
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2019 23:39:19 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.29;
- helo=out5-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::d43;
+ helo=mail-io1-xd43.google.com; envelope-from=manikandan.hcl.ers.epl@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
+ dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="cnFUZ0Ze"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="KC/7LfJs"; dkim-atps=neutral
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="AcAgN61D"; 
+ dkim-atps=neutral
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47YM7k5gm0zDqv4
- for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Dec 2019 16:00:50 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id E201A2245B;
- Thu, 12 Dec 2019 00:00:47 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Thu, 12 Dec 2019 00:00:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=VvHehYcJTV2U7Yt+Z/LgcU3zIcaVlk2
- 0N9lTk/I0iE0=; b=cnFUZ0ZeOJN+c+hgvl6PLP6hGO/c4siINbrl4shIs4Vn0g2
- jcbYWipS5Ln5qP+8pzMqRkVKbUT+HZzMaLcDDo1q67nBH36hxuivO5OJ0X3HN/2T
- bE0lxljVqhjVafinlhgP+MqR4APxEOmBDjKPP/eaQv/OK6k5QmWbhPaAFfs7Amn8
- je40H52KR2GAH3HIVOFBG7XfhNd03s2zAFKDf1cS3uQz1MER0vsv+g1ZQlOFn/aM
- /YGjV1jby6MQCqemunnamiK/x4bvMjzRHNTO3wIw1inutD1PUhCO2vUF/lDUMwSe
- zC41NeOO9OYNKhY7FUBrh9q2dUdTeg86PzXfCCA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=VvHehY
- cJTV2U7Yt+Z/LgcU3zIcaVlk20N9lTk/I0iE0=; b=KC/7LfJsHwJ15TWkCIwjKy
- E3gps055vLlIWBBa6mha9xlvaW5Yr2Fegfa4jWgpydSxZgrHPnIPbsHUJ5lAfGkq
- h7SFuD6vFgusvusDBCI1CZKigLtrLzB3DMIlwzThjVAgtTXJEn8KF3C3zD212ur1
- Zu3gVQfWuPBzwqII0nGsHetouFT1yfDGHLyi7plXB8lcsS6vjg6K1gviv/ixq7ST
- lKRs4uFZ7MqewdsjUp/77jrL15UhnCmQ8rlcOdQnqoRhgw7SQoYFkA+U6zPR7DsA
- gHuCGh5eZQ3sfrAj72f3PqDX4YUno8prS60xRU12g2aJ9wvsZrsJYKD9T16VGzPg
- ==
-X-ME-Sender: <xms:fsnxXaMmQ9dd74Crag1bhhV1PWSQBqURkIjZn-b5ARHLfZpgQ-jTng>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudeliedgjeehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:fsnxXfgI70VJkS_F0tNs31-Ibwrj6qCq-TYZopq1VeKa13257GDOVw>
- <xmx:fsnxXeVd5BKAsOVHmzmli9NL8w4e-qh8Xef7DBC8QUUsPbzYpM-11Q>
- <xmx:fsnxXer7Z7XndpStvZv3iej3UvwKhCef6FCmdsm7Byoa5iVKCZcfhg>
- <xmx:f8nxXXD08UQXTHVRYMaARYJsV2E-JeuFCQ1qlbvp_-Jc6er9TGUUvQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id C6411E00B9; Thu, 12 Dec 2019 00:00:46 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-679-g1f7ccac-fmstable-20191210v1
-Mime-Version: 1.0
-Message-Id: <2fca83fb-b83a-4adb-9ff2-0658db1b2c66@www.fastmail.com>
-In-Reply-To: <d5eee648-fc35-5f9e-9c73-5fa76a6e04c9@linux.ibm.com>
-References: <1575566112-11658-1-git-send-email-eajames@linux.ibm.com>
- <1575566112-11658-8-git-send-email-eajames@linux.ibm.com>
- <d97de592-d3c6-4683-ab36-4ea2e8bd27b7@www.fastmail.com>
- <d5eee648-fc35-5f9e-9c73-5fa76a6e04c9@linux.ibm.com>
-Date: Thu, 12 Dec 2019 15:32:25 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Eddie James" <eajames@linux.ibm.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 07/12] drivers/soc: xdma: Add user interface
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47YYJS53qYzDqv8
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Dec 2019 23:38:57 +1100 (AEDT)
+Received: by mail-io1-xd43.google.com with SMTP id c16so2555307ioo.8
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Dec 2019 04:38:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=4IpPdaRaBlrxsdfzzqnbETQyqh0ur53iOvEIsIm5ezM=;
+ b=AcAgN61DleKY64oDzbwDWOMEtB/55CO5gZrYhVRJ5x3464AyXyxVMD4ty3WUYSZnWs
+ BrOL5Gw2VerKzoylEPizRHBgkEmVMUH3jNUhFyASl/F3SlU0jcDmKV7gXeQEeCJzVC3Q
+ HxENLUkDcUaFQzjfW9OhFLF0FMrZRLQJ0v9OncQVEDmN7doCsZYDaBRCADan9iRmQbjr
+ KCWdDJcgR9gAmn65ChnBOqY+pjX6pbO7mlsHx9q3cd4I1F/v1EtdvVswyQMCI48rB8V3
+ m+0VarsAJ5m5wHuFm7oNAGE+S4oi7nSQSeh08P9vSavlVnc1KJEd0PQtKHGcwdQLhp34
+ dFoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=4IpPdaRaBlrxsdfzzqnbETQyqh0ur53iOvEIsIm5ezM=;
+ b=c2Mw82sK1fawonvoCBB3/AlVIlaENt2htQ1amiNO0fkBFXh3DVIa629SXCV4UznO2V
+ VW3c1pNqAoJFzBZilg0mJ1JCtAi/8jYu161ify4e9SlehwVu1Ib4lWq2eEqBMbQ/wOtu
+ /3kJRLGO1E8cVlMDBbFu3DEZmQTGNnvAgpIGWo03vlNUaqELk1unVK0ZwESKJy//VlH0
+ COb3Q5d4WlpiJw+IALZiBmcA/tQJ0Xn6kdBqpN9wp4E+2ViR8MlmeQT7DrNO9J0sd8PF
+ 1zELwrWVmiTAGbK1Z5YnFDi55xcRt/s+oqICBfe78mpf6o1OouGtAGAlfXedFvtbCkb6
+ DjRA==
+X-Gm-Message-State: APjAAAVTLsYz27I1gRosFHql0z0k42u8MrVjkDvecQhhPlqCyYcgZnf5
+ ENSGQN8tlcuNgmgnkAklA9U/cChc
+X-Google-Smtp-Source: APXvYqzv8negx1JyPnWHMpPN4IjBEJxJaDFuRdfZDd26K615ZE1ly6bhrJWbhIw8M3xRETIaDjcdVg==
+X-Received: by 2002:a63:1b54:: with SMTP id b20mr10039407pgm.312.1576153858182; 
+ Thu, 12 Dec 2019 04:30:58 -0800 (PST)
+Received: from cnn ([2402:3a80:457:6a63:7070:9118:7874:2897])
+ by smtp.gmail.com with ESMTPSA id k6sm6937248pfi.119.2019.12.12.04.30.54
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 12 Dec 2019 04:30:57 -0800 (PST)
+Date: Thu, 12 Dec 2019 18:00:50 +0530
+From: Manikandan <manikandan.hcl.ers.epl@gmail.com>
+To: Andrew Jeffery <andrew@aj.id.au>
+Subject: Re: [PATCH v4 2/2] ARM: dts: aspeed: Adding Facebook Yosemite V2 BMC
+Message-ID: <20191212123050.GA8443@cnn>
+References: <20191211202620.GA31628@cnn>
+ <78c346a0-217c-4216-b16a-498f80e7303a@www.fastmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <78c346a0-217c-4216-b16a-498f80e7303a@www.fastmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,67 +80,207 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Jason Cooper <jason@lakedaemon.net>, linux-aspeed@lists.ozlabs.org,
- Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- tglx@linutronix.de
+Cc: devicetree@vger.kernel.org, sdasari@fb.com, linux-kernel@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, manikandan.e@hcl.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Thu, 12 Dec 2019, at 07:13, Eddie James wrote:
+On Thu, Dec 12, 2019 at 11:39:59AM +1030, Andrew Jeffery wrote:
 > 
-> On 12/10/19 9:48 PM, Andrew Jeffery wrote:
+> 
+> On Thu, 12 Dec 2019, at 06:56, Manikandan Elumalai wrote:
+> > The Yosemite V2 is a facebook multi-node server
+> > platform that host four OCP server. The BMC
+> > in the Yosemite V2 platform based on AST2500 SoC.
+> > 
+> > This patch adds linux device tree entry related to
+> > Yosemite V2 specific devices connected to BMC SoC.
+> > 
+> > --- Reviews summary
+> > --- v4[2/2] - Spell and contributor name correction.
+> > ---         - License identifier changed to GPL-2.0-or-later.
+> > ---         - aspeed-gpio.h removed.
+> > ---         - FAN2 tacho channel changed.
+> > ---      v4 - Bootargs removed.
+> > ---         - Reviewed-by: Vijay Khemka <vkhemka@fb.com>
+> > ---      v3 - Uart1 Debug removed .
+> > ---         - Acked-by:Andrew Jeffery <andrew@aj.id.au>
+> 
+> You need to put the Reviewed-by / Acked-by tags down below your Signed-off-by. That
+> way we know that the patch is still ready to go (and they appear in patchwork - you can
+> (currently) see that they're missing[1]).
+> 
+> [1] https://patchwork.ozlabs.org/project/linux-aspeed/list/?series=147912&state=%2A&archive=both
+>
+  Thanks for your patience on explaining the procedure for newbies like me . There is change in dts for FAN2 tacho channel needs to review. I will resumit again. 
+> Andrew
+> 
+> > ---      v2 - LPC and VUART removed .
+> > ---      v1 - Initial draft.
+> > 
+> > Signed-off-by: Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>
+> > ---
+> >  .../boot/dts/aspeed-bmc-facebook-yosemitev2.dts    | 148 +++++++++++++++++++++
+> >  1 file changed, 148 insertions(+)
+> >  create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+> > 
+> > diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts 
+> > b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+> > new file mode 100644
+> > index 0000000..ffd7f4c
+> > --- /dev/null
+> > +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+> > @@ -0,0 +1,148 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +// Copyright (c) 2018 Facebook Inc.
+> > +
+> > +/dts-v1/;
+> > +
+> > +#include "aspeed-g5.dtsi"
+> > +/ {
+> > +	model = "Facebook Yosemitev2 BMC";
+> > +	compatible = "facebook,yosemitev2-bmc", "aspeed,ast2500";
+> > +	aliases {
+> > +		serial4 = &uart5;
+> > +	};
+> > +	chosen {
+> > +		stdout-path = &uart5;
+> > +	};
+> > +
+> > +	memory@80000000 {
+> > +		reg = <0x80000000 0x20000000>;
+> > +	};
+> > +
+> > +	iio-hwmon {
+> > +		// VOLATAGE SENSOR
+> > +		compatible = "iio-hwmon";
+> > +		io-channels = <&adc 0> , <&adc 1> , <&adc 2> ,  <&adc 3> ,
+> > +		<&adc 4> , <&adc 5> , <&adc 6> ,  <&adc 7> ,
+> > +		<&adc 8> , <&adc 9> , <&adc 10>, <&adc 11> ,
+> > +		<&adc 12> , <&adc 13> , <&adc 14> , <&adc 15> ;
+> > +	};
+> > +};
+> > +
+> > +&fmc {
+> > +	status = "okay";
+> > +	flash@0 {
+> > +		status = "okay";
+> > +		m25p,fast-read;
+> > +#include "openbmc-flash-layout.dtsi"
+> > +	};
+> > +};
+> > +
+> > +&spi1 {
+> > +	status = "okay";
+> > +	pinctrl-names = "default";
+> > +	pinctrl-0 = <&pinctrl_spi1_default>;
+> > +	flash@0 {
+> > +		status = "okay";
+> > +		m25p,fast-read;
+> > +		label = "pnor";
+> > +	};
+> > +};
+> > +
+> > +&uart5 {
+> > +	// BMC Console
+> > +	status = "okay";
+> > +};
+> > +
+> > +&mac0 {
+> > +	status = "okay";
+> > +	pinctrl-names = "default";
+> > +	pinctrl-0 = <&pinctrl_rmii1_default>;
+> > +	use-ncsi;
+> > +};
+> > +
+> > +&adc {
+> > +	status = "okay";
+> > +	pinctrl-names = "default";
+> > +	pinctrl-0 = <&pinctrl_adc0_default
+> > +			&pinctrl_adc1_default
+> > +			&pinctrl_adc2_default
+> > +			&pinctrl_adc3_default
+> > +			&pinctrl_adc4_default
+> > +			&pinctrl_adc5_default
+> > +			&pinctrl_adc6_default
+> > +			&pinctrl_adc7_default
+> > +			&pinctrl_adc8_default
+> > +			&pinctrl_adc9_default
+> > +			&pinctrl_adc10_default
+> > +			&pinctrl_adc11_default
+> > +			&pinctrl_adc12_default
+> > +			&pinctrl_adc13_default
+> > +			&pinctrl_adc14_default
+> > +			&pinctrl_adc15_default>;
+> > +};
+> > +
+> > +&i2c8 {
+> > +	//FRU EEPROM
+> > +	status = "okay";
+> > +	eeprom@51 {
+> > +		compatible = "atmel,24c64";
+> > +		reg = <0x51>;
+> > +		pagesize = <32>;
+> > +	};
+> > +};
+> > +
+> > +&i2c9 {
+> > +	//INLET & OUTLET TEMP
+> > +	status = "okay";
+> > +	tmp421@4e {
+> > +		compatible = "ti,tmp421";
+> > +		reg = <0x4e>;
+> > +	};
+> > +	tmp421@4f {
+> > +		compatible = "ti,tmp421";
+> > +		reg = <0x4f>;
+> > +	};
+> > +};
+> > +
+> > +&i2c10 {
+> > +	//HSC
+> > +	status = "okay";
+> > +	adm1278@40 {
+> > +		compatible = "adi,adm1278";
+> > +		reg = <0x40>;
+> > +	};
+> > +};
+> > +
+> > +&i2c11 {
+> > +	//MEZZ_TEMP_SENSOR
+> > +	status = "okay";
+> > +	tmp421@1f {
+> > +		compatible = "ti,tmp421";
+> > +		reg = <0x1f>;
+> > +	};
+> > +};
+> > +
+> > +&i2c12 {
+> > +	//MEZZ_FRU
+> > +	status = "okay";
+> > +	eeprom@51 {
+> > +		compatible = "atmel,24c64";
+> > +		reg = <0x51>;
+> > +		pagesize = <32>;
+> > +	};
+> > +};
+> > +
+> > +&pwm_tacho {
+> > +	//FSC
+> > +	status = "okay";
+> > +	pinctrl-names = "default";
+> > +	pinctrl-0 = <&pinctrl_pwm0_default &pinctrl_pwm1_default>;
+> > +	fan@0 {
+> > +		reg = <0x00>;
+> > +		aspeed,fan-tach-ch = /bits/ 8 <0x00>;
+> > +	};
+> > +	fan@1 {
+> > +		reg = <0x01>;
+> > +		aspeed,fan-tach-ch = /bits/ 8 <0x01>;
+> > +	};
+> > +};
+> > -- 
+> > 2.7.4
+> > 
 > >
-> > On Fri, 6 Dec 2019, at 03:45, Eddie James wrote:
-> >> +		}
-> >> +	} else {
-> >> +		mutex_lock(&ctx->file_lock);
-> >> +
-> >> +		rc = wait_event_interruptible(ctx->wait, !ctx->current_client);
-> >> +		if (rc) {
-> >> +			mutex_unlock(&ctx->file_lock);
-> >> +			return -EINTR;
-> >> +		}
-> >> +	}
-> >> +
-> >> +	aspeed_xdma_start(ctx, &op, ctx->vga_phys + offs, client);
-> >> +
-> >> +	mutex_unlock(&ctx->file_lock);
-> > You've used file_lock here to protect aspeed_xdma_start() but start_lock
-> > above to protect aspeed_xdma_reset(), so it seems one client can disrupt
-> > another by resetting the engine while a DMA is in progress?
-> 
-> 
-> That's correct, that is the intention. In case the transfer hangs, 
-> another client needs to be able to reset and clear up a blocking transfer.
-
-Ah. Can we log a noisy warning about resetting the engine while a DMA is
-in progress then? I'd hate to debug this otherwise. The more information
-we can log about both clients the better.
-
-We still need to make sure we're using consistent locking, even if we wind
-up with nested locking.
-
-> >> +
-> >> +static int aspeed_xdma_release(struct inode *inode, struct file *file)
-> >> +{
-> >> +	struct aspeed_xdma_client *client = file->private_data;
-> >> +
-> >> +	if (client->ctx->current_client == client)
-> >> +		client->ctx->current_client = NULL;
-> > Shouldn't we also cancel the DMA op? This seems like a DoS risk: set up
-> > a non-blocking, large downstream transfer then close the client. Also risks
-> > scribbling on memory we no-longer own given we don't cancel/wait for
-> > completion in vm close callback?
-> 
-> 
-> Right, better wait for completion. There's no way to cancel a transfer.
-
-Right, that's handy context.
-
-Cheers,
-
-Andrew
