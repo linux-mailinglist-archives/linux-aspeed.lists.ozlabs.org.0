@@ -2,130 +2,82 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD4811D531
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2019 19:21:00 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47Yhtx0c09zDr70
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 05:20:57 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC9D11D6F0
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2019 20:17:12 +0100 (CET)
+Received: from lists.ozlabs.org (unknown [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47Yk7n6D4dzDqqJ
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 06:17:09 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
- (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
- envelope-from=prvs=724988a4f9=vijaykhemka@fb.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=fb.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=fb.com header.i=@fb.com header.b="rk/QRLhw"; 
- dkim=pass (1024-bit key;
- unprotected) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com
- header.b="ja5RbXv0"; dkim-atps=neutral
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
- [67.231.145.42])
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record)
+ smtp.mailfrom=linux.vnet.ibm.com (client-ip=148.163.158.5;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.vnet.ibm.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=linux.vnet.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47YhtF01fVzDr70
- for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2019 05:20:10 +1100 (AEDT)
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- xBCIJbWT027599; Thu, 12 Dec 2019 10:19:52 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=G4PDbdJMHA1Gm6KFv6mS6bh7OjgH3lsN/+6zro2u+cg=;
- b=rk/QRLhwglncsvUTpU37dzzo6PNyPVfTqfVQMMGewyDZoKOzyZw9HB0tnIW/AtFZ/j6C
- 3Vv9oakxC6I+WuW/Jph+Qm6pq2+xzehNZSy2J30ggixi0gH/4/pPWxL/UgxJksFP+lCM
- mRHW5Xe4IZ+Z5iF3cJkxJ7jjo5vguvh2BGw= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com with ESMTP id 2wuskg0cuh-17
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 12 Dec 2019 10:19:52 -0800
-Received: from ash-exhub104.TheFacebook.com (2620:10d:c0a8:82::d) by
- ash-exhub102.TheFacebook.com (2620:10d:c0a8:82::f) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 12 Dec 2019 10:19:43 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (100.104.31.183)
- by o365-in.thefacebook.com (100.104.35.175) with Microsoft SMTP
- Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Thu, 12 Dec 2019 10:19:43 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fDx0Q0cXm3lKaUAo4kvOugwFivaltpAyt3zlsku0LmOBIn/QYeFlijX3qXEezJXtuId4T0OW+L4UwGIazhVbgoyLzfNOECRxEq4YzFNEI1B74eAQ7Bjat3n8t3PzDvzJVeCENs1RlafRsoosdpNJP1vQaH1dRadCZdTQYBrxYXEduueYCA2d++yZJxK+aJgNzyuTWsY0Smy0NmXAt/Yv847kGh9RxRmTwWGuL/+oqHQVPMTaTLiL8ldl+fRuRHylFoJc/RdZ0O5J8kzSAkR+By2fMepUn3qeTETocoCYwsuFrG7RcqC6qcjrBP4NbcYSiYnszOsmgV2RsGL4Mi7/Ww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G4PDbdJMHA1Gm6KFv6mS6bh7OjgH3lsN/+6zro2u+cg=;
- b=OkIml16vg45W/VWanpkYZZrlIaKPq32ZCf3R5tGf4PfMWVjk40gyat4CYprN+6hQlS47Q8X0XRtjd6jOgfHJhbOzdbcBbEPg1KNtR+Y8c5LGTUWjFNYn5sgMUuD4w++8rbW/W6ag6PCM9BqHOEuL6hxWQgU5If0k/QHiE2XOWQWWBw2+/zaIp6XhU4/b7TyHcux6hKuZKfZvxvQkpSGu0SHFMyN0wdlxOpB6jCxG+tp5VA4M31e3V2DLZCu7EQe9D53ZoKfnC+Ydunn2NXa2bwh58nPK0aFjewWk7txfnjOfaXCbaw4iXCHQoWGvsgbukfNOLHiqtSDLXVnSybHF5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G4PDbdJMHA1Gm6KFv6mS6bh7OjgH3lsN/+6zro2u+cg=;
- b=ja5RbXv0KbIL5SIFcR6R9JRSyNzaUXpXZxiBEgIH5tIdOY4JZWKBWzuagYGvvehpGWSS+/m3jheFcUgVlIFSNy98ngdS1LABGSFa+HT7dbYif5wt1eG8lu800hLSF6R4KMvzuuy3xJg7qGOJMDz3CDEEKP0iK4WtF2aQWEU2Y8M=
-Received: from MWHPR15MB1597.namprd15.prod.outlook.com (10.173.234.137) by
- MWHPR15MB1613.namprd15.prod.outlook.com (10.175.139.148) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2516.14; Thu, 12 Dec 2019 18:19:43 +0000
-Received: from MWHPR15MB1597.namprd15.prod.outlook.com
- ([fe80::cdbf:b63c:437:4dd2]) by MWHPR15MB1597.namprd15.prod.outlook.com
- ([fe80::cdbf:b63c:437:4dd2%8]) with mapi id 15.20.2516.018; Thu, 12 Dec 2019
- 18:19:43 +0000
-From: Vijay Khemka <vijaykhemka@fb.com>
-To: Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>, "andrew@aj.id.au"
- <andrew@aj.id.au>, "joel@jms.id.au" <joel@jms.id.au>
-Subject: Re: [PATCH v4 2/2] ARM: dts: aspeed: Adding Facebook Yosemite V2 BMC
-Thread-Topic: [PATCH v4 2/2] ARM: dts: aspeed: Adding Facebook Yosemite V2 BMC
-Thread-Index: AQHVsO02vQqfyrGLt0+IzzReLU6SYqe2SXsA
-Date: Thu, 12 Dec 2019 18:19:42 +0000
-Message-ID: <E1D0A71A-3850-4F8F-A451-DC04AD2E5716@fb.com>
-References: <20191212130758.GA7388@cnn>
-In-Reply-To: <20191212130758.GA7388@cnn>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [2620:10d:c090:200::3:45ed]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f831b3e7-5df9-469e-a817-08d77f2fdc2c
-x-ms-traffictypediagnostic: MWHPR15MB1613:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MWHPR15MB161392E87E21B8C6B2AA1025DD550@MWHPR15MB1613.namprd15.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-forefront-prvs: 0249EFCB0B
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(39860400002)(396003)(136003)(376002)(346002)(47680400002)(199004)(189003)(110136005)(2906002)(6512007)(66476007)(316002)(6506007)(33656002)(86362001)(2616005)(5660300002)(186003)(54906003)(66446008)(66556008)(64756008)(36756003)(8936002)(6486002)(8676002)(81156014)(71200400001)(81166006)(66946007)(76116006)(478600001)(4326008);
- DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR15MB1613;
- H:MWHPR15MB1597.namprd15.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8OuWLlrG6k6jKR72g4qWlA1BjPKT53RWkfIKjkS4+yVr6Hx1OCrv8H5oOr+ROOZS8VLJtp38ru+Ss4Nx3T6eCICa9LIMFerD6SUQxf30p53s4VUCaVbjcgv/mkMADtomp0gc1109FqmWhRRv+VO6D8eTNddaydf3LS9z4ZXv2/pP9XVjzs8ncDKJYexhfFI4W8Gm4Kbv+0YW9OBFz/G3BgM0eUf/DOeNe9Ubq1XwYAZRlhquu1CtC6ONjhI7MCODfW/Nr2L7ZK7gAt6K+AT2lU3SJI+M/2PpN1OEhuHB4XcOYv1zg1CRH/nA2bjh7BhZ1BuHrf4w548WhwXFsgYNHyO6vJuyTiTATaY5bgMMXCBT38xuFQeT66NwzBj8wDHLxOgZzFlZp2CJJ6rxeMElYv+4gdRjlvETPdqqBfcUvigK23Ab7nTkgpxxwanH4dKU
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6737FA83FE6F2D4A9EE5915BB7F55230@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47Yk7S0Z96zDqqJ
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2019 06:16:51 +1100 (AEDT)
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBCJBbRX143933; Thu, 12 Dec 2019 14:16:27 -0500
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wujxrkjtn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2019 14:16:26 -0500
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBCJCW1T013229;
+ Thu, 12 Dec 2019 19:16:26 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma04dal.us.ibm.com with ESMTP id 2wr3q7ckd3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2019 19:16:26 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBCJGPtQ44302744
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 12 Dec 2019 19:16:25 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 57242AC059;
+ Thu, 12 Dec 2019 19:16:25 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 71FECAC05E;
+ Thu, 12 Dec 2019 19:16:24 +0000 (GMT)
+Received: from [9.41.103.158] (unknown [9.41.103.158])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu, 12 Dec 2019 19:16:24 +0000 (GMT)
+Subject: Re: [PATCH v2 06/12] drivers/soc: Add Aspeed XDMA Engine Driver
+To: Andrew Jeffery <andrew@aj.id.au>, Eddie James <eajames@linux.ibm.com>,
+ linux-kernel@vger.kernel.org
+References: <1575566112-11658-1-git-send-email-eajames@linux.ibm.com>
+ <1575566112-11658-7-git-send-email-eajames@linux.ibm.com>
+ <de395d95-15f4-4df3-873d-ce89ae008ed3@www.fastmail.com>
+ <bffadb0a-aba7-d799-b2ef-a4adb3259c4b@linux.ibm.com>
+ <f597202e-0d5a-4b76-ba0a-a6f0a857b289@www.fastmail.com>
+From: Eddie James <eajames@linux.vnet.ibm.com>
+Message-ID: <bbe9045e-c5ca-541c-1ee9-0f5ef246a27b@linux.vnet.ibm.com>
+Date: Thu, 12 Dec 2019 13:16:23 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: f831b3e7-5df9-469e-a817-08d77f2fdc2c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Dec 2019 18:19:42.8589 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qrWG01hvk283VxvQn9FBt0MyGvQtSHcwTAgb0HZg3M+OsxCKMOoHUXtD6fDaq8vsWvRwl1jnqgVK/yLWE7OAYg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR15MB1613
-X-OriginatorOrg: fb.com
+In-Reply-To: <f597202e-0d5a-4b76-ba0a-a6f0a857b289@www.fastmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2019-12-12_06:2019-12-12,2019-12-12 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- mlxlogscore=999
- suspectscore=0 impostorscore=0 priorityscore=1501 clxscore=1015
- adultscore=0 bulkscore=0 malwarescore=0 mlxscore=0 spamscore=0
- lowpriorityscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1910280000 definitions=main-1912120141
-X-FB-Internal: deliver
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ malwarescore=0 mlxlogscore=999 impostorscore=0 priorityscore=1501
+ clxscore=1011 suspectscore=0 bulkscore=0 spamscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912120147
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,118 +89,153 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Sai Dasari <sdasari@fb.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "manikandan.e@hcl.com" <manikandan.e@hcl.com>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ Jason Cooper <jason@lakedaemon.net>, linux-aspeed@lists.ozlabs.org,
+ Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ tglx@linutronix.de
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGkgTWFuaSwNClBsZWFzZSBzdWJtaXQgcGF0Y2ggdmVyc2lvbiA1IGFuZCBwdXQgcmV2aWV3IGNv
-bW1lbnRzIGJlbG93ICgtLS0pIGxpbmUgbGlrZSBiZWxvdy4gDQpBbmQgc2VuZCBhcyBhIHBhdGNo
-IHN1Ym1pc3Npb24gbm90IHJlcGxpZWQgdG8gdGhpcyBlbWFpbC4NCg0KICAgVGhlIFlvc2VtaXRl
-IFYyIGlzIGEgZmFjZWJvb2sgbXVsdGktbm9kZSBzZXJ2ZXINCiAgICBwbGF0Zm9ybSB0aGF0IGhv
-c3QgZm91ciBPQ1Agc2VydmVyLiBUaGUgQk1DDQogICAgaW4gdGhlIFlvc2VtaXRlIFYyIHBsYXRm
-b3JtIGJhc2VkIG9uIEFTVDI1MDAgU29DLg0KICAgIA0KICAgIFRoaXMgcGF0Y2ggYWRkcyBsaW51
-eCBkZXZpY2UgdHJlZSBlbnRyeSByZWxhdGVkIHRvDQogICAgWW9zZW1pdGUgVjIgc3BlY2lmaWMg
-ZGV2aWNlcyBjb25uZWN0ZWQgdG8gQk1DIFNvQy4NCg0KICAgIFNpZ25lZC1vZmYtYnk6IE1hbmlr
-YW5kYW4gRWx1bWFsYWkgPG1hbmlrYW5kYW4uaGNsLmVycy5lcGxAZ21haWwuY29tPg0KICAgIEFj
-a2VkLWJ5ICAgOiBBbmRyZXcgSmVmZmVyeSA8YW5kcmV3QGFqLmlkLmF1Pg0KICAgIFJldmlld2Vk
-LWJ5OiBWaWpheSBLaGVta2EgPHZraGVta2FAZmIuY29tPg0KICAgIC0tLQ0KICAgIC0tLSAgICAg
-djUgLSBTcGVsbCBhbmQgY29udHJpYnV0b3IgbmFtZSBjb3JyZWN0aW9uLg0KICAgIC0tLSAgICAg
-ICAgICAtIExpY2Vuc2UgaWRlbnRpZmllciBjaGFuZ2VkIHRvIEdQTC0yLjAtb3ItbGF0ZXIuDQog
-ICAgLS0tICAgICAgICAgIC0gYXNwZWVkLWdwaW8uaCByZW1vdmVkLg0KICAgIC0tLSAgICAgICAg
-ICAtIEZBTjIgdGFjaG8gY2hhbm5lbCBjaGFuZ2VkLg0KICAgIC0tLSAgICAgIHY0IC0gQm9vdGFy
-Z3MgcmVtb3ZlZC4NCiAgICAtLS0gICAgICB2MyAtIFVhcnQxIERlYnVnIHJlbW92ZWQgLg0KICAg
-IC0tLSAgICAgIHYyIC0gTFBDIGFuZCBWVUFSVCByZW1vdmVkIC4NCiAgICAtLS0gICAgICB2MSAt
-IEluaXRpYWwgZHJhZnQuDQoNCi4uLi9ib290L2R0cy9hc3BlZWQtYm1jLWZhY2Vib29rLXlvc2Vt
-aXRldjIuZHRzICAgIHwgMTQ4ICsrKysrKysrKysrKysrKysrKysrKw0KICAgICAxIGZpbGUgY2hh
-bmdlZCwgMTQ4IGluc2VydGlvbnMoKykNCiAgICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGFyY2gvYXJt
-L2Jvb3QvZHRzL2FzcGVlZC1ibWMtZmFjZWJvb2steW9zZW1pdGV2Mi5kdHMNCg0KUmVnYXJkcw0K
-LVZpamF5DQoNCu+7v09uIDEyLzEyLzE5LCA1OjA4IEFNLCAiTWFuaWthbmRhbiBFbHVtYWxhaSIg
-PG1hbmlrYW5kYW4uaGNsLmVycy5lcGxAZ21haWwuY29tPiB3cm90ZToNCg0KICAgIFRoZSBZb3Nl
-bWl0ZSBWMiBpcyBhIGZhY2Vib29rIG11bHRpLW5vZGUgc2VydmVyDQogICAgcGxhdGZvcm0gdGhh
-dCBob3N0IGZvdXIgT0NQIHNlcnZlci4gVGhlIEJNQw0KICAgIGluIHRoZSBZb3NlbWl0ZSBWMiBw
-bGF0Zm9ybSBiYXNlZCBvbiBBU1QyNTAwIFNvQy4NCiAgICANCiAgICBUaGlzIHBhdGNoIGFkZHMg
-bGludXggZGV2aWNlIHRyZWUgZW50cnkgcmVsYXRlZCB0bw0KICAgIFlvc2VtaXRlIFYyIHNwZWNp
-ZmljIGRldmljZXMgY29ubmVjdGVkIHRvIEJNQyBTb0MuDQogICAgDQogICAgLS0tIFJldmlld3Mg
-c3VtbWFyeQ0KICAgIC0tLSB2NFsyLzJdIC0gU3BlbGwgYW5kIGNvbnRyaWJ1dG9yIG5hbWUgY29y
-cmVjdGlvbi4NCiAgICAtLS0gICAgICAgICAtIExpY2Vuc2UgaWRlbnRpZmllciBjaGFuZ2VkIHRv
-IEdQTC0yLjAtb3ItbGF0ZXIuDQogICAgLS0tICAgICAgICAgLSBhc3BlZWQtZ3Bpby5oIHJlbW92
-ZWQuDQogICAgLS0tICAgICAgICAgLSBGQU4yIHRhY2hvIGNoYW5uZWwgY2hhbmdlZC4NCiAgICAt
-LS0gICAgICB2NCAtIEJvb3RhcmdzIHJlbW92ZWQuDQogICAgLS0tICAgICAgdjMgLSBVYXJ0MSBE
-ZWJ1ZyByZW1vdmVkIC4NCiAgICAtLS0gICAgICB2MiAtIExQQyBhbmQgVlVBUlQgcmVtb3ZlZCAu
-DQogICAgLS0tICAgICAgdjEgLSBJbml0aWFsIGRyYWZ0Lg0KICAgIA0KICAgIFNpZ25lZC1vZmYt
-Ynk6IE1hbmlrYW5kYW4gRWx1bWFsYWkgPG1hbmlrYW5kYW4uaGNsLmVycy5lcGxAZ21haWwuY29t
-Pg0KICAgIEFja2VkLWJ5ICAgOiBBbmRyZXcgSmVmZmVyeSA8YW5kcmV3QGFqLmlkLmF1Pg0KICAg
-IFJldmlld2VkLWJ5OiBWaWpheSBLaGVta2EgPHZraGVta2FAZmIuY29tPg0KICAgIC0tLQ0KICAg
-ICAuLi4vYm9vdC9kdHMvYXNwZWVkLWJtYy1mYWNlYm9vay15b3NlbWl0ZXYyLmR0cyAgICB8IDE0
-OCArKysrKysrKysrKysrKysrKysrKysNCiAgICAgMSBmaWxlIGNoYW5nZWQsIDE0OCBpbnNlcnRp
-b25zKCspDQogICAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBhcmNoL2FybS9ib290L2R0cy9hc3BlZWQt
-Ym1jLWZhY2Vib29rLXlvc2VtaXRldjIuZHRzDQogICAgDQogICAgZGlmZiAtLWdpdCBhL2FyY2gv
-YXJtL2Jvb3QvZHRzL2FzcGVlZC1ibWMtZmFjZWJvb2steW9zZW1pdGV2Mi5kdHMgYi9hcmNoL2Fy
-bS9ib290L2R0cy9hc3BlZWQtYm1jLWZhY2Vib29rLXlvc2VtaXRldjIuZHRzDQogICAgbmV3IGZp
-bGUgbW9kZSAxMDA2NDQNCiAgICBpbmRleCAwMDAwMDAwLi5mZmQ3ZjRjDQogICAgLS0tIC9kZXYv
-bnVsbA0KICAgICsrKyBiL2FyY2gvYXJtL2Jvb3QvZHRzL2FzcGVlZC1ibWMtZmFjZWJvb2steW9z
-ZW1pdGV2Mi5kdHMNCiAgICBAQCAtMCwwICsxLDE0OCBAQA0KICAgICsvLyBTUERYLUxpY2Vuc2Ut
-SWRlbnRpZmllcjogR1BMLTIuMC1vci1sYXRlcg0KICAgICsvLyBDb3B5cmlnaHQgKGMpIDIwMTgg
-RmFjZWJvb2sgSW5jLg0KICAgICsNCiAgICArL2R0cy12MS87DQogICAgKw0KICAgICsjaW5jbHVk
-ZSAiYXNwZWVkLWc1LmR0c2kiDQogICAgKy8gew0KICAgICsJbW9kZWwgPSAiRmFjZWJvb2sgWW9z
-ZW1pdGV2MiBCTUMiOw0KICAgICsJY29tcGF0aWJsZSA9ICJmYWNlYm9vayx5b3NlbWl0ZXYyLWJt
-YyIsICJhc3BlZWQsYXN0MjUwMCI7DQogICAgKwlhbGlhc2VzIHsNCiAgICArCQlzZXJpYWw0ID0g
-JnVhcnQ1Ow0KICAgICsJfTsNCiAgICArCWNob3NlbiB7DQogICAgKwkJc3Rkb3V0LXBhdGggPSAm
-dWFydDU7DQogICAgKwl9Ow0KICAgICsNCiAgICArCW1lbW9yeUA4MDAwMDAwMCB7DQogICAgKwkJ
-cmVnID0gPDB4ODAwMDAwMDAgMHgyMDAwMDAwMD47DQogICAgKwl9Ow0KICAgICsNCiAgICArCWlp
-by1od21vbiB7DQogICAgKwkJLy8gVk9MQVRBR0UgU0VOU09SDQogICAgKwkJY29tcGF0aWJsZSA9
-ICJpaW8taHdtb24iOw0KICAgICsJCWlvLWNoYW5uZWxzID0gPCZhZGMgMD4gLCA8JmFkYyAxPiAs
-IDwmYWRjIDI+ICwgIDwmYWRjIDM+ICwNCiAgICArCQk8JmFkYyA0PiAsIDwmYWRjIDU+ICwgPCZh
-ZGMgNj4gLCAgPCZhZGMgNz4gLA0KICAgICsJCTwmYWRjIDg+ICwgPCZhZGMgOT4gLCA8JmFkYyAx
-MD4sIDwmYWRjIDExPiAsDQogICAgKwkJPCZhZGMgMTI+ICwgPCZhZGMgMTM+ICwgPCZhZGMgMTQ+
-ICwgPCZhZGMgMTU+IDsNCiAgICArCX07DQogICAgK307DQogICAgKw0KICAgICsmZm1jIHsNCiAg
-ICArCXN0YXR1cyA9ICJva2F5IjsNCiAgICArCWZsYXNoQDAgew0KICAgICsJCXN0YXR1cyA9ICJv
-a2F5IjsNCiAgICArCQltMjVwLGZhc3QtcmVhZDsNCiAgICArI2luY2x1ZGUgIm9wZW5ibWMtZmxh
-c2gtbGF5b3V0LmR0c2kiDQogICAgKwl9Ow0KICAgICt9Ow0KICAgICsNCiAgICArJnNwaTEgew0K
-ICAgICsJc3RhdHVzID0gIm9rYXkiOw0KICAgICsJcGluY3RybC1uYW1lcyA9ICJkZWZhdWx0IjsN
-CiAgICArCXBpbmN0cmwtMCA9IDwmcGluY3RybF9zcGkxX2RlZmF1bHQ+Ow0KICAgICsJZmxhc2hA
-MCB7DQogICAgKwkJc3RhdHVzID0gIm9rYXkiOw0KICAgICsJCW0yNXAsZmFzdC1yZWFkOw0KICAg
-ICsJCWxhYmVsID0gInBub3IiOw0KICAgICsJfTsNCiAgICArfTsNCiAgICArDQogICAgKyZ1YXJ0
-NSB7DQogICAgKwkvLyBCTUMgQ29uc29sZQ0KICAgICsJc3RhdHVzID0gIm9rYXkiOw0KICAgICt9
-Ow0KICAgICsNCiAgICArJm1hYzAgew0KICAgICsJc3RhdHVzID0gIm9rYXkiOw0KICAgICsJcGlu
-Y3RybC1uYW1lcyA9ICJkZWZhdWx0IjsNCiAgICArCXBpbmN0cmwtMCA9IDwmcGluY3RybF9ybWlp
-MV9kZWZhdWx0PjsNCiAgICArCXVzZS1uY3NpOw0KICAgICt9Ow0KICAgICsNCiAgICArJmFkYyB7
-DQogICAgKwlzdGF0dXMgPSAib2theSI7DQogICAgKwlwaW5jdHJsLW5hbWVzID0gImRlZmF1bHQi
-Ow0KICAgICsJcGluY3RybC0wID0gPCZwaW5jdHJsX2FkYzBfZGVmYXVsdA0KICAgICsJCQkmcGlu
-Y3RybF9hZGMxX2RlZmF1bHQNCiAgICArCQkJJnBpbmN0cmxfYWRjMl9kZWZhdWx0DQogICAgKwkJ
-CSZwaW5jdHJsX2FkYzNfZGVmYXVsdA0KICAgICsJCQkmcGluY3RybF9hZGM0X2RlZmF1bHQNCiAg
-ICArCQkJJnBpbmN0cmxfYWRjNV9kZWZhdWx0DQogICAgKwkJCSZwaW5jdHJsX2FkYzZfZGVmYXVs
-dA0KICAgICsJCQkmcGluY3RybF9hZGM3X2RlZmF1bHQNCiAgICArCQkJJnBpbmN0cmxfYWRjOF9k
-ZWZhdWx0DQogICAgKwkJCSZwaW5jdHJsX2FkYzlfZGVmYXVsdA0KICAgICsJCQkmcGluY3RybF9h
-ZGMxMF9kZWZhdWx0DQogICAgKwkJCSZwaW5jdHJsX2FkYzExX2RlZmF1bHQNCiAgICArCQkJJnBp
-bmN0cmxfYWRjMTJfZGVmYXVsdA0KICAgICsJCQkmcGluY3RybF9hZGMxM19kZWZhdWx0DQogICAg
-KwkJCSZwaW5jdHJsX2FkYzE0X2RlZmF1bHQNCiAgICArCQkJJnBpbmN0cmxfYWRjMTVfZGVmYXVs
-dD47DQogICAgK307DQogICAgKw0KICAgICsmaTJjOCB7DQogICAgKwkvL0ZSVSBFRVBST00NCiAg
-ICArCXN0YXR1cyA9ICJva2F5IjsNCiAgICArCWVlcHJvbUA1MSB7DQogICAgKwkJY29tcGF0aWJs
-ZSA9ICJhdG1lbCwyNGM2NCI7DQogICAgKwkJcmVnID0gPDB4NTE+Ow0KICAgICsJCXBhZ2VzaXpl
-ID0gPDMyPjsNCiAgICArCX07DQogICAgK307DQogICAgKw0KICAgICsmaTJjOSB7DQogICAgKwkv
-L0lOTEVUICYgT1VUTEVUIFRFTVANCiAgICArCXN0YXR1cyA9ICJva2F5IjsNCiAgICArCXRtcDQy
-MUA0ZSB7DQogICAgKwkJY29tcGF0aWJsZSA9ICJ0aSx0bXA0MjEiOw0KICAgICsJCXJlZyA9IDww
-eDRlPjsNCiAgICArCX07DQogICAgKwl0bXA0MjFANGYgew0KICAgICsJCWNvbXBhdGlibGUgPSAi
-dGksdG1wNDIxIjsNCiAgICArCQlyZWcgPSA8MHg0Zj47DQogICAgKwl9Ow0KICAgICt9Ow0KICAg
-ICsNCiAgICArJmkyYzEwIHsNCiAgICArCS8vSFNDDQogICAgKwlzdGF0dXMgPSAib2theSI7DQog
-ICAgKwlhZG0xMjc4QDQwIHsNCiAgICArCQljb21wYXRpYmxlID0gImFkaSxhZG0xMjc4IjsNCiAg
-ICArCQlyZWcgPSA8MHg0MD47DQogICAgKwl9Ow0KICAgICt9Ow0KICAgICsNCiAgICArJmkyYzEx
-IHsNCiAgICArCS8vTUVaWl9URU1QX1NFTlNPUg0KICAgICsJc3RhdHVzID0gIm9rYXkiOw0KICAg
-ICsJdG1wNDIxQDFmIHsNCiAgICArCQljb21wYXRpYmxlID0gInRpLHRtcDQyMSI7DQogICAgKwkJ
-cmVnID0gPDB4MWY+Ow0KICAgICsJfTsNCiAgICArfTsNCiAgICArDQogICAgKyZpMmMxMiB7DQog
-ICAgKwkvL01FWlpfRlJVDQogICAgKwlzdGF0dXMgPSAib2theSI7DQogICAgKwllZXByb21ANTEg
-ew0KICAgICsJCWNvbXBhdGlibGUgPSAiYXRtZWwsMjRjNjQiOw0KICAgICsJCXJlZyA9IDwweDUx
-PjsNCiAgICArCQlwYWdlc2l6ZSA9IDwzMj47DQogICAgKwl9Ow0KICAgICt9Ow0KICAgICsNCiAg
-ICArJnB3bV90YWNobyB7DQogICAgKwkvL0ZTQw0KICAgICsJc3RhdHVzID0gIm9rYXkiOw0KICAg
-ICsJcGluY3RybC1uYW1lcyA9ICJkZWZhdWx0IjsNCiAgICArCXBpbmN0cmwtMCA9IDwmcGluY3Ry
-bF9wd20wX2RlZmF1bHQgJnBpbmN0cmxfcHdtMV9kZWZhdWx0PjsNCiAgICArCWZhbkAwIHsNCiAg
-ICArCQlyZWcgPSA8MHgwMD47DQogICAgKwkJYXNwZWVkLGZhbi10YWNoLWNoID0gL2JpdHMvIDgg
-PDB4MDA+Ow0KICAgICsJfTsNCiAgICArCWZhbkAxIHsNCiAgICArCQlyZWcgPSA8MHgwMT47DQog
-ICAgKwkJYXNwZWVkLGZhbi10YWNoLWNoID0gL2JpdHMvIDggPDB4MDE+Ow0KICAgICsJfTsNCiAg
-ICArfTsNCiAgICAtLSANCiAgICAyLjcuNA0KICAgIA0KICAgIA0KDQo=
+
+On 12/11/19 10:52 PM, Andrew Jeffery wrote:
+>
+> On Thu, 12 Dec 2019, at 07:09, Eddie James wrote:
+>> On 12/10/19 9:47 PM, Andrew Jeffery wrote:
+>>> On Fri, 6 Dec 2019, at 03:45, Eddie James wrote:
+>>>> +
+>>>> +static unsigned int aspeed_xdma_ast2600_set_cmd(struct aspeed_xdma *ctx,
+>>>> +						struct aspeed_xdma_op *op,
+>>>> +						u32 bmc_addr)
+>>>> +{
+>>>> +	u64 cmd = XDMA_CMD_AST2600_CMD_IRQ_BMC |
+>>>> +		(op->direction ? XDMA_CMD_AST2600_CMD_UPSTREAM : 0);
+>>>> +	unsigned int line_size;
+>>>> +	unsigned int nidx = (ctx->cmd_idx + 1) % XDMA_NUM_CMDS;
+>>>> +	unsigned int line_no = 1;
+>>>> +	unsigned int pitch = 1;
+>>>> +	struct aspeed_xdma_cmd *ncmd =
+>>>> +		&(((struct aspeed_xdma_cmd *)ctx->cmdq)[ctx->cmd_idx]);
+>>>> +
+>>>> +	if ((op->host_addr + op->len) & 0xffffffff00000000ULL)
+>>> Do we know that this won't wrap?
+>>
+>> No, but I assume it would be a bad transfer anyway at that point?
+> But what happens as a consequence? We would have a 64 bit address
+> but wouldn't enable 64bit addressing, so presumably the hardware
+> would only use the bottom 32 bits of the address?
+>
+> Things could get weird yes?
+>
+> Or is there some failure that would occur before we trigger the transfer?
+> Is that what you're depending on?
+
+
+OK, I'll handle it then.
+
+
+>
+>>>> +
+>>>> +static void aspeed_xdma_done(struct aspeed_xdma *ctx, bool error)
+>>>> +{
+>>>> +	if (ctx->current_client) {
+>>>> +		ctx->current_client->error = error;
+>>>> +		ctx->current_client->in_progress = false;
+>>>> +		ctx->current_client = NULL;
+>>> You need to take start_lock before writing these members to ensure the
+>>> writes are not reordered across acquisition of start_lock in
+>>> aspeed_xdma_start() above, unless there's some other guarantee of that?
+>>
+>> Unless we get spurious interrupts (as in, the xdma interrupt fires with
+>> no transfer started, and somehow the correct status bits are set), it's
+>> not possible to execute this at the same time as aspeed_xdma_start(). So
+>> I did not try and lock here. Do you think it's worth locking for that
+>> situation?
+>>
+> Why is it worth not locking? How is it correct? To answer that way we invoke
+> all kinds of reasoning about multi-processing (interrupt handled on one core
+> while aspeed_xdma_start() is executing on another), value visibility and
+> instruction reordering (though as it happens the 2400, 2500 and 2600 are all
+> in-order). We'll trip ourselves up if there is eventually a switch to out-of-order
+> execution where the writes might be reordered and delayed until after
+> start_lock has been acquired in aspeed_xdma_start() by a subseqent transfer.
+> This line of reasoning is brittle exploitation of properties of the currently used
+> cores for no benefit. Finishing the DMA op isn't a hot path where you might
+> want to take some of these risks for performance, so we have almost zero
+> care for lock contention but we must always be concerned about correctness.
+>
+> We avoid invoking all of those questions by acquiring the lock.
+
+
+OK, I'll refactor to lock it.
+
+
+>
+>>>> +
+>>>> +	ctx->vga_pool = devm_gen_pool_create(dev, ilog2(PAGE_SIZE), -1, NULL);
+>>>> +	if (!ctx->vga_pool) {
+>>>> +		dev_err(dev, "Failed to setup genalloc pool.\n");
+>>>> +		return -ENOMEM;
+>>>> +	}
+>>>> +
+>>>> +	rc = of_property_read_u32_array(dev->of_node, "vga-mem", vgamem, 2);
+>>> As mentioned, this could be any reserved memory range. Also can't we get it as
+>>> a resource rather than parsing a u32 array? Not sure if there's an advantage
+>>> but it feels like a better representation.
+>>
+>> That doesn't work unfortunately because the VGA memory is not mapped and
+>> the reserved memory subsystem fails to find it.
+> Fair enough.
+>
+>>>> +
+>>>> +	regmap_update_bits(sdmc, SDMC_REMAP, ctx->chip->sdmc_remap,
+>>>> +			   ctx->chip->sdmc_remap);
+>>> I disagree with doing this. As mentioned on the bindings it should be up to
+>>> the platform integrator to ensure that this is configured appropriately.
+>>
+>> Probably so, but then how does one actually configure that elsewhere? Do
+>> you mean add code to the edac driver (and add support for the ast2600)
+>> to read some dts properties to set it?
+> Right. That's where I was going. I don't expect you to do that as part of this
+> patch series, but if you could separate this code out into separate patches
+> (dealing with the sdmc property in the devicetree binding as well) we can at
+> least concentrate on getting the core XDMA driver in and work out how to
+> move forward with configuring the memory controller later.
+
+
+Yea... my concern is that then we end up with a driver upstream that 
+doesn't actually work. Same concern with the reset thing you mentioned 
+below.
+
+
+Thanks,
+
+Eddie
+
+
+>
+>>>> +/*
+>>>> + * aspeed_xdma_direction
+>>>> + *
+>>>> + * ASPEED_XDMA_DIRECTION_DOWNSTREAM: transfers data from the host to the BMC
+>>>> + *
+>>>> + * ASPEED_XDMA_DIRECTION_UPSTREAM: transfers data from the BMC to the host
+>>>> + *
+>>>> + * ASPEED_XDMA_DIRECTION_RESET: resets the XDMA engine
+>>>> + */
+>>>> +enum aspeed_xdma_direction {
+>>>> +	ASPEED_XDMA_DIRECTION_DOWNSTREAM = 0,
+>>>> +	ASPEED_XDMA_DIRECTION_UPSTREAM,
+>>>> +	ASPEED_XDMA_DIRECTION_RESET,
+>>> I still think having a reset action as part of the direction is a bit funky. Can you maybe
+>>> put that in a separate patch so we can debate it later?
+>>
+>> I can, but I'm fairly convinced this is the cleanest way to add the
+>> reset functionality.
+>>
+> Right, but if you separate it out you'll get my reviewed-by on the core XDMA
+> patches much quicker :) You can convince me about it in slow-time
+>
+> Cheers,
+>
+> Andrew
