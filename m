@@ -1,87 +1,66 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58D4A11DBC5
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 02:41:24 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47Ytg50d69zDrCF
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 12:41:21 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F7E211DF9D
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 09:42:40 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47Z4185Gw9zDrCH
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 19:42:36 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.224;
- helo=new2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::142;
+ helo=mail-lf1-x142.google.com; envelope-from=linus.walleij@linaro.org;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
+ dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="hxS+mB4B"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="Sp4hVZFf"; dkim-atps=neutral
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=linaro.org header.i=@linaro.org header.b="a+daNgiQ"; 
+ dkim-atps=neutral
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47Ytfx1Vk5zDr95
- for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2019 12:41:12 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id C58B02798;
- Thu, 12 Dec 2019 20:41:07 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Thu, 12 Dec 2019 20:41:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=9R1DF4M5Pmu5MeZeNHugx3+fZB4LUBd
- c0AIWbpwNu0g=; b=hxS+mB4BUTJX804lzDTqDP4nZjPhAIWQ+Xo4jn58vmx7fs/
- lrue5+5+lo+vSrGl8dIcmwtQL9IYY8iR0n2UHd+1pyCCOjfQ5V3oIgarQSlv5JNm
- rSrGQgOETDdnjf5fsK0Nl/+zv2HTvppkFMEmdC/B0e3UGhua2d8fdg06qTgJOtjc
- TzsHe9a0uRepyTJ/odkLf3vFy0XmyZLcSnwiP3kNbZFfjkU0pSEEwh7slw9XXpfq
- /TnsAPSoYUCvH8H1FtWWGEMpGnedNv8EsHW/hHtYpgs51jSukMrwnzqwvhuq5Pig
- sRy2WBzyrB2CE55DooY10eoijL8xrKUiAT5ToGg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=9R1DF4
- M5Pmu5MeZeNHugx3+fZB4LUBdc0AIWbpwNu0g=; b=Sp4hVZFfpci0lyVOFH7QzD
- blP1G7YkXIeHsMlzNyjlN2sAzjkZ6rD0mVNbHAbfOR5QxUO+YrWb55rAa7jG8hpl
- 8lmmZX2B7m+tpAMYjYCIgupHVZ/TyENkjQyjkV+pCctw//hbsd/RsGsDDmppT2w2
- 3/+XELmpVdnYx4WMuGpjLnZzmaNazStDB7MQMUwlJim9EgVb5rQ10k6xHe9wawwp
- qwwOZkxvO6zVuIyJUwq04LFpP2HBlwZXjb0ihDcMhnEzlU2FhiIFvxDIxvDmN3ua
- kztSvJgd7SRLydLIxHhVaBYm+H94T2jTcu9xGRDgXe5140/EhSdtasYIhousIxeQ
- ==
-X-ME-Sender: <xms:MuzyXfBgkU4UiZiso_eGpnA8h-iHD0yt5WANprvLJDuKIg3AcZNffw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudelkedgfeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:MuzyXUsBCV5TOZ5prXltKNzixjwfeIhYBZnXV_xcOiA4SrvW8Pf8Fg>
- <xmx:MuzyXdRZVBkvMoO0LcDGiBqHhuX5cOdoEQx6H1B91EyQXRL4k_4wrA>
- <xmx:MuzyXbLwXwEV1EzZs8bKS6--C-jQo4vEs0yX2u3gyOsgZdwp6FrZYg>
- <xmx:M-zyXXc-DzCftJLfsxXjTCGWD2GwDI6WyiQCteKNjYScHwuMYgJiXg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 87175E00A2; Thu, 12 Dec 2019 20:41:06 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-680-g58d4e90-fmstable-20191213v1
-Mime-Version: 1.0
-Message-Id: <601efc97-714b-40af-b3a0-e4687c43be46@www.fastmail.com>
-In-Reply-To: <bbe9045e-c5ca-541c-1ee9-0f5ef246a27b@linux.vnet.ibm.com>
-References: <1575566112-11658-1-git-send-email-eajames@linux.ibm.com>
- <1575566112-11658-7-git-send-email-eajames@linux.ibm.com>
- <de395d95-15f4-4df3-873d-ce89ae008ed3@www.fastmail.com>
- <bffadb0a-aba7-d799-b2ef-a4adb3259c4b@linux.ibm.com>
- <f597202e-0d5a-4b76-ba0a-a6f0a857b289@www.fastmail.com>
- <bbe9045e-c5ca-541c-1ee9-0f5ef246a27b@linux.vnet.ibm.com>
-Date: Fri, 13 Dec 2019 12:12:38 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Eddie James" <eajames@linux.vnet.ibm.com>,
- "Eddie James" <eajames@linux.ibm.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 06/12] drivers/soc: Add Aspeed XDMA Engine Driver
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47Z4103hJDzDrB5
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2019 19:42:26 +1100 (AEDT)
+Received: by mail-lf1-x142.google.com with SMTP id r14so1345224lfm.5
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2019 00:42:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+3AGyagak+SsQwMgJI8DqZjJRt+2sRcK1YdTOf2bFE8=;
+ b=a+daNgiQiCYJ8MM6UhnHVrWdoGUXOn3GJH0VpgdC9SpDGXCOkLoPmTrlEqRvbWJSWy
+ scJgeIUaLdduo9o91tDrNbzuthgAPOM+aFslD2C8TAcTn1tMXB+WFmtOrTcyb+iujSMm
+ 7oUPcMGhQBLpN99Q5fopI9AB5FHtDFFgTs4hShQap/ML5xXW3jaBZ0I1lvhSAhM1jDPv
+ ujjyEpNoH383Drw+a2PgfQ3Yo6URBxeqlRWSJygP0NQJUkP0r2uCOw88AmCK3y5gPvfc
+ 4JPfg+gDEUV27h+riy/0uIHzNAKSe1b2pC1GVrN+eAOOp5FrGij5sffNU2QagZHee+tA
+ xU6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+3AGyagak+SsQwMgJI8DqZjJRt+2sRcK1YdTOf2bFE8=;
+ b=O4ViJYaS9RqtkQRC06PNwkXZKD97F+JBl8pMHJX9QEWFX3z3SVQuxeguNrTDyZHmxT
+ Ck8Q/evm5RFfrnnvib3KvhOHIvUKj2h352WwJQgdWldNlV35PoGqhwerncyZJa9Cwi2F
+ 0LsCXP9BpbtJOHKKMUflODj6tu65NcwgLdT+rJUbXk42fUYHvm8bKlXWRYGysh+ce3+g
+ nYs4eiiyOC9CuNa3d+NJfw+iHM3nHj+6geDn5gH4jK79CT8e/Yi2n+hoIrYpHnTPN8zi
+ 9dBbjaHp7EzJdqC+u1k1/aHeGj/C2BABKUNEDcuyiRoxkaKwshYBCVui4HdUp2twErr2
+ dv8g==
+X-Gm-Message-State: APjAAAXtVf0g+oZnL8Fdrj9pzGXlxSBUHtcSpY0D3RvdDfi4qAoU7yUc
+ Qx2NGzHL3hYDB2YWENbZYBSiuQSGk7cXv1Q1KrTtzw==
+X-Google-Smtp-Source: APXvYqz79bn/tRSB6q2MlLzPdVGXKAD3lMBgrE6UtCaOD5iDixhhmHkxpkSan8geCglyFBt3hCB+ZaEC8V1y5zn49yA=
+X-Received: by 2002:ac2:5c4b:: with SMTP id s11mr8062235lfp.133.1576226541430; 
+ Fri, 13 Dec 2019 00:42:21 -0800 (PST)
+MIME-Version: 1.0
+References: <20191202061432.3996-1-andrew@aj.id.au>
+In-Reply-To: <20191202061432.3996-1-andrew@aj.id.au>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 13 Dec 2019 09:42:10 +0100
+Message-ID: <CACRpkdZVdP+rfnhF8Dfk+jLsqTEvm_tqv6to2s4nnJh8diaM+A@mail.gmail.com>
+Subject: Re: [PATCH 0/7] pinctrl: aspeed-g6: USB and pinconf support
+To: Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,48 +72,28 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Jason Cooper <jason@lakedaemon.net>, linux-aspeed@lists.ozlabs.org,
- Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- tglx@linutronix.de
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Mon, Dec 2, 2019 at 7:12 AM Andrew Jeffery <andrew@aj.id.au> wrote:
 
+> This series adds USB and pinconf support to the AST2600 pincontrol driver. The
+> patches have largely been developed by Johnny Huang from ASPEED and have been
+> used for bringup and verification of the chip. The were developed around the
+> time of the 5.4 merge window but I got distracted for a while and haven't had
+> an opportunity to send them until now. They've had a run in the OpenBMC kernel
+> tree and so shouldn't cause any issues, but given where we are for 5.5 I'm just
+> getting them in early for 5.6 so we don't miss another release.
 
-On Fri, 13 Dec 2019, at 05:46, Eddie James wrote:
-> 
-> On 12/11/19 10:52 PM, Andrew Jeffery wrote:
-> >
-> > On Thu, 12 Dec 2019, at 07:09, Eddie James wrote:
-> >> On 12/10/19 9:47 PM, Andrew Jeffery wrote:
-> >>> On Fri, 6 Dec 2019, at 03:45, Eddie James wrote:
-> >>>> +
-> >>>> +	regmap_update_bits(sdmc, SDMC_REMAP, ctx->chip->sdmc_remap,
-> >>>> +			   ctx->chip->sdmc_remap);
-> >>> I disagree with doing this. As mentioned on the bindings it should be up to
-> >>> the platform integrator to ensure that this is configured appropriately.
-> >>
-> >> Probably so, but then how does one actually configure that elsewhere? Do
-> >> you mean add code to the edac driver (and add support for the ast2600)
-> >> to read some dts properties to set it?
-> > Right. That's where I was going. I don't expect you to do that as part of this
-> > patch series, but if you could separate this code out into separate patches
-> > (dealing with the sdmc property in the devicetree binding as well) we can at
-> > least concentrate on getting the core XDMA driver in and work out how to
-> > move forward with configuring the memory controller later.
-> 
-> 
-> Yea... my concern is that then we end up with a driver upstream that 
-> doesn't actually work. Same concern with the reset thing you mentioned 
-> below.
+All 7 patches applied!
 
-How would it not work? It would just be up to the platform integrator to make
-sure the stars align right? If they do then there should be no problem. Whacking
-the memory controller here is done out of convenience.
-
-We can still carry the separate patches adding this and the reset behaviour in
-e.g. the openbmc kernel tree if necessary.
-
-Andrew
+Yours,
+Linus Walleij
