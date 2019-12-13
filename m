@@ -2,71 +2,78 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB59911FBFD
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 01:05:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F2D511FBFE
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 01:05:47 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47bhPH2X2FzDqXt
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 11:05:39 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47bhPN4WC5zDqZ2
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 11:05:44 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=c-s.fr
- (client-ip=93.17.236.30; helo=pegase1.c-s.fr;
- envelope-from=christophe.leroy@c-s.fr; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=c-s.fr
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=c-s.fr header.i=@c-s.fr header.b="tJUDM91F"; 
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=arista.com (client-ip=2a00:1450:4864:20::442;
+ helo=mail-wr1-x442.google.com; envelope-from=dima@arista.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none)
+ header.from=arista.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=arista.com header.i=@arista.com header.b="RDZC2Ziu"; 
  dkim-atps=neutral
-Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47Z0852ZWGzDr6Z;
- Fri, 13 Dec 2019 16:48:20 +1100 (AEDT)
-Received: from localhost (mailhub1-ext [192.168.12.233])
- by localhost (Postfix) with ESMTP id 47Z07x485Xz9vBmP;
- Fri, 13 Dec 2019 06:48:13 +0100 (CET)
-Authentication-Results: localhost; dkim=pass
- reason="1024-bit key; insecure key"
- header.d=c-s.fr header.i=@c-s.fr header.b=tJUDM91F; dkim-adsp=pass;
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
- by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
- with ESMTP id oCzNs4uejCNs; Fri, 13 Dec 2019 06:48:13 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase1.c-s.fr (Postfix) with ESMTP id 47Z07x2Rs1z9vBmM;
- Fri, 13 Dec 2019 06:48:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=c-s.fr; s=mail;
- t=1576216093; bh=BQ4d7QEkMTRg8NOsdUyvc3JEDM4PmMIcEcEHrzBdpQ0=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=tJUDM91FyihxCBUCfFONne7ugnZ8iFFeKeUQhj+N7T959PqG9XA7xm4Hfu7DJwAh+
- hP58T8c8CUvb3JGkH19+z140v8xtKBh8ia6dxZOab4uPVWMB9dPLkdIpGghqUpSp4U
- 9hKoG1jcwVd/ZPi639cOGIPW5ekef16kOiozYIvw=
-Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id 2D4898B767;
- Fri, 13 Dec 2019 06:48:13 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
- by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id g7Rfokag1FcC; Fri, 13 Dec 2019 06:48:13 +0100 (CET)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id C95628B893;
- Fri, 13 Dec 2019 06:47:58 +0100 (CET)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47ZGfR00ptzDrFS
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 14 Dec 2019 03:42:06 +1100 (AEDT)
+Received: by mail-wr1-x442.google.com with SMTP id d16so77577wre.10
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2019 08:42:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=arista.com; s=googlenew;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+Xy8RflunQ2h7lBPgvCLBQe6kC/5oXa7qNJM46i4OvE=;
+ b=RDZC2ZiusGEyrtg6BPZpt/3zIXUDvTioxjK9hCuEm49HHbr3H/dAOfWKhTeLkK3Bp5
+ mwslCzN5062kRXM1mLfDGyALHEWNTkHjICeOQc11+9KBDd7f19DKdFfeznFmkiP2iu/b
+ X4xf0Xn0uq1+4PP0nKj0gPeSALXRk8hr+7z6OQI2nr4636450ZFHJs8VP3HyfFaJsTVP
+ HzWknwSfbUCuDOtglpkghgYl1PzBXP2sQbaCvGZ+HwEkO2egA9fVrLSahpKuX/LZCycb
+ kC6vC6YhGlL6xoAsu0f2oh+y3zZZpvkht74vL/pO8ENbamlFgdAMQPwCftTj41QI1w5d
+ MyeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+Xy8RflunQ2h7lBPgvCLBQe6kC/5oXa7qNJM46i4OvE=;
+ b=JVkMEZ5c2BDDQlGKwo1WEbd/SSbLhx7PY1EzJ2+fRHRivttednEtiCs59QjyHXj4aD
+ j80TMayXe4UnolqnIoWkVrdiN3OWIimrtGMeMe3gC3PTA3Kx04/PjElQEN8J7OKAPxnB
+ 3GRf1azwBQZUrskRqZmo7kHc5bEQfbcAgF7Vp+8vTlsgoMAzBO0F0RiPpX+lx65Z/bSp
+ w0GFhvn3syyIeacILK2q6KrqmTAFQz4cgU63NQMN0poppprZuPlYrAnk0WNYl+h8JEkp
+ VJl4M5UhzXEonhvmQp3cTaYUEf41HV+Z3SbK/4n5P+tZCKmw8xwv6neXBIwUnZYuMKzE
+ /86g==
+X-Gm-Message-State: APjAAAW3G5KGPwRTsnX9Oje5drklu6jthqi1t6h5sEaIDKf4yfrH5qai
+ sp42upUkhyUGvqXzKdF29gKl3A==
+X-Google-Smtp-Source: APXvYqzIaw4yXEvzLQQBJqUcuUQde/4MOljSnSzj5+B7FHPM/cAqWL9ZIzlETdg8BqlmTOhn/Pq8vg==
+X-Received: by 2002:a5d:4fd0:: with SMTP id h16mr13243381wrw.255.1576255321811; 
+ Fri, 13 Dec 2019 08:42:01 -0800 (PST)
+Received: from [10.83.36.153] ([217.173.96.166])
+ by smtp.gmail.com with ESMTPSA id g69sm11707225wmg.13.2019.12.13.08.41.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Dec 2019 08:42:01 -0800 (PST)
 Subject: Re: [PATCH 00/58] serial/sysrq: Cleanup ifdeffery
-To: Dmitry Safonov <dima@arista.com>, linux-kernel@vger.kernel.org
+To: Christophe Leroy <christophe.leroy@c-s.fr>, linux-kernel@vger.kernel.org
 References: <20191213000657.931618-1-dima@arista.com>
-From: Christophe Leroy <christophe.leroy@c-s.fr>
-Message-ID: <524d9848-28a5-7e65-699b-600c49606487@c-s.fr>
-Date: Fri, 13 Dec 2019 06:47:58 +0100
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+ <524d9848-28a5-7e65-699b-600c49606487@c-s.fr>
+From: Dmitry Safonov <dima@arista.com>
+Message-ID: <0e642e4e-7349-3d92-3e54-cbfd8d417fea@arista.com>
+Date: Fri, 13 Dec 2019 16:41:53 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20191213000657.931618-1-dima@arista.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
+In-Reply-To: <524d9848-28a5-7e65-699b-600c49606487@c-s.fr>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 16 Dec 2019 11:05:10 +1100
+X-Mailman-Approved-At: Mon, 16 Dec 2019 11:04:54 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,155 +117,33 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Christophe,
 
-
-Le 13/12/2019 à 01:05, Dmitry Safonov a écrit :
-> The original purpose of the patches set was to add a way to enable
-> sysrq on a uart where currently it can be constantly either on or off
-> (CONFIG_MAGIC_SYSRQ_SERIAL), see the last patch:
->    "serial/sysrq: Add MAGIC_SYSRQ_SERIAL_SEQUENCE"
+On 12/13/19 5:47 AM, Christophe Leroy wrote:
+> Le 13/12/2019 à 01:05, Dmitry Safonov a écrit :
+[..]
 > 
-> But to do that, I had to add uart_try_toggle_sysrq() and I didn't want
-> to bloat serial_core.h even more. So, I did cleanup by removing
-> SUPPORT_SYSRQ resulting in a nice diff-stat and lesser ifdeffery.
-> 
-> Most patches are one-liners, I decided to keep them separated per-driver
-> to let reviewers easier follow the purpose.
-> 
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Jiri Slaby <jslaby@suse.com>
-> Cc: Vasiliy Khoruzhick <vasilykh@arista.com>
-> Cc: linux-serial@vger.kernel.org
-> 
-> Dmitry Safonov (58):
->    sysrq: Remove sysrq_handler_registered
->    serial: Move sysrq members above
->    serial_core: Un-ifdef sysrq SUPPORT_SYSRQ
->    tty/serial: Migrate aspeed_vuart to use has_sysrq
->    tty/serial: Migrate 8250_fsl to use has_sysrq
->    tty/serial: Migrate bcm63xx_uart to use has_sysrq
->    tty/serial: Migrate 8250_omap to use has_sysrq
->    tty/serial: Migrate 8250_port to use has_sysrq
->    tty/serial: Migrate amba-pl01* to use has_sysrq
->    tty/serial: Migrate apbuart to use has_sysrq
->    tty/serial: Migrate arc_uart to use has_sysrq
->    tty/serial: Migrate atmel_serial to use has_sysrq
->    tty/serial: Migrate clps711x to use has_sysrq
->    tty/serial: Migrate cpm_uart to use has_sysrq
->    tty/serial: Migrate dz to use has_sysrq
->    tty/serial: Migrate efm32-uart to use has_sysrq
->    tty/serial: Migrate fsl_linflexuart to use has_sysrq
->    tty/serial: Migrate fsl_lpuart to use has_sysrq
->    tty/serial: Migrate imx to use has_sysrq
->    tty/serial: Migrate ip22zilog to use has_sysrq
->    tty/serial: Migrate meson_uart to use has_sysrq
->    tty/serial: Migrate milbeaut_usio to use has_sysrq
->    tty/serial: Migrate mpc52xx_uart to use has_sysrq
->    tty/serial: Don't zero port->sysrq
->    tty/serial: Migrate msm_serial to use has_sysrq
->    tty/serial: Migrate mux to use has_sysrq
->    tty/serial: Migrate mxs-auart to use has_sysrq
->    tty/serial: Migrate omap-serial to use has_sysrq
->    tty/serial: Migrate pch_uart to use has_sysrq
->    tty/serial: Don't check port->sysrq
->    tty/serial: Migrate pmac_zilog to use has_sysrq
->    tty/serial: Migrate pnx8xxx_uart to use has_sysrq
->    serial/f81534: Don't check port->sysrq
->    tty/serial: Migrate pxa to use has_sysrq
->    tty/serial: Migrate qcom_geni_serial to use has_sysrq
->    tty/serial: Migrate sa1100 to use has_sysrq
->    tty/serial: Migrate samsung_tty to use has_sysrq
->    tty/serial: Migrate sb1250-duart to use has_sysrq
->    tty/serial: Migrate sccnxp to use has_sysrq
->    tty/serial: Migrate serial_txx9 to use has_sysrq
->    tty/serial: Migrate sh-sci to use has_sysrq
->    tty/serial: Migrate sprd_serial to use has_sysrq
->    tty/serial: Migrate st-asc to use has_sysrq
->    tty/serial: Migrate stm32-usart to use has_sysrq
->    tty/serial: Migrate sunhv to use has_sysrq
->    tty/serial: Migrate sunsab to use has_sysrq
->    tty/serial: Migrate sunsu to use has_sysrq
->    tty/serial: Migrate sunzilog to use has_sysrq
->    serial/ucc_uart: Remove ifdef SUPPORT_SYSRQ
->    tty/serial: Migrate vr41xx_siu to use has_sysrq
->    tty/serial: Migrate vt8500_serial to use has_sysrq
->    tty/serial: Migrate xilinx_uartps to use has_sysrq
->    tty/serial: Migrate zs to use has_sysrq
->    serial_core: Remove SUPPORT_SYSRQ ifdeffery
->    usb/serial: Don't handle break when CONFIG_MAGIC_SYSRQ is disabled
->    serial_core: Move sysrq functions from header file
->    sysctl/sysrq: Remove __sysrq_enabled copy
->    serial/sysrq: Add MAGIC_SYSRQ_SERIAL_SEQUENCE
+> powerpc patchwork didn't get the full series, see
+> https://patchwork.ozlabs.org/project/linuxppc-dev/list/?series=148198
 
-powerpc patchwork didn't get the full series, see 
-https://patchwork.ozlabs.org/project/linuxppc-dev/list/?series=148198
+Yes, I was under impression that architecture mail-lists want related
+patches. But now I see that from the patchwork point of view it's better
+to have the whole series in inbox.
 
-Can't find them on linux-serial patchwork either 
-(https://patches.linaro.org/project/linux-serial/list/)
+> Can't find them on linux-serial patchwork either
+> (https://patches.linaro.org/project/linux-serial/list/)
 
-It is impossible to review/test powerpc bits without the first patches 
-of the series, where can the entire series be found ?
+I'm not sure - maybe the frequency of checking is low?
+I see all patches in linux-serial ml:
+https://marc.info/?l=linux-serial&r=1&b=201912&w=2
 
-Christophe
+> It is impossible to review/test powerpc bits without the first patches
+> of the series, where can the entire series be found ?
 
-> 
->   arch/powerpc/kernel/legacy_serial.c         |   4 +-
->   drivers/tty/serial/8250/8250_aspeed_vuart.c |   5 +-
->   drivers/tty/serial/8250/8250_fsl.c          |   4 -
->   drivers/tty/serial/8250/8250_of.c           |   4 +-
->   drivers/tty/serial/8250/8250_omap.c         |   5 +-
->   drivers/tty/serial/8250/8250_port.c         |   5 +-
->   drivers/tty/serial/amba-pl010.c             |   5 +-
->   drivers/tty/serial/amba-pl011.c             |   6 +-
->   drivers/tty/serial/apbuart.c                |   5 +-
->   drivers/tty/serial/arc_uart.c               |   5 +-
->   drivers/tty/serial/atmel_serial.c           |   9 +-
->   drivers/tty/serial/bcm63xx_uart.c           |   5 +-
->   drivers/tty/serial/clps711x.c               |   5 +-
->   drivers/tty/serial/cpm_uart/cpm_uart_core.c |   9 +-
->   drivers/tty/serial/dz.c                     |   5 +-
->   drivers/tty/serial/efm32-uart.c             |   5 +-
->   drivers/tty/serial/fsl_linflexuart.c        |   8 +-
->   drivers/tty/serial/fsl_lpuart.c             |   9 +-
->   drivers/tty/serial/imx.c                    |   7 +-
->   drivers/tty/serial/ip22zilog.c              |   7 +-
->   drivers/tty/serial/meson_uart.c             |   5 +-
->   drivers/tty/serial/milbeaut_usio.c          |   5 +-
->   drivers/tty/serial/mpc52xx_uart.c           |  11 +-
->   drivers/tty/serial/msm_serial.c             |   5 +-
->   drivers/tty/serial/mux.c                    |   5 +-
->   drivers/tty/serial/mxs-auart.c              |   5 +-
->   drivers/tty/serial/omap-serial.c            |   5 +-
->   drivers/tty/serial/pch_uart.c               |  12 +-
->   drivers/tty/serial/pmac_zilog.c             |   5 +-
->   drivers/tty/serial/pnx8xxx_uart.c           |   7 +-
->   drivers/tty/serial/pxa.c                    |   5 +-
->   drivers/tty/serial/qcom_geni_serial.c       |   5 +-
->   drivers/tty/serial/sa1100.c                 |   7 +-
->   drivers/tty/serial/samsung_tty.c            |   5 +-
->   drivers/tty/serial/sb1250-duart.c           |   5 +-
->   drivers/tty/serial/sccnxp.c                 |   5 +-
->   drivers/tty/serial/serial_core.c            | 123 ++++++++++++++++++++
->   drivers/tty/serial/serial_txx9.c            |   5 +-
->   drivers/tty/serial/sh-sci.c                 |  10 +-
->   drivers/tty/serial/sprd_serial.c            |   5 +-
->   drivers/tty/serial/st-asc.c                 |   5 +-
->   drivers/tty/serial/stm32-usart.c            |   5 +-
->   drivers/tty/serial/sunhv.c                  |   5 +-
->   drivers/tty/serial/sunsab.c                 |   5 +-
->   drivers/tty/serial/sunsu.c                  |   5 +-
->   drivers/tty/serial/sunzilog.c               |   6 +-
->   drivers/tty/serial/ucc_uart.c               |   2 -
->   drivers/tty/serial/vr41xx_siu.c             |   5 +-
->   drivers/tty/serial/vt8500_serial.c          |   5 +-
->   drivers/tty/serial/xilinx_uartps.c          |   5 +-
->   drivers/tty/serial/zs.c                     |   5 +-
->   drivers/tty/sysrq.c                         |  16 +--
->   drivers/usb/serial/f81534.c                 |   6 +-
->   drivers/usb/serial/generic.c                |  10 +-
->   include/linux/serial_core.h                 |  92 ++-------------
->   include/linux/sysrq.h                       |   1 +
->   kernel/sysctl.c                             |  41 ++++---
->   lib/Kconfig.debug                           |   8 ++
->   58 files changed, 238 insertions(+), 346 deletions(-)
-> 
+Sorry for the inconvenience.
+I can resend without Cc'ing all people just to ppc mail-list if that
+works for you. Or you can clone it directly from my github:
+https://github.com/0x7f454c46/linux/tree/sysrq-serial-seq-v1
+
+Thanks,
+          Dmitry
