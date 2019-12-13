@@ -1,66 +1,71 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C8611E4EC
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 14:52:17 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F7E211DF9D
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 09:42:40 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47Z4185Gw9zDrCH
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 19:42:36 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47ZBtQ5yHYzDrGp
+	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Dec 2019 00:52:14 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::142;
- helo=mail-lf1-x142.google.com; envelope-from=linus.walleij@linaro.org;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::543;
+ helo=mail-pg1-x543.google.com; envelope-from=manikandan.hcl.ers.epl@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linaro.org
+ dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.b="a+daNgiQ"; 
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="HTpEumY8"; 
  dkim-atps=neutral
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47Z4103hJDzDrB5
- for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2019 19:42:26 +1100 (AEDT)
-Received: by mail-lf1-x142.google.com with SMTP id r14so1345224lfm.5
- for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2019 00:42:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+3AGyagak+SsQwMgJI8DqZjJRt+2sRcK1YdTOf2bFE8=;
- b=a+daNgiQiCYJ8MM6UhnHVrWdoGUXOn3GJH0VpgdC9SpDGXCOkLoPmTrlEqRvbWJSWy
- scJgeIUaLdduo9o91tDrNbzuthgAPOM+aFslD2C8TAcTn1tMXB+WFmtOrTcyb+iujSMm
- 7oUPcMGhQBLpN99Q5fopI9AB5FHtDFFgTs4hShQap/ML5xXW3jaBZ0I1lvhSAhM1jDPv
- ujjyEpNoH383Drw+a2PgfQ3Yo6URBxeqlRWSJygP0NQJUkP0r2uCOw88AmCK3y5gPvfc
- 4JPfg+gDEUV27h+riy/0uIHzNAKSe1b2pC1GVrN+eAOOp5FrGij5sffNU2QagZHee+tA
- xU6w==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47ZBsr1TbhzDrBG;
+ Sat, 14 Dec 2019 00:51:41 +1100 (AEDT)
+Received: by mail-pg1-x543.google.com with SMTP id k3so1625090pgc.3;
+ Fri, 13 Dec 2019 05:51:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=ymqyf3ZzOKHzrjO49WfBXaPmL09jcKuafUFOn/7WrR0=;
+ b=HTpEumY8ELx9uGBt9g/xDzvfDgkgQfOqBchv5PjqzQeyvS5cObNggKcmCb3UNxi/jh
+ lH8Wrthu3f2BvMuy4aB3YBZ/YaGj16nw4hx2gp9xqpfMEvVwjdFdG/cotnrH9kTXamPA
+ VxQtwpOp5+tjW+LcTt4Oo1USXDUKnnUA2ABLI0sAsQHlF2uZV92ZQ6Kd46Mvoagp/lku
+ gX7KoNvSHEiwS5YWNpnNG3lD5Lp5BXZ8D/OWs1At06bNBCYOnT8Xv6OvKda1baIT+AYi
+ 1htJqU/FMpQkEYFwi05w4s8WgLjYlQpZgr59uvz7HhyglzmHD9sv/9dSziKSBfJ7JbD7
+ C1yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+3AGyagak+SsQwMgJI8DqZjJRt+2sRcK1YdTOf2bFE8=;
- b=O4ViJYaS9RqtkQRC06PNwkXZKD97F+JBl8pMHJX9QEWFX3z3SVQuxeguNrTDyZHmxT
- Ck8Q/evm5RFfrnnvib3KvhOHIvUKj2h352WwJQgdWldNlV35PoGqhwerncyZJa9Cwi2F
- 0LsCXP9BpbtJOHKKMUflODj6tu65NcwgLdT+rJUbXk42fUYHvm8bKlXWRYGysh+ce3+g
- nYs4eiiyOC9CuNa3d+NJfw+iHM3nHj+6geDn5gH4jK79CT8e/Yi2n+hoIrYpHnTPN8zi
- 9dBbjaHp7EzJdqC+u1k1/aHeGj/C2BABKUNEDcuyiRoxkaKwshYBCVui4HdUp2twErr2
- dv8g==
-X-Gm-Message-State: APjAAAXtVf0g+oZnL8Fdrj9pzGXlxSBUHtcSpY0D3RvdDfi4qAoU7yUc
- Qx2NGzHL3hYDB2YWENbZYBSiuQSGk7cXv1Q1KrTtzw==
-X-Google-Smtp-Source: APXvYqz79bn/tRSB6q2MlLzPdVGXKAD3lMBgrE6UtCaOD5iDixhhmHkxpkSan8geCglyFBt3hCB+ZaEC8V1y5zn49yA=
-X-Received: by 2002:ac2:5c4b:: with SMTP id s11mr8062235lfp.133.1576226541430; 
- Fri, 13 Dec 2019 00:42:21 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=ymqyf3ZzOKHzrjO49WfBXaPmL09jcKuafUFOn/7WrR0=;
+ b=s8IJJ8ti9jMx3bABxmZ1RU7wHcCC0K1m9a8WRdPt5CyIZXJTRSHhJXBah0SYYd36AP
+ sUK4gJGschr8uGicyVAoXoAAqDqVeBTMeRSgsgtfUNXjrLuhPgZNXWNd8BDRCezncD2A
+ cbpI1v5LIjUdpWhqZNa9j8qmPy4WKJxWetFJ8qSTTwuFTF51EKnebNWuhbDrUuc6wzzb
+ bYsvYbOefjuHqRvhCzZmx3glcAzyr8oKbLLgIR0QtMQsYeowWh4VCjvUodW95nNVS5zs
+ VYSHzOV0II4+KTgCR//bRzDN0bRefocCMfoXWccDxe4+gZEBFBk6tMxwvbW1uA7PPLuG
+ cYTQ==
+X-Gm-Message-State: APjAAAUvwknDpcU/+2ZhUe9zGQeu/0gLDiS8hYExRpmoxvQNuzv3dOwe
+ LVggaO2P318eHkgXRi7zVxQ=
+X-Google-Smtp-Source: APXvYqzuZ7bLsEERfyor7dwMWxIJH9JkvW3kxNrSwI6c0aHQISu84lFn0uFL6hfVfqj7GltzzZj1HQ==
+X-Received: by 2002:a62:788a:: with SMTP id
+ t132mr16242050pfc.134.1576245098324; 
+ Fri, 13 Dec 2019 05:51:38 -0800 (PST)
+Received: from cnn ([2402:3a80:47f:89b1:9c76:12d1:42df:9222])
+ by smtp.gmail.com with ESMTPSA id p28sm10768389pgb.93.2019.12.13.05.51.35
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 13 Dec 2019 05:51:37 -0800 (PST)
+Date: Fri, 13 Dec 2019 19:21:31 +0530
+From: Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>
+To: andrew@aj.id.au, joel@jms.id.au
+Subject: [PATCH v5] ARM: dts: aspeed: Adding Facebook Yosemite V2 BMC
+Message-ID: <20191213135131.GA1822@cnn>
 MIME-Version: 1.0
-References: <20191202061432.3996-1-andrew@aj.id.au>
-In-Reply-To: <20191202061432.3996-1-andrew@aj.id.au>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 13 Dec 2019 09:42:10 +0100
-Message-ID: <CACRpkdZVdP+rfnhF8Dfk+jLsqTEvm_tqv6to2s4nnJh8diaM+A@mail.gmail.com>
-Subject: Re: [PATCH 0/7] pinctrl: aspeed-g6: USB and pinconf support
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,28 +77,191 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, sdasari@fb.com, manikandan.e@hcl.com,
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Dec 2, 2019 at 7:12 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+The Yosemite V2 is a facebook multi-node server
+platform that host four OCP server. The BMC
+in the Yosemite V2 platform based on AST2500 SoC.
 
-> This series adds USB and pinconf support to the AST2600 pincontrol driver. The
-> patches have largely been developed by Johnny Huang from ASPEED and have been
-> used for bringup and verification of the chip. The were developed around the
-> time of the 5.4 merge window but I got distracted for a while and haven't had
-> an opportunity to send them until now. They've had a run in the OpenBMC kernel
-> tree and so shouldn't cause any issues, but given where we are for 5.5 I'm just
-> getting them in early for 5.6 so we don't miss another release.
+This patch adds linux device tree entry related to
+Yosemite V2 specific devices connected to BMC SoC.
 
-All 7 patches applied!
+Signed-off-by : Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>
+Acked-by        : Andrew Jeffery <andrew@aj.id.au>
+Reviewed-by  : Vijay Khemka <vkhemka@fb.com>
+--- 
+---      v5 - Spell and contributor name correction.
+---           - License identifier changed to GPL-2.0-or-later.
+---           - aspeed-gpio.h removed.
+---           - FAN2 tacho channel changed.
+---      v4 - Bootargs removed.
+---      v3 - Uart1 Debug removed .
+---      v2 - LPC and VUART removed .
+---      v1 - Initial draft.
+--- 
+ .../boot/dts/aspeed-bmc-facebook-yosemitev2.dts    | 148 +++++++++++++++++++++
+ 1 file changed, 148 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
 
-Yours,
-Linus Walleij
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+new file mode 100644
+index 0000000..ffd7f4c
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yosemitev2.dts
+@@ -0,0 +1,148 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++// Copyright (c) 2018 Facebook Inc.
++
++/dts-v1/;
++
++#include "aspeed-g5.dtsi"
++/ {
++	model = "Facebook Yosemitev2 BMC";
++	compatible = "facebook,yosemitev2-bmc", "aspeed,ast2500";
++	aliases {
++		serial4 = &uart5;
++	};
++	chosen {
++		stdout-path = &uart5;
++	};
++
++	memory@80000000 {
++		reg = <0x80000000 0x20000000>;
++	};
++
++	iio-hwmon {
++		// VOLATAGE SENSOR
++		compatible = "iio-hwmon";
++		io-channels = <&adc 0> , <&adc 1> , <&adc 2> ,  <&adc 3> ,
++		<&adc 4> , <&adc 5> , <&adc 6> ,  <&adc 7> ,
++		<&adc 8> , <&adc 9> , <&adc 10>, <&adc 11> ,
++		<&adc 12> , <&adc 13> , <&adc 14> , <&adc 15> ;
++	};
++};
++
++&fmc {
++	status = "okay";
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++#include "openbmc-flash-layout.dtsi"
++	};
++};
++
++&spi1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_spi1_default>;
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "pnor";
++	};
++};
++
++&uart5 {
++	// BMC Console
++	status = "okay";
++};
++
++&mac0 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rmii1_default>;
++	use-ncsi;
++};
++
++&adc {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_adc0_default
++			&pinctrl_adc1_default
++			&pinctrl_adc2_default
++			&pinctrl_adc3_default
++			&pinctrl_adc4_default
++			&pinctrl_adc5_default
++			&pinctrl_adc6_default
++			&pinctrl_adc7_default
++			&pinctrl_adc8_default
++			&pinctrl_adc9_default
++			&pinctrl_adc10_default
++			&pinctrl_adc11_default
++			&pinctrl_adc12_default
++			&pinctrl_adc13_default
++			&pinctrl_adc14_default
++			&pinctrl_adc15_default>;
++};
++
++&i2c8 {
++	//FRU EEPROM
++	status = "okay";
++	eeprom@51 {
++		compatible = "atmel,24c64";
++		reg = <0x51>;
++		pagesize = <32>;
++	};
++};
++
++&i2c9 {
++	//INLET & OUTLET TEMP
++	status = "okay";
++	tmp421@4e {
++		compatible = "ti,tmp421";
++		reg = <0x4e>;
++	};
++	tmp421@4f {
++		compatible = "ti,tmp421";
++		reg = <0x4f>;
++	};
++};
++
++&i2c10 {
++	//HSC
++	status = "okay";
++	adm1278@40 {
++		compatible = "adi,adm1278";
++		reg = <0x40>;
++	};
++};
++
++&i2c11 {
++	//MEZZ_TEMP_SENSOR
++	status = "okay";
++	tmp421@1f {
++		compatible = "ti,tmp421";
++		reg = <0x1f>;
++	};
++};
++
++&i2c12 {
++	//MEZZ_FRU
++	status = "okay";
++	eeprom@51 {
++		compatible = "atmel,24c64";
++		reg = <0x51>;
++		pagesize = <32>;
++	};
++};
++
++&pwm_tacho {
++	//FSC
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_pwm0_default &pinctrl_pwm1_default>;
++	fan@0 {
++		reg = <0x00>;
++		aspeed,fan-tach-ch = /bits/ 8 <0x00>;
++	};
++	fan@1 {
++		reg = <0x01>;
++		aspeed,fan-tach-ch = /bits/ 8 <0x01>;
++	};
++};
+-- 
+2.7.4
+
