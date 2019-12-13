@@ -2,74 +2,81 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4ADD11D9E5
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 00:19:55 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47YqWr74j2zDqS1
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 10:19:52 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 091EB11DBB0
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 02:31:01 +0100 (CET)
+Received: from lists.ozlabs.org (unknown [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47YtR51TfNzDrCH
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 12:30:57 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::641;
- helo=mail-pl1-x641.google.com; envelope-from=rentao.bupt@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=64.147.123.25;
+ helo=wout2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
+ dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="bKH9jNlx"; 
- dkim-atps=neutral
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="SoJQ5xHv"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="oc+XOCz9"; dkim-atps=neutral
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47YqSV5VyxzDr86;
- Fri, 13 Dec 2019 10:16:58 +1100 (AEDT)
-Received: by mail-pl1-x641.google.com with SMTP id az3so271449plb.11;
- Thu, 12 Dec 2019 15:16:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=6RmPSySB6yaq33KtHs8XUNhrbCfHLQh1/I6bnoO7bOU=;
- b=bKH9jNlxo+A2rwduZywwg1nKEr08Ppi/z84u9kTTiy/LU/3n7XeUEmRWWF3XFOuExZ
- D1Y99V2zbwDgmJN06eBZcmpdm+ytzlZlbhWa2Z77UW8yChFuuc3dhaS0oK8KNUrIrXAO
- S/O4LVHu/glTYi3b+HhiU089OEeV7M+WZU2N2Xo/9x/llfsErnkx49I5oCwuS71MWLL2
- WGP5adS0EUc5+N5RcpLO9tr7vnhs5DKa5EG1fM34Vdc80t8Gu+vtmWn0/C+8S8U1OjSv
- FN/J8dGBvcE+VhSYnQholdvV6D/MkzdWflJ/wjbgGE5sV9CEN/v5mqS/x3SIWeSb+I63
- GP9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=6RmPSySB6yaq33KtHs8XUNhrbCfHLQh1/I6bnoO7bOU=;
- b=ubmG+RUeExsAoREBZGM8T3SXffqijIQurlNOxTixwXNFlR9+6hf3Dw1hAcMdEyMx4K
- /WP55ubU/ZKi26Udh667zYwA8CSRi0+PRavjTX8148q7rWha7zoFkLlJhQch3BUu7vER
- WlfgvNVvkIG9SnuBoLCbn7EUm6WmQ/sEL5Bq3jH7QDeQKukqzL6i+yvF1qbGtqLY4iiv
- 35ePzO0kelGsCVxo+aMUvW615EQmwYOV/xow11XdN8naDJRZYHkHQRhoaN4f+TsRYvk1
- GMUHdM6NUjPOO1UyVwn3/78sWx05lXb6eVR7OiJ0JzevaEfpNMFqDnkYpnAsHSimOD4m
- OkAw==
-X-Gm-Message-State: APjAAAVrePII5AME+xbaibkFtFvsdkhpFDm6O6+18hd5Fg4+pKlwGzdg
- YF3+HDUvpsnoFKCOuhThsKA=
-X-Google-Smtp-Source: APXvYqzMJkjYW1LUjKBbYMB1MnB4ShrNNsXMvWSY/vdGaL1YzXcdKJXiZJDWzU6pYvq9i5fxGyp73g==
-X-Received: by 2002:a17:90a:d807:: with SMTP id
- a7mr13304783pjv.15.1576192611097; 
- Thu, 12 Dec 2019 15:16:51 -0800 (PST)
-Received: from taoren-ubuntu-R90MNF91.thefacebook.com
- ([2620:10d:c090:200::1072])
- by smtp.gmail.com with ESMTPSA id ev11sm9423307pjb.1.2019.12.12.15.16.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Dec 2019 15:16:50 -0800 (PST)
-From: rentao.bupt@gmail.com
-To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- openbmc@lists.ozlabs.org
-Subject: [PATCH 2/2] ARM: dts: aspeed: delete no-hw-checksum from yamp dts
-Date: Thu, 12 Dec 2019 15:16:22 -0800
-Message-Id: <20191212231622.302-3-rentao.bupt@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191212231622.302-1-rentao.bupt@gmail.com>
-References: <20191212231622.302-1-rentao.bupt@gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47YtQd2Vw5zDr5V
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2019 12:30:32 +1100 (AEDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id F2E50816;
+ Thu, 12 Dec 2019 20:30:28 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Thu, 12 Dec 2019 20:30:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=kIQjHdVLE1/fU9KLKVqg1kUSU55z6qa
+ RkOCmaNZ7BcM=; b=SoJQ5xHvi3TecnC2YnRQVyS8fHZ9HwNhk6t6bDtxOvFj1fa
+ 4xH0M+JjI6BGsABRedlcfWLu2SPCvrLL9bYFLYlSfxVDrsW1RJRUu5kgGtx94b2E
+ q8OCbmI3eCk+HtRHALdZOuzKWmN0wq6cHb31AFq0OGxCwuAUCrwH3EKEFEGpm8Ax
+ jgpQdNCj1s2wXnx/hl5JyjwihPnxmNDbsBPcqOgYdo8RvleY4PB6jdLbREFFmfN9
+ wmzCrFFygtUhv+6CW6PChNfIoHYMCNAwe8QF5blsXjZuvHDBrqDnT4c/A19XTolg
+ dT4JR1PxTvDMXZWNVTv+qWsnOtC7IknaaLhp6ig==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=kIQjHd
+ VLE1/fU9KLKVqg1kUSU55z6qaRkOCmaNZ7BcM=; b=oc+XOCz9hlr/DOd2zlvukv
+ U0Licj/xRjpzT8oaccVAWiWCQ23NZ4jGRvhiXRZUvdwWVEXxd0QDYUjVenh6vj/7
+ nup1Tmp/yTzFenX7zuuMPOnqpcetaGGPwcVmMaDGScTtscKOmCYqInqTNZqP2zfh
+ rF7TgQH7JVNr3tlGprHOVfSzYiRQSizIF9Cm9GHXU4pHvN+KjDn9cKrLgddLxGUR
+ 8aRgJngKLJhwtLH663kKAJr7cQokmq/kqazL7u9fVv2o9w/RCq8wMP/fZ7E0w6wr
+ 9CA4ocXRyJA3LYQa6mFprFUbgQR85GZBKI+T+EZ5ejajuTUeAbMUMC/ZiHFFS/Bg
+ ==
+X-ME-Sender: <xms:sunyXdExu8xTM5B38nRS1bCN5Z15PXqo3hXfKkXXe8AmYeN05gt4qQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudelkedgfeehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
+ rhfuihiivgeptd
+X-ME-Proxy: <xmx:sunyXXcSxg4dgH-B0kWwKeSVBRadjgvRAPWCagmcKt0fLHcBk4_sLA>
+ <xmx:sunyXWbQUcYVk3SvFPvRGO6bqpOqNezIuw_MW1-fAUvsiwUUVEbh0g>
+ <xmx:sunyXapAx4F9qjVqSOiMKR330kZAcK0jxMIHppW06AwZZd0dudQzwA>
+ <xmx:tOnyXSu_o_4JZC6f6T3E_sP3_KtRV98RBlold90e-Z-jZKy2_kiNug>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 34C75E00A2; Thu, 12 Dec 2019 20:30:26 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-680-g58d4e90-fmstable-20191213v1
+Mime-Version: 1.0
+Message-Id: <274285bd-1304-4e35-945a-90c9aecd119b@www.fastmail.com>
+In-Reply-To: <20191213000657.931618-5-dima@arista.com>
+References: <20191213000657.931618-1-dima@arista.com>
+ <20191213000657.931618-5-dima@arista.com>
+Date: Fri, 13 Dec 2019 12:02:05 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Dmitry Safonov" <dima@arista.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 04/58] tty/serial: Migrate aspeed_vuart to use has_sysrq
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,33 +88,30 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Vasiliy Khoruzhick <vasilykh@arista.com>, linux-aspeed@lists.ozlabs.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Safonov <0x7f454c46@gmail.com>, linux-serial@vger.kernel.org,
+ Jiri Slaby <jslaby@suse.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Tao Ren <rentao.bupt@gmail.com>
 
-Delete "no-hw-checksum" property from yamp dts file because ftgmac100's
-checksum issue has been fixed by commit 88824e3bf29a ("net: ethernet:
-ftgmac100: Fix DMA coherency issue with SW checksum").
 
-Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
----
- arch/arm/boot/dts/aspeed-bmc-facebook-yamp.dts | 1 -
- 1 file changed, 1 deletion(-)
+On Fri, 13 Dec 2019, at 10:36, Dmitry Safonov wrote:
+> The SUPPORT_SYSRQ ifdeffery is not nice as:
+> - May create misunderstanding about sizeof(struct uart_port) between
+>   different objects
+> - Prevents moving functions from serial_core.h
+> - Reduces readability (well, it's ifdeffery - it's hard to follow)
+> 
+> In order to remove SUPPORT_SYSRQ, has_sysrq variable has been added.
+> Initialise it in driver's probe and remove ifdeffery.
+> 
+> Cc: Andrew Jeffery <andrew@aj.id.au>
+> Cc: Joel Stanley <joel@jms.id.au>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-aspeed@lists.ozlabs.org
+> Signed-off-by: Dmitry Safonov <dima@arista.com>
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-yamp.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-yamp.dts
-index 52933598aac6..fe2e11c2da15 100644
---- a/arch/arm/boot/dts/aspeed-bmc-facebook-yamp.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-yamp.dts
-@@ -35,7 +35,6 @@
- &mac0 {
- 	status = "okay";
- 	use-ncsi;
--	no-hw-checksum;
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pinctrl_rmii1_default>;
- 	clocks = <&syscon ASPEED_CLK_GATE_MAC1CLK>,
--- 
-2.17.1
-
+Acked-by: Andrew Jeffery <andrew@aj.id.au>
