@@ -1,81 +1,86 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D4A11DBC5
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 02:41:24 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091EB11DBB0
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 02:31:01 +0100 (CET)
-Received: from lists.ozlabs.org (unknown [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47YtR51TfNzDrCH
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 12:30:57 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47Ytg50d69zDrCF
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Dec 2019 12:41:21 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=64.147.123.25;
- helo=wout2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.224;
+ helo=new2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="SoJQ5xHv"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="hxS+mB4B"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="oc+XOCz9"; dkim-atps=neutral
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
+ header.b="Sp4hVZFf"; dkim-atps=neutral
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47YtQd2Vw5zDr5V
- for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2019 12:30:32 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47Ytfx1Vk5zDr95
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2019 12:41:12 +1100 (AEDT)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id F2E50816;
- Thu, 12 Dec 2019 20:30:28 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id C58B02798;
+ Thu, 12 Dec 2019 20:41:07 -0500 (EST)
 Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Thu, 12 Dec 2019 20:30:29 -0500
+ by compute4.internal (MEProxy); Thu, 12 Dec 2019 20:41:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=kIQjHdVLE1/fU9KLKVqg1kUSU55z6qa
- RkOCmaNZ7BcM=; b=SoJQ5xHvi3TecnC2YnRQVyS8fHZ9HwNhk6t6bDtxOvFj1fa
- 4xH0M+JjI6BGsABRedlcfWLu2SPCvrLL9bYFLYlSfxVDrsW1RJRUu5kgGtx94b2E
- q8OCbmI3eCk+HtRHALdZOuzKWmN0wq6cHb31AFq0OGxCwuAUCrwH3EKEFEGpm8Ax
- jgpQdNCj1s2wXnx/hl5JyjwihPnxmNDbsBPcqOgYdo8RvleY4PB6jdLbREFFmfN9
- wmzCrFFygtUhv+6CW6PChNfIoHYMCNAwe8QF5blsXjZuvHDBrqDnT4c/A19XTolg
- dT4JR1PxTvDMXZWNVTv+qWsnOtC7IknaaLhp6ig==
+ :subject:content-type; s=fm1; bh=9R1DF4M5Pmu5MeZeNHugx3+fZB4LUBd
+ c0AIWbpwNu0g=; b=hxS+mB4BUTJX804lzDTqDP4nZjPhAIWQ+Xo4jn58vmx7fs/
+ lrue5+5+lo+vSrGl8dIcmwtQL9IYY8iR0n2UHd+1pyCCOjfQ5V3oIgarQSlv5JNm
+ rSrGQgOETDdnjf5fsK0Nl/+zv2HTvppkFMEmdC/B0e3UGhua2d8fdg06qTgJOtjc
+ TzsHe9a0uRepyTJ/odkLf3vFy0XmyZLcSnwiP3kNbZFfjkU0pSEEwh7slw9XXpfq
+ /TnsAPSoYUCvH8H1FtWWGEMpGnedNv8EsHW/hHtYpgs51jSukMrwnzqwvhuq5Pig
+ sRy2WBzyrB2CE55DooY10eoijL8xrKUiAT5ToGg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=kIQjHd
- VLE1/fU9KLKVqg1kUSU55z6qaRkOCmaNZ7BcM=; b=oc+XOCz9hlr/DOd2zlvukv
- U0Licj/xRjpzT8oaccVAWiWCQ23NZ4jGRvhiXRZUvdwWVEXxd0QDYUjVenh6vj/7
- nup1Tmp/yTzFenX7zuuMPOnqpcetaGGPwcVmMaDGScTtscKOmCYqInqTNZqP2zfh
- rF7TgQH7JVNr3tlGprHOVfSzYiRQSizIF9Cm9GHXU4pHvN+KjDn9cKrLgddLxGUR
- 8aRgJngKLJhwtLH663kKAJr7cQokmq/kqazL7u9fVv2o9w/RCq8wMP/fZ7E0w6wr
- 9CA4ocXRyJA3LYQa6mFprFUbgQR85GZBKI+T+EZ5ejajuTUeAbMUMC/ZiHFFS/Bg
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=9R1DF4
+ M5Pmu5MeZeNHugx3+fZB4LUBdc0AIWbpwNu0g=; b=Sp4hVZFfpci0lyVOFH7QzD
+ blP1G7YkXIeHsMlzNyjlN2sAzjkZ6rD0mVNbHAbfOR5QxUO+YrWb55rAa7jG8hpl
+ 8lmmZX2B7m+tpAMYjYCIgupHVZ/TyENkjQyjkV+pCctw//hbsd/RsGsDDmppT2w2
+ 3/+XELmpVdnYx4WMuGpjLnZzmaNazStDB7MQMUwlJim9EgVb5rQ10k6xHe9wawwp
+ qwwOZkxvO6zVuIyJUwq04LFpP2HBlwZXjb0ihDcMhnEzlU2FhiIFvxDIxvDmN3ua
+ kztSvJgd7SRLydLIxHhVaBYm+H94T2jTcu9xGRDgXe5140/EhSdtasYIhousIxeQ
  ==
-X-ME-Sender: <xms:sunyXdExu8xTM5B38nRS1bCN5Z15PXqo3hXfKkXXe8AmYeN05gt4qQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudelkedgfeehucetufdoteggodetrfdotf
+X-ME-Sender: <xms:MuzyXfBgkU4UiZiso_eGpnA8h-iHD0yt5WANprvLJDuKIg3AcZNffw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudelkedgfeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
  rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
  grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
  rhfuihiivgeptd
-X-ME-Proxy: <xmx:sunyXXcSxg4dgH-B0kWwKeSVBRadjgvRAPWCagmcKt0fLHcBk4_sLA>
- <xmx:sunyXWbQUcYVk3SvFPvRGO6bqpOqNezIuw_MW1-fAUvsiwUUVEbh0g>
- <xmx:sunyXapAx4F9qjVqSOiMKR330kZAcK0jxMIHppW06AwZZd0dudQzwA>
- <xmx:tOnyXSu_o_4JZC6f6T3E_sP3_KtRV98RBlold90e-Z-jZKy2_kiNug>
+X-ME-Proxy: <xmx:MuzyXUsBCV5TOZ5prXltKNzixjwfeIhYBZnXV_xcOiA4SrvW8Pf8Fg>
+ <xmx:MuzyXdRZVBkvMoO0LcDGiBqHhuX5cOdoEQx6H1B91EyQXRL4k_4wrA>
+ <xmx:MuzyXbLwXwEV1EzZs8bKS6--C-jQo4vEs0yX2u3gyOsgZdwp6FrZYg>
+ <xmx:M-zyXXc-DzCftJLfsxXjTCGWD2GwDI6WyiQCteKNjYScHwuMYgJiXg>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 34C75E00A2; Thu, 12 Dec 2019 20:30:26 -0500 (EST)
+ id 87175E00A2; Thu, 12 Dec 2019 20:41:06 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.1.7-680-g58d4e90-fmstable-20191213v1
 Mime-Version: 1.0
-Message-Id: <274285bd-1304-4e35-945a-90c9aecd119b@www.fastmail.com>
-In-Reply-To: <20191213000657.931618-5-dima@arista.com>
-References: <20191213000657.931618-1-dima@arista.com>
- <20191213000657.931618-5-dima@arista.com>
-Date: Fri, 13 Dec 2019 12:02:05 +1030
+Message-Id: <601efc97-714b-40af-b3a0-e4687c43be46@www.fastmail.com>
+In-Reply-To: <bbe9045e-c5ca-541c-1ee9-0f5ef246a27b@linux.vnet.ibm.com>
+References: <1575566112-11658-1-git-send-email-eajames@linux.ibm.com>
+ <1575566112-11658-7-git-send-email-eajames@linux.ibm.com>
+ <de395d95-15f4-4df3-873d-ce89ae008ed3@www.fastmail.com>
+ <bffadb0a-aba7-d799-b2ef-a4adb3259c4b@linux.ibm.com>
+ <f597202e-0d5a-4b76-ba0a-a6f0a857b289@www.fastmail.com>
+ <bbe9045e-c5ca-541c-1ee9-0f5ef246a27b@linux.vnet.ibm.com>
+Date: Fri, 13 Dec 2019 12:12:38 +1030
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Dmitry Safonov" <dima@arista.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 04/58] tty/serial: Migrate aspeed_vuart to use has_sysrq
+To: "Eddie James" <eajames@linux.vnet.ibm.com>,
+ "Eddie James" <eajames@linux.ibm.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 06/12] drivers/soc: Add Aspeed XDMA Engine Driver
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -88,30 +93,48 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Vasiliy Khoruzhick <vasilykh@arista.com>, linux-aspeed@lists.ozlabs.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Safonov <0x7f454c46@gmail.com>, linux-serial@vger.kernel.org,
- Jiri Slaby <jslaby@suse.com>, linux-arm-kernel@lists.infradead.org
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ Jason Cooper <jason@lakedaemon.net>, linux-aspeed@lists.ozlabs.org,
+ Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ tglx@linutronix.de
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
 
-On Fri, 13 Dec 2019, at 10:36, Dmitry Safonov wrote:
-> The SUPPORT_SYSRQ ifdeffery is not nice as:
-> - May create misunderstanding about sizeof(struct uart_port) between
->   different objects
-> - Prevents moving functions from serial_core.h
-> - Reduces readability (well, it's ifdeffery - it's hard to follow)
+On Fri, 13 Dec 2019, at 05:46, Eddie James wrote:
 > 
-> In order to remove SUPPORT_SYSRQ, has_sysrq variable has been added.
-> Initialise it in driver's probe and remove ifdeffery.
+> On 12/11/19 10:52 PM, Andrew Jeffery wrote:
+> >
+> > On Thu, 12 Dec 2019, at 07:09, Eddie James wrote:
+> >> On 12/10/19 9:47 PM, Andrew Jeffery wrote:
+> >>> On Fri, 6 Dec 2019, at 03:45, Eddie James wrote:
+> >>>> +
+> >>>> +	regmap_update_bits(sdmc, SDMC_REMAP, ctx->chip->sdmc_remap,
+> >>>> +			   ctx->chip->sdmc_remap);
+> >>> I disagree with doing this. As mentioned on the bindings it should be up to
+> >>> the platform integrator to ensure that this is configured appropriately.
+> >>
+> >> Probably so, but then how does one actually configure that elsewhere? Do
+> >> you mean add code to the edac driver (and add support for the ast2600)
+> >> to read some dts properties to set it?
+> > Right. That's where I was going. I don't expect you to do that as part of this
+> > patch series, but if you could separate this code out into separate patches
+> > (dealing with the sdmc property in the devicetree binding as well) we can at
+> > least concentrate on getting the core XDMA driver in and work out how to
+> > move forward with configuring the memory controller later.
 > 
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-aspeed@lists.ozlabs.org
-> Signed-off-by: Dmitry Safonov <dima@arista.com>
+> 
+> Yea... my concern is that then we end up with a driver upstream that 
+> doesn't actually work. Same concern with the reset thing you mentioned 
+> below.
 
-Acked-by: Andrew Jeffery <andrew@aj.id.au>
+How would it not work? It would just be up to the platform integrator to make
+sure the stars align right? If they do then there should be no problem. Whacking
+the memory controller here is done out of convenience.
+
+We can still carry the separate patches adding this and the reset behaviour in
+e.g. the openbmc kernel tree if necessary.
+
+Andrew
