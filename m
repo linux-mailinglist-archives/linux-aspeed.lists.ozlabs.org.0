@@ -1,79 +1,82 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F2D511FBFE
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 01:05:47 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47bhPN4WC5zDqZ2
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 11:05:44 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 532AF11FBE2
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 00:33:39 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47bghF5BzrzDqZD
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 10:33:33 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=arista.com (client-ip=2a00:1450:4864:20::442;
- helo=mail-wr1-x442.google.com; envelope-from=dima@arista.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.26;
+ helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none)
- header.from=arista.com
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=arista.com header.i=@arista.com header.b="RDZC2Ziu"; 
- dkim-atps=neutral
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="VTbj5pMF"; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.b="gMw2MLwR"; dkim-atps=neutral
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47ZGfR00ptzDrFS
- for <linux-aspeed@lists.ozlabs.org>; Sat, 14 Dec 2019 03:42:06 +1100 (AEDT)
-Received: by mail-wr1-x442.google.com with SMTP id d16so77577wre.10
- for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2019 08:42:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=arista.com; s=googlenew;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+Xy8RflunQ2h7lBPgvCLBQe6kC/5oXa7qNJM46i4OvE=;
- b=RDZC2ZiusGEyrtg6BPZpt/3zIXUDvTioxjK9hCuEm49HHbr3H/dAOfWKhTeLkK3Bp5
- mwslCzN5062kRXM1mLfDGyALHEWNTkHjICeOQc11+9KBDd7f19DKdFfeznFmkiP2iu/b
- X4xf0Xn0uq1+4PP0nKj0gPeSALXRk8hr+7z6OQI2nr4636450ZFHJs8VP3HyfFaJsTVP
- HzWknwSfbUCuDOtglpkghgYl1PzBXP2sQbaCvGZ+HwEkO2egA9fVrLSahpKuX/LZCycb
- kC6vC6YhGlL6xoAsu0f2oh+y3zZZpvkht74vL/pO8ENbamlFgdAMQPwCftTj41QI1w5d
- MyeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+Xy8RflunQ2h7lBPgvCLBQe6kC/5oXa7qNJM46i4OvE=;
- b=JVkMEZ5c2BDDQlGKwo1WEbd/SSbLhx7PY1EzJ2+fRHRivttednEtiCs59QjyHXj4aD
- j80TMayXe4UnolqnIoWkVrdiN3OWIimrtGMeMe3gC3PTA3Kx04/PjElQEN8J7OKAPxnB
- 3GRf1azwBQZUrskRqZmo7kHc5bEQfbcAgF7Vp+8vTlsgoMAzBO0F0RiPpX+lx65Z/bSp
- w0GFhvn3syyIeacILK2q6KrqmTAFQz4cgU63NQMN0poppprZuPlYrAnk0WNYl+h8JEkp
- VJl4M5UhzXEonhvmQp3cTaYUEf41HV+Z3SbK/4n5P+tZCKmw8xwv6neXBIwUnZYuMKzE
- /86g==
-X-Gm-Message-State: APjAAAW3G5KGPwRTsnX9Oje5drklu6jthqi1t6h5sEaIDKf4yfrH5qai
- sp42upUkhyUGvqXzKdF29gKl3A==
-X-Google-Smtp-Source: APXvYqzIaw4yXEvzLQQBJqUcuUQde/4MOljSnSzj5+B7FHPM/cAqWL9ZIzlETdg8BqlmTOhn/Pq8vg==
-X-Received: by 2002:a5d:4fd0:: with SMTP id h16mr13243381wrw.255.1576255321811; 
- Fri, 13 Dec 2019 08:42:01 -0800 (PST)
-Received: from [10.83.36.153] ([217.173.96.166])
- by smtp.gmail.com with ESMTPSA id g69sm11707225wmg.13.2019.12.13.08.41.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Dec 2019 08:42:01 -0800 (PST)
-Subject: Re: [PATCH 00/58] serial/sysrq: Cleanup ifdeffery
-To: Christophe Leroy <christophe.leroy@c-s.fr>, linux-kernel@vger.kernel.org
-References: <20191213000657.931618-1-dima@arista.com>
- <524d9848-28a5-7e65-699b-600c49606487@c-s.fr>
-From: Dmitry Safonov <dima@arista.com>
-Message-ID: <0e642e4e-7349-3d92-3e54-cbfd8d417fea@arista.com>
-Date: Fri, 13 Dec 2019 16:41:53 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
-MIME-Version: 1.0
-In-Reply-To: <524d9848-28a5-7e65-699b-600c49606487@c-s.fr>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 16 Dec 2019 11:04:54 +1100
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47bgh34ZGszDqWS;
+ Mon, 16 Dec 2019 10:33:22 +1100 (AEDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id E2EF822348;
+ Sun, 15 Dec 2019 18:33:19 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Sun, 15 Dec 2019 18:33:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=lzvbMSFkVBR+nAocAB/eyxxphB8B1S4
+ O1CMOCvIRkYg=; b=VTbj5pMFSVZMVT7DLLhNqZee/qfUdpnNDdx36+SC/dzZoul
+ i6gJqNcdAXdAD7yXYiMZxGQ90NOYdWI+2m1rqljGkGtNtXAvtxTlgw5wIbG9f9sq
+ XbS47Q53S0MIvRphJfNoVpVBG6iaR5/MA1C5JPyK1+6Di/BBMxSBg7ObycblOvH7
+ /cwaSIp0lw33SYMBhyU1gDM+xnBaSA/0+PM8uimxpV0uVnPPfBPDX3eTAwcTd7ig
+ E8jRLPAVr/aEp+g/nUsfbkrc9ktVmU5I+gM2oarsRqus72w1YfZJ80xz8xWA5YiI
+ EDoLx1IKzrCzEAWrQUFkM0pgrVQcTyT1w9ZfLog==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=lzvbMS
+ FkVBR+nAocAB/eyxxphB8B1S4O1CMOCvIRkYg=; b=gMw2MLwRV8HiPZPynrJvdp
+ QFfd/wzjfxOiBSkUWVsAOcI739DKAuCe3x3dqIgCHRIgc8Q9ZM/7UxOzsykIN6uB
+ utST9rch5vnvj9BApLN7Ysy1AfSTh32mb25RBNeYwZFcm1lqZz6rLbzuJ48kHTnX
+ 18zw5NNymXzMLFJJQxtydvu5wdd4qL6gGEI8mAaaP9+Jh23qSHcrBWe49Nz80kdP
+ 5LHVdqwqr42uVnJquUplkZIzjIh95y43kvvoeRAGaiSqRitmSN5Ftf1/l1D/GGa1
+ n4BSk91Kk8d1JPdkkzwJffc2WMBqTa1U3rlZswIwshnYB8ZcXToByiIGhEPPISvQ
+ ==
+X-ME-Sender: <xms:vsL2XeKfNhmf3dE2gzpbzSs86ap6GIT2CTE7EPK6YQnAElmTyqdjZQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddtgedgudduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
+ rhfuihiivgeptd
+X-ME-Proxy: <xmx:vsL2XQFldtGw-XBJ4xn4Sr5zMs6iCzbRlpQm8X6rp4tuqn3GhBl4VA>
+ <xmx:vsL2XQnx8qCojcex_yzhvksBdgoI8_Oc_QIClvjdvJZucVCPsybWXw>
+ <xmx:vsL2Xe01UqS1qt5wLIomDWeSscJlJ1dcSYXP7sFVH6wmLv1McK_Svg>
+ <xmx:v8L2XS1LxoMGXcASWDNuCFtSobL8cOMOIezDEfUBHtK3xKa7FlhVfA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id AE86EE00A2; Sun, 15 Dec 2019 18:33:18 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-680-g58d4e90-fmstable-20191213v1
+Mime-Version: 1.0
+Message-Id: <8017a61e-e579-41ea-816a-4a76a6dc41e9@www.fastmail.com>
+In-Reply-To: <20191213135131.GA1822@cnn>
+References: <20191213135131.GA1822@cnn>
+Date: Mon, 16 Dec 2019 10:05:02 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: manikandan-e <manikandan.hcl.ers.epl@gmail.com>,
+ "Joel Stanley" <joel@jms.id.au>
+Subject: Re: [PATCH v5] ARM: dts: aspeed: Adding Facebook Yosemite V2 BMC
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,65 +88,26 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-aspeed@lists.ozlabs.org, Dmitry Safonov <0x7f454c46@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Paul Mackerras <paulus@samba.org>, "Maciej W. Rozycki" <macro@linux-mips.org>,
- sparclinux@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- Alexandre Torgue <alexandre.torgue@st.com>,
- Vasiliy Khoruzhick <vasilykh@arista.com>, Alexander Shiyan <shc_work@mail.ru>,
- Kevin Hilman <khilman@baylibre.com>, Russell King <linux@armlinux.org.uk>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- Andy Gross <agross@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
- linux-serial@vger.kernel.org, Jiri Slaby <jslaby@suse.com>,
- Orson Zhai <orsonzhai@gmail.com>, Iurii Zaikin <yzaikin@google.com>,
- NXP Linux Team <linux-imx@nxp.com>, Michal Simek <michal.simek@xilinx.com>,
- Kees Cook <keescook@chromium.org>, linux-arm-msm@vger.kernel.org,
- Sascha Hauer <s.hauer@pengutronix.de>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Johan Hovold <johan@kernel.org>, Baolin Wang <baolin.wang7@gmail.com>,
- Florian Fainelli <f.fainelli@gmail.com>, linux-amlogic@lists.infradead.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org, Timur Tabi <timur@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxppc-dev@lists.ozlabs.org,
- Patrice Chotard <patrice.chotard@st.com>, Tony Prisk <linux@prisktech.co.nz>,
- Richard Genoud <richard.genoud@gmail.com>,
- Luis Chamberlain <mcgrof@kernel.org>, Vineet Gupta <vgupta@synopsys.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, linux-fsdevel@vger.kernel.org,
- Shawn Guo <shawnguo@kernel.org>, "David S. Miller" <davem@davemloft.net>
+Cc: devicetree@vger.kernel.org, Sai Dasari <sdasari@fb.com>,
+ manikandan.e@hcl.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Christophe,
-
-On 12/13/19 5:47 AM, Christophe Leroy wrote:
-> Le 13/12/2019 à 01:05, Dmitry Safonov a écrit :
-[..]
+On Sat, 14 Dec 2019, at 00:21, Manikandan Elumalai wrote:
+> The Yosemite V2 is a facebook multi-node server
+> platform that host four OCP server. The BMC
+> in the Yosemite V2 platform based on AST2500 SoC.
 > 
-> powerpc patchwork didn't get the full series, see
-> https://patchwork.ozlabs.org/project/linuxppc-dev/list/?series=148198
+> This patch adds linux device tree entry related to
+> Yosemite V2 specific devices connected to BMC SoC.
+> 
+> Signed-off-by : Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>
+> Acked-by        : Andrew Jeffery <andrew@aj.id.au>
+> Reviewed-by  : Vijay Khemka <vkhemka@fb.com>
 
-Yes, I was under impression that architecture mail-lists want related
-patches. But now I see that from the patchwork point of view it's better
-to have the whole series in inbox.
+In the future, don't worry about aligning parts of the tag text. Single space is
+the custom (and is less effort!)
 
-> Can't find them on linux-serial patchwork either
-> (https://patches.linaro.org/project/linux-serial/list/)
-
-I'm not sure - maybe the frequency of checking is low?
-I see all patches in linux-serial ml:
-https://marc.info/?l=linux-serial&r=1&b=201912&w=2
-
-> It is impossible to review/test powerpc bits without the first patches
-> of the series, where can the entire series be found ?
-
-Sorry for the inconvenience.
-I can resend without Cc'ing all people just to ppc mail-list if that
-works for you. Or you can clone it directly from my github:
-https://github.com/0x7f454c46/linux/tree/sysrq-serial-seq-v1
-
-Thanks,
-          Dmitry
+Andrew
