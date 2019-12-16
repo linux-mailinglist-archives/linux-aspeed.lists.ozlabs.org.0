@@ -1,66 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6037211FE81
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 07:44:03 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CCBE11FE4D
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 07:01:41 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47brJ168ddzDqTh
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 17:01:37 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47bsDw48T5zDqVB
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 17:44:00 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::844;
- helo=mail-qt1-x844.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::642;
+ helo=mail-pl1-x642.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="b6X1jWpT"; 
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.b="BARMc7vm"; 
  dkim-atps=neutral
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47brHp0PlgzDqSS
- for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Dec 2019 17:01:25 +1100 (AEDT)
-Received: by mail-qt1-x844.google.com with SMTP id g17so3644227qtp.11
- for <linux-aspeed@lists.ozlabs.org>; Sun, 15 Dec 2019 22:01:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=f2z51NNQPGTMFGtesof0cLcp5BmT40GR+s1mJAxOa+c=;
- b=b6X1jWpTP0RfxR0H/2AEWnknIbaWzzhiV6iFVLwl6X9CxbOBNzjE5GUcxjZ7hJEUAn
- Zc7OU2vHnDk1a726t9a0s/+ZZTMU1TeZTPhtju7Oi59MiMONTQOtK7D7BoAGFq/3OI0q
- 8RTFbo/jAklEfgL4DoCUxqRT6V9fIOgVreE/E=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47bsDl2rt8zDqTY
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Dec 2019 17:43:50 +1100 (AEDT)
+Received: by mail-pl1-x642.google.com with SMTP id x13so4027945plr.9
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 15 Dec 2019 22:43:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0ux7G3MiSlS3ev/+kbJZOEXTauz/1zLMbOpd5oJaNEs=;
+ b=BARMc7vmR7fmLUrTFtCSW3CaUlYVwks8CpJLZ8KcI/D9LvJqeRkjpQCg6vLYCnKJYx
+ WqgdW0fkciggfydIWcknOs9sefiaS7IwbjmZ8K+wUIo3+u0R4sULSY3ZLtV9t/TFnArO
+ MHBETRDDI26SPUatTvKnT1M90wqERTGDJ8eAGNnmJKzWvKEWpMbbGTmIPo4/LOyp0cya
+ 8UV7JOUUqTefcg6moVIsCyEj/NWeYO8L9qZGjqS8KtMcoDOXbpQcC3SRgE3t4ullRRdW
+ i4Hg96dpz1UvtrT6xi74B7rGVJ5k6kRxHONdfbWhbx+6Z6beQT3HQYaNvkc87RNMTbwC
+ DFPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=f2z51NNQPGTMFGtesof0cLcp5BmT40GR+s1mJAxOa+c=;
- b=jwzoFB8zHdOro8V+Q6wf3U/X10Tvfv6GVvmaq+OOmmOxqE1lzGG9XfvUUVdBJBkQiL
- VBbGMF6GsOlSlPm4PvADxoTW9oMiw0yx8MbLkDNJFtW9s2KK3ygkQJbNo96ZrRIpxcsK
- AHLl0cxSgqxqjcyGg/A+49yrEgufkBqa0Es8Lj9LJA+ym0alb+OrXnevkk91974Dy2xY
- CFg6Uz0tt969MXNlA+4KhDlc+lmhbSMQSXFHXwn+4NVtW+d6tfaChNatfwQJAZu83m3y
- q8lOTrElDC8Z4KIQmFZtuNAi9KBuvD8lVNmAOd7fK/L4ZYzxz2fzVhMeed1jtRpNjV3D
- BEdw==
-X-Gm-Message-State: APjAAAWhK4Go1crKyf+igdmnx7klbbPJRVJbrteem2SXoQ1R8y57RjMm
- TuSzkoy7+MrdG4FF4mPfeMgWwDSFEiUoVOYgIiY=
-X-Google-Smtp-Source: APXvYqwPky1kIBq5TGeLsTIdyi7DvZWNnzatsH+kjC7TN4z5yU4h0spZkmjXTrZZd+qsQ9tWkqeQPGyHHbV6+3Lse00=
-X-Received: by 2002:ac8:3467:: with SMTP id v36mr22831465qtb.255.1576476081509; 
- Sun, 15 Dec 2019 22:01:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20191211192742.95699-1-brendanhiggins@google.com>
- <20191211192742.95699-8-brendanhiggins@google.com>
- <CACPK8XctCb9Q2RaFVHEDuWxKDXpCWMWs-+vnKZ=SeTa3xRnT_g@mail.gmail.com>
- <CAFd5g45MFYMK-eZWPC5fhm2OkynUXKfArUVhbanYVH+qKRUwPg@mail.gmail.com>
-In-Reply-To: <CAFd5g45MFYMK-eZWPC5fhm2OkynUXKfArUVhbanYVH+qKRUwPg@mail.gmail.com>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=0ux7G3MiSlS3ev/+kbJZOEXTauz/1zLMbOpd5oJaNEs=;
+ b=XNV4y4H+3fsICa99e3fqkuzW66wDUCHe1E4UuVvXkWnhEIq6aElrlGlhemuWW18nZb
+ u+O0XNV1jF+AOGvUNWLc+FJxH7Z8yhRHNsrLGxBTzBNMZ7UHucvO/8MjnkcWoBx2egFA
+ xjB6P5ylT2OppetZ83ve4AElH/3veRtwsl9EQQ0ALwhuBFpBA/kPvOumDM/oRJrIxQIX
+ NM/Y8FOPE9vxOu9Dezxmr5JCPem6gGMjY8j4vaQv1TO4LJRiyq9YMpBUeZ6NocIFs0ZU
+ 1sN1Hj8c2kADiyIMeSzdNV85DO5dSAddAbC21H5WON2wSyYO5s4M4EdoNervvcsAPeqz
+ jdNg==
+X-Gm-Message-State: APjAAAU4WeRO7XyvibmOmgFQcfadwUfRIRT3XUpqqkQldRJ2gIYoGZdu
+ AJ7L6LXzpWYMLUVXa7xbxxg=
+X-Google-Smtp-Source: APXvYqyjExp4/F8WgIcXfWcdgponrOcUJ0xoKa5yoLp5bLwFQLCE7OA47TylREIwS9KTq6OaoebMSw==
+X-Received: by 2002:a17:902:209:: with SMTP id 9mr14722232plc.58.1576478627037; 
+ Sun, 15 Dec 2019 22:43:47 -0800 (PST)
+Received: from localhost.localdomain
+ (2403-5800-7100-3e00-2ac3-652d-4f7-6183.ip6.aussiebb.net.
+ [2403:5800:7100:3e00:2ac3:652d:4f7:6183])
+ by smtp.gmail.com with ESMTPSA id u20sm20121223pgf.29.2019.12.15.22.43.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 15 Dec 2019 22:43:46 -0800 (PST)
 From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 16 Dec 2019 06:01:09 +0000
-Message-ID: <CACPK8XdgGLLT=RprY8zVW6kKJ6fjJdm4Oxs0uHBv-W5StMyGPQ@mail.gmail.com>
-Subject: Re: [PATCH v1 7/7] fsi: aspeed: add unspecified HAS_IOMEM dependency
-To: Brendan Higgins <brendanhiggins@google.com>
-Content-Type: text/plain; charset="UTF-8"
+To: linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ Andrew Jeffery <andrew@aj.id.au>
+Subject: [PATCH] ARM: dts: aspeed: AST2400 disables hw checksum
+Date: Mon, 16 Dec 2019 17:41:32 +1100
+Message-Id: <20191216064132.78015-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.24.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,85 +79,61 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- linux-um <linux-um@lists.infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Alexander Filippov <a.filippov@yadro.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 12 Dec 2019 at 00:30, Brendan Higgins <brendanhiggins@google.com> wrote:
->
-> On Wed, Dec 11, 2019 at 4:12 PM Joel Stanley <joel@jms.id.au> wrote:
-> >
-> > Nice. I hit this when attempting to force on CONFIG_COMPILE_TEST in
-> > order to build some ARM drivers under UM. Do you have plans to fix
-> > that too?
->
-> The only broken configs I found for UML are all listed on the cover
-> letter of this patch. I think fixing COMPILE_TEST on UM could be
-> worthwhile. Did you see any brokenness other than what I mentioned on
-> the cover letter?
+There is no need to specify this property in the device tree as the
+AST2400 does not have working hardware checksum and disables it in the
+driver.
 
-There's a few more in drivers/char/hw_random that you would need.
-These were HW_RANDOM_MESON , HW_RANDOM_MTK, HW_RANDOM_EXYNOS,
-HW_RANDOM_NPCM, HW_RANDOM_KEYSTONE.
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ arch/arm/boot/dts/aspeed-bmc-facebook-wedge100.dts | 1 -
+ arch/arm/boot/dts/aspeed-bmc-facebook-wedge40.dts  | 1 -
+ arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts        | 3 ---
+ 3 files changed, 5 deletions(-)
 
-The only one from your series I needed was PINCTRL_EQUILIBRIUM.
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-wedge100.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-wedge100.dts
+index b1e10f0c85c9..322587b7b67d 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-facebook-wedge100.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-wedge100.dts
+@@ -76,7 +76,6 @@ &uart5 {
+ 
+ &mac1 {
+ 	status = "okay";
+-	no-hw-checksum;
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_rgmii2_default &pinctrl_mdio2_default>;
+ };
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-wedge40.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-wedge40.dts
+index aaa77a597d1a..54e508530dce 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-facebook-wedge40.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-wedge40.dts
+@@ -75,7 +75,6 @@ &uart5 {
+ 
+ &mac1 {
+ 	status = "okay";
+-	no-hw-checksum;
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_rgmii2_default &pinctrl_mdio2_default>;
+ };
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
+index affd2c8743b1..041f28e3ac10 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
+@@ -107,10 +107,7 @@ flash@0 {
+ 
+ &mac0 {
+ 	status = "okay";
+-
+ 	use-ncsi;
+-	no-hw-checksum;
+-
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_rmii1_default>;
+ };
+-- 
+2.24.0
 
-I applied this:
-
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -91,7 +91,6 @@ config INIT_ENV_ARG_LIMIT
-
- config COMPILE_TEST
-        bool "Compile also drivers which will not load"
--       depends on !UML
-        default n
-        help
-
-That lets me build. However, the code I was attempting to enable
-depends on REGMAP, which needs IOMEM too, so I hit that dead end.
-
-Another issue I had was debugging my kunitconfig. This patch helped a bit:
-
---- a/tools/testing/kunit/kunit_config.py
-+++ b/tools/testing/kunit/kunit_config.py
-@@ -40,6 +40,9 @@ class Kconfig(object):
-        def is_subset_of(self, other: 'Kconfig') -> bool:
-                return self.entries().issubset(other.entries())
-
-+       def difference(self, other: 'Kconfig') -> list:
-+               return self.entries().difference(other.entries())
-+
-        def write_to_file(self, path: str) -> None:
-                with open(path, 'w') as f:
-                        for entry in self.entries():
-diff --git a/tools/testing/kunit/kunit_kernel.py
-b/tools/testing/kunit/kunit_kernel.py
-index bf3876835331..0f261bc087e4 100644
---- a/tools/testing/kunit/kunit_kernel.py
-+++ b/tools/testing/kunit/kunit_kernel.py
-@@ -107,6 +107,7 @@ class LinuxSourceTree(object):
-                validated_kconfig.read_from_file(kconfig_path)
-                if not self._kconfig.is_subset_of(validated_kconfig):
-                        logging.error('Provided Kconfig is not
-contained in validated .config!')
-+
-logging.error(self._kconfig.difference(validated_kconfig))
-                        return False
-                return True
-
-Which would need some tidying up before applying, but helped a lot in
-working out what was going wrong.
-
->
-> > Do you want to get this in a fix for 5.5?
->
-> Preferably, yes.
->
-> > Acked-by: Joel Stanley <joel@jms.id.au>
->
-> Thanks!
