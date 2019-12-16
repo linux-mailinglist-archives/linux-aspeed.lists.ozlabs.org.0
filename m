@@ -2,34 +2,57 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C1C120440
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 12:45:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5996F120598
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 13:29:07 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47bzwR3p9zzDqVK
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 22:45:11 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47c0v41rLWzDqT6
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 23:29:04 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::a43;
+ helo=mail-vk1-xa43.google.com; envelope-from=linus.walleij@linaro.org;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=arm.com
- (client-ip=217.140.110.172; helo=foss.arm.com;
- envelope-from=mark.brown@arm.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by lists.ozlabs.org (Postfix) with ESMTP id 47bzwF5xX5zDqTv
- for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Dec 2019 22:44:59 +1100 (AEDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B6BFE1FB;
- Mon, 16 Dec 2019 03:44:56 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3535C3F6CF;
- Mon, 16 Dec 2019 03:44:56 -0800 (PST)
-Date: Mon, 16 Dec 2019 11:44:54 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [PATCH v3 3/6] dt-bindings: mfd: da9062: add regulator voltage
- selection documentation
-Message-ID: <20191216114454.GB4161@sirena.org.uk>
+ dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=linaro.org header.i=@linaro.org header.b="S/B9vSxt"; 
+ dkim-atps=neutral
+Received: from mail-vk1-xa43.google.com (mail-vk1-xa43.google.com
+ [IPv6:2607:f8b0:4864:20::a43])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47c0tk6szMzDqSk
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Dec 2019 23:28:45 +1100 (AEDT)
+Received: by mail-vk1-xa43.google.com with SMTP id d17so1187052vke.5
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Dec 2019 04:28:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QaoPgwh2xfV295jRIGnmPYl36fDZZNdnkiloN5hh4CE=;
+ b=S/B9vSxtl+yCUJ5TJtpNk2Stv/n4pxJen2cvthe3ynAP3s2fdfTEDf3tZomPyz6/ti
+ c56rzuxM4QAB6cX1SwuBlhogEMIItrAmGHHi3ns9bmKzWiSCvIoPoAQsE6LewWidcSt/
+ uS/ygBA6WwzxnYrECvxR1yO2wGs7T55an3bXKgv1VII9O7KQetwebEVFyS7PP5o5JG8Z
+ WXw7M3EFBu/VJ44dxGgmBl8Gz7OGufeX8UpyQueudgpm0MdnhWFUBNsCWFzcddS22VKX
+ sPNZI3c8eaEF8pJD1EuxwIwS1BAOsagfTF+6dyoXqycYB/nk0NUuEatN48eLbR9wzjR0
+ GqBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QaoPgwh2xfV295jRIGnmPYl36fDZZNdnkiloN5hh4CE=;
+ b=Ixj6dK157JztasoDCBUQ2GQRhMyINUoUyeS4r1OBG0LoH5b1xxBF+3q80OtzftbUSs
+ 82NnW6Z+VLu0awqB4kkpeo/oTZFNmY2HF4C0UCe4HLC+dtOTNtTSrVqNz38MW1W92/yB
+ jifVXzkYhVCirulopWxG4YfH4BrJhFV0JzqrBPAAQe4Wfq5vEHsLaO5GV6FUw2KAIdF5
+ oqmuj0iBLV2WyL9t1dhz7+7KV4JiFHCau1tDPf7eMAqFK6Z6/5ExMD1ywAHjI//6O88C
+ blU8MOFimO7Jg2hfPXlhamehpEm4+zy7cCPb8/vstud827NQpbs5xwfaBaiNy6g4QMzl
+ SWig==
+X-Gm-Message-State: APjAAAW7g3wNVMpUypZMol5aKh9UWSYcpYeS5F0ywSOAq/L4ItvHPOZO
+ l0WgK9IcIIQ65zKTR2U384mpzk9J6mirIL3U5YW65g==
+X-Google-Smtp-Source: APXvYqw/AlQK61lzoibi6xl6okziErleCZ8cs/LBZLmTMrBvWdsoY+o2BjyAVo3CYVnu+ks556/YdO+EFNqOolU0srg=
+X-Received: by 2002:a1f:fe4e:: with SMTP id l75mr24217758vki.18.1576499321815; 
+ Mon, 16 Dec 2019 04:28:41 -0800 (PST)
+MIME-Version: 1.0
 References: <20191129172537.31410-1-m.felsch@pengutronix.de>
  <20191129172537.31410-4-m.felsch@pengutronix.de>
  <20191204134631.GT1998@sirena.org.uk>
@@ -38,15 +61,14 @@ References: <20191129172537.31410-1-m.felsch@pengutronix.de>
  <20191211170918.q7kqkd4lrwwp7jl3@pengutronix.de>
  <20191212161019.GF4310@sirena.org.uk>
  <20191212162152.5uu3feacduetysq7@pengutronix.de>
- <20191212165124.GJ4310@sirena.org.uk>
- <20191216085525.csr2aglm5md4vtsw@pengutronix.de>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="oC1+HKm2/end4ao3"
-Content-Disposition: inline
-In-Reply-To: <20191216085525.csr2aglm5md4vtsw@pengutronix.de>
-X-Cookie: Backed up the system lately?
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191212162152.5uu3feacduetysq7@pengutronix.de>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 16 Dec 2019 13:28:30 +0100
+Message-ID: <CACRpkdbkiQLmyxHG4mAOqOho34UkUZwctRwsUgyJKCgZBOUEvQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/6] dt-bindings: mfd: da9062: add regulator voltage
+ selection documentation
+To: Marco Felsch <m.felsch@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,12 +83,12 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
  Support Opensource <Support.Opensource@diasemi.com>,
  "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
  "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+ Mark Brown <broonie@kernel.org>,
  "kernel@pengutronix.de" <kernel@pengutronix.de>,
  Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
  "lee.jones@linaro.org" <lee.jones@linaro.org>,
@@ -75,41 +97,22 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Thu, Dec 12, 2019 at 5:21 PM Marco Felsch <m.felsch@pengutronix.de> wrote:
+> On 19-12-12 16:10, Mark Brown wrote:
 
---oC1+HKm2/end4ao3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> > Note that there's two bits to my concern - one is if we should be using
+> > gpiolib or pinctrl, the other is what's driving the input (whichever API
+> > it's configured through) which didn't seem to be mentioned.
+>
+> gpiolib or pinctrl:
+> I pointed out all my arguments above so I think it is time for Linus.
 
-On Mon, Dec 16, 2019 at 09:55:25AM +0100, Marco Felsch wrote:
-> On 19-12-12 16:51, Mark Brown wrote:
+I think I've elaborated on this?
 
-> > Something needs to say what that thing is, especially if it's runtime
-> > controllable.  In your case from the point of view of software there is
-> > actually no enable control so we shouldn't be providing an enable
-> > operation to the framework.
+The API is fine with me, because this thing does some autonomous
+control and I don't know any better way to share that same line
+with the GPIO subsystem than to make this offset available to
+the regulator driver.
 
-> The enabel control signal is always available, please check [1] table
-> 63. There is a mux in front of the enable pin so:
-
-What I'm saying is that I think the binding needs to explicitly talk
-about that since at the minute it's really confusing reading it as it
-is, it sounds very much like it's trying to override that in a chip
-specific fashion as using gpiolib and the GPIO bindings for pinmuxing is
-really quite unusual.
-
---oC1+HKm2/end4ao3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl33bjYACgkQJNaLcl1U
-h9CVdAf+Kp9Gt6jI1smdYRC5q9QzC1/I+pAe/kPYZU9nCkKrN7T/h4QamB0ktmgq
-8ovpP1GU56emAoDhnLgevc9IiJHlvlzog0LL0RWzMb4zf7CuC3hqDt/mIEwKvVqv
-vXueIgBOwgBYjkunL4ECOsMz4I1v5uBCmbJTCQwnZWpzkTdabJmr49W0LX2y/yPI
-9AgCDJBU1mvD78xAlwMiBWHILuSWcja4dXyBFE0Q4IWyFF1HkslkgrBQL7YY0LaI
-wFmnd/nERtjKaTK3ZqL7cXKjz+PbyswmJXT0E1Y4rDRit//tgtJVoUGVmCP5KYpY
-bBjSjH7xodB796EmcMPayWwZ23L96g==
-=MSqr
------END PGP SIGNATURE-----
-
---oC1+HKm2/end4ao3--
+Yours,
+Linus Walleij
