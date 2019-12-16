@@ -1,74 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D00311FEBA
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 08:02:03 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47bsdf0VQpzDqTl
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 18:01:58 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5CE11FF43
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 08:56:03 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47btqz3FcqzDqTs
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 18:55:59 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::544;
- helo=mail-pg1-x544.google.com; envelope-from=rentao.bupt@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=yadro.com (client-ip=89.207.88.252; helo=mta-01.yadro.com;
+ envelope-from=a.filippov@yadro.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="V4YmLffa"; 
+ dmarc=pass (p=none dis=none) header.from=yadro.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=yadro.com header.i=@yadro.com header.b="B+V2ZbgO"; 
  dkim-atps=neutral
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47bsdN61L7zDqSk
- for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Dec 2019 18:01:44 +1100 (AEDT)
-Received: by mail-pg1-x544.google.com with SMTP id s64so3123091pgb.9
- for <linux-aspeed@lists.ozlabs.org>; Sun, 15 Dec 2019 23:01:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=QTc3d1HmVPrybJi2/QarMwHVxM3YGV+FrtECoqhlaVM=;
- b=V4YmLffaWP4s+kQ6BJvq6kVT1zDNR+3hMe/lXQaI/CpjA9B/Yi5Fi9/fZNahOPncH5
- PUWVlR8lNtVE70GoY0Nu0MWnUDvbJJcf0KceehFUqHTJTCmItz8Y31gurqLGiRtTCfZi
- 3nLA1Q39WIf44c0UDCUciUgPAx6BSvLG3aQ5LHuOiA+rEEHyawtOwHxTt56S4rT7OBjp
- KvYE/SPWlm66nx+6JfpdEPfbLmaHGV3B85WbYoogHYzWh5K4kIXs/2Wz2Ui6nuEIvu6t
- uIHTdgb1CszgVdzkOG1P83gaG90DhxDUIRm06bM2kM9Ihph8eR6EnBqX4T+76jnVE0dd
- y28A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=QTc3d1HmVPrybJi2/QarMwHVxM3YGV+FrtECoqhlaVM=;
- b=hqkJ3er2hd7N7VoRxx3FIJNTjxTR+fDBUiPUylXWpuBU18mXkcK6hsPoa99lOA2xKD
- yMdZqVECO34ZPnpfqNk8J3kIUbSbinwOlxUk1od20IreiSu+WaR77dqH5BqcTOgVDilO
- nKDdQzJ92JPP2MdZAqU3QFNqBoBFYokN+rJf35Ahbe/XPGXdKOtcDmzdI0Yi2GG0b+OT
- uITBlyclUq3ouCCILOK3u/tCSDcofh2ri7tGs860H1AwszU48wua94skhtPqFAxlw3gn
- Fw/NE6cbOhstAcsw09dBg+igMxPx5CXz6KpUWH1kGwXsMJ4Xb2wj3mTKTCQUgKeqA5lE
- WMZA==
-X-Gm-Message-State: APjAAAVTc2oAR7ohvV3XJofpLOG3tzLFpyZS/we8neGh37kSA2bqgRww
- mSlaAWvtfp54iq7wEA0ElkE=
-X-Google-Smtp-Source: APXvYqw1S8NeDvux5szO7FbOa9ytvis7sjbDjIn33rJHA9DmPrfRgaJxVhOZcjtvgNbB7S9x0NioTA==
-X-Received: by 2002:a63:6946:: with SMTP id e67mr11257641pgc.181.1576479700620; 
- Sun, 15 Dec 2019 23:01:40 -0800 (PST)
-Received: from taoren-ubuntu-R90MNF91 (c-24-4-25-55.hsd1.ca.comcast.net.
- [24.4.25.55])
- by smtp.gmail.com with ESMTPSA id 78sm19949249pfu.65.2019.12.15.23.01.39
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 15 Dec 2019 23:01:40 -0800 (PST)
-Date: Sun, 15 Dec 2019 23:01:32 -0800
-From: Tao Ren <rentao.bupt@gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47btqr6dHJzDqSR
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Dec 2019 18:55:46 +1100 (AEDT)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id A5EAD43B4E;
+ Mon, 16 Dec 2019 07:55:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1576482940;
+ x=1578297341; bh=BWfwqYX21S2KCFxyZoimHOBsY3YUgME5n7pLkWB60bE=; b=
+ B+V2ZbgOx+qPVvZsiFz2PdKkhU81IxBp4SDALFFClriCfZzrKvVM2HZbPf325V4r
+ QmOifWLexJldu0z/Wef2gRJaSBMjU/DZGgUPx+MYqaRXtYdnDnHWXZWyJpONfTWz
+ CR93bmQbZga3Z7+W47xJ5Q8RX3CBmUqNI4kHTQR9X3M=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id MNlYISM0A_mb; Mon, 16 Dec 2019 10:55:40 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 3E66E411FF;
+ Mon, 16 Dec 2019 10:55:40 +0300 (MSK)
+Received: from localhost (172.17.14.115) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 16
+ Dec 2019 10:55:39 +0300
+Date: Mon, 16 Dec 2019 10:55:39 +0300
+From: "Alexander A. Filippov" <a.filippov@yadro.com>
 To: Joel Stanley <joel@jms.id.au>
 Subject: Re: [PATCH] ARM: dts: aspeed: AST2400 disables hw checksum
-Message-ID: <20191216070131.GA11755@taoren-ubuntu-R90MNF91>
+Message-ID: <20191216075539.GA13054@bbwork.lan>
 References: <20191216064132.78015-1-joel@jms.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
 In-Reply-To: <20191216064132.78015-1-joel@jms.id.au>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [172.17.14.115]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,6 +76,8 @@ Cc: Alexander Filippov <a.filippov@yadro.com>, linux-aspeed@lists.ozlabs.org,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+
+Reviewed-by: Alexander Filippov <a.filippov@yadro.com>
 
 On Mon, Dec 16, 2019 at 05:41:32PM +1100, Joel Stanley wrote:
 > There is no need to specify this property in the device tree as the
@@ -139,8 +132,4 @@ On Mon, Dec 16, 2019 at 05:41:32PM +1100, Joel Stanley wrote:
 >  };
 > -- 
 > 2.24.0
-
-Thanks for the fix, Joel. I totally forget I added the property in
-ast2400 dts.
-
-Reviewed-by: Tao Ren <rentao.bupt@gmail.com>
+> 
