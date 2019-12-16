@@ -1,74 +1,78 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 507D0120F7F
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 17:31:59 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5996F120598
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 13:29:07 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47c0v41rLWzDqT6
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 23:29:04 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47c6HJ42JXzDqTY
+	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Dec 2019 03:31:56 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::a43;
- helo=mail-vk1-xa43.google.com; envelope-from=linus.walleij@linaro.org;
+ smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::344;
+ helo=mail-wm1-x344.google.com; envelope-from=lee.jones@linaro.org;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.b="S/B9vSxt"; 
+ unprotected) header.d=linaro.org header.i=@linaro.org header.b="v75PO5hR"; 
  dkim-atps=neutral
-Received: from mail-vk1-xa43.google.com (mail-vk1-xa43.google.com
- [IPv6:2607:f8b0:4864:20::a43])
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47c0tk6szMzDqSk
- for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Dec 2019 23:28:45 +1100 (AEDT)
-Received: by mail-vk1-xa43.google.com with SMTP id d17so1187052vke.5
- for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Dec 2019 04:28:45 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47c6H925czzDqR1
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 17 Dec 2019 03:31:47 +1100 (AEDT)
+Received: by mail-wm1-x344.google.com with SMTP id p9so7453584wmc.2
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Dec 2019 08:31:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QaoPgwh2xfV295jRIGnmPYl36fDZZNdnkiloN5hh4CE=;
- b=S/B9vSxtl+yCUJ5TJtpNk2Stv/n4pxJen2cvthe3ynAP3s2fdfTEDf3tZomPyz6/ti
- c56rzuxM4QAB6cX1SwuBlhogEMIItrAmGHHi3ns9bmKzWiSCvIoPoAQsE6LewWidcSt/
- uS/ygBA6WwzxnYrECvxR1yO2wGs7T55an3bXKgv1VII9O7KQetwebEVFyS7PP5o5JG8Z
- WXw7M3EFBu/VJ44dxGgmBl8Gz7OGufeX8UpyQueudgpm0MdnhWFUBNsCWFzcddS22VKX
- sPNZI3c8eaEF8pJD1EuxwIwS1BAOsagfTF+6dyoXqycYB/nk0NUuEatN48eLbR9wzjR0
- GqBA==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=tOdF2v2tnPw84XyFs+DLGKUeb/1Y9vVZVEyHczF+0yg=;
+ b=v75PO5hRYI3xifwe8IjjxOk8gXJmuPeTk8r/sebv8k5VXvGx2syxR0H2BKR6+vXv2H
+ tXer/YdwJlAMyR6zpiMe252PHatrAG2aKC/69EAn0ZDmqxbtiiKDtszJ1HIgL3DgkLRd
+ Y71pqiVAxrAniWaaLJfzb0lXCjDqpPY6au4dWY3RakMG9IrCBjprhEWpW4oSTXYKR6o2
+ mdt/kTckQyZGRZ8izFK+O2fSRgUC3kCpertIvQABHrTv22+fA88ER9ECqNDpFSkkqWlN
+ vlL4nqfNXTN3xHkdXsyHbGlOzAyx7gQHwXYJX9pETi/63ceapo1lij7b17hsEHuP5nWb
+ PQ8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QaoPgwh2xfV295jRIGnmPYl36fDZZNdnkiloN5hh4CE=;
- b=Ixj6dK157JztasoDCBUQ2GQRhMyINUoUyeS4r1OBG0LoH5b1xxBF+3q80OtzftbUSs
- 82NnW6Z+VLu0awqB4kkpeo/oTZFNmY2HF4C0UCe4HLC+dtOTNtTSrVqNz38MW1W92/yB
- jifVXzkYhVCirulopWxG4YfH4BrJhFV0JzqrBPAAQe4Wfq5vEHsLaO5GV6FUw2KAIdF5
- oqmuj0iBLV2WyL9t1dhz7+7KV4JiFHCau1tDPf7eMAqFK6Z6/5ExMD1ywAHjI//6O88C
- blU8MOFimO7Jg2hfPXlhamehpEm4+zy7cCPb8/vstud827NQpbs5xwfaBaiNy6g4QMzl
- SWig==
-X-Gm-Message-State: APjAAAW7g3wNVMpUypZMol5aKh9UWSYcpYeS5F0ywSOAq/L4ItvHPOZO
- l0WgK9IcIIQ65zKTR2U384mpzk9J6mirIL3U5YW65g==
-X-Google-Smtp-Source: APXvYqw/AlQK61lzoibi6xl6okziErleCZ8cs/LBZLmTMrBvWdsoY+o2BjyAVo3CYVnu+ks556/YdO+EFNqOolU0srg=
-X-Received: by 2002:a1f:fe4e:: with SMTP id l75mr24217758vki.18.1576499321815; 
- Mon, 16 Dec 2019 04:28:41 -0800 (PST)
-MIME-Version: 1.0
-References: <20191129172537.31410-1-m.felsch@pengutronix.de>
- <20191129172537.31410-4-m.felsch@pengutronix.de>
- <20191204134631.GT1998@sirena.org.uk>
- <20191210094144.mxximpuouchy3fqu@pengutronix.de>
- <AM5PR1001MB099497419E4DCA69D424EC35805A0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
- <20191211170918.q7kqkd4lrwwp7jl3@pengutronix.de>
- <20191212161019.GF4310@sirena.org.uk>
- <20191212162152.5uu3feacduetysq7@pengutronix.de>
-In-Reply-To: <20191212162152.5uu3feacduetysq7@pengutronix.de>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 16 Dec 2019 13:28:30 +0100
-Message-ID: <CACRpkdbkiQLmyxHG4mAOqOho34UkUZwctRwsUgyJKCgZBOUEvQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/6] dt-bindings: mfd: da9062: add regulator voltage
- selection documentation
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=tOdF2v2tnPw84XyFs+DLGKUeb/1Y9vVZVEyHczF+0yg=;
+ b=NJVCUqDzoprXw6gzQ1K9N2ZHIVttbIq782588nufj+9LLTmDceDx6dSE7067y5DPpi
+ NuOxgw7uFbRhoPaQffvoTCxC528fvdZ1ZTPtkuwJTSTOMB30DpjGW3ItfovHu49bnRVM
+ OluUCoLtxi6BSfCO+HchQJABzydCzKy7OQf7w2/TLPHtyV2xfqU+trkAWu7XShLCB9uf
+ iiXdOsNhwP8ZdKq9SshYoXalNC2fuwiqt4WHsJH6LV47UNbPn7B3izKC14fwvSR+BQn7
+ 3Cis6MxaUObyovrEmNpA9WrYlOGBqkJe+5f/4VuZqslTriU42n07zmfmP2YF1mqp1iLj
+ njrw==
+X-Gm-Message-State: APjAAAUW8k5TW9XPi4bZaUuASRwqfmGJETY3IczYHTtrbBZTfmXrVMSu
+ qTGzCVILUaDupfDSARA6CStexQ==
+X-Google-Smtp-Source: APXvYqza4ODdROrK4+NXBOk9wQRDqm6YbdINa4RvvhiswJwObb7hlbCMFzyXEVki5DExzxaNMZShsg==
+X-Received: by 2002:a05:600c:2218:: with SMTP id
+ z24mr31321397wml.50.1576513902937; 
+ Mon, 16 Dec 2019 08:31:42 -0800 (PST)
+Received: from dell ([185.17.149.202])
+ by smtp.gmail.com with ESMTPSA id w20sm21142865wmk.34.2019.12.16.08.31.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Dec 2019 08:31:42 -0800 (PST)
+Date: Mon, 16 Dec 2019 16:31:41 +0000
+From: Lee Jones <lee.jones@linaro.org>
 To: Marco Felsch <m.felsch@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3 5/6] dt-bindings: mfd: da9062: add regulator gpio
+ enable/disable documentation
+Message-ID: <20191216163141.GS2369@dell>
+References: <20191129172537.31410-1-m.felsch@pengutronix.de>
+ <20191129172537.31410-6-m.felsch@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191129172537.31410-6-m.felsch@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,39 +84,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Support Opensource <Support.Opensource@diasemi.com>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
- Mark Brown <broonie@kernel.org>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
- "lee.jones@linaro.org" <lee.jones@linaro.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, support.opensource@diasemi.com,
+ linux-aspeed@lists.ozlabs.org, linux-gpio@vger.kernel.org,
+ linus.walleij@linaro.org, lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
+ bgolaszewski@baylibre.com, robh+dt@kernel.org, broonie@kernel.org,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Dec 12, 2019 at 5:21 PM Marco Felsch <m.felsch@pengutronix.de> wrote:
-> On 19-12-12 16:10, Mark Brown wrote:
+On Fri, 29 Nov 2019, Marco Felsch wrote:
 
-> > Note that there's two bits to my concern - one is if we should be using
-> > gpiolib or pinctrl, the other is what's driving the input (whichever API
-> > it's configured through) which didn't seem to be mentioned.
->
-> gpiolib or pinctrl:
-> I pointed out all my arguments above so I think it is time for Linus.
+> At the gpio-based regulator enable/disable documentation. This property
+> can be applied to each subnode within the 'regulators' node so each
+> regulator can be configured differently.
+> 
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> ---
+> Changelog:
+> v3:
+> - adapt binding description
+> 
+>  Documentation/devicetree/bindings/mfd/da9062.txt | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-I think I've elaborated on this?
+For my own reference:
+  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
 
-The API is fine with me, because this thing does some autonomous
-control and I don't know any better way to share that same line
-with the GPIO subsystem than to make this offset available to
-the regulator driver.
-
-Yours,
-Linus Walleij
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
