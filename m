@@ -2,80 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1320F11FCDE
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 03:27:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CCBE11FE4D
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 07:01:41 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47blXT2j4hzDqXt
-	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 13:27:05 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47brJ168ddzDqTh
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Dec 2019 17:01:37 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.230;
- helo=new4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::844;
+ helo=mail-qt1-x844.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="dmUcTTuA"; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="rY1aoygr"; dkim-atps=neutral
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="b6X1jWpT"; 
+ dkim-atps=neutral
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47blWt4PGyzDqX3
- for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Dec 2019 13:26:34 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 586176C38;
- Sun, 15 Dec 2019 21:26:32 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Sun, 15 Dec 2019 21:26:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=qVRwiUxnW9dUO
- PGmtU73LvlGD9psrupWjkCbHXotvZE=; b=dmUcTTuAEC2klN6w3zuYrdHlIlTqp
- iAVFwjqZbv4VRvn6wQekWM7aVc/Qg28zDmJXZTPlUnbW39Y8cr52ZP1y7a3nxUWl
- dJ6XVhOzdW4jwouGhTkP/846PprfAB3wCBLFe2mSrYObyD9fPKktbXcnPuEJW2c/
- MttfRtlL8ebJfqK6Dr3vbFHDJf/wPq6pPx3oEcE+Gvug5jKZG96vM2jOhVcXtaPP
- oISPdIMI73C2NFZt+RAwB2KNcOrC+FCWXNvOMj4JBsvqte6O/FxrYgFW7c2T09cD
- ES2ixdKfOTVX+91aP9VqloW/Wk8HUslgVnZwrGVKOxGk+o8Hj5ud65RWQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=qVRwiUxnW9dUOPGmtU73LvlGD9psrupWjkCbHXotvZE=; b=rY1aoygr
- Nzb7UXWKrZBo16WF6yyELlS6E/yUquzSBetuXix0aXiAog4jvnFrPHOlOd18xjxl
- OYvB3ZW1mVPPrT9YV18hhX9GAqs1qMcPbK99agMAaf7TM0cT7kGVY6JFImhGpjmh
- D8PsitEh0eNuUx2mCJul7VoU8z0jI0VgTuSHv5k9NQBRgHIAmVxtejXxfa7IBeyj
- iNzbxNdwttJ5RfmB94lImuEZeG2ViI5/Q40H55P7GvYIYKTFrAxMhEU7BGBZqCPI
- pOpMZmADbwJnAKVcTvgfJb5fv8JUymcfGabQkhYt6zNsKrDZfguxRV8tYXgc7q8a
- zzK1JKl1TrJnNw==
-X-ME-Sender: <xms:WOv2XVKoFX6nK60Ldsy8703KTxMIk2t0C0sd-KN5ckWDiKc1zcIcDQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddtgedggeehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
- dtredttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegr
- jhdrihgurdgruheqnecukfhppedvtddvrdekuddrudekrdeftdenucfrrghrrghmpehmrg
- hilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghrufhiiigv
- pedv
-X-ME-Proxy: <xmx:WOv2XfGf5JPFWDa5UQ62ujBNTrPYcGkmeX7juLBbGZBCkDD1ZI9sIg>
- <xmx:WOv2XVQd_bkdy8Z_8LwT-oYLY2q6n5qhlONOMtdCVnuvmv1-TffodA>
- <xmx:WOv2XTHgJhiH0OUqk4hFmKS2BNZIkHBjeMM-SYXrVDyYKOBsoUrzow>
- <xmx:WOv2XRB5Q3_VEIQsfiJ3zy9VrrfXxNytUXLv5B9ljd5jUsnIthJXRQ>
-Received: from mistburn.au.ibm.com (bh02i525f01.au.ibm.com [202.81.18.30])
- by mail.messagingengine.com (Postfix) with ESMTPA id CAB118005B;
- Sun, 15 Dec 2019 21:26:27 -0500 (EST)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: openipmi-developer@lists.sourceforge.net
-Subject: [PATCH v2 3/3] ipmi: kcs: aspeed: Implement v2 bindings
-Date: Mon, 16 Dec 2019 12:57:42 +1030
-Message-Id: <01ef3787e9ddaa9d87cfd55a2ac793053b5a69de.1576462051.git-series.andrew@aj.id.au>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.fe20dfec1a7c91771c6bb574814ffb4bb49e2136.1576462051.git-series.andrew@aj.id.au>
-References: <cover.fe20dfec1a7c91771c6bb574814ffb4bb49e2136.1576462051.git-series.andrew@aj.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47brHp0PlgzDqSS
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 16 Dec 2019 17:01:25 +1100 (AEDT)
+Received: by mail-qt1-x844.google.com with SMTP id g17so3644227qtp.11
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 15 Dec 2019 22:01:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=f2z51NNQPGTMFGtesof0cLcp5BmT40GR+s1mJAxOa+c=;
+ b=b6X1jWpTP0RfxR0H/2AEWnknIbaWzzhiV6iFVLwl6X9CxbOBNzjE5GUcxjZ7hJEUAn
+ Zc7OU2vHnDk1a726t9a0s/+ZZTMU1TeZTPhtju7Oi59MiMONTQOtK7D7BoAGFq/3OI0q
+ 8RTFbo/jAklEfgL4DoCUxqRT6V9fIOgVreE/E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=f2z51NNQPGTMFGtesof0cLcp5BmT40GR+s1mJAxOa+c=;
+ b=jwzoFB8zHdOro8V+Q6wf3U/X10Tvfv6GVvmaq+OOmmOxqE1lzGG9XfvUUVdBJBkQiL
+ VBbGMF6GsOlSlPm4PvADxoTW9oMiw0yx8MbLkDNJFtW9s2KK3ygkQJbNo96ZrRIpxcsK
+ AHLl0cxSgqxqjcyGg/A+49yrEgufkBqa0Es8Lj9LJA+ym0alb+OrXnevkk91974Dy2xY
+ CFg6Uz0tt969MXNlA+4KhDlc+lmhbSMQSXFHXwn+4NVtW+d6tfaChNatfwQJAZu83m3y
+ q8lOTrElDC8Z4KIQmFZtuNAi9KBuvD8lVNmAOd7fK/L4ZYzxz2fzVhMeed1jtRpNjV3D
+ BEdw==
+X-Gm-Message-State: APjAAAWhK4Go1crKyf+igdmnx7klbbPJRVJbrteem2SXoQ1R8y57RjMm
+ TuSzkoy7+MrdG4FF4mPfeMgWwDSFEiUoVOYgIiY=
+X-Google-Smtp-Source: APXvYqwPky1kIBq5TGeLsTIdyi7DvZWNnzatsH+kjC7TN4z5yU4h0spZkmjXTrZZd+qsQ9tWkqeQPGyHHbV6+3Lse00=
+X-Received: by 2002:ac8:3467:: with SMTP id v36mr22831465qtb.255.1576476081509; 
+ Sun, 15 Dec 2019 22:01:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191211192742.95699-1-brendanhiggins@google.com>
+ <20191211192742.95699-8-brendanhiggins@google.com>
+ <CACPK8XctCb9Q2RaFVHEDuWxKDXpCWMWs-+vnKZ=SeTa3xRnT_g@mail.gmail.com>
+ <CAFd5g45MFYMK-eZWPC5fhm2OkynUXKfArUVhbanYVH+qKRUwPg@mail.gmail.com>
+In-Reply-To: <CAFd5g45MFYMK-eZWPC5fhm2OkynUXKfArUVhbanYVH+qKRUwPg@mail.gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 16 Dec 2019 06:01:09 +0000
+Message-ID: <CACPK8XdgGLLT=RprY8zVW6kKJ6fjJdm4Oxs0uHBv-W5StMyGPQ@mail.gmail.com>
+Subject: Re: [PATCH v1 7/7] fsi: aspeed: add unspecified HAS_IOMEM dependency
+To: Brendan Higgins <brendanhiggins@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,224 +72,85 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, minyard@acm.org,
- arnd@arndb.de, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, robh+dt@kernel.org, haiyue.wang@linux.intel.com,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ linux-um <linux-um@lists.infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The v2 bindings allow us to extract the resources from the devicetree.
-The table in the driver is retained to derive the channel index, which
-removes the need for kcs_chan property from the v1 bindings. The v2
-bindings allow us to reduce the number of warnings generated by the
-existing devicetree nodes.
+On Thu, 12 Dec 2019 at 00:30, Brendan Higgins <brendanhiggins@google.com> wrote:
+>
+> On Wed, Dec 11, 2019 at 4:12 PM Joel Stanley <joel@jms.id.au> wrote:
+> >
+> > Nice. I hit this when attempting to force on CONFIG_COMPILE_TEST in
+> > order to build some ARM drivers under UM. Do you have plans to fix
+> > that too?
+>
+> The only broken configs I found for UML are all listed on the cover
+> letter of this patch. I think fixing COMPILE_TEST on UM could be
+> worthwhile. Did you see any brokenness other than what I mentioned on
+> the cover letter?
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Reviewed-by: Haiyue Wang <haiyue.wang@linux.intel.com>
----
-v2: Use aspeed,lpc-io-reg based on the updated binding
+There's a few more in drivers/char/hw_random that you would need.
+These were HW_RANDOM_MESON , HW_RANDOM_MTK, HW_RANDOM_EXYNOS,
+HW_RANDOM_NPCM, HW_RANDOM_KEYSTONE.
 
- drivers/char/ipmi/kcs_bmc_aspeed.c | 144 +++++++++++++++++++++++++-----
- 1 file changed, 121 insertions(+), 23 deletions(-)
+The only one from your series I needed was PINCTRL_EQUILIBRIUM.
 
-diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_bmc_aspeed.c
-index e3dd09022589..9422d55a0476 100644
---- a/drivers/char/ipmi/kcs_bmc_aspeed.c
-+++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
-@@ -12,6 +12,7 @@
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/of_address.h>
- #include <linux/platform_device.h>
- #include <linux/poll.h>
- #include <linux/regmap.h>
-@@ -233,38 +234,133 @@ static const struct kcs_ioreg ast_kcs_bmc_ioregs[KCS_CHANNEL_MAX] = {
- 	{ .idr = LPC_IDR4, .odr = LPC_ODR4, .str = LPC_STR4 },
- };
- 
--static int aspeed_kcs_probe(struct platform_device *pdev)
-+static struct kcs_bmc *aspeed_kcs_probe_of_v1(struct platform_device *pdev)
- {
--	struct device *dev = &pdev->dev;
- 	struct aspeed_kcs_bmc *priv;
--	struct kcs_bmc *kcs_bmc;
--	u32 chan, addr;
-+	struct device_node *np;
-+	struct kcs_bmc *kcs;
-+	u32 channel;
-+	u32 slave;
- 	int rc;
- 
--	rc = of_property_read_u32(dev->of_node, "kcs_chan", &chan);
--	if ((rc != 0) || (chan == 0 || chan > KCS_CHANNEL_MAX)) {
--		dev_err(dev, "no valid 'kcs_chan' configured\n");
--		return -ENODEV;
-+	np = pdev->dev.of_node;
+I applied this:
+
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -91,7 +91,6 @@ config INIT_ENV_ARG_LIMIT
+
+ config COMPILE_TEST
+        bool "Compile also drivers which will not load"
+-       depends on !UML
+        default n
+        help
+
+That lets me build. However, the code I was attempting to enable
+depends on REGMAP, which needs IOMEM too, so I hit that dead end.
+
+Another issue I had was debugging my kunitconfig. This patch helped a bit:
+
+--- a/tools/testing/kunit/kunit_config.py
++++ b/tools/testing/kunit/kunit_config.py
+@@ -40,6 +40,9 @@ class Kconfig(object):
+        def is_subset_of(self, other: 'Kconfig') -> bool:
+                return self.entries().issubset(other.entries())
+
++       def difference(self, other: 'Kconfig') -> list:
++               return self.entries().difference(other.entries())
 +
-+	rc = of_property_read_u32(np, "kcs_chan", &channel);
-+	if ((rc != 0) || (channel == 0 || channel > KCS_CHANNEL_MAX)) {
-+		dev_err(&pdev->dev, "no valid 'kcs_chan' configured\n");
-+		return ERR_PTR(-EINVAL);
- 	}
- 
--	rc = of_property_read_u32(dev->of_node, "kcs_addr", &addr);
-+	kcs = kcs_bmc_alloc(&pdev->dev, sizeof(struct aspeed_kcs_bmc), channel);
-+	if (!kcs)
-+		return ERR_PTR(-ENOMEM);
+        def write_to_file(self, path: str) -> None:
+                with open(path, 'w') as f:
+                        for entry in self.entries():
+diff --git a/tools/testing/kunit/kunit_kernel.py
+b/tools/testing/kunit/kunit_kernel.py
+index bf3876835331..0f261bc087e4 100644
+--- a/tools/testing/kunit/kunit_kernel.py
++++ b/tools/testing/kunit/kunit_kernel.py
+@@ -107,6 +107,7 @@ class LinuxSourceTree(object):
+                validated_kconfig.read_from_file(kconfig_path)
+                if not self._kconfig.is_subset_of(validated_kconfig):
+                        logging.error('Provided Kconfig is not
+contained in validated .config!')
 +
-+	priv = kcs_bmc_priv(kcs);
-+	priv->map = syscon_node_to_regmap(pdev->dev.parent->of_node);
-+	if (IS_ERR(priv->map)) {
-+		dev_err(&pdev->dev, "Couldn't get regmap\n");
-+		return ERR_PTR(-ENODEV);
-+	}
-+
-+	rc = of_property_read_u32(np, "kcs_addr", &slave);
- 	if (rc) {
--		dev_err(dev, "no valid 'kcs_addr' configured\n");
--		return -ENODEV;
-+		dev_err(&pdev->dev, "no valid 'kcs_addr' configured\n");
-+		return ERR_PTR(-EINVAL);
- 	}
- 
--	kcs_bmc = kcs_bmc_alloc(dev, sizeof(*priv), chan);
--	if (!kcs_bmc)
--		return -ENOMEM;
-+	kcs->ioreg = ast_kcs_bmc_ioregs[channel - 1];
-+	aspeed_kcs_set_address(kcs, slave);
-+
-+	return 0;
-+}
-+
-+static int aspeed_kcs_calculate_channel(const struct kcs_ioreg *regs)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(ast_kcs_bmc_ioregs); i++) {
-+		if (!memcmp(&ast_kcs_bmc_ioregs[i], regs, sizeof(*regs)))
-+			return i + 1;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static struct kcs_bmc *aspeed_kcs_probe_of_v2(struct platform_device *pdev)
-+{
-+	struct aspeed_kcs_bmc *priv;
-+	struct device_node *np;
-+	struct kcs_ioreg ioreg;
-+	struct kcs_bmc *kcs;
-+	const __be32 *reg;
-+	int channel;
-+	u32 slave;
-+	int rc;
- 
--	priv = kcs_bmc_priv(kcs_bmc);
--	priv->map = syscon_node_to_regmap(dev->parent->of_node);
-+	np = pdev->dev.of_node;
-+
-+	/* Don't translate addresses, we want offsets for the regmaps */
-+	reg = of_get_address(np, 0, NULL, NULL);
-+	if (!reg)
-+		return ERR_PTR(-EINVAL);
-+	ioreg.idr = be32_to_cpup(reg);
-+
-+	reg = of_get_address(np, 1, NULL, NULL);
-+	if (!reg)
-+		return ERR_PTR(-EINVAL);
-+	ioreg.odr = be32_to_cpup(reg);
-+
-+	reg = of_get_address(np, 2, NULL, NULL);
-+	if (!reg)
-+		return ERR_PTR(-EINVAL);
-+	ioreg.str = be32_to_cpup(reg);
-+
-+	channel = aspeed_kcs_calculate_channel(&ioreg);
-+	if (channel < 0)
-+		return ERR_PTR(channel);
-+
-+	kcs = kcs_bmc_alloc(&pdev->dev, sizeof(struct aspeed_kcs_bmc), channel);
-+	if (!kcs)
-+		return ERR_PTR(-ENOMEM);
-+
-+	kcs->ioreg = ioreg;
-+
-+	priv = kcs_bmc_priv(kcs);
-+	priv->map = syscon_node_to_regmap(pdev->dev.parent->of_node);
- 	if (IS_ERR(priv->map)) {
--		dev_err(dev, "Couldn't get regmap\n");
--		return -ENODEV;
-+		dev_err(&pdev->dev, "Couldn't get regmap\n");
-+		return ERR_PTR(-ENODEV);
- 	}
- 
--	kcs_bmc->ioreg = ast_kcs_bmc_ioregs[chan - 1];
-+	rc = of_property_read_u32(np, "aspeed,lpc-io-reg", &slave);
-+	if (rc)
-+		return ERR_PTR(rc);
-+
-+	aspeed_kcs_set_address(kcs, slave);
-+
-+	return kcs;
-+}
-+
-+static int aspeed_kcs_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct kcs_bmc *kcs_bmc;
-+	struct device_node *np;
-+	int rc;
-+
-+	np = pdev->dev.of_node;
-+	if (of_device_is_compatible(np, "aspeed,ast2400-kcs-bmc") ||
-+			of_device_is_compatible(np, "aspeed,ast2500-kcs-bmc"))
-+		kcs_bmc = aspeed_kcs_probe_of_v1(pdev);
-+	else if (of_device_is_compatible(np, "aspeed,ast2400-kcs-bmc-v2") ||
-+			of_device_is_compatible(np, "aspeed,ast2500-kcs-bmc-v2"))
-+		kcs_bmc = aspeed_kcs_probe_of_v2(pdev);
-+	else
-+		return -EINVAL;
-+
-+	if (IS_ERR(kcs_bmc))
-+		return PTR_ERR(kcs_bmc);
-+
- 	kcs_bmc->io_inputb = aspeed_kcs_inb;
- 	kcs_bmc->io_outputb = aspeed_kcs_outb;
- 
-@@ -274,7 +370,6 @@ static int aspeed_kcs_probe(struct platform_device *pdev)
- 
- 	dev_set_drvdata(dev, kcs_bmc);
- 
--	aspeed_kcs_set_address(kcs_bmc, addr);
- 	aspeed_kcs_enable_channel(kcs_bmc, true);
- 
- 	rc = misc_register(&kcs_bmc->miscdev);
-@@ -283,9 +378,10 @@ static int aspeed_kcs_probe(struct platform_device *pdev)
- 		return rc;
- 	}
- 
--	pr_info("channel=%u addr=0x%x idr=0x%x odr=0x%x str=0x%x\n",
--		chan, addr,
--		kcs_bmc->ioreg.idr, kcs_bmc->ioreg.odr, kcs_bmc->ioreg.str);
-+	dev_dbg(&pdev->dev,
-+		"Probed KCS device %d (IDR=0x%x, ODR=0x%x, STR=0x%x)\n",
-+		kcs_bmc->channel, kcs_bmc->ioreg.idr, kcs_bmc->ioreg.odr,
-+		kcs_bmc->ioreg.str);
- 
- 	return 0;
- }
-@@ -302,6 +398,8 @@ static int aspeed_kcs_remove(struct platform_device *pdev)
- static const struct of_device_id ast_kcs_bmc_match[] = {
- 	{ .compatible = "aspeed,ast2400-kcs-bmc" },
- 	{ .compatible = "aspeed,ast2500-kcs-bmc" },
-+	{ .compatible = "aspeed,ast2400-kcs-bmc-v2" },
-+	{ .compatible = "aspeed,ast2500-kcs-bmc-v2" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, ast_kcs_bmc_match);
--- 
-git-series 0.9.1
+logging.error(self._kconfig.difference(validated_kconfig))
+                        return False
+                return True
+
+Which would need some tidying up before applying, but helped a lot in
+working out what was going wrong.
+
+>
+> > Do you want to get this in a fix for 5.5?
+>
+> Preferably, yes.
+>
+> > Acked-by: Joel Stanley <joel@jms.id.au>
+>
+> Thanks!
