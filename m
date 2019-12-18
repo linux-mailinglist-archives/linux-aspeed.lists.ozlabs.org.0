@@ -2,86 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4497613510C
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Jan 2020 02:51:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEDD213513C
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Jan 2020 03:05:44 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47tTcn66kyzDqWs
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Jan 2020 12:51:53 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47tTwj72KjzDqX3
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Jan 2020 13:05:41 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=64.147.123.24;
- helo=wout1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.helo=cstnet.cn
+ (client-ip=159.226.251.25; helo=cstnet.cn; envelope-from=vulab@iscas.ac.cn;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=HhawAe0d; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=NPkzPNo3; 
- dkim-atps=neutral
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47tTcX19XnzDqWb;
- Thu,  9 Jan 2020 12:51:39 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id AE5D99B3;
- Wed,  8 Jan 2020 20:51:35 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Wed, 08 Jan 2020 20:51:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to
- :subject:content-type; s=fm1; bh=INrQczsxRVeplZbqXtrfLCVklXpA8YI
- m9Wl7iloiOdU=; b=HhawAe0dt3VweQT6qHrXNP1ZSkPljYrSelvC7ilR4GMUb3a
- jgAxXhZB3mQ5RU36n0gAomx55Pou5sBdrhZ21jvxvnnrVefWcRP2FnphsTsIb9tO
- g1QYz3TkyH4NX/nFItjlMv6eRKkubAvnYfXhE1H3kxXx+HBofgA/Hk4M/FS0pyeg
- XB8Hfjif9rtxh7bTVBGntvhwNEhSay6JKHo0fvK2YVCW7hUjnn55C9ygNhgNh4wp
- zhUNat1wi1usZqPOWRN6Mb5WyTbrAQGaofT47XdLldaL2EdQP7HRnFz3TH9vdQDt
- YYHtMzzMeFfKm/PLRKNj6ZIYnyttuSQmc2trlJg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=INrQcz
- sxRVeplZbqXtrfLCVklXpA8YIm9Wl7iloiOdU=; b=NPkzPNo3vXx0BFVsVInI9b
- ZrJ8p4t1Bad6m+l4Il0iH6JrHJjYBE4X3RbswTWgD8FMBoHm0lTaOCIPdB93a16s
- kDIor4EMVpRi2pfT5Ckl4QzxwT6fYW7ndZBbdrriY5BPfUjvlq/WiIbtuPVeu0w1
- B769QYtTXCicO6hOT1jhHgV7QgMkzp0Y7y6txomyRIjOtHGxQSDZPTWnxAnVvWPr
- b+nMt95+XJK+ymtOEBNVDdf8UY5s6E0as860cHOMFwLkWNu8ydUGFr2/6GaGLLWy
- kHrH1ddHkwyKQ5QcxDPkZNsf12RzphBCDa4FiknEFNb5l50Wfp3MUGsoPexJwz0A
- ==
-X-ME-Sender: <xms:JocWXux7bDeAvG3jS9Bh2t_9UUjKfMOvuUv5qNmmuhV5rUU92i0wFg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvdehledgfeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
- grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgeptd
-X-ME-Proxy: <xmx:JocWXnzDiMIeKUQfypNqgS8HaCY-IizfGQayAcN83yjccJiD2es4_A>
- <xmx:JocWXmpkGcAWz6FSIs_5wuSDbmN8ktpyEY1zrH6HnpdKKtV289JV8A>
- <xmx:JocWXrokrz_BkKts3uJpuIak45JS92JBZRoBft8gpECbZH76_FRi-Q>
- <xmx:J4cWXjh2ymWQgJd1bgMz_VkV0kbeWE4v1-5q8bNS6PYD_VHQXRnAWQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 12408E00A2; Wed,  8 Jan 2020 20:51:34 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-731-g1812a7f-fmstable-20200106v2
-Mime-Version: 1.0
-Message-Id: <f93bd92d-e509-4825-a4bf-00f5b7c6ff7d@www.fastmail.com>
-In-Reply-To: <20191228190631.26777-1-tiny.windzz@gmail.com>
-References: <20191228190631.26777-1-tiny.windzz@gmail.com>
-Date: Thu, 09 Jan 2020 12:23:32 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Yangtao Li" <tiny.windzz@gmail.com>, "Jeremy Kerr" <jk@ozlabs.org>,
- "Joel Stanley" <joel@jms.id.au>, "Alistair Popple" <alistair@popple.id.au>,
- "Eddie James" <eajames@linux.ibm.com>, linux-fsi@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fsi: aspeed: convert to devm_platform_ioremap_resource
-Content-Type: text/plain
+ dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+X-Greylist: delayed 490 seconds by postgrey-1.36 at bilbo;
+ Wed, 18 Dec 2019 17:08:45 AEDT
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+ by lists.ozlabs.org (Postfix) with ESMTP id 47d4MK5msqzDqRM
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Dec 2019 17:08:45 +1100 (AEDT)
+Received: from localhost.localdomain (unknown [159.226.5.100])
+ by APP-05 (Coremail) with SMTP id zQCowACHcKBnwPldBQYSAw--.4719S3;
+ Wed, 18 Dec 2019 14:00:09 +0800 (CST)
+From: Xu Wang <vulab@iscas.ac.cn>
+To: sschaeck@cisco.com, bp@alien8.de, mchehab@kernel.org, tony.luck@intel.com,
+ james.morse@arm.com, rrichter@marvell.com, joel@jms.id.au, andrew@aj.id.au
+Subject: [PATCH] EDAC: aspeed: Remove unneeded semicolon
+Date: Wed, 18 Dec 2019 06:00:06 +0000
+Message-Id: <1576648806-1114-1-git-send-email-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.7.4
+X-CM-TRANSID: zQCowACHcKBnwPldBQYSAw--.4719S3
+X-Coremail-Antispam: 1UD129KBjvdXoWrZF45ZrWktFWkGr1fGr1UGFg_yoWftrb_CF
+ 40kF4fWryDtr1xC397AwnrAF9IvFyDu3W0gF92ga4akF1UXr17XryDuFWUWr4fu3yUuFyD
+ Gr1UtrW7uw47KjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb4AYjsxI4VW3JwAYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
+ C2z280aVCY1x0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+ F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
+ 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kI
+ c2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
+ v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
+ c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
+ 0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_
+ Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8fwID
+ UUUUU==
+X-Originating-IP: [159.226.5.100]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBAEIA102SzegqQAAsQ
+X-Mailman-Approved-At: Thu, 09 Jan 2020 13:05:38 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,15 +61,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Remove unneeded semicolon reported by coccinelle.
 
+Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+---
+ drivers/edac/aspeed_edac.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Sun, 29 Dec 2019, at 05:36, Yangtao Li wrote:
-> Use devm_platform_ioremap_resource() to simplify code.
-> 
-> Signed-off-by: Yangtao Li <tiny.windzz@gmail.com>
+diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
+index 09a9e3d..b194658b 100644
+--- a/drivers/edac/aspeed_edac.c
++++ b/drivers/edac/aspeed_edac.c
+@@ -243,7 +243,7 @@ static int init_csrows(struct mem_ctl_info *mci)
+ 	if (!np) {
+ 		dev_err(mci->pdev, "dt: missing /memory node\n");
+ 		return -ENODEV;
+-	};
++	}
+ 
+ 	rc = of_address_to_resource(np, 0, &r);
+ 
+@@ -252,7 +252,7 @@ static int init_csrows(struct mem_ctl_info *mci)
+ 	if (rc) {
+ 		dev_err(mci->pdev, "dt: failed requesting resource for /memory node\n");
+ 		return rc;
+-	};
++	}
+ 
+ 	dev_dbg(mci->pdev, "dt: /memory node resources: first page r.start=0x%x, resource_size=0x%x, PAGE_SHIFT macro=0x%x\n",
+ 		r.start, resource_size(&r), PAGE_SHIFT);
+-- 
+2.7.4
 
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
