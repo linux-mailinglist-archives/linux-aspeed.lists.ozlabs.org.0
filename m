@@ -2,146 +2,72 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8AFB122CAF
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Dec 2019 14:16:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89A9124AF1
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Dec 2019 16:12:24 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47cdtq6ctTzDqXm
-	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Dec 2019 00:16:03 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47dJQZ0WJbzDqjQ
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Dec 2019 02:12:22 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=diasemi.com (client-ip=85.158.142.3;
- helo=mail1.bemta26.messagelabs.com;
- envelope-from=adam.thomson.opensource@diasemi.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=diasemi.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=dialogsemiconductor.onmicrosoft.com
- header.i=@dialogsemiconductor.onmicrosoft.com header.b="LOj0sjcw"; 
- dkim-atps=neutral
-Received: from mail1.bemta26.messagelabs.com (mail1.bemta26.messagelabs.com
- [85.158.142.3])
+ dmarc=none (p=none dis=none) header.from=linux.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47cdqg6xVdzDqYY
- for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Dec 2019 00:13:17 +1100 (AEDT)
-Received: from [85.158.142.98] (using TLSv1.2 with cipher
- DHE-RSA-AES256-GCM-SHA384 (256 bits))
- by server-3.bemta.az-a.eu-central-1.aws.symcld.net id 89/50-12307-864D8FD5;
- Tue, 17 Dec 2019 13:13:12 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA1WTe0xbZRjG+XpOT886Ws+AyQcZxDQwk0FLQbM
- ds2DMRHeMGypeoiZsO9AjrZYCbWEwE9koMK7SZUIQVi4bN6lBQpnc1VRggFwCDCQKcqtzMHZh
- sArC0B4OTP3n5Pd+z5P3fd4v38ERl3yBJ84k6hmthlZLMCGqDACHpcqba+HyXuvTZOsoTq6a+
- lAyf9aGkaWdg3xyY+gxQtbmt6Dk9KMuQNpvZvDILzareWTD/DifNJgHEdJSugnI0dYrGPmgdQ
- wh0zo6BS89RY1dbBVQ9yfSBFRL0ZSAGl7uRqiG2kyMmhxvxyhLRTI1VFgOqLzHcmqlwftN4Yd
- 8lSYiJvEMX3nxYRMW+4M48a+SeeQ8GBNmgT04ICoR2DDrnwWEDu5G4ezsPYwrLABu5K5vFyjR
- g0Dz4jLKFi5EAQ/+tJmHcYUNwHVbMco2wwgSXu6ZwVh2I07DG6YBhDUhRCEGv+ka57GCK6GAz
- dYUQRbAHSYGPto6yHrcCAOAX60ZBKwHJXxh43cdfJZFBA0HOnJ43LRVFBbM5QBW2EM8D1eW01
- FuDS+4esGMsIwQ7vAXW+n2MEgQsKJ9COF4P1yY3+Jzfgb2pkwA7twfDvxs22EJLDF17rAXHCn
- N3uGTsHjSju76+2/VYByTsCI7DWWXgYQP3LImccexcGB4gM/xQTixlLET4QD8tTCDz+4CiRoU
- 9ndm8o0goOg/sTn2h2VtDzGO/WBV+R2kaPsu9sHeL21oGUBrwQsRWlWUUh9Nq9TSQLlcGhj4n
- NTxPSKX0eektIyJl0YyGr2Wdqgy+qxOpkuKjlQrZBpG3wAcL1QR51TbDC7Z78qswAPnSfaL7r
- ashbuII2IUSUpapzytjVczOis4gOMSKBKOOLR9WiaKSfxIpXa8810Z4s4SN5Fg1CGLdLF0tE4
- VxUl9QIobF0xXERdUE6NhPN1FjayJYE3KeM2TFrt/ywjw8nQVAScnJxfnWEYbrdL/X18E7jiQ
- uIrOsF2cVRr9k0mLjhA8R4igUDsbQk//K3me56UYN/ze2qsYuf1MSLQ8MDkEXDqS+21dQPNnj
- DLstfLcKros75X1Y3VLQpGf+taE0bXaUFgdYCkG4R+Ygl6O+/vY6sSVoDX34/2q381R/uL71o
- 89rqcFzz+oCkGaxovzwvpOhM01FR36ujIu4d702zPXxtMrL7+z4Ftp3nv71U+3sOm27k+Guws
- jo4wJp0rWQnoT68nJzMY/ko7f8Ui1n/P7vK7HrK9/0e3oG212w1nq9anrAvcTp8qqcrx9p2p8
- N5PpudiR7GDYtV7gVISN/dariLdUGYOv1m6meh99b6YlwfDuhZPf+14Ti5/NWwkXpL4/2CSuT
- /dZ+jO8vb0utMLnxuEfQyWoTkkHHkK0OvofoY80N6gEAAA=
-X-Env-Sender: Adam.Thomson.Opensource@diasemi.com
-X-Msg-Ref: server-28.tower-223.messagelabs.com!1576588391!588152!1
-X-Originating-IP: [104.47.1.54]
-X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.44.22; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 20508 invoked from network); 17 Dec 2019 13:13:12 -0000
-Received: from mail-ve1eur01lp2054.outbound.protection.outlook.com (HELO
- EUR01-VE1-obe.outbound.protection.outlook.com) (104.47.1.54)
- by server-28.tower-223.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 17 Dec 2019 13:13:12 -0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Blo1DsmLFKCXhJ29VU/Pv5Tzic2oMA4S1O12hBKXLz5J6vdkbU7bqCw1/UPtdBhMmnTEcU4kVjVFieq0L4GAqa4XBIcMww7o87xRvivfTyMCiOXM+YbfWCr8vhLgAD0aA4ITjXSz4CSJdIZR+uqep09XBmqoWXNWBP1O7uRyg15/FDSGFiKbFWZJKc/jk9aTOjUsk3buQdIfrtJ6ZQmcEAbRxPRs1oAOEsZW5TqVIAn43oi4CGiAGmaBjUK0GD3QC4yHEwQerQLoWBFsZhKgHDfWnH6pFiR9PPV2hP1OKy6l92rfOvVaF2cro/xu8mVDu8amezF3xTWjDZYjOhEYow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=US9NR5Y0nccgZGJYGPBfApIzIZ42oWx8TvhDqq3OsaQ=;
- b=QdNyXAjrdrtAdT9WCd6dXeLbv8I0MJIRJY8rixVqgr4M52jltHCUB1bLZn3L8m4AZDMlbOpx8pgQ7enAfb2iisSVyXFtsWVavqn6jWxXUrRyFQlP1K4QHg4c7ygtp7xXIC912iYpQ3SF+/zKeWJAwXCc6+VlGXNNklUWiJ5G91GJ+ncJOuZ9iI9vsrIudU/q6YGFSXIJh5CiBxXT2a8254Fso6l5OVBBfqfPuRDleMmu5+VAUl9VjhHafCncHhIZQ+JQ2EuomhjhrwzR8B1+WEIJpxaGR6AyyRUlazedNqxNyjX4V/OFM/6HlHt+kVkRkYGG9ZK/YwZg94SN3pQmJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
- dkim=pass header.d=diasemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dialogsemiconductor.onmicrosoft.com;
- s=selector1-dialogsemiconductor-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=US9NR5Y0nccgZGJYGPBfApIzIZ42oWx8TvhDqq3OsaQ=;
- b=LOj0sjcwUn8gzP6mrTrUYqNp25UzCURf8Lk9ObzkZdKqLo/1bK9STK3mehmElsOW1ZwodgIulkCa0xIoBqooKJV4YyactPhb5+e8nvmiXYB6wDErQY4F9Bh++iDDo+FuETvor1I5etmZmy5EQrezdo3Eaqpn0nXmNp4OcAG1aUQ=
-Received: from AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM (10.169.154.136) by
- AM5PR1001MB1186.EURPRD10.PROD.OUTLOOK.COM (10.169.155.142) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.18; Tue, 17 Dec 2019 13:13:10 +0000
-Received: from AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::ed23:3ca0:97ef:c868]) by AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::ed23:3ca0:97ef:c868%10]) with mapi id 15.20.2538.019; Tue, 17 Dec
- 2019 13:13:10 +0000
-From: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-To: Marco Felsch <m.felsch@pengutronix.de>, Adam Thomson
- <Adam.Thomson.Opensource@diasemi.com>
-Subject: RE: [PATCH v3 3/6] dt-bindings: mfd: da9062: add regulator voltage
- selection documentation
-Thread-Topic: [PATCH v3 3/6] dt-bindings: mfd: da9062: add regulator voltage
- selection documentation
-Thread-Index: AQHVptoKIWnW5XGNx0qiesHaa7KQWaeqBMOAgAkpmQCAAfp+EIAAFOMAgAGB2oCAAAM8gIAACD8AgAXEVoCAAH+D4IABFEIAgAANuACAAC0nAIAACzSQ
-Date: Tue, 17 Dec 2019 13:13:10 +0000
-Message-ID: <AM5PR1001MB0994377F69ED2EFF2BEB580380500@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
-References: <20191210094144.mxximpuouchy3fqu@pengutronix.de>
- <AM5PR1001MB099497419E4DCA69D424EC35805A0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
- <20191211170918.q7kqkd4lrwwp7jl3@pengutronix.de>
- <20191212161019.GF4310@sirena.org.uk>
- <20191212162152.5uu3feacduetysq7@pengutronix.de>
- <20191212165124.GJ4310@sirena.org.uk>
- <20191216085525.csr2aglm5md4vtsw@pengutronix.de>
- <AM5PR1001MB09941005A47B603805D3C53280510@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
- <20191217090034.GD31182@pengutronix.de>
- <AM5PR1001MB099460B2D291644F088707BA80500@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
- <20191217123116.GB29666@pengutronix.de>
-In-Reply-To: <20191217123116.GB29666@pengutronix.de>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [165.225.80.228]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d43dab66-c529-4db0-d833-08d782f2ddb2
-x-ms-traffictypediagnostic: AM5PR1001MB1186:
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM5PR1001MB118620715EFF02B359331C8FA7500@AM5PR1001MB1186.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 02543CD7CD
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(396003)(366004)(376002)(39860400002)(136003)(346002)(199004)(189003)(478600001)(86362001)(33656002)(55236004)(53546011)(6506007)(64756008)(2906002)(66556008)(66476007)(52536014)(54906003)(81166006)(81156014)(55016002)(26005)(9686003)(186003)(8936002)(5660300002)(71200400001)(8676002)(316002)(7696005)(66946007)(110136005)(7416002)(4326008)(76116006)(66446008);
- DIR:OUT; SFP:1101; SCL:1; SRVR:AM5PR1001MB1186;
- H:AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:0; MX:1; 
-received-spf: None (protection.outlook.com: diasemi.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: RMgI0cMMAKrB5CqMQ6Ymrbuke1ysRsTEqKVZTrUg7GWOOCQYBeD72m+EEP3TN7nfvMmuYCOcXLaNi6WZUxtJXesASsk20javLsVokjghHBvIcKHGH2TTAGPgh8DdoHZbEeNTPfzselIP7Twb47PxAhpUxyGJG8Wp3hJStx58XOKqAlPEN2/KMH5CXJolG0loH09OojF4TrjWiFSse547uqq2VX5WknK7OB/9joUSuGqlNQZ6xW3t0NTGZw9lmoo3WT3IJOmBOVlatwrE60PQXDlBbncQUHscO0zBRYPFVnQBUQ3mH44284DW0mASQdOYM4GA0HqUZTTnAvV4aRAXM4siOFBpyNnoGsBfD1Dn4a2FhwtXs+Tlzv2H0+cRp2jQ128dTZrPCexbwNxZjXQe4/vd7v3erpFyIj4jL7Y5WRuHAkl8gqvXHk37c3ob13d7
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: diasemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d43dab66-c529-4db0-d833-08d782f2ddb2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2019 13:13:10.7967 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DWexB0wfG8g6nyBWjsshAbVVeSk8oK9GHXnbcvoYvBkmbiLnKVdWEpSJc6zix7/7DQGhxahjFUZ3bSRovIam4b8oTqc9wDau0WEU9ydu46g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR1001MB1186
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47dJNw3T65zDqhC
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Dec 2019 02:10:06 +1100 (AEDT)
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBIErrDD139345; Wed, 18 Dec 2019 10:09:42 -0500
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2wye06ku88-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Dec 2019 10:09:42 -0500
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id xBIF1dZb025436;
+ Wed, 18 Dec 2019 15:09:41 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma04dal.us.ibm.com with ESMTP id 2wvqc6yxjc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Dec 2019 15:09:41 +0000
+Received: from b03ledav002.gho.boulder.ibm.com
+ (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ xBIF9dwR51904970
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 18 Dec 2019 15:09:40 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DD35613604F;
+ Wed, 18 Dec 2019 15:09:39 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 02F6B136051;
+ Wed, 18 Dec 2019 15:09:38 +0000 (GMT)
+Received: from talon7.ibm.com (unknown [9.41.103.158])
+ by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 18 Dec 2019 15:09:38 +0000 (GMT)
+From: Eddie James <eajames@linux.ibm.com>
+To: linux-aspeed@lists.ozlabs.org
+Subject: [PATCH v3 00/12] aspeed: Add SCU interrupt controller and XDMA engine
+ drivers
+Date: Wed, 18 Dec 2019 09:09:26 -0600
+Message-Id: <1576681778-18737-1-git-send-email-eajames@linux.ibm.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-18_04:2019-12-17,2019-12-18 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 mlxscore=0
+ bulkscore=0 spamscore=0 clxscore=1015 priorityscore=1501 suspectscore=1
+ mlxlogscore=601 phishscore=0 adultscore=0 malwarescore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
+ definitions=main-1912180124
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,77 +79,73 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Support Opensource <Support.Opensource@diasemi.com>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
- Mark Brown <broonie@kernel.org>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "lee.jones@linaro.org" <lee.jones@linaro.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jason@lakedaemon.net,
+ maz@kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ tglx@linutronix.de
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 17 December 2019 12:31, Marco Felsch wrote:
+This series first adds a driver to control the interrupt controller provided by
+the System Control Unit (SCU) on the AST2500 and AST2600 SOCs. The interrupts
+made available are necessary for the control of the XDMA engine embedded in the
+same Aspeed SOCs.
+This series then adds a driver to control the XDMA engine. This driver was
+previously sent to the list without support for the AST2600, and has been
+refactored significantly to enable that support. The XDMA engine performs
+automatic DMA operations between the Aspeed SOC (acting as a BMC) and a host
+processor.
 
-> On 19-12-17 09:53, Adam Thomson wrote:
-> > On 17 December 2019 09:01, Marco Felsch wrote:
-> >
-> > > > > The enabel control signal is always available, please check [1] t=
-able
-> > > > > 63. There is a mux in front of the enable pin so:
-> > > > >
-> > > > >              +-------------
-> > > > >  Seq. |\     |   Regulator
-> > > > >  GPI1 | \    |
-> > > > >  GPI2 | | -- > Enable
-> > > > >  GPI3 | /    |
-> > > > >       |/     .
-> > > > >              .
-> > > > >              .
-> > > > >
-> > > > > Adam please correct me if this is wrong.
-> > > >
-> > > > Yes the register can always be configured regardless of the associa=
-ted pin
-> > > > configuration, but if say GPIO1 was configured as a GPO but a regul=
-ator was
-> > > > configured to use GPIO1 as its GPI control mechanism, the output si=
-gnal
-> from
-> > > > GPIO1 would be ignored, the sequencer control would not have any ef=
-fect
-> and
-> > > > you're simply left with manual I2C control. Really we shouldn't be =
-getting
-> into
-> > > > that situation though. If a GPIO is to be used as a regulator contr=
-ol signal
-> > > > then it should be marked as such and I don't think we should be abl=
-e to use
-> that
-> > > > pin for anything other than regulator control.
-> > >
-> > > I see, so we have to guarantee that the requested gpio is configured =
-as
-> > > input. This can be done by:
-> >
-> > This is one of the reasons I thought this was better suited to being do=
-ne in the
-> > pinctrl/pinmux side. If you configure the GPIO as for regulator control=
- then
-> > the code can automatically configure the GPIO for input. That doesn't t=
-hen
-> need
-> > to be in the regulator driver.
->=20
-> I still don't prefer that way.. pls check my arguments I already made
-> and I don't wanna repeat it again.
+Changes since v2:
+ - See individual patches
+ - Drop rainier dts patch
+ - In summary, remove references to VGA memory as the XDMA driver doesn't care
+   where it is. Remove SDRAM controller reference. Move user reset
+   functionality to a separate patch and make it an ioctl.
 
-Yes, I read your arguments but still can't agree :)
+Changes since v1:
+ - See individual patches
+ - In summary, first the irqchip driver switched to use the parent SCU regmap
+   rather than iomapping it's register. Secondly, the XDMA initialization
+   switched to use properties from the device tree rather than dynamically
+   calculate memory spaces, and system config.
+
+Eddie James (12):
+  dt-bindings: interrupt-controller: Add Aspeed SCU interrupt controller
+  irqchip: Add Aspeed SCU interrupt controller
+  ARM: dts: aspeed: ast2500: Add SCU interrupt controller
+  ARM: dts: aspeed: ast2600: Add SCU interrupt controllers
+  dt-bindings: soc: Add Aspeed XDMA Engine
+  soc: aspeed: Add XDMA Engine Driver
+  soc: aspeed: xdma: Add user interface
+  soc: aspeed: xdma: Add reset ioctl
+  ARM: dts: aspeed: ast2500: Add XDMA Engine
+  ARM: dts: aspeed: ast2600: Add XDMA Engine
+  ARM: dts: aspeed: witherspoon: Enable XDMA Engine
+  ARM: dts: aspeed: tacoma: Enable XDMA engine
+
+ .../aspeed,ast2xxx-scu-ic.txt                 |   23 +
+ .../devicetree/bindings/soc/aspeed/xdma.txt   |   40 +
+ MAINTAINERS                                   |   16 +
+ arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts   |    5 +
+ .../boot/dts/aspeed-bmc-opp-witherspoon.dts   |    5 +
+ arch/arm/boot/dts/aspeed-g5.dtsi              |   19 +
+ arch/arm/boot/dts/aspeed-g6.dtsi              |   27 +
+ drivers/irqchip/Makefile                      |    2 +-
+ drivers/irqchip/irq-aspeed-scu-ic.c           |  239 ++++
+ drivers/soc/aspeed/Kconfig                    |    8 +
+ drivers/soc/aspeed/Makefile                   |    1 +
+ drivers/soc/aspeed/aspeed-xdma.c              | 1014 +++++++++++++++++
+ .../interrupt-controller/aspeed-scu-ic.h      |   23 +
+ include/uapi/linux/aspeed-xdma.h              |   42 +
+ 14 files changed, 1463 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2xxx-scu-ic.txt
+ create mode 100644 Documentation/devicetree/bindings/soc/aspeed/xdma.txt
+ create mode 100644 drivers/irqchip/irq-aspeed-scu-ic.c
+ create mode 100644 drivers/soc/aspeed/aspeed-xdma.c
+ create mode 100644 include/dt-bindings/interrupt-controller/aspeed-scu-ic.h
+ create mode 100644 include/uapi/linux/aspeed-xdma.h
+
+-- 
+2.24.0
+
