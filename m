@@ -1,67 +1,74 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E9912692B
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Dec 2019 19:34:23 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B57C1268A7
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Dec 2019 19:04:34 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47f0Bk6z3nzDqsj
-	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Dec 2019 05:04:30 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47f0s769QRzDqsq
+	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Dec 2019 05:34:19 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::c43;
- helo=mail-yw1-xc43.google.com; envelope-from=manikandan.hcl.ers.epl@gmail.com;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.b="r+uPJHGc"; 
+ spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
+ (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
+ envelope-from=prvs=7256783720=vijaykhemka@fb.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=fb.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=fb.com header.i=@fb.com header.b="VGZLUlUK"; 
  dkim-atps=neutral
-Received: from mail-yw1-xc43.google.com (mail-yw1-xc43.google.com
- [IPv6:2607:f8b0:4864:20::c43])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
+ [67.231.145.42])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47f0BV6FLYzDqsl;
- Fri, 20 Dec 2019 05:04:17 +1100 (AEDT)
-Received: by mail-yw1-xc43.google.com with SMTP id 192so2513628ywy.0;
- Thu, 19 Dec 2019 10:04:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9xu0gXAThjHuomxAy7z6jsSTfBUFXaBbfxFNyRlgnOQ=;
- b=r+uPJHGclcgLynQhEfG14MDTO/RMOLYcYvw0iYfH6dKv/BaVcyyYE8aXDQDOh+XfqA
- J9Qv/Nhf/+sTj/aDudTA9Svt38OHhNIICoDGbzYeXFW/y889Kpzt/UbKep8SJi6D/xIP
- mP3S12j/Zt9KBkMeTbG8KR+RPHHFccs83AO6NnZIhKJnavAqLiX1A3bc+e4ejcmFeoCz
- lhiS9PEGxguvaJ6K22xPMwQmWd4b+yVbwMA0/EECYexFbMvf6XaXwM6UcUhwHOmnFLRC
- g9Tnzdgf1fwZ+V61ZwNhKDk6w9CI73inURralZcWktVZja7ffHDOecbUXNO3K+2f+wHg
- MOeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9xu0gXAThjHuomxAy7z6jsSTfBUFXaBbfxFNyRlgnOQ=;
- b=jxIdXvhIxJD9XUWX8b4/NKPnmZQgGvGm+YgVBPqULUrVacnEAfi+gn8GVWluq07juh
- w+jc2YpQo+wFHWUc+pH+DMHfNEk2YCNQxWA15vTvtxvbzKIRyC6Sa3jdpENAy9dLh7J4
- k3BaYGAI4FujhUyL6/la4lDREK05Zb3zPy23/fTbTg1QqvgrHqjuhhZGwJGfdDzCQp6l
- 5MXmrpxfKB+PJzDZ9dGngv8YrkEimGSwBztM9Ms4cjpxozTpo5T51BqCmJ+j5HVKObUX
- J4XkDarVj7bCuwNu5XrOo9LGGly5xQ60NQM4maE5Q73SgAHbHqJ2nLt7LXHro6kT6slk
- 18uw==
-X-Gm-Message-State: APjAAAXoXpx7k0oHZxm+USVjPngx5BBmlIhvnlFb9kS/uRlDGOz+v5f5
- PqXFE7l4L2/fPQxJ8KtR+3/+13AzlhiDsUBtzh4=
-X-Google-Smtp-Source: APXvYqw6Ir29YLk5I6WL/pv/bINQKUTINTla2xvLPfkhIq2pRcOpKh27T6T67kFRwemuUTOBaoLESpn3vF81oORN/5M=
-X-Received: by 2002:a0d:d7c9:: with SMTP id z192mr7529433ywd.502.1576778655292; 
- Thu, 19 Dec 2019 10:04:15 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47f0s13gK7zDqLr
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 20 Dec 2019 05:34:08 +1100 (AEDT)
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ xBJIOb8R022747
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Dec 2019 10:34:04 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=facebook;
+ bh=3JRBFKRpQH94huaiHVUb2DXHVLx5xpYAZyUWzz+kx7c=;
+ b=VGZLUlUKoCM0oSy8t96sgj6bgrn5cq4RdC1w6+VJWVjuzahszuSbtiDMOnmJd9g9Psnz
+ jvox/YsjtpFWsOMqhGe4hJ4Ouwl2s/iHevPD69FHGVwGFpoh4XgWBphZ5t/fSKaW9A8T
+ /Zqe6B7rlB+USs2TBdrkL+fr67SB4TpDz2c= 
+Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
+ by mx0a-00082601.pphosted.com with ESMTP id 2wysvhwhgg-6
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Dec 2019 10:34:03 -0800
+Received: from intmgw004.06.prn3.facebook.com (2620:10d:c081:10::13) by
+ mail.thefacebook.com (2620:10d:c081:35::129) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.1713.5;
+ Thu, 19 Dec 2019 10:33:44 -0800
+Received: by devvm4117.prn2.facebook.com (Postfix, from userid 167582)
+ id 7964818A1DBBE; Thu, 19 Dec 2019 10:33:42 -0800 (PST)
+Smtp-Origin-Hostprefix: devvm
+From: Vijay Khemka <vijaykhemka@fb.com>
+Smtp-Origin-Hostname: devvm4117.prn2.facebook.com
+To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Smtp-Origin-Cluster: prn2c23
+Subject: [PATCH] ARM: dts: aspeed: tiogapass: Add gpio line names
+Date: Thu, 19 Dec 2019 10:33:30 -0800
+Message-ID: <20191219183330.2860724-1-vijaykhemka@fb.com>
+X-Mailer: git-send-email 2.17.1
+X-FB-Internal: Safe
 MIME-Version: 1.0
-References: <20191213135131.GA1822@cnn>
- <8017a61e-e579-41ea-816a-4a76a6dc41e9@www.fastmail.com>
-In-Reply-To: <8017a61e-e579-41ea-816a-4a76a6dc41e9@www.fastmail.com>
-From: Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>
-Date: Thu, 19 Dec 2019 23:33:33 +0530
-Message-ID: <CAMRErLPS69htCp2hGsy5__HEEY=7V=Ao5754nu2Xe=VkB3t6iQ@mail.gmail.com>
-Subject: Re: [PATCH v5] ARM: dts: aspeed: Adding Facebook Yosemite V2 BMC
-To: Joel Stanley <joel@jms.id.au>
-Content-Type: multipart/alternative; boundary="000000000000a36002059a12631c"
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-12-19_06:2019-12-17,2019-12-19 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ priorityscore=1501
+ malwarescore=0 bulkscore=0 impostorscore=0 spamscore=0 adultscore=0
+ mlxlogscore=999 phishscore=0 suspectscore=0 clxscore=1015 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-1912190135
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,76 +80,93 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Sai Dasari <sdasari@fb.com>,
- manikandan.e@hcl.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
+Cc: sdasari@fb.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---000000000000a36002059a12631c
-Content-Type: text/plain; charset="UTF-8"
+Added GPIO line names for all gpio used in tiogapass platform,
+these line names will be used by libgpiod to control GPIOs
 
-Hi Joel,
-              I have done the changes as per your review comments in v4
-and submitted as v5 . Please review the v5 patch.
-Thanks
-Mani.E
+Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
+---
+ .../dts/aspeed-bmc-facebook-tiogapass.dts     | 63 +++++++++++++++++++
+ 1 file changed, 63 insertions(+)
 
-On Mon, Dec 16, 2019 at 5:03 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
+index 682f729ea25e..28c3a69437b1 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
+@@ -121,6 +121,69 @@
+ 	kcs_addr = <0xca2>;
+ };
+ 
++&gpio {
++	status = "okay";
++	gpio-line-names =
++	/*A0-A7*/	"BMC_CPLD_FPGA_SEL","","","","","","","",
++	/*B0-B7*/	"","BMC_DEBUG_EN","","","","BMC_PPIN","PS_PWROK",
++			"IRQ_PVDDQ_GHJ_VRHOT_LVT3",
++	/*C0-C7*/	"","","","","","","","",
++	/*D0-D7*/	"BIOS_MRC_DEBUG_MSG_DIS","BOARD_REV_ID0","",
++			"BOARD_REV_ID1","IRQ_DIMM_SAVE_LVT3","BOARD_REV_ID2",
++			"CPU_ERR0_LVT3_BMC","CPU_ERR1_LVT3_BMC",
++	/*E0-E7*/	"RESET_BUTTON","RESET_OUT","POWER_BUTTON",
++			"POWER_OUT","NMI_BUTTON","","CPU0_PROCHOT_LVT3_ BMC",
++			"CPU1_PROCHOT_LVT3_ BMC",
++	/*F0-F7*/	"IRQ_PVDDQ_ABC_VRHOT_LVT3","",
++			"IRQ_PVCCIN_CPU0_VRHOT_LVC3",
++			"IRQ_PVCCIN_CPU1_VRHOT_LVC3",
++			"IRQ_PVDDQ_KLM_VRHOT_LVT3","","P3VBAT_BRIDGE_EN","",
++	/*G0-G7*/	"CPU_ERR2_LVT3","CPU_CATERR_LVT3","PCH_BMC_THERMTRIP",
++			"CPU0_SKTOCC_LVT3","","","","BIOS_SMI_ACTIVE",
++	/*H0-H7*/	"LED_POST_CODE_0","LED_POST_CODE_1","LED_POST_CODE_2",
++			"LED_POST_CODE_3","LED_POST_CODE_4","LED_POST_CODE_5",
++			"LED_POST_CODE_6","LED_POST_CODE_7",
++	/*I0-I7*/	"CPU0_FIVR_FAULT_LVT3","CPU1_FIVR_FAULT_LVT3",
++			"FORCE_ADR","UV_ADR_TRIGGER_EN","","","","",
++	/*J0-J7*/	"","","","","","","","",
++	/*K0-K7*/	"","","","","","","","",
++	/*L0-L7*/	"IRQ_UV_DETECT","IRQ_OC_DETECT","HSC_TIMER_EXP","",
++			"MEM_THERM_EVENT_PCH","PMBUS_ALERT_BUF_EN","","",
++	/*M0-M7*/	"CPU0_RC_ERROR","CPU1_RC_ERROR","","OC_DETECT_EN",
++			"CPU0_THERMTRIP_LATCH_LVT3",
++			"CPU1_THERMTRIP_LATCH_LVT3","","",
++	/*N0-N7*/	"","","","CPU_MSMI_LVT3","","","","",
++	/*O0-O7*/	"","","","","","","","",
++	/*P0-P7*/	"BOARD_SKU_ID0","BOARD_SKU_ID1","BOARD_SKU_ID2",
++			"BOARD_SKU_ID3","BOARD_SKU_ID4","BMC_PREQ",
++			"BMC_PWR_DEBUG","RST_RSMRST",
++	/*Q0-Q7*/	"","","","","UARTSW_LSB","UARTSW_MSB",
++			"POST_CARD_PRES_BMC","PE_BMC_WAKE",
++	/*R0-R7*/	"","","BMC_TCK_MUX_SEL","BMC_PRDY",
++			"BMC_XDP_PRSNT_IN","RST_BMC_PLTRST_BUF","SLT_CFG0",
++			"SLT_CFG1",
++	/*S0-S7*/	"THROTTLE","BMC_READY","","HSC_SMBUS_SWITCH_EN","",
++			"","","",
++	/*T0-T7*/	"","","","","","","","",
++	/*U0-U7*/	"","","","","","BMC_FAULT","","",
++	/*V0-V7*/	"","","","FAST_PROCHOT_EN","","","","",
++	/*W0-W7*/	"","","","","","","","",
++	/*X0-X7*/	"","","","GLOBAL_RST_WARN",
++			"CPU0_MEMABC_MEMHOT_LVT3_BMC",
++			"CPU0_MEMDEF_MEMHOT_LVT3_BMC",
++			"CPU1_MEMGHJ_MEMHOT_LVT3_BMC",
++			"CPU1_MEMKLM_MEMHOT_LVT3_BMC",
++	/*Y0-Y7*/	"SIO_S3","SIO_S5","BMC_JTAG_SEL","SIO_ONCONTROL","",
++			"","","",
++	/*Z0-Z7*/	"","SIO_POWER_GOOD","IRQ_PVDDQ_DEF_VRHOT_LVT3","",
++			"","","","",
++	/*AA0-AA7*/	"CPU1_SKTOCC_LVT3","IRQ_SML1_PMBUS_ALERT",
++			"SERVER_POWER_LED","","PECI_MUX_SELECT","UV_HIGH_SET",
++			"","POST_COMPLETE",
++	/*AB0-AB7*/	"IRQ_HSC_FAULT","OCP_MEZZA_PRES","","","","","","",
++	/*AC0-AC7*/	"","","","","","","","";
++};
++
+ &mac0 {
+ 	status = "okay";
+ 
+-- 
+2.17.1
 
-> On Sat, 14 Dec 2019, at 00:21, Manikandan Elumalai wrote:
-> > The Yosemite V2 is a facebook multi-node server
-> > platform that host four OCP server. The BMC
-> > in the Yosemite V2 platform based on AST2500 SoC.
-> >
-> > This patch adds linux device tree entry related to
-> > Yosemite V2 specific devices connected to BMC SoC.
-> >
-> > Signed-off-by : Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>
-> > Acked-by        : Andrew Jeffery <andrew@aj.id.au>
-> > Reviewed-by  : Vijay Khemka <vkhemka@fb.com>
->
-> In the future, don't worry about aligning parts of the tag text. Single
-> space is
-> the custom (and is less effort!)
->
-> Andrew
->
-
---000000000000a36002059a12631c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Joel,</div><div>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 I have done the changes as pe=
-r your review comments in v4=C2=A0 and submitted as v5 . Please review the =
-v5 patch.<br></div><div>Thanks</div><div>Mani.E<br></div></div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Dec 16, 20=
-19 at 5:03 AM Andrew Jeffery &lt;<a href=3D"mailto:andrew@aj.id.au">andrew@=
-aj.id.au</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">On Sat, 14 Dec 2019, at 00:21, Manikandan Elumalai wrote:<br>
-&gt; The Yosemite V2 is a facebook multi-node server<br>
-&gt; platform that host four OCP server. The BMC<br>
-&gt; in the Yosemite V2 platform based on AST2500 SoC.<br>
-&gt; <br>
-&gt; This patch adds linux device tree entry related to<br>
-&gt; Yosemite V2 specific devices connected to BMC SoC.<br>
-&gt; <br>
-&gt; Signed-off-by : Manikandan Elumalai &lt;<a href=3D"mailto:manikandan.h=
-cl.ers.epl@gmail.com" target=3D"_blank">manikandan.hcl.ers.epl@gmail.com</a=
->&gt;<br>
-&gt; Acked-by=C2=A0 =C2=A0 =C2=A0 =C2=A0 : Andrew Jeffery &lt;<a href=3D"ma=
-ilto:andrew@aj.id.au" target=3D"_blank">andrew@aj.id.au</a>&gt;<br>
-&gt; Reviewed-by=C2=A0 : Vijay Khemka &lt;<a href=3D"mailto:vkhemka@fb.com"=
- target=3D"_blank">vkhemka@fb.com</a>&gt;<br>
-<br>
-In the future, don&#39;t worry about aligning parts of the tag text. Single=
- space is<br>
-the custom (and is less effort!)<br>
-<br>
-Andrew<br>
-</blockquote></div>
-
---000000000000a36002059a12631c--
