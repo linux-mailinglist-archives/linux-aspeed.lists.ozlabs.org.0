@@ -1,81 +1,81 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAFC8125771
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Dec 2019 00:10:54 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47dW2h1RjPzDqkZ
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Dec 2019 10:10:52 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4BEC125923
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Dec 2019 02:18:13 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47dYsZ0cvFzDqN3
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Dec 2019 12:18:10 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.28;
- helo=out4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.25;
+ helo=out1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="D4G0itlD"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="mIgBLxDk"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="im2fMc8A"; dkim-atps=neutral
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
+ header.b="CWKhnKum"; dkim-atps=neutral
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47dW2W3jzjzDqk5
- for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Dec 2019 10:10:43 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47dYsK6BntzDq9C
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Dec 2019 12:17:57 +1100 (AEDT)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 3A31C21EE9;
- Wed, 18 Dec 2019 18:10:41 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 71DA021F92;
+ Wed, 18 Dec 2019 20:17:53 -0500 (EST)
 Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Wed, 18 Dec 2019 18:10:41 -0500
+ by compute4.internal (MEProxy); Wed, 18 Dec 2019 20:17:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=bP1o2RXoO7tNFb5/kJZExnnM5a2fcbt
- SPdIvkcQJXyA=; b=D4G0itlDbAPubKY5LU9mOuPyKcoHeft5nHCiCeUvrxboapZ
- dA4ln/pXiG26nX2Ib/RW0MzQoNz1P5GwUeb9HXJraR41akyamzEUG/aNc30GIzYA
- Kh82Y9hf9GHk9EWD04n51CR70RkfogOjfVLyfwkdWhKc9BflHLCYepKjRmFivsYo
- sbpOqUqTdrSU0WiqXF3dO0qg7ILD7zfzaT2S/C955/Xz3/sUlWVKFngtSvuTPJ5y
- L2xhGViM0EiOpvGdn3/BJLkNk4uf7naJjtH8+rkDbooZc4tvHAR5H3CXMHJgCGMW
- afvx24Vc9vOKyNjK200kHX/HsfLuB9yWrqYSg6w==
+ :subject:content-type; s=fm1; bh=Ej9oZRbrjMybX+mUqzStzu68DsSeTNj
+ LHLVFdivMMtY=; b=mIgBLxDk+NpZQU8SNFJU1ACg4l+3AlomywqLk3MghtuBy8Q
+ 4gHoiGxcI1iOGCMJcMoYKd1QlVBncAMbPrGGqNL09EVPJ4GbO88V5wzplCGcgzn6
+ ukMhJY125KOVP7vOAl5WTkcslNvtiAKxn5EgE6eRYg9j+x7ZdC/lBvWp5PpW3Wz8
+ 4pfHXTf3FRJ6aQeX+WrwpyJQlGoewUQxd4EW5OPg1x1madyVn+G2aaKdlSUsV3hd
+ g3hWEJ9+64bmnts37BYiembOPSBrHaRBerNc02QmFS01HPeO/tfmqXLm/tArcMv2
+ MrEKRE4D5Kkhzg8Q2vVHcWNTVxMwPQc9k1S8jeg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=bP1o2R
- XoO7tNFb5/kJZExnnM5a2fcbtSPdIvkcQJXyA=; b=im2fMc8AC7tOloKDP0z5Ec
- 12FXgnlAcqB8dc/Y2PbGLETB1tR+1Q8v/kAaW7fJjWikCt2Hhec0sjEiSOaROHt2
- iJi41qCIX/zWo3THTp4mu1n6XU8ScMZRtnrXWwTILTcrMPGBY9FYpjV5pCbSTvqu
- EzLZZZmeAgB496JdYCFS4P1FVNWjmDXrYok4cJ0qtw/khj2VJjcJbAPhowlmUCmY
- 1y7u00HcrCiWjtFzol1DCfQ3wB9hV2jUP5562OByiT/0Zj7pNDM0q/cqTvfnGvIC
- +SZzlR/UJU2HzhXJcXWgpDelwm4zuI1X3Hsruxrdv07ZPX0vGBx2vNYGn5AvA1eA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Ej9oZR
+ brjMybX+mUqzStzu68DsSeTNjLHLVFdivMMtY=; b=CWKhnKumxInlJgxpAoWLj2
+ 2THJNrsf13FC/zq4Vs0WmMLy1+bEPqVbzs1mc+oPzDKJCAMfnCDFUA281YuV25OA
+ tJC5HGA7WcnnfbuPPH8Xhp6A+iaSvPRJkKcNz/aLOeEf/iMu2QpOHIYTWsiciiaL
+ dyABxIcCvIFRIyKiQ8hBFgSldeWHyGFGC8wfn2U3BsgcP/SqjeH49740SC+ztgbt
+ 7pdawEmcBWCE2kjSdxyEetPRhdFSfU6naKGs4miMEadKUi6QX8sWw7MmYTy8OZOM
+ Mj/kIT/3wVIz65ItxAfs65Qx5aVIu+YSuPDeGTdEN6MeEEa4U6OBxZV08kRhx2hw
  ==
-X-ME-Sender: <xms:8bH6Xf5qSXAyWkTXvrieMhm4NMNijt1vNGVnBYVuPVPGs2UbBwD6dw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddutddgtdehucetufdoteggodetrfdotf
+X-ME-Sender: <xms:v8_6XTaz0FXvfGE-cV9T97fSoD4KftSo8Z9FLPQjMqmxZKPZcNNTGg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddutddgfeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
  rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecurfgrrh
  grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghunecuvehluhhsthgv
- rhfuihiivgepud
-X-ME-Proxy: <xmx:8bH6XZK3r0wLqMk_E4OLHVw7DiOQhloyQkGJF29idIq7b2azROMgnw>
- <xmx:8bH6XRdCAR5BQEy0cqpKis92i3X2W7pEvO20lYUzY-Lff6EM-wfPWA>
- <xmx:8bH6XUfXHNaY9EcFsW88V8iDB2ce0krMd7MwQm_4ww3R1MW_JVBoHQ>
- <xmx:8bH6XfB1hjKxNCcUrzw86FzEVzB2D39nOicQ30v_bqqeGsovLU73eQ>
+ rhfuihiivgeptd
+X-ME-Proxy: <xmx:v8_6Xd0fPWONZTOer7f-YfLu93EiLK1wtEYRsC5ONabdF-51gQNsWw>
+ <xmx:v8_6XZcyTrkijgqbjfo-pWAPCLyblqz8GMr1tsP2T7GE7W_mR5sJYQ>
+ <xmx:v8_6XeEaINiix0MotN1ol1bGoIImC_gW_ywcIf8mINSJ9Mp-ucbCQg>
+ <xmx:wc_6XSr6f6ndzO10xs7LWGf6A6npToebmM5y1ePMUXd4D7n3z5Jp4w>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 0BC88E00A2; Wed, 18 Dec 2019 18:10:41 -0500 (EST)
+ id 515DFE00A3; Wed, 18 Dec 2019 20:17:51 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.1.7-694-gd5bab98-fmstable-20191218v1
 Mime-Version: 1.0
-Message-Id: <73cbffea-89f1-4212-99af-10c32968cf15@www.fastmail.com>
-In-Reply-To: <1576681778-18737-6-git-send-email-eajames@linux.ibm.com>
+Message-Id: <de68ff11-0942-422a-b233-ff578b06eefc@www.fastmail.com>
+In-Reply-To: <1576681778-18737-8-git-send-email-eajames@linux.ibm.com>
 References: <1576681778-18737-1-git-send-email-eajames@linux.ibm.com>
- <1576681778-18737-6-git-send-email-eajames@linux.ibm.com>
-Date: Thu, 19 Dec 2019 09:42:10 +1030
+ <1576681778-18737-8-git-send-email-eajames@linux.ibm.com>
+Date: Thu, 19 Dec 2019 11:49:27 +1030
 From: "Andrew Jeffery" <andrew@aj.id.au>
 To: "Eddie James" <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
-Subject: Re: [PATCH v3 05/12] dt-bindings: soc: Add Aspeed XDMA Engine
+Subject: Re: [PATCH v3 07/12] soc: aspeed: xdma: Add user interface
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -99,95 +99,255 @@ Sender: "Linux-aspeed"
 
 
 On Thu, 19 Dec 2019, at 01:39, Eddie James wrote:
-> Document the bindings for the Aspeed AST25XX and AST26XX XDMA engine.
+> This commits adds a miscdevice to provide a user interface to the XDMA
+> engine. The interface provides the write operation to start DMA
+> operations. The DMA parameters are passed as the data to the write call.
+> The actual data to transfer is NOT passed through write. Note that both
+> directions of DMA operation are accomplished through the write command;
+> BMC to host and host to BMC.
+> 
+> The XDMA driver reserves an area of physical memory for DMA operations,
+> as the XDMA engine is restricted to accessing certain physical memory
+> areas on some platforms. This memory forms a pool from which users can
+> allocate pages for their usage with calls to mmap. The space allocated
+> by a client will be the space used in the DMA operation. For an
+> "upstream" (BMC to host) operation, the data in the client's area will
+> be transferred to the host. For a "downstream" (host to BMC) operation,
+> the host data will be placed in the client's memory area.
+> 
+> Poll is also provided in order to determine when the DMA operation is
+> complete for non-blocking IO.
 > 
 > Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
 > ---
 > Changes since v2:
->  - Remove 'sdmc', rename 'vga-mem' to 'memory'
+>  - Rework commit message to talk about VGA memory less
+>  - Remove user reset functionality
+>  - Clean up sanity checks in aspeed_xdma_write()
+>  - Wait for transfer complete in the vm area close function
 > 
->  .../devicetree/bindings/soc/aspeed/xdma.txt   | 40 +++++++++++++++++++
->  MAINTAINERS                                   |  6 +++
->  2 files changed, 46 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/soc/aspeed/xdma.txt
+>  drivers/soc/aspeed/aspeed-xdma.c | 205 ++++++++++++++++++++++++++++++-
+>  1 file changed, 203 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/soc/aspeed/xdma.txt 
-> b/Documentation/devicetree/bindings/soc/aspeed/xdma.txt
-> new file mode 100644
-> index 000000000000..58253ea1587b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/soc/aspeed/xdma.txt
-> @@ -0,0 +1,40 @@
-> +Aspeed AST25XX and AST26XX XDMA Engine
-> +
-> +The XDMA Engine embedded in the AST2500 and AST2600 SOCs can perform 
-> automatic
-> +DMA operations over PCI between the SOC (acting as a BMC) and a host 
-> processor.
-> +
-> +Required properties:
-> + - compatible		: must be "aspeed,ast2500-xdma" or
-> +			  "aspeed,ast2600-xdma"
-> + - reg			: contains the address and size of the memory region
-> +			  associated with the XDMA engine registers
-> + - clocks		: clock specifier for the clock associated with the
-> +			  XDMA engine
-> + - resets		: reset specifier for the syscon reset associated with
-> +			  the XDMA engine
-> + - interrupts-extended	: two interrupt cells; the first specifies the 
-> global
-> +			  interrupt for the XDMA engine and the second
-> +			  specifies the PCI-E reset or PERST interrupt.
-> + - scu			: a phandle to the syscon node for the system control
-> +			  unit of the SOC
-
-I think this should be aspeed,scu.
-
-> + - memory		: contains the address and size of the memory area to
-> +			  be used by the XDMA engine for DMA operations
-
-Hmm, I was thinking more like a phandle to a reserved memory region,
-like we have in the aspeed-lpc-ctrl binding.
-
-> +
-> +Optional properties:
-> + - pcie-device		: should be either "bmc" or "vga", corresponding to
-> +			  which device should be used by the XDMA engine for
-> +			  DMA operations. If this property is not set, the XDMA
-> +			  engine will use the BMC PCI-E device.
-> +
-> +Example:
-> +
-> +    xdma@1e6e7000 {
-> +        compatible = "aspeed,ast2500-xdma";
-> +        reg = <0x1e6e7000 0x100>;
-> +        clocks = <&syscon ASPEED_CLK_GATE_BCLK>;
-> +        resets = <&syscon ASPEED_RESET_XDMA>;
-> +        interrupts-extended = <&vic 6>, <&scu_ic 
-> ASPEED_AST2500_SCU_IC_PCIE_RESET_LO_TO_HI>;
-> +        scu = <&syscon>;
-> +        pcie-device = "bmc";
-> +        memory = <0x9f000000 0x01000000>;
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ac9c120d192b..8a14d4268bdc 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2708,6 +2708,12 @@ S:	Maintained
->  F:	drivers/media/platform/aspeed-video.c
->  F:	Documentation/devicetree/bindings/media/aspeed-video.txt
+> diff --git a/drivers/soc/aspeed/aspeed-xdma.c b/drivers/soc/aspeed/aspeed-xdma.c
+> index cb94adf798b1..e844937dc925 100644
+> --- a/drivers/soc/aspeed/aspeed-xdma.c
+> +++ b/drivers/soc/aspeed/aspeed-xdma.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/io.h>
+>  #include <linux/jiffies.h>
+>  #include <linux/mfd/syscon.h>
+> +#include <linux/miscdevice.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+>  #include <linux/of_device.h>
+> @@ -201,6 +202,8 @@ struct aspeed_xdma {
+>  	struct clk *clock;
+>  	struct reset_control *reset;
 >  
-> +ASPEED XDMA ENGINE DRIVER
-> +M:	Eddie James <eajames@linux.ibm.com>
-> +L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/soc/aspeed/xdma.txt
+> +	/* file_lock serializes reads of current_client */
+> +	struct mutex file_lock;
+
+I wonder whether start_lock can serve this purpose.
+
+>  	/* client_lock protects error and in_progress of the client */
+>  	spinlock_t client_lock;
+>  	struct aspeed_xdma_client *current_client;
+> @@ -223,6 +226,8 @@ struct aspeed_xdma {
+>  	void __iomem *mem_virt;
+>  	dma_addr_t cmdq_phys;
+>  	struct gen_pool *pool;
 > +
->  ASUS NOTEBOOKS AND EEEPC ACPI/WMI EXTRAS DRIVERS
->  M:	Corentin Chary <corentin.chary@gmail.com>
->  L:	acpi4asus-user@lists.sourceforge.net
-> -- 
-> 2.24.0
-> 
->
+> +	struct miscdevice misc;
+>  };
+>  
+>  struct aspeed_xdma_client {
+> @@ -522,6 +527,185 @@ static irqreturn_t aspeed_xdma_pcie_irq(int irq, 
+> void *arg)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> +static ssize_t aspeed_xdma_write(struct file *file, const char __user *buf,
+> +				 size_t len, loff_t *offset)
+> +{
+> +	int rc;
+> +	struct aspeed_xdma_op op;
+> +	struct aspeed_xdma_client *client = file->private_data;
+> +	struct aspeed_xdma *ctx = client->ctx;
+> +
+> +	if (len != sizeof(op))
+> +		return -EINVAL;
+> +
+> +	rc = copy_from_user(&op, buf, len);
+> +	if (rc)
+> +		return rc;
+> +
+> +	if (!op.len || op.len > client->size ||
+> +	    op.direction > ASPEED_XDMA_DIRECTION_UPSTREAM)
+> +		return -EINVAL;
+> +
+> +	if (file->f_flags & O_NONBLOCK) {
+> +		if (!mutex_trylock(&ctx->file_lock))
+> +			return -EAGAIN;
+> +
+> +		if (ctx->current_client) {
+
+Should be tested under client_lock for consistency with the previous patch,
+though perhaps you could use READ_ONCE()?
+
+> +			mutex_unlock(&ctx->file_lock);
+> +			return -EBUSY;
+> +		}
+> +	} else {
+> +		mutex_lock(&ctx->file_lock);
+> +
+> +		rc = wait_event_interruptible(ctx->wait, !ctx->current_client);
+> +		if (rc) {
+> +			mutex_unlock(&ctx->file_lock);
+> +			return -EINTR;
+> +		}
+> +	}
+> +
+> +	aspeed_xdma_start(ctx, &op, client->phys, client);
+> +
+> +	mutex_unlock(&ctx->file_lock);
+
+Shouldn't we lift start_lock out of aspeed_xdma_start() use that here
+instead of file_lock? I think that would mean that we could remove
+file_lock.
+
+> +
+> +	if (!(file->f_flags & O_NONBLOCK)) {
+> +		rc = wait_event_interruptible(ctx->wait, !client->in_progress);
+> +		if (rc)
+> +			return -EINTR;
+> +
+> +		if (client->error)
+> +			return -EIO;
+> +	}
+> +
+> +	return len;
+> +}
+> +
+> +static __poll_t aspeed_xdma_poll(struct file *file,
+> +				 struct poll_table_struct *wait)
+> +{
+> +	__poll_t mask = 0;
+> +	__poll_t req = poll_requested_events(wait);
+> +	struct aspeed_xdma_client *client = file->private_data;
+> +	struct aspeed_xdma *ctx = client->ctx;
+> +
+> +	if (req & (EPOLLIN | EPOLLRDNORM)) {
+> +		if (client->in_progress)
+> +			poll_wait(file, &ctx->wait, wait);
+> +
+> +		if (!client->in_progress) {
+> +			if (client->error)
+> +				mask |= EPOLLERR;
+> +			else
+> +				mask |= EPOLLIN | EPOLLRDNORM;
+> +		}
+> +	}
+> +
+> +	if (req & (EPOLLOUT | EPOLLWRNORM)) {
+> +		if (ctx->current_client)
+> +			poll_wait(file, &ctx->wait, wait);
+> +
+> +		if (!ctx->current_client)
+> +			mask |= EPOLLOUT | EPOLLWRNORM;
+> +	}
+> +
+> +	return mask;
+> +}
+> +
+> +static void aspeed_xdma_vma_close(struct vm_area_struct *vma)
+> +{
+> +	int rc;
+> +	struct aspeed_xdma_client *client = vma->vm_private_data;
+> +
+> +	rc = wait_event_interruptible(client->ctx->wait, !client->in_progress);
+> +	if (rc)
+> +		return;
+> +
+> +	gen_pool_free(client->ctx->pool, (unsigned long)client->virt,
+> +		      client->size);
+> +
+> +	client->virt = NULL;
+> +	client->phys = 0;
+> +	client->size = 0;
+> +}
+> +
+> +static const struct vm_operations_struct aspeed_xdma_vm_ops = {
+> +	.close =	aspeed_xdma_vma_close,
+> +};
+> +
+> +static int aspeed_xdma_mmap(struct file *file, struct vm_area_struct *vma)
+> +{
+> +	int rc;
+> +	struct aspeed_xdma_client *client = file->private_data;
+> +	struct aspeed_xdma *ctx = client->ctx;
+> +
+> +	/* restrict file to one mapping */
+> +	if (client->size)
+> +		return -EBUSY;
+> +
+> +	client->size = vma->vm_end - vma->vm_start;
+> +	client->virt = gen_pool_dma_alloc(ctx->pool, client->size,
+> +					  &client->phys);
+> +	if (!client->virt) {
+> +		client->phys = 0;
+> +		client->size = 0;
+> +		return -ENOMEM;
+> +	}
+> +
+> +	vma->vm_pgoff = (client->phys - ctx->mem_phys) >> PAGE_SHIFT;
+> +	vma->vm_ops = &aspeed_xdma_vm_ops;
+> +	vma->vm_private_data = client;
+> +	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+> +
+> +	rc = io_remap_pfn_range(vma, vma->vm_start, client->phys >> PAGE_SHIFT,
+> +				client->size, vma->vm_page_prot);
+> +	if (rc) {
+
+Probably worth a dev_warn() here so we know what happened?
+
+> +		gen_pool_free(ctx->pool, (unsigned long)client->virt,
+> +			      client->size);
+> +
+> +		client->virt = NULL;
+> +		client->phys = 0;
+> +		client->size = 0;
+> +		return rc;
+> +	}
+> +
+> +	dev_dbg(ctx->dev, "mmap: v[%08lx] to p[%08x], s[%08x]\n",
+> +		vma->vm_start, (u32)client->phys, client->size);
+> +
+> +	return 0;
+> +}
+> +
+> +static int aspeed_xdma_open(struct inode *inode, struct file *file)
+> +{
+> +	struct miscdevice *misc = file->private_data;
+> +	struct aspeed_xdma *ctx = container_of(misc, struct aspeed_xdma, misc);
+> +	struct aspeed_xdma_client *client = kzalloc(sizeof(*client),
+> +						    GFP_KERNEL);
+> +
+> +	if (!client)
+> +		return -ENOMEM;
+> +
+> +	client->ctx = ctx;
+> +	file->private_data = client;
+> +	return 0;
+> +}
+> +
+> +static int aspeed_xdma_release(struct inode *inode, struct file *file)
+> +{
+> +	struct aspeed_xdma_client *client = file->private_data;
+> +
+> +	kfree(client);
+
+I assume the vma gets torn down before release() gets invoked? I haven't
+looked closely.
+
+Andrew
