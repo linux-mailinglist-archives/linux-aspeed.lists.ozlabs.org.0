@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2B5126F78
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Dec 2019 22:12:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A681126F7F
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Dec 2019 22:14:49 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47f4Mr0tFpzDqt3
-	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Dec 2019 08:12:40 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47f4QG3p0BzDqpk
+	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Dec 2019 08:14:46 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -16,68 +16,68 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="e+qOP6Lo"; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.b="ji6ukp7g"; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.b="vsijnZkH"; dkim-atps=neutral
+ header.b="U8piGZ34"; dkim-atps=neutral
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47f4Md3LfCzDq9p
- for <linux-aspeed@lists.ozlabs.org>; Fri, 20 Dec 2019 08:12:28 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47f4Q806vjzDqBm
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 20 Dec 2019 08:14:39 +1100 (AEDT)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 3923122614;
- Thu, 19 Dec 2019 16:12:24 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 42FF32263C;
+ Thu, 19 Dec 2019 16:14:37 -0500 (EST)
 Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Thu, 19 Dec 2019 16:12:24 -0500
+ by compute4.internal (MEProxy); Thu, 19 Dec 2019 16:14:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=eznQB8qUZinkMYctriI1OeMIbCpVh3R
- vgB+uxFjKcWw=; b=e+qOP6LoW0qwuw9Uy2AdChYbjp/8fd4FmeD+84lql6Nzysg
- Q5EEtzLFgHTT4ZLHh61HJ3qfKWvstLoYMaQrkZDYYqDwd+/zKtbxRnfqHZvssd91
- sa37bQFA3ZnScxeTGmW9ZjFJJ6S6BUXGfzGwne2LNEp2+t39dMIey0l/kcEqJ/jf
- KuoHCdqSRnnlSJE6K2MO0oGjIlnYwDst1a6oCn20bsFT7pkrRDNexhBRPrYEp4pF
- AeUu0E7nVJPmFPYwutsxS2gCIpHJQ1LEeEeNPgqn9lu21kUEwM2L/Dtg8atJzYcx
- rXLZ8tlvkMR91AXdifiCjEFsx63JqF1zjoUPimg==
+ :subject:content-type; s=fm1; bh=V2Hao+J1GkYhnxb5ys8W85uWd1oQYMD
+ NDs9XruetUIo=; b=ji6ukp7gQRqpBg28UjFL7cM6qfmkQkdTmM85YWc7NeAvZfm
+ xoUkiIvFjEw37nLotwu1J7IR8Z4DCUS6W7Xcan33XMhP3lyh00zRzP7z8gg0nx4N
+ 2y+tuyxjJ3Mn5ujOuGVF/uFplRP97k18eg0dLIpv5DgGDB8OGsx1mXhfukR+wRel
+ +dIWdlMF4+zoKUZEIrBo5YmfEyQvVBn14X+4jZ74U0PL/PM9H7QjJNFTMytrTcqe
+ +7/uQg57T3S2+/mLLvPkh2DGB6OBY+WX/aV647gUkRWPlgC2ZM7JqAIiIQz76WOx
+ nHWx9awvNa9+HJtQ1fETalNMQES9tVdsmCr5MCg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=eznQB8
- qUZinkMYctriI1OeMIbCpVh3RvgB+uxFjKcWw=; b=vsijnZkHJ3FMzCkUiKcL/U
- 9L2QM7/PfasuZQQGhBbkj6zuYKUg9J4j6/FtNjCRMvQgwzsHNR+mgyg4WOr/3+6D
- jroxkgIdapQ337qTg8dFfeorONhrceuRpKegqiNJ/CGVUasNQJJgxjhrTTf1Ouas
- 0yf4CYMM66dvboAwxoJbnEVpsfoH/8vTuyZQfw9K+Ooa1cW02iYSsar+rNxoYkvH
- uyLPbv2DjLJ6PvMf234WqpBZ7KQjTnwHnFyDRugNHU/6Hzt0CFHp8fvxABEf+jRt
- 2wwRdtzJQHdlw5nrI7fojEYgc43hr6xs6XrySKUtfa6OVS0ih8duOsQrRFJqVjrQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=V2Hao+
+ J1GkYhnxb5ys8W85uWd1oQYMDNDs9XruetUIo=; b=U8piGZ34pLofpF3dhgwphE
+ YMEE3v+6/8++EL56tNDbqsZBhWsnEQL7LULEJRufdn42g4sUs9ykPn23fR95orgI
+ IuGcyeKVFxM7ffYrXFme18FDqVrEKqXPrJRtTeUUvzIE+swZ49yfubPMlhD4eDOb
+ d+AdRo/30NBzsNVEpww94VnX1AhgKB9lC+3QKPUG9n0IxrBUwjMeMu6h8/WEti+r
+ fRFpOXMGCz3nN13COw7kk+N91nurDyyqsLd1BH+kQj2N/uFsVrRfpNm/z4NPKPFn
+ TqPTvzC7lkkL9TW20mmxwtEiTDpluFVK5WbqSsJx5gsa9JMPgTRnJmo0Z/2Kw1hA
  ==
-X-ME-Sender: <xms:tuf7XUAaIrlSc6I45LWw2QxR5lOYMlGrotBtz_xGl7gxiUHW-ruOfQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvdduuddgudeggecutefuodetggdotefrod
+X-ME-Sender: <xms:POj7XQSs8PEyrN35x56zFmpGE9XQkWVDbP168vKI86Q4tE_E_0128g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvdduuddgudeghecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehn
  ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrg
  hrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushht
  vghrufhiiigvpedt
-X-ME-Proxy: <xmx:tuf7Xa3aCNRbF3LPHQcfxXsNjuVdhABKVgQG6pYJLc7jD4ZpzNcPOw>
- <xmx:tuf7XSeMGytFWFt3f20NPqk0cXpG8bYoHcBsQ0c8CiCX_zuuSy3JcQ>
- <xmx:tuf7XV9O5L_xCSl87Fbmbikz6JmWYGgydNveAvZ7CmNcKyvdi0F13Q>
- <xmx:uOf7XWcf9HHjmavtyrAGPWnGqeSSywyNzMQrvAK59HtZIT99pec4FA>
+X-ME-Proxy: <xmx:POj7XWJu-bP77Z7xse4CUZpn75WQRSBoseaqkpMgw97yfBLvgxRJGA>
+ <xmx:POj7XQBkfKM-bVRq7XbLHgu8iU6kpzK67wpHvwBlZdgZZFUIvXDgaQ>
+ <xmx:POj7Xb3FLH-F69pOjcPYREL3NrHN8jmOE2XkLFXdoEQMqhv1VQZ0Qw>
+ <xmx:Pej7XdCieO_953Hn21694gMM0U8q7obfXRLXIM2K93mypOIMZPZmng>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id A5516E00A3; Thu, 19 Dec 2019 16:12:22 -0500 (EST)
+ id 089F4E00A3; Thu, 19 Dec 2019 16:14:36 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.1.7-694-gd5bab98-fmstable-20191218v1
 Mime-Version: 1.0
-Message-Id: <a0b5728c-4022-4cfb-bcd1-8816e4d80e4a@www.fastmail.com>
-In-Reply-To: <45cabf88-063d-aea1-6c2b-fa8cc0d8cbd3@linux.ibm.com>
+Message-Id: <700f857c-0d99-4e7e-a969-191c5afd10f8@www.fastmail.com>
+In-Reply-To: <22d81b7d-4f1c-30b9-e895-1f38a862462e@linux.ibm.com>
 References: <1576681778-18737-1-git-send-email-eajames@linux.ibm.com>
- <1576681778-18737-6-git-send-email-eajames@linux.ibm.com>
- <73cbffea-89f1-4212-99af-10c32968cf15@www.fastmail.com>
- <45cabf88-063d-aea1-6c2b-fa8cc0d8cbd3@linux.ibm.com>
-Date: Fri, 20 Dec 2019 07:44:05 +1030
+ <1576681778-18737-8-git-send-email-eajames@linux.ibm.com>
+ <de68ff11-0942-422a-b233-ff578b06eefc@www.fastmail.com>
+ <22d81b7d-4f1c-30b9-e895-1f38a862462e@linux.ibm.com>
+Date: Fri, 20 Dec 2019 07:46:18 +1030
 From: "Andrew Jeffery" <andrew@aj.id.au>
 To: "Eddie James" <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
-Subject: Re: [PATCH v3 05/12] dt-bindings: soc: Add Aspeed XDMA Engine
+Subject: Re: [PATCH v3 07/12] soc: aspeed: xdma: Add user interface
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -100,71 +100,37 @@ Sender: "Linux-aspeed"
 
 
 
-On Fri, 20 Dec 2019, at 02:18, Eddie James wrote:
+On Fri, 20 Dec 2019, at 02:30, Eddie James wrote:
 > 
-> On 12/18/19 5:12 PM, Andrew Jeffery wrote:
+> On 12/18/19 7:19 PM, Andrew Jeffery wrote:
 > >
 > > On Thu, 19 Dec 2019, at 01:39, Eddie James wrote:
-> >> Document the bindings for the Aspeed AST25XX and AST26XX XDMA engine.
-> >>
-> >> Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> >> Reviewed-by: Rob Herring <robh@kernel.org>
-> >> ---
-> >> Changes since v2:
-> >>   - Remove 'sdmc', rename 'vga-mem' to 'memory'
-> >>
-> >>   .../devicetree/bindings/soc/aspeed/xdma.txt   | 40 +++++++++++++++++++
-> >>   MAINTAINERS                                   |  6 +++
-> >>   2 files changed, 46 insertions(+)
-> >>   create mode 100644 Documentation/devicetree/bindings/soc/aspeed/xdma.txt
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/soc/aspeed/xdma.txt
-> >> b/Documentation/devicetree/bindings/soc/aspeed/xdma.txt
-> >> new file mode 100644
-> >> index 000000000000..58253ea1587b
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/soc/aspeed/xdma.txt
-> >> @@ -0,0 +1,40 @@
-> >> +Aspeed AST25XX and AST26XX XDMA Engine
+> >> +			mutex_unlock(&ctx->file_lock);
+> >> +			return -EBUSY;
+> >> +		}
+> >> +	} else {
+> >> +		mutex_lock(&ctx->file_lock);
 > >> +
-> >> +The XDMA Engine embedded in the AST2500 and AST2600 SOCs can perform
-> >> automatic
-> >> +DMA operations over PCI between the SOC (acting as a BMC) and a host
-> >> processor.
+> >> +		rc = wait_event_interruptible(ctx->wait, !ctx->current_client);
+> >> +		if (rc) {
+> >> +			mutex_unlock(&ctx->file_lock);
+> >> +			return -EINTR;
+> >> +		}
+> >> +	}
 > >> +
-> >> +Required properties:
-> >> + - compatible		: must be "aspeed,ast2500-xdma" or
-> >> +			  "aspeed,ast2600-xdma"
-> >> + - reg			: contains the address and size of the memory region
-> >> +			  associated with the XDMA engine registers
-> >> + - clocks		: clock specifier for the clock associated with the
-> >> +			  XDMA engine
-> >> + - resets		: reset specifier for the syscon reset associated with
-> >> +			  the XDMA engine
-> >> + - interrupts-extended	: two interrupt cells; the first specifies the
-> >> global
-> >> +			  interrupt for the XDMA engine and the second
-> >> +			  specifies the PCI-E reset or PERST interrupt.
-> >> + - scu			: a phandle to the syscon node for the system control
-> >> +			  unit of the SOC
-> > I think this should be aspeed,scu.
+> >> +	aspeed_xdma_start(ctx, &op, client->phys, client);
+> >> +
+> >> +	mutex_unlock(&ctx->file_lock);
+> > Shouldn't we lift start_lock out of aspeed_xdma_start() use that here
+> > instead of file_lock? I think that would mean that we could remove
+> > file_lock.
 > 
 > 
-> Sure.
-> 
-> 
-> >
-> >> + - memory		: contains the address and size of the memory area to
-> >> +			  be used by the XDMA engine for DMA operations
-> > Hmm, I was thinking more like a phandle to a reserved memory region,
-> > like we have in the aspeed-lpc-ctrl binding.
-> 
-> 
-> I think I mentioned before, but that doesn't work with the VGA memory. 
-> Linux can't reserve it. I haven't quite understood what happens in the 
-> memory system but I've tried it and it didn't work.
-> 
+> That wouldn't work with the reset though. The reset should hold 
+> start_lock as well, but if a client is waiting here with start_lock, 
+> we'd never get to the reset if the transfer doesn't complete. I think 
+> file_lock is necessary.
 
-Yeah, I think you have mentioned that before, sorry for the noise.
+Hmm, let me think about this some more.
 
 Andrew
