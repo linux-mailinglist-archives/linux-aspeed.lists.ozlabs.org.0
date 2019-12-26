@@ -1,72 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDCB812AB19
-	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Dec 2019 09:56:17 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47k3hv28YszDqJT
-	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Dec 2019 19:56:15 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8780912AB24
+	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Dec 2019 10:00:24 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47k3nd1vphzDqLg
+	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Dec 2019 20:00:21 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=lenovo.com (client-ip=67.219.250.212;
+ smtp.mailfrom=lenovo.com (client-ip=67.219.250.117;
  helo=mail1.bemta24.messagelabs.com; envelope-from=pengms1@lenovo.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=lenovo.com
 Received: from mail1.bemta24.messagelabs.com (mail1.bemta24.messagelabs.com
- [67.219.250.212])
+ [67.219.250.117])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47k3gB5v2QzDqBM;
- Thu, 26 Dec 2019 19:54:46 +1100 (AEDT)
-Received: from [67.219.250.102] (using TLSv1.2 with cipher
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47k3kr5mF1zDq5k;
+ Thu, 26 Dec 2019 19:57:56 +1100 (AEDT)
+Received: from [67.219.250.198] (using TLSv1.2 with cipher
  DHE-RSA-AES256-GCM-SHA384 (256 bits))
- by server-2.bemta.az-a.us-west-2.aws.symcld.net id 81/BD-12408-255740E5;
- Thu, 26 Dec 2019 08:54:42 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFIsWRWlGSWpSXmKPExsWSLveKRTeolCX
- OYNdVIYtdlzksZux9wGwx/8g5Vovf5/8yW2x6fI3Vonn1OWaLy7vmsFksvX6RyeJUywsWi9a9
+ by server-6.bemta.az-b.us-west-2.aws.symcld.net id A5/CD-22178-216740E5;
+ Thu, 26 Dec 2019 08:57:54 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprFIsWRWlGSWpSXmKPExsWS8eIht65QGUu
+ cQf8aRotdlzksZux9wGwx/8g5Vovf5/8yW2x6fI3Vonn1OWaLy7vmsFksvX6RyeJUywsWi9a9
  R9gduDyutu9i91gzbw2jx4JNpR4XPx5j9ti0qpPNY/OSeo/zMxYyenzeJBfAEcWamZeUX5HAm
- tH5dCtLwYXcikNrfRoYX4Z2MXJxCAl0MEnsaD/ADuHMZpRY8+kYYxcjJwebgJrEydn3WEFsEZ
- CqMz+tuhg5OJgF0iU6JmaChIUFXCU+3m4DK2ERUJX4Nw2inFfAWWLt+/UsILaEgJzEzXOdzBM
- YORcwMqxitEgqykzPKMlNzMzRNTQw0DU0NNI1NLLUNTKx1Eus0k3UKy3WLU8tLtE10kssL9Yr
- rsxNzknRy0st2cQIDLKUgsafOxi7P7zVO8QoycGkJMob78UUJ8SXlJ9SmZFYnBFfVJqTWnyIU
- YaDQ0mC17aAJU5IsCg1PbUiLTMHGPAwaQkOHiUR3jPFQGne4oLE3OLMdIjUKUZFKXHeoyAJAZ
- BERmkeXBssyi4xykoJ8zIyMDAI8RSkFuVmlqDKv2IU52BUEubtBpnCk5lXAjf9FdBiJqDFH4W
- YQBaXJCKkpBqYOBbbzsoU3xX/3+7or8pn3499U5960KBVsWSu/4M95sqTL9/eJnfgw/GNbY8/
- bF37+1Hdro7XoeUd/3kVL5+W9eYq3na/elNoS/KMy6tiO1ctlkgPy5DrVr993kR0+eGSy7sbN
- 77127toXUvsg8aH55ZmOVfvsd8zwVK/gYHp6ulfG6czXz9i7moT/pk9+7Npu9+JVbNEP89kl1
- +0YpqKXK1Ux4+zdiphd7Ya3Vv1b+e59QsqWL3zonkm32k8fXaDWcHvoO0un57/rdshcSfBxfS
- 1Wdy1E//4pR0j758+/lZafUmm+AIPG/Mpx/Uzjb7aG4bdPvjXa31gwz35u4xaxbt8ZNaxTOqe
- uUdftUwtyl+JpTgj0VCLuag4EQBc54OLLQMAAA==
+ tF66BJbwZnsip6D2xkbGPtCuhi5OIQEOpgkHt6fzAbhzGaUuLHmN3sXIycHm4CaxMnZ91hBbB
+ GQqjM/rboYOTiYBdIlOiZmgoSFBYIlNkzdAFbCIqAqsernQrBWXgFniW+fO9hAbAkBOYmb5zq
+ ZJzByLmBkWMVonlSUmZ5RkpuYmaNraGCga2hopGtobKpraqaXWKWbpFdarFueWlyia6SXWF6s
+ V1yZm5yTopeXWrKJERhkKQXtFjsYez681TvEKMnBpCTKG+/FFCfEl5SfUpmRWJwRX1Sak1p8i
+ FGGg0NJgte2gCVOSLAoNT21Ii0zBxjwMGkJDh4lEV6hUqA0b3FBYm5xZjpE6hSjopQ4rxlIQg
+ AkkVGaB9cGi7JLjLJSwryMDAwMQjwFqUW5mSWo8q8YxTkYlYR5H5YATeHJzCuBm/4KaDET0OK
+ PQkwgi0sSEVJSDUxbI9earufeeYs/QKOxovH/MuGmRct2v4/fc/xaxykhy3M/RNn+fty85FbN
+ jIpO56vLTL52FGyK5djyZKWdGX+Ngvrafia9KVHnWKpqHv8TXvY7wzzvhOWZED73Pr/cmnRdB
+ aW3n3IUullO3+ZZYeMr/7vT910gE0ufYmrejd4buunbfu/euaxUJuGbimxy6iqWbUHGir0Hdv
+ 7WEJbyq56hdbD+dGKVlv2hR/19ppVH5BpnHAo0z9jmqR65tSSnV156oef1SYEaN18HntX5n82
+ lYh/6pfHqksqFk5VaP/lw7Tu07efTqbyrr8yXPLL3J0/WhVf/u9x7zteZBVa7KSS4nHh7+hR/
+ bMy9eyW/QpRYijMSDbWYi4oTAVmEdWEtAwAA
 X-Env-Sender: pengms1@lenovo.com
-X-Msg-Ref: server-15.tower-326.messagelabs.com!1577350478!834580!1
-X-Originating-IP: [103.30.234.4]
+X-Msg-Ref: server-22.tower-346.messagelabs.com!1577350672!304794!1
+X-Originating-IP: [104.232.225.11]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.44.22; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 21287 invoked from network); 26 Dec 2019 08:54:41 -0000
-Received: from unknown (HELO apsmtp.lenovo.com) (103.30.234.4)
- by server-15.tower-326.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
- encrypted SMTP; 26 Dec 2019 08:54:41 -0000
+Received: (qmail 5443 invoked from network); 26 Dec 2019 08:57:53 -0000
+Received: from unknown (HELO aesmtp.lenovo.com) (104.232.225.11)
+ by server-22.tower-346.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+ encrypted SMTP; 26 Dec 2019 08:57:53 -0000
 Received: from smtpinternal.lenovo.com (unknown [10.96.80.15])
  (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by Forcepoint Email with ESMTPS id C180451D802114F38E6F;
- Thu, 26 Dec 2019 16:54:37 +0800 (CST)
+ by Forcepoint Email with ESMTPS id EDBE3F706E637CFB140A;
+ Thu, 26 Dec 2019 03:57:49 -0500 (EST)
 Received: from hsbmc.10.240.0.10 (unknown [10.245.100.154])
- by Forcepoint Email with ESMTP id 571CD8510AD0A7328B23;
- Thu, 26 Dec 2019 16:54:37 +0800 (CST)
+ by Forcepoint Email with ESMTP id E8FC79F7E896F368907F;
+ Thu, 26 Dec 2019 16:57:47 +0800 (CST)
 From: Andrew Peng <pengms1@lenovo.com>
 To: joel@jms.id.au, robh+dt@kernel.org, mark.rutland@arm.com, andrew@aj.id.au,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
  benjaminfair@google.com, openbmc@lists.ozlabs.org
-Subject: [PATCH v1 1/1] ARM: dts: aspeed: update Hr855xg2 device tree
-Date: Thu, 26 Dec 2019 16:54:35 +0800
-Message-Id: <1577350475-127530-1-git-send-email-pengms1@lenovo.com>
+Subject: [PATCH linux dev-5.4 v1 1/1] ARM: dts: aspeed: update Hr855xg2 device
+ tree
+Date: Thu, 26 Dec 2019 16:57:46 +0800
+Message-Id: <1577350666-128981-1-git-send-email-pengms1@lenovo.com>
 X-Mailer: git-send-email 2.7.4
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -98,11 +99,11 @@ Signed-off-by: Yonghui Liu <liuyh21@lenovo.com>
 ---
 v1: initial version
 
- arch/arm/boot/dts/aspeed-bmc-lenovo-hr855xg2.dts | 557 ++++++++++++++++-------
- 1 file changed, 382 insertions(+), 175 deletions(-)
+ arch/arm/boot/dts/aspeed-bmc-lenovo-hr855xg2.dts | 555 ++++++++++++++++-------
+ 1 file changed, 381 insertions(+), 174 deletions(-)
 
 diff --git a/arch/arm/boot/dts/aspeed-bmc-lenovo-hr855xg2.dts b/arch/arm/boot/dts/aspeed-bmc-lenovo-hr855xg2.dts
-index 8193fad..e1386d4 100644
+index 084c455..e1386d4 100644
 --- a/arch/arm/boot/dts/aspeed-bmc-lenovo-hr855xg2.dts
 +++ b/arch/arm/boot/dts/aspeed-bmc-lenovo-hr855xg2.dts
 @@ -15,14 +15,21 @@
@@ -310,15 +311,6 @@ index 8193fad..e1386d4 100644
  };
  
  &ibt {
-@@ -140,7 +261,7 @@
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pinctrl_rmii1_default>;
- 	clocks = <&syscon ASPEED_CLK_GATE_MAC1CLK>,
--		 <&syscon ASPEED_CLK_GATE_MAC1RCLK>;
-+		 <&syscon ASPEED_CLK_MAC1RCLK>;
- 	clock-names = "MACCLK", "RCLK";
- 	use-ncsi;
- };
 @@ -172,37 +293,77 @@
  			&pinctrl_adc15_default>;
  };
