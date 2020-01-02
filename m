@@ -1,126 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB8B12EA1C
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Jan 2020 19:56:53 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47pchd65zbzDqCB
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Jan 2020 05:56:49 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4099112EA71
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Jan 2020 20:29:19 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47pdQ21NXWzDqCB
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Jan 2020 06:29:14 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
- (client-ip=67.231.153.30; helo=mx0a-00082601.pphosted.com;
- envelope-from=prvs=82700d9833=vijaykhemka@fb.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=fb.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=fb.com header.i=@fb.com header.b="YSKX/O3b"; 
- dkim=pass (1024-bit key;
- unprotected) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com
- header.b="ZapIHTBv"; dkim-atps=neutral
-Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com
- [67.231.153.30])
+ dmarc=none (p=none dis=none) header.from=linux.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47pchP05D0zDqB9
- for <linux-aspeed@lists.ozlabs.org>; Fri,  3 Jan 2020 05:56:28 +1100 (AEDT)
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
- by m0089730.ppops.net (8.16.0.42/8.16.0.42) with SMTP id 002IqZhs008348;
- Thu, 2 Jan 2020 10:56:22 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=PN6Ey2Usone41hog2N5ThwwMNZdc9RzobwGcqx5jMHo=;
- b=YSKX/O3bs5CvfKjyPLQYAeX1cQ+9WiuPkP3VlpTORBID5z7FWR4zHjVdgkFaob83TlSu
- 6fEtYZ5m+kSx2uiJtAMm5HvgTOJYu8MQ09IP7ipd9/wp+rBSrx79OSqCSo9nUGZel3yE
- 4pFSsMvzFmc9ZS7lnoacTApHp2q3N/CXk4M= 
-Received: from mail.thefacebook.com ([163.114.132.120])
- by m0089730.ppops.net with ESMTP id 2x9ddw20vf-3
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Thu, 02 Jan 2020 10:56:22 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (100.104.98.9) by
- o365-in.thefacebook.com (100.104.94.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1779.2; Thu, 2 Jan 2020 10:56:20 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N4J8xKLmdOXR1jpq+lziyFaYVPTjmehskmoc34HZxaRMqMn9bUklhDrmd+8ko1945QnhAxGoaw+rVear+vdXJC4p2dVu1mSTWVRq63nCinO5vf1ATtGeUuulsc76M7GzIF9UPCI03e0DJpcVrNQHMARsepbLByD9k6RbUTOV4TayeQo7IUBU+r4GqlbJiJDFfl/xRkggWwPpvQP5qvG7ScX+/x3ts4hQ8iAc3TUOC2i4AoelhW//trv1WfCqaA+MNQyFMaojsTncrpzzWayZDiHzF3+6hSFVRMPWbEXydc3sCk1BcwfLFGznt7/Zkmfd0Rg1j5JjlT5CqAtfStSj+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PN6Ey2Usone41hog2N5ThwwMNZdc9RzobwGcqx5jMHo=;
- b=OfF9lD9BQ6+I17eYcWCD64Rb4ypW+FjSVuMYyERt2rI5MBpeBBhgjwDt+pqYx8ciVaV0EgAn3zm/xtQxEONh5zN033ZGOtPuMP5Ddu1yIYVdAx2gJENsX+NKoKblQIimPX2laqxBrPiokMMtziwFXuOF7ApGFLEeeORKLGJa0y/WMCHGNk8/XC0kZB9ZG5atE7hiwsUWXMjeFWd8Ma+c4g4fPzwTvQDjogFB498GXDPPDqM7rR3y1w3IvVv+gj4bdFjfx3IurTWcsSFAi1LbYQffeQqUwx1NR3+bbTDz0pwNbQpzawWzzLyefHXH6wYCyiaom4YQac1753m1N8wPRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PN6Ey2Usone41hog2N5ThwwMNZdc9RzobwGcqx5jMHo=;
- b=ZapIHTBvTQ9BFclvxyMmx7n+qAkm62GJfUHN/Pek0uQnm8CJwi5JKBOxo6KCeBWWn/dI3VquGPZA1bpe5NpnzGb+EjfiOSgzS3s92BzTNKVachpOZi/PcYUlSoUZUQ6xGczD272gG+fRd5gq+Qm5ahEp4xr5itrfnxwDQn1kOts=
-Received: from MWHPR15MB1597.namprd15.prod.outlook.com (10.173.234.137) by
- MWHPR15MB1166.namprd15.prod.outlook.com (10.175.9.10) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2602.12; Thu, 2 Jan 2020 18:56:20 +0000
-Received: from MWHPR15MB1597.namprd15.prod.outlook.com
- ([fe80::cdbf:b63c:437:4dd2]) by MWHPR15MB1597.namprd15.prod.outlook.com
- ([fe80::cdbf:b63c:437:4dd2%8]) with mapi id 15.20.2602.010; Thu, 2 Jan 2020
- 18:56:19 +0000
-From: Vijay Khemka <vijaykhemka@fb.com>
-To: David Miller <davem@davemloft.net>
-Subject: Re: [net-next PATCH] net/ncsi: Fix gma flag setting after response
-Thread-Topic: [net-next PATCH] net/ncsi: Fix gma flag setting after response
-Thread-Index: AQHVvQcvq4Utc53XEUy7GF5JxeUuH6fTrS4AgAOPSYA=
-Date: Thu, 2 Jan 2020 18:56:19 +0000
-Message-ID: <6494F283-FC28-459D-B9DE-494FC8D0CAFA@fb.com>
-References: <20191227224349.2182366-1-vijaykhemka@fb.com>
- <20191230.203442.69341487993928315.davem@davemloft.net>
-In-Reply-To: <20191230.203442.69341487993928315.davem@davemloft.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [2620:10d:c090:200::2:c7d7]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 398c147b-7e82-4914-fcd4-08d78fb57455
-x-ms-traffictypediagnostic: MWHPR15MB1166:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MWHPR15MB11662112745547E686009690DD200@MWHPR15MB1166.namprd15.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0270ED2845
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(39860400002)(376002)(396003)(136003)(346002)(199004)(189003)(33656002)(8676002)(54906003)(8936002)(86362001)(81156014)(81166006)(6486002)(6512007)(186003)(6506007)(66946007)(2616005)(4326008)(36756003)(2906002)(76116006)(66446008)(66556008)(66476007)(5660300002)(478600001)(316002)(64756008)(4744005)(6916009)(71200400001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR15MB1166;
- H:MWHPR15MB1597.namprd15.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: qxt5YeVTn9Ce1Ky/siLMq/MsyquVvAZ0UpWh64nIjRRJPO7OJXdjlMEaNHjsP3QW14d5UZkvBi5Zvs+NQczA6qy6NeILMnEK/R0fl2GcafHbMb4q5eryvbWKavU9H9aCY+RYDqeMJm0RWs80rpHrOJ9BnNxPWOXAcANc4kL2Tm5f8nInG8QJaRaPB93l6n5oOAM1eEnMr9W4dz9G7E3u78T5yadFYiaSTrXt0EfBCYLRXMxI71LW+/hnfzIu2ZBNKC3uBuGphd/pFqWLmxiA/bp+07Z+1LvzGD4MJRGCT6c9Tkn5uqVq00Q7KrwaPAmvpA0JTKY7vegh20d5kdwXDSL9CO4GqUt2KGIEsXNkfAEtmEpzhNoEZSC4HESbDLBWOtVKnDFsNjAEpOvdVnRYZNhDhRxfemI4GYf2eGUrJaZftF9Q3mt46gU+X3GAp+Q/
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B719112A30903F44A2A457110E14A65F@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 398c147b-7e82-4914-fcd4-08d78fb57455
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jan 2020 18:56:19.8320 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7tqQs5xyVSm7PuKDhGqjMnmpOTedtZRWbcA45fpFJh9YfifOFPJIqjU1QmgSo2z4C1GnssaA/ZHLULW3cMaKbQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR15MB1166
-X-OriginatorOrg: fb.com
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47pdNv0kmhzDqBV
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  3 Jan 2020 06:28:14 +1100 (AEDT)
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 002JGuE3095346; Thu, 2 Jan 2020 14:28:00 -0500
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2x9j3p0qqg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 02 Jan 2020 14:28:00 -0500
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 002JFLSv000313;
+ Thu, 2 Jan 2020 19:27:58 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma02wdc.us.ibm.com with ESMTP id 2x5xp6k0cy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 02 Jan 2020 19:27:58 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 002JRvoK47317312
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 2 Jan 2020 19:27:57 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 601D4BE056;
+ Thu,  2 Jan 2020 19:27:57 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BA063BE04F;
+ Thu,  2 Jan 2020 19:27:56 +0000 (GMT)
+Received: from talon7.ibm.com (unknown [9.41.103.158])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu,  2 Jan 2020 19:27:56 +0000 (GMT)
+From: Eddie James <eajames@linux.ibm.com>
+To: linux-aspeed@lists.ozlabs.org
+Subject: [PATCH v4 00/12] aspeed: Add SCU interrupt controller and XDMA engine
+ drivers
+Date: Thu,  2 Jan 2020 13:27:44 -0600
+Message-Id: <1577993276-2184-1-git-send-email-eajames@linux.ibm.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
  definitions=2020-01-02_06:2020-01-02,2020-01-02 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- mlxlogscore=777
- spamscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 phishscore=0 malwarescore=0 adultscore=0 mlxscore=0
- suspectscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1910280000 definitions=main-2001020154
-X-FB-Internal: deliver
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ clxscore=1015 suspectscore=1 phishscore=0 lowpriorityscore=0
+ impostorscore=0 mlxlogscore=675 bulkscore=0 priorityscore=1501 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1910280000 definitions=main-2001020156
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,22 +79,76 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Sai Dasari <sdasari@fb.com>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "sam@mendozajonas.com" <sam@mendozajonas.com>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jason@lakedaemon.net,
+ maz@kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ tglx@linutronix.de
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-DQoNCu+7v09uIDEyLzMwLzE5LCA4OjM0IFBNLCAiRGF2aWQgTWlsbGVyIiA8ZGF2ZW1AZGF2ZW1s
-b2Z0Lm5ldD4gd3JvdGU6DQoNCiAgICBGcm9tOiBWaWpheSBLaGVta2EgPHZpamF5a2hlbWthQGZi
-LmNvbT4NCiAgICBEYXRlOiBGcmksIDI3IERlYyAyMDE5IDE0OjQzOjQ5IC0wODAwDQogICAgDQog
-ICAgPiBnbWFfZmxhZyB3YXMgc2V0IGF0IHRoZSB0aW1lIG9mIEdNQSBjb21tYW5kIHJlcXVlc3Qg
-YnV0IGl0IHNob3VsZA0KICAgID4gb25seSBiZSBzZXQgYWZ0ZXIgZ2V0dGluZyBzdWNjZXNzZnVs
-IHJlc3BvbnNlLiBNb3Zpbm5nIHRoaXMgZmxhZw0KICAgID4gc2V0dGluZyBpbiBHTUEgcmVzcG9u
-c2UgaGFuZGxlci4NCiAgICA+IA0KICAgID4gVGhpcyBmbGFnIGlzIHVzZWQgbWFpbmx5IGZvciBu
-b3QgcmVwZWF0aW5nIEdNQSBjb21tYW5kIG9uY2UNCiAgICA+IHJlY2VpdmVkIE1BQyBhZGRyZXNz
-Lg0KICAgID4gDQogICAgPiBTaWduZWQtb2ZmLWJ5OiBWaWpheSBLaGVta2EgPHZpamF5a2hlbWth
-QGZiLmNvbT4NCiAgICANCiAgICBBcHBsaWVkLg0KVGhhbmtzIERhdmlkDQogICAgDQoNCg==
+This series first adds a driver to control the interrupt controller provided by
+the System Control Unit (SCU) on the AST2500 and AST2600 SOCs. The interrupts
+made available are necessary for the control of the XDMA engine embedded in the
+same Aspeed SOCs.
+This series then adds a driver to control the XDMA engine. This driver was
+previously sent to the list without support for the AST2600, and has been
+refactored significantly to enable that support. The XDMA engine performs
+automatic DMA operations between the Aspeed SOC (acting as a BMC) and a host
+processor.
+
+Changes since v3:
+ - See individual patches; just clean-up items
+
+Changes since v2:
+ - See individual patches
+ - Drop rainier dts patch
+ - In summary, remove references to VGA memory as the XDMA driver doesn't care
+   where it is. Remove SDRAM controller reference. Move user reset
+   functionality to a separate patch and make it an ioctl.
+
+Changes since v1:
+ - See individual patches
+ - In summary, first the irqchip driver switched to use the parent SCU regmap
+   rather than iomapping it's register. Secondly, the XDMA initialization
+   switched to use properties from the device tree rather than dynamically
+   calculate memory spaces, and system config.
+
+Eddie James (12):
+  dt-bindings: interrupt-controller: Add Aspeed SCU interrupt controller
+  irqchip: Add Aspeed SCU interrupt controller
+  ARM: dts: aspeed: ast2500: Add SCU interrupt controller
+  ARM: dts: aspeed: ast2600: Add SCU interrupt controllers
+  dt-bindings: soc: Add Aspeed XDMA Engine
+  soc: aspeed: Add XDMA Engine Driver
+  soc: aspeed: xdma: Add user interface
+  soc: aspeed: xdma: Add reset ioctl
+  ARM: dts: aspeed: ast2500: Add XDMA Engine
+  ARM: dts: aspeed: ast2600: Add XDMA Engine
+  ARM: dts: aspeed: witherspoon: Enable XDMA Engine
+  ARM: dts: aspeed: tacoma: Enable XDMA engine
+
+ .../aspeed,ast2xxx-scu-ic.txt                 |   23 +
+ .../devicetree/bindings/soc/aspeed/xdma.txt   |   40 +
+ MAINTAINERS                                   |   16 +
+ arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts   |    5 +
+ .../boot/dts/aspeed-bmc-opp-witherspoon.dts   |    5 +
+ arch/arm/boot/dts/aspeed-g5.dtsi              |   19 +
+ arch/arm/boot/dts/aspeed-g6.dtsi              |   27 +
+ drivers/irqchip/Makefile                      |    2 +-
+ drivers/irqchip/irq-aspeed-scu-ic.c           |  239 ++++
+ drivers/soc/aspeed/Kconfig                    |    8 +
+ drivers/soc/aspeed/Makefile                   |    1 +
+ drivers/soc/aspeed/aspeed-xdma.c              | 1031 +++++++++++++++++
+ .../interrupt-controller/aspeed-scu-ic.h      |   23 +
+ include/uapi/linux/aspeed-xdma.h              |   42 +
+ 14 files changed, 1480 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2xxx-scu-ic.txt
+ create mode 100644 Documentation/devicetree/bindings/soc/aspeed/xdma.txt
+ create mode 100644 drivers/irqchip/irq-aspeed-scu-ic.c
+ create mode 100644 drivers/soc/aspeed/aspeed-xdma.c
+ create mode 100644 include/dt-bindings/interrupt-controller/aspeed-scu-ic.h
+ create mode 100644 include/uapi/linux/aspeed-xdma.h
+
+-- 
+2.24.0
+
