@@ -2,61 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10090131DE5
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jan 2020 04:17:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56075131E05
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jan 2020 04:35:06 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47sHc102npzDqHw
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jan 2020 14:17:05 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47sJ0k6NXrzDqMd
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jan 2020 14:35:02 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::741;
- helo=mail-qk1-x741.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::743;
+ helo=mail-qk1-x743.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="EaEf9e/u"; 
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="O/vFmAKA"; 
  dkim-atps=neutral
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
+ [IPv6:2607:f8b0:4864:20::743])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47sHZP3wR2zDqHS;
- Tue,  7 Jan 2020 14:15:41 +1100 (AEDT)
-Received: by mail-qk1-x741.google.com with SMTP id z76so41828933qka.2;
- Mon, 06 Jan 2020 19:15:40 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47sJ0c49lszDq9G;
+ Tue,  7 Jan 2020 14:34:53 +1100 (AEDT)
+Received: by mail-qk1-x743.google.com with SMTP id x129so41491045qke.8;
+ Mon, 06 Jan 2020 19:34:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AtlpYaLLMTE+8NWj8eY7Oj/Fx28nhIerkc8u9tEkgfs=;
- b=EaEf9e/uQygjuM+AEzZUvq8zZj4XTSn8eBSZxJ2kdECMeMr2xsLtNwLrM8H1zWadMR
- vhcxHHa1FQugOhTE6EOcR3Cagp5qN1zXyVY6TQM1TMoE0yAIds5qKhHWXdZQjwxNYwAa
- 8LNL3Mgs3mEIDhXSZcI/JY3GiTiP1rFayNVIc=
+ :cc; bh=Ndz92OQlth4qYpDlhrpQ+U0RT8dpiuuzWnP0LR0lmf0=;
+ b=O/vFmAKAucz5ybhp+Bbqjm5p5I9Fe5AIpf0Hl18CR3AY6xSOcSJvLMD6wq8rkSHQ7b
+ xed+biueya7POybp+amzJ4WOZnWNcpenUWBOqlotsF67/UWF1DS8AEDxEVY+56sqrnus
+ GQM3/VoFDoypI5Uc4HL9dtQRRTDML9q40FK90=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=AtlpYaLLMTE+8NWj8eY7Oj/Fx28nhIerkc8u9tEkgfs=;
- b=IZydxgN+mXDsKzfXfBmbYMoXgAe8FiJFcRR56gnnamg7yW5SFFpFiNapgWhmJQ/fGu
- AJSOEWwlUODlUxM3AY/mh7IZoLf5Q94vSkwCKIGlj5+Q8xmOac178sDCoiqyIitcpkLZ
- 2QhzuhQEksOkRDgLK66h6GINN4RIHihLgwpOWtI5Nlo0amcNM362qz340/XxGr5O4UGQ
- rNnec7PFFacigzCk5ZBEEBJ1x8BFW3WpWyerv4SvtnzoJJazFiUUpLOQg3aZ+sCoICIj
- rb0K2Q3JXeckO7OOBOv7M49+beUvIkrIpvcGA51aKl5HOqhP/JlmsuQ7m1c2Q4OgQFzn
- s9VQ==
-X-Gm-Message-State: APjAAAWq98D+coxBEewlGjTSDCYr9/T+8F3z0aiPrtY0I9sb+ud4fnlZ
- MgI6zK0Bx65CzwcKinGLU42lt8Eog85+aPGMOxXdhd9i
-X-Google-Smtp-Source: APXvYqzHsbqA4VEOnhaS6z/+XeB6SwzNXtgr4zi0SMOslB8kLr9/KAIzZeRbEKo3csmaVlW7PqquRa2yw1FsJCWhzuU=
-X-Received: by 2002:ae9:e702:: with SMTP id m2mr85124606qka.208.1578366938200; 
- Mon, 06 Jan 2020 19:15:38 -0800 (PST)
+ bh=Ndz92OQlth4qYpDlhrpQ+U0RT8dpiuuzWnP0LR0lmf0=;
+ b=jLYPW0g7fajxMI6yJTwKSKd2UHFA/x05bJsEHiv327Kahc1Si7C58sWOpealc5QIRq
+ erltzLQ++d5o16I0IfzPb5q6OFGOWU/2yQqpia1gfHjEUlzARPFL7meHF3TYMchS6Umu
+ uG/MafzcPObZ1wgcvPlQtNp8uZkirpw0o9tp+7mXtI+LQLQcsN8lUsFNQ7JXngBOxFMz
+ 1UYp2jRa95hr0yepNAjsemdeA/P3QqoBpm+BC0qf708gfZIiwthMMHQGFHq20o9iqeFc
+ ymuKfeZpRjDXTD6EiurVlUbbR84xhpWG80ynha9OneUCBr4yIGEwhf8V+/b5iOGwIKZf
+ pNNQ==
+X-Gm-Message-State: APjAAAUSvI0IhlvUXyJAbaGqAOnMiqJxV+KuzWFdiDikBhU16Y1cFvEW
+ hTprXSf35nMEMg/Wdf5ACvKx8X21Y3Qn/hUzWkM=
+X-Google-Smtp-Source: APXvYqzG/yQj/It0Jak2RSDO0tveY9cMF2amzU1CBpByHehdAai9VEIKQ7Wsyj3hkRaiStx+jL8x9EHSqJJheOTg+uU=
+X-Received: by 2002:a37:68d5:: with SMTP id
+ d204mr86063740qkc.171.1578368088761; 
+ Mon, 06 Jan 2020 19:34:48 -0800 (PST)
 MIME-Version: 1.0
 References: <20200107011503.17435-1-jae.hyun.yoo@linux.intel.com>
- <20200107011503.17435-4-jae.hyun.yoo@linux.intel.com>
-In-Reply-To: <20200107011503.17435-4-jae.hyun.yoo@linux.intel.com>
+ <20200107011503.17435-2-jae.hyun.yoo@linux.intel.com>
+In-Reply-To: <20200107011503.17435-2-jae.hyun.yoo@linux.intel.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 7 Jan 2020 03:15:26 +0000
-Message-ID: <CACPK8XejA6emrboLzfwEpmn=dn1JcyHKJVud_cBXVNRiZixgTA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] media: aspeed: add AST2600 support
+Date: Tue, 7 Jan 2020 03:34:37 +0000
+Message-ID: <CACPK8XcEVBp6hQ=97ZVM6a_y77PAhLZZsV104FDwTCsZm7JWDg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] ARM: dts: aspeed-g6: Add Video Engine node
 To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -81,73 +82,43 @@ Sender: "Linux-aspeed"
 
 On Tue, 7 Jan 2020 at 01:14, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
 >
-> Video engine in AST2600 has the exactly same register set with
-> AST2500 except VR084 register which provides more precise JPEG
-> size read back. This commit adds support for the difference and
-> adds 'aspeed,ast2600-video-engine' compatible OF string.
+> The AST2600 has Video Engine so add it.
 >
 > Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> ---
->  drivers/media/platform/aspeed-video.c | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index d8593cb2ae84..0dbe72672338 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -72,10 +72,10 @@
->  #define  VE_SEQ_CTRL_CAP_BUSY          BIT(16)
->  #define  VE_SEQ_CTRL_COMP_BUSY         BIT(18)
->
-> -#ifdef CONFIG_MACH_ASPEED_G5
-> -#define  VE_SEQ_CTRL_JPEG_MODE         BIT(13) /* AST2500 */
-> -#else
-> +#ifdef CONFIG_MACH_ASPEED_G4
->  #define  VE_SEQ_CTRL_JPEG_MODE         BIT(8)  /* AST2400 */
-> +#else
-> +#define  VE_SEQ_CTRL_JPEG_MODE         BIT(13) /* AST2500/2600 */
->  #endif /* CONFIG_MACH_ASPEED_G5 */
 
-Yeah, nah. This should have never been done this way. I will send some
-patches to fix it up, and you can add ast2600 support on top of them,
-if that works for you.
+Acked-by: Joel Stanley <joel@jms.id.au>
+
+I will merge this through the aspeed tree for 5.6.
 
 Cheers,
 
 Joel
 
+> ---
+>  arch/arm/boot/dts/aspeed-g6.dtsi | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 >
->  #define VE_CTRL                                0x008
-> @@ -135,6 +135,12 @@
+> diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
+> index 5f6142d99eeb..89833987e270 100644
+> --- a/arch/arm/boot/dts/aspeed-g6.dtsi
+> +++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+> @@ -297,6 +297,16 @@
+>                                 quality = <100>;
+>                         };
 >
->  #define VE_OFFSET_COMP_STREAM          0x078
->
-> +#ifdef CONFIG_MACH_ASPEED_G6
-> +#define VE_JPEG_COMP_SIZE_READ_BACK    0x084   /* AST2600 */
-> +#else
-> +#define VE_JPEG_COMP_SIZE_READ_BACK    VE_OFFSET_COMP_STREAM
-> +#endif
+> +                       video: video@1e700000 {
+> +                               compatible = "aspeed,ast2600-video-engine";
+> +                               reg = <0x1e700000 0x1000>;
+> +                               clocks = <&syscon ASPEED_CLK_GATE_VCLK>,
+> +                                        <&syscon ASPEED_CLK_GATE_ECLK>;
+> +                               clock-names = "vclk", "eclk";
+> +                               interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> +                               status = "disabled";
+> +                       };
 > +
->  #define VE_SRC_LR_EDGE_DET             0x090
->  #define  VE_SRC_LR_EDGE_DET_LEFT       GENMASK(11, 0)
->  #define  VE_SRC_LR_EDGE_DET_NO_V       BIT(12)
-> @@ -572,7 +578,7 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
->         if (sts & VE_INTERRUPT_COMP_COMPLETE) {
->                 struct aspeed_video_buffer *buf;
->                 u32 frame_size = aspeed_video_read(video,
-> -                                                  VE_OFFSET_COMP_STREAM);
-> +                                                  VE_JPEG_COMP_SIZE_READ_BACK);
->
->                 spin_lock(&video->lock);
->                 clear_bit(VIDEO_FRAME_INPRG, &video->flags);
-> @@ -1719,6 +1725,7 @@ static int aspeed_video_remove(struct platform_device *pdev)
->  static const struct of_device_id aspeed_video_of_match[] = {
->         { .compatible = "aspeed,ast2400-video-engine" },
->         { .compatible = "aspeed,ast2500-video-engine" },
-> +       { .compatible = "aspeed,ast2600-video-engine" },
->         {}
->  };
->  MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
+>                         gpio0: gpio@1e780000 {
+>                                 #gpio-cells = <2>;
+>                                 gpio-controller;
 > --
 > 2.17.1
 >
