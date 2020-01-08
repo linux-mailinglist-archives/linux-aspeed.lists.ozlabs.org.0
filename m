@@ -2,73 +2,59 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6984A132F80
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jan 2020 20:31:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E67713394C
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Jan 2020 03:55:35 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47sjCw5dlmzDqNF
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Jan 2020 06:31:08 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47sv4h0YNSzDqNs
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Jan 2020 13:55:32 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f42;
+ helo=mail-qv1-xf42.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
- (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
- envelope-from=prvs=8275cdec92=vijaykhemka@fb.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=fb.com
+ dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=fb.com header.i=@fb.com header.b="HF9Ln4ef"; 
+ secure) header.d=jms.id.au header.i=@jms.id.au header.b="GwTExAKs"; 
  dkim-atps=neutral
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
- [67.231.145.42])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
+ [IPv6:2607:f8b0:4864:20::f42])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47sjCZ2h6NzDqMx
- for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Jan 2020 06:30:48 +1100 (AEDT)
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 007JSqT0006966
- for <linux-aspeed@lists.ozlabs.org>; Tue, 7 Jan 2020 11:30:45 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=facebook;
- bh=Uij8Ue7p80JCsa0xFwke2dRkold23rvr67wlz2fHIsY=;
- b=HF9Ln4efAj+LOMvJIl+LeIA7PNfek34P7iHxXk1OINs8KT6GfUSQSs+1yg8actiQPt5y
- RLdOWw/MT3PUgf8jlyXeeEucxKyuTodKiE7QxZA4U6L45ayEchwUre3vW36wS8s7rCno
- w0Fq4b5xmC9BRYTyxn30G+71C98JmA3hbxQ= 
-Received: from mail.thefacebook.com (mailout.thefacebook.com [199.201.64.23])
- by mx0a-00082601.pphosted.com with ESMTP id 2xcwm1h1ur-4
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
- for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Jan 2020 11:30:45 -0800
-Received: from intmgw002.41.prn1.facebook.com (2620:10d:c081:10::13) by
- mail.thefacebook.com (2620:10d:c081:35::127) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.1713.5;
- Tue, 7 Jan 2020 11:30:41 -0800
-Received: by devvm4117.prn2.facebook.com (Postfix, from userid 167582)
- id 62C4519717D23; Tue,  7 Jan 2020 11:30:38 -0800 (PST)
-Smtp-Origin-Hostprefix: devvm
-From: Vijay Khemka <vijaykhemka@fb.com>
-Smtp-Origin-Hostname: devvm4117.prn2.facebook.com
-To: Samuel Mendoza-Jonas <sam@mendozajonas.com>, "David S. Miller"
- <davem@davemloft.net>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Smtp-Origin-Cluster: prn2c23
-Subject: [net-next PATCH] net/ncsi: Send device address as source address
-Date: Tue, 7 Jan 2020 11:30:33 -0800
-Message-ID: <20200107193034.1322431-1-vijaykhemka@fb.com>
-X-Mailer: git-send-email 2.17.1
-X-FB-Internal: Safe
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47sv4V01ZxzDqCR
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Jan 2020 13:55:21 +1100 (AEDT)
+Received: by mail-qv1-xf42.google.com with SMTP id f16so821469qvi.4
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Jan 2020 18:55:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=D9/u+j2j6zRtqERoabJ1WOdMTYaBzefBw5186J3rAKY=;
+ b=GwTExAKssKvTTPZz/9+b+HQfwc03smWzvB50u8vCmP42imVJ0mDE4NV3FA1cv68pVi
+ ugIkjOqcDLv5Dyv3H82MIlugGoEn+af8Ok7oW6PyFrYYZqf9ckXp9SOoqpSOw915FPDV
+ lu6K1b/OHjTjlcmoHGgJFeqdBUOXXH2kmd9Ng=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=D9/u+j2j6zRtqERoabJ1WOdMTYaBzefBw5186J3rAKY=;
+ b=P0myffqMyp3rzt2ljBzvtGtxLOijLIdVFF/X0D/HYEb22SWUjoWo0drSEuw6WH8lcM
+ Dcz9OEEmv6hxBj5ePed8DMNSGeADcFFXBYc2fj9MY6tlBsi3rlBi3PuuEhRWbp5NPgJC
+ E+v7qJM7MPXENbhdPNtnmXcNqFXEXxfoX48dQmIV9BOEzXYIWZbroF0e/1nQFuaNB8Md
+ rrvZbX3AhW1ix0cnljtB3P7omz50DQZBCDigLRqAm0xcZSgdZKRuKG0AFsgeEeAgGf5A
+ vfsuhPiBcdS6pucF5uw86kXaPINVWwihrBa2KA7ONG6cSB+eJUzliQQT82ZtsXw+p2sS
+ /YoA==
+X-Gm-Message-State: APjAAAXvZK5fFIKN77AHZ++l8YpF/b3wtRyiqFmmIgk0f6X6PDeRFe+j
+ r9PuuZKKTDHYggBxM8+H4KAIRPB0hiwRfkUG1KA=
+X-Google-Smtp-Source: APXvYqy+yirOcMBT0dMGIZEA7YUC7mfEaQwZSAwSz/C6qZDcJWn2FzcYDFus2eFw4tYbNGF2fkE5wTHjrbyYr+qjJJg=
+X-Received: by 2002:a0c:ed32:: with SMTP id u18mr2306048qvq.2.1578452116247;
+ Tue, 07 Jan 2020 18:55:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-01-07_06:2020-01-07,
- 2020-01-07 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- impostorscore=0
- phishscore=0 lowpriorityscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0
- spamscore=0 malwarescore=0 mlxscore=0 priorityscore=1501 clxscore=1015
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-2001070153
-X-FB-Internal: deliver
+From: Joel Stanley <joel@jms.id.au>
+Date: Wed, 8 Jan 2020 02:55:04 +0000
+Message-ID: <CACPK8XcjazgORXNZBU1ECMukXG4HA8D9VeDxiSPifDk_iB7_dw@mail.gmail.com>
+Subject: [GIT PULL] aspeed: device tree fixes for 5.5
+To: arm <arm@kernel.org>, soc@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,43 +66,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: sdasari@fb.com, linux-aspeed@lists.ozlabs.org
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-After receiving device mac address from device, send this as
-a source address for further commands instead of broadcast
-address.
+Hello arm maintainers,
 
-This will help in multi host NIC cards.
+Here are some fixes for some device tree mistakes that went in during
+the 5.5 merge window.
 
-Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
----
- net/ncsi/ncsi-cmd.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+The following changes since commit ffcdc5df08bfc4f418693b22cf2a1182de3375b4:
 
-diff --git a/net/ncsi/ncsi-cmd.c b/net/ncsi/ncsi-cmd.c
-index 0187e65176c0..ba9ae482141b 100644
---- a/net/ncsi/ncsi-cmd.c
-+++ b/net/ncsi/ncsi-cmd.c
-@@ -369,7 +369,15 @@ int ncsi_xmit_cmd(struct ncsi_cmd_arg *nca)
- 	eh = skb_push(nr->cmd, sizeof(*eh));
- 	eh->h_proto = htons(ETH_P_NCSI);
- 	eth_broadcast_addr(eh->h_dest);
--	eth_broadcast_addr(eh->h_source);
-+
-+	/* If mac address received from device then use it for
-+	 * source address as unicast address else use broadcast
-+	 * address as source address
-+	 */
-+	if (nca->ndp->gma_flag == 1)
-+		memcpy(eh->h_source, nca->ndp->ndev.dev->dev_addr, ETH_ALEN);
-+	else
-+		eth_broadcast_addr(eh->h_source);
- 
- 	/* Start the timer for the request that might not have
- 	 * corresponding response. Given NCSI is an internal
--- 
-2.17.1
+  ARM: dts: aspeed: rainier: Fix fan fault and presence (2020-01-08
+12:51:03 +1030)
 
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
+tags/aspeed-5.5-devicetree-fixes
+
+for you to fetch changes up to ffcdc5df08bfc4f418693b22cf2a1182de3375b4:
+
+  ARM: dts: aspeed: rainier: Fix fan fault and presence (2020-01-08
+12:51:03 +1030)
+
+----------------------------------------------------------------
+ASPEED device tree fixes for 5.5
+
+Fixes for some badly applied patches that went in to 5.5. There is also
+a fix for an incorrect i2c address.
+
+----------------------------------------------------------------
+
+Brandon Wyman (1):
+      ARM: dts: aspeed: rainier: Fix fan fault and presence
+
+Joel Stanley (5):
+      ARM: dts: aspeed-g6: Fix FSI master location
+      ARM: dts: aspeed: tacoma: Fix fsi master node
+      ARM: dts: aspeed: tacoma: Remove duplicate i2c busses
+      ARM: dts: aspeed: tacoma: Remove duplicate flash nodes
+      ARM: dts: aspeed: rainier: Remove duplicate i2c busses
