@@ -2,59 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E67713394C
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Jan 2020 03:55:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DDB134DB3
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Jan 2020 21:34:00 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47sv4h0YNSzDqNs
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Jan 2020 13:55:32 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47tLYx5nWnzDqQM
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Jan 2020 07:33:57 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f42;
- helo=mail-qv1-xf42.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=209.85.210.65; helo=mail-ot1-f65.google.com;
+ envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.b="GwTExAKs"; 
- dkim-atps=neutral
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
- [IPv6:2607:f8b0:4864:20::f42])
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47sv4V01ZxzDqCR
- for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Jan 2020 13:55:21 +1100 (AEDT)
-Received: by mail-qv1-xf42.google.com with SMTP id f16so821469qvi.4
- for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Jan 2020 18:55:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=D9/u+j2j6zRtqERoabJ1WOdMTYaBzefBw5186J3rAKY=;
- b=GwTExAKssKvTTPZz/9+b+HQfwc03smWzvB50u8vCmP42imVJ0mDE4NV3FA1cv68pVi
- ugIkjOqcDLv5Dyv3H82MIlugGoEn+af8Ok7oW6PyFrYYZqf9ckXp9SOoqpSOw915FPDV
- lu6K1b/OHjTjlcmoHGgJFeqdBUOXXH2kmd9Ng=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47tLYP2bMVzDqS8
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  9 Jan 2020 07:33:28 +1100 (AEDT)
+Received: by mail-ot1-f65.google.com with SMTP id 19so4931465otz.3
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 08 Jan 2020 12:33:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=D9/u+j2j6zRtqERoabJ1WOdMTYaBzefBw5186J3rAKY=;
- b=P0myffqMyp3rzt2ljBzvtGtxLOijLIdVFF/X0D/HYEb22SWUjoWo0drSEuw6WH8lcM
- Dcz9OEEmv6hxBj5ePed8DMNSGeADcFFXBYc2fj9MY6tlBsi3rlBi3PuuEhRWbp5NPgJC
- E+v7qJM7MPXENbhdPNtnmXcNqFXEXxfoX48dQmIV9BOEzXYIWZbroF0e/1nQFuaNB8Md
- rrvZbX3AhW1ix0cnljtB3P7omz50DQZBCDigLRqAm0xcZSgdZKRuKG0AFsgeEeAgGf5A
- vfsuhPiBcdS6pucF5uw86kXaPINVWwihrBa2KA7ONG6cSB+eJUzliQQT82ZtsXw+p2sS
- /YoA==
-X-Gm-Message-State: APjAAAXvZK5fFIKN77AHZ++l8YpF/b3wtRyiqFmmIgk0f6X6PDeRFe+j
- r9PuuZKKTDHYggBxM8+H4KAIRPB0hiwRfkUG1KA=
-X-Google-Smtp-Source: APXvYqy+yirOcMBT0dMGIZEA7YUC7mfEaQwZSAwSz/C6qZDcJWn2FzcYDFus2eFw4tYbNGF2fkE5wTHjrbyYr+qjJJg=
-X-Received: by 2002:a0c:ed32:: with SMTP id u18mr2306048qvq.2.1578452116247;
- Tue, 07 Jan 2020 18:55:16 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=u9lGx1KGncwRhu5gmclKsigxLVgAIjFaP4Z6LNjc8ZM=;
+ b=iZMbfmkyu0qZzluNWob/VWr78OJeqV80uFwCStjUJNuuNZhSdlnELy6xbfLBLoqGLT
+ XDcFFE1d1Os6qRwT5s4Wt1iu8dPwwlUyU7ATYbSCDv+ILLWmRuG8yL91N3d4AwbwtKnc
+ GUha6LwUy6yv0/aNZVlcEi7jyviP8tSlR69QigUx8u2K+ZsLGQA7xVZJ3+YDmjgD06JV
+ yNcsR+DwcioTtfFDBv4gm7NpVhAQEgnN7IBE0NmV2Nm33H5aEiWgyT/Qnp/r6S/ALg2L
+ wtdmt9pR4KPxBHRWapW90HutAeCSJ3UY98BRelVH7VhGK+jXzk2u6OLDN66RuLEtx3RZ
+ LaNA==
+X-Gm-Message-State: APjAAAV/yW+jy5owXV9Dlb7SWBS58jdr9wSuL7afdkBoUl70JArnNImV
+ ABTmEzM8wqSrv+TLKzXm7rD0JdU=
+X-Google-Smtp-Source: APXvYqxxkxScoi4G/PW+f1fEvjS3AkL+XwCcn3QXs7J7BuzsaASWibmKjaVNJlvfVeqCBW4YajGp6A==
+X-Received: by 2002:a05:6830:9a:: with SMTP id
+ a26mr5720824oto.131.1578515605361; 
+ Wed, 08 Jan 2020 12:33:25 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id h9sm1425297oie.53.2020.01.08.12.33.23
+ for <linux-aspeed@lists.ozlabs.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2020 12:33:24 -0800 (PST)
+Received: from rob (uid 1000) (envelope-from rob@rob-hp-laptop) id 2208fa
+ by rob-hp-laptop (DragonFly Mail Agent v0.11);
+ Wed, 08 Jan 2020 14:33:23 -0600
+Date: Wed, 8 Jan 2020 14:33:23 -0600
+From: Rob Herring <robh@kernel.org>
+To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Subject: Re: [PATCH 2/3] Documentation: dt-bindings: media: add AST2600 Video
+ Engine support
+Message-ID: <20200108203323.GA18757@bogus>
+References: <20200107011503.17435-1-jae.hyun.yoo@linux.intel.com>
+ <20200107011503.17435-3-jae.hyun.yoo@linux.intel.com>
 MIME-Version: 1.0
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 8 Jan 2020 02:55:04 +0000
-Message-ID: <CACPK8XcjazgORXNZBU1ECMukXG4HA8D9VeDxiSPifDk_iB7_dw@mail.gmail.com>
-Subject: [GIT PULL] aspeed: device tree fixes for 5.5
-To: arm <arm@kernel.org>, soc@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200107011503.17435-3-jae.hyun.yoo@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,46 +73,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello arm maintainers,
+On Mon,  6 Jan 2020 17:15:02 -0800, Jae Hyun Yoo wrote:
+> The AST2600 has Video Engine so add the compatible string into the
+> document.
+> 
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> ---
+>  Documentation/devicetree/bindings/media/aspeed-video.txt | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
 
-Here are some fixes for some device tree mistakes that went in during
-the 5.5 merge window.
-
-The following changes since commit ffcdc5df08bfc4f418693b22cf2a1182de3375b4:
-
-  ARM: dts: aspeed: rainier: Fix fan fault and presence (2020-01-08
-12:51:03 +1030)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
-tags/aspeed-5.5-devicetree-fixes
-
-for you to fetch changes up to ffcdc5df08bfc4f418693b22cf2a1182de3375b4:
-
-  ARM: dts: aspeed: rainier: Fix fan fault and presence (2020-01-08
-12:51:03 +1030)
-
-----------------------------------------------------------------
-ASPEED device tree fixes for 5.5
-
-Fixes for some badly applied patches that went in to 5.5. There is also
-a fix for an incorrect i2c address.
-
-----------------------------------------------------------------
-
-Brandon Wyman (1):
-      ARM: dts: aspeed: rainier: Fix fan fault and presence
-
-Joel Stanley (5):
-      ARM: dts: aspeed-g6: Fix FSI master location
-      ARM: dts: aspeed: tacoma: Fix fsi master node
-      ARM: dts: aspeed: tacoma: Remove duplicate i2c busses
-      ARM: dts: aspeed: tacoma: Remove duplicate flash nodes
-      ARM: dts: aspeed: rainier: Remove duplicate i2c busses
+Acked-by: Rob Herring <robh@kernel.org>
