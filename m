@@ -1,72 +1,49 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A93113AF2B
-	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Jan 2020 17:21:30 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47xwgq69pwzDqK3
-	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Jan 2020 03:21:27 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7985613B33F
+	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Jan 2020 20:53:39 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47y1Nc58MyzDqS9
+	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Jan 2020 06:53:36 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=sirena.org.uk
- (client-ip=172.104.155.198; helo=heliosphere.sirena.org.uk;
- envelope-from=broonie@sirena.org.uk; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=sirena.org.uk header.i=@sirena.org.uk
- header.a=rsa-sha256 header.s=20170815-heliosphere header.b=UpQ1Wewl; 
- dkim-atps=neutral
-X-Greylist: delayed 1967 seconds by postgrey-1.36 at bilbo;
- Wed, 15 Jan 2020 03:16:11 AEDT
-Received: from heliosphere.sirena.org.uk (heliosphere.sirena.org.uk
- [172.104.155.198])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47xwYl5bJhzDqKK
- for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Jan 2020 03:16:10 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ZCTSH+k6xThdH79h0I5oh1zVw+T2m5gqrWX7QMFhKd4=; b=UpQ1WewlV5QqhtFdaZ8w6ORpF
- 8M9iXrAUdbtW9g5RYjBjRrjEDY4WYvrb7K/SZOdWF5OskeoDuNHqszDZeK8AHaoLAH7unGua0Uiuf
- Onsb4Voox3RhmYdBl7MgsARFkeAKvNV6JjYHwLu3CouBWfw4L+7XUAqTJXgQDH0Sexj5g=;
-Received: from fw-tnat-cam7.arm.com ([217.140.106.55]
- helo=fitzroy.sirena.org.uk) by heliosphere.sirena.org.uk with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <broonie@sirena.org.uk>)
- id 1irOLa-0000KP-L6; Tue, 14 Jan 2020 15:43:14 +0000
-Received: by fitzroy.sirena.org.uk (Postfix, from userid 1000)
- id 2CE91D002CB; Tue, 14 Jan 2020 15:43:14 +0000 (GMT)
-Date: Tue, 14 Jan 2020 15:43:14 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [PATCH v3 3/6] dt-bindings: mfd: da9062: add regulator voltage
- selection documentation
-Message-ID: <20200114154314.GZ3897@sirena.org.uk>
-References: <20191212161019.GF4310@sirena.org.uk>
- <20191212162152.5uu3feacduetysq7@pengutronix.de>
- <20191212165124.GJ4310@sirena.org.uk>
- <20191216085525.csr2aglm5md4vtsw@pengutronix.de>
- <20191216114454.GB4161@sirena.org.uk>
- <20191217073533.GC31182@pengutronix.de>
- <20191217125832.GF4755@sirena.org.uk>
- <20200107083654.atgbjhrnhyax2gqq@pengutronix.de>
- <20200107130911.GD4877@sirena.org.uk>
- <20200107133811.rua5i6lflzyzlh24@pengutronix.de>
+ spf=none (no SPF record) smtp.mailfrom=linux.intel.com
+ (client-ip=134.134.136.24; helo=mga09.intel.com;
+ envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=linux.intel.com
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47y1NS6GgQzDqL4
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Jan 2020 06:53:27 +1100 (AEDT)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2020 11:53:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,320,1574150400"; d="scan'208";a="242596404"
+Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.147])
+ ([10.7.153.147])
+ by orsmga002.jf.intel.com with ESMTP; 14 Jan 2020 11:53:23 -0800
+Subject: Re: [PATCH] clk: ast2600: enable BCLK for PCI/PCIe bus always
+To: Joel Stanley <joel@jms.id.au>
+References: <20200113213453.27108-1-jae.hyun.yoo@linux.intel.com>
+ <CACPK8Xf0Oa62BsNOQ55rqAp_a=V-_9bm1c4nu_+Oo5zB=2+zpA@mail.gmail.com>
+From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Message-ID: <255b53d2-d4b5-8bc0-393b-a2f531a98fc1@linux.intel.com>
+Date: Tue, 14 Jan 2020 11:53:23 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="yhqQ34TVR4fE8mPU"
-Content-Disposition: inline
-In-Reply-To: <20200107133811.rua5i6lflzyzlh24@pengutronix.de>
-X-Cookie: Programming is an unnatural act.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CACPK8Xf0Oa62BsNOQ55rqAp_a=V-_9bm1c4nu_+Oo5zB=2+zpA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,65 +55,67 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Support Opensource <Support.Opensource@diasemi.com>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
- "lee.jones@linaro.org" <lee.jones@linaro.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Stephen Boyd <sboyd@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-clk@vger.kernel.org,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Joel,
 
---yhqQ34TVR4fE8mPU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 1/13/2020 10:15 PM, Joel Stanley wrote:
+> On Mon, 13 Jan 2020 at 21:33, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
+>>
+>> BCLK for PCI/PCIe bus should be enabled always with having the
+>> CLK_IS_CRITICAL flag otherwise it will be disabled at kernel late
+>> initcall phase as an unused clock, and eventually it causes
+>> unexpected behavior on BMC features that are connected to the host
+>> through PCI/PCIe bus.
+> 
+> This is true for systems that have PCIe connected. There are systems
+> that do not, and in that case we don't want to have the clock enabled.
+> 
+> Are you doing this to support the case where the PCIe device not load
+> a BMC driver? (eg for host VGA use). If not, then you can have the
+> driver you're loading request the BCLK.
+> 
+> If this is for the host VGA device, then you will need to come up with
+> a mechanism that makes the enabling of this clock depend on the device
+> tree.
 
-On Tue, Jan 07, 2020 at 02:38:11PM +0100, Marco Felsch wrote:
-> On 20-01-07 13:09, Mark Brown wrote:
-> > On Tue, Jan 07, 2020 at 09:36:54AM +0100, Marco Felsch wrote:
+Is there any way to enable clock by just adding a node in device tree?
+Do you want me to add a simple driver module for host VGA just for
+enabling BCLK?
 
-> > > The input signal is routed trough the da9062 gpio block to the
-> > > regualtors. You can't set any voltage value using a gpio instead you
-> > > decide which voltage setting is applied. The voltage values for
-> > > runtime/suspend comes from the dt-data. No it's not just a fast
-> > > switching option imagine the system suspend case where the cpu and soc
-> > > voltage can be reduced to a very low value. Older soc's like the imx6
-> > > signaling this state by a hard wired gpio line because the soc and
-> > > cpu cores don't work properly on such low voltage values. This is
-> > > my use case and I can't use the sequencer.
+Thanks,
 
-> > My point is that I can't tell any of this from the description.
+Jae
 
-> Therefore I want to discuss the dt-binding documentation with you and
-> the others to get this done. Is the above description better to
-> understand the dt-binding?
-
-That text really doesn't feel like text that'd be idiomatic
-directly in a binding document but some of those ideas probably
-do need to be in the text I think.
-
---yhqQ34TVR4fE8mPU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl4d4ZEACgkQJNaLcl1U
-h9CJjAf+Lyl6pKu3ywfkP8t2CeYxi0Fz9ndEKvYqp7nK6CZxn8OgX9Jjem3iwm4w
-vhgB2B06edcnP8wIDEgk8YUMirzG0/Rc475SlTvVg/1BYOaGftqksTiEZfHJf0qt
-4mcWgT+Agw3YzPMkM6kahAu243KxKHAwojM3iVV7gb9PX/rOVtInStggPxzdcxtk
-jQQo2RvYBo2mEBArehWE+PGGT2/JElQGTLyhRVx3BrhuAXXoNKuwkS9fUrVAnyk5
-m5kKBygRDyY4MdZ/a53/E8URMDJbctEtveN03mzI+QQ//PMDTufBPqSmURaODb5c
-PAal49kxIE8ZAfvvCgimhdhS3yzmTg==
-=m6uy
------END PGP SIGNATURE-----
-
---yhqQ34TVR4fE8mPU--
+> Cheers,
+> 
+> Joel
+> 
+>>
+>> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>> ---
+>>   drivers/clk/clk-ast2600.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/clk/clk-ast2600.c b/drivers/clk/clk-ast2600.c
+>> index 392d01705b97..42bfdc16bf7a 100644
+>> --- a/drivers/clk/clk-ast2600.c
+>> +++ b/drivers/clk/clk-ast2600.c
+>> @@ -64,7 +64,7 @@ static const struct aspeed_gate_data aspeed_g6_gates[] = {
+>>          [ASPEED_CLK_GATE_GCLK]          = {  2,  7, "gclk-gate",        NULL,    0 },   /* 2D engine */
+>>          /* vclk parent - dclk/d1clk/hclk/mclk */
+>>          [ASPEED_CLK_GATE_VCLK]          = {  3,  6, "vclk-gate",        NULL,    0 },   /* Video Capture */
+>> -       [ASPEED_CLK_GATE_BCLK]          = {  4,  8, "bclk-gate",        "bclk",  0 }, /* PCIe/PCI */
+>> +       [ASPEED_CLK_GATE_BCLK]          = {  4,  8, "bclk-gate",        "bclk",  CLK_IS_CRITICAL }, /* PCIe/PCI */
+>>          /* From dpll */
+>>          [ASPEED_CLK_GATE_DCLK]          = {  5, -1, "dclk-gate",        NULL,    CLK_IS_CRITICAL }, /* DAC */
+>>          [ASPEED_CLK_GATE_REF0CLK]       = {  6, -1, "ref0clk-gate",     "clkin", CLK_IS_CRITICAL },
+>> --
+>> 2.17.1
+>>
+> 
