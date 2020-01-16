@@ -1,75 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC0413D199
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jan 2020 02:38:30 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C31113CF1A
-	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Jan 2020 22:32:48 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47ygXY245JzDqRw
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jan 2020 08:32:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47yn025zYBzDqGJ
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jan 2020 12:38:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::744;
+ helo=mail-qk1-x744.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=linux.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=eLFvuZsy; dkim-atps=neutral
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
+ [IPv6:2607:f8b0:4864:20::744])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47ygTw3r2tzDqQ3
- for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Jan 2020 08:30:28 +1100 (AEDT)
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00FLRi7R133890; Wed, 15 Jan 2020 16:30:06 -0500
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2xhbpsjguf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Jan 2020 16:30:06 -0500
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 00FLLJKp028152;
- Wed, 15 Jan 2020 21:30:06 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma04wdc.us.ibm.com with ESMTP id 2xf7520yek-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 15 Jan 2020 21:30:05 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 00FLU42j44499386
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 15 Jan 2020 21:30:05 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D6D656E059;
- Wed, 15 Jan 2020 21:30:04 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 050BB6E04C;
- Wed, 15 Jan 2020 21:30:04 +0000 (GMT)
-Received: from talon7.ibm.com (unknown [9.41.103.158])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 15 Jan 2020 21:30:03 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH v6 12/12] ARM: dts: aspeed: tacoma: Enable XDMA engine
-Date: Wed, 15 Jan 2020 15:29:50 -0600
-Message-Id: <1579123790-6894-13-git-send-email-eajames@linux.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1579123790-6894-1-git-send-email-eajames@linux.ibm.com>
-References: <1579123790-6894-1-git-send-email-eajames@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-01-15_03:2020-01-15,
- 2020-01-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=457
- impostorscore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
- suspectscore=1 malwarescore=0 priorityscore=1501 adultscore=0 spamscore=0
- mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1910280000 definitions=main-2001150161
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47ymzv1JLdzDqJs;
+ Thu, 16 Jan 2020 12:38:18 +1100 (AEDT)
+Received: by mail-qk1-x744.google.com with SMTP id x129so17677393qke.8;
+ Wed, 15 Jan 2020 17:38:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1fru5OiodLrKKngSwZ1rXnYTcEIToyQn7zBfis7QmWk=;
+ b=eLFvuZsyTiRfK7UV4g57mGstNkFvCjCnxduScp0C7DmHg8+IwAh/uXtGCI29EKebne
+ fW9BzLh3/yLSiMPYrCkLGzZpSvWgU6YjtlUL8Bb7V6Dx1R96ECCvlqpek3XmKqOl03Mw
+ +nVOKn3pe9vKfZLSCrw4vL2kS5/Zx5kWaMk6M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1fru5OiodLrKKngSwZ1rXnYTcEIToyQn7zBfis7QmWk=;
+ b=axC7qvMp+smg54hlk4pX/2aVjmt3TRr5V5c0F2G5bWuHdBDr+GoviNCv+RCkIKG9r1
+ WLa54u9j1BWGl4GA2I25rgxlVf3lZkQaPvAHH+mm9m4kAGvzhU1HC21/TFshEtCkljnl
+ RaHoe7E2dJDZqcJSc3HNhoZZ5J6kJnFotWkEQ3b66XPX2ssrixMqajq+DYLex0u5VY+S
+ O0HkhYfb6rmSDYJbTvGCQVLfri6M28pP1sb9wjT29/+cPmzo2EAbqEn3AosPpTCGoJWO
+ 8EW5k5nEghyOKq1YsGzoZw8pXGHkcOzSnRXN4b0XJKaPsh08Sus0QUUOogVKmwaRtqAy
+ fYvQ==
+X-Gm-Message-State: APjAAAUkT04dMh85TSD7qiL18GG+GiCocjUMl+G7LMh4Kg/MSWgIuqZ+
+ d3rIqHolfa2GPovMAxKEC1K+dHVbl2gkfOBUsMo=
+X-Google-Smtp-Source: APXvYqwTAo+CmTUw+bJLllvdDSV6lyyIY62kprsec+Zi9ebDT80z5kEIrhWfU2baF0O9XaijPpjm3ylEz71Wg5G94fk=
+X-Received: by 2002:a05:620a:849:: with SMTP id
+ u9mr30843053qku.414.1579138694765; 
+ Wed, 15 Jan 2020 17:38:14 -0800 (PST)
+MIME-Version: 1.0
+References: <20200115212639.4998-1-jae.hyun.yoo@linux.intel.com>
+ <20200115212639.4998-2-jae.hyun.yoo@linux.intel.com>
+In-Reply-To: <20200115212639.4998-2-jae.hyun.yoo@linux.intel.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 16 Jan 2020 01:38:02 +0000
+Message-ID: <CACPK8Xez9XQPQCsUU1Fu_POTJ3dh3tGJvK=otJdMYv40aZLqsw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] clk: aspeed: add critical clock setting logic
+To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,34 +71,57 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, jason@lakedaemon.net,
- maz@kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
- tglx@linutronix.de
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Stephen Boyd <sboyd@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>, linux-clk@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Enable the XDMA engine node.
+On Wed, 15 Jan 2020 at 21:25, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
+>
+> This commit adds critical clock setting logic that applies
+> CLK_IS_CRITICAL flag if it detects 'clock-critical' property in
+> device tree.
+>
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> ---
+>  drivers/clk/clk-aspeed.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/clk/clk-aspeed.c b/drivers/clk/clk-aspeed.c
+> index 411ff5fb2c07..d22eeb574ede 100644
+> --- a/drivers/clk/clk-aspeed.c
+> +++ b/drivers/clk/clk-aspeed.c
+> @@ -541,8 +541,11 @@ static int aspeed_clk_probe(struct platform_device *pdev)
+>
+>         for (i = 0; i < ARRAY_SIZE(aspeed_gates); i++) {
+>                 const struct aspeed_gate_data *gd = &aspeed_gates[i];
+> +               unsigned long flags = gd->flags;
+>                 u32 gate_flags;
+>
+> +               of_clk_detect_critical(pdev->dev.of_node, i, &flags);
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
----
- arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 6 ++++++
- 1 file changed, 6 insertions(+)
+This makes sense to me.
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-index ff49ec7..3e6c309 100644
---- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-@@ -800,3 +800,9 @@
- 	pinctrl-0 = <&pinctrl_lpc_default>,
- 		    <&pinctrl_lsirq_default>;
- };
-+
-+&xdma {
-+	status = "okay";
-+	/* 1G DRAM with 8M VRAM which is reserved at the top. */
-+	memory = <0xbf800000 0x00800000>;
-+};
--- 
-1.8.3.1
+> +
+>                 /* Special case: the USB port 1 clock (bit 14) is always
+>                  * working the opposite way from the other ones.
+>                  */
+> @@ -550,7 +553,7 @@ static int aspeed_clk_probe(struct platform_device *pdev)
+>                 hw = aspeed_clk_hw_register_gate(dev,
+>                                 gd->name,
+>                                 gd->parent_name,
+> -                               gd->flags,
+> +                               flags,
 
+For completeness should we make this
+
+ flags | gd->flags
+
+>                                 map,
+>                                 gd->clock_idx,
+>                                 gd->reset_idx,
+> --
+> 2.17.1
+>
