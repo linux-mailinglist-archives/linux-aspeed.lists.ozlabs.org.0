@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE2B13F00E
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jan 2020 19:20:57 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47zCDj2B8rzDqZm
-	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Jan 2020 05:20:53 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A2913F1A2
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jan 2020 19:31:09 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 47zCSS3VPRzDqfq
+	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Jan 2020 05:31:04 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -16,32 +16,32 @@ Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=jApRsRWR; dkim-atps=neutral
+ header.s=default header.b=zvOCsLo0; dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47z9j35ftJzDqYL
- for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Jan 2020 04:11:51 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47z9mH4s0jzDqcK
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Jan 2020 04:14:39 +1100 (AEDT)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6CBD424697;
- Thu, 16 Jan 2020 17:11:48 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id CFB28246A0;
+ Thu, 16 Jan 2020 17:14:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579194709;
- bh=jra6bcN6e0FvRK3fGf7npFyWGdYaW1XNRiWBWNJOPg0=;
+ s=default; t=1579194878;
+ bh=P4JS33lPfd5CksSa+DV0l9XssAnGxxCSrEewU7X7u24=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jApRsRWRSQi3D1AP/Uqo7Pc1vrRo1LZx7l05BL7qP2cL6K0g8JlO5Yz5yza8yu+KO
- pJzPF/I4NsIc6AUtdqAgSC5nx3uC8UbUwjsYiblIIYN+GMDpmwYN9ahe4uKVU3R3pL
- sIiv4zlSJmSkQp5ppfhSFm5uCroZme2JkJzeiyhM=
+ b=zvOCsLo0W1tG7EA5E9DeS4bKV1Xh3i2RwDQjV4HEOfaE3zuGOw6J/D/tcB/9v/H9B
+ MtsQ9eENvmTR0hDySd6+3vODzO/nTkQYjEYGcf7S9uzQYvXBqwSJEIKpZoX8bIIPes
+ bcmn77XRd/kfwEVztUin1Qy9OXTWOf2naH6YpkwY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 547/671] gpio/aspeed: Fix incorrect number of
- banks
-Date: Thu, 16 Jan 2020 12:03:05 -0500
-Message-Id: <20200116170509.12787-284-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 667/671] soc: aspeed: Fix snoop_file_poll()'s
+ return type
+Date: Thu, 16 Jan 2020 12:05:05 -0500
+Message-Id: <20200116170509.12787-404-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116170509.12787-1-sashal@kernel.org>
 References: <20200116170509.12787-1-sashal@kernel.org>
@@ -61,45 +61,54 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, linux-aspeed@lists.ozlabs.org,
- Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Joel Stanley <joel@jms.d.au>
+ Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Rashmica Gupta <rashmica.g@gmail.com>
+From: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
 
-[ Upstream commit 3c4710ae6f883f9c6e3df5e27e274702a1221c57 ]
+[ Upstream commit a4e55ccd4392e70f296d12e81b93c6ca96ee21d5 ]
 
-The current calculation for the number of GPIO banks is only correct if
-the number of GPIOs is a multiple of 32 (if there were 31 GPIOs we would
-currently say there are 0 banks, which is incorrect).
+snoop_file_poll() is defined as returning 'unsigned int' but the
+.poll method is declared as returning '__poll_t', a bitwise type.
 
-Fixes: 361b79119a4b7 ('gpio: Add Aspeed driver')
+Fix this by using the proper return type and using the EPOLL
+constants instead of the POLL ones, as required for __poll_t.
 
-Signed-off-by: Rashmica Gupta <rashmica.g@gmail.com>
+Link: https://lore.kernel.org/r/20191121051851.268726-1-joel@jms.id.au
+Fixes: 3772e5da4454 ("drivers/misc: Aspeed LPC snoop output using misc chardev")
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-Link: https://lore.kernel.org/r/20190906062623.13354-1-rashmica.g@gmail.com
-Reviewed-by: Joel Stanley <joel@jms.d.au>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Olof Johansson <olof@lixom.net>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpio/gpio-aspeed.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/misc/aspeed-lpc-snoop.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpio/gpio-aspeed.c b/drivers/gpio/gpio-aspeed.c
-index b696ec35efb3..e627e0e9001a 100644
---- a/drivers/gpio/gpio-aspeed.c
-+++ b/drivers/gpio/gpio-aspeed.c
-@@ -1199,7 +1199,7 @@ static int __init aspeed_gpio_probe(struct platform_device *pdev)
- 	gpio->chip.irq.need_valid_mask = true;
+diff --git a/drivers/misc/aspeed-lpc-snoop.c b/drivers/misc/aspeed-lpc-snoop.c
+index 2feb4347d67f..c10be21a1663 100644
+--- a/drivers/misc/aspeed-lpc-snoop.c
++++ b/drivers/misc/aspeed-lpc-snoop.c
+@@ -101,13 +101,13 @@ static ssize_t snoop_file_read(struct file *file, char __user *buffer,
+ 	return ret ? ret : copied;
+ }
  
- 	/* Allocate a cache of the output registers */
--	banks = gpio->config->nr_gpios >> 5;
-+	banks = DIV_ROUND_UP(gpio->config->nr_gpios, 32);
- 	gpio->dcache = devm_kcalloc(&pdev->dev,
- 				    banks, sizeof(u32), GFP_KERNEL);
- 	if (!gpio->dcache)
+-static unsigned int snoop_file_poll(struct file *file,
++static __poll_t snoop_file_poll(struct file *file,
+ 				    struct poll_table_struct *pt)
+ {
+ 	struct aspeed_lpc_snoop_channel *chan = snoop_file_to_chan(file);
+ 
+ 	poll_wait(file, &chan->wq, pt);
+-	return !kfifo_is_empty(&chan->fifo) ? POLLIN : 0;
++	return !kfifo_is_empty(&chan->fifo) ? EPOLLIN : 0;
+ }
+ 
+ static const struct file_operations snoop_fops = {
 -- 
 2.20.1
 
