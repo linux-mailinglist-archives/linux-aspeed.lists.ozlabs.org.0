@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB521400A4
+	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Jan 2020 01:15:39 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D0D1400A3
-	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Jan 2020 01:15:35 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47zM5w4xswzDrJj
-	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Jan 2020 11:15:32 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47zM611NLszDrJj
+	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Jan 2020 11:15:37 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,67 +17,67 @@ Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=pU3O/TGz; 
+ header.s=fm1 header.b=nIHuqEaQ; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=sOzSyMqv; 
+ header.a=rsa-sha256 header.s=fm1 header.b=xFzk6qeH; 
  dkim-atps=neutral
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47zLpB2QZLzDrDf
- for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Jan 2020 11:01:54 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47zLwb6KJ1zDrJP
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Jan 2020 11:07:27 +1100 (AEDT)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 50F0D22077;
- Thu, 16 Jan 2020 19:01:51 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id A1EFB22076;
+ Thu, 16 Jan 2020 19:07:23 -0500 (EST)
 Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Thu, 16 Jan 2020 19:01:51 -0500
+ by compute4.internal (MEProxy); Thu, 16 Jan 2020 19:07:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=+4d46nAg69apB++QN888O8Q+rlJqDsK
- iGI/rETf8CM4=; b=pU3O/TGzgUZ3cp3Ae/Qw15GIvIjIhv/92V3RUdmVj6lSds/
- pXL0Z7/YbEl3E0cFfDuhfUm0ckwZwa6rxViF7OcVTGxni6emI4oQ2LLu5bswSN8l
- kZkhu81p1sWyemLn6DViC0DKSGaE39pcIzvK8ffh+7VE6Vl0o65OEtJy//REukeb
- tfGWPjc037eNB0SvKApmpr4rlcLNaIs3kxHCQbt/We8haJm600Li3uDmgU7hVlX8
- knBTLQ1X54GMJMpeGBOca1nMU2MPEGX91VPIOvtiqtxxc67osNpieHi0XjfT5VwZ
- dBSKTyp+awkXY5/upHAG3sOhdIzNmoj3V6dm30w==
+ :subject:content-type; s=fm1; bh=iVwt3LIcBpxtFQ+R6FD04TuQoW5u6ub
+ 4oIPG6WUenUY=; b=nIHuqEaQ/sdrRrnsOodMgfAs3fTxRyGjWwxoiqVpAMqh/Qt
+ kVmSJqwZU8bxBNnsMPqiJWa3s0SHfcPlBXlASOT6jfKblehz662os+gJu2EBMeaa
+ 9JbzPVWSCEOyV7kFfSCx2jFlF7UAkrTFk75kwCmJGUqKByCuzo3lJi8J4IKijzOJ
+ c7k5D6XTfXPB9jkSddI5Y58MeMkV2TvDbMQLvwun1uQrmEyg1n1ERely/joAyYvY
+ /3+hP0wvNMi1ci8CRPAeyjIYn9okYHnAouz0og82Aidmpgq9V014K/bd6n03j5EJ
+ WDa5RL8omgYZ99MzbUTm+3Dz+tQKdxdfrYSKvyQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=+4d46n
- Ag69apB++QN888O8Q+rlJqDsKiGI/rETf8CM4=; b=sOzSyMqvMQhD65VKHv+Mg2
- pj1KC1HwCxPjpA+4oJr6HoWgigppLMyvZp51ONbGdaW4aLv+BxC+cXgeOO0f8tJs
- M+bA2zaqxHEOnEuguEWztQSxkn76/XN7r6Ju27Ti/o95F2JWH5d23Nmu7qFe+JcJ
- Q6LUSdj3elIlkPKnLfNEHq03PbgiHIOMbykFZRn7fyiYlm1oqzlWvGTH4AL8zgV3
- mzuc8nj0DQEoWbhGl1P5LH0jOiNXDl4ep8cSV4HUtrjYrdI0Ow3BVyeJSiIoKghD
- fJlI9w/q4O5btBE+JtblN0+Ghe8V0hH72S5epN/hS4HUHO1wR83yy3MbRztZhtzw
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=iVwt3L
+ IcBpxtFQ+R6FD04TuQoW5u6ub4oIPG6WUenUY=; b=xFzk6qeH/mvGkHHqBRPCx8
+ Xy+0sptLa18T7CSAZs0gGyWF8+Puym2AKTUC9fW9XW/YqU6iMWL9KjUYN41VYBnH
+ 53v39rwy/b6QLXY2ltb6l+GV05GE2jYAD+dGpcjoG7sPBklxgKdqrOJf58JTaJq1
+ M/SUMx5W4GAtg7AKf/yaT8CUjUvKxkx5zNxb2WmYWLDvzFyjeeMsRaol0yYoCYud
+ p3EohTACIeJ85/jDuL8YXXyiKAqYyHO1XwhW2j9XCbWFOmQXw6rSa5AeWjpLGEsP
+ GRkNHBSh7WpgVuLg/qYhXTy6rS2IQ8DUO100xA6YrJergIXuVpL9lYik/ljWQBog
  ==
-X-ME-Sender: <xms:bvkgXrwp2O7KjDadKYhXFxuD_ExIQbhRvZrHICMXQhVuzo6jm8X_CQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrtdeigddugecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:uvogXrsTmHavIf-jDnARkqGfVjrD6osK6CKmwH0D9y7gJRFUyY4PHg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrtdeigdduhecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
  vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
  hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
  ufhiiigvpedt
-X-ME-Proxy: <xmx:bvkgXlrTSkyde1d1nfqk5OXTTD2kEYACVJ1253A8zSxeDrdMRZKduQ>
- <xmx:bvkgXunaSZJfs2iTREwtxands2Y9uFDPHpdw4J7KZX1ze64THoavXA>
- <xmx:bvkgXoo2rAyhshiNGu-So5CQPpZawZ0EOO1diF6-5V1YCLlWB7TtAg>
- <xmx:b_kgXmn2xVH8CBc3Khf_qc91iCtNFOjCWCY0rnCuspTEJHtAa-pfeg>
+X-ME-Proxy: <xmx:uvogXjvPrn-SFp5F3ABf5eUxaaF1D1iuRGqUc7kLHp4u7khdoD_BYA>
+ <xmx:uvogXnWgjI5Th7WMD_W1W_ecOgLJK6NVEFt2DlkgkYqGuEmWXAW6UQ>
+ <xmx:uvogXnkPWU1OIPoNXerWWvGb2FFpP08Ba9Nafp2fogsNj56kBDjA5g>
+ <xmx:u_ogXuKuvqk1CinQv_y0rRqWGw2T-enbioXnTs6QkD0pJQb3jp68Sg>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 7DCD5E00A2; Thu, 16 Jan 2020 19:01:50 -0500 (EST)
+ id AF383E00A2; Thu, 16 Jan 2020 19:07:22 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.1.7-754-g09d1619-fmstable-20200113v1
 Mime-Version: 1.0
-Message-Id: <9007a9db-5250-4ad7-b436-da26d6e1b620@www.fastmail.com>
-In-Reply-To: <1579123790-6894-6-git-send-email-eajames@linux.ibm.com>
+Message-Id: <34acf604-d2e4-4efe-91ae-52b7a0dee187@www.fastmail.com>
+In-Reply-To: <1579123790-6894-7-git-send-email-eajames@linux.ibm.com>
 References: <1579123790-6894-1-git-send-email-eajames@linux.ibm.com>
- <1579123790-6894-6-git-send-email-eajames@linux.ibm.com>
-Date: Fri, 17 Jan 2020 10:31:30 +1030
+ <1579123790-6894-7-git-send-email-eajames@linux.ibm.com>
+Date: Fri, 17 Jan 2020 10:37:02 +1030
 From: "Andrew Jeffery" <andrew@aj.id.au>
 To: "Eddie James" <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
-Subject: Re: [PATCH v6 05/12] dt-bindings: soc: Add Aspeed XDMA Engine
+Subject: Re: [PATCH v6 06/12] soc: aspeed: Add XDMA Engine Driver
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -101,9 +101,13 @@ Sender: "Linux-aspeed"
 
 
 On Thu, 16 Jan 2020, at 07:59, Eddie James wrote:
-> Document the bindings for the Aspeed AST25XX and AST26XX XDMA engine.
+> The XDMA engine embedded in the AST2500 and AST2600 SOCs performs PCI
+> DMA operations between the SOC (acting as a BMC) and a host processor
+> in a server.
+> 
+> This commit adds a driver to control the XDMA engine and adds functions
+> to initialize the hardware and memory and start DMA operations.
 > 
 > Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
 
 Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
