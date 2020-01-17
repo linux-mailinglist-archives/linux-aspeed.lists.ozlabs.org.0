@@ -2,51 +2,83 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4745913FAEB
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jan 2020 22:01:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D0D1400A3
+	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Jan 2020 01:15:35 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 47zGpC4y5zzDqyb
-	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Jan 2020 08:01:39 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 47zM5w4xswzDrJj
+	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Jan 2020 11:15:32 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.26;
+ helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.93; helo=mga11.intel.com;
- envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linux.intel.com
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm1 header.b=pU3O/TGz; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=sOzSyMqv; 
+ dkim-atps=neutral
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 47zChs2YdSzDqJ3;
- Fri, 17 Jan 2020 05:41:46 +1100 (AEDT)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2020 10:41:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,327,1574150400"; d="scan'208";a="305959327"
-Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.147])
- ([10.7.153.147])
- by orsmga001.jf.intel.com with ESMTP; 16 Jan 2020 10:41:42 -0800
-Subject: Re: [PATCH 1/2] clk: aspeed: add critical clock setting logic
-To: Paul Menzel <pmenzel@molgen.mpg.de>, Joel Stanley <joel@jms.id.au>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Andrew Jeffery <andrew@aj.id.au>
-References: <20200115212639.4998-1-jae.hyun.yoo@linux.intel.com>
- <20200115212639.4998-2-jae.hyun.yoo@linux.intel.com>
- <3cafc96a-0ec5-d51c-94cc-2b2e41cc5c65@molgen.mpg.de>
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <0ba94fd3-e57f-82bc-0770-d623c2ce0a3b@linux.intel.com>
-Date: Thu, 16 Jan 2020 10:41:42 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <3cafc96a-0ec5-d51c-94cc-2b2e41cc5c65@molgen.mpg.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+ by lists.ozlabs.org (Postfix) with ESMTPS id 47zLpB2QZLzDrDf
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Jan 2020 11:01:54 +1100 (AEDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 50F0D22077;
+ Thu, 16 Jan 2020 19:01:51 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Thu, 16 Jan 2020 19:01:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=+4d46nAg69apB++QN888O8Q+rlJqDsK
+ iGI/rETf8CM4=; b=pU3O/TGzgUZ3cp3Ae/Qw15GIvIjIhv/92V3RUdmVj6lSds/
+ pXL0Z7/YbEl3E0cFfDuhfUm0ckwZwa6rxViF7OcVTGxni6emI4oQ2LLu5bswSN8l
+ kZkhu81p1sWyemLn6DViC0DKSGaE39pcIzvK8ffh+7VE6Vl0o65OEtJy//REukeb
+ tfGWPjc037eNB0SvKApmpr4rlcLNaIs3kxHCQbt/We8haJm600Li3uDmgU7hVlX8
+ knBTLQ1X54GMJMpeGBOca1nMU2MPEGX91VPIOvtiqtxxc67osNpieHi0XjfT5VwZ
+ dBSKTyp+awkXY5/upHAG3sOhdIzNmoj3V6dm30w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=+4d46n
+ Ag69apB++QN888O8Q+rlJqDsKiGI/rETf8CM4=; b=sOzSyMqvMQhD65VKHv+Mg2
+ pj1KC1HwCxPjpA+4oJr6HoWgigppLMyvZp51ONbGdaW4aLv+BxC+cXgeOO0f8tJs
+ M+bA2zaqxHEOnEuguEWztQSxkn76/XN7r6Ju27Ti/o95F2JWH5d23Nmu7qFe+JcJ
+ Q6LUSdj3elIlkPKnLfNEHq03PbgiHIOMbykFZRn7fyiYlm1oqzlWvGTH4AL8zgV3
+ mzuc8nj0DQEoWbhGl1P5LH0jOiNXDl4ep8cSV4HUtrjYrdI0Ow3BVyeJSiIoKghD
+ fJlI9w/q4O5btBE+JtblN0+Ghe8V0hH72S5epN/hS4HUHO1wR83yy3MbRztZhtzw
+ ==
+X-ME-Sender: <xms:bvkgXrwp2O7KjDadKYhXFxuD_ExIQbhRvZrHICMXQhVuzo6jm8X_CQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrtdeigddugecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
+ hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
+ ufhiiigvpedt
+X-ME-Proxy: <xmx:bvkgXlrTSkyde1d1nfqk5OXTTD2kEYACVJ1253A8zSxeDrdMRZKduQ>
+ <xmx:bvkgXunaSZJfs2iTREwtxands2Y9uFDPHpdw4J7KZX1ze64THoavXA>
+ <xmx:bvkgXoo2rAyhshiNGu-So5CQPpZawZ0EOO1diF6-5V1YCLlWB7TtAg>
+ <xmx:b_kgXmn2xVH8CBc3Khf_qc91iCtNFOjCWCY0rnCuspTEJHtAa-pfeg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 7DCD5E00A2; Thu, 16 Jan 2020 19:01:50 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-754-g09d1619-fmstable-20200113v1
+Mime-Version: 1.0
+Message-Id: <9007a9db-5250-4ad7-b436-da26d6e1b620@www.fastmail.com>
+In-Reply-To: <1579123790-6894-6-git-send-email-eajames@linux.ibm.com>
+References: <1579123790-6894-1-git-send-email-eajames@linux.ibm.com>
+ <1579123790-6894-6-git-send-email-eajames@linux.ibm.com>
+Date: Fri, 17 Jan 2020 10:31:30 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Eddie James" <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH v6 05/12] dt-bindings: soc: Add Aspeed XDMA Engine
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,93 +90,20 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: openbmc@lists.ozlabs.org, linux-clk@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
+ Jason Cooper <jason@lakedaemon.net>, Marc Zyngier <maz@kernel.org>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ tglx@linutronix.de
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Dear Paul,
 
-On 1/16/2020 1:57 AM, Paul Menzel wrote:
-> Dear Jae,
-> 
-> 
-> On 2020-01-15 22:26, Jae Hyun Yoo wrote:
->> This commit adds critical clock setting logic that applies
->> CLK_IS_CRITICAL flag if it detects 'clock-critical' property in
->> device tree.
-> 
-> Tested how?
 
-I added in the cover letter how I tested it. For an example, BCLK
-can have the flag if I add below setting into one of
-'aspeed-bmc-*.dts' files.
-
-&syscon {
-	clock-critical = <ASPEED_CLK_GATE_BCLK>;
-};
-
->> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->> ---
->>   drivers/clk/clk-aspeed.c | 5 ++++-
->>   1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/clk/clk-aspeed.c b/drivers/clk/clk-aspeed.c
->> index 411ff5fb2c07..d22eeb574ede 100644
->> --- a/drivers/clk/clk-aspeed.c
->> +++ b/drivers/clk/clk-aspeed.c
->> @@ -541,8 +541,11 @@ static int aspeed_clk_probe(struct platform_device *pdev)
->>   
->>   	for (i = 0; i < ARRAY_SIZE(aspeed_gates); i++) {
->>   		const struct aspeed_gate_data *gd = &aspeed_gates[i];
->> +		unsigned long flags = gd->flags;
->>   		u32 gate_flags;
->>   
->> +		of_clk_detect_critical(pdev->dev.of_node, i, &flags);
->> +
+On Thu, 16 Jan 2020, at 07:59, Eddie James wrote:
+> Document the bindings for the Aspeed AST25XX and AST26XX XDMA engine.
 > 
-> The function description in `drivers/clk/clk.c` has the warning below.
-> 
->>   * Do not use this function. It exists only for legacy Device Tree
->>   * bindings, such as the one-clock-per-node style that are outdated.
->>   * Those bindings typically put all clock data into .dts and the Linux
->>   * driver has no clock data, thus making it impossible to set this flag
->>   * correctly from the driver. Only those drivers may call
->>   * of_clk_detect_critical from their setup functions.
-> 
-> Will this still work?
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-At least, it still works now and still useful for this case. Actually, I
-made this change as an alternative way of
-https://www.spinics.net/lists/linux-clk/msg44836.html
-because not all Aspeed BMC systems enable BCLK as a critical clock, so
-it's for providing more flexible way of critical clock setting for
-various hardware configurations.
-
-If the function is deprecated and is going to be removed soon, would it
-be acceptable if I add the 'critical-clock' parsing code into this
-driver module instead of using the function?
-
-Best Regards,
-
-Jae
-
->>   		/* Special case: the USB port 1 clock (bit 14) is always
->>   		 * working the opposite way from the other ones.
->>   		 */
->> @@ -550,7 +553,7 @@ static int aspeed_clk_probe(struct platform_device *pdev)
->>   		hw = aspeed_clk_hw_register_gate(dev,
->>   				gd->name,
->>   				gd->parent_name,
->> -				gd->flags,
->> +				flags,
->>   				map,
->>   				gd->clock_idx,
->>   				gd->reset_idx,
-> 
-> 
-> Kind regards,
-> 
-> Paul
-> 
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
