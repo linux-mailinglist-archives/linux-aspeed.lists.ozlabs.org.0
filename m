@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5277147615
-	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Jan 2020 02:18:19 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 483h9539lwzDqY5
-	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Jan 2020 12:18:17 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD9F147617
+	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Jan 2020 02:18:25 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 483h9B2Tg8zDqSD
+	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Jan 2020 12:18:22 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -16,34 +16,32 @@ Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=wG+3tRAw; dkim-atps=neutral
+ header.s=default header.b=OUFpA+2R; dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 483h8v4l9CzDqY5
- for <linux-aspeed@lists.ozlabs.org>; Fri, 24 Jan 2020 12:18:07 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 483h900HVSzDqY6
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 24 Jan 2020 12:18:12 +1100 (AEDT)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A409322464;
- Fri, 24 Jan 2020 01:18:04 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 909CC2087E;
+ Fri, 24 Jan 2020 01:18:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1579828685;
- bh=Mwbos0zWY2rX9HbtysjU/n4dNOCI04QklGPwEbcFCp4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=wG+3tRAwpXoF0/4lmmfmYFyGCIPJ1IFG7R3GM52LDRZEnY2eV/SP9rdP9NymCXxJJ
- R0ykqekTTLNuM1zn+YYIiK9o0QOsuk1zZZlK9/5asbbjkYH+yNjvVDYGq++LC9tIQQ
- BTVWJB8a7RJKq6K5iP87ZbWq0Bs4Xz92UNBIppPE=
+ s=default; t=1579828690;
+ bh=ny9PYva32ScPOAXGjxJcNlDJIh1SjBwEbovcV72cTa0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=OUFpA+2RzxPXdvOaBhcavl1bUxi7eaTo/Yk9BY/Dh2a7d5qEA/2ZKFWT42tghfAms
+ T/96pTpN9/f5SAwcpYqqkXSlS1uQKL96jbIyBYbN5/azrR9Et4/n6q5kuG5aZf5/R6
+ fS0ZPZMqlHVbGTc10EI16y7dGmowM/h1YJnS2RrE=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 3/5] ARM: config: aspeed-g5: Enable 8250_DW quirks
-Date: Thu, 23 Jan 2020 20:17:59 -0500
-Message-Id: <20200124011801.18712-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 1/2] ARM: config: aspeed-g5: Enable 8250_DW quirks
+Date: Thu, 23 Jan 2020 20:18:07 -0500
+Message-Id: <20200124011808.18801-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200124011801.18712-1-sashal@kernel.org>
-References: <20200124011801.18712-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -82,17 +80,17 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/arch/arm/configs/aspeed_g5_defconfig b/arch/arm/configs/aspeed_g5_defconfig
-index c0ad7b82086bd..cb23f8ade3e2b 100644
+index 4f366b0370e93..3fb6bcba79942 100644
 --- a/arch/arm/configs/aspeed_g5_defconfig
 +++ b/arch/arm/configs/aspeed_g5_defconfig
-@@ -110,6 +110,7 @@ CONFIG_SERIAL_8250_RUNTIME_UARTS=6
+@@ -53,6 +53,7 @@ CONFIG_SERIAL_8250_NR_UARTS=6
+ CONFIG_SERIAL_8250_RUNTIME_UARTS=6
  CONFIG_SERIAL_8250_EXTENDED=y
- CONFIG_SERIAL_8250_ASPEED_VUART=y
  CONFIG_SERIAL_8250_SHARE_IRQ=y
 +CONFIG_SERIAL_8250_DW=y
  CONFIG_SERIAL_OF_PLATFORM=y
- CONFIG_ASPEED_BT_IPMI_BMC=y
  # CONFIG_HW_RANDOM is not set
+ # CONFIG_USB_SUPPORT is not set
 -- 
 2.20.1
 
