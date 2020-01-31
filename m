@@ -1,63 +1,132 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ECB214E7BE
-	for <lists+linux-aspeed@lfdr.de>; Fri, 31 Jan 2020 04:57:57 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4883N00XFzzDqdG
-	for <lists+linux-aspeed@lfdr.de>; Fri, 31 Jan 2020 14:57:52 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id F296014F219
+	for <lists+linux-aspeed@lfdr.de>; Fri, 31 Jan 2020 19:23:15 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 488QZQ54mRzDqg3
+	for <lists+linux-aspeed@lfdr.de>; Sat,  1 Feb 2020 05:23:10 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f41;
- helo=mail-qv1-xf41.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
+ spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
+ (client-ip=67.231.145.42; helo=mx0a-00082601.pphosted.com;
+ envelope-from=prvs=9299fa1787=vijaykhemka@fb.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=fb.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=noyHcUPq; dkim-atps=neutral
-Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com
- [IPv6:2607:f8b0:4864:20::f41])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=fb.com header.i=@fb.com header.a=rsa-sha256
+ header.s=facebook header.b=R3GObZWU; 
+ dkim=pass (1024-bit key;
+ unprotected) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com
+ header.a=rsa-sha256 header.s=selector2-fb-onmicrosoft-com header.b=DJ82Sp1U; 
+ dkim-atps=neutral
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
+ [67.231.145.42])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4883Mt5rH8zDqcV
- for <linux-aspeed@lists.ozlabs.org>; Fri, 31 Jan 2020 14:57:46 +1100 (AEDT)
-Received: by mail-qv1-xf41.google.com with SMTP id y8so2655289qvk.6
- for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Jan 2020 19:57:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OS9mBViSnpsx15jMubvsBFiHBkNyIzUT3w9rd7Dkm/4=;
- b=noyHcUPqJ0I5pWCEXCl8lIoSgyMPfW1Alr3FH8Icy2qTfIQG6tC7f5iR6GJJgBlvBH
- Zj7O6G0hnO+elulx3q0wMDv6N602q09EdFidsG+RazZIn6kKV15MIrMncnKEIg7BjvDf
- MGBpMYvNY0vc8PhsLTtRl7c4xih/i7Kz7jHZM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OS9mBViSnpsx15jMubvsBFiHBkNyIzUT3w9rd7Dkm/4=;
- b=bBowDRCtiddq0nDm2JnhUI24r5keS9RpYVlomf7i6HskQy3IQjFzf8cU6gNYF9+yQX
- KsBgsMgWJa7EFfqaeWcrLKwSIi/whmuqYiZVXl2emDY8i/fN7iQLOzyVJhZM6nStL2Pz
- d7JtNea3VxEfkepK5UOBX5ReABNd4aMR7qRHrghGQPTQFIxjKqUS12L5Hg/BxOYnAcci
- x5xEiGM429tAykfwfj1G6WqwgELj1HtZ0RvRlsk9GWNprU/QnHk39RLJAK48lHIkRdV9
- HCH+E9U4wlfsCavkIIQTnQ9djTtPQu7Ahi3Qi+BH19YJ4vTsjCVwBCkwcN1sBTNv3/Vg
- v6tw==
-X-Gm-Message-State: APjAAAUelmRWL50H4HEVgtXshKWYBJ7AVV15E04WlEqNor5gz5dauCu9
- 1wI4sP7ai0Ziai4i5WCJELHLITJw8zzgIINcgHg=
-X-Google-Smtp-Source: APXvYqwa+52T6lEl42UR4l4JCqYs01dXPTl8h5GnRqow8oHgCFNPqL4JOACxrc1HcV1odaRzFYIi256vZzydv0SSYWQ=
-X-Received: by 2002:a0c:ead1:: with SMTP id y17mr8055946qvp.210.1580443062931; 
- Thu, 30 Jan 2020 19:57:42 -0800 (PST)
-MIME-Version: 1.0
-References: <20200128011817.4095682-1-vijaykhemka@fb.com>
-In-Reply-To: <20200128011817.4095682-1-vijaykhemka@fb.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 31 Jan 2020 03:57:31 +0000
-Message-ID: <CACPK8XfJYVH6EotMQcuuoV5hWnkA79oHSCvQBx5gr4np8Y59og@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 488QZ93ZQBzDqfy
+ for <linux-aspeed@lists.ozlabs.org>; Sat,  1 Feb 2020 05:22:52 +1100 (AEDT)
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 00VIMQCG023777; Fri, 31 Jan 2020 10:22:39 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=facebook;
+ bh=Cvsk6dwupPlYDA5s8D9At2KqVO3AozwbWuX+ICW79Z4=;
+ b=R3GObZWUzdBhJddcjTpoDWymxvy3w2U6ZXRpK9VMOBEiPdvbmUl/XIfeGmL5fbE71rCd
+ sJG7x53ZxTpHQQVBKCdaxBJk9q0uUjtFYyfZ+B3Ih/ln14dHCMIbf4z1sNM++x9P82Jf
+ oAbma0vUAeqs1tAa6rr9eSRPpGVeb8dkFeQ= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by mx0a-00082601.pphosted.com with ESMTP id 2xvq69rrpb-8
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Fri, 31 Jan 2020 10:22:39 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (100.104.31.183)
+ by o365-in.thefacebook.com (100.104.36.102) with Microsoft SMTP
+ Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1779.2; Fri, 31 Jan 2020 10:22:33 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DkdrgtOY8y6eHwHhmoxLzFp2xu5zbaS+fUXA90pSD8yYfybyESZ4A+cKaKXXzqkrYG2OhsVnoCoVsjIc5TYd4RpPBgA96ZwXnu6AK6i5X/OYxtB/rCIPbYSZIo7up7YaPdp54au5m09WAiqUdqCzDTQ/KlG2tDIWAAS96ZcQhZ7wEuWq/JuflZJ4thKq/wD19TkknYsPAqPF69LZnzdhVrnbu3Z3uQwc0ZIRF84egjFi8XKXUGIgr1EZWEfLZCHzhL4wcl8YjCTKKv5cAWeDut+/4x4kiFmmx7mH6i3D7YCstD3IzVqc+zGHeJQw9d3MIvWfOnqHVnNsdSwx9nvjJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Cvsk6dwupPlYDA5s8D9At2KqVO3AozwbWuX+ICW79Z4=;
+ b=JANjS3kQMy3yCIzzaJDuIP/Bg2MB+LmnFXUfJNTYSiS0ch3bEC9gqEc9qHg/Ci16eISHujL7ZmkWgO2N1Y2V4wHNC7S7jf23l/N+DW+t5Yhb05Yqm2oYr/UJcn32Y7sLxLbwMpfs4vEfjyh7yHgLnKkYlHak0w781eJbC/gvRLHOVlf9kMQWQxWXU/5ZHk7GarPxXc3hG2/4CsGYxn5fnBfW2JlB+qs14GgJTF/Jv5rUUACWRKuBYr4AL1X6gs7UQNc6ot/ZCTkAyrnNfpKVjhFiSAI+yw+OqB8qY/9k1Hzr3+ygh4gtWVSh6mFEoLTgq3OdGIE5cfUen81Pknqqtg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector2-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Cvsk6dwupPlYDA5s8D9At2KqVO3AozwbWuX+ICW79Z4=;
+ b=DJ82Sp1Ubg9EYPEBoNH4w7BXL239VNVRUQAaalMXeoK/SHO7tECoWuwY+hRIO5/CVJJJVESDhnLjZ5gx0dgIzpRZatRLoJOMbiIhs2UeZREhMBI89tjYV2CyNUVzSESxybxUzjwykBCQ06N2opjleRBYY6j9TenDOzX+jPmTGfc=
+Received: from MWHPR15MB1597.namprd15.prod.outlook.com (10.173.234.137) by
+ MWHPR15MB1790.namprd15.prod.outlook.com (10.174.97.138) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2665.22; Fri, 31 Jan 2020 18:22:33 +0000
+Received: from MWHPR15MB1597.namprd15.prod.outlook.com
+ ([fe80::cdbf:b63c:437:4dd2]) by MWHPR15MB1597.namprd15.prod.outlook.com
+ ([fe80::cdbf:b63c:437:4dd2%8]) with mapi id 15.20.2665.027; Fri, 31 Jan 2020
+ 18:22:32 +0000
+From: Vijay Khemka <vijaykhemka@fb.com>
+To: Joel Stanley <joel@jms.id.au>
 Subject: Re: [PATCH v2] ARM: dts: aspeed: tiogapass: Add gpio line names
-To: Vijay Khemka <vijaykhemka@fb.com>
-Content-Type: text/plain; charset="UTF-8"
+Thread-Topic: [PATCH v2] ARM: dts: aspeed: tiogapass: Add gpio line names
+Thread-Index: AQHV1XjjkDNvOB3siUyRZpBADHC1DqgEKi2AgABrkwA=
+Date: Fri, 31 Jan 2020 18:22:32 +0000
+Message-ID: <F16856EF-B7AD-461B-9416-B389DEF1FD2D@fb.com>
+References: <20200128011817.4095682-1-vijaykhemka@fb.com>
+ <CACPK8XfJYVH6EotMQcuuoV5hWnkA79oHSCvQBx5gr4np8Y59og@mail.gmail.com>
+In-Reply-To: <CACPK8XfJYVH6EotMQcuuoV5hWnkA79oHSCvQBx5gr4np8Y59og@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [2620:10d:c090:200::3:652d]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: cf9bf717-855e-4421-6fb3-08d7a67a8a22
+x-ms-traffictypediagnostic: MWHPR15MB1790:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR15MB17907F34BEBC66DCE3A09572DD070@MWHPR15MB1790.namprd15.prod.outlook.com>
+x-fb-source: Internal
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 029976C540
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(376002)(346002)(396003)(39860400002)(136003)(366004)(199004)(189003)(8936002)(66446008)(64756008)(81166006)(81156014)(66946007)(66476007)(8676002)(76116006)(6486002)(4326008)(478600001)(33656002)(66556008)(2906002)(86362001)(2616005)(6512007)(71200400001)(186003)(6916009)(6506007)(316002)(36756003)(54906003)(5660300002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR15MB1790;
+ H:MWHPR15MB1597.namprd15.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Wk+uRZaybF/5hkKhjbvF5jJGI6t/1eWoV0G46yEslJx+diH7XwETKdCS+XSvkbQP1hpUqdpl7OHow8rq5sHMV8hJvGDf0u2MxUXRiZyQNfhuchOAMir36gD3jrAcn4lN1/4JZW8v0gjWf5pcNg/OfZBQl890o4kqA6rH0rVw35jErkBYxbtML943i/ZgeAeIN+a6UeW9wS1NmvRN//tzEWcdy+LiNDmhwNmhWhDC3g2W6X938kt4qkwC1VoiGrxP8f/Lz3vIUVqqKuItWyDde/5FZjJVZDFZF7BO5iY0QpspI7vBrdtRAMFT1K/1QLwWwZeS3UqO/ci83L2sDCdxXmDG4OMMylY2Q29FRgVrMow4D9qG3m17d9ww88H6935XaWYY0FR1wu/plG9zHe2E1TrTp+Nro72c79hx2VbmLSfYsYYNyLoA03xkk30iGPh6
+x-ms-exchange-antispam-messagedata: eHbRAKJqgmBhyuZZvKfQfkkFAC+XvUIICCy49LPifGq0sZzJrymh6aiWoqP6LVNkq0D4rGG9x3VFl5FLo9fj9UXvNS1wlAL1aXZ5hWMg0Fu6XzlZ7CnwvULfTcFtrUWoZzx/iMmCY0VHsj7auhYmmEa0Nt5wGe59n/LUvliECpyBY2+lO/XQEzCf3tHsLPGW
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <96EB30C1D9C79F469A9476EA16E87325@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf9bf717-855e-4421-6fb3-08d7a67a8a22
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jan 2020 18:22:32.7998 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Yq8BcWlM3OOzNT2EqEiwZfdHxQ+JCXFMZowxFWWrFKUVJdE+eB7sr7Z49/rL9UO0oVR3t8zkAq0n4XAnIF8MgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR15MB1790
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-01-31_05:2020-01-31,
+ 2020-01-31 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ mlxscore=0
+ mlxlogscore=999 malwarescore=0 bulkscore=0 phishscore=0 priorityscore=1501
+ adultscore=0 suspectscore=0 spamscore=0 lowpriorityscore=0 clxscore=1015
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-1911200001 definitions=main-2001310151
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,104 +148,98 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 28 Jan 2020 at 01:18, Vijay Khemka <vijaykhemka@fb.com> wrote:
->
-> Added GPIO line names for all gpio used in tiogapass platform,
-> these line names will be used by libgpiod to control GPIOs
->
-> Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
-
-The verbosity of the bindings is unfortunate, but I think it's the
-only option we have to date.
-
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-
-I will merge this through the aspeed tree for 5.7.
-
-Cheers,
-
-Joel
-
-> ---
-> v2 : Added BIOS_SPI_BMC_CTRL gpio line name
->
->  .../dts/aspeed-bmc-facebook-tiogapass.dts     | 63 +++++++++++++++++++
->  1 file changed, 63 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-> index 682f729ea25e..fb7f034d5db2 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-> @@ -121,6 +121,69 @@
->         kcs_addr = <0xca2>;
->  };
->
-> +&gpio {
-> +       status = "okay";
-> +       gpio-line-names =
-> +       /*A0-A7*/       "BMC_CPLD_FPGA_SEL","","","","","","","",
-> +       /*B0-B7*/       "","BMC_DEBUG_EN","","","","BMC_PPIN","PS_PWROK",
-> +                       "IRQ_PVDDQ_GHJ_VRHOT_LVT3",
-> +       /*C0-C7*/       "","","","","","","","",
-> +       /*D0-D7*/       "BIOS_MRC_DEBUG_MSG_DIS","BOARD_REV_ID0","",
-> +                       "BOARD_REV_ID1","IRQ_DIMM_SAVE_LVT3","BOARD_REV_ID2",
-> +                       "CPU_ERR0_LVT3_BMC","CPU_ERR1_LVT3_BMC",
-> +       /*E0-E7*/       "RESET_BUTTON","RESET_OUT","POWER_BUTTON",
-> +                       "POWER_OUT","NMI_BUTTON","","CPU0_PROCHOT_LVT3_ BMC",
-> +                       "CPU1_PROCHOT_LVT3_ BMC",
-> +       /*F0-F7*/       "IRQ_PVDDQ_ABC_VRHOT_LVT3","",
-> +                       "IRQ_PVCCIN_CPU0_VRHOT_LVC3",
-> +                       "IRQ_PVCCIN_CPU1_VRHOT_LVC3",
-> +                       "IRQ_PVDDQ_KLM_VRHOT_LVT3","","P3VBAT_BRIDGE_EN","",
-> +       /*G0-G7*/       "CPU_ERR2_LVT3","CPU_CATERR_LVT3","PCH_BMC_THERMTRIP",
-> +                       "CPU0_SKTOCC_LVT3","","","","BIOS_SMI_ACTIVE",
-> +       /*H0-H7*/       "LED_POST_CODE_0","LED_POST_CODE_1","LED_POST_CODE_2",
-> +                       "LED_POST_CODE_3","LED_POST_CODE_4","LED_POST_CODE_5",
-> +                       "LED_POST_CODE_6","LED_POST_CODE_7",
-> +       /*I0-I7*/       "CPU0_FIVR_FAULT_LVT3","CPU1_FIVR_FAULT_LVT3",
-> +                       "FORCE_ADR","UV_ADR_TRIGGER_EN","","","","",
-> +       /*J0-J7*/       "","","","","","","","",
-> +       /*K0-K7*/       "","","","","","","","",
-> +       /*L0-L7*/       "IRQ_UV_DETECT","IRQ_OC_DETECT","HSC_TIMER_EXP","",
-> +                       "MEM_THERM_EVENT_PCH","PMBUS_ALERT_BUF_EN","","",
-> +       /*M0-M7*/       "CPU0_RC_ERROR","CPU1_RC_ERROR","","OC_DETECT_EN",
-> +                       "CPU0_THERMTRIP_LATCH_LVT3",
-> +                       "CPU1_THERMTRIP_LATCH_LVT3","","",
-> +       /*N0-N7*/       "","","","CPU_MSMI_LVT3","","BIOS_SPI_BMC_CTRL","","",
-> +       /*O0-O7*/       "","","","","","","","",
-> +       /*P0-P7*/       "BOARD_SKU_ID0","BOARD_SKU_ID1","BOARD_SKU_ID2",
-> +                       "BOARD_SKU_ID3","BOARD_SKU_ID4","BMC_PREQ",
-> +                       "BMC_PWR_DEBUG","RST_RSMRST",
-> +       /*Q0-Q7*/       "","","","","UARTSW_LSB","UARTSW_MSB",
-> +                       "POST_CARD_PRES_BMC","PE_BMC_WAKE",
-> +       /*R0-R7*/       "","","BMC_TCK_MUX_SEL","BMC_PRDY",
-> +                       "BMC_XDP_PRSNT_IN","RST_BMC_PLTRST_BUF","SLT_CFG0",
-> +                       "SLT_CFG1",
-> +       /*S0-S7*/       "THROTTLE","BMC_READY","","HSC_SMBUS_SWITCH_EN","",
-> +                       "","","",
-> +       /*T0-T7*/       "","","","","","","","",
-> +       /*U0-U7*/       "","","","","","BMC_FAULT","","",
-> +       /*V0-V7*/       "","","","FAST_PROCHOT_EN","","","","",
-> +       /*W0-W7*/       "","","","","","","","",
-> +       /*X0-X7*/       "","","","GLOBAL_RST_WARN",
-> +                       "CPU0_MEMABC_MEMHOT_LVT3_BMC",
-> +                       "CPU0_MEMDEF_MEMHOT_LVT3_BMC",
-> +                       "CPU1_MEMGHJ_MEMHOT_LVT3_BMC",
-> +                       "CPU1_MEMKLM_MEMHOT_LVT3_BMC",
-> +       /*Y0-Y7*/       "SIO_S3","SIO_S5","BMC_JTAG_SEL","SIO_ONCONTROL","",
-> +                       "","","",
-> +       /*Z0-Z7*/       "","SIO_POWER_GOOD","IRQ_PVDDQ_DEF_VRHOT_LVT3","",
-> +                       "","","","",
-> +       /*AA0-AA7*/     "CPU1_SKTOCC_LVT3","IRQ_SML1_PMBUS_ALERT",
-> +                       "SERVER_POWER_LED","","PECI_MUX_SELECT","UV_HIGH_SET",
-> +                       "","POST_COMPLETE",
-> +       /*AB0-AB7*/     "IRQ_HSC_FAULT","OCP_MEZZA_PRES","","","","","","",
-> +       /*AC0-AC7*/     "","","","","","","","";
-> +};
-> +
->  &mac0 {
->         status = "okay";
->
-> --
-> 2.17.1
->
+DQoNCu+7v09uIDEvMzAvMjAsIDc6NTggUE0sICJKb2VsIFN0YW5sZXkiIDxqb2VsQGptcy5pZC5h
+dT4gd3JvdGU6DQoNCiAgICBPbiBUdWUsIDI4IEphbiAyMDIwIGF0IDAxOjE4LCBWaWpheSBLaGVt
+a2EgPHZpamF5a2hlbWthQGZiLmNvbT4gd3JvdGU6DQogICAgPg0KICAgID4gQWRkZWQgR1BJTyBs
+aW5lIG5hbWVzIGZvciBhbGwgZ3BpbyB1c2VkIGluIHRpb2dhcGFzcyBwbGF0Zm9ybSwNCiAgICA+
+IHRoZXNlIGxpbmUgbmFtZXMgd2lsbCBiZSB1c2VkIGJ5IGxpYmdwaW9kIHRvIGNvbnRyb2wgR1BJ
+T3MNCiAgICA+DQogICAgPiBTaWduZWQtb2ZmLWJ5OiBWaWpheSBLaGVta2EgPHZpamF5a2hlbWth
+QGZiLmNvbT4NCiAgICANCiAgICBUaGUgdmVyYm9zaXR5IG9mIHRoZSBiaW5kaW5ncyBpcyB1bmZv
+cnR1bmF0ZSwgYnV0IEkgdGhpbmsgaXQncyB0aGUNCiAgICBvbmx5IG9wdGlvbiB3ZSBoYXZlIHRv
+IGRhdGUuDQogICAgDQogICAgUmV2aWV3ZWQtYnk6IEpvZWwgU3RhbmxleSA8am9lbEBqbXMuaWQu
+YXU+DQogICAgDQogICAgSSB3aWxsIG1lcmdlIHRoaXMgdGhyb3VnaCB0aGUgYXNwZWVkIHRyZWUg
+Zm9yIDUuNy4NClRoYW5rcyBKb2VsLg0KICAgIA0KICAgIENoZWVycywNCiAgICANCiAgICBKb2Vs
+DQogICAgDQogICAgPiAtLS0NCiAgICA+IHYyIDogQWRkZWQgQklPU19TUElfQk1DX0NUUkwgZ3Bp
+byBsaW5lIG5hbWUNCiAgICA+DQogICAgPiAgLi4uL2R0cy9hc3BlZWQtYm1jLWZhY2Vib29rLXRp
+b2dhcGFzcy5kdHMgICAgIHwgNjMgKysrKysrKysrKysrKysrKysrKw0KICAgID4gIDEgZmlsZSBj
+aGFuZ2VkLCA2MyBpbnNlcnRpb25zKCspDQogICAgPg0KICAgID4gZGlmZiAtLWdpdCBhL2FyY2gv
+YXJtL2Jvb3QvZHRzL2FzcGVlZC1ibWMtZmFjZWJvb2stdGlvZ2FwYXNzLmR0cyBiL2FyY2gvYXJt
+L2Jvb3QvZHRzL2FzcGVlZC1ibWMtZmFjZWJvb2stdGlvZ2FwYXNzLmR0cw0KICAgID4gaW5kZXgg
+NjgyZjcyOWVhMjVlLi5mYjdmMDM0ZDVkYjIgMTAwNjQ0DQogICAgPiAtLS0gYS9hcmNoL2FybS9i
+b290L2R0cy9hc3BlZWQtYm1jLWZhY2Vib29rLXRpb2dhcGFzcy5kdHMNCiAgICA+ICsrKyBiL2Fy
+Y2gvYXJtL2Jvb3QvZHRzL2FzcGVlZC1ibWMtZmFjZWJvb2stdGlvZ2FwYXNzLmR0cw0KICAgID4g
+QEAgLTEyMSw2ICsxMjEsNjkgQEANCiAgICA+ICAgICAgICAga2NzX2FkZHIgPSA8MHhjYTI+Ow0K
+ICAgID4gIH07DQogICAgPg0KICAgID4gKyZncGlvIHsNCiAgICA+ICsgICAgICAgc3RhdHVzID0g
+Im9rYXkiOw0KICAgID4gKyAgICAgICBncGlvLWxpbmUtbmFtZXMgPQ0KICAgID4gKyAgICAgICAv
+KkEwLUE3Ki8gICAgICAgIkJNQ19DUExEX0ZQR0FfU0VMIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwN
+CiAgICA+ICsgICAgICAgLypCMC1CNyovICAgICAgICIiLCJCTUNfREVCVUdfRU4iLCIiLCIiLCIi
+LCJCTUNfUFBJTiIsIlBTX1BXUk9LIiwNCiAgICA+ICsgICAgICAgICAgICAgICAgICAgICAgICJJ
+UlFfUFZERFFfR0hKX1ZSSE9UX0xWVDMiLA0KICAgID4gKyAgICAgICAvKkMwLUM3Ki8gICAgICAg
+IiIsIiIsIiIsIiIsIiIsIiIsIiIsIiIsDQogICAgPiArICAgICAgIC8qRDAtRDcqLyAgICAgICAi
+QklPU19NUkNfREVCVUdfTVNHX0RJUyIsIkJPQVJEX1JFVl9JRDAiLCIiLA0KICAgID4gKyAgICAg
+ICAgICAgICAgICAgICAgICAgIkJPQVJEX1JFVl9JRDEiLCJJUlFfRElNTV9TQVZFX0xWVDMiLCJC
+T0FSRF9SRVZfSUQyIiwNCiAgICA+ICsgICAgICAgICAgICAgICAgICAgICAgICJDUFVfRVJSMF9M
+VlQzX0JNQyIsIkNQVV9FUlIxX0xWVDNfQk1DIiwNCiAgICA+ICsgICAgICAgLypFMC1FNyovICAg
+ICAgICJSRVNFVF9CVVRUT04iLCJSRVNFVF9PVVQiLCJQT1dFUl9CVVRUT04iLA0KICAgID4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgIlBPV0VSX09VVCIsIk5NSV9CVVRUT04iLCIiLCJDUFUwX1BS
+T0NIT1RfTFZUM18gQk1DIiwNCiAgICA+ICsgICAgICAgICAgICAgICAgICAgICAgICJDUFUxX1BS
+T0NIT1RfTFZUM18gQk1DIiwNCiAgICA+ICsgICAgICAgLypGMC1GNyovICAgICAgICJJUlFfUFZE
+RFFfQUJDX1ZSSE9UX0xWVDMiLCIiLA0KICAgID4gKyAgICAgICAgICAgICAgICAgICAgICAgIklS
+UV9QVkNDSU5fQ1BVMF9WUkhPVF9MVkMzIiwNCiAgICA+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICJJUlFfUFZDQ0lOX0NQVTFfVlJIT1RfTFZDMyIsDQogICAgPiArICAgICAgICAgICAgICAgICAg
+ICAgICAiSVJRX1BWRERRX0tMTV9WUkhPVF9MVlQzIiwiIiwiUDNWQkFUX0JSSURHRV9FTiIsIiIs
+DQogICAgPiArICAgICAgIC8qRzAtRzcqLyAgICAgICAiQ1BVX0VSUjJfTFZUMyIsIkNQVV9DQVRF
+UlJfTFZUMyIsIlBDSF9CTUNfVEhFUk1UUklQIiwNCiAgICA+ICsgICAgICAgICAgICAgICAgICAg
+ICAgICJDUFUwX1NLVE9DQ19MVlQzIiwiIiwiIiwiIiwiQklPU19TTUlfQUNUSVZFIiwNCiAgICA+
+ICsgICAgICAgLypIMC1INyovICAgICAgICJMRURfUE9TVF9DT0RFXzAiLCJMRURfUE9TVF9DT0RF
+XzEiLCJMRURfUE9TVF9DT0RFXzIiLA0KICAgID4gKyAgICAgICAgICAgICAgICAgICAgICAgIkxF
+RF9QT1NUX0NPREVfMyIsIkxFRF9QT1NUX0NPREVfNCIsIkxFRF9QT1NUX0NPREVfNSIsDQogICAg
+PiArICAgICAgICAgICAgICAgICAgICAgICAiTEVEX1BPU1RfQ09ERV82IiwiTEVEX1BPU1RfQ09E
+RV83IiwNCiAgICA+ICsgICAgICAgLypJMC1JNyovICAgICAgICJDUFUwX0ZJVlJfRkFVTFRfTFZU
+MyIsIkNQVTFfRklWUl9GQVVMVF9MVlQzIiwNCiAgICA+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICJGT1JDRV9BRFIiLCJVVl9BRFJfVFJJR0dFUl9FTiIsIiIsIiIsIiIsIiIsDQogICAgPiArICAg
+ICAgIC8qSjAtSjcqLyAgICAgICAiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwNCiAgICA+ICsgICAg
+ICAgLypLMC1LNyovICAgICAgICIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiLA0KICAgID4gKyAgICAg
+ICAvKkwwLUw3Ki8gICAgICAgIklSUV9VVl9ERVRFQ1QiLCJJUlFfT0NfREVURUNUIiwiSFNDX1RJ
+TUVSX0VYUCIsIiIsDQogICAgPiArICAgICAgICAgICAgICAgICAgICAgICAiTUVNX1RIRVJNX0VW
+RU5UX1BDSCIsIlBNQlVTX0FMRVJUX0JVRl9FTiIsIiIsIiIsDQogICAgPiArICAgICAgIC8qTTAt
+TTcqLyAgICAgICAiQ1BVMF9SQ19FUlJPUiIsIkNQVTFfUkNfRVJST1IiLCIiLCJPQ19ERVRFQ1Rf
+RU4iLA0KICAgID4gKyAgICAgICAgICAgICAgICAgICAgICAgIkNQVTBfVEhFUk1UUklQX0xBVENI
+X0xWVDMiLA0KICAgID4gKyAgICAgICAgICAgICAgICAgICAgICAgIkNQVTFfVEhFUk1UUklQX0xB
+VENIX0xWVDMiLCIiLCIiLA0KICAgID4gKyAgICAgICAvKk4wLU43Ki8gICAgICAgIiIsIiIsIiIs
+IkNQVV9NU01JX0xWVDMiLCIiLCJCSU9TX1NQSV9CTUNfQ1RSTCIsIiIsIiIsDQogICAgPiArICAg
+ICAgIC8qTzAtTzcqLyAgICAgICAiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwNCiAgICA+ICsgICAg
+ICAgLypQMC1QNyovICAgICAgICJCT0FSRF9TS1VfSUQwIiwiQk9BUkRfU0tVX0lEMSIsIkJPQVJE
+X1NLVV9JRDIiLA0KICAgID4gKyAgICAgICAgICAgICAgICAgICAgICAgIkJPQVJEX1NLVV9JRDMi
+LCJCT0FSRF9TS1VfSUQ0IiwiQk1DX1BSRVEiLA0KICAgID4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgIkJNQ19QV1JfREVCVUciLCJSU1RfUlNNUlNUIiwNCiAgICA+ICsgICAgICAgLypRMC1RNyov
+ICAgICAgICIiLCIiLCIiLCIiLCJVQVJUU1dfTFNCIiwiVUFSVFNXX01TQiIsDQogICAgPiArICAg
+ICAgICAgICAgICAgICAgICAgICAiUE9TVF9DQVJEX1BSRVNfQk1DIiwiUEVfQk1DX1dBS0UiLA0K
+ICAgID4gKyAgICAgICAvKlIwLVI3Ki8gICAgICAgIiIsIiIsIkJNQ19UQ0tfTVVYX1NFTCIsIkJN
+Q19QUkRZIiwNCiAgICA+ICsgICAgICAgICAgICAgICAgICAgICAgICJCTUNfWERQX1BSU05UX0lO
+IiwiUlNUX0JNQ19QTFRSU1RfQlVGIiwiU0xUX0NGRzAiLA0KICAgID4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgIlNMVF9DRkcxIiwNCiAgICA+ICsgICAgICAgLypTMC1TNyovICAgICAgICJUSFJP
+VFRMRSIsIkJNQ19SRUFEWSIsIiIsIkhTQ19TTUJVU19TV0lUQ0hfRU4iLCIiLA0KICAgID4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgIiIsIiIsIiIsDQogICAgPiArICAgICAgIC8qVDAtVDcqLyAg
+ICAgICAiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwNCiAgICA+ICsgICAgICAgLypVMC1VNyovICAg
+ICAgICIiLCIiLCIiLCIiLCIiLCJCTUNfRkFVTFQiLCIiLCIiLA0KICAgID4gKyAgICAgICAvKlYw
+LVY3Ki8gICAgICAgIiIsIiIsIiIsIkZBU1RfUFJPQ0hPVF9FTiIsIiIsIiIsIiIsIiIsDQogICAg
+PiArICAgICAgIC8qVzAtVzcqLyAgICAgICAiIiwiIiwiIiwiIiwiIiwiIiwiIiwiIiwNCiAgICA+
+ICsgICAgICAgLypYMC1YNyovICAgICAgICIiLCIiLCIiLCJHTE9CQUxfUlNUX1dBUk4iLA0KICAg
+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgIkNQVTBfTUVNQUJDX01FTUhPVF9MVlQzX0JNQyIs
+DQogICAgPiArICAgICAgICAgICAgICAgICAgICAgICAiQ1BVMF9NRU1ERUZfTUVNSE9UX0xWVDNf
+Qk1DIiwNCiAgICA+ICsgICAgICAgICAgICAgICAgICAgICAgICJDUFUxX01FTUdISl9NRU1IT1Rf
+TFZUM19CTUMiLA0KICAgID4gKyAgICAgICAgICAgICAgICAgICAgICAgIkNQVTFfTUVNS0xNX01F
+TUhPVF9MVlQzX0JNQyIsDQogICAgPiArICAgICAgIC8qWTAtWTcqLyAgICAgICAiU0lPX1MzIiwi
+U0lPX1M1IiwiQk1DX0pUQUdfU0VMIiwiU0lPX09OQ09OVFJPTCIsIiIsDQogICAgPiArICAgICAg
+ICAgICAgICAgICAgICAgICAiIiwiIiwiIiwNCiAgICA+ICsgICAgICAgLypaMC1aNyovICAgICAg
+ICIiLCJTSU9fUE9XRVJfR09PRCIsIklSUV9QVkREUV9ERUZfVlJIT1RfTFZUMyIsIiIsDQogICAg
+PiArICAgICAgICAgICAgICAgICAgICAgICAiIiwiIiwiIiwiIiwNCiAgICA+ICsgICAgICAgLypB
+QTAtQUE3Ki8gICAgICJDUFUxX1NLVE9DQ19MVlQzIiwiSVJRX1NNTDFfUE1CVVNfQUxFUlQiLA0K
+ICAgID4gKyAgICAgICAgICAgICAgICAgICAgICAgIlNFUlZFUl9QT1dFUl9MRUQiLCIiLCJQRUNJ
+X01VWF9TRUxFQ1QiLCJVVl9ISUdIX1NFVCIsDQogICAgPiArICAgICAgICAgICAgICAgICAgICAg
+ICAiIiwiUE9TVF9DT01QTEVURSIsDQogICAgPiArICAgICAgIC8qQUIwLUFCNyovICAgICAiSVJR
+X0hTQ19GQVVMVCIsIk9DUF9NRVpaQV9QUkVTIiwiIiwiIiwiIiwiIiwiIiwiIiwNCiAgICA+ICsg
+ICAgICAgLypBQzAtQUM3Ki8gICAgICIiLCIiLCIiLCIiLCIiLCIiLCIiLCIiOw0KICAgID4gK307
+DQogICAgPiArDQogICAgPiAgJm1hYzAgew0KICAgID4gICAgICAgICBzdGF0dXMgPSAib2theSI7
+DQogICAgPg0KICAgID4gLS0NCiAgICA+IDIuMTcuMQ0KICAgID4NCiAgICANCg0K
