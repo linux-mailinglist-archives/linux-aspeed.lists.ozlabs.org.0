@@ -2,74 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C3A14E50E
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Jan 2020 22:46:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A81B114E7A8
+	for <lists+linux-aspeed@lfdr.de>; Fri, 31 Jan 2020 04:44:31 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 487v7p6NKhzDqcS
-	for <lists+linux-aspeed@lfdr.de>; Fri, 31 Jan 2020 08:46:46 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48834V2p9nzDqdV
+	for <lists+linux-aspeed@lfdr.de>; Fri, 31 Jan 2020 14:44:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::741;
+ helo=mail-qk1-x741.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
- (client-ip=67.231.153.30; helo=mx0b-00082601.pphosted.com;
- envelope-from=prvs=9298bfd363=vijaykhemka@fb.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=fb.com
+ dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=fb.com header.i=@fb.com header.a=rsa-sha256
- header.s=facebook header.b=cln3i3ys; dkim-atps=neutral
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com
- [67.231.153.30])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=Jf3jwIJN; dkim-atps=neutral
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 487v7g27p5zDqbY
- for <linux-aspeed@lists.ozlabs.org>; Fri, 31 Jan 2020 08:46:38 +1100 (AEDT)
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00ULhmGl030806
- for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Jan 2020 13:46:35 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=facebook;
- bh=YcfWDCuE/Ac8073XNDYfUHxD78npEe5xhLoOqWMPqc4=;
- b=cln3i3yskgCOLMDpLfRLrVXA/8BPHQpM/5U7auDIORM7fV+CRIvL4BVQUbnoN2GZn1nI
- 7b1oJeoVJmkMqzab5N34kRgqi6Urt5qJlmfM9WWalF1ZAuXt073/EOPQp1Cs/Zfjnwam
- RjWa4J2IvRA2otE/cSh2wT60p4yZJochuTY= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com with ESMTP id 2xv20ca625-4
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Jan 2020 13:46:35 -0800
-Received: from intmgw003.06.prn3.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:83::7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1779.2; Thu, 30 Jan 2020 13:46:35 -0800
-Received: by devvm4117.prn2.facebook.com (Postfix, from userid 167582)
- id B19D21A8FA539; Thu, 30 Jan 2020 13:46:32 -0800 (PST)
-Smtp-Origin-Hostprefix: devvm
-From: Vijay Khemka <vijaykhemka@fb.com>
-Smtp-Origin-Hostname: devvm4117.prn2.facebook.com
-To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Smtp-Origin-Cluster: prn2c23
-Subject: [PATCH v2] ARM: dts: aspeed: tiogapass: Add IPMB device
-Date: Thu, 30 Jan 2020 13:46:26 -0800
-Message-ID: <20200130214626.2863329-1-vijaykhemka@fb.com>
-X-Mailer: git-send-email 2.17.1
-X-FB-Internal: Safe
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48834D1NjLzDqcY;
+ Fri, 31 Jan 2020 14:44:11 +1100 (AEDT)
+Received: by mail-qk1-x741.google.com with SMTP id q15so5247457qke.9;
+ Thu, 30 Jan 2020 19:44:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gnZ43qN7S1q4zZHme5V7oQ52yf1PnubAtyieKw4/fVY=;
+ b=Jf3jwIJN6NmDEE5rHTH3bi4JBCItLuv4Z8GzrYcknpWQQ5kCZURSEcOUtxHYCcQ5eK
+ rCg0uTFwevnnkGt785cjEtT+QPDAOFP1a5TzYfTETRSjUDZskAM/97VoZYjWatRYnYQz
+ c7f6jh9skAy62+AXe7jyQE/Y6J/IYqqaExXZk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gnZ43qN7S1q4zZHme5V7oQ52yf1PnubAtyieKw4/fVY=;
+ b=LAu6XYfAs7fSmkpjdH+cS+5j04yhYTovweUWL7ubLYd7Qdt9QDfMoIJT1/UqzXyH0y
+ TezqysigfJwjSJkCjlafUk94uPYuGRqLpW8k2P/McNy8fg77kFwMBEaFQhxwzT4Yrnxk
+ tfJn/Lc4BaAiW4yt6m8qCjrTWJAA8ErlwqnD0TJSd/EXnte+kr74rszUUPQgqhCyTzWD
+ j81RpXIIVm0/ga5lml+5wiWXkVW/4g1BXAsFhHPe4cH4Qx/0idYsQLUBsn7/VazjaeMa
+ CC5KGCIq3PMj6rUwJUhhPObo+3i9BsEAU7tgFkgx8P2bdsfapTPdvwA9S0jtxCj3U1IJ
+ XApQ==
+X-Gm-Message-State: APjAAAXODjS3CeigUnIEvSLv1S4vZbeiyGTMuQefc/m2Droh/MzIxvb7
+ sgqtao5sWq98nTYMqtIgkdxcu0AruOLZYVt1TNI=
+X-Google-Smtp-Source: APXvYqwD62nlQsAFr4t2VRsUvR/xF3QgSUs3f8+MA8JJi/UqziVen3riJEm4PChAbEVcrDuYZozUpVA7fDtvclfVkKg=
+X-Received: by 2002:a37:d14:: with SMTP id 20mr8922868qkn.330.1580442248103;
+ Thu, 30 Jan 2020 19:44:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-01-30_07:2020-01-30,
- 2020-01-30 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- suspectscore=0
- impostorscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1015
- mlxscore=0 malwarescore=0 bulkscore=0 phishscore=0 spamscore=0
- mlxlogscore=932 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1911200001 definitions=main-2001300146
-X-FB-Internal: deliver
+References: <20191211192742.95699-1-brendanhiggins@google.com>
+ <20191211192742.95699-8-brendanhiggins@google.com>
+ <CACPK8XctCb9Q2RaFVHEDuWxKDXpCWMWs-+vnKZ=SeTa3xRnT_g@mail.gmail.com>
+ <CAFd5g45MFYMK-eZWPC5fhm2OkynUXKfArUVhbanYVH+qKRUwPg@mail.gmail.com>
+ <CAFd5g454tX9zxRAq5T_pDGzcWt7u5r119wjo-BCGVq+=Ej4bGQ@mail.gmail.com>
+In-Reply-To: <CAFd5g454tX9zxRAq5T_pDGzcWt7u5r119wjo-BCGVq+=Ej4bGQ@mail.gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 31 Jan 2020 03:43:56 +0000
+Message-ID: <CACPK8XddCV6QnvRSS7WcyoN7W3yuUSbyT67on=EMhV7jWDExUg@mail.gmail.com>
+Subject: Re: [PATCH v1 7/7] fsi: aspeed: add unspecified HAS_IOMEM dependency
+To: Brendan Higgins <brendanhiggins@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,56 +73,32 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: sdasari@fb.com
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Richard Weinberger <richard@nod.at>, Jeff Dike <jdike@addtoit.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-um <linux-um@lists.infradead.org>, Jeremy Kerr <jk@ozlabs.org>,
+ David Gow <davidgow@google.com>, Alistar Popple <alistair@popple.id.au>,
+ linux-fsi@lists.ozlabs.org, Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Adding IPMB devices for facebook tiogapass platform.
+On Mon, 27 Jan 2020 at 09:46, Brendan Higgins <brendanhiggins@google.com> wrote:
 
-Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
----
- arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+> > > Do you want to get this in a fix for 5.5?
+> >
+> > Preferably, yes.
+> >
+> > > Acked-by: Joel Stanley <joel@jms.id.au>
+>
+> Hey, I know I owe you a reply about debugging your kunitconfig (I'll
+> try to get to that this week); nevertheless, it looks like this patch
+> didn't make it into 5.5. Can you make sure it gets into 5.6? It
+> shouldn't depend on anything else.
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-index fb7f034d5db2..1cb5b9bf468f 100644
---- a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-@@ -5,6 +5,7 @@
- 
- #include "aspeed-g5.dtsi"
- #include <dt-bindings/gpio/aspeed-gpio.h>
-+#include <dt-bindings/i2c/i2c.h>
- 
- / {
- 	model = "Facebook TiogaPass BMC";
-@@ -428,6 +429,12 @@
- &i2c4 {
- 	status = "okay";
- 	// BMC Debug Header
-+	multi-master;
-+	ipmb0@10 {
-+		compatible = "ipmb-dev";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+		i2c-protocol;
-+	};
- };
- 
- &i2c5 {
-@@ -509,6 +516,12 @@
- &i2c9 {
- 	status = "okay";
- 	//USB Debug Connector
-+	multi-master;
-+	ipmb0@10 {
-+		compatible = "ipmb-dev";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+		i2c-protocol;
-+	};
- };
- 
- &pwm_tacho {
--- 
-2.17.1
+Sure, thanks for the reminder.
 
+Cheers,
+
+Joel
