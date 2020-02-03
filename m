@@ -2,89 +2,60 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B731500E5
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Feb 2020 05:09:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB80015044D
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Feb 2020 11:32:19 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 489vV46LPqzDqQj
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Feb 2020 15:09:32 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48B3zh6FDDzDqNJ
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Feb 2020 21:32:16 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.224;
- helo=new2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=209.85.221.67; helo=mail-wr1-f67.google.com;
+ envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=jLEEj6Du; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=DmuPSaKp; 
- dkim-atps=neutral
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+ [209.85.221.67])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 489vTv3rTVzDqP6
- for <linux-aspeed@lists.ozlabs.org>; Mon,  3 Feb 2020 15:09:23 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id C156E6D27;
- Sun,  2 Feb 2020 23:09:20 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Sun, 02 Feb 2020 23:09:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=RjS6hrJkvw6HKnule/qYTODmaAYp/hQ
- FP4smKfPmKGQ=; b=jLEEj6DuOY9JFldgz6GzluSbsV/j8Jxqp+dWzKfNwmDCsKk
- NP/mF1lEvBeknCTiyR4uzNfKGEiO3QDXQbc8/kaCqDMH7OqMNHWHqs0RXrXYMLZ0
- bMH0krwIh9AUdzsI/6YuMa6EgbgrmwclYfUUEgaZwT2QFNQj3tT5cxrKcu41T2Xi
- 3NOXXV/ugy4b3jHye2tAfpgw5sSAMXIYrVGoedPkwAZ74WhvJuv1FqRtD+MNRQHS
- 7o1n5mWsHYu0XM961jK+M0LkZjt6d1gnBKL86rfmR0N1djBSWIS5cP/6/bPdlnNd
- PX1bxHEsSj30BetS5LE01430WIHG9PWyr7oV5+A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=RjS6hr
- Jkvw6HKnule/qYTODmaAYp/hQFP4smKfPmKGQ=; b=DmuPSaKpvAxsFkXQD2TjPV
- 457IBibzflOvIL/OIV3vx87Qo172/hR1rP41uWk/PS5DXGNAeuKnZWrVYiLIB2Po
- tHFT7+Yyz0VlzOs+bcxOtK2rGtbFxrifqIxBMb97IOHud5xRNsoLA3jFgbrMna9K
- ezAp2WRpmdoRJqOYWR+7OuToXToM8VJlnoT599ClS9KaEveGOd6Bk3Ix6EMO8gg3
- NwjjuJCA9YylBi303dieFUYdkHeiWIf/f7/R0b4n1IxSNhgTWDT6MmhyNJX1OOXC
- 5rWc8qMmrRiJi0w8Ougj7k8sqzbA5QvAPc+JgtAtjSewhEjcc9TFgzDkyjONC6rw
- ==
-X-ME-Sender: <xms:8Jw3Xr1SJOTNsngXqFBtuTDrEzdzuCTzo7B2CDSeJhBr414ExuothQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrgeeigdeiiecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucevlhhush
- htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghj
- rdhiugdrrghu
-X-ME-Proxy: <xmx:8Jw3XrUkY22zjYfoyBETKyB-x-H9Zh5jGuEbV2mSyqYdBdkFyOr8JA>
- <xmx:8Jw3XkVD1fVPMiiaKnDZgRUt8hkIBZgKTmm3s1FuLwEg8xNxAlmnJA>
- <xmx:8Jw3XnCzSnKK85gkFNgd56lWmuj2Ao3jH1hxFZJidO6xNHF8TIgXmw>
- <xmx:8Jw3XmszI8conWzhsZjiGRm5Lr_AzefRMi4d4IHNJknWRjABi4ymHA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 965ECE00A2; Sun,  2 Feb 2020 23:09:20 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-802-g7a41c81-fmstable-20200203v1
-Mime-Version: 1.0
-Message-Id: <42173df3-c060-4c62-a5b9-7f1deade21d1@www.fastmail.com>
-In-Reply-To: <f6beee98-360c-4239-ab01-86ba41629f9b@www.fastmail.com>
-References: <20200120150113.2565-1-linux@neuralgames.com>
- <CACPK8XfuVN3Q=npEoOP-amQS0-wemxcx6LKaHHZEsBAHzq1wzA@mail.gmail.com>
- <4446ffb694c7742ca9492c7360856789@neuralgames.com>
- <575811fd-24ca-409c-8d33-c2152ee401d7@www.fastmail.com>
- <136bbab84d13d8d56a5ac297e415975e@neuralgames.com>
- <b83f2a1f-e1be-433c-8dc8-c469cb38f423@www.fastmail.com>
- <27c5505acd8d09f70ec9cd12982b2e3e@neuralgames.com>
- <f6beee98-360c-4239-ab01-86ba41629f9b@www.fastmail.com>
-Date: Mon, 03 Feb 2020 14:39:06 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Oscar A Perez" <linux@neuralgames.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48B3zT2xWCzDqMd
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  3 Feb 2020 21:32:04 +1100 (AEDT)
+Received: by mail-wr1-f67.google.com with SMTP id k11so17244211wrd.9
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 03 Feb 2020 02:32:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=NFuh06mCbIFHLnWl/yp4KwHBKhZRCL1Lbf1jiW0JM98=;
+ b=QnXmg5C4Gbcx3K9cmZh6CMTOm1O1xLhMUUyzYpHqWs9LHweojR2LRlqCTdh8MYE8Ma
+ NSeV1eEmoMR0HRP0y+G+1zyzvNbyp0UgeyqBLcnCi081ZQWABhIUnJqfQ3/H5i2vahfG
+ QoJS3F5E8MN5ggApwozE5e18V9MiC5mE5QHN0Wj2SriapwZllAtLEtaswXw0CvY2jhTU
+ hmU1R1YPjU8aWSNpPIlNLO7cMaNwAQAOMTOK8WOdyfq+Khenbj/BcZyktfFFo3nKz4fd
+ EdcX9xTInafgZ5/AZ/SYcqpVn95RFudKLW56rsdRE350TrCgCyuQf9mBxND+GjcwL17H
+ qvCA==
+X-Gm-Message-State: APjAAAVix7YNDWFeUCFR4+YJ1z2j/JNhN875LIKPJWROI/u6geSQDExF
+ b56wsmGJXJ0YxN9Csd6BSg==
+X-Google-Smtp-Source: APXvYqyQJyScAUAfc7hRV/ni9Ov1rrCOL/vQpSraOmoLvu0hd1vpN6CEC4XJZDRuzYtupTLkxa0YGQ==
+X-Received: by 2002:a5d:6445:: with SMTP id d5mr14473037wrw.244.1580725921100; 
+ Mon, 03 Feb 2020 02:32:01 -0800 (PST)
+Received: from rob-hp-laptop ([212.187.182.163])
+ by smtp.gmail.com with ESMTPSA id t131sm23233901wmb.13.2020.02.03.02.31.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Feb 2020 02:32:00 -0800 (PST)
+Received: (nullmailer pid 31847 invoked by uid 1000);
+ Mon, 03 Feb 2020 10:31:58 -0000
+Date: Mon, 3 Feb 2020 10:31:58 +0000
+From: Rob Herring <robh@kernel.org>
+To: Oscar A Perez <linux@neuralgames.com>
 Subject: Re: [PATCH 1/2] hwrng: Add support for ASPEED RNG
-Content-Type: text/plain
+Message-ID: <20200203103158.GA9276@bogus>
+References: <20200120150113.2565-1-linux@neuralgames.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200120150113.2565-1-linux@neuralgames.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,26 +67,166 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- Matt Mackall <mpm@selenic.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Herbert Xu <herbert@gondor.apana.org.au>, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+ Matt Mackall <mpm@selenic.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Mon, Jan 20, 2020 at 03:01:08PM +0000, Oscar A Perez wrote:
+> This minimal driver adds support for the Hardware Random Number Generator
+> that comes with the AST2400/AST2500/AST2600 SOCs from AspeedTech.
 
+This patch is not a driver. 'dt-bindings: rng: ...' for the subject. 
+(Plus, 2 patches with the same subject is never a good idea.)
 
-On Mon, 3 Feb 2020, at 14:37, Andrew Jeffery wrote:
 > 
-> I think we should leverage existing work where we can. Lets not make
-> more extra for ourselves :)
+> The HRNG on these SOCs uses Ring Oscillators working together to generate
+> a stream of random bits that can be read by the platform via a 32bit data
+> register.
+> 
+> Signed-off-by: Oscar A Perez <linux@neuralgames.com>
+> ---
+>  .../devicetree/bindings/rng/aspeed-rng.yaml   | 90 +++++++++++++++++++
+>  1 file changed, 90 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/rng/aspeed-rng.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/rng/aspeed-rng.yaml b/Documentation/devicetree/bindings/rng/aspeed-rng.yaml
+> new file mode 100644
+> index 000000000000..06070ebe1c33
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/rng/aspeed-rng.yaml
+> @@ -0,0 +1,90 @@
+> +# SPDX-License-Identifier: GPL-2.0
 
-Dammit, replaced the wrong word there - the irony:
+Dual license new bindings:
 
-"Lets not make _extra work_ for ourselves"
+(GPL-2.0-only OR BSD-2-Clause)
+
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/rng/aspeed-rng.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +
+> +title: Bindings for Aspeed Hardware Random Number Generator
+> +
+> +
+> +maintainers:
+> +  - Oscar A Perez <linux@neuralgames.com>
+> +
+> +
+> +description: |
+> +  The HRNG on the AST2400/AST2500/AST2600 SOCs from AspeedTech  uses four Ring
+> +  Oscillators working together to generate a stream of random bits that can be
+> +  read by the platform via a 32bit data register every one microsecond.
+> +  All the platform has to do is to provide to the driver the 'quality' entropy
+> +  value, the  'mode' in which the combining  ROs will generate the  stream  of
+> +  random bits and, the 'period' value that is used as a wait-time between reads
+> +  from the 32bit data register.
+> +
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - aspeed,ast2400-rng
+> +              - aspeed,ast2500-rng
+> +              - aspeed,ast2600-rng
+
+Just:
+
+compatible:
+  enum: ...
+
+> +
+> +
+> +  reg:
+> +    description:
+> +      Base address and length of the register set of this block.
+
+Drop. That's *every* 'reg' property.
+
+> +      Currently 'reg' must be eight bytes wide and 32-bit aligned.
+
+Currently? Is that going to change? Are things going to break if the DT 
+has a bigger size?
+
+> +
+> +    maxItems: 1
+> +
+> +
+> +  period:
+
+Needs a vendor prefix and unit suffix.
+
+> +    description:
+> +      Wait time in microseconds to be used between reads.
+> +      The RNG on these Aspeed SOCs generates 32bit of random data
+> +      every one microsecond. Choose between 1 and n microseconds.
+
+Why would you pick something more than 1?
+
+> +
+> +    maxItems: 1
+> +
+> +
+> +  mode:
+
+Needs a vendor prefix and a type reference.
+
+> +    description:
+> +      One of the eight modes in which the four internal ROs (Ring
+> +      Oscillators)  are combined to generate a stream  of random
+> +      bits. The default mode is seven which is the default method
+> +      of combining RO random bits on these Aspeed SOCs.
+> +
+> +    maxItems: 1
+> +
+> +
+> +  quality:
+
+Needs a vendor prefix and a type reference.
+
+> +    description:
+> +      Estimated number of bits of entropy per 1024 bits read from
+> +      the RNG.  Note that the default quality is zero which stops
+> +      this HRNG from automatically filling the kernel's entropy
+> +      pool with data.
+> +
+> +    maxItems: 1
+> +
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - period
+> +  - quality
+> +
+> +
+> +examples:
+> +  - |
+> +    rng: hwrng@1e6e2074 {
+
+rng@...
+
+> +         compatible = "aspeed,ast2500-rng";
+> +         reg = <0x1e6e2074 0x8>;
+> +         period = <4>;
+> +         quality = <128>;
+> +         mode = <0x7>;
+> +    };
+> +
+> +
+> +...
+> -- 
+> 2.17.1
+> 
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
