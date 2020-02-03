@@ -2,67 +2,88 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34E4B1500A4
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Feb 2020 04:06:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF8D1500DD
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Feb 2020 05:07:59 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 489t5d42bSzDqST
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Feb 2020 14:06:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 489vSD4ZQxzDqRX
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Feb 2020 15:07:56 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.224;
+ helo=new2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=neuralgames.com
- (client-ip=69.13.37.146; helo=kross2019.rwserver.com;
- envelope-from=linux@neuralgames.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=neuralgames.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=neuralgames.com header.i=@neuralgames.com
- header.a=rsa-sha256 header.s=default header.b=vshDoo2M; 
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm1 header.b=a0uIK1I1; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=YDhwdctj; 
  dkim-atps=neutral
-Received: from kross2019.rwserver.com (kross.rwserver.com [69.13.37.146])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 486knF2MBzzDqNB
- for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Jan 2020 11:26:39 +1100 (AEDT)
-Received: from localhost (localhost [127.0.0.1])
- by kross2019.rwserver.com (Postfix) with ESMTP id 2BC1BB436A;
- Tue, 28 Jan 2020 18:26:36 -0600 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=neuralgames.com;
- h=user-agent:message-id:references:in-reply-to:subject:subject
- :from:from:date:date:content-transfer-encoding:content-type
- :content-type:mime-version; s=default; t=1580257595; x=
- 1582071996; bh=NcEq+8O19pWFogVE4XEPDEfmjtWbyS6YyD31VnkTQO8=; b=v
- shDoo2M3zBT1my+yjm4Pau0sd8OAbNDbgpfch12tec7ZmYgDa+4cTiX6/hLX8hNU
- CPEkkcDDCTmI1Orqsua+BVx0Et2Kq8zoIbzZIS41ZA4b33FciyBIay2Q99V/MMG5
- GeybSomHbdtlGmEsh0YdnOyhGxoQdbdW2BMiWqUGGo=
-X-Virus-Scanned: Debian amavisd-new at kross2019.rwserver.com
-Received: from kross2019.rwserver.com ([127.0.0.1])
- by localhost (kross2019.rwserver.com [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id yl3H-oaJq5TK; Tue, 28 Jan 2020 18:26:35 -0600 (CST)
-Received: from rwserver.com (localhost [IPv6:::1])
- (Authenticated sender: linux@neuralgames.com)
- by kross2019.rwserver.com (Postfix) with ESMTPA id 79B3BB4365;
- Tue, 28 Jan 2020 18:26:35 -0600 (CST)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Tue, 28 Jan 2020 18:26:35 -0600
-From: linux@neuralgames.com
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH 1/2] hwrng: Add support for ASPEED RNG
-In-Reply-To: <b83f2a1f-e1be-433c-8dc8-c469cb38f423@www.fastmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 489vRx53cmzDqPv
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  3 Feb 2020 15:07:41 +1100 (AEDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 791A8647A;
+ Sun,  2 Feb 2020 23:07:37 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Sun, 02 Feb 2020 23:07:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=L2E9Vl0A6zDfiBzKRlHxwBS22SN7gw8
+ Ni7HSCZmgD0c=; b=a0uIK1I16pK/R0L/7jdmO1AfRzmSIFOIAEtcBGZbm+DjudG
+ u+HYtskkc5PK1Bmgpjz61fLLRdZJOSA0C3XnPgzxr5L1nxDsuY5B4ilSghrb/AUU
+ /CctlVldDLYBhX3I84zBiBdqqGxGl1xgNXIphoQ+xvExSdK3VOEKRRLcJRNCRjyi
+ Ww5Xno7JkhzNVXOPM1+UAlhkbjQC2ecJLYMKa6Yo5tNQta2rlWq/6Ie9pvMj2mWE
+ J+Zc0rSQOb/+Q1hxc5Bu1QDF3+PH+AyP3ir9CsPx7syyWo/+tYUPC/h3KSLEkzt4
+ cm0S3kc10dr0Xrb8cxdCDtmEZLDHVA+I02WG9kQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=L2E9Vl
+ 0A6zDfiBzKRlHxwBS22SN7gw8Ni7HSCZmgD0c=; b=YDhwdctjhuNrquEhuL6BTd
+ q8Zf2pczAhZ5LlXT1volMwZeV6F0j7CGxUgqAHRBcDIRD0Z0Q7pU17bg8rdMukCB
+ nDfKF+SmzleJpAe8F2hcxD4frF3IF9t+9TcYi3Rt4Npj8oPHy7KOO85pslrrolKu
+ +ltMSZac9gbhCWepvzUOXjcVnuRnLuLOICmc3gYWe1SEt9fC0fMpVDoPNEet1kY9
+ NNqz4U3WMRhBpugpfnmsyLKGi2ccgMpakCR2EiqJCheg+2GyUWZoX5o988sMamVB
+ t2BymEcwCrXiAx1tEKgLND/t22J99Mh5v3aP8NBXwjFhafZ3m6z4rQraTcKu4A4w
+ ==
+X-ME-Sender: <xms:g5w3XldTLriINYEp-o4JgnHkylXYfVP7EIYxJ9IUZTyHKVJRg5nQaQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrgeeigdeiiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucffohhmrg
+ hinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
+ pehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:g5w3Xob-1bdMRufgDray8pkiN6Dg1biu3CwrBc6gEspBu-auRxJnIQ>
+ <xmx:g5w3XvGZnvvVhGL2OBQ7K-prT0jA0jeriCHnot0hde-Dzdpz2pyHgQ>
+ <xmx:g5w3Xp0JdFUhJ9hyjkk76S1twLq1zN5k15x2_q3BSEx89jmk1pPKKA>
+ <xmx:iZw3XnFd0Y-afvKeeSWV7US9IZzsO_Ba-Y7eh48Gt9kwOv2dft7JcQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 5E131E00A2; Sun,  2 Feb 2020 23:07:31 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-802-g7a41c81-fmstable-20200203v1
+Mime-Version: 1.0
+Message-Id: <f6beee98-360c-4239-ab01-86ba41629f9b@www.fastmail.com>
+In-Reply-To: <27c5505acd8d09f70ec9cd12982b2e3e@neuralgames.com>
 References: <20200120150113.2565-1-linux@neuralgames.com>
  <CACPK8XfuVN3Q=npEoOP-amQS0-wemxcx6LKaHHZEsBAHzq1wzA@mail.gmail.com>
  <4446ffb694c7742ca9492c7360856789@neuralgames.com>
  <575811fd-24ca-409c-8d33-c2152ee401d7@www.fastmail.com>
  <136bbab84d13d8d56a5ac297e415975e@neuralgames.com>
  <b83f2a1f-e1be-433c-8dc8-c469cb38f423@www.fastmail.com>
-Message-ID: <27c5505acd8d09f70ec9cd12982b2e3e@neuralgames.com>
-X-Sender: linux@neuralgames.com
-User-Agent: Roundcube Webmail/1.3.8
-X-Mailman-Approved-At: Mon, 03 Feb 2020 14:04:49 +1100
+ <27c5505acd8d09f70ec9cd12982b2e3e@neuralgames.com>
+Date: Mon, 03 Feb 2020 14:37:16 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Oscar A Perez" <linux@neuralgames.com>
+Subject: Re: [PATCH 1/2] hwrng: Add support for ASPEED RNG
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,97 +108,34 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 2020-01-27 18:53, Andrew Jeffery wrote:
-> On Sat, 25 Jan 2020, at 11:40, linux@neuralgames.com wrote:
->> On 2020-01-22 19:53, Andrew Jeffery wrote:
->> >> Thanks for reviewing the patch.
->> >>
->> >> The RNG on Aspeed hardware allows eight different modes for combining
->> >> its four internal Ring Oscillators that together generate a stream of
->> >> random bits. However, the timeriomem-rng driver does not allow for
->> >> mode
->> >> selection so, the Aspeed RNG with this generic driver runs always on
->> >> mode 'seven' (The default value for mode according to the AspeedTech
->> >> datasheets).
->> >>
->> >> I've performed some testings on this Aspeed RNG using the NIST
->> >> Statistical Test Suite (NIST 800-22r1a) and, the results I got show
->> >> that
->> >> the default mode 'seven' isn't producing the best entropy and linear
->> >> rank when compared against the other modes available on these SOCs.
->> >> On
->> >> the other hand, the driver that I'm proposing here allows for mode
->> >> selection which would help improve the random output for those looking
->> >> to get the best out of this Aspeed RNG.
->> >
->> > Have you published the data and results of this study somewhere? This
->> > really should be mentioned in the commit message as justification for
->> > not using timeriomem-rng.
->> >
->> > Andrew
->> 
->> Hi Andrew,
->> 
->> I have uploaded the results of my tests to my GitHub, along with all 
->> the
->> binaries
->> containing the random bits that I collected from this Aspeed RNG using
->> all 8 modes.
->> You can also find in this repository a patch for the hw_random core
->> driver that
->> I've been using to collect this data. Here is the link:
->>    https://github.com/operezmuena/aspeed-rng-testing
->> 
->> You can see in the reports that when using large enough samples (40Mb 
->> in
->> size)
->> this Aspeed RNG consistently fails the linear rank and entropy tests, 
->> no
->> matter
->> what RNG mode is selected. However, modes 2, 4 and 6 produce better
->> entropy than
->> the rest.
->> I'm now collecting rng data from 2 other AST2520 SOCs that I have in
->> order to
->> compare results.
+On Wed, 29 Jan 2020, at 10:56, linux@neuralgames.com wrote:
+> On 2020-01-27 18:53, Andrew Jeffery wrote:
+> > Not that I've looked, but is it feasible to augment timeriomem-rng with
+> > the ability to configure the RNG rather than implement a new driver? 
+> > Why
+> > didn't you go that route?
+> > 
 > 
-> Nice work. Eyeballing the summaries, it seems mode 6 or mode 4 may be
-> improvements over 7? What's your analysis? It would be nice to have the
-> data from your other two SoCs to corroborate. Again, going forward, 
-> please
-> point to your measurements in your commit message.
-> 
+> I decided to wrote the Aspeed-RNG driver because was under the 
+> impression that the community would prefer dedicated drivers over 
+> generic ones for these SOCs. 
 
-Hi Andrew,
+I think we should leverage existing work where we can. Lets not make
+more extra for ourselves :)
 
-I pushed to my GitHub repository the RNG dumps and NIST reports from the 
-other 2 SOCs. The results are similar to the first SOC. None of the 
-modes passed the NIST test for linear rank and approximate entropy. 
-Also, these SOCs show that mode 6 produces better results than mode 7. 
-However, having only a sample of 3 SOCs isn't going to give us 
-statistical significance about which mode would be the best one on these 
-SOCs but, it is hinting us that perhaps allowing the selection of other 
-RNG modes would be a good feature to have in a driver.
-Now, I must say that this is the first RO-based RNG that I have tested 
-and I'm a bit concerned about the results I've been getting. I'm now 
-wondering how RNGs from other SOC vendors would perform with this same 
-test suite.
+> However, enhancing timeriomem-rng module 
+> is not hard at all.  As I matter of fact, I'm currently testing changes 
+> to timeriomem-rng and so far so good. If you would like to have a quick 
+> look to my changes, I just pushed patches to the same repo a couple of 
+> hours ago:  
+> https://github.com/operezmuena/aspeed-rng-testing/tree/master/patches
 
-> Not that I've looked, but is it feasible to augment timeriomem-rng with
-> the ability to configure the RNG rather than implement a new driver? 
-> Why
-> didn't you go that route?
-> 
-> Andrew
+I think this is a good approach  so long as we can create a clean interface
+to the control MMIO(s) inside the driver, i.e. we shouldn't be baking any
+Aspeed-specific information into generic sections of code. Usually this
+means sticking a pointer to an ops struct in the data member of the
+matching OF ID struct.
 
-I decided to wrote the Aspeed-RNG driver because was under the 
-impression that the community would prefer dedicated drivers over 
-generic ones for these SOCs.  However, enhancing timeriomem-rng module 
-is not hard at all.  As I matter of fact, I'm currently testing changes 
-to timeriomem-rng and so far so good. If you would like to have a quick 
-look to my changes, I just pushed patches to the same repo a couple of 
-hours ago:  
-https://github.com/operezmuena/aspeed-rng-testing/tree/master/patches
+Input from the RNG maintainers will be helpful here.
 
-Thanks
-Oscar
+Andrew
