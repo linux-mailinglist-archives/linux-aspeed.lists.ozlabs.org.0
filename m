@@ -2,60 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB80015044D
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Feb 2020 11:32:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3207C151592
+	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Feb 2020 06:55:15 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48B3zh6FDDzDqNJ
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Feb 2020 21:32:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48BYnW1y0zzDqNX
+	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Feb 2020 16:55:11 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.221.67; helo=mail-wr1-f67.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::744;
+ helo=mail-qk1-x744.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
- [209.85.221.67])
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=iVIquOkE; dkim-atps=neutral
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
+ [IPv6:2607:f8b0:4864:20::744])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48B3zT2xWCzDqMd
- for <linux-aspeed@lists.ozlabs.org>; Mon,  3 Feb 2020 21:32:04 +1100 (AEDT)
-Received: by mail-wr1-f67.google.com with SMTP id k11so17244211wrd.9
- for <linux-aspeed@lists.ozlabs.org>; Mon, 03 Feb 2020 02:32:04 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48BYnL5FhBzDqBx
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  4 Feb 2020 16:55:00 +1100 (AEDT)
+Received: by mail-qk1-x744.google.com with SMTP id k6so16816709qki.5
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 03 Feb 2020 21:55:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=p7n4zoUIIiZA2ALJJ4mJ57lt2Tcsn0/OESnXuVktsWY=;
+ b=iVIquOkE279Q+7leFvYOkIFSqSRBJPoOawRF8kQpKRY1g1IVeYzB53msqcbdBWFHuk
+ 2VKjw/GtlEhJxzocBgubpF/H/yMargA5Txm2lTb8KCXoviEE+uJp3lC4f+4eqacg0pDq
+ NKAdbraEwRWewqIh8YdXUBf/heEP4vlAfXjac=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=NFuh06mCbIFHLnWl/yp4KwHBKhZRCL1Lbf1jiW0JM98=;
- b=QnXmg5C4Gbcx3K9cmZh6CMTOm1O1xLhMUUyzYpHqWs9LHweojR2LRlqCTdh8MYE8Ma
- NSeV1eEmoMR0HRP0y+G+1zyzvNbyp0UgeyqBLcnCi081ZQWABhIUnJqfQ3/H5i2vahfG
- QoJS3F5E8MN5ggApwozE5e18V9MiC5mE5QHN0Wj2SriapwZllAtLEtaswXw0CvY2jhTU
- hmU1R1YPjU8aWSNpPIlNLO7cMaNwAQAOMTOK8WOdyfq+Khenbj/BcZyktfFFo3nKz4fd
- EdcX9xTInafgZ5/AZ/SYcqpVn95RFudKLW56rsdRE350TrCgCyuQf9mBxND+GjcwL17H
- qvCA==
-X-Gm-Message-State: APjAAAVix7YNDWFeUCFR4+YJ1z2j/JNhN875LIKPJWROI/u6geSQDExF
- b56wsmGJXJ0YxN9Csd6BSg==
-X-Google-Smtp-Source: APXvYqyQJyScAUAfc7hRV/ni9Ov1rrCOL/vQpSraOmoLvu0hd1vpN6CEC4XJZDRuzYtupTLkxa0YGQ==
-X-Received: by 2002:a5d:6445:: with SMTP id d5mr14473037wrw.244.1580725921100; 
- Mon, 03 Feb 2020 02:32:01 -0800 (PST)
-Received: from rob-hp-laptop ([212.187.182.163])
- by smtp.gmail.com with ESMTPSA id t131sm23233901wmb.13.2020.02.03.02.31.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Feb 2020 02:32:00 -0800 (PST)
-Received: (nullmailer pid 31847 invoked by uid 1000);
- Mon, 03 Feb 2020 10:31:58 -0000
-Date: Mon, 3 Feb 2020 10:31:58 +0000
-From: Rob Herring <robh@kernel.org>
-To: Oscar A Perez <linux@neuralgames.com>
-Subject: Re: [PATCH 1/2] hwrng: Add support for ASPEED RNG
-Message-ID: <20200203103158.GA9276@bogus>
-References: <20200120150113.2565-1-linux@neuralgames.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=p7n4zoUIIiZA2ALJJ4mJ57lt2Tcsn0/OESnXuVktsWY=;
+ b=p3Go3wiGYhobb+UkIhxzJpxi93+q0tTTRahNBMMMqy+7uNjRA1vdlo/E8NgE/+XFh3
+ QN4Ts8cE22rxVhlpMOZNdesXZqJIntsMol1tWeV0zVrj7Jx/RgBnEfeJ+cnIu8jaU2Z+
+ Pb7NrXk6YESRv3DLmed4Ehjt5F9da2iZp0xkH0y0xdLZ9YT/H+v8EzwQ8xEG8pQHI8O8
+ kCsqO5Kt1E3p94pNdMg+/HD+8aaUqrimEdPE5ZvBJDadqFb775n7OEdfKhc9a0HeZm1Q
+ t3mCGN0uIcvatNkb4efwUysfY/ZUbvr4VgebiXhu6n2buc91ZrtRcc3F0spGztJjs24n
+ oLSg==
+X-Gm-Message-State: APjAAAUeF0V5wMJll4xlcLQ1C2P2Mz23oaHn35z1g95k1SVXyGl7YBto
+ FLdZ61c1px855JjoqAHqJ4h7SBgawcSKStEs2mo=
+X-Google-Smtp-Source: APXvYqzF7uxnpiHtFepL2gYUO8yy3dYQIdv2llaISfPr13fI0OQDLILTDeVHgt8XFYYHzXLAZwTJy/dPVgzXJUE43Ec=
+X-Received: by 2002:ae9:e702:: with SMTP id m2mr26659032qka.208.1580795697026; 
+ Mon, 03 Feb 2020 21:54:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200120150113.2565-1-linux@neuralgames.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200202163939.13326-1-linux@roeck-us.net>
+In-Reply-To: <20200202163939.13326-1-linux@roeck-us.net>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 4 Feb 2020 05:54:44 +0000
+Message-ID: <CACPK8XeLWZT-VvuErtz6oE1tv1dhwwOnpZbV7PVr2PxgT2fopA@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: aspeed: tacoma: Enable eMMC controller
+To: Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,166 +69,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Herbert Xu <herbert@gondor.apana.org.au>, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
- Matt Mackall <mpm@selenic.com>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Jan 20, 2020 at 03:01:08PM +0000, Oscar A Perez wrote:
-> This minimal driver adds support for the Hardware Random Number Generator
-> that comes with the AST2400/AST2500/AST2600 SOCs from AspeedTech.
+On Sun, 2 Feb 2020 at 16:39, Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> Enabling emmc without enabling its controller doesn't do any good.
+> Enable its controller as well to make it work.
+>
+> Cc: Andrew Jeffery <andrew@aj.id.au>
+> Cc: Joel Stanley <joel@jms.id.au>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-This patch is not a driver. 'dt-bindings: rng: ...' for the subject. 
-(Plus, 2 patches with the same subject is never a good idea.)
+Thanks Guenter. The description in aspeed-g6.dtsi changed at some
+point and Tacoma was not updated.
 
-> 
-> The HRNG on these SOCs uses Ring Oscillators working together to generate
-> a stream of random bits that can be read by the platform via a 32bit data
-> register.
-> 
-> Signed-off-by: Oscar A Perez <linux@neuralgames.com>
 > ---
->  .../devicetree/bindings/rng/aspeed-rng.yaml   | 90 +++++++++++++++++++
->  1 file changed, 90 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/rng/aspeed-rng.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/rng/aspeed-rng.yaml b/Documentation/devicetree/bindings/rng/aspeed-rng.yaml
-> new file mode 100644
-> index 000000000000..06070ebe1c33
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/rng/aspeed-rng.yaml
-> @@ -0,0 +1,90 @@
-> +# SPDX-License-Identifier: GPL-2.0
+>  arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> index ff49ec76fa7c..47293a5e0c59 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> @@ -132,6 +132,10 @@
+>         use-ncsi;
+>  };
+>
+> +&emmc_controller {
+> +       status = "okay";
+> +};
+> +
+>  &emmc {
+>         status = "okay";
+>  };
 
-Dual license new bindings:
+This node is redundant, as it is not disabled in the dtsi.
 
-(GPL-2.0-only OR BSD-2-Clause)
+Andrew, should we add disabled to the emmc node?
 
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/rng/aspeed-rng.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +
-> +title: Bindings for Aspeed Hardware Random Number Generator
-> +
-> +
-> +maintainers:
-> +  - Oscar A Perez <linux@neuralgames.com>
-> +
-> +
-> +description: |
-> +  The HRNG on the AST2400/AST2500/AST2600 SOCs from AspeedTech  uses four Ring
-> +  Oscillators working together to generate a stream of random bits that can be
-> +  read by the platform via a 32bit data register every one microsecond.
-> +  All the platform has to do is to provide to the driver the 'quality' entropy
-> +  value, the  'mode' in which the combining  ROs will generate the  stream  of
-> +  random bits and, the 'period' value that is used as a wait-time between reads
-> +  from the 32bit data register.
-> +
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - aspeed,ast2400-rng
-> +              - aspeed,ast2500-rng
-> +              - aspeed,ast2600-rng
+Or remove the label completely, and just have emmc_controller?
 
-Just:
+Cheers,
 
-compatible:
-  enum: ...
+Joel
 
-> +
-> +
-> +  reg:
-> +    description:
-> +      Base address and length of the register set of this block.
-
-Drop. That's *every* 'reg' property.
-
-> +      Currently 'reg' must be eight bytes wide and 32-bit aligned.
-
-Currently? Is that going to change? Are things going to break if the DT 
-has a bigger size?
-
-> +
-> +    maxItems: 1
-> +
-> +
-> +  period:
-
-Needs a vendor prefix and unit suffix.
-
-> +    description:
-> +      Wait time in microseconds to be used between reads.
-> +      The RNG on these Aspeed SOCs generates 32bit of random data
-> +      every one microsecond. Choose between 1 and n microseconds.
-
-Why would you pick something more than 1?
-
-> +
-> +    maxItems: 1
-> +
-> +
-> +  mode:
-
-Needs a vendor prefix and a type reference.
-
-> +    description:
-> +      One of the eight modes in which the four internal ROs (Ring
-> +      Oscillators)  are combined to generate a stream  of random
-> +      bits. The default mode is seven which is the default method
-> +      of combining RO random bits on these Aspeed SOCs.
-> +
-> +    maxItems: 1
-> +
-> +
-> +  quality:
-
-Needs a vendor prefix and a type reference.
-
-> +    description:
-> +      Estimated number of bits of entropy per 1024 bits read from
-> +      the RNG.  Note that the default quality is zero which stops
-> +      this HRNG from automatically filling the kernel's entropy
-> +      pool with data.
-> +
-> +    maxItems: 1
-> +
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - period
-> +  - quality
-> +
-> +
-> +examples:
-> +  - |
-> +    rng: hwrng@1e6e2074 {
-
-rng@...
-
-> +         compatible = "aspeed,ast2500-rng";
-> +         reg = <0x1e6e2074 0x8>;
-> +         period = <4>;
-> +         quality = <128>;
-> +         mode = <0x7>;
-> +    };
-> +
-> +
-> +...
-> -- 
+> --
 > 2.17.1
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+>
