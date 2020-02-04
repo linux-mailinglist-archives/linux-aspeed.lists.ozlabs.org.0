@@ -2,62 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3207C151592
-	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Feb 2020 06:55:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737D715227A
+	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Feb 2020 23:49:33 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48BYnW1y0zzDqNX
-	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Feb 2020 16:55:11 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48C0Ht2WZ9zDqK3
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Feb 2020 09:49:30 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::744;
- helo=mail-qk1-x744.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=iVIquOkE; dkim-atps=neutral
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
- [IPv6:2607:f8b0:4864:20::744])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=linux.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48BYnL5FhBzDqBx
- for <linux-aspeed@lists.ozlabs.org>; Tue,  4 Feb 2020 16:55:00 +1100 (AEDT)
-Received: by mail-qk1-x744.google.com with SMTP id k6so16816709qki.5
- for <linux-aspeed@lists.ozlabs.org>; Mon, 03 Feb 2020 21:55:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=p7n4zoUIIiZA2ALJJ4mJ57lt2Tcsn0/OESnXuVktsWY=;
- b=iVIquOkE279Q+7leFvYOkIFSqSRBJPoOawRF8kQpKRY1g1IVeYzB53msqcbdBWFHuk
- 2VKjw/GtlEhJxzocBgubpF/H/yMargA5Txm2lTb8KCXoviEE+uJp3lC4f+4eqacg0pDq
- NKAdbraEwRWewqIh8YdXUBf/heEP4vlAfXjac=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=p7n4zoUIIiZA2ALJJ4mJ57lt2Tcsn0/OESnXuVktsWY=;
- b=p3Go3wiGYhobb+UkIhxzJpxi93+q0tTTRahNBMMMqy+7uNjRA1vdlo/E8NgE/+XFh3
- QN4Ts8cE22rxVhlpMOZNdesXZqJIntsMol1tWeV0zVrj7Jx/RgBnEfeJ+cnIu8jaU2Z+
- Pb7NrXk6YESRv3DLmed4Ehjt5F9da2iZp0xkH0y0xdLZ9YT/H+v8EzwQ8xEG8pQHI8O8
- kCsqO5Kt1E3p94pNdMg+/HD+8aaUqrimEdPE5ZvBJDadqFb775n7OEdfKhc9a0HeZm1Q
- t3mCGN0uIcvatNkb4efwUysfY/ZUbvr4VgebiXhu6n2buc91ZrtRcc3F0spGztJjs24n
- oLSg==
-X-Gm-Message-State: APjAAAUeF0V5wMJll4xlcLQ1C2P2Mz23oaHn35z1g95k1SVXyGl7YBto
- FLdZ61c1px855JjoqAHqJ4h7SBgawcSKStEs2mo=
-X-Google-Smtp-Source: APXvYqzF7uxnpiHtFepL2gYUO8yy3dYQIdv2llaISfPr13fI0OQDLILTDeVHgt8XFYYHzXLAZwTJy/dPVgzXJUE43Ec=
-X-Received: by 2002:ae9:e702:: with SMTP id m2mr26659032qka.208.1580795697026; 
- Mon, 03 Feb 2020 21:54:57 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48C0Hf55BHzDqJH
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  5 Feb 2020 09:49:18 +1100 (AEDT)
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 014MfA6X075849; Tue, 4 Feb 2020 17:49:15 -0500
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2xyhmag9r5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Feb 2020 17:49:15 -0500
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 014MjDYr021513;
+ Tue, 4 Feb 2020 22:49:14 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma05wdc.us.ibm.com with ESMTP id 2xyhm6r1fx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Feb 2020 22:49:14 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 014MnEcY54788600
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 4 Feb 2020 22:49:14 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 530A928064;
+ Tue,  4 Feb 2020 22:49:14 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CFD0328060;
+ Tue,  4 Feb 2020 22:49:13 +0000 (GMT)
+Received: from ghost4.ibm.com (unknown [9.163.68.178])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue,  4 Feb 2020 22:49:13 +0000 (GMT)
+From: Eddie James <eajames@linux.ibm.com>
+To: linux-aspeed@lists.ozlabs.org
+Subject: [PATCH 0/2] ARM: dts: aspeed: Fix SCU IRQ controller node addresses
+Date: Tue,  4 Feb 2020 16:49:06 -0600
+Message-Id: <20200204224908.19967-1-eajames@linux.ibm.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-References: <20200202163939.13326-1-linux@roeck-us.net>
-In-Reply-To: <20200202163939.13326-1-linux@roeck-us.net>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 4 Feb 2020 05:54:44 +0000
-Message-ID: <CACPK8XeLWZT-VvuErtz6oE1tv1dhwwOnpZbV7PVr2PxgT2fopA@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: aspeed: tacoma: Enable eMMC controller
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-04_08:2020-02-04,
+ 2020-02-04 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=697 mlxscore=0
+ impostorscore=0 bulkscore=0 phishscore=0 priorityscore=1501 suspectscore=1
+ lowpriorityscore=0 malwarescore=0 spamscore=0 adultscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002040155
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,56 +80,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sun, 2 Feb 2020 at 16:39, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> Enabling emmc without enabling its controller doesn't do any good.
-> Enable its controller as well to make it work.
->
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Warnings were introduced due to unit address on nodes that had no reg property.
+Drop the unit addresses from the nodes.
 
-Thanks Guenter. The description in aspeed-g6.dtsi changed at some
-point and Tacoma was not updated.
+Eddie James (2):
+  ARM: dts: aspeed: ast2500: Fix SCU IRQ controller node address
+  ARM: dts: aspeed: ast2600: Fix SCU IRQ controller node addresses
 
-> ---
->  arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-> index ff49ec76fa7c..47293a5e0c59 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-> @@ -132,6 +132,10 @@
->         use-ncsi;
->  };
->
-> +&emmc_controller {
-> +       status = "okay";
-> +};
-> +
->  &emmc {
->         status = "okay";
->  };
+ arch/arm/boot/dts/aspeed-g5.dtsi | 2 +-
+ arch/arm/boot/dts/aspeed-g6.dtsi | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-This node is redundant, as it is not disabled in the dtsi.
+-- 
+2.24.0
 
-Andrew, should we add disabled to the emmc node?
-
-Or remove the label completely, and just have emmc_controller?
-
-Cheers,
-
-Joel
-
-> --
-> 2.17.1
->
