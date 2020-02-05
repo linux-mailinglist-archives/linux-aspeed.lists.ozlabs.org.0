@@ -2,80 +2,76 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BACE170198
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Feb 2020 15:52:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F77B170A58
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Feb 2020 22:24:52 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48SJgZ6h4WzDqYB
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Feb 2020 01:52:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48STN06JjYzDqlF
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Feb 2020 08:24:48 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::244;
+ helo=mail-oi1-x244.google.com; envelope-from=geissonator@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=linux.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=q34KOhpk; dkim-atps=neutral
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48SJdx4ygJzDq8W;
- Thu, 27 Feb 2020 01:51:17 +1100 (AEDT)
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01QEnpAS058061; Wed, 26 Feb 2020 09:50:09 -0500
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2ydcntj9xg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Feb 2020 09:50:09 -0500
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01QEjsA6018664;
- Wed, 26 Feb 2020 14:50:08 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma02dal.us.ibm.com with ESMTP id 2ydcmkqev4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Feb 2020 14:50:08 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01QEo7hI51642780
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Feb 2020 14:50:08 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D7505B2067;
- Wed, 26 Feb 2020 14:50:07 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1F6B3B2066;
- Wed, 26 Feb 2020 14:50:07 +0000 (GMT)
-Received: from [9.211.122.13] (unknown [9.211.122.13])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed, 26 Feb 2020 14:50:06 +0000 (GMT)
-Subject: Re: [PATCH -next] media: aspeed: add AST2600 support
-To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
-References: <20200225195853.17480-1-jae.hyun.yoo@linux.intel.com>
-From: Eddie James <eajames@linux.ibm.com>
-Message-ID: <f4ffad91-9742-9b68-be51-c1ec222e24b6@linux.ibm.com>
-Date: Wed, 26 Feb 2020 08:50:06 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48Cb3N0G7TzDqKb;
+ Thu,  6 Feb 2020 08:55:43 +1100 (AEDT)
+Received: by mail-oi1-x244.google.com with SMTP id i1so2400091oie.8;
+ Wed, 05 Feb 2020 13:55:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=qndbgjnKGTRqil5Ffj6ZYDKeVw7HlXNwJpUlAgm+S6Y=;
+ b=q34KOhpk47Q/2E2X+VFfQB25SvVHJuhCnCg72JdZCFnW+34+VG2/GkEDFmAASAupm4
+ on29xmt526yzth1T5zm/ebJ1M1wvCuY4Yx6/901AobkiGPk8jC7h3RyrgcH5Vs4C8UF7
+ KN/spHDzuJjORoS0IUzm0FRkq1V9B/lbDpLuH0gB4B5pLXTjNV0uKEZCndTP1J4oCf8/
+ h/1WjYJS3OGsZsmR6BFQPvhvM6grondSLwj30uUnPicUHus/rgxmJdX6sdVQ4DIV/eiN
+ xO+0hbO8PBLNoTOiNpeK721XNw3+z+C9X+yrn0GnSkd+efN1vixeURjr63JB7sXnCxsx
+ 8Xlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=qndbgjnKGTRqil5Ffj6ZYDKeVw7HlXNwJpUlAgm+S6Y=;
+ b=i2eUHSxy9MqauX0FngUjzFSxvsLtxRnezFvdUrgkxHfgXayzmc4fuq9E+nn7k2vMAW
+ SpFAdSJrlSNXjIGzeQf19OydbHS99vnplpzVs+PADNdCg9/mdEf+CqMDW6VxjUen/0bs
+ BQNW/MpM9ZSjCP2V43T7Xydtea9x8S2ybfMk/cKN/jhSXJ48YoKm2FRY1YNREkriFC8Q
+ Kj4PknqhrmRwZQ+tzzyZeAbm35hzBTudORMmsThIsMSNFhbL5WM+V/UCdKyELkDFyOCv
+ l0T3eID1RxDh0/tWEJb6C3qRegJkBLovDne17VEQL2wztXhpf2EFT3FlxU0MnjgCVioO
+ RFNA==
+X-Gm-Message-State: APjAAAWm2NiKa53o5nuWlOKNDTVFhIiDdzus/n9S/BnRzmrBL6fK43qB
+ mhe3NqEN1ZEA9Ldz3ZgXEZPGBknLExUTEg==
+X-Google-Smtp-Source: APXvYqzIKlb6ICrQEIE/J8GnWSUbGPOQNuGxtAkBKjeoaS1kBpIQsikXhsSVFf7o1NUhEsOJfJTFIA==
+X-Received: by 2002:aca:fd16:: with SMTP id b22mr4657409oii.73.1580939740596; 
+ Wed, 05 Feb 2020 13:55:40 -0800 (PST)
+Received: from Andrews-MBP-2.attlocal.com
+ (45-18-127-186.lightspeed.austtx.sbcglobal.net. [45.18.127.186])
+ by smtp.gmail.com with ESMTPSA id t23sm242396oic.28.2020.02.05.13.55.39
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 05 Feb 2020 13:55:40 -0800 (PST)
+From: Andrew Geissler <geissonator@gmail.com>
+To: openbmc@lists.ozlabs.org, joel@jms.id.au, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH linux dev-5.4 v2] ARM: dts: aspeed: witherspoon: Add gpio line
+ names
+Date: Wed,  5 Feb 2020 15:55:11 -0600
+Message-Id: <20200205215511.80333-1-geissonator@gmail.com>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122)
+In-Reply-To: <FMfcgxwGDDpcbrVbWGfkMRbZCLSZqpMM>
+References: <FMfcgxwGDDpcbrVbWGfkMRbZCLSZqpMM>
 MIME-Version: 1.0
-In-Reply-To: <20200225195853.17480-1-jae.hyun.yoo@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-26_05:2020-02-26,
- 2020-02-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 lowpriorityscore=0 impostorscore=0 clxscore=1011
- malwarescore=0 spamscore=0 suspectscore=0 mlxscore=0 bulkscore=0
- phishscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2001150001 definitions=main-2002260108
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 27 Feb 2020 08:24:44 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,78 +83,73 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org,
- linux-media@vger.kernel.org
+Cc: linux-gpio@vger.kernel.org, Andrew Geissler <geissonator@yahoo.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+From: Andrew Geissler <geissonator@yahoo.com>
 
-On 2/25/20 1:58 PM, Jae Hyun Yoo wrote:
-> Video engine in AST2600 has the exactly same register set with
-> AST2500 except VR084 register which provides more precise JPEG
-> size read back. This commit adds support for the difference and
-> adds 'aspeed,ast2600-video-engine' compatible OF string.
+Name the gpios so libgiod will work with them
 
+Signed-off-by: Andrew Geissler <geissonator@yahoo.com>
+---
+v2: added upstream to patch
+    prepended fsi- on fsi related gpios
+    prepended led- on led related gpios
+    prepended presence on presence related gpios
+    dropped pin_gpio_a1 definition
+---
+ .../boot/dts/aspeed-bmc-opp-witherspoon.dts   | 36 +++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-Thanks Jae!
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts b/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
+index 515f0f208ee6..2519722928a4 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
+@@ -193,6 +193,42 @@
+ 
+ };
+ 
++&gpio {
++    status = "okay";
++	gpio-line-names =
++	/*A0-A7*/	"","cfam-reset","","","","","fsi-mux","",
++	/*B0-B7*/	"","","","","","air-water","","",
++	/*C0-C7*/	"","","","","","","","",
++	/*D0-D7*/	"fsi-enable","","","","","","","",
++	/*E0-E7*/	"fsi-data","","","","","","","",
++	/*F0-F7*/	"","","","","","","","",
++	/*G0-G7*/	"","","","","","","","",
++	/*H0-H7*/	"","","","","","","","",
++	/*I0-I7*/	"","","","","","","","",
++	/*J0-J7*/	"","","checkstop","","","","","",
++	/*K0-K7*/	"","","","","","","","",
++	/*L0-L7*/	"","","","","","","","",
++	/*M0-M7*/	"","","","","","","","",
++	/*N0-N7*/	"presence-ps1","","led-rear-fault","led-rear-power",
++		        "led-rear-id","","","",
++	/*O0-O7*/	"","","","","","","","",
++	/*P0-P7*/	"","","","","","","","presence-ps0",
++	/*Q0-Q7*/	"","","","","","","","",
++	/*R0-R7*/	"","","fsi-trans","","","power-button","","",
++	/*S0-S7*/	"","","","","","","","",
++	/*T0-T7*/	"","","","","","","","",
++	/*U0-U7*/	"","","","","","","","",
++	/*V0-V7*/	"","","","","","","","",
++	/*W0-W7*/	"","","","","","","","",
++	/*X0-X7*/	"","","","","","","","",
++	/*Y0-Y7*/	"","","","","","","","",
++	/*Z0-Z7*/	"","","","","","","","",
++	/*AA0-AA7*/	"fsi-clock","","","","","","","",
++	/*AB0-AB7*/	"","","","","","","","",
++	/*AC0-AC7*/	"","","","","","","","";
++
++};
++
+ &fmc {
+ 	status = "okay";
+ 
+-- 
+2.21.0 (Apple Git-122)
 
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
-
-
->
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> ---
->   drivers/media/platform/aspeed-video.c | 15 +++++++++++----
->   1 file changed, 11 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index 47444a336ebb..7d98db1d9b52 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0-or-later
->   // Copyright 2020 IBM Corp.
-> -// Copyright (c) 2019 Intel Corporation
-> +// Copyright (c) 2019-2020 Intel Corporation
->   
->   #include <linux/atomic.h>
->   #include <linux/bitfield.h>
-> @@ -132,7 +132,8 @@
->   #define  VE_COMP_CTRL_HQ_DCT_CHR	GENMASK(26, 22)
->   #define  VE_COMP_CTRL_HQ_DCT_LUM	GENMASK(31, 27)
->   
-> -#define VE_OFFSET_COMP_STREAM		0x078
-> +#define AST2400_VE_COMP_SIZE_READ_BACK	0x078
-> +#define AST2600_VE_COMP_SIZE_READ_BACK	0x084
->   
->   #define VE_SRC_LR_EDGE_DET		0x090
->   #define  VE_SRC_LR_EDGE_DET_LEFT	GENMASK(11, 0)
-> @@ -252,12 +253,17 @@ struct aspeed_video_config {
->   
->   static const struct aspeed_video_config ast2400_config = {
->   	.jpeg_mode = AST2400_VE_SEQ_CTRL_JPEG_MODE,
-> -	.comp_size_read = VE_OFFSET_COMP_STREAM,
-> +	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
->   };
->   
->   static const struct aspeed_video_config ast2500_config = {
->   	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
-> -	.comp_size_read = VE_OFFSET_COMP_STREAM,
-> +	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
-> +};
-> +
-> +static const struct aspeed_video_config ast2600_config = {
-> +	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
-> +	.comp_size_read = AST2600_VE_COMP_SIZE_READ_BACK,
->   };
->   
->   static const u32 aspeed_video_jpeg_header[ASPEED_VIDEO_JPEG_HEADER_SIZE] = {
-> @@ -1673,6 +1679,7 @@ static int aspeed_video_init(struct aspeed_video *video)
->   static const struct of_device_id aspeed_video_of_match[] = {
->   	{ .compatible = "aspeed,ast2400-video-engine", .data = &ast2400_config },
->   	{ .compatible = "aspeed,ast2500-video-engine", .data = &ast2500_config },
-> +	{ .compatible = "aspeed,ast2600-video-engine", .data = &ast2600_config },
->   	{}
->   };
->   MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
