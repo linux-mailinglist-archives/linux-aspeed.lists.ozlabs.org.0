@@ -2,76 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AABB15227C
-	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Feb 2020 23:49:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAFEE153EDB
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Feb 2020 07:46:03 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48C0J92PrmzDqJW
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Feb 2020 09:49:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48CpqC1V4BzDqTT
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Feb 2020 17:45:59 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::844;
+ helo=mail-qt1-x844.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=linux.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=kPxNNb1g; dkim-atps=neutral
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48C0Hy3v97zDqJc
- for <linux-aspeed@lists.ozlabs.org>; Wed,  5 Feb 2020 09:49:34 +1100 (AEDT)
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 014Mggll139127; Tue, 4 Feb 2020 17:49:31 -0500
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xyhn205s7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Feb 2020 17:49:31 -0500
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 014MnUbS005100;
- Tue, 4 Feb 2020 22:49:30 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma04wdc.us.ibm.com with ESMTP id 2xyhm701k2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Feb 2020 22:49:30 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 014MnUYk53870938
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 4 Feb 2020 22:49:30 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4BFE42805E;
- Tue,  4 Feb 2020 22:49:30 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BEC262805C;
- Tue,  4 Feb 2020 22:49:29 +0000 (GMT)
-Received: from ghost4.ibm.com (unknown [9.163.68.178])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  4 Feb 2020 22:49:29 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH 2/2] ARM: dts: aspeed: ast2600: Fix SCU IRQ controller node
- addresses
-Date: Tue,  4 Feb 2020 16:49:08 -0600
-Message-Id: <20200204224908.19967-3-eajames@linux.ibm.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20200204224908.19967-1-eajames@linux.ibm.com>
-References: <20200204224908.19967-1-eajames@linux.ibm.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48Cpq45j72zDqSD;
+ Thu,  6 Feb 2020 17:45:50 +1100 (AEDT)
+Received: by mail-qt1-x844.google.com with SMTP id w47so3698969qtk.4;
+ Wed, 05 Feb 2020 22:45:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3EVIjHgWrOpnpthbeHK3KwPNytdJutxDfwFaEAYC1gU=;
+ b=kPxNNb1gcQ6fkdKVzTu5wRf8dMBIvy78gz+ZmakHsUODJyPFAI9Cxs9Aerh6dtn8ue
+ 9S3HPYp07C/wCW8bZC0OA1mtnLl8+OkfKuxFq+k5IDzYmqxDYBc+ieFAoNEiOnWFfUZ8
+ mFtR5H8qOqrJxBmw1ANT4V4HWd69qwfomQRWY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3EVIjHgWrOpnpthbeHK3KwPNytdJutxDfwFaEAYC1gU=;
+ b=BiuryRS4tJhb/oox73fftt+uvLfTf31XrAoSRsMVrgUpAEWVjcLEbFXDBDt4UghgKm
+ SwwQRzoRh+FVPlWWEZf/8x7F/NuE3/bZQ5UXfPo+uOVg4RDDm33lFvefkj5qYLSNSsTa
+ gkOLYIPTmWo4Fie+kZ6M4EAXx2YbDPy40eacoXfRo2pFp+XVTmoU7ag1lLtQGVLfTCWG
+ pfj6hhCW7gm8g7Cb2PylZkSM2+LD+2pIZErZ8E4HWcRRswPRl9kmYn7s+UYM3ih5bPsb
+ Yc+8KbgCp5YgYRm4nXFDUASObfenMgefU8IxfvU0N01bejhZA+QK7RDtv8Clo4VjfjPJ
+ 1eBw==
+X-Gm-Message-State: APjAAAXGc0Tl6WhnIOg9HwJWTB8XboAMYnUiHg1fLNy/Rz9PhvdUscyC
+ +XOJFWcPm5PEEUaE84Jc2kBeFjSHvZ2SuwfQO24=
+X-Google-Smtp-Source: APXvYqyGXHiEc83j2FSMVVBuD58V9HxdxZyJTom9oCVKE6Ua2SjX6fetXzWVhlF65eXiKXP/Ck/X9d5riSepkdRtgIg=
+X-Received: by 2002:ac8:7396:: with SMTP id t22mr1332817qtp.269.1580971547324; 
+ Wed, 05 Feb 2020 22:45:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-04_08:2020-02-04,
- 2020-02-04 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 malwarescore=0 suspectscore=1 phishscore=0 clxscore=1015
- adultscore=0 mlxlogscore=721 bulkscore=0 spamscore=0 lowpriorityscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002040155
+References: <20200205215511.80333-1-geissonator@gmail.com>
+In-Reply-To: <20200205215511.80333-1-geissonator@gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 6 Feb 2020 06:45:33 +0000
+Message-ID: <CACPK8XcGJ61mgCL+vZQEzTmcwu+jZ0hpKrnOz7B7K14y79cvFQ@mail.gmail.com>
+Subject: Re: [PATCH linux dev-5.4 v2] ARM: dts: aspeed: witherspoon: Add gpio
+ line names
+To: Andrew Geissler <geissonator@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,39 +70,95 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Andrew Geissler <geissonator@yahoo.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The nodes were defined with a unit address but had no reg property,
-resulting in a warning. The address is unecessary, so drop it.
+On Wed, 5 Feb 2020 at 21:55, Andrew Geissler <geissonator@gmail.com> wrote:
+>
+> From: Andrew Geissler <geissonator@yahoo.com>
+>
+> Name the gpios so libgiod will work with them
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
----
- arch/arm/boot/dts/aspeed-g6.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Perhaps: "Name the GPIOs to help userspace work with them."
 
-diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-index 82a3cd10cc2b..6f6a2d0217dc 100644
---- a/arch/arm/boot/dts/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-@@ -269,14 +269,14 @@ smp-memram@180 {
- 					reg = <0x180 0x40>;
- 				};
- 
--				scu_ic0: interrupt-controller@0 {
-+				scu_ic0: interrupt-controller {
- 					#interrupt-cells = <1>;
- 					compatible = "aspeed,ast2600-scu-ic0";
- 					interrupts = <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>;
- 					interrupt-controller;
- 				};
- 
--				scu_ic1: interrupt-controller@1 {
-+				scu_ic1: interrupt-controller {
- 					#interrupt-cells = <1>;
- 					compatible = "aspeed,ast2600-scu-ic1";
- 					interrupts = <GIC_SPI 41 IRQ_TYPE_LEVEL_HIGH>;
--- 
-2.24.0
+You could also mention that the names are describe the functionality
+that the lines provide, and not a net or ball name.
 
+A heads up: when you send patches upstream to the kernel mailing list,
+we don't include the "linux dev-X.y" stuff in the subject.
+
+> Signed-off-by: Andrew Geissler <geissonator@yahoo.com>
+> ---
+> v2: added upstream to patch
+>     prepended fsi- on fsi related gpios
+>     prepended led- on led related gpios
+>     prepended presence on presence related gpios
+>     dropped pin_gpio_a1 definition
+> ---
+>  .../boot/dts/aspeed-bmc-opp-witherspoon.dts   | 36 +++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts b/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
+> index 515f0f208ee6..2519722928a4 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
+> @@ -193,6 +193,42 @@
+>
+>  };
+>
+> +&gpio {
+> +    status = "okay";
+
+The status=okay is harmless but redundant, as this node is already enabled.
+
+> +       gpio-line-names =
+> +       /*A0-A7*/       "","cfam-reset","","","","","fsi-mux","",
+> +       /*B0-B7*/       "","","","","","air-water","","",
+> +       /*C0-C7*/       "","","","","","","","",
+> +       /*D0-D7*/       "fsi-enable","","","","","","","",
+> +       /*E0-E7*/       "fsi-data","","","","","","","",
+> +       /*F0-F7*/       "","","","","","","","",
+> +       /*G0-G7*/       "","","","","","","","",
+> +       /*H0-H7*/       "","","","","","","","",
+> +       /*I0-I7*/       "","","","","","","","",
+> +       /*J0-J7*/       "","","checkstop","","","","","",
+> +       /*K0-K7*/       "","","","","","","","",
+> +       /*L0-L7*/       "","","","","","","","",
+> +       /*M0-M7*/       "","","","","","","","",
+> +       /*N0-N7*/       "presence-ps1","","led-rear-fault","led-rear-power",
+> +                       "led-rear-id","","","",
+> +       /*O0-O7*/       "","","","","","","","",
+> +       /*P0-P7*/       "","","","","","","","presence-ps0",
+> +       /*Q0-Q7*/       "","","","","","","","",
+> +       /*R0-R7*/       "","","fsi-trans","","","power-button","","",
+> +       /*S0-S7*/       "","","","","","","","",
+> +       /*T0-T7*/       "","","","","","","","",
+> +       /*U0-U7*/       "","","","","","","","",
+> +       /*V0-V7*/       "","","","","","","","",
+> +       /*W0-W7*/       "","","","","","","","",
+> +       /*X0-X7*/       "","","","","","","","",
+> +       /*Y0-Y7*/       "","","","","","","","",
+> +       /*Z0-Z7*/       "","","","","","","","",
+> +       /*AA0-AA7*/     "fsi-clock","","","","","","","",
+> +       /*AB0-AB7*/     "","","","","","","","",
+> +       /*AC0-AC7*/     "","","","","","","","";
+> +
+
+Cean up the line of whitespace here.
+
+> +};
+> +
+>  &fmc {
+>         status = "okay";
+>
+> --
+> 2.21.0 (Apple Git-122)
+>
