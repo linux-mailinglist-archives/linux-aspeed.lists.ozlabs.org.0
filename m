@@ -2,79 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154A6159F25
-	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Feb 2020 03:38:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C171415B32C
+	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Feb 2020 22:57:45 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48HP2Q74P5zDqMN
-	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Feb 2020 13:38:06 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48HtmQ5CKlzDqRr
+	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Feb 2020 08:57:42 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1041;
- helo=mail-pj1-x1041.google.com; envelope-from=rentao.bupt@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1043;
+ helo=mail-pj1-x1043.google.com; envelope-from=rentao.bupt@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=LqDTnVdw; dkim-atps=neutral
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
+ header.s=20161025 header.b=cu2HVdgF; dkim-atps=neutral
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
+ [IPv6:2607:f8b0:4864:20::1043])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48HP2H6tp3zDqKZ;
- Wed, 12 Feb 2020 13:37:57 +1100 (AEDT)
-Received: by mail-pj1-x1041.google.com with SMTP id 12so200064pjb.5;
- Tue, 11 Feb 2020 18:37:57 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48Htm9089SzDq9L;
+ Thu, 13 Feb 2020 08:57:28 +1100 (AEDT)
+Received: by mail-pj1-x1043.google.com with SMTP id e9so1456526pjr.4;
+ Wed, 12 Feb 2020 13:57:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=vv3NHPZnBve5XiluETZotYu+d3bqwg0qJCx+3uhyaM4=;
- b=LqDTnVdwykUbgj17vRiSu0wFe6uQuLuoNTYxnt1hV1zA7zQJZ3Bu1dEQt4RI34I1TS
- Or2/lgMlxpcFQzXW463ugd85BrgR6lgMSKBiGhOmWpfD0H1f7PcEbVJhflRk3lwMfWo3
- x6wskEcFMMckElySxG0JLuRGy9KCJ0rFQPawyC295ueBCdHjobHOguzNBOOR7WlBwRaR
- OY5syFDOcpl+E49w1qaBDG105le2WjLWE+eQ6YJg8AubgePkguj0UTz+MB/RBxroaW0n
- lx2EFjfL5QjrX69I8wUKWAO2/nYbY5A1X27OhsVEa2/65vOy8MgC2ffxYouJxHKW6a/V
- 4QZQ==
+ h=from:to:cc:subject:date:message-id;
+ bh=fnUhPBKcSJIh4dSE9ZDVA1HmaYlN0KtrojiReV2ykb0=;
+ b=cu2HVdgFsneUjNAodwp0mnQFtoeN6mjv2Ze87w4aV7ChgNbJ8jExut24J2vW66PS6T
+ koVG7aLqf7ULojlqtp726KnUimqivbcuoUV9NtssprL5ko3YprdPY5xvqnlkTdPaIU/r
+ 8sM5Sd0Qpm6pjQxOwAl9BQbYkjdRX7X68XoEgg8aDvvtGHrTBoVcR05S8hcmY3wT23FZ
+ T4Q3nCX9mPO7fNbwnOSAJqdM8mt/maw+2dkLhWpkNJSgWQaOGZTea+Jlfky6SrNUIQ4k
+ 1gqChzMwo5bt8sp/VLS/L4gnilV6Mhufl+oV3miS3u82WSBHBCTpb3KSoBpHxOn28S+A
+ 2UwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=vv3NHPZnBve5XiluETZotYu+d3bqwg0qJCx+3uhyaM4=;
- b=bGc5abgxiG7xOmz8krzhJcSs38MapOUCtt5EzT4t1ol7AaP9EyVFm9oHSdm7p0955R
- cfGTCMwBHNingKK/GKSi6ec8RakwHxmFVNrcwHvXx+4O9dQpiLni+sbGtgQtWzaXYqXq
- kZNSjPKP2RcjLGJ2YPn9peJJRwM1LqANghMfM8wJlCvEtrcrzZT+VJFBkERR1iIQpxwK
- VNS3OR1gAOATn1Cf1cjmdNYOuUdk1+B7XwY+V9lCfBy++mLhV+YmBvHB4Gv6uUHGjSrM
- 138MSjIpF5On60+zocwt032Z6Zy7R7seDfMD9ktzIaA3hwIXHbGNLUzPtG2mz/ogCw1z
- 5Hvg==
-X-Gm-Message-State: APjAAAXnkTmY8/JIYWd/xK71gMwZ+5RYPAkjCTIyce9hnZCEJEt7h1XU
- QYGXyDqeqkk9aP+xQuKG/rw=
-X-Google-Smtp-Source: APXvYqyuDguANzB58wFOK/4Z7FCp2UtZ0LngNySWG7JX3V31NtSorTHf3Kf9HvxxX7mtQN6BVwdbmw==
-X-Received: by 2002:a17:90a:c388:: with SMTP id
- h8mr6993554pjt.83.1581475075299; 
- Tue, 11 Feb 2020 18:37:55 -0800 (PST)
-Received: from taoren-ubuntu-R90MNF91 ([2620:10d:c090:200::80a4])
- by smtp.gmail.com with ESMTPSA id d15sm5740978pgn.6.2020.02.11.18.37.53
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 11 Feb 2020 18:37:54 -0800 (PST)
-Date: Tue, 11 Feb 2020 18:37:47 -0800
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: Re: [PATCH 1/3] usb: gadget: aspeed: read vhub config from
- of_device_id
-Message-ID: <20200212023746.GA9834@taoren-ubuntu-R90MNF91>
-References: <20200131222157.20849-1-rentao.bupt@gmail.com>
- <20200131222157.20849-2-rentao.bupt@gmail.com>
- <CACPK8Xe0b+zVNqf8v5YXOLkzqDeb4JHqec-bqFpaVFGTwHThhA@mail.gmail.com>
- <386e905fb705266efcac0c1b3a10053889c7fead.camel@kernel.crashing.org>
- <20200210190744.GA5346@taoren-ubuntu-R90MNF91>
- <746b08aabf7ea976a382ad2ca30fa10a095e7ed8.camel@kernel.crashing.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <746b08aabf7ea976a382ad2ca30fa10a095e7ed8.camel@kernel.crashing.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=fnUhPBKcSJIh4dSE9ZDVA1HmaYlN0KtrojiReV2ykb0=;
+ b=NBKOm3n5FmIoZ9rQyE/MjqVXVRhE8lYVVFOW+Wc1aP62DZc1bdYliPmW/w7kMSY+Q5
+ 5ayjxurB8PMdP6DwL8HSeEvMC0QW+XrdesStcIwvam46C1waDHaBtZ5qxFrW9S4MYave
+ chn/w2tHoh38CGOfC+mHOtXe0K6/Ttkfv8CQo5a+KaFPc/w9tl2jYcPBka6f/FCr4uln
+ L1Rc8MWHs/PTH1UzkqX4DGzhuNuiDep5zFMmW+wMF0Eud/lnTWeQeGu6edu8xgUTnhAy
+ aVXRid0l/spErajNKyoJfdGzESkxPxhjdCmDLX9QlNjjOccE57NaafvF8oo79mHyPtt3
+ R23Q==
+X-Gm-Message-State: APjAAAV9Y6D2K1Bzf09711sQewrAN5JhVvfaWiSq49ltYOIjS0JjXb+f
+ 9BX/SAasAg56oSUglUph6g0=
+X-Google-Smtp-Source: APXvYqyH1U4B5ayiip+FCyTBRMApO8id3his1NPhWKEoZ9RMaWpVNfNcOs6FCRURmy4EYX2Y/41kVw==
+X-Received: by 2002:a17:90a:fe02:: with SMTP id
+ ck2mr1313325pjb.10.1581544646327; 
+ Wed, 12 Feb 2020 13:57:26 -0800 (PST)
+Received: from taoren-ubuntu-R90MNF91.thefacebook.com
+ ([2620:10d:c090:200::3:533f])
+ by smtp.gmail.com with ESMTPSA id r6sm214431pfh.91.2020.02.12.13.57.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Feb 2020 13:57:25 -0800 (PST)
+From: rentao.bupt@gmail.com
+To: Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Colin Ian King <colin.king@canonical.com>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ openbmc@lists.ozlabs.org, taoren@fb.com
+Subject: [PATCH v2 0/5] aspeed-g6: enable usb support
+Date: Wed, 12 Feb 2020 13:57:12 -0800
+Message-Id: <20200212215717.9474-1-rentao.bupt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,56 +84,52 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Felipe Balbi <balbi@kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- devicetree <devicetree@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>, linux-usb@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Colin Ian King <colin.king@canonical.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Feb 11, 2020 at 09:50:42AM +0100, Benjamin Herrenschmidt wrote:
-> On Mon, 2020-02-10 at 11:07 -0800, Tao Ren wrote:
-> > > > This looks generally okay. We should wait for Ben's ack before
-> > > > applying.
-> > > 
-> > > Shouldn't we instead have DT fields indicating those values ?
-> > 
-> > May I ask why we prefer adding dt fields (such as "aspeed,vhub-max-ports"
-> > and "aspeed,vhub-max-endpoints") instead of assigning these values based
-> > on aspeed family? For example, is it to allow users to set a smaller
-> > number of ports/endpoints?
-> 
-> It's not a strong drive but it makes it more convenient to add support
-> to newer revisions if the only differences are those numbers.
+From: Tao Ren <rentao.bupt@gmail.com>
 
-Got it. Thanks for the clarify. Will send out v2 patches after more
-testing.
+The patch series aims at enabling USB Host and Gadget support on AST2600
+platforms.
 
-> > 
-> > > Also we should add a DT representation for the various ID/strings of
-> > > the hub itself so manufacturers can customize them.
-> > 
-> > Sure. I will add DT nodes for vendor/product/device IDs/strings. As it's
-> > not directly related to ast2600-support, shall I handle it in a separate
-> > patch? Or I can include the patch in this patch series?
-> 
-> Separate. Thanks !
+Patch #1 replaces hardcoded vhub port/endpoint number with device tree
+properties, so that it's more convenient to add support for ast2600-vhub
+which provides more downstream ports and endpoints.
 
-Will take care of the change once this patch series is accepted.
+Patch #2 and #3 add vhub port/endpoint properties into aspeed-g4 and
+aspeed-g5 dtsi.
 
+Patch #4 enables ast2600 support in aspeed-vhub usb gadget driver.
 
-Cheers,
+Patch #5 adds USB devices and according pin groups in aspeed-g6 dtsi.
 
-Tao
-> 
-> Cheers,
-> Ben.
-> 
-> 
+The patch series is sanity tested on AST2520 (Yamp) BMC and AST2600-A0
+eval board:
+  - AST2520: created 5 gadget devices with 15 endpoints, and all of them
+    can be enumerated from usb-host side.
+  - AST2600: created 7 gadget devices with 20 endpoints, and all of them
+    can be enumerated from usb-host side.
+
+Tao Ren (5):
+  usb: gadget: aspeed: read vhub properties from device tree
+  ARM: dts: aspeed-g4: add vhub port and endpoint properties
+  ARM: dts: aspeed-g5: add vhub port and endpoint properties
+  usb: gadget: aspeed: add ast2600 vhub support
+  ARM: dts: aspeed-g6: add usb functions
+
+ arch/arm/boot/dts/aspeed-g4.dtsi           |  2 +
+ arch/arm/boot/dts/aspeed-g5.dtsi           |  2 +
+ arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi   | 25 ++++++++
+ arch/arm/boot/dts/aspeed-g6.dtsi           | 45 ++++++++++++++
+ drivers/usb/gadget/udc/aspeed-vhub/Kconfig |  4 +-
+ drivers/usb/gadget/udc/aspeed-vhub/core.c  | 71 ++++++++++++++--------
+ drivers/usb/gadget/udc/aspeed-vhub/dev.c   | 30 ++++++---
+ drivers/usb/gadget/udc/aspeed-vhub/epn.c   |  4 +-
+ drivers/usb/gadget/udc/aspeed-vhub/hub.c   | 26 +++++---
+ drivers/usb/gadget/udc/aspeed-vhub/vhub.h  | 23 +++----
+ 10 files changed, 170 insertions(+), 62 deletions(-)
+
+-- 
+2.17.1
+
