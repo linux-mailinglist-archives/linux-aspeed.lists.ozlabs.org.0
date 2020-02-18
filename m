@@ -1,80 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E9D16258A
-	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Feb 2020 12:31:24 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48MJZx6DTyzDqSj
-	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Feb 2020 22:31:21 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B381637C7
+	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Feb 2020 00:56:32 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 48Md6h3CF1zDqZF
+	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Feb 2020 10:56:28 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=64.147.123.21;
- helo=wout5-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::442;
+ helo=mail-pf1-x442.google.com; envelope-from=rentao.bupt@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
+ dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=bZ3GcoAk; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=cx/Wg/eA; 
- dkim-atps=neutral
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=q3+9YPzs; dkim-atps=neutral
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48MJZX64JQzDq7h
- for <linux-aspeed@lists.ozlabs.org>; Tue, 18 Feb 2020 22:30:59 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id D8610727;
- Tue, 18 Feb 2020 06:30:53 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 18 Feb 2020 06:30:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm2; bh=Dg2Cd9EZBtYB1HWPx6/lUlj2Ii
- YhZqrvqg7YHhAG3aY=; b=bZ3GcoAkurSfDs9AeIRql7IS0oB+3lENUOtz9+/KcK
- l1/3CbkoWiTCkhI+MIn+0JtunJZQ1p9GEhaYHbbyLMPhRX0XCRvmJQYSfnAD6YcH
- hyu0INbXLMgfFI/9C0lxGtPjG46KByzpVo+GAd0AgDrk5s8imUfai/budHWiObuZ
- osKy6PDf0n9O8VzhbyOzIMlXwe+ktPEUe5zUvhPE/Qy7SKNNKBGLeNi6HMg6lmMW
- qYMRqjtI//ThZ8symHWY533BddicjuT5ql51x9NJYwBtmGLg+1+dGY5F/6XPbf8P
- S9KjH25e1NFWLWJHLHvEz4cvIHN3Hc+Q+jqUX26rJBQQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Dg2Cd9EZBtYB1HWPx
- 6/lUlj2IiYhZqrvqg7YHhAG3aY=; b=cx/Wg/eA1Hy4SSleVZwqCF1wCWeF+MjBm
- KXFjRAvqdclkdQetYFGD6/8Qw5WOQNf4MijYhp57D6m5Yd0G5GrBjOzTDEhtUGuy
- NPaqe1cSYuILqjj2I5FVhMq80OpWAsBMobFzpOEuWXEmFNLZZZbql7IxBKp5Y7Ha
- +6sHerWIEL79SauZEbLMTjfW+RSERhEZIP7Bql2qth6nJfa5PIvB5Fu2A9xGZQsI
- paufJOxO7HtUP6942t0A+wKR1n+Edi+AVzDtOmYJIyvpkudYA+Z1ZbahQLT+8KoT
- Etatf4jpNDHfRcUbNmXm6ywZ+Xt72fRHh5hS+ra6/g0y+0ocCYbZA==
-X-ME-Sender: <xms:7MpLXj4xtwTuHmXD0o08Rt_dl9BRvnCrImoQz2_NbCJnLB8lI_w43A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrjeekgdeftdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
- dtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghjrdhi
- ugdrrghuqeenucfkphepudegrddvrdekvddrgeeknecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:7MpLXm9hrLLQwU1VaPo0_5zqzlUp8TC6nuFjJrrN02dMPnd8rYTx6g>
- <xmx:7MpLXqcxpakDEBW4zo3RC8U8yd1Y7cFzZWmU2ViUl5S3u64U6z5kYw>
- <xmx:7MpLXrLMfo3Q3tjOB3D5WUmQWACf-kQqsVWbJBcu7Vj6CtMmbkuACg>
- <xmx:7cpLXlcbukHKbtcHOrt7XghT_mq7DKpX-0Qla09Jb4e0SS0xBiKXfg>
-Received: from localhost.localdomain
- (ppp14-2-82-48.adl-apt-pir-bras31.tpg.internode.on.net [14.2.82.48])
- by mail.messagingengine.com (Postfix) with ESMTPA id 937DD3060C21;
- Tue, 18 Feb 2020 06:30:50 -0500 (EST)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH] ARM: dts: rainier: Enable VUART2
-Date: Tue, 18 Feb 2020 22:00:52 +1030
-Message-Id: <20200218113052.28392-1-andrew@aj.id.au>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48Md6Q2x6mzDqZF;
+ Wed, 19 Feb 2020 10:56:12 +1100 (AEDT)
+Received: by mail-pf1-x442.google.com with SMTP id p14so11501428pfn.4;
+ Tue, 18 Feb 2020 15:56:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=RaNnl3+uu7fV0u4Un9uuTw80YtZZSfmJ9Z7lllWiZwI=;
+ b=q3+9YPzso4OBjcsYS2BGJQuc8RXnF5FAOBKDmsn4C+kUWEPNeBpu34WaqyCW892Rx9
+ +ikfWY67U+3ZmXajhzgMqKeEuzNDfjI8hlYDQf+9PP/l7gSfgcQWQOdNP3T1TsPtP8+A
+ Zti+38TKv0ZapaDQnVOb/EtYxZh8XbF58UqIb3qEDYAeQzer+jWuPd8ngsgNoBxbltmv
+ 5JMOSDtI+7J9nvpLyQcWwd28aWQWysec9iFlnQ/LHc9YML1AVMtDSdO08srWz0rdBQZG
+ 3YjIBU7P2osVOZBfqQ4Q6/v/xcALtHxkLUy2CDGlY/ADQIctpN6FXmaMhuX98ogMctJK
+ 5I+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=RaNnl3+uu7fV0u4Un9uuTw80YtZZSfmJ9Z7lllWiZwI=;
+ b=Q39d04Ijpt1mrLGvSrGDvP/edv38M0RBe5Peh0fZEYio3kcaXjEgnC20X4UKQYjHaQ
+ uBarjOV3/wm5c3eDnJW/XDbMcp73xo36b7vjHgg2qcxiNchfbrJpc63eGmK5YMVz2w+Q
+ lm6E/ER9dLF8HceLB/tXvfrxAQZNufyOf7815v8XVev0EChL4ME9aGHkoKhXAbrgnDrS
+ 0DJL+cX/RI/KOjMOBKyhTEC/T+SWcaUU+9PcFDh8s9LJbFQ49d80QRFpb9a99Jc+1ZCT
+ +0V5eaXTZRwZQsFx/f+XCoZUBaPS2xoI/jlV5VzVSWtmRwr0UK8Es/B41SsurAQTW6Jc
+ U8qQ==
+X-Gm-Message-State: APjAAAXij302UqZ26HTx2R283zfJSwnhdLbryni80oOAZMRmeH24hQZE
+ 9dWtfhpEgHeIs1wIHSfYwqs=
+X-Google-Smtp-Source: APXvYqwZmgIEHqOxLQ1cyJyx3ogGpJoEg6ROKfneriZnTEoj6j1aqMsH+aDmEeM9a0OC3ahr/2pl2w==
+X-Received: by 2002:a63:5807:: with SMTP id m7mr23349426pgb.83.1582070168618; 
+ Tue, 18 Feb 2020 15:56:08 -0800 (PST)
+Received: from taoren-ubuntu-R90MNF91.thefacebook.com
+ ([2620:10d:c090:500::5:1718])
+ by smtp.gmail.com with ESMTPSA id d3sm80558pjx.10.2020.02.18.15.56.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Feb 2020 15:56:08 -0800 (PST)
+From: rentao.bupt@gmail.com
+To: Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Colin Ian King <colin.king@canonical.com>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ openbmc@lists.ozlabs.org, taoren@fb.com
+Subject: [PATCH 0/2] usb: gadget: aspeed: allow to customize vhub device
+Date: Tue, 18 Feb 2020 15:55:58 -0800
+Message-Id: <20200218235600.6763-1-rentao.bupt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,34 +83,31 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The second VUART is used to expose multiplexed, non-hypervisor consoles.
+From: Tao Ren <rentao.bupt@gmail.com>
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 4 ++++
- 1 file changed, 4 insertions(+)
+This patch series allows people to customize IDs/strings in vhub's
+device descriptor through device tree properties.
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-index 6232cd726a7f..61d4140a2601 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-@@ -540,6 +540,10 @@
- 	status = "okay";
- };
- 
-+&vuart2 {
-+	status = "okay";
-+};
-+
- &lpc_ctrl {
- 	status = "okay";
- 	memory-region = <&flash_memory>;
+Patch #1 overrides IDs and strings in device descriptor if according
+device tree properties are defined.
+
+Patch #2 moves fixup-usb1-device-descriptor logic from get_descriptor
+handler to "ast_vhub_fixup_dev_desc" function for consistency.
+
+The patch series needs to be applied on top of "aspeed-g6: enable usb
+support" patch set to avoid merge conflicts.
+
+Tao Ren (2):
+  usb: gadget: aspeed: allow to customize vhub device IDs/strings
+  usb: gadget: aspeed: fixup usb1 device descriptor at init time
+
+ drivers/usb/gadget/udc/aspeed-vhub/hub.c | 93 +++++++++++++++++-------
+ 1 file changed, 68 insertions(+), 25 deletions(-)
+
 -- 
-2.20.1
+2.17.1
 
