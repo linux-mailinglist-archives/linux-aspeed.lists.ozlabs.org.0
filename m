@@ -1,85 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C2D161F59
+	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Feb 2020 04:15:06 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008D0160766
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Feb 2020 00:57:18 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48LPDW0ZLXzDqTP
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Feb 2020 10:57:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48M5ZH1gFxzDqT6
+	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Feb 2020 14:15:03 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.224;
- helo=new2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=209.85.216.66; helo=mail-pj1-f66.google.com;
+ envelope-from=rentao.bupt@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
+ dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=rcplxmb/; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=lq1ibPzk; 
- dkim-atps=neutral
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=K52oErQH; dkim-atps=neutral
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
+ [209.85.216.66])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48LPDN1vpXzDqRq
- for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Feb 2020 10:57:08 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id BF5DB23D1;
- Sun, 16 Feb 2020 18:57:05 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Sun, 16 Feb 2020 18:57:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=Iq3LVkD0V43Pc+mO0wAfFqV5qSaPvQ/
- MM4fB/BoXF80=; b=rcplxmb/8uWm7hKf+9c9zjG9b88Q8NCjzvGSxUne58cHaK5
- AGJhSJkKKdRdGy/8SFYXzKicYHBTdfm4Mv/j9go6EoTaIFAoFzkX7YFlMNjcEgyq
- 1As7W1TLCXXLGFD7f3i1uNFtEs7bMNyBGDTCZMQja640DU9muoOv/sRp/Ql04zBe
- G/CTYIWMRHXdTstH4u7DQRtdwFJP2mFIBhNVfAiKTKDTt3ziZr9cvBH+ORaSfDYl
- fVPXs1iHNwHc3GfRwT1UHXLX+F3hNv2uC+FtYdd45N33kcu93E2ccWrYHHpfzw1X
- 1TG3oohc3u2Tj/Ys8Xn2Rog9DB1fG33VvhltpfQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Iq3LVk
- D0V43Pc+mO0wAfFqV5qSaPvQ/MM4fB/BoXF80=; b=lq1ibPzkpvgjiRKofRT7M1
- CJUr2d1nf4CUXLJnak+rjb0fZRWL0VhhuU+rrO35vEmz7Jw1+QMVBIu/b/h7rLJi
- lHiZeyqbeBUNCJ7945aOHA9WnOIlcudgWi9R8MAv3CbMOzMdqyk0UzeDgy8TuKD4
- csdlzFjeXRtbco+GhyUihPe62TfyXN8ww4hxA34/9mMYmvZBC0zCuD/sxtEsfXdr
- cA2mBC2oA6FQ34SzK5C9v2g9Cmqc3r3bqFaZ8QPPjmqfJy5WWAaTwAAquf4iHyDz
- izgPv1QSnIshP1wmDLuHQ2XPZxY21Ym/hHqx+XqYiZlbujMYyzj93NC/FbiCLu2g
- ==
-X-ME-Sender: <xms:0NZJXkTfPWJ7ph-BGf8lw6Y4BnRRam1vXMEO3UDOX9D6kKJI4OosKA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrjeehgdduhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucevlhhush
- htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghj
- rdhiugdrrghu
-X-ME-Proxy: <xmx:0NZJXntJj7JYT3Gh4F196g4BvCaz567U-g7331QHejM-Tv7EgdBvig>
- <xmx:0NZJXu9q2I8QUBF1xwuRXsq73ydIXGF39keIKWrbXbHNdpderRJMAg>
- <xmx:0NZJXoxMdh764fHv5nMSvf75ZYqa3ttgzcooKbyaWhXrpYSwRm6Ctg>
- <xmx:0dZJXgjvk7IAxL22y8MzPM2A7xInaTSyZYyqGo_jZOroRQcB-t5T1A>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id EE60AE00A2; Sun, 16 Feb 2020 18:57:03 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-802-g7a41c81-fmstable-20200203v1
-Mime-Version: 1.0
-Message-Id: <3a053c3e-0fec-4ab9-b941-a335524b3303@www.fastmail.com>
-In-Reply-To: <CAK8P3a3HsdpLz0aDGem1BrQsNo2mEJOnOsLcKFcLjaERx9dhGg@mail.gmail.com>
-References: <1579123790-6894-1-git-send-email-eajames@linux.ibm.com>
- <1579123790-6894-7-git-send-email-eajames@linux.ibm.com>
- <CAK8P3a3HsdpLz0aDGem1BrQsNo2mEJOnOsLcKFcLjaERx9dhGg@mail.gmail.com>
-Date: Mon, 17 Feb 2020 10:26:57 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Arnd Bergmann" <arnd@arndb.de>, "Eddie James" <eajames@linux.ibm.com>
-Subject: Re: [PATCH v6 06/12] soc: aspeed: Add XDMA Engine Driver
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48M5Yf5vpBzDqSy;
+ Tue, 18 Feb 2020 14:14:30 +1100 (AEDT)
+Received: by mail-pj1-f66.google.com with SMTP id e9so358444pjr.4;
+ Mon, 17 Feb 2020 19:14:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=QXKDYwEJ0FxdOMnutv0vajM2YUai+A8MQR7DaSJ50D8=;
+ b=K52oErQHhH1VOS2rZN6/4aypLstAfecJCe/0dHwYOQxReOfbBeAgIk5iOrwuR74dut
+ +X4DBNOJOcu+bps5CMA+Pe8icIX0UTJdE6qrDS+z0pGqyDPmelDdMDYCF+W+shvYFEz2
+ +t+GGcxWW22TPi20RBvTajOpA6i2HyzmN2CoFtrOaTC+AEVrV96UuSnFBNNR2vZ4oPA9
+ tvTUVR2QXobydoifr/ioajA2AEwqlDacsKGHnJ99+Xc2pt1rUF20T9ovZYryNlTnvIle
+ bFhww5NrHBPB9J6qMFEIL2hFukX5LzQ0Eb3dIr82CPhEKNvWyrGS2ImGVXcVC+zxdu5Q
+ pnfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=QXKDYwEJ0FxdOMnutv0vajM2YUai+A8MQR7DaSJ50D8=;
+ b=nP1Z+ap1sbaKPO2uUmO+FlN1HnAdrbh/QMMdrI5t6GrY4CJ3zAhsXxzm9ECi/7/jga
+ rwS6yoylJr1ltE1JV6+5FlY09yrpbadrOQlCSg6ivjo0heGAWf7RnA4Zul6h0eOn/5YD
+ KnfXe/Dej8bvWlJLvlwDgXWXPCgkMf42joLPvdiorIaRy6Cp0Ib5+VTEQszn2xXOALe1
+ cg9g0qM1F6L0p5yFlpT7tXt3p2ccSbZ6j+jry+7Sbg8kJuNAYHb4skvmBubyArSlWZBe
+ g5ZQ/1ALeTkpcgTv5yBcOBTpo0O9TbghzloXAUpgM2q8Y9fFayGCYsk932fq+x+LZXh2
+ ac9w==
+X-Gm-Message-State: APjAAAWoNhfnN1459EIm3DOOoWDYUl4iVa/hd09osABGHR1pRb3XrW6x
+ Yx8zMEwagkosYlNy8okCDmE=
+X-Google-Smtp-Source: APXvYqzx47gOz8vXOv1dcSyG2JwaSWwuAN6y+jr/G/nNBvxWFvH/XiVUGGsbruxEO9r6tVblvxUqLg==
+X-Received: by 2002:a17:902:547:: with SMTP id
+ 65mr17940779plf.50.1581995605202; 
+ Mon, 17 Feb 2020 19:13:25 -0800 (PST)
+Received: from taoren-ubuntu-R90MNF91.thefacebook.com
+ ([2620:10d:c090:180::6f94])
+ by smtp.gmail.com with ESMTPSA id b18sm1812595pfd.63.2020.02.17.19.13.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Feb 2020 19:13:24 -0800 (PST)
+From: rentao.bupt@gmail.com
+To: Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Colin Ian King <colin.king@canonical.com>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ openbmc@lists.ozlabs.org, taoren@fb.com
+Subject: [PATCH v3 0/5] aspeed-g6: enable usb support
+Date: Mon, 17 Feb 2020 19:13:10 -0800
+Message-Id: <20200218031315.562-1-rentao.bupt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,40 +83,45 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- Jason Cooper <jason@lakedaemon.net>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Marc Zyngier <maz@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Thomas Gleixner <tglx@linutronix.de>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+From: Tao Ren <rentao.bupt@gmail.com>
 
+The patch series aims at enabling USB Host and Gadget support on AST2600
+platforms.
 
-On Tue, 11 Feb 2020, at 03:05, Arnd Bergmann wrote:
-> On Wed, Jan 15, 2020 at 10:31 PM Eddie James <eajames@linux.ibm.com> wrote:
-> >
-> > The XDMA engine embedded in the AST2500 and AST2600 SOCs performs PCI
-> > DMA operations between the SOC (acting as a BMC) and a host processor
-> > in a server.
-> >
-> > This commit adds a driver to control the XDMA engine and adds functions
-> > to initialize the hardware and memory and start DMA operations.
-> >
-> > Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> 
-> Hi Eddie,
-> 
-> I'm missing the bigger picture in the description here, how does this fit into
-> the PCIe endpoint framework and the dmaengine subsystem?
-> 
-> Does the AST2500 show up as a PCIe device in the host, or do you just
-> inject DMAs into the host and hope that bypasses the IOMMU?
+Patch #1 replaces hardcoded vhub port/endpoint number with device tree
+properties, so that it's more convenient to add support for ast2600-vhub
+which provides more downstream ports and endpoints.
 
-The host needs to coordinate out-of-band with the BMC to communicate host
-addresses to be used. The host should configure the IOMMU as required before
-triggering transfers (either from it's own XDMA interface or requesting the BMC
-queue the transfer).
+Patch #2 enables ast2600 support in aspeed-vhub usb gadget driver.
 
-Andrew
+Patch #3 adds USB devices and according pin groups in aspeed-g6 dtsi.
+
+Patch #4 and #5 add vhub port/endpoint properties into aspeed-g4 and
+aspeed-g5 dtsi.
+
+Tao Ren (5):
+  usb: gadget: aspeed: read vhub properties from device tree
+  usb: gadget: aspeed: add ast2600 vhub support
+  ARM: dts: aspeed-g6: add usb functions
+  ARM: dts: aspeed-g5: add vhub port and endpoint properties
+  ARM: dts: aspeed-g4: add vhub port and endpoint properties
+
+ arch/arm/boot/dts/aspeed-g4.dtsi           |  2 +
+ arch/arm/boot/dts/aspeed-g5.dtsi           |  2 +
+ arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi   | 25 +++++++
+ arch/arm/boot/dts/aspeed-g6.dtsi           | 45 ++++++++++++
+ drivers/usb/gadget/udc/aspeed-vhub/Kconfig |  4 +-
+ drivers/usb/gadget/udc/aspeed-vhub/core.c  | 79 +++++++++++++++-------
+ drivers/usb/gadget/udc/aspeed-vhub/dev.c   | 30 +++++---
+ drivers/usb/gadget/udc/aspeed-vhub/epn.c   |  4 +-
+ drivers/usb/gadget/udc/aspeed-vhub/hub.c   | 26 ++++---
+ drivers/usb/gadget/udc/aspeed-vhub/vhub.h  | 23 +++----
+ 10 files changed, 178 insertions(+), 62 deletions(-)
+
+-- 
+2.17.1
+
