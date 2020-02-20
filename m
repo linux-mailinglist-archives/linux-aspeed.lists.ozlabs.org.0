@@ -2,51 +2,46 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3020D165475
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Feb 2020 02:40:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB4AB16573D
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Feb 2020 06:58:33 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48NHNS2FVZzDqBV
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Feb 2020 12:40:40 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48NP5z0CY1zDqQV
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Feb 2020 16:58:31 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=wistron.com (client-ip=103.200.3.19; helo=segapp03.wistron.com;
+ envelope-from=ben_pai@wistron.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=permerror (SPF Permanent Error: Unknown mechanism
- found: ip:192.40.192.88/32) smtp.mailfrom=kernel.crashing.org
- (client-ip=76.164.61.194; helo=kernel.crashing.org;
- envelope-from=benh@kernel.crashing.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=kernel.crashing.org
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48NHN82XwbzDqH5;
- Thu, 20 Feb 2020 12:40:23 +1100 (AEDT)
-Received: from localhost (gate.crashing.org [63.228.1.57])
- (authenticated bits=0)
- by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 01K1dkWX028195
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 19 Feb 2020 19:39:49 -0600
-Message-ID: <55e77bcb37ec780094b8d226f89bd5557e30d913.camel@kernel.crashing.org>
-Subject: Re: [PATCH 2/2] usb: gadget: aspeed: fixup usb1 device descriptor
- at init time
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To: rentao.bupt@gmail.com, Felipe Balbi <balbi@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Colin Ian King <colin.king@canonical.com>, Stephen Boyd
- <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland
- <mark.rutland@arm.com>, linux-usb@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- openbmc@lists.ozlabs.org, taoren@fb.com
-Date: Thu, 20 Feb 2020 12:39:45 +1100
-In-Reply-To: <20200218235600.6763-3-rentao.bupt@gmail.com>
-References: <20200218235600.6763-1-rentao.bupt@gmail.com>
- <20200218235600.6763-3-rentao.bupt@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
+ dmarc=none (p=none dis=none) header.from=wistron.com
+X-Greylist: delayed 313 seconds by postgrey-1.36 at bilbo;
+ Thu, 20 Feb 2020 16:58:24 AEDT
+Received: from segapp03.wistron.com (segapp02.wistron.com [103.200.3.19])
+ by lists.ozlabs.org (Postfix) with ESMTP id 48NP5r1yYmzDqDx
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Feb 2020 16:58:22 +1100 (AEDT)
+Received: from EXCHAPP04.whq.wistron (unverified [10.37.38.27]) by 
+ TWNHUMSW4.wistron.com (Clearswift SMTPRS 5.6.0) with ESMTP id 
+ <Tdd6f484d45c0a816721080@TWNHUMSW4.wistron.com>; Thu, 20 Feb 2020 
+ 13:53:01 +0800
+Received: from EXCHAPP04.whq.wistron (10.37.38.27) by EXCHAPP04.whq.wistron 
+ (10.37.38.27) with Microsoft SMTP Server 
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 
+ 15.1.1713.5; Thu, 20 Feb 2020 13:53:00 +0800
+Received: from gitserver.wistron.com (10.37.38.233) by EXCHAPP04.whq.wistron 
+ (10.37.38.27) with Microsoft SMTP Server id 15.1.1713.5 via Frontend
+ Transport; Thu, 20 Feb 2020 13:53:00 +0800
+From: Ben Pai <Ben_Pai@wistron.com>
+To: <robh+dt@kernel.org>, <mark.rutland@arm.com>, <joel@jms.id.au>, 
+ <andrew@aj.id.au>, <devicetree@vger.kernel.org>, 
+ <linux-arm-kernel@lists.infradead.org>, 
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v1] ARM: dts: mihawk: Change the name of mihawk led
+Date: Thu, 20 Feb 2020 13:52:55 +0800
+Message-ID: <20200220055255.22809-1-Ben_Pai@wistron.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+X-TM-SNTS-SMTP: 878E35D0BF548269343F48DBF623908D488A6736306ADE4D4D02D482038B268B2000:8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -59,69 +54,68 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Ben Pai <Ben_Pai@wistron.com>, wangat@tw.ibm.com, Claire_Ku@wistron.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 2020-02-18 at 15:56 -0800, rentao.bupt@gmail.com wrote:
-> From: Tao Ren <rentao.bupt@gmail.com>
-> 
-> This patch moves fixup-usb1-device-descriptor logic from get_descriptor
-> handler to "ast_vhub_fixup_dev_desc" function so the device descriptor
-> is only patched once (at vhub init time).
+1.Change the name of power, fault and rear-id.
+2.Remove the two leds.
 
-I don't like this either. We should make ast_vhub_dev_desc and patch a
-copy here too. I know today there's only one instance of the vhub in a
-given SoC but that might not always be the case.
+Signed-off-by: Ben Pai <Ben_Pai@wistron.com>
+---
+ arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts | 17 +++--------------
+ 1 file changed, 3 insertions(+), 14 deletions(-)
 
-> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
-> ---
->  drivers/usb/gadget/udc/aspeed-vhub/hub.c | 20 +++++++++-----------
->  1 file changed, 9 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-> index 4e3ef83283a6..b8bf54b12adc 100644
-> --- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-> +++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-> @@ -76,13 +76,6 @@ static struct usb_device_descriptor ast_vhub_dev_desc = {
->  	.bNumConfigurations	= 1,
->  };
->  
-> -/* Patches to the above when forcing USB1 mode */
-> -static void ast_vhub_patch_dev_desc_usb1(struct usb_device_descriptor *desc)
-> -{
-> -	desc->bcdUSB = cpu_to_le16(0x0100);
-> -	desc->bDeviceProtocol = 0;
-> -}
-> -
->  /*
->   * Configuration descriptor: same comments as above
->   * regarding handling USB1 mode.
-> @@ -316,10 +309,6 @@ static int ast_vhub_rep_desc(struct ast_vhub_ep *ep,
->  	if (len > dsize)
->  		len = dsize;
->  
-> -	/* Patch it if forcing USB1 */
-> -	if (desc_type == USB_DT_DEVICE && ep->vhub->force_usb1)
-> -		ast_vhub_patch_dev_desc_usb1(ep->buf);
-> -
->  	/* Shoot it from the EP buffer */
->  	return ast_vhub_reply(ep, NULL, len);
->  }
-> @@ -878,6 +867,15 @@ static void ast_vhub_fixup_dev_desc(struct ast_vhub *vhub)
->  		if (of_str[id])
->  			ast_vhub_str_array[i].s = of_str[id];
->  	}
-> +
-> +	/*
-> +	 * Update USB Release Number and Protocol code if vhub is running
-> +	 * at USB 1.x speed.
-> +	 */
-> +	if (vhub->force_usb1) {
-> +		ast_vhub_dev_desc.bcdUSB = cpu_to_le16(0x0100);
-> +		ast_vhub_dev_desc.bDeviceProtocol = 0;
-> +	}
->  }
->  
->  void ast_vhub_init_hub(struct ast_vhub *vhub)
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
+index e55cc454b17f..6c11854b9006 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
+@@ -120,35 +120,24 @@
+ 	leds {
+ 		compatible = "gpio-leds";
+ 
+-		fault {
++		front-fault {
+ 			retain-state-shutdown;
+ 			default-state = "keep";
+ 			gpios = <&gpio ASPEED_GPIO(AA, 0) GPIO_ACTIVE_LOW>;
+ 		};
+ 
+-		power {
++		power-button {
+ 			retain-state-shutdown;
+ 			default-state = "keep";
+ 			gpios = <&gpio ASPEED_GPIO(AA, 1) GPIO_ACTIVE_LOW>;
+ 		};
+ 
+-		rear-id {
++		front-id {
+ 			retain-state-shutdown;
+ 			default-state = "keep";
+ 			gpios = <&gpio ASPEED_GPIO(AA, 2) GPIO_ACTIVE_LOW>;
+ 		};
+ 
+-		rear-g {
+-			retain-state-shutdown;
+-			default-state = "keep";
+-			gpios = <&gpio ASPEED_GPIO(AA, 4) GPIO_ACTIVE_LOW>;
+-		};
+-
+-		rear-ok {
+-			retain-state-shutdown;
+-			default-state = "keep";
+-			gpios = <&gpio ASPEED_GPIO(Y, 0) GPIO_ACTIVE_LOW>;
+-		};
+ 
+ 		fan0 {
+ 			retain-state-shutdown;
+-- 
+2.17.1
 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+This email contains confidential or legally privileged information and is for the sole use of its intended recipient. 
+Any unauthorized review, use, copying or distribution of this email or the content of this email is strictly prohibited.
+If you are not the intended recipient, you may reply to the sender and should delete this e-mail immediately.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
