@@ -1,82 +1,93 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68FA5165384
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Feb 2020 01:25:39 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4370B1637E4
-	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Feb 2020 01:00:17 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48MdC23cv6zDqLn
-	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Feb 2020 11:00:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48NFjq1cMTzDqQ5
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Feb 2020 11:25:35 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::641;
- helo=mail-pl1-x641.google.com; envelope-from=rentao.bupt@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.229;
+ helo=new3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
+ dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=iRujqTRI; dkim-atps=neutral
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm2 header.b=p9J2m3z/; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=ytqVAfav; 
+ dkim-atps=neutral
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48Md6Q6qm8zDqcG;
- Wed, 19 Feb 2020 10:56:14 +1100 (AEDT)
-Received: by mail-pl1-x641.google.com with SMTP id t6so8744989plj.5;
- Tue, 18 Feb 2020 15:56:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=i3Cj6jCmg8Re6HCriaAPvQ8Bt49I/I/XDNaSdtPwqac=;
- b=iRujqTRISwGHP3FrC4HAQHsTqDffJ+OB/WFIZ8dqRIiGjwCWFYx4CFAxupO5MWnQXa
- d3rVvJuJ5l8SnEwqdviSYlBmdGgcTPNrJ+HoZjxBX3FD5N5KwNg6Uf6tqtQXnUncRDOq
- jLIj/xFZWknt1R9cPThVquMLLvfvrcYv2Uf7hJeZvSTPJhIDGCqxRfPs2bnTyR2epNpd
- UEgRa+bMcUOxFlXK1TxWRcNJZ4NPwbm3OoPBi0oKhBT+TiNY9TualZ12pSy/JimnF80b
- ZlgWdEDQin+GsFR91+qUeWx8iM7XRGb92vgjdn/oUQsUiZ2adrDA3p3WXLX9iW+rZHR0
- dbnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=i3Cj6jCmg8Re6HCriaAPvQ8Bt49I/I/XDNaSdtPwqac=;
- b=JNz8GDzZH7Vt9cKv+OOp7P+KQixpJeA0xu0Lfu+R0NYPnAgSmpkLPaWgFRnXW+wz7w
- qs8hQ3S0BcYNCtu+30bsMVg4BnoIKUXS3xWPOGyA8+OftifLOS2MmO1fBxPF7yWK8baA
- CUwka+VRM6NSztpQfuNAXP4BnIkGHQV6n0QRoQImC3aKxHNpWkyzXR7VH8GtCu9uTQG7
- K5e73eIbwVH95aAVkWsQlS8a4v0+rHN8tCicV/tWkcv0MbSqm3f5aWLJNNJ3tK+jSoSn
- kQRxHQk1CB4kK47P0OAa3937M3dz4JrKbS/5p5L4ZQkHYO4eklfOd1mXN1hRUnOeOXJs
- bfmw==
-X-Gm-Message-State: APjAAAUZMVVJu4iLNCLnz7vnrcBcX/Yy/EUw1KZPvxSsAvFSjMtNVzw0
- E3dJdKzHMsyoDl0dqpzoy9w=
-X-Google-Smtp-Source: APXvYqwisrukoS6yd93rdtw5m0FL5P7Ha4WhyctQfgcrYnU5l7WoT8AAOrF4pDzWWvOMx6BXpKzm0Q==
-X-Received: by 2002:a17:902:aa0b:: with SMTP id
- be11mr22317242plb.181.1582070172122; 
- Tue, 18 Feb 2020 15:56:12 -0800 (PST)
-Received: from taoren-ubuntu-R90MNF91.thefacebook.com
- ([2620:10d:c090:500::5:1718])
- by smtp.gmail.com with ESMTPSA id d3sm80558pjx.10.2020.02.18.15.56.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2020 15:56:11 -0800 (PST)
-From: rentao.bupt@gmail.com
-To: Felipe Balbi <balbi@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Colin Ian King <colin.king@canonical.com>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, linux-usb@vger.kernel.org,
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48NFjb4s8PzDqPy;
+ Thu, 20 Feb 2020 11:25:22 +1100 (AEDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C38167403;
+ Wed, 19 Feb 2020 19:25:19 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Wed, 19 Feb 2020 19:25:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to
+ :subject:content-type; s=fm2; bh=ETRepjY32Q6DdRrxXYMas4ZgO/c7BVj
+ rXiFe89IwJKw=; b=p9J2m3z/kladxjeMWX8wh1ouyA0ceWph0+WnH+NhjtnfEeI
+ NcfLYlB+3Gd5scBDnF4pNkG70Hvk0Aq2Xbsja9lSdgclRNH3Q1IXE3zQ/HAPn13E
+ Jtdbv9q8Eyd6sduZ5Nikr1Qj4rFhaICRq2IXfKwMvnRHUSRENaBY7H4YHQMrXO3p
+ WSgUiYAGK0UY4FUPvtH5TtyHEtlBTfhWGlHg5bEQTKiBqlkQl78Qbs12iS4skVZ4
+ f4iHJJI4HyiDOV8Vp77CUlQq+bCW82O9sCuAbQMpAQXavLDvIcRuAB8MFXc+OmHk
+ XqTBeysh98nLodGdr9X3f05Y5CGU7rvmBQH4Lcw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ETRepj
+ Y32Q6DdRrxXYMas4ZgO/c7BVjrXiFe89IwJKw=; b=ytqVAfavlMnvH1MsgcwdhE
+ t0Snl9wKxDCotuyyHSgv6cn6qyA8z7q8M5NgMyfJU+C8N3GNfAAfFN+971V3hgfD
+ MGJ0yghLia39Zn9JiHU2fFlowACvcKcTDhRqYEe7D57y44SKpDgIUhN1bTa99tMO
+ 58UM8EPpyyEje+4dLzBdUucDfr8pxFRy5kvwnP0DKVoCsGRZBbgvdIVfoue0YO0C
+ /xU8uUma99ch+E2P20pf9HYSwOkWkJPX0mXKrHuu0a/CLXoeaqX/rSjWDEd8tYXg
+ FdXXJtOfPrZ0VaUV16bmnJwd2u9wfjC7fupRHd7pXPXyvlrBo8G6CbRg+Oxj0msQ
+ ==
+X-ME-Sender: <xms:7dFNXvGKlglqhK7rOkbCc3Qxdwndl-SFwTFYOFU2x3w6aBkRtUaZtQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrkedugddvfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucevlhhush
+ htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghj
+ rdhiugdrrghu
+X-ME-Proxy: <xmx:7dFNXoicFFnJWcyHIGoMYTJmX6Ycak3ABe0OYetg8OOixGZtbgakVg>
+ <xmx:7dFNXkCMZyrTWAx8td5AD_q6nrgrlKDtqdkKBNAdMCTo51SV3DUnpg>
+ <xmx:7dFNXrs5HL2rX_aOsn3wsELb9FJyYFbrE3HFPUhQNxkr1yl_4frShQ>
+ <xmx:79FNXuMwKCHMcz5a5RN-_EenwnMdLv21wKCP8EQ5HlRq4NmtnVGOWA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id E3BD2E00B2; Wed, 19 Feb 2020 19:25:16 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-802-g7a41c81-fmstable-20200203v1
+Mime-Version: 1.0
+Message-Id: <5d295199-d0d7-4d58-be29-4621738d7f28@www.fastmail.com>
+In-Reply-To: <20200218031315.562-1-rentao.bupt@gmail.com>
+References: <20200218031315.562-1-rentao.bupt@gmail.com>
+Date: Thu, 20 Feb 2020 10:55:10 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Tao Ren" <rentao.bupt@gmail.com>, "Felipe Balbi" <balbi@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Joel Stanley" <joel@jms.id.au>,
+ "Benjamin Herrenschmidt" <benh@kernel.crashing.org>,
+ "Chunfeng Yun" <chunfeng.yun@mediatek.com>,
+ "Colin King" <colin.king@canonical.com>,
+ "Stephen Boyd" <swboyd@chromium.org>, "Rob Herring" <robh+dt@kernel.org>,
+ "Mark Rutland" <mark.rutland@arm.com>, linux-usb@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- openbmc@lists.ozlabs.org, taoren@fb.com
-Subject: [PATCH 2/2] usb: gadget: aspeed: fixup usb1 device descriptor at init
- time
-Date: Tue, 18 Feb 2020 15:56:00 -0800
-Message-Id: <20200218235600.6763-3-rentao.bupt@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200218235600.6763-1-rentao.bupt@gmail.com>
-References: <20200218235600.6763-1-rentao.bupt@gmail.com>
+ openbmc@lists.ozlabs.org, "Tao Ren" <taoren@fb.com>
+Subject: Re: [PATCH v3 0/5] aspeed-g6: enable usb support
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,62 +103,26 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Tao Ren <rentao.bupt@gmail.com>
 
-This patch moves fixup-usb1-device-descriptor logic from get_descriptor
-handler to "ast_vhub_fixup_dev_desc" function so the device descriptor
-is only patched once (at vhub init time).
 
-Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
----
- drivers/usb/gadget/udc/aspeed-vhub/hub.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+On Tue, 18 Feb 2020, at 13:43, rentao.bupt@gmail.com wrote:
+> From: Tao Ren <rentao.bupt@gmail.com>
+> 
+> The patch series aims at enabling USB Host and Gadget support on AST2600
+> platforms.
+> 
+> Patch #1 replaces hardcoded vhub port/endpoint number with device tree
+> properties, so that it's more convenient to add support for ast2600-vhub
+> which provides more downstream ports and endpoints.
 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-index 4e3ef83283a6..b8bf54b12adc 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-@@ -76,13 +76,6 @@ static struct usb_device_descriptor ast_vhub_dev_desc = {
- 	.bNumConfigurations	= 1,
- };
- 
--/* Patches to the above when forcing USB1 mode */
--static void ast_vhub_patch_dev_desc_usb1(struct usb_device_descriptor *desc)
--{
--	desc->bcdUSB = cpu_to_le16(0x0100);
--	desc->bDeviceProtocol = 0;
--}
--
- /*
-  * Configuration descriptor: same comments as above
-  * regarding handling USB1 mode.
-@@ -316,10 +309,6 @@ static int ast_vhub_rep_desc(struct ast_vhub_ep *ep,
- 	if (len > dsize)
- 		len = dsize;
- 
--	/* Patch it if forcing USB1 */
--	if (desc_type == USB_DT_DEVICE && ep->vhub->force_usb1)
--		ast_vhub_patch_dev_desc_usb1(ep->buf);
--
- 	/* Shoot it from the EP buffer */
- 	return ast_vhub_reply(ep, NULL, len);
- }
-@@ -878,6 +867,15 @@ static void ast_vhub_fixup_dev_desc(struct ast_vhub *vhub)
- 		if (of_str[id])
- 			ast_vhub_str_array[i].s = of_str[id];
- 	}
-+
-+	/*
-+	 * Update USB Release Number and Protocol code if vhub is running
-+	 * at USB 1.x speed.
-+	 */
-+	if (vhub->force_usb1) {
-+		ast_vhub_dev_desc.bcdUSB = cpu_to_le16(0x0100);
-+		ast_vhub_dev_desc.bDeviceProtocol = 0;
-+	}
- }
- 
- void ast_vhub_init_hub(struct ast_vhub *vhub)
--- 
-2.17.1
+Ah, something I should have mentioned on the previous series is you'll need
+to update the binding documentation with the new properties.
 
+> 
+> Patch #2 enables ast2600 support in aspeed-vhub usb gadget driver.
+
+Also need to add the 2600 support to the dt binding document.
+
+Looks good to me otherwise.
+
+Andrew
