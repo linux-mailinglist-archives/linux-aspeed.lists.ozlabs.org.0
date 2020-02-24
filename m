@@ -2,81 +2,82 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 182C2169B13
-	for <lists+linux-aspeed@lfdr.de>; Mon, 24 Feb 2020 01:07:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE8716B606
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Feb 2020 00:49:43 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48Qj6r50YKzDqQ0
-	for <lists+linux-aspeed@lfdr.de>; Mon, 24 Feb 2020 11:07:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48RJh44GSvzDqDP
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Feb 2020 10:49:40 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.25;
- helo=out1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=aj.id.au (client-ip=64.147.123.21;
+ helo=wout5-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=pMIvQxSM; 
+ header.s=fm2 header.b=vYiAcpOR; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=Kl9m75Lg; 
+ header.a=rsa-sha256 header.s=fm2 header.b=RPEZ+3F5; 
  dkim-atps=neutral
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48Qj6X4r00zDqN5
- for <linux-aspeed@lists.ozlabs.org>; Mon, 24 Feb 2020 11:06:59 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48RJTD1NhbzDqNJ
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Feb 2020 10:40:15 +1100 (AEDT)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 8C30F20A4B;
- Sun, 23 Feb 2020 19:06:55 -0500 (EST)
+ by mailout.west.internal (Postfix) with ESMTP id DFE366C6;
+ Mon, 24 Feb 2020 18:40:10 -0500 (EST)
 Received: from imap2 ([10.202.2.52])
- by compute4.internal (MEProxy); Sun, 23 Feb 2020 19:06:55 -0500
+ by compute4.internal (MEProxy); Mon, 24 Feb 2020 18:40:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=zjhLqXsGdwHmDXQ4loElGl5IBhTi4NI
- teyaEj1OhzX0=; b=pMIvQxSM7Sx8a5nkQzbt7ZFK/MAHlcTi1D3f+ks+P/0EKLo
- 6SAqSKgyK7eLnr9gb0WRoCjmsYSevkz8doLPRU1crKf5iem3xkd91XjVTtfyed2s
- UbmZlOaMOEb59rUmSADPxSLYxolVKZoVbLe37IJ5wPtR9xDI5YCK31SYR4xq2Rci
- ki5Nio2Ku7yuTJp5vz0QYgmRkmbr8xQgEivf7MMb5CdGnzUF8gIPfzyCe62xojx6
- 8o5bo/Mht62rUZRbcPQuvEw2skBtB5C8IcZFPteC19ML2U7GcJQ0ppMkRxQjbVs+
- x7m9qqyhICAxmAiCZS/lgflQwPX0tSrkAAS0x1w==
+ :subject:content-type; s=fm2; bh=3+7oIYy75eyNJFA+Gxl240s+7FvhCpt
+ LmGW8I9hc6zc=; b=vYiAcpOR0t7KGVWY7hgh9uKy/VGeza1MpdZ2dKeiJpfgOdq
+ Sala8CAoleHamfa4bqeWxEHIMixNWXwUiTy5/sFfbGdDmNfUoX+1sciR3devM0wD
+ olVPelGp8f+n6AIFaPe8c0cq3mGEocaAwm/EoEKHs4tSEefXOsW8G9T0zf+JCPj7
+ GuVN/p7be69hH3IcHwkTvmmSbB1siDfYUkr4cSpgu7jUMrwXKpqy1L6+Ke2KI3db
+ t4XuVH8MwO8m1PFMxADOQ0xo1l3qzpK5KgVRESBNrihvrV9z2JjAHi9o1XdAtIS+
+ 0mnwQqa6htnzxWK/eeiRau9cQ8lJa31OrWpizDw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=zjhLqX
- sGdwHmDXQ4loElGl5IBhTi4NIteyaEj1OhzX0=; b=Kl9m75Lgt1kvotcVMiTCEa
- JFVqY3d6ZyBArGZn0X/iKGaAt5+J2Cb747X2tw0H5gVULjjSILHn+yVRBwMZpKOY
- omSWqe+HmTx3Ie6sjlPNWbb/gSWajKydpCgmKodvgaIgQFtPT++1JbTOc2VretjJ
- uevH6h1m+YOWSDuXPZbOHvnL6rqrlGLqKL6+7VDmmPgSr5wPzwPTrdUZ3arjA2/E
- plgeoIKlvPk1hB8roLOrX8o+HSTsgctZC9bIo3maQpEh6P1I6XqFwPaVXnsC7VrS
- gYdbyKc0NuEvflaGG8hn21IuEVmU2Tlf7km9ao34juMTsOu415lpyzU83XkJzjPw
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=3+7oIY
+ y75eyNJFA+Gxl240s+7FvhCptLmGW8I9hc6zc=; b=RPEZ+3F5AfM8pcpim0OtAW
+ 0j+AlR+6UkaJRCS4Lnq27od9CbsUK6/1/WYwHVT36OBEG9PQIXENYJ6xxCYzEBtR
+ nzEZVw03UPzy8JlfKHpxcthF5TC84vnSKRsAhhYAL7vYW9et4Ohg0HMB4sDSgMR4
+ 6Dphk/Tsr0DHXZQ/nuUj1Ez3xoqq/3dRXEyKfGVcsf9JJxL8HqCD8hpnd3EjT24A
+ nEyRm4NapwJSpQAWOhQzDDsqBEbV+o0J7qda+Dk2pf51dGcbYJ/OFF1ZLCBnD6a4
+ D/+cCDlTd6KeemJJG4oRX+3NCGAHXKyKjzmGwaWZEj7EgGDEmRUApCsY/iPcT8mw
  ==
-X-ME-Sender: <xms:nBNTXlGexT6W00zZwqe5NhyI45Mm3-x-EfUkj2m1tCDBTPa45nLLkQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrkeelgddulecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:2l5UXndW9NloQ7HJPBXX-BJqaRObODb2-N9Wzs1xMbl19FVpWts-OQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrledugdduvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
  vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucevlhhush
  htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghj
  rdhiugdrrghu
-X-ME-Proxy: <xmx:nBNTXoDnePLBa_Y_9k7NJkxs4WhfSQp8lTAkWuV86lg67zuSOFyFNQ>
- <xmx:nBNTXhko0weVkNUI0dB4G_laWk2E0gIVeuw7fS2hjoyfGZk3yLZYsg>
- <xmx:nBNTXjSqxLmg3j9fEEBlhoG8sA6IUJPl3sLCZdb3uQrjMKSS4GwFZQ>
- <xmx:nxNTXokN7xZ8q4h5XmrjbQQZMMPf4p_hbjDdjrAiAWe_PRVXSUi1Og>
+X-ME-Proxy: <xmx:2l5UXoHWZ7A1vbsnFaiqBisHgfsxXj-3ZGzJQsSCTrfZHiVLimDtzQ>
+ <xmx:2l5UXquGQNWqXeRIxlynYkWuE3Ge8JnzgAy6TgTntkJg8GZQ0UhGSw>
+ <xmx:2l5UXqo2GgXk0sLo4y7VJSrm6jvM8n90cjxJm1xvM-wdqBRDSJao3A>
+ <xmx:2l5UXlGfqHR3pORqV-mPDcjSY1hLgnETHMwBkhzaLG7JdFEeYtedPQ>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id C3486E00D1; Sun, 23 Feb 2020 19:06:52 -0500 (EST)
+ id 1A1F4E00A6; Mon, 24 Feb 2020 18:40:10 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-802-g7a41c81-fmstable-20200203v1
+User-Agent: Cyrus-JMAP/3.1.7-947-gbed3ff6-fmstable-20200220v2
 Mime-Version: 1.0
-Message-Id: <020e9eb5-4fdc-44d0-b00e-42b6e6435110@www.fastmail.com>
-In-Reply-To: <20200222235152.242816-1-megous@megous.com>
-References: <20200222235152.242816-1-megous@megous.com>
-Date: Mon, 24 Feb 2020 10:36:47 +1030
+Message-Id: <c5d15783-4e4c-426b-9df0-ee8efc57cefc@www.fastmail.com>
+In-Reply-To: <CACPK8XeLWZT-VvuErtz6oE1tv1dhwwOnpZbV7PVr2PxgT2fopA@mail.gmail.com>
+References: <20200202163939.13326-1-linux@roeck-us.net>
+ <CACPK8XeLWZT-VvuErtz6oE1tv1dhwwOnpZbV7PVr2PxgT2fopA@mail.gmail.com>
+Date: Tue, 25 Feb 2020 10:10:06 +1030
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Ondrej Jirman" <megous@megous.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: aspeed: Fix GENMASK misuse
+To: "Joel Stanley" <joel@jms.id.au>, "Guenter Roeck" <linux@roeck-us.net>
+Subject: Re: [PATCH] ARM: dts: aspeed: tacoma: Enable eMMC controller
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -89,30 +90,64 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "open list:DRM DRIVER FOR ASPEED BMC GFX" <linux-aspeed@lists.ozlabs.org>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
 
-On Sun, 23 Feb 2020, at 10:21, Ondrej Jirman wrote:
-> Arguments to GENMASK should be msb >= lsb.
+On Tue, 4 Feb 2020, at 16:24, Joel Stanley wrote:
+> On Sun, 2 Feb 2020 at 16:39, Guenter Roeck <linux@roeck-us.net> wrote:
+> >
+> > Enabling emmc without enabling its controller doesn't do any good.
+> > Enable its controller as well to make it work.
+> >
+> > Cc: Andrew Jeffery <andrew@aj.id.au>
+> > Cc: Joel Stanley <joel@jms.id.au>
+> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 > 
-> Signed-off-by: Ondrej Jirman <megous@megous.com>
-> ---
-> I just grepped the whole kernel tree for GENMASK argument order issues,
-> and this is one of the three that popped up. No testing was done.
+> Thanks Guenter. The description in aspeed-g6.dtsi changed at some
+> point and Tacoma was not updated.
+> 
+> > ---
+> >  arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> > index ff49ec76fa7c..47293a5e0c59 100644
+> > --- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> > +++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> > @@ -132,6 +132,10 @@
+> >         use-ncsi;
+> >  };
+> >
+> > +&emmc_controller {
+> > +       status = "okay";
+> > +};
+> > +
+> >  &emmc {
+> >         status = "okay";
+> >  };
+> 
+> This node is redundant, as it is not disabled in the dtsi.
+> 
+> Andrew, should we add disabled to the emmc node?
 
-I think someone's sent a patch previously, and last time it turned into a
-discussion about how the macros aren't actually used and could be
-removed.
+Probably. Also the nodes are badly named, partly because of the structure
+of the IP block. 'emmc' in this instance isn't the actual card, it's the SDHCI,
+and emmc_controller is a 'parent' that contains some global state which
+applies to one or more SDHCIs inside the IP block.
 
-Regardless:
+We should probably cook up better names.
 
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+> 
+> Or remove the label completely, and just have emmc_controller?
+
+Maybe this is a better approach? The eMMC IP block only has one associated
+SDHCI, so that would make sense.
+
+Andrew
