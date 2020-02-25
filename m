@@ -1,63 +1,86 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D30170A62
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Feb 2020 22:25:38 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48STNv2gZDzDqlF
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Feb 2020 08:25:35 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7374D170A5A
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Feb 2020 22:25:02 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 48STNC4hHvzDqjY
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Feb 2020 08:24:59 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.210.67; helo=mail-ot1-f67.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=msbarth@linux.ibm.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
- [209.85.210.67])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=linux.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48R9Fj5cDjzDqMy;
- Tue, 25 Feb 2020 05:14:47 +1100 (AEDT)
-Received: by mail-ot1-f67.google.com with SMTP id r27so9556134otc.8;
- Mon, 24 Feb 2020 10:14:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=4nmmGful+MegUr8aRgRCB1gCieEuCvrSiIBlqsABDmE=;
- b=jpSwdeGlBVUkPyvxuWzLgrrMIf1r+i6REyRgC0IT/KeBI++SdH9FDm7lXZX26WF53x
- izWiXxL5+MPuIJVGTY2QDBZiWtPkmU/9l30qI7LBdkh2wSpkxogxVYmiQhBaqv1/LAit
- NTzXQvyVIfSTzFv/2Io0w/SF0h0pkIuUnQkK3UDySD2Wut9rOH7ZJBC1uyFMHWQRe9Ew
- 4dmzs+Qmm19q/+NZkunaxEo7zHoRf/dFTmouiWL8pF3KAXbpXyD75+SP6peWlhJQdtIE
- Mh4kE/LAHbOROBTgbevXmZYy2J7aGdE4ZNd36okzPShG5qJgD2QFxTmVuX9El0ML8EcF
- uy4w==
-X-Gm-Message-State: APjAAAU3ZCLAgOGIL9qakx04OOOzP8uNMbOSsrICXicUZ8J4sUfb3xVd
- NroogxUcUGL6nyN5Dop4Tg==
-X-Google-Smtp-Source: APXvYqzSAV62BhNi363gv0daEbhuDKzBdde3JmEZAlbjVYZ9GcAmP/tY+ZpDRe7P2Ti1DpLoIK6ciQ==
-X-Received: by 2002:a9d:68d9:: with SMTP id i25mr29162204oto.135.1582568083899; 
- Mon, 24 Feb 2020 10:14:43 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id 60sm4761700otu.45.2020.02.24.10.14.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Feb 2020 10:14:43 -0800 (PST)
-Received: (nullmailer pid 24218 invoked by uid 1000);
- Mon, 24 Feb 2020 18:14:41 -0000
-Date: Mon, 24 Feb 2020 12:14:41 -0600
-From: Rob Herring <robh@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH 2/7] docs: dt: fix several broken references due to renames
-Message-ID: <20200224181441.GA23262@bogus>
-References: <cover.1582361737.git.mchehab+huawei@kernel.org>
- <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48RqsL306nzDqWp;
+ Wed, 26 Feb 2020 07:14:29 +1100 (AEDT)
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01PK92St058083; Tue, 25 Feb 2020 15:14:21 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yax398vum-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Feb 2020 15:14:21 -0500
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01PK9OCR059563;
+ Tue, 25 Feb 2020 15:14:21 -0500
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2yax398vu6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Feb 2020 15:14:21 -0500
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01PKDExb023589;
+ Tue, 25 Feb 2020 20:14:19 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma02wdc.us.ibm.com with ESMTP id 2yaux6ps3m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Feb 2020 20:14:19 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 01PKEIoF29032860
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 25 Feb 2020 20:14:18 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A2A8D6A058;
+ Tue, 25 Feb 2020 20:14:18 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3B0C86A051;
+ Tue, 25 Feb 2020 20:14:18 +0000 (GMT)
+Received: from MSBARTH-P50.rch.stglabs.ibm.com (unknown [9.10.99.26])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 25 Feb 2020 20:14:18 +0000 (GMT)
+From: Matthew Barth <msbarth@linux.ibm.com>
+To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ openbmc@lists.ozlabs.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, Brandon Wyman <bjwyman@gmail.com>,
+ Eddie James <eajames@linux.ibm.com>
+Subject: [PATCH v2] ARM: dts: rainier: Set PCA9552 pin types
+Date: Tue, 25 Feb 2020 14:14:15 -0600
+Message-Id: <20200225201415.431668-1-msbarth@linux.ibm.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-25_08:2020-02-25,
+ 2020-02-25 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 impostorscore=0
+ bulkscore=0 spamscore=0 suspectscore=0 mlxlogscore=987 priorityscore=1501
+ lowpriorityscore=0 clxscore=1011 phishscore=0 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002250139
 X-Mailman-Approved-At: Thu, 27 Feb 2020 08:24:44 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -70,62 +93,118 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Stuart Yoder <stuyoder@gmail.com>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, Michael Turquette <mturquette@baylibre.com>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Pavel Machek <pavel@ucw.cz>, linux-clk@vger.kernel.org,
- linux-leds@vger.kernel.org, Alexandre Torgue <alexandre.torgue@st.com>,
- Amit Kucheria <amit.kucheria@verdurent.com>, linux-aspeed@lists.ozlabs.org,
- Jonathan Corbet <corbet@lwn.net>, Kevin Hilman <khilman@baylibre.com>,
- openbmc@lists.ozlabs.org, Daniel Lezcano <daniel.lezcano@linaro.org>,
- linux-stm32@st-md-mailman.stormreply.com,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Zhang Rui <rui.zhang@intel.com>, Linus Walleij <linus.walleij@linaro.org>,
- devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
- linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Jyri Sarha <jsarha@ti.com>, linux-gpio@vger.kernel.org,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Laurentiu Tudor <laurentiu.tudor@nxp.com>, Stephen Boyd <sboyd@kernel.org>,
- Andy Gross <agross@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Sudeep Holla <sudeep.holla@arm.com>, Dan Murphy <dmurphy@ti.com>
+Cc: Matthew Barth <msbarth@linux.ibm.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, Feb 22, 2020 at 10:00:02AM +0100, Mauro Carvalho Chehab wrote:
-> Several DT references got broken due to txt->yaml conversion.
-> 
-> Those are auto-fixed by running:
-> 
-> 	scripts/documentation-file-ref-check --fix
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Reviewed-by: Dan Murphy <dmurphy@ti.com>
-> ---
->  Documentation/devicetree/bindings/arm/arm,scmi.txt        | 2 +-
->  Documentation/devicetree/bindings/arm/arm,scpi.txt        | 2 +-
->  .../devicetree/bindings/arm/bcm/brcm,bcm63138.txt         | 2 +-
->  .../devicetree/bindings/arm/hisilicon/hi3519-sysctrl.txt  | 2 +-
->  .../devicetree/bindings/arm/msm/qcom,idle-state.txt       | 2 +-
->  Documentation/devicetree/bindings/arm/omap/mpu.txt        | 2 +-
->  Documentation/devicetree/bindings/arm/psci.yaml           | 2 +-
->  .../devicetree/bindings/clock/qcom,gcc-apq8064.yaml       | 2 +-
->  .../devicetree/bindings/display/tilcdc/tilcdc.txt         | 2 +-
->  Documentation/devicetree/bindings/leds/common.yaml        | 2 +-
->  .../devicetree/bindings/leds/register-bit-led.txt         | 2 +-
->  .../devicetree/bindings/memory-controllers/ti/emif.txt    | 2 +-
->  Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt   | 2 +-
->  .../bindings/pinctrl/aspeed,ast2400-pinctrl.yaml          | 2 +-
->  .../bindings/pinctrl/aspeed,ast2500-pinctrl.yaml          | 2 +-
->  .../bindings/pinctrl/aspeed,ast2600-pinctrl.yaml          | 2 +-
->  .../devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml  | 2 +-
->  .../devicetree/bindings/reset/st,stm32mp1-rcc.txt         | 2 +-
->  .../devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml  | 2 +-
->  MAINTAINERS                                               | 8 ++++----
->  20 files changed, 23 insertions(+), 23 deletions(-)
+All 16 pins of the PCA9552 at 7-bit address 0x61 should be set as type
+GPIO.
 
-Applied.
+Signed-off-by: Matthew Barth <msbarth@linux.ibm.com>
+---
+v2: Added leds-pca955x.h include
+    Added upstream to patch
+---
+---
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-Rob
+diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+index c63cefce636d..d9fa9fd48058 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+@@ -4,6 +4,7 @@
+ 
+ #include "aspeed-g6.dtsi"
+ #include <dt-bindings/gpio/aspeed-gpio.h>
++#include <dt-bindings/leds/leds-pca955x.h>
+ 
+ / {
+ 	model = "Rainier";
+@@ -351,66 +352,82 @@
+ 
+ 		gpio@0 {
+ 			reg = <0>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 
+ 		gpio@1 {
+ 			reg = <1>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 
+ 		gpio@2 {
+ 			reg = <2>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 
+ 		gpio@3 {
+ 			reg = <3>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 
+ 		gpio@4 {
+ 			reg = <4>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 
+ 		gpio@5 {
+ 			reg = <5>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 
+ 		gpio@6 {
+ 			reg = <6>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 
+ 		gpio@7 {
+ 			reg = <7>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 
+ 		gpio@8 {
+ 			reg = <8>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 
+ 		gpio@9 {
+ 			reg = <9>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 
+ 		gpio@10 {
+ 			reg = <10>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 
+ 		gpio@11 {
+ 			reg = <11>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 
+ 		gpio@12 {
+ 			reg = <12>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 
+ 		gpio@13 {
+ 			reg = <13>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 
+ 		gpio@14 {
+ 			reg = <14>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 
+ 		gpio@15 {
+ 			reg = <15>;
++			type = <PCA955X_TYPE_GPIO>;
+ 		};
+ 	};
+ 
+-- 
+2.24.1
+
