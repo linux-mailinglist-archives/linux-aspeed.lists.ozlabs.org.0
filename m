@@ -1,42 +1,63 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04D8A16F3EC
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Feb 2020 00:53:24 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309E716EF79
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Feb 2020 20:56:46 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48RqSq24lgzDqT2
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Feb 2020 06:56:43 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48Rwjs1nLBzDqY4
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Feb 2020 10:53:21 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::743;
+ helo=mail-qk1-x743.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.115; helo=mga14.intel.com;
- envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linux.intel.com
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=dPFxnnCn; dkim-atps=neutral
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
+ [IPv6:2607:f8b0:4864:20::743])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48RqSd2Hb9zDqS9;
- Wed, 26 Feb 2020 06:56:31 +1100 (AEDT)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 25 Feb 2020 11:56:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,485,1574150400"; d="scan'208";a="230230964"
-Received: from maru.jf.intel.com ([10.54.51.77])
- by fmsmga007.fm.intel.com with ESMTP; 25 Feb 2020 11:56:27 -0800
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-To: Eddie James <eajames@linux.ibm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH -next] media: aspeed: add AST2600 support
-Date: Tue, 25 Feb 2020 11:58:53 -0800
-Message-Id: <20200225195853.17480-1-jae.hyun.yoo@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48Rwjk2vFczDqWt;
+ Wed, 26 Feb 2020 10:53:13 +1100 (AEDT)
+Received: by mail-qk1-x743.google.com with SMTP id o28so956348qkj.9;
+ Tue, 25 Feb 2020 15:53:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=V7uFpys0vvnGKgKU6TWcXA9gEqQEyPhW2p18eYUU23g=;
+ b=dPFxnnCnNtyMs/buEAMu24zTzQfWWxcXLo5aG4w0AuWf7OdkEL+4JqRnDLeROGGc3b
+ 4nNBtR7AgRCkWaZTdT/uwfMRP416LuLwC2/4FR4v9hfGHxU5T47HcjiyDkc8h/WSKR+y
+ TNU2hudIY73DXkfZCTCUKbOZ7Mt50kbLiAuYY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=V7uFpys0vvnGKgKU6TWcXA9gEqQEyPhW2p18eYUU23g=;
+ b=hLYJr63uxSqAPiX2LfZ0MaZCr8zM5UMu40H3ZOf3BH4YhToRk905zV0Wdpe67cC+C2
+ xV51W+iVpi749tCx/zS6IlFtYzKz33Nctz7mtAdnMRSZNWo6lHO52ON4GSg7R3EfjqNO
+ g+kvv2gIEb0ibKrzp157GI7DlBiXgSba9tj+QwrT3PtUZOYIJTxfsPA7FEDvfmH5y+Zt
+ EylA/DzUAg+PsmzsSHyHuti5n6NOrWPVFia3S80woEJEoN3sKaIj1Dq2IEWFPaycQUd3
+ QgLiuhac9XQm2oM835c+QhLDBOQDtgVAQsD/50r8U+Bba+ACiXiyXMPe6MHOCfyCaBJM
+ fl2A==
+X-Gm-Message-State: APjAAAWUXrdwZRzMzUDPw0ovYI56rIlmIZzGzrxuS7svRc2fhYs5n0dx
+ JsuSHTrQPz9TnkWC4LzBCrgV7MiKt6NZULf+s7w=
+X-Google-Smtp-Source: APXvYqz7krStiObclOwtZxgwPBr2nD3Jgb+LtwoxHEffLcks+uXl3itV433NONuRJbKJt/KbWqq69/l0vwv8kIRhO1Q=
+X-Received: by 2002:a37:67c2:: with SMTP id b185mr1824063qkc.292.1582674789849; 
+ Tue, 25 Feb 2020 15:53:09 -0800 (PST)
+MIME-Version: 1.0
+References: <20200225195853.17480-1-jae.hyun.yoo@linux.intel.com>
+In-Reply-To: <20200225195853.17480-1-jae.hyun.yoo@linux.intel.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 25 Feb 2020 23:52:57 +0000
+Message-ID: <CACPK8XeiH1iLQbmP+3yJninJtK7rQv=HMVnHzqjPH04V4xW+zg@mail.gmail.com>
+Subject: Re: [PATCH -next] media: aspeed: add AST2600 support
+To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,72 +69,80 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org,
- linux-media@vger.kernel.org
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Video engine in AST2600 has the exactly same register set with
-AST2500 except VR084 register which provides more precise JPEG
-size read back. This commit adds support for the difference and
-adds 'aspeed,ast2600-video-engine' compatible OF string.
+On Tue, 25 Feb 2020 at 19:56, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
+>
+> Video engine in AST2600 has the exactly same register set with
+> AST2500 except VR084 register which provides more precise JPEG
+> size read back. This commit adds support for the difference and
+> adds 'aspeed,ast2600-video-engine' compatible OF string.
+>
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 
-Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
----
- drivers/media/platform/aspeed-video.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index 47444a336ebb..7d98db1d9b52 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
- // Copyright 2020 IBM Corp.
--// Copyright (c) 2019 Intel Corporation
-+// Copyright (c) 2019-2020 Intel Corporation
- 
- #include <linux/atomic.h>
- #include <linux/bitfield.h>
-@@ -132,7 +132,8 @@
- #define  VE_COMP_CTRL_HQ_DCT_CHR	GENMASK(26, 22)
- #define  VE_COMP_CTRL_HQ_DCT_LUM	GENMASK(31, 27)
- 
--#define VE_OFFSET_COMP_STREAM		0x078
-+#define AST2400_VE_COMP_SIZE_READ_BACK	0x078
-+#define AST2600_VE_COMP_SIZE_READ_BACK	0x084
- 
- #define VE_SRC_LR_EDGE_DET		0x090
- #define  VE_SRC_LR_EDGE_DET_LEFT	GENMASK(11, 0)
-@@ -252,12 +253,17 @@ struct aspeed_video_config {
- 
- static const struct aspeed_video_config ast2400_config = {
- 	.jpeg_mode = AST2400_VE_SEQ_CTRL_JPEG_MODE,
--	.comp_size_read = VE_OFFSET_COMP_STREAM,
-+	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
- };
- 
- static const struct aspeed_video_config ast2500_config = {
- 	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
--	.comp_size_read = VE_OFFSET_COMP_STREAM,
-+	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
-+};
-+
-+static const struct aspeed_video_config ast2600_config = {
-+	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
-+	.comp_size_read = AST2600_VE_COMP_SIZE_READ_BACK,
- };
- 
- static const u32 aspeed_video_jpeg_header[ASPEED_VIDEO_JPEG_HEADER_SIZE] = {
-@@ -1673,6 +1679,7 @@ static int aspeed_video_init(struct aspeed_video *video)
- static const struct of_device_id aspeed_video_of_match[] = {
- 	{ .compatible = "aspeed,ast2400-video-engine", .data = &ast2400_config },
- 	{ .compatible = "aspeed,ast2500-video-engine", .data = &ast2500_config },
-+	{ .compatible = "aspeed,ast2600-video-engine", .data = &ast2600_config },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
--- 
-2.17.1
+Did you post an update to the device tree bindings too?
 
+> ---
+>  drivers/media/platform/aspeed-video.c | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+> index 47444a336ebb..7d98db1d9b52 100644
+> --- a/drivers/media/platform/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+>  // Copyright 2020 IBM Corp.
+> -// Copyright (c) 2019 Intel Corporation
+> +// Copyright (c) 2019-2020 Intel Corporation
+>
+>  #include <linux/atomic.h>
+>  #include <linux/bitfield.h>
+> @@ -132,7 +132,8 @@
+>  #define  VE_COMP_CTRL_HQ_DCT_CHR       GENMASK(26, 22)
+>  #define  VE_COMP_CTRL_HQ_DCT_LUM       GENMASK(31, 27)
+>
+> -#define VE_OFFSET_COMP_STREAM          0x078
+> +#define AST2400_VE_COMP_SIZE_READ_BACK 0x078
+> +#define AST2600_VE_COMP_SIZE_READ_BACK 0x084
+>
+>  #define VE_SRC_LR_EDGE_DET             0x090
+>  #define  VE_SRC_LR_EDGE_DET_LEFT       GENMASK(11, 0)
+> @@ -252,12 +253,17 @@ struct aspeed_video_config {
+>
+>  static const struct aspeed_video_config ast2400_config = {
+>         .jpeg_mode = AST2400_VE_SEQ_CTRL_JPEG_MODE,
+> -       .comp_size_read = VE_OFFSET_COMP_STREAM,
+> +       .comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
+>  };
+>
+>  static const struct aspeed_video_config ast2500_config = {
+>         .jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
+> -       .comp_size_read = VE_OFFSET_COMP_STREAM,
+> +       .comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
+> +};
+> +
+> +static const struct aspeed_video_config ast2600_config = {
+> +       .jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
+> +       .comp_size_read = AST2600_VE_COMP_SIZE_READ_BACK,
+>  };
+>
+>  static const u32 aspeed_video_jpeg_header[ASPEED_VIDEO_JPEG_HEADER_SIZE] = {
+> @@ -1673,6 +1679,7 @@ static int aspeed_video_init(struct aspeed_video *video)
+>  static const struct of_device_id aspeed_video_of_match[] = {
+>         { .compatible = "aspeed,ast2400-video-engine", .data = &ast2400_config },
+>         { .compatible = "aspeed,ast2500-video-engine", .data = &ast2500_config },
+> +       { .compatible = "aspeed,ast2600-video-engine", .data = &ast2600_config },
+>         {}
+>  };
+>  MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
+> --
+> 2.17.1
+>
