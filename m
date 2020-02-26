@@ -1,63 +1,81 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BACE170198
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Feb 2020 15:52:45 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B2216FCB2
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Feb 2020 11:56:26 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48SCQw1W0RzDqdx
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Feb 2020 21:56:24 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48SJgZ6h4WzDqYB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Feb 2020 01:52:42 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::842;
- helo=mail-qt1-x842.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=giOc/T0T; dkim-atps=neutral
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=linux.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48SCQn12xMzDqdX
- for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Feb 2020 21:56:14 +1100 (AEDT)
-Received: by mail-qt1-x842.google.com with SMTP id p34so1904580qtb.6
- for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Feb 2020 02:56:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z3j9UKE4CU10RkojeSW3IlQzPeeFXpX/sxvomC4elck=;
- b=giOc/T0TXl+iIxlOUYfUQ+tWKJrb3RxKjhDveWCkvkLIVtnsOdxkcnt0ESXCKSc1TS
- FiRS/OcFWkNbN6ZZbnISyj+Gcaq5JHAlfQbkSUkEMT/fl1OcnIu7vgqbMCuNMug80vmL
- 2PWczE+el7IRqrtvshhUbc5PCoiYZhO9GfaNw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z3j9UKE4CU10RkojeSW3IlQzPeeFXpX/sxvomC4elck=;
- b=lUyCqidnMgJoo+OgLBnSVMoN+XQGGVHa1AESaY/5IDZMQVcERH5FYRHIAx5Q8d8yEi
- LC8/KCDXoueH2U1MRqPkbikqUbRky3uF0vMw71s1HhoEnsg19gnAomV/HZKbETHBrXcw
- blx43ruatnt7MQKDl9crTSrcN8TTCnY8ljeo/5sspBQhgdjT1Rxm5MqnU7Oin1/fC4WM
- R7WeooLQ08pv4vKgFJ7xPOwvSVwHi8zaQ1+Bo2ZPRsfppxmlYF0KF07hD1NnDukselk9
- 21ipVmTrhm6sDpUgXcgmU2Fya6JKnDrycCUdlv+XOIzw7XDntmfUk9UUwDW4aXHvVLl5
- FmqA==
-X-Gm-Message-State: APjAAAU8TxRYe35NykF0wXYId+NHVDeH6IvE4QFTG7qcXE5aRRyr8TBo
- HuJRKtCPXecTVMCfmaKdQbIZaewlTpYPJh6Vez4=
-X-Google-Smtp-Source: APXvYqzIPt5oXV3k/5jmxtXuEfikPuiPbXvjlG9fRqNJ2BaeGuQJX0lMhbp46aXUXmxRSrxBf1S4ddt08lc8oggcF+8=
-X-Received: by 2002:ac8:1ac1:: with SMTP id h1mr4525735qtk.255.1582714570954; 
- Wed, 26 Feb 2020 02:56:10 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48SJdx4ygJzDq8W;
+ Thu, 27 Feb 2020 01:51:17 +1100 (AEDT)
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01QEnpAS058061; Wed, 26 Feb 2020 09:50:09 -0500
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2ydcntj9xg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Feb 2020 09:50:09 -0500
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01QEjsA6018664;
+ Wed, 26 Feb 2020 14:50:08 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma02dal.us.ibm.com with ESMTP id 2ydcmkqev4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Feb 2020 14:50:08 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
+ [9.57.199.108])
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 01QEo7hI51642780
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Feb 2020 14:50:08 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D7505B2067;
+ Wed, 26 Feb 2020 14:50:07 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1F6B3B2066;
+ Wed, 26 Feb 2020 14:50:07 +0000 (GMT)
+Received: from [9.211.122.13] (unknown [9.211.122.13])
+ by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+ Wed, 26 Feb 2020 14:50:06 +0000 (GMT)
+Subject: Re: [PATCH -next] media: aspeed: add AST2600 support
+To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
+References: <20200225195853.17480-1-jae.hyun.yoo@linux.intel.com>
+From: Eddie James <eajames@linux.ibm.com>
+Message-ID: <f4ffad91-9742-9b68-be51-c1ec222e24b6@linux.ibm.com>
+Date: Wed, 26 Feb 2020 08:50:06 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200220055255.22809-1-Ben_Pai@wistron.com>
-In-Reply-To: <20200220055255.22809-1-Ben_Pai@wistron.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 26 Feb 2020 10:55:59 +0000
-Message-ID: <CACPK8Xf=t+PY42qxF9jProYGGZZJONb=H1D4xZJc7teFWJ2FrA@mail.gmail.com>
-Subject: Re: [PATCH v1] ARM: dts: mihawk: Change the name of mihawk led
-To: Ben Pai <Ben_Pai@wistron.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200225195853.17480-1-jae.hyun.yoo@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-26_05:2020-02-26,
+ 2020-02-26 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ adultscore=0 lowpriorityscore=0 impostorscore=0 clxscore=1011
+ malwarescore=0 spamscore=0 suspectscore=0 mlxscore=0 bulkscore=0
+ phishscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2001150001 definitions=main-2002260108
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,80 +87,78 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Claire_Ku@wistron.com,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, wangat@tw.ibm.com,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org,
+ linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 20 Feb 2020 at 05:53, Ben Pai <Ben_Pai@wistron.com> wrote:
+
+On 2/25/20 1:58 PM, Jae Hyun Yoo wrote:
+> Video engine in AST2600 has the exactly same register set with
+> AST2500 except VR084 register which provides more precise JPEG
+> size read back. This commit adds support for the difference and
+> adds 'aspeed,ast2600-video-engine' compatible OF string.
+
+
+Thanks Jae!
+
+Reviewed-by: Eddie James <eajames@linux.ibm.com>
+
+
 >
-> 1.Change the name of power, fault and rear-id.
-> 2.Remove the two leds.
-
-The patch looks okay. Why do you remove the other two leds?
-
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-
->
-> Signed-off-by: Ben Pai <Ben_Pai@wistron.com>
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 > ---
->  arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts | 17 +++--------------
->  1 file changed, 3 insertions(+), 14 deletions(-)
+>   drivers/media/platform/aspeed-video.c | 15 +++++++++++----
+>   1 file changed, 11 insertions(+), 4 deletions(-)
 >
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
-> index e55cc454b17f..6c11854b9006 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
-> @@ -120,35 +120,24 @@
->         leds {
->                 compatible = "gpio-leds";
->
-> -               fault {
-> +               front-fault {
->                         retain-state-shutdown;
->                         default-state = "keep";
->                         gpios = <&gpio ASPEED_GPIO(AA, 0) GPIO_ACTIVE_LOW>;
->                 };
->
-> -               power {
-> +               power-button {
->                         retain-state-shutdown;
->                         default-state = "keep";
->                         gpios = <&gpio ASPEED_GPIO(AA, 1) GPIO_ACTIVE_LOW>;
->                 };
->
-> -               rear-id {
-> +               front-id {
->                         retain-state-shutdown;
->                         default-state = "keep";
->                         gpios = <&gpio ASPEED_GPIO(AA, 2) GPIO_ACTIVE_LOW>;
->                 };
->
-> -               rear-g {
-> -                       retain-state-shutdown;
-> -                       default-state = "keep";
-> -                       gpios = <&gpio ASPEED_GPIO(AA, 4) GPIO_ACTIVE_LOW>;
-> -               };
-> -
-> -               rear-ok {
-> -                       retain-state-shutdown;
-> -                       default-state = "keep";
-> -                       gpios = <&gpio ASPEED_GPIO(Y, 0) GPIO_ACTIVE_LOW>;
-> -               };
->
->                 fan0 {
->                         retain-state-shutdown;
-> --
-> 2.17.1
->
->
-> ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-> This email contains confidential or legally privileged information and is for the sole use of its intended recipient.
-> Any unauthorized review, use, copying or distribution of this email or the content of this email is strictly prohibited.
-> If you are not the intended recipient, you may reply to the sender and should delete this e-mail immediately.
-> ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+> index 47444a336ebb..7d98db1d9b52 100644
+> --- a/drivers/media/platform/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -1,6 +1,6 @@
+>   // SPDX-License-Identifier: GPL-2.0-or-later
+>   // Copyright 2020 IBM Corp.
+> -// Copyright (c) 2019 Intel Corporation
+> +// Copyright (c) 2019-2020 Intel Corporation
+>   
+>   #include <linux/atomic.h>
+>   #include <linux/bitfield.h>
+> @@ -132,7 +132,8 @@
+>   #define  VE_COMP_CTRL_HQ_DCT_CHR	GENMASK(26, 22)
+>   #define  VE_COMP_CTRL_HQ_DCT_LUM	GENMASK(31, 27)
+>   
+> -#define VE_OFFSET_COMP_STREAM		0x078
+> +#define AST2400_VE_COMP_SIZE_READ_BACK	0x078
+> +#define AST2600_VE_COMP_SIZE_READ_BACK	0x084
+>   
+>   #define VE_SRC_LR_EDGE_DET		0x090
+>   #define  VE_SRC_LR_EDGE_DET_LEFT	GENMASK(11, 0)
+> @@ -252,12 +253,17 @@ struct aspeed_video_config {
+>   
+>   static const struct aspeed_video_config ast2400_config = {
+>   	.jpeg_mode = AST2400_VE_SEQ_CTRL_JPEG_MODE,
+> -	.comp_size_read = VE_OFFSET_COMP_STREAM,
+> +	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
+>   };
+>   
+>   static const struct aspeed_video_config ast2500_config = {
+>   	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
+> -	.comp_size_read = VE_OFFSET_COMP_STREAM,
+> +	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
+> +};
+> +
+> +static const struct aspeed_video_config ast2600_config = {
+> +	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
+> +	.comp_size_read = AST2600_VE_COMP_SIZE_READ_BACK,
+>   };
+>   
+>   static const u32 aspeed_video_jpeg_header[ASPEED_VIDEO_JPEG_HEADER_SIZE] = {
+> @@ -1673,6 +1679,7 @@ static int aspeed_video_init(struct aspeed_video *video)
+>   static const struct of_device_id aspeed_video_of_match[] = {
+>   	{ .compatible = "aspeed,ast2400-video-engine", .data = &ast2400_config },
+>   	{ .compatible = "aspeed,ast2500-video-engine", .data = &ast2500_config },
+> +	{ .compatible = "aspeed,ast2600-video-engine", .data = &ast2600_config },
+>   	{}
+>   };
+>   MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
