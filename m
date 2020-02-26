@@ -1,87 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FFD170C48
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Feb 2020 00:07:32 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7374D170A5A
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Feb 2020 22:25:02 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48STNC4hHvzDqjY
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Feb 2020 08:24:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48SWfT2hd5zDqkC
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Feb 2020 10:07:29 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=msbarth@linux.ibm.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::443;
+ helo=mail-pf1-x443.google.com; envelope-from=rentao.bupt@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=linux.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=iiIqG1tK; dkim-atps=neutral
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48RqsL306nzDqWp;
- Wed, 26 Feb 2020 07:14:29 +1100 (AEDT)
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01PK92St058083; Tue, 25 Feb 2020 15:14:21 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yax398vum-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Feb 2020 15:14:21 -0500
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01PK9OCR059563;
- Tue, 25 Feb 2020 15:14:21 -0500
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2yax398vu6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Feb 2020 15:14:21 -0500
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01PKDExb023589;
- Tue, 25 Feb 2020 20:14:19 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma02wdc.us.ibm.com with ESMTP id 2yaux6ps3m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Feb 2020 20:14:19 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01PKEIoF29032860
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Feb 2020 20:14:18 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A2A8D6A058;
- Tue, 25 Feb 2020 20:14:18 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3B0C86A051;
- Tue, 25 Feb 2020 20:14:18 +0000 (GMT)
-Received: from MSBARTH-P50.rch.stglabs.ibm.com (unknown [9.10.99.26])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 25 Feb 2020 20:14:18 +0000 (GMT)
-From: Matthew Barth <msbarth@linux.ibm.com>
-To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- openbmc@lists.ozlabs.org, devicetree@vger.kernel.org,
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48SWZX4VwgzDqV3;
+ Thu, 27 Feb 2020 10:04:03 +1100 (AEDT)
+Received: by mail-pf1-x443.google.com with SMTP id o24so249803pfp.13;
+ Wed, 26 Feb 2020 15:04:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=Bk/8S/Z3TX6gpAJL/01qav03pWjPrUS9+WLbM4tWfRA=;
+ b=iiIqG1tKiFmSLw8ypVAFtG0a/VX8gxPi1TjGNgkgCIZ5Z7qjWdPW9+8K3J2U1skLnT
+ XriD3Zl2Sxh5mVPXYsOttA2tMrRBEKKQxeTDuVOrlhQiU6sySvO9bd8fq52EStONOHlq
+ C52UbmdpekyXeSt/SIj6TUrMBDVWXxhXdzSm+uaDVzREEtUjyyLy2AyWdJpSvRgR6Lnb
+ 6Ilh/TDwkwoYBgXez0mR4sZfU+EELlY/vwrUDkjPmHy0LTkn0AHP+zGzsBQ3JchD8hmQ
+ oH6cSIRBmiA6O31pnf9/q4rzMBFON1tzp8jO/Rx/QxqMaWVEZdp5K7TaNqlwL6fuWZ1g
+ vrEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=Bk/8S/Z3TX6gpAJL/01qav03pWjPrUS9+WLbM4tWfRA=;
+ b=rfIj0XqEYlzXfzQCeg7WnBZepsBi4wExR5PZd7jPE8MOiBvgCAnOfW0K2fEbTy2nfG
+ OLN/ajnzuqcd537qJDfml0EwwjKhPd3tVoQr99ZzVcSrn9f5PUf9a+MTXYUWIePf9idy
+ u8QYT4BJLA0IY2esT9eB5vxJ3VK0sA3ejxHKyxDTbu9qe761iH7vFIS4vKmAKkA/7uH+
+ a5Y3BvI9QR4wQexINAqF6HPpkm0o2KQQnrn17n2525N6JTRNogaN1MqJ92U9VXivEOXv
+ B1LCz3Q4h1yrtr2AXkYoDvlzI1dz/VlDax40JjyTddKrUJBFemLlwuie7eFfogZ/7HLq
+ PCfA==
+X-Gm-Message-State: APjAAAWsZfhhKbg8T8tdgrRiQ4vx2vHWINrm53TKUxko/+/FgsSHd1w8
+ d326JPREIZhl28ImyUaZBXQ=
+X-Google-Smtp-Source: APXvYqxd8CY0HsAxhIMeDYkypalVr2YKiVsFuVI43/dN5ulZeTbimHEV3k5WocbbHPlR9VinUUrMDQ==
+X-Received: by 2002:a63:b347:: with SMTP id x7mr1087976pgt.275.1582758240225; 
+ Wed, 26 Feb 2020 15:04:00 -0800 (PST)
+Received: from taoren-ubuntu-R90MNF91.thefacebook.com
+ ([2620:10d:c090:500::7:5ebf])
+ by smtp.gmail.com with ESMTPSA id 3sm3912621pjg.27.2020.02.26.15.03.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Feb 2020 15:03:59 -0800 (PST)
+From: rentao.bupt@gmail.com
+To: Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Colin Ian King <colin.king@canonical.com>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, linux-usb@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, Brandon Wyman <bjwyman@gmail.com>,
- Eddie James <eajames@linux.ibm.com>
-Subject: [PATCH v2] ARM: dts: rainier: Set PCA9552 pin types
-Date: Tue, 25 Feb 2020 14:14:15 -0600
-Message-Id: <20200225201415.431668-1-msbarth@linux.ibm.com>
-X-Mailer: git-send-email 2.24.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-25_08:2020-02-25,
- 2020-02-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 impostorscore=0
- bulkscore=0 spamscore=0 suspectscore=0 mlxlogscore=987 priorityscore=1501
- lowpriorityscore=0 clxscore=1011 phishscore=0 malwarescore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2002250139
-X-Mailman-Approved-At: Thu, 27 Feb 2020 08:24:44 +1100
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ openbmc@lists.ozlabs.org, taoren@fb.com
+Subject: [PATCH v4 0/7] aspeed-g6: enable usb support
+Date: Wed, 26 Feb 2020 15:03:39 -0800
+Message-Id: <20200226230346.672-1-rentao.bupt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,118 +83,55 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Matthew Barth <msbarth@linux.ibm.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-All 16 pins of the PCA9552 at 7-bit address 0x61 should be set as type
-GPIO.
+From: Tao Ren <rentao.bupt@gmail.com>
 
-Signed-off-by: Matthew Barth <msbarth@linux.ibm.com>
----
-v2: Added leds-pca955x.h include
-    Added upstream to patch
----
----
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+The patch series aims at enabling USB Host and Gadget support on AST2600
+platforms.
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-index c63cefce636d..d9fa9fd48058 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-@@ -4,6 +4,7 @@
- 
- #include "aspeed-g6.dtsi"
- #include <dt-bindings/gpio/aspeed-gpio.h>
-+#include <dt-bindings/leds/leds-pca955x.h>
- 
- / {
- 	model = "Rainier";
-@@ -351,66 +352,82 @@
- 
- 		gpio@0 {
- 			reg = <0>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 
- 		gpio@1 {
- 			reg = <1>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 
- 		gpio@2 {
- 			reg = <2>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 
- 		gpio@3 {
- 			reg = <3>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 
- 		gpio@4 {
- 			reg = <4>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 
- 		gpio@5 {
- 			reg = <5>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 
- 		gpio@6 {
- 			reg = <6>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 
- 		gpio@7 {
- 			reg = <7>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 
- 		gpio@8 {
- 			reg = <8>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 
- 		gpio@9 {
- 			reg = <9>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 
- 		gpio@10 {
- 			reg = <10>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 
- 		gpio@11 {
- 			reg = <11>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 
- 		gpio@12 {
- 			reg = <12>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 
- 		gpio@13 {
- 			reg = <13>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 
- 		gpio@14 {
- 			reg = <14>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 
- 		gpio@15 {
- 			reg = <15>;
-+			type = <PCA955X_TYPE_GPIO>;
- 		};
- 	};
- 
+Patch #1 includes vhub's usb descriptors in struct "ast_vhub": all usb
+descriptor changes will go to the per-vhub instance instead of touching
+the global default descriptors.
+
+Patch #2 replaces hardcoded vhub port/endpoint number with device tree
+properties, so that it's more convenient to add support for ast2600-vhub
+which provides more downstream ports and endpoints.
+
+Patch #3 enables ast2600 support in aspeed-vhub usb gadget driver.
+
+Patch #4 adds USB devices and according pin groups in aspeed-g6 dtsi.
+
+Patch #5 and #6 add vhub port/endpoint properties into aspeed-g4 and
+aspeed-g5 dtsi.
+
+Patch #7 adds device tree binding document for aspeed usb-vhub driver.
+
+Tao Ren (7):
+  usb: gadget: aspeed: support per-vhub usb descriptors
+  usb: gadget: aspeed: read vhub properties from device tree
+  usb: gadget: aspeed: add ast2600 vhub support
+  ARM: dts: aspeed-g6: add usb functions
+  ARM: dts: aspeed-g5: add vhub port and endpoint properties
+  ARM: dts: aspeed-g4: add vhub port and endpoint properties
+  dt-bindings: usb: add documentation for aspeed usb-vhub
+
+ .../bindings/usb/aspeed,usb-vhub.yaml         | 71 +++++++++++++++++++
+ arch/arm/boot/dts/aspeed-g4.dtsi              |  2 +
+ arch/arm/boot/dts/aspeed-g5.dtsi              |  2 +
+ arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi      | 25 +++++++
+ arch/arm/boot/dts/aspeed-g6.dtsi              | 45 ++++++++++++
+ drivers/usb/gadget/udc/aspeed-vhub/Kconfig    |  4 +-
+ drivers/usb/gadget/udc/aspeed-vhub/core.c     | 71 ++++++++++++-------
+ drivers/usb/gadget/udc/aspeed-vhub/dev.c      | 30 +++++---
+ drivers/usb/gadget/udc/aspeed-vhub/epn.c      |  4 +-
+ drivers/usb/gadget/udc/aspeed-vhub/hub.c      | 58 ++++++++++-----
+ drivers/usb/gadget/udc/aspeed-vhub/vhub.h     | 43 +++++++----
+ 11 files changed, 284 insertions(+), 71 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
+
 -- 
-2.24.1
+2.17.1
 
