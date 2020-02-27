@@ -1,77 +1,135 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id C57411787E5
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Mar 2020 02:59:24 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A95176F84
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Mar 2020 07:34:59 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48WnLS4ZkxzDqS7
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Mar 2020 17:34:56 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48XHB171pjzDqSm
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Mar 2020 12:59:21 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::441;
- helo=mail-pf1-x441.google.com; envelope-from=rentao.bupt@gmail.com;
+ smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::344;
+ helo=mail-wm1-x344.google.com; envelope-from=daniel.lezcano@linaro.org;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
+ dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=UbMUxmCC; dkim-atps=neutral
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
+ unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
+ header.s=google header.b=znc+w9Pk; dkim-atps=neutral
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48WnG45NCkzDqGL;
- Tue,  3 Mar 2020 17:31:08 +1100 (AEDT)
-Received: by mail-pf1-x441.google.com with SMTP id y21so957995pfp.1;
- Mon, 02 Mar 2020 22:31:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=ndx+j6LnVMqCAXHMVDFZLXsjTKEuusKvWbflCc649JY=;
- b=UbMUxmCCJ1iqtAUi6lktmncZnowFCN1CA8b4uv3RRka2O4keDihSXfn8yE9a2iXPoL
- 9z7MgPOfyHIRosPIN1a1t2ACLwEftyMbcu3gmo9dew1aYCQFhNfkGldLuMWqX7FNANqi
- b3IkikKS9IgVFw5xhru6Tv/r/MSX3e890v5jp060Rpf0liav7ePur3okq8pvAjXZez3f
- RbpgV6gQE3ti6GZ9F7AQSEaz5PlWceHqzCoQ28ZFbN31V7noE07UcLBpPgX479J2mwQe
- pvsYq98tdanDbB4+zLyYdr0tGxAT/h0gaiN12AZbDOO0eCW7wu6gYGx8ehDn/5CpVpCJ
- a+pw==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48SnB210kMzDqjg
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 27 Feb 2020 20:17:07 +1100 (AEDT)
+Received: by mail-wm1-x344.google.com with SMTP id t14so2465228wmi.5
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 27 Feb 2020 01:17:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=byYUcuzDUs6EI2f9ZAyw6JsIg3wiyl3GVfGmpZXFBGg=;
+ b=znc+w9PkEBnc+zTq9CxylE0W3IOsPMfyj0zzj9rfhzSqa6janRkZRYL48p3tGPMtZB
+ 0oR+0ElyxD+M4ZsBvDNSeR7HJDq2K5CNbZxIJ7qpklwpm0Xr2Fn0E9TFiQNmh6jtJfg5
+ QZp4mTQU9f06enAb2YyJWJ4DgFLmrpyy9peHIdQpbHXgMxiCDMbBkAqe02sjC5jID3lh
+ OZVDWGrnDTKfX0iQNWWM9yyuEnqlZRhVXzr4nxpcm67c3J/b7GRxRv9klHWdcw6KsoeE
+ 8Hdr+r55IVlqhwlg+jfucl7ZnsfbGGM0sQrk7+UvmcLQ09RR+sFZBPsfRtGYsvIjsb8A
+ HQHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ndx+j6LnVMqCAXHMVDFZLXsjTKEuusKvWbflCc649JY=;
- b=MYBRWOEq2paXYyYV7Fs+qHLa+XizzRESZNMjTS7MZ+mNwvOvzZ5A/59D1fqk/rTh9B
- fIKziYSf86TBHgWaRR2dVh5kswkqcAM33Zphc2oHt211efCgTQTtAr9GF5zWyefYwRdF
- epvtYlnHzhiexzM5mDlpgv6uy3k1MLsnTmXqWwk4qYIUwgfnj07+c2uikHk564jqPlOW
- uHUruXoYQqmmfXOpXbrPqtb3WLjQvt8ugzAY6QJep+NwHg6uBCXjOM1jCpX4bruxrd89
- EMJbsenTfN9sZbK5C4lInKBn1tGEu/NX+GLFXOw9IR87VFfP4WAPSaL+PnzvKIL3eoda
- ozfQ==
-X-Gm-Message-State: ANhLgQ0fI4NQh0HtVFTIazWSamfVrKEdhAOAdhG2Iq45Wvqc07GbvNZI
- ao5r6CeDsSbJgIJNKBN4/lE=
-X-Google-Smtp-Source: ADFU+vuGZQszw51zqWe1fJX1aHCdONMS54hLYZPiwaStPENZVZ7FsvgKtDNPs8Yql9brDHHw68ftjQ==
-X-Received: by 2002:aa7:9726:: with SMTP id k6mr146994pfg.196.1583217064295;
- Mon, 02 Mar 2020 22:31:04 -0800 (PST)
-Received: from taoren-ubuntu-R90MNF91 (c-24-4-25-55.hsd1.ca.comcast.net.
- [24.4.25.55])
- by smtp.gmail.com with ESMTPSA id 69sm4375913pfz.97.2020.03.02.22.31.03
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 02 Mar 2020 22:31:03 -0800 (PST)
-Date: Mon, 2 Mar 2020 22:30:57 -0800
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v6 7/7] dt-bindings: usb: add documentation for aspeed
- usb-vhub
-Message-ID: <20200303063056.GA6751@taoren-ubuntu-R90MNF91>
-References: <20200228020757.10513-1-rentao.bupt@gmail.com>
- <20200228020757.10513-8-rentao.bupt@gmail.com>
- <20200302234744.GA21778@bogus>
+ h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=byYUcuzDUs6EI2f9ZAyw6JsIg3wiyl3GVfGmpZXFBGg=;
+ b=HTLwhQ5qdFOXKj1WpQ+xWTY/LL1a/QpS5YftKTSkq1w+LdcQOUu/HsPfi1mUcQU6zR
+ orsi1f0esaZCf44/nwLp4bYEMeebsqZLgGtthj6QSwtUD224+ZywsGVJ3b8GmijdkMUV
+ yg6qL2pNGoo38NgkIVYIaXRMPIZBklgth4CwgxtJnkRKrnpGzsQljs6Evqtp2aWquxnX
+ xiBH8dblShcOZLfqS0zvqgAGhYd3WC9o94bybaNZRQfvq+Cuxrq2SC/LLcVdv2DxQfZQ
+ oWBt4d+6N51x6OOr1Lry0gNdSz1F9cWaSpcO+gOz6FkTEPW4xY4ACVmJkYX7WLwbaHqx
+ zheA==
+X-Gm-Message-State: APjAAAVOTWdEcWcbImdCJXGSOnQKzrJba05TzSi886cLF9dMZyrxEXr4
+ knzWRpNMUUsItx7XkbBe+AwxOA==
+X-Google-Smtp-Source: APXvYqxawPiOKaKn88qM82HAWaYmFB3tLwYe0d+o9KWMRvOoNS4J9ny55LDYIKO79xtfY0CVYnrsmg==
+X-Received: by 2002:a05:600c:21c6:: with SMTP id
+ x6mr3966652wmj.17.1582795023046; 
+ Thu, 27 Feb 2020 01:17:03 -0800 (PST)
+Received: from ?IPv6:2a01:e34:ed2f:f020:d916:1723:c1c1:22d?
+ ([2a01:e34:ed2f:f020:d916:1723:c1c1:22d])
+ by smtp.googlemail.com with ESMTPSA id b16sm2185717wrq.14.2020.02.27.01.16.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Feb 2020 01:17:02 -0800 (PST)
+Subject: Re: [PATCH 2/7] docs: dt: fix several broken references due to renames
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <cover.1582361737.git.mchehab+huawei@kernel.org>
+ <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <add18b30-6eec-9aba-a961-8ecfe9b32596@linaro.org>
+Date: Thu, 27 Feb 2020 10:16:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200302234744.GA21778@bogus>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <83c5df4acbbe0fa55a1d58d4c4a435b51cd2a7ad.1582361737.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 04 Mar 2020 12:56:19 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,153 +141,58 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Felipe Balbi <balbi@kernel.org>,
- linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
- openbmc@lists.ozlabs.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Colin Ian King <colin.king@canonical.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Stuart Yoder <stuyoder@gmail.com>, David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Pavel Machek <pavel@ucw.cz>,
+ linux-clk@vger.kernel.org, linux-leds@vger.kernel.org,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ Amit Kucheria <amit.kucheria@verdurent.com>, linux-aspeed@lists.ozlabs.org,
+ Jonathan Corbet <corbet@lwn.net>, Kevin Hilman <khilman@baylibre.com>,
+ openbmc@lists.ozlabs.org, linux-stm32@st-md-mailman.stormreply.com,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Zhang Rui <rui.zhang@intel.com>, Linus Walleij <linus.walleij@linaro.org>,
+ devicetree@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Jyri Sarha <jsarha@ti.com>, linux-gpio@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Dan Murphy <dmurphy@ti.com>,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Laurentiu Tudor <laurentiu.tudor@nxp.com>, Stephen Boyd <sboyd@kernel.org>,
+ Andy Gross <agross@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Rob,
+On 22/02/2020 10:00, Mauro Carvalho Chehab wrote:
+> Several DT references got broken due to txt->yaml conversion.
+> 
+> Those are auto-fixed by running:
+> 
+> 	scripts/documentation-file-ref-check --fix
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Thanks for the careful review and I've addressed all your feedback in
-v7 (based on my understanding). Please kindly let me know if you have
-further suggestions.
+[ ... ]
+
+> diff --git a/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml b/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml
+> index d9fdf4809a49..f3e68ed03abf 100644
+> --- a/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml
+> +++ b/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml
+> @@ -17,7 +17,7 @@ description: |+
+>                  "brcm,bcm2711-avs-monitor", "syscon", "simple-mfd"
+>  
+>    Refer to the the bindings described in
+> -  Documentation/devicetree/bindings/mfd/syscon.txt
+> +  Documentation/devicetree/bindings/mfd/syscon.yaml
+
+Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 
 
-Cheers,
+-- 
+ <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-Tao
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
-On Mon, Mar 02, 2020 at 05:47:44PM -0600, Rob Herring wrote:
-> On Thu, Feb 27, 2020 at 06:07:57PM -0800, rentao.bupt@gmail.com wrote:
-> > From: Tao Ren <rentao.bupt@gmail.com>
-> > 
-> > Add device tree binding documentation for the Aspeed USB 2.0 Virtual HUb
-> > Controller.
-> > 
-> > Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
-> > Reviewed-by: Joel Stanley <joel@jms.id.au>
-> > ---
-> >  Changes in v6:
-> >    - added 2 required properties into example and passed "make
-> >      dt_binding_check".
-> >  Changes in v5:
-> >    - updated maintainer to Ben.
-> >    - refined patch description per Joel's suggestion.
-> >  No change in v2/v3/v4:
-> >    - the patch is added to the patch series since v4.
-> > 
-> >  .../bindings/usb/aspeed,usb-vhub.yaml         | 73 +++++++++++++++++++
-> >  1 file changed, 73 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml b/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
-> > new file mode 100644
-> > index 000000000000..b9f33310e9a2
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
-> > @@ -0,0 +1,73 @@
-> > +# SPDX-License-Identifier: GPL-2.0-or-later
-> 
-> Dual license new bindings please.
-> 
-> (GPL-2.0-only OR BSD-2-Clause)
-> 
-> > +# Copyright (c) 2020 Facebook Inc.
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/usb/aspeed,usb-vhub.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: ASPEED USB 2.0 Virtual Hub Controller
-> > +
-> > +maintainers:
-> > +  - Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> > +
-> > +description: |+
-> > +  The ASPEED USB 2.0 Virtual Hub Controller implements 1 set of USB Hub
-> > +  register and several sets of Device and Endpoint registers to support
-> > +  the Virtual Hub's downstream USB devices.
-> > +
-> > +  Supported number of devices and endpoints vary depending on hardware
-> > +  revisions. AST2400 and AST2500 Virtual Hub supports 5 downstream devices
-> > +  and 15 generic endpoints, while AST2600 Virtual Hub supports 7 downstream
-> > +  devices and 21 generic endpoints.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - aspeed,ast2400-usb-vhub
-> > +      - aspeed,ast2500-usb-vhub
-> > +      - aspeed,ast2600-usb-vhub
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +    description: Common configuration registers
-> 
-> If 'Common' means something specific to this block, then keep. 
-> Otherwise, you can drop ti.
-> 
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +    description: The Virtual Hub Controller clock gate
-> 
-> Drop this.
-> 
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  aspeed,vhub-downstream-ports:
-> > +    description: Number of downstream ports supported by the Virtual Hub
-> > +    allOf:
-> > +      - $ref: /schemas/types.yaml#/definitions/uint32
-> 
-> Constraints?
-> 
-> 'maximum: 5' ?
-> 
-> default?
-> 
-> > +
-> > +  aspeed,vhub-generic-endpoints:
-> > +    description: Number of generic endpoints supported by the Virtual Hub
-> > +    allOf:
-> > +      - $ref: /schemas/types.yaml#/definitions/uint32
-> 
-> Constraints?
-> 
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - interrupts
-> > +  - aspeed,vhub-downstream-ports
-> > +  - aspeed,vhub-generic-endpoints
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/aspeed-clock.h>
-> > +    vhub: usb-vhub@1e6a0000 {
-> > +            compatible = "aspeed,ast2500-usb-vhub";
-> > +            reg = <0x1e6a0000 0x300>;
-> > +            interrupts = <5>;
-> > +            clocks = <&syscon ASPEED_CLK_GATE_USBPORT1CLK>;
-> > +            aspeed,vhub-downstream-ports = <5>;
-> > +            aspeed,vhub-generic-endpoints = <15>;
-> > +            pinctrl-names = "default";
-> > +            pinctrl-0 = <&pinctrl_usb2ad_default>;
-> > +    };
-> > -- 
-> > 2.17.1
-> > 
