@@ -2,51 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C41B171107
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Feb 2020 07:31:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26020172413
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Feb 2020 17:55:44 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48SjW21k2SzDqnr
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Feb 2020 17:31:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48SzM13cpTzDr63
+	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Feb 2020 03:55:41 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=wistron.com (client-ip=103.200.3.19; helo=segapp03.wistron.com;
- envelope-from=ben_pai@wistron.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=209.85.210.66; helo=mail-ot1-f66.google.com;
+ envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=wistron.com
-Received: from segapp03.wistron.com (segapp02.wistron.com [103.200.3.19])
- by lists.ozlabs.org (Postfix) with ESMTP id 48SjVx1lwszDqZj
- for <linux-aspeed@lists.ozlabs.org>; Thu, 27 Feb 2020 17:31:34 +1100 (AEDT)
-Received: from EXCHAPP03.whq.wistron (unverified [10.37.38.26]) by
- TWNHUMSW4.wistron.com (Clearswift SMTPRS 5.6.0) with ESMTP id
- <Tdd93781158c0a816721818@TWNHUMSW4.wistron.com>; 
- Thu, 27 Feb 2020 14:31:31 +0800
-Received: from EXCHAPP02.whq.wistron (10.37.38.25) by EXCHAPP03.whq.wistron
- (10.37.38.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Thu, 27 Feb
- 2020 14:31:30 +0800
-Received: from EXCHAPP02.whq.wistron ([fe80::ecf3:5097:933e:61e6]) by
- EXCHAPP02.whq.wistron ([fe80::ecf3:5097:933e:61e6%5]) with mapi id
- 15.01.1713.004; Thu, 27 Feb 2020 14:31:30 +0800
-From: <Ben_Pai@wistron.com>
-To: <joel@jms.id.au>
-Subject: RE: [PATCH v1] ARM: dts: mihawk: Change the name of mihawk led
-Thread-Topic: [PATCH v1] ARM: dts: mihawk: Change the name of mihawk led
-Thread-Index: AQHV57IDUDu59Q0XzUS/X7KToe/Y4qgs0SeAgAG53kA=
-Date: Thu, 27 Feb 2020 06:31:30 +0000
-Message-ID: <3633e9f58ab14118bf4c8df3f25ea0d2@wistron.com>
-References: <20200220055255.22809-1-Ben_Pai@wistron.com>
- <CACPK8Xf=t+PY42qxF9jProYGGZZJONb=H1D4xZJc7teFWJ2FrA@mail.gmail.com>
-In-Reply-To: <CACPK8Xf=t+PY42qxF9jProYGGZZJONb=H1D4xZJc7teFWJ2FrA@mail.gmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.37.38.230]
-x-tm-snts-smtp: 07E6559BC863661D5C7F457DA7AC36875EA80F0F8E96A4F5E8765A88B6AB6E272000:8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+ [209.85.210.66])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48SzLP4wvQzDr6B;
+ Fri, 28 Feb 2020 03:55:09 +1100 (AEDT)
+Received: by mail-ot1-f66.google.com with SMTP id h9so3531277otj.11;
+ Thu, 27 Feb 2020 08:55:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=/jM1fH5xptzMBpP8MrWjvM0f+YCk8pWFrR+DV7+cjhQ=;
+ b=rgv4uE7xqQYUprxQvr0BPMJwz4QhzQyAuHx4UI0dtKvc7bLPOqo4Ztnf/7CrCqB0Yi
+ 5maLwf7qexhZ5zL1Ckd1srP6pcBHT2RoKM1DAT8Vty90NorwjFiIfb1Qvt3Pib/hy7ga
+ STp/e/ANUhTrLoWYu17ok6BW6nLO5+UbM18gncbbIIdgK5eatSVfvDxrKYbsB44a3qp3
+ p2Ripz1nQRUE88+6PClo8OtbVQ2u3eWH5cA+bOvmX85Dalat3iSHZjSVfa7MNG2D8lwB
+ ev6uSN5NHThMtfo13w6ZrV2+nNajyE1lVgbjiQzlUQSMUItHE0/p3vgotjp0byLwXP2t
+ 9aEw==
+X-Gm-Message-State: APjAAAU86h7hLklS4XHqzLyy3iZc05wJNHaeZCVMKibFPjw9r9BjZ4U+
+ X5/28xRqNlmejhFX+io0Vg==
+X-Google-Smtp-Source: APXvYqxUUYsXBRlfK0ElzZkJeLYyKOPBFssLLcfLZAR3mlJo/cftCdxWtn252vKiBhlDns37QVqKcg==
+X-Received: by 2002:a05:6830:20c2:: with SMTP id
+ z2mr527059otq.228.1582822506104; 
+ Thu, 27 Feb 2020 08:55:06 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id k17sm2154899oic.45.2020.02.27.08.55.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Feb 2020 08:55:05 -0800 (PST)
+Received: (nullmailer pid 19462 invoked by uid 1000);
+ Thu, 27 Feb 2020 16:55:04 -0000
+Date: Thu, 27 Feb 2020 10:55:04 -0600
+From: Rob Herring <robh@kernel.org>
+To: rentao.bupt@gmail.com
+Subject: Re: [PATCH v4 7/7] dt-bindings: usb: add documentation for aspeed
+ usb-vhub
+Message-ID: <20200227165504.GA26955@bogus>
+References: <20200226230346.672-1-rentao.bupt@gmail.com>
+ <20200226230346.672-8-rentao.bupt@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200226230346.672-8-rentao.bupt@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,75 +71,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, Ben_Pai@wistron.com,
- linux-aspeed@lists.ozlabs.org, Claire_Ku@wistron.com,
- linux-kernel@vger.kernel.org, wangat@tw.ibm.com, robh+dt@kernel.org,
+Cc: Mark Rutland <mark.rutland@arm.com>, Felipe Balbi <balbi@kernel.org>,
+ linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Colin Ian King <colin.king@canonical.com>,
  linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-TWloYXdrIHBsYXRmb3JtIG5vIGxvbmdlciBzdXBwb3J0cyB0aGVzZSB0d28gTEVEcywgc28gSSB0
-aGluayB0aGVzZSB0d28gTEVEcyBzaG91bGQgYmUgcmVtb3ZlZCBmcm9tIGR0cy4NCg0KU2lnbmVk
-LW9mZi1ieTogQmVuIFBhaSA8QmVuX1BhaUB3aXN0cm9uLmNvbT4NCg0KLS0tLS1PcmlnaW5hbCBN
-ZXNzYWdlLS0tLS0NCkZyb206IEpvZWwgU3RhbmxleSA8am9lbEBqbXMuaWQuYXU+IA0KU2VudDog
-V2VkbmVzZGF5LCBGZWJydWFyeSAyNiwgMjAyMCA2OjU2IFBNDQpUbzogQmVuIFBhaS9XSFEvV2lz
-dHJvbiA8QmVuX1BhaUB3aXN0cm9uLmNvbT4NCkNjOiBSb2IgSGVycmluZyA8cm9iaCtkdEBrZXJu
-ZWwub3JnPjsgTWFyayBSdXRsYW5kIDxtYXJrLnJ1dGxhbmRAYXJtLmNvbT47IEFuZHJldyBKZWZm
-ZXJ5IDxhbmRyZXdAYWouaWQuYXU+OyBkZXZpY2V0cmVlIDxkZXZpY2V0cmVlQHZnZXIua2VybmVs
-Lm9yZz47IExpbnV4IEFSTSA8bGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnPjsg
-bGludXgtYXNwZWVkIDxsaW51eC1hc3BlZWRAbGlzdHMub3psYWJzLm9yZz47IExpbnV4IEtlcm5l
-bCBNYWlsaW5nIExpc3QgPGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc+OyB3YW5nYXRAdHcu
-aWJtLmNvbTsgQ2xhaXJlIEt1L1dIUS9XaXN0cm9uIDxDbGFpcmVfS3VAd2lzdHJvbi5jb20+DQpT
-dWJqZWN0OiBSZTogW1BBVENIIHYxXSBBUk06IGR0czogbWloYXdrOiBDaGFuZ2UgdGhlIG5hbWUg
-b2YgbWloYXdrIGxlZA0KDQpPbiBUaHUsIDIwIEZlYiAyMDIwIGF0IDA1OjUzLCBCZW4gUGFpIDxC
-ZW5fUGFpQHdpc3Ryb24uY29tPiB3cm90ZToNCj4NCj4gMS5DaGFuZ2UgdGhlIG5hbWUgb2YgcG93
-ZXIsIGZhdWx0IGFuZCByZWFyLWlkLg0KPiAyLlJlbW92ZSB0aGUgdHdvIGxlZHMuDQoNClRoZSBw
-YXRjaCBsb29rcyBva2F5LiBXaHkgZG8geW91IHJlbW92ZSB0aGUgb3RoZXIgdHdvIGxlZHM/DQoN
-ClJldmlld2VkLWJ5OiBKb2VsIFN0YW5sZXkgPGpvZWxAam1zLmlkLmF1Pg0KDQo+DQo+IFNpZ25l
-ZC1vZmYtYnk6IEJlbiBQYWkgPEJlbl9QYWlAd2lzdHJvbi5jb20+DQo+IC0tLQ0KPiAgYXJjaC9h
-cm0vYm9vdC9kdHMvYXNwZWVkLWJtYy1vcHAtbWloYXdrLmR0cyB8IDE3ICsrKy0tLS0tLS0tLS0t
-LS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxNCBkZWxldGlvbnMoLSkN
-Cj4NCj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtL2Jvb3QvZHRzL2FzcGVlZC1ibWMtb3BwLW1paGF3
-ay5kdHMgDQo+IGIvYXJjaC9hcm0vYm9vdC9kdHMvYXNwZWVkLWJtYy1vcHAtbWloYXdrLmR0cw0K
-PiBpbmRleCBlNTVjYzQ1NGIxN2YuLjZjMTE4NTRiOTAwNiAxMDA2NDQNCj4gLS0tIGEvYXJjaC9h
-cm0vYm9vdC9kdHMvYXNwZWVkLWJtYy1vcHAtbWloYXdrLmR0cw0KPiArKysgYi9hcmNoL2FybS9i
-b290L2R0cy9hc3BlZWQtYm1jLW9wcC1taWhhd2suZHRzDQo+IEBAIC0xMjAsMzUgKzEyMCwyNCBA
-QA0KPiAgICAgICAgIGxlZHMgew0KPiAgICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJncGlv
-LWxlZHMiOw0KPg0KPiAtICAgICAgICAgICAgICAgZmF1bHQgew0KPiArICAgICAgICAgICAgICAg
-ZnJvbnQtZmF1bHQgew0KPiAgICAgICAgICAgICAgICAgICAgICAgICByZXRhaW4tc3RhdGUtc2h1
-dGRvd247DQo+ICAgICAgICAgICAgICAgICAgICAgICAgIGRlZmF1bHQtc3RhdGUgPSAia2VlcCI7
-DQo+ICAgICAgICAgICAgICAgICAgICAgICAgIGdwaW9zID0gPCZncGlvIEFTUEVFRF9HUElPKEFB
-LCAwKSBHUElPX0FDVElWRV9MT1c+Ow0KPiAgICAgICAgICAgICAgICAgfTsNCj4NCj4gLSAgICAg
-ICAgICAgICAgIHBvd2VyIHsNCj4gKyAgICAgICAgICAgICAgIHBvd2VyLWJ1dHRvbiB7DQo+ICAg
-ICAgICAgICAgICAgICAgICAgICAgIHJldGFpbi1zdGF0ZS1zaHV0ZG93bjsNCj4gICAgICAgICAg
-ICAgICAgICAgICAgICAgZGVmYXVsdC1zdGF0ZSA9ICJrZWVwIjsNCj4gICAgICAgICAgICAgICAg
-ICAgICAgICAgZ3Bpb3MgPSA8JmdwaW8gQVNQRUVEX0dQSU8oQUEsIDEpIEdQSU9fQUNUSVZFX0xP
-Vz47DQo+ICAgICAgICAgICAgICAgICB9Ow0KPg0KPiAtICAgICAgICAgICAgICAgcmVhci1pZCB7
-DQo+ICsgICAgICAgICAgICAgICBmcm9udC1pZCB7DQo+ICAgICAgICAgICAgICAgICAgICAgICAg
-IHJldGFpbi1zdGF0ZS1zaHV0ZG93bjsNCj4gICAgICAgICAgICAgICAgICAgICAgICAgZGVmYXVs
-dC1zdGF0ZSA9ICJrZWVwIjsNCj4gICAgICAgICAgICAgICAgICAgICAgICAgZ3Bpb3MgPSA8Jmdw
-aW8gQVNQRUVEX0dQSU8oQUEsIDIpIEdQSU9fQUNUSVZFX0xPVz47DQo+ICAgICAgICAgICAgICAg
-ICB9Ow0KPg0KPiAtICAgICAgICAgICAgICAgcmVhci1nIHsNCj4gLSAgICAgICAgICAgICAgICAg
-ICAgICAgcmV0YWluLXN0YXRlLXNodXRkb3duOw0KPiAtICAgICAgICAgICAgICAgICAgICAgICBk
-ZWZhdWx0LXN0YXRlID0gImtlZXAiOw0KPiAtICAgICAgICAgICAgICAgICAgICAgICBncGlvcyA9
-IDwmZ3BpbyBBU1BFRURfR1BJTyhBQSwgNCkgR1BJT19BQ1RJVkVfTE9XPjsNCj4gLSAgICAgICAg
-ICAgICAgIH07DQo+IC0NCj4gLSAgICAgICAgICAgICAgIHJlYXItb2sgew0KPiAtICAgICAgICAg
-ICAgICAgICAgICAgICByZXRhaW4tc3RhdGUtc2h1dGRvd247DQo+IC0gICAgICAgICAgICAgICAg
-ICAgICAgIGRlZmF1bHQtc3RhdGUgPSAia2VlcCI7DQo+IC0gICAgICAgICAgICAgICAgICAgICAg
-IGdwaW9zID0gPCZncGlvIEFTUEVFRF9HUElPKFksIDApIEdQSU9fQUNUSVZFX0xPVz47DQo+IC0g
-ICAgICAgICAgICAgICB9Ow0KPg0KPiAgICAgICAgICAgICAgICAgZmFuMCB7DQo+ICAgICAgICAg
-ICAgICAgICAgICAgICAgIHJldGFpbi1zdGF0ZS1zaHV0ZG93bjsNCj4gLS0NCj4gMi4xNy4xDQo+
-DQo+DQo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAtLS0tLS0tLS0tLS0tLS0t
-LS0tIFRoaXMgZW1haWwgY29udGFpbnMgY29uZmlkZW50aWFsIG9yIGxlZ2FsbHkgDQo+IHByaXZp
-bGVnZWQgaW5mb3JtYXRpb24gYW5kIGlzIGZvciB0aGUgc29sZSB1c2Ugb2YgaXRzIGludGVuZGVk
-IHJlY2lwaWVudC4NCj4gQW55IHVuYXV0aG9yaXplZCByZXZpZXcsIHVzZSwgY29weWluZyBvciBk
-aXN0cmlidXRpb24gb2YgdGhpcyBlbWFpbCBvciB0aGUgY29udGVudCBvZiB0aGlzIGVtYWlsIGlz
-IHN0cmljdGx5IHByb2hpYml0ZWQuDQo+IElmIHlvdSBhcmUgbm90IHRoZSBpbnRlbmRlZCByZWNp
-cGllbnQsIHlvdSBtYXkgcmVwbHkgdG8gdGhlIHNlbmRlciBhbmQgc2hvdWxkIGRlbGV0ZSB0aGlz
-IGUtbWFpbCBpbW1lZGlhdGVseS4NCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAtLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+
-IC0tLS0tLS0tLS0tLS0tLS0tLS0NCg==
+On Wed, 26 Feb 2020 15:03:46 -0800, rentao.bupt@gmail.com wrote:
+> From: Tao Ren <rentao.bupt@gmail.com>
+> 
+> Add device tree binding documentation for aspeed usb-vhub driver.
+> 
+> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+> ---
+>  No change in v2/v3/v4:
+>    - the patch is added to the patch series since v4.
+> 
+>  .../bindings/usb/aspeed,usb-vhub.yaml         | 71 +++++++++++++++++++
+>  1 file changed, 71 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
+> 
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+Documentation/devicetree/bindings/display/simple-framebuffer.example.dts:21.16-37.11: Warning (chosen_node_is_root): /example-0/chosen: chosen node must be at root node
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.example.dt.yaml: usb-vhub@1e6a0000: 'aspeed,vhub-downstream-ports' is a required property
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.example.dt.yaml: usb-vhub@1e6a0000: 'aspeed,vhub-generic-endpoints' is a required property
+
+See https://patchwork.ozlabs.org/patch/1245388
+Please check and re-submit.
