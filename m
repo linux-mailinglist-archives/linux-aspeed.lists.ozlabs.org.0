@@ -2,65 +2,51 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E3981710C8
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Feb 2020 06:59:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C41B171107
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Feb 2020 07:31:45 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48ShnD2NJczDqq3
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Feb 2020 16:58:56 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48SjW21k2SzDqnr
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Feb 2020 17:31:42 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::744;
- helo=mail-qk1-x744.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=wistron.com (client-ip=103.200.3.19; helo=segapp03.wistron.com;
+ envelope-from=ben_pai@wistron.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=I2KS5PW/; dkim-atps=neutral
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
- [IPv6:2607:f8b0:4864:20::744])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48Shhm1RjrzDqpM;
- Thu, 27 Feb 2020 16:55:03 +1100 (AEDT)
-Received: by mail-qk1-x744.google.com with SMTP id 145so2087196qkl.2;
- Wed, 26 Feb 2020 21:55:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BT+Y4zDOpTN8aRnsqq1qa2mSs9wu0N9tys2uzX7EM7Q=;
- b=I2KS5PW/7Kw7fTHC3Wxq8Osxk8ug/lmvcU2moEvkCzfofFm2FVnq73DDl0YTEDLd3u
- Q3v+LTl0KnhEidEoGD8Az1KBh2NbkQHyMlUWo/6cNu49XIQ3CYxqXnQVbFsadGjrS6pN
- Z9IgLoO5G01BEyRaeY6NY+Ey62eqAglnXlFMk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BT+Y4zDOpTN8aRnsqq1qa2mSs9wu0N9tys2uzX7EM7Q=;
- b=DbopF1RfJ6Bb4B4wQpruB0a/NWxXfhhr6BRK3KOwSFbHX4i/mCAsgv2q2CxxeD6mO0
- VWEGpaK9i/tNLUbXf5KTUV57+RV/B480fspCb/2vRFbc0YUXTvZfNuYqebtgEVWnZwbb
- PaqFxaWJyssBRGQCh6fce/a/RCk/idt4zVIYGriFYObNME79j43mRQLV5kmn7vnRQLEM
- t9ZV2WQopeG6Cs/V43nUP8U9b/b7ecsse8XeGYcAdKVL1fH+H7VQbYURgtG4Q016F89S
- 1SjivRLWHz0Hh2XtpsHjErFge47/ZbSTHKwnlWrT2ZPB8njDv/gFhg8ttTeGdzU3XLK5
- DyJw==
-X-Gm-Message-State: APjAAAVcBUFMwuTs0rrv5cbAtCR9kYCcrPkLo8ZkHxLYSTyxTcUCGrA0
- A5zGT6yqziWM5CVmUACyql+pkZJjy29uS9TdEmQ=
-X-Google-Smtp-Source: APXvYqzT52XJX1ayxGeNKzjAkfyJjllIsA3MS1ZOUJZUZBT6z2y1pnNAw6jRX/tZyQhZlu/wqAmNLrhydyjZY7ZzuqU=
-X-Received: by 2002:a37:a493:: with SMTP id n141mr1860258qke.330.1582782900930; 
- Wed, 26 Feb 2020 21:55:00 -0800 (PST)
+ dmarc=none (p=none dis=none) header.from=wistron.com
+Received: from segapp03.wistron.com (segapp02.wistron.com [103.200.3.19])
+ by lists.ozlabs.org (Postfix) with ESMTP id 48SjVx1lwszDqZj
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 27 Feb 2020 17:31:34 +1100 (AEDT)
+Received: from EXCHAPP03.whq.wistron (unverified [10.37.38.26]) by
+ TWNHUMSW4.wistron.com (Clearswift SMTPRS 5.6.0) with ESMTP id
+ <Tdd93781158c0a816721818@TWNHUMSW4.wistron.com>; 
+ Thu, 27 Feb 2020 14:31:31 +0800
+Received: from EXCHAPP02.whq.wistron (10.37.38.25) by EXCHAPP03.whq.wistron
+ (10.37.38.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Thu, 27 Feb
+ 2020 14:31:30 +0800
+Received: from EXCHAPP02.whq.wistron ([fe80::ecf3:5097:933e:61e6]) by
+ EXCHAPP02.whq.wistron ([fe80::ecf3:5097:933e:61e6%5]) with mapi id
+ 15.01.1713.004; Thu, 27 Feb 2020 14:31:30 +0800
+From: <Ben_Pai@wistron.com>
+To: <joel@jms.id.au>
+Subject: RE: [PATCH v1] ARM: dts: mihawk: Change the name of mihawk led
+Thread-Topic: [PATCH v1] ARM: dts: mihawk: Change the name of mihawk led
+Thread-Index: AQHV57IDUDu59Q0XzUS/X7KToe/Y4qgs0SeAgAG53kA=
+Date: Thu, 27 Feb 2020 06:31:30 +0000
+Message-ID: <3633e9f58ab14118bf4c8df3f25ea0d2@wistron.com>
+References: <20200220055255.22809-1-Ben_Pai@wistron.com>
+ <CACPK8Xf=t+PY42qxF9jProYGGZZJONb=H1D4xZJc7teFWJ2FrA@mail.gmail.com>
+In-Reply-To: <CACPK8Xf=t+PY42qxF9jProYGGZZJONb=H1D4xZJc7teFWJ2FrA@mail.gmail.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.37.38.230]
+x-tm-snts-smtp: 07E6559BC863661D5C7F457DA7AC36875EA80F0F8E96A4F5E8765A88B6AB6E272000:8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20200226230346.672-1-rentao.bupt@gmail.com>
- <20200226230346.672-6-rentao.bupt@gmail.com>
- <c1f990ad2fd35deeba9e4e937cb19ee5080ea2a8.camel@kernel.crashing.org>
-In-Reply-To: <c1f990ad2fd35deeba9e4e937cb19ee5080ea2a8.camel@kernel.crashing.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 27 Feb 2020 05:54:49 +0000
-Message-ID: <CACPK8XfALBpAUmvAmBLDGa-oEMaZSqaKsHjs0EEPYP=_riGJVA@mail.gmail.com>
-Subject: Re: [PATCH v4 5/7] ARM: dts: aspeed-g5: add vhub port and endpoint
- properties
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,62 +58,75 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Felipe Balbi <balbi@kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- devicetree <devicetree@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>, linux-usb@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Rob Herring <robh+dt@kernel.org>, Colin Ian King <colin.king@canonical.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: mark.rutland@arm.com, devicetree@vger.kernel.org, Ben_Pai@wistron.com,
+ linux-aspeed@lists.ozlabs.org, Claire_Ku@wistron.com,
+ linux-kernel@vger.kernel.org, wangat@tw.ibm.com, robh+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 27 Feb 2020 at 04:11, Benjamin Herrenschmidt
-<benh@kernel.crashing.org> wrote:
->
-> On Wed, 2020-02-26 at 15:03 -0800, rentao.bupt@gmail.com wrote:
-> > From: Tao Ren <rentao.bupt@gmail.com>
-> >
-> > Add "aspeed,vhub-downstream-ports" and "aspeed,vhub-generic-
-> > endpoints"
-> > properties to describe supported number of vhub ports and endpoints.
-> >
-> > Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
->
-> Acked-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-
-I will take this patch through the aspeed tree for 5.7.
-
-Cheers,
-
-Joel
-
-
->
-> > ---
-> >  No change in v2/v3/v4.
-> >    - It's given v4 to align with the version of the patch series.
-> >
-> >  arch/arm/boot/dts/aspeed-g5.dtsi | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi
-> > b/arch/arm/boot/dts/aspeed-g5.dtsi
-> > index ebec0fa8baa7..f12ec04d3cbc 100644
-> > --- a/arch/arm/boot/dts/aspeed-g5.dtsi
-> > +++ b/arch/arm/boot/dts/aspeed-g5.dtsi
-> > @@ -195,6 +195,8 @@
-> >                       reg = <0x1e6a0000 0x300>;
-> >                       interrupts = <5>;
-> >                       clocks = <&syscon ASPEED_CLK_GATE_USBPORT1CLK>;
-> > +                     aspeed,vhub-downstream-ports = <5>;
-> > +                     aspeed,vhub-generic-endpoints = <15>;
-> >                       pinctrl-names = "default";
-> >                       pinctrl-0 = <&pinctrl_usb2ad_default>;
-> >                       status = "disabled";
->
+TWloYXdrIHBsYXRmb3JtIG5vIGxvbmdlciBzdXBwb3J0cyB0aGVzZSB0d28gTEVEcywgc28gSSB0
+aGluayB0aGVzZSB0d28gTEVEcyBzaG91bGQgYmUgcmVtb3ZlZCBmcm9tIGR0cy4NCg0KU2lnbmVk
+LW9mZi1ieTogQmVuIFBhaSA8QmVuX1BhaUB3aXN0cm9uLmNvbT4NCg0KLS0tLS1PcmlnaW5hbCBN
+ZXNzYWdlLS0tLS0NCkZyb206IEpvZWwgU3RhbmxleSA8am9lbEBqbXMuaWQuYXU+IA0KU2VudDog
+V2VkbmVzZGF5LCBGZWJydWFyeSAyNiwgMjAyMCA2OjU2IFBNDQpUbzogQmVuIFBhaS9XSFEvV2lz
+dHJvbiA8QmVuX1BhaUB3aXN0cm9uLmNvbT4NCkNjOiBSb2IgSGVycmluZyA8cm9iaCtkdEBrZXJu
+ZWwub3JnPjsgTWFyayBSdXRsYW5kIDxtYXJrLnJ1dGxhbmRAYXJtLmNvbT47IEFuZHJldyBKZWZm
+ZXJ5IDxhbmRyZXdAYWouaWQuYXU+OyBkZXZpY2V0cmVlIDxkZXZpY2V0cmVlQHZnZXIua2VybmVs
+Lm9yZz47IExpbnV4IEFSTSA8bGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnPjsg
+bGludXgtYXNwZWVkIDxsaW51eC1hc3BlZWRAbGlzdHMub3psYWJzLm9yZz47IExpbnV4IEtlcm5l
+bCBNYWlsaW5nIExpc3QgPGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc+OyB3YW5nYXRAdHcu
+aWJtLmNvbTsgQ2xhaXJlIEt1L1dIUS9XaXN0cm9uIDxDbGFpcmVfS3VAd2lzdHJvbi5jb20+DQpT
+dWJqZWN0OiBSZTogW1BBVENIIHYxXSBBUk06IGR0czogbWloYXdrOiBDaGFuZ2UgdGhlIG5hbWUg
+b2YgbWloYXdrIGxlZA0KDQpPbiBUaHUsIDIwIEZlYiAyMDIwIGF0IDA1OjUzLCBCZW4gUGFpIDxC
+ZW5fUGFpQHdpc3Ryb24uY29tPiB3cm90ZToNCj4NCj4gMS5DaGFuZ2UgdGhlIG5hbWUgb2YgcG93
+ZXIsIGZhdWx0IGFuZCByZWFyLWlkLg0KPiAyLlJlbW92ZSB0aGUgdHdvIGxlZHMuDQoNClRoZSBw
+YXRjaCBsb29rcyBva2F5LiBXaHkgZG8geW91IHJlbW92ZSB0aGUgb3RoZXIgdHdvIGxlZHM/DQoN
+ClJldmlld2VkLWJ5OiBKb2VsIFN0YW5sZXkgPGpvZWxAam1zLmlkLmF1Pg0KDQo+DQo+IFNpZ25l
+ZC1vZmYtYnk6IEJlbiBQYWkgPEJlbl9QYWlAd2lzdHJvbi5jb20+DQo+IC0tLQ0KPiAgYXJjaC9h
+cm0vYm9vdC9kdHMvYXNwZWVkLWJtYy1vcHAtbWloYXdrLmR0cyB8IDE3ICsrKy0tLS0tLS0tLS0t
+LS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxNCBkZWxldGlvbnMoLSkN
+Cj4NCj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtL2Jvb3QvZHRzL2FzcGVlZC1ibWMtb3BwLW1paGF3
+ay5kdHMgDQo+IGIvYXJjaC9hcm0vYm9vdC9kdHMvYXNwZWVkLWJtYy1vcHAtbWloYXdrLmR0cw0K
+PiBpbmRleCBlNTVjYzQ1NGIxN2YuLjZjMTE4NTRiOTAwNiAxMDA2NDQNCj4gLS0tIGEvYXJjaC9h
+cm0vYm9vdC9kdHMvYXNwZWVkLWJtYy1vcHAtbWloYXdrLmR0cw0KPiArKysgYi9hcmNoL2FybS9i
+b290L2R0cy9hc3BlZWQtYm1jLW9wcC1taWhhd2suZHRzDQo+IEBAIC0xMjAsMzUgKzEyMCwyNCBA
+QA0KPiAgICAgICAgIGxlZHMgew0KPiAgICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJncGlv
+LWxlZHMiOw0KPg0KPiAtICAgICAgICAgICAgICAgZmF1bHQgew0KPiArICAgICAgICAgICAgICAg
+ZnJvbnQtZmF1bHQgew0KPiAgICAgICAgICAgICAgICAgICAgICAgICByZXRhaW4tc3RhdGUtc2h1
+dGRvd247DQo+ICAgICAgICAgICAgICAgICAgICAgICAgIGRlZmF1bHQtc3RhdGUgPSAia2VlcCI7
+DQo+ICAgICAgICAgICAgICAgICAgICAgICAgIGdwaW9zID0gPCZncGlvIEFTUEVFRF9HUElPKEFB
+LCAwKSBHUElPX0FDVElWRV9MT1c+Ow0KPiAgICAgICAgICAgICAgICAgfTsNCj4NCj4gLSAgICAg
+ICAgICAgICAgIHBvd2VyIHsNCj4gKyAgICAgICAgICAgICAgIHBvd2VyLWJ1dHRvbiB7DQo+ICAg
+ICAgICAgICAgICAgICAgICAgICAgIHJldGFpbi1zdGF0ZS1zaHV0ZG93bjsNCj4gICAgICAgICAg
+ICAgICAgICAgICAgICAgZGVmYXVsdC1zdGF0ZSA9ICJrZWVwIjsNCj4gICAgICAgICAgICAgICAg
+ICAgICAgICAgZ3Bpb3MgPSA8JmdwaW8gQVNQRUVEX0dQSU8oQUEsIDEpIEdQSU9fQUNUSVZFX0xP
+Vz47DQo+ICAgICAgICAgICAgICAgICB9Ow0KPg0KPiAtICAgICAgICAgICAgICAgcmVhci1pZCB7
+DQo+ICsgICAgICAgICAgICAgICBmcm9udC1pZCB7DQo+ICAgICAgICAgICAgICAgICAgICAgICAg
+IHJldGFpbi1zdGF0ZS1zaHV0ZG93bjsNCj4gICAgICAgICAgICAgICAgICAgICAgICAgZGVmYXVs
+dC1zdGF0ZSA9ICJrZWVwIjsNCj4gICAgICAgICAgICAgICAgICAgICAgICAgZ3Bpb3MgPSA8Jmdw
+aW8gQVNQRUVEX0dQSU8oQUEsIDIpIEdQSU9fQUNUSVZFX0xPVz47DQo+ICAgICAgICAgICAgICAg
+ICB9Ow0KPg0KPiAtICAgICAgICAgICAgICAgcmVhci1nIHsNCj4gLSAgICAgICAgICAgICAgICAg
+ICAgICAgcmV0YWluLXN0YXRlLXNodXRkb3duOw0KPiAtICAgICAgICAgICAgICAgICAgICAgICBk
+ZWZhdWx0LXN0YXRlID0gImtlZXAiOw0KPiAtICAgICAgICAgICAgICAgICAgICAgICBncGlvcyA9
+IDwmZ3BpbyBBU1BFRURfR1BJTyhBQSwgNCkgR1BJT19BQ1RJVkVfTE9XPjsNCj4gLSAgICAgICAg
+ICAgICAgIH07DQo+IC0NCj4gLSAgICAgICAgICAgICAgIHJlYXItb2sgew0KPiAtICAgICAgICAg
+ICAgICAgICAgICAgICByZXRhaW4tc3RhdGUtc2h1dGRvd247DQo+IC0gICAgICAgICAgICAgICAg
+ICAgICAgIGRlZmF1bHQtc3RhdGUgPSAia2VlcCI7DQo+IC0gICAgICAgICAgICAgICAgICAgICAg
+IGdwaW9zID0gPCZncGlvIEFTUEVFRF9HUElPKFksIDApIEdQSU9fQUNUSVZFX0xPVz47DQo+IC0g
+ICAgICAgICAgICAgICB9Ow0KPg0KPiAgICAgICAgICAgICAgICAgZmFuMCB7DQo+ICAgICAgICAg
+ICAgICAgICAgICAgICAgIHJldGFpbi1zdGF0ZS1zaHV0ZG93bjsNCj4gLS0NCj4gMi4xNy4xDQo+
+DQo+DQo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAtLS0tLS0tLS0tLS0tLS0t
+LS0tIFRoaXMgZW1haWwgY29udGFpbnMgY29uZmlkZW50aWFsIG9yIGxlZ2FsbHkgDQo+IHByaXZp
+bGVnZWQgaW5mb3JtYXRpb24gYW5kIGlzIGZvciB0aGUgc29sZSB1c2Ugb2YgaXRzIGludGVuZGVk
+IHJlY2lwaWVudC4NCj4gQW55IHVuYXV0aG9yaXplZCByZXZpZXcsIHVzZSwgY29weWluZyBvciBk
+aXN0cmlidXRpb24gb2YgdGhpcyBlbWFpbCBvciB0aGUgY29udGVudCBvZiB0aGlzIGVtYWlsIGlz
+IHN0cmljdGx5IHByb2hpYml0ZWQuDQo+IElmIHlvdSBhcmUgbm90IHRoZSBpbnRlbmRlZCByZWNp
+cGllbnQsIHlvdSBtYXkgcmVwbHkgdG8gdGhlIHNlbmRlciBhbmQgc2hvdWxkIGRlbGV0ZSB0aGlz
+IGUtbWFpbCBpbW1lZGlhdGVseS4NCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAtLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+
+IC0tLS0tLS0tLS0tLS0tLS0tLS0NCg==
