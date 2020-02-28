@@ -2,89 +2,80 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9260D173B2A
-	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Feb 2020 16:16:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF6C8173E5C
+	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Feb 2020 18:24:25 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48TY5w141kzDrHm
-	for <lists+linux-aspeed@lfdr.de>; Sat, 29 Feb 2020 02:16:20 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48Tbxc0SvZzDrNc
+	for <lists+linux-aspeed@lfdr.de>; Sat, 29 Feb 2020 04:24:20 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::c42;
+ helo=mail-yw1-xc42.google.com; envelope-from=bjwyman@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=linux.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=BiCNBCpD; dkim-atps=neutral
+Received: from mail-yw1-xc42.google.com (mail-yw1-xc42.google.com
+ [IPv6:2607:f8b0:4864:20::c42])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48TY5k4BFmzDrFd;
- Sat, 29 Feb 2020 02:16:09 +1100 (AEDT)
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01SFFcKc105420; Fri, 28 Feb 2020 10:16:00 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yepxphvrr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Feb 2020 10:15:59 -0500
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01SFFxa3107442;
- Fri, 28 Feb 2020 10:15:59 -0500
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2yepxphuy1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Feb 2020 10:15:56 -0500
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01SFC17N007473;
- Fri, 28 Feb 2020 15:14:55 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma03dal.us.ibm.com with ESMTP id 2yepv2pkys-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Feb 2020 15:14:55 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01SFEshx16253840
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 28 Feb 2020 15:14:54 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 333582805C;
- Fri, 28 Feb 2020 15:14:54 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3C33028068;
- Fri, 28 Feb 2020 15:14:53 +0000 (GMT)
-Received: from [9.211.148.203] (unknown [9.211.148.203])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri, 28 Feb 2020 15:14:53 +0000 (GMT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48TbxN3SbQzDrMK;
+ Sat, 29 Feb 2020 04:24:06 +1100 (AEDT)
+Received: by mail-yw1-xc42.google.com with SMTP id i190so4043225ywc.2;
+ Fri, 28 Feb 2020 09:24:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=8DBagXdO92SGZD18edolNudaDY7BySfxVES4onPKc48=;
+ b=BiCNBCpDhvom4uoBEgi6wWUf78Kj5hpmt5TQuapy9qcR64nz4OnJs4O7vU8LcLUu1Q
+ Nfy/foDa3tGn4/w4Qq2UVG6M4CVuzCmn9cGtWCFzLZD/gC/cBKSKqjOgg1Y3L5Yy0mGv
+ PDHzM2BiUkH/rSgYYhZ/pZYHhX40OjyNXBiHVxpBfnnDjWLEmX58heB6u2EeaeQzIDcy
+ 6/UrxwaLyrcFcHFVPAHwz4hCE5WmYIR+hl7l9Q9Zqhhks6gu/viQxHQ2VyXC/iKyyhnS
+ TRQifnXdpH2I43DBTHtwz6C4YTGxMhpodWZtaFd/rok5ZYFKXb0osBRKqJwU0XgXJ6eg
+ 8KBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=8DBagXdO92SGZD18edolNudaDY7BySfxVES4onPKc48=;
+ b=ed9vuv6rbeFnwuazuPs4YqJhKdEgP1r6qsvtFmgei5697iURFeHWEPmnZhHfW1/yaG
+ 3Wc+BsNCDSVZui/UkEfGp1FBP/Qaj74dydekTdqYT3DftyEKleyl+VAvtkV9pZdaGfu0
+ LgC/ZRClv366ttSf+frwN/HmljjOGDVJjBnDIlOYe2wmE3y4N8mnJDqVEcee+Fr6FuS1
+ wIxzZQK5I/rH3J5T2tPwXXT4d2dhDEI1YLpPlYpQxu3wo+IVY7G7MmC7Tae7wkzqRkhw
+ t/xz4lz66f2psKGfxYu2mqAGoP0fFpC4uw1FwyRYBA6ACUU+66kpAv8YUh2PGuzaIeZ+
+ sqXg==
+X-Gm-Message-State: APjAAAUOS4bNlCKoNEc6RWrnOIOaQKpa/KQXYalN1kUW/ynWjVq2WLpB
+ 4716rtLkr8iZszkrfIZ5a8o=
+X-Google-Smtp-Source: APXvYqzjFFyA3EgEXXPFZc4AK1Co1/BHuEDPNq3NoVt9mMTOgu4Ojh5FyaxarOeEjgtDprXLfIV49w==
+X-Received: by 2002:a25:b16:: with SMTP id 22mr4521149ybl.380.1582910643178;
+ Fri, 28 Feb 2020 09:24:03 -0800 (PST)
+Received: from [192.168.1.111] (96-42-251-64.dhcp.roch.mn.charter.com.
+ [96.42.251.64])
+ by smtp.gmail.com with ESMTPSA id a202sm4221235ywe.8.2020.02.28.09.24.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Feb 2020 09:24:02 -0800 (PST)
 Subject: Re: [PATCH v2] ARM: dts: rainier: Set PCA9552 pin types
 To: Matthew Barth <msbarth@linux.ibm.com>, Joel Stanley <joel@jms.id.au>,
  Andrew Jeffery <andrew@aj.id.au>, openbmc@lists.ozlabs.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- Brandon Wyman <bjwyman@gmail.com>
+ Eddie James <eajames@linux.ibm.com>
 References: <20200225201415.431668-1-msbarth@linux.ibm.com>
-From: Eddie James <eajames@linux.ibm.com>
-Message-ID: <59ceccbd-b776-51fc-e80b-39427c70ec70@linux.ibm.com>
-Date: Fri, 28 Feb 2020 09:14:52 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+From: Brandon Wyman <bjwyman@gmail.com>
+Message-ID: <ec4c675a-b1db-c2d5-97d0-dcff44123db0@gmail.com>
+Date: Fri, 28 Feb 2020 11:24:01 -0600
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
 In-Reply-To: <20200225201415.431668-1-msbarth@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-28_04:2020-02-28,
- 2020-02-28 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- impostorscore=0 phishscore=0 spamscore=0 suspectscore=0 clxscore=1015
- bulkscore=0 mlxlogscore=999 priorityscore=1501 mlxscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002280121
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,20 +92,16 @@ Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
-On 2/25/20 2:14 PM, Matthew Barth wrote:
+On 2020-02-25 14:14, Matthew Barth wrote:
 > All 16 pins of the PCA9552 at 7-bit address 0x61 should be set as type
 > GPIO.
 >
 > Signed-off-by: Matthew Barth <msbarth@linux.ibm.com>
-
-
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
-
-
 > ---
 > v2: Added leds-pca955x.h include
 >      Added upstream to patch
 > ---
+Reviewed-by: Brandon Wyman <bjwyman@gmail.com>
 > ---
 >   arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 17 +++++++++++++++++
 >   1 file changed, 17 insertions(+)
