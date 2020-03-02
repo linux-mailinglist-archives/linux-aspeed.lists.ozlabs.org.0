@@ -2,80 +2,47 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6C8173E5C
-	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Feb 2020 18:24:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC7E1752E1
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Mar 2020 05:51:23 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48Tbxc0SvZzDrNc
-	for <lists+linux-aspeed@lfdr.de>; Sat, 29 Feb 2020 04:24:20 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48W75N64WwzDqbG
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Mar 2020 15:51:20 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::c42;
- helo=mail-yw1-xc42.google.com; envelope-from=bjwyman@gmail.com;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=BiCNBCpD; dkim-atps=neutral
-Received: from mail-yw1-xc42.google.com (mail-yw1-xc42.google.com
- [IPv6:2607:f8b0:4864:20::c42])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ spf=permerror (SPF Permanent Error: Unknown mechanism
+ found: ip:192.40.192.88/32) smtp.mailfrom=kernel.crashing.org
+ (client-ip=76.164.61.194; helo=kernel.crashing.org;
+ envelope-from=benh@kernel.crashing.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=kernel.crashing.org
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48TbxN3SbQzDrMK;
- Sat, 29 Feb 2020 04:24:06 +1100 (AEDT)
-Received: by mail-yw1-xc42.google.com with SMTP id i190so4043225ywc.2;
- Fri, 28 Feb 2020 09:24:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-transfer-encoding:content-language;
- bh=8DBagXdO92SGZD18edolNudaDY7BySfxVES4onPKc48=;
- b=BiCNBCpDhvom4uoBEgi6wWUf78Kj5hpmt5TQuapy9qcR64nz4OnJs4O7vU8LcLUu1Q
- Nfy/foDa3tGn4/w4Qq2UVG6M4CVuzCmn9cGtWCFzLZD/gC/cBKSKqjOgg1Y3L5Yy0mGv
- PDHzM2BiUkH/rSgYYhZ/pZYHhX40OjyNXBiHVxpBfnnDjWLEmX58heB6u2EeaeQzIDcy
- 6/UrxwaLyrcFcHFVPAHwz4hCE5WmYIR+hl7l9Q9Zqhhks6gu/viQxHQ2VyXC/iKyyhnS
- TRQifnXdpH2I43DBTHtwz6C4YTGxMhpodWZtaFd/rok5ZYFKXb0osBRKqJwU0XgXJ6eg
- 8KBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=8DBagXdO92SGZD18edolNudaDY7BySfxVES4onPKc48=;
- b=ed9vuv6rbeFnwuazuPs4YqJhKdEgP1r6qsvtFmgei5697iURFeHWEPmnZhHfW1/yaG
- 3Wc+BsNCDSVZui/UkEfGp1FBP/Qaj74dydekTdqYT3DftyEKleyl+VAvtkV9pZdaGfu0
- LgC/ZRClv366ttSf+frwN/HmljjOGDVJjBnDIlOYe2wmE3y4N8mnJDqVEcee+Fr6FuS1
- wIxzZQK5I/rH3J5T2tPwXXT4d2dhDEI1YLpPlYpQxu3wo+IVY7G7MmC7Tae7wkzqRkhw
- t/xz4lz66f2psKGfxYu2mqAGoP0fFpC4uw1FwyRYBA6ACUU+66kpAv8YUh2PGuzaIeZ+
- sqXg==
-X-Gm-Message-State: APjAAAUOS4bNlCKoNEc6RWrnOIOaQKpa/KQXYalN1kUW/ynWjVq2WLpB
- 4716rtLkr8iZszkrfIZ5a8o=
-X-Google-Smtp-Source: APXvYqzjFFyA3EgEXXPFZc4AK1Co1/BHuEDPNq3NoVt9mMTOgu4Ojh5FyaxarOeEjgtDprXLfIV49w==
-X-Received: by 2002:a25:b16:: with SMTP id 22mr4521149ybl.380.1582910643178;
- Fri, 28 Feb 2020 09:24:03 -0800 (PST)
-Received: from [192.168.1.111] (96-42-251-64.dhcp.roch.mn.charter.com.
- [96.42.251.64])
- by smtp.gmail.com with ESMTPSA id a202sm4221235ywe.8.2020.02.28.09.24.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Feb 2020 09:24:02 -0800 (PST)
-Subject: Re: [PATCH v2] ARM: dts: rainier: Set PCA9552 pin types
-To: Matthew Barth <msbarth@linux.ibm.com>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, openbmc@lists.ozlabs.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- Eddie James <eajames@linux.ibm.com>
-References: <20200225201415.431668-1-msbarth@linux.ibm.com>
-From: Brandon Wyman <bjwyman@gmail.com>
-Message-ID: <ec4c675a-b1db-c2d5-97d0-dcff44123db0@gmail.com>
-Date: Fri, 28 Feb 2020 11:24:01 -0600
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200225201415.431668-1-msbarth@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48W73n1MZJzDq62;
+ Mon,  2 Mar 2020 15:49:56 +1100 (AEDT)
+Received: from localhost (gate.crashing.org [63.228.1.57])
+ (authenticated bits=0)
+ by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 0224n7ms031936
+ (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Sun, 1 Mar 2020 22:49:11 -0600
+Message-ID: <42daa66bedc1b06936bc9cbc6e9b31f6dd8ed3a1.camel@kernel.crashing.org>
+Subject: Re: [PATCH v5 7/7] dt-bindings: usb: add documentation for aspeed
+ usb-vhub
+From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To: Tao Ren <rentao.bupt@gmail.com>
+Date: Mon, 02 Mar 2020 15:49:07 +1100
+In-Reply-To: <20200228081309.GA4531@taoren-ubuntuvm>
+References: <20200227230507.8682-1-rentao.bupt@gmail.com>
+ <20200227230507.8682-8-rentao.bupt@gmail.com>
+ <3150424b9e9f5856c747a0fbf44647919f49209d.camel@kernel.crashing.org>
+ <20200228010444.GA19910@taoren-ubuntu-R90MNF91>
+ <2676013663fc8c53e02a5fdaafb1b27e18249b80.camel@kernel.crashing.org>
+ <20200228081309.GA4531@taoren-ubuntuvm>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,117 +54,55 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>, Felipe Balbi <balbi@kernel.org>,
+ linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Colin Ian King <colin.king@canonical.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Fri, 2020-02-28 at 00:13 -0800, Tao Ren wrote:
+> On Fri, Feb 28, 2020 at 02:02:28PM +1100, Benjamin Herrenschmidt wrote:
+> > On Thu, 2020-02-27 at 17:05 -0800, Tao Ren wrote:
+> > > > Also long run I think best is going to have a child node per downstream
+> > > > port, so we create a matching linux struct device. This will make it
+> > > > easier to deal with the other device-controller in the ast2600 which is
+> > > > basically one of these without a vhub above it.
+> > > 
+> > > Maybe a dumb question: what would be the proper place to parse the child
+> > > node/properties when they are added? For example, in some usb_gadget_ops
+> > > callback?
+> > 
+> > No. What the vhub would do is when it probes, it creates a platform
+> > device for each "port" child node that's linked to the DT node.
+> > 
+> > The driver for the device then attaches to it via standard DT matching
+> > and checks if it has a vhub parent or not, and based on that, operates
+> > as a vhub child device or a standalone one.
+> > 
+> > (For example, it might have different functions for EP selection since
+> > standalone devices have private EPs rather than a shared pool)
+> > 
+> > They can both be in the same module or they can be separate modules
+> > with cross dependencies.
+> > 
+> > Cheers,
+> > Ben.
+> 
+> I see. It's to describe these downstream devices (such as configurations
+> and according functions) in device tree, which is similar to defining a
+> composite device and linking functions/interfaces via configfs. Thanks for
+> the clarify.
 
-On 2020-02-25 14:14, Matthew Barth wrote:
-> All 16 pins of the PCA9552 at 7-bit address 0x61 should be set as type
-> GPIO.
->
-> Signed-off-by: Matthew Barth <msbarth@linux.ibm.com>
-> ---
-> v2: Added leds-pca955x.h include
->      Added upstream to patch
-> ---
-Reviewed-by: Brandon Wyman <bjwyman@gmail.com>
-> ---
->   arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 17 +++++++++++++++++
->   1 file changed, 17 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> index c63cefce636d..d9fa9fd48058 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> @@ -4,6 +4,7 @@
->   
->   #include "aspeed-g6.dtsi"
->   #include <dt-bindings/gpio/aspeed-gpio.h>
-> +#include <dt-bindings/leds/leds-pca955x.h>
->   
->   / {
->   	model = "Rainier";
-> @@ -351,66 +352,82 @@
->   
->   		gpio@0 {
->   			reg = <0>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   
->   		gpio@1 {
->   			reg = <1>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   
->   		gpio@2 {
->   			reg = <2>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   
->   		gpio@3 {
->   			reg = <3>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   
->   		gpio@4 {
->   			reg = <4>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   
->   		gpio@5 {
->   			reg = <5>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   
->   		gpio@6 {
->   			reg = <6>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   
->   		gpio@7 {
->   			reg = <7>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   
->   		gpio@8 {
->   			reg = <8>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   
->   		gpio@9 {
->   			reg = <9>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   
->   		gpio@10 {
->   			reg = <10>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   
->   		gpio@11 {
->   			reg = <11>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   
->   		gpio@12 {
->   			reg = <12>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   
->   		gpio@13 {
->   			reg = <13>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   
->   		gpio@14 {
->   			reg = <14>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   
->   		gpio@15 {
->   			reg = <15>;
-> +			type = <PCA955X_TYPE_GPIO>;
->   		};
->   	};
->   
+It's also to make it easier long run to support both the standalone
+variant and the vhub variant from the same code base.
+
+Cheers,
+Ben.
+
+
