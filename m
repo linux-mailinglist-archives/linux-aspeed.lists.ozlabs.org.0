@@ -1,64 +1,78 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4FE17686A
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Mar 2020 00:47:59 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48WcJr1wRNzDqcc
-	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Mar 2020 10:47:56 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE05C176F42
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Mar 2020 07:24:06 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 48Wn5v4kPtzDqXl
+	for <lists+linux-aspeed@lfdr.de>; Tue,  3 Mar 2020 17:24:03 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.210.68; helo=mail-ot1-f68.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1043;
+ helo=mail-pj1-x1043.google.com; envelope-from=rentao.bupt@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
- [209.85.210.68])
+ dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=Kc6n75Ej; dkim-atps=neutral
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
+ [IPv6:2607:f8b0:4864:20::1043])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48WcJk20GwzDqbG;
- Tue,  3 Mar 2020 10:47:49 +1100 (AEDT)
-Received: by mail-ot1-f68.google.com with SMTP id j14so1200050otq.3;
- Mon, 02 Mar 2020 15:47:49 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48Wn5f3yHtzDqXl;
+ Tue,  3 Mar 2020 17:23:48 +1100 (AEDT)
+Received: by mail-pj1-x1043.google.com with SMTP id nm6so473162pjb.0;
+ Mon, 02 Mar 2020 22:23:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=6UPltCTph8JATwkMOr1U3Yp5FDDP+y4EAKaRm5ThBwE=;
+ b=Kc6n75EjJhEh37Mawk55/f0mK1B/wLSfInD/iqmAB9GjGvp7CcQnF4DXEkCoxp55Ig
+ KrLPGwAArvdTmZFYkk5iVpqzRLPpS96ZfzN1rSIqHWXCm2y0oNRUzUQJOr5oGEypb3UG
+ 40jhd6lOd5DEopyFqpQvqkUDCYkvqAW5NuXkzHMDh7DUsZSNrmxIO0U8AFigqmr95pe6
+ je8schRmyv8m0fMmf+MclOWJN/Z8DQWTqK+pmtjfX+bYABPd4pIp4A5pXghYZQko9lBv
+ 54WZidUTxOvI/mGKRMYrTLUt+/tMFWQDQD1O5KCFRxGy586WB9e1v+RDNyfqDZuT9X9X
+ EXDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=d/RkNcxyLqUX/+PgUpkEl7v2Jd0JMvdb/wExbaQt108=;
- b=HtW/qZ8nVZd8erzqzVs0cTPh7ZW6waN8ICfuqi1jGCLhWnXuluuzok2m9ljbh0sk5Y
- slyRRfcG1C34vbtakSH1x/jd4gS/6h1rA6jaf/JCYPvddIar9qjtdwSFvDF6d2PWno9N
- V0cp0EM1VWOqBamJtfv/v1Z+veVLENDBwQ8VhUnXCHccdyY1wZE4qK0djTybovXGAfZ2
- JMyCVf37ETPRnyTf7/+QwPfWup5Oap7FhSOPKG2TG10XcCuT6nZJNFVX46flCevmyctl
- TwZIMT5RKYKj8SHuzjmtC7TGVKdXvw1x8ijk7imtqWp7ipZ8302SQEGo+rOrIHty36uL
- oZHQ==
-X-Gm-Message-State: ANhLgQ09OMftd8fuhcnT+CxLejxyvHPmjJtEHGX6sQAW3u8MroVBNVd5
- MJeg59SL6M+0bjJWwSACkg==
-X-Google-Smtp-Source: ADFU+vuxpmnJMb8DOFdRXd1/mWLsgWVNrXdVa77SguBZ7LSbwMPbChW5+xbwnEeE1XzjzZTeiYahoQ==
-X-Received: by 2002:a9d:7509:: with SMTP id r9mr1274145otk.270.1583192866512; 
- Mon, 02 Mar 2020 15:47:46 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id m23sm3457031otq.37.2020.03.02.15.47.45
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=6UPltCTph8JATwkMOr1U3Yp5FDDP+y4EAKaRm5ThBwE=;
+ b=lkIV77kxkc88B7Pu/AjlXoNbhKajOYBlESJZwGaCYbJFI3ilZP/vz/BO+4z9a6e5eb
+ fVb9TM/6Ra1tJVh6vLZ2XpSLloQ5TmY6hP76Ii8sVCNJl8pRpJujw1wNTcQvICBkE0jE
+ ABBfx44Rv+ImbcAP5RDZSx8w6oQZTU2xKrlEQO27nhm0IdLhzdekn+qDRQsyj0Ccn4+o
+ HG+dhVAlkXdFSZuiYvzCdXUIOqJ7YMZo3bsWubtKH5ExdnHzQ6vJNHqrsBtVp+1MgdmX
+ eV8ntzy49Iuvrds/Ke9rNUb4wzj46Kkp6lIIkbVa0nvlcxW4MdH0JTUDU+nkOGO/xKRk
+ 24Og==
+X-Gm-Message-State: ANhLgQ2driYtK86Orgn59vnxAJo6v+JjUaMUDLhEj780Hs+EIF2zas+f
+ 1mdIi5R5xiYYJaVKCJbaYR4=
+X-Google-Smtp-Source: ADFU+vuvnRBHKecc4wMxbN//ecC5JbcdApulYoDZF/PxrhdgfqOSTO1/rFV2BRvLmaCdLXOUQIXFFQ==
+X-Received: by 2002:a17:902:b611:: with SMTP id
+ b17mr2783485pls.23.1583216626144; 
+ Mon, 02 Mar 2020 22:23:46 -0800 (PST)
+Received: from taoren-ubuntu-R90MNF91.thefacebook.com
+ (c-24-4-25-55.hsd1.ca.comcast.net. [24.4.25.55])
+ by smtp.gmail.com with ESMTPSA id k5sm7453526pfp.66.2020.03.02.22.23.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Mar 2020 15:47:45 -0800 (PST)
-Received: (nullmailer pid 30642 invoked by uid 1000);
- Mon, 02 Mar 2020 23:47:44 -0000
-Date: Mon, 2 Mar 2020 17:47:44 -0600
-From: Rob Herring <robh@kernel.org>
-To: rentao.bupt@gmail.com
-Subject: Re: [PATCH v6 7/7] dt-bindings: usb: add documentation for aspeed
- usb-vhub
-Message-ID: <20200302234744.GA21778@bogus>
-References: <20200228020757.10513-1-rentao.bupt@gmail.com>
- <20200228020757.10513-8-rentao.bupt@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200228020757.10513-8-rentao.bupt@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+ Mon, 02 Mar 2020 22:23:45 -0800 (PST)
+From: rentao.bupt@gmail.com
+To: Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Colin Ian King <colin.king@canonical.com>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ openbmc@lists.ozlabs.org, taoren@fb.com
+Subject: [PATCH v7 0/7] aspeed-g6: enable usb support
+Date: Mon,  2 Mar 2020 22:23:29 -0800
+Message-Id: <20200303062336.7361-1-rentao.bupt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,141 +84,55 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Felipe Balbi <balbi@kernel.org>,
- linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
- openbmc@lists.ozlabs.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Colin Ian King <colin.king@canonical.com>,
- linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Feb 27, 2020 at 06:07:57PM -0800, rentao.bupt@gmail.com wrote:
-> From: Tao Ren <rentao.bupt@gmail.com>
-> 
-> Add device tree binding documentation for the Aspeed USB 2.0 Virtual HUb
-> Controller.
-> 
-> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
-> ---
->  Changes in v6:
->    - added 2 required properties into example and passed "make
->      dt_binding_check".
->  Changes in v5:
->    - updated maintainer to Ben.
->    - refined patch description per Joel's suggestion.
->  No change in v2/v3/v4:
->    - the patch is added to the patch series since v4.
-> 
->  .../bindings/usb/aspeed,usb-vhub.yaml         | 73 +++++++++++++++++++
->  1 file changed, 73 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml b/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
-> new file mode 100644
-> index 000000000000..b9f33310e9a2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
-> @@ -0,0 +1,73 @@
-> +# SPDX-License-Identifier: GPL-2.0-or-later
+From: Tao Ren <rentao.bupt@gmail.com>
 
-Dual license new bindings please.
+The patch series aims at enabling USB Host and Gadget support on AST2600
+platforms.
 
-(GPL-2.0-only OR BSD-2-Clause)
+Patch #1 includes vhub's usb descriptors in struct "ast_vhub": all usb
+descriptor changes will go to the per-vhub instance instead of touching
+the global default descriptors.
 
-> +# Copyright (c) 2020 Facebook Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/aspeed,usb-vhub.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ASPEED USB 2.0 Virtual Hub Controller
-> +
-> +maintainers:
-> +  - Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> +
-> +description: |+
-> +  The ASPEED USB 2.0 Virtual Hub Controller implements 1 set of USB Hub
-> +  register and several sets of Device and Endpoint registers to support
-> +  the Virtual Hub's downstream USB devices.
-> +
-> +  Supported number of devices and endpoints vary depending on hardware
-> +  revisions. AST2400 and AST2500 Virtual Hub supports 5 downstream devices
-> +  and 15 generic endpoints, while AST2600 Virtual Hub supports 7 downstream
-> +  devices and 21 generic endpoints.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2400-usb-vhub
-> +      - aspeed,ast2500-usb-vhub
-> +      - aspeed,ast2600-usb-vhub
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: Common configuration registers
+Patch #2 replaces hardcoded vhub port/endpoint number with device tree
+properties, so that it's more convenient to add support for ast2600-vhub
+which provides more downstream ports and endpoints.
 
-If 'Common' means something specific to this block, then keep. 
-Otherwise, you can drop ti.
+Patch #3 enables ast2600 support in aspeed-vhub usb gadget driver.
 
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: The Virtual Hub Controller clock gate
+Patch #4 adds USB devices and according pin groups in aspeed-g6 dtsi.
 
-Drop this.
+Patch #5 and #6 add vhub port/endpoint properties into aspeed-g4 and
+aspeed-g5 dtsi.
 
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  aspeed,vhub-downstream-ports:
-> +    description: Number of downstream ports supported by the Virtual Hub
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
+Patch #7 adds device tree binding document for aspeed usb-vhub driver.
 
-Constraints?
+Tao Ren (7):
+  usb: gadget: aspeed: support per-vhub usb descriptors
+  usb: gadget: aspeed: read vhub properties from device tree
+  usb: gadget: aspeed: add ast2600 vhub support
+  ARM: dts: aspeed-g6: add usb functions
+  ARM: dts: aspeed-g5: add vhub port and endpoint properties
+  ARM: dts: aspeed-g4: add vhub port and endpoint properties
+  dt-bindings: usb: add documentation for aspeed usb-vhub
 
-'maximum: 5' ?
+ .../bindings/usb/aspeed,usb-vhub.yaml         | 77 +++++++++++++++++++
+ arch/arm/boot/dts/aspeed-g4.dtsi              |  2 +
+ arch/arm/boot/dts/aspeed-g5.dtsi              |  2 +
+ arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi      | 25 ++++++
+ arch/arm/boot/dts/aspeed-g6.dtsi              | 45 +++++++++++
+ drivers/usb/gadget/udc/aspeed-vhub/Kconfig    |  4 +-
+ drivers/usb/gadget/udc/aspeed-vhub/core.c     | 71 ++++++++++-------
+ drivers/usb/gadget/udc/aspeed-vhub/dev.c      | 30 ++++++--
+ drivers/usb/gadget/udc/aspeed-vhub/epn.c      |  4 +-
+ drivers/usb/gadget/udc/aspeed-vhub/hub.c      | 58 +++++++++-----
+ drivers/usb/gadget/udc/aspeed-vhub/vhub.h     | 43 +++++++----
+ 11 files changed, 290 insertions(+), 71 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
 
-default?
+-- 
+2.17.1
 
-> +
-> +  aspeed,vhub-generic-endpoints:
-> +    description: Number of generic endpoints supported by the Virtual Hub
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-
-Constraints?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - interrupts
-> +  - aspeed,vhub-downstream-ports
-> +  - aspeed,vhub-generic-endpoints
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/aspeed-clock.h>
-> +    vhub: usb-vhub@1e6a0000 {
-> +            compatible = "aspeed,ast2500-usb-vhub";
-> +            reg = <0x1e6a0000 0x300>;
-> +            interrupts = <5>;
-> +            clocks = <&syscon ASPEED_CLK_GATE_USBPORT1CLK>;
-> +            aspeed,vhub-downstream-ports = <5>;
-> +            aspeed,vhub-generic-endpoints = <15>;
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&pinctrl_usb2ad_default>;
-> +    };
-> -- 
-> 2.17.1
-> 
