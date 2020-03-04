@@ -1,49 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C1B1794C5
+	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Mar 2020 17:16:32 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0178A17880D
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Mar 2020 03:06:39 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48XHLN2FWyzDqT6
-	for <lists+linux-aspeed@lfdr.de>; Wed,  4 Mar 2020 13:06:36 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48XfC14BygzDqT5
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Mar 2020 03:16:29 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=209.85.167.194;
+ helo=mail-oi1-f194.google.com; envelope-from=robherring2@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=134.134.136.24; helo=mga09.intel.com;
- envelope-from=mika.westerberg@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=linux.intel.com
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48WtPD291gzDqW0
- for <linux-aspeed@lists.ozlabs.org>; Tue,  3 Mar 2020 21:22:35 +1100 (AEDT)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Mar 2020 02:22:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,510,1574150400"; d="scan'208";a="351793990"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
- by fmsmga001.fm.intel.com with SMTP; 03 Mar 2020 02:22:23 -0800
-Received: by lahna (sSMTP sendmail emulation); Tue, 03 Mar 2020 12:22:22 +0200
-Date: Tue, 3 Mar 2020 12:22:22 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Tudor.Ambarus@microchip.com
-Subject: Re: [PATCH 12/23] mtd: spi-nor: Move Intel bits out of core.c
-Message-ID: <20200303102222.GL2540@lahna.fi.intel.com>
-References: <20200302180730.1886678-1-tudor.ambarus@microchip.com>
- <20200302180730.1886678-13-tudor.ambarus@microchip.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48XfBm1TtxzDqRw;
+ Thu,  5 Mar 2020 03:16:15 +1100 (AEDT)
+Received: by mail-oi1-f194.google.com with SMTP id d62so2606412oia.11;
+ Wed, 04 Mar 2020 08:16:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=GhAsniKvYUMptrJyDO+p1c/FdpaCICij3vPs9vpAABc=;
+ b=kri7NPcRxES9uAKiGgi8JBURmss2a8WmJe9/edZeLDjBNapvwg0l7D4spJWHy1JX1H
+ toADDwMWpGuA5Giuo+VVDqpgcJzf7oO2Fp/g336dDIqLuAVe9KmVioVVFk3eCenr5vQm
+ s1Eu/DDQwjNaRpMTRJZCBhusZIUY5kKp44dHfrlmCtdGFSLs/aOVwxIWrQlwQEXmKaDQ
+ NMSHbG9Vgq7wJH9WsGDVa5b0/5VOSjGdEBwULIpL2VMcHYWt4WrxKSVhJUezxeblfakj
+ 5yqBhs/K3Wj7HcQP3UKcXbXCGtV1dbtfhKghOxTEytAoU0Il/ed1MZBa6cgWAcUV3V9Z
+ qR1A==
+X-Gm-Message-State: ANhLgQ18KK7G5+rhxpVRHeURYqNGaa0rlZ8VDemvYfTXVFsxRDweCZh2
+ I1egE9/WOu2zQ522np8+Og==
+X-Google-Smtp-Source: ADFU+vscMM6br/Xn3C+U6tfhoqQLV4NMo3JZu/sSuSbhBxEB3/oNdCr4+Z6EvzgPb0uWjeursQTGaw==
+X-Received: by 2002:aca:4f8e:: with SMTP id d136mr2309174oib.77.1583338572096; 
+ Wed, 04 Mar 2020 08:16:12 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id s83sm8891708oif.33.2020.03.04.08.16.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Mar 2020 08:16:11 -0800 (PST)
+Received: (nullmailer pid 26946 invoked by uid 1000);
+ Wed, 04 Mar 2020 16:16:10 -0000
+Date: Wed, 4 Mar 2020 10:16:10 -0600
+From: Rob Herring <robh@kernel.org>
+To: rentao.bupt@gmail.com
+Subject: Re: [PATCH v7 7/7] dt-bindings: usb: add documentation for aspeed
+ usb-vhub
+Message-ID: <20200304161610.GA26873@bogus>
+References: <20200303062336.7361-1-rentao.bupt@gmail.com>
+ <20200303062336.7361-8-rentao.bupt@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200302180730.1886678-13-tudor.ambarus@microchip.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Mailman-Approved-At: Wed, 04 Mar 2020 12:56:21 +1100
+In-Reply-To: <20200303062336.7361-8-rentao.bupt@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,28 +71,44 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: kstewart@linuxfoundation.org, alexandre.belloni@bootlin.com,
- vigneshr@ti.com, linux-aspeed@lists.ozlabs.org, thor.thayer@linux.intel.com,
- jethro@fortanix.com, rfontana@redhat.com, linux-mtd@lists.infradead.org,
- miquel.raynal@bootlin.com, opensource@jilayne.com, richard@nod.at,
- allison@lohutok.net, michal.simek@xilinx.com, Ludovic.Desroches@microchip.com,
- nishkadg.linux@gmail.com, john.garry@huawei.com, vz@mleia.com,
- alexander.sverdlin@nokia.com, matthias.bgg@gmail.com, tglx@linutronix.de,
- swboyd@chromium.org, ludovic.barre@st.com,
- linux-arm-kernel@lists.infradead.org, bbrezillon@kernel.org,
- Nicolas.Ferre@microchip.com, linux-kernel@vger.kernel.org, dinguyen@kernel.org,
- michael@walle.cc, linux-mediatek@lists.infradead.org, info@metux.net
+Cc: Mark Rutland <mark.rutland@arm.com>, Felipe Balbi <balbi@kernel.org>,
+ linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Colin Ian King <colin.king@canonical.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Mar 02, 2020 at 06:07:51PM +0000, Tudor.Ambarus@microchip.com wrote:
-> From: Boris Brezillon <bbrezillon@kernel.org>
+On Mon,  2 Mar 2020 22:23:36 -0800, rentao.bupt@gmail.com wrote:
+> From: Tao Ren <rentao.bupt@gmail.com>
 > 
-> Create a SPI NOR manufacturer driver for Intel chips, and move the
-> Intel definitions outside of core.c.
+> Add device tree binding documentation for the Aspeed USB 2.0 Virtual HUb
+> Controller.
 > 
-> Signed-off-by: Boris Brezillon <bbrezillon@kernel.org>
-> Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
+> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
+> ---
+>  Changes in v7:
+>    - updated to dual license.
+>    - removed description for "reg" and "clocks" properties.
+>    - Added constraints (minimum/maximum/default) for vendor specific
+>      properties.
+>  Changes in v6:
+>    - added 2 required properties into example and passed "make
+>      dt_binding_check".
+>  Changes in v5:
+>    - updated maintainer to Ben.
+>    - refined patch description per Joel's suggestion.
+>  No change in v2/v3/v4:
+>    - the patch is added to the patch series since v4.
+> 
+>  .../bindings/usb/aspeed,usb-vhub.yaml         | 77 +++++++++++++++++++
+>  1 file changed, 77 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
+> 
 
-Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
