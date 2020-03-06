@@ -2,73 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E19917B265
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Mar 2020 00:48:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E57B517C38E
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Mar 2020 18:05:22 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48YS9n5YClzDqS1
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Mar 2020 10:48:13 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48YvBR46ydzDr7l
+	for <lists+linux-aspeed@lfdr.de>; Sat,  7 Mar 2020 04:05:19 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::444;
- helo=mail-pf1-x444.google.com; envelope-from=rentao.bupt@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=209.85.210.68; helo=mail-ot1-f68.google.com;
+ envelope-from=geissonator@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=i7M9+ENa; dkim-atps=neutral
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+ [209.85.210.68])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48YS9X6G5wzDqRq;
- Fri,  6 Mar 2020 10:47:58 +1100 (AEDT)
-Received: by mail-pf1-x444.google.com with SMTP id n7so169208pfn.0;
- Thu, 05 Mar 2020 15:47:58 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48Yv8h1LhPzDr5n;
+ Sat,  7 Mar 2020 04:03:46 +1100 (AEDT)
+Received: by mail-ot1-f68.google.com with SMTP id v22so3057132otq.11;
+ Fri, 06 Mar 2020 09:03:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=z2HXeME5Gk76DY5Zvh5p+H88p8YEhHXH5Ad0akNZ4Go=;
- b=i7M9+ENaqIDSGbdccu/70MshUdaM1GY6nsyiIOXyVdqlfp9GO06/CNeuQdJClQ1T6f
- 5jbaLtuZpia8nMNur+hSQ6ow4hDRQwvgoF8qc+Bryi/Nr/upfoM54W3KzGR8ZN2FOYgk
- xnljo4UgHyDYzQCkhGO1LwezK5GZxjQFAVX3QIHKHV4wh/fHQwalTOOQ/1fAL2SanSNb
- uIr/xP/KzI6mZdLcbL0ZrG9k0V9AYHqlu8Z+DKlKQL3hl5CWc7XpM8Jr9lx4ag8HIlt4
- lg/fRzNEcVzS6qC+h49hpllj4NQJ8xACHPV3OeRjR+OQV0sG1lzyONqNqt24oNq3sVe+
- podA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0huqSOOM6TQWT/uaipc+FS4s16ouSaOa4nymxBl//rs=;
+ b=E578MAb7Yr42MvvPNFo3yDbFhNAT2AbVP9J18ov7OwRiwaeS0UWnAdlPX7xu42IjK/
+ 55M6bqYkOS6SbkVuoPSZX5YpTLKcRGUDvUw/7zZN3UVyrhTUpMmrUyj8i94atSmzhhpJ
+ LZS7Je07zTvXE46VUBdwzDh1ojHEGF/bC5WDBDx2bvne42OuXymWdMKOLknROBzFnuEs
+ kVmS+VH+7OSgqPcA7L/mffmoSTi6QxV1nOpuD8qsY9QbuFRe3WBsYJFHQyWP0Gxm9Lyw
+ QWN6bf2APE3id1PWNFTsri3m4NlprvDfX2HxBVF12A+vF6mp3FT1oY7bPkk3byvq6Lf4
+ CD4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=z2HXeME5Gk76DY5Zvh5p+H88p8YEhHXH5Ad0akNZ4Go=;
- b=HWMgBwssENnPJh0AUmI/nfHey0bGOBIZpeRzQj9YHyeNTVwg0cXFZ1Os5M/8vhJaHP
- x9ufG3IVIq13Tx4Sdf8oYVhYTx9YJCwID7RL7meWIRfCRhbQxMqSQhM2/GHwVK0p0EV8
- FBq+Xbsog0PUAfJFW/UNEblCozqz0r0TNqTXiObQTMqYJ7eTIyCk9MBivaxhY9de8MKr
- Papx1b6I8NMR8VOgJS5tbyFxnkI78fawsGOOb73c11hLO7ouIYOxr53/uDPSdUzujcT6
- LRp28IZHbE3UlA6uZoWSbFl/nSSZd/hNJeLXjJu2mPWQTR1rq5g7H+FgD8XCXsoG6YNA
- cH1A==
-X-Gm-Message-State: ANhLgQ1aUucbb9JytMepicwdT9rrRcFrKwl3ktvlbe6oWkSaBqOE+yiC
- lEzW2QMXrvWi8jZfyfO4j40=
-X-Google-Smtp-Source: ADFU+vuXtvzxvdAVnsjaChDBJL3af8XnJtk33bP+uqfR/WxN2Ya4fj+d8he6j7TKb31ahpsc05YQvw==
-X-Received: by 2002:a63:8042:: with SMTP id j63mr581107pgd.224.1583452074966; 
- Thu, 05 Mar 2020 15:47:54 -0800 (PST)
-Received: from taoren-ubuntu-R90MNF91.thefacebook.com
- ([2620:10d:c090:500::5:788])
- by smtp.gmail.com with ESMTPSA id s21sm4490620pfd.99.2020.03.05.15.47.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Mar 2020 15:47:54 -0800 (PST)
-From: rentao.bupt@gmail.com
-To: Felipe Balbi <balbi@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Stephen Boyd <swboyd@chromium.org>, linux-usb@vger.kernel.org,
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0huqSOOM6TQWT/uaipc+FS4s16ouSaOa4nymxBl//rs=;
+ b=AJC+bM49opXpC8Kj9wDX3XVUnY2+bA1EiaLFNJiXcKEm7uewXKG/GJjsSW6kUyZZxe
+ YbsSQQeyv2MpI21pp03K/7M/9a6yOT6WeP1y0xxAriBH0pjeqWozSzA38cib+SvZunqX
+ 5kkzRqDiZTqaKNO9jVRBOInJgUtYISmcqD8r1IV9BBkNb2g2zdZhAxdehIu/uViEK+hd
+ 6ofz7F/HqxzO70SucIhleSYZuf8cp71fzX/jJbJJwYXRWyay06d22U+Frbvm6QL9ZD4X
+ tuSYcrblaIYqEVKUerapNfdTxOl0om/c1dUbw5bN/cFg82bO7h3v8glR1eIgooSe/txu
+ 4kNw==
+X-Gm-Message-State: ANhLgQ3VEaG4Crc4+T3mZ6eZwee1nmVTrHVGH/fwXEn/oDkORwENgGUY
+ mOrMb818tFPa7LclRiTzY2Y=
+X-Google-Smtp-Source: ADFU+vsoao5aucvzlM9qEqT53U96NcowhLRZAwGIJeWQMdIOpwMlemrRqJtLU3zoSd8q9SxSQrbZdQ==
+X-Received: by 2002:a9d:6c94:: with SMTP id c20mr3429727otr.285.1583514160968; 
+ Fri, 06 Mar 2020 09:02:40 -0800 (PST)
+Received: from andrews-mbp-2.austin.ibm.com ([129.41.86.0])
+ by smtp.gmail.com with ESMTPSA id t9sm11550743otm.76.2020.03.06.09.02.39
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 06 Mar 2020 09:02:40 -0800 (PST)
+From: Andrew Geissler <geissonator@gmail.com>
+X-Google-Original-From: Andrew Geissler <geissonator@yahoo.com>
+To: joel@jms.id.au, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com
-Subject: [PATCH v2] usb: gadget: aspeed: improve vhub port irq handling
-Date: Thu,  5 Mar 2020 15:47:46 -0800
-Message-Id: <20200305234746.1002-1-rentao.bupt@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] ARM: dts: aspeed: romulus: Add gpio line names
+Date: Fri,  6 Mar 2020 11:02:17 -0600
+Message-Id: <20200306170218.79698-1-geissonator@yahoo.com>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,85 +75,82 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-gpio@vger.kernel.org, openbmc@lists.ozlabs.org,
+ Andrew Geissler <geissonator@yahoo.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Tao Ren <rentao.bupt@gmail.com>
+Name the GPIOs to help userspace work with them. The names describe the
+functionality the lines provide, not the net or ball name. This makes it
+easier to share userspace code across different systems and makes the
+use of the lines more obvious.
 
-This patch evaluates vhub ports' irq mask before going through per-port
-irq handling one by one, which helps to speed up irq handling in case
-there is no port interrupt.
-
-Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+Signed-off-by: Andrew Geissler <geissonator@yahoo.com>
 ---
- Changes in v2:
-   - use "for_each_set_bit" to speed up port irq handling.
+ arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts | 35 ++++++++++++++++++--
+ 1 file changed, 32 insertions(+), 3 deletions(-)
 
- drivers/usb/gadget/udc/aspeed-vhub/core.c | 11 ++++++++---
- drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  8 +++-----
- 2 files changed, 11 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-index f8d35dd60c34..af2dbd405361 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-@@ -134,11 +134,14 @@ static irqreturn_t ast_vhub_irq(int irq, void *data)
- 	}
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts b/arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts
+index edfa44fe1f75..fd2e014dae75 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts
+@@ -231,23 +231,52 @@
+ };
  
- 	/* Handle device interrupts */
--	for (i = 0; i < vhub->max_ports; i++) {
--		u32 dev_mask = VHUB_IRQ_DEVICE1 << i;
-+	if (istat & vhub->port_irq_mask) {
-+		int offset = VHUB_IRQ_DEV1_BIT;
-+		int size = VHUB_IRQ_DEV1_BIT + vhub->max_ports;
+ &gpio {
++	gpio-line-names =
++	/*A0-A7*/	"","cfam-reset","","","","","fsi-mux","",
++	/*B0-B7*/	"","","","","","","","",
++	/*C0-C7*/	"","","","","","","","",
++	/*D0-D7*/	"fsi-enable","","","nic_func_mode0","nic_func_mode1","","","",
++	/*E0-E7*/	"","","","","","","","",
++	/*F0-F7*/	"","","","","","","","",
++	/*G0-G7*/	"","","","","","","","",
++	/*H0-H7*/	"","","","","","","","",
++	/*I0-I7*/	"","","","power-button","","","","",
++	/*J0-J7*/	"","","checkstop","","","","","",
++	/*K0-K7*/	"","","","","","","","",
++	/*L0-L7*/	"","","","","","","","",
++	/*M0-M7*/	"","","","","","","","",
++	/*N0-N7*/	"","","led-fault","",
++				"led-identify","","","",
++	/*O0-O7*/	"","","","","","","","",
++	/*P0-P7*/	"","","","","","","","",
++	/*Q0-Q7*/	"","","","","","","","id-button",
++	/*R0-R7*/	"","","fsi-trans","","","led-power","","",
++	/*S0-S7*/	"","","","","","","","seq_cont",
++	/*T0-T7*/	"","","","","","","","",
++	/*U0-U7*/	"","","","","","","","",
++	/*V0-V7*/	"","","","","","","","",
++	/*W0-W7*/	"","","","","","","","",
++	/*X0-X7*/	"","","","","","","","",
++	/*Y0-Y7*/	"","","","","","","","",
++	/*Z0-Z7*/	"","","","","","","","",
++	/*AA0-AA7*/	"fsi-clock","","fsi-data","","","","","",
++	/*AB0-AB7*/	"","","","","","","","",
++	/*AC0-AC7*/	"","","","","","","","";
++
+ 	nic_func_mode0 {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(D, 3) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+-		line-name = "nic_func_mode0";
+ 	};
+ 	nic_func_mode1 {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(D, 4) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+-		line-name = "nic_func_mode1";
+ 	};
+ 	seq_cont {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(S, 7) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+-		line-name = "seq_cont";
+ 	};
+ };
  
--		if (istat & dev_mask)
-+		for_each_set_bit_from(offset, (unsigned long *)&istat, size) {
-+			i = offset - VHUB_IRQ_DEV1_BIT;
- 			ast_vhub_dev_irq(&vhub->ports[i].dev);
-+		}
- 	}
- 
- 	/* Handle top-level vHub EP0 interrupts */
-@@ -332,6 +335,8 @@ static int ast_vhub_probe(struct platform_device *pdev)
- 
- 	spin_lock_init(&vhub->lock);
- 	vhub->pdev = pdev;
-+	vhub->port_irq_mask = GENMASK(VHUB_IRQ_DEV1_BIT + vhub->max_ports - 1,
-+				      VHUB_IRQ_DEV1_BIT);
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	vhub->regs = devm_ioremap_resource(&pdev->dev, res);
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-index fac79ef6d669..23a1ac91f8d2 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-@@ -51,14 +51,11 @@
- #define VHUB_CTRL_UPSTREAM_CONNECT		(1 << 0)
- 
- /* IER & ISR */
-+#define VHUB_IRQ_DEV1_BIT			9
- #define VHUB_IRQ_USB_CMD_DEADLOCK		(1 << 18)
- #define VHUB_IRQ_EP_POOL_NAK			(1 << 17)
- #define VHUB_IRQ_EP_POOL_ACK_STALL		(1 << 16)
--#define VHUB_IRQ_DEVICE5			(1 << 13)
--#define VHUB_IRQ_DEVICE4			(1 << 12)
--#define VHUB_IRQ_DEVICE3			(1 << 11)
--#define VHUB_IRQ_DEVICE2			(1 << 10)
--#define VHUB_IRQ_DEVICE1			(1 << 9)
-+#define VHUB_IRQ_DEVICE1			(1 << (VHUB_IRQ_DEV1_BIT))
- #define VHUB_IRQ_BUS_RESUME			(1 << 8)
- #define VHUB_IRQ_BUS_SUSPEND 			(1 << 7)
- #define VHUB_IRQ_BUS_RESET 			(1 << 6)
-@@ -402,6 +399,7 @@ struct ast_vhub {
- 	/* Per-port info */
- 	struct ast_vhub_port		*ports;
- 	u32				max_ports;
-+	u32				port_irq_mask;
- 
- 	/* Generic EP data structures */
- 	struct ast_vhub_ep		*epns;
 -- 
-2.17.1
+2.21.0 (Apple Git-122)
 
