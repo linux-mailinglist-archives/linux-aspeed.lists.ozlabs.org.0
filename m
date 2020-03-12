@@ -2,72 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D3E718261E
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Mar 2020 01:10:15 +0100 (CET)
-Received: from lists.ozlabs.org (unknown [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48d8NN5FCrzDqNN
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Mar 2020 11:10:12 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7633C183005
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Mar 2020 13:14:42 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 48dSSG32p0zDqRN
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Mar 2020 23:14:38 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.214.195;
- helo=mail-pl1-f195.google.com; envelope-from=rentao.bupt@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::643;
+ helo=mail-pl1-x643.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=dWUc1NI1; dkim-atps=neutral
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
+ [IPv6:2607:f8b0:4864:20::643])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48d8Mv4MxNzDqMm;
- Thu, 12 Mar 2020 11:09:46 +1100 (AEDT)
-Received: by mail-pl1-f195.google.com with SMTP id a23so1885124plm.1;
- Wed, 11 Mar 2020 17:09:46 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48dSS46lVszDqPf
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Mar 2020 23:14:26 +1100 (AEDT)
+Received: by mail-pl1-x643.google.com with SMTP id f16so2604079plj.4
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Mar 2020 05:14:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=9ApGOF5PBkyoeBPogSoc/7/ab/yJXEM4Uq6xzW0uckE=;
- b=qa/JjpNbOa07fUsB4jPdLDm52/jZZEQRH9wlnggCo8DYirC2AP/CxM7bIpeGf+pTsZ
- Uv9+2rKZqzD67ItMqFhBlkKxIM3pO4GTO/b21mX73+MdeJ8hXW9aA30m/c7gsxNFkmvY
- 2l3HzKT7rZseU2snFyYgrJqHPN997zzhpWRiGk0t+jriJZeQ3BOe/fmG//AR7IdLhdFr
- uQzd7AOSjXIYBl7IBeG3pQGBBvzaLhYsBEqU4s+4zR1iUyentr12iqjc2dKsAzemOigy
- iZ6MrnT4onYr65Ude8HVtSsE4M05XvWBLKobbUKLxWtQ+JleX207ym20znvdc2QktO4I
- g/WQ==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KLGqjo2Pbyp0L4oH5SdHTAc+fFuuPfjZO2AGlFDtlHs=;
+ b=dWUc1NI1L8enMUDwDEz9I3rxuIr2RJ9QzspTGcARsuYyzTdb7R8vAMLVr3qdL4Pe/G
+ JSXtUsTXjr8uYWalLj4lm2EjpVXdf7RvXImFc36KD3Kr1I53+fCKyCzDj5za/5ddoZJ9
+ NIHVl4zzCpAra6mos9utiidoMUTl+lqYMROzWXHiMyqvhn0m+E/zh0WxramiVW55II5W
+ v28YQ3rv2jnjXTGREpJL3sWJs0oLxfFwBmXjWAUH7nCJ6dJ2+HR+0Np7UorcaJJ7HQLI
+ o/unZqhiP9nYS7oTncmPF0o5OFv4QuWHP+6ieqqYQOLXoDMwP0cp8Fu3hntsgbIsIz2d
+ Q8tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=9ApGOF5PBkyoeBPogSoc/7/ab/yJXEM4Uq6xzW0uckE=;
- b=uLC490/9uSzRw1jTmBC6f7Ycw2B80at0no7NtX9+q9ds5l0/OK2cU21wnjHwHJih/M
- FXyZNWVVjIGp5M/edM2zMe71yF8c2stjXVzS/TB/ltnuHGSqLDgLWscAjU675Hi1ydke
- bD9tIyoAAzIgHXQK6XuywGmX0YpnXQIgNJgpStL3WoYLnJwZlOwZmcgVh5PB+QtPJgVm
- kaTf7nLQqIH0KPWNdaL6+m5dKy9Yo0Vxe1SciqPi0x/dHACUwePNny1L0Lqy0/6KH01n
- e/DdXrgpl0Pc/oThXW9Sa+cILbB9y4LBzP5jm8e6Dq6f1ZJot47XseIt96MGiWToimwq
- xPVg==
-X-Gm-Message-State: ANhLgQ3Ac32v+XkvxGEiVPiVEQ6WYhcxpEJsos0ruasKB5EEqt2GO/Lg
- IN5ZuSeWyciHOR+0RZg9XP4=
-X-Google-Smtp-Source: ADFU+vtML21USPDOMZ+PmnB2abZahmaHnFt3ItHVXPSoef4wnUi8Xp1UT2B8XYgt+E7etOPYpGvc6g==
-X-Received: by 2002:a17:902:d88d:: with SMTP id
- b13mr5144514plz.228.1583971779921; 
- Wed, 11 Mar 2020 17:09:39 -0700 (PDT)
-Received: from taoren-ubuntu-R90MNF91 (c-24-4-25-55.hsd1.ca.comcast.net.
- [24.4.25.55])
- by smtp.gmail.com with ESMTPSA id e11sm9957036pfj.95.2020.03.11.17.09.38
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 11 Mar 2020 17:09:39 -0700 (PDT)
-Date: Wed, 11 Mar 2020 17:09:31 -0700
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: Re: [PATCH v2] usb: gadget: aspeed: improve vhub port irq handling
-Message-ID: <20200312000930.GA3956@taoren-ubuntu-R90MNF91>
-References: <20200305234746.1002-1-rentao.bupt@gmail.com>
- <481e9b7d40c51505518a34ddc2515d3200dbf158.camel@kernel.crashing.org>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=KLGqjo2Pbyp0L4oH5SdHTAc+fFuuPfjZO2AGlFDtlHs=;
+ b=IAUlFapd/czAb3bOYRf+yicUF71419l9m72u4/IwIr0qHeAYw777ZixtOUTh915/09
+ VTfG+bUpNCFEiQznT48nb6Ln9rV9UXNvSl0142dmnrhOSZf31n5Gv+xqHOe3haFeESp+
+ 2w/NoEqbwB2UUWwGBCesCZwOWHp7gJe2Xmj5pH+EU9GQywC3SxU1ybBJCb2rdoVldIs2
+ LgiaJibxbYrzRyadwc3xAt9NufHiA3AkklY6OJ/A0syxoggR0n8GNvuqxfBLEqqDiGRy
+ f8jjGCcBm9iVOycGsHoEwMh7rCQ0FDUc9O4JBXcE9/5IO0mRP7gdhqdY4MoCJ1Uoa0DT
+ +LJg==
+X-Gm-Message-State: ANhLgQ28FQM1kYl0E8ma55F9C5iQSkw8KZH+1wM/FNDBsPrDUqCxAWm/
+ VMJ+zzoiNnwlWmuxJEk6y7c=
+X-Google-Smtp-Source: ADFU+vsw+EfzNY/wTEESeWvDprQ08xBi0sD3cWjQdPqtqWYy0EZEXJD5ldslcZhzmtNk8045vleS9g==
+X-Received: by 2002:a17:90b:1a8b:: with SMTP id
+ ng11mr3662856pjb.173.1584015262789; 
+ Thu, 12 Mar 2020 05:14:22 -0700 (PDT)
+Received: from localhost.localdomain ([45.124.203.14])
+ by smtp.gmail.com with ESMTPSA id x71sm2615640pfd.129.2020.03.12.05.14.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Mar 2020 05:14:22 -0700 (PDT)
+From: Joel Stanley <joel@jms.id.au>
+To: Andrew Jeffery <andrew@aj.id.au>
+Subject: [PATCH] soc: aspeed-lpc-ctrl: LPC to AHB mapping on ast2600
+Date: Thu, 12 Mar 2020 22:44:13 +1030
+Message-Id: <20200312121413.294384-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <481e9b7d40c51505518a34ddc2515d3200dbf158.camel@kernel.crashing.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,59 +77,69 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Felipe Balbi <balbi@kernel.org>, linux-aspeed@lists.ozlabs.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Stephen Boyd <swboyd@chromium.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Ben,
+The ast2600 disables the mapping of AHB memory regions by default,
+only allowing the LPC window to point to SPI NOR. In order to point the
+window to any AHB address, an ast2600 specific bit must be toggled.
 
-On Wed, Mar 11, 2020 at 12:31:22PM +1100, Benjamin Herrenschmidt wrote:
-> On Thu, 2020-03-05 at 15:47 -0800, rentao.bupt@gmail.com wrote:
-> > From: Tao Ren <rentao.bupt@gmail.com>
-> > 
-> > This patch evaluates vhub ports' irq mask before going through per-port
-> > irq handling one by one, which helps to speed up irq handling in case
-> > there is no port interrupt.
-> > 
-> > Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
-> > ---
-> >  Changes in v2:
-> >    - use "for_each_set_bit" to speed up port irq handling.
-> > 
-> >  drivers/usb/gadget/udc/aspeed-vhub/core.c | 11 ++++++++---
-> >  drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  8 +++-----
-> >  2 files changed, 11 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> > index f8d35dd60c34..af2dbd405361 100644
-> > --- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> > +++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> > @@ -134,11 +134,14 @@ static irqreturn_t ast_vhub_irq(int irq, void *data)
-> >  	}
-> >  
-> >  	/* Handle device interrupts */
-> > -	for (i = 0; i < vhub->max_ports; i++) {
-> > -		u32 dev_mask = VHUB_IRQ_DEVICE1 << i;
-> > +	if (istat & vhub->port_irq_mask) {
-> > +		int offset = VHUB_IRQ_DEV1_BIT;
-> > +		int size = VHUB_IRQ_DEV1_BIT + vhub->max_ports;
-> >  
-> > -		if (istat & dev_mask)
-> > +		for_each_set_bit_from(offset, (unsigned long *)&istat, size) 
-> 
-> That type cast is very bad. It will not work on big endian for example
-> (yes this driver isn't used on big endian today but still).
-> 
-> Please assign istat to an unsigned long (or make it unsigned long to
-> begin with).
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ drivers/soc/aspeed/aspeed-lpc-ctrl.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-Thanks for pointing it out. Will fix it in v3.
+diff --git a/drivers/soc/aspeed/aspeed-lpc-ctrl.c b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+index f4ac14c40518..142cb4cc85e7 100644
+--- a/drivers/soc/aspeed/aspeed-lpc-ctrl.c
++++ b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+@@ -22,6 +22,9 @@
+ #define HICR5_ENL2H	BIT(8)
+ #define HICR5_ENFWH	BIT(10)
+ 
++#define HICR6 0x4
++#define SW_FWH2AHB	BIT(17)
++
+ #define HICR7 0x8
+ #define HICR8 0xc
+ 
+@@ -33,6 +36,7 @@ struct aspeed_lpc_ctrl {
+ 	resource_size_t		mem_size;
+ 	u32		pnor_size;
+ 	u32		pnor_base;
++	bool			fwh2ahb;
+ };
+ 
+ static struct aspeed_lpc_ctrl *file_aspeed_lpc_ctrl(struct file *file)
+@@ -177,6 +181,16 @@ static long aspeed_lpc_ctrl_ioctl(struct file *file, unsigned int cmd,
+ 		if (rc)
+ 			return rc;
+ 
++		/*
++		 * Switch to FWH2AHB mode, AST2600 only.
++		 *
++		 * The other bits in this register are interrupt status bits
++		 * that are cleared by writing 1. As we don't want to clear
++		 * them, set only the bit of interest.
++		 */
++		if (lpc_ctrl->fwh2ahb)
++			regmap_write(lpc_ctrl->regmap, HICR6, SW_FWH2AHB);
++
+ 		/*
+ 		 * Enable LPC FHW cycles. This is required for the host to
+ 		 * access the regions specified.
+@@ -274,6 +288,9 @@ static int aspeed_lpc_ctrl_probe(struct platform_device *pdev)
+ 		return rc;
+ 	}
+ 
++	if (of_device_is_compatible(dev->of_node, "aspeed,ast2600-lpc-ctrl"))
++		lpc_ctrl->fwh2ahb = true;
++
+ 	lpc_ctrl->miscdev.minor = MISC_DYNAMIC_MINOR;
+ 	lpc_ctrl->miscdev.name = DEVICE_NAME;
+ 	lpc_ctrl->miscdev.fops = &aspeed_lpc_ctrl_fops;
+-- 
+2.25.1
 
-Cheers,
-
-Tao
