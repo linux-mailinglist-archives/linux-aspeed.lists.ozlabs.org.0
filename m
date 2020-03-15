@@ -1,71 +1,75 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7633C183005
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Mar 2020 13:14:42 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48dSSG32p0zDqRN
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Mar 2020 23:14:38 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A7D185F4F
+	for <lists+linux-aspeed@lfdr.de>; Sun, 15 Mar 2020 20:14:58 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 48gTdn5kYPzDqMb
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Mar 2020 06:14:53 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::643;
- helo=mail-pl1-x643.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::642;
+ helo=mail-pl1-x642.google.com; envelope-from=rentao.bupt@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
+ dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=dWUc1NI1; dkim-atps=neutral
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
+ header.s=20161025 header.b=sANpO3aj; dkim-atps=neutral
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48dSS46lVszDqPf
- for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Mar 2020 23:14:26 +1100 (AEDT)
-Received: by mail-pl1-x643.google.com with SMTP id f16so2604079plj.4
- for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Mar 2020 05:14:26 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48gTdd0lF9zDqBg;
+ Mon, 16 Mar 2020 06:14:42 +1100 (AEDT)
+Received: by mail-pl1-x642.google.com with SMTP id h11so6890430plk.7;
+ Sun, 15 Mar 2020 12:14:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KLGqjo2Pbyp0L4oH5SdHTAc+fFuuPfjZO2AGlFDtlHs=;
- b=dWUc1NI1L8enMUDwDEz9I3rxuIr2RJ9QzspTGcARsuYyzTdb7R8vAMLVr3qdL4Pe/G
- JSXtUsTXjr8uYWalLj4lm2EjpVXdf7RvXImFc36KD3Kr1I53+fCKyCzDj5za/5ddoZJ9
- NIHVl4zzCpAra6mos9utiidoMUTl+lqYMROzWXHiMyqvhn0m+E/zh0WxramiVW55II5W
- v28YQ3rv2jnjXTGREpJL3sWJs0oLxfFwBmXjWAUH7nCJ6dJ2+HR+0Np7UorcaJJ7HQLI
- o/unZqhiP9nYS7oTncmPF0o5OFv4QuWHP+6ieqqYQOLXoDMwP0cp8Fu3hntsgbIsIz2d
- Q8tg==
+ h=from:to:cc:subject:date:message-id;
+ bh=QJPqyWkxe0FvdCujVYrv8IN7juT6CFWXSWYBT76q9+w=;
+ b=sANpO3ajZY3xjd0/k5q4rDelXESgjIkMWTO+p4kXH7fYWkGB7cYw4Qk3k1aKpvrfDw
+ LI0ZMEDjgt8aoOkf7GtZkLwFrtingsW+Z0udRO1WLjWzmMp/tNFPv1jp/Or/dUgxo3Ux
+ ikywRVWGd6NDrL+A2btSdotr41flUCEuAHWZE+cF5s6UPI+AZyry5DI01kEK29tFXEvw
+ XS5k0uonygKubgiJR+2ibb/5miv39jalJ5gKmopKknFBrdnDJjp5lc75U+fsdO5UVOzt
+ RAxAF5h5ioz0nhSs0cVRKPjtdNziOkxUd4QtZ9s6TWvlwHeImvMOv4fYRXz2vT1clUaT
+ SuyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=KLGqjo2Pbyp0L4oH5SdHTAc+fFuuPfjZO2AGlFDtlHs=;
- b=IAUlFapd/czAb3bOYRf+yicUF71419l9m72u4/IwIr0qHeAYw777ZixtOUTh915/09
- VTfG+bUpNCFEiQznT48nb6Ln9rV9UXNvSl0142dmnrhOSZf31n5Gv+xqHOe3haFeESp+
- 2w/NoEqbwB2UUWwGBCesCZwOWHp7gJe2Xmj5pH+EU9GQywC3SxU1ybBJCb2rdoVldIs2
- LgiaJibxbYrzRyadwc3xAt9NufHiA3AkklY6OJ/A0syxoggR0n8GNvuqxfBLEqqDiGRy
- f8jjGCcBm9iVOycGsHoEwMh7rCQ0FDUc9O4JBXcE9/5IO0mRP7gdhqdY4MoCJ1Uoa0DT
- +LJg==
-X-Gm-Message-State: ANhLgQ28FQM1kYl0E8ma55F9C5iQSkw8KZH+1wM/FNDBsPrDUqCxAWm/
- VMJ+zzoiNnwlWmuxJEk6y7c=
-X-Google-Smtp-Source: ADFU+vsw+EfzNY/wTEESeWvDprQ08xBi0sD3cWjQdPqtqWYy0EZEXJD5ldslcZhzmtNk8045vleS9g==
-X-Received: by 2002:a17:90b:1a8b:: with SMTP id
- ng11mr3662856pjb.173.1584015262789; 
- Thu, 12 Mar 2020 05:14:22 -0700 (PDT)
-Received: from localhost.localdomain ([45.124.203.14])
- by smtp.gmail.com with ESMTPSA id x71sm2615640pfd.129.2020.03.12.05.14.20
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=QJPqyWkxe0FvdCujVYrv8IN7juT6CFWXSWYBT76q9+w=;
+ b=FWJAAh1IoTPhSNUsXnUDc5Jn3EViwkei3eypxZO5hEFxF8WEKi7gsLds59vpsxS0wc
+ v4yT7YxCqebNbpgSfU6g8zMbpuiQl4Jqc2kk3cz8O7HksXWCHStT+X9IEiWwIdgTTmTl
+ S7jNIu1fKZLd036wq7W9qUDfSEZUpcUNaWI6m9oeCJr9JNPdx28Vi8QA2Ge4/dGNMcwa
+ usl2UK9s6LE3veY2+ImqD1oxEUEP+Qc/jChy3iHZb04cT9jwWD3gVEgNVevUKHgVzGG1
+ il2jWIDjZipqmyGyIuS+8oj20Gi2Oo+nImKzZ+i2DkZUk5efRFGx1+SaOUuRLXlYx8IH
+ ZVeA==
+X-Gm-Message-State: ANhLgQ1YXwuWiu5Sbyv8KNaayICAI+AbHi8SHtHtwRorgrO+JrPc1nQc
+ lvt25hUyUsP0MTrook4YXNE=
+X-Google-Smtp-Source: ADFU+vsYz8bmmqz+GFTxMop+sYVx/jLaNj6ejge3qbhBfCf1tOnqa7+uPrV8Zs+/qlZLiYPfrd+otw==
+X-Received: by 2002:a17:90a:d081:: with SMTP id
+ k1mr22621148pju.57.1584299678766; 
+ Sun, 15 Mar 2020 12:14:38 -0700 (PDT)
+Received: from taoren-ubuntu-R90MNF91.thefacebook.com
+ (c-24-4-25-55.hsd1.ca.comcast.net. [24.4.25.55])
+ by smtp.gmail.com with ESMTPSA id z22sm41859247pgn.19.2020.03.15.12.14.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Mar 2020 05:14:22 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH] soc: aspeed-lpc-ctrl: LPC to AHB mapping on ast2600
-Date: Thu, 12 Mar 2020 22:44:13 +1030
-Message-Id: <20200312121413.294384-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ Sun, 15 Mar 2020 12:14:37 -0700 (PDT)
+From: rentao.bupt@gmail.com
+To: Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Stephen Boyd <swboyd@chromium.org>, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com
+Subject: [PATCH v3] usb: gadget: aspeed: improve vhub port irq handling
+Date: Sun, 15 Mar 2020 12:14:30 -0700
+Message-Id: <20200315191430.12379-1-rentao.bupt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,69 +81,89 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The ast2600 disables the mapping of AHB memory regions by default,
-only allowing the LPC window to point to SPI NOR. In order to point the
-window to any AHB address, an ast2600 specific bit must be toggled.
+From: Tao Ren <rentao.bupt@gmail.com>
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
+This patch evaluates vhub ports' irq mask before going through per-port
+irq handling one by one, which helps to speed up irq handling in case
+there is no port interrupt.
+
+Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
 ---
- drivers/soc/aspeed/aspeed-lpc-ctrl.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ Changes in v3:
+   - assign istat to (unsigned long) bitmap before calling
+     "for_each_set_bit_from".
+ Changes in v2:
+   - use "for_each_set_bit" to speed up port irq handling.
 
-diff --git a/drivers/soc/aspeed/aspeed-lpc-ctrl.c b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
-index f4ac14c40518..142cb4cc85e7 100644
---- a/drivers/soc/aspeed/aspeed-lpc-ctrl.c
-+++ b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
-@@ -22,6 +22,9 @@
- #define HICR5_ENL2H	BIT(8)
- #define HICR5_ENFWH	BIT(10)
- 
-+#define HICR6 0x4
-+#define SW_FWH2AHB	BIT(17)
-+
- #define HICR7 0x8
- #define HICR8 0xc
- 
-@@ -33,6 +36,7 @@ struct aspeed_lpc_ctrl {
- 	resource_size_t		mem_size;
- 	u32		pnor_size;
- 	u32		pnor_base;
-+	bool			fwh2ahb;
- };
- 
- static struct aspeed_lpc_ctrl *file_aspeed_lpc_ctrl(struct file *file)
-@@ -177,6 +181,16 @@ static long aspeed_lpc_ctrl_ioctl(struct file *file, unsigned int cmd,
- 		if (rc)
- 			return rc;
- 
-+		/*
-+		 * Switch to FWH2AHB mode, AST2600 only.
-+		 *
-+		 * The other bits in this register are interrupt status bits
-+		 * that are cleared by writing 1. As we don't want to clear
-+		 * them, set only the bit of interest.
-+		 */
-+		if (lpc_ctrl->fwh2ahb)
-+			regmap_write(lpc_ctrl->regmap, HICR6, SW_FWH2AHB);
-+
- 		/*
- 		 * Enable LPC FHW cycles. This is required for the host to
- 		 * access the regions specified.
-@@ -274,6 +288,9 @@ static int aspeed_lpc_ctrl_probe(struct platform_device *pdev)
- 		return rc;
+ drivers/usb/gadget/udc/aspeed-vhub/core.c | 12 +++++++++---
+ drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  8 +++-----
+ 2 files changed, 12 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+index f8d35dd60c34..555e8645fb1e 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+@@ -134,11 +134,15 @@ static irqreturn_t ast_vhub_irq(int irq, void *data)
  	}
  
-+	if (of_device_is_compatible(dev->of_node, "aspeed,ast2600-lpc-ctrl"))
-+		lpc_ctrl->fwh2ahb = true;
-+
- 	lpc_ctrl->miscdev.minor = MISC_DYNAMIC_MINOR;
- 	lpc_ctrl->miscdev.name = DEVICE_NAME;
- 	lpc_ctrl->miscdev.fops = &aspeed_lpc_ctrl_fops;
+ 	/* Handle device interrupts */
+-	for (i = 0; i < vhub->max_ports; i++) {
+-		u32 dev_mask = VHUB_IRQ_DEVICE1 << i;
++	if (istat & vhub->port_irq_mask) {
++		unsigned long bitmap = istat;
++		int offset = VHUB_IRQ_DEV1_BIT;
++		int size = VHUB_IRQ_DEV1_BIT + vhub->max_ports;
+ 
+-		if (istat & dev_mask)
++		for_each_set_bit_from(offset, &bitmap, size) {
++			i = offset - VHUB_IRQ_DEV1_BIT;
+ 			ast_vhub_dev_irq(&vhub->ports[i].dev);
++		}
+ 	}
+ 
+ 	/* Handle top-level vHub EP0 interrupts */
+@@ -332,6 +336,8 @@ static int ast_vhub_probe(struct platform_device *pdev)
+ 
+ 	spin_lock_init(&vhub->lock);
+ 	vhub->pdev = pdev;
++	vhub->port_irq_mask = GENMASK(VHUB_IRQ_DEV1_BIT + vhub->max_ports - 1,
++				      VHUB_IRQ_DEV1_BIT);
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	vhub->regs = devm_ioremap_resource(&pdev->dev, res);
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
+index fac79ef6d669..23a1ac91f8d2 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
++++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
+@@ -51,14 +51,11 @@
+ #define VHUB_CTRL_UPSTREAM_CONNECT		(1 << 0)
+ 
+ /* IER & ISR */
++#define VHUB_IRQ_DEV1_BIT			9
+ #define VHUB_IRQ_USB_CMD_DEADLOCK		(1 << 18)
+ #define VHUB_IRQ_EP_POOL_NAK			(1 << 17)
+ #define VHUB_IRQ_EP_POOL_ACK_STALL		(1 << 16)
+-#define VHUB_IRQ_DEVICE5			(1 << 13)
+-#define VHUB_IRQ_DEVICE4			(1 << 12)
+-#define VHUB_IRQ_DEVICE3			(1 << 11)
+-#define VHUB_IRQ_DEVICE2			(1 << 10)
+-#define VHUB_IRQ_DEVICE1			(1 << 9)
++#define VHUB_IRQ_DEVICE1			(1 << (VHUB_IRQ_DEV1_BIT))
+ #define VHUB_IRQ_BUS_RESUME			(1 << 8)
+ #define VHUB_IRQ_BUS_SUSPEND 			(1 << 7)
+ #define VHUB_IRQ_BUS_RESET 			(1 << 6)
+@@ -402,6 +399,7 @@ struct ast_vhub {
+ 	/* Per-port info */
+ 	struct ast_vhub_port		*ports;
+ 	u32				max_ports;
++	u32				port_irq_mask;
+ 
+ 	/* Generic EP data structures */
+ 	struct ast_vhub_ep		*epns;
 -- 
-2.25.1
+2.17.1
 
