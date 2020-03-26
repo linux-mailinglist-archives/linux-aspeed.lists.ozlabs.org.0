@@ -1,123 +1,87 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37010194C23
+	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Mar 2020 00:21:19 +0100 (CET)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D382318FC45
-	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Mar 2020 19:06:30 +0100 (CET)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48mMl66cVgzDqP5
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Mar 2020 05:06:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48pLb04VR0zDr3F
+	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Mar 2020 10:21:16 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=microchip.com (client-ip=68.232.154.123;
- helo=esa4.microchip.iphmx.com; envelope-from=tudor.ambarus@microchip.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.28;
+ helo=out4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=microchip.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=microchiptechnology.onmicrosoft.com
- header.i=@microchiptechnology.onmicrosoft.com header.a=rsa-sha256
- header.s=selector2-microchiptechnology-onmicrosoft-com header.b=lVWsXyZv; 
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm2 header.b=gxK9Lq1U; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=w6pqPp7I; 
  dkim-atps=neutral
-Received: from esa4.microchip.iphmx.com (esa4.microchip.iphmx.com
- [68.232.154.123])
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48mMk11KFMzDqgp
- for <linux-aspeed@lists.ozlabs.org>; Tue, 24 Mar 2020 05:05:26 +1100 (AEDT)
-IronPort-SDR: O0OEtdEBGCMtf+c040YkojGKHHHrKdU02Xc+hAfiSU7KejDyDCptFWvH11POiojjji6BoIA8s5
- +ia8tz7zrdTTD9RjejZSKd0K5mFlkh20Cv929hurPpp4tWJDe6XPU3zuAOjlPMOt1NZkMe1oFS
- 8j8yz6F3+tJqTfSIyeMOQb90U72TLzE+wZM9R+GLQElDUHul3V7/gLWMqLmQbsST/qKOp6jCtj
- gM9EAF1Sfo5SZQsRzWx3aaBbmDJHBzkOmWejByBqFkEJCtq7A1Hw/Sp6iVzzEe3+Rr8L7HRRAd
- 1yg=
-X-IronPort-AV: E=Sophos;i="5.72,297,1580799600"; d="scan'208";a="68124581"
-Received: from smtpout.microchip.com (HELO email.microchip.com)
- ([198.175.253.82])
- by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
- 23 Mar 2020 11:05:22 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 23 Mar 2020 11:05:21 -0700
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.71) with Microsoft SMTP Server
- (version=TLS1_2, 
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5 via Frontend
- Transport; Mon, 23 Mar 2020 11:05:26 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hFFlFhicZeJNURe1vwZNnzHR04WX6k68eLvyNGi2tbnbIoVBZz5i5CTYiNFWjxlq3PTAviacLCJ9RrB7m6wP4ZNk24V8RFi6jrVgm/kt5PduX0IFmY64fN9OSA7Fepl+okIbTTQf4IbVSsdcnSVqs3DZP7fc57laId192RlRY/ZJubX4gGPre7Ond4OOSWbA5YvQZKbgTw+BDyysQ6xSXo7GfxRdzsLfehg6a8lCWvdYjMJvm5WTQVCk3nW7ZLmMdg6VDhZXsHBdP4aF3HcnvBjHK22aGYcUupDG8A+85Is50WOqSm1OAXUfRqrlkHozcRqSFXzoU/EnCzelt5nysA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ORZIZQ9QH2gXy60hU4XzBcOkvGzCI7YKEmP4PrF9SXo=;
- b=mYXpqYUrxq+iPLBH7fMJTGXGsVO85pjICjRkfZiJT5L7qNGQCgQCIvhmj92fGTmStga531RtYsYdak5Bz4QXUE6HKrjO1b3lR261DHEXaS2un0dgNIG1rmzqJnLmBly/3M89LMIZnE8+CYyQ/HK0gDBQrEdja7uCRYxRGIHs4+2gDHYskKewlDsjBOlGaFYoD/kAKVs50cQsNUZqFiQ/A+7O8ujBdmwzs9YXtMI3Dk09SRDDilTCQsGVNANvqrwWvxG+t1M9SSExvEhZ7UEVnHkeoyU9P/NoGfGI05FbXZw1XABebSaJPk1XxTFPCmz28SAl8ETkN87AJP4cCIKKiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ORZIZQ9QH2gXy60hU4XzBcOkvGzCI7YKEmP4PrF9SXo=;
- b=lVWsXyZvGh7ddozYwPA9lcAUnnWc+gNabsEzKKSsv0AdtGGuEaYw02B03E5FkktNDN5oOi9L1n4W7VmaRfUvUmra5NfA9tSZv9+Lie8lnqjPD6oLuqRE+2pElymfax/PJMHuDPHWLXiC2GNRSQ8Iw3P55+QcT8Fc8toNiVGWV/k=
-Received: from BY5PR11MB4419.namprd11.prod.outlook.com (2603:10b6:a03:1c8::13)
- by BY5PR11MB4273.namprd11.prod.outlook.com (2603:10b6:a03:1c9::32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.22; Mon, 23 Mar
- 2020 18:05:19 +0000
-Received: from BY5PR11MB4419.namprd11.prod.outlook.com
- ([fe80::e918:9196:b47e:9692]) by BY5PR11MB4419.namprd11.prod.outlook.com
- ([fe80::e918:9196:b47e:9692%3]) with mapi id 15.20.2835.021; Mon, 23 Mar 2020
- 18:05:19 +0000
-From: <Tudor.Ambarus@microchip.com>
-To: <gustavo@embeddedor.com>
-Subject: Re: [PATCH][next] mtd: spi-nor: controllers: aspeed-smc: Replace
- zero-length array with flexible-array member
-Thread-Topic: [PATCH][next] mtd: spi-nor: controllers: aspeed-smc: Replace
- zero-length array with flexible-array member
-Thread-Index: AQHWAT2dYkkVcusgCEGyODgFGQFHog==
-Date: Mon, 23 Mar 2020 18:05:19 +0000
-Message-ID: <3763037.C4K6B0S6ij@192.168.0.120>
-References: <20200319224326.GA25390@embeddedor.com>
-In-Reply-To: <20200319224326.GA25390@embeddedor.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Tudor.Ambarus@microchip.com; 
-x-originating-ip: [94.177.32.156]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9ac718a8-515d-4026-0e01-08d7cf54bfcb
-x-ms-traffictypediagnostic: BY5PR11MB4273:
-x-microsoft-antispam-prvs: <BY5PR11MB42738928C170AE7EC674D1BDF0F00@BY5PR11MB4273.namprd11.prod.outlook.com>
-x-bypassexternaltag: True
-x-ms-oob-tlc-oobclassifiers: OLM:949;
-x-forefront-prvs: 0351D213B3
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(396003)(39860400002)(136003)(376002)(346002)(366004)(199004)(6486002)(6512007)(316002)(6506007)(53546011)(54906003)(9686003)(6916009)(66946007)(66446008)(66556008)(76116006)(64756008)(66476007)(86362001)(91956017)(71200400001)(8676002)(966005)(8936002)(14286002)(2906002)(81156014)(4326008)(81166006)(5660300002)(7416002)(186003)(26005)(478600001)(39026012);
- DIR:OUT; SFP:1101; SCL:1; SRVR:BY5PR11MB4273;
- H:BY5PR11MB4419.namprd11.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; 
-received-spf: None (protection.outlook.com: microchip.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fcmT4zwUFB2QUNS6fAjvHvxguEOZ0FimJVFxt29o+UTooZQhxBoqQRZVqmEJKTdPjtmR03BMGyDjyIadAyPuXXtNhUokREqip+ZGjABhG3baCBoIzKjXaG2vZ8RlEl95nJ+JYdPVnHLe9BkyAlAEZ7+6sGacjfCyIpQErYH0sPgDhhjcF2SmYgR3CGMI8mJW82KSMGqEhhTlzYUw5EkRNdM7Yd9ESm/8nbIAuzcxMJHwOXoDk2yI7QyQxVG6ljFJKLY4DAc+JtS0pcJWuT/ljd0ItWVtQVGR99AY6hC/PrLIPwaZR18osBFe1COHcZYwRqBCZEWAqkHM/bBgCJXsmZVz2tH7ARwi5jByTgILfym9CZs2T1Yao1lV1bXX2Zr2X9nU4/8Grn7xQID66Nnw0fKV2jxE1LuoyVDyiafzy+CHbHLOCprz2KkN07iEEmslwXj1FhXhaJJ25+91q5HD6w948W/Onex0h2LA+FupsumNy7BeEwXXFePgqy3ELgNUWKtfg2JX0yEojcoKhS5FxD60ks/JJU4mGq3gTxz6sLSy0Nj+L+mLb/04Xjr4taGo
-x-ms-exchange-antispam-messagedata: mBn/h78Y+zrS6FMvhuNXuwkfBlMEyqlEdROBhlU6qtguY2pkHP0ozQbAb3f7RPqJLGuk4C8fiKLnw4fgEOUgQlHLeviZN4pAV1t3iwfESAKLuBxhX33pGmngqTUG82ub43teWjDr1lRxn9CU2dF5wQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <FED1B8B22CE39A488A3C2E3978C6CD3E@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ac718a8-515d-4026-0e01-08d7cf54bfcb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Mar 2020 18:05:19.6373 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: In0aEL5bF1Quf+gdTqNNYf1GjBC1gsRqCVTGcgG0lvchSkY+YmfI+8VwPP5ayyrsyuMC1kmbf2aN0D3+p1vqdL6uBQ6KkzlLNovAavHejWs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4273
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48pLZj0yWpzDr1q;
+ Fri, 27 Mar 2020 10:21:00 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3E0F95C0296;
+ Thu, 26 Mar 2020 19:20:56 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Thu, 26 Mar 2020 19:20:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=SPBez9eP4WUK7nuKDXBKLrvMRPHaZsR
+ cUIsM6kI098U=; b=gxK9Lq1U1ZxYWuJmDagu+BiWgP0UnweCyPcj1hQFPT3pqyB
+ LxatrOpz3FAEfvUd5qLkvi73gmsE81WE1yuXW3/+H2utlTJ700zpmigwBnng3LbP
+ Epw8/ZUwW//YNGi5vI5WP29M05ArTjZhgECYpIDLXpl6l0XutKGVK/TqH3kcZBdb
+ 3fSSnnl3RegVFPK/pIMZwfbrLHVDz3R6nOZICjfQBEfWu4mT5wdRt6V042RXxLmB
+ HkftvIlma412PclEU/x7QGDAcvIx6P6fK/P70Q67FDmPZhmfiGiC5mD8vTQus/wK
+ YbUFsrsiOCXjtwmYkz/tONJ9O56EGqCaNR+XSBg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=SPBez9
+ eP4WUK7nuKDXBKLrvMRPHaZsRcUIsM6kI098U=; b=w6pqPp7Ik+M1thZhT77paX
+ 0kTNlrTdUYnMQAcVrtDz0NnabndanpH5Kz7uitVjMAH0IawekET32chwxjx/QrAB
+ AI5EfDCNQ0ShnkOkID+8nHPKbHikhphmtXZIsHLlv2WNug7wH7+rQJVOYtlTdBUy
+ /I5OGMrmq66pb2tLup533nvm5ega0BzsX+qGUr9aHIGB8pen3wqOIAzVku6CGdr5
+ xIWIZvNyfoE7Wpw1QhVFQ+KvRMN7rQD1z/FJcERurYlNGq8E/FSzXocw+RRPxMX9
+ jEcJsfq855jiZVYtNqFIlqx/UDaUIpMMzgTwthXI2YV74airZKu9lhdGwLETBR3Q
+ ==
+X-ME-Sender: <xms:1zh9XiSSQNyIfR04Kthsm7UhzVRMzwkPn4FDqhKG-ph4JO8hrCG-fw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrudehjedguddtkecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehn
+ ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucevlh
+ hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfies
+ rghjrdhiugdrrghu
+X-ME-Proxy: <xmx:1zh9XufHtV7zdwoJoABA-XKbJMCRjPY8iHi8hsLe8a8Jb5SOWvmeYA>
+ <xmx:1zh9XhKzeexi5vEcv5EEK2-QJmy_wLjc9fAATGXS2oBd9NlFV8nS-w>
+ <xmx:1zh9Xj46U2c1B70fLh5hYzpKB_YaQ7-xS0qosaP_zzgI0y1FsQ5TFQ>
+ <xmx:2Dh9XmZVnS9kqIWj4sBS7nBGvNBOOGjDmrY1GIvL4Kj1IhMLrUY-hA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 02149E00EF; Thu, 26 Mar 2020 19:20:54 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-1021-g152deaf-fmstable-20200319v1
+Mime-Version: 1.0
+Message-Id: <294a52cd-2f60-41e5-a58f-a74151a83b08@www.fastmail.com>
+In-Reply-To: <20200306170218.79698-2-geissonator@yahoo.com>
+References: <20200306170218.79698-1-geissonator@yahoo.com>
+ <20200306170218.79698-2-geissonator@yahoo.com>
+Date: Fri, 27 Mar 2020 09:50:58 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Andrew Geissler" <geissonator@gmail.com>,
+ "Joel Stanley" <joel@jms.id.au>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] ARM: dts: aspeed: zaius: Add gpio line names
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,52 +93,106 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: vigneshr@ti.com, linux-aspeed@lists.ozlabs.org, richard@nod.at,
- linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
- miquel.raynal@bootlin.com, linux-arm-kernel@lists.infradead.org
+Cc: linux-gpio@vger.kernel.org, openbmc@lists.ozlabs.org,
+ Andrew Geissler <geissonator@yahoo.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Friday, March 20, 2020 12:43:26 AM EET Gustavo A. R. Silva wrote:
-> EXTERNAL EMAIL: Do not click links or open attachments unless you know th=
-e
-> content is safe
->=20
-> The current codebase makes use of the zero-length array language
-> extension to the C90 standard, but the preferred mechanism to declare
-> variable-length types such as these ones is a flexible array member[1][2]=
-,
-> introduced in C99:
->=20
-> struct foo {
->         int stuff;
->         struct boo array[];
-> };
->=20
-> By making use of the mechanism above, we will get a compiler warning
-> in case the flexible array does not occur last in the structure, which
-> will help us prevent some kind of undefined behavior bugs from being
-> inadvertently introduced[3] to the codebase from now on.
->=20
-> Also, notice that, dynamic memory allocations won't be affected by
-> this change:
->=20
-> "Flexible array members have incomplete type, and so the sizeof operator
-> may not be applied. As a quirk of the original implementation of
-> zero-length arrays, sizeof evaluates to zero."[1]
->=20
-> This issue was found with the help of Coccinelle.
->=20
-> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-> [2] https://github.com/KSPP/linux/issues/21
-> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
->=20
-> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+
+
+On Sat, 7 Mar 2020, at 03:32, Andrew Geissler wrote:
+> Name the GPIOs to help userspace work with them. The names describe the
+> functionality the lines provide, not the net or ball name. This makes it
+> easier to share userspace code across different systems and makes the
+> use of the lines more obvious.
+> 
+> Signed-off-by: Andrew Geissler <geissonator@yahoo.com>
+
+So we're creating a bit of an ad-hoc ABI here between the DT and userspace.
+
+Where are we documenting it?
+
+Generally I think the idea is good though, so:
+
+Acked-by: Andrew Jeffery <andrew@aj.id.au>
+
 > ---
->  drivers/mtd/spi-nor/controllers/aspeed-smc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-Applied, thanks.
-ta
-
+>  arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts | 37 +++++++++++++++++++---
+>  1 file changed, 33 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts 
+> b/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts
+> index bc60ec291681..4bcc82046362 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts
+> @@ -478,32 +478,61 @@
+>  	pinctrl-names = "default";
+>  	pinctrl-0 = <&pinctrl_gpioh_unbiased>;
+>  
+> +	gpio-line-names =
+> +	/*A0-A7*/	"","cfam-reset","","","","","","",
+> +	/*B0-B7*/	"","","","","","","","",
+> +	/*C0-C7*/	"","","","","","","","",
+> +	/*D0-D7*/	"fsi-enable","","","","","led-sys-boot-status","led-attention",
+> +				"led-fault",
+> +	/*E0-E7*/	"","","","","","","","presence-pcie-e2b",
+> +	/*F0-F7*/	"","","","","","","","checkstop",
+> +	/*G0-G7*/	"fsi-clock","fsi-data","","","","","","",
+> +	/*H0-H7*/	"onewire0","onewire1","onewire2","onewire3","","","","",
+> +	/*I0-I7*/	"","","","power-button","","","","",
+> +	/*J0-J7*/	"","","","","","","","",
+> +	/*K0-K7*/	"","","","","","","","",
+> +	/*L0-L7*/	"","","","","","","","",
+> +	/*M0-M7*/	"","","","","","","","",
+> +	/*N0-N7*/	"","","","","","","","",
+> +	/*O0-O7*/	"","","","","iso_u164_en","","fsi-trans","",
+> +	/*P0-P7*/	"ncsi_mux_en_n","bmc_i2c2_sw_rst_n","","bmc_i2c5_sw_rst_n","",
+> +				"","fsi-mux","",
+> +	/*Q0-Q7*/	"","","","","","","","",
+> +	/*R0-R7*/	"","","","","","","","",
+> +	/*S0-S7*/	"","","","","","","","",
+> +	/*T0-T7*/	"","","","","","","","",
+> +	/*U0-U7*/	"","","","","","","","",
+> +	/*V0-V7*/	"","","","","","","","",
+> +	/*W0-W7*/	"","","","","","","","",
+> +	/*X0-X7*/	"","","","","","","","",
+> +	/*Y0-Y7*/	"","","","","","","","",
+> +	/*Z0-Z7*/	"","","","","","","","",
+> +	/*AA0-AA7*/	"","","led-hdd-fault","","","","","",
+> +	/*AB0-AB7*/	"","","","","","","","",
+> +	/*AC0-AC7*/	"","","","","","","","";
+> +
+>  	line_iso_u146_en {
+>  		gpio-hog;
+>  		gpios = <ASPEED_GPIO(O, 4) GPIO_ACTIVE_HIGH>;
+>  		output-high;
+> -		line-name = "iso_u164_en";
+>  	};
+>  
+>  	ncsi_mux_en_n {
+>  		gpio-hog;
+>  		gpios = <ASPEED_GPIO(P, 0) GPIO_ACTIVE_HIGH>;
+>  		output-low;
+> -		line-name = "ncsi_mux_en_n";
+>  	};
+>  
+>  	line_bmc_i2c2_sw_rst_n {
+>  		gpio-hog;
+>  		gpios = <ASPEED_GPIO(P, 1) GPIO_ACTIVE_HIGH>;
+>  		output-high;
+> -		line-name = "bmc_i2c2_sw_rst_n";
+>  	};
+>  
+>  	line_bmc_i2c5_sw_rst_n {
+>  		gpio-hog;
+>  		gpios = <ASPEED_GPIO(P, 3) GPIO_ACTIVE_HIGH>;
+>  		output-high;
+> -		line-name = "bmc_i2c5_sw_rst_n";
+>  	};
+>  };
+>  
+> -- 
+> 2.21.0 (Apple Git-122)
+> 
+>
