@@ -1,68 +1,78 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id B139C197EB2
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Mar 2020 16:43:45 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48rZvy686QzDqcP
-	for <lists+linux-aspeed@lfdr.de>; Tue, 31 Mar 2020 01:43:42 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF84198337
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Mar 2020 20:17:33 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 48rgfZ5FsPzDqd7
+	for <lists+linux-aspeed@lfdr.de>; Tue, 31 Mar 2020 05:17:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=google.com (client-ip=2607:f8b0:4864:20::741;
- helo=mail-qk1-x741.google.com; envelope-from=venture@google.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::343;
+ helo=mail-ot1-x343.google.com; envelope-from=geissonator@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=reject dis=none) header.from=google.com
+ dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256
- header.s=20161025 header.b=FTWBKZRr; dkim-atps=neutral
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=ai6wI+yc; dkim-atps=neutral
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48rZvm49nqzDq6q
- for <linux-aspeed@lists.ozlabs.org>; Tue, 31 Mar 2020 01:43:26 +1100 (AEDT)
-Received: by mail-qk1-x741.google.com with SMTP id q188so19134489qke.8
- for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Mar 2020 07:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/xd6A0GRMLxn1sVuQYx0dEBJI+Khi8SI9odnvPdKtNY=;
- b=FTWBKZRrTY7rIbYSEHIeQyYd/hQy3dy/WbWyJ53h/4ujanI+6I4pNvflj4owXW+N04
- oC6K/P4sqqCc/rguk39sjD6Fe5JiZYEAmdN2yn7pLjnLMJG+7oXjPdhOSoYQ+BvIgGSM
- Q4zAdxPn0RxAhmdoTAD9wcqQpEFkw9pguzEkYkDNcrFIoiY1vaEx+WXbddFH3HBYL/ho
- bTBWu7Pe2G5jWxzJCENHqVLB+mdO/sowRNWHrr1OyMBa3i1p+v2MUTw0gxLC9i1/5x2i
- cH+W4uQdJ2OkSYQdUzFJ4YrM8q1ygoKxpscSWbMkUfCR7uidpixhz5ymo5nDFILSERbJ
- cqTA==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48rgdM6snfzDqcv;
+ Tue, 31 Mar 2020 05:16:23 +1100 (AEDT)
+Received: by mail-ot1-x343.google.com with SMTP id t28so19122427ott.5;
+ Mon, 30 Mar 2020 11:16:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=hc3WCyyOJyVb1bVm2+erTwMdDqb8JOvqNVevK3r7VwI=;
+ b=ai6wI+ycqrkzpl/S2YJzZdSui/OqHxW+zs9NCXGh7U6Ao8RzV+b6ZH92pP+mJSeMDg
+ 3zFsBbaW5dHtjdptA2ZKynOAnrY/IFF/rbTO3di295t+BhXrNfSP1TZfcKFLzaaoOfUV
+ bVKuFgdn0MvaqJSHswPZS+XldoySduiB80LONN0NvR4dSXufP5iF9jGiXSGWYDD9cBxG
+ xAJILj6xA/q3qaZGqm/kdv34TUUojc70Ogmsn38uo995wLI4LwNDS5srJoxLtqNTnQ0w
+ U9IlzFhfaJqL2AEjBt3teQ6hoVJOurZOyN+6s5i5g5RZL39LrAlRA3Usk0jJOm4IPLXJ
+ aPDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/xd6A0GRMLxn1sVuQYx0dEBJI+Khi8SI9odnvPdKtNY=;
- b=F9yteNfysWAoSdZI4hpJjrK21jwiWbbHrR6q3Y3HXt/BRrm04+6mr8or8YIEcJQ53P
- GMDqS2eejoURFoFILpozdNzZJA/wlKlGqoNCVl9CZvpOW2EPSsLV5so/KFhNHpHVxfNw
- NFkVBd0kCwQ7JkeWsg2HV5TsKFaTpBB0xPwD9efrToyC4pAVOIHnKHFbnzIAyHNvN7qU
- eFNWSJ1UnBrnL3iUX+7erZ9qnaLVCO3+djNsZ9geG/PoakrLIbVudDpT+dIoY3v54lu5
- 9OljlO0kPBsvkLL46ElOdmCK/sBwKt9Xd5t+UTpY4qKCcOXvEEtiptloUbraZDPFcqMw
- jreQ==
-X-Gm-Message-State: ANhLgQ0IzV/tUBy8yOK5pKW/slKHQnRz8ZPX+T1QYQtaOYtYQfotK6lv
- +cMnGWIrzwS8QT3igFsC6jVWWLbvxApbPe4eM+cIlg==
-X-Google-Smtp-Source: ADFU+vuymU3G8a3jV7LmEUAfjyIdqXBPWPBMl5AwN06QHiZOh2xfhQmjAC1mgENLp2N8QlZhOnnv8bbgUHqtFsBLWsU=
-X-Received: by 2002:a37:a93:: with SMTP id 141mr303468qkk.244.1585579402278;
- Mon, 30 Mar 2020 07:43:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <BL0PR06MB45481A385F546CF5B6855C16E5CA0@BL0PR06MB4548.namprd06.prod.outlook.com>
- <d694432d-a3f2-4aa1-b9ee-f99f18ee2d99@www.fastmail.com>
-In-Reply-To: <d694432d-a3f2-4aa1-b9ee-f99f18ee2d99@www.fastmail.com>
-From: Patrick Venture <venture@google.com>
-Date: Mon, 30 Mar 2020 07:43:11 -0700
-Message-ID: <CAO=notwsjF3fVhY6gFVqsxTXYs=D7LHoOUDhcHSJLzRrsA7rGw@mail.gmail.com>
-Subject: Re: [Bug Report] soc/aspeed: integer error in
- aspeed_p2a_region_acquire
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=hc3WCyyOJyVb1bVm2+erTwMdDqb8JOvqNVevK3r7VwI=;
+ b=Q8yND+gjOAenXeuOhjv+B7rIAwuxGgGno2qhn8oD6lyegLmnJr/IMwxnjBlGMrTD0S
+ MObCygRYZNOYKB5ekMVeVQ2bVeFrtm0C9zddkN9iHEZHiyTs0e0ynuo8BnvGvTw9smvc
+ 3VDBXly3DRnptrmTzHw78Pld3VNV/XaDxCDkOvLXFu//uLTG4sCs9WpUfWL3N+HgOdEI
+ /tEGNvLMXv/K1WVms/DXoRfodDhfs+l1bTfsO7wom9WXaEe3SlG/nniMAmTQ4o2OVVNe
+ lewiOOENc5pislzOv8F/0ZVr5KMI0PjrBTjFl/2DzQ6HfKPLHfjewryNBfxxX1TrEBIJ
+ XG1Q==
+X-Gm-Message-State: ANhLgQ3LVv5eFrXqzKKXbkU27UyXJ9xRcGZUBM9pGthzWuKXm67fynAy
+ W2VLUE44SoUQR5J0q0TsRqg=
+X-Google-Smtp-Source: ADFU+vvlSpRwHKn4r6g703Ne60gh2l2x19YSD2cUdpHUPeweDs5ZyHaHm8b4wc+Bl5wfRYsNGn1JCA==
+X-Received: by 2002:a05:6830:10a:: with SMTP id
+ i10mr10498831otp.190.1585592178291; 
+ Mon, 30 Mar 2020 11:16:18 -0700 (PDT)
+Received: from andrews-mbp-2.attlocal.net
+ ([2600:1700:19e0:3310:81db:d33f:7ec:a679])
+ by smtp.gmail.com with ESMTPSA id o1sm4480246otl.49.2020.03.30.11.16.17
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 30 Mar 2020 11:16:17 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.60.0.2.5\))
+Subject: Re: [PATCH 2/2] ARM: dts: aspeed: zaius: Add gpio line names
+From: Andrew Geissler <geissonator@gmail.com>
+In-Reply-To: <294a52cd-2f60-41e5-a58f-a74151a83b08@www.fastmail.com>
+Date: Mon, 30 Mar 2020 13:16:16 -0500
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <9360D2B2-8242-4BA1-BF06-8916E87EDE67@gmail.com>
+References: <20200306170218.79698-1-geissonator@yahoo.com>
+ <20200306170218.79698-2-geissonator@yahoo.com>
+ <294a52cd-2f60-41e5-a58f-a74151a83b08@www.fastmail.com>
 To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Apple Mail (2.3608.60.0.2.5)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,96 +84,131 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- Changming Liu <liu.changm@northeastern.edu>,
- "yaohway@gmail.com" <yaohway@gmail.com>, "Lu, Long" <l.lu@northeastern.edu>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sun, Mar 29, 2020 at 5:37 PM Andrew Jeffery <andrew@aj.id.au> wrote:
->
-> Hi Changming Liu,
->
-> I've added Patrick to the thread, who authored the driver.
->
-> On Mon, 30 Mar 2020, at 06:07, Changming Liu wrote:
-> > Hi Joel and Andrew,
-> >
-> > Greetings, I'm a first year PhD student who is interested in the usage
-> > of UBSan in the linux kernel, and with some experiments I found that in
-> > drivers/soc/aspeed/aspeed-p2a-ctrl.c function
-> > aspeed_p2a_region_acquire, there is an unsigned integer error which
-> > might cause unexpected behavior.
-> >
-> > More specifically, the map structure, after the execution of
-> > copy_from_user at line 180 in function aspeed_p2a_ioctl, is filled with
-> > data from user space.  So the code at line 136 that is
-> >
-> > end = map->addr + (map->length - 1);
-> >
-> > the subtraction could underflow when map->length equals zero, also,
-> > this sum could overflow. As a consequence, the check at line 149 could
-> > be bypassed and the following code could be executed.
-> >
-> > Although the fact that map->addr is a 64-bit unsigned integer and
-> > map->length is 32-bit makes the overflow less likely to happen, it
-> > seems doesn't eliminate the possibility entirely. I guess a access_ok
-> > could do?
 
-I'll take a look, but certainly adding a 32-bit value to a 64-bit
-value has the possibility of overflow given a contrived attack
-scenario.
 
-> >
-> > Due to the lack of knowledge of the interaction between this module and
-> > the user space, I'm not able to assess if this is security-related
-> > problem. I'd appreciate it very much to hear your valuable opinion on
-> > why this could not cause any trouble if it's indeed the case, this will
-> > help me under linux and UBSAN a lot! and I'm more than happy to provide
-> > more information if needed.
->
-> It's certainly not expected behaviour and should be fixed :) We need to check
-> if the `end` calculation overflowed, but not using `access_ok()`, as the value of
-> `end` is an address in the physical address space of the SoC.
->
-> The current behaviour does have a security impact, though probably not in
-> the way you're expecting, as the driver itself is a means to violate the SoC's
-> security. The SoC is a BMC and exposes several PCIe devices to its host
-> (a VGA graphics device and a "BMC" device). Both devices expose
-> functionality that allows the host to perform arbitrary reads and writes to the
-> BMC's physical address space _if_ the BMC has allowed it to do so. This
-> driver controls whether the capability is exposed to the host (disabling
-> denies the read capability) and what regions of the SoC's physical address
-> space can be written. Regions are roughly broken up into memory-mapped
-> flash, BMC MMIO, BMC RAM and BMC LPC host controller.
->
-> Practically, enabling any region for write is to some degree unsafe: for instance
-> exposing the BMC's RAM to writes doesn't in any way restrict what areas of RAM
-> can be written, allowing e.g. arbitrary code injection into the kernel or running
-> processes on the BMC. Enabling writes to the BMC MMIO region allows arbitrary
-> control of the BMC and its peripherals without having to gain code-execution
-> (including escalating by removing write protection for other regions).
->
-> The driver exists to assist a trusted firmware update process used on some
-> platforms where the host can request (e.g. via IPMI) that BMC RAM be made
-> writable, then drop its firmware update payload into a predetermined location
-> in physical memory, and finally complete the transfer by requesting that RAM
-> region be returned to at least read-only mode.
->
-> To unlock unexpected regions of the BMC's address space in this scenario the
-> host would also have to exploit IPMI to craft an ioctl() payload with the properties
-> to trigger the overflow. Given that it already has complete write access to RAM it
-> may be easier to just exploit the BMC kernel directly rather than chain an exploit
-> through at least one other userspace process.
->
-> Anyway, enough background :) Thanks for the bug report and for analyzing the
-> driver. Hopefully Patrick can take a look and cook up a fix.
+> On Mar 26, 2020, at 6:20 PM, Andrew Jeffery <andrew@aj.id.au> wrote:
+>=20
+>=20
+>=20
+> On Sat, 7 Mar 2020, at 03:32, Andrew Geissler wrote:
+>> Name the GPIOs to help userspace work with them. The names describe =
+the
+>> functionality the lines provide, not the net or ball name. This makes =
+it
+>> easier to share userspace code across different systems and makes the
+>> use of the lines more obvious.
+>>=20
+>> Signed-off-by: Andrew Geissler <geissonator@yahoo.com>
+>=20
+> So we're creating a bit of an ad-hoc ABI here between the DT and =
+userspace.
+>=20
+> Where are we documenting it?
 
-Yeah, this driver was deliberately written to enable accessing the
-memory regions controlled by the BMC, opening a security hole in the
-BMC.  It's part of the design.
+Yeah, so far it=E2=80=99s basically design by precedent. If you want =
+your OpenBMC
+function to work then follow the standards we're setting in other =
+dts=E2=80=99s.
 
->
-> Andrew
+Is there a good place to document this? I could create a OpenBMC design
+doc but that would not address non-OpenBMC areas.
+
+>=20
+> Generally I think the idea is good though, so:
+>=20
+> Acked-by: Andrew Jeffery <andrew@aj.id.au>
+
+Thanks
+
+>=20
+>> ---
+>> arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts | 37 =
++++++++++++++++++++---
+>> 1 file changed, 33 insertions(+), 4 deletions(-)
+>>=20
+>> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts=20
+>> b/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts
+>> index bc60ec291681..4bcc82046362 100644
+>> --- a/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts
+>> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts
+>> @@ -478,32 +478,61 @@
+>> 	pinctrl-names =3D "default";
+>> 	pinctrl-0 =3D <&pinctrl_gpioh_unbiased>;
+>>=20
+>> +	gpio-line-names =3D
+>> +	/*A0-A7*/	"","cfam-reset","","","","","","",
+>> +	/*B0-B7*/	"","","","","","","","",
+>> +	/*C0-C7*/	"","","","","","","","",
+>> +	/*D0-D7*/	=
+"fsi-enable","","","","","led-sys-boot-status","led-attention",
+>> +				"led-fault",
+>> +	/*E0-E7*/	"","","","","","","","presence-pcie-e2b",
+>> +	/*F0-F7*/	"","","","","","","","checkstop",
+>> +	/*G0-G7*/	"fsi-clock","fsi-data","","","","","","",
+>> +	/*H0-H7*/	=
+"onewire0","onewire1","onewire2","onewire3","","","","",
+>> +	/*I0-I7*/	"","","","power-button","","","","",
+>> +	/*J0-J7*/	"","","","","","","","",
+>> +	/*K0-K7*/	"","","","","","","","",
+>> +	/*L0-L7*/	"","","","","","","","",
+>> +	/*M0-M7*/	"","","","","","","","",
+>> +	/*N0-N7*/	"","","","","","","","",
+>> +	/*O0-O7*/	"","","","","iso_u164_en","","fsi-trans","",
+>> +	/*P0-P7*/	=
+"ncsi_mux_en_n","bmc_i2c2_sw_rst_n","","bmc_i2c5_sw_rst_n","",
+>> +				"","fsi-mux","",
+>> +	/*Q0-Q7*/	"","","","","","","","",
+>> +	/*R0-R7*/	"","","","","","","","",
+>> +	/*S0-S7*/	"","","","","","","","",
+>> +	/*T0-T7*/	"","","","","","","","",
+>> +	/*U0-U7*/	"","","","","","","","",
+>> +	/*V0-V7*/	"","","","","","","","",
+>> +	/*W0-W7*/	"","","","","","","","",
+>> +	/*X0-X7*/	"","","","","","","","",
+>> +	/*Y0-Y7*/	"","","","","","","","",
+>> +	/*Z0-Z7*/	"","","","","","","","",
+>> +	/*AA0-AA7*/	"","","led-hdd-fault","","","","","",
+>> +	/*AB0-AB7*/	"","","","","","","","",
+>> +	/*AC0-AC7*/	"","","","","","","","";
+>> +
+>> 	line_iso_u146_en {
+>> 		gpio-hog;
+>> 		gpios =3D <ASPEED_GPIO(O, 4) GPIO_ACTIVE_HIGH>;
+>> 		output-high;
+>> -		line-name =3D "iso_u164_en";
+>> 	};
+>>=20
+>> 	ncsi_mux_en_n {
+>> 		gpio-hog;
+>> 		gpios =3D <ASPEED_GPIO(P, 0) GPIO_ACTIVE_HIGH>;
+>> 		output-low;
+>> -		line-name =3D "ncsi_mux_en_n";
+>> 	};
+>>=20
+>> 	line_bmc_i2c2_sw_rst_n {
+>> 		gpio-hog;
+>> 		gpios =3D <ASPEED_GPIO(P, 1) GPIO_ACTIVE_HIGH>;
+>> 		output-high;
+>> -		line-name =3D "bmc_i2c2_sw_rst_n";
+>> 	};
+>>=20
+>> 	line_bmc_i2c5_sw_rst_n {
+>> 		gpio-hog;
+>> 		gpios =3D <ASPEED_GPIO(P, 3) GPIO_ACTIVE_HIGH>;
+>> 		output-high;
+>> -		line-name =3D "bmc_i2c5_sw_rst_n";
+>> 	};
+>> };
+>>=20
+>> --=20
+>> 2.21.0 (Apple Git-122)
+>>=20
+>>=20
+
