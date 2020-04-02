@@ -2,80 +2,46 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F7919B807
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Apr 2020 23:59:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8655E19BF7A
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Apr 2020 12:38:47 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48t0Tx0jQCzDr83
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Apr 2020 08:59:33 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48tKKv3ttBzDrDJ
+	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Apr 2020 21:38:43 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::444;
- helo=mail-pf1-x444.google.com; envelope-from=rentao.bupt@gmail.com;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=Aug+9ANM; dkim-atps=neutral
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ spf=permerror (SPF Permanent Error: Unknown mechanism
+ found: ip:192.40.192.88/32) smtp.mailfrom=kernel.crashing.org
+ (client-ip=76.164.61.194; helo=kernel.crashing.org;
+ envelope-from=benh@kernel.crashing.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=kernel.crashing.org
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48t0Sr6PKRzDr6Y;
- Thu,  2 Apr 2020 08:58:36 +1100 (AEDT)
-Received: by mail-pf1-x444.google.com with SMTP id q3so677080pff.13;
- Wed, 01 Apr 2020 14:58:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=T6l/yr6Cjt15a6YDL3tI21z3eGbnhRLGQpcGGdkH3G0=;
- b=Aug+9ANMwfqMqTPoXflHoLnWAPyOIweS23iswm7clSDXgqDQCTiLRSSoMNZ0io2ytz
- 4kmqK7K8TsoX8Oa1qCNIKmfyfFCeASbGk09hbmJT9JzSZOyO7y+qxD+tj+NEFilvfBwD
- Pkv6lnNNptyY6BsU/XB8/PfyksA6Z9Xm2tp++boXtgRMNr0fUMtwTmaeW6aqhqgBxxzh
- T3T/9LrClkN4dUYuEDANTY429B46thKNnNF8CWPF0AWe3YNUzg+3U1nhKB6vWT5uoZ9P
- z8TEIs2da5LgN87NKawCzRGQZ9m5Isbl8/I1AM+wuDNKZL4b1/4vZvFmT2cR6NyhM9bK
- U/2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=T6l/yr6Cjt15a6YDL3tI21z3eGbnhRLGQpcGGdkH3G0=;
- b=t+1QGuRxYt8M6Zq0002ebAM6k3emrTnSDNpJfr5a6GNDYJvMg+kbmcnRTzidm193IY
- 1Ru/4uJtM++CuwQ4CcdaXEkX+svxg72UP5sAwRMR7JvkqLzDAdwE18ai71kTi9JYckUx
- F1Z8PAFx3xxXGoMWUb9Z3ASLezke9SV1hEFYtW3DnIKjEgAX0hjGmrNzdsyhc/PjXYbH
- P/CgBpyMe/sWU5bV3QVhFRGeGwV75WYtTkTwtDoAz4u7Qr4BvN0sdYHs9iMrXY9tXpEY
- lCPSRyUJVRXWQItr2Ob9Pr0LKFFv9QBjfLySrmQ7hxXFCDgtkasM6gViaJxAxNV0HGg9
- TZhA==
-X-Gm-Message-State: AGi0PubGcA9u3TL+iGSpUBCOlRi9I88oNfHEFtBxyluuwHYjms9Z9a0O
- I6l3kqbMhlK37Qcsz5KCAkk=
-X-Google-Smtp-Source: APiQypKQLNXXWccupxCJd6/Wi/Nq14WhOAQB8ADTtsp5VWa5/Aot0+vBabx18lkkpwOAaRkoEYxr3g==
-X-Received: by 2002:a63:134e:: with SMTP id 14mr288009pgt.380.1585778314374;
- Wed, 01 Apr 2020 14:58:34 -0700 (PDT)
-Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net.
- [73.252.146.110])
- by smtp.gmail.com with ESMTPSA id q71sm2378551pjb.5.2020.04.01.14.58.33
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 01 Apr 2020 14:58:33 -0700 (PDT)
-Date: Wed, 1 Apr 2020 14:58:27 -0700
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Felipe Balbi <balbi@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Stephen Boyd <swboyd@chromium.org>, linux-usb@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com
-Subject: Re: [PATCH v3] usb: gadget: aspeed: improve vhub port irq handling
-Message-ID: <20200401215826.GA8248@taoren-ubuntu-R90MNF91>
-References: <20200315191430.12379-1-rentao.bupt@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200315191430.12379-1-rentao.bupt@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48tKKh3GzyzDrBR;
+ Thu,  2 Apr 2020 21:38:32 +1100 (AEDT)
+Received: from localhost (gate.crashing.org [63.228.1.57])
+ (authenticated bits=0)
+ by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 032Abb5C028468
+ (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 2 Apr 2020 05:37:40 -0500
+Message-ID: <c556467d63cd5de806b4bf1806caee013ba5a808.camel@kernel.crashing.org>
+Subject: Re: [PATCH v2 6/6] dt-bindings: usb: document aspeed vhub device
+ ID/string properties
+From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To: Rob Herring <robh@kernel.org>
+Date: Thu, 02 Apr 2020 21:37:35 +1100
+In-Reply-To: <CAL_JsqKZeCC352TKFGDNRRogSefF9vq+J=WqCEeg59PBsSOW1w@mail.gmail.com>
+References: <20200315191632.12536-1-rentao.bupt@gmail.com>
+ <20200315191632.12536-7-rentao.bupt@gmail.com>
+ <20200330192347.GA6388@bogus>
+ <4dc3ac910c79dcca398eb5161dde44e1cc50baca.camel@kernel.crashing.org>
+ <CAL_JsqKZeCC352TKFGDNRRogSefF9vq+J=WqCEeg59PBsSOW1w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,99 +53,64 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>, Felipe Balbi <balbi@kernel.org>,
+ linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux USB List <linux-usb@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Stephen Boyd <swboyd@chromium.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Colin Ian King <colin.king@canonical.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM
+ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Ben,
+On Tue, 2020-03-31 at 10:21 -0600, Rob Herring wrote:
+> Surely the descriptor building code can be shared at a minimum.
+> 
+> Regardless of whether gadget configfs fits, usually it is pretty clear
+> whether something belongs in DT or userspace. That should be decided
+> first.
+> 
+> > Maybe we could expose the port as UDCs but not actually expose them on
+> > the bus until the hub is "activated" via a special configfs entry...
+> 
+> If control of the hub is done by userspace, I'd think configuration
+> should be there too.
 
-Any further comments on the patch?
+It's not in the current driver. For now, I expose the hub when the
+driver loads/initializes, and it creates UDCs for each port, which are
+then controlled from userspace.
 
+That said, I did it this way because it was easy, not because there are
+fundamental reasons to do so...
+
+The main reason to want to change the hub descriptor is for the device
+to advertise a vendor/device ID rather than our generic linux one,
+which some vendors might want to do for ... reasons. I didn't implement
+that functionality initially as in openbmc case, we didn't care. But I
+know some vendors would like to, if anything because from a user
+perspective, it's actually nice to have the string tell you that it's
+your BMC rather than Linux Fundation Hub.
+
+Originally I suggested we allow that via the device-tree because it was
+the simplest way to get there and I love have to deal with less code ..
+:)
+
+However, if we want to support the whole language string set etc... it
+gets really clumsy. So if there's a strong will to get there all the
+way, then configfs is probably the way to go.
+
+In that case, some sugery will probably be needed to make the gadget
+descriptor building code a bit less dependent on the overall gadget
+stuff... either that, or pre-create a "hub" gadget at driver loading
+time that userspace can modify before "plugging".
+
+In that case, the discussion should move back to linux-usb...
 
 Cheers,
+Ben.
 
-Tao
 
-On Sun, Mar 15, 2020 at 12:14:30PM -0700, rentao.bupt@gmail.com wrote:
-> From: Tao Ren <rentao.bupt@gmail.com>
-> 
-> This patch evaluates vhub ports' irq mask before going through per-port
-> irq handling one by one, which helps to speed up irq handling in case
-> there is no port interrupt.
-> 
-> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
-> ---
->  Changes in v3:
->    - assign istat to (unsigned long) bitmap before calling
->      "for_each_set_bit_from".
->  Changes in v2:
->    - use "for_each_set_bit" to speed up port irq handling.
-> 
->  drivers/usb/gadget/udc/aspeed-vhub/core.c | 12 +++++++++---
->  drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  8 +++-----
->  2 files changed, 12 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> index f8d35dd60c34..555e8645fb1e 100644
-> --- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> +++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> @@ -134,11 +134,15 @@ static irqreturn_t ast_vhub_irq(int irq, void *data)
->  	}
->  
->  	/* Handle device interrupts */
-> -	for (i = 0; i < vhub->max_ports; i++) {
-> -		u32 dev_mask = VHUB_IRQ_DEVICE1 << i;
-> +	if (istat & vhub->port_irq_mask) {
-> +		unsigned long bitmap = istat;
-> +		int offset = VHUB_IRQ_DEV1_BIT;
-> +		int size = VHUB_IRQ_DEV1_BIT + vhub->max_ports;
->  
-> -		if (istat & dev_mask)
-> +		for_each_set_bit_from(offset, &bitmap, size) {
-> +			i = offset - VHUB_IRQ_DEV1_BIT;
->  			ast_vhub_dev_irq(&vhub->ports[i].dev);
-> +		}
->  	}
->  
->  	/* Handle top-level vHub EP0 interrupts */
-> @@ -332,6 +336,8 @@ static int ast_vhub_probe(struct platform_device *pdev)
->  
->  	spin_lock_init(&vhub->lock);
->  	vhub->pdev = pdev;
-> +	vhub->port_irq_mask = GENMASK(VHUB_IRQ_DEV1_BIT + vhub->max_ports - 1,
-> +				      VHUB_IRQ_DEV1_BIT);
->  
->  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->  	vhub->regs = devm_ioremap_resource(&pdev->dev, res);
-> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-> index fac79ef6d669..23a1ac91f8d2 100644
-> --- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-> +++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-> @@ -51,14 +51,11 @@
->  #define VHUB_CTRL_UPSTREAM_CONNECT		(1 << 0)
->  
->  /* IER & ISR */
-> +#define VHUB_IRQ_DEV1_BIT			9
->  #define VHUB_IRQ_USB_CMD_DEADLOCK		(1 << 18)
->  #define VHUB_IRQ_EP_POOL_NAK			(1 << 17)
->  #define VHUB_IRQ_EP_POOL_ACK_STALL		(1 << 16)
-> -#define VHUB_IRQ_DEVICE5			(1 << 13)
-> -#define VHUB_IRQ_DEVICE4			(1 << 12)
-> -#define VHUB_IRQ_DEVICE3			(1 << 11)
-> -#define VHUB_IRQ_DEVICE2			(1 << 10)
-> -#define VHUB_IRQ_DEVICE1			(1 << 9)
-> +#define VHUB_IRQ_DEVICE1			(1 << (VHUB_IRQ_DEV1_BIT))
->  #define VHUB_IRQ_BUS_RESUME			(1 << 8)
->  #define VHUB_IRQ_BUS_SUSPEND 			(1 << 7)
->  #define VHUB_IRQ_BUS_RESET 			(1 << 6)
-> @@ -402,6 +399,7 @@ struct ast_vhub {
->  	/* Per-port info */
->  	struct ast_vhub_port		*ports;
->  	u32				max_ports;
-> +	u32				port_irq_mask;
->  
->  	/* Generic EP data structures */
->  	struct ast_vhub_ep		*epns;
-> -- 
-> 2.17.1
-> 
