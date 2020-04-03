@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A04519DBB5
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Apr 2020 18:30:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9278819DBB7
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Apr 2020 18:30:17 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48v54v3Q7WzF0X4
-	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Apr 2020 03:30:07 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48v5523PCnzF0Vf
+	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Apr 2020 03:30:14 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -19,43 +19,44 @@ Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
  [148.163.158.5])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48v53t2gwzzDsqB
- for <linux-aspeed@lists.ozlabs.org>; Sat,  4 Apr 2020 03:29:13 +1100 (AEDT)
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 033GFrXI103112; Fri, 3 Apr 2020 12:29:08 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 304g88q6sa-1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48v53v2fhLzDsqB
+ for <linux-aspeed@lists.ozlabs.org>; Sat,  4 Apr 2020 03:29:14 +1100 (AEDT)
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 033GEOOI035741; Fri, 3 Apr 2020 12:29:10 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 304gsundxu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Apr 2020 12:29:08 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 033GQPTp011409;
- Fri, 3 Apr 2020 16:29:08 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma04wdc.us.ibm.com with ESMTP id 301x77abkf-1
+ Fri, 03 Apr 2020 12:29:10 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 033GSwA9007945;
+ Fri, 3 Apr 2020 16:29:09 GMT
+Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
+ [9.57.198.27]) by ppma01dal.us.ibm.com with ESMTP id 301x786vxk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Apr 2020 16:29:08 +0000
+ Fri, 03 Apr 2020 16:29:09 +0000
 Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
  [9.57.199.110])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 033GT7JM14680952
+ by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 033GT8QO41877912
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 3 Apr 2020 16:29:07 GMT
+ Fri, 3 Apr 2020 16:29:09 GMT
 Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BB1A8AE068;
+ by IMSVA (Postfix) with ESMTP id D394EAE066;
+ Fri,  3 Apr 2020 16:29:08 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 002BBAE062;
  Fri,  3 Apr 2020 16:29:07 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DFBC0AE060;
- Fri,  3 Apr 2020 16:29:06 +0000 (GMT)
 Received: from ghost4.ibm.com (unknown [9.163.91.129])
  by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri,  3 Apr 2020 16:29:06 +0000 (GMT)
+ Fri,  3 Apr 2020 16:29:07 +0000 (GMT)
 From: Eddie James <eajames@linux.ibm.com>
 To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH v8 4/5] soc: aspeed: xdma: Add reset ioctl
-Date: Fri,  3 Apr 2020 11:29:00 -0500
-Message-Id: <20200403162901.21106-5-eajames@linux.ibm.com>
+Subject: [PATCH v8 5/5] ARM: dts: Aspeed: AST2600: Add XDMA PCI-E root control
+ reset
+Date: Fri,  3 Apr 2020 11:29:01 -0500
+Message-Id: <20200403162901.21106-6-eajames@linux.ibm.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200403162901.21106-1-eajames@linux.ibm.com>
 References: <20200403162901.21106-1-eajames@linux.ibm.com>
@@ -66,10 +67,10 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
  definitions=2020-04-03_11:2020-04-03,
  2020-04-03 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0
- impostorscore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
- mlxlogscore=999 bulkscore=0 suspectscore=1 adultscore=0 mlxscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ impostorscore=0 spamscore=0
+ malwarescore=0 suspectscore=1 priorityscore=1501 lowpriorityscore=0
+ phishscore=0 clxscore=1015 mlxlogscore=855 mlxscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2003020000 definitions=main-2004030134
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -88,86 +89,28 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Users of the XDMA engine need a way to reset it if something goes wrong.
-Problems on the host side, or user error, such as incorrect host
-address, may result in the DMA operation never completing and no way to
-determine what went wrong. Therefore, add an ioctl to reset the engine
-so that users can recover in this situation.
+The AST2600 XDMA engine requires the PCI-E root control reset be cleared
+as well, so add a phandle to that syscon reset.
 
 Signed-off-by: Eddie James <eajames@linux.ibm.com>
-Acked-by: Andrew Jeffery <andrew@aj.id.au>
 ---
- drivers/soc/aspeed/aspeed-xdma.c | 32 ++++++++++++++++++++++++++++++++
- include/uapi/linux/aspeed-xdma.h |  4 ++++
- 2 files changed, 36 insertions(+)
+ arch/arm/boot/dts/aspeed-g6.dtsi | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/soc/aspeed/aspeed-xdma.c b/drivers/soc/aspeed/aspeed-xdma.c
-index 43991dd098cd..4b01453cdd62 100644
---- a/drivers/soc/aspeed/aspeed-xdma.c
-+++ b/drivers/soc/aspeed/aspeed-xdma.c
-@@ -626,6 +626,37 @@ static __poll_t aspeed_xdma_poll(struct file *file,
- 	return mask;
- }
- 
-+static long aspeed_xdma_ioctl(struct file *file, unsigned int cmd,
-+			      unsigned long param)
-+{
-+	unsigned long flags;
-+	struct aspeed_xdma_client *client = file->private_data;
-+	struct aspeed_xdma *ctx = client->ctx;
-+
-+	switch (cmd) {
-+	case ASPEED_XDMA_IOCTL_RESET:
-+		spin_lock_irqsave(&ctx->engine_lock, flags);
-+		if (ctx->in_reset) {
-+			spin_unlock_irqrestore(&ctx->engine_lock, flags);
-+			return 0;
-+		}
-+
-+		ctx->in_reset = true;
-+		spin_unlock_irqrestore(&ctx->engine_lock, flags);
-+
-+		if (READ_ONCE(ctx->current_client))
-+			dev_warn(ctx->dev,
-+				 "User reset with transfer in progress.\n");
-+
-+		aspeed_xdma_reset(ctx);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- static void aspeed_xdma_vma_close(struct vm_area_struct *vma)
- {
- 	int rc;
-@@ -719,6 +750,7 @@ static const struct file_operations aspeed_xdma_fops = {
- 	.owner			= THIS_MODULE,
- 	.write			= aspeed_xdma_write,
- 	.poll			= aspeed_xdma_poll,
-+	.unlocked_ioctl		= aspeed_xdma_ioctl,
- 	.mmap			= aspeed_xdma_mmap,
- 	.open			= aspeed_xdma_open,
- 	.release		= aspeed_xdma_release,
-diff --git a/include/uapi/linux/aspeed-xdma.h b/include/uapi/linux/aspeed-xdma.h
-index 2efaa6067c39..3a3646fd1e9e 100644
---- a/include/uapi/linux/aspeed-xdma.h
-+++ b/include/uapi/linux/aspeed-xdma.h
-@@ -4,8 +4,12 @@
- #ifndef _UAPI_LINUX_ASPEED_XDMA_H_
- #define _UAPI_LINUX_ASPEED_XDMA_H_
- 
-+#include <linux/ioctl.h>
- #include <linux/types.h>
- 
-+#define __ASPEED_XDMA_IOCTL_MAGIC	0xb7
-+#define ASPEED_XDMA_IOCTL_RESET		_IO(__ASPEED_XDMA_IOCTL_MAGIC, 0)
-+
- /*
-  * aspeed_xdma_direction
-  *
+diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
+index 1ffc15177b79..65e2826fddb6 100644
+--- a/arch/arm/boot/dts/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+@@ -342,7 +342,8 @@ xdma: xdma@1e6e7000 {
+ 				compatible = "aspeed,ast2600-xdma";
+ 				reg = <0x1e6e7000 0x100>;
+ 				clocks = <&syscon ASPEED_CLK_GATE_BCLK>;
+-				resets = <&syscon ASPEED_RESET_DEV_XDMA>;
++				resets = <&syscon ASPEED_RESET_DEV_XDMA>, <&syscon ASPEED_RESET_RC_XDMA>;
++				reset-names = "dev", "rc";
+ 				interrupts-extended = <&gic GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
+ 						      <&scu_ic0 2>;
+ 				pcie-device = "bmc";
 -- 
 2.24.0
 
