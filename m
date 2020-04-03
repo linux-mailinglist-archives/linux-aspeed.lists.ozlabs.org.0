@@ -1,77 +1,83 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F4D19CA94
-	for <lists+linux-aspeed@lfdr.de>; Thu,  2 Apr 2020 21:51:09 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48tYbG4GQPzDrT2
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Apr 2020 06:51:06 +1100 (AEDT)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99DD919CDD2
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Apr 2020 02:32:44 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 48tgr91nP5zDr15
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Apr 2020 11:32:41 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.27;
+ helo=out3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=linux.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm2 header.b=Rm0wLfSN; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=kmbIfeAf; 
+ dkim-atps=neutral
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48tYZ96Pc3zDrSt
- for <linux-aspeed@lists.ozlabs.org>; Fri,  3 Apr 2020 06:50:09 +1100 (AEDT)
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 032JX7mt085028; Thu, 2 Apr 2020 15:50:04 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 305emf7na8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Apr 2020 15:50:04 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 032JnbfC024162;
- Thu, 2 Apr 2020 19:50:03 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma03dal.us.ibm.com with ESMTP id 301x78667g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Apr 2020 19:50:03 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 032Jo27v20185446
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 2 Apr 2020 19:50:02 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CFA1CAE060;
- Thu,  2 Apr 2020 19:50:02 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EF714AE067;
- Thu,  2 Apr 2020 19:50:01 +0000 (GMT)
-Received: from ghost4.ibm.com (unknown [9.163.31.233])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu,  2 Apr 2020 19:50:01 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH v7 5/5] ARM: dts: Aspeed: AST2600: Add XDMA PCI-E root control
- reset
-Date: Thu,  2 Apr 2020 14:49:55 -0500
-Message-Id: <20200402194955.16643-6-eajames@linux.ibm.com>
-X-Mailer: git-send-email 2.24.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48tgqv3mbxzDqbs
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  3 Apr 2020 11:32:26 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id A273F5C02FA;
+ Thu,  2 Apr 2020 20:32:21 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Thu, 02 Apr 2020 20:32:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=LkWwfmUQHqYqlnvd8zxThHRzsAgIZHe
+ hDpsmbY7QtMk=; b=Rm0wLfSNFVZ5Il6PlDetGYdhLi+2EzgyGJ8CkMX7C3hPUdd
+ hHitR413r35ldvcLY6KWAdk8bClsD6ta4ZwltkNJvnNJWZHEQlhw6O9G9Al0xhN4
+ w9WjLYRTDHXSj7qLhHKNDovRkxhbRAcKEQaGauCQtias3VvuWl7dEO++jAhSjGEP
+ BUxGPFEJfXs4qLIZuD5AqQNzPee0LCmZSBmVNR/3pwjgPLg5DRc4RNGh9O28TZR5
+ /juQXV3bpZUOaiadfgKNBYRc6hHzgt0nsE4jIqUXpemP5H+Hk14YA6Tj9oZBuYlM
+ MMngz9rsUzhtscwQ9tE5sKWjUlYkh58Yj7KIAEg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=LkWwfm
+ UQHqYqlnvd8zxThHRzsAgIZHehDpsmbY7QtMk=; b=kmbIfeAfLHy+eo4h1JEy+/
+ yINlUvUuJqEExMlFqxMHpOhEMGnHc9Ndi4rnPlorQKtlJHZDlczVBkJ/uRyf2SDY
+ gt8lFZ1eUONZLWbPKkZDjryxJJNB214zxAJjQkOfZDwyzD0iGwz4Ov4UnhpGedae
+ 9E/V7qcXC56fjLlhMoA2GTsUBKyrshPFBpnPgz9TSBIi0rJju9k4diKOIlQ6OYcE
+ /tyLD731qh+Rcq0RGRRJoR6cj5iTHvpJcTIGhCmSbHyMZ4lcCEj+F+j2FMbN2Vlk
+ 9l9uE9bJcTmIG/29AFWI+KloFbUn6LGN+tyQZexTiPF//ODomDsGU90zGys80Y7A
+ ==
+X-ME-Sender: <xms:FISGXo0AtIezSwEUulMpaimthn2b-cZNTOI76hAMLpRBEVmwQBG7Kw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrtdehgdefgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucevlhhush
+ htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghj
+ rdhiugdrrghu
+X-ME-Proxy: <xmx:FISGXvObzOdOpmoltqeidVZqBr4o6bUEHdX9nvkuBBN4Q7Hgnsq7Og>
+ <xmx:FISGXu9n0CUoEUT7YQh3cg4e7bXpX156aKwTdge30vWXiDGUw1kjWQ>
+ <xmx:FISGXpJF6oJ_qpM8ORDnzCPok6UGEnxY4NUX4edekqTvbNsqCHPl3g>
+ <xmx:FYSGXkEmstYTkXivRx6fcfv_MfqxsWlj0Ps1gqXrOGyLzaCsDjk8ow>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id B0678E00B0; Thu,  2 Apr 2020 20:32:20 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-1080-gca5de7b-fmstable-20200402v5
+Mime-Version: 1.0
+Message-Id: <8ca08ea0-2f3e-4b44-a595-bfe96ca02b3f@www.fastmail.com>
 In-Reply-To: <20200402194955.16643-1-eajames@linux.ibm.com>
 References: <20200402194955.16643-1-eajames@linux.ibm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-02_09:2020-04-02,
- 2020-04-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=1
- mlxlogscore=855 priorityscore=1501 lowpriorityscore=0 clxscore=1015
- phishscore=0 malwarescore=0 bulkscore=0 mlxscore=0 impostorscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004020142
+Date: Fri, 03 Apr 2020 11:02:41 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Eddie James" <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH v7 0/5] soc: aspeed: Add XDMA engine driver
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,34 +89,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org
+Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The AST2600 XDMA engine requires the PCI-E root control reset be cleared
-as well, so add a phandle to that syscon reset.
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
----
- arch/arm/boot/dts/aspeed-g6.dtsi | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-index 1ffc15177b79..65e2826fddb6 100644
---- a/arch/arm/boot/dts/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-@@ -342,7 +342,8 @@ xdma: xdma@1e6e7000 {
- 				compatible = "aspeed,ast2600-xdma";
- 				reg = <0x1e6e7000 0x100>;
- 				clocks = <&syscon ASPEED_CLK_GATE_BCLK>;
--				resets = <&syscon ASPEED_RESET_DEV_XDMA>;
-+				resets = <&syscon ASPEED_RESET_DEV_XDMA>, <&syscon ASPEED_RESET_RC_XDMA>;
-+				reset-names = "dev", "rc";
- 				interrupts-extended = <&gic GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
- 						      <&scu_ic0 2>;
- 				pcie-device = "bmc";
--- 
-2.24.0
+On Fri, 3 Apr 2020, at 06:19, Eddie James wrote:
+> This series adds a driver to control the Aspeed XDMA engine embedded in the
+> AST2500 and AST2600. The XDMA engine performs automatic DMA operations
+> over PCI-E between the Aspeed SOC (acting as a BMC) and a host processor.
+> 
+> Changes since v6:
+>  - See individual patches
 
+v7 is not an evolution on v6 - v7 contains a bunch of bugs that v6 fixed (at least
+wrt locking). How did you generate this series?
+
+Also my name is misspelled in each of the Reviewed-by: tags which makes me
+think that something has gone quite wrong with the posting of v7, and I'm
+concerned that this was based on e.g. v5 but with my tags against v6 applied.
+
+Andrew
