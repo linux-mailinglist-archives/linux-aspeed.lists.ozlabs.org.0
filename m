@@ -2,78 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B2119DB48
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Apr 2020 18:19:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D5519DBAE
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Apr 2020 18:29:33 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48v4rN5V4DzF0VV
-	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Apr 2020 03:19:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48v54B4ttXzF0Rt
+	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Apr 2020 03:29:30 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::242;
- helo=mail-oi1-x242.google.com; envelope-from=geissonator@gmail.com;
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=DdFDFz2q; dkim-atps=neutral
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=linux.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48v4rG0LY3zDrhk;
- Sat,  4 Apr 2020 03:19:07 +1100 (AEDT)
-Received: by mail-oi1-x242.google.com with SMTP id l22so6526435oii.12;
- Fri, 03 Apr 2020 09:19:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=vfUcEFpIecfa5phk+Cj5BK1agH676+gFMqNkyPySnNU=;
- b=DdFDFz2q+lRpwrK421yRNEfez1sLOWU8raR7jvvY4t65RJ615jwCRUugHdjp3QECXD
- 9DA4Q0scR3LkOWuReNJy0sSDlq9CWoI18F15XqJHgA70pA1+vTdRwywrhjpQRrvnTi0W
- IsQZLbSGEOkB3r/mu/JNCjQJwqxdRjSP3UmWlPvEsjpKiZNL4QZVA/QzaCYZlzKMoqQj
- 4/O4fPQ/pFvR9y6uWk5Fj92HR/5uCnjXe1t/LJkam4NgoHlgStWB5nFZNvr1zb3oBQHD
- 3GMW3cwIyHjpFgV3PIVkl2+JjMM+p0s5BnOQtUVxsUYiruJU44hwkraKGaiurzcYL47T
- ljsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=vfUcEFpIecfa5phk+Cj5BK1agH676+gFMqNkyPySnNU=;
- b=FxJ75lizRjfCIBhmkbmfm0ua3CkmEgeLRNNw4znZ12huaVaQauuguGZNfIePAn38fY
- 2rfbdA4XBawyEpdWMXgM5dP9FSMmRJCI+UGeDr/ljTVj24rNY7lJq3xVpUlJo19G+QcG
- HnzdudBYPhkOAAwaIJ4qbK0E/kJF+uUDNYVXmrtky4P2fHObUwhxcVyF7Z+4QIC/Is30
- eT14B4U3J4rrxyO1Zwrv5irSfhEHtAjTp5W02/ZwQ8Dz11en+uM6gZsJgwt5t1M6Ox47
- cc31F+Je1/gDxIByVv9LhzlP4aLFSneN9NoRpPkb1Ge+1jAWT41AczhJYgxOPdKZylDa
- ruqQ==
-X-Gm-Message-State: AGi0PuZ3MplEkUyIZy15Zja9qPgvDUPONsvk1rpwL6yXKQfOn4iYVDlD
- sw18pjV1UdDFnxLVSVlviUFKBUQu2cHRFw==
-X-Google-Smtp-Source: APiQypLdIe/bnR5Sgh9v1UByIaBo9hKSJA7hdJa7okRoa7dJKQmZWyXte4DCMLxfGDR33+o59+3cYw==
-X-Received: by 2002:aca:acc2:: with SMTP id v185mr3748001oie.27.1585930744166; 
- Fri, 03 Apr 2020 09:19:04 -0700 (PDT)
-Received: from andrews-mbp-2.attlocal.net
- ([2600:1700:19e0:3310:4ee:b6ec:777a:fdfb])
- by smtp.gmail.com with ESMTPSA id i17sm2193668otc.16.2020.04.03.09.19.03
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 03 Apr 2020 09:19:03 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [PATCH 2/2] ARM: dts: aspeed: zaius: Add gpio line names
-From: Andrew Geissler <geissonator@gmail.com>
-In-Reply-To: <48c9bd0e-3b5c-4f76-830f-4b0bd962148b@www.fastmail.com>
-Date: Fri, 3 Apr 2020 11:19:02 -0500
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <270714A1-2910-4B84-86B6-46177F439A52@gmail.com>
-References: <20200306170218.79698-1-geissonator@yahoo.com>
- <20200306170218.79698-2-geissonator@yahoo.com>
- <294a52cd-2f60-41e5-a58f-a74151a83b08@www.fastmail.com>
- <9360D2B2-8242-4BA1-BF06-8916E87EDE67@gmail.com>
- <48c9bd0e-3b5c-4f76-830f-4b0bd962148b@www.fastmail.com>
-To: Andrew Jeffery <andrew@aj.id.au>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48v53r43p7zDsqB
+ for <linux-aspeed@lists.ozlabs.org>; Sat,  4 Apr 2020 03:29:11 +1100 (AEDT)
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 033GEL7i097251; Fri, 3 Apr 2020 12:29:04 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 305emg584g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Apr 2020 12:29:04 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 033GT1FK008840;
+ Fri, 3 Apr 2020 16:29:04 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma04dal.us.ibm.com with ESMTP id 301x77exb7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Apr 2020 16:29:04 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 033GT32K53346572
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 3 Apr 2020 16:29:03 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3F801AE060;
+ Fri,  3 Apr 2020 16:29:03 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 53436AE066;
+ Fri,  3 Apr 2020 16:29:02 +0000 (GMT)
+Received: from ghost4.ibm.com (unknown [9.163.91.129])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri,  3 Apr 2020 16:29:02 +0000 (GMT)
+From: Eddie James <eajames@linux.ibm.com>
+To: linux-aspeed@lists.ozlabs.org
+Subject: [PATCH v8 0/5] soc: aspeed: Add XDMA engine driver
+Date: Fri,  3 Apr 2020 11:28:56 -0500
+Message-Id: <20200403162901.21106-1-eajames@linux.ibm.com>
+X-Mailer: git-send-email 2.24.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
+ definitions=2020-04-03_11:2020-04-03,
+ 2020-04-03 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 suspectscore=1
+ mlxlogscore=643 priorityscore=1501 lowpriorityscore=0 clxscore=1015
+ phishscore=0 malwarescore=0 bulkscore=0 mlxscore=0 impostorscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004030134
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,63 +80,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ robh+dt@kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+This series adds a driver to control the Aspeed XDMA engine embedded in the
+AST2500 and AST2600. The XDMA engine performs automatic DMA operations
+over PCI-E between the Aspeed SOC (acting as a BMC) and a host processor.
 
+Changes since v7:
+ - This is really just v7, but now the series is properly based on v6, not v5
+   like v7 was... 
 
-> On Apr 2, 2020, at 7:51 PM, Andrew Jeffery <andrew@aj.id.au> wrote:
->=20
->=20
->=20
-> On Tue, 31 Mar 2020, at 04:46, Andrew Geissler wrote:
->>=20
->>=20
->>> On Mar 26, 2020, at 6:20 PM, Andrew Jeffery <andrew@aj.id.au> wrote:
->>>=20
->>>=20
->>>=20
->>> On Sat, 7 Mar 2020, at 03:32, Andrew Geissler wrote:
->>>> Name the GPIOs to help userspace work with them. The names describe =
-the
->>>> functionality the lines provide, not the net or ball name. This =
-makes it
->>>> easier to share userspace code across different systems and makes =
-the
->>>> use of the lines more obvious.
->>>>=20
->>>> Signed-off-by: Andrew Geissler <geissonator@yahoo.com>
->>>=20
->>> So we're creating a bit of an ad-hoc ABI here between the DT and =
-userspace.
->>>=20
->>> Where are we documenting it?
->>=20
->> Yeah, so far it=E2=80=99s basically design by precedent. If you want =
-your OpenBMC
->> function to work then follow the standards we're setting in other =
-dts=E2=80=99s.
->>=20
->> Is there a good place to document this? I could create a OpenBMC =
-design
->> doc but that would not address non-OpenBMC areas.
->=20
-> Don't let perfect be the enemy of good enough :) Lets document it in =
-OpenBMC
-> and then look at alternatives if we find it's necessary. I don't think =
-we will given
-> that the contract is between the kernel and OpenBMC userspace.
+Eddie James (5):
+  dt-bindings: soc: Add Aspeed XDMA Engine
+  soc: aspeed: Add XDMA Engine Driver
+  soc: aspeed: xdma: Add user interface
+  soc: aspeed: xdma: Add reset ioctl
+  ARM: dts: Aspeed: AST2600: Add XDMA PCI-E root control reset
 
-Ok, I put a doc up for review here:
-https://gerrit.openbmc-project.xyz/c/openbmc/docs/+/30988
+ .../devicetree/bindings/soc/aspeed/xdma.txt   |   44 +
+ MAINTAINERS                                   |    8 +
+ arch/arm/boot/dts/aspeed-g6.dtsi              |    3 +-
+ drivers/soc/aspeed/Kconfig                    |    8 +
+ drivers/soc/aspeed/Makefile                   |    1 +
+ drivers/soc/aspeed/aspeed-xdma.c              | 1070 +++++++++++++++++
+ include/uapi/linux/aspeed-xdma.h              |   42 +
+ 7 files changed, 1175 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/soc/aspeed/xdma.txt
+ create mode 100644 drivers/soc/aspeed/aspeed-xdma.c
+ create mode 100644 include/uapi/linux/aspeed-xdma.h
 
->=20
-> Andrew
+-- 
+2.24.0
 
