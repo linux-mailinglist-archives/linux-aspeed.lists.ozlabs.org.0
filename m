@@ -2,79 +2,79 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4546D19D747
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Apr 2020 15:09:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B16B19D981
+	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Apr 2020 16:52:58 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48v0cv6qt7zDsP1
-	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Apr 2020 00:09:03 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48v2wg4SJxzDqsb
+	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Apr 2020 01:52:51 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::344;
- helo=mail-ot1-x344.google.com; envelope-from=tcminyard@gmail.com;
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=acm.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=fmq9EUdh; dkim-atps=neutral
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=linux.ibm.com
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48v0cg6RyFzDsND
- for <linux-aspeed@lists.ozlabs.org>; Sat,  4 Apr 2020 00:08:46 +1100 (AEDT)
-Received: by mail-ot1-x344.google.com with SMTP id 111so7094063oth.13
- for <linux-aspeed@lists.ozlabs.org>; Fri, 03 Apr 2020 06:08:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=tU19EWZx8u2e2uV3dXR0FXwxIY/5U2XJW8CrROjNUIg=;
- b=fmq9EUdhdn++eKwVsAKvmtE6dEOtCu87AzVYsS8RdLDIW9lhNi2aEJOROLq/8YC0cp
- 0NtDqpQaHOt02earYciLZFbMHdvr0oO3V04QvdXy8xdw5jfNZwJ5rCWYTGYEinHScC0b
- QB8YAgWxNnOWYx7UZw1/Vcp2HZ7xe8MlU3mY4egH5fsefs7+83mEZoF+87uWHAG8PASB
- 6HPQCf64opNRU+9Pm7PJ1ulZVviDAVR2DvSb/2hB+xM2pqJ2/0yRYbQALF2JO9kd/UH+
- e+Qo4mr05Nu4mst9MWQVjXl94DWlXTSQ/5MNFErnwh7ht2gB6EKnTFdrMEvc9HFjVSrR
- O+2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to
- :user-agent;
- bh=tU19EWZx8u2e2uV3dXR0FXwxIY/5U2XJW8CrROjNUIg=;
- b=eG1pyBmLC0Up/2borDflpaewoBIokMpuVYE8agDU8OCNhOt9/9PvcL1ajgdnInELxn
- HRHLXGjJdJmQ+jcD0jmGtruuBNayLK7MYHIFOc5UN+tJueiFpTFrSQxLTWX+YmH0Cm7Y
- VdTQVcbNhklXAlm8cIfaBKuP7i2/HuK83lBuCYqEOq/zzW5HRpVnQ5yLbiDhUP8F9mJX
- Wpdo+I1mXz6QRmKgW5J75RmhYogFwc4/S6oY1CLZhz0DLLXuzJz9AYENYaJPzjooi7vT
- fgn/mCPUvQaIeyunY2dKfadx0TcgxKMuE10k1BTdPAZVkN6WrZ9k9ioMy/Azy/z/PMQZ
- NLMw==
-X-Gm-Message-State: AGi0PublQtlNBu/3FdFexU1stUQt3vWWneZqnshkw7TAzFg4rl0BwtsB
- acO+GhCDjYTJ20crXomb/A==
-X-Google-Smtp-Source: APiQypJOH5J7K90OLTvE4up+WlGYwk/WIHDu36NWekh7qDcyAQo4WCvI75rBiKzmy/uvySr5/C0L0A==
-X-Received: by 2002:a9d:644:: with SMTP id 62mr5581256otn.177.1585919323801;
- Fri, 03 Apr 2020 06:08:43 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id 12sm2192250oii.54.2020.04.03.06.08.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Apr 2020 06:08:42 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:8b39:c3f3:f502:5c4e])
- by serve.minyard.net (Postfix) with ESMTPSA id 0586B18016D;
- Fri,  3 Apr 2020 13:08:42 +0000 (UTC)
-Date: Fri, 3 Apr 2020 08:08:40 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH v2 0/3] ipmi: kcs-bmc: Rework bindings to clean up DT
- warnings
-Message-ID: <20200403130840.GR2910@minyard.net>
-References: <cover.fe20dfec1a7c91771c6bb574814ffb4bb49e2136.1576462051.git-series.andrew@aj.id.au>
- <7734002a-181e-4baf-b9a3-af66894acc16@www.fastmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48v2wR5QRYzDqd7
+ for <linux-aspeed@lists.ozlabs.org>; Sat,  4 Apr 2020 01:52:39 +1100 (AEDT)
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 033EYbWw119203; Fri, 3 Apr 2020 10:52:32 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 301yfk0mkg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Apr 2020 10:52:32 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 033Eq4Cr009672;
+ Fri, 3 Apr 2020 14:52:31 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma02dal.us.ibm.com with ESMTP id 301x77x514-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 03 Apr 2020 14:52:31 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 033EqVTP17891686
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 3 Apr 2020 14:52:31 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E21112805E;
+ Fri,  3 Apr 2020 14:52:30 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 31D902805A;
+ Fri,  3 Apr 2020 14:52:30 +0000 (GMT)
+Received: from [9.163.91.129] (unknown [9.163.91.129])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri,  3 Apr 2020 14:52:30 +0000 (GMT)
+Subject: Re: [PATCH v7 0/5] soc: aspeed: Add XDMA engine driver
+To: Andrew Jeffery <andrew@aj.id.au>, linux-aspeed@lists.ozlabs.org
+References: <20200402194955.16643-1-eajames@linux.ibm.com>
+ <8ca08ea0-2f3e-4b44-a595-bfe96ca02b3f@www.fastmail.com>
+From: Eddie James <eajames@linux.ibm.com>
+Message-ID: <d1fe0157-8a4b-f0f5-f0e4-443d6f4e3e4a@linux.ibm.com>
+Date: Fri, 3 Apr 2020 09:52:29 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7734002a-181e-4baf-b9a3-af66894acc16@www.fastmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <8ca08ea0-2f3e-4b44-a595-bfe96ca02b3f@www.fastmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
+ definitions=2020-04-03_11:2020-04-03,
+ 2020-04-03 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 impostorscore=0 mlxscore=0 phishscore=0 clxscore=1015
+ bulkscore=0 malwarescore=0 spamscore=0 mlxlogscore=911 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004030125
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,39 +86,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org,
- openipmi-developer@lists.sourceforge.net,
- Haiyue Wang <haiyue.wang@linux.intel.com>
+Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Apr 03, 2020 at 02:20:21PM +1030, Andrew Jeffery wrote:
-> 
-> 
-> On Mon, 16 Dec 2019, at 12:57, Andrew Jeffery wrote:
-> > Hello,
-> > 
-> > This is a short series reworking the devicetree binding and driver for the
-> > ASPEED BMC KCS devices. With the number of supported ASPEED BMC devicetrees the
-> > changes enable removal of more than 100 lines of warning output from dtc.
-> > 
-> > v1 can be found here:
-> > 
-> > https://lore.kernel.org/lkml/cover.5630f63168ad5cddf02e9796106f8e086c196907.1575376664.git-series.andrew@aj.id.au/
-> > 
-> > v2 cleans up the commit message of 2/3 and changes the name of the property
-> > governing the LPC IO address for the KCS devices.
-> 
-> Ping?
 
-Sorry, I've been busy.  I've looked this over and it seems ok, and it's
-in my next tree.
+On 4/2/20 7:32 PM, Andrew Jeffery wrote:
+>
+> On Fri, 3 Apr 2020, at 06:19, Eddie James wrote:
+>> This series adds a driver to control the Aspeed XDMA engine embedded in the
+>> AST2500 and AST2600. The XDMA engine performs automatic DMA operations
+>> over PCI-E between the Aspeed SOC (acting as a BMC) and a host processor.
+>>
+>> Changes since v6:
+>>   - See individual patches
+> v7 is not an evolution on v6 - v7 contains a bunch of bugs that v6 fixed (at least
+> wrt locking). How did you generate this series?
 
-Thanks,
 
--corey
+My goodness, I could have sworn that was v6. I took the series that was 
+merged in the openbmc kernel. Must have gotten mixed up. -_-
+
+
+>
+> Also my name is misspelled in each of the Reviewed-by: tags which makes me
+> think that something has gone quite wrong with the posting of v7, and I'm
+> concerned that this was based on e.g. v5 but with my tags against v6 applied.
+
+
+Well thats because I added them manually since they had "disappeared" or 
+so I thought from v6 during the application to openbmc... guess that 
+should have been a warning sign
+
+>
+> Andrew
