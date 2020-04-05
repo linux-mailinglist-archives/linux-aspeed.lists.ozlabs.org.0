@@ -2,76 +2,84 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9278819DBB7
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Apr 2020 18:30:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B1F19E9A4
+	for <lists+linux-aspeed@lfdr.de>; Sun,  5 Apr 2020 08:57:43 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48v5523PCnzF0Vf
-	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Apr 2020 03:30:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48w4HN4nRDzDr6q
+	for <lists+linux-aspeed@lfdr.de>; Sun,  5 Apr 2020 16:57:36 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.26;
+ helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=linux.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm2 header.b=ad5a9Zda; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=14dqTf2+; 
+ dkim-atps=neutral
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48v53v2fhLzDsqB
- for <linux-aspeed@lists.ozlabs.org>; Sat,  4 Apr 2020 03:29:14 +1100 (AEDT)
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 033GEOOI035741; Fri, 3 Apr 2020 12:29:10 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com with ESMTP id 304gsundxu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Apr 2020 12:29:10 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 033GSwA9007945;
- Fri, 3 Apr 2020 16:29:09 GMT
-Received: from b01cxnp23032.gho.pok.ibm.com (b01cxnp23032.gho.pok.ibm.com
- [9.57.198.27]) by ppma01dal.us.ibm.com with ESMTP id 301x786vxk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Apr 2020 16:29:09 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 033GT8QO41877912
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 3 Apr 2020 16:29:09 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D394EAE066;
- Fri,  3 Apr 2020 16:29:08 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 002BBAE062;
- Fri,  3 Apr 2020 16:29:07 +0000 (GMT)
-Received: from ghost4.ibm.com (unknown [9.163.91.129])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri,  3 Apr 2020 16:29:07 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH v8 5/5] ARM: dts: Aspeed: AST2600: Add XDMA PCI-E root control
- reset
-Date: Fri,  3 Apr 2020 11:29:01 -0500
-Message-Id: <20200403162901.21106-6-eajames@linux.ibm.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20200403162901.21106-1-eajames@linux.ibm.com>
-References: <20200403162901.21106-1-eajames@linux.ibm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-03_11:2020-04-03,
- 2020-04-03 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0
- malwarescore=0 suspectscore=1 priorityscore=1501 lowpriorityscore=0
- phishscore=0 clxscore=1015 mlxlogscore=855 mlxscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004030134
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48w4H42qV4zDqd1
+ for <linux-aspeed@lists.ozlabs.org>; Sun,  5 Apr 2020 16:57:19 +1000 (AEST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6E09B5C0004;
+ Sun,  5 Apr 2020 02:57:15 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Sun, 05 Apr 2020 02:57:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=A9dbn5+Kyg5hHH3Cxnfh6Nqgtjiyajy
+ p0XRJXLne8is=; b=ad5a9Zda845H8koTB0ERR7JZxprs0GdpMrwpRMZ7fZWSnYI
+ 7eL/bbCcC+dym83H2P2dMsjdkNQXWhpiH56vVsuP0kuaR/JgLwRTXKOOSww4Zbad
+ xvqqV2oxA9ChQ+ljCKM/YmubHRPvb/ST9VNqC9zQfqHn1YgTMzUcuCdHFdPEkxph
+ /gYZ71NE6Cupf59BzfE2aWpGRRAswj2whckDWzral6e+f0P8t1V9xzUZrhdNPXKT
+ buYxT9RhPUsQKJ38t8yy7nu240JigMpJNxh8QpHgpMHtl//2gqX7uP9zVBpopcHA
+ Ik9ySMGJRLydoSeJ78IiVopBvdt4OV9Qm9uuc+Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=A9dbn5
+ +Kyg5hHH3Cxnfh6Nqgtjiyajyp0XRJXLne8is=; b=14dqTf2+KbmRafna3KiVl5
+ zzDeN6LUsvzS4hfOmtaXgtf3n0fvyXYWVEpRQ7MrszpbM606GKp6iFMH3gIUzfIy
+ GkhSszW5H835rdIlDy3GylDdSP6ZHj6RHxuc/oH8oRlJhq6uuRvjBnRF1BdesFCP
+ dBBvhzCCC6VkXw3TAgLjp7UOe16IQVo0vDDXePVUqiwcO2sbYN0WYqyxGrqzdEOp
+ vpmZHJXP8cq7wHz+gvH59U6o2dIb3gdzNNjlDujJHAnwhQUptOBT2mwbv5rtwR9J
+ 3wIyAd9MLwYlxKg1s6mAmB5J8w/h3BoaAyF92MokFwXnHeUNa5v75/cw5L1FjUjA
+ ==
+X-ME-Sender: <xms:SoGJXqpQUeZqjkl-xACUmUBAr2Vg8rQ1sNxBJEcB3iSj0LoIAFcJtA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddtgddukecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucevlhhush
+ htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghj
+ rdhiugdrrghu
+X-ME-Proxy: <xmx:SoGJXmgapWBt5Kf8rTkhp7r7bng-kjXQJRPw8G_rQEHZucHN3053Ow>
+ <xmx:SoGJXoQiu6-9X_IgIbrVyp44d7z0rPw7jBSKJybq0rxbRDjSiczVJw>
+ <xmx:SoGJXrKncthCYLZnHnddBt0_ovDAKwKHuOnHh_0MYhGT2fqZrEsSCw>
+ <xmx:S4GJXiDZcqzwHGsOLHY60trRX9O_SJfagylrGPdMsXJRAMhB56CsyA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 62711E00B1; Sun,  5 Apr 2020 02:57:14 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-1082-g13d7805-fmstable-20200403v1
+Mime-Version: 1.0
+Message-Id: <73c7b292-fa99-4809-a0fa-b3605f35aff4@www.fastmail.com>
+In-Reply-To: <d1fe0157-8a4b-f0f5-f0e4-443d6f4e3e4a@linux.ibm.com>
+References: <20200402194955.16643-1-eajames@linux.ibm.com>
+ <8ca08ea0-2f3e-4b44-a595-bfe96ca02b3f@www.fastmail.com>
+ <d1fe0157-8a4b-f0f5-f0e4-443d6f4e3e4a@linux.ibm.com>
+Date: Sun, 05 Apr 2020 16:27:35 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Eddie James" <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH v7 0/5] soc: aspeed: Add XDMA engine driver
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,34 +91,48 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org
+Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The AST2600 XDMA engine requires the PCI-E root control reset be cleared
-as well, so add a phandle to that syscon reset.
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
----
- arch/arm/boot/dts/aspeed-g6.dtsi | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-index 1ffc15177b79..65e2826fddb6 100644
---- a/arch/arm/boot/dts/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-@@ -342,7 +342,8 @@ xdma: xdma@1e6e7000 {
- 				compatible = "aspeed,ast2600-xdma";
- 				reg = <0x1e6e7000 0x100>;
- 				clocks = <&syscon ASPEED_CLK_GATE_BCLK>;
--				resets = <&syscon ASPEED_RESET_DEV_XDMA>;
-+				resets = <&syscon ASPEED_RESET_DEV_XDMA>, <&syscon ASPEED_RESET_RC_XDMA>;
-+				reset-names = "dev", "rc";
- 				interrupts-extended = <&gic GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
- 						      <&scu_ic0 2>;
- 				pcie-device = "bmc";
--- 
-2.24.0
+On Sat, 4 Apr 2020, at 01:22, Eddie James wrote:
+> 
+> On 4/2/20 7:32 PM, Andrew Jeffery wrote:
+> >
+> > On Fri, 3 Apr 2020, at 06:19, Eddie James wrote:
+> >> This series adds a driver to control the Aspeed XDMA engine embedded in the
+> >> AST2500 and AST2600. The XDMA engine performs automatic DMA operations
+> >> over PCI-E between the Aspeed SOC (acting as a BMC) and a host processor.
+> >>
+> >> Changes since v6:
+> >>   - See individual patches
+> > v7 is not an evolution on v6 - v7 contains a bunch of bugs that v6 fixed (at least
+> > wrt locking). How did you generate this series?
+> 
+> 
+> My goodness, I could have sworn that was v6. I took the series that was 
+> merged in the openbmc kernel. Must have gotten mixed up. -_-
 
+No worries, hopefully v8 is in the right state :)
+
+> 
+> 
+> >
+> > Also my name is misspelled in each of the Reviewed-by: tags which makes me
+> > think that something has gone quite wrong with the posting of v7, and I'm
+> > concerned that this was based on e.g. v5 but with my tags against v6 applied.
+> 
+> 
+> Well thats because I added them manually since they had "disappeared" or 
+> so I thought from v6 during the application to openbmc... guess that 
+> should have been a warning sign
+
+It certainly was for me!
+
+Cheers,
+
+Andrew
