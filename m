@@ -2,63 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6338119F35E
-	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Apr 2020 12:16:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB1C1A0708
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Apr 2020 08:10:57 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48wmfD4HhhzDqZS
-	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Apr 2020 20:16:20 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48xH8Z419hzDqQv
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Apr 2020 16:10:54 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=yadro.com (client-ip=89.207.88.252; helo=mta-01.yadro.com;
- envelope-from=a.filippov@yadro.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1044;
+ helo=mail-pj1-x1044.google.com; envelope-from=rentao.bupt@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=yadro.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=yadro.com header.i=@yadro.com header.a=rsa-sha256
- header.s=mta-01 header.b=YUu1PJW1; dkim-atps=neutral
-Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=meOsJwIu; dkim-atps=neutral
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48wmf30GtKzDqQs
- for <linux-aspeed@lists.ozlabs.org>; Mon,  6 Apr 2020 20:16:10 +1000 (AEST)
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id A5CAB412DE;
- Mon,  6 Apr 2020 10:16:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :x-mailer:message-id:date:date:subject:subject:from:from
- :received:received:received; s=mta-01; t=1586168163; x=
- 1587982564; bh=ec2Uu6MO0dI09ztGzWgEko0AxDftNtbrvg5in+Wl9is=; b=Y
- Uu1PJW1/Fu8B1YJwjCrcANL8Y8Bfgl+NpCBjzavSEjmWR3l06MJ4EyxZ1q8perJz
- B/fl6YxkMkvz6KBGH/vaOIKGctUiOFAlN38WxB3hZNfsdhb1PqQJ5hZ3OBSib+uX
- QQy80+u685Qt4HGsEJCSBXlmzCl2drY+TbAGJvff+Y=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ocj7AW-wOcmT; Mon,  6 Apr 2020 13:16:03 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 0237A41287;
- Mon,  6 Apr 2020 13:16:03 +0300 (MSK)
-Received: from bbwork.com (172.17.14.122) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 6 Apr
- 2020 13:16:03 +0300
-From: Alexander Filippov <a.filippov@yadro.com>
-To: <linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH] ARM: DTS: Aspeed: Add YADRO Nicole BMC
-Date: Mon, 6 Apr 2020 13:15:53 +0300
-Message-ID: <20200406101553.28958-1-a.filippov@yadro.com>
-X-Mailer: git-send-email 2.21.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48xGzL6VX7zDqlY;
+ Tue,  7 Apr 2020 16:02:54 +1000 (AEST)
+Received: by mail-pj1-x1044.google.com with SMTP id q16so827038pje.1;
+ Mon, 06 Apr 2020 23:02:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=mDrnzDZiOnBQa09dvb0Cd1YjsF5mMmyz1I055wbl9vg=;
+ b=meOsJwIutYxTrhH9bp6ewRd5RYJhEuAug27VMNargRV3jJhXH/2M5/2bLN3x6lLh6L
+ qHDayjzoxQfjLNsOtDmIycx2hqVR7RlolxiUPwl1bR+K0kWCwmANPG7GnJt9Zdjy+Yt6
+ PSyAwp2HEzmADUXurEsLRtaijgS2W+MetX2pV6K1dypT7ZnnYmqloQsMiFB7WXnU6Zyn
+ 6fl0LFoy8Riof1ih1YJzGFq2znARDo2Q8G+SOGeK0JzJBJB2suZC9i+DsbqBDMGdTpoN
+ 9rhZ6q9k7JDlUaRQ979800OtaTOeL0DwrDvpc3qrq4RiPL6KGs3RKSQM9wBi+zK06jZt
+ VYpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=mDrnzDZiOnBQa09dvb0Cd1YjsF5mMmyz1I055wbl9vg=;
+ b=g5LXZgDzPVxAgHFCI9WEmJJ+OruqyRolhnnnW/fCzvNxVG2fsBpMRwUx9IBZPRFShz
+ FOFVaCCpSlvRLBXzDj227INJDoK4OujV/68Dz1joo7gqdaK0VH46mp6H18ZwVI15PyYY
+ frLe8bGIJb5Xjmquoa/VZd/TMvYTpfUkOzfgDzb/4/KX6ZTSCBMYSUWmxyyp4DhPUDbM
+ fpbzodN7axtPdwurgIP6OAwjXYZLsSOvowToTUH0I0BpryYtPzPZoVuC7orfeaoX7YzA
+ rFt5BQ/kBvHpPYTN9fRIUo1FujuTvIairQMM9/D5nUbfPe2qO4WPfSpSbP4wCEvbvBR/
+ DQxw==
+X-Gm-Message-State: AGi0PuYuK2bG+aLTcbpCxXf1uq8d00bzR2h+p6O4GDo+aNM0NCg3gcF4
+ XRlh4waCEJi582iN57DOyxI=
+X-Google-Smtp-Source: APiQypIQztCXQB9qQWzpcptTM4CGBLA/xZSQCGcmzobvLJ1Ru341f80oLgBRRdcEFutuAOe/Kse/qw==
+X-Received: by 2002:a17:902:a411:: with SMTP id
+ p17mr939658plq.157.1586239371640; 
+ Mon, 06 Apr 2020 23:02:51 -0700 (PDT)
+Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net.
+ [73.252.146.110])
+ by smtp.gmail.com with ESMTPSA id d22sm2030774pgh.11.2020.04.06.23.02.50
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 06 Apr 2020 23:02:51 -0700 (PDT)
+Date: Mon, 6 Apr 2020 23:02:43 -0700
+From: Tao Ren <rentao.bupt@gmail.com>
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: Re: [PATCH v3] usb: gadget: aspeed: improve vhub port irq handling
+Message-ID: <20200407060242.GA15050@taoren-ubuntu-R90MNF91>
+References: <20200315191430.12379-1-rentao.bupt@gmail.com>
+ <20200401215826.GA8248@taoren-ubuntu-R90MNF91>
+ <512d625e45ea953d722bb7ea73c3619730312284.camel@kernel.crashing.org>
+ <20200403064826.GA10866@taoren-ubuntu-R90MNF91>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.17.14.122]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200403064826.GA10866@taoren-ubuntu-R90MNF91>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,325 +84,157 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Alexander Filippov <a.filippov@yadro.com>, Rob Herring <robh+dt@kernel.org>,
+Cc: Felipe Balbi <balbi@kernel.org>, linux-aspeed@lists.ozlabs.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
  linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Nicole is an OpenPower machine with an Aspeed 2500 BMC SoC manufactured
-by YADRO.
+Hi Ben,
 
-Signed-off-by: Alexander Filippov <a.filippov@yadro.com>
----
- arch/arm/boot/dts/Makefile                  |   1 +
- arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts | 284 ++++++++++++++++++++
- 2 files changed, 285 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts
+On Thu, Apr 02, 2020 at 11:48:27PM -0700, Tao Ren wrote:
+> On Thu, Apr 02, 2020 at 09:45:38PM +1100, Benjamin Herrenschmidt wrote:
+> > On Wed, 2020-04-01 at 14:58 -0700, Tao Ren wrote:
+> > > Hi Ben,
+> > > 
+> > > Any further comments on the patch?
+> > 
+> > Ah sorry, nope. Did you check the generated assembly to see if it
+> > looked any better ? :-)
+> > 
+> > Otherwise,
+> > 
+> > Acked-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> 
+> Thanks Ben for the review. Let me see if I can collect some runtime data
+> on my ast2400 BMC platform. Will update back later.
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index e8dd99201397..6f9fe0f959f2 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1347,6 +1347,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-microsoft-olympus.dtb \
- 	aspeed-bmc-opp-lanyang.dtb \
- 	aspeed-bmc-opp-mihawk.dtb \
-+	aspeed-bmc-opp-nicole.dtb \
- 	aspeed-bmc-opp-palmetto.dtb \
- 	aspeed-bmc-opp-romulus.dtb \
- 	aspeed-bmc-opp-swift.dtb \
-diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts b/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts
-new file mode 100644
-index 000000000000..0c8a9e7838ff
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts
-@@ -0,0 +1,284 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+// Copyright 2019 YADRO
-+/dts-v1/;
-+#include "aspeed-g5.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+
-+/ {
-+	model = "Nicole BMC";
-+	compatible = "yadro,nicole-bmc", "aspeed,ast2500";
-+
-+	chosen {
-+		stdout-path = &uart5;
-+		bootargs = "console=ttyS4,115200 earlyprintk";
-+	};
-+
-+	memory@80000000 {
-+		reg = <0x80000000 0x20000000>;
-+	};
-+
-+	reserved-memory {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges;
-+
-+		vga_memory: framebuffer@9f000000 {
-+			no-map;
-+			reg = <0x9f000000 0x01000000>; /* 16M */
-+		};
-+
-+		flash_memory: region@98000000 {
-+			no-map;
-+			reg = <0x98000000 0x04000000>; /* 64M */
-+		};
-+
-+		coldfire_memory: codefire_memory@9ef00000 {
-+			reg = <0x9ef00000 0x00100000>;
-+			no-map;
-+		};
-+
-+		gfx_memory: framebuffer {
-+			size = <0x01000000>;
-+			alignment = <0x01000000>;
-+			compatible = "shared-dma-pool";
-+			reusable;
-+		};
-+
-+		video_engine_memory: jpegbuffer {
-+			size = <0x02000000>;	/* 32M */
-+			alignment = <0x01000000>;
-+			compatible = "shared-dma-pool";
-+			reusable;
-+		};
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		power {
-+			gpios = <&gpio ASPEED_GPIO(AA, 4) GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		identify {
-+			gpios = <&gpio ASPEED_GPIO(AA, 7) GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		alarm_red {
-+			gpios = <&gpio ASPEED_GPIO(AA, 3) GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		alarm_yellow {
-+			gpios = <&gpio ASPEED_GPIO(AA, 1) GPIO_ACTIVE_HIGH>;
-+		};
-+	};
-+
-+	fsi: gpio-fsi {
-+		compatible = "aspeed,ast2500-cf-fsi-master", "fsi-master";
-+		#address-cells = <2>;
-+		#size-cells = <0>;
-+		no-gpio-delays;
-+
-+		memory-region = <&coldfire_memory>;
-+		aspeed,sram = <&sram>;
-+		aspeed,cvic = <&cvic>;
-+
-+		clock-gpios = <&gpio ASPEED_GPIO(AA, 0) GPIO_ACTIVE_HIGH>;
-+		data-gpios = <&gpio ASPEED_GPIO(AA, 2) GPIO_ACTIVE_HIGH>;
-+		mux-gpios = <&gpio ASPEED_GPIO(A, 6) GPIO_ACTIVE_HIGH>;
-+		enable-gpios = <&gpio ASPEED_GPIO(D, 0) GPIO_ACTIVE_HIGH>;
-+		trans-gpios = <&gpio ASPEED_GPIO(P, 1) GPIO_ACTIVE_HIGH>;
-+	};
-+
-+	gpio-keys {
-+		compatible = "gpio-keys";
-+
-+		checkstop {
-+			label = "checkstop";
-+			gpios = <&gpio ASPEED_GPIO(J, 2) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(J, 2)>;
-+		};
-+	};
-+};
-+
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc";
-+		spi-max-frequency = <50000000>;
-+#include "openbmc-flash-layout.dtsi"
-+	};
-+};
-+
-+&spi1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_spi1_default>;
-+
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "pnor";
-+		spi-max-frequency = <100000000>;
-+	};
-+};
-+
-+&lpc_ctrl {
-+	status = "okay";
-+	memory-region = <&flash_memory>;
-+	flash = <&spi1>;
-+};
-+
-+&uart1 {
-+	/* Rear RS-232 connector */
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_txd1_default
-+			&pinctrl_rxd1_default
-+			&pinctrl_nrts1_default
-+			&pinctrl_ndtr1_default
-+			&pinctrl_ndsr1_default
-+			&pinctrl_ncts1_default
-+			&pinctrl_ndcd1_default
-+			&pinctrl_nri1_default>;
-+};
-+
-+&uart5 {
-+	status = "okay";
-+};
-+
-+&mac0 {
-+	status = "okay";
-+
-+	use-ncsi;
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii1_default>;
-+	clocks = <&syscon ASPEED_CLK_GATE_MAC1CLK>,
-+		 <&syscon ASPEED_CLK_MAC1RCLK>;
-+	clock-names = "MACCLK", "RCLK";
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c256";
-+		reg = <0x50>;
-+		pagesize = <64>;
-+	};
-+};
-+
-+&i2c1 {
-+	status = "okay";
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+};
-+
-+&i2c3 {
-+	status = "okay";
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+};
-+
-+&i2c5 {
-+	status = "okay";
-+};
-+
-+&i2c6 {
-+	status = "okay";
-+
-+	rtc@32 {
-+		compatible = "epson,rx8900";
-+		reg = <0x32>;
-+	};
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+};
-+
-+&i2c8 {
-+	status = "okay";
-+};
-+
-+&i2c9 {
-+	status = "okay";
-+};
-+
-+&i2c10 {
-+	status = "okay";
-+};
-+
-+&i2c11 {
-+	status = "okay";
-+};
-+
-+&i2c12 {
-+	status = "okay";
-+};
-+
-+&gpio {
-+	nic_func_mode0 {
-+		gpio-hog;
-+		gpios = <ASPEED_GPIO(D, 3) GPIO_ACTIVE_HIGH>;
-+		output-low;
-+		line-name = "nic_func_mode0";
-+	};
-+	nic_func_mode1 {
-+		gpio-hog;
-+		gpios = <ASPEED_GPIO(D, 4) GPIO_ACTIVE_HIGH>;
-+		output-low;
-+		line-name = "nic_func_mode1";
-+	};
-+	seq_cont {
-+		gpio-hog;
-+		gpios = <ASPEED_GPIO(S, 7) GPIO_ACTIVE_HIGH>;
-+		output-low;
-+		line-name = "seq_cont";
-+	};
-+	ncsi_cfg {
-+		gpio-hog;
-+		input;
-+		gpios = <ASPEED_GPIO(E, 1) GPIO_ACTIVE_HIGH>;
-+		line-name = "ncsi_cfg";
-+	};
-+};
-+
-+&vuart {
-+	status = "okay";
-+};
-+
-+&gfx {
-+	status = "okay";
-+	memory-region = <&gfx_memory>;
-+};
-+
-+&pinctrl {
-+	aspeed,external-nodes = <&gfx &lhc>;
-+};
-+
-+&ibt {
-+	status = "okay";
-+};
-+
-+&vhub {
-+	status = "okay";
-+};
-+
-+&adc {
-+	status = "okay";
-+};
-+
-+&video {
-+	status = "okay";
-+	memory-region = <&video_engine_memory>;
-+};
-+
-+#include "ibm-power9-dual.dtsi"
--- 
-2.21.1
+I ran some testing on my ast2400 and ast2500 BMC and looks like the
+for() loop runs faster than for_each_set_bit_from() loop in my
+environment. I'm not sure if something needs to be revised in my test
+code, but please kindly share your suggestions:
 
+I use get_cycles() to calculate execution time of 2 different loops, and
+ast_vhub_dev_irq() is replaced with barrier() to avoid "noise"; below
+are the results:
+
+  - when downstream port number is 5 and only 1 irq bit is set, it takes
+    ~30 cycles to finish for_each_set_bit() loop, and 20-25 cycles to
+    finish the for() loop.
+
+  - if downstream port number is 5 and all 5 bits are set, then
+    for_each_set_bit() loop takes ~50 cycles and for() loop takes ~25
+    cycles.
+
+  - when I increase downsteam port number to 16 and set 1 irq bit, the
+    for_each_set_bit() loop takes ~30 cycles and for() loop takes 25
+    cycles. It's a little surprise to me because I thought for() loop
+    would cost 60+ cycles (3 times of the value when port number is 5).
+
+  - if downstream port number is 16 and all irq status bits are set,
+    then for_each_set_bit() loop takes 60-70 cycles and for() loop takes
+    30+ cycles.
+
+
+Cheers,
+
+Tao
+
+> 
+> > > 
+> > > On Sun, Mar 15, 2020 at 12:14:30PM -0700, rentao.bupt@gmail.com
+> > > wrote:
+> > > > From: Tao Ren <rentao.bupt@gmail.com>
+> > > > 
+> > > > This patch evaluates vhub ports' irq mask before going through per-
+> > > > port
+> > > > irq handling one by one, which helps to speed up irq handling in
+> > > > case
+> > > > there is no port interrupt.
+> > > > 
+> > > > Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+> > > > ---
+> > > >  Changes in v3:
+> > > >    - assign istat to (unsigned long) bitmap before calling
+> > > >      "for_each_set_bit_from".
+> > > >  Changes in v2:
+> > > >    - use "for_each_set_bit" to speed up port irq handling.
+> > > > 
+> > > >  drivers/usb/gadget/udc/aspeed-vhub/core.c | 12 +++++++++---
+> > > >  drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  8 +++-----
+> > > >  2 files changed, 12 insertions(+), 8 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c
+> > > > b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+> > > > index f8d35dd60c34..555e8645fb1e 100644
+> > > > --- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
+> > > > +++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+> > > > @@ -134,11 +134,15 @@ static irqreturn_t ast_vhub_irq(int irq, void
+> > > > *data)
+> > > >  	}
+> > > >  
+> > > >  	/* Handle device interrupts */
+> > > > -	for (i = 0; i < vhub->max_ports; i++) {
+> > > > -		u32 dev_mask = VHUB_IRQ_DEVICE1 << i;
+> > > > +	if (istat & vhub->port_irq_mask) {
+> > > > +		unsigned long bitmap = istat;
+> > > > +		int offset = VHUB_IRQ_DEV1_BIT;
+> > > > +		int size = VHUB_IRQ_DEV1_BIT + vhub->max_ports;
+> > > >  
+> > > > -		if (istat & dev_mask)
+> > > > +		for_each_set_bit_from(offset, &bitmap, size) {
+> > > > +			i = offset - VHUB_IRQ_DEV1_BIT;
+> > > >  			ast_vhub_dev_irq(&vhub->ports[i].dev);
+> > > > +		}
+> > > >  	}
+> > > >  
+> > > >  	/* Handle top-level vHub EP0 interrupts */
+> > > > @@ -332,6 +336,8 @@ static int ast_vhub_probe(struct
+> > > > platform_device *pdev)
+> > > >  
+> > > >  	spin_lock_init(&vhub->lock);
+> > > >  	vhub->pdev = pdev;
+> > > > +	vhub->port_irq_mask = GENMASK(VHUB_IRQ_DEV1_BIT + vhub-
+> > > > >max_ports - 1,
+> > > > +				      VHUB_IRQ_DEV1_BIT);
+> > > >  
+> > > >  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > > >  	vhub->regs = devm_ioremap_resource(&pdev->dev, res);
+> > > > diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
+> > > > b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
+> > > > index fac79ef6d669..23a1ac91f8d2 100644
+> > > > --- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
+> > > > +++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
+> > > > @@ -51,14 +51,11 @@
+> > > >  #define VHUB_CTRL_UPSTREAM_CONNECT		(1 << 0)
+> > > >  
+> > > >  /* IER & ISR */
+> > > > +#define VHUB_IRQ_DEV1_BIT			9
+> > > >  #define VHUB_IRQ_USB_CMD_DEADLOCK		(1 << 18)
+> > > >  #define VHUB_IRQ_EP_POOL_NAK			(1 << 17)
+> > > >  #define VHUB_IRQ_EP_POOL_ACK_STALL		(1 << 16)
+> > > > -#define VHUB_IRQ_DEVICE5			(1 << 13)
+> > > > -#define VHUB_IRQ_DEVICE4			(1 << 12)
+> > > > -#define VHUB_IRQ_DEVICE3			(1 << 11)
+> > > > -#define VHUB_IRQ_DEVICE2			(1 << 10)
+> > > > -#define VHUB_IRQ_DEVICE1			(1 << 9)
+> > > > +#define VHUB_IRQ_DEVICE1			(1 <<
+> > > > (VHUB_IRQ_DEV1_BIT))
+> > > >  #define VHUB_IRQ_BUS_RESUME			(1 << 8)
+> > > >  #define VHUB_IRQ_BUS_SUSPEND 			(1 << 7)
+> > > >  #define VHUB_IRQ_BUS_RESET 			(1 << 6)
+> > > > @@ -402,6 +399,7 @@ struct ast_vhub {
+> > > >  	/* Per-port info */
+> > > >  	struct ast_vhub_port		*ports;
+> > > >  	u32				max_ports;
+> > > > +	u32				port_irq_mask;
+> > > >  
+> > > >  	/* Generic EP data structures */
+> > > >  	struct ast_vhub_ep		*epns;
+> > > > -- 
+> > > > 2.17.1
+> > > > 
+> > 
