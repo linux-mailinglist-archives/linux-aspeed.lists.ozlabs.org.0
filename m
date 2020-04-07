@@ -2,77 +2,79 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB1C1A0708
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Apr 2020 08:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FDF1A0D80
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Apr 2020 14:22:59 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48xH8Z419hzDqQv
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Apr 2020 16:10:54 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48xRPp5Sp8zDr2c
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Apr 2020 22:22:54 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1044;
- helo=mail-pj1-x1044.google.com; envelope-from=rentao.bupt@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=oracle.com (client-ip=156.151.31.86; helo=userp2130.oracle.com;
+ envelope-from=dan.carpenter@oracle.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
+ dmarc=pass (p=none dis=none) header.from=oracle.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=meOsJwIu; dkim-atps=neutral
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256
+ header.s=corp-2020-01-29 header.b=DVk2Gc7a; 
+ dkim-atps=neutral
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48xGzL6VX7zDqlY;
- Tue,  7 Apr 2020 16:02:54 +1000 (AEST)
-Received: by mail-pj1-x1044.google.com with SMTP id q16so827038pje.1;
- Mon, 06 Apr 2020 23:02:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=mDrnzDZiOnBQa09dvb0Cd1YjsF5mMmyz1I055wbl9vg=;
- b=meOsJwIutYxTrhH9bp6ewRd5RYJhEuAug27VMNargRV3jJhXH/2M5/2bLN3x6lLh6L
- qHDayjzoxQfjLNsOtDmIycx2hqVR7RlolxiUPwl1bR+K0kWCwmANPG7GnJt9Zdjy+Yt6
- PSyAwp2HEzmADUXurEsLRtaijgS2W+MetX2pV6K1dypT7ZnnYmqloQsMiFB7WXnU6Zyn
- 6fl0LFoy8Riof1ih1YJzGFq2znARDo2Q8G+SOGeK0JzJBJB2suZC9i+DsbqBDMGdTpoN
- 9rhZ6q9k7JDlUaRQ979800OtaTOeL0DwrDvpc3qrq4RiPL6KGs3RKSQM9wBi+zK06jZt
- VYpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=mDrnzDZiOnBQa09dvb0Cd1YjsF5mMmyz1I055wbl9vg=;
- b=g5LXZgDzPVxAgHFCI9WEmJJ+OruqyRolhnnnW/fCzvNxVG2fsBpMRwUx9IBZPRFShz
- FOFVaCCpSlvRLBXzDj227INJDoK4OujV/68Dz1joo7gqdaK0VH46mp6H18ZwVI15PyYY
- frLe8bGIJb5Xjmquoa/VZd/TMvYTpfUkOzfgDzb/4/KX6ZTSCBMYSUWmxyyp4DhPUDbM
- fpbzodN7axtPdwurgIP6OAwjXYZLsSOvowToTUH0I0BpryYtPzPZoVuC7orfeaoX7YzA
- rFt5BQ/kBvHpPYTN9fRIUo1FujuTvIairQMM9/D5nUbfPe2qO4WPfSpSbP4wCEvbvBR/
- DQxw==
-X-Gm-Message-State: AGi0PuYuK2bG+aLTcbpCxXf1uq8d00bzR2h+p6O4GDo+aNM0NCg3gcF4
- XRlh4waCEJi582iN57DOyxI=
-X-Google-Smtp-Source: APiQypIQztCXQB9qQWzpcptTM4CGBLA/xZSQCGcmzobvLJ1Ru341f80oLgBRRdcEFutuAOe/Kse/qw==
-X-Received: by 2002:a17:902:a411:: with SMTP id
- p17mr939658plq.157.1586239371640; 
- Mon, 06 Apr 2020 23:02:51 -0700 (PDT)
-Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net.
- [73.252.146.110])
- by smtp.gmail.com with ESMTPSA id d22sm2030774pgh.11.2020.04.06.23.02.50
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 06 Apr 2020 23:02:51 -0700 (PDT)
-Date: Mon, 6 Apr 2020 23:02:43 -0700
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: Re: [PATCH v3] usb: gadget: aspeed: improve vhub port irq handling
-Message-ID: <20200407060242.GA15050@taoren-ubuntu-R90MNF91>
-References: <20200315191430.12379-1-rentao.bupt@gmail.com>
- <20200401215826.GA8248@taoren-ubuntu-R90MNF91>
- <512d625e45ea953d722bb7ea73c3619730312284.camel@kernel.crashing.org>
- <20200403064826.GA10866@taoren-ubuntu-R90MNF91>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48xRPQ6SHmzDqB2
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Apr 2020 22:22:28 +1000 (AEST)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 037CDwfn015653;
+ Tue, 7 Apr 2020 12:22:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=V7U/UPhdIVNmh0TGVMyOEl9Z22IuQG38qcPPCZe71G0=;
+ b=DVk2Gc7awsJ2EpBHjclJ+73v062HkALtVJF48bzDR3AYITsmiI5g6cVg/vE0zF9g4bNe
+ FfGwtINJBYsng9bPNbLC6Iibb0aPtB5u9qz5KUsOZ/erxxIe6PCfL4I5h+WheAxbkHB3
+ yX/nEaJ4umB6X8yszgnMnp0my+zz3FMfheSZABbuKOVU8Z9xMw+n9MAyUZGTZSu1oZjx
+ oxDbQNVCMvhh0x0PcpWARA6M6YWDGzYX4KUeL37d4ypgY+j3OXL+wvU84ju+H6N4566L
+ 7vo2Q4lALCEA0dwoO6F6InoNlW23a4RqVBVh/VlGN7jK4s6TsMKDwpTMk8PGOjqr1xfz ew== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 308ffdahj2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 07 Apr 2020 12:22:14 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 037CGd6o062588;
+ Tue, 7 Apr 2020 12:22:13 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 3073ss0xjx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 07 Apr 2020 12:22:13 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 037CLwwa000652;
+ Tue, 7 Apr 2020 12:21:58 GMT
+Received: from mwanda (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 07 Apr 2020 05:21:57 -0700
+Date: Tue, 7 Apr 2020 15:21:49 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Corey Minyard <minyard@acm.org>, Andrew Jeffery <andrew@aj.id.au>
+Subject: [PATCH] ipmi: kcs: Fix aspeed_kcs_probe_of_v1()
+Message-ID: <20200407122149.GA100026@mwanda>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200403064826.GA10866@taoren-ubuntu-R90MNF91>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9583
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ phishscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 adultscore=0 bulkscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004070106
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9583
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ priorityscore=1501
+ impostorscore=0 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
+ clxscore=1011 phishscore=0 mlxscore=0 bulkscore=0 adultscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004070106
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,157 +86,36 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Felipe Balbi <balbi@kernel.org>, linux-aspeed@lists.ozlabs.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Stephen Boyd <swboyd@chromium.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ kernel-janitors@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+ Haiyue Wang <haiyue.wang@linux.intel.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Ben,
+This needs to return the newly allocated struct but instead it returns
+zero which leads to an immediate Oops in the caller.
 
-On Thu, Apr 02, 2020 at 11:48:27PM -0700, Tao Ren wrote:
-> On Thu, Apr 02, 2020 at 09:45:38PM +1100, Benjamin Herrenschmidt wrote:
-> > On Wed, 2020-04-01 at 14:58 -0700, Tao Ren wrote:
-> > > Hi Ben,
-> > > 
-> > > Any further comments on the patch?
-> > 
-> > Ah sorry, nope. Did you check the generated assembly to see if it
-> > looked any better ? :-)
-> > 
-> > Otherwise,
-> > 
-> > Acked-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> 
-> Thanks Ben for the review. Let me see if I can collect some runtime data
-> on my ast2400 BMC platform. Will update back later.
+Fixes: 09f5f680707e ("ipmi: kcs: aspeed: Implement v2 bindings")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/char/ipmi/kcs_bmc_aspeed.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I ran some testing on my ast2400 and ast2500 BMC and looks like the
-for() loop runs faster than for_each_set_bit_from() loop in my
-environment. I'm not sure if something needs to be revised in my test
-code, but please kindly share your suggestions:
+diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_bmc_aspeed.c
+index 9422d55a0476..a140203c079b 100644
+--- a/drivers/char/ipmi/kcs_bmc_aspeed.c
++++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
+@@ -271,7 +271,7 @@ static struct kcs_bmc *aspeed_kcs_probe_of_v1(struct platform_device *pdev)
+ 	kcs->ioreg = ast_kcs_bmc_ioregs[channel - 1];
+ 	aspeed_kcs_set_address(kcs, slave);
+ 
+-	return 0;
++	return kcs;
+ }
+ 
+ static int aspeed_kcs_calculate_channel(const struct kcs_ioreg *regs)
+-- 
+2.25.1
 
-I use get_cycles() to calculate execution time of 2 different loops, and
-ast_vhub_dev_irq() is replaced with barrier() to avoid "noise"; below
-are the results:
-
-  - when downstream port number is 5 and only 1 irq bit is set, it takes
-    ~30 cycles to finish for_each_set_bit() loop, and 20-25 cycles to
-    finish the for() loop.
-
-  - if downstream port number is 5 and all 5 bits are set, then
-    for_each_set_bit() loop takes ~50 cycles and for() loop takes ~25
-    cycles.
-
-  - when I increase downsteam port number to 16 and set 1 irq bit, the
-    for_each_set_bit() loop takes ~30 cycles and for() loop takes 25
-    cycles. It's a little surprise to me because I thought for() loop
-    would cost 60+ cycles (3 times of the value when port number is 5).
-
-  - if downstream port number is 16 and all irq status bits are set,
-    then for_each_set_bit() loop takes 60-70 cycles and for() loop takes
-    30+ cycles.
-
-
-Cheers,
-
-Tao
-
-> 
-> > > 
-> > > On Sun, Mar 15, 2020 at 12:14:30PM -0700, rentao.bupt@gmail.com
-> > > wrote:
-> > > > From: Tao Ren <rentao.bupt@gmail.com>
-> > > > 
-> > > > This patch evaluates vhub ports' irq mask before going through per-
-> > > > port
-> > > > irq handling one by one, which helps to speed up irq handling in
-> > > > case
-> > > > there is no port interrupt.
-> > > > 
-> > > > Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
-> > > > ---
-> > > >  Changes in v3:
-> > > >    - assign istat to (unsigned long) bitmap before calling
-> > > >      "for_each_set_bit_from".
-> > > >  Changes in v2:
-> > > >    - use "for_each_set_bit" to speed up port irq handling.
-> > > > 
-> > > >  drivers/usb/gadget/udc/aspeed-vhub/core.c | 12 +++++++++---
-> > > >  drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  8 +++-----
-> > > >  2 files changed, 12 insertions(+), 8 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> > > > b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> > > > index f8d35dd60c34..555e8645fb1e 100644
-> > > > --- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> > > > +++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> > > > @@ -134,11 +134,15 @@ static irqreturn_t ast_vhub_irq(int irq, void
-> > > > *data)
-> > > >  	}
-> > > >  
-> > > >  	/* Handle device interrupts */
-> > > > -	for (i = 0; i < vhub->max_ports; i++) {
-> > > > -		u32 dev_mask = VHUB_IRQ_DEVICE1 << i;
-> > > > +	if (istat & vhub->port_irq_mask) {
-> > > > +		unsigned long bitmap = istat;
-> > > > +		int offset = VHUB_IRQ_DEV1_BIT;
-> > > > +		int size = VHUB_IRQ_DEV1_BIT + vhub->max_ports;
-> > > >  
-> > > > -		if (istat & dev_mask)
-> > > > +		for_each_set_bit_from(offset, &bitmap, size) {
-> > > > +			i = offset - VHUB_IRQ_DEV1_BIT;
-> > > >  			ast_vhub_dev_irq(&vhub->ports[i].dev);
-> > > > +		}
-> > > >  	}
-> > > >  
-> > > >  	/* Handle top-level vHub EP0 interrupts */
-> > > > @@ -332,6 +336,8 @@ static int ast_vhub_probe(struct
-> > > > platform_device *pdev)
-> > > >  
-> > > >  	spin_lock_init(&vhub->lock);
-> > > >  	vhub->pdev = pdev;
-> > > > +	vhub->port_irq_mask = GENMASK(VHUB_IRQ_DEV1_BIT + vhub-
-> > > > >max_ports - 1,
-> > > > +				      VHUB_IRQ_DEV1_BIT);
-> > > >  
-> > > >  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > > >  	vhub->regs = devm_ioremap_resource(&pdev->dev, res);
-> > > > diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-> > > > b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-> > > > index fac79ef6d669..23a1ac91f8d2 100644
-> > > > --- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-> > > > +++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-> > > > @@ -51,14 +51,11 @@
-> > > >  #define VHUB_CTRL_UPSTREAM_CONNECT		(1 << 0)
-> > > >  
-> > > >  /* IER & ISR */
-> > > > +#define VHUB_IRQ_DEV1_BIT			9
-> > > >  #define VHUB_IRQ_USB_CMD_DEADLOCK		(1 << 18)
-> > > >  #define VHUB_IRQ_EP_POOL_NAK			(1 << 17)
-> > > >  #define VHUB_IRQ_EP_POOL_ACK_STALL		(1 << 16)
-> > > > -#define VHUB_IRQ_DEVICE5			(1 << 13)
-> > > > -#define VHUB_IRQ_DEVICE4			(1 << 12)
-> > > > -#define VHUB_IRQ_DEVICE3			(1 << 11)
-> > > > -#define VHUB_IRQ_DEVICE2			(1 << 10)
-> > > > -#define VHUB_IRQ_DEVICE1			(1 << 9)
-> > > > +#define VHUB_IRQ_DEVICE1			(1 <<
-> > > > (VHUB_IRQ_DEV1_BIT))
-> > > >  #define VHUB_IRQ_BUS_RESUME			(1 << 8)
-> > > >  #define VHUB_IRQ_BUS_SUSPEND 			(1 << 7)
-> > > >  #define VHUB_IRQ_BUS_RESET 			(1 << 6)
-> > > > @@ -402,6 +399,7 @@ struct ast_vhub {
-> > > >  	/* Per-port info */
-> > > >  	struct ast_vhub_port		*ports;
-> > > >  	u32				max_ports;
-> > > > +	u32				port_irq_mask;
-> > > >  
-> > > >  	/* Generic EP data structures */
-> > > >  	struct ast_vhub_ep		*epns;
-> > > > -- 
-> > > > 2.17.1
-> > > > 
-> > 
