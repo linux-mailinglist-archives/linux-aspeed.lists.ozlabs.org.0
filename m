@@ -2,79 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21FDF1A0D80
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Apr 2020 14:22:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D1C1A0E7D
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Apr 2020 15:36:28 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48xRPp5Sp8zDr2c
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Apr 2020 22:22:54 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48xT2c75PGzDr74
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Apr 2020 23:36:24 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=oracle.com (client-ip=156.151.31.86; helo=userp2130.oracle.com;
- envelope-from=dan.carpenter@oracle.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::243;
+ helo=mail-oi1-x243.google.com; envelope-from=tcminyard@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=oracle.com
+ dmarc=none (p=none dis=none) header.from=acm.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256
- header.s=corp-2020-01-29 header.b=DVk2Gc7a; 
- dkim-atps=neutral
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=UmDATtsu; dkim-atps=neutral
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48xRPQ6SHmzDqB2
- for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Apr 2020 22:22:28 +1000 (AEST)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 037CDwfn015653;
- Tue, 7 Apr 2020 12:22:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=V7U/UPhdIVNmh0TGVMyOEl9Z22IuQG38qcPPCZe71G0=;
- b=DVk2Gc7awsJ2EpBHjclJ+73v062HkALtVJF48bzDR3AYITsmiI5g6cVg/vE0zF9g4bNe
- FfGwtINJBYsng9bPNbLC6Iibb0aPtB5u9qz5KUsOZ/erxxIe6PCfL4I5h+WheAxbkHB3
- yX/nEaJ4umB6X8yszgnMnp0my+zz3FMfheSZABbuKOVU8Z9xMw+n9MAyUZGTZSu1oZjx
- oxDbQNVCMvhh0x0PcpWARA6M6YWDGzYX4KUeL37d4ypgY+j3OXL+wvU84ju+H6N4566L
- 7vo2Q4lALCEA0dwoO6F6InoNlW23a4RqVBVh/VlGN7jK4s6TsMKDwpTMk8PGOjqr1xfz ew== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 308ffdahj2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Apr 2020 12:22:14 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 037CGd6o062588;
- Tue, 7 Apr 2020 12:22:13 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3030.oracle.com with ESMTP id 3073ss0xjx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Apr 2020 12:22:13 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 037CLwwa000652;
- Tue, 7 Apr 2020 12:21:58 GMT
-Received: from mwanda (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 07 Apr 2020 05:21:57 -0700
-Date: Tue, 7 Apr 2020 15:21:49 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Corey Minyard <minyard@acm.org>, Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH] ipmi: kcs: Fix aspeed_kcs_probe_of_v1()
-Message-ID: <20200407122149.GA100026@mwanda>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48xT2R5GRXzDqhS
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Apr 2020 23:36:15 +1000 (AEST)
+Received: by mail-oi1-x243.google.com with SMTP id k18so1496396oib.3
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Apr 2020 06:36:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ClJDfDshHqm3MPtsNHmyOS+UtbN5Rqwu+2iZ2hmJ8yk=;
+ b=UmDATtsuZ9SMhlDT/Q4m+RFE0Biuk8WvIoFf35BNr/RouG6e28nWAzsTPNlSQZFlIX
+ zbMcd9Fe+4QkJx0sY866zBGGyGGTOnVzpyEd6Gz8QYePrMQS408Y8+Vk9bbWJ5E4je/X
+ ok7avbg/Eq+cC5k0QVqF6sOtoBob3/dZOtGS+vUG9jqs9Oejz7rcu8z7yEUwhe3osOfU
+ mcD8bdoxS3Ks95yaOUzCd/Ba9+Awz6u0zCyiDzB6VOg6ZAKrJXeFoHqVFReQ0hfZRKBi
+ czon2Gj4A3GD+L8ufLkYMPszx0KWeFXoDR73d/QrwnTMZGBn/6x7EccxDF9d2QgnDnBw
+ WKjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition:in-reply-to
+ :user-agent;
+ bh=ClJDfDshHqm3MPtsNHmyOS+UtbN5Rqwu+2iZ2hmJ8yk=;
+ b=mZzUbJ+DwLNjXi4FA8bRE0vlSh22M7mzEa6QvyUNk+4Cz909gJ0mHIZz4/n0ua4p0t
+ g2WzNIhM5AQ+iOR5oJwlM91DKCS1Q5TYRtS8SpLqYB9X+wwYC/4M2Rsc7+mOXtyuQtYi
+ rnOAfv1DmDP3SkxwZJZ5UbsCqtFGQj2UflUxFrjP4XVdgcW0RGbv01o/gox8yd6WF0GO
+ TzHEXdzhYl/pt8DC2Ed4b8uibndnFkY56/aRg+cQC2hvp1SylCR+olsJvZjgJtqSNkiO
+ cnrcKRqUO7b8xnluTh8DlabVLEhjymbLwfhY1u+RJW/yIXarD/HlLVrScedE4gL85GmD
+ iRUA==
+X-Gm-Message-State: AGi0PuaiueOGyDoovmKjULTOAKhdq4L2ZxNhK1OjYx+vLGstIbEPeDw0
+ aaoPeeExTIbPBaS8IhvZRth8lXM=
+X-Google-Smtp-Source: APiQypKN+V/kz+KJ9Qb1ZTSEPTawPqR52LDU41+Bdwlc4cfOfdJfnKMuaHj8E3XxCRC5UzvX7C6cGQ==
+X-Received: by 2002:aca:b803:: with SMTP id i3mr1676178oif.92.1586266571593;
+ Tue, 07 Apr 2020 06:36:11 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id f45sm5335104otf.30.2020.04.07.06.36.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Apr 2020 06:36:10 -0700 (PDT)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:8b39:c3f3:f502:5c4e])
+ by serve.minyard.net (Postfix) with ESMTPSA id 69562180053;
+ Tue,  7 Apr 2020 13:36:09 +0000 (UTC)
+Date: Tue, 7 Apr 2020 08:36:08 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH] ipmi: kcs: Fix aspeed_kcs_probe_of_v1()
+Message-ID: <20200407133608.GB6130@minyard.net>
+References: <20200407122149.GA100026@mwanda>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9583
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- phishscore=0 spamscore=0
- malwarescore=0 suspectscore=0 adultscore=0 bulkscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004070106
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9583
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- priorityscore=1501
- impostorscore=0 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
- clxscore=1011 phishscore=0 mlxscore=0 bulkscore=0 adultscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004070106
+In-Reply-To: <20200407122149.GA100026@mwanda>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,7 +84,8 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org,
+Reply-To: minyard@acm.org
+Cc: linux-aspeed@lists.ozlabs.org, Arnd Bergmann <arnd@arndb.de>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  kernel-janitors@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
  Haiyue Wang <haiyue.wang@linux.intel.com>
@@ -94,28 +93,34 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This needs to return the newly allocated struct but instead it returns
-zero which leads to an immediate Oops in the caller.
+On Tue, Apr 07, 2020 at 03:21:49PM +0300, Dan Carpenter wrote:
+> This needs to return the newly allocated struct but instead it returns
+> zero which leads to an immediate Oops in the caller.
 
-Fixes: 09f5f680707e ("ipmi: kcs: aspeed: Implement v2 bindings")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/char/ipmi/kcs_bmc_aspeed.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks, this is applied.
 
-diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_bmc_aspeed.c
-index 9422d55a0476..a140203c079b 100644
---- a/drivers/char/ipmi/kcs_bmc_aspeed.c
-+++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
-@@ -271,7 +271,7 @@ static struct kcs_bmc *aspeed_kcs_probe_of_v1(struct platform_device *pdev)
- 	kcs->ioreg = ast_kcs_bmc_ioregs[channel - 1];
- 	aspeed_kcs_set_address(kcs, slave);
- 
--	return 0;
-+	return kcs;
- }
- 
- static int aspeed_kcs_calculate_channel(const struct kcs_ioreg *regs)
--- 
-2.25.1
+-corey
 
+> 
+> Fixes: 09f5f680707e ("ipmi: kcs: aspeed: Implement v2 bindings")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+>  drivers/char/ipmi/kcs_bmc_aspeed.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_bmc_aspeed.c
+> index 9422d55a0476..a140203c079b 100644
+> --- a/drivers/char/ipmi/kcs_bmc_aspeed.c
+> +++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
+> @@ -271,7 +271,7 @@ static struct kcs_bmc *aspeed_kcs_probe_of_v1(struct platform_device *pdev)
+>  	kcs->ioreg = ast_kcs_bmc_ioregs[channel - 1];
+>  	aspeed_kcs_set_address(kcs, slave);
+>  
+> -	return 0;
+> +	return kcs;
+>  }
+>  
+>  static int aspeed_kcs_calculate_channel(const struct kcs_ioreg *regs)
+> -- 
+> 2.25.1
+> 
