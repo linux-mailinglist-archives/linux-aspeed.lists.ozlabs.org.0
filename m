@@ -2,83 +2,79 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45DBF1A18A9
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Apr 2020 01:37:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 545E91A1B97
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Apr 2020 07:42:07 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48xkN40JPpzDr2d
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Apr 2020 09:37:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48xtSr3y70zDqZS
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Apr 2020 15:42:04 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=64.147.123.20;
- helo=wout4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::642;
+ helo=mail-pl1-x642.google.com; envelope-from=rentao.bupt@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
+ dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=TIXwFNVF; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=t2FjNQ3G; 
- dkim-atps=neutral
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=lLoEa84O; dkim-atps=neutral
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48xkLk5sS2zDqbt
- for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Apr 2020 09:36:13 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id BB7B547D;
- Tue,  7 Apr 2020 19:36:08 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Tue, 07 Apr 2020 19:36:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=Yxq9f81Pb+4HSFnXBgl2WjEh9AK9LTu
- 4Gf81A8IMWxE=; b=TIXwFNVFlZ3kL8pi50r2le0uO1YETHcXlswy1QwmNs24YpF
- KQbtsW9+9epxZE66IpwEzt8ZwNSgBhss3bgalYPCoTeYKCvpWZqtul6HmErU7Nt7
- IepBdc9biMzrJGoqSWTf1GHCw62F0Bh5B+Yw8D65AqRXRuoXiz2g+IOPUCt5ndhn
- iujtCCStG1J/u8+awB6YT6Eo1gf1zGWPh4NRyVrmXiuo7Jjr1pGZNzqwsm0q3stB
- SbouZRckibk1QW5GXPV2G6ViDQBr7oyuS5yBQOJuS1HW66l5f4csg1NSaqAoQG23
- nf6CM9pH0qi5YI9xzZZ4FFXJ9524bjy6nEJt9iQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Yxq9f8
- 1Pb+4HSFnXBgl2WjEh9AK9LTu4Gf81A8IMWxE=; b=t2FjNQ3G3K38P8X2V7r5bk
- L8dXUojXrOqYdgVXVTGF8VG9lgmnoGV32LyrYloMQdKDnSMA230V0WGKDIurJRVT
- vJ4v5ycqlnSbrD5SXw5Ksmx53YowPer0MN1VT6oELDfaD2tMWYwY/xAOlGuklE+E
- clKW6ZMjNUlD/7jUqOsfyvVdP3/zsLUfF822WsXrPiN8S2/O+qUmjaQnnG/dXEfT
- xp6kRgBa2W8fKJMOClbvSOuqC+4ddUsSoaLT+UkeMxk8eno4KXZtTOhTsfOG2g6f
- tRKaKxX6SIrdwCqACIheRCHUS0bfu3WDWoDxgYUJxfiX+rP1wK0wJCcllWWvhkPA
- ==
-X-ME-Sender: <xms:Zw6NXjQ_JQQP_tJnx9C8OVWapompPjtTeGZsSH2NCeae8Mv3xAr_xg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudeigddvgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucevlhhush
- htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghj
- rdhiugdrrghu
-X-ME-Proxy: <xmx:Zw6NXuYk4BJ1FabOniAJ6oCocEs42n88oz8jpuUHWlH9zkNGxH82lg>
- <xmx:Zw6NXsTBAw9OOPuX9OtdNCDkoAtostsKtRpBGoWaE5xFpm35MK-jug>
- <xmx:Zw6NXp54Z8u8PUbRBJxG1exOmQxk5xuSQv1o6GOWtfz8oXOFuHftww>
- <xmx:aA6NXkxW94IAS2ehtk18Jsg0X0kWmccoBEpnsM0Jf9NG1rYvcNkUng>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id F38B6E00A6; Tue,  7 Apr 2020 19:36:06 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-1084-gdc5e709-fmstable-20200406v2
-Mime-Version: 1.0
-Message-Id: <0744752b-a48e-4edf-ba77-df605fd242a9@www.fastmail.com>
-In-Reply-To: <CACPK8XfA-4WvgVeEKi-hdC-LgEcicEhpV_0ivwymaEJKy15hGA@mail.gmail.com>
-References: <20200407122149.GA100026@mwanda>
- <CACPK8XfA-4WvgVeEKi-hdC-LgEcicEhpV_0ivwymaEJKy15hGA@mail.gmail.com>
-Date: Wed, 08 Apr 2020 09:06:25 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Joel Stanley" <joel@jms.id.au>, "Dan Carpenter" <dan.carpenter@oracle.com>
-Subject: Re: [PATCH] ipmi: kcs: Fix aspeed_kcs_probe_of_v1()
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48xtR61ggTzDqZ1;
+ Wed,  8 Apr 2020 15:40:34 +1000 (AEST)
+Received: by mail-pl1-x642.google.com with SMTP id k18so2125115pll.6;
+ Tue, 07 Apr 2020 22:40:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=g1prhrjKxEZds2TfTdybytV1XN9ZFJTSPhvDxSwKWbE=;
+ b=lLoEa84OH4TcHPRT1UimZUdQLc7+R6JFgPXWoCIIRTR2AyiT/OPSoK3ieDWDqzM8qx
+ lyCsqh2n5Zq2XflpC4bOHZ8iVDQrslNa1+/DzvMLAIWXtGMWlgcDE9ziykfEik9ddmBi
+ tyxXTYOkvFRPwBCL9z5pyp0iPfR1I3wurB47f21uuqJtHxLVwahEtgitfWWN7flMDjOZ
+ Safx8k04FtvoZcMhRSmyzx7z3Cwfou//CwYoXYZ07Wi8fW04reFQgw8Y0kGd+M/oglj0
+ CPxccDmDXnLlKNcHfvjbisMg0rXq9cG1uOMWcwhtmdlAZqu3MIuoskOTHuqaUL6yiZXb
+ 664Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=g1prhrjKxEZds2TfTdybytV1XN9ZFJTSPhvDxSwKWbE=;
+ b=bxbL3s18ErLcMzHmYWlfTZM3uzVguCugQ6SEUXeCE+DsDyWrAK1Yu4TfAgheRkZj9/
+ 0ucZpvVrk6J8W/TC0Jj1GbUiCHAZPElYoR3le1jnBEZ+7C/ADThyvpkuharzpE40SIG6
+ PfvbbjkDNVQQf5jYcYRJ6D7pgtZ2u4oatuMZsbJBH9oU7PfVkUFuEiuVqQjRW1pJBwio
+ xq8mlToTG2RCId1/qvdKZegFVWYqCd8pjaUs8JtuRf6LR+2xeN42BMXhkU0tdZH+/wj7
+ 6KYgPLU/sOYPfoSVDoVElp5RbkDFyeqjN/HrePTrSTZZOXGAbtc8nXEpURmMPXZLuGC3
+ IWfQ==
+X-Gm-Message-State: AGi0PuaVoCvbqMpfVi9t7qGukO39STAtuJX57JKmg8f9J6DVg3XPd/CN
+ Qi/BQzkZapZysRLROe3uNiY=
+X-Google-Smtp-Source: APiQypJp2wIHnlyEMM+6phi0GLCRMB+cJZqLMeiHhoqYBQwNHDoMx8FFoIJI/HdUYAVagNG142s6pA==
+X-Received: by 2002:a17:902:a5c6:: with SMTP id
+ t6mr5265576plq.319.1586324430524; 
+ Tue, 07 Apr 2020 22:40:30 -0700 (PDT)
+Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net.
+ [73.252.146.110])
+ by smtp.gmail.com with ESMTPSA id d3sm15544077pfq.126.2020.04.07.22.40.29
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 07 Apr 2020 22:40:30 -0700 (PDT)
+Date: Tue, 7 Apr 2020 22:40:23 -0700
+From: Tao Ren <rentao.bupt@gmail.com>
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: Re: [PATCH v3] usb: gadget: aspeed: improve vhub port irq handling
+Message-ID: <20200408054022.GA12469@taoren-ubuntu-R90MNF91>
+References: <20200315191430.12379-1-rentao.bupt@gmail.com>
+ <20200401215826.GA8248@taoren-ubuntu-R90MNF91>
+ <512d625e45ea953d722bb7ea73c3619730312284.camel@kernel.crashing.org>
+ <20200403064826.GA10866@taoren-ubuntu-R90MNF91>
+ <20200407060242.GA15050@taoren-ubuntu-R90MNF91>
+ <93ae433317a82de86ff5e9c8485563b78656b615.camel@kernel.crashing.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <93ae433317a82de86ff5e9c8485563b78656b615.camel@kernel.crashing.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,38 +86,55 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Corey Minyard <minyard@acm.org>, Arnd Bergmann <arnd@arndb.de>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- kernel-janitors@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
- Haiyue Wang <haiyue.wang@linux.intel.com>
+Cc: Felipe Balbi <balbi@kernel.org>, linux-aspeed@lists.ozlabs.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Wed, 8 Apr 2020, at 08:48, Joel Stanley wrote:
-> On Tue, 7 Apr 2020 at 12:22, Dan Carpenter <dan.carpenter@oracle.com> wrote:
-> >
-> > This needs to return the newly allocated struct but instead it returns
-> > zero which leads to an immediate Oops in the caller.
-> >
-> > Fixes: 09f5f680707e ("ipmi: kcs: aspeed: Implement v2 bindings")
-> > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+On Wed, Apr 08, 2020 at 09:36:16AM +1000, Benjamin Herrenschmidt wrote:
+> On Mon, 2020-04-06 at 23:02 -0700, Tao Ren wrote:
+> > I ran some testing on my ast2400 and ast2500 BMC and looks like the
+> > for() loop runs faster than for_each_set_bit_from() loop in my
+> > environment. I'm not sure if something needs to be revised in my test
+> > code, but please kindly share your suggestions:
+> > 
+> > I use get_cycles() to calculate execution time of 2 different loops, and
+> > ast_vhub_dev_irq() is replaced with barrier() to avoid "noise"; below
+> > are the results:
+> > 
+> >   - when downstream port number is 5 and only 1 irq bit is set, it takes
+> >     ~30 cycles to finish for_each_set_bit() loop, and 20-25 cycles to
+> >     finish the for() loop.
+> > 
+> >   - if downstream port number is 5 and all 5 bits are set, then
+> >     for_each_set_bit() loop takes ~50 cycles and for() loop takes ~25
+> >     cycles.
+> > 
+> >   - when I increase downsteam port number to 16 and set 1 irq bit, the
+> >     for_each_set_bit() loop takes ~30 cycles and for() loop takes 25
+> >     cycles. It's a little surprise to me because I thought for() loop
+> >     would cost 60+ cycles (3 times of the value when port number is 5).
+> > 
+> >   - if downstream port number is 16 and all irq status bits are set,
+> >     then for_each_set_bit() loop takes 60-70 cycles and for() loop takes
+> >     30+ cycles.
 > 
-> Thanks for the fix Dan.
+> I suspect the CPU doesn't have an efficient find-zero-bit primitive,
+> check the generated asm. In that case I would go back to the simple for
+> loop.
 > 
-> Andrew, I think this means no one has used the v1 bindings in
-> mainline, so could remove that code?
+> Cheers,
+> Ben.
 
-No, rather Dan's on the ball and it seems I was a bit lax with my testing
-of the patch. I pinged Corey only the other day regarding the patches;
-he had been busy and as such hadn't merged them.
+_find_next_bit_le() function is defined in arch/arm/lib/findbit.S. I'm
+looking at the code: will run more tests and send out patch v4 with
+simple for loop later.
 
-I have a series to convert our devicetrees over to v2. Now that Corey's
-taken the patches I can send that and we can get away from v1.
 
-Thanks for the fix Dan.
+Cheers,
 
-Acked-by: Andrew Jeffery <andrew@aj.id.au>
+Tao
