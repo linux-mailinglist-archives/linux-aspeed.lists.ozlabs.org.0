@@ -1,80 +1,75 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 176D21A3B71
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Apr 2020 22:41:03 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545E91A1B97
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Apr 2020 07:42:07 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48xtSr3y70zDqZS
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Apr 2020 15:42:04 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48ytMb2zPNzDrJs
+	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Apr 2020 06:40:59 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::642;
- helo=mail-pl1-x642.google.com; envelope-from=rentao.bupt@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1043;
+ helo=mail-pj1-x1043.google.com; envelope-from=rentao.bupt@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=lLoEa84O; dkim-atps=neutral
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
+ header.s=20161025 header.b=mqmSGUUO; dkim-atps=neutral
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
+ [IPv6:2607:f8b0:4864:20::1043])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48xtR61ggTzDqZ1;
- Wed,  8 Apr 2020 15:40:34 +1000 (AEST)
-Received: by mail-pl1-x642.google.com with SMTP id k18so2125115pll.6;
- Tue, 07 Apr 2020 22:40:34 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48ytML5hDrzDrHb;
+ Fri, 10 Apr 2020 06:40:44 +1000 (AEST)
+Received: by mail-pj1-x1043.google.com with SMTP id l36so1779843pjb.3;
+ Thu, 09 Apr 2020 13:40:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=g1prhrjKxEZds2TfTdybytV1XN9ZFJTSPhvDxSwKWbE=;
- b=lLoEa84OH4TcHPRT1UimZUdQLc7+R6JFgPXWoCIIRTR2AyiT/OPSoK3ieDWDqzM8qx
- lyCsqh2n5Zq2XflpC4bOHZ8iVDQrslNa1+/DzvMLAIWXtGMWlgcDE9ziykfEik9ddmBi
- tyxXTYOkvFRPwBCL9z5pyp0iPfR1I3wurB47f21uuqJtHxLVwahEtgitfWWN7flMDjOZ
- Safx8k04FtvoZcMhRSmyzx7z3Cwfou//CwYoXYZ07Wi8fW04reFQgw8Y0kGd+M/oglj0
- CPxccDmDXnLlKNcHfvjbisMg0rXq9cG1uOMWcwhtmdlAZqu3MIuoskOTHuqaUL6yiZXb
- 664Q==
+ h=from:to:cc:subject:date:message-id;
+ bh=YFdk+s6DAN6aaYEhySzPfFS73mspXBy0eatt12t9vpE=;
+ b=mqmSGUUOx2o/pdEGWUOtz0ExRCl94+NNqTsUbvbhkwTI350tV+G3oWT1Ml7Mcxxddd
+ MfA75X9sWWTGWeNwddMUCFeNsUEh5NSx3hM8rFkLfkaYYlu68cjHbN3U98/k8vApdBm2
+ 5K9O6yE3rklLInMQgvFdPbCDO2aJou4Xi1D5cgq0VJa3EKUeeQEtP7FbL/8JvxdZu1SB
+ wOcbZDwEd4jLpC5Y5a0cmnEVk4Mn6iv4JJRWD0i0OpsxKqj7jountgI0kAJ05uPT7Uyh
+ aahYTWFxCLJAKzN7gNJFlrCa4FxaZXwkhUAkZmeWTMDDg3OaFbKfHmtpbmM352Lt5pAY
+ iojw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=g1prhrjKxEZds2TfTdybytV1XN9ZFJTSPhvDxSwKWbE=;
- b=bxbL3s18ErLcMzHmYWlfTZM3uzVguCugQ6SEUXeCE+DsDyWrAK1Yu4TfAgheRkZj9/
- 0ucZpvVrk6J8W/TC0Jj1GbUiCHAZPElYoR3le1jnBEZ+7C/ADThyvpkuharzpE40SIG6
- PfvbbjkDNVQQf5jYcYRJ6D7pgtZ2u4oatuMZsbJBH9oU7PfVkUFuEiuVqQjRW1pJBwio
- xq8mlToTG2RCId1/qvdKZegFVWYqCd8pjaUs8JtuRf6LR+2xeN42BMXhkU0tdZH+/wj7
- 6KYgPLU/sOYPfoSVDoVElp5RbkDFyeqjN/HrePTrSTZZOXGAbtc8nXEpURmMPXZLuGC3
- IWfQ==
-X-Gm-Message-State: AGi0PuaVoCvbqMpfVi9t7qGukO39STAtuJX57JKmg8f9J6DVg3XPd/CN
- Qi/BQzkZapZysRLROe3uNiY=
-X-Google-Smtp-Source: APiQypJp2wIHnlyEMM+6phi0GLCRMB+cJZqLMeiHhoqYBQwNHDoMx8FFoIJI/HdUYAVagNG142s6pA==
-X-Received: by 2002:a17:902:a5c6:: with SMTP id
- t6mr5265576plq.319.1586324430524; 
- Tue, 07 Apr 2020 22:40:30 -0700 (PDT)
-Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net.
- [73.252.146.110])
- by smtp.gmail.com with ESMTPSA id d3sm15544077pfq.126.2020.04.07.22.40.29
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 07 Apr 2020 22:40:30 -0700 (PDT)
-Date: Tue, 7 Apr 2020 22:40:23 -0700
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: Re: [PATCH v3] usb: gadget: aspeed: improve vhub port irq handling
-Message-ID: <20200408054022.GA12469@taoren-ubuntu-R90MNF91>
-References: <20200315191430.12379-1-rentao.bupt@gmail.com>
- <20200401215826.GA8248@taoren-ubuntu-R90MNF91>
- <512d625e45ea953d722bb7ea73c3619730312284.camel@kernel.crashing.org>
- <20200403064826.GA10866@taoren-ubuntu-R90MNF91>
- <20200407060242.GA15050@taoren-ubuntu-R90MNF91>
- <93ae433317a82de86ff5e9c8485563b78656b615.camel@kernel.crashing.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <93ae433317a82de86ff5e9c8485563b78656b615.camel@kernel.crashing.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=YFdk+s6DAN6aaYEhySzPfFS73mspXBy0eatt12t9vpE=;
+ b=RofOVcHS2j3VAzDREAz19FYaK6k2rVSpDFNUP2GpYIYEpPmvi8x0OSLaPycNtjDH7X
+ fwRL84XgMY/LDHzu+R5MhZKRcLMK0RvfI41vFEoTeteWID+cnY4fkjQx9MMbAkLsJGvN
+ YX0uGeKkSWoOQNuPcK5ppv+aZahCjG+lMqyGnvm2yVL6aZEEUD+wTyPBjWyJYghn6iig
+ lTZaeskx2Oj/KmlAaz6e3tI9a9JRH0zOWi+E+O0DS6PkFPchMWrIQvYeI2SPBbmRPlHw
+ SO71otRmSg9d7FZhqbG6eZV8DnLmVT8WiLDYATXlK66YGWN4RzCk3ESmm2uEWpRrSGVN
+ 8acw==
+X-Gm-Message-State: AGi0PuZk287DqpaUf5BwFD7qSmrz+yQ+TcNOv1Ai3J2TAdqmAJpcPAWA
+ JxM4HzCzPBtc/23BYJgxIh0=
+X-Google-Smtp-Source: APiQypJDY7fIgt5BH2dLASbxM7xt1HbxuX8tMAQnHRwL2JQKsbL/ySbmDvLuSgYsSMHwePJNtrvSbg==
+X-Received: by 2002:a17:902:a5cc:: with SMTP id
+ t12mr1456010plq.322.1586464840437; 
+ Thu, 09 Apr 2020 13:40:40 -0700 (PDT)
+Received: from taoren-ubuntu-R90MNF91.thefacebook.com
+ ([2620:10d:c090:400::5:b9ab])
+ by smtp.gmail.com with ESMTPSA id t4sm20043960pfb.156.2020.04.09.13.40.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Apr 2020 13:40:39 -0700 (PDT)
+From: rentao.bupt@gmail.com
+To: Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Stephen Boyd <swboyd@chromium.org>, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com
+Subject: [PATCH v4] usb: gadget: aspeed: improve vhub port irq handling
+Date: Thu,  9 Apr 2020 13:40:30 -0700
+Message-Id: <20200409204030.21330-1-rentao.bupt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,55 +81,100 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Felipe Balbi <balbi@kernel.org>, linux-aspeed@lists.ozlabs.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Stephen Boyd <swboyd@chromium.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Apr 08, 2020 at 09:36:16AM +1000, Benjamin Herrenschmidt wrote:
-> On Mon, 2020-04-06 at 23:02 -0700, Tao Ren wrote:
-> > I ran some testing on my ast2400 and ast2500 BMC and looks like the
-> > for() loop runs faster than for_each_set_bit_from() loop in my
-> > environment. I'm not sure if something needs to be revised in my test
-> > code, but please kindly share your suggestions:
-> > 
-> > I use get_cycles() to calculate execution time of 2 different loops, and
-> > ast_vhub_dev_irq() is replaced with barrier() to avoid "noise"; below
-> > are the results:
-> > 
-> >   - when downstream port number is 5 and only 1 irq bit is set, it takes
-> >     ~30 cycles to finish for_each_set_bit() loop, and 20-25 cycles to
-> >     finish the for() loop.
-> > 
-> >   - if downstream port number is 5 and all 5 bits are set, then
-> >     for_each_set_bit() loop takes ~50 cycles and for() loop takes ~25
-> >     cycles.
-> > 
-> >   - when I increase downsteam port number to 16 and set 1 irq bit, the
-> >     for_each_set_bit() loop takes ~30 cycles and for() loop takes 25
-> >     cycles. It's a little surprise to me because I thought for() loop
-> >     would cost 60+ cycles (3 times of the value when port number is 5).
-> > 
-> >   - if downstream port number is 16 and all irq status bits are set,
-> >     then for_each_set_bit() loop takes 60-70 cycles and for() loop takes
-> >     30+ cycles.
-> 
-> I suspect the CPU doesn't have an efficient find-zero-bit primitive,
-> check the generated asm. In that case I would go back to the simple for
-> loop.
-> 
-> Cheers,
-> Ben.
+From: Tao Ren <rentao.bupt@gmail.com>
 
-_find_next_bit_le() function is defined in arch/arm/lib/findbit.S. I'm
-looking at the code: will run more tests and send out patch v4 with
-simple for loop later.
+This patch evaluates vhub ports' irq mask before going through per-port
+irq handling one by one, which helps to speed up irq handling in case
+there is no port interrupt.
 
+Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+---
+ Changes in v4:
+   - use simple for() loop as it runs faster than for_each_set_bit()
+     loop on aspeed BMCs.
+ Changes in v3:
+   - assign istat to (unsigned long) bitmap before calling
+     "for_each_set_bit_from".
+ Changes in v2:
+   - use "for_each_set_bit" to speed up port irq handling.
 
-Cheers,
+ drivers/usb/gadget/udc/aspeed-vhub/core.c | 12 +++++++-----
+ drivers/usb/gadget/udc/aspeed-vhub/vhub.h | 11 ++++++-----
+ 2 files changed, 13 insertions(+), 10 deletions(-)
 
-Tao
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+index f8d35dd60c34..fb36bad2c0b7 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+@@ -134,11 +134,11 @@ static irqreturn_t ast_vhub_irq(int irq, void *data)
+ 	}
+ 
+ 	/* Handle device interrupts */
+-	for (i = 0; i < vhub->max_ports; i++) {
+-		u32 dev_mask = VHUB_IRQ_DEVICE1 << i;
+-
+-		if (istat & dev_mask)
+-			ast_vhub_dev_irq(&vhub->ports[i].dev);
++	if (istat & vhub->port_irq_mask) {
++		for (i = 0; i < vhub->max_ports; i++) {
++			if (istat & VHUB_DEV_IRQ(i))
++				ast_vhub_dev_irq(&vhub->ports[i].dev);
++		}
+ 	}
+ 
+ 	/* Handle top-level vHub EP0 interrupts */
+@@ -332,6 +332,8 @@ static int ast_vhub_probe(struct platform_device *pdev)
+ 
+ 	spin_lock_init(&vhub->lock);
+ 	vhub->pdev = pdev;
++	vhub->port_irq_mask = GENMASK(VHUB_IRQ_DEV1_BIT + vhub->max_ports - 1,
++				      VHUB_IRQ_DEV1_BIT);
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	vhub->regs = devm_ioremap_resource(&pdev->dev, res);
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
+index fac79ef6d669..b80e3ddff797 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
++++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
+@@ -51,14 +51,11 @@
+ #define VHUB_CTRL_UPSTREAM_CONNECT		(1 << 0)
+ 
+ /* IER & ISR */
++#define VHUB_IRQ_DEV1_BIT			9
+ #define VHUB_IRQ_USB_CMD_DEADLOCK		(1 << 18)
+ #define VHUB_IRQ_EP_POOL_NAK			(1 << 17)
+ #define VHUB_IRQ_EP_POOL_ACK_STALL		(1 << 16)
+-#define VHUB_IRQ_DEVICE5			(1 << 13)
+-#define VHUB_IRQ_DEVICE4			(1 << 12)
+-#define VHUB_IRQ_DEVICE3			(1 << 11)
+-#define VHUB_IRQ_DEVICE2			(1 << 10)
+-#define VHUB_IRQ_DEVICE1			(1 << 9)
++#define VHUB_IRQ_DEVICE1			(1 << (VHUB_IRQ_DEV1_BIT))
+ #define VHUB_IRQ_BUS_RESUME			(1 << 8)
+ #define VHUB_IRQ_BUS_SUSPEND 			(1 << 7)
+ #define VHUB_IRQ_BUS_RESET 			(1 << 6)
+@@ -70,6 +67,9 @@
+ #define VHUB_IRQ_HUB_EP0_SETUP			(1 << 0)
+ #define VHUB_IRQ_ACK_ALL			0x1ff
+ 
++/* Downstream device IRQ mask. */
++#define VHUB_DEV_IRQ(n)				(VHUB_IRQ_DEVICE1 << (n))
++
+ /* SW reset reg */
+ #define VHUB_SW_RESET_EP_POOL			(1 << 9)
+ #define VHUB_SW_RESET_DMA_CONTROLLER		(1 << 8)
+@@ -402,6 +402,7 @@ struct ast_vhub {
+ 	/* Per-port info */
+ 	struct ast_vhub_port		*ports;
+ 	u32				max_ports;
++	u32				port_irq_mask;
+ 
+ 	/* Generic EP data structures */
+ 	struct ast_vhub_ep		*epns;
+-- 
+2.17.1
+
