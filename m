@@ -1,64 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC491A4A49
+	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Apr 2020 21:20:04 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329C91A48D9
-	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Apr 2020 19:16:57 +0200 (CEST)
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48zPnf05s9zDrK2
-	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Apr 2020 03:16:54 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 48zSWj2RmqzDrDF
+	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Apr 2020 05:20:01 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=yadro.com (client-ip=89.207.88.252; helo=mta-01.yadro.com;
- envelope-from=a.filippov@yadro.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::343;
+ helo=mail-ot1-x343.google.com; envelope-from=geissonator@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=yadro.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=yadro.com header.i=@yadro.com header.a=rsa-sha256
- header.s=mta-01 header.b=XA8yV+du; dkim-atps=neutral
-Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=cJ4hIkna; dkim-atps=neutral
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48zPnR3HmLzDrHY
- for <linux-aspeed@lists.ozlabs.org>; Sat, 11 Apr 2020 03:16:43 +1000 (AEST)
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 5227A413D7;
- Fri, 10 Apr 2020 17:16:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :x-mailer:message-id:date:date:subject:subject:from:from
- :received:received:received; s=mta-01; t=1586538997; x=
- 1588353398; bh=Nk510nQQHnv9mw6eQeK7OVssrV86+FMDkHAG/ixoCMk=; b=X
- A8yV+du5A9a281krAkk5X1i8gK1IYUd+MzGGpFqN1EWt40A/fz8xZiljmLa5UOBK
- 76zHPYpseVd+qZSz52cLYDSVUSXUwcaEzwYkP6FDuVXGXnW7uLf3a1Yptl468p0I
- +RKzH0PP1u/Ujn55rwz1ChkVN75xRjT1u9QVwPlbc0=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bxhFev6NtRmu; Fri, 10 Apr 2020 20:16:37 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 2AF6D404CF;
- Fri, 10 Apr 2020 20:16:36 +0300 (MSK)
-Received: from bbwork.com (172.17.14.122) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 10
- Apr 2020 20:16:37 +0300
-From: Alexander Filippov <a.filippov@yadro.com>
-To: <linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH v2] ARM: DTS: Aspeed: Add YADRO Nicole BMC
-Date: Fri, 10 Apr 2020 20:16:13 +0300
-Message-ID: <20200410171613.30260-1-a.filippov@yadro.com>
-X-Mailer: git-send-email 2.21.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48zST06KcbzDrCS;
+ Sat, 11 Apr 2020 05:17:40 +1000 (AEST)
+Received: by mail-ot1-x343.google.com with SMTP id 103so2804300otv.0;
+ Fri, 10 Apr 2020 12:17:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pGMNxl5yMaSl8w4TVy6/u5eqbJHU/Il2MpyvoWjq+Hs=;
+ b=cJ4hIknacOZTf+wTNHq17b7pSjadFHPOsl31Rr/7cFhiBWqXjznKp4SYO/Fa30y1oU
+ CDgEOxy2o0za+R4gRtGHD8ZTCDK/vata9dknSwXvyhiP0jkBxQOh/HFgD82OvIKxZ5Qg
+ GVlL42E+DSIrJWrjAB/hLCC41H1by0iDzKbzytR2Dyi5U4nFTQ9utqE8kI1+PKxK68Tn
+ PTmNiSgYbjlMyUDrbb9Y9dGq42a28vdsobMxH29zntYKSwNEIeuqawyqtvbJ1l45uIo/
+ FQFhsXzEqhns0G+zB3YZvjF8PPkiVpp4DR9/uZdINhyyajINXUs1xVP73IH1e/avxy+9
+ RG1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pGMNxl5yMaSl8w4TVy6/u5eqbJHU/Il2MpyvoWjq+Hs=;
+ b=NbVBoHgYIAIvIdfJJE5wFQWO6L7JKjEhHcwDaYt8iepywzSU56GlnXhX1KPm57HsA5
+ cR+y0EmlF1hZ9hp97ZRgf8vGSmnUp84VkKqxiYNBVwBrosgrrNItL7P4HUeHUbTVrbGl
+ jyaCPCEaAzUdJLTz/h/pZJkJfYXQqkvsAjuKozvWUnPjzxTL0cwKCjkW6hr/IrXRIRTE
+ QAP8v7f+xD48I3mAno/Tp2I3cEoTuif6U51Zm76YqmERpT5NgcWHFd3wO0/o/S4eswFT
+ hpGKGzIHaaoPQA+ECSoB4rb2KK8771UhKpXmLofZB3WvIKZqh3sBJy+68dEJFh3KLcO+
+ 5aJw==
+X-Gm-Message-State: AGi0PubpsscFhwyXUwgqE8d9cdZYvqCzwnjvTzTkmKXFi+FoqD6xPLX6
+ M1N+xjKF+Id4sR+Pp+jZYY3ZLNpQAgym0A==
+X-Google-Smtp-Source: APiQypIPe6SDOZEbT2UuatfbKpEq3Q7lnEcSmKVNAe9RU1+ELrHnloyze7yIhau2lR+NFI1Io5EAuA==
+X-Received: by 2002:a9d:6a95:: with SMTP id l21mr5173279otq.237.1586546255357; 
+ Fri, 10 Apr 2020 12:17:35 -0700 (PDT)
+Received: from Andrews-MBP-2.attlocal.net
+ (45-18-127-186.lightspeed.austtx.sbcglobal.net. [45.18.127.186])
+ by smtp.gmail.com with ESMTPSA id i17sm1597363otc.16.2020.04.10.12.17.34
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 10 Apr 2020 12:17:34 -0700 (PDT)
+From: Andrew Geissler <geissonator@gmail.com>
+To: openbmc@lists.ozlabs.org, joel@jms.id.au, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] ARM: dts: aspeed: rainier: Add gpio line names
+Date: Fri, 10 Apr 2020 14:17:04 -0500
+Message-Id: <20200410191704.82625-1-geissonator@gmail.com>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.17.14.122]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,311 +79,68 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Alexander Filippov <a.filippov@yadro.com>, Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-gpio@vger.kernel.org, Andrew Geissler <geisonator@yahoo.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Nicole is an OpenPower machine with an Aspeed 2500 BMC SoC manufactured
-by YADRO.
+From: Andrew Geissler <geisonator@yahoo.com>
 
-Signed-off-by: Alexander Filippov <a.filippov@yadro.com>
+Name the GPIOs to help userspace work with them. The names describe the
+functionality the lines provide, not the net or ball name. This makes it
+easier to share userspace code across different systems and makes the
+use of the lines more obvious.
+
+Signed-off-by: Andrew Geissler <geisonator@yahoo.com>
 ---
- arch/arm/boot/dts/Makefile                  |   1 +
- arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts | 270 ++++++++++++++++++++
- 2 files changed, 271 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 34 ++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index e8dd99201397..6f9fe0f959f2 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1347,6 +1347,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-microsoft-olympus.dtb \
- 	aspeed-bmc-opp-lanyang.dtb \
- 	aspeed-bmc-opp-mihawk.dtb \
-+	aspeed-bmc-opp-nicole.dtb \
- 	aspeed-bmc-opp-palmetto.dtb \
- 	aspeed-bmc-opp-romulus.dtb \
- 	aspeed-bmc-opp-swift.dtb \
-diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts b/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts
-new file mode 100644
-index 000000000000..3f1d92bab07b
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts
-@@ -0,0 +1,270 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+// Copyright 2019 YADRO
-+/dts-v1/;
-+#include "aspeed-g5.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+
-+/ {
-+	model = "Nicole BMC";
-+	compatible = "yadro,nicole-bmc", "aspeed,ast2500";
-+
-+	chosen {
-+		stdout-path = &uart5;
-+		bootargs = "console=ttyS4,115200 earlyprintk";
-+	};
-+
-+	memory@80000000 {
-+		reg = <0x80000000 0x20000000>;
-+	};
-+
-+	reserved-memory {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges;
-+
-+		vga_memory: framebuffer@9f000000 {
-+			no-map;
-+			reg = <0x9f000000 0x01000000>; /* 16M */
-+		};
-+
-+		flash_memory: region@98000000 {
-+			no-map;
-+			reg = <0x98000000 0x04000000>; /* 64M */
-+		};
-+
-+		coldfire_memory: codefire_memory@9ef00000 {
-+			reg = <0x9ef00000 0x00100000>;
-+			no-map;
-+		};
-+
-+		gfx_memory: framebuffer {
-+			size = <0x01000000>;
-+			alignment = <0x01000000>;
-+			compatible = "shared-dma-pool";
-+			reusable;
-+		};
-+
-+		video_engine_memory: jpegbuffer {
-+			size = <0x02000000>;	/* 32M */
-+			alignment = <0x01000000>;
-+			compatible = "shared-dma-pool";
-+			reusable;
-+		};
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		power {
-+			gpios = <&gpio ASPEED_GPIO(AA, 4) GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		identify {
-+			gpios = <&gpio ASPEED_GPIO(AA, 7) GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		alarm_red {
-+			gpios = <&gpio ASPEED_GPIO(AA, 3) GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		alarm_yellow {
-+			gpios = <&gpio ASPEED_GPIO(AA, 1) GPIO_ACTIVE_HIGH>;
-+		};
-+	};
-+
-+	fsi: gpio-fsi {
-+		compatible = "aspeed,ast2500-cf-fsi-master", "fsi-master";
-+		#address-cells = <2>;
-+		#size-cells = <0>;
-+		no-gpio-delays;
-+
-+		memory-region = <&coldfire_memory>;
-+		aspeed,sram = <&sram>;
-+		aspeed,cvic = <&cvic>;
-+
-+		clock-gpios = <&gpio ASPEED_GPIO(AA, 0) GPIO_ACTIVE_HIGH>;
-+		data-gpios = <&gpio ASPEED_GPIO(AA, 2) GPIO_ACTIVE_HIGH>;
-+		mux-gpios = <&gpio ASPEED_GPIO(A, 6) GPIO_ACTIVE_HIGH>;
-+		enable-gpios = <&gpio ASPEED_GPIO(D, 0) GPIO_ACTIVE_HIGH>;
-+		trans-gpios = <&gpio ASPEED_GPIO(P, 1) GPIO_ACTIVE_HIGH>;
-+	};
-+
-+	gpio-keys {
-+		compatible = "gpio-keys";
-+
-+		checkstop {
-+			label = "checkstop";
-+			gpios = <&gpio ASPEED_GPIO(J, 2) GPIO_ACTIVE_LOW>;
-+			linux,code = <ASPEED_GPIO(J, 2)>;
-+		};
-+	};
-+
-+	iio-hwmon-battery {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc 12>;
-+	};
+diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+index 0a7a8b84c118..01db238ce741 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+@@ -70,6 +70,40 @@
+ 
+ };
+ 
++&gpio0 {
++	gpio-line-names =
++	/*A0-A7*/	"","","","","","","","",
++	/*B0-B7*/	"","","","","","","","",
++	/*C0-C7*/	"","","","","","","","",
++	/*D0-D7*/	"","","","","","","","",
++	/*E0-E7*/	"","","","","","","","",
++	/*F0-F7*/	"","","","","","","","",
++	/*G0-G7*/	"","","","","","","","",
++	/*H0-H7*/	"","","","","","","","",
++	/*I0-I7*/	"","","","","","","","",
++	/*J0-J7*/	"","","","","","","","",
++	/*K0-K7*/	"","","","","","","","",
++	/*L0-L7*/	"","","","","","","","",
++	/*M0-M7*/	"","","","","","","","",
++	/*N0-N7*/	"","","","","","","","",
++	/*O0-O7*/	"","","","","","","","",
++	/*P0-P7*/	"","","","","","","","",
++	/*Q0-Q7*/	"cfam-reset","","","","","","","",
++	/*R0-R7*/	"","","","","","","","",
++	/*S0-S7*/	"presence-ps0","presence-ps1","presence-ps2","presence-ps3",
++				"","","","",
++	/*T0-T7*/	"","","","","","","","",
++	/*U0-U7*/	"","","","","","","","",
++	/*V0-V7*/	"","","","","","","","",
++	/*W0-W7*/	"","","","","","","","",
++	/*X0-X7*/	"","","","","","","","",
++	/*Y0-Y7*/	"","","","","","","","",
++	/*Z0-Z7*/	"","","","","","","","",
++	/*AA0-AA7*/	"","","","","","","","",
++	/*AB0-AB7*/	"","","","","","","","",
++	/*AC0-AC7*/	"","","","","","","","";
 +};
 +
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc";
-+		spi-max-frequency = <50000000>;
-+#include "openbmc-flash-layout.dtsi"
-+	};
-+};
-+
-+&spi1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_spi1_default>;
-+
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "pnor";
-+		spi-max-frequency = <100000000>;
-+	};
-+};
-+
-+&lpc_ctrl {
-+	status = "okay";
-+	memory-region = <&flash_memory>;
-+	flash = <&spi1>;
-+};
-+
-+&uart1 {
-+	/* Rear RS-232 connector */
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_txd1_default
-+			&pinctrl_rxd1_default
-+			&pinctrl_nrts1_default
-+			&pinctrl_ndtr1_default
-+			&pinctrl_ndsr1_default
-+			&pinctrl_ncts1_default
-+			&pinctrl_ndcd1_default
-+			&pinctrl_nri1_default>;
-+};
-+
-+&uart5 {
-+	status = "okay";
-+};
-+
-+&mac0 {
-+	status = "okay";
-+
-+	use-ncsi;
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii1_default>;
-+	clocks = <&syscon ASPEED_CLK_GATE_MAC1CLK>,
-+		 <&syscon ASPEED_CLK_MAC1RCLK>;
-+	clock-names = "MACCLK", "RCLK";
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c256";
-+		reg = <0x50>;
-+		pagesize = <64>;
-+	};
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+    /* CPU0 characterization connector */
-+};
-+
-+&i2c3 {
-+	status = "okay";
-+    /* CLK GEN SI5338 */
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+    /* Voltage regulators for CPU0 */
-+};
-+
-+&i2c5 {
-+	status = "okay";
-+    /* Voltage regulators for CPU1 */
-+};
-+
-+&i2c6 {
-+	status = "okay";
-+
-+	rtc@32 {
-+		compatible = "epson,rx8900";
-+		reg = <0x32>;
-+	};
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+    /* CPLD */
-+};
-+
-+&gpio {
-+	nic_func_mode0 {
-+		gpio-hog;
-+		gpios = <ASPEED_GPIO(D, 3) GPIO_ACTIVE_HIGH>;
-+		output-low;
-+		line-name = "nic_func_mode0";
-+	};
-+	nic_func_mode1 {
-+		gpio-hog;
-+		gpios = <ASPEED_GPIO(D, 4) GPIO_ACTIVE_HIGH>;
-+		output-low;
-+		line-name = "nic_func_mode1";
-+	};
-+	seq_cont {
-+		gpio-hog;
-+		gpios = <ASPEED_GPIO(S, 7) GPIO_ACTIVE_HIGH>;
-+		output-low;
-+		line-name = "seq_cont";
-+	};
-+	ncsi_cfg {
-+		gpio-hog;
-+		input;
-+		gpios = <ASPEED_GPIO(E, 1) GPIO_ACTIVE_HIGH>;
-+		line-name = "ncsi_cfg";
-+	};
-+};
-+
-+&vuart {
-+	status = "okay";
-+};
-+
-+&gfx {
-+	status = "okay";
-+	memory-region = <&gfx_memory>;
-+};
-+
-+&pinctrl {
-+	aspeed,external-nodes = <&gfx &lhc>;
-+};
-+
-+&ibt {
-+	status = "okay";
-+};
-+
-+&vhub {
-+	status = "okay";
-+};
-+
-+&adc {
-+	status = "okay";
-+};
-+
-+&video {
-+	status = "okay";
-+	memory-region = <&video_engine_memory>;
-+};
-+
-+#include "ibm-power9-dual.dtsi"
+ &emmc_controller {
+ 	status = "okay";
+ };
 -- 
-2.21.1
+2.17.1
 
