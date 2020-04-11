@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E3B1A4D4C
-	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Apr 2020 03:35:56 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48zcsN5jRDzDqwb
-	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Apr 2020 11:35:52 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 221D81A4D6F
+	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Apr 2020 04:14:38 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 48zdk23jWGzDqdx
+	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Apr 2020 12:14:34 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,62 +17,63 @@ Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=fDkiFm5W; 
+ header.s=fm2 header.b=XmkxPJ7s; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=oMAMVJr9; 
+ header.a=rsa-sha256 header.s=fm2 header.b=XRFMe2OQ; 
  dkim-atps=neutral
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48zcs02vPVzDqQY
- for <linux-aspeed@lists.ozlabs.org>; Sat, 11 Apr 2020 11:35:30 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 48zdjx0hgmzDqQw
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 11 Apr 2020 12:14:29 +1000 (AEST)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id E82B65C0101;
- Fri, 10 Apr 2020 21:35:25 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 10 Apr 2020 21:35:25 -0400
+ by mailout.nyi.internal (Postfix) with ESMTP id AFAC35C00FD;
+ Fri, 10 Apr 2020 22:14:26 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Fri, 10 Apr 2020 22:14:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
  :to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm2; bh=lX5SGrlx6dPNxsuJN5NmbTk0p2
- Mtpif3mvePdQ+RePg=; b=fDkiFm5WzcUikKeixJo5ASn6AULPPD9mIrtmfzYDyl
- O0+NJ8BUM7srr96K9ZJz5bvnDSb/+PdyaeIqJOfn8FIWOPFzM2QLpdJhCjHhYodg
- a2JtfnryubnZPlR1TCsCJpWrFPsdyOkb5wySaUiBLZKnAwixen6YqXZmM+SlOHoK
- ywzhsbYlXA31yZyXLVmp95YH86BGilf9C/eVqxBu+JwqfBqDXQGld+EABGmBrD/l
- W4tA8S8zOXuZrXzBCwiUQ3O+XY9vGD0uGbhfkTLEsq6ErkPSuX8skYsPfp6dEmnV
- Cp5Awbio17LbN12670xx4cX2bXeVUbVw+/rNnQg9O8ig==
+ :content-transfer-encoding; s=fm2; bh=j5pB8Ra39tC+eZN6i8d9UiFa/0
+ b8JKjS85bs3hoKRRw=; b=XmkxPJ7sPF0fK0xEGEqhjzass4zi8FLISvQujuHHvm
+ 4RQBVh/vE4NFwdzeyf/YBJCtF2eIifTZTPSJCw7RmNlPj/U27f8I/4fPVRs0LjF3
+ cUqzWYfnoKKzUkbzHn4JlqbYyJsec/574xLlcH9TIyVnJpo+T7IfM/y2phTpagRw
+ KdG6Xyo+5dKsi04Nxa/Tey1KylnMMKWNsa9kV/8HgIS4dPgZmTNygf3UfYNOdar5
+ lvD1NTYHYg3l+HwQBJpBCob9ChD5mPKFsx9gajcX6WCgjSkoSbvGIgPo8V9IUc/t
+ V5qleoPpmMAa2fM8resWUIoyJ0O7y5glGfx6mtpubw6w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=lX5SGrlx6dPNxsuJN
- 5NmbTk0p2Mtpif3mvePdQ+RePg=; b=oMAMVJr9Mcrr9Itvy/kOZSdI1t8goQB8R
- Jy45fP2X8qlCiaWP1Y8B+a86EhnxHfir1+xzLSeRCX5Ggpwk0jdG0zXC8oLD7XNa
- QEt8fFenp/OJ5rGQpltTuC7dF7qZnp0zvlGJNbnvXIfGp22QizDThL17x/4C79bm
- dY09Qy8QFr+y7upVHWIjWARtuRIsyl9MRU0cPcAjJFPNt7TUWAyHWqtmYu+pUJzA
- 9XYuduzgyBvG6FuQ63tranvfSHyzRq2ma0XDy8cL5//V+TVQlFWFL9YIEzSQcLLr
- u/Ns7dfGPiucAXsz6Jp3ZDuPus+9+lp6zh0rex670jU+uppuV0oKQ==
-X-ME-Sender: <xms:0x6RXtpWYErjWA3RCTC3an9Nm4rjOzU3Sxm9SvkzO4nTNhsjglQhjg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrvdefgdegfecutefuodetggdotefrodftvf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=j5pB8Ra39tC+eZN6i
+ 8d9UiFa/0b8JKjS85bs3hoKRRw=; b=XRFMe2OQczfMDsVD4f1OVQgfJz3yoDIof
+ b3XrW7k4TT2wjyNh8A9UsV1rcpUia6Zkbcsa7k3AOkZX3z1B4mSyAU+lolGIgNVj
+ R15bUgrbvDetwr2do2c1zIXqJ85BFiMcF+wMK5CaH8RgS0nuXCiDwdRtp9iz0/5/
+ vPBTUTDZW96EvkmXOZseXBtlNcnRmEME3OmOVGENBaOdXBPHfc+uZWaO2Bsh71ns
+ QbZWVMs+ohjgDKa4C0U9zxPPOg6TrmHiR7Gog5ekXwsOm6uUE6U4Z0nSu6p9l2WI
+ cIwh21xYk2G0NEblDXZZM4NJd2FTvhbSs9f0jfRaYb+FRYOaCcL6A==
+X-ME-Sender: <xms:ASiRXoMEK3RWnkv_EnCWJdQQZuPNnhj2TeIxEyEdwQzLoktbsu1NWQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrvdefgdehudcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheptehnughrvgifucfl
- vghffhgvrhihuceorghnughrvgifsegrjhdrihgurdgruheqnecukfhppedugedrvddrud
- dtkedrudegleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
- ohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:0x6RXtDNhKx7xsCIS_nKcZKYtOf6dw1Zowk7geYxJQeYWH5KaIkm6g>
- <xmx:0x6RXmN2FrZtib9MQzUYRQS7Bx-dzwhW0kOOCfDMjVcb-93QcEzwVg>
- <xmx:0x6RXsnc-1SLoW684WZiKWpkSQz04TLmi-Gj9MTfj00Z4MEuxjHM-Q>
- <xmx:3R6RXtNuZJ681W7M1Uo85YksUUkbxhVrfWrb_cCIKvEOj9psWcWhGA>
+ vghffhgvrhihuceorghnughrvgifsegrjhdrihgurdgruheqnecuffhomhgrihhnpehkvg
+ hrnhgvlhdrohhrghenucfkphepudegrddvrddutdekrddugeelnecuvehluhhsthgvrhfu
+ ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurd
+ gruh
+X-ME-Proxy: <xmx:ASiRXmGkvwxmM08FokquGazgmN-xRXc1ush9ykXloxMkHUM-BngaxA>
+ <xmx:ASiRXhn6SwYAO4eUblMsohb96P73BqPEe4YuKxlOvVuZaQQwt6cJ5g>
+ <xmx:ASiRXpeVWceYEVX3yAL8GJsVuq3BClaf4bCjXaKLS1a01o72SDVopA>
+ <xmx:AiiRXpc820gD4Lf7LpJbplPrApFsLAK3TBEKfD9ovkmnSFuVYBuoLQ>
 Received: from localhost.localdomain
  (ppp14-2-108-149.adl-apt-pir-bras32.tpg.internode.on.net [14.2.108.149])
- by mail.messagingengine.com (Postfix) with ESMTPA id 7B4673280059;
- Fri, 10 Apr 2020 21:35:08 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 29B063060062;
+ Fri, 10 Apr 2020 22:14:21 -0400 (EDT)
 From: Andrew Jeffery <andrew@aj.id.au>
 To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH] ARM: dts: aspeed: Change KCS nodes to v2 binding
-Date: Sat, 11 Apr 2020 11:05:14 +0930
-Message-Id: <20200411013514.15950-1-andrew@aj.id.au>
+Subject: [PATCH v2] ARM: dts: aspeed: Change KCS nodes to v2 binding
+Date: Sat, 11 Apr 2020 11:44:58 +0930
+Message-Id: <20200411021458.8837-1-andrew@aj.id.au>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -109,13 +110,25 @@ Cc: Haiyue Wang <haiyue.wang@linux.intel.com>
 Cc: Vijay Khemka <vijaykhemka@fb.com>
 Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 ---
+v1[1] was an out-of-date patch that used the old slave-reg property to define
+the device address in the LPC IO space. In v2 of the driver series[2] we agreed
+to make the property aspeed-specific on the back some quirks of the hardware.
+
+v2 of this patch updates the tiogapass dts to use the upstream
+'aspeed,lpc-io-reg' property instead of 'slave-reg'. I discovered the mismatch
+when I started to tidy up the various branches I have lying around for the
+ASPEED DT cleanups.
+
+[1] https://lore.kernel.org/linux-arm-kernel/20200411013514.15950-1-andrew@aj.id.au/
+[2] https://lore.kernel.org/linux-arm-kernel/8aec8994bbe1186d257b0a712e13cf914c5ebe35.1576462051.git-series.andrew@aj.id.au/
+
  .../dts/aspeed-bmc-facebook-tiogapass.dts     |  4 ++--
  arch/arm/boot/dts/aspeed-g5.dtsi              | 24 +++++++++----------
  arch/arm/boot/dts/aspeed-g6.dtsi              | 23 +++++++++---------
  3 files changed, 26 insertions(+), 25 deletions(-)
 
 diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-index 6b88c7f26bf7..8b880003a838 100644
+index 6b88c7f26bf7..2d44d9ad4e40 100644
 --- a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
 +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
 @@ -113,13 +113,13 @@
@@ -123,14 +136,14 @@ index 6b88c7f26bf7..8b880003a838 100644
  	// BMC KCS channel 2
  	status = "okay";
 -	kcs_addr = <0xca8>;
-+	slave-reg = <0xca8>;
++	aspeed,lpc-io-reg = <0xca8>;
  };
  
  &kcs3 {
  	// BMC KCS channel 3
  	status = "okay";
 -	kcs_addr = <0xca2>;
-+	slave-reg = <0xca2>;
++	aspeed,lpc-io-reg = <0xca2>;
  };
  
  &gpio {
