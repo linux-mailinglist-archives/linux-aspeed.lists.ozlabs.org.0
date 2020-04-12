@@ -2,81 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221D81A4D6F
-	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Apr 2020 04:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E0D1A611A
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Apr 2020 01:23:27 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 48zdk23jWGzDqdx
-	for <lists+linux-aspeed@lfdr.de>; Sat, 11 Apr 2020 12:14:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 490nqb566vzDqVc
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Apr 2020 09:23:23 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.26;
- helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=google.com (client-ip=2a00:1450:4864:20::230;
+ helo=mail-lj1-x230.google.com; envelope-from=osk@google.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
+ dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=XmkxPJ7s; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=XRFMe2OQ; 
- dkim-atps=neutral
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256
+ header.s=20161025 header.b=LqUYmCHg; dkim-atps=neutral
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 48zdjx0hgmzDqQw
- for <linux-aspeed@lists.ozlabs.org>; Sat, 11 Apr 2020 12:14:29 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id AFAC35C00FD;
- Fri, 10 Apr 2020 22:14:26 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 10 Apr 2020 22:14:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm2; bh=j5pB8Ra39tC+eZN6i8d9UiFa/0
- b8JKjS85bs3hoKRRw=; b=XmkxPJ7sPF0fK0xEGEqhjzass4zi8FLISvQujuHHvm
- 4RQBVh/vE4NFwdzeyf/YBJCtF2eIifTZTPSJCw7RmNlPj/U27f8I/4fPVRs0LjF3
- cUqzWYfnoKKzUkbzHn4JlqbYyJsec/574xLlcH9TIyVnJpo+T7IfM/y2phTpagRw
- KdG6Xyo+5dKsi04Nxa/Tey1KylnMMKWNsa9kV/8HgIS4dPgZmTNygf3UfYNOdar5
- lvD1NTYHYg3l+HwQBJpBCob9ChD5mPKFsx9gajcX6WCgjSkoSbvGIgPo8V9IUc/t
- V5qleoPpmMAa2fM8resWUIoyJ0O7y5glGfx6mtpubw6w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=j5pB8Ra39tC+eZN6i
- 8d9UiFa/0b8JKjS85bs3hoKRRw=; b=XRFMe2OQczfMDsVD4f1OVQgfJz3yoDIof
- b3XrW7k4TT2wjyNh8A9UsV1rcpUia6Zkbcsa7k3AOkZX3z1B4mSyAU+lolGIgNVj
- R15bUgrbvDetwr2do2c1zIXqJ85BFiMcF+wMK5CaH8RgS0nuXCiDwdRtp9iz0/5/
- vPBTUTDZW96EvkmXOZseXBtlNcnRmEME3OmOVGENBaOdXBPHfc+uZWaO2Bsh71ns
- QbZWVMs+ohjgDKa4C0U9zxPPOg6TrmHiR7Gog5ekXwsOm6uUE6U4Z0nSu6p9l2WI
- cIwh21xYk2G0NEblDXZZM4NJd2FTvhbSs9f0jfRaYb+FRYOaCcL6A==
-X-ME-Sender: <xms:ASiRXoMEK3RWnkv_EnCWJdQQZuPNnhj2TeIxEyEdwQzLoktbsu1NWQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrvdefgdehudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheptehnughrvgifucfl
- vghffhgvrhihuceorghnughrvgifsegrjhdrihgurdgruheqnecuffhomhgrihhnpehkvg
- hrnhgvlhdrohhrghenucfkphepudegrddvrddutdekrddugeelnecuvehluhhsthgvrhfu
- ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurd
- gruh
-X-ME-Proxy: <xmx:ASiRXmGkvwxmM08FokquGazgmN-xRXc1ush9ykXloxMkHUM-BngaxA>
- <xmx:ASiRXhn6SwYAO4eUblMsohb96P73BqPEe4YuKxlOvVuZaQQwt6cJ5g>
- <xmx:ASiRXpeVWceYEVX3yAL8GJsVuq3BClaf4bCjXaKLS1a01o72SDVopA>
- <xmx:AiiRXpc820gD4Lf7LpJbplPrApFsLAK3TBEKfD9ovkmnSFuVYBuoLQ>
-Received: from localhost.localdomain
- (ppp14-2-108-149.adl-apt-pir-bras32.tpg.internode.on.net [14.2.108.149])
- by mail.messagingengine.com (Postfix) with ESMTPA id 29B063060062;
- Fri, 10 Apr 2020 22:14:21 -0400 (EDT)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH v2] ARM: dts: aspeed: Change KCS nodes to v2 binding
-Date: Sat, 11 Apr 2020 11:44:58 +0930
-Message-Id: <20200411021458.8837-1-andrew@aj.id.au>
-X-Mailer: git-send-email 2.20.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 490nqR2mgPzDqT3
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Apr 2020 09:23:06 +1000 (AEST)
+Received: by mail-lj1-x230.google.com with SMTP id h25so7101900lja.10
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 12 Apr 2020 16:23:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=vRy3u5hGj6gsjmfHFHp/lfY/8fOsIf5hzgs76KPdL0o=;
+ b=LqUYmCHgQIbWSq7OZsvA+KEVUdagsmAg2vt1OcEXADuwAMTftEhA7lsaY0/Sdkd9iu
+ TAF6UT/CdLa9NjzSwtKM67a9Y2iIn3k1Qn5wIjkY+xW1IKo4gkvtcUYQjzUQan8611qp
+ cr40rUZo1cg9A8dnFOmxU6ljzxaPB2XQ71N+hLCIxOFj4bfwgrmd71w1sTevRn5uDdiM
+ lrlmJclhPYCgZvz0cavHVm0Bz28YQuQl6hpcI/yD88ZkwbxfDkXLiH4cVmdg3j5BtXZs
+ 2bM/1BGjipBJFNRPb/QROEGm19vIw1iKcs89h0vN1SdPhoFRMjP9XSfnDP186D4W1ErA
+ BB4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=vRy3u5hGj6gsjmfHFHp/lfY/8fOsIf5hzgs76KPdL0o=;
+ b=gyXxhQg97VXmSw9XAjlFIGxAdQC2agx0FsYyVx744+AHghF7/2/H4CEeL1wxenugc4
+ oIuTInvecmXmBR1UogeupnArYhZNtfoHqaE2WPEKrGTUFLcxTxzVRyUc02+aGt0Y1rHM
+ KzADbiixt9mly1EdOhplecJZaJPjkbn9OoZSC3DcCOzOhiVcCmFnFg8o8iwWv2V/y/nS
+ IJtJy3omLvCzP5t5+ndxIBz8UVpnKlzGfpk+XtWUZkOJH8pNHZxN5lYQig6vgY1SBkDV
+ mkCtYO/Y2QBM6PnYFthwlLWBZ2m+SOY0IfqaKmwYktQrlm03GeIaLcaLxe4WjL8P6J8d
+ Kr5A==
+X-Gm-Message-State: AGi0PuaTzUdCiRN8M+uM9KatSbbTyKoyu45u/7IlSa2+uIHHXynlqesi
+ AvMeH0vTWO3MrHP0S6s7je1eYztKPavbxxD82jB/PwshgkO/uA==
+X-Google-Smtp-Source: APiQypJHaW9iTBPH0W2tLAwkeN5nr6YWNQeDGLsq2AIz+KH72IFsXVT2EdlhtQrDUtG+v9gE1rMTkwcTXkZJYi8TIN8=
+X-Received: by 2002:a2e:7211:: with SMTP id n17mr908356ljc.273.1586733781738; 
+ Sun, 12 Apr 2020 16:23:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Oskar Senft <osk@google.com>
+Date: Sun, 12 Apr 2020 19:22:45 -0400
+Message-ID: <CABoTLcTN4PnifNTeLp71cnT5Ej_+zVB7yfAPDnPXkGHA0OiUKA@mail.gmail.com>
+Subject: AST2600 clock gates
+To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
+Content-Type: multipart/alternative; boundary="0000000000006a5c7705a3203fb4"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,165 +69,49 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Haiyue Wang <haiyue.wang@linux.intel.com>, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Fixes the following warnings for both g5 and g6 SoCs:
+--0000000000006a5c7705a3203fb4
+Content-Type: text/plain; charset="UTF-8"
 
-    arch/arm/boot/dts/aspeed-g5.dtsi:376.19-381.8: Warning (unit_address_vs_reg): /ahb/apb/lpc@1e789000/lpc-bmc@0/kcs1@0: node has a unit name, but no reg property
-    arch/arm/boot/dts/aspeed-g5.dtsi:382.19-387.8: Warning (unit_address_vs_reg): /ahb/apb/lpc@1e789000/lpc-bmc@0/kcs2@0: node has a unit name, but no reg property
-    arch/arm/boot/dts/aspeed-g5.dtsi:388.19-393.8: Warning (unit_address_vs_reg): /ahb/apb/lpc@1e789000/lpc-bmc@0/kcs3@0: node has a unit name, but no reg property
-    arch/arm/boot/dts/aspeed-g5.dtsi:405.19-410.8: Warning (unit_address_vs_reg): /ahb/apb/lpc@1e789000/lpc-host@80/kcs4@0: node has a unit name, but no reg property
-    arch/arm/boot/dts/aspeed-g5.dtsi:376.19-381.8: Warning (unique_unit_address): /ahb/apb/lpc@1e789000/lpc-bmc@0/kcs1@0: duplicate unit-address (also used in node /ahb/apb/lpc@1e789000/lpc-bmc@0/kcs2@0)
-    arch/arm/boot/dts/aspeed-g5.dtsi:376.19-381.8: Warning (unique_unit_address): /ahb/apb/lpc@1e789000/lpc-bmc@0/kcs1@0: duplicate unit-address (also used in node /ahb/apb/lpc@1e789000/lpc-bmc@0/kcs3@0)
-    arch/arm/boot/dts/aspeed-g5.dtsi:382.19-387.8: Warning (unique_unit_address): /ahb/apb/lpc@1e789000/lpc-bmc@0/kcs2@0: duplicate unit-address (also used in node /ahb/apb/lpc@1e789000/lpc-bmc@0/kcs3@0)
-    arch/arm/boot/dts/aspeed-g5.dtsi:405.19-410.8: Warning (unique_unit_address): /ahb/apb/lpc@1e789000/lpc-host@80/kcs4@0: duplicate unit-address (also used in node /ahb/apb/lpc@1e789000/lpc-host@80/lpc-ctrl@0)
+Hey Joel and Andrew
 
-Cc: Haiyue Wang <haiyue.wang@linux.intel.com>
-Cc: Vijay Khemka <vijaykhemka@fb.com>
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
-v1[1] was an out-of-date patch that used the old slave-reg property to define
-the device address in the LPC IO space. In v2 of the driver series[2] we agreed
-to make the property aspeed-specific on the back some quirks of the hardware.
+I'm working on the AST2600 EVB trying to get some eSPI functionality to
+work using
+https://github.com/AspeedTech-BMC/linux/blob/aspeed-dev-v5.1/drivers/soc/aspeed/aspeed-espi.c.
+The driver is missing support for clock enablement so I dug into how this
+could be added.
 
-v2 of this patch updates the tiogapass dts to use the upstream
-'aspeed,lpc-io-reg' property instead of 'slave-reg'. I discovered the mismatch
-when I started to tidy up the various branches I have lying around for the
-ASPEED DT cleanups.
+I noticed that you guys worked on include/dt-bindings/clock/ast2600-clock.h
+but from what I can tell the ASPEED_CLK_GATE_* definitions have not yet
+been updated from AST2500 to AST2600.
 
-[1] https://lore.kernel.org/linux-arm-kernel/20200411013514.15950-1-andrew@aj.id.au/
-[2] https://lore.kernel.org/linux-arm-kernel/8aec8994bbe1186d257b0a712e13cf914c5ebe35.1576462051.git-series.andrew@aj.id.au/
+Am I looking at the latest version of the file? I'm happy to update the
+clock gate bits, but I don't want to duplicate work that you have in the
+pipeline.
 
- .../dts/aspeed-bmc-facebook-tiogapass.dts     |  4 ++--
- arch/arm/boot/dts/aspeed-g5.dtsi              | 24 +++++++++----------
- arch/arm/boot/dts/aspeed-g6.dtsi              | 23 +++++++++---------
- 3 files changed, 26 insertions(+), 25 deletions(-)
+Thanks
+Oskar.
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-index 6b88c7f26bf7..2d44d9ad4e40 100644
---- a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-@@ -113,13 +113,13 @@
- &kcs2 {
- 	// BMC KCS channel 2
- 	status = "okay";
--	kcs_addr = <0xca8>;
-+	aspeed,lpc-io-reg = <0xca8>;
- };
- 
- &kcs3 {
- 	// BMC KCS channel 3
- 	status = "okay";
--	kcs_addr = <0xca2>;
-+	aspeed,lpc-io-reg = <0xca2>;
- };
- 
- &gpio {
-diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
-index 284face7de2c..de7fd80b022a 100644
---- a/arch/arm/boot/dts/aspeed-g5.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g5.dtsi
-@@ -445,22 +445,22 @@
- 					#size-cells = <1>;
- 					ranges = <0x0 0x0 0x80>;
- 
--					kcs1: kcs1@0 {
--						compatible = "aspeed,ast2500-kcs-bmc";
-+					kcs1: kcs@24 {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x24 0x1>, <0x30 0x1>, <0x3c 0x1>;
- 						interrupts = <8>;
--						kcs_chan = <1>;
- 						status = "disabled";
- 					};
--					kcs2: kcs2@0 {
--						compatible = "aspeed,ast2500-kcs-bmc";
-+					kcs2: kcs@28 {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x28 0x1>, <0x34 0x1>, <0x40 0x1>;
- 						interrupts = <8>;
--						kcs_chan = <2>;
- 						status = "disabled";
- 					};
--					kcs3: kcs3@0 {
--						compatible = "aspeed,ast2500-kcs-bmc";
-+					kcs3: kcs@2c {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x2c 0x1>, <0x38 0x1>, <0x44 0x1>;
- 						interrupts = <8>;
--						kcs_chan = <3>;
- 						status = "disabled";
- 					};
- 				};
-@@ -474,10 +474,10 @@
- 					#size-cells = <1>;
- 					ranges = <0x0 0x80 0x1e0>;
- 
--					kcs4: kcs4@0 {
--						compatible = "aspeed,ast2500-kcs-bmc";
-+					kcs4: kcs@94 {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x94 0x1>, <0x98 0x1>, <0x9c 0x1>;
- 						interrupts = <8>;
--						kcs_chan = <4>;
- 						status = "disabled";
- 					};
- 
-diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-index 1ffc15177b79..f4113275a7f9 100644
---- a/arch/arm/boot/dts/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-@@ -471,22 +471,23 @@
- 					#size-cells = <1>;
- 					ranges = <0x0 0x0 0x80>;
- 
--					kcs1: kcs1@0 {
--						compatible = "aspeed,ast2600-kcs-bmc";
-+					kcs1: kcs@24 {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x24 0x1>, <0x30 0x1>, <0x3c 0x1>;
- 						interrupts = <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
- 						kcs_chan = <1>;
- 						status = "disabled";
- 					};
--					kcs2: kcs2@0 {
--						compatible = "aspeed,ast2600-kcs-bmc";
-+					kcs2: kcs@28 {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x28 0x1>, <0x34 0x1>, <0x40 0x1>;
- 						interrupts = <GIC_SPI 139 IRQ_TYPE_LEVEL_HIGH>;
--						kcs_chan = <2>;
- 						status = "disabled";
- 					};
--					kcs3: kcs3@0 {
--						compatible = "aspeed,ast2600-kcs-bmc";
-+					kcs3: kcs@2c {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x2c 0x1>, <0x38 0x1>, <0x44 0x1>;
- 						interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
--						kcs_chan = <3>;
- 						status = "disabled";
- 					};
- 				};
-@@ -500,10 +501,10 @@
- 					#size-cells = <1>;
- 					ranges = <0x0 0x80 0x1e0>;
- 
--					kcs4: kcs4@0 {
--						compatible = "aspeed,ast2600-kcs-bmc";
-+					kcs4: kcs@94 {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x94 0x1>, <0x98 0x1>, <0x9c 0x1>;
- 						interrupts = <GIC_SPI 141 IRQ_TYPE_LEVEL_HIGH>;
--						kcs_chan = <4>;
- 						status = "disabled";
- 					};
- 
--- 
-2.20.1
+--0000000000006a5c7705a3203fb4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hey Joel and Andrew<div><br></div><div>I&#39;m working on =
+the AST2600 EVB trying to get some eSPI functionality to work using=C2=A0<a=
+ href=3D"https://github.com/AspeedTech-BMC/linux/blob/aspeed-dev-v5.1/drive=
+rs/soc/aspeed/aspeed-espi.c">https://github.com/AspeedTech-BMC/linux/blob/a=
+speed-dev-v5.1/drivers/soc/aspeed/aspeed-espi.c</a>. The driver is missing =
+support for clock enablement so I dug into how this could be added.</div><d=
+iv><br></div><div>I noticed that you guys worked on=C2=A0include/dt-binding=
+s/clock/ast2600-clock.h but from what I can tell the ASPEED_CLK_GATE_* defi=
+nitions have not yet been updated from AST2500 to AST2600.</div><div><br></=
+div><div>Am I looking at the latest version of the file? I&#39;m happy to u=
+pdate the clock gate bits, but I don&#39;t want to duplicate work that you =
+have in the pipeline.</div><div><br></div><div>Thanks</div><div>Oskar.</div=
+></div>
+
+--0000000000006a5c7705a3203fb4--
