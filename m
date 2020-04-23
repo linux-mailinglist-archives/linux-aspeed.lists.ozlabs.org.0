@@ -1,63 +1,46 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1072B1B4E12
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Apr 2020 22:13:44 +0200 (CEST)
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 496s842kYqzDqlP
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Apr 2020 06:13:40 +1000 (AEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73EA01B5893
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Apr 2020 11:52:59 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 497CKN6JKGzDqxc
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Apr 2020 19:52:56 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.210.65; helo=mail-ot1-f65.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=wistron.com (client-ip=103.200.3.19; helo=segapp03.wistron.com;
+ envelope-from=ben_pai@wistron.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
- [209.85.210.65])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 496s7w5RJzzDqTd
- for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Apr 2020 06:13:30 +1000 (AEST)
-Received: by mail-ot1-f65.google.com with SMTP id e26so3390415otr.2
- for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Apr 2020 13:13:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=FU28JBKGEW/8GQtu1EPA/t3igT0iC4W0GHS/U/6pah4=;
- b=hsrdAVVY7Uv6OglbYcmUq3Ph/fqCMJB7WEI+ET4jAv14kRjP4knBNNwa1ATOrLvLxb
- XOAHx2p9p2O8fSUeTi2gXvxG+43ZZLpczoQf9LAM+hv8R6UtcDHioON3Exgnq0VujKIc
- Te5jIMs8hiMD/LqK3ZfcFz3jqzYPhNMFZpuyJYtv5b0ekbNItj1msucMujqqZFR+hcBV
- gF6fzas8ODhCwgeiGUAzDmT8UhUp1Pba1QGwfwQ9cy98uQ35bBR9u++c3cxAmWRB5UZ2
- JoIXsRYYIGpY7OHb/cuhaVdb4K7fR5nPqaWBrNL9YhjF+DaSJwzj8bZL1L/0+3CAv9Vt
- v/lQ==
-X-Gm-Message-State: AGi0PuYSCQ5ynzB13+BSN5Bvec8mSPk8DgcFfgKSvynuTvCAGYPNn8T5
- pt4FqA9P3hjaqK5/onT0/w==
-X-Google-Smtp-Source: APiQypLq1juXk3wkyAmmhugjQWskZwTMMSVHNWayyrQVPc7tVA60BLU67e9v/cwDx0dAkBMdlJyA5A==
-X-Received: by 2002:a9d:6b11:: with SMTP id g17mr712345otp.264.1587586407497; 
- Wed, 22 Apr 2020 13:13:27 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id t26sm33325otl.71.2020.04.22.13.13.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Apr 2020 13:13:26 -0700 (PDT)
-Received: (nullmailer pid 20547 invoked by uid 1000);
- Wed, 22 Apr 2020 20:13:25 -0000
-Date: Wed, 22 Apr 2020 15:13:25 -0500
-From: Rob Herring <robh@kernel.org>
-To: Eddie James <eajames@linux.ibm.com>
-Subject: Re: [PATCH v10 1/7] dt-bindings: soc: Add Aspeed XDMA Engine
-Message-ID: <20200422201325.GA12023@bogus>
-References: <20200420202611.17776-1-eajames@linux.ibm.com>
- <20200420202611.17776-2-eajames@linux.ibm.com>
+ dmarc=none (p=none dis=none) header.from=wistron.com
+Received: from segapp03.wistron.com (segapp02.wistron.com [103.200.3.19])
+ by lists.ozlabs.org (Postfix) with ESMTP id 497CKF2xhczDqg5
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Apr 2020 19:52:40 +1000 (AEST)
+Received: from EXCHAPP04.whq.wistron (unverified [10.37.38.27]) by 
+ TWNHUMSW4.wistron.com (Clearswift SMTPRS 5.6.0) with ESMTP id 
+ <Tdeb49446cbc0a816721910@TWNHUMSW4.wistron.com>; Thu, 23 Apr 2020 
+ 17:52:36 +0800
+Received: from EXCHAPP01.whq.wistron (10.37.38.24) by EXCHAPP04.whq.wistron 
+ (10.37.38.27) with Microsoft SMTP Server 
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 
+ 15.1.1913.5; Thu, 23 Apr 2020 17:52:33 +0800
+Received: from gitserver.wistron.com (10.37.38.233) by EXCHAPP01.whq.wistron 
+ (10.37.38.24) with Microsoft SMTP Server id 15.1.1913.5 via Frontend
+ Transport; Thu, 23 Apr 2020 17:52:33 +0800
+From: Ben Pai <Ben_Pai@wistron.com>
+To: <robh+dt@kernel.org>, <mark.rutland@arm.com>, <joel@jms.id.au>, 
+ <andrew@aj.id.au>, <devicetree@vger.kernel.org>, 
+ <linux-arm-kernel@lists.infradead.org>, 
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v1] ARM: dts: aspeed: mihawk: add aliases for i2c
+Date: Thu, 23 Apr 2020 17:52:30 +0800
+Message-ID: <20200423095230.7622-1-Ben_Pai@wistron.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200420202611.17776-2-eajames@linux.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="us-ascii"
+X-TM-SNTS-SMTP: DF640E53D713C7A34CBE175353B2BE73D2DAA46F479D4A5F1E5646AC6EFC3D5A2000:8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,174 +52,407 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org
+Cc: Andy_YF_Wang@wistron.com, Ben Pai <Ben_Pai@wistron.com>,
+ Claire_Ku@wistron.com, wangat@tw.ibm.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Apr 20, 2020 at 03:26:05PM -0500, Eddie James wrote:
-> Document the bindings for the Aspeed AST25XX and AST26XX XDMA engine.
-> 
-> Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-> ---
->  .../devicetree/bindings/soc/aspeed/xdma.yaml  | 108 ++++++++++++++++++
->  MAINTAINERS                                   |   6 +
->  2 files changed, 114 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/soc/aspeed/xdma.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/soc/aspeed/xdma.yaml b/Documentation/devicetree/bindings/soc/aspeed/xdma.yaml
-> new file mode 100644
-> index 000000000000..428a575da1be
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/soc/aspeed/xdma.yaml
-> @@ -0,0 +1,108 @@
-> +# SPDX-License-Identifier: (GPL-2.0-or-later)
+Set the bus id for each mux channel to avoid switching channels
+multiple times
 
-Dual license new bindings please:
+Signed-off-by: Ben Pai <Ben_Pai@wistron.com>
+---
+ arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts | 293 +++++++++++++++++++-
+ 1 file changed, 289 insertions(+), 4 deletions(-)
 
-(GPL-2.0-only OR BSD-2-Clause)
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
+index f7e935ede919..0f8550f158f5 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
+@@ -8,6 +8,52 @@
+ 	model = "Mihawk BMC";
+ 	compatible = "ibm,mihawk-bmc", "aspeed,ast2500";
+ 
++	aliases {
++		i2c215 = &bus6_mux215;
++		i2c216 = &bus6_mux216;
++		i2c217 = &bus6_mux217;
++		i2c218 = &bus6_mux218;
++		i2c219 = &bus6_mux219;
++		i2c220 = &bus6_mux220;
++		i2c221 = &bus6_mux221;
++		i2c222 = &bus6_mux222;
++		i2c223 = &bus7_mux223;
++		i2c224 = &bus7_mux224;
++		i2c225 = &bus7_mux225;
++		i2c226 = &bus7_mux226;
++		i2c227 = &bus7_mux227;
++		i2c228 = &bus7_mux228;
++		i2c229 = &bus7_mux229;
++		i2c230 = &bus7_mux230;
++		i2c231 = &bus9_mux231;
++		i2c232 = &bus9_mux232;
++		i2c233 = &bus9_mux233;
++		i2c234 = &bus9_mux234;
++		i2c235 = &bus9_mux235;
++		i2c236 = &bus9_mux236;
++		i2c237 = &bus9_mux237;
++		i2c238 = &bus9_mux238;
++		i2c239 = &bus10_mux239;
++		i2c240 = &bus10_mux240;
++		i2c241 = &bus10_mux241;
++		i2c242 = &bus10_mux242;
++		i2c243 = &bus10_mux243;
++		i2c244 = &bus10_mux244;
++		i2c245 = &bus10_mux245;
++		i2c246 = &bus10_mux246;
++		i2c247 = &bus12_mux247;
++		i2c248 = &bus12_mux248;
++		i2c249 = &bus12_mux249;
++		i2c250 = &bus12_mux250;
++		i2c251 = &bus13_mux251;
++		i2c252 = &bus13_mux252;
++		i2c253 = &bus13_mux253;
++		i2c254 = &bus13_mux254;
++		i2c255 = &bus13_mux255;
++		i2c256 = &bus13_mux256;
++		i2c257 = &bus13_mux257;
++		i2c258 = &bus13_mux258;
++	};
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+@@ -630,6 +676,54 @@
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x70>;
++
++		bus6_mux215: i2c@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0>;
++		};
++
++		bus6_mux216: i2c@1 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <1>;
++		};
++
++		bus6_mux217: i2c@2 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <2>;
++		};
++
++		bus6_mux218: i2c@3 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <3>;
++		};
++
++		bus6_mux219: i2c@4 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <4>;
++		};
++
++		bus6_mux220: i2c@5 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <5>;
++		};
++
++		bus6_mux221: i2c@6 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <6>;
++		};
++
++		bus6_mux222: i2c@7 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <7>;
++		};
+ 	};
+ 
+ };
+@@ -644,6 +738,54 @@
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x70>;
++
++		bus7_mux223: i2c@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0>;
++		};
++
++		bus7_mux224: i2c@1 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <1>;
++		};
++
++		bus7_mux225: i2c@2 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <2>;
++		};
++
++		bus7_mux226: i2c@3 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <3>;
++		};
++
++		bus7_mux227: i2c@4 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <4>;
++		};
++
++		bus7_mux228: i2c@5 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <5>;
++		};
++
++		bus7_mux229: i2c@6 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <6>;
++		};
++
++		bus7_mux230: i2c@7 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <7>;
++		};
+ 	};
+ 
+ };
+@@ -684,6 +826,30 @@
+ 		i2c-mux-idle-disconnect;
+ 		interrupt-controller;
+ 		#interrupt-cells = <2>;
++
++		bus9_mux231: i2c@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0>;
++		};
++
++		bus9_mux232: i2c@1 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <1>;
++		};
++
++		bus9_mux233: i2c@2 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <2>;
++		};
++
++		bus9_mux234: i2c@3 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <3>;
++		};
+ 	};
+ 
+ 	pca9545@71 {
+@@ -695,6 +861,30 @@
+ 		i2c-mux-idle-disconnect;
+ 		interrupt-controller;
+ 		#interrupt-cells = <2>;
++
++		bus9_mux235: i2c@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0>;
++		};
++
++		bus9_mux236: i2c@1 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <1>;
++		};
++
++		bus9_mux237: i2c@2 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <2>;
++		};
++
++		bus9_mux238: i2c@3 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <3>;
++		};
+ 	};
+ };
+ 
+@@ -725,6 +915,30 @@
+ 		i2c-mux-idle-disconnect;
+ 		interrupt-controller;
+ 		#interrupt-cells = <2>;
++
++		bus10_mux239: i2c@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0>;
++		};
++
++		bus10_mux240: i2c@1 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <1>;
++		};
++
++		bus10_mux241: i2c@2 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <2>;
++		};
++
++		bus10_mux242: i2c@3 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <3>;
++		};
+ 	};
+ 
+ 	pca9545@71 {
+@@ -736,6 +950,30 @@
+ 		i2c-mux-idle-disconnect;
+ 		interrupt-controller;
+ 		#interrupt-cells = <2>;
++
++		bus10_mux243: i2c@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0>;
++		};
++
++		bus10_mux244: i2c@1 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <1>;
++		};
++
++		bus10_mux245: i2c@2 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <2>;
++		};
++
++		bus10_mux246: i2c@3 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <3>;
++		};
+ 	};
+ };
+ 
+@@ -796,7 +1034,7 @@
+ 		interrupt-controller;
+ 		#interrupt-cells = <2>;
+ 
+-		i2c@0 {
++		bus12_mux247: i2c@0 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+ 			reg = <0>;
+@@ -807,7 +1045,7 @@
+ 			};
+ 		};
+ 
+-		i2c@1 {
++		bus12_mux248: i2c@1 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+ 			reg = <1>;
+@@ -818,7 +1056,7 @@
+ 			};
+ 		};
+ 
+-		i2c@2 {
++		bus12_mux249: i2c@2 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+ 			reg = <2>;
+@@ -829,7 +1067,7 @@
+ 			};
+ 		};
+ 
+-		i2c@3 {
++		bus12_mux250: i2c@3 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+ 			reg = <3>;
+@@ -857,6 +1095,53 @@
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		reg = <0x70>;
++		bus13_mux251: i2c@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0>;
++		};
++
++		bus13_mux252: i2c@1 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <1>;
++		};
++
++		bus13_mux253: i2c@2 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <2>;
++		};
++
++		bus13_mux254: i2c@3 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <3>;
++		};
++
++		bus13_mux255: i2c@4 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <4>;
++		};
++
++		bus13_mux256: i2c@5 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <5>;
++		};
++
++		bus13_mux257: i2c@6 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <6>;
++		};
++
++		bus13_mux258: i2c@7 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <7>;
++		};
+ 	};
+ };
+ 
+-- 
+2.17.1
 
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/soc/aspeed/xdma.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Aspeed AST25XX and AST26XX XDMA Engine
-> +
-> +maintainers:
-> + - Eddie James <eajames@linux.ibm.com>
-> +
-> +description: |
-> +  This binding describes the XDMA Engine embedded in the AST2500 and AST2600
-> +  SOCs. The XDMA engine can perform automatic DMA operations over PCI between
-> +  the SOC (acting as a BMC) and a host processor.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2500-xdma
-> +      - aspeed,ast2600-xdma
-> +
-> +  reg:
-> +    items:
-> +      - description: engine register space
 
-That's all 'reg' properties. You don't need a description for a 
-single entry. Just:
-
-reg:
-  maxItems: 1
-
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  reset-names:
-> +    maxItems: 2
-> +    items:
-> +      - const: device
-> +      - const: root-complex
-> +
-> +  interrupts-extended:
-
-Just use 'interrupts'. The tools fix things up so both work.
-
-> +    maxItems: 2
-> +    items:
-> +      - description: global interrupt for the XDMA engine
-> +      - description: PCI-E reset or PERST interrupt
-> +
-> +  aspeed,scu:
-> +    description: a reference to the System Control Unit node of the Aspeed SOC.
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/phandle
-> +
-> +  aspeed,pcie-device:
-> +    description: describes which PCI-E device the XDMA engine should use
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/string
-> +      - oneOf:
-> +        - items:
-> +          - const: bmc
-> +        - items:
-> +          - const: vga
-
-The oneOf (inclusive) can be just:
-
-enum: [ bmc, vga ]
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - resets
-> +  - interrupts-extended
-> +  - aspeed,scu
-> +  - memory-region
-> +
-> +if:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        const: aspeed,ast2600-xdma
-> +then:
-> +  required:
-> +    - reset-names
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/ast2600-clock.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/aspeed-scu-ic.h>
-> +    syscon: syscon@1e6e2000 {
-> +        reg = <0x1e6e2000 0x1000>;
-> +        ranges = <0 0x1e6e2000 0x1000>;
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +        #clock-cells = <1>;
-> +        #reset-cells = <1>;
-> +        scu_ic0: interrupt-controller@560 {
-> +            reg = <0x560 0x4>;
-> +            interrupt-controller;
-> +            #interrupt-cells = <1>;
-> +        };
-> +    };
-> +    xdma@1e6e7000 {
-> +        compatible = "aspeed,ast2600-xdma";
-> +        reg = <0x1e6e7000 0x100>;
-> +        clocks = <&syscon ASPEED_CLK_GATE_BCLK>;
-> +        resets = <&syscon ASPEED_RESET_DEV_XDMA>, <&syscon ASPEED_RESET_RC_XDMA>;
-> +        reset-names = "device", "root-complex";
-> +        interrupts-extended = <&gic GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-> +                              <&scu_ic0 ASPEED_AST2600_SCU_IC0_PCIE_PERST_LO_TO_HI>;
-> +        aspeed,scu = <&syscon>;
-> +        aspeed,pcie-device = "bmc";
-> +        memory-region = <&vga_memory>;
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ecd7def6ff4b..b1963e01a75e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2774,6 +2774,12 @@ S:	Maintained
->  F:	Documentation/devicetree/bindings/media/aspeed-video.txt
->  F:	drivers/media/platform/aspeed-video.c
->  
-> +ASPEED XDMA ENGINE DRIVER
-> +M:	Eddie James <eajames@linux.ibm.com>
-> +L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/soc/aspeed/xdma.yaml
-> +
->  ASUS NOTEBOOKS AND EEEPC ACPI/WMI EXTRAS DRIVERS
->  M:	Corentin Chary <corentin.chary@gmail.com>
->  L:	acpi4asus-user@lists.sourceforge.net
-> -- 
-> 2.24.0
-> 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+This email contains confidential or legally privileged information and is for the sole use of its intended recipient. 
+Any unauthorized review, use, copying or distribution of this email or the content of this email is strictly prohibited.
+If you are not the intended recipient, you may reply to the sender and should delete this e-mail immediately.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
