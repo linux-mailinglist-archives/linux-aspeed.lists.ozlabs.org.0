@@ -2,56 +2,36 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1649C1BD34A
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2020 05:57:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D68A61BD6A0
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2020 09:54:21 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49Bl8g0yQ1zDr0C
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2020 13:57:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49BrPl0VNpzDr1G
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2020 17:54:19 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=the-dreams.de (client-ip=88.99.104.3; helo=pokefinder.org;
+ envelope-from=wsa@the-dreams.de; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=aspeedtech.com
- (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com;
- envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-X-Greylist: delayed 1141 seconds by postgrey-1.36 at bilbo;
- Wed, 29 Apr 2020 13:57:33 AEST
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49Bl8Y1NDJzDqkV;
- Wed, 29 Apr 2020 13:57:32 +1000 (AEST)
-Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
- by twspam01.aspeedtech.com with ESMTP id 03T3SgxH051776;
- Wed, 29 Apr 2020 11:28:42 +0800 (GMT-8)
- (envelope-from ryan_chen@aspeedtech.com)
-Received: from mail.aspeedtech.com (twmbx02.aspeed.com [192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 03T3Rxv1051700;
- Wed, 29 Apr 2020 11:27:59 +0800 (GMT-8)
- (envelope-from ryan_chen@aspeedtech.com)
-Received: from localhost.localdomain (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.620.29; Wed, 29 Apr
- 2020 11:37:52 +0800
-From: ryan_chen <ryan_chen@aspeedtech.com>
-To: Brendan Higgins <brendanhiggins@google.com>, Benjamin Herrenschmidt
- <benh@kernel.crashing.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
- <andrew@aj.id.au>, <linux-i2c@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v0 linux master] i2c/busses: Avoid i2c interrupt status clear
- race condition.
-Date: Wed, 29 Apr 2020 11:37:37 +0800
-Message-ID: <20200429033737.2781-1-ryan_chen@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
+ dmarc=none (p=none dis=none) header.from=the-dreams.de
+Received: from pokefinder.org (sauhun.de [88.99.104.3])
+ by lists.ozlabs.org (Postfix) with ESMTP id 49BrPW2l3bzDq6k;
+ Wed, 29 Apr 2020 17:54:04 +1000 (AEST)
+Received: from localhost (p54B330EB.dip0.t-ipconnect.de [84.179.48.235])
+ by pokefinder.org (Postfix) with ESMTPSA id 3F6972C08B2;
+ Wed, 29 Apr 2020 09:53:59 +0200 (CEST)
+Date: Wed, 29 Apr 2020 09:53:57 +0200
+From: Wolfram Sang <wsa@the-dreams.de>
+To: ryan_chen <ryan_chen@aspeedtech.com>
+Subject: Re: [PATCH v0 linux master] i2c/busses: Avoid i2c interrupt status
+ clear race condition.
+Message-ID: <20200429075357.GA1957@kunai>
+References: <20200429033737.2781-1-ryan_chen@aspeedtech.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 03T3Rxv1051700
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="0F1p//8PRICkK4MW"
+Content-Disposition: inline
+In-Reply-To: <20200429033737.2781-1-ryan_chen@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,47 +43,87 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-In AST2600 there have a slow peripheral bus between CPU
- and i2c controller.
-Therefore GIC i2c interrupt status clear have delay timing,
-when CPU issue write clear i2c controller interrupt status.
-To avoid this issue, the driver need have read after write
- clear at i2c ISR.
 
-Signed-off-by: ryan_chen <ryan_chen@aspeedtech.com>
----
- drivers/i2c/busses/i2c-aspeed.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+--0F1p//8PRICkK4MW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-index 07c1993274c5..f51702d86a90 100644
---- a/drivers/i2c/busses/i2c-aspeed.c
-+++ b/drivers/i2c/busses/i2c-aspeed.c
-@@ -603,6 +603,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
- 	/* Ack all interrupts except for Rx done */
- 	writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
- 	       bus->base + ASPEED_I2C_INTR_STS_REG);
-+	readl(bus->base + ASPEED_I2C_INTR_STS_REG);
- 	irq_remaining = irq_received;
- 
- #if IS_ENABLED(CONFIG_I2C_SLAVE)
-@@ -645,9 +646,11 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
- 			irq_received, irq_handled);
- 
- 	/* Ack Rx done */
--	if (irq_received & ASPEED_I2CD_INTR_RX_DONE)
-+	if (irq_received & ASPEED_I2CD_INTR_RX_DONE) {
- 		writel(ASPEED_I2CD_INTR_RX_DONE,
- 		       bus->base + ASPEED_I2C_INTR_STS_REG);
-+		readl(bus->base + ASPEED_I2C_INTR_STS_REG);
-+	}
- 	spin_unlock(&bus->lock);
- 	return irq_remaining ? IRQ_NONE : IRQ_HANDLED;
- }
--- 
-2.17.1
+On Wed, Apr 29, 2020 at 11:37:37AM +0800, ryan_chen wrote:
+> In AST2600 there have a slow peripheral bus between CPU
+>  and i2c controller.
+> Therefore GIC i2c interrupt status clear have delay timing,
+> when CPU issue write clear i2c controller interrupt status.
+> To avoid this issue, the driver need have read after write
+>  clear at i2c ISR.
+>=20
+> Signed-off-by: ryan_chen <ryan_chen@aspeedtech.com>
 
+v0? is it a prototype?
+
+And is there maybe a Fixes: tag for it?
+
+> ---
+>  drivers/i2c/busses/i2c-aspeed.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-asp=
+eed.c
+> index 07c1993274c5..f51702d86a90 100644
+> --- a/drivers/i2c/busses/i2c-aspeed.c
+> +++ b/drivers/i2c/busses/i2c-aspeed.c
+> @@ -603,6 +603,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *=
+dev_id)
+>  	/* Ack all interrupts except for Rx done */
+>  	writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
+>  	       bus->base + ASPEED_I2C_INTR_STS_REG);
+> +	readl(bus->base + ASPEED_I2C_INTR_STS_REG);
+>  	irq_remaining =3D irq_received;
+> =20
+>  #if IS_ENABLED(CONFIG_I2C_SLAVE)
+> @@ -645,9 +646,11 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void =
+*dev_id)
+>  			irq_received, irq_handled);
+> =20
+>  	/* Ack Rx done */
+> -	if (irq_received & ASPEED_I2CD_INTR_RX_DONE)
+> +	if (irq_received & ASPEED_I2CD_INTR_RX_DONE) {
+>  		writel(ASPEED_I2CD_INTR_RX_DONE,
+>  		       bus->base + ASPEED_I2C_INTR_STS_REG);
+> +		readl(bus->base + ASPEED_I2C_INTR_STS_REG);
+> +	}
+>  	spin_unlock(&bus->lock);
+>  	return irq_remaining ? IRQ_NONE : IRQ_HANDLED;
+>  }
+> --=20
+> 2.17.1
+>=20
+
+--0F1p//8PRICkK4MW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6pMo4ACgkQFA3kzBSg
+KbbntRAAs++ZnC+iCmSLY5Q3M4OON+jEs3K4ZhdSuNgzbZsLaWVt5Cx7cCjT/JDi
+988C8kzysPKL8Cknlqyv4GBus0cCPwylvFZGHWXdot89RmG4stjYb3JbaV+Qm9Ov
+8bCKE8xEWEHyYFFEgreqtLbEFCnHCNf7TnX21b8+L6E988R1AE7r5qIFCTuK1/4/
+hrNCRmEoXYLp0pSDC6BuAgJvayrewlTkvCfnBVv39FzN95ghtC21cC73I6SKfDat
+qxCyKy1x++V6n03sprTFgc8MCqOpYu6rIgFKm94NSltyJWaRAZKY1vd/Pzj7D0Oc
+UPhtu7ldQAbllMAZmMutCDf8m0ek+Ob4jHF+DQKqq2E8MQZs35RxrNnDYzFOLm7r
+NISJkGAZ6ZmC3lmyH1t1GRxZls5RfqpUJuVFIke07C4eSO7r6y9rWoOOhzMYJERC
+cQuG05T6fcJRGx35/h9GHbcb9+kafQXXRaM65H4aEPKBjbtDbyC8j9PT5WGTRFwS
+kS0iSZ5XnSiCccMv33mJqgotV9yPTaVHstupHCnI7K77MH0b7l4Ni1Q7DAnR0cE/
+7mhN81qc04aqCi4+Zi1PtWRKMBcgvdX9QmHQnt2KYc7kSmgD9gy454O1NOIbA97S
+c1UOGjbptbrnl1VaH9/o0SldOXlHGdNzkzspFGAhk/5ioC8I2oE=
+=hr47
+-----END PGP SIGNATURE-----
+
+--0F1p//8PRICkK4MW--
