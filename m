@@ -1,52 +1,57 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3074D1BC607
-	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Apr 2020 19:04:04 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1649C1BD34A
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2020 05:57:42 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49BSfT0j9TzDqmT
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2020 03:04:01 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49Bl8g0yQ1zDr0C
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2020 13:57:39 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=ravnborg.org
- (client-ip=109.247.116.14; helo=asavdk3.altibox.net;
- envelope-from=sam@ravnborg.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=ravnborg.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ spf=none (no SPF record) smtp.mailfrom=aspeedtech.com
+ (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com;
+ envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=aspeedtech.com
+X-Greylist: delayed 1141 seconds by postgrey-1.36 at bilbo;
+ Wed, 29 Apr 2020 13:57:33 AEST
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49BSf50fVMzDqWv
- for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Apr 2020 03:03:37 +1000 (AEST)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 03B7F20022;
- Tue, 28 Apr 2020 19:03:27 +0200 (CEST)
-Date: Tue, 28 Apr 2020 19:03:26 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 56/59] drm/aspeed: Use managed drmm_mode_config_cleanup
-Message-ID: <20200428170326.GB27234@ravnborg.org>
-References: <20200415074034.175360-1-daniel.vetter@ffwll.ch>
- <20200415074034.175360-57-daniel.vetter@ffwll.ch>
- <20200424181002.GL7074@ravnborg.org>
- <20200428141221.GM3456981@phenom.ffwll.local>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49Bl8Y1NDJzDqkV;
+ Wed, 29 Apr 2020 13:57:32 +1000 (AEST)
+Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
+ by twspam01.aspeedtech.com with ESMTP id 03T3SgxH051776;
+ Wed, 29 Apr 2020 11:28:42 +0800 (GMT-8)
+ (envelope-from ryan_chen@aspeedtech.com)
+Received: from mail.aspeedtech.com (twmbx02.aspeed.com [192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 03T3Rxv1051700;
+ Wed, 29 Apr 2020 11:27:59 +0800 (GMT-8)
+ (envelope-from ryan_chen@aspeedtech.com)
+Received: from localhost.localdomain (192.168.100.253) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.620.29; Wed, 29 Apr
+ 2020 11:37:52 +0800
+From: ryan_chen <ryan_chen@aspeedtech.com>
+To: Brendan Higgins <brendanhiggins@google.com>, Benjamin Herrenschmidt
+ <benh@kernel.crashing.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+ <andrew@aj.id.au>, <linux-i2c@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v0 linux master] i2c/busses: Avoid i2c interrupt status clear
+ race condition.
+Date: Wed, 29 Apr 2020 11:37:37 +0800
+Message-ID: <20200429033737.2781-1-ryan_chen@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200428141221.GM3456981@phenom.ffwll.local>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=QyXUC8HyAAAA:8 a=voM4FWlXAAAA:8 a=JfrnYn6hAAAA:8
- a=7gkXJVJtAAAA:8 a=enx1l9sRoPJb_agsY6UA:9 a=zjnPc2nJzrSlpMA7:21
- a=QoBruPAAwtBn6P47:21 a=CjuIK1q_8ugA:10 a=IC2XNlieTeVoXbcui8wp:22
- a=1CNFftbPRP8L7MoqJWF3:22 a=E9Po1WZjFZOl8hwRPBS3:22
- a=pHzHmUro8NiASowvMSCR:22 a=nt3jZW36AmriUCFCBwmW:22
+Content-Type: text/plain
+X-Originating-IP: [192.168.100.253]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 03T3Rxv1051700
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,82 +63,47 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Apr 28, 2020 at 04:12:21PM +0200, Daniel Vetter wrote:
-> On Fri, Apr 24, 2020 at 08:10:02PM +0200, Sam Ravnborg wrote:
-> > On Wed, Apr 15, 2020 at 09:40:31AM +0200, Daniel Vetter wrote:
-> > > Since aspeed doesn't use devm_kzalloc anymore we can use the managed
-> > > mode config cleanup.
-> > > 
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > Cc: Joel Stanley <joel@jms.id.au>
-> > > Cc: Andrew Jeffery <andrew@aj.id.au>
-> > > Cc: linux-aspeed@lists.ozlabs.org
-> > > Cc: linux-arm-kernel@lists.infradead.org
-> > 
-> > Hmm, the helper function makes no sense, maybe embed it?
-> > 
-> > One Q below. Whith Q addressed:
-> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> > 
-> > > ---
-> > >  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 11 ++++++-----
-> > >  1 file changed, 6 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> > > index 6b27242b9ee3..6e464b84a256 100644
-> > > --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> > > +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> > > @@ -63,15 +63,15 @@ static const struct drm_mode_config_funcs aspeed_gfx_mode_config_funcs = {
-> > >  	.atomic_commit		= drm_atomic_helper_commit,
-> > >  };
-> > >  
-> > > -static void aspeed_gfx_setup_mode_config(struct drm_device *drm)
-> > > +static int aspeed_gfx_setup_mode_config(struct drm_device *drm)
-> > >  {
-> > > -	drm_mode_config_init(drm);
-> > > -
-> > >  	drm->mode_config.min_width = 0;
-> > >  	drm->mode_config.min_height = 0;
-> > >  	drm->mode_config.max_width = 800;
-> > >  	drm->mode_config.max_height = 600;
-> > >  	drm->mode_config.funcs = &aspeed_gfx_mode_config_funcs;
-> > > +
-> > > +	return drmm_mode_config_init(drm);
-> > 
-> > I do not see anything that documents that it is OK to init min/max
-> > width/heigh not funcs before drmm_mode_config_init() is called.
-> > Maybe drmm_mode_config_init() gain an memset(drm->mode_config),
-> > and we loose all the assingments from before the call to init().
-> > 
-> > Also most (all?) other users of drmm_mode_config_init()
-> > set them after the call to drmm_mode_config_init().
-> > So re-order here and then embed while you are touching the code again.
-> 
-> Only reason I've done it like this is that it saves a few lines of diff
-> compared to other options.
-> 
-> Wrt calling stuff the wrong way round: We pretty much assume throughout
-> that structures are allocated with kzalloc, none of our _init() functions
-> in drm have a memset. We'd break the world if we start doing memset() in
-> random _init() functions I think.
-> 
-> Also the main aspeed_gfx_load() function is quite long already, smashing
-> more random stuff in there won't help it's readability.
-> 
-> Anyway I don't care, if you insist I'm happy to repaint this in whatever
-> color choice you deem best :-)
+In AST2600 there have a slow peripheral bus between CPU
+ and i2c controller.
+Therefore GIC i2c interrupt status clear have delay timing,
+when CPU issue write clear i2c controller interrupt status.
+To avoid this issue, the driver need have read after write
+ clear at i2c ISR.
 
-From the principle of least suprises, you should at least call init and
-then set min_width and friends.
-This is easy to do in the helper, so easy to avoid the inlining I
-suggested.
+Signed-off-by: ryan_chen <ryan_chen@aspeedtech.com>
+---
+ drivers/i2c/busses/i2c-aspeed.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-	Sam
+diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+index 07c1993274c5..f51702d86a90 100644
+--- a/drivers/i2c/busses/i2c-aspeed.c
++++ b/drivers/i2c/busses/i2c-aspeed.c
+@@ -603,6 +603,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
+ 	/* Ack all interrupts except for Rx done */
+ 	writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
+ 	       bus->base + ASPEED_I2C_INTR_STS_REG);
++	readl(bus->base + ASPEED_I2C_INTR_STS_REG);
+ 	irq_remaining = irq_received;
+ 
+ #if IS_ENABLED(CONFIG_I2C_SLAVE)
+@@ -645,9 +646,11 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
+ 			irq_received, irq_handled);
+ 
+ 	/* Ack Rx done */
+-	if (irq_received & ASPEED_I2CD_INTR_RX_DONE)
++	if (irq_received & ASPEED_I2CD_INTR_RX_DONE) {
+ 		writel(ASPEED_I2CD_INTR_RX_DONE,
+ 		       bus->base + ASPEED_I2C_INTR_STS_REG);
++		readl(bus->base + ASPEED_I2C_INTR_STS_REG);
++	}
+ 	spin_unlock(&bus->lock);
+ 	return irq_remaining ? IRQ_NONE : IRQ_HANDLED;
+ }
+-- 
+2.17.1
+
