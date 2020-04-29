@@ -1,39 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7978E1BD7DC
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2020 11:04:17 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B5B1BDADA
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2020 13:40:48 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49BsyQ4YJdzDqjL
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2020 19:04:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49BxQx0zX5zDr2p
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2020 21:40:41 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=the-dreams.de (client-ip=88.99.104.3; helo=pokefinder.org;
- envelope-from=wsa@the-dreams.de; receiver=<UNKNOWN>)
+ smtp.mailfrom=yadro.com (client-ip=89.207.88.252; helo=mta-01.yadro.com;
+ envelope-from=a.filippov@yadro.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=the-dreams.de
-Received: from pokefinder.org (sauhun.de [88.99.104.3])
- by lists.ozlabs.org (Postfix) with ESMTP id 49Bsy83WNHzDqcn;
- Wed, 29 Apr 2020 19:03:59 +1000 (AEST)
-Received: from localhost (p54B330EB.dip0.t-ipconnect.de [84.179.48.235])
- by pokefinder.org (Postfix) with ESMTPSA id 266772C08B2;
- Wed, 29 Apr 2020 11:03:56 +0200 (CEST)
-Date: Wed, 29 Apr 2020 11:03:55 +0200
-From: Wolfram Sang <wsa@the-dreams.de>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Subject: Re: [PATCH v0 linux master] i2c/busses: Avoid i2c interrupt status
- clear race condition.
-Message-ID: <20200429090355.GA2891@kunai>
-References: <20200429033737.2781-1-ryan_chen@aspeedtech.com>
- <20200429075357.GA1957@kunai>
- <56add9c6e6b5410986325a1360466e4b@TWMBX02.aspeed.com>
+ dmarc=pass (p=none dis=none) header.from=yadro.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=yadro.com header.i=@yadro.com header.a=rsa-sha256
+ header.s=mta-01 header.b=NaZG81+g; dkim-atps=neutral
+Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49BxMV1jnczDr3V
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Apr 2020 21:37:42 +1000 (AEST)
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 107BB4C84A;
+ Wed, 29 Apr 2020 11:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-type:content-type:content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:date:subject:subject:from:from
+ :received:received:received; s=mta-01; t=1588160253; x=
+ 1589974654; bh=ris/S+h/BaYOTDo3Pe8u3fQ3xLa1WXG1qllWW6QAfuc=; b=N
+ aZG81+gZaNF1YUpTyisS4B3+10BmQ2WYvhqnrDFGfLsrzDZFwbVpmnZ8USJVKslr
+ uOS7u8EXshDMc+W36dTgQ41yDdSScn8XuiKw48wTgUn2+kTpRZv1MqwC4/iSuLLj
+ BWKlBcOm65LkUqYrqyFY6caca0RB6ljM8K7Cl1FMPQ=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id hJO9ugMjHQkP; Wed, 29 Apr 2020 14:37:33 +0300 (MSK)
+Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
+ [172.17.10.102])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 112B14A498;
+ Wed, 29 Apr 2020 14:37:33 +0300 (MSK)
+Received: from bbwork.com (172.17.14.122) by T-EXCH-02.corp.yadro.com
+ (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 29
+ Apr 2020 14:37:34 +0300
+From: Alexander Filippov <a.filippov@yadro.com>
+To: <linux-aspeed@lists.ozlabs.org>
+Subject: [PATCH v7] ARM: DTS: Aspeed: Add YADRO Nicole BMC
+Date: Wed, 29 Apr 2020 14:37:11 +0300
+Message-ID: <20200429113711.13183-1-a.filippov@yadro.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="y0ulUmNC+osPPQO6"
-Content-Disposition: inline
-In-Reply-To: <56add9c6e6b5410986325a1360466e4b@TWMBX02.aspeed.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.17.14.122]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-02.corp.yadro.com (172.17.10.102)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,59 +70,368 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Alexander Filippov <a.filippov@yadro.com>,
+ Patrick Williams <patrick@stwcx.xyz>, Rob Herring <robh+dt@kernel.org>,
+ Andrew Geissler <geissonator@yahoo.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Nicole is an OpenPower machine with an Aspeed 2500 BMC SoC manufactured
+by YADRO.
 
---y0ulUmNC+osPPQO6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Alexander Filippov <a.filippov@yadro.com>
+---
+ arch/arm/boot/dts/Makefile                  |   1 +
+ arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts | 326 ++++++++++++++++++++
+ 2 files changed, 327 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts
 
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index e8dd99201397..6f9fe0f959f2 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -1347,6 +1347,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+ 	aspeed-bmc-microsoft-olympus.dtb \
+ 	aspeed-bmc-opp-lanyang.dtb \
+ 	aspeed-bmc-opp-mihawk.dtb \
++	aspeed-bmc-opp-nicole.dtb \
+ 	aspeed-bmc-opp-palmetto.dtb \
+ 	aspeed-bmc-opp-romulus.dtb \
+ 	aspeed-bmc-opp-swift.dtb \
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts b/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts
+new file mode 100644
+index 000000000000..91dced7e7849
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts
+@@ -0,0 +1,326 @@
++// SPDX-License-Identifier: GPL-2.0+
++// Copyright 2019 YADRO
++/dts-v1/;
++#include "aspeed-g5.dtsi"
++#include <dt-bindings/gpio/aspeed-gpio.h>
++
++/ {
++	model = "Nicole BMC";
++	compatible = "yadro,nicole-bmc", "aspeed,ast2500";
++
++	chosen {
++		stdout-path = &uart5;
++		bootargs = "console=ttyS4,115200 earlyprintk";
++	};
++
++	memory@80000000 {
++		reg = <0x80000000 0x20000000>;
++	};
++
++	reserved-memory {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++
++		vga_memory: framebuffer@9f000000 {
++			no-map;
++			reg = <0x9f000000 0x01000000>; /* 16M */
++		};
++
++		flash_memory: region@98000000 {
++			no-map;
++			reg = <0x98000000 0x04000000>; /* 64M */
++		};
++
++		coldfire_memory: codefire_memory@9ef00000 {
++			reg = <0x9ef00000 0x00100000>;
++			no-map;
++		};
++
++		gfx_memory: framebuffer {
++			size = <0x01000000>;
++			alignment = <0x01000000>;
++			compatible = "shared-dma-pool";
++			reusable;
++		};
++
++		video_engine_memory: jpegbuffer {
++			size = <0x02000000>;	/* 32M */
++			alignment = <0x01000000>;
++			compatible = "shared-dma-pool";
++			reusable;
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		power {
++			label = "platform:green:power";
++			gpios = <&gpio ASPEED_GPIO(AA, 4) GPIO_ACTIVE_HIGH>;
++		};
++
++		identify {
++			label = "platform:blue:indicator";
++			gpios = <&gpio ASPEED_GPIO(AA, 7) GPIO_ACTIVE_HIGH>;
++		};
++
++		fault {
++			label = "platform:red:fault";
++			gpios = <&gpio ASPEED_GPIO(AA, 3) GPIO_ACTIVE_HIGH>;
++		};
++
++		attention {
++			label = "platform:yellow:alarm";
++			gpios = <&gpio ASPEED_GPIO(AA, 1) GPIO_ACTIVE_HIGH>;
++		};
++	};
++
++	fsi: gpio-fsi {
++		compatible = "aspeed,ast2500-cf-fsi-master", "fsi-master";
++		#address-cells = <2>;
++		#size-cells = <0>;
++		no-gpio-delays;
++
++		memory-region = <&coldfire_memory>;
++		aspeed,sram = <&sram>;
++		aspeed,cvic = <&cvic>;
++
++		clock-gpios = <&gpio ASPEED_GPIO(AA, 0) GPIO_ACTIVE_HIGH>;
++		data-gpios = <&gpio ASPEED_GPIO(AA, 2) GPIO_ACTIVE_HIGH>;
++		mux-gpios = <&gpio ASPEED_GPIO(A, 6) GPIO_ACTIVE_HIGH>;
++		enable-gpios = <&gpio ASPEED_GPIO(D, 0) GPIO_ACTIVE_HIGH>;
++		trans-gpios = <&gpio ASPEED_GPIO(P, 1) GPIO_ACTIVE_HIGH>;
++	};
++
++	gpio-keys {
++		compatible = "gpio-keys";
++
++		checkstop {
++			label = "checkstop";
++			gpios = <&gpio ASPEED_GPIO(J, 2) GPIO_ACTIVE_LOW>;
++			linux,code = <ASPEED_GPIO(J, 2)>;
++		};
++	};
++
++	iio-hwmon-battery {
++		compatible = "iio-hwmon";
++		io-channels = <&adc 12>;
++	};
++};
++
++&fmc {
++	status = "okay";
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "bmc";
++		spi-max-frequency = <50000000>;
++#include "openbmc-flash-layout.dtsi"
++	};
++};
++
++&spi1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_spi1_default>;
++
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "pnor";
++		spi-max-frequency = <100000000>;
++	};
++};
++
++&lpc_ctrl {
++	status = "okay";
++	memory-region = <&flash_memory>;
++	flash = <&spi1>;
++};
++
++&uart1 {
++	/* Rear RS-232 connector */
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_txd1_default
++			&pinctrl_rxd1_default
++			&pinctrl_nrts1_default
++			&pinctrl_ndtr1_default
++			&pinctrl_ndsr1_default
++			&pinctrl_ncts1_default
++			&pinctrl_ndcd1_default
++			&pinctrl_nri1_default>;
++};
++
++&uart5 {
++	status = "okay";
++};
++
++&mac0 {
++	status = "okay";
++
++	use-ncsi;
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rmii1_default>;
++	clocks = <&syscon ASPEED_CLK_GATE_MAC1CLK>,
++		 <&syscon ASPEED_CLK_MAC1RCLK>;
++	clock-names = "MACCLK", "RCLK";
++};
++
++&i2c0 {
++	status = "okay";
++
++	eeprom@50 {
++		compatible = "atmel,24c256";
++		reg = <0x50>;
++		pagesize = <64>;
++	};
++};
++
++&i2c2 {
++	status = "okay";
++	/* CPU0 characterization connector */
++};
++
++&i2c3 {
++	status = "okay";
++	/* CLK GEN SI5338 */
++};
++
++&i2c4 {
++	status = "okay";
++	/* Voltage regulators for CPU0 */
++};
++
++&i2c5 {
++	status = "okay";
++	/* Voltage regulators for CPU1 */
++};
++
++&i2c6 {
++	status = "okay";
++
++	rtc@32 {
++		compatible = "epson,rx8900";
++		reg = <0x32>;
++	};
++};
++
++&i2c7 {
++	status = "okay";
++	/* CPLD */
++};
++
++&gpio {
++	gpio-line-names =
++	/*A0-A7*/	"","cfam-reset","","","","","fsi-mux","",
++	/*B0-B7*/	"","","","","","","","",
++	/*C0-C7*/	"","","","","","","","",
++	/*D0-D7*/	"fsi-enable","bmc_power_up","sys_pwrok_buf",
++			"func_mode0","func_mode1","func_mode2","","",
++	/*E0-E7*/	"","ncsi_cfg","","","","","","",
++	/*F0-F7*/	"","","","","","","","",
++	/*G0-G7*/	"","","","","","","","",
++	/*H0-H7*/	"","","","","","","","",
++	/*I0-I7*/	"","","","","","","","",
++	/*J0-J7*/	"","","checkstop","","","","","",
++	/*K0-K7*/	"","","","","","","","",
++	/*L0-L7*/	"","","","","","","","",
++	/*M0-M7*/	"","","","","","","","",
++	/*N0-N7*/	"","","","","","","","",
++	/*O0-O7*/	"","","power-button","","","","","",
++	/*P0-P7*/	"","fsi-trans","pm_rtc_adc_en","","","","","",
++	/*Q0-Q7*/	"","","","","","","","id-button",
++	/*R0-R7*/	"","software_pwrgood","","","","","","",
++	/*S0-S7*/	"","","","","","","","seq_cont",
++	/*T0-T7*/	"","","","","","","","",
++	/*U0-U7*/	"","","","","","","","",
++	/*V0-V7*/	"","","","","","","","",
++	/*W0-W7*/	"","","","","","","","",
++	/*X0-X7*/	"","","","","","","","",
++	/*Y0-Y7*/	"","","","","","","","",
++	/*Z0-Z7*/	"","","","","","","","",
++	/*AA0-AA7*/	"fsi-clock","led-attention","fsi-data","led-fault",
++			"led-power","","","led-identify",
++	/*AB0-AB7*/	"","","","","","","","",
++	/*AC0-AC7*/	"","","","","","","","";
++
++	func_mode0 {
++		gpio-hog;
++		gpios = <ASPEED_GPIO(D, 3) GPIO_ACTIVE_HIGH>;
++		output-low;
++	};
++	func_mode1 {
++		gpio-hog;
++		gpios = <ASPEED_GPIO(D, 4) GPIO_ACTIVE_HIGH>;
++		output-low;
++	};
++	func_mode2 {
++		gpio-hog;
++		gpios = <ASPEED_GPIO(D, 5) GPIO_ACTIVE_HIGH>;
++		output-low;
++	};
++	seq_cont {
++		gpio-hog;
++		gpios = <ASPEED_GPIO(S, 7) GPIO_ACTIVE_HIGH>;
++		output-low;
++	};
++	ncsi_cfg {
++		gpio-hog;
++		input;
++		gpios = <ASPEED_GPIO(E, 1) GPIO_ACTIVE_HIGH>;
++	};
++};
++
++&vuart {
++	status = "okay";
++};
++
++&gfx {
++	status = "okay";
++	memory-region = <&gfx_memory>;
++};
++
++&pinctrl {
++	aspeed,external-nodes = <&gfx &lhc>;
++};
++
++&ibt {
++	status = "okay";
++};
++
++&vhub {
++	status = "okay";
++};
++
++&adc {
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_adc0_default
++			&pinctrl_adc1_default
++			&pinctrl_adc2_default
++			&pinctrl_adc3_default
++			&pinctrl_adc4_default
++			&pinctrl_adc5_default
++			&pinctrl_adc6_default
++			&pinctrl_adc7_default
++			&pinctrl_adc8_default
++			&pinctrl_adc9_default
++			&pinctrl_adc10_default
++			&pinctrl_adc11_default
++			&pinctrl_adc12_default
++			&pinctrl_adc13_default
++			&pinctrl_adc14_default
++			&pinctrl_adc15_default>;
++};
++
++&video {
++	status = "okay";
++	memory-region = <&video_engine_memory>;
++};
++
++#include "ibm-power9-dual.dtsi"
+-- 
+2.21.1
 
-> And is there maybe a Fixes: tag for it?
-> [Ryan Chen] Yes it is a fix patch.
-
-I meant this (from submitting-patches.rst):
-
-===
-
-If your patch fixes a bug in a specific commit, e.g. you found an issue using
-``git bisect``, please use the 'Fixes:' tag with the first 12 characters of
-the SHA-1 ID, and the one line summary.  Do not split the tag across multiple
-lines, tags are exempt from the "wrap at 75 columns" rule in order to simplify
-parsing scripts.  For example::
-
-        Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the number of pages it actually freed")
-
-===
-
-So, is it possible to identify a commit introducing the problem?
-
---y0ulUmNC+osPPQO6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6pQvgACgkQFA3kzBSg
-KbbFHQ/+K57P1NyZRw5B1Rv9WNar6q/eQ41eSy2AlAGuIpeszu87HBT8bm06Pgqo
-A7YRNyGbNNxxwFpp237SnxaQuaiaunkM47dv+nodutzcc84onXviG9XbkuLzuQRv
-OTXdVQ87+u1xXwcmIP1tY0xSBVyM8S51yCcpWqfdGbJ6NjQg/QHMBJv0keVQDc2h
-BwSHJW/UcJBvSn7yMReQb1GPCSomhHu66tG1CRxbM1ZCJ2wh0tjqUvTTH8btXs4o
-cji5F23YM9DvUR9iKXayc6ETAsM8uhbahgkSfgp5ZimhOjud5kZyyi1H4DyoG0a+
-chWZn1UoyfKbqQoCZMlmGsDizl2u9yvOF0VUclcx0PpGhXeR7cUJkFCtW02aY1B0
-2/rh1MLyho2HzLOPZwDuF6/X17Tj+QdhdOJd/Oq8AqZNHvvUB+fXClXFWxnzksEx
-qJACY88BqtX6PiXRRtbjjJAxCyhszZbKohVVYwoOHz15DARLRYJfetseC5e2Pvlk
-D2ppvmggfk8o8YsgI3f29FquAkVn9cYHzef4A32NVJ/jviug9vmouv0AgAon63dM
-UKGd+Ue5zghpD8DR2Vgq5V+VR749W6Q/f0R914xlIMvDzbPVOvggu9391U9aEaa5
-XHsi/4GmOYnrGwSo+Ql1O0vF0g4RwppQiHgYN13QjevcgWqZJH8=
-=8XDO
------END PGP SIGNATURE-----
-
---y0ulUmNC+osPPQO6--
