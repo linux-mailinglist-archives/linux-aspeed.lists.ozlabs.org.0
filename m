@@ -2,45 +2,37 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870141BF5F1
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Apr 2020 12:56:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F05991BFDAF
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Apr 2020 16:17:30 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49CXPM45rmzDr7C
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Apr 2020 20:56:23 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49CcsM198NzDr7p
+	for <lists+linux-aspeed@lfdr.de>; Fri,  1 May 2020 00:17:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=the-dreams.de (client-ip=88.99.104.3; helo=pokefinder.org;
+ envelope-from=wsa@the-dreams.de; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=permerror (SPF Permanent Error: Unknown mechanism
- found: ip:192.40.192.88/32) smtp.mailfrom=kernel.crashing.org
- (client-ip=76.164.61.194; helo=kernel.crashing.org;
- envelope-from=benh@kernel.crashing.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=kernel.crashing.org
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49CXPF0hBzzDr7C;
- Thu, 30 Apr 2020 20:56:16 +1000 (AEST)
-Received: from localhost (gate.crashing.org [63.228.1.57])
- (authenticated bits=0)
- by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 03UAtojD025184
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 30 Apr 2020 05:55:54 -0500
-Message-ID: <232b9fac588beb4d024ab496b118c51af2b0ecba.camel@kernel.crashing.org>
+ dmarc=none (p=none dis=none) header.from=the-dreams.de
+Received: from pokefinder.org (sauhun.de [88.99.104.3])
+ by lists.ozlabs.org (Postfix) with ESMTP id 49Ccs00tk1zDr4Y;
+ Fri,  1 May 2020 00:17:05 +1000 (AEST)
+Received: from localhost (p5486CDDB.dip0.t-ipconnect.de [84.134.205.219])
+ by pokefinder.org (Postfix) with ESMTPSA id 865B62C08FC;
+ Thu, 30 Apr 2020 16:17:01 +0200 (CEST)
+Date: Thu, 30 Apr 2020 16:17:01 +0200
+From: Wolfram Sang <wsa@the-dreams.de>
+To: ryan_chen <ryan_chen@aspeedtech.com>
 Subject: Re: [PATCH v0 linux master] i2c/busses: Avoid i2c interrupt status
  clear race condition.
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To: Wolfram Sang <wsa@the-dreams.de>, Ryan Chen <ryan_chen@aspeedtech.com>
-Date: Thu, 30 Apr 2020 20:55:48 +1000
-In-Reply-To: <20200429090355.GA2891@kunai>
+Message-ID: <20200430141701.GC3355@ninjato>
 References: <20200429033737.2781-1-ryan_chen@aspeedtech.com>
- <20200429075357.GA1957@kunai>
- <56add9c6e6b5410986325a1360466e4b@TWMBX02.aspeed.com>
- <20200429090355.GA2891@kunai>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="1SQmhf2mF2YjsYvc"
+Content-Disposition: inline
+In-Reply-To: <20200429033737.2781-1-ryan_chen@aspeedtech.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,33 +44,52 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 2020-04-29 at 11:03 +0200, Wolfram Sang wrote:
-> > And is there maybe a Fixes: tag for it?
-> > [Ryan Chen] Yes it is a fix patch.
-> 
-> I meant this (from submitting-patches.rst):
 
-It fixes the original implementation of the driver basically. It's just
-a classic posted-write fix. The write to clear the pending interrupt is
-asynchronous, so you can get spurrious ones if you return from the
-handler before it has percolated to the HW.
+--1SQmhf2mF2YjsYvc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I assume it's just more visible on the 2600 because of the cores are
-significantly faster but the IO bus is still as dumb.
+On Wed, Apr 29, 2020 at 11:37:37AM +0800, ryan_chen wrote:
+> In AST2600 there have a slow peripheral bus between CPU
+>  and i2c controller.
+> Therefore GIC i2c interrupt status clear have delay timing,
+> when CPU issue write clear i2c controller interrupt status.
+> To avoid this issue, the driver need have read after write
+>  clear at i2c ISR.
+>=20
+> Signed-off-by: ryan_chen <ryan_chen@aspeedtech.com>
 
-Ryan: You could always add a Fixed-by: tag that specifies the commit
-that added the initial driver...
+Applied to for-current with a Fixes tag, thanks! Please, try to add one
+next time and please also check how the subsystem formats the $subject
+line.
 
-Cheers,
-Ben.
 
+--1SQmhf2mF2YjsYvc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6q3d0ACgkQFA3kzBSg
+KbaoUQ//QVc//2TXd44pz2LgsMx+qUkEgZNrrJKgAGlXr1KGtLR1Km4XWzGzEutz
+cQCYsZtGWucGPt93oJeSXYx9FWagTYPrR47XbX0U5gCQyVY7XtQc4Wj9LXFOgfi4
+c/QQVEAtO38HiNGcWumxxc8Td57nbEuvDfMQltBqsuNXeo4BDLl39xvbzFIWHVDE
+9D4Re0pWNf4Y4sYFB4kR8hHdaQkYfki1jE0j99sXskuC6pMcVzSMKUIzrISs4BAe
+LUCDcrSFokr1W0eqBT6uFvHk4SErXjY0OH+jWxugBXgVliAvSER22FBg2kwqvHC3
+fH9CGDi7Ns3RdOoW7d9bTLiHgeaRLBbmTUyuzzKOgXrBJqBnT0AucMfa+X6Is7vC
+DS4ojD5tVuP3cMQb+sqVxufPIDPVGRXd7Ee2upMtkNNrd9U6W1cun8jPto6hg5Zu
+G/llTNEsGQaYXrSNXJ6mO3p8BL2EhhvSyaOCItGWKvzGudpNCIR47bMiobK1mZwM
+F/tkz9xTiXnNipwRMmoQwcon/XoDdVcMs6VoVRIdKk0llGks5kfuZA+zTqc2Kv+h
+UvuYl+dTFHH9QEbVN/guogoINdM+Fn0+NMaZWcg7D09tUxRFbbRB/eoyD5q8ms7n
+O/NsT911s4Uw1axbcH/+iF4Ys1dnQlRuDglr/xiqogiibdbkfTY=
+=f9co
+-----END PGP SIGNATURE-----
+
+--1SQmhf2mF2YjsYvc--
