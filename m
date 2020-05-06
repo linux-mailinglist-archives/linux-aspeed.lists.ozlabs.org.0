@@ -2,74 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA401C5E38
-	for <lists+linux-aspeed@lfdr.de>; Tue,  5 May 2020 19:00:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DACC1C7A63
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 May 2020 21:36:52 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49GmF53rLmzDqB2
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 May 2020 03:00:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49HRg41mxPzDqvD
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 May 2020 05:36:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
+ smtp.mailfrom=gmail.com (client-ip=209.85.167.196;
+ helo=mail-oi1-f196.google.com; envelope-from=robherring2@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=linux.ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+ [209.85.167.196])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49GmC26kp0zDqcw
- for <linux-aspeed@lists.ozlabs.org>; Wed,  6 May 2020 02:58:38 +1000 (AEST)
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 045GW8U1174320; Tue, 5 May 2020 12:58:34 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0b-001b2d01.pphosted.com with ESMTP id 30s2g34xd8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 May 2020 12:58:33 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 045Gp341000505;
- Tue, 5 May 2020 16:58:33 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma05wdc.us.ibm.com with ESMTP id 30s0g6jbbb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 May 2020 16:58:33 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 045GwVx912059052
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 May 2020 16:58:31 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 602507805E;
- Tue,  5 May 2020 16:58:32 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D7F917805F;
- Tue,  5 May 2020 16:58:31 +0000 (GMT)
-Received: from talon7.ibm.com (unknown [9.211.137.116])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue,  5 May 2020 16:58:31 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH v11 8/8] ARM: dts: Aspeed: Tacoma: Enable XDMA engine
-Date: Tue,  5 May 2020 11:58:25 -0500
-Message-Id: <1588697905-23444-9-git-send-email-eajames@linux.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1588697905-23444-1-git-send-email-eajames@linux.ibm.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49HRfv2ZkDzDqtp
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  7 May 2020 05:36:38 +1000 (AEST)
+Received: by mail-oi1-f196.google.com with SMTP id r25so2846788oij.4
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 06 May 2020 12:36:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=rnfpFrTk6qQXOr8sM3/2W6CmEzipxR2+8pAqFytyXqI=;
+ b=CroYtBQwwMz96bqcdZb8vrsWFHrLWibGP66lva/sjRF7Gh6QVMwB9/WLd9LHBPOE+o
+ LI9nyU5lt0O2xJfkN7tC1kqjF6bDrK8pR5cDBcJR6YgBFeR1PgPDSCbuKY4bVJvmR1Do
+ 20ZT84zuXIDnf7BphI7iuwchonMpv8DHlzqBjuM4Pd09J0jJihMLy+FIEMromwPRyT+N
+ GHkTy3pyU+VAv8uZ8PLDgLcBf1adj9tQqSv2FlXQ7+hEF9oKaXU9MWHIaS/0tJUdsQZr
+ zYEIFVdBSYqK74H376KfTd1XhThCwiWSrIXvytbFrgBB5+n2Li2YGmIYjXrYp9iCjUMY
+ OHPg==
+X-Gm-Message-State: AGi0Pua0GuMf6iHomMAIQDeuXkQv5mNfw3XgVcYvjuwF80dhXKTwOYC2
+ 6cSFkahRJ6wLAu88rui7xg==
+X-Google-Smtp-Source: APiQypK/PKmOgedCZiIdqA69OthKkxGU0LMfRCwhmWEdBjKXwWsK4lkiQOyMamTfj38oAd46ZV0DbA==
+X-Received: by 2002:aca:4541:: with SMTP id s62mr4017103oia.100.1588793795634; 
+ Wed, 06 May 2020 12:36:35 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id s69sm770207otb.4.2020.05.06.12.36.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 May 2020 12:36:34 -0700 (PDT)
+Received: (nullmailer pid 21850 invoked by uid 1000);
+ Wed, 06 May 2020 19:36:34 -0000
+Date: Wed, 6 May 2020 14:36:34 -0500
+From: Rob Herring <robh@kernel.org>
+To: Eddie James <eajames@linux.ibm.com>
+Subject: Re: [PATCH v11 1/8] dt-bindings: soc: Add Aspeed XDMA Engine
+Message-ID: <20200506193634.GA21647@bogus>
 References: <1588697905-23444-1-git-send-email-eajames@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-05-05_09:2020-05-04,
- 2020-05-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- suspectscore=1 bulkscore=0 priorityscore=1501 spamscore=0
- lowpriorityscore=0 adultscore=0 phishscore=0 mlxlogscore=739 clxscore=1015
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005050126
+ <1588697905-23444-2-git-send-email-eajames@linux.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1588697905-23444-2-git-send-email-eajames@linux.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,46 +70,22 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add a reserved memory node for the VGA memory. Add the XDMA engine node,
-enable it, and point it's memory region to the VGA memory.
+On Tue,  5 May 2020 11:58:18 -0500, Eddie James wrote:
+> Document the bindings for the Aspeed AST25XX and AST26XX XDMA engine.
+> 
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+> ---
+>  .../devicetree/bindings/soc/aspeed/xdma.yaml       | 103 +++++++++++++++++++++
+>  MAINTAINERS                                        |   6 ++
+>  2 files changed, 109 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/soc/aspeed/xdma.yaml
+> 
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
----
- arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-index 47293a5..d336dd4 100644
---- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-@@ -29,6 +29,12 @@
- 			no-map;
- 			reg = <0xb8000000 0x4000000>; /* 64M */
- 		};
-+
-+		vga_memory: region@bf000000 {
-+			no-map;
-+			compatible = "shared-dma-pool";
-+			reg = <0xbf000000 0x01000000>;	/* 16M */
-+		};
- 	};
- 
- 	gpio-keys {
-@@ -804,3 +810,8 @@
- 	pinctrl-0 = <&pinctrl_lpc_default>,
- 		    <&pinctrl_lsirq_default>;
- };
-+
-+&xdma {
-+	status = "okay";
-+	memory-region = <&vga_memory>;
-+};
--- 
-1.8.3.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
