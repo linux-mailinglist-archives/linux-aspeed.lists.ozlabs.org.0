@@ -1,64 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DACC1C7A63
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 May 2020 21:36:52 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 965EC1C90A3
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 May 2020 16:50:00 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49HRg41mxPzDqvD
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 May 2020 05:36:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49HxFb4hCMzDqcy
+	for <lists+linux-aspeed@lfdr.de>; Fri,  8 May 2020 00:49:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.167.196;
- helo=mail-oi1-f196.google.com; envelope-from=robherring2@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
- [209.85.167.196])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=default header.b=kAFbJKmw; dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49HRfv2ZkDzDqtp
- for <linux-aspeed@lists.ozlabs.org>; Thu,  7 May 2020 05:36:38 +1000 (AEST)
-Received: by mail-oi1-f196.google.com with SMTP id r25so2846788oij.4
- for <linux-aspeed@lists.ozlabs.org>; Wed, 06 May 2020 12:36:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=rnfpFrTk6qQXOr8sM3/2W6CmEzipxR2+8pAqFytyXqI=;
- b=CroYtBQwwMz96bqcdZb8vrsWFHrLWibGP66lva/sjRF7Gh6QVMwB9/WLd9LHBPOE+o
- LI9nyU5lt0O2xJfkN7tC1kqjF6bDrK8pR5cDBcJR6YgBFeR1PgPDSCbuKY4bVJvmR1Do
- 20ZT84zuXIDnf7BphI7iuwchonMpv8DHlzqBjuM4Pd09J0jJihMLy+FIEMromwPRyT+N
- GHkTy3pyU+VAv8uZ8PLDgLcBf1adj9tQqSv2FlXQ7+hEF9oKaXU9MWHIaS/0tJUdsQZr
- zYEIFVdBSYqK74H376KfTd1XhThCwiWSrIXvytbFrgBB5+n2Li2YGmIYjXrYp9iCjUMY
- OHPg==
-X-Gm-Message-State: AGi0Pua0GuMf6iHomMAIQDeuXkQv5mNfw3XgVcYvjuwF80dhXKTwOYC2
- 6cSFkahRJ6wLAu88rui7xg==
-X-Google-Smtp-Source: APiQypK/PKmOgedCZiIdqA69OthKkxGU0LMfRCwhmWEdBjKXwWsK4lkiQOyMamTfj38oAd46ZV0DbA==
-X-Received: by 2002:aca:4541:: with SMTP id s62mr4017103oia.100.1588793795634; 
- Wed, 06 May 2020 12:36:35 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id s69sm770207otb.4.2020.05.06.12.36.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 May 2020 12:36:34 -0700 (PDT)
-Received: (nullmailer pid 21850 invoked by uid 1000);
- Wed, 06 May 2020 19:36:34 -0000
-Date: Wed, 6 May 2020 14:36:34 -0500
-From: Rob Herring <robh@kernel.org>
-To: Eddie James <eajames@linux.ibm.com>
-Subject: Re: [PATCH v11 1/8] dt-bindings: soc: Add Aspeed XDMA Engine
-Message-ID: <20200506193634.GA21647@bogus>
-References: <1588697905-23444-1-git-send-email-eajames@linux.ibm.com>
- <1588697905-23444-2-git-send-email-eajames@linux.ibm.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49Hwmk3K2NzDqcK;
+ Fri,  8 May 2020 00:28:21 +1000 (AEST)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3EA892145D;
+ Thu,  7 May 2020 14:28:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1588861699;
+ bh=wWICHhShsjiNXg4Lrs8fFbE9djX+UgP3NHhA9p/iUbk=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=kAFbJKmw+kx+SNyLvkjCxoHkV2wHauOSygLJr1OgrBo5HjYYy4NCTm5u2V4kCsDzC
+ iNq/4mXiwNFGWwHpkJAxF7QlYzucofEk6rH2gqcUoOIrrvAXciP1M9FOBhyc7ZUP41
+ g+4WwDXXuohA19NGyLQHOHKFbe8lfXBN0xjpJTA4=
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.6 41/50] i2c: aspeed: Avoid i2c interrupt status
+ clear race condition.
+Date: Thu,  7 May 2020 10:27:17 -0400
+Message-Id: <20200507142726.25751-41-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200507142726.25751-1-sashal@kernel.org>
+References: <20200507142726.25751-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1588697905-23444-2-git-send-email-eajames@linux.ibm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,22 +60,57 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-aspeed@lists.ozlabs.org,
+ Wolfram Sang <wsa@the-dreams.de>, openbmc@lists.ozlabs.org,
+ linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue,  5 May 2020 11:58:18 -0500, Eddie James wrote:
-> Document the bindings for the Aspeed AST25XX and AST26XX XDMA engine.
-> 
-> Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-> ---
->  .../devicetree/bindings/soc/aspeed/xdma.yaml       | 103 +++++++++++++++++++++
->  MAINTAINERS                                        |   6 ++
->  2 files changed, 109 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/soc/aspeed/xdma.yaml
-> 
+From: ryan_chen <ryan_chen@aspeedtech.com>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+[ Upstream commit c926c87b8e36dcc0ea5c2a0a0227ed4f32d0516a ]
+
+In AST2600 there have a slow peripheral bus between CPU and i2c
+controller. Therefore GIC i2c interrupt status clear have delay timing,
+when CPU issue write clear i2c controller interrupt status. To avoid
+this issue, the driver need have read after write clear at i2c ISR.
+
+Fixes: f327c686d3ba ("i2c: aspeed: added driver for Aspeed I2C")
+Signed-off-by: ryan_chen <ryan_chen@aspeedtech.com>
+Acked-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+[wsa: added Fixes tag]
+Signed-off-by: Wolfram Sang <wsa@the-dreams.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/i2c/busses/i2c-aspeed.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+index a7be6f24450bd..538dfc4110f85 100644
+--- a/drivers/i2c/busses/i2c-aspeed.c
++++ b/drivers/i2c/busses/i2c-aspeed.c
+@@ -603,6 +603,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
+ 	/* Ack all interrupts except for Rx done */
+ 	writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
+ 	       bus->base + ASPEED_I2C_INTR_STS_REG);
++	readl(bus->base + ASPEED_I2C_INTR_STS_REG);
+ 	irq_remaining = irq_received;
+ 
+ #if IS_ENABLED(CONFIG_I2C_SLAVE)
+@@ -645,9 +646,11 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
+ 			irq_received, irq_handled);
+ 
+ 	/* Ack Rx done */
+-	if (irq_received & ASPEED_I2CD_INTR_RX_DONE)
++	if (irq_received & ASPEED_I2CD_INTR_RX_DONE) {
+ 		writel(ASPEED_I2CD_INTR_RX_DONE,
+ 		       bus->base + ASPEED_I2C_INTR_STS_REG);
++		readl(bus->base + ASPEED_I2C_INTR_STS_REG);
++	}
+ 	spin_unlock(&bus->lock);
+ 	return irq_remaining ? IRQ_NONE : IRQ_HANDLED;
+ }
+-- 
+2.20.1
+
