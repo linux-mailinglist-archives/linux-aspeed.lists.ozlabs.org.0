@@ -1,54 +1,61 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23FDA1C90D1
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 May 2020 16:53:30 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B5D31CA56D
+	for <lists+linux-aspeed@lfdr.de>; Fri,  8 May 2020 09:49:56 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49HxKg1kNczDqLd
-	for <lists+linux-aspeed@lfdr.de>; Fri,  8 May 2020 00:53:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49JMtS5y3hzDr2l
+	for <lists+linux-aspeed@lfdr.de>; Fri,  8 May 2020 17:49:52 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::643;
+ helo=mail-ej1-x643.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
+ dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=VszrsqY7; dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=PxOeyEL/; dkim-atps=neutral
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49Hwnk0XtqzDqdj;
- Fri,  8 May 2020 00:29:14 +1000 (AEST)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7929E20A8B;
- Thu,  7 May 2020 14:29:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588861751;
- bh=mKuQExT/XtGq4HcwCYsGAbbI38P9Ix+FvVyT7xS0ZcU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VszrsqY7GJ0p9HcCzdvI5xI/OIMdMMv6/HWpq/JKxdP9cwBWaSXP8LBlFBtYm9CkK
- O7CQnzna3jH5GaIwCke8Tx2dMLNKe7Z9swKeRUM3Z17r/dt82LK4mwacU++RODkF2I
- MuzMwrH9Nw7S1au6+dr466gzX9LVYjgG77puT5cY=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 32/35] i2c: aspeed: Avoid i2c interrupt status
- clear race condition.
-Date: Thu,  7 May 2020 10:28:26 -0400
-Message-Id: <20200507142830.26239-32-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200507142830.26239-1-sashal@kernel.org>
-References: <20200507142830.26239-1-sashal@kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49JMtG5mhwzDr2P
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  8 May 2020 17:49:40 +1000 (AEST)
+Received: by mail-ej1-x643.google.com with SMTP id x1so577618ejd.8
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 08 May 2020 00:49:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=2ojn62szLR5yAed7Cpk2YDlU98vpC3/PF24hZzNfukc=;
+ b=PxOeyEL/WMCKE3MykeDNUl697V1NpTyQ+qyuJgQxQ8veMFpQxgpdy0q0uitmgCQku3
+ AnlRbwLIqljlfpjrPUWg2Tch4lPIPqQrWF1Dnoo0vadM5KzPZH53D9+GueDnlWl+v2j5
+ IcKBukPfZVftBM8Wyrfw3H54TI86QA0J6V/4Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=2ojn62szLR5yAed7Cpk2YDlU98vpC3/PF24hZzNfukc=;
+ b=ZWAxXebNJpF8NFmE0yVrpylqGEWlJElLlb9FHpqbVWLND5M7awxHV+J8UKlReKQZ7o
+ XHtzrpNGUyCyxfW2UkUCFa1NpLfktccOkO7x5dy+D9Qy22ZaiTgyaxW7CZHi04mOfet5
+ N9ZfHn2ns9bPw5MB8kDE+0bQxnD747ppJ+Plgtek4rPcSUSx9J1/k4atn0+XCc5uV5yF
+ nDPyJpb96x6GXrIbuZNALBmW8CtjGp+T6lOlvXsPqkU1im8aHm+0pW5LMeSjUO0RNZyW
+ lKJMZln8LLP0dITpy1eLLmayIEkjorYmey++H5k7SQTra6z2cmSyZlleGPfafs48Bwih
+ cbSA==
+X-Gm-Message-State: AGi0PuZ8Ef11/frHHH9+H7u/IWKJ4y1CiZOuu/j6PEXVogbt/KdveuJm
+ 4mtrMWARgxVRMiJgtgDZUybjqjM0uIe6BMBrz0M=
+X-Google-Smtp-Source: APiQypJt1hvsyUFF0tzsQJYCtHjMMGdAT3QaHxDwrq0/Tkfdj2zjCuSUV+TqJSyReKLbgKVtk0+DWLYID9k0DtsoTxw=
+X-Received: by 2002:a17:906:4c8e:: with SMTP id
+ q14mr881699eju.208.1588924177282; 
+ Fri, 08 May 2020 00:49:37 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 8 May 2020 07:49:25 +0000
+Message-ID: <CACPK8Xd-=XFREvvS-mK_ECyn14y0GPAMyy5BpEEUYfaw4jAgsw@mail.gmail.com>
+Subject: ARM: aspeed: devicetree changes for 5.8
+To: arm <arm@kernel.org>, soc@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,57 +67,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-aspeed@lists.ozlabs.org,
- Wolfram Sang <wsa@the-dreams.de>, openbmc@lists.ozlabs.org,
- linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: ryan_chen <ryan_chen@aspeedtech.com>
+Hello ARM Maintainers,
 
-[ Upstream commit c926c87b8e36dcc0ea5c2a0a0227ed4f32d0516a ]
+Thanks to covid chaos there was no aspeed pull request for 5.7. We're
+back for 5.8 though!
 
-In AST2600 there have a slow peripheral bus between CPU and i2c
-controller. Therefore GIC i2c interrupt status clear have delay timing,
-when CPU issue write clear i2c controller interrupt status. To avoid
-this issue, the driver need have read after write clear at i2c ISR.
+There's a patch in here that causes some build time warnings from the
+device tree compiler. I've sent a patch for that to the dtc folk:
 
-Fixes: f327c686d3ba ("i2c: aspeed: added driver for Aspeed I2C")
-Signed-off-by: ryan_chen <ryan_chen@aspeedtech.com>
-Acked-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-[wsa: added Fixes tag]
-Signed-off-by: Wolfram Sang <wsa@the-dreams.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/i2c/busses/i2c-aspeed.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+https://lore.kernel.org/lkml/20200508063904.60162-1-joel@jms.id.au/
 
-diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-index 7b098ff5f5dd3..dad6e432de89f 100644
---- a/drivers/i2c/busses/i2c-aspeed.c
-+++ b/drivers/i2c/busses/i2c-aspeed.c
-@@ -603,6 +603,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
- 	/* Ack all interrupts except for Rx done */
- 	writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
- 	       bus->base + ASPEED_I2C_INTR_STS_REG);
-+	readl(bus->base + ASPEED_I2C_INTR_STS_REG);
- 	irq_remaining = irq_received;
- 
- #if IS_ENABLED(CONFIG_I2C_SLAVE)
-@@ -645,9 +646,11 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
- 			irq_received, irq_handled);
- 
- 	/* Ack Rx done */
--	if (irq_received & ASPEED_I2CD_INTR_RX_DONE)
-+	if (irq_received & ASPEED_I2CD_INTR_RX_DONE) {
- 		writel(ASPEED_I2CD_INTR_RX_DONE,
- 		       bus->base + ASPEED_I2C_INTR_STS_REG);
-+		readl(bus->base + ASPEED_I2C_INTR_STS_REG);
-+	}
- 	spin_unlock(&bus->lock);
- 	return irq_remaining ? IRQ_NONE : IRQ_HANDLED;
- }
--- 
-2.20.1
+The following changes since commit fa4c8ec6feaa3237f5d44cb8c6d0aa0dff6e1bcc:
 
+  ARM: dts: aspeed: Change KCS nodes to v2 binding (2020-05-05 16:37:17 +0930)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
+tags/aspeed-5.8-devicetree
+
+for you to fetch changes up to fa4c8ec6feaa3237f5d44cb8c6d0aa0dff6e1bcc:
+
+  ARM: dts: aspeed: Change KCS nodes to v2 binding (2020-05-05 16:37:17 +0930)
+
+----------------------------------------------------------------
+ASPEED device tree updates for 5.8
+
+New machines:
+
+ - YADRO's ast2500 OpenPower P9 Nicole BMC
+ - Facebook's ast2500 x86 Yosemite V2 BMC
+
+The AST2600 machines Rainier and Tacoma were fleshed out.
+
+Machines have started describing the GPIO names as userspace attempts
+to use the GPIO chardev API.
+
+----------------------------------------------------------------
