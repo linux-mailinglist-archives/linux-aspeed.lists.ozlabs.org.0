@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E3551E1971
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:35:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27BEB1E196E
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:35:38 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ3q2f6rzDqLS
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:35:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ3W20BYzDqMM
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:35:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -18,12 +18,12 @@ Authentication-Results: lists.ozlabs.org;
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49T7H51QfnzDqQr
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49T7H50smmzDqN2
  for <linux-aspeed@lists.ozlabs.org>; Fri, 22 May 2020 23:53:05 +1000 (AEST)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id D2B4FB077;
- Fri, 22 May 2020 13:53:00 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 54B38B07D;
+ Fri, 22 May 2020 13:53:01 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  james.qian.wang@arm.com, liviu.dudau@arm.com, mihail.atanassov@arm.com,
@@ -41,9 +41,9 @@ To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
  philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
  wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org
-Subject: [PATCH 15/21] drm/rcar-du: Use GEM CMA object functions
-Date: Fri, 22 May 2020 15:52:40 +0200
-Message-Id: <20200522135246.10134-16-tzimmermann@suse.de>
+Subject: [PATCH 16/21] drm/shmobile: Use GEM CMA object functions
+Date: Fri, 22 May 2020 15:52:41 +0200
+Message-Id: <20200522135246.10134-17-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200522135246.10134-1-tzimmermann@suse.de>
 References: <20200522135246.10134-1-tzimmermann@suse.de>
@@ -68,24 +68,24 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The rcar-du driver uses the default implementation for CMA functions;
-except for the .dumb_create callback. The __DRM_GEM_CMA_DRIVER_OPS macro
-now sets these defaults and .dumb_create in struct drm_driver. All
-remaining operations are provided by CMA GEM object functions.
+The shmobile driver uses the default implementation for CMA functions.
+The DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct
+drm_driver. All remaining operations are provided by CMA GEM object
+functions.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_drv.c | 11 +----------
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c | 11 +----------
  1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index 3e67cf70f0402..3728038cec1d1 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -476,16 +476,7 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
- 
- static struct drm_driver rcar_du_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+index ae9d6b8d3ca87..26a15c214bd3f 100644
+--- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
++++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+@@ -131,16 +131,7 @@ DEFINE_DRM_GEM_CMA_FOPS(shmob_drm_fops);
+ static struct drm_driver shmob_drm_driver = {
+ 	.driver_features	= DRIVER_GEM | DRIVER_MODESET,
+ 	.irq_handler		= shmob_drm_irq,
 -	.gem_free_object_unlocked = drm_gem_cma_free_object,
 -	.gem_vm_ops		= &drm_gem_cma_vm_ops,
 -	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
@@ -95,11 +95,11 @@ index 3e67cf70f0402..3728038cec1d1 100644
 -	.gem_prime_vmap		= drm_gem_cma_prime_vmap,
 -	.gem_prime_vunmap	= drm_gem_cma_prime_vunmap,
 -	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
--	.dumb_create		= rcar_du_dumb_create,
-+	__DRM_GEM_CMA_DRIVER_OPS(rcar_du_dumb_create),
- 	.fops			= &rcar_du_fops,
- 	.name			= "rcar-du",
- 	.desc			= "Renesas R-Car Display Unit",
+-	.dumb_create		= drm_gem_cma_dumb_create,
++	DRM_GEM_CMA_DRIVER_OPS,
+ 	.fops			= &shmob_drm_fops,
+ 	.name			= "shmob-drm",
+ 	.desc			= "Renesas SH Mobile DRM",
 -- 
 2.26.2
 
