@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA5D51E1970
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:35:49 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A65F1E196F
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:35:44 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ3l0JMgzDqMT
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:35:47 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ3d5WBvzDqKg
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:35:41 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -18,12 +18,12 @@ Authentication-Results: lists.ozlabs.org;
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49T7H50spZzDqNp
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49T7H50vxnzDqQF
  for <linux-aspeed@lists.ozlabs.org>; Fri, 22 May 2020 23:53:05 +1000 (AEST)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id E6EC1B080;
- Fri, 22 May 2020 13:53:01 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id E039CB084;
+ Fri, 22 May 2020 13:53:02 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  james.qian.wang@arm.com, liviu.dudau@arm.com, mihail.atanassov@arm.com,
@@ -41,9 +41,9 @@ To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
  philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
  wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org
-Subject: [PATCH 17/21] drm/stm: Use GEM CMA object functions
-Date: Fri, 22 May 2020 15:52:42 +0200
-Message-Id: <20200522135246.10134-18-tzimmermann@suse.de>
+Subject: [PATCH 18/21] drm/sti: Use GEM CMA object functions
+Date: Fri, 22 May 2020 15:52:43 +0200
+Message-Id: <20200522135246.10134-19-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200522135246.10134-1-tzimmermann@suse.de>
 References: <20200522135246.10134-1-tzimmermann@suse.de>
@@ -68,38 +68,40 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The stm driver uses the default implementation for CMA functions; except
-for the .dumb_create callback. The __DRM_GEM_CMA_DRIVER_OPS macro now sets
-these defaults and .dumb_create in struct drm_driver. All remaining
-operations are provided by CMA GEM object functions.
+The sti driver uses the default implementation for CMA functions. The
+DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct drm_driver.
+All remaining operations are provided by CMA GEM object functions.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/stm/drv.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ drivers/gpu/drm/sti/sti_drv.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-index 0f85dd86cafa7..d6238c71fabf6 100644
---- a/drivers/gpu/drm/stm/drv.c
-+++ b/drivers/gpu/drm/stm/drv.c
-@@ -62,16 +62,7 @@ static struct drm_driver drv_driver = {
- 	.minor = 0,
- 	.patchlevel = 0,
- 	.fops = &drv_driver_fops,
--	.dumb_create = stm_gem_cma_dumb_create,
--	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
--	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+diff --git a/drivers/gpu/drm/sti/sti_drv.c b/drivers/gpu/drm/sti/sti_drv.c
+index 3f9db3e3f3978..381804126e70d 100644
+--- a/drivers/gpu/drm/sti/sti_drv.c
++++ b/drivers/gpu/drm/sti/sti_drv.c
+@@ -132,19 +132,9 @@ DEFINE_DRM_GEM_CMA_FOPS(sti_driver_fops);
+ 
+ static struct drm_driver sti_driver = {
+ 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
 -	.gem_free_object_unlocked = drm_gem_cma_free_object,
 -	.gem_vm_ops = &drm_gem_cma_vm_ops,
+-	.dumb_create = drm_gem_cma_dumb_create,
++	DRM_GEM_CMA_DRIVER_OPS,
+ 	.fops = &sti_driver_fops,
+ 
+-	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+-	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
 -	.gem_prime_get_sg_table = drm_gem_cma_prime_get_sg_table,
 -	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
 -	.gem_prime_vmap = drm_gem_cma_prime_vmap,
 -	.gem_prime_vunmap = drm_gem_cma_prime_vunmap,
 -	.gem_prime_mmap = drm_gem_cma_prime_mmap,
-+	__DRM_GEM_CMA_DRIVER_OPS(stm_gem_cma_dumb_create),
- };
+-
+ 	.debugfs_init = sti_drm_dbg_init,
  
- static int drv_load(struct drm_device *ddev)
+ 	.name = DRIVER_NAME,
 -- 
 2.26.2
 
