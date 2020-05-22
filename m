@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FAB71E1974
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:36:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0E701E1972
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:35:59 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ455PlZzDqMM
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:36:05 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ3w6L2szDqLp
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:35:56 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -18,11 +18,11 @@ Authentication-Results: lists.ozlabs.org;
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49T7H56GRtzDqTQ
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49T7H550YrzDqT4
  for <linux-aspeed@lists.ozlabs.org>; Fri, 22 May 2020 23:53:05 +1000 (AEST)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 3AFB4B05D;
+ by mx2.suse.de (Postfix) with ESMTP id E07BFB066;
  Fri, 22 May 2020 13:52:58 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
@@ -41,9 +41,9 @@ To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
  philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
  wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org
-Subject: [PATCH 11/21] drm/malidp: Use GEM CMA object functions
-Date: Fri, 22 May 2020 15:52:36 +0200
-Message-Id: <20200522135246.10134-12-tzimmermann@suse.de>
+Subject: [PATCH 12/21] drm/mcde: Use GEM CMA object functions
+Date: Fri, 22 May 2020 15:52:37 +0200
+Message-Id: <20200522135246.10134-13-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200522135246.10134-1-tzimmermann@suse.de>
 References: <20200522135246.10134-1-tzimmermann@suse.de>
@@ -68,38 +68,38 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The malidp driver uses the default implementation for CMA functions; except
-for the .dumb_create callback. The __DRM_GEM_CMA_DRIVER_OPS macro now sets
-these defaults and .dumb_create in struct drm_driver. All remaining
-operations are provided by CMA GEM object functions.
+The mcde driver uses the default implementation for CMA functions. The
+DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct drm_driver.
+All remaining operations are provided by CMA GEM object functions.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/arm/malidp_drv.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ drivers/gpu/drm/mcde/mcde_drv.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-index def8c9ffafcaf..92e0bca6aa2f4 100644
---- a/drivers/gpu/drm/arm/malidp_drv.c
-+++ b/drivers/gpu/drm/arm/malidp_drv.c
-@@ -563,16 +563,7 @@ static void malidp_debugfs_init(struct drm_minor *minor)
- 
- static struct drm_driver malidp_driver = {
- 	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
+index 84f3e2dbd77bd..d300be5ee463d 100644
+--- a/drivers/gpu/drm/mcde/mcde_drv.c
++++ b/drivers/gpu/drm/mcde/mcde_drv.c
+@@ -228,17 +228,7 @@ static struct drm_driver mcde_drm_driver = {
+ 	.major = 1,
+ 	.minor = 0,
+ 	.patchlevel = 0,
+-	.dumb_create = drm_gem_cma_dumb_create,
 -	.gem_free_object_unlocked = drm_gem_cma_free_object,
 -	.gem_vm_ops = &drm_gem_cma_vm_ops,
--	.dumb_create = malidp_dumb_create,
+-
 -	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
 -	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
--	.gem_prime_get_sg_table = drm_gem_cma_prime_get_sg_table,
+-	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
 -	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
 -	.gem_prime_vmap = drm_gem_cma_prime_vmap,
 -	.gem_prime_vunmap = drm_gem_cma_prime_vunmap,
 -	.gem_prime_mmap = drm_gem_cma_prime_mmap,
-+	__DRM_GEM_CMA_DRIVER_OPS(malidp_dumb_create),
- #ifdef CONFIG_DEBUG_FS
- 	.debugfs_init = malidp_debugfs_init,
- #endif
++	DRM_GEM_CMA_DRIVER_OPS,
+ };
+ 
+ static int mcde_drm_bind(struct device *dev)
 -- 
 2.26.2
 
