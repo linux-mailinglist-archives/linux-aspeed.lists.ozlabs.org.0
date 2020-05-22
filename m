@@ -1,66 +1,66 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 915431E195D
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:34:18 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id E76A61E195E
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:34:22 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ1x3JfqzDqMm
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:34:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ234XdrzDqMx
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:34:19 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::641;
- helo=mail-pl1-x641.google.com; envelope-from=andy.shevchenko@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1044;
+ helo=mail-pj1-x1044.google.com; envelope-from=andy.shevchenko@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=qjnD8pyz; dkim-atps=neutral
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
+ header.s=20161025 header.b=Qr0aiPW8; dkim-atps=neutral
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
+ [IPv6:2607:f8b0:4864:20::1044])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49T0fJ38WFzDqwt
- for <linux-aspeed@lists.ozlabs.org>; Fri, 22 May 2020 18:54:10 +1000 (AEST)
-Received: by mail-pl1-x641.google.com with SMTP id w19so4127736ply.11
- for <linux-aspeed@lists.ozlabs.org>; Fri, 22 May 2020 01:54:10 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49T0jT1rSmzDqWj
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 22 May 2020 18:57:00 +1000 (AEST)
+Received: by mail-pj1-x1044.google.com with SMTP id t8so2598216pju.3
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 22 May 2020 01:57:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KrT1SoD15NLfQ8qq9A2L0z3L7OIW2vz0cfwoycZIaSk=;
- b=qjnD8pyzQ9vLSGK+9aXm4h6rt56i4s0ANzW6Vh27qbaJB1MZkwcLIaZitcpOn1XAoT
- O5wzjfLRVQ7eurTzJi/uB64raupxzP+oBMlxnXbiuP4QdlKuhKrnMtylQPMWFigxEvlm
- LIfHwh5uL2pKKcXGUNAkVxR4dxtZDEZIyZ/6H44opVpDR8rrrlBwOJzLs8iNe7g5J0TH
- gg5A5VFwSm+7CGU15o78QgWK5okcvbRKe+6UGIg2/kMi4vEmUS82SVeB3naQ8jmRcvrC
- iIMmvVtr33HdqpOuPv0o4OOS54U1vu4PL+jfQ/ftMRFRFoN9075NHtRNKC0mhg+jIsG4
- r7og==
+ :cc; bh=HqSbS1DmOxb6NnvLUkPt9gWJFICRLVchToB7BWy3wkM=;
+ b=Qr0aiPW8ez2hrgndNNW2aOj6iqlB62Q8Csen7rUnDQ4NRSQgabRdbt4Bar3FrgoeRU
+ YXe/TP39TtOUlyEh1cLBPdZCk/3YLTXEI8exjjKaqMuHdbLDb/LDti2axS0fZoZdjv6X
+ 0rk/fuJGk8gCNdmHKmpZH1mOAOuASHs+GvXFrs0vC465xuXuDc20FQ9MDZktvpkvvcM+
+ wP1+Dj3op/rsVKhvvxL00J+CujdvevgPnITzD52gyqucL8HCn+9kocVSp/x8eCG/ChO+
+ d53iF9MzUCWVAhIo2r3a8H2gA92P6tU2Yaymg7kj07BQto/HSxVIzbiWLzcUStYCPO+c
+ Rxyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KrT1SoD15NLfQ8qq9A2L0z3L7OIW2vz0cfwoycZIaSk=;
- b=e1CG3a4ZbI4/fGDoyTJaASUFIYvunxRf0u5cKg+8Ds2NdW229puAUZjVxUarRDqORx
- 1Zjhs1pY/npYy5n3iKDVQSCtdAZ4Wg/B3ph5T2qRVUFI5r08XpUupu/RM54VcSFHTEJB
- DyFw0rRQqgsJ1dtADZnFVJ5H30PiWn+wt9VA+Fr5Yyj5YSybgpl6oRxKuF8H9iAraDer
- 2HocUThWLaIQidevwSv+caIVmPjCQ/aFqwPSngKzBUtLGTWTBPnhJBvARZ2kYWcqti1k
- /mgROb3ZsNsv89R7KxPa/v3rKXgYFHt+ygyTT+My2kQCrizhE9OqBfc/jbE8T+Tv3CId
- 4wwg==
-X-Gm-Message-State: AOAM533JswloHHYyePJwBFfYH2U5MrbJzEeMeoXC0vx9upvRYva+L0Y0
- K5LitmjIaHgkCisodK0PkFOhhnpNB4qQSI/fEuM=
-X-Google-Smtp-Source: ABdhPJySNKcXXQ4O+svlbz8UMlrw8yXexA5v6PdsFEo3QaiPpyqed+BtGvQDsL+oQ2C+xIYCZ8vw55AsPQiGlSKaAfE=
-X-Received: by 2002:a17:90b:3651:: with SMTP id
- nh17mr3325673pjb.228.1590137647307; 
- Fri, 22 May 2020 01:54:07 -0700 (PDT)
+ bh=HqSbS1DmOxb6NnvLUkPt9gWJFICRLVchToB7BWy3wkM=;
+ b=Ku+SLwaITYtC8Bgc4ltM/TYZjHRuucTQsq2l3xv9kb5lb5h/TUqGzLKKtXbMxbcxJK
+ xK6LeiEeDtJHswcFQl9PcgjrD6nPrsdgr9WHq1puu4QrHpWYWuOXfLVo7HHNebli45bv
+ /Giek8rId/YzryL6tAQ8N/wz1oHz3QxZc5lNzGMnonJgVWbqqiaSdYp6/8g0DXztl9eD
+ C26PmKLUl84wdAq16bJNqZqeff3Rjh55BOaKZu1D+VsnFSkRetZClDhKcuPeMwhDOjIM
+ 1pXWMuOka+7jfwn4W4Vy/P+kmQj4mGhPQz9YHMnP62ISXG2suDVAP7urxz0c2dsluLyn
+ zOPg==
+X-Gm-Message-State: AOAM5314bzXFiFkTcDJm7j3djJHFFDTXQwP4ZP69rmlOUeGO9KSLyfRP
+ xgWYIipMKl5szP9VTxV5+V+7hD9WmAOXfKe4vQ0=
+X-Google-Smtp-Source: ABdhPJwsYnXnt44yegP0XDUJYXKvunyOh6UzNzQcRgehUIEvMayZ6aBV9NpqOVREx8Il9izBbtLfXR3AicsFux8O3e4=
+X-Received: by 2002:a17:902:ea8a:: with SMTP id
+ x10mr13795881plb.255.1590137817033; 
+ Fri, 22 May 2020 01:56:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200522082208.383631-1-alexandru.ardelean@analog.com>
- <20200522082208.383631-5-alexandru.ardelean@analog.com>
-In-Reply-To: <20200522082208.383631-5-alexandru.ardelean@analog.com>
+In-Reply-To: <20200522082208.383631-1-alexandru.ardelean@analog.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 22 May 2020 11:53:50 +0300
-Message-ID: <CAHp75VewoA-jcRDpvNdoRyS4Tdaw_QsBDJ5_ETc6crwuuefdyg@mail.gmail.com>
-Subject: Re: [PATCH 5/5] iio: remove left-over parent assignments
+Date: Fri, 22 May 2020 11:56:40 +0300
+Message-ID: <CAHp75VfqxJxa1Uk3h4vfzQOdZDRr8Lqvt3Z5vzpp5NAw=u_ZPQ@mail.gmail.com>
+Subject: Re: [PATCH 1/5] iio: core: pass parent device as parameter during
+ allocation
 To: Alexandru Ardelean <alexandru.ardelean@analog.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Tue, 26 May 2020 12:34:04 +1000
@@ -117,19 +117,195 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, May 22, 2020 at 11:37 AM Alexandru Ardelean
+On Fri, May 22, 2020 at 11:36 AM Alexandru Ardelean
 <alexandru.ardelean@analog.com> wrote:
 >
-> These were found by doing some shell magic:
-> ------------
-> for file in $(git grep -w devm_iio_device_alloc | cut -d: -f1 | sort | uniq) ; do
->         if grep 'parent =' $file | grep -v trig | grep -vq devm_; then
->                 echo "$file -> $(grep "parent =" $file)"
->         fi
-> done
-> -----------
+> The change passes the parent device to the iio_device_alloc() call. This
+> also updates the devm_iio_device_alloc() call to consider the device object
+> as the parent device by default.
+>
+> Having it passed like this, should ensure that any IIO device object
+> already has a device object as parent, allowing for neater control, like
+> passing the 'indio_dev' object for other stuff [like buffers/triggers/etc],
+> and potentially creating iiom_xxx(indio_dev) functions.
+>
+> With this patch, only the 'drivers/platform/x86/toshiba_acpi.c' needs an
+> update to pass the parent object as a parameter.
 
-Side note: time to learn coccinelle or shell better :-)
+Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+
+>
+> In the next patch all devm_iio_device_alloc() calls will be handled.
+>
+> Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
+> ---
+>  drivers/iio/dummy/iio_simple_dummy.c         | 14 ++++++++------
+>  drivers/iio/industrialio-core.c              | 11 ++++++-----
+>  drivers/platform/x86/toshiba_acpi.c          |  3 +--
+>  drivers/staging/iio/Documentation/device.txt |  4 +---
+>  include/linux/iio/iio.h                      |  4 ++--
+>  5 files changed, 18 insertions(+), 18 deletions(-)
+>
+> diff --git a/drivers/iio/dummy/iio_simple_dummy.c b/drivers/iio/dummy/iio_simple_dummy.c
+> index 6cb02299a215..b35ae7c039f7 100644
+> --- a/drivers/iio/dummy/iio_simple_dummy.c
+> +++ b/drivers/iio/dummy/iio_simple_dummy.c
+> @@ -566,6 +566,13 @@ static struct iio_sw_device *iio_dummy_probe(const char *name)
+>         struct iio_dev *indio_dev;
+>         struct iio_dummy_state *st;
+>         struct iio_sw_device *swd;
+> +       struct device *parent = NULL;
+> +
+> +       /*
+> +        * With hardware: Set the parent device.
+> +        * parent = &spi->dev;
+> +        * parent = &client->dev;
+> +        */
+>
+>         swd = kzalloc(sizeof(*swd), GFP_KERNEL);
+>         if (!swd) {
+> @@ -580,7 +587,7 @@ static struct iio_sw_device *iio_dummy_probe(const char *name)
+>          * It also has a region (accessed by iio_priv()
+>          * for chip specific state information.
+>          */
+> -       indio_dev = iio_device_alloc(sizeof(*st));
+> +       indio_dev = iio_device_alloc(parent, sizeof(*st));
+>         if (!indio_dev) {
+>                 ret = -ENOMEM;
+>                 goto error_ret;
+> @@ -590,11 +597,6 @@ static struct iio_sw_device *iio_dummy_probe(const char *name)
+>         mutex_init(&st->lock);
+>
+>         iio_dummy_init_device(indio_dev);
+> -       /*
+> -        * With hardware: Set the parent device.
+> -        * indio_dev->dev.parent = &spi->dev;
+> -        * indio_dev->dev.parent = &client->dev;
+> -        */
+>
+>          /*
+>          * Make the iio_dev struct available to remove function.
+> diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
+> index 1527f01a44f1..75661661aaba 100644
+> --- a/drivers/iio/industrialio-core.c
+> +++ b/drivers/iio/industrialio-core.c
+> @@ -1493,7 +1493,7 @@ struct device_type iio_device_type = {
+>   * iio_device_alloc() - allocate an iio_dev from a driver
+>   * @sizeof_priv:       Space to allocate for private structure.
+>   **/
+> -struct iio_dev *iio_device_alloc(int sizeof_priv)
+> +struct iio_dev *iio_device_alloc(struct device *parent, int sizeof_priv)
+>  {
+>         struct iio_dev *dev;
+>         size_t alloc_size;
+> @@ -1510,6 +1510,7 @@ struct iio_dev *iio_device_alloc(int sizeof_priv)
+>         if (!dev)
+>                 return NULL;
+>
+> +       dev->dev.parent = parent;
+>         dev->dev.groups = dev->groups;
+>         dev->dev.type = &iio_device_type;
+>         dev->dev.bus = &iio_bus_type;
+> @@ -1551,7 +1552,7 @@ static void devm_iio_device_release(struct device *dev, void *res)
+>
+>  /**
+>   * devm_iio_device_alloc - Resource-managed iio_device_alloc()
+> - * @dev:               Device to allocate iio_dev for
+> + * @parent:            Device to allocate iio_dev for, and parent for this IIO device
+>   * @sizeof_priv:       Space to allocate for private structure.
+>   *
+>   * Managed iio_device_alloc. iio_dev allocated with this function is
+> @@ -1560,7 +1561,7 @@ static void devm_iio_device_release(struct device *dev, void *res)
+>   * RETURNS:
+>   * Pointer to allocated iio_dev on success, NULL on failure.
+>   */
+> -struct iio_dev *devm_iio_device_alloc(struct device *dev, int sizeof_priv)
+> +struct iio_dev *devm_iio_device_alloc(struct device *parent, int sizeof_priv)
+>  {
+>         struct iio_dev **ptr, *iio_dev;
+>
+> @@ -1569,10 +1570,10 @@ struct iio_dev *devm_iio_device_alloc(struct device *dev, int sizeof_priv)
+>         if (!ptr)
+>                 return NULL;
+>
+> -       iio_dev = iio_device_alloc(sizeof_priv);
+> +       iio_dev = iio_device_alloc(parent, sizeof_priv);
+>         if (iio_dev) {
+>                 *ptr = iio_dev;
+> -               devres_add(dev, ptr);
+> +               devres_add(parent, ptr);
+>         } else {
+>                 devres_free(ptr);
+>         }
+> diff --git a/drivers/platform/x86/toshiba_acpi.c b/drivers/platform/x86/toshiba_acpi.c
+> index 808944546739..4a4d09c352dd 100644
+> --- a/drivers/platform/x86/toshiba_acpi.c
+> +++ b/drivers/platform/x86/toshiba_acpi.c
+> @@ -3128,7 +3128,7 @@ static int toshiba_acpi_add(struct acpi_device *acpi_dev)
+>
+>         toshiba_accelerometer_available(dev);
+>         if (dev->accelerometer_supported) {
+> -               dev->indio_dev = iio_device_alloc(sizeof(*dev));
+> +               dev->indio_dev = iio_device_alloc(&acpi_dev->dev, sizeof(*dev));
+>                 if (!dev->indio_dev) {
+>                         pr_err("Unable to allocate iio device\n");
+>                         goto iio_error;
+> @@ -3138,7 +3138,6 @@ static int toshiba_acpi_add(struct acpi_device *acpi_dev)
+>
+>                 dev->indio_dev->info = &toshiba_iio_accel_info;
+>                 dev->indio_dev->name = "Toshiba accelerometer";
+> -               dev->indio_dev->dev.parent = &acpi_dev->dev;
+>                 dev->indio_dev->modes = INDIO_DIRECT_MODE;
+>                 dev->indio_dev->channels = toshiba_iio_accel_channels;
+>                 dev->indio_dev->num_channels =
+> diff --git a/drivers/staging/iio/Documentation/device.txt b/drivers/staging/iio/Documentation/device.txt
+> index ec42544a46aa..0d1275b1eb3f 100644
+> --- a/drivers/staging/iio/Documentation/device.txt
+> +++ b/drivers/staging/iio/Documentation/device.txt
+> @@ -8,7 +8,7 @@ The crucial structure for device drivers in iio is iio_dev.
+>
+>  First allocate one using:
+>
+> -struct iio_dev *indio_dev = iio_device_alloc(sizeof(struct chip_state));
+> +struct iio_dev *indio_dev = iio_device_alloc(parent, sizeof(struct chip_state));
+>  where chip_state is a structure of local state data for this instance of
+>  the chip.
+>
+> @@ -16,8 +16,6 @@ That data can be accessed using iio_priv(struct iio_dev *).
+>
+>  Then fill in the following:
+>
+> -- indio_dev->dev.parent
+> -       Struct device associated with the underlying hardware.
+>  - indio_dev->name
+>         Name of the device being driven - made available as the name
+>         attribute in sysfs.
+> diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
+> index a1be82e74c93..91a69f4751aa 100644
+> --- a/include/linux/iio/iio.h
+> +++ b/include/linux/iio/iio.h
+> @@ -676,7 +676,7 @@ static inline void *iio_device_get_drvdata(struct iio_dev *indio_dev)
+>
+>  /* Can we make this smaller? */
+>  #define IIO_ALIGN L1_CACHE_BYTES
+> -struct iio_dev *iio_device_alloc(int sizeof_priv);
+> +struct iio_dev *iio_device_alloc(struct device *parent, int sizeof_priv);
+>
+>  static inline void *iio_priv(const struct iio_dev *indio_dev)
+>  {
+> @@ -690,7 +690,7 @@ static inline struct iio_dev *iio_priv_to_dev(void *priv)
+>  }
+>
+>  void iio_device_free(struct iio_dev *indio_dev);
+> -struct iio_dev *devm_iio_device_alloc(struct device *dev, int sizeof_priv);
+> +struct iio_dev *devm_iio_device_alloc(struct device *parent, int sizeof_priv);
+>  struct iio_trigger *devm_iio_trigger_alloc(struct device *dev,
+>                                                 const char *fmt, ...);
+>  /**
+> --
+> 2.25.1
+>
+
 
 -- 
 With Best Regards,
