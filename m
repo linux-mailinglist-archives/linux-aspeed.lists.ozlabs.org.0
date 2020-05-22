@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D09011E197A
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:36:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195CE1E1975
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:36:13 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ4f0rNTzDqLq
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:36:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ4B31RKzDqMp
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:36:10 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -18,11 +18,11 @@ Authentication-Results: lists.ozlabs.org;
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49T7H866yhzDqNp
- for <linux-aspeed@lists.ozlabs.org>; Fri, 22 May 2020 23:53:08 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49T7H55vsVzDqT7
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 22 May 2020 23:53:05 +1000 (AEST)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 5B26BB052;
+ by mx2.suse.de (Postfix) with ESMTP id 96A81B05C;
  Fri, 22 May 2020 13:52:57 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
@@ -41,9 +41,9 @@ To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
  philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
  wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org
-Subject: [PATCH 09/21] drm/ingenic: Use GEM CMA object functions
-Date: Fri, 22 May 2020 15:52:34 +0200
-Message-Id: <20200522135246.10134-10-tzimmermann@suse.de>
+Subject: [PATCH 10/21] drm/komeda: Use GEM CMA object functions
+Date: Fri, 22 May 2020 15:52:35 +0200
+Message-Id: <20200522135246.10134-11-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200522135246.10134-1-tzimmermann@suse.de>
 References: <20200522135246.10134-1-tzimmermann@suse.de>
@@ -68,39 +68,38 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The ingenic driver uses the default implementation for CMA functions. The
-DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct drm_driver.
-All remaining operations are provided by CMA GEM object functions.
+The komeda driver uses the default implementation for CMA functions; except
+for the .dumb_create callback. The __DRM_GEM_CMA_DRIVER_OPS macro now sets
+these defaults and .dumb_create in struct drm_driver. All remaining
+operations are provided by CMA GEM object functions.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+ drivers/gpu/drm/arm/display/komeda/komeda_kms.c | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c b/drivers/gpu/drm/ingenic/ingenic-drm.c
-index eff57a1f70fb0..1c1cee367b752 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
-@@ -519,18 +519,7 @@ static struct drm_driver ingenic_drm_driver_data = {
- 	.patchlevel		= 0,
- 
- 	.fops			= &ingenic_drm_fops,
--
--	.dumb_create		= drm_gem_cma_dumb_create,
--	.gem_free_object_unlocked = drm_gem_cma_free_object,
--	.gem_vm_ops		= &drm_gem_cma_vm_ops,
--
--	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
--	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
--	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
--	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
--	.gem_prime_vmap		= drm_gem_cma_prime_vmap,
--	.gem_prime_vunmap	= drm_gem_cma_prime_vunmap,
--	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
-+	DRM_GEM_CMA_DRIVER_OPS,
- 
- 	.irq_handler		= ingenic_drm_irq_handler,
- };
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+index 6b85d5f4caa85..bdfbcbc416260 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+@@ -61,16 +61,7 @@ static irqreturn_t komeda_kms_irq_handler(int irq, void *data)
+ static struct drm_driver komeda_kms_driver = {
+ 	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+ 	.lastclose			= drm_fb_helper_lastclose,
+-	.gem_free_object_unlocked	= drm_gem_cma_free_object,
+-	.gem_vm_ops			= &drm_gem_cma_vm_ops,
+-	.dumb_create			= komeda_gem_cma_dumb_create,
+-	.prime_handle_to_fd		= drm_gem_prime_handle_to_fd,
+-	.prime_fd_to_handle		= drm_gem_prime_fd_to_handle,
+-	.gem_prime_get_sg_table		= drm_gem_cma_prime_get_sg_table,
+-	.gem_prime_import_sg_table	= drm_gem_cma_prime_import_sg_table,
+-	.gem_prime_vmap			= drm_gem_cma_prime_vmap,
+-	.gem_prime_vunmap		= drm_gem_cma_prime_vunmap,
+-	.gem_prime_mmap			= drm_gem_cma_prime_mmap,
++	__DRM_GEM_CMA_DRIVER_OPS(komeda_gem_cma_dumb_create),
+ 	.fops = &komeda_cma_fops,
+ 	.name = "komeda",
+ 	.desc = "Arm Komeda Display Processor driver",
 -- 
 2.26.2
 
