@@ -2,52 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 738601E1986
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:37:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 554BB1E1987
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:37:32 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ5c1B68zDqH6
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:37:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ5j5LhQzDqCF
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:37:29 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=ideasonboard.com (client-ip=2001:4b98:dc2:55:216:3eff:fef7:d647;
- helo=perceval.ideasonboard.com;
- envelope-from=laurent.pinchart@ideasonboard.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=ideasonboard.com
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=jic23@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com
- header.a=rsa-sha256 header.s=mail header.b=Pl4y4wPC; 
- dkim-atps=neutral
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=default header.b=rgbuCrqG; dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49TNZ64QX5zDqZC
- for <linux-aspeed@lists.ozlabs.org>; Sat, 23 May 2020 09:51:57 +1000 (AEST)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
- [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 19C22528;
- Fri, 22 May 2020 22:12:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1590178372;
- bh=I+wZgpNyVcUimjh6VCYSsmatF8H/txRwMkFNilu6/xA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Pl4y4wPCvM0wzr32mkeGQecK3ivGpVncrOxu/JWvZmuDCIASvWImob/z3zdIzztyx
- JC1zgtxonkYg+SsFbRTCdhSQtAsGnQ7dI1ArO30S8hubFKQ5Eh7817Sk5o/0fs09Ww
- ubZXGe+/77HZFnUilfU4RYpFw6ASBDHe3hVm91ZQ=
-Date: Fri, 22 May 2020 23:12:40 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 15/21] drm/rcar-du: Use GEM CMA object functions
-Message-ID: <20200522201240.GE5824@pendragon.ideasonboard.com>
-References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-16-tzimmermann@suse.de>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49VMcL1mLdzDqLS
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 25 May 2020 00:12:18 +1000 (AEST)
+Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net
+ [82.4.196.95])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4090D2067B;
+ Sun, 24 May 2020 14:12:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1590329535;
+ bh=4bEX8F0hNUBvZ35cA3/G5BEW3VGr7Yz1Teo2Ucalyv0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=rgbuCrqGGmJaDCUSOzsgTF3bKkJgTrZxeUlKD1pGm8uiSm4O1JMOzMqUXshHRsS35
+ FP+5zeQH8AqALcwkK6EhZqEvTTQDFWb1/YyGkZhkoQe7DbZDtYpsCoX97HMdjN8AtW
+ s0/YUfPG1VnRmaXQ4HZijotysCDpl+sRx+1enCU8=
+Date: Sun, 24 May 2020 15:12:03 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH 1/5] iio: core: pass parent device as parameter during
+ allocation
+Message-ID: <20200524151203.4b13712d@archlinux>
+In-Reply-To: <CAHp75VfqxJxa1Uk3h4vfzQOdZDRr8Lqvt3Z5vzpp5NAw=u_ZPQ@mail.gmail.com>
+References: <20200522082208.383631-1-alexandru.ardelean@analog.com>
+ <CAHp75VfqxJxa1Uk3h4vfzQOdZDRr8Lqvt3Z5vzpp5NAw=u_ZPQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200522135246.10134-16-tzimmermann@suse.de>
-X-Mailman-Approved-At: Tue, 26 May 2020 12:34:04 +1000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Tue, 26 May 2020 12:34:07 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,94 +60,250 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
- narmstrong@baylibre.com, airlied@linux.ie, linus.walleij@linaro.org,
- liviu.dudau@arm.com, stefan@agner.ch, philippe.cornu@st.com,
- paul@crapouillou.net, benjamin.gaignard@linaro.org, mihail.atanassov@arm.com,
- sam@ravnborg.org, alexandre.torgue@st.com, marex@denx.de, festevam@gmail.com,
- abrodkin@synopsys.com, ludovic.desroches@microchip.com,
- xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com, tomi.valkeinen@ti.com,
- james.qian.wang@arm.com, linux-imx@nxp.com, p.zabel@pengutronix.de,
- puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, john.stultz@linaro.org,
- jsarha@ti.com, wens@csie.org, vincent.abriou@st.com, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com,
- noralf@tronnes.org, bbrezillon@kernel.org, dri-devel@lists.freedesktop.org,
- nicolas.ferre@microchip.com, yannick.fertre@st.com,
- kieran.bingham+renesas@ideasonboard.com, daniel@ffwll.ch, khilman@baylibre.com,
- zourongrong@gmail.com, shawnguo@kernel.org, brian.starkey@arm.com
+Cc: milo.kim@ti.com, tomislav.denis@avl.com,
+ Dan Robertson <dan@dlrobertson.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ linux-aspeed@lists.ozlabs.org, linux-iio <linux-iio@vger.kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Platform Driver <platform-driver-x86@vger.kernel.org>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
+ Song Qiang <songqiang1304521@gmail.com>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ linux-stm32@st-md-mailman.stormreply.com, "open list:STAGING
+ SUBSYSTEM" <devel@driverdev.osuosl.org>, linux-samsung-soc@vger.kernel.org,
+ Kevin Hilman <khilman@baylibre.com>, tduszyns@gmail.com,
+ Krzysztof Kozlowski <krzk@kernel.org>, linux-rockchip@lists.infradead.org,
+ Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
+ bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+ agross@kernel.org, linux-input <linux-input@vger.kernel.org>,
+ orsonzhai@gmail.com, Alexandru Ardelean <alexandru.ardelean@analog.com>,
+ Alexandre TORGUE <alexandre.torgue@st.com>,
+ Linux PM <linux-pm@vger.kernel.org>, linux-arm-msm@vger.kernel.org,
+ Sascha Hauer <s.hauer@pengutronix.de>, Jiri Kosina <jikos@kernel.org>,
+ William Breathitt Gray <vilhelm.gray@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Andreas Klinger <ak@it-klinger.de>, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-amlogic@lists.infradead.org, Fabrice GASNIER <fabrice.gasnier@st.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Scott Branden <sbranden@broadcom.com>, rmfrfs@gmail.com,
+ Shawn Guo <shawnguo@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Azael Avalos <coproscefalo@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Ray Jui <rjui@broadcom.com>, Sylvain Lemieux <slemieux.tyco@gmail.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, zhang.lyra@gmail.com,
+ baolin.wang7@gmail.com, Kevin Tsai <ktsai@capellamicro.com>,
+ Syed Nayyar Waris <syednwaris@gmail.com>, Peter Rosin <peda@axentia.se>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Thomas,
+On Fri, 22 May 2020 11:56:40 +0300
+Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
 
-Thank you for the patch.
-
-On Fri, May 22, 2020 at 03:52:40PM +0200, Thomas Zimmermann wrote:
-> The rcar-du driver uses the default implementation for CMA functions;
-> except for the .dumb_create callback. The __DRM_GEM_CMA_DRIVER_OPS macro
-> now sets these defaults and .dumb_create in struct drm_driver. All
-> remaining operations are provided by CMA GEM object functions.
+> On Fri, May 22, 2020 at 11:36 AM Alexandru Ardelean
+> <alexandru.ardelean@analog.com> wrote:
+> >
+> > The change passes the parent device to the iio_device_alloc() call. This
+> > also updates the devm_iio_device_alloc() call to consider the device object
+> > as the parent device by default.
+> >
+> > Having it passed like this, should ensure that any IIO device object
+> > already has a device object as parent, allowing for neater control, like
+> > passing the 'indio_dev' object for other stuff [like buffers/triggers/etc],
+> > and potentially creating iiom_xxx(indio_dev) functions.
+> >
+> > With this patch, only the 'drivers/platform/x86/toshiba_acpi.c' needs an
+> > update to pass the parent object as a parameter.  
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 11 +----------
->  1 file changed, 1 insertion(+), 10 deletions(-)
+> Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+
+Whole series looks good to me.   I dare say a few drivers will cross with
+this but I'll keep my eyes open and it's not too much a a problem if
+we have a few cases left to clean up later.
+
+Nice work.  I'll let this sit for a weekish though as it obviously touches
+a lot of drivers so people 'might' want to comment.
+
+Thanks,
+
+Jonathan
+
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index 3e67cf70f0402..3728038cec1d1 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -476,16 +476,7 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
->  
->  static struct drm_driver rcar_du_driver = {
->  	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-> -	.gem_free_object_unlocked = drm_gem_cma_free_object,
-> -	.gem_vm_ops		= &drm_gem_cma_vm_ops,
-> -	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
-> -	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
-> -	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
-> -	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
-> -	.gem_prime_vmap		= drm_gem_cma_prime_vmap,
-> -	.gem_prime_vunmap	= drm_gem_cma_prime_vunmap,
-> -	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
-> -	.dumb_create		= rcar_du_dumb_create,
-> +	__DRM_GEM_CMA_DRIVER_OPS(rcar_du_dumb_create),
+> >
+> > In the next patch all devm_iio_device_alloc() calls will be handled.
+> >
+> > Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
+> > ---
+> >  drivers/iio/dummy/iio_simple_dummy.c         | 14 ++++++++------
+> >  drivers/iio/industrialio-core.c              | 11 ++++++-----
+> >  drivers/platform/x86/toshiba_acpi.c          |  3 +--
+> >  drivers/staging/iio/Documentation/device.txt |  4 +---
+> >  include/linux/iio/iio.h                      |  4 ++--
+> >  5 files changed, 18 insertions(+), 18 deletions(-)
+> >
+> > diff --git a/drivers/iio/dummy/iio_simple_dummy.c b/drivers/iio/dummy/iio_simple_dummy.c
+> > index 6cb02299a215..b35ae7c039f7 100644
+> > --- a/drivers/iio/dummy/iio_simple_dummy.c
+> > +++ b/drivers/iio/dummy/iio_simple_dummy.c
+> > @@ -566,6 +566,13 @@ static struct iio_sw_device *iio_dummy_probe(const char *name)
+> >         struct iio_dev *indio_dev;
+> >         struct iio_dummy_state *st;
+> >         struct iio_sw_device *swd;
+> > +       struct device *parent = NULL;
+> > +
+> > +       /*
+> > +        * With hardware: Set the parent device.
+> > +        * parent = &spi->dev;
+> > +        * parent = &client->dev;
+> > +        */
+> >
+> >         swd = kzalloc(sizeof(*swd), GFP_KERNEL);
+> >         if (!swd) {
+> > @@ -580,7 +587,7 @@ static struct iio_sw_device *iio_dummy_probe(const char *name)
+> >          * It also has a region (accessed by iio_priv()
+> >          * for chip specific state information.
+> >          */
+> > -       indio_dev = iio_device_alloc(sizeof(*st));
+> > +       indio_dev = iio_device_alloc(parent, sizeof(*st));
+> >         if (!indio_dev) {
+> >                 ret = -ENOMEM;
+> >                 goto error_ret;
+> > @@ -590,11 +597,6 @@ static struct iio_sw_device *iio_dummy_probe(const char *name)
+> >         mutex_init(&st->lock);
+> >
+> >         iio_dummy_init_device(indio_dev);
+> > -       /*
+> > -        * With hardware: Set the parent device.
+> > -        * indio_dev->dev.parent = &spi->dev;
+> > -        * indio_dev->dev.parent = &client->dev;
+> > -        */
+> >
+> >          /*
+> >          * Make the iio_dev struct available to remove function.
+> > diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
+> > index 1527f01a44f1..75661661aaba 100644
+> > --- a/drivers/iio/industrialio-core.c
+> > +++ b/drivers/iio/industrialio-core.c
+> > @@ -1493,7 +1493,7 @@ struct device_type iio_device_type = {
+> >   * iio_device_alloc() - allocate an iio_dev from a driver
+> >   * @sizeof_priv:       Space to allocate for private structure.
+> >   **/
+> > -struct iio_dev *iio_device_alloc(int sizeof_priv)
+> > +struct iio_dev *iio_device_alloc(struct device *parent, int sizeof_priv)
+> >  {
+> >         struct iio_dev *dev;
+> >         size_t alloc_size;
+> > @@ -1510,6 +1510,7 @@ struct iio_dev *iio_device_alloc(int sizeof_priv)
+> >         if (!dev)
+> >                 return NULL;
+> >
+> > +       dev->dev.parent = parent;
+> >         dev->dev.groups = dev->groups;
+> >         dev->dev.type = &iio_device_type;
+> >         dev->dev.bus = &iio_bus_type;
+> > @@ -1551,7 +1552,7 @@ static void devm_iio_device_release(struct device *dev, void *res)
+> >
+> >  /**
+> >   * devm_iio_device_alloc - Resource-managed iio_device_alloc()
+> > - * @dev:               Device to allocate iio_dev for
+> > + * @parent:            Device to allocate iio_dev for, and parent for this IIO device
+> >   * @sizeof_priv:       Space to allocate for private structure.
+> >   *
+> >   * Managed iio_device_alloc. iio_dev allocated with this function is
+> > @@ -1560,7 +1561,7 @@ static void devm_iio_device_release(struct device *dev, void *res)
+> >   * RETURNS:
+> >   * Pointer to allocated iio_dev on success, NULL on failure.
+> >   */
+> > -struct iio_dev *devm_iio_device_alloc(struct device *dev, int sizeof_priv)
+> > +struct iio_dev *devm_iio_device_alloc(struct device *parent, int sizeof_priv)
+> >  {
+> >         struct iio_dev **ptr, *iio_dev;
+> >
+> > @@ -1569,10 +1570,10 @@ struct iio_dev *devm_iio_device_alloc(struct device *dev, int sizeof_priv)
+> >         if (!ptr)
+> >                 return NULL;
+> >
+> > -       iio_dev = iio_device_alloc(sizeof_priv);
+> > +       iio_dev = iio_device_alloc(parent, sizeof_priv);
+> >         if (iio_dev) {
+> >                 *ptr = iio_dev;
+> > -               devres_add(dev, ptr);
+> > +               devres_add(parent, ptr);
+> >         } else {
+> >                 devres_free(ptr);
+> >         }
+> > diff --git a/drivers/platform/x86/toshiba_acpi.c b/drivers/platform/x86/toshiba_acpi.c
+> > index 808944546739..4a4d09c352dd 100644
+> > --- a/drivers/platform/x86/toshiba_acpi.c
+> > +++ b/drivers/platform/x86/toshiba_acpi.c
+> > @@ -3128,7 +3128,7 @@ static int toshiba_acpi_add(struct acpi_device *acpi_dev)
+> >
+> >         toshiba_accelerometer_available(dev);
+> >         if (dev->accelerometer_supported) {
+> > -               dev->indio_dev = iio_device_alloc(sizeof(*dev));
+> > +               dev->indio_dev = iio_device_alloc(&acpi_dev->dev, sizeof(*dev));
+> >                 if (!dev->indio_dev) {
+> >                         pr_err("Unable to allocate iio device\n");
+> >                         goto iio_error;
+> > @@ -3138,7 +3138,6 @@ static int toshiba_acpi_add(struct acpi_device *acpi_dev)
+> >
+> >                 dev->indio_dev->info = &toshiba_iio_accel_info;
+> >                 dev->indio_dev->name = "Toshiba accelerometer";
+> > -               dev->indio_dev->dev.parent = &acpi_dev->dev;
+> >                 dev->indio_dev->modes = INDIO_DIRECT_MODE;
+> >                 dev->indio_dev->channels = toshiba_iio_accel_channels;
+> >                 dev->indio_dev->num_channels =
+> > diff --git a/drivers/staging/iio/Documentation/device.txt b/drivers/staging/iio/Documentation/device.txt
+> > index ec42544a46aa..0d1275b1eb3f 100644
+> > --- a/drivers/staging/iio/Documentation/device.txt
+> > +++ b/drivers/staging/iio/Documentation/device.txt
+> > @@ -8,7 +8,7 @@ The crucial structure for device drivers in iio is iio_dev.
+> >
+> >  First allocate one using:
+> >
+> > -struct iio_dev *indio_dev = iio_device_alloc(sizeof(struct chip_state));
+> > +struct iio_dev *indio_dev = iio_device_alloc(parent, sizeof(struct chip_state));
+> >  where chip_state is a structure of local state data for this instance of
+> >  the chip.
+> >
+> > @@ -16,8 +16,6 @@ That data can be accessed using iio_priv(struct iio_dev *).
+> >
+> >  Then fill in the following:
+> >
+> > -- indio_dev->dev.parent
+> > -       Struct device associated with the underlying hardware.
+> >  - indio_dev->name
+> >         Name of the device being driven - made available as the name
+> >         attribute in sysfs.
+> > diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
+> > index a1be82e74c93..91a69f4751aa 100644
+> > --- a/include/linux/iio/iio.h
+> > +++ b/include/linux/iio/iio.h
+> > @@ -676,7 +676,7 @@ static inline void *iio_device_get_drvdata(struct iio_dev *indio_dev)
+> >
+> >  /* Can we make this smaller? */
+> >  #define IIO_ALIGN L1_CACHE_BYTES
+> > -struct iio_dev *iio_device_alloc(int sizeof_priv);
+> > +struct iio_dev *iio_device_alloc(struct device *parent, int sizeof_priv);
+> >
+> >  static inline void *iio_priv(const struct iio_dev *indio_dev)
+> >  {
+> > @@ -690,7 +690,7 @@ static inline struct iio_dev *iio_priv_to_dev(void *priv)
+> >  }
+> >
+> >  void iio_device_free(struct iio_dev *indio_dev);
+> > -struct iio_dev *devm_iio_device_alloc(struct device *dev, int sizeof_priv);
+> > +struct iio_dev *devm_iio_device_alloc(struct device *parent, int sizeof_priv);
+> >  struct iio_trigger *devm_iio_trigger_alloc(struct device *dev,
+> >                                                 const char *fmt, ...);
+> >  /**
+> > --
+> > 2.25.1
+> >  
+> 
+> 
 
-Your __DRM_GEM_CMA_DRIVER_OPS is defined as
-
-#define __DRM_GEM_CMA_DRIVER_OPS(__dumb_create) \
-        .gem_create_object      = drm_cma_gem_create_object_default_funcs, \
-        .dumb_create            = (__dumb_create), \
-        .prime_handle_to_fd     = drm_gem_prime_handle_to_fd, \
-        .prime_fd_to_handle     = drm_gem_prime_fd_to_handle, \
-        .gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table_vmap, \
-        .gem_prime_mmap         = drm_gem_prime_mmap
-
-The patch thus introduces several changes:
-
-- drm_gem_cma_prime_import_sg_table_vmap() is used instead of
-  drm_gem_cma_prime_import_sg_table() combined with .gem_prime_vmap()
-  and .gem_prime_vunmap(). I believe that's fine, but splitting that
-  change in a separate commit, or at the very least explaining it in
-  details in the commit message, would make review easier.
-
-- .gem_create_object() is now set. That seems to be OK, but I'm not sure
-  to grasp all the implications. This should also be explained in the
-  commit message, and ideally split to a separate patch.
-
-- drm_gem_cma_prime_mmap() is replaced with drm_gem_prime_mmap(). Same
-  comments :-)
-
-This patch hides way too many changes in what is documented as just
-innocent refactoring. It seems other drivers are affected too.
-
->  	.fops			= &rcar_du_fops,
->  	.name			= "rcar-du",
->  	.desc			= "Renesas R-Car Display Unit",
-
--- 
-Regards,
-
-Laurent Pinchart
