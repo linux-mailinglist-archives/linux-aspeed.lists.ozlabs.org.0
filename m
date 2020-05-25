@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF771E198D
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:38:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2E21E198E
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:38:07 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ6G31WfzDqHw
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:37:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ6N58VwzDqBW
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:38:04 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -18,17 +18,17 @@ Authentication-Results: lists.ozlabs.org;
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49Vwsh5hJgzDq62
- for <linux-aspeed@lists.ozlabs.org>; Mon, 25 May 2020 22:10:48 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49VxSm6w9szDq5n
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 25 May 2020 22:37:44 +1000 (AEST)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id E258DB039;
- Mon, 25 May 2020 12:10:46 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id DB97BAD17;
+ Mon, 25 May 2020 12:37:42 +0000 (UTC)
 Subject: Re: [PATCH 05/21] drm/atmel-hlcdc: Use GEM CMA object functions
 To: Sam Ravnborg <sam@ravnborg.org>
 References: <20200522135246.10134-1-tzimmermann@suse.de>
  <20200522135246.10134-6-tzimmermann@suse.de>
- <20200522180824.GB1087580@ravnborg.org>
+ <20200522192546.GA1516695@ravnborg.org>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -55,15 +55,15 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <8a1de3a8-05d2-9abc-57e9-e29928b777d3@suse.de>
-Date: Mon, 25 May 2020 14:10:39 +0200
+Message-ID: <2c220ab0-e96b-2f5a-0d7f-8e770a13ef56@suse.de>
+Date: Mon, 25 May 2020 14:37:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200522180824.GB1087580@ravnborg.org>
+In-Reply-To: <20200522192546.GA1516695@ravnborg.org>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="U38GpDWG8bqu4o38LChG0KZAd8Ymn4NmD"
+ boundary="VjBal5iuObJoSYxMzBgz8Y0G7T7qTunJk"
 X-Mailman-Approved-At: Tue, 26 May 2020 12:34:06 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -77,59 +77,65 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
- narmstrong@baylibre.com, airlied@linux.ie, liviu.dudau@arm.com,
- dri-devel@lists.freedesktop.org, nicolas.ferre@microchip.com,
+ narmstrong@baylibre.com, airlied@linux.ie, linus.walleij@linaro.org,
+ liviu.dudau@arm.com, stefan@agner.ch, philippe.cornu@st.com,
  paul@crapouillou.net, laurent.pinchart@ideasonboard.com,
- mihail.atanassov@arm.com, marex@denx.de, khilman@baylibre.com,
- abrodkin@synopsys.com, kong.kongxinwei@hisilicon.com, xinliang.liu@linaro.org,
- ludovic.desroches@microchip.com, tomi.valkeinen@ti.com,
- james.qian.wang@arm.com, linux-imx@nxp.com, alexandre.torgue@st.com,
+ benjamin.gaignard@linaro.org, mihail.atanassov@arm.com, festevam@gmail.com,
+ alexandre.torgue@st.com, marex@denx.de, khilman@baylibre.com,
+ abrodkin@synopsys.com, ludovic.desroches@microchip.com,
+ xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com, tomi.valkeinen@ti.com,
+ james.qian.wang@arm.com, linux-imx@nxp.com, p.zabel@pengutronix.de,
  puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
- jsarha@ti.com, wens@csie.org, vincent.abriou@st.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, john.stultz@linaro.org,
+ jsarha@ti.com, wens@csie.org, vincent.abriou@st.com, kernel@pengutronix.de,
  linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com,
- bbrezillon@kernel.org, philippe.cornu@st.com, yannick.fertre@st.com,
- kieran.bingham+renesas@ideasonboard.com, kernel@pengutronix.de,
- zourongrong@gmail.com, shawnguo@kernel.org
+ noralf@tronnes.org, bbrezillon@kernel.org, dri-devel@lists.freedesktop.org,
+ nicolas.ferre@microchip.com, yannick.fertre@st.com,
+ kieran.bingham+renesas@ideasonboard.com, daniel@ffwll.ch,
+ zourongrong@gmail.com, shawnguo@kernel.org, brian.starkey@arm.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---U38GpDWG8bqu4o38LChG0KZAd8Ymn4NmD
-Content-Type: multipart/mixed; boundary="iw0wNETVyIEdJKlpwKb8224o7ZPVboqAx";
+--VjBal5iuObJoSYxMzBgz8Y0G7T7qTunJk
+Content-Type: multipart/mixed; boundary="XRnLKugHzCTbIFGd4ORGUEKTw5g4TfP04";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Sam Ravnborg <sam@ravnborg.org>
-Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
- narmstrong@baylibre.com, airlied@linux.ie, liviu.dudau@arm.com,
- philippe.cornu@st.com, paul@crapouillou.net,
- laurent.pinchart@ideasonboard.com, mihail.atanassov@arm.com,
- alexandre.torgue@st.com, marex@denx.de, khilman@baylibre.com,
- abrodkin@synopsys.com, ludovic.desroches@microchip.com,
- xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com,
- tomi.valkeinen@ti.com, james.qian.wang@arm.com, joel@jms.id.au,
- linux-imx@nxp.com, puck.chen@hisilicon.com, s.hauer@pengutronix.de,
- alison.wang@nxp.com, jsarha@ti.com, wens@csie.org, vincent.abriou@st.com,
- kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
- mcoquelin.stm32@gmail.com, bbrezillon@kernel.org, andrew@aj.id.au,
- dri-devel@lists.freedesktop.org, nicolas.ferre@microchip.com,
- yannick.fertre@st.com, kieran.bingham+renesas@ideasonboard.com,
- zourongrong@gmail.com, shawnguo@kernel.org
-Message-ID: <8a1de3a8-05d2-9abc-57e9-e29928b777d3@suse.de>
+Cc: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
+ james.qian.wang@arm.com, liviu.dudau@arm.com, mihail.atanassov@arm.com,
+ brian.starkey@arm.com, joel@jms.id.au, andrew@aj.id.au,
+ bbrezillon@kernel.org, nicolas.ferre@microchip.com,
+ alexandre.belloni@bootlin.com, ludovic.desroches@microchip.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, stefan@agner.ch,
+ alison.wang@nxp.com, xinliang.liu@linaro.org, zourongrong@gmail.com,
+ john.stultz@linaro.org, kong.kongxinwei@hisilicon.com,
+ puck.chen@hisilicon.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com, paul@crapouillou.net, linus.walleij@linaro.org,
+ narmstrong@baylibre.com, khilman@baylibre.com, marex@denx.de,
+ laurent.pinchart@ideasonboard.com, kieran.bingham+renesas@ideasonboard.com,
+ benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
+ philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
+ wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org,
+ dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
+Message-ID: <2c220ab0-e96b-2f5a-0d7f-8e770a13ef56@suse.de>
 Subject: Re: [PATCH 05/21] drm/atmel-hlcdc: Use GEM CMA object functions
 References: <20200522135246.10134-1-tzimmermann@suse.de>
  <20200522135246.10134-6-tzimmermann@suse.de>
- <20200522180824.GB1087580@ravnborg.org>
-In-Reply-To: <20200522180824.GB1087580@ravnborg.org>
+ <20200522192546.GA1516695@ravnborg.org>
+In-Reply-To: <20200522192546.GA1516695@ravnborg.org>
 
---iw0wNETVyIEdJKlpwKb8224o7ZPVboqAx
+--XRnLKugHzCTbIFGd4ORGUEKTw5g4TfP04
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 22.05.20 um 20:08 schrieb Sam Ravnborg:
+Am 22.05.20 um 21:25 schrieb Sam Ravnborg:
 > Hi Thomas.
 >=20
 > On Fri, May 22, 2020 at 03:52:30PM +0200, Thomas Zimmermann wrote:
@@ -138,36 +144,6 @@ ns. The
 >> DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct drm_dri=
 ver.
 >> All remaining operations are provided by CMA GEM object functions.
->=20
-> A nice side-effect of introducing the defualt implementation
-> of CMA functions is that this driver is now migrated over to use
-> drm_gem_object_funcs, which is why we can replace all these
-> helpers with a simple macro that defined only 6 helpers.
->=20
-> With an improved changelog:
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
->=20
-> And as I said in the other mail, this is really nice.
-> It is now much more obvious that this drivers uses
-> all the default helpers for CMA.
->=20
-> And I can drop one item from my TODO list on top of that.
-
-There's still more to do. The current macro still sets
-=2Egem_object_create to a CMA default. But that pointer is the interface
-where drivers can override some of the CMA object defaults, so it should
-not be set by CMA helpers.
-
-After the other CMA drivers have been converted to GEM object functions,
-this setting can be kept to zero and __drm_gem_cma_create() can set the
-default object functions. SHMEM and VRAM helpers already work this way.
-
-Best regards
-Thomas
-
->=20
-> 	Sam
->=20
 >>
 >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 >> ---
@@ -192,7 +168,31 @@ u/drm/atmel-hlcdc/atmel_hlcdc_dc.c
 >> -	.gem_prime_import_sg_table =3D drm_gem_cma_prime_import_sg_table,
 >> -	.gem_prime_vmap =3D drm_gem_cma_prime_vmap,
 >> -	.gem_prime_vunmap =3D drm_gem_cma_prime_vunmap,
+>=20
 >> -	.gem_prime_mmap =3D drm_gem_cma_prime_mmap,
+> When using DRM_GEM_CMA_DRIVER_OPS gem_prime_mmap is set to
+> drm_gem_prime_mmap.
+> Why is this the same as drm_gem_cma_prime_mmap?
+>=20
+> Maybe this is all obvious when you know all the CMA stuff,
+> but this puzzeled me.
+
+Following through the calls is far from easy.
+
+I took the macro from the aspeed driver. I had some doubts about the
+mmap code, but expected the driver to be working correctly. Maybe we
+should set that field to drm_gem_cma_prime_mmap or implement the mmap
+object function.
+
+Best regards
+Thomas
+
+
+
+>=20
+> 	Sam
+>=20
+>=20
 >> -	.dumb_create =3D drm_gem_cma_dumb_create,
 >> +	DRM_GEM_CMA_DRIVER_OPS,
 >>  	.fops =3D &fops,
@@ -200,11 +200,6 @@ u/drm/atmel-hlcdc/atmel_hlcdc_dc.c
 >>  	.desc =3D "Atmel HLCD Controller DRM",
 >> --=20
 >> 2.26.2
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
 
 --=20
 Thomas Zimmermann
@@ -215,23 +210,23 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---iw0wNETVyIEdJKlpwKb8224o7ZPVboqAx--
+--XRnLKugHzCTbIFGd4ORGUEKTw5g4TfP04--
 
---U38GpDWG8bqu4o38LChG0KZAd8Ymn4NmD
+--VjBal5iuObJoSYxMzBgz8Y0G7T7qTunJk
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7Ltb8ACgkQaA3BHVML
-eiPDQQf+LLWilJwCpadkL31CKP+yGXfzoxgqIEyM2LBJZ+bRCVyhvyY05jJNfyHR
-AFJvBw5uc6c0nHd2Tjll5lwBfDlC8nYfXT5UuQB5LqN7/bz0m04rbkCsmy2RJe6b
-3pnrWkyP8ubuMDv7SPY8p6gvVk4w3D7b6zBkznsrtxkvLevXVoHUmLce/6w+fvQ5
-ubkKQQZ+T5dKwkcQzFNv08obQesd1nyND+Q5BWRp8/r6fGnnfIAKonI9rLe0gL18
-n+RGtq5zm6SZcQnzkxOT08L1ct5dP6p2zxX1K1rZ31TBNRBbFEuFWYGfWACMB5MX
-/rGGppCA11bS0KyMk5OZe51d08++Ng==
-=bdN1
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7LvA0ACgkQaA3BHVML
+eiMnAwf+LTwppQdiTg588g9FUkJ7vVkZR6KH1V1hkzL55ZWDsbGiNHfGbkLe1wve
+drB3+l79mIk7BfKLHldTBYhXxY58JaI2Rirqf5zBuB6fRHNjFwhwCy050AT68xdA
+L2Js+mw+C2FIRT0Zm+l4Yd2UtT+6gDWGgIV03zhjnS0NUWTbh6psLfbJfvsBWeDJ
+7Qfyp28tm5MBENniOV3QHcxEJ1IfHaLeXMjTj/fxtmguW++Bhbs/Xs0Kk4s6rSOE
+9l/8sbB1Mi1i8ewRCHlsoWKPBZDhbk/dHjj7orPBbS0kZIguqBrT/rAqPX2UTqwy
+8OKe6UaHCHiiKTbEBu8VlyazKtOALA==
+=C3yP
 -----END PGP SIGNATURE-----
 
---U38GpDWG8bqu4o38LChG0KZAd8Ymn4NmD--
+--VjBal5iuObJoSYxMzBgz8Y0G7T7qTunJk--
