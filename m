@@ -2,69 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787921E1991
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:38:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8891E1992
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:38:30 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ6k5nFVzDqDm
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:38:22 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ6q67f6zDqCB
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:38:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=suse.de
- (client-ip=195.135.220.15; helo=mx2.suse.de; envelope-from=tzimmermann@suse.de;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::142;
+ helo=mail-lf1-x142.google.com; envelope-from=linus.walleij@linaro.org;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=suse.de
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
+ header.s=google header.b=jUoM4eZ9; dkim-atps=neutral
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49Vxmv6Cq4zDqKV
- for <linux-aspeed@lists.ozlabs.org>; Mon, 25 May 2020 22:51:43 +1000 (AEST)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 4928DAB89;
- Mon, 25 May 2020 12:51:42 +0000 (UTC)
-Subject: Re: [PATCH 12/21] drm/mcde: Use GEM CMA object functions
-To: Linus Walleij <linus.walleij@linaro.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49Vy8T6DKqzDqMh
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 25 May 2020 23:08:40 +1000 (AEST)
+Received: by mail-lf1-x142.google.com with SMTP id a4so10454209lfh.12
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 25 May 2020 06:08:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WvvHGwLY6WlxeHfaDpvlPLhtKpGlM6SauV4sJLLHIzE=;
+ b=jUoM4eZ9q1Me5iHo51ZEk5cNDXkjtqvC74gimSJ1Gv2/JEkc7miWdDX2y6Bt3Pw7wL
+ ecy2be+BJGxDcfTWfCYLPVzIOSMc3qi1zsP8sGGhq+EOFDiyL2/uoKqQfSoC3GVXlUtd
+ iP8IHqbOyAuuyALxmjoPYMzoSCyCF8BQJrCnY/Ba/dSwdAs5sFj9/8RdF65MNnZ5k4VR
+ 7QPQxh2+NhZ6xuPVfpsnrwumHLx036IyZDQM7VnD6z5EamObcE3JCNp3KvOunDrJXYjE
+ fTS42pMOdLvyrjcBj5I285TbidtrC6WT8rdoB7FjquKlOl8C1O685AcMnMaoPnVcRObc
+ CG6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WvvHGwLY6WlxeHfaDpvlPLhtKpGlM6SauV4sJLLHIzE=;
+ b=mlhwS0iMF3LiMq8XS/AoZm0tDlcU8d1is5GhgB08ubyc8xxBH5Y1mvt2DFTZQ1foZp
+ 5KMGikYCfNObBGceUS8Y2FF72AqZsObvvmeU6UN8+f8WDsd91x3SoMa36ZrbAQWC2+om
+ KkeJw4BhrPaq8hgey5Nk3DH3mD589K+AOYLnpBPNhx7DVudUU2G0et6/H/6AluPy36Fq
+ Z4v9Hol0iVkBSZ4EGsYV+w7NMrzseXMrvNCoLOwQC9T5MBoam4u+oeoyOXgXC5marFEL
+ 7R1x+EbW78eOv2TB6bdtqa9VEY+vKaAudEln23Sm8f/pLevoaukFmYMjEbfKW4jSnDPC
+ JfIA==
+X-Gm-Message-State: AOAM5335pwIJpA3ZuLvmUfWBD0yCiikIEBV6+6qAO7cLVwdyNzOEkDOl
+ qiclDYr61/32eniwhjHGcKetD3n/oWEWdVKnbksLSA==
+X-Google-Smtp-Source: ABdhPJzwr6YwueJ1MfLBnSadbaGpNl8oMrkUPmXWw+j9Iwbimy6Xfz92o6Qb8bIrDXn/hwWGzk89ShzwL/xztxiFHuc=
+X-Received: by 2002:ac2:5cd1:: with SMTP id f17mr13456032lfq.4.1590412113648; 
+ Mon, 25 May 2020 06:08:33 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200522135246.10134-1-tzimmermann@suse.de>
  <20200522135246.10134-13-tzimmermann@suse.de>
  <CACRpkdaHuRHiNjisai2d-karW6y11M2qsPkx5Hn0sfc8T6B_qQ@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAG0J1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPokBVAQTAQgAPhYh
- BHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMB
- Ah4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLCdg62AmR
- irxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6PXo
- clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7
- mneMC5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6i
- KupZstMxstPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8os
- Bv6pnSn7eAq5AQ0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRH
- UE9eosYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgT
- RjP+qbU63Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+R
- dhgATnWWGKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zb
- ehDda8lvhFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r
- 12+lqdsAEQEAAYkBPAQYAQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkD
- wmcAAAoJEGgNwR1TC3ojpfcIAInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2
- h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxU
- n+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uI
- aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
- HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
- 3H26qrE=
-Message-ID: <402b57b6-0827-2659-b676-dc633bf6c444@suse.de>
-Date: Mon, 25 May 2020 14:51:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <CACRpkdaHuRHiNjisai2d-karW6y11M2qsPkx5Hn0sfc8T6B_qQ@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="zJ8L5GO5K4xmz0sawC0VQVEZtsEfn0mxN"
-X-Mailman-Approved-At: Tue, 26 May 2020 12:34:06 +1000
+ <402b57b6-0827-2659-b676-dc633bf6c444@suse.de>
+In-Reply-To: <402b57b6-0827-2659-b676-dc633bf6c444@suse.de>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 25 May 2020 15:08:22 +0200
+Message-ID: <CACRpkdZVgbqLmqzvZBAzKvEkYmT=be=d2UxyRMwRXjYDp1mx3g@mail.gmail.com>
+Subject: Re: [PATCH 12/21] drm/mcde: Use GEM CMA object functions
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Tue, 26 May 2020 12:34:07 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,7 +99,7 @@ Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
  Vincent Abriou <vincent.abriou@st.com>, Sascha Hauer <kernel@pengutronix.de>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>,
  Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
  Boris Brezillon <bbrezillon@kernel.org>,
  "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
  Nicolas Ferre <nicolas.ferre@microchip.com>,
@@ -112,111 +112,26 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---zJ8L5GO5K4xmz0sawC0VQVEZtsEfn0mxN
-Content-Type: multipart/mixed; boundary="NSN7BNSi5GVQPSnhJLZi5A5t0JGH3UaDL";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: abrodkin@synopsys.com, Dave Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, james.qian.wang@arm.com,
- Liviu Dudau <liviu.dudau@arm.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>,
- Brian Starkey <brian.starkey@arm.com>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, Sam Ravnborg <sam@ravnborg.org>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Stefan Agner <stefan@agner.ch>,
- Alison Wang <alison.wang@nxp.com>, Xinliang Liu <xinliang.liu@linaro.org>,
- Rongrong Zou <zourongrong@gmail.com>, John Stultz <john.stultz@linaro.org>,
- k00278426 <kong.kongxinwei@hisilicon.com>,
- "Chenfeng (puck)" <puck.chen@hisilicon.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Sascha Hauer <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Neil Armstrong <narmstrong@baylibre.com>, Kevin Hilman
- <khilman@baylibre.com>, Marek Vasut <marex@denx.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Vincent Abriou <vincent.abriou@st.com>,
- Yannick Fertre <yannick.fertre@st.com>,
- Philippe Cornu <philippe.cornu@st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre TORGUE <alexandre.torgue@st.com>, Chen-Yu Tsai <wens@csie.org>,
- Jyri Sarha <jsarha@ti.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Message-ID: <402b57b6-0827-2659-b676-dc633bf6c444@suse.de>
-Subject: Re: [PATCH 12/21] drm/mcde: Use GEM CMA object functions
-References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-13-tzimmermann@suse.de>
- <CACRpkdaHuRHiNjisai2d-karW6y11M2qsPkx5Hn0sfc8T6B_qQ@mail.gmail.com>
-In-Reply-To: <CACRpkdaHuRHiNjisai2d-karW6y11M2qsPkx5Hn0sfc8T6B_qQ@mail.gmail.com>
+On Mon, May 25, 2020 at 2:51 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Am 25.05.20 um 13:36 schrieb Linus Walleij:
+> > On Fri, May 22, 2020 at 3:52 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> >
+> >> The mcde driver uses the default implementation for CMA functions. The
+> >> DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct drm_driver.
+> >> All remaining operations are provided by CMA GEM object functions.
+> >>
+> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >
+> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+>
+> Could you boot-test with the patchset applied?
 
---NSN7BNSi5GVQPSnhJLZi5A5t0JGH3UaDL
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Yes, if you have a git branch I can just build and boot I can
+do it quickly!
 
-Hi
+I have no idea what this patch set is based on so it could be
+hard to figure out the dependencies otherwise. Also many
+patches.
 
-Am 25.05.20 um 13:36 schrieb Linus Walleij:
-> On Fri, May 22, 2020 at 3:52 PM Thomas Zimmermann <tzimmermann@suse.de>=
- wrote:
->=20
->> The mcde driver uses the default implementation for CMA functions. The=
-
->> DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct drm_dri=
-ver.
->> All remaining operations are provided by CMA GEM object functions.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-Could you boot-test with the patchset applied?
-
-Best regards
-Thomas
-
->=20
-> Yours,
-> Linus Walleij
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---NSN7BNSi5GVQPSnhJLZi5A5t0JGH3UaDL--
-
---zJ8L5GO5K4xmz0sawC0VQVEZtsEfn0mxN
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7Lv1oACgkQaA3BHVML
-eiNO5wf+LrZINJDg9UtSTltNV/eAjgWGe7pSyVg9mN11PdInfbThjd6P7/oA9omu
-onztvCu6MJKLzMQzhZvthKOh0G0EZMa/bMkPKecl9CPlU1b6UEtS8LMe4mFprzdB
-CH2xrjLzXhkqXf9wiZcNoh38uLyKsZiaNK4CI8H6szgRX3xPzlwvuXxOU2ikmPqi
-lvaM6oSgGprgt3pJv+MAWpGypQgyGrpgoYtPZ2kxDI88r9qBMijDHn3SvHmwHDdt
-Dt192X8r4j1zlyR3Qnv3si1txQT6bUW3ksOu/BWeJHZcc+bGxg2KDpXNeqQ1gFj5
-bwypUozB3N79k5xT0xMxWVvwHBCNFw==
-=Pgfx
------END PGP SIGNATURE-----
-
---zJ8L5GO5K4xmz0sawC0VQVEZtsEfn0mxN--
+Yours,
+Linus Walleij
