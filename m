@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7226A1E198F
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:38:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 748BB1E1990
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 04:38:20 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ6W5frhzDqCl
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:38:11 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49WJ6d0lDbzDqC8
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 May 2020 12:38:17 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -18,17 +18,17 @@ Authentication-Results: lists.ozlabs.org;
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49VxYj0QKMzDqGQ
- for <linux-aspeed@lists.ozlabs.org>; Mon, 25 May 2020 22:42:01 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49Vxkr2JgjzDqKT
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 25 May 2020 22:49:56 +1000 (AEST)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 7BFCEAD17;
- Mon, 25 May 2020 12:41:59 +0000 (UTC)
-Subject: Re: [PATCH 07/21] drm/hisilicon/kirin: Use GEM CMA object functions
-To: Emil Velikov <emil.l.velikov@gmail.com>
+ by mx2.suse.de (Postfix) with ESMTP id AE802AB89;
+ Mon, 25 May 2020 12:49:53 +0000 (UTC)
+Subject: Re: [PATCH 15/21] drm/rcar-du: Use GEM CMA object functions
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-8-tzimmermann@suse.de>
- <CACvgo51cYh4iLKEfrLSbgOGQM4=ojsBq54gW9VJBPoX+p04o+g@mail.gmail.com>
+ <20200522135246.10134-16-tzimmermann@suse.de>
+ <20200522201240.GE5824@pendragon.ideasonboard.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
  mQENBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
@@ -55,15 +55,15 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  aMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBW
  HE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8CtirPdPWu/VXNRYAl/lat7lSI
  3H26qrE=
-Message-ID: <ccee78e2-8930-2de6-0b7c-0f1ad1e636f8@suse.de>
-Date: Mon, 25 May 2020 14:41:54 +0200
+Message-ID: <816a8a0e-bb98-ea6c-5016-94b18e045fb5@suse.de>
+Date: Mon, 25 May 2020 14:49:46 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <CACvgo51cYh4iLKEfrLSbgOGQM4=ojsBq54gW9VJBPoX+p04o+g@mail.gmail.com>
+In-Reply-To: <20200522201240.GE5824@pendragon.ideasonboard.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="wfm2x9SGhUN4Mvdvt7GUgmDbtTSXZIr0q"
+ boundary="zWmtLOD2c6I7VXia1IXBS6p6v0gzUt5ej"
 X-Mailman-Approved-At: Tue, 26 May 2020 12:34:06 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -77,133 +77,148 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
- Neil Armstrong <narmstrong@baylibre.com>, Dave Airlie <airlied@linux.ie>,
- Liviu Dudau <liviu.dudau@arm.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, nicolas.ferre@microchip.com,
- Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, Sam Ravnborg <sam@ravnborg.org>,
- =?UTF-8?Q?Marek_Va=c5=a1ut?= <marex@denx.de>, khilman@baylibre.com,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Xinliang Liu <xinliang.liu@linaro.org>, ludovic.desroches@microchip.com,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- "james qian wang \(Arm Technology China\)" <james.qian.wang@arm.com>,
- NXP Linux Team <linux-imx@nxp.com>, Alexandre Torgue <alexandre.torgue@st.com>,
- Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Alison Wang <alison.wang@nxp.com>, Jyri Sarha <jsarha@ti.com>,
- Chen-Yu Tsai <wens@csie.org>, Vincent Abriou <vincent.abriou@st.com>,
- LAKML <linux-arm-kernel@lists.infradead.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, bbrezillon@kernel.org,
- Philippe Cornu <philippe.cornu@st.com>, Yannick Fertre <yannick.fertre@st.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Sascha Hauer <kernel@pengutronix.de>, Rongrong Zou <zourongrong@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>
+ narmstrong@baylibre.com, airlied@linux.ie, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, nicolas.ferre@microchip.com,
+ paul@crapouillou.net, mihail.atanassov@arm.com, sam@ravnborg.org,
+ marex@denx.de, khilman@baylibre.com, abrodkin@synopsys.com,
+ kong.kongxinwei@hisilicon.com, xinliang.liu@linaro.org,
+ ludovic.desroches@microchip.com, tomi.valkeinen@ti.com,
+ james.qian.wang@arm.com, linux-imx@nxp.com, alexandre.torgue@st.com,
+ puck.chen@hisilicon.com, s.hauer@pengutronix.de, alison.wang@nxp.com,
+ jsarha@ti.com, wens@csie.org, vincent.abriou@st.com,
+ linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com,
+ bbrezillon@kernel.org, philippe.cornu@st.com, yannick.fertre@st.com,
+ kieran.bingham+renesas@ideasonboard.com, kernel@pengutronix.de,
+ zourongrong@gmail.com, shawnguo@kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---wfm2x9SGhUN4Mvdvt7GUgmDbtTSXZIr0q
-Content-Type: multipart/mixed; boundary="UjtqkFMbXJVAAv0qq3332iJaBv8R2fCJM";
+--zWmtLOD2c6I7VXia1IXBS6p6v0gzUt5ej
+Content-Type: multipart/mixed; boundary="NhtYAlFwvx6IarH0OpVBAdhKK1CTcHOrZ";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Emil Velikov <emil.l.velikov@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
- Neil Armstrong <narmstrong@baylibre.com>, Dave Airlie <airlied@linux.ie>,
- Liviu Dudau <liviu.dudau@arm.com>, Philippe Cornu <philippe.cornu@st.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mihail Atanassov <mihail.atanassov@arm.com>, Sam Ravnborg
- <sam@ravnborg.org>, Alexandre Torgue <alexandre.torgue@st.com>,
- =?UTF-8?Q?Marek_Va=c5=a1ut?= <marex@denx.de>,
- Alexey Brodkin <abrodkin@synopsys.com>, ludovic.desroches@microchip.com,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>,
- joel@jms.id.au, NXP Linux Team <linux-imx@nxp.com>,
- Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Alison Wang <alison.wang@nxp.com>, Jyri Sarha <jsarha@ti.com>,
- Chen-Yu Tsai <wens@csie.org>, Vincent Abriou <vincent.abriou@st.com>,
- Sascha Hauer <kernel@pengutronix.de>,
- LAKML <linux-arm-kernel@lists.infradead.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, bbrezillon@kernel.org,
- andrew@aj.id.au, ML dri-devel <dri-devel@lists.freedesktop.org>,
- nicolas.ferre@microchip.com, Yannick Fertre <yannick.fertre@st.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- khilman@baylibre.com, Rongrong Zou <zourongrong@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>
-Message-ID: <ccee78e2-8930-2de6-0b7c-0f1ad1e636f8@suse.de>
-Subject: Re: [PATCH 07/21] drm/hisilicon/kirin: Use GEM CMA object functions
+ narmstrong@baylibre.com, airlied@linux.ie, liviu.dudau@arm.com,
+ philippe.cornu@st.com, paul@crapouillou.net, mihail.atanassov@arm.com,
+ sam@ravnborg.org, alexandre.torgue@st.com, marex@denx.de,
+ abrodkin@synopsys.com, ludovic.desroches@microchip.com,
+ xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com,
+ tomi.valkeinen@ti.com, james.qian.wang@arm.com, joel@jms.id.au,
+ linux-imx@nxp.com, puck.chen@hisilicon.com, s.hauer@pengutronix.de,
+ alison.wang@nxp.com, jsarha@ti.com, wens@csie.org, vincent.abriou@st.com,
+ kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+ mcoquelin.stm32@gmail.com, bbrezillon@kernel.org, andrew@aj.id.au,
+ dri-devel@lists.freedesktop.org, nicolas.ferre@microchip.com,
+ yannick.fertre@st.com, kieran.bingham+renesas@ideasonboard.com,
+ khilman@baylibre.com, zourongrong@gmail.com, shawnguo@kernel.org
+Message-ID: <816a8a0e-bb98-ea6c-5016-94b18e045fb5@suse.de>
+Subject: Re: [PATCH 15/21] drm/rcar-du: Use GEM CMA object functions
 References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-8-tzimmermann@suse.de>
- <CACvgo51cYh4iLKEfrLSbgOGQM4=ojsBq54gW9VJBPoX+p04o+g@mail.gmail.com>
-In-Reply-To: <CACvgo51cYh4iLKEfrLSbgOGQM4=ojsBq54gW9VJBPoX+p04o+g@mail.gmail.com>
+ <20200522135246.10134-16-tzimmermann@suse.de>
+ <20200522201240.GE5824@pendragon.ideasonboard.com>
+In-Reply-To: <20200522201240.GE5824@pendragon.ideasonboard.com>
 
---UjtqkFMbXJVAAv0qq3332iJaBv8R2fCJM
+--NhtYAlFwvx6IarH0OpVBAdhKK1CTcHOrZ
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi Emil
+Hi
 
-Am 22.05.20 um 20:11 schrieb Emil Velikov:
+Am 22.05.20 um 22:12 schrieb Laurent Pinchart:
 > Hi Thomas,
 >=20
-> On Fri, 22 May 2020 at 14:53, Thomas Zimmermann <tzimmermann@suse.de> w=
-rote:
->>
->> The kirin driver uses the default implementation for CMA functions; ex=
-cept
->> for the .dumb_create callback. The __DRM_GEM_CMA_DRIVER_OPS macro now =
-sets
->> these defaults and .dumb_create in struct drm_driver. All remaining
->> operations are provided by CMA GEM object functions.
+> Thank you for the patch.
+>=20
+> On Fri, May 22, 2020 at 03:52:40PM +0200, Thomas Zimmermann wrote:
+>> The rcar-du driver uses the default implementation for CMA functions;
+>> except for the .dumb_create callback. The __DRM_GEM_CMA_DRIVER_OPS mac=
+ro
+>> now sets these defaults and .dumb_create in struct drm_driver. All
+>> remaining operations are provided by CMA GEM object functions.
 >>
 >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 >> ---
->>  drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c | 12 +-----------
->>  1 file changed, 1 insertion(+), 11 deletions(-)
+>>  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 11 +----------
+>>  1 file changed, 1 insertion(+), 10 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c b/drivers=
-/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
->> index c339e632522a9..b1ffd7d43e562 100644
->> --- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
->> +++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c
->> @@ -921,17 +921,7 @@ DEFINE_DRM_GEM_CMA_FOPS(ade_fops);
->>  static struct drm_driver ade_driver =3D {
->>         .driver_features =3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOM=
-IC,
->>         .fops =3D &ade_fops,
->> -       .gem_free_object_unlocked =3D drm_gem_cma_free_object,
->> -       .gem_vm_ops =3D &drm_gem_cma_vm_ops,
->> -       .dumb_create =3D drm_gem_cma_dumb_create_internal,
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/r=
+car-du/rcar_du_drv.c
+>> index 3e67cf70f0402..3728038cec1d1 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+>> @@ -476,16 +476,7 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
+>> =20
+>>  static struct drm_driver rcar_du_driver =3D {
+>>  	.driver_features	=3D DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+>> -	.gem_free_object_unlocked =3D drm_gem_cma_free_object,
+>> -	.gem_vm_ops		=3D &drm_gem_cma_vm_ops,
+>> -	.prime_handle_to_fd	=3D drm_gem_prime_handle_to_fd,
+>> -	.prime_fd_to_handle	=3D drm_gem_prime_fd_to_handle,
+>> -	.gem_prime_get_sg_table	=3D drm_gem_cma_prime_get_sg_table,
+>> -	.gem_prime_import_sg_table =3D drm_gem_cma_prime_import_sg_table,
+>> -	.gem_prime_vmap		=3D drm_gem_cma_prime_vmap,
+>> -	.gem_prime_vunmap	=3D drm_gem_cma_prime_vunmap,
+>> -	.gem_prime_mmap		=3D drm_gem_cma_prime_mmap,
+>> -	.dumb_create		=3D rcar_du_dumb_create,
+>> +	__DRM_GEM_CMA_DRIVER_OPS(rcar_du_dumb_create),
 >=20
-> This doesn't seem right. The _internal documentation explicitly says
-> that this should _not_ be used as .dumb_create. Instead drivers should
-> use it to implement their callback.
+> Your __DRM_GEM_CMA_DRIVER_OPS is defined as
 >=20
-> Since it yields the same result as drm_gem_cma_dumb_create we can use
-> the default macro below.
+> #define __DRM_GEM_CMA_DRIVER_OPS(__dumb_create) \
+>         .gem_create_object      =3D drm_cma_gem_create_object_default_f=
+uncs, \
+>         .dumb_create            =3D (__dumb_create), \
+>         .prime_handle_to_fd     =3D drm_gem_prime_handle_to_fd, \
+>         .prime_fd_to_handle     =3D drm_gem_prime_fd_to_handle, \
+>         .gem_prime_import_sg_table =3D drm_gem_cma_prime_import_sg_tabl=
+e_vmap, \
+>         .gem_prime_mmap         =3D drm_gem_prime_mmap
+>=20
+> The patch thus introduces several changes:
+>=20
+> - drm_gem_cma_prime_import_sg_table_vmap() is used instead of
+>   drm_gem_cma_prime_import_sg_table() combined with .gem_prime_vmap()
+>   and .gem_prime_vunmap(). I believe that's fine, but splitting that
+>   change in a separate commit, or at the very least explaining it in
+>   details in the commit message, would make review easier.
+>=20
+> - .gem_create_object() is now set. That seems to be OK, but I'm not sur=
+e
+>   to grasp all the implications. This should also be explained in the
+>   commit message, and ideally split to a separate patch.
 
-I noticed this and thought that the driver authors probably had their
-reasons. Changing the driver to the default macro is probably still a
-good idea.
+That's relevant during object creation and sets the object functions.
+See one of my other replies for how this can go away after all CMA
+drivers have been updated to GEM object functions.
+
+
+>=20
+> - drm_gem_cma_prime_mmap() is replaced with drm_gem_prime_mmap(). Same
+>   comments :-)
+
+I relied on the aspeed driver to be correct. After Sam's comment on
+that, I read the code once again several times. The original
+implementation clears VM_PFNMAP. And I cannot find that code any longer.
+Going back to the original function might be better.
+
+
+>=20
+> This patch hides way too many changes in what is documented as just
+> innocent refactoring. It seems other drivers are affected too.
+
+Could you test the patchset? I don't have the HW.
 
 Best regards
 Thomas
 
 >=20
-> Weather to the .dumb_create in separate patch, or squash it here -
-> I'll leave to you.
-> In case of the latter, please mentioned it in the commit message.
->=20
-> -Emil
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>  	.fops			=3D &rcar_du_fops,
+>>  	.name			=3D "rcar-du",
+>>  	.desc			=3D "Renesas R-Car Display Unit",
 >=20
 
 --=20
@@ -215,23 +230,23 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---UjtqkFMbXJVAAv0qq3332iJaBv8R2fCJM--
+--NhtYAlFwvx6IarH0OpVBAdhKK1CTcHOrZ--
 
---wfm2x9SGhUN4Mvdvt7GUgmDbtTSXZIr0q
+--zWmtLOD2c6I7VXia1IXBS6p6v0gzUt5ej
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7LvRIACgkQaA3BHVML
-eiN2ewgAkmuMplpbC5LqXdnzF4LkOCBNUM3nULyjENDhH0jEKFZpowHxLheYo0vV
-Zf9EyZpbvv95uQoGWm8qPPHPhrG5BKaiQGB4tubCG6zAtFsBbZagjfDrkMJescxs
-h5Qpqse1JSgmgsAq4GBpcRgy45RiHq96ElO9eHv4uAqtiAbIxmAvklofRnK2XbgL
-g/xsE/9RfatntMan7tSmAY9Td1OucpPBPY3WGB/Md7/DMPvPh2kxXGYLN2+7LN4Y
-GWhx7w7hMIZRSGU7dF++C+qwJjsda2Ri3AeaP9uNgQ36OXLvrBXwdTjJ+idRY8nb
-rE+KZtVpNj7pd2lYizLKbHDiLJixHg==
-=aTLc
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl7LvuoACgkQaA3BHVML
+eiOBxAgAtowKnLP+2yRiktf4G0120f45ByObXkHxpQXecWNIcEWvbk+OCuSpeotr
+ctg4ZnV7zFliLVPqI9YJkIpISOVgZYZ+4D/U81Hw5AQftBnjL0eZoz5qal5ST6ld
+gWLqU5Jx3fVnhcJcKacd/AP2zYe3fDecKR76rstq6AhC5T1TXKZ7U4CfGD6AvIGn
+tckUJaPWJwg5aJjYPMhCC+/WBLbXs6StqzxcGmwGy3J2pTI332OFsyIZHn31J52U
+O2ZPOJe/Eyp31mBHS6bM3JNf1Tjs+PBnF28XOynb4qq67tjD73b6DuSc2KWuqL+9
+sNX1JHsIiFNYGx57vubv5h084LO53w==
+=5kJT
 -----END PGP SIGNATURE-----
 
---wfm2x9SGhUN4Mvdvt7GUgmDbtTSXZIr0q--
+--zWmtLOD2c6I7VXia1IXBS6p6v0gzUt5ej--
