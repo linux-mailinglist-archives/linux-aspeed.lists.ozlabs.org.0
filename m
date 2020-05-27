@@ -1,44 +1,51 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2591E3542
-	for <lists+linux-aspeed@lfdr.de>; Wed, 27 May 2020 04:11:26 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34FD11E3543
+	for <lists+linux-aspeed@lfdr.de>; Wed, 27 May 2020 04:11:31 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49WvT74pWwzDqNd
-	for <lists+linux-aspeed@lfdr.de>; Wed, 27 May 2020 12:11:23 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49WvTD33vWzDqPQ
+	for <lists+linux-aspeed@lfdr.de>; Wed, 27 May 2020 12:11:28 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=arm.com
- (client-ip=217.140.110.172; helo=foss.arm.com;
- envelope-from=liviu.dudau@arm.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by lists.ozlabs.org (Postfix) with ESMTP id 49Wqz74D1nzDqC5
- for <linux-aspeed@lists.ozlabs.org>; Wed, 27 May 2020 09:33:38 +1000 (AEST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 88649101E;
- Tue, 26 May 2020 16:33:36 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 655AF3F52E;
- Tue, 26 May 2020 16:33:36 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id 11265682B70; Wed, 27 May 2020 00:33:35 +0100 (BST)
-Date: Wed, 27 May 2020 00:33:35 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=crapouillou.net (client-ip=89.234.176.41; helo=crapouillou.net;
+ envelope-from=paul@crapouillou.net; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none)
+ header.from=crapouillou.net
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=crapouillou.net header.i=@crapouillou.net
+ header.a=rsa-sha256 header.s=mail header.b=ph4Oq3FA; 
+ dkim-atps=neutral
+X-Greylist: delayed 767 seconds by postgrey-1.36 at bilbo;
+ Wed, 27 May 2020 10:41:45 AEST
+Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49WsTj4Mp8zDqJ1
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 27 May 2020 10:41:45 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1590539329; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8eNQy+HfaYgDqYPYkxNUOBbsWhF12apm1sawTSRbUxM=;
+ b=ph4Oq3FAxEZc30cpk4hReFsdFhqADMQEK74TqMUgoTpR8GLEmCzAm+554fKqssFp5Hgy3a
+ KAnTbBiLswq+G2wB2Q9Fo1F98CE+Ad5C1tAFCZJ6V5XjuWp94dkxvgbz1mkv09J6Ed/82J
+ iinOdsAP5CSOEgoKN5MtiqCiEy6N7sU=
+Date: Wed, 27 May 2020 02:28:31 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 09/21] drm/ingenic: Use GEM CMA object functions
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 11/21] drm/malidp: Use GEM CMA object functions
-Message-ID: <20200526233335.GF159988@e110455-lin.cambridge.arm.com>
+Message-Id: <JZRYAQ.1QIOMTT6TPVS1@crapouillou.net>
+In-Reply-To: <20200522135246.10134-10-tzimmermann@suse.de>
 References: <20200522135246.10134-1-tzimmermann@suse.de>
- <20200522135246.10134-12-tzimmermann@suse.de>
+ <20200522135246.10134-10-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200522135246.10134-12-tzimmermann@suse.de>
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Wed, 27 May 2020 12:11:04 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -53,7 +60,7 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
  narmstrong@baylibre.com, airlied@linux.ie, linus.walleij@linaro.org,
- stefan@agner.ch, philippe.cornu@st.com, paul@crapouillou.net,
+ liviu.dudau@arm.com, stefan@agner.ch, philippe.cornu@st.com,
  laurent.pinchart@ideasonboard.com, benjamin.gaignard@linaro.org,
  mihail.atanassov@arm.com, sam@ravnborg.org, alexandre.torgue@st.com,
  marex@denx.de, festevam@gmail.com, abrodkin@synopsys.com,
@@ -72,55 +79,56 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, May 22, 2020 at 03:52:36PM +0200, Thomas Zimmermann wrote:
-> The malidp driver uses the default implementation for CMA functions; except
-> for the .dumb_create callback. The __DRM_GEM_CMA_DRIVER_OPS macro now sets
-> these defaults and .dumb_create in struct drm_driver. All remaining
-> operations are provided by CMA GEM object functions.
-> 
+Hi Thomas,
+
+Le ven. 22 mai 2020 =E0 15:52, Thomas Zimmermann <tzimmermann@suse.de> a=20
+=E9crit :
+> The ingenic driver uses the default implementation for CMA functions.=20
+> The
+> DRM_GEM_CMA_DRIVER_OPS macro now sets these defaults in struct=20
+> drm_driver.
+> All remaining operations are provided by CMA GEM object functions.
+>=20
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+Tested-by: Paul Cercueil <paul@crapouillou.net>
+Reviewed-by: Paul Cercueil <paul@crapouillou.net>
 
-Best regards,
-Liviu
+Cheers,
+-Paul
 
 > ---
->  drivers/gpu/drm/arm/malidp_drv.c | 11 +----------
->  1 file changed, 1 insertion(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-> index def8c9ffafcaf..92e0bca6aa2f4 100644
-> --- a/drivers/gpu/drm/arm/malidp_drv.c
-> +++ b/drivers/gpu/drm/arm/malidp_drv.c
-> @@ -563,16 +563,7 @@ static void malidp_debugfs_init(struct drm_minor *minor)
->  
->  static struct drm_driver malidp_driver = {
->  	.driver_features = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-> -	.gem_free_object_unlocked = drm_gem_cma_free_object,
-> -	.gem_vm_ops = &drm_gem_cma_vm_ops,
-> -	.dumb_create = malidp_dumb_create,
-> -	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
-> -	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-> -	.gem_prime_get_sg_table = drm_gem_cma_prime_get_sg_table,
-> -	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
-> -	.gem_prime_vmap = drm_gem_cma_prime_vmap,
-> -	.gem_prime_vunmap = drm_gem_cma_prime_vunmap,
-> -	.gem_prime_mmap = drm_gem_cma_prime_mmap,
-> +	__DRM_GEM_CMA_DRIVER_OPS(malidp_dumb_create),
->  #ifdef CONFIG_DEBUG_FS
->  	.debugfs_init = malidp_debugfs_init,
->  #endif
-> -- 
+>  drivers/gpu/drm/ingenic/ingenic-drm.c | 13 +------------
+>  1 file changed, 1 insertion(+), 12 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm.c=20
+> b/drivers/gpu/drm/ingenic/ingenic-drm.c
+> index eff57a1f70fb0..1c1cee367b752 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm.c
+> @@ -519,18 +519,7 @@ static struct drm_driver ingenic_drm_driver_data=20
+> =3D {
+>  	.patchlevel		=3D 0,
+>=20
+>  	.fops			=3D &ingenic_drm_fops,
+> -
+> -	.dumb_create		=3D drm_gem_cma_dumb_create,
+> -	.gem_free_object_unlocked =3D drm_gem_cma_free_object,
+> -	.gem_vm_ops		=3D &drm_gem_cma_vm_ops,
+> -
+> -	.prime_handle_to_fd	=3D drm_gem_prime_handle_to_fd,
+> -	.prime_fd_to_handle	=3D drm_gem_prime_fd_to_handle,
+> -	.gem_prime_get_sg_table	=3D drm_gem_cma_prime_get_sg_table,
+> -	.gem_prime_import_sg_table =3D drm_gem_cma_prime_import_sg_table,
+> -	.gem_prime_vmap		=3D drm_gem_cma_prime_vmap,
+> -	.gem_prime_vunmap	=3D drm_gem_cma_prime_vunmap,
+> -	.gem_prime_mmap		=3D drm_gem_cma_prime_mmap,
+> +	DRM_GEM_CMA_DRIVER_OPS,
+>=20
+>  	.irq_handler		=3D ingenic_drm_irq_handler,
+>  };
+> --
 > 2.26.2
-> 
+>=20
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+
