@@ -2,80 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F451E52D6
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 May 2020 03:20:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E854F1E637F
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 May 2020 16:16:32 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49XVJ257vczDqWd
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 May 2020 11:20:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49XqWH3P5CzDqYt
+	for <lists+linux-aspeed@lfdr.de>; Fri, 29 May 2020 00:16:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::643;
- helo=mail-pl1-x643.google.com; envelope-from=rentao.bupt@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::442;
+ helo=mail-pf1-x442.google.com; envelope-from=manikandan.hcl.ers.epl@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=TwSyLC8e; dkim-atps=neutral
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
+ header.s=20161025 header.b=qCWVEKUV; dkim-atps=neutral
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49XVHs0xmZzDqQM;
- Thu, 28 May 2020 11:20:24 +1000 (AEST)
-Received: by mail-pl1-x643.google.com with SMTP id d3so10860702pln.1;
- Wed, 27 May 2020 18:20:24 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49XqVM4ykFzDqPy;
+ Fri, 29 May 2020 00:15:38 +1000 (AEST)
+Received: by mail-pf1-x442.google.com with SMTP id y198so13594022pfb.4;
+ Thu, 28 May 2020 07:15:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=VQ7LUQQZ/eVaGd5VEJD8oJklzM/fJyrG9ba3r7/1SoE=;
- b=TwSyLC8eiHi2IO8CR/d7V5Qvb8xA2M9Nl35lijvJ4ZPWcZraZiDNuo8HfBWx7Sce0X
- Bv6T8vUl/PB5CLJp1W7qmAOzmeZ9QHyynNj+YMnvfMcKbFghWLKAG5aGzrC/u8vi5e8W
- 0tMS0MLZLkC5NpVvwvIJffw9mqVRG9CtmOphbnhppofBjDvmZjURgRm07Vw7YZxOdw2w
- z7w2kEp2z29Ih7QX+RuXo9B11yKEbFZL0N/GqusxSgtfWrWhShEwv+PgcB7UMrtDYKeL
- LXxaHazBly6uVv34fK2vIy03U523QrWgP2a2wblyrA/JV5j/kh/v9+MO2rpiPOvETIYw
- 0d6w==
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=XGHYTbTFj/idv0dnWf7QG+Cg8moRXHsLIYq+mHlWJb8=;
+ b=qCWVEKUVVPY6pQHiNV4vRZJ6TSUEiBOow8qeJL4gok+AOw5vxOBAkyIT3LOwhMYykb
+ Fm4qewkHOpojjxq2i7QNqJ3WgmbZb2U5MAMngxeXRFFqpOfg0IrDne+kuiAYM82x3wVb
+ 2RHSff9MyvXGBhsSyTO9/S190iakall9JQiGcw4qy8fknGUPJ9DvwHhW8f11UrGds2Vu
+ i5X88+TSK0fE+1SBMNEwJUpu6E15v3GFhu/m8zsOxuUsb/duRV7DB1JNNAzDaba2bgdO
+ 78oXeJi8wPJF0+qB4qY+Yyn6BxZu8vIKyLhYOyQZuINlpZIJcmwtM8pMldYNUS/oCfpg
+ l3bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=VQ7LUQQZ/eVaGd5VEJD8oJklzM/fJyrG9ba3r7/1SoE=;
- b=mchAjlzqkmszFfnb6SAtmV1LYYGHk8pJ4YEutE9Oht1ubgDG+quweCObbc3pWRFdtZ
- G3Ost0bn0OGfsTNh8Ak4Ao+fgPpNO59LYDL+zayXXjE/3umseYjZIa/6FaA0xRCQqlPx
- 2l/IQLskUDT+HKkCqnuJV70SsSNSYqsK980mAep0ubAmNRRbgnvOnNDw8iaQDAVEKy23
- rc6wePtC7XEZpoVPOK8RgMLbCp33MNtRFa6cdppFdzgIpcq67vmAWkx0uVfgLiUBrOo2
- XM0vOCWib/sRO0kNeXapSIznGscImT9N0Q0A1kOC7rR6OPuYZQ6dDemkMMn5f2gNFjdi
- 6R6A==
-X-Gm-Message-State: AOAM532Ifhq7TnTYIRUy7+zqX2LzCxNdAr1Kfu3OwSta86fyKF62zi8m
- IkNPYlGQVjSVbSmI5AjkK14=
-X-Google-Smtp-Source: ABdhPJxxtSCpYuqOC2VnFEhiZ9l6NIkOXrrUOJLnOaecuTiUxgsIzz0zpHcFLL8l6Z397kEPj5y8Aw==
-X-Received: by 2002:a17:90a:2ec1:: with SMTP id
- h1mr1161911pjs.145.1590628818740; 
- Wed, 27 May 2020 18:20:18 -0700 (PDT)
-Received: from taoren-ubuntu-R90MNF91 ([2620:10d:c090:400::5:ccc9])
- by smtp.gmail.com with ESMTPSA id n21sm3523989pjo.25.2020.05.27.18.20.17
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 27 May 2020 18:20:18 -0700 (PDT)
-Date: Wed, 27 May 2020 18:20:11 -0700
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Felipe Balbi <balbi@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Stephen Boyd <swboyd@chromium.org>, linux-usb@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com
-Subject: Re: [PATCH] usb: gadget: aspeed: fixup vhub port irq handling
-Message-ID: <20200528012010.GA30405@taoren-ubuntu-R90MNF91>
-References: <20200528011154.30355-1-rentao.bupt@gmail.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=XGHYTbTFj/idv0dnWf7QG+Cg8moRXHsLIYq+mHlWJb8=;
+ b=ihFqg/J9YQYuK9WKxx19UXK7OpfZUZX/FmIAx4vRbeaJ7wN//0sqyUPbPNCNvTDYhW
+ iptT3aghKLFjgvpRbyl85dO2Xl2EWnYxuUyrCcrIr2puUQVRang4xIvKTzIYobF3KcIV
+ Cg4RjPvDvOiLaM5jqkHrL/DseAVwLqedCJ+89tFzNo9209UM6xgZLrg1ifbNecr2cGUB
+ 2TDtgo9stLofvBWPRsghxJUona4HhWIN/Kf1zaEPSRvU17GGZTV0beM52xrvIugf+wd3
+ kWTlHiR+jisV7wFEQX0R1VfHVqBk7MfaA31XlNdbikMgppDkiVfOhdvhVW7kHqT7BrNq
+ 8iww==
+X-Gm-Message-State: AOAM533APh18PTUtObQm1EMqFeGFZCyIt0dwfynfpcohjWUPply2rrhK
+ wk8zv/4mxb2WptePfA8yzBB4khOjfhk=
+X-Google-Smtp-Source: ABdhPJyau0j9Gb7aMiVeAX7Qn4Fk0I16yYO/uepxNvkUntW/6CaN1T0YBq4Feb5ZsJNRhu539fsgSw==
+X-Received: by 2002:a62:76cc:: with SMTP id r195mr3211576pfc.116.1590675335154; 
+ Thu, 28 May 2020 07:15:35 -0700 (PDT)
+Received: from cnn ([2401:4900:2340:a919:a888:ed6a:9872:b822])
+ by smtp.gmail.com with ESMTPSA id j26sm4958399pfr.215.2020.05.28.07.15.31
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 28 May 2020 07:15:34 -0700 (PDT)
+Date: Thu, 28 May 2020 19:45:23 +0530
+From: Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>
+To: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ openbmc@lists.ozlabs.org
+Subject: [PATCH] hwmon:(adm1275) Enable adm1278 ADM1278_TEMP1_EN
+Message-ID: <20200528141523.GA8810@cnn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200528011154.30355-1-rentao.bupt@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,70 +77,45 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: manikandan.e@hcl.com, sdasari@fb.com, patrickw3@fb.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Ben,
 
-I sent out the follow-on patch per Greg's suggestion, and the purpose is
-to include the latest version (v4) of the original commit. As v4 was
-already Acked-by you, can I add the tag for this patch? Or are you
-willing to Ack it again?
+The adm1278 temperature sysfs attribute need it for one of the our openbmc platform . 
+This functionality is not enabled by default, so PMON_CONFIG needs to be modified in order to enable it.
 
+---
+ drivers/hwmon/pmbus/adm1275.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-Cheers,
+diff --git a/drivers/hwmon/pmbus/adm1275.c b/drivers/hwmon/pmbus/adm1275.c
+index 5caa37fb..47b293d 100644
+--- a/drivers/hwmon/pmbus/adm1275.c
++++ b/drivers/hwmon/pmbus/adm1275.c
+@@ -681,6 +681,21 @@ static int adm1275_probe(struct i2c_client *client,
+ 			}
+ 		}
+ 
++		config = i2c_smbus_read_byte_data(client, ADM1275_PMON_CONFIG);
++		if (config < 0)
++			return config;
++
++		/* Enable TEMP1 by defult */
++		config |= ADM1278_TEMP1_EN;
++		ret = i2c_smbus_write_byte_data(client,
++					ADM1275_PMON_CONFIG,
++					config);
++		if (ret < 0) {
++		dev_err(&client->dev,
++			"Failed to enable temperature config\n");
++		return -ENODEV;
++		}
++
+ 		if (config & ADM1278_TEMP1_EN)
+ 			info->func[0] |=
+ 				PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
+-- 
+2.7.4
 
-Tao
-
-On Wed, May 27, 2020 at 06:11:54PM -0700, rentao.bupt@gmail.com wrote:
-> From: Tao Ren <rentao.bupt@gmail.com>
-> 
-> This is a follow-on patch for commit a23be4ed8f48 ("usb: gadget: aspeed:
-> improve vhub port irq handling"): for_each_set_bit() is replaced with
-> simple for() loop because for() loop runs faster on ASPEED BMC.
-> 
-> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
-> ---
->  drivers/usb/gadget/udc/aspeed-vhub/core.c | 10 +++-------
->  drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  3 +++
->  2 files changed, 6 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> index cdf96911e4b1..be7bb64e3594 100644
-> --- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> +++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> @@ -135,13 +135,9 @@ static irqreturn_t ast_vhub_irq(int irq, void *data)
->  
->  	/* Handle device interrupts */
->  	if (istat & vhub->port_irq_mask) {
-> -		unsigned long bitmap = istat;
-> -		int offset = VHUB_IRQ_DEV1_BIT;
-> -		int size = VHUB_IRQ_DEV1_BIT + vhub->max_ports;
-> -
-> -		for_each_set_bit_from(offset, &bitmap, size) {
-> -			i = offset - VHUB_IRQ_DEV1_BIT;
-> -			ast_vhub_dev_irq(&vhub->ports[i].dev);
-> +		for (i = 0; i < vhub->max_ports; i++) {
-> +			if (istat & VHUB_DEV_IRQ(i))
-> +				ast_vhub_dev_irq(&vhub->ports[i].dev);
->  		}
->  	}
->  
-> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-> index 2e5a1ef14a75..87a5dea12d3c 100644
-> --- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-> +++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-> @@ -67,6 +67,9 @@
->  #define VHUB_IRQ_HUB_EP0_SETUP			(1 << 0)
->  #define VHUB_IRQ_ACK_ALL			0x1ff
->  
-> +/* Downstream device IRQ mask. */
-> +#define VHUB_DEV_IRQ(n)				(VHUB_IRQ_DEVICE1 << (n))
-> +
->  /* SW reset reg */
->  #define VHUB_SW_RESET_EP_POOL			(1 << 9)
->  #define VHUB_SW_RESET_DMA_CONTROLLER		(1 << 8)
-> -- 
-> 2.17.1
-> 
