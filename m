@@ -2,135 +2,121 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055651E8605
-	for <lists+linux-aspeed@lfdr.de>; Fri, 29 May 2020 19:57:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F631E86FF
+	for <lists+linux-aspeed@lfdr.de>; Fri, 29 May 2020 20:54:47 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49YXMv1khrzDqjh
-	for <lists+linux-aspeed@lfdr.de>; Sat, 30 May 2020 03:57:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49YYdw6BZJzDqgP
+	for <lists+linux-aspeed@lfdr.de>; Sat, 30 May 2020 04:54:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1042;
+ helo=mail-pj1-x1042.google.com; envelope-from=groeck7@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
- (client-ip=67.231.153.30; helo=mx0b-00082601.pphosted.com;
- envelope-from=prvs=34184152d5=vijaykhemka@fb.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=reject dis=none) header.from=fb.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=fb.com header.i=@fb.com header.a=rsa-sha256
- header.s=facebook header.b=be6x0OPE; 
- dkim=pass (1024-bit key;
- unprotected) header.d=fb.onmicrosoft.com header.i=@fb.onmicrosoft.com
- header.a=rsa-sha256 header.s=selector2-fb-onmicrosoft-com header.b=h5cZWd92; 
- dkim-atps=neutral
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com
- [67.231.153.30])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=Gycs5Jdk; dkim-atps=neutral
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49YXMg4KhnzDqXK;
- Sat, 30 May 2020 03:57:14 +1000 (AEST)
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04THmsZO023589; Fri, 29 May 2020 10:57:05 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=nDGFZqrsMLB3ESjeIC+dQ8ZZtGkF5tmKL2DpAJiSzsY=;
- b=be6x0OPEiFjBh7oiMbxuehgrs1x6k+6EbJEJ5Xvr55HCvTSPmjnvEPNPcVK7s/BG9CTg
- 7Ff6mmekNI0pAMkjWNf5LwJtENGw2OLm+x18ewqUbpFapaUjC1A0bHPMpsRhbFR0bE39
- sQuVUKxXLHKjLRiGswEKKMpB60SLhJWq6Vw= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com with ESMTP id 31b3yra173-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Fri, 29 May 2020 10:57:05 -0700
-Received: from NAM04-BN3-obe.outbound.protection.outlook.com (100.104.31.183)
- by o365-in.thefacebook.com (100.104.36.102) with Microsoft SMTP
- Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1979.3; Fri, 29 May 2020 10:57:04 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X0m6Qj1b8CkZ9RA24+YNpEqFhTJkgsQvja8JU/r3o86Hpi0pWQYwT1dEkls3Wjp02SWY/B9WfxnvLdG36HNAjo6OkXDvJSH/jLCC9sCFNOIpzfZco736+T07LrZIjKw3Rce+sOnFyiQraDfXlh7u+VjkcXpL+KsHn54sJO15gH7bW24fnRbIXyZTQfHs5VGXviVtiKHWL4CapqMsFEU0e7BVr442KEvbIXObiDfy27BhCdMjjT8XTAl/J2fpSh0ACTHwoUYG5uD98zzZiot6MoqK0fcOEMdqoGlRuCnhS7OtJVVLFZ7I9cBaTRtzEG44LpDI4R5C03fe0xd0Aehl1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nDGFZqrsMLB3ESjeIC+dQ8ZZtGkF5tmKL2DpAJiSzsY=;
- b=Zxo6ZhkZ3N0m3lftztCCfWqQUzT9sz5bRnRVR1dWoDzUMkQ2ZOscW9N+PAxprdQwcGdPJH8PHiRUzRtwvaezJyIOrI6KUYsSUpON9fDGrtKBl8+sLHyGMw6hcAHhMOjL4NwcMihxKawqwJJZ9cIgWZxfk/w5UZiyuZy7DI5z0bQruIH5dDGlvhe1lg9T7nBSI3vQsFJkxCyUZEz4IwIFm05Ux0c3i/mcuAgwEz7NvFtawUAHcHZCvl87sK/8tZ9sujsCrabaSLEa1hJywX9djJntRDvexWfo346QWXhGBM3aqYt3scNNI4Np2/nD3viUnyEV7M4Qy39Gwpx4SKUBBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nDGFZqrsMLB3ESjeIC+dQ8ZZtGkF5tmKL2DpAJiSzsY=;
- b=h5cZWd92mDZSMrSZ7jtoAuNDkej1+zbQWv8/G3hiAONOtoysHqdMI6rjYJOFzYb0xMcIDIp8nxAe6dJBE4a26KHMrIoJL7KEdUrv7pXK49mqoj1Qs7ohYAA+s+8YOlyDEwciFzcXtXCZaVNWR8on7A8aUNVKNpqGwinYTt5ZAKA=
-Received: from BYAPR15MB2374.namprd15.prod.outlook.com (2603:10b6:a02:8b::16)
- by BYAPR15MB3048.namprd15.prod.outlook.com (2603:10b6:a03:fc::25)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17; Fri, 29 May
- 2020 17:57:03 +0000
-Received: from BYAPR15MB2374.namprd15.prod.outlook.com
- ([fe80::34b8:e690:6dfc:8faf]) by BYAPR15MB2374.namprd15.prod.outlook.com
- ([fe80::34b8:e690:6dfc:8faf%4]) with mapi id 15.20.3045.018; Fri, 29 May 2020
- 17:57:03 +0000
-From: Vijay Khemka <vijaykhemka@fb.com>
-To: Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>
-Subject: Re: [PATCH v2] hwmon:(adm1275) Enable adm1278 ADM1278_TEMP1_EN 
-Thread-Topic: [PATCH v2] hwmon:(adm1275) Enable adm1278 ADM1278_TEMP1_EN 
-Thread-Index: AQHWNbdFvmcC7XgBI0iZGne+tKUE7Ki+5FUA
-Date: Fri, 29 May 2020 17:57:03 +0000
-Message-ID: <6F5BD2D3-997D-4607-BC0C-B36497B51D13@fb.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49YYbW5T2bzDqkT;
+ Sat, 30 May 2020 04:52:38 +1000 (AEST)
+Received: by mail-pj1-x1042.google.com with SMTP id q9so1820362pjm.2;
+ Fri, 29 May 2020 11:52:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+ :user-agent:mime-version:in-reply-to;
+ bh=hzq5CP06WE+rDQgMLM3t1qmEAoMARZTAExLtoppQY3s=;
+ b=Gycs5Jdkqw5y4aA6YTe0aznWpCkMlZyRDPypCEmvOBdwBFX6i3XcJWwe7lm/WO/GBO
+ 1AvSgQxNCngwWH+VR5TUxuAW5T6jgrD5tWbA/ciT2KjuPVFqMubuc/byw95UNRKdipEx
+ 8eu3GoyM9a4BTQd4Tw3TCZkBHPDnwOJRRifO8jmduL8V5J7loVskh+NeU1/5BAaL6IM5
+ dGNq6xfDuPsttWgJ+3LEJ0OV/kXyMl0XNn66uES9P+VqTuAOd/6oUMr8Rwl+imlkXv/T
+ 3pMu/AYkxboWp5pyvRMtXTi5EEzq6lT0SV3bnnOq7fZcTWwhTceupsPxShexmp7hPyhs
+ Yvkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to;
+ bh=hzq5CP06WE+rDQgMLM3t1qmEAoMARZTAExLtoppQY3s=;
+ b=TK1ofOqibRXcpgyHJX4gOnktPPhcTOUgSQhayrSbwxkMRxtV20ZJuFTYOs2iBWpMtP
+ i4iD28itq3fyTXXhrVdHjjWouJgT9vDmmgpx8frjj+vtdc3zI8v9UkuFQKyeBrD+x7Ze
+ hhhN24PDXXKJ7ytURTZa4BIf+Ggdzk8NctyWpddNTqoKuxtYQ8cYc3z2I0Jqbo2EKluB
+ mJNpDuGrXIWVRDb5RZbnJmFp79cx4WABEGuwPS/Wjilyr0sTDAgs8L9CPzBaE4b5vrB4
+ KUX9CyXt8TT969EjF4QhaH4lxJEvtJGvVL+8EjlH6pebta3FjuWIGM5Sb9Loy+/p5ge/
+ XBtA==
+X-Gm-Message-State: AOAM533ZSYgG3Pv3bqJqH+nmp9DDnF7sx0VU6Q1VnjLFMBJU/vSFkV09
+ 3Jksqh0QInvkkfYRC9uhlg8=
+X-Google-Smtp-Source: ABdhPJySY1MJ/4FGL1qpg5ojXX5NRDuqHrhGcK+iN4Uvb1UvVjRA8TVDXXm3AHDVaMF2yV13gndnCQ==
+X-Received: by 2002:a17:90a:3ad1:: with SMTP id
+ b75mr11081675pjc.216.1590778355795; 
+ Fri, 29 May 2020 11:52:35 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ g18sm7401759pgn.47.2020.05.29.11.52.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 May 2020 11:52:35 -0700 (PDT)
+Subject: Re: [PATCH v2] hwmon:(adm1275) Enable adm1278 ADM1278_TEMP1_EN
+To: Patrick Williams <patrick@stwcx.xyz>
 References: <20200529124607.GA3469@cnn>
-In-Reply-To: <20200529124607.GA3469@cnn>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=fb.com;
-x-originating-ip: [2601:647:4b00:fd70:18e2:66b5:5e3d:3d1a]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 75e3de07-774a-4d31-4235-08d803f9b1aa
-x-ms-traffictypediagnostic: BYAPR15MB3048:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR15MB3048CD9B53BAB351207FF14DDD8F0@BYAPR15MB3048.namprd15.prod.outlook.com>
-x-fb-source: Internal
-x-ms-oob-tlc-oobclassifiers: OLM:2733;
-x-forefront-prvs: 04180B6720
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Yw+b1MTh6cUGJDQWn7vi2FYsdYtVX+xMJm+Ndwnl0VJw5aPzU1W/klUaqWeF1mrSkTEH8s/XCbXSczncwYBiP0zhmwrbxzd0x6eDbX4CDf6UkePaG77qIGrG5ft7kWPxBTbQKBCeysVr5hBOn2KLKDIC5XwUIBH4hMN4QhLJuoxYmHgtVdt/4eBOm4Hz+3wtapn9grBRNEnx7mZOdkyN6pYrlH/GBAq19e4AUlUhnXZGIw3/z4JLlvvxbbycbWzXkMUoaUOlhVsqeI5QbJD/Ib6z9nAkPuFC2ddar17fs4s0SzK2i3+3pwbBOmoSSqKQQJnI3rg00Tvj76h1Wdr4LA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR15MB2374.namprd15.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(396003)(39860400002)(136003)(376002)(346002)(366004)(478600001)(36756003)(71200400001)(2616005)(8936002)(4326008)(6506007)(6512007)(5660300002)(186003)(8676002)(83380400001)(6486002)(2906002)(54906003)(33656002)(316002)(86362001)(66476007)(66556008)(66446008)(4743002)(76116006)(66946007)(110136005)(64756008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: xrSAlQnxZZDRAdvrAX5F+ksy1VQk4xI94G7NaCaI+9Pg+BCcX3sqek+pgPcBR0v4lXkAza/XesuXMtyo8Hc51qhbuoc9rxO6RjlWNJS4ObFOX5imS87fYFj6nKmFTCkr5IiQVDP/K4Mvkhu7DEPfkf9QvpCI39a+P45rzZJf0ZwdzFL/Y0fUxwdbCeqzADlc8o1BgMl737wzI5MIyPcf2W28+IINj0kpvBs5mSMn7fjiuWCUoEwmm18IFbxDOxYEHFGglsIv5rvn3C4OIJJ26rL9H5mumLm2b0xkq2W9vY0c2y1cNflMuAiDJ4NaMpWSgF1KzPcOEOWebwjKH99+UzGA56tUB6uF5lHSERzHruOnWqQjl4197QLywYYxKJdh08gM9xX7xq+DyF9dZc1a2lx9W3U09i0/8/gQ4vuFtdrFcmia1EpDorJ6rRq49Nf4AJknWsy3Z5ePS+kVqTAE8fB1ezM1gIy7/VpdxLcysfmT4zirZS2kg4g9EupXjl2cwaMn5CI5iwIYrnDJnl125WfrZCIouIIEI1404KGXrsuhNiOtwdqiwTIYFvGMijHz
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A5BAD156FDBD5043A9D1F66D19E5892E@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ <49485085-7cc7-9e29-a719-98d1e184378b@roeck-us.net>
+ <20200529174210.GF17541@heinlein>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+Message-ID: <356db3d6-bc56-bd58-428f-d8e94311abee@roeck-us.net>
+Date: Fri, 29 May 2020 11:52:33 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75e3de07-774a-4d31-4235-08d803f9b1aa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 May 2020 17:57:03.4381 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OAZU2RiGLZrgj7UUmwkcxfa4ZGzfKYCqMjsu4+4kB22CaadtZq9xYHm2fuiHSDzRjb/AZAMWj9ZnhTUi4+0G0A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB3048
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.687
- definitions=2020-05-29_09:2020-05-28,
- 2020-05-29 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- mlxscore=0 phishscore=0
- mlxlogscore=999 malwarescore=0 priorityscore=1501 clxscore=1011
- lowpriorityscore=0 suspectscore=0 spamscore=0 bulkscore=0 impostorscore=0
- adultscore=0 cotscore=-2147483648 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2005290135
-X-FB-Internal: deliver
+In-Reply-To: <20200529174210.GF17541@heinlein>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="3DlYDZqgzYYzdUTaYkmBSX1UFcTispULy"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,48 +128,105 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "saipsdasari@fb.com" <saipsdasari@fb.com>,
- Patrick Williams <patrickw3@fb.com>, "linux@roeck-us.net" <linux@roeck-us.net>,
- "manikandan.e@hcl.com" <manikandan.e@hcl.com>
+Cc: linux-hwmon@vger.kernel.org, manikandan.e@hcl.com,
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, saipsdasari@fb.com,
+ Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>, patrickw3@fb.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-DQoNCu+7v09uIDUvMjkvMjAsIDU6NDcgQU0sICJNYW5pa2FuZGFuIEVsdW1hbGFpIiA8bWFuaWth
-bmRhbi5oY2wuZXJzLmVwbEBnbWFpbC5jb20+IHdyb3RlOg0KDQogICAgVGhlIGFkbTEyNzggdGVt
-cGVyYXR1cmUgc3lzZnMgYXR0cmlidXRlIG5lZWQgaXQgZm9yIG9uZSBvZiB0aGUgb3BlbmJtYyBw
-bGF0Zm9ybSAuIA0KICAgIFRoaXMgZnVuY3Rpb25hbGl0eSBpcyBub3QgZW5hYmxlZCBieSBkZWZh
-dWx0LCBzbyBQTU9OX0NPTkZJRyBuZWVkcyB0byBiZSBtb2RpZmllZCBpbiBvcmRlciB0byBlbmFi
-bGUgaXQuDQogICAgDQogICAgU2lnbmVkLW9mZi1ieSAgIDogTWFuaWthbmRhbiBFbHVtYWxhaSA8
-bWFuaWthbmRhbi5oY2wuZXJzLmVwbEBnbWFpbC5jb20+DQogICAgDQogICAgdjI6DQogICAgICAg
-LSBBZGQgU2lnbmVkLW9mZi1ieS4NCiAgICAgICAtIFJlbW92ZWQgQURNMTI3OF9URU1QMV9FTiBj
-aGVjay4NCiAgICAtLS0NCiAgICAgZHJpdmVycy9od21vbi9wbWJ1cy9hZG0xMjc1LmMgfCAyMSAr
-KysrKysrKysrKysrKysrKy0tLS0NCiAgICAgMSBmaWxlIGNoYW5nZWQsIDE3IGluc2VydGlvbnMo
-KyksIDQgZGVsZXRpb25zKC0pDQogICAgDQogICAgZGlmZiAtLWdpdCBhL2RyaXZlcnMvaHdtb24v
-cG1idXMvYWRtMTI3NS5jIGIvZHJpdmVycy9od21vbi9wbWJ1cy9hZG0xMjc1LmMNCiAgICBpbmRl
-eCA1Y2FhMzdmYi4uYWI1ZmNlYiAxMDA2NDQNCiAgICAtLS0gYS9kcml2ZXJzL2h3bW9uL3BtYnVz
-L2FkbTEyNzUuYw0KICAgICsrKyBiL2RyaXZlcnMvaHdtb24vcG1idXMvYWRtMTI3NS5jDQogICAg
-QEAgLTY2Niw3ICs2NjYsMjMgQEAgc3RhdGljIGludCBhZG0xMjc1X3Byb2JlKHN0cnVjdCBpMmNf
-Y2xpZW50ICpjbGllbnQsDQogICAgIAkJdGluZGV4ID0gMzsNCiAgICAgDQogICAgIAkJaW5mby0+
-ZnVuY1swXSB8PSBQTUJVU19IQVZFX1BJTiB8IFBNQlVTX0hBVkVfU1RBVFVTX0lOUFVUIHwNCiAg
-ICAtCQkJUE1CVVNfSEFWRV9WT1VUIHwgUE1CVVNfSEFWRV9TVEFUVVNfVk9VVDsNCiAgICArCQkJ
-UE1CVVNfSEFWRV9WT1VUIHwgUE1CVVNfSEFWRV9TVEFUVVNfVk9VVCB8DQogICAgKwkJCVBNQlVT
-X0hBVkVfVEVNUCB8IFBNQlVTX0hBVkVfU1RBVFVTX1RFTVA7DQogICAgKw0KICAgICsJCWNvbmZp
-ZyA9IGkyY19zbWJ1c19yZWFkX2J5dGVfZGF0YShjbGllbnQsIEFETTEyNzVfUE1PTl9DT05GSUcp
-Ow0KICAgICsJCWlmIChjb25maWcgPCAwKQ0KICAgICsJCQlyZXR1cm4gY29uZmlnOw0KICAgICsN
-CiAgICArCQkvKiBFbmFibGUgVEVNUDEgYnkgZGVmYXVsdCAqLw0KICAgICsJCWNvbmZpZyB8PSBB
-RE0xMjc4X1RFTVAxX0VOOw0KICAgICsJCXJldCA9IGkyY19zbWJ1c193cml0ZV9ieXRlX2RhdGEo
-Y2xpZW50LA0KICAgICsJCQkJCUFETTEyNzVfUE1PTl9DT05GSUcsDQogICAgKwkJCQkJY29uZmln
-KTsNCiAgICArCQlpZiAocmV0IDwgMCkgew0KICAgICsJCWRldl9lcnIoJmNsaWVudC0+ZGV2LA0K
-ICAgICsJCQkiRmFpbGVkIHRvIGVuYWJsZSB0ZW1wZXJhdHVyZSBjb25maWdcbiIpOw0KICAgICsJ
-CXJldHVybiAtRU5PREVWOw0KICAgICsJCX0NCllvdSBkb24ndCBuZWVkIHRoaXMgYWJvdmUgY29k
-ZSByZW1vdmluZyBjaGVjayBhcyBiZWxvdyBzaG91bGQgYmUgZW5vdWdoICB0bw0KcG9wdWxhdGUg
-c3lzZnMgZW50cnkgeW91IG5lZWQuDQoNCiAgICAgCQkvKiBFbmFibGUgVk9VVCBpZiBub3QgZW5h
-YmxlZCAoaXQgaXMgZGlzYWJsZWQgYnkgZGVmYXVsdCkgKi8NCiAgICAgCQlpZiAoIShjb25maWcg
-JiBBRE0xMjc4X1ZPVVRfRU4pKSB7DQogICAgQEAgLTY4MSw5ICs2OTcsNiBAQCBzdGF0aWMgaW50
-IGFkbTEyNzVfcHJvYmUoc3RydWN0IGkyY19jbGllbnQgKmNsaWVudCwNCiAgICAgCQkJfQ0KICAg
-ICAJCX0NCiAgICAgDQogICAgLQkJaWYgKGNvbmZpZyAmIEFETTEyNzhfVEVNUDFfRU4pDQogICAg
-LQkJCWluZm8tPmZ1bmNbMF0gfD0NCiAgICAtCQkJCVBNQlVTX0hBVkVfVEVNUCB8IFBNQlVTX0hB
-VkVfU1RBVFVTX1RFTVA7DQogICAgIAkJaWYgKGNvbmZpZyAmIEFETTEyNzhfVklOX0VOKQ0KICAg
-ICAJCQlpbmZvLT5mdW5jWzBdIHw9IFBNQlVTX0hBVkVfVklOOw0KICAgICAJCWJyZWFrOw0KICAg
-IC0tIA0KICAgIDIuNy40DQogICAgDQogICAgDQoNCg==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--3DlYDZqgzYYzdUTaYkmBSX1UFcTispULy
+Content-Type: multipart/mixed; boundary="PzSnpketLU5sr73i8NHQan8wbmrYTvdCO"
+
+--PzSnpketLU5sr73i8NHQan8wbmrYTvdCO
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 5/29/20 10:42 AM, Patrick Williams wrote:
+> Hi Guenter,
+>=20
+> Thanks for the initial look at this.
+>=20
+> One question for you below...
+>=20
+> On Fri, May 29, 2020 at 10:30:16AM -0700, Guenter Roeck wrote:
+>> On 5/29/20 5:46 AM, Manikandan Elumalai wrote:
+>>> +		/* Enable TEMP1 by default */
+>>> +		config |=3D ADM1278_TEMP1_EN;
+>>> +		ret =3D i2c_smbus_write_byte_data(client,
+>>> +					ADM1275_PMON_CONFIG,
+>>> +					config);
+>>> +		if (ret < 0) {
+>>> +		dev_err(&client->dev,
+>>> +			"Failed to enable temperature config\n");
+>>> +		return -ENODEV;
+>>> +		}
+>>
+>> This can be handled in a single operation, together with ADM1278_VOUT_=
+EN
+>> below. There is no need for two separate write operations.
+>=20
+> I don't know if you noticed here but the change ends up enabling
+> TEMP1_EN in all cases.  Is this acceptable?  If not, do you have any
+> preference on how it is selected for enablement?
+>=20
+
+I did. We are doing the same for output voltage already, so I am not that=
+
+much concerned about it. If it is, we might consider adding _enable
+attribute support (see Documentation/hwmon/sysfs-interface.rst) to the
+PMBus core (presumably as virtual PMBus commands) and let the user
+enable/disable individual attributes as needed.
+
+What _should_ really be done, of course, is that the BIOS/ROMMON
+configures the chip as desired. Obviously that is not happening here.
+
+Guenter
+
+>>>  		/* Enable VOUT if not enabled (it is disabled by default) */
+>>>  		if (!(config & ADM1278_VOUT_EN)) {
+>>> @@ -681,9 +697,6 @@ static int adm1275_probe(struct i2c_client *clien=
+t,
+>>>  			}
+>>>  		}
+>>> =20
+>>> -		if (config & ADM1278_TEMP1_EN)
+>>> -			info->func[0] |=3D
+>>> -				PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
+>>>  		if (config & ADM1278_VIN_EN)
+>>>  			info->func[0] |=3D PMBUS_HAVE_VIN;
+>>>  		break;
+>>>
+>>
+>=20
+
+
+
+--PzSnpketLU5sr73i8NHQan8wbmrYTvdCO--
+
+--3DlYDZqgzYYzdUTaYkmBSX1UFcTispULy
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEiHPvMQj9QTOCiqgVyx8mb86fmYEFAl7RWfEACgkQyx8mb86f
+mYFj8Q/9FXJVYh+JNzgnGbNsTDqIEFGwqd0O5cn8rIPErMDkibL45IqGfyrgLX/K
+im/Uwe0c/S6wij2YpP1MHxpLYcQJWUR+pv2WxOf9jzVXRBpXDB+nBtxSE1DWlIvJ
+aEPO9TSSEp8Qmy2CQ9QIFKnxiQQ2n1hxrFmEQH0pkulAwL5rx6ZzfWC/laZsu/j4
+6ZKTtfqc36MscC6KwxcWtSjY8shHAAQof2XILFXC95lYUCO6fHwcAuHvWaXbeyoh
+3rrIHu75NTlYzT8fZtgAzHJ7AlSvSTTy98aYETxFNgLqoZq0i8SIpwYci6JrPraz
+JXtegLXtISvse145ayXshtBJ3tr3+lW4S7fpU0JY3jXcECIgdi+tZ2dNQT+7Tqt+
+BH9Me/wt67PMk+baSeQH48NYrSIjNitnxH5b35xjGqcPvNbTTKY0MzWjn0a6BvwE
+pDaDUQXlNrmDXKu+ot47dNpXdGtR3fOxh6VAiFPIfePXyKB7hVBUesDH1+/iEc8/
+QZYOUL/OVHxIIKcxGXtDta8Zoz7TwdKplfkmIdLHovHrAtU0EtGV+BeOD6budsTl
+DaL2J2jJ1UvPJbjmGWI423QMtyljV+8lvYgEdEB3ytNqfuQaCHhKZsKBIrgwul9f
+bXOLZKHFgcaZKEtGqGRyvnbSKONebZHDdwQXV51utOhnT0eN900=
+=rTYV
+-----END PGP SIGNATURE-----
+
+--3DlYDZqgzYYzdUTaYkmBSX1UFcTispULy--
