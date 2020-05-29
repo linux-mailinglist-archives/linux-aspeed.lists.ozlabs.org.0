@@ -2,74 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4456C1E79D8
-	for <lists+linux-aspeed@lfdr.de>; Fri, 29 May 2020 11:50:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC9B21E7DA0
+	for <lists+linux-aspeed@lfdr.de>; Fri, 29 May 2020 14:50:13 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49YKZ20RdhzDqcX
-	for <lists+linux-aspeed@lfdr.de>; Fri, 29 May 2020 19:50:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49YPYG3FP8zDqdn
+	for <lists+linux-aspeed@lfdr.de>; Fri, 29 May 2020 22:50:10 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::443;
- helo=mail-pf1-x443.google.com; envelope-from=manikandan.hcl.ers.epl@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::441;
+ helo=mail-pf1-x441.google.com; envelope-from=manikandan.hcl.ers.epl@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=RqGJS3FK; dkim-atps=neutral
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
+ header.s=20161025 header.b=BXyI1nGH; dkim-atps=neutral
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49YKWb44WDzDqSt;
- Fri, 29 May 2020 19:48:27 +1000 (AEST)
-Received: by mail-pf1-x443.google.com with SMTP id f3so1037323pfd.11;
- Fri, 29 May 2020 02:48:27 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49YPTc6nmYzDqj1;
+ Fri, 29 May 2020 22:47:00 +1000 (AEST)
+Received: by mail-pf1-x441.google.com with SMTP id q8so1335209pfu.5;
+ Fri, 29 May 2020 05:47:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=mPpjYDtVNFbOV3twkT62l0LyftrjpV9lJs5FQ+hBUJY=;
- b=RqGJS3FKuMyWpu1m3Hzc6I4POBM8lESMPYNIYKWdGRlvA8Kh4IUyw7F0hympeVZpd1
- yXWiFtzPY6j5UXa/C+hrN8clyWYIa55Iia4MqyCMWOIAKyuA8D7fPpKzOnHCb9wTJo+K
- wuYYrIN+1Uebl+YzdTKfCzPq2JRfKJAztns+u5u6kveazJvE361p23B2baTzk8oLw4rV
- O4eJ2mXLljPox04H1Jle4G9dzklK687lj4qCHFllOTt06dkwa7EWVHPslOjSUmJwpZFv
- JcegsnotpcOIrh168sH42B+nib3cjDhdNcgap8Abs7up2U86YnRPYnWc4twOvdKA2ZgT
- bJPw==
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=/q+MI9DCYmzNXOUcv5PNKoWs6DLZXfWW5JzDERtOTi0=;
+ b=BXyI1nGH9q7WV+suVu4sRRfrCawjSHzAZkw0A91VCTaw+zCwkYabvL0E9RJhTabyMe
+ IZDGzWyLTv69FfqLS3mk0pdXMS7UG37oI6S6f9NaJmufisRJRUZCUdeQ0Z6w6yJ+U5xd
+ nICH6zJtFZ1Ky+rEFarg7gMOwGvQ8nc/YHC/SwqqL+YVHzOQPNaXoDWb2+5dIUZxbdcA
+ PXckHKFILQl0iG1CmUKw0v67HPGAd3Xl3Fybq/MbrLFAJyT45ABp9vMnQMbJmWs5IYzJ
+ d4vAM+XxebyIkNp6uCEypy7nwJSBDw5v0EghA80wURhZoG6WBV6KCzFYK/Yqa9WPEcfU
+ ueJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=mPpjYDtVNFbOV3twkT62l0LyftrjpV9lJs5FQ+hBUJY=;
- b=GXpWkXMbwRrE07PN+R0pjKj/6kJi08/9Z4BPS53paXMtMapAWCIdhDbtsUjhWsi/6A
- uPf9Y58tay9ORJjnx98rqsMxEv989yn2PfJG8sefXVBf6faUWAzfCoD+4/xG8U2BMwWU
- pJ2deYXn67KIw7fwf8OHIvbO1GsJX0P8iUOcHfZpTguvyRBbRkM3PblpjGgq6DnmMMvE
- 7iSIQEvMOsGjmvNZMxEdOan0loSUinKfyHlppaB77gAxxCqbxBx7pxlcXMp/QBzEHsMB
- ugiQHHER0Qw+53oHJu7T03Zz3K5j5J2H26/fzjGrB5LdSLt6ulNBqCcCe5krppHuriC7
- 1TRg==
-X-Gm-Message-State: AOAM533w0eOP3+s+2o61kl6g2CWj3I+iJI8/Ucx8VpsZkQ/XXucX6l0r
- UmOSkBotpnHf9h/RjT0ibjA=
-X-Google-Smtp-Source: ABdhPJwWITnuWJvg76c3WAVB8NAsrXfY/9PtnbOchm4AlaChuKqAL/wfFo3hfttRROrUzG84B3Dqgw==
-X-Received: by 2002:a62:7610:: with SMTP id r16mr1467560pfc.70.1590745703981; 
- Fri, 29 May 2020 02:48:23 -0700 (PDT)
-Received: from cnn ([2401:4900:2654:9f89:a888:ed6a:9872:b822])
- by smtp.gmail.com with ESMTPSA id i22sm3987421pfo.92.2020.05.29.02.48.20
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=/q+MI9DCYmzNXOUcv5PNKoWs6DLZXfWW5JzDERtOTi0=;
+ b=H4o2Rv1aPOFj/lpUMFEfQeK3ddqnZmZ5WOlMcwt1rbVim4/CqG3l575DDtDtz3C89r
+ EogQBaY98BgYLIDYLi/fffZKM7HSkrih2sH5ih/9tExmoflLTv6cXzegOWz0KEIKrO6c
+ WiuPEWcFgapgONlal5D9kFV9VrnT8nNc5H5xspz6kzvnHn12HjSN/lxQXLg567We5BU2
+ XgZ87ASozlpXl5ZOn9qX7eEmF4EN6ullWPs11X80c/i78ibOYShKhVwKJQpfR9x3x5wX
+ nKQdMQm4KvtNKQApN8VS8CuRPgfDOrkP5+g0QhGOb0RsP0tqKWacZBrv35u2OuBvRRvg
+ tmMw==
+X-Gm-Message-State: AOAM533chr6zGv2dJT0BzL7WsbDdzOHeSFyJWwz/gAZfRsumRxYh471+
+ 0ZXufZIE27udVJsHbffpZyw=
+X-Google-Smtp-Source: ABdhPJwZyYjuXsZ1Rfhk+XonOEk9hVjmtO4n1WKyBOWY8Too4XOwaSPB/nqehEX5nZRw4hcYiF/t5A==
+X-Received: by 2002:a63:7d1d:: with SMTP id y29mr8120125pgc.189.1590756415869; 
+ Fri, 29 May 2020 05:46:55 -0700 (PDT)
+Received: from cnn ([2401:4900:2654:9f89:6942:a923:c6ef:8ae2])
+ by smtp.gmail.com with ESMTPSA id 25sm8180906pjk.50.2020.05.29.05.46.51
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 29 May 2020 02:48:23 -0700 (PDT)
-Date: Fri, 29 May 2020 15:18:13 +0530
-From: Manikandan <manikandan.hcl.ers.epl@gmail.com>
-To: Vijay Khemka <vijaykhemka@fb.com>
-Subject: Re: [PATCH] hwmon:(adm1275) Enable adm1278 ADM1278_TEMP1_EN
-Message-ID: <20200529094813.GA29323@cnn>
-References: <20200528141523.GA8810@cnn>
- <76D2694A-C80C-49F8-B51D-8A74341CA4ED@fb.com>
+ Fri, 29 May 2020 05:46:55 -0700 (PDT)
+Date: Fri, 29 May 2020 18:16:07 +0530
+From: Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>
+To: linux-hwmon@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org
+Subject: [PATCH v2] hwmon:(adm1275) Enable adm1278 ADM1278_TEMP1_EN 
+Message-ID: <20200529124607.GA3469@cnn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <76D2694A-C80C-49F8-B51D-8A74341CA4ED@fb.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -82,60 +77,63 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: sdasari@fb.com, manikandan.e@hcl.com, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, patrickw3@fb.com
+Cc: manikandan.e@hcl.com, saipsdasari@fb.com, patrickw3@fb.com,
+ linux@roeck-us.net
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, May 28, 2020 at 05:34:22PM +0000, Vijay Khemka wrote:
-> 
-> 
-> ﻿On 5/28/20, 7:15 AM, "Manikandan Elumalai" <manikandan.hcl.ers.epl@gmail.com> wrote:
-> 
->     
->     The adm1278 temperature sysfs attribute need it for one of the our openbmc platform . 
->     This functionality is not enabled by default, so PMON_CONFIG needs to be modified in order to enable it.
-> 
-> There is no Signed-off-by.
->     
->     ---
->      drivers/hwmon/pmbus/adm1275.c | 15 +++++++++++++++
->      1 file changed, 15 insertions(+)
->     
->     diff --git a/drivers/hwmon/pmbus/adm1275.c b/drivers/hwmon/pmbus/adm1275.c
->     index 5caa37fb..47b293d 100644
->     --- a/drivers/hwmon/pmbus/adm1275.c
->     +++ b/drivers/hwmon/pmbus/adm1275.c
->     @@ -681,6 +681,21 @@ static int adm1275_probe(struct i2c_client *client,
->      			}
->      		}
->      
->     +		config = i2c_smbus_read_byte_data(client, ADM1275_PMON_CONFIG);
->     +		if (config < 0)
->     +			return config;
->     +
->     +		/* Enable TEMP1 by defult */
->     +		config |= ADM1278_TEMP1_EN;
->     +		ret = i2c_smbus_write_byte_data(client,
->     +					ADM1275_PMON_CONFIG,
->     +					config);
->     +		if (ret < 0) {
->     +		dev_err(&client->dev,
->     +			"Failed to enable temperature config\n");
->     +		return -ENODEV;
->     +		}
->     +
->      		if (config & ADM1278_TEMP1_EN)
-> 
-> This check becomes irrelevant as you are enabling it above then rather than
-> enabling it just remove this check.
-     Thanks for review Vijay. I will submit changes in v2.
-> 
->      			info->func[0] |=
->      				PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
->     -- 
->     2.7.4
->     
->     
-> 
+The adm1278 temperature sysfs attribute need it for one of the openbmc platform . 
+This functionality is not enabled by default, so PMON_CONFIG needs to be modified in order to enable it.
+
+Signed-off-by   : Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>
+
+v2:
+   - Add Signed-off-by.
+   - Removed ADM1278_TEMP1_EN check.
+---
+ drivers/hwmon/pmbus/adm1275.c | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/hwmon/pmbus/adm1275.c b/drivers/hwmon/pmbus/adm1275.c
+index 5caa37fb..ab5fceb 100644
+--- a/drivers/hwmon/pmbus/adm1275.c
++++ b/drivers/hwmon/pmbus/adm1275.c
+@@ -666,7 +666,23 @@ static int adm1275_probe(struct i2c_client *client,
+ 		tindex = 3;
+ 
+ 		info->func[0] |= PMBUS_HAVE_PIN | PMBUS_HAVE_STATUS_INPUT |
+-			PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT;
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
++			PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
++
++		config = i2c_smbus_read_byte_data(client, ADM1275_PMON_CONFIG);
++		if (config < 0)
++			return config;
++
++		/* Enable TEMP1 by default */
++		config |= ADM1278_TEMP1_EN;
++		ret = i2c_smbus_write_byte_data(client,
++					ADM1275_PMON_CONFIG,
++					config);
++		if (ret < 0) {
++		dev_err(&client->dev,
++			"Failed to enable temperature config\n");
++		return -ENODEV;
++		}
+ 
+ 		/* Enable VOUT if not enabled (it is disabled by default) */
+ 		if (!(config & ADM1278_VOUT_EN)) {
+@@ -681,9 +697,6 @@ static int adm1275_probe(struct i2c_client *client,
+ 			}
+ 		}
+ 
+-		if (config & ADM1278_TEMP1_EN)
+-			info->func[0] |=
+-				PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
+ 		if (config & ADM1278_VIN_EN)
+ 			info->func[0] |= PMBUS_HAVE_VIN;
+ 		break;
+-- 
+2.7.4
+
