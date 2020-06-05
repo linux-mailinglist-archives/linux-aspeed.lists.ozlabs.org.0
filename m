@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9361B1F2B09
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 02:16:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F11EE1F2B0B
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 02:16:17 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49grJ54kHvzDqBY
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 10:16:05 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49grJG5NfQzDqHx
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 10:16:14 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,37 +17,37 @@ Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
  header.from=ideasonboard.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com
- header.a=rsa-sha256 header.s=mail header.b=CoKkxHVT; 
+ header.a=rsa-sha256 header.s=mail header.b=OjJe1Wb1; 
  dkim-atps=neutral
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49db6V5wSZzDqwB
- for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Jun 2020 18:14:57 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49db8M0g2JzDqjl
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Jun 2020 18:16:34 +1000 (AEST)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2347127C;
- Fri,  5 Jun 2020 10:14:53 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6AA8927C;
+ Fri,  5 Jun 2020 10:16:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1591344893;
- bh=/T4uRFDEAhjR7uiwq2XcwFGu5fflvaee1Ge9L9yOHzY=;
+ s=mail; t=1591344991;
+ bh=p5Ur/j+GarV1LooTi6qb8L1iIzILFAnLiwD57jXZ0O8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CoKkxHVTtFY2icsK6p9OpPyjsqsrdki4DPY8ISTJKQAb8VDRdiu+PU8SaKB22HVLt
- qa4o4/+bzYNBXt0EYVwapHLXzT11C+Rr271x/XGdUqqnde9TyP4y4NNLCv0T0E0P1U
- VqRE/svtQVk2ig921luwAX6B0CzoYHXFYYA9Tx8k=
-Date: Fri, 5 Jun 2020 11:14:35 +0300
+ b=OjJe1Wb1VnaGby2M9kNOSA+o7Sj5wfl/82iRY85tEAZ82oy7lGgUqNmTOGpPENlsS
+ YmanF5uYyz2MGgcGBA1LBzjiW4HXDTJUREOfnSD45i8Bpx52Ot/MF7fv2kmULoj2ZV
+ ZiGMo0jv6v8ukhX3xPhDKNc/sAWMmAnkxORGvBDg=
+Date: Fri, 5 Jun 2020 11:16:13 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 30/43] drm/rcar-du: Set GEM CMA functions with
- DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE
-Message-ID: <20200605081435.GB10638@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 03/43] drm/cma-helper: Add DRM_GEM_CMA_DRIVER_OPS to
+ set default GEM CMA functions
+Message-ID: <20200605081613.GA9325@pendragon.ideasonboard.com>
 References: <20200605073247.4057-1-tzimmermann@suse.de>
- <20200605073247.4057-31-tzimmermann@suse.de>
+ <20200605073247.4057-4-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200605073247.4057-31-tzimmermann@suse.de>
+In-Reply-To: <20200605073247.4057-4-tzimmermann@suse.de>
 X-Mailman-Approved-At: Tue, 09 Jun 2020 09:41:40 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -85,42 +85,97 @@ Hi Thomas,
 
 Thank you for the patch.
 
-On Fri, Jun 05, 2020 at 09:32:34AM +0200, Thomas Zimmermann wrote:
-> DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE sets the functions in
-> struct drm_driver to their defaults. No functional changes are
-> made.
-> 
-> v2:
-> 	* update for DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE
+On Fri, Jun 05, 2020 at 09:32:07AM +0200, Thomas Zimmermann wrote:
+> The macro to DRM_GEM_CMA_DRIVER_OPS sets GEM callbacks in struct drm_driver
+> to their defaults for CMA. An variant of the macro is provided for drivers
+
+s/An variant/A variant/
+
+> that override the default .dumb_create callback. Adapt drivers to the changes.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Acked-by: Emil Velikov <emil.velikov@collabora.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
+>  include/drm/drm_gem_cma_helper.h | 46 +++++++++++++++++++++++++++++---
+>  1 file changed, 43 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index 43610d5bf8820..f53b0ec710850 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -476,12 +476,7 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
+> diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma_helper.h
+> index 2cdf333ae585d..5e1e595c0e72d 100644
+> --- a/include/drm/drm_gem_cma_helper.h
+> +++ b/include/drm/drm_gem_cma_helper.h
+> @@ -109,6 +109,42 @@ void drm_gem_cma_prime_vunmap(struct drm_gem_object *obj, void *vaddr);
+>  struct drm_gem_object *
+>  drm_gem_cma_create_object_default_funcs(struct drm_device *dev, size_t size);
 >  
->  static struct drm_driver rcar_du_driver = {
->  	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-> -	.gem_create_object	= drm_gem_cma_create_object_default_funcs,
-> -	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
-> -	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
-> -	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
-> -	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
-> -	.dumb_create		= rcar_du_dumb_create,
-> +	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(rcar_du_dumb_create),
->  	.fops			= &rcar_du_fops,
->  	.name			= "rcar-du",
->  	.desc			= "Renesas R-Car Display Unit",
+> +/**
+> + * DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE - CMA GEM driver operations
+> + * @dumb_create_func: callback function for .dumb_create
+> + *
+> + * This macro provides a shortcut for setting the default GEM operations in the
+> + * &drm_driver structure.
+> + *
+> + * This macro is a variant of DRM_GEM_CMA_DRIVER_OPS for drivers that
+> + * override the default implementation of &struct rm_driver.dumb_create. Use
+> + * DRM_GEM_CMA_DRIVER_OPS if possible. Drivers that require a virtual address
+> + * on imported buffers should use
+> + * DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE() instead.
+> + */
+> +#define DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(dumb_create_func) \
+> +	.gem_create_object	= drm_gem_cma_create_object_default_funcs, \
+> +	.dumb_create		= (dumb_create_func), \
+
+Do we need parentheses here ?
+
+> +	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd, \
+> +	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle, \
+> +	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table, \
+> +	.gem_prime_mmap		= drm_gem_cma_prime_mmap
+> +
+> +/**
+> + * DRM_GEM_CMA_DRIVER_OPS - CMA GEM driver operations
+> + *
+> + * This macro provides a shortcut for setting the default GEM operations in the
+> + * &drm_driver structure.
+> + *
+> + * Drivers that come with their own implementation of
+> + * &struct drm_driver.dumb_create should use
+> + * DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE() instead. Use
+> + * DRM_GEM_CMA_DRIVER_OPS if possible. Drivers that require a virtual address
+> + * on imported buffers should use DRM_GEM_CMA_DRIVER_OPS_VMAP instead.
+> + */
+> +#define DRM_GEM_CMA_DRIVER_OPS \
+> +	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(drm_gem_cma_dumb_create)
+> +
+>  /**
+>   * DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE - CMA GEM driver operations
+>   *                                                ensuring a virtual address
+> @@ -120,8 +156,10 @@ drm_gem_cma_create_object_default_funcs(struct drm_device *dev, size_t size);
+>   * imported buffers.
+>   *
+>   * This macro is a variant of DRM_GEM_CMA_DRIVER_OPS_VMAP for drivers that
+> - * override the default implementation of &struct rm_driver.dumb_create. Use
+> - * DRM_GEM_CMA_DRIVER_OPS_VMAP if possible.
+> + * override the default implementation of &struct drm_driver.dumb_create. Use
+> + * DRM_GEM_CMA_DRIVER_OPS_VMAP if possible. Drivers that do not require a
+> + * virtual address on imported buffers should use
+> + * DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE() instead.
+>   */
+>  #define DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE(dumb_create_func) \
+>  	.gem_create_object	= drm_gem_cma_create_object_default_funcs, \
+> @@ -142,7 +180,9 @@ drm_gem_cma_create_object_default_funcs(struct drm_device *dev, size_t size);
+>   * Drivers that come with their own implementation of
+>   * &struct drm_driver.dumb_create should use
+>   * DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE() instead. Use
+> - * DRM_GEM_CMA_DRIVER_OPS_VMAP if possible.
+> + * DRM_GEM_CMA_DRIVER_OPS_VMAP if possible. Drivers that do not require a
+> + * virtual address on imported buffers should use DRM_GEM_CMA_DRIVER_OPS
+> + * instead.
+>   */
+>  #define DRM_GEM_CMA_DRIVER_OPS_VMAP \
+>  	DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE(drm_gem_cma_dumb_create)
+> 
 
 -- 
 Regards,
