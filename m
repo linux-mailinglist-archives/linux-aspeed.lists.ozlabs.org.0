@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681B61F2B0F
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 02:16:42 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 205AF1F2B10
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 02:16:53 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49grJl2ClXzDqHx
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 10:16:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49grJy0KkSzDqSV
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 10:16:50 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,36 +17,36 @@ Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
  header.from=ideasonboard.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com
- header.a=rsa-sha256 header.s=mail header.b=OJ+pXSjN; 
+ header.a=rsa-sha256 header.s=mail header.b=bydqSrTo; 
  dkim-atps=neutral
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49dbK12pVtzDqm6
- for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Jun 2020 18:24:05 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49dbcv0GVTzDqsM
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Jun 2020 18:37:50 +1000 (AEST)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
  [81.175.216.236])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C8E42253;
- Fri,  5 Jun 2020 10:24:01 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7F59D27C;
+ Fri,  5 Jun 2020 10:37:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1591345442;
- bh=JF5Nj6iAmzU7EaLV5fA9aNkrgSmUyTJ0e30bj9JaGUg=;
+ s=mail; t=1591346267;
+ bh=a/RPO0OzT2AKJrLE2ET5CksaSq02V4xZgtBR0n6g+Mg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OJ+pXSjN3ge77PLducIXEDDdpCjTPd4fzn24m+Gq4N1QQU3i6OR9ocPM8JBPozaJe
- rS2WOxMCXDj/gXIDHwZyr/Nki9fourZ2zWemDkoaLelQh33hPdAPxcG0l1qxAH1Qlr
- vHSh4MCIQmVWUjY0nu4Sw4fcR+dKnhMeUBHAA2cQ=
-Date: Fri, 5 Jun 2020 11:23:43 +0300
+ b=bydqSrTo/7rsWSVTcuszmkgXfPHdtwTZOJqDZW/D1sJfL5YY2DuvCoQXj9RQzSIZ5
+ /vFjQtg6p4YIUT+C4x3JCuUg260cy4sNyrNWXDqiiwW/y4Y/ENFYtGDfSfnUvrf4CC
+ sMX7TjXvHZtyqsebdGbbSUWTHy8i+Ep607oq/ID8=
+Date: Fri, 5 Jun 2020 11:37:29 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 29/43] drm/rcar-du: Use GEM CMA object functions
-Message-ID: <20200605082343.GC9325@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 43/43] drm: Remove struct drm_driver.gem_print_info
+Message-ID: <20200605083729.GA11426@pendragon.ideasonboard.com>
 References: <20200605073247.4057-1-tzimmermann@suse.de>
- <20200605073247.4057-30-tzimmermann@suse.de>
+ <20200605073247.4057-44-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200605073247.4057-30-tzimmermann@suse.de>
+In-Reply-To: <20200605073247.4057-44-tzimmermann@suse.de>
 X-Mailman-Approved-At: Tue, 09 Jun 2020 09:41:41 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -84,47 +84,64 @@ Hi Thomas,
 
 Thank you for the patch.
 
-On Fri, Jun 05, 2020 at 09:32:33AM +0200, Thomas Zimmermann wrote:
-> Create GEM objects with drm_gem_cma_create_object_default_funcs(), which
-> allocates the object and sets CMA's default object functions. Corresponding
-> callbacks in struct drm_driver are cleared. No functional changes are made.
-> 
-> Driver and object-function instances use the same callback functions, with
-> the exception of vunmap. The implementation of vunmap is empty and left out
-> in CMA's default object functions.
-> 
-> v3:
-> 	* convert to DRIVER_OPS macro in a separate patch
-> 
+On Fri, Jun 05, 2020 at 09:32:47AM +0200, Thomas Zimmermann wrote:
+> The .gem_print_info callback in struct drm_driver is obsolete and has
+> no users left. Remove it.
+
+I like code removal :-) Looking forward to the removal of more
+GEM-related fields from struct drm_driver.
+
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Emil Velikov <emil.velikov@collabora.com>
+> Suggested-by: Emil Velikov <emil.velikov@collabora.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
+>  drivers/gpu/drm/drm_gem.c |  2 --
+>  include/drm/drm_drv.h     | 17 -----------------
+>  2 files changed, 19 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index 3e67cf70f0402..43610d5bf8820 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -476,14 +476,10 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index efc0367841e2b..08b3fa27ec406 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -1191,8 +1191,6 @@ void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
 >  
->  static struct drm_driver rcar_du_driver = {
->  	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
-> -	.gem_free_object_unlocked = drm_gem_cma_free_object,
-> -	.gem_vm_ops		= &drm_gem_cma_vm_ops,
-> +	.gem_create_object	= drm_gem_cma_create_object_default_funcs,
->  	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
->  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
-> -	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
->  	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
-> -	.gem_prime_vmap		= drm_gem_cma_prime_vmap,
-> -	.gem_prime_vunmap	= drm_gem_cma_prime_vunmap,
->  	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
->  	.dumb_create		= rcar_du_dumb_create,
->  	.fops			= &rcar_du_fops,
+>  	if (obj->funcs && obj->funcs->print_info)
+>  		obj->funcs->print_info(p, indent, obj);
+> -	else if (obj->dev->driver->gem_print_info)
+> -		obj->dev->driver->gem_print_info(p, indent, obj);
+>  }
+>  
+>  int drm_gem_pin(struct drm_gem_object *obj)
+> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+> index bb924cddc09c1..8f110a28b6a23 100644
+> --- a/include/drm/drm_drv.h
+> +++ b/include/drm/drm_drv.h
+> @@ -353,23 +353,6 @@ struct drm_driver {
+>  	 */
+>  	void (*gem_close_object) (struct drm_gem_object *, struct drm_file *);
+>  
+> -	/**
+> -	 * @gem_print_info:
+> -	 *
+> -	 * This callback is deprecated in favour of
+> -	 * &drm_gem_object_funcs.print_info.
+> -	 *
+> -	 * If driver subclasses struct &drm_gem_object, it can implement this
+> -	 * optional hook for printing additional driver specific info.
+> -	 *
+> -	 * drm_printf_indent() should be used in the callback passing it the
+> -	 * indent argument.
+> -	 *
+> -	 * This callback is called from drm_gem_print_info().
+> -	 */
+> -	void (*gem_print_info)(struct drm_printer *p, unsigned int indent,
+> -			       const struct drm_gem_object *obj);
+> -
+>  	/**
+>  	 * @gem_create_object: constructor for gem objects
+>  	 *
 
 -- 
 Regards,
