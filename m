@@ -1,55 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E231F2B01
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 02:15:37 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB141F2B06
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 02:15:54 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49grHV2z19zDqCw
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 10:15:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49grHq0Z5qzDqBY
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 10:15:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=suse.de
- (client-ip=195.135.220.15; helo=mx2.suse.de; envelope-from=tzimmermann@suse.de;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=suse.de
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=ideasonboard.com (client-ip=2001:4b98:dc2:55:216:3eff:fef7:d647;
+ helo=perceval.ideasonboard.com;
+ envelope-from=laurent.pinchart@ideasonboard.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=ideasonboard.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com
+ header.a=rsa-sha256 header.s=mail header.b=bffcTNsj; 
+ dkim-atps=neutral
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49dZBV7252zDqtG
- for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Jun 2020 17:33:22 +1000 (AEST)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 22AB4B2B1;
- Fri,  5 Jun 2020 07:33:21 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
- james.qian.wang@arm.com, liviu.dudau@arm.com, mihail.atanassov@arm.com,
- brian.starkey@arm.com, joel@jms.id.au, andrew@aj.id.au, sam@ravnborg.org,
- bbrezillon@kernel.org, nicolas.ferre@microchip.com,
- alexandre.belloni@bootlin.com, ludovic.desroches@microchip.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, stefan@agner.ch,
- alison.wang@nxp.com, xinliang.liu@linaro.org, zourongrong@gmail.com,
- john.stultz@linaro.org, kong.kongxinwei@hisilicon.com,
- puck.chen@hisilicon.com, p.zabel@pengutronix.de, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- linux-imx@nxp.com, paul@crapouillou.net, linus.walleij@linaro.org,
- narmstrong@baylibre.com, khilman@baylibre.com, marex@denx.de,
- laurent.pinchart@ideasonboard.com, kieran.bingham+renesas@ideasonboard.com,
- benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
- philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
- wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org
-Subject: [PATCH v3 43/43] drm: Remove struct drm_driver.gem_print_info
-Date: Fri,  5 Jun 2020 09:32:47 +0200
-Message-Id: <20200605073247.4057-44-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200605073247.4057-1-tzimmermann@suse.de>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49db4v30kjzDqxj
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Jun 2020 18:13:33 +1000 (AEST)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 18BFF253;
+ Fri,  5 Jun 2020 10:13:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1591344804;
+ bh=UbGGfjgfsowCxMW2pruzml/FOrKvjG4r631yn4zNedg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bffcTNsjHyPAwZ4FgCfywA35Gyaci1Fy0xAs1l8prFLFH3lo26g5jZkJWKrLUnLfZ
+ vdt+RJ2u1wP6hCcBZD8C3f7D6MvwIIhWsQZ5kdGJNndHBg6XXuSTrGtzWswpEedq4Z
+ B8zA6atut/f5yHovJXrl2FVUeWLYNTaDGzahIqQw=
+Date: Fri, 5 Jun 2020 11:13:05 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 32/43] drm/shmobile: Set GEM CMA functions with
+ DRM_GEM_CMA_DRIVER_OPS
+Message-ID: <20200605081305.GA10638@pendragon.ideasonboard.com>
 References: <20200605073247.4057-1-tzimmermann@suse.de>
+ <20200605073247.4057-33-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 09 Jun 2020 09:42:13 +1000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200605073247.4057-33-tzimmermann@suse.de>
+X-Mailman-Approved-At: Tue, 09 Jun 2020 09:41:39 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,64 +60,64 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-aspeed@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, Emil Velikov <emil.velikov@collabora.com>
+Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
+ narmstrong@baylibre.com, airlied@linux.ie, linus.walleij@linaro.org,
+ liviu.dudau@arm.com, stefan@agner.ch, philippe.cornu@st.com,
+ paul@crapouillou.net, benjamin.gaignard@linaro.org, mihail.atanassov@arm.com,
+ sam@ravnborg.org, alexandre.torgue@st.com, marex@denx.de, festevam@gmail.com,
+ abrodkin@synopsys.com, ludovic.desroches@microchip.com,
+ xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com, tomi.valkeinen@ti.com,
+ james.qian.wang@arm.com, Emil Velikov <emil.velikov@collabora.com>,
+ linux-imx@nxp.com, p.zabel@pengutronix.de, puck.chen@hisilicon.com,
+ s.hauer@pengutronix.de, alison.wang@nxp.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, john.stultz@linaro.org, jsarha@ti.com, wens@csie.org,
+ vincent.abriou@st.com, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org, mcoquelin.stm32@gmail.com,
+ noralf@tronnes.org, bbrezillon@kernel.org, dri-devel@lists.freedesktop.org,
+ nicolas.ferre@microchip.com, yannick.fertre@st.com,
+ kieran.bingham+renesas@ideasonboard.com, daniel@ffwll.ch, khilman@baylibre.com,
+ zourongrong@gmail.com, shawnguo@kernel.org, brian.starkey@arm.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The .gem_print_info callback in struct drm_driver is obsolete and has
-no users left. Remove it.
+Hi Thomas,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Suggested-by: Emil Velikov <emil.velikov@collabora.com>
----
- drivers/gpu/drm/drm_gem.c |  2 --
- include/drm/drm_drv.h     | 17 -----------------
- 2 files changed, 19 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index efc0367841e2b..08b3fa27ec406 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1191,8 +1191,6 @@ void drm_gem_print_info(struct drm_printer *p, unsigned int indent,
- 
- 	if (obj->funcs && obj->funcs->print_info)
- 		obj->funcs->print_info(p, indent, obj);
--	else if (obj->dev->driver->gem_print_info)
--		obj->dev->driver->gem_print_info(p, indent, obj);
- }
- 
- int drm_gem_pin(struct drm_gem_object *obj)
-diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index bb924cddc09c1..8f110a28b6a23 100644
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -353,23 +353,6 @@ struct drm_driver {
- 	 */
- 	void (*gem_close_object) (struct drm_gem_object *, struct drm_file *);
- 
--	/**
--	 * @gem_print_info:
--	 *
--	 * This callback is deprecated in favour of
--	 * &drm_gem_object_funcs.print_info.
--	 *
--	 * If driver subclasses struct &drm_gem_object, it can implement this
--	 * optional hook for printing additional driver specific info.
--	 *
--	 * drm_printf_indent() should be used in the callback passing it the
--	 * indent argument.
--	 *
--	 * This callback is called from drm_gem_print_info().
--	 */
--	void (*gem_print_info)(struct drm_printer *p, unsigned int indent,
--			       const struct drm_gem_object *obj);
--
- 	/**
- 	 * @gem_create_object: constructor for gem objects
- 	 *
+On Fri, Jun 05, 2020 at 09:32:36AM +0200, Thomas Zimmermann wrote:
+> DRM_GEM_CMA_DRIVER_OPS sets the functions in struct drm_driver
+> to their defaults. No functional changes are made.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Emil Velikov <emil.velikov@collabora.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/gpu/drm/shmobile/shmob_drm_drv.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> index e209610d4b8a1..26a15c214bd3f 100644
+> --- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> +++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+> @@ -131,12 +131,7 @@ DEFINE_DRM_GEM_CMA_FOPS(shmob_drm_fops);
+>  static struct drm_driver shmob_drm_driver = {
+>  	.driver_features	= DRIVER_GEM | DRIVER_MODESET,
+>  	.irq_handler		= shmob_drm_irq,
+> -	.gem_create_object	= drm_gem_cma_create_object_default_funcs,
+> -	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+> -	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+> -	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
+> -	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
+> -	.dumb_create		= drm_gem_cma_dumb_create,
+> +	DRM_GEM_CMA_DRIVER_OPS,
+>  	.fops			= &shmob_drm_fops,
+>  	.name			= "shmob-drm",
+>  	.desc			= "Renesas SH Mobile DRM",
+
 -- 
-2.26.2
+Regards,
 
+Laurent Pinchart
