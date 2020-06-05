@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32081F2A19
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 02:09:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C8B1F2A1C
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 02:10:27 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49gr903HpWzDqT8
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 10:09:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49gr9W6CwRzDqNC
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 10:10:23 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -18,11 +18,11 @@ Authentication-Results: lists.ozlabs.org;
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49dZB45phkzDqtN
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49dZB50G4fzDqtY
  for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Jun 2020 17:33:00 +1000 (AEST)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 0FDE6B1D4;
+ by mx2.suse.de (Postfix) with ESMTP id AC574B1D6;
  Fri,  5 Jun 2020 07:32:59 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
@@ -41,16 +41,15 @@ To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
  philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
  wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org
-Subject: [PATCH v3 09/43] drm/atmel-hlcdc: Set GEM CMA functions with
- DRM_GEM_CMA_DRIVER_OPS
-Date: Fri,  5 Jun 2020 09:32:13 +0200
-Message-Id: <20200605073247.4057-10-tzimmermann@suse.de>
+Subject: [PATCH v3 10/43] drm/fsl-dcu: Use GEM CMA object functions
+Date: Fri,  5 Jun 2020 09:32:14 +0200
+Message-Id: <20200605073247.4057-11-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605073247.4057-1-tzimmermann@suse.de>
 References: <20200605073247.4057-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 09 Jun 2020 09:41:55 +1000
+X-Mailman-Approved-At: Tue, 09 Jun 2020 09:41:56 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,34 +68,43 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-DRM_GEM_CMA_DRIVER_OPS sets the functions in struct drm_driver
-to their defaults. No functional changes are made.
+Create GEM objects with drm_gem_cma_create_object_default_funcs(), which
+allocates the object and sets CMA's default object functions. Corresponding
+callbacks in struct drm_driver are cleared. No functional changes are made.
+
+Driver and object-function instances use the same callback functions, with
+the exception of vunmap. The implementation of vunmap is empty and left out
+in CMA's default object functions.
+
+v3:
+	* convert to DRIVER_OPS macro in a separate patch
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Acked-by: Emil Velikov <emil.velikov@collabora.com>
 ---
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-index e028c58f56c93..871293d1aeeba 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-@@ -821,12 +821,7 @@ static struct drm_driver atmel_hlcdc_dc_driver = {
- 	.irq_preinstall = atmel_hlcdc_dc_irq_uninstall,
- 	.irq_postinstall = atmel_hlcdc_dc_irq_postinstall,
- 	.irq_uninstall = atmel_hlcdc_dc_irq_uninstall,
--	.gem_create_object = drm_gem_cma_create_object_default_funcs,
--	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
--	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
--	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
--	.gem_prime_mmap = drm_gem_cma_prime_mmap,
--	.dumb_create = drm_gem_cma_dumb_create,
-+	DRM_GEM_CMA_DRIVER_OPS,
- 	.fops = &fops,
- 	.name = "atmel-hlcdc",
- 	.desc = "Atmel HLCD Controller DRM",
+diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+index f15d2e7967a3e..113d2e30cf952 100644
+--- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
++++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+@@ -141,14 +141,10 @@ static struct drm_driver fsl_dcu_drm_driver = {
+ 	.irq_handler		= fsl_dcu_drm_irq,
+ 	.irq_preinstall		= fsl_dcu_irq_uninstall,
+ 	.irq_uninstall		= fsl_dcu_irq_uninstall,
+-	.gem_free_object_unlocked = drm_gem_cma_free_object,
+-	.gem_vm_ops		= &drm_gem_cma_vm_ops,
++	.gem_create_object	= drm_gem_cma_create_object_default_funcs,
+ 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+ 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+-	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
+ 	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
+-	.gem_prime_vmap		= drm_gem_cma_prime_vmap,
+-	.gem_prime_vunmap	= drm_gem_cma_prime_vunmap,
+ 	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
+ 	.dumb_create		= drm_gem_cma_dumb_create,
+ 	.fops			= &fsl_dcu_drm_fops,
 -- 
 2.26.2
 
