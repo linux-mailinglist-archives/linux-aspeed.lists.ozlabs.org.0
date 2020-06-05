@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF021F2AE1
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 02:12:59 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C3C1F2AE2
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 02:13:04 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49grDS2Y9VzDqDJ
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 10:12:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49grDZ0fcFzDqFm
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 10:13:02 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -18,11 +18,11 @@ Authentication-Results: lists.ozlabs.org;
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49dZBH0G0mzDqtK
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49dZBH5C2FzDqtG
  for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Jun 2020 17:33:11 +1000 (AEST)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 32DDDB27C;
+ by mx2.suse.de (Postfix) with ESMTP id CF9F7B283;
  Fri,  5 Jun 2020 07:33:10 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
@@ -41,10 +41,9 @@ To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
  philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
  wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org
-Subject: [PATCH v3 26/43] drm/meson: Set GEM CMA functions with
- DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE
-Date: Fri,  5 Jun 2020 09:32:30 +0200
-Message-Id: <20200605073247.4057-27-tzimmermann@suse.de>
+Subject: [PATCH v3 27/43] drm/mxsfb: Use GEM CMA object functions
+Date: Fri,  5 Jun 2020 09:32:31 +0200
+Message-Id: <20200605073247.4057-28-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605073247.4057-1-tzimmermann@suse.de>
 References: <20200605073247.4057-1-tzimmermann@suse.de>
@@ -69,42 +68,44 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE sets the functions in
-struct drm_driver to their defaults. No functional changes are
-made.
+Create GEM objects with drm_gem_cma_create_object_default_funcs(), which
+allocates the object and sets CMA's default object functions. Corresponding
+callbacks in struct drm_driver are cleared. No functional changes are made.
 
-v2:
-	* update for DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE
+Driver and object-function instances use the same callback functions, with
+the exception of vunmap. The implementation of vunmap is empty and left out
+in CMA's default object functions.
+
+v3:
+	* convert to DRIVER_OPS macro in a separate patch
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Emil Velikov <emil.velikov@collabora.com>
-Acked-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- drivers/gpu/drm/meson/meson_drv.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index 036af6e69bb78..8b9c8dd788c41 100644
---- a/drivers/gpu/drm/meson/meson_drv.c
-+++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -96,15 +96,8 @@ static struct drm_driver meson_driver = {
- 	/* IRQ */
- 	.irq_handler		= meson_irq,
- 
--	/* PRIME Ops */
--	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
--	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
--	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
--	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
--
--	/* GEM Ops */
--	.gem_create_object	= drm_gem_cma_create_object_default_funcs,
--	.dumb_create		= meson_dumb_create,
-+	/* CMA Ops */
-+	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(meson_dumb_create),
- 
- 	/* Misc */
- 	.fops			= &fops,
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+index 497cf443a9afa..afdf1e0accba6 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+@@ -356,15 +356,11 @@ static struct drm_driver mxsfb_driver = {
+ 	.irq_handler		= mxsfb_irq_handler,
+ 	.irq_preinstall		= mxsfb_irq_preinstall,
+ 	.irq_uninstall		= mxsfb_irq_preinstall,
+-	.gem_free_object_unlocked = drm_gem_cma_free_object,
+-	.gem_vm_ops		= &drm_gem_cma_vm_ops,
++	.gem_create_object	= drm_gem_cma_create_object_default_funcs,
+ 	.dumb_create		= drm_gem_cma_dumb_create,
+ 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+ 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+-	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
+ 	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
+-	.gem_prime_vmap		= drm_gem_cma_prime_vmap,
+-	.gem_prime_vunmap	= drm_gem_cma_prime_vunmap,
+ 	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
+ 	.fops	= &fops,
+ 	.name	= "mxsfb-drm",
 -- 
 2.26.2
 
