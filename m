@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87DB91F2AF0
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 02:14:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7721F2AF2
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 02:14:55 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49grGX30ydzDq61
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 10:14:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49grGh1LTxzDqSB
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 10:14:52 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -18,12 +18,12 @@ Authentication-Results: lists.ozlabs.org;
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49dZBR33NxzDqtG
- for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Jun 2020 17:33:19 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49dZBS1pjmzDqtG
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Jun 2020 17:33:20 +1000 (AEST)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx2.suse.de (Postfix) with ESMTP id 987F2B29B;
- Fri,  5 Jun 2020 07:33:18 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 3DFD6B29D;
+ Fri,  5 Jun 2020 07:33:19 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  james.qian.wang@arm.com, liviu.dudau@arm.com, mihail.atanassov@arm.com,
@@ -41,15 +41,16 @@ To: abrodkin@synopsys.com, airlied@linux.ie, daniel@ffwll.ch,
  benjamin.gaignard@linaro.org, vincent.abriou@st.com, yannick.fertre@st.com,
  philippe.cornu@st.com, mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
  wens@csie.org, jsarha@ti.com, tomi.valkeinen@ti.com, noralf@tronnes.org
-Subject: [PATCH v3 39/43] drm/tve200: Use GEM CMA object functions
-Date: Fri,  5 Jun 2020 09:32:43 +0200
-Message-Id: <20200605073247.4057-40-tzimmermann@suse.de>
+Subject: [PATCH v3 40/43] drm/tve200: Set GEM CMA functions with
+ DRM_GEM_CMA_DRIVER_OPS
+Date: Fri,  5 Jun 2020 09:32:44 +0200
+Message-Id: <20200605073247.4057-41-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200605073247.4057-1-tzimmermann@suse.de>
 References: <20200605073247.4057-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 09 Jun 2020 09:42:07 +1000
+X-Mailman-Approved-At: Tue, 09 Jun 2020 09:42:11 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,46 +69,35 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Create GEM objects with drm_gem_cma_create_object_default_funcs(), which
-allocates the object and sets CMA's default object functions. Corresponding
-callbacks in struct drm_driver are cleared. No functional changes are made.
-
-Driver and object-function instances use the same callback functions, with
-the exception of vunmap. The implementation of vunmap is empty and left out
-in CMA's default object functions.
-
-v3:
-	* convert to DRIVER_OPS macro in a separate patch
+DRM_GEM_CMA_DRIVER_OPS sets the functions in struct drm_driver
+to their defaults. No functional changes are made.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 Acked-by: Emil Velikov <emil.velikov@collabora.com>
 ---
- drivers/gpu/drm/tve200/tve200_drv.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/gpu/drm/tve200/tve200_drv.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
-index 00ba9e5ce1307..f10d5bb1323ca 100644
+index f10d5bb1323ca..c3aa39bd38ecd 100644
 --- a/drivers/gpu/drm/tve200/tve200_drv.c
 +++ b/drivers/gpu/drm/tve200/tve200_drv.c
-@@ -147,16 +147,12 @@ static struct drm_driver tve200_drm_driver = {
+@@ -147,13 +147,7 @@ static struct drm_driver tve200_drm_driver = {
  	.major = 1,
  	.minor = 0,
  	.patchlevel = 0,
-+	.gem_create_object = drm_gem_cma_create_object_default_funcs,
- 	.dumb_create = drm_gem_cma_dumb_create,
--	.gem_free_object_unlocked = drm_gem_cma_free_object,
--	.gem_vm_ops = &drm_gem_cma_vm_ops,
- 
- 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
- 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
--	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
- 	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
--	.gem_prime_vmap = drm_gem_cma_prime_vmap,
--	.gem_prime_vunmap = drm_gem_cma_prime_vunmap,
- 	.gem_prime_mmap = drm_gem_cma_prime_mmap,
+-	.gem_create_object = drm_gem_cma_create_object_default_funcs,
+-	.dumb_create = drm_gem_cma_dumb_create,
+-
+-	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+-	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+-	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
+-	.gem_prime_mmap = drm_gem_cma_prime_mmap,
++	DRM_GEM_CMA_DRIVER_OPS,
  };
  
+ static int tve200_probe(struct platform_device *pdev)
 -- 
 2.26.2
 
