@@ -2,67 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C111F2B3E
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 02:17:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A41C01F3F64
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 17:30:51 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49grKv6vQhzDqSB
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Jun 2020 10:17:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49hDbX3bz4zDqbx
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jun 2020 01:30:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::e43;
- helo=mail-vs1-xe43.google.com; envelope-from=emil.l.velikov@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::541;
+ helo=mail-pg1-x541.google.com; envelope-from=manikandan.hcl.ers.epl@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=i/zJbAE3; dkim-atps=neutral
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
- [IPv6:2607:f8b0:4864:20::e43])
+ header.s=20161025 header.b=P/TEF7aN; dkim-atps=neutral
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49dn466wB6zDqHL
- for <linux-aspeed@lists.ozlabs.org>; Sat,  6 Jun 2020 01:43:34 +1000 (AEST)
-Received: by mail-vs1-xe43.google.com with SMTP id g129so5853859vsc.4
- for <linux-aspeed@lists.ozlabs.org>; Fri, 05 Jun 2020 08:43:33 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49hDVs2qJdzDqZn;
+ Wed, 10 Jun 2020 01:26:44 +1000 (AEST)
+Received: by mail-pg1-x541.google.com with SMTP id s10so10499999pgm.0;
+ Tue, 09 Jun 2020 08:26:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DaW399j0+D4Xs4eLuSFZIWJCp5uF7FjJvuMOF1CdS3Y=;
- b=i/zJbAE3NTHr49faEOZ7ZTHaYM7oUsJamCx6nbaX2UCDODIsmWrg+aqIFKnVge6CBF
- wwHYqMAdZpdr6OqiNA3aLJqJm6ov9hIfBJqXiQX9HZlDErwMKiO6UkbuJscfEnKONPqv
- GSCVChfRAiND595Toqa2q9wswFZ5gyJyayy+8BYc/vfMNd+Qrp+5FjnUj7+NiV8c7mOA
- xXQ0VZ7PbQbRLB3AN6DghTdJa2U0D6BS4Dvx4PRgKZ89RJWjYwPGDIHbcfMIkykKNUm6
- pzIwLueLW0R8fi3LomqTTgvsvJDJTD5dIzeFfihfvVojfObFi6vT3toqEVF5paJUKlqU
- dfzw==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=1K8sHcdXpjGKgr+77VdsdCZesRB4PdV8M1C3oEj3EnQ=;
+ b=P/TEF7aNarddaQFetGCGJZLD2+MyTqV4fT79+cJ8t0B3IEVLhh7nKcDtCsrUfeX8Db
+ zJiY5zKKgTUYl0y5bOBw8b+uXC5Zh+IfgsZD6BN7lpUX7Zi8tOxT7R50u/0tKNu+9zCw
+ a9udRVnJhGw2dQ/RJnmjuM/kQp23E6JsTT7zdSpXZ69nZbfd95IllHtpd+zEKHIWlJR8
+ hrjKCn8ekVNsUzebAxVGh4mA0d86bjhY6puqwMJDqTxj9BQvhPLZdfekNUtScUrIetCo
+ DJKdoXH2vuWFrp/wsx31FmalCiVIjq3MjqHdMa+TCosyXXD3aWNbdAxK76sL4yRCVIOF
+ 1Q9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DaW399j0+D4Xs4eLuSFZIWJCp5uF7FjJvuMOF1CdS3Y=;
- b=O5p82aGfXMje7f5uNeJ4mvqCqasQX02o5l4rSb4zOt08RGTFpbRafn8xHOXs3apA7q
- QecTgD70iNkAEKPLIBQsxp+Cj+A9vouOajBmpvytmETMq9Pey3oaaH+SAhS6URF2+CA5
- 2YutNl4TVr5Q78MMf1ZlegQA9QrpO9bfVHabKTBGmR98+mJe4shNjUqp5SiiJ8dEl8J7
- AO+i5kiG0tBXRhWR1mJqYqKUPz9uktQU0PMFjqbF3tK7YeunmJsMFnLk5ugG1Adxjdcx
- +5k0Ca/xF5QR/W5IVugXW9y0Ytmb6Q9K1qpFkgOeEjqbjyPm6YhzDlFOT0VcBy0+EHgp
- easg==
-X-Gm-Message-State: AOAM531fzWIpp+gOWenG0fnxzerwlOuSIYfuFpCvocxJbHCkTvQIrdiy
- VipQvea0qGAu+fCwmLhgMHbvzfg/S/S6Sbjnqkg=
-X-Google-Smtp-Source: ABdhPJxeKLY63wzlnnXqjrGE1JM6FGhy2Qm1G31LDK7A50GrY+xaSvvt+Lka3vuuxrfsliwVnK3NAwnwuIHsjVYUAtw=
-X-Received: by 2002:a67:c18a:: with SMTP id h10mr7469670vsj.186.1591371809904; 
- Fri, 05 Jun 2020 08:43:29 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=1K8sHcdXpjGKgr+77VdsdCZesRB4PdV8M1C3oEj3EnQ=;
+ b=IFn+G6+4Ib7f0eguk1eKJqg9K1wXNTkqhzsJudhGJtzYSQsUkcX4486RI5BeQHKPBD
+ TglrJktwTnr3QzZz0j3W9luE4B78BMPw2s2B3FehWGBq7901NpwbGM11BUSbg14LSo5S
+ dFSq1URRy6Mx5nfpv583cordyC9hM9oYL5m04cQg8ThRw2VOn6AWF8L8es8ZMn0ZnwhY
+ 1Eh/ENomn/ob8nCsTwySrs+BYLvs8G7YSUvrvSuoNUNq2AiPG0rRA9p4AhDVA2p1RILP
+ VFNj8kWOeFpl4f2FZ7FEGxI6FqFPyRB1I3E5KYUb8qYjb0DlJXAH2A3tF3qs5aH5Dyzz
+ RD1w==
+X-Gm-Message-State: AOAM530tPjA018fUH8anqN7Wc6jQUuOPUPHvRQme2ZI6ILCbm4cAtQPX
+ uydjTPWqswO2LlF9rVFc5bw=
+X-Google-Smtp-Source: ABdhPJwBOJKozhohl5aBI+nYCONer+CHeapbzC/Y9xaA7btNB5oPiCLPbKzm0Q50DpdY6Ml9tBw0nw==
+X-Received: by 2002:a62:fc92:: with SMTP id e140mr13037081pfh.33.1591716400545; 
+ Tue, 09 Jun 2020 08:26:40 -0700 (PDT)
+Received: from cnn ([2409:4072:6412:6b70:cd72:839f:5826:c552])
+ by smtp.gmail.com with ESMTPSA id y9sm3116403pjy.56.2020.06.09.08.26.34
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 09 Jun 2020 08:26:39 -0700 (PDT)
+Date: Tue, 9 Jun 2020 20:56:28 +0530
+From: Manikandan <manikandan.hcl.ers.epl@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v3] hwmon:(adm1275) Enable adm1278 ADM1278_TEMP1_EN
+Message-ID: <20200609152628.GB8833@cnn>
+References: <20200608104349.GA10918@cnn>
+ <23597b7b-de89-2911-092e-f3e1ad4884f5@roeck-us.net>
 MIME-Version: 1.0
-References: <20200605073247.4057-1-tzimmermann@suse.de>
-In-Reply-To: <20200605073247.4057-1-tzimmermann@suse.de>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Fri, 5 Jun 2020 16:40:07 +0100
-Message-ID: <CACvgo501LS_pcuiM_=BonJTnWEkcjC4m5yueEeJyv_c9Q8MAvQ@mail.gmail.com>
-Subject: Re: [PATCH v3 00/43] Convert most CMA-based drivers to GEM object
- functions
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Tue, 09 Jun 2020 09:41:37 +1000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <23597b7b-de89-2911-092e-f3e1ad4884f5@roeck-us.net>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,81 +80,81 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, linux-aspeed@lists.ozlabs.org,
- Neil Armstrong <narmstrong@baylibre.com>, Dave Airlie <airlied@linux.ie>,
- Linus Walleij <linus.walleij@linaro.org>, Liviu Dudau <liviu.dudau@arm.com>,
- Stefan Agner <stefan@agner.ch>, Philippe Cornu <philippe.cornu@st.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Mihail Atanassov <mihail.atanassov@arm.com>, Sam Ravnborg <sam@ravnborg.org>,
- Alexandre Torgue <alexandre.torgue@st.com>,
- =?UTF-8?B?TWFyZWsgVmHFoXV0?= <marex@denx.de>,
- Fabio Estevam <festevam@gmail.com>, Alexey Brodkin <abrodkin@synopsys.com>,
- ludovic.desroches@microchip.com, Xinliang Liu <xinliang.liu@linaro.org>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- "james qian wang \(Arm Technology China\)" <james.qian.wang@arm.com>,
- NXP Linux Team <linux-imx@nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Alison Wang <alison.wang@nxp.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, John Stultz <john.stultz@linaro.org>,
- Jyri Sarha <jsarha@ti.com>, Chen-Yu Tsai <wens@csie.org>,
- Vincent Abriou <vincent.abriou@st.com>, Sascha Hauer <kernel@pengutronix.de>,
- LAKML <linux-arm-kernel@lists.infradead.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, bbrezillon@kernel.org,
- ML dri-devel <dri-devel@lists.freedesktop.org>, nicolas.ferre@microchip.com,
- Yannick Fertre <yannick.fertre@st.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Daniel Vetter <daniel@ffwll.ch>, khilman@baylibre.com,
- Rongrong Zou <zourongrong@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
- Brian Starkey <brian.starkey@arm.com>
+Cc: linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+ manikandan.e@hcl.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, patrickw3@fb.com, saipsdasari@fb.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Thomas,
+On Mon, Jun 08, 2020 at 06:49:45AM -0700, Guenter Roeck wrote:
+> On 6/8/20 3:43 AM, Manikandan Elumalai wrote:
+> > The adm1278 temp attribute need it for openbmc platform .
+> > This feature not enabled by default, so PMON_CONFIG needs to enable it.
+> > 
+> > v3:
+> > ----
+> > fix invalid signed-off.
+> > removed checkpath warnings.
+> > write ADM1278_TEMP1_EN and ADM1278_VOUT_EN conf in single line operation.
+> > 
+> > v2:
+> > ----
+> > add Signed-off-by.
+> > removed ADM1278_TEMP1_EN check.
+> > 
+> > Signed-off-by: Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>
+> > ---
+> >  drivers/hwmon/pmbus/adm1275.c | 10 ++++------
+> >  1 file changed, 4 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/hwmon/pmbus/adm1275.c b/drivers/hwmon/pmbus/adm1275.c
+> > index 5caa37fb..4782e31 100644
+> > --- a/drivers/hwmon/pmbus/adm1275.c
+> > +++ b/drivers/hwmon/pmbus/adm1275.c
+> > @@ -666,11 +666,12 @@ static int adm1275_probe(struct i2c_client *client,
+> >  		tindex = 3;
+> >  
+> >  		info->func[0] |= PMBUS_HAVE_PIN | PMBUS_HAVE_STATUS_INPUT |
+> > -			PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT;
+> > +			PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
+> > +			PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
+> >  
+> > -		/* Enable VOUT if not enabled (it is disabled by default) */
+> > +		/* Enable VOUT & TEMP1 if not enabled (disabled by default) */
+> >  		if (!(config & ADM1278_VOUT_EN)) {
+> 
+> This if statement needs to be
+> 		if (config & (ADM1278_VOUT_EN | ADM1278_TEMP1_EN) != ADM1278_VOUT_EN | ADM1278_TEMP1_EN)
+>
+          Hi Guenter,
 
-On Fri, 5 Jun 2020 at 08:33, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Most of the CMA-based drivers use the default implementation for the
-> callbacks in struct drm_driver. With this patch, these interfaces are
-> initialized with a common helper macro and GEM object functions replace
-> several deprecated interfaces.
->
-> To address Laurent's comment on the amount of changes per patch, I re-
-> organized the series.
->
->  1) There are now DRIVER_OPS macros for drivers that require a virtual
->     address on imported buffers, and macros for drivers that don't. Therefore,
->     drivers don't switch to drm_gem_cma_prime_import_sg_table_vmap()
->     implicitly when they begin using the DRIVER_OPS macro.
->
->  2) I split each driver's patch into two: the first converts the driver to
->     GEM CMA object functions, the second introduces the DRIVER_OPS macro.
->     Neither patch should result in a functional change. I kept existing R-b
->     and A-b tags on both patches. Existing Tested-by tags are only on the
->     final patch, as that's closest to what has been tested.
->
->  3) I dropped the conversion to drm_gem_prime_mmap() from the patchset. As
->     part of this change, the CMA object functions could provide an mmap
->     function, which is worth it's own series. The patch for aspeed requires
->     drm_gem_prime_mmap(), so I removed it from the series.
->
-> Patches 1 to 3 update the existing macro and helper to similar naming as with
-> SHMEM, add a new DRIVER_OPS macro, and add helpers for drivers that override
-> the default implementation for .dumb_create(). The remaining patches up to
-> the final one convert the drivers. The kirin driver also changes to the
-> default dumb_create function. The final patch deletes .gem_print_info from
-> struct drm_driver.
->
-> I don't have much of the hardware, so it's only compile-tested on aarch64,
-> arm and x86-64 only. Several patches have Tested-by tags.
->
+             The below warning shown by checkpatch after changes,
 
-For the whole updated series:
-Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
+                  WARNING: line over 80 characters
+                   #38: FILE: drivers/hwmon/pmbus/adm1275.c:672:
+                   + if (config & (ADM1278_VOUT_EN | ADM1278_TEMP1_EN) != ADM1278_VOUT_EN | ADM1278_TEMP1_EN) {
+ 
+                   total: 0 errors, 1 warnings, 24 lines checked
 
--Emil
+              I didn't see any if() condition made as two line in the driver . Is this acceptable warning ?
+
+         Thanks
+         Mani.E
+> > -			config |= ADM1278_VOUT_EN;
+> > +			config |= ADM1278_VOUT_EN | ADM1278_TEMP1_EN;
+> >  			ret = i2c_smbus_write_byte_data(client,
+> >  							ADM1275_PMON_CONFIG,
+> >  							config);
+> > @@ -681,9 +682,6 @@ static int adm1275_probe(struct i2c_client *client,
+> >  			}
+> >  		}
+> >  
+> > -		if (config & ADM1278_TEMP1_EN)
+> > -			info->func[0] |=
+> > -				PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
+> >  		if (config & ADM1278_VIN_EN)
+> >  			info->func[0] |= PMBUS_HAVE_VIN;
+> >  		break;
+> > 
+> 
