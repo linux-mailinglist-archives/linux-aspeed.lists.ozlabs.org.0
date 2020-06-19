@@ -1,54 +1,71 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E711FDF47
-	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Jun 2020 03:41:28 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FEAF201786
+	for <lists+linux-aspeed@lfdr.de>; Fri, 19 Jun 2020 18:47:11 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49nPmN6XGGzDqF0
-	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Jun 2020 11:41:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49pPpz4K0zzDrRW
+	for <lists+linux-aspeed@lfdr.de>; Sat, 20 Jun 2020 02:47:07 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::543;
+ helo=mail-pg1-x543.google.com; envelope-from=manikandan.hcl.ers.epl@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=PxasFqCc; dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=ZHBdCnX7; dkim-atps=neutral
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49nP6903hGzDqnD
- for <linux-aspeed@lists.ozlabs.org>; Thu, 18 Jun 2020 11:11:45 +1000 (AEST)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7D44E214DB;
- Thu, 18 Jun 2020 01:11:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1592442703;
- bh=civejUupUvfmmfhwDBpeah7dotAHq5OcLCZlFNcAbfU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PxasFqCcmzPxPRt2rIv4OreBP0Em0gy0MaU1cbWe0VVAeEXs9qu2CivN4pmXhhDO+
- KvYOgYluTRF00HdpHBCKuYGlVKjYIbhtJjZQray7Vr2/xbvB0jqr5xfqqIJI/ErBlr
- fb+b0xOu18nN7SU6UZkZUpKuskHVuVzpuTwYpt3M=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 165/388] ARM: dts: aspeed: Change KCS nodes to v2
- binding
-Date: Wed, 17 Jun 2020 21:04:22 -0400
-Message-Id: <20200618010805.600873-165-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200618010805.600873-1-sashal@kernel.org>
-References: <20200618010805.600873-1-sashal@kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49pMBq3xvRzDrPm;
+ Sat, 20 Jun 2020 00:49:06 +1000 (AEST)
+Received: by mail-pg1-x543.google.com with SMTP id h10so4569347pgq.10;
+ Fri, 19 Jun 2020 07:49:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=ctscLOlaKZHuHAvTFyT78hwNlRcZSz4aJaHfOiGs+e0=;
+ b=ZHBdCnX7+qH7Kxr7PP2Ge6MSsRgRj0s/ihGp4bPB13nAk+lg2mZ9GPpFQHv5SE351v
+ bM5jgHNdHfrUEaaLrMrXiCuqIYiwQEqSrs829H2hVv+qrNrXPAIra7ygBRVJb1mhIt/N
+ 1uXJzpSK2VT48LrvhU5HdW+QJTwStqm3A26IHPJ9X0mwkp68M1TF85ET6Ul4g606Lnjh
+ mTZ9oGfAXFD5HTO+GmCIIMB4dHVTl8BFajZxa2Kk9QbceYPQuGQq5O3WZkk06dO0oIwq
+ XOemreiCAGbB5Yr07/Q0AtBCWzBJoqZExVDVf0M3Htqv+XndSHiJh7ib/ft/GHuKHdPn
+ WQIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=ctscLOlaKZHuHAvTFyT78hwNlRcZSz4aJaHfOiGs+e0=;
+ b=DzHTvqKBON1Bc1RrNudIPg5E4UBwUs2Nx0LbqSsL4yKx289bn93CF+2Siv8ZnQ3/JD
+ OlUC1MNtHnQ0fMZmL9onFCGACoP8Ry4dZTAXgOiTnvwJ2TcikIlBrP1eWz0XyqRiwa+l
+ krmk/6DyiYKnHI3Gkj2NhRl8ZR3fAwRd9ioj0hmMBnFrf08q1YfdE1DD+S3ZXvxS/m6V
+ 3Kd6hWKR5T29NewJytQ8uLJ/Uv6VxOnsIBGIQLOaSQkFwIFXusfeKU0BxXW6UJpt1d8Q
+ sMWc1SuLoWxTMg8R4zhAtevKLKHh6V8H15wBAA9aMPhUNt+4YxudWuV4tffzUpQt8rv8
+ PAIQ==
+X-Gm-Message-State: AOAM53092M8qYOwjmcFVRkMz/nIypLD03gPTbq1CKl/ogPV29GJT/JUm
+ BmZuayMqF38E1842ddT5E7c=
+X-Google-Smtp-Source: ABdhPJxerp4UqGlBqo7ylxGcCO9oCGFDfiOp3F5MBCTgeGs6IAVexj7p0hvG8EQQNbo8S8SNGMozPQ==
+X-Received: by 2002:a63:1406:: with SMTP id u6mr3318908pgl.108.1592578142495; 
+ Fri, 19 Jun 2020 07:49:02 -0700 (PDT)
+Received: from cnn ([2402:3a80:455:d3c:b10e:bd87:9e7c:d04])
+ by smtp.gmail.com with ESMTPSA id n19sm5975012pfu.194.2020.06.19.07.48.57
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 19 Jun 2020 07:49:01 -0700 (PDT)
+Date: Fri, 19 Jun 2020 20:18:53 +0530
+From: Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
+ linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4] hwmon:(adm1275) Enable adm1278 ADM1278_TEMP1_EN
+Message-ID: <20200619144853.GA18271@cnn>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,151 +77,64 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, devicetree@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: manikandan.e@hcl.com, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, saipsdasari@fb.com, patrickw3@fb.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Andrew Jeffery <andrew@aj.id.au>
+The adm1278 temp attribute need it for openbmc platform .
+This feature not enabled by default, so PMON_CONFIG needs to enable it.
 
-[ Upstream commit fa4c8ec6feaa3237f5d44cb8c6d0aa0dff6e1bcc ]
-
-Fixes the following warnings for both g5 and g6 SoCs:
-
-    arch/arm/boot/dts/aspeed-g5.dtsi:376.19-381.8: Warning
-    (unit_address_vs_reg): /ahb/apb/lpc@1e789000/lpc-bmc@0/kcs1@0: node
-    has a unit name, but no reg property
-
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+v4:
 ---
- .../dts/aspeed-bmc-facebook-tiogapass.dts     |  4 ++--
- arch/arm/boot/dts/aspeed-g5.dtsi              | 24 +++++++++----------
- arch/arm/boot/dts/aspeed-g6.dtsi              | 23 +++++++++---------
- 3 files changed, 26 insertions(+), 25 deletions(-)
+Reported-by: kernel test robot <lkp@intel.com>
+v3:
+----
+fix invalid signed-off.
+removed checkpath warnings.
+write ADM1278_TEMP1_EN and ADM1278_VOUT_EN conf in single line operation.
+v2:
+----
+add Signed-off-by.
+removed ADM1278_TEMP1_EN check.
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-index 5d7cbd9164d4..669980c690f9 100644
---- a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
-@@ -112,13 +112,13 @@ &uart5 {
- &kcs2 {
- 	// BMC KCS channel 2
- 	status = "okay";
--	kcs_addr = <0xca8>;
-+	aspeed,lpc-io-reg = <0xca8>;
- };
+Signed-off-by: Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>
+---
+ drivers/hwmon/pmbus/adm1275.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/hwmon/pmbus/adm1275.c b/drivers/hwmon/pmbus/adm1275.c
+index 5caa37fb..d4e1925 100644
+--- a/drivers/hwmon/pmbus/adm1275.c
++++ b/drivers/hwmon/pmbus/adm1275.c
+@@ -666,11 +666,12 @@ static int adm1275_probe(struct i2c_client *client,
+ 		tindex = 3;
  
- &kcs3 {
- 	// BMC KCS channel 3
- 	status = "okay";
--	kcs_addr = <0xca2>;
-+	aspeed,lpc-io-reg = <0xca2>;
- };
+ 		info->func[0] |= PMBUS_HAVE_PIN | PMBUS_HAVE_STATUS_INPUT |
+-			PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT;
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
++			PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
  
- &mac0 {
-diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
-index f12ec04d3cbc..bc92d3db7b78 100644
---- a/arch/arm/boot/dts/aspeed-g5.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g5.dtsi
-@@ -426,22 +426,22 @@ lpc_bmc: lpc-bmc@0 {
- 					#size-cells = <1>;
- 					ranges = <0x0 0x0 0x80>;
+-		/* Enable VOUT if not enabled (it is disabled by default) */
+-		if (!(config & ADM1278_VOUT_EN)) {
+-			config |= ADM1278_VOUT_EN;
++		/* Enable VOUT & TEMP1 if not enabled (disabled by default) */
++		if ((config & (ADM1278_VOUT_EN | ADM1278_TEMP1_EN)) != (ADM1278_VOUT_EN | ADM1278_TEMP1_EN)) {
++			config |= ADM1278_VOUT_EN | ADM1278_TEMP1_EN;
+ 			ret = i2c_smbus_write_byte_data(client,
+ 							ADM1275_PMON_CONFIG,
+ 							config);
+@@ -681,9 +682,6 @@ static int adm1275_probe(struct i2c_client *client,
+ 			}
+ 		}
  
--					kcs1: kcs1@0 {
--						compatible = "aspeed,ast2500-kcs-bmc";
-+					kcs1: kcs@24 {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x24 0x1>, <0x30 0x1>, <0x3c 0x1>;
- 						interrupts = <8>;
--						kcs_chan = <1>;
- 						status = "disabled";
- 					};
--					kcs2: kcs2@0 {
--						compatible = "aspeed,ast2500-kcs-bmc";
-+					kcs2: kcs@28 {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x28 0x1>, <0x34 0x1>, <0x40 0x1>;
- 						interrupts = <8>;
--						kcs_chan = <2>;
- 						status = "disabled";
- 					};
--					kcs3: kcs3@0 {
--						compatible = "aspeed,ast2500-kcs-bmc";
-+					kcs3: kcs@2c {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x2c 0x1>, <0x38 0x1>, <0x44 0x1>;
- 						interrupts = <8>;
--						kcs_chan = <3>;
- 						status = "disabled";
- 					};
- 				};
-@@ -455,10 +455,10 @@ lpc_host: lpc-host@80 {
- 					#size-cells = <1>;
- 					ranges = <0x0 0x80 0x1e0>;
- 
--					kcs4: kcs4@0 {
--						compatible = "aspeed,ast2500-kcs-bmc";
-+					kcs4: kcs@94 {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x94 0x1>, <0x98 0x1>, <0x9c 0x1>;
- 						interrupts = <8>;
--						kcs_chan = <4>;
- 						status = "disabled";
- 					};
- 
-diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-index fd0e483737a0..a2d2ac720a51 100644
---- a/arch/arm/boot/dts/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-@@ -435,22 +435,23 @@ lpc_bmc: lpc-bmc@0 {
- 					#size-cells = <1>;
- 					ranges = <0x0 0x0 0x80>;
- 
--					kcs1: kcs1@0 {
--						compatible = "aspeed,ast2600-kcs-bmc";
-+					kcs1: kcs@24 {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x24 0x1>, <0x30 0x1>, <0x3c 0x1>;
- 						interrupts = <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
- 						kcs_chan = <1>;
- 						status = "disabled";
- 					};
--					kcs2: kcs2@0 {
--						compatible = "aspeed,ast2600-kcs-bmc";
-+					kcs2: kcs@28 {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x28 0x1>, <0x34 0x1>, <0x40 0x1>;
- 						interrupts = <GIC_SPI 139 IRQ_TYPE_LEVEL_HIGH>;
--						kcs_chan = <2>;
- 						status = "disabled";
- 					};
--					kcs3: kcs3@0 {
--						compatible = "aspeed,ast2600-kcs-bmc";
-+					kcs3: kcs@2c {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x2c 0x1>, <0x38 0x1>, <0x44 0x1>;
- 						interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
--						kcs_chan = <3>;
- 						status = "disabled";
- 					};
- 				};
-@@ -464,10 +465,10 @@ lpc_host: lpc-host@80 {
- 					#size-cells = <1>;
- 					ranges = <0x0 0x80 0x1e0>;
- 
--					kcs4: kcs4@0 {
--						compatible = "aspeed,ast2600-kcs-bmc";
-+					kcs4: kcs@94 {
-+						compatible = "aspeed,ast2500-kcs-bmc-v2";
-+						reg = <0x94 0x1>, <0x98 0x1>, <0x9c 0x1>;
- 						interrupts = <GIC_SPI 141 IRQ_TYPE_LEVEL_HIGH>;
--						kcs_chan = <4>;
- 						status = "disabled";
- 					};
- 
+-		if (config & ADM1278_TEMP1_EN)
+-			info->func[0] |=
+-				PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
+ 		if (config & ADM1278_VIN_EN)
+ 			info->func[0] |= PMBUS_HAVE_VIN;
+ 		break;
 -- 
-2.25.1
+2.7.4
 
