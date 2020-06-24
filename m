@@ -2,73 +2,132 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28284214178
-	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Jul 2020 00:18:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C95217DAF
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Jul 2020 05:41:46 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49z8VL43S2zDrL2
-	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Jul 2020 08:18:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4B1lV00WRZzDqwW
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Jul 2020 13:41:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1044;
- helo=mail-pj1-x1044.google.com; envelope-from=groeck7@gmail.com;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=M/toDlrR; dkim-atps=neutral
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com
- [IPv6:2607:f8b0:4864:20::1044])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ spf=pass (sender SPF authorized) smtp.mailfrom=ti.com
+ (client-ip=198.47.19.142; helo=fllv0016.ext.ti.com;
+ envelope-from=jsarha@ti.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256
+ header.s=ti-com-17Q1 header.b=qh3UN9IF; 
+ dkim-atps=neutral
+X-Greylist: delayed 868 seconds by postgrey-1.36 at bilbo;
+ Wed, 24 Jun 2020 19:18:52 AEST
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49z8V81h57zDrJP
- for <linux-aspeed@lists.ozlabs.org>; Sat,  4 Jul 2020 08:17:49 +1000 (AEST)
-Received: by mail-pj1-x1044.google.com with SMTP id cm21so5018637pjb.3
- for <linux-aspeed@lists.ozlabs.org>; Fri, 03 Jul 2020 15:17:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=sejNlP1ktqM/yqhWQBlfvEYEbrTSoZNaZ4fFsOcMXyo=;
- b=M/toDlrRcsBGClLXYYdtDWkvG3zMdTI3iAiO+yGwHaD7RuH8ssfG3JkLAjRNJ3GOgL
- emfRB5ok5rhARi30EPkLIJcne0S6+vyf89L+daajIxm+3jV32o1nm7IMWZ/2BXs17A+p
- ppSQXeUl+n57RSdqkEiPjuzk+ER8PF5bE8YfGaknJwHPyseEYDYisKCkHmRlQDZOnsGL
- 8K8+SmPmDePzNISqaV0VptSe623mvWiiMHkXcNeuetOL1zOFL0SZe5EzlKSLuy1Dls1m
- hyKXBzq0ZbT6WFWRlmi0TVHcdRVB8zcnl2+L7kP7RXrRg8E8mti3kbXcTke3CVrClKei
- QYwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=sejNlP1ktqM/yqhWQBlfvEYEbrTSoZNaZ4fFsOcMXyo=;
- b=M620OAVf7bm9vyKQ0JR75Y+ZserJonamttthoFAgSqrKpnQgqWm7CPpaWCm70Qxhfm
- Zb57gdazznKu1VvULfYmsXYIBEKee4TOLIZNoxPR21UU/QULllJAViAHjHPeE4P8eUqi
- VTtyspT0E1PkrkdPl04C8tPwXm6+f3jGlipt0ZTB0WNmq2wwcoOzrQPKAb4c2DAKqpTO
- 0Fw9Q1r+o7nqKie14Kk+ij1FQYo0a3fYh1IZxOw6fB4no25jzQld16COaHMI5RfujlQ9
- 0TptVp1sPadfYVMRunhnKqddw584ltRQoFcuinIE169F1HojDx97m053F/nGga0rDAy1
- TZzQ==
-X-Gm-Message-State: AOAM533ij6ivyJO751uDbw8doaBejkux0UXlGtH4RMWK90Kx8HRnS4jr
- MLKcpUEvE1a6tzG8kt0v8fc=
-X-Google-Smtp-Source: ABdhPJwd/f3TDfBVQj4VriwSYuAQ/lXojI58EaxlEBXVyYKB7TscoLWXYlzy0uHffDXMh89/mAefyQ==
-X-Received: by 2002:a17:90a:718b:: with SMTP id
- i11mr37047631pjk.150.1593814665429; 
- Fri, 03 Jul 2020 15:17:45 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id k2sm12728448pgm.11.2020.07.03.15.17.44
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 03 Jul 2020 15:17:45 -0700 (PDT)
-Date: Fri, 3 Jul 2020 15:17:44 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Evgeny Novikov <novikov@ispras.ru>
-Subject: Re: [PATCH] hwmon: (aspeed-pwm-tacho) Avoid possible buffer overflow
-Message-ID: <20200703221744.GA34644@roeck-us.net>
-References: <20200703111518.9644-1-novikov@ispras.ru>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49sHdS6S62zDqY1
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 24 Jun 2020 19:18:51 +1000 (AEST)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 05O93SLR016814;
+ Wed, 24 Jun 2020 04:03:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1592989408;
+ bh=qawbol1Plx0PbElwJVlJpx05NeZYPWO7Diyq3ebs12Y=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=qh3UN9IFtiWiV+7xpjDo9aGDL65GJKUrJp3cadAeSU94XL1URkaWSnHBcSkPO7u+C
+ +lKkv+xShoxaCtYfopP7kEuGgVtxP/8oA87VtRC122389LqWkflc65rWYgmqkMKaFR
+ lYi85pTdvjMblXw7IAlKaOH2za8a6f8gOxYD6dsE=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 05O93SkY111549;
+ Wed, 24 Jun 2020 04:03:28 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 24
+ Jun 2020 04:03:27 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 24 Jun 2020 04:03:27 -0500
+Received: from [10.1.3.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 05O93HL0073549;
+ Wed, 24 Jun 2020 04:03:18 -0500
+Subject: Re: [PATCH v3 37/43] drm/tilcdc: Use GEM CMA object functions
+To: Thomas Zimmermann <tzimmermann@suse.de>, <abrodkin@synopsys.com>,
+ <airlied@linux.ie>, <daniel@ffwll.ch>, <james.qian.wang@arm.com>,
+ <liviu.dudau@arm.com>, <mihail.atanassov@arm.com>,
+ <brian.starkey@arm.com>, <joel@jms.id.au>, <andrew@aj.id.au>,
+ <sam@ravnborg.org>, <bbrezillon@kernel.org>,
+ <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+ <ludovic.desroches@microchip.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <stefan@agner.ch>, <alison.wang@nxp.com>,
+ <xinliang.liu@linaro.org>, <zourongrong@gmail.com>,
+ <john.stultz@linaro.org>, <kong.kongxinwei@hisilicon.com>,
+ <puck.chen@hisilicon.com>, <p.zabel@pengutronix.de>,
+ <shawnguo@kernel.org>, <s.hauer@pengutronix.de>,
+ <kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
+ <paul@crapouillou.net>, <linus.walleij@linaro.org>,
+ <narmstrong@baylibre.com>, <khilman@baylibre.com>, <marex@denx.de>,
+ <laurent.pinchart@ideasonboard.com>,
+ <kieran.bingham+renesas@ideasonboard.com>,
+ <benjamin.gaignard@linaro.org>, <vincent.abriou@st.com>,
+ <yannick.fertre@st.com>, <philippe.cornu@st.com>,
+ <mcoquelin.stm32@gmail.com>, <alexandre.torgue@st.com>,
+ <wens@csie.org>, <tomi.valkeinen@ti.com>, <noralf@tronnes.org>
+References: <20200605073247.4057-1-tzimmermann@suse.de>
+ <20200605073247.4057-38-tzimmermann@suse.de>
+From: Jyri Sarha <jsarha@ti.com>
+Autocrypt: addr=jsarha@ti.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <b66ccc2f-221f-5ae7-b60b-9e2b77a98fc7@ti.com>
+Date: Wed, 24 Jun 2020 12:03:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200703111518.9644-1-novikov@ispras.ru>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200605073247.4057-38-tzimmermann@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Approved-At: Wed, 08 Jul 2020 13:41:33 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,43 +139,60 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, ldv-project@linuxtesting.org,
- Jean Delvare <jdelvare@suse.com>, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, Emil Velikov <emil.velikov@collabora.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Jul 03, 2020 at 02:15:18PM +0300, Evgeny Novikov wrote:
-> aspeed_create_fan() reads a pwm_port value using of_property_read_u32().
-> If pwm_port will be more than ARRAY_SIZE(pwm_port_params), there will be
-> a buffer overflow in
-> aspeed_create_pwm_port()->aspeed_set_pwm_port_enable(). The patch fixes
-> the potential buffer overflow.
+On 05/06/2020 10:32, Thomas Zimmermann wrote:
+> Create GEM objects with drm_gem_cma_create_object_default_funcs(), which
+> allocates the object and sets CMA's default object functions. Corresponding
+> callbacks in struct drm_driver are cleared. No functional changes are made.
 > 
-> Found by Linux Driver Verification project (linuxtesting.org).
+> Driver and object-function instances use the same callback functions, with
+> the exception of vunmap. The implementation of vunmap is empty and left out
+> in CMA's default object functions.
 > 
-> Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
+> v3:
+> 	* convert to DRIVER_OPS macro in a separate patch
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Emil Velikov <emil.velikov@collabora.com>
 
-Applied.
-
-Thanks,
-Guenter
+Reviewed-by: Jyri Sarha <jsarha@ti.com>
+Tested-by: Jyri Sarha <jsarha@ti.com>
 
 > ---
->  drivers/hwmon/aspeed-pwm-tacho.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/gpu/drm/tilcdc/tilcdc_drv.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
 > 
-> diff --git a/drivers/hwmon/aspeed-pwm-tacho.c b/drivers/hwmon/aspeed-pwm-tacho.c
-> index 33fb54845bf6..3d8239fd66ed 100644
-> --- a/drivers/hwmon/aspeed-pwm-tacho.c
-> +++ b/drivers/hwmon/aspeed-pwm-tacho.c
-> @@ -851,6 +851,8 @@ static int aspeed_create_fan(struct device *dev,
->  	ret = of_property_read_u32(child, "reg", &pwm_port);
->  	if (ret)
->  		return ret;
-> +	if (pwm_port >= ARRAY_SIZE(pwm_port_params))
-> +		return -EINVAL;
->  	aspeed_create_pwm_port(priv, (u8)pwm_port);
+> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> index a5e9ee4c7fbf4..a6582325651bd 100644
+> --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+> @@ -496,17 +496,12 @@ DEFINE_DRM_GEM_CMA_FOPS(fops);
+>  static struct drm_driver tilcdc_driver = {
+>  	.driver_features    = DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+>  	.irq_handler        = tilcdc_irq,
+> -	.gem_free_object_unlocked = drm_gem_cma_free_object,
+> -	.gem_print_info     = drm_gem_cma_print_info,
+> -	.gem_vm_ops         = &drm_gem_cma_vm_ops,
+> +	.gem_create_object  = drm_gem_cma_create_object_default_funcs,
+>  	.dumb_create        = drm_gem_cma_dumb_create,
 >  
->  	ret = of_property_count_u8_elems(child, "cooling-levels");
+>  	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+>  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+> -	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
+>  	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
+> -	.gem_prime_vmap		= drm_gem_cma_prime_vmap,
+> -	.gem_prime_vunmap	= drm_gem_cma_prime_vunmap,
+>  	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
+>  #ifdef CONFIG_DEBUG_FS
+>  	.debugfs_init       = tilcdc_debugfs_init,
+> 
+
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
