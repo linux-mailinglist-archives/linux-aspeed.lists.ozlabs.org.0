@@ -2,73 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 178142056C1
-	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Jun 2020 18:05:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6EF20E9EB
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jun 2020 02:11:11 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49rrhk22XzzDqQ1
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jun 2020 02:05:10 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49wlBg0l77zDqd3
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jun 2020 10:11:07 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1043;
- helo=mail-pj1-x1043.google.com; envelope-from=manikandan.hcl.ers.epl@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::541;
+ helo=mail-pg1-x541.google.com; envelope-from=rentao.bupt@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=Djp5eFF2; dkim-atps=neutral
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
+ header.s=20161025 header.b=Ofjxhuaw; dkim-atps=neutral
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49rrhZ2C1SzDqGW;
- Wed, 24 Jun 2020 02:05:01 +1000 (AEST)
-Received: by mail-pj1-x1043.google.com with SMTP id i4so1749425pjd.0;
- Tue, 23 Jun 2020 09:05:01 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49wl8K6s4RzDqcn;
+ Tue, 30 Jun 2020 10:09:05 +1000 (AEST)
+Received: by mail-pg1-x541.google.com with SMTP id d194so5694592pga.13;
+ Mon, 29 Jun 2020 17:09:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=do86B9M5tGDDUUM7bCWck23OCEcGEf6z7sPQe5ReWXM=;
- b=Djp5eFF2KkXJL5N4FbrLUF77gAhDcV09R7NzL5ZiUZr7l493GiFUA9Jc9AJumWB0JL
- ob3ddMttwYvBHNdejMqGHn4zkWNutODfSMB1EYsuy7gK0ctmTFc2MucxUSEHeAx0FXRo
- Kc1JsWyaBntbk3noEF/ZwfLnuWgOuxuAjUAJ3u2kdl9BDCczgLdYM1cAMaf1mGZVTDJR
- 1AZ/IpnFSy2MIaiM9hm44WqPnMmLUBPcaxrGp/M09wKoBVJ70nzZx3c9GzJPM6aiFMBt
- 2uKdTE+BtxVANIedKeQAVxL8ZgHHg5iw/HM72G98bbBmF0Oas6EoWDZUEfPaByY66sGa
- waeA==
+ h=from:to:cc:subject:date:message-id;
+ bh=Kx8J891apkIa/g8IE/ArV1cGSLaJdXykQLAbT7gapEo=;
+ b=OfjxhuawS11Tyw27qrDv6z78jdyLU+y90/sALz95jSn5ElzsTBhObyaJPWIUD06A8Q
+ Rq9XbItl+rW0T4wkm3urohy2MEtJxfCb8Zxdtc2EvR4//sFm4GNqIQ5CJdw2kcr/h3Kk
+ SniFgSMVoyHJMiixcZZjfmshzJRypFvUzhO1JSqygFQSDGN3lgJ9cn7Bf8TfA87dnXPF
+ 7KLoCYmjfVzAxwkcHXac+9fkRa9st4bULqoFc1xWKDAv2tGSeiC7B097UFowCgbfi1AE
+ ySFdSzcfGj6S0Z4ATo4HcLrBUQ70+lNBm5vHCZ6KSVPBr18nMWacb2eK++3xPAE1PdJB
+ 4WSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=do86B9M5tGDDUUM7bCWck23OCEcGEf6z7sPQe5ReWXM=;
- b=KC6KaDAuY5s8ufyKXlV93CV5fdlhVOAQ82leS3AQSTw2gZIt6e2MNo+/+KgKgkuvqW
- 6tPhoYtVe8qGC+ev+1c9Qkivdh8rhbVxftK0rplObY9Ek1viFtd39+7lDA5pkptVWfZ4
- N/Afoh13iYu5DXlIwLoP7664euqVxhdWSAHeRlUivJb3elUYYuqCvxK/4/q51Uq0yy7i
- vayV5oNcvN0ABujqWzGKNJyFczdvm/Iz0fL5lPGXGfeVDmDG1ObfeRCYuOeuULDp1QmH
- GEvDjFYBJq7ASQbbRlzqPs4S6YcPLNVvg0JHBr6KP29l3d1vSrrU9iB9QwhMU/nKhuYO
- tzfg==
-X-Gm-Message-State: AOAM532eRHyLyClZup3P5JVU6y71KVDKsPgW+7OSQCoQtWrerHbGNQ5w
- D49ENGZrggYOooL/EzAuOVo=
-X-Google-Smtp-Source: ABdhPJyYsFWWdMFAKz+pYWcsYlvkUt6KuY+lCjjy9egaWFdNP/Yb85qwbsEGoOOjI/3ToguBhuO5zQ==
-X-Received: by 2002:a17:902:326:: with SMTP id
- 35mr24612675pld.301.1592928297950; 
- Tue, 23 Jun 2020 09:04:57 -0700 (PDT)
-Received: from cnn ([112.133.236.83])
- by smtp.gmail.com with ESMTPSA id 25sm17287060pfi.7.2020.06.23.09.04.49
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 23 Jun 2020 09:04:54 -0700 (PDT)
-Date: Tue, 23 Jun 2020 21:34:44 +0530
-From: Manikandan <manikandan.hcl.ers.epl@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v6] hwmon:(adm1275) Enable adm1278 ADM1278_TEMP1_EN
-Message-ID: <20200623160444.GA8945@cnn>
-References: <20200622153727.GA9347@cnn> <20200623140711.GA208792@roeck-us.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200623140711.GA208792@roeck-us.net>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=Kx8J891apkIa/g8IE/ArV1cGSLaJdXykQLAbT7gapEo=;
+ b=PFCjNyAQAMwfULlRgE1cSUoPJgyUHsrdRwxPRvNm4TPCWw7Iw3aAiClm2QGg+0y19T
+ TNcDP9jIWKc/ZYdv/OrMnsaZNnib2ruZnVhiuaA1qTtniNf4jUNNmGqd5OaNNcXriuS7
+ hIODv0BOQdYcct9WD4i6bnHq8G7YvL5autCB3DsDBGK+Z36zy0t9Weean4y+9ZdiYxSO
+ 6V87g2TiN1H6WHdc9nhpqs4xCkEFdO+jnL7xRmqswLVBbMKcFyYLHQtk59CD28eU9c9I
+ MJcobVMGOZun+bv3M0ydH+KM1FEXXoSQ0nI6inqK3PHjUvexSBUC+t6kL+72UqLE9kDF
+ RtfQ==
+X-Gm-Message-State: AOAM5302msrsO5ljnVQnPVaKG9aNTWhKk9a0HU6djDOF/4j07JDOAH3t
+ aFQQYZ9tZrYxgxwzoWj9yd4=
+X-Google-Smtp-Source: ABdhPJy27ifQA45ma6XMOnXykokl5ViL5QxEvsVBhYpeBWZBo8l1JoEZW17Z+4iSRG19EFlNaLhJHQ==
+X-Received: by 2002:a63:125f:: with SMTP id 31mr13062566pgs.239.1593475742116; 
+ Mon, 29 Jun 2020 17:09:02 -0700 (PDT)
+Received: from taoren-ubuntu-R90MNF91.thefacebook.com
+ (c-73-252-146-110.hsd1.ca.comcast.net. [73.252.146.110])
+ by smtp.gmail.com with ESMTPSA id m9sm754600pgq.61.2020.06.29.17.09.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Jun 2020 17:09:01 -0700 (PDT)
+From: rentao.bupt@gmail.com
+To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com
+Subject: [PATCH 0/3] ARM: dts: aspeed: fixup wedge40 device tree
+Date: Mon, 29 Jun 2020 17:08:48 -0700
+Message-Id: <20200630000851.26879-1-rentao.bupt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,76 +76,30 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, miltonm@us.ibm.com,
- Jean Delvare <jdelvare@suse.com>, manikandan.e@hcl.com,
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, saipsdasari@fb.com, patrickw3@fb.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Jun 23, 2020 at 07:07:11AM -0700, Guenter Roeck wrote:
-> On Mon, Jun 22, 2020 at 09:07:27PM +0530, Manikandan Elumalai wrote:
-> > The adm1278 temp attribute need it for openbmc platform .
-> > This feature not enabled by default, so PMON_CONFIG needs to enable it.
-> > 
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Signed-off-by: Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>
-> 
-> Applied.
+From: Tao Ren <rentao.bupt@gmail.com>
 
-    Thanks Guenter.
-> 
-> Thanks,
-> Guenter
-> 
-> > ---
-> > v5 -> v6: 
-> > add Reported-by in commit log
-> > align commit and change log as per guidelines.
-> > v4 -> v5: 
-> > align commit and change log. 
-> > v3 -> v4: 
-> > kernel test robot CI warning
-> > v2 -> v3: 
-> > fix invalid signed-off.
-> > removed checkpath warnings.
-> > write ADM1278_TEMP1_EN and ADM1278_VOUT_EN conf in single line operation.
-> > v1 -> v2: 
-> > add Signed-off-by.
-> > removed ADM1278_TEMP1_EN check.
-> > 
-> >  drivers/hwmon/pmbus/adm1275.c | 12 +++++-------
-> >  1 file changed, 5 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/hwmon/pmbus/adm1275.c b/drivers/hwmon/pmbus/adm1275.c
-> > index 5caa37fb..d4e1925 100644
-> > --- a/drivers/hwmon/pmbus/adm1275.c
-> > +++ b/drivers/hwmon/pmbus/adm1275.c
-> > @@ -666,11 +666,12 @@ static int adm1275_probe(struct i2c_client *client,
-> >  		tindex = 3;
-> >  
-> >  		info->func[0] |= PMBUS_HAVE_PIN | PMBUS_HAVE_STATUS_INPUT |
-> > -			PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT;
-> > +			PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
-> > +			PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
-> >  
-> > -		/* Enable VOUT if not enabled (it is disabled by default) */
-> > -		if (!(config & ADM1278_VOUT_EN)) {
-> > -			config |= ADM1278_VOUT_EN;
-> > +		/* Enable VOUT & TEMP1 if not enabled (disabled by default) */
-> > +		if ((config & (ADM1278_VOUT_EN | ADM1278_TEMP1_EN)) != (ADM1278_VOUT_EN | ADM1278_TEMP1_EN)) {
-> > +			config |= ADM1278_VOUT_EN | ADM1278_TEMP1_EN;
-> >  			ret = i2c_smbus_write_byte_data(client,
-> >  							ADM1275_PMON_CONFIG,
-> >  							config);
-> > @@ -681,9 +682,6 @@ static int adm1275_probe(struct i2c_client *client,
-> >  			}
-> >  		}
-> >  
-> > -		if (config & ADM1278_TEMP1_EN)
-> > -			info->func[0] |=
-> > -				PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
-> >  		if (config & ADM1278_VIN_EN)
-> >  			info->func[0] |= PMBUS_HAVE_VIN;
-> >  		break;
+The patch series update several devices' settings in Facebook Wedge40
+device tree.
+
+Patch #1 disables a few i2c controllers as they are not being used at
+present.
+
+Patch #2 enables adc device for voltage monitoring.
+
+Patch #3 enables pwm_tacho device for fan control and monitoring.
+
+Tao Ren (3):
+  ARM: dts: aspeed: wedge40: disable a few i2c controllers
+  ARM: dts: aspeed: wedge40: enable adc device
+  ARM: dts: aspeed: wedge40: enable pwm_tacho device
+
+ .../boot/dts/aspeed-bmc-facebook-wedge40.dts  | 42 +++++++++++++++----
+ 1 file changed, 34 insertions(+), 8 deletions(-)
+
+-- 
+2.17.1
+
