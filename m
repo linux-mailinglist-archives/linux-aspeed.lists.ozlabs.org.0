@@ -2,69 +2,46 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D39B210254
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Jul 2020 05:08:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25FCA210891
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Jul 2020 11:48:29 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 49xR4p4r7vzDqly
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Jul 2020 13:08:26 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 49xbyL3mX8zDqhb
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Jul 2020 19:48:26 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::341;
- helo=mail-wm1-x341.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=CG0eRdM4; dkim-atps=neutral
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ spf=none (no SPF record) smtp.mailfrom=ravnborg.org
+ (client-ip=109.247.116.15; helo=asavdk4.altibox.net;
+ envelope-from=sam@ravnborg.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=ravnborg.org
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 49xR4j0K6xzDqXQ
- for <linux-aspeed@lists.ozlabs.org>; Wed,  1 Jul 2020 13:08:20 +1000 (AEST)
-Received: by mail-wm1-x341.google.com with SMTP id l17so20816730wmj.0
- for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jun 2020 20:08:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Kp+AZ2OQpkgYzsEUEsvF13veFsMd10pQS3JPgn4R6Ng=;
- b=CG0eRdM4nSGcNNL81fuuo8W+TEO3HxqCIUhHH01sJ2+wYiauylNYzArgI5NTEfbhfz
- mKeYTXR0ghYspwz0JBT9vrHKY70ZaxUi6d6c5WX+UZu5B+FkVAd99OR6MAZST5dT1Eh/
- jdvi55lWYMtQ5uLpZHWcXMwKcK87MNxHQ0X2rSxkh3+hU2iVl1kLXJ067qDH2vLPtYXn
- sYtZnLzyG33k+NEx45qYpr3PeX8CVeFoEnqmPJUM107iX8mbVgqrsAYlmDmNtFB34BIq
- wV28hUqcjRBGmIW3VUOkw83YjowV1MKdYeVLsSkZBpwCoTVewspNH/xwYdzBE7iXHTOD
- mrdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=Kp+AZ2OQpkgYzsEUEsvF13veFsMd10pQS3JPgn4R6Ng=;
- b=O1FIVWA4Jze1m4/NfT0HQ38P3dC0FtY2yF7EDe8ljWiyG4rWuWiQp1uKWYlkhIkdbc
- ksgSgssGIoyNLDtiKIRFjGjzDwUZx7dxyLjsoFz/hOdSTQNR6ocxK0z8ueKL4ST1vOmg
- ebdCLYQRIymhkB9yTeOXy69a00EWWRgA70NBiYEX5S7keJzn7NQfGxscB4/qoidAS/O2
- Z5W7+ipA1rJ+TERQ1hSCVw11iKA7B2Qvx6+s2x9p6QNcnGLw/oJH2e8cfh1PT7woj1Ed
- HIgZcZPuhwQl7VeWxH7p+J3aIphkxd7ppa5ad6bUX61e+3gYKah3eBBpcEhEb3KYp80r
- Y/iQ==
-X-Gm-Message-State: AOAM531PxOS3VRUSkJywPN4sRNxlokNe8ehbtlxWUc5pM4dyeDrCtQRJ
- KwdgNm0i1P4Q5i2349Zxako=
-X-Google-Smtp-Source: ABdhPJyp2dS0CMUbwyVCAerk4TlBJ87yWOY9msqe2AJenQdsul7dqdlDD+8tUTPPvHvvLJ5/S69IXw==
-X-Received: by 2002:a1c:bc54:: with SMTP id m81mr17607509wmf.22.1593572894543; 
- Tue, 30 Jun 2020 20:08:14 -0700 (PDT)
-Received: from localhost.localdomain ([45.124.203.15])
- by smtp.gmail.com with ESMTPSA id q1sm5515702wro.82.2020.06.30.20.08.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 30 Jun 2020 20:08:14 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH] pinctrl: aspeed: Describe the heartbeat function on ball Y23
-Date: Wed,  1 Jul 2020 12:37:56 +0930
-Message-Id: <20200701030756.2834657-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.27.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 49xb6j0Xk4zDqRM
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  1 Jul 2020 19:10:33 +1000 (AEST)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id ABAC480503;
+ Wed,  1 Jul 2020 11:10:22 +0200 (CEST)
+Date: Wed, 1 Jul 2020 11:10:21 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Guenter Roeck <linux@roeck-us.net>, g@ravnborg.org
+Subject: Re: [PATCH] drm/aspeed: Call drm_fbdev_generic_setup after
+ drm_dev_register
+Message-ID: <20200701091021.GA266726@ravnborg.org>
+References: <20200701001002.74997-1-linux@roeck-us.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200701001002.74997-1-linux@roeck-us.net>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=_jlGtV7tAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
+ a=nW2F_NLVUAjoHKN5T9EA:9 a=CjuIK1q_8ugA:10 a=nlm17XC03S6CtCLSeiRr:22
+ a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,68 +53,81 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org
+Cc: linux-aspeed@lists.ozlabs.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Andrew Jeffery <andrew@aj.id.au>
+Hi Guenter.
 
-The default pinmux configuration for Y23 is to route a heartbeat to
-drive a LED. Previous revisions of the AST2600 datasheet did not include
-a description of this function.
+On Tue, Jun 30, 2020 at 05:10:02PM -0700, Guenter Roeck wrote:
+> The following backtrace is seen when running aspeed G5 kernels.
+> 
+> WARNING: CPU: 0 PID: 1 at drivers/gpu/drm/drm_fb_helper.c:2233 drm_fbdev_generic_setup+0x138/0x198
+> aspeed_gfx 1e6e6000.display: Device has not been registered.
+> CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.8.0-rc3 #1
+> Hardware name: Generic DT based system
+> Backtrace:
+> [<8010d6d0>] (dump_backtrace) from [<8010d9b8>] (show_stack+0x20/0x24)
+> r7:00000009 r6:60000153 r5:00000000 r4:8119fa94
+> [<8010d998>] (show_stack) from [<80b8cb98>] (dump_stack+0xcc/0xec)
+> [<80b8cacc>] (dump_stack) from [<80123ef0>] (__warn+0xd8/0xfc)
+> r7:00000009 r6:80e62ed0 r5:00000000 r4:974c3ccc
+> [<80123e18>] (__warn) from [<80123f98>] (warn_slowpath_fmt+0x84/0xc4)
+> r9:00000009 r8:806a0140 r7:000008b9 r6:80e62ed0 r5:80e631f8 r4:974c2000
+> [<80123f18>] (warn_slowpath_fmt) from [<806a0140>] (drm_fbdev_generic_setup+0x138/0x198)
+> r9:00000001 r8:9758fc10 r7:9758fc00 r6:00000000 r5:00000020 r4:9768a000
+> [<806a0008>] (drm_fbdev_generic_setup) from [<806d4558>] (aspeed_gfx_probe+0x204/0x32c)
+> r7:9758fc00 r6:00000000 r5:00000000 r4:9768a000
+> [<806d4354>] (aspeed_gfx_probe) from [<806dfca0>] (platform_drv_probe+0x58/0xa8)
+> 
+> Since commit 1aed9509b29a6 ("drm/fb-helper: Remove return value from
+> drm_fbdev_generic_setup()"), drm_fbdev_generic_setup() must be called
+> after drm_dev_register() to avoid the warning. Do that.
+> 
+> Fixes: 1aed9509b29a6 ("drm/fb-helper: Remove return value from drm_fbdev_generic_setup()")
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-Fixes: 2eda1cdec49f ("pinctrl: aspeed: Add AST2600 pinmux support")
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+I thought we had this fixed already - but could not find the patch.
+Must have been another driver then.
 
-diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
-index fa32c3e9c9d1..7efe6dbe4398 100644
---- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
-+++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
-@@ -46,6 +46,7 @@
- #define SCU634		0x634 /* Disable GPIO Internal Pull-Down #5 */
- #define SCU638		0x638 /* Disable GPIO Internal Pull-Down #6 */
- #define SCU694		0x694 /* Multi-function Pin Control #25 */
-+#define SCU69C		0x69C /* Multi-function Pin Control #27 */
- #define SCUC20		0xC20 /* PCIE configuration Setting Control */
- 
- #define ASPEED_G6_NR_PINS 256
-@@ -819,11 +820,13 @@ FUNC_DECL_2(PWM14, PWM14G0, PWM14G1);
- #define Y23 127
- SIG_EXPR_LIST_DECL_SEMG(Y23, PWM15, PWM15G1, PWM15, SIG_DESC_SET(SCU41C, 31));
- SIG_EXPR_LIST_DECL_SESG(Y23, THRUOUT3, THRU3, SIG_DESC_SET(SCU4BC, 31));
--PIN_DECL_2(Y23, GPIOP7, PWM15, THRUOUT3);
-+SIG_EXPR_LIST_DECL_SESG(Y23, HEARTBEAT, HEARTBEAT, SIG_DESC_SET(SCU69C, 31));
-+PIN_DECL_3(Y23, GPIOP7, PWM15, THRUOUT3, HEARTBEAT);
- GROUP_DECL(PWM15G1, Y23);
- FUNC_DECL_2(PWM15, PWM15G0, PWM15G1);
- 
- FUNC_GROUP_DECL(THRU3, AB24, Y23);
-+FUNC_GROUP_DECL(HEARTBEAT, Y23);
- 
- #define AA25 128
- SSSF_PIN_DECL(AA25, GPIOQ0, TACH0, SIG_DESC_SET(SCU430, 0));
-@@ -1920,6 +1923,7 @@ static const struct aspeed_pin_group aspeed_g6_groups[] = {
- 	ASPEED_PINCTRL_GROUP(GPIU5),
- 	ASPEED_PINCTRL_GROUP(GPIU6),
- 	ASPEED_PINCTRL_GROUP(GPIU7),
-+	ASPEED_PINCTRL_GROUP(HEARTBEAT),
- 	ASPEED_PINCTRL_GROUP(HVI3C3),
- 	ASPEED_PINCTRL_GROUP(HVI3C4),
- 	ASPEED_PINCTRL_GROUP(I2C1),
-@@ -2158,6 +2162,7 @@ static const struct aspeed_pin_function aspeed_g6_functions[] = {
- 	ASPEED_PINCTRL_FUNC(GPIU5),
- 	ASPEED_PINCTRL_FUNC(GPIU6),
- 	ASPEED_PINCTRL_FUNC(GPIU7),
-+	ASPEED_PINCTRL_FUNC(HEARTBEAT),
- 	ASPEED_PINCTRL_FUNC(I2C1),
- 	ASPEED_PINCTRL_FUNC(I2C10),
- 	ASPEED_PINCTRL_FUNC(I2C11),
--- 
-2.27.0
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
+I assume Joel Stanley will pick up this patch.
+
+	Sam
+
+> ---
+>  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> index 6b27242b9ee3..bca3fcff16ec 100644
+> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> @@ -173,8 +173,6 @@ static int aspeed_gfx_load(struct drm_device *drm)
+>  
+>  	drm_mode_config_reset(drm);
+>  
+> -	drm_fbdev_generic_setup(drm, 32);
+> -
+>  	return 0;
+>  }
+>  
+> @@ -225,6 +223,7 @@ static int aspeed_gfx_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto err_unload;
+>  
+> +	drm_fbdev_generic_setup(&priv->drm, 32);
+>  	return 0;
+>  
+>  err_unload:
+> -- 
+> 2.17.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
