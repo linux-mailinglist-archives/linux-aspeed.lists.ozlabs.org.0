@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E2E227093
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Jul 2020 23:39:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4498F2270CD
+	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Jul 2020 23:39:43 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4B9Zqk5MwxzDqgf
-	for <lists+linux-aspeed@lfdr.de>; Tue, 21 Jul 2020 07:39:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4B9ZrD2pF0zDqgq
+	for <lists+linux-aspeed@lfdr.de>; Tue, 21 Jul 2020 07:39:40 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -16,35 +16,35 @@ Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=nQ0Dtml6; dkim-atps=neutral
+ header.s=default header.b=Y5BqSgMz; dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4B9ZqX63brzDqfy
- for <linux-aspeed@lists.ozlabs.org>; Tue, 21 Jul 2020 07:39:04 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4B9Zqz2jtgzDqg5
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 21 Jul 2020 07:39:27 +1000 (AEST)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CA7FA22BEF;
- Mon, 20 Jul 2020 21:39:01 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5726422CF8;
+ Mon, 20 Jul 2020 21:39:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595281142;
- bh=404mlOwBRprthN1mkVirySgS0S2bS+wvcYx3rW8zKHA=;
+ s=default; t=1595281164;
+ bh=mzOX92lrI1z/vL+l8kiOBnblu9pbDp1Fzd+SgTVzpEI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nQ0Dtml6WfhLeFuXNAnGm5zeV5hV1m+9I/Z/Ma+8STeaIBrYeunqQ5gx7IHZh5z/G
- j/CxXKFPK70KPrsJI6cZ9A6h+STNKrXx9x2SxjIta+YYUzTtNilNDQ0/6hpe97qOa+
- /81e5+BdHzRKtQhgT7m59BVYIzD7Es/iVzJ2u7MM=
+ b=Y5BqSgMzsqVDCX3WdnFltMbkgmybbvSLLPznY4dpbUg/T927ryN8VleZO0740YvdK
+ A1YPRZAKDWD6BAK2hGd4wA5xix6zpJxbP76W9vygEddhJX0/nNVBuO373vyM9cvcGC
+ z57aKOUYMhwQLEhOhUvijI7CYn4WtpxDKPUVPHgY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 09/19] hwmon: (aspeed-pwm-tacho) Avoid possible
+Subject: [PATCH AUTOSEL 4.14 07/13] hwmon: (aspeed-pwm-tacho) Avoid possible
  buffer overflow
-Date: Mon, 20 Jul 2020 17:38:40 -0400
-Message-Id: <20200720213851.407715-9-sashal@kernel.org>
+Date: Mon, 20 Jul 2020 17:39:08 -0400
+Message-Id: <20200720213914.407919-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200720213851.407715-1-sashal@kernel.org>
-References: <20200720213851.407715-1-sashal@kernel.org>
+In-Reply-To: <20200720213914.407919-1-sashal@kernel.org>
+References: <20200720213914.407919-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -88,10 +88,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/hwmon/aspeed-pwm-tacho.c b/drivers/hwmon/aspeed-pwm-tacho.c
-index 5e449eac788a1..a43fa730a513b 100644
+index 69b97d45e3cbb..e4337e9dda444 100644
 --- a/drivers/hwmon/aspeed-pwm-tacho.c
 +++ b/drivers/hwmon/aspeed-pwm-tacho.c
-@@ -880,6 +880,8 @@ static int aspeed_create_fan(struct device *dev,
+@@ -878,6 +878,8 @@ static int aspeed_create_fan(struct device *dev,
  	ret = of_property_read_u32(child, "reg", &pwm_port);
  	if (ret)
  		return ret;
