@@ -1,54 +1,63 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4498F2270CD
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Jul 2020 23:39:43 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F91122850D
+	for <lists+linux-aspeed@lfdr.de>; Tue, 21 Jul 2020 18:13:39 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4B9ZrD2pF0zDqgq
-	for <lists+linux-aspeed@lfdr.de>; Tue, 21 Jul 2020 07:39:40 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BB3YX0cM0zDqkd
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Jul 2020 02:13:36 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=209.85.166.194;
+ helo=mail-il1-f194.google.com; envelope-from=robherring2@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=Y5BqSgMz; dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
+ [209.85.166.194])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4B9Zqz2jtgzDqg5
- for <linux-aspeed@lists.ozlabs.org>; Tue, 21 Jul 2020 07:39:27 +1000 (AEST)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5726422CF8;
- Mon, 20 Jul 2020 21:39:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1595281164;
- bh=mzOX92lrI1z/vL+l8kiOBnblu9pbDp1Fzd+SgTVzpEI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Y5BqSgMzsqVDCX3WdnFltMbkgmybbvSLLPznY4dpbUg/T927ryN8VleZO0740YvdK
- A1YPRZAKDWD6BAK2hGd4wA5xix6zpJxbP76W9vygEddhJX0/nNVBuO373vyM9cvcGC
- z57aKOUYMhwQLEhOhUvijI7CYn4WtpxDKPUVPHgY=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 07/13] hwmon: (aspeed-pwm-tacho) Avoid possible
- buffer overflow
-Date: Mon, 20 Jul 2020 17:39:08 -0400
-Message-Id: <20200720213914.407919-7-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200720213914.407919-1-sashal@kernel.org>
-References: <20200720213914.407919-1-sashal@kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BB3YH42rWzDqXG
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Jul 2020 02:13:23 +1000 (AEST)
+Received: by mail-il1-f194.google.com with SMTP id k6so16891948ili.6
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 21 Jul 2020 09:13:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3hEvd6e5qQIyO2q50icuN5FjIQ5q4rwekadksksXza4=;
+ b=hqwLcf/J9Y5wFbZ4UIwkm4XN8bMdC+cGCmaa2+G6kZzaUsyp/zRYasd3c8XzdUSvxc
+ 9EjsvD0hH1hpqICa1uyJLIz3Ow2rj/6Y1WNlmfBV6KD2FilWamVkRyRicnKUzGWK9kfm
+ csUkEKPSFmmI4B/gQCmZIuhUv5E6wbTIroK3U0LNkelt3tTClyTIvOYoTl8bCYHvd65a
+ +/lbtBrOO6HRzRvP2G8TTl0T7Lrg42RBfUbv/fVIsUrX1Qz7ezsWsjzgP4WC6lOJ8f0X
+ KafP5o1qUk5/306jNzCwJno7VMKquJaPnuOFu8JrN9487PKb04Ng5KlZVLoQm3gqNagS
+ uOIw==
+X-Gm-Message-State: AOAM532yYtCUdPLOApR593ymgPDUIzQNmMOLyzCS71fCebEG/ql1G2yy
+ 8+dDK8OJxqnMi+JWtTkOng==
+X-Google-Smtp-Source: ABdhPJwZyjj1eCmbDB8qodPjQFtYDmTZBEcJbwfaZKYhQLlgyU4nhZLjz4sJOcRtVBR5wxuFep/Rtw==
+X-Received: by 2002:a92:58d6:: with SMTP id z83mr28467802ilf.186.1595347999985; 
+ Tue, 21 Jul 2020 09:13:19 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+ by smtp.gmail.com with ESMTPSA id b14sm10999389ilg.86.2020.07.21.09.13.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jul 2020 09:13:18 -0700 (PDT)
+Received: (nullmailer pid 393136 invoked by uid 1000);
+ Tue, 21 Jul 2020 16:13:17 -0000
+Date: Tue, 21 Jul 2020 10:13:17 -0600
+From: Rob Herring <robh@kernel.org>
+To: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: Re: [PATCH v2] dt-bindings: aspeed-lpc: Replace HTTP links with
+ HTTPS ones
+Message-ID: <20200721161317.GA393067@bogus>
+References: <CACPK8Xc_iwvRtUVjY8G8rS8UbZf6-Q6FTGaNweJXk06A=Y459Q@mail.gmail.com>
+ <20200720212110.64214-1-grandmaster@al2klimov.de>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200720212110.64214-1-grandmaster@al2klimov.de>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,46 +69,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-hwmon@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, Evgeny Novikov <novikov@ispras.ru>,
- Guenter Roeck <linux@roeck-us.net>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org, lee.jones@linaro.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Evgeny Novikov <novikov@ispras.ru>
+On Mon, 20 Jul 2020 23:21:10 +0200, Alexander A. Klimov wrote:
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
+> 
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+> 	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
+> 
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+> ---
+>  v2: Left only links to be only HTTPSified.
+> 
+>  Documentation/devicetree/bindings/mfd/aspeed-lpc.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-[ Upstream commit bc4071aafcf4d0535ee423b69167696d6c03207d ]
-
-aspeed_create_fan() reads a pwm_port value using of_property_read_u32().
-If pwm_port will be more than ARRAY_SIZE(pwm_port_params), there will be
-a buffer overflow in
-aspeed_create_pwm_port()->aspeed_set_pwm_port_enable(). The patch fixes
-the potential buffer overflow.
-
-Found by Linux Driver Verification project (linuxtesting.org).
-
-Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
-Link: https://lore.kernel.org/r/20200703111518.9644-1-novikov@ispras.ru
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hwmon/aspeed-pwm-tacho.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/hwmon/aspeed-pwm-tacho.c b/drivers/hwmon/aspeed-pwm-tacho.c
-index 69b97d45e3cbb..e4337e9dda444 100644
---- a/drivers/hwmon/aspeed-pwm-tacho.c
-+++ b/drivers/hwmon/aspeed-pwm-tacho.c
-@@ -878,6 +878,8 @@ static int aspeed_create_fan(struct device *dev,
- 	ret = of_property_read_u32(child, "reg", &pwm_port);
- 	if (ret)
- 		return ret;
-+	if (pwm_port >= ARRAY_SIZE(pwm_port_params))
-+		return -EINVAL;
- 	aspeed_create_pwm_port(priv, (u8)pwm_port);
- 
- 	ret = of_property_count_u8_elems(child, "cooling-levels");
--- 
-2.25.1
-
+Applied, thanks!
