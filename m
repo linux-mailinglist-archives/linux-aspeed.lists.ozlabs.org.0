@@ -1,61 +1,63 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B52D2229036
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Jul 2020 07:58:13 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id B112F22A992
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jul 2020 09:23:55 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BBPrz05LJzDqwT
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Jul 2020 15:58:11 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BC3jN2R8mzDqvt
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jul 2020 17:23:52 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::542;
- helo=mail-ed1-x542.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::543;
+ helo=mail-ed1-x543.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=XlgcqI4M; dkim-atps=neutral
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
+ header.s=google header.b=fIbkomCV; dkim-atps=neutral
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BBPrm2Cm1zDqG0;
- Wed, 22 Jul 2020 15:57:57 +1000 (AEST)
-Received: by mail-ed1-x542.google.com with SMTP id g20so732662edm.4;
- Tue, 21 Jul 2020 22:57:57 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BC3j86PnPzDrB0;
+ Thu, 23 Jul 2020 17:23:39 +1000 (AEST)
+Received: by mail-ed1-x543.google.com with SMTP id n2so3749791edr.5;
+ Thu, 23 Jul 2020 00:23:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7HyvRxIrXJ94hpJJ10KYHhFfMdEOmHA2GHT0K+5iUXk=;
- b=XlgcqI4MvjemKHQVFDQvUzykkZRmP3lD/jG4aYdiM6hGOhyvXScttPI7hWy9rKRfuk
- 7J0QusowPX9dYB44LlAJBmavv5IOKWu71jWfGsTCuhQfavb8v/oc7Gq4CemDQBtbwA2A
- uio4InFKyFHp+HAVNkP3Xk0qQQOfYwlexvZpY=
+ :cc; bh=nLPgzcsqBl8BLWzd8qx22r2XTFTWtpGQsBjetQCneRM=;
+ b=fIbkomCViGTYvfgH3bkn+ta2bQ6ARND3yu52XSnCJyIPjjOAZjYHkXgd+usMfhiSmm
+ 0Ht2JOCZq5YrVpJWj/oe+QJGzayzVEsOAqSFDnPSPvG/OzyULhsSIV0Pya6d2IgIJXJJ
+ xa3SlfhFESJqVfOh512jaHofva++Nau1cFDos=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7HyvRxIrXJ94hpJJ10KYHhFfMdEOmHA2GHT0K+5iUXk=;
- b=NbDjWMCsFjTUqvBaMxOcOUrc7L+9pjta+b6NaKafCOblx0o1y1o0qYwWSKvx59Mq2p
- VXXMJaVx40dVcnH0yaR9sljR65Uea0CiETYjD83Xa4sYJI3nE9YgH+jt9Y/BJS3jFjom
- oMFnjvE6oFCkq2in7ujRx9At9+/naF1aVu8AtM90lAVYa85a59kin0a5A1JBc5MSuOkl
- xgKi+boNt+oVNFwxC6arCaKDKNP5H9M69QtR0r4CUaxSVShvg+i6DBp9Oaa476Su5vPe
- Ge64Q2jRYLTeGOdW6xzUvpMt/tbAp5UlFkf5AK3hYSIHP0dv6xJaT99WdNG5Q6PYjpSK
- tQmg==
-X-Gm-Message-State: AOAM533TfdXHtT1BdsUrMySvaiKQwGYvBz4pCjIHPMFXAs9ed6ng++Eb
- dHkmDjfRa/znyNWtCoo3WaZJmsHGZYPQCYu8lmY=
-X-Google-Smtp-Source: ABdhPJyqwx7/7Ern/u8AfDOeaGdctpyl3n7V510LJKLg3E6NY/BORruzv1YBZDEOqkF3HbgrRGVMMg07hHLqxCPsRBY=
-X-Received: by 2002:a50:ee8a:: with SMTP id f10mr28623696edr.383.1595397473857; 
- Tue, 21 Jul 2020 22:57:53 -0700 (PDT)
+ bh=nLPgzcsqBl8BLWzd8qx22r2XTFTWtpGQsBjetQCneRM=;
+ b=EeQuSBiO4NQwekuYnbZMDR2aG+VUpOtL8rmluzTYL88lOfvTA2yViw+BPXitfsVB9r
+ xMjeu2mm+RpMjeVMAnaoOEOl4q7ZPqA1fMnZGTha2ApOOvS2Ro6O95iqv2oleOdOrw+w
+ VhVsvjR4hhjM+MgPVpOnZlCzp9PlzGYVhe5kwz/JzZMqUL+221/wRFQH2ic3v/BRP7R8
+ Qdq7aX7olmNL9kosbZ1r8ksPqFJymAQ7Z4CgRFehX1SRNAiM5qpcE2f6tKRwFbiUCH2d
+ MIMqUUddMJrQDfcFfqZTAafrG6B4IsFm6FaPrRop+mhHnjPD9jBGkSNkoGaVANV9OcXH
+ f40A==
+X-Gm-Message-State: AOAM530m3nZC21P0i1qJH9hktx0UZ6JwcGb5xw5Yg/dJwkiDSoysn9Zl
+ dwPrH9BLDcPsC/ViZv5xrWXL6qhWvBF43jOA3Fg=
+X-Google-Smtp-Source: ABdhPJxMyqdWwSuBwu8MNS+0WpqpoVpe8AAO1fOe+Ch0v1BDhLApZwHHIBZJ+TQKl+Gnwl2YebfJHNqpsWC2O9+ZUfs=
+X-Received: by 2002:a05:6402:3049:: with SMTP id
+ bu9mr3057783edb.232.1595489015613; 
+ Thu, 23 Jul 2020 00:23:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200720160147.22339-1-supreeth.venkatesh@amd.com>
-In-Reply-To: <20200720160147.22339-1-supreeth.venkatesh@amd.com>
+References: <20200722215506.5984-1-supreeth.venkatesh@amd.com>
+In-Reply-To: <20200722215506.5984-1-supreeth.venkatesh@amd.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 22 Jul 2020 05:57:41 +0000
-Message-ID: <CACPK8XfBPb85uXyYiphD9uEUG6a+acAzEMAsfaenT3t0jqUWNw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] ARM:dts:aspeed: Initial device tree for AMD EthanolX
+Date: Thu, 23 Jul 2020 07:23:23 +0000
+Message-ID: <CACPK8XeAr+Y1ySCa4DXeoHU-39eS2g38QOSgvbMk-VmbPk4cVA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] ARM:dts:aspeed: Initial device tree for AMD
+ EthanolX
 To: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -79,7 +81,7 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 20 Jul 2020 at 16:02, Supreeth Venkatesh
+On Wed, 22 Jul 2020 at 21:55, Supreeth Venkatesh
 <supreeth.venkatesh@amd.com> wrote:
 >
 > Initial introduction of AMD EthanolX platform equipped with an
@@ -93,57 +95,36 @@ On Mon, 20 Jul 2020 at 16:02, Supreeth Venkatesh
 > This also adds an entry of AMD EthanolX device tree file in Makefile.
 >
 > Signed-off-by: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
-
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-
-Looks good. One question about the licence.
-
-
+> ---
+> Changes since v1:
+> * Addressed review comment regarding SPDX License Identifier
+> * Added I2c0 and I2c1 which cater to AMD's APML Interface
+> ---
+>  arch/arm/boot/dts/Makefile                    |   1 +
+>  arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 221 ++++++++++++++++++
+>  2 files changed, 222 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+>
+> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+> index d6dfdf73e66b..55ed881d2ebc 100644
+> --- a/arch/arm/boot/dts/Makefile
+> +++ b/arch/arm/boot/dts/Makefile
+> @@ -1281,6 +1281,7 @@ dtb-$(CONFIG_ARCH_ZX) += zx296702-ad1.dtb
+>  dtb-$(CONFIG_ARCH_ASPEED) += \
+>         aspeed-ast2500-evb.dtb \
+>         aspeed-ast2600-evb.dtb \
+> +       aspeed-bmc-amd-ethanolx.dtb \
+>         aspeed-bmc-arm-centriq2400-rep.dtb \
+>         aspeed-bmc-arm-stardragon4800-rep2.dtb \
+>         aspeed-bmc-facebook-cmm.dtb \
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+> new file mode 100644
+> index 000000000000..3d67fa31a3ab
+> --- /dev/null
 > +++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-> @@ -0,0 +1,209 @@
-> +// SPDX-License-Identifier: Apache-2.0
+> @@ -0,0 +1,221 @@
+> +// SPDX-License-Identifier: GPL-2.0
 > +// Copyright (c) 2020 AMD Inc.
-
-Can you have a read of the licence rules and add a preferred licence.
-The rules are here:
-
- https://www.kernel.org/doc/html/latest/process/license-rules.html
-
-This very hacky one liner will give you an idea of common licences
-used by device trees:
-
-$ git grep -h SPDX -- arch/arm/boot/dts/ | cut -c3- |sort -b | uniq -c
-| sort -hr
-    579  SPDX-License-Identifier: GPL-2.0
-    305  SPDX-License-Identifier: GPL-2.0-only
-    222  SPDX-License-Identifier: GPL-2.0-or-later
-    188  SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-     91  SPDX-License-Identifier: GPL-2.0+
-     72  SPDX-License-Identifier: (GPL-2.0 OR MIT)
-     57  SPDX-License-Identifier: GPL-2.0+ OR MIT
-     46  SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-     38  SPDX-License-Identifier: GPL-2.0 OR X11
-     29  SPDX-License-Identifier: GPL-2.0 OR MIT
-     19  SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause)
-     16  SPDX-License-Identifier: GPL-2.0-only */
-      6  SPDX-License-Identifier: ISC
-      5  SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
-      4  SPDX-License-Identifier: (GPL-2.0+ OR X11)
-      4  SPDX-License-Identifier: (GPL-2.0 or MIT)
-      4  SPDX-License-Identifier: GPL-2.0 */
-      3  SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-2-Clause)
-      2  SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause) */
-      2  SPDX-License-Identifier: GPL-2.0-or-later */
-      2  SPDX-License-Identifier: GPL-2.0+ OR BSD-3-Clause
-      2  SPDX-License-Identifier: (GPL-2.0+)
-      2  SPDX-License-Identifier: (GPL-2.0)
-      2 SPDX-License-Identifier: GPL-2.0
-      1  SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause) */
-      1  SPDX-License-Identifier:  GPL-2.0+
-      1 SPDX-License-Identifier: GPL-2.0+
-      1   SPDX-License-Identifier: BSD-3-Clause
-
-
 > +// Author: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
 > +/dts-v1/;
 > +
@@ -224,6 +205,25 @@ $ git grep -h SPDX -- arch/arm/boot/dts/ | cut -c3- |sort -b | uniq -c
 > +                    &pinctrl_adc2_default
 > +                    &pinctrl_adc3_default
 > +                    &pinctrl_adc4_default>;
+> +};
+> +
+> +//APML for P0
+> +&i2c0 {
+> +       reg = <0x80 0x40>;
+> +       status = "okay";
+> +};
+> +
+> +//APML for P1
+> +&i2c1 {
+> +       reg = <0xc0 0x40>;
+
+This is unusual. i2c1 is at 0x80; this will clash with i2c2.
+
+Note that the i2c naming in linux counts from zero, whereas the ASPEED
+docs count from 1. So if your board layout has I2C1, you actually want
+i2c2 in the device tree.
+
+> +       status = "okay";
 > +};
 > +
 > +// Thermal Sensors
