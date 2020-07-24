@@ -2,104 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3784022BD9C
-	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Jul 2020 07:41:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20FFA22BD9D
+	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Jul 2020 07:41:35 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BCdNl3WySzDsGK
-	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Jul 2020 15:41:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BCdNr2R8GzDrng
+	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Jul 2020 15:41:32 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.helo=nam11-dm6-obe.outbound.protection.outlook.com
- (client-ip=40.107.223.63; helo=nam11-dm6-obe.outbound.protection.outlook.com;
- envelope-from=supreeth.venkatesh@amd.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::643;
+ helo=mail-ej1-x643.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=amd.com
+ dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=amdcloud.onmicrosoft.com
- header.i=@amdcloud.onmicrosoft.com header.a=rsa-sha256
- header.s=selector2-amdcloud-onmicrosoft-com header.b=j3VjI31l; 
- dkim-atps=neutral
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2063.outbound.protection.outlook.com [40.107.223.63])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=P64jXACs; dkim-atps=neutral
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BBq5n5C0YzDqT7;
- Thu, 23 Jul 2020 07:55:39 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h46WKeqa+QybwxJKoG6DVZBB4B2HTlo/2TuVCmhZ4/cKdLVAu4jGRFS0kIbdQSMpbKzn0ywZRBwd6I4JvTV5Pth5kZBHL+hSk1X6VbLkW+nw1/hN9b64IFadfXIwulhRShQGcRBtt32Poy6Noe21DjKfpiGYXne4tiJ6i4HE1C+GoZESUUy7k+SfJbYgvMvdKAmKprNIOYIUaUENu35JKr70LEH3x/bWH9IFx/7z27A+7v1m8zm9q1St0EQpPt4IM584PHrZQFHlBt3sHvA1ACqWHkzxxY+YkstLi41/WIJFlBWV7gPRtcGWRBSHpPH+WNyIH5qVSzQiKXKhbUifJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BlGZjebzE57gHn+5sKfurMuK0R7344ncjIYBc5Vk4Ok=;
- b=jb+CHsB6GxvS8tYdU8GzK5GjCVMmG5K7aqL+ruEAKiGRdAf5N5QRTclU4eaoOe7YsCogQpVXwpzqL4bZgZLOIwhFpEWRsALuNMYpjqLn+7YYdiJ7J2T/CPVGh/gAhDjfAnDxG/VsVCuIIfUfSWSZHvJR4HKPM87RGzMEIuX+1mnYKsat2Bp3/Bw0BiWsLWOTMifbTJx2rb47sFs9QZGwBYrzw7PzOD331qpmpCtkIdT4edp4cwicfWbX1s6NZhfxzmKwnkGzrxlBqnxHhzsI+XZbhduX5k+e6i51/ZIhH8NSPDRy0CdanfIOKRDzuAcQt+GSGwMplaRfPTYSMnnkLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BlGZjebzE57gHn+5sKfurMuK0R7344ncjIYBc5Vk4Ok=;
- b=j3VjI31lDX8r9KFH0giQHepHU5NI9fvtutYVmXpMW+XXPweLCmf3iNyfXX0wGhyaYTYdbYsHzVkbeCqdOCR8ZTXwnKVlGdQ5f0YenfENXw8ISOIMvQvbfhm8Baf0QJ9VGSZ1d5LqRsCC4532WFCy+SYl0kPEb4/pR7QpactO+GQ=
-Authentication-Results: jms.id.au; dkim=none (message not signed)
- header.d=none;jms.id.au; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB4582.namprd12.prod.outlook.com (2603:10b6:208:26b::18)
- by MN2PR12MB3917.namprd12.prod.outlook.com (2603:10b6:208:166::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.20; Wed, 22 Jul
- 2020 21:55:32 +0000
-Received: from MN2PR12MB4582.namprd12.prod.outlook.com
- ([fe80::7d2d:b00b:bac4:a66b]) by MN2PR12MB4582.namprd12.prod.outlook.com
- ([fe80::7d2d:b00b:bac4:a66b%7]) with mapi id 15.20.3195.026; Wed, 22 Jul 2020
- 21:55:32 +0000
-From: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
-To: joel@jms.id.au, andrew@aj.id.au, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, robh+dt@kernel.org
-Subject: [PATCH v2 1/1] ARM:dts:aspeed: Initial device tree for AMD EthanolX
-Date: Wed, 22 Jul 2020 16:55:06 -0500
-Message-Id: <20200722215506.5984-1-supreeth.venkatesh@amd.com>
-X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN4PR0701CA0002.namprd07.prod.outlook.com
- (2603:10b6:803:28::12) To MN2PR12MB4582.namprd12.prod.outlook.com
- (2603:10b6:208:26b::18)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BCdBQ1pHVzDrgK;
+ Fri, 24 Jul 2020 15:32:27 +1000 (AEST)
+Received: by mail-ej1-x643.google.com with SMTP id gg18so5310373ejb.6;
+ Thu, 23 Jul 2020 22:32:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2kuoJPzpn4TjzhG6yHyFnxMHoNqbarfOf3LwsJ/tKnA=;
+ b=P64jXACsfc14wdAreMA81APuChzwM4SqYNL28ZI7S24VvL9eUsw85VSqIqtsrlaDMh
+ Fwcl0gh3h69b2m90fXyyCbTDWQy46+L8pRoPLVW5yMj8ICADx+/un1GsICQHeB59uGN/
+ MIM7W3fj6buewLaH/RS8z+YpyYnjjKFlQh1+M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2kuoJPzpn4TjzhG6yHyFnxMHoNqbarfOf3LwsJ/tKnA=;
+ b=d9JfR04vtjeKmiv9KnXWZ5bia3p5cpPlgl62oFzZvNf5HfAprRtqM/FYLKbOELfYtg
+ JyKElFWrSrQnLnDRMTDjkvhQRAY0Pb1c6HGZIsA250mXfGyptGgptqnrvC/5wPBeEMGe
+ 5iZqC1vBmp9vPrTRb1binL0nc3RWQdHlLTO7Vlr/MjQyIvl3F6B41xNyWmMvU8amGCFk
+ FcVZX1iDWcwb5lqu+SBAfsIVomEzDuKgDpAfUAtgdAxXF/UffBbNOWo2Bg0Un9pyJCac
+ cfULrTh/taHHpW+9+N6CuIlow7CN6yUTFvsSNcWy9DOdp8mDXEYt3dPeca957+dLUDEu
+ aWHQ==
+X-Gm-Message-State: AOAM53032DeD9Hmg+aExK3VYfk2WurejEX/7JY/0bDqJrPefDrxEEPXl
+ Wbk7wST+SdRFMCDRmhzR4iGNXOdCsD6P6fubCWaQSjqt
+X-Google-Smtp-Source: ABdhPJy+bxgI2IEzLlkZ1gD6NEOvuue6zdF0rfiGn/A9T7PQ68A6fgjdIYcBGTE4c3y3kjBq3MJ1Y6WDc9ky5a/WEDQ=
+X-Received: by 2002:a17:906:3984:: with SMTP id
+ h4mr8098296eje.254.1595568743540; 
+ Thu, 23 Jul 2020 22:32:23 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from BMCDEV-02.amd.com (165.204.78.1) by
- SN4PR0701CA0002.namprd07.prod.outlook.com (2603:10b6:803:28::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.23 via Frontend
- Transport; Wed, 22 Jul 2020 21:55:30 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [165.204.78.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 67349b89-ce61-402c-a4e6-08d82e89f466
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3917:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3917A9BF810DF4D7C05DC3D696790@MN2PR12MB3917.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZsaBwO9tFu80ZHjB0xsXvCZXInGxl0nBTeQuWRdqQ1KL8cNcYlfF1sSo+4nBz7jtTCWtQQ6rU9ekH7H23cJ3t8/cq4vwVNYfq7pRlu7p/vbbjIrumwDpnABi8CTA07/YGT3JL6iHjaAik4N7GRhPF5s3VCuQiPIL9EDD9oKDPSCqI2vIcNOP/etny2Rdh+n4NnoP4+zWCGuOwAdoDJH2sb0PgmdiYJ0CTU3/alP/db1GfZSNpDrQHyUBApuenXYjZydt9AaK9KGowCbELMiMO8o9CFXgKwQYRIcCmeswYsbvSYLQvLe1fSzwa4RFkWUGSSmGgUy9IQXgksu9FOm5sw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4582.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(136003)(346002)(376002)(366004)(396003)(39860400002)(8676002)(478600001)(36756003)(186003)(66556008)(6486002)(7696005)(44832011)(66476007)(52116002)(83380400001)(66946007)(16526019)(6666004)(2616005)(316002)(26005)(956004)(8936002)(5660300002)(1076003)(4326008)(2906002)(86362001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: /VrQ9RWC/f+pC+21P40CKTfnhMYrV2IFzJkKQrHnujhConufO2in+3MQ8S1P7CDxNbS1sAzMaW1GUQ0eA/sHiVKGZwoQp5hM7kkgFmqnizmDUpecm8sgjLPZwDxlM5xXnsJtfIxfM5JxacKisGYd/pShOe0eV1hX+86ygArFpCUUkMrF4X8vJhLZMFSNVyqNyNnxDBfj84BrUELfldXuthREGzJR/m44b+KPqT9eyLVV4QD5B+/nEUachmf+klHYc7f6W8iaC17Rt1uKwQuaZcxa0hcrG7o5oRAkhwuPQ1RtBaOt/r8dmN+Bjvd9/XJD1sOnYTyeJ7sGclk23AmpX6tUXA2HTJhfAPAVHshSzjppc6rb9IwI0zntGqeGWITj2sDG2PaTUWDsG4bCuOz+MTl5UNOufnHEHUmbuxW3MrnsUqH+Hl7n0txLgyNdHpditCZ9Rnr3bxaWWaz8Mu4TKFp96fWQfIbKKVEcLFpxVYU=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 67349b89-ce61-402c-a4e6-08d82e89f466
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4582.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2020 21:55:31.9894 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lRwILJdWd74pFCSnRnj2Giis/1tcq4/SjqvqnljNc1SozvSDAEmF3TlHownd3qNlIty+K3GunLcj/Ke+XbuqFQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3917
+References: <20200723230822.18217-1-rentao.bupt@gmail.com>
+In-Reply-To: <20200723230822.18217-1-rentao.bupt@gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 24 Jul 2020 05:32:10 +0000
+Message-ID: <CACPK8XcYcVYxyVxQ_Fuv068=avVjS+G0Ei5ssetdE9foykAu9w@mail.gmail.com>
+Subject: Re: [PATCH v2] ARM: dts: aspeed: cmm: fixup i2c tree
+To: Tao Ren <rentao.bupt@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Fri, 24 Jul 2020 15:41:07 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -112,271 +71,1406 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Initial introduction of AMD EthanolX platform equipped with an
-Aspeed ast2500 BMC manufactured by AMD.
+On Thu, 23 Jul 2020 at 23:08, <rentao.bupt@gmail.com> wrote:
+>
+> From: Tao Ren <rentao.bupt@gmail.com>
+>
+> Create all the i2c switches in device tree and use aliases to assign
+> child channels with consistent bus numbers.
+>
+> Besides, "i2c-mux-idle-disconnect" is set for all the i2c switches to
+> avoid potential conflicts when multiple devices (beind the switches)
+> use the same device address.
+>
+> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
 
-AMD EthanolX platform is an AMD customer reference board with an
-Aspeed ast2500 BMC manufactured by AMD.
-This adds AMD EthanolX device tree file including the flash layout
-used by EthanolX BMC machines.
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-This also adds an entry of AMD EthanolX device tree file in Makefile.
+I have merged this patch into the aspeed dt-for-5.9 branch.
 
-Signed-off-by: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
----
-Changes since v1:
-* Addressed review comment regarding SPDX License Identifier
-* Added I2c0 and I2c1 which cater to AMD's APML Interface
----
- arch/arm/boot/dts/Makefile                    |   1 +
- arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 221 ++++++++++++++++++
- 2 files changed, 222 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+Cheers,
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index d6dfdf73e66b..55ed881d2ebc 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1281,6 +1281,7 @@ dtb-$(CONFIG_ARCH_ZX) += zx296702-ad1.dtb
- dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-ast2500-evb.dtb \
- 	aspeed-ast2600-evb.dtb \
-+	aspeed-bmc-amd-ethanolx.dtb \
- 	aspeed-bmc-arm-centriq2400-rep.dtb \
- 	aspeed-bmc-arm-stardragon4800-rep2.dtb \
- 	aspeed-bmc-facebook-cmm.dtb \
-diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-new file mode 100644
-index 000000000000..3d67fa31a3ab
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-@@ -0,0 +1,221 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (c) 2020 AMD Inc.
-+// Author: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
-+/dts-v1/;
-+
-+#include "aspeed-g5.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+
-+/ {
-+	model = "AMD EthanolX BMC";
-+	compatible = "amd,ethanolx-bmc", "aspeed,ast2500";
-+
-+	memory@80000000 {
-+		reg = <0x80000000 0x20000000>;
-+	};
-+	aliases {
-+		serial0 = &uart1;
-+		serial4 = &uart5;
-+	};
-+	chosen {
-+		stdout-path = &uart5;
-+		bootargs = "console=ttyS4,115200 earlyprintk";
-+	};
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		fault {
-+			gpios = <&gpio ASPEED_GPIO(A, 2) GPIO_ACTIVE_LOW>;
-+		};
-+
-+		identify {
-+			gpios = <&gpio ASPEED_GPIO(A, 3) GPIO_ACTIVE_LOW>;
-+		};
-+	};
-+	iio-hwmon {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc 0>, <&adc 1>, <&adc 2>, <&adc 3>, <&adc 4>;
-+	};
-+};
-+
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		#include "openbmc-flash-layout.dtsi"
-+	};
-+};
-+
-+
-+&mac0 {
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii1_default>;
-+	clocks = <&syscon ASPEED_CLK_GATE_MAC1CLK>,
-+		 <&syscon ASPEED_CLK_MAC1RCLK>;
-+	clock-names = "MACCLK", "RCLK";
-+};
-+
-+&uart1 {
-+	//Host Console
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_txd1_default
-+		     &pinctrl_rxd1_default>;
-+};
-+
-+&uart5 {
-+	//BMC Console
-+	status = "okay";
-+};
-+
-+&adc {
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_adc0_default
-+		     &pinctrl_adc1_default
-+		     &pinctrl_adc2_default
-+		     &pinctrl_adc3_default
-+		     &pinctrl_adc4_default>;
-+};
-+
-+//APML for P0
-+&i2c0 {
-+	reg = <0x80 0x40>;
-+	status = "okay";
-+};
-+
-+//APML for P1
-+&i2c1 {
-+	reg = <0xc0 0x40>;
-+	status = "okay";
-+};
-+
-+// Thermal Sensors
-+&i2c7 {
-+	status = "okay";
-+
-+	lm75a@48 {
-+		compatible = "national,lm75a";
-+		reg = <0x48>;
-+	};
-+
-+	lm75a@49 {
-+		compatible = "national,lm75a";
-+		reg = <0x49>;
-+	};
-+
-+	lm75a@4a {
-+		compatible = "national,lm75a";
-+		reg = <0x4a>;
-+	};
-+
-+	lm75a@4b {
-+		compatible = "national,lm75a";
-+		reg = <0x4b>;
-+	};
-+
-+	lm75a@4c {
-+		compatible = "national,lm75a";
-+		reg = <0x4c>;
-+	};
-+
-+	lm75a@4d {
-+		compatible = "national,lm75a";
-+		reg = <0x4d>;
-+	};
-+
-+	lm75a@4e {
-+		compatible = "national,lm75a";
-+		reg = <0x4e>;
-+	};
-+
-+	lm75a@4f {
-+		compatible = "national,lm75a";
-+		reg = <0x4f>;
-+	};
-+};
-+
-+&kcs1 {
-+	status = "okay";
-+	kcs_addr = <0x60>;
-+};
-+
-+&kcs2 {
-+	status = "okay";
-+	kcs_addr = <0x62>;
-+};
-+
-+&kcs4 {
-+	status = "okay";
-+	kcs_addr = <0x97DE>;
-+};
-+
-+&lpc_snoop {
-+	status = "okay";
-+	snoop-ports = <0x80>;
-+};
-+
-+&lpc_ctrl {
-+	//Enable lpc clock
-+	status = "okay";
-+};
-+
-+&pwm_tacho {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_pwm0_default
-+	&pinctrl_pwm1_default
-+	&pinctrl_pwm2_default
-+	&pinctrl_pwm3_default
-+	&pinctrl_pwm4_default
-+	&pinctrl_pwm5_default
-+	&pinctrl_pwm6_default
-+	&pinctrl_pwm7_default>;
-+
-+	fan@0 {
-+		reg = <0x00>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x00>;
-+	};
-+
-+	fan@1 {
-+		reg = <0x01>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x01>;
-+	};
-+
-+	fan@2 {
-+		reg = <0x02>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x02>;
-+	};
-+
-+	fan@3 {
-+		reg = <0x03>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x03>;
-+	};
-+
-+	fan@4 {
-+		reg = <0x04>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x04>;
-+	};
-+
-+	fan@5 {
-+		reg = <0x05>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x05>;
-+	};
-+
-+	fan@6 {
-+		reg = <0x06>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x06>;
-+	};
-+
-+	fan@7 {
-+		reg = <0x07>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x07>;
-+	};
-+};
-+
-+
-+
--- 
-2.17.1
+Joel
 
+> ---
+>  Changes in v2:
+>    - Nothing changed. Resending the patch just in case the previous
+>      email was not delivered.
+>
+>  arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts | 1231 ++++++++++++++++-
+>  1 file changed, 1228 insertions(+), 3 deletions(-)
+>
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts
+> index 016bbcb99bb6..7bc7df7ed428 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts
+> @@ -19,8 +19,8 @@
+>                 serial3 = &uart4;
+>
+>                 /*
+> -                * Hardcode the bus number of i2c switches' channels to
+> -                * avoid breaking the legacy applications.
+> +                * PCA9548 (1-0077) provides 8 channels for connecting to
+> +                * 4 Line Cards and 4 Fabric Cards.
+>                  */
+>                 i2c16 = &imux16;
+>                 i2c17 = &imux17;
+> @@ -30,6 +30,11 @@
+>                 i2c21 = &imux21;
+>                 i2c22 = &imux22;
+>                 i2c23 = &imux23;
+> +
+> +               /*
+> +                * PCA9548 (2-0071) provides 8 channels for connecting to
+> +                * Power Distribution Board.
+> +                */
+>                 i2c24 = &imux24;
+>                 i2c25 = &imux25;
+>                 i2c26 = &imux26;
+> @@ -38,6 +43,11 @@
+>                 i2c29 = &imux29;
+>                 i2c30 = &imux30;
+>                 i2c31 = &imux31;
+> +
+> +               /*
+> +                * PCA9548 (8-0077) provides 8 channels and the first 4
+> +                * channels are connecting to 4 Fan Control Boards.
+> +                */
+>                 i2c32 = &imux32;
+>                 i2c33 = &imux33;
+>                 i2c34 = &imux34;
+> @@ -46,6 +56,226 @@
+>                 i2c37 = &imux37;
+>                 i2c38 = &imux38;
+>                 i2c39 = &imux39;
+> +
+> +               /*
+> +                * 2 PCA9548 (18-0070 & 18-0073), 16 channels connecting
+> +                * to Line Card #1.
+> +                */
+> +               i2c40 = &imux40;
+> +               i2c41 = &imux41;
+> +               i2c42 = &imux42;
+> +               i2c43 = &imux43;
+> +               i2c44 = &imux44;
+> +               i2c45 = &imux45;
+> +               i2c46 = &imux46;
+> +               i2c47 = &imux47;
+> +               i2c48 = &imux48;
+> +               i2c49 = &imux49;
+> +               i2c50 = &imux50;
+> +               i2c51 = &imux51;
+> +               i2c52 = &imux52;
+> +               i2c53 = &imux53;
+> +               i2c54 = &imux54;
+> +               i2c55 = &imux55;
+> +
+> +               /*
+> +                * 2 PCA9548 (19-0070 & 19-0073), 16 channels connecting
+> +                * to Line Card #2.
+> +                */
+> +               i2c56 = &imux56;
+> +               i2c57 = &imux57;
+> +               i2c58 = &imux58;
+> +               i2c59 = &imux59;
+> +               i2c60 = &imux60;
+> +               i2c61 = &imux61;
+> +               i2c62 = &imux62;
+> +               i2c63 = &imux63;
+> +               i2c64 = &imux64;
+> +               i2c65 = &imux65;
+> +               i2c66 = &imux66;
+> +               i2c67 = &imux67;
+> +               i2c68 = &imux68;
+> +               i2c69 = &imux69;
+> +               i2c70 = &imux70;
+> +               i2c71 = &imux71;
+> +
+> +               /*
+> +                * 2 PCA9548 (20-0070 & 20-0073), 16 channels connecting
+> +                * to Line Card #3.
+> +                */
+> +               i2c72 = &imux72;
+> +               i2c73 = &imux73;
+> +               i2c74 = &imux74;
+> +               i2c75 = &imux75;
+> +               i2c76 = &imux76;
+> +               i2c77 = &imux77;
+> +               i2c78 = &imux78;
+> +               i2c79 = &imux79;
+> +               i2c80 = &imux80;
+> +               i2c81 = &imux81;
+> +               i2c82 = &imux82;
+> +               i2c83 = &imux83;
+> +               i2c84 = &imux84;
+> +               i2c85 = &imux85;
+> +               i2c86 = &imux86;
+> +               i2c87 = &imux87;
+> +
+> +               /*
+> +                * 2 PCA9548 (21-0070 & 21-0073), 16 channels connecting
+> +                * to Line Card #4.
+> +                */
+> +               i2c88 = &imux88;
+> +               i2c89 = &imux89;
+> +               i2c90 = &imux90;
+> +               i2c91 = &imux91;
+> +               i2c92 = &imux92;
+> +               i2c93 = &imux93;
+> +               i2c94 = &imux94;
+> +               i2c95 = &imux95;
+> +               i2c96 = &imux96;
+> +               i2c97 = &imux97;
+> +               i2c98 = &imux98;
+> +               i2c99 = &imux99;
+> +               i2c100 = &imux100;
+> +               i2c101 = &imux101;
+> +               i2c102 = &imux102;
+> +               i2c103 = &imux103;
+> +
+> +               /*
+> +                * 2 PCA9548 (16-0070 & 16-0073), 16 channels connecting
+> +                * to Fabric Card #1.
+> +                */
+> +               i2c104 = &imux104;
+> +               i2c105 = &imux105;
+> +               i2c106 = &imux106;
+> +               i2c107 = &imux107;
+> +               i2c108 = &imux108;
+> +               i2c109 = &imux109;
+> +               i2c110 = &imux110;
+> +               i2c111 = &imux111;
+> +               i2c112 = &imux112;
+> +               i2c113 = &imux113;
+> +               i2c114 = &imux114;
+> +               i2c115 = &imux115;
+> +               i2c116 = &imux116;
+> +               i2c117 = &imux117;
+> +               i2c118 = &imux118;
+> +               i2c119 = &imux119;
+> +
+> +               /*
+> +                * 2 PCA9548 (17-0070 & 17-0073), 16 channels connecting
+> +                * to Fabric Card #2.
+> +                */
+> +               i2c120 = &imux120;
+> +               i2c121 = &imux121;
+> +               i2c122 = &imux122;
+> +               i2c123 = &imux123;
+> +               i2c124 = &imux124;
+> +               i2c125 = &imux125;
+> +               i2c126 = &imux126;
+> +               i2c127 = &imux127;
+> +               i2c128 = &imux128;
+> +               i2c129 = &imux129;
+> +               i2c130 = &imux130;
+> +               i2c131 = &imux131;
+> +               i2c132 = &imux132;
+> +               i2c133 = &imux133;
+> +               i2c134 = &imux134;
+> +               i2c135 = &imux135;
+> +
+> +               /*
+> +                * 2 PCA9548 (22-0070 & 22-0073), 16 channels connecting
+> +                * to Fabric Card #3.
+> +                */
+> +               i2c136 = &imux136;
+> +               i2c137 = &imux137;
+> +               i2c138 = &imux138;
+> +               i2c139 = &imux139;
+> +               i2c140 = &imux140;
+> +               i2c141 = &imux141;
+> +               i2c142 = &imux142;
+> +               i2c143 = &imux143;
+> +               i2c144 = &imux144;
+> +               i2c145 = &imux145;
+> +               i2c146 = &imux146;
+> +               i2c147 = &imux147;
+> +               i2c148 = &imux148;
+> +               i2c149 = &imux149;
+> +               i2c150 = &imux150;
+> +               i2c151 = &imux151;
+> +
+> +               /*
+> +                * 2 PCA9548 (23-0070 & 23-0073), 16 channels connecting
+> +                * to Fabric Card #4.
+> +                */
+> +               i2c152 = &imux152;
+> +               i2c153 = &imux153;
+> +               i2c154 = &imux154;
+> +               i2c155 = &imux155;
+> +               i2c156 = &imux156;
+> +               i2c157 = &imux157;
+> +               i2c158 = &imux158;
+> +               i2c159 = &imux159;
+> +               i2c160 = &imux160;
+> +               i2c161 = &imux161;
+> +               i2c162 = &imux162;
+> +               i2c163 = &imux163;
+> +               i2c164 = &imux164;
+> +               i2c165 = &imux165;
+> +               i2c166 = &imux166;
+> +               i2c167 = &imux167;
+> +
+> +               /*
+> +                * PCA9548 (32-0070), 8 channels connecting to Fan Control
+> +                # Board #1.
+> +                */
+> +               i2c168 = &imux168;
+> +               i2c169 = &imux169;
+> +               i2c170 = &imux170;
+> +               i2c171 = &imux171;
+> +               i2c172 = &imux172;
+> +               i2c173 = &imux173;
+> +               i2c174 = &imux174;
+> +               i2c175 = &imux175;
+> +
+> +               /*
+> +                * PCA9548 (33-0070), 8 channels connecting to Fan Control
+> +                # Board #2.
+> +                */
+> +               i2c176 = &imux176;
+> +               i2c177 = &imux177;
+> +               i2c178 = &imux178;
+> +               i2c179 = &imux179;
+> +               i2c180 = &imux180;
+> +               i2c181 = &imux181;
+> +               i2c182 = &imux182;
+> +               i2c183 = &imux183;
+> +
+> +               /*
+> +                * PCA9548 (34-0070), 8 channels connecting to Fan Control
+> +                # Board #3.
+> +                */
+> +               i2c184 = &imux184;
+> +               i2c185 = &imux185;
+> +               i2c186 = &imux186;
+> +               i2c187 = &imux187;
+> +               i2c188 = &imux188;
+> +               i2c189 = &imux189;
+> +               i2c190 = &imux190;
+> +               i2c191 = &imux191;
+> +
+> +               /*
+> +                * PCA9548 (35-0070), 8 channels connecting to Fan Control
+> +                # Board #4.
+> +                */
+> +               i2c192 = &imux192;
+> +               i2c193 = &imux193;
+> +               i2c194 = &imux194;
+> +               i2c195 = &imux195;
+> +               i2c196 = &imux196;
+> +               i2c197 = &imux197;
+> +               i2c198 = &imux198;
+> +               i2c199 = &imux199;
+>         };
+>
+>         chosen {
+> @@ -103,53 +333,846 @@
+>                 #address-cells = <1>;
+>                 #size-cells = <0>;
+>                 reg = <0x77>;
+> +               i2c-mux-idle-disconnect;
+>
+> +               /* To Fabric Card #1 */
+>                 imux16: i2c@0 {
+>                         #address-cells = <1>;
+>                         #size-cells = <0>;
+>                         reg = <0>;
+> +
+> +                       i2c-switch@70 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x70>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux104: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux105: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux106: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux107: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux108: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux109: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux110: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux111: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+> +
+> +                       i2c-switch@73 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x73>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux112: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux113: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux114: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux115: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux116: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux117: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux118: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux119: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+>                 };
+>
+> +               /* To Fabric Card #2 */
+>                 imux17: i2c@1 {
+>                         #address-cells = <1>;
+>                         #size-cells = <0>;
+>                         reg = <1>;
+> +
+> +                       i2c-switch@70 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x70>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux120: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux121: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux122: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux123: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux124: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux125: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux126: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux127: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+> +
+> +                       i2c-switch@73 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x73>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux128: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux129: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux130: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux131: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux132: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux133: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux134: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux135: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+>                 };
+>
+> +               /* To Line Card #1 */
+>                 imux18: i2c@2 {
+>                         #address-cells = <1>;
+>                         #size-cells = <0>;
+>                         reg = <2>;
+> +
+> +                       i2c-switch@70 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x70>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux40: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux41: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux42: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux43: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux44: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux45: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux46: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux47: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+> +
+> +                       i2c-switch@73 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x73>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux48: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux49: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux50: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux51: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux52: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux53: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux54: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux55: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+>                 };
+>
+> +               /* To Line Card #2 */
+>                 imux19: i2c@3 {
+>                         #address-cells = <1>;
+>                         #size-cells = <0>;
+>                         reg = <3>;
+> +
+> +                       i2c-switch@70 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x70>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux56: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux57: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux58: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux59: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux60: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux61: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux62: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux63: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+> +
+> +                       i2c-switch@73 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x73>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux64: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux65: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux66: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux67: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux68: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux69: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux70: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux71: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+>                 };
+>
+> +               /* To LC3 SCM */
+>                 imux20: i2c@4 {
+>                         #address-cells = <1>;
+>                         #size-cells = <0>;
+>                         reg = <4>;
+> +
+> +                       i2c-switch@70 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x70>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux72: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux73: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux74: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux75: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux76: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux77: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux78: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux79: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+> +
+> +                       i2c-switch@73 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x73>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux80: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux81: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux82: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux83: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux84: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux85: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux86: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux87: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+>                 };
+>
+> +               /* To Line Card #4 */
+>                 imux21: i2c@5 {
+>                         #address-cells = <1>;
+>                         #size-cells = <0>;
+>                         reg = <5>;
+> +
+> +                       i2c-switch@70 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x70>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux88: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux89: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux90: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux91: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux92: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux93: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux94: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux95: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+> +
+> +                       i2c-switch@73 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x73>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux96: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux97: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux98: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux99: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux100: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux101: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux102: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux103: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+>                 };
+>
+> +               /* To Fabric Card #3 */
+>                 imux22: i2c@6 {
+>                         #address-cells = <1>;
+>                         #size-cells = <0>;
+>                         reg = <6>;
+> +
+> +                       i2c-switch@70 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x70>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux136: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux137: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux138: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux139: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux140: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux141: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux142: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux143: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+> +
+> +                       i2c-switch@73 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x73>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux144: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux145: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux146: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux147: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux148: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux149: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux150: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux151: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+>                 };
+>
+> +               /* To Fabric Card #4 */
+>                 imux23: i2c@7 {
+>                         #address-cells = <1>;
+>                         #size-cells = <0>;
+>                         reg = <7>;
+> +
+> +                       i2c-switch@70 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x70>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux152: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux153: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux154: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux155: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux156: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux157: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux158: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux159: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+> +
+> +                       i2c-switch@73 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x73>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux160: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux161: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux162: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux163: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux164: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux165: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux166: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux167: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+>                 };
+>         };
+>  };
+> @@ -165,6 +1188,7 @@
+>                 #address-cells = <1>;
+>                 #size-cells = <0>;
+>                 reg = <0x71>;
+> +               i2c-mux-idle-disconnect;
+>
+>                 imux24: i2c@0 {
+>                         #address-cells = <1>;
+> @@ -252,7 +1276,7 @@
+>  };
+>
+>  /*
+> - * I2C bus to Fan Control Board.
+> + * I2C bus to Fan Control Boards.
+>   */
+>  &i2c8 {
+>         status = "okay";
+> @@ -262,29 +1286,230 @@
+>                 #address-cells = <1>;
+>                 #size-cells = <0>;
+>                 reg = <0x77>;
+> +               i2c-mux-idle-disconnect;
+>
+> +               /* To Fan Control Board #1 */
+>                 imux32: i2c@0 {
+>                         #address-cells = <1>;
+>                         #size-cells = <0>;
+>                         reg = <0>;
+> +
+> +                       i2c-switch@70 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x70>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux168: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux169: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux170: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux171: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux172: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux173: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux174: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux175: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+>                 };
+>
+> +               /* To Fan Control Board #2 */
+>                 imux33: i2c@1 {
+>                         #address-cells = <1>;
+>                         #size-cells = <0>;
+>                         reg = <1>;
+> +
+> +                       i2c-switch@70 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x70>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux176: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux177: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux178: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux179: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux180: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux181: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux182: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux183: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+>                 };
+>
+> +               /* To Fan Control Board #3 */
+>                 imux34: i2c@2 {
+>                         #address-cells = <1>;
+>                         #size-cells = <0>;
+>                         reg = <2>;
+> +
+> +                       i2c-switch@70 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x70>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux184: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux185: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux186: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux187: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux188: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux189: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux190: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux191: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+>                 };
+>
+> +               /* To Fan Control Board #4 */
+>                 imux35: i2c@3 {
+>                         #address-cells = <1>;
+>                         #size-cells = <0>;
+>                         reg = <3>;
+> +
+> +                       i2c-switch@70 {
+> +                               compatible = "nxp,pca9548";
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +                               reg = <0x70>;
+> +                               i2c-mux-idle-disconnect;
+> +
+> +                               imux192: i2c@0 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <0>;
+> +                               };
+> +                               imux193: i2c@1 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <1>;
+> +                               };
+> +                               imux194: i2c@2 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <2>;
+> +                               };
+> +                               imux195: i2c@3 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <3>;
+> +                               };
+> +                               imux196: i2c@4 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <4>;
+> +                               };
+> +                               imux197: i2c@5 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <5>;
+> +                               };
+> +                               imux198: i2c@6 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <6>;
+> +                               };
+> +                               imux199: i2c@7 {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                                       reg = <7>;
+> +                               };
+> +                       };
+>                 };
+>
+>                 imux36: i2c@4 {
+> --
+> 2.17.1
+>
