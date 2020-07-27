@@ -2,63 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A6222FCD6
-	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Jul 2020 01:18:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FC022FE25
+	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Jul 2020 01:45:38 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BFwhV3V4czDqpp
-	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Jul 2020 09:18:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BFxJF5N8SzDqvK
+	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Jul 2020 09:45:33 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::643;
- helo=mail-ej1-x643.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::642;
+ helo=mail-ej1-x642.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=KiIBbWcB; dkim-atps=neutral
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
+ header.s=google header.b=X+502/75; dkim-atps=neutral
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
+ [IPv6:2a00:1450:4864:20::642])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BFwhL1Lt1zDqk7;
- Tue, 28 Jul 2020 09:17:51 +1000 (AEST)
-Received: by mail-ej1-x643.google.com with SMTP id g11so6987913ejr.0;
- Mon, 27 Jul 2020 16:17:51 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BFxJ74dqdzDqcK
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 28 Jul 2020 09:45:25 +1000 (AEST)
+Received: by mail-ej1-x642.google.com with SMTP id gg18so15431431ejb.6
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 27 Jul 2020 16:45:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eDnv2u+7TDzJf6n14HBXmnArxjJaJEHjEbe0bHhRUEs=;
- b=KiIBbWcBZhyW+O5o7G4YzliTSdzRlHO3ORbQkKF7vDXDh+RKwoKsVS45CuN6sDhcwi
- MS6gtQ4SbOeq5N0U5rZO71owLxneWs+NmllXn5j9Yxmf5YXLh/ug6/MQNw66FQv3ZTm0
- +ys2uAAqEIS/PjtOWviT2taNv9v6u0vORAEU0=
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=3XJyxlG3BYKDeDJF3aoLhmmu0Dvjt7O+XVlhzaHzUZY=;
+ b=X+502/75eLwiOOhu2FXaPQPVI3mwBEOHpjkzgveZj6NJeu92H39sgN7V/XKbtGizX5
+ IBpkfvzaX5U0mXZtiL5V9H4jv8qofN0Z9jS9ulEYMMs5wGPkLsaKoeUI223ofoXU0BRj
+ r8f9WtuaRe6dBGIMnYsvLDwL46MJM2dhANPgA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eDnv2u+7TDzJf6n14HBXmnArxjJaJEHjEbe0bHhRUEs=;
- b=CN9DMd+TEcDBlIveNwHfqM59Pn8nYjeCqjexlkzQ4i7VPwdy0dNx3t7Om3DigCzHxL
- 7LwtYL39/a617Fof1PxuDB9iDzBk8TQE9ftyPGhOjEhEkAdTA4Hoa1tACWELFSLuAt8o
- ys0qk4FDsTjDOsmv5cKkwr3cy18hsO/DsDI3f80QIcqgJasIt+W1/guUmWvAUQmYJhrI
- a/wnhWu/cuz5ia/HFgKEDuyX3ELhZgq5qHoOq+EOKZJr8jvsnZP3yXoRad0sgX6L315/
- +PNM2fhuRm2iqgB/+G+gtPmSnjc93FW1D153wGGDakuDjUrGQ0th5tDYL0fzpZBzyw40
- nHHw==
-X-Gm-Message-State: AOAM530ndwWXqENQvtPuo26443NewOG6OITfH98nHWx66t2fRsR3ET8q
- OhEnqp24fM6fcyFtBPNCPtAedpv8xCYgoO+SP69zozDs
-X-Google-Smtp-Source: ABdhPJxOcmWyKoA18jpAXsp32LtWuJw1BLE/bPSxZbhDgSL2NjTVUOG5rI+yrx1nsrMlE7eI1AugXL9kMzpILn9Lr7w=
-X-Received: by 2002:a17:906:488:: with SMTP id
- f8mr13964940eja.215.1595891865841; 
- Mon, 27 Jul 2020 16:17:45 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=3XJyxlG3BYKDeDJF3aoLhmmu0Dvjt7O+XVlhzaHzUZY=;
+ b=Ssgoz8y2wwuWHeR4IRQ3qDaRpIPeatlN2dq+mTfL4WiNhL5W5ldaECV+uvQGRqt8P2
+ aQ+yxna3mIKytBjYLlp21Y+Ng9gwg9aot0qgtMgEIGh1Yugk2G1OQoeOTVisB4G/Sgn0
+ ha5yR4G40+DPJDFaGJLGnFxmXiBq78gjcJLRACaaYJTvqcGeBCSpkykzckM1V2pCNtGT
+ wGlTiYYvhhyIMTXiU6r7//NX4ZLMvPnHgyEBrxPzyvSyGYADtJTb/gK4nVbhOgeFAHCs
+ hDCiALCa+fohQ93dkycyOdog4LpChLvWgLh5yZxxTsbdxZcS1YATh2deIevrLZjbNYDa
+ mmPw==
+X-Gm-Message-State: AOAM532+NNdPk3ZcsPiYz3U5qxfFlG4ZMHooLRmAHEKU08COF1h940ME
+ uXrvdvJwlHddbrMdakdm8MbNwUalJ7hbpuexn17vozlCsPw=
+X-Google-Smtp-Source: ABdhPJyB4vtDt95XmGh3BJyuB9kC6b7d7DJOIVGxbmiYBkFGAWdfSb4ZpxYT3ZPX+fU6Qg8JI1k+5k+K14r6VVBvDrI=
+X-Received: by 2002:a17:906:198e:: with SMTP id
+ g14mr22248095ejd.266.1595893522582; 
+ Mon, 27 Jul 2020 16:45:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200724192818.68068-1-supreeth.venkatesh@amd.com>
-In-Reply-To: <20200724192818.68068-1-supreeth.venkatesh@amd.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 27 Jul 2020 23:17:33 +0000
-Message-ID: <CACPK8XcZCySQt_wVzkthciYWg_GfOY-7VAkFxu5TjuJRRMFRxQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] ARM:dts:aspeed: Initial device tree for AMD
- EthanolX
-To: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
+Date: Mon, 27 Jul 2020 23:45:11 +0000
+Message-ID: <CACPK8Xf_Np7LtcDFhywi6Uk1EgUpb0pVVa+Lr9YEwBRjbjOKCQ@mail.gmail.com>
+Subject: [GIT PULL] ARM: aspeed: devicetree changes for 5.9
+To: arm <arm@kernel.org>, soc@kernel.org, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -71,287 +69,76 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 24 Jul 2020 at 19:28, Supreeth Venkatesh
-<supreeth.venkatesh@amd.com> wrote:
->
-> Initial introduction of AMD EthanolX platform equipped with an
-> Aspeed ast2500 BMC manufactured by AMD.
->
-> AMD EthanolX platform is an AMD customer reference board with an
-> Aspeed ast2500 BMC manufactured by AMD.
-> This adds AMD EthanolX device tree file including the flash layout
-> used by EthanolX BMC machines.
->
-> This also adds an entry of AMD EthanolX device tree file in Makefile.
->
-> Signed-off-by: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
+Hello ARM maintainers,
 
-Looks good! I've merged this to dt-for-5.9.
+Here's the ASPEED pull request for 5.9. Most of the patches have been
+sitting in next for a while, with a few late comers merged today.
 
-Cheers,
+The following changes since commit 2c887638a5fa1ac5e2491ae911f50d554b604985:
 
-Joel
+  ARM: dts: Aspeed: tacoma: Enable EHCI controller (2020-07-28 09:02:45 +0930)
 
-> ---
-> Changes since v2:
-> * Removed incorrect I2C0 and I2C1 Reg addresses
->
-> Changes since v1:
-> * Addressed review comment regarding SPDX License Identifier
-> * Added I2c0 and I2c1 which cater to AMD's APML Interface
-> ---
->  arch/arm/boot/dts/Makefile                    |   1 +
->  arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 219 ++++++++++++++++++
->  2 files changed, 220 insertions(+)
->  create mode 100644 arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
->
-> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-> index d6dfdf73e66b..55ed881d2ebc 100644
-> --- a/arch/arm/boot/dts/Makefile
-> +++ b/arch/arm/boot/dts/Makefile
-> @@ -1281,6 +1281,7 @@ dtb-$(CONFIG_ARCH_ZX) += zx296702-ad1.dtb
->  dtb-$(CONFIG_ARCH_ASPEED) += \
->         aspeed-ast2500-evb.dtb \
->         aspeed-ast2600-evb.dtb \
-> +       aspeed-bmc-amd-ethanolx.dtb \
->         aspeed-bmc-arm-centriq2400-rep.dtb \
->         aspeed-bmc-arm-stardragon4800-rep2.dtb \
->         aspeed-bmc-facebook-cmm.dtb \
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-> new file mode 100644
-> index 000000000000..60ba86f3e5bc
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-> @@ -0,0 +1,219 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// Copyright (c) 2020 AMD Inc.
-> +// Author: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
-> +/dts-v1/;
-> +
-> +#include "aspeed-g5.dtsi"
-> +#include <dt-bindings/gpio/aspeed-gpio.h>
-> +
-> +/ {
-> +       model = "AMD EthanolX BMC";
-> +       compatible = "amd,ethanolx-bmc", "aspeed,ast2500";
-> +
-> +       memory@80000000 {
-> +               reg = <0x80000000 0x20000000>;
-> +       };
-> +       aliases {
-> +               serial0 = &uart1;
-> +               serial4 = &uart5;
-> +       };
-> +       chosen {
-> +               stdout-path = &uart5;
-> +               bootargs = "console=ttyS4,115200 earlyprintk";
-> +       };
-> +       leds {
-> +               compatible = "gpio-leds";
-> +
-> +               fault {
-> +                       gpios = <&gpio ASPEED_GPIO(A, 2) GPIO_ACTIVE_LOW>;
-> +               };
-> +
-> +               identify {
-> +                       gpios = <&gpio ASPEED_GPIO(A, 3) GPIO_ACTIVE_LOW>;
-> +               };
-> +       };
-> +       iio-hwmon {
-> +               compatible = "iio-hwmon";
-> +               io-channels = <&adc 0>, <&adc 1>, <&adc 2>, <&adc 3>, <&adc 4>;
-> +       };
-> +};
-> +
-> +&fmc {
-> +       status = "okay";
-> +       flash@0 {
-> +               status = "okay";
-> +               m25p,fast-read;
-> +               #include "openbmc-flash-layout.dtsi"
-> +       };
-> +};
-> +
-> +
-> +&mac0 {
-> +       status = "okay";
-> +
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_rmii1_default>;
-> +       clocks = <&syscon ASPEED_CLK_GATE_MAC1CLK>,
-> +                <&syscon ASPEED_CLK_MAC1RCLK>;
-> +       clock-names = "MACCLK", "RCLK";
-> +};
-> +
-> +&uart1 {
-> +       //Host Console
-> +       status = "okay";
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_txd1_default
-> +                    &pinctrl_rxd1_default>;
-> +};
-> +
-> +&uart5 {
-> +       //BMC Console
-> +       status = "okay";
-> +};
-> +
-> +&adc {
-> +       status = "okay";
-> +
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_adc0_default
-> +                    &pinctrl_adc1_default
-> +                    &pinctrl_adc2_default
-> +                    &pinctrl_adc3_default
-> +                    &pinctrl_adc4_default>;
-> +};
-> +
-> +//APML for P0
-> +&i2c0 {
-> +       status = "okay";
-> +};
-> +
-> +//APML for P1
-> +&i2c1 {
-> +       status = "okay";
-> +};
-> +
-> +// Thermal Sensors
-> +&i2c7 {
-> +       status = "okay";
-> +
-> +       lm75a@48 {
-> +               compatible = "national,lm75a";
-> +               reg = <0x48>;
-> +       };
-> +
-> +       lm75a@49 {
-> +               compatible = "national,lm75a";
-> +               reg = <0x49>;
-> +       };
-> +
-> +       lm75a@4a {
-> +               compatible = "national,lm75a";
-> +               reg = <0x4a>;
-> +       };
-> +
-> +       lm75a@4b {
-> +               compatible = "national,lm75a";
-> +               reg = <0x4b>;
-> +       };
-> +
-> +       lm75a@4c {
-> +               compatible = "national,lm75a";
-> +               reg = <0x4c>;
-> +       };
-> +
-> +       lm75a@4d {
-> +               compatible = "national,lm75a";
-> +               reg = <0x4d>;
-> +       };
-> +
-> +       lm75a@4e {
-> +               compatible = "national,lm75a";
-> +               reg = <0x4e>;
-> +       };
-> +
-> +       lm75a@4f {
-> +               compatible = "national,lm75a";
-> +               reg = <0x4f>;
-> +       };
-> +};
-> +
-> +&kcs1 {
-> +       status = "okay";
-> +       kcs_addr = <0x60>;
-> +};
-> +
-> +&kcs2 {
-> +       status = "okay";
-> +       kcs_addr = <0x62>;
-> +};
-> +
-> +&kcs4 {
-> +       status = "okay";
-> +       kcs_addr = <0x97DE>;
-> +};
-> +
-> +&lpc_snoop {
-> +       status = "okay";
-> +       snoop-ports = <0x80>;
-> +};
-> +
-> +&lpc_ctrl {
-> +       //Enable lpc clock
-> +       status = "okay";
-> +};
-> +
-> +&pwm_tacho {
-> +       status = "okay";
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pinctrl_pwm0_default
-> +       &pinctrl_pwm1_default
-> +       &pinctrl_pwm2_default
-> +       &pinctrl_pwm3_default
-> +       &pinctrl_pwm4_default
-> +       &pinctrl_pwm5_default
-> +       &pinctrl_pwm6_default
-> +       &pinctrl_pwm7_default>;
-> +
-> +       fan@0 {
-> +               reg = <0x00>;
-> +               aspeed,fan-tach-ch = /bits/ 8 <0x00>;
-> +       };
-> +
-> +       fan@1 {
-> +               reg = <0x01>;
-> +               aspeed,fan-tach-ch = /bits/ 8 <0x01>;
-> +       };
-> +
-> +       fan@2 {
-> +               reg = <0x02>;
-> +               aspeed,fan-tach-ch = /bits/ 8 <0x02>;
-> +       };
-> +
-> +       fan@3 {
-> +               reg = <0x03>;
-> +               aspeed,fan-tach-ch = /bits/ 8 <0x03>;
-> +       };
-> +
-> +       fan@4 {
-> +               reg = <0x04>;
-> +               aspeed,fan-tach-ch = /bits/ 8 <0x04>;
-> +       };
-> +
-> +       fan@5 {
-> +               reg = <0x05>;
-> +               aspeed,fan-tach-ch = /bits/ 8 <0x05>;
-> +       };
-> +
-> +       fan@6 {
-> +               reg = <0x06>;
-> +               aspeed,fan-tach-ch = /bits/ 8 <0x06>;
-> +       };
-> +
-> +       fan@7 {
-> +               reg = <0x07>;
-> +               aspeed,fan-tach-ch = /bits/ 8 <0x07>;
-> +       };
-> +};
-> +
-> +
-> +
-> --
-> 2.17.1
->
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
+tags/aspeed-5.9-devicetree
+
+for you to fetch changes up to 2c887638a5fa1ac5e2491ae911f50d554b604985:
+
+  ARM: dts: Aspeed: tacoma: Enable EHCI controller (2020-07-28 09:02:45 +0930)
+
+----------------------------------------------------------------
+ASPEED device tree updates for 5.9
+
+There is one new machine; AMD's EthanolX reference platform with an
+AST2600 BMC.
+
+Misc updates for Rainier, Tacoma, Wedge and Mihawk machines.
+
+----------------------------------------------------------------
+
+Andrew Jeffery (2):
+      ARM: dts: rainier: Configure ball Y23 as GPIOP7 for MCLR_VPP
+      ARM: dts: rainier: Describe GPIO mux on I2C3
+
+Ben Pai (2):
+      ARM: dts: aspeed: mihawk: IO expander uses TCA9554 driver
+      ARM: dts: aspeed: mihawk: Add 8 tmp401 thermal sensors
+
+Ben Tyner (2):
+      ARM: dts: aspeed: tacoma: Remove checkstop gpio-key
+      ARM: dts: aspeed: rainier: Add line-name checkstop
+
+Eddie James (9):
+      ARM: dts: aspeed: ast2500: Update XDMA engine node
+      ARM: dts: aspeed: ast2600: Update XDMA engine node
+      ARM: dts: aspeed: witherspoon: Enable XDMA engine
+      ARM: dts: aspeed: tacoma: Enable XDMA engine
+      ARM: dts: aspeed: rainier: Add second cfam on the hub
+      ARM: dts: aspeed: rainier: Add CFAM SPI controllers
+      ARM: dts: aspeed: rainier: Switch OCCs to P10
+      ARM: dts: aspeed: rainier: Enable EHCI controller
+      ARM: dts: Aspeed: tacoma: Enable EHCI controller
+
+Jet Li (1):
+      ARM: dts: aspeed: rainier: Add I2C buses for NVMe use
+
+Joel Stanley (5):
+      ARM: dts: aspeed: rainier: System has one SPI NOR
+      ARM: dts: aspeed: tacoma: Fix gpio-key definitions
+      ARM: dts: aspeed: rainier: Add CFAM reset GPIO
+      ARM: dts: aspeed: tacoma: Add CFAM reset GPIO
+      ARM: dts: aspeed: rainier: Add FSI I2C masters
+
+Supreeth Venkatesh (1):
+      ARM: dts: aspeed: Initial device tree for AMD EthanolX
+
+Tao Ren (4):
+      ARM: dts: aspeed: cmm: Fixup I2C tree
+      ARM: dts: aspeed: wedge40: Disable unused i2c controllers
+      ARM: dts: aspeed: wedge40: Enable ADC device
+      ARM: dts: aspeed: wedge40: Enable pwm_tacho device
