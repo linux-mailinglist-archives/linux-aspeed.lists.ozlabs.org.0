@@ -2,62 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70FC022FE25
-	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Jul 2020 01:45:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC34242897
+	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Aug 2020 13:24:28 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BFxJF5N8SzDqvK
-	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Jul 2020 09:45:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BRS5g5w1lzDqXW
+	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Aug 2020 21:24:23 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::642;
- helo=mail-ej1-x642.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::543;
+ helo=mail-pg1-x543.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=X+502/75; dkim-atps=neutral
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
- [IPv6:2a00:1450:4864:20::642])
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=ecicS9VZ; dkim-atps=neutral
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BFxJ74dqdzDqcK
- for <linux-aspeed@lists.ozlabs.org>; Tue, 28 Jul 2020 09:45:25 +1000 (AEST)
-Received: by mail-ej1-x642.google.com with SMTP id gg18so15431431ejb.6
- for <linux-aspeed@lists.ozlabs.org>; Mon, 27 Jul 2020 16:45:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=3XJyxlG3BYKDeDJF3aoLhmmu0Dvjt7O+XVlhzaHzUZY=;
- b=X+502/75eLwiOOhu2FXaPQPVI3mwBEOHpjkzgveZj6NJeu92H39sgN7V/XKbtGizX5
- IBpkfvzaX5U0mXZtiL5V9H4jv8qofN0Z9jS9ulEYMMs5wGPkLsaKoeUI223ofoXU0BRj
- r8f9WtuaRe6dBGIMnYsvLDwL46MJM2dhANPgA=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BRS5W6whvzDqVW
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 12 Aug 2020 21:24:15 +1000 (AEST)
+Received: by mail-pg1-x543.google.com with SMTP id p37so896036pgl.3
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 12 Aug 2020 04:24:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9+WajxCq7gTYxJQxz4BklwsXaVQmRwBfSGv+L76EXJk=;
+ b=ecicS9VZv9HYbYw5uW+HOhpoCA9mG7Ds4jcUUcSnWo5LW+O4JdKS6cZm7EBb0sl8pZ
+ fotKQKF8sYohP++PnzDYZLiwdW99f9JgWLtuwcMPRP8loDiqQquYoVgTNUcy3m/EN73h
+ HB7hoLWLYYAluZcW3T7FbXZRorvMJ4A6TPaYvQLwa7pJixKtgE3ZKlvuBKBxiDfflLSw
+ xP7uguGcCwWjxoVIawi9/zme1lugd3mOu4dvnmedoQeqJdrl/VpTTGouMerEKnd/mnpF
+ v9Re5+eYIx+jYsF+RgjRgbzxzNQBp4tGvvuxLKgRbBD1ogY9CcfjQLgdjtFtOxQ1IsMv
+ lKBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=3XJyxlG3BYKDeDJF3aoLhmmu0Dvjt7O+XVlhzaHzUZY=;
- b=Ssgoz8y2wwuWHeR4IRQ3qDaRpIPeatlN2dq+mTfL4WiNhL5W5ldaECV+uvQGRqt8P2
- aQ+yxna3mIKytBjYLlp21Y+Ng9gwg9aot0qgtMgEIGh1Yugk2G1OQoeOTVisB4G/Sgn0
- ha5yR4G40+DPJDFaGJLGnFxmXiBq78gjcJLRACaaYJTvqcGeBCSpkykzckM1V2pCNtGT
- wGlTiYYvhhyIMTXiU6r7//NX4ZLMvPnHgyEBrxPzyvSyGYADtJTb/gK4nVbhOgeFAHCs
- hDCiALCa+fohQ93dkycyOdog4LpChLvWgLh5yZxxTsbdxZcS1YATh2deIevrLZjbNYDa
- mmPw==
-X-Gm-Message-State: AOAM532+NNdPk3ZcsPiYz3U5qxfFlG4ZMHooLRmAHEKU08COF1h940ME
- uXrvdvJwlHddbrMdakdm8MbNwUalJ7hbpuexn17vozlCsPw=
-X-Google-Smtp-Source: ABdhPJyB4vtDt95XmGh3BJyuB9kC6b7d7DJOIVGxbmiYBkFGAWdfSb4ZpxYT3ZPX+fU6Qg8JI1k+5k+K14r6VVBvDrI=
-X-Received: by 2002:a17:906:198e:: with SMTP id
- g14mr22248095ejd.266.1595893522582; 
- Mon, 27 Jul 2020 16:45:22 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=9+WajxCq7gTYxJQxz4BklwsXaVQmRwBfSGv+L76EXJk=;
+ b=khKKA3xHEmw+2XpC/WXshlGN1dCokukJ4hcCFfyu+UOoG2/NR2mqTPVx0Fu7M4fpZ4
+ AqqVQAmLsNcn6/HrY0s36HMzSTPIo2Oie3pZzDZnTpv0cIngvKV6w+92VEz9JJF2yQv3
+ QN3TipaMdjiuFyib2Bdkd0IPHU/EclTgi377cLcnKuAQSGkzbe4JfD1c4XJihxzccp4N
+ cgyDUeGDOz+tu3kOYPh/CKlE+RXGvUJ1rLd4NjlDkEfxyfkGc30DsnHuP7giw9o5bcjQ
+ joCS8tTYplOdBvQZv31RPc7aNSjupEdvv4SF44e14P11CbPTj+xpkHBNuUELarHZgO7J
+ k3TQ==
+X-Gm-Message-State: AOAM530vIxLDviPr3ur8988IGpP0gEbzz4DIxg5EjcvBiX5ivES3Eo+w
+ TYPNvXmylbiybWEcM6jLRfI=
+X-Google-Smtp-Source: ABdhPJyAxGGCmZs1UUyztQFKQGC3+UREwAgvsOBRFVJ8aUZLNMAttG/s9j8yZKTMOkwbSiThNxWDgg==
+X-Received: by 2002:aa7:8c56:: with SMTP id e22mr10200501pfd.238.1597231452333; 
+ Wed, 12 Aug 2020 04:24:12 -0700 (PDT)
+Received: from localhost.localdomain ([45.124.203.19])
+ by smtp.gmail.com with ESMTPSA id m19sm2081536pgd.21.2020.08.12.04.24.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Aug 2020 04:24:10 -0700 (PDT)
 From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 27 Jul 2020 23:45:11 +0000
-Message-ID: <CACPK8Xf_Np7LtcDFhywi6Uk1EgUpb0pVVa+Lr9YEwBRjbjOKCQ@mail.gmail.com>
-Subject: [GIT PULL] ARM: aspeed: devicetree changes for 5.9
-To: arm <arm@kernel.org>, soc@kernel.org, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>, 
- linux-aspeed <linux-aspeed@lists.ozlabs.org>
-Content-Type: text/plain; charset="UTF-8"
+To: Oskar Senft <osk@google.com>,
+	Jeremy Kerr <jk@ozlabs.org>
+Subject: [PATCH] ARM: aspeed: g5: Do not set sirq polarity
+Date: Wed, 12 Aug 2020 20:54:00 +0930
+Message-Id: <20200812112400.2406734-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,76 +77,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: stable@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello ARM maintainers,
+A feature was added to the aspeed vuart driver to configure the vuart
+interrupt (sirq) polarity according to the LPC/eSPI strapping register.
 
-Here's the ASPEED pull request for 5.9. Most of the patches have been
-sitting in next for a while, with a few late comers merged today.
+Systems that depend on a active low behaviour (sirq_polarity set to 0)
+such as OpenPower boxes also use LPC, so this relationship does not
+hold.
 
-The following changes since commit 2c887638a5fa1ac5e2491ae911f50d554b604985:
+The property was added for a Tyan S7106 system which is not supported
+in the kernel tree. Should this or other systems wish to use this
+feature of the driver they should add it to the machine specific device
+tree.
 
-  ARM: dts: Aspeed: tacoma: Enable EHCI controller (2020-07-28 09:02:45 +0930)
+Fixes: c791fc76bc72 ("arm: dts: aspeed: Add vuart aspeed,sirq-polarity-sense...")
+Cc: stable@vger.kernel.org
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ arch/arm/boot/dts/aspeed-g5.dtsi | 1 -
+ 1 file changed, 1 deletion(-)
 
-are available in the Git repository at:
+diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
+index 27e5c5cf7712..664630a0e084 100644
+--- a/arch/arm/boot/dts/aspeed-g5.dtsi
++++ b/arch/arm/boot/dts/aspeed-g5.dtsi
+@@ -410,7 +410,6 @@ vuart: serial@1e787000 {
+ 				interrupts = <8>;
+ 				clocks = <&syscon ASPEED_CLK_APB>;
+ 				no-loopback-test;
+-				aspeed,sirq-polarity-sense = <&syscon 0x70 25>;
+ 				status = "disabled";
+ 			};
+ 
+-- 
+2.28.0
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
-tags/aspeed-5.9-devicetree
-
-for you to fetch changes up to 2c887638a5fa1ac5e2491ae911f50d554b604985:
-
-  ARM: dts: Aspeed: tacoma: Enable EHCI controller (2020-07-28 09:02:45 +0930)
-
-----------------------------------------------------------------
-ASPEED device tree updates for 5.9
-
-There is one new machine; AMD's EthanolX reference platform with an
-AST2600 BMC.
-
-Misc updates for Rainier, Tacoma, Wedge and Mihawk machines.
-
-----------------------------------------------------------------
-
-Andrew Jeffery (2):
-      ARM: dts: rainier: Configure ball Y23 as GPIOP7 for MCLR_VPP
-      ARM: dts: rainier: Describe GPIO mux on I2C3
-
-Ben Pai (2):
-      ARM: dts: aspeed: mihawk: IO expander uses TCA9554 driver
-      ARM: dts: aspeed: mihawk: Add 8 tmp401 thermal sensors
-
-Ben Tyner (2):
-      ARM: dts: aspeed: tacoma: Remove checkstop gpio-key
-      ARM: dts: aspeed: rainier: Add line-name checkstop
-
-Eddie James (9):
-      ARM: dts: aspeed: ast2500: Update XDMA engine node
-      ARM: dts: aspeed: ast2600: Update XDMA engine node
-      ARM: dts: aspeed: witherspoon: Enable XDMA engine
-      ARM: dts: aspeed: tacoma: Enable XDMA engine
-      ARM: dts: aspeed: rainier: Add second cfam on the hub
-      ARM: dts: aspeed: rainier: Add CFAM SPI controllers
-      ARM: dts: aspeed: rainier: Switch OCCs to P10
-      ARM: dts: aspeed: rainier: Enable EHCI controller
-      ARM: dts: Aspeed: tacoma: Enable EHCI controller
-
-Jet Li (1):
-      ARM: dts: aspeed: rainier: Add I2C buses for NVMe use
-
-Joel Stanley (5):
-      ARM: dts: aspeed: rainier: System has one SPI NOR
-      ARM: dts: aspeed: tacoma: Fix gpio-key definitions
-      ARM: dts: aspeed: rainier: Add CFAM reset GPIO
-      ARM: dts: aspeed: tacoma: Add CFAM reset GPIO
-      ARM: dts: aspeed: rainier: Add FSI I2C masters
-
-Supreeth Venkatesh (1):
-      ARM: dts: aspeed: Initial device tree for AMD EthanolX
-
-Tao Ren (4):
-      ARM: dts: aspeed: cmm: Fixup I2C tree
-      ARM: dts: aspeed: wedge40: Disable unused i2c controllers
-      ARM: dts: aspeed: wedge40: Enable ADC device
-      ARM: dts: aspeed: wedge40: Enable pwm_tacho device
