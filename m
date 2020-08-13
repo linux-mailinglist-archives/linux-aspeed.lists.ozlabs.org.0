@@ -1,71 +1,75 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC34242897
-	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Aug 2020 13:24:28 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21062243F2A
+	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Aug 2020 21:05:46 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BRS5g5w1lzDqXW
-	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Aug 2020 21:24:23 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BSGHW04JfzDqgs
+	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Aug 2020 05:05:43 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::543;
- helo=mail-pg1-x543.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=ecicS9VZ; dkim-atps=neutral
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ spf=pass (sender SPF authorized) smtp.mailfrom=fb.com
+ (client-ip=67.231.153.30; helo=mx0a-00082601.pphosted.com;
+ envelope-from=prvs=549499ab2b=vijaykhemka@fb.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=reject dis=none) header.from=fb.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=fb.com header.i=@fb.com header.a=rsa-sha256
+ header.s=facebook header.b=ObWFK6Bt; dkim-atps=neutral
+Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com
+ [67.231.153.30])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BRS5W6whvzDqVW
- for <linux-aspeed@lists.ozlabs.org>; Wed, 12 Aug 2020 21:24:15 +1000 (AEST)
-Received: by mail-pg1-x543.google.com with SMTP id p37so896036pgl.3
- for <linux-aspeed@lists.ozlabs.org>; Wed, 12 Aug 2020 04:24:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9+WajxCq7gTYxJQxz4BklwsXaVQmRwBfSGv+L76EXJk=;
- b=ecicS9VZv9HYbYw5uW+HOhpoCA9mG7Ds4jcUUcSnWo5LW+O4JdKS6cZm7EBb0sl8pZ
- fotKQKF8sYohP++PnzDYZLiwdW99f9JgWLtuwcMPRP8loDiqQquYoVgTNUcy3m/EN73h
- HB7hoLWLYYAluZcW3T7FbXZRorvMJ4A6TPaYvQLwa7pJixKtgE3ZKlvuBKBxiDfflLSw
- xP7uguGcCwWjxoVIawi9/zme1lugd3mOu4dvnmedoQeqJdrl/VpTTGouMerEKnd/mnpF
- v9Re5+eYIx+jYsF+RgjRgbzxzNQBp4tGvvuxLKgRbBD1ogY9CcfjQLgdjtFtOxQ1IsMv
- lKBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=9+WajxCq7gTYxJQxz4BklwsXaVQmRwBfSGv+L76EXJk=;
- b=khKKA3xHEmw+2XpC/WXshlGN1dCokukJ4hcCFfyu+UOoG2/NR2mqTPVx0Fu7M4fpZ4
- AqqVQAmLsNcn6/HrY0s36HMzSTPIo2Oie3pZzDZnTpv0cIngvKV6w+92VEz9JJF2yQv3
- QN3TipaMdjiuFyib2Bdkd0IPHU/EclTgi377cLcnKuAQSGkzbe4JfD1c4XJihxzccp4N
- cgyDUeGDOz+tu3kOYPh/CKlE+RXGvUJ1rLd4NjlDkEfxyfkGc30DsnHuP7giw9o5bcjQ
- joCS8tTYplOdBvQZv31RPc7aNSjupEdvv4SF44e14P11CbPTj+xpkHBNuUELarHZgO7J
- k3TQ==
-X-Gm-Message-State: AOAM530vIxLDviPr3ur8988IGpP0gEbzz4DIxg5EjcvBiX5ivES3Eo+w
- TYPNvXmylbiybWEcM6jLRfI=
-X-Google-Smtp-Source: ABdhPJyAxGGCmZs1UUyztQFKQGC3+UREwAgvsOBRFVJ8aUZLNMAttG/s9j8yZKTMOkwbSiThNxWDgg==
-X-Received: by 2002:aa7:8c56:: with SMTP id e22mr10200501pfd.238.1597231452333; 
- Wed, 12 Aug 2020 04:24:12 -0700 (PDT)
-Received: from localhost.localdomain ([45.124.203.19])
- by smtp.gmail.com with ESMTPSA id m19sm2081536pgd.21.2020.08.12.04.24.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Aug 2020 04:24:10 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: Oskar Senft <osk@google.com>,
-	Jeremy Kerr <jk@ozlabs.org>
-Subject: [PATCH] ARM: aspeed: g5: Do not set sirq polarity
-Date: Wed, 12 Aug 2020 20:54:00 +0930
-Message-Id: <20200812112400.2406734-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.28.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BSGHL0ZrdzDqg1
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Aug 2020 05:05:28 +1000 (AEST)
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+ by m0001303.ppops.net (8.16.0.42/8.16.0.42) with SMTP id 07DJ3EKF010418
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 13 Aug 2020 12:05:24 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=facebook; bh=GNih2j3ESRfeoRwPAnR3qqb1b7HSoqwKZbqqay1L3wk=;
+ b=ObWFK6Bt4aH+67+3l0KseY92Gs3MZMoiEMruq5dxbtMCBFFDbqXMTN8P/njQq8sysfhe
+ YRHTyOyUP/psFw3/xcmOq6ItEh2QqzBlT5tGSm54IYfJ7ArHVL/vi1ZcTGAbDAqzdlWl
+ 8H46mPuISzUw5RDpbUdTibBTpe2RotIGGys= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+ by m0001303.ppops.net with ESMTP id 32v0kk3f6n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 13 Aug 2020 12:05:24 -0700
+Received: from intmgw004.06.prn3.facebook.com (2620:10d:c085:208::f) by
+ mail.thefacebook.com (2620:10d:c085:21d::4) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1979.3; Thu, 13 Aug 2020 12:04:46 -0700
+Received: by devvm4117.prn2.facebook.com (Postfix, from userid 167582)
+ id 0844D4EFB4C25; Thu, 13 Aug 2020 12:04:39 -0700 (PDT)
+Smtp-Origin-Hostprefix: devvm
+From: Vijay Khemka <vijaykhemka@fb.com>
+Smtp-Origin-Hostname: devvm4117.prn2.facebook.com
+To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew
+ Jeffery <andrew@aj.id.au>, <devicetree@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Smtp-Origin-Cluster: prn2c23
+Subject: [PATCH] ARM: dts: aspeed: tiogapass: Remove vuart
+Date: Thu, 13 Aug 2020 12:04:30 -0700
+Message-ID: <20200813190431.3331026-1-vijaykhemka@fb.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-08-13_16:2020-08-13,
+ 2020-08-13 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ lowpriorityscore=0
+ mlxscore=0 mlxlogscore=737 malwarescore=0 phishscore=0 adultscore=0
+ spamscore=0 impostorscore=0 suspectscore=0 priorityscore=1501 bulkscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008130134
+X-FB-Internal: deliver
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,43 +81,36 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: stable@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: Sai Dasari <sdasari@fb.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-A feature was added to the aspeed vuart driver to configure the vuart
-interrupt (sirq) polarity according to the LPC/eSPI strapping register.
+Removed vuart for facebook tiogapass platform as it uses uart2 and
+uart3 pin with aspeed uart routing feature.
 
-Systems that depend on a active low behaviour (sirq_polarity set to 0)
-such as OpenPower boxes also use LPC, so this relationship does not
-hold.
-
-The property was added for a Tyan S7106 system which is not supported
-in the kernel tree. Should this or other systems wish to use this
-feature of the driver they should add it to the machine specific device
-tree.
-
-Fixes: c791fc76bc72 ("arm: dts: aspeed: Add vuart aspeed,sirq-polarity-sense...")
-Cc: stable@vger.kernel.org
-Signed-off-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
 ---
- arch/arm/boot/dts/aspeed-g5.dtsi | 1 -
- 1 file changed, 1 deletion(-)
+ arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
-index 27e5c5cf7712..664630a0e084 100644
---- a/arch/arm/boot/dts/aspeed-g5.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g5.dtsi
-@@ -410,7 +410,6 @@ vuart: serial@1e787000 {
- 				interrupts = <8>;
- 				clocks = <&syscon ASPEED_CLK_APB>;
- 				no-loopback-test;
--				aspeed,sirq-polarity-sense = <&syscon 0x70 25>;
- 				status = "disabled";
- 			};
- 
--- 
-2.28.0
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts b/arch/a=
+rm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
+index 2d44d9ad4e40..e6ad821a8635 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
+@@ -82,11 +82,6 @@ &lpc_ctrl {
+ 	status =3D "okay";
+ };
+=20
+-&vuart {
+-	// VUART Host Console
+-	status =3D "okay";
+-};
+-
+ &uart1 {
+ 	// Host Console
+ 	status =3D "okay";
+--=20
+2.24.1
 
