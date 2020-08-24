@@ -1,74 +1,70 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733872507E5
-	for <lists+linux-aspeed@lfdr.de>; Mon, 24 Aug 2020 20:37:06 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 169C0250AB2
+	for <lists+linux-aspeed@lfdr.de>; Mon, 24 Aug 2020 23:20:31 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bb17M3tdPzDqDQ
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Aug 2020 04:37:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bb4lv2DrKzDqCV
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Aug 2020 07:20:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::543;
- helo=mail-pg1-x543.google.com; envelope-from=rentao.bupt@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1042;
+ helo=mail-pj1-x1042.google.com; envelope-from=rentao.bupt@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=USYQV3t+; dkim-atps=neutral
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
+ header.s=20161025 header.b=JVBFGmcG; dkim-atps=neutral
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bb0zY4q7tzDqNH;
- Tue, 25 Aug 2020 04:30:17 +1000 (AEST)
-Received: by mail-pg1-x543.google.com with SMTP id m34so4962600pgl.11;
- Mon, 24 Aug 2020 11:30:17 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bb4lM3jn2zDqJK;
+ Tue, 25 Aug 2020 07:19:59 +1000 (AEST)
+Received: by mail-pj1-x1042.google.com with SMTP id n3so239107pjq.1;
+ Mon, 24 Aug 2020 14:19:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=PvahKbRIpaFw4iDFms58BHKJX5qJVF7TGaQHbBglo1Q=;
- b=USYQV3t+wV42/UGZaeIIOH0qk8f3VEaRroVBT74bC6gIah8i5jwxPLwwMA2ElVq6wG
- w0nU3uXq+y8QnaBpZRtQwX/U7jY/2OXZX7ALpJjv9upxAkVMLamh5rUHwvE1JM2vyN3L
- s8x2HoCtkKU/l6MwQepHdfmgEvgd8o7PzgqaZbjyxCeHohEp43LcxI6xPxJWvZh/wutO
- i3W+ufTYc61BXBcbRpO6tjF2abCwFjrUZcg/WtzhwP8pudifB7GFGjJbRdxAU+3SKwRj
- cM5NRcSpKgBiKUe0+f7tp5/gx5mvMq8wrqLs8cH7mQC+f73PCIRo+TincUihwrqkYU9U
- Q6dg==
+ h=from:to:cc:subject:date:message-id;
+ bh=Ubn8Ygt3LOORDEBZIqrY09E37xtge/HiuDXDH6cz5po=;
+ b=JVBFGmcGmSWsz9bYllOKTJ2ZeE9TP2Kw+25wP3wiTjEs/w8rXBS3cY6HAo7tZ9b6qq
+ z9d2tviGGmc+rYAsiIH/YXjcOj2TeuM4TFih4RDUGQ2fORwBCTHGhNbp51SdUgxpvV5j
+ hBqlWgYC5NZO+wsKW7oWPKBersSSzu9iZIQn0MOUJunMyllfdzD65zkVQ7mYC4Y9Ax3P
+ tuzsTK6IZ4ccnYcvd5o1+XIGRWxeuHjsmcwbKj5GB/5Ep2/rcPTRNesCfGQxPSQ2L7kT
+ 1sZZ9ggD3o+v72/YOlmVz6AH6PAqiHsO+q+d/5o+saMWqoitT6AN9JkTeNy8/ND+fiR4
+ UZYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=PvahKbRIpaFw4iDFms58BHKJX5qJVF7TGaQHbBglo1Q=;
- b=T8w8qvS25qN6qBKopqkzrnheLxI/BbjR0+MlqLDrrYYfn3+/zh9povoQ3ZYyRopkDO
- KCXftBhTh8G9QVpHUYNELBqFS19uZXisTjWNg49Q9QMtFzY05ssiJLOHXtH2o6wyOn3x
- HbMWbWkdBYpl+lwx6Xi/mViH2jlde3bChbliOW9Hv4XqUro4Wme11xqG1q16b7XyrD8c
- SDSCRpt5FT+w6sLcjXIxIfXGPQAkyYXxauHElz+/020SjaWrSpe1UP6sdHAIzAQYLAQt
- o9l7UDqNFo9Qp7L9uvidjfFV9ni3Bq/KdpgPQnQP0wr7o/TBWtIBBWLReOMhzgIoS8MJ
- vP6w==
-X-Gm-Message-State: AOAM531ST/TxdQPv0VykAao0WgUYAspX5BiV+deZBxnRjCGBGKuFxote
- nqrcbF3I73YPpbiF0B5P3D0=
-X-Google-Smtp-Source: ABdhPJwOcYBnWFbgKF+6O2k9o9I+Z1j8AlUiizd4ou69B2Cwjcf4cGLwm9hW0621dJdwD7JdcGWN8w==
-X-Received: by 2002:a17:902:7790:: with SMTP id
- o16mr4315839pll.299.1598293813850; 
- Mon, 24 Aug 2020 11:30:13 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=Ubn8Ygt3LOORDEBZIqrY09E37xtge/HiuDXDH6cz5po=;
+ b=XAn30HWQ5xG4aMt6LrWUOFPFqINzMuqiX23jtLNF3fCIi7J6ntGgbrcke+Xws3oCcG
+ fYWsEIX6ApgWE30cLLMDE70HbixOkcrVmhpdQiQUFUNEeZX9D7BKC2pWhsCGA+ZwZy2x
+ wPu5uVwX/Ca2HrL9tgnJ4xjntXUHlmMxwuubVOKZkLf3YnN8u3/XEhjas2Sp1eGkGNtE
+ WBPsRs48MCn3NIS3fe5dt0Cu5Uk9CL9yuMYPIgWOoIQVWdRVnzXaIaCzlfpK0MD9Z80C
+ tr27bgIra/fP+iuuhOuvqNozOlWwzDfW9qqGHjyOYBbWgLQeh5IxccHl8GAcHrlkHxXL
+ PDkA==
+X-Gm-Message-State: AOAM530uk4jL+hWhpvYIuWt2o2U2qShqWDduH6A7jT+l23ZOudS2aixM
+ CA4foRQYa43F5nta1wXizE4=
+X-Google-Smtp-Source: ABdhPJxg+9Q3F3q7vivl+srkbNQE74Bxef4gWwHaXun2cCyrH8AN+9ABF5qNI94MyZFjOgkAml3BMQ==
+X-Received: by 2002:a17:90a:ccd:: with SMTP id 13mr915003pjt.123.1598303995731; 
+ Mon, 24 Aug 2020 14:19:55 -0700 (PDT)
 Received: from taoren-ubuntu-R90MNF91.thefacebook.com
  (c-73-252-146-110.hsd1.ca.comcast.net. [73.252.146.110])
- by smtp.gmail.com with ESMTPSA id a66sm3920460pfa.176.2020.08.24.11.30.10
+ by smtp.gmail.com with ESMTPSA id t10sm97788pfq.77.2020.08.24.14.19.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Aug 2020 11:30:13 -0700 (PDT)
+ Mon, 24 Aug 2020 14:19:55 -0700 (PDT)
 From: rentao.bupt@gmail.com
 To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
  Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
  linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com
-Subject: [PATCH 2/2] ARM: dts: aspeed: wedge40: Update UART4 pin settings
-Date: Mon, 24 Aug 2020 11:29:55 -0700
-Message-Id: <20200824182955.7988-3-rentao.bupt@gmail.com>
+Subject: [PATCH 0/5] ARM: dts: aspeed: Add Facebook Wedge400 (AST2500) BMC
+Date: Mon, 24 Aug 2020 14:19:43 -0700
+Message-Id: <20200824211948.12852-1-rentao.bupt@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200824182955.7988-1-rentao.bupt@gmail.com>
-References: <20200824182955.7988-1-rentao.bupt@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,28 +82,38 @@ Sender: "Linux-aspeed"
 
 From: Tao Ren <rentao.bupt@gmail.com>
 
-Enable UART4's NRTS4 (A19) pin because the pin is used for RS485
-software emulation.
+The patch series adds Facebook Wedge400 (AST2500) BMC device tree, and
+FMC flash layout is re-structured because flash size and layout varies
+across different Facebook AST2500 OpenBMC platforms.
 
-Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
----
- arch/arm/boot/dts/aspeed-bmc-facebook-wedge40.dts | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Patch #1 removes flash layout from ast2500-facebook-netbmc-common.dtsi
+because now we have 32MB, 64MB an 128MB flashes on different Facebook
+AST2500 OpenBMC platforms.
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-wedge40.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-wedge40.dts
-index 3f2a48fa77b3..8c426ba2f8ab 100644
---- a/arch/arm/boot/dts/aspeed-bmc-facebook-wedge40.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-wedge40.dts
-@@ -71,7 +71,8 @@
- 	status = "okay";
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pinctrl_txd4_default
--		     &pinctrl_rxd4_default>;
-+		     &pinctrl_rxd4_default
-+		     &pinctrl_ndts4_default>;
- };
- 
- &uart5 {
+Patch #2, #3 and #4 sets FMC flash layout in CMM, Yamp and Minipack
+device tree explicitly because the original layout settings were removed
+from ast2500-facebook-netbmc-common.dtsi (in patch #1).
+
+Patch #5 adds Facebook Wedge400 AST2500 BMC device tree.
+
+
+Tao Ren (5):
+  ARM: dts: aspeed: Remove flash layout from Facebook AST2500 Common
+    dtsi
+  ARM: dts: aspeed: cmm: Set 32MB FMC flash layout
+  ARM: dts: aspeed: yamp: Set 32MB FMC flash layout
+  ARM: dts: aspeed: minipack: Update 64MB FMC flash layout
+  ARM: dts: aspeed: Add Facebook Wedge400 BMC
+
+ arch/arm/boot/dts/Makefile                    |   1 +
+ arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts |  17 +
+ .../boot/dts/aspeed-bmc-facebook-minipack.dts |  47 +-
+ .../boot/dts/aspeed-bmc-facebook-wedge400.dts | 420 ++++++++++++++++++
+ .../arm/boot/dts/aspeed-bmc-facebook-yamp.dts |  17 +
+ .../dts/ast2500-facebook-netbmc-common.dtsi   |  13 -
+ 6 files changed, 500 insertions(+), 15 deletions(-)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-wedge400.dts
+
 -- 
 2.17.1
 
