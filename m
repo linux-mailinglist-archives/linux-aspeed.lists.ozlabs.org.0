@@ -2,87 +2,100 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17530251AE9
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Aug 2020 16:35:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 092162520EF
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Aug 2020 21:48:22 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BbWkN44HgzDqWb
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Aug 2020 00:35:40 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bbfg6514rzDqXZ
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Aug 2020 05:48:18 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=stwcx.xyz (client-ip=64.147.123.24;
- helo=wout1-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz;
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=stwcx.xyz
+ dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256
- header.s=fm2 header.b=No0CuSot; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm3 header.b=Ff1sMqy0; 
- dkim-atps=neutral
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
+ unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
+ header.s=pp1 header.b=IJO6wug5; dkim-atps=neutral
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BbWWZ1z5rzDqWq;
- Wed, 26 Aug 2020 00:26:17 +1000 (AEST)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailout.west.internal (Postfix) with ESMTP id 92F813AF;
- Tue, 25 Aug 2020 10:17:01 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Tue, 25 Aug 2020 10:17:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=o4Lgifyp6W7gEhgYNRBq4AIfWx0
- xVuzp5rgo9pBKgBM=; b=No0CuSotdI6rBYOJZmSN6m8miWTATw9x7LO8FJbD5QQ
- m/HxjtATj8pORlb7Dde/zpSG6heMDm9e7RTvhonGyV4IIE2uYEz2zNazAgDt2dc7
- 4A6znrDdKu6hzYuGC5S2YZTNZ17tZwXHHsTIljMrlJmmBAJutKKRcmbF8okRSiqM
- iiK4D9jkM38OHGdzZIdOCnB+aORLMOyn7OASirDGcr51RxZcQoOrZfY7AVfYX7z/
- ucn9ZXZVH2orKW8DXU8sgzP5wFqQvQWt2cu3D2LG2nUNOCR1ynnhVpFVhfwLZqIo
- UnWkxnI0rpTx29xLbP0yosiiz2gy8Q4jU9xIgmnPFEA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=o4Lgif
- yp6W7gEhgYNRBq4AIfWx0xVuzp5rgo9pBKgBM=; b=Ff1sMqy0x1iaKl5oKb6FrK
- vITwkCDvOQaMbh7hiYTA7D714s6VzqvhHn/9PZ1Q0QgCoGKzFxLm9zbdCtnE+mVd
- RVS1sWY0DhfP6Nff4DJXPo7J1XOS5WAbbmQpgnCwFLogWQpcAVD+6VtjJukZXHJE
- RJocyM2zRyf3EVHNh/QXK5ue0gj95oaeOEn8CN86BOaVfoC8IK4sefgZ6q4kJY3E
- a3WghN3/i09pyic/RnKXFVVfQLxY6InSCvMbfx96VnxbS7yMtpQsVdJ4FqHqi/UR
- Qgnz7U01h+sHCxJNojDh+UkOaWRTTcc1c+6Rd/HF/lCOGXH5a0euU1O2RYvUWhuw
- ==
-X-ME-Sender: <xms:XB1FX_23WUIRllq9I7ClalBpKp5UqhbKD8VkMm5SGarpQnZSTcLukg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedruddvtddgjeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- gfrhhlucfvnfffucdlfeehmdenucfjughrpeffhffvuffkfhggtggujgesghdtreertddt
- vdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
- htfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepgeehheefffegkeevhedthffgudfh
- geefgfdthefhkedtleffveekgfeuffehtdeinecukfhppeejiedrvdehtddrkeegrddvfe
- einecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepphgr
- thhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:XR1FX-HAsibN46gL8N_ZUtchWFogcS9yaCOdvdovIZjqLZXEqFkRLw>
- <xmx:XR1FX_6dMvgavyz0wDouI87qnxnFWEkZQEOYuIcmQDL5vf3DGttZZg>
- <xmx:XR1FX03lilZ2fK5mgJlbXTXLeTRJRTuCAMqgBxCckGNANM8KAvhqhA>
- <xmx:XR1FX34WSXav1jL3B1NFeRxoFHvnNYNJ4xPXZ6mou_INlHvEPG0Aqw>
-Received: from localhost (76-250-84-236.lightspeed.austtx.sbcglobal.net
- [76.250.84.236])
- by mail.messagingengine.com (Postfix) with ESMTPA id B288730600DC;
- Tue, 25 Aug 2020 10:17:00 -0400 (EDT)
-Date: Tue, 25 Aug 2020 09:16:59 -0500
-From: Patrick Williams <patrick@stwcx.xyz>
-To: rentao.bupt@gmail.com
-Subject: Re: [PATCH 2/5] ARM: dts: aspeed: cmm: Set 32MB FMC flash layout
-Message-ID: <20200825141659.GF3532@heinlein>
-References: <20200824211948.12852-1-rentao.bupt@gmail.com>
- <20200824211948.12852-3-rentao.bupt@gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bbffs5r2bzDqWn
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Aug 2020 05:48:04 +1000 (AEST)
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 07PJVxDs006515; Tue, 25 Aug 2020 15:47:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=7Rl2UklbYVkVJfBrMuiwtrmhml+iZDfjKAcAFsLmd3w=;
+ b=IJO6wug5RqiSOpBic/JM2E7zcG24hhtuSpdf7fsjlf13Y0352A1nu+kKrvvp2FSFh/Zr
+ YYT3cViGFZF4kSEiAwTfvT8w9RSHuv0swMNpR7FYX36wrzELn3nUa1fTCsdtMI7SaZDs
+ cVFE9Fbp3ubrpuKKMAMRPXK3xmkPiaScjEAUncQbEIOfDnIu5r/gw2PIa/PqboRwdtEg
+ +ZpaJXgWP5JC2D998EK/gnlk6HFPJfuhcrgMR709RgDnOV07PwcMjERlCpHThLI39aFf
+ FmssUYM3Vrfw3tJ7hk1NnO9OUHHn5Rs+yCBgWX2oQtc4TGkP6GJgeUtSxHSZh8wpngY3 +Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3358kn0tpu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Aug 2020 15:47:55 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07PJWGuu007381;
+ Tue, 25 Aug 2020 15:47:55 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3358kn0tpd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Aug 2020 15:47:55 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07PJl7xm014803;
+ Tue, 25 Aug 2020 19:47:54 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma01dal.us.ibm.com with ESMTP id 332uttb3mf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Aug 2020 19:47:54 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 07PJlrQs16253940
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 25 Aug 2020 19:47:53 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 688C7AC05E;
+ Tue, 25 Aug 2020 19:47:53 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5A8F2AC059;
+ Tue, 25 Aug 2020 19:47:52 +0000 (GMT)
+Received: from [9.211.52.131] (unknown [9.211.52.131])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue, 25 Aug 2020 19:47:52 +0000 (GMT)
+Subject: Re: [PATCH 3/5] i2c: aspeed: Mask IRQ status to relevant bits
+To: Joel Stanley <joel@jms.id.au>
+References: <20200820161152.22751-1-eajames@linux.ibm.com>
+ <20200820161152.22751-4-eajames@linux.ibm.com>
+ <CACPK8XdG1+3eQPQ71fZYZdHwcn8WNLQKF=5iKrOvGhLwispSQA@mail.gmail.com>
+From: Eddie James <eajames@linux.ibm.com>
+Message-ID: <8fc365dd-8a89-9e5c-ed70-093ef2bf7265@linux.ibm.com>
+Date: Tue, 25 Aug 2020 14:47:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qftxBdZWiueWNAVY"
-Content-Disposition: inline
-In-Reply-To: <20200824211948.12852-3-rentao.bupt@gmail.com>
+In-Reply-To: <CACPK8XdG1+3eQPQ71fZYZdHwcn8WNLQKF=5iKrOvGhLwispSQA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-08-25_08:2020-08-25,
+ 2020-08-25 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ adultscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0
+ mlxlogscore=861 clxscore=1015 priorityscore=1501 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008250143
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,54 +107,52 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, dmitry.torokhov@gmail.com,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, linux-i2c@vger.kernel.org,
+ linux-input@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
---qftxBdZWiueWNAVY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 8/25/20 1:38 AM, Joel Stanley wrote:
+> On Thu, 20 Aug 2020 at 16:12, Eddie James <eajames@linux.ibm.com> wrote:
+>> Mask the IRQ status to only the bits that the driver checks. This
+>> prevents excessive driver warnings when operating in slave mode
+>> when additional bits are set that the driver doesn't handle.
+>>
+>> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+>> ---
+>>   drivers/i2c/busses/i2c-aspeed.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+>> index 31268074c422..abf40f2af8b4 100644
+>> --- a/drivers/i2c/busses/i2c-aspeed.c
+>> +++ b/drivers/i2c/busses/i2c-aspeed.c
+>> @@ -604,6 +604,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
+>>          writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
+>>                 bus->base + ASPEED_I2C_INTR_STS_REG);
+>>          readl(bus->base + ASPEED_I2C_INTR_STS_REG);
+>> +       irq_received &= 0xf000ffff;
+>>          irq_remaining = irq_received;
+> This would defeat the check for irq_remaining. I don't think we want to do this.
+>
+> Can you explain why these bits are being set in slave mode?
 
-On Mon, Aug 24, 2020 at 02:19:45PM -0700, rentao.bupt@gmail.com wrote:
-> From: Tao Ren <rentao.bupt@gmail.com>
->=20
-> Set 32MB FMC flash layout in CMM device tree explicitly because the flash
-> layout settings were removed from "ast2500-facebook-netbmc-common.dtsi".
->=20
-> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
-> ---
->  arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
->=20
 
-Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
+No, I don't have any documentation for the bits that are masked off 
+here, so I don't know why they would get set.
 
---=20
-Patrick Williams
+The check for irq_remaining is still useful for detecting that the 
+driver state machine might be out of sync with what the master is doing.
 
---qftxBdZWiueWNAVY
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+Thanks,
 
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAl9FHVsACgkQqwNHzC0A
-wRkjWw/9FtRE8urbMeaUc/+Q93LgKAnLTuU8vpixijtbDKEVuKWgib/4SNMsTdxd
-IYR2elUt707beUXkDTXWJUxqLBFAfztUeI0bHy1b4ruP3GapIJgQK/439AQMBcx/
-ohfmqKHlL2fFva/3A6zzCOEZy8jmQbbwu26zrW1K+ieYIWaZh48cZf3cZVgDG9mz
-bcwnGOWmLRz4qo4CwN+XfMJ23mTOCQZSZUFt9Tn+tDqVRLWhosFVkSUAKwRjEbn+
-XeyhjoWHAwOwWkTfU43ssybrj/PqHBM+Gr8OV9X92kF7alA59chjs8fA2ukqzAzr
-/I4kqVlWguKb1tdFDuqTiJBKqOIZQtKBt0meWmHy0Auh2SL3ihR5WTiLpOdscOWy
-NIqgYbtbx2TmtHYG7iuYUIeXy6mqlTo5xQuHii7UAMEMjpphQNFbTb/VBhk5t/sO
-++PeSEkONdZSyBDZUUGcA2+EtspANKgi8gi41EHxcghhGaxmXKZSxWNqToOmVdbg
-xqozF0ezD18b5Wy8u+6aMZLWxqdVA2B7SrrECF0WxMK/0/rDbhTF5VshxB7HdUrY
-Y5F2XaX0PngEn9oQ25quTwkrO6rnHQR/B7trGPLQVI+Wj9OT/lmc7vCf6tXwtGIY
-fxvKNjdni0yEAMJqDy+nLKXgg0ddvftM+P4HA3b6HPg0mUhb0Mo=
-=n2kh
------END PGP SIGNATURE-----
+Eddie
 
---qftxBdZWiueWNAVY--
+
