@@ -2,64 +2,89 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49156251227
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Aug 2020 08:38:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A31251ABE
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Aug 2020 16:24:17 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BbK7y3dkJzDqSr
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Aug 2020 16:38:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BbWTB45KYzDqWb
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Aug 2020 00:24:14 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::643;
- helo=mail-ej1-x643.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=stwcx.xyz (client-ip=64.147.123.24;
+ helo=wout1-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=d318I0JD; dkim-atps=neutral
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=stwcx.xyz
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256
+ header.s=fm2 header.b=WFQPwLMD; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm3 header.b=BsfasDi3; 
+ dkim-atps=neutral
+X-Greylist: delayed 68 seconds by postgrey-1.36 at bilbo;
+ Wed, 26 Aug 2020 00:17:43 AEST
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
+ [64.147.123.24])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BbK7s4jfmzDqHv
- for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Aug 2020 16:38:31 +1000 (AEST)
-Received: by mail-ej1-x643.google.com with SMTP id dp2so9739287ejc.4
- for <linux-aspeed@lists.ozlabs.org>; Mon, 24 Aug 2020 23:38:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1Q9k3xF6hWPOQM3uFwSy2qlWDQ5BGn+QdqRbPCM8EhM=;
- b=d318I0JDAY3KO2OfweXvemxDvpcgVxD/poXqH0o44y89iIIdQ2tKqg8axqlHdT8Acl
- ZwraWTH8Be+wNIdnhcriuFkqqu+TMMH0QJZ/TUNOpruZNRxE9CT0VlMX/CzWe+IZ+AKh
- 1i6LQwYPsKVqW8t3f2z5GeVPSUXLalcko0o7M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1Q9k3xF6hWPOQM3uFwSy2qlWDQ5BGn+QdqRbPCM8EhM=;
- b=f3cBzAdWEzjKqNrdof0bj4Y0F5FOE5e2TrzGSv5nkCTRYnJNS9r4zB6PAIbM5vOQaV
- lkBnRLjCrHx9DZTBAdil6MAYG21QVJwKtn+xCQhZ0L2jbVzGb/brH95K6GOiq4mOWgtn
- LzCEwWoRAgP+l0OrjTA9eTuc12X3LKV5fLzLJepx+LxmW4123qcRHawOgxSuGCHIfVpV
- grlwSqTZxW5lpB3PoMLDdAGDgkuepdIVdXnXFBjYY8tY82RCPP3+zDlwwsFSQdxY0ceG
- qhh3c6BBQ1wHPPpc8GPcyXup4P0PARDynRhG8IWc1fwUBkJjDrF+/KrwA7wDj9PrBDmu
- orFw==
-X-Gm-Message-State: AOAM532sFVRO9KErzlXWYbdnsipeV2UQ6he0267ewafmKO/CRVY5BoFr
- Z+U0ql4lJAuXpLfLKyRkzmxSkOIgwxz0jYZ1dfk=
-X-Google-Smtp-Source: ABdhPJweMgK6I5TgV9Ly2uJzqR7Tgq7Qn1uQsVbMr86HbZ6rf4REgHoJ8D+2tbHNLahHnsDFOhsp3YQTaEez+w4QafM=
-X-Received: by 2002:a17:906:4ec3:: with SMTP id
- i3mr8802552ejv.215.1598337503276; 
- Mon, 24 Aug 2020 23:38:23 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BbWKg0jl5zDqNy;
+ Wed, 26 Aug 2020 00:17:42 +1000 (AEST)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailout.west.internal (Postfix) with ESMTP id BD52BE90;
+ Tue, 25 Aug 2020 10:17:39 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute7.internal (MEProxy); Tue, 25 Aug 2020 10:17:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=N0zFzCcbm2CQ4Rw0jLZGKfcRoOu
+ i7o5d7Rvm4cLzxwQ=; b=WFQPwLMD+Pw7hJuWWj21e75SaZetVYvwcXQGuO4muB7
+ d8t0nUVAWq6e35+6m9L5G+667Kn4dlf4bFk7LMHD1L+p4+IeaOcJ3L4YHsYZGpik
+ rWN651blf09udXrIhmgnG+hf2AyQI6aeVOUdYD/1OMw9yWIFzv/jwPZpb+sQd8Hg
+ HDphVEtOT+njNDSdIZq/9jWBx3n57Aqw7RRdGp6VOSmL8dGjE+joVrFxof7bGC4h
+ Ih36NM1m5e1JxaOlCl8YSJBPJUoqyuxu2LwffmHG/AmV8bOSz5ccleWMEhgUSMHM
+ hv2yqWL2jOhjbsWxpSQwJZOLBBYd5ZX8kkeSrp7+YIw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=N0zFzC
+ cbm2CQ4Rw0jLZGKfcRoOui7o5d7Rvm4cLzxwQ=; b=BsfasDi3vj/Ta/t2qSDQbN
+ O+RvWZt3FQa/Q6uOW5UJ/78W9f9sG/isMLic9OFH8ORXy3oy0A8iB6FEmjkaPuTu
+ aVUVJqR5koWwWx4fQweCyBJRz/Z2SJL/kP7Arqr9irIEj3aP4A0MdoBGT5P4bn9z
+ eX7RTqwxopnmFhTDujWgTLplXbKLGeL48zNCd3CqhGbhFOfNDRFvqG1MMAFbaX8K
+ 6gsOYuHpv/0qNK6cxd4xnhur7ytwA2FedLI6geZgUqs21tC81Yi4XRS5EU/TIl/m
+ emzww7qg0k5KQgi9AGXiAuThAYu0D/D/aL6xw+w8TN9TzYVnIbTBHgejDM6INmZQ
+ ==
+X-ME-Sender: <xms:gx1FX4aYACmz6rxSQ3GEPPbw_T81hkXMM4Ox7jQszIVf586v_xOvXg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedruddvtddgjeejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ gfrhhlucfvnfffucdlfeehmdenucfjughrpeffhffvuffkfhggtggujgesghdtreertddt
+ vdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
+ htfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepgeehheefffegkeevhedthffgudfh
+ geefgfdthefhkedtleffveekgfeuffehtdeinecukfhppeejiedrvdehtddrkeegrddvfe
+ einecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhepphgr
+ thhrihgtkhesshhtfigtgidrgiihii
+X-ME-Proxy: <xmx:gx1FXzZxxxWVN9m8E4mwKDbsa35pNDahyhNdi9DwfaTnMlInjZDSGg>
+ <xmx:gx1FXy8Qyp7TB-Y5sDnEOElW0R3_FZ17M4AcPt2yuMKog2t2T2JkQw>
+ <xmx:gx1FXyqKyhjbFrgy8-FXJyBqP9X_xaHJ2dG6wGCf2-fypD-db3NQEA>
+ <xmx:gx1FX0crfXKrEzgzcswFTnvw8thXchZpJ6NZbSGNK5mvKabx0F1XJw>
+Received: from localhost (76-250-84-236.lightspeed.austtx.sbcglobal.net
+ [76.250.84.236])
+ by mail.messagingengine.com (Postfix) with ESMTPA id D965030606E9;
+ Tue, 25 Aug 2020 10:17:38 -0400 (EDT)
+Date: Tue, 25 Aug 2020 09:17:38 -0500
+From: Patrick Williams <patrick@stwcx.xyz>
+To: rentao.bupt@gmail.com
+Subject: Re: [PATCH 3/5] ARM: dts: aspeed: yamp: Set 32MB FMC flash layout
+Message-ID: <20200825141738.GG3532@heinlein>
+References: <20200824211948.12852-1-rentao.bupt@gmail.com>
+ <20200824211948.12852-4-rentao.bupt@gmail.com>
 MIME-Version: 1.0
-References: <20200820161152.22751-1-eajames@linux.ibm.com>
- <20200820161152.22751-4-eajames@linux.ibm.com>
-In-Reply-To: <20200820161152.22751-4-eajames@linux.ibm.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 25 Aug 2020 06:38:10 +0000
-Message-ID: <CACPK8XdG1+3eQPQ71fZYZdHwcn8WNLQKF=5iKrOvGhLwispSQA@mail.gmail.com>
-Subject: Re: [PATCH 3/5] i2c: aspeed: Mask IRQ status to relevant bits
-To: Eddie James <eajames@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="qoTlaiD+Y2fIM3Ll"
+Content-Disposition: inline
+In-Reply-To: <20200824211948.12852-4-rentao.bupt@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,38 +96,54 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, dmitry.torokhov@gmail.com,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, linux-i2c@vger.kernel.org,
- linux-input@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 20 Aug 2020 at 16:12, Eddie James <eajames@linux.ibm.com> wrote:
->
-> Mask the IRQ status to only the bits that the driver checks. This
-> prevents excessive driver warnings when operating in slave mode
-> when additional bits are set that the driver doesn't handle.
->
-> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+
+--qoTlaiD+Y2fIM3Ll
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Aug 24, 2020 at 02:19:46PM -0700, rentao.bupt@gmail.com wrote:
+> From: Tao Ren <rentao.bupt@gmail.com>
+>=20
+> Set 32MB FMC flash layout in Yamp device tree explicitly because flash
+> layout settings were removed from "ast2500-facebook-netbmc-common.dtsi".
+>=20
+> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
 > ---
->  drivers/i2c/busses/i2c-aspeed.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-> index 31268074c422..abf40f2af8b4 100644
-> --- a/drivers/i2c/busses/i2c-aspeed.c
-> +++ b/drivers/i2c/busses/i2c-aspeed.c
-> @@ -604,6 +604,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
->         writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
->                bus->base + ASPEED_I2C_INTR_STS_REG);
->         readl(bus->base + ASPEED_I2C_INTR_STS_REG);
-> +       irq_received &= 0xf000ffff;
->         irq_remaining = irq_received;
+>  arch/arm/boot/dts/aspeed-bmc-facebook-yamp.dts | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>=20
 
-This would defeat the check for irq_remaining. I don't think we want to do this.
+Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
 
-Can you explain why these bits are being set in slave mode?
+--=20
+Patrick Williams
+
+--qoTlaiD+Y2fIM3Ll
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAl9FHYIACgkQqwNHzC0A
+wRlFehAAilKhh9UL8jwqxfFRsBAEgd/0CfxdTYGbd8Hreo9J8iXVKJF+tS4dKuAH
+dH6LaS1W9dkGrXEcLGF+5KJi0fSQ3gcPA26ZB23b8A7nrADTPfczDywoULAhcU8E
+2HvQZOYDvqzqNqc9kvuOb/TynXx+h0dY2XORYWTb16t7sLzsyUAVma1VOTRUgd0x
+Re3/s3ogYlrtFRrlwZm+dONZPRGpYzbWLdZQT6xBf1PqhjPzLOVWSJISRTmW0AEc
+pH87vuWg27g+qyOBrdkmVeMB0I5sYrI/weNNjAORy65eAT6oK8ncvndgglVgxNwH
+Rr7B17MwoYDP4RETs3o/DO9AJWiu0krGZA/4IQXQqrzMCYjGWqkmOt8SAlW3mHRD
+aVVI1yZpIfiOudyV9noM1TV/BDHWnvFmWsSQEZ6B/72oV079jLSYHnIsCXgTLlbY
+6miVgwwVb3dpJP8igXuik2K2dn51dcimV05KK3A6trsJGmZLNoVrGgp5sICFpfvR
+0LF2HXxDewUcW7wguJRkevhp7ohIXnafYWZh2hCQhFMbM3gKzTRPsqg1CAjIlL6o
+5+Wr6ZEzWUu+iKFw3e0n8eW6H9u5gaoSXb2Mm+JdgoXhYDqmdP/GhPr6UI1abdg7
+yI4FP0ahPbgegkE8UhIHa0RVawh/x6P+MhU9n/QAzCxjIIBS4Mk=
+=IqLr
+-----END PGP SIGNATURE-----
+
+--qoTlaiD+Y2fIM3Ll--
