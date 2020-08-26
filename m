@@ -2,76 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987402521FE
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Aug 2020 22:27:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06C32252573
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Aug 2020 04:16:36 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BbgWm5dWxzDqLp
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Aug 2020 06:27:00 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BbqH43sMXzDqXW
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Aug 2020 12:16:32 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::441;
- helo=mail-pf1-x441.google.com; envelope-from=rentao.bupt@gmail.com;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=CvyGmsYJ; dkim-atps=neutral
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ spf=none (no SPF record) smtp.mailfrom=aspeedtech.com
+ (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com;
+ envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=aspeedtech.com
+X-Greylist: delayed 1006 seconds by postgrey-1.36 at bilbo;
+ Wed, 26 Aug 2020 12:16:23 AEST
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BbgWc5GrDzDqWX;
- Wed, 26 Aug 2020 06:26:52 +1000 (AEST)
-Received: by mail-pf1-x441.google.com with SMTP id d22so8234992pfn.5;
- Tue, 25 Aug 2020 13:26:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=hViqvBMVikZrtzrVDOIX1RxTOt+cw+ucTuPZjUrSRMo=;
- b=CvyGmsYJE8o29oOkb16rdJUytyHwpjTL1ouL7mheA5ViFyotFWyMuusPvKOVIzBbao
- HN1Ig6W+VoQ7ji2J5SeTMm9hgcmbJGc974ulDXgx5Cu5KtSkkeFVuRWgpfBuOG9L5Inq
- SSuCNeAm67gf3igbQQwKf2DGmEFDS6hemU2rSlNvD7NYXFUMYqXTTedtriqLwljgcA7m
- nPHZIIFT7+9I2t85zlwF5+FrQLikhSIbSnacdWTSbVy8Drlv/Rq1VTHBytSUOsCcJpPT
- 2TfQY0CnhmLmeH8JmHNmTA6lyAMr1ZFUn9cW9yaswKbCXx2xA4Bu/fTIU/lv14A92s4q
- VKTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=hViqvBMVikZrtzrVDOIX1RxTOt+cw+ucTuPZjUrSRMo=;
- b=hG0dvSzh11HntS8QwQNuZe7R76ftxlOtGqJggBKC/fybC0f4QJ7yA843x7iWutaLmm
- rLXvk5pk0DcMX6edRRvDpRSb97Ps7Kc8pB5iSYB2Jcte+lF/ntI4/iAd/0xS3IVgNnZM
- iMDUriD3N/kQSUIhCmzGrK0c65u7R0xJm3sQ3q/ZXKv2WCu6VcdhivSMTMhgNgk0B2aQ
- cnVhkfYGkm4rPTVTnRk6D4cuxVKzT0PEhLTC93TJ0tdhF8hjQkVAn47SwLVHv8g6A+9z
- noHivotv0CZ3ZK0n8x/YUK6phiqq00KDFZPtLjtFXrUiczgQ4gDWfr6QckVyd4+2KaL6
- dEZA==
-X-Gm-Message-State: AOAM53135Mc34QPTvSoSPbi9DqUV0IQZd3dfWpUAuHLWmhnQe/hUOdFL
- xncCk7JSv9WFiRriNBQc7r8=
-X-Google-Smtp-Source: ABdhPJzQ5pw3dFa8nSlHXAXCWo8jZx7k/xr4WSZtGq0OJpfhKUc1gXp8HphomS3PeFnoTJql1GICUw==
-X-Received: by 2002:a63:7e55:: with SMTP id o21mr8126549pgn.5.1598387210237;
- Tue, 25 Aug 2020 13:26:50 -0700 (PDT)
-Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net.
- [73.252.146.110])
- by smtp.gmail.com with ESMTPSA id x15sm82677pfr.208.2020.08.25.13.26.49
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 25 Aug 2020 13:26:49 -0700 (PDT)
-Date: Tue, 25 Aug 2020 13:26:43 -0700
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Patrick Williams <patrick@stwcx.xyz>
-Subject: Re: [PATCH 4/5] ARM: dts: aspeed: minipack: Update 64MB FMC flash
- layout
-Message-ID: <20200825202642.GA23335@taoren-ubuntu-R90MNF91>
-References: <20200824211948.12852-1-rentao.bupt@gmail.com>
- <20200824211948.12852-5-rentao.bupt@gmail.com>
- <20200825141808.GH3532@heinlein>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BbqGv455SzDqWn
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Aug 2020 12:16:23 +1000 (AEST)
+Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
+ by twspam01.aspeedtech.com with ESMTP id 07Q1gUAX015656
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Aug 2020 09:42:30 +0800 (GMT-8)
+ (envelope-from ryan_chen@aspeedtech.com)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 07Q1fxVs015567;
+ Wed, 26 Aug 2020 09:41:59 +0800 (GMT-8)
+ (envelope-from ryan_chen@aspeedtech.com)
+Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.620.29; Wed, 26 Aug
+ 2020 09:59:11 +0800
+Received: from TWMBX02.aspeed.com ([fe80::997d:c0a7:f01f:e1a7]) by
+ TWMBX02.aspeed.com ([fe80::997d:c0a7:f01f:e1a7%12]) with mapi id
+ 15.00.0620.020; Wed, 26 Aug 2020 09:59:11 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: Tao Ren <rentao.bupt@gmail.com>, Eddie James <eajames@linux.ibm.com>
+Subject: RE: [PATCH 3/5] i2c: aspeed: Mask IRQ status to relevant bits
+Thread-Topic: [PATCH 3/5] i2c: aspeed: Mask IRQ status to relevant bits
+Thread-Index: AQHWdwzk/wcXUhvRB0iNVkduNVuxEqlH4GIAgADco4CAAATnAIAA6Fog
+Date: Wed, 26 Aug 2020 01:59:11 +0000
+Message-ID: <f84a5ad1064142b78b3fc5eeb4659627@TWMBX02.aspeed.com>
+References: <20200820161152.22751-1-eajames@linux.ibm.com>
+ <20200820161152.22751-4-eajames@linux.ibm.com>
+ <CACPK8XdG1+3eQPQ71fZYZdHwcn8WNLQKF=5iKrOvGhLwispSQA@mail.gmail.com>
+ <8fc365dd-8a89-9e5c-ed70-093ef2bf7265@linux.ibm.com>
+ <20200825200523.GA22083@taoren-ubuntu-R90MNF91>
+In-Reply-To: <20200825200523.GA22083@taoren-ubuntu-R90MNF91>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.2.87]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200825141808.GH3532@heinlein>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 07Q1fxVs015567
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,35 +71,83 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Aug 25, 2020 at 09:18:08AM -0500, Patrick Williams wrote:
-> On Mon, Aug 24, 2020 at 02:19:47PM -0700, rentao.bupt@gmail.com wrote:
-> > From: Tao Ren <rentao.bupt@gmail.com>
-> > 
-> > Set 64Mb FMC flash layout in Minipack device tree explicitly because the
-> > flash layout was removed from "ast2500-facebook-netbmc-common.dtsi".
-> > 
-> > Please note "data0" partition' size is updated to 4MB to be consistent
-> > with other Facebook OpenBMC platforms.
-> > 
-> > Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
-> > ---
-> >  .../boot/dts/aspeed-bmc-facebook-minipack.dts | 47 ++++++++++++++++++-
-> >  1 file changed, 45 insertions(+), 2 deletions(-)
-> > 
-> 
-> Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
-
-Thanks for the review, Patrick.
-
-
-Cheers,
-
-Tao
-
+> -----Original Message-----
+> From: Tao Ren [mailto:rentao.bupt@gmail.com]
+> Sent: Wednesday, August 26, 2020 4:05 AM
+> To: Eddie James <eajames@linux.ibm.com>
+> Cc: Joel Stanley <joel@jms.id.au>; devicetree <devicetree@vger.kernel.org=
+>;
+> linux-aspeed <linux-aspeed@lists.ozlabs.org>; dmitry.torokhov@gmail.com;
+> Brendan Higgins <brendanhiggins@google.com>; Linux Kernel Mailing List
+> <linux-kernel@vger.kernel.org>; Rob Herring <robh+dt@kernel.org>;
+> linux-i2c@vger.kernel.org; linux-input@vger.kernel.org; Ryan Chen
+> <ryan_chen@aspeedtech.com>
+> Subject: Re: [PATCH 3/5] i2c: aspeed: Mask IRQ status to relevant bits
+>=20
+> On Tue, Aug 25, 2020 at 02:47:51PM -0500, Eddie James wrote:
+> >
+> > On 8/25/20 1:38 AM, Joel Stanley wrote:
+> > > On Thu, 20 Aug 2020 at 16:12, Eddie James <eajames@linux.ibm.com>
+> wrote:
+> > > > Mask the IRQ status to only the bits that the driver checks. This
+> > > > prevents excessive driver warnings when operating in slave mode
+> > > > when additional bits are set that the driver doesn't handle.
+> > > >
+> > > > Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> > > > ---
+> > > >   drivers/i2c/busses/i2c-aspeed.c | 1 +
+> > > >   1 file changed, 1 insertion(+)
+> > > >
+> > > > diff --git a/drivers/i2c/busses/i2c-aspeed.c
+> > > > b/drivers/i2c/busses/i2c-aspeed.c index 31268074c422..abf40f2af8b4
+> > > > 100644
+> > > > --- a/drivers/i2c/busses/i2c-aspeed.c
+> > > > +++ b/drivers/i2c/busses/i2c-aspeed.c
+> > > > @@ -604,6 +604,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq,
+> void *dev_id)
+> > > >          writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
+> > > >                 bus->base + ASPEED_I2C_INTR_STS_REG);
+> > > >          readl(bus->base + ASPEED_I2C_INTR_STS_REG);
+> > > > +       irq_received &=3D 0xf000ffff;
+> > > >          irq_remaining =3D irq_received;
+> > > This would defeat the check for irq_remaining. I don't think we want =
+to do
+> this.
+> > >
+> > > Can you explain why these bits are being set in slave mode?
+> >
+> >
+> > No, I don't have any documentation for the bits that are masked off
+> > here, so I don't know why they would get set.
+> >
+> > The check for irq_remaining is still useful for detecting that the
+> > driver state machine might be out of sync with what the master is doing=
+.
+>=20
+> I have a similar patch in my local tree, and the reason being: AST2600 I2=
+C
+> Controller may set I2CD10[25:24] to report Current Slave Parking Status
+> (defined in new register I2CS24) even though the new register mode is off=
+. The
+> 2 bits can be ignored in legacy mode, and Ryan from ASPEED could confirm =
+it.
+Yes, in AST2600 i2cd10[25:24] will be the same with new mode register i2cs2=
+4[25:24]
+Thanks Tao.
+>=20
+>=20
+> Cheers,
+>=20
+> Tao
