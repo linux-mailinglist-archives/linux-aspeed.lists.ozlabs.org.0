@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78D8625669B
-	for <lists+linux-aspeed@lfdr.de>; Sat, 29 Aug 2020 11:41:28 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A76825669C
+	for <lists+linux-aspeed@lfdr.de>; Sat, 29 Aug 2020 11:41:35 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bds1115ZtzDqjY
-	for <lists+linux-aspeed@lfdr.de>; Sat, 29 Aug 2020 19:41:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bds1835xTzDqh2
+	for <lists+linux-aspeed@lfdr.de>; Sat, 29 Aug 2020 19:41:32 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -16,24 +16,24 @@ Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=j+jGrufD; dkim-atps=neutral
+ header.s=default header.b=M+AW6B8k; dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bds0J20tMzDqhK
- for <linux-aspeed@lists.ozlabs.org>; Sat, 29 Aug 2020 19:40:48 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bds0N4Xw7zDqhb
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 29 Aug 2020 19:40:52 +1000 (AEST)
 Received: from localhost.localdomain (unknown [194.230.155.216])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BAC7A20665;
- Sat, 29 Aug 2020 09:40:41 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id B10192068E;
+ Sat, 29 Aug 2020 09:40:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598694046;
- bh=MQoFz3cO6qn2Ot7E8t6E9HrOy47NGq2Kvr7IiaaZoT8=;
+ s=default; t=1598694051;
+ bh=nYdsEt4eLLJRNSq2tYSCZbVTWwm5iqC5mEub4SpLTXE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=j+jGrufD5/IAL2nOnGF9Jt5P4Cmb1Mml8paxEv8j5qShPx4onoD3ZuydZfyq9BVZ6
- +Vt38tAekbYoWs7k3XfRFbr9HTJOLZy3I2c2vqxlheYEZANYzF+o9tS3nEeuDl/MDt
- Yg28kqrHpDmSbOOVuPs/jhbPXixmII6HfnjrTL/c=
+ b=M+AW6B8kuEnSEreujpXzL/G4Mn0mHf2FuD9pGulvPENZ7reL0mggc/spGKxnw1Ahf
+ CrCcct/M6IUKzHwzf4LzUzIqnrc17098cbh2lQKhh0EPCz1SUUwvqQ+36JUBJEUr5o
+ EKDRSqEjaBO2UaSmL/lgdx39x1LNp2EfW9GzESg8=
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Linus Walleij <linus.walleij@linaro.org>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>,
@@ -50,10 +50,10 @@ To: Linus Walleij <linus.walleij@linaro.org>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-aspeed@lists.ozlabs.org
-Subject: [PATCH 3/6] ARM: dts: am335x: lxm: Fix PCA9539 GPIO expander
- properties
-Date: Sat, 29 Aug 2020 11:40:21 +0200
-Message-Id: <20200829094024.31842-3-krzk@kernel.org>
+Subject: [PATCH 4/6] ARM: dts: aspeed: Fix PCA95xx GPIO expander properties on
+ Portwell
+Date: Sat, 29 Aug 2020 11:40:22 +0200
+Message-Id: <20200829094024.31842-4-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200829094024.31842-1-krzk@kernel.org>
 References: <20200829094024.31842-1-krzk@kernel.org>
@@ -73,34 +73,27 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The PCA9539 GPIO expander requires GPIO controller properties to operate
+The PCA95xx GPIO expander requires GPIO controller properties to operate
 properly.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- arch/arm/boot/dts/am335x-lxm.dts | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm/boot/dts/am335x-lxm.dts b/arch/arm/boot/dts/am335x-lxm.dts
-index cd55f11260ea..0f078465297a 100644
---- a/arch/arm/boot/dts/am335x-lxm.dts
-+++ b/arch/arm/boot/dts/am335x-lxm.dts
-@@ -160,11 +160,15 @@
- 	serial_config1: serial_config1@20 {
- 		compatible = "nxp,pca9539";
- 		reg = <0x20>;
+diff --git a/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts b/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts
+index 4a1ca8f5b6a7..03c161493ffc 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts
+@@ -121,6 +121,8 @@
+ 	pca9555@27 {
+ 		compatible = "nxp,pca9555";
+ 		reg = <0x27>;
 +		gpio-controller;
 +		#gpio-cells = <2>;
  	};
+ };
  
- 	serial_config2: serial_config2@21 {
- 		compatible = "nxp,pca9539";
- 		reg = <0x21>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
- 	};
- 
- 	tps: tps@2d {
 -- 
 2.17.1
 
