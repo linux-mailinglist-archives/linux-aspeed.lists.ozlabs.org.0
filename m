@@ -2,61 +2,50 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA7625669F
-	for <lists+linux-aspeed@lfdr.de>; Sat, 29 Aug 2020 11:41:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21CDB2576ED
+	for <lists+linux-aspeed@lfdr.de>; Mon, 31 Aug 2020 11:54:34 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bds1J621YzDqhK
-	for <lists+linux-aspeed@lfdr.de>; Sat, 29 Aug 2020 19:41:40 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bg5CB6lGxzDq61
+	for <lists+linux-aspeed@lfdr.de>; Mon, 31 Aug 2020 19:54:30 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
  smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=krzk@kernel.org; receiver=<UNKNOWN>)
+ envelope-from=balbi@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=Og97O8+8; dkim-atps=neutral
+ header.s=default header.b=vJO2ySKK; dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bds0Z31h6zDqh2
- for <linux-aspeed@lists.ozlabs.org>; Sat, 29 Aug 2020 19:41:02 +1000 (AEST)
-Received: from localhost.localdomain (unknown [194.230.155.216])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bg5C21S0fzDqBK;
+ Mon, 31 Aug 2020 19:54:22 +1000 (AEST)
+Received: from saruman (91-155-214-58.elisa-laajakaista.fi [91.155.214.58])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 67C5E2068E;
- Sat, 29 Aug 2020 09:40:56 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6BF2A20EDD;
+ Mon, 31 Aug 2020 09:54:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598694060;
- bh=kImBBmuhu/2Fp4wOJCBofByIbokLDzO/4iErCHq10JA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Og97O8+86G+Z64ojsr/NDHzye0kFUDvcNaAPHHrLCe68HBYQO2pBRo5vVHgT38dEk
- 3h5+1yGLUEGIyGZMWH8lv8XDq2RTXIJKGvX5w5YQ+4svk5/0KKOZR2Zvq79o1qehMl
- gLX/QS9udz8jWjADY+O10zvNCjjbF5W2ReJkJNhA=
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Rob Herring <robh+dt@kernel.org>,
- =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
- Tony Lindgren <tony@atomide.com>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, Jason Cooper <jason@lakedaemon.net>,
- Andrew Lunn <andrew@lunn.ch>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Stefan Agner <stefan@agner.ch>, linux-gpio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org
-Subject: [PATCH 6/6] ARM: dts: vf: Fix PCA95xx GPIO expander properties on ZII
- CFU1
-Date: Sat, 29 Aug 2020 11:40:24 +0200
-Message-Id: <20200829094024.31842-6-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200829094024.31842-1-krzk@kernel.org>
-References: <20200829094024.31842-1-krzk@kernel.org>
+ s=default; t=1598867659;
+ bh=05SB4QyhMRQEVhQuA76tAzTplfJxOwcQAfl8qdw+ScA=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=vJO2ySKK2PRG4joUm75ogezdndbhgzjUDQ745LoRUyXOLGew7GRZ770bVHmzV4m5f
+ 9WEBzxLHjfBpHSLBd2E3hXVsXcEu57+pv9z7rj2/Irudt8TkfV9TzoGt3JH6Oxxi6I
+ trdvhQOhTGEnlh0iqxSOXRgs6gjhWLE4j01xCGeA=
+From: Felipe Balbi <balbi@kernel.org>
+To: Tao Ren <rentao.bupt@gmail.com>
+Subject: Re: [PATCH] usb: gadget: aspeed: fixup vhub port irq handling
+In-Reply-To: <20200817225603.GA21228@taoren-ubuntu-R90MNF91>
+References: <20200528011154.30355-1-rentao.bupt@gmail.com>
+ <875z9hz8k3.fsf@kernel.org>
+ <20200817225603.GA21228@taoren-ubuntu-R90MNF91>
+Date: Mon, 31 Aug 2020 12:54:10 +0300
+Message-ID: <87zh6b9m4d.fsf@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,31 +57,97 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-aspeed@lists.ozlabs.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The PCA95xx GPIO expander requires GPIO controller properties to operate
-properly.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- arch/arm/boot/dts/vf610-zii-cfu1.dts | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/boot/dts/vf610-zii-cfu1.dts b/arch/arm/boot/dts/vf610-zii-cfu1.dts
-index 64e0e9509226..e76a7ebd5dc9 100644
---- a/arch/arm/boot/dts/vf610-zii-cfu1.dts
-+++ b/arch/arm/boot/dts/vf610-zii-cfu1.dts
-@@ -226,6 +226,7 @@
- 		compatible = "nxp,pca9554";
- 		reg = <0x22>;
- 		gpio-controller;
-+		#gpio-cells = <2>;
- 	};
- 
- 	lm75@48 {
--- 
-2.17.1
+Hi,
 
+Tao Ren <rentao.bupt@gmail.com> writes:
+> On Mon, Aug 17, 2020 at 04:49:32PM +0300, Felipe Balbi wrote:
+>>=20
+>> Hi,
+>>=20
+>> rentao.bupt@gmail.com writes:
+>> > From: Tao Ren <rentao.bupt@gmail.com>
+>> >
+>> > This is a follow-on patch for commit a23be4ed8f48 ("usb: gadget: aspee=
+d:
+>> > improve vhub port irq handling"): for_each_set_bit() is replaced with
+>> > simple for() loop because for() loop runs faster on ASPEED BMC.
+>> >
+>> > Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+>> > ---
+>> >  drivers/usb/gadget/udc/aspeed-vhub/core.c | 10 +++-------
+>> >  drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  3 +++
+>> >  2 files changed, 6 insertions(+), 7 deletions(-)
+>> >
+>> > diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/g=
+adget/udc/aspeed-vhub/core.c
+>> > index cdf96911e4b1..be7bb64e3594 100644
+>> > --- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
+>> > +++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+>> > @@ -135,13 +135,9 @@ static irqreturn_t ast_vhub_irq(int irq, void *da=
+ta)
+>> >=20=20
+>> >  	/* Handle device interrupts */
+>> >  	if (istat & vhub->port_irq_mask) {
+>> > -		unsigned long bitmap =3D istat;
+>> > -		int offset =3D VHUB_IRQ_DEV1_BIT;
+>> > -		int size =3D VHUB_IRQ_DEV1_BIT + vhub->max_ports;
+>> > -
+>> > -		for_each_set_bit_from(offset, &bitmap, size) {
+>> > -			i =3D offset - VHUB_IRQ_DEV1_BIT;
+>> > -			ast_vhub_dev_irq(&vhub->ports[i].dev);
+>> > +		for (i =3D 0; i < vhub->max_ports; i++) {
+>> > +			if (istat & VHUB_DEV_IRQ(i))
+>> > +				ast_vhub_dev_irq(&vhub->ports[i].dev);
+>>=20
+>> how have you measured your statement above? for_each_set_bit() does
+>> exactly what you did. Unless your architecture has an instruction which
+>> helps finds the next set bit (like cls on ARM), which, then, makes it
+>> much faster.
+>
+> I did some testing and result shows for() loop runs faster than
+> for_each_set_bit() loop. Please refer to details below (discussion with
+> Benjamin in the original patch) and kindly let me know your suggestions.
+
+no strong feelings, just surprised that you're already worried about
+20~40 cycles of cpu time ;-)
+
+Patch applied for next merge window
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl9MyMIRHGJhbGJpQGtl
+cm5lbC5vcmcACgkQzL64meEamQaifA//Si7r2rDSXtDMDrTep0yeVpCJA9vk3Ajp
+K1rz3FtJaOInbRADPFu4rEKMCiz2bYBB/kT+iiFDUzpw3AOiQvjxyXbS4IqETV5p
++yxIaRE8Hr4dYGobRps9aykJfpMO4fZhSVfm99DLPXyFlmVBhE3AO9iz2bn1yC/X
+lq5ObwFqNnWya7yX7xOXLez4hM5waO621Fj45bWyXQFbO5Q+BaF5Tu+B0y0OptK0
+7dhNBFDe8xXTLjlvgsATtByfcYYi5Ip83xNfOLev4gH49alc6QGmcIjeVR5fLaPb
+YPJjsKi+NB1PsRHc1eKjKlKWiIVunvZ8zxnTKGec+PWsAF0dgOC8ARb3IMJhYxbD
+bIRcK2qvmkrWa24KiMUIwguHyWRkVm2Wmd14rBTg2Q2REJThn/lTr/O+hxai7ZBL
+V55vc/6E2l/ZMxDwNi8tvlxE6gu3qxYJeY07bFTXqXf4RiNPyT1vIpdzcSQzN4ZR
+gjMSjNNXdTpvLLXfHYt1o29oBl1IhrvP4TzTPzPvxj3afMrgm8O9roOpeK9F7nCN
+8Hp4PkQUE7PTwens37vC+sGCYXJUDAp5FU9Enzdansz0+QBCvRnJslNQq73P9vQB
+HR6/1JvhJzQRr9K6YHY5xzo9HZtp+QqKtzZZV27M1dZr+w6/g83knFJUuDdwm0zx
+jeRhoV3yH28=
+=5dAd
+-----END PGP SIGNATURE-----
+--=-=-=--
