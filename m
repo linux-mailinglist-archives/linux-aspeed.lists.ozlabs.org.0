@@ -1,54 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E831A2587E7
-	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Sep 2020 08:11:54 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23895259E6E
+	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Sep 2020 20:52:21 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BgcCq4VxYzDqTN
-	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Sep 2020 16:11:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bgx5D4lNszDqWh
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Sep 2020 04:52:16 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=wsa@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=alien8.de (client-ip=2a01:4f8:190:11c2::b:1457;
+ helo=mail.skyhub.de; envelope-from=bp@alien8.de; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
+ dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=kZnQ6m+J; dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256
+ header.s=dkim header.b=RAsJU/OB; dkim-atps=neutral
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BgcCh37cfzDqSd
- for <linux-aspeed@lists.ozlabs.org>; Tue,  1 Sep 2020 16:11:44 +1000 (AEST)
-Received: from localhost (p5486cc57.dip0.t-ipconnect.de [84.134.204.87])
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bgx4v5dKszDqW5
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Sep 2020 04:51:59 +1000 (AEST)
+Received: from zn.tnic (p200300ec2f111c0024978c1e0fa9a8a0.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f11:1c00:2497:8c1e:fa9:a8a0])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9197D208DB;
- Tue,  1 Sep 2020 06:11:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1598940702;
- bh=BHZMoFSFNu3DyLSpLY+JH8Sz4p7412tz3v9BMUhS3BI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kZnQ6m+Je8wGHdDBeGbBhIuQep+eKm6/I45edosXa2K7pibgqyzwvdOOvRT3YOdUT
- 18HsirJD7LMOOFBcIsPgxHedxBGLITAINDlGvIFhftdlW5NjdO3luEx7pZ/rB0BbPx
- RIbKopTH4EG+cO6xSo2Sy1u8iXItmwfl86jVV0hg=
-Date: Tue, 1 Sep 2020 08:11:39 +0200
-From: Wolfram Sang <wsa@kernel.org>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH 4/5] ARM: dts: Aspeed: Tacoma: Add IBM Operation Panel
- I2C device
-Message-ID: <20200901061139.GC1148@ninjato>
-References: <20200820161152.22751-1-eajames@linux.ibm.com>
- <20200820161152.22751-5-eajames@linux.ibm.com>
- <CACPK8XfeKiee-LAQZXs6jygr1Bj7pqGTGLUnTV1mzO5FBZ-XZQ@mail.gmail.com>
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 21A361EC0402;
+ Tue,  1 Sep 2020 20:51:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1598986300;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=tc9v2kAw0PVA7I9RWib1GcZ989FrHTMdQDbO4s8BKM8=;
+ b=RAsJU/OBy9MVu0v9nJvhrlC7qFhgUbojEJXggI3sDNKRqkznwo4p4O5LUZrWOgi1S4LGXA
+ WHdxRWK8gce4sytF0KJtgIJSRBm2gxHNLMp93EprPEVSnf+KGt8I3HKKMBZaeorURfc/QT
+ pUus+ahMEd2CnViPPQyRsecadxqUEEE=
+Date: Tue, 1 Sep 2020 20:51:36 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 1/2] EDAC/aspeed: Fix handling of platform_get_irq() error
+Message-ID: <20200901185136.GD8392@zn.tnic>
+References: <20200827070743.26628-1-krzk@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ABTtc+pdwF7KHXCz"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CACPK8XfeKiee-LAQZXs6jygr1Bj7pqGTGLUnTV1mzO5FBZ-XZQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200827070743.26628-1-krzk@kernel.org>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,54 +58,31 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, dmitry.torokhov@gmail.com,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, linux-i2c@vger.kernel.org,
- linux-input@vger.kernel.org, Brendan Higgins <brendanhiggins@google.com>
+Cc: Tony Luck <tony.luck@intel.com>, Robert Richter <rric@kernel.org>,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ Tero Kristo <t-kristo@ti.com>, James Morse <james.morse@arm.com>,
+ Stefan Schaeckeler <sschaeck@cisco.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Thu, Aug 27, 2020 at 09:07:42AM +0200, Krzysztof Kozlowski wrote:
+> platform_get_irq() returns -ERRNO on error.  In such case comparison
+> to 0 would pass the check.
+> 
+> Fixes: 9b7e6242ee4e ("EDAC, aspeed: Add an Aspeed AST2500 EDAC driver")
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> ---
+>  drivers/edac/aspeed_edac.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
---ABTtc+pdwF7KHXCz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Both applied,
+thanks.
 
+-- 
+Regards/Gruss,
+    Boris.
 
-> > +       ibm-panel@62 {
-> > +               compatible =3D "ibm,op-panel";
-> > +               reg =3D <0x40000062>; /* I2C_OWN_SLAVE_ADDRESS */
->=20
-> Other users of SLAVE_ADDRESS have included <dt-bindings/i2c/i2c.h> and
-> written the reg as follows:
->=20
-> reg =3D <(I2C_OWN_SLAVE_ADDRESS | 0x62)>
->=20
-> Which obviously has the same result. I'll leave it up to you.
-
-The latter, please.
-
-
---ABTtc+pdwF7KHXCz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9N5hsACgkQFA3kzBSg
-KbaeUg/+IPF4+oUGVypAsLvYprQ0+ZG1JBvtHljVB9iKBaHZqMvhVHeQtSLbdYaQ
-jDARAKbg0MG2YDPbzycsWxuvfDvfADKLHmcfGHINUegeOOdL8ECDivbhwGbcp/9n
-Lse+AEuEInVhGc/i3R/OL9juyOEa9r+V66GCa2EjzIeaUMQXtRmYC23Laax1h8JI
-vwjlAGu46hfyn4/XYKldvn4T72jM4fKtsPoVXlWPjMIh31aj0hgxbJXz79lRELZp
-veqwFPOC962XwV7K4pqXZR9lL9YxmxRANk6ycJML+sK/68kWV514MVBGp0Od3cut
-5uxLHcYP/afMbn+JRvmfo2QtsPxBfLUqSAJ3e5oiePbQPGuC+T//wFiHzQNm+8J9
-9CKHiQbrBK6VmTdEQMMtTVs02lvy/Kwp00yqnPzvZ/xiNtNoF0vLplWxo+uV4KPn
-9/3raJctzCFXkWYRAsm52t47MZ6Wmk/IYqZ6kwWMrijA5lVToAJK6RmjtuLsMi+6
-21vo7Er+0cDnj2UdSUdqr7MMQrRbs/qg81icmcq/qT/Y2Xmn0GAeMmGqzlPcP4to
-PLuIbKSWGcpZIbq4kc7XWRc5xCQt9pMR9hBLr9Gz5uxwI/JnBhf/BoPkVLskiB7+
-KwkYK6aacPe7A09JTgpYARDIO2I6p8Rt3JNLIrjhgCitBfjgtyc=
-=YXCg
------END PGP SIGNATURE-----
-
---ABTtc+pdwF7KHXCz--
+https://people.kernel.org/tglx/notes-about-netiquette
