@@ -2,101 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC49E25B050
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Sep 2020 17:55:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 196C925CE43
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Sep 2020 01:25:23 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BhT6l1jqTzDqww
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Sep 2020 01:55:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BjH3N32D2zDrDr
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Sep 2020 09:25:20 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
+ smtp.mailfrom=chromium.org (client-ip=2607:f8b0:4864:20::542;
+ helo=mail-pg1-x542.google.com; envelope-from=dianders@chromium.org;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
- header.s=pp1 header.b=j/L2keva; dkim-atps=neutral
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256
+ header.s=google header.b=eoeZ1xlM; dkim-atps=neutral
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BhSxc0yzRzDqxG
- for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Sep 2020 01:47:31 +1000 (AEST)
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 082FW52j046432; Wed, 2 Sep 2020 11:47:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=B9HMMIYxV7dLKsUViztHWLvJvaoop/tt7LeMtRlkEdg=;
- b=j/L2kevaqTtg0L2RSlXvTdVbe+bR5FpGm3jSl3XkfCeJYMtWlz4wTp6ho1KQ7ifeuYss
- JhzRrfLNCMor+uQiL3FlIUBJ0UtFGbxHPonJa1PJlFPUCo1B/l5mcqCSAdoShdaKiN14
- OI+qbcqPndA51Ome97Nwjj/oOiiMsE4D/6gJgsRMCeKq2amt5Z3C1V7WlrDOkWBcH5It
- zEXxwgkzWsOftYzMqm/qny+zP9gR6LVkAT9kQgJRt/b4e7mj2+75aYFypfh5nWvf2P5Z
- 8RJjuQUKgDS9zDlhCs7RjyWonF3AcReiB2nm12t4AXCs1ZbrdROeyXXH6jXqBZ2sjTka Fw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33ae37rh9x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Sep 2020 11:47:23 -0400
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 082FgMtE113019;
- Wed, 2 Sep 2020 11:47:22 -0400
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33ae37rh8u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Sep 2020 11:47:22 -0400
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 082FlK8B021110;
- Wed, 2 Sep 2020 15:47:20 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma01wdc.us.ibm.com with ESMTP id 337en990f3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Sep 2020 15:47:20 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 082FlGsH34472356
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 2 Sep 2020 15:47:16 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5785C78064;
- Wed,  2 Sep 2020 15:47:19 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CA4E67806B;
- Wed,  2 Sep 2020 15:47:18 +0000 (GMT)
-Received: from [9.211.74.86] (unknown [9.211.74.86])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed,  2 Sep 2020 15:47:18 +0000 (GMT)
-Subject: Re: [PATCH 2/5] input: misc: Add IBM Operation Panel driver
-To: Wolfram Sang <wsa@kernel.org>
-References: <20200820161152.22751-1-eajames@linux.ibm.com>
- <20200820161152.22751-3-eajames@linux.ibm.com>
- <20200901061108.GB1148@ninjato>
-From: Eddie James <eajames@linux.ibm.com>
-Message-ID: <796de8d4-6771-a8da-ea93-6e7e08aa93b0@linux.ibm.com>
-Date: Wed, 2 Sep 2020 10:47:18 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BjH3C35RvzDqvv
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Sep 2020 09:25:11 +1000 (AEST)
+Received: by mail-pg1-x542.google.com with SMTP id e33so3356487pgm.0
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 03 Sep 2020 16:25:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0oWgj2zq4zbbu5lAqus3SluKKFu5QfUtlWwopTJGHMA=;
+ b=eoeZ1xlMPFP7Tf/iVuNvLqP75LmGdaQxIL0WoQWrQV7z/RAJe1VI+/DA7rgv4g5DBu
+ f0Hxd7xcKwWdR4vAPofeXOYXGuq3ZOZAmsFgRp6sbKo+mbb7rIzMsOOHkMTDmoyimP1X
+ Kd32TS18l3b0IpJjGqqUzlJtQhqZl55x6MECE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0oWgj2zq4zbbu5lAqus3SluKKFu5QfUtlWwopTJGHMA=;
+ b=dOs98BKoJF1HTQwnvJ4qxOiF+r2LQBGVgS6I+P4sHe6RNyjnbscXrPxWNmeTgz0dAq
+ Q7MDsh2X8TDwxSMHZ8lmINNLg1/28dpvtuKZqOEQMjMwpJ7s6ekFBAk86xsK+fF7dbjV
+ HAI2dB4vrexohQ4BsWe3xg/1oFX0ju2DCjj9MxfYiJxEiakPy4w12rbsJCUWQYP2kjjM
+ yqO8hmMveC4sBmFI+QKZWq+JJRsxgdkgw32H17/l5oODgsFOj3QHgtq6CuQf1aiaKzPq
+ 1k8bOUbKKq+0ZzUxm8dOEMIZnKJfWYOxBiqsWYYIlQlH9Dqd6zR65M/GgHWNaZXO+ipp
+ aZpg==
+X-Gm-Message-State: AOAM530XynyYEZJU2VQCTEINI65PGdsPt41Nu+MRB3i/cQGa6qpH/Yt1
+ R2xbYe9xYsQ/K8/QSCKDB6WgEg==
+X-Google-Smtp-Source: ABdhPJxXci8J9Qv2zlxPsg4flpI87MuxgFVsNrgjNmKzdj6MjvnpdWRph2Y0Jrgb94EhRBlfr/NozA==
+X-Received: by 2002:a62:838a:: with SMTP id h132mr5979867pfe.72.1599175509378; 
+ Thu, 03 Sep 2020 16:25:09 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:1:42b0:34ff:fe3d:58e6])
+ by smtp.gmail.com with ESMTPSA id q7sm3614459pgg.10.2020.09.03.16.25.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Sep 2020 16:25:08 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Subject: [PATCH 5/6] mmc: Set PROBE_PREFER_ASYNCHRONOUS for drivers that
+ existed in v5.4
+Date: Thu,  3 Sep 2020 16:24:40 -0700
+Message-Id: <20200903162412.5.I2b630c4d40ff4ea61d5b30b8ccfe95890e257100@changeid>
+X-Mailer: git-send-email 2.28.0.526.ge36021eeef-goog
+In-Reply-To: <20200903232441.2694866-1-dianders@chromium.org>
+References: <20200903232441.2694866-1-dianders@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <20200901061108.GB1148@ninjato>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-02_09:2020-09-02,
- 2020-09-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- spamscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0 clxscore=1011
- mlxlogscore=999 malwarescore=0 priorityscore=1501 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009020144
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,40 +77,100 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- dmitry.torokhov@gmail.com, brendanhiggins@google.com,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org, linux-i2c@vger.kernel.org,
- linux-input@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Chunyan Zhang <zhang.lyra@gmail.com>, linux-mmc@vger.kernel.org,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Baolin Wang <baolin.wang7@gmail.com>, Orson Zhai <orsonzhai@gmail.com>,
+ swboyd@chromium.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+This is like commit 3d3451124f3d ("mmc: sdhci-msm: Prefer asynchronous
+probe") but applied to a whole pile of drivers.  This batch converts
+the drivers that appeared to be around in the v5.4 timeframe.
 
-On 9/1/20 1:11 AM, Wolfram Sang wrote:
->> +	switch (event) {
->> +	case I2C_SLAVE_STOP:
->> +		command_size = panel->idx;
->> +		fallthrough;
->> +	case I2C_SLAVE_WRITE_REQUESTED:
->> +		panel->idx = 0;
->> +		break;
->> +	case I2C_SLAVE_WRITE_RECEIVED:
->> +		if (panel->idx < sizeof(panel->command))
->> +			panel->command[panel->idx++] = *val;
->> +		else
->> +			dev_dbg(&panel->input->dev, "command truncated\n");
-> Just double checking: Do you really want to process truncated commands?
-> Since you detect the state here, you could also choose to reject such
-> commands?
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
 
+ drivers/mmc/host/alcor.c           | 1 +
+ drivers/mmc/host/sdhci-of-aspeed.c | 2 ++
+ drivers/mmc/host/sdhci-sprd.c      | 1 +
+ drivers/mmc/host/sdhci_am654.c     | 1 +
+ drivers/mmc/host/uniphier-sd.c     | 1 +
+ 5 files changed, 6 insertions(+)
 
-Yes I suppose not. It could still be a valid command with extra bytes, 
-but unlikely, so probably better not to handle it.
+diff --git a/drivers/mmc/host/alcor.c b/drivers/mmc/host/alcor.c
+index 026ca9194ce5..bfb8efeb7eb8 100644
+--- a/drivers/mmc/host/alcor.c
++++ b/drivers/mmc/host/alcor.c
+@@ -1178,6 +1178,7 @@ static struct platform_driver alcor_pci_sdmmc_driver = {
+ 	.id_table	= alcor_pci_sdmmc_ids,
+ 	.driver		= {
+ 		.name	= DRV_NAME_ALCOR_PCI_SDMMC,
++		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 		.pm	= &alcor_mmc_pm_ops
+ 	},
+ };
+diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
+index a1bcc0f4ba9e..4f008ba3280e 100644
+--- a/drivers/mmc/host/sdhci-of-aspeed.c
++++ b/drivers/mmc/host/sdhci-of-aspeed.c
+@@ -240,6 +240,7 @@ static const struct of_device_id aspeed_sdhci_of_match[] = {
+ static struct platform_driver aspeed_sdhci_driver = {
+ 	.driver		= {
+ 		.name	= "sdhci-aspeed",
++		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 		.of_match_table = aspeed_sdhci_of_match,
+ 	},
+ 	.probe		= aspeed_sdhci_probe,
+@@ -318,6 +319,7 @@ MODULE_DEVICE_TABLE(of, aspeed_sdc_of_match);
+ static struct platform_driver aspeed_sdc_driver = {
+ 	.driver		= {
+ 		.name	= "sd-controller-aspeed",
++		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 		.pm	= &sdhci_pltfm_pmops,
+ 		.of_match_table = aspeed_sdc_of_match,
+ 	},
+diff --git a/drivers/mmc/host/sdhci-sprd.c b/drivers/mmc/host/sdhci-sprd.c
+index a910cb461ed7..f88d38e34a23 100644
+--- a/drivers/mmc/host/sdhci-sprd.c
++++ b/drivers/mmc/host/sdhci-sprd.c
+@@ -787,6 +787,7 @@ static struct platform_driver sdhci_sprd_driver = {
+ 	.remove = sdhci_sprd_remove,
+ 	.driver = {
+ 		.name = "sdhci_sprd_r11",
++		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 		.of_match_table = of_match_ptr(sdhci_sprd_of_match),
+ 		.pm = &sdhci_sprd_pm_ops,
+ 	},
+diff --git a/drivers/mmc/host/sdhci_am654.c b/drivers/mmc/host/sdhci_am654.c
+index c5f47197d177..a4c6d9d80e88 100644
+--- a/drivers/mmc/host/sdhci_am654.c
++++ b/drivers/mmc/host/sdhci_am654.c
+@@ -745,6 +745,7 @@ static int sdhci_am654_remove(struct platform_device *pdev)
+ static struct platform_driver sdhci_am654_driver = {
+ 	.driver = {
+ 		.name = "sdhci-am654",
++		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 		.of_match_table = sdhci_am654_of_match,
+ 	},
+ 	.probe = sdhci_am654_probe,
+diff --git a/drivers/mmc/host/uniphier-sd.c b/drivers/mmc/host/uniphier-sd.c
+index 55efd5c53249..3092466a99ab 100644
+--- a/drivers/mmc/host/uniphier-sd.c
++++ b/drivers/mmc/host/uniphier-sd.c
+@@ -685,6 +685,7 @@ static struct platform_driver uniphier_sd_driver = {
+ 	.remove = uniphier_sd_remove,
+ 	.driver = {
+ 		.name = "uniphier-sd",
++		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 		.of_match_table = uniphier_sd_match,
+ 	},
+ };
+-- 
+2.28.0.526.ge36021eeef-goog
 
-
-Thanks,
-
-Eddie
-
-
->
