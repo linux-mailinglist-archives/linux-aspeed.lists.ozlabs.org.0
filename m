@@ -1,64 +1,56 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7851D260D7F
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Sep 2020 10:23:48 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E5D260D7E
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Sep 2020 10:23:43 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Blypn2vSRzDqLY
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Sep 2020 18:23:45 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Blyph3QNjzDqLj
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Sep 2020 18:23:40 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.208.194;
- helo=mail-lj1-f194.google.com; envelope-from=wens213@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=wens@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=csie.org
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
- [209.85.208.194])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=default header.b=1bWvQSaW; dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BlFJ04l1jzDqRK
- for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Sep 2020 14:13:01 +1000 (AEST)
-Received: by mail-lj1-f194.google.com with SMTP id s205so14433348lja.7
- for <linux-aspeed@lists.ozlabs.org>; Sun, 06 Sep 2020 21:13:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SVTRnwHT0ZnDLhJu0EOE7eABaLeVlG6E4x1hUJwJd80=;
- b=pYl3M3MRn7oMiSGzEIau9M89ZRvf5vMze7oqlPUKRFcL9qxkL+QynN5XiYSY7jEZNa
- yM9XTQPya2eTdmhv7wDKwuHgX/yhgUwl5IoVLag0ktDDiPBJp3p+SKUXko+NpIuI5MYR
- odoncWiDk4M54nii4KJlc+X40NQ0wGa7BQOCgZ7LOcI0sKYaawXNmnzXPItJWkJkiD2Y
- 0i7L7c0EyafmWoMUdfEJQR9GT0WaeQ+3SpdrT6e7ToR47mq6EANl83fJnHd4TT+c+dr3
- gCLnORKFRq299XXQ7zny7vtcLZqj/WcNjxw9qwuAt1vsXBrYE3TSALy7tBtmj8PZYFPk
- C2qw==
-X-Gm-Message-State: AOAM531C9b6ZTnskiS++dHcnRXxssPw7nAshqTlzbphQ1IhUjf3lLG7n
- pHGCqCgTP9xbvdgaC4OPOZ+8a22uc5Ymr4mm
-X-Google-Smtp-Source: ABdhPJwXgp56gPSpGP3aVyDmlnVjOTctouxztidE8qIjxHO/MTQuhI1RxHTMFsE5GbZFpHqSb5nozA==
-X-Received: by 2002:a2e:4942:: with SMTP id b2mr9165458ljd.382.1599451976880; 
- Sun, 06 Sep 2020 21:12:56 -0700 (PDT)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com.
- [209.85.167.46])
- by smtp.gmail.com with ESMTPSA id v10sm4991523lji.128.2020.09.06.21.12.56
- for <linux-aspeed@lists.ozlabs.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 06 Sep 2020 21:12:56 -0700 (PDT)
-Received: by mail-lf1-f46.google.com with SMTP id q8so6776999lfb.6
- for <linux-aspeed@lists.ozlabs.org>; Sun, 06 Sep 2020 21:12:56 -0700 (PDT)
-X-Received: by 2002:a2e:83cf:: with SMTP id s15mr9643337ljh.47.1599451506843; 
- Sun, 06 Sep 2020 21:05:06 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BlFBQ0CXjzDqMf
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Sep 2020 14:08:13 +1000 (AEST)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9B11421919
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Sep 2020 04:08:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1599451690;
+ bh=ONkeX70fx/wV703g/+Q6baBO4TgEFwMz42jO1XVwCZo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=1bWvQSaWfpKlcYQlO+XrpTc00HDPouuMSl1An6o1ylGHBvykomJwms/cqDw95mbld
+ xp9QRogvK5q1JLcJTw0ChaQZo+F/32zwIJTfttKp0L9AbEi/0MhY5wI5bDyOqES2zU
+ b356iWL1Px+VUUeP8h2OAUmMPwfJBzoZWSnN209I=
+Received: by mail-ej1-f48.google.com with SMTP id lo4so16336574ejb.8
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 06 Sep 2020 21:08:10 -0700 (PDT)
+X-Gm-Message-State: AOAM5304UGsuTtwjRXeGH3uF4L0ZkWru5Elecpabb2B3cWRNMT4qTm4Q
+ N7BqFcEYMWzfVg0NVyJYQBpGbpku6H8/7b2YJHg=
+X-Google-Smtp-Source: ABdhPJxxd2BogwYi+hnmteCVzWiY87kx0dBQtNlTmTb01SAJQcu/UlZfk3j6QtUx+mA1R0RzQuwv5PUSfbz7UnXRWvU=
+X-Received: by 2002:ac2:5398:: with SMTP id g24mr2917539lfh.7.1599451688702;
+ Sun, 06 Sep 2020 21:08:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200903232441.2694866-1-dianders@chromium.org>
  <CAFBinCBcbEpHX7eUbznuDo6oKO_9JrOK2w+Bx1=e-bwuS609bw@mail.gmail.com>
  <CANAwSgTv2ZAvPKG2aChs8NwZL32TF+MtcaFbehQWWSf_TFXF6A@mail.gmail.com>
 In-Reply-To: <CANAwSgTv2ZAvPKG2aChs8NwZL32TF+MtcaFbehQWWSf_TFXF6A@mail.gmail.com>
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 7 Sep 2020 12:04:53 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66URSyd4WPkM6bJ9wTeZdT-GwS+-R5UymywNxa7HW8pfg@mail.gmail.com>
-Message-ID: <CAGb2v66URSyd4WPkM6bJ9wTeZdT-GwS+-R5UymywNxa7HW8pfg@mail.gmail.com>
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Mon, 7 Sep 2020 12:07:55 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67dPaV9tP4piV9MHe9QeJAq0RyvOO3ypJ3ZBW1-ffpjKA@mail.gmail.com>
+Message-ID: <CAGb2v67dPaV9tP4piV9MHe9QeJAq0RyvOO3ypJ3ZBW1-ffpjKA@mail.gmail.com>
 Subject: Re: [PATCH 0/6] mmc: Set PROBE_PREFER_ASYNCHRONOUS for all host
  drivers
 To: Anand Moon <linux.amoon@gmail.com>
@@ -146,6 +138,8 @@ Cc: Heiko Stuebner <heiko@sntech.de>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+
+(Resent from kernel.org)
 
 On Mon, Sep 7, 2020 at 11:57 AM Anand Moon <linux.amoon@gmail.com> wrote:
 >
