@@ -2,67 +2,93 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD91260D82
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Sep 2020 10:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 935AF261F43
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Sep 2020 22:02:05 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Blypz27spzDq8x
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Sep 2020 18:23:55 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BmGJV6VGSzDqRt
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Sep 2020 06:02:02 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::943;
- helo=mail-ua1-x943.google.com; envelope-from=ulf.hansson@linaro.org;
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linaro.org
+ dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=uQQtOtMz; dkim-atps=neutral
-Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com
- [IPv6:2607:f8b0:4864:20::943])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
+ header.s=pp1 header.b=JXEjim+d; dkim-atps=neutral
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BlSJ75L2NzDqM5
- for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Sep 2020 22:28:53 +1000 (AEST)
-Received: by mail-ua1-x943.google.com with SMTP id v24so4107155uaj.7
- for <linux-aspeed@lists.ozlabs.org>; Mon, 07 Sep 2020 05:28:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8iVJ2Y8DEp3E0XkrRL3vpRQ7yO+SYLZGU2xwg3pZn7w=;
- b=uQQtOtMz9h++aYiUpsU46MiJXh7DHCcguAo/zJU+YS89m53bIsw6fdvtT/tTOunUyR
- JJBiFLggFSuqeEl8r29jqfLHoAxfIBpkSm4q4BV1wLUnhcEg5BhKtw4yN9E3KWnlQi5Q
- rCpJseHbu1nV0RKPbba4IW2CSH1ZbVbSELCGxUJCzfawo7q5fo02iJXwGc7JPE8tkB4q
- RNrmFl7UapRVJ4X+zZHU2t2qQDe2KMqFrTt1qU1mQ/xsI6rXnxItRXjcEJnYkUO0DNyF
- eGUgMMDfflC6QbVhVustSwl2/RbNWfSaweZxAisnFopk4/vjCZaqjr03ExUXBskH+JSu
- 107Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8iVJ2Y8DEp3E0XkrRL3vpRQ7yO+SYLZGU2xwg3pZn7w=;
- b=h44pUClCqrnqSXcGGuagKs7PGCg60z6RkdFfqJ2fpDsOuXtBRkdpSZWSx4iEKCjQsC
- 86rx63e/hx5I9kiGKE9Y2UVecKu03QAG1UTIJ5SqC6mrUSI59WdHZ0yB6pYHo8VtlIJa
- A9IVLrdMA5bQJCvixLOhTPhOke5BQszUOsgrd+WPzdeyIMBbUuzEEfXuoJpLGAyCxoTc
- Dnj+Pu/4SB/TTA1KkO/i2J/zVcxSs6fRLYrXJPrK58rDyFs4J21w/rJpzQUcA7+LurXU
- 4IIEb5dYKe500rQDnTOTFTTCl5R3YCbGjaLukhJbOeyCsrjBwS2XioPhrR3E21eCWGcG
- NzPA==
-X-Gm-Message-State: AOAM530koL1/9gdlXIpwnboKl/dTGfwQOHu6b9uudIsTkEQrFwx2xcm7
- r+OEzit5dCkBpanWNkhTJhnBYspoyGa5/IfyVI2ErA==
-X-Google-Smtp-Source: ABdhPJy6I2uvtSFaZhO3P4JEWmrE8eH+U+1Xn5WxmNVFnMTl2QPXi6bmEQ1vz+4fPNN/0nIdBxJ7hVghl+1FhXG+hRM=
-X-Received: by 2002:ab0:4041:: with SMTP id h59mr8011331uad.19.1599481728409; 
- Mon, 07 Sep 2020 05:28:48 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BmGHh2cCXzDqRZ
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Sep 2020 06:01:19 +1000 (AEST)
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 088JopEo010906; Tue, 8 Sep 2020 16:01:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=xn6nJGYqn/typqBsa9jcxXMbsjRVqECLKkhpsnYOQRU=;
+ b=JXEjim+dFUxGFgaqD5ICzxeME9JGXWTwsI5IsNZxvcGCJvKUiQW/+ee/UUt8caNsuqKg
+ PfTne/4oIgP77mHLbgN38GXu/TjzK075bDWJLLDM1Q+XXE73GBsq0kZAnnUEnTKEByI7
+ Sr+P3VcB8EnVCbnydUbpqFVX+zgoLs4A1xCAvCxKgRaanjOUsoPPj6wMFi5F3lA2Zv9u
+ B0GkR3y9A8iGUxoR2jYmbnrZMLDWi4fE6ILb0VDKGpk39Gekhd1oFtYWC2Z/sOT4SfdE
+ 8C5R2K8R+Y5Cy9QZAkJL9L/cC43NGWDbaCLLT/wkPsd1XxFpGIkZC+EZ6gM8i2xRy38E AQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 33egfm06ye-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Sep 2020 16:01:05 -0400
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 088JpLC6012539;
+ Tue, 8 Sep 2020 16:01:04 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 33egfm06y1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Sep 2020 16:01:04 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 088Jvbgb002969;
+ Tue, 8 Sep 2020 20:01:04 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma01wdc.us.ibm.com with ESMTP id 33c2a8svvr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Sep 2020 20:01:04 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 088K0x3C49480070
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 8 Sep 2020 20:00:59 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1A3C16A05D;
+ Tue,  8 Sep 2020 20:01:03 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 67E936A047;
+ Tue,  8 Sep 2020 20:01:02 +0000 (GMT)
+Received: from SHADE6A.ibmuc.com (unknown [9.163.24.203])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue,  8 Sep 2020 20:01:02 +0000 (GMT)
+From: Eddie James <eajames@linux.ibm.com>
+To: linux-input@vger.kernel.org
+Subject: [PATCH v2 0/5] input: misc: Add IBM Operation Panel driver
+Date: Tue,  8 Sep 2020 15:00:56 -0500
+Message-Id: <20200908200101.64974-1-eajames@linux.ibm.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200903232441.2694866-1-dianders@chromium.org>
-In-Reply-To: <20200903232441.2694866-1-dianders@chromium.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 7 Sep 2020 14:28:12 +0200
-Message-ID: <CAPDyKFqTjFUaqx6phBGdPuv6hz8dsevsO_UhoOhFT+oOFrhFjA@mail.gmail.com>
-Subject: Re: [PATCH 0/6] mmc: Set PROBE_PREFER_ASYNCHRONOUS for all host
- drivers
-To: Douglas Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Tue, 08 Sep 2020 17:49:00 +1000
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-08_09:2020-09-08,
+ 2020-09-08 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 adultscore=0 spamscore=0 impostorscore=0 bulkscore=0
+ priorityscore=1501 mlxscore=0 suspectscore=1 clxscore=1011 mlxlogscore=999
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009080179
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,236 +100,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Heiko Stuebner <heiko@sntech.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Linus Walleij <linus.walleij@linaro.org>,
- Peter Ujfalusi <peter.ujfalusi@ti.com>, Jerome Brunet <jbrunet@baylibre.com>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Aaro Koskinen <aaro.koskinen@iki.fi>, Kevin Hilman <khilman@baylibre.com>,
- Michal Simek <michal.simek@xilinx.com>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- NXP Linux Team <linux-imx@nxp.com>, linux-tegra <linux-tegra@vger.kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Stephen Boyd <swboyd@chromium.org>,
- Lars Persson <lars.persson@axis.com>, linux-omap <linux-omap@vger.kernel.org>,
- Chaotian Jing <chaotian.jing@mediatek.com>,
- Scott Branden <sbranden@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Eugen Hristev <eugen.hristev@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Yangtao Li <tiny.windzz@gmail.com>, Hu Ziji <huziji@marvell.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Jesper Nilsson <jesper.nilsson@axis.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- linux-arm-kernel@axis.com, Jonathan Hunter <jonathanh@nvidia.com>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Kukjin Kim <kgene@kernel.org>, Pierre Ossman <pierre@ossman.eu>,
- Saiyam Doshi <saiyamdoshi.in@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Maxime Ripard <mripard@kernel.org>,
- "moderated list:BROADCOM BCM2835..." <linux-rpi-kernel@lists.infradead.org>,
- "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Barry Song <baohua@kernel.org>, Nicolas Pitre <nico@fluxnic.net>,
- Patrice Chotard <patrice.chotard@st.com>,
- Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
- Stefan Wahren <wahrenst@gmx.net>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Ricky Wu <ricky_wu@realtek.com>,
- Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
- Neil Armstrong <narmstrong@baylibre.com>, Al Cooper <alcooperx@gmail.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Fabio Estevam <festevam@gmail.com>, Florian Fainelli <f.fainelli@gmail.com>,
- Steen Hegelund <Steen.Hegelund@microchip.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Kishon Vijay Abraham I <kishon@ti.com>,
- Chen-Yu Tsai <wens@csie.org>,
- BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
- Orson Zhai <orsonzhai@gmail.com>, Ray Jui <rjui@broadcom.com>,
- Ben Dooks <ben-linux@fluff.org>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
- Baolin Wang <baolin.wang7@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
- =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
- "H. Nikolaus Schaller" <hns@goldelico.com>,
- Adrian Hunter <adrian.hunter@intel.com>, Paul Cercueil <paul@crapouillou.net>,
- Lee Jones <lee.jones@linaro.org>, Marek Vasut <marex@denx.de>,
- Anson Huang <Anson.Huang@nxp.com>, Jaehoon Chung <jh80.chung@samsung.com>,
- Rui Miguel Silva <rmfrfs@gmail.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Manuel Lauss <manuel.lauss@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
- Angelo Dureghello <angelo.dureghello@timesys.com>,
- Lars Povlsen <lars.povlsen@microchip.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Tony Prisk <linux@prisktech.co.nz>, Vinod Koul <vkoul@kernel.org>,
- Robert Richter <rrichter@marvell.com>, Viresh Kumar <vireshk@kernel.org>,
- Jun Nie <jun.nie@linaro.org>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ dmitry.torokhov@gmail.com, brendanhiggins@google.com,
+ linux-kernel@vger.kernel.org, wsa@kernel.org, robh+dt@kernel.org,
+ linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 4 Sep 2020 at 01:25, Douglas Anderson <dianders@chromium.org> wrote:
->
-> As per discussion [1], it seems like it should be quite safe to turn
-> on PROBE_PREFER_ASYNCHRONOUS for all sd/mmc host controllers.  Let's
-> give it a shot.  For some discussion about this flag, see the commit
-> message for commit 3d3451124f3d ("mmc: sdhci-msm: Prefer asynchronous
-> probe").
->
-> I've broken this series into chunks based on LTS kernel releases to
-> attempt to make it easier if someone wanted to cherry-pick it to an
-> older kernel.  While these cherry-picks won't be conflict free, there
-> should only be trivial context conflicts and no problems with drivers
-> that are totally missing.  This is a bit of a compromise between a
-> 1-big patch and a many-part patch series.
->
-> I have only tested this on a rk3399-kevin (sdhci-of-arasan) and a
-> rk3288-veyron (dw_mmc-rockchip) device and only lightly.  If this
-> patch causes anyone problems those drivers should be marked with
-> PROBE_FORCE_SYNCHRONOUS, debugged, and then go back to prefer
-> asynchronous.  Any problems are likely just a hidden bug that has been
-> exposed by this change.
->
-> NOTE: in theory, it'd be nice if there was a KConfig option that we
-> could flip that would turn on async probe everywhere (except for those
-> that opt out by adding PROBE_FORCE_SYNCHRONOUS).  My hope is that by
-> adding this flag in more places it will become clear that this flag is
-> working reliably and easier to move over when we're ready.
->
-> While coccinelle is too difficult for my feeble brain, I managed to
-> whip up a pretty terrible python script to help with this.  For your
-> edification:
->
-> import os
-> import sys
-> import re
->
-> for filename in os.listdir("."):
->     found_plat = False
->     found_driver = False
->     output = []
->     for line in open(filename, "r").readlines():
->         output.append(line)
->
->         if "struct platform_driver" in line:
->             found_plat = True
->         if found_plat and re.search(r"\t\.driver\s*=\s*{", line):
->             found_driver = True
->             found_plat = False
->         mo = re.search(r"(\s*)\.name(\s*)=", line)
->         if found_driver and mo:
->             if mo.group(2) == " ":
->                 space = " "
->             elif mo.group(2) == "\t":
->                 # Best we can do
->                 space = " "
->             elif mo.group(2).startswith("\t"):
->                 # Guess that removing one tab is right
->                 space = mo.group(2)[1:]
->             else:
->                 # Guess it's all spaces
->                 space = mo.group(2)[7:] + " "
->
->             output.append("%s.probe_type%s= PROBE_PREFER_ASYNCHRONOUS,\n" % (mo.group(1), space))
->             found_driver = False
->
->     open(filename, "w").write("".join(output))
->
-> [1] https://lore.kernel.org/r/CAPDyKFq31bucJhP9hp1HSqh-qM2uNGHgDoyQpmbJf00nEf_T4Q@mail.gmail.com/
->
->
-> Douglas Anderson (6):
->   mmc: Set PROBE_PREFER_ASYNCHRONOUS for drivers that existed in v4.4
->   mmc: Set PROBE_PREFER_ASYNCHRONOUS for drivers that existed in v4.9
->   mmc: Set PROBE_PREFER_ASYNCHRONOUS for drivers that existed in v4.14
->   mmc: Set PROBE_PREFER_ASYNCHRONOUS for drivers that existed in v4.19
->   mmc: Set PROBE_PREFER_ASYNCHRONOUS for drivers that existed in v5.4
->   mmc: Set PROBE_PREFER_ASYNCHRONOUS for drivers that are newer than 5.4
->
->  drivers/mmc/host/alcor.c                      | 1 +
->  drivers/mmc/host/android-goldfish.c           | 1 +
->  drivers/mmc/host/atmel-mci.c                  | 1 +
->  drivers/mmc/host/au1xmmc.c                    | 1 +
->  drivers/mmc/host/bcm2835.c                    | 1 +
->  drivers/mmc/host/cavium-octeon.c              | 1 +
->  drivers/mmc/host/davinci_mmc.c                | 1 +
->  drivers/mmc/host/dw_mmc-bluefield.c           | 1 +
->  drivers/mmc/host/dw_mmc-exynos.c              | 1 +
->  drivers/mmc/host/dw_mmc-hi3798cv200.c         | 1 +
->  drivers/mmc/host/dw_mmc-k3.c                  | 1 +
->  drivers/mmc/host/dw_mmc-pltfm.c               | 1 +
->  drivers/mmc/host/dw_mmc-rockchip.c            | 1 +
->  drivers/mmc/host/dw_mmc-zx.c                  | 1 +
->  drivers/mmc/host/jz4740_mmc.c                 | 1 +
->  drivers/mmc/host/meson-gx-mmc.c               | 1 +
->  drivers/mmc/host/meson-mx-sdhc-mmc.c          | 1 +
->  drivers/mmc/host/meson-mx-sdio.c              | 1 +
->  drivers/mmc/host/moxart-mmc.c                 | 1 +
->  drivers/mmc/host/mtk-sd.c                     | 1 +
->  drivers/mmc/host/mvsdio.c                     | 1 +
->  drivers/mmc/host/mxcmmc.c                     | 1 +
->  drivers/mmc/host/mxs-mmc.c                    | 1 +
->  drivers/mmc/host/omap.c                       | 1 +
->  drivers/mmc/host/omap_hsmmc.c                 | 1 +
->  drivers/mmc/host/owl-mmc.c                    | 1 +
->  drivers/mmc/host/pxamci.c                     | 1 +
->  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 1 +
->  drivers/mmc/host/renesas_sdhi_sys_dmac.c      | 1 +
->  drivers/mmc/host/rtsx_pci_sdmmc.c             | 1 +
->  drivers/mmc/host/rtsx_usb_sdmmc.c             | 1 +
->  drivers/mmc/host/s3cmci.c                     | 1 +
->  drivers/mmc/host/sdhci-acpi.c                 | 1 +
->  drivers/mmc/host/sdhci-bcm-kona.c             | 1 +
->  drivers/mmc/host/sdhci-brcmstb.c              | 1 +
->  drivers/mmc/host/sdhci-cadence.c              | 1 +
->  drivers/mmc/host/sdhci-cns3xxx.c              | 1 +
->  drivers/mmc/host/sdhci-dove.c                 | 1 +
->  drivers/mmc/host/sdhci-esdhc-imx.c            | 1 +
->  drivers/mmc/host/sdhci-esdhc-mcf.c            | 1 +
->  drivers/mmc/host/sdhci-iproc.c                | 1 +
->  drivers/mmc/host/sdhci-milbeaut.c             | 1 +
->  drivers/mmc/host/sdhci-of-arasan.c            | 1 +
->  drivers/mmc/host/sdhci-of-aspeed.c            | 2 ++
->  drivers/mmc/host/sdhci-of-at91.c              | 1 +
->  drivers/mmc/host/sdhci-of-dwcmshc.c           | 1 +
->  drivers/mmc/host/sdhci-of-esdhc.c             | 1 +
->  drivers/mmc/host/sdhci-of-hlwd.c              | 1 +
->  drivers/mmc/host/sdhci-of-sparx5.c            | 1 +
->  drivers/mmc/host/sdhci-omap.c                 | 1 +
->  drivers/mmc/host/sdhci-pic32.c                | 1 +
->  drivers/mmc/host/sdhci-pxav2.c                | 1 +
->  drivers/mmc/host/sdhci-pxav3.c                | 1 +
->  drivers/mmc/host/sdhci-s3c.c                  | 1 +
->  drivers/mmc/host/sdhci-sirf.c                 | 1 +
->  drivers/mmc/host/sdhci-spear.c                | 1 +
->  drivers/mmc/host/sdhci-sprd.c                 | 1 +
->  drivers/mmc/host/sdhci-st.c                   | 1 +
->  drivers/mmc/host/sdhci-tegra.c                | 1 +
->  drivers/mmc/host/sdhci-xenon.c                | 1 +
->  drivers/mmc/host/sdhci_am654.c                | 1 +
->  drivers/mmc/host/sdhci_f_sdh30.c              | 1 +
->  drivers/mmc/host/sh_mmcif.c                   | 1 +
->  drivers/mmc/host/sunxi-mmc.c                  | 1 +
->  drivers/mmc/host/tmio_mmc.c                   | 1 +
->  drivers/mmc/host/uniphier-sd.c                | 1 +
->  drivers/mmc/host/usdhi6rol0.c                 | 1 +
->  drivers/mmc/host/wbsd.c                       | 1 +
->  drivers/mmc/host/wmt-sdmmc.c                  | 1 +
->  69 files changed, 70 insertions(+)
->
-> --
-> 2.28.0.526.ge36021eeef-goog
->
+This series adds support for input from the IBM Operation Panel, which is
+a simple controller with three buttons and an LCD display meant for
+interacting with a server. It's connected over I2C, typically to a service
+processor. This series only supports the input from the panel, in which the
+panel masters the I2C bus and sends data to the host system when someone
+presses a button on the controller.
 
-An interesting idea about a patch per LTS release. I think it makes
-perfect sense in this type of case.
+Changes since v1:
+ - Redo DTS documentation example to use I2C_OWN_SLAVE_ADDRESS
+ - Reject commands received in the input driver that are too long
+ - Add a definition for the interrupt status mask in the Aspeed I2C driver
+ - Use I2C_OWN_SLAVE_ADDRESS for both dts additions
 
-Let's give this a shot in next and see how it goes. So, applied for
-next, thanks!
+Eddie James (5):
+  dt-bindings: input: Add documentation for IBM Operation Panel
+  input: misc: Add IBM Operation Panel driver
+  i2c: aspeed: Mask IRQ status to relevant bits
+  ARM: dts: Aspeed: Tacoma: Add IBM Operation Panel I2C device
+  ARM: dts: Aspeed: Rainier: Add IBM Operation Panel I2C device
 
-Kind regards
-Uffe
+ .../bindings/input/ibm,op-panel.yaml          |  39 ++++
+ MAINTAINERS                                   |   7 +
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts  |   7 +
+ arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts   |   7 +
+ drivers/i2c/busses/i2c-aspeed.c               |   2 +
+ drivers/input/misc/Kconfig                    |  18 ++
+ drivers/input/misc/Makefile                   |   1 +
+ drivers/input/misc/ibm-panel.c                | 192 ++++++++++++++++++
+ 8 files changed, 273 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/ibm,op-panel.yaml
+ create mode 100644 drivers/input/misc/ibm-panel.c
+
+-- 
+2.26.2
+
