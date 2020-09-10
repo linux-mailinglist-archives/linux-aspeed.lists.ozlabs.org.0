@@ -1,65 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39217263BBE
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 06:10:38 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A765263D08
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 08:14:20 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bn55h0Nq0zDqbC
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 14:10:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bn7rT3NL5zDqbm
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 16:14:17 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::642;
- helo=mail-ej1-x642.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=wsa@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
+ dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=MrXS4SRu; dkim-atps=neutral
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
- [IPv6:2a00:1450:4864:20::642])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=default header.b=Y0jH3hJV; dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bn55S57rrzDqXT
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 14:10:19 +1000 (AEST)
-Received: by mail-ej1-x642.google.com with SMTP id z23so6591754ejr.13
- for <linux-aspeed@lists.ozlabs.org>; Wed, 09 Sep 2020 21:10:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YGErWqzdCXUZ8GEfs8VwODgLH3bAUZ+0e535T36z444=;
- b=MrXS4SRuYdMUw6uafhVbvyAIYTv8AlL+Z+TnwQZyduJLIkfYW4D8TXDPOlI7SUm7nN
- fJmWR7aK/fZk4xmeMya3O2TSn+uN0CHBUKbTTfGbGD9ajBq8+wFU0ZRJGzEasjfULvV1
- S2M/NVRthwLSJUy5Adch0OTHRU9+eEXxlJLs0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YGErWqzdCXUZ8GEfs8VwODgLH3bAUZ+0e535T36z444=;
- b=Jq3vCiD4YjjPSlmWJyveNBVbHocQMXPGvv6c2e5J5Tj3fN6FYfa7dAEZyz4eNRPIhO
- HIkhfzDQY+8fsfSeR3D+M8hpbQg5MfuM/1bFOCRv0MUWF6gFFc4fVki5xgIM+3gNgtOs
- GuSBy1fwDeZ+PjReRiTdIoBTUDebP8rSeqFX6ikrkcYrOC3GdF+MkxrJC2QwRGAEvWko
- 3LQ5S9aNqPYxII/5bSAxmP066sm80WDPiXLy2tEHdhabchS/9Lbaii6Ui7M+91tFn6CA
- zCby/Z2CvXSYCSijnltOIf6VAqNYGN+8+nbNugTPcdKLNEPRYkg5xiAE/dg2djdWkYAT
- HMNQ==
-X-Gm-Message-State: AOAM533Wfs82VfBGGjq3DD8naWiLHiMp5gy6cH7RC9dJN48vgXmPL5Gs
- pAb4CIWrmGjPQHjX423XeEualcjbE1k8eicwUsM=
-X-Google-Smtp-Source: ABdhPJz4dWpkLm01ZcAHO4YymAk5+CGB8BtAUfcYjnJcZYzn6Tx7X1lqIF00zYCcs542WIWNqCpkqfnaZlZ0xnNqKCY=
-X-Received: by 2002:a17:906:fcc7:: with SMTP id
- qx7mr7292901ejb.254.1599711016851; 
- Wed, 09 Sep 2020 21:10:16 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bn7rJ4bMqzDqZX
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 16:14:08 +1000 (AEST)
+Received: from localhost (p5486ceec.dip0.t-ipconnect.de [84.134.206.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 927E320795;
+ Thu, 10 Sep 2020 06:14:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1599718445;
+ bh=aFC77LTk6EMTYaeAvM5v439HmVwSiuNIs3x+iO6HGkg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Y0jH3hJVYg4vKviF52V5Za+Ia1rVnIOnmyRhsn5dJxaEagRwxBcbEDlq4/Jl4ZXy4
+ plUoNrWz4+Sxq3pxzPg7F9YhPZAc6oZABgg3U7bYommZMQqKkIVyqL3HiETgxMKRxk
+ rp/wdCn5n04kokyAHgAncOz/k5YsZ80gFmeGjR28=
+Date: Thu, 10 Sep 2020 08:13:59 +0200
+From: Wolfram Sang <wsa@kernel.org>
+To: Eddie James <eajames@linux.ibm.com>
+Subject: Re: [PATCH v3 2/5] input: misc: Add IBM Operation Panel driver
+Message-ID: <20200910061359.GA1031@ninjato>
+References: <20200909203059.23427-1-eajames@linux.ibm.com>
+ <20200909203059.23427-3-eajames@linux.ibm.com>
 MIME-Version: 1.0
-References: <20200715135418.3194860-1-jk@codeconstruct.com.au>
-In-Reply-To: <20200715135418.3194860-1-jk@codeconstruct.com.au>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 10 Sep 2020 04:10:05 +0000
-Message-ID: <CACPK8XcT02qv+1H=DDv8BRAdUmrBoweZ+Qb3aG34bQ9-UC08Xg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] gpio/aspeed-sgpio: enable access to all 80 input &
- output sgpios
-To: Jeremy Kerr <jk@codeconstruct.com.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="M9NhX3UHpAaciwkO"
+Content-Disposition: inline
+In-Reply-To: <20200909203059.23427-3-eajames@linux.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,95 +58,51 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- devicetree <devicetree@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ dmitry.torokhov@gmail.com, brendanhiggins@google.com,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org, linux-i2c@vger.kernel.org,
+ linux-input@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 15 Jul 2020 at 14:06, Jeremy Kerr <jk@codeconstruct.com.au> wrote:
->
-> Currently, the aspeed-sgpio driver exposes up to 80 GPIO lines,
-> corresponding to the 80 status bits available in hardware. Each of these
-> lines can be configured as either an input or an output.
->
-> However, each of these GPIOs is actually an input *and* an output; we
-> actually have 80 inputs plus 80 outputs.
->
-> This change expands the maximum number of GPIOs to 160; the lower half
-> of this range are the input-only GPIOs, the upper half are the outputs.
-> We fix the GPIO directions to correspond to this mapping.
->
-> This also fixes a bug when setting GPIOs - we were reading from the
-> input register, making it impossible to set more than one output GPIO.
->
-> Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
 
-A Fixes: might be a good idea.
+--M9NhX3UHpAaciwkO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->  .../devicetree/bindings/gpio/sgpio-aspeed.txt |   5 +-
->  drivers/gpio/gpio-aspeed-sgpio.c              | 115 +++++++++++-------
->  2 files changed, 77 insertions(+), 43 deletions(-)
+On Wed, Sep 09, 2020 at 03:30:56PM -0500, Eddie James wrote:
+> Add a driver to get the button events from the panel and provide
+> them to userspace with the input subsystem. The panel is
+> connected with I2C and controls the bus, so the driver registers
+> as an I2C slave device.
+>=20
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-> diff --git a/drivers/gpio/gpio-aspeed-sgpio.c b/drivers/gpio/gpio-aspeed-sgpio.c
-> index 8319812593e3..927d46f159b8 100644
-> --- a/drivers/gpio/gpio-aspeed-sgpio.c
-> +++ b/drivers/gpio/gpio-aspeed-sgpio.c
-> @@ -17,7 +17,8 @@
->  #include <linux/spinlock.h>
->  #include <linux/string.h>
->
-> -#define MAX_NR_SGPIO                   80
-> +#define MAX_NR_HW_SGPIO                        80
-> +#define SGPIO_OUTPUT_OFFSET            MAX_NR_HW_SGPIO
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com> # I2C slave pa=
+rts
 
-A short comment explaining what's going on with these defines (as you
-did in your commit message) will help future reviewers.
 
-> +static void aspeed_sgpio_irq_init_valid_mask(struct gpio_chip *gc,
-> +               unsigned long *valid_mask, unsigned int ngpios)
-> +{
-> +       struct aspeed_sgpio *sgpio = gpiochip_get_data(gc);
-> +       int n = sgpio->n_sgpio;
-> +
-> +       WARN_ON(ngpios < MAX_NR_HW_SGPIO * 2);
-> +
-> +       /* input GPIOs in the lower range */
-> +       bitmap_set(valid_mask, 0, n);
-> +       bitmap_clear(valid_mask, n, ngpios - n);
-> +}
-> +
-> +static const bool aspeed_sgpio_is_input(unsigned int offset)
+--M9NhX3UHpAaciwkO
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The 0day bot complained about the 'const' here.
+-----BEGIN PGP SIGNATURE-----
 
-> +{
-> +       return offset < SGPIO_OUTPUT_OFFSET;
-> +}
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9ZxCEACgkQFA3kzBSg
+KbaItA/+KArp0AcYWSxj1IIj3GMN3RvqqFm3utx62fNdSHyQTyRI5yR/zPtsRWGg
+KZQa3NZ+DtzaWNl8lReH9PC0EB6+/ouqOQQ9cqj+o4u0Uj4wCtZgap1Oiu8jYBC7
+kGHLT43Nh/Cs7YLvcNP7cpDlW+pP3FCxDKahc5vUCoNlQAR97/6v4fHiWL3LvB+c
+h2IBIiVXj8ObIe8HBeC0JJ2nT08nVrINSeQZGhP6pz/fjnRpn6q3m5rPngm+8gAV
+KQpOU7DA1XsIQI+Dmgf4j68uduXHHCYTfU39RDPAWfZoW6dN1BaGMGH3R/CNRT0K
+T04HFqrwyun5g3Ea7e5BjRY5THnLRiDXBn5UenfVCbiCThljV8Yc8a/Rq3Xu7zFr
+DcKFfQu8TDcOV6GHWqjFn0O6FAlcbLOYUVlR9Akf2WzMBX5qycurcojsu9y48OVv
+KtOyNd1LqvWiSzo7G/PNW/jNfouSp6o3n2UVbu9tbyHkp2HZN2m7x02IY7azLzNE
+nB2CpjIpRhXuTixV9OyLBYx0kyBb/KzjgC478EAWMc5/HD3ZCSGg6nlLyjsmCONY
+jDYqOKWC4XjG+rWgKXCm2Pa7hOwRuATtL3hgLKjAGMrxMBxG8auX0jcpBX1kddP7
+M67KqTPmaoa5iRDXc6Hyr9ymBIzBz7cvEhTNcYy36rQtom2Vw24=
+=bz+x
+-----END PGP SIGNATURE-----
 
->  static int aspeed_sgpio_dir_out(struct gpio_chip *gc, unsigned int offset, int val)
->  {
->         struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
->         unsigned long flags;
-> +       int rc;
->
-> -       spin_lock_irqsave(&gpio->lock, flags);
-> -
-> -       gpio->dir_in[GPIO_BANK(offset)] &= ~GPIO_BIT(offset);
-> -       sgpio_set_value(gc, offset, val);
-> +       /* No special action is required for setting the direction; we'll
-> +        * error-out in sgpio_set_value if this isn't an output GPIO */
->
-> +       spin_lock_irqsave(&gpio->lock, flags);
-> +       rc = sgpio_set_value(gc, offset, val);
->         spin_unlock_irqrestore(&gpio->lock, flags);
->
->         return 0;
-
-I think this should be 'return rc'
-
-Cheers,
-
-Joel
+--M9NhX3UHpAaciwkO--
