@@ -2,101 +2,87 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B0A26478E
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 15:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 468AA2648A3
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 17:20:08 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BnL6S3x1PzDqY1
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 23:57:04 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BnMyF0Vs0zDqg6
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 01:20:05 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
+ helo=mx0b-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
- header.s=pp1 header.b=GZ2G1BNy; dkim-atps=neutral
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
+ header.s=pp1 header.b=nZV1c6Sy; dkim-atps=neutral
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BnL5764nPzDqXq
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 23:55:55 +1000 (AEST)
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BnMwx2d08zDqfp;
+ Fri, 11 Sep 2020 01:18:56 +1000 (AEST)
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08ADVwbj156061; Thu, 10 Sep 2020 09:55:42 -0400
+ 08AF2tjt169967; Thu, 10 Sep 2020 11:18:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=uAJ358VnHFKZvUebteG+ZwkjrTg7lzgNh1aBoFkoHpk=;
- b=GZ2G1BNy+s9Zu39AdCM8v721KGKk26Vt/6LGxwvE4CfsTkJyANcLma4ZKsQYFkae9NfG
- s25+sWBk3wJF9/nJBeFH27CoQh17AO4byjDzUHqfe0nWMrHgtM5hyfk41xyirKwL3mBG
- w4/6kQRbpkG+sqS1w2BP0ihz2ZqUIRDt+tJ0mMDXCjV1MIxNKnkcZQg7fnG1RoBFNICY
- 9QsdVhNGSbMnZqU6YstDD1xlgdiajDyFjNSNubeglI6AtVJlasZvMrQe7vBhJCEtwz66
- 9XHHW8ONZZO0BNMIsODWT42eV6X/yMj4x5I27JO++Zb6W1s/FCaUB8xku+jURKNhwWHT QA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33fn1x0xd2-1
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=8Mlftey53B/H6IK5E2iIO4KQDXor/nn1hnefl9i/DEI=;
+ b=nZV1c6SyU/XJM+SmfzYYQR45GhzOfmVxod/LNdlKa+UEedZzQp/XQHjkAKYw7IYLtcaC
+ XN8wgVcRxkiOOCHEOJUdbof1ywbgr6RR9gXlK7ST7JIZ9wh27Fev1XpyzykkqmNNx6EH
+ jKT43RXBgitOfZhzugXp9mYslQ3ww7H9OaU1x7Mph3GQeLTYadxWarB4SZhbTiMI3yfP
+ WKUUkMrnPsfYEpxaNhTE3XeOZ6Dfodum+2hzPN3HY7GCK1TK5C8dZLfIwDPuXdV8xQJ+
+ BmvLJPjBCI6xj7G1JauBrmYGBuPMDdCmcJGEXshrDeC6+jb8hCFTD3R4YnH+151rWzjF jw== 
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33fms8vt4y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Sep 2020 09:55:42 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08ADWGVT157762;
- Thu, 10 Sep 2020 09:55:42 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33fn1x0xcm-1
+ Thu, 10 Sep 2020 11:18:43 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08AFBvXo012745;
+ Thu, 10 Sep 2020 15:18:42 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma01dal.us.ibm.com with ESMTP id 33d46n59xc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Sep 2020 09:55:42 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08ADqBZ1008486;
- Thu, 10 Sep 2020 13:55:41 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma04dal.us.ibm.com with ESMTP id 33c2a9snn8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Sep 2020 13:55:41 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 08ADtaZ823200424
+ Thu, 10 Sep 2020 15:18:42 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 08AFIfSB61407558
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Sep 2020 13:55:36 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D4943C6062;
- Thu, 10 Sep 2020 13:55:39 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 470DDC605D;
- Thu, 10 Sep 2020 13:55:39 +0000 (GMT)
-Received: from [9.211.140.115] (unknown [9.211.140.115])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 10 Sep 2020 13:55:39 +0000 (GMT)
-Subject: Re: [PATCH v3 3/5] i2c: aspeed: Mask IRQ status to relevant bits
-To: Brendan Higgins <brendanhiggins@google.com>
-References: <20200909203059.23427-1-eajames@linux.ibm.com>
- <20200909203059.23427-4-eajames@linux.ibm.com>
- <CAFd5g46ghV7ArmM8LnMkGa-Nip_fT934+3cPOkVxS-b5odZXYw@mail.gmail.com>
+ Thu, 10 Sep 2020 15:18:41 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A1C6A6E04C;
+ Thu, 10 Sep 2020 15:18:41 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0D9F36E04E;
+ Thu, 10 Sep 2020 15:18:40 +0000 (GMT)
+Received: from SHADE6A.ibmuc.com (unknown [9.211.140.115])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 10 Sep 2020 15:18:40 +0000 (GMT)
 From: Eddie James <eajames@linux.ibm.com>
-Message-ID: <b092f884-9aa9-5d0b-1a90-36af558e43a8@linux.ibm.com>
-Date: Thu, 10 Sep 2020 08:55:38 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+To: linux-clk@vger.kernel.org
+Subject: [PATCH 0/4] clk: AST2600 and FSI: Add APLL to control FSI bus
+ frequency
+Date: Thu, 10 Sep 2020 10:18:36 -0500
+Message-Id: <20200910151840.25333-1-eajames@linux.ibm.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <CAFd5g46ghV7ArmM8LnMkGa-Nip_fT934+3cPOkVxS-b5odZXYw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-10_03:2020-09-10,
+ definitions=2020-09-10_04:2020-09-10,
  2020-09-10 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
- clxscore=1015 suspectscore=0 bulkscore=0 phishscore=0 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009100120
+ spamscore=0
+ lowpriorityscore=0 priorityscore=1501 adultscore=0 phishscore=0
+ clxscore=1011 malwarescore=0 impostorscore=0 mlxlogscore=754
+ suspectscore=1 mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2006250000 definitions=main-2009100135
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,66 +94,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, wsa@kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-i2c@vger.kernel.org,
- linux-input@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, jk@ozlabs.org,
+ alistair@popple.id.au, mturquette@baylibre.com, linux-kernel@vger.kernel.org,
+ sboyd@kernel.org, robh+dt@kernel.org, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Add functionality to control the APLL clock on the AST2600. The APLL provides
+the clock for the FSI master on the AST2600. Then add a devicetree property to
+set the AST2600 FSI master bus frequency.
 
-On 9/10/20 4:00 AM, Brendan Higgins wrote:
-> On Wed, Sep 9, 2020 at 1:31 PM Eddie James <eajames@linux.ibm.com> wrote:
->> Mask the IRQ status to only the bits that the driver checks. This
->> prevents excessive driver warnings when operating in slave mode
->> when additional bits are set that the driver doesn't handle.
->>
->> Signed-off-by: Eddie James <eajames@linux.ibm.com>
->> Reviewed-by: Tao Ren <rentao.bupt@gmail.com>
-> Sorry, looks like I didn't get my comment in in time.
->
-> Looks good in principle. One minor comment below:
->
->> ---
->>   drivers/i2c/busses/i2c-aspeed.c | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
->> index 31268074c422..724bf30600d6 100644
->> --- a/drivers/i2c/busses/i2c-aspeed.c
->> +++ b/drivers/i2c/busses/i2c-aspeed.c
->> @@ -69,6 +69,7 @@
->>    * These share bit definitions, so use the same values for the enable &
->>    * status bits.
->>    */
->> +#define ASPEED_I2CD_INTR_RECV_MASK                     0xf000ffff
-> Could we define ASPEED_I2CD_INTR_RECV_MASK to be ASPEED_I2CD_INTR_ALL ?
+Eddie James (4):
+  dt-bindings: clock: Add AST2600 APLLdivN definition
+  clk: ast2600: Add functionality to the APLL clock
+  dt-bindings: fsi: Aspeed master: Add bus-frequency property
+  fsi: Aspeed master: Set bus frequency from devicetree
 
+ .../bindings/fsi/fsi-master-aspeed.txt        |   1 +
+ drivers/clk/clk-ast2600.c                     | 177 ++++++++++++++++--
+ drivers/fsi/fsi-master-aspeed.c               |   5 +
+ include/dt-bindings/clock/ast2600-clock.h     |   1 +
+ 4 files changed, 172 insertions(+), 12 deletions(-)
 
-That was my original thought... there is another define for that already 
-a few lines down though.
+-- 
+2.26.2
 
-
-Thanks,
-
-Eddie
-
-
->
->>   #define ASPEED_I2CD_INTR_SDA_DL_TIMEOUT                        BIT(14)
->>   #define ASPEED_I2CD_INTR_BUS_RECOVER_DONE              BIT(13)
->>   #define ASPEED_I2CD_INTR_SLAVE_MATCH                   BIT(7)
->> @@ -604,6 +605,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
->>          writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
->>                 bus->base + ASPEED_I2C_INTR_STS_REG);
->>          readl(bus->base + ASPEED_I2C_INTR_STS_REG);
->> +       irq_received &= ASPEED_I2CD_INTR_RECV_MASK;
->>          irq_remaining = irq_received;
->>
->>   #if IS_ENABLED(CONFIG_I2C_SLAVE)
->> --
->> 2.26.2
->>
