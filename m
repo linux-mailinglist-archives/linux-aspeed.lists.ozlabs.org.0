@@ -2,65 +2,83 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8275263ABA
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 04:42:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99CD2263B13
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 04:57:38 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bn38P0T99zDqbG
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 12:42:45 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bn3TW5CwkzDqZC
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 12:57:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::544;
- helo=mail-ed1-x544.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.25;
+ helo=out1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=mWO6yxyl; dkim-atps=neutral
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm3 header.b=g/Vjh1JG; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm3 header.b=ZO7kwr/p; 
+ dkim-atps=neutral
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bn38H41ZCzDqY5
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 12:42:39 +1000 (AEST)
-Received: by mail-ed1-x544.google.com with SMTP id l63so4705786edl.9
- for <linux-aspeed@lists.ozlabs.org>; Wed, 09 Sep 2020 19:42:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IV24EMooKIdI1/XvCM1HiUrz4TlPj+AnTpwU1/6j+Fs=;
- b=mWO6yxylw5PrvytFJ8u0boPEDxdTeiaoYmRzeT/uCBQ8/QFlbRfV1kV6i9EY6Z4BEd
- QRREVP9cHw0qx5Cq+pWhmbmW1yobRKr1CllHpkaCfuhaNnn0UI3I5hNUVU4z86QyqE0e
- f9k/LXU/j+MhEp69BBWsqcmKrKNP/Q/mpzRK0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IV24EMooKIdI1/XvCM1HiUrz4TlPj+AnTpwU1/6j+Fs=;
- b=T6Fnki9QzNKMRy6D+nfqAx3nP/HsTfSW8kd3n+3n91F9IfIIM2nfUS3iix3pm0/oIG
- s3kB9Uw/nYD3Gf881S4HChbujON0qeAOlfUlVfDg9n5GcNQV2LGPIzZERgqxe9+uJXgq
- 8Fo7nUKXGVozjPatDGmKoX8VbKS60szTHaTuebU+90vk5nnY7xPmo4h1OzFBQbiD18K3
- ulMQzDZtgeI0NgzPYo7cYKtD9PIuWmpS6bVBa9B5tLhgUXFSX6gx9hcm73oMeKRFt+Hp
- +dMtiOMTqh241ArQsHDzxBBK8VWFcv1XWEI2M7P+KuJHyKm9BmUhK6pqmq7Yzx/kwGcF
- +a4w==
-X-Gm-Message-State: AOAM531LJBDWmaMRyNF/WHIvMxuo6NbycP9k/0wuCmsyEKmP/DOtcMbC
- MOqSxlP1JcmhlALpRKEHQr1c8XdnYW6870Q+MP0=
-X-Google-Smtp-Source: ABdhPJwTM4O5O5xRMECD/ml4XHGuaZA2V4he+MJw7w757tMECPm75d0txtkWrhCsL/3ha/ISqjZVL6egBSM4IlbTHrs=
-X-Received: by 2002:a05:6402:220d:: with SMTP id
- cq13mr7091704edb.260.1599705755811; 
- Wed, 09 Sep 2020 19:42:35 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bn3TL46ZTzDqY5;
+ Thu, 10 Sep 2020 12:57:26 +1000 (AEST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id DA2F65C00F7;
+ Wed,  9 Sep 2020 22:57:23 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Wed, 09 Sep 2020 22:57:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=Dv9G8vf2BZy5Sw/wGzgCeqKxjd
+ oYeYoETlbjpaAz4t0=; b=g/Vjh1JGv9G2xjnS0TYgirRufyIhD8cVoO/M0R67WR
+ /kUfrmIpP5b+oSocsiY8Wb6ylsJDdMQ15DNgILlO6yN32/mkx8vJMaRVVt5u+tDS
+ CMNK70raEYj2ZmFO0UqGMXIrVvKHd0hI1FIYAoynNEbI2usJN5RgNyd1xlGWbdfm
+ IthYzYxuO9jLB48j0a7GEe43ikghJbJVOIYu+ecMklp88lvJWZRi7EYL8+IVEAhz
+ ReHCmmdn1YmWff+sPSxq4JQyvVTfAkOjTtUgso+JLe+kmQRilactXGpIOPr5QsPm
+ l4lqyaIirFQ9xjjdkzjoRsu9GCz8C5QGU5ZqOYJCYSdA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Dv9G8vf2BZy5Sw/wG
+ zgCeqKxjdoYeYoETlbjpaAz4t0=; b=ZO7kwr/pv7spUtjEZR8RXP9gTa/e13opl
+ 6tneKYDQjYjiDD259URqHM+lrurYaP412m4l7kohn1xRLTgGhkfKNRnK+Q5jdPzA
+ sOLRFDpj5oxuLryKgXnzKeTEx1QFQ7XqpqIGIVPER3ZcWV5p8JOFlAagaHKsgMcc
+ O9V1XjXaNLffctPy8Y0TLcj/2jH1vRnUOFb4UxexSKo1r//Q/Kg/UaKXBk7xTbuo
+ GWTkTCLndwBRv1A93qkbbxMKQRTIa0tuhvZ5qzUkEMVnbKIPWmYRvegFsIXhbz2a
+ pgB3/q8wyKaYNl8224BDVQ+aC1CXO6VBr8dAbDYI7KSCOQnB+SeDw==
+X-ME-Sender: <xms:EpZZXz9VCDXJbSMFWlPtroqK0VUMCMqtWTtfUjKToW-Sj_gaFoe8gw>
+ <xme:EpZZX_sBLZFsuypAmlhRwYLGExqR85v7UJX7LCQwF-5hEHSnRqg-GnysB2-V_nK9U
+ IRcFnseGhYVQ0FT0A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehiedgieegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegrjhdr
+ ihgurdgruheqnecuggftrfgrthhtvghrnhepieetheduveelhfdvvdejleeuhfelteevhe
+ ffgfeitdefgeekjeefieevgfehhefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghen
+ ucfkphepudegrddvrddutdelrdekheenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:EpZZXxCytbShkaI9ajG7sGZRoZJGRmal7WpEdAotqZxnm6pYUVKkaQ>
+ <xmx:EpZZX_ec-nqmL9D12PRSNALELMUvv836OsO58gFsV9hAQYQI381JmQ>
+ <xmx:EpZZX4ODsqeaY2Bpz3pcMO_QEgmacCFZHFAZdHw5Qc3YYg3oqTjfqw>
+ <xmx:E5ZZX30sIIECRi4JW222zE0zo4Kl46Zthadgv2ke72i33X7BvFbldw>
+Received: from mistburn.lan
+ (ppp14-2-109-85.adl-apt-pir-bras32.tpg.internode.on.net [14.2.109.85])
+ by mail.messagingengine.com (Postfix) with ESMTPA id AA345306902A;
+ Wed,  9 Sep 2020 22:57:19 -0400 (EDT)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: linux-gpio@vger.kernel.org
+Subject: [PATCH v2 0/3] pinctrl: aspeed: AST2600 pinconf fixes
+Date: Thu, 10 Sep 2020 12:26:28 +0930
+Message-Id: <20200910025631.2996342-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200909203059.23427-1-eajames@linux.ibm.com>
- <20200909203059.23427-6-eajames@linux.ibm.com>
-In-Reply-To: <20200909203059.23427-6-eajames@linux.ibm.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 10 Sep 2020 02:42:23 +0000
-Message-ID: <CACPK8XeWS23xdBKs7Ge+MWqHr4HANTVeC4LSLqEujcp8eG=auw@mail.gmail.com>
-Subject: Re: [PATCH v3 5/5] ARM: dts: Aspeed: Rainier: Add IBM Operation Panel
- I2C device
-To: Eddie James <eajames@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,66 +90,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, dmitry.torokhov@gmail.com,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, wsa@kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-i2c@vger.kernel.org,
- linux-input@vger.kernel.org
+Cc: johnny_huang@aspeedtech.com, linux-aspeed@lists.ozlabs.org,
+ linus.walleij@linaro.org, linux-kernel@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 9 Sep 2020 at 20:31, Eddie James <eajames@linux.ibm.com> wrote:
->
-> Set I2C bus 7 to multi-master mode and add the panel device that will
-> register as a slave.
->
-> Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
+Hello,
 
-Applied to the aspeed tree for v5.10.
+The AST2600 pinctrl driver was missing support for bias control on the 1.8V
+GPIO pins, and in the process of resolving that I discovered a couple of other
+bugs that are fixed in the first two patches of the series.
 
-Cheers,
+v2 Tweaks some of the debug output and adds Joel's Reviewed-by tags.
 
-Joel
+v1 can be found here:
 
-> ---
->  arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> index b94421f6cbd5..50d528444f5d 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> @@ -4,6 +4,7 @@
->
->  #include "aspeed-g6.dtsi"
->  #include <dt-bindings/gpio/aspeed-gpio.h>
-> +#include <dt-bindings/i2c/i2c.h>
->  #include <dt-bindings/leds/leds-pca955x.h>
->
->  / {
-> @@ -698,6 +699,7 @@ eeprom@53 {
->  };
->
->  &i2c7 {
-> +       multi-master;
->         status = "okay";
->
->         si7021-a20@20 {
-> @@ -831,6 +833,11 @@ gpio@15 {
->                 };
->         };
->
-> +       ibm-panel@62 {
-> +               compatible = "ibm,op-panel";
-> +               reg = <(0x62 | I2C_OWN_SLAVE_ADDRESS)>;
-> +       };
-> +
->         dps: dps310@76 {
->                 compatible = "infineon,dps310";
->                 reg = <0x76>;
-> --
-> 2.26.2
->
+https://lore.kernel.org/linux-gpio/20200909114312.2863675-1-andrew@aj.id.au/
+
+Please review!
+
+Andrew
+
+Andrew Jeffery (3):
+  pinctrl: aspeed: Format pinconf debug consistent with pinmux
+  pinctrl: aspeed: Use the right pinconf mask
+  pinctrl: aspeed-g6: Add bias controls for 1.8V GPIO banks
+
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c | 17 +++++++++++++++++
+ drivers/pinctrl/aspeed/pinctrl-aspeed.c    |  8 ++++----
+ 2 files changed, 21 insertions(+), 4 deletions(-)
+
+-- 
+2.25.1
+
