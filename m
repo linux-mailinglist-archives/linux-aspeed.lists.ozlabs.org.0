@@ -1,64 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808A8263991
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 03:52:32 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EDC3263995
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 03:54:58 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bn22P5XdjzDqZP
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 11:52:29 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bn25C3b55zDqXb
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 11:54:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::643;
- helo=mail-ej1-x643.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::543;
+ helo=mail-ed1-x543.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=eY/LjwZi; dkim-atps=neutral
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
+ header.s=google header.b=NoNawaGq; dkim-atps=neutral
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bn22H3hPzzDqZD;
- Thu, 10 Sep 2020 11:52:23 +1000 (AEST)
-Received: by mail-ej1-x643.google.com with SMTP id e23so6350376eja.3;
- Wed, 09 Sep 2020 18:52:23 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bn22r57wrzDqZP;
+ Thu, 10 Sep 2020 11:52:51 +1000 (AEST)
+Received: by mail-ed1-x543.google.com with SMTP id n13so4623163edo.10;
+ Wed, 09 Sep 2020 18:52:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ANFj5tNe+lX75IxFcz7eloVwZ6bcS0GGRGo9xs5qe80=;
- b=eY/LjwZiqAFgu2Bw+bKjgsL4dHaWSO+afec/4IFa+vrNiuMztpznLUltZ/Wl9vUCja
- 1acXY3/TubX6dHKDPPvCbx8YITTKM9cJ8pwLe8grJkSE70P7HJiHb2lFt5NBgjipFLen
- sOF+sNTAqF3DuLyHiT1ZKbMlgEOwcHgvWqh68=
+ :cc; bh=O4wihOtUGmKvM6OV1xz49d7GF6s8tThElPC8COTjJhw=;
+ b=NoNawaGqtXD5PPRDwAAu3FydxWGnfWzWyB7YxDfsBTacqM0bBAm9iioberpOzHVRkX
+ jTlVeOAZYbWO6LryijXb9r+fRSkQpWcD5qHVHJD7o9UWxOmYSRlJo6jojXpp9A/vDsDl
+ qqxsimwLjGd0pfnV++gPK5PtI/JIFAWP9CaBk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ANFj5tNe+lX75IxFcz7eloVwZ6bcS0GGRGo9xs5qe80=;
- b=r5zdnfs/nKlSK7onP+44b50sgNRLVl9Zk9K6opZOJvImX6A6KpqK4sifeM3jdgYU8U
- Xbzxj3kU4vhSy9xllGaMgIB9wNgFsXkCwjfDibTiNR4kryoBBnqucr6N8F+ySBwUjkG9
- 7usLFjnt4mqr5qdQQg4ZunI/M3a/4itZ80eU3aH8twI2+KLiG+xVmPI/R2VQJSvsIvcq
- 0FjAi3l8FLi2Ejnhfh7uVWpKwwk4tNPlAHLgmFQ7HK4J/+uySuXlDXVjvqhptlBuMtC0
- 0X9bak2m9/gZYDpdjx3BcMG12iC4AgTL0vxMcNCvg865wKTlsJYJTM0ti7KUzM0+HGIA
- r7lQ==
-X-Gm-Message-State: AOAM533CaGCqp5Nu2OwGR1pL0FDXTVe5ZJALeG//U5uSYcSgCiiFS5ox
- hgnbyNO6g5BSrdkQAcBJqHTbsvy098vzcEBUHNg=
-X-Google-Smtp-Source: ABdhPJymYXgKXZhXuS4fxzTpM1mvEDSS4tHQKzZ/RE+4BnTasu7Ht25VWClSxo4tpoAl7IAuWPBMYKW8xN97aQwJFMk=
-X-Received: by 2002:a17:906:7cc6:: with SMTP id
- h6mr6478279ejp.266.1599702736442; 
- Wed, 09 Sep 2020 18:52:16 -0700 (PDT)
+ bh=O4wihOtUGmKvM6OV1xz49d7GF6s8tThElPC8COTjJhw=;
+ b=Fn4E7Yb+4fYj7us9em6Q4IsrfYxKDSFwGdim5JCr4b317L0V2H9dK2nhjn6jNCL7hE
+ Dz9OwjAYbYZd93TTRE5FyGV3ejzTNi2THakWG38K0Fnao3oYmVLmlSw3xP4yIuLklXiz
+ 5+muGMqgtCxUeeBywMtnYdZMQAIdrVw2sb9yPBZP///1pLdVp2656j7qyOiMwXPi2H6b
+ M7sSLDy/8/9YRUOVEmmlx+w/J8Jz4peav+9Op9YEP3f2bWIENm5B+SdF/xAmlqJN7Ojt
+ 7QWyHT43+JsDW/R2Bp5z+zaEZdTj5KI5Rzv8vQPWxSv2cNCQ4QKPkfvadlqjVMfKRskB
+ oUgg==
+X-Gm-Message-State: AOAM533GEla17xc1FA40Wqs8PTqlxvHRRsTYm0xhvuZKTWgmpBCGkMRL
+ 5TCssGSRa3XyFRHg3IZJFk9Ynk59R8O3mSFRcnc=
+X-Google-Smtp-Source: ABdhPJx3tc6th2NQ3W5yI0UnQXkvVnc2gSxYPh/skJvLZlUli2agzUUaOAOxKvX4m89LXd0PAOcDIyBSHEkZWdpqMVo=
+X-Received: by 2002:aa7:de03:: with SMTP id h3mr7213014edv.232.1599702768129; 
+ Wed, 09 Sep 2020 18:52:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200909114312.2863675-1-andrew@aj.id.au>
- <20200909114312.2863675-2-andrew@aj.id.au>
-In-Reply-To: <20200909114312.2863675-2-andrew@aj.id.au>
+ <20200909114312.2863675-3-andrew@aj.id.au>
+In-Reply-To: <20200909114312.2863675-3-andrew@aj.id.au>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 10 Sep 2020 01:52:04 +0000
-Message-ID: <CACPK8XeOf1H2Cdo434DsAjDNGrohip_MZTSMMOh1nhspz2y7dA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] pinctrl: aspeed: Format pinconf debug consistent with
- pinmux
+Date: Thu, 10 Sep 2020 01:52:36 +0000
+Message-ID: <CACPK8Xe0WqmyXOHdxw=OWbFEzHew7F2aBQ9B5EPRJfDhj=vhmw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] pinctrl: aspeed: Use the right pinconf mask
 To: Andrew Jeffery <andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -84,37 +82,42 @@ Sender: "Linux-aspeed"
 
 On Wed, 9 Sep 2020 at 11:43, Andrew Jeffery <andrew@aj.id.au> wrote:
 >
-> When displaying which pinconf register and field is being touched, format the
-> field mask so that it's consistent with the way the pinmux portion
-> formats the mask.
+> The Aspeed pinconf data structures are split into 'conf' and 'map'
+> types, where the 'conf' struct defines which register and bitfield to
+> manipulate, while the 'map' struct defines what value to write to
+> the register and bitfield.
 >
+> Both structs have a mask member, and the wrong mask was being used to
+> tell the regmap which bits to update.
+>
+> A todo is to look at whether we can remove the mask from the 'map'
+> struct.
+>
+> Cc: Johnny Huang <johnny_huang@aspeedtech.com>
+> Fixes: 5f52c853847f ("pinctrl: aspeed: Use masks to describe pinconf bitfields")
 > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+
+Owch.
+
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+
 > ---
->  drivers/pinctrl/aspeed/pinctrl-aspeed.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/pinctrl/aspeed/pinctrl-aspeed.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed.c b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
-> index 53f3f8aec695..d8972911d505 100644
+> index d8972911d505..e03ee78b2434 100644
 > --- a/drivers/pinctrl/aspeed/pinctrl-aspeed.c
 > +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
-> @@ -539,9 +539,9 @@ int aspeed_pin_config_set(struct pinctrl_dev *pctldev, unsigned int offset,
+> @@ -534,7 +534,7 @@ int aspeed_pin_config_set(struct pinctrl_dev *pctldev, unsigned int offset,
+>                 val = pmap->val << __ffs(pconf->mask);
+>
+>                 rc = regmap_update_bits(pdata->scu, pconf->reg,
+> -                                       pmap->mask, val);
+> +                                       pconf->mask, val);
+>
 >                 if (rc < 0)
 >                         return rc;
->
-> -               pr_debug("%s: Set SCU%02X[%lu]=%d for param %d(=%d) on pin %d\n",
-> -                               __func__, pconf->reg, __ffs(pconf->mask),
-> -                               pmap->val, param, arg, offset);
-> +               pr_debug("%s: Set SCU%02X[0x%08X]=%d for param %d(=%d) on pin %d\n",
-
-
-The pr_debug in pinmux-aspeed.c prints val as 0x%X. Did you want to do
-that here?
-
-> +                               __func__, pconf->reg, pconf->mask,
-> +                               val, param, arg, offset);
->         }
->
->         return 0;
 > --
 > 2.25.1
 >
