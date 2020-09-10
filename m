@@ -1,87 +1,102 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3C32644C6
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 12:55:29 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B0A26478E
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 15:57:08 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BnG4t5YMjzDqbx
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 20:55:26 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BnL6S3x1PzDqY1
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 23:57:04 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.28;
- helo=out4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
+ dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm3 header.b=esbEhAYA; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm3 header.b=a6Ib4TWa; 
- dkim-atps=neutral
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
+ unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
+ header.s=pp1 header.b=GZ2G1BNy; dkim-atps=neutral
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BnG4S28TPzDqBb
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 20:55:04 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 4607E5C10C1;
- Thu, 10 Sep 2020 06:55:02 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 10 Sep 2020 06:55:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=sL1+RarEw/M9r
- JBb5UPxjs0rtv85M8sBG+GXBnTRj30=; b=esbEhAYArRbdZBpvZ8fBIJUSgz8PB
- UkvMvKRCsBLYipmil3rMY1HE+q/ON8txHsN/z2QbGBOpn/IHVI2RuDJTyK5AVFCw
- yi8KQojSOsXuPTLbYD8Fg6Kn34ul8YLQwje/4rsd/zyCiNSWLGgLp1mi5l3sq5Fw
- xeTNsRck6/zghjf8vgavXe31T2b2gh2yd30nGMW18QrRjuV8z26didwhxS9geYcD
- Dx3NpDM9tY9sdg77LJlwMqYKBrnnd9a7Bd9ztr8mHJuIGbFaqzv22bRHcWASCRYK
- pWWB+1UJTKW3fekzeCK7U6crHn1hqDzC5BOGvxcvfYEi9Lr4gpAXjzTfQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=sL1+RarEw/M9rJBb5UPxjs0rtv85M8sBG+GXBnTRj30=; b=a6Ib4TWa
- 0KsKGVwBorqP+i122RuauIYgmPu7q4kjbag9g1cwWH24s+Nay6jWFr8Q2gaX8xxK
- mRpHo1kTSWfk5qImSc5hBmQnQn1iIG3YBH4G4/y/5IHW5kX6214ei1EBpo0pOlpo
- s1gxJdYLJUhgMiLja1mXReMvHL4yr9H353j7RL+QM7kmPaAdyUhT3ZC3vmDXdESm
- 2VTjCWvg0jhSs6g1TJr3ueHusxxuCYAd+3vkDAZwPnFqem+sCLp8FsdhNwJw1K3e
- t6CjiUJx8mnQ93JvdxK78SSHxwcb5GupgmhFBhDVb9hut19ajlFfrJfPcUtDJeHR
- 8nzo0anIe4xKYw==
-X-ME-Sender: <xms:BgZaX25jQn4PywizkvRJUmN5rhipZTpsfZJ5m7_8-3djP-2Y_oQszQ>
- <xme:BgZaX_5F97xBgMdbOvp6t4vaqAn-lZKrvUfZj9nBZCnEL3k_-W5WZ8d_XTufMLEg3
- OhfS3fUmJvwORTeUg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehjedgvdejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
- dtredttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegr
- jhdrihgurdgruheqnecuggftrfgrthhtvghrnhepjefgvdevheetkeevgeegleelgfelte
- etjeffleffvdduudevieffgeetleevhfetnecukfhppedugedrvddruddtledrkeehnecu
- vehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvg
- ifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:BgZaX1dZs18Fpy0AbaUsV6vB0ltQ8WbEW2vkWEHm_0o0sYCq4qNMdQ>
- <xmx:BgZaXzKguPTU9j0TRcMjdnOLjMXQ9nk89Tt6rkyjWCqAtraKWZtHgg>
- <xmx:BgZaX6Ll5FhK8AgYL3qDzNSLWpMgWiyiyiFV31R2crCjH8mB-VABVA>
- <xmx:BgZaXy-A54w9Nv7-zae0vCRXAg5ZjGKul1Uz_j0S2ndssnSsOjzGAA>
-Received: from localhost.localdomain
- (ppp14-2-109-85.adl-apt-pir-bras32.tpg.internode.on.net [14.2.109.85])
- by mail.messagingengine.com (Postfix) with ESMTPA id 15D673064674;
- Thu, 10 Sep 2020 06:54:58 -0400 (EDT)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: linux-mmc@vger.kernel.org
-Subject: [PATCH 3/3] ARM: dts: tacoma: Add data sample phase delay for eMMC
-Date: Thu, 10 Sep 2020 20:24:40 +0930
-Message-Id: <20200910105440.3087723-4-andrew@aj.id.au>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200910105440.3087723-1-andrew@aj.id.au>
-References: <20200910105440.3087723-1-andrew@aj.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BnL5764nPzDqXq
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 23:55:55 +1000 (AEST)
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 08ADVwbj156061; Thu, 10 Sep 2020 09:55:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=uAJ358VnHFKZvUebteG+ZwkjrTg7lzgNh1aBoFkoHpk=;
+ b=GZ2G1BNy+s9Zu39AdCM8v721KGKk26Vt/6LGxwvE4CfsTkJyANcLma4ZKsQYFkae9NfG
+ s25+sWBk3wJF9/nJBeFH27CoQh17AO4byjDzUHqfe0nWMrHgtM5hyfk41xyirKwL3mBG
+ w4/6kQRbpkG+sqS1w2BP0ihz2ZqUIRDt+tJ0mMDXCjV1MIxNKnkcZQg7fnG1RoBFNICY
+ 9QsdVhNGSbMnZqU6YstDD1xlgdiajDyFjNSNubeglI6AtVJlasZvMrQe7vBhJCEtwz66
+ 9XHHW8ONZZO0BNMIsODWT42eV6X/yMj4x5I27JO++Zb6W1s/FCaUB8xku+jURKNhwWHT QA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33fn1x0xd2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Sep 2020 09:55:42 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08ADWGVT157762;
+ Thu, 10 Sep 2020 09:55:42 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 33fn1x0xcm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Sep 2020 09:55:42 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08ADqBZ1008486;
+ Thu, 10 Sep 2020 13:55:41 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma04dal.us.ibm.com with ESMTP id 33c2a9snn8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Sep 2020 13:55:41 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 08ADtaZ823200424
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Sep 2020 13:55:36 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D4943C6062;
+ Thu, 10 Sep 2020 13:55:39 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 470DDC605D;
+ Thu, 10 Sep 2020 13:55:39 +0000 (GMT)
+Received: from [9.211.140.115] (unknown [9.211.140.115])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 10 Sep 2020 13:55:39 +0000 (GMT)
+Subject: Re: [PATCH v3 3/5] i2c: aspeed: Mask IRQ status to relevant bits
+To: Brendan Higgins <brendanhiggins@google.com>
+References: <20200909203059.23427-1-eajames@linux.ibm.com>
+ <20200909203059.23427-4-eajames@linux.ibm.com>
+ <CAFd5g46ghV7ArmM8LnMkGa-Nip_fT934+3cPOkVxS-b5odZXYw@mail.gmail.com>
+From: Eddie James <eajames@linux.ibm.com>
+Message-ID: <b092f884-9aa9-5d0b-1a90-36af558e43a8@linux.ibm.com>
+Date: Thu, 10 Sep 2020 08:55:38 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFd5g46ghV7ArmM8LnMkGa-Nip_fT934+3cPOkVxS-b5odZXYw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
+ definitions=2020-09-10_03:2020-09-10,
+ 2020-09-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
+ clxscore=1015 suspectscore=0 bulkscore=0 phishscore=0 mlxlogscore=999
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009100120
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,53 +108,66 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, ulf.hansson@linaro.org,
- linux-aspeed@lists.ozlabs.org, adrian.hunter@intel.com,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, wsa@kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-i2c@vger.kernel.org,
+ linux-input@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Adjust the phase delay to avoid data timeout splats like the following:
 
-[  731.368601] mmc0: Timeout waiting for hardware interrupt.
-[  731.374644] mmc0: sdhci: ============ SDHCI REGISTER DUMP ===========
-[  731.381828] mmc0: sdhci: Sys addr:  0x00000020 | Version:  0x00000002
-[  731.389012] mmc0: sdhci: Blk size:  0x00007200 | Blk cnt:  0x00000020
-[  731.396194] mmc0: sdhci: Argument:  0x00462a18 | Trn mode: 0x0000002b
-[  731.403377] mmc0: sdhci: Present:   0x01f70106 | Host ctl: 0x00000017
-[  731.410559] mmc0: sdhci: Power:     0x0000000f | Blk gap:  0x00000000
-[  731.417733] mmc0: sdhci: Wake-up:   0x00000000 | Clock:    0x00000107
-[  731.424915] mmc0: sdhci: Timeout:   0x0000000e | Int stat: 0x00000000
-[  731.432098] mmc0: sdhci: Int enab:  0x03ff008b | Sig enab: 0x03ff008b
-[  731.439282] mmc0: sdhci: ACmd stat: 0x00000000 | Slot int: 0x00000000
-[  731.446464] mmc0: sdhci: Caps:      0x01f80080 | Caps_1:   0x00000007
-[  731.453647] mmc0: sdhci: Cmd:       0x0000193a | Max curr: 0x001f0f08
-[  731.460829] mmc0: sdhci: Resp[0]:   0x00000900 | Resp[1]:  0xffffffff
-[  731.468013] mmc0: sdhci: Resp[2]:   0x320f5913 | Resp[3]:  0x00000900
-[  731.475195] mmc0: sdhci: Host ctl2: 0x0000008b
-[  731.480139] mmc0: sdhci: ADMA Err:  0x00000000 | ADMA Ptr: 0xbe040200
-[  731.487321] mmc0: sdhci: ============================================
+On 9/10/20 4:00 AM, Brendan Higgins wrote:
+> On Wed, Sep 9, 2020 at 1:31 PM Eddie James <eajames@linux.ibm.com> wrote:
+>> Mask the IRQ status to only the bits that the driver checks. This
+>> prevents excessive driver warnings when operating in slave mode
+>> when additional bits are set that the driver doesn't handle.
+>>
+>> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+>> Reviewed-by: Tao Ren <rentao.bupt@gmail.com>
+> Sorry, looks like I didn't get my comment in in time.
+>
+> Looks good in principle. One minor comment below:
+>
+>> ---
+>>   drivers/i2c/busses/i2c-aspeed.c | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+>> index 31268074c422..724bf30600d6 100644
+>> --- a/drivers/i2c/busses/i2c-aspeed.c
+>> +++ b/drivers/i2c/busses/i2c-aspeed.c
+>> @@ -69,6 +69,7 @@
+>>    * These share bit definitions, so use the same values for the enable &
+>>    * status bits.
+>>    */
+>> +#define ASPEED_I2CD_INTR_RECV_MASK                     0xf000ffff
+> Could we define ASPEED_I2CD_INTR_RECV_MASK to be ASPEED_I2CD_INTR_ALL ?
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
- arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-index 5f4ee67ac787..94ec301ceb73 100644
---- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-@@ -179,6 +179,8 @@ &emmc_controller {
- 
- &emmc {
- 	status = "okay";
-+	aspeed,input-phase = <0x7>;
-+	aspeed,output-phase = <0x1f>;
- };
- 
- &fsim0 {
--- 
-2.25.1
+That was my original thought... there is another define for that already 
+a few lines down though.
 
+
+Thanks,
+
+Eddie
+
+
+>
+>>   #define ASPEED_I2CD_INTR_SDA_DL_TIMEOUT                        BIT(14)
+>>   #define ASPEED_I2CD_INTR_BUS_RECOVER_DONE              BIT(13)
+>>   #define ASPEED_I2CD_INTR_SLAVE_MATCH                   BIT(7)
+>> @@ -604,6 +605,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
+>>          writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
+>>                 bus->base + ASPEED_I2C_INTR_STS_REG);
+>>          readl(bus->base + ASPEED_I2C_INTR_STS_REG);
+>> +       irq_received &= ASPEED_I2CD_INTR_RECV_MASK;
+>>          irq_remaining = irq_received;
+>>
+>>   #if IS_ENABLED(CONFIG_I2C_SLAVE)
+>> --
+>> 2.26.2
+>>
