@@ -2,97 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F16263772
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Sep 2020 22:32:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 808A8263991
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 03:52:32 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bmtwf0PKCzDqb9
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 06:32:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bn22P5XdjzDqZP
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 11:52:29 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::643;
+ helo=mail-ej1-x643.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
- header.s=pp1 header.b=GGgwBzEw; dkim-atps=neutral
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=eY/LjwZi; dkim-atps=neutral
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bmtvm2ynGzDqZF
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 06:31:15 +1000 (AEST)
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 089K3SuW192887; Wed, 9 Sep 2020 16:31:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=d9Z1A13gqnSeYufwW0KlPFsz/dAJdIaf05kQSmmHkvM=;
- b=GGgwBzEwN3+z5MOitz2EkkDvQaOjjGNWe8a+y3FiLh5qdOEybLp+e46QNn2c7G9Uo0Ek
- Zpbz0+CsH01gVKA8q56jvef+QRxYckWnfnmQVP7tS8MklvZxkMCvFPYdKT4wI/cTkvF2
- KbLIOtOrfoYJTk6Mmhr1X1PNRVH8wRVxScdhBSSjfIA3jLm49lwAe8Ku/D9iVx9KJNXC
- VqIWgk0Ah0SLfszGijIJtNLpFTluwawqPCAVKnDuuBKEr+6+373Pp98QHalP/hd0H1kX
- 5C70eNjNCFZw+KyvQ0fO6QeUgkrawyNDGSbxVCzX7cGYnVVxDpdXFc3il/PeUHDWA9Vq Qw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33f5hyh1va-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 09 Sep 2020 16:31:06 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 089K48Cx195359;
- Wed, 9 Sep 2020 16:31:06 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33f5hyh1uy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 09 Sep 2020 16:31:06 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 089KRrGF004239;
- Wed, 9 Sep 2020 20:31:05 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma01dal.us.ibm.com with ESMTP id 33d46mwgg1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 09 Sep 2020 20:31:05 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 089KV38s62783994
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 9 Sep 2020 20:31:04 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DDD2678067;
- Wed,  9 Sep 2020 20:31:03 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3729C7805F;
- Wed,  9 Sep 2020 20:31:03 +0000 (GMT)
-Received: from SHADE6A.ibmuc.com (unknown [9.163.76.239])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed,  9 Sep 2020 20:31:03 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: linux-input@vger.kernel.org
-Subject: [PATCH v3 5/5] ARM: dts: Aspeed: Rainier: Add IBM Operation Panel I2C
- device
-Date: Wed,  9 Sep 2020 15:30:59 -0500
-Message-Id: <20200909203059.23427-6-eajames@linux.ibm.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200909203059.23427-1-eajames@linux.ibm.com>
-References: <20200909203059.23427-1-eajames@linux.ibm.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bn22H3hPzzDqZD;
+ Thu, 10 Sep 2020 11:52:23 +1000 (AEST)
+Received: by mail-ej1-x643.google.com with SMTP id e23so6350376eja.3;
+ Wed, 09 Sep 2020 18:52:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ANFj5tNe+lX75IxFcz7eloVwZ6bcS0GGRGo9xs5qe80=;
+ b=eY/LjwZiqAFgu2Bw+bKjgsL4dHaWSO+afec/4IFa+vrNiuMztpznLUltZ/Wl9vUCja
+ 1acXY3/TubX6dHKDPPvCbx8YITTKM9cJ8pwLe8grJkSE70P7HJiHb2lFt5NBgjipFLen
+ sOF+sNTAqF3DuLyHiT1ZKbMlgEOwcHgvWqh68=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ANFj5tNe+lX75IxFcz7eloVwZ6bcS0GGRGo9xs5qe80=;
+ b=r5zdnfs/nKlSK7onP+44b50sgNRLVl9Zk9K6opZOJvImX6A6KpqK4sifeM3jdgYU8U
+ Xbzxj3kU4vhSy9xllGaMgIB9wNgFsXkCwjfDibTiNR4kryoBBnqucr6N8F+ySBwUjkG9
+ 7usLFjnt4mqr5qdQQg4ZunI/M3a/4itZ80eU3aH8twI2+KLiG+xVmPI/R2VQJSvsIvcq
+ 0FjAi3l8FLi2Ejnhfh7uVWpKwwk4tNPlAHLgmFQ7HK4J/+uySuXlDXVjvqhptlBuMtC0
+ 0X9bak2m9/gZYDpdjx3BcMG12iC4AgTL0vxMcNCvg865wKTlsJYJTM0ti7KUzM0+HGIA
+ r7lQ==
+X-Gm-Message-State: AOAM533CaGCqp5Nu2OwGR1pL0FDXTVe5ZJALeG//U5uSYcSgCiiFS5ox
+ hgnbyNO6g5BSrdkQAcBJqHTbsvy098vzcEBUHNg=
+X-Google-Smtp-Source: ABdhPJymYXgKXZhXuS4fxzTpM1mvEDSS4tHQKzZ/RE+4BnTasu7Ht25VWClSxo4tpoAl7IAuWPBMYKW8xN97aQwJFMk=
+X-Received: by 2002:a17:906:7cc6:: with SMTP id
+ h6mr6478279ejp.266.1599702736442; 
+ Wed, 09 Sep 2020 18:52:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-09_16:2020-09-09,
- 2020-09-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=1 bulkscore=0
- adultscore=0 malwarescore=0 phishscore=0 mlxscore=0 priorityscore=1501
- lowpriorityscore=0 mlxlogscore=999 impostorscore=0 spamscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009090173
+References: <20200909114312.2863675-1-andrew@aj.id.au>
+ <20200909114312.2863675-2-andrew@aj.id.au>
+In-Reply-To: <20200909114312.2863675-2-andrew@aj.id.au>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 10 Sep 2020 01:52:04 +0000
+Message-ID: <CACPK8XeOf1H2Cdo434DsAjDNGrohip_MZTSMMOh1nhspz2y7dA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] pinctrl: aspeed: Format pinconf debug consistent with
+ pinmux
+To: Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,55 +72,49 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- dmitry.torokhov@gmail.com, brendanhiggins@google.com,
- linux-kernel@vger.kernel.org, wsa@kernel.org, robh+dt@kernel.org,
- linux-i2c@vger.kernel.org
+Cc: johnny_huang@aspeedtech.com, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Set I2C bus 7 to multi-master mode and add the panel device that will
-register as a slave.
+On Wed, 9 Sep 2020 at 11:43, Andrew Jeffery <andrew@aj.id.au> wrote:
+>
+> When displaying which pinconf register and field is being touched, format the
+> field mask so that it's consistent with the way the pinmux portion
+> formats the mask.
+>
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> ---
+>  drivers/pinctrl/aspeed/pinctrl-aspeed.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed.c b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
+> index 53f3f8aec695..d8972911d505 100644
+> --- a/drivers/pinctrl/aspeed/pinctrl-aspeed.c
+> +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
+> @@ -539,9 +539,9 @@ int aspeed_pin_config_set(struct pinctrl_dev *pctldev, unsigned int offset,
+>                 if (rc < 0)
+>                         return rc;
+>
+> -               pr_debug("%s: Set SCU%02X[%lu]=%d for param %d(=%d) on pin %d\n",
+> -                               __func__, pconf->reg, __ffs(pconf->mask),
+> -                               pmap->val, param, arg, offset);
+> +               pr_debug("%s: Set SCU%02X[0x%08X]=%d for param %d(=%d) on pin %d\n",
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
----
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-index b94421f6cbd5..50d528444f5d 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-@@ -4,6 +4,7 @@
- 
- #include "aspeed-g6.dtsi"
- #include <dt-bindings/gpio/aspeed-gpio.h>
-+#include <dt-bindings/i2c/i2c.h>
- #include <dt-bindings/leds/leds-pca955x.h>
- 
- / {
-@@ -698,6 +699,7 @@ eeprom@53 {
- };
- 
- &i2c7 {
-+	multi-master;
- 	status = "okay";
- 
- 	si7021-a20@20 {
-@@ -831,6 +833,11 @@ gpio@15 {
- 		};
- 	};
- 
-+	ibm-panel@62 {
-+		compatible = "ibm,op-panel";
-+		reg = <(0x62 | I2C_OWN_SLAVE_ADDRESS)>;
-+	};
-+
- 	dps: dps310@76 {
- 		compatible = "infineon,dps310";
- 		reg = <0x76>;
--- 
-2.26.2
+The pr_debug in pinmux-aspeed.c prints val as 0x%X. Did you want to do
+that here?
 
+> +                               __func__, pconf->reg, pconf->mask,
+> +                               val, param, arg, offset);
+>         }
+>
+>         return 0;
+> --
+> 2.25.1
+>
