@@ -1,90 +1,76 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 191402648A1
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 17:19:30 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 209F8264A57
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 18:53:31 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BnMxW1bgnzDqfq
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 01:19:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BnQ1y4skszDqhb
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 02:53:26 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
- helo=mx0b-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=209.85.208.65; helo=mail-ed1-f65.google.com;
+ envelope-from=k.kozlowski.k@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
- header.s=pp1 header.b=XqNu86gt; dkim-atps=neutral
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+ [209.85.208.65])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BnMws6dq8zDqfp;
- Fri, 11 Sep 2020 01:18:52 +1000 (AEST)
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 08AF2EN3074908; Thu, 10 Sep 2020 11:18:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=GbDZ7CBL/LYipeJIp2XxF3Pn1ncBwSbgSFF+3KzbL8k=;
- b=XqNu86gtYDuMVkhJSOVDKsZb2ErtTuItMVO1cbHSnmirE6ANLxP0BZFyfwkGeyT1nbR9
- 0W6ky73O1um/vKY4qTX+u/I5oePs52W/Xh/WVUpO+VbUkT5PUPRgGaYGmSTfh9zuZVa5
- a6AMC6MXpVK1znA4R7KtHY0u7VTv81uN7k9k15xvM4rTsKh2XkHSUlWt9rgg2/jdEQUZ
- SMRaJU/gOtQI+plnecPhc012W+XVM8w9ePf9kYs/NUFcYHauR+rI4dD4XpKb50HZRDll
- /hdxPxHMfLroVAADQZAKuZEeABJ0VSvO3DsNX5Sv8ErmdJVQAd3+NgENSH3RIRtoOKos qg== 
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 33fpd60nmw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Sep 2020 11:18:45 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08AFDZqI013601;
- Thu, 10 Sep 2020 15:18:45 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma04wdc.us.ibm.com with ESMTP id 33c2a98c31-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Sep 2020 15:18:45 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 08AFIiTI55312666
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Sep 2020 15:18:44 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3DEDF6E050;
- Thu, 10 Sep 2020 15:18:44 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A47DC6E052;
- Thu, 10 Sep 2020 15:18:43 +0000 (GMT)
-Received: from SHADE6A.ibmuc.com (unknown [9.211.140.115])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 10 Sep 2020 15:18:43 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: linux-clk@vger.kernel.org
-Subject: [PATCH 4/4] fsi: Aspeed master: Set bus frequency from devicetree
-Date: Thu, 10 Sep 2020 10:18:40 -0500
-Message-Id: <20200910151840.25333-5-eajames@linux.ibm.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200910151840.25333-1-eajames@linux.ibm.com>
-References: <20200910151840.25333-1-eajames@linux.ibm.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BnQ1s1QJ3zDq9B
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 02:53:15 +1000 (AEST)
+Received: by mail-ed1-f65.google.com with SMTP id q21so7046615edv.1
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 09:53:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=3nk4XRQ2S4e5AEFEFMDuymF8Jl6oZV0YsM2IeVg++t0=;
+ b=S+uIA76trh+4fJXLsL2EZuRn6MAmY6LAXAh7nFfZyUKn+C23l5eOhSgMxg/Ew0AfyD
+ DLebke3WBjem+nwU7zAcRIXTFFfu6buKFEyum+7PoFYUS4q775BmdmQyYP7lxJyxKQyx
+ qZK21QnGgSCTJ4Y7Wgw6BVjX+tNz3cmXuREM/Bm4rShQdyeyWq2jaBZeIgSfhz8fwLlT
+ bP1Dwhhw1pOD8kErIwP3YxHWFJgZuu98MDRMskjPLIRi3NrbqIV72mL74P1ApHrbRib/
+ iLcj4ItG5gjYlgp40zwuvbfcrJ38gZcZzDk4ERu4cOqg2CnUzSDeT+litwtQSUVM0IGY
+ QrSg==
+X-Gm-Message-State: AOAM532l9n+YGcfSDu7XwACnb+BSqyulb3wVk81o5/Xnk/61UjNQdWs5
+ xY67dabPJs5mdu4I0FPVZbQ=
+X-Google-Smtp-Source: ABdhPJyquD6+nZSxDAFxh5wceHTIih3xdZbNqTBnMJD615DtbqdBY7qzu8F3twgU/y/4F0Tvr77Hdg==
+X-Received: by 2002:a05:6402:cb4:: with SMTP id
+ cn20mr10351438edb.369.1599756792337; 
+ Thu, 10 Sep 2020 09:53:12 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.174])
+ by smtp.googlemail.com with ESMTPSA id 35sm7851689edg.71.2020.09.10.09.53.09
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 10 Sep 2020 09:53:10 -0700 (PDT)
+Date: Thu, 10 Sep 2020 18:53:08 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
+ Tony Lindgren <tony@atomide.com>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Jason Cooper <jason@lakedaemon.net>, Andrew Lunn <andrew@lunn.ch>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ Gregory Clement <gregory.clement@bootlin.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Stefan Agner <stefan@agner.ch>, linux-gpio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH 4/6] ARM: dts: aspeed: Fix PCA95xx GPIO expander
+ properties on Portwell
+Message-ID: <20200910165308.GA11510@kozik-lap>
+References: <20200829094024.31842-1-krzk@kernel.org>
+ <20200829094024.31842-4-krzk@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.687
- definitions=2020-09-10_03:2020-09-10,
- 2020-09-10 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- lowpriorityscore=0 phishscore=0 mlxlogscore=999 impostorscore=0
- clxscore=1015 priorityscore=1501 spamscore=0 suspectscore=1 bulkscore=0
- mlxscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009100130
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200829094024.31842-4-krzk@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,46 +82,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, jk@ozlabs.org,
- alistair@popple.id.au, mturquette@baylibre.com, linux-kernel@vger.kernel.org,
- sboyd@kernel.org, robh+dt@kernel.org, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Set the FSI bus frequency based on the value encoded in the
-devicetree. The default value is 166MHz, which is the highest
-frequency some FSI slaves can accept.
+On Sat, Aug 29, 2020 at 11:40:22AM +0200, Krzysztof Kozlowski wrote:
+> The PCA95xx GPIO expander requires GPIO controller properties to operate
+> properly.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> ---
+>  arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
----
- drivers/fsi/fsi-master-aspeed.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Hi everyone,
 
-diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-master-aspeed.c
-index c006ec008a1a..be19fee0bece 100644
---- a/drivers/fsi/fsi-master-aspeed.c
-+++ b/drivers/fsi/fsi-master-aspeed.c
-@@ -515,6 +515,7 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
- 	struct fsi_master_aspeed *aspeed;
- 	struct resource *res;
- 	int rc, links, reg;
-+	u32 bus_freq = 166666666;
- 	__be32 raw;
- 
- 	rc = tacoma_cabled_fsi_fixup(&pdev->dev);
-@@ -539,6 +540,10 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
- 		dev_err(aspeed->dev, "couldn't get clock\n");
- 		return PTR_ERR(aspeed->clk);
- 	}
-+
-+	of_property_read_u32(pdev->dev.of_node, "bus-frequency", &bus_freq);
-+	clk_set_rate(aspeed->clk, bus_freq);
-+
- 	rc = clk_prepare_enable(aspeed->clk);
- 	if (rc) {
- 		dev_err(aspeed->dev, "couldn't enable clock\n");
--- 
-2.26.2
+Any comments here?
 
+Best regards,
+Krzysztof
+
+
+> 
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts b/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts
+> index 4a1ca8f5b6a7..03c161493ffc 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts
+> @@ -121,6 +121,8 @@
+>  	pca9555@27 {
+>  		compatible = "nxp,pca9555";
+>  		reg = <0x27>;
+> +		gpio-controller;
+> +		#gpio-cells = <2>;
+>  	};
+>  };
+>  
+> -- 
+> 2.17.1
+> 
