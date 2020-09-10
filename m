@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB723265657
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 03:07:44 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A614265659
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 03:07:50 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bnd0G1WLCzDqkZ
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 11:07:42 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bnd0M4m2QzDqkS
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 11:07:47 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -16,24 +16,24 @@ Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=qD5SpAJw; dkim-atps=neutral
+ header.s=default header.b=fkFAnNN1; dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BnRSr2VsWzDrRP
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 03:58:20 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BnRT02WWQzDrR6
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 03:58:28 +1000 (AEST)
 Received: from localhost.localdomain (unknown [194.230.155.174])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8D80B221E2;
- Thu, 10 Sep 2020 17:58:08 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 94DB620BED;
+ Thu, 10 Sep 2020 17:58:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599760697;
- bh=udNEmeVyLPWdARKfdcfI5Aq87zp3Ww2DikohbfSaNM8=;
+ s=default; t=1599760704;
+ bh=OXsik6EqH3Q2Anuh4Xhln9JrXulc3fb3eoNqyC07rng=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qD5SpAJwCblaZ3hpivgzqSRdZQmdif0nTbQ5ZZR/4Ap7SjEnTGOn0O40cxdUSHxIh
- H4nKxTtrt62dnBPCVnbSj6iAmKxNIPHtNBHSjXxeLpYie8/AToVbQnbpmwtdc0ftvn
- irlcQJl2LjvNbp7iPMunJ2IqkMB6RfQJGgTnExSM=
+ b=fkFAnNN12TOdvhn6emMXCqZQykb5yLGh/K746LenzHXMlovIxKy+Zq5SdiXSlg8Qz
+ 2RF8OVfWrKuDXJjqAAuMRbITTXVF8nP01xdSgL7obFCqV1222DzGswOIh25HVyevKV
+ peANFOdksg/OJHzPQg/BjhrCOwJkzry8HLVVUU8A=
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Linus Walleij <linus.walleij@linaro.org>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>,
@@ -55,10 +55,10 @@ To: Linus Walleij <linus.walleij@linaro.org>,
  linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
  linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 04/15] arm64: dts: mediatek: align GPIO hog names with
+Subject: [PATCH v2 05/15] arm64: dts: renesas: align GPIO hog names with
  dtschema
-Date: Thu, 10 Sep 2020 19:57:22 +0200
-Message-Id: <20200910175733.11046-5-krzk@kernel.org>
+Date: Thu, 10 Sep 2020 19:57:23 +0200
+Message-Id: <20200910175733.11046-6-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200910175733.11046-1-krzk@kernel.org>
 References: <20200910175733.11046-1-krzk@kernel.org>
@@ -84,118 +84,98 @@ dtschema for pca95xx requires GPIO hogs to end with 'hog' prefix.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- .../boot/dts/mediatek/pumpkin-common.dtsi     | 26 +++++++++----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ .../boot/dts/renesas/r8a77951-salvator-xs.dts      |  2 +-
+ .../boot/dts/renesas/r8a77965-salvator-xs.dts      |  2 +-
+ arch/arm64/boot/dts/renesas/ulcb-kf.dtsi           | 14 +++++++-------
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi b/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
-index 29d8cf6df46b..351a1905a074 100644
---- a/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
-@@ -63,91 +63,91 @@
- 		gpio-controller;
- 		#gpio-cells = <2>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dts b/arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dts
+index cef9da4376a3..e5922329a4b8 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dts
++++ b/arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dts
+@@ -118,7 +118,7 @@
+ };
  
--		eint20_mux_sel0 {
-+		eint20-mux-sel0-hog {
- 			gpio-hog;
- 			gpios = <0 0>;
- 			input;
- 			line-name = "eint20_mux_sel0";
- 		};
+ &pca9654 {
+-	pcie_sata_switch {
++	pcie-sata-switch-hog {
+ 		gpio-hog;
+ 		gpios = <7 GPIO_ACTIVE_HIGH>;
+ 		output-low; /* enable SATA by default */
+diff --git a/arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dts b/arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dts
+index 5cef64605464..d7e621101af7 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dts
++++ b/arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dts
+@@ -55,7 +55,7 @@
+ };
  
--		expcon_mux_sel1 {
-+		expcon-mux-sel1-hog {
- 			gpio-hog;
- 			gpios = <1 0>;
- 			input;
- 			line-name = "expcon_mux_sel1";
- 		};
+ &pca9654 {
+-	pcie_sata_switch {
++	pcie-sata-switch-hog {
+ 		gpio-hog;
+ 		gpios = <7 GPIO_ACTIVE_HIGH>;
+ 		output-low; /* enable SATA by default */
+diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+index 202177706cde..e9ed2597f1c2 100644
+--- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
++++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+@@ -143,49 +143,49 @@
+ 		interrupt-parent = <&gpio6>;
+ 		interrupts = <8 IRQ_TYPE_EDGE_FALLING>;
  
--		mrg_di_mux_sel2 {
-+		mrg-di-mux-sel2-hog {
+-		audio_out_off {
++		audio-out-off-hog {
  			gpio-hog;
- 			gpios = <2 0>;
- 			input;
- 			line-name = "mrg_di_mux_sel2";
- 		};
- 
--		sd_sdio_mux_sel3 {
-+		sd-sdio-mux-sel3-hog {
- 			gpio-hog;
- 			gpios = <3 0>;
- 			input;
- 			line-name = "sd_sdio_mux_sel3";
- 		};
- 
--		sd_sdio_mux_ctrl7 {
-+		sd-sdio-mux-ctrl7-hog {
- 			gpio-hog;
- 			gpios = <7 0>;
- 			output-low;
- 			line-name = "sd_sdio_mux_ctrl7";
- 		};
- 
--		hw_id0 {
-+		hw-id0-hog {
- 			gpio-hog;
- 			gpios = <8 0>;
- 			input;
- 			line-name = "hw_id0";
- 		};
- 
--		hw_id1 {
-+		hw-id1-hog {
- 			gpio-hog;
- 			gpios = <9 0>;
- 			input;
- 			line-name = "hw_id1";
- 		};
- 
--		hw_id2 {
-+		hw-id2-hog {
- 			gpio-hog;
- 			gpios = <10 0>;
- 			input;
- 			line-name = "hw_id2";
- 		};
- 
--		fg_int_n {
-+		fg-int-n-hog {
- 			gpio-hog;
- 			gpios = <11 0>;
- 			input;
- 			line-name = "fg_int_n";
- 		};
- 
--		usba_pwr_en {
-+		usba-pwr-en-hog {
- 			gpio-hog;
- 			gpios = <12 0>;
+ 			gpios = <0 GPIO_ACTIVE_HIGH>; /* P00 */
  			output-high;
- 			line-name = "usba_pwr_en";
+ 			line-name = "Audio_Out_OFF";
  		};
  
--		wifi_3v3_pg {
-+		wifi-3v3-pg-hog {
+-		hub_pwen {
++		hub-pwen-hog {
  			gpio-hog;
- 			gpios = <13 0>;
- 			input;
- 			line-name = "wifi_3v3_pg";
+ 			gpios = <6 GPIO_ACTIVE_HIGH>;
+ 			output-high;
+ 			line-name = "HUB pwen";
  		};
  
--		cam_rst {
-+		cam-rst-hog {
+-		hub_rst {
++		hub-rst-hog {
  			gpio-hog;
- 			gpios = <14 0>;
+ 			gpios = <7 GPIO_ACTIVE_HIGH>;
+ 			output-high;
+ 			line-name = "HUB rst";
+ 		};
+ 
+-		otg_extlpn {
++		otg-extlpn-hog {
+ 			gpio-hog;
+ 			gpios = <9 GPIO_ACTIVE_HIGH>;
+ 			output-high;
+ 			line-name = "OTG EXTLPn";
+ 		};
+ 
+-		otg_offvbusn {
++		otg-offvbusn-hog {
+ 			gpio-hog;
+ 			gpios = <8 GPIO_ACTIVE_HIGH>;
  			output-low;
- 			line-name = "cam_rst";
+ 			line-name = "OTG OFFVBUSn";
  		};
  
--		cam_pwdn {
-+		cam-pwdn-hog {
+-		sd-wifi-mux {
++		sd-wifi-mux-hog {
  			gpio-hog;
- 			gpios = <15 0>;
- 			output-low;
+ 			gpios = <5 GPIO_ACTIVE_HIGH>;
+ 			output-low;	/* Connect WL1837 */
+ 			line-name = "SD WiFi mux";
+ 		};
+ 
+-		snd_rst {
++		snd-rst-hog {
+ 			gpio-hog;
+ 			gpios = <15 GPIO_ACTIVE_HIGH>; /* P17 */
+ 			output-high;
 -- 
 2.17.1
 
