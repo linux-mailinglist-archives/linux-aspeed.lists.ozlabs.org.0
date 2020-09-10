@@ -1,63 +1,63 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6987A263AB6
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 04:42:16 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8275263ABA
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 04:42:47 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bn37n4j4VzDqY6
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 12:42:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bn38P0T99zDqbG
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Sep 2020 12:42:45 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::641;
- helo=mail-ej1-x641.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::544;
+ helo=mail-ed1-x544.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=SzbeO7Oa; dkim-atps=neutral
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
- [IPv6:2a00:1450:4864:20::641])
+ header.s=google header.b=mWO6yxyl; dkim-atps=neutral
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bn37h28P7zDqY5
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 12:42:06 +1000 (AEST)
-Received: by mail-ej1-x641.google.com with SMTP id r7so6411820ejs.11
- for <linux-aspeed@lists.ozlabs.org>; Wed, 09 Sep 2020 19:42:06 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bn38H41ZCzDqY5
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 12:42:39 +1000 (AEST)
+Received: by mail-ed1-x544.google.com with SMTP id l63so4705786edl.9
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 09 Sep 2020 19:42:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NqwpRLg4PT44jhpT//Uf1w2MoxgHWm0NwZNCgoTWYaQ=;
- b=SzbeO7Oa0OQJSMhsqoY5ZVWwaerWZtBxMvU91a4ZbLSIjrnT/wA/jxzt9sw1LWMGWg
- MR13QS591LgNNIInj50Q+kz8yNMCRw08k0PnyEa0ts12t7O+VSo9CsnK1c9akMFFkMSu
- C3JuOqI5xeP4ZEbgA+ikOy3PHSXgtGgZU85ok=
+ :cc; bh=IV24EMooKIdI1/XvCM1HiUrz4TlPj+AnTpwU1/6j+Fs=;
+ b=mWO6yxylw5PrvytFJ8u0boPEDxdTeiaoYmRzeT/uCBQ8/QFlbRfV1kV6i9EY6Z4BEd
+ QRREVP9cHw0qx5Cq+pWhmbmW1yobRKr1CllHpkaCfuhaNnn0UI3I5hNUVU4z86QyqE0e
+ f9k/LXU/j+MhEp69BBWsqcmKrKNP/Q/mpzRK0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NqwpRLg4PT44jhpT//Uf1w2MoxgHWm0NwZNCgoTWYaQ=;
- b=L153jyCUa5jVEnVGhB/M9FDYkzchFHACNXh6Gk4QIloscId/vGjMOTRv4DwfTAqPtE
- JdlJNxUG7KdcvAmDLPFXh5Y4ewJ0q0Omv54zMoAUTyz551Y9lSlxpCgWkITrXRG5xKEa
- OeeC35NOJFOKdwDlzz/GbqPjCXyM1NXv496SxKAiew4OvCb5ab3xN6o7v0FW05fB9+2V
- iASWkhvc0mdXyBMDgsccnjiujQQapDOnGCfcZcunu3Z6hsvtqZq+Bq8E/95J+HqRibf7
- mzTIw/KsNSk6osnDg0mMS1OdxdbLBchy7yPPwoCCSZX47EtvTapgwlL+Xfw3ExJrZYcP
- IQsw==
-X-Gm-Message-State: AOAM5313g5U8hGOZavCkT6SEdAm4R2XC3cxYBL4YYj4Q41Zsk7bgK8r3
- r++vRfBXNvzRPgcaWWPiJSJLkWMYUE8eEs5pmgw=
-X-Google-Smtp-Source: ABdhPJwcXluGz3hInva1gKy4bM6y+M5N5Gn1vQaAuMY9KP0ILDgfzMQslOJeSPPJbmHsAfiiGjCmfeI9GQntCW6JJLg=
-X-Received: by 2002:a17:906:e918:: with SMTP id
- ju24mr6428814ejb.442.1599705722453; 
- Wed, 09 Sep 2020 19:42:02 -0700 (PDT)
+ bh=IV24EMooKIdI1/XvCM1HiUrz4TlPj+AnTpwU1/6j+Fs=;
+ b=T6Fnki9QzNKMRy6D+nfqAx3nP/HsTfSW8kd3n+3n91F9IfIIM2nfUS3iix3pm0/oIG
+ s3kB9Uw/nYD3Gf881S4HChbujON0qeAOlfUlVfDg9n5GcNQV2LGPIzZERgqxe9+uJXgq
+ 8Fo7nUKXGVozjPatDGmKoX8VbKS60szTHaTuebU+90vk5nnY7xPmo4h1OzFBQbiD18K3
+ ulMQzDZtgeI0NgzPYo7cYKtD9PIuWmpS6bVBa9B5tLhgUXFSX6gx9hcm73oMeKRFt+Hp
+ +dMtiOMTqh241ArQsHDzxBBK8VWFcv1XWEI2M7P+KuJHyKm9BmUhK6pqmq7Yzx/kwGcF
+ +a4w==
+X-Gm-Message-State: AOAM531LJBDWmaMRyNF/WHIvMxuo6NbycP9k/0wuCmsyEKmP/DOtcMbC
+ MOqSxlP1JcmhlALpRKEHQr1c8XdnYW6870Q+MP0=
+X-Google-Smtp-Source: ABdhPJwTM4O5O5xRMECD/ml4XHGuaZA2V4he+MJw7w757tMECPm75d0txtkWrhCsL/3ha/ISqjZVL6egBSM4IlbTHrs=
+X-Received: by 2002:a05:6402:220d:: with SMTP id
+ cq13mr7091704edb.260.1599705755811; 
+ Wed, 09 Sep 2020 19:42:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200909203059.23427-1-eajames@linux.ibm.com>
- <20200909203059.23427-5-eajames@linux.ibm.com>
-In-Reply-To: <20200909203059.23427-5-eajames@linux.ibm.com>
+ <20200909203059.23427-6-eajames@linux.ibm.com>
+In-Reply-To: <20200909203059.23427-6-eajames@linux.ibm.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 10 Sep 2020 02:41:49 +0000
-Message-ID: <CACPK8XdSUAiShnY2CZOb8_6YfaMxXnbUg0k=mWctYbRWEUpyBg@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] ARM: dts: Aspeed: Tacoma: Add IBM Operation Panel
+Date: Thu, 10 Sep 2020 02:42:23 +0000
+Message-ID: <CACPK8XeWS23xdBKs7Ge+MWqHr4HANTVeC4LSLqEujcp8eG=auw@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] ARM: dts: Aspeed: Rainier: Add IBM Operation Panel
  I2C device
 To: Eddie James <eajames@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -84,7 +84,7 @@ Sender: "Linux-aspeed"
 
 On Wed, 9 Sep 2020 at 20:31, Eddie James <eajames@linux.ibm.com> wrote:
 >
-> Set I2C bus 0 to multi-master mode and add the panel device that will
+> Set I2C bus 7 to multi-master mode and add the panel device that will
 > register as a slave.
 >
 > Signed-off-by: Eddie James <eajames@linux.ibm.com>
@@ -97,13 +97,13 @@ Cheers,
 Joel
 
 > ---
->  arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 7 +++++++
+>  arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 7 +++++++
 >  1 file changed, 7 insertions(+)
 >
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-> index 5f4ee67ac787..4d070d6ba09f 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+> index b94421f6cbd5..50d528444f5d 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
 > @@ -4,6 +4,7 @@
 >
 >  #include "aspeed-g6.dtsi"
@@ -112,20 +112,26 @@ Joel
 >  #include <dt-bindings/leds/leds-pca955x.h>
 >
 >  / {
-> @@ -438,7 +439,13 @@ aliases {
+> @@ -698,6 +699,7 @@ eeprom@53 {
 >  };
 >
->  &i2c0 {
+>  &i2c7 {
 > +       multi-master;
 >         status = "okay";
-> +
+>
+>         si7021-a20@20 {
+> @@ -831,6 +833,11 @@ gpio@15 {
+>                 };
+>         };
+>
 > +       ibm-panel@62 {
 > +               compatible = "ibm,op-panel";
 > +               reg = <(0x62 | I2C_OWN_SLAVE_ADDRESS)>;
 > +       };
->  };
->
->  &i2c1 {
+> +
+>         dps: dps310@76 {
+>                 compatible = "infineon,dps310";
+>                 reg = <0x76>;
 > --
 > 2.26.2
 >
