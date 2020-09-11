@@ -1,66 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33250265673
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 03:15:32 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82DCC26567D
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 03:17:08 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bnd9F3Y47zDqkB
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 11:15:29 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BndC52vXCzDqjl
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 11:17:05 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::643;
- helo=mail-ej1-x643.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::642;
+ helo=mail-ej1-x642.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=DHL8lSfl; dkim-atps=neutral
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
+ header.s=google header.b=nwOJbGJ5; dkim-atps=neutral
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
+ [IPv6:2a00:1450:4864:20::642])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bnd933h9GzDqc6
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 11:15:19 +1000 (AEST)
-Received: by mail-ej1-x643.google.com with SMTP id i26so11472300ejb.12
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 18:15:18 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BndBz5hGLzDqjj;
+ Fri, 11 Sep 2020 11:16:59 +1000 (AEST)
+Received: by mail-ej1-x642.google.com with SMTP id e23so11524370eja.3;
+ Thu, 10 Sep 2020 18:16:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DqB7DPHtIqi+Bw4fMVuljm+cc0DjSGuY8RA1DkIWScA=;
- b=DHL8lSflYdMnee4Le9oK2Cmw2kT1eKSCFxkEhyOVZfuzMIo/md+bD1KtO10sDhEJ7s
- xkYUKlXqQqmHWSsOqTkXU9VCQa6ufMsGzNaeAa6D+XybzjCJZhojTlf9pYPIgmghItuY
- Try0QKw8VXdzCAO3PeOi3EogI8kn3HmlTB3Yo=
+ :cc; bh=qCmr6GtTRUVNMstlQGu5HfhuoPvjXOmhgGjk3oqJXP8=;
+ b=nwOJbGJ51iJS9jtAMnqK7Mm5zybB2q3TkewTWxpS2zj8xyhXGMLedCMmXmrPzs7oS2
+ zSeD2YzMLSrMu5LaX3YpAg/+prqmC7yhd8lPXYfIHA0M/hw6OTDyW3AFrEdNf5oPkTEX
+ iFRNxsoc2P3AzxDHx1/eiNpFAYbT+bxbE5nMk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=DqB7DPHtIqi+Bw4fMVuljm+cc0DjSGuY8RA1DkIWScA=;
- b=DoLqWHSYbShpphtBG+QmlIcSaEGjL5N+ZWb0btczT5ryRXuZyyMETUWWt7E+KlgOln
- efmTJ+83IFjFGhC/4cP/RnFIG0/Fj6+lRSS9cRql/47AFEgG8fkCMc5NZJoZYozxGAeV
- TGdrmYvjyKbCYKBUvFxE4TXyLhAijkriSbV7cKhbUb/bADNxSdtIARIaYmJn24LqE+si
- H0BCq4J05kCypkWNKfhzMxo9e1D+QIrOGYCBu/+VuEHv1Jwi/bQMJ5KTn3ue8UAXuhje
- CdYenVjGWvqOgg9LSwkzecYssufAEYqb+sSCqIGCz3JGuTYZj9Eue6tukCtn5+3aP8XC
- hgkw==
-X-Gm-Message-State: AOAM531nuqkFjvPGXhoQDnOg9mCXKuv5I2hA4Sh94fsJBhtwtfP3Qw3Z
- t3Rz0ZtbnYgwehZ+y/CppSQ32NNpNzecJIFfoTOXLYk04mg=
-X-Google-Smtp-Source: ABdhPJyC/5wFl0aS0uol0uyiBTrxuWRqUjvlvqNkVX3NwIiFYVzywBU8WdIF3SqqzUmJnc3M3EdqulZFtzFPOftVnJE=
-X-Received: by 2002:a17:906:8695:: with SMTP id
- g21mr11320548ejx.504.1599786914775; 
- Thu, 10 Sep 2020 18:15:14 -0700 (PDT)
+ bh=qCmr6GtTRUVNMstlQGu5HfhuoPvjXOmhgGjk3oqJXP8=;
+ b=G/6dAzt34XyqaZ2vL8f/Z945Ag3cKRUCTO1Pg3YUhwkMiK0XoVYx0HRjg6KKBlua5x
+ YuRsCt0lckmy3jIJ3U9vCJicjplxJqcWJ08GrxICbQcXpoHwVxJAEfSLCh+b3oZAsNDA
+ 6s7H8LHADw/Lz7qflKgAlQa/qWxmv3yx/CJdmD0wOai3YY9hKhaHgIXe8Eg33Nxf/Xjg
+ JM+nba4dSnQLXgmdE0TK+oH28eU0wQrom7WOqKNiV9HfuRSICQ8rRHzVjgWMaVzXQYqR
+ j9mejXrZ4yXpLglPFN7DafiipAKLe4ly9/cOkdb8DhMSbkIq6/fhyP9WDRWyi10FwehU
+ QgQA==
+X-Gm-Message-State: AOAM5335HtoWTcy4PvbN+RYImEXIED7u4mPb/PvJ+CvJmgr/RVghI4Pg
+ Bd2DMzASvWfPyslrT6okDu76C/1EGz/lx7JE4Iw=
+X-Google-Smtp-Source: ABdhPJxznsa97+hjW+1Lf952YVMsO/Bg3uH+xCCYEp+PmEnbqsZ0PhKvpFXk2mt41KaSjH7q9joy2tNFywgTif3/PSI=
+X-Received: by 2002:a17:906:8401:: with SMTP id
+ n1mr11400758ejx.215.1599787016868; 
+ Thu, 10 Sep 2020 18:16:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200715135418.3194860-1-jk@codeconstruct.com.au>
- <CACPK8XcT02qv+1H=DDv8BRAdUmrBoweZ+Qb3aG34bQ9-UC08Xg@mail.gmail.com>
- <788526c84deb4763d874be1748fcc5a583f8f79d.camel@codeconstruct.com.au>
-In-Reply-To: <788526c84deb4763d874be1748fcc5a583f8f79d.camel@codeconstruct.com.au>
+References: <20200910151840.25333-1-eajames@linux.ibm.com>
+ <20200910151840.25333-4-eajames@linux.ibm.com>
+In-Reply-To: <20200910151840.25333-4-eajames@linux.ibm.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 11 Sep 2020 01:15:02 +0000
-Message-ID: <CACPK8XetpRt9gnfA3WbTzXOctqD5Anb0ugub3LaVzyyVnjycmQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] gpio/aspeed-sgpio: enable access to all 80 input &
- output sgpios
-To: Jeremy Kerr <jk@codeconstruct.com.au>
+Date: Fri, 11 Sep 2020 01:16:44 +0000
+Message-ID: <CACPK8XdTsDtDAvaNrz7e3hGXdcx_1=A0vPuTiXF7GhnWQrQi3g@mail.gmail.com>
+Subject: Re: [PATCH 3/4] dt-bindings: fsi: Aspeed master: Add bus-frequency
+ property
+To: Eddie James <eajames@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -73,89 +72,45 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+Cc: devicetree <devicetree@vger.kernel.org>,
  linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- devicetree <devicetree@vger.kernel.org>
+ Alistair Popple <alistair@popple.id.au>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Jeremy Kerr <jk@ozlabs.org>, linux-clk@vger.kernel.org,
+ linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 11 Sep 2020 at 01:10, Jeremy Kerr <jk@codeconstruct.com.au> wrote:
+On Thu, 10 Sep 2020 at 15:18, Eddie James <eajames@linux.ibm.com> wrote:
 >
-> Hi Joel,
+> Document the bus-frequency property.
 >
-> Thanks for the review!
->
-> > A Fixes: might be a good idea.
->
-> OK, given this isn't strictly (just) a fix, should I split that out?
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
 
-I assume anyone using the sgpio driver in anger would need this patch
-for it to work properly, so a fix tag will help them there. No need to
-break it down any further in my opinion.
+I think this is good terminology, and it's consistent with similar
+protocols such as i2c.
 
-Cheers,
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-Joel
-
+> ---
+>  Documentation/devicetree/bindings/fsi/fsi-master-aspeed.txt | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> > > -#define MAX_NR_SGPIO                   80
-> > > +#define MAX_NR_HW_SGPIO                        80
-> > > +#define SGPIO_OUTPUT_OFFSET            MAX_NR_HW_SGPIO
-> >
-> > A short comment explaining what's going on with these defines (as you
-> > did in your commit message) will help future reviewers.
+> diff --git a/Documentation/devicetree/bindings/fsi/fsi-master-aspeed.txt b/Documentation/devicetree/bindings/fsi/fsi-master-aspeed.txt
+> index a513e65ec0c9..d84bd19526ca 100644
+> --- a/Documentation/devicetree/bindings/fsi/fsi-master-aspeed.txt
+> +++ b/Documentation/devicetree/bindings/fsi/fsi-master-aspeed.txt
+> @@ -17,6 +17,7 @@ Optional properties:
 >
-> Sounds good, I'll add one.
->
-> >
-> > > +static void aspeed_sgpio_irq_init_valid_mask(struct gpio_chip *gc,
-> > > +               unsigned long *valid_mask, unsigned int ngpios)
-> > > +{
-> > > +       struct aspeed_sgpio *sgpio = gpiochip_get_data(gc);
-> > > +       int n = sgpio->n_sgpio;
-> > > +
-> > > +       WARN_ON(ngpios < MAX_NR_HW_SGPIO * 2);
-> > > +
-> > > +       /* input GPIOs in the lower range */
-> > > +       bitmap_set(valid_mask, 0, n);
-> > > +       bitmap_clear(valid_mask, n, ngpios - n);
-> > > +}
-> > > +
-> > > +static const bool aspeed_sgpio_is_input(unsigned int offset)
-> >
-> > The 0day bot complained about the 'const' here.
->
-> ack, will remove.
->
-> > > +{
-> > > +       return offset < SGPIO_OUTPUT_OFFSET;
-> > > +}
-> > >  static int aspeed_sgpio_dir_out(struct gpio_chip *gc, unsigned int offset, int val)
-> > >  {
-> > >         struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
-> > >         unsigned long flags;
-> > > +       int rc;
-> > >
-> > > -       spin_lock_irqsave(&gpio->lock, flags);
-> > > -
-> > > -       gpio->dir_in[GPIO_BANK(offset)] &= ~GPIO_BIT(offset);
-> > > -       sgpio_set_value(gc, offset, val);
-> > > +       /* No special action is required for setting the direction; we'll
-> > > +        * error-out in sgpio_set_value if this isn't an output GPIO */
-> > >
-> > > +       spin_lock_irqsave(&gpio->lock, flags);
-> > > +       rc = sgpio_set_value(gc, offset, val);
-> > >         spin_unlock_irqrestore(&gpio->lock, flags);
-> > >
-> > >         return 0;
-> >
-> > I think this should be 'return rc'
->
-> Yup. I'll send a v2 with these changes.
->
-> Cheers,
+>   - fsi-routing-gpios: GPIO for setting the FSI mux (internal or cabled)
+>   - fsi-mux-gpios: GPIO for detecting the desired FSI mux state
+> + - bus-frequency: the frequency of the FSI bus
 >
 >
-> Jeremy
+>  Examples:
+> --
+> 2.26.2
 >
