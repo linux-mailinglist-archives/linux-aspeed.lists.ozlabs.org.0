@@ -2,66 +2,42 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B6526566A
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 03:09:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05ED2265685
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 03:17:59 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bnd200VJ4zDqkB
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 11:09:12 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BndD41WvqzDqkZ
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 11:17:56 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::641;
- helo=mail-ej1-x641.google.com; envelope-from=joel.stan@gmail.com;
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record)
+ smtp.mailfrom=codeconstruct.com.au (client-ip=103.231.89.101;
+ helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=I/FT26ZM; dkim-atps=neutral
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
- [IPv6:2a00:1450:4864:20::641])
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=codeconstruct.com.au
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [103.231.89.101])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BncnW57mnzDqhn
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 10:58:23 +1000 (AEST)
-Received: by mail-ej1-x641.google.com with SMTP id i22so11460687eja.5
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 17:58:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Cxz6Kgxq7jatws0G3p9mdGTrUWQSctB2DFS0bYO6Ojo=;
- b=I/FT26ZMke89o+R7EJ2Aje+2MzCZNT4TZP901O7MUuoJylUVJUgvF6AjdakQdO8NiZ
- DF8XXBbbppuRdAhjbROMcN4jfDcF+D/mUw5hFL+4KEUIjbi5j1KEw2Witb7aD1VSkp55
- LQd/F9LQzLy3MdX8zgLSt4xC6PpWFIjZHey9A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Cxz6Kgxq7jatws0G3p9mdGTrUWQSctB2DFS0bYO6Ojo=;
- b=n9Hcw+ys2IvZ5YfuENAcAhXEWI2EyAXqC+/Z40kL+1UKhJmDR2pHpaUcma2Pm7Zce8
- g3MJAG8M91aqB3tAANBH2y/zRrK8NnNykWMVUAUkxFMVWQKsLOBC2cJEwSc41pPYA63a
- VFu8WD6W6vgdRWwmYfbp6G9BxEBX2p/BZPe56JpRyfhU1kMxJRs7mSM2xLXfc7k0mQ14
- R4d2fo1MYFXjZO8uyLEvCUeLauNklunaqSZsvJOptZPsQPFT6SwKF61Uv/IWacV4S9M5
- zmWU8VP89F1RPI/NhUI/5DfU4YQnrFOQr1eThfbW8GNeSJGZBAJSCK1hDn+w9OcsqTJ6
- m13A==
-X-Gm-Message-State: AOAM533pXUaKxT8VccDhf7uFR66lqqJNQ2RXAfbSq40SQoVZj9aED7/f
- xlDKsIIPJk+O/9Ae58UGZv1t+lWA0585NHcrfVo=
-X-Google-Smtp-Source: ABdhPJzAAzwOGCqc8Dnsefhddi0bmKYOxyuP9uc74zjJGVpiHt0ExaXYevQVTAi52dogax1ztBNqJ2xxXB6fQgx+i2U=
-X-Received: by 2002:a17:906:7cc6:: with SMTP id
- h6mr11643958ejp.266.1599785898793; 
- Thu, 10 Sep 2020 17:58:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200910175733.11046-1-krzk@kernel.org>
- <20200910175733.11046-13-krzk@kernel.org>
-In-Reply-To: <20200910175733.11046-13-krzk@kernel.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 11 Sep 2020 00:58:05 +0000
-Message-ID: <CACPK8XfmDySpkCw8nkmns-euGQE6JTqZLVO6JhvFJiRqNosRuQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/15] ARM: dts: aspeed: align GPIO hog names with
- dtschema
-To: Krzysztof Kozlowski <krzk@kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BndCz4Cy2zDqjj
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 11:17:51 +1000 (AEST)
+Received: from pecola.lan (180-150-121-66.b49679.p1.nbn.aussiebb.net
+ [180.150.121.66])
+ by mail.codeconstruct.com.au (Postfix) with ESMTPSA id AE2DB3FEA9;
+ Thu, 10 Sep 2020 21:10:30 -0400 (EDT)
+Message-ID: <788526c84deb4763d874be1748fcc5a583f8f79d.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 1/2] gpio/aspeed-sgpio: enable access to all 80 input &
+ output sgpios
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+To: Joel Stanley <joel@jms.id.au>
+Date: Fri, 11 Sep 2020 09:10:29 +0800
+In-Reply-To: <CACPK8XcT02qv+1H=DDv8BRAdUmrBoweZ+Qb3aG34bQ9-UC08Xg@mail.gmail.com>
+References: <20200715135418.3194860-1-jk@codeconstruct.com.au>
+ <CACPK8XcT02qv+1H=DDv8BRAdUmrBoweZ+Qb3aG34bQ9-UC08Xg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Fri, 11 Sep 2020 11:07:03 +1000
+User-Agent: Evolution 3.36.4-2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,131 +49,78 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Andrew Lunn <andrew@lunn.ch>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Tony Lindgren <tony@atomide.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Michal Simek <michal.simek@xilinx.com>, linux-renesas-soc@vger.kernel.org,
+Cc: "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
  linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- NXP Linux Team <linux-imx@nxp.com>, Guenter Roeck <linux@roeck-us.net>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- devicetree <devicetree@vger.kernel.org>, Jason Cooper <jason@lakedaemon.net>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- linux-omap@vger.kernel.org, Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Tero Kristo <t-kristo@ti.com>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>
+ devicetree <devicetree@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 10 Sep 2020 at 17:59, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->
-> dtschema for pca95xx expects GPIO hogs to end with 'hog' prefix.
+Hi Joel,
 
-This is a bit ugly. Do we have to go down this path?
+Thanks for the review!
+
+> A Fixes: might be a good idea.
+
+OK, given this isn't strictly (just) a fix, should I split that out?
+
+> > -#define MAX_NR_SGPIO                   80
+> > +#define MAX_NR_HW_SGPIO                        80
+> > +#define SGPIO_OUTPUT_OFFSET            MAX_NR_HW_SGPIO
+> 
+> A short comment explaining what's going on with these defines (as you
+> did in your commit message) will help future reviewers.
+
+Sounds good, I'll add one.
+
+> 
+> > +static void aspeed_sgpio_irq_init_valid_mask(struct gpio_chip *gc,
+> > +               unsigned long *valid_mask, unsigned int ngpios)
+> > +{
+> > +       struct aspeed_sgpio *sgpio = gpiochip_get_data(gc);
+> > +       int n = sgpio->n_sgpio;
+> > +
+> > +       WARN_ON(ngpios < MAX_NR_HW_SGPIO * 2);
+> > +
+> > +       /* input GPIOs in the lower range */
+> > +       bitmap_set(valid_mask, 0, n);
+> > +       bitmap_clear(valid_mask, n, ngpios - n);
+> > +}
+> > +
+> > +static const bool aspeed_sgpio_is_input(unsigned int offset)
+> 
+> The 0day bot complained about the 'const' here.
+
+ack, will remove.
+
+> > +{
+> > +       return offset < SGPIO_OUTPUT_OFFSET;
+> > +}
+> >  static int aspeed_sgpio_dir_out(struct gpio_chip *gc, unsigned int offset, int val)
+> >  {
+> >         struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
+> >         unsigned long flags;
+> > +       int rc;
+> > 
+> > -       spin_lock_irqsave(&gpio->lock, flags);
+> > -
+> > -       gpio->dir_in[GPIO_BANK(offset)] &= ~GPIO_BIT(offset);
+> > -       sgpio_set_value(gc, offset, val);
+> > +       /* No special action is required for setting the direction; we'll
+> > +        * error-out in sgpio_set_value if this isn't an output GPIO */
+> > 
+> > +       spin_lock_irqsave(&gpio->lock, flags);
+> > +       rc = sgpio_set_value(gc, offset, val);
+> >         spin_unlock_irqrestore(&gpio->lock, flags);
+> > 
+> >         return 0;
+> 
+> I think this should be 'return rc'
+
+Yup. I'll send a v2 with these changes.
+
+Cheers,
 
 
->
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> ---
->  arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts |  2 +-
->  arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts  | 16 ++++++++--------
->  2 files changed, 9 insertions(+), 9 deletions(-)
->
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> index 1fa233d2da26..0aa437486a0d 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> @@ -560,7 +560,7 @@
->                 gpio-controller;
->                 #gpio-cells = <2>;
->
-> -               smbus0 {
-> +               smbus0-hog {
->                         gpio-hog;
->                         gpios = <4 GPIO_ACTIVE_HIGH>;
->                         output-high;
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
-> index cb85168f6761..577c211c469e 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
-> @@ -827,7 +827,7 @@
->                                 gpio-controller;
->                                 #gpio-cells = <2>;
->
-> -                               smbus0 {
-> +                               smbus0-hog {
->                                         gpio-hog;
->                                         gpios = <4 GPIO_ACTIVE_HIGH>;
->                                         output-high;
-> @@ -852,7 +852,7 @@
->                                 gpio-controller;
->                                 #gpio-cells = <2>;
->
-> -                               smbus1 {
-> +                               smbus1-hog {
->                                         gpio-hog;
->                                         gpios = <4 GPIO_ACTIVE_HIGH>;
->                                         output-high;
-> @@ -900,7 +900,7 @@
->                                 gpio-controller;
->                                 #gpio-cells = <2>;
->
-> -                               smbus2 {
-> +                               smbus2-hog {
->                                         gpio-hog;
->                                         gpios = <4 GPIO_ACTIVE_HIGH>;
->                                         output-high;
-> @@ -925,7 +925,7 @@
->                                 gpio-controller;
->                                 #gpio-cells = <2>;
->
-> -                               smbus3 {
-> +                               smbus3-hog {
->                                         gpio-hog;
->                                         gpios = <4 GPIO_ACTIVE_HIGH>;
->                                         output-high;
-> @@ -992,7 +992,7 @@
->                                 gpio-controller;
->                                 #gpio-cells = <2>;
->
-> -                               smbus4 {
-> +                               smbus4-hog {
->                                         gpio-hog;
->                                         gpios = <4 GPIO_ACTIVE_HIGH>;
->                                         output-high;
-> @@ -1017,7 +1017,7 @@
->                                 gpio-controller;
->                                 #gpio-cells = <2>;
->
-> -                               smbus5 {
-> +                               smbus5-hog {
->                                         gpio-hog;
->                                         gpios = <4 GPIO_ACTIVE_HIGH>;
->                                         output-high;
-> @@ -1065,7 +1065,7 @@
->                                 gpio-controller;
->                                 #gpio-cells = <2>;
->
-> -                               smbus6 {
-> +                               smbus6-hog {
->                                         gpio-hog;
->                                         gpios = <4 GPIO_ACTIVE_HIGH>;
->                                         output-high;
-> @@ -1090,7 +1090,7 @@
->                                 gpio-controller;
->                                 #gpio-cells = <2>;
->
-> -                               smbus7 {
-> +                               smbus7-hog {
->                                         gpio-hog;
->                                         gpios = <4 GPIO_ACTIVE_HIGH>;
->                                         output-high;
-> --
-> 2.17.1
->
+Jeremy
+
