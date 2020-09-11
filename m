@@ -2,63 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1B85265669
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 03:09:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B6526566A
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 03:09:14 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bnd1t6F6HzDqjl
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 11:09:06 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bnd200VJ4zDqkB
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 11:09:12 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::642;
- helo=mail-ej1-x642.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::641;
+ helo=mail-ej1-x641.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=FLH0ZPoi; dkim-atps=neutral
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
- [IPv6:2a00:1450:4864:20::642])
+ header.s=google header.b=I/FT26ZM; dkim-atps=neutral
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bncm75YRRzDqhn
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 10:57:11 +1000 (AEST)
-Received: by mail-ej1-x642.google.com with SMTP id z23so11397223ejr.13
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 17:57:11 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BncnW57mnzDqhn
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 10:58:23 +1000 (AEST)
+Received: by mail-ej1-x641.google.com with SMTP id i22so11460687eja.5
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 17:58:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tkJnBKB+5Domdf5vHRZtifdi4EWqpxtk+BRDBj+qEQQ=;
- b=FLH0ZPoi2B+nzLIURnXoKuWbMep6zKKPYC6feQLG4/bp/nGSAzqy6LdsXV3RObmTc6
- 8YEO0znR4SkOvCAXPwiiYCi3FAjn0RenWwpx5dI/wvCOpBRBA+H/v0l7tO7VVNpkAYqz
- 9fQt/MnfMtup4vD0lMBU5WRFoYhppvFPeLw+k=
+ :cc; bh=Cxz6Kgxq7jatws0G3p9mdGTrUWQSctB2DFS0bYO6Ojo=;
+ b=I/FT26ZMke89o+R7EJ2Aje+2MzCZNT4TZP901O7MUuoJylUVJUgvF6AjdakQdO8NiZ
+ DF8XXBbbppuRdAhjbROMcN4jfDcF+D/mUw5hFL+4KEUIjbi5j1KEw2Witb7aD1VSkp55
+ LQd/F9LQzLy3MdX8zgLSt4xC6PpWFIjZHey9A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=tkJnBKB+5Domdf5vHRZtifdi4EWqpxtk+BRDBj+qEQQ=;
- b=l+MHOrnhHNMT1Nv/7m1pIpr1yfGJafnC+1FOFX4UGnHcH1Sxd/22fWQ2dOcosBlYmt
- 6dzJzUMcR0685X4G6UHbrvSTN/lyOTaf/Aqdt1xwVKNfbh7ks+N6wf58KjYIe2VsIikI
- 20uBOohr/mGC/adugxuRZPQs+LK/KZv9SvsfGiqK557EiOV75Sx0Bpp7pEauWtwsDiqI
- AVp7NmWyAAYOf8nUOCirFczPrMtKodbEa3hZFzkD/4fTJ7sxp/IHt3NrGL3w1cSSHWoZ
- CJqJ7BoB4ot3YVgbAEZHftzf91V2NBbyLjp3zHHLOyCmxkkX9B2MH2bs8YGwFpTfdFeS
- IUVQ==
-X-Gm-Message-State: AOAM5315VrUe7oh0ck/a7edcBeyNtwdGzXvoiQDTwrx0oybwhDvgdzGc
- yEyZ868y1MDZU1OBRQhNtICmcB+7lXynGc2K+1E=
-X-Google-Smtp-Source: ABdhPJzN9op/B4tSTilqcYoFaNSXY5BFurioXjFk61As43aUOnnnkGmnc7IPzMBe//QTkgP458J0K5uPVCUqFkW/EI0=
-X-Received: by 2002:a17:906:e918:: with SMTP id
- ju24mr11306983ejb.442.1599785825728; 
- Thu, 10 Sep 2020 17:57:05 -0700 (PDT)
+ bh=Cxz6Kgxq7jatws0G3p9mdGTrUWQSctB2DFS0bYO6Ojo=;
+ b=n9Hcw+ys2IvZ5YfuENAcAhXEWI2EyAXqC+/Z40kL+1UKhJmDR2pHpaUcma2Pm7Zce8
+ g3MJAG8M91aqB3tAANBH2y/zRrK8NnNykWMVUAUkxFMVWQKsLOBC2cJEwSc41pPYA63a
+ VFu8WD6W6vgdRWwmYfbp6G9BxEBX2p/BZPe56JpRyfhU1kMxJRs7mSM2xLXfc7k0mQ14
+ R4d2fo1MYFXjZO8uyLEvCUeLauNklunaqSZsvJOptZPsQPFT6SwKF61Uv/IWacV4S9M5
+ zmWU8VP89F1RPI/NhUI/5DfU4YQnrFOQr1eThfbW8GNeSJGZBAJSCK1hDn+w9OcsqTJ6
+ m13A==
+X-Gm-Message-State: AOAM533pXUaKxT8VccDhf7uFR66lqqJNQ2RXAfbSq40SQoVZj9aED7/f
+ xlDKsIIPJk+O/9Ae58UGZv1t+lWA0585NHcrfVo=
+X-Google-Smtp-Source: ABdhPJzAAzwOGCqc8Dnsefhddi0bmKYOxyuP9uc74zjJGVpiHt0ExaXYevQVTAi52dogax1ztBNqJ2xxXB6fQgx+i2U=
+X-Received: by 2002:a17:906:7cc6:: with SMTP id
+ h6mr11643958ejp.266.1599785898793; 
+ Thu, 10 Sep 2020 17:58:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200910175733.11046-1-krzk@kernel.org>
- <20200910175733.11046-12-krzk@kernel.org>
-In-Reply-To: <20200910175733.11046-12-krzk@kernel.org>
+ <20200910175733.11046-13-krzk@kernel.org>
+In-Reply-To: <20200910175733.11046-13-krzk@kernel.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 11 Sep 2020 00:56:53 +0000
-Message-ID: <CACPK8Xe8ufYxKA_Xh7D=TgocRFQ7BKFdm_Le-Ob-QxZWm6PZJw@mail.gmail.com>
-Subject: Re: [PATCH v2 11/15] ARM: dts: aspeed: fix PCA95xx GPIO expander
- properties on Portwell
+Date: Fri, 11 Sep 2020 00:58:05 +0000
+Message-ID: <CACPK8XfmDySpkCw8nkmns-euGQE6JTqZLVO6JhvFJiRqNosRuQ@mail.gmail.com>
+Subject: Re: [PATCH v2 12/15] ARM: dts: aspeed: align GPIO hog names with
+ dtschema
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Fri, 11 Sep 2020 11:07:03 +1000
@@ -97,34 +97,107 @@ Sender: "Linux-aspeed"
 
 On Thu, 10 Sep 2020 at 17:59, Krzysztof Kozlowski <krzk@kernel.org> wrote:
 >
-> The PCA95xx GPIO expander requires GPIO controller properties to operate
-> properly.
+> dtschema for pca95xx expects GPIO hogs to end with 'hog' prefix.
+
+This is a bit ugly. Do we have to go down this path?
+
+
 >
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-
-Acked-by: Joel Stanley <joel@jms.id.au>
-
-(This device tree can probably be dropped in the future. I heard these
-boards were very hard to come by even a year or so ago, and I doubt
-they are still in use.)
-
 > ---
->  arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts | 2 ++
->  1 file changed, 2 insertions(+)
+>  arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts |  2 +-
+>  arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts  | 16 ++++++++--------
+>  2 files changed, 9 insertions(+), 9 deletions(-)
 >
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts b/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts
-> index 4a1ca8f5b6a7..03c161493ffc 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts
-> @@ -121,6 +121,8 @@
->         pca9555@27 {
->                 compatible = "nxp,pca9555";
->                 reg = <0x27>;
-> +               gpio-controller;
-> +               #gpio-cells = <2>;
->         };
->  };
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+> index 1fa233d2da26..0aa437486a0d 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+> @@ -560,7 +560,7 @@
+>                 gpio-controller;
+>                 #gpio-cells = <2>;
 >
+> -               smbus0 {
+> +               smbus0-hog {
+>                         gpio-hog;
+>                         gpios = <4 GPIO_ACTIVE_HIGH>;
+>                         output-high;
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
+> index cb85168f6761..577c211c469e 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
+> @@ -827,7 +827,7 @@
+>                                 gpio-controller;
+>                                 #gpio-cells = <2>;
+>
+> -                               smbus0 {
+> +                               smbus0-hog {
+>                                         gpio-hog;
+>                                         gpios = <4 GPIO_ACTIVE_HIGH>;
+>                                         output-high;
+> @@ -852,7 +852,7 @@
+>                                 gpio-controller;
+>                                 #gpio-cells = <2>;
+>
+> -                               smbus1 {
+> +                               smbus1-hog {
+>                                         gpio-hog;
+>                                         gpios = <4 GPIO_ACTIVE_HIGH>;
+>                                         output-high;
+> @@ -900,7 +900,7 @@
+>                                 gpio-controller;
+>                                 #gpio-cells = <2>;
+>
+> -                               smbus2 {
+> +                               smbus2-hog {
+>                                         gpio-hog;
+>                                         gpios = <4 GPIO_ACTIVE_HIGH>;
+>                                         output-high;
+> @@ -925,7 +925,7 @@
+>                                 gpio-controller;
+>                                 #gpio-cells = <2>;
+>
+> -                               smbus3 {
+> +                               smbus3-hog {
+>                                         gpio-hog;
+>                                         gpios = <4 GPIO_ACTIVE_HIGH>;
+>                                         output-high;
+> @@ -992,7 +992,7 @@
+>                                 gpio-controller;
+>                                 #gpio-cells = <2>;
+>
+> -                               smbus4 {
+> +                               smbus4-hog {
+>                                         gpio-hog;
+>                                         gpios = <4 GPIO_ACTIVE_HIGH>;
+>                                         output-high;
+> @@ -1017,7 +1017,7 @@
+>                                 gpio-controller;
+>                                 #gpio-cells = <2>;
+>
+> -                               smbus5 {
+> +                               smbus5-hog {
+>                                         gpio-hog;
+>                                         gpios = <4 GPIO_ACTIVE_HIGH>;
+>                                         output-high;
+> @@ -1065,7 +1065,7 @@
+>                                 gpio-controller;
+>                                 #gpio-cells = <2>;
+>
+> -                               smbus6 {
+> +                               smbus6-hog {
+>                                         gpio-hog;
+>                                         gpios = <4 GPIO_ACTIVE_HIGH>;
+>                                         output-high;
+> @@ -1090,7 +1090,7 @@
+>                                 gpio-controller;
+>                                 #gpio-cells = <2>;
+>
+> -                               smbus7 {
+> +                               smbus7-hog {
+>                                         gpio-hog;
+>                                         gpios = <4 GPIO_ACTIVE_HIGH>;
+>                                         output-high;
 > --
 > 2.17.1
 >
