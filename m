@@ -1,87 +1,90 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8529E265AD6
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 09:51:48 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BA3C265B74
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 10:21:42 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BnnyR6NdVzDqnv
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 17:51:43 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bnpcz3C22zDqpC
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 18:21:39 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=64.147.123.25;
- helo=wout2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm3 header.b=rQ+puJdd; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm3 header.b=kXkU3shw; 
- dkim-atps=neutral
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
+ smtp.helo=apc01-sg2-obe.outbound.protection.outlook.com
+ (client-ip=40.107.131.124; helo=apc01-sg2-obe.outbound.protection.outlook.com;
+ envelope-from=chiawei_wang@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=aspeedtech.com
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-eopbgr1310124.outbound.protection.outlook.com [40.107.131.124])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BnnyG3kY4zDqfF
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 17:51:34 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 3D4EBC45;
- Fri, 11 Sep 2020 03:45:39 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 11 Sep 2020 03:45:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=LnsJv6GD9nTg0
- 2V8m96sV6eOoWxSDw59yWZqnOxCD04=; b=rQ+puJddY/Re8G6ofonEu6PbNLLAT
- YphOh0zR6nNXYEld7wPoLniBIUsnd/l1bIYw+9s3WuJ0tLCdxKiLvgoH8QhrmZvh
- hPruPezPK6fdVRAd6nTWi2NXnFhmSocPCF+GlNGjm+1XWKcBGfLRCu0Ij0dImHCe
- cTB31FR7+UkIY2zZe4aafUAkhl89Ar/fwg79BznYoNnq9IiJvsNtl8xqqCMhmmuV
- 1VfCnyMQXv/DuovDCkq4BFG22fMMs5BsdIld2piE/RdhpXGzFajZliFTNZindSp8
- jgoxPg4LFN0IAxO5VGqqHbCYEwc1MwRqkhgYyicPqLLtS2f+5BpE4ZMQA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=LnsJv6GD9nTg02V8m96sV6eOoWxSDw59yWZqnOxCD04=; b=kXkU3shw
- 5je9QLC1OMJ/59DNvPtiEbmqf+3GhLJI9TAf2VQhae7mx7UjmsZk40HtHtHm9QjU
- BEBwAvNMspNvXzY36y7GRCnxasXJRkAJx4/JFvHPZDaT44g9wK4p5ib5riWa/L8m
- QmjKm0t9BTFnfpJftsjl92lyc2Tndug252WoirjjnITmaYkYSF4ZVlpEfqrybY62
- dsx8GZkzS8e0S0R4cv9wS/MoTgwMF0ScVmlwSZxwdKJAKbGEfjklojmuRFHlNKPd
- hr/b39nYT8NnGrkIyaoj+K5T7w9eS9p7XH/H6Fx3fzJnrQwgoxqo5PKjmg1Kw4E3
- D2gEgLT6cyalVQ==
-X-ME-Sender: <xms:IitbX0uJKdbGKJbLu3q_f1GJx26hCnX1EvOTGTUK__wObWCkvFycWg>
- <xme:IitbXxfzImQ9K170eWsQsil-eJBB-mrFo8cP31vZzR_q_TUCsQgzZOKH-4fkvN8eW
- 2IAgDjS34n1VvzlqA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehkedguddvgecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
- ertdertddtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfies
- rghjrdhiugdrrghuqeenucggtffrrghtthgvrhhnpeejgfdvveehteekveeggeellefgle
- etteejffelffdvudduveeiffegteelvefhteenucfkphepudegrddvrddutdelrdekheen
- ucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurh
- gvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:IitbX_yC3AuQTnRmNREDD0YcrKfNw2s6bkn1kOXVqzcibiu6t_oJZg>
- <xmx:IitbX3OZxbfWshor7r83rWM-JNc6w-c2WepqKyNegnYzV54aBYCzdA>
- <xmx:IitbX09sRzP2DX-N_DewxxhYt_9guYSpdiFUJjL_qQScl103-Gc27w>
- <xmx:IitbX4ZBxA6AitlLHLFISFjfqpo70EBWAI_wT8qUf4frrp9Hf_PfYQ>
-Received: from mistburn.lan
- (ppp14-2-109-85.adl-apt-pir-bras32.tpg.internode.on.net [14.2.109.85])
- by mail.messagingengine.com (Postfix) with ESMTPA id 0A1BC3064683;
- Fri, 11 Sep 2020 03:45:35 -0400 (EDT)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: linux-mmc@vger.kernel.org
-Subject: [PATCH v2 3/3] ARM: dts: tacoma: Add phase delay for eMMC
-Date: Fri, 11 Sep 2020 17:14:52 +0930
-Message-Id: <20200911074452.3148259-4-andrew@aj.id.au>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200911074452.3148259-1-andrew@aj.id.au>
-References: <20200911074452.3148259-1-andrew@aj.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bnpcq1LzpzDqcD;
+ Fri, 11 Sep 2020 18:21:27 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fDyl7wHCWqxb70FuwCgNceX6IqIolCoBT6EBbd3qg9Ofjmaprwd5njN5BAk4PQp6I9Oet9l25+7BqmZjiAXaKgvZbIzVaD0bc3iJMaKeAJ0dhqipJEUCcafXTBDa0ZhjCWxj9UfQ5bYZ9rrVnMqhIuLB842IY/6sNvSUwcmDFcAi6jiw90AfgiquvGJxES3nsCJ2/9ucXJBgUEpK0+P2uYqdKwGIf6Ek1ZOrqX0pI6urcSTb3GW8VEwpZAiH3Y084M64J/IXqo8E2/SkN6bFMVJkjK0ms+6UCEekdBXIgaeHFAX0sPAFoNxGqBD9HE/aYi/D10IbOIOlMra8CcozRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fIIRRq4waapDUQZyCpl09E9og3a81y4WoizfSd8wtkc=;
+ b=FiruDCC50Qel1fFR2u1J4WttAWh1BS5V9aGv84x5MdQ3FlqdLEHORfmaCZElzXcI4JmDmRA2/JjPkLM/7UUEW+UB0c0H3SksXpRciQHWqg+hzSaGp6M6v7M7pGeMYQMVPrqBppgICbwd5UVmnnyDkry5vb+mqeLSCR80pUJxHdoUMVo767TUVOxsO0FDC/LvYkxxvVEDVln4IcbB4vYLE4WNxUuUVBncvG3ac3WIDcPXqT/LOGFAPhtLh+hxS2tzfnb9d4sji6Nz2ApwnOM13EWz9ROm8hs0VsanyYjvyJfl8djjyfhSXJrw8xChJP74HYs/47MKE7ACZfXVfTFdtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+Received: from HK0PR06MB3779.apcprd06.prod.outlook.com (2603:1096:203:b8::10)
+ by HK0PR06MB3668.apcprd06.prod.outlook.com (2603:1096:203:b7::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Fri, 11 Sep
+ 2020 08:21:17 +0000
+Received: from HK0PR06MB3779.apcprd06.prod.outlook.com
+ ([fe80::1c00:7cfc:b795:e043]) by HK0PR06MB3779.apcprd06.prod.outlook.com
+ ([fe80::1c00:7cfc:b795:e043%7]) with mapi id 15.20.3370.016; Fri, 11 Sep 2020
+ 08:21:17 +0000
+From: ChiaWei Wang <chiawei_wang@aspeedtech.com>
+To: Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>
+Subject: RE: [PATCH 0/4] Remove LPC register partitioning
+Thread-Topic: [PATCH 0/4] Remove LPC register partitioning
+Thread-Index: AQHWh+7F/kBF9JQr+U229w2dj+FSMali0RCAgAAL8QCAABZ/UA==
+Date: Fri, 11 Sep 2020 08:21:17 +0000
+Message-ID: <HK0PR06MB37796D91EC7290A69F2655E491240@HK0PR06MB3779.apcprd06.prod.outlook.com>
+References: <20200911034631.8473-1-chiawei_wang@aspeedtech.com>
+ <CACPK8XcYvUj3W-CPzXKugp3wx7rcLEJ_8f2-Bi6V7QHZpopBbA@mail.gmail.com>
+ <551926fc-7bd4-4a0e-8fcf-4675dcdba22b@www.fastmail.com>
+In-Reply-To: <551926fc-7bd4-4a0e-8fcf-4675dcdba22b@www.fastmail.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: aj.id.au; dkim=none (message not signed)
+ header.d=none;aj.id.au; dmarc=none action=none header.from=aspeedtech.com;
+x-originating-ip: [211.20.114.70]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 28851d9a-bce5-4118-6ab1-08d8562ba80c
+x-ms-traffictypediagnostic: HK0PR06MB3668:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <HK0PR06MB36683DAEBAF5E38A12D2767E91240@HK0PR06MB3668.apcprd06.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: gkhnZDM875oc5U0x8uG0LVW7LO9LSO9m0GuMDgk307Uvi8vzZFE4c9IXQYx0vA7fgBtkRZDTVq4wqKbVmDKVD2j6HMkNtBz4HTt2yjirEA/KLeXVhYUWyb6+jyurmUAwBCXhbqerVz3o6tLmrh911j7nECqrg2KJ1SHmvNfA3c++E6o6sTREoMrHfFKWSJQck508LDTWXC+HpjyC45ydAXIkRto7PALJ5lYvYGvtcNuuglYa7YIS5mhBJVslKjT703KrIcCrYnp2d2uzz9wY37MzQU/Wfj0mURxu2mNAk1wq+gi/lsjaEnBjbpWpUriW4gD3qX46yCS0K2G25gqKG9fY5ZNMaRDK3QUIeQdLOeSZ/hxmbYfnxvYqZGHtE6gu7h2ltu5aEFZzhXVMVw4FpA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR06MB3779.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39840400004)(346002)(136003)(396003)(366004)(376002)(34096005)(186003)(53546011)(8676002)(4326008)(316002)(55236004)(6506007)(86362001)(83380400001)(26005)(478600001)(107886003)(8936002)(55016002)(54906003)(9686003)(7416002)(52536014)(2906002)(33656002)(966005)(66946007)(110136005)(5660300002)(76116006)(7696005)(66476007)(71200400001)(66556008)(66446008)(64756008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: Z6e5qNnkx32WACAaz4M5CIFhGyGpwzKBiLNXUgwhMHgEEZZMVxgoC+7Q4uj4TuhVxe2CS4p32aemvIObvVySdLTkRxdPwMmFBgAPeGQLKRNcppvxKUXkE2REH502OQ58CszL4XPSBYH1+jwk6LnY8mA/h3VzI+D1ZAPw0TGEi5m29ntAUOf0a8G9m22Exf5J7fz5iqqCLI1lqHxWvkO2fF5YgO0u6kKIz2FXmKg/W1oNtbiT+2ghKufeNLv8JRxgYy95mtxohGgbc/3mYKV9zyvP+Kcr/1SYlvxR8ZC+hXqCwcCuru2k3kmtgiU2jx/tbzjlPJx0aEQll4iJ4oy0wxlfeIXeZo+qsm868VyXpLFvvv/eXXhLIVdOSgGKtVjGGaFjYSIL/FJL2N4j7H7YD2xAhm9GNbQU9vU20JLyo9wrw/JTi7oKkFao7Qnd6BlKIdvTtYwARcFlqzVp3YJd+JY5/CkTK/JsnqhXhCVg3KVSM4FZTDqDhSSP+LTR8HuVTv9o1trdMZhGQLWO6taysLS00tUdMlOKv4sZ4T+f9d1xZC9gA6RKDnIOd4j+bYlRTVL3UhlFl9JFYak6A6PL5Vmn0o2Fy+oggeEkVSkWCSMWPEsosLGn/ONFA4Lu+4cjiBd24zfJbeOGZSU/5+jglQ==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3779.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28851d9a-bce5-4118-6ab1-08d8562ba80c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2020 08:21:17.5204 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kC+9CrIn/n8VDgOIOqjsyC3MH/iMKeC56MDh6MgGf+9dyqgBV4P4c9rbF+9DaORZ3WgirihTlA39t4pc+DQdvW89uTErMhvjhRCSZBYhfXk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB3668
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,53 +96,101 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: ulf.hansson@linaro.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, adrian.hunter@intel.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Robert Lippert <rlippert@google.com>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, Corey Minyard <minyard@acm.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>, Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Cyril Bur <cyrilbur@gmail.com>, Haiyue Wang <haiyue.wang@linux.intel.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Adjust the phase delay to avoid data timeout splats like the following:
+Hello,
 
-[  731.368601] mmc0: Timeout waiting for hardware interrupt.
-[  731.374644] mmc0: sdhci: ============ SDHCI REGISTER DUMP ===========
-[  731.381828] mmc0: sdhci: Sys addr:  0x00000020 | Version:  0x00000002
-[  731.389012] mmc0: sdhci: Blk size:  0x00007200 | Blk cnt:  0x00000020
-[  731.396194] mmc0: sdhci: Argument:  0x00462a18 | Trn mode: 0x0000002b
-[  731.403377] mmc0: sdhci: Present:   0x01f70106 | Host ctl: 0x00000017
-[  731.410559] mmc0: sdhci: Power:     0x0000000f | Blk gap:  0x00000000
-[  731.417733] mmc0: sdhci: Wake-up:   0x00000000 | Clock:    0x00000107
-[  731.424915] mmc0: sdhci: Timeout:   0x0000000e | Int stat: 0x00000000
-[  731.432098] mmc0: sdhci: Int enab:  0x03ff008b | Sig enab: 0x03ff008b
-[  731.439282] mmc0: sdhci: ACmd stat: 0x00000000 | Slot int: 0x00000000
-[  731.446464] mmc0: sdhci: Caps:      0x01f80080 | Caps_1:   0x00000007
-[  731.453647] mmc0: sdhci: Cmd:       0x0000193a | Max curr: 0x001f0f08
-[  731.460829] mmc0: sdhci: Resp[0]:   0x00000900 | Resp[1]:  0xffffffff
-[  731.468013] mmc0: sdhci: Resp[2]:   0x320f5913 | Resp[3]:  0x00000900
-[  731.475195] mmc0: sdhci: Host ctl2: 0x0000008b
-[  731.480139] mmc0: sdhci: ADMA Err:  0x00000000 | ADMA Ptr: 0xbe040200
-[  731.487321] mmc0: sdhci: ============================================
+Thanks for your prompt feedback.
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-Acked-by: Joel Stanley <joel@jms.id.au>
----
- arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-index 5f4ee67ac787..94ec301ceb73 100644
---- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-@@ -179,6 +179,8 @@ &emmc_controller {
- 
- &emmc {
- 	status = "okay";
-+	aspeed,input-phase = <0x7>;
-+	aspeed,output-phase = <0x1f>;
- };
- 
- &fsim0 {
--- 
-2.25.1
-
+> -----Original Message-----
+> From: Andrew Jeffery <andrew@aj.id.au>
+> Sent: Friday, September 11, 2020 12:46 PM
+> To: Joel Stanley <joel@jms.id.au>; ChiaWei Wang
+> <chiawei_wang@aspeedtech.com>
+> Subject: Re: [PATCH 0/4] Remove LPC register partitioning
+>=20
+>=20
+> On Fri, 11 Sep 2020, at 13:33, Joel Stanley wrote:
+> > Hello,
+> >
+> > On Fri, 11 Sep 2020 at 03:46, Chia-Wei, Wang
+> > <chiawei_wang@aspeedtech.com> wrote:
+> > >
+> > > The LPC controller has no concept of the BMC and the Host partitions.
+> > > The incorrect partitioning can impose unnecessary range restrictions
+> > > on register access through the syscon regmap interface.
+> > >
+> > > For instance, HICRB contains the I/O port address configuration of
+> > > KCS channel 1/2. However, the KCS#1/#2 drivers cannot access HICRB
+> > > as it is located at the other LPC partition.
+>=20
+> Thanks for addressing this, I've regretted that choice for a while now.
+>=20
+> The split was rooted in trying to support pinmux while not being across e=
+very
+> detail of the LPC controller, and so I made some poor decisions.
+>=20
+> > >
+> > > In addition, to be backward compatible, the newly added HW control
+> > > bits could be added at any reserved bits over the LPC addressing spac=
+e.
+> > >
+> > > Thereby, this patch series aims to remove the LPC partitioning for
+> > > better driver development and maintenance.
+> >
+> > I support this cleanup. The only consideration is to be careful with
+> > breaking the driver/device-tree relationship. We either need to ensure
+> > the drivers remain compatible with  both device trees.
+> >
+> > Another solution is to get agreement from all parties that for the LPC
+> > device the device tree is always the one shipped with the kernel, so
+> > it is okay to make incompatible changes.
+If it is possible, I would prefer this solution to avoid adding additional =
+if-logic for the compatibility support in the driver implementation.
+As the patch can be less change made to register offset definitions and lea=
+ve the core logic untouched.
+> >
+> > While we are doing a cleanup, Andrew suggested we remove the detailed
+> > description of LPC out of the device tree. We would have the one LPC
+> > node, and create a LPC driver that creates all of the sub devices
+> > (snoop, FW cycles, kcs, bt, vuart). Andrew, can  you elaborate on this
+> > plan?
+>=20
+> I dug up the conversation I had with Rob over a year ago about being unha=
+ppy
+> with what I'd cooked up.
+>=20
+> https://lore.kernel.org/linux-arm-kernel/CAL_JsqJ+sFDG8eKbV3gvmqVHx+otW
+> bki4dY213apzXgfhbXXEw@mail.gmail.com/
+>=20
+> But I think you covered most of the idea there: We have the LPC driver cr=
+eate
+> the subdevices and that moves the details out of the devicetree.
+> However, I haven't thought about it more than that, and I think there are=
+ still
+> problems with that idea. For instance, how we manage configuration of tho=
+se
+> devices, and how to enable only the devices a given platform actually car=
+es
+> about (i.e. the problems that devicetree solves for us).
+Another concern to make centralized LPC driver implementation more complica=
+ted is the relationship with eSPI driver.
+AST2500 binds the reset control of LPC and eSPI together. If eSPI is used f=
+or the Host communication, the behavior in current "lpc-ctrl" should be ski=
+pped but not for KCS, BT, Snoop, etc.
+And this will be much easier to achieve by devicetree if LPC sub devices ar=
+e individually described.
+>=20
+> It may be that the only way to do that is with platform code, and that's =
+not
+> really a direction we should be going either.
+>
