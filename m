@@ -2,62 +2,83 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F9C2659AC
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 08:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F3A265AD7
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 09:51:53 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bnmj51CsXzDqTd
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 16:55:05 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bnnyb1Jp4zDqnr
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 17:51:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=krzk@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=aj.id.au (client-ip=64.147.123.25;
+ helo=wout2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=wGDEhigM; dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm3 header.b=jmffmps7; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm3 header.b=UiNFEODb; 
+ dkim-atps=neutral
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bnmhy4834zDqSc
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 16:54:58 +1000 (AEST)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0B1E3221F0
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 06:54:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1599807296;
- bh=LYU8Tb5GMA6mmuFbZxVtsFi/egUHKAmHaWZZIbnXOvo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=wGDEhigM8+lkU1NxKzxEtrjOx/BWGTf2++fzvR261PFG2BRGc9FTW1nj4T3BYurJ6
- nh0gM37axibQdwHIPmwmXbE1pxFvocMZRZ9oQ+pQwy6wyZ3O70XbvvKfaGcHoZeQcy
- ny4nSnPfEsKMtMcFVrANy/VC3/WHfn5eTinNC5fQ=
-Received: by mail-wr1-f48.google.com with SMTP id a17so10336495wrn.6
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 23:54:55 -0700 (PDT)
-X-Gm-Message-State: AOAM531TTTa8S8W0SH1a7vD/BXooJ8Spih6VPrixIpf4h0Jx6LhuKyOl
- wKJMvcxN3EoVIlu+SqZ09KFe1790bAPy/2HDmj4=
-X-Google-Smtp-Source: ABdhPJwFL/7j5w+fjQzCHgD8gJxiV9FGUB6o363qCx8Mfmt5a32puUoIjMf+DBJD/BgaOz8YT/NIs5ONHQziHSJrLOA=
-X-Received: by 2002:a17:906:4046:: with SMTP id
- y6mr730092ejj.148.1599807293350; 
- Thu, 10 Sep 2020 23:54:53 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BnnyH0Y4gzDqkb
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 17:51:34 +1000 (AEST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 6DA1DBC0;
+ Fri, 11 Sep 2020 03:45:30 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Fri, 11 Sep 2020 03:45:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=SE+c5Ec9tZ0o7WH4oDqfgPX1fR
+ ZYUDQNxW5WDSo9INY=; b=jmffmps7wsSVCCG8FL+UdZ9lEAtqfDVctpedmD+9Ap
+ xkbk9ZdA5tuBxIoHRnB6NmX3trLOEk3CR5KGsbvPLRqHLvRipGcTcSMxIuRCdoKG
+ hULFWZr8nyVN178yE20z2fWzxU20nGdCLQ8peAVZ8hZrvnWXeFzLz3fuxpPialz3
+ ttlHf6ogbr9ZU6yCjnaH0BHQgw2iFTL719+lTPrA5wf9OOnUy1RVEMEigzg4BJmc
+ fcKm58kkP30+NsH1vrvoHT94lAhEMaVrvIDFrFh34TdukYm66jGRA5iF1o/RDzlC
+ g/pYO4FGo3xgU8KnIz235x0oec9v548j6rSnrSfdT/vg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=SE+c5Ec9tZ0o7WH4o
+ DqfgPX1fRZYUDQNxW5WDSo9INY=; b=UiNFEODbff4YEHfYKixcS7vIcDNtGEArp
+ M198mrzrKtceR7vl/vK0/BjS/9Sva9mmlKWCdVttqvgLlNxJf5ru3ryHNyXxmnYV
+ 1S8Hp9w8RIDfk3UVycUhoWfUsvcOpXiu9wkh44reHmrm2Dpsz4LXA4tr3RUoP5uj
+ Cy9MtjzASgGogcUoz+ZEKHTMM2jC/mE1FM40Jns0Loy7GT9SS+1lnLcBQXTLJLOO
+ e7D5+skNUfLqAOeK4OMZFyzWxQsFmvaUIQT6aDRIp8UsrDanrayr5lhQqhaeQy12
+ uFfyqgfcTp02gXO82LLnzedrl674uua5cr/WsEEmSdY6MbDj/XeoA==
+X-ME-Sender: <xms:GCtbX__OrXUKKiRSF-DRk30q2IUQj2d45A_OsYg59tmKrDKUuA6OdQ>
+ <xme:GCtbX7tYBIDaH6kxug4FZdpvwScwcQE8WlbMWbWRIR8E7YVh0flxO3M6eFbEYEmQb
+ mSK5RerOImPHDZ6RA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehkedguddvgecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertd
+ ertddtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghj
+ rdhiugdrrghuqeenucggtffrrghtthgvrhhnpeeiteehudevlefhvddvjeeluefhleetve
+ ehfffgiedtfeegkeejfeeivefgheehgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhg
+ necukfhppedugedrvddruddtledrkeehnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+ hrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:GCtbX9AhVlcMvLyuRXIAR8qY933DluGxDzLcTjwqHCXDhEO1O5JOLw>
+ <xmx:GCtbX7exsGLjATbuPwVi6weoKKWmFbLY-Mbpy-2uFqqugaEacLeUHg>
+ <xmx:GCtbX0PZ3Yd_rS6_AnnCnKce8PfUgnZNtQNCK5nqr6gJ6rlGfGDp-g>
+ <xmx:GitbXxrod3ANFoj_2jH4Mty0nKjwTig8OFaAIDULCLNAmgSUzYPVJw>
+Received: from mistburn.lan
+ (ppp14-2-109-85.adl-apt-pir-bras32.tpg.internode.on.net [14.2.109.85])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 34ED83064682;
+ Fri, 11 Sep 2020 03:45:25 -0400 (EDT)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: linux-mmc@vger.kernel.org
+Subject: [PATCH v2 0/3] mmc: sdhci-of-aspeed: Expose phase delay tuning
+Date: Fri, 11 Sep 2020 17:14:49 +0930
+Message-Id: <20200911074452.3148259-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200910175733.11046-1-krzk@kernel.org>
- <20200910175733.11046-2-krzk@kernel.org>
- <20200910182814.veviax3n377undkv@akan>
- <CAJKOXPdQJz7aLu4sjds46SiZwxvB-VMBR=stjpUme+8iEo+d-w@mail.gmail.com>
- <CAMuHMdVG6+BsTUxb4wcAwj1WK982S0k2RCxmb3x9gsOS2TphNw@mail.gmail.com>
-In-Reply-To: <CAMuHMdVG6+BsTUxb4wcAwj1WK982S0k2RCxmb3x9gsOS2TphNw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Fri, 11 Sep 2020 08:54:40 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPcSUY6aqvix7R0YkzQL9Mze9O8jrWLLxKoRyjHTRhrYLA@mail.gmail.com>
-Message-ID: <CAJKOXPcSUY6aqvix7R0YkzQL9Mze9O8jrWLLxKoRyjHTRhrYLA@mail.gmail.com>
-Subject: Re: [PATCH v2 01/15] dt-bindings: gpio: convert bindings for NXP
- PCA953x family to dtschema
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,70 +90,42 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Andrew Lunn <andrew@lunn.ch>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Tony Lindgren <tony@atomide.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Michal Simek <michal.simek@xilinx.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- linux-aspeed@lists.ozlabs.org, Gregory Clement <gregory.clement@bootlin.com>,
- Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Guenter Roeck <linux@roeck-us.net>, NXP Linux Team <linux-imx@nxp.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jason Cooper <jason@lakedaemon.net>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- "open list:TI ETHERNET SWITCH DRIVER \(CPSW\)" <linux-omap@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Tero Kristo <t-kristo@ti.com>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>
+Cc: ulf.hansson@linaro.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, adrian.hunter@intel.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 11 Sep 2020 at 08:42, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Krzysztof,
->
-> On Thu, Sep 10, 2020 at 8:54 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> > On Thu, 10 Sep 2020 at 20:28, Nishanth Menon <nm@ti.com> wrote:
-> > > On 19:57-20200910, Krzysztof Kozlowski wrote:
-> > > [...]
-> > > > +  wakeup-source:
-> > > > +    $ref: /schemas/types.yaml#/definitions/flag
-> > > > +
-> > > > +patternProperties:
-> > > > +  "^(hog-[0-9]+|.+-hog(-[0-9]+)?)$":
-> > >
-> > > I wonder if "hog" is too generic and might clash with "something-hog" in
-> > > the future?
-> >
-> > This pattern is already used in
-> > Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml. It will
-> > match only children and so far it did not find any other nodes in ARM
-> > and ARM64 dts. I don't expect clashes. Also the question is then - if
-> > one adds a child of GPIO expander named "foobar-hog" and it is not a
-> > GPIO hog, then what is it?
->
-> Perhaps you didn't find any other nodes as children of pca953x
-> controllers?
+Hello,
 
-There shouldn't be.. unless one makes some i2c-gpio controller under
-such GPIO expander. But now it wouldn't be instantiated as expander is
-not a bus.
+This series exposes some devicetree properties for tuning phase delay in the
+Aspeed SD/eMMC controllers. The relevant register was introduced on the AST2600
+and is present for both the SD/MMC controller and the dedicated eMMC
+controller.
 
-> There are other hog nodes in other types of GPIO controllers. Typically
-> they're named after the purpose, e.g. "wifi-disable", "i2c3_mux_oe_n",
-> "pcie_sata_switch", "lcd0_mux".
->
-> IMHO it's a hog if it contains a "gpio-hog" property, regardless of node
-> naming.
+v2 addresses comments from Joel.
 
-Yes. The question is then whether to expect the "hog" in name. Just
-like we expect for all other device nodes to represent the class.
+v1 can be found here:
 
-Best regards,
-Krzysztof
+https://lore.kernel.org/linux-arm-kernel/20200910105440.3087723-1-andrew@aj.id.au/T/
+
+Please review!
+
+Cheers,
+
+Andrew
+
+Andrew Jeffery (3):
+  dt: bindings: mmc: Add phase control properties for the Aspeed SDHCI
+  mmc: sdhci-of-aspeed: Expose data sample phase delay tuning
+  ARM: dts: tacoma: Add data sample phase delay for eMMC
+
+ .../devicetree/bindings/mmc/aspeed,sdhci.yaml |   8 ++
+ arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts   |   2 +
+ drivers/mmc/host/sdhci-of-aspeed.c            | 126 +++++++++++++++++-
+ 3 files changed, 131 insertions(+), 5 deletions(-)
+
+-- 
+2.25.1
+
