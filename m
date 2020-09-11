@@ -2,63 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA222656D6
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 04:04:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 657C92656D7
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 04:04:51 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BnfG24sfbzDqhD
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 12:04:42 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BnfG86KfczDqjy
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 12:04:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::641;
- helo=mail-ej1-x641.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::544;
+ helo=mail-ed1-x544.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=QOgC4b/s; dkim-atps=neutral
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
- [IPv6:2a00:1450:4864:20::641])
+ header.s=google header.b=Yl5F6v3G; dkim-atps=neutral
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BnfDM3jLwzDqhD
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 12:03:14 +1000 (AEST)
-Received: by mail-ej1-x641.google.com with SMTP id e23so11648848eja.3
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 19:03:14 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BnfFc3gHYzDqlJ
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 12:04:20 +1000 (AEST)
+Received: by mail-ed1-x544.google.com with SMTP id w1so8394206edr.3
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 19:04:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BEZPiPwvSp1+pr7dCzwJ1u9bYXlu8VKtXAOvnlFbehc=;
- b=QOgC4b/s6UykHTFkdZSAELfdpJak5EwbEkSLC8zeYoeRsrtocmxmU5gI2W3P9dq5ja
- 4s9sg8N+OKylTMi8wRh6VF/FZIJ9FD9XJSyTb2IJ9ue4h9P466cUntPUQuc3M2vsZwHJ
- 6tk5tH87LY7SeSUv6qWBnPlG/rMpjxc4crgdw=
+ :cc; bh=4z2pqEFQc/fD65ZOsXerYiEysQgGTg32CxOqPq6IBO8=;
+ b=Yl5F6v3Gb5Wf97Fk7b6hKKBWyB2sKMDsS9bWOdXzZtR/tMKrYB/h+bw6QqR+eMEQ4r
+ o/+POFn2MJ3SMxzYnmuA9W829P1AFOY0/A3iUAQmW/UINSWM35kGr6p6E43PRX+jsdBq
+ J7DnkofDASefYBN6LZYnoXbgvdBmUKSFYQBkM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=BEZPiPwvSp1+pr7dCzwJ1u9bYXlu8VKtXAOvnlFbehc=;
- b=o5C3IM0mgXZH1xihysyEMth8qzJg4PqLlSGL4sgDZr25kuUNOpVyOWBq89v1kdvnDL
- c4Z3XfO5rmFgI0zjFEJVfOif0OQeJlk/agLrVkaUFE1pJWq5XX2/MEFipz4STcp/j/XM
- XDgpQfFGx2bOzrCDHg68MHmf8DP7hpdizu64H4XOKychDkJdTtEdyuFgYuMU+r7D1Yh7
- /90g56CNTGnLekmvI8eVkcKhDCjVfq+1M4x8MJSR3cqUGoCvEkZ+Zs6JMmKtfbbGz/y+
- Ynv7tZLSV5E0sE9muAl2TABLbjE6hQRVYGU9GQsn/IbL9W1CIsT2JNdt4PHABgA2yGgW
- rzrw==
-X-Gm-Message-State: AOAM531eN29bTf1zf5grhLm3UEFNog8NlFoyF4+LntBryuKM7m5qkMZA
- tlRcBgOkE7hql/p9FUF3Jris7/47cw7aMUQkfHw=
-X-Google-Smtp-Source: ABdhPJwhEp9Qyfs+QXTGM95VkwxGCWqdOgLu52PLOzdk6GKHUhYEku+GPwNJ2oQe7RPCCtvX80JXo/BoPO/gmhz/GJY=
-X-Received: by 2002:a17:906:e918:: with SMTP id
- ju24mr11535634ejb.442.1599789790428; 
- Thu, 10 Sep 2020 19:03:10 -0700 (PDT)
+ bh=4z2pqEFQc/fD65ZOsXerYiEysQgGTg32CxOqPq6IBO8=;
+ b=X7T5vVxSJN/7gzVFoe3jYzZfxFDnSllHq7vX4MWb/VhtJgTdm3cvujD1uKoVUsxg0O
+ O1xlqBoduc2glfC8l+W7Pdrp0RH2JzHyl6JdqByYP62ludYv+dpJhE2wJs6/bcvgj2VQ
+ TZhOGZaaYSvj8Zhi8cw+bd9iQo0vTvkrjkggkVD52ec8wKUUFg32ajKdGJCKNpNnp8HF
+ AA0zCGvroxyc7fErAmuhqT1wt+BOleblnrnz8UsYpJYnQFCgRzALQ8mpIqwNxuUrcZj/
+ xPudOWD1l/+X7gDVLLwqhtjGDPL2DH9N7qhPcofeXC5L2u+ziMynFU87IGlwXNXMx6tM
+ h81Q==
+X-Gm-Message-State: AOAM530zM6lFfEzlyAGu4GWCk9/mizcgmLMmE+ZP9nQ7IzyRRTS4c/B8
+ yITpJh816zbOJANdeK2TOTycq0hFEYZUKzYRcNY=
+X-Google-Smtp-Source: ABdhPJwVxLGtPmCtwE8CRX/qzbghy6V4fqt4VrSZ878trNfxo80v6AVlUc0HYi6YzOE52WWzoFiNpsiDSSYsKtZ0A0U=
+X-Received: by 2002:a50:fb0e:: with SMTP id d14mr13074812edq.172.1599789851191; 
+ Thu, 10 Sep 2020 19:04:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200910105440.3087723-1-andrew@aj.id.au>
- <20200910105440.3087723-3-andrew@aj.id.au>
-In-Reply-To: <20200910105440.3087723-3-andrew@aj.id.au>
+ <20200910105440.3087723-4-andrew@aj.id.au>
+In-Reply-To: <20200910105440.3087723-4-andrew@aj.id.au>
 From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 11 Sep 2020 02:02:58 +0000
-Message-ID: <CACPK8Xf-jys=F0Uqg-hYH-eDThmd5yOSNeC7+vLhra3GdOK1Zw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] mmc: sdhci-of-aspeed: Expose data sample phase delay
- tuning
+Date: Fri, 11 Sep 2020 02:03:58 +0000
+Message-ID: <CACPK8XcR72zuVTJXC840oYW9M1a=tKpn5z-4qJbv00LaA1qrqA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] ARM: dts: tacoma: Add data sample phase delay for eMMC
 To: Andrew Jeffery <andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -85,239 +83,48 @@ Sender: "Linux-aspeed"
 
 On Thu, 10 Sep 2020 at 10:55, Andrew Jeffery <andrew@aj.id.au> wrote:
 >
-> Allow sample phase adjustment to deal with layout or tolerance issues.
+> Adjust the phase delay to avoid data timeout splats like the following:
+>
+> [  731.368601] mmc0: Timeout waiting for hardware interrupt.
+> [  731.374644] mmc0: sdhci: ============ SDHCI REGISTER DUMP ===========
+> [  731.381828] mmc0: sdhci: Sys addr:  0x00000020 | Version:  0x00000002
+> [  731.389012] mmc0: sdhci: Blk size:  0x00007200 | Blk cnt:  0x00000020
+> [  731.396194] mmc0: sdhci: Argument:  0x00462a18 | Trn mode: 0x0000002b
+> [  731.403377] mmc0: sdhci: Present:   0x01f70106 | Host ctl: 0x00000017
+> [  731.410559] mmc0: sdhci: Power:     0x0000000f | Blk gap:  0x00000000
+> [  731.417733] mmc0: sdhci: Wake-up:   0x00000000 | Clock:    0x00000107
+> [  731.424915] mmc0: sdhci: Timeout:   0x0000000e | Int stat: 0x00000000
+> [  731.432098] mmc0: sdhci: Int enab:  0x03ff008b | Sig enab: 0x03ff008b
+> [  731.439282] mmc0: sdhci: ACmd stat: 0x00000000 | Slot int: 0x00000000
+> [  731.446464] mmc0: sdhci: Caps:      0x01f80080 | Caps_1:   0x00000007
+> [  731.453647] mmc0: sdhci: Cmd:       0x0000193a | Max curr: 0x001f0f08
+> [  731.460829] mmc0: sdhci: Resp[0]:   0x00000900 | Resp[1]:  0xffffffff
+> [  731.468013] mmc0: sdhci: Resp[2]:   0x320f5913 | Resp[3]:  0x00000900
+> [  731.475195] mmc0: sdhci: Host ctl2: 0x0000008b
+> [  731.480139] mmc0: sdhci: ADMA Err:  0x00000000 | ADMA Ptr: 0xbe040200
+> [  731.487321] mmc0: sdhci: ============================================
 >
 > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+
+Acked-by: Joel Stanley <joel@jms.id.au>
+
 > ---
->  drivers/mmc/host/sdhci-of-aspeed.c | 137 +++++++++++++++++++++++++++--
->  1 file changed, 132 insertions(+), 5 deletions(-)
+>  arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-> index 4f008ba3280e..641accbfcde4 100644
-> --- a/drivers/mmc/host/sdhci-of-aspeed.c
-> +++ b/drivers/mmc/host/sdhci-of-aspeed.c
-> @@ -16,9 +16,18 @@
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> index 5f4ee67ac787..94ec301ceb73 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> @@ -179,6 +179,8 @@ &emmc_controller {
 >
->  #include "sdhci-pltfm.h"
->
-> -#define ASPEED_SDC_INFO                0x00
-> -#define   ASPEED_SDC_S1MMC8    BIT(25)
-> -#define   ASPEED_SDC_S0MMC8    BIT(24)
-> +#define ASPEED_SDC_INFO                        0x00
-> +#define   ASPEED_SDC_S1_MMC8           BIT(25)
-> +#define   ASPEED_SDC_S0_MMC8           BIT(24)
-> +#define ASPEED_SDC_PHASE               0xf4
-> +#define   ASPEED_SDC_S1_PHASE_IN       GENMASK(25, 21)
-> +#define   ASPEED_SDC_S0_PHASE_IN       GENMASK(20, 16)
-> +#define   ASPEED_SDC_S1_PHASE_OUT      GENMASK(15, 11)
-> +#define   ASPEED_SDC_S1_PHASE_IN_EN    BIT(10)
-> +#define   ASPEED_SDC_S1_PHASE_OUT_EN   GENMASK(9, 8)
-> +#define   ASPEED_SDC_S0_PHASE_OUT      GENMASK(7, 3)
-> +#define   ASPEED_SDC_S0_PHASE_IN_EN    BIT(2)
-> +#define   ASPEED_SDC_S0_PHASE_OUT_EN   GENMASK(1, 0)
->
->  struct aspeed_sdc {
->         struct clk *clk;
-> @@ -28,9 +37,21 @@ struct aspeed_sdc {
->         void __iomem *regs;
+>  &emmc {
+>         status = "okay";
+> +       aspeed,input-phase = <0x7>;
+> +       aspeed,output-phase = <0x1f>;
 >  };
 >
-> +struct aspeed_sdhci_phase_desc {
-> +       u32 value_mask;
-> +       u32 enable_mask;
-> +       u8 enable_value;
-> +};
-> +
-> +struct aspeed_sdhci_phase {
-> +       struct aspeed_sdhci_phase_desc in;
-> +       struct aspeed_sdhci_phase_desc out;
-> +};
-> +
->  struct aspeed_sdhci {
->         struct aspeed_sdc *parent;
->         u32 width_mask;
-> +       const struct aspeed_sdhci_phase *phase;
->  };
->
->  static void aspeed_sdc_configure_8bit_mode(struct aspeed_sdc *sdc,
-> @@ -50,6 +71,25 @@ static void aspeed_sdc_configure_8bit_mode(struct aspeed_sdc *sdc,
->         spin_unlock(&sdc->lock);
->  }
->
-> +static void
-> +aspeed_sdc_configure_phase(struct aspeed_sdc *sdc,
-> +                          const struct aspeed_sdhci_phase_desc *phase,
-> +                          uint8_t value, bool enable)
-> +{
-> +       u32 reg;
-> +
-> +       spin_lock(&sdc->lock);
-
-What is the lock protecting against?
-
-We call this in the ->probe, so there should be no concurrent access going on.
-
-
-> +       reg = readl(sdc->regs + ASPEED_SDC_PHASE);
-> +       reg &= ~phase->enable_mask;
-> +       if (enable) {
-> +               reg &= ~phase->value_mask;
-> +               reg |= value << __ffs(phase->value_mask);
-> +               reg |= phase->enable_value << __ffs(phase->enable_mask);
-> +       }
-> +       writel(reg, sdc->regs + ASPEED_SDC_PHASE);
-> +       spin_unlock(&sdc->lock);
-> +}
-> +
->  static void aspeed_sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
->  {
->         struct sdhci_pltfm_host *pltfm_host;
-> @@ -155,8 +195,58 @@ static inline int aspeed_sdhci_calculate_slot(struct aspeed_sdhci *dev,
->         return (delta / 0x100) - 1;
->  }
->
-> +static int aspeed_sdhci_configure_of(struct platform_device *pdev,
-> +                                    struct aspeed_sdhci *sdhci)
-> +{
-> +       u32 iphase, ophase;
-> +       struct device_node *np;
-> +       struct device *dev;
-> +       int ret;
-> +
-> +       if (!sdhci->phase)
-> +               return 0;
-> +
-> +       dev = &pdev->dev;
-> +       np = dev->of_node;
-> +
-> +       ret = of_property_read_u32(np, "aspeed,input-phase", &iphase);
-> +       if (ret < 0) {
-> +               aspeed_sdc_configure_phase(sdhci->parent, &sdhci->phase->in, 0,
-> +                                          false);
-
-Will this clear any value that eg. u-boot writes?
-
-The register should be left alone if the kernel doesn't have a
-configuration of it's own, otherwise we may end up breaking an
-otherwise working system.
-
-> +               dev_dbg(dev, "Input phase configuration disabled");
-> +       } else if (iphase >= (1 << 5)) {
-> +               dev_err(dev,
-> +                       "Input phase value exceeds field range (5 bits): %u",
-> +                       iphase);
-> +               return -ERANGE;
-> +       } else {
-> +               aspeed_sdc_configure_phase(sdhci->parent, &sdhci->phase->in,
-> +                                          iphase, true);
-> +               dev_info(dev, "Input phase relationship: %u", iphase);
-
-Make theis _dbg, on a normal boot we don't need this chatter in the logs.
-
-The same comments apply for the output.
-
-> +       }
-> +
-> +       ret = of_property_read_u32(np, "aspeed,output-phase", &ophase);
-> +       if (ret < 0) {
-> +               aspeed_sdc_configure_phase(sdhci->parent, &sdhci->phase->out, 0,
-> +                                          false);
-> +               dev_dbg(dev, "Output phase configuration disabled");
-> +       } else if (ophase >= (1 << 5)) {
-> +               dev_err(dev,
-> +                       "Output phase value exceeds field range (5 bits): %u",
-> +                       iphase);
-> +               return -ERANGE;
-
-This will cause the driver to fail to probe. I think skipping setting
-of the phase is a better option.
-
-
-> +       } else {
-> +               aspeed_sdc_configure_phase(sdhci->parent, &sdhci->phase->out,
-> +                                          ophase, true);
-> +               dev_info(dev, "Output phase relationship: %u", ophase);
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  static int aspeed_sdhci_probe(struct platform_device *pdev)
->  {
-> +       const struct aspeed_sdhci_phase *phase;
->         struct sdhci_pltfm_host *pltfm_host;
->         struct aspeed_sdhci *dev;
->         struct sdhci_host *host;
-> @@ -181,7 +271,10 @@ static int aspeed_sdhci_probe(struct platform_device *pdev)
->                 return -EINVAL;
->
->         dev_info(&pdev->dev, "Configuring for slot %d\n", slot);
-> -       dev->width_mask = !slot ? ASPEED_SDC_S0MMC8 : ASPEED_SDC_S1MMC8;
-> +       dev->width_mask = !slot ? ASPEED_SDC_S0_MMC8 : ASPEED_SDC_S1_MMC8;
-> +       phase = of_device_get_match_data(&pdev->dev);
-> +       if (phase)
-> +               dev->phase = &phase[slot];
->
->         sdhci_get_of_property(pdev);
->
-> @@ -195,6 +288,10 @@ static int aspeed_sdhci_probe(struct platform_device *pdev)
->                 goto err_pltfm_free;
->         }
->
-> +       ret = aspeed_sdhci_configure_of(pdev, dev);
-> +       if (ret)
-> +               goto err_sdhci_add;
-> +
->         ret = mmc_of_parse(host->mmc);
->         if (ret)
->                 goto err_sdhci_add;
-> @@ -230,10 +327,40 @@ static int aspeed_sdhci_remove(struct platform_device *pdev)
->         return 0;
->  }
->
-> +static const struct aspeed_sdhci_phase ast2600_sdhci_phase[] = {
-> +       /* SDHCI/Slot 0 */
-> +       [0] = {
-> +               .in = {
-> +                       .value_mask = ASPEED_SDC_S0_PHASE_IN,
-> +                       .enable_mask = ASPEED_SDC_S0_PHASE_IN_EN,
-> +                       .enable_value = 1,
-> +               },
-> +               .out = {
-> +                       .value_mask = ASPEED_SDC_S0_PHASE_OUT,
-> +                       .enable_mask = ASPEED_SDC_S0_PHASE_OUT_EN,
-> +                       .enable_value = 3,
-> +               },
-> +       },
-> +       /* SDHCI/Slot 1 */
-> +       [1] = {
-> +               .in = {
-> +                       .value_mask = ASPEED_SDC_S1_PHASE_IN,
-> +                       .enable_mask = ASPEED_SDC_S1_PHASE_IN_EN,
-> +                       .enable_value = 1,
-> +               },
-> +               .out = {
-> +                       .value_mask = ASPEED_SDC_S1_PHASE_OUT,
-> +                       .enable_mask = ASPEED_SDC_S1_PHASE_OUT_EN,
-
-Is there any value in splitting the input and output phase values
-up? (instead of taking the property from the device tree and putting
-it in the hardware).
-
-> +                       .enable_value = 3,
-> +               },
-> +       },
-> +};
-> +
-> +/* If supported, phase adjustment fields are stored in the data pointer */
->  static const struct of_device_id aspeed_sdhci_of_match[] = {
->         { .compatible = "aspeed,ast2400-sdhci", },
->         { .compatible = "aspeed,ast2500-sdhci", },
-> -       { .compatible = "aspeed,ast2600-sdhci", },
-> +       { .compatible = "aspeed,ast2600-sdhci", .data = ast2600_sdhci_phase },
->         { }
->  };
->
+>  &fsim0 {
 > --
 > 2.25.1
 >
