@@ -2,64 +2,88 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08532656F3
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 04:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E2E26571E
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 04:49:57 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BnfdY0CR2zDqkq
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 12:21:37 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BngG76c82zDqXL
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 12:49:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::544;
- helo=mail-ed1-x544.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.28;
+ helo=out4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=fUHEbIAz; dkim-atps=neutral
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm3 header.b=i+cYvdGV; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm3 header.b=CLnperrN; 
+ dkim-atps=neutral
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BnfdQ3BTHzDqhN
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 12:21:30 +1000 (AEST)
-Received: by mail-ed1-x544.google.com with SMTP id n22so8410294edt.4
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 19:21:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tj2t95Ze73swWD6k2tc6L6Ey6C/gEPP1/6YDyLUTQ8s=;
- b=fUHEbIAzuvX+0lTwzuC8LNuolHbBFlk8nal7opR3A4AYrMOVp5u3EHzNG8XU367FPl
- A1DR6RG7yq3DRgHil/V6nRD0SNEbpfnPWsl0G2WUKz//MHwEPiBRgK3mHYya2lNzQb6P
- Uwg4QaGKgpsFlp4IxLHYNedVFmN86/+OOcgU8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tj2t95Ze73swWD6k2tc6L6Ey6C/gEPP1/6YDyLUTQ8s=;
- b=MxzbdctmbkVKzghRiXTw36/idyPE4M8SFbN+uTdb64VOA6c4knhcAezo0LHL69XOLo
- qfYlwx/JyY+bnLNmFrIIs1Ebq2mfDctQCkFknBDniEne7a+W7O2I3KQQ3NvAx1LHQGSx
- /WDUeo9KM5Sxkup+cinkefW3IsgLDJgpASzXZtidn5VV4hYVxS3m4gV/7S1Ei8H4FYo8
- qSDTapUosd0wFT08rkur9loXO0X7siLkQgJ8Aouyvdu0bjuJAScSk60GheuM4+Izdrs8
- Go+Z0ph6P0K1/HhYPrAEiQ678bX+RrCi786Fuvu6p13DBLEfq5regIl71OUFdlALfY4N
- 8IJw==
-X-Gm-Message-State: AOAM532eojDNpC4k9A/bEeu9OBlXmRgmx0pCM9F5bHFN43Bl2GIeUEC9
- IpDxmjfqcI02VqdDh+eBS61qJUyTTphsJ23/A4k=
-X-Google-Smtp-Source: ABdhPJya3ZCopKPQvKtv2oSG4E1csSZD3pBVuEyBwyhlBblULY0YLM3Kl7f6y8yg8qzJsr6cX3SJ9Plad+UvzYNKkCs=
-X-Received: by 2002:a50:fb0e:: with SMTP id d14mr13120668edq.172.1599790887514; 
- Thu, 10 Sep 2020 19:21:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200911015105.48581-1-jk@codeconstruct.com.au>
- <20200911015105.48581-2-jk@codeconstruct.com.au>
-In-Reply-To: <20200911015105.48581-2-jk@codeconstruct.com.au>
-From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 11 Sep 2020 02:21:15 +0000
-Message-ID: <CACPK8XcK6pQpLZZudr1ovzxRqxT5ph5un+m3OwhnsFr+2-YtUA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] gpio/aspeed-sgpio: don't enable all interrupts by
- default
-To: Jeremy Kerr <jk@codeconstruct.com.au>
-Content-Type: text/plain; charset="UTF-8"
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BngFt6zdxzDqLc
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 12:49:37 +1000 (AEST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 890CD5C00C8;
+ Thu, 10 Sep 2020 22:49:34 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Thu, 10 Sep 2020 22:49:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm3; bh=c6HSkrtTKfINlw/HGLRz2lhc2rwOVfP
+ uL1hDI8lDt7U=; b=i+cYvdGVG53shXCRHyD1vQ8u1ujCCPr5eY1kK7EQYToNz+J
+ AA9iBTCjQz+NRmJURYnog1U27xaGfY3NyipTOWPe2454RBFuTael3OkUln5t2n9I
+ 6GSgpEx7J8fOlw0CC6J6PqvoJiJErY6Q8svxxXXDCLvP5cqys5GyzbPBBxcPkb42
+ QIhSrKOq5elMO1uVA8Yv/TuSd14KDteBE8gQsdyXb+aRBgO3UVWhQuYu6+BEwe5y
+ ISgH6nLndpMJDKMk0GEPF+bwOhBjh4//6K4VOqUrf82+wdF9xyCoxXYR8LmCjTe1
+ dNk+6iqUckagvBRY1CF9V3kZCiP2+uQ84TNt0HQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=c6HSkr
+ tTKfINlw/HGLRz2lhc2rwOVfPuL1hDI8lDt7U=; b=CLnperrNN8K6K/UlWaRxxw
+ VyLslnaNvGyFPVwFj9hB5enyU460ugTNHZhsJG5MPFsEu29OcutNFOgYMsKUVRmQ
+ 1TufmHI6LDHRjLxB+tQpX9YxbmZldRec3SWUI/Jg8H7Bd3NWDFDPoXDVK/GIcB4f
+ mIJeTIeZKtzYdhOG+dYPFcsfMMpUhP0Gq5ZVdG2DG4oaAPaUKW1tjvmo7VruzRa8
+ e56JJSXrTTZ9HHC+3h1cqXY433GAb2U2chU9uT2Y/fJuvaUEGb0H8a9oCjkm3509
+ EMFPM2oHFkdWZqp2nNXE3c7AWW7sxO1cFLqeSQTiFePe9JAcNPfyFLebK7LYWy9Q
+ ==
+X-ME-Sender: <xms:veVaX9i2zJKbL-rsGu6wDuS392e7ONVJEaK5sVFtYYYdKwcWtdN4JA>
+ <xme:veVaXyAGhpTGhQ2LG_SClz1Fy5TnETvSioVKunfDXC7bq8OXVHryBlN9SqgTjYBj1
+ JlezshzqbJg9wzTIg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehkedgieegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+ grthhtvghrnhepuddttdekueeggedvtddtueekiedutdfguedutdefieeuteefieelteet
+ vddthfeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ eprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:veVaX9GzcQP1jyPm9v2lMWIhHGnJ6RJrPVxgHTBXuoSO7BfzfcX9yQ>
+ <xmx:veVaXyTChuYUP85dyIaMFhOkBTkUXsBI1h6k_CGJPVGOfxMCJz-how>
+ <xmx:veVaX6zFQKd-fxpsOWmn0iEQIvyywA6N99rnM0vjzMDroCM46OmXxg>
+ <xmx:vuVaXxmCtWS5yUGdCGGfZw9qVzjbq3uDcSJ0rSrnzyF0zpIiT-cICQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id B3088E00A6; Thu, 10 Sep 2020 22:49:32 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.0-259-g88fbbfa-fm-20200903.003-g88fbbfa3
+Mime-Version: 1.0
+Message-Id: <57d48d7a-7cea-4be7-92bd-8f3b93f84a06@www.fastmail.com>
+In-Reply-To: <CACPK8Xf-jys=F0Uqg-hYH-eDThmd5yOSNeC7+vLhra3GdOK1Zw@mail.gmail.com>
+References: <20200910105440.3087723-1-andrew@aj.id.au>
+ <20200910105440.3087723-3-andrew@aj.id.au>
+ <CACPK8Xf-jys=F0Uqg-hYH-eDThmd5yOSNeC7+vLhra3GdOK1Zw@mail.gmail.com>
+Date: Fri, 11 Sep 2020 12:19:12 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Joel Stanley" <joel@jms.id.au>
+Subject: =?UTF-8?Q?Re:_[PATCH_2/3]_mmc:_sdhci-of-aspeed:_Expose_data_sample_phase?=
+ =?UTF-8?Q?_delay_tuning?=
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,61 +95,265 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+Cc: devicetree <devicetree@vger.kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
  linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- devicetree <devicetree@vger.kernel.org>
+ linux-mmc <linux-mmc@vger.kernel.org>, Adrian Hunter <adrian.hunter@intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 11 Sep 2020 at 02:11, Jeremy Kerr <jk@codeconstruct.com.au> wrote:
->
-> Currently, the IRQ setup for the SGPIO driver enables all interrupts in
-> dual-edge trigger mode. Since the default handler is handle_bad_irq, any
-> state change on input GPIOs will trigger bad IRQ warnings.
->
-> This change applies sensible IRQ defaults: single-edge trigger, and all
-> IRQs disabled.
->
-> Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
-> Fixes: 7db47faae79b ("gpio: aspeed: Add SGPIO driver")
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
 
->
-> ---
-> v2:
->  - update comments to reflect trigger mode change
->  - tweak wording to reflect disabled state & single-edge trigger mode
-> ---
->  drivers/gpio/gpio-aspeed-sgpio.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpio/gpio-aspeed-sgpio.c b/drivers/gpio/gpio-aspeed-sgpio.c
-> index a18ca52432e0..64e54f8c30d2 100644
-> --- a/drivers/gpio/gpio-aspeed-sgpio.c
-> +++ b/drivers/gpio/gpio-aspeed-sgpio.c
-> @@ -452,17 +452,15 @@ static int aspeed_sgpio_setup_irqs(struct aspeed_sgpio *gpio,
->         irq->parents = &gpio->irq;
->         irq->num_parents = 1;
->
-> -       /* set IRQ settings and Enable Interrupt */
-> +       /* Apply default IRQ settings */
->         for (i = 0; i < ARRAY_SIZE(aspeed_sgpio_banks); i++) {
->                 bank = &aspeed_sgpio_banks[i];
->                 /* set falling or level-low irq */
->                 iowrite32(0x00000000, bank_reg(gpio, bank, reg_irq_type0));
->                 /* trigger type is edge */
->                 iowrite32(0x00000000, bank_reg(gpio, bank, reg_irq_type1));
-> -               /* dual edge trigger mode. */
-> -               iowrite32(0xffffffff, bank_reg(gpio, bank, reg_irq_type2));
-> -               /* enable irq */
-> -               iowrite32(0xffffffff, bank_reg(gpio, bank, reg_irq_enable));
-> +               /* single edge trigger */
-> +               iowrite32(0x00000000, bank_reg(gpio, bank, reg_irq_type2));
->         }
->
->         return 0;
-> --
-> 2.28.0
->
+On Fri, 11 Sep 2020, at 11:32, Joel Stanley wrote:
+> On Thu, 10 Sep 2020 at 10:55, Andrew Jeffery <andrew@aj.id.au> wrote:
+> >
+> > Allow sample phase adjustment to deal with layout or tolerance issues.
+> >
+> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> > ---
+> >  drivers/mmc/host/sdhci-of-aspeed.c | 137 +++++++++++++++++++++++++++--
+> >  1 file changed, 132 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
+> > index 4f008ba3280e..641accbfcde4 100644
+> > --- a/drivers/mmc/host/sdhci-of-aspeed.c
+> > +++ b/drivers/mmc/host/sdhci-of-aspeed.c
+> > @@ -16,9 +16,18 @@
+> >
+> >  #include "sdhci-pltfm.h"
+> >
+> > -#define ASPEED_SDC_INFO                0x00
+> > -#define   ASPEED_SDC_S1MMC8    BIT(25)
+> > -#define   ASPEED_SDC_S0MMC8    BIT(24)
+> > +#define ASPEED_SDC_INFO                        0x00
+> > +#define   ASPEED_SDC_S1_MMC8           BIT(25)
+> > +#define   ASPEED_SDC_S0_MMC8           BIT(24)
+> > +#define ASPEED_SDC_PHASE               0xf4
+> > +#define   ASPEED_SDC_S1_PHASE_IN       GENMASK(25, 21)
+> > +#define   ASPEED_SDC_S0_PHASE_IN       GENMASK(20, 16)
+> > +#define   ASPEED_SDC_S1_PHASE_OUT      GENMASK(15, 11)
+> > +#define   ASPEED_SDC_S1_PHASE_IN_EN    BIT(10)
+> > +#define   ASPEED_SDC_S1_PHASE_OUT_EN   GENMASK(9, 8)
+> > +#define   ASPEED_SDC_S0_PHASE_OUT      GENMASK(7, 3)
+> > +#define   ASPEED_SDC_S0_PHASE_IN_EN    BIT(2)
+> > +#define   ASPEED_SDC_S0_PHASE_OUT_EN   GENMASK(1, 0)
+> >
+> >  struct aspeed_sdc {
+> >         struct clk *clk;
+> > @@ -28,9 +37,21 @@ struct aspeed_sdc {
+> >         void __iomem *regs;
+> >  };
+> >
+> > +struct aspeed_sdhci_phase_desc {
+> > +       u32 value_mask;
+> > +       u32 enable_mask;
+> > +       u8 enable_value;
+> > +};
+> > +
+> > +struct aspeed_sdhci_phase {
+> > +       struct aspeed_sdhci_phase_desc in;
+> > +       struct aspeed_sdhci_phase_desc out;
+> > +};
+> > +
+> >  struct aspeed_sdhci {
+> >         struct aspeed_sdc *parent;
+> >         u32 width_mask;
+> > +       const struct aspeed_sdhci_phase *phase;
+> >  };
+> >
+> >  static void aspeed_sdc_configure_8bit_mode(struct aspeed_sdc *sdc,
+> > @@ -50,6 +71,25 @@ static void aspeed_sdc_configure_8bit_mode(struct aspeed_sdc *sdc,
+> >         spin_unlock(&sdc->lock);
+> >  }
+> >
+> > +static void
+> > +aspeed_sdc_configure_phase(struct aspeed_sdc *sdc,
+> > +                          const struct aspeed_sdhci_phase_desc *phase,
+> > +                          uint8_t value, bool enable)
+> > +{
+> > +       u32 reg;
+> > +
+> > +       spin_lock(&sdc->lock);
+> 
+> What is the lock protecting against?
+> 
+> We call this in the ->probe, so there should be no concurrent access going on.
+
+Because the register is in the "global" part of the SD/MMC controller address 
+space (it's not part of the SDHCI), and there are multiple slots that may have 
+a driver probed concurrently.
+
+> 
+> 
+> > +       reg = readl(sdc->regs + ASPEED_SDC_PHASE);
+> > +       reg &= ~phase->enable_mask;
+> > +       if (enable) {
+> > +               reg &= ~phase->value_mask;
+> > +               reg |= value << __ffs(phase->value_mask);
+> > +               reg |= phase->enable_value << __ffs(phase->enable_mask);
+> > +       }
+> > +       writel(reg, sdc->regs + ASPEED_SDC_PHASE);
+> > +       spin_unlock(&sdc->lock);
+> > +}
+> > +
+> >  static void aspeed_sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
+> >  {
+> >         struct sdhci_pltfm_host *pltfm_host;
+> > @@ -155,8 +195,58 @@ static inline int aspeed_sdhci_calculate_slot(struct aspeed_sdhci *dev,
+> >         return (delta / 0x100) - 1;
+> >  }
+> >
+> > +static int aspeed_sdhci_configure_of(struct platform_device *pdev,
+> > +                                    struct aspeed_sdhci *sdhci)
+> > +{
+> > +       u32 iphase, ophase;
+> > +       struct device_node *np;
+> > +       struct device *dev;
+> > +       int ret;
+> > +
+> > +       if (!sdhci->phase)
+> > +               return 0;
+> > +
+> > +       dev = &pdev->dev;
+> > +       np = dev->of_node;
+> > +
+> > +       ret = of_property_read_u32(np, "aspeed,input-phase", &iphase);
+> > +       if (ret < 0) {
+> > +               aspeed_sdc_configure_phase(sdhci->parent, &sdhci->phase->in, 0,
+> > +                                          false);
+> 
+> Will this clear any value that eg. u-boot writes?
+
+No, see the 'enable' test in aspeed_sdc_configure_phase()
+
+> 
+> The register should be left alone if the kernel doesn't have a
+> configuration of it's own, otherwise we may end up breaking an
+> otherwise working system.
+
+Right, I can rework that.
+
+> 
+> > +               dev_dbg(dev, "Input phase configuration disabled");
+> > +       } else if (iphase >= (1 << 5)) {
+> > +               dev_err(dev,
+> > +                       "Input phase value exceeds field range (5 bits): %u",
+> > +                       iphase);
+> > +               return -ERANGE;
+> > +       } else {
+> > +               aspeed_sdc_configure_phase(sdhci->parent, &sdhci->phase->in,
+> > +                                          iphase, true);
+> > +               dev_info(dev, "Input phase relationship: %u", iphase);
+> 
+> Make theis _dbg, on a normal boot we don't need this chatter in the logs.
+> 
+> The same comments apply for the output.
+
+Yes, I actually meant to do this before I sent the patches but clearly forgot :)
+
+> 
+> > +       }
+> > +
+> > +       ret = of_property_read_u32(np, "aspeed,output-phase", &ophase);
+> > +       if (ret < 0) {
+> > +               aspeed_sdc_configure_phase(sdhci->parent, &sdhci->phase->out, 0,
+> > +                                          false);
+> > +               dev_dbg(dev, "Output phase configuration disabled");
+> > +       } else if (ophase >= (1 << 5)) {
+> > +               dev_err(dev,
+> > +                       "Output phase value exceeds field range (5 bits): %u",
+> > +                       iphase);
+> > +               return -ERANGE;
+> 
+> This will cause the driver to fail to probe. I think skipping setting
+> of the phase is a better option.
+
+Well, maybe? If the phase is specified but invalid then chances are you'll hit 
+system instability by continuing to probe the driver. I think it's better to 
+fail in an obvious way, it's not as if it's incidentally incorrect.
+
+> 
+> 
+> > +       } else {
+> > +               aspeed_sdc_configure_phase(sdhci->parent, &sdhci->phase->out,
+> > +                                          ophase, true);
+> > +               dev_info(dev, "Output phase relationship: %u", ophase);
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> >  static int aspeed_sdhci_probe(struct platform_device *pdev)
+> >  {
+> > +       const struct aspeed_sdhci_phase *phase;
+> >         struct sdhci_pltfm_host *pltfm_host;
+> >         struct aspeed_sdhci *dev;
+> >         struct sdhci_host *host;
+> > @@ -181,7 +271,10 @@ static int aspeed_sdhci_probe(struct platform_device *pdev)
+> >                 return -EINVAL;
+> >
+> >         dev_info(&pdev->dev, "Configuring for slot %d\n", slot);
+> > -       dev->width_mask = !slot ? ASPEED_SDC_S0MMC8 : ASPEED_SDC_S1MMC8;
+> > +       dev->width_mask = !slot ? ASPEED_SDC_S0_MMC8 : ASPEED_SDC_S1_MMC8;
+> > +       phase = of_device_get_match_data(&pdev->dev);
+> > +       if (phase)
+> > +               dev->phase = &phase[slot];
+> >
+> >         sdhci_get_of_property(pdev);
+> >
+> > @@ -195,6 +288,10 @@ static int aspeed_sdhci_probe(struct platform_device *pdev)
+> >                 goto err_pltfm_free;
+> >         }
+> >
+> > +       ret = aspeed_sdhci_configure_of(pdev, dev);
+> > +       if (ret)
+> > +               goto err_sdhci_add;
+> > +
+> >         ret = mmc_of_parse(host->mmc);
+> >         if (ret)
+> >                 goto err_sdhci_add;
+> > @@ -230,10 +327,40 @@ static int aspeed_sdhci_remove(struct platform_device *pdev)
+> >         return 0;
+> >  }
+> >
+> > +static const struct aspeed_sdhci_phase ast2600_sdhci_phase[] = {
+> > +       /* SDHCI/Slot 0 */
+> > +       [0] = {
+> > +               .in = {
+> > +                       .value_mask = ASPEED_SDC_S0_PHASE_IN,
+> > +                       .enable_mask = ASPEED_SDC_S0_PHASE_IN_EN,
+> > +                       .enable_value = 1,
+> > +               },
+> > +               .out = {
+> > +                       .value_mask = ASPEED_SDC_S0_PHASE_OUT,
+> > +                       .enable_mask = ASPEED_SDC_S0_PHASE_OUT_EN,
+> > +                       .enable_value = 3,
+> > +               },
+> > +       },
+> > +       /* SDHCI/Slot 1 */
+> > +       [1] = {
+> > +               .in = {
+> > +                       .value_mask = ASPEED_SDC_S1_PHASE_IN,
+> > +                       .enable_mask = ASPEED_SDC_S1_PHASE_IN_EN,
+> > +                       .enable_value = 1,
+> > +               },
+> > +               .out = {
+> > +                       .value_mask = ASPEED_SDC_S1_PHASE_OUT,
+> > +                       .enable_mask = ASPEED_SDC_S1_PHASE_OUT_EN,
+> 
+> Is there any value in splitting the input and output phase values
+> up? (instead of taking the property from the device tree and putting
+> it in the hardware).
+
+One register contains both settings for both slots. We can't just blast the 
+full register value for one of the slots into it. Further, the fields for the 
+slots are interleaved, so it's not like we can just associate the top or bottom 
+16 bits with a particular slot.
+
+Cheers,
+
+Andrew
