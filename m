@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05ED2265685
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 03:17:59 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C9A1265670
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 03:12:24 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BndD41WvqzDqkZ
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 11:17:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bnd5b5jSmzDqjj
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 11:12:19 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=none (no SPF record)
@@ -15,25 +15,28 @@ Authentication-Results: lists.ozlabs.org; spf=none (no SPF record)
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
  header.from=codeconstruct.com.au
+X-Greylist: delayed 100 seconds by postgrey-1.36 at bilbo;
+ Fri, 11 Sep 2020 11:12:15 AEST
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [103.231.89.101])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BndCz4Cy2zDqjj
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 11:17:51 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bnd5W0Jz9zDqjj
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 11:12:14 +1000 (AEST)
 Received: from pecola.lan (180-150-121-66.b49679.p1.nbn.aussiebb.net
  [180.150.121.66])
- by mail.codeconstruct.com.au (Postfix) with ESMTPSA id AE2DB3FEA9;
- Thu, 10 Sep 2020 21:10:30 -0400 (EDT)
-Message-ID: <788526c84deb4763d874be1748fcc5a583f8f79d.camel@codeconstruct.com.au>
-Subject: Re: [PATCH 1/2] gpio/aspeed-sgpio: enable access to all 80 input &
- output sgpios
+ by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 6CAA43FEF4;
+ Thu, 10 Sep 2020 21:12:11 -0400 (EDT)
+Message-ID: <5d953d84c8b84d182068329db124517f8c5603b8.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 2/2] gpio/aspeed-sgpio: don't enable all interrupts by
+ default
 From: Jeremy Kerr <jk@codeconstruct.com.au>
 To: Joel Stanley <joel@jms.id.au>
-Date: Fri, 11 Sep 2020 09:10:29 +0800
-In-Reply-To: <CACPK8XcT02qv+1H=DDv8BRAdUmrBoweZ+Qb3aG34bQ9-UC08Xg@mail.gmail.com>
+Date: Fri, 11 Sep 2020 09:12:11 +0800
+In-Reply-To: <CACPK8XdOTorJcNSON--LZU8XkWLh5kwXc8fkGWOBmXVnFiCnSQ@mail.gmail.com>
 References: <20200715135418.3194860-1-jk@codeconstruct.com.au>
- <CACPK8XcT02qv+1H=DDv8BRAdUmrBoweZ+Qb3aG34bQ9-UC08Xg@mail.gmail.com>
+ <20200715135418.3194860-2-jk@codeconstruct.com.au>
+ <CACPK8XdOTorJcNSON--LZU8XkWLh5kwXc8fkGWOBmXVnFiCnSQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.36.4-2 
 MIME-Version: 1.0
@@ -58,69 +61,21 @@ Sender: "Linux-aspeed"
 
 Hi Joel,
 
-Thanks for the review!
-
-> A Fixes: might be a good idea.
-
-OK, given this isn't strictly (just) a fix, should I split that out?
-
-> > -#define MAX_NR_SGPIO                   80
-> > +#define MAX_NR_HW_SGPIO                        80
-> > +#define SGPIO_OUTPUT_OFFSET            MAX_NR_HW_SGPIO
+> And also removing the enabling of IRQs. This part makes sense, as
+> it's what the commit message says.
 > 
-> A short comment explaining what's going on with these defines (as you
-> did in your commit message) will help future reviewers.
+> If you think a sensible default should be single edge (and I would
+> agree with that change), perhaps update the comment to say "set
+> single edge trigger mode" and mention it in your commit message.
 
-Sounds good, I'll add one.
+OK, shall do. That was my intention with the "reasonable defaults"
+reference, but being explicit about that better here.
 
-> 
-> > +static void aspeed_sgpio_irq_init_valid_mask(struct gpio_chip *gc,
-> > +               unsigned long *valid_mask, unsigned int ngpios)
-> > +{
-> > +       struct aspeed_sgpio *sgpio = gpiochip_get_data(gc);
-> > +       int n = sgpio->n_sgpio;
-> > +
-> > +       WARN_ON(ngpios < MAX_NR_HW_SGPIO * 2);
-> > +
-> > +       /* input GPIOs in the lower range */
-> > +       bitmap_set(valid_mask, 0, n);
-> > +       bitmap_clear(valid_mask, n, ngpios - n);
-> > +}
-> > +
-> > +static const bool aspeed_sgpio_is_input(unsigned int offset)
-> 
-> The 0day bot complained about the 'const' here.
-
-ack, will remove.
-
-> > +{
-> > +       return offset < SGPIO_OUTPUT_OFFSET;
-> > +}
-> >  static int aspeed_sgpio_dir_out(struct gpio_chip *gc, unsigned int offset, int val)
-> >  {
-> >         struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
-> >         unsigned long flags;
-> > +       int rc;
-> > 
-> > -       spin_lock_irqsave(&gpio->lock, flags);
-> > -
-> > -       gpio->dir_in[GPIO_BANK(offset)] &= ~GPIO_BIT(offset);
-> > -       sgpio_set_value(gc, offset, val);
-> > +       /* No special action is required for setting the direction; we'll
-> > +        * error-out in sgpio_set_value if this isn't an output GPIO */
-> > 
-> > +       spin_lock_irqsave(&gpio->lock, flags);
-> > +       rc = sgpio_set_value(gc, offset, val);
-> >         spin_unlock_irqrestore(&gpio->lock, flags);
-> > 
-> >         return 0;
-> 
-> I think this should be 'return rc'
-
-Yup. I'll send a v2 with these changes.
+I'll send a v2 with an updated commit message.
 
 Cheers,
 
 
 Jeremy
+
 
