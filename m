@@ -1,60 +1,57 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2098F265969
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 08:34:45 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A0626597A
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 08:42:15 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BnmFY0RrDzDqgF
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 16:34:41 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BnmQD4T9rzDqm9
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Sep 2020 16:42:12 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::644;
- helo=mail-ej1-x644.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=ThqJq/SN; dkim-atps=neutral
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
+ smtp.mailfrom=gmail.com (client-ip=209.85.210.66; helo=mail-ot1-f66.google.com;
+ envelope-from=geert.uytterhoeven@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=linux-m68k.org
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+ [209.85.210.66])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BnmCw1Y8DzDqgZ
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 16:33:15 +1000 (AEST)
-Received: by mail-ej1-x644.google.com with SMTP id i26so12228154ejb.12
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 23:33:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=bexmmLkEVLvYmN9pxp1Dmj7ZWctSoYRap9F4RxAw7DA=;
- b=ThqJq/SNW0q631CATdauAOvkNmmmzj5Vt2BJ2muSlp/jSKlnOELLii4xyc0P8hlY/j
- 8T5KwVAcfEiXy/4ZpN9ZOYFEGI9o0pL2LnEYgrLAnZZIDgJaRIDK/92CnG7JmRDICXxb
- FG/eEjeMfNpMlq7PsP6AsqYwm0ZmTLnJ+JD6I=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BnmQ71FNyzDql8
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Sep 2020 16:42:06 +1000 (AEST)
+Received: by mail-ot1-f66.google.com with SMTP id m12so7526606otr.0
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Sep 2020 23:42:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=bexmmLkEVLvYmN9pxp1Dmj7ZWctSoYRap9F4RxAw7DA=;
- b=CprMbLlareKhmJXApYL8G024zOxTBBgvBiDw01cbYMIanjyoQyehhkJBvbPRO/X/Xk
- ybv3qJcsOQVWeKVnHztgrBlvq1MePkXLTaAV7xhdyG4XPJBvnWcMIn+ORhGyJ768JssV
- ufhK5IOXGQGu4zc4mT1Yef3ESHNVZD01DzeRiaxw9f+gGTQaautzgD2hL63sVvGDcHge
- fxGOCsY2vKNPLE0R3yl76rgGSecX21lvYnWE6l7xMAykyT8UEoynsUFr9D9RhCWgBCx9
- NfqkQYU1lvTiwdadGIxt+HqjRuSJDqo9ohaYLTtlDPDIwFC47vpAIz5+9HOQK9iSlggn
- UifQ==
-X-Gm-Message-State: AOAM533eF1LdEU1Ita8zZjCKcFsyOjxwLxyjuJypnnqpPfti5vNlxu77
- G72DlcuyWnXNw3S4Fw5p8Lk5H4lSYEXr1KhgsiM=
-X-Google-Smtp-Source: ABdhPJxpdTvT56ciOWYSGSFlDo49/DRe8t8Vy0BdHO6y3S5wfUpu91Huw2WsvNj7gxmA2nyc2p3tM5zJT5FdsOO5+h8=
-X-Received: by 2002:a17:906:b6d5:: with SMTP id
- ec21mr575935ejb.396.1599805991496; 
- Thu, 10 Sep 2020 23:33:11 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Fd37rPIKQ8kE2t3AwO5/OmIuIXHedyKotPXtUMjyF2w=;
+ b=OfCq6EAJ9tj8PyPGK98EeWmBt+tYMbh2d2SY6zjUDNb34OHohG46ZDT/n427kKYLug
+ +i9sncB2XroON6pbkk/FH97gNN5Y8XuZ/2PmFBd+PR/fvJEnN45mWSy35h0pTbJSI3U4
+ t2CpA2B26EVhCBLfFB7CIgv3Y+48/RtwXQPTBI8ue5TC172l+xgEQ91Zth1/L4XmqwOk
+ hvLHuB85rFiHBkAmVHh2pBYmlSwlFKJLlfJceWaMeURqi1JRzsI9mNwey3ufEZdBdVlb
+ mjJbK+uOOJEkC8uU5HWvSK7a+h3XstJJDDkcoWUe5Sf1eRwvly7jpDuCA/PlKcgtoO7A
+ +Pvg==
+X-Gm-Message-State: AOAM5337AQQXO3hooMVyGpYwEWWG27NUI8+u9H29kH6g+Su//ZBd7WMC
+ A1kSF46wYnOEPtzZmZBbT8HYQFymIiTAPAUwoWI=
+X-Google-Smtp-Source: ABdhPJyHFeXfHoxVfoXb/lF9obDK4GQsw0s+uaaDCZdbjIAVpoMuCLbEzubvLMnxtVhpCEHmoeJzN55crOToqaVuB8s=
+X-Received: by 2002:a05:6830:1008:: with SMTP id
+ a8mr296058otp.107.1599806523827; 
+ Thu, 10 Sep 2020 23:42:03 -0700 (PDT)
 MIME-Version: 1.0
-From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 11 Sep 2020 06:33:00 +0000
-Message-ID: <CACPK8XdFE2K1_cyrg=uaD6CaOm_p0RCRmjAsu6uyFKD4rnDggQ@mail.gmail.com>
-Subject: [GIT PULL] ARM: aspeed: defconfig changes for 5.10
-To: arm <arm@kernel.org>, SoC Team <soc@kernel.org>
+References: <20200910175733.11046-1-krzk@kernel.org>
+ <20200910175733.11046-2-krzk@kernel.org>
+ <20200910182814.veviax3n377undkv@akan>
+ <CAJKOXPdQJz7aLu4sjds46SiZwxvB-VMBR=stjpUme+8iEo+d-w@mail.gmail.com>
+In-Reply-To: <CAJKOXPdQJz7aLu4sjds46SiZwxvB-VMBR=stjpUme+8iEo+d-w@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 11 Sep 2020 08:41:52 +0200
+Message-ID: <CAMuHMdVG6+BsTUxb4wcAwj1WK982S0k2RCxmb3x9gsOS2TphNw@mail.gmail.com>
+Subject: Re: [PATCH v2 01/15] dt-bindings: gpio: convert bindings for NXP
+ PCA953x family to dtschema
+To: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -67,44 +64,68 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Nishanth Menon <nm@ti.com>, Andrew Lunn <andrew@lunn.ch>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Tony Lindgren <tony@atomide.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Michal Simek <michal.simek@xilinx.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ linux-aspeed@lists.ozlabs.org, Gregory Clement <gregory.clement@bootlin.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Guenter Roeck <linux@roeck-us.net>, NXP Linux Team <linux-imx@nxp.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jason Cooper <jason@lakedaemon.net>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
+ "open list:TI ETHERNET SWITCH DRIVER \(CPSW\)" <linux-omap@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Tero Kristo <t-kristo@ti.com>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Soc maintainers,
+Hi Krzysztof,
 
-Here are some ASPEED defconfig changes for 5.10. Please pull them!
+On Thu, Sep 10, 2020 at 8:54 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On Thu, 10 Sep 2020 at 20:28, Nishanth Menon <nm@ti.com> wrote:
+> > On 19:57-20200910, Krzysztof Kozlowski wrote:
+> > [...]
+> > > +  wakeup-source:
+> > > +    $ref: /schemas/types.yaml#/definitions/flag
+> > > +
+> > > +patternProperties:
+> > > +  "^(hog-[0-9]+|.+-hog(-[0-9]+)?)$":
+> >
+> > I wonder if "hog" is too generic and might clash with "something-hog" in
+> > the future?
+>
+> This pattern is already used in
+> Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml. It will
+> match only children and so far it did not find any other nodes in ARM
+> and ARM64 dts. I don't expect clashes. Also the question is then - if
+> one adds a child of GPIO expander named "foobar-hog" and it is not a
+> GPIO hog, then what is it?
 
-The following changes since commit 74976e861309e4bf7f3e7e93f56ca3a6e0e1eca9:
+Perhaps you didn't find any other nodes as children of pca953x
+controllers?
+There are other hog nodes in other types of GPIO controllers. Typically
+they're named after the purpose, e.g. "wifi-disable", "i2c3_mux_oe_n",
+"pcie_sata_switch", "lcd0_mux".
 
-  ARM: config: aspeed_g5: Enable IBM OP Panel driver (2020-09-11 15:25:24 +0930)
+IMHO it's a hog if it contains a "gpio-hog" property, regardless of node
+naming.
 
-are available in the Git repository at:
+Gr{oetje,eeting}s,
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
-tags/aspeed-5.10-defconfig
+                        Geert
 
-for you to fetch changes up to 74976e861309e4bf7f3e7e93f56ca3a6e0e1eca9:
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-  ARM: config: aspeed_g5: Enable IBM OP Panel driver (2020-09-11 15:25:24 +0930)
-
-----------------------------------------------------------------
-ASPEED defconfig updates for 5.10
-
- - Fix an issue with unwanted media drivers being enabled
-
- - New driver: IBM OP Panel, used on ast2600 systems. This requires
-   enabling I2C slave mode
-
- - Enable I2C MUX GPIO driver
-
-----------------------------------------------------------------
-Joel Stanley (3):
-      ARM: config: aspeed: Fix selection of media drivers
-      ARM: config: aspeed-g5: Enable I2C GPIO mux driver
-      ARM: config: aspeed_g5: Enable IBM OP Panel driver
-
- arch/arm/configs/aspeed_g5_defconfig | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
