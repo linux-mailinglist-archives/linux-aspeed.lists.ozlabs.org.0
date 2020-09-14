@@ -2,70 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AFEA267961
-	for <lists+linux-aspeed@lfdr.de>; Sat, 12 Sep 2020 12:08:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30AD926850B
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Sep 2020 08:39:16 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BpSxk0RdjzDqtV
-	for <lists+linux-aspeed@lfdr.de>; Sat, 12 Sep 2020 20:08:26 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BqcCP0cl8zDqXM
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Sep 2020 16:39:13 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::242;
- helo=mail-lj1-x242.google.com; envelope-from=linus.walleij@linaro.org;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::644;
+ helo=mail-ej1-x644.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=m84ZT5BP; dkim-atps=neutral
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=KM43qRmI; dkim-atps=neutral
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
+ [IPv6:2a00:1450:4864:20::644])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BpSxZ6JPmzDqp7
- for <linux-aspeed@lists.ozlabs.org>; Sat, 12 Sep 2020 20:08:15 +1000 (AEST)
-Received: by mail-lj1-x242.google.com with SMTP id w3so14519902ljo.5
- for <linux-aspeed@lists.ozlabs.org>; Sat, 12 Sep 2020 03:08:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BqcCJ1njTzDqPw
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 14 Sep 2020 16:39:08 +1000 (AEST)
+Received: by mail-ej1-x644.google.com with SMTP id j11so21593951ejk.0
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 13 Sep 2020 23:39:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LhS5fiHNS+mf8gdgKUyRgo45ZOROmtSlUAQLqDxlfa4=;
- b=m84ZT5BPICoUprfBrZfjZJo2ToERzKGaIY2M6zIDJinD/VsTcZGwo12Haard8p1vhC
- MjZ8Hx1mOMoZusfjl0oIINyvWLew3L/D9Vjr6BiIPqengZMXdB/f0RVu1NZMRU2Q3z2V
- kDw7HrGgkIRJkY7ZdDYxtEtXHKR5/QKvHKBVMwnPxWhPJDa8IJD1nxJmu+ACxDeUAVRj
- eWLRVBXOA6MNERWuGkqiqoNBVFHwzaDGQ/HFBHpcyhLZgLwuWw0uLKa/KkF+xDYIC+Fm
- y512jagysE3SZE1JiPHWpTndTacUnZvwMYiNVx5FAlo6DD9u1U+4vzX3/glDN2wD5pMh
- pEFg==
+ :cc; bh=tM1rt0vCMPBG29FozlgK4tPcKJfgi5TlJoa0v0rD7zo=;
+ b=KM43qRmICDk1SaQ1VXMUHX+8tngtm6ts9le/JiSXTFcxsA4Rn545KbrS6sbua4lvB6
+ 55oFrksVPZKrTSkYogsSedq0HvH+7BnTvkNsKjTX8YbbnNv9LWYp3KAOZuNYjrzekkso
+ g15xcuUW7Pp9ctrMAJdkZx7E67oOI6E/iPPjc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LhS5fiHNS+mf8gdgKUyRgo45ZOROmtSlUAQLqDxlfa4=;
- b=JwXmHoQRJeGamGaD+i4gP+fa0272bhyc52hbNZ8iKjcVrfxu/Z1a5i42SSB6B01/5t
- I/nEjUxLut2oGKTK4+X89R6/Sx7Dtsz8q3OY9Ig7BFk35JVXoQ5dYG3nXWAIn0VkIXcG
- ub98rT6dvg+/bXTl3I5cfNVyzn1MGazZYeU8Ua/QnBln7zsZZ63fcZBG6DRTztPe1WAr
- QyiGIHBBhuX4Ua+zm46oZ6eLXqua+7eAYQQR0M7kcDQLG8PUQUmOlNYxzZeUlVsEj1X6
- NxFf5CLFcsnpJZbanNsVc/kgYJjAGRi0IvM4sg8L8Zkexvtj7/CsHFEDgTFPG0rl4FrK
- CcZw==
-X-Gm-Message-State: AOAM531qJp4/gFv7vW6dBvgwK8h6N1ZZxMuRtBOfZrt4bNCnyUXz8Mlx
- Wl4or2htS/dWQLibpL+wAsa2GtbzqitWESdBte0oVQ==
-X-Google-Smtp-Source: ABdhPJztH8Y3Zl30n6XdqCSNpq33ojnWBwr/h05qXrY6CWiTumbfWA4LLSAc0k49IpbpJ+j5i9pFRwI9T1f7AE6sj0s=
-X-Received: by 2002:a2e:9988:: with SMTP id w8mr2308597lji.286.1599905290685; 
- Sat, 12 Sep 2020 03:08:10 -0700 (PDT)
+ bh=tM1rt0vCMPBG29FozlgK4tPcKJfgi5TlJoa0v0rD7zo=;
+ b=C4aFTQqklm1MW5p8K6Gl51zRgNmS3cYIdnPJdFlR9qsUOBbnc7pQmOUcdS4USjnQTK
+ CdWkUYpvYsgWkUghSpt/gbBFqhfWjExXOXN+Qb1iznkXtPn7FYiIIk7rjnepIqJOeuT9
+ T6XuZToXhf2U5HPtupmxiNfz9On0gSIjqoR9fHzkSk7W3kmAzMZ0hkZWfuGKdNT9Dv25
+ 6cUE/K/7mBMI+PNxmZQ9ckiRnrtit77UR2LOdC0bQ16SGYZBfsmJBA8OXd0YzIt8YB/A
+ ZvmEu/QV3ujteGS1R+UQj3jTkZSlblBjBAcKNs1caz9gSVPGYb4nlcHmodOdwlf4DoHT
+ XSgA==
+X-Gm-Message-State: AOAM53227hfwqsuXUPpwnkHBgN5FiTi5NtEV/HFvzlBeQ9sYlYg2sTmi
+ JOB63fMvaLqgolhpUG8dj9sBnPXvNictu9dIZqo=
+X-Google-Smtp-Source: ABdhPJzrrj2gAuLbkZT1NZHl72TkCiS8KlLa+esbZG3y0tjiUqQYdjdE8GIcrDf9ZRv0CeN9WMiieM2monhZa1/DE5s=
+X-Received: by 2002:a17:906:4c58:: with SMTP id
+ d24mr13673692ejw.108.1600065543130; 
+ Sun, 13 Sep 2020 23:39:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200910175733.11046-1-krzk@kernel.org>
- <20200910175733.11046-2-krzk@kernel.org>
- <CACPK8XdocAX5mOXf3VP29cNXH+6unYunB9NiT3qFVKyzR6WXPg@mail.gmail.com>
- <CAJKOXPe6Tf0B5W27XaD5zLk77OBzGCHpirhTdZjFH0oh8GvWgg@mail.gmail.com>
- <c162b6ad-57f1-a75a-11e3-9c80c60bd845@ti.com>
-In-Reply-To: <c162b6ad-57f1-a75a-11e3-9c80c60bd845@ti.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sat, 12 Sep 2020 12:07:59 +0200
-Message-ID: <CACRpkdbrrzkYVW13V89PJ5_WRGhxSL0rOxAHA_7hYSyw28Shvg@mail.gmail.com>
-Subject: Re: [PATCH v2 01/15] dt-bindings: gpio: convert bindings for NXP
- PCA953x family to dtschema
-To: Grygorii Strashko <grygorii.strashko@ti.com>,
- Rob Herring <robh+dt@kernel.org>
+References: <20200914065358.3726216-1-liushixin2@huawei.com>
+In-Reply-To: <20200914065358.3726216-1-liushixin2@huawei.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 14 Sep 2020 06:38:50 +0000
+Message-ID: <CACPK8XdWAFjdmsr6nRtuvK95DOrq2C39WHjG+ZHvHGEVP4kE_w@mail.gmail.com>
+Subject: Re: [PATCH -next] EDAC/aspeed: use module_platform_driver to simplify
+ the code
+To: Liu Shixin <liushixin2@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -78,73 +71,59 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Andrew Lunn <andrew@lunn.ch>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Tony Lindgren <tony@atomide.com>,
- Michal Simek <michal.simek@xilinx.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+Cc: Tony Luck <tony.luck@intel.com>, Robert Richter <rric@kernel.org>,
+ James Morse <james.morse@arm.com>,
  linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Guenter Roeck <linux@roeck-us.net>, NXP Linux Team <linux-imx@nxp.com>,
- devicetree <devicetree@vger.kernel.org>, Jason Cooper <jason@lakedaemon.net>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- Linux-OMAP <linux-omap@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Tero Kristo <t-kristo@ti.com>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>
+ Borislav Petkov <bp@alien8.de>, Stefan Schaeckeler <sschaeck@cisco.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-edac@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Sep 11, 2020 at 11:54 AM Grygorii Strashko
-<grygorii.strashko@ti.com> wrote:
-
-> More over, there is already generic schema for gpio hogs: gpio-hog.yaml
-
-Where is this? I don't have it in my GPIO devel branch for sure, and
-it is not in linux-next either so not in Bartosz' tree.
-
-I did suggest that I want a gpio-common.yaml file which includes the
-hogs.
-
-> Originally, gpio bindings were defined without restricting gpio hog node names and,
-> generic schema follows this.
+On Mon, 14 Sep 2020 at 06:31, Liu Shixin <liushixin2@huawei.com> wrote:
 >
-> I think, the generic "gpio-hogs" sub-node may be introduced to place gpio hogs child nodes,
-> if gpio hogs node names restriction need to be introduces (*which i'm not sure is reasonable*).
+> module_platform_driver() makes the code simpler by eliminating
+> boilerplate code.
 >
-> gpio@20 {
->         gpio-hogs {
->                 yyy-hog {
->                          gpio-hog;
->                          gpios
->                 }
->         }
+> Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+
+> ---
+>  drivers/edac/aspeed_edac.c | 18 +-----------------
+>  1 file changed, 1 insertion(+), 17 deletions(-)
 >
-> But this require as gpio code as generic gpio schema update (with backward compatibility in mind).
-
-The whole problem I have with the DT bindings is that defining
-them is not really a Linux problem and the people maintaining it even want
-to move it out of the Linux kernel tree. It is supposedly the responsibility of
-all operating systems using device tree including but not limited to BSD
-and Zephyr.
-
-But there is noone picking up the responsibility outside of the Linux kernel
-tree except for Rob and Rob cannot do everything.
-
-With things like this it breaks apart because noone takes the overall
-responsibility. And as subsystem maintainer I am fully overloaded with
-the Linux side of things.
-
-This is of course not your or anyone else's fault. But:
-GPIO DT binding maintainers/writers wanted!
-
-Yours,
-Linus Walleij
+> diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
+> index fbec28dc661d..fde809efc520 100644
+> --- a/drivers/edac/aspeed_edac.c
+> +++ b/drivers/edac/aspeed_edac.c
+> @@ -388,23 +388,7 @@ static struct platform_driver aspeed_driver = {
+>         .probe          = aspeed_probe,
+>         .remove         = aspeed_remove
+>  };
+> -
+> -
+> -static int __init aspeed_init(void)
+> -{
+> -       return platform_driver_register(&aspeed_driver);
+> -}
+> -
+> -
+> -static void __exit aspeed_exit(void)
+> -{
+> -       platform_driver_unregister(&aspeed_driver);
+> -}
+> -
+> -
+> -module_init(aspeed_init);
+> -module_exit(aspeed_exit);
+> -
+> +module_platform_driver(aspeed_driver);
+>
+>  MODULE_LICENSE("GPL");
+>  MODULE_AUTHOR("Stefan Schaeckeler <sschaeck@cisco.com>");
+> --
+> 2.25.1
+>
