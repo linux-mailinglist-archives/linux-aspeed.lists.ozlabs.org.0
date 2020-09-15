@@ -2,90 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A782269AB4
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Sep 2020 02:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E10E26AE01
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Sep 2020 21:48:58 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Br4Rd6S1czDqQl
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Sep 2020 10:51:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BrYh73GBDzDqBX
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 05:48:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=64.147.123.21;
- helo=wout5-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=gmail.com (client-ip=209.85.166.194;
+ helo=mail-il1-f194.google.com; envelope-from=robherring2@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm3 header.b=egH0gfz6; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm3 header.b=SzCs7F4/; 
- dkim-atps=neutral
-X-Greylist: delayed 398 seconds by postgrey-1.36 at bilbo;
- Tue, 15 Sep 2020 10:51:13 AEST
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
+ [209.85.166.194])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Br4RP4DP0zDqQk
- for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Sep 2020 10:51:13 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id E6D5C4B9;
- Mon, 14 Sep 2020 20:44:30 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Mon, 14 Sep 2020 20:44:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=Q96ecm6Fh2HW7IzVYh/+DlYr1BnZskX
- RguVfWn9NZoY=; b=egH0gfz6DQqKjqINfH01fl+Fidfq6dOPqampmZTMi3293Ni
- LHsMOq7B3GW9PJ4sedks1m+AnB9+dVlcmH3uplFWO/isOonmMcc5obJV21eIUtuD
- o2KO+VvRl0CP1MxVMFq1xuiWXUrJv+RuGXHFjwOvl6qdlNDWSrswQRCoSOP+tOhd
- 2CKWfpxeh6ojXqv1jw/4+qv3IHCz8LuUU/XIZGivjvH91GjPvsevXI47Uh1ZiPBE
- 5TC+F/RcY80fZ2Qov77Dhjp+kqfvb2yohJMxbUZS7k7v4jcCfs7NQRP0F+9lC6Pp
- +3K1DLQpLknu4S4K60PX7VZwMjy1CQjLbkeTWzQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Q96ecm
- 6Fh2HW7IzVYh/+DlYr1BnZskXRguVfWn9NZoY=; b=SzCs7F4/rKj8sk+V9Wiy04
- wzEtw50hcwBwTg2SW7ZlDbeUK91cuS3xF28dKNQKF2SV2ml+Fj2z0T6EzE1pNLjn
- B2Yf23BHv9zg2+lVG/aRC43JDgdYGvKYLCJ/Uz53AhvV+CzWLYOYlRN6T+ftegUu
- WN05FlbtEHFvu2mctp1brWCTuQAYLquX1k1IDJjFkDwdESgJmopd/MuLS81/+9XG
- jKBHLmqLIwrQm2wl3cdZmCyNmAPG48gDfEHkAfSouh91TbMqPJ1x8fNKaGjZt/5+
- Hls574iM88Bn3fLtwNa7Xfn9XNJw5waQlPzX9DUrq+glSqrsZrT4CfEuZVXDZHLA
- ==
-X-ME-Sender: <xms:bQ5gX8EkLfdwFy6CfXTNiCbKtCbeBUdnOwGj404k1UkFR5yUl0ELSw>
- <xme:bQ5gX1UoIFWmUv0WqBTrOO12wDgqXg98S3ROzAayKPyM_xPsotzQJtqJjgpLDPSUG
- p1K9aLumxxqSZOv2w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudeijedgfeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhepteehteelkedukeekjeejgeelkeduieejgeejudeugeelvdekjeelffet
- fffgjeeunecuffhomhgrihhnpeihrghmlhdrrghsnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:bQ5gX2Liqf7V9DlGhIdl2N4bWR1uyyCD5WBTMoMLjABvW_hFWB3YFA>
- <xmx:bQ5gX-Hb9AL_90bdbUQtz0zwhixwyXxG-16a52V3SIm0nx5ETPrcyQ>
- <xmx:bQ5gXyWJfU2Qy7PhE8PgZkXQUHeClznlTAAXewWhbUHCUdGR5vEs-w>
- <xmx:bg5gX0I8oc-gCIetjU5IQH1XTcOvRg36hEUibMEnyz6iYbAamQx5eg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 041DAE00C7; Mon, 14 Sep 2020 20:44:29 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.3.0-259-g88fbbfa-fm-20200903.003-g88fbbfa3
-Mime-Version: 1.0
-Message-Id: <e4bab65c-8a81-4a4b-be3f-3a07d5c7f95f@www.fastmail.com>
-In-Reply-To: <CAPDyKFq+QYzJNT94eFt2EsQBVqQciUoqnMDdrr3DbbkpnHRpCw@mail.gmail.com>
-References: <20200910105440.3087723-1-andrew@aj.id.au>
- <20200910105440.3087723-2-andrew@aj.id.au>
- <CAPDyKFq+QYzJNT94eFt2EsQBVqQciUoqnMDdrr3DbbkpnHRpCw@mail.gmail.com>
-Date: Tue, 15 Sep 2020 10:13:58 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Ulf Hansson" <ulf.hansson@linaro.org>
-Subject: =?UTF-8?Q?Re:_[PATCH_1/3]_dt:_bindings:_mmc:_Add_phase_control_propertie?=
- =?UTF-8?Q?s_for_the_Aspeed_SDHCI?=
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BrYfr4RfYzDqSd
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Sep 2020 05:47:47 +1000 (AEST)
+Received: by mail-il1-f194.google.com with SMTP id a8so4216253ilk.1
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Sep 2020 12:47:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=vlMe/O0KpaLLn52vRtI2d+InOdmPVFJgxviIiqo487k=;
+ b=iRPspUvPa0MRVc2O4lFwFVViAsXqkJwIC5EL5M/nPnS/fPZWPe/AZZvD9RgXXJ0mmK
+ 8u7a8AppdTEStzd0q2LlrzWA0WtrVfL4MDAOzkD5zjYVGHFgR70ZHvM+uFe+37YFkPkH
+ /MkYlEHOJMBjvOUIdDu98cgNQqcYizGvukhjsCE2NcSduaXOVGWEhtDbnxUYVHVpsGR5
+ u5xii/Tha9XhJnSCD0CymsNjRMMC85nHjNYGlitcm1fdkbQbDSPYuDeELLlB/bga6hDI
+ GgFsqjO1CzEpbAqEDtLjswppO4G2LDlfWZK3VWf7c1wfcbLF5Mit7gsvpDbmA0aQlLJm
+ kCmw==
+X-Gm-Message-State: AOAM532axDDR7jbT0bRbAZQAT3vKaPRsmjxE28RJO4SxCX3H6K9DpQxv
+ xLtnjRbRMYlZJ1l3t+TAiA==
+X-Google-Smtp-Source: ABdhPJyJBucL9yXLzWld+N7C06O44ALNqm0DtTmTngrhGguRJncbPkgBRf60HAkVwNDjrR37f44klQ==
+X-Received: by 2002:a92:6901:: with SMTP id e1mr17859827ilc.209.1600199263981; 
+ Tue, 15 Sep 2020 12:47:43 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+ by smtp.gmail.com with ESMTPSA id m15sm7972824iow.9.2020.09.15.12.47.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Sep 2020 12:47:43 -0700 (PDT)
+Received: (nullmailer pid 2389041 invoked by uid 1000);
+ Tue, 15 Sep 2020 19:47:40 -0000
+Date: Tue, 15 Sep 2020 13:47:40 -0600
+From: Rob Herring <robh@kernel.org>
+To: Nishanth Menon <nm@ti.com>
+Subject: Re: [PATCH v2 01/15] dt-bindings: gpio: convert bindings for NXP
+ PCA953x family to dtschema
+Message-ID: <20200915194740.GA2385241@bogus>
+References: <20200910175733.11046-1-krzk@kernel.org>
+ <20200910175733.11046-2-krzk@kernel.org>
+ <20200910182814.veviax3n377undkv@akan>
+ <CAJKOXPdQJz7aLu4sjds46SiZwxvB-VMBR=stjpUme+8iEo+d-w@mail.gmail.com>
+ <20200910191305.phjtijx2fhkhqavu@akan>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200910191305.phjtijx2fhkhqavu@akan>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,53 +72,59 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: DTML <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- linux-mmc <linux-mmc@vger.kernel.org>, Adrian Hunter <adrian.hunter@intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Tony Lindgren <tony@atomide.com>, Linus Walleij <linus.walleij@linaro.org>,
+ Michal Simek <michal.simek@xilinx.com>, linux-renesas-soc@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, Gregory Clement <gregory.clement@bootlin.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Guenter Roeck <linux@roeck-us.net>, NXP Linux Team <linux-imx@nxp.com>,
+ devicetree@vger.kernel.org, Jason Cooper <jason@lakedaemon.net>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Tero Kristo <t-kristo@ti.com>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Mon, 14 Sep 2020, at 19:11, Ulf Hansson wrote:
-> On Thu, 10 Sep 2020 at 12:54, Andrew Jeffery <andrew@aj.id.au> wrote:
-> >
-> > Add properties to control the phase delay for input and output data
-> > sampling.
-> >
-> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> > ---
-> >  Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
-> > index 987b287f3bff..75effd411554 100644
-> > --- a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
-> > +++ b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
-> > @@ -61,6 +61,14 @@ patternProperties:
-> >        sdhci,auto-cmd12:
-> >          type: boolean
-> >          description: Specifies that controller should use auto CMD12
-> > +      "aspeed,input-phase":
-> > +        $ref: '/schemas/types.yaml#/definitions/uint32'
-> > +        description:
-> > +          The input clock phase delay value.
-> > +      "aspeed,output-phase":
-> > +        $ref: '/schemas/types.yaml#/definitions/uint32'
-> > +        description:
-> > +          The output clock phase delay value.
+On Thu, Sep 10, 2020 at 02:13:05PM -0500, Nishanth Menon wrote:
+> On 20:53-20200910, Krzysztof Kozlowski wrote:
+> > On Thu, 10 Sep 2020 at 20:28, Nishanth Menon <nm@ti.com> wrote:
+> > >
+> > > On 19:57-20200910, Krzysztof Kozlowski wrote:
+> > > [...]
+> > > > +  wakeup-source:
+> > > > +    $ref: /schemas/types.yaml#/definitions/flag
+> > > > +
+> > > > +patternProperties:
+> > > > +  "^(hog-[0-9]+|.+-hog(-[0-9]+)?)$":
+> > >
+> > > I wonder if "hog" is too generic and might clash with "something-hog" in
+> > > the future?
+> > 
+> > This pattern is already used in
+> > Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml. It will
+> > match only children and so far it did not find any other nodes in ARM
+> > and ARM64 dts. I don't expect clashes. Also the question is then - if
+> > one adds a child of GPIO expander named "foobar-hog" and it is not a
+> > GPIO hog, then what is it?
 > 
-> We already have a common mmc clk-phase* binding, see
-> mmc-controller.yaml. As matter of fact, there is one binding per speed
-> mode.
+> Probably a nitpick.. but then,.. I have'nt seen us depend on hierarchy
+> for uniqueness of naming.. we choose for example "bus" no matter where
+> in the hierarchy it falls in, as long it is a bus.. etc.. same argument
+> holds good for properties as well.. "gpio-hog;" is kinda redundant if
+> you think of it for a compatible that is already gpio ;)..
 > 
-> Could that work for this case as well?
+> I did'nt mean to de-rail the discussion, but was curious what the DT
+> maintainers think..
 
-Ah, great, I think so. Sorry for overlooking that. I just need to extract from 
-Aspeed what units the damn register fields are using :/
+Not really a fan of gpio-hog binding to have another type of hog nor can 
+I imagine what that would be.
 
-Andrew
+Rob
