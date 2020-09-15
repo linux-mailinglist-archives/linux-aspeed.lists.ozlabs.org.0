@@ -1,62 +1,59 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F7B26AE53
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Sep 2020 22:00:49 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 249CD26B935
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 03:06:52 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BrYxp5PVfzDqSB
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 06:00:46 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Brhkx3qBlzDqTZ
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 11:06:49 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.166.65; helo=mail-io1-f65.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
- [209.85.166.65])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab;
+ helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none)
+ header.from=bewilderbeest.net
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net
+ header.a=rsa-sha256 header.s=thorn header.b=IshQ+GAr; 
+ dkim-atps=neutral
+X-Greylist: delayed 452 seconds by postgrey-1.36 at bilbo;
+ Wed, 16 Sep 2020 04:54:39 AEST
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net
+ [IPv6:2605:2700:0:5::4713:9cab])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BrYxh5VPxzDqLy
- for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Sep 2020 06:00:40 +1000 (AEST)
-Received: by mail-io1-f65.google.com with SMTP id y74so5478461iof.12
- for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Sep 2020 13:00:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=L7om6RUUpmy9Tp9WTJ6hem3a68ltpv04YXLuQ+XuUpg=;
- b=O6AVv/zc9PWo0nMndB6fvTjgbk91SBgqvfL2sXbwxDQMGfI7jQKRI19c3mp7eTXvDD
- Lk3NIgifkot+AyonBQmngGpUmjOenCuK/+v2F52s2i2l42AvwRAm98SK+NDETFcJyKJN
- X/FgoulRAw+pio4vkihtd31F70RcHMrwEjviIF9jWhXWMLr/qhkxUguHCLRVJQmLTWBB
- ARKQfH28svqlwUzw9GMeI7G9GL4Yxrx69FJ6SZXQ5r2vuVPn4ycO3ypCukLff7qb8Ngn
- eTHrp0+R8zIpLZjni7jsgkAVc/E2tUscB8CDXlLIv9jQtLuunPojZhAGXDc1fPMlX/3x
- KJvg==
-X-Gm-Message-State: AOAM530RJvCtzZCjGD1ecrULse8vymM6+5RbGHcEnNgFZG52h/P2NsSE
- 658xD6FD3A/q0ZWBV7jAKg==
-X-Google-Smtp-Source: ABdhPJyJashEW2xOKvfkZqHZZXucxwlHXqNC9JTw65ZlLFsAeTHaT5GzkbPEe9aLJArEiug2L8iMqA==
-X-Received: by 2002:a6b:590c:: with SMTP id n12mr17087310iob.25.1600200038094; 
- Tue, 15 Sep 2020 13:00:38 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
- by smtp.gmail.com with ESMTPSA id d71sm9595617ill.52.2020.09.15.13.00.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Sep 2020 13:00:37 -0700 (PDT)
-Received: (nullmailer pid 2409290 invoked by uid 1000);
- Tue, 15 Sep 2020 20:00:32 -0000
-Date: Tue, 15 Sep 2020 14:00:32 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH v2 02/15] dt-bindings: gpio: convert bindings for Maxim
- MAX732x family to dtschema
-Message-ID: <20200915200032.GA2409250@bogus>
-References: <20200910175733.11046-1-krzk@kernel.org>
- <20200910175733.11046-3-krzk@kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BrXTW1gJzzDqP2;
+ Wed, 16 Sep 2020 04:54:39 +1000 (AEST)
+Received: from hatter.bewilderbeest.net (unknown [IPv6:2600:6c44:7f:ba20::7c6])
+ (using TLSv1.2 with cipher DHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: zev)
+ by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 0C4B3806F7;
+ Tue, 15 Sep 2020 11:47:00 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 thorn.bewilderbeest.net 0C4B3806F7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
+ s=thorn; t=1600195621;
+ bh=FJZOAN5p863bC4FM+I+qvDnKOPec7IEYDsPnpusvWKU=;
+ h=From:To:Cc:Subject:Date:From;
+ b=IshQ+GArRiw/dXPoWZQdc4tiy1LTt+uLkEQtzhFjgCKnZ0MD88YHEgo7DlosaSYWL
+ efk5DOCxDBtnSPOPxgv8LC8rhx+6sVJxOiWwDcbqrVLsp2xaKJu+JkNup+D8Wdtk+y
+ Ur8dkOjEgjj+VCI5ESwH8o8I0hvWXA/xjKTFys0k=
+From: Zev Weiss <zev@bewilderbeest.net>
+To: Brendan Higgins <brendanhiggins@google.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] i2c: aspeed: disable additional device addresses on ast2[56]xx
+Date: Tue, 15 Sep 2020 13:45:25 -0500
+Message-Id: <20200915184525.29665-1-zev@bewilderbeest.net>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200910175733.11046-3-krzk@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 16 Sep 2020 11:06:46 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,39 +65,146 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Andrew Lunn <andrew@lunn.ch>,
- linux-aspeed@lists.ozlabs.org, Tony Lindgren <tony@atomide.com>,
- Linus Walleij <linus.walleij@linaro.org>, Russell King <linux@armlinux.org.uk>,
- Jason Cooper <jason@lakedaemon.net>, linux-renesas-soc@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Magnus Damm <magnus.damm@gmail.com>, Michal Simek <michal.simek@xilinx.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Guenter Roeck <linux@roeck-us.net>, NXP Linux Team <linux-imx@nxp.com>,
- devicetree@vger.kernel.org,
- =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Tero Kristo <t-kristo@ti.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>
+Cc: Zev Weiss <zev@bewilderbeest.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 10 Sep 2020 19:57:20 +0200, Krzysztof Kozlowski wrote:
-> Convert the Maxim MAX732x family of GPIO expanders bindings to device
-> tree schema by merging it with existing PCA95xx schema.  These are quite
-> similar so merging reduces duplication.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> ---
->  .../devicetree/bindings/gpio/gpio-max732x.txt | 58 ---------------
->  .../bindings/gpio/gpio-pca95xx.yaml           | 72 ++++++++++++++++++-
->  2 files changed, 70 insertions(+), 60 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/gpio/gpio-max732x.txt
-> 
+The ast25xx and ast26xx have, respectively, two and three configurable
+slave device addresses to the ast24xx's one.  We only support using
+one at a time, but the others may come up in an indeterminate state
+depending on hardware/bootloader behavior, so we need to make sure we
+disable them so as to avoid ending up with phantom devices on the bus.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+---
+ drivers/i2c/busses/i2c-aspeed.c | 50 +++++++++++++++++++++++++++------
+ 1 file changed, 41 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+index a7be6f24450b..20028a7a9f67 100644
+--- a/drivers/i2c/busses/i2c-aspeed.c
++++ b/drivers/i2c/busses/i2c-aspeed.c
+@@ -117,6 +117,8 @@
+ 
+ /* 0x18 : I2CD Slave Device Address Register   */
+ #define ASPEED_I2CD_DEV_ADDR_MASK			GENMASK(6, 0)
++#define ASPEED_I2CD_DEV_ADDR2_ENABLE			BIT(15)
++#define ASPEED_I2CD_DEV_ADDR3_ENABLE			BIT(23)
+ 
+ enum aspeed_i2c_master_state {
+ 	ASPEED_I2C_MASTER_INACTIVE,
+@@ -139,6 +141,16 @@ enum aspeed_i2c_slave_state {
+ 	ASPEED_I2C_SLAVE_STOP,
+ };
+ 
++struct aspeed_i2c_model {
++	u32 (*get_clk_reg_val)(struct device *dev, u32 divisor);
++
++	/*
++	 * Some models support multiple device addresses -- we only support
++	 * using one, but we need to disable the others if they're present.
++	 */
++	unsigned int num_device_addrs;
++};
++
+ struct aspeed_i2c_bus {
+ 	struct i2c_adapter		adap;
+ 	struct device			*dev;
+@@ -147,8 +159,7 @@ struct aspeed_i2c_bus {
+ 	/* Synchronizes I/O mem access to base. */
+ 	spinlock_t			lock;
+ 	struct completion		cmd_complete;
+-	u32				(*get_clk_reg_val)(struct device *dev,
+-							   u32 divisor);
++	const struct aspeed_i2c_model	*model;
+ 	unsigned long			parent_clk_frequency;
+ 	u32				bus_frequency;
+ 	/* Transaction state. */
+@@ -726,6 +737,13 @@ static void __aspeed_i2c_reg_slave(struct aspeed_i2c_bus *bus, u16 slave_addr)
+ 	addr_reg_val = readl(bus->base + ASPEED_I2C_DEV_ADDR_REG);
+ 	addr_reg_val &= ~ASPEED_I2CD_DEV_ADDR_MASK;
+ 	addr_reg_val |= slave_addr & ASPEED_I2CD_DEV_ADDR_MASK;
++
++	/* Disable additional addresses on hardware that has them. */
++	if (bus->model->num_device_addrs > 1)
++		addr_reg_val &= ~ASPEED_I2CD_DEV_ADDR2_ENABLE;
++	if (bus->model->num_device_addrs > 2)
++		addr_reg_val &= ~ASPEED_I2CD_DEV_ADDR3_ENABLE;
++
+ 	writel(addr_reg_val, bus->base + ASPEED_I2C_DEV_ADDR_REG);
+ 
+ 	/* Turn on slave mode. */
+@@ -863,6 +881,11 @@ static u32 aspeed_i2c_24xx_get_clk_reg_val(struct device *dev, u32 divisor)
+ 	return aspeed_i2c_get_clk_reg_val(dev, GENMASK(2, 0), divisor);
+ }
+ 
++static const struct aspeed_i2c_model aspeed_i2c_24xx_bus = {
++	.get_clk_reg_val = aspeed_i2c_24xx_get_clk_reg_val,
++	.num_device_addrs = 1,
++};
++
+ static u32 aspeed_i2c_25xx_get_clk_reg_val(struct device *dev, u32 divisor)
+ {
+ 	/*
+@@ -872,6 +895,16 @@ static u32 aspeed_i2c_25xx_get_clk_reg_val(struct device *dev, u32 divisor)
+ 	return aspeed_i2c_get_clk_reg_val(dev, GENMASK(3, 0), divisor);
+ }
+ 
++static const struct aspeed_i2c_model aspeed_i2c_25xx_bus = {
++	.get_clk_reg_val = aspeed_i2c_25xx_get_clk_reg_val,
++	.num_device_addrs = 2,
++};
++
++static const struct aspeed_i2c_model aspeed_i2c_26xx_bus = {
++	.get_clk_reg_val = aspeed_i2c_25xx_get_clk_reg_val,
++	.num_device_addrs = 3,
++};
++
+ /* precondition: bus.lock has been acquired. */
+ static int aspeed_i2c_init_clk(struct aspeed_i2c_bus *bus)
+ {
+@@ -882,7 +915,7 @@ static int aspeed_i2c_init_clk(struct aspeed_i2c_bus *bus)
+ 	clk_reg_val &= (ASPEED_I2CD_TIME_TBUF_MASK |
+ 			ASPEED_I2CD_TIME_THDSTA_MASK |
+ 			ASPEED_I2CD_TIME_TACST_MASK);
+-	clk_reg_val |= bus->get_clk_reg_val(bus->dev, divisor);
++	clk_reg_val |= bus->model->get_clk_reg_val(bus->dev, divisor);
+ 	writel(clk_reg_val, bus->base + ASPEED_I2C_AC_TIMING_REG1);
+ 	writel(ASPEED_NO_TIMEOUT_CTRL, bus->base + ASPEED_I2C_AC_TIMING_REG2);
+ 
+@@ -946,15 +979,15 @@ static int aspeed_i2c_reset(struct aspeed_i2c_bus *bus)
+ static const struct of_device_id aspeed_i2c_bus_of_table[] = {
+ 	{
+ 		.compatible = "aspeed,ast2400-i2c-bus",
+-		.data = aspeed_i2c_24xx_get_clk_reg_val,
++		.data = &aspeed_i2c_24xx_bus,
+ 	},
+ 	{
+ 		.compatible = "aspeed,ast2500-i2c-bus",
+-		.data = aspeed_i2c_25xx_get_clk_reg_val,
++		.data = &aspeed_i2c_25xx_bus,
+ 	},
+ 	{
+ 		.compatible = "aspeed,ast2600-i2c-bus",
+-		.data = aspeed_i2c_25xx_get_clk_reg_val,
++		.data = &aspeed_i2c_26xx_bus,
+ 	},
+ 	{ },
+ };
+@@ -1002,10 +1035,9 @@ static int aspeed_i2c_probe_bus(struct platform_device *pdev)
+ 
+ 	match = of_match_node(aspeed_i2c_bus_of_table, pdev->dev.of_node);
+ 	if (!match)
+-		bus->get_clk_reg_val = aspeed_i2c_24xx_get_clk_reg_val;
++		bus->model = &aspeed_i2c_24xx_bus;
+ 	else
+-		bus->get_clk_reg_val = (u32 (*)(struct device *, u32))
+-				match->data;
++		bus->model = match->data;
+ 
+ 	/* Initialize the I2C adapter */
+ 	spin_lock_init(&bus->lock);
+-- 
+2.28.0
+
