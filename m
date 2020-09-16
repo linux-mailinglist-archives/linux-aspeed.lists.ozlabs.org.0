@@ -2,66 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4482A26BB9A
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 06:51:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BBB326BC67
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 08:15:32 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BrnkX1x83zDqRM
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 14:51:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Brqb46t7kzDqKX
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 16:15:28 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::542;
- helo=mail-ed1-x542.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=209.85.128.68; helo=mail-wm1-f68.google.com;
+ envelope-from=k.kozlowski.k@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=Uj09PqT6; dkim-atps=neutral
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+ [209.85.128.68])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BrnkL2t1KzDqLw
- for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Sep 2020 14:51:35 +1000 (AEST)
-Received: by mail-ed1-x542.google.com with SMTP id a12so4860946eds.13
- for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Sep 2020 21:51:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MdtSsoU19/oPkRWDRuOGnrwiVbyxRvdiW6E9I6/TIUA=;
- b=Uj09PqT6ZA8TWoyG5DFQpeZrGHUgZt4EmbM6PXRTWz8aCoplsiP2vDI7KZ1a7aJTHW
- 8Ux9sKQtDgdbfvfRYifGkd+ZnUIdxq+5F8fdGdq2+KbQgi3nRG/KOj02/XuZ0vIBcR4l
- hlqE4muwPQ7qAfJTyO0gX8G7bECZieC5wpybs=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BrqZy41T7zDqHq
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Sep 2020 16:15:20 +1000 (AEST)
+Received: by mail-wm1-f68.google.com with SMTP id k18so1624680wmj.5
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Sep 2020 23:15:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MdtSsoU19/oPkRWDRuOGnrwiVbyxRvdiW6E9I6/TIUA=;
- b=rp0orcD1J2vhPEnpbmSwesSA///qZwXiaUdTWcPpupXVi8DpS7Rg1SsWcoiledYYue
- wdbSyvf+GY0o1knYIVPNZtSlkc+3R8+oO1wZho7U+xMH70BKn0a3acbl4gxHZOH9BOj/
- 81MOuaCLf5hZGmaIZ5pRZzTMEbN/eXInazEpXo+ARL8CoDlZ/GvoNCnexVaMhrhohcw2
- WBHn189LS2cQrLOhZ3xN6dSh/B5w52lApT+Xl4k4b734snZn6FDIRuf40OCDzdXPp7qR
- xLfqsj8Cd+eNVD49WJI2wURRJho69ImJ00X+k9MVdHN5ra7jigvwNdu8pJxmozWOrYDu
- TdZA==
-X-Gm-Message-State: AOAM532oeExXsYrlGliOpv1NzX9JH8139lz0URNdcv6VLg/cwz82H6BV
- Ukt26Q+Osqk08snFLUoVnfWB/Vn3M7z4Y9/ozUI=
-X-Google-Smtp-Source: ABdhPJyKmyJAH99XkvdDP+B6j+TTYZ9yNM7eC9Jh1kVikxw1CJaw5+AYEEzJAqNNrNwCs91WIz20VrG8Z+U/bO+LSHc=
-X-Received: by 2002:aa7:de03:: with SMTP id h3mr26114156edv.232.1600231890580; 
- Tue, 15 Sep 2020 21:51:30 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=1Uh7Ou5BUk6cJr1eeO8uTrFUHXPcK3jWLNCgC2OA24Q=;
+ b=bF7ghNQiDlZucq+izOj8PARhs0LWeYtHUyPVLUNneqHfSYi2PK/Fus4jFDs0nV3mdK
+ lkPLn4gTbC0T/5TcL/kxu3lB5huMXQafjqEDcyfvCHrLLkrLzeIB+e3aRiLDL/TgXOUc
+ CLKkhQbJydouN2RX/de6WbYT6mqqNfpHXrj1SmH0adVp066KUx6ZSjKnst8ZH29SKq38
+ Ev/lbB2UJeO86YSOiPBWxTmjovE4R2Kf5EDsQAAyQfWGGQy1bSgP0BjmiXErJDgKTCGD
+ LPhL0kqsh38pz3hX/MbIqXMJhUgGxct32zekR+FLpY+PWAupl+LuyDXpme2Fw1/4cPGA
+ 4JWQ==
+X-Gm-Message-State: AOAM531js1aC/oTCVn+ilKp8FxrhOVEH9WfJByOIh5f9Xxn5UfsxKtBx
+ N1BYBz9SCGgIlLEmH4KtWws=
+X-Google-Smtp-Source: ABdhPJw7nNn+CFhmnzt169e4rqB2CZP7AUPFZ9UBjFZbfGui7iEULE8AHLZ3m9ra4r8Pv7DiLjNGnw==
+X-Received: by 2002:a7b:c92c:: with SMTP id h12mr2849155wml.121.1600236916238; 
+ Tue, 15 Sep 2020 23:15:16 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.124])
+ by smtp.googlemail.com with ESMTPSA id u126sm4022642wmu.9.2020.09.15.23.15.13
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 15 Sep 2020 23:15:15 -0700 (PDT)
+Date: Wed, 16 Sep 2020 08:15:11 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v2 02/15] dt-bindings: gpio: convert bindings for Maxim
+ MAX732x family to dtschema
+Message-ID: <20200916061511.GA5719@kozik-lap>
+References: <20200910175733.11046-1-krzk@kernel.org>
+ <20200910175733.11046-3-krzk@kernel.org>
+ <CACRpkdZXu2J4z=1j-syxSbz2x-QiLeTBpwHSOVNfmZ31RgM6Ng@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200911015105.48581-1-jk@codeconstruct.com.au>
- <CACPK8XdCkw7ix2J9WyOXDcwsMThXwQ62=E6cDLX+-9WJMsqrnA@mail.gmail.com>
-In-Reply-To: <CACPK8XdCkw7ix2J9WyOXDcwsMThXwQ62=E6cDLX+-9WJMsqrnA@mail.gmail.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 16 Sep 2020 04:51:17 +0000
-Message-ID: <CACPK8XeQWNTyS53M9PLwkud9RnGNp3j87X8_UXtg4ZHJrQqQSQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] gpio/aspeed-sgpio: enable access to all 80 input &
- output sgpios
-To: Jeremy Kerr <jk@codeconstruct.com.au>, 
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CACRpkdZXu2J4z=1j-syxSbz2x-QiLeTBpwHSOVNfmZ31RgM6Ng@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,315 +68,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+Cc: Nishanth Menon <nm@ti.com>, Andrew Lunn <andrew@lunn.ch>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Tony Lindgren <tony@atomide.com>,
+ Michal Simek <michal.simek@xilinx.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
  linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- devicetree <devicetree@vger.kernel.org>
+ Gregory Clement <gregory.clement@bootlin.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Guenter Roeck <linux@roeck-us.net>, NXP Linux Team <linux-imx@nxp.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jason Cooper <jason@lakedaemon.net>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
+ Linux-OMAP <linux-omap@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Tero Kristo <t-kristo@ti.com>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi GPIO maintainers,
+On Sat, Sep 12, 2020 at 11:58:22AM +0200, Linus Walleij wrote:
+> On Thu, Sep 10, 2020 at 7:58 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> 
+> > Convert the Maxim MAX732x family of GPIO expanders bindings to device
+> > tree schema by merging it with existing PCA95xx schema.  These are quite
+> > similar so merging reduces duplication.
+> >
+> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> 
+> Can I just apply this one patch to the GPIO tree?
 
-On Fri, 11 Sep 2020 at 02:20, Joel Stanley <joel@jms.id.au> wrote:
->
-> On Fri, 11 Sep 2020 at 02:11, Jeremy Kerr <jk@codeconstruct.com.au> wrote:
-> >
-> > Currently, the aspeed-sgpio driver exposes up to 80 GPIO lines,
-> > corresponding to the 80 status bits available in hardware. Each of these
-> > lines can be configured as either an input or an output.
-> >
-> > However, each of these GPIOs is actually an input *and* an output; we
-> > actually have 80 inputs plus 80 outputs.
-> >
-> > This change expands the maximum number of GPIOs to 160; the lower half
-> > of this range are the input-only GPIOs, the upper half are the outputs.
-> > We fix the GPIO directions to correspond to this mapping.
-> >
-> > This also fixes a bug when setting GPIOs - we were reading from the
-> > input register, making it impossible to set more than one output GPIO.
-> >
-> > Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
-> > Fixes: 7db47faae79b ("gpio: aspeed: Add SGPIO driver")
->
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
+No, this requires the previous one (1/15) because it merges the max732x
+into pca95xx.
 
-This series is good to go in for 5.10:
+Although now Rob reviewed both so you can pick them up.
 
- https://lore.kernel.org/linux-gpio/20200911015105.48581-1-jk@codeconstruct.com.au/
- https://lore.kernel.org/linux-gpio/20200911015105.48581-2-jk@codeconstruct.com.au/
-
-Cheers,
-
-Joel
-
->
-> >
-> > ---
-> > v2:
-> >  - Fix warnings from kbuild test robot
-> >  - Add comment for input/output GPIO numbering
-> > ---
-> >  .../devicetree/bindings/gpio/sgpio-aspeed.txt |   5 +-
-> >  drivers/gpio/gpio-aspeed-sgpio.c              | 126 ++++++++++++------
-> >  2 files changed, 87 insertions(+), 44 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt b/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
-> > index d4d83916c09d..be329ea4794f 100644
-> > --- a/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
-> > +++ b/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
-> > @@ -20,8 +20,9 @@ Required properties:
-> >  - gpio-controller : Marks the device node as a GPIO controller
-> >  - interrupts : Interrupt specifier, see interrupt-controller/interrupts.txt
-> >  - interrupt-controller : Mark the GPIO controller as an interrupt-controller
-> > -- ngpios : number of GPIO lines, see gpio.txt
-> > -  (should be multiple of 8, up to 80 pins)
-> > +- ngpios : number of *hardware* GPIO lines, see gpio.txt. This will expose
-> > +  2 software GPIOs per hardware GPIO: one for hardware input, one for hardware
-> > +  output. Up to 80 pins, must be a multiple of 8.
-> >  - clocks : A phandle to the APB clock for SGPM clock division
-> >  - bus-frequency : SGPM CLK frequency
-> >
-> > diff --git a/drivers/gpio/gpio-aspeed-sgpio.c b/drivers/gpio/gpio-aspeed-sgpio.c
-> > index 3aa45934d60c..a18ca52432e0 100644
-> > --- a/drivers/gpio/gpio-aspeed-sgpio.c
-> > +++ b/drivers/gpio/gpio-aspeed-sgpio.c
-> > @@ -17,7 +17,17 @@
-> >  #include <linux/spinlock.h>
-> >  #include <linux/string.h>
-> >
-> > -#define MAX_NR_SGPIO                   80
-> > +/*
-> > + * MAX_NR_HW_GPIO represents the number of actual hardware-supported GPIOs (ie,
-> > + * slots within the clocked serial GPIO data). Since each HW GPIO is both an
-> > + * input and an output, we provide MAX_NR_HW_GPIO * 2 lines on our gpiochip
-> > + * device.
-> > + *
-> > + * We use SGPIO_OUTPUT_OFFSET to define the split between the inputs and
-> > + * outputs; the inputs start at line 0, the outputs start at OUTPUT_OFFSET.
-> > + */
-> > +#define MAX_NR_HW_SGPIO                        80
-> > +#define SGPIO_OUTPUT_OFFSET            MAX_NR_HW_SGPIO
-> >
-> >  #define ASPEED_SGPIO_CTRL              0x54
-> >
-> > @@ -30,8 +40,8 @@ struct aspeed_sgpio {
-> >         struct clk *pclk;
-> >         spinlock_t lock;
-> >         void __iomem *base;
-> > -       uint32_t dir_in[3];
-> >         int irq;
-> > +       int n_sgpio;
-> >  };
-> >
-> >  struct aspeed_sgpio_bank {
-> > @@ -111,31 +121,69 @@ static void __iomem *bank_reg(struct aspeed_sgpio *gpio,
-> >         }
-> >  }
-> >
-> > -#define GPIO_BANK(x)    ((x) >> 5)
-> > -#define GPIO_OFFSET(x)  ((x) & 0x1f)
-> > +#define GPIO_BANK(x)    ((x % SGPIO_OUTPUT_OFFSET) >> 5)
-> > +#define GPIO_OFFSET(x)  ((x % SGPIO_OUTPUT_OFFSET) & 0x1f)
-> >  #define GPIO_BIT(x)     BIT(GPIO_OFFSET(x))
-> >
-> >  static const struct aspeed_sgpio_bank *to_bank(unsigned int offset)
-> >  {
-> > -       unsigned int bank = GPIO_BANK(offset);
-> > +       unsigned int bank;
-> > +
-> > +       bank = GPIO_BANK(offset);
-> >
-> >         WARN_ON(bank >= ARRAY_SIZE(aspeed_sgpio_banks));
-> >         return &aspeed_sgpio_banks[bank];
-> >  }
-> >
-> > +static int aspeed_sgpio_init_valid_mask(struct gpio_chip *gc,
-> > +               unsigned long *valid_mask, unsigned int ngpios)
-> > +{
-> > +       struct aspeed_sgpio *sgpio = gpiochip_get_data(gc);
-> > +       int n = sgpio->n_sgpio;
-> > +       int c = SGPIO_OUTPUT_OFFSET - n;
-> > +
-> > +       WARN_ON(ngpios < MAX_NR_HW_SGPIO * 2);
-> > +
-> > +       /* input GPIOs in the lower range */
-> > +       bitmap_set(valid_mask, 0, n);
-> > +       bitmap_clear(valid_mask, n, c);
-> > +
-> > +       /* output GPIOS above SGPIO_OUTPUT_OFFSET */
-> > +       bitmap_set(valid_mask, SGPIO_OUTPUT_OFFSET, n);
-> > +       bitmap_clear(valid_mask, SGPIO_OUTPUT_OFFSET + n, c);
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static void aspeed_sgpio_irq_init_valid_mask(struct gpio_chip *gc,
-> > +               unsigned long *valid_mask, unsigned int ngpios)
-> > +{
-> > +       struct aspeed_sgpio *sgpio = gpiochip_get_data(gc);
-> > +       int n = sgpio->n_sgpio;
-> > +
-> > +       WARN_ON(ngpios < MAX_NR_HW_SGPIO * 2);
-> > +
-> > +       /* input GPIOs in the lower range */
-> > +       bitmap_set(valid_mask, 0, n);
-> > +       bitmap_clear(valid_mask, n, ngpios - n);
-> > +}
-> > +
-> > +static bool aspeed_sgpio_is_input(unsigned int offset)
-> > +{
-> > +       return offset < SGPIO_OUTPUT_OFFSET;
-> > +}
-> > +
-> >  static int aspeed_sgpio_get(struct gpio_chip *gc, unsigned int offset)
-> >  {
-> >         struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
-> >         const struct aspeed_sgpio_bank *bank = to_bank(offset);
-> >         unsigned long flags;
-> >         enum aspeed_sgpio_reg reg;
-> > -       bool is_input;
-> >         int rc = 0;
-> >
-> >         spin_lock_irqsave(&gpio->lock, flags);
-> >
-> > -       is_input = gpio->dir_in[GPIO_BANK(offset)] & GPIO_BIT(offset);
-> > -       reg = is_input ? reg_val : reg_rdata;
-> > +       reg = aspeed_sgpio_is_input(offset) ? reg_val : reg_rdata;
-> >         rc = !!(ioread32(bank_reg(gpio, bank, reg)) & GPIO_BIT(offset));
-> >
-> >         spin_unlock_irqrestore(&gpio->lock, flags);
-> > @@ -143,22 +191,31 @@ static int aspeed_sgpio_get(struct gpio_chip *gc, unsigned int offset)
-> >         return rc;
-> >  }
-> >
-> > -static void sgpio_set_value(struct gpio_chip *gc, unsigned int offset, int val)
-> > +static int sgpio_set_value(struct gpio_chip *gc, unsigned int offset, int val)
-> >  {
-> >         struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
-> >         const struct aspeed_sgpio_bank *bank = to_bank(offset);
-> > -       void __iomem *addr;
-> > +       void __iomem *addr_r, *addr_w;
-> >         u32 reg = 0;
-> >
-> > -       addr = bank_reg(gpio, bank, reg_val);
-> > -       reg = ioread32(addr);
-> > +       if (aspeed_sgpio_is_input(offset))
-> > +               return -EINVAL;
-> > +
-> > +       /* Since this is an output, read the cached value from rdata, then
-> > +        * update val. */
-> > +       addr_r = bank_reg(gpio, bank, reg_rdata);
-> > +       addr_w = bank_reg(gpio, bank, reg_val);
-> > +
-> > +       reg = ioread32(addr_r);
-> >
-> >         if (val)
-> >                 reg |= GPIO_BIT(offset);
-> >         else
-> >                 reg &= ~GPIO_BIT(offset);
-> >
-> > -       iowrite32(reg, addr);
-> > +       iowrite32(reg, addr_w);
-> > +
-> > +       return 0;
-> >  }
-> >
-> >  static void aspeed_sgpio_set(struct gpio_chip *gc, unsigned int offset, int val)
-> > @@ -175,43 +232,28 @@ static void aspeed_sgpio_set(struct gpio_chip *gc, unsigned int offset, int val)
-> >
-> >  static int aspeed_sgpio_dir_in(struct gpio_chip *gc, unsigned int offset)
-> >  {
-> > -       struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
-> > -       unsigned long flags;
-> > -
-> > -       spin_lock_irqsave(&gpio->lock, flags);
-> > -       gpio->dir_in[GPIO_BANK(offset)] |= GPIO_BIT(offset);
-> > -       spin_unlock_irqrestore(&gpio->lock, flags);
-> > -
-> > -       return 0;
-> > +       return aspeed_sgpio_is_input(offset) ? 0 : -EINVAL;
-> >  }
-> >
-> >  static int aspeed_sgpio_dir_out(struct gpio_chip *gc, unsigned int offset, int val)
-> >  {
-> >         struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
-> >         unsigned long flags;
-> > +       int rc;
-> >
-> > -       spin_lock_irqsave(&gpio->lock, flags);
-> > -
-> > -       gpio->dir_in[GPIO_BANK(offset)] &= ~GPIO_BIT(offset);
-> > -       sgpio_set_value(gc, offset, val);
-> > +       /* No special action is required for setting the direction; we'll
-> > +        * error-out in sgpio_set_value if this isn't an output GPIO */
-> >
-> > +       spin_lock_irqsave(&gpio->lock, flags);
-> > +       rc = sgpio_set_value(gc, offset, val);
-> >         spin_unlock_irqrestore(&gpio->lock, flags);
-> >
-> > -       return 0;
-> > +       return rc;
-> >  }
-> >
-> >  static int aspeed_sgpio_get_direction(struct gpio_chip *gc, unsigned int offset)
-> >  {
-> > -       int dir_status;
-> > -       struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
-> > -       unsigned long flags;
-> > -
-> > -       spin_lock_irqsave(&gpio->lock, flags);
-> > -       dir_status = gpio->dir_in[GPIO_BANK(offset)] & GPIO_BIT(offset);
-> > -       spin_unlock_irqrestore(&gpio->lock, flags);
-> > -
-> > -       return dir_status;
-> > -
-> > +       return !!aspeed_sgpio_is_input(offset);
-> >  }
-> >
-> >  static void irqd_to_aspeed_sgpio_data(struct irq_data *d,
-> > @@ -402,6 +444,7 @@ static int aspeed_sgpio_setup_irqs(struct aspeed_sgpio *gpio,
-> >
-> >         irq = &gpio->chip.irq;
-> >         irq->chip = &aspeed_sgpio_irqchip;
-> > +       irq->init_valid_mask = aspeed_sgpio_irq_init_valid_mask;
-> >         irq->handler = handle_bad_irq;
-> >         irq->default_type = IRQ_TYPE_NONE;
-> >         irq->parent_handler = aspeed_sgpio_irq_handler;
-> > @@ -452,11 +495,12 @@ static int __init aspeed_sgpio_probe(struct platform_device *pdev)
-> >         if (rc < 0) {
-> >                 dev_err(&pdev->dev, "Could not read ngpios property\n");
-> >                 return -EINVAL;
-> > -       } else if (nr_gpios > MAX_NR_SGPIO) {
-> > +       } else if (nr_gpios > MAX_NR_HW_SGPIO) {
-> >                 dev_err(&pdev->dev, "Number of GPIOs exceeds the maximum of %d: %d\n",
-> > -                       MAX_NR_SGPIO, nr_gpios);
-> > +                       MAX_NR_HW_SGPIO, nr_gpios);
-> >                 return -EINVAL;
-> >         }
-> > +       gpio->n_sgpio = nr_gpios;
-> >
-> >         rc = of_property_read_u32(pdev->dev.of_node, "bus-frequency", &sgpio_freq);
-> >         if (rc < 0) {
-> > @@ -497,7 +541,8 @@ static int __init aspeed_sgpio_probe(struct platform_device *pdev)
-> >         spin_lock_init(&gpio->lock);
-> >
-> >         gpio->chip.parent = &pdev->dev;
-> > -       gpio->chip.ngpio = nr_gpios;
-> > +       gpio->chip.ngpio = MAX_NR_HW_SGPIO * 2;
-> > +       gpio->chip.init_valid_mask = aspeed_sgpio_init_valid_mask;
-> >         gpio->chip.direction_input = aspeed_sgpio_dir_in;
-> >         gpio->chip.direction_output = aspeed_sgpio_dir_out;
-> >         gpio->chip.get_direction = aspeed_sgpio_get_direction;
-> > @@ -509,9 +554,6 @@ static int __init aspeed_sgpio_probe(struct platform_device *pdev)
-> >         gpio->chip.label = dev_name(&pdev->dev);
-> >         gpio->chip.base = -1;
-> >
-> > -       /* set all SGPIO pins as input (1). */
-> > -       memset(gpio->dir_in, 0xff, sizeof(gpio->dir_in));
-> > -
-> >         aspeed_sgpio_setup_irqs(gpio, pdev);
-> >
-> >         rc = devm_gpiochip_add_data(&pdev->dev, &gpio->chip, gpio);
-> > --
-> > 2.28.0
-> >
+Best regards,
+Krzysztof
