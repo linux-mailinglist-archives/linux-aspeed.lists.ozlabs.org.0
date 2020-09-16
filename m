@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23CC26C4C3
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 17:59:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D1426C4C5
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 17:59:45 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bs4Y10wYyzDqKs
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Sep 2020 01:59:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bs4YB3xXbzDqXP
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Sep 2020 01:59:42 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -16,24 +16,24 @@ Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=YTeS3iux; dkim-atps=neutral
+ header.s=default header.b=ReHiMVSO; dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bs4Xl0HkyzDqXX
- for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Sep 2020 01:59:19 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bs4Xt61VfzDqX0
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Sep 2020 01:59:26 +1000 (AEST)
 Received: from kozik-lap.mshome.net (unknown [194.230.155.191])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EC99D224BE;
- Wed, 16 Sep 2020 15:59:09 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5532D22483;
+ Wed, 16 Sep 2020 15:59:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600271956;
- bh=nvskr1+D9obXaMbDfZyLjyzIPbiTAGWd9iB4g/+Kc0U=;
+ s=default; t=1600271964;
+ bh=9+RfyEFgUiqDasaKjUmJhx8ihT+9S1w76ne+qVMEqf4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YTeS3iuxG8yxC4hEj6utIjUJUoYa1OQMcJ+8zesYwSyOeN4OONfNJWUOjPI6x6u1K
- Op+AxGXSn8ZFmnLXPw+XRqaU+dopclTQpu3KAH6HzRuDFk2i7EDl6RtvOlP1/G4a8v
- 0LGrjW5uqieq+VfZoTXzlj9T5cGhZrws9DM9fz/I=
+ b=ReHiMVSOrY2Tpq0R2x5H8Q1vVDBWzXBmBLfc5eualaPr0xKGjC/n447miOTwo3Jzt
+ qomZTiLgNjLrdb3j9uOc6o/IyZ8iFtxuuPBGGb+BdMQnJohy2I79//wT/C3XFYzosB
+ WayaEjb97JjD+jDpgfQYPk+QzJ7dqdbUcl7BRxbI=
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Linus Walleij <linus.walleij@linaro.org>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>,
@@ -56,10 +56,9 @@ To: Linus Walleij <linus.walleij@linaro.org>,
  linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
  linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 13/15] ARM: dts: dove: fix PCA95xx GPIO expander properties
- on A510
-Date: Wed, 16 Sep 2020 17:57:13 +0200
-Message-Id: <20200916155715.21009-14-krzk@kernel.org>
+Subject: [PATCH v3 14/15] ARM: dts: armada: align GPIO hog names with dtschema
+Date: Wed, 16 Sep 2020 17:57:14 +0200
+Message-Id: <20200916155715.21009-15-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200916155715.21009-1-krzk@kernel.org>
 References: <20200916155715.21009-1-krzk@kernel.org>
@@ -79,27 +78,104 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The PCA95xx GPIO expander requires GPIO controller properties to operate
-properly.
+The convention for node names is to use hyphens, not underscores.
+dtschema for pca95xx expects GPIO hogs to end with 'hog' prefix.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- arch/arm/boot/dts/dove-sbc-a510.dts | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/boot/dts/armada-388-clearfog.dts  |  4 ++--
+ arch/arm/boot/dts/armada-388-clearfog.dtsi | 10 +++++-----
+ arch/arm/boot/dts/armada-388-helios4.dts   |  6 +++---
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/arch/arm/boot/dts/dove-sbc-a510.dts b/arch/arm/boot/dts/dove-sbc-a510.dts
-index 2bb85a9b7614..df021f9b0117 100644
---- a/arch/arm/boot/dts/dove-sbc-a510.dts
-+++ b/arch/arm/boot/dts/dove-sbc-a510.dts
-@@ -143,6 +143,7 @@
- 	gpio_ext: gpio@20 {
- 		compatible = "nxp,pca9555";
- 		reg = <0x20>;
-+		gpio-controller;
- 		#gpio-cells = <2>;
+diff --git a/arch/arm/boot/dts/armada-388-clearfog.dts b/arch/arm/boot/dts/armada-388-clearfog.dts
+index 20f8d4667753..4140a5303b48 100644
+--- a/arch/arm/boot/dts/armada-388-clearfog.dts
++++ b/arch/arm/boot/dts/armada-388-clearfog.dts
+@@ -73,13 +73,13 @@
+ 	 * 14-SFP_TX_DISABLE
+ 	 * 15-SFP_MOD_DEF0
+ 	 */
+-	pcie2_0_clkreq {
++	pcie2-0-clkreq-hog {
+ 		gpio-hog;
+ 		gpios = <4 GPIO_ACTIVE_LOW>;
+ 		input;
+ 		line-name = "pcie2.0-clkreq";
  	};
- };
+-	pcie2_0_w_disable {
++	pcie2-0-w-disable-hog {
+ 		gpio-hog;
+ 		gpios = <7 GPIO_ACTIVE_LOW>;
+ 		output-low;
+diff --git a/arch/arm/boot/dts/armada-388-clearfog.dtsi b/arch/arm/boot/dts/armada-388-clearfog.dtsi
+index a0aa1d188f0c..f8a06ae4a3c9 100644
+--- a/arch/arm/boot/dts/armada-388-clearfog.dtsi
++++ b/arch/arm/boot/dts/armada-388-clearfog.dtsi
+@@ -141,31 +141,31 @@
+ 		#gpio-cells = <2>;
+ 		reg = <0x20>;
+ 
+-		pcie1_0_clkreq {
++		pcie1-0-clkreq-hog {
+ 			gpio-hog;
+ 			gpios = <0 GPIO_ACTIVE_LOW>;
+ 			input;
+ 			line-name = "pcie1.0-clkreq";
+ 		};
+-		pcie1_0_w_disable {
++		pcie1-0-w-disable-hog {
+ 			gpio-hog;
+ 			gpios = <3 GPIO_ACTIVE_LOW>;
+ 			output-low;
+ 			line-name = "pcie1.0-w-disable";
+ 		};
+-		usb3_ilimit {
++		usb3-ilimit-hog {
+ 			gpio-hog;
+ 			gpios = <5 GPIO_ACTIVE_LOW>;
+ 			input;
+ 			line-name = "usb3-current-limit";
+ 		};
+-		usb3_power {
++		usb3-power-hog {
+ 			gpio-hog;
+ 			gpios = <6 GPIO_ACTIVE_HIGH>;
+ 			output-high;
+ 			line-name = "usb3-power";
+ 		};
+-		m2_devslp {
++		m2-devslp-hog {
+ 			gpio-hog;
+ 			gpios = <11 GPIO_ACTIVE_HIGH>;
+ 			output-low;
+diff --git a/arch/arm/boot/dts/armada-388-helios4.dts b/arch/arm/boot/dts/armada-388-helios4.dts
+index fb49df2a3bce..b3728de3bd3f 100644
+--- a/arch/arm/boot/dts/armada-388-helios4.dts
++++ b/arch/arm/boot/dts/armada-388-helios4.dts
+@@ -166,19 +166,19 @@
+ 					interrupt-controller;
+ 					#interrupt-cells = <2>;
+ 
+-					board_rev_bit_0 {
++					board-rev-bit-0-hog {
+ 						gpio-hog;
+ 						gpios = <0 GPIO_ACTIVE_LOW>;
+ 						input;
+ 						line-name = "board-rev-0";
+ 					};
+-					board_rev_bit_1 {
++					board-rev-bit-1-hog {
+ 						gpio-hog;
+ 						gpios = <1 GPIO_ACTIVE_LOW>;
+ 						input;
+ 						line-name = "board-rev-1";
+ 					};
+-					usb3_ilimit {
++					usb3-ilimit-hog {
+ 						gpio-hog;
+ 						gpios = <5 GPIO_ACTIVE_HIGH>;
+ 						input;
 -- 
 2.17.1
 
