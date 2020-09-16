@@ -1,62 +1,71 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BBB326BC67
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 08:15:32 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E8626BF86
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 10:40:41 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Brqb46t7kzDqKX
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 16:15:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BrtpZ0YB9zDqBZ
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 18:40:38 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.128.68; helo=mail-wm1-f68.google.com;
- envelope-from=k.kozlowski.k@gmail.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1043;
+ helo=mail-pj1-x1043.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
- [209.85.128.68])
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=MlmerPIq; dkim-atps=neutral
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
+ [IPv6:2607:f8b0:4864:20::1043])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BrqZy41T7zDqHq
- for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Sep 2020 16:15:20 +1000 (AEST)
-Received: by mail-wm1-f68.google.com with SMTP id k18so1624680wmj.5
- for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Sep 2020 23:15:20 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BrtgT4771zDqNR
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Sep 2020 18:34:29 +1000 (AEST)
+Received: by mail-pj1-x1043.google.com with SMTP id a9so1210416pjg.1
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Sep 2020 01:34:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=vcKxZphnJRmQ71TIoliF/aQqaJ43RnyH3JVqst80hzY=;
+ b=MlmerPIqUhxTvZFzwst6kBbKun5we9SveOnWePFa45PYAFh/Vti+wbUkXBSLkfOrq2
+ g/lKhHx/ar0xPs8myAu/r9z5KqH1THnE6g/Sdj7Tef0Ms5kEWcGepxPDFJdW7awiM6wx
+ YNM2sDdG9yGU0hzZ96nOQxrL+/wC5xGykSEDArB/tnQV1v+FwVq0qoGieza1eXFC1AxZ
+ Py+NPbvAFv4+7C5OnKeG3WYms87LkgIfHadkyt/q54JYYgWdrGGTUvsZjXFIYewoVSaV
+ uefDkxAsnP3AbbP1jORnCQ3pNNkYJQWJXPwFBKKNCYEOtXUFo7GnsrbsVijgy2ii3niW
+ qI2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=1Uh7Ou5BUk6cJr1eeO8uTrFUHXPcK3jWLNCgC2OA24Q=;
- b=bF7ghNQiDlZucq+izOj8PARhs0LWeYtHUyPVLUNneqHfSYi2PK/Fus4jFDs0nV3mdK
- lkPLn4gTbC0T/5TcL/kxu3lB5huMXQafjqEDcyfvCHrLLkrLzeIB+e3aRiLDL/TgXOUc
- CLKkhQbJydouN2RX/de6WbYT6mqqNfpHXrj1SmH0adVp066KUx6ZSjKnst8ZH29SKq38
- Ev/lbB2UJeO86YSOiPBWxTmjovE4R2Kf5EDsQAAyQfWGGQy1bSgP0BjmiXErJDgKTCGD
- LPhL0kqsh38pz3hX/MbIqXMJhUgGxct32zekR+FLpY+PWAupl+LuyDXpme2Fw1/4cPGA
- 4JWQ==
-X-Gm-Message-State: AOAM531js1aC/oTCVn+ilKp8FxrhOVEH9WfJByOIh5f9Xxn5UfsxKtBx
- N1BYBz9SCGgIlLEmH4KtWws=
-X-Google-Smtp-Source: ABdhPJw7nNn+CFhmnzt169e4rqB2CZP7AUPFZ9UBjFZbfGui7iEULE8AHLZ3m9ra4r8Pv7DiLjNGnw==
-X-Received: by 2002:a7b:c92c:: with SMTP id h12mr2849155wml.121.1600236916238; 
- Tue, 15 Sep 2020 23:15:16 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.124])
- by smtp.googlemail.com with ESMTPSA id u126sm4022642wmu.9.2020.09.15.23.15.13
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 15 Sep 2020 23:15:15 -0700 (PDT)
-Date: Wed, 16 Sep 2020 08:15:11 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v2 02/15] dt-bindings: gpio: convert bindings for Maxim
- MAX732x family to dtschema
-Message-ID: <20200916061511.GA5719@kozik-lap>
-References: <20200910175733.11046-1-krzk@kernel.org>
- <20200910175733.11046-3-krzk@kernel.org>
- <CACRpkdZXu2J4z=1j-syxSbz2x-QiLeTBpwHSOVNfmZ31RgM6Ng@mail.gmail.com>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=vcKxZphnJRmQ71TIoliF/aQqaJ43RnyH3JVqst80hzY=;
+ b=qr4FKS0qFiAgRF358tqw21yB2QjULRqt276QcV+CxL18v9GLCwlKQm1PZXHk3bYHKv
+ U4j0saHt98vyF/TZXvNpclTyq+ce9tyRdPO1Sq+m74SHWDZ3uYRZBTyI/ShAiPwxjALW
+ PiqdOzvw7IfIFTk+UXWwPtT/EFOd2+XRufVGsOQmAZS2lmA0KWIO6YvdzqAbQQs6VBlY
+ mU3relNPw0x8eRdO4pP6pDeuvd6Qtv3UM7K/B6rOd2KSYMjm+PA5+AOP3mJKzsldV5uc
+ fONuLe1T1ZwstgCpzA1yOX6jGi4ev+fbwO5ygSOuLIvOvVlzvlutCKQuq6jGDTqVtz4m
+ vlHg==
+X-Gm-Message-State: AOAM5314bi42/E7uuMYMiqxYHmlHrc4FkgSTvpfyPsDgQ3KBbP7ikKmn
+ RHOYpAi04j03qwtY95dpn5k=
+X-Google-Smtp-Source: ABdhPJzzWAP3ZfSvWviU9rH+tjW3d5iTK3iLmx4IbOy+KeeGv/o8U159fEb6jML5S5XeJGB1VcgxZg==
+X-Received: by 2002:a17:90a:e02:: with SMTP id v2mr2950760pje.6.1600245263856; 
+ Wed, 16 Sep 2020 01:34:23 -0700 (PDT)
+Received: from localhost.localdomain ([45.124.203.18])
+ by smtp.gmail.com with ESMTPSA id fz22sm1858130pjb.46.2020.09.16.01.34.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Sep 2020 01:34:22 -0700 (PDT)
+From: Joel Stanley <joel@jms.id.au>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Andrew Jeffery <andrew@aj.id.au>
+Subject: [PATCH] drm/aspeed: Add sysfs for output settings
+Date: Wed, 16 Sep 2020 18:04:13 +0930
+Message-Id: <20200916083413.777307-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CACRpkdZXu2J4z=1j-syxSbz2x-QiLeTBpwHSOVNfmZ31RgM6Ng@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,46 +77,136 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Andrew Lunn <andrew@lunn.ch>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Tony Lindgren <tony@atomide.com>,
- Michal Simek <michal.simek@xilinx.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Guenter Roeck <linux@roeck-us.net>, NXP Linux Team <linux-imx@nxp.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Jason Cooper <jason@lakedaemon.net>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
- Linux-OMAP <linux-omap@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Tero Kristo <t-kristo@ti.com>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Shawn Guo <shawnguo@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, Sep 12, 2020 at 11:58:22AM +0200, Linus Walleij wrote:
-> On Thu, Sep 10, 2020 at 7:58 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> 
-> > Convert the Maxim MAX732x family of GPIO expanders bindings to device
-> > tree schema by merging it with existing PCA95xx schema.  These are quite
-> > similar so merging reduces duplication.
-> >
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> 
-> Can I just apply this one patch to the GPIO tree?
+These settings are used by an ASPEED BMC to determine when the host is
+trying to drive the display over PCIe (vga_pw) and to switch the
+output between PCIe and the internal graphics device (dac_mux).
 
-No, this requires the previous one (1/15) because it merges the max732x
-into pca95xx.
+The valid values for the dac mux are:
 
-Although now Rob reviewed both so you can pick them up.
+ 00: VGA mode (default, aka PCIe)
+ 01: Graphics CRT (aka BMC internal graphics, this driver)
+ 10: Pass through mode from video input port A
+ 11: Pass through mode from video input port B
 
-Best regards,
-Krzysztof
+Values for the read-only vga password register are:
+
+ 1: Host driving the display
+ 0: Host not driving the display
+
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 71 +++++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+index 903f4f304647..9e06a3683f8a 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+@@ -205,6 +205,69 @@ static const struct of_device_id aspeed_gfx_match[] = {
+ 	{ }
+ };
+ 
++#define ASPEED_SCU_VGA0		0x50
++#define ASPEED_SCU_MISC_CTRL	0x2c
++
++static ssize_t dac_mux_store(struct device *dev, struct device_attribute *attr,
++			     const char *buf, size_t count)
++{
++	struct aspeed_gfx *priv = dev_get_drvdata(dev);
++	u32 val;
++	int rc;
++
++	rc = kstrtou32(buf, 0, &val);
++	if (rc)
++		return rc;
++
++	if (val < 0 || val > 3)
++		return -EINVAL;
++
++	rc = regmap_update_bits(priv->scu, ASPEED_SCU_MISC_CTRL, 0x30000, val << 16);
++	if (rc < 0)
++		return 0;
++
++	return count;
++}
++
++static ssize_t dac_mux_show(struct device *dev, struct device_attribute *attr, char *buf)
++{
++	struct aspeed_gfx *priv = dev_get_drvdata(dev);
++	u32 reg;
++	int rc;
++
++	rc = regmap_read(priv->scu, ASPEED_SCU_MISC_CTRL, &reg);
++	if (rc)
++		return rc;
++
++	return sprintf(buf, "%u\n", (reg >> 16) & 0x3);
++}
++static DEVICE_ATTR_RW(dac_mux);
++
++static ssize_t
++vga_pw_show(struct device *dev, struct device_attribute *attr, char *buf)
++{
++	struct aspeed_gfx *priv = dev_get_drvdata(dev);
++	u32 reg;
++	int rc;
++
++	rc = regmap_read(priv->scu, ASPEED_SCU_VGA0, &reg);
++	if (rc)
++		return rc;
++
++	return sprintf(buf, "%u\n", reg & 1);
++}
++static DEVICE_ATTR_RO(vga_pw);
++
++static struct attribute *aspeed_sysfs_entries[] = {
++	&dev_attr_vga_pw.attr,
++	&dev_attr_dac_mux.attr,
++	NULL,
++};
++
++static struct attribute_group aspeed_sysfs_attr_group = {
++	.attrs = aspeed_sysfs_entries,
++};
++
+ static int aspeed_gfx_probe(struct platform_device *pdev)
+ {
+ 	struct aspeed_gfx *priv;
+@@ -219,6 +282,12 @@ static int aspeed_gfx_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
++	dev_set_drvdata(&pdev->dev, priv);
++
++	ret = sysfs_create_group(&pdev->dev.kobj, &aspeed_sysfs_attr_group);
++	if (ret)
++		return ret;
++
+ 	ret = drm_dev_register(&priv->drm, 0);
+ 	if (ret)
+ 		goto err_unload;
+@@ -227,6 +296,7 @@ static int aspeed_gfx_probe(struct platform_device *pdev)
+ 	return 0;
+ 
+ err_unload:
++	sysfs_remove_group(&pdev->dev.kobj, &aspeed_sysfs_attr_group);
+ 	aspeed_gfx_unload(&priv->drm);
+ 
+ 	return ret;
+@@ -236,6 +306,7 @@ static int aspeed_gfx_remove(struct platform_device *pdev)
+ {
+ 	struct drm_device *drm = platform_get_drvdata(pdev);
+ 
++	sysfs_remove_group(&pdev->dev.kobj, &aspeed_sysfs_attr_group);
+ 	drm_dev_unregister(drm);
+ 	aspeed_gfx_unload(drm);
+ 
+-- 
+2.28.0
+
