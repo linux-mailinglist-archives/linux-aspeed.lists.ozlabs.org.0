@@ -2,77 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C90426C06F
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 11:24:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4831B26C1F4
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 13:09:32 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Brvn85wrHzDqXs
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 19:24:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bry6K4zwYzDqNp
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 21:09:29 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=209.85.128.65; helo=mail-wm1-f65.google.com;
+ envelope-from=k.kozlowski.k@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=ffwll.ch
- (client-ip=2a00:1450:4864:20::443; helo=mail-wr1-x443.google.com;
- envelope-from=daniel@ffwll.ch; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=ffwll.ch header.i=@ffwll.ch header.a=rsa-sha256
- header.s=google header.b=Ih8d12tn; dkim-atps=neutral
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+ [209.85.128.65])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Brvg91wJhzDqNX
- for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Sep 2020 19:19:10 +1000 (AEST)
-Received: by mail-wr1-x443.google.com with SMTP id m6so6141502wrn.0
- for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Sep 2020 02:19:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=NetssDfLMpPwZ1ag5RCqykVyQO38ofbrcIBQ7qHK6pY=;
- b=Ih8d12tnCiF6uwywXnhdLjx6PI2H06LVi+m03GEr/Fd5oZX3vRtgoINf4zGiJAx6En
- +lEqQy/dRUhekUTDbyU8OneJwf6mBEvC3CkUJ9949+GgQWa8WTsnEosxFyW4bOcBQCS2
- L8wlwN++fkiZjGTf3XXc61r+HXl/RTToPMm/0=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bry6C3NB2zDqNp
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Sep 2020 21:09:23 +1000 (AEST)
+Received: by mail-wm1-f65.google.com with SMTP id e17so2369169wme.0
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Sep 2020 04:09:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=NetssDfLMpPwZ1ag5RCqykVyQO38ofbrcIBQ7qHK6pY=;
- b=rlA72NESZHjHpQJ3GbxZJGxEWabZfuhR+XEbgz97zA/BkFnWuRiUrtg3S7NBt/Qglp
- sE3IDs1T1r/L0U66JQtMlTrH3fiIVgPIwo+b/5BzPLcg69BRzbq9mnQbgc0WOYMZ5zVi
- k8idrdRm6pT9VDf29aG0C5hlPaDHJN2Jy5bEHC6uN5aEc5GNHqdqyq1WEYNXXJWP34fw
- UkOdeeTeSNJgc48pnJYe5n5Gfbu6dACXSdRHLDgmmzxohY20xeuUJ3amh8V0J+mIPyHC
- tFhTe/MyE/IlyXUcndbEPmYlIN8Na8IVV2zWrn2ShkgFO3u/dJ/iF5LxB4KJ+CquduN+
- EaZw==
-X-Gm-Message-State: AOAM532/z7+Uxr80ugA7Wsl+1AcqVx+mZ8W3WwygikFMPC2tGbbhDUKY
- izlLUDIFgKgt39kTSkELJQE0bw==
-X-Google-Smtp-Source: ABdhPJxQZxpUmYxi0pmhuEEug8N7pJYz8tL3t/YNJnSm6QP+Q5v8ZqUWUl++HQ2YBXkGzAVTeiMD6w==
-X-Received: by 2002:adf:f80a:: with SMTP id s10mr27111493wrp.351.1600247946114; 
- Wed, 16 Sep 2020 02:19:06 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id r14sm31759089wrn.56.2020.09.16.02.19.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Sep 2020 02:19:05 -0700 (PDT)
-Date: Wed, 16 Sep 2020 11:19:03 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: make linux-aspeed list remarks consistent
-Message-ID: <20200916091903.GZ438822@phenom.ffwll.local>
-Mail-Followup-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Joel Stanley <joel@jms.id.au>, David Airlie <airlied@linux.ie>,
- linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
- Pia Eichinger <pia.eichinger@st.oth-regensburg.de>,
- Joe Perches <joe@perches.com>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20200912183334.22683-1-lukas.bulwahn@gmail.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=wXAbzU7xs3GHOx4VbALatUig0WdQIdhicYVb4LS021Q=;
+ b=MWJOZDda/8qDIeZpL+yJUBpDs7Ext0CZjUQ7uNPF+y9nxgAV8uG+R6bzbYrdKO7j3/
+ ekXEQnGJjCv64ZhrA7XHBSf2/9myjnMHdnJmOgzNzfyQrQA55FYtabvf7VK5GOYt5p+t
+ 7HOMF3retqDfnJbG70jEMe4tTdXO0UKuf8LhKdykKPZnI2QSN3r8PhqQUJlNoq3CamWS
+ ix/QJExQPyjweCFdWcH8SK0hcaiTFE4pgObLv8HrrCAau1019xlw36VWNY2zN/6o4aam
+ b+TKF+pbtLXe8FrMET2E5pMW4X446m6pbTLMVmA8CG1ZBYgU+lWzvCEr6z624G+M7Prr
+ R4uA==
+X-Gm-Message-State: AOAM531z6DqJ8vRh+vuNMfA3P/rlGpkYBux5CcOq5J18nDC7BNHoky1b
+ aWSqO0qmpgJ2TpXATE7gCFM=
+X-Google-Smtp-Source: ABdhPJz6nAcPpzE0Afvi4kc8Wd3d/N2pmOcJi2+gV9N28HTCz/M5xCuuIuDYCxyhmfn+uomSVR6/sQ==
+X-Received: by 2002:a1c:152:: with SMTP id 79mr4146687wmb.90.1600254559712;
+ Wed, 16 Sep 2020 04:09:19 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.191])
+ by smtp.googlemail.com with ESMTPSA id n2sm4944652wma.29.2020.09.16.04.09.16
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 16 Sep 2020 04:09:18 -0700 (PDT)
+Date: Wed, 16 Sep 2020 13:09:15 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v2 02/15] dt-bindings: gpio: convert bindings for Maxim
+ MAX732x family to dtschema
+Message-ID: <20200916110915.GA17710@kozik-lap>
+References: <20200910175733.11046-1-krzk@kernel.org>
+ <20200910175733.11046-3-krzk@kernel.org>
+ <CACRpkdZXu2J4z=1j-syxSbz2x-QiLeTBpwHSOVNfmZ31RgM6Ng@mail.gmail.com>
+ <20200916061511.GA5719@kozik-lap>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200912183334.22683-1-lukas.bulwahn@gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20200916061511.GA5719@kozik-lap>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,61 +69,50 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, David Airlie <airlied@linux.ie>,
- kernel-janitors@vger.kernel.org,
- Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Daniel Vetter <daniel@ffwll.ch>, Joe Perches <joe@perches.com>,
- Pia Eichinger <pia.eichinger@st.oth-regensburg.de>
+Cc: Nishanth Menon <nm@ti.com>, Andrew Lunn <andrew@lunn.ch>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Tony Lindgren <tony@atomide.com>,
+ Michal Simek <michal.simek@xilinx.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Gregory Clement <gregory.clement@bootlin.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Guenter Roeck <linux@roeck-us.net>, NXP Linux Team <linux-imx@nxp.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jason Cooper <jason@lakedaemon.net>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
+ Linux-OMAP <linux-omap@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Tero Kristo <t-kristo@ti.com>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, Sep 12, 2020 at 08:33:34PM +0200, Lukas Bulwahn wrote:
-> Commit f15a3ea80391 ("MAINTAINERS: Add ASPEED BMC GFX DRM driver entry")
-> does not mention that linux-aspeed@lists.ozlabs.org is moderated for
-> non-subscribers, but the other three entries for
-> linux-aspeed@lists.ozlabs.org do.
+On Wed, Sep 16, 2020 at 08:15:11AM +0200, Krzysztof Kozlowski wrote:
+> On Sat, Sep 12, 2020 at 11:58:22AM +0200, Linus Walleij wrote:
+> > On Thu, Sep 10, 2020 at 7:58 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > 
+> > > Convert the Maxim MAX732x family of GPIO expanders bindings to device
+> > > tree schema by merging it with existing PCA95xx schema.  These are quite
+> > > similar so merging reduces duplication.
+> > >
+> > > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > 
+> > Can I just apply this one patch to the GPIO tree?
 > 
-> By 'majority vote' among entries, let us assume it was just missed here and
-> adjust it to be consistent with others.
+> No, this requires the previous one (1/15) because it merges the max732x
+> into pca95xx.
 > 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> applies cleanly on master and next-20200911
-> 
-> Joel, please ack.
-> David, Daniel, please pick this minor non-urgent clean-up patch.
+> Although now Rob reviewed both so you can pick them up.
 
-Pushed to drm-misc-next, thanks.
--Daniel
+I found now one comment from Rob so I will send a v3.
 
-> This patch submission will also show me if linux-aspeed is moderated or
-> not. I have not subscribed to linux-aspeed and if it shows up quickly in
-> the archive, the list is probably not moderated; and if it takes longer,
-> it is moderated, and hence, validating the patch.
-> 
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 26af84f97353..f2561c3fc9db 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5448,7 +5448,7 @@ F:	drivers/gpu/drm/panel/panel-arm-versatile.c
->  
->  DRM DRIVER FOR ASPEED BMC GFX
->  M:	Joel Stanley <joel@jms.id.au>
-> -L:	linux-aspeed@lists.ozlabs.org
-> +L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
->  S:	Supported
->  T:	git git://anongit.freedesktop.org/drm/drm-misc
->  F:	Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
-> -- 
-> 2.17.1
-> 
+Best regards,
+Krzysztof
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
