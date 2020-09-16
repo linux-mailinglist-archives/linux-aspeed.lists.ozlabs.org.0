@@ -1,58 +1,50 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D2626C538
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 18:37:39 +0200 (CEST)
-Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bs5Nw5wHWzDqjy
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Sep 2020 02:37:36 +1000 (AEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0347B26CB68
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 22:27:04 +0200 (CEST)
+Received: from bilbo.ozlabs.org (unknown [IPv6:2401:3900:2:1::3])
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BsBTd1x8GzDqjd
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Sep 2020 06:27:01 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kaod.org (client-ip=178.32.125.2;
- helo=smtpout1.mo529.mail-out.ovh.net; envelope-from=clg@kaod.org;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=alien8.de (client-ip=2a01:4f8:190:11c2::b:1457;
+ helo=mail.skyhub.de; envelope-from=bp@alien8.de; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=kaod.org
-Received: from smtpout1.mo529.mail-out.ovh.net
- (smtpout1.mo529.mail-out.ovh.net [178.32.125.2])
+ dmarc=pass (p=none dis=none) header.from=alien8.de
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bs5KB6BqkzDqRp
- for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Sep 2020 02:34:21 +1000 (AEST)
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.95])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 8412E5BCD50A;
- Wed, 16 Sep 2020 18:34:14 +0200 (CEST)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Wed, 16 Sep
- 2020 18:34:13 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R005634e9cc0-062d-43b1-a9a5-af2e5a2bc8a0,
- 282F6B8BB580550643A9CB45D70726BD5CC915E6) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH] soc: aspeed: Improve kconfig
-To: Joel Stanley <joel@jms.id.au>, Arnd Bergmann <arnd@arndb.de>, Andrew
- Jeffery <andrew@aj.id.au>
-References: <20200916125731.784527-1-joel@jms.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <9c38c586-9667-4052-66be-a6e03459068f@kaod.org>
-Date: Wed, 16 Sep 2020 18:34:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BsBSy4mZZzDqPC
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Sep 2020 06:26:23 +1000 (AEST)
+Received: from zn.tnic (p200300ec2f0c3e00db2f62bd592f04a0.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f0c:3e00:db2f:62bd:592f:4a0])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 1522C1EC026F;
+ Wed, 16 Sep 2020 19:22:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1600276960;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=CXiDzhd51Y1X9PUqSzctKBUMynV+tiDkIpdtvyBec+o=;
+ b=FA22T5GORdlesUNedODvDvgYmaDdj8PkbyqTIBGIJGmwPSV7OwXITkTe+/heqhPzL51mx/
+ pz9TN+9/aavENJg5AcMKLXQbd8fQkM/a7YpcMLiW6VU6TuZrjI1W39VNhvn1DoPE0GxQtm
+ LTCrTJdKJtIOJzBUC8dhq1g4Pd1Q8lE=
+Date: Wed, 16 Sep 2020 19:22:38 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Liu Shixin <liushixin2@huawei.com>
+Subject: Re: [PATCH -next] EDAC/aspeed: use module_platform_driver to
+ simplify the code
+Message-ID: <20200916172238.GQ2643@zn.tnic>
+References: <20200914065358.3726216-1-liushixin2@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20200916125731.784527-1-joel@jms.id.au>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 839bfb9b-b496-44be-a3d8-aa897ca6fd37
-X-Ovh-Tracer-Id: 4505288477939043235
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrtddvgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruh
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200914065358.3726216-1-liushixin2@huawei.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,86 +56,59 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: Tony Luck <tony.luck@intel.com>, Robert Richter <rric@kernel.org>,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ James Morse <james.morse@arm.com>, Stefan Schaeckeler <sschaeck@cisco.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 9/16/20 2:57 PM, Joel Stanley wrote:
-> Reword the kconfig text to be consistent and reflect that most drivers
-> are available for all supported ASPEED chips (2400, 2500 and 2600).
+On Mon, Sep 14, 2020 at 02:53:58PM +0800, Liu Shixin wrote:
+> module_platform_driver() makes the code simpler by eliminating
+> boilerplate code.
 > 
-> Rearrange the symbols the SoC drivers depend on so the menu doesn't
-> appear unless you are building for ASPEED for compile testing.
-> 
-> The SYSCON_MFD and REGMAP options are usually selected by drivers that
-> need them, so do this.
-> 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
+> Signed-off-by: Liu Shixin <liushixin2@huawei.com>
 > ---
->  drivers/soc/aspeed/Kconfig | 36 ++++++++++++++++++++----------------
->  1 file changed, 20 insertions(+), 16 deletions(-)
+>  drivers/edac/aspeed_edac.c | 18 +-----------------
+>  1 file changed, 1 insertion(+), 17 deletions(-)
 > 
-> diff --git a/drivers/soc/aspeed/Kconfig b/drivers/soc/aspeed/Kconfig
-> index c95fa30f1a76..9ce252445605 100644
-> --- a/drivers/soc/aspeed/Kconfig
-> +++ b/drivers/soc/aspeed/Kconfig
-> @@ -1,32 +1,36 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> -menu "Aspeed SoC drivers"
+> diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
+> index fbec28dc661d..fde809efc520 100644
+> --- a/drivers/edac/aspeed_edac.c
+> +++ b/drivers/edac/aspeed_edac.c
+> @@ -388,23 +388,7 @@ static struct platform_driver aspeed_driver = {
+>  	.probe		= aspeed_probe,
+>  	.remove		= aspeed_remove
+>  };
+> -
+> -
+> -static int __init aspeed_init(void)
+> -{
+> -	return platform_driver_register(&aspeed_driver);
+> -}
+> -
+> -
+> -static void __exit aspeed_exit(void)
+> -{
+> -	platform_driver_unregister(&aspeed_driver);
+> -}
+> -
+> -
+> -module_init(aspeed_init);
+> -module_exit(aspeed_exit);
+> -
+> +module_platform_driver(aspeed_driver);
 >  
-> -config SOC_ASPEED
-> -	def_bool y
-> -	depends on ARCH_ASPEED || COMPILE_TEST
-> +if ARCH_ASPEED || COMPILE_TEST
-> +
-> +menu "ASPEED SoC drivers"
->  
->  config ASPEED_LPC_CTRL
-> -	depends on SOC_ASPEED && REGMAP && MFD_SYSCON
-> -	tristate "Aspeed ast2400/2500 HOST LPC to BMC bridge control"
-> +	tristate "ASPEED LPC firmware cycle control"
-> +	select REGMAP
-> +	select MFD_SYSCON
->  	help
-> -	  Control Aspeed ast2400/2500 HOST LPC to BMC mappings through
-> -	  ioctl()s, the driver also provides a read/write interface to a BMC ram
-> -	  region where the host LPC read/write region can be buffered.
-> +	  Control LPC firmware cycle mappings through ioctl()s. The driver
-> +	  also provides a read/write interface to a BMC ram region where the
-> +	  host LPC read/write region can be buffered.
->  
->  config ASPEED_LPC_SNOOP
-> -	tristate "Aspeed ast2500 HOST LPC snoop support"
-> -	depends on SOC_ASPEED && REGMAP && MFD_SYSCON
-> +	tristate "ASPEED LPC snoop support"
-> +	select REGMAP
-> +	select MFD_SYSCON
->  	help
->  	  Provides a driver to control the LPC snoop interface which
->  	  allows the BMC to listen on and save the data written by
->  	  the host to an arbitrary LPC I/O port.
->  
->  config ASPEED_P2A_CTRL
-> -	depends on SOC_ASPEED && REGMAP && MFD_SYSCON
-> -	tristate "Aspeed ast2400/2500 HOST P2A VGA MMIO to BMC bridge control"
-> +	tristate "ASPEED P2A (VGA MMIO to BMC) bridge control"
-> +	select REGMAP
-> +	select MFD_SYSCON
->  	help
-> -	  Control Aspeed ast2400/2500 HOST P2A VGA MMIO to BMC mappings through
-> -	  ioctl()s, the driver also provides an interface for userspace mappings to
-> -	  a pre-defined region.
-> +	  Control ASPEED P2A VGA MMIO to BMC mappings through ioctl()s.  The
-> +	  driver also provides an interface for userspace mappings to a
-> +	  pre-defined region.
->  
->  endmenu
-> +
-> +endif
-> 
+>  MODULE_LICENSE("GPL");
+>  MODULE_AUTHOR("Stefan Schaeckeler <sschaeck@cisco.com>");
+> -- 
 
+Applied, thanks.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
