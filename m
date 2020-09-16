@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E2426C4B5
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 17:58:31 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EA0F26C4B8
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Sep 2020 17:58:39 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bs4Wn2CFBzDqWn
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Sep 2020 01:58:29 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Bs4Ww30kLzDqWY
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Sep 2020 01:58:36 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -16,24 +16,24 @@ Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=CEkiTIX+; dkim-atps=neutral
+ header.s=default header.b=hcD1MRTT; dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bs4WX5jlBzDqXN
- for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Sep 2020 01:58:16 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bs4Wg6NZwzDqY5
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Sep 2020 01:58:23 +1000 (AEST)
 Received: from kozik-lap.mshome.net (unknown [194.230.155.191])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1D3B922464;
- Wed, 16 Sep 2020 15:58:07 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E571022472;
+ Wed, 16 Sep 2020 15:58:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600271894;
- bh=wdAkw2TjM1udxEqqVOzxHnXaiuAOFMCD3JyJ0x6GXJI=;
+ s=default; t=1600271901;
+ bh=Ty18eFbR1LQ96gqxXM+8sE2Q1P8WRnMu4EObDZv2/zk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CEkiTIX+Fl0xgU9GaFowB3IBFoj0LdQvWJp6D/j5lf4NecsiG9e7rpukGJOxIsOGX
- OiHfB2CHjp8UzjXsoU4dCoauEfCjSPEEzbwnAko1gQFeuf/NUQwGG6LcEcvfRUlBi8
- pOcI/Xun6ff/784JHIbliYALEOTgbG6oNJuCy1EA=
+ b=hcD1MRTTKLJUVNVTe1M/7hjIPTwl4PEdGwc3NKI5mW7umBw+PpdChTixDl/LPB3ZO
+ EyF6tdHwuE94pBwX9llb65GacZaR+ZzMafTewQzccZUQ8DMpU1Apm/fxMhxvLlHcxs
+ xWcx3ouuKgd6ZaZ9hM0Af5dMetJnlE/0JTGUazA4=
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Linus Walleij <linus.walleij@linaro.org>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>,
@@ -56,10 +56,9 @@ To: Linus Walleij <linus.walleij@linaro.org>,
  linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
  linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 05/15] arm64: dts: renesas: align GPIO hog names with
- dtschema
-Date: Wed, 16 Sep 2020 17:57:05 +0200
-Message-Id: <20200916155715.21009-6-krzk@kernel.org>
+Subject: [PATCH v3 06/15] arm64: dts: ti: align GPIO hog names with dtschema
+Date: Wed, 16 Sep 2020 17:57:06 +0200
+Message-Id: <20200916155715.21009-7-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200916155715.21009-1-krzk@kernel.org>
 References: <20200916155715.21009-1-krzk@kernel.org>
@@ -84,98 +83,31 @@ dtschema for pca95xx expects GPIO hogs to end with 'hog' prefix.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- .../boot/dts/renesas/r8a77951-salvator-xs.dts      |  2 +-
- .../boot/dts/renesas/r8a77965-salvator-xs.dts      |  2 +-
- arch/arm64/boot/dts/renesas/ulcb-kf.dtsi           | 14 +++++++-------
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dts b/arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dts
-index cef9da4376a3..e5922329a4b8 100644
---- a/arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77951-salvator-xs.dts
-@@ -118,7 +118,7 @@
- };
+diff --git a/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts b/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
+index 648267284582..456e7818b521 100644
+--- a/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
++++ b/arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts
+@@ -407,7 +407,7 @@
+ 		gpio-controller;
+ 		#gpio-cells = <2>;
  
- &pca9654 {
--	pcie_sata_switch {
-+	pcie-sata-switch-hog {
- 		gpio-hog;
- 		gpios = <7 GPIO_ACTIVE_HIGH>;
- 		output-low; /* enable SATA by default */
-diff --git a/arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dts b/arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dts
-index 5cef64605464..d7e621101af7 100644
---- a/arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77965-salvator-xs.dts
-@@ -55,7 +55,7 @@
- };
- 
- &pca9654 {
--	pcie_sata_switch {
-+	pcie-sata-switch-hog {
- 		gpio-hog;
- 		gpios = <7 GPIO_ACTIVE_HIGH>;
- 		output-low; /* enable SATA by default */
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-index 202177706cde..e9ed2597f1c2 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-@@ -143,49 +143,49 @@
- 		interrupt-parent = <&gpio6>;
- 		interrupts = <8 IRQ_TYPE_EDGE_FALLING>;
- 
--		audio_out_off {
-+		audio-out-off-hog {
- 			gpio-hog;
- 			gpios = <0 GPIO_ACTIVE_HIGH>; /* P00 */
- 			output-high;
- 			line-name = "Audio_Out_OFF";
- 		};
- 
--		hub_pwen {
-+		hub-pwen-hog {
- 			gpio-hog;
- 			gpios = <6 GPIO_ACTIVE_HIGH>;
- 			output-high;
- 			line-name = "HUB pwen";
- 		};
- 
--		hub_rst {
-+		hub-rst-hog {
- 			gpio-hog;
- 			gpios = <7 GPIO_ACTIVE_HIGH>;
- 			output-high;
- 			line-name = "HUB rst";
- 		};
- 
--		otg_extlpn {
-+		otg-extlpn-hog {
+-		p09 {
++		p09-hog {
+ 			/* P11 - MCASP/TRACE_MUX_S0 */
  			gpio-hog;
  			gpios = <9 GPIO_ACTIVE_HIGH>;
- 			output-high;
- 			line-name = "OTG EXTLPn";
+@@ -415,7 +415,7 @@
+ 			line-name = "MCASP/TRACE_MUX_S0";
  		};
  
--		otg_offvbusn {
-+		otg-offvbusn-hog {
+-		p10 {
++		p10-hog {
+ 			/* P12 - MCASP/TRACE_MUX_S1 */
  			gpio-hog;
- 			gpios = <8 GPIO_ACTIVE_HIGH>;
- 			output-low;
- 			line-name = "OTG OFFVBUSn";
- 		};
- 
--		sd-wifi-mux {
-+		sd-wifi-mux-hog {
- 			gpio-hog;
- 			gpios = <5 GPIO_ACTIVE_HIGH>;
- 			output-low;	/* Connect WL1837 */
- 			line-name = "SD WiFi mux";
- 		};
- 
--		snd_rst {
-+		snd-rst-hog {
- 			gpio-hog;
- 			gpios = <15 GPIO_ACTIVE_HIGH>; /* P17 */
- 			output-high;
+ 			gpios = <10 GPIO_ACTIVE_HIGH>;
 -- 
 2.17.1
 
