@@ -2,65 +2,70 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A62927190F
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Sep 2020 03:57:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F87271926
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Sep 2020 04:07:15 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bvncf4bzqzDqd1
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Sep 2020 11:57:06 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BvnrJ5Jl6zDqWX
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Sep 2020 12:07:12 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::644;
- helo=mail-ej1-x644.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1041;
+ helo=mail-pj1-x1041.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=J3hEekJX; dkim-atps=neutral
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=Xa72Kts3; dkim-atps=neutral
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
+ [IPv6:2607:f8b0:4864:20::1041])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BvncV5dKFzDqcn
- for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Sep 2020 11:56:58 +1000 (AEST)
-Received: by mail-ej1-x644.google.com with SMTP id nw23so15454094ejb.4
- for <linux-aspeed@lists.ozlabs.org>; Sun, 20 Sep 2020 18:56:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UeTzI4uVYH/vYLkwgTbCwzqXh8Lw+bS92P+X6TjXjZU=;
- b=J3hEekJXwZUgBmdyB4dH5XbYZHQeAUIx9H5GT6K4iUfMDrdVRxJj+Gl19+j7xzEcpa
- WdMexe0oNnBFQ6Wc4cKmsZjv2K3harGfV3vzniG3GuslPDK/cTs7gXSy8nRJxgoY2S09
- YXe9p6X6FzQHU4TeqL8sa097Sv3Vd0yZ3c+5w=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Bvnr44dqGzDqV6
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Sep 2020 12:06:56 +1000 (AEST)
+Received: by mail-pj1-x1041.google.com with SMTP id md22so6217791pjb.0
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 20 Sep 2020 19:06:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iZUg/ce+1HYpD4B6gMD7V2L20Pbr5ZUqnwEDb7JNX/o=;
+ b=Xa72Kts3jVXlY2elD1zj8cwWXwWdyIKSrcQkXHVIe80qgWnLNNcp+0BfwvtZodkehx
+ esBW0t+vJ8d8F7ioDs8m2kR4bl31jiDbilKCb7VqBPdlSgDftmMbe+wHppDN4vR2Oyqt
+ nA9nEhFpZWsIulMZq9OlfPcjbcIuqhbym7CEEKkjTeESuCN5U49FpQw2WmDeM7wFucB4
+ HcdhDCyH7Paj8VZCfPmO16+zPeWn1n0z4b9apSitx/rqFi/zfLQsuG8tymc/k3jtvk1x
+ uMYjcvlG8cC9EzOuZCj0I0l7x18pmJ+wOlruTZ0/4p3WoqtG8NHInYcUKKQ//TxKjrDZ
+ iEJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UeTzI4uVYH/vYLkwgTbCwzqXh8Lw+bS92P+X6TjXjZU=;
- b=nmVAYea/+xADRhbXzsE3V8sSpH0r6RUZTI+tvDiDVUQf34Hm8I8DRIwPAGMq1zu5G+
- LRgdJgVM7t2XKeACNfkkSXZ6MHiq1RKpZCHg3rjd/70BfNcAM7/IEJtyb2XJxEsqSdoT
- 4kpVieiZg53h4YvPnRmUp8/PxbjRClLvG/vNnkE5A3Xgb/XsWqf4attLm4BFZxeqKP+6
- JfK3S7783ZhZi2jJWBEBsQSzUpBsO7XwZ23sYlSxV6vzb/lMJMfw+uPYeKWbOXEaig+5
- DEZ8WU6IXytTt8Uo5AkxYt/SMOaqgN5s6TVZxgtmjWCscoAlPoQ2fTt/Q917LS8yjOPa
- ZTOw==
-X-Gm-Message-State: AOAM531y/vCPbiHJXD7cD34L52iq7fcvV+brNUfGl4KuQ5cUxRribsrh
- 63OioZ09tuz7MaYFJFJl4cB38nEunNg4HYs/9dY=
-X-Google-Smtp-Source: ABdhPJw1pD4Cp9XmxoUz99frP3Byccq0PNYXkW+2ubBgmRcwwXEhnMjOzsBwb12eyGevuKx6n3t/4NyJYSWiB2sxYeQ=
-X-Received: by 2002:a17:906:fcc7:: with SMTP id
- qx7mr49730767ejb.254.1600653414014; 
- Sun, 20 Sep 2020 18:56:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200916084703.778386-1-joel@jms.id.au>
- <20200916084703.778386-2-joel@jms.id.au>
- <644a9acb-e1a6-4077-ac15-15dad58144dc@www.fastmail.com>
-In-Reply-To: <644a9acb-e1a6-4077-ac15-15dad58144dc@www.fastmail.com>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=iZUg/ce+1HYpD4B6gMD7V2L20Pbr5ZUqnwEDb7JNX/o=;
+ b=dnhB5fRyiPLqDXghxcCjPaTPReAWwjs4TCjF5qta1TV/kUH3boGnUkYaa2MYH3MafF
+ q1kyGYJpqiMQnvFzm+D3svEwg+COJuRZRPX7dvl6Gpq8CeQ7JnJ63lhygUAjLDT1i8y9
+ 4JnR7iTR2f7wt46/2oXTLB33O3QwP7w/T1RIsCc/Hii2YMo3nRpK1ASAYueP0iSLNacs
+ trbetWY+xzXND0Z0/VZZwYHuN0Y92/26F6290/wM6C3SIYdmSEpq2LJ3GUXE6k36lXal
+ wO9HoJ90yLwBGQDnTTXOrYtfBxJ66FCYSUwBOa8wwnrr/UTvI7dqGbl1whToONCnQ7ta
+ 5bNw==
+X-Gm-Message-State: AOAM532njqTdlUP7j0ielvsKNHqnqNPFZ+qFxN7mermfnY8f2Fzh65fP
+ x70Wloi8ivvF0DHrpF2Laf0=
+X-Google-Smtp-Source: ABdhPJxtSJcRDriyGXojg+R/Gfh2dOIUDr+T286JHMYpyZAuNyMNliDrlB4GiRRfBt1RuXAQlFfv2g==
+X-Received: by 2002:a17:90b:a0a:: with SMTP id
+ gg10mr22935200pjb.20.1600654012917; 
+ Sun, 20 Sep 2020 19:06:52 -0700 (PDT)
+Received: from localhost.localdomain ([45.124.203.18])
+ by smtp.gmail.com with ESMTPSA id z23sm10212045pfj.177.2020.09.20.19.06.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 20 Sep 2020 19:06:51 -0700 (PDT)
 From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 21 Sep 2020 01:56:40 +0000
-Message-ID: <CACPK8Xc1wjjH1ki1hwhT3L=s8rrPyzcxZNfOQy72UwDM-SvbSQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: aspeed: Add silicon id node to SCU
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+To: Rob Herring <robh+dt@kernel.org>
+Subject: [PATCH v2 0/3] ARM: aspeed: Add socinfo driver
+Date: Mon, 21 Sep 2020 11:36:38 +0930
+Message-Id: <20200921020641.48733-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,64 +77,30 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Rob Herring <robh+dt@kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 16 Sep 2020 at 23:45, Andrew Jeffery <andrew@aj.id.au> wrote:
->
->
->
-> On Wed, 16 Sep 2020, at 18:17, Joel Stanley wrote:
-> > Different Aspeed families have various unique hardware silicon
-> > identifiers within the SoC.
-> >
-> > Signed-off-by: Joel Stanley <joel@jms.id.au>
-> > ---
-> >  .../devicetree/bindings/mfd/aspeed-scu.txt    | 23 +++++++++++++++++++
-> >  1 file changed, 23 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/mfd/aspeed-scu.txt
-> > b/Documentation/devicetree/bindings/mfd/aspeed-scu.txt
-> > index 4d92c0bb6687..fff3151f06ee 100644
-> > --- a/Documentation/devicetree/bindings/mfd/aspeed-scu.txt
-> > +++ b/Documentation/devicetree/bindings/mfd/aspeed-scu.txt
-> > @@ -20,3 +20,26 @@ syscon: syscon@1e6e2000 {
-> >       #clock-cells = <1>;
-> >       #reset-cells = <1>;
-> >  };
-> > +
-> > +Silicon ID
-> > +-----------------
-> > +
-> > +Families have unique hardware silicon identifiers within the SoC.
-> > +
-> > +Required properties:
-> > +
-> > + - compatible:               "aspeed,silicon-id" or:
-> > +                     "aspeed,ast2400-silicon-id" or
-> > +                     "aspeed,ast2501-silicon-id" or
->
-> aspeed,ast2510-silicon-id
+This adds a socinfo driver for the ASPEED BMCs. Please review!
 
-It was supposed to be 2500. Good catch.
+v2 addresses Andrew's review comments
 
->
-> > +                     "aspeed,ast2600-silicon-id"
-> > +
-> > + - reg:                      offset and length of the silicon id information
-> > +                     optionally, a second offset and length describes the unique chip id
->
-> What about chips with multiple silicon ID regs? I guess we just pick a sensible
-> one, though given recent events maybe we should make an explicit note for the
-> 2600?
+Joel Stanley (3):
+  dt-bindings: aspeed: Add silicon id node to SCU
+  soc: aspeed: Add soc info driver
+  ARM: dts: aspeed: Add silicon id node
 
-I will add a note saying the 2600 should be the unique one, not
-useless backwards compatible one.
+ .../devicetree/bindings/mfd/aspeed-scu.txt    |  26 ++++
+ arch/arm/boot/dts/aspeed-g4.dtsi              |   5 +
+ arch/arm/boot/dts/aspeed-g5.dtsi              |   5 +
+ arch/arm/boot/dts/aspeed-g6.dtsi              |   5 +
+ drivers/soc/aspeed/Kconfig                    |   7 +
+ drivers/soc/aspeed/Makefile                   |   1 +
+ drivers/soc/aspeed/aspeed-socinfo.c           | 135 ++++++++++++++++++
+ 7 files changed, 184 insertions(+)
+ create mode 100644 drivers/soc/aspeed/aspeed-socinfo.c
 
-Cheers,
+-- 
+2.28.0
 
-Joel
