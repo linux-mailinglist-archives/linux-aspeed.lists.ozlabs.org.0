@@ -1,76 +1,66 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD8726F4F6
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Sep 2020 06:20:48 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC05271909
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Sep 2020 03:56:09 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bt0xp0nMkzDqkK
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Sep 2020 14:20:46 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BvnbW1TShzDqjW
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Sep 2020 11:56:07 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1041;
- helo=mail-pj1-x1041.google.com; envelope-from=rentao.bupt@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::542;
+ helo=mail-ed1-x542.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=jmFM5Hk0; dkim-atps=neutral
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com
- [IPv6:2607:f8b0:4864:20::1041])
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=f6Rv0bWQ; dkim-atps=neutral
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bt0w13vF1zDqkC;
- Fri, 18 Sep 2020 14:19:11 +1000 (AEST)
-Received: by mail-pj1-x1041.google.com with SMTP id fa1so2469632pjb.0;
- Thu, 17 Sep 2020 21:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=uf0XaWxmSBWPs5Ykw52VMS2PajAcQCq1xNqnxZFMyic=;
- b=jmFM5Hk0uI1NV5zSmzm/rM5GMZnWpZNWRRVoGKaPVl9lvOS2eCjrtzS+6z8u19qAgd
- sDTmAtyKcKBy06InOtgbTb4X4PyMhqiMocmFrX0qvXPVrm1krkpyMVj2Rc099XEYRg8a
- 8tDLZ4PQsuimizomOQJRZ2C5l4UWsPY35hg3IB5pzLWkR+OXNmwx48yAtPQ1HJa3jURB
- QZJBfzF971iHAG1Y5/v1cd2O3WvfuUzK7qRBVCPlj0aJJpcyj8D7x8hJqdLHOtVy7Ns3
- p2ksQWCSyqxpTv2Emz4KefLL+HH9ZIIr7refP2C/I9oBemQPvmiCj1yskQYAb27T6svY
- E6hg==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BvnbL2L7NzDqcn
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Sep 2020 11:55:56 +1000 (AEST)
+Received: by mail-ed1-x542.google.com with SMTP id ay8so11248184edb.8
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 20 Sep 2020 18:55:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9FRSutOuV565E+jRnFpa4CKJAyMm8/FoxwY0u0XxXek=;
+ b=f6Rv0bWQH+N4U4jEUnkVsbTk9f7t3dUXI8NJGDq1+GP3bp5j/GJXcW6LuNPQRclhuq
+ xvPTAJPGm7x6wkm+sjCX7awKukknzlZKsxfppG7Op8PDayLAeAQLDSdhYIHBDRQdr5YB
+ bIspqWA8Jn2RSPC+TuhZZFcZpSQaXDnISIsu8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=uf0XaWxmSBWPs5Ykw52VMS2PajAcQCq1xNqnxZFMyic=;
- b=DeA3sn4l6xl/Xt5o0RWV2g6X2nMOJb30uN4O0zg5FnEvUkZ9xiveZ06AgV9klxPuYp
- D4SDRLgayVkiBVXBUh6brWuCt5LiNwz/5O+VG+vx+10Tx2Xq8/QnqgMpi2l/vf109yyw
- xY6KN50D5GZZ1mKFilV8DwFCsXwFyTliPygX2KGKSyl9AMtegHINiwq7f5ZZy1qOEY6e
- ErZihWNRLeZdN7vM0vKQTsrkA9KGJ6ysQlmElw/tn0NMtWHkFng/wZMIjvjqSG5MTeyv
- 9qLWFcMvEyQB6Ecx6caDSqW/TKKhhZ8ITVynJ7HCPj3kb5VrYVf2vlhHA9BIVp3rlnWx
- /iNQ==
-X-Gm-Message-State: AOAM5339uNVfwyTz+piCRAUsbuNSM94ZCS9fJmBRldU7R9HqTCoaz020
- olTQvDchIWFHWF/vxuECaofvayA0yT9y7gwS
-X-Google-Smtp-Source: ABdhPJyTMd0Gg5Oqyr+rhgTmOWmBD6MN+kyK6wNEcYWw7fpphO5ZfvEVBe4QGl3Mhi+fBlLXTDQBqA==
-X-Received: by 2002:a17:902:c40c:b029:d1:9bc8:1624 with SMTP id
- k12-20020a170902c40cb02900d19bc81624mr30237552plk.1.1600402746335; 
- Thu, 17 Sep 2020 21:19:06 -0700 (PDT)
-Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net.
- [73.252.146.110])
- by smtp.gmail.com with ESMTPSA id c24sm1326854pfd.24.2020.09.17.21.19.05
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 17 Sep 2020 21:19:05 -0700 (PDT)
-Date: Thu, 17 Sep 2020 21:18:59 -0700
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH] gpio: aspeed: fix ast2600 bank properties
-Message-ID: <20200918041858.GA14246@taoren-ubuntu-R90MNF91>
-References: <20200916204216.9423-1-rentao.bupt@gmail.com>
- <60f9f14a-c9be-45ac-b3a8-516ab73d9bee@www.fastmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9FRSutOuV565E+jRnFpa4CKJAyMm8/FoxwY0u0XxXek=;
+ b=nHt1LTbj+K3Ag2/4qi5cRhEJeK1nLCCR4wWJa0OevFbu+B1fuGUOWghPgZdjcA0rGu
+ 4KnqM65ceYGhyEGGgnJbhcsawFoWPo8vK0mwOQpX3H4c8gsntyp9IOHcuPdt1IKu6w8B
+ LcTHUXidFnAkFCW8mneqY1mbQKXDvJkLT2Gt3QdAFmozGCEEgWr7nZDIGHDBMlONuPKI
+ qVa4yMOuKI6+ckvDz6pzfeiJYUi2LR1bZpR1sCpdaEQoA7u+tsFU047PXEyARSAhx1gM
+ JKclwOV5ES3pYbLS/HOjl+4MXd2H67AZVijua0AWkaop+ixCEXnNR0JstsIsAtjowqYd
+ iUKQ==
+X-Gm-Message-State: AOAM533ljwxmv+cX3yI0OuvtUeOlG4gFWVIJoo/2/WghRVML3nHEtgw9
+ pp9YeDYm4SSW5JijVVAjHncIuxyVh2kb9j09UBQ=
+X-Google-Smtp-Source: ABdhPJxYhnzmUy6gkBPUGsSLBr7eDnoKR5MPKeInPbJPaU8a2Z+lujYCEc6O+c8OBGvvocRKlkZdME1KHowDA0CtHIk=
+X-Received: by 2002:a05:6402:18d:: with SMTP id
+ r13mr48422410edv.267.1600653351998; 
+ Sun, 20 Sep 2020 18:55:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <60f9f14a-c9be-45ac-b3a8-516ab73d9bee@www.fastmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20200916084703.778386-1-joel@jms.id.au>
+ <20200916084703.778386-3-joel@jms.id.au>
+ <aabf960e-33b3-4094-ad03-8305ca1794c7@www.fastmail.com>
+In-Reply-To: <aabf960e-33b3-4094-ad03-8305ca1794c7@www.fastmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 21 Sep 2020 01:55:39 +0000
+Message-ID: <CACPK8Xdgd-PyfW1pTMW7pebLUVGcbco1XAC_=xBAsDfVsYUGUg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] soc: aspeed: Add soc info driver
+To: Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,38 +72,82 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-gpio@vger.kernel.org,
- Linus Walleij <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, openbmc@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Rob Herring <robh+dt@kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Sep 17, 2020 at 08:42:27AM +0930, Andrew Jeffery wrote:
-> 
-> 
-> On Thu, 17 Sep 2020, at 06:12, rentao.bupt@gmail.com wrote:
-> > From: Tao Ren <rentao.bupt@gmail.com>
-> > 
-> > GPIO_U is mapped to the least significant byte of input/output mask, and
-> > the byte in "output" mask should be 0 because GPIO_U is input only. All
-> > the other bits need to be 1 because GPIO_V/W/X support both input and
-> > output modes.
-> > 
-> > Similarly, GPIO_Y/Z are mapped to the 2 least significant bytes, and the
-> > according bits need to be 1 because GPIO_Y/Z support both input and
-> > output modes.
-> > 
-> > Fixes: ab4a85534c3e ("gpio: aspeed: Add in ast2600 details to Aspeed driver")
-> > Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
-> 
-> Thanks Tao,
-> 
-> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+On Wed, 16 Sep 2020 at 23:41, Andrew Jeffery <andrew@aj.id.au> wrote:
+>
+>
+>
+> On Wed, 16 Sep 2020, at 18:17, Joel Stanley wrote:
 
-Thanks Andrew for the quick review.
+> > +     np = of_find_compatible_node(NULL, NULL, "aspeed,silicon-id");
+> > +     if (!of_device_is_available(np)) {
+> > +             of_node_put(np);
+> > +             return -ENODEV;
+> > +     }
+> > +
+> > +     reg = of_iomap(np, 0);
+> > +     if (!reg)
+> > +             return -ENODEV;
+> > +     siliconid = readl(reg);
+> > +     of_node_put(np);
+> > +     iounmap(reg);
+> > +
+> > +     /* This is optional, the ast2400 does not have it */
+> > +     reg = of_iomap(np, 1);
+>
+> Use of np after of_node_put(np) above.
+>
+> > +     if (reg) {
+> > +             has_chipid = true;
+> > +             chipid[0] = readl(reg);
+> > +             chipid[1] = readl(reg + 4);
+> > +             iounmap(reg);
+> > +             of_node_put(np);
+>
+> Double of_node_put() of np.
+
+Good catch.
+
+>
+> > +     }
+> > +
+> > +     attrs = kzalloc(sizeof(*attrs), GFP_KERNEL);
+> > +     if (!attrs)
+> > +             return -ENODEV;
+> > +
+> > +     /*
+> > +      * Machine: Romulus BMC
+> > +      * Family: AST2500
+> > +      * Revision: A1
+> > +      * SoC ID: raw silicon revision id
+> > +      * Serial Nnumber: 64-bit chipid
+> > +      */
+> > +
+> > +     np = of_find_node_by_path("/");
+> > +     of_property_read_string(np, "model", &machine);
+> > +     if (machine)
+> > +             attrs->machine = kstrdup(machine, GFP_KERNEL);
+> > +     of_node_put(np);
+> > +
+> > +     attrs->family = kasprintf(GFP_KERNEL, "%s",
+> > +                               siliconid_to_name(siliconid));
+> > +
+> > +     attrs->revision = kasprintf(GFP_KERNEL, "%s",
+> > +                                 siliconid_to_rev(siliconid));
+>
+> `struct soc_device_attribute` declares these as `const char *` and the strings
+> are constants in the driver, so is there any reason to use kasprintf() here?
+
+The first iteration of the driver had more complex strings here, so it
+was a hold over from that. As long as the strings returned from the
+helpers stick around forever then we can do that.
 
 Cheers,
 
-Tao
+Joel
