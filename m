@@ -2,53 +2,51 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8114A272AA5
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Sep 2020 17:47:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 065FC273847
+	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Sep 2020 04:01:26 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bw83J1QkhzDqm6
-	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Sep 2020 01:47:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BwPg62Y65zDqyl
+	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Sep 2020 12:01:22 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
  smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
+ envelope-from=shawnguo@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=U3Tg7a/t; dkim-atps=neutral
+ header.s=default header.b=k7OXLPC+; dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bw6ZC4LnjzDqRW;
- Tue, 22 Sep 2020 00:41:07 +1000 (AEST)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BwPf15s8FzDqnv
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 22 Sep 2020 12:00:25 +1000 (AEST)
+Received: from dragon (80.251.214.228.16clouds.com [80.251.214.228])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 27A0A23600;
- Mon, 21 Sep 2020 14:41:03 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0F5C123A74;
+ Tue, 22 Sep 2020 02:00:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1600699264;
- bh=m6VntauJMDSn9rRbPBvIGiZJuUNIY4Q+haPvrNHbwj0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=U3Tg7a/tVPClKLVRp/1JN5xZjugTzdSJK/0LRGrcCxfmnQILLIGW+Fob3TJKwd3LZ
- mv1MIMLc+GYRnm8cWd4Id1LNGuldQ7prMBX3dQw8lEiUYB03WALifO3ItDLGUoiu+8
- 0Z+dwLnj52xWyjFBKJj3YCihBbHjSXrz36Aw+SDo=
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 07/15] i2c: aspeed: Mask IRQ status to relevant
- bits
-Date: Mon, 21 Sep 2020 10:40:46 -0400
-Message-Id: <20200921144054.2135602-7-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200921144054.2135602-1-sashal@kernel.org>
-References: <20200921144054.2135602-1-sashal@kernel.org>
+ s=default; t=1600740021;
+ bh=kYNJxkMo2anS/8PuLnAzPGHb8GTmWTIcIgZzUe5W7ys=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=k7OXLPC+wJQNc62e75OkkvOiY2XUHlpSW94FG2mbCavbr9OoBUthgvnsAshDdYrUd
+ ibQI7tJ4iX38/3FFnZCHsMhglmYZQeSMe3r2mawzxgw+hjL0YPQ/nNwakkwvAKJMQ3
+ E7m61S9bPggx+TW6vXYL1dGfP3KmZ6aU+Oj1XC3w=
+Date: Tue, 22 Sep 2020 10:00:12 +0800
+From: Shawn Guo <shawnguo@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v3 15/15] ARM: dts: imx6q: align GPIO hog names with
+ dtschema
+Message-ID: <20200922020011.GQ25109@dragon>
+References: <20200916155715.21009-1-krzk@kernel.org>
+ <20200916155715.21009-16-krzk@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200916155715.21009-16-krzk@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,49 +58,31 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, Wolfram Sang <wsa@kernel.org>,
- linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: Nishanth Menon <nm@ti.com>, Andrew Lunn <andrew@lunn.ch>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Tony Lindgren <tony@atomide.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Michal Simek <michal.simek@xilinx.com>, Fabio Estevam <festevam@gmail.com>,
+ linux-renesas-soc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Gregory Clement <gregory.clement@bootlin.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ NXP Linux Team <linux-imx@nxp.com>, devicetree@vger.kernel.org,
+ Jason Cooper <jason@lakedaemon.net>, Sascha Hauer <s.hauer@pengutronix.de>,
+ linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Tero Kristo <t-kristo@ti.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Eddie James <eajames@linux.ibm.com>
+On Wed, Sep 16, 2020 at 05:57:15PM +0200, Krzysztof Kozlowski wrote:
+> dtschema for pca95xx expects GPIO hogs to end with 'hog' prefix.  While
+> touching the hogs, fix indentation (spaces -> tabs).
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-[ Upstream commit 1a1d6db23ddacde0b15ea589e9103373e05af8de ]
-
-Mask the IRQ status to only the bits that the driver checks. This
-prevents excessive driver warnings when operating in slave mode
-when additional bits are set that the driver doesn't handle.
-
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
-Reviewed-by: Tao Ren <rentao.bupt@gmail.com>
-Signed-off-by: Wolfram Sang <wsa@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/i2c/busses/i2c-aspeed.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-index dad6e432de89f..bdcc3c9d0abe5 100644
---- a/drivers/i2c/busses/i2c-aspeed.c
-+++ b/drivers/i2c/busses/i2c-aspeed.c
-@@ -69,6 +69,7 @@
-  * These share bit definitions, so use the same values for the enable &
-  * status bits.
-  */
-+#define ASPEED_I2CD_INTR_RECV_MASK			0xf000ffff
- #define ASPEED_I2CD_INTR_SDA_DL_TIMEOUT			BIT(14)
- #define ASPEED_I2CD_INTR_BUS_RECOVER_DONE		BIT(13)
- #define ASPEED_I2CD_INTR_SLAVE_MATCH			BIT(7)
-@@ -604,6 +605,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
- 	writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
- 	       bus->base + ASPEED_I2C_INTR_STS_REG);
- 	readl(bus->base + ASPEED_I2C_INTR_STS_REG);
-+	irq_received &= ASPEED_I2CD_INTR_RECV_MASK;
- 	irq_remaining = irq_received;
- 
- #if IS_ENABLED(CONFIG_I2C_SLAVE)
--- 
-2.25.1
-
+Applied, thanks.
