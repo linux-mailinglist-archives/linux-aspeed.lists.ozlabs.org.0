@@ -1,70 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 844A6273B0E
-	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Sep 2020 08:43:00 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07530274BFC
+	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Sep 2020 00:20:13 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4BwWw15K98zDqss
-	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Sep 2020 16:42:57 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4BwwjQ34f5zDqWY
+	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Sep 2020 08:20:10 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::441;
- helo=mail-pf1-x441.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=209.85.166.65; helo=mail-io1-f65.google.com;
+ envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=BNTL7CFb; dkim-atps=neutral
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+ [209.85.166.65])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4BwWvt4pywzDqTy
- for <linux-aspeed@lists.ozlabs.org>; Tue, 22 Sep 2020 16:42:49 +1000 (AEST)
-Received: by mail-pf1-x441.google.com with SMTP id x123so11527212pfc.7
- for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Sep 2020 23:42:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=H28rZwyuk612Q+lpk1xxhaA0RWkt3kwFSekiba8ihFE=;
- b=BNTL7CFbjq85ImK3WIt2do07sGw2Bl4V1i+bW/AEaFDo6tq0uo3qH3TpYKMmNkmYOT
- syuHyww8EC1HWKU+MlCWUzRI7WFAubp9gGy9uRAHGQhMlzVbeJ2f+HO20dHBPzq1CBQj
- DPkeypU4fFIzYzEI/MFKqefV4vqcC9p6Nqp1CDITYHb/+yOVOR/ctwlbzZiQmejdaXWN
- 0jUDp5v0yaUSDDOJ5g9i8b8+ISCfINiu/Wr0xuPBx6NT2hhfeIWJmWs5it5/kXA5xzQb
- kSfDebRrCe3yIyTaWCAsmcceiZjNA2PP+Xp+OuDa7iRCOcV6m8A59mH9gAf581qs4qwr
- quzw==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4BwwjH1L1ZzDqVl;
+ Wed, 23 Sep 2020 08:20:03 +1000 (AEST)
+Received: by mail-io1-f65.google.com with SMTP id u6so21434483iow.9;
+ Tue, 22 Sep 2020 15:20:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=H28rZwyuk612Q+lpk1xxhaA0RWkt3kwFSekiba8ihFE=;
- b=KMNJz0KG8kIEiRaDZLQGReBqtoRUa1X+0MtRbuZtbDULVY9BLW50IjThQjVl01C70p
- l4KsIvJ/D2Pl+Dfh6sAGht1CLHoU3XZgHo6PW94rOmAyGRSr6JUyTIb2J4BxldGeZM/K
- plXkmfEyN2Gb8FGsj6O6yO/MuDD5TX82n24oFJ2TNZFgzYpG16prkCMErBnqUSqb/wcZ
- fVr7ukqM+6YXa1dafcPpKo8Jfagoz/9hTB67ZTs60ihZjp1VQWxcqFNW9h/VVyaligCK
- XKgWkgrkiDZ+KQuvVWm+m45z+RdhCzMtUYk1WqVEb/wAdajNW2F/Jr8qlh2QcjbIvJj+
- cXMQ==
-X-Gm-Message-State: AOAM530kNjB4w+w9jX/RonGmHd0ciBDG9nNLvcftzfs/kWEDZCU/K7fv
- aX2uSCty/riU4V+il8hvaOg=
-X-Google-Smtp-Source: ABdhPJyfw8Nl/Q3xJbsqSbwMLaScoWWOd4fXHBRKL688qNWWmA0geWMPpv3buGpT2Wi78aHY6jyFHg==
-X-Received: by 2002:a63:fd08:: with SMTP id d8mr655202pgh.223.1600756965682;
- Mon, 21 Sep 2020 23:42:45 -0700 (PDT)
-Received: from localhost.localdomain ([45.124.203.18])
- by smtp.gmail.com with ESMTPSA id t3sm1267350pje.43.2020.09.21.23.42.41
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PJgPG9nFqKSPj20PO+Q8aRuzKhCzolUfMEd72+sKZ5Y=;
+ b=eHgLmjYEzC3CxlwXDJekv4QupifNAe9UMW44lGI/skV85Mk4f5tO9nn6XD0M+6Wa9P
+ Bzx8/mSQauZ7DZJ5ucVCqlxXWvFJoPru8zRU0ivKPKHGbGszjRGOw6op8ew6+Ap611B0
+ 1V080v9QYWu/SlmG9Fgxkb5MBjneP4G9RsDlvb5X3hg+cqAxMm1/SMWAw9MoioKvqsup
+ l09a3detLxUVFkvv9fewYlLBPaK27PsHlGwRwi+v54MyoYr66cXG/0QRsFnA5XG1B3tX
+ L3eWlxhjfkYOltdk1aCNsuiTKULoVMv7pq4n1hpy2lBpn53TTRcnzo19rFULkq+wTnP6
+ DlGg==
+X-Gm-Message-State: AOAM530fHFXr+vdME0naW60I0S1qdKQHGCBp9paBN4PR2pNkfvi4hfCh
+ XHi2iQydtCsEQNaIZm3z9w==
+X-Google-Smtp-Source: ABdhPJwI8vrDQOMurbkEIJAIiMEuHNothuYJbyAYzDNUdEu7xESwerwBj5XmYNhkRLLhSI+/FWzz6g==
+X-Received: by 2002:a02:1a83:: with SMTP id 125mr6048477jai.48.1600813200316; 
+ Tue, 22 Sep 2020 15:20:00 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+ by smtp.gmail.com with ESMTPSA id s1sm9701286iln.22.2020.09.22.15.19.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Sep 2020 23:42:44 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: Andrew Jeffery <andrew@aj.id.au>, James Feist <james.feist@linux.intel.com>
-Subject: [PATCH] ARM: dts: aspeed: s2600wf: Fix VGA memory region location
-Date: Tue, 22 Sep 2020 16:12:34 +0930
-Message-Id: <20200922064234.163799-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.28.0
+ Tue, 22 Sep 2020 15:19:59 -0700 (PDT)
+Received: (nullmailer pid 3360327 invoked by uid 1000);
+ Tue, 22 Sep 2020 22:19:58 -0000
+Date: Tue, 22 Sep 2020 16:19:58 -0600
+From: Rob Herring <robh@kernel.org>
+To: Eddie James <eajames@linux.ibm.com>
+Subject: Re: [PATCH 3/4] dt-bindings: fsi: Aspeed master: Add bus-frequency
+ property
+Message-ID: <20200922221958.GA3360267@bogus>
+References: <20200910151840.25333-1-eajames@linux.ibm.com>
+ <20200910151840.25333-4-eajames@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200910151840.25333-4-eajames@linux.ibm.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,47 +68,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, John Wang <wangzhiqiang.bj@bytedance.com>,
- linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, jk@ozlabs.org,
+ sboyd@kernel.org, alistair@popple.id.au, mturquette@baylibre.com,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org, linux-clk@vger.kernel.org,
+ linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The VGA memory region is always from the top of RAM. On this board, that
-is 0x80000000 + 0x20000000 - 0x01000000 = 0x9f000000.
+On Thu, 10 Sep 2020 10:18:39 -0500, Eddie James wrote:
+> Document the bus-frequency property.
+> 
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> ---
+>  Documentation/devicetree/bindings/fsi/fsi-master-aspeed.txt | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-This was not an issue in practice as the region is "reserved" by the
-vendor's u-boot reducing the amount of available RAM, and the only user
-is the host VGA device poking at RAM over PCIe. That is, nothing from
-the ARM touches it.
-
-It is worth fixing as developers copy existing device trees when
-building their machines, and the XDMA driver does use the memory region
-from the ARM side.
-
-Fixes: c4043ecac34a ("ARM: dts: aspeed: Add S2600WF BMC Machine")
-Reported-by: John Wang <wangzhiqiang.bj@bytedance.com>
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- arch/arm/boot/dts/aspeed-bmc-intel-s2600wf.dts | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm/boot/dts/aspeed-bmc-intel-s2600wf.dts b/arch/arm/boot/dts/aspeed-bmc-intel-s2600wf.dts
-index 1deb30ec912c..6e9baf3bba53 100644
---- a/arch/arm/boot/dts/aspeed-bmc-intel-s2600wf.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-intel-s2600wf.dts
-@@ -22,9 +22,9 @@ reserved-memory {
- 		#size-cells = <1>;
- 		ranges;
- 
--		vga_memory: framebuffer@7f000000 {
-+		vga_memory: framebuffer@9f000000 {
- 			no-map;
--			reg = <0x7f000000 0x01000000>;
-+			reg = <0x9f000000 0x01000000>; /* 16M */
- 		};
- 	};
- 
--- 
-2.28.0
-
+Acked-by: Rob Herring <robh@kernel.org>
