@@ -2,66 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6951B277299
-	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Sep 2020 15:38:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B44C6277F25
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Sep 2020 06:49:51 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Bxx2S6FQgzDqjX
-	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Sep 2020 23:38:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ByKG23xvDzDqh2
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Sep 2020 14:49:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=baylibre.com (client-ip=2a00:1450:4864:20::544;
- helo=mail-ed1-x544.google.com; envelope-from=bgolaszewski@baylibre.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::542;
+ helo=mail-ed1-x542.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=baylibre-com.20150623.gappssmtp.com
- header.i=@baylibre-com.20150623.gappssmtp.com header.a=rsa-sha256
- header.s=20150623 header.b=bZq4o3WQ; dkim-atps=neutral
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=L2cN3Gfr; dkim-atps=neutral
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Bxx273QKNzDqbl
- for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Sep 2020 23:38:05 +1000 (AEST)
-Received: by mail-ed1-x544.google.com with SMTP id e22so3408976edq.6
- for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Sep 2020 06:38:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4ByKFt5kbMzDqdr
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Sep 2020 14:49:38 +1000 (AEST)
+Received: by mail-ed1-x542.google.com with SMTP id j2so1128946eds.9
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Sep 2020 21:49:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xik+LU5D4/fnn9O5Zg87zvohwDV0OOxnMU6Rsd+HY5c=;
- b=bZq4o3WQtLEJr2hF7mu9T4voHEBiRZ/TRwujICZ9S7HZhEwolwqG/vQ7kdo5O4CyP4
- oLSU+r7N7Xllvo9LRKTKkXdRSl06zc1J1mF+kRJI9EUJdNLfEb0Zd5227/HqtRZuMK1b
- YdKMV32umoR833Fj8DoHg5lE7GpkmpqmyqQD8penWeGszWRjo6JbNdwNTXj9Y/f3NRDQ
- E7DpO2ULfgrybDDJtmMI/eTqX6pRyQEQSHOL4FZULVTe1MLBStA1OGaqljfBHPhAFcZ0
- WLSe32GdalfrwK8CwaBPP2Vp9KvNvg2Kq/eXn9z1QeJMTTihSei/Ae+OXG/zu8nJ+EFl
- PSMA==
+ :cc; bh=bBOtWaUVwd4FMEFG+xFLngh1cbM1FZKjxm94UTWn5fQ=;
+ b=L2cN3GfrcojT3KqKVj+4Clb7QbWk4kcpF7z2YcBc3kaK9QzvMYv8Ar7S2N2P/klu9t
+ qKcZHIvFq9zsaRZteqbAVBIDk0IWz3D8C3eehR+ODrHdqwop6YmJpgTMr1RPiggLinDz
+ cmu2tu1bI1owMN6Gh9GuB061s2xciIh9qOjao=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xik+LU5D4/fnn9O5Zg87zvohwDV0OOxnMU6Rsd+HY5c=;
- b=MhExO+FrC0NwjfANmL0COfmgeNfazuvPXBzzsb77mU1czbY3RcwEHSvaYpHyNsffwg
- 9eowqwpN2Nxq+kxkEY0ITx46SixWNXRy4IsH8FSWRxcy362guqj3AHz95aX7uAS7KOec
- QQQrEQv7k8s+3Ys3FVEWzO2XV0J72jCbwzuYbjZPawk75Xxz/QDk7W+iiiyLLoEgYvYZ
- e/214PQ6mnkubmh+jCPTwk5Qnefq3q0sYK+aRNPyyHkuGok+4IZvLHz5Tg+/wbE4h1IA
- IrLFh2zzM5JAdighNFhKit2ocATBtVPyWkNZuqBTrxXHPViQTArBXm5cb6ZF0JF1Lo0e
- PS9g==
-X-Gm-Message-State: AOAM530/QrhTNuX7PcES2RgNxZcG3Qr+uGJZSfKqErqdPsxyDkGapmD8
- 9a6BqhZbWnSOcIvOokpW+cNzgGZmizLZTu1IEpvd6g==
-X-Google-Smtp-Source: ABdhPJwUCSvUnwIjhMwXdH5/5JtzPZNKnNR+yIgd72G5d87Unxa+rzC+LUlKdHxuhlTagtPeDVImVhVFGvN3yixC0jU=
-X-Received: by 2002:a50:e79c:: with SMTP id b28mr1109705edn.371.1600954680607; 
- Thu, 24 Sep 2020 06:38:00 -0700 (PDT)
+ bh=bBOtWaUVwd4FMEFG+xFLngh1cbM1FZKjxm94UTWn5fQ=;
+ b=fnVjwGanyk8arYm59eawzsNfZtXYN7etlSgXbw1tEt5hqHleli6Z/by94RDXqfGzTO
+ F1QwddG6asfwu1eecvPNyBWhFcMk2pXKY0SZMqeUP5ZXMom+9YJPcO1YAOBJ7W8ACMyP
+ koL1OTN9/eM5Af6A/U+ZVdNtPB5k8fRR/+Go3MbR2+1fAbQRFzAccBD/AbxEyx0X1vX5
+ VsN6jTpcFyL7mhaX3uOEtfiYNy2g29CGJAWIYctjFyaC4BcbGRwP8+6vbrLqzw3JlczK
+ uP+RDFuJ1j0OMyagjOu7qubf/mnrZKspsSnyGS+Sd3PJLYBuvag97+2umJC1YdRNum8b
+ YVUg==
+X-Gm-Message-State: AOAM533bAe4zSlIt+LZxMDNrk+Z1apTQqE0NxxuwladGY6lpV0pEHDxM
+ /aPR5oMXd42vdur6K163th+Gllvd8GxxJ2+UxsQ=
+X-Google-Smtp-Source: ABdhPJzLNjK/bDvabqThPlfiWAKMvCD2zS/zecyWplXmSx1JeI3CUBGha4b6yeo4BOGI9Dkd6C7CDD7tTaVV4tEF9EY=
+X-Received: by 2002:a50:ed02:: with SMTP id j2mr2173182eds.137.1601009373993; 
+ Thu, 24 Sep 2020 21:49:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200916204216.9423-1-rentao.bupt@gmail.com>
-In-Reply-To: <20200916204216.9423-1-rentao.bupt@gmail.com>
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date: Thu, 24 Sep 2020 15:37:49 +0200
-Message-ID: <CAMpxmJWR7VqU9urj=-KypKLm3aFooMd9iyusYtr5dNY2oOgXQQ@mail.gmail.com>
-Subject: Re: [PATCH] gpio: aspeed: fix ast2600 bank properties
-To: rentao.bupt@gmail.com
+References: <20200312121413.294384-1-joel@jms.id.au>
+ <2f51b12e-3651-48e4-b733-01f41ca44b92@www.fastmail.com>
+In-Reply-To: <2f51b12e-3651-48e4-b733-01f41ca44b92@www.fastmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 25 Sep 2020 04:49:22 +0000
+Message-ID: <CACPK8XcMiWP58vO39Fd_Qf9WZA43heMjx0eDktV3M8TGQC3HYA@mail.gmail.com>
+Subject: Re: [PATCH] soc: aspeed-lpc-ctrl: LPC to AHB mapping on ast2600
+To: Andrew Jeffery <andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -75,51 +71,98 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linus Walleij <linus.walleij@linaro.org>, LKML <linux-kernel@vger.kernel.org>,
- linux-gpio <linux-gpio@vger.kernel.org>, openbmc@lists.ozlabs.org,
- arm-soc <linux-arm-kernel@lists.infradead.org>
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Sep 16, 2020 at 10:42 PM <rentao.bupt@gmail.com> wrote:
+On Mon, 16 Mar 2020 at 01:58, Andrew Jeffery <andrew@aj.id.au> wrote:
 >
-> From: Tao Ren <rentao.bupt@gmail.com>
 >
-> GPIO_U is mapped to the least significant byte of input/output mask, and
-> the byte in "output" mask should be 0 because GPIO_U is input only. All
-> the other bits need to be 1 because GPIO_V/W/X support both input and
-> output modes.
 >
-> Similarly, GPIO_Y/Z are mapped to the 2 least significant bytes, and the
-> according bits need to be 1 because GPIO_Y/Z support both input and
-> output modes.
+> On Thu, 12 Mar 2020, at 22:44, Joel Stanley wrote:
+> > The ast2600 disables the mapping of AHB memory regions by default,
+> > only allowing the LPC window to point to SPI NOR. In order to point the
+> > window to any AHB address, an ast2600 specific bit must be toggled.
+> >
+> > Signed-off-by: Joel Stanley <joel@jms.id.au>
+> > ---
+> >  drivers/soc/aspeed/aspeed-lpc-ctrl.c | 17 +++++++++++++++++
+> >  1 file changed, 17 insertions(+)
+> >
+> > diff --git a/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+> > b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+> > index f4ac14c40518..142cb4cc85e7 100644
+> > --- a/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+> > +++ b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+> > @@ -22,6 +22,9 @@
+> >  #define HICR5_ENL2H  BIT(8)
+> >  #define HICR5_ENFWH  BIT(10)
+> >
+> > +#define HICR6 0x4
 >
-> Fixes: ab4a85534c3e ("gpio: aspeed: Add in ast2600 details to Aspeed driver")
-> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
-> ---
->  drivers/gpio/gpio-aspeed.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Given you introduced this I assume we don't have anything else touching
+> the register, but if we ever do hopefully whoever it is that adds support is
+> conscious that they need to be doing an read/modify/write to correctly
+> clear the W1C registers without frobbing the bridge state.
 >
-> diff --git a/drivers/gpio/gpio-aspeed.c b/drivers/gpio/gpio-aspeed.c
-> index 879db23d8454..d07bf2c3f136 100644
-> --- a/drivers/gpio/gpio-aspeed.c
-> +++ b/drivers/gpio/gpio-aspeed.c
-> @@ -1114,8 +1114,8 @@ static const struct aspeed_gpio_config ast2500_config =
->
->  static const struct aspeed_bank_props ast2600_bank_props[] = {
->         /*     input      output   */
-> -       {5, 0xffffffff,  0x0000ffff}, /* U/V/W/X */
-> -       {6, 0xffff0000,  0x0fff0000}, /* Y/Z */
-> +       {5, 0xffffffff,  0xffffff00}, /* U/V/W/X */
-> +       {6, 0x0000ffff,  0x0000ffff}, /* Y/Z */
->         { },
->  };
->
-> --
-> 2.17.1
->
+> Looks like Aspeed should have introduced two bits to manage it :/
 
-Queued for fixes, thanks!
+Yes, it would have been nice to have a separate register.
 
-Bartosz
+>
+> > +#define SW_FWH2AHB   BIT(17)
+> > +
+> >  #define HICR7 0x8
+> >  #define HICR8 0xc
+> >
+> > @@ -33,6 +36,7 @@ struct aspeed_lpc_ctrl {
+> >       resource_size_t         mem_size;
+> >       u32             pnor_size;
+> >       u32             pnor_base;
+> > +     bool                    fwh2ahb;
+> >  };
+> >
+> >  static struct aspeed_lpc_ctrl *file_aspeed_lpc_ctrl(struct file *file)
+> > @@ -177,6 +181,16 @@ static long aspeed_lpc_ctrl_ioctl(struct file
+> > *file, unsigned int cmd,
+> >               if (rc)
+> >                       return rc;
+> >
+> > +             /*
+> > +              * Switch to FWH2AHB mode, AST2600 only.
+> > +              *
+> > +              * The other bits in this register are interrupt status bits
+> > +              * that are cleared by writing 1. As we don't want to clear
+> > +              * them, set only the bit of interest.
+> > +              */
+> > +             if (lpc_ctrl->fwh2ahb)
+> > +                     regmap_write(lpc_ctrl->regmap, HICR6, SW_FWH2AHB);
+> > +
+> >               /*
+> >                * Enable LPC FHW cycles. This is required for the host to
+> >                * access the regions specified.
+> > @@ -274,6 +288,9 @@ static int aspeed_lpc_ctrl_probe(struct
+> > platform_device *pdev)
+> >               return rc;
+> >       }
+> >
+> > +     if (of_device_is_compatible(dev->of_node, "aspeed,ast2600-lpc-ctrl"))
+> > +             lpc_ctrl->fwh2ahb = true;
+> > +
+>
+> This implies that we don't want the SPI-only behaviour by default, which is
+> true for our platforms but doesn't really reflect the hardware. What are your
+> thoughts on adding an explict devicetree property? use-fwh2ahb?
+
+I chose to do it this way as userspace that is calling the ioctl to
+set the mapping is probably expecting this behaviour. If someone in
+the future wants to enhance the driver to separate out "lpc2spi" from
+"lpc2ahb" then we could consider their patches.
+
+The other upside of this is it maintains backwards compatibility with
+the previous SoCs.
+
+Cheers,
+
+Joel
