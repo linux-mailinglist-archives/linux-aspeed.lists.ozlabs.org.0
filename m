@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069C3278610
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Sep 2020 13:38:17 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E3A278616
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Sep 2020 13:39:11 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ByVKJ3c6NzDqk5
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Sep 2020 21:38:12 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ByVLN6761zDqk9
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Sep 2020 21:39:08 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -16,23 +16,23 @@ Authentication-Results: lists.ozlabs.org;
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=atomide.com
 Received: from muru.com (muru.com [72.249.23.125])
- by lists.ozlabs.org (Postfix) with ESMTP id 4ByVK95GpPzDqjp
- for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Sep 2020 21:38:05 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTP id 4ByVLF1sDFzDqjp
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Sep 2020 21:39:01 +1000 (AEST)
 Received: from atomide.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id CDB9180EE;
- Fri, 25 Sep 2020 11:38:02 +0000 (UTC)
-Date: Fri, 25 Sep 2020 14:37:56 +0300
+ by muru.com (Postfix) with ESMTPS id 802E18106;
+ Fri, 25 Sep 2020 11:38:58 +0000 (UTC)
+Date: Fri, 25 Sep 2020 14:38:52 +0300
 From: Tony Lindgren <tony@atomide.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH v3 09/15] ARM: dts: am335x: t335: align GPIO hog names
- with dtschema
-Message-ID: <20200925113756.GK9471@atomide.com>
+Subject: Re: [PATCH v3 10/15] ARM: dts: am3874: iceboard: fix GPIO expander
+ reset GPIOs
+Message-ID: <20200925113852.GL9471@atomide.com>
 References: <20200916155715.21009-1-krzk@kernel.org>
- <20200916155715.21009-10-krzk@kernel.org>
+ <20200916155715.21009-11-krzk@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200916155715.21009-10-krzk@kernel.org>
+In-Reply-To: <20200916155715.21009-11-krzk@kernel.org>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,9 +67,8 @@ Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 * Krzysztof Kozlowski <krzk@kernel.org> [200916 18:58]:
-> The convention for node names is to use hyphens, not underscores.
-> dtschema for pca95xx expects GPIO hogs to end with 'hog' prefix.
+> Correct the property for reset GPIOs of the GPIO expander.
 
-I'm picking up this too into omap-for-v5.10/dt thanks.
+Picking up this too thanks.
 
 Tony
