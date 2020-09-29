@@ -2,96 +2,163 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A42327F70B
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Oct 2020 03:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523E22842F7
+	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Oct 2020 01:34:29 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4C1w7R61h7zDqTw
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Oct 2020 11:11:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4C4xl64wTbzDqHJ
+	for <lists+linux-aspeed@lfdr.de>; Tue,  6 Oct 2020 10:34:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.helo=apc01-hk2-obe.outbound.protection.outlook.com
- (client-ip=40.107.130.109; helo=apc01-hk2-obe.outbound.protection.outlook.com;
- envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from APC01-HK2-obe.outbound.protection.outlook.com
- (mail-eopbgr1300109.outbound.protection.outlook.com [40.107.130.109])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=monstr.eu
+ (client-ip=2a00:1450:4864:20::641; helo=mail-ej1-x641.google.com;
+ envelope-from=monstr@monstr.eu; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=monstr.eu
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=monstr-eu.20150623.gappssmtp.com
+ header.i=@monstr-eu.20150623.gappssmtp.com header.a=rsa-sha256
+ header.s=20150623 header.b=odCWACGY; dkim-atps=neutral
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4C1w7J4CbfzDqSt
- for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Oct 2020 11:11:23 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nz8nMuJv5H3xx51PcDX5XFf/U6kdpvfPnzOyuV2mYJfadGtpiXR9EoJMY2kfThffuB3cmswKNxJBRhEghDy1SHJ4X2t0UJjpEP9zrGjjYEKCicZQk3Img6et1tTeOK9mulfXF7SgKoPVUVDcd95q1q4TFpwRZzbiEipOfBPpgIesJw5Hsktisz7/S/on2onSVoCoGypQh75bQQ3KxA0oe9l1hbhPPySYle7hg9J4CLSMwoyOBvwjx1A0gMLkfXNlnIVfxNMJx+PqoqXgA8nHJQLOZKKQnTocm6mDFLb8G1obx0XrLyFhLmI2x8LZ6FUgqyxB6Y6UuByX8fFdKLYecg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mGAgkfbQwuOlzsqNaLqv9ag2x4edtVrzecvxDDzd+q4=;
- b=gujoRcT6Frh/V+gond7o8zeojmVKhaejk2Bb7SnWxKebb8XZkbeftuDULUqXOF8UV8x6JHSBizZA/YoaujgxoGNg6NrffiKfuV+dIH47TPVwU2DsqqoeEBIr8+6lQdU1vU/lDTNedjbvyx0TQ7xnulZv7nMJnHmdM4oKpYZtfiygczW16zF9l805t4ISSIpz7sWwWJxuQosNXS1dIlXZHBJEa0oUzRw+HG+s034b6MUF71nPdpHG6YeIr51j2jfhQLXZ1MRmPt3PsvxNU1FjB1fTag7/h2WEXUr7R6+Ql7cWPgz/z9ahVZoJcbeyIiwNlqP33pHYiJY9GxVqi/sLeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-Received: from HK0PR06MB3380.apcprd06.prod.outlook.com (2603:1096:203:82::18)
- by HK2PR0601MB1924.apcprd06.prod.outlook.com (2603:1096:202:c::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.22; Thu, 1 Oct
- 2020 01:11:08 +0000
-Received: from HK0PR06MB3380.apcprd06.prod.outlook.com
- ([fe80::6def:b61:3beb:f3d5]) by HK0PR06MB3380.apcprd06.prod.outlook.com
- ([fe80::6def:b61:3beb:f3d5%6]) with mapi id 15.20.3412.029; Thu, 1 Oct 2020
- 01:11:08 +0000
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: Andrew Jeffery <andrew@aj.id.au>, Billy Tsai <billy_tsai@aspeedtech.com>, 
- Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
- <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Subject: RE: [RESEND PATCH] ARM: dts: aspeed-g6: Fix gpio memory region
-Thread-Topic: [RESEND PATCH] ARM: dts: aspeed-g6: Fix gpio memory region
-Thread-Index: AQHWlwjxAC+Kpafu9USq5zc4ADh2qqmB4Q0AgAAFh4CAAAgjEA==
-Date: Thu, 1 Oct 2020 01:11:08 +0000
-Message-ID: <HK0PR06MB3380BC1CB19918128E5A60B3F2300@HK0PR06MB3380.apcprd06.prod.outlook.com>
-References: <20200930051113.32465-1-billy_tsai@aspeedtech.com>
- <20200930090603.19891-1-billy_tsai@aspeedtech.com>
- <b7bcc925-b0da-446f-84a7-1a564a1f4f83@www.fastmail.com>
- <2b3c4303-ef63-4c34-be00-ff59abc32e69@www.fastmail.com>
-In-Reply-To: <2b3c4303-ef63-4c34-be00-ff59abc32e69@www.fastmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: aj.id.au; dkim=none (message not signed)
- header.d=none;aj.id.au; dmarc=none action=none header.from=aspeedtech.com;
-x-originating-ip: [211.20.114.70]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b5eb95f2-699b-4b5f-f51e-08d865a6e129
-x-ms-traffictypediagnostic: HK2PR0601MB1924:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HK2PR0601MB19249004FA1E7164D34B556BF2300@HK2PR0601MB1924.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: FbFNCTOrQ/4R+cTsfGjWzizZlxwa75/fgFyU2Vh9NPVXRaEsHLKtVNLM9k8LdMD0cpEr4J5qBNLgUtQ9xdV78CBh81Nbvz6ZmFhf+WtuAgJOrFcar5DwggsVUL5CavDT7/+shFQjTXW3e2B1DuMyZUF2tzfHpAm7dsQGs8NwmBgokvJOR38zME3iu2LYHG5TcZ48HDa2nXfgUYXj9aOz4mT60tPBBA8+mqg9JhU+jZv17GBAQ9Ew/065dKBZU649iHE+TgVNZIsqs8/ZvDTEfwN0ZjYBV/qLVBpGBBFpiDKfXpRs6sbiQoNcz5tlwXdUZfHyuNnSyddFAV8ZQVLM+olZNHkQCY3629W6kgMQFpRvIcMlagtKuhIDZW2u2H6S
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3380.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39830400003)(366004)(396003)(136003)(376002)(346002)(66946007)(186003)(53546011)(110136005)(316002)(66476007)(66556008)(66446008)(64756008)(55236004)(71200400001)(6506007)(76116006)(9686003)(26005)(8936002)(55016002)(8676002)(4326008)(2906002)(7696005)(33656002)(83380400001)(478600001)(107886003)(52536014)(86362001)(5660300002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: 2b8KwpkZCDVJ+u7uTmeD8ITsIKBtTPdMQm5rjGoaD0kHM/x5/CmcZjgg0pug2hr5Q8wAKcVP5VDMtVJ8syFEYb0cHzqj5tTlTSqE/wxfnR7WyeyKdO8/9ApbjcX/RCXKZFYDbic3H0uB4KKAsoYz4jFjtxoJYgN5LCGu43FqO7iELpXALX49qzIYPCUDbDzf2C7IaP3T9sI6VK3tSYpjB6iwOq9hBPgIlDRrOecoUrJYIgTr8sqVPLV2Eav5TaK+X7w15CNzP3K/rZinveFUs8lF7LKA7QzPdxRdgfx9MfwNZGQqiyiU1bt4Qr5wyd0QyCto2erL+g5CklT52ZSbqm5JQeg7CUHazGULI1vcadj7xmllInlFHkO43J4VzM3qts60IdVJpO8RqFwBR7syf6sB1wCUD2UvpBQM03IucN0rG20BmfWMGRxRLx7RtkQ7YVS8cuN6qafLxiKjweWlCroXe6Mi5gqtwS8QmKayGj7efEljXnG13GFLOXtjAFZBCgTkZiNWy7Ng62zdKh81+jRHBUM1g+IOQjyxXiLBsuqy45rKI1esGLFWkw/U/KlTSHquG0PK7mL0B25poRfqFCPBUbx4nZuB9xe0PeDTW8ID2C6cG1I7eq8V9nGeOVkTDj0vO11iAet1M/kzfgKkEw==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4C0x904vN9zDqLq
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Sep 2020 20:54:21 +1000 (AEST)
+Received: by mail-ej1-x641.google.com with SMTP id u21so14382138eja.2
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Sep 2020 03:54:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=monstr-eu.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:references:from:autocrypt:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4EUGVvbiJZ/eTQye8vzBGl8f8CRwKo+T0VBOcaS2s3w=;
+ b=odCWACGYwj8bOn0WGZwZMnrjOfQyJP4iOwo9q8crRCukYZrLJhZbr6jJackamShJaE
+ Sx1LM+mbDVeTf8PpoHUTA1LHWMBdStqyPUrnmMkVZrUG1X84VtIAD8pv2l7PesQFLZMk
+ nK8KwzyS/Ilw4MDypLBqElNb8QTF4RdcrUlaUvDkxiJQrNxcr8pDB7EpM47s7jXfFkO3
+ p8FGFvz68KGxpa3pyVi09KN28AZ5hosZgGiABdwNnRFiGQ7xT9qY0wnMaF/DytUg3Scr
+ Q7+XuHk3H0kkWxEr8jVvJTvqRePFWko1GJ+hwUtEwwf9ghzhka877Me75sdoSevX+G88
+ 2fVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4EUGVvbiJZ/eTQye8vzBGl8f8CRwKo+T0VBOcaS2s3w=;
+ b=HAj/mvJ16z/U7HXEzyfDQhEK85+YAoCndUU7P2qRBfcHA/oZVXQokq8wxsTTZ6kKW1
+ Y8SdGSarZh/ZTy6PwR7Em0qu1H4PV/KSp2VHDew5iQK62KE0Z5QcakY/bbbGBDorrWez
+ MxnqR8Ql1wLYcy8/wDvfxiwZIg+0FUa8e7CoGlG5mVs4HTAYLPLB2gIbZu1+iZpvUYE4
+ FhbGk0BJlwG319zP7gxifKBhQCtmidytwxuhSdjK6Ow7i/mHcklxZc1qYOggj+zRAC26
+ ttQT7wmqYy1w140krxU5QqfR7fTt9CNlpyZe1SWTGIsYP3KtxyOBcWdcfu/Uqd7EAdOl
+ KQpw==
+X-Gm-Message-State: AOAM532C8sqgYuLvn1x4sdP7JPmXJFXBj4uVG08QK5RobENz3kWARAWt
+ f3GD8vOSrse4G623Tb7W01UE6g==
+X-Google-Smtp-Source: ABdhPJy0cqRGqqqkNYvwZsUjtpKHmk4qMNkjElnnAFuuhtx3aBqtg4lwRvex8V+15urHYeTCgH/whQ==
+X-Received: by 2002:a17:906:fccb:: with SMTP id
+ qx11mr3238175ejb.429.1601376856978; 
+ Tue, 29 Sep 2020 03:54:16 -0700 (PDT)
+Received: from [192.168.0.105] (nat-35.starnet.cz. [178.255.168.35])
+ by smtp.gmail.com with ESMTPSA id x25sm5557640edv.42.2020.09.29.03.54.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Sep 2020 03:54:16 -0700 (PDT)
+Subject: Re: [PATCH v3 07/15] arm64: dts: xilinx: align GPIO hog names with
+ dtschema
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, =?UTF-8?Q?Beno=c3=aet_Cousson?=
+ <bcousson@baylibre.com>, Tony Lindgren <tony@atomide.com>,
+ Jason Cooper <jason@lakedaemon.net>, Andrew Lunn <andrew@lunn.ch>,
+ Gregory Clement <gregory.clement@bootlin.com>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Tero Kristo <t-kristo@ti.com>,
+ Nishanth Menon <nm@ti.com>, Michal Simek <michal.simek@xilinx.com>,
+ linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org
+References: <20200916155715.21009-1-krzk@kernel.org>
+ <20200916155715.21009-8-krzk@kernel.org>
+From: Michal Simek <monstr@monstr.eu>
+Autocrypt: addr=monstr@monstr.eu; keydata=
+ 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
+ 0Z1MQlmNcq2bhOMzTxuXX2NDzUZs4aqEyZQ=
+Message-ID: <2c479869-f082-c991-4fdd-833601698828@monstr.eu>
+Date: Tue, 29 Sep 2020 12:54:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3380.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5eb95f2-699b-4b5f-f51e-08d865a6e129
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Oct 2020 01:11:08.8625 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: E5ksiEVii7gr0rlzPEfjYMuXYZUPt4APnN/a1M9GtH/v2JLKutChcZH0TX7Opf7Ce4JGZ5fZ+bqlYWJbW4aTu1ASnxy7L39qbnLScE1IwdY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2PR0601MB1924
+In-Reply-To: <20200916155715.21009-8-krzk@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Tue, 06 Oct 2020 10:34:15 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,71 +170,67 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW <BMC-SW@aspeedtech.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> -----Original Message-----
-> From: Andrew Jeffery <andrew@aj.id.au>
-> Sent: Thursday, October 1, 2020 8:32 AM
-> To: Billy Tsai <billy_tsai@aspeedtech.com>; Rob Herring <robh+dt@kernel.o=
-rg>;
-> Joel Stanley <joel@jms.id.au>; devicetree@vger.kernel.org;
-> linux-arm-kernel@lists.infradead.org; linux-aspeed@lists.ozlabs.org;
-> linux-kernel@vger.kernel.org; Ryan Chen <ryan_chen@aspeedtech.com>
-> Cc: BMC-SW <BMC-SW@aspeedtech.com>
-> Subject: Re: [RESEND PATCH] ARM: dts: aspeed-g6: Fix gpio memory region
->=20
->=20
->=20
-> On Thu, 1 Oct 2020, at 09:42, Andrew Jeffery wrote:
-> > Hi Billy,
-> >
-> > On Wed, 30 Sep 2020, at 18:36, Billy Tsai wrote:
-> > > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> > > ---
-> > >  arch/arm/boot/dts/aspeed-g6.dtsi | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi
-> > > b/arch/arm/boot/dts/aspeed-g6.dtsi
-> > > index 97ca743363d7..b9ec8b579f73 100644
-> > > --- a/arch/arm/boot/dts/aspeed-g6.dtsi
-> > > +++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-> > > @@ -357,7 +357,7 @@
-> > >  				#gpio-cells =3D <2>;
-> > >  				gpio-controller;
-> > >  				compatible =3D "aspeed,ast2600-gpio";
-> > > -				reg =3D <0x1e780000 0x800>;
-> > > +				reg =3D <0x1e780000 0x500>;
-> >
-> > We took the 0x800 value from the memory space layout table in the
-> > datasheet for the 2600. Should that be updated too? Or are you just
-> > limiting the region to the registers currently described rather than th=
-e
-> allocated address space?
->=20
-> Ah, actually, I see what's going on. We really have this layout (taking s=
-ome
-> liberties):
->=20
-> 0x1e785000 - 0x1e785500: PGPIO 3.3V
-> 0x1e785500 - 0x1e785600: SGPM1
-> 0x1e785600 - 0x1e785700: SGPM2
-> 0x1e785700 - 0x1e785740: SPGS1
-> 0x1e785740 - 0x1e785780: SPGS2
-> 0x1e785800 - 0x1e786000: PGPIO 1.8V
->=20
-> Ryan: Can you change the address space layout table to reflect this? That=
- way it
-> still functions as a quick - but accurate - reference.
 
-Yes will resend the patch for update the table.=20
-0x1e780000 ~ 0x1e780400 PGPIO 3.3V
-0x1e780500 - 0x1e780600: SGPM1
-0x1e780600 - 0x1e780700: SGPM2
-0x1e780700 - 0x1e780740: SPGS1
-0x1e780740 - 0x1e780780: SPGS2
-0x1e780800 - 0x1e781000: PGPIO 1.8V
+
+On 16. 09. 20 17:57, Krzysztof Kozlowski wrote:
+> The convention for node names is to use hyphens, not underscores.
+> dtschema for pca95xx expects GPIO hogs to end with 'hog' prefix.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> ---
+>  arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dts | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dts b/arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dts
+> index 4f801721564f..f1255f635dfd 100644
+> --- a/arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dts
+> +++ b/arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dts
+> @@ -203,25 +203,25 @@
+>  		gpio-line-names = "PS_GTR_LAN_SEL0", "PS_GTR_LAN_SEL1", "PS_GTR_LAN_SEL2", "PS_GTR_LAN_SEL3",
+>  				"PCI_CLK_DIR_SEL", "IIC_MUX_RESET_B", "GEM3_EXP_RESET_B",
+>  				"", "", "", "", "", "", "", "", "";
+> -		gtr-sel0 {
+> +		gtr-sel0-hog {
+>  			gpio-hog;
+>  			gpios = <0 0>;
+>  			output-low; /* PCIE = 0, DP = 1 */
+>  			line-name = "sel0";
+>  		};
+> -		gtr-sel1 {
+> +		gtr-sel1-hog {
+>  			gpio-hog;
+>  			gpios = <1 0>;
+>  			output-high; /* PCIE = 0, DP = 1 */
+>  			line-name = "sel1";
+>  		};
+> -		gtr-sel2 {
+> +		gtr-sel2-hog {
+>  			gpio-hog;
+>  			gpios = <2 0>;
+>  			output-high; /* PCIE = 0, USB0 = 1 */
+>  			line-name = "sel2";
+>  		};
+> -		gtr-sel3 {
+> +		gtr-sel3-hog {
+>  			gpio-hog;
+>  			gpios = <3 0>;
+>  			output-high; /* PCIE = 0, SATA = 1 */
+> 
+
+Tony picked up some patches from this series that's why applied this one
+to my tree.
+
+Thanks,
+Michal
+
+-- 
+Michal Simek, Ing. (M.Eng), OpenPGP -> KeyID: FE3D1F91
+w: www.monstr.eu p: +42-0-721842854
+Maintainer of Linux kernel - Xilinx Microblaze
+Maintainer of Linux kernel - Xilinx Zynq ARM and ZynqMP ARM64 SoCs
+U-Boot custodian - Xilinx Microblaze/Zynq/ZynqMP/Versal SoCs
 
