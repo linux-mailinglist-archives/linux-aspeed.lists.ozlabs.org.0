@@ -2,65 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DCFB27CCDA
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Sep 2020 14:39:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B93727CD58
+	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Sep 2020 14:43:49 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4C0zVY4XrKzDqS5
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Sep 2020 22:39:49 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4C0zb52B2gzDqRv
+	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Sep 2020 22:43:45 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::144;
- helo=mail-lf1-x144.google.com; envelope-from=linus.walleij@linaro.org;
+ smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::244;
+ helo=mail-lj1-x244.google.com; envelope-from=linus.walleij@linaro.org;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=z1MHUjfG; dkim-atps=neutral
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
+ header.s=google header.b=xhI9/PHf; dkim-atps=neutral
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4C0zV8117GzDqNN
- for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Sep 2020 22:39:27 +1000 (AEST)
-Received: by mail-lf1-x144.google.com with SMTP id y11so5326892lfl.5
- for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Sep 2020 05:39:27 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4C0zYs5G27zDqPK
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Sep 2020 22:42:40 +1000 (AEST)
+Received: by mail-lj1-x244.google.com with SMTP id s205so3884164lja.7
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Sep 2020 05:42:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pO3zqsQYI2N/eYjowpxSiobXk5D5lO4UhUmAmNb1cfA=;
- b=z1MHUjfGRzU82Dtosh2a8opmMrq1Eg71HqIxEIq6S2Oeuu/nsS6zdTyTtExJ79csrj
- Hd5OjTMiUyFNiqAa6fiiQ7jrBG7t62SQ4kdaSZSh0Ahc8eJ08HqghIswg+N8FK7A3+LU
- NlAJQZ8H29Z6/LqvcgqimfZKahDzN2b9FvaiyKY/M5NKqL1cBCmuaYunJk4uqxKpFFUd
- QVYGkiFbTiXZle/0YxBFdH754wluYB3EDid1vcbqmTvWKh02vstPT9ydsSh6wyiGErXm
- dJ77L067lcfMDTKYcSEpYfoJjyVKxs9UE40ag7Clnf/Xrb/ApF7BLWRi0Gp9mdTHuMIe
- 6Raw==
+ :cc; bh=wL+1l72oaUbbwBYyOUJaeBQMR0dV1wzd/aL/FIdgzb4=;
+ b=xhI9/PHfv+fX23vW8dLBjw1liKAYXb+ehygLbCkVVwhzB6JiSXu+4BSaVZ4K8tBuz8
+ 5betdA0Zo0dabPQTPyfZgfGTDRQYI5C1gWh0BRD9fKcCBngerR2lOWM6xr3sfq6S2s/Y
+ /Mo+9SC2I8EVmdNve7qAhBpn5F9tLTzY/IAKPCo6m5bShm0nxord7LzVA1x87AZPLb12
+ UJEziVcQ+xJKvZDAiTNt9Sn9HxG/gC5Yy8gtPpaw5V3T2wyIqipuXwsWfWmCgYiA8zHU
+ B6Hzix9baMwWdkCc2y+ggKX7H1oALbOfGl6Dq9X7RQQR7J7/Urh7pkj3jF5MeGQU7tMM
+ G/Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=pO3zqsQYI2N/eYjowpxSiobXk5D5lO4UhUmAmNb1cfA=;
- b=iZ6GvB+5XhBguZKEtPiIl0/4OQ2OwXFJDkIGxnT2NvdKcFTH9PMzbeWdAvZhnrBP5B
- Sc/PeSKirg5P1hFWrCRU4Jyri3HNKaIJ/rIqlbLYOpHD12KBfDMXAYCFkeXOBkIGpmk2
- dzRzbmRZxJ7ZNEL8CD+RK6ongv87Kr4oVhlIgn28Kq4jIGm3vFRCfde5DcJCJ4ANZJt8
- 2Dx0LtmgrEf0y9grofejLdtjhI0NH9AHGWrRbH82/PQQ4AVbbEqubwtm6j28R4Io7jCO
- ZCcZG9xqRNUw9sqQQwcAlYfFXap3TwKq9ue2YO3xeKtY1KPj4+WAqP2p8XV2MNpWt5j0
- vizw==
-X-Gm-Message-State: AOAM530bhgL83iXfDNZTkT7PYo+caHAzpodDrwx66S4R/vMoshNZm5ax
- wF60r36CC08caFo/CqvY9g0nC2D6Td7zrNmUysr0xw==
-X-Google-Smtp-Source: ABdhPJzm7gNVSpq1WdNCNfqImJcd5pprrHt5u1gKhkFTU0RbDTB5uGa1psjLfZ+O81pjELct2ciXh3fSJYmXc0pB6gs=
-X-Received: by 2002:a05:6512:20c3:: with SMTP id
- u3mr1054711lfr.572.1601383161918; 
- Tue, 29 Sep 2020 05:39:21 -0700 (PDT)
+ bh=wL+1l72oaUbbwBYyOUJaeBQMR0dV1wzd/aL/FIdgzb4=;
+ b=XbG2JCKgv65W4+eALp5mhly5yblSTEfZqQMt+HaYbwCf1q8F8QsQ/hkbr+NKOwh3HP
+ yPszon7OlVyHdfzBAYiQPD3TDYxXyzSsDDt3nyINDsHrnonTTILWvM6/E1Fk+IJus1uH
+ Acl595TyHapQYilRsrbFs2CtYOb3cm78YdWFC/WFLNvRKWnX2sOOW/OogdseUYsS0xvs
+ pg6cd4I81Sc1fBovDOr0Cysc+2BQcgoyI8VT3AfEf2wITsz+Pu1hq57XTkNBsLVZLPUp
+ mNd1ztdA3anfJtTeEN5q28+SklabtJwd228Odw3s/eyzoQaxmXYXflmSWaca6z1EDZ1f
+ F6wg==
+X-Gm-Message-State: AOAM531xlU1v92TC88PHfAatpZTpkXNPb6an5gLxWoKPoIZiSMH3J/mo
+ nBW9zru6/fcj8YvOGifkSMr0FUVrgPsaiQhR36y5oA==
+X-Google-Smtp-Source: ABdhPJz/TfA+SJy/EqXpDNJpRqIZcEOun8CwZs40GRQvdlhJ77EBdzNBtnUcoYLOOyqUveIA96w7ow/IynDH7+Culcc=
+X-Received: by 2002:a2e:a306:: with SMTP id l6mr1227143lje.286.1601383353717; 
+ Tue, 29 Sep 2020 05:42:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200910025631.2996342-1-andrew@aj.id.au>
-In-Reply-To: <20200910025631.2996342-1-andrew@aj.id.au>
+References: <20200911034631.8473-1-chiawei_wang@aspeedtech.com>
+ <20200911034631.8473-5-chiawei_wang@aspeedtech.com>
+In-Reply-To: <20200911034631.8473-5-chiawei_wang@aspeedtech.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 29 Sep 2020 14:39:10 +0200
-Message-ID: <CACRpkdaqtcPsinURk88GFYyPcDr2SdoRXWUCHMMn2cQtbBYyog@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] pinctrl: aspeed: AST2600 pinconf fixes
-To: Andrew Jeffery <andrew@aj.id.au>
+Date: Tue, 29 Sep 2020 14:42:22 +0200
+Message-ID: <CACRpkdbn9294JnddMsmGooCe7KCxMiGbuAZ+OAuLwPkZUYD10A@mail.gmail.com>
+Subject: Re: [PATCH 4/4] pinctrl: aspeed-g5: Fix LPC register offsets
+To: "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>,
+ Andrew Jeffery <andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -73,25 +74,28 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Johnny Huang <johnny_huang@aspeedtech.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>, rlippert@google.com,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, Corey Minyard <minyard@acm.org>,
  OpenBMC Maillist <openbmc@lists.ozlabs.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+ Rob Herring <robh+dt@kernel.org>, cyrilbur@gmail.com,
+ haiyue.wang@linux.intel.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Sep 10, 2020 at 4:57 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+On Fri, Sep 11, 2020 at 5:47 AM Chia-Wei, Wang
+<chiawei_wang@aspeedtech.com> wrote:
 
-> The AST2600 pinctrl driver was missing support for bias control on the 1.8V
-> GPIO pins, and in the process of resolving that I discovered a couple of other
-> bugs that are fixed in the first two patches of the series.
+> The LPC register offsets are fixed to adapt to the LPC DTS change,
+> where the LPC partitioning is removed.
 >
-> v2 Tweaks some of the debug output and adds Joel's Reviewed-by tags.
+> Signed-off-by: Chia-Wei, Wang <chiawei_wang@aspeedtech.com>
 
-Applied this v2 instead of v1.
+I can apply this one patch if I get a review from one of the
+Aspeed pinctrl maintainer.
 
-Thanks!
+Andrew?
+
+Yours,
 Linus Walleij
