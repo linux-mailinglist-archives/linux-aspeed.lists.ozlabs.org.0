@@ -2,75 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE5427EFBF
-	for <lists+linux-aspeed@lfdr.de>; Wed, 30 Sep 2020 18:54:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 638E027F292
+	for <lists+linux-aspeed@lfdr.de>; Wed, 30 Sep 2020 21:27:20 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4C1j5w5qMlzDqQF
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Oct 2020 02:54:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4C1mVF2S6tzDqWZ
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Oct 2020 05:27:17 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1042;
- helo=mail-pj1-x1042.google.com; envelope-from=rentao.bupt@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::244;
+ helo=mail-lj1-x244.google.com; envelope-from=fercerpav@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=gIyzm/LM; dkim-atps=neutral
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
- [IPv6:2607:f8b0:4864:20::1042])
+ header.s=20161025 header.b=bwtKAAd6; dkim-atps=neutral
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4C1j5n2hN1zDq5f
- for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Oct 2020 02:54:20 +1000 (AEST)
-Received: by mail-pj1-x1042.google.com with SMTP id q4so100538pjh.5
- for <linux-aspeed@lists.ozlabs.org>; Wed, 30 Sep 2020 09:54:20 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4C1mTG2ts8zDqV4
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Oct 2020 05:26:20 +1000 (AEST)
+Received: by mail-lj1-x244.google.com with SMTP id u21so2594100ljl.6
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 30 Sep 2020 12:26:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=a+511h/yRt0hAA530rhVf+uoJRBXRfwSraxYw7O/kA4=;
- b=gIyzm/LMhzk6FmcrH/7F0RNZbSSNuIox03V/NLAc7uhQqZOnGw/v9WAuwtjpk4/RQY
- XEpq9jhXtvSdVu94k5qKQOY3C5IEKNbbw5Bvf0KfJCtDCzFqXGNuWsXiBHXvhWSYSSLC
- LkMgyB5FEeg5osBePET6/2KYORZWx7FaA54whxElkY+wMODcQ1mWmgEF2rxIa99COPLs
- Du3GQhn5WOMk1QnHxrVk5fyHenVzPaJ0WuPTdRshqMsDj6smYr400lgsVHYIVG7f+CUd
- tufeR0zq0+xx5Dw9a5Qx6WFxekg7M+70Da60wDPBpZoBeb7pSlWA/U1MmPVaLKhnBN7t
- WukQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nWnZ9mvRcdMIs29UYvJHlCQSo8qvfoIKTMHbPpvZZgw=;
+ b=bwtKAAd6Vcoubp2BQnsTmvzI/vYv7+Av/F/JrmcJs/PsR/eedl2ijMkIYf8utm4hvP
+ 0W/YJEb9S75WkQt3w1zke4KD5oytMyzt2ZAbbP47JVpTR2BDLO7hq8c0PnqQcHe4s/ZX
+ QRyFyonWxPzFxXoZwVqxvGN1vCHk+OBK6Osj7k9MIJzJ+YB1Qiam+ldvRplSkD8m6eMK
+ i4ncAPbo8AzO9UyMBWxuPQtYaUwrtmmDtAWgqt6W7B0R/8K4ic6VFBoZX9LiBRc06COS
+ GYblUGAn8Z7PM81t4vHX8E2AKM7grU8/y058G716rn7XwvTZA5z7jLNETWn76LytRVvM
+ 67rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=a+511h/yRt0hAA530rhVf+uoJRBXRfwSraxYw7O/kA4=;
- b=lcu62YrxPS/Y/Id4d6ieFxh7RCfO8r3lendbPy5XeDbGolKIRyxHIaC76GECP4w7qD
- /sTsH33k4azr4Kfi/+ORAF2CmPwlxMJwND5U9iid0CUw9JUpN9e6wtZmRrbyG5TLyFzt
- ldaCEKkAQQ7BojJ/Q6hYvQwiBWRqPG9d92QdPXMGFNeWeM4hoy0Fb0Xk7RWJ4VPXfl7A
- q8a+A1GXQZ7Z0fQgOhnI6S4e/f1D0Q1IW+Dc0xOsyOZppN/7xdK2KyqO/m3qx/GOgH1L
- Iru9mtnp0St1IognsqetM4KF+CX2qxLB6SapFUU0QhEb7ldwECLi6tE1qv1L8+4E/Yaf
- oURw==
-X-Gm-Message-State: AOAM532FWztVanJuMK9QTuzp0U144zdX8cZp6iNc7EHCvwr6iLgm7JBm
- NOXr+wgKX3sQUs28qrgw5flQhlEi2DBB7c4C
-X-Google-Smtp-Source: ABdhPJxwezn+YlJ0I0Lsa/QSD/QW96cOmMj3PWOOxNwHQmumz6Lo0kuB7h+fFEjaG5LEvcuSBTpVLg==
-X-Received: by 2002:a17:90a:bc08:: with SMTP id
- w8mr3317041pjr.168.1601484855301; 
- Wed, 30 Sep 2020 09:54:15 -0700 (PDT)
-Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net.
- [73.252.146.110])
- by smtp.gmail.com with ESMTPSA id l141sm2960368pfd.47.2020.09.30.09.54.14
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 30 Sep 2020 09:54:14 -0700 (PDT)
-Date: Wed, 30 Sep 2020 09:54:12 -0700
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Subject: Re: [PATCH 3/3] ARM: dts: add ehci uhci enable in evb dts
-Message-ID: <20200930165411.GC25872@taoren-ubuntu-R90MNF91>
-References: <20200930040823.26065-1-ryan_chen@aspeedtech.com>
- <20200930040823.26065-4-ryan_chen@aspeedtech.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nWnZ9mvRcdMIs29UYvJHlCQSo8qvfoIKTMHbPpvZZgw=;
+ b=sdpAq9O9ms+6RtXnta3aEWkJ9YhtBDtlQd2mauJKCU+dLwplSj1vwbKKnjtVkgTDPK
+ 6AeR7sH0211HXzgjb6ztdhYD6MwX27PZijuZDzZIOue5ZAmDtHKDsKnwDu0Xs6YNDrG/
+ 7eUpaxC0BD4BUQtfa1RJ1epxPc4Ny3rXCeQa29hWIoZJRE3c28c1P2kOzDWLn/woQ0Zf
+ syxkjexjD0ce5+tfsl3Epc+xyR98IP7+3qIlRJBKT8TTXtPH4R4gDD1oyDugkDf9mGXI
+ YawjflsUnw8qIZIcKk+bRlB2HaDKa4UmMF10Gu6lhD6iUSUVVxzMYq0H3zSQAVNvLynQ
+ 7SMA==
+X-Gm-Message-State: AOAM531K35HSUWyAP3taJG3VOkKWHofFRmH55bDbPWRGowXxmM7SsVYa
+ ncY4AT7TfY0Fb7JsMJyJrR+EaZrL7h8=
+X-Google-Smtp-Source: ABdhPJyyQebr6XX8eQ7cJK/5tttCpKN3MNA8TECnHfh8+dxLrkifeeUO3SBZu3RzmccOQiAcj6eu+Q==
+X-Received: by 2002:a2e:3008:: with SMTP id w8mr1448482ljw.63.1601493975761;
+ Wed, 30 Sep 2020 12:26:15 -0700 (PDT)
+Received: from localhost ([2001:470:1f15:397:584b:5712:cb7c:21bf])
+ by smtp.gmail.com with ESMTPSA id b11sm291476lfo.66.2020.09.30.12.26.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Sep 2020 12:26:15 -0700 (PDT)
+From: Paul Fertser <fercerpav@gmail.com>
+To: linux-aspeed@lists.ozlabs.org
+Subject: [PATCH] arm: dts: aspeed-bmc-tiogapass: enable second MAC
+Date: Wed, 30 Sep 2020 22:25:07 +0300
+Message-Id: <20200930192507.27847-1-fercerpav@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200930040823.26065-4-ryan_chen@aspeedtech.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,16 +76,40 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: bmc-sw@aspeedtech.com, linux-aspeed@lists.ozlabs.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Paul Fertser <fercerpav@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Sep 30, 2020 at 12:08:23PM +0800, Ryan Chen wrote:
-> Add EHCI UHCI enable build in aspeed-ast2600-evb.dts
-> 
-> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+Tioga Pass reference design includes Intel I210 Ethernet controller
+connected to the BMC with NC/SI.
 
-Reviewed-by: Tao Ren <rentao.bupt@gmail.com>
+MAC readout is not supported.
+
+Signed-off-by: Paul Fertser <fercerpav@gmail.com>
+---
+ arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
+index 2d44d9ad4e40..b2ba798bf3c4 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
+@@ -196,6 +196,14 @@
+ 	use-ncsi;
+ };
+ 
++&mac1 {
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rmii2_default>;
++	use-ncsi;
++};
++
+ &adc {
+ 	status = "okay";
+ };
+-- 
+2.17.1
+
