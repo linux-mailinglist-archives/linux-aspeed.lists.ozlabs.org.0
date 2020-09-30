@@ -2,67 +2,48 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B93727CD58
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Sep 2020 14:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4EB27DF2E
+	for <lists+linux-aspeed@lfdr.de>; Wed, 30 Sep 2020 06:09:26 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4C0zb52B2gzDqRv
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Sep 2020 22:43:45 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4C1N755FtpzDqH1
+	for <lists+linux-aspeed@lfdr.de>; Wed, 30 Sep 2020 14:09:21 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::244;
- helo=mail-lj1-x244.google.com; envelope-from=linus.walleij@linaro.org;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=xhI9/PHf; dkim-atps=neutral
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ spf=none (no SPF record) smtp.mailfrom=aspeedtech.com
+ (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com;
+ envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=aspeedtech.com
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4C0zYs5G27zDqPK
- for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Sep 2020 22:42:40 +1000 (AEST)
-Received: by mail-lj1-x244.google.com with SMTP id s205so3884164lja.7
- for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Sep 2020 05:42:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wL+1l72oaUbbwBYyOUJaeBQMR0dV1wzd/aL/FIdgzb4=;
- b=xhI9/PHfv+fX23vW8dLBjw1liKAYXb+ehygLbCkVVwhzB6JiSXu+4BSaVZ4K8tBuz8
- 5betdA0Zo0dabPQTPyfZgfGTDRQYI5C1gWh0BRD9fKcCBngerR2lOWM6xr3sfq6S2s/Y
- /Mo+9SC2I8EVmdNve7qAhBpn5F9tLTzY/IAKPCo6m5bShm0nxord7LzVA1x87AZPLb12
- UJEziVcQ+xJKvZDAiTNt9Sn9HxG/gC5Yy8gtPpaw5V3T2wyIqipuXwsWfWmCgYiA8zHU
- B6Hzix9baMwWdkCc2y+ggKX7H1oALbOfGl6Dq9X7RQQR7J7/Urh7pkj3jF5MeGQU7tMM
- G/Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wL+1l72oaUbbwBYyOUJaeBQMR0dV1wzd/aL/FIdgzb4=;
- b=XbG2JCKgv65W4+eALp5mhly5yblSTEfZqQMt+HaYbwCf1q8F8QsQ/hkbr+NKOwh3HP
- yPszon7OlVyHdfzBAYiQPD3TDYxXyzSsDDt3nyINDsHrnonTTILWvM6/E1Fk+IJus1uH
- Acl595TyHapQYilRsrbFs2CtYOb3cm78YdWFC/WFLNvRKWnX2sOOW/OogdseUYsS0xvs
- pg6cd4I81Sc1fBovDOr0Cysc+2BQcgoyI8VT3AfEf2wITsz+Pu1hq57XTkNBsLVZLPUp
- mNd1ztdA3anfJtTeEN5q28+SklabtJwd228Odw3s/eyzoQaxmXYXflmSWaca6z1EDZ1f
- F6wg==
-X-Gm-Message-State: AOAM531xlU1v92TC88PHfAatpZTpkXNPb6an5gLxWoKPoIZiSMH3J/mo
- nBW9zru6/fcj8YvOGifkSMr0FUVrgPsaiQhR36y5oA==
-X-Google-Smtp-Source: ABdhPJz/TfA+SJy/EqXpDNJpRqIZcEOun8CwZs40GRQvdlhJ77EBdzNBtnUcoYLOOyqUveIA96w7ow/IynDH7+Culcc=
-X-Received: by 2002:a2e:a306:: with SMTP id l6mr1227143lje.286.1601383353717; 
- Tue, 29 Sep 2020 05:42:33 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4C1N6q5MmyzDqXB
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 30 Sep 2020 14:09:06 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 08U3n6vl071701;
+ Wed, 30 Sep 2020 11:49:06 +0800 (GMT-8)
+ (envelope-from ryan_chen@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.9) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 30 Sep
+ 2020 12:08:29 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+ <linux-usb@vger.kernel.org>, <bmc-sw@aspeedtech.com>
+Subject: [PATCH 0/3] Enable USB host for AST2600
+Date: Wed, 30 Sep 2020 12:08:20 +0800
+Message-ID: <20200930040823.26065-1-ryan_chen@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200911034631.8473-1-chiawei_wang@aspeedtech.com>
- <20200911034631.8473-5-chiawei_wang@aspeedtech.com>
-In-Reply-To: <20200911034631.8473-5-chiawei_wang@aspeedtech.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 29 Sep 2020 14:42:22 +0200
-Message-ID: <CACRpkdbn9294JnddMsmGooCe7KCxMiGbuAZ+OAuLwPkZUYD10A@mail.gmail.com>
-Subject: Re: [PATCH 4/4] pinctrl: aspeed-g5: Fix LPC register offsets
-To: "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>,
- Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.9]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 08U3n6vl071701
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,28 +55,23 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>, rlippert@google.com,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Corey Minyard <minyard@acm.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, cyrilbur@gmail.com,
- haiyue.wang@linux.intel.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Sep 11, 2020 at 5:47 AM Chia-Wei, Wang
-<chiawei_wang@aspeedtech.com> wrote:
+The patches enable UHCI driver in AST2600 and also enable
+USB host in aspeed-ast2600-evb.dts.
 
-> The LPC register offsets are fixed to adapt to the LPC DTS change,
-> where the LPC partitioning is removed.
->
-> Signed-off-by: Chia-Wei, Wang <chiawei_wang@aspeedtech.com>
+Ryan Chen (3):
+  configs: aspeed: enable UHCI driver in defconfig
+  usb: host: add uhci compatible support for ast2600-uhci
+  ARM: dts: add ehci uhci enable in evb dts
 
-I can apply this one patch if I get a review from one of the
-Aspeed pinctrl maintainer.
+ arch/arm/boot/dts/aspeed-ast2600-evb.dts | 8 ++++++++
+ arch/arm/configs/aspeed_g5_defconfig     | 1 +
+ drivers/usb/host/uhci-platform.c         | 3 ++-
+ 3 files changed, 11 insertions(+), 1 deletion(-)
 
-Andrew?
+-- 
+2.17.1
 
-Yours,
-Linus Walleij
