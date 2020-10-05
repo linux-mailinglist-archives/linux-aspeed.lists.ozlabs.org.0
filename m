@@ -2,74 +2,94 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07EC2826A1
-	for <lists+linux-aspeed@lfdr.de>; Sat,  3 Oct 2020 22:32:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 837FD282EB5
+	for <lists+linux-aspeed@lfdr.de>; Mon,  5 Oct 2020 03:56:16 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4C3dns58KMzDqQF
-	for <lists+linux-aspeed@lfdr.de>; Sun,  4 Oct 2020 07:32:17 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4C4Nx95qzVzDqGF
+	for <lists+linux-aspeed@lfdr.de>; Mon,  5 Oct 2020 12:56:13 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=lixom.net
- (client-ip=2a00:1450:4864:20::142; helo=mail-lf1-x142.google.com;
- envelope-from=olof@lixom.net; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=lixom.net
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=lixom-net.20150623.gappssmtp.com
- header.i=@lixom-net.20150623.gappssmtp.com header.a=rsa-sha256
- header.s=20150623 header.b=qhCyCGPd; dkim-atps=neutral
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.helo=apc01-pu1-obe.outbound.protection.outlook.com
+ (client-ip=40.107.132.98; helo=apc01-pu1-obe.outbound.protection.outlook.com;
+ envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=aspeedtech.com
+Received: from APC01-PU1-obe.outbound.protection.outlook.com
+ (mail-eopbgr1320098.outbound.protection.outlook.com [40.107.132.98])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4C3dnM2qtFzDqPQ
- for <linux-aspeed@lists.ozlabs.org>; Sun,  4 Oct 2020 07:31:49 +1100 (AEDT)
-Received: by mail-lf1-x142.google.com with SMTP id y11so6219201lfl.5
- for <linux-aspeed@lists.ozlabs.org>; Sat, 03 Oct 2020 13:31:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lixom-net.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=MZ3TCdgtWOV1cpcxI3RDfFAiO252gsiZlfrLaESlfTE=;
- b=qhCyCGPdsXpceShgj7b+dnQN/0Uj2Dl8jNpza/nnIicaPXI0qgndQFKnDZISgSTWyE
- hlKjSygmNvU4kPeJMzgNM+Be0ZPdcM5SIZBNY8TXo0MHP5evUMYTYityBg8a3uSMfdbX
- AeFrAgVTGAzzvVwemaGWaxuWbWfiOTTd7R0KKeWblzrgcvzIBMfPZ7bQN8UzrG/Br9Fs
- LlERv0CZpsbEVFVIXBjT/EfUSEFCv+dHAEcaJ9HA8mbFzPqwEh0sucG1OX6E54omoERL
- hF2qVke2gR1oCBuQGMIeE/CK9XOhFH7NuoT9DACA4GQZdDb3lalT1HCjzPqRDtr61EJJ
- uQ/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=MZ3TCdgtWOV1cpcxI3RDfFAiO252gsiZlfrLaESlfTE=;
- b=ITR64Tp4tSvxpfZRi6c/RrH0FpifKP9bHhLO1o6ZOT+L7QWJBuj+NSQCGlYwSgMPL5
- jM2+4xSAPqI3NPI/gL/ySIvJ//JjUcAYzCbGKqSgJUHWksyjvh+sSLxGcB0VJgBpyVZX
- EVI5pZyJbLZAvwBdSaHq1jGlX/xoJGMTFlh3Mq1ssWSJ/NyiOXD6GzJ8NRyzOxS1fHlD
- gJPtQY7DWN4b7p7Wobx6DVvbqc62NDrw+pZeQXFBAl8Kt8pkQUqvOg0r1jo9gLdmSRlo
- c0fqtycgkWeC+m2oX2ps4xJICnvOXGStO+ExWFaBzQfGEzvYOlJaDlVJPG2pa7dy1VA7
- LX4Q==
-X-Gm-Message-State: AOAM533VPRU6qvFKV0qnHPhPLhPAKsX7F7JeD5JBh1uLKQj2YVoyJynD
- DfsGZMRfaVUvbsp1l/2W5DvA/Q==
-X-Google-Smtp-Source: ABdhPJxZKZugeehC98WN6pvorkHtEwEuivSXGox7is3DAiNTkVy8yOLZpegBepf59Ged51b5nO+igg==
-X-Received: by 2002:a19:6b17:: with SMTP id d23mr3219970lfa.190.1601757104287; 
- Sat, 03 Oct 2020 13:31:44 -0700 (PDT)
-Received: from localhost (h85-30-9-151.cust.a3fiber.se. [85.30.9.151])
- by smtp.gmail.com with ESMTPSA id o15sm1842335lfo.188.2020.10.03.13.31.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Oct 2020 13:31:43 -0700 (PDT)
-Date: Sat, 3 Oct 2020 13:13:52 -0700
-From: Olof Johansson <olof@lixom.net>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [GIT PULL] ARM: aspeed: soc changes for 5.10
-Message-ID: <20201003201352.GI8203@lx2k>
-References: <CACPK8XcP_j7q+jWN6_JGaEcfPy=zSQHyizp1LOw05zFB4L9iGQ@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4C4Nx24TT4zDqFJ
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  5 Oct 2020 12:56:04 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Jcnqwi8E+12kQByuZqcNEQd9Un/Mde1FyfrFldLibIuFbaF/h72/HXJ2eNGkUdUVnromA9YfWh7jjcTtYyN2NeCEMG2elGz+yygypRU147KL/5R4Er19gvcn8tkaNStoWgf9ir3qQubN/dIMvgSHbCqC+oKxxC3rgm5gy3k7OwlM1pYxtuxUbCB0yNshIsKbFpQaZ30r0xqkbIqS7XcB2gEXnMv+F07dybfTPiofbxi5Gn2h05FNP/sezUyP68qB8DtggKcnfNLkZDX5ReEDZFcZ9tCK3PbzRLP3ZvT+6rDsQevx7Cqs0eRexjgr+ag2uR4TurpCEeKysVH+JRP6DQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p36OExTPVT4THcu5ACziKUABzbFZVQuZbRC+SNaCBXI=;
+ b=kUHDqzbFxxDkYmLfVNsftbIom82oDFIh6xa1h22qDcjK8U2fLMjMX8+qwsU7Ec3+dI+xM+c+mrjqRTXa3dKk+P26ygxR8dR8ttfsNzGKhnHlhGUPbjHx9KwhZBvjOlsVFTVdWCH1dOCB99+GU1w1hdsNwOq3l4av+R9J3wgG5B4h7eAQzv+9aPvI6GWpDKqCZNpewQzGgqYHYT+ctR5aGUKgHiIiqLmb6jTw4tl40f/7gEP3GzGn01F3xYx3HXFA+j/MdTd43azqMOVhb4vn74B6t8ZTTbikdciFIsz2D3g4SRClV093BWhOjKTOmc0ff/tOB06CDFE0uhKnz1kLkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+Received: from PU1PR06MB2167.apcprd06.prod.outlook.com (2603:1096:803:39::19)
+ by PS1PR0601MB3739.apcprd06.prod.outlook.com (2603:1096:300:83::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.38; Mon, 5 Oct
+ 2020 01:55:55 +0000
+Received: from PU1PR06MB2167.apcprd06.prod.outlook.com
+ ([fe80::3023:8294:4f07:1b52]) by PU1PR06MB2167.apcprd06.prod.outlook.com
+ ([fe80::3023:8294:4f07:1b52%4]) with mapi id 15.20.3433.043; Mon, 5 Oct 2020
+ 01:55:55 +0000
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: Andrew Jeffery <andrew@aj.id.au>, Rob Herring <robh+dt@kernel.org>, Joel
+ Stanley <joel@jms.id.au>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+ <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ARM: dts: aspeed-g6: Add sgpiom/sgpios node
+Thread-Topic: [PATCH] ARM: dts: aspeed-g6: Add sgpiom/sgpios node
+Thread-Index: AQHWlugj0FL+DNe4WEGnU/ZKZX+KwqmB5/IAgAblqwA=
+Date: Mon, 5 Oct 2020 01:55:54 +0000
+Message-ID: <C4E8563D-DF4D-4BCE-97B3-F6396AD99020@aspeedtech.com>
+References: <20200930051113.32465-1-billy_tsai@aspeedtech.com>
+ <6bc40a50-8c21-4642-ad9e-e92f756aac25@www.fastmail.com>
+In-Reply-To: <6bc40a50-8c21-4642-ad9e-e92f756aac25@www.fastmail.com>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: aj.id.au; dkim=none (message not signed)
+ header.d=none;aj.id.au; dmarc=none action=none header.from=aspeedtech.com;
+x-originating-ip: [211.20.114.70]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 63445a5e-9d95-492a-429e-08d868d1cbeb
+x-ms-traffictypediagnostic: PS1PR0601MB3739:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <PS1PR0601MB373970F27A820ABE2CEC25588B0C0@PS1PR0601MB3739.apcprd06.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:281;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: FVvuCOy+tEXL1ldSprL4MTEisKQUIL2ksik1EVffJ8AcFmUPCbK8w85cbsc4SN3N4i2L2oktXzz/gO7KBkuMRRAxb0gpQeWhH3QimpdUIj4YCk4VbxGRWkbTJ1OC9jF/1rRna0kW3+Iqog09/c5gMoBlDxcU2kMBAsJZuvRtZBq8xVwFOIJoFztcjfTKkL+Hi1xV2zlv79s3nWVKKuETtXudZNABkDe2Z6QUJj/VLpLdUekkA84kKNcmRkso3mv29hrKvNRTqHh1KfE8e/dNACCZ/X5ttt5s9ZXyK6br2P99XtNWkGLpZYV7BWpOC+iW
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PU1PR06MB2167.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(136003)(376002)(346002)(396003)(39830400003)(4326008)(86362001)(5660300002)(316002)(33656002)(8936002)(8676002)(478600001)(2616005)(6486002)(36756003)(71200400001)(2906002)(110136005)(107886003)(6506007)(66946007)(83380400001)(186003)(55236004)(66476007)(66446008)(66556008)(76116006)(91956017)(64756008)(6512007)(26005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: yX6R/Rysb0c+Bf7LP6bxNS9Xjs+JpxQZ0x6hiTQTofnQi0+e3oH2DUbrl1ZZwDJ12xlyZWo5EcDsEtqe46p2qvEu9oa+EHqWAO2t3epdMrJHdqxlCjTTSRcbE1goIFN8TTbPofydwCvJKNVs+nFuTY5ORLivxDJ7b+958/T0jPnrBO/Od8IxEC2RBz5ynLhRAKt4tqohrukWsRecB+2A/Y9Ext8tM8go8fuQjgO5LLSKJwm73TSFWFo6kwOlUPQdybuLurLi0/6akfLYxvAh1MFS0ajAUMtiC3dTzDryuX+6xOtmEGcXIskG3oua0zeDz+SOBBLfq5hUGUJax2JiQpLs25wK01qKWLf05o8mukcBWUW8OJ5npcoUucqIvXpQusil3Yb2Ahw04kIO9RdGgfpvisdVUNXollwcTIX/BMsgZabSR1RsGl1JAsDJbCWEAfxGkuY9ensEyB7XMiwyYR2OY3nGSp7Gu7baJRoYFszc2OIC27X6btzp0R2zefSrLEN8cfpfDekZ1vurJ4d+vj1A1w9rZDPELKVfIIHFzm8DOt7BhGTDhcnq6onjee2eeuC3oEPDDPzWsUjsHe4VZ2ABpVWOsTxA7f7EEOyW/V5qwGh4r/JfdBM7jFHcbxPMxjDrhwyrmK6+Ugczky8bpg==
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B6A3EEB83A2641488834DD7A9955E418@apcprd06.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACPK8XcP_j7q+jWN6_JGaEcfPy=zSQHyizp1LOw05zFB4L9iGQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PU1PR06MB2167.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63445a5e-9d95-492a-429e-08d868d1cbeb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Oct 2020 01:55:54.7983 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ME69sFxCaXR1gAceKgK6KHQVS3taCbUo7uyXwZ4GgvZQxl74aEMvuDeFDPmh2Hr58m/O1Rhjya15fCsZMlrGnqdJKBRmYDpd+oDbWKQ7Evg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS1PR0601MB3739
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,47 +101,55 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Brad Bishop <bradleyb@fuzziesquirrel.com>, SoC Team <soc@kernel.org>,
- arm <arm@kernel.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: BMC-SW <BMC-SW@aspeedtech.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Joel,
-
-On Fri, Sep 25, 2020 at 06:31:28AM +0000, Joel Stanley wrote:
-> Hello Soc maintainers,
-> 
-> Here are some ASPEED changes for the 5.10 merge window.
-> 
-> The following changes since commit e55f541e51b5136fc0ced0bdf2b33ee3cca3bc96:
-> 
->   soc: aspeed: xdma: Add reset ioctl (2020-09-25 15:32:57 +0930)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
-> tags/aspeed-5.10-soc
-> 
-> for you to fetch changes up to e55f541e51b5136fc0ced0bdf2b33ee3cca3bc96:
-> 
->   soc: aspeed: xdma: Add reset ioctl (2020-09-25 15:32:57 +0930)
-> 
-> ----------------------------------------------------------------
-> ASPEED soc driver updates for 5.10
-> 
-> New drivers:
-> 
->  - XDMA driver for the BMC to host PCIe DMA device
-
-I don't think this driver belongs in drivers/soc, it's not "soc glue
-logic", and it has a userspace interface. Some of the commits even
-references it as a "misc driver". Mind resubmitting it for drivers/misc
-instead?
-
-
-Thanks,
-
-
--Olof
+SGkgQW5kcmV3LA0KDQrvu79PbiAyMDIwLzEwLzEsIDg6MzYgQU0sIEFuZHJldyBKZWZmZXJ5IHdy
+b3RlOg0KDQogICAgSGkgQmlsbHksDQogICAgDQogICAgT24gV2VkLCAzMCBTZXAgMjAyMCwgYXQg
+MTQ6NDEsIEJpbGx5IFRzYWkgd3JvdGU6DQogICAgPiBUaGlzIGNvbW1pdCBhZGQgdHdvIHNncGlv
+bSBhbmQgdHdvIHNncGlvcyBub2RlIGludG8gYXNwZWVkLWc2LmR0c2kNCiAgICA+IGFuZCBjaGFu
+Z2UgdGhlIHJlZ2lzdGVyIHJhbmdlIG9mIGdwaW8wIHRvIGZpeCB0aGUgaGFyZHdhcmUgZGVzaWdu
+Lg0KICAgID4gDQogICAgPiBTaWduZWQtb2ZmLWJ5OiBCaWxseSBUc2FpIDxiaWxseV90c2FpQGFz
+cGVlZHRlY2guY29tPg0KICAgID4gLS0tDQogICAgPiAgYXJjaC9hcm0vYm9vdC9kdHMvYXNwZWVk
+LWc2LmR0c2kgfCA1MSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLQ0KICAgID4gIDEg
+ZmlsZSBjaGFuZ2VkLCA1MCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQogICAgPiANCiAg
+ICA+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9hc3BlZWQtZzYuZHRzaSBiL2FyY2gv
+YXJtL2Jvb3QvZHRzL2FzcGVlZC1nNi5kdHNpDQogICAgPiBpbmRleCA5N2NhNzQzMzYzZDcuLjAw
+MjM3ZGFlYzJhMSAxMDA2NDQNCiAgICA+IC0tLSBhL2FyY2gvYXJtL2Jvb3QvZHRzL2FzcGVlZC1n
+Ni5kdHNpDQogICAgPiArKysgYi9hcmNoL2FybS9ib290L2R0cy9hc3BlZWQtZzYuZHRzaQ0KICAg
+ID4gQEAgLTM1Nyw3ICszNTcsNyBAQA0KICAgID4gIAkJCQkjZ3Bpby1jZWxscyA9IDwyPjsNCiAg
+ICA+ICAJCQkJZ3Bpby1jb250cm9sbGVyOw0KICAgID4gIAkJCQljb21wYXRpYmxlID0gImFzcGVl
+ZCxhc3QyNjAwLWdwaW8iOw0KICAgID4gLQkJCQlyZWcgPSA8MHgxZTc4MDAwMCAweDgwMD47DQog
+ICAgPiArCQkJCXJlZyA9IDwweDFlNzgwMDAwIDB4NTAwPjsNCiAgICA+ICAJCQkJaW50ZXJydXB0
+cyA9IDxHSUNfU1BJIDQwIElSUV9UWVBFX0xFVkVMX0hJR0g+Ow0KICAgID4gIAkJCQlncGlvLXJh
+bmdlcyA9IDwmcGluY3RybCAwIDAgMjA4PjsNCiAgICA+ICAJCQkJbmdwaW9zID0gPDIwOD47DQog
+ICAgPiBAQCAtMzY1LDYgKzM2NSw1NSBAQA0KICAgID4gIAkJCQlpbnRlcnJ1cHQtY29udHJvbGxl
+cjsNCiAgICA+ICAJCQkJI2ludGVycnVwdC1jZWxscyA9IDwyPjsNCiAgICA+ICAJCQl9Ow0KICAg
+ID4gKwkJCXNncGlvbTA6IHNncGlvbUAxZTc4MDUwMCB7DQogICAgPiArCQkJCSNncGlvLWNlbGxz
+ID0gPDI+Ow0KICAgID4gKwkJCQlncGlvLWNvbnRyb2xsZXI7DQogICAgPiArCQkJCWNvbXBhdGli
+bGUgPSAiYXNwZWVkLGFzdDI2MDAtc2dwaW9tIjsNCiAgICA+ICsJCQkJcmVnID0gPDB4MWU3ODA1
+MDAgMHgxMDA+Ow0KICAgID4gKwkJCQlpbnRlcnJ1cHRzID0gPEdJQ19TUEkgNTEgSVJRX1RZUEVf
+TEVWRUxfSElHSD47DQogICAgPiArCQkJCW5ncGlvcyA9IDwxMjg+Ow0KICAgID4gKwkJCQljbG9j
+a3MgPSA8JnN5c2NvbiBBU1BFRURfQ0xLX0FQQjI+Ow0KICAgID4gKwkJCQlpbnRlcnJ1cHQtY29u
+dHJvbGxlcjsNCiAgICA+ICsJCQkJYnVzLWZyZXF1ZW5jeSA9IDwxMjAwMDAwMD47DQogICAgPiAr
+DQogICAgPiArCQkJCXBpbmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7DQogICAgPiArCQkJCXBpbmN0
+cmwtMCA9IDwmcGluY3RybF9zZ3BtMV9kZWZhdWx0PjsNCiAgICA+ICsJCQkJc3RhdHVzID0gImRp
+c2FibGVkIjsNCiAgICA+ICsJCQl9Ow0KICAgID4gKw0KICAgID4gKwkJCXNncGlvbTE6IHNncGlv
+bUAxZTc4MDYwMCB7DQogICAgPiArCQkJCSNncGlvLWNlbGxzID0gPDI+Ow0KICAgID4gKwkJCQln
+cGlvLWNvbnRyb2xsZXI7DQogICAgPiArCQkJCWNvbXBhdGlibGUgPSAiYXNwZWVkLGFzdDI2MDAt
+c2dwaW9tIjsNCiAgICA+ICsJCQkJcmVnID0gPDB4MWU3ODA2MDAgMHgxMDA+Ow0KICAgID4gKwkJ
+CQlpbnRlcnJ1cHRzID0gPEdJQ19TUEkgNzAgSVJRX1RZUEVfTEVWRUxfSElHSD47DQogICAgPiAr
+CQkJCW5ncGlvcyA9IDw4MD47DQogICAgPiArCQkJCWNsb2NrcyA9IDwmc3lzY29uIEFTUEVFRF9D
+TEtfQVBCMj47DQogICAgPiArCQkJCWludGVycnVwdC1jb250cm9sbGVyOw0KICAgID4gKwkJCQli
+dXMtZnJlcXVlbmN5ID0gPDEyMDAwMDAwPjsNCiAgICA+ICsNCiAgICA+ICsJCQkJcGluY3RybC1u
+YW1lcyA9ICJkZWZhdWx0IjsNCiAgICA+ICsJCQkJcGluY3RybC0wID0gPCZwaW5jdHJsX3NncG0y
+X2RlZmF1bHQ+Ow0KICAgIA0KICAgPiBIYXZlIHlvdSB0cmllZCBidWlsZGluZyB0aGlzIG9uIHRv
+cCBvZiB1cHN0cmVhbT8gQmVjYXVzZSBuZWl0aGVyIHNncG0yIG5vciANCiAgID4gc2dwczIgYXJl
+IHN1cHBvcnRlZCBieSB0aGUgcGluY3RybCBkcml2ZXIuIElmIHlvdSBoYXZlIHBhdGNoZXMgdGhh
+dCBpbXBsZW1lbnQgDQogICA+IGJvdGggbXV4IGNvbmZpZ3VyYXRpb25zLCBjYW4geW91IHBvc3Qg
+dGhlbSB0b28/DQogICAgDQogICA+IEFuZHJldw0KDQpTb3JyeSBmb3IgdGhhdC4NCg0KSSB3aWxs
+IHJlc2VuZCBhbm90aGVyIHBhdGNoIHdoaWNoIGluY2x1ZGVzIHBpbmN0cmwgaW5mb3JtYXRpb24g
+dG8gZml4IHRoaXMgZXJyb3IuDQogIA0KQmVzdCBSZWdhcmRzLA0KQmlsbHkgVHNhaQ0KIA0KDQoN
+Cg==
