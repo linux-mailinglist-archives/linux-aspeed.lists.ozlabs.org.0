@@ -2,92 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0658A285839
-	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Oct 2020 07:46:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48BB285E01
+	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Oct 2020 13:18:54 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4C5jxN1tG8zDqNN
-	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Oct 2020 16:46:00 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4C5sKR5RDczDqFh
+	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Oct 2020 22:18:51 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=40.107.131.94;
- helo=apc01-sg2-obe.outbound.protection.outlook.com;
- envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
- (mail-eopbgr1310094.outbound.protection.outlook.com [40.107.131.94])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::743;
+ helo=mail-qk1-x743.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=Bush+Zj2; dkim-atps=neutral
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
+ [IPv6:2607:f8b0:4864:20::743])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4C5jx95G3tzDqMd
- for <linux-aspeed@lists.ozlabs.org>; Wed,  7 Oct 2020 16:45:48 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EeOIX+nClsn9k2j+GONJBgiJNV9Q/ggr+hpMQqMffBZPb6RfcLWCHTWB3Gn64dji68FiCM0IbjX3MGwvfBqLXUj9+f3m4b1AS3G+szzHQtXcsaLzdksObrV8LDhUq4LrkLCQRdcUBDS36a/LZ5AB9nHHZ47KXhKLQrVR5qMr7PCoZCAyQs+4nhelCIzDEt1WXMeWpPWJnMVbva68Sm+wRkpuSxGkVJ7G+lKkEiPHwWRklthHRJU4uM9MjsUtwR3Sk/jt8ePiXLzXB+NSD9KyX21YM3OnBsdr5KxX8gNtp2hfpIpmv2YNQMa4dpgImkP0X42CgWsCr+L5ML73FL/S1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lUWjN1WVKYi3drU/WlRdtvW1gJ9triDkcc9haB+laDU=;
- b=JN4VKEevK7h3bRGLHjYX685AOaJB5xoo36alE6btA9RyrQkZd4xgI3tjOeHVvLq7esnBGPH1bO0hSU1sfsyXbsjZgC53gMrOScFmoQp72sWrx1mh9PPTW1OLnFnavbAltA9FPol282SZVUR1jLaKnfUXwoAfSQ/aeifE+4qSPc9Sslx8zkwa8oqPwXZq/jO4urb0XDsRkBghZ+cKit69LVwP72uNfSmvCnR1wVfhzWWm/+yy4u2L1zO0I8ABh+dZdsFASlxIUJ7gtEE5F5AcwCtoOLbth1H96RojjTHgR5Y1o1wOAFUyJcwQm1b8oGU1wFg6RKuy4uJA/wus8RaRLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-Received: from HK0PR06MB3380.apcprd06.prod.outlook.com (2603:1096:203:82::18)
- by HK0PR06MB2338.apcprd06.prod.outlook.com (2603:1096:203:42::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21; Wed, 7 Oct
- 2020 05:45:36 +0000
-Received: from HK0PR06MB3380.apcprd06.prod.outlook.com
- ([fe80::6def:b61:3beb:f3d5]) by HK0PR06MB3380.apcprd06.prod.outlook.com
- ([fe80::6def:b61:3beb:f3d5%6]) with mapi id 15.20.3455.021; Wed, 7 Oct 2020
- 05:45:36 +0000
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
- <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org"
- <linux-usb@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>
-Subject: RE: [PATCH 0/3] Enable USB host for AST2600
-Thread-Topic: [PATCH 0/3] Enable USB host for AST2600
-Thread-Index: AQHWlt9bwGBF47qqVEyXPKyBIxahcKmLrDRg
-Date: Wed, 7 Oct 2020 05:45:36 +0000
-Message-ID: <HK0PR06MB338033E8D9EA016D50615D2AF20A0@HK0PR06MB3380.apcprd06.prod.outlook.com>
-References: <20200930040823.26065-1-ryan_chen@aspeedtech.com>
-In-Reply-To: <20200930040823.26065-1-ryan_chen@aspeedtech.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: jms.id.au; dkim=none (message not signed)
- header.d=none;jms.id.au; dmarc=none action=none header.from=aspeedtech.com;
-x-originating-ip: [211.20.114.70]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5d40c241-a1e0-412e-3c62-08d86a843733
-x-ms-traffictypediagnostic: HK0PR06MB2338:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HK0PR06MB2338A3BA0FD0D067CF3973D9F20A0@HK0PR06MB2338.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2803;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: B6a6z7+AcB934lX2S/dUHo16fhir622/w+d8/Pz7Ui1gSmFhEprz7dOE78RhBGVufuOZszW0j5q+FtLIvAVJT34VRC0DeKesztOGRECMBpLRSXlBzaNGe2ICRq/ubPExmODYCVroEuh4/Z9NPcJGdW9Pj6n3xf2GtYcIHnZjnVDsQzVDHzBCmHVsOQtf/kSwwjNtPV9T/biJeb+xWphf2RYCby/rC3cr9BwXcpHbpDPHSLy+ey0eozMItIQhnj8fbrDqivU19jElwIDVjasEhyXNZ89urhLUMuLU9FZnxfcLsiXv02/7GEosukiP8wotCuAdvvbs0ZFC0K7XNBDdFw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3380.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(346002)(136003)(376002)(39840400004)(396003)(8676002)(5660300002)(9686003)(86362001)(316002)(26005)(8936002)(66476007)(64756008)(66446008)(76116006)(66556008)(66946007)(83380400001)(4744005)(71200400001)(7696005)(53546011)(6636002)(6506007)(478600001)(2906002)(110136005)(55236004)(52536014)(33656002)(186003)(55016002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: QYxG+rA+cTSclNi11OWSAxGXI2EL7Q8UrZIR96OpsB/6S6e7OAiTNiXzekLQP18RXzqSAeIrE4pnD/mgG0CR+0y+baf9MpKxrgAGc+x2GSkcVDV/KJSLDM7vxmBBI9N8M61hkL63WwtqtXzH0pAvxmt17W49KVKcpD7XKfzWIwzPTizSncZKTBVpxO+8SJTDOX3NW8HaLRsap8BkuaUE2t+zu0ffAYxlp3MU3pp46vqzpMoi+mfdvPSLbZStYwY35W4/MYxDbeeEKKSIXdZn600syJPq9f40or0xfD90B8eP5rI8Qqc6jhUelwQ4/9QXWqzhYhYF/tdeOi0NPJDqhdZ5ZTm8lhdHibEDq1qwfQYHnFRUNqvSq6qIQi2zkzWp4svSv/GgpjsK1QYq1N7QnwC8MLOov1IUcjmjWo2Wk+l6l1XEqffGjSlBkjdHCRWjYl41XASmxfA7ndRjnj6+TGoLsAYKhpT0WqGFkEJhBoCzkJ7IZ237Kj5tArcfHOZtDRl0nSgrDYMEikLCI4kjo/NnRGPIFGyyN437Zi2LegUU+KNvF2D2bchX/MK+QV9bPn2wnVo1akiGhnkNiBIrsr9atZPOEFy63iOX8YU+INc1HTsOSB3UCSESB/qdRE+EfdQyGdpPkO/Pma19Z7kkQA==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4C5sKD0RmDzDqFC
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  7 Oct 2020 22:18:39 +1100 (AEDT)
+Received: by mail-qk1-x743.google.com with SMTP id c62so2222288qke.1
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 07 Oct 2020 04:18:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=m0TJyDw8pHKeWaSkHO/BVcTTfMOs02xp0NKBXo8b3/c=;
+ b=Bush+Zj2rlmUi6ZvW1H7C+ez/6tku7Hg2dNDO2tDqZHw3SyNtzOk0phkW+0o1NY3mE
+ ZL4n7GZ1Lf/NfZwhaQdjVNmUPOerWziz3rkoIuE4yY9MhSScpF1c6su7v3xw87gwqcUw
+ WuzY7rpERimb6mQl1sL59QDsNSQrNVUl/Tk/8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=m0TJyDw8pHKeWaSkHO/BVcTTfMOs02xp0NKBXo8b3/c=;
+ b=MV3jb+wKk1XBffQSFnArqFzNO1Y6LyK8AsQAFhjeQioBn/q7TdR97eUpAZvXJPp9xa
+ zep1F7nHi1oHZAZRPCiJy8KnFYNPTEHVHQeTK9INLcTF/D5bHgiQJ5qDTom8FwSEFSCw
+ 4X8q3DPIo5t0MsjgGzleb0JOPlQGg1lb1etKUWY4PFLfEkRrNBEWjcsn7SjqCdxq46YG
+ lyrQ0kg+7aRsWvMzuTtT9qcQAzufzqSsCckrxe5q0GnnMFHs8j47IupU7jKHbZBmO57u
+ QQCo8e1LDhnv3M+bMjlFB5dGC3fyn1PCrHKNc0F6vRU2c9RtyqpxF7bSs0n6EDA6gMty
+ npvw==
+X-Gm-Message-State: AOAM532Opn3vVFKQrScdWM5PQlcfZj1wcQ79tnGWwjbRDahq68lIduPm
+ C1bMmlzN5qLsG4T27JCWgDzb9FsLOzCO6y39jsE=
+X-Google-Smtp-Source: ABdhPJyu+lraaF+d16qvB8DczfxkzI7tNIX1GqMCmPrMVON/TomPC2McTHmOzDhtTyE0PjD/6JNpxaTb2mD9ATb3QTw=
+X-Received: by 2002:a37:c404:: with SMTP id d4mr2134169qki.273.1602069515056; 
+ Wed, 07 Oct 2020 04:18:35 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3380.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d40c241-a1e0-412e-3c62-08d86a843733
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2020 05:45:36.6557 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4KKduNkKeppWXRyJvON8E+tac8QXMwkKwm1NdL9ts/0sLaVXiN48Ij9Jx7Ku+BuGibhLTMK5cVEf0asjcHQU8bMAF8XSlWtI1XPAPLu29JQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2338
+References: <CACPK8XcP_j7q+jWN6_JGaEcfPy=zSQHyizp1LOw05zFB4L9iGQ@mail.gmail.com>
+ <20201003201352.GI8203@lx2k>
+In-Reply-To: <20201003201352.GI8203@lx2k>
+From: Joel Stanley <joel@jms.id.au>
+Date: Wed, 7 Oct 2020 11:18:22 +0000
+Message-ID: <CACPK8XcLOopkx0k14k25puD3YkwHzZS0+3TLcEL43xbxCZBphA@mail.gmail.com>
+Subject: Re: [GIT PULL] ARM: aspeed: soc changes for 5.10
+To: Olof Johansson <olof@lixom.net>, Arnd Bergmann <arnd@arndb.de>,
+ Patrick Venture <venture@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,40 +71,62 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Brad Bishop <bradleyb@fuzziesquirrel.com>, SoC Team <soc@kernel.org>,
+ arm <arm@kernel.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Joel,
-	Have you take time review this patches ?=20
+On Sat, 3 Oct 2020 at 20:31, Olof Johansson <olof@lixom.net> wrote:
+>
+> Hi Joel,
+>
+> On Fri, Sep 25, 2020 at 06:31:28AM +0000, Joel Stanley wrote:
+> > Hello Soc maintainers,
+> >
+> > Here are some ASPEED changes for the 5.10 merge window.
+> >
+> > The following changes since commit e55f541e51b5136fc0ced0bdf2b33ee3cca3bc96:
+> >
+> >   soc: aspeed: xdma: Add reset ioctl (2020-09-25 15:32:57 +0930)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
+> > tags/aspeed-5.10-soc
+> >
+> > for you to fetch changes up to e55f541e51b5136fc0ced0bdf2b33ee3cca3bc96:
+> >
+> >   soc: aspeed: xdma: Add reset ioctl (2020-09-25 15:32:57 +0930)
+> >
+> > ----------------------------------------------------------------
+> > ASPEED soc driver updates for 5.10
+> >
+> > New drivers:
+> >
+> >  - XDMA driver for the BMC to host PCIe DMA device
+>
+> I don't think this driver belongs in drivers/soc, it's not "soc glue
+> logic", and it has a userspace interface. Some of the commits even
+> references it as a "misc driver". Mind resubmitting it for drivers/misc
+> instead?
 
-Ryan Chen
+(Argh I missed this mail)
 
-Tel : 886-3-5751185 ext:8857
+We used to have the various little drivers in drivers/misc, but
+somewhere along the line we decided to move them to drivers/soc. I
+think that was Arnd asking Patrick Venture?
 
-> -----Original Message-----
-> From: Ryan Chen <ryan_chen@aspeedtech.com>
-> Sent: Wednesday, September 30, 2020 12:08 PM
-> To: Joel Stanley <joel@jms.id.au>; Andrew Jeffery <andrew@aj.id.au>;
-> linux-arm-kernel@lists.infradead.org; linux-aspeed@lists.ozlabs.org;
-> linux-kernel@vger.kernel.org; linux-usb@vger.kernel.org; BMC-SW
-> <BMC-SW@aspeedtech.com>
-> Cc: Ryan Chen <ryan_chen@aspeedtech.com>
-> Subject: [PATCH 0/3] Enable USB host for AST2600
->=20
-> The patches enable UHCI driver in AST2600 and also enable USB host in
-> aspeed-ast2600-evb.dts.
->=20
-> Ryan Chen (3):
->   configs: aspeed: enable UHCI driver in defconfig
->   usb: host: add uhci compatible support for ast2600-uhci
->   ARM: dts: add ehci uhci enable in evb dts
->=20
->  arch/arm/boot/dts/aspeed-ast2600-evb.dts | 8 ++++++++
->  arch/arm/configs/aspeed_g5_defconfig     | 1 +
->  drivers/usb/host/uhci-platform.c         | 3 ++-
->  3 files changed, 11 insertions(+), 1 deletion(-)
->=20
-> --
-> 2.17.1
+https://lore.kernel.org/linux-arm-kernel/CAK8P3a3CK4o8KnD6M084ULEmm+6_CtNFqYHjSqE5vp+U9YAmkA@mail.gmail.com/
 
+The existing drivers have userspace interfaces for misc parts of the
+aspeed chip, mostly relating to the strange (from a traditional
+Linux/host perspective) interfaces it exposes to the host. This XDMA
+driver should go alongside those other drivers.
+
+With that context, how would you like to proceed?
+
+Cheers,
+
+Joel
