@@ -2,64 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FC84285E11
-	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Oct 2020 13:25:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8634285E1C
+	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Oct 2020 13:28:17 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4C5sTB63jMzDqN1
-	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Oct 2020 22:25:34 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4C5sXG1Y0MzDqJq
+	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Oct 2020 22:28:14 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::843;
- helo=mail-qt1-x843.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::744;
+ helo=mail-qk1-x744.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=BNoPeube; dkim-atps=neutral
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
- [IPv6:2607:f8b0:4864:20::843])
+ header.s=google header.b=c/ECYqqt; dkim-atps=neutral
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
+ [IPv6:2607:f8b0:4864:20::744])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4C5sSy0HPFzDqFB
- for <linux-aspeed@lists.ozlabs.org>; Wed,  7 Oct 2020 22:25:21 +1100 (AEDT)
-Received: by mail-qt1-x843.google.com with SMTP id s47so1432687qth.4
- for <linux-aspeed@lists.ozlabs.org>; Wed, 07 Oct 2020 04:25:21 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4C5sX35nwxzDqCc
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  7 Oct 2020 22:27:59 +1100 (AEDT)
+Received: by mail-qk1-x744.google.com with SMTP id d20so2214822qka.5
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 07 Oct 2020 04:27:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yvxFh2lVt/f6BDA0Bx2JmAxB4jOtm8Py2fAMvv0foaM=;
- b=BNoPeubeS3sXBJjI0gkWLOl9TtnB7QMuencLyKdA/jOtb/IGQdLGC84nEomR3w4lx7
- 9r0tdf5A85QFnljIjVksg0KJQXlffVvm4hvkE64oEtwYPmJVREvvbhBtreKXlRjgdMSj
- I6sjoizv2hosGo4CNIasokE9hpsVi7mI5ExW4=
+ :cc; bh=CHSgzvUJzj+APwFwvwmmcNiA4VcGl2fPcumULSWSX8E=;
+ b=c/ECYqqttNUHkb/rdwaudk7Ge5bDGTkXWp+GuaXmR5nf2B1B7OR04YMDqmQQUcZrml
+ kyC8FbP0vVlCgoIrJmAxt6crEpI+f4zYVvEiIGAAPzn1eGkoZ7ESi/YLMUFBRpPjv+Hu
+ B+7EnimfWa4SIazl2fO5wUAkMWh4e2twcqfzw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yvxFh2lVt/f6BDA0Bx2JmAxB4jOtm8Py2fAMvv0foaM=;
- b=IcDABoQdVlEPAbMzawy05oiAxOnqHPeiSGsDk8R9dYu+Z1HU18DGOFb7lTt/oRm0E1
- AkoPmtUMIEObae8syt2ltCHus+d/cF7DJxp6+UcKef7ZCAJGg9E1lfoGflZyJLZJSXLm
- HeijSKwlqYIIWrdbJi36XNAuaaIQ/4OKftfcTwWHxef0z8DV8W3aNG/rf5Fxpzt/SJTw
- dMTR+ey0llIAm2zSa/P5iEvuRum7c+JsTr4dBOEFPfvumqvq9k34gh04ONxrxrxmHxoQ
- bj3RgB7x9YBV/gO4+RQAPcmOPnGYvosvqnHRqRQMDh3xlDdLrkbvM7kjnGJebckLNpF0
- 3NVA==
-X-Gm-Message-State: AOAM533L8+upasAA48oslbWzGiOi7gXdDk/WxXa0ShUmvHR4aYpsKaRU
- LiMAhfXIsuTJlZUFB9xTPoT/9RaZIUmlNqzE8FQ=
-X-Google-Smtp-Source: ABdhPJwRYZfAQA9D02ndfJ8Hwo5EMEXHSivMoq36Tr5vogI302Zi7/RH2rzq66EfzaFRDq87koLxojb4z3VA3ooIm/g=
-X-Received: by 2002:ac8:48ca:: with SMTP id l10mr2586401qtr.385.1602069916742; 
- Wed, 07 Oct 2020 04:25:16 -0700 (PDT)
+ bh=CHSgzvUJzj+APwFwvwmmcNiA4VcGl2fPcumULSWSX8E=;
+ b=aoozl46UzXmuUr//bh5Y7iAydW6cntTWWB1dGIlZzP+56vzeGWW6MNwX7xSnkYDhar
+ 0mUa/ZqDkgq3tJhvQ/Xkmw9nkkIYWL/FKpdXGO7yOA2EWzVfOAqxoDK6n/pSlU03JBVH
+ DgLqcFMYBGHuC/PmBCQs+RLIydabw28ZYdvHrX1hqLp8apJ9g9E7TZjTQWvciqOOdQKm
+ GFyA8BvRmv+WRCY0mTye6fddTWNltMPsleNPegP0A7qGfb718VPN7ZFWRzJQDPBlyCvM
+ Sma6gOHfDzeGf5DyHaZ8dtob3YQNo9kspPAzJEzupOvgfs9BNsRBtIbj88T0eCkVVr4L
+ b78w==
+X-Gm-Message-State: AOAM530wbFcuIFc2vDxiKUHW+weRDyKjkpcZACnhxcbUK2xvKDkclwhT
+ WsJg1IO145UZggECM8rhpgOqZr9Hx0LMhKnTTUI=
+X-Google-Smtp-Source: ABdhPJygdE+BClw6ls4Og5yZ5qX4nBMePZyf8d4tQiZAmni7tHPrS48fCxUgkBF3nEu7mFLoy6cRw85nRlHoGhT68vU=
+X-Received: by 2002:a37:2c06:: with SMTP id s6mr2271040qkh.55.1602070075400;
+ Wed, 07 Oct 2020 04:27:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200930040823.26065-1-ryan_chen@aspeedtech.com>
- <20200930040823.26065-3-ryan_chen@aspeedtech.com>
-In-Reply-To: <20200930040823.26065-3-ryan_chen@aspeedtech.com>
+ <20200930040823.26065-4-ryan_chen@aspeedtech.com>
+In-Reply-To: <20200930040823.26065-4-ryan_chen@aspeedtech.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 7 Oct 2020 11:25:04 +0000
-Message-ID: <CACPK8Xc2Y1njgtrtjO1bdmkcQR7jDu+oaOBc3R+CWtn+UrEOhQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] usb: host: add uhci compatible support for
- ast2600-uhci
-To: Ryan Chen <ryan_chen@aspeedtech.com>,
- Alan Stern <stern@rowland.harvard.edu>
+Date: Wed, 7 Oct 2020 11:27:43 +0000
+Message-ID: <CACPK8XcmA49S4mJmkmoyTyJ=cWkgyXLrXC-mbWVSO0M_tZAZ1w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] ARM: dts: add ehci uhci enable in evb dts
+To: Ryan Chen <ryan_chen@aspeedtech.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -82,38 +80,32 @@ Sender: "Linux-aspeed"
 
 On Wed, 30 Sep 2020 at 04:08, Ryan Chen <ryan_chen@aspeedtech.com> wrote:
 >
-> Add support for AST2600 SOC UHCI driver.
+> Add EHCI UHCI enable build in aspeed-ast2600-evb.dts
 >
 > Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
 
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-USB maintainers, can you please take this patch (2/3)? I will take the
-others in this series through the aspeed tree.
-
-Cheers,
-
-Joel
-
-
 > ---
->  drivers/usb/host/uhci-platform.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  arch/arm/boot/dts/aspeed-ast2600-evb.dts | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 >
-> diff --git a/drivers/usb/host/uhci-platform.c b/drivers/usb/host/uhci-platform.c
-> index 70dbd95c3f06..fa40fe125c2a 100644
-> --- a/drivers/usb/host/uhci-platform.c
-> +++ b/drivers/usb/host/uhci-platform.c
-> @@ -113,7 +113,8 @@ static int uhci_hcd_platform_probe(struct platform_device *pdev)
->                                 num_ports);
->                 }
->                 if (of_device_is_compatible(np, "aspeed,ast2400-uhci") ||
-> -                   of_device_is_compatible(np, "aspeed,ast2500-uhci")) {
-> +                       of_device_is_compatible(np, "aspeed,ast2500-uhci") ||
-> +                       of_device_is_compatible(np, "aspeed,ast2600-uhci")) {
->                         uhci->is_aspeed = 1;
->                         dev_info(&pdev->dev,
->                                  "Enabled Aspeed implementation workarounds\n");
+> diff --git a/arch/arm/boot/dts/aspeed-ast2600-evb.dts b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+> index 89be13197780..2772796e215e 100644
+> --- a/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+> +++ b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+> @@ -237,3 +237,11 @@
+>  &fsim0 {
+>         status = "okay";
+>  };
+> +
+> +&ehci1 {
+> +       status = "okay";
+> +};
+> +
+> +&uhci {
+> +       status = "okay";
+> +};
 > --
 > 2.17.1
 >
