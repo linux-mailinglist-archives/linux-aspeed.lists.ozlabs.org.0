@@ -1,54 +1,93 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B26728322F
-	for <lists+linux-aspeed@lfdr.de>; Mon,  5 Oct 2020 10:37:58 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0658A285839
+	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Oct 2020 07:46:03 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4C4Yrg3hC9zDqDZ
-	for <lists+linux-aspeed@lfdr.de>; Mon,  5 Oct 2020 19:37:55 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4C5jxN1tG8zDqNN
+	for <lists+linux-aspeed@lfdr.de>; Wed,  7 Oct 2020 16:46:00 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=aspeedtech.com
- (client-ip=211.20.114.71; helo=twspam01.aspeedtech.com;
- envelope-from=chiawei_wang@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=40.107.131.94;
+ helo=apc01-sg2-obe.outbound.protection.outlook.com;
+ envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
  header.from=aspeedtech.com
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-eopbgr1310094.outbound.protection.outlook.com [40.107.131.94])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4C4Yfd0cvszDqG1;
- Mon,  5 Oct 2020 19:29:12 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 09588T6L047498;
- Mon, 5 Oct 2020 16:08:32 +0800 (GMT-8)
- (envelope-from chiawei_wang@aspeedtech.com)
-Received: from ChiaWeiWang-PC.aspeed.com (192.168.2.66) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 5 Oct 2020 16:28:11 +0800
-From: "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>
-To: <lee.jones@linaro.org>, <robh+dt@kernel.org>, <joel@jms.id.au>,
- <andrew@aj.id.au>, <minyard@acm.org>, <arnd@arndb.de>,
- <gregkh@linuxfoundation.org>, <linus.walleij@linaro.org>,
- <haiyue.wang@linux.intel.com>, <cyrilbur@gmail.com>,
- <rlippert@google.com>, <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
- <openbmc@lists.ozlabs.org>, <linux-gpio@vger.kernel.org>
-Subject: [PATCH v2 5/5] dt-bindings: aspeed-lpc: Remove LPC partitioning
-Date: Mon, 5 Oct 2020 16:28:06 +0800
-Message-ID: <20201005082806.28899-6-chiawei_wang@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201005082806.28899-1-chiawei_wang@aspeedtech.com>
-References: <20201005082806.28899-1-chiawei_wang@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4C5jx95G3tzDqMd
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  7 Oct 2020 16:45:48 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EeOIX+nClsn9k2j+GONJBgiJNV9Q/ggr+hpMQqMffBZPb6RfcLWCHTWB3Gn64dji68FiCM0IbjX3MGwvfBqLXUj9+f3m4b1AS3G+szzHQtXcsaLzdksObrV8LDhUq4LrkLCQRdcUBDS36a/LZ5AB9nHHZ47KXhKLQrVR5qMr7PCoZCAyQs+4nhelCIzDEt1WXMeWpPWJnMVbva68Sm+wRkpuSxGkVJ7G+lKkEiPHwWRklthHRJU4uM9MjsUtwR3Sk/jt8ePiXLzXB+NSD9KyX21YM3OnBsdr5KxX8gNtp2hfpIpmv2YNQMa4dpgImkP0X42CgWsCr+L5ML73FL/S1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lUWjN1WVKYi3drU/WlRdtvW1gJ9triDkcc9haB+laDU=;
+ b=JN4VKEevK7h3bRGLHjYX685AOaJB5xoo36alE6btA9RyrQkZd4xgI3tjOeHVvLq7esnBGPH1bO0hSU1sfsyXbsjZgC53gMrOScFmoQp72sWrx1mh9PPTW1OLnFnavbAltA9FPol282SZVUR1jLaKnfUXwoAfSQ/aeifE+4qSPc9Sslx8zkwa8oqPwXZq/jO4urb0XDsRkBghZ+cKit69LVwP72uNfSmvCnR1wVfhzWWm/+yy4u2L1zO0I8ABh+dZdsFASlxIUJ7gtEE5F5AcwCtoOLbth1H96RojjTHgR5Y1o1wOAFUyJcwQm1b8oGU1wFg6RKuy4uJA/wus8RaRLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+Received: from HK0PR06MB3380.apcprd06.prod.outlook.com (2603:1096:203:82::18)
+ by HK0PR06MB2338.apcprd06.prod.outlook.com (2603:1096:203:42::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21; Wed, 7 Oct
+ 2020 05:45:36 +0000
+Received: from HK0PR06MB3380.apcprd06.prod.outlook.com
+ ([fe80::6def:b61:3beb:f3d5]) by HK0PR06MB3380.apcprd06.prod.outlook.com
+ ([fe80::6def:b61:3beb:f3d5%6]) with mapi id 15.20.3455.021; Wed, 7 Oct 2020
+ 05:45:36 +0000
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+ <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org"
+ <linux-usb@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>
+Subject: RE: [PATCH 0/3] Enable USB host for AST2600
+Thread-Topic: [PATCH 0/3] Enable USB host for AST2600
+Thread-Index: AQHWlt9bwGBF47qqVEyXPKyBIxahcKmLrDRg
+Date: Wed, 7 Oct 2020 05:45:36 +0000
+Message-ID: <HK0PR06MB338033E8D9EA016D50615D2AF20A0@HK0PR06MB3380.apcprd06.prod.outlook.com>
+References: <20200930040823.26065-1-ryan_chen@aspeedtech.com>
+In-Reply-To: <20200930040823.26065-1-ryan_chen@aspeedtech.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: jms.id.au; dkim=none (message not signed)
+ header.d=none;jms.id.au; dmarc=none action=none header.from=aspeedtech.com;
+x-originating-ip: [211.20.114.70]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5d40c241-a1e0-412e-3c62-08d86a843733
+x-ms-traffictypediagnostic: HK0PR06MB2338:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <HK0PR06MB2338A3BA0FD0D067CF3973D9F20A0@HK0PR06MB2338.apcprd06.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2803;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: B6a6z7+AcB934lX2S/dUHo16fhir622/w+d8/Pz7Ui1gSmFhEprz7dOE78RhBGVufuOZszW0j5q+FtLIvAVJT34VRC0DeKesztOGRECMBpLRSXlBzaNGe2ICRq/ubPExmODYCVroEuh4/Z9NPcJGdW9Pj6n3xf2GtYcIHnZjnVDsQzVDHzBCmHVsOQtf/kSwwjNtPV9T/biJeb+xWphf2RYCby/rC3cr9BwXcpHbpDPHSLy+ey0eozMItIQhnj8fbrDqivU19jElwIDVjasEhyXNZ89urhLUMuLU9FZnxfcLsiXv02/7GEosukiP8wotCuAdvvbs0ZFC0K7XNBDdFw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR06MB3380.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(346002)(136003)(376002)(39840400004)(396003)(8676002)(5660300002)(9686003)(86362001)(316002)(26005)(8936002)(66476007)(64756008)(66446008)(76116006)(66556008)(66946007)(83380400001)(4744005)(71200400001)(7696005)(53546011)(6636002)(6506007)(478600001)(2906002)(110136005)(55236004)(52536014)(33656002)(186003)(55016002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: QYxG+rA+cTSclNi11OWSAxGXI2EL7Q8UrZIR96OpsB/6S6e7OAiTNiXzekLQP18RXzqSAeIrE4pnD/mgG0CR+0y+baf9MpKxrgAGc+x2GSkcVDV/KJSLDM7vxmBBI9N8M61hkL63WwtqtXzH0pAvxmt17W49KVKcpD7XKfzWIwzPTizSncZKTBVpxO+8SJTDOX3NW8HaLRsap8BkuaUE2t+zu0ffAYxlp3MU3pp46vqzpMoi+mfdvPSLbZStYwY35W4/MYxDbeeEKKSIXdZn600syJPq9f40or0xfD90B8eP5rI8Qqc6jhUelwQ4/9QXWqzhYhYF/tdeOi0NPJDqhdZ5ZTm8lhdHibEDq1qwfQYHnFRUNqvSq6qIQi2zkzWp4svSv/GgpjsK1QYq1N7QnwC8MLOov1IUcjmjWo2Wk+l6l1XEqffGjSlBkjdHCRWjYl41XASmxfA7ndRjnj6+TGoLsAYKhpT0WqGFkEJhBoCzkJ7IZ237Kj5tArcfHOZtDRl0nSgrDYMEikLCI4kjo/NnRGPIFGyyN437Zi2LegUU+KNvF2D2bchX/MK+QV9bPn2wnVo1akiGhnkNiBIrsr9atZPOEFy63iOX8YU+INc1HTsOSB3UCSESB/qdRE+EfdQyGdpPkO/Pma19Z7kkQA==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.66]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 09588T6L047498
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3380.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d40c241-a1e0-412e-3c62-08d86a843733
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2020 05:45:36.6557 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4KKduNkKeppWXRyJvON8E+tac8QXMwkKwm1NdL9ts/0sLaVXiN48Ij9Jx7Ku+BuGibhLTMK5cVEf0asjcHQU8bMAF8XSlWtI1XPAPLu29JQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2338
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,158 +103,36 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The LPC controller has no concept of the BMC and the Host partitions.
-This patch fixes the documentation by removing the description on LPC
-partitions. The register offsets illustrated in the DTS node examples
-are also fixed to adapt to the LPC DTS change.
+Hello Joel,
+	Have you take time review this patches ?=20
 
-Signed-off-by: Chia-Wei, Wang <chiawei_wang@aspeedtech.com>
----
- .../devicetree/bindings/mfd/aspeed-lpc.txt    | 85 +++----------------
- 1 file changed, 14 insertions(+), 71 deletions(-)
+Ryan Chen
 
-diff --git a/Documentation/devicetree/bindings/mfd/aspeed-lpc.txt b/Documentation/devicetree/bindings/mfd/aspeed-lpc.txt
-index a92acf1dd491..866f54a09e09 100644
---- a/Documentation/devicetree/bindings/mfd/aspeed-lpc.txt
-+++ b/Documentation/devicetree/bindings/mfd/aspeed-lpc.txt
-@@ -9,13 +9,7 @@ primary use case of the Aspeed LPC controller is as a slave on the bus
- conditions it can also take the role of bus master.
- 
- The LPC controller is represented as a multi-function device to account for the
--mix of functionality it provides. The principle split is between the register
--layout at the start of the I/O space which is, to quote the Aspeed datasheet,
--"basically compatible with the [LPC registers from the] popular BMC controller
--H8S/2168[1]", and everything else, where everything else is an eclectic
--collection of functions with a esoteric register layout. "Everything else",
--here labeled the "host" portion of the controller, includes, but is not limited
--to:
-+mix of functionality, which includes, but is not limited to:
- 
- * An IPMI Block Transfer[2] Controller
- 
-@@ -44,8 +38,8 @@ Required properties
- ===================
- 
- - compatible:	One of:
--		"aspeed,ast2400-lpc", "simple-mfd"
--		"aspeed,ast2500-lpc", "simple-mfd"
-+		"aspeed,ast2400-lpc", "simple-mfd", "syscon"
-+		"aspeed,ast2500-lpc", "simple-mfd", "syscon"
- 
- - reg:		contains the physical address and length values of the Aspeed
-                 LPC memory region.
-@@ -55,66 +49,17 @@ Required properties
- - ranges: 	Maps 0 to the physical address and length of the LPC memory
-                 region
- 
--Required LPC Child nodes
--========================
--
--BMC Node
----------
--
--- compatible:	One of:
--		"aspeed,ast2400-lpc-bmc"
--		"aspeed,ast2500-lpc-bmc"
--
--- reg:		contains the physical address and length values of the
--                H8S/2168-compatible LPC controller memory region
--
--Host Node
-----------
--
--- compatible:   One of:
--		"aspeed,ast2400-lpc-host", "simple-mfd", "syscon"
--		"aspeed,ast2500-lpc-host", "simple-mfd", "syscon"
--
--- reg:		contains the address and length values of the host-related
--                register space for the Aspeed LPC controller
--
--- #address-cells: <1>
--- #size-cells:	<1>
--- ranges: 	Maps 0 to the address and length of the host-related LPC memory
--                region
--
- Example:
- 
- lpc: lpc@1e789000 {
--	compatible = "aspeed,ast2500-lpc", "simple-mfd";
-+	compatible = "aspeed,ast2500-lpc", "simple-mfd", "syscon";
- 	reg = <0x1e789000 0x1000>;
- 
- 	#address-cells = <1>;
- 	#size-cells = <1>;
- 	ranges = <0x0 0x1e789000 0x1000>;
--
--	lpc_bmc: lpc-bmc@0 {
--		compatible = "aspeed,ast2500-lpc-bmc";
--		reg = <0x0 0x80>;
--	};
--
--	lpc_host: lpc-host@80 {
--		compatible = "aspeed,ast2500-lpc-host", "simple-mfd", "syscon";
--		reg = <0x80 0x1e0>;
--		reg-io-width = <4>;
--
--		#address-cells = <1>;
--		#size-cells = <1>;
--		ranges = <0x0 0x80 0x1e0>;
--	};
- };
- 
--BMC Node Children
--==================
--
--
--Host Node Children
--==================
- 
- LPC Host Interface Controller
- -------------------
-@@ -145,14 +90,12 @@ Optional properties:
- 
- Example:
- 
--lpc-host@80 {
--	lpc_ctrl: lpc-ctrl@0 {
--		compatible = "aspeed,ast2500-lpc-ctrl";
--		reg = <0x0 0x80>;
--		clocks = <&syscon ASPEED_CLK_GATE_LCLK>;
--		memory-region = <&flash_memory>;
--		flash = <&spi>;
--	};
-+lpc_ctrl: lpc-ctrl@80 {
-+	compatible = "aspeed,ast2500-lpc-ctrl";
-+	reg = <0x80 0x80>;
-+	clocks = <&syscon ASPEED_CLK_GATE_LCLK>;
-+	memory-region = <&flash_memory>;
-+	flash = <&spi>;
- };
- 
- LPC Host Controller
-@@ -174,9 +117,9 @@ Required properties:
- 
- Example:
- 
--lhc: lhc@20 {
-+lhc: lhc@a0 {
- 	compatible = "aspeed,ast2500-lhc";
--	reg = <0x20 0x24 0x48 0x8>;
-+	reg = <0xa0 0x24 0xc8 0x8>;
- };
- 
- LPC reset control
-@@ -194,8 +137,8 @@ Required properties:
- 
- Example:
- 
--lpc_reset: reset-controller@18 {
-+lpc_reset: reset-controller@98 {
-         compatible = "aspeed,ast2500-lpc-reset";
--        reg = <0x18 0x4>;
-+        reg = <0x98 0x4>;
-         #reset-cells = <1>;
- };
--- 
-2.17.1
+Tel : 886-3-5751185 ext:8857
+
+> -----Original Message-----
+> From: Ryan Chen <ryan_chen@aspeedtech.com>
+> Sent: Wednesday, September 30, 2020 12:08 PM
+> To: Joel Stanley <joel@jms.id.au>; Andrew Jeffery <andrew@aj.id.au>;
+> linux-arm-kernel@lists.infradead.org; linux-aspeed@lists.ozlabs.org;
+> linux-kernel@vger.kernel.org; linux-usb@vger.kernel.org; BMC-SW
+> <BMC-SW@aspeedtech.com>
+> Cc: Ryan Chen <ryan_chen@aspeedtech.com>
+> Subject: [PATCH 0/3] Enable USB host for AST2600
+>=20
+> The patches enable UHCI driver in AST2600 and also enable USB host in
+> aspeed-ast2600-evb.dts.
+>=20
+> Ryan Chen (3):
+>   configs: aspeed: enable UHCI driver in defconfig
+>   usb: host: add uhci compatible support for ast2600-uhci
+>   ARM: dts: add ehci uhci enable in evb dts
+>=20
+>  arch/arm/boot/dts/aspeed-ast2600-evb.dts | 8 ++++++++
+>  arch/arm/configs/aspeed_g5_defconfig     | 1 +
+>  drivers/usb/host/uhci-platform.c         | 3 ++-
+>  3 files changed, 11 insertions(+), 1 deletion(-)
+>=20
+> --
+> 2.17.1
 
