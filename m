@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22866288077
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Oct 2020 04:50:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2C7288078
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Oct 2020 04:50:25 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4C6sxk22YfzDqYX
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Oct 2020 13:50:18 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4C6sxp5jYxzDqY4
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Oct 2020 13:50:22 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
@@ -19,24 +19,24 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4C6sxP4TMKzDqWt
- for <linux-aspeed@lists.ozlabs.org>; Fri,  9 Oct 2020 13:50:01 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4C6sxT21w8zDqXC
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  9 Oct 2020 13:50:04 +1100 (AEDT)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 0992lmTI054359;
- Fri, 9 Oct 2020 10:47:48 +0800 (GMT-8)
+ by twspam01.aspeedtech.com with ESMTP id 0992lngv054366;
+ Fri, 9 Oct 2020 10:47:49 +0800 (GMT-8)
  (envelope-from ryan_chen@aspeedtech.com)
 Received: from localhost.localdomain (192.168.10.9) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 9 Oct
- 2020 10:49:45 +0800
+ 2020 10:49:46 +0800
 From: Ryan Chen <ryan_chen@aspeedtech.com>
 To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
  <linux-arm-kernel@lists.infradead.org>,
  <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
  <linux-usb@vger.kernel.org>, <bmc-sw@aspeedtech.com>,
  Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH v2 2/3] usb: host: add uhci compatible support for ast2600-uhci
-Date: Fri, 9 Oct 2020 10:49:36 +0800
-Message-ID: <20201009024937.11246-3-ryan_chen@aspeedtech.com>
+Subject: [PATCH v2 3/3] ARM: dts: add ehci uhci enable in evb dts
+Date: Fri, 9 Oct 2020 10:49:37 +0800
+Message-ID: <20201009024937.11246-4-ryan_chen@aspeedtech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201009024937.11246-1-ryan_chen@aspeedtech.com>
 References: <20200930040823.26065-4-ryan_chen@aspeedtech.com>
@@ -47,7 +47,7 @@ X-Originating-IP: [192.168.10.9]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 0992lmTI054359
+X-MAIL: twspam01.aspeedtech.com 0992lngv054366
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,30 +63,29 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-v2:
- - Fix continuation lines, align with "of_device"
-v1:
- - Add support for AST2600 SOC UHCI driver.
+Add EHCI UHCI enable build in aspeed-ast2600-evb.dts
 
 Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
 ---
- drivers/usb/host/uhci-platform.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/aspeed-ast2600-evb.dts | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/usb/host/uhci-platform.c b/drivers/usb/host/uhci-platform.c
-index 70dbd95c3f06..be9e9db7cad1 100644
---- a/drivers/usb/host/uhci-platform.c
-+++ b/drivers/usb/host/uhci-platform.c
-@@ -113,7 +113,8 @@ static int uhci_hcd_platform_probe(struct platform_device *pdev)
- 				num_ports);
- 		}
- 		if (of_device_is_compatible(np, "aspeed,ast2400-uhci") ||
--		    of_device_is_compatible(np, "aspeed,ast2500-uhci")) {
-+		    of_device_is_compatible(np, "aspeed,ast2500-uhci") ||
-+		    of_device_is_compatible(np, "aspeed,ast2600-uhci")) {
- 			uhci->is_aspeed = 1;
- 			dev_info(&pdev->dev,
- 				 "Enabled Aspeed implementation workarounds\n");
+diff --git a/arch/arm/boot/dts/aspeed-ast2600-evb.dts b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+index 89be13197780..2772796e215e 100644
+--- a/arch/arm/boot/dts/aspeed-ast2600-evb.dts
++++ b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+@@ -237,3 +237,11 @@
+ &fsim0 {
+ 	status = "okay";
+ };
++
++&ehci1 {
++	status = "okay";
++};
++
++&uhci {
++	status = "okay";
++};
 -- 
 2.17.1
 
