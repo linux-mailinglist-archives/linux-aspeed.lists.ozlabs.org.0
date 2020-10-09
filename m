@@ -2,91 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814EB2881E9
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Oct 2020 08:01:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F19B62883E1
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Oct 2020 09:47:54 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4C6yBD5NFpzDqX0
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Oct 2020 17:01:24 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4C70Y30DK4zDqbt
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Oct 2020 18:47:51 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=40.107.130.124;
- helo=apc01-hk2-obe.outbound.protection.outlook.com;
- envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from APC01-HK2-obe.outbound.protection.outlook.com
- (mail-eopbgr1300124.outbound.protection.outlook.com [40.107.130.124])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::842;
+ helo=mail-qt1-x842.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=W2/Ti3kY; dkim-atps=neutral
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
+ [IPv6:2607:f8b0:4864:20::842])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4C6yB72LdMzDqTv
- for <linux-aspeed@lists.ozlabs.org>; Fri,  9 Oct 2020 17:01:18 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g3mzXAMaIfwdM6Phpfpca9MTLAR/UHGvLLqWNSEwmz3P5fSW67uAXETiQhFAshdzwQYJv8vk6Tiw8qungDHxtiS17SpyJmD8HG52viv/vlKfkVhEMUJTip0sjJsw9JelbtYAgMFXQ/n2dL/G0g7Dc9M8nXV4t3p0UmGOj+MqmdrnjWE/1FVdWWOtbNLLgF7Abz1Pma58Mc0r5BqWNgEQnZdFSPoajntdW95rzOD/BDGsDmlMh0JnGi07qqS2Q0wZb4BbpMs/JgjCDTpeMoS3jmI3nCzd6ogHgiw9CUpTC5bFOY8SD5uHEg5F89qJg2VltRNE3rxNv+0lm6lODDn49w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0v9mG6FBr6/nnGTarC4IgIjxpXzibIuKaAbbVZaUsfc=;
- b=nQcBuFLTFPXjFiMMDPtYEUmQzwhO3O31lB595phowpWhVPGSa3ZDvm0zsi/UgbNM0N1365iM9Imx64/AltyeCEc+gVH76/3Fy1M6tJ9Pfn26jDnI2iSGYLbqChjJasS3Q466yJRojm2Zl/rS8P2Ic1jUqLyY6HZUkRUMHwRk5w/kvvoeA7mvIsdh/XpNiLYHDYodZNOdALKK+maUE5OvQPGQRqm7pNpQ5dNdcr/wW5tWXJJ8Q99xBrOQX9VZuW2vrIeRZ8++gWxZnAwnD0XIbFF+f+v6Ey9kwSgCHf8ivkwJ3HdN5VjTHgr52wcHy8Yq9NsYxHW2AehpUZwv2edm1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-Received: from HK0PR06MB3380.apcprd06.prod.outlook.com (2603:1096:203:82::18)
- by HK0PR06MB3220.apcprd06.prod.outlook.com (2603:1096:203:8c::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23; Fri, 9 Oct
- 2020 06:01:06 +0000
-Received: from HK0PR06MB3380.apcprd06.prod.outlook.com
- ([fe80::6def:b61:3beb:f3d5]) by HK0PR06MB3380.apcprd06.prod.outlook.com
- ([fe80::6def:b61:3beb:f3d5%6]) with mapi id 15.20.3455.023; Fri, 9 Oct 2020
- 06:01:06 +0000
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: Joel Stanley <joel@jms.id.au>, Greg KH <greg@kroah.com>
-Subject: RE: [PATCH v2 1/3] configs: aspeed: enable UHCI driver in defconfig
-Thread-Topic: [PATCH v2 1/3] configs: aspeed: enable UHCI driver in defconfig
-Thread-Index: AQHWnebaNuR8bEyOukOrd+cpU/jDTamOsjUAgAACw4CAABHlsA==
-Date: Fri, 9 Oct 2020 06:01:06 +0000
-Message-ID: <HK0PR06MB33809BDA9FD8956CDBE78061F2080@HK0PR06MB3380.apcprd06.prod.outlook.com>
-References: <20200930040823.26065-4-ryan_chen@aspeedtech.com>
- <20201009024937.11246-1-ryan_chen@aspeedtech.com>
- <20201009024937.11246-2-ryan_chen@aspeedtech.com>
- <20201009044526.GB111063@kroah.com>
- <CACPK8Xd0h_2yGeyOjrpqV2_X8f4stZA_ur72b4Y4Nx91GrbXag@mail.gmail.com>
-In-Reply-To: <CACPK8Xd0h_2yGeyOjrpqV2_X8f4stZA_ur72b4Y4Nx91GrbXag@mail.gmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: jms.id.au; dkim=none (message not signed)
- header.d=none;jms.id.au; dmarc=none action=none header.from=aspeedtech.com;
-x-originating-ip: [1.171.23.85]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 78d73a5f-c909-4ca3-bbfd-08d86c18b67d
-x-ms-traffictypediagnostic: HK0PR06MB3220:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HK0PR06MB322066A2A07B208E9059628DF2080@HK0PR06MB3220.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: tNq7785OZjgFaFX5OGD70c0wtrzNvJWXoNo02bQmviGtspTiwZ1hwUAlAXdNtvv0izno74tWHdkXfc5lilJK0ldleAuOb329NzwxoHcKJYliAjx08Y3Ct3B1HnhaFBgOHU919t1SYFX63qE7TXCI2DoiQezhO2BW2T3mmEjXTpGbABuvjBUD3QmH0rA9GMGsb5LyZjRpfG/FNhhmRPwxIttTAsoTvd/NYZddj1yGqy6AM0VM6UDWsDVkDhsCYerjiYf9BA7JZhtgFPz0vOa6MPBnt4hdG8HFZYFUMj4mZsTzj9wCAiiHFK8J8D3YgN6KKC6xhXepatiQC1g3J2t0NA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3380.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(39830400003)(346002)(376002)(136003)(366004)(71200400001)(8676002)(53546011)(9686003)(6506007)(26005)(186003)(86362001)(2906002)(33656002)(83380400001)(64756008)(66556008)(66446008)(66476007)(52536014)(66946007)(5660300002)(76116006)(7696005)(8936002)(316002)(54906003)(478600001)(4326008)(55016002)(110136005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: 7BSxB+HJ39zFQ3Q+TC3LYaBt2ChiclqG1Fzt1+CE+X8QFPugL01bB73CTOeg6DBfkJPC1RAiLMYmezST0nbtknG4TTaimYdufoEqJAGtlg4my6l4+hWXFjngg/6f4LVkVJsJO2OmnM36q1m2YaaphI5iGrQdWva0sYVkmHK34i51MhclVM1BRVoOIY9+WsW/YbQSqBXlmhqkE7Ru59pTK0AgzWn50ezkxY4xHFHx17yn3AefZr1u0Tgl5JZvR+tluCOzmaocWDkHH0P3yg7I+HeHSMGVSlz9jwXvtiwELckx8vMMyB8P4+v6RpdWS9pLCLMSyOwEo//ZdN2dA8RMb1W0AGsKcMInhKt8Oyy25FVu5LBH4vyv3KnfvwKLuPRlQf1UHM10EzJFBGBOYpShM4poqoP9EHJfczZz+SYH6jDrTzui42OGqboq50DQkFegKrlKO02YLOd4zdiGXgGKYKIIc1+044FtwpfSIbJuB0u14hwzQkrG31LV7pNa4D/7WI2Fz85Ij4Lc/4EX1PWaENU4g7dYwUxojMuzhwJU62N2FTYqCfVoLr7FwxkzNoALKlxLM8Go9pTHF5Psp5DKyY4vf+pr8tju/S1HMjZ+YwHrNbz2nazLMJ5q4U+aeSUwghL1s8fbVvNkC6M1DqfLUw==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4C70Xv2nG0zDqZq
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  9 Oct 2020 18:47:40 +1100 (AEDT)
+Received: by mail-qt1-x842.google.com with SMTP id t9so6469588qtp.9
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 09 Oct 2020 00:47:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UAiaW+93Fl44jRzXXS4wP2VkVubvR/5JY7dN1rt4R24=;
+ b=W2/Ti3kYbkEU5RKCfPrBtOvrhfe9cr5iuuAldgjQ7SvTctTZBqQB3etOoQUyfT1pjh
+ 9uLIyPpE3dMy91CHV8oruvhojOvHgUTEGe0B1p52ndlkMEoY9sf9xwsZ8MwshknuqA4f
+ jpAFBR0c47xN5bTpItg86xQwUfhypUtNqWUPU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UAiaW+93Fl44jRzXXS4wP2VkVubvR/5JY7dN1rt4R24=;
+ b=JXNdKs1imVDno70lHeDBnKcLnVZpjDqvna1yLUmLiKBJqQQawM20Oqc3Y3TzX6xMEJ
+ kAPqL8KmB/uJo+U5J7aA9TQQLSOu6y2kJqcm1rVDRVxjK8qG7Fe7/Ks0NsqQaE+30NID
+ AkULLZ/9kWZFrqfvmr92xYaD8uEfkQWbz3xVj7ybeAD4hrg95DFP6sIVbkormSQHhCIB
+ +M9qiRpx8NLgfhjpP0rd1XYc5GGyy2KBWOYqao60nbFN5CVcs1wzRqqGy2Ax4cxZ6fS1
+ 04mKNzT/v6MJSV1UaxvsCEmeLRvTGWzfEFzKUOQ1pr2lUT+LnabULl55WR0oanb25kRO
+ dpXg==
+X-Gm-Message-State: AOAM530p5O9XEfutZkoOn9G6K29vbfptQqfEE6XV58SqUmBb+LuA+jKI
+ eVPFAp0z/acGkcKW3G7Ol97JkSrL2ZaVtWrooHc=
+X-Google-Smtp-Source: ABdhPJzaS4AsDvCUEmHGRC+WwFuD4vOUEpxsmXwUsmKQfLl5+lxXtC5MeHCenesLqwiwzmORkg0T9r/PACyAmMvdq7A=
+X-Received: by 2002:ac8:48ca:: with SMTP id l10mr12339910qtr.385.1602229656436; 
+ Fri, 09 Oct 2020 00:47:36 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3380.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78d73a5f-c909-4ca3-bbfd-08d86c18b67d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Oct 2020 06:01:06.8464 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: E/Ce5o0r7/InzLChCRQP8U3cPwYxz74mhTG6TtYk/nEcmCxCckUu0DoWFuWYjouOdrvTbrS1vfwwNUBgO6PQo4MMf4IbM2kU9dAUzD9mxQw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB3220
+References: <20200222235152.242816-1-megous@megous.com>
+ <020e9eb5-4fdc-44d0-b00e-42b6e6435110@www.fastmail.com>
+In-Reply-To: <020e9eb5-4fdc-44d0-b00e-42b6e6435110@www.fastmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 9 Oct 2020 07:47:24 +0000
+Message-ID: <CACPK8Xd-o+5xA=T12yR6+gxmpvwkqi_VjU10MpsLVzh0e2dKnA@mail.gmail.com>
+Subject: Re: [PATCH] drm: aspeed: Fix GENMASK misuse
+To: Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,38 +70,36 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW <BMC-SW@aspeedtech.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+Cc: Ondrej Jirman <megous@megous.com>,
+ "open list:DRM DRIVER FOR ASPEED BMC GFX" <linux-aspeed@lists.ozlabs.org>,
+ David Airlie <airlied@linux.ie>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Alan Stern <stern@rowland.harvard.edu>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBKb2VsIFN0YW5sZXkgPGpvZWxA
-am1zLmlkLmF1Pg0KPiBTZW50OiBGcmlkYXksIE9jdG9iZXIgOSwgMjAyMCAxMjo1NSBQTQ0KPiBU
-bzogR3JlZyBLSCA8Z3JlZ0Brcm9haC5jb20+DQo+IENjOiBSeWFuIENoZW4gPHJ5YW5fY2hlbkBh
-c3BlZWR0ZWNoLmNvbT47IEFuZHJldyBKZWZmZXJ5DQo+IDxhbmRyZXdAYWouaWQuYXU+OyBMaW51
-eCBBUk0gPGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZz47DQo+IGxpbnV4LWFz
-cGVlZCA8bGludXgtYXNwZWVkQGxpc3RzLm96bGFicy5vcmc+OyBMaW51eCBLZXJuZWwgTWFpbGlu
-ZyBMaXN0DQo+IDxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPjsgbGludXgtdXNiQHZnZXIu
-a2VybmVsLm9yZzsgQk1DLVNXDQo+IDxCTUMtU1dAYXNwZWVkdGVjaC5jb20+OyBBbGFuIFN0ZXJu
-IDxzdGVybkByb3dsYW5kLmhhcnZhcmQuZWR1Pg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYyIDEv
-M10gY29uZmlnczogYXNwZWVkOiBlbmFibGUgVUhDSSBkcml2ZXIgaW4gZGVmY29uZmlnDQo+IA0K
-PiBPbiBGcmksIDkgT2N0IDIwMjAgYXQgMDQ6NDUsIEdyZWcgS0ggPGdyZWdAa3JvYWguY29tPiB3
-cm90ZToNCj4gPg0KPiA+IE9uIEZyaSwgT2N0IDA5LCAyMDIwIGF0IDEwOjQ5OjM1QU0gKzA4MDAs
-IFJ5YW4gQ2hlbiB3cm90ZToNCj4gPiA+IHYyOg0KPiA+ID4gIC1DaGFuZ2VkIDogQWRkIFNDU0ks
-IEJMS19ERVZfU0QsIFVTQl9TVE9SQUdFIHN1cHBvcnQuDQo+ID4gPiB2MToNCj4gPiA+ICAtRW5h
-YmxlIFVIQ0kgZHJpdmVyIGluIGFzcGVlZF9nNV9kZWZjb25maWcuDQo+ID4gPg0KPiA+ID4gU2ln
-bmVkLW9mZi1ieTogUnlhbiBDaGVuIDxyeWFuX2NoZW5AYXNwZWVkdGVjaC5jb20+DQo+ID4NCj4g
-PiBXaHkgZG8geW91IG5lZWQgdGhpcyBpbiBhIGRlZmNvbmZpZz8NCj4gDQo+IEkgd291bGQgcHJl
-ZmVyIGNvbmZpZ3VyYXRpb25zIHRoYXQgYXJlIGJlaW5nIHVzZWQgdG8gYmUgcHJlc2VudCBpbiB0
-aGUgZGVmY29uZmlnDQo+IHNvIHdlIGNhbiB0ZXN0IGl0LiBJIHRoaW5rIHRoaXMgaXMgYSBzZW5z
-aWJsZSBjaGFuZ2UuDQo+IA0KPiBSeWFuLCBJIGdhdmUgeW91IG15IFJldmlld2VkLWJ5IGZvciB0
-aGUgbGFzdCB2ZXJzaW9uIG9mIHRoZSBwYXRjaC4gQXMgeW91IGRpZA0KPiBub3QgY2hhbmdlIHRo
-ZSBjb250ZW50cyBvZiB0aGlzIHBhdGNoIGl0IGlzIGZpbmUgZm9yIHlvdSB0byBsZWF2ZSBteSBS
-ZXZpZXdlZC1ieQ0KPiBvbiBpdC4NCg0KSm9lbCwgdGhhbmtzIHRoZSByZXZpZXcsIHNvIEkgbmVl
-ZCBhZGQgUmV2aWV3ZWQtYnkgYXQgZWFjaCBwYXRjaCBpZiBzb21lb25lIGhhdmUgcmV2aWV3ZWQg
-dGhlIHByZXZpb3VzIHBhdGNoLA0KYW0gSSByaWdodD8gDQo=
+On Mon, 24 Feb 2020 at 00:06, Andrew Jeffery <andrew@aj.id.au> wrote:
+>
+>
+>
+> On Sun, 23 Feb 2020, at 10:21, Ondrej Jirman wrote:
+> > Arguments to GENMASK should be msb >= lsb.
+> >
+> > Signed-off-by: Ondrej Jirman <megous@megous.com>
+> > ---
+> > I just grepped the whole kernel tree for GENMASK argument order issues,
+> > and this is one of the three that popped up. No testing was done.
+>
+> I think someone's sent a patch previously, and last time it turned into a
+> discussion about how the macros aren't actually used and could be
+> removed.
+>
+> Regardless:
+>
+> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+
+Thanks, I've applied this to drm-misc-next. Apologies for the delay.
