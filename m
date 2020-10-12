@@ -1,49 +1,98 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0ABE28AB0E
-	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Oct 2020 01:02:26 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA20A28AB3F
+	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Oct 2020 02:43:45 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4C8clN1xtVzDqsD
-	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Oct 2020 10:02:24 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4C8g0G3ywrzDqpd
+	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Oct 2020 11:43:42 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=infradead.org
- (client-ip=2001:8b0:10b:1231::1; helo=merlin.infradead.org;
- envelope-from=rdunlap@infradead.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=infradead.org
-Received: from merlin.infradead.org (merlin.infradead.org
- [IPv6:2001:8b0:10b:1231::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=40.107.130.110;
+ helo=apc01-hk2-obe.outbound.protection.outlook.com;
+ envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=aspeedtech.com
+Received: from APC01-HK2-obe.outbound.protection.outlook.com
+ (mail-eopbgr1300110.outbound.protection.outlook.com [40.107.130.110])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4C8cl82xjYzDqqD
- for <linux-aspeed@lists.ozlabs.org>; Mon, 12 Oct 2020 10:02:04 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=/SmX1rf42AFciihmx5mExGuKYPWmjWxmU8bHlEGVC/A=; b=KZ92qkKx3S5NvDRn3N+UWYf8Nm
- 4JoYfRd/t2Z+I90nbAPF03Qp5OUqQ6SjHdF3sz3Wi6daAB0xMS282XHEITDe4BPdvVeTWtxtqTQ7b
- IP6Xj5V/o7QXlnU70rD0UmHQH60ZMlYNlxKxcvGZ/UE9cJ71275POBcaP6/0zpHqO1JWVufTrtraw
- TahAsmb2Ep//NxFfwTb3JhqgyXC2r1vaJ/5FXF8enwhMAt8XWZdf2YV1DxpZCCMVjL+lzq5yzZsSg
- Nnrh0+BfCA1XvbRNg08jRqjcddobG/cGK1z4bo5ggkJZe+59j6JgSQ4KjiiJKOETJi/tocsl7ZBcU
- 356jIS2Q==;
-Received: from [2601:1c0:6280:3f0::507c] (helo=smtpauth.infradead.org)
- by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1kRkLT-000817-CQ; Sun, 11 Oct 2020 23:01:40 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] drm/aspeed: fix Kconfig warning & subsequent build
- errors
-Date: Sun, 11 Oct 2020 16:01:31 -0700
-Message-Id: <20201011230131.4922-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4C8g054yB6zDqk5
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 12 Oct 2020 11:43:30 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ogd0+jxjh6OZ8HHCOPNiLm+XvTYy0Vm+ZU5GuksMY6JCiT4cnGa00K2B47QAFuleD1AtgG6JdheYP6rPuf9ZJz/8dm4dh27x9wn5Ewf2L/J3dGr0h/eDBSUDXynKbI/nGwhMTJzxXfbM17lyRumPa3ZnzakoKq6/SHRgrUh93SIJfU8sneEJHtojyiw/PZ9+/LezrJJ+r6W7jcMXch6hR5i+vVMlcUth3+bqYGsmjKz7F01tHii3aMRYsmfOHa2x5ELP35b5BsvXKLTbIWC9Bh8grDnoCQCcCfUtuLae6KTHcDVOGfoNhmM9YVoTOoo09CS5cKJIEXSQOOZio19vGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ma9wBT3/tnT1HM6IZdPIhzTPGazG/RTkUHdWfIJYmZ4=;
+ b=lGVH3+SxnmZ7TtM9eKnSmmT/zfU8qu7Fks3e8L1xWXkLATmLr5fOrFiglu+Si5q/rm0VSw9inJerZFprBE8CSvoy1DiEfcfpqVcsboP+KrA6qzRGOHr5eMMlQuVlNRfpEhM2OQpLdMtwRQuSixCcpZ4PM8s4/PqOvHyZEV/B9vzNGztZA+6S83pqYfIuw2M7tt3IEQxKUf807weyqIL8WCO9cYL9isyaL+pRq8vlohS0ohidLjnLUYEMsqk5BcDgJ++DQmApfNIQVGv6C/TuQVvkuxxqRfkBjaOOjXwWB3YAqmaVVBN40hYlTz9HyTRJvVP98qVj2pKsWpFuZ4Vovw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+Received: from HK0PR06MB3380.apcprd06.prod.outlook.com (2603:1096:203:82::18)
+ by HK0PR06MB2836.apcprd06.prod.outlook.com (2603:1096:203:5d::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23; Mon, 12 Oct
+ 2020 00:43:13 +0000
+Received: from HK0PR06MB3380.apcprd06.prod.outlook.com
+ ([fe80::6def:b61:3beb:f3d5]) by HK0PR06MB3380.apcprd06.prod.outlook.com
+ ([fe80::6def:b61:3beb:f3d5%6]) with mapi id 15.20.3455.027; Mon, 12 Oct 2020
+ 00:43:13 +0000
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: Sergei Shtylyov <sergei.shtylyov@gmail.com>, Joel Stanley
+ <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+ <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org"
+ <linux-usb@vger.kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>, Alan Stern
+ <stern@rowland.harvard.edu>
+Subject: RE: [PATCH v2 3/3] ARM: dts: add ehci uhci enable in evb dts
+Thread-Topic: [PATCH v2 3/3] ARM: dts: add ehci uhci enable in evb dts
+Thread-Index: AQHWnebb86S5YSDou02D04yeRF7kFKmO7uQAgAQ2c5A=
+Date: Mon, 12 Oct 2020 00:43:13 +0000
+Message-ID: <HK0PR06MB3380D499BCF164951167FCE2F2070@HK0PR06MB3380.apcprd06.prod.outlook.com>
+References: <20200930040823.26065-4-ryan_chen@aspeedtech.com>
+ <20201009024937.11246-1-ryan_chen@aspeedtech.com>
+ <20201009024937.11246-4-ryan_chen@aspeedtech.com>
+ <4efff4e7-27e0-35be-c112-5377f222a478@gmail.com>
+In-Reply-To: <4efff4e7-27e0-35be-c112-5377f222a478@gmail.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=aspeedtech.com;
+x-originating-ip: [211.20.114.70]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d7c87532-6818-430b-6f6d-08d86e47ccec
+x-ms-traffictypediagnostic: HK0PR06MB2836:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <HK0PR06MB2836218AF628A2F751920AABF2070@HK0PR06MB2836.apcprd06.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3173;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: TuqnMkEAhVvXrVHgMiZGD0HjBQzH6R1FpYX+FUMdVSD3myIBfIFKxaSmuCuXo0zXoYBqQGPCClhfV2bdgCBMQhxaVckc2oIaoEnODE4iBkGpUH5GJG8ywejj0QAs9DYwVhoFsDfstsLCfKDYHuRt3EeAaY8MoSkeep3g4VoHshZsAX8ZXZKMv3gQfCnsFWpw9/oGJogYSiAJDnYY8wntBNaAEzoasY682PbYZQNW6MPAsb7HilnLnlADwJya/Z9baG6uuLsdz8I4GhZrdwe9SA/BBqJBiv/JBGg8ALD2s300y14yNS5GLxPYd0y+6wj9iSzOqXdzdtJhkxPyecZdtA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR06MB3380.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(346002)(136003)(39830400003)(366004)(376002)(396003)(83380400001)(186003)(66476007)(66946007)(66446008)(8676002)(7696005)(5660300002)(76116006)(52536014)(55236004)(64756008)(66556008)(2906002)(71200400001)(53546011)(33656002)(55016002)(478600001)(6506007)(86362001)(316002)(8936002)(4744005)(26005)(110136005)(9686003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: blyFVfQMheYH/EBsZ7d3QTxByDP6SwCCFHlRVBmJpliJzVCJDOs6AQnqFK2DZIVVNJYAM4etNNYMpkwihEt+CBguOPx4uR6lB0/M8GR5cChctWwzuiPUj9tX4qnfXUXBcfvEoC2jFwFyMTC9FZZSjBTkkodzKv4WKEAfVMR+gTlQ7k/KARMhv/QWNSDqnSF5fyTEJEFffOiJNNmYMajlcWGpvB+0h6qaROHYzdpI4GRNOI905EAbIiHV0KQLeaxCkYjCymsPH2hiGeSm6XF+3jHCoDDpMKOm+naUQS1QFK68+MDsKSzWASY32nl3fXRDk9OELM3haO+ieMT0a3KNKu29YH7F3Eiww3shPksFaGS/a3U1jNGMgFOnyGtuYNM9WJXrDHqjSVwxkgrniOHTLEkL3olvvbl08bcdutaiWpYCJ+nDUMsn0VWq2mi6r/fAP7l1g8sua1cRz3p+yTjU16Jp/Ghf9lLkRg9MvvrbMbXscopLovbQ/SdeZmJyHRFp1BccRuJprevWNWAKS6YuxhI+4dznzoO3i4cjh26FBmNsFpIh/OIao1YdU/W0aVL7qCMzrWSMZvmhCc04oLO+4eklpqVh8pjmwY4rIcX7hA97e1RU/6W+ay1UdzTLQ+mBJ3C6+4xq3flcAvBhgkG77w==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3380.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7c87532-6818-430b-6f6d-08d86e47ccec
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2020 00:43:13.1636 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1YvIrRXXwFVwYwhpqHQX6iEcNIYIlc0TrbCcmdsjJknPb9O55s5A2gveRr+AeGRQfFJBy6991+H9X3IhfwfTpygvNqgyfoQwMNYVn/ZuVmo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2836
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,60 +104,22 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Michal Simek <monstr@monstr.eu>, kernel test robot <lkp@intel.com>,
- linux-aspeed@lists.ozlabs.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Randy Dunlap <rdunlap@infradead.org>,
- dri-devel@lists.freedesktop.org, Mike Rapoport <rppt@linux.ibm.com>,
- linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-kernel test robot reported build errors (undefined references)
-that didn't make much sense. After reproducing them, there is also
-a Kconfig warning that is the root cause of the build errors, so
-fix that Kconfig problem.
-
-Fixes this Kconfig warning:
-WARNING: unmet direct dependencies detected for CMA
-  Depends on [n]: MMU [=n]
-  Selected by [m]:
-  - DRM_ASPEED_GFX [=m] && HAS_IOMEM [=y] && DRM [=m] && OF [=y] && (COMPILE_TEST [=y] || ARCH_ASPEED) && HAVE_DMA_CONTIGUOUS [=y]
-
-and these dependent build errors:
-(.text+0x10c8c): undefined reference to `start_isolate_page_range'
-microblaze-linux-ld: (.text+0x10f14): undefined reference to `test_pages_isolated'
-microblaze-linux-ld: (.text+0x10fd0): undefined reference to `undo_isolate_page_range'
-
-Fixes: 76356a966e33 ("drm: aspeed: Clean up Kconfig options")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Joel Stanley <joel@jms.id.au>
-Cc: Andrew Jeffery <andrew@aj.id.au>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Michal Simek <monstr@monstr.eu>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Mike Rapoport <rppt@linux.ibm.com>
-Cc: linux-mm@kvack.org
-Cc: linux-aspeed@lists.ozlabs.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: David Airlie <airlied@linux.ie>
-Cc: dri-devel@lists.freedesktop.org
----
-First sent on 2020-09-07.
-Feel free to fix the Kconfig warning some other way...
-
- drivers/gpu/drm/aspeed/Kconfig |    1 +
- 1 file changed, 1 insertion(+)
-
---- linux-next-20201009.orig/drivers/gpu/drm/aspeed/Kconfig
-+++ linux-next-20201009/drivers/gpu/drm/aspeed/Kconfig
-@@ -3,6 +3,7 @@ config DRM_ASPEED_GFX
- 	tristate "ASPEED BMC Display Controller"
- 	depends on DRM && OF
- 	depends on (COMPILE_TEST || ARCH_ASPEED)
-+	depends on MMU
- 	select DRM_KMS_HELPER
- 	select DRM_KMS_CMA_HELPER
- 	select DMA_CMA if HAVE_DMA_CONTIGUOUS
+SGVsbG8gU2VnZWksDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU2Vy
+Z2VpIFNodHlseW92IDxzZXJnZWkuc2h0eWx5b3ZAZ21haWwuY29tPg0KPiBTZW50OiBGcmlkYXks
+IE9jdG9iZXIgOSwgMjAyMCA0OjIzIFBNDQo+IFRvOiBSeWFuIENoZW4gPHJ5YW5fY2hlbkBhc3Bl
+ZWR0ZWNoLmNvbT47IEpvZWwgU3RhbmxleSA8am9lbEBqbXMuaWQuYXU+Ow0KPiBBbmRyZXcgSmVm
+ZmVyeSA8YW5kcmV3QGFqLmlkLmF1PjsgbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQu
+b3JnOw0KPiBsaW51eC1hc3BlZWRAbGlzdHMub3psYWJzLm9yZzsgbGludXgta2VybmVsQHZnZXIu
+a2VybmVsLm9yZzsNCj4gbGludXgtdXNiQHZnZXIua2VybmVsLm9yZzsgQk1DLVNXIDxCTUMtU1dA
+YXNwZWVkdGVjaC5jb20+OyBBbGFuIFN0ZXJuDQo+IDxzdGVybkByb3dsYW5kLmhhcnZhcmQuZWR1
+Pg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYyIDMvM10gQVJNOiBkdHM6IGFkZCBlaGNpIHVoY2kg
+ZW5hYmxlIGluIGV2YiBkdHMNCj4gDQo+IEhFbGxvIQ0KPiANCj4gT24gMDkuMTAuMjAyMCA1OjQ5
+LCBSeWFuIENoZW4gd3JvdGU6DQo+IA0KPiA+IEFkZCBFSENJIFVIQ0kgZW5hYmxlIGJ1aWxkIGlu
+IGFzcGVlZC1hc3QyNjAwLWV2Yi5kdHMNCj4gDQo+ICAgICBFbmFibGUgRUNISS9VSENJIGZvciB0
+aGUgIEFzcGVlZCBBU1QyNjAwIEVWQiwgcGVyaGFwcz8NCj4gDQoNClllcywgaXQgaXMgZW5hYmxl
+IGZvciBBU1QyNjAwIEVWQi4gDQoNCj4gPiBTaWduZWQtb2ZmLWJ5OiBSeWFuIENoZW4gPHJ5YW5f
+Y2hlbkBhc3BlZWR0ZWNoLmNvbT4NCj4gWy4uLl0NCj4gDQo+IE1CUiwgU2VyZ2VpDQo=
