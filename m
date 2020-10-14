@@ -1,54 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4C728CBC5
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Oct 2020 12:34:14 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB95F28D8B6
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Oct 2020 04:50:40 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4C9X381JP3zDqfV
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Oct 2020 21:34:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4C9xjm3kprzDqLt
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Oct 2020 13:50:36 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=sboyd@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=default header.b=Kqz83Gst; dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4C9X2n2CDYzDqcY
- for <linux-aspeed@lists.ozlabs.org>; Tue, 13 Oct 2020 21:33:52 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 09DAUg2f010593;
- Tue, 13 Oct 2020 18:30:42 +0800 (GMT-8)
- (envelope-from billy_tsai@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.9) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 13 Oct
- 2020 18:32:57 +0800
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: <jic23@kernel.org>, <knaack.h@gmx.de>, <lars@metafoo.de>,
- <pmeerw@pmeerw.net>, <robh+dt@kernel.org>, <joel@jms.id.au>,
- <andrew@aj.id.au>, <p.zabel@pengutronix.de>,
- <billy_tsai@aspeedtech.com>, <alexandru.ardelean@analog.com>,
- <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 3/3] iio: adc: aspeed: Setting ref_voltage in probe
-Date: Tue, 13 Oct 2020 18:32:45 +0800
-Message-ID: <20201013103245.16723-4-billy_tsai@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201013103245.16723-1-billy_tsai@aspeedtech.com>
-References: <20201013103245.16723-1-billy_tsai@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4C9xjc25TZzDqLt
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Oct 2020 13:50:27 +1100 (AEDT)
+Received: from kernel.org (unknown [104.132.1.79])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1AC4A21775;
+ Wed, 14 Oct 2020 02:50:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1602643824;
+ bh=t1NAjWm5WI7hLJxk22EulkFvJQp0ZmLPSt6XkGLLllk=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=Kqz83Gst+aikoaD44NPIkqiQe/0o5n0N2H7JEI7FVc0emRLrys9O5hEE7/s4ThdRv
+ vg4B73us88R77FyibZsG+3zBaBP0Zk+njKkK5O9E4krppJNbnPizBvYBiSZ9ayQQGB
+ 0yUAfgyjQRKSNZlWg1nFWqxdlkzrxBGNXZAB/LTs=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.10.9]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 09DAUg2f010593
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200928070108.14040-2-ryan_chen@aspeedtech.com>
+References: <20200928070108.14040-1-ryan_chen@aspeedtech.com>
+ <20200928070108.14040-2-ryan_chen@aspeedtech.com>
+Subject: Re: [PATCH 1/1] clk: aspeed: modify some default clks are critical
+From: Stephen Boyd <sboyd@kernel.org>
+To: Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Ryan Chen <ryan_chen@aspeedtech.com>, bmc-sw@aspeedtech.com,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 13 Oct 2020 19:50:22 -0700
+Message-ID: <160264382296.310579.9835482254268204873@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,52 +61,17 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-At ast2600 ref_voltage becomes configurable and this property is board
-dependency.
+Quoting Ryan Chen (2020-09-28 00:01:08)
+> In ASPEED SoC LCLK is LPC clock for all SuperIO device, UART1/UART2 are
+> default for Host SuperIO UART device, eSPI clk for Host eSPI bus access
+> eSPI slave channel, those clks can't be disable should keep default,
+> otherwise will affect Host side access SuperIO and SPI slave device.
+>=20
+> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+> ---
 
-Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
----
- .../devicetree/bindings/iio/adc/aspeed_adc.txt   | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt b/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt
-index 034fc2ba100e..0ba1980c4e06 100644
---- a/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt
-+++ b/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt
-@@ -3,8 +3,11 @@ Aspeed ADC
- This device is a 10-bit converter for 16 voltage channels.  All inputs are
- single ended.
- 
-+At ast2600, this device split into two individual IPs and each contains 8 voltage channels.
-+
-+Chip level dtsi:
- Required properties:
--- compatible: Should be "aspeed,ast2400-adc" or "aspeed,ast2500-adc"
-+- compatible: Should be "aspeed,ast2400-adc" or "aspeed,ast2500-adc" or "aspeed,ast2600-adc"
- - reg: memory window mapping address and length
- - clocks: Input clock used to derive the sample clock. Expected to be the
-           SoC's APB clock.
-@@ -20,3 +23,14 @@ Example:
- 		resets = <&syscon ASPEED_RESET_ADC>;
- 		#io-channel-cells = <1>;
- 	};
-+
-+Board level dts:
-+Required properties:
-+- ref_voltage: (ast2600 only)
-+	- Reference voltage in millivolts for the conversions.
-+	- The range of value is 900 to 2700 mv.
-+
-+Example:
-+&adc0 {
-+	ref_voltage = <2500>;
-+};
-\ No newline at end of file
--- 
-2.17.1
-
+Is there resolution on this thread?
