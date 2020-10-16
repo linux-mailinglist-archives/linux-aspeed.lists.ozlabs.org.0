@@ -2,51 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA1B28FE4B
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Oct 2020 08:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A200B290A66
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Oct 2020 19:16:28 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CCGQS5xT4zDqZp
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Oct 2020 17:26:56 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CCXqr6P62zDqpq
+	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Oct 2020 04:16:24 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=209.85.210.66; helo=mail-ot1-f66.google.com;
+ envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+ [209.85.210.66])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CCGQK4zrfzDqSC
- for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Oct 2020 17:26:47 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 09G6Njfq073161;
- Fri, 16 Oct 2020 14:23:45 +0800 (GMT-8)
- (envelope-from billy_tsai@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.9) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 16 Oct
- 2020 14:26:08 +0800
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: <robh+dt@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
- <jae.hyun.yoo@linux.intel.com>, <billy_tsai@aspeedtech.com>,
- <haiyue.wang@linux.intel.com>, <james.feist@linux.intel.com>,
- <vernon.mauery@linux.intel.com>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH 3/3] dt-bindings: Change the meaning of clock-frequency
-Date: Fri, 16 Oct 2020 14:26:02 +0800
-Message-ID: <20201016062602.20014-4-billy_tsai@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201016062602.20014-1-billy_tsai@aspeedtech.com>
-References: <20201016062602.20014-1-billy_tsai@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CCXqk6JgyzDqlc
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 17 Oct 2020 04:16:17 +1100 (AEDT)
+Received: by mail-ot1-f66.google.com with SMTP id 65so3050778otu.9
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Oct 2020 10:16:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ZmPWxKpDTknAmEe7UdqFdRj8Owf4EcjFeMtD8aGa6yA=;
+ b=JLZu/H7yDeCPnrC9CGt6oD4Un1VASm8KNnxN1R0HvtexbNyaAm4AsnxEgHY34h3+IV
+ 5XtG1IdKImHSlZQAaGzMPPRMRa9OrVa1aUjfBhuuaCGFzqGtJxhtQ8yv/UoMqXKPCd42
+ PkekReOlv+F+SO76zau4iAXODhbLlO3Ioo6VaCy00T5TsAFHk5iNuUkq5sq7ekflb5+v
+ C5lN8mUdzlgVK1gp/Q0vpK8gg3MNJcfvM7Qaex+xKuD2s/geazZH9b3t8ieUzm0VvQL/
+ 3AOFVm/DtAf9o4RWkwfDjH3X1OuUYG/gZbatLtaUQUVAnanNAxOMt8J+Pu7TWTypSoGF
+ 8SZQ==
+X-Gm-Message-State: AOAM531beVqY0p0yetIH4uK+NRmKHcFP7eQlzH1TetmJuEFa/2RSt+ja
+ WwE+8dJgrtinQc4QnoKHyA==
+X-Google-Smtp-Source: ABdhPJwNFTc03Dpq8hQaQDs+x9At0y/IfS8Tw88Q4LOwNP/y70SOX0/J9aHLsKBqBo0dt8/jeyr6pw==
+X-Received: by 2002:a05:6830:13c5:: with SMTP id
+ e5mr3209070otq.319.1602868574593; 
+ Fri, 16 Oct 2020 10:16:14 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id p11sm1158258otp.8.2020.10.16.10.16.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Oct 2020 10:16:13 -0700 (PDT)
+Received: (nullmailer pid 1595441 invoked by uid 1000);
+ Fri, 16 Oct 2020 17:16:12 -0000
+Date: Fri, 16 Oct 2020 12:16:12 -0500
+From: Rob Herring <robh@kernel.org>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Subject: Re: [PATCH 3/3] iio: adc: aspeed: Setting ref_voltage in probe
+Message-ID: <20201016171612.GA1593560@bogus>
+References: <20201013103245.16723-1-billy_tsai@aspeedtech.com>
+ <20201013103245.16723-4-billy_tsai@aspeedtech.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.10.9]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 09G6Njfq073161
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201013103245.16723-4-billy_tsai@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,93 +68,68 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ lars@metafoo.de, p.zabel@pengutronix.de, linux-aspeed@lists.ozlabs.org,
+ BMC-SW@aspeedtech.com, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ pmeerw@pmeerw.net, knaack.h@gmx.de, alexandru.ardelean@analog.com,
+ jic23@kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Integration of the usage of msg-timing and addr-timing to clock-frequency.
-User can just set it to adjust the peci work efficient.
+On Tue, Oct 13, 2020 at 06:32:45PM +0800, Billy Tsai wrote:
+> At ast2600 ref_voltage becomes configurable and this property is board
+> dependency.
+> 
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> ---
+>  .../devicetree/bindings/iio/adc/aspeed_adc.txt   | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt b/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt
+> index 034fc2ba100e..0ba1980c4e06 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt
+> +++ b/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt
+> @@ -3,8 +3,11 @@ Aspeed ADC
+>  This device is a 10-bit converter for 16 voltage channels.  All inputs are
+>  single ended.
+>  
+> +At ast2600, this device split into two individual IPs and each contains 8 voltage channels.
+> +
+> +Chip level dtsi:
+>  Required properties:
+> -- compatible: Should be "aspeed,ast2400-adc" or "aspeed,ast2500-adc"
+> +- compatible: Should be "aspeed,ast2400-adc" or "aspeed,ast2500-adc" or "aspeed,ast2600-adc"
+>  - reg: memory window mapping address and length
+>  - clocks: Input clock used to derive the sample clock. Expected to be the
+>            SoC's APB clock.
+> @@ -20,3 +23,14 @@ Example:
+>  		resets = <&syscon ASPEED_RESET_ADC>;
+>  		#io-channel-cells = <1>;
+>  	};
+> +
+> +Board level dts:
 
-Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
----
- .../devicetree/bindings/peci/peci-aspeed.yaml | 56 +++++++++----------
- 1 file changed, 28 insertions(+), 28 deletions(-)
+This split is convention, but not relevant to the binding.
 
-diff --git a/Documentation/devicetree/bindings/peci/peci-aspeed.yaml b/Documentation/devicetree/bindings/peci/peci-aspeed.yaml
-index 0f5c2993fe9b..7c6c895784af 100644
---- a/Documentation/devicetree/bindings/peci/peci-aspeed.yaml
-+++ b/Documentation/devicetree/bindings/peci/peci-aspeed.yaml
-@@ -40,31 +40,33 @@ properties:
-     maxItems: 1
- 
-   clock-frequency:
--    # Operation frequency of PECI controller in units of Hz.
--    minimum: 187500
--    maximum: 24000000
--
--  msg-timing:
--    description: |
--      Message timing negotiation period. This value will determine the period
--      of message timing negotiation to be issued by PECI controller. The unit
--      of the programmed value is four times of PECI clock period.
--    allOf:
--      - $ref: /schemas/types.yaml#/definitions/uint32
--      - minimum: 0
--        maximum: 255
--        default: 1
--
--  addr-timing:
--    description: |
--      Address timing negotiation period. This value will determine the period
--      of address timing negotiation to be issued by PECI controller. The unit
--      of the programmed value is four times of PECI clock period.
--    allOf:
--      - $ref: /schemas/types.yaml#/definitions/uint32
--      - minimum: 0
--        maximum: 255
--        default: 1
-+    # The bit frequency of PECI negotiation stage in units of Hz.
-+    # Driver will calculate the best divisor setting of msg-timing and
-+    # addr-timing to meet the value.
-+    minimum: 2000
-+    maximum: 2000000
-+
-+  # msg-timing:
-+  #   description: |
-+  #     Message timing negotiation period. This value will determine the period
-+  #     of message timing negotiation to be issued by PECI controller. The unit
-+  #     of the programmed value is four times of PECI clock period.
-+  #   allOf:
-+  #     - $ref: /schemas/types.yaml#/definitions/uint32
-+  #     - minimum: 0
-+  #       maximum: 255
-+  #       default: 1
-+
-+  # addr-timing:
-+  #   description: |
-+  #     Address timing negotiation period. This value will determine the period
-+  #     of address timing negotiation to be issued by PECI controller. The unit
-+  #     of the programmed value is four times of PECI clock period.
-+  #   allOf:
-+  #     - $ref: /schemas/types.yaml#/definitions/uint32
-+  #     - minimum: 0
-+  #       maximum: 255
-+  #       default: 1
- 
-   rd-sampling-point:
-     description: |
-@@ -114,9 +116,7 @@ examples:
-             interrupts = <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
-             clocks = <&syscon ASPEED_CLK_GATE_REF0CLK>;
-             resets = <&syscon ASPEED_RESET_PECI>;
--            clock-frequency = <24000000>;
--            msg-timing = <1>;
--            addr-timing = <1>;
-+            clock-frequency = <2000000>;
-             rd-sampling-point = <8>;
-             cmd-timeout-ms = <1000>;
-         };
--- 
-2.17.1
+> +Required properties:
+> +- ref_voltage: (ast2600 only)
 
+s/_/-/
+
+And needs a vendor prefix.
+
+> +	- Reference voltage in millivolts for the conversions.
+> +	- The range of value is 900 to 2700 mv.
+> +
+> +Example:
+> +&adc0 {
+> +	ref_voltage = <2500>;
+> +};
+> \ No newline at end of file
+
+Fix this.
+
+> -- 
+> 2.17.1
+> 
