@@ -2,61 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A200B290A66
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Oct 2020 19:16:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C6D290D76
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Oct 2020 23:49:21 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CCXqr6P62zDqpq
-	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Oct 2020 04:16:24 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CCftk2sbJzDqSB
+	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Oct 2020 08:49:18 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.210.66; helo=mail-ot1-f66.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=flex--brendanhiggins.bounces.google.com
+ (client-ip=2607:f8b0:4864:20::f4a; helo=mail-qv1-xf4a.google.com;
+ envelope-from=3rhwkxw4kajs6m9i85icdbbdinbjjbg9.7jh@flex--brendanhiggins.bounces.google.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
- [209.85.210.66])
+ dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256
+ header.s=20161025 header.b=S+El3eZy; dkim-atps=neutral
+Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com
+ [IPv6:2607:f8b0:4864:20::f4a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CCXqk6JgyzDqlc
- for <linux-aspeed@lists.ozlabs.org>; Sat, 17 Oct 2020 04:16:17 +1100 (AEDT)
-Received: by mail-ot1-f66.google.com with SMTP id 65so3050778otu.9
- for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Oct 2020 10:16:17 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CCftT6cPCzDqLq
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 17 Oct 2020 08:49:01 +1100 (AEDT)
+Received: by mail-qv1-xf4a.google.com with SMTP id k6so2353881qvg.9
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Oct 2020 14:49:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:message-id:mime-version:subject:from:to:cc;
+ bh=P6542iFjzIxhW/Ai7OlkTSTs7qsIdc5xSdhGTRbGtXc=;
+ b=S+El3eZyVaVSqlz4/J5tkU8vPyNZy99wptSxALbU6IfNKWagH1b9X/3lI7psn4XcVl
+ eKeoaVThIuCCMaltdOqct4ymIZjX3F3lyAqOVZVJzz3j/KfFtW3z64b0TCDQMPuUcPZA
+ +Ey9Kavce9oCy3Sc5p/E5P4ROiAq7SlTdCWduOuDbM0tx6Jq61jw0KAw4ImqH5DQiMYz
+ p+Pk7NaiCneFWkMhMWVWtlAABYb+U72i9F1Bf3/U74EPMkiBD/J0cExd3MDUlPCSZsTb
+ jjcyI0Cs28y7+JMMlwu8K6MTKMLBN5rgDH2L4M8RCqG1TDTtSnBYHOWtXCKG2PSjixJ9
+ GmSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ZmPWxKpDTknAmEe7UdqFdRj8Owf4EcjFeMtD8aGa6yA=;
- b=JLZu/H7yDeCPnrC9CGt6oD4Un1VASm8KNnxN1R0HvtexbNyaAm4AsnxEgHY34h3+IV
- 5XtG1IdKImHSlZQAaGzMPPRMRa9OrVa1aUjfBhuuaCGFzqGtJxhtQ8yv/UoMqXKPCd42
- PkekReOlv+F+SO76zau4iAXODhbLlO3Ioo6VaCy00T5TsAFHk5iNuUkq5sq7ekflb5+v
- C5lN8mUdzlgVK1gp/Q0vpK8gg3MNJcfvM7Qaex+xKuD2s/geazZH9b3t8ieUzm0VvQL/
- 3AOFVm/DtAf9o4RWkwfDjH3X1OuUYG/gZbatLtaUQUVAnanNAxOMt8J+Pu7TWTypSoGF
- 8SZQ==
-X-Gm-Message-State: AOAM531beVqY0p0yetIH4uK+NRmKHcFP7eQlzH1TetmJuEFa/2RSt+ja
- WwE+8dJgrtinQc4QnoKHyA==
-X-Google-Smtp-Source: ABdhPJwNFTc03Dpq8hQaQDs+x9At0y/IfS8Tw88Q4LOwNP/y70SOX0/J9aHLsKBqBo0dt8/jeyr6pw==
-X-Received: by 2002:a05:6830:13c5:: with SMTP id
- e5mr3209070otq.319.1602868574593; 
- Fri, 16 Oct 2020 10:16:14 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id p11sm1158258otp.8.2020.10.16.10.16.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Oct 2020 10:16:13 -0700 (PDT)
-Received: (nullmailer pid 1595441 invoked by uid 1000);
- Fri, 16 Oct 2020 17:16:12 -0000
-Date: Fri, 16 Oct 2020 12:16:12 -0500
-From: Rob Herring <robh@kernel.org>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [PATCH 3/3] iio: adc: aspeed: Setting ref_voltage in probe
-Message-ID: <20201016171612.GA1593560@bogus>
-References: <20201013103245.16723-1-billy_tsai@aspeedtech.com>
- <20201013103245.16723-4-billy_tsai@aspeedtech.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201013103245.16723-4-billy_tsai@aspeedtech.com>
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :to:cc;
+ bh=P6542iFjzIxhW/Ai7OlkTSTs7qsIdc5xSdhGTRbGtXc=;
+ b=pjlsiwQmcY9c6A9SBL8ztOzWHGAAWxPUPJwGYMGkRQMroULVL039oxONzWgJH4NZdq
+ P6PlxceEQuZBsShuYeibYCSXnGWdJNHDney/FkL+4R/QRrUSadiherVFLDAFfa+OpBFg
+ +8Ou00bRq/kG2me2XiqpnlNspMAH0yd16U2bYyNdRNuZDPIvUHaBK3rpHd0LgxZIhUX1
+ sq55We7RRT4QnKRZ9vGjW2eGPoQ7FCpia+5aq4iyPD5W5gsAQskFoWLurveHxHVSDIwy
+ reZlcT4Y1zHhB/nPQNQVMA47J4Ts/8A3RrDj6q60WIhBITlR8h/7O3Xsx0s9cN4+jOaA
+ fTqg==
+X-Gm-Message-State: AOAM531TYD2xDWU+9xV8qJgtHqoyt2xh/tcaN0e+CKD8+LFHAEzyfXj/
+ H/O7MNSxTyco5I6LvPd+gcHe9CTeUV2YPANIhHtcMg==
+X-Google-Smtp-Source: ABdhPJwJRry5vBRa1jfPAJOez+Y/ph2mkEMy723ZOXVSFN61OqeGxSgh+T4OCzOemdYUkmi46VcmmjE/4lQoh3AG38ZDnQ==
+X-Received: from mactruck.svl.corp.google.com
+ ([2620:15c:2cb:201:c634:6bff:fe71:d8d1])
+ (user=brendanhiggins job=sendgmr) by 2002:ad4:4e73:: with SMTP id
+ ec19mr6256788qvb.58.1602884934546; Fri, 16 Oct 2020 14:48:54 -0700 (PDT)
+Date: Fri, 16 Oct 2020 14:48:48 -0700
+Message-Id: <20201016214848.1365719-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
+Subject: [PATCH v1] i2c: aspeed: add KUnit tests for clock parameters
+From: Brendan Higgins <brendanhiggins@google.com>
+To: shuah@kernel.org, davidgow@google.com, benh@kernel.crashing.org, 
+ joel@jms.id.au, andrew@aj.id.au, wsa@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,68 +75,319 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- lars@metafoo.de, p.zabel@pengutronix.de, linux-aspeed@lists.ozlabs.org,
- BMC-SW@aspeedtech.com, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- pmeerw@pmeerw.net, knaack.h@gmx.de, alexandru.ardelean@analog.com,
- jic23@kernel.org
+Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Oct 13, 2020 at 06:32:45PM +0800, Billy Tsai wrote:
-> At ast2600 ref_voltage becomes configurable and this property is board
-> dependency.
-> 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> ---
->  .../devicetree/bindings/iio/adc/aspeed_adc.txt   | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt b/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt
-> index 034fc2ba100e..0ba1980c4e06 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt
-> +++ b/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt
-> @@ -3,8 +3,11 @@ Aspeed ADC
->  This device is a 10-bit converter for 16 voltage channels.  All inputs are
->  single ended.
->  
-> +At ast2600, this device split into two individual IPs and each contains 8 voltage channels.
-> +
-> +Chip level dtsi:
->  Required properties:
-> -- compatible: Should be "aspeed,ast2400-adc" or "aspeed,ast2500-adc"
-> +- compatible: Should be "aspeed,ast2400-adc" or "aspeed,ast2500-adc" or "aspeed,ast2600-adc"
->  - reg: memory window mapping address and length
->  - clocks: Input clock used to derive the sample clock. Expected to be the
->            SoC's APB clock.
-> @@ -20,3 +23,14 @@ Example:
->  		resets = <&syscon ASPEED_RESET_ADC>;
->  		#io-channel-cells = <1>;
->  	};
-> +
-> +Board level dts:
+Add KUnit tests for Aspeed I2C driver to test setting clock divider
+registers given an input clock speed.
 
-This split is convention, but not relevant to the binding.
+I wrote this test a while ago and it found a bug in the Aspeed I2C
+driver a couple years ago[1].
 
-> +Required properties:
-> +- ref_voltage: (ast2600 only)
+Link[1]: https://lore.kernel.org/patchwork/patch/989312/
+Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+---
+ MAINTAINERS                          |   1 +
+ drivers/i2c/busses/Kconfig           |  18 ++-
+ drivers/i2c/busses/i2c-aspeed-test.c | 218 +++++++++++++++++++++++++++
+ drivers/i2c/busses/i2c-aspeed.c      |   4 +
+ 4 files changed, 240 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/i2c/busses/i2c-aspeed-test.c
 
-s/_/-/
+diff --git a/MAINTAINERS b/MAINTAINERS
+index deaafb617361c..683382df2434a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1653,6 +1653,7 @@ L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
+ F:	Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2400-i2c-ic.txt
++F:	drivers/i2c/busses/i2c-aspeed-test.c
+ F:	drivers/i2c/busses/i2c-aspeed.c
+ F:	drivers/irqchip/irq-aspeed-i2c-ic.c
+ 
+diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
+index 293e7a0760e77..0f12090f9fe26 100644
+--- a/drivers/i2c/busses/Kconfig
++++ b/drivers/i2c/busses/Kconfig
+@@ -379,7 +379,7 @@ config I2C_ALTERA
+ 
+ config I2C_ASPEED
+ 	tristate "Aspeed I2C Controller"
+-	depends on ARCH_ASPEED || COMPILE_TEST
++	depends on ARCH_ASPEED || COMPILE_TEST || KUNIT=y
+ 	help
+ 	  If you say yes to this option, support will be included for the
+ 	  Aspeed I2C controller.
+@@ -387,6 +387,22 @@ config I2C_ASPEED
+ 	  This driver can also be built as a module.  If so, the module
+ 	  will be called i2c-aspeed.
+ 
++config I2C_ASPEED_KUNIT_TEST
++	bool "Aspeed I2C Controller KUnit test"
++	depends on I2C_ASPEED=y
++	help
++	  This builds the Aspeed I2C KUnit tests.
++
++	  KUnit tests run during boot and output the results to the debug log
++	  in TAP format (https://testanything.org/). Only useful for kernel devs
++	  running KUnit test harness and are not for inclusion into a
++	  production build.
++
++	  For more information on KUnit and unit tests in general please refer
++	  to the KUnit documentation in Documentation/dev-tools/kunit/.
++
++	  If unsure, say N.
++
+ config I2C_AT91
+ 	tristate "Atmel AT91 I2C Two-Wire interface (TWI)"
+ 	depends on ARCH_AT91 || COMPILE_TEST
+diff --git a/drivers/i2c/busses/i2c-aspeed-test.c b/drivers/i2c/busses/i2c-aspeed-test.c
+new file mode 100644
+index 0000000000000..93e73af95b645
+--- /dev/null
++++ b/drivers/i2c/busses/i2c-aspeed-test.c
+@@ -0,0 +1,218 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ *  Aspeed 24XX/25XX I2C Controller KUnit tests.
++ *
++ *  Copyright (C) 2020 Google LLC.
++ */
++
++#include <kunit/test.h>
++
++#define ASPEED_I2C_MAX_BASE_DIVISOR		(1 << ASPEED_I2CD_TIME_BASE_DIVISOR_MASK)
++#define ASPEED_I2C_24XX_CLK_HIGH_LOW_MASK	GENMASK(2, 0)
++#define ASPEED_I2C_24XX_CLK_HIGH_LOW_MAX	((ASPEED_I2C_24XX_CLK_HIGH_LOW_MASK + 1) * 2)
++#define ASPEED_I2C_24XX_MAX_DIVISOR		\
++		(ASPEED_I2C_MAX_BASE_DIVISOR * ASPEED_I2C_24XX_CLK_HIGH_LOW_MAX)
++#define ASPEED_I2C_25XX_CLK_HIGH_LOW_MASK	GENMASK(3, 0)
++#define ASPEED_I2C_25XX_CLK_HIGH_LOW_MAX	((ASPEED_I2C_25XX_CLK_HIGH_LOW_MASK + 1) * 2)
++#define ASPEED_I2C_25XX_MAX_DIVISOR		\
++		(ASPEED_I2C_MAX_BASE_DIVISOR * ASPEED_I2C_25XX_CLK_HIGH_LOW_MAX)
++
++static u32 aspeed_i2c_get_base_clk(u32 reg_val)
++{
++	return reg_val & ASPEED_I2CD_TIME_BASE_DIVISOR_MASK;
++}
++
++static u32 aspeed_i2c_get_clk_high(u32 reg_val)
++{
++	return (reg_val & ASPEED_I2CD_TIME_SCL_HIGH_MASK) >>
++			ASPEED_I2CD_TIME_SCL_HIGH_SHIFT;
++}
++
++static u32 aspeed_i2c_get_clk_low(u32 reg_val)
++{
++	return (reg_val & ASPEED_I2CD_TIME_SCL_LOW_MASK) >>
++			ASPEED_I2CD_TIME_SCL_LOW_SHIFT;
++}
++
++static void aspeed_i2c_get_clk_reg_val_params_test(struct kunit *test,
++						   u32 (*get_clk_reg_val)(struct device *, u32),
++						   u32 divisor,
++						   u32 base_clk,
++						   u32 clk_high,
++						   u32 clk_low)
++{
++	u32 reg_val;
++
++	reg_val = get_clk_reg_val(NULL, divisor);
++	KUNIT_ASSERT_EQ(test,
++			(u32)(reg_val & ~(ASPEED_I2CD_TIME_SCL_HIGH_MASK |
++					  ASPEED_I2CD_TIME_SCL_LOW_MASK |
++					  ASPEED_I2CD_TIME_BASE_DIVISOR_MASK)),
++			(u32)0);
++	KUNIT_EXPECT_EQ(test, aspeed_i2c_get_base_clk(reg_val), base_clk);
++	KUNIT_EXPECT_EQ(test, aspeed_i2c_get_clk_high(reg_val), clk_high);
++	KUNIT_EXPECT_EQ(test, aspeed_i2c_get_clk_low(reg_val), clk_low);
++}
++
++static void aspeed_i2c_24xx_get_clk_reg_val_params_test(struct kunit *test,
++							u32 divisor,
++							u32 base_clk,
++							u32 clk_high,
++							u32 clk_low)
++{
++	aspeed_i2c_get_clk_reg_val_params_test(test,
++					       aspeed_i2c_24xx_get_clk_reg_val,
++					       divisor,
++					       base_clk,
++					       clk_high,
++					       clk_low);
++}
++
++/*
++ * Verify that smallest possible divisors are handled correctly.
++ */
++static void aspeed_i2c_24xx_get_clk_reg_val_test_min(struct kunit *test)
++{
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 0, 0, 0, 0);
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 1, 0, 0, 0);
++}
++
++/*
++ * Verify that largest possible divisors are handled correctly.
++ */
++static void aspeed_i2c_24xx_get_clk_reg_val_test_max(struct kunit *test)
++{
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test,
++						    ASPEED_I2C_24XX_MAX_DIVISOR,
++						    ASPEED_I2CD_TIME_BASE_DIVISOR_MASK,
++						    ASPEED_I2C_24XX_CLK_HIGH_LOW_MASK,
++						    ASPEED_I2C_24XX_CLK_HIGH_LOW_MASK);
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test,
++						    ASPEED_I2C_24XX_MAX_DIVISOR + 1,
++						    ASPEED_I2CD_TIME_BASE_DIVISOR_MASK,
++						    ASPEED_I2C_24XX_CLK_HIGH_LOW_MASK,
++						    ASPEED_I2C_24XX_CLK_HIGH_LOW_MASK);
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test,
++						    U32_MAX,
++						    ASPEED_I2CD_TIME_BASE_DIVISOR_MASK,
++						    ASPEED_I2C_24XX_CLK_HIGH_LOW_MASK,
++						    ASPEED_I2C_24XX_CLK_HIGH_LOW_MASK);
++}
++
++/*
++ * Spot check values from the datasheet table.
++ */
++static void aspeed_i2c_24xx_get_clk_reg_val_test_datasheet(struct kunit *test)
++{
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 6, 0, 2, 2);
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 7, 0, 3, 2);
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 16, 0, 7, 7);
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 18, 1, 4, 3);
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 491520, 15, 7, 6);
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 524288, 15, 7, 7);
++}
++
++/*
++ * Check that a divisor that cannot be represented exactly is rounded up to the
++ * next divisor that can be represented.
++ */
++static void aspeed_i2c_24xx_get_clk_reg_val_test_round_up(struct kunit *test)
++{
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 16, 0, 7, 7);
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 17, 1, 4, 3);
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 18, 1, 4, 3);
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 19, 1, 4, 4);
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 491519, 15, 7, 6);
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 491520, 15, 7, 6);
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 524287, 15, 7, 7);
++	aspeed_i2c_24xx_get_clk_reg_val_params_test(test, 524288, 15, 7, 7);
++}
++
++static void aspeed_i2c_25xx_get_clk_reg_val_params_test(struct kunit *test,
++							u32 divisor,
++							u32 base_clk,
++							u32 clk_high,
++							u32 clk_low)
++{
++	aspeed_i2c_get_clk_reg_val_params_test(test,
++					       aspeed_i2c_25xx_get_clk_reg_val,
++					       divisor,
++					       base_clk,
++					       clk_high,
++					       clk_low);
++}
++
++/*
++ * Verify that smallest possible divisors are handled correctly.
++ */
++static void aspeed_i2c_25xx_get_clk_reg_val_test_min(struct kunit *test)
++{
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test, 0, 0, 0, 0);
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test, 1, 0, 0, 0);
++}
++
++/*
++ * Verify that largest possible divisors are handled correctly.
++ */
++static void aspeed_i2c_25xx_get_clk_reg_val_test_max(struct kunit *test)
++{
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test,
++						    ASPEED_I2C_25XX_MAX_DIVISOR,
++						    ASPEED_I2CD_TIME_BASE_DIVISOR_MASK,
++						    ASPEED_I2C_25XX_CLK_HIGH_LOW_MASK,
++						    ASPEED_I2C_25XX_CLK_HIGH_LOW_MASK);
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test,
++						    ASPEED_I2C_25XX_MAX_DIVISOR + 1,
++						    ASPEED_I2CD_TIME_BASE_DIVISOR_MASK,
++						    ASPEED_I2C_25XX_CLK_HIGH_LOW_MASK,
++						    ASPEED_I2C_25XX_CLK_HIGH_LOW_MASK);
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test,
++						    U32_MAX,
++						    ASPEED_I2CD_TIME_BASE_DIVISOR_MASK,
++						    ASPEED_I2C_25XX_CLK_HIGH_LOW_MASK,
++						    ASPEED_I2C_25XX_CLK_HIGH_LOW_MASK);
++}
++
++/*
++ * Spot check values from the datasheet table.
++ */
++static void aspeed_i2c_25xx_get_clk_reg_val_test_datasheet(struct kunit *test)
++{
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test, 6, 0, 2, 2);
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test, 7, 0, 3, 2);
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test, 32, 0, 15, 15);
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test, 34, 1, 8, 7);
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test, 2048, 6, 15, 15);
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test, 2176, 7, 8, 7);
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test, 3072, 7, 11, 11);
++}
++
++/*
++ * Check that a divisor that cannot be represented exactly is rounded up to the
++ * next divisor that can be represented.
++ */
++static void aspeed_i2c_25xx_get_clk_reg_val_test_round_up(struct kunit *test)
++{
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test, 2047, 6, 15, 15);
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test, 2048, 6, 15, 15);
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test, 2175, 7, 8, 7);
++	aspeed_i2c_25xx_get_clk_reg_val_params_test(test, 2176, 7, 8, 7);
++}
++
++static struct kunit_case aspeed_i2c_test_cases[] = {
++	KUNIT_CASE(aspeed_i2c_24xx_get_clk_reg_val_test_min),
++	KUNIT_CASE(aspeed_i2c_24xx_get_clk_reg_val_test_max),
++	KUNIT_CASE(aspeed_i2c_24xx_get_clk_reg_val_test_datasheet),
++	KUNIT_CASE(aspeed_i2c_24xx_get_clk_reg_val_test_round_up),
++	KUNIT_CASE(aspeed_i2c_25xx_get_clk_reg_val_test_min),
++	KUNIT_CASE(aspeed_i2c_25xx_get_clk_reg_val_test_max),
++	KUNIT_CASE(aspeed_i2c_25xx_get_clk_reg_val_test_datasheet),
++	KUNIT_CASE(aspeed_i2c_25xx_get_clk_reg_val_test_round_up),
++	{},
++};
++
++static struct kunit_suite aspeed_i2c_test = {
++	.name = "aspeed-i2c",
++	.test_cases = aspeed_i2c_test_cases,
++};
++kunit_test_suite(aspeed_i2c_test);
+diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+index 31268074c4221..68c460b7d4def 100644
+--- a/drivers/i2c/busses/i2c-aspeed.c
++++ b/drivers/i2c/busses/i2c-aspeed.c
+@@ -1082,6 +1082,10 @@ static struct platform_driver aspeed_i2c_bus_driver = {
+ };
+ module_platform_driver(aspeed_i2c_bus_driver);
+ 
++#ifdef CONFIG_I2C_ASPEED_KUNIT_TEST
++#include "i2c-aspeed-test.c"
++#endif /* CONFIG_I2C_ASPEED_KUNIT_TEST */
++
+ MODULE_AUTHOR("Brendan Higgins <brendanhiggins@google.com>");
+ MODULE_DESCRIPTION("Aspeed I2C Bus Driver");
+ MODULE_LICENSE("GPL v2");
 
-And needs a vendor prefix.
+base-commit: 1abdd39f14b25dd2d69096b624a4f86f158a9feb
+-- 
+2.29.0.rc1.297.gfa9743e501-goog
 
-> +	- Reference voltage in millivolts for the conversions.
-> +	- The range of value is 900 to 2700 mv.
-> +
-> +Example:
-> +&adc0 {
-> +	ref_voltage = <2500>;
-> +};
-> \ No newline at end of file
-
-Fix this.
-
-> -- 
-> 2.17.1
-> 
