@@ -2,67 +2,83 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FFBC28EB3A
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Oct 2020 04:32:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5D128FD58
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Oct 2020 06:36:29 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CBYGL4lHzzDqLY
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Oct 2020 13:32:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CCCyy2nCczDqYB
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Oct 2020 15:36:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::742;
- helo=mail-qk1-x742.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=64.147.123.19;
+ helo=wout3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=BINzPpqR; dkim-atps=neutral
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm1 header.b=qBJyevLi; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=cCAgUUAQ; 
+ dkim-atps=neutral
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
+ [64.147.123.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CBYGB0kLHzDqKJ;
- Thu, 15 Oct 2020 13:32:17 +1100 (AEDT)
-Received: by mail-qk1-x742.google.com with SMTP id x20so1248877qkn.1;
- Wed, 14 Oct 2020 19:32:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CIr+KzzkGzxVzUKpACDGhDNN7lFkJAx5/cWwJGHb2V0=;
- b=BINzPpqRkAE9sw37b5ly+SWHWjeebbr9Syrlvx7cZz6OluSviavis0kwpdZeRAZEte
- 0gle+dtW+7ZulTpXIQWZW+4BqoUijrvRoMjsXM/sOEd/wPfxQwjvCza/T3YwZQAqo6KP
- 3VoGPt95/VyALRh/odJXQRXyz7fq2JaAsDTlE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CIr+KzzkGzxVzUKpACDGhDNN7lFkJAx5/cWwJGHb2V0=;
- b=J5n3Xx3CaCwqVVIrO3c0Kbm/0wNOWS2yB9jNKn/If5VzIxSvz4ik2wIwnuLyfXmftO
- S1XV/PhbmJD9Gznl6ToA+rjj5iGS+8pFuoslc8Re2msBd8iZP45GNJ8wqux/DXLOJcDC
- FuEETqyJnQc2JyS6j2+FuX+RGd0g+yeTjU0qBSwkGkoCgDK9FRHbbDeFnntlqDAW+AWr
- 1OB2FEk9HPcIwPw5eLz8FQP0hSjgIShn2IG+D2W+5mRmPkI1kMeotLAVzhT2SgDP37fE
- uTYkmAuwZUkTDTeHsPHJmwwiJahYvgG/uG8ntnwtd9oEfmRgkkDFHTAyYyk+FSBlUyy2
- 7Vig==
-X-Gm-Message-State: AOAM532KY2rmxacoLxnyDmEi5uJw8yiv2rDqS/I4D0/dtB4TiZ+MtRhP
- NIfGxgLbtNHX0V78+xV/mZQIxBB7AKwgmishsok=
-X-Google-Smtp-Source: ABdhPJw2ZXQ6BTTznI/MCwya60LRb1O3iWIUSvksi/jv8O1ajQsODW8OpsUs5R1pMDhFcxGeMKPzKqr4aKg8nCJAYhM=
-X-Received: by 2002:a37:46c4:: with SMTP id t187mr1977786qka.465.1602729133521; 
- Wed, 14 Oct 2020 19:32:13 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CCCyn19xCzDqX1
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Oct 2020 15:36:16 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 5A965F84;
+ Fri, 16 Oct 2020 00:36:13 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Fri, 16 Oct 2020 00:36:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=tFx9y1gOlAAhTEgT/PH0isSwFS
+ +k2LV4WaIJDM4cFVQ=; b=qBJyevLiNRwhAo/COPdxdQwigdwLM9BDJS0Sm6HKWk
+ lNTt+5NNPiWfAprigBF7N7mXmkbjFHIUPVbEYqR10XOctsppSA4eeYZmhSq1VCcW
+ Yq/J0U9Yx9dyhg/LXL/ktOgs0IlPSRDJU6FTdDyDpBB/PXuJSI4CKrYku6Ge+oT2
+ 8ACkJfMANUN+mfqDA+C0NUbM7krcU+myOn1LJe/opu61bLIdSpZcte2dJ0zOE1CZ
+ tlHqJYudkAE+5xwquFoupagHtMZ1SbUsjDPpZFSLpaZSc3MglD0ugFkSgkTsGxnH
+ PQHr302ZMgq6CeQVUZIaXazLAWhKRcqNAi9F3rVENHmQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=tFx9y1gOlAAhTEgT/
+ PH0isSwFS+k2LV4WaIJDM4cFVQ=; b=cCAgUUAQoAqnYRfF6dq3ZcLdwxo0BS10w
+ vZ5qoKQTsYWJYeiEOjCNmR2BCnURYw+bFe5Dwixw/eZjW3vpQGPMqh7T3rOKvPf6
+ HnelX6TDYELG6Pfs7qE5Je21fstTN7iqfoTAo4wiby6j+7+VbjT3eiH2Qphz6T8D
+ aNdPnZ9cMbd0BNIhKwu6w+on/1Cs5de7pCJ+4fLnb7CWQLRnAk/6Nnjtri8sCyhb
+ wwAIonBfSq8RqvmKrNNEIhqsgXid1WsZ+zrsZ4xQ2pUfQmYGwcCktfz05gyAyr3v
+ yuAyCiGaEtUPlOXigd5rqopxbb7pUSPp4v4OMhVlR3maiUEG7zLBQ==
+X-ME-Sender: <xms:OyOJXwpmMsNXlED5iDcMNWDpX6i32I1OewH4Aax7A1h1WPF7yGCIAw>
+ <xme:OyOJX2qKUGkhmZJ4LiCBOslucfSjQOkvBSmSPK2Sybzq7tWlWbo5Meq53b9-c21Qo
+ HzAyxZTtTdT1Aus3g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrieeggdekiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+ dtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghjrdhi
+ ugdrrghuqeenucggtffrrghtthgvrhhnpeekhfeiffejveefveehtdeiiefhfedvjeelvd
+ dvtdehffetudejtefhueeuleeftdenucfkphepuddukedrvddutddrjedrudektdenucev
+ lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfi
+ esrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:OyOJX1ODvrA-3lrx2i6JZOAEl7kbC_2qK5FwtLcgZmG6asxH9M6ydw>
+ <xmx:OyOJX37ogbq8sOSxGyNeiftS70jZaNr6h9mgo1MfaSXfF2eEHOYveg>
+ <xmx:OyOJX_71nPRFkOYhzto3gZdv9ZX_F2yBK2OYu9ci1WaPw8ln8UmAeg>
+ <xmx:PCOJXxkqdQaw4134yjzKB61Pnb8ICZR0WLot1pLsQyubEZXjdDPisg>
+Received: from localhost.localdomain
+ (ppp118-210-7-180.adl-adc-lon-bras31.tpg.internode.on.net [118.210.7.180])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 4E764328005E;
+ Fri, 16 Oct 2020 00:36:09 -0400 (EDT)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: joel@jms.id.au
+Subject: [PATCH 0/2] ARM: dts: Enable ramoops for Rainier and Tacoma
+Date: Fri, 16 Oct 2020 15:05:11 +1030
+Message-Id: <20201016043513.119841-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20201014060632.16085-1-dylan_hung@aspeedtech.com>
- <20201014060632.16085-2-dylan_hung@aspeedtech.com>
- <CACPK8Xe_O44BUaPCEm2j3ZN+d4q6JbjEttLsiCLbWF6GnaqSPg@mail.gmail.com>
- <PS1PR0601MB1849DAC59EDA6A9DB62B4EE09C050@PS1PR0601MB1849.apcprd06.prod.outlook.com>
- <CACPK8Xd_DH+VeaPmXK2b5FXbrOpg_NmT_R4ENzY-=uNo=6HcyQ@mail.gmail.com>
- <PS1PR0601MB184990423661220EACDBF4BB9C020@PS1PR0601MB1849.apcprd06.prod.outlook.com>
-In-Reply-To: <PS1PR0601MB184990423661220EACDBF4BB9C020@PS1PR0601MB1849.apcprd06.prod.outlook.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 15 Oct 2020 02:32:01 +0000
-Message-ID: <CACPK8XePVhxtV5EXGH8ycHrG03M1JBp4920Hi9EQQfw5mCxJxg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] net: ftgmac100: Fix Aspeed ast2600 TX hang issue
-To: Dylan Hung <dylan_hung@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,77 +90,30 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW <BMC-SW@aspeedtech.com>, Po-Yu Chuang <ratbert@faraday-tech.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, "David S . Miller" <davem@davemloft.net>
+Cc: devicetree@vger.kernel.org, robh+dt@kernel.org,
+ linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 15 Oct 2020 at 01:49, Dylan Hung <dylan_hung@aspeedtech.com> wrote:
-> > > I was encountering this issue when I was running the iperf TX test.  The
-> > symptom is the TX descriptors are consumed, but no complete packet is sent
-> > out.
-> >
-> > What parameters are you using for iperf? I did a lot of testing with
-> > iperf3 (and stress-ng running at the same time) and couldn't reproduce the
-> > error.
-> >
->
-> I simply use "iperf -c <server ip>" on ast2600.  It is very easy to reproduce. I append the log below:
-> Noticed that this issue only happens when HW scatter-gather (NETIF_F_SG) is on.
+Hi,
 
-Ok. This appears to be on by default in the
-drivers/net/ethernet/faraday/ftgmac100.c:
+We're looking to improve our crash data capture for the BMC on some IBM
+platforms. This small series enables ramoops for Rainier and Tacoma.
 
-        netdev->hw_features = NETIF_F_RXCSUM | NETIF_F_HW_CSUM |
-                NETIF_F_GRO | NETIF_F_SG | NETIF_F_HW_VLAN_CTAG_RX |
-                NETIF_F_HW_VLAN_CTAG_TX;
+Please review.
 
-> [AST /]$ iperf3 -c 192.168.100.89
-> Connecting to host 192.168.100.89, port 5201
-> [  4] local 192.168.100.45 port 45346 connected to 192.168.100.89 port 5201
-> [ ID] Interval           Transfer     Bandwidth       Retr  Cwnd
-> [  4]   0.00-1.00   sec  44.8 MBytes   375 Mbits/sec    2   1.43 KBytes
-> [  4]   1.00-2.00   sec  0.00 Bytes  0.00 bits/sec    2   1.43 KBytes
-> [  4]   2.00-3.00   sec  0.00 Bytes  0.00 bits/sec    0   1.43 KBytes
-> [  4]   3.00-4.00   sec  0.00 Bytes  0.00 bits/sec    1   1.43 KBytes
-> [  4]   4.00-5.00   sec  0.00 Bytes  0.00 bits/sec    0   1.43 KBytes
-> ^C[  4]   5.00-5.88   sec  0.00 Bytes  0.00 bits/sec    0   1.43 KBytes
-> - - - - - - - - - - - - - - - - - - - - - - - - -
-> [ ID] Interval           Transfer     Bandwidth       Retr
-> [  4]   0.00-5.88   sec  44.8 MBytes  64.0 Mbits/sec    5             sender
-> [  4]   0.00-5.88   sec  0.00 Bytes  0.00 bits/sec                  receiver
-> iperf3: interrupt - the client has terminated
+Andrew
 
-I just realised my test machine must be on a 100Mbit network. I will
-try testing on a gigabit network.
+Andrew Jeffery (2):
+  ARM: dts: rainier: Add reserved memory for ramoops
+  ARM: dts: tacoma: Add reserved memory for ramoops
 
-> > We could only reproduce it when performing other functions, such as
-> > debugging/booting the host processor.
-> >
-> Could it be another issue?
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 9 +++++++++
+ arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts  | 9 +++++++++
+ 2 files changed, 18 insertions(+)
 
-I hope not! We have deployed your patch on our systems and I will let
-you know if we see the bug again.
+-- 
+2.25.1
 
-> > > > > +/*
-> > > > > + * test mode control register
-> > > > > + */
-> > > > > +#define FTGMAC100_TM_RQ_TX_VALID_DIS (1 << 28) #define
-> > > > > +FTGMAC100_TM_RQ_RR_IDLE_PREV (1 << 27) #define
-> > > > > +FTGMAC100_TM_DEFAULT
-> > > > \
-> > > > > +       (FTGMAC100_TM_RQ_TX_VALID_DIS |
-> > > > FTGMAC100_TM_RQ_RR_IDLE_PREV)
-> > > >
-> > > > Will aspeed issue an updated datasheet with this register documented?
-> >
-> > Did you see this question?
-> >
-> Sorry, I missed this question.  Aspeed will update the datasheet accordingly.
-
-Thank you.
