@@ -1,52 +1,68 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45CEE29170A
-	for <lists+linux-aspeed@lfdr.de>; Sun, 18 Oct 2020 12:56:11 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD2E2918D6
+	for <lists+linux-aspeed@lfdr.de>; Sun, 18 Oct 2020 20:27:26 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CDcJ715JRzDqjM
-	for <lists+linux-aspeed@lfdr.de>; Sun, 18 Oct 2020 21:56:07 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CDpJq30svzDqbk
+	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Oct 2020 05:27:23 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=jic23@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::543;
+ helo=mail-pg1-x543.google.com; envelope-from=andy.shevchenko@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=TjMO+Ppl; dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=eCP39ru/; dkim-atps=neutral
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CDcHz0cVKzDqfB
- for <linux-aspeed@lists.ozlabs.org>; Sun, 18 Oct 2020 21:55:58 +1100 (AEDT)
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net
- [82.4.196.95])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6D26520897;
- Sun, 18 Oct 2020 10:55:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603018555;
- bh=L+dg32jrevsTb3fSsRs6/iEC7MJ0sIPnxbRA5OGaXE0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=TjMO+PplxQuZkosT10rnNMmsEujF4/Sb2QRh09G28MZC3H1ZZog7xP2V/vzwZsTqj
- 2Z24FPUsnXEMYhMtWh8gZphJCwP0xRvDxURlLRgCHEIN1DyLSlhE9Y7kB5g/MfJIxO
- /KdvwO9qugnmJjmStreXqgbKOcCy9uhRfz2iUWFE=
-Date: Sun, 18 Oct 2020 11:55:49 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [PATCH 3/3] iio: adc: aspeed: Setting ref_voltage in probe
-Message-ID: <20201018115549.6b1f871a@archlinux>
-In-Reply-To: <20201013103245.16723-4-billy_tsai@aspeedtech.com>
-References: <20201013103245.16723-1-billy_tsai@aspeedtech.com>
- <20201013103245.16723-4-billy_tsai@aspeedtech.com>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CDpJT75PyzDqZT
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 19 Oct 2020 05:27:05 +1100 (AEDT)
+Received: by mail-pg1-x543.google.com with SMTP id y14so4631616pgf.12
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 18 Oct 2020 11:27:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5m1S5sZujQt2BwrJwE08lEoVDm6unn9shH52UvLq8Pg=;
+ b=eCP39ru/wgTWoNuwiKr05wbnzi+MNNugEbNjFFhzbv9bIlF4z0H41WAb7F4QFdrzUs
+ 3wApOFJXpSx7+78Xj1hxnR2j5WckIejtQxGjFSu6/frC7Px0NHZdr7s+cR+aVnqBAMZy
+ L0pru/h6bvGuBNskG6WWNXhhERcHqmM0Ya6D7tREXWbwpbb8ked7joDGAyt2LB/uNhkv
+ igmMotPA4vei9LB5S8fw9yuBKvoMeL1jnh7i4hoj4IlvXjn0CuTJS4dI4RAfo2vWHCyl
+ luAzC2CT5EzaYE5fTWW6bfM6kXw4OtDs4OvbUeOXBWMgILs0ZaFG4zihUOnNsvQvL3Cr
+ GAPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5m1S5sZujQt2BwrJwE08lEoVDm6unn9shH52UvLq8Pg=;
+ b=jTqko+1mHuUxHgJzOpXlCpHOOsTdvOSW5GHwT7r9DFviwnHSF3RqnhRKNU5kFbhLF3
+ afiVz7K/Tltn0fVrlzUUYTBgbnsz3qECmeebKfOUbhXVhRb0tJfnyaoRnQo88azA4aow
+ 5Me5QYnKCMcQHw8qrL2jGJfCHKiQ3ET++efgsPx0Isod+p0cQj9C5MBx+3NeQeP5+YDL
+ 4faeKYNaunHD0+JcuLbcwtFRsunGHMsrji8KxkQLrIuBoC8kHxlwj2tLdaEh/M1pCoHL
+ QhcHFtAd7M8AvlfYxOysD+Ucp89IcAiF15h7OKkkYpgiLo5PLvImpGKFFmq956SSH9Li
+ rADQ==
+X-Gm-Message-State: AOAM532Wen2cclL8UR8Vq4e+TF/ze50YrQLH7wJd0aluJQJRVokka5Oo
+ VsF4ixaybWSI6VAOc68Jq43nKcwgXJelt5uB7TA=
+X-Google-Smtp-Source: ABdhPJwGULC56yMeMCTuCfZOR7vq/3gi+527g6HGEFWCQUoYxjC3jZWMZspFWo8az4pMvmRQfXU/2rwfArpqJE7bIq4=
+X-Received: by 2002:a65:47c2:: with SMTP id f2mr11362279pgs.4.1603045621632;
+ Sun, 18 Oct 2020 11:27:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20201013103245.16723-1-billy_tsai@aspeedtech.com>
+ <20201013103245.16723-2-billy_tsai@aspeedtech.com>
+ <20201018112249.44dd3bde@archlinux>
+In-Reply-To: <20201018112249.44dd3bde@archlinux>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sun, 18 Oct 2020 21:26:45 +0300
+Message-ID: <CAHp75Vd4Sequmg_qLbtkk2JktM95bk+xg65P0gJNzPO3OQ7Vkg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] iio: adc: aspeed: Orgnaize and add the define of adc
+To: Jonathan Cameron <jic23@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,98 +74,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, lars@metafoo.de, p.zabel@pengutronix.de,
+Cc: devicetree <devicetree@vger.kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Philipp Zabel <p.zabel@pengutronix.de>,
  linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, robh+dt@kernel.org,
- pmeerw@pmeerw.net, knaack.h@gmx.de, alexandru.ardelean@analog.com,
- linux-arm-kernel@lists.infradead.org
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-iio <linux-iio@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Peter Meerwald <pmeerw@pmeerw.net>, Hartmut Knaack <knaack.h@gmx.de>,
+ Alexandru Ardelean <alexandru.ardelean@analog.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 13 Oct 2020 18:32:45 +0800
-Billy Tsai <billy_tsai@aspeedtech.com> wrote:
+On Sun, Oct 18, 2020 at 1:32 PM Jonathan Cameron <jic23@kernel.org> wrote:
+> On Tue, 13 Oct 2020 18:32:43 +0800
+> Billy Tsai <billy_tsai@aspeedtech.com> wrote:
 
-> At ast2600 ref_voltage becomes configurable and this property is board
-> dependency.
-> 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+...
 
-dt-bindings: etc for the patch title.  Look at naming of similar patches
-for a reference.
+> > +/* [31:16] */
 
+Useless comment.
 
-> ---
->  .../devicetree/bindings/iio/adc/aspeed_adc.txt   | 16 +++++++++++++++-
+> > +#define ASPEED_ADC_CTRL_CH_EN(n)     (1 << (16 + n))
+> > +#define ASPEED_ADC_CTRL_CH_EN_ALL    GENMASK(31, 16)
 
-This has been converted to yaml. 
-It is now in Linus' tree (though only very recently!)
+But the main point is here.
+First of all you may use BIT() in above.
+Second, it's a good practice to put variables in the additional
+parentheses in macros in case you are doing some operations with.
 
-You will need to add the relevant logic to make the yaml binding express that this
-only exists and is required for ast600
+So, something like BIT(16 + (n)) would be nice to have at the end.
 
-The binding is making me wonder a bit on what this voltage actually is...
-
-I 'think' we have a setup where the reference voltage is either picked
-from 2 available internal references or uses an external regulator (presumably
-provided to a pin on the chip?)
-
-As such, the binding should be an optional regulator.  If the regulator is present
-we use that, even if it matches the internal regulator votlage.  Someone put it
-down on the board, so presumably  they want to use it.
-
-If it's not present, then have to provide either of the two internal regulator
-voltages via a devicetree binding such as you have here.
-
-
-
->  1 file changed, 15 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt b/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt
-> index 034fc2ba100e..0ba1980c4e06 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt
-> +++ b/Documentation/devicetree/bindings/iio/adc/aspeed_adc.txt
-> @@ -3,8 +3,11 @@ Aspeed ADC
->  This device is a 10-bit converter for 16 voltage channels.  All inputs are
->  single ended.
->  
-> +At ast2600, this device split into two individual IPs and each contains 8 voltage channels.
-> +
-> +Chip level dtsi:
->  Required properties:
-> -- compatible: Should be "aspeed,ast2400-adc" or "aspeed,ast2500-adc"
-> +- compatible: Should be "aspeed,ast2400-adc" or "aspeed,ast2500-adc" or "aspeed,ast2600-adc"
->  - reg: memory window mapping address and length
->  - clocks: Input clock used to derive the sample clock. Expected to be the
->            SoC's APB clock.
-> @@ -20,3 +23,14 @@ Example:
->  		resets = <&syscon ASPEED_RESET_ADC>;
->  		#io-channel-cells = <1>;
->  	};
-> +
-> +Board level dts:
-> +Required properties:
-> +- ref_voltage: (ast2600 only)
-> +	- Reference voltage in millivolts for the conversions.
-> +	- The range of value is 900 to 2700 mv.
-
-See above for suggestion on on this. For the internal case, will need
-a name that expresses both what it is and what the units are.
-
-int_ref_voltage_mv perhaps?
-
-Yaml binding should check that either we have a regulator, or
-we have this element.  That way we'll ensure we don't have any confusion
-over which one to use.
-
-Thanks,
-
-Jonathan
-
-> +
-> +Example:
-> +&adc0 {
-> +	ref_voltage = <2500>;
-> +};
-> \ No newline at end of file
-
+-- 
+With Best Regards,
+Andy Shevchenko
