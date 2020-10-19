@@ -2,51 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7206293274
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Oct 2020 02:57:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FBC293068
+	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Oct 2020 23:22:49 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CFZwJ70GGzDqTb
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Oct 2020 11:57:20 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CFV8j2c6rzDqX2
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Oct 2020 08:22:45 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=kuba@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=209.85.210.67; helo=mail-ot1-f67.google.com;
+ envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=pVbfww0z; dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+ [209.85.210.67])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CFR0s3xsgzDqPM;
- Tue, 20 Oct 2020 06:00:45 +1100 (AEDT)
-Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com
- (c-67-180-217-166.hsd1.ca.comcast.net [67.180.217.166])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0939C222E9;
- Mon, 19 Oct 2020 19:00:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603134042;
- bh=+lMFQYIaCukUHpnNzD/k9KmQbsLsX0WIpfiaShqpt7c=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=pVbfww0z1+dboGRtcWGyS41djkdOeHZbebVtyHOdrvrukBgld1z74g6/lLt8fM7zj
- OpmPtCao9LdTgaMuIeGVwdtwVhy2oEqaL+prVsub3plWFVgmHp5jx7Rr7PZKmnm/pY
- ala8lrc38fgkCBN2a8y3QjMwDO6n4AuoaDG4mJR8=
-Date: Mon, 19 Oct 2020 12:00:40 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH] net: ftgmac100: Fix missing TX-poll issue
-Message-ID: <20201019120040.3152ea0b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <CACPK8Xfn+Gn0PHCfhX-vgLTA6e2=RT+D+fnLF67_1j1iwqh7yg@mail.gmail.com>
-References: <20201019073908.32262-1-dylan_hung@aspeedtech.com>
- <CACPK8Xfn+Gn0PHCfhX-vgLTA6e2=RT+D+fnLF67_1j1iwqh7yg@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CFV8X5xmyzDqL4
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 20 Oct 2020 08:22:36 +1100 (AEDT)
+Received: by mail-ot1-f67.google.com with SMTP id e20so1145404otj.11
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 19 Oct 2020 14:22:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kb2FOP10/CSY2+K+fOQqeeT9YIluintmnWiaKshoetI=;
+ b=B3LQvE28lbEolQ4dyewEgIassUnYgPbq9Ip9GFjTiwfU/zbVcyNH7plKuuRPe8WKLL
+ BcDFSHZcWy1ypMGLmkd4/AmcVzJQD8NaWaPnV9do5itf4spxMqoLofai1dbVfnwj9iaE
+ FNIvADTbNm6GY2Tpart400kBNxUQ5hZxCDf5DQHbTOcVrrMIYc1N5ycmM4fwMO5BKCkf
+ Ds1YYx9Gu2BltfFjDP/nZHPoRsac255FdBnTHXZnT5lP4NZaJ8k9rpeE/czfIkYph5P6
+ GzprnOpPKHIkGDQv8RjlG54a5oeLf2cyPEVqaeKibiZaXghiYEqUxaKoCEvpk+t7L597
+ aASw==
+X-Gm-Message-State: AOAM531ayGQDdgrovgz8+sftJxetcATbYOVl//VXihmntidldAsXwOGM
+ bAM7HfYMSLNCFNa+BxyM7g==
+X-Google-Smtp-Source: ABdhPJyIWuzhsUB3Qe9Fh0vC/maeBOYyf2zyXdqtFSd95qu5nrMOWMpgVAvxAWWAnOy1okFxqHYCKA==
+X-Received: by 2002:a05:6830:1de6:: with SMTP id
+ b6mr1360403otj.37.1603142553829; 
+ Mon, 19 Oct 2020 14:22:33 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id k13sm307564ooi.41.2020.10.19.14.22.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Oct 2020 14:22:33 -0700 (PDT)
+Received: (nullmailer pid 3624234 invoked by uid 1000);
+ Mon, 19 Oct 2020 21:22:32 -0000
+Date: Mon, 19 Oct 2020 16:22:32 -0500
+From: Rob Herring <robh@kernel.org>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Subject: Re: [PATCH 3/3] dt-bindings: Change the meaning of clock-frequency
+Message-ID: <20201019212232.GA3619458@bogus>
+References: <20201016062602.20014-1-billy_tsai@aspeedtech.com>
+ <20201016062602.20014-4-billy_tsai@aspeedtech.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Tue, 20 Oct 2020 11:57:11 +1100
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201016062602.20014-4-billy_tsai@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,35 +68,106 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW <BMC-SW@aspeedtech.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Po-Yu Chuang <ratbert@faraday-tech.com>, netdev@vger.kernel.org,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "David S . Miller" <davem@davemloft.net>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com,
+ vernon.mauery@linux.intel.com, haiyue.wang@linux.intel.com,
+ james.feist@linux.intel.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 19 Oct 2020 08:57:03 +0000 Joel Stanley wrote:
-> > diff --git a/drivers/net/ethernet/faraday/ftgmac100.c b/drivers/net/ethernet/faraday/ftgmac100.c
-> > index 00024dd41147..9a99a87f29f3 100644
-> > --- a/drivers/net/ethernet/faraday/ftgmac100.c
-> > +++ b/drivers/net/ethernet/faraday/ftgmac100.c
-> > @@ -804,7 +804,8 @@ static netdev_tx_t ftgmac100_hard_start_xmit(struct sk_buff *skb,
-> >          * before setting the OWN bit on the first descriptor.
-> >          */
-> >         dma_wmb();
-> > -       first->txdes0 = cpu_to_le32(f_ctl_stat);
-> > +       WRITE_ONCE(first->txdes0, cpu_to_le32(f_ctl_stat));
-> > +       READ_ONCE(first->txdes0);  
-> 
-> I understand what you're trying to do here, but I'm not sure that this
-> is the correct way to go about it.
-> 
-> It does cause the compiler to produce a store and then a load.
+On Fri, Oct 16, 2020 at 02:26:02PM +0800, Billy Tsai wrote:
+> Integration of the usage of msg-timing and addr-timing to clock-frequency.
+> User can just set it to adjust the peci work efficient.
 
-+1 @first is system memory from dma_alloc_coherent(), right?
+You're breaking the ABI changing this.
 
-You shouldn't have to do this. Is coherent DMA memory broken 
-on your platform?
+> 
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> ---
+>  .../devicetree/bindings/peci/peci-aspeed.yaml | 56 +++++++++----------
+>  1 file changed, 28 insertions(+), 28 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/peci/peci-aspeed.yaml b/Documentation/devicetree/bindings/peci/peci-aspeed.yaml
+> index 0f5c2993fe9b..7c6c895784af 100644
+> --- a/Documentation/devicetree/bindings/peci/peci-aspeed.yaml
+> +++ b/Documentation/devicetree/bindings/peci/peci-aspeed.yaml
+> @@ -40,31 +40,33 @@ properties:
+>      maxItems: 1
+>  
+>    clock-frequency:
+> -    # Operation frequency of PECI controller in units of Hz.
+> -    minimum: 187500
+> -    maximum: 24000000
+> -
+> -  msg-timing:
+> -    description: |
+> -      Message timing negotiation period. This value will determine the period
+> -      of message timing negotiation to be issued by PECI controller. The unit
+> -      of the programmed value is four times of PECI clock period.
+> -    allOf:
+> -      - $ref: /schemas/types.yaml#/definitions/uint32
+> -      - minimum: 0
+> -        maximum: 255
+> -        default: 1
+> -
+> -  addr-timing:
+> -    description: |
+> -      Address timing negotiation period. This value will determine the period
+> -      of address timing negotiation to be issued by PECI controller. The unit
+> -      of the programmed value is four times of PECI clock period.
+> -    allOf:
+> -      - $ref: /schemas/types.yaml#/definitions/uint32
+> -      - minimum: 0
+> -        maximum: 255
+> -        default: 1
+> +    # The bit frequency of PECI negotiation stage in units of Hz.
+> +    # Driver will calculate the best divisor setting of msg-timing and
+> +    # addr-timing to meet the value.
+
+Use 'description' rather than comments.
+
+> +    minimum: 2000
+> +    maximum: 2000000
+> +
+> +  # msg-timing:
+> +  #   description: |
+> +  #     Message timing negotiation period. This value will determine the period
+> +  #     of message timing negotiation to be issued by PECI controller. The unit
+> +  #     of the programmed value is four times of PECI clock period.
+> +  #   allOf:
+> +  #     - $ref: /schemas/types.yaml#/definitions/uint32
+> +  #     - minimum: 0
+> +  #       maximum: 255
+> +  #       default: 1
+
+Why is this commented out?
+
+> +
+> +  # addr-timing:
+> +  #   description: |
+> +  #     Address timing negotiation period. This value will determine the period
+> +  #     of address timing negotiation to be issued by PECI controller. The unit
+> +  #     of the programmed value is four times of PECI clock period.
+> +  #   allOf:
+> +  #     - $ref: /schemas/types.yaml#/definitions/uint32
+> +  #     - minimum: 0
+> +  #       maximum: 255
+> +  #       default: 1
+>  
+>    rd-sampling-point:
+>      description: |
+> @@ -114,9 +116,7 @@ examples:
+>              interrupts = <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
+>              clocks = <&syscon ASPEED_CLK_GATE_REF0CLK>;
+>              resets = <&syscon ASPEED_RESET_PECI>;
+> -            clock-frequency = <24000000>;
+> -            msg-timing = <1>;
+> -            addr-timing = <1>;
+> +            clock-frequency = <2000000>;
+>              rd-sampling-point = <8>;
+>              cmd-timeout-ms = <1000>;
+>          };
+> -- 
+> 2.17.1
+> 
