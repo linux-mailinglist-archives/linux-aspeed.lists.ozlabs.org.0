@@ -1,64 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2B3293D2B
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Oct 2020 15:17:27 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B909029416C
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Oct 2020 19:26:15 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CFvL9647HzDqh3
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Oct 2020 00:17:21 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CG0sJ6xk2zDqSS
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Oct 2020 04:26:12 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aculab.com (client-ip=185.58.86.151;
- helo=eu-smtp-delivery-151.mimecast.com; envelope-from=david.laight@aculab.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=kuba@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-X-Greylist: delayed 101 seconds by postgrey-1.36 at bilbo;
- Wed, 21 Oct 2020 00:17:04 AEDT
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=default header.b=kO017b/Y; dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CFvKr3hRqzDqdT
- for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Oct 2020 00:17:04 +1100 (AEDT)
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-91-WlibNx1BNMemSMrpm2jZzw-1; Tue, 20 Oct 2020 14:15:12 +0100
-X-MC-Unique: WlibNx1BNMemSMrpm2jZzw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Tue, 20 Oct 2020 14:15:12 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Tue, 20 Oct 2020 14:15:12 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Dylan Hung' <dylan_hung@aspeedtech.com>, Jakub Kicinski
- <kuba@kernel.org>, Joel Stanley <joel@jms.id.au>
-Subject: RE: [PATCH] net: ftgmac100: Fix missing TX-poll issue
-Thread-Topic: [PATCH] net: ftgmac100: Fix missing TX-poll issue
-Thread-Index: AQHWper5b6m5IMpmJk2Uyk3yAiWzCqmen8qAgACopgCAALYZ4IAAd6yw
-Date: Tue, 20 Oct 2020 13:15:11 +0000
-Message-ID: <f75555e09d47476a871669ffe017c4f8@AcuMS.aculab.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CG0q92gFmzDqP9;
+ Wed, 21 Oct 2020 04:24:21 +1100 (AEDT)
+Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown
+ [163.114.132.5])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 432CA22249;
+ Tue, 20 Oct 2020 17:24:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1603214658;
+ bh=DLOV96T1YAajXeFM85FxC+biug7p9KERA9RpgNy4x2s=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=kO017b/Y9Z0AmqHgHYhKHLA7oiilB8TKq0BuxXhnKqTDXHTVV9zbakmLO0ZlAsoj4
+ Jl7JJ+drc5DUcbWyrGyDqZ4moB6gMhXZOtzvK1pzVX3h8GYTw7Q9GYk7PpSTAK6seP
+ 15YPqupbXFS1HU7mu/y6I4524h19vfwpGwX6pd90=
+Date: Tue, 20 Oct 2020 10:24:15 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: Re: [PATCH] net: ftgmac100: Fix missing TX-poll issue
+Message-ID: <20201020102415.52b51895@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <3ebaa814fe21eb7b4b25a2c9455a34434e0207d6.camel@kernel.crashing.org>
 References: <20201019073908.32262-1-dylan_hung@aspeedtech.com>
  <CACPK8Xfn+Gn0PHCfhX-vgLTA6e2=RT+D+fnLF67_1j1iwqh7yg@mail.gmail.com>
  <20201019120040.3152ea0b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <PS1PR0601MB1849166CBF6D1678E6E1210C9C1F0@PS1PR0601MB1849.apcprd06.prod.outlook.com>
-In-Reply-To: <PS1PR0601MB1849166CBF6D1678E6E1210C9C1F0@PS1PR0601MB1849.apcprd06.prod.outlook.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+ <1a02e57b6b7d425a19dc59f84091c38ca4edcf47.camel@kernel.crashing.org>
+ <20201019195723.41a5591f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <3ebaa814fe21eb7b4b25a2c9455a34434e0207d6.camel@kernel.crashing.org>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,70 +61,51 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW <BMC-SW@aspeedtech.com>, Po-Yu Chuang <ratbert@faraday-tech.com>,
+Cc: linux-arch@vger.kernel.org, BMC-SW <BMC-SW@aspeedtech.com>,
  linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Po-Yu Chuang <ratbert@faraday-tech.com>, paulmck@kernel.org,
+ netdev@vger.kernel.org, OpenBMC Maillist <openbmc@lists.ozlabs.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "David S . Miller" <davem@davemloft.net>
+ Arnd Bergmann <arnd@arndb.de>, "David S . Miller" <davem@davemloft.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Dylan Hung
-> Sent: 20 October 2020 07:15
->=20
-> > -----Original Message-----
-> > From: Jakub Kicinski [mailto:kuba@kernel.org]
-> >
-> > On Mon, 19 Oct 2020 08:57:03 +0000 Joel Stanley wrote:
-> > > > diff --git a/drivers/net/ethernet/faraday/ftgmac100.c
-> > > > b/drivers/net/ethernet/faraday/ftgmac100.c
-> > > > index 00024dd41147..9a99a87f29f3 100644
-> > > > --- a/drivers/net/ethernet/faraday/ftgmac100.c
-> > > > +++ b/drivers/net/ethernet/faraday/ftgmac100.c
-> > > > @@ -804,7 +804,8 @@ static netdev_tx_t
-> > ftgmac100_hard_start_xmit(struct sk_buff *skb,
-> > > >          * before setting the OWN bit on the first descriptor.
-> > > >          */
-> > > >         dma_wmb();
-> > > > -       first->txdes0 =3D cpu_to_le32(f_ctl_stat);
-> > > > +       WRITE_ONCE(first->txdes0, cpu_to_le32(f_ctl_stat));
-> > > > +       READ_ONCE(first->txdes0);
-> > >
-> > > I understand what you're trying to do here, but I'm not sure that thi=
-s
-> > > is the correct way to go about it.
-> > >
-> > > It does cause the compiler to produce a store and then a load.
->=20
-> Yes, the load instruction here is to guarantee the previous store is inde=
-ed
-> pushed onto the physical memory.
+On Tue, 20 Oct 2020 17:15:42 +1100 Benjamin Herrenschmidt wrote:
+> On Mon, 2020-10-19 at 19:57 -0700, Jakub Kicinski wrote:
+> > > I suspect the problem is that the HW (and yes this would be a HW bug)
+> > > doesn't order the CPU -> memory and the CPU -> MMIO path.
+> > > 
+> > > What I think happens is that the store to txde0 is potentially still in
+> > > a buffer somewhere on its way to memory, gets bypassed by the store to
+> > > MMIO, causing the MAC to try to read the descriptor, and getting the
+> > > "old" data from memory.  
+> > 
+> > I see, but in general this sort of a problem should be resolved by
+> > adding an appropriate memory barrier. And in fact such barrier should
+> > (these days) be implied by a writel (I'm not 100% clear on why this
+> > driver uses iowrite, and if it matters).  
+> 
+> No, a barrier won't solve this I think.
+> 
+> This is a coherency problem at the fabric/interconnect level. I has to
+> do with the way they implemented the DMA path from memory to the
+> ethernet controller using a different "port" of the memory controller
+> than the one used by the CPU, separately from the MMIO path, with no
+> proper ordering between those busses. Old school design .... and
+> broken.
+> 
+> By doing a read back, they probably force the previous write to memory
+> to get past the point where it will be visible to a subsequent DMA read
+> by the ethernet controller.
 
-That rather depends where the data is 'stuck'.
+Thanks for the explanation. How wonderful :/
 
-An old sparc cpu would flush the cpu store buffer before the read.
-But a modern x86 cpu will satisfy the read from the store buffer
-for cached data.
+It'd still be highly, highly preferable if the platform was conforming
+to the Linux memory model. IO successors (iowrite32 / writel) must
+ensure previous DRAM writes had completed. For performance sensitive
+ops, which don't require ordering we have writel_relaxed etc.
 
-If the write is 'posted' on a PCI(e) bus then the read can't overtake it.
-But that is a memory access so shouldn't be to a PCI(e) address.
-
-Shouldn't dma_wb() actually force your 'cpu to dram' queue be flushed?
-In which case you need one after writing the ring descriptor and
-before the poke of the mac engine.
-
-The barrier before the descriptor write only needs to guarantee
-ordering of the writes - it can probably be a lighter barrier?
-
-It might be that your dma_wmb() needs to do a write+read of
-an uncached DRAM location in order to empty the cpu to dram queue.
-
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
-
+I assume the DRAM controller queue is a straight FIFO and we don't have
+to worry about hitting the same address, so how about we add a read
+of some known uncached address in iowrite32 / writel?
