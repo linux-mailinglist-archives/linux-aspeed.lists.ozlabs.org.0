@@ -1,53 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id A81B6293367
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Oct 2020 04:57:41 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CD142933D1
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Oct 2020 06:14:25 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CFdb62FzBzDqT4
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Oct 2020 13:57:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CFgHc5p9hzDqVD
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Oct 2020 15:14:20 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=kuba@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::841;
+ helo=mail-qt1-x841.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
+ dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=hhwqmsA1; dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=CfVX7lB8; dkim-atps=neutral
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CFdZw5R8vzDqT1;
- Tue, 20 Oct 2020 13:57:28 +1100 (AEDT)
-Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown
- [163.114.132.5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 208DF222E9;
- Tue, 20 Oct 2020 02:57:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603162645;
- bh=qwSN9blogEZVLec+dCJS+sFeJavpar63X669kQYp8rY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=hhwqmsA1cgEsFROQBL4byLwoaqAmG2QBWW0ddmocqhrtuk7Rr8x6JMM9GM4fq1HPa
- uzuzs1UkoYq/1DXJb5TuShJqcK5svitoMD+7JZ//UQfv2N59j4olJJIN6NdaZ7Sg2V
- UoBNpABhyynRdhwZqKJIsWIgo6z7AhEo6VDDiYpA=
-Date: Mon, 19 Oct 2020 19:57:23 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: Re: [PATCH] net: ftgmac100: Fix missing TX-poll issue
-Message-ID: <20201019195723.41a5591f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <1a02e57b6b7d425a19dc59f84091c38ca4edcf47.camel@kernel.crashing.org>
-References: <20201019073908.32262-1-dylan_hung@aspeedtech.com>
- <CACPK8Xfn+Gn0PHCfhX-vgLTA6e2=RT+D+fnLF67_1j1iwqh7yg@mail.gmail.com>
- <20201019120040.3152ea0b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <1a02e57b6b7d425a19dc59f84091c38ca4edcf47.camel@kernel.crashing.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CFgHN59yMzDqVB;
+ Tue, 20 Oct 2020 15:14:06 +1100 (AEDT)
+Received: by mail-qt1-x841.google.com with SMTP id c5so230259qtw.3;
+ Mon, 19 Oct 2020 21:14:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lRPCIqgVp7JxtQIwMiyZjjVI3vzOaxsFkudHQAakCTE=;
+ b=CfVX7lB8vevBGCqExwTh3APKc1v2ezK78tU6+t1yX1lK9mrdPWEcTaJoUOE7QoFs8p
+ GJ7Ri9qfdszlYlCd3pUwR3z8S97ruE2/106lhkHvPIw+vCqbKWayS+atwy8X/gkS2SQ4
+ /mOsaA24Kj7yBhJXUdi69luiVxNI7XhEu6UME=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lRPCIqgVp7JxtQIwMiyZjjVI3vzOaxsFkudHQAakCTE=;
+ b=kbKVDIqJ853FctedOkE/2GkBcZ2rna2obsi14xBfEfD3NmOeXUxatjN0P96egjmhPr
+ gHZSY3eO6prwfjYVf577zoHipTCixWTpw5cOZeRa81jof1LAtTnFr/Y2bDZukhn8go5H
+ kdBD4TO5UIS3JPnJbRjFHHVxwDcmWEjprIoChAb09EOORwyR8WgLvYL+FhajGOdP2b+z
+ Xdqyhxsyo4qyHRBDDPWMTWwUIEXw8thyfOCreyOfl6RPZOA5EN9bniDtzKxxDBmh2Lm0
+ k4ezkzICXQqu/0vwFYuaFCnslZ+3BrzkqCy8QDstMdYJq78eAu3TYxtg/YTLxoyUhwxx
+ cmPg==
+X-Gm-Message-State: AOAM531+II7QgpMJMmbCUhlYCsfTI7SYFZf2by7D+kMzGlX+ppC1FTnA
+ yIVaQrgBT3JNSO3pWwasJbqfcfY1cqXtzbAW7Oc=
+X-Google-Smtp-Source: ABdhPJzfgWHW/dSSaO154QYtrEdfjSG/f3sH5C15wXCfARnDLbzc/MhtJX+jfb8/wRvEhAaYvobhKCrue9XWKekWqUY=
+X-Received: by 2002:aed:3325:: with SMTP id u34mr826567qtd.263.1603167242677; 
+ Mon, 19 Oct 2020 21:14:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20201019085717.32413-1-dylan_hung@aspeedtech.com>
+ <20201019085717.32413-2-dylan_hung@aspeedtech.com>
+ <be7a978c48c9f1c6c29583350dee6168385c3039.camel@kernel.crashing.org>
+In-Reply-To: <be7a978c48c9f1c6c29583350dee6168385c3039.camel@kernel.crashing.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 20 Oct 2020 04:13:49 +0000
+Message-ID: <CACPK8XdECaKwdQgWFQ=sRBiCjDLXHtMKo=o-xQZPmMZyevOukQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] ftgmac100: Fix race issue on TX descriptor[0]
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,58 +71,93 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arch@vger.kernel.org, BMC-SW <BMC-SW@aspeedtech.com>,
+Cc: BMC-SW <BMC-SW@aspeedtech.com>,
  linux-aspeed <linux-aspeed@lists.ozlabs.org>,
  Po-Yu Chuang <ratbert@faraday-tech.com>, netdev@vger.kernel.org,
  OpenBMC Maillist <openbmc@lists.ozlabs.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, "David S . Miller" <davem@davemloft.net>
+ Jakub Kicinski <kuba@kernel.org>, "David S . Miller" <davem@davemloft.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 20 Oct 2020 10:23:41 +1100 Benjamin Herrenschmidt wrote:
-> On Mon, 2020-10-19 at 12:00 -0700, Jakub Kicinski wrote:
-> > On Mon, 19 Oct 2020 08:57:03 +0000 Joel Stanley wrote:  
-> > > > diff --git a/drivers/net/ethernet/faraday/ftgmac100.c
-> > > > b/drivers/net/ethernet/faraday/ftgmac100.c
-> > > > index 00024dd41147..9a99a87f29f3 100644
-> > > > --- a/drivers/net/ethernet/faraday/ftgmac100.c
-> > > > +++ b/drivers/net/ethernet/faraday/ftgmac100.c
-> > > > @@ -804,7 +804,8 @@ static netdev_tx_t
-> > > > ftgmac100_hard_start_xmit(struct sk_buff *skb,
-> > > >          * before setting the OWN bit on the first descriptor.
-> > > >          */
-> > > >         dma_wmb();
-> > > > -       first->txdes0 = cpu_to_le32(f_ctl_stat);
-> > > > +       WRITE_ONCE(first->txdes0, cpu_to_le32(f_ctl_stat));
-> > > > +       READ_ONCE(first->txdes0);    
-> > > 
-> > > I understand what you're trying to do here, but I'm not sure that
-> > > this
-> > > is the correct way to go about it.
-> > > 
-> > > It does cause the compiler to produce a store and then a load.  
-> > 
-> > +1 @first is system memory from dma_alloc_coherent(), right?
-> > 
-> > You shouldn't have to do this. Is coherent DMA memory broken 
-> > on your platform?  
-> 
-> I suspect the problem is that the HW (and yes this would be a HW bug)
-> doesn't order the CPU -> memory and the CPU -> MMIO path.
-> 
-> What I think happens is that the store to txde0 is potentially still in
-> a buffer somewhere on its way to memory, gets bypassed by the store to
-> MMIO, causing the MAC to try to read the descriptor, and getting the
-> "old" data from memory.
+On Mon, 19 Oct 2020 at 23:20, Benjamin Herrenschmidt
+<benh@kernel.crashing.org> wrote:
+>
+> On Mon, 2020-10-19 at 16:57 +0800, Dylan Hung wrote:
+> > These rules must be followed when accessing the TX descriptor:
+> >
+> > 1. A TX descriptor is "cleanable" only when its value is non-zero
+> > and the owner bit is set to "software"
+>
+> Can you elaborate ? What is the point of that change ? The owner bit
+> should be sufficient, why do we need to check other fields ?
 
-I see, but in general this sort of a problem should be resolved by
-adding an appropriate memory barrier. And in fact such barrier should
-(these days) be implied by a writel (I'm not 100% clear on why this
-driver uses iowrite, and if it matters).
+I would like Dylan to clarify too. The datasheet has a footnote below
+the descriptor layout:
 
-> It's ... fishy, but that isn't the first time an Aspeed chip has that
-> type of bug (there's a similar one in the USB device controler iirc).
+ - TXDES#0: Bits 27 ~ 14 are valid only when FTS = 1
+ - TXDES#1: Bits 31 ~ 0 are valid only when FTS = 1
 
-Argh.
+So the ownership bit (31) is not valid unless FTS is set. However,
+this isn't what his patch does. It adds checks for EDOTR.
+
+>
+> > 2. A TX descriptor is "writable" only when its value is zero
+> > regardless the edotr mask.
+>
+> Again, why is that ? Can you elaborate ? What race are you trying to
+> address here ?
+>
+> Cheers,
+> Ben.
+>
+> > Fixes: 52c0cae87465 ("ftgmac100: Remove tx descriptor accessors")
+> > Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
+> > Signed-off-by: Joel Stanley <joel@jms.id.au>
+> > ---
+> >  drivers/net/ethernet/faraday/ftgmac100.c | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >
+> > diff --git a/drivers/net/ethernet/faraday/ftgmac100.c
+> > b/drivers/net/ethernet/faraday/ftgmac100.c
+> > index 00024dd41147..7cacbe4aecb7 100644
+> > --- a/drivers/net/ethernet/faraday/ftgmac100.c
+> > +++ b/drivers/net/ethernet/faraday/ftgmac100.c
+> > @@ -647,6 +647,9 @@ static bool ftgmac100_tx_complete_packet(struct
+> > ftgmac100 *priv)
+> >       if (ctl_stat & FTGMAC100_TXDES0_TXDMA_OWN)
+> >               return false;
+> >
+> > +     if ((ctl_stat & ~(priv->txdes0_edotr_mask)) == 0)
+> > +             return false;
+> > +
+> >       skb = priv->tx_skbs[pointer];
+> >       netdev->stats.tx_packets++;
+> >       netdev->stats.tx_bytes += skb->len;
+> > @@ -756,6 +759,9 @@ static netdev_tx_t
+> > ftgmac100_hard_start_xmit(struct sk_buff *skb,
+> >       pointer = priv->tx_pointer;
+> >       txdes = first = &priv->txdes[pointer];
+> >
+> > +     if (le32_to_cpu(txdes->txdes0) & ~priv->txdes0_edotr_mask)
+> > +             goto drop;
+> > +
+> >       /* Setup it up with the packet head. Don't write the head to
+> > the
+> >        * ring just yet
+> >        */
+> > @@ -787,6 +793,10 @@ static netdev_tx_t
+> > ftgmac100_hard_start_xmit(struct sk_buff *skb,
+> >               /* Setup descriptor */
+> >               priv->tx_skbs[pointer] = skb;
+> >               txdes = &priv->txdes[pointer];
+> > +
+> > +             if (le32_to_cpu(txdes->txdes0) & ~priv-
+> > >txdes0_edotr_mask)
+> > +                     goto dma_err;
+> > +
+> >               ctl_stat = ftgmac100_base_tx_ctlstat(priv, pointer);
+> >               ctl_stat |= FTGMAC100_TXDES0_TXDMA_OWN;
+> >               ctl_stat |= FTGMAC100_TXDES0_TXBUF_SIZE(len);
+>
