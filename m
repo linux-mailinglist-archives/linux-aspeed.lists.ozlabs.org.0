@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C08629553A
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Oct 2020 01:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D6F29554D
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Oct 2020 01:45:21 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CGn5f2NxrzDqT9
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Oct 2020 10:39:34 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CGnDG0vhSzDqTC
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Oct 2020 10:45:18 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,46 +17,46 @@ Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=A9UzhIFJ; 
+ header.s=fm1 header.b=SmG5aEgu; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=NQbJQb9u; 
+ header.a=rsa-sha256 header.s=fm1 header.b=kT0m4UXZ; 
  dkim-atps=neutral
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
  [66.111.4.28])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CGn5R1N9SzDqQb
- for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Oct 2020 10:39:22 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CGnD50WF6zDqRD
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Oct 2020 10:45:08 +1100 (AEDT)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id BFE525C0601;
- Wed, 21 Oct 2020 19:39:18 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 6A5FC5C06A1;
+ Wed, 21 Oct 2020 19:45:06 -0400 (EDT)
 Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Wed, 21 Oct 2020 19:39:18 -0400
+ by compute3.internal (MEProxy); Wed, 21 Oct 2020 19:45:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=KxHx0Z0PGBQzSx/sSWx4LOYQ1A63VNA
- Y03C08nAGQgo=; b=A9UzhIFJIZu+1lp/W2zH5Iihyss26kn1j8ajLMnM0cej9yX
- Oji0WUY1ayc7JppzPzDTp/LoFa6QGxw6wpmzIXvxINno7deGLtTnTXOGOl6bGEI0
- QK6K4BHsFKSP7xsoTil3Srf1IQ931ZG8+XQojKKB/090FJPVvPqFCT/jMJkEmUPZ
- TdPz5zT66hhiIS2+43CnWltQaB5mEftJ5MI2uqK30c64mfkbXzFjOvx/aE/bC/zr
- 8AOX0ymiD57QXMjkndo6CEGGypAcwmCzsyrHCrZDX/gJVmyIeOG7v0ldkpIQmUC8
- nNRTi+aLwpkJe/yiypHp2wozVQbwTrykmrnpseQ==
+ mime-version:message-id:in-reply-to:references:date:from:to
+ :subject:content-type; s=fm1; bh=aAZlJf0Hxtfg2M5mJloVMqcRdHoOe12
+ 2nXpkdXv+its=; b=SmG5aEgu2ozzsG17xXomkPZWe+6yfPjj7J21WlNbBHzjKsX
+ 5sSlFTbFpQdnV7O7QjTMnRh6XaFX8Fnz7xQMxKxXR8sdmXunRcy48e7CJ/0XX5Mb
+ F+72QQxRSFXz3SPFoQ0kaS6zP+PzvGZ3AevzHpSnQQLxP+Xhp/lJbrgo9dfjW+fO
+ CKSa6A1CJZlJqILZfevtfeaznppx1VvbkTxeVw9zIWpL2ZletjGafoRT6Y2vQUQw
+ sKvtWU9W9JFzW7E5QeKMQE042AP3kLj8GsCQzEowP1i1IvsAcILRHxN3PSdEGJ5h
+ PPp1qRu6g8wvSEgal8iq5qGbNoDy3iCOq1G5/Jg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ messagingengine.com; h=content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=KxHx0Z
- 0PGBQzSx/sSWx4LOYQ1A63VNAY03C08nAGQgo=; b=NQbJQb9uJDLbzlgDXN9Sx4
- csLwy/VznH3pgG/gONqNU78ZLZ0nytSut+uzLfV0KJIakO+y/flLbgTJmJv7agaN
- eE9EGfy5UIdmZx902SGRzTn7pHLgSsl/HkxpFffxFj7lakKmzUi/1tuNRtysON+7
- cpSKVhzFjbHzohqf0Zk9L7yuNMXyVx742Gfui5UQgAHcgjzwKF2YPKnhV0AUTbrA
- QTq2HA44rQ6CUJKTbb1r3hIkh43bpuHDVYCEtxLbmSjZMgwHVFfj/ao7K+okkQ02
- 4LUb6OrGEk4KvImOZiTWMYRvhK7ofGK5dX1UX8t2Z0NrlQA0AGkBnMO5dZWT1p9A
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=aAZlJf
+ 0Hxtfg2M5mJloVMqcRdHoOe122nXpkdXv+its=; b=kT0m4UXZzQ8m1G4pEYZQta
+ /6yblKlFZZB4U6EGzArklWI9fNUZXgP2HDhXESfT6QTaVUFNK/rZ2ISyHQrORULb
+ tD2ug8ZVHqSFf1pHisu3f7hBXlMkmAzFbd7eyy4wBcyrVdARQ2AtNsQwu7vAd9S/
+ tTDCQdPNEnhhRc9psE3lFaJbzURvM+8K1mua6Hr+u6Xg6wc4MxAM33+pM9lczM6n
+ KJZQETSQKbdlo6Xb3y6KAcF/zFwxcdiYwU8Z0TmybxyOA57uYI9iUsCmAWJMaL84
+ szgOn6rxIwnGfTUBIDTipi6TZr/qEOH+TiXF8a8zZ+CNd/Z4bVPP6cCG2up5QfyQ
  ==
-X-ME-Sender: <xms:pMaQX27oCqlQG3Vn-0iw08kZQrXtTLeUAXMYDOxc-5e5F-XdNOcI9A>
- <xme:pMaQX_7m1bdwG_yA8c0BOHvUsvK-6jzdcEW2lNfujDZosQIFeRSfcFoz8R4Ekl4Ot
- vlUOgHTfdOe-OZXVw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeeigddvvdcutefuodetggdotefrodftvf
+X-ME-Sender: <xms:AciQX84RwWqEwhdRgSRxevUEHu1C3Ivq2FSBhuaSkBOBRI5UjEGIVg>
+ <xme:AciQX97EEUDKth8lAOiHQIVqkAUAJJcmMmADE0EKup7l4bnqbis8uxHJ-psrOPCF-
+ FMtwgHmewgeEb5YZg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeeigddvfecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
@@ -64,27 +64,33 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeeigddvvdcutefuodetggdote
  htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
  veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  grnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:pMaQX1fmI6E149KCg3pGmXqlBOHQncmHq1fc4P-R3l1GfxKV0Ro5tA>
- <xmx:pMaQXzKpUuyT53oSafsF01NF-hiaEFs-rTzby_msxU1GD_TZjd3jOQ>
- <xmx:pMaQX6K6kHXir3o5Z5dKKOOtgdWrziy4u4aBh9lvkCY5h-udVO6MIg>
- <xmx:psaQXy9F2z6VjByQqGV9xuZKqzTUN1pDvw8QV0QAYhs3tStUYPV9iw>
+X-ME-Proxy: <xmx:AciQX7eeeDZqD-9r-jvUTLqKCDAt0hzx_UKPQHU3yLRtu38rFe7mCw>
+ <xmx:AciQXxJqi9doGP0lLg9S8FEqXJKzB9EUFh32RfoTdJJDxSccapCgRg>
+ <xmx:AciQXwIahKi5qJLUHuqEjSil-Svd0s8SYhOTOGjM-XW3CknanH0H5w>
+ <xmx:AsiQX4-G7pnH-FRK2-O0B_rOQksBoB0bXMSXqQcFfRoIYacC-I_3bQ>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id F042DE00B8; Wed, 21 Oct 2020 19:39:14 -0400 (EDT)
+ id D4469E00B8; Wed, 21 Oct 2020 19:45:03 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.3.0-502-gfef6c88-fm-20201019.001-gfef6c888
 Mime-Version: 1.0
-Message-Id: <f56ce765-9d94-41b5-bda7-202c165ea8c9@www.fastmail.com>
-In-Reply-To: <20201019045026.10732-1-billy_tsai@aspeedtech.com>
-References: <20201019045026.10732-1-billy_tsai@aspeedtech.com>
-Date: Thu, 22 Oct 2020 10:08:55 +1030
+Message-Id: <fb508440-62dc-49d2-b252-7c65dd6696fe@www.fastmail.com>
+In-Reply-To: <HK0PR06MB3380D499BCF164951167FCE2F2070@HK0PR06MB3380.apcprd06.prod.outlook.com>
+References: <20200930040823.26065-4-ryan_chen@aspeedtech.com>
+ <20201009024937.11246-1-ryan_chen@aspeedtech.com>
+ <20201009024937.11246-4-ryan_chen@aspeedtech.com>
+ <4efff4e7-27e0-35be-c112-5377f222a478@gmail.com>
+ <HK0PR06MB3380D499BCF164951167FCE2F2070@HK0PR06MB3380.apcprd06.prod.outlook.com>
+Date: Thu, 22 Oct 2020 10:14:44 +1030
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Billy Tsai" <billy_tsai@aspeedtech.com>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "Tao Ren" <rentao.bupt@gmail.com>,
- "Bartosz Golaszewski" <bgolaszewski@baylibre.com>,
- "Joel Stanley" <joel@jms.id.au>, linux-gpio@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Subject: Re: [PATCH] gpio: aspeed: fix ast2600 bank properties
+To: "Ryan Chen" <ryan_chen@aspeedtech.com>,
+ "Sergei Shtylyov" <sergei.shtylyov@gmail.com>,
+ "Joel Stanley" <joel@jms.id.au>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ BMC-SW <BMC-SW@aspeedtech.com>, "Alan Stern" <stern@rowland.harvard.edu>
+Subject: Re: [PATCH v2 3/3] ARM: dts: add ehci uhci enable in evb dts
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -97,21 +103,36 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Ryan,
 
-
-On Mon, 19 Oct 2020, at 15:20, Billy Tsai wrote:
-> GPIO_T is mapped to the most significant byte of input/output mask, and
-> the byte in "output" mask should be 0 because GPIO_T is input only. All
-> the other bits need to be 1 because GPIO_Q/R/S support both input and
-> output modes.
+On Mon, 12 Oct 2020, at 11:13, Ryan Chen wrote:
+> Hello Segei,
 > 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> > -----Original Message-----
+> > From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+> > Sent: Friday, October 9, 2020 4:23 PM
+> > To: Ryan Chen <ryan_chen@aspeedtech.com>; Joel Stanley <joel@jms.id.au>;
+> > Andrew Jeffery <andrew@aj.id.au>; linux-arm-kernel@lists.infradead.org;
+> > linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org;
+> > linux-usb@vger.kernel.org; BMC-SW <BMC-SW@aspeedtech.com>; Alan Stern
+> > <stern@rowland.harvard.edu>
+> > Subject: Re: [PATCH v2 3/3] ARM: dts: add ehci uhci enable in evb dts
+> > 
+> > HEllo!
+> > 
+> > On 09.10.2020 5:49, Ryan Chen wrote:
+> > 
+> > > Add EHCI UHCI enable build in aspeed-ast2600-evb.dts
+> > 
+> >     Enable ECHI/UHCI for the  Aspeed AST2600 EVB, perhaps?
+> > 
+> 
+> Yes, it is enable for AST2600 EVB. 
 
-Good catch, thanks Billy.
+I think Sergei was suggesting you change the wording of the commit message.
 
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+Andrew
