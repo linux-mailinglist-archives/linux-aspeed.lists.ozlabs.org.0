@@ -2,87 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850F52947EA
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Oct 2020 07:43:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 124592948B1
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Oct 2020 09:17:04 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CGKD64SFSzDqQH
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Oct 2020 16:43:34 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CGMHw4XPdzDqgk
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Oct 2020 18:17:00 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.27;
- helo=out3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=qkG/q41a; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=ICBjoYSi; 
- dkim-atps=neutral
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CGKCw5pzGzDqDc
- for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Oct 2020 16:43:23 +1100 (AEDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id EDD745C0100;
- Wed, 21 Oct 2020 01:43:19 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Wed, 21 Oct 2020 01:43:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=tIgDNnG5snpYSQp0kAt2AdCdiGSp2Gs
- 1VIoKFmFsA5M=; b=qkG/q41a7iniJkupVewamRCA0NtPXMrcdZp9KfF4ht5qLoq
- s3t9ZrpD3kEWd4bkoe6Q9uBGfMRrsKzSq3+ejGpd9eTNnRcNWFaY+IGhACL9lvWD
- KfNiW9MPeLhmNx43+55CZ3co4UA8hrC7kOvpmWSunBuSUQJZPUGoaJuiG07DwLgN
- 7e4Q+NaqhlcvNC0ZqkG+2PIgO4xAgXgW3JFerpm4ndxEGUiLpAQyvptrz66EKNl5
- 9YsALU8Yh6zY3mJHe8WFw4p9wGADoOEhxs+3iXRBlDcArz9SNJc5N61uvprBnj/7
- bpiGNwqMk5J4/mJ0xhK1G5dYwtlbxd43WypQ9Eg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=tIgDNn
- G5snpYSQp0kAt2AdCdiGSp2Gs1VIoKFmFsA5M=; b=ICBjoYSiqT3BZxu4o4XSSW
- ZF0Iagj1x4vRzInlR3N77HPKlqIvG6wnlnjNgDr+E/VE//hMzdl+hZkV0UBHhnMM
- LbE5FanF5PEcuScEHWW/+M7i6pW4qXXkki2l3tLZTDD6Ql7AamEFHgTIepMBJw8u
- GgJmO1Ns2ucOuJOTk3fM0dN9nOc42vX+qUQcaLn9Ff4S1ZXxyvnO4WWUDuIxeMqv
- pVg1d9EMbeDPQtclWk7rvBSJkLAnkYCZVoU+FboYqi8fcM9159e+RzVamQUDgTsW
- 4g34XM6ehpAyj5pgklHk8RQA9dvBn+xP/OalJgLqLIwoXTMqhRZ5eAa7K0iOhVhg
- ==
-X-ME-Sender: <xms:dsqPXywn4L4MW3q8FD0bMLhosqeB4LvMYsIEq81R_fEjqxSNzfV-RQ>
- <xme:dsqPX-RRKDU5puLhKT3MBYJhZCuVF1XwU4xlPmLT621wdP76ZyVv_Od9E0WLDMH-9
- v5-4kdcDn7Oz6imnw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeeggdeljecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
- htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
- veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- grnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:dsqPX0UOTgnBSYFJeIlK7b1sAmgflf-DRuXoW-3GD-NtKb9Kvqdf4A>
- <xmx:dsqPX4h9jVneVErTX32YRPtna0ZUs-hNPXWRT0c3qtrBw4ZOWwOe0A>
- <xmx:dsqPX0BnqiWWXRtXm-xBv2oI0_P5hDuTN06Dnv5UBGNa2FNyVsTjVg>
- <xmx:d8qPX3N4ha_KwCmDiDDmeI1m9lVPwY1PqCksn-vUHupVAvAc8PNXvw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id A58C9E011E; Wed, 21 Oct 2020 01:43:16 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.3.0-502-gfef6c88-fm-20201019.001-gfef6c888
-Mime-Version: 1.0
-Message-Id: <1a5c7370-164c-4a58-a08c-d81e4b6ce419@www.fastmail.com>
-In-Reply-To: <CACPK8XeiPBPyLu5pvjCgYquCKh+PynVKGyibUSAi+W_xw0Awfg@mail.gmail.com>
-References: <20201016043513.119841-1-andrew@aj.id.au>
- <20201016043513.119841-3-andrew@aj.id.au>
- <CACPK8XeiPBPyLu5pvjCgYquCKh+PynVKGyibUSAi+W_xw0Awfg@mail.gmail.com>
-Date: Wed, 21 Oct 2020 16:12:49 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Joel Stanley" <joel@jms.id.au>
-Subject: Re: [PATCH 2/2] ARM: dts: tacoma: Add reserved memory for ramoops
-Content-Type: text/plain
+ spf=none (no SPF record) smtp.mailfrom=arndb.de
+ (client-ip=82.165.159.5; helo=mout-xforward.kundenserver.de;
+ envelope-from=arnd@arndb.de; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=arndb.de
+Received: from mout-xforward.kundenserver.de (mout-xforward.kundenserver.de
+ [82.165.159.5])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CGMHn2CKVzDqRW;
+ Wed, 21 Oct 2020 18:16:51 +1100 (AEDT)
+Received: from mail-qk1-f175.google.com ([209.85.222.175]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1Mdevh-1jvWd03Nsf-00Zj7U; Wed, 21 Oct 2020 09:16:44 +0200
+Received: by mail-qk1-f175.google.com with SMTP id i22so1395207qkn.9;
+ Wed, 21 Oct 2020 00:16:43 -0700 (PDT)
+X-Gm-Message-State: AOAM533aUGqilSeXCQ9S9iFw0Sfu7XmJpTMf2NqC5s+2c38QYK+wiJLf
+ Y9vpS5yYW/qG57PT5MgfYI3PhXWTt3C4QXonLDw=
+X-Google-Smtp-Source: ABdhPJzT+0BTAyszKuh8XWs6KTLmuxjDNAnEbLVPOhi1yCoom3K4THRtelNWH1r1LQF+OyafHzbZAYjAf9Vu2baZA14=
+X-Received: by 2002:a05:620a:74f:: with SMTP id
+ i15mr2004909qki.352.1603264602117; 
+ Wed, 21 Oct 2020 00:16:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201019073908.32262-1-dylan_hung@aspeedtech.com>
+ <CACPK8Xfn+Gn0PHCfhX-vgLTA6e2=RT+D+fnLF67_1j1iwqh7yg@mail.gmail.com>
+ <20201019120040.3152ea0b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <PS1PR0601MB1849166CBF6D1678E6E1210C9C1F0@PS1PR0601MB1849.apcprd06.prod.outlook.com>
+ <CAK8P3a2pEfbLDWTppVHmGxXduOWPCwBw-8bMY9h3EbEecsVfTA@mail.gmail.com>
+ <32bfb619bbb3cd6f52f9e5da205673702fed228f.camel@kernel.crashing.org>
+In-Reply-To: <32bfb619bbb3cd6f52f9e5da205673702fed228f.camel@kernel.crashing.org>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Wed, 21 Oct 2020 09:16:25 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2j7fV5EFmC8UvSyvXixU8=Nmp6hrJco-fdP2Z+w8bLnA@mail.gmail.com>
+Message-ID: <CAK8P3a2j7fV5EFmC8UvSyvXixU8=Nmp6hrJco-fdP2Z+w8bLnA@mail.gmail.com>
+Subject: Re: [PATCH] net: ftgmac100: Fix missing TX-poll issue
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:UGxHrAqRvOyIzdwEZJMSaHY/jNhBMFAR4Pxk7MRfnNm09YjlwwV
+ RbvU4Nn3k23tSBdoBPWarnmDE6RJbwKQ700MI9F/bNBd9pTiMT/0hg5wPT0+QJh8c+gz2Fz
+ zIf+Koo9RiMPP2VoDNT+x0Y2wlndFLlhR3VeN/OgDP5Y90umNx8e7//T6L4An9j3bnsFtWf
+ hIgnIcyiYFtT82QVwYSIA==
+X-Spam-Flag: YES
+X-UI-Out-Filterresults: junk:10;V03:K0:VGDmNRbwDxc=:+xiwXJDl34cfzyXU7OWMUjme
+ EIWop+MmoR59RcCHljHI+22mviYHiDnzFm80FvLkzbBh2NQYRd2cL+7D6dTulXeFNrGgT3tyG
+ XKS6GCKvt3uJnfqJ9UJmdp9o02a53N6rkhZdJSyR/gYdcNAUXWyBTNuXGWHDVbN4SMD6C3LKk
+ GmS+NW2oXK8h0rFt4Kc13MZ+CB4D8fPNk26uDekdgJ87kgAPuO+g1CcrobiGP9GdlehxhXYiY
+ N2Uy/fXYpiEbz/MDwFzHh/p2PkMNLg7tP5YLRz3ZOrb8M25J3p/o8wS0IRBf1lJ5pUKQ2U8uy
+ Du4H52PSvTWqeQVWr7y1ls7P3+g2WeT8Z3n3z6ZiTb26FwAsWdIaCfCPG8sjMFjgegbDTEXmk
+ oD+xGngYhB9F5R3DC2U2RpwFWxz25VqrgGvo/Gz2joxiXSP+SoB/XB2xGOkO7Oqicm5XLSoBc
+ 1GESi/VX0Sb9xxRnc9u3ksw44HYHKKCDJYCfHjGvFiXfW9bD4D26Hk6ogjGrJ4HaIue+Vl/Q=
+ =
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,61 +73,110 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+Cc: BMC-SW <BMC-SW@aspeedtech.com>,
  linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+ Po-Yu Chuang <ratbert@faraday-tech.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, "David S . Miller" <davem@davemloft.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Wed, Oct 21, 2020 at 12:10 AM Benjamin Herrenschmidt
+<benh@kernel.crashing.org> wrote:
+> On Tue, 2020-10-20 at 21:49 +0200, Arnd Bergmann wrote:
+> > On Tue, Oct 20, 2020 at 11:37 AM Dylan Hung <dylan_hung@aspeedtech.com> wrote:
+> > > > +1 @first is system memory from dma_alloc_coherent(), right?
+> > > >
+> > > > You shouldn't have to do this. Is coherent DMA memory broken on your
+> > > > platform?
+> > >
+> > > It is about the arbitration on the DRAM controller.  There are two queues in the dram controller, one is for the CPU access and the other is for the HW engines.
+> > > When CPU issues a store command, the dram controller just acknowledges cpu's request and pushes the request into the queue.  Then CPU triggers the HW MAC engine, the HW engine starts to fetch the DMA memory.
+> > > But since the cpu's request may still stay in the queue, the HW engine may fetch the wrong data.
+>
+> Actually, I take back what I said earlier, the above seems to imply
+> this is more generic.
+>
+> Dylan, please confirm, does this affect *all* DMA capable devices ? If
+> yes, then it's a really really bad design bug in your chips
+> unfortunately and the proper fix is indeed to make dma_wmb() do a dummy
+> read of some sort (what address though ? would any dummy non-cachable
+> page do ?) to force the data out as *all* drivers will potentially be
+> affected.
+>
+> I was under the impression that it was a specific timing issue in the
+> vhub and ethernet parts, but if it's more generic then it needs to be
+> fixed globally.
 
+We have CONFIG_ARM_HEAVY_MB for SoCs with similar problems,
+it turns mb() and wmb() into a platform specific function call, though it
+doesn't do that for dma_wmb() and smp_wmb(), which should not
+be affected if the problem is only missing serialization between DMA
+and CPU writes.
 
-On Wed, 21 Oct 2020, at 15:35, Joel Stanley wrote:
-> On Fri, 16 Oct 2020 at 04:36, Andrew Jeffery <andrew@aj.id.au> wrote:
-> >
-> > Reserve a 1.5MiB region of memory to record kmsg dumps, console and
-> > userspace message state into 16kiB ring-buffer slots. The sizing allows
-> > for up to 32 dumps to be captured and read out.
-> >
-> > Set max-reason to KMSG_DUMP_EMERG to capture bad-path reboots.
-> >
-> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> > ---
-> >  arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> >
-> > diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-> > index 46f2f538baba..4f7e9b490e1a 100644
-> > --- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-> > +++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-> > @@ -26,6 +26,15 @@ reserved-memory {
-> >                 #size-cells = <1>;
-> >                 ranges;
-> >
-> > +               ramoops@b9e80000 {
-> > +                       compatible = "ramoops";
-> > +                       reg = <0xb9e80000 0x180000>;
-> 
-> I take that r-b back. When booting, we see:
-> 
-> [    0.000000] region@ba000000 (0xb8000000--0xbc000000) overlaps with
-> ramoops@b9e80000 (0xb9e80000--0xba000000)
-> 
-> Which appears to be a true statement.
+> > If either of the two is the case, then the READ_ONCE() would just
+> > introduce a long delay before the iowrite32() that makes it more likely
+> > that the data is there, but the inconsistent state would still be observable
+> > by the device if it is still working on previous frames.
+>
+> I think it just get stuck until we try another packet, ie, it doesn't
+> see the new descriptor valid bit. But Dylan can elaborate.
 
-Yep:
+Ok, that would point to an insufficient barrier in iowrite32() as well,
+not in dma_wmb().
 
-> 
-> > +                       record-size = <0x4000>;
-> > +                       console-size = <0x4000>;
-> > +                       pmsg-size = <0x4000>;
-> > +                       max-reason = <3>; /* KMSG_DUMP_EMERG */
-> > +               };
-> > +
-> >                 flash_memory: region@ba000000 {
-> >                         no-map;
-> >                         reg = <0xb8000000 0x4000000>; /* 64M */
+At the moment, the only chips that need the heavy barrier are
+omap4 and mstar_v7, and early l2 cache controllers (not the one
+on Cortex-A7) have another synchronization callback that IIRC
+is used for streaming mappings.
 
-Looks like I derived the ramoops address from the flash_memory node label, but 
-that's mismatched with its reg value.
+These are the two implementations of soc_mb() we have:
+
+/*
+ * This may need locking to deal with situations where an interrupt
+ * happens while we are in here and mb() gets called by the interrupt handler.
+ *
+ * The vendor code did have a spin lock but it doesn't seem to be needed and
+ * removing it hasn't caused any side effects so far.
+*
+ * [writel|readl]_relaxed have to be used here because otherwise
+ * we'd end up right back in here.
+ */
+static void mstarv7_mb(void)
+{
+       /* toggle the flush miu pipe fire bit */
+       writel_relaxed(0, l3bridge + MSTARV7_L3BRIDGE_FLUSH);
+       writel_relaxed(MSTARV7_L3BRIDGE_FLUSH_TRIGGER, l3bridge
+                       + MSTARV7_L3BRIDGE_FLUSH);
+       while (!(readl_relaxed(l3bridge + MSTARV7_L3BRIDGE_STATUS)
+                       & MSTARV7_L3BRIDGE_STATUS_DONE)) {
+               /* wait for flush to complete */
+       }
+}
+/*
+ * OMAP4 interconnect barrier which is called for each mb() and wmb().
+ * This is to ensure that normal paths to DRAM (normal memory, cacheable
+ * accesses) are properly synchronised with writes to DMA coherent memory
+ * (normal memory, uncacheable) and device writes.
+ *
+ * The mb() and wmb() barriers only operate only on the MPU->MA->EMIF
+ * path, as we need to ensure that data is visible to other system
+ * masters prior to writes to those system masters being seen.
+ *
+ * Note: the SRAM path is not synchronised via mb() and wmb().
+ */
+static void omap4_mb(void)
+{
+       if (dram_sync)
+               writel_relaxed(0, dram_sync);
+}
+
+Obviously, adding one of these for ast2600 would slow down every
+mb() and writel() a lot, but if it is a chip-wide problem rather than
+one isolated to the network device, it would be the correct solution,
+provided that a correct code sequence can be found.
+
+      Arnd
