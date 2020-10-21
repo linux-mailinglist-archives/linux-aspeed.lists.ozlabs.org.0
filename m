@@ -1,61 +1,91 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AC3A294943
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Oct 2020 10:19:07 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C08629553A
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Oct 2020 01:39:38 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CGNgV72mTzDqfb
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Oct 2020 19:19:02 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CGn5f2NxrzDqT9
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Oct 2020 10:39:34 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aculab.com (client-ip=185.58.86.151;
- helo=eu-smtp-delivery-151.mimecast.com; envelope-from=david.laight@aculab.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.28;
+ helo=out4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm1 header.b=A9UzhIFJ; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=NQbJQb9u; 
+ dkim-atps=neutral
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CGNgL1cvTzDqcR
- for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Oct 2020 19:18:52 +1100 (AEDT)
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-173-bpZft2kJNEm93mAv-g78BA-1; Wed, 21 Oct 2020 09:18:45 +0100
-X-MC-Unique: bpZft2kJNEm93mAv-g78BA-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Wed, 21 Oct 2020 09:18:44 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Wed, 21 Oct 2020 09:18:44 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Benjamin Herrenschmidt' <benh@kernel.crashing.org>, Joel Stanley
- <joel@jms.id.au>, Jakub Kicinski <kuba@kernel.org>, "David S . Miller"
- <davem@davemloft.net>, Dylan Hung <dylan_hung@aspeedtech.com>
-Subject: RE: [PATCH] net: ftgmac100: Ensure tx descriptor updates are visible
-Thread-Topic: [PATCH] net: ftgmac100: Ensure tx descriptor updates are visible
-Thread-Index: AQHWpz03YLmlT7c7UUWIjBAFmkpKA6mhs33A
-Date: Wed, 21 Oct 2020 08:18:44 +0000
-Message-ID: <dca2ce4487024eba9398426af86c761d@AcuMS.aculab.com>
-References: <20201020220639.130696-1-joel@jms.id.au>
- <86480db3977cfbf6750209c34a28c8f042be55fb.camel@kernel.crashing.org>
-In-Reply-To: <86480db3977cfbf6750209c34a28c8f042be55fb.camel@kernel.crashing.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CGn5R1N9SzDqQb
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Oct 2020 10:39:22 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id BFE525C0601;
+ Wed, 21 Oct 2020 19:39:18 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Wed, 21 Oct 2020 19:39:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=KxHx0Z0PGBQzSx/sSWx4LOYQ1A63VNA
+ Y03C08nAGQgo=; b=A9UzhIFJIZu+1lp/W2zH5Iihyss26kn1j8ajLMnM0cej9yX
+ Oji0WUY1ayc7JppzPzDTp/LoFa6QGxw6wpmzIXvxINno7deGLtTnTXOGOl6bGEI0
+ QK6K4BHsFKSP7xsoTil3Srf1IQ931ZG8+XQojKKB/090FJPVvPqFCT/jMJkEmUPZ
+ TdPz5zT66hhiIS2+43CnWltQaB5mEftJ5MI2uqK30c64mfkbXzFjOvx/aE/bC/zr
+ 8AOX0ymiD57QXMjkndo6CEGGypAcwmCzsyrHCrZDX/gJVmyIeOG7v0ldkpIQmUC8
+ nNRTi+aLwpkJe/yiypHp2wozVQbwTrykmrnpseQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=KxHx0Z
+ 0PGBQzSx/sSWx4LOYQ1A63VNAY03C08nAGQgo=; b=NQbJQb9uJDLbzlgDXN9Sx4
+ csLwy/VznH3pgG/gONqNU78ZLZ0nytSut+uzLfV0KJIakO+y/flLbgTJmJv7agaN
+ eE9EGfy5UIdmZx902SGRzTn7pHLgSsl/HkxpFffxFj7lakKmzUi/1tuNRtysON+7
+ cpSKVhzFjbHzohqf0Zk9L7yuNMXyVx742Gfui5UQgAHcgjzwKF2YPKnhV0AUTbrA
+ QTq2HA44rQ6CUJKTbb1r3hIkh43bpuHDVYCEtxLbmSjZMgwHVFfj/ao7K+okkQ02
+ 4LUb6OrGEk4KvImOZiTWMYRvhK7ofGK5dX1UX8t2Z0NrlQA0AGkBnMO5dZWT1p9A
+ ==
+X-ME-Sender: <xms:pMaQX27oCqlQG3Vn-0iw08kZQrXtTLeUAXMYDOxc-5e5F-XdNOcI9A>
+ <xme:pMaQX_7m1bdwG_yA8c0BOHvUsvK-6jzdcEW2lNfujDZosQIFeRSfcFoz8R4Ekl4Ot
+ vlUOgHTfdOe-OZXVw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeeigddvvdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
+ htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
+ veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:pMaQX1fmI6E149KCg3pGmXqlBOHQncmHq1fc4P-R3l1GfxKV0Ro5tA>
+ <xmx:pMaQXzKpUuyT53oSafsF01NF-hiaEFs-rTzby_msxU1GD_TZjd3jOQ>
+ <xmx:pMaQX6K6kHXir3o5Z5dKKOOtgdWrziy4u4aBh9lvkCY5h-udVO6MIg>
+ <xmx:psaQXy9F2z6VjByQqGV9xuZKqzTUN1pDvw8QV0QAYhs3tStUYPV9iw>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id F042DE00B8; Wed, 21 Oct 2020 19:39:14 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.0-502-gfef6c88-fm-20201019.001-gfef6c888
+Mime-Version: 1.0
+Message-Id: <f56ce765-9d94-41b5-bda7-202c165ea8c9@www.fastmail.com>
+In-Reply-To: <20201019045026.10732-1-billy_tsai@aspeedtech.com>
+References: <20201019045026.10732-1-billy_tsai@aspeedtech.com>
+Date: Thu, 22 Oct 2020 10:08:55 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Billy Tsai" <billy_tsai@aspeedtech.com>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "Tao Ren" <rentao.bupt@gmail.com>,
+ "Bartosz Golaszewski" <bgolaszewski@baylibre.com>,
+ "Joel Stanley" <joel@jms.id.au>, linux-gpio@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH] gpio: aspeed: fix ast2600 bank properties
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,39 +97,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-RnJvbTogQmVuamFtaW4gSGVycmVuc2NobWlkdA0KPiBTZW50OiAyMSBPY3RvYmVyIDIwMjAgMDE6
-MDANCj4gDQo+IE9uIFdlZCwgMjAyMC0xMC0yMSBhdCAwODozNiArMTAzMCwgSm9lbCBTdGFubGV5
-IHdyb3RlOg0KPiA+IFdlIG11c3QgZW5zdXJlIHRoZSB0eCBkZXNjcmlwdG9yIHVwZGF0ZXMgYXJl
-IHZpc2libGUgYmVmb3JlIHVwZGF0aW5nDQo+ID4gdGhlIHR4IHBvaW50ZXIuDQo+ID4NCj4gPiBU
-aGlzIHJlc29sdmVzIHRoZSB0eCBoYW5ncyBvYnNlcnZlZCBvbiB0aGUgMjYwMCB3aGVuIHJ1bm5p
-bmcgaXBlcmY6DQo+IA0KPiBUbyBjbGFyaWZ5IHRoZSBjb21tZW50IGhlcmUuIFRoaXMgZG9lc24n
-dCBlbnN1cmUgdGhleSBhcmUgdmlzaWJsZSB0bw0KPiB0aGUgaGFyZHdhcmUgYnV0IHRvIG90aGVy
-IENQVXMuIFRoaXMgaXMgdGhlIG9yZGVyaW5nIHZzIHN0YXJ0X3htaXQgYW5kDQo+IHR4X2NvbXBs
-ZXRlLg0KDQpZb3UgbmVlZCB0d28gYmFycmllcnMuDQoxKSBhZnRlciBtYWtpbmcgdGhlIGRhdGEg
-YnVmZmVycyBhdmFpbGFibGUgYmVmb3JlIHRyYW5zZmVycmluZw0KdGhlIGRlc2NyaXB0b3Igb3du
-ZXJzaGlwIHRvIHRoZSBkZXZpY2UuDQoyKSBhZnRlciB0cmFuc2ZlcnJpbmcgdGhlIG93bmVyc2hp
-cCBiZWZvcmUgJ2tpY2tpbmcnIHRoZSBtYWMgZW5naW5lLg0KDQpUaGUgZmlyc3QgaXMgbmVlZGVk
-IGJlY2F1c2UgdGhlIG1hYyBlbmdpbmUgY2FuIHBvbGwgdGhlIGRlc2NyaXB0b3JzDQphdCBhbnkg
-dGltZSAoZWcgb24gY29tcGxldGluZyB0aGUgcHJldmlvdXMgdHJhbnNtaXQpLg0KVGhpcyBzdG9w
-cyBpdCB0cmFuc21pdHRpbmcgZ2FyYmFnZS4NCg0KVGhlIHNlY29uZCBtYWtlcyBzdXJlIGl0IGZp
-bmRzIHRoZSBkZXNjcmlwdG9yIHlvdSd2ZSBqdXN0IHNldC4NClRoaXMgc3RvcHMgZGVsYXlzIGJl
-Zm9yZSBzZW5kaW5nIHRoZSBwYWNrZXQuDQooQnV0IGl0IHdpbGwgZ2V0IHNlbnQgbGF0ZXIuKQ0K
-DQpGb3IgKDIpIGRtYV93bWIoKSBpcyB0aGUgZG9jdW1lbnRlZCBiYXJyaWVyLg0KDQpJJ20gbm90
-IHN1cmUgd2hpY2ggYmFycmllciB5b3UgbmVlZCBmb3IgKDEpLg0Kc21wX3dtYigpIHdvdWxkIGJl
-IHJpZ2h0IGlmIHRoZSByZWFkZXIgd2VyZSBhbm90aGVyIGNwdSwNCmJ1dCBpdCBpcyAoYXQgbW9z
-dCkgYSBjb21waWxlIGJhcnJpZXIgb24gVVAga2VybmVscy4NClNvIHlvdSBuZWVkIHNvbWV0aGlu
-ZyBzdHJvbmdlciB0aGFuIHNtcF93bWIoKS4NCk9uIGEgVFNPIHN5c3RlbSAod2hpY2ggeW91cnMg
-cHJvYmFibHkgaXMpIGEgY29tcGlsZSBiYXJyaWVyDQppcyBwcm9iYWJseSBzdWZmaWNpZW50LCBi
-dXQgaWYgbWVtb3J5IHdyaXRlcyBjYW4gZ2V0IHJlLW9yZGVyZWQNCml0IG5lZWRzIHRvIGJlIGEg
-c3Ryb25nZXIgYmFycmllciAtIGJ1dCBub3QgbmVjZXNzYXJpbHkgYXMgc3Ryb25nDQphcyBkbWFf
-d21iKCkuDQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1s
-ZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJh
-dGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
 
+
+On Mon, 19 Oct 2020, at 15:20, Billy Tsai wrote:
+> GPIO_T is mapped to the most significant byte of input/output mask, and
+> the byte in "output" mask should be 0 because GPIO_T is input only. All
+> the other bits need to be 1 because GPIO_Q/R/S support both input and
+> output modes.
+> 
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+
+Good catch, thanks Billy.
+
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
