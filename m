@@ -2,86 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03FCD29563B
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Oct 2020 03:49:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FDAF29578D
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Oct 2020 07:03:30 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CGqzH0v3pzDqTn
-	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Oct 2020 12:49:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CGwHL5GqCzDqPT
+	for <lists+linux-aspeed@lfdr.de>; Thu, 22 Oct 2020 16:03:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.29;
- helo=out5-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=arnd@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=aNj5dml9; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=oCuPdhk7; 
- dkim-atps=neutral
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
+ dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=default header.b=cuU/fpuI; dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CGqy93rKDzDqS5
- for <linux-aspeed@lists.ozlabs.org>; Thu, 22 Oct 2020 12:48:17 +1100 (AEDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 41CB55C03E5;
- Wed, 21 Oct 2020 21:48:15 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 21 Oct 2020 21:48:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=2iPeJ5v2usE/A
- Ob5Lfmq4TFbvL2qVWuNftG6FVML1KQ=; b=aNj5dml9ERzAUrgJkhwS6HJxmxs3n
- iRFiP9SpbX8QJNeP8ilTU07Nilbk9kLXtTcWg4rvfiWWIzJtW2iMmSz6tNtpmR8n
- ozo12CNgfqD6TffR+MLmCTc4BRNke2vcDzc4FEz0JLqXNfR69JPHysJF0O/ANaPa
- lfI4Lv8lxwyggpagsHGm6fUZInL2fsW+Ze3MVGE/+2mahRM7OJqLpnV2OoLVN+uZ
- D4idObrz5hT2f1v76EyiSdwU3OpNxo08uncHgApLVnTuFTqNfw5Rhqxn8tM67r6+
- f47NU41Ui64VqjDK3BCc78X1u23fhEl390QiOB9Jl/f/1WsJlGmRNnAww==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=2iPeJ5v2usE/AOb5Lfmq4TFbvL2qVWuNftG6FVML1KQ=; b=oCuPdhk7
- 1m772d267HfdYOteUufdoTrlkwAVRJS7P99/fCaHPgwodTsxtuF3oVROSZDUXGKg
- 3ajiBYWkdb8VPTEgs0gITKZXw3vSuc7GvjfrNTrPOc753IlugXuEfmoeRY1eO01J
- Nb78KNX07PUj5UEr8GyMeOgugiqde4G5Y+lxFpH5vMCzMRzzrEHssBeBMKPYJQCo
- l3qC7J1RWwFvsp2a5xDMCjH733wGLOQAWjW2RsQq9MFMoMwYl3+0WPFJM9H0OdqC
- 4gQk2oLu7wlNTtfAZQfe8XdhPYvjkUiLm9/lZd1skKFkCjkmTqe2j4VNiJODsgH2
- Yz42Sd2DwuFGUA==
-X-ME-Sender: <xms:3-SQX5FmVEVAqmXRojHKVwQO3ZlN_8gPzsk7avUKuUc85laz36ASRA>
- <xme:3-SQX-UNuOw06vsCUneHXAGhnzh3hKxg07JiJyRjIRG6_v5Wc-F1xqfDTc_B51Sbg
- XEIAI_J4XBA72tsHQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeeigdegkecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
- ertddtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghj
- rdhiugdrrghuqeenucggtffrrghtthgvrhhnpeejgfdvveehteekveeggeellefgleette
- ejffelffdvudduveeiffegteelvefhteenucfkphepuddukedrvddutddrjedrudektden
- ucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurh
- gvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:3-SQX7IAVoP0sD0-TbZreWQ-Gu5yUeu1y2FicQmCHU5mu5rsmo4r1g>
- <xmx:3-SQX_GjOXXgb1b0RMYH44ZFv9hN7mcRjHb9eQAOfJjyNAI8q2aTpA>
- <xmx:3-SQX_UXRQ-k3U1rsxQmdZr1lOesNKV2JTjEhh-ujZ2r8N2HX_7vTA>
- <xmx:3-SQX6REAfO2fhkx3aFIb98Dreup-YMuBosnelsmSK-4ZKK3Dyrg5Q>
-Received: from localhost.localdomain
- (ppp118-210-7-180.adl-adc-lon-bras31.tpg.internode.on.net [118.210.7.180])
- by mail.messagingengine.com (Postfix) with ESMTPA id 1A2A23280060;
- Wed, 21 Oct 2020 21:48:12 -0400 (EDT)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: joel@jms.id.au
-Subject: [PATCH v2 6/6] ARM: dts: tacoma: Add reserved memory for ramoops
-Date: Thu, 22 Oct 2020 12:17:31 +1030
-Message-Id: <20201022014731.2035438-7-andrew@aj.id.au>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201022014731.2035438-1-andrew@aj.id.au>
-References: <20201022014731.2035438-1-andrew@aj.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CGTrK6cwxzDqTR;
+ Wed, 21 Oct 2020 23:12:01 +1100 (AEDT)
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com
+ [209.85.222.169])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 099232237B;
+ Wed, 21 Oct 2020 12:11:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1603282319;
+ bh=QsMYkMa6PBVVYYZ7BTm9Ize/SeOd8e2vqy0LlM9MFOQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=cuU/fpuIroFdhhVAc7BKKuZeFmsO9VcqwQRKV60RYWHQaz0Sf4sr1L4MIXaZDnmZR
+ L+WBd++xvTvAtSFrmgPo3CLWxUrrufM1n03l+pI9Bnt9TH7IcjlNlYIQnUNSLg7S5n
+ kCCIwzQ0RAo6dFEx/7rYS1Vegyn7712A7XZvqkmI=
+Received: by mail-qk1-f169.google.com with SMTP id h140so2048155qke.7;
+ Wed, 21 Oct 2020 05:11:58 -0700 (PDT)
+X-Gm-Message-State: AOAM531dic0stjfU/UU1qjszuah/Na0Mgd4HvpHaDWzrhIln11mZEowQ
+ 7rC2r86D9GPrxNTSPQyNoDEcLY78GKdWTIIWpAA=
+X-Google-Smtp-Source: ABdhPJzuJ99P/Tgb6oBO1lZhiTXqGsC7ijBifM7xSa9Zqm87Br7mScbgBLmXTiOZUtDsedSZPfFOS3X0xvSz2ceCStI=
+X-Received: by 2002:a05:620a:215d:: with SMTP id
+ m29mr2890521qkm.138.1603282317961; 
+ Wed, 21 Oct 2020 05:11:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201019073908.32262-1-dylan_hung@aspeedtech.com>
+ <CACPK8Xfn+Gn0PHCfhX-vgLTA6e2=RT+D+fnLF67_1j1iwqh7yg@mail.gmail.com>
+ <20201019120040.3152ea0b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <PS1PR0601MB1849166CBF6D1678E6E1210C9C1F0@PS1PR0601MB1849.apcprd06.prod.outlook.com>
+ <CAK8P3a2pEfbLDWTppVHmGxXduOWPCwBw-8bMY9h3EbEecsVfTA@mail.gmail.com>
+ <32bfb619bbb3cd6f52f9e5da205673702fed228f.camel@kernel.crashing.org>
+ <CAK8P3a2j7fV5EFmC8UvSyvXixU8=Nmp6hrJco-fdP2Z+w8bLnA@mail.gmail.com>
+In-Reply-To: <CAK8P3a2j7fV5EFmC8UvSyvXixU8=Nmp6hrJco-fdP2Z+w8bLnA@mail.gmail.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Wed, 21 Oct 2020 14:11:41 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0qzyb0z-OH-hGNJ8iQoLckVkkz4DQfYpFFd=UuXP3gwA@mail.gmail.com>
+Message-ID: <CAK8P3a0qzyb0z-OH-hGNJ8iQoLckVkkz4DQfYpFFd=UuXP3gwA@mail.gmail.com>
+Subject: Re: [PATCH] net: ftgmac100: Fix missing TX-poll issue
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Thu, 22 Oct 2020 16:03:23 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,44 +71,115 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, robh+dt@kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
+Cc: BMC-SW <BMC-SW@aspeedtech.com>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Po-Yu Chuang <ratbert@faraday-tech.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, "David S . Miller" <davem@davemloft.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Reserve a 1.5MiB region of memory to record kmsg dumps, console and
-userspace message state into 16kiB ring-buffer slots. The sizing allows
-for up to 16 dumps to be captured and read out.
+(replying to my own mail from a different address to deal with the
+regular one being blacklisted somewhere, sorry for any duplicates)
 
-Set max-reason to KMSG_DUMP_EMERG to capture bad-path reboots.
-
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
- arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-index 09b561429579..04efabe70d9f 100644
---- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-@@ -34,6 +34,15 @@ flash_memory: region@b8000000 {
- 
- 		/* 48MB region from the end of flash to start of vga memory */
- 
-+		ramoops@bc000000 {
-+			compatible = "ramoops";
-+			reg = <0xbc000000 0x180000>; /* 16 * (3 * 0x8000) */
-+			record-size = <0x8000>;
-+			console-size = <0x8000>;
-+			pmsg-size = <0x8000>;
-+			max-reason = <3>; /* KMSG_DUMP_EMERG */
-+		};
-+
- 		/* VGA region is dictated by hardware strapping */
- 		vga_memory: region@bf000000 {
- 			no-map;
--- 
-2.25.1
-
+On Wed, Oct 21, 2020 at 9:16 AM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Wed, Oct 21, 2020 at 12:10 AM Benjamin Herrenschmidt
+> <benh@kernel.crashing.org> wrote:
+> > On Tue, 2020-10-20 at 21:49 +0200, Arnd Bergmann wrote:
+> > > On Tue, Oct 20, 2020 at 11:37 AM Dylan Hung <dylan_hung@aspeedtech.com> wrote:
+> > > > > +1 @first is system memory from dma_alloc_coherent(), right?
+> > > > >
+> > > > > You shouldn't have to do this. Is coherent DMA memory broken on your
+> > > > > platform?
+> > > >
+> > > > It is about the arbitration on the DRAM controller.  There are two queues in the dram controller, one is for the CPU access and the other is for the HW engines.
+> > > > When CPU issues a store command, the dram controller just acknowledges cpu's request and pushes the request into the queue.  Then CPU triggers the HW MAC engine, the HW engine starts to fetch the DMA memory.
+> > > > But since the cpu's request may still stay in the queue, the HW engine may fetch the wrong data.
+> >
+> > Actually, I take back what I said earlier, the above seems to imply
+> > this is more generic.
+> >
+> > Dylan, please confirm, does this affect *all* DMA capable devices ? If
+> > yes, then it's a really really bad design bug in your chips
+> > unfortunately and the proper fix is indeed to make dma_wmb() do a dummy
+> > read of some sort (what address though ? would any dummy non-cachable
+> > page do ?) to force the data out as *all* drivers will potentially be
+> > affected.
+> >
+> > I was under the impression that it was a specific timing issue in the
+> > vhub and ethernet parts, but if it's more generic then it needs to be
+> > fixed globally.
+>
+> We have CONFIG_ARM_HEAVY_MB for SoCs with similar problems,
+> it turns mb() and wmb() into a platform specific function call, though it
+> doesn't do that for dma_wmb() and smp_wmb(), which should not
+> be affected if the problem is only missing serialization between DMA
+> and CPU writes.
+>
+> > > If either of the two is the case, then the READ_ONCE() would just
+> > > introduce a long delay before the iowrite32() that makes it more likely
+> > > that the data is there, but the inconsistent state would still be observable
+> > > by the device if it is still working on previous frames.
+> >
+> > I think it just get stuck until we try another packet, ie, it doesn't
+> > see the new descriptor valid bit. But Dylan can elaborate.
+>
+> Ok, that would point to an insufficient barrier in iowrite32() as well,
+> not in dma_wmb().
+>
+> At the moment, the only chips that need the heavy barrier are
+> omap4 and mstar_v7, and early l2 cache controllers (not the one
+> on Cortex-A7) have another synchronization callback that IIRC
+> is used for streaming mappings.
+>
+> These are the two implementations of soc_mb() we have:
+>
+> /*
+>  * This may need locking to deal with situations where an interrupt
+>  * happens while we are in here and mb() gets called by the interrupt handler.
+>  *
+>  * The vendor code did have a spin lock but it doesn't seem to be needed and
+>  * removing it hasn't caused any side effects so far.
+> *
+>  * [writel|readl]_relaxed have to be used here because otherwise
+>  * we'd end up right back in here.
+>  */
+> static void mstarv7_mb(void)
+> {
+>        /* toggle the flush miu pipe fire bit */
+>        writel_relaxed(0, l3bridge + MSTARV7_L3BRIDGE_FLUSH);
+>        writel_relaxed(MSTARV7_L3BRIDGE_FLUSH_TRIGGER, l3bridge
+>                        + MSTARV7_L3BRIDGE_FLUSH);
+>        while (!(readl_relaxed(l3bridge + MSTARV7_L3BRIDGE_STATUS)
+>                        & MSTARV7_L3BRIDGE_STATUS_DONE)) {
+>                /* wait for flush to complete */
+>        }
+> }
+> /*
+>  * OMAP4 interconnect barrier which is called for each mb() and wmb().
+>  * This is to ensure that normal paths to DRAM (normal memory, cacheable
+>  * accesses) are properly synchronised with writes to DMA coherent memory
+>  * (normal memory, uncacheable) and device writes.
+>  *
+>  * The mb() and wmb() barriers only operate only on the MPU->MA->EMIF
+>  * path, as we need to ensure that data is visible to other system
+>  * masters prior to writes to those system masters being seen.
+>  *
+>  * Note: the SRAM path is not synchronised via mb() and wmb().
+>  */
+> static void omap4_mb(void)
+> {
+>        if (dram_sync)
+>                writel_relaxed(0, dram_sync);
+> }
+>
+> Obviously, adding one of these for ast2600 would slow down every
+> mb() and writel() a lot, but if it is a chip-wide problem rather than
+> one isolated to the network device, it would be the correct solution,
+> provided that a correct code sequence can be found.
+>
+>       Arnd
