@@ -1,62 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C456529477F
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Oct 2020 06:51:45 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9892947AD
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Oct 2020 07:05:46 +0200 (CEST)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CGJ4G41hVzDqgM
-	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Oct 2020 15:51:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CGJNS2L3HzDqgb
+	for <lists+linux-aspeed@lfdr.de>; Wed, 21 Oct 2020 16:05:44 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::742;
- helo=mail-qk1-x742.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::841;
+ helo=mail-qt1-x841.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=S1A9iVzO; dkim-atps=neutral
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
+ header.s=google header.b=l8CzAUud; dkim-atps=neutral
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CGJ4609PQzDqg7
- for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Oct 2020 15:51:33 +1100 (AEDT)
-Received: by mail-qk1-x742.google.com with SMTP id v200so1236437qka.0
- for <linux-aspeed@lists.ozlabs.org>; Tue, 20 Oct 2020 21:51:33 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CGJND1VYQzDqVT
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 21 Oct 2020 16:05:27 +1100 (AEDT)
+Received: by mail-qt1-x841.google.com with SMTP id h12so1140248qtu.1
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 20 Oct 2020 22:05:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7S+Ge/DxkH9CUYM5ngdE9w4BnrCUgNRtxj8SJF7Zxcs=;
- b=S1A9iVzO/2CwZAsuuw7v7Aqajmblbv1ifw6clkwdsI1ijOdOXrZFuNSbOtNdwJ/Jr4
- mM6fvJs1Hig3zUMTj+a8yxATwbVR5KgdPHEo3vre+qW6OUYbKwwGs4IDwei77DacrDM5
- 29K2oTYfrsFgGi0p6JCTnfqW2uwtlmKWz2kHw=
+ :cc; bh=78wXEbS6ekdukUkUx63JywMGATdAYjZFw03TanW/IpQ=;
+ b=l8CzAUudEDswINpyB+hifa2QzeewX76VbvBA98pOOcnwvHvhw4asi5BgCyGbdOsFZv
+ yFeYi9EmGWt4Pmgfp3vT0WScIZbotse9ceH3XBYgqM8NVSVnWLYXgw4DMNaBIXWVF49/
+ TH/ETgYtYTxlLaUlXLHyJ8QJlJNp3JP6nEVKI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7S+Ge/DxkH9CUYM5ngdE9w4BnrCUgNRtxj8SJF7Zxcs=;
- b=Fye14uEJSjHB6rd2d/vGK7hHR1+AF+lm2fG88unh/FaIxouW/cxmtUpXh5qfnhFfnm
- Ah/siJOnIx7obRij7DNlNOOQzkXkVfjTgxJBJnnw2UGsDhAMCpZYNTKSY/jJDqNU+5V5
- NuobNVqQ8dO1diTcx98Kp4pBH6xusAVqtVB/vkAwaixsHJ63gAdnwh+I47BbaUBm080a
- S2Tzq7iWpiNdgn/Srj6wpJPb8RSQoIfQOrcwRgTuTnJzpssv5ydB3vOd+LDZZa2lJtBI
- 5DSJl6MwMlFHLMbNyNbobJrqZOdvT1HfEmICNVImHNKJCZtNkly6Nu8/0KRbQNiU+d4p
- LIPQ==
-X-Gm-Message-State: AOAM530xWpAxzeh9kRP6+neoeHeuS0ZBPNNMfRXQGuoMM72gqfQec1eV
- 3/yMzymFDegt8YMo4zotQp+DDEwnngp4bUKet9s=
-X-Google-Smtp-Source: ABdhPJyOqiPlkiXcnTLhnLMYTXkl6P2IifPhUM7Ht1EKmmNBup3yA5+KgVfY5MS0R33Hwo6up58TM91d0R+UyZiMm7E=
-X-Received: by 2002:a05:620a:1e7:: with SMTP id
- x7mr1512189qkn.465.1603255889394; 
- Tue, 20 Oct 2020 21:51:29 -0700 (PDT)
+ bh=78wXEbS6ekdukUkUx63JywMGATdAYjZFw03TanW/IpQ=;
+ b=dq3PzXlmVV543HAj+FAuuJWIttC2ux4Z6m22rWQ6wn0jrsY93gi7zm+NCHBwyz+d31
+ 8XnMLOU5nGWzj5AcBiKIvynszfK7ZpEDgNHQBruUrAaJEjueKx1NOQvPu/jpNQ/x2J27
+ GC7ilzvjLdcD3Cj+8e6XI+JulnFspjZozwe9aoynK0GT+B8xYi+LlsrQcbHSttWxTp5D
+ /9LQl0bu7lx+0Ec/qaS8Fr3rARaBqgtw2qGfaoWg3L58+QaKEE6EZ3zMlO6cvLGkH5tW
+ U8rk/5/rdOrA+WTxuKt1yOwMwVcQBMMcmG10HTk/GPsHlxxQQdmuHxczYzevFHvF76I7
+ e2UA==
+X-Gm-Message-State: AOAM531zDCpcIIJefWm61JmJERnuYVhMYItIJ2v/Mq8va0C0cDdATrcI
+ GM9l0459xP0/B/7IVQG/h6Aq7G9KnysGGex3gGI=
+X-Google-Smtp-Source: ABdhPJxYC3k0wPRhs+0XdUEQkPAhu2L6CxPNS4viq8Grxc8wAS+/fGWEFzckw41+y/kZrEgskwke7fKqeZA9N/Y3SEM=
+X-Received: by 2002:aed:3325:: with SMTP id u34mr1553632qtd.263.1603256723674; 
+ Tue, 20 Oct 2020 22:05:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201016043513.119841-1-andrew@aj.id.au>
-In-Reply-To: <20201016043513.119841-1-andrew@aj.id.au>
+ <20201016043513.119841-3-andrew@aj.id.au>
+In-Reply-To: <20201016043513.119841-3-andrew@aj.id.au>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 21 Oct 2020 04:51:17 +0000
-Message-ID: <CACPK8Xf1=YEApovVOCbE5dkM3uK0Lsx2iXnVK6nK3mx=+q4jpw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] ARM: dts: Enable ramoops for Rainier and Tacoma
+Date: Wed, 21 Oct 2020 05:05:11 +0000
+Message-ID: <CACPK8XeiPBPyLu5pvjCgYquCKh+PynVKGyibUSAi+W_xw0Awfg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ARM: dts: tacoma: Add reserved memory for ramoops
 To: Andrew Jeffery <andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -80,26 +80,45 @@ Sender: "Linux-aspeed"
 
 On Fri, 16 Oct 2020 at 04:36, Andrew Jeffery <andrew@aj.id.au> wrote:
 >
-> Hi,
+> Reserve a 1.5MiB region of memory to record kmsg dumps, console and
+> userspace message state into 16kiB ring-buffer slots. The sizing allows
+> for up to 32 dumps to be captured and read out.
 >
-> We're looking to improve our crash data capture for the BMC on some IBM
-> platforms. This small series enables ramoops for Rainier and Tacoma.
+> Set max-reason to KMSG_DUMP_EMERG to capture bad-path reboots.
 >
-> Please review.
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> ---
+>  arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> index 46f2f538baba..4f7e9b490e1a 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> @@ -26,6 +26,15 @@ reserved-memory {
+>                 #size-cells = <1>;
+>                 ranges;
+>
+> +               ramoops@b9e80000 {
+> +                       compatible = "ramoops";
+> +                       reg = <0xb9e80000 0x180000>;
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+I take that r-b back. When booting, we see:
 
->
-> Andrew
->
-> Andrew Jeffery (2):
->   ARM: dts: rainier: Add reserved memory for ramoops
->   ARM: dts: tacoma: Add reserved memory for ramoops
->
->  arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 9 +++++++++
->  arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts  | 9 +++++++++
->  2 files changed, 18 insertions(+)
->
+[    0.000000] region@ba000000 (0xb8000000--0xbc000000) overlaps with
+ramoops@b9e80000 (0xb9e80000--0xba000000)
+
+Which appears to be a true statement.
+
+> +                       record-size = <0x4000>;
+> +                       console-size = <0x4000>;
+> +                       pmsg-size = <0x4000>;
+> +                       max-reason = <3>; /* KMSG_DUMP_EMERG */
+> +               };
+> +
+>                 flash_memory: region@ba000000 {
+>                         no-map;
+>                         reg = <0xb8000000 0x4000000>; /* 64M */
 > --
 > 2.25.1
 >
