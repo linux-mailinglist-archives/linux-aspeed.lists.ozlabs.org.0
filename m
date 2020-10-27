@@ -1,104 +1,69 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5377F29AF52
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Oct 2020 15:10:32 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B0E29CADB
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Oct 2020 22:01:12 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CLDBD1HLvzDqQ5
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 01:10:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CLPJ53qmkzDqPQ
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 08:01:09 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.helo=nam04-bn3-obe.outbound.protection.outlook.com
- (client-ip=40.107.68.77; helo=nam04-bn3-obe.outbound.protection.outlook.com;
- envelope-from=supreeth.venkatesh@amd.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::144;
+ helo=mail-lf1-x144.google.com; envelope-from=aladyshev22@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=amd.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=amdcloud.onmicrosoft.com
- header.i=@amdcloud.onmicrosoft.com header.a=rsa-sha256
- header.s=selector2-amdcloud-onmicrosoft-com header.b=eyLXCRlr; 
- dkim-atps=neutral
-Received: from NAM04-BN3-obe.outbound.protection.outlook.com
- (mail-eopbgr680077.outbound.protection.outlook.com [40.107.68.77])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=ElUgjMkw; dkim-atps=neutral
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CLD9r1dClzDqBt
- for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Oct 2020 01:10:06 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SAWhAVE77d26XguLdbjXm0FAhqpPF7n+8iR6PbTHyIC935L33oWMz2AzrtzidGYCcDbn1RsUjjXQ1uDnsxcJU/tUatlUq170kUBxSuJ8UJNC0ony2dQKrUTYCpLxzZhvGMtB6Dx8v5XnV4W9q85qE2rPdQgLCxRSrbpp7Ld2tHHIl7Z8AFzsREOAVWHlD088foQNcLedW8O6Uvyo/mIUpXApYblB46hucGv8wVZX8N7pt3a5NaGyV7IgVlpGEL1kyQsax1dFp4kAn+dMwH3FAbjsFgE1tQnEHRXXKxa3tR6Oj/e47T3h+cpgLPVitqkttoYQqYjEST0PwTio9CUxkg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oNKtsFqY/kGZDF3fi6aPIZms81VhWbfvQLjUluwc5mA=;
- b=dw3Na2ak7nB7wP5GJBmFBImsJMjcKbrsCwFUOL8rhSaMR/wIu+UW/HP6DRviu8ehFt6hwN1vXSnJ2v6PAFgnfUwqJIXnD2f6njCXULwGnb+fdhrSuOBiSK5MSIZDTnGTNlmXr4Aapg7JZJ2Y9p93alnvSXwNU7jP6WI4YrGZmn3MBzhKKUXlzamQLl4qba7itg0uWa6Ysubw730JHv6d+WJxcgrYHlWolTpfYms0BZ//mlZ7gdf2nClAXukmUNdtc7YR2c6QYUl1wTXIxLkwZciILu4DYgI3a22Slr9a1HggulPAsmdGuVHlnXLR0zVZIMDXkSzT4S3z0xXGe+q0Gg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oNKtsFqY/kGZDF3fi6aPIZms81VhWbfvQLjUluwc5mA=;
- b=eyLXCRlrV6WlpMx79Pt9jzGPRE6akZ7ncu2yEKtwAPgNsdc0ZcTOv1Wgyuae56WP8aMazirsmaLGYbMPqUm0OsfZrpta2OeDXFMTlHChWS54xAHaT3WrV1JZ9y5lD+rz3oGIazcKHvBwDegYt/dmctKRnkyK/wj+7imZsdYygL4=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB2535.namprd12.prod.outlook.com (2603:10b6:4:b5::26) by
- DM6PR12MB4249.namprd12.prod.outlook.com (2603:10b6:5:223::14) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.18; Tue, 27 Oct 2020 14:09:59 +0000
-Received: from DM5PR12MB2535.namprd12.prod.outlook.com
- ([fe80::2cba:4988:f662:ad60]) by DM5PR12MB2535.namprd12.prod.outlook.com
- ([fe80::2cba:4988:f662:ad60%7]) with mapi id 15.20.3455.029; Tue, 27 Oct 2020
- 14:09:59 +0000
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CLPHv25QrzDqLR
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Oct 2020 08:00:58 +1100 (AEDT)
+Received: by mail-lf1-x144.google.com with SMTP id l28so4093542lfp.10
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Oct 2020 14:00:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=J7PGG156cg19twbXTKEP6KsKcgx/xu67BqCSAp2wGso=;
+ b=ElUgjMkwUlxXH3aOdHNzbzqlkDzAJA6gyHEI6s8BCe6UAJHOGwsxQrICvT3kv33VuA
+ 0YkBLKrb5wtpEtzBgZvbAo3fIZBeUgwUvXRiTsPIJxwkXIAgqmqSV0/tY6qCjCsRh/on
+ HjewOcE+Ya25yVwAuteuc0Rz+3pm1cCG/ddvUbZ7CoxJmVrDVThDR+mmEWPG8lYV7nha
+ Y+FT9AgoJgNo7QfSz5PfDZi8qSeQ3b4d4wUaLUPvDZRM803nDa+VcryKHO2bvjQskukW
+ nhs9rF87hmqrMehiK0AK0QRuvTqHsqO2pCwYkFqnEc+G48iDrMzsk5Vcdb2MRQyHQZXa
+ G/EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=J7PGG156cg19twbXTKEP6KsKcgx/xu67BqCSAp2wGso=;
+ b=BAjSQAK/EuQGyNpuMiarGmsapB9HKbUlIrz2on7paMHAHijsXFrcABEqrbpXl7UTIR
+ 1hn9IjwC234w0nSoUhF8js//tYDoe7LnZQijfGrlh7b2P6xIi31Acz1PuMWc67o9Mx1i
+ H4mxxTNfT+jTbujilH8uhNOtm21VcwOJBGfBhUNn5lQACb1C2p2SSe8QULXXn9JjogUQ
+ vD4W9M9bM3WOHvRR4Pl8dB9vCCRAtGbSYRHqAy0RzEBW/dp8WeUzKSLYEIJNa/FwejSm
+ ZzoPIMcYhw55rKtF8TrtichYXpb4aBu1rGrrNYLcy/cNZvoMR7UW14hM9RY9dtfHbuLa
+ q+sg==
+X-Gm-Message-State: AOAM533b5sUrazHblVck3V2aXy32TsQNIToM4wCPWuIq7VBpnP5JC2Uu
+ iLJFEDTrQ9haAh/7lMkb/3pwqPfJG0s5qvVLJuY=
+X-Google-Smtp-Source: ABdhPJzRKV/YkyO+AIFyjgP7U9onChTXNYu9Sr4kL2PrmCdDG9M/zhQ40SSgrzzaoPkl6zwQRhTucXZ/9sRj9RSxEsg=
+X-Received: by 2002:a05:6512:34d3:: with SMTP id
+ w19mr1449082lfr.418.1603832453713; 
+ Tue, 27 Oct 2020 14:00:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201027123722.2935-1-aladyshev22@gmail.com>
+ <f35152af-34ad-178b-61db-0e57c8d19f3f@amd.com>
+In-Reply-To: <f35152af-34ad-178b-61db-0e57c8d19f3f@amd.com>
+From: Konstantin Aladyshev <aladyshev22@gmail.com>
+Date: Wed, 28 Oct 2020 00:00:41 +0300
+Message-ID: <CACSj6VW_Nwwt=6fZG0OiKh4rySHPYs__uRzrN+=OdVwXVMz6og@mail.gmail.com>
 Subject: Re: [PATCH 1/3] ARM: dts: aspeed: amd-ethanolx: Update KCS nodes to
  use v2 binding
-To: Konstantin Aladyshev <aladyshev22@gmail.com>
-References: <20201027123722.2935-1-aladyshev22@gmail.com>
-From: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
-Message-ID: <f35152af-34ad-178b-61db-0e57c8d19f3f@amd.com>
-Date: Tue, 27 Oct 2020 09:09:57 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20201027123722.2935-1-aladyshev22@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [165.204.77.1]
-X-ClientProxiedBy: DM5PR06CA0038.namprd06.prod.outlook.com
- (2603:10b6:3:5d::24) To DM5PR12MB2535.namprd12.prod.outlook.com
- (2603:10b6:4:b5::26)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.21.55] (165.204.77.1) by
- DM5PR06CA0038.namprd06.prod.outlook.com (2603:10b6:3:5d::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.18 via Frontend Transport; Tue, 27 Oct 2020 14:09:58 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 5c934792-d1c3-4db9-8e2c-08d87a81fd16
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4249:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB42491072629321ED82DCEABF96160@DM6PR12MB4249.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:398;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IqFQy9iucgFTLpqljPwM/7zgjP2M/8KRzLsRa2A/DFD5RZw7f5kbGbkXK3DyLgXpCQIDSDZHpA601uxJCpvHLuyxhMlHjyQkhQxfUX4HR9ZXE7UzWH90vPXVCruve7c1mqNlXYH/cGlqWZLiUWVMlGxKZdWPUquCxKbJEKgtSRarn8K46SiWx/5WBSjoGXiKBehunrH7ZrKxSbhLElUPFpYffmczyptXYIaEfDvBSxxfpRhXGVYKU0U9dHmYKcsvifsbJJTuKt6A5pR6yz14doy/Op8KG6v+VSzpHLW31xL4AsV7SZJq2Fyj3ys3OmEltW3IR8eQuCvrRejWCycCl+CkBMD786GQVFFvz8UAAipq8prRr4NjzKLrmFnwwYmWjTF0dB1lguN88/XpO2oqAR//eBYifbdOAuR/nJ8eZS9hOmeLMg6AKN0cTfuzBo8MSsKELDQrbDEybdWaiW7XcQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB2535.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(346002)(366004)(39860400002)(136003)(54906003)(44832011)(86362001)(26005)(478600001)(966005)(186003)(52116002)(16576012)(31686004)(16526019)(53546011)(31696002)(4326008)(316002)(8936002)(6486002)(2616005)(2906002)(956004)(6916009)(8676002)(5660300002)(66476007)(66946007)(66556008)(36756003)(83380400001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: bBtap+7qZCktWg16YBINVAPB3p1+j4mm9NfYKBsEe+OmXeJiMz9eXew2PkcAtldzHMsA4s0vSyJGrn5NVocl//+GFCaZOETxB3ezh5vRG0vs3UUgSgA+3URN1N0wBmUDSUylGpqprg2lqQ7pa9mrbpOmg8T5jemIhT9gC88Twp4gdbEhcScSx4Jk4kwR3vC7y2yG2uZXslnF04O39XNxhMhlxuoLfGFCedoOlT1lQVD69Urv61IkrixfTr2Aw4Mxf5XqIrTx0qn5TOGuHOVov45FQMGm21UJmeCvHblmjh93bo05cntU9r727UHjrkuznLgeWVm50WStXkm4hqO4FqTi3CAli71mfOTH/PrezkkCUWCDYaTiB2ow3qhAHq4cC0MXgjAd0iejOd+d23KiQFnsIXH1TsSjHkEsgKwzzcVYKcUwxV0JSkDVUPVluyFvFVphLN3jpPuG+p3kU/aIsx7sDRwFV6njgVcUED8i7KAWR/4E0sv/cPvXs0O88Mf+Bf7FsKaHXbXX/EzIg2M2YvQ5tNQJGHhjswM4k/0Gr7KSV+hwKF1VifgaQ2EtbaXRn6jDyTLhVMYUVliPW9wL5/vuxQMnHxD10Ba8uf8smAQpW6XliPx9Jpfb7VBT3eeJlpJnqb/kq5krL/PM2/40nA==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c934792-d1c3-4db9-8e2c-08d87a81fd16
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2535.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2020 14:09:58.9798 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Uui0SDVLAPlrAOlJjj06RGmuWL0hJsvUOVXmJXoqzV6UPTwz71PniHAkgvPE/dXFug8yu494ALrx709lxc69Iw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4249
+To: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,51 +82,63 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-These changes are already merged in https://github.com/openbmc/linux/blob/dev-5.8/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts by Joel.
-Please abandon these changes.
+These changes got picked up from my backport patch to the 'dev-5.8'
+branch of the OpenBMC Linux repository.
+This patch also needed to be added to the main ASPEED Linux kernel, so
+it could get into subsequent branches of the OpenBMC Linux repository.
 
-Thanks,
-Supreeth
+Best regards,
+Konstantin Aladyshev
 
-On 10/27/20 7:37 AM, Konstantin Aladyshev wrote:
-> [CAUTION: External Email]
-> 
-> KCS nodes compatible property in the 'aspeed-g5.dtsi' file was
-> changed to use v2 binding in the commit fa4c8ec6feaa
-> ("ARM: dts: aspeed: Change KCS nodes to v2 binding").
-> For the proper initialization of /dev/ipmi-kcs* devices
-> KCS node variables also need to be changed to use v2 binding.
-> 
-> Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
-> ---
->  arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-> index 60ba86f3e5bc..89ddc3847222 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-> @@ -139,17 +139,17 @@
-> 
->  &kcs1 {
->         status = "okay";
-> -       kcs_addr = <0x60>;
-> +       aspeed,lpc-io-reg = <0x60>;
->  };
-> 
->  &kcs2 {
->         status = "okay";
-> -       kcs_addr = <0x62>;
-> +       aspeed,lpc-io-reg = <0x62>;
->  };
-> 
->  &kcs4 {
->         status = "okay";
-> -       kcs_addr = <0x97DE>;
-> +       aspeed,lpc-io-reg = <0x97DE>;
->  };
-> 
->  &lpc_snoop {
-> --
-> 2.17.1
-> 
+
+On Tue, Oct 27, 2020 at 5:10 PM Supreeth Venkatesh
+<supreeth.venkatesh@amd.com> wrote:
+>
+> These changes are already merged in https://github.com/openbmc/linux/blob/dev-5.8/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts by Joel.
+> Please abandon these changes.
+>
+> Thanks,
+> Supreeth
+>
+> On 10/27/20 7:37 AM, Konstantin Aladyshev wrote:
+> > [CAUTION: External Email]
+> >
+> > KCS nodes compatible property in the 'aspeed-g5.dtsi' file was
+> > changed to use v2 binding in the commit fa4c8ec6feaa
+> > ("ARM: dts: aspeed: Change KCS nodes to v2 binding").
+> > For the proper initialization of /dev/ipmi-kcs* devices
+> > KCS node variables also need to be changed to use v2 binding.
+> >
+> > Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
+> > ---
+> >  arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+> > index 60ba86f3e5bc..89ddc3847222 100644
+> > --- a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+> > +++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+> > @@ -139,17 +139,17 @@
+> >
+> >  &kcs1 {
+> >         status = "okay";
+> > -       kcs_addr = <0x60>;
+> > +       aspeed,lpc-io-reg = <0x60>;
+> >  };
+> >
+> >  &kcs2 {
+> >         status = "okay";
+> > -       kcs_addr = <0x62>;
+> > +       aspeed,lpc-io-reg = <0x62>;
+> >  };
+> >
+> >  &kcs4 {
+> >         status = "okay";
+> > -       kcs_addr = <0x97DE>;
+> > +       aspeed,lpc-io-reg = <0x97DE>;
+> >  };
+> >
+> >  &lpc_snoop {
+> > --
+> > 2.17.1
+> >
