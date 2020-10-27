@@ -2,104 +2,102 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FBE529AE95
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Oct 2020 15:03:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5377F29AF52
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Oct 2020 15:10:32 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CLD1l148xzDqQK
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 01:03:07 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CLDBD1HLvzDqQ5
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 01:10:28 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.helo=nam11-dm6-obe.outbound.protection.outlook.com
- (client-ip=40.107.223.88; helo=nam11-dm6-obe.outbound.protection.outlook.com;
+ smtp.helo=nam04-bn3-obe.outbound.protection.outlook.com
+ (client-ip=40.107.68.77; helo=nam04-bn3-obe.outbound.protection.outlook.com;
  envelope-from=supreeth.venkatesh@amd.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=amd.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=amdcloud.onmicrosoft.com
  header.i=@amdcloud.onmicrosoft.com header.a=rsa-sha256
- header.s=selector2-amdcloud-onmicrosoft-com header.b=Nsa+xSNx; 
+ header.s=selector2-amdcloud-onmicrosoft-com header.b=eyLXCRlr; 
  dkim-atps=neutral
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2088.outbound.protection.outlook.com [40.107.223.88])
+Received: from NAM04-BN3-obe.outbound.protection.outlook.com
+ (mail-eopbgr680077.outbound.protection.outlook.com [40.107.68.77])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CLD152rXFzDqPj
- for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Oct 2020 01:02:32 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CLD9r1dClzDqBt
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Oct 2020 01:10:06 +1100 (AEDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Vgsdx8A9Ui2vXJX515zH5haZpg3qJvCEmgLIizGr0shF3jcn5Men/VvU6RXPduFLJV1AGbZdUCeLh70m3zYBHnBSQu8MOZ6Rg5QUh+JhGlJb/WssUHK30lk8SNeMsiMHDr1G4S9+gQEvyrdLFAKKR+gyJdJfVEeIV20w07R8DJu2It3zzWRYmYafs5FaA9W0D+JQXfAwBNrnpHRqQXSwp0yTM6Pwd07Czy39GsWukU7G4sAp1rHsOrXxAhIOvJuIGrgUGmqs/jnHeuKucSXPPRH2FC4sIIMSJ7V1tgmwOlguvZL/NdfN8C35WHpdjNQWG5G+/GxVEfZbpcr6KxCFAg==
+ b=SAWhAVE77d26XguLdbjXm0FAhqpPF7n+8iR6PbTHyIC935L33oWMz2AzrtzidGYCcDbn1RsUjjXQ1uDnsxcJU/tUatlUq170kUBxSuJ8UJNC0ony2dQKrUTYCpLxzZhvGMtB6Dx8v5XnV4W9q85qE2rPdQgLCxRSrbpp7Ld2tHHIl7Z8AFzsREOAVWHlD088foQNcLedW8O6Uvyo/mIUpXApYblB46hucGv8wVZX8N7pt3a5NaGyV7IgVlpGEL1kyQsax1dFp4kAn+dMwH3FAbjsFgE1tQnEHRXXKxa3tR6Oj/e47T3h+cpgLPVitqkttoYQqYjEST0PwTio9CUxkg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zlZr6IwoXMRTSfZJEbCLBtjWgnhfqQAWXze48yKftPE=;
- b=kArECRfLCCtQuJVuAoF3xkbrsR9G3czhZ6+4S7UvHww7JW6zNleHKGif5Nw9y/FtVqPCi82UAYAxJ+PgpM5MbZvCP7NkvOPoK82KddmPojvCI5iX/xyZe2R1p8qQdiG1XZclzMV6Ht1F9reJ5cV9hJMrXuk9fdN7Lmc+crdKGQ2bAiMPLeQizmBxGYc1/pdFqMvuI9cHXdee4bjWoDi8uiDi56s9u6NV3GisLyMinfOosx2k/QjVAKyjEgS85DQSkjHIYeDbFu58NeNukZUjiTvD+++fzqFBr37Zdz2WolMVBzAqojeKRoRHPDd5W4b4DcaKJTiVoqgCya2FsMdPOg==
+ bh=oNKtsFqY/kGZDF3fi6aPIZms81VhWbfvQLjUluwc5mA=;
+ b=dw3Na2ak7nB7wP5GJBmFBImsJMjcKbrsCwFUOL8rhSaMR/wIu+UW/HP6DRviu8ehFt6hwN1vXSnJ2v6PAFgnfUwqJIXnD2f6njCXULwGnb+fdhrSuOBiSK5MSIZDTnGTNlmXr4Aapg7JZJ2Y9p93alnvSXwNU7jP6WI4YrGZmn3MBzhKKUXlzamQLl4qba7itg0uWa6Ysubw730JHv6d+WJxcgrYHlWolTpfYms0BZ//mlZ7gdf2nClAXukmUNdtc7YR2c6QYUl1wTXIxLkwZciILu4DYgI3a22Slr9a1HggulPAsmdGuVHlnXLR0zVZIMDXkSzT4S3z0xXGe+q0Gg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zlZr6IwoXMRTSfZJEbCLBtjWgnhfqQAWXze48yKftPE=;
- b=Nsa+xSNxD1KnJ8fKM9XTcNGrNjAeNrdo1x2RIEVD+M2JdNMCmMHxGNXu9S28oww/5l+r8Q6Zy3vS9xHWPPgncs1IjJKoCbSP42UwcO4WWMfmiG6C93JwkD/9zlGFXva8OQEjVKTYRo49/DTMCPdU7QN4xttBQzO+dAVFoxttUX4=
+ bh=oNKtsFqY/kGZDF3fi6aPIZms81VhWbfvQLjUluwc5mA=;
+ b=eyLXCRlrV6WlpMx79Pt9jzGPRE6akZ7ncu2yEKtwAPgNsdc0ZcTOv1Wgyuae56WP8aMazirsmaLGYbMPqUm0OsfZrpta2OeDXFMTlHChWS54xAHaT3WrV1JZ9y5lD+rz3oGIazcKHvBwDegYt/dmctKRnkyK/wj+7imZsdYygL4=
 Authentication-Results: vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
 Received: from DM5PR12MB2535.namprd12.prod.outlook.com (2603:10b6:4:b5::26) by
  DM6PR12MB4249.namprd12.prod.outlook.com (2603:10b6:5:223::14) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.18; Tue, 27 Oct 2020 14:02:22 +0000
+ 15.20.3499.18; Tue, 27 Oct 2020 14:09:59 +0000
 Received: from DM5PR12MB2535.namprd12.prod.outlook.com
  ([fe80::2cba:4988:f662:ad60]) by DM5PR12MB2535.namprd12.prod.outlook.com
  ([fe80::2cba:4988:f662:ad60%7]) with mapi id 15.20.3455.029; Tue, 27 Oct 2020
- 14:02:22 +0000
-Subject: Re: [PATCH 3/3] ARM: dts: aspeed: amd-ethanolx: Enable devices for
- the iKVM functionality
+ 14:09:59 +0000
+Subject: Re: [PATCH 1/3] ARM: dts: aspeed: amd-ethanolx: Update KCS nodes to
+ use v2 binding
 To: Konstantin Aladyshev <aladyshev22@gmail.com>
 References: <20201027123722.2935-1-aladyshev22@gmail.com>
- <20201027123722.2935-3-aladyshev22@gmail.com>
 From: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
-Message-ID: <365d5623-6cdb-dafd-b42f-3ebe193ec18e@amd.com>
-Date: Tue, 27 Oct 2020 09:02:20 -0500
+Message-ID: <f35152af-34ad-178b-61db-0e57c8d19f3f@amd.com>
+Date: Tue, 27 Oct 2020 09:09:57 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-In-Reply-To: <20201027123722.2935-3-aladyshev22@gmail.com>
+In-Reply-To: <20201027123722.2935-1-aladyshev22@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [165.204.77.1]
-X-ClientProxiedBy: SN6PR2101CA0027.namprd21.prod.outlook.com
- (2603:10b6:805:106::37) To DM5PR12MB2535.namprd12.prod.outlook.com
+X-ClientProxiedBy: DM5PR06CA0038.namprd06.prod.outlook.com
+ (2603:10b6:3:5d::24) To DM5PR12MB2535.namprd12.prod.outlook.com
  (2603:10b6:4:b5::26)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [10.236.21.55] (165.204.77.1) by
- SN6PR2101CA0027.namprd21.prod.outlook.com (2603:10b6:805:106::37) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.17 via Frontend
- Transport; Tue, 27 Oct 2020 14:02:21 +0000
+ DM5PR06CA0038.namprd06.prod.outlook.com (2603:10b6:3:5d::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.18 via Frontend Transport; Tue, 27 Oct 2020 14:09:58 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 5e1c0020-7bfe-4cb0-78fa-08d87a80ecd2
+X-MS-Office365-Filtering-Correlation-Id: 5c934792-d1c3-4db9-8e2c-08d87a81fd16
 X-MS-TrafficTypeDiagnostic: DM6PR12MB4249:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB424934CF124D07E038ED864A96160@DM6PR12MB4249.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1079;
+X-Microsoft-Antispam-PRVS: <DM6PR12MB42491072629321ED82DCEABF96160@DM6PR12MB4249.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:398;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QDmy7oZ17qHQobLNa6mKyxLPb9gMCBiAOn36DHR8VV+vxxWnIOPs65byQWqJKaClXrEmAXZcP0YHZ4e65Bo9XzmATrBYDA8ncScNUjeOcwlrCLrrre2721OJFw/rSeZqyiWBC0jtV0sPZN9vCOVOXn1O/dH5NESIwr9zZt9Fj3ooO54lzAgk6qdqGUxUk8QHR7Y7HSA8kRkc3auQe5vd8nfJXrGynHTB9qVSWPZjpfRFtM+d5NHLV9t51/+CM9z8E9NkuwaKd7BtfXmRzVPLlDPbjo3Ib4FsNXIeUo2Hi6AOcZ6t9oIL+DuSF4L5AbsR/My0Y0MpS0ZjZxGx9867UxdPccjRHC7GXBwhT7/+XXKkglXjXvXQeoZMdg8tWOOU
+X-Microsoft-Antispam-Message-Info: IqFQy9iucgFTLpqljPwM/7zgjP2M/8KRzLsRa2A/DFD5RZw7f5kbGbkXK3DyLgXpCQIDSDZHpA601uxJCpvHLuyxhMlHjyQkhQxfUX4HR9ZXE7UzWH90vPXVCruve7c1mqNlXYH/cGlqWZLiUWVMlGxKZdWPUquCxKbJEKgtSRarn8K46SiWx/5WBSjoGXiKBehunrH7ZrKxSbhLElUPFpYffmczyptXYIaEfDvBSxxfpRhXGVYKU0U9dHmYKcsvifsbJJTuKt6A5pR6yz14doy/Op8KG6v+VSzpHLW31xL4AsV7SZJq2Fyj3ys3OmEltW3IR8eQuCvrRejWCycCl+CkBMD786GQVFFvz8UAAipq8prRr4NjzKLrmFnwwYmWjTF0dB1lguN88/XpO2oqAR//eBYifbdOAuR/nJ8eZS9hOmeLMg6AKN0cTfuzBo8MSsKELDQrbDEybdWaiW7XcQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM5PR12MB2535.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(39860400002)(366004)(346002)(376002)(396003)(2616005)(2906002)(956004)(8676002)(6916009)(6486002)(8936002)(36756003)(5660300002)(66476007)(66946007)(66556008)(86362001)(186003)(26005)(478600001)(44832011)(54906003)(53546011)(16526019)(31696002)(316002)(4326008)(16576012)(52116002)(31686004)(43740500002);
+ SFS:(4636009)(396003)(376002)(346002)(366004)(39860400002)(136003)(54906003)(44832011)(86362001)(26005)(478600001)(966005)(186003)(52116002)(16576012)(31686004)(16526019)(53546011)(31696002)(4326008)(316002)(8936002)(6486002)(2616005)(2906002)(956004)(6916009)(8676002)(5660300002)(66476007)(66946007)(66556008)(36756003)(83380400001)(43740500002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 7MchHuJfpsfpN+XOg2aEUeLuT/1saNwxO1yEBtFZ9kkHHA6qBdZ5tYpv4K+SCl6yVt9UkztNvzZQGxjjrCWlI7w+1i846BYqS2xnnAQGxC5jFqnu/U8Ph4u2I7syLlb8OVAGtC028kphluHzV9pBpYJKhlPBrqNs+/NtAQj9xDCi9cJ+BL9s1OxPUe3IZG8YVpNm/rhfa6IA6jG+X3yMOg2mp37UDVsoHkIG3eKF+nZlwbycPOmrT//LuslCO7B+Aeu4w1o38p8hA8yR4vD1d0xv5dOUPkePeaRk3r0GK+EdenZRJgGVvDeKizdy+8MLFR0BmdLIqnZ5Ah4Cr4kK+nBVtwiGub/V/Mb5yN6N0xfnk8PqM8pwr5oXkeaShUXDMG2YTy/finYwT2nQ8umsjkCgvLhlp0bB/i/lnBZ32/R8mcvTbYmAT6oAmUxV5rcAPRItVLQgewL2jyxyksZyg/vhY/+nIn4r7pdZi0YR0Mu2Hg1eRschZ1PXa9vnWTyoGmlRIG4bqpcUO6B8ZKaFOUJv5p3VPWhGIcsRv+w68RnriCQ3kp8EWo245uOdcgx8GXvak207YZNXCCtfl4rSdFQ7C2HZTXn4FiuE5IKLT/BKHZhiXGOw6d4sE3qIU3/bDD2WVeqMCMgV17zTHxq/NQ==
+X-MS-Exchange-AntiSpam-MessageData: bBtap+7qZCktWg16YBINVAPB3p1+j4mm9NfYKBsEe+OmXeJiMz9eXew2PkcAtldzHMsA4s0vSyJGrn5NVocl//+GFCaZOETxB3ezh5vRG0vs3UUgSgA+3URN1N0wBmUDSUylGpqprg2lqQ7pa9mrbpOmg8T5jemIhT9gC88Twp4gdbEhcScSx4Jk4kwR3vC7y2yG2uZXslnF04O39XNxhMhlxuoLfGFCedoOlT1lQVD69Urv61IkrixfTr2Aw4Mxf5XqIrTx0qn5TOGuHOVov45FQMGm21UJmeCvHblmjh93bo05cntU9r727UHjrkuznLgeWVm50WStXkm4hqO4FqTi3CAli71mfOTH/PrezkkCUWCDYaTiB2ow3qhAHq4cC0MXgjAd0iejOd+d23KiQFnsIXH1TsSjHkEsgKwzzcVYKcUwxV0JSkDVUPVluyFvFVphLN3jpPuG+p3kU/aIsx7sDRwFV6njgVcUED8i7KAWR/4E0sv/cPvXs0O88Mf+Bf7FsKaHXbXX/EzIg2M2YvQ5tNQJGHhjswM4k/0Gr7KSV+hwKF1VifgaQ2EtbaXRn6jDyTLhVMYUVliPW9wL5/vuxQMnHxD10Ba8uf8smAQpW6XliPx9Jpfb7VBT3eeJlpJnqb/kq5krL/PM2/40nA==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e1c0020-7bfe-4cb0-78fa-08d87a80ecd2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c934792-d1c3-4db9-8e2c-08d87a81fd16
 X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2535.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2020 14:02:22.5681 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2020 14:09:58.9798 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b8F2FQmht5sX5K2O27URzv2Sd+1I+MwCXTZT3ewC7q1v28V0CIoZCI+vR1BKZpJUpcsgA/rmmvyZNbyIQNU2Wg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Uui0SDVLAPlrAOlJjj06RGmuWL0hJsvUOVXmJXoqzV6UPTwz71PniHAkgvPE/dXFug8yu494ALrx709lxc69Iw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4249
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -119,61 +117,51 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+These changes are already merged in https://github.com/openbmc/linux/blob/dev-5.8/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts by Joel.
+Please abandon these changes.
 
+Thanks,
+Supreeth
 
 On 10/27/20 7:37 AM, Konstantin Aladyshev wrote:
 > [CAUTION: External Email]
 > 
-> Enable the USB 2.0 Virtual Hub Controller and
-> the Video Engine with it's reserved memory region for the implementation
-> of the iKVM functionality in the BMC.
+> KCS nodes compatible property in the 'aspeed-g5.dtsi' file was
+> changed to use v2 binding in the commit fa4c8ec6feaa
+> ("ARM: dts: aspeed: Change KCS nodes to v2 binding").
+> For the proper initialization of /dev/ipmi-kcs* devices
+> KCS node variables also need to be changed to use v2 binding.
 > 
 > Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
-Reviewed-by: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
-
 > ---
->  arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 22 +++++++++++++++++++
->  1 file changed, 22 insertions(+)
+>  arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
 > diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-> index 2a86bda8afd8..b93ed44eba0c 100644
+> index 60ba86f3e5bc..89ddc3847222 100644
 > --- a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
 > +++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-> @@ -13,6 +13,21 @@
->         memory@80000000 {
->                 reg = <0x80000000 0x20000000>;
->         };
-> +
-> +       reserved-memory {
-> +               #address-cells = <1>;
-> +               #size-cells = <1>;
-> +               ranges;
-> +
-> +               video_engine_memory: jpegbuffer {
-> +                       size = <0x02000000>;    /* 32M */
-> +                       alignment = <0x01000000>;
-> +                       compatible = "shared-dma-pool";
-> +                       reusable;
-> +               };
-> +       };
-> +
-> +
->         aliases {
->                 serial0 = &uart1;
->                 serial4 = &uart5;
-> @@ -220,5 +235,12 @@
->         };
+> @@ -139,17 +139,17 @@
+> 
+>  &kcs1 {
+>         status = "okay";
+> -       kcs_addr = <0x60>;
+> +       aspeed,lpc-io-reg = <0x60>;
 >  };
 > 
-> +&video {
-> +       status = "okay";
-> +       memory-region = <&video_engine_memory>;
-> +};
+>  &kcs2 {
+>         status = "okay";
+> -       kcs_addr = <0x62>;
+> +       aspeed,lpc-io-reg = <0x62>;
+>  };
 > 
-> +&vhub {
-> +       status = "okay";
-> +};
+>  &kcs4 {
+>         status = "okay";
+> -       kcs_addr = <0x97DE>;
+> +       aspeed,lpc-io-reg = <0x97DE>;
+>  };
 > 
+>  &lpc_snoop {
 > --
 > 2.17.1
 > 
