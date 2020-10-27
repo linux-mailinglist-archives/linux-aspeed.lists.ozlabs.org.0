@@ -2,36 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2DF4299984
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Oct 2020 23:22:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C216C29A2A3
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Oct 2020 03:19:18 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CKq7z02vCzDqQh
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Oct 2020 09:22:07 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CKwPb0m6RzDqKj
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Oct 2020 13:19:15 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::742;
+ helo=mail-qk1-x742.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=permerror (SPF Permanent Error: Unknown mechanism
- found: ip:192.40.192.88/32) smtp.mailfrom=kernel.crashing.org
- (client-ip=76.164.61.194; helo=kernel.crashing.org;
- envelope-from=benh@kernel.crashing.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=kernel.crashing.org
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=emCTFPfb; dkim-atps=neutral
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CKq7n29n8zDqPw;
- Tue, 27 Oct 2020 09:21:56 +1100 (AEDT)
-Received: from localhost (gate.crashing.org [63.228.1.57])
- (authenticated bits=0)
- by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 09QMLIgd032401
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 26 Oct 2020 17:21:22 -0500
-Message-ID: <e6c8e96bb26a5505e967e697946d359c22ac68c5.camel@kernel.crashing.org>
-Subject: Re: [PATCH] net: ftgmac100: Fix missing TX-poll issue
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To: Dylan Hung <dylan_hung@aspeedtech.com>, Andrew Jeffery <andrew@aj.id.au>
-Date: Tue, 27 Oct 2020 09:21:17 +1100
-In-Reply-To: <PS1PR0601MB18498469F0263306A6E5183F9C1A0@PS1PR0601MB1849.apcprd06.prod.outlook.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CKwPF6SpbzDqCR;
+ Tue, 27 Oct 2020 13:18:56 +1100 (AEDT)
+Received: by mail-qk1-x742.google.com with SMTP id r7so10430098qkf.3;
+ Mon, 26 Oct 2020 19:18:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Z7k2jFeuyFxR40oKjqp6f6jzB45rr1tSUQm9Sp7Fuu8=;
+ b=emCTFPfbMA8sqwapkNGv73E7/ekn1Du95YiS6OJf6VKhj83eNKepggO/2T4LRV4NO1
+ PkbCx2E+A5beMSWBNmgrliLMH6pDiIY1xkZqGjRmOjAoodhsLVTIOzxsGPre5zCjbbss
+ dPrY42iAFezg5u4Dt2arPi7ADacfYvJUbN2xU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Z7k2jFeuyFxR40oKjqp6f6jzB45rr1tSUQm9Sp7Fuu8=;
+ b=skBB0a3OnvS5SSesnG0eXqPiuSGH38IctkcG7Y49tRDKECggQN1+gbPaQ4rOP1YgXU
+ RAI4MOCTGszNC8m2mX2tbA6dObakwGaK1cWlHQU1vpNP+mRbN6QsXW9PhaLaQHlyFdb4
+ eiQ4dtA7TG7jQxAcxdKxyc75JdceOvMN1F+3Qi24KpTZeycRw1rpwqqPYzAt9fObVF30
+ r9tHPi9+FSuWvhIX733tURzINKFaHAr0vwti6aeyFDfvhHwfj0XF2tfXsVAMYEshJtfn
+ +W9CCiY1RTolclBytTQENh3PYUCTq3vZIGLRdrX3Gxf2NZr69mkP8RDnbRjCJcmdHcmQ
+ A5ag==
+X-Gm-Message-State: AOAM530aVrEtS2ogmFXe4z3xSyriKKE4flQaw7lga6kOGEv6YqcceiHR
+ KtYvBN6BYRY6SfdQ0ei9/wKS5Nl2viSjS4M4YXyDoW/1
+X-Google-Smtp-Source: ABdhPJwLM6M52ok+8DkCFDJBuR8rBAX3I0lJIGG88g+lugudrUqWAV3/suj2AD1bT6mETyOedwi0T/fgRJegAvl+rLk=
+X-Received: by 2002:a37:a81:: with SMTP id 123mr39228qkk.487.1603765133628;
+ Mon, 26 Oct 2020 19:18:53 -0700 (PDT)
+MIME-Version: 1.0
 References: <20201019073908.32262-1-dylan_hung@aspeedtech.com>
  <CACPK8Xfn+Gn0PHCfhX-vgLTA6e2=RT+D+fnLF67_1j1iwqh7yg@mail.gmail.com>
  <20201019120040.3152ea0b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
@@ -40,10 +58,14 @@ References: <20201019073908.32262-1-dylan_hung@aspeedtech.com>
  <32bfb619bbb3cd6f52f9e5da205673702fed228f.camel@kernel.crashing.org>
  <529612e1-c6c4-4d33-91df-2a30bf2e1675@www.fastmail.com>
  <PS1PR0601MB18498469F0263306A6E5183F9C1A0@PS1PR0601MB1849.apcprd06.prod.outlook.com>
+ <e6c8e96bb26a5505e967e697946d359c22ac68c5.camel@kernel.crashing.org>
+In-Reply-To: <e6c8e96bb26a5505e967e697946d359c22ac68c5.camel@kernel.crashing.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 27 Oct 2020 02:18:41 +0000
+Message-ID: <CACPK8XdPB0wnvuvwxO5BST7EzDuPqGcjHTkZm=7A0ZofzyXHag@mail.gmail.com>
+Subject: Re: [PATCH] net: ftgmac100: Fix missing TX-poll issue
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,18 +87,23 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 2020-10-23 at 13:08 +0000, Dylan Hung wrote:
-> The issue was found on our test chip (ast2600 version A0) which is
-> just for testing and won't be mass-produced.  This HW bug has been
-> fixed on ast2600 A1 and later versions.
-> 
-> To verify the HW fix, I run overnight iperf and kvm tests on
-> ast2600A1 without this patch, and get stable result without hanging.
-> So I think we can discard this patch.
+On Mon, 26 Oct 2020 at 22:22, Benjamin Herrenschmidt
+<benh@kernel.crashing.org> wrote:
+>
+> On Fri, 2020-10-23 at 13:08 +0000, Dylan Hung wrote:
+> > The issue was found on our test chip (ast2600 version A0) which is
+> > just for testing and won't be mass-produced.  This HW bug has been
+> > fixed on ast2600 A1 and later versions.
+> >
+> > To verify the HW fix, I run overnight iperf and kvm tests on
+> > ast2600A1 without this patch, and get stable result without hanging.
+> > So I think we can discard this patch.
+>
+> This is great news. Thanks !
 
-This is great news. Thanks !
+That is excellent news. I agree; we do not need fixes for A0 issues to
+be kept in the mainline kernel. Thanks for updating us Dylan.
 
 Cheers,
-Ben.
 
-
+Joel
