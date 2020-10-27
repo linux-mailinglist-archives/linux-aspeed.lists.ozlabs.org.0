@@ -2,48 +2,105 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F3729A6D3
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Oct 2020 09:45:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBE529AE95
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Oct 2020 15:03:11 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CL4zT3tkzzDqQD
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Oct 2020 19:45:41 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CLD1l148xzDqQK
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 01:03:07 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.helo=nam11-dm6-obe.outbound.protection.outlook.com
+ (client-ip=40.107.223.88; helo=nam11-dm6-obe.outbound.protection.outlook.com;
+ envelope-from=supreeth.venkatesh@amd.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=amd.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=amdcloud.onmicrosoft.com
+ header.i=@amdcloud.onmicrosoft.com header.a=rsa-sha256
+ header.s=selector2-amdcloud-onmicrosoft-com header.b=Nsa+xSNx; 
+ dkim-atps=neutral
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2088.outbound.protection.outlook.com [40.107.223.88])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CL4zJ6LC9zDqJ8;
- Tue, 27 Oct 2020 19:45:30 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 09R8fHjq035672;
- Tue, 27 Oct 2020 16:41:17 +0800 (GMT-8)
- (envelope-from billy_tsai@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.9) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 27 Oct
- 2020 16:44:23 +0800
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: <andrew@aj.id.au>, <linus.walleij@linaro.org>, <joel@jms.id.au>,
- <linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
- <linux-gpio@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] pinctrl: aspeed: Fix GPI only function problem.
-Date: Tue, 27 Oct 2020 16:44:17 +0800
-Message-ID: <20201027084417.10137-1-billy_tsai@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CLD152rXFzDqPj
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Oct 2020 01:02:32 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Vgsdx8A9Ui2vXJX515zH5haZpg3qJvCEmgLIizGr0shF3jcn5Men/VvU6RXPduFLJV1AGbZdUCeLh70m3zYBHnBSQu8MOZ6Rg5QUh+JhGlJb/WssUHK30lk8SNeMsiMHDr1G4S9+gQEvyrdLFAKKR+gyJdJfVEeIV20w07R8DJu2It3zzWRYmYafs5FaA9W0D+JQXfAwBNrnpHRqQXSwp0yTM6Pwd07Czy39GsWukU7G4sAp1rHsOrXxAhIOvJuIGrgUGmqs/jnHeuKucSXPPRH2FC4sIIMSJ7V1tgmwOlguvZL/NdfN8C35WHpdjNQWG5G+/GxVEfZbpcr6KxCFAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zlZr6IwoXMRTSfZJEbCLBtjWgnhfqQAWXze48yKftPE=;
+ b=kArECRfLCCtQuJVuAoF3xkbrsR9G3czhZ6+4S7UvHww7JW6zNleHKGif5Nw9y/FtVqPCi82UAYAxJ+PgpM5MbZvCP7NkvOPoK82KddmPojvCI5iX/xyZe2R1p8qQdiG1XZclzMV6Ht1F9reJ5cV9hJMrXuk9fdN7Lmc+crdKGQ2bAiMPLeQizmBxGYc1/pdFqMvuI9cHXdee4bjWoDi8uiDi56s9u6NV3GisLyMinfOosx2k/QjVAKyjEgS85DQSkjHIYeDbFu58NeNukZUjiTvD+++fzqFBr37Zdz2WolMVBzAqojeKRoRHPDd5W4b4DcaKJTiVoqgCya2FsMdPOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zlZr6IwoXMRTSfZJEbCLBtjWgnhfqQAWXze48yKftPE=;
+ b=Nsa+xSNxD1KnJ8fKM9XTcNGrNjAeNrdo1x2RIEVD+M2JdNMCmMHxGNXu9S28oww/5l+r8Q6Zy3vS9xHWPPgncs1IjJKoCbSP42UwcO4WWMfmiG6C93JwkD/9zlGFXva8OQEjVKTYRo49/DTMCPdU7QN4xttBQzO+dAVFoxttUX4=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB2535.namprd12.prod.outlook.com (2603:10b6:4:b5::26) by
+ DM6PR12MB4249.namprd12.prod.outlook.com (2603:10b6:5:223::14) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.18; Tue, 27 Oct 2020 14:02:22 +0000
+Received: from DM5PR12MB2535.namprd12.prod.outlook.com
+ ([fe80::2cba:4988:f662:ad60]) by DM5PR12MB2535.namprd12.prod.outlook.com
+ ([fe80::2cba:4988:f662:ad60%7]) with mapi id 15.20.3455.029; Tue, 27 Oct 2020
+ 14:02:22 +0000
+Subject: Re: [PATCH 3/3] ARM: dts: aspeed: amd-ethanolx: Enable devices for
+ the iKVM functionality
+To: Konstantin Aladyshev <aladyshev22@gmail.com>
+References: <20201027123722.2935-1-aladyshev22@gmail.com>
+ <20201027123722.2935-3-aladyshev22@gmail.com>
+From: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
+Message-ID: <365d5623-6cdb-dafd-b42f-3ebe193ec18e@amd.com>
+Date: Tue, 27 Oct 2020 09:02:20 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20201027123722.2935-3-aladyshev22@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [165.204.77.1]
+X-ClientProxiedBy: SN6PR2101CA0027.namprd21.prod.outlook.com
+ (2603:10b6:805:106::37) To DM5PR12MB2535.namprd12.prod.outlook.com
+ (2603:10b6:4:b5::26)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.10.9]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 09R8fHjq035672
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.236.21.55] (165.204.77.1) by
+ SN6PR2101CA0027.namprd21.prod.outlook.com (2603:10b6:805:106::37) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.17 via Frontend
+ Transport; Tue, 27 Oct 2020 14:02:21 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 5e1c0020-7bfe-4cb0-78fa-08d87a80ecd2
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4249:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB424934CF124D07E038ED864A96160@DM6PR12MB4249.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1079;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QDmy7oZ17qHQobLNa6mKyxLPb9gMCBiAOn36DHR8VV+vxxWnIOPs65byQWqJKaClXrEmAXZcP0YHZ4e65Bo9XzmATrBYDA8ncScNUjeOcwlrCLrrre2721OJFw/rSeZqyiWBC0jtV0sPZN9vCOVOXn1O/dH5NESIwr9zZt9Fj3ooO54lzAgk6qdqGUxUk8QHR7Y7HSA8kRkc3auQe5vd8nfJXrGynHTB9qVSWPZjpfRFtM+d5NHLV9t51/+CM9z8E9NkuwaKd7BtfXmRzVPLlDPbjo3Ib4FsNXIeUo2Hi6AOcZ6t9oIL+DuSF4L5AbsR/My0Y0MpS0ZjZxGx9867UxdPccjRHC7GXBwhT7/+XXKkglXjXvXQeoZMdg8tWOOU
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB2535.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39860400002)(366004)(346002)(376002)(396003)(2616005)(2906002)(956004)(8676002)(6916009)(6486002)(8936002)(36756003)(5660300002)(66476007)(66946007)(66556008)(86362001)(186003)(26005)(478600001)(44832011)(54906003)(53546011)(16526019)(31696002)(316002)(4326008)(16576012)(52116002)(31686004)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 7MchHuJfpsfpN+XOg2aEUeLuT/1saNwxO1yEBtFZ9kkHHA6qBdZ5tYpv4K+SCl6yVt9UkztNvzZQGxjjrCWlI7w+1i846BYqS2xnnAQGxC5jFqnu/U8Ph4u2I7syLlb8OVAGtC028kphluHzV9pBpYJKhlPBrqNs+/NtAQj9xDCi9cJ+BL9s1OxPUe3IZG8YVpNm/rhfa6IA6jG+X3yMOg2mp37UDVsoHkIG3eKF+nZlwbycPOmrT//LuslCO7B+Aeu4w1o38p8hA8yR4vD1d0xv5dOUPkePeaRk3r0GK+EdenZRJgGVvDeKizdy+8MLFR0BmdLIqnZ5Ah4Cr4kK+nBVtwiGub/V/Mb5yN6N0xfnk8PqM8pwr5oXkeaShUXDMG2YTy/finYwT2nQ8umsjkCgvLhlp0bB/i/lnBZ32/R8mcvTbYmAT6oAmUxV5rcAPRItVLQgewL2jyxyksZyg/vhY/+nIn4r7pdZi0YR0Mu2Hg1eRschZ1PXa9vnWTyoGmlRIG4bqpcUO6B8ZKaFOUJv5p3VPWhGIcsRv+w68RnriCQ3kp8EWo245uOdcgx8GXvak207YZNXCCtfl4rSdFQ7C2HZTXn4FiuE5IKLT/BKHZhiXGOw6d4sE3qIU3/bDD2WVeqMCMgV17zTHxq/NQ==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e1c0020-7bfe-4cb0-78fa-08d87a80ecd2
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2535.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2020 14:02:22.5681 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: b8F2FQmht5sX5K2O27URzv2Sd+1I+MwCXTZT3ewC7q1v28V0CIoZCI+vR1BKZpJUpcsgA/rmmvyZNbyIQNU2Wg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4249
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,33 +112,68 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Some gpio pin at aspeed soc is input only and the prefix name of these
-pin is "GPI" only. This patch fine-tune the condition of GPIO check from
-"GPIO" to "GPI".
 
-Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
----
- drivers/pinctrl/aspeed/pinctrl-aspeed.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed.c b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
-index 53f3f8aec695..a2f5ede3f897 100644
---- a/drivers/pinctrl/aspeed/pinctrl-aspeed.c
-+++ b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
-@@ -292,7 +292,7 @@ static bool aspeed_expr_is_gpio(const struct aspeed_sig_expr *expr)
- 	 *
- 	 * expr->signal might look like "GPIOT3" in the GPIO case.
- 	 */
--	return strncmp(expr->signal, "GPIO", 4) == 0;
-+	return strncmp(expr->signal, "GPI", 3) == 0;
- }
- 
- static bool aspeed_gpio_in_exprs(const struct aspeed_sig_expr **exprs)
--- 
-2.17.1
+On 10/27/20 7:37 AM, Konstantin Aladyshev wrote:
+> [CAUTION: External Email]
+> 
+> Enable the USB 2.0 Virtual Hub Controller and
+> the Video Engine with it's reserved memory region for the implementation
+> of the iKVM functionality in the BMC.
+> 
+> Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
+Reviewed-by: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
 
+> ---
+>  arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 22 +++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+> index 2a86bda8afd8..b93ed44eba0c 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+> @@ -13,6 +13,21 @@
+>         memory@80000000 {
+>                 reg = <0x80000000 0x20000000>;
+>         };
+> +
+> +       reserved-memory {
+> +               #address-cells = <1>;
+> +               #size-cells = <1>;
+> +               ranges;
+> +
+> +               video_engine_memory: jpegbuffer {
+> +                       size = <0x02000000>;    /* 32M */
+> +                       alignment = <0x01000000>;
+> +                       compatible = "shared-dma-pool";
+> +                       reusable;
+> +               };
+> +       };
+> +
+> +
+>         aliases {
+>                 serial0 = &uart1;
+>                 serial4 = &uart5;
+> @@ -220,5 +235,12 @@
+>         };
+>  };
+> 
+> +&video {
+> +       status = "okay";
+> +       memory-region = <&video_engine_memory>;
+> +};
+> 
+> +&vhub {
+> +       status = "okay";
+> +};
+> 
+> --
+> 2.17.1
+> 
