@@ -2,64 +2,59 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A8029CF4F
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 10:50:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 016CE29CF94
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 11:51:45 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CLkNC75b7zDqT6
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 20:50:51 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CLlkP3lZYzDqTC
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 21:51:41 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::741;
- helo=mail-qk1-x741.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=arnd@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
+ dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=LQDMMEAp; dkim-atps=neutral
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=default header.b=Jvjs0f4G; dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CLkN563WpzDqMB
- for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Oct 2020 20:50:45 +1100 (AEDT)
-Received: by mail-qk1-x741.google.com with SMTP id j129so3930133qke.5
- for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Oct 2020 02:50:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9VlqcSxbD+zLpLTx76uBLItIwcrcc3ZCFs1WdNdmfa0=;
- b=LQDMMEApne+8MoHy34kvudx2LbXKqf9+rPl1U6HMLUgdj3hVYJa6ZZqfOdt18khqtF
- Y8qR3e4tV6JpGfmTU5EVUT+0b3mtPH46XQJ2WnU4MexLWydQVDN7A11ZihckrdLm8yZR
- glpYN4J4/+dIxP1AsmxqbDfq7kD8m/FewNEl8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9VlqcSxbD+zLpLTx76uBLItIwcrcc3ZCFs1WdNdmfa0=;
- b=Ps8/b7m0pXY/wlbFkusAqjlJqBHZROXjrwX4coNCJ0JIUMUBDADFH5kL16kGFCZAyO
- pEPGKqbl8OD1cEkANmqj55Xp+eLlftLZWZ+vEXUghZPI9sEespkHNg5rQqbxHGdVi2/V
- oESvSnWzt6pRCc9dHIWCejmfJynec5hYHVj/8x67DP300A3kNFX/5J0+Ua4n3eD3T7hV
- m5/ZgXKzKvVgA+m7hhrqugsfGmeepFj8uOTFlGRcOq9WidfaMLStVOifbvnrVYCR2fb6
- wAaz7OB54FbGjzBfFHPJNJhtQZOKTGDVbUfzGB+GQ0cYLUdLFqsr8aAN+AMxQ5dpDBNy
- yYAw==
-X-Gm-Message-State: AOAM530kjq749dcBBt+1acz4smauNfQoZkgf0w2a2fiWQAYL5IeY+EO7
- 7VBNAK94LSUtkRlp4/RxAt4ZRYefz95Ugzu/Cxs=
-X-Google-Smtp-Source: ABdhPJxGTvfUKiXdm0GufiMR7Kg/9Pu15EnXOZNLVhMaVAa/tdwnYilJ2+nd98SbbcNfTjVhm+hyCdE0889DRu1/mfE=
-X-Received: by 2002:a05:620a:1e7:: with SMTP id
- x7mr6190070qkn.465.1603878641900; 
- Wed, 28 Oct 2020 02:50:41 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CLlkF5DWPzDqQv
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Oct 2020 21:51:33 +1100 (AEDT)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
+ [209.85.222.176])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5D529246B2
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Oct 2020 10:51:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1603882290;
+ bh=XD5uCtpl3RH4AtzDxzuSwg9nMZ9CWW/y+BW47Ovv5YE=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Jvjs0f4GU5xPcFEX+arBoj4dPbl2k+y35xTfmIkjvcxncNAEsLcc9CSodhamqsqC/
+ YTYcglv7d+fHoDGhSNFKLHcKMAuQO1fedEdBOPujdI5/37kc53fmidLLIrF/cld1GD
+ k0M75a6De3R+MZZFo4VkbV+6YMvvoUp7S4HF1+Uo=
+Received: by mail-qk1-f176.google.com with SMTP id a23so4004932qkg.13
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Oct 2020 03:51:30 -0700 (PDT)
+X-Gm-Message-State: AOAM532pbezHV6+/gS10uJ3ScYZesNB56mFwrMEJma4T5+0r4ULyA8fP
+ 7DM7/NJyPEQ+KKeXMO9aKQVsSWZHdrIHXcDAkgc=
+X-Google-Smtp-Source: ABdhPJxXLDkIXRHsZEA8pggrfhZxyfLSPo2Dozai4lxy3104l0nLlHTizCAdziThkmK1WgUgBbIuSfTWxKAsTNFlE/I=
+X-Received: by 2002:a05:620a:74f:: with SMTP id
+ i15mr6785871qki.352.1603882289279; 
+ Wed, 28 Oct 2020 03:51:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201027123722.2935-1-aladyshev22@gmail.com>
- <f35152af-34ad-178b-61db-0e57c8d19f3f@amd.com>
-In-Reply-To: <f35152af-34ad-178b-61db-0e57c8d19f3f@amd.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 28 Oct 2020 09:50:26 +0000
-Message-ID: <CACPK8Xfr=Gd+oowhzZrLfAyVA7_J9=WhZGXUvfqXeu2XtP2A7Q@mail.gmail.com>
-Subject: Re: [PATCH 1/3] ARM: dts: aspeed: amd-ethanolx: Update KCS nodes to
- use v2 binding
-To: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
+References: <20201020220639.130696-1-joel@jms.id.au>
+ <CAK8P3a3gz4rMSkvZZ+TPaBx3B1yHXcUVFDdMFQMGUtEi4xXzyg@mail.gmail.com>
+ <428dc31828795ce0b010509c8c30bf0049ad9190.camel@kernel.crashing.org>
+ <CACPK8XfHaGWcDf7vDHoPhqgWQ4LEwxq9EBtbkBngEpHEzJk2SA@mail.gmail.com>
+In-Reply-To: <CACPK8XfHaGWcDf7vDHoPhqgWQ4LEwxq9EBtbkBngEpHEzJk2SA@mail.gmail.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Wed, 28 Oct 2020 11:51:13 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1xxefNQqhZN6QWC0-uQ=b7hu4JzoidXt8TgemZFb0ykw@mail.gmail.com>
+Message-ID: <CAK8P3a1xxefNQqhZN6QWC0-uQ=b7hu4JzoidXt8TgemZFb0ykw@mail.gmail.com>
+Subject: Re: [PATCH] net: ftgmac100: Ensure tx descriptor updates are visible
+To: Joel Stanley <joel@jms.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -72,73 +67,81 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Konstantin Aladyshev <aladyshev22@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Networking <netdev@vger.kernel.org>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 28 Oct 2020 at 09:00, Supreeth Venkatesh
-<supreeth.venkatesh@amd.com> wrote:
+On Wed, Oct 28, 2020 at 5:47 AM Joel Stanley <joel@jms.id.au> wrote:
 >
-> These changes are already merged in https://github.com/openbmc/linux/blob/dev-5.8/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts by Joel.
-> Please abandon these changes.
-
-That is the openbmc kernel tree, where we stage patches on their way
-to mainline. This submission is for mainline, where this patch has not
-been merged.
-
-Cheers,
-
-Joel
-
+> On Thu, 22 Oct 2020 at 07:41, Benjamin Herrenschmidt
+> <benh@kernel.crashing.org> wrote:
+> > > >
+> > > > +       /* Ensure the descriptor config is visible before setting the tx
+> > > > +        * pointer.
+> > > > +        */
+> > > > +       smp_wmb();
+> > > > +
+> > >
+> > > Shouldn't these be paired with smp_rmb() on the reader side?
+> >
+> > (Not near the code right now) I *think* the reader already has them
+> > where it matters but I might have overlooked something when I quickly
+> > checked the other day.
 >
-> Thanks,
-> Supreeth
+> Do we need a read barrier at the start of ftgmac100_tx_complete_packet?
 >
-> On 10/27/20 7:37 AM, Konstantin Aladyshev wrote:
-> > [CAUTION: External Email]
-> >
-> > KCS nodes compatible property in the 'aspeed-g5.dtsi' file was
-> > changed to use v2 binding in the commit fa4c8ec6feaa
-> > ("ARM: dts: aspeed: Change KCS nodes to v2 binding").
-> > For the proper initialization of /dev/ipmi-kcs* devices
-> > KCS node variables also need to be changed to use v2 binding.
-> >
-> > Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
-> > ---
-> >  arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-> > index 60ba86f3e5bc..89ddc3847222 100644
-> > --- a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-> > +++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-> > @@ -139,17 +139,17 @@
-> >
-> >  &kcs1 {
-> >         status = "okay";
-> > -       kcs_addr = <0x60>;
-> > +       aspeed,lpc-io-reg = <0x60>;
-> >  };
-> >
-> >  &kcs2 {
-> >         status = "okay";
-> > -       kcs_addr = <0x62>;
-> > +       aspeed,lpc-io-reg = <0x62>;
-> >  };
-> >
-> >  &kcs4 {
-> >         status = "okay";
-> > -       kcs_addr = <0x97DE>;
-> > +       aspeed,lpc-io-reg = <0x97DE>;
-> >  };
-> >
-> >  &lpc_snoop {
-> > --
-> > 2.17.1
-> >
+>         pointer = priv->tx_clean_pointer;
+> <--- here
+>         txdes = &priv->txdes[pointer];
+>
+>         ctl_stat = le32_to_cpu(txdes->txdes0);
+>         if (ctl_stat & FTGMAC100_TXDES0_TXDMA_OWN)
+>                 return false;
+>
+> This was the only spot I could see that might require one.
+
+No, I don't think this is the one, since tx_clean_pointer is not updated
+in the other CPU, only this one. From what I can tell, you have
+a communication between three concurrent threads in the TX
+path:
+
+a) one CPU runs start_xmit. It reads tx_clean_pointer
+    from the second CPU, writes the descriptors for the hardware,
+    notifies the hardware and updates tx_pointer.
+
+b) the hardware gets kicked by start_xmit, it reads the
+     descriptors, reads the data and updates the descriptors.
+     it may send an interrupt, which is not important here.
+
+c) a second CPU runs the poll() function. It reads the
+    tx_pointer, reads the descriptors, updates the descriptors
+    and updates tx_clean_pointer.
+
+Things get a bit confusing because the tx_pointer and
+tx_clean_pointer variables are hidden behind macros
+and both sides repeatedly read and write them, with no
+serialization.
+
+This is what I would try to untangle it:
+
+- mark both tx_pointer and tx_clean_pointer as
+  ____cacheline_aligned_in_smp to avoid the cacheline
+ pingpong between the two CPUs
+
+- Use smp_load_acquire() to read a pointer that may have
+  been updated by the other thread, and smp_store_release()
+  to update the one the other side will read.
+
+- pull these accesses into the callers and only do them
+  once if possible
+
+- reconsider the "keep poll() going as long as tx
+  packets are queued" logic, and instead serialize
+  against the packets that are actually completed
+  by the hardware.
+
+        Arnd
