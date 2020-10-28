@@ -2,60 +2,104 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016CE29CF94
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 11:51:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9106B29D0E8
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 17:00:16 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CLlkP3lZYzDqTC
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 21:51:41 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CLtZP4kwFzDqTk
+	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Oct 2020 03:00:13 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=arnd@kernel.org; receiver=<UNKNOWN>)
+ smtp.helo=nam11-bn8-obe.outbound.protection.outlook.com
+ (client-ip=40.107.236.40; helo=nam11-bn8-obe.outbound.protection.outlook.com;
+ envelope-from=supreeth.venkatesh@amd.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
+ dmarc=none (p=none dis=none) header.from=amd.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=Jvjs0f4G; dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ unprotected) header.d=amdcloud.onmicrosoft.com
+ header.i=@amdcloud.onmicrosoft.com header.a=rsa-sha256
+ header.s=selector2-amdcloud-onmicrosoft-com header.b=JNFE/5jN; 
+ dkim-atps=neutral
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CLlkF5DWPzDqQv
- for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Oct 2020 21:51:33 +1100 (AEDT)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
- [209.85.222.176])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5D529246B2
- for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Oct 2020 10:51:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603882290;
- bh=XD5uCtpl3RH4AtzDxzuSwg9nMZ9CWW/y+BW47Ovv5YE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Jvjs0f4GU5xPcFEX+arBoj4dPbl2k+y35xTfmIkjvcxncNAEsLcc9CSodhamqsqC/
- YTYcglv7d+fHoDGhSNFKLHcKMAuQO1fedEdBOPujdI5/37kc53fmidLLIrF/cld1GD
- k0M75a6De3R+MZZFo4VkbV+6YMvvoUp7S4HF1+Uo=
-Received: by mail-qk1-f176.google.com with SMTP id a23so4004932qkg.13
- for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Oct 2020 03:51:30 -0700 (PDT)
-X-Gm-Message-State: AOAM532pbezHV6+/gS10uJ3ScYZesNB56mFwrMEJma4T5+0r4ULyA8fP
- 7DM7/NJyPEQ+KKeXMO9aKQVsSWZHdrIHXcDAkgc=
-X-Google-Smtp-Source: ABdhPJxXLDkIXRHsZEA8pggrfhZxyfLSPo2Dozai4lxy3104l0nLlHTizCAdziThkmK1WgUgBbIuSfTWxKAsTNFlE/I=
-X-Received: by 2002:a05:620a:74f:: with SMTP id
- i15mr6785871qki.352.1603882289279; 
- Wed, 28 Oct 2020 03:51:29 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CLtZ471xdzDqRs
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 29 Oct 2020 02:59:55 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cVOsedQgYxBVieCC7U3LA5kiAj8tHS1tl8KNo+cEBlJ+7UAvqyqH2xbqbL50kn5uGm52vVH63Wja6u0XbJ5eZ8oFdQQkwrbwgbJnm1BOunf7qzMfqJifSfqPArQnDyXWJGr8apLH0Inr+JkOWcN9fIf4SmAgvZOcQSXOfJZs0VVqlpNylfLqTSEnYZSLjpgxgYCXlw42S3YN/dRySA7nzgcfPdcRxoxTlsCV2UFwtazJfmnBHqJL94YjJA9cxYvMPw3X/+htKyy9adFFx1Zy2EUd06N1epbuPGUIFcjIEbEazwhDnMX+T6mFrfbLJ5bSiJwX/wP+cEbDr79h9vliaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vdQzdrz3mrI/PCr8nhAhn3y2t1XIg6vTzLhwDRhvR18=;
+ b=bFV/PBmqOonrDvx01jB71DXuEmL9QxnuDj9dd2C9ksxBPAGBfrBHhbVhsOmyblYAreo8E83ARIj91D43YoBoJH3PjDnamuobaiovdFK7fRU4k+3LPr8gATL/fr4qCI2wAVwDrmCdPJyHkPmb98WDHjgBOKncG4Yza8UUwxPwEzTV0IaLZE7A9AkO+RY7LOanAOZlvTsono/Q1zSUAu/LV83DWMzsX49UtpXZyWe4OF3IyH8iYyCI4lagXn3tIckKKr4H/q75XYUnHwxVRDQ5Jcnin4G/MaT2ONhs+Q+HX6+XpzNVOlRiAF3evC9bN5yXRvnLjk+enHrBxcUk3TN/Gg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vdQzdrz3mrI/PCr8nhAhn3y2t1XIg6vTzLhwDRhvR18=;
+ b=JNFE/5jNHdE89+tdFLTEhixVNvaHAP4sv5pqEjF98vguE6PaqNScoWYUlhrjGueLyzI53qAu/dwaQzVuggaW4YC9nVPUzfqZApKwYmuG0XPW9ooeiqSDyvLnbNNnqQ+6EZer2rRi6cxP6RbujMfNTC3W3m5krQal9bypFx1bRT4=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from SN1PR12MB2542.namprd12.prod.outlook.com (2603:10b6:802:26::28)
+ by SA0PR12MB4429.namprd12.prod.outlook.com (2603:10b6:806:73::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19; Wed, 28 Oct
+ 2020 15:59:47 +0000
+Received: from SN1PR12MB2542.namprd12.prod.outlook.com
+ ([fe80::10c4:c28f:2a60:c805]) by SN1PR12MB2542.namprd12.prod.outlook.com
+ ([fe80::10c4:c28f:2a60:c805%7]) with mapi id 15.20.3455.029; Wed, 28 Oct 2020
+ 15:59:47 +0000
+Subject: Re: [PATCH 2/3] ARM: dts: aspeed: amd-ethanolx: Enable KCS channel 3
+To: Joel Stanley <joel@jms.id.au>, Konstantin Aladyshev <aladyshev22@gmail.com>
+References: <20201027123722.2935-1-aladyshev22@gmail.com>
+ <20201027123722.2935-2-aladyshev22@gmail.com>
+ <CACPK8XeaWbrWBKonxqW0Gu2AnB3mXBNXsEDmsEP_hzT1e8gX1w@mail.gmail.com>
+From: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
+Message-ID: <5e829382-3a6b-7905-52ea-3ae274dd60b1@amd.com>
+Date: Wed, 28 Oct 2020 10:59:45 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <CACPK8XeaWbrWBKonxqW0Gu2AnB3mXBNXsEDmsEP_hzT1e8gX1w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [165.204.77.1]
+X-ClientProxiedBy: DM6PR11CA0001.namprd11.prod.outlook.com
+ (2603:10b6:5:190::14) To SN1PR12MB2542.namprd12.prod.outlook.com
+ (2603:10b6:802:26::28)
 MIME-Version: 1.0
-References: <20201020220639.130696-1-joel@jms.id.au>
- <CAK8P3a3gz4rMSkvZZ+TPaBx3B1yHXcUVFDdMFQMGUtEi4xXzyg@mail.gmail.com>
- <428dc31828795ce0b010509c8c30bf0049ad9190.camel@kernel.crashing.org>
- <CACPK8XfHaGWcDf7vDHoPhqgWQ4LEwxq9EBtbkBngEpHEzJk2SA@mail.gmail.com>
-In-Reply-To: <CACPK8XfHaGWcDf7vDHoPhqgWQ4LEwxq9EBtbkBngEpHEzJk2SA@mail.gmail.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Wed, 28 Oct 2020 11:51:13 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1xxefNQqhZN6QWC0-uQ=b7hu4JzoidXt8TgemZFb0ykw@mail.gmail.com>
-Message-ID: <CAK8P3a1xxefNQqhZN6QWC0-uQ=b7hu4JzoidXt8TgemZFb0ykw@mail.gmail.com>
-Subject: Re: [PATCH] net: ftgmac100: Ensure tx descriptor updates are visible
-To: Joel Stanley <joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.236.21.55] (165.204.77.1) by
+ DM6PR11CA0001.namprd11.prod.outlook.com (2603:10b6:5:190::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.18 via Frontend Transport; Wed, 28 Oct 2020 15:59:46 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 4fb98b36-5ceb-4ecd-be71-08d87b5a7e7f
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4429:
+X-Microsoft-Antispam-PRVS: <SA0PR12MB44295FAA65AA0A6AF3BD07CB96170@SA0PR12MB4429.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jDMqAifmgzVV2ZYlqD2gNsqf6g2I1EbrawA5EJqOeAkrqmeTooVGYQmHmMQ+UfKA/M8Hlk3nkCrzkVqu8mA6gNmV+9dbSvbnLPJ7KlKsLpGsjfj0MCb+lKhJGE6XXm3g6rFFDhJOM09g9GpXd62qMz9l/6NVxVJZs+v11SgankegM5Fw0ELnQWLiMZbwCRrV7jmZl///CKKvBGwR5dzZRBE30HbRdlSEx3sguthKEMpwOUcd7nG9LLZ1pRHpA1ERmSVN4B11s8F8fS3VCWsSRzM7iX6YuOX5446igTNcsNVFqJ6tjFIcVjbnOxBc/IBN1/TPrnEG5Dx3/kjLMNZBdTk0jcZsszO4QMy+6FoxkGgG6Yl5X5QjlAWoZfDkoY30
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN1PR12MB2542.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(366004)(136003)(346002)(396003)(376002)(478600001)(8936002)(53546011)(66556008)(66476007)(2616005)(956004)(5660300002)(4326008)(26005)(8676002)(44832011)(6486002)(16576012)(31696002)(31686004)(110136005)(16526019)(54906003)(316002)(52116002)(86362001)(2906002)(66946007)(36756003)(186003)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 8KcXjjZUZDBTO0mUWKmgyKvjwW4jzHU1rVuxr4yyvWa6h69ML0cR7HCvgDiOfSK2LaHNaFPGvQZo8sPr7QbxNL5diMrMvEYNKkmxCG9EeHPs0XbQzHblSgJDeJAJ2Z21dvfdu1XS5JI2tEyzeBDARrD1lwGxYbOAIwTMRh8bunSMwCA1wgxrFn5SbBZz0joDx+K5J1Fef1BLixlK/6X0es6t+YVHg14rKzGS0feyOpuFKIsi60BiMRnD/9MGwEYV9fm5TOa+G91A5q/82Yq2aGY1O7SbiN6SaWLmQOX3qAYWp2Sw0ZWf6uFHQ7wxKKjD+4KhrRLKdDqsrDd9TmEtfdkdwqussoYW9hPXBSc4y8Pw7Mq+cDciSmX0+tOFXjx1oFDJ0bKvy2FAcdXjzBz/WE1271qxUcZAXvEeTRjUZOhKdSHrZlzMsB+bHZsp1sNb/yXrPejtYhrd8LRHWXqAAT8Xkbp5JFdNey/fuXDWd2v42Ln9yjDxyChCmXxibVWqL4U6cqx6uVHXWEaTn6aAYoZRwJCujF3q+eBevC9/NpN8GbBt1XyVpQY2oEM2lL4WvotDmMFKSL24ZkUkolXi7JCMBpOicAoc4Qv9m0NxmXh9c9bqTlvIBKHauNnxi/pobURx/HmeYW5/vjd35GaVNg==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4fb98b36-5ceb-4ecd-be71-08d87b5a7e7f
+X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2542.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2020 15:59:47.3948 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Rled2H1a4AStKRBhyYvs8Lp1V5jXrsx8GIiolVyfA/ena3paOY7lnmn6+1DcZC+Me4XGKkzWdbWAMct3bDn7/Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4429
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,81 +111,61 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Networking <netdev@vger.kernel.org>,
- "David S . Miller" <davem@davemloft.net>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Oct 28, 2020 at 5:47 AM Joel Stanley <joel@jms.id.au> wrote:
->
-> On Thu, 22 Oct 2020 at 07:41, Benjamin Herrenschmidt
-> <benh@kernel.crashing.org> wrote:
-> > > >
-> > > > +       /* Ensure the descriptor config is visible before setting the tx
-> > > > +        * pointer.
-> > > > +        */
-> > > > +       smp_wmb();
-> > > > +
-> > >
-> > > Shouldn't these be paired with smp_rmb() on the reader side?
-> >
-> > (Not near the code right now) I *think* the reader already has them
-> > where it matters but I might have overlooked something when I quickly
-> > checked the other day.
->
-> Do we need a read barrier at the start of ftgmac100_tx_complete_packet?
->
->         pointer = priv->tx_clean_pointer;
-> <--- here
->         txdes = &priv->txdes[pointer];
->
->         ctl_stat = le32_to_cpu(txdes->txdes0);
->         if (ctl_stat & FTGMAC100_TXDES0_TXDMA_OWN)
->                 return false;
->
-> This was the only spot I could see that might require one.
+Thanks Konstantin for this patch.
+Thanks Joel for reviewing this.
 
-No, I don't think this is the one, since tx_clean_pointer is not updated
-in the other CPU, only this one. From what I can tell, you have
-a communication between three concurrent threads in the TX
-path:
+On 10/28/20 12:28 AM, Joel Stanley wrote:
+> [CAUTION: External Email]
+> 
+> On Tue, 27 Oct 2020 at 12:41, Konstantin Aladyshev
+> <aladyshev22@gmail.com> wrote:
+>>
+>> The KCS interface on the LPC channel 3 in the controller
+>> is used for the in-band BMC<->BIOS IPMI communication.
+>> 0xCA2 is a default host CPU LPC IO address for this
+>> interface.
+>>
+>> Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
+> 
+> I don't have any docs on the platform so I'll wait for a review from
+> Supreeth before applying this one.
+Done.
+> 
+> It's a correct use of the bindings:
+> 
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
+Reviewed-by: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
 
-a) one CPU runs start_xmit. It reads tx_clean_pointer
-    from the second CPU, writes the descriptors for the hardware,
-    notifies the hardware and updates tx_pointer.
-
-b) the hardware gets kicked by start_xmit, it reads the
-     descriptors, reads the data and updates the descriptors.
-     it may send an interrupt, which is not important here.
-
-c) a second CPU runs the poll() function. It reads the
-    tx_pointer, reads the descriptors, updates the descriptors
-    and updates tx_clean_pointer.
-
-Things get a bit confusing because the tx_pointer and
-tx_clean_pointer variables are hidden behind macros
-and both sides repeatedly read and write them, with no
-serialization.
-
-This is what I would try to untangle it:
-
-- mark both tx_pointer and tx_clean_pointer as
-  ____cacheline_aligned_in_smp to avoid the cacheline
- pingpong between the two CPUs
-
-- Use smp_load_acquire() to read a pointer that may have
-  been updated by the other thread, and smp_store_release()
-  to update the one the other side will read.
-
-- pull these accesses into the callers and only do them
-  once if possible
-
-- reconsider the "keep poll() going as long as tx
-  packets are queued" logic, and instead serialize
-  against the packets that are actually completed
-  by the hardware.
-
-        Arnd
+> 
+>> ---
+>>  arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 5 +++++
+>>  1 file changed, 5 insertions(+)
+>>
+>> diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+>> index 89ddc3847222..2a86bda8afd8 100644
+>> --- a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+>> +++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+>> @@ -147,6 +147,11 @@
+>>         aspeed,lpc-io-reg = <0x62>;
+>>  };
+>>
+>> +&kcs3 {
+>> +       status = "okay";
+>> +       aspeed,lpc-io-reg = <0xCA2>;
+>> +};
+>> +
+>>  &kcs4 {
+>>         status = "okay";
+>>         aspeed,lpc-io-reg = <0x97DE>;
+>> --
+>> 2.17.1
+>>
