@@ -1,39 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9AFC29CDB5
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 04:39:27 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 268D929CDCF
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 05:28:05 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CLZ7c4mBmzDqRj
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 14:39:24 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CLbCk0XmkzDqRh
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 15:28:02 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record)
- smtp.mailfrom=telegraphics.com.au (client-ip=98.124.60.144;
- helo=kvm5.telegraphics.com.au; envelope-from=fthain@telegraphics.com.au;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::842;
+ helo=mail-qt1-x842.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=telegraphics.com.au
-X-Greylist: delayed 514 seconds by postgrey-1.36 at bilbo;
- Wed, 28 Oct 2020 14:35:03 AEDT
-Received: from kvm5.telegraphics.com.au (kvm5.telegraphics.com.au
- [98.124.60.144])
- by lists.ozlabs.org (Postfix) with ESMTP id 4CLZ2b6q5HzDqFm
- for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Oct 2020 14:35:03 +1100 (AEDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by kvm5.telegraphics.com.au (Postfix) with ESMTP id A654929A58;
- Tue, 27 Oct 2020 23:26:19 -0400 (EDT)
-Date: Wed, 28 Oct 2020 14:26:12 +1100 (AEDT)
-From: Finn Thain <fthain@telegraphics.com.au>
-To: Tom Rix <trix@redhat.com>
-Subject: Re: [RFC] clang tooling cleanups
-In-Reply-To: <20201027164255.1573301-1-trix@redhat.com>
-Message-ID: <alpine.LNX.2.23.453.2010281344120.31@nippy.intranet>
-References: <20201027164255.1573301-1-trix@redhat.com>
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=HM99HBk8; dkim-atps=neutral
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
+ [IPv6:2607:f8b0:4864:20::842])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CLbCZ72PKzDqLF
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Oct 2020 15:27:51 +1100 (AEDT)
+Received: by mail-qt1-x842.google.com with SMTP id p45so2585346qtb.5
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Oct 2020 21:27:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ELimXLIjFFEyZU/ch1CMaoy2YuMN5MJVjff2er+s7NQ=;
+ b=HM99HBk83YvD2YeS+eQsdX3b8HsDJPHH2RUbI86H++j7WB8wVMh0dqhupICJ4TmMd+
+ JHaTXnKkRz33Mz2ZhTVPwiICOg0FYj7XW93kWewABTZf9Fp5rOlUwYQ2/tV+lQGFTRtk
+ v6z4LQ92auwCat4tQ5JI+JVoxqgPR9uiC5nbA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ELimXLIjFFEyZU/ch1CMaoy2YuMN5MJVjff2er+s7NQ=;
+ b=mDawGhrBgVEsum5AXUhvjDfolpjL7g7N6QaRmoqG5QXVQY8f3g9OMJQe+IU6PJQpDD
+ 1/z2lnWFxyvrfPbQgUmbnarTT04PquoGCLy5xH3AzRHe5FlcsJPkdu5tkec9Qj0JN1EY
+ GT2VzYJWePkEk1y77AN84Y3HGldONonwaNVHgEjIkrJVnAZQzwBRhFpE7NpjMSYm5JWI
+ xp8+1hBDbFjchIvAR7i2246XBKADLu/0xXlK/In10jJl2O6doMk5nvd9H7DIqhEi36hD
+ E2hO4csDDWk5xC2FgBbJd+e2I1b9w7ZVi/eD9dWRi7n35xFKhEYB09iVWnXHuoGkZZQs
+ 24KQ==
+X-Gm-Message-State: AOAM53128gzeO1s/wteHXZvFCjsdAbm5wKdUbtX6bWiVBK1OJ6LyEJvg
+ rqCw1mlVrhrP4KWPIr8CpE9L1JyJdOI0jBbiQDU=
+X-Google-Smtp-Source: ABdhPJw4sL0/a9JoSrIwywzd8l+q04n/V4qcoRQ1usL9+UKdAACMkTARtNb9rBqxdCnSCJBOQ/U2QBCJqcZJxGf9rjM=
+X-Received: by 2002:ac8:794f:: with SMTP id r15mr409042qtt.385.1603859268783; 
+ Tue, 27 Oct 2020 21:27:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Mailman-Approved-At: Wed, 28 Oct 2020 14:39:21 +1100
+References: <20201008015106.3198-1-billy_tsai@aspeedtech.com>
+ <20201008015106.3198-3-billy_tsai@aspeedtech.com>
+ <CACPK8XeKdmvVB_CTND7mSRvtTRz8i+Zw1=E06OP-=r3=pnh9gw@mail.gmail.com>
+ <D35132A5-2676-4806-AF35-9110DF0CC88B@aspeedtech.com>
+In-Reply-To: <D35132A5-2676-4806-AF35-9110DF0CC88B@aspeedtech.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Wed, 28 Oct 2020 04:27:36 +0000
+Message-ID: <CACPK8XccGJgd4eNiRyE8D2VphpuONZC4CmiC4tDk0pFYmaTdJA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Arm: dts: aspeed-g6: Add sgpio node and pinctrl
+ setting
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,53 +73,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-aspeed@lists.ozlabs.org,
- linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-rtc@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-rdma@vger.kernel.org, qat-linux@intel.com, amd-gfx@lists.freedesktop.org,
- clang-built-linux@googlegroups.com, linux-pm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-nfs@vger.kernel.org, netdev@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
- linux-crypto@vger.kernel.org, linux-btrfs@vger.kernel.org
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Jeremy Kerr <jk@ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Mon, 12 Oct 2020 at 05:25, Billy Tsai <billy_tsai@aspeedtech.com> wrote:
+>
+> Hi Joel,
+>
+> On 2020/10/8, 11:49 AM, Joel Stanley wrote:
+>
+>     On Thu, 8 Oct 2020 at 01:51, Billy Tsai <billy_tsai@aspeedtech.com> wrote:
+>     > >
+>     > > This patch is used to add sgpiom and sgpios nodes and add pinctrl setting
+>     > > for sgpiom1
+>     >
+>     > The code looks good Billy.
+>     >
+>     > Please split the change in two: device tree changes (arch/arm/dts) in
+>     > one, and pinctrl in the second, as they go through different
+>     > maintainers.
+>     >
+>
+>     If I split the change in two, the patch of dts will have a compiler error.
+>     Because that the sgpiom1 node needs the pinctrl symbol "&pinctrl_sgpm2_default".
 
-On Tue, 27 Oct 2020, trix@redhat.com wrote:
+The drivers/pinctrl/ changes should be split from the
+arch/arm/boot/dts/ changes.
 
-> This rfc will describe
-> An upcoming treewide cleanup.
-> How clang tooling was used to programatically do the clean up.
-> Solicit opinions on how to generally use clang tooling.
-> 
+You should keep the arch/arm/boot/dts/ changes in the same patch.
 
-This tooling is very impressive. It makes possible an idea that I had a 
-while ago, to help make code review more efficient. It works like this. 
+Cheers,
 
-Suppose a patch, p, is the difference between the new tree, n, and the old 
-tree, o. That is, p = n - o.
-
-Now let clang-tidy be the transformation 't'. This gets you a much more 
-readable patch submission, P = t(n) - t(o).
-
-The only difficulty is that, if I submit P intead of p then 'git am' will 
-probably reject it. This is solved by a little tooling around git, such 
-that, should a patch P fail to apply, the relevant files are automatically 
-reformatted with the officially endorsed transformation t, to generate a 
-minimal cleanup patch, such that P can be automatically applied on top.
-
-If the patch submission process required* that every patch submission was 
-generated like P and not like p, it would immediately eliminate all 
-clean-up patches from the workload of all reviewers, and also make the 
-reviewers' job easier because all submissions are now formatted correctly, 
-and also avoid time lost to round-trips, such as, "you can have a 
-reviewed-by if you respin to fix some minor style issues".
-
-* Enforcing this, e.g. with checkpatch, is slightly more complicated, but 
-it works the same way: generate a minimal cleanup patch for the relevant 
-files, apply the patch-to-be-submitted, and finally confirm that the 
-modified files are unchanged under t.
+Joel
