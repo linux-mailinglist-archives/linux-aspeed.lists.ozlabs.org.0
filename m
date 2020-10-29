@@ -1,105 +1,97 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9106B29D0E8
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Oct 2020 17:00:16 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCCAB29E2A6
+	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Oct 2020 03:31:46 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CLtZP4kwFzDqTk
-	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Oct 2020 03:00:13 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CM8b100RlzDqXN
+	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Oct 2020 13:31:41 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.helo=nam11-bn8-obe.outbound.protection.outlook.com
- (client-ip=40.107.236.40; helo=nam11-bn8-obe.outbound.protection.outlook.com;
- envelope-from=supreeth.venkatesh@amd.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=sholland.org (client-ip=66.111.4.28;
+ helo=out4-smtp.messagingengine.com; envelope-from=samuel@sholland.org;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=amd.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=amdcloud.onmicrosoft.com
- header.i=@amdcloud.onmicrosoft.com header.a=rsa-sha256
- header.s=selector2-amdcloud-onmicrosoft-com header.b=JNFE/5jN; 
+ dmarc=none (p=none dis=none) header.from=sholland.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=sholland.org header.i=@sholland.org header.a=rsa-sha256
+ header.s=fm1 header.b=kFsa6yqY; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=cdoCFbrI; 
  dkim-atps=neutral
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CLtZ471xdzDqRs
- for <linux-aspeed@lists.ozlabs.org>; Thu, 29 Oct 2020 02:59:55 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cVOsedQgYxBVieCC7U3LA5kiAj8tHS1tl8KNo+cEBlJ+7UAvqyqH2xbqbL50kn5uGm52vVH63Wja6u0XbJ5eZ8oFdQQkwrbwgbJnm1BOunf7qzMfqJifSfqPArQnDyXWJGr8apLH0Inr+JkOWcN9fIf4SmAgvZOcQSXOfJZs0VVqlpNylfLqTSEnYZSLjpgxgYCXlw42S3YN/dRySA7nzgcfPdcRxoxTlsCV2UFwtazJfmnBHqJL94YjJA9cxYvMPw3X/+htKyy9adFFx1Zy2EUd06N1epbuPGUIFcjIEbEazwhDnMX+T6mFrfbLJ5bSiJwX/wP+cEbDr79h9vliaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vdQzdrz3mrI/PCr8nhAhn3y2t1XIg6vTzLhwDRhvR18=;
- b=bFV/PBmqOonrDvx01jB71DXuEmL9QxnuDj9dd2C9ksxBPAGBfrBHhbVhsOmyblYAreo8E83ARIj91D43YoBoJH3PjDnamuobaiovdFK7fRU4k+3LPr8gATL/fr4qCI2wAVwDrmCdPJyHkPmb98WDHjgBOKncG4Yza8UUwxPwEzTV0IaLZE7A9AkO+RY7LOanAOZlvTsono/Q1zSUAu/LV83DWMzsX49UtpXZyWe4OF3IyH8iYyCI4lagXn3tIckKKr4H/q75XYUnHwxVRDQ5Jcnin4G/MaT2ONhs+Q+HX6+XpzNVOlRiAF3evC9bN5yXRvnLjk+enHrBxcUk3TN/Gg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vdQzdrz3mrI/PCr8nhAhn3y2t1XIg6vTzLhwDRhvR18=;
- b=JNFE/5jNHdE89+tdFLTEhixVNvaHAP4sv5pqEjF98vguE6PaqNScoWYUlhrjGueLyzI53qAu/dwaQzVuggaW4YC9nVPUzfqZApKwYmuG0XPW9ooeiqSDyvLnbNNnqQ+6EZer2rRi6cxP6RbujMfNTC3W3m5krQal9bypFx1bRT4=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from SN1PR12MB2542.namprd12.prod.outlook.com (2603:10b6:802:26::28)
- by SA0PR12MB4429.namprd12.prod.outlook.com (2603:10b6:806:73::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19; Wed, 28 Oct
- 2020 15:59:47 +0000
-Received: from SN1PR12MB2542.namprd12.prod.outlook.com
- ([fe80::10c4:c28f:2a60:c805]) by SN1PR12MB2542.namprd12.prod.outlook.com
- ([fe80::10c4:c28f:2a60:c805%7]) with mapi id 15.20.3455.029; Wed, 28 Oct 2020
- 15:59:47 +0000
-Subject: Re: [PATCH 2/3] ARM: dts: aspeed: amd-ethanolx: Enable KCS channel 3
-To: Joel Stanley <joel@jms.id.au>, Konstantin Aladyshev <aladyshev22@gmail.com>
-References: <20201027123722.2935-1-aladyshev22@gmail.com>
- <20201027123722.2935-2-aladyshev22@gmail.com>
- <CACPK8XeaWbrWBKonxqW0Gu2AnB3mXBNXsEDmsEP_hzT1e8gX1w@mail.gmail.com>
-From: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
-Message-ID: <5e829382-3a6b-7905-52ea-3ae274dd60b1@amd.com>
-Date: Wed, 28 Oct 2020 10:59:45 -0500
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CM8Rq25jdzDqKM
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 29 Oct 2020 13:25:20 +1100 (AEDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 37C725C0136;
+ Wed, 28 Oct 2020 22:25:17 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 28 Oct 2020 22:25:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+ subject:to:cc:references:from:message-id:date:mime-version
+ :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=M
+ fF4AAKwDJHpJBHd8BnuDeW9kv0jiOpFjUocPRCzXs8=; b=kFsa6yqYhx4U/t5Zt
+ EtuTgTF1atSaMwwxCtfVIRLqxDjxMJwjbdJ20AFO4d0IDNkxt4zQ7T4947cFyzfB
+ PSiHqz1nmqJyFXmDepx3dlSg6635rRK9Gp9sWJZCsZh3X+DIqmFh8hVI/pDcfsiv
+ iLnKJlTc01i3cRsrFx1pxq1P9lw3n+aINKK2Du5xjH6a2KYvosu9Wa0SuPtbG+as
+ 7OSF6dODskAZRbudFICUvv5ZhIj2UtlyCi0EsPGI7PJmaEXfMFenVvsKmKdrvd9t
+ 1QZu79Nca9J7RvPpvQQQd1+GFdMEkt4Pn8pNehGQQshcenY1UUat+Dt/peJxNvi/
+ 707Iw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=MfF4AAKwDJHpJBHd8BnuDeW9kv0jiOpFjUocPRCzX
+ s8=; b=cdoCFbrI+jKI/dO9NoJsiDorx/CLu4e/SRCDmE7OjQZejZH7zjj1Zz7MI
+ mM1iII8Td0cnhAsyUNxM0batxG+XqLrF9BSXo6TXpLgqpOKaPH2uoDNrsgx2y2SK
+ DuQcZKLls86zWwYmAXpDQ11nyYN0oJfWxTK8OpiEhPAUN0HsxumN1rtE3m8JwLg2
+ AaWiOSQzg9VUjCYf7CEt3d/tp58Qbx316g/Kxvj3Q6f1v3BLb9Jfx2wU9qQFIoR5
+ nE32nglF8xNLUxsEjw7uc4laLyqy98FOGdmk+EMlSTpY7IChK+ufKV9p/uDhzimF
+ JNzE1SlleiKMKVLZVpq557NimhBmA==
+X-ME-Sender: <xms:CyiaX-Ie6vxWSQnNMYhe_5mqPN7IDQ0deQKq71BYReGLYj2Eo40b9w>
+ <xme:CyiaX2JOvMMoAv0VqMrsdkRmoXA3um-yLLxzK0f7Fndgm1H5oO1m6rQeYfPNF-FcU
+ 1pQdnYU2SMTK06NaA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrledvgdejfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghmuhgv
+ lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+ frrghtthgvrhhnpefffedvhfehhfekfeetieehfedtveduvdelieelgeettdefjefhjeek
+ tdfftdejkeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeejtddrudefhe
+ drudegkedrudehudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+ fhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:CyiaX-vDUbtfXtuL9MZkg8MO39q-DwzWPq8RvVzg74d9V0FG7nm2eQ>
+ <xmx:CyiaXzb5XOMJX62P0M1X1zHr-CxBtzTxACHwpsCJdj-waD89gWxhNQ>
+ <xmx:CyiaX1ZkiCQjX-kUHpAOJfNdD3l6GyzIhgtBShfXnsh-HA_lhO93WA>
+ <xmx:DSiaXx41PmLx9VIt3fMLYeIEaxjcmDsDNzzxc7HtV3jibFAwMxyRag>
+Received: from [192.168.50.169]
+ (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 6239F328005E;
+ Wed, 28 Oct 2020 22:25:15 -0400 (EDT)
+Subject: Re: Re: [PATCH 1/1] clk: aspeed: modify some default clks are critical
+To: Stephen Boyd <sboyd@kernel.org>, Joel Stanley <joel@jms.id.au>
+References: <20200928070108.14040-1-ryan_chen@aspeedtech.com>
+ <20200928070108.14040-2-ryan_chen@aspeedtech.com>
+ <160264382296.310579.9835482254268204873@swboyd.mtv.corp.google.com>
+ <CACPK8Xe-_hTey7hTJjG2-EcDsTN0qOw3bWBcrZZohEK3QOJuvg@mail.gmail.com>
+ <160269577311.884498.8429245140509326318@swboyd.mtv.corp.google.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <adadc9ef-32ab-0a79-327c-c499c1c04093@sholland.org>
+Date: Wed, 28 Oct 2020 21:25:14 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <CACPK8XeaWbrWBKonxqW0Gu2AnB3mXBNXsEDmsEP_hzT1e8gX1w@mail.gmail.com>
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <160269577311.884498.8429245140509326318@swboyd.mtv.corp.google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [165.204.77.1]
-X-ClientProxiedBy: DM6PR11CA0001.namprd11.prod.outlook.com
- (2603:10b6:5:190::14) To SN1PR12MB2542.namprd12.prod.outlook.com
- (2603:10b6:802:26::28)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.21.55] (165.204.77.1) by
- DM6PR11CA0001.namprd11.prod.outlook.com (2603:10b6:5:190::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.18 via Frontend Transport; Wed, 28 Oct 2020 15:59:46 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 4fb98b36-5ceb-4ecd-be71-08d87b5a7e7f
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4429:
-X-Microsoft-Antispam-PRVS: <SA0PR12MB44295FAA65AA0A6AF3BD07CB96170@SA0PR12MB4429.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jDMqAifmgzVV2ZYlqD2gNsqf6g2I1EbrawA5EJqOeAkrqmeTooVGYQmHmMQ+UfKA/M8Hlk3nkCrzkVqu8mA6gNmV+9dbSvbnLPJ7KlKsLpGsjfj0MCb+lKhJGE6XXm3g6rFFDhJOM09g9GpXd62qMz9l/6NVxVJZs+v11SgankegM5Fw0ELnQWLiMZbwCRrV7jmZl///CKKvBGwR5dzZRBE30HbRdlSEx3sguthKEMpwOUcd7nG9LLZ1pRHpA1ERmSVN4B11s8F8fS3VCWsSRzM7iX6YuOX5446igTNcsNVFqJ6tjFIcVjbnOxBc/IBN1/TPrnEG5Dx3/kjLMNZBdTk0jcZsszO4QMy+6FoxkGgG6Yl5X5QjlAWoZfDkoY30
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN1PR12MB2542.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(366004)(136003)(346002)(396003)(376002)(478600001)(8936002)(53546011)(66556008)(66476007)(2616005)(956004)(5660300002)(4326008)(26005)(8676002)(44832011)(6486002)(16576012)(31696002)(31686004)(110136005)(16526019)(54906003)(316002)(52116002)(86362001)(2906002)(66946007)(36756003)(186003)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 8KcXjjZUZDBTO0mUWKmgyKvjwW4jzHU1rVuxr4yyvWa6h69ML0cR7HCvgDiOfSK2LaHNaFPGvQZo8sPr7QbxNL5diMrMvEYNKkmxCG9EeHPs0XbQzHblSgJDeJAJ2Z21dvfdu1XS5JI2tEyzeBDARrD1lwGxYbOAIwTMRh8bunSMwCA1wgxrFn5SbBZz0joDx+K5J1Fef1BLixlK/6X0es6t+YVHg14rKzGS0feyOpuFKIsi60BiMRnD/9MGwEYV9fm5TOa+G91A5q/82Yq2aGY1O7SbiN6SaWLmQOX3qAYWp2Sw0ZWf6uFHQ7wxKKjD+4KhrRLKdDqsrDd9TmEtfdkdwqussoYW9hPXBSc4y8Pw7Mq+cDciSmX0+tOFXjx1oFDJ0bKvy2FAcdXjzBz/WE1271qxUcZAXvEeTRjUZOhKdSHrZlzMsB+bHZsp1sNb/yXrPejtYhrd8LRHWXqAAT8Xkbp5JFdNey/fuXDWd2v42Ln9yjDxyChCmXxibVWqL4U6cqx6uVHXWEaTn6aAYoZRwJCujF3q+eBevC9/NpN8GbBt1XyVpQY2oEM2lL4WvotDmMFKSL24ZkUkolXi7JCMBpOicAoc4Qv9m0NxmXh9c9bqTlvIBKHauNnxi/pobURx/HmeYW5/vjd35GaVNg==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fb98b36-5ceb-4ecd-be71-08d87b5a7e7f
-X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2542.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2020 15:59:47.3948 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Rled2H1a4AStKRBhyYvs8Lp1V5jXrsx8GIiolVyfA/ena3paOY7lnmn6+1DcZC+Me4XGKkzWdbWAMct3bDn7/Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4429
+X-Mailman-Approved-At: Thu, 29 Oct 2020 13:31:29 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,61 +103,64 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
+Cc: BMC-SW <bmc-sw@aspeedtech.com>,
  linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Michael Turquette <mturquette@baylibre.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+ linux-clk@vger.kernel.org, Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Thanks Konstantin for this patch.
-Thanks Joel for reviewing this.
+Stephen,
 
-On 10/28/20 12:28 AM, Joel Stanley wrote:
-> [CAUTION: External Email]
-> 
-> On Tue, 27 Oct 2020 at 12:41, Konstantin Aladyshev
-> <aladyshev22@gmail.com> wrote:
+On 10/14/20 12:16 PM, Stephen Boyd wrote:
+> Quoting Joel Stanley (2020-10-13 22:28:00)
+>> On Wed, 14 Oct 2020 at 02:50, Stephen Boyd <sboyd@kernel.org> wrote:
+>>>
+>>> Quoting Ryan Chen (2020-09-28 00:01:08)
+>>>> In ASPEED SoC LCLK is LPC clock for all SuperIO device, UART1/UART2 are
+>>>> default for Host SuperIO UART device, eSPI clk for Host eSPI bus access
+>>>> eSPI slave channel, those clks can't be disable should keep default,
+>>>> otherwise will affect Host side access SuperIO and SPI slave device.
+>>>>
+>>>> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+>>>> ---
+>>>
+>>> Is there resolution on this thread?
 >>
->> The KCS interface on the LPC channel 3 in the controller
->> is used for the in-band BMC<->BIOS IPMI communication.
->> 0xCA2 is a default host CPU LPC IO address for this
->> interface.
+>> Not yet.
 >>
->> Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
+>> We have a system where the BMC (management controller) controls some
+>> clocks, but the peripherals that it's clocking are outside the BMC's
+>> control. In this case, the host processor us using some UARTs and what
+>> not independent of any code running on the BMC.
+>>
+>> Ryan wants to have them marked as critical so the BMC never powers them down.
+>>
+>> However, there are systems that don't use this part of the soc, so for
+>> those implementations they are not critical and Linux on the BMC can
+>> turn them off.
+>>
+>> Do you have any thoughts? Has anyone solved a similar problem already?
+>>
 > 
-> I don't have any docs on the platform so I'll wait for a review from
-> Supreeth before applying this one.
-Done.
+> Is this critical clocks in DT? Where we want to have different DT for
+> different device configurations to indicate that some clks should be
+> marked critical so they're never turned off and other times they aren't
+> so they're turned off?
 > 
-> It's a correct use of the bindings:
-> 
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
-Reviewed-by: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
+> It also sounds sort of like the protected-clocks binding. Where you
+> don't want to touch certain clks depending on the usage configuration of
+> the SoC. There is a patch to make that generic that I haven't applied
+> because it looks wrong at first glance[1]. Maybe not registering those
+> clks to the framework on the configuration that Ryan has is good enough?
 
-> 
->> ---
->>  arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 5 +++++
->>  1 file changed, 5 insertions(+)
->>
->> diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
->> index 89ddc3847222..2a86bda8afd8 100644
->> --- a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
->> +++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
->> @@ -147,6 +147,11 @@
->>         aspeed,lpc-io-reg = <0x62>;
->>  };
->>
->> +&kcs3 {
->> +       status = "okay";
->> +       aspeed,lpc-io-reg = <0xCA2>;
->> +};
->> +
->>  &kcs4 {
->>         status = "okay";
->>         aspeed,lpc-io-reg = <0x97DE>;
->> --
->> 2.17.1
->>
+Could you please be more specific than the patch "looks wrong"? I'm more than
+happy to update the patch to address your concerns, but I cannot do that unless
+I know what your concerns are.
+
+Regards,
+Samuel
+
+> [1] https://lore.kernel.org/r/20200903040015.5627-2-samuel@sholland.org
