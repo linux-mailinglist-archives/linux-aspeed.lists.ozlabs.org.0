@@ -1,48 +1,90 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E69D29E391
-	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Oct 2020 07:28:32 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B3F629FC1A
+	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Oct 2020 04:19:25 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CMFrF0TM3zDqY1
-	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Oct 2020 17:28:29 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CMnbY53B1zDqs6
+	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Oct 2020 14:19:21 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=dylan_hung@aspeedtech.com;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.26;
+ helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm1 header.b=QuKE+qlf; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=KE+i01IM; 
+ dkim-atps=neutral
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CMFr439qfzDqXD
- for <linux-aspeed@lists.ozlabs.org>; Thu, 29 Oct 2020 17:28:18 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 09T6OHuj096700;
- Thu, 29 Oct 2020 14:24:17 +0800 (GMT-8)
- (envelope-from dylan_hung@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.9) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 29 Oct
- 2020 14:27:28 +0800
-From: Dylan Hung <dylan_hung@aspeedtech.com>
-To: <robh+dt@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
- <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] ARM: dts: aspeed-g6: Fix HVI3C function-group in pinctrl dtsi
-Date: Thu, 29 Oct 2020 14:27:23 +0800
-Message-ID: <20201029062723.20798-1-dylan_hung@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CMnbF403kzDqjM
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 30 Oct 2020 14:19:04 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 1C1B55C00D8;
+ Thu, 29 Oct 2020 23:19:01 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Thu, 29 Oct 2020 23:19:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=g1UFE2VfgvZHci7NuTUW5H0p/65rAXn
+ S0ZULATTBK7k=; b=QuKE+qlfoPG3NTEYdxDMseJK/N0tt4z/T/NQD75of7L7Zuv
+ 5CdKrsrlX8zHdm2HM//x6ARWBPBSXrWmevcCtePQz1/xMVVm7CPp/o+pscpXO1L9
+ 8e0/L+mNmU8s+uvwGnVudRY6mKr1Ea+TLaVWmiyFFZOUDq5pvi5LILaaxkl/kmxb
+ uxxCtDyC4J5SIoSre5XAae2cGmQWLL4/89o1kD5IUcFzDDi159Ldcr1slv9Er25d
+ Ef6/Yb9yI8nJQdBuVu77V3zZd6XycYN/C4VlEblUOYJ93jzcWjBFrnTcG+K++aVM
+ Flt7/NA/3QiASnH1zrKEXNQQcrYd2+ci8UnnkGg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=g1UFE2
+ VfgvZHci7NuTUW5H0p/65rAXnS0ZULATTBK7k=; b=KE+i01IM6OxLV2I2Hrfqk7
+ LrrP9R1GiEAa1x3JwbmSASqlBvNkigPxUc1Bg68QXXey4GpTiqNcxL4666gPVZ6m
+ 0v9Ljmzx6xxmkdgMp6AW+XiJm9IrvKnikZUqIsBT/7PD3QPzEud//ZkrYh1cdvvg
+ lhUsoy/HLUMVU6B87b83qR8vF/01gQlN2IUVUQS2rRGIQ5ykhlSm6d24vEt7TZMV
+ kgNicwUoFow7RSCz9X8qP1JbMfX/UJNFJj5O4yp0lR9c+y1PoiimPNghwLt2ynDY
+ 18SqD17Bhs7/GbFPbiGFheQcD73DfuDQMYAW+0OBmA2XmzKBdmNd/DET1IVt+kmQ
+ ==
+X-ME-Sender: <xms:IYabX0BEj2z_ZcpK6fzuV4U3sYLaqLt7gUmJ8af_yftckVVUkTh5fA>
+ <xme:IYabX2irR6OH42WrMaxTXw9bywxNcaWKNJ-TdreYpM0SFkhzlQV7SZ4_umeHoNOLw
+ ys_pXdJuCV9UzAvEw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrleeggdehiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
+ htthgvrhhnpedutddtkeeugeegvddttdeukeeiuddtgfeuuddtfeeiueetfeeileettedv
+ tdfhieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:IYabX3nDwxSBj4Yicc-WLio1U5kpsesVMsqgvDoua3elByElxoHuwA>
+ <xmx:IYabX6xcaB8zGSG-eNQpl4NcBBFrIEyBfvpOdxQBdWtxBgw5GyWj3g>
+ <xmx:IYabX5TBhfUdcQmdxjpSWuY13HKasHxinSmClhxYbHuRXqrnAq5z1Q>
+ <xmx:JYabXyLufK38dbWko70d-k2ezGZMu9Lfo_08PD4Bc44wgGtDrNxcgA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 16AE6E00AF; Thu, 29 Oct 2020 23:18:56 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.0-530-g8da6958-fm-20201021.003-g69105b13-v35
+Mime-Version: 1.0
+Message-Id: <c3b4c7d8-65fc-4196-b635-bf65ed3b44a1@www.fastmail.com>
+In-Reply-To: <20201029062723.20798-1-dylan_hung@aspeedtech.com>
+References: <20201029062723.20798-1-dylan_hung@aspeedtech.com>
+Date: Fri, 30 Oct 2020 13:48:36 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Dylan Hung" <dylan_hung@aspeedtech.com>,
+ "Rob Herring" <robh+dt@kernel.org>, "Joel Stanley" <joel@jms.id.au>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: =?UTF-8?Q?Re:_[PATCH]_ARM:_dts:_aspeed-g6:_Fix_HVI3C_function-group_in_p?=
+ =?UTF-8?Q?inctrl_dtsi?=
 Content-Type: text/plain
-X-Originating-IP: [192.168.10.9]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 09T6OHuj096700
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,33 +101,14 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The HVI3C shall be a group of I3C function, not an independent function.
-Correct the function name from "HVI3C" to "I3C".
 
-Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
----
- arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi b/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
-index 7028e21bdd98..910eacc8ad3b 100644
---- a/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
-@@ -208,12 +208,12 @@
- 	};
- 
- 	pinctrl_hvi3c3_default: hvi3c3_default {
--		function = "HVI3C3";
-+		function = "I3C3";
- 		groups = "HVI3C3";
- 	};
- 
- 	pinctrl_hvi3c4_default: hvi3c4_default {
--		function = "HVI3C4";
-+		function = "I3C4";
- 		groups = "HVI3C4";
- 	};
- 
--- 
-2.17.1
+On Thu, 29 Oct 2020, at 16:57, Dylan Hung wrote:
+> The HVI3C shall be a group of I3C function, not an independent function.
+> Correct the function name from "HVI3C" to "I3C".
+> 
+> Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
 
+Good catch. Thanks Dylan.
+
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
