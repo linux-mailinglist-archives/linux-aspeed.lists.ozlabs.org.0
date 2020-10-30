@@ -1,64 +1,50 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5212B29FCD2
-	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Oct 2020 05:46:51 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC5C629FD7C
+	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Oct 2020 06:55:51 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CMqXS4kQ4zDqhC
-	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Oct 2020 15:46:48 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CMs443t5yzDqrZ
+	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Oct 2020 16:55:48 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::742;
- helo=mail-qk1-x742.google.com; envelope-from=joel.stan@gmail.com;
+Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=RUvZPpLV; dkim-atps=neutral
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=aspeedtech.com
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CMqXH2127zDqfD;
- Fri, 30 Oct 2020 15:46:38 +1100 (AEDT)
-Received: by mail-qk1-x742.google.com with SMTP id i21so3139686qka.12;
- Thu, 29 Oct 2020 21:46:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fzgksPitq4UPlfGWWajj2JVz/dE561nycQDfwW8jv/Q=;
- b=RUvZPpLVywLKx60cuN5lSvJ+mzOhfVU7aPuAxNPxSRMtUGswTg+o7antOx3Wl1SvoX
- rmCERtnGcygp6w6G5WC26TD0SEX3vDuGJ83NSt7E2Cdx0ggltyDUzESq0l6LTeaA8xEa
- BRuFB1wb8WaU0etZepm03Pl0F4KfB0/MEKWBM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fzgksPitq4UPlfGWWajj2JVz/dE561nycQDfwW8jv/Q=;
- b=RfV7hCYhg4uQXIyoorTE3hlay0ycXBN1GSV/YNTVWta0XGTuJ2Hc6GTiIFIVugJ5VR
- cqQnnRN7t4h057UrELWu9wKKlTc9J0AznSzg7HawqTvpGp6aPej8k5lZ/Ch7luJpmLAF
- cFF7dfAox1IrosCML6sM3D2uFXods6ofrsKRt3PZXTbWRRZoDCyoalhVe0SfLN8SVU2S
- vZqpZteDYs4CkRUFcYdRiL/D+ATp0QWDuo2XBGyVkQ9pPIpYAeM1B8tgP5m9r7I5y5rS
- NeqAYeEyGea9bBPvIrbRfn1nQCgz/Q/UkgaxOVuTe5wSpyNeISuZfZf+35grcRtAn4kc
- DMig==
-X-Gm-Message-State: AOAM531lJC84N7KTWSHpfXhri70m0C0YNJr/UnZ+UsIk3T7If3jys7II
- Fz/jLFCXGBrAyxYZW0n5jbSSVWjH0zLpJ3zfCks=
-X-Google-Smtp-Source: ABdhPJw9D8ZjdZeQ8bvbkpU8ZXxlO1FOkzIT5AF2J70UORhP8FUuHjJwZykaO/bhfxXI7fXHA+KA0noTFMsBLYhK380=
-X-Received: by 2002:ae9:e90d:: with SMTP id x13mr570307qkf.66.1604033195037;
- Thu, 29 Oct 2020 21:46:35 -0700 (PDT)
-MIME-Version: 1.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CMs3x24fCzDqXW;
+ Fri, 30 Oct 2020 16:55:38 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 09U5pfvL022493;
+ Fri, 30 Oct 2020 13:51:41 +0800 (GMT-8)
+ (envelope-from billy_tsai@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.9) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 30 Oct
+ 2020 13:54:56 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: <andrew@aj.id.au>, <linus.walleij@linaro.org>, <joel@jms.id.au>,
+ <linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
+ <linux-gpio@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH v2] pinctrl: aspeed: Fix GPI only function problem.
+Date: Fri, 30 Oct 2020 13:54:50 +0800
+Message-ID: <20201030055450.29613-1-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201027084417.10137-1-billy_tsai@aspeedtech.com>
 References: <20201027084417.10137-1-billy_tsai@aspeedtech.com>
- <0d5e5d0a-cc74-4cb7-aed0-bb8c62661339@www.fastmail.com>
-In-Reply-To: <0d5e5d0a-cc74-4cb7-aed0-bb8c62661339@www.fastmail.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 30 Oct 2020 04:46:22 +0000
-Message-ID: <CACPK8XdFS957Jnv+S6=ufyjMEmGAd5a1PZNk-ytOCYapSAjPag@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: aspeed: Fix GPI only function problem.
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.9]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 09U5pfvL022493
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,68 +56,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW <BMC-SW@aspeedtech.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 30 Oct 2020 at 04:28, Andrew Jeffery <andrew@aj.id.au> wrote:
->
-> Hi Billy,
->
-> On Tue, 27 Oct 2020, at 19:14, Billy Tsai wrote:
-> > Some gpio pin at aspeed soc is input only and the prefix name of these
-> > pin is "GPI" only. This patch fine-tune the condition of GPIO check from
-> > "GPIO" to "GPI".
-> >
-> > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
->
-> I'd like it if we were a bit more specific in the commit message, and even
-> better if we update the comment in the code. A quick look at the code suggests
-> this issue affects GPIO banks D and E in the AST2400 and AST2500, and banks T
-> and U in the AST2600.
->
-> Functionally I think the patch is fine.
-
-Also add this line:
+Some gpio pin at aspeed soc is input only and the prefix name of these
+pin is "GPI" only.
+This patch fine-tune the condition of GPIO check from "GPIO" to "GPI"
+and it will fix the usage error of banks D and E in the AST2400/AST2500
+and banks T and U in the AST2600.
 
 Fixes: 4d3d0e4272d8 ("pinctrl: Add core support for Aspeed SoCs")
 
-Cheers,
+Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+---
+ drivers/pinctrl/aspeed/pinctrl-aspeed.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Joel
+diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed.c b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
+index e03ee78b2434..95c8d400ad59 100644
+--- a/drivers/pinctrl/aspeed/pinctrl-aspeed.c
++++ b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
+@@ -286,13 +286,14 @@ int aspeed_pinmux_set_mux(struct pinctrl_dev *pctldev, unsigned int function,
+ static bool aspeed_expr_is_gpio(const struct aspeed_sig_expr *expr)
+ {
+ 	/*
+-	 * The signal type is GPIO if the signal name has "GPIO" as a prefix.
++	 * The signal type is GPIO if the signal name has "GPI" as a prefix.
+ 	 * strncmp (rather than strcmp) is used to implement the prefix
+ 	 * requirement.
+ 	 *
+-	 * expr->signal might look like "GPIOT3" in the GPIO case.
++	 * expr->signal might look like "GPIOB1" in the GPIO case.
++	 * expr->signal might look like "GPIT0" in the GPI case.
+ 	 */
+-	return strncmp(expr->signal, "GPIO", 4) == 0;
++	return strncmp(expr->signal, "GPI", 3) == 0;
+ }
+ 
+ static bool aspeed_gpio_in_exprs(const struct aspeed_sig_expr **exprs)
+-- 
+2.17.1
 
->
-> Cheers,
->
-> Andrew
->
-> > ---
-> >  drivers/pinctrl/aspeed/pinctrl-aspeed.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed.c
-> > b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
-> > index 53f3f8aec695..a2f5ede3f897 100644
-> > --- a/drivers/pinctrl/aspeed/pinctrl-aspeed.c
-> > +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
-> > @@ -292,7 +292,7 @@ static bool aspeed_expr_is_gpio(const struct
-> > aspeed_sig_expr *expr)
-> >        *
-> >        * expr->signal might look like "GPIOT3" in the GPIO case.
-> >        */
-> > -     return strncmp(expr->signal, "GPIO", 4) == 0;
-> > +     return strncmp(expr->signal, "GPI", 3) == 0;
-> >  }
-> >
-> >  static bool aspeed_gpio_in_exprs(const struct aspeed_sig_expr **exprs)
-> > --
-> > 2.17.1
-> >
-> >
