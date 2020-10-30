@@ -2,63 +2,89 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA3529FC56
-	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Oct 2020 04:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90E7429FCB2
+	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Oct 2020 05:29:08 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CMpQG0ZvdzDqtG
-	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Oct 2020 14:56:22 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CMq813Z92zDqpJ
+	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Oct 2020 15:29:05 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::744;
- helo=mail-qk1-x744.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.27;
+ helo=out3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=jRHMIHN7; dkim-atps=neutral
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
- [IPv6:2607:f8b0:4864:20::744])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm1 header.b=iVr98EiC; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=c8GUeNf8; 
+ dkim-atps=neutral
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CMpDg6fYQzDqf9
- for <linux-aspeed@lists.ozlabs.org>; Fri, 30 Oct 2020 14:48:03 +1100 (AEDT)
-Received: by mail-qk1-x744.google.com with SMTP id k9so3815082qki.6
- for <linux-aspeed@lists.ozlabs.org>; Thu, 29 Oct 2020 20:48:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IV173zBqFl+Nd3q2klgfVNAcerg3fmVbHR0gIkMTLmQ=;
- b=jRHMIHN7cvodtRtpitWz1f5G94/VR65Hri+wxGanETse+Bq/fYMNmEcGIu4h6d8QIO
- d46EzUegUSyNUJxpCEEBzlpqGWxAwXPP9rpqiYVd5eDJgmVpfdXdX4MRPzHfOTvClHib
- D6O+IYm801uIXGf0zKtPqQSw13XeiwUnDBib8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IV173zBqFl+Nd3q2klgfVNAcerg3fmVbHR0gIkMTLmQ=;
- b=dGpkSE/0s8RhwO/74hIsxW182t6t4gp4PImFbjBFyjTOj4rUFqNHsUxIdEIc6fcjE/
- c3NyEqI9WKa715T1VLvDP40MXTyUEb1z2WkIlqwBAj9iQ2VrXWOPtP4RkNm6EDNLmlui
- IaGev36tDghQSk4WgtNmyiPdcjQphytUW/mYuVK6lh62Vhu/uOdwLIz74nVn2C6buLjc
- i4MctEQ8xV4EG/N2IJ1jBMBA1EKltbxorb0Okb7SuV5gt09kjESAec192h/w8CU6Kwh6
- ek86b8WTQ/UmP3xiOJ2ih8icSLMTUUGQKajYgYc88RXxE3OH15JL2P5mDKSqwjaGoJ4Q
- Myww==
-X-Gm-Message-State: AOAM530JN1Abe2/a29AIlmU8J6clmeUUW2vgmOFwaiceYYHlJ9RzXJiC
- KrIclXlloYiTMGZTPTazqR2T+bviYqIbbPi+Hg0=
-X-Google-Smtp-Source: ABdhPJz8dFRcEhMlqq1wlKnf6IBKOhndQxJdT1pNedv0ylUO8Z0m31UekBTKZL0DBjBeNhb37UXzMHszpOp+nnkyREQ=
-X-Received: by 2002:ae9:e90d:: with SMTP id x13mr436553qkf.66.1604029678730;
- Thu, 29 Oct 2020 20:47:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201029062723.20798-1-dylan_hung@aspeedtech.com>
-In-Reply-To: <20201029062723.20798-1-dylan_hung@aspeedtech.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 30 Oct 2020 03:47:45 +0000
-Message-ID: <CACPK8XcJ6oWkj04kb3cjNkYY4q48Vk2p7zitCDp1_Q8etjFb1w@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: aspeed-g6: Fix HVI3C function-group in pinctrl
- dtsi
-To: Dylan Hung <dylan_hung@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CMq7h1Sb7zDqn2;
+ Fri, 30 Oct 2020 15:28:47 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 192D05C0090;
+ Fri, 30 Oct 2020 00:28:45 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Fri, 30 Oct 2020 00:28:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=e2RH6Oc3M7SvKnMtNThQnLEbeG9dZOv
+ VUE8jjeVMZh0=; b=iVr98EiCIc3Lug+YMxm6Xf0sPZBOxzi0fQ52xAtTZPnuP3f
+ rz3E0TMGmmOd2XsCM7s3kEmmyYpbCjxYtkwvVQSef/NK1SBIa5rQPm4/7q6NyCe+
+ 5Ltc14NlwDrR/8UfKaEVQ6Nt8WNYVfRBNBX0ms1OSyMLdcqvXw84KR2R6lBCfgbP
+ gIeBqyZDC248WAgLIz250OnjQNdRQr4+Y0keUWm7Fau3dMxrpNPgAREE5AJk0Z/6
+ QJop671Kr18w4uj2Hdi+NEtqLmtH2+Knl/zYopiz9GGOVEX5+rns9I+0I58tAMcj
+ IIwVxpEUV5SIAyT/cBxHTfagw0XdLjOhFBKEj8A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=e2RH6O
+ c3M7SvKnMtNThQnLEbeG9dZOvVUE8jjeVMZh0=; b=c8GUeNf853Fjsau2D3QXHg
+ zYrgvAo43Y8xLnoXao8nTxtQ69Y7l4XDVoY0F3F3tUVfvDrRFuTH04qxZWvKvHFM
+ jnto4n6pl6V7jZkKosIgGKdaZUfER0vQv8Ku58mdcnFvML1ciC68rQDJG7mjr0tO
+ QR2RY/f4kIcKgHmVNx6J03hCv2B06MmpoSbVXP4N3QuUgH82nhM8phAgstQAZGEH
+ EzTdUtdAeYN20SgTZMnOLEurdl5JugpFImK0+xaS1bOUzJb46Hm5T1HUgN+EDnwr
+ gp4Nf1TDyCtvSzO0BTU8ecxRy8ZEUOf+fneaLylQk9Ni7SWzKgH70q6m+NxMm4QQ
+ ==
+X-ME-Sender: <xms:eZabX_CdCkg6L3TQuosFZpFrurI8zQCOJSkXRJqE-liAUyGp_ORGgQ>
+ <xme:eZabX1j7oDftasBYTTaSHeKAh2ZNH6Ms7-LyeGiHlJwLwe0OIlRQlzrt0bT87jIkq
+ qzji2Tsg_491WRZyQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrleeggdejtdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
+ htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
+ veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:epabX6ls3E2GL_86UqcD9dVdFRLG76opy5hnBgftvDF2sNTvrAA6wg>
+ <xmx:epabXxyGKS9scmgWHmPAx8UG18bM_goyiOyBN1QmZRajb7U_B6NyDg>
+ <xmx:epabX0QGP4lElwXkL22IlmzaXAphbX15lPKnADoMpMHmFFP3n1DAAQ>
+ <xmx:fZabXzFfG5xjkcrGWIF61d45VgeJhf62QWGSgRLhOHPOCGe_wPc-SA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 09803E00B8; Fri, 30 Oct 2020 00:28:40 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.0-530-g8da6958-fm-20201021.003-g69105b13-v35
+Mime-Version: 1.0
+Message-Id: <0d5e5d0a-cc74-4cb7-aed0-bb8c62661339@www.fastmail.com>
+In-Reply-To: <20201027084417.10137-1-billy_tsai@aspeedtech.com>
+References: <20201027084417.10137-1-billy_tsai@aspeedtech.com>
+Date: Fri, 30 Oct 2020 14:58:21 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Billy Tsai" <billy_tsai@aspeedtech.com>,
+ "Linus Walleij" <linus.walleij@linaro.org>, "Joel Stanley" <joel@jms.id.au>,
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] pinctrl: aspeed: Fix GPI only function problem.
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,53 +96,51 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, BMC-SW <BMC-SW@aspeedtech.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 29 Oct 2020 at 06:28, Dylan Hung <dylan_hung@aspeedtech.com> wrote:
->
-> The HVI3C shall be a group of I3C function, not an independent function.
-> Correct the function name from "HVI3C" to "I3C".
->
-> Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
+Hi Billy,
 
-Fixes: f510f04c8c83 ("ARM: dts: aspeed: Add AST2600 pinmux nodes")
+On Tue, 27 Oct 2020, at 19:14, Billy Tsai wrote:
+> Some gpio pin at aspeed soc is input only and the prefix name of these
+> pin is "GPI" only. This patch fine-tune the condition of GPIO check from
+> "GPIO" to "GPI".
+> 
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 
-I have a few device tree fixes for 5.10 that I will include this in.
+I'd like it if we were a bit more specific in the commit message, and even 
+better if we update the comment in the code. A quick look at the code suggests 
+this issue affects GPIO banks D and E in the AST2400 and AST2500, and banks T 
+and U in the AST2600.
+
+Functionally I think the patch is fine.
 
 Cheers,
 
-Joel
+Andrew
 
 > ---
->  arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi b/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
-> index 7028e21bdd98..910eacc8ad3b 100644
-> --- a/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
-> +++ b/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
-> @@ -208,12 +208,12 @@
->         };
->
->         pinctrl_hvi3c3_default: hvi3c3_default {
-> -               function = "HVI3C3";
-> +               function = "I3C3";
->                 groups = "HVI3C3";
->         };
->
->         pinctrl_hvi3c4_default: hvi3c4_default {
-> -               function = "HVI3C4";
-> +               function = "I3C4";
->                 groups = "HVI3C4";
->         };
->
-> --
+>  drivers/pinctrl/aspeed/pinctrl-aspeed.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed.c 
+> b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
+> index 53f3f8aec695..a2f5ede3f897 100644
+> --- a/drivers/pinctrl/aspeed/pinctrl-aspeed.c
+> +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
+> @@ -292,7 +292,7 @@ static bool aspeed_expr_is_gpio(const struct 
+> aspeed_sig_expr *expr)
+>  	 *
+>  	 * expr->signal might look like "GPIOT3" in the GPIO case.
+>  	 */
+> -	return strncmp(expr->signal, "GPIO", 4) == 0;
+> +	return strncmp(expr->signal, "GPI", 3) == 0;
+>  }
+>  
+>  static bool aspeed_gpio_in_exprs(const struct aspeed_sig_expr **exprs)
+> -- 
 > 2.17.1
+> 
 >
