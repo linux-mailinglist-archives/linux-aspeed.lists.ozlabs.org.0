@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B092A226B
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Nov 2020 00:51:52 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 642D12A2279
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Nov 2020 00:59:11 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CPXrj6YzNzDqQd
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Nov 2020 10:51:49 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CPY184vW7zDqRG
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Nov 2020 10:59:08 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,46 +17,46 @@ Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=b1Id3H4j; dkim-atps=neutral
+ header.s=google header.b=brNJSku0; dkim-atps=neutral
 Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
  [IPv6:2607:f8b0:4864:20::844])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CPXrY1WkdzDqQd
- for <linux-aspeed@lists.ozlabs.org>; Mon,  2 Nov 2020 10:51:37 +1100 (AEDT)
-Received: by mail-qt1-x844.google.com with SMTP id j31so1458823qtb.8
- for <linux-aspeed@lists.ozlabs.org>; Sun, 01 Nov 2020 15:51:37 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CPY136KKSzDqNZ
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  2 Nov 2020 10:58:59 +1100 (AEDT)
+Received: by mail-qt1-x844.google.com with SMTP id c5so8200095qtw.3
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 01 Nov 2020 15:58:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BjQD2FJt/p1aXqCjeUIaEOa7xOIXTB8pAOJ6QQztop8=;
- b=b1Id3H4jkhJ3xK1NoPl7aIn+eWY5FW2UZyv10J19sCuNBkM7CaQX1T8mFon4+EzffP
- 5IFO21rfJf/tyN9NLTsNb9uCoLEOz6uITP0BTLp93Ar0QmYUlJjB9ClOBeeMgN/ro+Dh
- m5Ag7mRzr1kpUArwtuxqOQQqG+EwDuNjyZj+8=
+ :cc; bh=k0kRy+Nx/QnWYbnmGzwht3fo9mypVSfVLNNpjvfeF7Y=;
+ b=brNJSku0bPKWosQMJXoWRGAomXJHS//QnKnot+pwva9tggddcof7eebITAxeSQqISR
+ 0shntSkFIew5/XuK/at+g071ttN0u3P5qb6hi9WbqpHd0NH8ZbFymxybJDYkZitbEodF
+ b6d2g1d8MRMbKxo2Tnlnr4HmIfKWHriMjW+hw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=BjQD2FJt/p1aXqCjeUIaEOa7xOIXTB8pAOJ6QQztop8=;
- b=HYtqFhTpxAoq7rYqmrwXw13PD3xMIft6tHpHkqM5VDwl18t0FiNF7XecoWloUnJNrC
- 549tLKdwOu/1+T0iAzxpZJz7kQzBoOdhO4Z2hUVQ3yoL3eEpQcMumm1tEto7ioxKU82X
- xcBmiDBzUqOTTHmYtGA98RDyzENkHMpafh3L8UR2Hsm/gcJ0o/8bZPZbIK6sb4vSa0Mb
- Zo/7QDquGbVnN3U0KUzzU+nh/dODEamNl4bPPh9cxkzz6dyzmTTm09hoxzlLGvwv9XTv
- DJsGukDsQuDYKecQsRA60lBw6w/HJ7PbH2vFs87BU2Xb154S1enfKFCTKoAdLOC8sBXY
- u+6Q==
-X-Gm-Message-State: AOAM530wT4h8WV871Ue1WW2sEL/Igq4AIRdZpIt/Bjf6Qa7C2EwDkbcD
- 56ItZtpNolGYMFjsZRWb6hHiRehu8SX5HovZSzw=
-X-Google-Smtp-Source: ABdhPJwiVHw/di++bwpzmmsiMvSgsPlnOQMUoMnFTazlwfgRtckY5/nFThGgOIM+IhkIj0ohaNX4vWjC2HAKvYpiuOs=
-X-Received: by 2002:ac8:5854:: with SMTP id h20mr12007972qth.176.1604274695580; 
- Sun, 01 Nov 2020 15:51:35 -0800 (PST)
+ bh=k0kRy+Nx/QnWYbnmGzwht3fo9mypVSfVLNNpjvfeF7Y=;
+ b=eheMH1W8ZYQZPCNS557IigxcnPsGplTA/DYcrNswZgX00xfrXPUWUVGKeGO7drN0Tx
+ POm9ScOiDpc/p555XFQLygEYR6cvG5SCDWAZdL/9THH9mXrL6hPUa1/ye4aot1Jml1yw
+ yAn+k5SeanyZhyG6CevGSFmHDECvbieC8j+Gz3kaelVFyTOh8VBZVn2+5PQS79A8fq73
+ dmzNJdBfcZnxe5N4ozKvGO46UvMPEgLDqohQsfZ8oIzH694Hk+b+Wg2S7fFnsbWKT5mV
+ E4HPY21eiwCULe9RF3V5Aqe8Q2cbmexKf6FPlVnIxdO+dNVasH58wref9+KA1NlWNonA
+ hoTA==
+X-Gm-Message-State: AOAM5336ziG4BecChf7gyV9eNnSjBWyXQSGp4Mf++ni53xIzH/o4u8Th
+ 8cARHY0ep4nbp5J1shulMk6Hn79JJ+al+5SdE/4=
+X-Google-Smtp-Source: ABdhPJzQB5EPcYDgX2QkiYwah4UMZ5U4K0vEkbXYMHSrPooTsRW4trT5qeGhOH4iMIk8EMMTIgScxdMc83Ni2J3YO6k=
+X-Received: by 2002:ac8:5854:: with SMTP id h20mr12022217qth.176.1604275137155; 
+ Sun, 01 Nov 2020 15:58:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20201101150622.2288203-1-trix@redhat.com>
-In-Reply-To: <20201101150622.2288203-1-trix@redhat.com>
+References: <20200813190431.3331026-1-vijaykhemka@fb.com>
+In-Reply-To: <20200813190431.3331026-1-vijaykhemka@fb.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Sun, 1 Nov 2020 23:51:23 +0000
-Message-ID: <CACPK8XeCJpbh+F4EzfmGJRt2JJHPjKGK2dyqF9BV_NUFYgc=nw@mail.gmail.com>
-Subject: Re: [PATCH] soc: aspeed: remove unneeded semicolon
-To: trix@redhat.com
+Date: Sun, 1 Nov 2020 23:58:44 +0000
+Message-ID: <CACPK8Xe8cfQO2=+66_xE3gVWnqThWqPkhVuELpOowdaXORZCbw@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: aspeed: tiogapass: Remove vuart
+To: Vijay Khemka <vijaykhemka@fb.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -69,40 +69,44 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: devicetree <devicetree@vger.kernel.org>, Sai Dasari <sdasari@fb.com>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sun, 1 Nov 2020 at 15:06, <trix@redhat.com> wrote:
+On Thu, 13 Aug 2020 at 19:04, Vijay Khemka <vijaykhemka@fb.com> wrote:
 >
-> From: Tom Rix <trix@redhat.com>
+> Removed vuart for facebook tiogapass platform as it uses uart2 and
+> uart3 pin with aspeed uart routing feature.
 >
-> A semicolon is not needed after a switch statement.
+> Signed-off-by: Vijay Khemka <vijaykhemka@fb.com>
 
-Thanks Tom. I will add this to the aspeed soc tree.
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
->
-> Signed-off-by: Tom Rix <trix@redhat.com>
 > ---
->  drivers/soc/aspeed/aspeed-socinfo.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts | 5 -----
+>  1 file changed, 5 deletions(-)
 >
-> diff --git a/drivers/soc/aspeed/aspeed-socinfo.c b/drivers/soc/aspeed/aspeed-socinfo.c
-> index 26db42ef6aae..20a1d4aeb051 100644
-> --- a/drivers/soc/aspeed/aspeed-socinfo.c
-> +++ b/drivers/soc/aspeed/aspeed-socinfo.c
-> @@ -51,7 +51,7 @@ static const char *siliconid_to_rev(u32 siliconid)
->                 return "A1";
->         case 3:
->                 return "A2";
-> -       };
-> +       }
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
+> index 2d44d9ad4e40..e6ad821a8635 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
+> @@ -82,11 +82,6 @@ &lpc_ctrl {
+>         status = "okay";
+>  };
 >
->         return "??";
->  }
+> -&vuart {
+> -       // VUART Host Console
+> -       status = "okay";
+> -};
+> -
+>  &uart1 {
+>         // Host Console
+>         status = "okay";
 > --
-> 2.18.1
+> 2.24.1
 >
