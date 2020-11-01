@@ -2,88 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0DB32A1EE1
-	for <lists+linux-aspeed@lfdr.de>; Sun,  1 Nov 2020 16:07:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B092A226B
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Nov 2020 00:51:52 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CPKC904JKzDqZk
-	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Nov 2020 02:07:01 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CPXrj6YzNzDqQd
+	for <lists+linux-aspeed@lfdr.de>; Mon,  2 Nov 2020 10:51:49 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=redhat.com (client-ip=63.128.21.124;
- helo=us-smtp-delivery-124.mimecast.com; envelope-from=trix@redhat.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::844;
+ helo=mail-qt1-x844.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=redhat.com
+ dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256
- header.s=mimecast20190719 header.b=jFNxUBbL; 
- dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com
- header.a=rsa-sha256 header.s=mimecast20190719 header.b=DhiK1gJ1; 
- dkim-atps=neutral
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=b1Id3H4j; dkim-atps=neutral
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CPKBt05T3zDqXL
- for <linux-aspeed@lists.ozlabs.org>; Mon,  2 Nov 2020 02:06:44 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604243200;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=wJ/LAdUgWk4kj3ikySKt8S3LnfEtd4hd8yxK7w0mF2Q=;
- b=jFNxUBbLWoEJkEpf7LU7uNK/QE1i9nqr4/V02GJkTYqT25MBdUrSHdVOcAxkpGcCJrH0XU
- XKna8ml6GNWb1hV9frNHY7cNkwkaOgDBzmzkuUaRK6TkpqB2GnfAiUt/IYW2ft6F4Yquaf
- 86tEwjE5u6GfbF/JR011320BbYgmyTs=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604243201;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=wJ/LAdUgWk4kj3ikySKt8S3LnfEtd4hd8yxK7w0mF2Q=;
- b=DhiK1gJ1q0d4gXLjq7fu3cO4j+TQxW6eIYFNKJWnU1GLx1yEw9nueHaUAOatNV/oM9x9e7
- XLiPp6oymTFPLHUsWY3NoSa9TDIosLLkEsH97h1WtINY7hpN42/VMvZZ94gWDcPBE0OLsY
- mMuOfVWCT3hu55sQBYmreujYvhV24/k=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-9T2psUgONzacXfMHMZhetw-1; Sun, 01 Nov 2020 10:06:38 -0500
-X-MC-Unique: 9T2psUgONzacXfMHMZhetw-1
-Received: by mail-oo1-f72.google.com with SMTP id j5so4587152ooq.4
- for <linux-aspeed@lists.ozlabs.org>; Sun, 01 Nov 2020 07:06:38 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CPXrY1WkdzDqQd
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  2 Nov 2020 10:51:37 +1100 (AEDT)
+Received: by mail-qt1-x844.google.com with SMTP id j31so1458823qtb.8
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 01 Nov 2020 15:51:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BjQD2FJt/p1aXqCjeUIaEOa7xOIXTB8pAOJ6QQztop8=;
+ b=b1Id3H4jkhJ3xK1NoPl7aIn+eWY5FW2UZyv10J19sCuNBkM7CaQX1T8mFon4+EzffP
+ 5IFO21rfJf/tyN9NLTsNb9uCoLEOz6uITP0BTLp93Ar0QmYUlJjB9ClOBeeMgN/ro+Dh
+ m5Ag7mRzr1kpUArwtuxqOQQqG+EwDuNjyZj+8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=wJ/LAdUgWk4kj3ikySKt8S3LnfEtd4hd8yxK7w0mF2Q=;
- b=Hi7Xl51kinhBSIMJMIrtSYlPHY/fxKzAKY8MVy3zpi+SXMTil0E8KPzHXMYsGugYwY
- l/214CQJjGk8OwDBranaCOyrQIpYYWewStfq1iJgldVtTK5WF80EcXPcOVX4J/TXKOpw
- VbIFHJBy4wficSirIRmHo7C/uMYAMn714AdiSYST1o3N+ICyio05zS7h0IRlxVJEp2LZ
- Ku+DWB1A7HoF9fq1UF9EZuGjtiIFWtB/cfZ/lRpahCUnONTLFU7xdFbXuW3V5tTtG1ko
- EeZeWVjQd3wd3FmSQBUgKBi5r/hH+OfN21o9n3crspUhA1drRw3DueFxgDMUA+mHYQ8N
- aRKA==
-X-Gm-Message-State: AOAM5320fo5dx0wyoxhmjzbjTieRPunHXQk+kSFSt+lCtA8zyu19HQ7Q
- qAhHW/ECsOeNU5eS2r+OOoCpOa9UpAvuc8WrtSTMufTTaOugxDkW88BdsCuOO+ivluGc2f4S6dP
- JPgmUIDD+HfglSM/54GUUJOYgkQ==
-X-Received: by 2002:a4a:dd0a:: with SMTP id m10mr8950425oou.80.1604243197886; 
- Sun, 01 Nov 2020 07:06:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxi7nrIgHcqXU72cuWS6O0nlS/xTzXubwdfw6WG3TMN7Pod2mwYawFVe8PQCYaME3qcvab8lA==
-X-Received: by 2002:a4a:dd0a:: with SMTP id m10mr8950419oou.80.1604243197694; 
- Sun, 01 Nov 2020 07:06:37 -0800 (PST)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
- [75.142.250.213])
- by smtp.gmail.com with ESMTPSA id w10sm1598353oou.47.2020.11.01.07.06.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 Nov 2020 07:06:37 -0800 (PST)
-From: trix@redhat.com
-To: joel@jms.id.au,
-	andrew@aj.id.au
-Subject: [PATCH] soc: aspeed: remove unneeded semicolon
-Date: Sun,  1 Nov 2020 07:06:22 -0800
-Message-Id: <20201101150622.2288203-1-trix@redhat.com>
-X-Mailer: git-send-email 2.18.1
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="US-ASCII"
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BjQD2FJt/p1aXqCjeUIaEOa7xOIXTB8pAOJ6QQztop8=;
+ b=HYtqFhTpxAoq7rYqmrwXw13PD3xMIft6tHpHkqM5VDwl18t0FiNF7XecoWloUnJNrC
+ 549tLKdwOu/1+T0iAzxpZJz7kQzBoOdhO4Z2hUVQ3yoL3eEpQcMumm1tEto7ioxKU82X
+ xcBmiDBzUqOTTHmYtGA98RDyzENkHMpafh3L8UR2Hsm/gcJ0o/8bZPZbIK6sb4vSa0Mb
+ Zo/7QDquGbVnN3U0KUzzU+nh/dODEamNl4bPPh9cxkzz6dyzmTTm09hoxzlLGvwv9XTv
+ DJsGukDsQuDYKecQsRA60lBw6w/HJ7PbH2vFs87BU2Xb154S1enfKFCTKoAdLOC8sBXY
+ u+6Q==
+X-Gm-Message-State: AOAM530wT4h8WV871Ue1WW2sEL/Igq4AIRdZpIt/Bjf6Qa7C2EwDkbcD
+ 56ItZtpNolGYMFjsZRWb6hHiRehu8SX5HovZSzw=
+X-Google-Smtp-Source: ABdhPJwiVHw/di++bwpzmmsiMvSgsPlnOQMUoMnFTazlwfgRtckY5/nFThGgOIM+IhkIj0ohaNX4vWjC2HAKvYpiuOs=
+X-Received: by 2002:ac8:5854:: with SMTP id h20mr12007972qth.176.1604274695580; 
+ Sun, 01 Nov 2020 15:51:35 -0800 (PST)
+MIME-Version: 1.0
+References: <20201101150622.2288203-1-trix@redhat.com>
+In-Reply-To: <20201101150622.2288203-1-trix@redhat.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Sun, 1 Nov 2020 23:51:23 +0000
+Message-ID: <CACPK8XeCJpbh+F4EzfmGJRt2JJHPjKGK2dyqF9BV_NUFYgc=nw@mail.gmail.com>
+Subject: Re: [PATCH] soc: aspeed: remove unneeded semicolon
+To: trix@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,34 +69,40 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, linux-aspeed@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Tom Rix <trix@redhat.com>
+On Sun, 1 Nov 2020 at 15:06, <trix@redhat.com> wrote:
+>
+> From: Tom Rix <trix@redhat.com>
+>
+> A semicolon is not needed after a switch statement.
 
-A semicolon is not needed after a switch statement.
+Thanks Tom. I will add this to the aspeed soc tree.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/soc/aspeed/aspeed-socinfo.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/soc/aspeed/aspeed-socinfo.c b/drivers/soc/aspeed/aspeed-socinfo.c
-index 26db42ef6aae..20a1d4aeb051 100644
---- a/drivers/soc/aspeed/aspeed-socinfo.c
-+++ b/drivers/soc/aspeed/aspeed-socinfo.c
-@@ -51,7 +51,7 @@ static const char *siliconid_to_rev(u32 siliconid)
- 		return "A1";
- 	case 3:
- 		return "A2";
--	};
-+	}
- 
- 	return "??";
- }
--- 
-2.18.1
-
+>
+> Signed-off-by: Tom Rix <trix@redhat.com>
+> ---
+>  drivers/soc/aspeed/aspeed-socinfo.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/soc/aspeed/aspeed-socinfo.c b/drivers/soc/aspeed/aspeed-socinfo.c
+> index 26db42ef6aae..20a1d4aeb051 100644
+> --- a/drivers/soc/aspeed/aspeed-socinfo.c
+> +++ b/drivers/soc/aspeed/aspeed-socinfo.c
+> @@ -51,7 +51,7 @@ static const char *siliconid_to_rev(u32 siliconid)
+>                 return "A1";
+>         case 3:
+>                 return "A2";
+> -       };
+> +       }
+>
+>         return "??";
+>  }
+> --
+> 2.18.1
+>
