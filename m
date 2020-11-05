@@ -1,55 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83CB22A83C1
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Nov 2020 17:43:36 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED67F2A8637
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Nov 2020 19:40:51 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CRq8j3zMczDr6Y
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Nov 2020 03:43:33 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CRslz4rQzzDr4Q
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Nov 2020 05:40:47 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=broonie@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=209.85.210.54; helo=mail-ot1-f54.google.com;
+ envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=default header.b=PqIqOxZp; dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
+ [209.85.210.54])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CRq8b2fz1zDr4N
- for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Nov 2020 03:43:27 +1100 (AEDT)
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A5B552080D;
- Thu,  5 Nov 2020 16:43:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604594604;
- bh=nzUBLENvNGw4qP7529IkPGt+67Ej7GsURN40SwoTbuQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PqIqOxZpYIytUMk1dkb5b3eIQUatp1Du9XOiOGzQ22gJ2Xofp+ZV5a/hHGDK7NXfs
- N4qyhQfu5EeA5H8bNzRWF6Om4Zu+rIJ25FfR+VIktuHEfmU4Cyko/KJc6ie19+JLZf
- HBKenVSBGWEPXANLQiRnbgp7EEh3c7fQVOfbFu6A=
-Date: Thu, 5 Nov 2020 16:43:12 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [v3 4/4] spi: aspeed: Add ASPEED FMC/SPI memory controller driver
-Message-ID: <20201105164312.GE4856@sirena.org.uk>
-References: <20201105120331.9853-1-chin-ting_kuo@aspeedtech.com>
- <20201105120331.9853-5-chin-ting_kuo@aspeedtech.com>
- <fd8fa472-53bb-c992-3dc2-5a984a439c07@kaod.org>
- <20201105161132.37eb3265@collabora.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CRslt1JJvzDr3L
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Nov 2020 05:40:42 +1100 (AEDT)
+Received: by mail-ot1-f54.google.com with SMTP id j14so2381009ots.1
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 05 Nov 2020 10:40:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ROW7gLPvsixXdOUBku/rceehiE2QxPW3Gr2HLN1Tahs=;
+ b=Oo+z5/n8amFf41EXiOFqxMjCMyzgU85CoWHNpSYtOeIuYM4vbuqsSaTOTbR/XKss60
+ LYza7K2Vp/uwpci+U10ExVuDr01GqJhcW10uaCCQaJtijWpfbtCX1Cz6UWRnzRmt83pN
+ MbM6U+LGZGNr2p6lKdCiCV7evQJKVqE/togReifUyWvW3aEA3pJlW+cMfGMy6fvTlHzv
+ dnuJPv6K5VvFPu4b8sJPLkmK6f6MgT0fb9rzVPJAhokt85ZqL63DBzfZ1HyXw8DKMd/u
+ sctKDbfS4OrquLXlxqaNbiUMnRD7htFxHjsaui4Xf0zED5iY8yIEih/1JK/4/d3KJTZh
+ T41A==
+X-Gm-Message-State: AOAM530aAb6au+mEbtD0Ys7b5QHYiQTJDixfUzbN1HEocRgbbVnoxzHY
+ ZPbDouUoC/oYQD6shlT44g==
+X-Google-Smtp-Source: ABdhPJwG1vUWe+mtCQWNMutnJxx2eoLNJArHfDOqxJL78DdzeDgv3gng8hQNHFIW5vfeIqU7slQlcQ==
+X-Received: by 2002:a9d:7d87:: with SMTP id j7mr2645271otn.356.1604601638458; 
+ Thu, 05 Nov 2020 10:40:38 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id s26sm530580ood.38.2020.11.05.10.40.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Nov 2020 10:40:37 -0800 (PST)
+Received: (nullmailer pid 1609469 invoked by uid 1000);
+ Thu, 05 Nov 2020 18:40:36 -0000
+Date: Thu, 5 Nov 2020 12:40:36 -0600
+From: Rob Herring <robh@kernel.org>
+To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+Subject: Re: [v2 1/4] dt-bindings: spi: Add binding file for ASPEED FMC/SPI
+ memory controller
+Message-ID: <20201105184036.GA1607865@bogus>
+References: <20201103072202.24705-1-chin-ting_kuo@aspeedtech.com>
+ <20201103072202.24705-2-chin-ting_kuo@aspeedtech.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="a+b56+3nqLzpiR9O"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201105161132.37eb3265@collabora.com>
-X-Cookie: It's the thought, if any, that counts!
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201103072202.24705-2-chin-ting_kuo@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,66 +70,95 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
  bbrezillon@kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
- robh+dt@kernel.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- BMC-SW@aspeedtech.com
+ broonie@kernel.org, BMC-SW@aspeedtech.com, clg@kaod.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Tue, Nov 03, 2020 at 03:21:59PM +0800, Chin-Ting Kuo wrote:
+> Create binding file with YAML syntax for ASPEED FMC/SPI memory controller.
+> 
+> Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+> ---
+>  .../bindings/spi/aspeed,spi-aspeed.yaml       | 66 +++++++++++++++++++
+>  1 file changed, 66 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/spi/aspeed,spi-aspeed.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/spi/aspeed,spi-aspeed.yaml b/Documentation/devicetree/bindings/spi/aspeed,spi-aspeed.yaml
+> new file mode 100644
+> index 000000000000..41b9692c7226
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/spi/aspeed,spi-aspeed.yaml
+> @@ -0,0 +1,66 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/spi/aspeed,spi-aspeed.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: SPI memory controller for ASPEED SoCs
+> +
+> +maintainers:
+> +  - Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+> +
+> +description: |
+> +  There are three SPI memory controllers embedded in a ASPEED SoC.
+> +  They are usually connected to SPI NOR flashes. Each of them has
+> +  more than a chip select. They also support SPI single, dual and
+> +  quad IO modes for SPI NOR flash.
+> +
+> +allOf:
+> +  - $ref: /spi/spi-controller.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - aspeed,ast2600-fmc
+> +              - aspeed,ast2600-spi
+> +
+> +  reg:
+> +    items:
+> +      - description: the control register location and length
+> +      - description: the flash memory mapping address and length
+> +
+> +  clocks:
+> +    description: AHB bus clock which will be converted to SPI bus clock
 
---a+b56+3nqLzpiR9O
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Need to define how many clocks (maxItems: 1).
 
-On Thu, Nov 05, 2020 at 04:11:32PM +0100, Boris Brezillon wrote:
-> C=E9dric Le Goater <clg@kaod.org> wrote:
-
-> > Thanks for this driver. It's much cleaner than the previous and we shou=
-ld=20
-> > try adding support for the AST2500 SoC also. I guess we can keep the ol=
-d=20
-> > driver for the AST2400 which has a different register layout.
-> >=20
-> > On the patchset, I think we should split this patch in three :=20
-> >=20
-> >  - basic support
-> >  - AHB window calculation depending on the flash size
-> >  - read training support =20
-
-> I didn't look closely at the implementation, but if the read training
-> tries to read a section of the NOR, I'd recommend exposing that feature
-> through spi-mem and letting the SPI-NOR framework trigger the training
-> instead of doing that at dirmap creation time (remember that spi-mem is
-> also used for SPI NANDs which use the dirmap API too, and this training
-> is unlikely to work there).
-
-> The SPI-NOR framework could pass a read op template and a reference
-> pattern such that all the spi-mem driver has to do is execute the
-> template op and compare the output to the reference buffer.
-
-That seems like a good idea.
-
-> > We should avoid magic values when setting registers. This is confusing=
-=20
-> > and defines are much better.
-
-It does depend a bit on documentation though, it's not a hard
-requirement.
-
---a+b56+3nqLzpiR9O
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl+kK58ACgkQJNaLcl1U
-h9DGCgf+I0rBJDAblAFHQZV/Foq1amFegL1fHRXAk5+kobJswoMMwbeep5jlgZ4k
-P/9UMfROv98skgwDGByNx79txjX5xCcUMW5Oz10pk7y0e9UQya8fUTUrf0gbQza6
-OMXG9IMBZObmiJgUKahOaZqmoYo3CE0XJSwjiZwnk9hXQ23t2nsfFZMKe0ZfIORl
-vnx/OpoGDVLmnIwCGNIpV+DjdGXuXCVPB4i7NgsQUdyhORxa8WOJUrWAkwC/FCNi
-cGHBoQSQYoe1lxm8KCC/xqPqDe5MqIF5+46TFNLORhzTY529mYEdXcHDAE4QZ6bx
-nbw7Y3kGyBBE3YjsakRkeoNj/oFcjA==
-=QXki
------END PGP SIGNATURE-----
-
---a+b56+3nqLzpiR9O--
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - num-cs
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/ast2600-clock.h>
+> +    spi1: spi@1e630000 {
+> +      compatible = "aspeed,ast2600-spi";
+> +      reg = <0x1e630000 0xc4>, <0x30000000 0x10000000>;
+> +      reg-names = "spi_ctrl_reg", "spi_mmap";
+> +      clocks = <&syscon ASPEED_CLK_AHB>;
+> +      num-cs = <2>;
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +      flash@0 {
+> +        compatible = "jedec,spi-nor";
+> +        reg = <0>;
+> +        spi-max-frequency = <50000000>;
+> +      };
+> +      flash@1 {
+> +        compatible = "jedec,spi-nor";
+> +        reg = <1>;
+> +        spi-max-frequency = <50000000>;
+> +      };
+> +    };
+> -- 
+> 2.17.1
+> 
