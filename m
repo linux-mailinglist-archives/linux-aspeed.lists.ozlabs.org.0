@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988EC2A7E49
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Nov 2020 13:07:34 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECFC42A7E4A
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Nov 2020 13:07:52 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CRj283mynzDqvW
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Nov 2020 23:07:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CRj2X4rG8zDqwM
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Nov 2020 23:07:48 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
@@ -19,10 +19,10 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CRhyh0cGNzDqHg
- for <linux-aspeed@lists.ozlabs.org>; Thu,  5 Nov 2020 23:04:23 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CRhyh0cJ3zDqmT
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  5 Nov 2020 23:04:24 +1100 (AEDT)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 0A5Bxvq9068678;
+ by twspam01.aspeedtech.com with ESMTP id 0A5BxvqA068678;
  Thu, 5 Nov 2020 19:59:57 +0800 (GMT-8)
  (envelope-from chin-ting_kuo@aspeedtech.com)
 Received: from localhost.localdomain (192.168.10.9) by TWMBX02.aspeed.com
@@ -33,17 +33,20 @@ To: <broonie@kernel.org>, <robh+dt@kernel.org>, <joel@jms.id.au>,
  <andrew@aj.id.au>, <clg@kaod.org>, <bbrezillon@kernel.org>,
  <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <linux-aspeed@lists.ozlabs.org>, <linux-spi@vger.kernel.org>
-Subject: [v3 0/4] Porting ASPEED FMC/SPI memory controller driver
-Date: Thu, 5 Nov 2020 20:03:27 +0800
-Message-ID: <20201105120331.9853-1-chin-ting_kuo@aspeedtech.com>
+Subject: [v3 1/4] dt-bindings: spi: Add binding file for ASPEED FMC/SPI memory
+ controller
+Date: Thu, 5 Nov 2020 20:03:28 +0800
+Message-ID: <20201105120331.9853-2-chin-ting_kuo@aspeedtech.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201105120331.9853-1-chin-ting_kuo@aspeedtech.com>
+References: <20201105120331.9853-1-chin-ting_kuo@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [192.168.10.9]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 0A5Bxvq9068678
+X-MAIL: twspam01.aspeedtech.com 0A5BxvqA068678
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,32 +63,86 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This patch series aims to porting ASPEED FMC/SPI memory controller
-driver with spi-mem interface. Adjust device tree setting of SPI NOR
-flash in order to fit real AST2600 EVB and new SPI memory controller
-driver. Also, this patch has been verified on AST2600-A1 EVB.
+Create binding file with YAML syntax for ASPEED FMC/SPI memory controller.
 
-v2: Fix sparse warnings reported by kernel test robot <lkp@intel.com>.
-v3: Fix build warnings with x86 allmodconfig.
-
-Chin-Ting Kuo (4):
-  dt-bindings: spi: Add binding file for ASPEED FMC/SPI memory
-    controller
-  ARM: dts: aspeed: ast2600: Update FMC/SPI controller setting for
-    spi-aspeed.c
-  ARM: dts: aspeed: ast2600-evb: Adjust SPI flash configuration
-  spi: aspeed: Add ASPEED FMC/SPI memory controller driver
-
- .../bindings/spi/aspeed,spi-aspeed.yaml       |  66 ++
- arch/arm/boot/dts/aspeed-ast2600-evb.dts      |  26 +-
- arch/arm/boot/dts/aspeed-g6.dtsi              |  18 +-
- drivers/spi/Kconfig                           |  10 +
- drivers/spi/Makefile                          |   1 +
- drivers/spi/spi-aspeed.c                      | 969 ++++++++++++++++++
- 6 files changed, 1080 insertions(+), 10 deletions(-)
+Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+---
+ .../bindings/spi/aspeed,spi-aspeed.yaml       | 66 +++++++++++++++++++
+ 1 file changed, 66 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/spi/aspeed,spi-aspeed.yaml
- create mode 100644 drivers/spi/spi-aspeed.c
 
+diff --git a/Documentation/devicetree/bindings/spi/aspeed,spi-aspeed.yaml b/Documentation/devicetree/bindings/spi/aspeed,spi-aspeed.yaml
+new file mode 100644
+index 000000000000..41b9692c7226
+--- /dev/null
++++ b/Documentation/devicetree/bindings/spi/aspeed,spi-aspeed.yaml
+@@ -0,0 +1,66 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/spi/aspeed,spi-aspeed.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: SPI memory controller for ASPEED SoCs
++
++maintainers:
++  - Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
++
++description: |
++  There are three SPI memory controllers embedded in a ASPEED SoC.
++  They are usually connected to SPI NOR flashes. Each of them has
++  more than a chip select. They also support SPI single, dual and
++  quad IO modes for SPI NOR flash.
++
++allOf:
++  - $ref: /spi/spi-controller.yaml#
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - aspeed,ast2600-fmc
++              - aspeed,ast2600-spi
++
++  reg:
++    items:
++      - description: the control register location and length
++      - description: the flash memory mapping address and length
++
++  clocks:
++    description: AHB bus clock which will be converted to SPI bus clock
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - num-cs
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/ast2600-clock.h>
++    spi1: spi@1e630000 {
++      compatible = "aspeed,ast2600-spi";
++      reg = <0x1e630000 0xc4>, <0x30000000 0x10000000>;
++      reg-names = "spi_ctrl_reg", "spi_mmap";
++      clocks = <&syscon ASPEED_CLK_AHB>;
++      num-cs = <2>;
++      #address-cells = <1>;
++      #size-cells = <0>;
++      flash@0 {
++        compatible = "jedec,spi-nor";
++        reg = <0>;
++        spi-max-frequency = <50000000>;
++      };
++      flash@1 {
++        compatible = "jedec,spi-nor";
++        reg = <1>;
++        spi-max-frequency = <50000000>;
++      };
++    };
 -- 
 2.17.1
 
