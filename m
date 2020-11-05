@@ -1,62 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED67F2A8637
-	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Nov 2020 19:40:51 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 897722A8A02
+	for <lists+linux-aspeed@lfdr.de>; Thu,  5 Nov 2020 23:40:07 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CRslz4rQzzDr4Q
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Nov 2020 05:40:47 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CRz4465rxzDqxd
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Nov 2020 09:40:04 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.210.54; helo=mail-ot1-f54.google.com;
+ smtp.mailfrom=gmail.com (client-ip=209.85.210.52; helo=mail-ot1-f52.google.com;
  envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
- [209.85.210.54])
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+ [209.85.210.52])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CRslt1JJvzDr3L
- for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Nov 2020 05:40:42 +1100 (AEDT)
-Received: by mail-ot1-f54.google.com with SMTP id j14so2381009ots.1
- for <linux-aspeed@lists.ozlabs.org>; Thu, 05 Nov 2020 10:40:41 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CRz3x47wmzDqxd
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Nov 2020 09:39:55 +1100 (AEDT)
+Received: by mail-ot1-f52.google.com with SMTP id g19so2955683otp.13
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 05 Nov 2020 14:39:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ROW7gLPvsixXdOUBku/rceehiE2QxPW3Gr2HLN1Tahs=;
- b=Oo+z5/n8amFf41EXiOFqxMjCMyzgU85CoWHNpSYtOeIuYM4vbuqsSaTOTbR/XKss60
- LYza7K2Vp/uwpci+U10ExVuDr01GqJhcW10uaCCQaJtijWpfbtCX1Cz6UWRnzRmt83pN
- MbM6U+LGZGNr2p6lKdCiCV7evQJKVqE/togReifUyWvW3aEA3pJlW+cMfGMy6fvTlHzv
- dnuJPv6K5VvFPu4b8sJPLkmK6f6MgT0fb9rzVPJAhokt85ZqL63DBzfZ1HyXw8DKMd/u
- sctKDbfS4OrquLXlxqaNbiUMnRD7htFxHjsaui4Xf0zED5iY8yIEih/1JK/4/d3KJTZh
- T41A==
-X-Gm-Message-State: AOAM530aAb6au+mEbtD0Ys7b5QHYiQTJDixfUzbN1HEocRgbbVnoxzHY
- ZPbDouUoC/oYQD6shlT44g==
-X-Google-Smtp-Source: ABdhPJwG1vUWe+mtCQWNMutnJxx2eoLNJArHfDOqxJL78DdzeDgv3gng8hQNHFIW5vfeIqU7slQlcQ==
-X-Received: by 2002:a9d:7d87:: with SMTP id j7mr2645271otn.356.1604601638458; 
- Thu, 05 Nov 2020 10:40:38 -0800 (PST)
+ bh=l33mjh6Y58sdX7p0bIXXnh8X4f5mWO8LY9kaS0QVJ4A=;
+ b=uZ6jaS4qGEh0eto8j02hNW3xhTk7wA9js/dsaJPZV3eCFl5tkDynzL/SwhY7kS2eSR
+ 6s2325EkfUfJytmazJsdT0b/TFunbV7uUk+qWSwriX0UWpXxShsawM8DZunjdTM3PreM
+ z4W/cWrp1mQR7UDDvRebgKA+o1CyyXbyesLnDIEvj1mFI+eQcBsQ2Um0dWRVOhloGlLc
+ YtqWtog4knrXeO78apfcoWWPdphHHix8OQWZPwKuB/FC2DVj2rRghhqCcecEVM4NBkzI
+ Fd/+OxsjbeNQPpKv256jbUASiUurCJBmouT9/GV9afTezcaxRZE0dedviUyYVlAJ+QC9
+ zcbQ==
+X-Gm-Message-State: AOAM5310uwpU+Pjn8iFlCsLfokUUspNYS//oeMCBg4QBP+svyn6U+vqg
+ zaWSbBARHgGjk3CUp1MV9A==
+X-Google-Smtp-Source: ABdhPJzDd/toUHUVegfNxYe5pmvS84hMCVzJYSgsN1/BIcuceQS9+OMgPmZABerM5vzQWRnLkG768w==
+X-Received: by 2002:a9d:17c5:: with SMTP id j63mr3430400otj.9.1604615992062;
+ Thu, 05 Nov 2020 14:39:52 -0800 (PST)
 Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id s26sm530580ood.38.2020.11.05.10.40.37
+ by smtp.gmail.com with ESMTPSA id x190sm693150oia.35.2020.11.05.14.39.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 10:40:37 -0800 (PST)
-Received: (nullmailer pid 1609469 invoked by uid 1000);
- Thu, 05 Nov 2020 18:40:36 -0000
-Date: Thu, 5 Nov 2020 12:40:36 -0600
+ Thu, 05 Nov 2020 14:39:50 -0800 (PST)
+Received: (nullmailer pid 1931122 invoked by uid 1000);
+ Thu, 05 Nov 2020 22:39:49 -0000
+Date: Thu, 5 Nov 2020 16:39:49 -0600
 From: Rob Herring <robh@kernel.org>
 To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-Subject: Re: [v2 1/4] dt-bindings: spi: Add binding file for ASPEED FMC/SPI
+Subject: Re: [v3 1/4] dt-bindings: spi: Add binding file for ASPEED FMC/SPI
  memory controller
-Message-ID: <20201105184036.GA1607865@bogus>
-References: <20201103072202.24705-1-chin-ting_kuo@aspeedtech.com>
- <20201103072202.24705-2-chin-ting_kuo@aspeedtech.com>
+Message-ID: <20201105223949.GA1927504@bogus>
+References: <20201105120331.9853-1-chin-ting_kuo@aspeedtech.com>
+ <20201105120331.9853-2-chin-ting_kuo@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201103072202.24705-2-chin-ting_kuo@aspeedtech.com>
+In-Reply-To: <20201105120331.9853-2-chin-ting_kuo@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,7 +75,7 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Nov 03, 2020 at 03:21:59PM +0800, Chin-Ting Kuo wrote:
+On Thu, Nov 05, 2020 at 08:03:28PM +0800, Chin-Ting Kuo wrote:
 > Create binding file with YAML syntax for ASPEED FMC/SPI memory controller.
 > 
 > Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
@@ -114,6 +114,9 @@ On Tue, Nov 03, 2020 at 03:21:59PM +0800, Chin-Ting Kuo wrote:
 > +  compatible:
 > +    oneOf:
 > +      - items:
+
+You can drop oneOf (there's only 1) and items.
+
 > +          - enum:
 > +              - aspeed,ast2600-fmc
 > +              - aspeed,ast2600-spi
@@ -126,7 +129,9 @@ On Tue, Nov 03, 2020 at 03:21:59PM +0800, Chin-Ting Kuo wrote:
 > +  clocks:
 > +    description: AHB bus clock which will be converted to SPI bus clock
 
-Need to define how many clocks (maxItems: 1).
+maxItems: 1
+
+Constraints on num-cs values? Or up to 2^32 is good?
 
 > +
 > +required:
