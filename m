@@ -1,47 +1,92 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2003B2A9217
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Nov 2020 10:06:00 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E1C2A9228
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Nov 2020 10:11:27 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CSDyD3TnWzDrJ5
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Nov 2020 20:05:56 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CSF4Y10grzDrJ5
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Nov 2020 20:11:25 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=collabora.com (client-ip=46.235.227.227;
- helo=bhuna.collabora.co.uk; envelope-from=boris.brezillon@collabora.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=collabora.com
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CSDy66SjRzDrFS
- for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Nov 2020 20:05:47 +1100 (AEDT)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2CDA51F4679D;
- Fri,  6 Nov 2020 09:05:42 +0000 (GMT)
-Date: Fri, 6 Nov 2020 10:05:39 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-Subject: Re: [v3 4/4] spi: aspeed: Add ASPEED FMC/SPI memory controller driver
-Message-ID: <20201106100539.62fc5249@collabora.com>
-In-Reply-To: <HK0PR06MB2786DAC99A56EA302EE969CAB2ED0@HK0PR06MB2786.apcprd06.prod.outlook.com>
+ smtp.mailfrom=aspeedtech.com (client-ip=40.107.132.121;
+ helo=apc01-pu1-obe.outbound.protection.outlook.com;
+ envelope-from=chin-ting_kuo@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=aspeedtech.com
+Received: from APC01-PU1-obe.outbound.protection.outlook.com
+ (mail-eopbgr1320121.outbound.protection.outlook.com [40.107.132.121])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CSF4Q4J7RzDrGn
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Nov 2020 20:11:17 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Mo38IPOF2JvEzl/+TnPSc0xGVIFaioBwMr4vWRUQn2pQKkxWkKHsEoPx98WpzP/atIAI0cy2rEd2JTT1P2738gN7GHBxhzXaon6nEPPVKjK7ynke4W+IX1G2nHx5A2Hz2sSEr1p+nX2yYD1MCAZyDTWqaIWFUsSn1VDcbUOE4HQg9LvSnJ/6lPPo0tn5y99zrYTX6uSJz2HQ5Slvd+6PSrPd9hRJUqep4zIlczSlAKXHhXHVpuB+gBtc+X9c3lA+XL4WWwoIcSDeDUQPG0Jc7g9DSknfP1rnR0vHFXljt9FuYC1cvLhfSKqQg5eLXUI2dDunXX7JaTlNIOWnPKoFFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6RexWBf2NWF5YtYV8/ZJicK2aifBS64TMTsgVHj8KKI=;
+ b=N/bCyPcFvt5ncps5MHEodYsqDif9pNVZahLO+wJsr3Rb+y2ntoD21kC+UzQuOOm+NarTmJXcJU14OgFME1TWbWFkwi/UnCxskSYDAbtr9aCan6Za7zFk/J3TLlaodlO8HOW85H8Pp1ICP4Y+x0m775aTH914+opyoTE17hrUL2/MOmGUb3DxMjlPtWuLTZFKFXuWxgOtUE4AvrMIoC42sswRrraeDPhztFuirsrCnpOsfgAivl83Hsx6ufSCFPeeGUZsDMJSxcGHMsyN1YZIRa0ocd34LJPnOM/bR/rS973u4VOr/7XifDJ0wWvpbD15Y4FbEsY8ZciwUFHKTqtwXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+Received: from HK0PR06MB2786.apcprd06.prod.outlook.com (2603:1096:203:5b::22)
+ by HK0PR06MB2625.apcprd06.prod.outlook.com (2603:1096:203:5f::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21; Fri, 6 Nov
+ 2020 09:11:08 +0000
+Received: from HK0PR06MB2786.apcprd06.prod.outlook.com
+ ([fe80::c9cf:b4b1:3371:d532]) by HK0PR06MB2786.apcprd06.prod.outlook.com
+ ([fe80::c9cf:b4b1:3371:d532%7]) with mapi id 15.20.3499.033; Fri, 6 Nov 2020
+ 09:11:08 +0000
+From: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+To: Rob Herring <robh@kernel.org>
+Subject: RE: [v3 1/4] dt-bindings: spi: Add binding file for ASPEED FMC/SPI
+ memory controller
+Thread-Topic: [v3 1/4] dt-bindings: spi: Add binding file for ASPEED FMC/SPI
+ memory controller
+Thread-Index: AQHWs2uzsnQifgX5cECT3PhrZld01qm6IkuAgACvSdA=
+Date: Fri, 6 Nov 2020 09:11:08 +0000
+Message-ID: <HK0PR06MB2786B92D4FC88E8179888D9AB2ED0@HK0PR06MB2786.apcprd06.prod.outlook.com>
 References: <20201105120331.9853-1-chin-ting_kuo@aspeedtech.com>
- <20201105120331.9853-5-chin-ting_kuo@aspeedtech.com>
- <fd8fa472-53bb-c992-3dc2-5a984a439c07@kaod.org>
- <20201105161132.37eb3265@collabora.com>
- <HK0PR06MB2786DAC99A56EA302EE969CAB2ED0@HK0PR06MB2786.apcprd06.prod.outlook.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ <20201105120331.9853-2-chin-ting_kuo@aspeedtech.com>
+ <20201105223949.GA1927504@bogus>
+In-Reply-To: <20201105223949.GA1927504@bogus>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=aspeedtech.com;
+x-originating-ip: [211.20.114.70]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 497269e3-6b89-46b7-ec9e-08d88233e5d2
+x-ms-traffictypediagnostic: HK0PR06MB2625:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <HK0PR06MB2625BA62FA8FFC661FBEE388B2ED0@HK0PR06MB2625.apcprd06.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4502;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /iYxjyWIYU9o53NZTzzUUGwRzHPuITFA+A2nTSwnPbkDhl071JhvifSoG9itod8yNZC7k9RGuOTfa/wG6k5cQ7BqSUhGcgJaVL+UH3pTNNu0LqyfQcO+Fzpd1akcn1T8VfZdmKDQxzRvZ4HwoANVIWqWzjikzsq6GHzdVPURNKcJU4dZHmwA3DvEtgT4bIDLVjHG2JmZHfDR9bmdu0RJdoflpy/R84SDdnD5yE+HOR+M3I3zz8jFaJD+9fQDSR+RycVN0s08fIYnyufUuxjev/91CHaumx1VbtbIFriVmE8+REWIxOuKPtr8Sa1R5UWG4j7y+qHyNiNu7rjmmEFnQFIxB+N0yf7EOEkYr9YvAMwuEFXWC2MuRgsIFv4KPzQjOQPAIjwOmeA2rFNvJMQYkg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR06MB2786.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(396003)(366004)(346002)(136003)(376002)(39840400004)(55236004)(64756008)(66446008)(5660300002)(52536014)(8936002)(53546011)(6506007)(66946007)(66476007)(76116006)(66556008)(478600001)(6916009)(7696005)(4326008)(55016002)(83380400001)(71200400001)(9686003)(26005)(316002)(8676002)(966005)(54906003)(186003)(33656002)(86362001)(7416002)(107886003)(2906002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: zC/xGavuZukPKfeh1a0XOS1Pu3Lr8pUVNJgS+AI4PpLTts/NVDk3eGOcepkC21m9ulcz8FZlOzA5Pd3KqVEdU5dEsFzWGC33FizXdHt2lDI3Y33MzaqOoAmPCXRMLilxkA3qs+y9mdBbQ3xoogphDQpZbEIXDSQvMfoJq0Pg1AEE2G6iCojv6l4Rc0B2P3tS5YKF9IcBXhi0PNmo+w697kSCWbxibi5mwHteKnquAcozQ7xNCus0j9hG6GWn3YEV3Jb/EmY84hqrXMHJShZCBhWsGBSLNLhHJSWF5d8rk1mqxqvij/l3geHxCaf9DS+dRcxgwqFyB0mZeKYmac4NBgVriwwZ6Hg40H7JERoPiFm/hdf9MNDWB2A+odpN6/oyVfH6UGioHfZT8imcBfp0uKQDfeLP4y5VRm4/U5WNBQ/9xf3HAp3ydZ5LsyPYM2yA9Nzz+U4XdMVvCNASgPFm1szDOiWWt2UiKh8DRCWUtQagNPYzJvCafcwQ5U2byh65lCjD/n9R5ze6f/gL1J9ObBIAvUr4uNEx2WaHAKzUjv0gqMsRX0ZTOzS33OeV+XujTWAUNPPbjbPXBdEeTgAVFHRZnaow6cfal7dHSXn40JWzYxVrZ8HSyNSydTJTxSPx5mZcgzm01LXb/rdWCoGgpg==
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB2786.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 497269e3-6b89-46b7-ec9e-08d88233e5d2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2020 09:11:08.2254 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: eIJqvEhr0SZtRAy0bf6NOGd11vdUYy5+XrMYAz8jBB61fDTbA1oPk4hqwHS62KKGMlTy3hOzSsv4xxxCwp4+pjlp2Bt7n9SY+CRK7QlqHG4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2625
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,94 +102,133 @@ Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
  "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
  "bbrezillon@kernel.org" <bbrezillon@kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
  "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
- "broonie@kernel.org" <broonie@kernel.org>,
- =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
- BMC-SW <BMC-SW@aspeedtech.com>
+ "broonie@kernel.org" <broonie@kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>,
+ "clg@kaod.org" <clg@kaod.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 6 Nov 2020 08:58:23 +0000
-Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com> wrote:
+Hi Rob,
 
-> Hi Boris,
+> -----Original Message-----
+> From: Rob Herring <robh@kernel.org>
+> Sent: Friday, November 6, 2020 6:40 AM
+> To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+> Cc: broonie@kernel.org; joel@jms.id.au; andrew@aj.id.au; clg@kaod.org;
+> bbrezillon@kernel.org; devicetree@vger.kernel.org;
+> linux-kernel@vger.kernel.org; linux-aspeed@lists.ozlabs.org;
+> linux-spi@vger.kernel.org; BMC-SW <BMC-SW@aspeedtech.com>
+> Subject: Re: [v3 1/4] dt-bindings: spi: Add binding file for ASPEED FMC/S=
+PI
+> memory controller
 >=20
-> Thanks for your quick reply.
+> On Thu, Nov 05, 2020 at 08:03:28PM +0800, Chin-Ting Kuo wrote:
+> > Create binding file with YAML syntax for ASPEED FMC/SPI memory
+> controller.
+> >
+> > Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+> > ---
+> >  .../bindings/spi/aspeed,spi-aspeed.yaml       | 66
+> +++++++++++++++++++
+> >  1 file changed, 66 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/spi/aspeed,spi-aspeed.yaml
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/spi/aspeed,spi-aspeed.yaml
+> > b/Documentation/devicetree/bindings/spi/aspeed,spi-aspeed.yaml
+> > new file mode 100644
+> > index 000000000000..41b9692c7226
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/spi/aspeed,spi-aspeed.yaml
+> > @@ -0,0 +1,66 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/spi/aspeed,spi-aspeed.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: SPI memory controller for ASPEED SoCs
+> > +
+> > +maintainers:
+> > +  - Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+> > +
+> > +description: |
+> > +  There are three SPI memory controllers embedded in a ASPEED SoC.
+> > +  They are usually connected to SPI NOR flashes. Each of them has
+> > +  more than a chip select. They also support SPI single, dual and
+> > +  quad IO modes for SPI NOR flash.
+> > +
+> > +allOf:
+> > +  - $ref: /spi/spi-controller.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
 >=20
-> > -----Original Message-----
-> > From: Boris Brezillon <boris.brezillon@collabora.com>
-> > Sent: Thursday, November 5, 2020 11:12 PM
-> > To: C=C3=A9dric Le Goater <clg@kaod.org>; robh+dt@kernel.org
-> > Cc: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>; broonie@kernel.org;
-> > joel@jms.id.au; andrew@aj.id.au; bbrezillon@kernel.org;
-> > devicetree@vger.kernel.org; linux-kernel@vger.kernel.org;
-> > linux-aspeed@lists.ozlabs.org; linux-spi@vger.kernel.org; BMC-SW
-> > <BMC-SW@aspeedtech.com>
-> > Subject: Re: [v3 4/4] spi: aspeed: Add ASPEED FMC/SPI memory controller
-> > driver
-> >=20
-> > Hi,
-> >=20
-> > On Thu, 5 Nov 2020 15:09:11 +0100
-> > C=C3=A9dric Le Goater <clg@kaod.org> wrote:
-> >  =20
-> > > Hello Chin-Ting,
-> > >
-> > > Thanks for this driver. It's much cleaner than the previous and we
-> > > should try adding support for the AST2500 SoC also. I guess we can
-> > > keep the old driver for the AST2400 which has a different register la=
-yout.
-> > >
-> > > On the patchset, I think we should split this patch in three :
-> > >
-> > >  - basic support
-> > >  - AHB window calculation depending on the flash size
-> > >  - read training support =20
-> >=20
-> > I didn't look closely at the implementation, but if the read training t=
-ries to read
-> > a section of the NOR, I'd recommend exposing that feature through spi-m=
-em
-> > and letting the SPI-NOR framework trigger the training instead of doing=
- that at
-> > dirmap creation time (remember that spi-mem is also used for SPI NANDs
-> > which use the dirmap API too, and this training is unlikely to work the=
-re).
-> >=20
-> > The SPI-NOR framework could pass a read op template and a reference pat=
-tern
-> > such that all the spi-mem driver has to do is execute the template op a=
-nd
-> > compare the output to the reference buffer.
-> >  =20
->=20
-> I agree it. Before, I were not able to find a suitable location to implem=
-ent read training feature.
-> I think that I can add a SPI timing training function in "spi_controller_=
-mem_ops" struct and
-> call it by a wrapper function called at the bottom of spi_nor_probe() in =
-spi-nor.c.
-> Maybe, SPI-NOR framework does not need to pass reference buffer since cal=
-ibration
-> method depends on each SoC itself and buffer size may be variant.
-> The detail calibration method may be implemented in each SoC SPI driver.
+> You can drop oneOf (there's only 1) and items.
 
-That's a real problem IMO. What makes this pattern SoC specific? I can
-see why the location in flash could be *board* specific, but the
-pattern should be pretty common, right? As for the spi-mem operation to
-be executed, it's definitely memory specific (I can imagine some flash
-vendors providing a specific command returning a fixed pattern that's
-not actually stored on a visible portion of the flash).
+Okay, it will be removed on the next patch version.
+
+> > +          - enum:
+> > +              - aspeed,ast2600-fmc
+> > +              - aspeed,ast2600-spi
+> > +
+> > +  reg:
+> > +    items:
+> > +      - description: the control register location and length
+> > +      - description: the flash memory mapping address and length
+> > +
+> > +  clocks:
+> > +    description: AHB bus clock which will be converted to SPI bus
+> > + clock
+>=20
+> maxItems: 1
+
+it will be added on the next patch version.
 
 >=20
-> Besides, I am thinking about the possibility for adding a "spi_mem_post_i=
-nit" function in
-> spi-mem framework sine for some SoCs, SPI controller needs to adjust some=
- settings
-> after getting SPI flash information.
+> Constraints on num-cs values? Or up to 2^32 is good?
+>
 
-I don't think that's a good idea. The spi-mem interface should stay
-memory-type agnostic and doing that means we somehow pass NOR specific
-info. What is it that you need exactly, and why?
+The maximum is 3.
+The "maximum" item will be added on the next patch version
+
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - num-cs
+> > +
+> > +unevaluatedProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/ast2600-clock.h>
+> > +    spi1: spi@1e630000 {
+> > +      compatible =3D "aspeed,ast2600-spi";
+> > +      reg =3D <0x1e630000 0xc4>, <0x30000000 0x10000000>;
+> > +      reg-names =3D "spi_ctrl_reg", "spi_mmap";
+> > +      clocks =3D <&syscon ASPEED_CLK_AHB>;
+> > +      num-cs =3D <2>;
+> > +      #address-cells =3D <1>;
+> > +      #size-cells =3D <0>;
+> > +      flash@0 {
+> > +        compatible =3D "jedec,spi-nor";
+> > +        reg =3D <0>;
+> > +        spi-max-frequency =3D <50000000>;
+> > +      };
+> > +      flash@1 {
+> > +        compatible =3D "jedec,spi-nor";
+> > +        reg =3D <1>;
+> > +        spi-max-frequency =3D <50000000>;
+> > +      };
+> > +    };
+> > --
+> > 2.17.1
+> >
+
+Best Wishes,
+Chin-Ting
