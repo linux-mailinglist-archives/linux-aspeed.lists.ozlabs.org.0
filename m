@@ -1,94 +1,49 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0F12A9406
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Nov 2020 11:21:29 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF4A2A9573
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Nov 2020 12:31:41 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CSGdL1c28zDrJB
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Nov 2020 21:21:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CSJBJ50blzDrJJ
+	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Nov 2020 22:31:36 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=40.107.132.107;
- helo=apc01-pu1-obe.outbound.protection.outlook.com;
- envelope-from=chin-ting_kuo@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from APC01-PU1-obe.outbound.protection.outlook.com
- (mail-eopbgr1320107.outbound.protection.outlook.com [40.107.132.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CSGd931d0zDrHd
- for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Nov 2020 21:21:15 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aRtxju3HDST9jf7Md2whnS1fwp+J8IlgNneL+z5RRDlyZifNhGLwNFfcwAqQf6ikby49b8ptIOUzk/TvSTPwMAGXr/3A1a8/oPpUzL9GhKAzpOlvC8xbWZxA+3HcTKMS9zA62y8wFB4eUqT76BP5EtBvvi3XqNYOnWg2WkS9+JFAkVGqnpuFuhUgdEVaWcncdkFWI1v/qfp6Vaz+aXUBcBmmXQy4DEviBBaIyozdLepavecd5mbDHiJKnDgCBtMv9L2sNyqO1uEXpsy7jeLdafH0hza+eRNIp7uSoFb154He7IyZ6xHclmnySjuOUpkz+rB0rkUWe4oXCu5LADRQyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2GBrQ7m+w6b4uupWDcfQUQqFmFAXf/4aQX6o4Xuasbo=;
- b=GB+vQ8RKiS5pWdVpZxo5trM8IHG5KxAdCfRYjnrumo0pj5c7yLugs3b8SJ/ll3d5ZeGEZ7eZxGfhgyGY6v0mjRUxufIYTM02dbUfH2B+nz0ijUmdViWiC10ury3lYtkcjkqGoOUk2t4jDfN7/FNZvjEpHCyLAiyB3I6MVEc2KWPAoyrW1m2eiQfh7TH3MdmZZFlDVaij8G/GrrAh7YhJN1k2ep8H1MxB+7KTlHyn4plCdt/u/H/ZQG4yuZ+S2NYnZXCO/jDy9mIlJ0wEzW3ND3wx0X8cbn2jSg0L5mZO62JK1ENA2VNAHjJUUyRfbfBDk4liO65e2KjNmToLZvEF/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-Received: from HK0PR06MB2786.apcprd06.prod.outlook.com (2603:1096:203:5b::22)
- by HK0PR06MB2196.apcprd06.prod.outlook.com (2603:1096:203:4b::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Fri, 6 Nov
- 2020 10:21:07 +0000
-Received: from HK0PR06MB2786.apcprd06.prod.outlook.com
- ([fe80::c9cf:b4b1:3371:d532]) by HK0PR06MB2786.apcprd06.prod.outlook.com
- ([fe80::c9cf:b4b1:3371:d532%7]) with mapi id 15.20.3499.033; Fri, 6 Nov 2020
- 10:21:06 +0000
-From: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Subject: RE: [v3 4/4] spi: aspeed: Add ASPEED FMC/SPI memory controller driver
-Thread-Topic: [v3 4/4] spi: aspeed: Add ASPEED FMC/SPI memory controller driver
-Thread-Index: AQHWs2u0IlfHv/sBxE+PVdt+kUjCzqm5k6CAgAARawCAARRtAIAAF66AgAAC9KA=
-Date: Fri, 6 Nov 2020 10:21:06 +0000
-Message-ID: <HK0PR06MB27865F0C5B2A4F680ED0D400B2ED0@HK0PR06MB2786.apcprd06.prod.outlook.com>
+ smtp.mailfrom=collabora.com (client-ip=46.235.227.227;
+ helo=bhuna.collabora.co.uk; envelope-from=boris.brezillon@collabora.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=collabora.com
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CSJ914GbzzDrBB
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Nov 2020 22:30:25 +1100 (AEDT)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id DFFD61F4687F;
+ Fri,  6 Nov 2020 11:30:19 +0000 (GMT)
+Date: Fri, 6 Nov 2020 12:30:15 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+Subject: Re: [v3 4/4] spi: aspeed: Add ASPEED FMC/SPI memory controller driver
+Message-ID: <20201106123015.3248d478@collabora.com>
+In-Reply-To: <HK0PR06MB27865F0C5B2A4F680ED0D400B2ED0@HK0PR06MB2786.apcprd06.prod.outlook.com>
 References: <20201105120331.9853-1-chin-ting_kuo@aspeedtech.com>
  <20201105120331.9853-5-chin-ting_kuo@aspeedtech.com>
  <fd8fa472-53bb-c992-3dc2-5a984a439c07@kaod.org>
  <20201105161132.37eb3265@collabora.com>
  <HK0PR06MB2786DAC99A56EA302EE969CAB2ED0@HK0PR06MB2786.apcprd06.prod.outlook.com>
  <20201106100539.62fc5249@collabora.com>
-In-Reply-To: <20201106100539.62fc5249@collabora.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: collabora.com; dkim=none (message not signed)
- header.d=none;collabora.com; dmarc=none action=none
- header.from=aspeedtech.com;
-x-originating-ip: [211.20.114.70]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 67f6d1aa-891d-484a-030b-08d8823dac43
-x-ms-traffictypediagnostic: HK0PR06MB2196:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HK0PR06MB2196BB18DB0CBF056097FB90B2ED0@HK0PR06MB2196.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: vfMMLjP2Dn1H1pUjqV2bBzLDG7+r/8JMz683wk6GC6HfupRkuYJEo92Hf0w2qlHC0OdWQEG/RIXRArpwS+3IGK60eVLpC/GD4NIAhesU+o4TGBcpYY2kINkmMS5u6zi9+u7L9AgdPOdRPQoIUnVN9SnHfHLXmhuziftGbS6Z/NZo7w6phJ0uFyeNtEG6XQ0KI6A8EiKKpb0IKu0n+esWEQ11Rm27kju0BRE47rqwYMokygMiZvHe7XUl9aQvscN3KAL9z8AKKpyNSteXqXzhxfmGQEHfZlqimTqG+t83PuwDt940P6N7FcSdctw+A7LSA3h8Bvia75AIdrLawRbmKA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB2786.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(346002)(396003)(366004)(376002)(39840400004)(7696005)(52536014)(186003)(64756008)(66476007)(66446008)(55236004)(66946007)(66556008)(76116006)(71200400001)(6506007)(2906002)(6916009)(86362001)(8936002)(5660300002)(9686003)(7416002)(54906003)(478600001)(55016002)(8676002)(33656002)(316002)(83380400001)(4326008)(53546011)(66574015)(107886003)(26005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: X0ClNOuxu94ZgZvucjHFJxG6llaPePLE/Fw2zrEf8aRwnqn/QJhz1QPL9SlSwSP+sjAgI/86Lp09ibDBkunwD1YNoDCBivCWj/Rs9AH9Dm5uR/BI5OGCrQlcdYOWchPEFNIMNZ/Y79VLkN2sAPvJrnV3ucGUVS+J6Cppr+qgQtF5Yv5JNgYp2uCoYEALZCjhlpRqUzh4NFWkprU8Q2n/MrqxPJlyGn7fyYBF1I0yI+Cl8Y8P69xH5N2bNKPf2n7IqO7VjG6emi0xkPtEQ442Cm7ALi/L3gWJuzIZBgxc/4r510PNgY9BhkSDulL8xx8/QJRwfjkWOzw9Xgt5TVuh2VMA83g7TGYNG8sFhO7DlP5IAb37Wj8+bLcoZ0wqORgOmrf8jSusA4ifq0W1yv5Q1GmghbHUoPW8QYv5+xrhMbk3NqaBR43aFbrJ/+pkU8g1cj9pl39y+EPW7XZFz3CkSv7uDbT8Ok1U1o7ZY5dY4uesiHTomMLS77Wt67PRPFZHRnn6QsO6A8g8jAaUSqP4B4WS7VHsv61dgTwQwY1wMCogdwg19D11UAOpZ6OGRKc+GZEnbthsdKsYFP96QNIdlRVbqPZ2Xb2Ew9FAOJTYUXlyYs+aL7QibykdVAM9FErNCrIxxce6Hss+PwLu5EBprQ==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <HK0PR06MB27865F0C5B2A4F680ED0D400B2ED0@HK0PR06MB2786.apcprd06.prod.outlook.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB2786.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 67f6d1aa-891d-484a-030b-08d8823dac43
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2020 10:21:06.6384 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CCxE3OT/LzV6BZv3SZK0h5SXOu+JxnvqH5wXojkmr4RdmJZRw/PGOk+hPVJ+d+7GmAaHmtoUbbucDBlpYd+sDfzeyFUVF/PocKckQaX++lk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2196
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,104 +56,173 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Vignesh R <vigneshr@ti.com>,
  "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
  "bbrezillon@kernel.org" <bbrezillon@kernel.org>,
+ Tudor Ambarus <Tudor.Ambarus@microchip.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "robh+dt@kernel.org" <robh+dt@kernel.org>,
  "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
  "broonie@kernel.org" <broonie@kernel.org>,
- =?utf-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?= <clg@kaod.org>,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
  BMC-SW <BMC-SW@aspeedtech.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGkgQm9yaXMsDQoNClRoYW5rcyBmb3IgeW91ciBjb21tZW50cyBhbmQgc3VnZ2VzdGlvbnMuDQoN
-Cj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQm9yaXMgQnJlemlsbG9uIDxi
-b3Jpcy5icmV6aWxsb25AY29sbGFib3JhLmNvbT4NCj4gU2VudDogRnJpZGF5LCBOb3ZlbWJlciA2
-LCAyMDIwIDU6MDYgUE0NCj4gVG86IENoaW4tVGluZyBLdW8gPGNoaW4tdGluZ19rdW9AYXNwZWVk
-dGVjaC5jb20+DQo+IFN1YmplY3Q6IFJlOiBbdjMgNC80XSBzcGk6IGFzcGVlZDogQWRkIEFTUEVF
-RCBGTUMvU1BJIG1lbW9yeSBjb250cm9sbGVyDQo+IGRyaXZlcg0KPiANCj4gT24gRnJpLCA2IE5v
-diAyMDIwIDA4OjU4OjIzICswMDAwDQo+IENoaW4tVGluZyBLdW8gPGNoaW4tdGluZ19rdW9AYXNw
-ZWVkdGVjaC5jb20+IHdyb3RlOg0KPiANCj4gPiBIaSBCb3JpcywNCj4gPg0KPiA+IFRoYW5rcyBm
-b3IgeW91ciBxdWljayByZXBseS4NCj4gPg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0t
-LS0NCj4gPiA+IEZyb206IEJvcmlzIEJyZXppbGxvbiA8Ym9yaXMuYnJlemlsbG9uQGNvbGxhYm9y
-YS5jb20+DQo+ID4gPiBTZW50OiBUaHVyc2RheSwgTm92ZW1iZXIgNSwgMjAyMCAxMToxMiBQTQ0K
-PiA+ID4gVG86IEPDqWRyaWMgTGUgR29hdGVyIDxjbGdAa2FvZC5vcmc+OyByb2JoK2R0QGtlcm5l
-bC5vcmcNCj4gPiA+IENjOiBDaGluLVRpbmcgS3VvIDxjaGluLXRpbmdfa3VvQGFzcGVlZHRlY2gu
-Y29tPjsNCj4gPiA+IGJyb29uaWVAa2VybmVsLm9yZzsgam9lbEBqbXMuaWQuYXU7IGFuZHJld0Bh
-ai5pZC5hdTsNCj4gPiA+IGJicmV6aWxsb25Aa2VybmVsLm9yZzsgZGV2aWNldHJlZUB2Z2VyLmtl
-cm5lbC5vcmc7DQo+ID4gPiBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBsaW51eC1hc3Bl
-ZWRAbGlzdHMub3psYWJzLm9yZzsNCj4gPiA+IGxpbnV4LXNwaUB2Z2VyLmtlcm5lbC5vcmc7IEJN
-Qy1TVyA8Qk1DLVNXQGFzcGVlZHRlY2guY29tPg0KPiA+ID4gU3ViamVjdDogUmU6IFt2MyA0LzRd
-IHNwaTogYXNwZWVkOiBBZGQgQVNQRUVEIEZNQy9TUEkgbWVtb3J5DQo+ID4gPiBjb250cm9sbGVy
-IGRyaXZlcg0KPiA+ID4NCj4gPiA+IEhpLA0KPiA+ID4NCj4gPiA+IE9uIFRodSwgNSBOb3YgMjAy
-MCAxNTowOToxMSArMDEwMA0KPiA+ID4gQ8OpZHJpYyBMZSBHb2F0ZXIgPGNsZ0BrYW9kLm9yZz4g
-d3JvdGU6DQo+ID4gPg0KPiA+ID4gPiBIZWxsbyBDaGluLVRpbmcsDQo+ID4gPiA+DQo+ID4gPiA+
-IFRoYW5rcyBmb3IgdGhpcyBkcml2ZXIuIEl0J3MgbXVjaCBjbGVhbmVyIHRoYW4gdGhlIHByZXZp
-b3VzIGFuZCB3ZQ0KPiA+ID4gPiBzaG91bGQgdHJ5IGFkZGluZyBzdXBwb3J0IGZvciB0aGUgQVNU
-MjUwMCBTb0MgYWxzby4gSSBndWVzcyB3ZSBjYW4NCj4gPiA+ID4ga2VlcCB0aGUgb2xkIGRyaXZl
-ciBmb3IgdGhlIEFTVDI0MDAgd2hpY2ggaGFzIGEgZGlmZmVyZW50IHJlZ2lzdGVyIGxheW91dC4N
-Cj4gPiA+ID4NCj4gPiA+ID4gT24gdGhlIHBhdGNoc2V0LCBJIHRoaW5rIHdlIHNob3VsZCBzcGxp
-dCB0aGlzIHBhdGNoIGluIHRocmVlIDoNCj4gPiA+ID4NCj4gPiA+ID4gIC0gYmFzaWMgc3VwcG9y
-dA0KPiA+ID4gPiAgLSBBSEIgd2luZG93IGNhbGN1bGF0aW9uIGRlcGVuZGluZyBvbiB0aGUgZmxh
-c2ggc2l6ZQ0KPiA+ID4gPiAgLSByZWFkIHRyYWluaW5nIHN1cHBvcnQNCj4gPiA+DQo+ID4gPiBJ
-IGRpZG4ndCBsb29rIGNsb3NlbHkgYXQgdGhlIGltcGxlbWVudGF0aW9uLCBidXQgaWYgdGhlIHJl
-YWQNCj4gPiA+IHRyYWluaW5nIHRyaWVzIHRvIHJlYWQgYSBzZWN0aW9uIG9mIHRoZSBOT1IsIEkn
-ZCByZWNvbW1lbmQgZXhwb3NpbmcNCj4gPiA+IHRoYXQgZmVhdHVyZSB0aHJvdWdoIHNwaS1tZW0g
-YW5kIGxldHRpbmcgdGhlIFNQSS1OT1IgZnJhbWV3b3JrDQo+ID4gPiB0cmlnZ2VyIHRoZSB0cmFp
-bmluZyBpbnN0ZWFkIG9mIGRvaW5nIHRoYXQgYXQgZGlybWFwIGNyZWF0aW9uIHRpbWUNCj4gPiA+
-IChyZW1lbWJlciB0aGF0IHNwaS1tZW0gaXMgYWxzbyB1c2VkIGZvciBTUEkgTkFORHMgd2hpY2gg
-dXNlIHRoZSBkaXJtYXANCj4gQVBJIHRvbywgYW5kIHRoaXMgdHJhaW5pbmcgaXMgdW5saWtlbHkg
-dG8gd29yayB0aGVyZSkuDQo+ID4gPg0KPiA+ID4gVGhlIFNQSS1OT1IgZnJhbWV3b3JrIGNvdWxk
-IHBhc3MgYSByZWFkIG9wIHRlbXBsYXRlIGFuZCBhIHJlZmVyZW5jZQ0KPiA+ID4gcGF0dGVybiBz
-dWNoIHRoYXQgYWxsIHRoZSBzcGktbWVtIGRyaXZlciBoYXMgdG8gZG8gaXMgZXhlY3V0ZSB0aGUN
-Cj4gPiA+IHRlbXBsYXRlIG9wIGFuZCBjb21wYXJlIHRoZSBvdXRwdXQgdG8gdGhlIHJlZmVyZW5j
-ZSBidWZmZXIuDQo+ID4gPg0KPiA+DQo+ID4gSSBhZ3JlZSBpdC4gQmVmb3JlLCBJIHdlcmUgbm90
-IGFibGUgdG8gZmluZCBhIHN1aXRhYmxlIGxvY2F0aW9uIHRvIGltcGxlbWVudA0KPiByZWFkIHRy
-YWluaW5nIGZlYXR1cmUuDQo+ID4gSSB0aGluayB0aGF0IEkgY2FuIGFkZCBhIFNQSSB0aW1pbmcg
-dHJhaW5pbmcgZnVuY3Rpb24gaW4NCj4gPiAic3BpX2NvbnRyb2xsZXJfbWVtX29wcyIgc3RydWN0
-IGFuZCBjYWxsIGl0IGJ5IGEgd3JhcHBlciBmdW5jdGlvbiBjYWxsZWQgYXQNCj4gdGhlIGJvdHRv
-bSBvZiBzcGlfbm9yX3Byb2JlKCkgaW4gc3BpLW5vci5jLg0KPiA+IE1heWJlLCBTUEktTk9SIGZy
-YW1ld29yayBkb2VzIG5vdCBuZWVkIHRvIHBhc3MgcmVmZXJlbmNlIGJ1ZmZlciBzaW5jZQ0KPiA+
-IGNhbGlicmF0aW9uIG1ldGhvZCBkZXBlbmRzIG9uIGVhY2ggU29DIGl0c2VsZiBhbmQgYnVmZmVy
-IHNpemUgbWF5IGJlDQo+IHZhcmlhbnQuDQo+ID4gVGhlIGRldGFpbCBjYWxpYnJhdGlvbiBtZXRo
-b2QgbWF5IGJlIGltcGxlbWVudGVkIGluIGVhY2ggU29DIFNQSSBkcml2ZXIuDQo+IA0KPiBUaGF0
-J3MgYSByZWFsIHByb2JsZW0gSU1PLiBXaGF0IG1ha2VzIHRoaXMgcGF0dGVybiBTb0Mgc3BlY2lm
-aWM/IEkgY2FuIHNlZQ0KPiB3aHkgdGhlIGxvY2F0aW9uIGluIGZsYXNoIGNvdWxkIGJlICpib2Fy
-ZCogc3BlY2lmaWMsIGJ1dCB0aGUgcGF0dGVybiBzaG91bGQgYmUNCj4gcHJldHR5IGNvbW1vbiwg
-cmlnaHQ/IEFzIGZvciB0aGUgc3BpLW1lbSBvcGVyYXRpb24gdG8gYmUgZXhlY3V0ZWQsIGl0J3MN
-Cj4gZGVmaW5pdGVseSBtZW1vcnkgc3BlY2lmaWMgKEkgY2FuIGltYWdpbmUgc29tZSBmbGFzaCB2
-ZW5kb3JzIHByb3ZpZGluZyBhDQo+IHNwZWNpZmljIGNvbW1hbmQgcmV0dXJuaW5nIGEgZml4ZWQg
-cGF0dGVybiB0aGF0J3Mgbm90IGFjdHVhbGx5IHN0b3JlZCBvbiBhDQo+IHZpc2libGUgcG9ydGlv
-biBvZiB0aGUgZmxhc2gpLg0KDQpZb3UgYXJlIHJpZ2h0LCB0aGUgcGF0dGVybiBzaG91bGQgYmUg
-cHJldHR5IGNvbW1vbi4gVGhlIHRoaW5nIEkgd2FzIHdvcnJpZWQgYWJvdXQgaXMgdGhlIHNpemUg
-b2YNCnRoYXQgYnVmZmVyIHNpbmNlLCBtYXliZSwgc29tZSBjb250cm9sbGVycyBuZWVkIHRvIHJl
-YWQgbW9yZSBkYXRhIHRoYW4gb3RoZXJzIGluIG9yZGVyIHRvIGdldCBnb29kDQp0cmFpbmluZyBy
-ZXN1bHQuDQoNCj4gPg0KPiA+IEJlc2lkZXMsIEkgYW0gdGhpbmtpbmcgYWJvdXQgdGhlIHBvc3Np
-YmlsaXR5IGZvciBhZGRpbmcgYQ0KPiA+ICJzcGlfbWVtX3Bvc3RfaW5pdCIgZnVuY3Rpb24gaW4g
-c3BpLW1lbSBmcmFtZXdvcmsgc2luZSBmb3Igc29tZSBTb0NzLA0KPiA+IFNQSSBjb250cm9sbGVy
-IG5lZWRzIHRvIGFkanVzdCBzb21lIHNldHRpbmdzIGFmdGVyIGdldHRpbmcgU1BJIGZsYXNoDQo+
-IGluZm9ybWF0aW9uLg0KPiANCj4gSSBkb24ndCB0aGluayB0aGF0J3MgYSBnb29kIGlkZWEuIFRo
-ZSBzcGktbWVtIGludGVyZmFjZSBzaG91bGQgc3RheQ0KPiBtZW1vcnktdHlwZSBhZ25vc3RpYyBh
-bmQgZG9pbmcgdGhhdCBtZWFucyB3ZSBzb21laG93IHBhc3MgTk9SIHNwZWNpZmljDQo+IGluZm8u
-IFdoYXQgaXMgaXQgdGhhdCB5b3UgbmVlZCBleGFjdGx5LCBhbmQgd2h5Pw0KDQpZZXMsIGFzIHlv
-dSBtZW50aW9uLCB0aGUgc3BpLW1lbSBpbnRlcmZhY2Ugc2hvdWxkIHN0YXkgbWVtb3J5LXR5cGUg
-YWdub3N0aWMuIFRodXMsIGN1cnJlbnRseSwgSSBqdXN0IHRoaW5rIGFib3V0IHRoaXMsIG5vdCBp
-bXBsZW1lbnRhdGlvbi4NCg0KV2h5IGRpZCBJIG5lZWQgdGhpcyBleGFjdGx5Pw0KVGFrZSBBU1BF
-RUQgU1BJIGNvbnRyb2xsZXIgZm9yIGV4YW1wbGUsIEFTUEVFRCBTUEkgY29udHJvbGxlciBpcyBk
-ZXNpZ25lZCBmb3IgU1BJIE5PUiBmbGFzaCBlc3BlY2lhbGx5Lg0KV2hlbiBBU1BFRUQgU29DIHBv
-d2VycyBvbiBvciByZXNldCwgTUNVIFJPTSB3aWxsIGZldGNoIFNQSSBOT1IgZmxhc2ggdGhyb3Vn
-aCBTUEkgY29udHJvbGxlci4NCkJ1dCwgTUNVIFJPTSBkb2VzIG5vdCBrbm93IHRoZSBjdXJyZW50
-IGFkZHJlc3MgbW9kZSBvZiBTUEkgTk9SIGZsYXNoIHdoZW4gU29DIHdhcyByZXNldCAoU1BJIGZs
-YXNoIGlzIG5vdCByZXNldCkuDQpUaGVyZWZvcmUsIFNQSSBmbGFzaCBkcml2ZXIgbmVlZHMgdG8g
-c2V0IHJlbGF0ZWQgZmxhZyB0byBub3RpZnkgTUNVIFJPTSB3aGVuIGZsYXNoIGlzIHNldCB0byA0
-QiBhZGRyZXNzIG1vZGUgYW5kIDRCIHJlYWQgb3Bjb2RlIGlzIHVzZWQuDQoNCkJlc2lkZXMsIGZv
-ciBvdGhlciBTb0NzIGNvbm5lY3RlZCB0byBBU1BFRUQgU29DLCB0aGV5IGNhbiByZWFkL3dyaXRl
-IFNQSSBOT1IgZmxhc2ggY29ubmVjdGVkIHRvIEFTUEVFRCBTb0MgYnkgYSBwdXJlIEhXIGNoYW5u
-ZWwgd2l0aG91dCBhbnkgaW50ZXJhY3Rpb24gb2YgU1cgZHJpdmVyLg0KQnV0LCBiZWZvcmUgdHJp
-Z2dlciB0aGlzIGZlYXR1cmUsIGZsYXNoIHJlYWQvd3JpdGUvZXJhc2Ugb3Bjb2RlLCBkdW1teSBj
-eWNsZSBhbmQgb3RoZXIgaW5mb3JtYXRpb24gc2hvdWxkIGJlIGZpbGxlZCBpbiB0aGUgcmVsYXRl
-ZCByZWdpc3RlcnMgaW4gYWR2YW5jZSBiZWNhdXNlIHRoYXQgSFcgY2hhbm5lbA0KZG9lcyBub3Qg
-a25vdyBhY2N1cmF0ZSBpbmZvcm1hdGlvbiBhYm91dCBjb25uZWN0ZWQgU1BJIE5PUiBmbGFzaC4N
-Cg0KDQpCZXN0IFdpc2hlcywNCkNoaW4tVGluZw0KDQoNCg0KDQo=
++Tudor and Vignesh
+
+On Fri, 6 Nov 2020 10:21:06 +0000
+Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com> wrote:
+
+> Hi Boris,
+>=20
+> Thanks for your comments and suggestions.
+>=20
+> > -----Original Message-----
+> > From: Boris Brezillon <boris.brezillon@collabora.com>
+> > Sent: Friday, November 6, 2020 5:06 PM
+> > To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+> > Subject: Re: [v3 4/4] spi: aspeed: Add ASPEED FMC/SPI memory controller
+> > driver
+> >=20
+> > On Fri, 6 Nov 2020 08:58:23 +0000
+> > Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com> wrote:
+> >  =20
+> > > Hi Boris,
+> > >
+> > > Thanks for your quick reply.
+> > > =20
+> > > > -----Original Message-----
+> > > > From: Boris Brezillon <boris.brezillon@collabora.com>
+> > > > Sent: Thursday, November 5, 2020 11:12 PM
+> > > > To: C=C3=A9dric Le Goater <clg@kaod.org>; robh+dt@kernel.org
+> > > > Cc: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>;
+> > > > broonie@kernel.org; joel@jms.id.au; andrew@aj.id.au;
+> > > > bbrezillon@kernel.org; devicetree@vger.kernel.org;
+> > > > linux-kernel@vger.kernel.org; linux-aspeed@lists.ozlabs.org;
+> > > > linux-spi@vger.kernel.org; BMC-SW <BMC-SW@aspeedtech.com>
+> > > > Subject: Re: [v3 4/4] spi: aspeed: Add ASPEED FMC/SPI memory
+> > > > controller driver
+> > > >
+> > > > Hi,
+> > > >
+> > > > On Thu, 5 Nov 2020 15:09:11 +0100
+> > > > C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+> > > > =20
+> > > > > Hello Chin-Ting,
+> > > > >
+> > > > > Thanks for this driver. It's much cleaner than the previous and we
+> > > > > should try adding support for the AST2500 SoC also. I guess we can
+> > > > > keep the old driver for the AST2400 which has a different registe=
+r layout.
+> > > > >
+> > > > > On the patchset, I think we should split this patch in three :
+> > > > >
+> > > > >  - basic support
+> > > > >  - AHB window calculation depending on the flash size
+> > > > >  - read training support =20
+> > > >
+> > > > I didn't look closely at the implementation, but if the read
+> > > > training tries to read a section of the NOR, I'd recommend exposing
+> > > > that feature through spi-mem and letting the SPI-NOR framework
+> > > > trigger the training instead of doing that at dirmap creation time
+> > > > (remember that spi-mem is also used for SPI NANDs which use the dir=
+map =20
+> > API too, and this training is unlikely to work there). =20
+> > > >
+> > > > The SPI-NOR framework could pass a read op template and a reference
+> > > > pattern such that all the spi-mem driver has to do is execute the
+> > > > template op and compare the output to the reference buffer.
+> > > > =20
+> > >
+> > > I agree it. Before, I were not able to find a suitable location to im=
+plement =20
+> > read training feature. =20
+> > > I think that I can add a SPI timing training function in
+> > > "spi_controller_mem_ops" struct and call it by a wrapper function cal=
+led at =20
+> > the bottom of spi_nor_probe() in spi-nor.c. =20
+> > > Maybe, SPI-NOR framework does not need to pass reference buffer since
+> > > calibration method depends on each SoC itself and buffer size may be =
+=20
+> > variant. =20
+> > > The detail calibration method may be implemented in each SoC SPI driv=
+er. =20
+> >=20
+> > That's a real problem IMO. What makes this pattern SoC specific? I can =
+see
+> > why the location in flash could be *board* specific, but the pattern sh=
+ould be
+> > pretty common, right? As for the spi-mem operation to be executed, it's
+> > definitely memory specific (I can imagine some flash vendors providing a
+> > specific command returning a fixed pattern that's not actually stored o=
+n a
+> > visible portion of the flash). =20
+>=20
+> You are right, the pattern should be pretty common. The thing I was worri=
+ed about is the size of
+> that buffer since, maybe, some controllers need to read more data than ot=
+hers in order to get good
+> training result.
+
+It would be good to see how other controllers implement that. I know
+that the Cadence controller had something similar. Vignesh might be
+able to share his thoughts on this.
+
+>=20
+> > >
+> > > Besides, I am thinking about the possibility for adding a
+> > > "spi_mem_post_init" function in spi-mem framework sine for some SoCs,
+> > > SPI controller needs to adjust some settings after getting SPI flash =
+=20
+> > information.
+> >=20
+> > I don't think that's a good idea. The spi-mem interface should stay
+> > memory-type agnostic and doing that means we somehow pass NOR specific
+> > info. What is it that you need exactly, and why? =20
+>=20
+> Yes, as you mention, the spi-mem interface should stay memory-type agnost=
+ic. Thus, currently, I just think about this, not implementation.
+>=20
+> Why did I need this exactly?
+> Take ASPEED SPI controller for example, ASPEED SPI controller is designed=
+ for SPI NOR flash especially.
+> When ASPEED SoC powers on or reset, MCU ROM will fetch SPI NOR flash thro=
+ugh SPI controller.
+> But, MCU ROM does not know the current address mode of SPI NOR flash when=
+ SoC was reset (SPI flash is not reset).
+> Therefore, SPI flash driver needs to set related flag to notify MCU ROM w=
+hen flash is set to 4B address mode and 4B read opcode is used.
+
+Oh, that's ugly! The SPI NOR framework tries hard to not change the
+addressing mode exactly for this reason. On most NORs there
+should now be READ/WRITE variants allowing you to address more than 2^24
+bytes without changing the addressing mode. This being said, those
+problem exists on other platform which can't even let the boot ROM know
+that addressing mode changed. I don't have a proper solution for your
+use case, but I definitely don't like the idea of exposing such details
+to spi-mem controllers...
+
+We usually recommend to connect the NOR reset pin to the global reset
+to addressing mode gets back to known state when you reboot the board
+and need to go back to the boot ROM.
+
+>=20
+> Besides, for other SoCs connected to ASPEED SoC, they can read/write SPI =
+NOR flash connected to ASPEED SoC by a pure HW channel without any interact=
+ion of SW driver.
+> But, before trigger this feature, flash read/write/erase opcode, dummy cy=
+cle and other information should be filled in the related registers in adva=
+nce because that HW channel
+> does not know accurate information about connected SPI NOR flash.
+
+While I can see a valid reason to allow that for READs (if we decide to
+support XIP), I really don't like the idea of allowing destructive
+operations (WRITE/ERASE) on the flash that don't go through the MTD
+layer. This sounds like risky business to me, so I'd just forget about
+that if I were you. Regarding the XIP use case, why not, but we'll need
+to extend the dirmap API to support it: mappings need to stay around
+and you need to return a pointer to the mapped memory region, which we
+don't allow right now (because we want to let controllers move their
+dirmap window if they have to).
