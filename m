@@ -1,102 +1,79 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30B272AD738
-	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Nov 2020 14:12:56 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8B52AEABE
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Nov 2020 09:02:37 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CVpFG25l2zDqfZ
-	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Nov 2020 00:12:50 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CWHJp1BR6zDqWm
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Nov 2020 19:02:34 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=redhat.com (client-ip=63.128.21.124;
- helo=us-smtp-delivery-124.mimecast.com; envelope-from=trix@redhat.com;
- receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=redhat.com
+ spf=pass (sender SPF authorized) smtp.mailfrom=ti.com
+ (client-ip=198.47.19.142; helo=fllv0016.ext.ti.com;
+ envelope-from=vigneshr@ti.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256
- header.s=mimecast20190719 header.b=Di+p8tHp; 
- dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com
- header.a=rsa-sha256 header.s=mimecast20190719 header.b=Di+p8tHp; 
+ unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256
+ header.s=ti-com-17Q1 header.b=bTARTyNx; 
  dkim-atps=neutral
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+X-Greylist: delayed 8246 seconds by postgrey-1.36 at bilbo;
+ Wed, 11 Nov 2020 19:02:26 AEDT
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CVpDz3pkSzDqYP
- for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Nov 2020 00:12:34 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605013952;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2V11rFQ3FKVTN+koXAVvig/bkOvKVZoOl9jWSSiZ8Ik=;
- b=Di+p8tHpuaV5rtMlatp24D6j8+WKmCUBtqz8yv0zCEdrS6sGXtBKp/ajiNQKnRgk1iVbBf
- EPgPhQ0oDcmNLweqKLA2uf1G287zKEdUoDcJ+SAJtNZ7ElvnOQlZ77m+OxtwtGg6hoPAvK
- H8JUZjK8UjW7EnlIU91t9XZBpHRi/X8=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605013952;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2V11rFQ3FKVTN+koXAVvig/bkOvKVZoOl9jWSSiZ8Ik=;
- b=Di+p8tHpuaV5rtMlatp24D6j8+WKmCUBtqz8yv0zCEdrS6sGXtBKp/ajiNQKnRgk1iVbBf
- EPgPhQ0oDcmNLweqKLA2uf1G287zKEdUoDcJ+SAJtNZ7ElvnOQlZ77m+OxtwtGg6hoPAvK
- H8JUZjK8UjW7EnlIU91t9XZBpHRi/X8=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-VgIhHcj3Pbukk6jtDnANeQ-1; Tue, 10 Nov 2020 08:12:31 -0500
-X-MC-Unique: VgIhHcj3Pbukk6jtDnANeQ-1
-Received: by mail-qv1-f69.google.com with SMTP id c90so621145qva.11
- for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Nov 2020 05:12:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=2V11rFQ3FKVTN+koXAVvig/bkOvKVZoOl9jWSSiZ8Ik=;
- b=ZJYABjK6nC2Zx2/uXAxb9FSyK/YtuqMoiBN5OVu3T5+SrZCTW67Eid2xx5Y4xcfi8w
- /HLJo1pzTnNhHrDEHxAqGgvPp5iRnE4Qp0obHBfWl2n0O0cn+yATJiTlJ22NZcbtuxfe
- RsewDGhcWgL55msNXTn7/iY3vVlcrnoZinUZM5dI2geC9Zzd7+8BeLnWZiMnlgRa2odb
- CJ3j+TMByHYY9qi2j2fnOgCT1ORf8I+F6cwZ0KGEL+ERUMRkN5puGVAZmUA2MGgrANu3
- NSXMqZBL/8gLcHFw3BZus8UI3OuUVfOd1D5QiMoZzgoyF9/UOc+cMeLz3rnu3O/yPn50
- oVbw==
-X-Gm-Message-State: AOAM5333MAc7HgrV8lNkVE+ApjKZpX19jQGiVWtQcTo0qSbB72G4ek1Y
- WEA64VJrl14TPyB/69CorE/lZum4rEqTrHgfxEv8R6ev73t8VanRWFLLM9TFMKK8gdueI2iR24N
- 5SJDsqUUpLwZC6QG0i8ITVDQ3mA==
-X-Received: by 2002:ac8:3621:: with SMTP id m30mr8787113qtb.168.1605013950552; 
- Tue, 10 Nov 2020 05:12:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyRnI1rUF5eW2rST1vImtIogpOlMRBum2fO0dVCe+zUlRqVIaRBqmVo31rjlhOk2kmW2Hr8dQ==
-X-Received: by 2002:ac8:3621:: with SMTP id m30mr8787064qtb.168.1605013950178; 
- Tue, 10 Nov 2020 05:12:30 -0800 (PST)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
- [75.142.250.213])
- by smtp.gmail.com with ESMTPSA id e8sm7658678qti.28.2020.11.10.05.12.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Nov 2020 05:12:29 -0800 (PST)
-Subject: Re: Subject: [RFC] clang tooling cleanups
-To: Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
- clang-built-linux@googlegroups.com, cocci <cocci@systeme.lip6.fr>
-References: <20201027164255.1573301-1-trix@redhat.com>
- <3c39c363690d0b46069afddc3ad09213011e5cd4.camel@perches.com>
-From: Tom Rix <trix@redhat.com>
-Message-ID: <cc512954-2e1d-a165-f1f1-2c489fd6d3a9@redhat.com>
-Date: Tue, 10 Nov 2020 05:12:26 -0800
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CWHJf0hZxzDqN2
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Nov 2020 19:02:24 +1100 (AEDT)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AB5iXSg013527;
+ Tue, 10 Nov 2020 23:44:33 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1605073473;
+ bh=J16Pr44C8yDfBtifBxjlrA5S3HKGKiZWQWjzHZlCq8o=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=bTARTyNxpscSUSYPETYc1WqcktlW8afxs479YkFRqGV/2w5m4bpOEZbMT1+vcRf73
+ yZT9RJz2QbMccCwQtW5ktNBteg+drmhhZZVW9DDnVuWx9SpyYo47mfITgLjzGzPOUg
+ LvlVzMlCRBFoVtbzNM9tJdpVLQ6mK8masLjhlVm0=
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AB5iX8n097991
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 10 Nov 2020 23:44:33 -0600
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 10
+ Nov 2020 23:44:32 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 10 Nov 2020 23:44:32 -0600
+Received: from [10.250.233.179] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AB5iSCr008845;
+ Tue, 10 Nov 2020 23:44:29 -0600
+Subject: Re: [v3 4/4] spi: aspeed: Add ASPEED FMC/SPI memory controller driver
+To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, Boris Brezillon
+ <boris.brezillon@collabora.com>
+References: <20201105120331.9853-1-chin-ting_kuo@aspeedtech.com>
+ <20201105120331.9853-5-chin-ting_kuo@aspeedtech.com>
+ <fd8fa472-53bb-c992-3dc2-5a984a439c07@kaod.org>
+ <20201105161132.37eb3265@collabora.com>
+ <HK0PR06MB2786DAC99A56EA302EE969CAB2ED0@HK0PR06MB2786.apcprd06.prod.outlook.com>
+ <20201106100539.62fc5249@collabora.com>
+ <HK0PR06MB27865F0C5B2A4F680ED0D400B2ED0@HK0PR06MB2786.apcprd06.prod.outlook.com>
+ <20201106123015.3248d478@collabora.com>
+ <HK0PR06MB2786AE097106FC322D625BBFB2ED0@HK0PR06MB2786.apcprd06.prod.outlook.com>
+From: Vignesh Raghavendra <vigneshr@ti.com>
+Message-ID: <7e959d0d-1626-9816-c5cb-1b16c5ffba25@ti.com>
+Date: Wed, 11 Nov 2020 11:14:27 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <3c39c363690d0b46069afddc3ad09213011e5cd4.camel@perches.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <HK0PR06MB2786AE097106FC322D625BBFB2ED0@HK0PR06MB2786.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,56 +85,238 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-aspeed@lists.ozlabs.org,
- linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-rtc@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-rdma@vger.kernel.org, qat-linux@intel.com, amd-gfx@lists.freedesktop.org,
- linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-nfs@vger.kernel.org,
- netdev@vger.kernel.org, linux-mmc@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net, linux-crypto@vger.kernel.org,
- linux-btrfs@vger.kernel.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "bbrezillon@kernel.org" <bbrezillon@kernel.org>,
+ Tudor Ambarus <Tudor.Ambarus@microchip.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+ "broonie@kernel.org" <broonie@kernel.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ BMC-SW <BMC-SW@aspeedtech.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Chin-Ting,
 
-On 11/9/20 6:52 PM, Joe Perches wrote:
-> On Tue, 2020-10-27 at 09:42 -0700, trix@redhat.com wrote:
->> This rfc will describe
->> An upcoming treewide cleanup.
->> How clang tooling was used to programatically do the clean up.
->> Solicit opinions on how to generally use clang tooling.
+On 11/6/20 11:57 PM, Chin-Ting Kuo wrote:
+> Hi Boris,
+> 
+>> -----Original Message-----
+>> From: Boris Brezillon <boris.brezillon@collabora.com>
+>> Sent: Friday, November 6, 2020 7:30 PM
+>> To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+>> Subject: Re: [v3 4/4] spi: aspeed: Add ASPEED FMC/SPI memory controller
+>> driver
 >>
->> The clang warning -Wextra-semi-stmt produces about 10k warnings.
->> Reviewing these, a subset of semicolon after a switch looks safe to
->> fix all the time.  An example problem
+>> +Tudor and Vignesh
 >>
->> void foo(int a) {
->>      switch(a) {
->>      	       case 1:
->> 	       ...
->>      }; <--- extra semicolon
->> }
+>> On Fri, 6 Nov 2020 10:21:06 +0000
+>> Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com> wrote:
 >>
->> Treewide, there are about 100 problems in 50 files for x86_64 allyesconfig.
->> These fixes will be the upcoming cleanup.
-> coccinelle already does some of these.
->
-> For instance: scripts/coccinelle/misc/semicolon.cocci
->
-> Perhaps some tool coordination can be done here as
-> coccinelle/checkpatch/clang/Lindent call all be used
-> to do some facet or another of these cleanup issues.
+>>> Hi Boris,
+>>>
+>>> Thanks for your comments and suggestions.
+>>>
+>>>> -----Original Message-----
+>>>> From: Boris Brezillon <boris.brezillon@collabora.com>
+>>>> Sent: Friday, November 6, 2020 5:06 PM
+>>>> To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+>>>> Subject: Re: [v3 4/4] spi: aspeed: Add ASPEED FMC/SPI memory
+>>>> controller driver
+>>>>
+>>>> On Fri, 6 Nov 2020 08:58:23 +0000
+>>>> Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com> wrote:
+>>>>
+>>>>> Hi Boris,
+>>>>>
+>>>>> Thanks for your quick reply.
+>>>>>
+>>>>>> -----Original Message-----
+>>>>>> From: Boris Brezillon <boris.brezillon@collabora.com>
+>>>>>> Sent: Thursday, November 5, 2020 11:12 PM
+>>>>>> To: Cédric Le Goater <clg@kaod.org>; robh+dt@kernel.org
+>>>>>> Cc: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>;
+>>>>>> broonie@kernel.org; joel@jms.id.au; andrew@aj.id.au;
+>>>>>> bbrezillon@kernel.org; devicetree@vger.kernel.org;
+>>>>>> linux-kernel@vger.kernel.org; linux-aspeed@lists.ozlabs.org;
+>>>>>> linux-spi@vger.kernel.org; BMC-SW <BMC-SW@aspeedtech.com>
+>>>>>> Subject: Re: [v3 4/4] spi: aspeed: Add ASPEED FMC/SPI memory
+>>>>>> controller driver
+>>>>>>
+>>>>>> Hi,
+>>>>>>
+>>>>>> On Thu, 5 Nov 2020 15:09:11 +0100 Cédric Le Goater
+>>>>>> <clg@kaod.org> wrote:
+>>>>>>
+>>>>>>> Hello Chin-Ting,
+>>>>>>>
+>>>>>>> Thanks for this driver. It's much cleaner than the previous
+>>>>>>> and we should try adding support for the AST2500 SoC also. I
+>>>>>>> guess we can keep the old driver for the AST2400 which has a
+>> different register layout.
+>>>>>>>
+>>>>>>> On the patchset, I think we should split this patch in three :
+>>>>>>>
+>>>>>>>  - basic support
+>>>>>>>  - AHB window calculation depending on the flash size
+>>>>>>>  - read training support
+>>>>>>
+>>>>>> I didn't look closely at the implementation, but if the read
+>>>>>> training tries to read a section of the NOR, I'd recommend
+>>>>>> exposing that feature through spi-mem and letting the SPI-NOR
+>>>>>> framework trigger the training instead of doing that at dirmap
+>>>>>> creation time (remember that spi-mem is also used for SPI NANDs
+>>>>>> which use the dirmap
+>>>> API too, and this training is unlikely to work there).
+>>>>>>
+>>>>>> The SPI-NOR framework could pass a read op template and a
+>>>>>> reference pattern such that all the spi-mem driver has to do is
+>>>>>> execute the template op and compare the output to the reference
+>> buffer.
+>>>>>>
+>>>>>
+>>>>> I agree it. Before, I were not able to find a suitable location to
+>>>>> implement
+>>>> read training feature.
+>>>>> I think that I can add a SPI timing training function in
+>>>>> "spi_controller_mem_ops" struct and call it by a wrapper function
+>>>>> called at
+>>>> the bottom of spi_nor_probe() in spi-nor.c.
+>>>>> Maybe, SPI-NOR framework does not need to pass reference buffer
+>>>>> since calibration method depends on each SoC itself and buffer
+>>>>> size may be
+>>>> variant.
+>>>>> The detail calibration method may be implemented in each SoC SPI
+>> driver.
+>>>>
+>>>> That's a real problem IMO. What makes this pattern SoC specific? I
+>>>> can see why the location in flash could be *board* specific, but the
+>>>> pattern should be pretty common, right? As for the spi-mem operation
+>>>> to be executed, it's definitely memory specific (I can imagine some
+>>>> flash vendors providing a specific command returning a fixed pattern
+>>>> that's not actually stored on a visible portion of the flash).
+>>>
+>>> You are right, the pattern should be pretty common. The thing I was
+>>> worried about is the size of that buffer since, maybe, some
+>>> controllers need to read more data than others in order to get good training
+>> result.
+>>
+>> It would be good to see how other controllers implement that. I know that the
+>> Cadence controller had something similar. Vignesh might be able to share his
+>> thoughts on this.
+> 
 
-Thanks for pointing this out.
+Cadence controllers requires to read fixed length calibration pattern
+multiple times (while tuning PHY registers) from non zero address
+location. Pattern is Flash independent and SoC independent. Hence, can
+be hard coded in driver (no need to read at slower speed).
 
-I will take a look at it.
+> Oh, maybe, I misunderstood your meaning and I did not describe clearly early.
+> As you mentioned before, for some SPI-NOR flashes, there indeed exists a command used for
+> read timing training with high SPI clock frequency.
+> When this specific command is sent, an almost common pattern with fixed length will be outputted to controller.
+> (This pattern is not stored on a normal read/write area.)
+> 
+> But, unfortunately, many flash parts we used did not support this feature. Thus, our read timing training strategy is:
+> Step 1: Use the lowest SPI clock frequency to read normal flash content with specific length as reference data.
+> Step 2: With a fixed high SPI clock frequency, adjust different timing delay cycle, then, read the same flash region for each timing delay.
+> Step 3: Compare each data read from step 2 to the reference data gotten from step 1. Then, we will get a suitable timing delay window.
+> 
 
-Tom
+Using dirmap_create() to actually calibrate controller is abusing the
+interface IMO.  It is not guaranteed that flash is configured to use
+right number of dummy cycles values and mode for high speed operation
+before call to dirmap_create(). This is true today but may change in the
+future. So, there should at least be a separate callback dedicated for
+calibration along the lines Boris suggested.
 
->
->
+Max frequency that read cmd may support would not be supported by other
+cmds such as write or read SFDP. This would need to be taken into
+account before and post calibration probably by extending spi_mem_op to
+specify freq of operation per op.
 
+I see that calibration pattern is assumed to be at offset 0 in the
+flash. This may not be the ideal position as offset 0 is typically used
+to store bootloader. So, there should be a way to specify offset at
+which calibration pattern is present.
+
+Regards
+Vignesh
+
+
+>>
+>>>
+>>>>>
+>>>>> Besides, I am thinking about the possibility for adding a
+>>>>> "spi_mem_post_init" function in spi-mem framework sine for some
+>>>>> SoCs, SPI controller needs to adjust some settings after getting
+>>>>> SPI flash
+>>>> information.
+>>>>
+>>>> I don't think that's a good idea. The spi-mem interface should stay
+>>>> memory-type agnostic and doing that means we somehow pass NOR
+>>>> specific info. What is it that you need exactly, and why?
+>>>
+>>> Yes, as you mention, the spi-mem interface should stay memory-type
+>> agnostic. Thus, currently, I just think about this, not implementation.
+>>>
+>>> Why did I need this exactly?
+>>> Take ASPEED SPI controller for example, ASPEED SPI controller is designed
+>> for SPI NOR flash especially.
+>>> When ASPEED SoC powers on or reset, MCU ROM will fetch SPI NOR flash
+>> through SPI controller.
+>>> But, MCU ROM does not know the current address mode of SPI NOR flash
+>> when SoC was reset (SPI flash is not reset).
+>>> Therefore, SPI flash driver needs to set related flag to notify MCU ROM when
+>> flash is set to 4B address mode and 4B read opcode is used.
+>>
+>> Oh, that's ugly! The SPI NOR framework tries hard to not change the
+>> addressing mode exactly for this reason. On most NORs there should now be
+>> READ/WRITE variants allowing you to address more than 2^24 bytes without
+>> changing the addressing mode. This being said, those problem exists on other
+>> platform which can't even let the boot ROM know that addressing mode
+>> changed. I don't have a proper solution for your use case, but I definitely don't
+>> like the idea of exposing such details to spi-mem controllers...
+>>
+> 
+> Certainly, most of new SPI NOR flashes larger than 16MB support dedicated
+> 4B command without change flash address mode. Originally, I want to take
+> all flashes into consideration. But, now, the number of flashes, larger than 16MB and
+> without 4B dedicated command, decreases. Perhaps, I can ignore them currently.
+> 
+>> We usually recommend to connect the NOR reset pin to the global reset to
+>> addressing mode gets back to known state when you reboot the board and
+>> need to go back to the boot ROM.
+> 
+> I agree with this.
+> 
+>>
+>>>
+>>> Besides, for other SoCs connected to ASPEED SoC, they can read/write SPI
+>> NOR flash connected to ASPEED SoC by a pure HW channel without any
+>> interaction of SW driver.
+>>> But, before trigger this feature, flash read/write/erase opcode, dummy
+>>> cycle and other information should be filled in the related registers in
+>> advance because that HW channel does not know accurate information about
+>> connected SPI NOR flash.
+>>
+>> While I can see a valid reason to allow that for READs (if we decide to support
+>> XIP), I really don't like the idea of allowing destructive operations
+>> (WRITE/ERASE) on the flash that don't go through the MTD layer. This sounds
+>> like risky business to me, so I'd just forget about that if I were you. Regarding
+>> the XIP use case, why not, but we'll need to extend the dirmap API to support it:
+>> mappings need to stay around and you need to return a pointer to the mapped
+>> memory region, which we don't allow right now (because we want to let
+>> controllers move their dirmap window if they have to).
+> 
+> Yes, for SPI(-flash) driver, I think I just needs to focus on the scenario where all flash operations go through MTD layer.
+> Other application may be implemented on the other driver, not here.
+> 
+> 
+> Best Wishes,
+> Chin-Ting
+> 
+> 
