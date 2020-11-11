@@ -2,73 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DAF72AFBAE
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Nov 2020 00:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B9F2AFBB1
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Nov 2020 00:31:21 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CWgt96SDMzDqS1
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Nov 2020 10:29:21 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CWgwQ67V5zDqc2
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Nov 2020 10:31:18 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::52c;
- helo=mail-pg1-x52c.google.com; envelope-from=rentao.bupt@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::72b;
+ helo=mail-qk1-x72b.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=TZZF18Li; dkim-atps=neutral
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
- [IPv6:2607:f8b0:4864:20::52c])
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=D1JWYbNj; dkim-atps=neutral
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
+ [IPv6:2607:f8b0:4864:20::72b])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CWglx2L3NzDqHH;
- Thu, 12 Nov 2020 10:23:56 +1100 (AEDT)
-Received: by mail-pg1-x52c.google.com with SMTP id m13so2522002pgl.7;
- Wed, 11 Nov 2020 15:23:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=3B8siPBqoy9NOw638bUt0dT90coPyLNV0X2/B+nIWhw=;
- b=TZZF18LiB6b8PKG1wKr1RWLPPFjmBF0Puw0O84gbQP8HTwS5mVSZ/9dbuhTTmlsgEI
- iqHTeJo/a8ce0bYENbr7oKAKqkqIWlyx0MlEr7Cis2IMCk5XLbkc0zWDi6ddaUsNUMnC
- /0/ppXyZgeDQCAJ+xJB/Kj1B9D2+D92RKqBEK8DxTw62LKmj3T6b8kHYJxnSzuOO2GHP
- pe4Up+ZTIsD8+L/ZsortJ3S9rNRTvIFxMnzUX0p8aMF116Sxd7zO/ebXbNlXcDCN3pib
- fWlS4fEtvUChT46nP4E9/vEGKcAoujhqu3hDq925pIDQG4gCSwWZi65T7/ypQWvp/1/2
- dM0g==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CWgs1547KzDqwD
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Nov 2020 10:28:21 +1100 (AEDT)
+Received: by mail-qk1-x72b.google.com with SMTP id v143so3667498qkb.2
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Nov 2020 15:28:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=E/pzSG/qY4kmN8qTffKOlLUErabhAzy6PW1pTMcSYxQ=;
+ b=D1JWYbNjDgUOzZSIPZ8BN2CZsCIlgGjdqv7XrZYfFcWgDtKRKeTrhWWr6r31Uu//JA
+ 25VTHgRHj8XX+GB4JAJM2jtsR8ALyBMMZJP0osnrDCjjHzz8mTjRL6JLvGKJ3F1QuYZ7
+ ebVBcCinXn8VTW/6R2XRzRGsU5gkUOevBT+RY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=3B8siPBqoy9NOw638bUt0dT90coPyLNV0X2/B+nIWhw=;
- b=mWdSTBJkIrxUnYweszM7LuQHlmUyP5Y/0/kJuI+fdv864yFOJowQVWdGevWhbdsmC6
- CZwLJAyZTT7sClV/NXAGZ+AogDZw8RGwQcCR2KiYCtQ+iRrLwntxanT/zbWmcThZY6W2
- wC1TFRn4B0Ci2z52lk/bQGuojRhY/OZ/vbivoPF9zPZux1bGFMtaRpEp89PYuZqcK5Fg
- EvH9/8lBvIMfLPN35NtyGNQEVsGVq4mXvaFTAvLbVqPtQBbVBhYdGwlqXsG7qVxHFLs3
- 1cTA3fmwu9P/jxdr0dC0ZmtKJ1mRyYRYroycfkjuyjkHfot2+3FPq88LBLUjtTQWIgin
- veeA==
-X-Gm-Message-State: AOAM531tazMTBqZHhuh43zKgMuY0ob62mYz2neOj1klwKlHby8RZaAwB
- 8JSRwcmw/Ywl0qo7L7ZxDrA=
-X-Google-Smtp-Source: ABdhPJzXSCz0fSwlU9ctg/9/ozst9ZYw73DDH4dg6jtlfrc7nxC+dsB6D0jkvVLejD9FWscsGXPB6g==
-X-Received: by 2002:a62:6496:0:b029:155:b152:f0cf with SMTP id
- y144-20020a6264960000b0290155b152f0cfmr25431894pfb.75.1605137033967; 
- Wed, 11 Nov 2020 15:23:53 -0800 (PST)
-Received: from taoren-ubuntu-R90MNF91.thefacebook.com
- (c-73-252-146-110.hsd1.ca.comcast.net. [73.252.146.110])
- by smtp.gmail.com with ESMTPSA id a128sm3901431pfb.195.2020.11.11.15.23.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Nov 2020 15:23:53 -0800 (PST)
-From: rentao.bupt@gmail.com
-To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com
-Subject: [PATCH 4/4] ARM: dts: aspeed: Add Facebook Galaxy100 (AST2400) BMC
-Date: Wed, 11 Nov 2020 15:23:30 -0800
-Message-Id: <20201111232330.30843-5-rentao.bupt@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201111232330.30843-1-rentao.bupt@gmail.com>
-References: <20201111232330.30843-1-rentao.bupt@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=E/pzSG/qY4kmN8qTffKOlLUErabhAzy6PW1pTMcSYxQ=;
+ b=B8Qiqpmxcjmpucrev/feIyt8Cq44v0qlOz5pVO1OcLcn9f685Y/Od6S6f1ygXu2rsx
+ eYKEVMmIr/ql5xV2AV17iZJ0mraQsffEQ9hEIKAqPcgbz8HW/NBHyGExQWDdq+ixy4ED
+ UPq9PJZhdLZ51n5+seHrvXIwhN4gSTBVhZnAFMRPHOb8af7QXv/Lndomd+JlcuecpLqM
+ CRzbPGjGZZLwE+W+8KA2VlHCCuuVPyD0DoaY/qMAudp3Xr+Si4oH63HJzjbwLSgexua9
+ pOdwQwe6K2SNCZX7mk35gDitLZRerSJKHUGw4R6ycUn33ohdetoHx1S02mJPII3SDFSO
+ ETPQ==
+X-Gm-Message-State: AOAM530THBADvtQOD0x8dszDOurJki2uxnTJr751ZTsxfMy97sMMTVif
+ dtzz9YEejbTDD48REouu1v5o1QfnfO0psMcYhw4=
+X-Google-Smtp-Source: ABdhPJyB+NvaUkOEgaloFMbC0GaxJHVeM1PcZvrlT6egRNPlwOrz0Tsa5BDYQDj1cLr7Y4YR91wqBJDgwazu8lLapj8=
+X-Received: by 2002:ae9:e90d:: with SMTP id x13mr28158378qkf.66.1605137297631; 
+ Wed, 11 Nov 2020 15:28:17 -0800 (PST)
+MIME-Version: 1.0
+References: <20201111132133.1253-1-aladyshev22@gmail.com>
+ <1a223f4d-8654-89e9-3b39-97e4b1128700@amd.com>
+In-Reply-To: <1a223f4d-8654-89e9-3b39-97e4b1128700@amd.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Wed, 11 Nov 2020 23:28:02 +0000
+Message-ID: <CACPK8Xehikj3ztsez-X-54MhacLKB-1xCnExWt49ELYfjTzecQ@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: aspeed: amd-ethanolx: Add GPIO line names
+To: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,96 +70,96 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Konstantin Aladyshev <aladyshev22@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Tao Ren <rentao.bupt@gmail.com>
+On Wed, 11 Nov 2020 at 22:44, Supreeth Venkatesh
+<supreeth.venkatesh@amd.com> wrote:
+>
+>
+>
+> On 11/11/20 7:21 AM, Konstantin Aladyshev wrote:
+> > [CAUTION: External Email]
+> >
+> > Add GPIO line names for AMD EthanolX customer reference board.
+> > It populates AST2500 GPIO lines (A0-A7 to AC0-AC7) with AMD EthanolX
+> > designated names.
+> >
+> > Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
+> Reviewed-by: Supreeth Venkatesh <supreeth.venkatesh@amd.com>
 
-Add initial version of device tree for Facebook Galaxy100 (AST2400) BMC.
+Applied to dt-for-v5.11.
 
-Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
----
- arch/arm/boot/dts/Makefile                    |  1 +
- .../dts/aspeed-bmc-facebook-galaxy100.dts     | 57 +++++++++++++++++++
- 2 files changed, 58 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-galaxy100.dts
+Thanks,
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 21477ef5c5c9..1917cd47204a 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1383,6 +1383,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-arm-stardragon4800-rep2.dtb \
- 	aspeed-bmc-bytedance-g220a.dtb \
- 	aspeed-bmc-facebook-cmm.dtb \
-+	aspeed-bmc-facebook-galaxy100.dtb \
- 	aspeed-bmc-facebook-minipack.dtb \
- 	aspeed-bmc-facebook-tiogapass.dtb \
- 	aspeed-bmc-facebook-wedge40.dtb \
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-galaxy100.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-galaxy100.dts
-new file mode 100644
-index 000000000000..dcf213472749
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-galaxy100.dts
-@@ -0,0 +1,57 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+// Copyright (c) 2020 Facebook Inc.
-+/dts-v1/;
-+
-+#include "ast2400-facebook-netbmc-common.dtsi"
-+
-+/ {
-+	model = "Facebook Galaxy 100 BMC";
-+	compatible = "facebook,galaxy100-bmc", "aspeed,ast2400";
-+
-+	chosen {
-+		stdout-path = &uart5;
-+		bootargs = "console=ttyS0,9600n8 root=/dev/ram rw";
-+	};
-+
-+	ast-adc-hwmon {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc 3>, <&adc 4>, <&adc 8>, <&adc 9>;
-+	};
-+};
-+
-+&wdt2 {
-+	status = "okay";
-+	aspeed,reset-type = "system";
-+};
-+
-+&fmc {
-+	flash@1 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "spi0.1";
-+
-+		partitions {
-+			compatible = "fixed-partitions";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			flash1@0 {
-+				reg = <0x0 0x2000000>;
-+				label = "flash1";
-+			};
-+		};
-+	};
-+};
-+
-+
-+&i2c9 {
-+	status = "okay";
-+};
-+
-+&vhub {
-+	status = "okay";
-+};
-+
-+&adc {
-+	status = "okay";
-+};
--- 
-2.17.1
+Joel
 
+> > ---
+> >  arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 44 +++++++++++++++++++
+> >  1 file changed, 44 insertions(+)
+> >
+> > diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+> > index b93ed44eba0c..96ff0aea64e5 100644
+> > --- a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+> > +++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+> > @@ -97,6 +97,50 @@
+> >                      &pinctrl_adc4_default>;
+> >  };
+> >
+> > +&gpio {
+> > +       status = "okay";
+> > +       gpio-line-names =
+> > +       /*A0-A7*/       "","","FAULT_LED","CHASSIS_ID_LED","","","","",
+> > +       /*B0-B7*/       "","","","","","","","",
+> > +       /*C0-C7*/       "CHASSIS_ID_BTN","INTRUDER","AC_LOSS","","","","","",
+> > +       /*D0-D7*/       "HDT_DBREQ","LOCAL_SPI_ROM_SEL","FPGA_SPI_ROM_SEL","JTAG_MUX_S",
+> > +                       "JTAG_MUX_OE","HDT_SEL","ASERT_WARM_RST_BTN","FPGA_RSVD",
+> > +       /*E0-E7*/       "","","MON_P0_PWR_BTN","MON_P0_RST_BTN","MON_P0_NMI_BTN",
+> > +                       "MON_P0_PWR_GOOD","MON_PWROK","MON_RESET",
+> > +       /*F0-F7*/       "MON_P0_PROCHOT","MON_P1_PROCHOT","MON_P0_THERMTRIP",
+> > +                       "MON_P1_THERMTRIP","P0_PRESENT","P1_PRESENT","MON_ATX_PWR_OK","",
+> > +       /*G0-G7*/       "BRD_REV_ID_3","BRD_REV_ID_2","BRD_REV_ID_1","BRD_REV_ID_0",
+> > +                       "P0_APML_ALERT","P1_APML_ALERT","FPGA ALERT","",
+> > +       /*H0-H7*/       "BRD_ID_0","BRD_ID_1","BRD_ID_2","BRD_ID_3",
+> > +                       "PCIE_DISCONNECTED","USB_DISCONNECTED","SPARE_0","SPARE_1",
+> > +       /*I0-I7*/       "","","","","","","","",
+> > +       /*J0-J7*/       "","","","","","","","",
+> > +       /*K0-K7*/       "","","","","","","","",
+> > +       /*L0-L7*/       "","","","","","","","",
+> > +       /*M0-M7*/       "ASSERT_PWR_BTN","ASSERT_RST_BTN","ASSERT_NMI_BTN",
+> > +                       "ASSERT_LOCAL_LOCK","ASSERT_P0_PROCHOT","ASSERT_P1_PROCHOT",
+> > +                       "ASSERT_CLR_CMOS","ASSERT_BMC_READY",
+> > +       /*N0-N7*/       "","","","","","","","",
+> > +       /*O0-O7*/       "","","","","","","","",
+> > +       /*P0-P7*/       "P0_VDD_CORE_RUN_VRHOT","P0_VDD_SOC_RUN_VRHOT",
+> > +                       "P0_VDD_MEM_ABCD_SUS_VRHOT","P0_VDD_MEM_EFGH_SUS_VRHOT",
+> > +                       "P1_VDD_CORE_RUN_VRHOT","P1_VDD_SOC_RUN_VRHOT",
+> > +                       "P1_VDD_MEM_ABCD_SUS_VRHOT","P1_VDD_MEM_EFGH_SUS_VRHOT",
+> > +       /*Q0-Q7*/       "","","","","","","","",
+> > +       /*R0-R7*/       "","","","","","","","",
+> > +       /*S0-S7*/       "","","","","","","","",
+> > +       /*T0-T7*/       "","","","","","","","",
+> > +       /*U0-U7*/       "","","","","","","","",
+> > +       /*V0-V7*/       "","","","","","","","",
+> > +       /*W0-W7*/       "","","","","","","","",
+> > +       /*X0-X7*/       "","","","","","","","",
+> > +       /*Y0-Y7*/       "","","","","","","","",
+> > +       /*Z0-Z7*/       "","","","","","","","",
+> > +       /*AA0-AA7*/     "","SENSOR THERM","","","","","","",
+> > +       /*AB0-AB7*/     "","","","","","","","",
+> > +       /*AC0-AC7*/     "","","","","","","","";
+> > +};
+> > +
+> >  //APML for P0
+> >  &i2c0 {
+> >         status = "okay";
+> > --
+> > 2.17.1
+> >
