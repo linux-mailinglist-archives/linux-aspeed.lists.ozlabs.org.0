@@ -1,92 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154692AFD8D
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Nov 2020 04:26:11 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91C082AFDE3
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Nov 2020 06:26:18 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CWn7N32F6zDqmj
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Nov 2020 14:26:08 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CWqnz4chrzDqxh
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Nov 2020 16:26:15 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=stwcx.xyz (client-ip=64.147.123.20;
- helo=wout4-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::641;
+ helo=mail-pl1-x641.google.com; envelope-from=rentao.bupt@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=stwcx.xyz
+ dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256
- header.s=fm3 header.b=MQt20/kP; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=VvQTr1BJ; 
- dkim-atps=neutral
-X-Greylist: delayed 445 seconds by postgrey-1.36 at bilbo;
- Thu, 12 Nov 2020 14:26:01 AEDT
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=cLaWQgCX; dkim-atps=neutral
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CWn7F6H5JzDqfJ
- for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Nov 2020 14:26:01 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 9C25AB3B;
- Wed, 11 Nov 2020 22:18:31 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 11 Nov 2020 22:18:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=PI+Uj0fEHIXD5fotEiMxeL9UVre
- tyEkuGpP+BkHzNZw=; b=MQt20/kP910bOei9BuSJUZcFMQtnEqXsJtzVlRblbR9
- JKyW4afcF7Hwhc1C9FtGIc621tX+pxselVRjx34XYGbcVv53Bxu+W3FpoSQdB/l1
- BzhtlfBrp7C+f2cgdCBlInir3WJx3gob1KXNj7kRKTekzQKz1FeXQnoML//H0BIg
- PfdByOTXhdvaZdIBCrcuhQeYlJTsCjOqhFGvSyTushDMvncUc25HX4qE3sZ05qaI
- UTvBoDMMT8WvAGrfBT1X1zduBSLvMUmMpJVhwzOO9aBO7Q9sBy8SMupYPHENZvB+
- mHiZoztN1utRjXCBakLSOIIMmUeBA0vtKe1XMVQ6osA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=PI+Uj0
- fEHIXD5fotEiMxeL9UVretyEkuGpP+BkHzNZw=; b=VvQTr1BJYwEukjB+21MHfZ
- eIdIe5Zt0c00pMgvu6rXcj8ZHfPjGm4PK83dGmVtpxQZgbSl2MUOIBBnTUFtnYl0
- r20kHStPRjxkwpTT+nvNUVHIqnduQk3I0Fx4iOkbTeqeUIJUtLw2ul5F86aGASCx
- VC03Il9CtP/PuK+Fk88OtOEcI27bB+8yuKxGOeb81vo2iunbb6pduKxFXK/Mm/Uk
- iCqBtyEhuTEh6HYKqM/8vBQBvN2TX4XQDw83a1NFf37IntRnrK/b14C1zsFVGb0w
- ITKkIpOOZ2BiZavmgF8wJkILBULIHIqL+8tbF86J+v0yWsSV0ab4INxKaXYpgJ0w
- ==
-X-ME-Sender: <xms:hqmsX9reRdV5uNDrwCNtsvrnQAKCOwafAoOsH4lzHWauNEP-FhgXIg>
- <xme:hqmsX_ra5VnDoiK0py1ougo432YQQmhSfZvB-EBV2uJB9wQZdCbsZ4aL-TEe-18lS
- XIkRfXO0y5Rsy4DVHM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddvuddgheelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- gfrhhlucfvnfffucdlvdefmdenucfjughrpeffhffvuffkfhggtggujgesghdtreertddt
- vdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
- htfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepgeehheefffegkeevhedthffgudfh
- geefgfdthefhkedtleffveekgfeuffehtdeinecukfhppeejiedrvdehtddrkeegrddvfe
- einecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgr
- thhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:hqmsX6Mwc2tat3qGDWBwvSYLS_ka-LIAwCcuU40KQbo4a06kN_Xbog>
- <xmx:hqmsX46T5bKbNtlO6ZFDGN1gt-FYRli6WFn-8jDlBotv6XVrXDl3yA>
- <xmx:hqmsX84rfdX0tIaLxrPQKOaC1lfBF1BydhP-U4sFYfQiLm5fgmfl_Q>
- <xmx:h6msX7YXxIo2VhJ8cx1Cv0otvVgUgOh6hJlXDyY7ysxO4jq2Z0Um6Q>
-Received: from localhost (76-250-84-236.lightspeed.austtx.sbcglobal.net
- [76.250.84.236])
- by mail.messagingengine.com (Postfix) with ESMTPA id 4080C30644A1;
- Wed, 11 Nov 2020 22:18:30 -0500 (EST)
-Date: Wed, 11 Nov 2020 21:18:28 -0600
-From: Patrick Williams <patrick@stwcx.xyz>
-To: Joel Stanley <joel@jms.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CWqnq6lMZzDqsM;
+ Thu, 12 Nov 2020 16:26:07 +1100 (AEDT)
+Received: by mail-pl1-x641.google.com with SMTP id b3so2174629pls.11;
+ Wed, 11 Nov 2020 21:26:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=pJfnnhc7tEjJrgDlvsROK+XxTP5/LN/c7M7Xz2gFhuY=;
+ b=cLaWQgCXWWPpgY9ONzvSCnmnAPabiqAORFxX6sOR8VfxA5OB28xfNq/XAQ6zKD1vLD
+ PlwvOirnn/fkKn7hV6fhSfmKzQAg5PD82tuUzSgCBEYJtlnnskcRNM9+EvlBB0BbAC3w
+ fbCJBdSo/U0mBkQMZVlNBIMq3B8FweCIeFGbLPyUSsxe7mWmNe7YahVvWf1oKzLgUOo1
+ BwcYVML60q1cNyqrsiR/XwDQTgsZxTvZCvOrou52daqqtn0KsKAXYT5rVm8dlm0JHVcZ
+ XZ1Zpgdx5kN1p1pFCrJdTIQa/b4Irn+o1icRGLeiYjOZ+amiqAJkHuiJr1K2y01BamJo
+ rwdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=pJfnnhc7tEjJrgDlvsROK+XxTP5/LN/c7M7Xz2gFhuY=;
+ b=SdRRXwGd7fF8wXtoF+z7RVOzvcH4EZwM8TtKSonrgY6bVjg7xYis1tlqaVYtt0g8mU
+ o+LxFKQ7/EYbrmWifp+O3rE3bT4vLI3yKFleC+ffDcFHJfvdhj40Y5kXaE2sw2NL/W+B
+ YIfQ3n4f6hcwQEQHPCR4PehrnEEiUvz7SA29TBWZkK1/c+VEk7PxqVfyKn23f4R6cDpG
+ MDlB24r4I9EjywAmrGxMT5qFh6l07fbu72xzjHQWrnJ9c/4/MBEgW2hUHGoDnGxlMvOZ
+ +ltmgcK6PwItQ2ScKebOUp1Ec84+1Z83eBXCe+MjozlZU0YPkQUXTGWN4C+trmtJETAw
+ e1pA==
+X-Gm-Message-State: AOAM531cixT6pvtQvtPCdjM+sxD/yq1omFMNznyxU1iiJrGl4/GjRbUy
+ o8cRQr9m/K9o6wJ2jd8yi8k=
+X-Google-Smtp-Source: ABdhPJz2becez7wcvS0QDgwSyIvzMgEOqMClu/htOGVz/O9iygHBqxAF+/ujEBEHTvHr8b/rhG11Zg==
+X-Received: by 2002:a17:902:c254:b029:d6:ac10:6d50 with SMTP id
+ 20-20020a170902c254b02900d6ac106d50mr25751204plg.48.1605158764968; 
+ Wed, 11 Nov 2020 21:26:04 -0800 (PST)
+Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net.
+ [73.252.146.110])
+ by smtp.gmail.com with ESMTPSA id r6sm4468364pjd.39.2020.11.11.21.26.03
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 11 Nov 2020 21:26:04 -0800 (PST)
+Date: Wed, 11 Nov 2020 21:25:57 -0800
+From: Tao Ren <rentao.bupt@gmail.com>
+To: Patrick Williams <patrick@stwcx.xyz>
 Subject: Re: [PATCH 0/4] ARM: dts: aspeed: Add Facebook Galaxy100 BMC
-Message-ID: <20201112031828.GA4495@heinlein>
+Message-ID: <20201112052556.GA3533@taoren-ubuntu-R90MNF91>
 References: <20201111232330.30843-1-rentao.bupt@gmail.com>
  <CACPK8XdC8FRKOLQ9e583gVuDrL5829MOfx5L=O68dou6mjW_6g@mail.gmail.com>
+ <20201112031828.GA4495@heinlein>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LZvS9be/3tNcYl/X"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACPK8XdC8FRKOLQ9e583gVuDrL5829MOfx5L=O68dou6mjW_6g@mail.gmail.com>
+In-Reply-To: <20201112031828.GA4495@heinlein>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,62 +93,41 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Wed, Nov 11, 2020 at 09:18:28PM -0600, Patrick Williams wrote:
+> On Wed, Nov 11, 2020 at 11:34:10PM +0000, Joel Stanley wrote:
+> > On Wed, 11 Nov 2020 at 23:23, <rentao.bupt@gmail.com> wrote:
+> > >
+> > > From: Tao Ren <rentao.bupt@gmail.com>
+> > >
+> > > The patch series adds the initial version of device tree for Facebook
+> > > Galaxy100 (AST2400) BMC.
+> > >
+> > > Patch #1 adds common dtsi to minimize duplicated device entries across
+> > > Facebook Network AST2400 BMC device trees.
+> > >
+> > > Patch #2 simplfies Wedge40 device tree by using the common dtsi.
+> > >
+> > > Patch #3 simplfies Wedge100 device tree by using the common dtsi.
+> > >
+> > > Patch #4 adds the initial version of device tree for Facebook Galaxy100
+> > > BMC.
+> > 
+> > Nice. They look good to me.
+> > 
+> > Reviewed-by: Joel Stanley <joel@jms.id.au>
+> > 
+> > Is there another person familiar with the design you would like to
+> > review before I merge?
+> 
+> Also,
+> 
+> Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
+> 
+> -- 
+> Patrick Williams
 
---LZvS9be/3tNcYl/X
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you Patrick!
 
-On Wed, Nov 11, 2020 at 11:34:10PM +0000, Joel Stanley wrote:
-> On Wed, 11 Nov 2020 at 23:23, <rentao.bupt@gmail.com> wrote:
-> >
-> > From: Tao Ren <rentao.bupt@gmail.com>
-> >
-> > The patch series adds the initial version of device tree for Facebook
-> > Galaxy100 (AST2400) BMC.
-> >
-> > Patch #1 adds common dtsi to minimize duplicated device entries across
-> > Facebook Network AST2400 BMC device trees.
-> >
-> > Patch #2 simplfies Wedge40 device tree by using the common dtsi.
-> >
-> > Patch #3 simplfies Wedge100 device tree by using the common dtsi.
-> >
-> > Patch #4 adds the initial version of device tree for Facebook Galaxy100
-> > BMC.
->=20
-> Nice. They look good to me.
->=20
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
->=20
-> Is there another person familiar with the design you would like to
-> review before I merge?
+Cheers,
 
-Also,
-
-Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
-
---=20
-Patrick Williams
-
---LZvS9be/3tNcYl/X
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAl+sqYIACgkQqwNHzC0A
-wRkjOA/+MVToyQOs6gmPPw8Mbeu5twaJfK1kiwCdZ85CUbMW4HPwsiibBYpy2boG
-AcxeQGuO7xoC8j5QJ4Rr7dvm5IDhk/nlnpXiP7g4b+Qq9HYZhTY7DjiuuLgUYOg8
-t2k47k3Mo+ttSfCH31afQ8whjiD26tVq0yj9mjAY9+VdrSwh6iuz02GG9bswHyw7
-MJsZUvWEHZP4aH/eKMd+X4MF/BN80hAF02KTQT3Foj2gPFBRiatvGFRcPb/e8xh/
-VN5R8N6MEDu09OKBGw7VBhWoWjjYt83XozqQwFM5R90gNOCyF9Ej/zCkmuGU6fxa
-hKoL/ESEHOCJa65B8hTcVLRInr8BrqJUK1GQzSnXj9n+jrMiwE12N2iffzrFUV0n
-LrO6fXhbg8yT7Z8t8lFxHTTVmIqTJJiZ8MPjPuu5DvqZQsXiFTebv+AhGk/tE9gp
-0xUge0NlPhN1IoQ6tBinGNmO42Q/X6tvEIfwm1bUkHn+orvDVc/By5d6dUyqjqiz
-HuTt3w5OgDI99qVoIVtmv27ZL8aleSRjNSc0SZ81lcnBEbqPwM1n7fQ6ymOX+wHQ
-uK90MNfNhdcSLIl68shGHbcsW/FVkqBilzV+XYIhOkwf9qYGyuLalRxFZyGjhm6S
-bxXZ/jaUt6kvKDqzf7FVQbDrXqhva9ZWadjuV0af1MZCsUiqVc0=
-=i9rh
------END PGP SIGNATURE-----
-
---LZvS9be/3tNcYl/X--
+Tao
