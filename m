@@ -2,80 +2,86 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29FF12B18C8
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Nov 2020 11:09:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E642B2974
+	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Nov 2020 01:02:02 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CXZ2M59zQzDr6P
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Nov 2020 21:09:31 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CXwVv3SMTzDr9C
+	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Nov 2020 11:01:59 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=oracle.com (client-ip=141.146.126.78; helo=aserp2120.oracle.com;
- envelope-from=dan.carpenter@oracle.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=oracle.com
+ smtp.mailfrom=us.ibm.com (client-ip=148.163.156.1;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=vishwa@us.ibm.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none)
+ header.from=linux.vnet.ibm.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256
- header.s=corp-2020-01-29 header.b=dI57/+8h; 
- dkim-atps=neutral
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
+ header.s=pp1 header.b=newMvJVg; dkim-atps=neutral
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CXZ2767T5zDr5D
- for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Nov 2020 21:09:12 +1100 (AEDT)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0ADA44We195662;
- Fri, 13 Nov 2020 10:09:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=CmOkNnoq4aouIzIKH5BdnPNOjPDxlp5PbgvCa+MCvGk=;
- b=dI57/+8hQXv2he9Ovg5TnVAUuFuHYAM82lFIXcQbjrtLPV7GerAapaQ4Z5wj6gIZUA5J
- 02MituRHDV5X2aTmzaLiekpz0kBe35D1QMLql5cjsnS7DhN5gCd5otHEHBghGj4D0yt1
- tlcAqHg9lT2x53EUUUwVSqwIGHR2PPO82BtGShXH8WNJVzj158EV3F2DfkQOb4PvGPIN
- w40wsZcCk6rzf7vWGFJVw5KWFAlRxy/9zergNwvCyc41Bzhxh6T/1eJArspl29WcVmyn
- eArnpahUzu1ng5OYO48vULf6UTTq/VCFaxjgC/JmKIKQB8nfeiJnU8erSPeskB7jeh/1 Xg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 34nkhm9rnh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 13 Nov 2020 10:09:06 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0ADA6HoS164926;
- Fri, 13 Nov 2020 10:09:05 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 34rtktbk6j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 13 Nov 2020 10:09:05 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0ADA8vq3027309;
- Fri, 13 Nov 2020 10:08:57 GMT
-Received: from mwanda (/10.175.206.108)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 13 Nov 2020 02:08:56 -0800
-Date: Fri, 13 Nov 2020 13:08:50 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Joel Stanley <joel@jms.id.au>
-Subject: [PATCH] soc: aspeed: Fix a reference leak in aspeed_socinfo_init()
-Message-ID: <20201113100850.GA168908@mwanda>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9803
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxscore=0 phishscore=0
- suspectscore=0 bulkscore=0 malwarescore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011130060
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9803
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- priorityscore=1501
- mlxscore=0 suspectscore=0 mlxlogscore=999 lowpriorityscore=0 spamscore=0
- malwarescore=0 adultscore=0 clxscore=1011 bulkscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011130060
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CXSV42LTJzDr3S
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Nov 2020 16:59:36 +1100 (AEDT)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0AD5WflO138407; Fri, 13 Nov 2020 00:59:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject : date : message-id; s=pp1;
+ bh=gEuObPCUT4CRsghkEQL2Dd+iTKujXjixNGEL2EUwTtk=;
+ b=newMvJVgGYz1cFZFRQCeg0WH6/k8GlaCpnADZX7EVYlTeZrDo+7pELGHgQBzJwMADC9N
+ MDa+sUSgZ9w/tvMrgHVQ5XflUMdjKV5fo39H2+zQQ2xIZMDxigLhNpW1A1zmiO1XcF6B
+ yZJyvXZWV2EUqol8ChhScIFhlK5/SfZeoWw7WlHq46bhQSB9muw5MRqNT76MU2AbXqEd
+ 5j7DnlBPV7Kt+DOZCgLWoOIHdjXEKbNyjcy4O1QzX5yb4esuDspQBiGyi7uE38cs0zJ5
+ rE6+0JHPTUAbGJT5CV4D7v5QzVekPst8lWcjPnyH0BKtAx1NSP2Munx6WloJTQVY2WRG gw== 
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34sk46sk1e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Nov 2020 00:59:32 -0500
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AD5v903014737;
+ Fri, 13 Nov 2020 05:59:31 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma05wdc.us.ibm.com with ESMTP id 34nk79rgc2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Nov 2020 05:59:31 +0000
+Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
+ [9.57.199.107])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0AD5xVnw17629716
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 13 Nov 2020 05:59:31 GMT
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 100EC124052;
+ Fri, 13 Nov 2020 05:59:31 +0000 (GMT)
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EA2F3124058;
+ Fri, 13 Nov 2020 05:59:30 +0000 (GMT)
+Received: from gfw170.aus.stglabs.ibm.com (unknown [9.3.62.224])
+ by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri, 13 Nov 2020 05:59:30 +0000 (GMT)
+Received: by gfw170.aus.stglabs.ibm.com (Postfix, from userid 298080)
+ id 79A73152; Thu, 12 Nov 2020 23:59:30 -0600 (CST)
+From: Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>
+To: joel@jms.id.au, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, 
+ robh+dt@kernel.org
+Subject: [PATCH 1/6] ARM: dts: aspeed: rainier: Add Operator Panel LEDs
+Date: Thu, 12 Nov 2020 23:59:23 -0600
+Message-Id: <1605247168-1028-1-git-send-email-vishwa@linux.vnet.ibm.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-13_03:2020-11-12,
+ 2020-11-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ suspectscore=0 adultscore=0 lowpriorityscore=0 spamscore=0 clxscore=1011
+ malwarescore=0 phishscore=0 bulkscore=0 priorityscore=1501 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011130032
+X-Mailman-Approved-At: Sat, 14 Nov 2020 11:01:50 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,36 +93,119 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org
+Cc: vishwa@linux.vnet.ibm.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This needs to call of_node_put(np) before returning if of_iomap() fails.
+These LEDs are on the operator panel and are connected via
+a PCA9551 I2C expander.
 
-Fixes: e0218dca5787 ("soc: aspeed: Add soc info driver")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>
 ---
- drivers/soc/aspeed/aspeed-socinfo.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 82 ++++++++++++++++++++++++++++
+ 1 file changed, 82 insertions(+)
 
-diff --git a/drivers/soc/aspeed/aspeed-socinfo.c b/drivers/soc/aspeed/aspeed-socinfo.c
-index 20a1d4aeb051..773930e0cb10 100644
---- a/drivers/soc/aspeed/aspeed-socinfo.c
-+++ b/drivers/soc/aspeed/aspeed-socinfo.c
-@@ -74,8 +74,10 @@ static int __init aspeed_socinfo_init(void)
- 	}
+diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+index 21ae880..64d8748 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+@@ -122,6 +122,38 @@
+ 			reg = <3>;
+ 		};
+ 	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		/* System ID LED that is at front on Op Panel */
++		front-sys-id0 {
++			retain-state-shutdown;
++			default-state = "keep";
++			gpios = <&pca_oppanel 0 GPIO_ACTIVE_LOW>;
++		};
++
++		/* System Attention Indicator ID LED that is at front on Op Panel */
++		front-check-log0 {
++			retain-state-shutdown;
++			default-state = "keep";
++			gpios = <&pca_oppanel 1 GPIO_ACTIVE_LOW>;
++		};
++
++		/* Enclosure Fault LED that is at front on Op Panel */
++		front-enc-fault1 {
++			retain-state-shutdown;
++			default-state = "keep";
++			gpios = <&pca_oppanel 2 GPIO_ACTIVE_LOW>;
++		};
++
++		/* System PowerOn LED that is at front on Op Panel */
++		front-sys-pwron0 {
++			retain-state-shutdown;
++			default-state = "keep";
++			gpios = <&pca_oppanel 3 GPIO_ACTIVE_LOW>;
++		};
++	};
+ };
  
- 	reg = of_iomap(np, 0);
--	if (!reg)
-+	if (!reg) {
-+		of_node_put(np);
- 		return -ENODEV;
-+	}
- 	siliconid = readl(reg);
- 	iounmap(reg);
+ &ehci1 {
+@@ -838,6 +870,56 @@
+ 		};
+ 	};
  
++	pca_oppanel: pca9551@60 {
++		compatible = "nxp,pca9551";
++		reg = <0x60>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		gpio-controller;
++		#gpio-cells = <2>;
++
++		gpio@0 {
++			reg = <0>;
++			type = <PCA955X_TYPE_GPIO>;
++		};
++
++		gpio@1 {
++			reg = <1>;
++			type = <PCA955X_TYPE_GPIO>;
++		};
++
++		gpio@2 {
++			reg = <2>;
++			type = <PCA955X_TYPE_GPIO>;
++		};
++
++		gpio@3 {
++			reg = <3>;
++			type = <PCA955X_TYPE_GPIO>;
++		};
++
++		gpio@4 {
++			reg = <4>;
++			type = <PCA955X_TYPE_GPIO>;
++		};
++
++		gpio@5 {
++			reg = <5>;
++			type = <PCA955X_TYPE_GPIO>;
++		};
++
++		gpio@6 {
++			reg = <6>;
++			type = <PCA955X_TYPE_GPIO>;
++		};
++
++		gpio@7 {
++			reg = <7>;
++			type = <PCA955X_TYPE_GPIO>;
++		};
++	};
++
+ 	ibm-panel@62 {
+ 		compatible = "ibm,op-panel";
+ 		reg = <(0x62 | I2C_OWN_SLAVE_ADDRESS)>;
 -- 
-2.28.0
+1.8.3.1
 
