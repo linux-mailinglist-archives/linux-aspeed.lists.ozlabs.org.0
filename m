@@ -1,63 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C0982B8AC4
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Nov 2020 06:17:06 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id E20112B8AC5
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Nov 2020 06:17:57 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Cc7G73DL8zDqhH
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Nov 2020 16:17:03 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Cc7H66D3tzDqgd
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Nov 2020 16:17:54 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::843;
- helo=mail-qt1-x843.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f41;
+ helo=mail-qv1-xf41.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=mB18Ck6T; dkim-atps=neutral
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
- [IPv6:2607:f8b0:4864:20::843])
+ header.s=google header.b=izmRNWMI; dkim-atps=neutral
+Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com
+ [IPv6:2607:f8b0:4864:20::f41])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Cc7G13hnwzDqfD
- for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Nov 2020 16:16:57 +1100 (AEDT)
-Received: by mail-qt1-x843.google.com with SMTP id v11so3500467qtq.12
- for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Nov 2020 21:16:56 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Cc7H10J2ZzDqfV
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Nov 2020 16:17:48 +1100 (AEDT)
+Received: by mail-qv1-xf41.google.com with SMTP id 63so2289410qva.7
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Nov 2020 21:17:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=B3EsZPkEoXT4zxYNqPu9hgFRzc3MjaFuHgLigF/TdUA=;
- b=mB18Ck6Tz7z0cXqOihGrAMiJ/GnPs9KT900EfdjJLwpeP5GN4lwiXu3CAijjoyu7zs
- d1NJ0vPeWKwN3Zg1DbXu/cE7WCd1rfOSy5iV78pV2EGE1+PBA0KhLx8MTGTJjxEo37so
- K8s2xLtBBa4HkGUE8ZwHgSxApEXIWuNn2UyHw=
+ :cc; bh=pS7KdQ8JkGLBhZmDEyT+dB0u8xhj5n1AeXL63Pha2Fo=;
+ b=izmRNWMIYthZ/HU5FjfWgpUBzj4kR1JnWFFMkGF9fWC8m3Bry4y2YWkKQ9kTZ0JfNy
+ x9a3amTxT60ls9Yh3gdyZ3rBj2ZWoanrxWybhglwkU01JtOK0XRXo6cqVATtUuUZrWym
+ 8OWum+pJbyXSqxZZ24YYML/AGcCmc3nAosQgg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=B3EsZPkEoXT4zxYNqPu9hgFRzc3MjaFuHgLigF/TdUA=;
- b=OtnkVfEbb4bcb5eBLkmInqx/myuASaUuL0yD0RE9y2nFw8W1iladc9GHCrzX1Zg9YQ
- IVVMZnJsqKNhB84PWEvLpBw0z+QdR+oRRDp4Hp7gx+1hX3t1sfDYHTqqFVXTAYODErzg
- TKtjYWW4rT5FDbcIHVCb2hXM3LqBWOq2vtM7yVVIg5eURq4DWjzA/GlcMAQILlchmVlp
- 7umOCRB+lWr9GKgpIBsRdJ9lXGmUiBNzCFsAFyFfzKoCJsG0BPAhx7tOpaWWHOU2RUfr
- Uwtr6vi5eyGwl76lKZf49IigM2ucEh5JNrzH9d04jLpFnJJwWnCf5kXJEHnPH79hlBS5
- c2bQ==
-X-Gm-Message-State: AOAM531veQ7qADI6BQoZ7c4PBazoB29/0MmlguwnYItSRGBygbQ6IQFL
- z6KNZZH2ZnTDePmjG/CiA5iVhxhKV79Q1yeJs5Y=
-X-Google-Smtp-Source: ABdhPJwaZ2P8OVw0eTYSMERex8ss/IbbVRE4igK+EhHFqzAxCx62g6h7rOfvyNtGh1y12f4jZ5BPpknmovuWitSNJOQ=
-X-Received: by 2002:ac8:75c9:: with SMTP id z9mr9218129qtq.363.1605763012893; 
- Wed, 18 Nov 2020 21:16:52 -0800 (PST)
+ bh=pS7KdQ8JkGLBhZmDEyT+dB0u8xhj5n1AeXL63Pha2Fo=;
+ b=VNdjedSqGAimx7kr6eTHCkzTBnFAfg/YHLc/K7QFBnnldgDdeBtvCL0hJwHfDt/C1r
+ aDpqkPZte202s2Z6/ZLu0C+NOjHhFaZO347yoCiDrBe6+2goOuk2VexZMI50H+osSpfH
+ nVAw9zI3gqCeZ+qCypnsAl1V7lYJ1hI96L8Xm786uyTUQBvUZFDgINznjWFJPpUp7UN8
+ Auqlh9SyhgV0NHC7yK6THXdJDdyBSnm8G9NSJin7aCWDra/BOq11E4feiGmPMHMfUjXG
+ dysjJe2Nv2p5uJGykZs6KaE3I//j1VkQST35kb4H5ow9kaIXH9yDq3RWJ7bEWIJQ8dCU
+ f8cQ==
+X-Gm-Message-State: AOAM532RiWAo2PFouz8GZER4LijwjD7m2qL46KX4xZbqE2mJmFfWEAJR
+ ELR/Hapf71S+Sr7TXfh+k6PwSOCwNR+pVHbvYFI=
+X-Google-Smtp-Source: ABdhPJx5L4CA73TSB0ya3N3l8FjwQz/kudIn9JyskAAXeCrGCIE68jEVLG6uaVFZcwqsCyDdVssgOLVsAX8WYXEvCFQ=
+X-Received: by 2002:a0c:c984:: with SMTP id b4mr9219438qvk.10.1605763064832;
+ Wed, 18 Nov 2020 21:17:44 -0800 (PST)
 MIME-Version: 1.0
 References: <20201022014731.2035438-1-andrew@aj.id.au>
- <20201022014731.2035438-2-andrew@aj.id.au>
-In-Reply-To: <20201022014731.2035438-2-andrew@aj.id.au>
+ <20201022014731.2035438-6-andrew@aj.id.au>
+In-Reply-To: <20201022014731.2035438-6-andrew@aj.id.au>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 19 Nov 2020 05:16:40 +0000
-Message-ID: <CACPK8XeGoJWt_DW0q-mZf7LKTM_mFPWf8odL+BUjA7FDzL=y3A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] ARM: dts: tacoma: Fix node vs reg mismatch for
- flash memory
+Date: Thu, 19 Nov 2020 05:17:32 +0000
+Message-ID: <CACPK8XfaF_ZzhL1mQxK5Rcpkq9UmBtas+MzxJvFTFC3Bm2UGuw@mail.gmail.com>
+Subject: Re: [PATCH v2 5/6] ARM: dts: rainier: Add reserved memory for ramoops
 To: Andrew Jeffery <andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -81,31 +80,40 @@ Sender: "Linux-aspeed"
 
 On Thu, 22 Oct 2020 at 01:48, Andrew Jeffery <andrew@aj.id.au> wrote:
 >
-> The mismatch lead to a miscalculation of regions in another patch, and
-> shouldn't be mismatched anyway, so make them consistent.
+> Reserve a 1.5MiB region of memory to record kmsg dumps, console and
+> userspace message state into 16kiB ring-buffer slots. The sizing allows
+> for up to 16 dumps to be captured and read out.
+>
+> Set max-reason to KMSG_DUMP_EMERG to capture bad-path reboots.
 >
 > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 
-Fixes: 575640201e66 ("ARM: dts: aspeed: tacoma: Use 64MB for firmware memory")
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 
 > ---
->  arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-> index 4d070d6ba09f..e86c22ce6d12 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-> @@ -26,7 +26,7 @@ reserved-memory {
->                 #size-cells = <1>;
->                 ranges;
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+> index 802027a3c43c..8431cf1b32e6 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+> @@ -55,6 +55,15 @@ flash_memory: region@B8000000 {
 >
-> -               flash_memory: region@ba000000 {
-> +               flash_memory: region@b8000000 {
+>                 /* 48MB region from the end of flash to start of vga memory */
+>
+> +               ramoops@bc000000 {
+> +                       compatible = "ramoops";
+> +                       reg = <0xbc000000 0x180000>; /* 16 * (3 * 0x8000) */
+> +                       record-size = <0x8000>;
+> +                       console-size = <0x8000>;
+> +                       pmsg-size = <0x8000>;
+> +                       max-reason = <3>; /* KMSG_DUMP_EMERG */
+> +               };
+> +
+>                 /* VGA region is dictated by hardware strapping */
+>                 vga_memory: region@bf000000 {
 >                         no-map;
->                         reg = <0xb8000000 0x4000000>; /* 64M */
->                 };
 > --
 > 2.25.1
 >
