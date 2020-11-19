@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20112B8AC5
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Nov 2020 06:17:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9355D2B8AC8
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Nov 2020 06:18:23 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Cc7H66D3tzDqgd
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Nov 2020 16:17:54 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Cc7Hc619ZzDqSn
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Nov 2020 16:18:20 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,46 +17,46 @@ Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=izmRNWMI; dkim-atps=neutral
+ header.s=google header.b=TKzahsrN; dkim-atps=neutral
 Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com
  [IPv6:2607:f8b0:4864:20::f41])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Cc7H10J2ZzDqfV
- for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Nov 2020 16:17:48 +1100 (AEDT)
-Received: by mail-qv1-xf41.google.com with SMTP id 63so2289410qva.7
- for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Nov 2020 21:17:48 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Cc7HW3rQHzDqSn
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Nov 2020 16:18:15 +1100 (AEDT)
+Received: by mail-qv1-xf41.google.com with SMTP id x13so2289026qvk.8
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Nov 2020 21:18:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pS7KdQ8JkGLBhZmDEyT+dB0u8xhj5n1AeXL63Pha2Fo=;
- b=izmRNWMIYthZ/HU5FjfWgpUBzj4kR1JnWFFMkGF9fWC8m3Bry4y2YWkKQ9kTZ0JfNy
- x9a3amTxT60ls9Yh3gdyZ3rBj2ZWoanrxWybhglwkU01JtOK0XRXo6cqVATtUuUZrWym
- 8OWum+pJbyXSqxZZ24YYML/AGcCmc3nAosQgg=
+ :cc; bh=OqZSptQt27MJXF+QZPVZ7r04kV7IR2mYe4GqqPa6IEE=;
+ b=TKzahsrNBrqKjnKyDEivIbVJkMZS8RSwV+0GvMgueNjzBlMPDIaREBkYIDjwypWiT+
+ QhlRvpGGsMXvrM09LdEh+CiAF2BU8+mUSRJP66L9xoi38ariG+czv6aPlQkvbWxDSo6e
+ /vmLVCVISKYw4gUvl0iHqdP+g2ZKdrxDwlBvQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=pS7KdQ8JkGLBhZmDEyT+dB0u8xhj5n1AeXL63Pha2Fo=;
- b=VNdjedSqGAimx7kr6eTHCkzTBnFAfg/YHLc/K7QFBnnldgDdeBtvCL0hJwHfDt/C1r
- aDpqkPZte202s2Z6/ZLu0C+NOjHhFaZO347yoCiDrBe6+2goOuk2VexZMI50H+osSpfH
- nVAw9zI3gqCeZ+qCypnsAl1V7lYJ1hI96L8Xm786uyTUQBvUZFDgINznjWFJPpUp7UN8
- Auqlh9SyhgV0NHC7yK6THXdJDdyBSnm8G9NSJin7aCWDra/BOq11E4feiGmPMHMfUjXG
- dysjJe2Nv2p5uJGykZs6KaE3I//j1VkQST35kb4H5ow9kaIXH9yDq3RWJ7bEWIJQ8dCU
- f8cQ==
-X-Gm-Message-State: AOAM532RiWAo2PFouz8GZER4LijwjD7m2qL46KX4xZbqE2mJmFfWEAJR
- ELR/Hapf71S+Sr7TXfh+k6PwSOCwNR+pVHbvYFI=
-X-Google-Smtp-Source: ABdhPJx5L4CA73TSB0ya3N3l8FjwQz/kudIn9JyskAAXeCrGCIE68jEVLG6uaVFZcwqsCyDdVssgOLVsAX8WYXEvCFQ=
-X-Received: by 2002:a0c:c984:: with SMTP id b4mr9219438qvk.10.1605763064832;
- Wed, 18 Nov 2020 21:17:44 -0800 (PST)
+ bh=OqZSptQt27MJXF+QZPVZ7r04kV7IR2mYe4GqqPa6IEE=;
+ b=a25frLZzcEw4jjMj+IjDfWSTKyYJUN7QDzd8h+XO1yngRdMKN12O4wFBida0ZGUlKD
+ 0pa8MmWQoDdXaOJB3FiIz88WegUjbzbUy64ow5bqbURNbUq3rHXkftRWVxJxfxkU0pPU
+ jDipr40X2rv210eQukDytr0FWPZVornVHUkzptoZC1GlJs4i+GiSI0HgMlYd0ch020oc
+ X91jhU11b138Ecu6i4QTp9nNrQpEOA+ju/54sDnA3mD+sHPe6ROs7DGPFfraBR7tLcGQ
+ V2aIMBVunzmdqP361NW0By0rPMN8Qh5zF7qVNR4Ey0QBeey8KFIlxWjDM2+Vjo7d81cQ
+ YHJg==
+X-Gm-Message-State: AOAM533hQvTgG7+cy76HwOAIAdsNNxN0i9XdvA5RnQW9lAzEGWQSF4Jc
+ d6RNLbswhLsRjHb543maE3DZpbfR+aAv/wFuDsQ=
+X-Google-Smtp-Source: ABdhPJw/SAZ1gn3TFv6uB9mAMXTyHDmcqQqrp9QINmtcapIeeLWmWk6j34yHR/RZuXmPgs7hMBWrUoKmp/tl4N3D2z8=
+X-Received: by 2002:a0c:aed4:: with SMTP id n20mr9290736qvd.16.1605763093184; 
+ Wed, 18 Nov 2020 21:18:13 -0800 (PST)
 MIME-Version: 1.0
 References: <20201022014731.2035438-1-andrew@aj.id.au>
- <20201022014731.2035438-6-andrew@aj.id.au>
-In-Reply-To: <20201022014731.2035438-6-andrew@aj.id.au>
+ <20201022014731.2035438-7-andrew@aj.id.au>
+In-Reply-To: <20201022014731.2035438-7-andrew@aj.id.au>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 19 Nov 2020 05:17:32 +0000
-Message-ID: <CACPK8XfaF_ZzhL1mQxK5Rcpkq9UmBtas+MzxJvFTFC3Bm2UGuw@mail.gmail.com>
-Subject: Re: [PATCH v2 5/6] ARM: dts: rainier: Add reserved memory for ramoops
+Date: Thu, 19 Nov 2020 05:18:01 +0000
+Message-ID: <CACPK8XeU866qVx4hdv4s9ZM99WoWDL9Ek+SBbOQMqTsxV+8Hdg@mail.gmail.com>
+Subject: Re: [PATCH v2 6/6] ARM: dts: tacoma: Add reserved memory for ramoops
 To: Andrew Jeffery <andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -91,14 +91,14 @@ On Thu, 22 Oct 2020 at 01:48, Andrew Jeffery <andrew@aj.id.au> wrote:
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 
 > ---
->  arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 9 +++++++++
+>  arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 9 +++++++++
 >  1 file changed, 9 insertions(+)
 >
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> index 802027a3c43c..8431cf1b32e6 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> @@ -55,6 +55,15 @@ flash_memory: region@B8000000 {
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> index 09b561429579..04efabe70d9f 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> @@ -34,6 +34,15 @@ flash_memory: region@b8000000 {
 >
 >                 /* 48MB region from the end of flash to start of vga memory */
 >
