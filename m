@@ -2,75 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A002B561A
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Nov 2020 02:16:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0982B8AC4
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Nov 2020 06:17:06 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CZp1P6n3fzDqQB
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Nov 2020 12:16:25 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Cc7G73DL8zDqhH
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Nov 2020 16:17:03 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::544;
- helo=mail-pg1-x544.google.com; envelope-from=rentao.bupt@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::843;
+ helo=mail-qt1-x843.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=UzrhGmoU; dkim-atps=neutral
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=mB18Ck6T; dkim-atps=neutral
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
+ [IPv6:2607:f8b0:4864:20::843])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CZp1B17bVzDq5k;
- Tue, 17 Nov 2020 12:16:13 +1100 (AEDT)
-Received: by mail-pg1-x544.google.com with SMTP id f18so14817964pgi.8;
- Mon, 16 Nov 2020 17:16:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=8QL8bbL+oGG6j6oJ9WDXTBxGYp2AuVWWexQCgXhyNIw=;
- b=UzrhGmoUmM8ZOz+737sUWqYfpZdtl90uocjfMWmiVl9dmtFbEMana3Bc3y8L9pp7II
- wnIpwQwAs70r5FmJBe+p10GqkY84K1z+l1imKI25hqOoG7gPXQccxHBPMS7nsymmz/YU
- 6gvgFLulRuKS2VqsccCdluS6S4soaChBTxcLwijS1onUrjad1u/DvPJe6e9ZvdeeOC5T
- CbCpRZ4wvMez0H2dz5reHYPdu6qlyjTKzntDoQsCsbQzB5nGOkGax9Jk9UDSfO7fveLX
- i0TJvZVrRZnMqmZZplsdXRGfvKRfOlIQ6BQiVPIGbY0dtA0um6bhTEYCnAv7dpqPM6NB
- 2ahw==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Cc7G13hnwzDqfD
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Nov 2020 16:16:57 +1100 (AEDT)
+Received: by mail-qt1-x843.google.com with SMTP id v11so3500467qtq.12
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Nov 2020 21:16:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=B3EsZPkEoXT4zxYNqPu9hgFRzc3MjaFuHgLigF/TdUA=;
+ b=mB18Ck6Tz7z0cXqOihGrAMiJ/GnPs9KT900EfdjJLwpeP5GN4lwiXu3CAijjoyu7zs
+ d1NJ0vPeWKwN3Zg1DbXu/cE7WCd1rfOSy5iV78pV2EGE1+PBA0KhLx8MTGTJjxEo37so
+ K8s2xLtBBa4HkGUE8ZwHgSxApEXIWuNn2UyHw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=8QL8bbL+oGG6j6oJ9WDXTBxGYp2AuVWWexQCgXhyNIw=;
- b=V3Uy+b0zu9RIqbstNwPa+EEYadJb7T9xH4/zzlxWygcSF+Uj0Hu74df9OWs2dFM2/A
- S2i9anhHHGSWPuSL+t0mgZAwEvcA3QRTsqNEEA6yU9H1OJtATI+PhUuEnah42/7OvSTD
- o3fHpwSFFo87HSFMqJ4iJSfD3OG+h8OkjXglHnM4S0SkZQvJrsKc5sA0l7meNptLMi0h
- 0kvyUzgt5A0Wz8Ypd41TgQuFjZWZnSsSLjearSs4tpLn7T/eIGzl8lYKFHmy+VhnTFF2
- KaYndSC9z2k54jc15unE1vIL6sHNkwWFvB6NV0ZmClcRnH+lGaNPgOOj+H2qPK564aVt
- hTZw==
-X-Gm-Message-State: AOAM533XkscPx9W3Aey5w+3NJ66KxZ1DhvRf2kE7BkI7YNSeOxTousBU
- RQ+nVsgLWnNAbGlwJMFkJuQ=
-X-Google-Smtp-Source: ABdhPJyZmrK95Glb6r1a/zk7QiBx5GV1jnOBBZa8fDAoJbRhXkoD/TKm2WoqieMhtraGYKlO38A0hA==
-X-Received: by 2002:a17:90a:4a12:: with SMTP id
- e18mr1870538pjh.9.1605575770256; 
- Mon, 16 Nov 2020 17:16:10 -0800 (PST)
-Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net.
- [73.252.146.110])
- by smtp.gmail.com with ESMTPSA id h14sm19306404pfr.32.2020.11.16.17.16.08
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 16 Nov 2020 17:16:09 -0800 (PST)
-Date: Mon, 16 Nov 2020 17:16:03 -0800
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH] ARM: dts: aspeed: minipack: Fixup I2C tree
-Message-ID: <20201117011602.GA28529@taoren-ubuntu-R90MNF91>
-References: <20201110072446.8218-1-rentao.bupt@gmail.com>
- <CACPK8Xcpj_LsYOJ=S0p1D5Wqof_2m7SLnPRantQen61B2_XjAA@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=B3EsZPkEoXT4zxYNqPu9hgFRzc3MjaFuHgLigF/TdUA=;
+ b=OtnkVfEbb4bcb5eBLkmInqx/myuASaUuL0yD0RE9y2nFw8W1iladc9GHCrzX1Zg9YQ
+ IVVMZnJsqKNhB84PWEvLpBw0z+QdR+oRRDp4Hp7gx+1hX3t1sfDYHTqqFVXTAYODErzg
+ TKtjYWW4rT5FDbcIHVCb2hXM3LqBWOq2vtM7yVVIg5eURq4DWjzA/GlcMAQILlchmVlp
+ 7umOCRB+lWr9GKgpIBsRdJ9lXGmUiBNzCFsAFyFfzKoCJsG0BPAhx7tOpaWWHOU2RUfr
+ Uwtr6vi5eyGwl76lKZf49IigM2ucEh5JNrzH9d04jLpFnJJwWnCf5kXJEHnPH79hlBS5
+ c2bQ==
+X-Gm-Message-State: AOAM531veQ7qADI6BQoZ7c4PBazoB29/0MmlguwnYItSRGBygbQ6IQFL
+ z6KNZZH2ZnTDePmjG/CiA5iVhxhKV79Q1yeJs5Y=
+X-Google-Smtp-Source: ABdhPJwaZ2P8OVw0eTYSMERex8ss/IbbVRE4igK+EhHFqzAxCx62g6h7rOfvyNtGh1y12f4jZ5BPpknmovuWitSNJOQ=
+X-Received: by 2002:ac8:75c9:: with SMTP id z9mr9218129qtq.363.1605763012893; 
+ Wed, 18 Nov 2020 21:16:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACPK8Xcpj_LsYOJ=S0p1D5Wqof_2m7SLnPRantQen61B2_XjAA@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20201022014731.2035438-1-andrew@aj.id.au>
+ <20201022014731.2035438-2-andrew@aj.id.au>
+In-Reply-To: <20201022014731.2035438-2-andrew@aj.id.au>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 19 Nov 2020 05:16:40 +0000
+Message-ID: <CACPK8XeGoJWt_DW0q-mZf7LKTM_mFPWf8odL+BUjA7FDzL=y3A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] ARM: dts: tacoma: Fix node vs reg mismatch for
+ flash memory
+To: Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,37 +71,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
+Cc: devicetree <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
  linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Nov 16, 2020 at 03:33:45AM +0000, Joel Stanley wrote:
-> On Tue, 10 Nov 2020 at 07:24, <rentao.bupt@gmail.com> wrote:
-> >
-> > From: Tao Ren <rentao.bupt@gmail.com>
-> >
-> > Create all the i2c switches in device tree and use aliases to assign
-> > child channels with consistent bus numbers.
-> >
-> > Besides, "i2c-mux-idle-disconnect" is set for all the i2c switches to
-> > avoid potential conflicts when multiple devices (beind the switches) use
-> > the same device address.
-> >
-> > Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
-> 
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
-> 
-> I will apply for 5.11.
+On Thu, 22 Oct 2020 at 01:48, Andrew Jeffery <andrew@aj.id.au> wrote:
+>
+> The mismatch lead to a miscalculation of regions in another patch, and
+> shouldn't be mismatched anyway, so make them consistent.
+>
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 
-Great. Thank you Joel!
+Fixes: 575640201e66 ("ARM: dts: aspeed: tacoma: Use 64MB for firmware memory")
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-
-Cheers,
-
-Tao
+> ---
+>  arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> index 4d070d6ba09f..e86c22ce6d12 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+> @@ -26,7 +26,7 @@ reserved-memory {
+>                 #size-cells = <1>;
+>                 ranges;
+>
+> -               flash_memory: region@ba000000 {
+> +               flash_memory: region@b8000000 {
+>                         no-map;
+>                         reg = <0xb8000000 0x4000000>; /* 64M */
+>                 };
+> --
+> 2.25.1
+>
