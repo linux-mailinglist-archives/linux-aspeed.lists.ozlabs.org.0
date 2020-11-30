@@ -2,61 +2,58 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F57B2C7E43
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Nov 2020 07:38:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6DCB2C7E4A
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Nov 2020 07:42:03 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CkwXl1wnQzDrGp
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Nov 2020 17:38:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Ckwd34DJ9zDqJf
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Nov 2020 17:41:59 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::734;
- helo=mail-qk1-x734.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f31;
+ helo=mail-qv1-xf31.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=jms.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=dnf1RaF9; dkim-atps=neutral
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
+ header.s=google header.b=l6bODzPG; dkim-atps=neutral
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com
+ [IPv6:2607:f8b0:4864:20::f31])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CkwXf0vFxzDr7x
- for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Nov 2020 17:38:09 +1100 (AEDT)
-Received: by mail-qk1-x734.google.com with SMTP id y197so9921828qkb.7
- for <linux-aspeed@lists.ozlabs.org>; Sun, 29 Nov 2020 22:38:09 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Ckwcx0Hf9zDq5t
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Nov 2020 17:41:51 +1100 (AEDT)
+Received: by mail-qv1-xf31.google.com with SMTP id k3so5132154qvz.4
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 29 Nov 2020 22:41:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8aZH7xH1QClemQN3cgWizp/vs6QuuxBKUGXhMGD3Yrw=;
- b=dnf1RaF9He5u7B7kCVjE3mq49sOOHfEKNobnfTtzM9J1L3A8BY+SLwQCUALTbVtjQ9
- CtTG+NlxBt0Ibuwgt9p/fBWHT9seZvEiNKfp1hwdSGjGaoULJadvpudwhJJKx51XkjDS
- 86hnkjOjf6PlCqqgNJbCmQeF4Ggc3QCNKwqJs=
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=CdHx5KiLyaEyJOC9X9oNjng2qNlznD6EoCcuDCWrNT8=;
+ b=l6bODzPGxrdcLVgrkechssNiqLkRpX9WT8LeswM/031xZokPqcNgulSTnmyVeosJtJ
+ +p4niSgGUL3kf8ugVnFCEAMAFktMyu5W0sejbPS/OW9MSDzIgEk0t12JqwE352+1Q1UM
+ tJj2nQskac0vytch8rLOPsoJdCwufHdXO1l44=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8aZH7xH1QClemQN3cgWizp/vs6QuuxBKUGXhMGD3Yrw=;
- b=PARJIjXXPG1vAHApdFV/8o5ne4AcBQG78h4zQcn3alTCfQ33carjR/Ign8a+PLVKw7
- 2XIA7NwkUitaAGku9AKqzTsiG88P/x7PqVXppu5vlz0SBPq1Q/FGqoHCgYv7oSaK7puh
- bHxLgiiMJla7/+J1FX75s//yi9E5UAQif/eUDaIey6RyRluh3oN1pQaVdY/TZg785mfi
- vrMDNpOdtWdBSV2c3sYwJyFBYdkaU/2BtHze9yWaMIOv6S6AzIxmgTSpeZ9xm/o/2ZaG
- pVTO9X1J5Ms/s4ITXLCNLaMUnmNPWWuiVm1CyVyweqloavwaCTHoZjjy68tRojOcBG2y
- cuUA==
-X-Gm-Message-State: AOAM533CPU1igo2RcWNRWUCY1Vk2/ZWzScZh9gAAV9fLCVLRgYncbpmQ
- /134B7ksIujNk8RSJnbyRITXPydufqNw6tczF0k=
-X-Google-Smtp-Source: ABdhPJxAEMvfikp/jML+4aNUOqTwtkbn7fThOwCxc075GAV7c9ruhKnxeHHLCnRB2VLfe8V0zUi3fQ8Kl5Ulo0RaUV4=
-X-Received: by 2002:a37:6805:: with SMTP id d5mr21254604qkc.66.1606718285247; 
- Sun, 29 Nov 2020 22:38:05 -0800 (PST)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=CdHx5KiLyaEyJOC9X9oNjng2qNlznD6EoCcuDCWrNT8=;
+ b=Y652f7MQaS1vlOSKlvmIKIplA6d+BZbBexrxSoJa+R71ejfRJQv2dKCxP5PC0X23lh
+ 03EUAWELvPTAGmhrFnAtvFhet/uPZcf8q7kalh+wSiFUAkj0HMszyc+alN/IMhN6m37Y
+ hOAezmyp//oCzEpFZ9uonf0xMxmpWq+RfqNOlA673uwBMINmZni31VhCXB2xUTKbKE+a
+ 1Htzge51Qob92nvK/9At8jU52JWAWzoEZ6OfnMCBe9fC2u3y+1F1nM1rXZqNrmGHJdME
+ gjBmcEniL7WWzTXu4FVNAi6FDNhx4YdXsanJTZ0UqmDAbOTW3VFEjf/6GCiEJYNdPkdV
+ g5Xg==
+X-Gm-Message-State: AOAM531llUGDS0Ig4B+quB0zmBsfghpQ9hdZr4NiVl+YrWYjxTvx4bOu
+ FM/aSbipjKHDH0UqezQogYlSlJ9Z2EM7ZB+7eo8=
+X-Google-Smtp-Source: ABdhPJxa/Le1uLRFRYP53fUxHYNmUKAq37dxseEtROHnYq1o89Km+OP/pXw2TYoyxUv2xqW7yinMpFianyxDaV+jmtU=
+X-Received: by 2002:a0c:aed4:: with SMTP id n20mr20713780qvd.16.1606718506893; 
+ Sun, 29 Nov 2020 22:41:46 -0800 (PST)
 MIME-Version: 1.0
-References: <CACPK8Xfd7AmuEaUdFfYLu4ktcrpTnYUgwQSxUbC-McB02hvo_g@mail.gmail.com>
-In-Reply-To: <CACPK8Xfd7AmuEaUdFfYLu4ktcrpTnYUgwQSxUbC-McB02hvo_g@mail.gmail.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 30 Nov 2020 06:37:53 +0000
-Message-ID: <CACPK8Xf-agBq2iBJyXOn_XKBoOaE1FPtY00P+n3Z2gNDuy88QA@mail.gmail.com>
-Subject: Re: [GIT PULL] ARM: aspeed: soc changes for 5.11
-To: SoC Team <soc@kernel.org>, arm <arm@kernel.org>
+Date: Mon, 30 Nov 2020 06:41:35 +0000
+Message-ID: <CACPK8Xe=9ezhyWRMqVOEQr7SU1YoYfVBGGdGzjmE4SiBr--vJQ@mail.gmail.com>
+Subject: [GIT PULL] ARM: aspeed: actually the soc changes for 5.11
+To: SoC Team <soc@kernel.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -69,94 +66,73 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 30 Nov 2020 at 06:30, Joel Stanley <joel@jms.id.au> wrote:
->
-> Hello Soc maintainers,
->
-> Here are some ASPEED changes for the 5.11 merge window.
+Hello Soc maintainers,
 
-Despite the subject, these are the device tree changes. Apologies for
-the confusion.
+Here are some ASPEED SoC changes for the v5.11 merge window.
 
->
-> The following changes since commit 2ba56f464f0c1a7264160f8675063b3df92e7966:
->
->   ARM: dts: aspeed: ast2600evb: Add MAC0 (2020-11-19 22:31:18 +1030)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
-> tags/aspeed-5.11-devicetree
->
-> for you to fetch changes up to 2ba56f464f0c1a7264160f8675063b3df92e7966:
->
->   ARM: dts: aspeed: ast2600evb: Add MAC0 (2020-11-19 22:31:18 +1030)
->
-> ----------------------------------------------------------------
-> ASPEED device tree updates for 5.11
->
->  - New machines
->
->    * Bytedance G220A, an AST2500 BMC for an x86 server
->    * Facebook Galaxy100, an AST2400 BMC for a network switch
->    * IBM Rainier 4U, an AST2600 BMC for a PowerPC server
->
->  - Reworking of Facebook device trees to use common dtsi
->
->  - A 64MB flash layout used by the G220A
->
->  - Misc updates to tiogapass, ethanolx, s2600wf, tacoma and rainier
->
-> ----------------------------------------------------------------
-> Andrew Jeffery (4):
->       ARM: dts: tacoma: Fix node vs reg mismatch for flash memory
->       ARM: dts: rainier: Add reserved memory for ramoops
->       ARM: dts: tacoma: Add reserved memory for ramoops
->       ARM: dts: aspeed: rainier: Don't shout addresses
->
-> Billy Tsai (1):
->       ARM: dts: aspeed-g6: Fix the GPIO memory size
->
-> Eddie James (2):
->       ARM: dts: aspeed: rainier: Add 4U device-tree
->       ARM: dts: aspeed: rainier: Mark FSI SPI controllers as restricted
->
-> George Liu (1):
->       ARM: dts: Fix label address for 64MiB OpenBMC flash layout
->
-> Joel Stanley (2):
->       ARM: dts: aspeed: s2600wf: Fix VGA memory region location
->       ARM: dts: aspeed: ast2600evb: Add MAC0
->
-> John Wang (2):
->       ARM: dts: Add 64MiB OpenBMC flash layout
->       ARM: dts: aspeed: g220a: Add some gpios
->
-> Konstantin Aladyshev (4):
->       ARM: dts: aspeed: amd-ethanolx: Update KCS nodes to use v2 binding
->       ARM: dts: aspeed: amd-ethanolx: Enable KCS channel 3
->       ARM: dts: aspeed: amd-ethanolx: Enable devices for the iKVM functionality
->       ARM: dts: aspeed: amd-ethanolx: Add GPIO line names
->
-> Lotus Xu (1):
->       ARM: dts: aspeed: Add Bytedance g220a BMC machine
->
-> Paul Fertser (1):
->       arm: dts: aspeed: tiogapass: Enable second MAC
->
-> Tao Ren (6):
->       ARM: dts: aspeed: Common dtsi for Facebook AST2400 Network BMCs
->       ARM: dts: aspeed: wedge40: Use common dtsi
->       ARM: dts: aspeed: wedge100: Use common dtsi
->       ARM: dts: aspeed: Add Facebook Galaxy100 (AST2400) BMC
->       ARM: dts: aspeed: wedge400: Fix FMC flash0 layout
->       ARM: dts: aspeed: minipack: Fixup I2C tree
->
-> Vijay Khemka (1):
->       ARM: dts: aspeed: tiogapass: Remove vuart
+These are mostly the 5.10 changes without the XDMA driver, which I
+didn't get a response on my question about where we wanted that to
+live[1]
+
+https://lore.kernel.org/linux-arm-kernel/CACPK8XcLOopkx0k14k25puD3YkwHzZS0+3TLcEL43xbxCZBphA@mail.gmail.com/
+
+The following changes since commit 4da595ddc06909d9ba8fcedcce0c4e1e0a4c3244:
+
+  soc: aspeed: Enable drivers with ARCH_ASPEED (2020-11-19 23:01:36 +1030)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
+tags/aspeed-5.11-soc
+
+for you to fetch changes up to 4da595ddc06909d9ba8fcedcce0c4e1e0a4c3244:
+
+  soc: aspeed: Enable drivers with ARCH_ASPEED (2020-11-19 23:01:36 +1030)
+
+----------------------------------------------------------------
+ASPEED soc driver updates for 5.11
+
+New drivers:
+
+ - SoC info driver to expose revision information
+
+New features:
+
+ - AST2600 support for the LPC control driver. This includes
+   setting the LPC2AHB bridge up in a backwards compatible manner.
+
+Cleanups:
+
+ - LPC control
+ - Kconfig
+ - Bindings updates for AST2600 strings
+
+----------------------------------------------------------------
+Andrew Jeffery (1):
+      soc: aspeed-lpc-ctrl: Fail probe of lpc-ctrl if reserved memory
+is not aligned
+
+Brad Bishop (2):
+      dt-bindings: aspeed-lpc: Add AST2600 compatible strings
+      soc: aspeed: lpc: Add AST2600 compatible strings
+
+Dan Carpenter (1):
+      soc: aspeed: Fix a reference leak in aspeed_socinfo_init()
+
+Joel Stanley (8):
+      soc: aspeed: Improve kconfig
+      dt-bindings: aspeed: Add silicon id node to SCU
+      soc: aspeed: Add soc info driver
+      ARM: dts: aspeed: Add silicon id node
+      soc: aspeed-lpc-ctrl: LPC to AHB mapping on ast2600
+      soc: aspeed-lpc-ctrl: Fix whitespace
+      soc: aspeed-lpc-ctrl: Fix driver name
+      soc: aspeed: Enable drivers with ARCH_ASPEED
+
+Tom Rix (1):
+      soc: aspeed: remove unneeded semicolon
