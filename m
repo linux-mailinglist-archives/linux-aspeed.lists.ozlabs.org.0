@@ -2,62 +2,92 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A255D2C519E
-	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Nov 2020 10:52:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4781E2C7E0F
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Nov 2020 07:16:38 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ChY2z3JTVzDrBg
-	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Nov 2020 20:52:43 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Ckw3k1Cb9zDr4R
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Nov 2020 17:16:34 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::742;
- helo=mail-qk1-x742.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=64.147.123.20;
+ helo=wout4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=hjFNlGqm; dkim-atps=neutral
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm1 header.b=I28mP9V5; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=YXKxGXsB; 
+ dkim-atps=neutral
+X-Greylist: delayed 457 seconds by postgrey-1.36 at bilbo;
+ Mon, 30 Nov 2020 17:16:21 AEDT
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4ChY2r1CCSzDr8H;
- Thu, 26 Nov 2020 20:52:35 +1100 (AEDT)
-Received: by mail-qk1-x742.google.com with SMTP id d9so1053829qke.8;
- Thu, 26 Nov 2020 01:52:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lhAJwHP75hsl97cC7IiYuLFHgheKFMaUCjy83jp4Xo8=;
- b=hjFNlGqmmrZOvOqgtSKCMkq23TreyWsww2nNG6qSTyjbNybNlEzTAIULz8iEfDfZFr
- 1xEj/PepyV12Gz0KFPN13cFk0aRhKPB0kOrbkbcVx4J3o2u4zKyizzGeJUK4hfKF1EuE
- HTgCJ0cpMkiWXjqau3GJ4YaU6OWpnBkl9cMq8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lhAJwHP75hsl97cC7IiYuLFHgheKFMaUCjy83jp4Xo8=;
- b=fXc3VIB8JJi8+iayUWKOzY52dNEqY19miXnUJR2LvWFuEr6caqHra/I5TBGsdBgrJV
- OXtTeX4UPpnIQ9bonPG03MAz18Z/zgjXCDxEe0qWYJNA4yWcQuMztjD5cbJaquA7+z7N
- zXQ74Dk1NhUG9t9QrHCEhXkPXei4FoFWgiDAN+xjXuGNE3wNOzg0CzCrPaSWf5Nw/mgB
- bWN/z5IPOvIUheeYikCDZro8oO0K8dPQHHmAVFW5EwhflfcAFX0nQXUQ4V7cxMbbe+bw
- NhrwUbSNVbPyZFGe5Jhh+KHMeXZOgAIkrWon6CJVWIIfdT+F9S4SWcW9Ao04bP7KZHDm
- ueVQ==
-X-Gm-Message-State: AOAM532eTsmhKJumic+Z+phSIRpb2kS+PZWY0IZwqbdjcIagCXFQdQS3
- YClbGJkHGyEyQC4/qat8diG3lb1GkLlgV1nKhR8=
-X-Google-Smtp-Source: ABdhPJxBkPAme7JvzEXh0g2dZnoiqdHBTGf5YeQLBNz4RkIbTThw92RlwtAreusQavSct1HU26j3F0mgO8JuE1QS9RU=
-X-Received: by 2002:a37:6805:: with SMTP id d5mr2390243qkc.66.1606384350546;
- Thu, 26 Nov 2020 01:52:30 -0800 (PST)
-MIME-Version: 1.0
-References: <20201126063337.489927-1-andrew@aj.id.au>
-In-Reply-To: <20201126063337.489927-1-andrew@aj.id.au>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 26 Nov 2020 09:52:18 +0000
-Message-ID: <CACPK8XeWH0269EGg6=CRSrsk0U5tQNJkmgNP=FKuRPpbE-vpeQ@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: aspeed: Fix GPIO requests on pass-through banks
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Ckw3T2Pb7zDqfZ
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Nov 2020 17:16:21 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 13887E24;
+ Mon, 30 Nov 2020 01:08:40 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Mon, 30 Nov 2020 01:08:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=C5J1tdXluFxh4c0JQjvN0sOfQgNwkXI
+ lVaVmjYnYzWs=; b=I28mP9V5ITl5zDh2s7vN8v3EZsV/lK5FyPlRYoXBcViZEP4
+ V7ABGPs5qEHTtMnYYblMcEl5jDjFFrB3uRWwEpG+/7tch3P0W8UQhj8qrGWBb/bE
+ UspX1w+AHKB+7A9sp2TFzWYGD0Jxy6DwW8jRLRel0FQp7DSw8f6PwotEK+IwBs4G
+ Zdnc4RHlWgSX6SjjVS8ZuaycjXCaclkeSYpGQP3rcj7NE0RDkWuaJWGwyulFqQSz
+ 3tNXQBV2KsjTWGgAJWAOYXFl38v0v0Ppg1yZT8orpcsmnernkd6iWc7hCT4zLGrr
+ KTBc3Ma2ro4ky2POypMqdTjZ7cjjRxKlr6zvNUQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=C5J1td
+ XluFxh4c0JQjvN0sOfQgNwkXIlVaVmjYnYzWs=; b=YXKxGXsBkzgsq8Eobu9mqZ
+ 3zdZeIrc9nuBwKPVdOkXgRI+atriuO+Erj1H0hVxfirhQUd6OBeZllQKjud8nbP1
+ McjowS7K6AUqasRwWRClXgawEPMiptX0vz82mwqLm39+FaNkt+A6VcxY9z/AJqI8
+ Hepu0sgMTmCRVupGLhp8QAKcqptY9BawDJvO9kIOroEWv9pCSMFDzgK/on5Izxfj
+ 7/8C0VNdNpczqtUR9JT1uQD6/G739Cndx0bTbauZ3kSw49Lhr3BZuijn2NiuJo/s
+ Nn5V+Bb9rPjOGq42rhFKgQ7cFFCvqvnEay0rvHzPEeiFCkddPaqlYaDXSHbNv03Q
+ ==
+X-ME-Sender: <xms:ZozEX9Eb5aB7qrpv5-E_S83e9i7kfWBiUvgXFYD1e_46Qf05m7o7IA>
+ <xme:ZozEXyW6LIMroeYaqiX2BbV-MZvZZ4A_jzLOj4cxfwqv5Q7BBLGxgK5BCciPFrnXG
+ _neQ-I55cAllnhSNw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudehledgleduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+ grthhtvghrnhepuddttdekueeggedvtddtueekiedutdfguedutdefieeuteefieelteet
+ vddthfeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ eprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:ZozEX_LXxLCLJ_nlk_GaAV_GNnqaa84FHEdfs_GQ-A6pDepKgG_ViQ>
+ <xmx:ZozEXzHKzlE-CerT5hW-bHdlM8Pn6hIrcWF2Wm98qvDAn4jeZOL_tQ>
+ <xmx:ZozEXzXhI76n5_xvnFEjm31cxhL7Uq_WN9JJZZStdgtUZiLPlZPnaw>
+ <xmx:Z4zEX5xkFMpfTm-oaF6PJ1zWTPGhiPA93SxBk5ZFXajbzwRvhAlpdA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 28857E00C9; Mon, 30 Nov 2020 01:08:36 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.0-622-g4a97c0b-fm-20201115.001-g4a97c0b3
+Mime-Version: 1.0
+Message-Id: <a6855c9f-c843-4e54-bef0-469b5097d596@www.fastmail.com>
+In-Reply-To: <CACPK8XfttMptuYFsocBaj2v4z1vzNjDUfe18FeDcAbmZjWKjfQ@mail.gmail.com>
+References: <1605247168-1028-1-git-send-email-vishwa@linux.vnet.ibm.com>
+ <1605247168-1028-6-git-send-email-vishwa@linux.vnet.ibm.com>
+ <CACPK8XfttMptuYFsocBaj2v4z1vzNjDUfe18FeDcAbmZjWKjfQ@mail.gmail.com>
+Date: Mon, 30 Nov 2020 16:38:17 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Joel Stanley" <joel@jms.id.au>, vishwa <vishwa@linux.vnet.ibm.com>,
+ "Eddie James" <eajames@linux.ibm.com>,
+ "Brad Bishop" <bradleyb@fuzziesquirrel.com>
+Subject: =?UTF-8?Q?Re:_[PATCH_6/6]_ARM:_dts:_aspeed:_rainier:_Add_leds_that_are_o?=
+ =?UTF-8?Q?n_optional_PCI_cable_cards?=
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,149 +99,354 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 26 Nov 2020 at 06:34, Andrew Jeffery <andrew@aj.id.au> wrote:
->
-> Commit 6726fbff19bf ("pinctrl: aspeed: Fix GPI only function problem.")
-> fixes access to GPIO banks T and U on the AST2600.
-
-...but caused a regression when muxing GPIOs.
 
 
-> Fixes: 6726fbff19bf ("pinctrl: aspeed: Fix GPI only function problem.")
-> Cc: Billy Tsai <billy_tsai@aspeedtech.com>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+On Mon, 16 Nov 2020, at 16:43, Joel Stanley wrote:
+> On Fri, 13 Nov 2020 at 05:59, Vishwanatha Subbanna
+> <vishwa@linux.vnet.ibm.com> wrote:
+> >
+> > These are LEDs on the cable cards that plug into PCIE slots.
+> > The LEDs are controlled by PCA9552 I2C expander
+> >
+> > Signed-off-by: Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>
+> > ---
+> >  arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 288 +++++++++++++++++++++++++++
+> >  1 file changed, 288 insertions(+)
+> >
+> > diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+> > index 67c8c40..7de5f76 100644
+> > --- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+> > +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+> > @@ -696,6 +696,70 @@
+> >                         gpios = <&pca4 7 GPIO_ACTIVE_LOW>;
+> >                 };
+> >         };
+> > +
+> > +       leds-optional-cablecard0 {
+> 
+> Is it necessary to have separate nodes for each of the different GPIO devices?
 
-I didn't read all of the text, but the code change looks good. This
-should go to stable as the offending commit was also added to stable.
+Good question. Vishwa, what's the advantage either way here?
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Tested-by: Joel Stanley <joel@jms.id.au>
-Cc: stable@vger.kernel.org
+> 
+> Would it make sense to combine them, or is it better to be separate?
+> 
+> Andrew, Eddie, Brad: please review this one before I merge it.
+> 
+> > +               compatible = "gpio-leds";
+> > +
+> > +               cablecard0-cxp-top {
+> > +                       retain-state-shutdown;
+> > +                       default-state = "keep";
+> > +                       gpios = <&pca5 0 GPIO_ACTIVE_LOW>;
+> > +               };
+> > +
+> > +               cablecard0-cxp-bot {
+> > +                       retain-state-shutdown;
+> > +                       default-state = "keep";
+> > +                       gpios = <&pca5 1 GPIO_ACTIVE_LOW>;
+> > +               };
+> > +       };
+> > +
+> > +       leds-optional-cablecard3 {
+> > +               compatible = "gpio-leds";
+> > +
+> > +               cablecard3-cxp-top {
+> > +                       retain-state-shutdown;
+> > +                       default-state = "keep";
+> > +                       gpios = <&pca6 0 GPIO_ACTIVE_LOW>;
+> > +               };
+> > +
+> > +               cablecard3-cxp-bot {
+> > +                       retain-state-shutdown;
+> > +                       default-state = "keep";
+> > +                       gpios = <&pca6 1 GPIO_ACTIVE_LOW>;
+> > +               };
+> > +       };
+> > +
+> > +       leds-optional-cablecard4 {
+> > +               compatible = "gpio-leds";
+> > +
+> > +               cablecard4-cxp-top {
+> > +                       retain-state-shutdown;
+> > +                       default-state = "keep";
+> > +                       gpios = <&pca7 0 GPIO_ACTIVE_LOW>;
+> > +               };
+> > +
+> > +               cablecard4-cxp-bot {
+> > +                       retain-state-shutdown;
+> > +                       default-state = "keep";
+> > +                       gpios = <&pca7 1 GPIO_ACTIVE_LOW>;
+> > +               };
+> > +       };
+> > +
+> > +       leds-optional-cablecard10 {
+> > +               compatible = "gpio-leds";
+> > +
+> > +               cablecard10-cxp-top {
+> > +                       retain-state-shutdown;
+> > +                       default-state = "keep";
+> > +                       gpios = <&pca8 0 GPIO_ACTIVE_LOW>;
+> > +               };
+> > +
+> > +               cablecard10-cxp-bot {
+> > +                       retain-state-shutdown;
+> > +                       default-state = "keep";
+> > +                       gpios = <&pca8 1 GPIO_ACTIVE_LOW>;
+> > +               };
+> > +       };
+> >  };
+> >
+> >  &ehci1 {
+> > @@ -1212,6 +1276,180 @@
+> >                 compatible = "atmel,24c64";
+> >                 reg = <0x52>;
+> >         };
+> > +
+> > +       pca5: pca9551@60 {
+> > +               compatible = "nxp,pca9551";
+> > +               reg = <0x60>;
+> > +               #address-cells = <1>;
+> > +               #size-cells = <0>;
+> > +
+> > +               gpio-controller;
+> > +               #gpio-cells = <2>;
+> > +
+> > +               gpio@0 {
+> > +                       reg = <0>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@1 {
+> > +                       reg = <1>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@2 {
+> > +                       reg = <2>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@3 {
+> > +                       reg = <3>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@4 {
+> > +                       reg = <4>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@5 {
+> > +                       reg = <5>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@6 {
+> > +                       reg = <6>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@7 {
+> > +                       reg = <7>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +       };
+> > +};
+> > +
+> > +&i2c5 {
+> > +       status = "okay";
+> > +
+> > +       tmp275@48 {
+> > +               compatible = "ti,tmp275";
+> > +               reg = <0x48>;
+> > +       };
+> > +
+> > +       tmp275@49 {
+> > +               compatible = "ti,tmp275";
+> > +               reg = <0x49>;
+> > +       };
 
+These aren't LED devices.
 
-> ---
->  drivers/pinctrl/aspeed/pinctrl-aspeed.c | 74 +++++++++++++++++++++++--
->  drivers/pinctrl/aspeed/pinmux-aspeed.h  |  7 ++-
->  2 files changed, 72 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed.c b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
-> index 1d603732903f..9c44ef11b567 100644
-> --- a/drivers/pinctrl/aspeed/pinctrl-aspeed.c
-> +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
-> @@ -286,14 +286,76 @@ int aspeed_pinmux_set_mux(struct pinctrl_dev *pctldev, unsigned int function,
->  static bool aspeed_expr_is_gpio(const struct aspeed_sig_expr *expr)
->  {
->         /*
-> -        * The signal type is GPIO if the signal name has "GPI" as a prefix.
-> -        * strncmp (rather than strcmp) is used to implement the prefix
-> -        * requirement.
-> +        * We need to differentiate between GPIO and non-GPIO signals to
-> +        * implement the gpio_request_enable() interface. For better or worse
-> +        * the ASPEED pinctrl driver uses the expression names to determine
-> +        * whether an expression will mux a pin for GPIO.
->          *
-> -        * expr->signal might look like "GPIOB1" in the GPIO case.
-> -        * expr->signal might look like "GPIT0" in the GPI case.
-> +        * Generally we have the following - A GPIO such as B1 has:
-> +        *
-> +        *    - expr->signal set to "GPIOB1"
-> +        *    - expr->function set to "GPIOB1"
-> +        *
-> +        * Using this fact we can determine whether the provided expression is
-> +        * a GPIO expression by testing the signal name for the string prefix
-> +        * "GPIO".
-> +        *
-> +        * However, some GPIOs are input-only, and the ASPEED datasheets name
-> +        * them differently. An input-only GPIO such as T0 has:
-> +        *
-> +        *    - expr->signal set to "GPIT0"
-> +        *    - expr->function set to "GPIT0"
-> +        *
-> +        * It's tempting to generalise the prefix test from "GPIO" to "GPI" to
-> +        * account for both GPIOs and GPIs, but in doing so we run aground on
-> +        * another feature:
-> +        *
-> +        * Some pins in the ASPEED BMC SoCs have a "pass-through" GPIO
-> +        * function where the input state of one pin is replicated as the
-> +        * output state of another (as if they were shorted together - a mux
-> +        * configuration that is typically enabled by hardware strapping).
-> +        * This feature allows the BMC to pass e.g. power button state through
-> +        * to the host while the BMC is yet to boot, but take control of the
-> +        * button state once the BMC has booted by muxing each pin as a
-> +        * separate, pin-specific GPIO.
-> +        *
-> +        * Conceptually this pass-through mode is a form of GPIO and is named
-> +        * as such in the datasheets, e.g. "GPID0". This naming similarity
-> +        * trips us up with the simple GPI-prefixed-signal-name scheme
-> +        * discussed above, as the pass-through configuration is not what we
-> +        * want when muxing a pin as GPIO for the GPIO subsystem.
-> +        *
-> +        * On e.g. the AST2400, a pass-through function "GPID0" is grouped on
-> +        * balls A18 and D16, where we have:
-> +        *
-> +        *    For ball A18:
-> +        *    - expr->signal set to "GPID0IN"
-> +        *    - expr->function set to "GPID0"
-> +        *
-> +        *    For ball D16:
-> +        *    - expr->signal set to "GPID0OUT"
-> +        *    - expr->function set to "GPID0"
-> +        *
-> +        * By contrast, the pin-specific GPIO expressions for the same pins are
-> +        * as follows:
-> +        *
-> +        *    For ball A18:
-> +        *    - expr->signal looks like "GPIOD0"
-> +        *    - expr->function looks like "GPIOD0"
-> +        *
-> +        *    For ball D16:
-> +        *    - expr->signal looks like "GPIOD1"
-> +        *    - expr->function looks like "GPIOD1"
-> +        *
-> +        * Testing both the signal _and_ function names gives us the means
-> +        * differentiate the pass-through GPIO pinmux configuration from the
-> +        * pin-specific configuration that the GPIO subsystem is after: An
-> +        * expression is a pin-specific (non-pass-through) GPIO configuration
-> +        * if the signal prefix is "GPI" and the signal name matches the
-> +        * function name.
->          */
-> -       return strncmp(expr->signal, "GPI", 3) == 0;
-> +       return !strncmp(expr->signal, "GPI", 3) &&
-> +                       !strcmp(expr->signal, expr->function);
->  }
->
->  static bool aspeed_gpio_in_exprs(const struct aspeed_sig_expr **exprs)
-> diff --git a/drivers/pinctrl/aspeed/pinmux-aspeed.h b/drivers/pinctrl/aspeed/pinmux-aspeed.h
-> index f86739e800c3..dba5875ff276 100644
-> --- a/drivers/pinctrl/aspeed/pinmux-aspeed.h
-> +++ b/drivers/pinctrl/aspeed/pinmux-aspeed.h
-> @@ -452,10 +452,11 @@ struct aspeed_sig_desc {
->   * evaluation of the descriptors.
->   *
->   * @signal: The signal name for the priority level on the pin. If the signal
-> - *          type is GPIO, then the signal name must begin with the string
-> - *          "GPIO", e.g. GPIOA0, GPIOT4 etc.
-> + *          type is GPIO, then the signal name must begin with the
-> + *          prefix "GPI", e.g. GPIOA0, GPIT0 etc.
->   * @function: The name of the function the signal participates in for the
-> - *            associated expression
-> + *            associated expression. For pin-specific GPIO, the function
-> + *            name must match the signal name.
->   * @ndescs: The number of signal descriptors in the expression
->   * @descs: Pointer to an array of signal descriptors that comprise the
->   *         function expression
-> --
-> 2.27.0
->
+> > +
+> > +       eeprom@50 {
+> > +               compatible = "atmel,24c64";
+> > +               reg = <0x50>;
+> > +       };
+> > +
+> > +       eeprom@51 {
+> > +               compatible = "atmel,24c64";
+> > +               reg = <0x51>;
+> > +       };
+
+Neither are these.
+
+> > +
+> > +       pca6: pca9551@60 {
+> > +               compatible = "nxp,pca9551";
+> > +               reg = <0x60>;
+> > +               #address-cells = <1>;
+> > +               #size-cells = <0>;
+> > +
+> > +               gpio-controller;
+> > +               #gpio-cells = <2>;
+> > +
+> > +               gpio@0 {
+> > +                       reg = <0>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@1 {
+> > +                       reg = <1>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@2 {
+> > +                       reg = <2>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@3 {
+> > +                       reg = <3>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@4 {
+> > +                       reg = <4>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@5 {
+> > +                       reg = <5>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@6 {
+> > +                       reg = <6>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@7 {
+> > +                       reg = <7>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +       };
+> > +
+> > +       pca7: pca9551@61 {
+> > +               compatible = "nxp,pca9551";
+> > +               reg = <0x61>;
+> > +               #address-cells = <1>;
+> > +               #size-cells = <0>;
+> > +
+> > +               gpio-controller;
+> > +               #gpio-cells = <2>;
+> > +
+> > +               gpio@0 {
+> > +                       reg = <0>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@1 {
+> > +                       reg = <1>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@2 {
+> > +                       reg = <2>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@3 {
+> > +                       reg = <3>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@4 {
+> > +                       reg = <4>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@5 {
+> > +                       reg = <5>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@6 {
+> > +                       reg = <6>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@7 {
+> > +                       reg = <7>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +       };
+> >  };
+> >
+> >  &i2c5 {
+> > @@ -2028,6 +2266,56 @@
+> >                 compatible = "atmel,24c64";
+> >                 reg = <0x51>;
+> >         };
+> > +
+> > +       pca8: pca9551@60 {
+> > +               compatible = "nxp,pca9551";
+> > +               reg = <0x60>;
+> > +               #address-cells = <1>;
+> > +               #size-cells = <0>;
+> > +
+> > +               gpio-controller;
+> > +               #gpio-cells = <2>;
+> > +
+> > +               gpio@0 {
+> > +                       reg = <0>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@1 {
+> > +                       reg = <1>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@2 {
+> > +                       reg = <2>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@3 {
+> > +                       reg = <3>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@4 {
+> > +                       reg = <4>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@5 {
+> > +                       reg = <5>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@6 {
+> > +                       reg = <6>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +
+> > +               gpio@7 {
+> > +                       reg = <7>;
+> > +                       type = <PCA955X_TYPE_GPIO>;
+> > +               };
+> > +       };
+> >  };
+
+If we're adding LEDs, why aren't we using PCA955X_TYPE_LED? Why the indirection through the leds-gpio driver?
+
+Andrew
