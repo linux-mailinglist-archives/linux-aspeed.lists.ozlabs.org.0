@@ -2,121 +2,52 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC042C9EA8
-	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Dec 2020 11:07:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F14662CA48E
+	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Dec 2020 14:59:00 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Cld7z5Lq1zDqc5
-	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Dec 2020 21:07:43 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ClkGp3HJszDqf2
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Dec 2020 00:58:58 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=40.107.130.135;
- helo=apc01-hk2-obe.outbound.protection.outlook.com;
- envelope-from=troy_lee@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from APC01-HK2-obe.outbound.protection.outlook.com
- (mail-eopbgr1300135.outbound.protection.outlook.com [40.107.130.135])
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=broonie@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=default header.b=QzEl5S6g; dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Cld4x4WxhzDr0B
- for <linux-aspeed@lists.ozlabs.org>; Tue,  1 Dec 2020 21:05:04 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nFmC1yxidqbDR5gcQoyz9YApa/qH+GVVSks4tqTiybMj1LArOkdhiHPLbkrxQoxWCvRfucvFzbQl/lfbdS6Xz0cAdcY9bqON4H0jcYzZE5MJUVOfSJvjUQNFxNBkQAYo60GL3JHyFQJ4msUrwaswJVpVRxwdxQ0+wtkfx827+Pycn7zGP8gB1wkK4eAdZI1j4AKJBfQ64lDYqolaT3Zhxxq3HAOf6Dd20cE5JDiZlgNE1/UjaiWNyFxi/pnZ0N0qshG4qsfrd34uChpl9DWTVhEYo6Zynu2B5q/k1PnM/vL4ubrHFKByUCi7NjDWm/oyXi20Rl+cnHzVHBtBcITF1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TUajGHWSqg28Fnlgx7L+wkGredWaO6LdDg0aDG62Ljg=;
- b=Fee7BgR7e4nV0QYJf7KvCY/XOtZ6k71cLQrZDtFja+U4WRrCNqvn+2dZoBGe2a6RZz3FCWPKaWWGaFxzNBIppMDxH/7cjUsAIAIRGuP9tKBm/x6IVDA8D2rECGB29NQvOyTxDVHWBED4+O8fdZMj3XPkHcoLJlNUvLgrl1zUyJcE5/lbOlttfuCvwMRJWvJTtdeg99h+VsYDZW5zKrm28At1Yl8GSWg3r4iDLL4gnqJCmaoQZkE4hM98cLi8DcrWlOoqAm56cGX91fOdwQqCEr2ztLhOnl9qNeGd7B/IqnCIagHoAjd0or+NfY4Ta5624nrYWYPT+xt7tub4reUanQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-Received: from PS1PR06MB2600.apcprd06.prod.outlook.com (2603:1096:803:4d::19)
- by PU1PR06MB2374.apcprd06.prod.outlook.com (2603:1096:803:3b::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.23; Tue, 1 Dec
- 2020 10:04:51 +0000
-Received: from PS1PR06MB2600.apcprd06.prod.outlook.com
- ([fe80::7d57:cb3c:146c:36e3]) by PS1PR06MB2600.apcprd06.prod.outlook.com
- ([fe80::7d57:cb3c:146c:36e3%4]) with mapi id 15.20.3611.031; Tue, 1 Dec 2020
- 10:04:51 +0000
-From: Troy Lee <troy_lee@aspeedtech.com>
-To: "Stefan Schaeckeler (sschaeck)" <sschaeck@cisco.com>, Rob Herring
- <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
- <andrew@aj.id.au>, Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Tony Luck <tony.luck@intel.com>, James Morse
- <james.morse@arm.com>, Robert Richter <rrichter@marvell.com>, "open list:OPEN
- FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/ASPEED MACHINE
- SUPPORT" <linux-aspeed@lists.ozlabs.org>, open list
- <linux-kernel@vger.kernel.org>, "open list:EDAC-CORE"
- <linux-edac@vger.kernel.org>
-Subject: RE: [PATCH 3/3] edac: Supporting AST2400 and AST2600 edac driver
-Thread-Topic: [PATCH 3/3] edac: Supporting AST2400 and AST2600 edac driver
-Thread-Index: AQHWxvOZHTlrFWqSykaazJ8oPL0cyKngZN4AgAGYsUA=
-Date: Tue, 1 Dec 2020 10:04:51 +0000
-Message-ID: <PS1PR06MB26008D10C46C5DF0B47F81368AF40@PS1PR06MB2600.apcprd06.prod.outlook.com>
-References: <20201130083345.4814-1-troy_lee@aspeedtech.com>
- <20201130083345.4814-3-troy_lee@aspeedtech.com>
- <4AD4AB7A-54E7-4922-9547-7E26D61F7C77@cisco.com>
-In-Reply-To: <4AD4AB7A-54E7-4922-9547-7E26D61F7C77@cisco.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: cisco.com; dkim=none (message not signed)
- header.d=none;cisco.com; dmarc=none action=none header.from=aspeedtech.com;
-x-originating-ip: [118.99.190.129]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f003460d-216c-4a56-a5df-08d895e08b17
-x-ms-traffictypediagnostic: PU1PR06MB2374:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <PU1PR06MB23742213C74F3FBE6912D4D78AF40@PU1PR06MB2374.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2887;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: tQHYB+CZLQPYKJTnaYn/XKj9sxkjfSinqWK2RsDeDZcjaU1S0K5jpxXerJG7elw/Io1oJwyLI29Gq7V/zVSQdFjtdoTJPPDNhWd3ZAuPmdCa3+QfyQV28MJiBmR2w4F/MvQYo+hcHnwVjY0Tpfhbc1+2+1jis2iltbL/pt2hTGRZBfuWNYPeBLw+y3XwmEi2vJdKSBb3ZOlG8jfJQsahbfz/Ej2VMRnroq3hPYK4G/rgKkSK6ljHNv4MQHzjM7Mnm7HFYTjGloE9d2jZjVIYTi7R4Xg3ENIrjVY6/kEvqqYo9zmp1TuB6686zZjpJ2j9BAwBTppPVSFGxbYbIneDSAyFHvB6n9W56AaeAQj+iHeppVn06BxyRBaxtMPPyDWAOSwex7CC2Qh64o/+IcVUVWk5dtKAMpGP+g2aeaLb6eHdtz2h9HesJPRftg/Dntp2
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PS1PR06MB2600.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(346002)(396003)(366004)(39840400004)(376002)(53546011)(52536014)(966005)(66476007)(478600001)(8676002)(6506007)(66556008)(66446008)(71200400001)(26005)(66946007)(76116006)(8936002)(86362001)(186003)(921005)(7696005)(5660300002)(2906002)(4326008)(64756008)(316002)(110136005)(9686003)(54906003)(33656002)(7416002)(83380400001)(55016002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?aFBtOGRmK1V4WUJlZTlWZ2RCY1ZCRFZjdHZIR2lIT2sxUW5ObWhBSW84ella?=
- =?utf-8?B?N2tnTW1pcGZFOXpnTE9IUzcxL0RmeVNlU0tGQ2lhdXN0ME5LYUxhS2MyTjdr?=
- =?utf-8?B?aW5vN3d2TnNWenVNVHE1eExRam9vUVhPMEErcS84MzJPK3hZM2ZITzBpa0V0?=
- =?utf-8?B?ZkVVZWlLeU1oai9QTk16WGI0SjVmSHVXd0hiZmZDUXpqczcvb295V1J1Tld3?=
- =?utf-8?B?WGs3NVl1RzBKTG43VThFK1RtR2JZbW9haEw4cXNGS2wvQU5DczNrbG9JVUlN?=
- =?utf-8?B?YlFhbWZKMTc0YXEyQ2wrVXk0L3VTcjZSZzZkaHhjRmVlWEhqVldMODhSQmtD?=
- =?utf-8?B?RFZ4QXZuV2lFZjN6M3FhcWhlMHVPcVhpaXBIVWN0TkgrblFQOXF5NE1EM294?=
- =?utf-8?B?b2xsKzNwaG1pSGVFN1psM3VXR2k5OTR1Y3VLekxUL09JcDZTSUozTm9DQUh3?=
- =?utf-8?B?emNCMFdmbVN2WnNzQ0dxYVA1bUc5T2RJdlZOQU5SNGJieGc3YW00Y3hVOHoy?=
- =?utf-8?B?U1N2M29iTlpLbDYwM3hJS1lic0kreEVGZHJLaVV6aFNYcEVyUE1XclZzalI2?=
- =?utf-8?B?ZDFkcXhGL1BFb2FIelVTSHVUUUdQTVFkWmZ1SFJYRFNNKzNneEs3NGs0b0FQ?=
- =?utf-8?B?aGJsS1BKc2cwUkpRbmY5MlhkN1o3SFNLMVRRUXNmc1B2WVFWU20ySmZ4MkIw?=
- =?utf-8?B?UFVYVXAvUytiNjQvMDRNU25oZnNjVFJoNlk1Y1h5dUV3M0RHcExvY2FMU1V5?=
- =?utf-8?B?cGtHcDFId05NcnZid2ZhcVdKUEVtS1ZEUWdsS1lUK2JVQ0NZanBhdGh1WXFL?=
- =?utf-8?B?MjZzLy9sT3YxaHQ5S296b2RMUThzbGJXOS8yWnQrM3VXbXNIVHdnUUtQQ3hV?=
- =?utf-8?B?N1R4Z092Qjg2NmNmK21adGRLeThZYUtQWUtaSjVxeWZSN2JSUU96UTF2elVq?=
- =?utf-8?B?TnJrclpGbnhtemcrbWlvTzc0b1dzQnVQZ0Fab1ZUNVpIWVZoa0hkdjgxRjEv?=
- =?utf-8?B?MlJzN2oyV3JGa0E1SGJ1bm5yTnVNVjd2T2xFWUF0VmwzM3BpM0xXZ0JxR3RR?=
- =?utf-8?B?THA4bkl1aFBvTTV5cldBN014YVJrU1E0aXZ1TUN6OElpMzd2U0xaU2Y5ZFdH?=
- =?utf-8?B?YnJaVkdPUUFLQnlwWVR5ZjdWeHNDcGFIVXpPN3pkWTNpUlczdHRZR2duMU1t?=
- =?utf-8?B?N0MzVit5R3VHbU1pRGN5UTNBQ1NvQ0Q1dHVMUnJ2czlDNnorME1aQkg3ZVZt?=
- =?utf-8?B?UzNOLzZRZVJFMGp3cmRWN1ZIV3VSajVkdGRDT3QrZEo3cWtXd2JMdmNPdHY3?=
- =?utf-8?Q?JMFs2vDkweE+s=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4ClkGd1lzWzDqdD
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Dec 2020 00:58:49 +1100 (AEDT)
+Received: from localhost (cpc102334-sgyl38-2-0-cust884.18-2.cable.virginm.net
+ [92.233.91.117])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 15A60208FE;
+ Tue,  1 Dec 2020 13:58:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1606831126;
+ bh=vFGMacmga0jPQFovA/dgAN/hI21uqG0vo1aBfUhTb1A=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=QzEl5S6gYwWHuQih0xzJY77Fxks6iqnwUrTZOSTd3xL47g0X5+1vPweLp8U6mQA0S
+ ckha8CYVPuTphRNJ3aV5uwEkqYsWupHqtCEyOTMFCucVCkiXumh6Z8pSOKy4JOixzR
+ 434ryf9DzX7Ck/E6Lc86Y7BhTzrZm3akooTiLy5Y=
+From: Mark Brown <broonie@kernel.org>
+To: bbrezillon@kernel.org, Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
+ robh+dt@kernel.org, joel@jms.id.au, linux-spi@vger.kernel.org,
+ devicetree@vger.kernel.org, clg@kaod.org, linux-kernel@vger.kernel.org,
+ andrew@aj.id.au, linux-aspeed@lists.ozlabs.org
+In-Reply-To: <20201105120331.9853-1-chin-ting_kuo@aspeedtech.com>
+References: <20201105120331.9853-1-chin-ting_kuo@aspeedtech.com>
+Subject: Re: [v3 0/4] Porting ASPEED FMC/SPI memory controller driver
+Message-Id: <160683107675.35139.15332656159104751022.b4-ty@kernel.org>
+Date: Tue, 01 Dec 2020 13:57:56 +0000
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PS1PR06MB2600.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f003460d-216c-4a56-a5df-08d895e08b17
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Dec 2020 10:04:51.0851 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4T234sx1RjaC6JApDBCYmpKQiTu1fTip4u+hyUTQeXGmHnwT4Cxhqws3ETdx7YkIy8qms+XvL/zwa6HaiNH9jg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU1PR06MB2374
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,42 +59,48 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "leetroy@gmail.com" <leetroy@gmail.com>
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGkgU3RlZmFuLA0KDQpUaGUgZHJpdmVyIHdhcyBwb3J0ZWQgZnJvbSBsYXRlc3QgQVNQRUVEIEJT
-UCwgc28gSSBvbmx5IHRlc3Qgd2l0aCBFQ0Mtb24vb2ZmIA0KZnJvbSB1LWJvb3QgYW5kIGNoZWNr
-IGlmIGRyaXZlciBydW5zIGNvcnJlY3RseS4NCg0KVGhlIHRlc3QgZG9jIHlvdSBwcm92aWRlZCBp
-cyB2ZXJ5IG5pY2UgYW5kIGRldGFpbGVkLCBJJ2xsIHRyeSB0byByZXByb2R1Y2UgdGhlIA0KaW5q
-ZWN0aW9uIHRlc3QgaW4gdjIgcGF0Y2guDQoNClRoYW5rcywNClRyb3kgTGVlDQoNCj4gLS0tLS1P
-cmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU3RlZmFuIFNjaGFlY2tlbGVyIChzc2NoYWVj
-aykgPHNzY2hhZWNrQGNpc2NvLmNvbT4NCj4gU2VudDogTW9uZGF5LCBOb3ZlbWJlciAzMCwgMjAy
-MCA1OjE2IFBNDQo+IFRvOiBUcm95IExlZSA8dHJveV9sZWVAYXNwZWVkdGVjaC5jb20+OyBSb2Ig
-SGVycmluZyA8cm9iaCtkdEBrZXJuZWwub3JnPjsNCj4gSm9lbCBTdGFubGV5IDxqb2VsQGptcy5p
-ZC5hdT47IEFuZHJldyBKZWZmZXJ5IDxhbmRyZXdAYWouaWQuYXU+OyBCb3Jpc2xhdg0KPiBQZXRr
-b3YgPGJwQGFsaWVuOC5kZT47IE1hdXJvIENhcnZhbGhvIENoZWhhYiA8bWNoZWhhYkBrZXJuZWwu
-b3JnPjsNCj4gVG9ueSBMdWNrIDx0b255Lmx1Y2tAaW50ZWwuY29tPjsgSmFtZXMgTW9yc2UgPGph
-bWVzLm1vcnNlQGFybS5jb20+Ow0KPiBSb2JlcnQgUmljaHRlciA8cnJpY2h0ZXJAbWFydmVsbC5j
-b20+OyBvcGVuIGxpc3Q6T1BFTiBGSVJNV0FSRSBBTkQNCj4gRkxBVFRFTkVEIERFVklDRSBUUkVF
-IEJJTkRJTkdTIDxkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZz47IG1vZGVyYXRlZA0KPiBsaXN0
-OkFSTS9BU1BFRUQgTUFDSElORSBTVVBQT1JUIDxsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJh
-ZGVhZC5vcmc+Ow0KPiBtb2RlcmF0ZWQgbGlzdDpBUk0vQVNQRUVEIE1BQ0hJTkUgU1VQUE9SVA0K
-PiA8bGludXgtYXNwZWVkQGxpc3RzLm96bGFicy5vcmc+OyBvcGVuIGxpc3QgPGxpbnV4LWtlcm5l
-bEB2Z2VyLmtlcm5lbC5vcmc+Ow0KPiBvcGVuIGxpc3Q6RURBQy1DT1JFIDxsaW51eC1lZGFjQHZn
-ZXIua2VybmVsLm9yZz4NCj4gQ2M6IGxlZXRyb3lAZ21haWwuY29tOyBSeWFuIENoZW4gPHJ5YW5f
-Y2hlbkBhc3BlZWR0ZWNoLmNvbT47IFN0ZWZhbg0KPiBTY2hhZWNrZWxlciA8c2NoYWVjc25AZ214
-Lm5ldD4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCAzLzNdIGVkYWM6IFN1cHBvcnRpbmcgQVNUMjQw
-MCBhbmQgQVNUMjYwMCBlZGFjIGRyaXZlcg0KPiANCj4gSGVsbG8gVHJveSwNCj4gDQo+ID4gQWRk
-aW5nIEFTVDI0MDAgYW5kIEFTVDI2MDAgZWRhYyBkcml2ZXIgc3VwcG9ydC4NCj4gPg0KPiA+IFNp
-Z25lZC1vZmYtYnk6IFRyb3kgTGVlIDx0cm95X2xlZUBhc3BlZWR0ZWNoLmNvbT4NCj4gPiAtLS0N
-Cj4gPiBkcml2ZXJzL2VkYWMvS2NvbmZpZyAgICAgICB8ICAgNiArLQ0KPiA+IGRyaXZlcnMvZWRh
-Yy9hc3BlZWRfZWRhYy5jIHwgMTE0ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0t
-LS0NCj4gPiAyIGZpbGVzIGNoYW5nZWQsIDk0IGluc2VydGlvbnMoKyksIDI2IGRlbGV0aW9ucygt
-KQ0KPiANCj4gVWgsIHRoZXJlIGFyZSBxdWl0ZSBzb21lIG5vbi10cml2aWFsIGNoYW5nZXMuIEkn
-bGwgaGF2ZSBhIGxvb2sgb3ZlciB0aGUgY29taW5nDQo+IHdlZWtlbmQuDQo+IA0KPiBUZXN0aW5n
-IGFuIGVkYWMgZHJpdmVyIGNvbWVzIHdpdGggY2hhbGxlbmdlcy4gRGlkIHlvdSB0ZXN0IHlvdXIg
-Y29kZT8gSWYgc28sDQo+IGhvdz8NCj4gDQo+IFRoYXQncyBob3cgSSB3YXMgdGVzdGluZyBteSBv
-cmlnaW5hbCBlZGFjIDI1MDAgZHJpdmVyDQo+IGh0dHA6Ly9zdHVkZW50cy5lbmdyLnNjdS5lZHUv
-fnNzY2hhZWNrL21pc2MvYXNwZWVkLWVkYWMuaHRtbA0KPiANCj4gIFN0ZWZhbg0KDQo=
+On Thu, 5 Nov 2020 20:03:27 +0800, Chin-Ting Kuo wrote:
+> This patch series aims to porting ASPEED FMC/SPI memory controller
+> driver with spi-mem interface. Adjust device tree setting of SPI NOR
+> flash in order to fit real AST2600 EVB and new SPI memory controller
+> driver. Also, this patch has been verified on AST2600-A1 EVB.
+> 
+> v2: Fix sparse warnings reported by kernel test robot <lkp@intel.com>.
+> v3: Fix build warnings with x86 allmodconfig.
+> 
+> [...]
+
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/2] dt-bindings: spi: Add binding file for ASPEED FMC/SPI memory controller
+      (no commit info)
+[2/2] spi: aspeed: Add ASPEED FMC/SPI memory controller driver
+      (no commit info)
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
