@@ -2,57 +2,88 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24F32CBA3D
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Dec 2020 11:14:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DBE12CC03D
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Dec 2020 16:03:34 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CmFFK3FsqzDr3t
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Dec 2020 21:14:29 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CmMfq4wjWzDr0l
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Dec 2020 02:03:31 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=troy_lee@aspeedtech.com;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.224;
+ helo=new2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm1 header.b=inplWYyf; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=Fq+VbBky; 
+ dkim-atps=neutral
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CmFDz4ZJ3zDqZH
- for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Dec 2020 21:14:08 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 0B2A9rYw086425;
- Wed, 2 Dec 2020 18:09:53 +0800 (GMT-8)
- (envelope-from troy_lee@aspeedtech.com)
-Received: from TroyLee-PC.localdomain (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 2 Dec 2020 18:12:22 +0800
-From: Troy Lee <troy_lee@aspeedtech.com>
-To: Stefan Schaeckeler <sschaeck@cisco.com>, Rob Herring <robh+dt@kernel.org>, 
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, "Borislav
- Petkov" <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Tony Luck <tony.luck@intel.com>, James Morse <james.morse@arm.com>,
- Robert Richter <rric@kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE
- BINDINGS" <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED MACHINE
- SUPPORT" <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/ASPEED
- MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>, open list
- <linux-kernel@vger.kernel.org>, "open list:EDAC-CORE"
- <linux-edac@vger.kernel.org>
-Subject: [PATCH v3 3/3] edac: Supporting AST2400 and AST2600 edac driver
-Date: Wed, 2 Dec 2020 18:12:18 +0800
-Message-ID: <20201202101218.18393-3-troy_lee@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201202101218.18393-1-troy_lee@aspeedtech.com>
-References: <20201202101218.18393-1-troy_lee@aspeedtech.com>
-MIME-Version: 1.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CmMfV4g0XzDqcX
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Dec 2020 02:03:13 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 4DF59580132;
+ Wed,  2 Dec 2020 10:03:09 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Wed, 02 Dec 2020 10:03:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=zKHBXpuw+WPRxYjKCr+NVoOy6HmLEmi
+ pUWxQdocXY44=; b=inplWYyfQJqds7vglOwm5zUoQr2WvvTwZ81yB/6SWEAfzt4
+ yyfNOxpkuC8Gho2V8At4KOUsKV3LESaha0MQQa5dEm/UcT8ailj9ZNY1kPCaOqaj
+ Fh37aCFHPOB2pQLhVcqXD1X4d2oXJ7CXjuGzkIQ0Gwdta0ytwJhsWIh/HTxom0Bt
+ gCC1QVNvKEpMU/OTL2tA5qQCoqZvePhEG3pcEiaJ3vNXM2Sa6tyQmH9sPDfSFHmp
+ V68iVy14EvlkSFiaLVadcaCdfX1C7uyEpvqTCx9Qy6iu4WpY330rdErGufQInr6t
+ +S58OJd4UF3qpt6GZ0d11EIikMwcf6BQjEDQTGg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=zKHBXp
+ uw+WPRxYjKCr+NVoOy6HmLEmipUWxQdocXY44=; b=Fq+VbBkybpikgWgp2qOWLZ
+ gYejKwOvXLsdF7H0+DdyZb2/oH2bgEK+1ZzGR7Tb+GQgL0jsCi7+t7pjRP2pJlPe
+ ooCgBttACOiSMU/fU7NiM5Ou55eQWXS2rDK+4ygx7JWnsCEWdaL2EQzSA5l72hms
+ tbfyX6Mmu+WiZhlQz+ERKFiK9vqoMEt1sMXlx3aS3OzLyG2B3BDfP5v/AKLystW6
+ Ppr1jmNbSzq3Qpra9VEfIT/xRZ0vGIvnAzc5WCbc6v0OnTzRLJRdN+a195mWDCD9
+ sGt0hwaRdNhj2jdUDF9RzRsknSrL4fTk0QgJfk0LbH/qaAIYHiVunifURA/zVhRQ
+ ==
+X-ME-Sender: <xms:qqzHX1lcbG5TkCi8uQk1gkT7pXtoVu_8oYLi2EPrMRkYEia26nfdnw>
+ <xme:qqzHXw1kHffEpb5fby9_o_FjulyaLKPOknZcqXqJL0b2Af3JHsCZp3JfH-71skvDQ
+ RNjs7DGbUHSCSJiZw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeigedgjeefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+ grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
+ hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ eprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:qqzHX7qfwxhOYMJQNx5SUJDRbo2oMhBVBlkU63XiUu39paomza-F9A>
+ <xmx:qqzHX1mKJx3F9u2t9pFvDHWt4oW19eJkxuQEOKTMtZXSKUavxcfovA>
+ <xmx:qqzHXz2iceQ461WQJ4IKjsMPsrXx9Ku41EdyJRDEXIR_wsGyChPV_g>
+ <xmx:razHX60C_AWcQXD-jkuSWLjePszNYKpAS5RXWOb-XFIy1tz3DcViaQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 7CD5CE00D4; Wed,  2 Dec 2020 10:03:04 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.0-622-g4a97c0b-fm-20201115.001-g4a97c0b3
+Mime-Version: 1.0
+Message-Id: <b6dd3a91-abe7-4e9d-b801-6e54e4c88827@www.fastmail.com>
+In-Reply-To: <PS1PR06MB26008E4BCB805553EDEC45038AF30@PS1PR06MB2600.apcprd06.prod.outlook.com>
+References: <20201202063612.21241-1-troy_lee@aspeedtech.com>
+ <20201202063612.21241-3-troy_lee@aspeedtech.com>
+ <CACPK8XcBTm8-cAPmtswHbYAf2B+PdBiZ2s1XK1UqKA_NQX_-mw@mail.gmail.com>
+ <PS1PR06MB26008E4BCB805553EDEC45038AF30@PS1PR06MB2600.apcprd06.prod.outlook.com>
+Date: Thu, 03 Dec 2020 01:32:44 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Troy Lee" <troy_lee@aspeedtech.com>, "Joel Stanley" <joel@jms.id.au>
+Subject: Re: [PATCH v2 3/3] edac: Supporting AST2400 and AST2600 edac driver
 Content-Type: text/plain
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 0B2A9rYw086425
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,99 +95,34 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: leetroy@gmail.com
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Tony Luck <tony.luck@intel.com>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ open list <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ "leetroy@gmail.com" <leetroy@gmail.com>, Robert Richter <rrichter@marvell.com>,
+ James Morse <james.morse@arm.com>, Stefan M Schaeckeler <sschaeck@cisco.com>,
+ Borislav Petkov <bp@alien8.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>,
+ "open list:EDAC-CORE" <linux-edac@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Adding AST2400 and AST2600 edac driver support.
 
-Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
----
-Changes since v2:
-- Remove cross dependencies export functions
-- Update Kconfig depends on ARCH_ASPEED
-- Patch create against latest Linux kernel mainline
 
----
- drivers/edac/Kconfig       |  6 +++---
- drivers/edac/aspeed_edac.c | 15 +++++----------
- 2 files changed, 8 insertions(+), 13 deletions(-)
+On Wed, 2 Dec 2020, at 19:11, Troy Lee wrote:
+> Hi Joel,
+> 
+> Thanks for the suggestion, I'll fix the review and create an new patch 
+> against 
+> latest Linux branch. Those exported function will be referenced in 
+> other driver yet 
+> to be upstream, so should I move those exported functions out of this 
+> patch?
+> 
 
-diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-index 7a47680d6f07..c410331e8ee8 100644
---- a/drivers/edac/Kconfig
-+++ b/drivers/edac/Kconfig
-@@ -515,10 +515,10 @@ config EDAC_QCOM
- 	  health, you should probably say 'Y' here.
- 
- config EDAC_ASPEED
--	tristate "Aspeed AST 2500 SoC"
--	depends on MACH_ASPEED_G5
-+	tristate "Aspeed AST BMC SoC"
-+	depends on ARCH_ASPEED
- 	help
--	  Support for error detection and correction on the Aspeed AST 2500 SoC.
-+	  Support for error detection and correction on the Aspeed AST BMC SoC.
- 
- 	  First, ECC must be configured in the bootloader. Then, this driver
- 	  will expose error counters via the EDAC kernel framework.
-diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
-index fde809efc520..c9d1d8a8fcba 100644
---- a/drivers/edac/aspeed_edac.c
-+++ b/drivers/edac/aspeed_edac.c
-@@ -239,7 +239,7 @@ static int init_csrows(struct mem_ctl_info *mci)
- 	int rc;
- 
- 	/* retrieve info about physical memory from device tree */
--	np = of_find_node_by_path("/memory");
-+	np = of_find_node_by_name(NULL, "memory");
- 	if (!np) {
- 		dev_err(mci->pdev, "dt: missing /memory node\n");
- 		return -ENODEV;
-@@ -282,7 +282,6 @@ static int aspeed_probe(struct platform_device *pdev)
- 	struct edac_mc_layer layers[2];
- 	struct mem_ctl_info *mci;
- 	void __iomem *regs;
--	u32 reg04;
- 	int rc;
- 
- 	regs = devm_platform_ioremap_resource(pdev, 0);
-@@ -294,13 +293,6 @@ static int aspeed_probe(struct platform_device *pdev)
- 	if (IS_ERR(aspeed_regmap))
- 		return PTR_ERR(aspeed_regmap);
- 
--	/* bail out if ECC mode is not configured */
--	regmap_read(aspeed_regmap, ASPEED_MCR_CONF, &reg04);
--	if (!(reg04 & ASPEED_MCR_CONF_ECC)) {
--		dev_err(&pdev->dev, "ECC mode is not configured in u-boot\n");
--		return -EPERM;
--	}
--
- 	edac_op_state = EDAC_OPSTATE_INT;
- 
- 	/* allocate & init EDAC MC data structure */
-@@ -375,10 +367,13 @@ static int aspeed_remove(struct platform_device *pdev)
- 
- 
- static const struct of_device_id aspeed_of_match[] = {
-+	{ .compatible = "aspeed,ast2400-sdram-edac" },
- 	{ .compatible = "aspeed,ast2500-sdram-edac" },
-+	{ .compatible = "aspeed,ast2600-sdram-edac" },
- 	{},
- };
- 
-+MODULE_DEVICE_TABLE(of, aspeed_of_match);
- 
- static struct platform_driver aspeed_driver = {
- 	.driver		= {
-@@ -392,5 +387,5 @@ module_platform_driver(aspeed_driver);
- 
- MODULE_LICENSE("GPL");
- MODULE_AUTHOR("Stefan Schaeckeler <sschaeck@cisco.com>");
--MODULE_DESCRIPTION("Aspeed AST2500 EDAC driver");
-+MODULE_DESCRIPTION("Aspeed BMC SoC EDAC driver");
- MODULE_VERSION("1.0");
--- 
-2.17.1
+Yes, let's leave the exports out of this patch, and add them in when you send 
+the patch that depends on them.
 
+Andrew
