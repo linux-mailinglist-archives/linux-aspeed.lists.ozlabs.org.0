@@ -1,64 +1,115 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A832CC8C9
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Dec 2020 22:20:16 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA65E2CCB9E
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Dec 2020 02:27:50 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CmX1S2nf2zDr74
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Dec 2020 08:20:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CmdW55rn1zDrCj
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Dec 2020 12:27:45 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::844;
- helo=mail-qt1-x844.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=BqzZHtMD; dkim-atps=neutral
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ smtp.mailfrom=aspeedtech.com (client-ip=40.107.132.95;
+ helo=apc01-pu1-obe.outbound.protection.outlook.com;
+ envelope-from=troy_lee@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=aspeedtech.com
+Received: from APC01-PU1-obe.outbound.protection.outlook.com
+ (mail-eopbgr1320095.outbound.protection.outlook.com [40.107.132.95])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CmX1K4BzjzDr74
- for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Dec 2020 08:20:05 +1100 (AEDT)
-Received: by mail-qt1-x844.google.com with SMTP id 7so2207144qtp.1
- for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Dec 2020 13:20:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=99Y7wB6PwhBW9HGShktQMrV6OKqAm5XRMWuYeiHOpak=;
- b=BqzZHtMDKJpRPAQBquh46oC1vWNiD4dwoerDNazlU1w0YLUyXjUsoAlSewXGHZ4DPr
- BPdkF0+l0vZHy3gZ3qTZg70oaSFUrLBUvj8qHjQKIWi178mTmlAkXt/HD1mo+/SlAjeC
- 7LhN+sBo6jS5Vlg0Lj149TfVnBXPwx402/q/w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=99Y7wB6PwhBW9HGShktQMrV6OKqAm5XRMWuYeiHOpak=;
- b=D4uu3ZoBmNNL6YXx0YhsEoKL988g4Ox6g+kI73vp6lX8xHex1JQ8UpaY3nJ4dMKclX
- hg3rI/s7hr0/c+XVRBfhTUg3Hu2l93/UPMm4uS8tdvYQzSpzVZ01MhNMp//J2/fKL8IR
- hnl56nj+hkq8WQ8vkGB1JsrWDWjN2AD6fy6ulja4pjtJ5iGIict+EWsQ9Q2bPk5t0SAC
- lGNNrITmaH79edKOvbU8nzKzO2uyLp3aomQvSNGoF2frVdwZbjWPq7V+6vNhgRKtxI8J
- bxV2CM4lNZEaBF4tpTPU1nyLqY6pJ3GZqZR8sAzLc0gAMbib7samLiWqHLcMYrLdNMOg
- UN1g==
-X-Gm-Message-State: AOAM530ctlR2bQcmp4iz2sELjmXqZx1xALwMpl8b77nwOq1BTXmP/xU4
- D1qBUqPLwsGHIdECs8gGCqjiTk3tz1Mx+LZ7AuM=
-X-Google-Smtp-Source: ABdhPJxIBl1u25BODd0tJolB1/liAW5YH4mGsYbeA+xrKq+OgjhUxHxZBjU+lV+Jfj2+NJdO5pwPenyT7U5LiMfTUPU=
-X-Received: by 2002:aed:2f64:: with SMTP id l91mr63647qtd.363.1606944000942;
- Wed, 02 Dec 2020 13:20:00 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CmdVx3pSDzDqvr
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Dec 2020 12:27:35 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I7DDi7ur9BpOQ5zy1Xu/i/RCrDXVGWakOPWkNIfmWGIHLPmS9eZQszMLnc7w/ja3ZmNpKf0mdvIq3eOc3UQg7nMjSTuGOkBPM+fEEr9Ho1dXBC44+TQRsuvpMlQnf6Nt2KL2UMxZ7sguUoYp9l7TdiDqNqx/lfdfjzAxMMtBBuHxSUryzTCnRgfE6ejZSWfrg+f0TG7oLLNItfQqi8PPMEslSBgyc5FhM2rcxCZKF4zDuhtdlx1WXw1xlD10YqrzvjnWctppimdrLBzqVaJpgUMY0EfHGeeaHbcdsycAe1Dnci5n9pLOW/RtnLQHhG7VQ773uvr7tTEfah1v+prEDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H6utx9DJGKS+FJYyozWhfkKsy2fFQgFO5rYismkAfbc=;
+ b=DQOCVBgZQu0FMQOm+L2G/phSg7U5Gwz/CP5Rrt1kaJI36fcqXrh5iZnxPYp5lb3r1dOsQTMUfaXBMb1hFbzP0rK7GHJ7giAIu717iccskYoMRwrdATLOgd0x/JpgLwfKilfR+Lzm6XM8LoRULD5GC48ZHCt/6Qgi7b4NzohsQ9i4JKCXZdsClPSy90tEN6xemB2FI46kCHGQgo+JcKG+N3YqfoBwA2aTTa2pLOBf+nY+QQSdkRc49uLI6uIwt2AaWWuRUze5ihE8DiQua5D0R9+WBoAZe8xCfuO/rs6xCPxbgBhIZutFXc40SDibyESS+WR5CVnisOKrGuTzJf7+QA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+Received: from PS1PR06MB2600.apcprd06.prod.outlook.com (2603:1096:803:4d::19)
+ by PSAPR06MB4040.apcprd06.prod.outlook.com (2603:1096:301:36::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.21; Thu, 3 Dec
+ 2020 01:27:27 +0000
+Received: from PS1PR06MB2600.apcprd06.prod.outlook.com
+ ([fe80::7d57:cb3c:146c:36e3]) by PS1PR06MB2600.apcprd06.prod.outlook.com
+ ([fe80::7d57:cb3c:146c:36e3%4]) with mapi id 15.20.3632.021; Thu, 3 Dec 2020
+ 01:27:27 +0000
+From: Troy Lee <troy_lee@aspeedtech.com>
+To: Borislav Petkov <bp@alien8.de>, Andrew Jeffery <andrew@aj.id.au>
+Subject: RE: [PATCH v2 3/3] edac: Supporting AST2400 and AST2600 edac driver
+Thread-Topic: [PATCH v2 3/3] edac: Supporting AST2400 and AST2600 edac driver
+Thread-Index: AQHWyHVye4e51sWvik2/WaCTIMBZeKnjYQGAgAAI5ECAAH2QAIAAOC6AgAB1vlA=
+Date: Thu, 3 Dec 2020 01:27:27 +0000
+Message-ID: <PS1PR06MB2600D6A1E73D89EA0D0D59DC8AF20@PS1PR06MB2600.apcprd06.prod.outlook.com>
+References: <20201202063612.21241-1-troy_lee@aspeedtech.com>
+ <20201202063612.21241-3-troy_lee@aspeedtech.com>
+ <CACPK8XcBTm8-cAPmtswHbYAf2B+PdBiZ2s1XK1UqKA_NQX_-mw@mail.gmail.com>
+ <PS1PR06MB26008E4BCB805553EDEC45038AF30@PS1PR06MB2600.apcprd06.prod.outlook.com>
+ <b6dd3a91-abe7-4e9d-b801-6e54e4c88827@www.fastmail.com>
+ <20201202182349.GJ2951@zn.tnic>
+In-Reply-To: <20201202182349.GJ2951@zn.tnic>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: alien8.de; dkim=none (message not signed)
+ header.d=none;alien8.de; dmarc=none action=none header.from=aspeedtech.com;
+x-originating-ip: [118.99.190.129]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 1a54a17d-4d8d-4a02-0fb0-08d8972a98a1
+x-ms-traffictypediagnostic: PSAPR06MB4040:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <PSAPR06MB4040B16662E6E2E787CEB9F28AF20@PSAPR06MB4040.apcprd06.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 55lw4X/mB6tPw7ZjGWJrlWU/mSlBMomX+qvIivbZnETxn3rkgxfRal0LrS1p8zzczxtj9vc9g5skgkhQ3+cRZcYMqgqqWXXFQCHEyNfe94nuGyGD2IrDXgTY7/6KcHjL9NqY+QesGX/HkEAOf8RSGcUplvfWEBacCeoZxgGGSc/WV4Mz2ncvHaJgWUrQCrtH6t70qRt5rCcS2vayAg9y7UjzOIR5Ei1dCGL63iSv6SUbIb61ryWvRGlrlAk2LbIVePwqcGvPuMCUEm6RnIqkHg70ZbHTL55ldW19Y6ry70GFw6XE3fU/MFfxBLwBG8VuFgKBqDAu/NSq9h+GW60OM0lRoWMbWiCK/RrRNFAIwqqtaA84hQrItt31oRyhlESXmoxQj26msRnBhqyqSI/CYg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PS1PR06MB2600.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(376002)(396003)(39850400004)(366004)(346002)(2906002)(478600001)(76116006)(64756008)(316002)(66946007)(66476007)(66556008)(54906003)(7416002)(71200400001)(66446008)(110136005)(33656002)(186003)(8936002)(52536014)(26005)(9686003)(83380400001)(6506007)(8676002)(966005)(5660300002)(7696005)(55016002)(86362001)(53546011)(4326008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?NW1zbXZ1ZGxrTVE3TkVaeVdHNGZBVEgvUWZXTWNIVFNWZk9SYVdyT0FXOXU0?=
+ =?utf-8?B?SGQ3bWxNOVhMTGd6TDJaaHdjeE5qRkdsNHNKUTVHdzlrWDBXZXRzTXVPeGFo?=
+ =?utf-8?B?VkwwRzlMaVUwajdKbGtvU3pTNmxuUllRS2hIeW95WUNURFF0YmJPakZRWGtV?=
+ =?utf-8?B?aXA0Z052VldZdlp2VE5CSVBOS1pwdWhQS1pwR3h4OWpOVUJBc2xrc3pqQnk4?=
+ =?utf-8?B?L0tSSWFUTmdha0Rtek4zSG8wRjZWWVZtcy9RdnhKQjdueFV6QldldFoyU0NT?=
+ =?utf-8?B?WmdIdHFWRUJNaDhKbXZ6ZzEzS21XM3Z2aXdrTnAydjduV3lOZmJxUmZxTXdB?=
+ =?utf-8?B?NUtid2xJeW5CWUVFd0VQS3E5ZEMxdDRudHdRdVpRdWJuekU2LzR2RkZnd25y?=
+ =?utf-8?B?UWlEY0JDVWxlWHYrN3JERWZKZE5PRldhalR3QWxtNlBwMGxDNElDcldtSEJm?=
+ =?utf-8?B?OUlucDlsMFRsSjZ4MTN1Yit3ckZBQ0NLcFZEbmRPKzlKd0pvM2Vsb3NEbHAw?=
+ =?utf-8?B?MHF6NlpYajJJa3V0RlBNSXpQRmZOWUF2blhtWTAzNFJxNFpFU3RXME1WTUhC?=
+ =?utf-8?B?cDd3WHRxR0hEQzc0eEFWYUFEaW5DWHMwblVLRUs1amRCVkxreXRDMHExT1ZH?=
+ =?utf-8?B?RTBoTmNEcWpwdFBxL3B1MVhSVDdTWitTcWxsalRQUCsyZ2JzVlNVZHVKMFln?=
+ =?utf-8?B?b2Q1Y2dpRk9KZEZPNHdaVjV4c1BLOVJ1Y0dKWjNHelErbm1CWStrSVJ1d1pH?=
+ =?utf-8?B?VzRwZTJMMGVGY21ialFOUDVtaGZ1RHRRM0txQjNDNnU1Vy9xYWZUenhxemZG?=
+ =?utf-8?B?U0ZsRVIycVd4K1FFMUM4UFFnYlpia2JuS0ZjV25MSTVOUUVQcERRc0Jmb0NB?=
+ =?utf-8?B?VXVwOGIzRE02VHlLT3h2dmtIbEwrOGZxYSs3emFQMWdTUTZOdi9QdmxUS1Fm?=
+ =?utf-8?B?dUxWYUtEWVcrVkthN1RyWmRkZXBPRGhjWkI3TWtlelhjVTBzKzM3a2crZzZt?=
+ =?utf-8?B?enBleWQvRDFKeU9PR3JtYjBINDRDQkFxdHNibjZyUkFzQmJ1dFhjSDdacUpm?=
+ =?utf-8?B?OXQ3QlY5U1JqWkdFWllSeUNoWndzSEVmSFBnTTlORVpXNUtwNmdWYW1IZWQr?=
+ =?utf-8?B?QkRKb2UyVjRpZEdOamVEd3U1cWQyR0I2aDIwdnN3MzhVc3BoZjlCS2NVRGRM?=
+ =?utf-8?B?V2NYM1JvZUx1ZHlmODM1WGs2U2tRbCtxSGRGNnlsSjFjcy8xNDNsY214b09B?=
+ =?utf-8?B?UGRvdytHT3ZyTXF0YW9WNm1nTTJCYm1BaGNXMkdPMTZIeVlaREVLU1JJNXdY?=
+ =?utf-8?Q?K4JmoCqnACwvg=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20201103072202.24705-1-chin-ting_kuo@aspeedtech.com>
- <160683107674.35139.14509237313835347013.b4-ty@kernel.org>
-In-Reply-To: <160683107674.35139.14509237313835347013.b4-ty@kernel.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 2 Dec 2020 21:19:47 +0000
-Message-ID: <CACPK8Xe4TcRVBnZL7vtqGq1PTe5NEx1k4hvk4FDeYgJQ9HALFg@mail.gmail.com>
-Subject: Re: [v2 0/4] Porting ASPEED FMC/SPI memory controller driver
-To: Mark Brown <broonie@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PS1PR06MB2600.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a54a17d-4d8d-4a02-0fb0-08d8972a98a1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2020 01:27:27.6948 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2kFsyWzZEfH9W6uHABhJwhblK3Sk7AidrXVo68ootQspj+bUD0IlmsgyAr+d/fgMiOQAXu3/m4d4hw9udC5xIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR06MB4040
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,62 +121,55 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-spi@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- BMC-SW <BMC-SW@aspeedtech.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED
+ DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+ Tony Luck <tony.luck@intel.com>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ open list <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ "leetroy@gmail.com" <leetroy@gmail.com>, Robert Richter <rrichter@marvell.com>,
+ James Morse <james.morse@arm.com>, Stefan M Schaeckeler <sschaeck@cisco.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, "moderated
+ list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>,
+ "open list:EDAC-CORE" <linux-edac@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 1 Dec 2020 at 13:58, Mark Brown <broonie@kernel.org> wrote:
->
-> On Tue, 3 Nov 2020 15:21:58 +0800, Chin-Ting Kuo wrote:
-> > This patch series aims to porting ASPEED FMC/SPI memory controller
-> > driver with spi-mem interface. Adjust device tree setting of SPI NOR
-> > flash in order to fit real AST2600 EVB and new SPI memory controller
-> > driver. Also, this patch has been verified on AST2600-A1 EVB.
-> >
-> > v2: Fix sparse warnings reported by kernel test robot <lkp@intel.com>.
-> >
-> > [...]
->
-> Applied to
->
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Really? Or is there a bug in one of your scripts :)
-
-Cheers,
-
-Joel
-
->
-> Thanks!
->
-> [1/2] dt-bindings: spi: Add binding file for ASPEED FMC/SPI memory controller
->       (no commit info)
-> [2/2] spi: aspeed: Add ASPEED FMC/SPI memory controller driver
->       (no commit info)
->
-> All being well this means that it will be integrated into the linux-next
-> tree (usually sometime in the next 24 hours) and sent to Linus during
-> the next merge window (or sooner if it is a bug fix), however if
-> problems are discovered then the patch may be dropped or reverted.
->
-> You may get further e-mails resulting from automated or manual testing
-> and review of the tree, please engage with people reporting problems and
-> send followup patches addressing any issues that are reported if needed.
->
-> If any updates are required or you are submitting further changes they
-> should be sent as incremental updates against current git, existing
-> patches will not be replaced.
->
-> Please add any relevant lists and maintainers to the CCs when replying
-> to this mail.
->
-> Thanks,
-> Mark
+SGkgQnJvaXNsYXYgYW5kIEFuZHJldywNCg0KSSByZW1vdmVkIHRoZXNlIGV4cG9ydGVkIGZ1bmN0
+aW9uIGFuZCBzdWJtaXR0ZWQgdjMgUEFUQ0guDQoNClRoYW5rcywNClRyb3kgTGVlDQoNCj4gLS0t
+LS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBhbGll
+bjguZGU+DQo+IFNlbnQ6IFRodXJzZGF5LCBEZWNlbWJlciAzLCAyMDIwIDI6MjQgQU0NCj4gVG86
+IEFuZHJldyBKZWZmZXJ5IDxhbmRyZXdAYWouaWQuYXU+DQo+IENjOiBUcm95IExlZSA8dHJveV9s
+ZWVAYXNwZWVkdGVjaC5jb20+OyBKb2VsIFN0YW5sZXkgPGpvZWxAam1zLmlkLmF1Pjsgb3Blbg0K
+PiBsaXN0Ok9QRU4gRklSTVdBUkUgQU5EIEZMQVRURU5FRCBERVZJQ0UgVFJFRSBCSU5ESU5HUw0K
+PiA8ZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc+OyBUb255IEx1Y2sgPHRvbnkubHVja0BpbnRl
+bC5jb20+OyBSeWFuIENoZW4NCj4gPHJ5YW5fY2hlbkBhc3BlZWR0ZWNoLmNvbT47IEphbWVzIE1v
+cnNlIDxqYW1lcy5tb3JzZUBhcm0uY29tPjsNCj4gbW9kZXJhdGVkIGxpc3Q6QVJNL0FTUEVFRCBN
+QUNISU5FIFNVUFBPUlQNCj4gPGxpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnPjsgb3BlbiBs
+aXN0IDxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPjsNCj4gUm9iZXJ0IFJpY2h0ZXIgPHJy
+aWNodGVyQG1hcnZlbGwuY29tPjsgbGVldHJveUBnbWFpbC5jb207IFJvYiBIZXJyaW5nDQo+IDxy
+b2JoK2R0QGtlcm5lbC5vcmc+OyBTdGVmYW4gTSBTY2hhZWNrZWxlciA8c3NjaGFlY2tAY2lzY28u
+Y29tPjsgTWF1cm8NCj4gQ2FydmFsaG8gQ2hlaGFiIDxtY2hlaGFiQGtlcm5lbC5vcmc+OyBtb2Rl
+cmF0ZWQgbGlzdDpBUk0vQVNQRUVEDQo+IE1BQ0hJTkUgU1VQUE9SVCA8bGludXgtYXJtLWtlcm5l
+bEBsaXN0cy5pbmZyYWRlYWQub3JnPjsgb3Blbg0KPiBsaXN0OkVEQUMtQ09SRSA8bGludXgtZWRh
+Y0B2Z2VyLmtlcm5lbC5vcmc+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjIgMy8zXSBlZGFjOiBT
+dXBwb3J0aW5nIEFTVDI0MDAgYW5kIEFTVDI2MDAgZWRhYw0KPiBkcml2ZXINCj4gDQo+IE9uIFRo
+dSwgRGVjIDAzLCAyMDIwIGF0IDAxOjMyOjQ0QU0gKzEwMzAsIEFuZHJldyBKZWZmZXJ5IHdyb3Rl
+Og0KPiA+IE9uIFdlZCwgMiBEZWMgMjAyMCwgYXQgMTk6MTEsIFRyb3kgTGVlIHdyb3RlOg0KPiA+
+ID4gSGkgSm9lbCwNCj4gPiA+DQo+ID4gPiBUaGFua3MgZm9yIHRoZSBzdWdnZXN0aW9uLCBJJ2xs
+IGZpeCB0aGUgcmV2aWV3IGFuZCBjcmVhdGUgYW4gbmV3DQo+ID4gPiBwYXRjaCBhZ2FpbnN0IGxh
+dGVzdCBMaW51eCBicmFuY2guIFRob3NlIGV4cG9ydGVkIGZ1bmN0aW9uIHdpbGwgYmUNCj4gPiA+
+IHJlZmVyZW5jZWQgaW4gb3RoZXIgZHJpdmVyIHlldCB0byBiZSB1cHN0cmVhbSwgc28gc2hvdWxk
+IEkgbW92ZQ0KPiA+ID4gdGhvc2UgZXhwb3J0ZWQgZnVuY3Rpb25zIG91dCBvZiB0aGlzIHBhdGNo
+Pw0KPiA+ID4NCj4gPg0KPiA+IFllcywgbGV0J3MgbGVhdmUgdGhlIGV4cG9ydHMgb3V0IG9mIHRo
+aXMgcGF0Y2gsIGFuZCBhZGQgdGhlbSBpbiB3aGVuDQo+ID4geW91IHNlbmQgdGhlIHBhdGNoIHRo
+YXQgZGVwZW5kcyBvbiB0aGVtLg0KPiANCj4gQW5kIHdoZW4geW91IGRvLCBhbG1vc3QgYWxsIG5l
+dyBleHBvcnRzIGFyZSBFWFBPUlRfU1lNQk9MX0dQTCAtIG5vdA0KPiBFWFBPUlRfU1lNQk9MLg0K
+PiANCj4gQWxzbywgSSdkIGxpa2UgdG8gc2VlIGhvdyB0aG9zZSBleHBvcnRzIGFyZSBnb2luZyB0
+byBiZSB1c2VkLiBBbiBFREFDIGRyaXZlcg0KPiBmdW5jdGlvbiBleHBvcnRlZCB0byBhbm90aGVy
+IGRyaXZlciBzb3VuZHMgc3RyYW5nZS4gV2UgaGF2ZSBvbmx5IG9uZSBvdGhlcg0KPiBjYXNlIGxp
+a2UgdGhpcyBpbiB0aGUgRURBQyB0cmVlOg0KPiANCj4gZHJpdmVycy9lZGFjL2FtZDY0X2VkYWMu
+Yzo1NTQ6RVhQT1JUX1NZTUJPTF9HUEwoYW1kNjRfZ2V0X2RyYW1faG9sDQo+IGVfaW5mbyk7DQo+
+IA0KPiBhbmQgZXZlbiB0aGF0IGlzIG5vdCByZWFsbHkgbmVlZGVkLi4uDQo+IA0KPiBUaHguDQo+
+IA0KPiAtLQ0KPiBSZWdhcmRzL0dydXNzLA0KPiAgICAgQm9yaXMuDQo+IA0KPiBodHRwczovL3Bl
+b3BsZS5rZXJuZWwub3JnL3RnbHgvbm90ZXMtYWJvdXQtbmV0aXF1ZXR0ZQ0K
