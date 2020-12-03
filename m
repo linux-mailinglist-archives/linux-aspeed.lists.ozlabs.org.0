@@ -2,57 +2,52 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2377F2CD04C
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Dec 2020 08:21:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E1B2CD39D
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Dec 2020 11:33:22 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CmnLk6HBMzDr7l
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Dec 2020 18:21:02 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CmscZ3WrxzDrFj
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Dec 2020 21:33:18 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=alien8.de (client-ip=2a01:4f8:190:11c2::b:1457;
- helo=mail.skyhub.de; envelope-from=bp@alien8.de; receiver=<UNKNOWN>)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=broonie@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256
- header.s=dkim header.b=msXBd46p; dkim-atps=neutral
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+ dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=RNUgwCHM; 
+ dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CmnLS61J1zDr34
- for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Dec 2020 18:20:47 +1100 (AEDT)
-Received: from zn.tnic (p200300ec2f0dc500db287c99eb312af4.dip0.t-ipconnect.de
- [IPv6:2003:ec:2f0d:c500:db28:7c99:eb31:2af4])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8DC211EC04DD;
- Thu,  3 Dec 2020 08:20:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1606980035;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=I5tjK7vXmcH6KWOR2osK2BTeMN2+voSuUMYTgYKLvz0=;
- b=msXBd46puOaaytgd7Vpo+UMF4g38wyPtzFZ9umpdp8RwrpSg80sdCQz5CAXKGOw1n1kVik
- LG5rNZzvDonZnXLLw/sjDRO+LseOSwsI/ELsDEjxlPRJsHBVDdwEjSBwD821UhfhV1iHQd
- EdZI6USOuyOb7ZCuwemKgbVnmGPRTiY=
-Date: Thu, 3 Dec 2020 08:20:36 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Troy Lee <troy_lee@aspeedtech.com>
-Subject: Re: [PATCH v2 3/3] edac: Supporting AST2400 and AST2600 edac driver
-Message-ID: <20201203072036.GB3059@zn.tnic>
-References: <20201202063612.21241-1-troy_lee@aspeedtech.com>
- <20201202063612.21241-3-troy_lee@aspeedtech.com>
- <CACPK8XcBTm8-cAPmtswHbYAf2B+PdBiZ2s1XK1UqKA_NQX_-mw@mail.gmail.com>
- <PS1PR06MB26008E4BCB805553EDEC45038AF30@PS1PR06MB2600.apcprd06.prod.outlook.com>
- <b6dd3a91-abe7-4e9d-b801-6e54e4c88827@www.fastmail.com>
- <20201202182349.GJ2951@zn.tnic>
- <PS1PR06MB2600D6A1E73D89EA0D0D59DC8AF20@PS1PR06MB2600.apcprd06.prod.outlook.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CmscD6qXKzDrFj
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Dec 2020 21:33:00 +1100 (AEDT)
+Date: Thu, 3 Dec 2020 10:32:27 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1606991577;
+ bh=43yNdax6pGHrO0BTp2xJ0YBAHuZmVV9Ah1L6cygJuMU=;
+ h=From:To:Cc:Subject:References:In-Reply-To:From;
+ b=RNUgwCHMYUgjhrvu5Ze9nx9Prvgbl95hJ+4WEeXVeuh9jqHmetJY9lgIg17dQDyFO
+ J3XOiC68vEB9GfEGK8nUzLnbrroIZTiRqc+9tah/cO4DWnXm8wcmaaqjw8kBME2o+V
+ PLQV9D0DSnG+3gAY1fBep5BABJ/Xqt1IYdftBO4/NjonpKhNEhZBq+KWyo5VX8XjeK
+ 9qdV2pHC3AJ3CiQtS9ebm+wMPONbSY1r/QQ0DzMB2yPIeumKROIrguVG/njTNK1AOk
+ prOAiZlmlqds7QlSLaj4xO8OhfSB4IidcNklQLwIgmRIbde3e6x0rJKrBQuNKyp6Mc
+ vqaDydV5/4g+w==
+From: Mark Brown <broonie@kernel.org>
+To: Joel Stanley <joel@jms.id.au>
+Subject: Re: [v2 0/4] Porting ASPEED FMC/SPI memory controller driver
+Message-ID: <20201203103227.GC4700@sirena.org.uk>
+References: <20201103072202.24705-1-chin-ting_kuo@aspeedtech.com>
+ <160683107674.35139.14509237313835347013.b4-ty@kernel.org>
+ <CACPK8Xe4TcRVBnZL7vtqGq1PTe5NEx1k4hvk4FDeYgJQ9HALFg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ZmUaFz6apKcXQszQ"
 Content-Disposition: inline
-In-Reply-To: <PS1PR06MB2600D6A1E73D89EA0D0D59DC8AF20@PS1PR06MB2600.apcprd06.prod.outlook.com>
+In-Reply-To: <CACPK8Xe4TcRVBnZL7vtqGq1PTe5NEx1k4hvk4FDeYgJQ9HALFg@mail.gmail.com>
+X-Cookie: Sacred cows make great hamburgers.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,42 +59,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Tony Luck <tony.luck@intel.com>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- open list <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- "leetroy@gmail.com" <leetroy@gmail.com>, Robert Richter <rrichter@marvell.com>,
- James Morse <james.morse@arm.com>, Stefan M Schaeckeler <sschaeck@cisco.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>,
- "open list:EDAC-CORE" <linux-edac@vger.kernel.org>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Boris Brezillon <bbrezillon@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-spi@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ BMC-SW <BMC-SW@aspeedtech.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Dec 03, 2020 at 01:27:27AM +0000, Troy Lee wrote:
-> Hi Broislav and Andrew,
-> 
-> I removed these exported function and submitted v3 PATCH.
 
-I saw that. A couple of comments:
+--ZmUaFz6apKcXQszQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-First of all, please do not top-post on a public mailing list.
+On Wed, Dec 02, 2020 at 09:19:47PM +0000, Joel Stanley wrote:
+> On Tue, 1 Dec 2020 at 13:58, Mark Brown <broonie@kernel.org> wrote:
 
-Secondly, Joel gave you Reviewed-by: and Acked-by: for your patches 1
-and 2 which are not in your new submission. But they should be, please
-have a look at Documentation/process/ while you're waiting for his
-review of your v3.
+> > Applied to
+> >
+> >    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-You don't have to resend now with those added and I can add them if Joel
-is fine with patch 3 but pls remember to pick up tags reviewers have
-given you, in the future.
+> Really? Or is there a bug in one of your scripts :)
 
-Thx.
+Not my scripts, b4!
 
--- 
-Regards/Gruss,
-    Boris.
+--ZmUaFz6apKcXQszQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-https://people.kernel.org/tglx/notes-about-netiquette
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl/IvrsACgkQJNaLcl1U
+h9CS2wf+JYv7MdfNnO9GFIy0AVuTJlRHvbhFYMX35CrKtG3bCDbrHP/9CgwE3NCP
+dv5bms58wdNxCvRtu180AHxs2pVBIZKYFIgIIiNayARpwxqupKFr6qMTGHtx76bR
+hu4n8ErziSlUzhfnTKsl9eB3DjKoYq5f6hyibKQvElzv72wjyeO21B/ME8x6CBiV
+8UGAYjhXnuuu+ovTvKUCp6cTgPrPJ/PVu2rFB//hTj3BxxAhMgUve9Wye6o3TRpC
+mQETkDnHgCPtrVHl0zqDK8LusqGDLf9hZ6FEM6DHC1HgMGizKlVaH2GceMJHFfd2
+pOFCbLwEik6HfoDBjv3wd8NWY7uhiQ==
+=7doF
+-----END PGP SIGNATURE-----
+
+--ZmUaFz6apKcXQszQ--
