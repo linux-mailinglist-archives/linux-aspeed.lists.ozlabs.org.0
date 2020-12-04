@@ -1,53 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02E1B2CD39D
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Dec 2020 11:33:22 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFEE92CEA54
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Dec 2020 09:58:45 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CmscZ3WrxzDrFj
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Dec 2020 21:33:18 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CnRSz1JwBzDrHs
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Dec 2020 19:58:43 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=broonie@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=RNUgwCHM; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CmscD6qXKzDrFj
- for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Dec 2020 21:33:00 +1100 (AEDT)
-Date: Thu, 3 Dec 2020 10:32:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1606991577;
- bh=43yNdax6pGHrO0BTp2xJ0YBAHuZmVV9Ah1L6cygJuMU=;
- h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=RNUgwCHMYUgjhrvu5Ze9nx9Prvgbl95hJ+4WEeXVeuh9jqHmetJY9lgIg17dQDyFO
- J3XOiC68vEB9GfEGK8nUzLnbrroIZTiRqc+9tah/cO4DWnXm8wcmaaqjw8kBME2o+V
- PLQV9D0DSnG+3gAY1fBep5BABJ/Xqt1IYdftBO4/NjonpKhNEhZBq+KWyo5VX8XjeK
- 9qdV2pHC3AJ3CiQtS9ebm+wMPONbSY1r/QQ0DzMB2yPIeumKROIrguVG/njTNK1AOk
- prOAiZlmlqds7QlSLaj4xO8OhfSB4IidcNklQLwIgmRIbde3e6x0rJKrBQuNKyp6Mc
- vqaDydV5/4g+w==
-From: Mark Brown <broonie@kernel.org>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [v2 0/4] Porting ASPEED FMC/SPI memory controller driver
-Message-ID: <20201203103227.GC4700@sirena.org.uk>
-References: <20201103072202.24705-1-chin-ting_kuo@aspeedtech.com>
- <160683107674.35139.14509237313835347013.b4-ty@kernel.org>
- <CACPK8Xe4TcRVBnZL7vtqGq1PTe5NEx1k4hvk4FDeYgJQ9HALFg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ZmUaFz6apKcXQszQ"
-Content-Disposition: inline
-In-Reply-To: <CACPK8Xe4TcRVBnZL7vtqGq1PTe5NEx1k4hvk4FDeYgJQ9HALFg@mail.gmail.com>
-X-Cookie: Sacred cows make great hamburgers.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+ spf=pass (sender SPF authorized) smtp.helo=cstnet.cn
+ (client-ip=159.226.251.21; helo=cstnet.cn; envelope-from=vulab@iscas.ac.cn;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+X-Greylist: delayed 384 seconds by postgrey-1.36 at bilbo;
+ Fri, 04 Dec 2020 19:58:36 AEDT
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+ by lists.ozlabs.org (Postfix) with ESMTP id 4CnRSr1YrNzDr8V
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Dec 2020 19:58:35 +1100 (AEDT)
+Received: from localhost.localdomain (unknown [124.16.141.242])
+ by APP-01 (Coremail) with SMTP id qwCowACXn0+q+MlfGBnaAA--.27966S2;
+ Fri, 04 Dec 2020 16:51:55 +0800 (CST)
+From: Xu Wang <vulab@iscas.ac.cn>
+To: balbi@kernel.org, gregkh@linuxfoundation.org, joel@jms.id.au,
+ andrew@aj.id.au, rentao.bupt@gmail.com, benh@kernel.crashing.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
+Subject: [PATCH] usb: gadget: aspeed: Remove redundant null check before
+ clk_disable_unprepare
+Date: Fri,  4 Dec 2020 08:51:50 +0000
+Message-Id: <20201204085150.3063-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: qwCowACXn0+q+MlfGBnaAA--.27966S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZFy8CFy8AFWxXryxJFy7KFg_yoWfGrgEkr
+ 1UWF4xW3WYvwsIyw1UGay5C34qga4kuw409F1ktFn5ZFWjgw43XryjvrZ5CF17Za17C3Z5
+ Awn8Gr43Zw4fujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb2xYjsxI4VWkCwAYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
+ A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+ w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMc
+ vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY02Avz4vE14v_GFyl42xK82IY
+ c2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
+ 026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
+ 0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0x
+ vE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
+ 87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUx6wCDUUUU
+X-Originating-IP: [124.16.141.242]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCQoAA102ZxEfFgAAsU
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,46 +61,33 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Boris Brezillon <bbrezillon@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-spi@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- BMC-SW <BMC-SW@aspeedtech.com>
+Cc: linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Because clk_disable_unprepare() already checked NULL clock parameter,
+so the additional check is unnecessary, just remove it.
 
---ZmUaFz6apKcXQszQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+---
+ drivers/usb/gadget/udc/aspeed-vhub/core.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-On Wed, Dec 02, 2020 at 09:19:47PM +0000, Joel Stanley wrote:
-> On Tue, 1 Dec 2020 at 13:58, Mark Brown <broonie@kernel.org> wrote:
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+index be7bb64e3594..ea47f4b98de9 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+@@ -282,8 +282,7 @@ static int ast_vhub_remove(struct platform_device *pdev)
+ 	       VHUB_CTRL_PHY_RESET_DIS,
+ 	       vhub->regs + AST_VHUB_CTRL);
+ 
+-	if (vhub->clk)
+-		clk_disable_unprepare(vhub->clk);
++	clk_disable_unprepare(vhub->clk);
+ 
+ 	spin_unlock_irqrestore(&vhub->lock, flags);
+ 
+-- 
+2.17.1
 
-> > Applied to
-> >
-> >    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-> Really? Or is there a bug in one of your scripts :)
-
-Not my scripts, b4!
-
---ZmUaFz6apKcXQszQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl/IvrsACgkQJNaLcl1U
-h9CS2wf+JYv7MdfNnO9GFIy0AVuTJlRHvbhFYMX35CrKtG3bCDbrHP/9CgwE3NCP
-dv5bms58wdNxCvRtu180AHxs2pVBIZKYFIgIIiNayARpwxqupKFr6qMTGHtx76bR
-hu4n8ErziSlUzhfnTKsl9eB3DjKoYq5f6hyibKQvElzv72wjyeO21B/ME8x6CBiV
-8UGAYjhXnuuu+ovTvKUCp6cTgPrPJ/PVu2rFB//hTj3BxxAhMgUve9Wye6o3TRpC
-mQETkDnHgCPtrVHl0zqDK8LusqGDLf9hZ6FEM6DHC1HgMGizKlVaH2GceMJHFfd2
-pOFCbLwEik6HfoDBjv3wd8NWY7uhiQ==
-=7doF
------END PGP SIGNATURE-----
-
---ZmUaFz6apKcXQszQ--
