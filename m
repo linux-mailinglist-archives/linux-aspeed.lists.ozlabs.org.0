@@ -1,55 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFEE92CEA54
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Dec 2020 09:58:45 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB7D2CEABD
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Dec 2020 10:21:24 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CnRSz1JwBzDrHs
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Dec 2020 19:58:43 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CnRz52r57zDrJf
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Dec 2020 20:21:21 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.helo=cstnet.cn
- (client-ip=159.226.251.21; helo=cstnet.cn; envelope-from=vulab@iscas.ac.cn;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::244;
+ helo=mail-lj1-x244.google.com; envelope-from=linus.walleij@linaro.org;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-X-Greylist: delayed 384 seconds by postgrey-1.36 at bilbo;
- Fri, 04 Dec 2020 19:58:36 AEDT
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
- by lists.ozlabs.org (Postfix) with ESMTP id 4CnRSr1YrNzDr8V
- for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Dec 2020 19:58:35 +1100 (AEDT)
-Received: from localhost.localdomain (unknown [124.16.141.242])
- by APP-01 (Coremail) with SMTP id qwCowACXn0+q+MlfGBnaAA--.27966S2;
- Fri, 04 Dec 2020 16:51:55 +0800 (CST)
-From: Xu Wang <vulab@iscas.ac.cn>
-To: balbi@kernel.org, gregkh@linuxfoundation.org, joel@jms.id.au,
- andrew@aj.id.au, rentao.bupt@gmail.com, benh@kernel.crashing.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Subject: [PATCH] usb: gadget: aspeed: Remove redundant null check before
- clk_disable_unprepare
-Date: Fri,  4 Dec 2020 08:51:50 +0000
-Message-Id: <20201204085150.3063-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: qwCowACXn0+q+MlfGBnaAA--.27966S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZFy8CFy8AFWxXryxJFy7KFg_yoWfGrgEkr
- 1UWF4xW3WYvwsIyw1UGay5C34qga4kuw409F1ktFn5ZFWjgw43XryjvrZ5CF17Za17C3Z5
- Awn8Gr43Zw4fujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUb2xYjsxI4VWkCwAYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I
- 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
- 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
- cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
- A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
- w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMc
- vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY02Avz4vE14v_GFyl42xK82IY
- c2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
- 026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
- 0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0x
- vE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
- 87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUx6wCDUUUU
-X-Originating-IP: [124.16.141.242]
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCQoAA102ZxEfFgAAsU
+ dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
+ header.s=google header.b=HFnTZWH6; dkim-atps=neutral
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CnRwz2vgCzDrBm
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Dec 2020 20:19:29 +1100 (AEDT)
+Received: by mail-lj1-x244.google.com with SMTP id z1so5798245ljn.4
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 04 Dec 2020 01:19:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5d7QS+8aXm3Jo/dhQvPSPLMGlB6XfaOcQnDt/pos0Ws=;
+ b=HFnTZWH6X1wkzC7QlBblqLyaQF9njYKqtCrrpWajz5RT570G7/SrSQv45Vn5VfcjQc
+ B05CHty9taLOt4gHSyb5cFg48XKrJZOBNmNXFjasRAY9GJlvmEvpa17YSb1oDmvtnTox
+ uOZ6bBMcYor/6pkM2ayA2O/csHCBT8kgTv9b0HwDHaatRGAMkchmiSUvNs/vcBwzzI8+
+ F5vv3dwezRMPuiMFMKWY04gxUVehhymf+el4eB+e6fEvYppXeOi2nf9N1c2H0j7Jcyuf
+ UgjlXVx2zFnAUiA2FrtYe+1O2RadiEX2bv+660peezhk+zcTwByWlUixsbI1MBT451a2
+ gRjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5d7QS+8aXm3Jo/dhQvPSPLMGlB6XfaOcQnDt/pos0Ws=;
+ b=mNuvvpkF4zR84C+CPuKGD5OPEtyDFNbd8HXvzyNcrJbQjxC0vxbb5n/gEObJA4MTDJ
+ A13e+t5B4bmW/0tJQFo9aiZcVqDOlOyCjwX9b732hWLbB/57gt+NZhfLKiER6aMgCAU6
+ QDlOrfY6rjoDOevcRMyP4qlFE0ls/SXrYuJPaWEI5XG4G4bLrGEziyey9mNyJAfiIMX2
+ g089KpblrnDmakh2KrRDVre+FTOrRo9YSM9AhKk4qhee5DiYwslFlE/U0rvtzJeD1DfI
+ 5pRma2pW+KowssvYkn2XzqN1PRjM1nZufOqHk2wp1gZ2p8EAV5RXzOpFaY4zdOcSQtRO
+ dCHw==
+X-Gm-Message-State: AOAM53152SZY6xAYgT/loPn6Yze9cFlOkXHjyYoz8wS/5rnjfiGasx+t
+ XqpMtT5WLiGzdVnQrSi8Zuuwesstc0EjyGJXlHWyzg==
+X-Google-Smtp-Source: ABdhPJyCHSQRv+nMAlK9tcmnaAQ4ep11WKxlvgFh3ha/z/I3+vuqYJ4dvzKMhQ06y79w9YwuAwbMAjz9xP74UEEWpoM=
+X-Received: by 2002:a05:651c:39d:: with SMTP id
+ e29mr2803768ljp.144.1607073562865; 
+ Fri, 04 Dec 2020 01:19:22 -0800 (PST)
+MIME-Version: 1.0
+References: <20201126063337.489927-1-andrew@aj.id.au>
+In-Reply-To: <20201126063337.489927-1-andrew@aj.id.au>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 4 Dec 2020 10:19:12 +0100
+Message-ID: <CACRpkdbMoLXiSipDkmRXeWA_tcyDC8R1kuxHzzvfYaeqLU5deg@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: aspeed: Fix GPIO requests on pass-through banks
+To: Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,33 +73,57 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Because clk_disable_unprepare() already checked NULL clock parameter,
-so the additional check is unnecessary, just remove it.
+On Thu, Nov 26, 2020 at 7:34 AM Andrew Jeffery <andrew@aj.id.au> wrote:
 
-Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
----
- drivers/usb/gadget/udc/aspeed-vhub/core.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+> Commit 6726fbff19bf ("pinctrl: aspeed: Fix GPI only function problem.")
+> fixes access to GPIO banks T and U on the AST2600. Both banks contain
+> input-only pins and the GPIO pin function is named GPITx and GPIUx
+> respectively. Unfortunately the fix had a negative impact on GPIO banks
+> D and E for the AST2400 and AST2500 where the GPIO pass-through
+> functions take similar "GPI"-style names. The net effect on the older
+> SoCs was that when the GPIO subsystem requested a pin in banks D or E be
+> muxed for GPIO, they were instead muxed for pass-through mode.
+> Mistakenly muxing pass-through mode e.g. breaks booting the host on
+> IBM's Witherspoon (AC922) platform where GPIOE0 is used for FSI.
+>
+> Further exploit the names in the provided expression structure to
+> differentiate pass-through from pin-specific GPIO modes.
+>
+> This follow-up fix gives the expected behaviour for the following tests:
+>
+> Witherspoon BMC (AST2500):
+>
+> 1. Power-on the Witherspoon host
+> 2. Request GPIOD1 be muxed via /sys/class/gpio/export
+> 3. Request GPIOE1 be muxed via /sys/class/gpio/export
+> 4. Request the balls for GPIOs E2 and E3 be muxed as GPIO pass-through
+>    ("GPIE2" mode) via a pinctrl hog in the devicetree
+>
+> Rainier BMC (AST2600):
+>
+> 5. Request GPIT0 be muxed via /sys/class/gpio/export
+> 6. Request GPIU0 be muxed via /sys/class/gpio/export
+>
+> Together the tests demonstrate that all three pieces of functionality
+> (general GPIOs via 1, 2 and 3, input-only GPIOs via 5 and 6, pass-through
+> mode via 4) operate as desired across old and new SoCs.
+>
+> Fixes: 6726fbff19bf ("pinctrl: aspeed: Fix GPI only function problem.")
+> Cc: Billy Tsai <billy_tsai@aspeedtech.com>
+> Cc: Joel Stanley <joel@jms.id.au>
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-index be7bb64e3594..ea47f4b98de9 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-@@ -282,8 +282,7 @@ static int ast_vhub_remove(struct platform_device *pdev)
- 	       VHUB_CTRL_PHY_RESET_DIS,
- 	       vhub->regs + AST_VHUB_CTRL);
- 
--	if (vhub->clk)
--		clk_disable_unprepare(vhub->clk);
-+	clk_disable_unprepare(vhub->clk);
- 
- 	spin_unlock_irqrestore(&vhub->lock, flags);
- 
--- 
-2.17.1
+Patch applied for fixes.
 
+Yours,
+Linus Walleij
