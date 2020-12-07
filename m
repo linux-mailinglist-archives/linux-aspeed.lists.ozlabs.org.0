@@ -2,89 +2,97 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0CF2D087B
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Dec 2020 01:13:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E359A2D08B0
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Dec 2020 02:03:39 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Cq3gY3Z7CzDqZR
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Dec 2020 11:13:29 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Cq4nN4HMvzDqZR
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Dec 2020 12:03:36 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=64.147.123.19;
- helo=wout3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.221;
+ helo=new1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=I9f5I5cD; 
+ header.s=fm1 header.b=jcf93RNP; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=r3L/83fl; 
+ header.a=rsa-sha256 header.s=fm1 header.b=g9bS9X1A; 
  dkim-atps=neutral
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Cq3gL54dmzDqPw
- for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Dec 2020 11:13:18 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Cq4nD1frrzDqKD
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Dec 2020 12:03:24 +1100 (AEDT)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 7FCF15D9;
- Sun,  6 Dec 2020 19:13:15 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id D8A5A5802DF;
+ Sun,  6 Dec 2020 20:03:20 -0500 (EST)
 Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Sun, 06 Dec 2020 19:13:16 -0500
+ by compute3.internal (MEProxy); Sun, 06 Dec 2020 20:03:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=FXWH2ZnmGhBk6pgYPxR/iThdke31cD5
- jkfcX6g/sp80=; b=I9f5I5cDHKgFV2tGYrdOJeP00MJz0m1JeN4fNQ/8vO1OoU3
- 6yEqHtmiGEGCLm/YhyWN5lsVeBFfvN/lma2r4RRt3i7gis7hyq4Np3mQrNadjvq+
- FlcW1Onek0CYl8L80UzlQCNIWnlZKfz+cdtvEDD7rAuMVAvupzZLmCrH98zU5ZP/
- nfEK1s0XrLM2ZybiFZveM0TFhA/PpVpsK8TE1WBQ+kA1GiJiLbK/P4Jr+eLc7fTx
- AovufkAP8DOhpVhiCQ2YAzzm2hfmOTTfYuWOad/EMluYs9DButr4ubctiHOI9nd4
- qJp8qh4jFf0zG8o0O40O4ayjXJV9RAzCUZsP3Dw==
+ :subject:content-type; s=fm1; bh=cB1Dw0K4Q6rFJj1QuyI/XjHiNBx6kkb
+ +GjcfpOtl/kI=; b=jcf93RNPtDBmqCAVJFH4i6r3+KCL9HzRLtj/83g25fy9YHF
+ EGMS7D5V1AKrCms0uRV+a9r3+Grl1m1P/HDPNzeNPIEWt+a9YcM+i4FowIQAhJi3
+ 0fduLdwDspAOqhL/8m6B421xUKkLsQ+rqrWUWJYXveQjzzjEMtaoH96Hx1c2/BG7
+ +uAoCErJeTTAwEaB94PiBTgk1LJLKytKSTtAqa7+0KPg2kVqPJyBY0y3j3v4RYMu
+ VW2Si0BovZECkWKXClveGRpHUxe8YnWQujcIM/TjefN8q17eIVhyfwae1Z8Yu9/U
+ bjsmlP2x3vv9puZYFbJw0MdzmEyKTqtVk3txPFw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=FXWH2Z
- nmGhBk6pgYPxR/iThdke31cD5jkfcX6g/sp80=; b=r3L/83flKI25Qo30XXTpSI
- Wz5f6cmVecOcR0NjzGgjCctOObxBBKFyavEBq2/wqB8POHZddMEzMFGnQE9BUUAe
- 514JL7u8KgZzqGRcJNvbzlmzEMmsUXz1kNYsQXKHxXry3vDrE70D5diyO655LEkc
- vG6QePCvMRzhodYjaeZA728YkZ1AihcVUlDZ/EebZyMUlpQ1nwESp7ugHTZlPaOG
- MKc8yBNf8MvMEczy/UcFuDmSBSo+IpPwEUL1gUCLjJHNC4qCecKiuSq330YXAW9/
- +w3Tu9nQxwcDcgG4wkfDiyuw8/+7GDiyFH5S1xYljp0g1sD5pZnHR4J02NEaVr6A
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=cB1Dw0
+ K4Q6rFJj1QuyI/XjHiNBx6kkb+GjcfpOtl/kI=; b=g9bS9X1AI+fTriVltBFOfY
+ Dg1vk0NJn58J+l12bWZmtYTTZSXg8ZQ6Khdd4ITKKrtYSOWmrdW2CcU8o+k8DcIL
+ 16mn1w21JykdKOnLnvu/WYRjSbJ+nHMsNzcN0+b9BjcxRiHk9b8fOjRgj2mPzhJs
+ /d99nvVTwJEBLhpXNV05IuquXLkRxiou3/8tXVUYXrR+xCDMN2DwH+ZSIQGZwdgX
+ dEruhzYU2it4boL/ThdVic4DlaJii7aX5WVgYq+F06uZ5aksMj+02X97vegtwU74
+ rjA5alr4Vicmszl2p/6WtZDmTXDbZB9GPxjmMj3c1dfVNB6WJPh8wM1zh0QE/TAw
  ==
-X-ME-Sender: <xms:mXPNXw2F4WZPA_5_dafYwObHAPyX_G3OEbDU2zRVm6i3CP0JmmbKHg>
- <xme:mXPNX7FwgaF7eX8xNEM6qzoU16uHy5-4TjvYh5QcH9XYAMtgSKSh4003NmuGSc65v
- rVd-zCu9W9sU2jlWw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejfedgudehucetufdoteggodetrfdotf
+X-ME-Sender: <xms:Vn_NX47sKyI0ilQ2jKIWwoxcNSf-9SDl2mX-20ulI8W7WxCOURnwcw>
+ <xme:Vn_NX55oGYJs6K2zd75P14FT3HRmzHEmR9TiPFKQTIZGZVAPSEt_U2ctS_eJiHTdx
+ 4YGAWa-ZUWmQGwDyA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejfedgvdehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
  rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhepuddttdekueeggedvtddtueekiedutdfguedutdefieeuteefieelteet
- vddthfeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
+ hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:mXPNX45Z6GdDtVQL_1_fOqQQS6n2tX2ddWchmPyOJh5so4Bo9Quz0w>
- <xmx:mXPNX50hL_bdq-cf7cwn_N8mdZXWC9zmENc9Z-5j6JOcJqfVQBbHmQ>
- <xmx:mXPNXzEiRInL5o5Ahc-D4s7uiuEUWa9n0l33Sr8l2mTTnD-QPs40cw>
- <xmx:m3PNX45HnrdlCpBcoKgAycAm0K-Ir0BQ7w-4UN2aY-B6yOCFTdEEdQ>
+X-ME-Proxy: <xmx:Vn_NX3fX16Vhs0CcvU0rXK-Efp-OI61hg49nnrQ4thWp2Y18bbIgpw>
+ <xmx:Vn_NX9ITE6H9ObvVkV8jAaVFKiILH4cwlXdc2IVHSPLoSITgVmA0RA>
+ <xmx:Vn_NX8LgyVb9us__IVMf81VcEqRVWEQX_d6F6FKYcvChrLt4O85utg>
+ <xmx:WH_NX_Yelpm7n0UBaBSvVLnYMpgkACGwIxCsi7RgiI5XTuhn4HrBkw>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 06ED5E00DF; Sun,  6 Dec 2020 19:13:11 -0500 (EST)
+ id 733F4E00DF; Sun,  6 Dec 2020 20:03:16 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.3.0-622-g4a97c0b-fm-20201115.001-g4a97c0b3
 Mime-Version: 1.0
-Message-Id: <661ad7bc-b299-4ada-be93-4e2925d79143@www.fastmail.com>
-In-Reply-To: <20201204085150.3063-1-vulab@iscas.ac.cn>
-References: <20201204085150.3063-1-vulab@iscas.ac.cn>
-Date: Mon, 07 Dec 2020 10:42:52 +1030
+Message-Id: <21488758-f839-4762-93d6-0e6c3397394f@www.fastmail.com>
+In-Reply-To: <20201202101218.18393-3-troy_lee@aspeedtech.com>
+References: <20201202101218.18393-1-troy_lee@aspeedtech.com>
+ <20201202101218.18393-3-troy_lee@aspeedtech.com>
+Date: Mon, 07 Dec 2020 11:32:57 +1030
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Xu Wang" <vulab@iscas.ac.cn>, "Felipe Balbi" <balbi@kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Joel Stanley" <joel@jms.id.au>, "Tao Ren" <rentao.bupt@gmail.com>,
- "Benjamin Herrenschmidt" <benh@kernel.crashing.org>,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Subject: =?UTF-8?Q?Re:_[PATCH]_usb:_gadget:_aspeed:_Remove_redundant_null_check_b?=
- =?UTF-8?Q?efore_clk=5Fdisable=5Funprepare?=
+To: "Troy Lee" <troy_lee@aspeedtech.com>,
+ "Stefan M Schaeckeler" <sschaeck@cisco.com>,
+ "Rob Herring" <robh+dt@kernel.org>, "Joel Stanley" <joel@jms.id.au>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ "Tony Luck" <tony.luck@intel.com>, "James Morse" <james.morse@arm.com>,
+ "Robert Richter" <rric@kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>, 
+ "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ "open list" <linux-kernel@vger.kernel.org>,
+ "open list:EDAC-CORE" <linux-edac@vger.kernel.org>
+Subject: Re: [PATCH v3 3/3] edac: Supporting AST2400 and AST2600 edac driver
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -97,44 +105,112 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org
+Cc: leetroy@gmail.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
 
-On Fri, 4 Dec 2020, at 19:21, Xu Wang wrote:
-> Because clk_disable_unprepare() already checked NULL clock parameter,
-> so the additional check is unnecessary, just remove it.
+On Wed, 2 Dec 2020, at 20:42, Troy Lee wrote:
+> Adding AST2400 and AST2600 edac driver support.
 > 
-> Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
-
-Pity we have to dig through the implementation of clk_disable_unprepare() to 
-figure this out, but oh well.
-
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-
+> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
 > ---
->  drivers/usb/gadget/udc/aspeed-vhub/core.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+> Changes since v2:
+> - Remove cross dependencies export functions
+> - Update Kconfig depends on ARCH_ASPEED
+> - Patch create against latest Linux kernel mainline
 > 
-> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c 
-> b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> index be7bb64e3594..ea47f4b98de9 100644
-> --- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> +++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> @@ -282,8 +282,7 @@ static int ast_vhub_remove(struct platform_device 
-> *pdev)
->  	       VHUB_CTRL_PHY_RESET_DIS,
->  	       vhub->regs + AST_VHUB_CTRL);
+> ---
+>  drivers/edac/Kconfig       |  6 +++---
+>  drivers/edac/aspeed_edac.c | 15 +++++----------
+>  2 files changed, 8 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
+> index 7a47680d6f07..c410331e8ee8 100644
+> --- a/drivers/edac/Kconfig
+> +++ b/drivers/edac/Kconfig
+> @@ -515,10 +515,10 @@ config EDAC_QCOM
+>  	  health, you should probably say 'Y' here.
 >  
-> -	if (vhub->clk)
-> -		clk_disable_unprepare(vhub->clk);
-> +	clk_disable_unprepare(vhub->clk);
+>  config EDAC_ASPEED
+> -	tristate "Aspeed AST 2500 SoC"
+> -	depends on MACH_ASPEED_G5
+> +	tristate "Aspeed AST BMC SoC"
+> +	depends on ARCH_ASPEED
+>  	help
+> -	  Support for error detection and correction on the Aspeed AST 2500 SoC.
+> +	  Support for error detection and correction on the Aspeed AST BMC SoC.
 >  
->  	spin_unlock_irqrestore(&vhub->lock, flags);
+>  	  First, ECC must be configured in the bootloader. Then, this driver
+>  	  will expose error counters via the EDAC kernel framework.
+> diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
+> index fde809efc520..c9d1d8a8fcba 100644
+> --- a/drivers/edac/aspeed_edac.c
+> +++ b/drivers/edac/aspeed_edac.c
+> @@ -239,7 +239,7 @@ static int init_csrows(struct mem_ctl_info *mci)
+>  	int rc;
 >  
+>  	/* retrieve info about physical memory from device tree */
+> -	np = of_find_node_by_path("/memory");
+> +	np = of_find_node_by_name(NULL, "memory");
+>  	if (!np) {
+>  		dev_err(mci->pdev, "dt: missing /memory node\n");
+>  		return -ENODEV;
+> @@ -282,7 +282,6 @@ static int aspeed_probe(struct platform_device *pdev)
+>  	struct edac_mc_layer layers[2];
+>  	struct mem_ctl_info *mci;
+>  	void __iomem *regs;
+> -	u32 reg04;
+>  	int rc;
+>  
+>  	regs = devm_platform_ioremap_resource(pdev, 0);
+> @@ -294,13 +293,6 @@ static int aspeed_probe(struct platform_device *pdev)
+>  	if (IS_ERR(aspeed_regmap))
+>  		return PTR_ERR(aspeed_regmap);
+>  
+> -	/* bail out if ECC mode is not configured */
+> -	regmap_read(aspeed_regmap, ASPEED_MCR_CONF, &reg04);
+> -	if (!(reg04 & ASPEED_MCR_CONF_ECC)) {
+> -		dev_err(&pdev->dev, "ECC mode is not configured in u-boot\n");
+> -		return -EPERM;
+> -	}
+> -
+
+It might pay to separate this out as I think it's unrelated to the supporting 
+the AST2[45]00?
+
+Other than that I think the patch is on the right track.
+
+Thanks for the quick responses Troy!
+
+Andrew
+
+>  	edac_op_state = EDAC_OPSTATE_INT;
+>  
+>  	/* allocate & init EDAC MC data structure */
+> @@ -375,10 +367,13 @@ static int aspeed_remove(struct platform_device *pdev)
+>  
+>  
+>  static const struct of_device_id aspeed_of_match[] = {
+> +	{ .compatible = "aspeed,ast2400-sdram-edac" },
+>  	{ .compatible = "aspeed,ast2500-sdram-edac" },
+> +	{ .compatible = "aspeed,ast2600-sdram-edac" },
+>  	{},
+>  };
+>  
+> +MODULE_DEVICE_TABLE(of, aspeed_of_match);
+>  
+>  static struct platform_driver aspeed_driver = {
+>  	.driver		= {
+> @@ -392,5 +387,5 @@ module_platform_driver(aspeed_driver);
+>  
+>  MODULE_LICENSE("GPL");
+>  MODULE_AUTHOR("Stefan Schaeckeler <sschaeck@cisco.com>");
+> -MODULE_DESCRIPTION("Aspeed AST2500 EDAC driver");
+> +MODULE_DESCRIPTION("Aspeed BMC SoC EDAC driver");
+>  MODULE_VERSION("1.0");
 > -- 
 > 2.17.1
 > 
