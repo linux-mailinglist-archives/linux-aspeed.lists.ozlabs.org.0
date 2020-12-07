@@ -1,99 +1,178 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id E359A2D08B0
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Dec 2020 02:03:39 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 300C22D0C44
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Dec 2020 09:57:45 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Cq4nN4HMvzDqZR
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Dec 2020 12:03:36 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CqHJN5JsrzDqWp
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Dec 2020 19:57:40 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.221;
- helo=new1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=jcf93RNP; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=g9bS9X1A; 
- dkim-atps=neutral
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Cq4nD1frrzDqKD
- for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Dec 2020 12:03:24 +1100 (AEDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id D8A5A5802DF;
- Sun,  6 Dec 2020 20:03:20 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Sun, 06 Dec 2020 20:03:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=cB1Dw0K4Q6rFJj1QuyI/XjHiNBx6kkb
- +GjcfpOtl/kI=; b=jcf93RNPtDBmqCAVJFH4i6r3+KCL9HzRLtj/83g25fy9YHF
- EGMS7D5V1AKrCms0uRV+a9r3+Grl1m1P/HDPNzeNPIEWt+a9YcM+i4FowIQAhJi3
- 0fduLdwDspAOqhL/8m6B421xUKkLsQ+rqrWUWJYXveQjzzjEMtaoH96Hx1c2/BG7
- +uAoCErJeTTAwEaB94PiBTgk1LJLKytKSTtAqa7+0KPg2kVqPJyBY0y3j3v4RYMu
- VW2Si0BovZECkWKXClveGRpHUxe8YnWQujcIM/TjefN8q17eIVhyfwae1Z8Yu9/U
- bjsmlP2x3vv9puZYFbJw0MdzmEyKTqtVk3txPFw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=cB1Dw0
- K4Q6rFJj1QuyI/XjHiNBx6kkb+GjcfpOtl/kI=; b=g9bS9X1AI+fTriVltBFOfY
- Dg1vk0NJn58J+l12bWZmtYTTZSXg8ZQ6Khdd4ITKKrtYSOWmrdW2CcU8o+k8DcIL
- 16mn1w21JykdKOnLnvu/WYRjSbJ+nHMsNzcN0+b9BjcxRiHk9b8fOjRgj2mPzhJs
- /d99nvVTwJEBLhpXNV05IuquXLkRxiou3/8tXVUYXrR+xCDMN2DwH+ZSIQGZwdgX
- dEruhzYU2it4boL/ThdVic4DlaJii7aX5WVgYq+F06uZ5aksMj+02X97vegtwU74
- rjA5alr4Vicmszl2p/6WtZDmTXDbZB9GPxjmMj3c1dfVNB6WJPh8wM1zh0QE/TAw
- ==
-X-ME-Sender: <xms:Vn_NX47sKyI0ilQ2jKIWwoxcNSf-9SDl2mX-20ulI8W7WxCOURnwcw>
- <xme:Vn_NX55oGYJs6K2zd75P14FT3HRmzHEmR9TiPFKQTIZGZVAPSEt_U2ctS_eJiHTdx
- 4YGAWa-ZUWmQGwDyA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejfedgvdehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
- hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:Vn_NX3fX16Vhs0CcvU0rXK-Efp-OI61hg49nnrQ4thWp2Y18bbIgpw>
- <xmx:Vn_NX9ITE6H9ObvVkV8jAaVFKiILH4cwlXdc2IVHSPLoSITgVmA0RA>
- <xmx:Vn_NX8LgyVb9us__IVMf81VcEqRVWEQX_d6F6FKYcvChrLt4O85utg>
- <xmx:WH_NX_Yelpm7n0UBaBSvVLnYMpgkACGwIxCsi7RgiI5XTuhn4HrBkw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 733F4E00DF; Sun,  6 Dec 2020 20:03:16 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.3.0-622-g4a97c0b-fm-20201115.001-g4a97c0b3
-Mime-Version: 1.0
-Message-Id: <21488758-f839-4762-93d6-0e6c3397394f@www.fastmail.com>
-In-Reply-To: <20201202101218.18393-3-troy_lee@aspeedtech.com>
-References: <20201202101218.18393-1-troy_lee@aspeedtech.com>
- <20201202101218.18393-3-troy_lee@aspeedtech.com>
-Date: Mon, 07 Dec 2020 11:32:57 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Troy Lee" <troy_lee@aspeedtech.com>,
- "Stefan M Schaeckeler" <sschaeck@cisco.com>,
- "Rob Herring" <robh+dt@kernel.org>, "Joel Stanley" <joel@jms.id.au>,
+ smtp.mailfrom=cisco.com (client-ip=173.37.142.95; helo=alln-iport-8.cisco.com;
+ envelope-from=sschaeck@cisco.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none)
+ header.from=cisco.com
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=cisco.com header.i=@cisco.com header.a=rsa-sha256
+ header.s=iport header.b=ZSaizqhG; 
+ dkim=pass (1024-bit key;
+ unprotected) header.d=cisco.onmicrosoft.com header.i=@cisco.onmicrosoft.com
+ header.a=rsa-sha256 header.s=selector2-cisco-onmicrosoft-com
+ header.b=TTl8a7ku; dkim-atps=neutral
+Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CqHJ46dbLzDqWG
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Dec 2020 19:57:19 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=cisco.com; i=@cisco.com; l=868; q=dns/txt; s=iport;
+ t=1607331446; x=1608541046;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=P9efCInsjwoEOUF4UqlN7AvjefMuMXLrtT3jc8i0yQw=;
+ b=ZSaizqhGRCIO6CAqZWkxa/IX1qmLHrCpvBus7k1gHRfbtjGfNFZGITww
+ C9xnSkV6lgEXM+cHTOIxf/9zMDKgOl55MwE0Q3x1l3s93/O6T7sreyM1c
+ nzgEYXP5UKejgk8JOxwXk24jEn9kt5ZqFeVPOKVY5P5LgdfdTjVHT1oRC U=;
+X-IPAS-Result: =?us-ascii?q?A0A9AwCd7M1fmIYNJK1iHQEBAQEJARIBBQUBQIFPgVJRg?=
+ =?us-ascii?q?VcvLoQ8g0gDjTcomQiBQoERA1QLAQEBDQEBLQIEAQGESgIXgX4CJTgTAgMBA?=
+ =?us-ascii?q?QEDAgMBAQEBBQEBAQIBBgQUAQEBAQEBAQGGNgyFcwEBAQIBEhERDAEBNwEEC?=
+ =?us-ascii?q?wIBCBoCJgICAjAVEAIEAQ0ngwSCVgMOIAGhJQKBPIhpdoEygwQBAQWFPRiCE?=
+ =?us-ascii?q?AmBDiqCc4JmTkKCRIQUG4FBP4E4DBCCJy4+gQSDIIMxM4IsgkmCNIERknI/p?=
+ =?us-ascii?q?QIKgnSbPAMfgw+fHZNynEyEUgIEAgQFAg4BAQWBbSGBWXAVZQGCPlAXAg2OI?=
+ =?us-ascii?q?RgCg1eKHQE6dDcCBgoBAQMJfIwFAQE?=
+IronPort-PHdr: =?us-ascii?q?9a23=3AtYnlhhCEKOcxkoy6NadfUyQJPHJ1sqjoPgMT9p?=
+ =?us-ascii?q?ssgq5PdaLm5Zn5IUjD/qw30A3ARp3W5v5YhuHW9avnXD9I7ZWAtSUEd5pBH1?=
+ =?us-ascii?q?8AhN4NlgMtSMiCFQXgLfHsYiB7eaYKVFJs83yhd0QAHsH4ag7buWW/4DIOFx?=
+ =?us-ascii?q?7/cwFyI7e9Fovblc/i0ee09tXaaBlJgzzoZ7R0IV22oAzdu9NQj5FlL/M6yw?=
+ =?us-ascii?q?DCpT1DfOEFyA=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="5.78,399,1599523200"; d="scan'208";a="630137332"
+Received: from alln-core-12.cisco.com ([173.36.13.134])
+ by alln-iport-8.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+ 07 Dec 2020 08:57:10 +0000
+Received: from XCH-RCD-001.cisco.com (xch-rcd-001.cisco.com [173.37.102.11])
+ by alln-core-12.cisco.com (8.15.2/8.15.2) with ESMTPS id 0B78v3vx028015
+ (version=TLSv1.2 cipher=AES256-SHA bits=256 verify=FAIL);
+ Mon, 7 Dec 2020 08:57:04 GMT
+Received: from xhs-rtp-001.cisco.com (64.101.210.228) by XCH-RCD-001.cisco.com
+ (173.37.102.11) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 7 Dec 2020 02:57:02 -0600
+Received: from xhs-aln-001.cisco.com (173.37.135.118) by xhs-rtp-001.cisco.com
+ (64.101.210.228) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 7 Dec 2020 03:57:02 -0500
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (173.37.151.57)
+ by xhs-aln-001.cisco.com (173.37.135.118) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2 via Frontend Transport; Mon, 7 Dec 2020 02:57:01 -0600
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DHJuuOFGv05hgmxJm1yhkc1Zu8w7VAbvyjQYfbj3hrofkjciziUCSJPb4WUYNbSQ0VP5g64fIhyivMPjyDJ0+OyU4BtSlRtuHpWBj8MnAnMdITrXISomhQt92bKbxbH8XyKZA4RKbBcGGGHTQkZQdHbov11mb6gmel+18rNPtXdaWFbteqtuXV4zLNflJYWsWDdqdAM7eT8/W8PggC7nCiRlEDKmaswXHlSRkXwkqCFVg+ildj0qNnvvUl051eR16qSF4dX6SV2QPPssEqugYVcssUzOvYmvgkrH9pAtT7s52lJUIN7dXfyxX7c7oCOEBPBf1KvPDIpnAXVQb8q9mg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P9efCInsjwoEOUF4UqlN7AvjefMuMXLrtT3jc8i0yQw=;
+ b=VOkEFL8nEkkyYWo4jiCHP62ZN0lsW44RVYWxDupG4kkDqCTPQ78tkS7SmLE7XKNK8pj4XgN6lwmNuK9G0TEubd6oBEFelnGKxr+9FaJl4tF+KEcpCAhBp5vYSITX+1VkL47vVzPygVRhxeEzEIpdtTnOy8QC2vFFCykg/F/7iWLWoIMyI0MRqVyBzpariEOtYfsl+8EqOSEeXPF0yOtYRph5l+YTfvSdkZdOnjG7E2C76X9xIfUApuT/s1RlBlyRnMOEXhYuGLCmnpFlI3n/tz+rhXyyN4C62KUHFO2C0uLe2tPjO7coDlGZtUof1v2DYk2CNeAH8q/1SVqFzzqgcQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
+ dkim=pass header.d=cisco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cisco.onmicrosoft.com; 
+ s=selector2-cisco-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P9efCInsjwoEOUF4UqlN7AvjefMuMXLrtT3jc8i0yQw=;
+ b=TTl8a7kuQFRdVCqvrQIXbEVPgvD5yKyv9OQiQBFhOOw6r2nq/wMZeWwQF9VsxXBdXCWGpgMYvCFeCDfl+Lf3yRJEln4EY4PiWQmJvpnxD5MmvS3Cpru05dLQDI/uDvahH7GT01ZvBXGSIDmec0YusleyXuxnQZHARIeCUABmAiw=
+Received: from BYAPR11MB3112.namprd11.prod.outlook.com (2603:10b6:a03:85::13)
+ by SJ0PR11MB4942.namprd11.prod.outlook.com (2603:10b6:a03:2ac::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.21; Mon, 7 Dec
+ 2020 08:57:00 +0000
+Received: from BYAPR11MB3112.namprd11.prod.outlook.com
+ ([fe80::1d73:ab72:dce5:430e]) by BYAPR11MB3112.namprd11.prod.outlook.com
+ ([fe80::1d73:ab72:dce5:430e%3]) with mapi id 15.20.3632.023; Mon, 7 Dec 2020
+ 08:57:00 +0000
+From: "Stefan Schaeckeler (sschaeck)" <sschaeck@cisco.com>
+To: Troy Lee <troy_lee@aspeedtech.com>, Rob Herring <robh+dt@kernel.org>, Joel
+ Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
  "Borislav Petkov" <bp@alien8.de>,
- "Mauro Carvalho Chehab" <mchehab@kernel.org>,
- "Tony Luck" <tony.luck@intel.com>, "James Morse" <james.morse@arm.com>,
- "Robert Richter" <rric@kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>, 
- "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- "open list" <linux-kernel@vger.kernel.org>,
- "open list:EDAC-CORE" <linux-edac@vger.kernel.org>
-Subject: Re: [PATCH v3 3/3] edac: Supporting AST2400 and AST2600 edac driver
-Content-Type: text/plain
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Tony Luck
+ <tony.luck@intel.com>, James Morse <james.morse@arm.com>, Robert Richter
+ <rrichter@marvell.com>, "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE
+ BINDINGS" <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED MACHINE
+ SUPPORT" <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/ASPEED
+ MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>, open list
+ <linux-kernel@vger.kernel.org>, "open list:EDAC-CORE"
+ <linux-edac@vger.kernel.org>
+Subject: Re: [PATCH 3/3] edac: Supporting AST2400 and AST2600 edac driver
+Thread-Topic: [PATCH 3/3] edac: Supporting AST2400 and AST2600 edac driver
+Thread-Index: AQHWxvPQ/UqNooRbdUCtjP+oDaLSzqnf3r8AgAImKoCACNTqgA==
+Date: Mon, 7 Dec 2020 08:57:00 +0000
+Message-ID: <40547026-144F-443C-BF14-C7FA0E3229C5@cisco.com>
+References: <20201130083345.4814-1-troy_lee@aspeedtech.com>
+ <20201130083345.4814-3-troy_lee@aspeedtech.com>
+ <4AD4AB7A-54E7-4922-9547-7E26D61F7C77@cisco.com>
+ <PS1PR06MB26008D10C46C5DF0B47F81368AF40@PS1PR06MB2600.apcprd06.prod.outlook.com>
+In-Reply-To: <PS1PR06MB26008D10C46C5DF0B47F81368AF40@PS1PR06MB2600.apcprd06.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/16.43.20110804
+authentication-results: aspeedtech.com; dkim=none (message not signed)
+ header.d=none;aspeedtech.com; dmarc=none action=none header.from=cisco.com;
+x-originating-ip: [2003:c6:2f0a:6e00:8072:30f2:2ac4:6def]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9bf2b27f-9665-4906-6776-08d89a8e0f7e
+x-ms-traffictypediagnostic: SJ0PR11MB4942:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SJ0PR11MB49428EFD38FBC022F17F37F3C7CE0@SJ0PR11MB4942.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2582;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: vsG8TevpJFV93tinw3PBq4cqVInzWcwBLCnrX+jJklsKO2A0HBiQtKIQmgF2bkId8Z93P9Pg7QHdwSnhGq66lbg4Q96caWT0cZqtxcMl+FB3Eovr8RHRWiMEX5FFCHD6KuyeWrQL2xb4SXPDf3y4npjsqmcQRmbtGHgqPFoY4sYQVPZ/WtqncbQRGItxqGahJFLsrbQO6WLFCyC8y3YNsyNy3ineUylhT2bwLk13IOlO/ALtUZ2NZQV9X0InzoUbbmaW05jsYWUeenmniTRTZaz5mv+15g0hC5P1S4LXpmxrReiliB3Zdeg9BEExP4K18gjuvHvvuP5dgykb8phZcRLHj0/rEMQakqZ53XulNi6BeDMEfLpXcJopNKoRptuVrIaotHeY/9HHu0ANZ5hPKQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR11MB3112.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(396003)(376002)(346002)(39860400002)(366004)(136003)(5660300002)(921005)(7416002)(36756003)(4326008)(54906003)(316002)(6506007)(110136005)(6486002)(8936002)(6512007)(4744005)(66446008)(66556008)(66946007)(86362001)(2616005)(71200400001)(66476007)(478600001)(83380400001)(2906002)(64756008)(33656002)(8676002)(91956017)(76116006)(186003)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?VlJxeGlXYVdxT2M5V2NCRFZvNk9NdERVSGxIeEw2cVJ1V25NaEtzN3FLbG5p?=
+ =?utf-8?B?OVNDcjhndVd0VUFNQ2FKK2hWWlBIY3p4TmJqcmRtMDh5VGN3dUZDZjFUUEtR?=
+ =?utf-8?B?cDJLZWljRm1wNTdLeXdSK2RHNlJ2UWloekkzMVpFTGlKb3Q1WUhPcUNJbWJ6?=
+ =?utf-8?B?QlpEL3o0S2NhbTZGWHZIejBmSVpUMUljU2l5RWlNL1JIOWZqbm9HdDJnbjY3?=
+ =?utf-8?B?WG5EY0Z2MXFNMlFYY3dza0lMcG12cWtFN1huN05ZenNPTzcxSzdYa0QzU3Fh?=
+ =?utf-8?B?a0RLNW42UWtZcE0vdlBhbC9GZUV5bE80NFdlanZIZmZ2ZFV3ZmVmOFA0QWtX?=
+ =?utf-8?B?ZDA4bldBVG0zOU9LNHlUajJFZHRWVitsdllYUTVkL0Rhb3ppZjNBWWw1QmQ0?=
+ =?utf-8?B?MS9DVzhPRVZkS0lLTVRIcWgzaC9NbkdqelpySGpsWVhVWUJoWkVXbm8zY21H?=
+ =?utf-8?B?M3Y0SUlLUjBOR0l5QnhRRTJJZ094K2kyb3hNb2YwU2JlcmM5Z2xhOUVnQld6?=
+ =?utf-8?B?RTMzL2NVQWVLRG92VE9paWdEeDdYVnVOSGVqVDczOU9xWG9XaEJSbURMbDlJ?=
+ =?utf-8?B?UXQvSm5CUUZ2bUJlM0k1ZzlkMlZHaHNpMlVXaU0wK2lCNnc5ZEdwSWdvZmU4?=
+ =?utf-8?B?N0RhKzRLYjJiT1d3WHpkMWxMcENuK2F4OW5HYVlPVmZaeThHeC9QM3VveTY5?=
+ =?utf-8?B?MmY4MHhjMTlqUnZnS094bzk4STFaMllmaGNnTjlaaXpISi9lbi9pYW5zRVhL?=
+ =?utf-8?B?RkIvZ3BpUHhUUTJUWTBNZ2tNU0lwaVE1Ykg5OVVQdHdQenpad0JzWDBNb0hp?=
+ =?utf-8?B?MnRWT0tCVW9zWjh2ZTV0d2pxTFhJcERQOXFvVjdkbzBmcDI3YnRXd0ZUSEl1?=
+ =?utf-8?B?NG9VaEhvdVcyNitpcENsWXhORkVHQnpkdU5YeDNkVWhOT0hTdkFnTjJmeXZv?=
+ =?utf-8?B?SjFHbi9PRmpOYlg0OHo2Yy9Eb2FMT0pyc2JqMVB0OGxQUTVRTUM3WGZFdUU1?=
+ =?utf-8?B?bUgrVGJyd0NoS3gvZXFpZ0pDZjhaWjRSYTVlaXZkdTNwbUIxNDBkVEV1TXM2?=
+ =?utf-8?B?L3NOQTl1cVJ0UnR4NG9LY0tUOCs0N2dtbmlTemtkQVBpU0UyWjIrRWsvckNP?=
+ =?utf-8?B?SHd1OEEydWppdzhWOTFDaGI5MmxMZDQ2OU1vZWNUdzNXT2pERFN2RXlxV0xR?=
+ =?utf-8?B?T0p3RzFxb0t0eWk0bG9sT2NkSkh3ZG0zNEdDY1k1ZHluZ2Y5MVhqTk42cXNx?=
+ =?utf-8?B?WG5Wa2d5dWpCOWczWlFGVG5HS1kyRHNHQUl4c1A4MnRUbjE3U3c2ekg0Sld4?=
+ =?utf-8?B?dU0vSEUwdzlJQUx1MGp6amt6VW5Eb1oweEVEUGlnZEZoL3JqUTVGd1JvQmpH?=
+ =?utf-8?B?Q2NLNWV5SE10RFNRYzhvM2I5MldXbk5XbVI2ZnMzYWJ2WE5zWTRxdnRsNnNV?=
+ =?utf-8?Q?OXsAn7e+?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B6437A992E74E64A8C8A65B38AF3FE14@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3112.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9bf2b27f-9665-4906-6776-08d89a8e0f7e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Dec 2020 08:57:00.6829 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NdTzKmzOSOH7sgexx9TnKZQItOjex4zIPvpzR07DcDVrCZTkvs/T4shfs75swkIF4exetNrrbnlbwv7i9xdQXw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4942
+X-OriginatorOrg: cisco.com
+X-Outbound-SMTP-Client: 173.37.102.11, xch-rcd-001.cisco.com
+X-Outbound-Node: alln-core-12.cisco.com
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,113 +184,20 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: leetroy@gmail.com
+Cc: "leetroy@gmail.com" <leetroy@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Wed, 2 Dec 2020, at 20:42, Troy Lee wrote:
-> Adding AST2400 and AST2600 edac driver support.
-> 
-> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-> ---
-> Changes since v2:
-> - Remove cross dependencies export functions
-> - Update Kconfig depends on ARCH_ASPEED
-> - Patch create against latest Linux kernel mainline
-> 
-> ---
->  drivers/edac/Kconfig       |  6 +++---
->  drivers/edac/aspeed_edac.c | 15 +++++----------
->  2 files changed, 8 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/edac/Kconfig b/drivers/edac/Kconfig
-> index 7a47680d6f07..c410331e8ee8 100644
-> --- a/drivers/edac/Kconfig
-> +++ b/drivers/edac/Kconfig
-> @@ -515,10 +515,10 @@ config EDAC_QCOM
->  	  health, you should probably say 'Y' here.
->  
->  config EDAC_ASPEED
-> -	tristate "Aspeed AST 2500 SoC"
-> -	depends on MACH_ASPEED_G5
-> +	tristate "Aspeed AST BMC SoC"
-> +	depends on ARCH_ASPEED
->  	help
-> -	  Support for error detection and correction on the Aspeed AST 2500 SoC.
-> +	  Support for error detection and correction on the Aspeed AST BMC SoC.
->  
->  	  First, ECC must be configured in the bootloader. Then, this driver
->  	  will expose error counters via the EDAC kernel framework.
-> diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
-> index fde809efc520..c9d1d8a8fcba 100644
-> --- a/drivers/edac/aspeed_edac.c
-> +++ b/drivers/edac/aspeed_edac.c
-> @@ -239,7 +239,7 @@ static int init_csrows(struct mem_ctl_info *mci)
->  	int rc;
->  
->  	/* retrieve info about physical memory from device tree */
-> -	np = of_find_node_by_path("/memory");
-> +	np = of_find_node_by_name(NULL, "memory");
->  	if (!np) {
->  		dev_err(mci->pdev, "dt: missing /memory node\n");
->  		return -ENODEV;
-> @@ -282,7 +282,6 @@ static int aspeed_probe(struct platform_device *pdev)
->  	struct edac_mc_layer layers[2];
->  	struct mem_ctl_info *mci;
->  	void __iomem *regs;
-> -	u32 reg04;
->  	int rc;
->  
->  	regs = devm_platform_ioremap_resource(pdev, 0);
-> @@ -294,13 +293,6 @@ static int aspeed_probe(struct platform_device *pdev)
->  	if (IS_ERR(aspeed_regmap))
->  		return PTR_ERR(aspeed_regmap);
->  
-> -	/* bail out if ECC mode is not configured */
-> -	regmap_read(aspeed_regmap, ASPEED_MCR_CONF, &reg04);
-> -	if (!(reg04 & ASPEED_MCR_CONF_ECC)) {
-> -		dev_err(&pdev->dev, "ECC mode is not configured in u-boot\n");
-> -		return -EPERM;
-> -	}
-> -
-
-It might pay to separate this out as I think it's unrelated to the supporting 
-the AST2[45]00?
-
-Other than that I think the patch is on the right track.
-
-Thanks for the quick responses Troy!
-
-Andrew
-
->  	edac_op_state = EDAC_OPSTATE_INT;
->  
->  	/* allocate & init EDAC MC data structure */
-> @@ -375,10 +367,13 @@ static int aspeed_remove(struct platform_device *pdev)
->  
->  
->  static const struct of_device_id aspeed_of_match[] = {
-> +	{ .compatible = "aspeed,ast2400-sdram-edac" },
->  	{ .compatible = "aspeed,ast2500-sdram-edac" },
-> +	{ .compatible = "aspeed,ast2600-sdram-edac" },
->  	{},
->  };
->  
-> +MODULE_DEVICE_TABLE(of, aspeed_of_match);
->  
->  static struct platform_driver aspeed_driver = {
->  	.driver		= {
-> @@ -392,5 +387,5 @@ module_platform_driver(aspeed_driver);
->  
->  MODULE_LICENSE("GPL");
->  MODULE_AUTHOR("Stefan Schaeckeler <sschaeck@cisco.com>");
-> -MODULE_DESCRIPTION("Aspeed AST2500 EDAC driver");
-> +MODULE_DESCRIPTION("Aspeed BMC SoC EDAC driver");
->  MODULE_VERSION("1.0");
-> -- 
-> 2.17.1
-> 
->
+SGVsbG8gVHJveSwNCg0KPiBIaSBTdGVmYW4sDQo+DQo+IFRoZSBkcml2ZXIgd2FzIHBvcnRlZCBm
+cm9tIGxhdGVzdCBBU1BFRUQgQlNQLCBzbyBJIG9ubHkgdGVzdCB3aXRoIEVDQy1vbi9vZmYgDQo+
+IGZyb20gdS1ib290IGFuZCBjaGVjayBpZiBkcml2ZXIgcnVucyBjb3JyZWN0bHkuDQoNCkkgbm90
+aWNlZCBub3cgbW9zdCBjaGFuZ2VzIGFyZSB0aGVzZSAiZXhwb3J0cyIuIEFzIHlvdSByZW1vdmVk
+IHRoZW0gYSBsYXRlciByZXZpc2lvbiwgdGhlIHBhdGNoIGxvb2tzIG5vdyBsZWFuIGFuZCBjbGVh
+bi4gSSdsbCBnaXZlIHlvdSBteSBSZXZpZXdlZC1ieSB0YWcgYWZ0ZXIgeW91IGFkZHJlc3NlZCBB
+bmRyZXcncyBsYXN0IGNvbW1lbnQuDQoNCg0KDQo+IFRoZSB0ZXN0IGRvYyB5b3UgcHJvdmlkZWQg
+aXMgdmVyeSBuaWNlIGFuZCBkZXRhaWxlZCwgSSdsbCB0cnkgdG8gcmVwcm9kdWNlIHRoZSANCj4g
+aW5qZWN0aW9uIHRlc3QgaW4gdjIgcGF0Y2guDQoNCkl0IGRvZXMgbm90IGhhcm0gdG8gcmVkbyB0
+aGUgdGVzdGluZy4gVGhhdCBpcyB0aW1lLWNvbnN1bWluZyBhbmQgd2l0aCB5b3VyIGN1cnJlbnQs
+IG5vdyB0cml2aWFsIGNoYW5nZXMsIGl0J3Mgbm90IHJlYWxseSBuZWNlc3NhcnkuDQoNCiBTdGVm
+YW4NCg0K
