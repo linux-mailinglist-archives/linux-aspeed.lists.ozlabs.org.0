@@ -2,49 +2,83 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DACA2D167E
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Dec 2020 17:38:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77FB92D1FF1
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Dec 2020 02:26:53 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CqTWV6SFKzDqSZ
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Dec 2020 03:37:58 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CqjFh5QMJzDqcJ
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Dec 2020 12:26:48 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.27;
+ helo=out3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=134.134.136.126; helo=mga18.intel.com;
- envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=fail (p=none dis=none)
- header.from=linux.intel.com
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm1 header.b=cE2ZfwXb; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=i9zSxN7T; 
+ dkim-atps=neutral
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CqTPq3XDfzDqNd;
- Tue,  8 Dec 2020 03:33:03 +1100 (AEDT)
-IronPort-SDR: irTWM7Adaz7c6VfqU7hx6bN2nes3G4Y0eycZXxkFwgR8IZAof6z4g2LSGpB6ndVf5LLt42f4uw
- o1LOUIU6jHDA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9827"; a="161495853"
-X-IronPort-AV: E=Sophos;i="5.78,400,1599548400"; d="scan'208";a="161495853"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2020 08:33:00 -0800
-IronPort-SDR: WlQxwyB0V1M4V9527ULq+RvgRgQS09YAl43Vzzkj6FL61An2RmNcjDfqJCsjw3KJnXK0qrs5MW
- vWCLkKGF53Hw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,400,1599548400"; d="scan'208";a="317246242"
-Received: from maru.jf.intel.com ([10.54.51.77])
- by fmsmga008.fm.intel.com with ESMTP; 07 Dec 2020 08:33:00 -0800
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Eddie James <eajames@linux.ibm.com>, Stephen Boyd <sboyd@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 2/2] media: aspeed: fix clock handling logic
-Date: Mon,  7 Dec 2020 08:42:40 -0800
-Message-Id: <20201207164240.15436-3-jae.hyun.yoo@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201207164240.15436-1-jae.hyun.yoo@linux.intel.com>
-References: <20201207164240.15436-1-jae.hyun.yoo@linux.intel.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CqjFQ1x78zDqb9
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  8 Dec 2020 12:26:33 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 5467D5C0163;
+ Mon,  7 Dec 2020 20:26:29 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Mon, 07 Dec 2020 20:26:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=hZfUYNzWks7sMD7swrLWpVN+8Y
+ yq1wkFBcKSEXJGg+A=; b=cE2ZfwXblWVIgt3yUG94/+D/hn/KKfNN8KkkzEVuvr
+ tJl84lq8j9ErBzN/Bje/ROJjDD7FfKc90s/NIa4RJBWLWa5M6yXSslMpxu/Ak3BM
+ uEPtsA1aC+1R6CA1EOU0e0S1FsnnNeeM/3Ji0V/O1Qz65oStTLaxUgFg9qgBMVYW
+ sW08JNmblYciAJndgggF1jW2ZV39WU7fKy/EhPe7vfCWm8ZkVqa0qM+z3XgDqFrN
+ hCin4xJCfkFYc5LZ5iPxGHqfQV/EKOViASUqSqYf96ORzd1yhDe2FFj8HKz/d/RL
+ iEtoJiDwSRmwzEs3COQxQeQM3e7kdP/1ju8o9H7Vu2Jw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=hZfUYNzWks7sMD7sw
+ rLWpVN+8Yyq1wkFBcKSEXJGg+A=; b=i9zSxN7TlwzVy5DKhln78ONxGUsbHUz4A
+ 2Ae8fyadFUPUrXUF08kSQ3G1iPAZXfpEkukTKZeKYfjwDDa04d5NeHcDCGMnYRmu
+ jud1fQ6V9xgEGHCwAZ7aV67rRFMD/f07mR13uNszuMSb4BHQ3a8ztAvnVvXO95uR
+ hhXfIkhTAsU8biPWESvPVN6cGEygXv8lkAUqPPHnv+cZMF9pzuO3hHmwrXOz36MS
+ 1OQwdPHHDJxFmDqot/5Op2vM6FO6eAE2EG8Bmh1FLq/9WDCskXvaPlccGhi5mFSF
+ q3qE0G/O/BayQn6BmKRlOGyQR4oOzMNDkxecRu3j07K4FRggjVc1Q==
+X-ME-Sender: <xms:Q9bOXx9OTp6eTR1UMQlHjpLjfU2UHZKiwWIwf3QhLEIV87J05mUquw>
+ <xme:Q9bOX1s5EfDKnWdrY_L4HQSNxaQSqmHwIlxJ7j8mFee8cD8_N8aEmatqan7FSXtat
+ DMhMh7faEySP1R-AA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejhedgfeehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegrjhdr
+ ihgurdgruheqnecuggftrfgrthhtvghrnhepieetheduveelhfdvvdejleeuhfelteevhe
+ ffgfeitdefgeekjeefieevgfehhefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghen
+ ucfkphepvddtfedrheejrddvtdekrddugeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:Q9bOX_CFIXK3xNU27Y63aco7jJbHQ6n4YxM17T_MJn8f1xgWjbmdng>
+ <xmx:Q9bOX1cTv5SnvLVjO-BaqvuQURAOWFrwD7-Jad2amJa6NZWwId5AUw>
+ <xmx:Q9bOX2MqM4OYnQ0mp49qUqX0IbAjMZY-goRoFWcMQDAD4r8OCs_U5g>
+ <xmx:RdbOX1fQdyb2V83SLxnNd5XgoQkZ5Kk8AqdrXBAW6FAPE_0vPZhlPw>
+Received: from localhost.localdomain (203-57-208-146.dyn.iinet.net.au
+ [203.57.208.146])
+ by mail.messagingengine.com (Postfix) with ESMTPA id A7CDF108005C;
+ Mon,  7 Dec 2020 20:26:23 -0500 (EST)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: linux-mmc@vger.kernel.org
+Subject: [PATCH v5 0/6] mmc: sdhci-of-aspeed: Expose phase delay tuning
+Date: Tue,  8 Dec 2020 11:56:09 +1030
+Message-Id: <20201208012615.2717412-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,77 +90,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: openbmc@lists.ozlabs.org, linux-clk@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, ulf.hansson@linaro.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ adrian.hunter@intel.com, robh+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Video engine uses eclk and vclk for its clock sources and its reset
-control is coupled with eclk so the current clock enabling sequence works
-like below.
+Hello,
 
- Enable eclk
- De-assert Video Engine reset
- 10ms delay
- Enable vclk
+This series implements support for the MMC core clk-phase-* devicetree bindings
+in the Aspeed SD/eMMC driver. The relevant register was exposed on the AST2600
+and is present for both the SD/MMC controller and the dedicated eMMC
+controller.
 
-It introduces improper reset on the Video Engine hardware and eventually
-the hardware generates unexpected DMA memory transfers that can corrupt
-memory region in random and sporadic patterns. This issue is observed
-very rarely on some specific AST2500 SoCs but it causes a critical
-kernel panic with making a various shape of signature so it's extremely
-hard to debug. Moreover, the issue is observed even when the video
-engine is not actively used because udevd turns on the video engine
-hardware for a short time to make a query in every boot.
+v5 fixes some build issues identified by the kernel test robot.
 
-To fix this issue, this commit changes the clock handling logic to make
-the reset de-assertion triggered after enabling both eclk and vclk. Also,
-it adds clk_unprepare call for a case when probe fails.
+v4 can be found here:
 
-Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
-Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
----
- drivers/media/platform/aspeed-video.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+https://lore.kernel.org/linux-mmc/20201207142556.2045481-1-andrew@aj.id.au/
 
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index c46a79eace98..db072ff2df70 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -514,8 +514,8 @@ static void aspeed_video_off(struct aspeed_video *video)
- 	aspeed_video_write(video, VE_INTERRUPT_STATUS, 0xffffffff);
- 
- 	/* Turn off the relevant clocks */
--	clk_disable(video->vclk);
- 	clk_disable(video->eclk);
-+	clk_disable(video->vclk);
- 
- 	clear_bit(VIDEO_CLOCKS_ON, &video->flags);
- }
-@@ -526,8 +526,8 @@ static void aspeed_video_on(struct aspeed_video *video)
- 		return;
- 
- 	/* Turn on the relevant clocks */
--	clk_enable(video->eclk);
- 	clk_enable(video->vclk);
-+	clk_enable(video->eclk);
- 
- 	set_bit(VIDEO_CLOCKS_ON, &video->flags);
- }
-@@ -1719,8 +1719,11 @@ static int aspeed_video_probe(struct platform_device *pdev)
- 		return rc;
- 
- 	rc = aspeed_video_setup_video(video);
--	if (rc)
-+	if (rc) {
-+		clk_unprepare(video->vclk);
-+		clk_unprepare(video->eclk);
- 		return rc;
-+	}
- 
- 	return 0;
- }
+The series has had light testing on an AST2600-based platform which requires
+180deg of input and output clock phase correction at HS200, as well as some
+synthetic testing under qemu and KUnit.
+
+Please review!
+
+Cheers,
+
+Andrew
+
+Andrew Jeffery (6):
+  mmc: core: Add helper for parsing clock phase properties
+  mmc: sdhci-of-aspeed: Expose clock phase controls
+  mmc: sdhci-of-aspeed: Add AST2600 bus clock support
+  mmc: sdhci-of-aspeed: Add KUnit tests for phase calculations
+  MAINTAINERS: Add entry for the ASPEED SD/MMC driver
+  ARM: dts: rainier: Add eMMC clock phase compensation
+
+ MAINTAINERS                                  |   9 +
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts |   1 +
+ drivers/mmc/core/host.c                      |  44 ++++
+ drivers/mmc/host/Kconfig                     |  14 ++
+ drivers/mmc/host/Makefile                    |   1 +
+ drivers/mmc/host/sdhci-of-aspeed-test.c      | 100 ++++++++
+ drivers/mmc/host/sdhci-of-aspeed.c           | 251 ++++++++++++++++++-
+ include/linux/mmc/host.h                     |  17 ++
+ 8 files changed, 426 insertions(+), 11 deletions(-)
+ create mode 100644 drivers/mmc/host/sdhci-of-aspeed-test.c
+
 -- 
-2.17.1
+2.27.0
 
