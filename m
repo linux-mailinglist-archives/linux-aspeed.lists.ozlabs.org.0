@@ -1,87 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id E69382D1FF7
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Dec 2020 02:27:37 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E10A2D20B5
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Dec 2020 03:19:39 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CqjGb3mqSzDqby
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Dec 2020 12:27:35 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CqkQc1sCnzDqfH
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Dec 2020 13:19:36 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.27;
- helo=out3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::841;
+ helo=mail-qt1-x841.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=CB4B5WBp; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=rnqoeTLi; 
- dkim-atps=neutral
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=T3DbAd5x; dkim-atps=neutral
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CqjFp2QQCzDqbB
- for <linux-aspeed@lists.ozlabs.org>; Tue,  8 Dec 2020 12:26:54 +1100 (AEDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 862C25C01C2;
- Mon,  7 Dec 2020 20:26:51 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Mon, 07 Dec 2020 20:26:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=R9UFuHjtAK1qQ
- YI8cmha4Thpo1402hfejrmvtlGfR4Y=; b=CB4B5WBpU5PRnXh6D5dJU0njXoZ6L
- tUXluZyWKu+xmDzAl8s1iQc0jcIVinmfbvQdwDizxvm6CPcmsNl/4r/lsThRnQ8m
- fuw5DF0aU1A/TEDkQTfEXpg0I1FctmODsXqgjWYSJmoSCi0XtB96TSkuAr4w/Jn0
- KnndiOVgtHXOmzr1sXeaUJh3mTDViEENUkxKGDyn9IUIKRH5RFZ/O1MxoaX4t8By
- edWp34YMkFqozlw6SoIfjMsDEduKoz8y0wigzN8ngYFI8QStqfRgHSjgD7h797Tq
- H1lZg98rg+HHl0MDonM3B8rRMC7/iSGtdZM6gy8zqGClnOYZR/l6oG2hA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=R9UFuHjtAK1qQYI8cmha4Thpo1402hfejrmvtlGfR4Y=; b=rnqoeTLi
- r4PnuJaD/397smYmsTkLYT3t3UBVMyQMZ/zU+Tph0w7lMvN3NfRBEsMrcFKVxo+I
- iXw4a1UyuipUU0SuqPAG0tkGplRKmtSnHHE7kQ3vxapaNCzGUr775F9tX3csxopc
- 2lpqFPFfgPcZYaTyNzDapBEnSvQEZasjnMlOkHACLSuKm2O0Uj3ExLabQYdmd5VB
- p+lKwOM2r0nKX63qQUR5kmhqvAzxfTROmf7KZg42BheeExIuVchyu4H63303kptw
- aOup8k8UMS+CwQux0PMB90Dca5oI4zkS9n5879bP40MAXi0hMVK+eH1yXYFnYj8z
- 3L0+M7UUDatKWg==
-X-ME-Sender: <xms:W9bOX9ou9hefyOvzn3e4_sXUbmZqb580zlYmTdTABlvDB-p5aVCI5w>
- <xme:W9bOX_rq1-bSW9yiLqY59P0lLFZ8kByIUvoZyx3kEdRHUntrTUVY5RfMvahk-09qn
- az1-MpcRmd8qDsUsQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejhedgfeehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
- dtredttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegr
- jhdrihgurdgruheqnecuggftrfgrthhtvghrnhepjefgvdevheetkeevgeegleelgfelte
- etjeffleffvdduudevieffgeetleevhfetnecukfhppedvtdefrdehjedrvddtkedrudeg
- ieenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnh
- gurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:W9bOX6MA5KiyQxjPr2tryr71LYy0UTEt6aeKSxyScBkQErPcOP90Bg>
- <xmx:W9bOX44jzvZYxVHOXYkAPCE9oldodWnkXAUPYiievg5BzgwatIluKw>
- <xmx:W9bOX8574nAlS1Lqve19-5F1OT_aJr1HOYyu2rIMdJOL_Qm_41J48w>
- <xmx:W9bOX7YnWng6L6RYUlGEX2KBQjg8xaSdjwIvi6vMQ2_TotI8MsoGCw>
-Received: from localhost.localdomain (203-57-208-146.dyn.iinet.net.au
- [203.57.208.146])
- by mail.messagingengine.com (Postfix) with ESMTPA id 073701080063;
- Mon,  7 Dec 2020 20:26:47 -0500 (EST)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: linux-mmc@vger.kernel.org
-Subject: [PATCH v5 6/6] ARM: dts: rainier: Add eMMC clock phase compensation
-Date: Tue,  8 Dec 2020 11:56:15 +1030
-Message-Id: <20201208012615.2717412-7-andrew@aj.id.au>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201208012615.2717412-1-andrew@aj.id.au>
-References: <20201208012615.2717412-1-andrew@aj.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CqkQR68sNzDqZb
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  8 Dec 2020 13:19:27 +1100 (AEDT)
+Received: by mail-qt1-x841.google.com with SMTP id l7so11019685qtp.8
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 07 Dec 2020 18:19:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fO52pUkJlN6AoDogKEqqkgiecTp8LWVBd7vtkWUxWdI=;
+ b=T3DbAd5xf2dIMA5cx/Wu1DAv0tqoL52nTodBmCjcVt75jGw5iksNr8SnDxuN4zOlgO
+ lARgX79dbdt60OW2B7uT5rKFN75geTkZgLBG+/SC20vV93ygG7u3m2tkCfarGn/wMmSw
+ 3iOYHKs5KDKMeTIT5fup/GQpu2KRjBeb6sy0s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fO52pUkJlN6AoDogKEqqkgiecTp8LWVBd7vtkWUxWdI=;
+ b=EotQLiqem17gIK9WxAqU9MoY9mUmE24UfREG/PdAjG8Dcj7BQnpuZYM4zixfzH3XSs
+ QrAtYh6teQIVlupuH9NiRlrehF1+eW4Iz8xPOikrJhMSCsoTdccCq94gI5aOkkIE8O9k
+ IGKeNdQeucfNn+usz7HdqostR89WearGrd/koFLitdpdldzKmY0Muj//3qiUlbu0XORT
+ fHa1YzMkLqS4pH+ayP5vq3fcQNVnNivlbER42ODW0bzUIrsf/sNeCvsDjHx68gFeDT2b
+ aN6dCNNioygXPYL6ij8xkTz7d31mFj3wx85RiHKsY2GxWJNJoXFilgDcpqnlk9Fx+5hI
+ jjbQ==
+X-Gm-Message-State: AOAM530XypW86it8RXqw/4TL5oOymB3EGzUTaU3kOEkp11RUnghDiUV3
+ wNAFB1yNXl6jrEeltB9eY0FgVUo4JZSO+dr7XrE=
+X-Google-Smtp-Source: ABdhPJzjrpkK3MTHJW6l1VEnz+NDNE3QBwSZFU0/8Mp8PzXMDzGOcpDwOk7TernzHHzMQtSp2LSKAeG/26XRZzJIsLc=
+X-Received: by 2002:aed:2f64:: with SMTP id l91mr27646487qtd.363.1607393963552; 
+ Mon, 07 Dec 2020 18:19:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201202051634.490-1-wangzhiqiang.bj@bytedance.com>
+In-Reply-To: <20201202051634.490-1-wangzhiqiang.bj@bytedance.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 8 Dec 2020 02:19:10 +0000
+Message-ID: <CACPK8Xf317mv_q96b7L2ohswkoiRrGDMdqs_zSCyBux99XjHEw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] misc: Add clock control logic into Aspeed LPC SNOOP
+ driver
+To: John Wang <wangzhiqiang.bj@bytedance.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,33 +70,132 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, ulf.hansson@linaro.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- adrian.hunter@intel.com, robh+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-aspeed@lists.ozlabs.org>, Vernon Mauery <vernon.mauery@linux.intel.com>,
+ =?UTF-8?B?6YOB6Zu3?= <yulei.sh@bytedance.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Jae Hyun Yoo <jae.hyun.yoo@intel.com>, xuxiaohan@bytedance.com,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Determined by scope measurements at speed.
+On Wed, 2 Dec 2020 at 05:16, John Wang <wangzhiqiang.bj@bytedance.com> wrote:
+>
+> From: Jae Hyun Yoo <jae.hyun.yoo@intel.com>
+>
+> If LPC SNOOP driver is registered ahead of lpc-ctrl module, LPC
+> SNOOP block will be enabled without heart beating of LCLK until
+> lpc-ctrl enables the LCLK. This issue causes improper handling on
+> host interrupts when the host sends interrupt in that time frame.
+> Then kernel eventually forcibly disables the interrupt with
+> dumping stack and printing a 'nobody cared this irq' message out.
+>
+> To prevent this issue, all LPC sub-nodes should enable LCLK
+> individually so this patch adds clock control logic into the LPC
+> SNOOP driver.
+>
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@intel.com>
+> Signed-off-by: Vernon Mauery <vernon.mauery@linux.intel.com>
+> Signed-off-by: John Wang <wangzhiqiang.bj@bytedance.com>
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-index 21ae880c7530..ab8d37d49f30 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-@@ -186,6 +186,7 @@ &pinctrl_emmc_default {
- 
- &emmc {
- 	status = "okay";
-+	clk-phase-mmc-hs200 = <180>, <180>;
- };
- 
- &fsim0 {
--- 
-2.27.0
+Thanks for sending these John. It is an excellent idea to upstream
+fixes that have been developed.
 
+I assume we will have the same issue for all devices that use the LPC
+bus? eg. vuart, bt, kcs, lpc2ahb? It looks like only the lpc-ctrl
+(lpc2ahb) does this so far:
+
+git grep -l clk drivers/soc/aspeed/aspeed-p2a-ctrl.c
+drivers/soc/aspeed/aspeed-lpc-ctrl.c
+drivers/char/ipmi/kcs_bmc_aspeed.c drivers/char/ipmi/bt-bmc.c
+drivers/soc/aspeed/aspeed-lpc-ctrl.c
+
+
+
+
+> ---
+>  drivers/soc/aspeed/aspeed-lpc-snoop.c | 30 ++++++++++++++++++++++++---
+>  1 file changed, 27 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c b/drivers/soc/aspeed/aspeed-lpc-snoop.c
+> index 682ba0eb4eba..20acac6342ef 100644
+> --- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
+> +++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
+> @@ -11,6 +11,7 @@
+>   */
+>
+>  #include <linux/bitops.h>
+> +#include <linux/clk.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/fs.h>
+>  #include <linux/kfifo.h>
+> @@ -67,6 +68,7 @@ struct aspeed_lpc_snoop_channel {
+>  struct aspeed_lpc_snoop {
+>         struct regmap           *regmap;
+>         int                     irq;
+> +       struct clk              *clk;
+>         struct aspeed_lpc_snoop_channel chan[NUM_SNOOP_CHANNELS];
+>  };
+>
+> @@ -282,22 +284,42 @@ static int aspeed_lpc_snoop_probe(struct platform_device *pdev)
+>                 return -ENODEV;
+>         }
+>
+> +       lpc_snoop->clk = devm_clk_get(dev, NULL);
+> +       if (IS_ERR(lpc_snoop->clk)) {
+> +               rc = PTR_ERR(lpc_snoop->clk);
+> +               if (rc != -EPROBE_DEFER)
+> +                       dev_err(dev, "couldn't get clock\n");
+> +               return rc;
+> +       }
+> +       rc = clk_prepare_enable(lpc_snoop->clk);
+> +       if (rc) {
+> +               dev_err(dev, "couldn't enable clock\n");
+> +               return rc;
+> +       }
+> +
+>         rc = aspeed_lpc_snoop_config_irq(lpc_snoop, pdev);
+>         if (rc)
+> -               return rc;
+> +               goto err;
+>
+>         rc = aspeed_lpc_enable_snoop(lpc_snoop, dev, 0, port);
+>         if (rc)
+> -               return rc;
+> +               goto err;
+>
+>         /* Configuration of 2nd snoop channel port is optional */
+>         if (of_property_read_u32_index(dev->of_node, "snoop-ports",
+>                                        1, &port) == 0) {
+>                 rc = aspeed_lpc_enable_snoop(lpc_snoop, dev, 1, port);
+> -               if (rc)
+> +               if (rc) {
+>                         aspeed_lpc_disable_snoop(lpc_snoop, 0);
+> +                       goto err;
+> +               }
+>         }
+>
+> +       return 0;
+> +
+> +err:
+> +       clk_disable_unprepare(lpc_snoop->clk);
+> +
+>         return rc;
+>  }
+>
+> @@ -309,6 +331,8 @@ static int aspeed_lpc_snoop_remove(struct platform_device *pdev)
+>         aspeed_lpc_disable_snoop(lpc_snoop, 0);
+>         aspeed_lpc_disable_snoop(lpc_snoop, 1);
+>
+> +       clk_disable_unprepare(lpc_snoop->clk);
+> +
+>         return 0;
+>  }
+>
+> --
+> 2.25.1
+>
