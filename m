@@ -2,36 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA5C42D4BE3
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Dec 2020 21:32:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF5602D50B5
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Dec 2020 03:15:25 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Crpcg06kNzDqtv
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Dec 2020 07:32:03 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CryDp4y5xzDqvN
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Dec 2020 13:15:22 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=arnd@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=209.85.210.65; helo=mail-ot1-f65.google.com;
+ envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=fail (p=none dis=none) header.from=kernel.org
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CrpbJ4jXSzDqvL
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Dec 2020 07:30:52 +1100 (AEDT)
-From: Arnd Bergmann <arnd@kernel.org>
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: Joel Stanley <joel@jms.id.au>, arm <arm@kernel.org>,
- SoC Team <soc@kernel.org>
-Subject: Re: [GIT PULL] ARM: aspeed: soc changes for 5.11
-Date: Wed,  9 Dec 2020 21:30:38 +0100
-Message-Id: <160754580117.2405127.13379631047169707253.b4-ty@arndb.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <CACPK8Xfd7AmuEaUdFfYLu4ktcrpTnYUgwQSxUbC-McB02hvo_g@mail.gmail.com>
-References: <CACPK8Xfd7AmuEaUdFfYLu4ktcrpTnYUgwQSxUbC-McB02hvo_g@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CryDg6Xj6zDqjn
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Dec 2020 13:15:15 +1100 (AEDT)
+Received: by mail-ot1-f65.google.com with SMTP id d8so3487342otq.6
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 09 Dec 2020 18:15:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=s8/BifRKs0vgQVaDEd/Wk5y6lcQlYDdTiPMPRpMuFtg=;
+ b=I9P0t6JTTJvihuIfTk+8RpZ86CdLcqMIW8OiZGI+HEhQ+UbSR1TRYZ4bBR2YEJD2b1
+ dTRGhO/ow/us/bCf5PZTgXZVNSjq9/SumlEHSKjoYjgkXxHjUr/suSUIYoo6F9oqvzld
+ uQWc0LvZSHwTg+ZiQrJircuS++UawMr/N9rwr3SwOoZ4HVZE/6lTUnjxbkaZR4RrkJKt
+ 8aiWr5iCcCP+Lf0Z7ztZtaisfv34K9sNgDxWZZKxaFbz0nj2kAZBiNk//KQwda+s9UYg
+ wQ0DY0L3JgMRdMGAOoRcbXTOsVrvNFgUGrr+jNPbTJXbg/t54hROsmSXWeniax3W6Dfc
+ wOWw==
+X-Gm-Message-State: AOAM531Nszb/QCBGopKcLZdE0HAtiRaECa5zEYa5pneqwLFqb8cIc3Ja
+ vbAZR7NI235bWvHuquzMjA==
+X-Google-Smtp-Source: ABdhPJxveiIz8DsomaseOKut9J4qQ8f57Gw8nD/4OTmXmici4uFWS+L6eept2gpt6irjbcANCuSlQQ==
+X-Received: by 2002:a9d:2043:: with SMTP id n61mr4199358ota.254.1607566513287; 
+ Wed, 09 Dec 2020 18:15:13 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id k63sm707768oia.14.2020.12.09.18.15.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Dec 2020 18:15:12 -0800 (PST)
+Received: (nullmailer pid 1497839 invoked by uid 1000);
+ Thu, 10 Dec 2020 02:15:11 -0000
+Date: Wed, 9 Dec 2020 20:15:11 -0600
+From: Rob Herring <robh@kernel.org>
+To: Quan Nguyen <quan@os.amperecomputing.com>
+Subject: Re: [PATCH 1/2] dt-bindings: vendor-prefixes: Add an entry for
+ AmpereComputing.com
+Message-ID: <20201210021511.GA1497753@robh.at.kernel.org>
+References: <20201208043700.23098-1-quan@os.amperecomputing.com>
+ <20201208043700.23098-2-quan@os.amperecomputing.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201208043700.23098-2-quan@os.amperecomputing.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,27 +68,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>
+Cc: devicetree@vger.kernel.org,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org,
+ allen <allen.chen@ite.com.tw>, Linus Walleij <linus.walleij@linaro.org>,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
-
-On Mon, 30 Nov 2020 06:30:44 +0000, Joel Stanley wrote:
-> Here are some ASPEED changes for the 5.11 merge window.
+On Tue, 08 Dec 2020 11:36:59 +0700, Quan Nguyen wrote:
+> Add "ampere" entry for Ampere Computing LLC: amperecomputing.com
 > 
-> The following changes since commit 2ba56f464f0c1a7264160f8675063b3df92e7966:
+> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+> Signed-off-by: Phong Vo <phong@os.amperecomputing.com>
+> Signed-off-by: Thang Q. Nguyen <thang@os.amperecomputing.com>
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
->   ARM: dts: aspeed: ast2600evb: Add MAC0 (2020-11-19 22:31:18 +1030)
-> 
-> are available in the Git repository at:
-> 
-> [...]
 
-Merged into arm/dt, thanks!
-
-merge commit: 419fd286274e32c2533f1305d76b04b32ae49853
-
-       Arnd
+Applied, thanks!
