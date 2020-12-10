@@ -2,61 +2,51 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5602D50B5
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Dec 2020 03:15:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62ACB2D542E
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Dec 2020 07:51:53 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CryDp4y5xzDqvN
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Dec 2020 13:15:22 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Cs4Mp1CTQzDqnp
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Dec 2020 17:51:50 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.210.65; helo=mail-ot1-f65.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
- [209.85.210.65])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=troy_lee@aspeedtech.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=aspeedtech.com
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CryDg6Xj6zDqjn
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Dec 2020 13:15:15 +1100 (AEDT)
-Received: by mail-ot1-f65.google.com with SMTP id d8so3487342otq.6
- for <linux-aspeed@lists.ozlabs.org>; Wed, 09 Dec 2020 18:15:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=s8/BifRKs0vgQVaDEd/Wk5y6lcQlYDdTiPMPRpMuFtg=;
- b=I9P0t6JTTJvihuIfTk+8RpZ86CdLcqMIW8OiZGI+HEhQ+UbSR1TRYZ4bBR2YEJD2b1
- dTRGhO/ow/us/bCf5PZTgXZVNSjq9/SumlEHSKjoYjgkXxHjUr/suSUIYoo6F9oqvzld
- uQWc0LvZSHwTg+ZiQrJircuS++UawMr/N9rwr3SwOoZ4HVZE/6lTUnjxbkaZR4RrkJKt
- 8aiWr5iCcCP+Lf0Z7ztZtaisfv34K9sNgDxWZZKxaFbz0nj2kAZBiNk//KQwda+s9UYg
- wQ0DY0L3JgMRdMGAOoRcbXTOsVrvNFgUGrr+jNPbTJXbg/t54hROsmSXWeniax3W6Dfc
- wOWw==
-X-Gm-Message-State: AOAM531Nszb/QCBGopKcLZdE0HAtiRaECa5zEYa5pneqwLFqb8cIc3Ja
- vbAZR7NI235bWvHuquzMjA==
-X-Google-Smtp-Source: ABdhPJxveiIz8DsomaseOKut9J4qQ8f57Gw8nD/4OTmXmici4uFWS+L6eept2gpt6irjbcANCuSlQQ==
-X-Received: by 2002:a9d:2043:: with SMTP id n61mr4199358ota.254.1607566513287; 
- Wed, 09 Dec 2020 18:15:13 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id k63sm707768oia.14.2020.12.09.18.15.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 18:15:12 -0800 (PST)
-Received: (nullmailer pid 1497839 invoked by uid 1000);
- Thu, 10 Dec 2020 02:15:11 -0000
-Date: Wed, 9 Dec 2020 20:15:11 -0600
-From: Rob Herring <robh@kernel.org>
-To: Quan Nguyen <quan@os.amperecomputing.com>
-Subject: Re: [PATCH 1/2] dt-bindings: vendor-prefixes: Add an entry for
- AmpereComputing.com
-Message-ID: <20201210021511.GA1497753@robh.at.kernel.org>
-References: <20201208043700.23098-1-quan@os.amperecomputing.com>
- <20201208043700.23098-2-quan@os.amperecomputing.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Cs4Mg0VvWzDqkB;
+ Thu, 10 Dec 2020 17:51:41 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 0BA6lCla046149;
+ Thu, 10 Dec 2020 14:47:12 +0800 (GMT-8)
+ (envelope-from troy_lee@aspeedtech.com)
+Received: from TroyLee-PC.localdomain (192.168.100.253) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 10 Dec 2020 14:50:07 +0800
+From: Troy Lee <troy_lee@aspeedtech.com>
+To: <openbmc@lists.ozlabs.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, Joel Stanley
+ <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, "open list:GPIO
+ SUBSYSTEM" <linux-gpio@vger.kernel.org>, "moderated list:ARM/ASPEED MACHINE
+ SUPPORT" <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/ASPEED
+ MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>, open list
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH] gpio: aspeed: Lock GPIO pin used as IRQ
+Date: Thu, 10 Dec 2020 14:50:13 +0800
+Message-ID: <20201210065013.29348-1-troy_lee@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201208043700.23098-2-quan@os.amperecomputing.com>
+Content-Type: text/plain
+X-Originating-IP: [192.168.100.253]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 0BA6lCla046149
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,29 +58,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org,
- allen <allen.chen@ite.com.tw>, Linus Walleij <linus.walleij@linaro.org>,
- linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: leetroy@gmail.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 08 Dec 2020 11:36:59 +0700, Quan Nguyen wrote:
-> Add "ampere" entry for Ampere Computing LLC: amperecomputing.com
-> 
-> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
-> Signed-off-by: Phong Vo <phong@os.amperecomputing.com>
-> Signed-off-by: Thang Q. Nguyen <thang@os.amperecomputing.com>
-> ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+GPIO pins can be used as IRQ indicators. When they do,
+those pins should be flaged with locks to avoid kernel
+warning message.
 
-Applied, thanks!
+Signed-off-by: Chia-Wei, Wang <chiawei_wang@aspeedtech.com>
+Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+---
+ drivers/gpio/gpio-aspeed.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/gpio/gpio-aspeed.c b/drivers/gpio/gpio-aspeed.c
+index b966f5e28ebf..f5b3e1d89fbf 100644
+--- a/drivers/gpio/gpio-aspeed.c
++++ b/drivers/gpio/gpio-aspeed.c
+@@ -651,6 +651,13 @@ static int aspeed_gpio_set_type(struct irq_data *d, unsigned int type)
+ 		aspeed_gpio_copro_release(gpio, offset);
+ 	spin_unlock_irqrestore(&gpio->lock, flags);
+ 
++	rc = gpiochip_lock_as_irq(&gpio->chip, d->hwirq);
++	if (rc) {
++		dev_err(gpio->chip.parent, "unable to lock GPIO %lu as IRQ\n",
++			d->hwirq);
++		return rc;
++	}
++
+ 	irq_set_handler_locked(d, handler);
+ 
+ 	return 0;
+-- 
+2.17.1
+
