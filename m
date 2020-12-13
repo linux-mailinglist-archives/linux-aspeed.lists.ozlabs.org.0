@@ -2,60 +2,87 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815702D747F
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Dec 2020 12:10:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E48982D9134
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Dec 2020 00:39:30 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Csp3m3yQZzDqm6
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Dec 2020 22:10:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CvLb03gJ2zDqSC
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Dec 2020 10:39:24 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::735;
- helo=mail-qk1-x735.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.221;
+ helo=new1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=aZcfuV+Q; dkim-atps=neutral
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
- [IPv6:2607:f8b0:4864:20::735])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm1 header.b=UbSlnCLD; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=Kq28aFtv; 
+ dkim-atps=neutral
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Csp365fgYzDqXg
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Dec 2020 22:09:54 +1100 (AEDT)
-Received: by mail-qk1-x735.google.com with SMTP id q22so7981415qkq.6
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Dec 2020 03:09:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=WQKg3cIi4hIsPZ9PKTpFROffzkUZwNMkNLWOKFleW9g=;
- b=aZcfuV+Qkm9nAiS4xpqiErZ/wAhNCH74SMJUU8MzxLIFNhVDD2tu0R9cULkdJQS3rg
- fJ7sjGTPldSUiyIhPiliEpZ83iFoRyNiAL3AXZxLRX/AqahpqDd9HYbQ9aTNfMos3N8K
- g6fuJF+kxPa4FbbUX8iVWVMhlIkk89tsHupR4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=WQKg3cIi4hIsPZ9PKTpFROffzkUZwNMkNLWOKFleW9g=;
- b=n86MUFBZRAWudIRjDX7sYh5ezw9AqNQgBfjpcs+0HkrGJc+zMNSDVuLvFdH7xoxMOL
- fW6LsqYXSirbtNLazJawPjA+4W2a8i4TpDL6MQEdem2eP1GsjloT1baD1Ip5Al4Z4+HQ
- VkmskyXNAMRUxSMIm2U2XxkAzg0IwVv4SHfMMRuraWJxi29YfzizTqmg0G/oc2vKq00E
- x1wmLGIOFD0JlglOmDzgFRDKZy4HJE91jdEVIbJAZ3sB5n+kipBAlmBqExsNu8nGwRc2
- y4/I9am3WgrHOUF3WSk38nXfRYxvB0w2W/deQT4zEQCz/IC3U+zql9yb6y/eANx61ORK
- 2nhQ==
-X-Gm-Message-State: AOAM530EmmagzdIC3Lp0vc0H/A3pZsNm0fnQZ0/xhsgC/aDV3OmrIYCn
- UIYUuTSsGPlWyrwHHZc06Aij266ICv7A7rSDCIDkyqBAUeeETw==
-X-Google-Smtp-Source: ABdhPJwI23GtC+rkaLZlWggpvfMhMnaZW+1xUUVYq8uFgZ6fR4Z0ABo3J/ivNeYAPB7FSf3BrykDpHzHhs00/+4VHLE=
-X-Received: by 2002:a05:620a:31a:: with SMTP id
- s26mr14911021qkm.66.1607684990215; 
- Fri, 11 Dec 2020 03:09:50 -0800 (PST)
-MIME-Version: 1.0
-From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 11 Dec 2020 11:09:39 +0000
-Message-ID: <CACPK8XfkZq51yKJUjyqgKD=R-WZiCR0J18GJBbo=tfMKMMddSQ@mail.gmail.com>
-Subject: [GIT PULL] ARM: aspeed: devicetree changes for 5.11, round two
-To: SoC Team <soc@kernel.org>, Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CvLZl2z2hzDqPN
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 14 Dec 2020 10:39:09 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 884EF5802F6;
+ Sun, 13 Dec 2020 18:39:05 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Sun, 13 Dec 2020 18:39:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=4lHOpViz9Uk605e41Hrs+5fXfKYstr/
+ VFbQwhb8nXrg=; b=UbSlnCLDhANCg855IwkVcVmwuahAyDXV27svY2ihosz96I6
+ gK5fkE6GfHwOqm5splI79tFW5n23NQyUGo7w+TdYNp3QoG+hrta31NSTnzo+m6EO
+ NTfrQQNZQfHbrygy42U9ERoeAF1G/WX4lu9NZsLdIgDKkxcyPfddRV5TOkhYB3ms
+ 8UhWBmMW2i7j/hxF25ge6NN8CBPXWe3HGpR5+9kVd+42Zo0VkKAHTOzoe3VNjRKZ
+ 6fA+Yb9n0IdYp9VLwdKc3t2m8nL0wHBBDXT9UBFhAcHXofkGTH/vGdujuxtx8N+A
+ PcJz82QE2mo1XdmxR63mV0lSq71nnzViQ9ju51A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=4lHOpV
+ iz9Uk605e41Hrs+5fXfKYstr/VFbQwhb8nXrg=; b=Kq28aFtvvATd6Vay+s70mN
+ PGLpfc6Oq636taHkqOI8AZnP4LvAibjukn9GHz6eBEkSrEkr8bp2Lt1BU+9lyEG2
+ tnw0VsuY0YShAmV27Tt8HdCK2QKArm9ziIZV+HSi61bSmsjB6PM0QNiw0otIZflq
+ 8YscBHKOjfFqZ2zLrvkX3CHnLFMvSyL/O0TIEBmmcyoTwEKSrKfzytGVlsHqdeZT
+ I/kcNRqeKGxNroNpGca8jIDqcm8RyTab4+cRijHigtU+Alj3/R8ioav36d+fTykT
+ ggByfpBhofiG8x4A84DttPURq2cVOsd1+D8ofY35y5Xq3hW8ik6b5M1qU8ZHF0gA
+ ==
+X-ME-Sender: <xms:GKbWXwbCHGIlrGcBhT6zGN_cUN0KbRyR_Vlerw2O3SweMTkSTxNPUw>
+ <xme:GKbWX7YcDvb2VIfFhQvBhjkSl2Ne83GmwDXDQT13szmb-nfq1De9p4S7uITWCNj6-
+ ty4LBfNOcttvsZ4IQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekiedgudejiecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehn
+ ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+ frrghtthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedv
+ hefhveeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:GKbWX68V9rQifaf9__a2OrS4urq6q3qm_fUecZO5uHB0w-56aHsieg>
+ <xmx:GKbWX6rheSh73kaIFem1PCH1O2U2L5m3CkS6_RNYAh2dh21BwxJ_XA>
+ <xmx:GKbWX7qVn20PT3qolmXenLjjQlMMbrpjPXcopomhZ9c0yiDkMYwioQ>
+ <xmx:GabWX4gKXz2uVtLJJo1eG4_fHgkdLwppxEZfQ3SiR6cw0OEa7t6cCw>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 1EB68E00B2; Sun, 13 Dec 2020 18:39:02 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.1-61-gb52c239-fm-20201210.001-gb52c2396
+Mime-Version: 1.0
+Message-Id: <5eec9b11-c0b7-4b77-8c03-ec2c7d52d828@www.fastmail.com>
+In-Reply-To: <CAHp75VcMuHiUFgSas26DA-Bh1gGA_G5FT+9cetK=En9Q_oMZtg@mail.gmail.com>
+References: <20201210065013.29348-1-troy_lee@aspeedtech.com>
+ <CAHp75VcMuHiUFgSas26DA-Bh1gGA_G5FT+9cetK=En9Q_oMZtg@mail.gmail.com>
+Date: Mon, 14 Dec 2020 10:08:42 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Andy Shevchenko" <andy.shevchenko@gmail.com>,
+ "Troy Lee" <troy_lee@aspeedtech.com>
+Subject: Re: [PATCH] gpio: aspeed: Lock GPIO pin used as IRQ
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,41 +94,48 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-aspeed@lists.ozlabs.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, Troy Lee <leetroy@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Soc team,
 
-Here are some late changes for the aspeed boards. Most are fixes, and
-the addition of a new machine from Ampere.
 
-(Arnd, I realised when sending the LPC clock fix that we had a few
-others fixes, so he's a pull request instead)
+On Fri, 11 Dec 2020, at 00:44, Andy Shevchenko wrote:
+> On Thu, Dec 10, 2020 at 9:36 AM Troy Lee <troy_lee@aspeedtech.com> wrote:
+> >
+> > GPIO pins can be used as IRQ indicators. When they do,
+> > those pins should be flaged with locks to avoid kernel
+> 
+> flagged
+> 
+> > warning message.
+> 
+> ...
+> 
+> > @@ -651,6 +651,13 @@ static int aspeed_gpio_set_type(struct irq_data *d, unsigned int type)
+> 
+> > +       rc = gpiochip_lock_as_irq(&gpio->chip, d->hwirq);
+> > +       if (rc) {
+> > +               dev_err(gpio->chip.parent, "unable to lock GPIO %lu as IRQ\n",
+> > +                       d->hwirq);
+> > +               return rc;
+> > +       }
+> 
+> It's a copy'n'paste of generic code. Why do you need it in an unusual
+> place, i.e. ->irq_set_type() IIUC?
+> Can you elaborate about an issue, because this seems to be a hack?
 
-The following changes since commit 5124cff93d99bbfe1efc8deb0c0b3604cb9a6659:
+Yep - Troy please provide more information. What was the warning you saw? How
+were the GPIOs allocated on the system that triggered the warning? What did you
+do to trigger the warning?
 
-  ARM: dts: aspeed: g220a: Fix some gpio (2020-12-11 21:28:02 +1030)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/joel/aspeed.git
-tags/aspeed-5.11-devicetree-2
-
-for you to fetch changes up to 5124cff93d99bbfe1efc8deb0c0b3604cb9a6659:
-
-  ARM: dts: aspeed: g220a: Fix some gpio (2020-12-11 21:28:02 +1030)
-
-----------------------------------------------------------------
-ASPEED device tree updates for 5.11, round 2
-
- - New machine
-
-   * Ampere's Mt Jade, an AST2500 BMC for Ampere's Altra reference
-     platform
-
- - Fixes for eMMC, LPC clocking, and misc fixes for the g220a machine
-
-----------------------------------------------------------------
+Andrew
