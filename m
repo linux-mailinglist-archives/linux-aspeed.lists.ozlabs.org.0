@@ -2,75 +2,88 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630D92DB848
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Dec 2020 02:13:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CE372DA423
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Dec 2020 00:32:14 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Cwcb44BKlzDqJh
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Dec 2020 12:13:52 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CvyNB5XbkzDqLf
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Dec 2020 10:32:10 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=bytedance.com (client-ip=2607:f8b0:4864:20::242;
- helo=mail-oi1-x242.google.com; envelope-from=yulei.sh@bytedance.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.27;
+ helo=out3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=bytedance.com
+ dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=bytedance-com.20150623.gappssmtp.com
- header.i=@bytedance-com.20150623.gappssmtp.com header.a=rsa-sha256
- header.s=20150623 header.b=e2yI+Ipl; dkim-atps=neutral
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm1 header.b=P6AYp58N; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=R2FkRaT/; 
+ dkim-atps=neutral
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CsYzy13GMzDqkd
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Dec 2020 13:06:19 +1100 (AEDT)
-Received: by mail-oi1-x242.google.com with SMTP id o25so8156682oie.5
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Dec 2020 18:06:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=f9RSyWHl3Z1A9igwbyiPb+HKfrL5RmW/7S10//clEIc=;
- b=e2yI+Iplee0/vctTdk8XUsTgKJ7vxYwhrkV2a5JcjCHSrCc2JRRAb64vCVfsV7yo78
- B0ZNIum9QeuLW3JNwUuaZG2g3bxfLuTUkStSp4GcrnHR6b8aD2Qmu4beiT2tlp1Xk2uj
- i85VZRIc2PPfL0mUEg+9jE+n36rrkc2HX6ZuTgjxVFN0X4I11Z8HwAa/kA9GZWqcHwBk
- l77av4ppjbBvFERMzXJyIApvE62pju92vDXmohXXDF5Vqi+KkqV8HH8t8qdhWjlxmMJS
- D8KLMcTacHU/v/6HJSMsAdX8qKruqZqekPjW2AfUob9e1Imxo4+qvUVHofsCjxYLg1PQ
- 9mEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=f9RSyWHl3Z1A9igwbyiPb+HKfrL5RmW/7S10//clEIc=;
- b=njUXBxro59be1DkEI4qhjNtKiVhB0YQFUq3V6aD0NyXPRpKbB208iZjDmdVvrV8yX3
- 7z6tLCWOMqJ5TENVtCl0/a8jyNkJGj57SOlTIJzPe7W3BwjgoPUCi6oCrB7ApvZhY2ef
- xLH8ovrcbst0QKxG+ktH8Bx4bHDlFRoWnftwfJvc2YZvsdO1fhDiYbkLItuSLmNOMHKn
- a0oAkUVWTLcEIUDdOsJD3PHgDDOtuS8271pDrWAcziMV0I6lLt3MyYCIDlORqzkzH00D
- ZmRJd/oE2bzTafun9HU3UjJqAFVxHhN92Eg5PzB9pUQBj+ZGwrW2fSrNC43gk4M2u/hF
- FJHA==
-X-Gm-Message-State: AOAM531l1846ucMHWh+1cENAsAofppUMnCgLzjOQPTLX2zR/UOjgPDYz
- B5VnJCxtazWK3dG8YEoCm38SoR14vt/2nV6oEDSQuQ==
-X-Google-Smtp-Source: ABdhPJzs0/lE6TSq5HnlKNF+j99NifDWVBECFpzx5ngO00Z+i5z0ERHOjWxD76IkEiusio5CVOYgPLUR+7AXcIsYuE0=
-X-Received: by 2002:aca:5e03:: with SMTP id s3mr7651344oib.125.1607652376343; 
- Thu, 10 Dec 2020 18:06:16 -0800 (PST)
-MIME-Version: 1.0
-References: <20201210092853.303-1-wangzhiqiang.bj@bytedance.com>
- <X9HtwHo8s6e2UsAT@kroah.com>
- <CAH0XSJt3=XJ_gQb2rTvbUcbyow2k7E4jfuKGKAKdi+nwdfauVw@mail.gmail.com>
- <X9H4r3XZynGtSDw0@kroah.com>
- <CABoTLcSiCsASu_prfxH_sZrm-njcYzkcvrrpS1envj7QvxYtNA@mail.gmail.com>
-In-Reply-To: <CABoTLcSiCsASu_prfxH_sZrm-njcYzkcvrrpS1envj7QvxYtNA@mail.gmail.com>
-From: Lei Yu <yulei.sh@bytedance.com>
-Date: Fri, 11 Dec 2020 10:06:05 +0800
-Message-ID: <CAGm54UFJt2PHJThigVYLrgKqBz7rNF-vWYFJ5wykBx+GPjzihw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH 1/3] misc: aspeed: Add Aspeed UART routing
- control driver.
-To: Oskar Senft <osk@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Wed, 16 Dec 2020 12:13:43 +1100
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CvyMy3NCPzDqLD
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Dec 2020 10:31:57 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id DF0815C0148;
+ Mon, 14 Dec 2020 18:31:53 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Mon, 14 Dec 2020 18:31:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=LFF5/tO9nY1OZRQNLJeM62EI6jzrxQX
+ MkvpYLECbH9I=; b=P6AYp58NjCbaJzJB7EQ9YtLJ92XBQwmiwLDirRHAw4p1laV
+ ql7LGdi/IY8aIaL+6Aj53nj6UVA6rIK7dVDUnKtsaCSh940NnyAema4wMNX67IFb
+ 9BxRzLARt5Jy1fEtcaII0WPmfWofSiwvoLU+jdaKqtVgIp9vo/udRhhgH6a/mTFG
+ SJTqJAykV11Pxp+Kc+EhqHHkBj0m6I+AP5pauQ1FDZhcHwcCvrjfiIylkWduFaT0
+ 2FsEzwo5NvfUGhBWAaDaj4XFBUm/sBArucl2BpCv5DJt11eCIR6T426p1c7b7STY
+ ir5J1m12LwMt6FpxvdCsRiFuMLdNlXO+N7zZnfg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=LFF5/t
+ O9nY1OZRQNLJeM62EI6jzrxQXMkvpYLECbH9I=; b=R2FkRaT/Ga7w1WpVs8t5SQ
+ ir4SFkEy1jNs6LUChTaQzuQvfFWZu6cjf6elSXj6oS8vytP04U74H4O7tgpLriSM
+ Orn0UfhQc1kBWf+T7HT0sp859sxhQ/+9QXIaGRuZtHnIB/0zhJWsjmOaXSru/Tjk
+ ErbACiqu5OKD2Doc78BD8QLwX1eW58nv3QfJcGZ7x5jbjR5D/VHjJfDC3SCEIUfu
+ 8kV2fyAjSD1CbJ/fI/gkTNCmLFyINdmjM96niDqzIuVEpkhh2ywDz0VCZProXNWd
+ XUTtJA779p49F218Hwad1m8IXiBGuncsPNwC1Vvm/2C4GsgaLR0zso+LbSlbJI+A
+ ==
+X-ME-Sender: <xms:6PXXX4jxW_gEbq9RtF6OTNO1Wh9nKZUXH8g1dmbMbJEQDsfMtaGkqQ>
+ <xme:6PXXXxAjfDvweqT3TMoi2snE1fYL3_jW3sr1ixRrdL-sTEe4e3jFffb91q8uIVBLT
+ PmsKlTpv6x3vBI8yQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekledguddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+ grthhtvghrnhepuddttdekueeggedvtddtueekiedutdfguedutdefieeuteefieelteet
+ vddthfeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ eprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:6PXXXwGmewVKVN_u7eGrtkLxmpbahAIRhl3_LCWLXSEahaNN_J7BSA>
+ <xmx:6PXXX5QAmpiaRkSD_chmsx0m3U5D_ksMIQDOthEqPQgaOcyl3VG8mg>
+ <xmx:6PXXX1z7ynJX5iT7XaSyvh-b8bczXebrLmq1TMLX6KGs64XznnPFMQ>
+ <xmx:6fXXX0yRdOggj1yG1JFdgzAlUTENLFI_HoFARIGIX67tjDU7cyvCqQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 8B284E00DD; Mon, 14 Dec 2020 18:31:50 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.1-61-gb52c239-fm-20201210.001-gb52c2396
+Mime-Version: 1.0
+Message-Id: <2ba456f0-d9ca-4ca6-9dd0-ae7b5f959333@www.fastmail.com>
+In-Reply-To: <CAPDyKFrceNPNz9+88p+mzbYEo-ZqWOwTBWaqycxPr3MQEFtbaA@mail.gmail.com>
+References: <20201208012615.2717412-1-andrew@aj.id.au>
+ <20201208012615.2717412-2-andrew@aj.id.au>
+ <CAPDyKFrceNPNz9+88p+mzbYEo-ZqWOwTBWaqycxPr3MQEFtbaA@mail.gmail.com>
+Date: Tue, 15 Dec 2020 10:01:31 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Ulf Hansson" <ulf.hansson@linaro.org>
+Subject: =?UTF-8?Q?Re:_[PATCH_v5_1/6]_mmc:_core:_Add_helper_for_parsing_clock_pha?=
+ =?UTF-8?Q?se_properties?=
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,52 +95,133 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dragan Cvetic <dragan.cvetic@xilinx.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Yong Li <yong.b.li@linux.intel.com>, open list <linux-kernel@vger.kernel.org>,
- Vernon Mauery <vernon.mauery@linux.intel.com>,
- Derek Kiernan <derek.kiernan@xilinx.com>, Lotus Xu <xuxiaohan@bytedance.com>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>
+Cc: DTML <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Adrian Hunter <adrian.hunter@intel.com>, Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Dec 10, 2020 at 8:33 PM Oskar Senft <osk@google.com> wrote:
->
-> The purpose of this driver is to allow manipulation of the UART routing a=
-t runtime. Setting the routing in the DTS would obviously not allow that.
->
-> From what I remember, I used am existing unrelated driver as template. Ap=
-ologies for using the wrong APIs - I literally just followed what I had see=
-n elsewhere.
->
-> Since posting this driver, we found that while it solved our initial use =
-case, that use case has evolved. We're now using Aspeed's VUART where bytes=
- are routed "manually" (i.e. copied between devices) rather than in hardwar=
-e. So I don't need this driver anymore.
->
-> If it's still useful to anyone, please take ownership and modify it as ne=
-eded to be able to submit it. I'm still happy to keep an eye on it and help=
- explain its purpose.
->
 
-The driver is useful for our system, and it's used in intel-openbmc as well=
-.
-We (John and I work for the same employer) have the chance to use
-Andrew Jefery's ["bmc-misc" driver][1] to configure the various
-registers in dts to setup the UART routing, but that driver was not
-accepted by upstream.
 
-So we end up sending this patch here for upstream's comment.
-If it's considered not a good option, we will have to keep it downstream.
+On Tue, 15 Dec 2020, at 02:18, Ulf Hansson wrote:
+> On Tue, 8 Dec 2020 at 02:26, Andrew Jeffery <andrew@aj.id.au> wrote:
+> >
+> > Drivers for MMC hosts that accept phase corrections can take advantage
+> > of the helper by embedding a mmc_clk_phase_map_t object in their
+> > private data and invoking mmc_of_parse_clk_phase() to extract phase
+> > parameters. It is the responsibility of the host driver to translate and
+> > apply the extracted values to hardware as required.
+> >
+> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> > ---
+> >  drivers/mmc/core/host.c  | 44 ++++++++++++++++++++++++++++++++++++++++
+> >  include/linux/mmc/host.h | 17 ++++++++++++++++
+> >  2 files changed, 61 insertions(+)
+> >
+> > diff --git a/drivers/mmc/core/host.c b/drivers/mmc/core/host.c
+> > index 96b2ca1f1b06..b1697f00c4b5 100644
+> > --- a/drivers/mmc/core/host.c
+> > +++ b/drivers/mmc/core/host.c
+> > @@ -163,6 +163,50 @@ static void mmc_retune_timer(struct timer_list *t)
+> >         mmc_retune_needed(host);
+> >  }
+> >
+> > +static void mmc_of_parse_timing_phase(struct device *dev, const char *prop,
+> > +                                     struct mmc_clk_phase *phase)
+> > +{
+> > +       int degrees[2] = {0};
+> > +       int rc;
+> > +
+> > +       rc = device_property_read_u32_array(dev, prop, degrees, 2);
+> > +       phase->valid = !rc;
+> > +       if (phase->valid) {
+> > +               phase->in_deg = degrees[0];
+> > +               phase->out_deg = degrees[1];
+> > +       }
+> > +}
+> > +
+> > +void
+> > +mmc_of_parse_clk_phase(struct mmc_host *host, mmc_clk_phase_map_t map)
+> 
+> Would you mind to change to pass a "struct mmc_clk_phase_map *map" to this?
+> 
+> See more comments below.
+> 
+> > +{
+> > +       struct device *dev = host->parent;
+> > +
+> > +       mmc_of_parse_timing_phase(dev, "clk-phase-legacy",
+> > +                                 &map[MMC_TIMING_LEGACY]);
+> > +       mmc_of_parse_timing_phase(dev, "clk-phase-mmc-hs",
+> > +                                 &map[MMC_TIMING_MMC_HS]);
+> > +       mmc_of_parse_timing_phase(dev, "clk-phase-sd-hs",
+> > +                                 &map[MMC_TIMING_SD_HS]);
+> > +       mmc_of_parse_timing_phase(dev, "clk-phase-uhs-sdr12",
+> > +                                 &map[MMC_TIMING_UHS_SDR12]);
+> > +       mmc_of_parse_timing_phase(dev, "clk-phase-uhs-sdr25",
+> > +                                 &map[MMC_TIMING_UHS_SDR25]);
+> > +       mmc_of_parse_timing_phase(dev, "clk-phase-uhs-sdr50",
+> > +                                 &map[MMC_TIMING_UHS_SDR50]);
+> > +       mmc_of_parse_timing_phase(dev, "clk-phase-uhs-sdr104",
+> > +                                 &map[MMC_TIMING_UHS_SDR104]);
+> > +       mmc_of_parse_timing_phase(dev, "clk-phase-uhs-ddr50",
+> > +                                 &map[MMC_TIMING_UHS_DDR50]);
+> > +       mmc_of_parse_timing_phase(dev, "clk-phase-mmc-ddr52",
+> > +                                 &map[MMC_TIMING_MMC_DDR52]);
+> > +       mmc_of_parse_timing_phase(dev, "clk-phase-mmc-hs200",
+> > +                                 &map[MMC_TIMING_MMC_HS200]);
+> > +       mmc_of_parse_timing_phase(dev, "clk-phase-mmc-hs400",
+> > +                                 &map[MMC_TIMING_MMC_HS400]);
+> > +}
+> > +EXPORT_SYMBOL(mmc_of_parse_clk_phase);
+> > +
+> >  /**
+> >   *     mmc_of_parse() - parse host's device-tree node
+> >   *     @host: host whose node should be parsed.
+> > diff --git a/include/linux/mmc/host.h b/include/linux/mmc/host.h
+> > index 01bba36545c5..bc4731c9738f 100644
+> > --- a/include/linux/mmc/host.h
+> > +++ b/include/linux/mmc/host.h
+> > @@ -79,6 +79,22 @@ struct mmc_ios {
+> >         bool enhanced_strobe;                   /* hs400es selection */
+> >  };
+> >
+> > +struct mmc_clk_phase {
+> > +       bool valid;
+> > +       u16 in_deg;
+> > +       u16 out_deg;
+> > +};
+> > +
+> > +/*
+> > + * Define a type to map between bus timings and phase correction values. To
+> > + * avoid bloat in struct mmc_host we leave it to the host driver to define the
+> > + * phase map object in its private data if it supports phase correction.
+> > + * However, mmc_of_parse_clk_phase() is provided by the mmc core and needs the
+> > + * provided array to be correctly sized, so typedef an appropriately sized
+> > + * array to minimise the chance that the wrong size object is passed.
+> > + */
+> > +typedef struct mmc_clk_phase mmc_clk_phase_map_t[MMC_TIMING_MMC_HS400 + 1];
+> > +
+> 
+> Nitpick: I would appreciate if we could avoid using "typedefs", as I
+> think they in many cases makes the code harder to read. How about
+> doing this instead?
+> 
+> #define MMC_NUM_CLK_PHASES (MMC_TIMING_MMC_HS400 + 1)
+> 
+> struct mmc_clk_phase_map {
+>         struct mmc_clk_phase phase[MMC_NUM_CLK_PHASES];
+> };
+> 
+> [...]
 
-[1] https://lore.kernel.org/openbmc/20180711053122.30773-1-andrew@aj.id.au/
+Right; I experimented with that approach and felt it was kinda clunky (hence 
+the typedef), but I'll respin the series doing as such.
 
---=20
-BRs,
-Lei YU
+Thanks,
+
+Andrew
