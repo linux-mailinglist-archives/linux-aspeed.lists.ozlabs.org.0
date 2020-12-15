@@ -2,49 +2,41 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7A22DB526
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Dec 2020 21:31:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DE242DB849
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Dec 2020 02:14:04 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CwVKc4wV8zDqLC
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Dec 2020 07:31:48 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CwcbF3zVDzDqK5
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Dec 2020 12:14:01 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=kuba@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=u56R7ZoX; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ spf=pass (sender SPF authorized) smtp.mailfrom=suse.de
+ (client-ip=195.135.220.15; helo=mx2.suse.de; envelope-from=msuchanek@suse.de;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=suse.de
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CwVKW4HflzDqK1;
- Wed, 16 Dec 2020 07:31:43 +1100 (AEDT)
-Date: Tue, 15 Dec 2020 12:31:39 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608064300;
- bh=2DxS0lmS1153LcET2EORWRgvx53xR07A0YekQd37GUo=;
- h=From:To:Cc:Subject:In-Reply-To:References:From;
- b=u56R7ZoXfjS2tyqA1cGdPpKNlIeYov2VbPR0rbzfKeFGhhB1ECuI1ShddW4pBBr/I
- VI4IZTMsaxtBPBQL/cRmKKM8SJj0UmnOZdoIqrTUcs4kA6XgtXq0B92As5B4LkE0YH
- AHL+FktpyTa+iUK3QW/ZapJbnsS3nitwD9yMFhsZuawM440OiYxtI2uk0in77qj4i8
- Ou/VTNTpBOoy+LFsvvpSjfSTBLpou7oQhU1eJ2Qp9LlpRoD5IQ58xYbcY97N9D8za6
- UOqfmAE+2flBObhW1mGkSbizcsHHhSyKyoSf7L2mljsuPDCy7lWazX7wZ2j7EJzTFC
- 5E52TdOht/GSw==
-From: Jakub Kicinski <kuba@kernel.org>
-To: Hongwei Zhang <hongweiz@ami.com>
-Subject: Re: [Aspeed,ncsi-rx, v1 1/1] net: ftgmac100: Fix AST2600 EVB NCSI
- RX issue
-Message-ID: <20201215123139.27fd45cd@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20201215192323.24359-2-hongweiz@ami.com>
-References: <20201215192323.24359-1-hongweiz@ami.com>
- <20201215192323.24359-2-hongweiz@ami.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CwX6F4LnYzDqCs;
+ Wed, 16 Dec 2020 08:52:04 +1100 (AEDT)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 5D4C3AD87;
+ Tue, 15 Dec 2020 21:52:00 +0000 (UTC)
+Date: Tue, 15 Dec 2020 22:51:57 +0100
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To: "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
+Subject: Re: [RFC PATCH] treewide: remove bzip2 compression support
+Message-ID: <20201215215157.GJ6564@kitsune.suse.cz>
+References: <20201215190315.8681-1-alex_y_xu.ref@yahoo.ca>
+ <20201215190315.8681-1-alex_y_xu@yahoo.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201215190315.8681-1-alex_y_xu@yahoo.ca>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Mailman-Approved-At: Wed, 16 Dec 2020 12:13:43 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,19 +48,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, David S Miller <davem@davemloft.net>
+Cc: linux-s390@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, linux-kbuild@vger.kernel.org,
+ torvalds@linux-foundation.org, linux-xtensa@linux-xtensa.org,
+ linux-sh@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-kernel@vger.kernel.org, openrisc@lists.librecores.org,
+ linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 15 Dec 2020 14:23:23 -0500 Hongwei Zhang wrote:
-> Fix AST2600 EVB NCSI RX timeout issue by removing FTGMAC100_RXDES0_RX_ERR bit
-> from macro RXDES0_ANY_ERROR.
-> 
-> Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
+Hello,
 
-Thanks for the patch. Please repost CCing the netdev mailing list so it
-can be merged to the networking tree (which I assume is your intent).
-Please also include a Fixes tag pointing to the commit where the
-timeout issue started (even if it's the first commit of the driver).
+On Tue, Dec 15, 2020 at 02:03:15PM -0500, Alex Xu (Hello71) wrote:
+> bzip2 is either slower or larger than every other supported algorithm,
+> according to benchmarks at [0]. It is far slower to decompress than any
+> other algorithm, and still larger than lzma, xz, and zstd.
+> 
+> [0] https://lore.kernel.org/lkml/1588791882.08g1378g67.none@localhost/
+
+Sounds cool. I wonder how many people will complain that their
+distribution migrated to bzip2 but got stuck there and now new kernels
+won't work on there with some odd tool or another :p
+
+> @@ -212,11 +209,6 @@ choice
+>  	  Compression speed is only relevant when building a kernel.
+>  	  Decompression speed is relevant at each boot.
+>  
+> -	  If you have any problems with bzip2 or lzma compressed
+> -	  kernels, mail me (Alain Knaff) <alain@knaff.lu>. (An older
+> -	  version of this functionality (bzip2 only), for 2.4, was
+> -	  supplied by Christian Ludwig)
+> -
+Shouldn't the LZMA part be preserved here?
+
+Thanks
+
+Michal
