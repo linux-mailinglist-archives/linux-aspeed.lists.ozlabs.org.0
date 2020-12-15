@@ -1,42 +1,90 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE242DB849
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Dec 2020 02:14:04 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2202DB6A3
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Dec 2020 23:48:16 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CwcbF3zVDzDqK5
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Dec 2020 12:14:01 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CwYLz3Df5zDqLY
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Dec 2020 09:48:11 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=suse.de
- (client-ip=195.135.220.15; helo=mx2.suse.de; envelope-from=msuchanek@suse.de;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.29;
+ helo=out5-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=suse.de
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ dmarc=none (p=none dis=none) header.from=aj.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm1 header.b=MXcvFzCL; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=b2m8f3Vj; 
+ dkim-atps=neutral
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CwX6F4LnYzDqCs;
- Wed, 16 Dec 2020 08:52:04 +1100 (AEDT)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5D4C3AD87;
- Tue, 15 Dec 2020 21:52:00 +0000 (UTC)
-Date: Tue, 15 Dec 2020 22:51:57 +0100
-From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To: "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
-Subject: Re: [RFC PATCH] treewide: remove bzip2 compression support
-Message-ID: <20201215215157.GJ6564@kitsune.suse.cz>
-References: <20201215190315.8681-1-alex_y_xu.ref@yahoo.ca>
- <20201215190315.8681-1-alex_y_xu@yahoo.ca>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201215190315.8681-1-alex_y_xu@yahoo.ca>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Mailman-Approved-At: Wed, 16 Dec 2020 12:13:43 +1100
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CwYLq1VL0zDqJW;
+ Wed, 16 Dec 2020 09:48:02 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7F9265C0043;
+ Tue, 15 Dec 2020 17:47:58 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Tue, 15 Dec 2020 17:47:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=QWzDvy6drK5slTeHs2rtc/DTIJ65yki
+ vR5Tsxc+1DFI=; b=MXcvFzCLfwAyH3Lw6LehPx4X5BX7ctYKM8XVoHx8tHMaZTj
+ FP1vr39w8LtlM2HIkpYmXlsGaZ0XpU3wbuutdM6FNaJc5aC+uoNldplUat685jeM
+ DOHj3CW+nykIXuSnccUGfNWLOs4SUUoZEXtpFJINmcrgNQnBEHQcKUl5hh1/yNOp
+ FSEanvh57wmqBhlWrO8+bDCAVqcPdMzJdW8Sa6zjhVE0jum/+tMLi5jJVh12TOxj
+ DSCjdpOmhr50C5KYMlZTztX+6TY8DAQbRcpnNQ7mt5h9UosYJ2JKJ2JdRW71GITX
+ e2Rz8EHjYw3ax/y49FvLvr+MVh+3hPqKK5IknCQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=QWzDvy
+ 6drK5slTeHs2rtc/DTIJ65ykivR5Tsxc+1DFI=; b=b2m8f3Vjtzqu8X/XEbzq+0
+ HmMV87aFW6WeQFE9tbZXMhxd8NG6NcMqvaE7dztb0w7vSPCHQ0Z4QhRSqPMplIUc
+ maicbeHqdFxA49VEEnhdkSYlBJhEgx+jU9vZiJSJ7DxdMvq8YQ8OW8Y5QwQjfgAw
+ wb4hkv0jcvmlCfPtLLPtedAG3aXxHUbq7t2wb+nuoTafMLdqcP4bnRFNofr+1yVe
+ P0imvSsCeQ4BAp8YXN5nSssqaQrqRdGThACikQNbBX2ql7GXCuDAD5GDTBIP2RHl
+ TE2S0/ZktXihYxo6cP7SADF1H+F9o4sGncczaGgmUJeDU/rU8AvLhSqlXUfwoA/Q
+ ==
+X-ME-Sender: <xms:HT3ZX7aNro-4wU3wDkCkJFE76CkjCxEwLz62YTO0p52slosxMUSkfQ>
+ <xme:HT3ZX6b2YcD6NWfbvx79P2VKs-EnRrO_UpYj39x4lzdOy2gv3WOHf0SZ4o_Vqso9y
+ gFvwZs6rYfuG95dSg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeluddgtdefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+ grthhtvghrnhepuddttdekueeggedvtddtueekiedutdfguedutdefieeuteefieelteet
+ vddthfeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ eprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:HT3ZX9-Atzm4CVQb1f6jHivdEBhJRZB9WWPruxvYH_lfajRtaIaNvw>
+ <xmx:HT3ZXxqlYeVRsnLpVk5vG_QNnJtdPUkfoWtG5ICz7yE1asOirJ-mVg>
+ <xmx:HT3ZX2psJGGzlbneb3VW5U-9LTqbqhIC5KpHUaksjdT10Q0mksMa_w>
+ <xmx:Hj3ZX_lJn_UKAy5nC6MlUiDepiktkmzMyTmbuIqPb90ATNd7UqcHOw>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 9D6A9E0504; Tue, 15 Dec 2020 17:47:55 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.1-61-gb52c239-fm-20201210.001-gb52c2396
+Mime-Version: 1.0
+Message-Id: <0a513b26-a4e4-4808-a02a-eb6ffc84f5ba@www.fastmail.com>
+In-Reply-To: <20201215192323.24359-2-hongweiz@ami.com>
+References: <20201215192323.24359-1-hongweiz@ami.com>
+ <20201215192323.24359-2-hongweiz@ami.com>
+Date: Wed, 16 Dec 2020 09:17:36 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Hongwei Zhang" <hongweiz@ami.com>, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+ "Jakub Kicinski" <kuba@kernel.org>, "David Miller" <davem@davemloft.net>
+Subject: =?UTF-8?Q?Re:_[Aspeed, ncsi-rx,
+ _v1_1/1]_net:_ftgmac100:_Fix_AST2600_EVB_N?= =?UTF-8?Q?CSI_RX_issue?=
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,41 +96,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-s390@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-kbuild@vger.kernel.org,
- torvalds@linux-foundation.org, linux-xtensa@linux-xtensa.org,
- linux-sh@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-kernel@vger.kernel.org, openrisc@lists.librecores.org,
- linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello,
 
-On Tue, Dec 15, 2020 at 02:03:15PM -0500, Alex Xu (Hello71) wrote:
-> bzip2 is either slower or larger than every other supported algorithm,
-> according to benchmarks at [0]. It is far slower to decompress than any
-> other algorithm, and still larger than lzma, xz, and zstd.
-> 
-> [0] https://lore.kernel.org/lkml/1588791882.08g1378g67.none@localhost/
 
-Sounds cool. I wonder how many people will complain that their
-distribution migrated to bzip2 but got stuck there and now new kernels
-won't work on there with some odd tool or another :p
+On Wed, 16 Dec 2020, at 05:53, Hongwei Zhang wrote:
+> Fix AST2600 EVB NCSI RX timeout issue by removing FTGMAC100_RXDES0_RX_ERR bit
+> from macro RXDES0_ANY_ERROR.
 
-> @@ -212,11 +209,6 @@ choice
->  	  Compression speed is only relevant when building a kernel.
->  	  Decompression speed is relevant at each boot.
->  
-> -	  If you have any problems with bzip2 or lzma compressed
-> -	  kernels, mail me (Alain Knaff) <alain@knaff.lu>. (An older
-> -	  version of this functionality (bzip2 only), for 2.4, was
-> -	  supplied by Christian Ludwig)
-> -
-Shouldn't the LZMA part be preserved here?
+But why? What is wrong with the EVB that this change resolves? Which revision 
+of the EVB?
 
-Thanks
+The change affects all designs using the MAC, not just the AST2600 EVB. Why is 
+this patch an appropriate course of action? Can we not add a quirk targeting the
+specific board (e.g. a devicetree property)?
 
-Michal
+Andrew
