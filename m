@@ -1,88 +1,89 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE372DA423
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Dec 2020 00:32:14 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DE922DA48B
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Dec 2020 01:12:40 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CvyNB5XbkzDqLf
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Dec 2020 10:32:10 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CvzGs2KRKzDqPj
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Dec 2020 11:12:37 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.27;
- helo=out3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.221;
+ helo=new1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=P6AYp58N; 
+ header.s=fm1 header.b=ewcTi76y; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=R2FkRaT/; 
+ header.a=rsa-sha256 header.s=fm1 header.b=civb3tWt; 
  dkim-atps=neutral
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CvyMy3NCPzDqLD
- for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Dec 2020 10:31:57 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CvzGg5sMczDqBK;
+ Tue, 15 Dec 2020 11:12:27 +1100 (AEDT)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id DF0815C0148;
- Mon, 14 Dec 2020 18:31:53 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 7131F5801AF;
+ Mon, 14 Dec 2020 19:12:24 -0500 (EST)
 Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Mon, 14 Dec 2020 18:31:53 -0500
+ by compute3.internal (MEProxy); Mon, 14 Dec 2020 19:12:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=LFF5/tO9nY1OZRQNLJeM62EI6jzrxQX
- MkvpYLECbH9I=; b=P6AYp58NjCbaJzJB7EQ9YtLJ92XBQwmiwLDirRHAw4p1laV
- ql7LGdi/IY8aIaL+6Aj53nj6UVA6rIK7dVDUnKtsaCSh940NnyAema4wMNX67IFb
- 9BxRzLARt5Jy1fEtcaII0WPmfWofSiwvoLU+jdaKqtVgIp9vo/udRhhgH6a/mTFG
- SJTqJAykV11Pxp+Kc+EhqHHkBj0m6I+AP5pauQ1FDZhcHwcCvrjfiIylkWduFaT0
- 2FsEzwo5NvfUGhBWAaDaj4XFBUm/sBArucl2BpCv5DJt11eCIR6T426p1c7b7STY
- ir5J1m12LwMt6FpxvdCsRiFuMLdNlXO+N7zZnfg==
+ :subject:content-type; s=fm1; bh=dllxipO8JT/5qcBD2+BfCaHxR11sVzk
+ Jmb++D51EVso=; b=ewcTi76yr6ufVEf4Ui1plZqNsQbXiKjNqfw4fez/Oa5YN69
+ WtH9wxbpHdswK24M2QyXtAHt0UtbYVGHomcel9r1oZtEQa9ZDJLgf+uZYdGtASjC
+ Ia7wdzCur6+F3zWpJQHlEuOaP6oJA6dASZR48CL/aZtY1AOwohDBkPHHhnI4JfmQ
+ dc/bhZaAoYrkGZ5tJ0YUrURweXivm7+/xAd1nwYkpFOknXClJ4YwqA8HeCyWIe6S
+ mFW84IQmQLt395E4qoHVIQZ9Pl3CUnof6DYcjBUI8bHUH7I/6R6Spt6Y7ALFy6iX
+ Qco9z2VRlJQse+Xq5+t9uVXr8m0CmOQpCUxUn7A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=LFF5/t
- O9nY1OZRQNLJeM62EI6jzrxQXMkvpYLECbH9I=; b=R2FkRaT/Ga7w1WpVs8t5SQ
- ir4SFkEy1jNs6LUChTaQzuQvfFWZu6cjf6elSXj6oS8vytP04U74H4O7tgpLriSM
- Orn0UfhQc1kBWf+T7HT0sp859sxhQ/+9QXIaGRuZtHnIB/0zhJWsjmOaXSru/Tjk
- ErbACiqu5OKD2Doc78BD8QLwX1eW58nv3QfJcGZ7x5jbjR5D/VHjJfDC3SCEIUfu
- 8kV2fyAjSD1CbJ/fI/gkTNCmLFyINdmjM96niDqzIuVEpkhh2ywDz0VCZProXNWd
- XUTtJA779p49F218Hwad1m8IXiBGuncsPNwC1Vvm/2C4GsgaLR0zso+LbSlbJI+A
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=dllxip
+ O8JT/5qcBD2+BfCaHxR11sVzkJmb++D51EVso=; b=civb3tWtoCoCXcgxgHpr76
+ QO3YQHdQqdhQsajmuqMzNrKJE3BJuPgOs2g/5KgtMy0gYvNdZvRCvNQtmtpvegq3
+ AE3kE1pHskTxXiQqo7C7SRATC1MqXQ0t1WHX1/y285yvtElfqZvVRnJpgcg/JdjP
+ Llwdjg37/3gZuf6rqPvP9slN+d+D88tZ/ieJLcyL4Gj2+qkd16XALX76Ic6KeNR5
+ 7IGmo/qvfVcAI5YXthK+NUgqTG6+uZmJ8gRBe/eMfTcCfB96tgEGE65HI+69/DAt
+ WDFZ88HlDn72cwJmtLJ4HHpBRvfBBtY2eo3949kdUg1kVhqzgvelrnYY92eC6n8g
  ==
-X-ME-Sender: <xms:6PXXX4jxW_gEbq9RtF6OTNO1Wh9nKZUXH8g1dmbMbJEQDsfMtaGkqQ>
- <xme:6PXXXxAjfDvweqT3TMoi2snE1fYL3_jW3sr1ixRrdL-sTEe4e3jFffb91q8uIVBLT
- PmsKlTpv6x3vBI8yQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekledguddvucetufdoteggodetrfdotf
+X-ME-Sender: <xms:Zv_XX57alwmXvBr4PmGzFaQs5RRYXjI9A5j4CeBg9cqnxGA2I-E8wQ>
+ <xme:Zv_XX24lsFkEEah4BVQe8dMW3VOF58F-ohlVQEPTMcxnDGztoVB82uf5cSFtxrgxT
+ MhjqkUhvmYfQDcUxg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekledgvddtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
  rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhepuddttdekueeggedvtddtueekiedutdfguedutdefieeuteefieelteet
- vddthfeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
+ hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:6PXXXwGmewVKVN_u7eGrtkLxmpbahAIRhl3_LCWLXSEahaNN_J7BSA>
- <xmx:6PXXX5QAmpiaRkSD_chmsx0m3U5D_ksMIQDOthEqPQgaOcyl3VG8mg>
- <xmx:6PXXX1z7ynJX5iT7XaSyvh-b8bczXebrLmq1TMLX6KGs64XznnPFMQ>
- <xmx:6fXXX0yRdOggj1yG1JFdgzAlUTENLFI_HoFARIGIX67tjDU7cyvCqQ>
+X-ME-Proxy: <xmx:Zv_XXwccaU6qC8132oJZvS6VloKzQ4dj5ioWn5T2mZ1D_PpH1XREYA>
+ <xmx:Zv_XXyKlRv8-WKBjV7B_OTLjt4IRms7qiSCScXkm-KF-cys-4S4ydA>
+ <xmx:Zv_XX9KfDB2e1udMs2qVu0nMoKkMeVp8O6S_Mj6I8t1_KUs7PWDk9Q>
+ <xmx:aP_XX3AW1lAtzdjKIVvaW1JaJFxebiuimlWurXr6eD-rGV0_NxbehA>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 8B284E00DD; Mon, 14 Dec 2020 18:31:50 -0500 (EST)
+ id 2A6C0E010E; Mon, 14 Dec 2020 19:12:20 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.3.1-61-gb52c239-fm-20201210.001-gb52c2396
 Mime-Version: 1.0
-Message-Id: <2ba456f0-d9ca-4ca6-9dd0-ae7b5f959333@www.fastmail.com>
-In-Reply-To: <CAPDyKFrceNPNz9+88p+mzbYEo-ZqWOwTBWaqycxPr3MQEFtbaA@mail.gmail.com>
-References: <20201208012615.2717412-1-andrew@aj.id.au>
- <20201208012615.2717412-2-andrew@aj.id.au>
- <CAPDyKFrceNPNz9+88p+mzbYEo-ZqWOwTBWaqycxPr3MQEFtbaA@mail.gmail.com>
-Date: Tue, 15 Dec 2020 10:01:31 +1030
+Message-Id: <d6f83615-c9d1-4906-81e7-10528e963c94@www.fastmail.com>
+In-Reply-To: <HK0PR06MB3779F5B4B9629909DDF441F091C70@HK0PR06MB3779.apcprd06.prod.outlook.com>
+References: <20201005082806.28899-1-chiawei_wang@aspeedtech.com>
+ <20201005082806.28899-6-chiawei_wang@aspeedtech.com>
+ <2e2d3a02-6677-4b0e-b538-d3130a3b20d1@www.fastmail.com>
+ <HK0PR06MB3779F5B4B9629909DDF441F091C70@HK0PR06MB3779.apcprd06.prod.outlook.com>
+Date: Tue, 15 Dec 2020 10:42:01 +1030
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Ulf Hansson" <ulf.hansson@linaro.org>
-Subject: =?UTF-8?Q?Re:_[PATCH_v5_1/6]_mmc:_core:_Add_helper_for_parsing_clock_pha?=
- =?UTF-8?Q?se_properties?=
+To: "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>,
+ "Rob Herring" <robh+dt@kernel.org>, "Joel Stanley" <joel@jms.id.au>
+Subject: Re: [PATCH v2 5/5] dt-bindings: aspeed-lpc: Remove LPC partitioning
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -95,133 +96,59 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: DTML <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Adrian Hunter <adrian.hunter@intel.com>, Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Corey Minyard <minyard@acm.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ Haiyue Wang <haiyue.wang@linux.intel.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Chiawei,
 
+On Mon, 14 Dec 2020, at 13:14, ChiaWei Wang wrote:
+> Hi Andrew & Rob,
+> 
+> Do you have any suggestion on this patch?
 
-On Tue, 15 Dec 2020, at 02:18, Ulf Hansson wrote:
-> On Tue, 8 Dec 2020 at 02:26, Andrew Jeffery <andrew@aj.id.au> wrote:
-> >
-> > Drivers for MMC hosts that accept phase corrections can take advantage
-> > of the helper by embedding a mmc_clk_phase_map_t object in their
-> > private data and invoking mmc_of_parse_clk_phase() to extract phase
-> > parameters. It is the responsibility of the host driver to translate and
-> > apply the extracted values to hardware as required.
-> >
-> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> > ---
-> >  drivers/mmc/core/host.c  | 44 ++++++++++++++++++++++++++++++++++++++++
-> >  include/linux/mmc/host.h | 17 ++++++++++++++++
-> >  2 files changed, 61 insertions(+)
-> >
-> > diff --git a/drivers/mmc/core/host.c b/drivers/mmc/core/host.c
-> > index 96b2ca1f1b06..b1697f00c4b5 100644
-> > --- a/drivers/mmc/core/host.c
-> > +++ b/drivers/mmc/core/host.c
-> > @@ -163,6 +163,50 @@ static void mmc_retune_timer(struct timer_list *t)
-> >         mmc_retune_needed(host);
-> >  }
-> >
-> > +static void mmc_of_parse_timing_phase(struct device *dev, const char *prop,
-> > +                                     struct mmc_clk_phase *phase)
-> > +{
-> > +       int degrees[2] = {0};
-> > +       int rc;
-> > +
-> > +       rc = device_property_read_u32_array(dev, prop, degrees, 2);
-> > +       phase->valid = !rc;
-> > +       if (phase->valid) {
-> > +               phase->in_deg = degrees[0];
-> > +               phase->out_deg = degrees[1];
-> > +       }
-> > +}
-> > +
-> > +void
-> > +mmc_of_parse_clk_phase(struct mmc_host *host, mmc_clk_phase_map_t map)
-> 
-> Would you mind to change to pass a "struct mmc_clk_phase_map *map" to this?
-> 
-> See more comments below.
-> 
-> > +{
-> > +       struct device *dev = host->parent;
-> > +
-> > +       mmc_of_parse_timing_phase(dev, "clk-phase-legacy",
-> > +                                 &map[MMC_TIMING_LEGACY]);
-> > +       mmc_of_parse_timing_phase(dev, "clk-phase-mmc-hs",
-> > +                                 &map[MMC_TIMING_MMC_HS]);
-> > +       mmc_of_parse_timing_phase(dev, "clk-phase-sd-hs",
-> > +                                 &map[MMC_TIMING_SD_HS]);
-> > +       mmc_of_parse_timing_phase(dev, "clk-phase-uhs-sdr12",
-> > +                                 &map[MMC_TIMING_UHS_SDR12]);
-> > +       mmc_of_parse_timing_phase(dev, "clk-phase-uhs-sdr25",
-> > +                                 &map[MMC_TIMING_UHS_SDR25]);
-> > +       mmc_of_parse_timing_phase(dev, "clk-phase-uhs-sdr50",
-> > +                                 &map[MMC_TIMING_UHS_SDR50]);
-> > +       mmc_of_parse_timing_phase(dev, "clk-phase-uhs-sdr104",
-> > +                                 &map[MMC_TIMING_UHS_SDR104]);
-> > +       mmc_of_parse_timing_phase(dev, "clk-phase-uhs-ddr50",
-> > +                                 &map[MMC_TIMING_UHS_DDR50]);
-> > +       mmc_of_parse_timing_phase(dev, "clk-phase-mmc-ddr52",
-> > +                                 &map[MMC_TIMING_MMC_DDR52]);
-> > +       mmc_of_parse_timing_phase(dev, "clk-phase-mmc-hs200",
-> > +                                 &map[MMC_TIMING_MMC_HS200]);
-> > +       mmc_of_parse_timing_phase(dev, "clk-phase-mmc-hs400",
-> > +                                 &map[MMC_TIMING_MMC_HS400]);
-> > +}
-> > +EXPORT_SYMBOL(mmc_of_parse_clk_phase);
-> > +
-> >  /**
-> >   *     mmc_of_parse() - parse host's device-tree node
-> >   *     @host: host whose node should be parsed.
-> > diff --git a/include/linux/mmc/host.h b/include/linux/mmc/host.h
-> > index 01bba36545c5..bc4731c9738f 100644
-> > --- a/include/linux/mmc/host.h
-> > +++ b/include/linux/mmc/host.h
-> > @@ -79,6 +79,22 @@ struct mmc_ios {
-> >         bool enhanced_strobe;                   /* hs400es selection */
-> >  };
-> >
-> > +struct mmc_clk_phase {
-> > +       bool valid;
-> > +       u16 in_deg;
-> > +       u16 out_deg;
-> > +};
-> > +
-> > +/*
-> > + * Define a type to map between bus timings and phase correction values. To
-> > + * avoid bloat in struct mmc_host we leave it to the host driver to define the
-> > + * phase map object in its private data if it supports phase correction.
-> > + * However, mmc_of_parse_clk_phase() is provided by the mmc core and needs the
-> > + * provided array to be correctly sized, so typedef an appropriately sized
-> > + * array to minimise the chance that the wrong size object is passed.
-> > + */
-> > +typedef struct mmc_clk_phase mmc_clk_phase_map_t[MMC_TIMING_MMC_HS400 + 1];
-> > +
-> 
-> Nitpick: I would appreciate if we could avoid using "typedefs", as I
-> think they in many cases makes the code harder to read. How about
-> doing this instead?
-> 
-> #define MMC_NUM_CLK_PHASES (MMC_TIMING_MMC_HS400 + 1)
-> 
-> struct mmc_clk_phase_map {
->         struct mmc_clk_phase phase[MMC_NUM_CLK_PHASES];
-> };
-> 
-> [...]
+Rob hasn't responded, but I think it will be easier to get an Ack out of him if 
+we do a v2 of the binding so we're not breaking backwards-compatibility with 
+the current definition. Concretely:
 
-Right; I experimented with that approach and felt it was kinda clunky (hence 
-the typedef), but I'll respin the series doing as such.
+- compatible:   One of:                                                         
+                "aspeed,ast2400-lpc", "simple-mfd"
+                "aspeed,ast2500-lpc", "simple-mfd"
 
-Thanks,
+Becomes something like:
+
+- compatible:   One of:                                                         
+                "aspeed,ast2400-lpc-v2", "simple-mfd"
+                "aspeed,ast2500-lpc-v2", "simple-mfd"
+
+We can convert the in-tree devicetrees, immediately drop support for the 
+current binding in the drivers, and _only_ support v2 of the binding going 
+forward. That way your patches stay largely the same, the binding isn't 
+hamstrung as it is currently, and we're not trying to maintain code to support 
+the current binding definition - but we're also not pretending that old 
+devicetrees will work with newer kernels that only support the new binding 
+definition (which is the problem with your current patch series).
+
+How does that sound?
+
+As to how to implement this, I think we'll need to add some 
+of_device_is_compatible() checks in the relevant drivers to make sure that 
+they're using the new LPC binding, such as in 
+drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c before we fetch the regmap on line 
+2657.
+
+Sorry that this is dragging out a bit (and for the mess I made).
+
+Cheers,
 
 Andrew
