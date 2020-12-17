@@ -1,52 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A9A2DCFB0
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Dec 2020 11:46:49 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57B032DD98C
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Dec 2020 20:54:40 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CxTFc4x3SzDqTk
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Dec 2020 21:46:44 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CxjPm1332zDqWS
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Dec 2020 06:54:36 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=sboyd@kernel.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=QtT1U6O0; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ smtp.helo=mga12.intel.com (client-ip=192.55.52.136; helo=mga12.intel.com;
+ envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none)
+ header.from=linux.intel.com
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CxTFW62h3zDqQV;
- Thu, 17 Dec 2020 21:46:39 +1100 (AEDT)
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608201995;
- bh=Pue5gigex8jLd7iX7Y19MlVXPLtenFipsfqR9Dz+YM4=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=QtT1U6O0JVdEkWREGobtHZUPwRol1SATKWy0EPGBHuEaXkxfISISnMSKYD9wskfIE
- EVacZcGpuh+mZ+qWqMGlF+rdda8qETP2qmPLQyckTG4lDsYv5Y08lpwxZBB3WLQ+Ui
- /WeTNXF/5BVMSkINYM0MRupJLYrXJ+1cK4Bpq2c+20VhSnwJchvrFM2KPJo3M2ilaE
- /KtNSSTowXM59VW1/wQEQrYfxnSvveRplsgVnYuDilLtC9Ke+M76p9gEH8Wisc1His
- oM+Kmj7zYb3P8XCVqFfB6uHP6Ww8WuLIE6Uu9T5pM7J9bq0/bzqq2b4bSLSEdSrIEc
- e4ki9Pt2LUnmA==
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <d3faea9e-e7d6-eba0-a6b2-c30bc9b6e147@linux.intel.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CxjPc6cKkzDqVd;
+ Fri, 18 Dec 2020 06:54:26 +1100 (AEDT)
+IronPort-SDR: NUVV54Zfzjukn/qCvQILLDjaT8QLQKaIOilzdQOXIy2oR/o71RZBLwFNlHjp39UmAht2CyyrVW
+ ZRmcw8NwXY4A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9838"; a="154544639"
+X-IronPort-AV: E=Sophos;i="5.78,428,1599548400"; d="scan'208";a="154544639"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2020 11:54:23 -0800
+IronPort-SDR: FZ2N9ds8QEC0kE8o1hMo8/m1rRrLolO5/ePaqGLg0htBqC3Av5dnv+wi948si0iPkjyWbf+UEx
+ /jTymnde4piA==
+X-IronPort-AV: E=Sophos;i="5.78,428,1599548400"; d="scan'208";a="413599052"
+Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.254.113.190])
+ ([10.254.113.190])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2020 11:54:21 -0800
+Subject: Re: [PATCH 2/2] media: aspeed: fix clock handling logic
+To: Stephen Boyd <sboyd@kernel.org>, Joel Stanley <joel@jms.id.au>
 References: <20201207164240.15436-1-jae.hyun.yoo@linux.intel.com>
  <20201207164240.15436-3-jae.hyun.yoo@linux.intel.com>
  <CACPK8Xd3dz1WLGNGqMiAZxhMEeGHbkPtvO2rYQ36Kbj=Uvy-jA@mail.gmail.com>
  <d3faea9e-e7d6-eba0-a6b2-c30bc9b6e147@linux.intel.com>
-Subject: Re: [PATCH 2/2] media: aspeed: fix clock handling logic
-From: Stephen Boyd <sboyd@kernel.org>
-To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>, Joel Stanley <joel@jms.id.au>
-Date: Thu, 17 Dec 2020 02:46:33 -0800
-Message-ID: <160820199393.1580929.9806429719720580479@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+ <160820199393.1580929.9806429719720580479@swboyd.mtv.corp.google.com>
+From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Message-ID: <d3f2d76c-40d9-b167-7002-5a25ec81c73a@linux.intel.com>
+Date: Thu, 17 Dec 2020 11:54:15 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
+MIME-Version: 1.0
+In-Reply-To: <160820199393.1580929.9806429719720580479@swboyd.mtv.corp.google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,41 +62,46 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Michael Turquette <mturquette@baylibre.com>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-clk@vger.kernel.org,
  Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-clk@vger.kernel.org,
- linux-media@vger.kernel.org
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>, linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Quoting Jae Hyun Yoo (2020-12-08 09:16:29)
-> Hi Joel,
->=20
-> On 12/7/2020 6:39 PM, Joel Stanley wrote:
-> > On Mon, 7 Dec 2020 at 16:33, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com=
-> wrote:
-> >>
-> >> Video engine uses eclk and vclk for its clock sources and its reset
-> >> control is coupled with eclk so the current clock enabling sequence wo=
-rks
-> >> like below.
-> >>
-> >>   Enable eclk
-> >>   De-assert Video Engine reset
-> >>   10ms delay
-> >>   Enable vclk
-> >=20
-> > This is the case after " clk: ast2600: fix reset settings for eclk and
-> > vclk" is applied, correct? Without that patch applied the reset
-> > sequence is correct by accident for the 2600, but it will be wrong for
-> > the 2500?
->=20
-> Correct. Video Engine reset was coupled with eclk for AST2500 and vclk
-> for AST2600 so above sequence was observed only in AST2500. As you said,
-> AST2600 didn't make the issue by accident but the clk/reset pair should
-> be fixed by this patch series.
+Hi Stephen,
 
-So should the two patches be squashed together and go through the
-media tree?
+On 12/17/2020 2:46 AM, Stephen Boyd wrote:
+> Quoting Jae Hyun Yoo (2020-12-08 09:16:29)
+>> Hi Joel,
+>>
+>> On 12/7/2020 6:39 PM, Joel Stanley wrote:
+>>> On Mon, 7 Dec 2020 at 16:33, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
+>>>>
+>>>> Video engine uses eclk and vclk for its clock sources and its reset
+>>>> control is coupled with eclk so the current clock enabling sequence works
+>>>> like below.
+>>>>
+>>>>    Enable eclk
+>>>>    De-assert Video Engine reset
+>>>>    10ms delay
+>>>>    Enable vclk
+>>>
+>>> This is the case after " clk: ast2600: fix reset settings for eclk and
+>>> vclk" is applied, correct? Without that patch applied the reset
+>>> sequence is correct by accident for the 2600, but it will be wrong for
+>>> the 2500?
+>>
+>> Correct. Video Engine reset was coupled with eclk for AST2500 and vclk
+>> for AST2600 so above sequence was observed only in AST2500. As you said,
+>> AST2600 didn't make the issue by accident but the clk/reset pair should
+>> be fixed by this patch series.
+> 
+> So should the two patches be squashed together and go through the
+> media tree?
+> 
+
+The first patch should go through clk tree, and the second one (this
+patch) should go through media tree. Both patches should be applied at
+the same time. Should I squash them in this case?
