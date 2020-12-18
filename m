@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2AD12DDCC0
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Dec 2020 03:04:29 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC8A2DDD6D
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Dec 2020 04:54:13 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4CxscT6zl0zDqXN
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Dec 2020 13:04:25 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Cxw3265ghzDqXN
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Dec 2020 14:54:06 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,75 +17,67 @@ Authentication-Results: lists.ozlabs.org;
  dmarc=none (p=none dis=none) header.from=aj.id.au
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=aL0EacX6; 
+ header.s=fm1 header.b=GmM7bE4M; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=KX6/MxJ/; 
+ header.a=rsa-sha256 header.s=fm1 header.b=HdXy/Jgb; 
  dkim-atps=neutral
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CxscK01w1zDqWH;
- Fri, 18 Dec 2020 13:04:14 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Cxw2v2xcmzDqWW
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Dec 2020 14:53:58 +1100 (AEDT)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id A715A5C00B8;
- Thu, 17 Dec 2020 21:04:11 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Thu, 17 Dec 2020 21:04:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=Y7Ew9qU645KkFKnRLSkyFUJqNP2X5xh
- QRkebZl8XCiU=; b=aL0EacX61Pr3T4+SpRWJKI2tm3QUTLmXm86Ub3qf4I/DFa9
- ThfSSh46NjTB4Wc4WuG2pdRTpELkjmuYRqMYK/G5Q6JYkl2pSsxC0Rsu1XgrjHeT
- 665nVRfQWp9xKl1ijCLtlTrUYrZD73XvCarK7MjlHSFJ4u+ie+DQMeb3BQjdjTuL
- X7aP0Mb4O8pLK8c3cPXROFeZwZXC7uDTwYAxjzeQgn6h7DOuHkxx7LFF1soE7c5O
- Uug7v15f0i2Zw/D6S7d4TgfEyfQuAqMvfGWLgVHiyxJXNwat3DGHXoIqaNueLzjv
- PEHfwdaD84qqE/TLBbz1dcHC15jCk2sEgBLsK1w==
+ by mailout.nyi.internal (Postfix) with ESMTP id 0779E5C00D1;
+ Thu, 17 Dec 2020 22:53:56 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Thu, 17 Dec 2020 22:53:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=wwSwX31MmtwgHkrLnUTYMvcRUT
+ o1S31FFAv1wRLanEM=; b=GmM7bE4MdWMuu7NHmbXTnbvqSphFDOUT2IKU8QPIrp
+ N2wx2iDvc1WHt0n4Jj+fO3X9qdyQm20wMIIQ896U/8rtTyWaj3v/G1Zr6JAQ80C3
+ X762CtjSX6olhzXK5SKTFXZrii1a5aCUQzAtAgnKG+DI4/6215tDUl+/TImAp2yX
+ nQ7tWXfCk3FMV3VPCLWMb5Yt/QscUCtvPIIm3Ck3KhyrJbdt7Yk5aT9CEiTlUT2m
+ zpNneUiUKsXoCgHNsogkfHmXeejQ1JHZNSGtrGdFg7nH+xcrQyAe/W0ruy6K6zIg
+ cBY/bvhtS5VJTgRF+iqsnLqiKMp6N/x0Wv7V9rtt931A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Y7Ew9q
- U645KkFKnRLSkyFUJqNP2X5xhQRkebZl8XCiU=; b=KX6/MxJ/ytJWlhucfC4zDD
- m0It9sEUpnoh8k2CdmOxJGnzsIcEtJJxf6CB3wGOvv7in+HSFCcx2ERhLo+mVuvT
- rh0TvFHRvZYqvHyB/hj533GZ3Os527JhCCnlQgx4Y1z15+LKpCs2xsbBEN+kIYdn
- XhDJbY2iMVOY24FTSmRiZmfjlqFsL6MJoVX2gMT3oEXy9MKN4I5dwLP82rBBRelx
- x7DnndzCIGXcdM0al9cbohtdP46cjxgewt3eT+NZMT+SSvCiQJc1nw+BUB8Q8yw2
- tskFHiZUDQPzc7ZQdZEGUtQ1IBzykfNptndpDFDEso1CuOpDzDHLhYGSrkX2RHtw
- ==
-X-ME-Sender: <xms:Gg7cX5cX-dMhX_bms_DjxSRFobjIEC2ZdczmNbWEWSQpDQgayN2Nog>
- <xme:Gg7cX3PRagXEMKxisyDFtD6qOid4l1YX3S02QVKIFS6ipc-uHgqj-DsqtvaNBDRik
- nXsVH3FZyK3__1eKQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudelhedggedvucetufdoteggodetrfdotf
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=wwSwX31MmtwgHkrLn
+ UTYMvcRUTo1S31FFAv1wRLanEM=; b=HdXy/JgbaS0iBcKewhztP4YWr0YXTaCTM
+ 3cO9Ey0U8ynQysCxoBuIDsRH21EylC7ZgkWQYvkivGY/HGkbkIA4IH6TbGj6xDT5
+ fRQVD+RHqGqKLcmKgr3jOx6ksnhJ0Q35DfsKsKPpu1SLyU88Aa0pePEfCsT2CsDz
+ 9MvASBP/04chEfttMaVQDOxfJV1ENNTCaV2p8fh5UnDzz4zIjE+x0R0OOOnINCE9
+ AMxcWj1trkkguwAvrNBmNRkvORTS1jQBVtpM7DAgxxf5lbGqJpp7FLqkj7Cxdj7n
+ JLaJ8ApHfGo9Wd+tYvvNhMZDsLqg5qWr7JKRrkvCfRRRIBB5bcqiA==
+X-ME-Sender: <xms:0ifcX851fO4n_LOWLFkxQxWyFmmLgcMA5ZIzL5x24NCu26_YmCMw8A>
+ <xme:0ifcX95Ys-IKgzIkH7IeaJwTG_0HXZHNiD2ZPCfMRi8aAKeJeZLmgdykHOTCUtjcX
+ GR5D4HTjTWwOVBYUg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudelhedgieefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
- hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:Gg7cXyjYDA5oqkIZwsPrPKByRErYGgO2lB8mK-6L7nWG-99opao0Iw>
- <xmx:Gg7cXy9lb7801al5Z6-FzsRDUDvhZcyqSz5Ohnb0yNB8kjI5Iq740g>
- <xmx:Gg7cX1sT7ty_d9zLYPq8UEn5Z3blXm1ZKX2QZxSiEnLfEASfIVaz3w>
- <xmx:Gw7cX5iQR8A0nZ5TJBDG9u75YzMnWpmM7eEWGQGFoNK-jHCmg9lKqA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id F01A1E0505; Thu, 17 Dec 2020 21:04:08 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.3.1-61-gb52c239-fm-20201210.001-gb52c2396
-Mime-Version: 1.0
-Message-Id: <890073c1-3905-4602-83f7-b823c4a4ee13@www.fastmail.com>
-In-Reply-To: <20201217024912.3198-1-billy_tsai@aspeedtech.com>
-References: <1e823780-b1ef-42dd-bb60-321b4d482d31@www.fastmail.com>
- <20201217024912.3198-1-billy_tsai@aspeedtech.com>
-Date: Fri, 18 Dec 2020 12:33:50 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Billy Tsai" <billy_tsai@aspeedtech.com>,
- "Linus Walleij" <linus.walleij@linaro.org>, "Joel Stanley" <joel@jms.id.au>,
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] driver: aspeed: g6: Fix PWMG0 pinctrl setting
-Content-Type: text/plain
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegrjhdr
+ ihgurdgruheqnecuggftrfgrthhtvghrnhepieetheduveelhfdvvdejleeuhfelteevhe
+ ffgfeitdefgeekjeefieevgfehhefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghen
+ ucfkphepuddvtddrvddtrdejjedrvdduudenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:0ifcX7eiPBBgR6UdIA92toKrlOmr5Ixivkyh77zbY_d_DI7UXYY7xw>
+ <xmx:0ifcXxIemVvEtnIWeUGneaeEp7UDcvqVJy5mCBGiU6mcFHYkEkHUmg>
+ <xmx:0ifcXwK-ESKio1KBN8niHUjfwRU5gBG9i2sHhiC1-yLe26x6Ufe-Bg>
+ <xmx:1CfcX5rWPG1IP0B0tx5Kkp4OCDEd0JhBWiI_lRvREV3uzxv0gydslg>
+Received: from localhost.localdomain (unknown [120.20.77.211])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 0F28E108005B;
+ Thu, 17 Dec 2020 22:53:49 -0500 (EST)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: linux-mmc@vger.kernel.org
+Subject: [PATCH v6 0/6] mmc: sdhci-of-aspeed: Expose phase delay tuning
+Date: Fri, 18 Dec 2020 14:23:32 +1030
+Message-Id: <20201218035338.1130849-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,43 +89,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
+Cc: devicetree@vger.kernel.org, ulf.hansson@linaro.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ adrian.hunter@intel.com, robh+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hello,
 
+This series implements support for the MMC core clk-phase-* devicetree bindings
+in the Aspeed SD/eMMC driver. The relevant register was exposed on the AST2600
+and is present for both the SD/MMC controller and the dedicated eMMC
+controller.
 
-On Thu, 17 Dec 2020, at 13:19, Billy Tsai wrote:
-> The SCU offset for signal PWM8 in group PWM8G0 is wrong, fix it from
-> SCU414 to SCU4B4.
-> 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+v6 simply removes the typedef from v5 in favour of a struct containing the
+phase array.
 
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+I've just done a quick build test of v6 given the small change and more
+extensive testing done with v5. 
 
-Thanks Billy.
+v5 can be found here:
 
-> ---
->  drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c 
-> b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
-> index b673a44ffa3b..aa53e9d3489b 100644
-> --- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
-> +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
-> @@ -367,7 +367,7 @@ FUNC_GROUP_DECL(RMII4, F24, E23, E24, E25, C25, 
-> C24, B26, B25, B24);
->  
->  #define D22 40
->  SIG_EXPR_LIST_DECL_SESG(D22, SD1CLK, SD1, SIG_DESC_SET(SCU414, 8));
-> -SIG_EXPR_LIST_DECL_SEMG(D22, PWM8, PWM8G0, PWM8, SIG_DESC_SET(SCU414, 8));
-> +SIG_EXPR_LIST_DECL_SEMG(D22, PWM8, PWM8G0, PWM8, SIG_DESC_SET(SCU4B4, 8));
->  PIN_DECL_2(D22, GPIOF0, SD1CLK, PWM8);
->  GROUP_DECL(PWM8G0, D22);
->  
-> -- 
-> 2.17.1
-> 
->
+https://lore.kernel.org/linux-mmc/20201208012615.2717412-1-andrew@aj.id.au/
+
+Please review!
+
+Cheers,
+
+Andrew
+
+Andrew Jeffery (6):
+  mmc: core: Add helper for parsing clock phase properties
+  mmc: sdhci-of-aspeed: Expose clock phase controls
+  mmc: sdhci-of-aspeed: Add AST2600 bus clock support
+  mmc: sdhci-of-aspeed: Add KUnit tests for phase calculations
+  MAINTAINERS: Add entry for the ASPEED SD/MMC driver
+  ARM: dts: rainier: Add eMMC clock phase compensation
+
+ MAINTAINERS                                  |   9 +
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts |   1 +
+ drivers/mmc/core/host.c                      |  44 ++++
+ drivers/mmc/host/Kconfig                     |  14 ++
+ drivers/mmc/host/Makefile                    |   1 +
+ drivers/mmc/host/sdhci-of-aspeed-test.c      | 100 ++++++++
+ drivers/mmc/host/sdhci-of-aspeed.c           | 251 ++++++++++++++++++-
+ include/linux/mmc/host.h                     |  13 +
+ 8 files changed, 422 insertions(+), 11 deletions(-)
+ create mode 100644 drivers/mmc/host/sdhci-of-aspeed-test.c
+
+-- 
+2.27.0
+
