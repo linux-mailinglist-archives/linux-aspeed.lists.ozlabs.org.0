@@ -1,86 +1,60 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 587732DDD73
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Dec 2020 04:54:48 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C44772DEB2F
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Dec 2020 22:40:18 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Cxw3m5rwtzDqXY
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Dec 2020 14:54:44 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4CyMj92mplzDqWs
+	for <lists+linux-aspeed@lfdr.de>; Sat, 19 Dec 2020 08:40:13 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.26;
- helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab;
+ helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=dqc7UpKH; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=OF9XOxZu; 
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none)
+ header.from=bewilderbeest.net
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net
+ header.a=rsa-sha256 header.s=thorn header.b=Y2xXOPH7; 
  dkim-atps=neutral
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net
+ [IPv6:2605:2700:0:5::4713:9cab])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Cxw3X4Z0mzDqXd
- for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Dec 2020 14:54:32 +1100 (AEDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 945275C0115;
- Thu, 17 Dec 2020 22:54:30 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 17 Dec 2020 22:54:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=Q1FwOOJn9VJrF
- xg4mu6zSOR772E69sWYabsnaXN/CgI=; b=dqc7UpKHs8arqoIaKPwepMkO+ZqbE
- 74vwIesaPS2J60ELgm9Ggg65Q2TqpZ8RRU+X1nWN6cO6SvAF3xrZWNnmwsD+wO46
- BKeGZ3roRDy31zwvBR/zJsVn1l1YQYMEEIEAxwpYjRlQ7k22GabHkBGOA7CNGNRm
- IT/VnGwSBuiZedloqDNkYzjTE2gWgdqsqymFk7vSgF/OYc9vQixDt1nM62qDNrWw
- jSaSg7EPx4UYGaTvFl/2o3zFeS8PqAbQ0SkKTh5naXCkaXKnmuQhD/2BTChqvM+v
- Kae7/kjWdlaq6IaHoUTO5rRgq0TlrniKNZbFemuHGnkeHoDKKo26cmQdg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=Q1FwOOJn9VJrFxg4mu6zSOR772E69sWYabsnaXN/CgI=; b=OF9XOxZu
- oR7r0fVEWhGVNhedSC1BYAJ2Ao/7t+R3BhpwgG0uHJh7pZnMpvYc2gvFWGU4IwIP
- O2pzwG0fbseOrBS1w7xkoXOjTNVhJoY5g/8CZSSQwYjUd8mKnKgBgNchqcXwHcOH
- a65GluG3jdSqET6HKsRmgFMunLPfKJ5zVRVjYCfNiZUxqzqsnkktWV9gtHqohLiu
- kCkBD7RoQSLhSYaA5cNM+iDObA4ha2UJFPFsiGlzUVvFcd/9ZDhsc7XDOKO1IIy8
- 3Cq0Xy2+b4KGRuxTAYH2qV0PpcIRhuD5PSfkSj+cdr+FZypZCGNtlUimRmwzjgUo
- OkV3pDQoAgDECQ==
-X-ME-Sender: <xms:9ifcX0VYLMr2iNvgyeYI2JwFnGD5PzgfWmz9IWdSaVK92xEpe8tDbg>
- <xme:9ifcX4mvwWk4SH3hNWvVu-4dA6DJ5uJnJHoxpkm0pV6SPLiO0ic-8faq475AWpFvr
- FKsDmpcq0sgYtzDeQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudelhedgieegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
- dtredttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegr
- jhdrihgurdgruheqnecuggftrfgrthhtvghrnhepjefgvdevheetkeevgeegleelgfelte
- etjeffleffvdduudevieffgeetleevhfetnecukfhppeduvddtrddvtddrjeejrddvuddu
- necuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehmrghilhhfrhhomheprghnug
- hrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:9ifcX4Yr2aIX74Y4E0BRqCyxdU2yZCQq3hrV2Ss2R1-neenPwm2RXg>
- <xmx:9ifcXzVY_QtRceW-p9oyO7cz8zz9jVSaHGHL4zRBKuew7l8EpHv_Og>
- <xmx:9ifcX-nwPTvKnYJRPRsMwld2SQvkYJ6QxKyaZylFUhc2nOcEdCKyVg>
- <xmx:9ifcXwUuCjqhnib2hOw04Nxhl_om-cRQAkkqi8Zkm8KvGlUiv-uWAw>
-Received: from localhost.localdomain (unknown [120.20.77.211])
- by mail.messagingengine.com (Postfix) with ESMTPA id E5FF7108005B;
- Thu, 17 Dec 2020 22:54:25 -0500 (EST)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: linux-mmc@vger.kernel.org
-Subject: [PATCH v6 6/6] ARM: dts: rainier: Add eMMC clock phase compensation
-Date: Fri, 18 Dec 2020 14:23:38 +1030
-Message-Id: <20201218035338.1130849-7-andrew@aj.id.au>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201218035338.1130849-1-andrew@aj.id.au>
-References: <20201218035338.1130849-1-andrew@aj.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4CyMj30b4mzDqBG;
+ Sat, 19 Dec 2020 08:40:05 +1100 (AEDT)
+Received: from hatter.bewilderbeest.net (unknown
+ [IPv6:2600:6c44:7f:ba20:1c66:ab2d:5a3:5a9e])
+ (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: zev)
+ by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 83B2D806F6;
+ Fri, 18 Dec 2020 13:39:58 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 thorn.bewilderbeest.net 83B2D806F6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
+ s=thorn; t=1608327599;
+ bh=7KDDxCCO+v3IMSIe1/eQbnfr4znZ5/RhUgO2QP29+Lw=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=Y2xXOPH70HPeqCRf7VyS9Yz2NbZb37qE04ft2L2T9T+jNtqOY4WS5kii82B1RkIK8
+ JkaT0oZyTquQbjgA1fr2LhtFMeb/Sj9oxubkEsbGBA380Sw8m/mDiQB/0FPmysnMBm
+ PK4GEhHllhwlueZPV5bEoyf5L2u8seUeI/0vB+qo=
+Date: Fri, 18 Dec 2020 15:39:52 -0600
+From: Zev Weiss <zev@bewilderbeest.net>
+To: Brendan Higgins <brendanhiggins@google.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] i2c: aspeed: disable additional device addresses on
+ ast2[56]xx
+Message-ID: <20201218213952.refmqjlxdclsquzg@hatter.bewilderbeest.net>
+References: <20200915184525.29665-1-zev@bewilderbeest.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20200915184525.29665-1-zev@bewilderbeest.net>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,34 +66,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, ulf.hansson@linaro.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- adrian.hunter@intel.com, robh+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Determined by scope measurements at speed.
+On Tue, Sep 15, 2020 at 01:45:25PM CDT, Zev Weiss wrote:
+>The ast25xx and ast26xx have, respectively, two and three configurable
+>slave device addresses to the ast24xx's one.  We only support using
+>one at a time, but the others may come up in an indeterminate state
+>depending on hardware/bootloader behavior, so we need to make sure we
+>disable them so as to avoid ending up with phantom devices on the bus.
+>
+>Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+>---
+> drivers/i2c/busses/i2c-aspeed.c | 50 +++++++++++++++++++++++++++------
+> 1 file changed, 41 insertions(+), 9 deletions(-)
+>
+> <snip>
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
----
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 1 +
- 1 file changed, 1 insertion(+)
+Ping...any thoughts on this patch?
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-index 21ae880c7530..ab8d37d49f30 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-@@ -186,6 +186,7 @@ &pinctrl_emmc_default {
- 
- &emmc {
- 	status = "okay";
-+	clk-phase-mmc-hs200 = <180>, <180>;
- };
- 
- &fsim0 {
--- 
-2.27.0
+
+Thanks,
+Zev
 
