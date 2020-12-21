@@ -2,56 +2,59 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id D359A2DF9DF
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Dec 2020 09:24:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D301A2DFE82
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Dec 2020 18:01:33 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Czsvm0QB3zDqfH
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Dec 2020 19:24:36 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4D05NB4B29zDqQP
+	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Dec 2020 04:01:30 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.120; helo=mga04.intel.com;
- envelope-from=haiyue.wang@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=fail (p=none dis=none)
- header.from=linux.intel.com
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ spf=pass (sender SPF authorized) smtp.mailfrom=ami.com
+ (client-ip=63.147.10.42; helo=atlmailgw2.ami.com;
+ envelope-from=hongweiz@ami.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=ami.com
+Received: from atlmailgw2.ami.com (atlmailgw2.ami.com [63.147.10.42])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4CzsLN2FFRzDqTm;
- Mon, 21 Dec 2020 18:59:07 +1100 (AEDT)
-IronPort-SDR: YRB0m46AcJuWFc2YfWx5zQY67rgEhdm6mu6xjXUIQy1KGVAdqMYAMf0M2K231xgjo2fKINgzjh
- KUIouOIt6eRQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9841"; a="173123573"
-X-IronPort-AV: E=Sophos;i="5.78,436,1599548400"; d="scan'208";a="173123573"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Dec 2020 23:59:05 -0800
-IronPort-SDR: JxY58Mh/HZqa84ewBgqXe3YA+sXkMeWHw1VaZ+qNG7gxEwTPPainwf7TAeLK1tjlU1K7tysDX8
- OpcDC9CzAczA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,436,1599548400"; d="scan'208";a="415702682"
-Received: from shwdenpg096.ccr.corp.intel.com (HELO [10.67.104.88])
- ([10.67.104.88])
- by orsmga001.jf.intel.com with ESMTP; 20 Dec 2020 23:59:01 -0800
-Subject: Re: [PATCH v3 3/5] ipmi: kcs: aspeed: Adapt to new LPC DTS layout
-From: Haiyue Wang <haiyue.wang@linux.intel.com>
-To: "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>, lee.jones@linaro.org,
- robh+dt@kernel.org, joel@jms.id.au, andrew@aj.id.au,
- linus.walleij@linaro.org, minyard@acm.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org
-References: <20201221055623.31463-1-chiawei_wang@aspeedtech.com>
- <20201221055623.31463-4-chiawei_wang@aspeedtech.com>
- <12d347b6-168b-11d2-b906-18164afb1724@linux.intel.com>
-Message-ID: <c1b6e2fe-5b22-ac67-f0eb-159499e06d2b@linux.intel.com>
-Date: Mon, 21 Dec 2020 15:59:01 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4D05N446vLzDqNr;
+ Tue, 22 Dec 2020 04:01:22 +1100 (AEDT)
+X-AuditID: ac10606f-247ff70000001934-bd-5fe0d4de40c8
+Received: from atlms1.us.megatrends.com (atlms1.us.megatrends.com
+ [172.16.96.144])
+ (using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by atlmailgw2.ami.com (Symantec Messaging Gateway) with SMTP id
+ 58.BF.06452.ED4D0EF5; Mon, 21 Dec 2020 12:01:18 -0500 (EST)
+Received: from ami-us-wk.us.megatrends.com (172.16.98.207) by
+ atlms1.us.megatrends.com (172.16.96.144) with Microsoft SMTP Server (TLS) id
+ 14.3.468.0; Mon, 21 Dec 2020 12:01:16 -0500
+From: Hongwei Zhang <hongweiz@ami.com>
+To: <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+ <openbmc@lists.ozlabs.org>, Jakub Kicinski <kuba@kernel.org>, David S Miller
+ <davem@davemloft.net>
+Subject: [Aspeed, ncsi-rx,
+ v1 0/1] net: ftgmac100: Fix AST2600EVB NCSI RX issue 
+Date: Mon, 21 Dec 2020 12:00:45 -0500
+Message-ID: <20201221170048.29821-1-hongweiz@ami.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201215192323.24359-1-hongweiz@ami.com>
+References: <20201215192323.24359-1-hongweiz@ami.com>
 MIME-Version: 1.0
-In-Reply-To: <12d347b6-168b-11d2-b906-18164afb1724@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.16.98.207]
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrOLMWRmVeSWpSXmKPExsWyRiBhgu69Kw/iDXp7NSx2XeawmHO+hcXi
+ 9/m/zBYXtvWxWjSvPsdscXnXHDaLYwvELE61vGBx4PC42r6L3WPLyptMHhc/HmP22LSqk83j
+ /IyFjB6fN8kFsEVx2aSk5mSWpRbp2yVwZZx51MhYsEaqYvK5I0wNjLvFuhg5OSQETCSWX//M
+ 3MXIxSEksItJ4u3tx+xQDqPEyT2bmUCq2ATUJPZunsMEkhARWM0o0bPhFyOIwyzQwSgx9cVX
+ dpAqYQF/iVVzFrN0MXJwsAioShxt4gQJ8wqYSny6c5cFYp28xOoNB5hBSjgFzCT2nJIDCQsB
+ lbTue8cEUS4ocXLmE7ByZgEJiYMvXjBD1MhK3Dr0mAlijKLEg1/fWScwCsxC0jILScsCRqZV
+ jEKJJTm5iZk56eVGeom5mXrJ+bmbGCGBnb+D8eNH80OMTByMhxglOJiVRHjNpO7HC/GmJFZW
+ pRblxxeV5qQWH2KU5mBREudd5X40XkggPbEkNTs1tSC1CCbLxMEp1cAYfVxH629B50S7L3az
+ Zsyaz3/GzsPl0K7Y4JByr8TXhZX7Njueuf1Vgdmu9vjBqse6O759W5M/saFs894/IvUVC/R/
+ ZVRefhdXn+4x630166fuXae6bVYuvpzHXfGDN/MQt27B/qV6nH9mtp0NnFLBf1X7svjy/54Z
+ 1z+sFdHj0AnRrzj4j3edEktxRqKhFnNRcSIAbIgpA1oCAAA=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,117 +66,68 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com, cyrilbur@gmail.com, rlippert@google.com
+Cc: netdev <netdev@vger.kernel.org>, Hongwei Zhang <hongweiz@ami.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Dear Reviewer,
 
-On 12/21/2020 15:53, Haiyue Wang wrote:
-> On 12/21/2020 13:56, Chia-Wei, Wang wrote:
->> Add check against LPC device v2 compatible string to
->> ensure that the fixed device tree layout is adopted.
->> The LPC register offsets are also fixed accordingly.
->>
->> Signed-off-by: Chia-Wei, Wang <chiawei_wang@aspeedtech.com>
->> ---
->>   drivers/char/ipmi/kcs_bmc_aspeed.c | 35 ++++++++++++++++++------------
->>   1 file changed, 21 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c 
->> b/drivers/char/ipmi/kcs_bmc_aspeed.c
->> index a140203c079b..6283bfef4ea7 100644
->> --- a/drivers/char/ipmi/kcs_bmc_aspeed.c
->> +++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
->> @@ -27,7 +27,6 @@
->>     #define KCS_CHANNEL_MAX     4
->>   -/* mapped to lpc-bmc@0 IO space */
->>   #define LPC_HICR0            0x000
->>   #define     LPC_HICR0_LPC3E          BIT(7)
->>   #define     LPC_HICR0_LPC2E          BIT(6)
->> @@ -52,15 +51,13 @@
->>   #define LPC_STR1             0x03C
->>   #define LPC_STR2             0x040
->>   #define LPC_STR3             0x044
->> -
->> -/* mapped to lpc-host@80 IO space */
->> -#define LPC_HICRB            0x080
->> +#define LPC_HICRB            0x100
->>   #define     LPC_HICRB_IBFIF4         BIT(1)
->>   #define     LPC_HICRB_LPC4E          BIT(0)
->> -#define LPC_LADR4            0x090
->> -#define LPC_IDR4             0x094
->> -#define LPC_ODR4             0x098
->> -#define LPC_STR4             0x09C
->> +#define LPC_LADR4            0x110
->> +#define LPC_IDR4             0x114
->> +#define LPC_ODR4             0x118
->> +#define LPC_STR4             0x11C
->>     struct aspeed_kcs_bmc {
->>       struct regmap *map;
->> @@ -345,15 +342,25 @@ static int aspeed_kcs_probe(struct 
->> platform_device *pdev)
->>   {
->>       struct device *dev = &pdev->dev;
->>       struct kcs_bmc *kcs_bmc;
->> -    struct device_node *np;
->> +    struct device_node *kcs_np;
->> +    struct device_node *lpc_np;
->>       int rc;
->
-> I think you can just use 'np' to do LPC compatible checking:
->
-> np = pdev->dev.of_node->parent;
->
-> if (!of_device_is_compatible(lpc_np, "aspeed,ast2400-lpc-v2") &&
->     !of_device_is_compatible(lpc_np, "aspeed,ast2500-lpc-v2") &&
->     !of_device_is_compatible(lpc_np, "aspeed,ast2600-lpc-v2")) {
->     dev_err(dev, "unsupported LPC device binding\n");
->     return -ENODEV;
-> }
->
-Typo:
+When FTGMAC100 driver is used on other NCSI Ethernet controllers, few
+controllers have compatible issue. One example is Intel I210 Ethernet
+controller on AST2600 BMC, with FTGMAC100 driver, it always trigger
+RXDES0_RX_ERR error, cause NCSI initialization failure, removing
+FTGMAC100_RXDES0_RX_ERR bit from RXDES0_ANY_ERROR fix the issue.
 
-if (!of_device_is_compatible(np, "aspeed,ast2400-lpc-v2") &&
-     !of_device_is_compatible(np, "aspeed,ast2500-lpc-v2") &&
-     !of_device_is_compatible(np, "aspeed,ast2600-lpc-v2")) {
-     dev_err(dev, "unsupported LPC device binding\n");
-     return -ENODEV;
-}
+Here are part of the debug logs:
+......
+[   35.075552] ftgmac100_hard_start_xmit TXDESO=b000003c
+[   35.080843] ftgmac100 1e660000.ethernet eth0: tx_complete_packet 55
+[   35.087141] ftgmac100 1e660000.ethernet eth0: rx_packet_error RXDES0=0xb0070040
+[   35.094448] ftgmac100_rx_packet RXDES0=b0070040 RXDES1=f0800000 RXDES2=88f8 
+[   35.101498] ftgmac100 1e660000.ethernet eth0: rx_packet_error 0xb0070040
+[   35.108205] ftgmac100 1e660000.ethernet eth0: [ISR] = 0xb0070040: RX_ERR
+[   35.287808] i2c i2c-1: new_device: Instantiated device slave-mqueue at 0x12
+[   35.428379] ftgmac100_hard_start_xmit TXDESO=b000003c
+[   35.433624] ftgmac100 1e660000.ethernet eth0: tx_complete_packet 56
+[   35.439915] ftgmac100 1e660000.ethernet eth0: rx_packet_error RXDES0=0xb0070040
+[   35.447225] ftgmac100_rx_packet RXDES0=b0070040 RXDES1=f0800000 RXDES2=88f8
+[   35.454273] ftgmac100 1e660000.ethernet eth0: rx_packet_error 0xb0070040
+[   35.460972] ftgmac100 1e660000.ethernet eth0: [ISR] = 0xb0070040: RX_ERR
+[   35.797825] ftgmac100_hard_start_xmit TXDESO=b000003c
+[   35.803241] ftgmac100 1e660000.ethernet eth0: tx_complete_packet 57
+[   35.809541] ftgmac100 1e660000.ethernet eth0: rx_packet_error RXDES0=0xb0070040
+[   35.816848] ftgmac100_rx_packet RXDES0=b0070040 RXDES1=f0800000 RXDES2=88f8
+[   35.823899] ftgmac100 1e660000.ethernet eth0: rx_packet_error 0xb0070040
+[   35.830597] ftgmac100 1e660000.ethernet eth0: [ISR] = 0xb0070040: RX_ERR
+[   36.179914] ftgmac100_hard_start_xmit TXDESO=b000003c
+[   36.185160] ftgmac100 1e660000.ethernet eth0: tx_complete_packet 58
+[   36.191454] ftgmac100 1e660000.ethernet eth0: rx_packet_error RXDES0=0xb0070040
+[   36.198761] ftgmac100_rx_packet RXDES0=b0070040 RXDES1=f0800000 RXDES2=88f8
+[   36.205813] ftgmac100 1e660000.ethernet eth0: rx_packet_error 0xb0070040
+[   36.212513] ftgmac100 1e660000.ethernet eth0: [ISR] = 0xb0070040: RX_ERR
+[   36.593688] ftgmac100_hard_start_xmit TXDESO=b000003c
+[   36.602937] ftgmac100 1e660000.ethernet eth0: tx_complete_packet 59
+[   36.609244] ftgmac100 1e660000.ethernet eth0: rx_packet_error RXDES0=0xb0070040
+[   36.616558] ftgmac100_rx_packet RXDES0=b0070040 RXDES1=f0800000 RXDES2=88f8
+[   36.623608] ftgmac100 1e660000.ethernet eth0: rx_packet_error 0xb0070040
+[   36.630315] ftgmac100 1e660000.ethernet eth0: [ISR] = 0xb0070040: RX_ERR
+[   37.031524] IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+[   37.067831] IPv6: ADDRCONF(NETDEV_UP): eth1: link is not ready
+............
 
+This patch add a configurable flag, FTGMAC100_RXDES0_RX_ERR_CHK, in FTGMAC100
+ driver, it is YES by default, so keep the orignal define of
+RXDES0_ANY_ERROR. If it is needed, user can set the flag to NO to remove
+the RXDES0_RX_ERR bit, to fix the issue.
 
->
-> before:
->
-> np = pdev->dev.of_node;
-> if (of_device_is_compatible(np, "aspeed,ast2400-kcs-bmc") ||
->     of_device_is_compatible(np, "aspeed,ast2500-kcs-bmc"))
->
-> Then the patch is clear. ;-)
->
->> -    np = pdev->dev.of_node;
->> -    if (of_device_is_compatible(np, "aspeed,ast2400-kcs-bmc") ||
->> -            of_device_is_compatible(np, "aspeed,ast2500-kcs-bmc"))
->> +    kcs_np = dev->of_node;
->> +    lpc_np = kcs_np->parent;
->> +
->> +    if (!of_device_is_compatible(lpc_np, "aspeed,ast2400-lpc-v2") &&
->> +        !of_device_is_compatible(lpc_np, "aspeed,ast2500-lpc-v2") &&
->> +        !of_device_is_compatible(lpc_np, "aspeed,ast2600-lpc-v2")) {
->> +        dev_err(dev, "unsupported LPC device binding\n");
->> +        return -ENODEV;
->> +    }
->> +
->> +    if (of_device_is_compatible(kcs_np, "aspeed,ast2400-kcs-bmc") ||
->> +            of_device_is_compatible(kcs_np, "aspeed,ast2500-kcs-bmc"))
->>           kcs_bmc = aspeed_kcs_probe_of_v1(pdev);
->> -    else if (of_device_is_compatible(np, 
->> "aspeed,ast2400-kcs-bmc-v2") ||
->> -            of_device_is_compatible(np, "aspeed,ast2500-kcs-bmc-v2"))
->> +    else if (of_device_is_compatible(kcs_np, 
->> "aspeed,ast2400-kcs-bmc-v2") ||
->> +            of_device_is_compatible(kcs_np, 
->> "aspeed,ast2500-kcs-bmc-v2"))
->>           kcs_bmc = aspeed_kcs_probe_of_v2(pdev);
->>       else
->>           return -EINVAL;
+Hongwei Zhang (1):
+  net: ftgmac100: Fix AST2600 EVB NCSI RX issue
+
+ drivers/net/ethernet/faraday/Kconfig     | 9 +++++++++
+ drivers/net/ethernet/faraday/ftgmac100.h | 8 ++++++++
+ 2 files changed, 17 insertions(+)
+
+-- 
+2.17.1
+
