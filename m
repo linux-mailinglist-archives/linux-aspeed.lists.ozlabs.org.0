@@ -2,53 +2,49 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A7D2DF26E
-	for <lists+linux-aspeed@lfdr.de>; Sun, 20 Dec 2020 01:08:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1AF2DF91A
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Dec 2020 07:02:38 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Cz2xf6qf3zDqT6
-	for <lists+linux-aspeed@lfdr.de>; Sun, 20 Dec 2020 11:08:22 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Czplv0bl5zDqLW
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Dec 2020 17:02:35 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=sboyd@kernel.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=nlGohQ9E; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=chiawei_wang@aspeedtech.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=aspeedtech.com
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Cz2xX1Qk0zDqSD;
- Sun, 20 Dec 2020 11:08:15 +1100 (AEDT)
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608422893;
- bh=UVTrMZxourzJKz+ucOr71OHfCIHAav4FVKKyWXHo1T0=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=nlGohQ9EaQJER4bWhErBzsKFgu5gC0Sqqv1XmkzwNuK2iCYBEP/l/y4igLoCypsyS
- 5tjtQp/SNtWi6kIHO9GioxQpfmFNkmuoqO/S6XUgyeHb2VzOCxsijK4Tqr2WsXKXn7
- QPn2MiVX7oK1x5xXBZ+7HRkOOOAoElcOieMkT9MlzFSZi3sXRnR9VroD5otNegiKkH
- XquF3cbLDZlkg6x1nXB6OyX7luKIhiKIzN/ZmcxHKXrFQlhFvbXeQr8harbCR6+c4W
- xJcRZSjKRPVwTOkgQT0d88BWbpjYDgD7qjUsXpl0NANdmbUSOJrs1SEXz1zpWWLRCt
- 8PNKwDUzcKqxA==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Czpfg3gFhzDqL4;
+ Mon, 21 Dec 2020 16:57:58 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 0BL5qWvA013664;
+ Mon, 21 Dec 2020 13:52:32 +0800 (GMT-8)
+ (envelope-from chiawei_wang@aspeedtech.com)
+Received: from ChiaWeiWang-PC.aspeed.com (192.168.2.66) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 21 Dec 2020 13:56:08 +0800
+From: "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>
+To: <lee.jones@linaro.org>, <robh+dt@kernel.org>, <joel@jms.id.au>,
+ <andrew@aj.id.au>, <linus.walleij@linaro.org>, <minyard@acm.org>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+ <openbmc@lists.ozlabs.org>
+Subject: [PATCH v3 0/5] Remove LPC register partitioning
+Date: Mon, 21 Dec 2020 13:56:18 +0800
+Message-ID: <20201221055623.31463-1-chiawei_wang@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <d3f2d76c-40d9-b167-7002-5a25ec81c73a@linux.intel.com>
-References: <20201207164240.15436-1-jae.hyun.yoo@linux.intel.com>
- <20201207164240.15436-3-jae.hyun.yoo@linux.intel.com>
- <CACPK8Xd3dz1WLGNGqMiAZxhMEeGHbkPtvO2rYQ36Kbj=Uvy-jA@mail.gmail.com>
- <d3faea9e-e7d6-eba0-a6b2-c30bc9b6e147@linux.intel.com>
- <160820199393.1580929.9806429719720580479@swboyd.mtv.corp.google.com>
- <d3f2d76c-40d9-b167-7002-5a25ec81c73a@linux.intel.com>
-Subject: Re: [PATCH 2/2] media: aspeed: fix clock handling logic
-From: Stephen Boyd <sboyd@kernel.org>
-To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>, Joel Stanley <joel@jms.id.au>
-Date: Sat, 19 Dec 2020 16:08:11 -0800
-Message-ID: <160842289176.1580929.13125223155803124427@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.66]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 0BL5qWvA013664
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,26 +56,53 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-clk@vger.kernel.org,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>, linux-media@vger.kernel.org
+Cc: BMC-SW@aspeedtech.com, cyrilbur@gmail.com, haiyue.wang@linux.intel.com,
+ rlippert@google.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Quoting Jae Hyun Yoo (2020-12-17 11:54:15)
-> On 12/17/2020 2:46 AM, Stephen Boyd wrote:
-> > Quoting Jae Hyun Yoo (2020-12-08 09:16:29)
-> > So should the two patches be squashed together and go through the
-> > media tree?
-> >=20
->=20
-> The first patch should go through clk tree, and the second one (this
-> patch) should go through media tree. Both patches should be applied at
-> the same time. Should I squash them in this case?
+The LPC controller has no concept of the BMC and the Host partitions.
+The incorrect partitioning can impose unnecessary range restrictions
+on register access through the syscon regmap interface.
 
-If one depends on the other, and having the first one breaks something
-unless the second one is applied, then yes they should be squashed
-together.
+For instance, HICRB contains the I/O port address configuration
+of KCS channel 1/2. However, the KCS#1/#2 drivers cannot access
+HICRB as it is located at the other LPC partition.
+
+In addition, to be backward compatible, the newly added HW control
+bits could be located at any reserved bits over the LPC addressing
+space.
+
+Thereby, this patch series aims to remove the LPC partitioning for
+better driver development and maintenance. This requires the change
+to both the device tree and the driver implementation. To ensure
+both sides are synchronously updated, a v2 binding check is added.
+
+Changes since v2:
+	- Add v2 binding check to ensure the synchronization between the
+	  device tree change and the driver register offset fix.
+
+Changes since v1:
+	- Add the fix to the aspeed-lpc binding documentation.
+
+Chia-Wei, Wang (5):
+  dt-bindings: aspeed-lpc: Remove LPC partitioning
+  ARM: dts: Remove LPC BMC and Host partitions
+  ipmi: kcs: aspeed: Adapt to new LPC DTS layout
+  pinctrl: aspeed-g5: Adapt to new LPC device tree layout
+  soc: aspeed: Adapt to new LPC device tree layout
+
+ .../devicetree/bindings/mfd/aspeed-lpc.txt    |  99 +++----------
+ arch/arm/boot/dts/aspeed-g4.dtsi              |  74 ++++------
+ arch/arm/boot/dts/aspeed-g5.dtsi              | 135 ++++++++----------
+ arch/arm/boot/dts/aspeed-g6.dtsi              | 135 ++++++++----------
+ drivers/char/ipmi/kcs_bmc_aspeed.c            |  35 +++--
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c    |  19 ++-
+ drivers/soc/aspeed/aspeed-lpc-ctrl.c          |  20 ++-
+ drivers/soc/aspeed/aspeed-lpc-snoop.c         |  23 +--
+ 8 files changed, 232 insertions(+), 308 deletions(-)
+
+-- 
+2.17.1
+
