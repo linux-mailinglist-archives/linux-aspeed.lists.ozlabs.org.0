@@ -2,82 +2,43 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C0A2E0F7B
-	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Dec 2020 21:47:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B2E2E0FE1
+	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Dec 2020 22:43:14 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4D0pL26bbvzDqNg
-	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Dec 2020 07:47:06 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4D0qZl2cHTzDqSx
+	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Dec 2020 08:43:11 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::52f;
- helo=mail-ed1-x52f.google.com; envelope-from=hkallweit1@gmail.com;
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch
+ (client-ip=185.16.172.187; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=PgLKPYpZ; dkim-atps=neutral
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
+ dmarc=none (p=none dis=none) header.from=lunn.ch
+X-Greylist: delayed 2533 seconds by postgrey-1.36 at bilbo;
+ Wed, 23 Dec 2020 08:43:06 AEDT
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4D0pKz2jp6zDqNS;
- Wed, 23 Dec 2020 07:47:02 +1100 (AEDT)
-Received: by mail-ed1-x52f.google.com with SMTP id cm17so14207821edb.4;
- Tue, 22 Dec 2020 12:47:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=e7CXBCcrPKIQsc3r8jYzWjstSIIKZ5ePIODHJXTON8o=;
- b=PgLKPYpZotcmlM54p4+vEvRXDPGAM4sLUieycdmuLoGsRbJQSiQz5tuXYNnwDHhWSC
- mk6stdUrbkJUPukEz1Vmc7RLimb2bEfXVifjKhB4GEvdDHjLIAfsnmO2aA/fvemnFfd7
- Igvz92uupbPZT3YbiYnlsUzFNWYOMe/Q1iHM8nFj0YbCHXn+bJeCPJjePUHJd/AcVEw7
- tSh3f8KBNQcEUJPju252bFTbSMgwV9hx0DNTsM1umQ5J/Qv/2indThVo9SqufA705+c4
- OfZoBp3YjRxZkB3fe+C3t3OLHu9oLdQsdYzTwT97fFAqg6fN3MotjtjSDvHrq3vX9PL5
- ePaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=e7CXBCcrPKIQsc3r8jYzWjstSIIKZ5ePIODHJXTON8o=;
- b=fZ0LPUtFDJqAx0BpHnOyLhF9vIavFKtyeGunsSSmPE5JosAvLOmkGfgCBqD7soDlsL
- X/wgo4DN9HAT3rfEldlIp5CVIv+1xyQu9+gM1QwkMk3a/ztcwGpqeHdlkn/JATz3hJAo
- 7sF2+79IQDd0Z/0Pq3o3wjflk7Mz0EehgXoxrN+t1p57g9OZ5mQpAmGVBs26Y5y9aBv4
- JXWCHx/IWMNNPeFjEgDFEA4eIBWTgmzShgVujzyyF82WMNfWb97seVl899BAFGsBMEkB
- yyDsgVzHftdDUg/zm3I7ma7pxb4TX6D4CZLs+cwpVOj/dl+WhOJoZsAm954Lgba8SLg4
- rtLg==
-X-Gm-Message-State: AOAM5333HWVHY0905YBHmRCISoGSgErwfbVpyOGuLGgIke643Xsz5Jfp
- YBTo8Vk9jP3RPFoTJnoLkXM=
-X-Google-Smtp-Source: ABdhPJzdZW1LjSMBcunMTun0V0jqEQJGgdpP+1uUJK5SmYQ6MR8bNwz0NDm+Za4eCy48lbT+riDXDA==
-X-Received: by 2002:a05:6402:45:: with SMTP id
- f5mr21793304edu.273.1608670017538; 
- Tue, 22 Dec 2020 12:46:57 -0800 (PST)
-Received: from ?IPv6:2003:ea:8f06:5500:dc3c:aa51:b1e8:8e1d?
- (p200300ea8f065500dc3caa51b1e88e1d.dip0.t-ipconnect.de.
- [2003:ea:8f06:5500:dc3c:aa51:b1e8:8e1d])
- by smtp.googlemail.com with ESMTPSA id v18sm29819463edx.30.2020.12.22.12.46.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Dec 2020 12:46:56 -0800 (PST)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4D0qZg055kzDqSG
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 23 Dec 2020 08:43:06 +1100 (AEDT)
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+ (envelope-from <andrew@lunn.ch>)
+ id 1krolm-00DS6O-5t; Tue, 22 Dec 2020 22:00:34 +0100
+Date: Tue, 22 Dec 2020 22:00:34 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Heiner Kallweit <hkallweit1@gmail.com>
 Subject: Re: [Aspeed, v2 2/2] net: ftgmac100: Change the order of getting MAC
  address
-To: Hongwei Zhang <hongweiz@ami.com>, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
- Jakub Kicinski <kuba@kernel.org>, David S Miller <davem@davemloft.net>
+Message-ID: <20201222210034.GC3198262@lunn.ch>
 References: <20201221205157.31501-2-hongweiz@ami.com>
  <20201222201437.5588-3-hongweiz@ami.com>
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Message-ID: <96c355a2-ab7e-3cf0-57e7-16369da78035@gmail.com>
-Date: Tue, 22 Dec 2020 21:46:52 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ <96c355a2-ab7e-3cf0-57e7-16369da78035@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201222201437.5588-3-hongweiz@ami.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <96c355a2-ab7e-3cf0-57e7-16369da78035@gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,55 +50,53 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: netdev <netdev@vger.kernel.org>
+Cc: linux-aspeed@lists.ozlabs.org, netdev <netdev@vger.kernel.org>,
+ openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ Hongwei Zhang <hongweiz@ami.com>, Jakub Kicinski <kuba@kernel.org>,
+ David S Miller <davem@davemloft.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 22.12.2020 21:14, Hongwei Zhang wrote:
-> Dear Reviewer,
+On Tue, Dec 22, 2020 at 09:46:52PM +0100, Heiner Kallweit wrote:
+> On 22.12.2020 21:14, Hongwei Zhang wrote:
+> > Dear Reviewer,
+> > 
+> > Use native MAC address is preferred over other choices, thus change the order
+> > of reading MAC address, try to read it from MAC chip first, if it's not
+> >  availabe, then try to read it from device tree.
+> > 
+> > 
+> > Hi Heiner,
+> > 
+> >> From:	Heiner Kallweit <hkallweit1@gmail.com>
+> >> Sent:	Monday, December 21, 2020 4:37 PM
+> >>> Change the order of reading MAC address, try to read it from MAC chip 
+> >>> first, if it's not availabe, then try to read it from device tree.
+> >>>
+> >> This commit message leaves a number of questions. It seems the change isn't related at all to the 
+> >> change that it's supposed to fix.
+> >>
+> >> - What is the issue that you're trying to fix?
+> >> - And what is wrong with the original change?
+> > 
+> > There is no bug or something wrong with the original code. This patch is for
+> > improving the code. We thought if the native MAC address is available, then
+> > it's preferred over MAC address from dts (assuming both sources are available).
+> > 
+> > One possible scenario, a MAC address is set in dts and the BMC image is 
+> > compiled and loaded into more than one platform, then the platforms will
+> > have network issue due to the same MAC address they read.
+> > 
 > 
-> Use native MAC address is preferred over other choices, thus change the order
-> of reading MAC address, try to read it from MAC chip first, if it's not
->  availabe, then try to read it from device tree.
-> 
-> 
-> Hi Heiner,
-> 
->> From:	Heiner Kallweit <hkallweit1@gmail.com>
->> Sent:	Monday, December 21, 2020 4:37 PM
->>> Change the order of reading MAC address, try to read it from MAC chip 
->>> first, if it's not availabe, then try to read it from device tree.
->>>
->> This commit message leaves a number of questions. It seems the change isn't related at all to the 
->> change that it's supposed to fix.
->>
->> - What is the issue that you're trying to fix?
->> - And what is wrong with the original change?
-> 
-> There is no bug or something wrong with the original code. This patch is for
-> improving the code. We thought if the native MAC address is available, then
-> it's preferred over MAC address from dts (assuming both sources are available).
-> 
-> One possible scenario, a MAC address is set in dts and the BMC image is 
-> compiled and loaded into more than one platform, then the platforms will
-> have network issue due to the same MAC address they read.
-> 
+> Typically the DTS MAC address is overwritten by the boot loader, e.g. uboot.
+> And the boot loader can read it from chip registers. There are more drivers
+> trying to read the MAC address from DTS first. Eventually, I think, the code
+> here will read the same MAC address from chip registers as uboot did before.
 
-Typically the DTS MAC address is overwritten by the boot loader, e.g. uboot.
-And the boot loader can read it from chip registers. There are more drivers
-trying to read the MAC address from DTS first. Eventually, I think, the code
-here will read the same MAC address from chip registers as uboot did before.
+Do we need to worry about, the chip contains random junk, which passes
+the validitiy test? Before this patch the value from DT would be used,
+and the random junk is ignored. Is this change possibly going to cause
+a regression?
 
-> Thanks for your review, I've update the patch to fix the comments.
->>
->>> Fixes: 35c54922dc97 ("ARM: dts: tacoma: Add reserved memory for 
->>> ramoops")
->>> Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
->>> ---
->>>  drivers/net/ethernet/faraday/ftgmac100.c | 22 +++++++++++++---------
->>>  1 file changed, 13 insertions(+), 9 deletions(-)
-> 
-> --Hongwei
-> 
-
+	Andrew
