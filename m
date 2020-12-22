@@ -1,123 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0BEE2E0446
-	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Dec 2020 03:13:58 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id F01A12E0459
+	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Dec 2020 03:26:55 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4D0Kdb3LmZzDqP3
-	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Dec 2020 13:13:55 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4D0KwX6bVJzDqNx
+	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Dec 2020 13:26:52 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=40.107.132.103;
- helo=apc01-pu1-obe.outbound.protection.outlook.com;
- envelope-from=chiawei_wang@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from APC01-PU1-obe.outbound.protection.outlook.com
- (mail-eopbgr1320103.outbound.protection.outlook.com [40.107.132.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::833;
+ helo=mail-qt1-x833.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=P6MASFHF; dkim-atps=neutral
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
+ [IPv6:2607:f8b0:4864:20::833])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4D0KdT0lzpzDqNx;
- Tue, 22 Dec 2020 13:13:46 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gBQWojkdS5nN+KIXxZU8vuUoTAn5r4aE3uwGXeyVWoGOqzIwUnF1T1uivWWfDYr2Xd/X8x6YBQ5DeBWGcEd/JJ9qvPz2PtP9sFBr+pfMt6XALn3Rpf3dvC60Cf7v5kIk3DWlnbokJdsMo5PzGyc9gN7U1GOwxJrHq9IzoTL6gvXMca9u+kLLAeqG1C6rpd7hWUp7yChQ2I5EUlvHA6najrOUozFM9i+AkHax11tQPnFOsfoW3iUOq6kVOJd8RSDQ4IHUfqx3wXsRUKF7A7L381D//HODbiKNidUj5RaGyL0GOWkp+9iseg8Z29sc73JwxInNFEcswF99t8IJTGZT1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kTgyLH4Hn3X6A47LfyZs1s1XSbo9G9ov4g6pyRCRZR0=;
- b=PGzOxXMNDsCcx7YSIStQ4kpSD6ICVOABjnNwtfcDBOKnDvD0zNrj2WRq1DTvheu/V3sY9VZTUYpv1sopeHdKfDvQuDKUFkkCnTJIChXmoAK3PKRF9PASya3w8VNLds/uR6woDBJMT0QRfNDhCDJf4ewzo5FgBIKgf22waMrFVq3dUR9gmjav/TJv6bwNiYOCVPu8nvrbVsQn12jUoj9RIzPublv6Kbaz60Q2Up/t25SQkZKpUmByVPW78S3NJQ1PKpdVhBM8ZAM24/poB5hlXOj+y50KV3s35qg1NUtRZ1TF2+nO9yCzn9dUpvhYsYKYs+a06Qq7y9FDBEs4oogKcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-Received: from HK0PR06MB3779.apcprd06.prod.outlook.com (2603:1096:203:b8::10)
- by HK2PR0601MB1826.apcprd06.prod.outlook.com (2603:1096:202:3::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.29; Tue, 22 Dec
- 2020 02:13:34 +0000
-Received: from HK0PR06MB3779.apcprd06.prod.outlook.com
- ([fe80::7061:73d9:50ae:b35e]) by HK0PR06MB3779.apcprd06.prod.outlook.com
- ([fe80::7061:73d9:50ae:b35e%7]) with mapi id 15.20.3676.033; Tue, 22 Dec 2020
- 02:13:34 +0000
-From: ChiaWei Wang <chiawei_wang@aspeedtech.com>
-To: Haiyue Wang <haiyue.wang@linux.intel.com>, "lee.jones@linaro.org"
- <lee.jones@linaro.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "joel@jms.id.au" <joel@jms.id.au>, "andrew@aj.id.au" <andrew@aj.id.au>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>, "minyard@acm.org"
- <minyard@acm.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
- <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "openbmc@lists.ozlabs.org"
- <openbmc@lists.ozlabs.org>
-Subject: RE: [PATCH v3 3/5] ipmi: kcs: aspeed: Adapt to new LPC DTS layout
-Thread-Topic: [PATCH v3 3/5] ipmi: kcs: aspeed: Adapt to new LPC DTS layout
-Thread-Index: AQHW1139eR/HqizOtEWmq0E7yl/s8aoBLhMAgAABeoCAATFGwA==
-Date: Tue, 22 Dec 2020 02:13:33 +0000
-Message-ID: <HK0PR06MB377929E6EA4A1EECEB86E6AD91DF0@HK0PR06MB3779.apcprd06.prod.outlook.com>
-References: <20201221055623.31463-1-chiawei_wang@aspeedtech.com>
- <20201221055623.31463-4-chiawei_wang@aspeedtech.com>
- <12d347b6-168b-11d2-b906-18164afb1724@linux.intel.com>
- <c1b6e2fe-5b22-ac67-f0eb-159499e06d2b@linux.intel.com>
-In-Reply-To: <c1b6e2fe-5b22-ac67-f0eb-159499e06d2b@linux.intel.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linux.intel.com; dkim=none (message not signed)
- header.d=none;linux.intel.com; dmarc=none action=none
- header.from=aspeedtech.com;
-x-originating-ip: [211.20.114.70]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 18505617-1b78-4637-d281-08d8a61f2f48
-x-ms-traffictypediagnostic: HK2PR0601MB1826:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HK2PR0601MB18269AADF82220E7DC1BB33691DF0@HK2PR0601MB1826.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: GfRgwGtZ3H+SrjwOAeyeqDyhhcUp+/aX3B8mnDdIAhDpR/B8AVoVlswxE03ScGQVtZg60K3Y21nA2AKr3ftb4cUrsUh0ApSHiQHYbawRr6GfWlrHktDgVGoguhW9FXEoHWoqkQb9VgvAB8M/d2S0xZ34d6wFyeFx4qyhhlapxgegR2PLp3cssgo4oTvumwRDnS3HPQEVkURu1J3Zc6sMHhzWY+ecjJ6Rwe6zHfp9bsJVLgLx6AZXYulvj8bRxzS0QN9S564+n+lbp5KtrfPNGgx6osdLFT5oez9TvHn0oRjNktYUlar218InIySCqIPpcnvqAoG53neWgQfu4442a4J056mnR2/oxaTxZW326dMckqK0oMilR2Q3/ndSIUpCXdZGOsNeqWfq8OUnmRFXHMufMYpamjJF8/Cp1HF6av6IQbXUZW06rRACyFsfbi0i
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3779.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(396003)(376002)(136003)(39840400004)(346002)(71200400001)(4326008)(83380400001)(8676002)(7416002)(55016002)(921005)(2906002)(6506007)(9686003)(26005)(8936002)(186003)(5660300002)(478600001)(54906003)(64756008)(66946007)(66446008)(110136005)(7696005)(66556008)(33656002)(55236004)(53546011)(86362001)(66476007)(52536014)(76116006)(316002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?QmdJMGQyTW9QbWZ2VlZBNC9xVGs1Vm5lZ3d6YUNXUzdTOWdYb1krQk4zZmJl?=
- =?utf-8?B?TXpzMXVQbjZwTWd4eFVwa09HbE55ektWYlY0Sk5mQ0lObmxLaUdrdURWcXht?=
- =?utf-8?B?bGNSNE9vR1ROVGFPSk9rM1dlY2tOcmZIa1VIT0c2eDBTMGdoN3Y0TDhqQ3FV?=
- =?utf-8?B?NzlMenAycUJjWEROeWVqWTF2WllIT1FUdEpsRFhqMkFiWUZUNEZZZmd3eHFu?=
- =?utf-8?B?Z3hrbjJ4VDNpMVlQZDhZY0prOUNNNXBOeERkNUlBZFkySHR3NXhmVlJnZURI?=
- =?utf-8?B?SmkwN09Dd3B3eW5YdFh3RW1yN2F2S1A4U0V3b1lvOGMyYU1YSXN6czFwaXVq?=
- =?utf-8?B?WG9DdW9PL0gwZGNnN2xZQmRCQjhweTBvNzVsN2ZVNm1rYXlNZjZKYWJUVWMr?=
- =?utf-8?B?ODF3TnBJdnp4SU9XM2JPZHBWOGFUQWYyd1lGdWFkZmQxS3R3VGRsRGEzdUtt?=
- =?utf-8?B?QzBMaWNtTHpoeDZ6NVJuZ0dNRmxZSDZDN1NGOUhPcVVyRE9kL1dzYXp1VWkv?=
- =?utf-8?B?bWRSSGFYQzZFYTFQNE5kWGxpKytiNHVTNjdYbVJtR3BwYkdQcXludDJPcWRJ?=
- =?utf-8?B?MzZ1UGNvQ2dMV0loTTBtTHFvclM5LytnRjBQYjMxYVJBVnMxY0tNUThyU1BI?=
- =?utf-8?B?WEV1M2M0c2R5YjlCTGFDUmRxWjMxWWdibE1iRUNBV3QxcFNJYVFzOHIybWc5?=
- =?utf-8?B?RmxFQTRuamhVL21HbU05NHNHRm10UURhMHJEL09ZM1RQbVJ4clhBYXdKeWJl?=
- =?utf-8?B?YzR6RjFQRjBYOS94YUJWakZIc1JJanJjbTdySXhramRNaTZvNXhoK29pUnQv?=
- =?utf-8?B?cXo0bVFJNHROck9QYjRRbFZKcEJOejJpZWtqNGVORUtIS3ZwUkFWMnVmNjRU?=
- =?utf-8?B?QWU5R1o2MThuUVNhWitKbk1CZ0tycW1wdHlPQ3Q3R2llV1JhcFNjVWlkUEhx?=
- =?utf-8?B?eEJyck41MTRWOVZHODZuemVreEdnYlI3L1dMWjNqNXFwQmt3TlN0VlJDUEll?=
- =?utf-8?B?aklNY2ZkWG5CL2FDbUthckhDRnlaZkQ2YlRvZ0pzY20vWm5MU2RQdURYWGZ6?=
- =?utf-8?B?U0xLQjNCcVpGU1lyVElBbFV6MFhDdWlva3pzMG1Cb2lhVTBySzZ5a3JFTitk?=
- =?utf-8?B?WFdWeHRIZVBqeVdOaG05YmdxSE82U1RXVFRrZnNtR1pDRmRlWTVubk92cDRG?=
- =?utf-8?B?RTkzbHZBbk5BWGpybXZyRXRxcHNUbTQxbGpJUGVCREUzNG02ZG9UeWRrU2xt?=
- =?utf-8?B?UUpXMFZxNVV4TFVrS3ppMEtVK3FSTzhnbDNlL3NUSXlDMHpzblhZaVFkWXNH?=
- =?utf-8?Q?W2nPq3ZTolJUk=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4D0KwK2HknzDqGb;
+ Tue, 22 Dec 2020 13:26:41 +1100 (AEDT)
+Received: by mail-qt1-x833.google.com with SMTP id u21so8091392qtw.11;
+ Mon, 21 Dec 2020 18:26:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Aa+IvQkdl3mH7p3cqCA6yyl0vf5PDrQXGE5A+/Y+ABg=;
+ b=P6MASFHFpHgisvCiEOOTFT8p7oFaacE7DqQoeEjzP0Xzw9S9mPkWPqrRM1tw+zpODd
+ HTIwbN3O6U75aAoeXuCcKPDYwaBTZSJwm7gFqFQf+thhxhbq0MVAjbFdAmw3BR66iG7h
+ eXQdiUjdyDN8tV2uj3QgCUT1s+QaijuJo6iFE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Aa+IvQkdl3mH7p3cqCA6yyl0vf5PDrQXGE5A+/Y+ABg=;
+ b=QHQzHgYdJ8NL0ZY0OEfR2ec6DtO59ps8pEskBdxxostDx78BFrrwAGYrvM9s65u//P
+ 6TCl2mqCxsQs7ftoOtRiyX/RVqKDzo9WgD819/FbUqZmWo1hewLXtP0B/7Df8/jGvgo0
+ NfALECUEA82GWYDsHjzqBEA9xY5OGl+A3AkPLaWLVpgb6NdFyUaDTkDzbQqso6DArNSA
+ ghEauNQFOr9M03aAe3+Ww/umA9/BKeC5b8QOT7E9P6lA/7imq0ZthZJc+4G9QpGjYSQm
+ jTpRSBPSiCfIBPOM6jOjgTZL5G7wqHO+ZG+iSmy7RL6jNSAMNNjUtyVePmXp2bYIPuSH
+ iXNg==
+X-Gm-Message-State: AOAM5339CN6I5o+LyQQCFC62IOt9cQOXTCWjXwZhmaN3kdO9LPyeauAZ
+ Md8Vfk3KBTJk5FFRWL7/FvztP1fdbZo0QvhDo7k=
+X-Google-Smtp-Source: ABdhPJwGR2vgLN7ROSkmHZPeIAhNHAr7DPrUSxxLCNmQt5gYuzcx/x+eKJdJqgk/KG2Oz3Gx3EYqX3V4Rj9uV5yoiPg=
+X-Received: by 2002:ac8:4d4d:: with SMTP id x13mr19211754qtv.385.1608603997385; 
+ Mon, 21 Dec 2020 18:26:37 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3779.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18505617-1b78-4637-d281-08d8a61f2f48
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Dec 2020 02:13:33.9744 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1E/ybMwH+83MRuXHzwt6We12/FXt7nd4TsgGk9Eg/i+1bHMfZGZp2/R8+o1AsPvacEwqTDxQiOvuS/XF3wuX5HzWqLF7MG99tEr2fYD4F+c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2PR0601MB1826
+References: <20201215192323.24359-1-hongweiz@ami.com>
+ <20201221170048.29821-1-hongweiz@ami.com>
+In-Reply-To: <20201221170048.29821-1-hongweiz@ami.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 22 Dec 2020 02:26:25 +0000
+Message-ID: <CACPK8Xe8_S6jgs-DxpB0Veu=25JXftTLeK7nGhLJ51GghSeVHw@mail.gmail.com>
+Subject: Re: [Aspeed, ncsi-rx,
+ v1 0/1] net: ftgmac100: Fix AST2600EVB NCSI RX issue
+To: Hongwei Zhang <hongweiz@ami.com>, Ryan Chen <ryan_chen@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,97 +71,85 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW <BMC-SW@aspeedtech.com>, "cyrilbur@gmail.com" <cyrilbur@gmail.com>,
- "rlippert@google.com" <rlippert@google.com>
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ netdev <netdev@vger.kernel.org>, OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, David S Miller <davem@davemloft.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGkgSGFpeXVlLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEhhaXl1
-ZSBXYW5nIDxoYWl5dWUud2FuZ0BsaW51eC5pbnRlbC5jb20+DQo+IFNlbnQ6IE1vbmRheSwgRGVj
-ZW1iZXIgMjEsIDIwMjAgMzo1OSBQTQ0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYzIDMvNV0gaXBt
-aToga2NzOiBhc3BlZWQ6IEFkYXB0IHRvIG5ldyBMUEMgRFRTIGxheW91dA0KPiANCj4gDQo+IE9u
-IDEyLzIxLzIwMjAgMTU6NTMsIEhhaXl1ZSBXYW5nIHdyb3RlOg0KPiA+IE9uIDEyLzIxLzIwMjAg
-MTM6NTYsIENoaWEtV2VpLCBXYW5nIHdyb3RlOg0KPiA+PiBBZGQgY2hlY2sgYWdhaW5zdCBMUEMg
-ZGV2aWNlIHYyIGNvbXBhdGlibGUgc3RyaW5nIHRvIGVuc3VyZSB0aGF0IHRoZQ0KPiA+PiBmaXhl
-ZCBkZXZpY2UgdHJlZSBsYXlvdXQgaXMgYWRvcHRlZC4NCj4gPj4gVGhlIExQQyByZWdpc3RlciBv
-ZmZzZXRzIGFyZSBhbHNvIGZpeGVkIGFjY29yZGluZ2x5Lg0KPiA+Pg0KPiA+PiBTaWduZWQtb2Zm
-LWJ5OiBDaGlhLVdlaSwgV2FuZyA8Y2hpYXdlaV93YW5nQGFzcGVlZHRlY2guY29tPg0KPiA+PiAt
-LS0NCj4gPj4gwqAgZHJpdmVycy9jaGFyL2lwbWkva2NzX2JtY19hc3BlZWQuYyB8IDM1DQo+ID4+
-ICsrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLQ0KPiA+PiDCoCAxIGZpbGUgY2hhbmdlZCwg
-MjEgaW5zZXJ0aW9ucygrKSwgMTQgZGVsZXRpb25zKC0pDQo+ID4+DQo+ID4+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2NoYXIvaXBtaS9rY3NfYm1jX2FzcGVlZC5jDQo+ID4+IGIvZHJpdmVycy9jaGFy
-L2lwbWkva2NzX2JtY19hc3BlZWQuYw0KPiA+PiBpbmRleCBhMTQwMjAzYzA3OWIuLjYyODNiZmVm
-NGVhNyAxMDA2NDQNCj4gPj4gLS0tIGEvZHJpdmVycy9jaGFyL2lwbWkva2NzX2JtY19hc3BlZWQu
-Yw0KPiA+PiArKysgYi9kcml2ZXJzL2NoYXIvaXBtaS9rY3NfYm1jX2FzcGVlZC5jDQo+ID4+IEBA
-IC0yNyw3ICsyNyw2IEBADQo+ID4+IMKgIMKgICNkZWZpbmUgS0NTX0NIQU5ORUxfTUFYwqDCoMKg
-wqAgNA0KPiA+PiDCoCAtLyogbWFwcGVkIHRvIGxwYy1ibWNAMCBJTyBzcGFjZSAqLw0KPiA+PiDC
-oCAjZGVmaW5lIExQQ19ISUNSMMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMHgwMDANCj4gPj4gwqAg
-I2RlZmluZcKgwqDCoMKgIExQQ19ISUNSMF9MUEMzRcKgwqDCoMKgwqDCoMKgwqDCoCBCSVQoNykN
-Cj4gPj4gwqAgI2RlZmluZcKgwqDCoMKgIExQQ19ISUNSMF9MUEMyRcKgwqDCoMKgwqDCoMKgwqDC
-oCBCSVQoNikgQEAgLTUyLDE1DQo+ICs1MSwxMyBAQA0KPiA+PiDCoCAjZGVmaW5lIExQQ19TVFIx
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDB4MDNDDQo+ID4+IMKgICNkZWZpbmUgTFBDX1NUUjLC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMHgwNDANCj4gPj4gwqAgI2RlZmluZSBMUENfU1RSM8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAweDA0NA0KPiA+PiAtDQo+ID4+IC0vKiBtYXBwZWQgdG8g
-bHBjLWhvc3RAODAgSU8gc3BhY2UgKi8gLSNkZWZpbmUNCj4gTFBDX0hJQ1JCDQo+ID4+IDB4MDgw
-DQo+ID4+ICsjZGVmaW5lIExQQ19ISUNSQsKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMHgxMDANCj4g
-Pj4gwqAgI2RlZmluZcKgwqDCoMKgIExQQ19ISUNSQl9JQkZJRjTCoMKgwqDCoMKgwqDCoMKgIEJJ
-VCgxKQ0KPiA+PiDCoCAjZGVmaW5lwqDCoMKgwqAgTFBDX0hJQ1JCX0xQQzRFwqDCoMKgwqDCoMKg
-wqDCoMKgIEJJVCgwKSAtI2RlZmluZQ0KPiBMUENfTEFEUjQNCj4gPj4gMHgwOTAgLSNkZWZpbmUg
-TFBDX0lEUjTCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMHgwOTQgLSNkZWZpbmUNCj4gTFBDX09E
-UjQNCj4gPj4gMHgwOTggLSNkZWZpbmUgTFBDX1NUUjTCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-MHgwOUMNCj4gPj4gKyNkZWZpbmUgTFBDX0xBRFI0wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAweDEx
-MA0KPiA+PiArI2RlZmluZSBMUENfSURSNMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAweDExNA0K
-PiA+PiArI2RlZmluZSBMUENfT0RSNMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAweDExOA0KPiA+
-PiArI2RlZmluZSBMUENfU1RSNMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAweDExQw0KPiA+PiDC
-oCDCoCBzdHJ1Y3QgYXNwZWVkX2tjc19ibWMgew0KPiA+PiDCoMKgwqDCoMKgIHN0cnVjdCByZWdt
-YXAgKm1hcDsNCj4gPj4gQEAgLTM0NSwxNSArMzQyLDI1IEBAIHN0YXRpYyBpbnQgYXNwZWVkX2tj
-c19wcm9iZShzdHJ1Y3QNCj4gPj4gcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiA+PiDCoCB7DQo+
-ID4+IMKgwqDCoMKgwqAgc3RydWN0IGRldmljZSAqZGV2ID0gJnBkZXYtPmRldjsNCj4gPj4gwqDC
-oMKgwqDCoCBzdHJ1Y3Qga2NzX2JtYyAqa2NzX2JtYzsNCj4gPj4gLcKgwqDCoCBzdHJ1Y3QgZGV2
-aWNlX25vZGUgKm5wOw0KPiA+PiArwqDCoMKgIHN0cnVjdCBkZXZpY2Vfbm9kZSAqa2NzX25wOw0K
-PiA+PiArwqDCoMKgIHN0cnVjdCBkZXZpY2Vfbm9kZSAqbHBjX25wOw0KPiA+PiDCoMKgwqDCoMKg
-IGludCByYzsNCj4gPg0KPiA+IEkgdGhpbmsgeW91IGNhbiBqdXN0IHVzZSAnbnAnIHRvIGRvIExQ
-QyBjb21wYXRpYmxlIGNoZWNraW5nOg0KPiA+DQo+ID4gbnAgPSBwZGV2LT5kZXYub2Zfbm9kZS0+
-cGFyZW50Ow0KPiA+DQo+ID4gaWYgKCFvZl9kZXZpY2VfaXNfY29tcGF0aWJsZShscGNfbnAsICJh
-c3BlZWQsYXN0MjQwMC1scGMtdjIiKSAmJg0KPiA+IMKgwqDCoCAhb2ZfZGV2aWNlX2lzX2NvbXBh
-dGlibGUobHBjX25wLCAiYXNwZWVkLGFzdDI1MDAtbHBjLXYyIikgJiYNCj4gPiDCoMKgwqAgIW9m
-X2RldmljZV9pc19jb21wYXRpYmxlKGxwY19ucCwgImFzcGVlZCxhc3QyNjAwLWxwYy12MiIpKSB7
-DQo+ID4gwqDCoMKgwqBkZXZfZXJyKGRldiwgInVuc3VwcG9ydGVkIExQQyBkZXZpY2UgYmluZGlu
-Z1xuIik7DQo+ID4gwqDCoMKgwqByZXR1cm4gLUVOT0RFVjsNCj4gPiB9DQo+ID4NCj4gVHlwbzoN
-Cj4gDQo+IGlmICghb2ZfZGV2aWNlX2lzX2NvbXBhdGlibGUobnAsICJhc3BlZWQsYXN0MjQwMC1s
-cGMtdjIiKSAmJg0KPiAgwqDCoMKgICFvZl9kZXZpY2VfaXNfY29tcGF0aWJsZShucCwgImFzcGVl
-ZCxhc3QyNTAwLWxwYy12MiIpICYmDQo+ICDCoMKgwqAgIW9mX2RldmljZV9pc19jb21wYXRpYmxl
-KG5wLCAiYXNwZWVkLGFzdDI2MDAtbHBjLXYyIikpIHsNCj4gIMKgwqDCoMKgZGV2X2VycihkZXYs
-ICJ1bnN1cHBvcnRlZCBMUEMgZGV2aWNlIGJpbmRpbmdcbiIpOw0KPiAgwqDCoMKgwqByZXR1cm4g
-LUVOT0RFVjsNCj4gfQ0KVGhhbmtzIGZvciB0aGUgc3VnZ2VzdGlvbi4gV2lsbCByZXZpc2UgdGhl
-IGNvZGUgYWZ0ZXIgY29sbGVjdGluZyByZXZpZXdlcnMnIGZlZWRiYWNrLg0KDQo+IA0KPiANCj4g
-Pg0KPiA+IGJlZm9yZToNCj4gPg0KPiA+IG5wID0gcGRldi0+ZGV2Lm9mX25vZGU7DQo+ID4gaWYg
-KG9mX2RldmljZV9pc19jb21wYXRpYmxlKG5wLCAiYXNwZWVkLGFzdDI0MDAta2NzLWJtYyIpIHx8
-DQo+ID4gwqDCoMKgIG9mX2RldmljZV9pc19jb21wYXRpYmxlKG5wLCAiYXNwZWVkLGFzdDI1MDAt
-a2NzLWJtYyIpKQ0KPiA+DQo+ID4gVGhlbiB0aGUgcGF0Y2ggaXMgY2xlYXIuIDstKQ0KPiA+DQo+
-ID4+IC3CoMKgwqAgbnAgPSBwZGV2LT5kZXYub2Zfbm9kZTsNCj4gPj4gLcKgwqDCoCBpZiAob2Zf
-ZGV2aWNlX2lzX2NvbXBhdGlibGUobnAsICJhc3BlZWQsYXN0MjQwMC1rY3MtYm1jIikgfHwNCj4g
-Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgb2ZfZGV2aWNlX2lzX2NvbXBhdGlibGUobnAsDQo+
-ICJhc3BlZWQsYXN0MjUwMC1rY3MtYm1jIikpDQo+ID4+ICvCoMKgwqAga2NzX25wID0gZGV2LT5v
-Zl9ub2RlOw0KPiA+PiArwqDCoMKgIGxwY19ucCA9IGtjc19ucC0+cGFyZW50Ow0KPiA+PiArDQo+
-ID4+ICvCoMKgwqAgaWYgKCFvZl9kZXZpY2VfaXNfY29tcGF0aWJsZShscGNfbnAsICJhc3BlZWQs
-YXN0MjQwMC1scGMtdjIiKSAmJg0KPiA+PiArwqDCoMKgwqDCoMKgwqAgIW9mX2RldmljZV9pc19j
-b21wYXRpYmxlKGxwY19ucCwgImFzcGVlZCxhc3QyNTAwLWxwYy12MiIpDQo+ICYmDQo+ID4+ICvC
-oMKgwqDCoMKgwqDCoCAhb2ZfZGV2aWNlX2lzX2NvbXBhdGlibGUobHBjX25wLCAiYXNwZWVkLGFz
-dDI2MDAtbHBjLXYyIikpIHsNCj4gPj4gK8KgwqDCoMKgwqDCoMKgIGRldl9lcnIoZGV2LCAidW5z
-dXBwb3J0ZWQgTFBDIGRldmljZSBiaW5kaW5nXG4iKTsNCj4gPj4gK8KgwqDCoMKgwqDCoMKgIHJl
-dHVybiAtRU5PREVWOw0KPiA+PiArwqDCoMKgIH0NCj4gPj4gKw0KPiA+PiArwqDCoMKgIGlmIChv
-Zl9kZXZpY2VfaXNfY29tcGF0aWJsZShrY3NfbnAsICJhc3BlZWQsYXN0MjQwMC1rY3MtYm1jIikg
-fHwNCj4gPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgb2ZfZGV2aWNlX2lzX2NvbXBhdGlibGUo
-a2NzX25wLA0KPiA+PiArImFzcGVlZCxhc3QyNTAwLWtjcy1ibWMiKSkNCj4gPj4gwqDCoMKgwqDC
-oMKgwqDCoMKgIGtjc19ibWMgPSBhc3BlZWRfa2NzX3Byb2JlX29mX3YxKHBkZXYpOw0KPiA+PiAt
-wqDCoMKgIGVsc2UgaWYgKG9mX2RldmljZV9pc19jb21wYXRpYmxlKG5wLA0KPiA+PiAiYXNwZWVk
-LGFzdDI0MDAta2NzLWJtYy12MiIpIHx8DQo+ID4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG9m
-X2RldmljZV9pc19jb21wYXRpYmxlKG5wLA0KPiA+PiAiYXNwZWVkLGFzdDI1MDAta2NzLWJtYy12
-MiIpKQ0KPiA+PiArwqDCoMKgIGVsc2UgaWYgKG9mX2RldmljZV9pc19jb21wYXRpYmxlKGtjc19u
-cCwNCj4gPj4gImFzcGVlZCxhc3QyNDAwLWtjcy1ibWMtdjIiKSB8fA0KPiA+PiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBvZl9kZXZpY2VfaXNfY29tcGF0aWJsZShrY3NfbnAsDQo+ID4+ICJhc3Bl
-ZWQsYXN0MjUwMC1rY3MtYm1jLXYyIikpDQo+ID4+IMKgwqDCoMKgwqDCoMKgwqDCoCBrY3NfYm1j
-ID0gYXNwZWVkX2tjc19wcm9iZV9vZl92MihwZGV2KTsNCj4gPj4gwqDCoMKgwqDCoCBlbHNlDQo+
-ID4+IMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gLUVJTlZBTDsNCg==
+On Mon, 21 Dec 2020 at 17:01, Hongwei Zhang <hongweiz@ami.com> wrote:
+>
+> Dear Reviewer,
+>
+> When FTGMAC100 driver is used on other NCSI Ethernet controllers, few
+> controllers have compatible issue. One example is Intel I210 Ethernet
+> controller on AST2600 BMC, with FTGMAC100 driver, it always trigger
+> RXDES0_RX_ERR error, cause NCSI initialization failure, removing
+> FTGMAC100_RXDES0_RX_ERR bit from RXDES0_ANY_ERROR fix the issue.
+
+I work with a few systems that use the i210 on the 2600. We haven't
+seen this issue in our testing.
+
+Is there something specific about the setup that you use to trigger this?
+
+Ryan, is this an issue that Aspeed is aware of?
+
+Cheers,
+
+Joel
+
+>
+> Here are part of the debug logs:
+> ......
+> [   35.075552] ftgmac100_hard_start_xmit TXDESO=b000003c
+> [   35.080843] ftgmac100 1e660000.ethernet eth0: tx_complete_packet 55
+> [   35.087141] ftgmac100 1e660000.ethernet eth0: rx_packet_error RXDES0=0xb0070040
+> [   35.094448] ftgmac100_rx_packet RXDES0=b0070040 RXDES1=f0800000 RXDES2=88f8
+> [   35.101498] ftgmac100 1e660000.ethernet eth0: rx_packet_error 0xb0070040
+> [   35.108205] ftgmac100 1e660000.ethernet eth0: [ISR] = 0xb0070040: RX_ERR
+> [   35.287808] i2c i2c-1: new_device: Instantiated device slave-mqueue at 0x12
+> [   35.428379] ftgmac100_hard_start_xmit TXDESO=b000003c
+> [   35.433624] ftgmac100 1e660000.ethernet eth0: tx_complete_packet 56
+> [   35.439915] ftgmac100 1e660000.ethernet eth0: rx_packet_error RXDES0=0xb0070040
+> [   35.447225] ftgmac100_rx_packet RXDES0=b0070040 RXDES1=f0800000 RXDES2=88f8
+> [   35.454273] ftgmac100 1e660000.ethernet eth0: rx_packet_error 0xb0070040
+> [   35.460972] ftgmac100 1e660000.ethernet eth0: [ISR] = 0xb0070040: RX_ERR
+> [   35.797825] ftgmac100_hard_start_xmit TXDESO=b000003c
+> [   35.803241] ftgmac100 1e660000.ethernet eth0: tx_complete_packet 57
+> [   35.809541] ftgmac100 1e660000.ethernet eth0: rx_packet_error RXDES0=0xb0070040
+> [   35.816848] ftgmac100_rx_packet RXDES0=b0070040 RXDES1=f0800000 RXDES2=88f8
+> [   35.823899] ftgmac100 1e660000.ethernet eth0: rx_packet_error 0xb0070040
+> [   35.830597] ftgmac100 1e660000.ethernet eth0: [ISR] = 0xb0070040: RX_ERR
+> [   36.179914] ftgmac100_hard_start_xmit TXDESO=b000003c
+> [   36.185160] ftgmac100 1e660000.ethernet eth0: tx_complete_packet 58
+> [   36.191454] ftgmac100 1e660000.ethernet eth0: rx_packet_error RXDES0=0xb0070040
+> [   36.198761] ftgmac100_rx_packet RXDES0=b0070040 RXDES1=f0800000 RXDES2=88f8
+> [   36.205813] ftgmac100 1e660000.ethernet eth0: rx_packet_error 0xb0070040
+> [   36.212513] ftgmac100 1e660000.ethernet eth0: [ISR] = 0xb0070040: RX_ERR
+> [   36.593688] ftgmac100_hard_start_xmit TXDESO=b000003c
+> [   36.602937] ftgmac100 1e660000.ethernet eth0: tx_complete_packet 59
+> [   36.609244] ftgmac100 1e660000.ethernet eth0: rx_packet_error RXDES0=0xb0070040
+> [   36.616558] ftgmac100_rx_packet RXDES0=b0070040 RXDES1=f0800000 RXDES2=88f8
+> [   36.623608] ftgmac100 1e660000.ethernet eth0: rx_packet_error 0xb0070040
+> [   36.630315] ftgmac100 1e660000.ethernet eth0: [ISR] = 0xb0070040: RX_ERR
+> [   37.031524] IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+> [   37.067831] IPv6: ADDRCONF(NETDEV_UP): eth1: link is not ready
+> ............
+>
+> This patch add a configurable flag, FTGMAC100_RXDES0_RX_ERR_CHK, in FTGMAC100
+>  driver, it is YES by default, so keep the orignal define of
+> RXDES0_ANY_ERROR. If it is needed, user can set the flag to NO to remove
+> the RXDES0_RX_ERR bit, to fix the issue.
+>
+> Hongwei Zhang (1):
+>   net: ftgmac100: Fix AST2600 EVB NCSI RX issue
+>
+>  drivers/net/ethernet/faraday/Kconfig     | 9 +++++++++
+>  drivers/net/ethernet/faraday/ftgmac100.h | 8 ++++++++
+>  2 files changed, 17 insertions(+)
+>
+> --
+> 2.17.1
+>
