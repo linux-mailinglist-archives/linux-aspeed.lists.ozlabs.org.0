@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA792E1198
-	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Dec 2020 03:16:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217B12E11DB
+	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Dec 2020 03:18:24 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4D0xfC67TnzDqSP
-	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Dec 2020 13:16:35 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4D0xhF2Vq2zDqSm
+	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Dec 2020 13:18:21 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -16,32 +16,32 @@ Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=BwXxuFNW; 
+ header.s=k20201202 header.b=LwtqYI1r; 
  dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4D0xf814S2zDqJT
- for <linux-aspeed@lists.ozlabs.org>; Wed, 23 Dec 2020 13:16:31 +1100 (AEDT)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2ED1A221E5;
- Wed, 23 Dec 2020 02:16:28 +0000 (UTC)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4D0xh96fwXzDqLT
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 23 Dec 2020 13:18:17 +1100 (AEDT)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 957A6221E5;
+ Wed, 23 Dec 2020 02:18:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608689788;
+ s=k20201202; t=1608689895;
  bh=YsnGpQ60SFScxNogHK+LJ5qgKN29yodapC7t1SN1R6s=;
  h=From:To:Cc:Subject:Date:From;
- b=BwXxuFNWRWodbmujcHMsltignxLd29syXOfEvkRaJC4bMTyeDkATX7yspybvfOA+l
- L2RyW2j+hkqKQ3diGrLl8XPB3mEulP8lFFKD05+lauNg8Ix6Z8V6S3UsMyeu4uDzNR
- GXDtjGRdMo6fYxPuhccl3ng1L6rvdvWhgi+22wvOsvhZ23RbK/4kZPJOHXXNOthCd/
- rA54sfyLlHBY1kGtUJRJgqKUL2XsJv1rDzJFDMfSGor+DcPVV8Fv61/CB+OAwWDVec
- oCAlaYEJFqb+MTj5TawDRPbI83TCEQoZRpmJebOKGe+s7lsBZq5hQJNfq9doJmzOpY
- Xx4/jEStD3j+w==
+ b=LwtqYI1r/nnaEG5L6bCJT3fSK6/QekXbyBE93+cgekRWNdAgq0UQlqB4PMc4H0KbY
+ 71IMTWLlVqjDm+Fm4WbgcwY5Cw7D6x20w/uxe/Uloqpx5R28l06sRefLVWPOY3XGxf
+ klBH/AMStjGtfyQaharRd6ljolpuVOr/qEWh2YkCpLHLfCHqEfoYBoMrBnY/4P786j
+ dlOdxl7LmlUsR995ZebrtCqvWYUMXTTb6304s8cVmvTKuq8cjHu/N37m1DvTeupdFJ
+ rSiK7JqpkbAzRtkKzmWrQ+ABjMJ8NPp6wPItt+73ZBjyVlofv1szAvBuhlyH1BvgRq
+ TNkDrjv3sC1tQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 001/217] soc: aspeed-lpc-ctrl: Fail probe of
+Subject: [PATCH AUTOSEL 5.4 001/130] soc: aspeed-lpc-ctrl: Fail probe of
  lpc-ctrl if reserved memory is not aligned
-Date: Tue, 22 Dec 2020 21:12:50 -0500
-Message-Id: <20201223021626.2790791-1-sashal@kernel.org>
+Date: Tue, 22 Dec 2020 21:16:04 -0500
+Message-Id: <20201223021813.2791612-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 X-stable: review
