@@ -1,68 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 041C12E1103
-	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Dec 2020 02:07:43 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA792E1198
+	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Dec 2020 03:16:40 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4D0w6Y5v5hzDqSY
-	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Dec 2020 12:07:33 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4D0xfC67TnzDqSP
+	for <lists+linux-aspeed@lfdr.de>; Wed, 23 Dec 2020 13:16:35 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::72a;
- helo=mail-qk1-x72a.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=jms.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=FBLHaVSF; dkim-atps=neutral
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
- [IPv6:2607:f8b0:4864:20::72a])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=BwXxuFNW; 
+ dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4D0w6T0h9YzDqRj;
- Wed, 23 Dec 2020 12:07:28 +1100 (AEDT)
-Received: by mail-qk1-x72a.google.com with SMTP id n142so13749737qkn.2;
- Tue, 22 Dec 2020 17:07:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=b/IvHYt4zK7qrtLu/dIFfw1GWqSkerWH38ekPT2Fi8I=;
- b=FBLHaVSF9xVVMTPm3bwINQWKYKnm6a0cqbzSMhkX4GAX1RksMdNDHK2JguD4n/leut
- wlBTQBhTNkQsp0XAj9f0Bt/qO9vdusmj3o0Ux3Upl2JiPoIAl3XqFlMHYjgW8/uZsegf
- QxFHw0SsUQbzVaGUra6Z8zNUIOI/R8fDTVsBE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b/IvHYt4zK7qrtLu/dIFfw1GWqSkerWH38ekPT2Fi8I=;
- b=Iz4pNJv1VgHdqNFIKNC1o5CTYvgO7VT+f5+JIVxh65KvldiR+WPDB27CRVRvdqPd1V
- SciusKxRgAYsD2BkIy8z5ctxWw2rMhYMZSGHoeO9D4xeQHSRa8UQkWSQwdNZlFFWmFhy
- d3t3HiqPHzLpzslWk7i01pYz0fno4SUcWNhvrMoTgGqesT0dx0u4HYOuE3fwYuk2s2dI
- w/Pbu/LN7a5CLiEAKj9loPna1Sls0W/SthXu20h+2+qap+nvMHrcwB1x5ViIBUMSN+ON
- Kc+Kn7R1X099xM1u+36rBfMGCDToBDmAD+ce7j+nsdaO5Nt4grCYqbSdYxG+gqZmKlUd
- rSmg==
-X-Gm-Message-State: AOAM5332mRXOreP2oCsM13v0HNJpWak/gBXehIVXEpt548Ac1p57IlNe
- a67tp1Ze72a+bUZEzt7yaCO5ZizeRU6uXrhqzJ0=
-X-Google-Smtp-Source: ABdhPJweuxZG5b2ckpgGQ3CTgEg8EXlZp8qF2RXEjdc10DG4PVJk9A5cd6eJ1QbThAHKMa5XdNdfQsCKrqo435qrsp0=
-X-Received: by 2002:a37:6790:: with SMTP id
- b138mr24838589qkc.465.1608685644841; 
- Tue, 22 Dec 2020 17:07:24 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4D0xf814S2zDqJT
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 23 Dec 2020 13:16:31 +1100 (AEDT)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2ED1A221E5;
+ Wed, 23 Dec 2020 02:16:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1608689788;
+ bh=YsnGpQ60SFScxNogHK+LJ5qgKN29yodapC7t1SN1R6s=;
+ h=From:To:Cc:Subject:Date:From;
+ b=BwXxuFNWRWodbmujcHMsltignxLd29syXOfEvkRaJC4bMTyeDkATX7yspybvfOA+l
+ L2RyW2j+hkqKQ3diGrLl8XPB3mEulP8lFFKD05+lauNg8Ix6Z8V6S3UsMyeu4uDzNR
+ GXDtjGRdMo6fYxPuhccl3ng1L6rvdvWhgi+22wvOsvhZ23RbK/4kZPJOHXXNOthCd/
+ rA54sfyLlHBY1kGtUJRJgqKUL2XsJv1rDzJFDMfSGor+DcPVV8Fv61/CB+OAwWDVec
+ oCAlaYEJFqb+MTj5TawDRPbI83TCEQoZRpmJebOKGe+s7lsBZq5hQJNfq9doJmzOpY
+ Xx4/jEStD3j+w==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 001/217] soc: aspeed-lpc-ctrl: Fail probe of
+ lpc-ctrl if reserved memory is not aligned
+Date: Tue, 22 Dec 2020 21:12:50 -0500
+Message-Id: <20201223021626.2790791-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20201215024542.18888-1-zev@bewilderbeest.net>
- <20201215024542.18888-3-zev@bewilderbeest.net>
- <CACPK8XczCUgqOENABoDbc-qwbMxOh=1OUyBtuHSmDG_Zo571Wg@mail.gmail.com>
- <20201222191433.3dgnfwyrod4tnvaf@hatter.bewilderbeest.net>
-In-Reply-To: <20201222191433.3dgnfwyrod4tnvaf@hatter.bewilderbeest.net>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 23 Dec 2020 01:07:12 +0000
-Message-ID: <CACPK8XeOZEkpAKcyhZLeMdGzbwtFmdGEnL6QXp0VK1HL_O2pSg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] aspeed-video: clear spurious interrupt bits
- unconditionally
-To: Zev Weiss <zev@bewilderbeest.net>, Ryan Chen <ryan_chen@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,55 +58,59 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-media@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>, linux-aspeed@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 22 Dec 2020 at 19:14, Zev Weiss <zev@bewilderbeest.net> wrote:
->
-> On Mon, Dec 21, 2020 at 10:47:37PM CST, Joel Stanley wrote:
-> >On Tue, 15 Dec 2020 at 02:46, Zev Weiss <zev@bewilderbeest.net> wrote:
-> >>
-> >> Instead of testing and conditionally clearing them one by one, we can
-> >> instead just unconditionally clear them all at once.
-> >>
-> >> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
-> >
-> >I had a poke at the assembly and it looks like GCC is clearing the
-> >bits unconditionally anyway, so removing the tests provides no change.
-> >
-> >Combining them is a good further optimization.
-> >
-> >Reviewed-by: Joel Stanley <joel@jms.id.au>
-> >
-> >A question unrelated to this patch: Do you know why the driver doesn't
-> >clear the status bits in the interrupt handler? I would expect it to
-> >write the value of sts back to the register to ack the pending
-> >interrupt.
-> >
->
-> No, I don't, and I was sort of wondering the same thing actually -- I'm
-> not deeply familiar with this hardware or driver though, so I was a bit
-> hesitant to start messing with things.  (Though maybe doing so would
-> address the "stickiness" aspect when it does manifest.)  Perhaps Eddie
-> or Jae can shed some light here?
+From: Andrew Jeffery <andrew@aj.id.au>
 
-I think you're onto something here - this would be why the status bits
-seem to stick until the device is reset.
+[ Upstream commit 6bf4ddbe2b4805f0628922446a7e85e34013cd10 ]
 
-Until Aspeed can clarify if this is a hardware or software issue, I
-suggest we ack the bits and log a message when we see them, instead of
-always ignoring them without taking any action.
+Alignment is a hardware constraint of the LPC2AHB bridge, and misaligned
+reserved memory will present as corrupted data.
 
-Can you write a patch that changes the interrupt handler to ack status
-bits as it handles each of them?
+Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Link: https://lore.kernel.org/r/20191016233950.10100-1-andrew@aj.id.au
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/soc/aspeed/aspeed-lpc-ctrl.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
->
->
-> Zev
->
+diff --git a/drivers/soc/aspeed/aspeed-lpc-ctrl.c b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+index 01ed21e8bfee5..dd147af494fdf 100644
+--- a/drivers/soc/aspeed/aspeed-lpc-ctrl.c
++++ b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include <linux/clk.h>
++#include <linux/log2.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/miscdevice.h>
+ #include <linux/mm.h>
+@@ -241,6 +242,18 @@ static int aspeed_lpc_ctrl_probe(struct platform_device *pdev)
+ 
+ 		lpc_ctrl->mem_size = resource_size(&resm);
+ 		lpc_ctrl->mem_base = resm.start;
++
++		if (!is_power_of_2(lpc_ctrl->mem_size)) {
++			dev_err(dev, "Reserved memory size must be a power of 2, got %u\n",
++			       (unsigned int)lpc_ctrl->mem_size);
++			return -EINVAL;
++		}
++
++		if (!IS_ALIGNED(lpc_ctrl->mem_base, lpc_ctrl->mem_size)) {
++			dev_err(dev, "Reserved memory must be naturally aligned for size %u\n",
++			       (unsigned int)lpc_ctrl->mem_size);
++			return -EINVAL;
++		}
+ 	}
+ 
+ 	lpc_ctrl->regmap = syscon_node_to_regmap(
+-- 
+2.27.0
+
