@@ -1,51 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719932E3AC8
-	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Dec 2020 14:42:15 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 027C82E6B12
+	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Dec 2020 23:02:55 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4D4Jcz0YqzzDqCh
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Dec 2020 00:42:11 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4D4Wkh0bY6zDqDZ
+	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Dec 2020 09:02:52 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linuxfoundation.org (client-ip=198.145.29.99;
- helo=mail.kernel.org; envelope-from=gregkh@linuxfoundation.org;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none)
- header.from=linuxfoundation.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org
- header.a=rsa-sha256 header.s=korg header.b=W9Hbt6CG; 
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=kuba@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=o2H5SkWK; 
  dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4D4Jcl5QDSzDq9L
- for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Dec 2020 00:41:58 +1100 (AEDT)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D3A3206ED;
- Mon, 28 Dec 2020 13:41:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1609162916;
- bh=EtrtNzjBt/6SdUvBKWT3J6QUlTOr5G5BUP1dzuw7Zzk=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=W9Hbt6CGEeRgRGC7sOEcl1fKYfm3KL6vmf27FVhWF0c/R9jciQfTzztLzPrpCYwap
- svTjROuJL2Czg8ZD8merVXid54sqMJSwCnEdwJxdQFNinamSta7+LJ+rv7gpjonnu/
- kIcuRIAUrlmicll0eE2l0e/FUAHye7rH2mwk+0/Y=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.4 074/453] drm/aspeed: Fix Kconfig warning & subsequent
- build errors
-Date: Mon, 28 Dec 2020 13:45:10 +0100
-Message-Id: <20201228124940.799406977@linuxfoundation.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201228124937.240114599@linuxfoundation.org>
-References: <20201228124937.240114599@linuxfoundation.org>
-User-Agent: quilt/0.66
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4D4Whv5gdyzDqC5;
+ Tue, 29 Dec 2020 09:01:19 +1100 (AEDT)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 44CBD22242;
+ Mon, 28 Dec 2020 22:01:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1609192876;
+ bh=wec/s1ZvNiaME84+G8xSzIgFQT3HelyHFMLRjeKLA2M=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=o2H5SkWKqEWuONe1tw7qjOrj9Q/Luk3LZobtjzgjtIHN7/kCc0enOEu2AyyWEJzIJ
+ jf7YQM+/a+Yn9Dfloar8Gq2iQtkcve5vigwBRs4G4E/RtiUMCZzoxidlEUN9rcZl/a
+ qqVmj1NtF7IMu6fALKWnQR/laXZWXR6QhY+iadpgewXKWkEu23EhvVvPFLTtW/mlmS
+ 0pGhO780BtPKciKT76JX7FN7+Yre8ClPkCLU2YVcJ42Mm+XxSwOTpxGCXVhUBUgo1r
+ /qCUrn969nJEbQduH/hCr5rAN24BV8cjXLCx89gISQxRL/08NNYcIB2BXmLdMu6gno
+ AGUxiQsF8kzqw==
+Date: Mon, 28 Dec 2020 14:01:15 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Hongwei Zhang <hongweiz@ami.com>
+Subject: Re: [Aspeed, v2 2/2] net: ftgmac100: Change the order of getting
+ MAC address
+Message-ID: <20201228140115.6af4d510@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20201222210034.GC3198262@lunn.ch>
+References: <20201221205157.31501-2-hongweiz@ami.com>
+ <20201222201437.5588-3-hongweiz@ami.com>
+ <96c355a2-ab7e-3cf0-57e7-16369da78035@gmail.com>
+ <20201222210034.GC3198262@lunn.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,75 +60,61 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>,
- Michal Simek <monstr@monstr.eu>, kernel test robot <lkp@intel.com>,
- linux-aspeed@lists.ozlabs.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- David Airlie <airlied@linux.ie>, Randy Dunlap <rdunlap@infradead.org>,
- stable@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>, linux-mm@kvack.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Andrew Lunn <andrew@lunn.ch>, linux-aspeed@lists.ozlabs.org,
+ netdev <netdev@vger.kernel.org>, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, David S Miller <davem@davemloft.net>,
+ Heiner Kallweit <hkallweit1@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On Tue, 22 Dec 2020 22:00:34 +0100 Andrew Lunn wrote:
+> On Tue, Dec 22, 2020 at 09:46:52PM +0100, Heiner Kallweit wrote:
+> > On 22.12.2020 21:14, Hongwei Zhang wrote:  
+> > > Dear Reviewer,
+> > > 
+> > > Use native MAC address is preferred over other choices, thus change the order
+> > > of reading MAC address, try to read it from MAC chip first, if it's not
+> > >  availabe, then try to read it from device tree.
+> > > 
+> > > Hi Heiner,
+> > >   
+> > >> From:	Heiner Kallweit <hkallweit1@gmail.com>
+> > >> Sent:	Monday, December 21, 2020 4:37 PM  
+> > >>> Change the order of reading MAC address, try to read it from MAC chip 
+> > >>> first, if it's not availabe, then try to read it from device tree.
+> > >>>  
+> > >> This commit message leaves a number of questions. It seems the change isn't related at all to the 
+> > >> change that it's supposed to fix.
+> > >>
+> > >> - What is the issue that you're trying to fix?
+> > >> - And what is wrong with the original change?  
+> > > 
+> > > There is no bug or something wrong with the original code. This patch is for
+> > > improving the code. We thought if the native MAC address is available, then
+> > > it's preferred over MAC address from dts (assuming both sources are available).
+> > > 
+> > > One possible scenario, a MAC address is set in dts and the BMC image is 
+> > > compiled and loaded into more than one platform, then the platforms will
+> > > have network issue due to the same MAC address they read.
+> > >   
+> > 
+> > Typically the DTS MAC address is overwritten by the boot loader, e.g. uboot.
+> > And the boot loader can read it from chip registers. There are more drivers
+> > trying to read the MAC address from DTS first. Eventually, I think, the code
+> > here will read the same MAC address from chip registers as uboot did before.  
+> 
+> Do we need to worry about, the chip contains random junk, which passes
+> the validitiy test? Before this patch the value from DT would be used,
+> and the random junk is ignored. Is this change possibly going to cause
+> a regression?
 
-[ Upstream commit bf296b35489b46780b73b74ad984d06750ed5479 ]
+Hongwei, please address Andrew's questions.
 
-Kernel test robot reported build errors (undefined references)
-that didn't make much sense. After reproducing them, there is also
-a Kconfig warning that is the root cause of the build errors, so
-fix that Kconfig problem.
+Once the discussion is over please repost the patches as
+git-format-patch would generate them. The patch 2/2 of this 
+series is not really a patch, which confuses all patch handling 
+systems.
 
-Fixes this Kconfig warning:
-WARNING: unmet direct dependencies detected for CMA
-  Depends on [n]: MMU [=n]
-  Selected by [m]:
-  - DRM_ASPEED_GFX [=m] && HAS_IOMEM [=y] && DRM [=m] && OF [=y] && (COMPILE_TEST [=y] || ARCH_ASPEED) && HAVE_DMA_CONTIGUOUS [=y]
-
-and these dependent build errors:
-(.text+0x10c8c): undefined reference to `start_isolate_page_range'
-microblaze-linux-ld: (.text+0x10f14): undefined reference to `test_pages_isolated'
-microblaze-linux-ld: (.text+0x10fd0): undefined reference to `undo_isolate_page_range'
-
-Fixes: 76356a966e33 ("drm: aspeed: Clean up Kconfig options")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Cc: Joel Stanley <joel@jms.id.au>
-Cc: Andrew Jeffery <andrew@aj.id.au>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Michal Simek <monstr@monstr.eu>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Mike Rapoport <rppt@linux.ibm.com>
-Cc: linux-mm@kvack.org
-Cc: linux-aspeed@lists.ozlabs.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: David Airlie <airlied@linux.ie>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Link: https://patchwork.freedesktop.org/patch/msgid/20201011230131.4922-1-rdunlap@infradead.org
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/aspeed/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/aspeed/Kconfig b/drivers/gpu/drm/aspeed/Kconfig
-index 018383cfcfa79..5e95bcea43e92 100644
---- a/drivers/gpu/drm/aspeed/Kconfig
-+++ b/drivers/gpu/drm/aspeed/Kconfig
-@@ -3,6 +3,7 @@ config DRM_ASPEED_GFX
- 	tristate "ASPEED BMC Display Controller"
- 	depends on DRM && OF
- 	depends on (COMPILE_TEST || ARCH_ASPEED)
-+	depends on MMU
- 	select DRM_KMS_HELPER
- 	select DRM_KMS_CMA_HELPER
- 	select DMA_CMA if HAVE_DMA_CONTIGUOUS
--- 
-2.27.0
-
-
-
+It also appears that 35c54922dc97 ("ARM: dts: tacoma: Add reserved
+memory for ramoops") does not exist upstream.
