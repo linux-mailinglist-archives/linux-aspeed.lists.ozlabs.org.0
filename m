@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA782E3C13
-	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Dec 2020 14:59:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 719932E3AC8
+	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Dec 2020 14:42:15 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4D4K1746b9zDqC4
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Dec 2020 00:59:39 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4D4Jcz0YqzzDqCh
+	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Dec 2020 00:42:11 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,31 +17,31 @@ Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none)
  header.from=linuxfoundation.org
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org
- header.a=rsa-sha256 header.s=korg header.b=nY93Ac7W; 
+ header.a=rsa-sha256 header.s=korg header.b=W9Hbt6CG; 
  dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4D4K0r0YXXzDqBN
- for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Dec 2020 00:59:23 +1100 (AEDT)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 310AA20715;
- Mon, 28 Dec 2020 13:59:20 +0000 (UTC)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4D4Jcl5QDSzDq9L
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Dec 2020 00:41:58 +1100 (AEDT)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D3A3206ED;
+ Mon, 28 Dec 2020 13:41:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1609163961;
+ s=korg; t=1609162916;
  bh=EtrtNzjBt/6SdUvBKWT3J6QUlTOr5G5BUP1dzuw7Zzk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nY93Ac7W4mGNGW2Xg6V3aKrUAHKzHCzrmv6tIx+2EM6gwNC2vu7Mlgll2YKNl54ui
- hOsTVIZGt3OgHIqsohP8S3vStgQPvSlcuRtPKABvTr4SKw/+od1x3dxktqS9lG9z50
- UuhBKquJmIJyJ63kPvl+zmbiyGywOuG3sV/GguGA=
+ b=W9Hbt6CGEeRgRGC7sOEcl1fKYfm3KL6vmf27FVhWF0c/R9jciQfTzztLzPrpCYwap
+ svTjROuJL2Czg8ZD8merVXid54sqMJSwCnEdwJxdQFNinamSta7+LJ+rv7gpjonnu/
+ kIcuRIAUrlmicll0eE2l0e/FUAHye7rH2mwk+0/Y=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.10 004/717] drm/aspeed: Fix Kconfig warning & subsequent
+Subject: [PATCH 5.4 074/453] drm/aspeed: Fix Kconfig warning & subsequent
  build errors
-Date: Mon, 28 Dec 2020 13:40:02 +0100
-Message-Id: <20201228125021.199023747@linuxfoundation.org>
+Date: Mon, 28 Dec 2020 13:45:10 +0100
+Message-Id: <20201228124940.799406977@linuxfoundation.org>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201228125020.963311703@linuxfoundation.org>
-References: <20201228125020.963311703@linuxfoundation.org>
+In-Reply-To: <20201228124937.240114599@linuxfoundation.org>
+References: <20201228124937.240114599@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
