@@ -1,54 +1,50 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027C82E6B12
-	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Dec 2020 23:02:55 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A642E6E98
+	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Dec 2020 07:38:07 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4D4Wkh0bY6zDqDZ
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Dec 2020 09:02:52 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4D4l97700xzDqGv
+	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Dec 2020 17:38:03 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=kuba@kernel.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=pass (p=none dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=o2H5SkWK; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=chiawei_wang@aspeedtech.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=aspeedtech.com
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4D4Whv5gdyzDqC5;
- Tue, 29 Dec 2020 09:01:19 +1100 (AEDT)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 44CBD22242;
- Mon, 28 Dec 2020 22:01:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1609192876;
- bh=wec/s1ZvNiaME84+G8xSzIgFQT3HelyHFMLRjeKLA2M=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=o2H5SkWKqEWuONe1tw7qjOrj9Q/Luk3LZobtjzgjtIHN7/kCc0enOEu2AyyWEJzIJ
- jf7YQM+/a+Yn9Dfloar8Gq2iQtkcve5vigwBRs4G4E/RtiUMCZzoxidlEUN9rcZl/a
- qqVmj1NtF7IMu6fALKWnQR/laXZWXR6QhY+iadpgewXKWkEu23EhvVvPFLTtW/mlmS
- 0pGhO780BtPKciKT76JX7FN7+Yre8ClPkCLU2YVcJ42Mm+XxSwOTpxGCXVhUBUgo1r
- /qCUrn969nJEbQduH/hCr5rAN24BV8cjXLCx89gISQxRL/08NNYcIB2BXmLdMu6gno
- AGUxiQsF8kzqw==
-Date: Mon, 28 Dec 2020 14:01:15 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Hongwei Zhang <hongweiz@ami.com>
-Subject: Re: [Aspeed, v2 2/2] net: ftgmac100: Change the order of getting
- MAC address
-Message-ID: <20201228140115.6af4d510@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20201222210034.GC3198262@lunn.ch>
-References: <20201221205157.31501-2-hongweiz@ami.com>
- <20201222201437.5588-3-hongweiz@ami.com>
- <96c355a2-ab7e-3cf0-57e7-16369da78035@gmail.com>
- <20201222210034.GC3198262@lunn.ch>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4D4l3p12VhzDqFw;
+ Tue, 29 Dec 2020 17:33:23 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 0BT6RTSM012593;
+ Tue, 29 Dec 2020 14:27:29 +0800 (GMT-8)
+ (envelope-from chiawei_wang@aspeedtech.com)
+Received: from ChiaWeiWang-PC.aspeed.com (192.168.2.66) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Tue, 29 Dec 2020 14:31:35 +0800
+From: "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>
+To: <robh+dt@kernel.org>, <lee.jones@linaro.org>, <joel@jms.id.au>,
+ <andrew@aj.id.au>, <linus.walleij@linaro.org>, <minyard@acm.org>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+ <openbmc@lists.ozlabs.org>
+Subject: [PATCH v4 0/5] Remove LPC register partitioning
+Date: Tue, 29 Dec 2020 14:31:52 +0800
+Message-ID: <20201229063157.3587-1-chiawei_wang@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.66]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 0BT6RTSM012593
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,61 +56,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, linux-aspeed@lists.ozlabs.org,
- netdev <netdev@vger.kernel.org>, openbmc@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, David S Miller <davem@davemloft.net>,
- Heiner Kallweit <hkallweit1@gmail.com>
+Cc: BMC-SW@aspeedtech.com, cyrilbur@gmail.com, haiyue.wang@linux.intel.com,
+ rlippert@google.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 22 Dec 2020 22:00:34 +0100 Andrew Lunn wrote:
-> On Tue, Dec 22, 2020 at 09:46:52PM +0100, Heiner Kallweit wrote:
-> > On 22.12.2020 21:14, Hongwei Zhang wrote:  
-> > > Dear Reviewer,
-> > > 
-> > > Use native MAC address is preferred over other choices, thus change the order
-> > > of reading MAC address, try to read it from MAC chip first, if it's not
-> > >  availabe, then try to read it from device tree.
-> > > 
-> > > Hi Heiner,
-> > >   
-> > >> From:	Heiner Kallweit <hkallweit1@gmail.com>
-> > >> Sent:	Monday, December 21, 2020 4:37 PM  
-> > >>> Change the order of reading MAC address, try to read it from MAC chip 
-> > >>> first, if it's not availabe, then try to read it from device tree.
-> > >>>  
-> > >> This commit message leaves a number of questions. It seems the change isn't related at all to the 
-> > >> change that it's supposed to fix.
-> > >>
-> > >> - What is the issue that you're trying to fix?
-> > >> - And what is wrong with the original change?  
-> > > 
-> > > There is no bug or something wrong with the original code. This patch is for
-> > > improving the code. We thought if the native MAC address is available, then
-> > > it's preferred over MAC address from dts (assuming both sources are available).
-> > > 
-> > > One possible scenario, a MAC address is set in dts and the BMC image is 
-> > > compiled and loaded into more than one platform, then the platforms will
-> > > have network issue due to the same MAC address they read.
-> > >   
-> > 
-> > Typically the DTS MAC address is overwritten by the boot loader, e.g. uboot.
-> > And the boot loader can read it from chip registers. There are more drivers
-> > trying to read the MAC address from DTS first. Eventually, I think, the code
-> > here will read the same MAC address from chip registers as uboot did before.  
-> 
-> Do we need to worry about, the chip contains random junk, which passes
-> the validitiy test? Before this patch the value from DT would be used,
-> and the random junk is ignored. Is this change possibly going to cause
-> a regression?
+The LPC controller has no concept of the BMC and the Host partitions.
+The incorrect partitioning can impose unnecessary range restrictions
+on register access through the syscon regmap interface.
 
-Hongwei, please address Andrew's questions.
+For instance, HICRB contains the I/O port address configuration
+of KCS channel 1/2. However, the KCS#1/#2 drivers cannot access
+HICRB as it is located at the other LPC partition.
 
-Once the discussion is over please repost the patches as
-git-format-patch would generate them. The patch 2/2 of this 
-series is not really a patch, which confuses all patch handling 
-systems.
+In addition, to be backward compatible, the newly added HW control
+bits could be located at any reserved bits over the LPC addressing
+space.
 
-It also appears that 35c54922dc97 ("ARM: dts: tacoma: Add reserved
-memory for ramoops") does not exist upstream.
+Thereby, this patch series aims to remove the LPC partitioning for
+better driver development and maintenance. This requires the change
+to both the device tree and the driver implementation. To ensure
+both sides are synchronously updated, a v2 binding check is added.
+
+Chagnes since v3:
+	- Revise binding check as suggested by Haiyue Wang
+
+Changes since v2:
+	- Add v2 binding check to ensure the synchronization between the
+	  device tree change and the driver register offset fix.
+
+Changes since v1:
+	- Add the fix to the aspeed-lpc binding documentation.
+
+Chia-Wei, Wang (5):
+  dt-bindings: aspeed-lpc: Remove LPC partitioning
+  ARM: dts: Remove LPC BMC and Host partitions
+  ipmi: kcs: aspeed: Adapt to new LPC DTS layout
+  pinctrl: aspeed-g5: Adapt to new LPC device tree layout
+  soc: aspeed: Adapt to new LPC device tree layout
+
+ .../devicetree/bindings/mfd/aspeed-lpc.txt    |  99 +++----------
+ arch/arm/boot/dts/aspeed-g4.dtsi              |  74 ++++------
+ arch/arm/boot/dts/aspeed-g5.dtsi              | 135 ++++++++----------
+ arch/arm/boot/dts/aspeed-g6.dtsi              | 135 ++++++++----------
+ drivers/char/ipmi/kcs_bmc_aspeed.c            |  27 ++--
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c    |  17 ++-
+ drivers/soc/aspeed/aspeed-lpc-ctrl.c          |  20 ++-
+ drivers/soc/aspeed/aspeed-lpc-snoop.c         |  23 +--
+ 8 files changed, 225 insertions(+), 305 deletions(-)
+
+-- 
+2.17.1
+
