@@ -1,108 +1,58 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332EE2EBBE9
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Jan 2021 10:55:01 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C432EBCE0
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Jan 2021 11:59:47 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4D9l8c67YWzDqfG
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Jan 2021 20:54:56 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4D9mbN1G9rzDqfC
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Jan 2021 21:59:44 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=40.107.131.118;
- helo=apc01-sg2-obe.outbound.protection.outlook.com;
- envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
- header.from=aspeedtech.com
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
- (mail-eopbgr1310118.outbound.protection.outlook.com [40.107.131.118])
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=maz@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ dmarc=pass (p=none dis=none) header.from=kernel.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4D9l8N3K7xzDqd3
- for <linux-aspeed@lists.ozlabs.org>; Wed,  6 Jan 2021 20:54:42 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JE0CSUkyeTgF1Cn0lDvhRKR1bquysq79MX93hcdUOlZffarMuMtVhoG0T/nlFe7zTq6sDi97tub5cdOOFVeWeSKmMI0DFvESIN+EVfgF7zCkQfwIwOXttUFxutAm8qrmuV18AbEa0z5RTa0f9AlmsjxbIv4/AfgJk99yMBqisoBP3Ccaf8TjRguGeGDJiWTu5RBlA4N62ZbfHcANGrtXWcsT92PIUEm6Au35fiyqyBFrYQOxXXt9aajV3BWg0IaasksoPPIcRvqROVjDkIUtT5PCXmrIEvLcDUYn28C4Sulc/gRi1DZ5s/oLxWwRYNtm5mek8r7dH5TO4RHjTAbAwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fiRP0cECQVCWJTWkJTbluaT+asK5PZ3X4TQUPYtvMjM=;
- b=XEJDyMbX4v5M+gArLXheLlwk+otZfSrqWlN6sBM+7K6civmFQnOZl9DkJL8zG32+yPpWySHdkVYsVQ+kW9JI3QQ/IAsAApMqnB/3BeDgsTgH9jj2q9gsEifiVok2QcmFD9PW6kGYBUtIDZh5qQfx5G0C9qw+mh3FjQfATGPsqKHpxqqff99/KdAeBaBbf8ObFhk9t2mEIceKMeOs/wgeDGuVUfl2naz7YPVmFbj5UqnyInWgkQrjBBptK41uOBq80UlIUFV4+DAGt6ebH9L3HWkEIFu8gsq6rP3R0EO/TCMdjIeEYTg21TyKXtlYbPjtVFZJPZlLWsAF73vx+aWkhA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-Received: from HK0PR06MB3380.apcprd06.prod.outlook.com (2603:1096:203:82::18)
- by HK0PR06MB2339.apcprd06.prod.outlook.com (2603:1096:203:4c::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.23; Wed, 6 Jan
- 2021 09:54:30 +0000
-Received: from HK0PR06MB3380.apcprd06.prod.outlook.com
- ([fe80::116:1437:5d9a:16e9]) by HK0PR06MB3380.apcprd06.prod.outlook.com
- ([fe80::116:1437:5d9a:16e9%6]) with mapi id 15.20.3721.024; Wed, 6 Jan 2021
- 09:54:30 +0000
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: John Wang <wangzhiqiang.bj@bytedance.com>, "xuxiaohan@bytedance.com"
- <xuxiaohan@bytedance.com>, "yulei.sh@bytedance.com" <yulei.sh@bytedance.com>
-Subject: RE: [PATCH v2 1/2] misc: Add clock control logic into Aspeed LPC
- SNOOP driver
-Thread-Topic: [PATCH v2 1/2] misc: Add clock control logic into Aspeed LPC
- SNOOP driver
-Thread-Index: AQHWzUMNmbahDDZWh0mpYVY7renfO6oaiJvQ
-Date: Wed, 6 Jan 2021 09:54:30 +0000
-Message-ID: <HK0PR06MB33807C054FCE9E355346E204F2D00@HK0PR06MB3380.apcprd06.prod.outlook.com>
-References: <20201208091748.1920-1-wangzhiqiang.bj@bytedance.com>
-In-Reply-To: <20201208091748.1920-1-wangzhiqiang.bj@bytedance.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: bytedance.com; dkim=none (message not signed)
- header.d=none;bytedance.com; dmarc=none action=none
- header.from=aspeedtech.com;
-x-originating-ip: [211.20.114.70]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 08ec1f1e-921e-417d-81f4-08d8b2291021
-x-ms-traffictypediagnostic: HK0PR06MB2339:
-x-microsoft-antispam-prvs: <HK0PR06MB2339154829ED5C8A7F0DC87BF2D00@HK0PR06MB2339.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: PFnsOGH00lg6aU4vYRXJJ/nJZ3fhU1FpV+BRh6zELVu1e7faFWe6tZ/QaEbtTxiD07shWnEKRCmsRccVoa8+X17RfyOwwXFPXyxdW8i0+R6kvaPMeqMZFqpMDRaVa2pO4Hk632qlgXteUU7brlqSqK34Zs6M1L01Prr18yWi3905mOPL95ihjVg3Q4Bu60VZJDH0sI/umu5/CNidWD3uuUimqluJu4cUUv3JQOB45SsEsjLivsn1LQ8kZgPOirRxdynZgplfcI8/5nlkS8thLiwurKlqETqI1Wde58mbAP9tDttYi3OkLzfo1elON7u+1McbnYq53Sth4oJL3XcaKQ2+/L924tJ8Qlj8Yyog9U67XbQ0530olajoJUaNj7G/Or14eLp093l1fz87Iaz9z0FHnVykKgG8ui2umkxGQwP63IftX7aCK20JcbuMgl4mjm7ulYU1o9Fx5vdYwp28Zg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3380.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(39850400004)(376002)(396003)(136003)(346002)(33656002)(186003)(7696005)(110136005)(316002)(53546011)(76116006)(2906002)(55236004)(26005)(66946007)(54906003)(83380400001)(6506007)(966005)(8936002)(52536014)(478600001)(8676002)(71200400001)(4326008)(66476007)(55016002)(7416002)(66556008)(9686003)(66446008)(86362001)(64756008)(5660300002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?1jn03ALJDOVtFwa+Vhu1W9O19n7D3u2EAH+gy9aY9IrfPkFlbuZuxlcJvaPx?=
- =?us-ascii?Q?eyXLJvAyqeatZzQ9pd90m1dAflCxzusPsgVJYopb3xKVm9YdM+Yy/k9W609a?=
- =?us-ascii?Q?60eTNHiN7zJZIUZ7UnDt/c0h4EE+oNeBwKceAqHfHUghEJHbW7hGbUnNrvZv?=
- =?us-ascii?Q?iJV2rLWzfWVJ5qH4usB9eOEZY9R/H+N13KV8+uFiDvKAfuJ+yjzCnNEXsZ5C?=
- =?us-ascii?Q?LyYE1wscHeIhR7N6vi9fEFF4wQ9Z07g9Kvy+THdsDx+mKoTl13Lb5M0/pAAx?=
- =?us-ascii?Q?FWi9SIZ0yXpbFKFOVYXqekhnBxcy56L76vsq1NZ1ftRyiFhnQHg67gT5u8ST?=
- =?us-ascii?Q?QrYeJM/D6SCfweYzDQF/88XcKb8EhsaCiFJJk9CjDniYM0LwtT/6NuEomrIC?=
- =?us-ascii?Q?oN6CodTB1nSF+K7hBJ9hHfzJaDC3sp4/Jsy1fCtiAx4il0E8TImK0tmH46wl?=
- =?us-ascii?Q?xaC+lg5uo14F34pPlPb44SRO1eLhLxaTzDkKusTRdVI5u7S/weq3HP3t9fll?=
- =?us-ascii?Q?lpARPU139BqJDhReg7AkJ61O0ZSsDvumxJXKgE2cwdkaLu0yXDuSZWP9LE6j?=
- =?us-ascii?Q?5esJvw9hue/db/xZhFRM2w+IMOHous62bBgkkxRPKzWjTVUnd7g9vOHIpx5Y?=
- =?us-ascii?Q?LRWewT9Ily1mSzwDnI5x01OPFm2aHG65XfVHkXcfM0H9ib2XoI216VBvEle+?=
- =?us-ascii?Q?rU0TOudkF6Evp+LQ4ulMN0CgD1G5EQ3++XEAHgZpBwE9ZAEt6Ru1u4xTKKsk?=
- =?us-ascii?Q?9afxherRtewOoE687tMtpEv9U0YsMH5oPq4a0O8h2VpLGrKBg4guU9WzS1dE?=
- =?us-ascii?Q?J/sHZmtOhr+9yuwq1AGE20S3ucBvTFqcfOYG8IaM6GBp2lqWTdvcZb+5tnyN?=
- =?us-ascii?Q?9ABvSEj3Z6RcraJSQUiPwMWGEPyCWsGeWrQAvViGm643+bHx1d21cqRXULMn?=
- =?us-ascii?Q?WF2Nn8S+shVYhbdGJHi9YQweewxqxQfyQi8+dOygPyY=3D?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4D9mb770RszDqMx;
+ Wed,  6 Jan 2021 21:59:31 +1100 (AEDT)
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2B16222C9F;
+ Wed,  6 Jan 2021 10:59:28 +0000 (UTC)
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
+ (envelope-from <maz@kernel.org>)
+ id 1kx6XG-005cMk-0h; Wed, 06 Jan 2021 10:59:26 +0000
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3380.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08ec1f1e-921e-417d-81f4-08d8b2291021
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2021 09:54:30.5520 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kSFWATslxUJ0j33xUrpYlibdnug3yeiBB7eTUFoLlExANDq0VNi9wrJTw+f3X9tbPEHgO7GUzuglHST5shgfJciB+N2ptYRPIMvg937+RM8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2339
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Wed, 06 Jan 2021 10:59:25 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>
+Subject: Re: [PATCH 4/6] irqchip/aspeed: Add Aspeed eSPI interrupt controller
+In-Reply-To: <20210106055939.19386-5-chiawei_wang@aspeedtech.com>
+References: <20210106055939.19386-1-chiawei_wang@aspeedtech.com>
+ <20210106055939.19386-5-chiawei_wang@aspeedtech.com>
+User-Agent: Roundcube Webmail/1.4.9
+Message-ID: <123bc25c72b3b17c0c4154d8bd8ce3b0@kernel.org>
+X-Sender: maz@kernel.org
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: chiawei_wang@aspeedtech.com, robh+dt@kernel.org,
+ joel@jms.id.au, andrew@aj.id.au, tglx@linutronix.de, p.zabel@pengutronix.de,
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, BMC-SW@aspeedtech.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,155 +64,334 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Robert Lippert <rlippert@google.com>, "moderated list:ARM/ASPEED MACHINE
- SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- Vernon Mauery <vernon.mauery@linux.intel.com>,
- open list <linux-kernel@vger.kernel.org>, Patrick Venture <venture@google.com>,
- Jae Hyun Yoo <jae.hyun.yoo@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "moderated
- list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ BMC-SW@aspeedtech.com, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ robh+dt@kernel.org, p.zabel@pengutronix.de, tglx@linutronix.de,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello John, Joel, Jae,
-	For this should be set LCLK to be CRITICAL it will fix LPC related driver.=
- (KCS/BT/SNOOP)
-	I have send the patch before.=09
-	https://patchwork.ozlabs.org/project/linux-aspeed/patch/20200928070108.140=
-40-2-ryan_chen@aspeedtech.com/
-
-Hello Joel,
-	Will you consider this patch?=20
-	Beside KCS/BT/SNOOP, UART1/UART2 will be most related issue for host side.=
-=20
-
-
-> -----Original Message-----
-> From: Linux-aspeed
-> <linux-aspeed-bounces+ryan_chen=3Daspeedtech.com@lists.ozlabs.org> On
-> Behalf Of John Wang
-> Sent: Tuesday, December 8, 2020 5:18 PM
-> To: xuxiaohan@bytedance.com; yulei.sh@bytedance.com
-> Cc: Robert Lippert <rlippert@google.com>; moderated list:ARM/ASPEED
-> MACHINE SUPPORT <linux-aspeed@lists.ozlabs.org>; Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org>; Vernon Mauery
-> <vernon.mauery@linux.intel.com>; open list <linux-kernel@vger.kernel.org>=
-;
-> Jae Hyun Yoo <jae.hyun.yoo@intel.com>; Patrick Venture
-> <venture@google.com>; moderated list:ARM/ASPEED MACHINE SUPPORT
-> <linux-arm-kernel@lists.infradead.org>
-> Subject: [PATCH v2 1/2] misc: Add clock control logic into Aspeed LPC SNO=
-OP
-> driver
->=20
-> From: Jae Hyun Yoo <jae.hyun.yoo@intel.com>
->=20
-> If LPC SNOOP driver is registered ahead of lpc-ctrl module, LPC SNOOP blo=
-ck
-> will be enabled without heart beating of LCLK until lpc-ctrl enables the =
-LCLK.
-> This issue causes improper handling on host interrupts when the host send=
-s
-> interrupt in that time frame.
-> Then kernel eventually forcibly disables the interrupt with dumping stack=
- and
-> printing a 'nobody cared this irq' message out.
->=20
-> To prevent this issue, all LPC sub-nodes should enable LCLK individually =
-so this
-> patch adds clock control logic into the LPC SNOOP driver.
->=20
-> Fixes: 3772e5da4454 ("drivers/misc: Aspeed LPC snoop output using misc
-> chardev")
->=20
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@intel.com>
-> Signed-off-by: Vernon Mauery <vernon.mauery@linux.intel.com>
-> Signed-off-by: John Wang <wangzhiqiang.bj@bytedance.com>
+On 2021-01-06 05:59, Chia-Wei, Wang wrote:
+> The eSPI interrupt controller acts as a SW IRQ number
+> decoder to correctly control/dispatch interrupts of
+> the eSPI peripheral, virtual wire, out-of-band, and
+> flash channels.
+> 
+> Signed-off-by: Chia-Wei, Wang <chiawei_wang@aspeedtech.com>
 > ---
-> v2:
->   reword: Add fixes line
-> ---
->  drivers/soc/aspeed/aspeed-lpc-snoop.c | 30 ++++++++++++++++++++++++---
->  1 file changed, 27 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c
-> b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-> index 682ba0eb4eba..20acac6342ef 100644
-> --- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
-> +++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-> @@ -11,6 +11,7 @@
->   */
->=20
->  #include <linux/bitops.h>
-> +#include <linux/clk.h>
->  #include <linux/interrupt.h>
->  #include <linux/fs.h>
->  #include <linux/kfifo.h>
-> @@ -67,6 +68,7 @@ struct aspeed_lpc_snoop_channel {  struct
-> aspeed_lpc_snoop {
->  	struct regmap		*regmap;
->  	int			irq;
-> +	struct clk		*clk;
->  	struct aspeed_lpc_snoop_channel chan[NUM_SNOOP_CHANNELS];  };
->=20
-> @@ -282,22 +284,42 @@ static int aspeed_lpc_snoop_probe(struct
-> platform_device *pdev)
->  		return -ENODEV;
->  	}
->=20
-> +	lpc_snoop->clk =3D devm_clk_get(dev, NULL);
-> +	if (IS_ERR(lpc_snoop->clk)) {
-> +		rc =3D PTR_ERR(lpc_snoop->clk);
-> +		if (rc !=3D -EPROBE_DEFER)
-> +			dev_err(dev, "couldn't get clock\n");
-> +		return rc;
-> +	}
-> +	rc =3D clk_prepare_enable(lpc_snoop->clk);
-> +	if (rc) {
-> +		dev_err(dev, "couldn't enable clock\n");
-> +		return rc;
+>  drivers/irqchip/Makefile             |   2 +-
+>  drivers/irqchip/irq-aspeed-espi-ic.c | 251 ++++++++++++++++++++++++
+>  include/soc/aspeed/espi.h            | 279 +++++++++++++++++++++++++++
+>  3 files changed, 531 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/irqchip/irq-aspeed-espi-ic.c
+>  create mode 100644 include/soc/aspeed/espi.h
+> 
+> diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
+> index 0ac93bfaec61..56da4a3123f8 100644
+> --- a/drivers/irqchip/Makefile
+> +++ b/drivers/irqchip/Makefile
+> @@ -86,7 +86,7 @@ obj-$(CONFIG_MVEBU_PIC)			+= irq-mvebu-pic.o
+>  obj-$(CONFIG_MVEBU_SEI)			+= irq-mvebu-sei.o
+>  obj-$(CONFIG_LS_EXTIRQ)			+= irq-ls-extirq.o
+>  obj-$(CONFIG_LS_SCFG_MSI)		+= irq-ls-scfg-msi.o
+> -obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-vic.o irq-aspeed-i2c-ic.o
+> irq-aspeed-scu-ic.o
+> +obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-vic.o irq-aspeed-i2c-ic.o
+> irq-aspeed-scu-ic.o irq-aspeed-espi-ic.o
+>  obj-$(CONFIG_STM32_EXTI) 		+= irq-stm32-exti.o
+>  obj-$(CONFIG_QCOM_IRQ_COMBINER)		+= qcom-irq-combiner.o
+>  obj-$(CONFIG_IRQ_UNIPHIER_AIDET)	+= irq-uniphier-aidet.o
+> diff --git a/drivers/irqchip/irq-aspeed-espi-ic.c
+> b/drivers/irqchip/irq-aspeed-espi-ic.c
+> new file mode 100644
+> index 000000000000..8a5cc8fe3f0c
+> --- /dev/null
+> +++ b/drivers/irqchip/irq-aspeed-espi-ic.c
+> @@ -0,0 +1,251 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright (c) 2020 Aspeed Technology Inc.
+> + */
+> +#include <linux/bitops.h>
+> +#include <linux/module.h>
+> +#include <linux/irq.h>
+> +#include <linux/irqchip.h>
+> +#include <linux/irqchip/chained_irq.h>
+> +#include <linux/irqdomain.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/mfd/syscon.h>
+> +#include <linux/regmap.h>
+> +#include <linux/of.h>
+> +#include <linux/of_platform.h>
+> +
+> +#include <soc/aspeed/espi.h>
+> +#include <dt-bindings/interrupt-controller/aspeed-espi-ic.h>
+> +
+> +#define DEVICE_NAME	"aspeed-espi-ic"
+> +#define IRQCHIP_NAME	"eSPI-IC"
+> +
+> +#define ESPI_IC_IRQ_NUM	7
+> +
+> +struct aspeed_espi_ic {
+> +	struct regmap *map;
+> +	int irq;
+> +	int gpio_irq;
+> +	struct irq_domain *irq_domain;
+> +};
+> +
+> +static void aspeed_espi_ic_gpio_isr(struct irq_desc *desc)
+> +{
+> +	unsigned int irq;
+> +	struct aspeed_espi_ic *espi_ic = irq_desc_get_handler_data(desc);
+> +	struct irq_chip *chip = irq_desc_get_chip(desc);
+> +
+> +	chained_irq_enter(chip, desc);
+> +
+> +	irq = irq_find_mapping(espi_ic->irq_domain,
+> +				   ASPEED_ESPI_IC_CTRL_RESET);
+> +	generic_handle_irq(irq);
+> +
+> +	irq = irq_find_mapping(espi_ic->irq_domain,
+> +				   ASPEED_ESPI_IC_CHAN_RESET);
+> +	generic_handle_irq(irq);
+
+So for each mux interrupt, you generate two endpoints interrupt,
+without even checking whether they are pending? That's no good.
+
+> +
+> +	chained_irq_exit(chip, desc);
+> +}
+> +
+> +static void aspeed_espi_ic_isr(struct irq_desc *desc)
+> +{
+> +	unsigned int sts;
+> +	unsigned int irq;
+> +	struct aspeed_espi_ic *espi_ic = irq_desc_get_handler_data(desc);
+> +	struct irq_chip *chip = irq_desc_get_chip(desc);
+> +
+> +	chained_irq_enter(chip, desc);
+> +
+> +	regmap_read(espi_ic->map, ESPI_INT_STS, &sts);
+> +
+> +	if (sts & ESPI_INT_STS_PERIF_BITS) {
+> +		irq = irq_find_mapping(espi_ic->irq_domain,
+> +				       ASPEED_ESPI_IC_PERIF_EVENT);
+> +		generic_handle_irq(irq);
 > +	}
 > +
->  	rc =3D aspeed_lpc_snoop_config_irq(lpc_snoop, pdev);
->  	if (rc)
-> -		return rc;
-> +		goto err;
->=20
->  	rc =3D aspeed_lpc_enable_snoop(lpc_snoop, dev, 0, port);
->  	if (rc)
-> -		return rc;
-> +		goto err;
->=20
->  	/* Configuration of 2nd snoop channel port is optional */
->  	if (of_property_read_u32_index(dev->of_node, "snoop-ports",
->  				       1, &port) =3D=3D 0) {
->  		rc =3D aspeed_lpc_enable_snoop(lpc_snoop, dev, 1, port);
-> -		if (rc)
-> +		if (rc) {
->  			aspeed_lpc_disable_snoop(lpc_snoop, 0);
-> +			goto err;
-> +		}
->  	}
->=20
+> +	if (sts & ESPI_INT_STS_VW_BITS) {
+> +		irq = irq_find_mapping(espi_ic->irq_domain,
+> +				       ASPEED_ESPI_IC_VW_EVENT);
+> +		generic_handle_irq(irq);
+> +	}
+> +
+> +	if (sts & ESPI_INT_STS_OOB_BITS) {
+> +		irq = irq_find_mapping(espi_ic->irq_domain,
+> +				       ASPEED_ESPI_IC_OOB_EVENT);
+> +		generic_handle_irq(irq);
+> +	}
+> +
+> +	if (sts & ESPI_INT_STS_FLASH_BITS) {
+> +		irq = irq_find_mapping(espi_ic->irq_domain,
+> +				       ASPEED_ESPI_IC_FLASH_EVENT);
+> +		generic_handle_irq(irq);
+> +	}
+> +
+> +	if (sts & ESPI_INT_STS_HW_RST_DEASSERT) {
+> +		irq = irq_find_mapping(espi_ic->irq_domain,
+> +				       ASPEED_ESPI_IC_CTRL_EVENT);
+> +		generic_handle_irq(irq);
+> +	}
+
+This is horrible. Why can't you just use fls() in a loop?
+
+> +
+> +	chained_irq_exit(chip, desc);
+> +}
+> +
+> +static void aspeed_espi_ic_irq_disable(struct irq_data *data)
+> +{
+> +	struct aspeed_espi_ic *espi_ic = irq_data_get_irq_chip_data(data);
+> +
+> +	switch (data->hwirq) {
+> +	case ASPEED_ESPI_IC_CTRL_EVENT:
+> +		regmap_update_bits(espi_ic->map, ESPI_INT_EN,
+> +				   ESPI_INT_EN_HW_RST_DEASSERT,
+> +				   0);
+> +		break;
+> +	case ASPEED_ESPI_IC_PERIF_EVENT:
+> +		regmap_update_bits(espi_ic->map, ESPI_INT_EN,
+> +				   ESPI_INT_EN_PERIF_BITS, 0);
+> +		break;
+> +	case ASPEED_ESPI_IC_VW_EVENT:
+> +		regmap_update_bits(espi_ic->map, ESPI_INT_EN,
+> +				   ESPI_INT_EN_VW_BITS, 0);
+> +		break;
+> +	case ASPEED_ESPI_IC_OOB_EVENT:
+> +		regmap_update_bits(espi_ic->map, ESPI_INT_EN,
+> +				   ESPI_INT_EN_OOB_BITS, 0);
+> +		break;
+> +	case ASPEED_ESPI_IC_FLASH_EVENT:
+> +		regmap_update_bits(espi_ic->map, ESPI_INT_EN,
+> +				   ESPI_INT_EN_FLASH_BITS, 0);
+> +		break;
+> +	}
+
+Most of these are masking multiple events at once, which makes me
+think that it really doesn't belong here...
+
+> +}
+> +
+> +static void aspeed_espi_ic_irq_enable(struct irq_data *data)
+> +{
+> +	struct aspeed_espi_ic *espi_ic = irq_data_get_irq_chip_data(data);
+> +
+> +	switch (data->hwirq) {
+> +	case ASPEED_ESPI_IC_CTRL_EVENT:
+> +		regmap_update_bits(espi_ic->map, ESPI_INT_EN,
+> +				   ESPI_INT_EN_HW_RST_DEASSERT,
+> +				   ESPI_INT_EN_HW_RST_DEASSERT);
+> +		break;
+> +	case ASPEED_ESPI_IC_PERIF_EVENT:
+> +		regmap_update_bits(espi_ic->map, ESPI_INT_EN,
+> +				   ESPI_INT_EN_PERIF_BITS,
+> +				   ESPI_INT_EN_PERIF_BITS);
+> +		break;
+> +	case ASPEED_ESPI_IC_VW_EVENT:
+> +		regmap_update_bits(espi_ic->map, ESPI_INT_EN,
+> +				   ESPI_INT_EN_VW_BITS,
+> +				   ESPI_INT_EN_VW_BITS);
+> +		break;
+> +	case ASPEED_ESPI_IC_OOB_EVENT:
+> +		regmap_update_bits(espi_ic->map, ESPI_INT_EN,
+> +				   ESPI_INT_EN_OOB_BITS,
+> +				   ESPI_INT_EN_OOB_BITS);
+> +		break;
+> +	case ASPEED_ESPI_IC_FLASH_EVENT:
+> +		regmap_update_bits(espi_ic->map, ESPI_INT_EN,
+> +				   ESPI_INT_EN_FLASH_BITS,
+> +				   ESPI_INT_EN_FLASH_BITS);
+> +		break;
+> +	}
+> +}
+> +
+> +static struct irq_chip aspeed_espi_ic_chip = {
+> +	.name = IRQCHIP_NAME,
+> +	.irq_enable = aspeed_espi_ic_irq_enable,
+> +	.irq_disable = aspeed_espi_ic_irq_disable,
+> +};
+> +
+> +static int aspeed_espi_ic_map(struct irq_domain *domain, unsigned int 
+> irq,
+> +			     irq_hw_number_t hwirq)
+> +{
+> +	irq_set_chip_and_handler(irq, &aspeed_espi_ic_chip, 
+> handle_simple_irq);
+> +	irq_set_chip_data(irq, domain->host_data);
+> +
 > +	return 0;
+> +}
 > +
-> +err:
-> +	clk_disable_unprepare(lpc_snoop->clk);
+> +static const struct irq_domain_ops aspeed_espi_ic_domain_ops = {
+> +	.map = aspeed_espi_ic_map,
+> +};
 > +
->  	return rc;
->  }
->=20
-> @@ -309,6 +331,8 @@ static int aspeed_lpc_snoop_remove(struct
-> platform_device *pdev)
->  	aspeed_lpc_disable_snoop(lpc_snoop, 0);
->  	aspeed_lpc_disable_snoop(lpc_snoop, 1);
->=20
-> +	clk_disable_unprepare(lpc_snoop->clk);
+> +static int aspeed_espi_ic_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev;
+> +	struct aspeed_espi_ic *espi_ic;
 > +
->  	return 0;
->  }
->=20
-> --
-> 2.25.1
+> +	dev = &pdev->dev;
+> +
+> +	espi_ic = devm_kzalloc(dev, sizeof(*espi_ic), GFP_KERNEL);
+> +	if (!espi_ic)
+> +		return -ENOMEM;
+> +
+> +	espi_ic->map = syscon_node_to_regmap(dev->parent->of_node);
+> +	if (IS_ERR(espi_ic->map)) {
+> +		dev_err(dev, "cannot get regmap\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	espi_ic->irq = platform_get_irq(pdev, 0);
+> +	if (espi_ic->irq < 0)
+> +		return espi_ic->irq;
+> +
+> +	espi_ic->gpio_irq = platform_get_irq(pdev, 1);
+> +	if (espi_ic->gpio_irq < 0)
+> +		return espi_ic->gpio_irq;
+> +
+> +	espi_ic->irq_domain = irq_domain_add_linear(dev->of_node, 
+> ESPI_IC_IRQ_NUM,
+> +						    &aspeed_espi_ic_domain_ops,
+> +						    espi_ic);
+> +	if (!espi_ic->irq_domain) {
+> +		dev_err(dev, "cannot to add irq domain\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	irq_set_chained_handler_and_data(espi_ic->irq,
+> +					 aspeed_espi_ic_isr,
+> +					 espi_ic);
+> +
+> +	irq_set_chained_handler_and_data(espi_ic->gpio_irq,
+> +					 aspeed_espi_ic_gpio_isr,
+> +					 espi_ic);
+> +
+> +	dev_set_drvdata(dev, espi_ic);
+> +
+> +	dev_info(dev, "eSPI IRQ controller initialized\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static int aspeed_espi_ic_remove(struct platform_device *pdev)
+> +{
+> +	struct aspeed_espi_ic *espi_ic = platform_get_drvdata(pdev);
+> +
+> +	irq_domain_remove(espi_ic->irq_domain);
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id aspeed_espi_ic_of_matches[] = {
+> +	{ .compatible = "aspeed,ast2600-espi-ic" },
+> +	{ },
+> +};
+> +
+> +static struct platform_driver aspeed_espi_ic_driver = {
+> +	.driver = {
+> +		.name = DEVICE_NAME,
+> +		.of_match_table = aspeed_espi_ic_of_matches,
+> +	},
+> +	.probe = aspeed_espi_ic_probe,
+> +	.remove = aspeed_espi_ic_remove,
+> +};
+> +
+> +module_platform_driver(aspeed_espi_ic_driver);
+> +
+> +MODULE_AUTHOR("Chia-Wei Wang <chiawei_wang@aspeedtech.com>");
+> +MODULE_AUTHOR("Ryan Chen <ryan_chen@aspeedtech.com>");
+> +MODULE_DESCRIPTION("Aspeed eSPI interrupt controller");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/include/soc/aspeed/espi.h b/include/soc/aspeed/espi.h
+> new file mode 100644
+> index 000000000000..c9a4f51737ee
+> --- /dev/null
+> +++ b/include/soc/aspeed/espi.h
+> @@ -0,0 +1,279 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2020 Aspeed Technology Inc.
+> + * Author: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+> + */
+> +#ifndef _ASPEED_ESPI_H_
+> +#define _ASPEED_ESPI_H_
 
+[...]
+
+If nothing else uses the data here, move it to the irqchip driver.
+
+         M.
+-- 
+Jazz is not dead. It just smells funny...
