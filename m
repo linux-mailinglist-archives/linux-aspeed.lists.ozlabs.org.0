@@ -2,60 +2,105 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C1F2EC068
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Jan 2021 16:32:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7059F2EC815
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Jan 2021 03:31:45 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4D9tdp2DvSzDqjM
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Jan 2021 02:32:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DB9Gj1nXszDqmT
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Jan 2021 13:31:41 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.166.47; helo=mail-io1-f47.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=fail (p=none dis=none) header.from=kernel.org
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
- [209.85.166.47])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ smtp.mailfrom=aspeedtech.com (client-ip=40.107.132.115;
+ helo=apc01-pu1-obe.outbound.protection.outlook.com;
+ envelope-from=chiawei_wang@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=aspeedtech.com
+Received: from APC01-PU1-obe.outbound.protection.outlook.com
+ (mail-eopbgr1320115.outbound.protection.outlook.com [40.107.132.115])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4D9tdk1vVmzDqfH;
- Thu,  7 Jan 2021 02:32:09 +1100 (AEDT)
-Received: by mail-io1-f47.google.com with SMTP id z5so3065173iob.11;
- Wed, 06 Jan 2021 07:32:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=t80RrQIP9pcWO65dqznFuyn9d1RG+MW1J0H6Xs08o5Q=;
- b=bnfpJu+r47+oXtW69r8HlX6R3QUIDfrQXWvM12mkoB9+AVqXN+u5VCzJFX6kVAwspJ
- rPLsv6ddSlkCebcxziDGneVY61Mtgbr+KvGt6chV/f9uFyed3iDdsszpYPHIAt2Y+awF
- vhBgFenp85HERKDOYfl3aoLCjrzfSFx2Nq6+aBYIp6rMwjthoyy33rONVoIopT8EFTzu
- kwhc/BI4ao8UB8JgbtO8u4HniIlPT4rV3P5rpuBn6n97nkOfm0a7w2MSWk9nn/NZxF75
- roZb11OADaovHZFvVXCrPMaWDdYVFI04GmP7uHwcN2HFFSl1eHIvXyW6GhyJawiw0dmZ
- 7Pog==
-X-Gm-Message-State: AOAM5313wx9mgpbNUmuTuewAy5ZD+mNl+0i7cbhjiBDbU1qdPWgFkSWI
- C9nHJxonNxTkkRRpM7jCGA==
-X-Google-Smtp-Source: ABdhPJyz6kf7fccUgN42Q21kf9oT8emUqUG0qvmMQDGTyBYyMTKFCZbUVC4pPwY/vKQfpxrz6D+Cnw==
-X-Received: by 2002:a02:b709:: with SMTP id g9mr4250778jam.90.1609947126638;
- Wed, 06 Jan 2021 07:32:06 -0800 (PST)
-Received: from robh.at.kernel.org ([64.188.179.253])
- by smtp.gmail.com with ESMTPSA id n10sm2371751ila.69.2021.01.06.07.32.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jan 2021 07:32:05 -0800 (PST)
-Received: (nullmailer pid 2267272 invoked by uid 1000);
- Wed, 06 Jan 2021 15:32:02 -0000
-Date: Wed, 6 Jan 2021 08:32:02 -0700
-From: Rob Herring <robh@kernel.org>
-To: "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>
-Subject: Re: [PATCH 5/6] soc: aspeed: Add eSPI driver
-Message-ID: <20210106153202.GA2258036@robh.at.kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DB9GX1ZVrzDqlQ;
+ Thu,  7 Jan 2021 13:31:30 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PzZwCWBVkaFhO9nRxzE954jCPU/3xDnUhAGD8+GpeSd7h9ZoDM1vEAgm96pSPnoQgdxdFOOQFH+1YRo9bLsWrrfjD6BA9f169a+eKNL4ow339Ce+1+GKUby16sSRVm5CwVsKca0t1koxG6D1jBSbbNPoyaXnH6u7scvJjz7UjYU26EJX8U2lL2bssS/Rn5SRhtwV+2Q5AU6I/v23zpFk+x5eBw6fFU3XVXuSMOQvjLkDxpuCbR4HV6ZlVVkvhCsJyqA1cdxb22qYKvC8kp9z1gHX6zJS9ysnnM2Bj/cQH0wxgPWYBV49+TzIMQVlVEy0EkEv0FIzT25DjSznIceozQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=popcx/L3N3Lqy94ry5M5eaMEyt07bWPZPcGMvs2IcGk=;
+ b=nS21AYzBEqrA3HV38evgl6syt0H4DcIKRuona3NZt+EmQfhFNNV1Dn4rUonHzUhyg7oIpeDeR4wKILFgHo+LRIIIkiBzA6NkpBHTlVEWrVAC6oMXYvVbCyGhiy268oPNTcg6yN2YwPqYZB2VGjSIvYSmYgRjazWZcMq/6PRiwchGReCAslw7dCRMNzVtMqb16ExBa5CFBEhfchKolOxqzqUG8eboV3DymK2J9gP6h2EVLPrdQP0mVvCamV9FG1cVK1xYgVE8ZU0gCngwh8QJddFDMJZ9HJtBcrD4DuXDo+ivldiPDcbHHTzxFmhY/Zb5hZ0f01tqxjox9PnpYy5I6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+Received: from HK0PR06MB3779.apcprd06.prod.outlook.com (2603:1096:203:b8::10)
+ by HK2PR0601MB2002.apcprd06.prod.outlook.com (2603:1096:202:3::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Thu, 7 Jan
+ 2021 02:31:16 +0000
+Received: from HK0PR06MB3779.apcprd06.prod.outlook.com
+ ([fe80::7061:73d9:50ae:b35e]) by HK0PR06MB3779.apcprd06.prod.outlook.com
+ ([fe80::7061:73d9:50ae:b35e%7]) with mapi id 15.20.3721.024; Thu, 7 Jan 2021
+ 02:31:16 +0000
+From: ChiaWei Wang <chiawei_wang@aspeedtech.com>
+To: Rob Herring <robh@kernel.org>
+Subject: RE: [PATCH 1/6] dt-bindings: aspeed: Add eSPI controller
+Thread-Topic: [PATCH 1/6] dt-bindings: aspeed: Add eSPI controller
+Thread-Index: AQHW4/EDqNrLvWbVbUeeQVqbvsj31aoas4mAgAC+QuA=
+Date: Thu, 7 Jan 2021 02:31:16 +0000
+Message-ID: <HK0PR06MB37793C49F562E169393AB0A491AF0@HK0PR06MB3779.apcprd06.prod.outlook.com>
 References: <20210106055939.19386-1-chiawei_wang@aspeedtech.com>
- <20210106055939.19386-6-chiawei_wang@aspeedtech.com>
+ <20210106055939.19386-2-chiawei_wang@aspeedtech.com>
+ <1609945675.315536.2229518.nullmailer@robh.at.kernel.org>
+In-Reply-To: <1609945675.315536.2229518.nullmailer@robh.at.kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=aspeedtech.com;
+x-originating-ip: [211.20.114.70]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 44bf247c-424e-4ee4-2a0c-08d8b2b44ef3
+x-ms-traffictypediagnostic: HK2PR0601MB2002:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <HK2PR0601MB20028069FF87BE3A3303ABA591AF0@HK2PR0601MB2002.apcprd06.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: U3zaLJ8cEEAjkACYsqnnzvmg2kk1b2djVjiaB5vlbM6hMDGTE/qRfNxkSKySE1bzC5tNkAcngyC8glLUczuZL78RCTrhRxssuf1vvxdWoGpBCT+DGg/F4bJtKErm0PAvap24QqIA5il4GJ9lJ3/+SjcSxmeZI5Hx4EODwoMrpZJQjIUKKaV+gC7qxqW+1w8fJV9YQXSAzYDmGMp/hUH3+FH+X924cGQz2B+Ld6fos4AG4gWEMoRc8XYdtGJ07f69noLsNlZ4BXxAux4Tt/X/Ic7InebmIEXjZ/PnmqUiAkd4ZIMmawJAsY8PQsymv0wbMCy6A/dQUj5xOBoChROUnhAZYgo0gu6MRFoSp9CvuDEgU94/wXRO0CildtcLp2mQItgqkRqKy7eXi0S/pzNVncC7bVNL2PH5SXLWsbke6VQAJ4Zv09wNE0OthYeehT51PI/sctabb8kW20N2OEJhkQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR06MB3779.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39840400004)(396003)(346002)(366004)(376002)(136003)(8936002)(54906003)(8676002)(6916009)(7696005)(316002)(66556008)(66946007)(64756008)(66446008)(52536014)(66476007)(76116006)(71200400001)(478600001)(966005)(5660300002)(33656002)(2906002)(83380400001)(55016002)(186003)(4326008)(107886003)(7416002)(9686003)(26005)(86362001)(53546011)(55236004)(6506007);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?BZoeBJTMIw4PEPK06qNAURl1nHjRmMSdFi81V8Y7w3qoH1FLCgjqcFltLYAt?=
+ =?us-ascii?Q?kHzEkaHBHQgyFPEB3cWlHUK5J8/yPoLr3my8Hj95fNlXvDs237NLC0wCyIRl?=
+ =?us-ascii?Q?9zHf+WS2hqG0M0f5Wx9WuAUlW+clvJ7jgD2fp0mEqS2REkpZPRhZXAZHt0B5?=
+ =?us-ascii?Q?M2BZbpmL9Cw/3GQ2GiKsbeD3si6bhTe3QfWVBQXZN6DpGeSm4bGS1pSObou3?=
+ =?us-ascii?Q?iOR9Q5zpCyYozaVAnZu8SK8ABYtZiNGQrwlMRi03TcjD40yQ/xrbPMtPTAX1?=
+ =?us-ascii?Q?61Jd/zXG4Qmsf93knezTIfpvKzamHY1av1CaYDqtBBDho9W/meTePjn2u64+?=
+ =?us-ascii?Q?N8zXp2sfYgPlu+5gAd/BDPBYebVTQE8AET9A5ffbULV5iVpS3+kfghaxhY4a?=
+ =?us-ascii?Q?JM/ibUzfVDlYv2F1mXkboWJhpruDKqETqvAlc2qfjrUF4HBaz2wX6s7vmWZw?=
+ =?us-ascii?Q?wnP7YO+lhcdxIdzV2k2jmfdJXYLIioFyD3rX8DK208Ccsa783ZLCyLmX2K3v?=
+ =?us-ascii?Q?GvvHbNQxfTLE+BuvUMk7ZCLfpbYCoSekZHEMSRlxed5a5lVMEd92/TTxUYwa?=
+ =?us-ascii?Q?mkeP8d9DdLAnb6d06FAWtxRI6l2W0kHeSqk0hNOZRsBQ9zWqwLkPFvTP+ags?=
+ =?us-ascii?Q?Uh+MD5kcT25L8RjTZQfUQ9InvSOHvT+SZH8aqKb+kuMsT+Lh7CmmpSfb6hW7?=
+ =?us-ascii?Q?pQ9xalYZkDd0pewTxu+91PgEf2TY7iGH82i41N6nB1AC9GyZn5RXkIJKYipF?=
+ =?us-ascii?Q?EG/Uyh7f4zhBsck7M4Bun41re1/85eEzY3pSDl/PGjeDRaP8fAzk4Q+IuOWO?=
+ =?us-ascii?Q?EIewQf4bcykHL90EB5TOqMwFA3SRyE0CSy8X9eNnjA1T/jbGWECCICkIslkG?=
+ =?us-ascii?Q?vwy28lpVCPeQvILbEICYCxAzdJ6DGMRfLkLvMo+vChfkpPrFqpaqQ9z1gWVP?=
+ =?us-ascii?Q?rNRK4rpfeS8/OspQxyGMQyiYGwAApsJXmYFnMbzIR84=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210106055939.19386-6-chiawei_wang@aspeedtech.com>
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3779.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44bf247c-424e-4ee4-2a0c-08d8b2b44ef3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jan 2021 02:31:16.0232 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +63IKmGXEyjG9BMW0aHhuIaGmgu4dSp9s86cdRtyT5Ij/gRznkn2eSkBjIBOzhpHQqZl43VemKI5wc7BUgSqWnN2eRJezVJQIKunqlCw/tc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2PR0601MB2002
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,45 +112,70 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- BMC-SW@aspeedtech.com, maz@kernel.org, openbmc@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, p.zabel@pengutronix.de, tglx@linutronix.de,
- linux-arm-kernel@lists.infradead.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ BMC-SW <BMC-SW@aspeedtech.com>, "maz@kernel.org" <maz@kernel.org>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "tglx@linutronix.de" <tglx@linutronix.de>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Jan 06, 2021 at 01:59:38PM +0800, Chia-Wei, Wang wrote:
-> The Aspeed eSPI controller is slave device to communicate with
-> the master through the Enhanced Serial Peripheral Interface (eSPI).
-> All of the four eSPI channels, namely peripheral, virtual wire,
-> out-of-band, and flash are supported.
-> 
-> Signed-off-by: Chia-Wei, Wang <chiawei_wang@aspeedtech.com>
-> ---
->  drivers/soc/aspeed/Kconfig                  |  49 ++
->  drivers/soc/aspeed/Makefile                 |   5 +
->  drivers/soc/aspeed/aspeed-espi-ctrl.c       | 197 ++++++
->  drivers/soc/aspeed/aspeed-espi-flash.c      | 490 ++++++++++++++
->  drivers/soc/aspeed/aspeed-espi-oob.c        | 706 ++++++++++++++++++++
->  drivers/soc/aspeed/aspeed-espi-peripheral.c | 613 +++++++++++++++++
->  drivers/soc/aspeed/aspeed-espi-vw.c         | 211 ++++++
->  include/uapi/linux/aspeed-espi.h            | 160 +++++
->  8 files changed, 2431 insertions(+)
->  create mode 100644 drivers/soc/aspeed/aspeed-espi-ctrl.c
->  create mode 100644 drivers/soc/aspeed/aspeed-espi-flash.c
->  create mode 100644 drivers/soc/aspeed/aspeed-espi-oob.c
->  create mode 100644 drivers/soc/aspeed/aspeed-espi-peripheral.c
->  create mode 100644 drivers/soc/aspeed/aspeed-espi-vw.c
+Hi Rob,
 
-drivers/spi/ is the correct location for a SPI controller.
+> -----Original Message-----
+> From: Rob Herring <robh@kernel.org>
+> Sent: Wednesday, January 6, 2021 11:08 PM
+> To: ChiaWei Wang <chiawei_wang@aspeedtech.com>
+> Subject: Re: [PATCH 1/6] dt-bindings: aspeed: Add eSPI controller
+>=20
+> On Wed, 06 Jan 2021 13:59:34 +0800, Chia-Wei, Wang wrote:
+> > Add dt-bindings and the inclusion header for Aspeed eSPI controller.
+> >
+> > Signed-off-by: Chia-Wei, Wang <chiawei_wang@aspeedtech.com>
+> > ---
+> >  .../devicetree/bindings/soc/aspeed/espi.yaml  | 252
+> ++++++++++++++++++
+> >  .../interrupt-controller/aspeed-espi-ic.h     |  15 ++
+> >  2 files changed, 267 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/soc/aspeed/espi.yaml
+> >  create mode 100644
+> > include/dt-bindings/interrupt-controller/aspeed-espi-ic.h
+> >
+>=20
+> My bot found errors running 'make dt_binding_check' on your patch:
+>=20
+> yamllint warnings/errors:
+>=20
+> dtschema/dtc warnings/errors:
+> Error:
+> Documentation/devicetree/bindings/soc/aspeed/espi.example.dts:45.35-36
+> syntax error FATAL ERROR: Unable to parse input tree
+> make[1]: *** [scripts/Makefile.lib:344:
+> Documentation/devicetree/bindings/soc/aspeed/espi.example.dt.yaml] Error =
+1
+> make: *** [Makefile:1370: dt_binding_check] Error 2
+>=20
+> See https://patchwork.ozlabs.org/patch/1422809
+>=20
+> This check can fail if there are any dependencies. The base for a patch s=
+eries is
+> generally the most recent rc1.
+>=20
+> If you already ran 'make dt_binding_check' and didn't see the above error=
+(s),
+> then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+>=20
+> pip3 install dtschema --upgrade
+>=20
+> Please check and re-submit.
 
->  create mode 100644 include/uapi/linux/aspeed-espi.h
+My 'make dt_binding_check' did not show the error.
+I will update the tool as suggested to fix the error. Thanks.
 
-This userspace interface is not going to be accepted upstream.
-
-I'd suggest you look at similar SPI flash capable SPI controller drivers 
-upstream and model your driver after them. This looks like it needs 
-major reworking.
-
-Rob
