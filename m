@@ -2,89 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 687652F0A87
-	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Jan 2021 01:02:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21ED32F0B04
+	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Jan 2021 03:24:55 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DDYnB3FCKzDqQQ
-	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Jan 2021 11:02:54 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DDcx02KnfzDqVl
+	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Jan 2021 13:24:52 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.27;
- helo=out3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f33;
+ helo=mail-qv1-xf33.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=ZaAILfvy; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=pF4fPa/U; 
- dkim-atps=neutral
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ dmarc=none (p=none dis=none) header.from=jms.id.au
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=kBLXwma7; dkim-atps=neutral
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com
+ [IPv6:2607:f8b0:4864:20::f33])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DDYmz4M49zDqFK
- for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Jan 2021 11:02:43 +1100 (AEDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 3A5AB5C0066;
- Sun, 10 Jan 2021 19:02:39 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Sun, 10 Jan 2021 19:02:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=YHDGpMsoVWO7Mu0PPN8KuDaFtz6Yykc
- CQ780RW5/qxw=; b=ZaAILfvy5ecridk++cJ0nJ4K/Oni0M8gbBt8H5IDOnlfeNj
- Mo8nq31+IJ6ROeQTNBMDqquGNuY+ixPvPF/EfCRvnYbi+StHMb5u4owS1IbLcwaJ
- fGuGk6UTarTg8YOaqBC7OK8njZueBAATPZn/Gyy/IkKAKR6i1BztxNwh4uaR0kVm
- 3k+cccwP4SAMBs/Y8qD11DGqN7BN7OJVic/ai9BRuSvucrBpykivqaZOFos9k7pK
- zX2TylMK/eIBVoJ34tdtJMQiUgeyMXIMTuXUX6mZs5bV1y1r699ghSY3Xqw8VaqL
- vOFflD7nbINSIZWHwpJZotyTrA3elFBJrzie/XA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=YHDGpM
- soVWO7Mu0PPN8KuDaFtz6YykcCQ780RW5/qxw=; b=pF4fPa/UWkHXKr5pNhdG9q
- vBaanS0z8zTNwimmVCAM2By+ADYxx9v48FWNh7Fr/Rtgbug5jGsRqdaiRUWH7/jB
- 6I52/g8iDiUMS1yihvqSerhNlGvHsYF4+exRfoAAr7d09yjJ6WlDaFBEZ7Y0XSS6
- xflDyUncnOYvA2k20kdwUKXVKPKO5+11/cNiRTI+59gTAfYM96auf0uLGmplIQxH
- eTXKvAOMrB1bn1Xdn6Tg/DcHjiZughf2N5wi5bKhv0OogEjnboCcOSpyyZxYcOBn
- 55vSjGv+SzYB4a+48+TSXdPuZKRmcAqFGZkx1piqJGMpHhwp6VsUQ45bYfDREAmQ
- ==
-X-ME-Sender: <xms:nJX7X0-vTH81zuNKvqIMJPtxcq9IN0WMIHhgscQ3qY7G-WaKCAzv1w>
- <xme:nJX7X8u68X-9gWWX2O_IguwwioHT99hLFYB0D1zxpIJBU3qXRR7pRfTl4IvBPreiv
- TY_f-eVW-AEjLdqgQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehtddgudegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhepuddttdekueeggedvtddtueekiedutdfguedutdefieeuteefieelteet
- vddthfeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:nZX7X6BCQ9yklg5W8vmuA_Eq76fAZ8EZcbkMVa3AwaIzKtEkWHn5rg>
- <xmx:nZX7X0eK4qbgMcgJz9T8-pH0nH1bPGM0A5lXwDgkgxnFSjxnDBmYhQ>
- <xmx:nZX7X5NuaN6KlHOkhyqIsFOYmhrTo4B9dzRlXBkZFmDCgsDLGrqIyA>
- <xmx:n5X7X8eNOxauqVlg4v-yio38sT6_ingLbCRm6UHN9NpRF0-O5_nNSw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id D610CE00BF; Sun, 10 Jan 2021 19:02:36 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-45-g4839256-fm-20210104.001-g48392560
-Mime-Version: 1.0
-Message-Id: <6f341a22-f5ce-4c38-9f42-358124468821@www.fastmail.com>
-In-Reply-To: <ff588027-0fbb-100e-05a9-4a804662d838@intel.com>
-References: <20201218035338.1130849-1-andrew@aj.id.au>
- <20201218035338.1130849-5-andrew@aj.id.au>
- <ff588027-0fbb-100e-05a9-4a804662d838@intel.com>
-Date: Mon, 11 Jan 2021 10:32:15 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Adrian Hunter" <adrian.hunter@intel.com>,
- linux-mmc <linux-mmc@vger.kernel.org>
-Subject: =?UTF-8?Q?Re:_[PATCH_v6_4/6]_mmc:_sdhci-of-aspeed:_Add_KUnit_tests_for_p?=
- =?UTF-8?Q?hase_calculations?=
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DDcwr25DCzDqTb
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 11 Jan 2021 13:24:43 +1100 (AEDT)
+Received: by mail-qv1-xf33.google.com with SMTP id a1so1094477qvd.13
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 10 Jan 2021 18:24:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MGQGE/P7zFeVjmp8sXkUln0e8v6TZ5uhfq3Bnowm7sI=;
+ b=kBLXwma7GmjHOu9EnI+4kzdu6mLbzGBHunbcBL53iYVea9o9twxuwVa/v8ecYOgkn0
+ aF44jCNymnQOZ0tLwQMfcsXOOpCmjLV8EhX2pNgKJhOdxOddbsvwwwpuf0ho/1nlbFIN
+ o7GZkyXTl8kK5METyATFCT28HtoLcHEE291yk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MGQGE/P7zFeVjmp8sXkUln0e8v6TZ5uhfq3Bnowm7sI=;
+ b=l/W/E+lGWPLAQblzc+IhcKhNPDXRxffDN6YAs4bQI+bCcarDKrJ4q0qtRv8GHuww4d
+ 1eY765ujicqGG5u5jhqgD1gy2SOEEJYYmyRcQCnENtr4qmnDQNICxlMcgxYIkgRPHyFh
+ WxsYvxMebVUl+4fZJWYr/kryFD/VrQ0NM/bB63lUe5dOPqujTVAZJEbn/86G3k8rEEVb
+ kTA7UwUh+wqxITCCtISDY+Wyj7Ctm+HGAdicTvG1f9S9qwLDXU+WRIOqvECQs1tT2sIr
+ A30d63mU2avq52rz1C/40cLqC0xhiq3uhATOEmHSCMhYtD0iNPSuSFJZQKyeWgI4ku8q
+ 0aTg==
+X-Gm-Message-State: AOAM530E0zKmHklGp63HoBFpButSKBmbjmZLTtxdJ2x099RX1MCMt/en
+ pbZEUVE8P8Dgi+9kyHVSyOWx9NJS9Lvg56ncZzc=
+X-Google-Smtp-Source: ABdhPJxaouI1Ui10wouE803ofFsrqx8gIkuSfvXhW51lYC9+Xwm3efzJcConRIfxsHULH9ZAnV5bDCL5+uB1oErJMKM=
+X-Received: by 2002:a0c:a98c:: with SMTP id a12mr9902794qvb.43.1610331879213; 
+ Sun, 10 Jan 2021 18:24:39 -0800 (PST)
+MIME-Version: 1.0
+References: <20210108081238.10199-1-ryan_chen@aspeedtech.com>
+ <20210108081238.10199-2-ryan_chen@aspeedtech.com>
+In-Reply-To: <20210108081238.10199-2-ryan_chen@aspeedtech.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 11 Jan 2021 02:24:27 +0000
+Message-ID: <CACPK8XdWKY4QmuojaZ13tmKR3MVEzU8MOV=bmqyTiotScaGfRA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] usb: gadget: aspeed: fix stop dma register setting.
+To: Ryan Chen <ryan_chen@aspeedtech.com>, 
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,89 +71,57 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: BMC-SW <BMC-SW@aspeedtech.com>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Fri, 8 Jan 2021 at 08:13, Ryan Chen <ryan_chen@aspeedtech.com> wrote:
+>
+> The vhub engine has two dma mode, one is descriptor list, another
+> is single stage DMA. Each mode has different stop register setting.
+> Descriptor list operation (bit2) : 0 disable reset, 1: enable reset
+> Single mode operation (bit0) : 0 : disable, 1: enable
+>
+> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+> ---
+>  drivers/usb/gadget/udc/aspeed-vhub/epn.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/epn.c b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
+> index 0bd6b20435b8..02d8bfae58fb 100644
+> --- a/drivers/usb/gadget/udc/aspeed-vhub/epn.c
+> +++ b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
+> @@ -420,7 +420,10 @@ static void ast_vhub_stop_active_req(struct ast_vhub_ep *ep,
+>         u32 state, reg, loops;
+>
+>         /* Stop DMA activity */
+> -       writel(0, ep->epn.regs + AST_VHUB_EP_DMA_CTLSTAT);
+> +       if (ep->epn.desc_mode)
+> +               writel(VHUB_EP_DMA_CTRL_RESET, ep->epn.regs + AST_VHUB_EP_DMA_CTLSTAT);
+> +       else
+> +               writel(0, ep->epn.regs + AST_VHUB_EP_DMA_CTLSTAT);
 
+This looks correct, as whenever the driver re-enables DMA it uses
+ep->epn.dma_conf for the value of this register. So we're not losing
+any configuration by setting it to 0.
 
-On Wed, 6 Jan 2021, at 00:17, Adrian Hunter wrote:
-> On 18/12/20 5:53 am, Andrew Jeffery wrote:
-> > Converting degrees of phase to logic delays is irritating to test on
-> > hardware, so lets exercise the function using KUnit.
-> > 
-> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> > ---
-> >  drivers/mmc/host/Kconfig                |  14 ++++
-> >  drivers/mmc/host/Makefile               |   1 +
-> >  drivers/mmc/host/sdhci-of-aspeed-test.c | 100 ++++++++++++++++++++++++
-> >  3 files changed, 115 insertions(+)
-> >  create mode 100644 drivers/mmc/host/sdhci-of-aspeed-test.c
-> > 
-> > diff --git a/drivers/mmc/host/Kconfig b/drivers/mmc/host/Kconfig
-> > index 596f32637315..d6f00d1d6251 100644
-> > --- a/drivers/mmc/host/Kconfig
-> > +++ b/drivers/mmc/host/Kconfig
-> > @@ -168,6 +168,20 @@ config MMC_SDHCI_OF_ASPEED
-> >  
-> >  	  If unsure, say N.
-> >  
-> > +config MMC_SDHCI_OF_ASPEED_TEST
-> > +	bool "Tests for the ASPEED SDHCI driver"
-> > +	depends on MMC_SDHCI_OF_ASPEED && KUNIT=y
-> > +	help
-> > +	  Enable KUnit tests for the ASPEED SDHCI driver. Select this
-> > +	  option only if you will boot the kernel for the purpose of running
-> > +	  unit tests (e.g. under UML or qemu).
-> > +
-> > +	  The KUnit tests generally exercise parts of the driver that do not
-> > +	  directly touch the hardware, for example, the phase correction
-> > +	  calculations.
-> > +
-> > +	  If unsure, say N.
-> > +
-> >  config MMC_SDHCI_OF_AT91
-> >  	tristate "SDHCI OF support for the Atmel SDMMC controller"
-> >  	depends on MMC_SDHCI_PLTFM
-> > diff --git a/drivers/mmc/host/Makefile b/drivers/mmc/host/Makefile
-> > index 451c25fc2c69..3ee59d5802cf 100644
-> > --- a/drivers/mmc/host/Makefile
-> > +++ b/drivers/mmc/host/Makefile
-> > @@ -90,6 +90,7 @@ obj-$(CONFIG_MMC_SDHCI_DOVE)		+= sdhci-dove.o
-> >  obj-$(CONFIG_MMC_SDHCI_TEGRA)		+= sdhci-tegra.o
-> >  obj-$(CONFIG_MMC_SDHCI_OF_ARASAN)	+= sdhci-of-arasan.o
-> >  obj-$(CONFIG_MMC_SDHCI_OF_ASPEED)	+= sdhci-of-aspeed.o
-> > +obj-$(CONFIG_MMC_SDHCI_OF_ASPEED_TEST)	+= sdhci-of-aspeed-test.o
-> >  obj-$(CONFIG_MMC_SDHCI_OF_AT91)		+= sdhci-of-at91.o
-> >  obj-$(CONFIG_MMC_SDHCI_OF_ESDHC)	+= sdhci-of-esdhc.o
-> >  obj-$(CONFIG_MMC_SDHCI_OF_HLWD)		+= sdhci-of-hlwd.o
-> > diff --git a/drivers/mmc/host/sdhci-of-aspeed-test.c b/drivers/mmc/host/sdhci-of-aspeed-test.c
-> > new file mode 100644
-> > index 000000000000..fb79b278fb81
-> > --- /dev/null
-> > +++ b/drivers/mmc/host/sdhci-of-aspeed-test.c
-> > @@ -0,0 +1,100 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +/* Copyright (C) 2020 IBM Corp. */
-> > +
-> > +#include <kunit/test.h>
-> > +
-> > +#include "sdhci-of-aspeed.c"
-> 
-> I am not sure including like that is advisable.
+Acked-by: Joel Stanley <joel@jms.id.au>
+Fixes: 7ecca2a4080c ("usb/gadget: Add driver for Aspeed SoC virtual hub")
 
-Yeah I wasn't convinced by it either, but I was just running the tests under 
-qemu and they did what I expected.
+I've cc'd Ben for his ack too.
 
-> Did you consider instead
-> doing it the other way around i.e. adding an include to the bottom of
-> sdhci-of-aspeed.c?
+Cheers,
 
-No, I didn't. I'll switch to this approach.
+Joel
 
-Thanks!
-
-Andrew
+>
+>         /* Wait for it to complete */
+>         for (loops = 0; loops < 1000; loops++) {
+> --
+> 2.17.1
+>
