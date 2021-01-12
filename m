@@ -2,59 +2,51 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70BCF2F2163
-	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Jan 2021 22:03:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA882F235E
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Jan 2021 01:28:43 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DF5ln4qkmzDqc7
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Jan 2021 08:03:33 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DFBJS5LsnzDqQ9
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Jan 2021 11:28:40 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=ami.com
- (client-ip=63.147.10.40; helo=atlmailgw1.ami.com;
- envelope-from=hongweiz@ami.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=ami.com
-Received: from atlmailgw1.ami.com (atlmailgw1.ami.com [63.147.10.40])
+ spf=none (no SPF record) smtp.mailfrom=linux.intel.com
+ (client-ip=134.134.136.31; helo=mga06.intel.com;
+ envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dmarc=fail (p=none dis=none)
+ header.from=linux.intel.com
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DF5g95wYqzDqRy;
- Tue, 12 Jan 2021 07:59:33 +1100 (AEDT)
-X-AuditID: ac1060b2-a93ff700000017ec-75-5ffcbc32772a
-Received: from atlms1.us.megatrends.com (atlms1.us.megatrends.com
- [172.16.96.144])
- (using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by atlmailgw1.ami.com (Symantec Messaging Gateway) with SMTP id
- DB.85.06124.23CBCFF5; Mon, 11 Jan 2021 15:59:30 -0500 (EST)
-Received: from ami-us-wk.us.megatrends.com (172.16.98.207) by
- atlms1.us.megatrends.com (172.16.96.144) with Microsoft SMTP Server (TLS) id
- 14.3.468.0; Mon, 11 Jan 2021 15:59:29 -0500
-From: Hongwei Zhang <hongweiz@ami.com>
-To: Jakub Kicinski <kuba@kernel.org>, Dylan Hung <dylan_hung@aspeedtech.com>, 
- Joel Stanley <joel@jms.id.au>, <linux-aspeed@lists.ozlabs.org>,
- <linux-kernel@vger.kernel.org>, <openbmc@lists.ozlabs.org>, David S Miller
- <davem@davemloft.net>
-Subject: [Aspeed, ncsi-rx, v2 1/1] net: ftgmac100: Fix AST2600EVB NCSI RX issue
-Date: Mon, 11 Jan 2021 15:59:00 -0500
-Message-ID: <20210111205900.22589-2-hongweiz@ami.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DFBGR0FpjzDqYW;
+ Tue, 12 Jan 2021 11:26:53 +1100 (AEDT)
+IronPort-SDR: 8ZVblLiX0CvASgw0IVR0ZXSgBSRMivYMcWsYjXrVhqeZt6WwqgBlpQY6PawQQlBdQ6iTq2F7Ma
+ pPR9UPG29g3g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9861"; a="239500145"
+X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; d="scan'208";a="239500145"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jan 2021 16:26:50 -0800
+IronPort-SDR: EJU6EsyN0GHXXDNCtpRUB5+w6QCkymJDvspVoFoGCcejFiK+Picwn2jeNT8pbmd0uAqO/YyYNp
+ 2EwLuPDqlxVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; d="scan'208";a="348273482"
+Received: from maru.jf.intel.com ([10.54.51.77])
+ by orsmga003.jf.intel.com with ESMTP; 11 Jan 2021 16:26:50 -0800
+From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+To: Brendan Higgins <brendanhiggins@google.com>,
+ Wolfram Sang <wsa@the-dreams.de>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Joel Stanley <joel@jms.id.au>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Tao Ren <taoren@fb.com>, Cedric Le Goater <clg@kaod.org>
+Subject: [PATCH v2 0/4] i2c: aspeed: Add buffer and DMA modes support
+Date: Mon, 11 Jan 2021 16:37:45 -0800
+Message-Id: <20210112003749.10565-1-jae.hyun.yoo@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201215192323.24359-1-hongweiz@ami.com>
-References: <20201215192323.24359-1-hongweiz@ami.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.16.98.207]
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHLMWRmVeSWpSXmKPExsWyRiBhgq7Rnj/xBtevq1nsusxhMed8C4vF
- 12sbWS1+n//LbHFhWx+rRfPqc8wWl3fNYbM4tkDM4lTLCxYHTo+r7bvYPbru3mf32LLyJpPH
- xY/HmD02repk8zg/YyGjx+dNcgHsUVw2Kak5mWWpRfp2CVwZ27aIFvRzV9xu3sbSwHiHo4uR
- k0NCwERi5f12JhBbSGAXk8TrPokuRi4Qm1Gic8tkZpAEm4CaxN7Nc8CKRAS+MEoc/CoAYjML
- ZEpMPd7JDmILC/hJfHv/jBXEZhFQlTj9/wuYzStgKvHi20M2iGXyEqs3HACaycHBKWAmseeU
- HMReU4nWfe+YIMoFJU7OfMICMV5C4uCLF8wQNbIStw49ZoIYoyjx4Nd31gmMArOQtMxC0rKA
- kWkVo1BiSU5uYmZOermhXmJupl5yfu4mRkiYb9rB2HLR/BAjEwfjIUYJDmYlEV6vDX/ihXhT
- EiurUovy44tKc1KLDzFKc7AoifOucj8aLySQnliSmp2aWpBaBJNl4uCUamC0dFj7NCfP7eHk
- jZ9MxOrrn1W11k1NfnT+wX0Pm8AC45iPidlb+iu1bRgn67tI5srlalSZOJ8rXn5g3/O+B/bi
- lfdWZIl++9ojNTNXr1fZXV7pcl/Dkaxkcf1rH4833Aw5PiO/NUpnHh/jyintfjvlF36ynr9a
- 6/LUxe5rJhprfZSeLF1eMFGJpTgj0VCLuag4EQBqeW7RYQIAAA==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,50 +58,72 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: netdev <netdev@vger.kernel.org>, Hongwei Zhang <hongweiz@ami.com>
+Cc: devicetree@vger.kernel.org, openbmc@lists.ozlabs.org,
+ linux-i2c@vger.kernel.org, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> 
-> From:	Jakub Kicinski <kuba@kernel.org>
-> Sent:	Monday, December 21, 2020 5:10 PM
-> To:	Hongwei Zhang
-> 
-> On Mon, 21 Dec 2020 14:40:26 -0500 Hongwei Zhang wrote:
-> > When FTGMAC100 driver is used on other NCSI Ethernet controllers, few
-> 
-> When you say NCSI Ethernet controller here you mean the main system NIC, right? The MAC on the NCSI 
-> side is FTGMAC100, correct?
-> 
+This patch series adds buffer mode and DMA mode transfer support for the
+Aspeed I2C driver. With this change, default transfer mode will be set to
+buffer mode for better performance, and DMA mode can be selectively used
+depends on platform configuration.
 
-Hi Jakub,
+* Buffer mode
+  AST2400:
+    It has 2 KBytes (256 Bytes x 8 pages) of I2C SRAM buffer pool from
+    0x1e78a800 to 0x1e78afff that can be used for all busses with
+    buffer pool manipulation. To simplify implementation for supporting
+    both AST2400 and AST2500, it assigns each 128 Bytes per bus without
+    using buffer pool manipulation so total 1792 Bytes of I2C SRAM
+    buffer will be used.
 
-The use case for us is the MAC is configured as NCSI, so it provides network
- access for both BMC and Host, the Ethernet controller driver is from BMC kernel
-side.
+  AST2500:
+    It has 16 Bytes of individual I2C SRAM buffer per each bus and its
+    range is from 0x1e78a200 to 0x1e78a2df, so it doesn't have 'buffer
+    page selection' bit field in the Function control register, and
+    neither 'base address pointer' bit field in the Pool buffer control
+    register it has. To simplify implementation for supporting both
+    AST2400 and AST2500, it writes zeros on those register bit fields
+    but it's okay because it does nothing in AST2500.
 
-please see my response to Dylan in another thread, <20201215192323.24359-1-hongweiz@ami.com>,
-he points out the root cause of the issue.
+  AST2600:
+    It has 32 Bytes of individual I2C SRAM buffer per each bus and its
+    range is from 0x1e78ac00 to 0x1e78adff. Works just like AST2500
+    does.
 
-> In that case I'm not sure how user is supposed to control this setting at build time. The system NIC is 
-> often pluggable on the PCIe bus, and can be changed at will.
-> 
-> > controllers have compatible issue, removing FTGMAC100_RXDES0_RX_ERR 
-> > bit from RXDES0_ANY_ERROR can fix the issue.
-> > 
-> > Fixes: 7ee2d5b4d4340353 ("ARM: dts: nuvoton: Add Fii Kudo system")
-> 
-> Please fix the commit hash, this hash does not exist upstream:
-> 
+* DMA mode
+  Only AST2500 and later versions support DMA mode under some limitations
+  in case of AST2500:
+    I2C is sharing the DMA H/W with UHCI host controller and MCTP
+    controller. Since those controllers operate with DMA mode only, I2C
+    has to use buffer mode or byte mode instead if one of those
+    controllers is enabled. Also make sure that if SD/eMMC or Port80
+    snoop uses DMA mode instead of PIO or FIFO respectively, I2C can't
+    use DMA mode.
 
-will do.
+Please review it.
 
-Thanks
---Hongwei
+Changes since v1:
+V1: https://lore.kernel.org/linux-arm-kernel/20191007231313.4700-1-jae.hyun.yoo@linux.intel.com/
+- Removed a bug fix patch which was merged already from this patch series. 
+- Removed buffer reg settings from default device tree and added the settings
+  into bindings document to show the predefined buffer range per each bus.
+- Updated commit message and comments.
+- Refined driver code using abstract functions.
 
-> Commit: 8711d4ef64fa ("net: ftgmac100: Fix AST2600 EVB NCSI RX issue")
-> 	Fixes tag: Fixes: 7ee2d5b4d4340353 ("ARM: dts: nuvoton: Add Fii Kudo system")
-> 	Has these problem(s):
-> 		- Target SHA1 does not exist
-> 
+Jae Hyun Yoo (4):
+  dt-bindings: i2c: aspeed: add buffer and DMA mode transfer support
+  ARM: dts: aspeed: modify I2C node to support buffer mode
+  i2c: aspeed: add buffer mode transfer support
+  i2c: aspeed: add DMA mode transfer support
+
+ .../devicetree/bindings/i2c/i2c-aspeed.txt    | 126 +++-
+ arch/arm/boot/dts/aspeed-g4.dtsi              |  19 +-
+ arch/arm/boot/dts/aspeed-g5.dtsi              |  19 +-
+ drivers/i2c/busses/i2c-aspeed.c               | 553 ++++++++++++++++--
+ 4 files changed, 667 insertions(+), 50 deletions(-)
+
+-- 
+2.17.1
+
