@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F215F2F6251
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Jan 2021 14:48:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B00252F621B
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Jan 2021 14:37:02 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DGly83ZZ1zDrqC
-	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Jan 2021 00:48:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DGlj767LczDscy
+	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Jan 2021 00:36:59 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
@@ -19,32 +19,34 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DGlMW4GQWzDsFZ;
- Fri, 15 Jan 2021 00:21:43 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DGlH466KszDsFk;
+ Fri, 15 Jan 2021 00:17:52 +1100 (AEDT)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 10EDB0vQ082196;
- Thu, 14 Jan 2021 21:11:00 +0800 (GMT-8)
+ by twspam01.aspeedtech.com with ESMTP id 10EDB1Sa082209;
+ Thu, 14 Jan 2021 21:11:01 +0800 (GMT-8)
  (envelope-from chiawei_wang@aspeedtech.com)
 Received: from ChiaWeiWang-PC.aspeed.com (192.168.2.66) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Thu, 14 Jan 2021 21:16:02 +0800
+ Thu, 14 Jan 2021 21:16:03 +0800
 From: "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>
 To: <robh+dt@kernel.org>, <lee.jones@linaro.org>, <joel@jms.id.au>,
  <andrew@aj.id.au>, <linus.walleij@linaro.org>, <minyard@acm.org>,
  <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
  <openbmc@lists.ozlabs.org>
-Subject: [PATCH v5 0/5] Remove LPC register partitioning
-Date: Thu, 14 Jan 2021 21:16:17 +0800
-Message-ID: <20210114131622.8951-1-chiawei_wang@aspeedtech.com>
+Subject: [PATCH v5 4/5] pinctrl: aspeed-g5: Adapt to new LPC device tree layout
+Date: Thu, 14 Jan 2021 21:16:21 +0800
+Message-ID: <20210114131622.8951-5-chiawei_wang@aspeedtech.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210114131622.8951-1-chiawei_wang@aspeedtech.com>
+References: <20210114131622.8951-1-chiawei_wang@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [192.168.2.66]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 10EDB0vQ082196
+X-MAIL: twspam01.aspeedtech.com 10EDB1Sa082209
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,53 +64,53 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The LPC controller has no concept of the BMC and the Host partitions.
-The incorrect partitioning can impose unnecessary range restrictions
-on register access through the syscon regmap interface.
+Add check against LPC device v2 compatible string to
+ensure that the fixed device tree layout is adopted.
+The LPC register offsets are also fixed accordingly.
 
-For instance, HICRB contains the I/O port address configuration
-of KCS channel 1/2. However, the KCS#1/#2 drivers cannot access
-HICRB as it is located at the other LPC partition.
+Signed-off-by: Chia-Wei, Wang <chiawei_wang@aspeedtech.com>
+---
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-In addition, to be backward compatible, the newly added HW control
-bits could be located at any reserved bits over the LPC addressing
-space.
-
-Thereby, this patch series aims to remove the LPC partitioning for
-better driver development and maintenance. This requires the change
-to both the device tree and the driver implementation. To ensure
-both sides are synchronously updated, a v2 binding check is added.
-
-Chagnes since v4:
-	- Add child node example in dt-bindings.
-
-Chagnes since v3:
-	- Revise binding check as suggested by Haiyue Wang.
-
-Changes since v2:
-	- Add v2 binding check to ensure the synchronization between the
-	  device tree change and the driver register offset fix.
-
-Changes since v1:
-	- Add the fix to the aspeed-lpc binding documentation.
-
-Chia-Wei, Wang (5):
-  dt-bindings: aspeed-lpc: Remove LPC partitioning
-  ARM: dts: Remove LPC BMC and Host partitions
-  ipmi: kcs: aspeed: Adapt to new LPC DTS layout
-  pinctrl: aspeed-g5: Adapt to new LPC device tree layout
-  soc: aspeed: Adapt to new LPC device tree layout
-
- .../devicetree/bindings/mfd/aspeed-lpc.txt    | 100 ++++---------
- arch/arm/boot/dts/aspeed-g4.dtsi              |  74 ++++------
- arch/arm/boot/dts/aspeed-g5.dtsi              | 135 ++++++++----------
- arch/arm/boot/dts/aspeed-g6.dtsi              | 135 ++++++++----------
- drivers/char/ipmi/kcs_bmc_aspeed.c            |  27 ++--
- drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c    |  17 ++-
- drivers/soc/aspeed/aspeed-lpc-ctrl.c          |  20 ++-
- drivers/soc/aspeed/aspeed-lpc-snoop.c         |  23 +--
- 8 files changed, 229 insertions(+), 302 deletions(-)
-
+diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+index 0cab4c2576e2..996ebcba4d38 100644
+--- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
++++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+@@ -60,7 +60,7 @@
+ #define COND2		{ ASPEED_IP_SCU, SCU94, GENMASK(1, 0), 0, 0 }
+ 
+ /* LHCR0 is offset from the end of the H8S/2168-compatible registers */
+-#define LHCR0		0x20
++#define LHCR0		0xa0
+ #define GFX064		0x64
+ 
+ #define B14 0
+@@ -2648,14 +2648,19 @@ static struct regmap *aspeed_g5_acquire_regmap(struct aspeed_pinmux_data *ctx,
+ 	}
+ 
+ 	if (ip == ASPEED_IP_LPC) {
+-		struct device_node *node;
++		struct device_node *np;
+ 		struct regmap *map;
+ 
+-		node = of_parse_phandle(ctx->dev->of_node,
++		np = of_parse_phandle(ctx->dev->of_node,
+ 					"aspeed,external-nodes", 1);
+-		if (node) {
+-			map = syscon_node_to_regmap(node->parent);
+-			of_node_put(node);
++		if (np) {
++			if (!of_device_is_compatible(np->parent, "aspeed,ast2400-lpc-v2") &&
++			    !of_device_is_compatible(np->parent, "aspeed,ast2500-lpc-v2") &&
++			    !of_device_is_compatible(np->parent, "aspeed,ast2600-lpc-v2"))
++				return ERR_PTR(-ENODEV);
++
++			map = syscon_node_to_regmap(np->parent);
++			of_node_put(np);
+ 			if (IS_ERR(map))
+ 				return map;
+ 		} else
 -- 
 2.17.1
 
