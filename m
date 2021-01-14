@@ -2,86 +2,51 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3AB2F58D8
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Jan 2021 04:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11BB42F61FA
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Jan 2021 14:29:52 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DGTwb1BPszDsM9
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 Jan 2021 14:15:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DGlXq6GB3zDq7W
+	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Jan 2021 00:29:47 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.26;
- helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=chiawei_wang@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org;
- dmarc=none (p=none dis=none) header.from=aj.id.au
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=TT2Y9XJx; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=HF7EbpQP; 
- dkim-atps=neutral
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none)
+ header.from=aspeedtech.com
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DGTvd5Yh9zDrpw
- for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Jan 2021 14:15:09 +1100 (AEDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 232F35C01F3;
- Wed, 13 Jan 2021 22:15:07 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 13 Jan 2021 22:15:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=R9UFuHjtAK1qQ
- YI8cmha4Thpo1402hfejrmvtlGfR4Y=; b=TT2Y9XJx6o5kizRNy4MAGIOQ3EFGO
- zbWTFGak2KnxFNIfwkWuijLkhgnOb1DyiZII5Fedp85p+tp9zpOI2HIkTCIJIegI
- qtobpI5ut+stQ1OkBlXhcNBrPMJ0rCCzOoXFEPC2v6Pavpj3mj7Qj/LIPGfP7eH/
- JQAO4V7yEXROBH1KXCOZah1bwL2Iz2u09Jzebi8nU1tpHztxl4YAFCGjshUVg0YI
- 2zsVe7ulI467cEo9TRq/oNlcFpaqLrWIzTKl8ag8LgcuU2XwtFnsV2jQhVxARKhK
- pybZbAHAn5PGuIq333kA9eKIUtVK9uEkXKxWYmlB46kKe40jqEtT4ENgw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=R9UFuHjtAK1qQYI8cmha4Thpo1402hfejrmvtlGfR4Y=; b=HF7EbpQP
- 8vOfcBDfR5TAbgkPTDRBzLfAudjHZZkyokMXnIBmrF/x3ZPhlrbFoAUDk1eYHJEL
- UOAeo8ceqvZBVhw6EdZvMexEyik1K1iPIFuHKZTPE4kCJFFD4Ph0LIE/dvkPtlz4
- 8gNX8qBZ9Vxx47cGpV354itsgCMU6ITIKs58HaRiQfulWLBcEhujrcSiAHO6W5F5
- 8yPLxRfxRhSbo9PGX1x+FRPN/7Ag+5fEaib7luhVhOqAZhHVMpHhrNs1a6bs8z+E
- UyUIyWwkQJ3NjewjZMxA/zgGvw5aLUY7ZrWZij0fXX7+E6ZtXuPuq8mK1f0v1vbu
- Dv6seHlSr4sdFg==
-X-ME-Sender: <xms:O7f_XzQ9KNy6qlVcmt1i2Zngfasko9imabqjYFTqn8DE00oWVR_tIg>
- <xme:O7f_X0zjBLAot8hRHOpN8TVeNOWzGVGTYZk81r3LsRyVOAGGwQ5DI0hyNRun331hx
- CtxGr2aJo7rlfQ59w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtdeggdehjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
- ertddtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghj
- rdhiugdrrghuqeenucggtffrrghtthgvrhhnpeejgfdvveehteekveeggeellefgleette
- ejffelffdvudduveeiffegteelvefhteenucfkphepuddukedrvddutddrudejfedrgeek
- necuvehluhhsthgvrhfuihiivgepgeenucfrrghrrghmpehmrghilhhfrhhomheprghnug
- hrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:O7f_X41nu78WC1fRtlTfUgy2UjwY3adVvk5f674Cwd2lTS4zbE3xDg>
- <xmx:O7f_XzAxswI2yVi9TEaOMox5rb1lfz-btQROcPMx3cbyyHJmdfDMkg>
- <xmx:O7f_X8jVAFkJ70QMsCHniftNNyyC4W8-5U1gRi5Jnt3dOhI7fzHDSg>
- <xmx:O7f_X4jY3SsE9qekIYxhARj2tVxt3yQ1S8TJhkvNZPBrlcOx5zczKg>
-Received: from localhost.localdomain
- (ppp118-210-173-48.adl-adc-lon-bras34.tpg.internode.on.net [118.210.173.48])
- by mail.messagingengine.com (Postfix) with ESMTPA id CC2E724005D;
- Wed, 13 Jan 2021 22:15:03 -0500 (EST)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: linux-mmc@vger.kernel.org
-Subject: [PATCH v7 6/6] ARM: dts: rainier: Add eMMC clock phase compensation
-Date: Thu, 14 Jan 2021 13:44:33 +1030
-Message-Id: <20210114031433.2388532-7-andrew@aj.id.au>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210114031433.2388532-1-andrew@aj.id.au>
-References: <20210114031433.2388532-1-andrew@aj.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DGlGy456QzDrpw;
+ Fri, 15 Jan 2021 00:17:46 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 10EDB0vR082196;
+ Thu, 14 Jan 2021 21:11:00 +0800 (GMT-8)
+ (envelope-from chiawei_wang@aspeedtech.com)
+Received: from ChiaWeiWang-PC.aspeed.com (192.168.2.66) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 14 Jan 2021 21:16:03 +0800
+From: "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>
+To: <robh+dt@kernel.org>, <lee.jones@linaro.org>, <joel@jms.id.au>,
+ <andrew@aj.id.au>, <linus.walleij@linaro.org>, <minyard@acm.org>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+ <openbmc@lists.ozlabs.org>
+Subject: [PATCH v5 1/5] dt-bindings: aspeed-lpc: Remove LPC partitioning
+Date: Thu, 14 Jan 2021 21:16:18 +0800
+Message-ID: <20210114131622.8951-2-chiawei_wang@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210114131622.8951-1-chiawei_wang@aspeedtech.com>
+References: <20210114131622.8951-1-chiawei_wang@aspeedtech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.66]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 10EDB0vR082196
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,33 +58,188 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, ulf.hansson@linaro.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- adrian.hunter@intel.com, robh+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: BMC-SW@aspeedtech.com, cyrilbur@gmail.com, haiyue.wang@linux.intel.com,
+ rlippert@google.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Determined by scope measurements at speed.
+The LPC controller has no concept of the BMC and the Host partitions.
+This patch fixes the documentation by removing the description on LPC
+partitions. The register offsets illustrated in the DTS node examples
+are also fixed to adapt to the LPC DTS change.
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+Signed-off-by: Chia-Wei, Wang <chiawei_wang@aspeedtech.com>
 ---
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/mfd/aspeed-lpc.txt    | 100 +++++-------------
+ 1 file changed, 25 insertions(+), 75 deletions(-)
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-index 21ae880c7530..ab8d37d49f30 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-@@ -186,6 +186,7 @@ &pinctrl_emmc_default {
+diff --git a/Documentation/devicetree/bindings/mfd/aspeed-lpc.txt b/Documentation/devicetree/bindings/mfd/aspeed-lpc.txt
+index d0a38ba8b9ce..936aa108eab4 100644
+--- a/Documentation/devicetree/bindings/mfd/aspeed-lpc.txt
++++ b/Documentation/devicetree/bindings/mfd/aspeed-lpc.txt
+@@ -9,13 +9,7 @@ primary use case of the Aspeed LPC controller is as a slave on the bus
+ conditions it can also take the role of bus master.
  
- &emmc {
- 	status = "okay";
-+	clk-phase-mmc-hs200 = <180>, <180>;
+ The LPC controller is represented as a multi-function device to account for the
+-mix of functionality it provides. The principle split is between the register
+-layout at the start of the I/O space which is, to quote the Aspeed datasheet,
+-"basically compatible with the [LPC registers from the] popular BMC controller
+-H8S/2168[1]", and everything else, where everything else is an eclectic
+-collection of functions with a esoteric register layout. "Everything else",
+-here labeled the "host" portion of the controller, includes, but is not limited
+-to:
++mix of functionality, which includes, but is not limited to:
+ 
+ * An IPMI Block Transfer[2] Controller
+ 
+@@ -44,80 +38,36 @@ Required properties
+ ===================
+ 
+ - compatible:	One of:
+-		"aspeed,ast2400-lpc", "simple-mfd"
+-		"aspeed,ast2500-lpc", "simple-mfd"
+-		"aspeed,ast2600-lpc", "simple-mfd"
++		"aspeed,ast2400-lpc-v2", "simple-mfd", "syscon"
++		"aspeed,ast2500-lpc-v2", "simple-mfd", "syscon"
++		"aspeed,ast2600-lpc-v2", "simple-mfd", "syscon"
+ 
+ - reg:		contains the physical address and length values of the Aspeed
+                 LPC memory region.
+ 
+ - #address-cells: <1>
+ - #size-cells:	<1>
+-- ranges: 	Maps 0 to the physical address and length of the LPC memory
+-                region
+-
+-Required LPC Child nodes
+-========================
+-
+-BMC Node
+---------
+-
+-- compatible:	One of:
+-		"aspeed,ast2400-lpc-bmc"
+-		"aspeed,ast2500-lpc-bmc"
+-		"aspeed,ast2600-lpc-bmc"
+-
+-- reg:		contains the physical address and length values of the
+-                H8S/2168-compatible LPC controller memory region
+-
+-Host Node
+----------
+-
+-- compatible:   One of:
+-		"aspeed,ast2400-lpc-host", "simple-mfd", "syscon"
+-		"aspeed,ast2500-lpc-host", "simple-mfd", "syscon"
+-		"aspeed,ast2600-lpc-host", "simple-mfd", "syscon"
+-
+-- reg:		contains the address and length values of the host-related
+-                register space for the Aspeed LPC controller
+-
+-- #address-cells: <1>
+-- #size-cells:	<1>
+-- ranges: 	Maps 0 to the address and length of the host-related LPC memory
++- ranges:	Maps 0 to the physical address and length of the LPC memory
+                 region
+ 
+ Example:
+ 
+ lpc: lpc@1e789000 {
+-	compatible = "aspeed,ast2500-lpc", "simple-mfd";
++	compatible = "aspeed,ast2500-lpc-v2", "simple-mfd", "syscon";
+ 	reg = <0x1e789000 0x1000>;
+ 
+ 	#address-cells = <1>;
+ 	#size-cells = <1>;
+ 	ranges = <0x0 0x1e789000 0x1000>;
+ 
+-	lpc_bmc: lpc-bmc@0 {
+-		compatible = "aspeed,ast2500-lpc-bmc";
++	lpc_snoop: lpc-snoop@0 {
++		compatible = "aspeed,ast2600-lpc-snoop";
+ 		reg = <0x0 0x80>;
+-	};
+-
+-	lpc_host: lpc-host@80 {
+-		compatible = "aspeed,ast2500-lpc-host", "simple-mfd", "syscon";
+-		reg = <0x80 0x1e0>;
+-		reg-io-width = <4>;
+-
+-		#address-cells = <1>;
+-		#size-cells = <1>;
+-		ranges = <0x0 0x80 0x1e0>;
++		interrupts = <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>;
++		snoop-ports = <0x80>;
+ 	};
  };
  
- &fsim0 {
+-BMC Node Children
+-==================
+-
+-
+-Host Node Children
+-==================
+ 
+ LPC Host Interface Controller
+ -------------------
+@@ -149,14 +99,12 @@ Optional properties:
+ 
+ Example:
+ 
+-lpc-host@80 {
+-	lpc_ctrl: lpc-ctrl@0 {
+-		compatible = "aspeed,ast2500-lpc-ctrl";
+-		reg = <0x0 0x80>;
+-		clocks = <&syscon ASPEED_CLK_GATE_LCLK>;
+-		memory-region = <&flash_memory>;
+-		flash = <&spi>;
+-	};
++lpc_ctrl: lpc-ctrl@80 {
++	compatible = "aspeed,ast2500-lpc-ctrl";
++	reg = <0x80 0x80>;
++	clocks = <&syscon ASPEED_CLK_GATE_LCLK>;
++	memory-region = <&flash_memory>;
++	flash = <&spi>;
+ };
+ 
+ LPC Host Controller
+@@ -179,9 +127,9 @@ Required properties:
+ 
+ Example:
+ 
+-lhc: lhc@20 {
++lhc: lhc@a0 {
+ 	compatible = "aspeed,ast2500-lhc";
+-	reg = <0x20 0x24 0x48 0x8>;
++	reg = <0xa0 0x24 0xc8 0x8>;
+ };
+ 
+ LPC reset control
+@@ -192,16 +140,18 @@ state of the LPC bus. Some systems may chose to modify this configuration.
+ 
+ Required properties:
+ 
+- - compatible:		"aspeed,ast2600-lpc-reset" or
+-			"aspeed,ast2500-lpc-reset"
+-			"aspeed,ast2400-lpc-reset"
++ - compatible:		One of:
++			"aspeed,ast2600-lpc-reset";
++			"aspeed,ast2500-lpc-reset";
++			"aspeed,ast2400-lpc-reset";
++
+  - reg:			offset and length of the IP in the LHC memory region
+  - #reset-controller	indicates the number of reset cells expected
+ 
+ Example:
+ 
+-lpc_reset: reset-controller@18 {
++lpc_reset: reset-controller@98 {
+         compatible = "aspeed,ast2500-lpc-reset";
+-        reg = <0x18 0x4>;
++        reg = <0x98 0x4>;
+         #reset-cells = <1>;
+ };
 -- 
-2.27.0
+2.17.1
 
