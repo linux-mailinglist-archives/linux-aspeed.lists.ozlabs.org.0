@@ -1,81 +1,81 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6042F778C
-	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Jan 2021 12:23:23 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 755B52F7804
+	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Jan 2021 12:54:15 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DHJhR2y5mzDsfT
-	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Jan 2021 22:23:19 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DHKN21bzYzDsgQ
+	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Jan 2021 22:54:10 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::132;
- helo=mail-lf1-x132.google.com; envelope-from=fercerpav@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::12c;
+ helo=mail-lf1-x12c.google.com; envelope-from=fercerpav@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org;
  dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=Z5AjfT+9; dkim-atps=neutral
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
+ header.s=20161025 header.b=PARlUPeh; dkim-atps=neutral
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DHJb908LTzDsfQ
- for <linux-aspeed@lists.ozlabs.org>; Fri, 15 Jan 2021 22:18:44 +1100 (AEDT)
-Received: by mail-lf1-x132.google.com with SMTP id s26so12580754lfc.8
- for <linux-aspeed@lists.ozlabs.org>; Fri, 15 Jan 2021 03:18:44 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DHKMk6TmqzDscZ
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 15 Jan 2021 22:53:52 +1100 (AEDT)
+Received: by mail-lf1-x12c.google.com with SMTP id o17so12755095lfg.4
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 15 Jan 2021 03:53:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=8lRJYc4BKAdg1abXpS4nArMEOY798PG8SuBDu3ZJSlk=;
- b=Z5AjfT+9sIEoizTRGkvN4w7h+aIbEWUFfVlvbDDmlnjohr4b0yWluxpJGKYyhP8D/V
- I1i0WOneHrJlvabZSEV484vqeRo06wzgYuy4/74GQxjPiexyiI2Fkm1ofKktZpg7HkEF
- r4ZvbU4mI0geYG/QB4JeSCJf9N8xgug1O0oF5ndx9wZAMViLLczKz9zrs25GRrbzUDEv
- BJMyglfRGKtxkz4nP7IGeIWrG8nPeHLzf8SGJ9CXAJE6BD9YW/chFgczD1Sznmje0srx
- hhkjxqAvvBo8ZwYRisJz7S9OxGneqG3bM72c4IQ6Shyld3PwIXKv9EAlWxxvF/sX+Hcn
- DGOw==
+ bh=RR0DQBk0UH5GJ+gGJ37QS6mr1kwAekWxksm1RQHJmz0=;
+ b=PARlUPeh/akDo4VJd6AvJ8LUiqYQGVXO0k2kjLdmBqHFDBPL27pJnYXUN714qieO9i
+ ZhG3Npful4tKG0KaBk7NJWANfQi5Q+LE2dAMNdEhz1qwJrIikECmCBzWHtgc05qFm4bC
+ 6jFNFu6bYDWfU+KZ+duzCONg1AQ+xQ/oeQ/u92Yriz87XlyWqVP25jK3JTFj7kX3Jcrz
+ x9bmwywNpcCraqYzPIr8vONHYg2zF6Snv4DAzLEQ5a11/mV+qRnrNbfujwZD+eSecj5D
+ tEsVa842pUrY2R0gVhPLB35L8UdsWaoBKUGuU/clV7RLoOhIeNybD9hdn7Mq7Q1IltG5
+ HSgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=8lRJYc4BKAdg1abXpS4nArMEOY798PG8SuBDu3ZJSlk=;
- b=LVEUDACLqeIJAQWba9aWe5HvRd7TocIrn9puGNVbNDoWwK6fm4ClminhrkqMgh9HCB
- rH2v4RcqTfvDN9af2Cnm33XoiknoA3xCCBxwmd9zipeO7vE5ON4rmcUPkiaH8khxtne3
- E+cRjM1eTcuUCJPcoY9NXIGVD/xi+rMEEn/deBYccPiqQSwJfCB5S3SlGJP7OBXuEiZp
- dgR3Cv3MZ//x7k93Q3GAcJhErPcADZn3kgfcEL5ktIN8eGRQSZCPLTNzw4GqnsUDqmYv
- bjz/FTIW6J0NP8HBXqLgEIyoEZMjx79sLb1DNu9XJpAB70lmZo3SiUQV6Gn3L7/UomWs
- krew==
-X-Gm-Message-State: AOAM530xKph1yT6YRc4LeTs2FnRji3YdI86pgei/Cr9LUu0YBfkH03NV
- z7JPAJZub59JtG588Kuvrsg=
-X-Google-Smtp-Source: ABdhPJzgPbg0C6JprZSQzMH73kmf9AQHoEvG+h92c+jF6B1XAfqd45EqfR1dJgICUMDoG+cffcK6Cw==
-X-Received: by 2002:a05:6512:3157:: with SMTP id
- s23mr5355726lfi.275.1610709520473; 
- Fri, 15 Jan 2021 03:18:40 -0800 (PST)
+ bh=RR0DQBk0UH5GJ+gGJ37QS6mr1kwAekWxksm1RQHJmz0=;
+ b=ZAiO+f9k8qALUmp9kOxbeLu8rzGXIvgKpkwsrezsx2hlaAZb7KPF7C+/4ATNnq/Qw/
+ IYRDy8+UE4Ml0yCu1fM2dU5Ri8Nxa47l4AoAMLvva9SXmXIpdQNkF/ANN6TLSOYO58wH
+ sCwJiPLDadtfkCsO1PMVTPTLTP7mTpSgkTcZCnjoGZPE4yik3y8tIwOTrsruZMGkfzjv
+ 4g1qdoPwj/OKtIuobiwUIA5nkgP6ABGfuKH2aFmGTBKjsTGwKXcIxZAFaosDqqr2F0Nc
+ ay7CvLGsRkWu3SHvBOF+NuzSHxbirhqUdBcuWwyeQPkXrbppQwKsaVoqFwG6hctafIef
+ mHmQ==
+X-Gm-Message-State: AOAM531NmNHlp/D7X6TYrQH2zkbgN0ev6N0t4vUYba0s68HEpSDIa7KS
+ IVd0xyw55rNTOn3pLm1Kq2E=
+X-Google-Smtp-Source: ABdhPJzRfzHCI5/IkkHgcRaWp6XoE68seMiDAmenu2w/55FcwPh14mqryLohHBMTMkH4GoDyLbNVtQ==
+X-Received: by 2002:ac2:52a8:: with SMTP id r8mr5404078lfm.17.1610711627550;
+ Fri, 15 Jan 2021 03:53:47 -0800 (PST)
 Received: from home.paul.comp (paulfertser.info.
  [2001:470:26:54b:226:9eff:fe70:80c2])
- by smtp.gmail.com with ESMTPSA id x125sm864994lff.58.2021.01.15.03.18.39
+ by smtp.gmail.com with ESMTPSA id r9sm782240ljj.127.2021.01.15.03.53.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 03:18:39 -0800 (PST)
+ Fri, 15 Jan 2021 03:53:46 -0800 (PST)
 Received: from home.paul.comp (home.paul.comp [IPv6:0:0:0:0:0:0:0:1])
  by home.paul.comp (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTP id
- 10FBIaNw004539; Fri, 15 Jan 2021 14:18:37 +0300
+ 10FBrhfH004599; Fri, 15 Jan 2021 14:53:44 +0300
 Received: (from paul@localhost)
- by home.paul.comp (8.15.2/8.15.2/Submit) id 10FBITBj004538;
- Fri, 15 Jan 2021 14:18:29 +0300
-Date: Fri, 15 Jan 2021 14:18:29 +0300
+ by home.paul.comp (8.15.2/8.15.2/Submit) id 10FBrfwY004598;
+ Fri, 15 Jan 2021 14:53:41 +0300
+Date: Fri, 15 Jan 2021 14:53:41 +0300
 From: Paul Fertser <fercerpav@gmail.com>
 To: Ernesto Corona <ernesto.corona@intel.com>
-Subject: Re: [PATCH v29 1/6] drivers: jtag: Add JTAG core driver
-Message-ID: <20210115111829.GB2971@home.paul.comp>
+Subject: Re: [PATCH v29 3/6] Add Aspeed SoC 24xx and 25xx families JTAG
+ master driver
+Message-ID: <20210115115341.GC2971@home.paul.comp>
 References: <20200413222920.4722-1-ernesto.corona@intel.com>
- <20200413222920.4722-2-ernesto.corona@intel.com>
+ <20200413222920.4722-4-ernesto.corona@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200413222920.4722-2-ernesto.corona@intel.com>
+In-Reply-To: <20200413222920.4722-4-ernesto.corona@intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -88,96 +88,197 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>, Palmer Dabbelt <palmer@sifive.com>,
- Rgrs <rgrs@protonmail.com>, Christian Gromm <christian.gromm@microchip.com>,
- Yiwei Zhang <zzyiwei@google.com>, Steven Filary <steven.a.filary@intel.com>,
- Alessandro Rubini <rubini@gnudd.com>, Kees Cook <keescook@chromium.org>,
- Arnd Bergmann <arnd@arndb.de>, William Breathitt Gray <vilhelm.gray@gmail.com>,
- Johan Hovold <johan@kernel.org>, Jiri Pirko <jiri@mellanox.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
- Tony Luck <tony.luck@intel.com>, Boris Brezillon <bbrezillon@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- Patrick Williams <patrickw3@fb.com>, Federico Vaga <federico.vaga@cern.ch>,
+Cc: linux-aspeed@lists.ozlabs.org, Vadim Pasternak <vadimp@mellanox.com>,
+ Steven Filary <steven.a.filary@intel.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jiri Pirko <jiri@mellanox.com>,
+ Rgrs <rgrs@protonmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
  Oleksandr Shamray <oleksandrs@mellanox.com>,
- Vadim Pasternak <vadimp@mellanox.com>
+ Patrick Williams <patrickw3@fb.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Apr 13, 2020 at 03:29:15PM -0700, Ernesto Corona wrote:
+Please note that JTAG_XFER_HW_MODE seems to be broken, at least it
+doesn't work in my testing with exactly the same userspace and
+hardware so I wasn't properly evaluating it.
+
+On Mon, Apr 13, 2020 at 03:29:17PM -0700, Ernesto Corona wrote:
 > --- /dev/null
-> +++ b/drivers/jtag/jtag.c
-> +	 case JTAG_SIOCFREQ:
-> +		if (!jtag->ops->freq_set)
-> +			return -EOPNOTSUPP;
-> +
-> +		if (get_user(value, (__u32 __user *)arg))
-> +			return -EFAULT;
+> +++ b/drivers/jtag/jtag-aspeed.c
+...
+> +/*#define USE_INTERRUPTS*/
 
-Does this need to be a pointer to a variable even if it's just a
-number?
+I think if you implemented support for interrupts and DeviceTree
+provides the resource, then it should be enabled. If the support is
+untested or known to be buggy, it should be removed altogether and can
+be introduced later when the issues are sorted out.
 
-> +	case JTAG_IOCXFER:
-> +		if (copy_from_user(&xfer, (const void __user *)arg,
-> +				   sizeof(struct jtag_xfer)))
-> +			return -EFAULT;
-> +
-> +		if (xfer.length >= JTAG_MAX_XFER_DATA_LEN)
-> +			return -EINVAL;
-> +
-> +		if (xfer.type > JTAG_SDR_XFER)
-> +			return -EINVAL;
-> +
-> +		if (xfer.direction > JTAG_READ_WRITE_XFER)
-> +			return -EINVAL;
-> +
-> +		if (xfer.endstate > JTAG_STATE_UPDATEIR)
-> +			return -EINVAL;
-> +
-> +		data_size = DIV_ROUND_UP(xfer.length, BITS_PER_BYTE);
-> +		xfer_data = memdup_user(u64_to_user_ptr(xfer.tdio), data_size);
+> +struct aspeed_jtag {
+> +	void __iomem			*reg_base;
+> +	void __iomem			*scu_base;
 
-So this might copy more bits than the user specified, but that's
-probably OK.
+SCU is manipulated by a separate driver, it shouldn't be here.
 
-> +		if (IS_ERR(xfer_data))
-> +			return -EFAULT;
+> +/*
+> + * This is the complete set TMS cycles for going from any TAP state to any
+> + * other TAP state, following a "shortest path" rule.
+> + */
+> +static const struct tms_cycle _tms_cycle_lookup[][16] = {
+> +/*	    TLR        RTI        SelDR      CapDR      SDR        Ex1DR*/
+> +/* TLR  */{{0x00, 0}, {0x00, 1}, {0x02, 2}, {0x02, 3}, {0x02, 4}, {0x0a, 4},
+> +/*	    PDR        Ex2DR      UpdDR      SelIR      CapIR      SIR*/
+> +	    {0x0a, 5}, {0x2a, 6}, {0x1a, 5}, {0x06, 3}, {0x06, 4}, {0x06, 5},
+> +/*	    Ex1IR      PIR        Ex2IR      UpdIR*/
+> +	    {0x16, 5}, {0x16, 6}, {0x56, 7}, {0x36, 6} },
+
+This belongs to the generic JTAG architecture layer rather than an
+individual driver.
+
+> +static int aspeed_jtag_freq_set(struct jtag *jtag, u32 freq)
+> +{
+> +	struct aspeed_jtag *aspeed_jtag = jtag_priv(jtag);
+> +	unsigned long apb_frq;
+> +	u32 tck_val;
+> +	u16 div;
 > +
-> +		err = jtag->ops->xfer(jtag, &xfer, xfer_data);
-> +		if (err) {
-> +			kfree(xfer_data);
-> +			return err;
-> +		}
+> +	apb_frq = clk_get_rate(aspeed_jtag->pclk);
+> +	if (!apb_frq)
+> +		return -ENOTSUPP;
 > +
-> +		err = copy_to_user(u64_to_user_ptr(xfer.tdio),
-> +				   (void *)xfer_data, data_size);
+> +	div = (apb_frq - 1) / freq;
+> +	tck_val = aspeed_jtag_read(aspeed_jtag, ASPEED_JTAG_TCK);
+> +	aspeed_jtag_write(aspeed_jtag,
+> +			  (tck_val & ~ASPEED_JTAG_TCK_DIVISOR_MASK) | div,
+> +			  ASPEED_JTAG_TCK);
+> +	return 0;
+> +}
 
-And this might overwrite some bits and it's not OK, at least not
-without a warning in the documentation.
+ASPEED datasheet says PCLK * 2 is used as the prescaler source, so
+this calculation is probably incorrect. This implementation seems to
+be also failing to check for the lower and upper limits and return an
+error in case the request can't be fulfilled.
 
-> --- /dev/null
-> +++ b/include/uapi/linux/jtag.h
-> @@ -0,0 +1,194 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +// include/uapi/linux/jtag.h - JTAG class driver uapi
-> +//
-> +// Copyright (c) 2018 Mellanox Technologies. All rights reserved.
-> +// Copyright (c) 2018 Oleksandr Shamray <oleksandrs@mellanox.com>
+> +static inline void aspeed_jtag_slave(struct aspeed_jtag *aspeed_jtag)
+> +{
+> +	u32 scu_reg = readl(aspeed_jtag->scu_base);
 > +
-> +#ifndef __UAPI_LINUX_JTAG_H
-> +#define __UAPI_LINUX_JTAG_H
+> +	writel(scu_reg | ASPEED_SCU_RESET_JTAG, aspeed_jtag->scu_base);
+> +}
+
+reset_control_(de)assert should be used instead of direct SCU
+manipulation, here and in all the other places too.
+
+> +static void aspeed_jtag_end_tap_state_sw(struct aspeed_jtag *aspeed_jtag,
+> +					 struct jtag_end_tap_state *endstate)
+> +{
+> +	/* SW mode from curent tap state -> to end_state */
+> +	if (endstate->reset) {
+> +		int i = 0;
 > +
+> +		for (i = 0; i < ASPEED_JTAG_RESET_CNTR; i++)
+> +			aspeed_jtag_tck_cycle(aspeed_jtag, 1, 0);
+> +		aspeed_jtag->status = JTAG_STATE_TLRESET;
+> +	}
+> +
+> +	aspeed_jtag_set_tap_state(aspeed_jtag, endstate->endstate);
+> +}
 
-Missing <linux/types.h>
+endstate->tck is ignored.
 
-Other API comments will be sent as a reply to the "Documentation:
-jtag: Add ABI documentation" patch as they are not
-implementation-specific.
+> +static int aspeed_jtag_status_set(struct jtag *jtag,
+> +				  struct jtag_end_tap_state *endstate)
+> +{
+> +	struct aspeed_jtag *aspeed_jtag = jtag_priv(jtag);
+> +
+> +	dev_dbg(aspeed_jtag->dev, "Set TAP state: %s\n",
+> +		end_status_str[endstate->endstate]);
+> +
+> +	if (!(aspeed_jtag->mode & JTAG_XFER_HW_MODE)) {
+> +		aspeed_jtag_end_tap_state_sw(aspeed_jtag, endstate);
+> +		return 0;
+> +	}
+> +
+> +	/* x TMS high + 1 TMS low */
+> +	if (endstate->reset) {
+> +		/* Disable sw mode */
+> +		aspeed_jtag_write(aspeed_jtag, 0, ASPEED_JTAG_SW);
+> +		mdelay(1);
+> +		aspeed_jtag_write(aspeed_jtag, ASPEED_JTAG_CTL_ENG_EN |
+> +				  ASPEED_JTAG_CTL_ENG_OUT_EN |
+> +				  ASPEED_JTAG_CTL_FORCE_TMS, ASPEED_JTAG_CTRL);
+> +		mdelay(1);
+> +		aspeed_jtag_write(aspeed_jtag,
+> +				  ASPEED_JTAG_SW_TDIO, ASPEED_JTAG_SW);
+> +		aspeed_jtag->status = JTAG_STATE_TLRESET;
+> +	}
+> +
+> +	return 0;
+> +}
+
+endstate->tck is ignored.
+
+> +static int aspeed_jtag_xfer_push_data_last(struct aspeed_jtag *aspeed_jtag,
+> +					   enum jtag_xfer_type type,
+> +					   u32 shift_bits,
+> +					   enum jtag_endstate endstate)
+> +{
+> +	int res = 0;
+> +
+> +	if (type == JTAG_SIR_XFER) {
+> +		aspeed_jtag_write(aspeed_jtag,
+> +				  ASPEED_JTAG_IOUT_LEN(shift_bits) |
+> +				  ASPEED_JTAG_CTL_LASPEED_INST,
+> +				  ASPEED_JTAG_CTRL);
+> +		aspeed_jtag_write(aspeed_jtag,
+> +				  ASPEED_JTAG_IOUT_LEN(shift_bits) |
+> +				  ASPEED_JTAG_CTL_LASPEED_INST |
+> +				  ASPEED_JTAG_CTL_INST_EN,
+> +				  ASPEED_JTAG_CTRL);
+> +		res = aspeed_jtag_wait_instruction_complete(aspeed_jtag);
+> +	} else {
+> +		aspeed_jtag_write(aspeed_jtag,
+> +				  ASPEED_JTAG_DOUT_LEN(shift_bits) |
+> +				  ASPEED_JTAG_CTL_LASPEED_DATA,
+> +				  ASPEED_JTAG_CTRL);
+> +		aspeed_jtag_write(aspeed_jtag,
+> +				  ASPEED_JTAG_DOUT_LEN(shift_bits) |
+> +				  ASPEED_JTAG_CTL_LASPEED_DATA |
+> +				  ASPEED_JTAG_CTL_DATA_EN,
+> +				  ASPEED_JTAG_CTRL);
+> +		res = aspeed_jtag_wait_data_complete(aspeed_jtag);
+> +	}
+> +	return res;
+> +}
+
+endstate is ignored.
+
+> +static int aspeed_jtag_init(struct platform_device *pdev,
+> +			    struct aspeed_jtag *aspeed_jtag)
+> +{
+> +	struct resource *res;
+> +	struct resource *scu_res;
+> +#ifdef USE_INTERRUPTS
+> +	int err;
+> +#endif
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	aspeed_jtag->reg_base = devm_ioremap_resource(aspeed_jtag->dev, res);
+> +	if (IS_ERR(aspeed_jtag->reg_base))
+> +		return -ENOMEM;
+> +
+> +	scu_res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+> +	aspeed_jtag->scu_base = devm_ioremap_resource(aspeed_jtag->dev,
+> +						      scu_res);
+> +	if (IS_ERR(aspeed_jtag->scu_base))
+> +		return -ENOMEM;
+
+This always fails either because the second IORESOURCE_MEM wasn't
+specified at all (as per the provided example in the dt-bindings
+documentation) or because the SCU region is already claimed by the SCU
+driver (if you try to specify it). Apparently this version of the
+patch series wasn't run-time tested at all. The driver works if this
+is removed altogether because reset_control_(de)assert calls do the
+right thing.
 
 -- 
 Be free, use free (http://www.gnu.org/philosophy/free-sw.html) software!
