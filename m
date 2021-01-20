@@ -1,80 +1,90 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A0A2FB5F5
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Jan 2021 13:04:56 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8653D2FCA4D
+	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Jan 2021 06:11:45 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DKnQY4hngzDr1D
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Jan 2021 23:04:53 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DLDCL5JrRzDqwL
+	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Jan 2021 16:11:42 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::135;
- helo=mail-lf1-x135.google.com; envelope-from=fercerpav@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.221;
+ helo=new1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=OTt/HPQ1; dkim-atps=neutral
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm1 header.b=Z+YsHN+l; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=UXcpzjfM; 
+ dkim-atps=neutral
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DKnQH3kHlzDqNn
- for <linux-aspeed@lists.ozlabs.org>; Tue, 19 Jan 2021 23:04:36 +1100 (AEDT)
-Received: by mail-lf1-x135.google.com with SMTP id 23so28675825lfg.10
- for <linux-aspeed@lists.ozlabs.org>; Tue, 19 Jan 2021 04:04:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Dj35Y10xvadEoj4O3QQAv08yPioskFbVaeePKmUZ9Uk=;
- b=OTt/HPQ18ep/L5BQjn0d2sUCrTGC/Eb4Pc7xsKgfQHwU8n7OQPpqQwwWnuLfwgSCwc
- moSPENoto5XgW6Xn2Icf6eRj2iQEoDviYkXjqAqtot/1l9nVW0HwZK+epzIl721H+Mzd
- 1QD+hVWp2vE3ofoDobxXyeJf3cjOqbK++JvdC9FkbzerJIzy+q9F6BPLfsbVBS3ZFY5l
- KfYz64mbFZNMrjIgCl9qJBk15ddrGeGhW03U8dCE8mssEOHWmsuqJ6emCHvym2/ar6nf
- 9FDnMXSJ0rU1Odei8mUWjPpWLYgh1DoWKNctx6tb/Nzk3B/GBYgiQNLgs5tSOeEZZJrc
- 0MdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Dj35Y10xvadEoj4O3QQAv08yPioskFbVaeePKmUZ9Uk=;
- b=NdPYoIhsotl1v+Ch9DurSTxrHowaLiFW6rrQWC+aGmNQ4vfEcRB91sIYshuHsnTmSe
- a1FFQ19oDYxm42ToNFlYzJJWdsM8JkA2Lnq9fb5J3Gzc0qFNg8dlNAOH7dm5vEaRcVd7
- yFxBWoiRFLNrtm8dYR3WYcaorleokVZmKRhNLLeiPyoWftyQh0LfIdeqJlTYmU6LMmO5
- w/wTLh3Yj9Dhwl3EDm9MD8mJRJgASp+UyyKPPz4dwW/kSII0cfJjrvJDnVIN0WrlLfFD
- ihJMwbTAJtf5DYMrKDqR4iLa5HsVUSRqlQUMnRUmpfnaTkv+u64hVTRO9nQD7Qe+0CxB
- 006w==
-X-Gm-Message-State: AOAM53385shCBzwQWnKwT/hu7CIxld4VmHAu1DXRuP6g4RYoy1t7r71g
- PzNlKTiy/2sMoydf5uCC6CA=
-X-Google-Smtp-Source: ABdhPJyKNYJ/6ghlt3pcnWSiKLntUja0K0OPnDzu3Ijj1aZpbb/PUweZfO0FMXBUIReFejQilX6ZPA==
-X-Received: by 2002:a05:6512:33a8:: with SMTP id
- i8mr1895774lfg.5.1611057872008; 
- Tue, 19 Jan 2021 04:04:32 -0800 (PST)
-Received: from home.paul.comp (paulfertser.info.
- [2001:470:26:54b:226:9eff:fe70:80c2])
- by smtp.gmail.com with ESMTPSA id h1sm2265819lfc.121.2021.01.19.04.04.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 04:04:31 -0800 (PST)
-Received: from home.paul.comp (home.paul.comp [IPv6:0:0:0:0:0:0:0:1])
- by home.paul.comp (8.15.2/8.15.2/Debian-14~deb10u1) with ESMTP id
- 10JC4RAh015519; Tue, 19 Jan 2021 15:04:28 +0300
-Received: (from paul@localhost)
- by home.paul.comp (8.15.2/8.15.2/Submit) id 10JC4QTg015518;
- Tue, 19 Jan 2021 15:04:26 +0300
-Date: Tue, 19 Jan 2021 15:04:26 +0300
-From: Paul Fertser <fercerpav@gmail.com>
-To: Ernesto Corona <ernesto.corona@intel.com>
-Subject: Re: [PATCH v29 2/6]  dt-binding: jtag: Aspeed 2400 and 2500 series
-Message-ID: <20210119120426.GE2971@home.paul.comp>
-References: <20200413222920.4722-1-ernesto.corona@intel.com>
- <20200413222920.4722-3-ernesto.corona@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200413222920.4722-3-ernesto.corona@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DLD5454yhzDqlc;
+ Wed, 20 Jan 2021 16:06:16 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id ABF8058067B;
+ Tue, 19 Jan 2021 23:58:04 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Tue, 19 Jan 2021 23:58:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=zqxskKjO+mY+Ddee8kVlG2biEnA/OUy
+ hgfrM0eiY4eg=; b=Z+YsHN+livVf3VNh5k6sb+JxqvmscNFvJWesF9jDfDQcrXM
+ LMxnBT1j0IJwXKiE/axt2B8oVV1qXmeR0v2hvCUCckyKi92Nla3PVPW+FXN5gYuy
+ Owlg000UJ+LPETYXpFpPhTHl2u9hH3NcBUOhCAibB5lBYXrGGmgZTGCfDCKZfCr3
+ HTAeR7C1wo5Z4QsxaIdIkg7JnXQhs5A5ttIHlSyggdHEm6ZmCORQO4+Jr2/w7/lS
+ ooYdL5Z4I3RjitycN/eq9bJveBrql/PgdAgO8+JrKZdg0oBUazkgepSNGhRxsdri
+ liSJpUKxIbRQ7Cpq6dyW9/mobW/0DWNn9sOiVSg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=zqxskK
+ jO+mY+Ddee8kVlG2biEnA/OUyhgfrM0eiY4eg=; b=UXcpzjfM48bwrTh9ydDK/S
+ glxCoExz4ly0RBb2F9xc60l5xjOPsVfzAwoqpOyMQ1Ff7WVUZpunswDclPaS7YPX
+ Zgaf5zQDaqVDd+76UIEXAD5C4e8O/w4NVDb7OWlH5cmyRUx7H8DcTKM5e+Fg4d7D
+ I3SNFfu4b8ZjU32sH0IA3qxg37G1Bj2aujSptozRA6PxlIIoRc7TVZMdcmeo4Je0
+ UJaxzUFhOnrjuzP3uW6qDTL2oxwG2WtrHRtuC0K7zh42Fmw0uWlKbKGSv27qCikN
+ adJriUPZTYU9fZq/FkyWpPpladeapo1L4o5LVNQ2OmmhUXX9A0kacCS2nyrD2NNA
+ ==
+X-ME-Sender: <xms:W7gHYIuN7LPIyMQKcsy8wl0gn005hzJ8AEfwyj6ZiEPTgL8f65lO0Q>
+ <xme:W7gHYFdC_XD1iDWyH4dVx8fC2Nt2zztWa4a2ZWhubf61U49KBHoIXRcgIPTaCTY7e
+ 7z99rDBbxE_n1265w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddugdejkecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
+ htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
+ veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:W7gHYDzBAzdFe0I8qELw4p2bAbvNdxW6ses5zOt0tx2ub31uHYJGAw>
+ <xmx:W7gHYLOaaDz-hR4CvP_hGAj2U-zLRmKTmdaRzYonZ4qyjYruBLDFuA>
+ <xmx:W7gHYI90zsb-5IgQ5Bo411kfnLSF7lGpkTmEoKpFNswyzFVxCmtQDQ>
+ <xmx:XLgHYDWl-fEhDPNG2JD9ooO66x_3HDsgj7F-0qjD1y4VPr5wjhsUqg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 74766A0005D; Tue, 19 Jan 2021 23:58:03 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-78-g36b56e88ef-fm-20210120.001-g36b56e88
+Mime-Version: 1.0
+Message-Id: <096ac290-3c85-4b08-8741-6efc77745bc4@www.fastmail.com>
+In-Reply-To: <20210114131622.8951-2-chiawei_wang@aspeedtech.com>
+References: <20210114131622.8951-1-chiawei_wang@aspeedtech.com>
+ <20210114131622.8951-2-chiawei_wang@aspeedtech.com>
+Date: Wed, 20 Jan 2021 15:27:43 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Chia-Wei, Wang" <chiawei_wang@aspeedtech.com>,
+ "Rob Herring" <robh+dt@kernel.org>, "Lee Jones" <lee.jones@linaro.org>,
+ "Joel Stanley" <joel@jms.id.au>, "Linus Walleij" <linus.walleij@linaro.org>,
+ "Corey Minyard" <minyard@acm.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org
+Subject: Re: [PATCH v5 1/5] dt-bindings: aspeed-lpc: Remove LPC partitioning
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,41 +96,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Theodore Ts'o <tytso@mit.edu>, Arnd Bergmann <arnd@arndb.de>,
- linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
- Steven Filary <steven.a.filary@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, Jiri Pirko <jiri@mellanox.com>,
- Rgrs <rgrs@protonmail.com>, Eric Biggers <ebiggers@google.com>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- Oleksandr Shamray <oleksandrs@mellanox.com>,
- Patrick Williams <patrickw3@fb.com>, linux-arm-kernel@lists.infradead.org,
- Vadim Pasternak <vadimp@mellanox.com>
+Cc: BMC-SW@aspeedtech.com, Cyril Bur <cyrilbur@gmail.com>,
+ Haiyue Wang <haiyue.wang@linux.intel.com>,
+ Robert Lippert <rlippert@google.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Apr 13, 2020 at 03:29:16PM -0700, Ernesto Corona wrote:
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/jtag/aspeed-jtag.yaml
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/aspeed-clock.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +      jtag: jtag@1e6e4000 {
-> +          compatible = "aspeed,ast2500-jtag";
-> +          reg = <0x1e6e4000 0x1c>;
-> +          clocks = <&syscon ASPEED_CLK_APB>;
-> +          resets = <&syscon ASPEED_RESET_JTAG_MASTER>;
-> +          interrupts = <43>;
-> +      };
 
-It's nice to have an example but shouldn't it also be included in
-aspeed-g5.dtsi as part of the patch series if it's known that the
-driver works on those SoCs and the peripheral is always present?
 
--- 
-Be free, use free (http://www.gnu.org/philosophy/free-sw.html) software!
-mailto:fercerpav@gmail.com
+On Thu, 14 Jan 2021, at 23:46, Chia-Wei, Wang wrote:
+> The LPC controller has no concept of the BMC and the Host partitions.
+> This patch fixes the documentation by removing the description on LPC
+> partitions. The register offsets illustrated in the DTS node examples
+> are also fixed to adapt to the LPC DTS change.
+> 
+> Signed-off-by: Chia-Wei, Wang <chiawei_wang@aspeedtech.com>
+
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
