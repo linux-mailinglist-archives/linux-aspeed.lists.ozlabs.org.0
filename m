@@ -1,82 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36FFB3001ED
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Jan 2021 12:49:45 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD64A300758
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Jan 2021 16:32:13 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DMcxd6sxTzDrhl
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Jan 2021 22:49:41 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DMjtL0hCJzDqTY
+	for <lists+linux-aspeed@lfdr.de>; Sat, 23 Jan 2021 02:32:10 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.26;
- helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::22b;
+ helo=mail-oi1-x22b.google.com; envelope-from=tcminyard@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=B/ZwTxPh; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=BTZwdDg5; 
- dkim-atps=neutral
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=pGjPfkb5; dkim-atps=neutral
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DMcx23ThCzDrRD
- for <linux-aspeed@lists.ozlabs.org>; Fri, 22 Jan 2021 22:49:09 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id CC1C55C0136;
- Fri, 22 Jan 2021 06:49:05 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 22 Jan 2021 06:49:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm1; bh=Aur+84y6XjXo9NANGg4GxQPeSB
- LTSsh+b06q0PumXRo=; b=B/ZwTxPhfBRlLmStrbjvZaaD7Mg6w4qzJ8bXbu65KU
- 3jMjIufM/Svx78Hrq3gvPtO3i1tTYYVrQiWcOiE3HYt4mknJbaTB1xrODEvGl8hm
- 2T/O0iFeuzI7MA8qNSUT6s6hZRlnKHwJUbC5nNWLlJD2zz8iTW+V9tbqxkYMS2WC
- uJpVLCykxEbPaVo+0ia+S9vQzldlvC/LxKM6uMO/xntV9uPSnDv409y/LMBdixsy
- G3jJkaqbPvUMI49gTUL8jikPH8+IGBlOHNgGbH72BJl18CiF7aDJPkhDuBVCxp38
- KsI1iQkCUh3562uAHcxFVBV+/a7DKHNo9XVz95LCfETg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Aur+84y6XjXo9NANG
- g4GxQPeSBLTSsh+b06q0PumXRo=; b=BTZwdDg5goBiKkL5JBhrbjTMzetVczF1G
- TFmHprbqtWhp4v/Exo15rlz9xYnpAk7DpUk0yP2IuHqpdCziYtlFHsOjjjlWrZrD
- 7lOsJM/wzvoyoo2n1lBOD1nYzGeSrr1IvQu3XNq9bilYyrvBIVvyf/k2H/PnAYJ8
- AlXV34P3q6/OjBEhnveifvq9TgZp8pTeRrV/Ty6N/AYp31PdGcLc1BWL28e6fxdX
- ECQnDdNfm1bD6tlDPe7awZVSxr6GDh0ATR434iUkjyXD/2fvuqC7nWaUWqddFub+
- B0AfmSSbXrGwEJVdt5AuITZumwc7EQwU2hUmrpqNLZCAqQyC6YNRg==
-X-ME-Sender: <xms:sLsKYFTsNfHLxZXowxy_4GKEGa9aUE2WehOfEdjs7mn5SKkcC96NJw>
- <xme:sLsKYO6YSuYBcfBGfSarQgc34lQNvZs0UrR9fxILnGlKoKXYsE9X51RbE54wW7Apv
- kTuqBjYKHcArSbrRg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeigdefjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheptehnughrvgifucfl
- vghffhgvrhihuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrfgrthhtvghrnh
- epkefhieffjeevfeevhedtieeihfefvdejledvvddthefftedujeethfeuueelfedtnecu
- kfhppedvtdefrdehjedrvdduhedrvdefvdenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:sLsKYCz7Y-Cdu2hE8WcTCdq7xt_lCadrhHnN-HsDrfSyFKxQAIjJ1A>
- <xmx:sLsKYFQ6-nXemAWFYWUKdKvQikIOTXTYoA-_u71_Xh7l5hWlMMkPwg>
- <xmx:sLsKYJVbTBeCUNF5pb8XLNXYZaVxe_jGc8sgdhRkgRA5pZweczZROw>
- <xmx:sbsKYLY2NGAXoGCXdsz3yIDGZCw3WO53noSAxjhKRuFMM7rq5J_vrA>
-Received: from localhost.localdomain (203-57-215-232.dyn.iinet.net.au
- [203.57.215.232])
- by mail.messagingengine.com (Postfix) with ESMTPA id DEB9124005C;
- Fri, 22 Jan 2021 06:49:00 -0500 (EST)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: linux-mmc@vger.kernel.org
-Subject: [PATCH v2] mmc: sdhci-of-aspeed: Fix kunit-related build error
-Date: Fri, 22 Jan 2021 22:18:52 +1030
-Message-Id: <20210122114852.3790565-1-andrew@aj.id.au>
-X-Mailer: git-send-email 2.27.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DMjt82MBjzDqHm;
+ Sat, 23 Jan 2021 02:31:55 +1100 (AEDT)
+Received: by mail-oi1-x22b.google.com with SMTP id r189so6359513oih.4;
+ Fri, 22 Jan 2021 07:31:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=WAI9EmxO3OdflrUnEgXpGM4CRb9QLdpplJPoTa7R+cY=;
+ b=pGjPfkb55wKYX9mvuZTQi7AZBGV2QCOZFoXy9RzWdf2gyj/GW2FFSyQKljP4zXID50
+ v2uASSUdUkQ3mHimoXvFdWvpPvuufAaZoepwM90faKAf2dX6xAvmXcXhVTCyCBJEsL7n
+ fV0HG3Oh5ostJFIr3RXkQtWzI8E5nAVY4IxpP3iM1RVH2hg5/O6Gpjtfmw2cPorbuGFN
+ E7h/wA8FOlWPXOCrTxGwhOOuPJahWYyOJGEuoP8kp0Fn9T5pvoSnASh4NCCiStEONF/z
+ +5M4sOmAEAlWE+9fEctq2pN8XoyuwM0nCvGXpPyi4oWe7qWOpyEyJatW2PPcWsPbc+VQ
+ cmXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition:in-reply-to;
+ bh=WAI9EmxO3OdflrUnEgXpGM4CRb9QLdpplJPoTa7R+cY=;
+ b=gaUoXvAT7Qa0lul9s2ypv7TfGpxrzHZf9NA7N6/tBG+ac4EItp/sNh5/fecAFCA/Tc
+ VZ+BfhjNUD9u03y1BPBVL9hpu+Rr8d897atIhZ+xoEeu5mNYwmfT0SpdNMX9W5IAiTAc
+ q/AEKBE6524Zd9BOPazxIbqQNF5pOcbE/cItEynKyJI0V2n07fd1YsvASrIQlzbDo8gc
+ te7ON/g8PpSiOAfTR0oeIr9cjAvtX8IeKde9yb5DM63Zc07LB06ElZTmF+6F+FTvVNmI
+ 0iGgLt+Ct0KaOggkgVYq/zDu7LuDKUYvYYhWhBIj18+ZfrgMpv8z5X4U7BmxN7C7hcwl
+ SmkQ==
+X-Gm-Message-State: AOAM533XwmcMszf9koob53ur3TV7vgtT+Ho1GNT++5MoYbvgJQeUQGVk
+ I2eNrL2vzYZDgyFgT2ttog==
+X-Google-Smtp-Source: ABdhPJz+ggRZGBXu3zz8mjszaqMjK+cra/M1UXcQnQ4rQ57Dsba4pFrBTo5xSMzW1dzsOTjtZu39OQ==
+X-Received: by 2002:aca:d417:: with SMTP id l23mr3595479oig.145.1611329511568; 
+ Fri, 22 Jan 2021 07:31:51 -0800 (PST)
+Received: from serve.minyard.net ([47.184.170.156])
+ by smtp.gmail.com with ESMTPSA id n82sm1014044oih.39.2021.01.22.07.31.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Jan 2021 07:31:50 -0800 (PST)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:ecb8:97e0:27ff:a134])
+ by serve.minyard.net (Postfix) with ESMTPSA id A45C7180042;
+ Fri, 22 Jan 2021 15:31:49 +0000 (UTC)
+Date: Fri, 22 Jan 2021 09:31:48 -0600
+From: Corey Minyard <minyard@acm.org>
+To: ChiaWei Wang <chiawei_wang@aspeedtech.com>
+Subject: Re: [PATCH v5 3/5] ipmi: kcs: aspeed: Adapt to new LPC DTS layout
+Message-ID: <20210122153148.GB1157510@minyard.net>
+References: <20210114131622.8951-1-chiawei_wang@aspeedtech.com>
+ <20210114131622.8951-4-chiawei_wang@aspeedtech.com>
+ <c8421730-f8a6-46a7-9e2c-9107eb979276@www.fastmail.com>
+ <HK0PR06MB3779C3106D2FC593B5E5243F91A00@HK0PR06MB3779.apcprd06.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <HK0PR06MB3779C3106D2FC593B5E5243F91A00@HK0PR06MB3779.apcprd06.prod.outlook.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,126 +83,50 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: ulf.hansson@linaro.org, linux-aspeed@lists.ozlabs.org,
- Randy Dunlap <rdunlap@infradead.org>, brendanhiggins@google.com,
- linux-kernel@vger.kernel.org, adrian.hunter@intel.com,
- linux-arm-kernel@lists.infradead.org
+Reply-To: minyard@acm.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Haiyue Wang <haiyue.wang@linux.intel.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ BMC-SW <BMC-SW@aspeedtech.com>, Linus Walleij <linus.walleij@linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Cyril Bur <cyrilbur@gmail.com>, Robert Lippert <rlippert@google.com>,
+ Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Randy found that with the following Kconfig settings we have duplicate
-definitions (e.g. __inittest()) in sdhci-of-aspeed due to competing
-module_init()/module_exit() calls from kunit and driver the itself.
+On Fri, Jan 22, 2021 at 09:55:56AM +0000, ChiaWei Wang wrote:
+> Hi Corey,
+> 
+> Could you help to review this patch to kcs_bmc_aspeed.c?
+> It mainly fixes the register layout/offsets of Aspeed LPC controller.
 
-```
-CONFIG_MMC_SDHCI_OF_ASPEED=m
-CONFIG_MMC_SDHCI_OF_ASPEED_TEST=y
-```
+I am not really qualified to review this.  It looks ok from a structural
+and style point of view, but that's all I can tell.  So I'm ok with it.
 
-Conditionally open-code the kunit initialisation to avoid the error.
+Acked-by: Corey Minyard <cminyard@mvista.com>
 
-Fixes: 7efa02a981d6 ("mmc: sdhci-of-aspeed: Add KUnit tests for phase calculations")
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
-
-v2:
-* Collapse the #ifdef-ery
-
- drivers/mmc/host/sdhci-of-aspeed-test.c |  9 +++++-
- drivers/mmc/host/sdhci-of-aspeed.c      | 42 ++++++++++++++++++++++---
- 2 files changed, 45 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/mmc/host/sdhci-of-aspeed-test.c b/drivers/mmc/host/sdhci-of-aspeed-test.c
-index 34070605b28b..bb67d159b7d8 100644
---- a/drivers/mmc/host/sdhci-of-aspeed-test.c
-+++ b/drivers/mmc/host/sdhci-of-aspeed-test.c
-@@ -95,4 +95,11 @@ static struct kunit_suite aspeed_sdhci_test_suite = {
- 	.name = "sdhci-of-aspeed",
- 	.test_cases = aspeed_sdhci_test_cases,
- };
--kunit_test_suite(aspeed_sdhci_test_suite);
-+
-+static struct kunit_suite *aspeed_sdc_test_suite_array[] = {
-+	&aspeed_sdhci_test_suite,
-+	NULL,
-+};
-+
-+static struct kunit_suite **aspeed_sdc_test_suites
-+	__used __section(".kunit_test_suites") = aspeed_sdc_test_suite_array;
-diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-index 3b0d381e1215..7d8692e90996 100644
---- a/drivers/mmc/host/sdhci-of-aspeed.c
-+++ b/drivers/mmc/host/sdhci-of-aspeed.c
-@@ -556,6 +556,29 @@ static struct platform_driver aspeed_sdc_driver = {
- 	.remove		= aspeed_sdc_remove,
- };
- 
-+#if defined(CONFIG_MMC_SDHCI_OF_ASPEED_TEST)
-+#include "sdhci-of-aspeed-test.c"
-+
-+static inline int aspeed_sdc_tests_init(void)
-+{
-+	return __kunit_test_suites_init(aspeed_sdc_test_suites);
-+}
-+
-+static inline void aspeed_sdc_tests_exit(void)
-+{
-+	__kunit_test_suites_exit(aspeed_sdc_test_suites);
-+}
-+#else
-+static inline int aspeed_sdc_tests_init(void)
-+{
-+	return 0;
-+}
-+
-+static inline void aspeed_sdc_tests_exit(void)
-+{
-+}
-+#endif
-+
- static int __init aspeed_sdc_init(void)
- {
- 	int rc;
-@@ -566,7 +589,18 @@ static int __init aspeed_sdc_init(void)
- 
- 	rc = platform_driver_register(&aspeed_sdc_driver);
- 	if (rc < 0)
--		platform_driver_unregister(&aspeed_sdhci_driver);
-+		goto cleanup_sdhci;
-+
-+	rc = aspeed_sdc_tests_init();
-+	if (rc < 0) {
-+		platform_driver_unregister(&aspeed_sdc_driver);
-+		goto cleanup_sdhci;
-+	}
-+
-+	return 0;
-+
-+cleanup_sdhci:
-+	platform_driver_unregister(&aspeed_sdhci_driver);
- 
- 	return rc;
- }
-@@ -574,15 +608,13 @@ module_init(aspeed_sdc_init);
- 
- static void __exit aspeed_sdc_exit(void)
- {
-+	aspeed_sdc_tests_exit();
-+
- 	platform_driver_unregister(&aspeed_sdc_driver);
- 	platform_driver_unregister(&aspeed_sdhci_driver);
- }
- module_exit(aspeed_sdc_exit);
- 
--#if defined(CONFIG_MMC_SDHCI_OF_ASPEED_TEST)
--#include "sdhci-of-aspeed-test.c"
--#endif
--
- MODULE_DESCRIPTION("Driver for the ASPEED SD/SDIO/SDHCI Controllers");
- MODULE_AUTHOR("Ryan Chen <ryan_chen@aspeedtech.com>");
- MODULE_AUTHOR("Andrew Jeffery <andrew@aj.id.au>");
--- 
-2.27.0
-
+> 
+> Thanks,
+> Chiawei
+> 
+> > -----Original Message-----
+> > From: Andrew Jeffery <andrew@aj.id.au>
+> > Sent: Wednesday, January 20, 2021 1:03 PM
+> > Subject: Re: [PATCH v5 3/5] ipmi: kcs: aspeed: Adapt to new LPC DTS layout
+> > 
+> > 
+> > 
+> > On Thu, 14 Jan 2021, at 23:46, Chia-Wei, Wang wrote:
+> > > Add check against LPC device v2 compatible string to ensure that the
+> > > fixed device tree layout is adopted.
+> > > The LPC register offsets are also fixed accordingly.
+> > >
+> > > Signed-off-by: Chia-Wei, Wang <chiawei_wang@aspeedtech.com>
+> > > Acked-by: Haiyue Wang <haiyue.wang@linux.intel.com>
+> > 
+> > Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+> 
+> Thanks for the review.
