@@ -2,65 +2,85 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9770E306327
-	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Jan 2021 19:24:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5A830679A
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Jan 2021 00:17:32 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DQsSP21DdzDr1f
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Jan 2021 05:24:05 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DQzyx3NrfzDqVZ
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Jan 2021 10:17:29 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::129;
- helo=mail-lf1-x129.google.com; envelope-from=aladyshev22@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.28;
+ helo=out4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=TBvLEZd6; dkim-atps=neutral
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm1 header.b=EEk6+7Uv; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=pfwUWuzT; 
+ dkim-atps=neutral
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DQsS64tjCzDqnr
- for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Jan 2021 05:23:45 +1100 (AEDT)
-Received: by mail-lf1-x129.google.com with SMTP id a12so4043917lfb.1
- for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Jan 2021 10:23:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=7/VIyGCkm6WYqKuSW58avCCQFZDvTdRr+WLSSIBWpSM=;
- b=TBvLEZd6eR8Jg1s6FBNMAsAVrQzkqhI0GamcHJFR7LYDoC9+HWYDPnG4cBG/0AXMmd
- PTY5bwWHS5+6Ld56/bbGo6ZSKna9l/BctnyrZELbIt3ksQ/xQvEclVg7bwgi1nIkv7na
- vAvqqVwsh5/Xte+BQIc3jG+MlayezjwET+giP4pp77SBZ7ioZLLwNxiriXNllDHaDvyJ
- oUMfs7YegcAM4U4RkKOQhNvoGQ32Hzf29gFjCr8Svt+uWT8067EJibxtDGxs04Qxo36O
- 3F+jWvWxsdmKYe5dSmf1+ZuOu2a9beGROlFbyuUm7U9i4hQKtPni4rL8jzCUNVaBThIz
- UQAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=7/VIyGCkm6WYqKuSW58avCCQFZDvTdRr+WLSSIBWpSM=;
- b=CJ2b+iJU30kQazrcStA1ijf4AlL4TKqr8Zmnsmw/wOotO0rOd/1qylboBvOftH7Hos
- ppfm3BHn8y6s6sLxjS85OH5hbTM8tSBVR67cV1W0N43OpbI3FJDrwpY9MWy7tjbRNlYS
- FI0qP7/MUbtm3RlzwFD+zebHrRsyjw1f0dB2SEfXKUO4vhAy3OxqQh5QP97ULpdW9QpA
- FZBTFJaVjgRQ2crsEcS0wliZ+Pw/4fuo7HhDFNec4AP2xIbA+2qw6bGg5U5GIOuIRfk2
- WLS4ZOWt2PPdUGJ1ldym8+xXEpTu26Ko6y+jrbfARyRUo0eZaFR4m5ieD1ZYQaiptgkk
- 2SDQ==
-X-Gm-Message-State: AOAM530BUy5J6Y60rhkTxDUC1qB6EdkyOvh80JqNdgdYsuUji1XS/sJA
- m3i/WUKZ5s8j3ikBWq47NIU=
-X-Google-Smtp-Source: ABdhPJxuj9qRi3BNtT+pBYV+AmDZUin5XCQxcaFgTFWsE+uJi/i7tX09ihVfB5PlDCiOkSD+r8CdDg==
-X-Received: by 2002:a19:838c:: with SMTP id f134mr5518819lfd.424.1611771811861; 
- Wed, 27 Jan 2021 10:23:31 -0800 (PST)
-Received: from DESKTOP-GSFPEC9.localdomain
- (broadband-46-242-11-119.ip.moscow.rt.ru. [46.242.11.119])
- by smtp.gmail.com with ESMTPSA id q26sm667065lfd.17.2021.01.27.10.23.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jan 2021 10:23:31 -0800 (PST)
-From: Konstantin Aladyshev <aladyshev22@gmail.com>
-To: 
-Subject: [PATCH] ARM: dts: aspeed: amd-ethanolx: Enable secondary LPC snooping
- address
-Date: Wed, 27 Jan 2021 21:23:26 +0300
-Message-Id: <20210127182326.424-1-aladyshev22@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DQzyB01G0zDqQ1
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Jan 2021 10:16:49 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 89FC55C00E9;
+ Wed, 27 Jan 2021 18:16:47 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Wed, 27 Jan 2021 18:16:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=gGcwVS/68YhbCGlzsQkOFgWjM+FCtEk
+ PcloKgFmi6Pc=; b=EEk6+7Uv7zZFrOgpqzSxNCsPYT+upXvbPKB9zpYJsn8Agqw
+ oP2+ZQU2qMWIzwUEt8ysK9NWkd7TuVBNEPzWAti16+JNkDDVfzhT6RGY3Dr/m0BE
+ OMlkyCtDNH68HRl3rRXlOdKFAODAVg3wib363PDaWBaIQ2lKINw02uCSPV+p9MOF
+ /YGjYSE3XkYSAVb6Ka4//g/6b9S0mGIZyi1+o83RwDc/Oi5wahGDLaueFmykaJvg
+ 1WvRG3l8CyBBiPBWef7FFR79EhbjnDImGL+jZNvOpm8Nmx88oJV4Pbvvt69ge953
+ VPhWE/yHLG75ftHkSKh7LgMVeUueWygT3txmlXw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=gGcwVS
+ /68YhbCGlzsQkOFgWjM+FCtEkPcloKgFmi6Pc=; b=pfwUWuzTZm5eBII5lNS7u3
+ 4UYD5OuT+ES2cSYMMZ9MWDVGxVYxp209jO1PMqBu9KnkNaykNYD0Fu9argdqij18
+ VmC5J9H/hn27bU7qadWNmKpgwRPSnNcAwix7mhByKArnhBbwAw9lE5MRMqxC0+9Q
+ /sY8nyXn142eQ8D+RlO3e/j/8rvJRLJfmnFqwWGEbl2QL7AbK0GCcGGWHubGM1Up
+ NVNB6oVFMv1bHqBjJ3cGGhDQ+fO723NyG6V2elYOO5x+QpwYnCoonMkskcjEiMWa
+ NsxuvPZHU+AUkN5V0hXXAf7d6OBkaIYjgdMaXytl9K8WLCxCXI7kMNZQtWXUVHFQ
+ ==
+X-ME-Sender: <xms:XfQRYHDebcMnOZep2n0u5Aoj9_QIPSRCp1lLiwnqkslYf0JCMkoWfA>
+ <xme:XfQRYNhx1mLGtVLhMMQFT0zmqUBBHaeKWtwZ7dMdA69D8nly3D9DuUtzOzFcTWohb
+ UnPtZkxtIEmtqgKSA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelgddtjecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
+ htthgvrhhnpedutddtkeeugeegvddttdeukeeiuddtgfeuuddtfeeiueetfeeileettedv
+ tdfhieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:XfQRYCnhFvrsbmvWH7AIk48UIgNlF36fmKNXupN-BUc4maz2soussQ>
+ <xmx:XfQRYJwguG4iygmfPqouLBzSi6JgEpWOiYRoK78ftTqXBeC_mx9tCA>
+ <xmx:XfQRYMTOxSUF5y7FMB9NqOQ-E-0bxhLu6ltCvwm5G5CXYeM62J20GQ>
+ <xmx:X_QRYBJvdAcOqOBWd45DqZd626LDG84vJNZbv1bakRpudRdcm3q96w>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id AD14AA0005D; Wed, 27 Jan 2021 18:16:45 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-84-gfc141fe8b8-fm-20210125.001-gfc141fe8
+Mime-Version: 1.0
+Message-Id: <7d7a0990-c9ca-4113-aa41-415b5cb54cf5@www.fastmail.com>
+In-Reply-To: <20210127182326.424-1-aladyshev22@gmail.com>
+References: <20210127182326.424-1-aladyshev22@gmail.com>
+Date: Thu, 28 Jan 2021 09:46:25 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Konstantin Aladyshev" <aladyshev22@gmail.com>
+Subject: =?UTF-8?Q?Re:_[PATCH]_ARM:_dts:_aspeed:_amd-ethanolx:_Enable_secondary_L?=
+ =?UTF-8?Q?PC_snooping_address?=
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,37 +93,21 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- aladyshev22@gmail.com, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, supreeth.venkatesh@amd.com,
- linux-arm-kernel@lists.infradead.org
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ supreeth.venkatesh@amd.com, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-AMD EthanolX CRB uses 2-byte POST codes which are sent to ports 0x80/0x81.
-Currently ASPEED controller snoops only 0x80 port and therefore captures
-only the lower byte of each POST code.
-Enable secondary LPC snooping address to capture the higher byte of POST
-codes.
 
-Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
----
- arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-index 96ff0aea64e5..ac2d04cfaf2f 100644
---- a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-@@ -218,7 +218,7 @@
- 
- &lpc_snoop {
- 	status = "okay";
--	snoop-ports = <0x80>;
-+	snoop-ports = <0x80>, <0x81>;
- };
- 
- &lpc_ctrl {
--- 
-2.17.1
+On Thu, 28 Jan 2021, at 04:53, Konstantin Aladyshev wrote:
+> AMD EthanolX CRB uses 2-byte POST codes which are sent to ports 0x80/0x81.
+> Currently ASPEED controller snoops only 0x80 port and therefore captures
+> only the lower byte of each POST code.
+> Enable secondary LPC snooping address to capture the higher byte of POST
+> codes.
+> 
+> Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
 
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
