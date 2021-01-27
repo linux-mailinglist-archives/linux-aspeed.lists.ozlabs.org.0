@@ -1,85 +1,66 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95212304D6F
-	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Jan 2021 01:25:46 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9770E306327
+	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Jan 2021 19:24:08 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DQPX51vNvzDqw0
-	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Jan 2021 11:25:41 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DQsSP21DdzDr1f
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Jan 2021 05:24:05 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.221;
- helo=new1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::129;
+ helo=mail-lf1-x129.google.com; envelope-from=aladyshev22@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=ijJP6Zrc; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=juzHo2ER; 
- dkim-atps=neutral
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=TBvLEZd6; dkim-atps=neutral
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DQPWk1ps0zDqZB;
- Wed, 27 Jan 2021 11:25:20 +1100 (AEDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 2F4A9580A86;
- Tue, 26 Jan 2021 19:25:17 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Tue, 26 Jan 2021 19:25:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=PWoGEuMDDaDq0/pzXUUiU1EckS7iVUN
- 1oFV3i9oQBqU=; b=ijJP6ZrcT4CZpTc74xXzMI2pxevxBiB9raVSnMYyR3XEr9f
- ZvTbpO/Cv3Ts9ZgESw+B2H7zHkMQ81/s1YPxw9Umyf/DOkYHpTMbv0rJcFzZN6sz
- h6zLgANlm1G9OdyCsZhq4Xn0MbyT0szBEw0NDMC7qpbKb6ajKp+zZvPmxEF/Wa9h
- x/tYkP34EglzHAwI/9Rekk0jUvHjMvb95wuFVp5W6XSFv65Pe1ltmc23v8c3aKyR
- wsg+ed1PltmlLunEAQcaRBwiIRjhWa9QngDoCdl6v/QlxPArLxi8BfU0/0AskhJx
- 8aZgHqfxRzfFe07tr/X0jX6RQ7Oda+lxtT7WhsA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=PWoGEu
- MDDaDq0/pzXUUiU1EckS7iVUN1oFV3i9oQBqU=; b=juzHo2ERd2n3YX6adW2OnL
- 1N2Lcs+iMO3u0lHnRCNU+G0QiOiQ6Bxp88DZLVuycTPl2EZbp6pSvkAJuqbIiZVk
- 7hKv5/ECVpBa428xHcpHMYMTzup8Z2dufAnY3ea7drNrTx0VvoYir1BQUkOavdPN
- h6EeFMfUXFb/5t1xqgg/DtJZUH+0Zkmz0OiNmvcw+gbaj7DaqbrdIwsG0sh1RxGz
- VpljwS3yLEGoSXcKHidiY7Ji0a9l7qw3FFgbvOzQDBZtL1ulonAMYYtKs0N0IyhL
- uvhfNPw2RWvneouixTI7Y2sNMdcG7uA5AWAkqQonnsVdnvM+0gcLxbmFX4UlRG/Q
- ==
-X-ME-Sender: <xms:67IQYBn8zZXF8aV1RL_0StSGOYIqxaIZpgly8jt4COCgAgtGwllFeA>
- <xme:67IQYM3oNDYWI-tCEy477uy5A8_jkyYEDz9iZAlq_ATf5fsL7z_mzbh0JBe78vlkX
- HNdvqzoh6MJdz_HIQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejgddvfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
- htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
- veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- grnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:7LIQYHqlC_id2kk_RUPPOjvILObK-6rLPAF0rdMpgN-cO2dcN0PlBQ>
- <xmx:7LIQYBl9_LBn5Q2kfDBVLjH2lfV5yEtoavFtu2HhrMuLx4apq7EmcA>
- <xmx:7LIQYP19NXFgSEQW7lDZAmIcFU3kWOFppZ43ScCjIf_cWKOONFJySA>
- <xmx:7bIQYIt6bnrgYF6qn5gSA3F0qVPgYqpnlefxekr4vtmCelQAJagDWw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id E5484A0005D; Tue, 26 Jan 2021 19:25:15 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-84-gfc141fe8b8-fm-20210125.001-gfc141fe8
-Mime-Version: 1.0
-Message-Id: <85f00459-4a39-441e-8119-8e12f8132cfe@www.fastmail.com>
-In-Reply-To: <20210114131622.8951-2-chiawei_wang@aspeedtech.com>
-References: <20210114131622.8951-1-chiawei_wang@aspeedtech.com>
- <20210114131622.8951-2-chiawei_wang@aspeedtech.com>
-Date: Wed, 27 Jan 2021 10:54:55 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Lee Jones" <lee.jones@linaro.org>
-Subject: Re: [PATCH v5 1/5] dt-bindings: aspeed-lpc: Remove LPC partitioning
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DQsS64tjCzDqnr
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 28 Jan 2021 05:23:45 +1100 (AEDT)
+Received: by mail-lf1-x129.google.com with SMTP id a12so4043917lfb.1
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Jan 2021 10:23:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=7/VIyGCkm6WYqKuSW58avCCQFZDvTdRr+WLSSIBWpSM=;
+ b=TBvLEZd6eR8Jg1s6FBNMAsAVrQzkqhI0GamcHJFR7LYDoC9+HWYDPnG4cBG/0AXMmd
+ PTY5bwWHS5+6Ld56/bbGo6ZSKna9l/BctnyrZELbIt3ksQ/xQvEclVg7bwgi1nIkv7na
+ vAvqqVwsh5/Xte+BQIc3jG+MlayezjwET+giP4pp77SBZ7ioZLLwNxiriXNllDHaDvyJ
+ oUMfs7YegcAM4U4RkKOQhNvoGQ32Hzf29gFjCr8Svt+uWT8067EJibxtDGxs04Qxo36O
+ 3F+jWvWxsdmKYe5dSmf1+ZuOu2a9beGROlFbyuUm7U9i4hQKtPni4rL8jzCUNVaBThIz
+ UQAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=7/VIyGCkm6WYqKuSW58avCCQFZDvTdRr+WLSSIBWpSM=;
+ b=CJ2b+iJU30kQazrcStA1ijf4AlL4TKqr8Zmnsmw/wOotO0rOd/1qylboBvOftH7Hos
+ ppfm3BHn8y6s6sLxjS85OH5hbTM8tSBVR67cV1W0N43OpbI3FJDrwpY9MWy7tjbRNlYS
+ FI0qP7/MUbtm3RlzwFD+zebHrRsyjw1f0dB2SEfXKUO4vhAy3OxqQh5QP97ULpdW9QpA
+ FZBTFJaVjgRQ2crsEcS0wliZ+Pw/4fuo7HhDFNec4AP2xIbA+2qw6bGg5U5GIOuIRfk2
+ WLS4ZOWt2PPdUGJ1ldym8+xXEpTu26Ko6y+jrbfARyRUo0eZaFR4m5ieD1ZYQaiptgkk
+ 2SDQ==
+X-Gm-Message-State: AOAM530BUy5J6Y60rhkTxDUC1qB6EdkyOvh80JqNdgdYsuUji1XS/sJA
+ m3i/WUKZ5s8j3ikBWq47NIU=
+X-Google-Smtp-Source: ABdhPJxuj9qRi3BNtT+pBYV+AmDZUin5XCQxcaFgTFWsE+uJi/i7tX09ihVfB5PlDCiOkSD+r8CdDg==
+X-Received: by 2002:a19:838c:: with SMTP id f134mr5518819lfd.424.1611771811861; 
+ Wed, 27 Jan 2021 10:23:31 -0800 (PST)
+Received: from DESKTOP-GSFPEC9.localdomain
+ (broadband-46-242-11-119.ip.moscow.rt.ru. [46.242.11.119])
+ by smtp.gmail.com with ESMTPSA id q26sm667065lfd.17.2021.01.27.10.23.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Jan 2021 10:23:31 -0800 (PST)
+From: Konstantin Aladyshev <aladyshev22@gmail.com>
+To: 
+Subject: [PATCH] ARM: dts: aspeed: amd-ethanolx: Enable secondary LPC snooping
+ address
+Date: Wed, 27 Jan 2021 21:23:26 +0300
+Message-Id: <20210127182326.424-1-aladyshev22@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,27 +72,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, BMC-SW@aspeedtech.com,
- linux-aspeed@lists.ozlabs.org, Corey Minyard <minyard@acm.org>,
- Robert Lippert <rlippert@google.com>, linux-kernel@vger.kernel.org,
- openbmc@lists.ozlabs.org, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Haiyue Wang <haiyue.wang@linux.intel.com>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ aladyshev22@gmail.com, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, supreeth.venkatesh@amd.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+AMD EthanolX CRB uses 2-byte POST codes which are sent to ports 0x80/0x81.
+Currently ASPEED controller snoops only 0x80 port and therefore captures
+only the lower byte of each POST code.
+Enable secondary LPC snooping address to capture the higher byte of POST
+codes.
 
+Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
+---
+ arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Thu, 14 Jan 2021, at 23:46, Chia-Wei, Wang wrote:
-> The LPC controller has no concept of the BMC and the Host partitions.
-> This patch fixes the documentation by removing the description on LPC
-> partitions. The register offsets illustrated in the DTS node examples
-> are also fixed to adapt to the LPC DTS change.
-> 
-> Signed-off-by: Chia-Wei, Wang <chiawei_wang@aspeedtech.com>
+diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+index 96ff0aea64e5..ac2d04cfaf2f 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+@@ -218,7 +218,7 @@
+ 
+ &lpc_snoop {
+ 	status = "okay";
+-	snoop-ports = <0x80>;
++	snoop-ports = <0x80>, <0x81>;
+ };
+ 
+ &lpc_ctrl {
+-- 
+2.17.1
 
-Any thoughts Lee? If you ack it would you be happy for the patch to go through 
-the Aspeed tree?
-
-Andrew
