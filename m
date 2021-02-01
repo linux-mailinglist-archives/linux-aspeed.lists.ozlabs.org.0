@@ -1,55 +1,113 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3CEB307EC1
-	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Jan 2021 20:39:20 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C30430A28B
+	for <lists+linux-aspeed@lfdr.de>; Mon,  1 Feb 2021 08:17:27 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DRW4k3V5xzDsPx
-	for <lists+linux-aspeed@lfdr.de>; Fri, 29 Jan 2021 06:39:18 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DTfQr02D0zDrNR
+	for <lists+linux-aspeed@lfdr.de>; Mon,  1 Feb 2021 18:17:24 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.88; helo=mga01.intel.com;
- envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:febd::729;
+ helo=apc01-sg2-obe.outbound.protection.outlook.com;
+ envelope-from=ryan_chen@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-sg2apc01on0729.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:febd::729])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DRW290XVjzDrhZ;
- Fri, 29 Jan 2021 06:37:03 +1100 (AEDT)
-IronPort-SDR: QDl10Y3BclVWOeb2AIwHExjnJVCnzcJdK9MOFwDKT5a7TqPWBS09V0UaYkMrHxnC31H/Rc1LG0
- i8+vVh4YQWgA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9878"; a="199136151"
-X-IronPort-AV: E=Sophos;i="5.79,383,1602572400"; d="scan'208";a="199136151"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2021 11:36:59 -0800
-IronPort-SDR: zPVJLkT/Yoal4nkt5j9UPs7nMEwZnZuPSomlUqLjwz5fKZytTxspi5pARNs07F8fQpVOgJaixk
- NIUzuv0pn9qQ==
-X-IronPort-AV: E=Sophos;i="5.79,383,1602572400"; d="scan'208";a="363975312"
-Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.212.221.93])
- ([10.212.221.93])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2021 11:36:58 -0800
-Subject: Re: [PATCH v2 1/4] dt-bindings: i2c: aspeed: add buffer and DMA mode
- transfer support
-To: Joel Stanley <joel@jms.id.au>
-References: <20210112003749.10565-1-jae.hyun.yoo@linux.intel.com>
- <20210112003749.10565-2-jae.hyun.yoo@linux.intel.com>
- <20210114193416.GA3432711@robh.at.kernel.org>
- <4f67358e-58e5-65a5-3680-1cd8e9851faa@linux.intel.com>
- <CACPK8XcZTE=bnCP1-E9PTA09WnXG9Eduwx0dm-QqmQJUDa_OrQ@mail.gmail.com>
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <1814b8d1-954c-0988-0745-e95129079708@linux.intel.com>
-Date: Thu, 28 Jan 2021 11:36:53 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DTfQV3KyZzDr58
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  1 Feb 2021 18:17:04 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kSiXhSWDXa80XiKKJ7488w2AQyUIGEb4wAt57408EucHGfcUA8qAjKpNnfSTnoY9V09nd3Uj83hP+cmnB3oWI+3hB9k0lsOkmui/0HKHgTI53VOMunznXaJo1+NDQ9T54hDTZV6+ydyuuk2OtAK/eiZf1mDdFBt5uRCP0MZ+MGfsfdqMAPZiAMN6rROQWEKr8MU6waLMerMyyR7cZPGMKRJw3Tv7hxCRPXsbNf/aXHuAQS/l0kMveYAI2pooYFRQUDirlh6syoy0/DI5W3vowp8rs+CHyd4KmPkWhJW3ElOhio9MqCRBwU9lFrNBv9AQT+547I3qStNl4oen6RkVJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/mIsDc4Zsy6RLoqU0au1TDLLNgRqrBHFay0Wkw1VAB4=;
+ b=JxZpGEElGkhxRaoxGQDcpYRmHzUyT3FXqsP4I0HWKMtEEJSncGjQVl4HFt4DPt/h3DaZdtDdm0w8YHuZM2hOY5dHJNE9cPxf4L+xcm1HVS5pv8HbX+Uc1fXhpYRt9adMf6HgmX11pl1V08PnaE4x/0BJp+RzkDVl73gca2gyaufSWCxtWSwhyUgdYNnT5lalYgxFhssR+cAdDSY8LWsWXUzpwy2GCsESwJkvqxqn/RyEUilHEjZ4RUJwR/86FaowqYO39ZwdgC4V3dWEgllAuBI6QuG/aDBgRkb7TIHk5i4UH0tbCLMWpL0fbOb48EWYzpzkIDcFLIIcNmQdbmONgw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+Received: from HK0PR06MB3380.apcprd06.prod.outlook.com (2603:1096:203:82::18)
+ by HK0PR06MB2706.apcprd06.prod.outlook.com (2603:1096:203:58::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.22; Mon, 1 Feb
+ 2021 07:16:37 +0000
+Received: from HK0PR06MB3380.apcprd06.prod.outlook.com
+ ([fe80::116:1437:5d9a:16e9]) by HK0PR06MB3380.apcprd06.prod.outlook.com
+ ([fe80::116:1437:5d9a:16e9%6]) with mapi id 15.20.3805.024; Mon, 1 Feb 2021
+ 07:16:37 +0000
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: Andrew Jeffery <andrew@aj.id.au>, Samuel Holland <samuel@sholland.org>,
+ Stephen Boyd <sboyd@kernel.org>, Joel Stanley <joel@jms.id.au>
+Subject: RE: [PATCH 1/1] clk: aspeed: modify some default clks are critical
+Thread-Topic: [PATCH 1/1] clk: aspeed: modify some default clks are critical
+Thread-Index: AQHW8rO2P68MqUiJ10e4e7ob+JK4oapC7pCw
+Date: Mon, 1 Feb 2021 07:16:37 +0000
+Message-ID: <HK0PR06MB33809710CB2D6300137BF92BF2B69@HK0PR06MB3380.apcprd06.prod.outlook.com>
+References: <20200928070108.14040-1-ryan_chen@aspeedtech.com>
+ <20200928070108.14040-2-ryan_chen@aspeedtech.com>
+ <160264382296.310579.9835482254268204873@swboyd.mtv.corp.google.com>
+ <CACPK8Xe-_hTey7hTJjG2-EcDsTN0qOw3bWBcrZZohEK3QOJuvg@mail.gmail.com>
+ <160269577311.884498.8429245140509326318@swboyd.mtv.corp.google.com>
+ <adadc9ef-32ab-0a79-327c-c499c1c04093@sholland.org>
+ <HK0PR06MB338049BAE1D1DAE7567F620DF2A00@HK0PR06MB3380.apcprd06.prod.outlook.com>
+ <57a20436-5d12-4f7c-b413-0cd1908acf02@www.fastmail.com>
+In-Reply-To: <57a20436-5d12-4f7c-b413-0cd1908acf02@www.fastmail.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: aj.id.au; dkim=none (message not signed)
+ header.d=none;aj.id.au; dmarc=none action=none header.from=aspeedtech.com;
+x-originating-ip: [211.20.114.70]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a2d42ceb-cdde-4a5e-52a7-08d8c681503f
+x-ms-traffictypediagnostic: HK0PR06MB2706:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <HK0PR06MB2706D110F38DBADFF9E54C2CF2B69@HK0PR06MB2706.apcprd06.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: RlDeSja2XR/gxqXcb13seHYf/s9/wEYxqztlvUMx4TnL2fphCxZhNUZ3nxCqohG3vlc/eiyUqimk2dtFjuEvtqLNKKYy27T1m0foRuoMmLEcA8c4Ye1lnoJ7ym5M40O6eYRQeWV/2ybohb2JjT7wvaFvr6LUBtoEpO2E16GugAwbLhK9FYQQlW7Qr14nrlBGu2zRDqy4jAKlbPkga/ooYR1bNkAZKKEdBMFUprR+0H8myftsW+HgXGvU9sr5amy3vl85GjFQLxQpdJdGxWLeebIxwQGtbIV00D5mYKDPKbQCU+fTTdya+8XmxDmnLKNVtmB5U1oOwOeoBWbmS0RTy9sJ/hTIesaMEwGARQbbJ4KHxElLAypbkq0DQjP1fSdrko0+I7Vb1BwG+11wHCN+1vk0/opwcBc6txwRoPnh9ndnLiBzE3ZHDLbTUyvZ1tzAQ6kvCM+ItfhjBj6U0qKma8mF6Pd9RrEcbi6vDyGwvv3bkMhSw8+ldHcW9nUu9Tc3midZGzPm6kKQ4UPUD7TqpbTG+Co1bAAl5AnQ8jDPNVc4lEgutgU7+CULTy+kL4FezJ9qP27jP/dvUapeCvd362LdyzAPgiV7ZV/LT+lXFAc=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR06MB3380.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(39840400004)(396003)(376002)(366004)(346002)(9686003)(8676002)(33656002)(55016002)(26005)(54906003)(8936002)(7696005)(53546011)(86362001)(186003)(55236004)(6506007)(71200400001)(110136005)(316002)(52536014)(5660300002)(66946007)(4001150100001)(66476007)(66556008)(64756008)(66446008)(2906002)(4326008)(478600001)(83380400001)(76116006)(966005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?+7uEGrY9XSzxlMFJd17WskT9KyDc0KMbqTr2komdoskGUr+1sbFSRu+2xL8i?=
+ =?us-ascii?Q?xz43Yg3jgXtY4FE1JPzXZCG9iSUw27ifRArtv2QZ6imO/1l/kOw2ODNtuuTk?=
+ =?us-ascii?Q?e51kiRm1UE7di115XZUpkj2ahyFQ82yZegXiVgzEtWnfoxOjxgInh3Pdj0cY?=
+ =?us-ascii?Q?ubo8GcThkb4Tkmd5i9Pt04VfbuAtQgapOuJTzkf50lSiSYDf6nFf9gV46t7S?=
+ =?us-ascii?Q?yXZGjzqidmSThvV1xFFAYegumLjaMXEkbHtVVxRmQUq+EJiKqdHxYGv69EjT?=
+ =?us-ascii?Q?DvvG0J/hYGITl81YenY1PtT1n76P5WXvZp9M81+7Qmv1ndy8dAS7vlGTjXsA?=
+ =?us-ascii?Q?rUV5HKP/J2POAnFvcaPS9pb/7//sl1XGwuUNnbFL693l0jMxtncpcaNCqlqe?=
+ =?us-ascii?Q?yfcQ0GYYujFvkdKtooGCDW6QxZE/gHXb2VKQui9mS6ZK7D//tJEazxKpIXme?=
+ =?us-ascii?Q?s/KU3czhbgCzJTNfzTbXkumH37jBEQ7CuTRazTLIEXISeLuu2ZyJdYMdJZao?=
+ =?us-ascii?Q?ggn2eQW1FWH0xH533r1dcvdnf+O3VgNxEa+sK9I6w+br73awH+8ts/+Kr9lb?=
+ =?us-ascii?Q?MzciJgRjLWBN9/EEUbnd1lnWhb5yFaFzcC5G8jVztMzqD9MEZwsZbUGBElr8?=
+ =?us-ascii?Q?aZv3Krg4t08FU2RcfpPiiy9CqOpbZDeN0ZC6iEWytxSivcyRYYZ7NTgscIrw?=
+ =?us-ascii?Q?9TrUOe3vkuhKffJBC+t+GIvAWlzFF4VPuJ1OzT1p5pOBq4be3d9UbO89colc?=
+ =?us-ascii?Q?+KDRmpUhE5X2KNOP8Fh5zSwRh0lSHRHLcPMBe053RufTvW/1SxneZIZc5XSw?=
+ =?us-ascii?Q?37XlM2DD+ubs9CH1jSpBh+iuPYBza868xb/Mc8QXSufwfuyHkc1M8W+arfNI?=
+ =?us-ascii?Q?kHecR06A7Fu5k6c1gweOUkxEXNyHAG8L2y1xE4a9dhLoqogckzfT7N+EKjB8?=
+ =?us-ascii?Q?EzvOkCTiPU/jMyMu/6Z42dGRW4EXXF1kETVav9jpo4R/ykVaQmXjB8MrkKT/?=
+ =?us-ascii?Q?kWugX1lbeRAfCYU0QF4wf3s4gyc4sk77a48YNqX+pi7uLRM9Ar+T/7mVciHR?=
+ =?us-ascii?Q?+mEyIR7J?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <CACPK8XcZTE=bnCP1-E9PTA09WnXG9Eduwx0dm-QqmQJUDa_OrQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3380.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2d42ceb-cdde-4a5e-52a7-08d8c681503f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Feb 2021 07:16:37.0684 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: OddEaGJza5lOXDWPD7nZnqgLHN6Lh/BggChRkUbGntDmzCYs5iyk0R8aUogLFIGZ8qqpGbaYZqLB2S+IFsYfGp1fRB9ArE+Pk9kbHiQOgYA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2706
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,105 +119,133 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Wolfram Sang <wsa@the-dreams.de>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- devicetree <devicetree@vger.kernel.org>, Cedric Le Goater <clg@kaod.org>,
- linux-i2c@vger.kernel.org
+Cc: BMC-SW <BMC-SW@aspeedtech.com>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Joel
+> -----Original Message-----
+> From: Andrew Jeffery <andrew@aj.id.au>
+> Sent: Monday, January 25, 2021 8:47 AM
+> To: Ryan Chen <ryan_chen@aspeedtech.com>; Samuel Holland
+> <samuel@sholland.org>; Stephen Boyd <sboyd@kernel.org>; Joel Stanley
+> <joel@jms.id.au>
+> Cc: BMC-SW <BMC-SW@aspeedtech.com>; linux-aspeed
+> <linux-aspeed@lists.ozlabs.org>; Michael Turquette
+> <mturquette@baylibre.com>; Linux Kernel Mailing List
+> <linux-kernel@vger.kernel.org>; linux-clk@vger.kernel.org; Linux ARM
+> <linux-arm-kernel@lists.infradead.org>
+> Subject: Re: [PATCH 1/1] clk: aspeed: modify some default clks are critic=
+al
+>=20
+>=20
+>=20
+> On Fri, 22 Jan 2021, at 18:45, Ryan Chen wrote:
+> > Hello,
+> > 	How about this patch progress?
+> > 	It does impact a lot of machine that when BMC boot at u-boot.
+> > 	SUART is work for Host. But after boot into kernel, due to the clk dis=
+abled.
+> > 	The SUART is not work for Host anymore.
+>=20
+> Maybe it's worth taking Ryan's patch for now, and when the protected-cloc=
+ks
+> binding gets merged we can rip out the CLK_IS_CRITICAL flags and convert =
+the
+> Aspeed devicetrees to use protected-clocks instead?
+>=20
+> The only issue I see with that plan is it becomes ambiguous as to which c=
+lock
+> each platform considers crititical/in-need-of-protection.
+>=20
+Hello Joel,
+	Will you take this patch? Or you have another approach I may modify for it=
+.=20
 
-On 1/27/2021 4:06 PM, Joel Stanley wrote:
-> On Thu, 14 Jan 2021 at 20:05, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
->>
->> Hi Rob,
->>
->> On 1/14/2021 11:34 AM, Rob Herring wrote:
->>>> -- reg                       : address offset and range of bus
->>>> +- reg                       : Address offset and range of bus registers.
->>>> +
->>>> +                      An additional SRAM buffer address offset and range is
->>>> +                      optional in case of enabling I2C dedicated SRAM for
->>>> +                      buffer mode transfer support. If the optional range
->>>> +                      is defined, buffer mode will be enabled.
->>>> +                      - AST2400
->>>> +                        &i2c0 { reg = <0x40 0x40>, <0x800 0x80>; };
->>>> +                        &i2c1 { reg = <0x80 0x40>, <0x880 0x80>; };
->>>> +                        &i2c2 { reg = <0xc0 0x40>, <0x900 0x80>; };
->>>> +                        &i2c3 { reg = <0x100 0x40>, <0x980 0x80>; };
->>>> +                        &i2c4 { reg = <0x140 0x40>, <0xa00 0x80>; };
->>>> +                        &i2c5 { reg = <0x180 0x40>, <0xa80 0x80>; };
->>>> +                        &i2c6 { reg = <0x1c0 0x40>, <0xb00 0x80>; };
->>>> +                        &i2c7 { reg = <0x300 0x40>, <0xb80 0x80>; };
->>>> +                        &i2c8 { reg = <0x340 0x40>, <0xc00 0x80>; };
->>>> +                        &i2c9 { reg = <0x380 0x40>, <0xc80 0x80>; };
->>>> +                        &i2c10 { reg = <0x3c0 0x40>, <0xd00 0x80>; };
->>>> +                        &i2c11 { reg = <0x400 0x40>, <0xd80 0x80>; };
->>>> +                        &i2c12 { reg = <0x440 0x40>, <0xe00 0x80>; };
->>>> +                        &i2c13 { reg = <0x480 0x40>, <0xe80 0x80>; };
->>>
->>> All this information doesn't need to be in the binding.
->>>
->>> It's also an oddly structured dts file if this is what you are doing...
->>
->> I removed the default buffer mode settings that I added into
->> 'aspeed-g4.dtsi' and 'aspeed-g5.dtsi' in v1 to avoid touching of the
->> default transfer mode setting, but each bus should use its dedicated
->> SRAM buffer range for enabling buffer mode so I added this information
->> at here as overriding examples instead. I thought that binding document
->> is a right place for providing this information but looks like it's not.
->> Any recommended place for it? Is it good enough if I add it just into
->> the commit message?
-> 
-> I agree with Rob, we don't need this described in the device tree
-> (binding or dts). We know what the layout is for a given aspeed
-> family, so the driver can have this information hard coded.
-> 
-> (Correct me if I've misinterpted here Rob)
-> 
-
-Makes sense. Will add these settings into the driver module as hard
-coded per each bus.
-
->>
->>>> @@ -17,6 +72,25 @@ Optional Properties:
->>>>    - bus-frequency    : frequency of the bus clock in Hz defaults to 100 kHz when not
->>>>                 specified
->>>>    - multi-master     : states that there is another master active on this bus.
->>>> +- aspeed,dma-buf-size       : size of DMA buffer.
->>>> +                        AST2400: N/A
->>>> +                        AST2500: 2 ~ 4095
->>>> +                        AST2600: 2 ~ 4096
->>>
->>> If based on the SoC, then all this can be implied from the compatible
->>> string.
->>>
->>
->> Please help me to clarify your comment. Should I remove it from here
->> with keeping the driver handling code for each SoC compatible string?
->> Or should I change it like below?
->> aspeed,ast2400-i2c-bus: N/A
->> aspeed,ast2500-i2c-bus: 2 ~ 4095
->> aspeed,ast2600-i2c-bus: 2 ~ 4096
-> 
-> As above, we know what the buffer size is for the specific soc family,
-> so we can hard code the value to expect.
-> 
-> The downside of this hard coding is it takes away the option of using
-> more buffer space for a given master in a system that only enables
-> some of the masters. Is this a use case you were considering? If so,
-> then we might revisit some of the advice in this thread.
-> 
-
-I added flexibility on this setting but it doesn't need to be. I'll add
-hard coded setting for the maximum DMA length into the driver as you
-suggested. If I add a xfer mode setting in device tree instead, enabling
-of DMA can be configured as each bus basis so there would be no concern
-I believe. Will submit v3 soon.
-
-Thanks,
-Jae
+Regards,
+Ryan
+> > > -----Original Message-----
+> > > From: Samuel Holland <samuel@sholland.org>
+> > > Sent: Thursday, October 29, 2020 10:25 AM
+> > > To: Stephen Boyd <sboyd@kernel.org>; Joel Stanley <joel@jms.id.au>
+> > > Cc: Andrew Jeffery <andrew@aj.id.au>; Michael Turquette
+> > > <mturquette@baylibre.com>; Ryan Chen <ryan_chen@aspeedtech.com>;
+> > > BMC-SW <BMC-SW@aspeedtech.com>; Linux ARM
+> > > <linux-arm-kernel@lists.infradead.org>; linux-aspeed
+> > > <linux-aspeed@lists.ozlabs.org>; linux-clk@vger.kernel.org; Linux
+> > > Kernel Mailing List <linux-kernel@vger.kernel.org>
+> > > Subject: Re: Re: [PATCH 1/1] clk: aspeed: modify some default clks
+> > > are critical
+> > >
+> > > Stephen,
+> > >
+> > > On 10/14/20 12:16 PM, Stephen Boyd wrote:
+> > > > Quoting Joel Stanley (2020-10-13 22:28:00)
+> > > >> On Wed, 14 Oct 2020 at 02:50, Stephen Boyd <sboyd@kernel.org>
+> wrote:
+> > > >>>
+> > > >>> Quoting Ryan Chen (2020-09-28 00:01:08)
+> > > >>>> In ASPEED SoC LCLK is LPC clock for all SuperIO device,
+> > > >>>> UART1/UART2 are default for Host SuperIO UART device, eSPI clk
+> > > >>>> for Host eSPI bus access eSPI slave channel, those clks can't
+> > > >>>> be disable should keep default, otherwise will affect Host side
+> > > >>>> access SuperIO and SPI slave
+> > > device.
+> > > >>>>
+> > > >>>> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+> > > >>>> ---
+> > > >>>
+> > > >>> Is there resolution on this thread?
+> > > >>
+> > > >> Not yet.
+> > > >>
+> > > >> We have a system where the BMC (management controller) controls
+> > > >> some clocks, but the peripherals that it's clocking are outside
+> > > >> the BMC's control. In this case, the host processor us using some
+> > > >> UARTs and what not independent of any code running on the BMC.
+> > > >>
+> > > >> Ryan wants to have them marked as critical so the BMC never
+> > > >> powers them
+> > > down.
+> > > >>
+> > > >> However, there are systems that don't use this part of the soc,
+> > > >> so for those implementations they are not critical and Linux on
+> > > >> the BMC can turn them off.
+> > > >>
+> > > >> Do you have any thoughts? Has anyone solved a similar problem
+> already?
+> > > >>
+> > > >
+> > > > Is this critical clocks in DT? Where we want to have different DT
+> > > > for different device configurations to indicate that some clks
+> > > > should be marked critical so they're never turned off and other
+> > > > times they aren't so they're turned off?
+> > > >
+> > > > It also sounds sort of like the protected-clocks binding. Where
+> > > > you don't want to touch certain clks depending on the usage
+> > > > configuration of the SoC. There is a patch to make that generic
+> > > > that I haven't applied because it looks wrong at first glance[1].
+> > > > Maybe not registering those clks to the framework on the
+> > > > configuration that Ryan has is
+> > > good enough?
+> > >
+> > > Could you please be more specific than the patch "looks wrong"? I'm
+> > > more than happy to update the patch to address your concerns, but I
+> > > cannot do that unless I know what your concerns are.
+> > >
+> > > Regards,
+> > > Samuel
+> > >
+> > > > [1]
+> > > > https://lore.kernel.org/r/20200903040015.5627-2-samuel@sholland.or
+> > > > g
+> > _______________________________________________
+> > linux-arm-kernel mailing list
+> > linux-arm-kernel@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> >
