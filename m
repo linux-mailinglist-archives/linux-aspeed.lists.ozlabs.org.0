@@ -2,51 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E3D30B6AB
-	for <lists+linux-aspeed@lfdr.de>; Tue,  2 Feb 2021 05:48:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C66030B6C6
+	for <lists+linux-aspeed@lfdr.de>; Tue,  2 Feb 2021 06:00:30 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DVC3y6YgVzDr81
-	for <lists+linux-aspeed@lfdr.de>; Tue,  2 Feb 2021 15:47:58 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DVCLM5YQyzDr49
+	for <lists+linux-aspeed@lfdr.de>; Tue,  2 Feb 2021 16:00:27 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::734;
+ helo=mail-qk1-x734.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=Ag5N1hX5; dkim-atps=neutral
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
+ [IPv6:2607:f8b0:4864:20::734])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DVC2k6K1YzDqpM
- for <linux-aspeed@lists.ozlabs.org>; Tue,  2 Feb 2021 15:46:54 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- secure) header.d=ozlabs.org header.i=@ozlabs.org header.a=rsa-sha256
- header.s=201707 header.b=oR6iXsBg; dkim-atps=neutral
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits))
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4DVC2j6qsXz9tjx;
- Tue,  2 Feb 2021 15:46:53 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ozlabs.org; s=201707;
- t=1612241214; bh=vRDOvL4of/Oeu9QXEMbQYJHdwg+PyqoJY0e1Wu5OGCM=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=oR6iXsBgaRYY+BNPiqtgy6g6SMZZPbqAfupBNijMUu5jYcewGR5RejzgnnQYPaoTR
- 8Ihjcex28jr1Qkq5LEJM4CaIHyxraYnJKBNAcx5Xaf/6fv37bnmfadzlc+j3mfKurA
- jpVa9/6CsbmTGgPP5QfCn5dgJpDWGdor/c/eZ0JevetzegsysCaGt7P09DEkar/rDv
- /gSd7NA59yP3QfhNIvm2Cwam9kBlwY8JRx9xE4NMaoUZTTjJ8UioaEKKwK64EtIUkF
- r6v7a+Mpmf6ss9ItRQgkEWk6WQUp+SePJjpebO3sEF7xdT49rmB5gk8OHaaxqLi9E3
- yw5yqz9YBZ0Ww==
-Message-ID: <21b49b6a6303bf8c188929bb2cb328ecea33520f.camel@ozlabs.org>
-Subject: Re: [PATCH 2/2] drm/aspeed: Use dt matching for default register
- values
-From: Jeremy Kerr <jk@ozlabs.org>
-To: Joel Stanley <joel@jms.id.au>, David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>, Andrew Jeffery <andrew@aj.id.au>
-Date: Tue, 02 Feb 2021 12:46:52 +0800
-In-Reply-To: <20210111044638.290909-3-joel@jms.id.au>
-References: <20210111044638.290909-1-joel@jms.id.au>
- <20210111044638.290909-3-joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2-1 
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DVCLB6qPvzDqsc
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  2 Feb 2021 16:00:16 +1100 (AEDT)
+Received: by mail-qk1-x734.google.com with SMTP id t63so18748980qkc.1
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 01 Feb 2021 21:00:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XHw4bny1Wwo2iSShQVV6B7iNSJANKQ/GGFfcMHS85eI=;
+ b=Ag5N1hX5J+pqVl90avHSmQoVpceCOhvNtJdqzAr9/yrRozGVv//bYFxl8F3/iMHzHh
+ ljyhdu33mqwSBSh8Z6WQmEjyqBx3Bguiot0wK7ohICaG5FVx/diV5BNrQSmz+mFzjiT3
+ xApLB697+wTghiaR0sr/t0+BRRuotyOqhBn6s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XHw4bny1Wwo2iSShQVV6B7iNSJANKQ/GGFfcMHS85eI=;
+ b=MAUjIA5nGiHfjViBZFsx6BXRSJsxKLFut4gIC5Qd6LJsaAOxzquahTWBZg4sZNReCJ
+ U2u+WEjzR1NGsnLlO1AArvzQsGway06gPBYqoCXrLZzl89e2uGk/iN/YOhNAr+HKcDqZ
+ CmECI5OHWpgp7rYpFOiiAWWCS5qdq8H/XgKo/m2BFsSqK1BuqmPsmvhYeMYvEhbbVdh+
+ unjvOsXt+Amu/DHHJxgdCeeHyIPGBHBVcwhi2BZ1+y5a/2fpQwu9NCtCJTVUVR3dn3ny
+ k1eQX2W0oJ2Q0uXH8XVnsjAndoGY2BHu+zj9tHoyarMa+otqkNS528DSSkNzkimaljN/
+ gEnQ==
+X-Gm-Message-State: AOAM5334pykvORW0dvFN1yrKy85ZjxdKD+L9Ym1SAWnPJrZ0Gkdrcnlb
+ VcUgITs1FM9l9VVJbENUpUCaRrptNQmLWSJh0Ow=
+X-Google-Smtp-Source: ABdhPJx4tRBI8/Cn5iy+JanLzzy1zk2Re3Wf7TOY2NqH0BRxEAnciKUn/VwHrG7h9zcE2pqKykXQcako+fM0dHk5GqU=
+X-Received: by 2002:a05:620a:24cd:: with SMTP id
+ m13mr19383783qkn.273.1612242012955; 
+ Mon, 01 Feb 2021 21:00:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210111044638.290909-1-joel@jms.id.au>
+ <20210111044638.290909-2-joel@jms.id.au>
+ <8ff9f9d92271b25bd11cf473bf64466816efe93b.camel@ozlabs.org>
+In-Reply-To: <8ff9f9d92271b25bd11cf473bf64466816efe93b.camel@ozlabs.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 2 Feb 2021 05:00:00 +0000
+Message-ID: <CACPK8XeTZ7kNPL4dWUJT44Zd+69VJ3FCMb7K=t6L0apwQOM1kQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/aspeed: Look up syscon by phandle
+To: Jeremy Kerr <jk@ozlabs.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,66 +70,49 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Joel,
+On Tue, 2 Feb 2021 at 04:39, Jeremy Kerr <jk@ozlabs.org> wrote:
+>
+> Hi Joel,
+>
+> Sounds like a good idea! One comment though:
+>
+> > @@ -111,10 +112,13 @@ static int aspeed_gfx_load(struct drm_device *drm)
+> >         if (IS_ERR(priv->base))
+> >                 return PTR_ERR(priv->base);
+> >
+> > -       priv->scu = syscon_regmap_lookup_by_compatible("aspeed,ast2500-scu");
+> > +       priv->scu = syscon_regmap_lookup_by_phandle(np, "syscon");
+> >         if (IS_ERR(priv->scu)) {
+> > -               dev_err(&pdev->dev, "failed to find SCU regmap\n");
+> > -               return PTR_ERR(priv->scu);
+> > +               priv->scu = syscon_regmap_lookup_by_compatible("aspeed,aspeed-scu");
+>
+> Is this (more generic) compatible value guaranteed to exist alongside
+> aspeed,ast2500-scu? The scu binding only specifies the model-specific
+> ones:
+>
+>     Documentation/devicetree/bindings/mfd/aspeed-scu.txt:
+>
+>     Required properties:
+>     - compatible:       One of:
+>                     "aspeed,ast2400-scu", "syscon", "simple-mfd"
+>                     "aspeed,ast2500-scu", "syscon", "simple-mfd"
+>
+> - the only mention of the new compatible value that I can find is this
+> thread. Maybe we should retain the existing one to keep the fallback
+> case working?
 
-> There are minor differences in the values for the threshold value and
-> the scan line size between families of ASPEED SoC. Additionally the
-> SCU register for the output control differs between families.
-> 
-> This adds device tree matching to parameterise these values, allowing
-> us to add support for the AST2400 now, and in the future the AST2600.
+Yes, it was a mistake to change ast2500-scu to aspeed-scu. The only
+reason to keep the lookup_by_compatible was to decouple this patch
+from the device tree changes.
 
-Looks good to me. Two super minor things:
-
-> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-> @@ -60,7 +60,8 @@ static void aspeed_gfx_enable_controller(struct
-> aspeed_gfx *priv)
->         u32 ctrl2 = readl(priv->base + CRT_CTRL2);
->  
->         /* SCU2C: set DAC source for display output to Graphics CRT (GFX) */
-> -       regmap_update_bits(priv->scu, 0x2c, BIT(16), BIT(16));
-> +       regmap_update_bits(priv->scu, priv->dac_reg, BIT(16), BIT(16));
-
-The comment references SCU2C; but you've implied that this will
-change...
-
-> @@ -228,7 +258,7 @@ static ssize_t dac_mux_store(struct device *dev,
-> struct device_attribute *attr,
->         if (val > 3)
->                 return -EINVAL;
->  
-> -       rc = regmap_update_bits(priv->scu, ASPEED_SCU_MISC_CTRL, 0x30000, val << 16);
-> +       rc = regmap_update_bits(priv->scu, priv->dac_reg, 0x30000, val << 16);
->         if (rc < 0)
->                 return 0;
->  
-> @@ -241,7 +271,7 @@ static ssize_t dac_mux_show(struct device *dev,
-> struct device_attribute *attr, c
->         u32 reg;
->         int rc;
->  
-> -       rc = regmap_read(priv->scu, ASPEED_SCU_MISC_CTRL, &reg);
-> +       rc = regmap_read(priv->scu, priv->dac_reg, &reg);
->         if (rc)
->                 return rc;
-
-You've removed the only uses of ASPEED_SCU_MISC_CTRL here, maybe drop
-the #define too?
-
-Regardless:
-
-Reviewed-by: Jeremy Kerr <jk@ozlabs.org>
-
-Cheers,
-
-
-Jeremy
-
-
+I will send a v2 with syscon_regmap_lookup_by_compatible("aspeed,ast2500-scu").
