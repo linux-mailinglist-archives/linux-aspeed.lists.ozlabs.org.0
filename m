@@ -2,55 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB23A30E696
-	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Feb 2021 00:03:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC34310DED
+	for <lists+linux-aspeed@lfdr.de>; Fri,  5 Feb 2021 17:35:31 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DWHKk6C3HzDwqF
-	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Feb 2021 10:03:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DXLcv0NNZzDwlQ
+	for <lists+linux-aspeed@lfdr.de>; Sat,  6 Feb 2021 03:35:27 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.43; helo=mga05.intel.com;
- envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ spf=pass (sender SPF authorized) smtp.mailfrom=ami.com
+ (client-ip=63.147.10.42; helo=atlmailgw2.ami.com;
+ envelope-from=hongweiz@ami.com; receiver=<UNKNOWN>)
+Received: from atlmailgw2.ami.com (atlmailgw2.ami.com [63.147.10.42])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DWHKX3lWkzDqCK;
- Thu,  4 Feb 2021 10:03:27 +1100 (AEDT)
-IronPort-SDR: 7WAX48PBIliajk81nbz1QJjGRYi+TuMZkG26kYDWiJOxdQqiSoajeya1ZqpPWXGUd2ojKKFI8t
- RCrD2f1HZZow==
-X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="265965633"
-X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; d="scan'208";a="265965633"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2021 15:03:21 -0800
-IronPort-SDR: f+dZu8T3JVttwGtFAnqqieBAOdzCi319FHLnmdI/Hfu+W5eL80CBFtWCbOAeJTkN7dgB050pJl
- yYmyHWkXXiAQ==
-X-IronPort-AV: E=Sophos;i="5.79,399,1602572400"; d="scan'208";a="579663169"
-Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.255.231.105])
- ([10.255.231.105])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2021 15:03:20 -0800
-Subject: Re: [PATCH v2 1/4] dt-bindings: i2c: aspeed: add buffer and DMA mode
- transfer support
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-To: Joel Stanley <joel@jms.id.au>
-References: <20210112003749.10565-1-jae.hyun.yoo@linux.intel.com>
- <20210112003749.10565-2-jae.hyun.yoo@linux.intel.com>
- <20210114193416.GA3432711@robh.at.kernel.org>
- <4f67358e-58e5-65a5-3680-1cd8e9851faa@linux.intel.com>
- <CACPK8XcZTE=bnCP1-E9PTA09WnXG9Eduwx0dm-QqmQJUDa_OrQ@mail.gmail.com>
- <1814b8d1-954c-0988-0745-e95129079708@linux.intel.com>
-Message-ID: <87ed4085-26e4-98f8-21e3-b1e3c16b0891@linux.intel.com>
-Date: Wed, 3 Feb 2021 15:03:15 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DXLck6tCjzDwkS;
+ Sat,  6 Feb 2021 03:35:17 +1100 (AEDT)
+X-AuditID: ac10606f-247ff70000001934-f3-601d73c116e9
+Received: from atlms1.us.megatrends.com (atlms1.us.megatrends.com
+ [172.16.96.144])
+ (using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by atlmailgw2.ami.com (Symantec Messaging Gateway) with SMTP id
+ E5.4A.06452.1C37D106; Fri,  5 Feb 2021 11:35:13 -0500 (EST)
+Received: from ami-us-wk.us.megatrends.com (172.16.98.207) by
+ atlms1.us.megatrends.com (172.16.96.144) with Microsoft SMTP Server (TLS) id
+ 14.3.468.0; Fri, 5 Feb 2021 11:35:11 -0500
+From: Hongwei Zhang <hongweiz@ami.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH, v1 1/1] gpio: aspeed: Add gpio base address reading
+Date: Fri, 5 Feb 2021 11:34:50 -0500
+Message-ID: <20210113223808.31626-2-hongweiz@ami.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210113223808.31626-1-hongweiz@ami.com> 
+References: <20210113223808.31626-1-hongweiz@ami.com> 
 MIME-Version: 1.0
-In-Reply-To: <1814b8d1-954c-0988-0745-e95129079708@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.16.98.207]
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrILMWRmVeSWpSXmKPExsWyRiBhgu7BYtkEg6un9C12Xeaw+DL3FIvF
+ 7/N/mS2m/FnOZLHp8TVWi+bV55gtNs//w2hxedccNotTLS9YHDg9rrbvYvd4f6OV3ePix2PM
+ Hneu7WHz2Lyk3uP8jIWMHp83yQWwR3HZpKTmZJalFunbJXBlLPpqXPCNreLYvevMDYx7WLsY
+ OTkkBEwk9mxfxNbFyMUhJLCLSeLt69usEM5ORomVOy8xg1SxCahJ7N08hwnEFhHQkeje9hOs
+ iFngIJPE9Gl72EESwgIuEqt/vWcDsVkEVCRWf38A1sArYCrRMH0XC8Q6eYnVGw6ADeUUMJfY
+ 1vQcrF5IwEyi9dMjqHpBiZMzn4DVMwtISBx88YIZokZW4tahx0wQcxQlHvz6zjqBUWAWkpZZ
+ SFoWMDKtYhRKLMnJTczMSS830kvMzdRLzs/dxAgJ9vwdjB8/mh9iZOJgPMQowcGsJMKb2CaV
+ IMSbklhZlVqUH19UmpNafIhRmoNFSZx3lfvReCGB9MSS1OzU1ILUIpgsEwenVAPjofrHXB6Z
+ H4tUdX8Grk/3MvG9aJU3KeSb3n4e5R6pjXNzbM91mqbcLHxX8J11H2PUzn0dG1YVusYevNR3
+ 9faXyMuvpqzl+3G9lGlFDe+mstcJbtuadrntzizZlPqy0zsv91zZpS8RSp720ldEKyJlnCyy
+ T/y68/Dm37Zrtr0fVTiX+BV+O/RfiaU4I9FQi7moOBEAYb4BgWQCAAA=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,87 +61,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Wolfram Sang <wsa@the-dreams.de>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- devicetree <devicetree@vger.kernel.org>, Cedric Le Goater <clg@kaod.org>,
- linux-i2c@vger.kernel.org
+Cc: linux-aspeed@lists.ozlabs.org, linux-gpio@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Hongwei Zhang <hongweiz@ami.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Joel
 
-On 1/28/2021 11:36 AM, Jae Hyun Yoo wrote:
-> Hi Joel
+> On Wed, Jan 13, 2021 at 11:38 PM Hongwei Zhang <hongweiz@ami.com> wrote:
 > 
-> On 1/27/2021 4:06 PM, Joel Stanley wrote:
->> On Thu, 14 Jan 2021 at 20:05, Jae Hyun Yoo 
->> <jae.hyun.yoo@linux.intel.com> wrote:
->>>
->>> Hi Rob,
->>>
->>> On 1/14/2021 11:34 AM, Rob Herring wrote:
->>>>> -- reg                       : address offset and range of bus
->>>>> +- reg                       : Address offset and range of bus 
->>>>> registers.
->>>>> +
->>>>> +                      An additional SRAM buffer address offset and 
->>>>> range is
->>>>> +                      optional in case of enabling I2C dedicated 
->>>>> SRAM for
->>>>> +                      buffer mode transfer support. If the 
->>>>> optional range
->>>>> +                      is defined, buffer mode will be enabled.
->>>>> +                      - AST2400
->>>>> +                        &i2c0 { reg = <0x40 0x40>, <0x800 0x80>; };
->>>>> +                        &i2c1 { reg = <0x80 0x40>, <0x880 0x80>; };
->>>>> +                        &i2c2 { reg = <0xc0 0x40>, <0x900 0x80>; };
->>>>> +                        &i2c3 { reg = <0x100 0x40>, <0x980 0x80>; };
->>>>> +                        &i2c4 { reg = <0x140 0x40>, <0xa00 0x80>; };
->>>>> +                        &i2c5 { reg = <0x180 0x40>, <0xa80 0x80>; };
->>>>> +                        &i2c6 { reg = <0x1c0 0x40>, <0xb00 0x80>; };
->>>>> +                        &i2c7 { reg = <0x300 0x40>, <0xb80 0x80>; };
->>>>> +                        &i2c8 { reg = <0x340 0x40>, <0xc00 0x80>; };
->>>>> +                        &i2c9 { reg = <0x380 0x40>, <0xc80 0x80>; };
->>>>> +                        &i2c10 { reg = <0x3c0 0x40>, <0xd00 0x80>; };
->>>>> +                        &i2c11 { reg = <0x400 0x40>, <0xd80 0x80>; };
->>>>> +                        &i2c12 { reg = <0x440 0x40>, <0xe00 0x80>; };
->>>>> +                        &i2c13 { reg = <0x480 0x40>, <0xe80 0x80>; };
->>>>
->>>> All this information doesn't need to be in the binding.
->>>>
->>>> It's also an oddly structured dts file if this is what you are doing...
->>>
->>> I removed the default buffer mode settings that I added into
->>> 'aspeed-g4.dtsi' and 'aspeed-g5.dtsi' in v1 to avoid touching of the
->>> default transfer mode setting, but each bus should use its dedicated
->>> SRAM buffer range for enabling buffer mode so I added this information
->>> at here as overriding examples instead. I thought that binding document
->>> is a right place for providing this information but looks like it's not.
->>> Any recommended place for it? Is it good enough if I add it just into
->>> the commit message?
->>
->> I agree with Rob, we don't need this described in the device tree
->> (binding or dts). We know what the layout is for a given aspeed
->> family, so the driver can have this information hard coded.
->>
->> (Correct me if I've misinterpted here Rob)
->>
+> > Add gpio base address reading in the driver; in old code, it just 
+> > returns -1 to gpio->chip.base.
+> >
+> > Fixes: 7ee2d5b4d4340353 ("ARM: dts: nuvoton: Add Fii Kudo system")
+> > Signed-off-by: Hongwei Zhang <hongweiz@ami.com>
 > 
-> Makes sense. Will add these settings into the driver module as hard
-> coded per each bus.
+> NAK, sorry.
 > 
+> We never allow the device tree to specify this.
+> 
+> First, it is a Linux-only base so it would have to be a "linux,..." property.
+> 
+> Even if it is a Linux-only property, it is a bad idea.
+> 
+> Only people using sysfs should have any need to specify global GPIO numbers. Don't use sysfs. Use the 
+> GPIO character device instead. See further:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpio/TODO
+> 
+> Yours,
+> Linus Walleij
 
-Realized that the SRAM buffer range setting should be added into device
-tree because each bus module should get the dedicated IO resource range.
-So I'm going to add it to dtsi default reg setting for each I2C bus
-and will remove this description in binding. Also, I'll add a mode
-setting property instead to keep the current setting as byte mode.
+Hi Linus,
 
-Please let me know if you have any different thought.
+Thanks for your review and advice.
 
-Thanks,
-Jae
+--Hongwei
 
