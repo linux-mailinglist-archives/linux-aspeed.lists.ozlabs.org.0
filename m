@@ -2,58 +2,86 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAF8315A00
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Feb 2021 00:27:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDED5315A12
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Feb 2021 00:35:07 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DZzZd1clxzDsmC
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Feb 2021 10:27:37 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DZzlD3dmDzDvZM
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Feb 2021 10:35:04 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=arnd@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.29;
+ helo=out5-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=UYgVK3im; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm2 header.b=HB2mdtng; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=fAJtbjlT; 
  dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DZzZX1YfgzDsMm
- for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Feb 2021 10:27:31 +1100 (AEDT)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2696964DED
- for <linux-aspeed@lists.ozlabs.org>; Tue,  9 Feb 2021 23:27:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1612913249;
- bh=3vU0Uy3HSkxGGNDAunWUhBn2Lv70jpf5UWvjN+nChAE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=UYgVK3imMkUdJR47b4zXfpcL3Wt0HXa/W++x7hCggRMb+o2eoIJfenAtuBcBsxjkP
- TK6EUsRAbTq/HDfLB66mEAE6IP4RT4C9EDkjGQGIVgUBIwkEUdzaBh3HadjIn8LvGp
- 9DOWU/5qM3oMneZYr16z0y8jyAR9nMmVAWB03VcSajNcSqjnUrnKKeP40eddKso8pz
- 5UTWnXaDOnNNNUtcmdJ5s5KPUrMK2O7FS7332vaUKpJV2xxcYzzBMSMf6JwKISTAe9
- N3ba3L+lukmKeRJ5aT218Mx0tww7bJqcFfEAZwQaDW9on3y8jC/dJ1wZVznf0yus4a
- rqxbPI4hGXujw==
-Received: by mail-ot1-f44.google.com with SMTP id c16so162153otp.0
- for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Feb 2021 15:27:29 -0800 (PST)
-X-Gm-Message-State: AOAM532Sw7Ygnt26GfuJIZUqn0xV+H44mTYLk6jZwJExfn/q7VhHXjuX
- GR+UpsMf5V3e7amEJOFbwOI3l5Mh7Bo/eNgysfs=
-X-Google-Smtp-Source: ABdhPJwjgBTaSG9EOqxnTvcLwfqEElK3d/DzjLqI0xBj4lU6eEGJ52F5b0KPivFKoiRhdtMvl9c1LkFhNkmzSkqFtdA=
-X-Received: by 2002:a9d:3403:: with SMTP id v3mr39086otb.305.1612913248471;
- Tue, 09 Feb 2021 15:27:28 -0800 (PST)
-MIME-Version: 1.0
-References: <20201208091748.1920-1-wangzhiqiang.bj@bytedance.com>
- <HK0PR06MB33807C054FCE9E355346E204F2D00@HK0PR06MB3380.apcprd06.prod.outlook.com>
- <CAK8P3a2WPvWokkqJB-yhfQH1ofofGNvibqPjUXPme+F2LCHjxw@mail.gmail.com>
- <HK0PR06MB3380A1F79CDE49FACC1A3E71F2A60@HK0PR06MB3380.apcprd06.prod.outlook.com>
-In-Reply-To: <HK0PR06MB3380A1F79CDE49FACC1A3E71F2A60@HK0PR06MB3380.apcprd06.prod.outlook.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Wed, 10 Feb 2021 00:27:12 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1g8szrHnhOxjwFkwYt+P5ukawZRr7jbwtJLVyFVHS21g@mail.gmail.com>
-Message-ID: <CAK8P3a1g8szrHnhOxjwFkwYt+P5ukawZRr7jbwtJLVyFVHS21g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] misc: Add clock control logic into Aspeed LPC
- SNOOP driver
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DZzkw5WlPzDsh8
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Feb 2021 10:34:48 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 9FFC75C0081;
+ Tue,  9 Feb 2021 18:34:44 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Tue, 09 Feb 2021 18:34:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=U9Zw6w48RG/lc0seW4k3VhU8+BX8hNn
+ 0DtRVGx/HKIo=; b=HB2mdtng9yjURLAy+AHfo/W/sldH0eF5O2mnMiz5yESKgWJ
+ IX8tt3NdyrOPJnc28zWyZx8rQ4PiDkOYqGthxiHNqIgN4Tc3LT/6xHGCrglHT1t8
+ BCvUkbBPwIe7f9xnWleo4kqTCTIF1W7pB2Lht8Ll9ItN1Hfuk9lPnzNxKAtzGxji
+ +4d3FJ8uvlvW9yCkrqY9tIEgo0wuHyTBm1v4kwAZJscKqM3f5doDETw3c5JTiC59
+ 0vNv1glKijoRzZro/an/FW93M/ndnIq+DAYiNomDxN/KHRVIkiVVJGnOyBnzyZ+s
+ fTsqArq8hVJyHAxwYVFkJO1E6Ot1/s61umN5kUA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=U9Zw6w
+ 48RG/lc0seW4k3VhU8+BX8hNn0DtRVGx/HKIo=; b=fAJtbjlTRUiYkaTrdzyHRJ
+ a2xexNBEA9Iwnraog2zQhJTR7Z73WKqyaU+DMujx0jrUvYjIcTCna1rtcGZtjDwE
+ KoSlSKzzZrrG20LCAW3kQSWQHjWfxNEsMOxOxRVih63Oq8UY39WIlYoCEh//cKHC
+ cdUt/m9EWsykrCClRbCVj2dSZXQ0Sh+U0Fs/GjnyVQMyIVjW0K5ffK8m+Rr6HYFV
+ LlEsXB4fNW19NUfa8AiPn4dvJZ2x8K5eRO83/6zFQ5ODEyTyTHca+HwhEeyYa4F/
+ dAqrl2IxYqkcwEKf3NORYkTYLL/DViyChSFGdKVpeWNHxGtEZdV324UxeEGfIilw
+ ==
+X-ME-Sender: <xms:ERwjYG_jJe5zNN8tJOuJB0Lpxr0yn15ZWuc6KN9jYkxw22RIeMJVAg>
+ <xme:ERwjYGuswaSM40hf2hK1DqZB8x3o58rAWY3O_MmfHzhowaZG9gsY-f5vKrG9KSiKH
+ uD-QRNsfhjgCL9M-A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrheeigddufecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
+ htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
+ veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:ERwjYMDjYtuXyPVwh7A-dL23mHtNspb23FiiS9GamOdH2B5tA6jIEw>
+ <xmx:ERwjYOfknPve2eUDSkO_QqhWU87GhIjQN9h3todof1jZWIpjyoCaIQ>
+ <xmx:ERwjYLPErKphNU2zIpurFQ-nhXON3HtpvqjNxzGf2sLoThQRnbuHzg>
+ <xmx:FBwjYAoH_ADughCFUB0hzVPu21oOcd3R-7UgIlOt9Lu7KxnvjsB0xQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 8536BA0005E; Tue,  9 Feb 2021 18:34:41 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-93-gef6c4048e6-fm-20210128.002-gef6c4048
+Mime-Version: 1.0
+Message-Id: <cfafac8d-5162-4024-8f23-372fac7851dd@www.fastmail.com>
+In-Reply-To: <20210209123734.130483-2-joel@jms.id.au>
+References: <20210209123734.130483-1-joel@jms.id.au>
+ <20210209123734.130483-2-joel@jms.id.au>
+Date: Wed, 10 Feb 2021 10:04:20 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Joel Stanley" <joel@jms.id.au>, "David Airlie" <airlied@linux.ie>,
+ "Daniel Vetter" <daniel@ffwll.ch>, "Jeremy Kerr" <jk@ozlabs.org>
+Subject: Re: [PATCH v3 1/2] drm/aspeed: Look up syscon by phandle
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,43 +93,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Robert Lippert <rlippert@google.com>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-aspeed@lists.ozlabs.org>, Andrew Jeffery <andrewrj@au1.ibm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- open list <linux-kernel@vger.kernel.org>,
- Jae Hyun Yoo <jae.hyun.yoo@intel.com>,
- Vernon Mauery <vernon.mauery@linux.intel.com>,
- Patrick Venture <venture@google.com>, Joel Stanley <joel@linux.ibm.com>,
- "xuxiaohan@bytedance.com" <xuxiaohan@bytedance.com>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>
+Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, Jan 16, 2021 at 2:03 AM Ryan Chen <ryan_chen@aspeedtech.com> wrote:
-> >
-> > Sorry it did not make it into the merge window. The patch is still in patchwork.
-> > I could just pick it up directly for v5.12, or wait for a combined pull request
-> > with other work.
->
-> Hello Arnd,
-> Thanks your update.
->
-> >Joel, please let me know what you prefer.
-> >
-> Hello Joel,
-> Could you help check on this patch?
-> https://patchwork.ozlabs.org/project/linux-aspeed/patch/20200928070108.14040-2-ryan_chen@aspeedtech.com/
 
-Hi Joel,
 
-I see there has been no new pull request for mach-aspeed in
-v5.12. If you have any material at all, please send it as soon
-as you can so I can pick it up this time.
+On Tue, 9 Feb 2021, at 23:07, Joel Stanley wrote:
+> This scales better to multiple families of SoC. The lookup by compatible
+> can be removed in a future change.
+> 
+> The fallback path is for the ast2500 platform only. Other platforms will
+> be added with the new style, so they won't need fallback paths.
+> 
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
 
-As a reminder, the patch here has still not been merged, as I
-never heard back from you.
-
-       Arnd
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
