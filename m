@@ -2,54 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF04A310DF2
-	for <lists+linux-aspeed@lfdr.de>; Fri,  5 Feb 2021 17:36:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC6F314993
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Feb 2021 08:38:11 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DXLfd0C1CzDwlT
-	for <lists+linux-aspeed@lfdr.de>; Sat,  6 Feb 2021 03:36:57 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DZZW50BRczDsZx
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Feb 2021 18:38:09 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=ami.com
- (client-ip=63.147.10.40; helo=atlmailgw1.ami.com;
- envelope-from=hongweiz@ami.com; receiver=<UNKNOWN>)
-Received: from atlmailgw1.ami.com (atlmailgw1.ami.com [63.147.10.40])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=sboyd@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=lU4BPzzM; 
+ dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DXLcw02jbzDwlc;
- Sat,  6 Feb 2021 03:35:27 +1100 (AEDT)
-X-AuditID: ac1060b2-427ff70000001a01-01-601d73ccbbc9
-Received: from atlms1.us.megatrends.com (atlms1.us.megatrends.com
- [172.16.96.144])
- (using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by atlmailgw1.ami.com (Symantec Messaging Gateway) with SMTP id
- 09.CB.06657.CC37D106; Fri,  5 Feb 2021 11:35:24 -0500 (EST)
-Received: from ami-us-wk.us.megatrends.com (172.16.98.207) by
- atlms1.us.megatrends.com (172.16.96.144) with Microsoft SMTP Server (TLS) id
- 14.3.468.0; Fri, 5 Feb 2021 11:35:23 -0500
-From: Hongwei Zhang <hongweiz@ami.com>
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH, v1 1/1] gpio: aspeed: Add gpio base address reading
-Date: Fri, 5 Feb 2021 11:34:51 -0500
-Message-ID: <20210113223808.31626-2-hongweiz@ami.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210113223808.31626-1-hongweiz@ami.com>
-References: <20210113223808.31626-1-hongweiz@ami.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DZZTS069FzDqP4;
+ Tue,  9 Feb 2021 18:36:43 +1100 (AEDT)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B3B6B64E0D;
+ Tue,  9 Feb 2021 07:36:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1612856200;
+ bh=G769Yqc/eLFiJYEOdppz3f+n4p9N+1dJg7vbaQQq4FU=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=lU4BPzzM/9NcH7NqTOMW3e/IApzKmdZ02tzOGIe/2x1fpMhu4j/jnlQNqUf7kJGR0
+ 2Wnraxd9PvnaIDP1QAJbnlk2TGcjpqFfwbiXNp/MhQEGIZVOeE4VXFRNrHxgsw0YC0
+ oFYLgq3aLKndtsqANVATSfmVp+A0TuDIG4p1iiwPlwMz2CmNFQyh2mKmii+XOOPFEn
+ 0Ps0lemoICpvi3qXd+ACa/e6Fa/Aedugqos+nvkZVXO4Tv8Lm/w0tTv0qjn8jNL+i5
+ 8vuu0D9vf4n2d72yDiq0ApXXh3DMpBja87kCl6mLBVxf6xykUR4ioKt8N3qYnZf3Bd
+ lQidkcVGPmKPA==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.16.98.207]
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrELMWRmVeSWpSXmKPExsWyRiBhgu6ZYtkEgx8v9C12Xeaw+DL3FIvF
- 7/N/mS2m/FnOZLHp8TVWi+bV55gtNs//w2hxedccNotTLS9YHDg9rrbvYvd4f6OV3ePix2PM
- Hneu7WHz2Lyk3uP8jIWMHp83yQWwR3HZpKTmZJalFunbJXBl/D/3i6mgg73iV/8JxgbGQ6xd
- jJwcEgImEnu6G5m7GLk4hAR2MUncb17KAuHsZJT4+KGbBaSKTUBNYu/mOUwgtoiAisTu3rfs
- IEXMAieZJJY/PQ82SljARWL1r/dsIDYLUFHn2u+MIDavgKlEw/RdLBDr5CVWbzjADGJzCphJ
- vGq4BlYjBFSzoX0WO0S9oMTJmU/A6pkFJCQOvnjBDFEjK3Hr0GMmiDmKEg9+fWedwCgwC0nL
- LCQtCxiZVjEKJZbk5CZm5qSXG+ol5mbqJefnbmKEhPumHYwtF80PMTJxMB5ilOBgVhLhTWyT
- ShDiTUmsrEotyo8vKs1JLT7EKM3BoiTOu8r9aLyQQHpiSWp2ampBahFMlomDU6qB8VLB9VLP
- DT4XNx6uF+SUuSN53Gw3q6GpRbjvn8P2gtu22Rp9NLG56FzteHrC1r3Vjr0PukwqHNQ/TWho
- +SjU3fS7Su/oxpLTotfZP6tt3zG9L5cllN33eL6ZzetDorXHZ2sZr6z4vIrpfmdqqmBW3Bfp
- DjY9p30hnTONkiTDA0518t4LklutxFKckWioxVxUnAgAHqXWC2UCAAA=
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20201221223225.14723-2-jae.hyun.yoo@linux.intel.com>
+References: <20201221223225.14723-1-jae.hyun.yoo@linux.intel.com>
+ <20201221223225.14723-2-jae.hyun.yoo@linux.intel.com>
+Subject: Re: [PATCH v2 1/1] media: aspeed: fix clock handling logic
+From: Stephen Boyd <sboyd@kernel.org>
+To: Andrew Jeffery <andrew@aj.id.au>, Eddie James <eajames@linux.ibm.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>, Joel Stanley <joel@jms.id.au>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>
+Date: Mon, 08 Feb 2021 23:36:39 -0800
+Message-ID: <161285619930.76967.620222959363595605@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,40 +60,52 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-gpio@vger.kernel.org,
- Linus Walleij <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org,
- openbmc@lists.ozlabs.org, Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Hongwei Zhang <hongweiz@ami.com>, linux-arm-kernel@lists.infradead.org
+Cc: openbmc@lists.ozlabs.org, linux-clk@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Quoting Jae Hyun Yoo (2020-12-21 14:32:25)
+> Video engine uses eclk and vclk for its clock sources and its reset
+> control is coupled with eclk so the current clock enabling sequence works
+> like below.
+>=20
+>  Enable eclk
+>  De-assert Video Engine reset
+>  10ms delay
+>  Enable vclk
+>=20
+> It introduces improper reset on the Video Engine hardware and eventually
+> the hardware generates unexpected DMA memory transfers that can corrupt
+> memory region in random and sporadic patterns. This issue is observed
+> very rarely on some specific AST2500 SoCs but it causes a critical
+> kernel panic with making a various shape of signature so it's extremely
+> hard to debug. Moreover, the issue is observed even when the video
+> engine is not actively used because udevd turns on the video engine
+> hardware for a short time to make a query in every boot.
+>=20
+> To fix this issue, this commit changes the clock handling logic to make
+> the reset de-assertion triggered after enabling both eclk and vclk. Also,
+> it adds clk_unprepare call for a case when probe fails.
+>=20
+> Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
+> Reviewed-by: Eddie James <eajames@linux.ibm.com>
+>=20
+> clk: ast2600: fix reset settings for eclk and vclk
+>=20
+> Video engine reset setting should be coupled with eclk to match it
+> with the setting for previous Aspeed SoCs which is defined in
+> clk-aspeed.c since all Aspeed SoCs are sharing a single video engine
+> driver. Also, reset bit 6 is defined as 'Video Engine' reset in
+> datasheet so it should be de-asserted when eclk is enabled. This
+> commit fixes the setting.
+>=20
+> Fixes: d3d04f6c330a ("clk: Add support for AST2600 SoC")
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
+> ---
 
-> Hello,
-> 
-> On Thu, 14 Jan 2021, at 09:08, Hongwei Zhang wrote:
-> > Add gpio base address reading in the driver; in old code, it just 
-> > returns -1 to gpio->chip.base.
-> 
-> Why do you want to do this? It feels hacky. The base address only affects the legacy sysfs number-space, 
-> and even then if you're using the sysfs interface you can discover the base address for a specific gpiochip 
-> via the associated attribute. For example:
-> 
-> # cat /sys/bus/platform/devices/1e780000.gpio/gpio/gpiochip*/base
-> 816
-> 
-> I feel that you should instead be changing your userspace not to assume a fixed value.
-> 
-> Finally, the base value is a linux-specific thing and doesn't belong in the devicetree, and if it did, you 
-> would also need to update the devicetree binding in Documentation/.
-> 
-> Cheers,
-> 
-> Andrew
-
-Hi Andrew,
-
-Thanks for your review and advice.
-
---Hongwei
-
+Acked-by: Stephen Boyd <sboyd@kernel.org>
