@@ -2,67 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10ED2314ECA
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Feb 2021 13:16:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F404A314F06
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Feb 2021 13:38:10 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DZhhH57HbzDsd1
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Feb 2021 23:16:31 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DZj9B6YgCzDsjy
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Feb 2021 23:38:06 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::734;
- helo=mail-qk1-x734.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::631;
+ helo=mail-pl1-x631.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=UGlY2FQW; dkim-atps=neutral
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=eA6ZzChd; dkim-atps=neutral
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DZhZN57MTzDrhK;
- Tue,  9 Feb 2021 23:11:18 +1100 (AEDT)
-Received: by mail-qk1-x734.google.com with SMTP id m144so1843427qke.10;
- Tue, 09 Feb 2021 04:11:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9b1+FT42iYfcBaXACNqZZ8m0dOYDgpi8jpItwihB888=;
- b=UGlY2FQWhtT3walGbEZSEZicPmfHAAfnO+Qy2cpBcfFE/eCtSyGhllrt7V3ARb+idi
- VZmpoIChaC56Wocfdzm1xDhttnJKU2403POE7bOYgWPj0jFttWxJPiUHMEt9Rug7z7/G
- gZKy8gxFr7zOIt15N98S/AxtUPaWeD5aZRssE=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DZj8v1C04zDsfS
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  9 Feb 2021 23:37:48 +1100 (AEDT)
+Received: by mail-pl1-x631.google.com with SMTP id j11so9659446plt.11
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Feb 2021 04:37:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=967eBecaBcf3bDwc7ufrOcSaPwogO+dzRNci9Jx2sbo=;
+ b=eA6ZzChduHPTMqwvb080DCcMO6PxKR4dC8i99uTS6GPwbftMVKTI0y2NMeGPEA5iT7
+ LVdymh2XXvbCwxxAlilErz8rXcaHeMl19WBeWpdc4+qpMnbIScoAz0Q/WwW8eYjGCBP5
+ avvt4zuLjAWlDk2BSzjKIGKsuTyqnrXHzFOuykV+cWFnQJ4o97JTMYJNWhavUzOa4WCU
+ 7eeRPXZDDjOxdyjUE5RIgQ8QiwECY5frzAz3nVmBArfJTAPwKtHQqBbnI53bHw7UvM7Q
+ 8MwihYKlXOq4wF/ucOZCMkMmF41c2OtcujftQ7Dc0oxzkMcvx+tGDCCRjZlvDfm1Rejb
+ LQKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9b1+FT42iYfcBaXACNqZZ8m0dOYDgpi8jpItwihB888=;
- b=O+1LfGApso0tYn4erWqEHBBFXckrH/CLKROkzXVbwAK3CJMh1P1uf+QwnBOxUzIDIn
- 01dRNschQc8lEIOqx13SmIffn5lHMxYd/4MA1oOMfrBoBnsApzjZQ7RT78qEq/jlac7x
- qaCkPr2hIWdty2JdQds9cwpigAX2REkBj1YUWqeIRXV8rQj//hcsJ3c6caBINM4KUR+w
- L3FkaBk7vttl7qFNI2szqr05Eslb20hFshvxrUYW1eMgQrqGI2ohTfvr9P3zLl7ve3hQ
- Jr7yimJttdkec7c2a5VMS/4CWJhCmgyjlJ5bzX2aX2+6fxNLt0IgE8WBFdHfaBdgYcTP
- X8zg==
-X-Gm-Message-State: AOAM531d5h5OuRwoQH7ZQ5g5e7FuxMNP9KyLpZVbQ9WSIuMD9r519grj
- g5aAIJmCivwWTi/AwSgaebN8oGco7PSaQlL8peo=
-X-Google-Smtp-Source: ABdhPJznG+/3DRBuaBXOdhGQaUyUKQ7CvJxjrD65Ucij76t+VNLlWYhA5nJdNKP2loti8FRSBk9GJ1U7fyFVqRwjKmQ=
-X-Received: by 2002:ae9:e314:: with SMTP id v20mr11627616qkf.66.1612872671495; 
- Tue, 09 Feb 2021 04:11:11 -0800 (PST)
-MIME-Version: 1.0
-References: <20210112003749.10565-1-jae.hyun.yoo@linux.intel.com>
- <20210112003749.10565-2-jae.hyun.yoo@linux.intel.com>
- <20210114193416.GA3432711@robh.at.kernel.org>
- <4f67358e-58e5-65a5-3680-1cd8e9851faa@linux.intel.com>
- <CACPK8XcZTE=bnCP1-E9PTA09WnXG9Eduwx0dm-QqmQJUDa_OrQ@mail.gmail.com>
- <1814b8d1-954c-0988-0745-e95129079708@linux.intel.com>
- <87ed4085-26e4-98f8-21e3-b1e3c16b0891@linux.intel.com>
-In-Reply-To: <87ed4085-26e4-98f8-21e3-b1e3c16b0891@linux.intel.com>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=967eBecaBcf3bDwc7ufrOcSaPwogO+dzRNci9Jx2sbo=;
+ b=T4VToHQvJjV82Dqc6k9L11QAN7vxhkDmVDhrIFq6x32wAoLRIO+fnrPjOiPbD7GdNe
+ 6lbNc6vbxyK2nQOyesyS/2HEDb1v1ByXYtXVy0RjjBmt+SgP7+NQmTNyA9N5r2OCgmfB
+ ZNgMvuFTxyBLg4Y0z1Der5Nm1hPBT//6g9saG1HWTUGv2YnLwGjg+MRraNgW94rbju+4
+ khTUTy1UB8ZcKJ9QFMQyjZsKdV6Yuswf/jtkV/CY2yp1SVCocQbcXiDRYcIwOW7R6Lyc
+ +QkgCyBXEnnj+Ta182zR3aERVsbc88mJl93axSZcHWfM5K79L3ZqZlAVx2N3CcIGeabN
+ 4wOg==
+X-Gm-Message-State: AOAM533V2iHFUAIPlFzATmMt7bjXGnsXylD1iMAplHuliriJHBEFWYoq
+ PM1p1tBoWrSxKkh1TbRyS4Y=
+X-Google-Smtp-Source: ABdhPJy2UCRzy8/Etrbhoxi2JKfFS/m8pcIjipjpZgBGckQh4989njKh4Vzf+9yBqb6vZRlOXaS5bg==
+X-Received: by 2002:a17:902:9f8b:b029:e0:a90:b62 with SMTP id
+ g11-20020a1709029f8bb02900e00a900b62mr21141320plq.70.1612874265242; 
+ Tue, 09 Feb 2021 04:37:45 -0800 (PST)
+Received: from voyager.lan ([45.124.203.14])
+ by smtp.gmail.com with ESMTPSA id i7sm22584395pfc.50.2021.02.09.04.37.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 09 Feb 2021 04:37:44 -0800 (PST)
 From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 9 Feb 2021 12:10:59 +0000
-Message-ID: <CACPK8XekihpoXEeyUbWSXsRkVMbX1gKG-gSeYgWq=s3UR2gi1g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: i2c: aspeed: add buffer and DMA mode
- transfer support
-To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Andrew Jeffery <andrew@aj.id.au>, Jeremy Kerr <jk@ozlabs.org>
+Subject: [PATCH v3 0/2] drm: aspeed: Support more chip families
+Date: Tue,  9 Feb 2021 23:07:32 +1030
+Message-Id: <20210209123734.130483-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.30.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,52 +76,33 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Wolfram Sang <wsa@the-dreams.de>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- devicetree <devicetree@vger.kernel.org>, Cedric Le Goater <clg@kaod.org>,
- linux-i2c@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 3 Feb 2021 at 23:03, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
->
-> Hi Joel
->
-> On 1/28/2021 11:36 AM, Jae Hyun Yoo wrote:
-> > Hi Joel
-> >
-> > On 1/27/2021 4:06 PM, Joel Stanley wrote:
-> >>>> All this information doesn't need to be in the binding.
-> >>>>
-> >>>> It's also an oddly structured dts file if this is what you are doing...
-> >>>
-> >>> I removed the default buffer mode settings that I added into
-> >>> 'aspeed-g4.dtsi' and 'aspeed-g5.dtsi' in v1 to avoid touching of the
-> >>> default transfer mode setting, but each bus should use its dedicated
-> >>> SRAM buffer range for enabling buffer mode so I added this information
-> >>> at here as overriding examples instead. I thought that binding document
-> >>> is a right place for providing this information but looks like it's not.
-> >>> Any recommended place for it? Is it good enough if I add it just into
-> >>> the commit message?
-> >>
-> >> I agree with Rob, we don't need this described in the device tree
-> >> (binding or dts). We know what the layout is for a given aspeed
-> >> family, so the driver can have this information hard coded.
-> >>
-> >> (Correct me if I've misinterpted here Rob)
-> >>
-> >
-> > Makes sense. Will add these settings into the driver module as hard
-> > coded per each bus.
-> >
->
-> Realized that the SRAM buffer range setting should be added into device
-> tree because each bus module should get the dedicated IO resource range.
-> So I'm going to add it to dtsi default reg setting for each I2C bus
-> and will remove this description in binding. Also, I'll add a mode
-> setting property instead to keep the current setting as byte mode.
+The out of tree vendor driver was recently updated to support the
+ast2400 and ast2600. These patches begin to add that support to the
+mainline driver.
 
-I don't understand. What do you propose adding?
+With these two cleanups it should be easier to support different
+families of BMC system on chip with this driver.
+
+I will merge them through drm-misc once they have been reviewed.
+
+v2 fixes review from Jeremy. Thanks!
+v3 fixes the dt match table declaration
+
+Joel Stanley (2):
+  drm/aspeed: Look up syscon by phandle
+  drm/aspeed: Use dt matching for default register values
+
+ drivers/gpu/drm/aspeed/aspeed_gfx.h      |  8 +--
+ drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c | 11 ++--
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c  | 67 ++++++++++++++++++------
+ 3 files changed, 62 insertions(+), 24 deletions(-)
+
+-- 
+2.30.0
+
