@@ -1,72 +1,58 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [203.11.71.2])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78208314F08
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Feb 2021 13:38:43 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7E031569B
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Feb 2021 20:17:45 +0100 (CET)
 Received: from bilbo.ozlabs.org (lists.ozlabs.org [IPv6:2401:3900:2:1::3])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DZj9q3nt8zDsk6
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Feb 2021 23:38:39 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DZt2G6qy8zDsg9
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Feb 2021 06:17:42 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::42b;
- helo=mail-pf1-x42b.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=qJmyr4yp; dkim-atps=neutral
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=linux.intel.com
+ (client-ip=134.134.136.31; helo=mga06.intel.com;
+ envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DZj901nrWzDsjm
- for <linux-aspeed@lists.ozlabs.org>; Tue,  9 Feb 2021 23:37:55 +1100 (AEDT)
-Received: by mail-pf1-x42b.google.com with SMTP id z6so2699642pfq.0
- for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Feb 2021 04:37:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Zycq6RRVcVub8qCKjMDOvULYSyXziBOTcV1ME0xBHvk=;
- b=qJmyr4yp5zrPvgmZVaN4LjkrCfxfUxYuJOpaKzM74rCn9qdCwcQ/iQcvje/hRz1cI5
- YmjP5fZYRdEzyp+6jy4aQKXUX01iefhZ5QgsDlw2mkHV5kkuBW5zUwxhF2twIgS10v/9
- v8GXUHGBTLkOeREZdRiZ7mpgFk5p5AH7nrS5VUftjZGT/GGAk4nteW+rQR/ytgJFbtTW
- N4YqRvF1/sNabHHK9tiVUK82+3gnYcqj3EcjENmf7k7AzTnuj9V7ds4hTvZBwi8WSauR
- 1d0r/Ap0qDc8fb7DG4xG5PKVBAVE4+TZ1y4CTH9avB1krpUmGs1zJris6Ijc58a9E9WA
- TNtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Zycq6RRVcVub8qCKjMDOvULYSyXziBOTcV1ME0xBHvk=;
- b=kuFe9DXpMhuoJpouN108dEL7ncqVw5l1evRDMDrCcBz07i9k09Ecq7cTcbpsQmyd2a
- yTSEL/hGGOKn4SjTLhkFbMfSygvE5lT2p4mOGJz63JSUfSmKJJ6L4IhfMxpadCuzjd2C
- iPuXiuTZPDhfAP6+IYHayGBeUq+6rMv0fy0wFsISTt+x3QOJMBukVdWtWWn5lMjfo+99
- iCcS3Qec8oPACMNeoLOjezSfQsdA2B/pDl3aSBoja4mAchydaED9AH93By8GG2P7E160
- VjkBbAgvOP2MoSNtrMe87FDcb6jn6lIjvN4VNUAsqAeX6ElpYwVFWm5CpL4y+XG1CFGu
- hVZQ==
-X-Gm-Message-State: AOAM533s3uGFT6p7z/9rh4mi3dFPIPxl1e/ed3oOcgk9ewzK8/gGNGRw
- CRHrPMQft556x9AqJ2y435g=
-X-Google-Smtp-Source: ABdhPJx7uScY7KW9NObx52G7GBFCPuFL5HPjOwX2Oz0Sv2JXwKUB7y3yhwwuO9aTJiHGe995P72gUA==
-X-Received: by 2002:a62:1995:0:b029:1c0:c4d8:adcb with SMTP id
- 143-20020a6219950000b02901c0c4d8adcbmr22651384pfz.60.1612874273279; 
- Tue, 09 Feb 2021 04:37:53 -0800 (PST)
-Received: from voyager.lan ([45.124.203.14])
- by smtp.gmail.com with ESMTPSA id i7sm22584395pfc.50.2021.02.09.04.37.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Feb 2021 04:37:52 -0800 (PST)
-From: Joel Stanley <joel@jms.id.au>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Andrew Jeffery <andrew@aj.id.au>, Jeremy Kerr <jk@ozlabs.org>
-Subject: [PATCH v3 2/2] drm/aspeed: Use dt matching for default register values
-Date: Tue,  9 Feb 2021 23:07:34 +1030
-Message-Id: <20210209123734.130483-3-joel@jms.id.au>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210209123734.130483-1-joel@jms.id.au>
-References: <20210209123734.130483-1-joel@jms.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DZt2B0gcxzDqZV;
+ Wed, 10 Feb 2021 06:17:36 +1100 (AEDT)
+IronPort-SDR: mjbGMUtRu8bAAmv8kbFOSC1DEmaseeiz4sWWlYNXCXfh+EUuFDbCebtAA6rzoQQpl3HtDyS/Ea
+ veRKAkN1WUHw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9890"; a="243438293"
+X-IronPort-AV: E=Sophos;i="5.81,166,1610438400"; d="scan'208";a="243438293"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2021 11:17:31 -0800
+IronPort-SDR: MxO/TaNgsO9MJwQeVuSDeZorgw79f/mE+ATgYIh8UIY00h59Mhp7oCFKPPRQQErfUUviuKCn6m
+ NrxcRfEOV2Jg==
+X-IronPort-AV: E=Sophos;i="5.81,166,1610438400"; d="scan'208";a="375068802"
+Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.209.39.4])
+ ([10.209.39.4])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Feb 2021 11:17:30 -0800
+Subject: Re: [PATCH v2 1/4] dt-bindings: i2c: aspeed: add buffer and DMA mode
+ transfer support
+To: Joel Stanley <joel@jms.id.au>
+References: <20210112003749.10565-1-jae.hyun.yoo@linux.intel.com>
+ <20210112003749.10565-2-jae.hyun.yoo@linux.intel.com>
+ <20210114193416.GA3432711@robh.at.kernel.org>
+ <4f67358e-58e5-65a5-3680-1cd8e9851faa@linux.intel.com>
+ <CACPK8XcZTE=bnCP1-E9PTA09WnXG9Eduwx0dm-QqmQJUDa_OrQ@mail.gmail.com>
+ <1814b8d1-954c-0988-0745-e95129079708@linux.intel.com>
+ <87ed4085-26e4-98f8-21e3-b1e3c16b0891@linux.intel.com>
+ <CACPK8XekihpoXEeyUbWSXsRkVMbX1gKG-gSeYgWq=s3UR2gi1g@mail.gmail.com>
+From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Message-ID: <3cb75f5e-43d8-a06c-5149-e69823728325@linux.intel.com>
+Date: Tue, 9 Feb 2021 11:17:29 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACPK8XekihpoXEeyUbWSXsRkVMbX1gKG-gSeYgWq=s3UR2gi1g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,223 +64,68 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-aspeed@lists.ozlabs.org
+Cc: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, Wolfram Sang <wsa@the-dreams.de>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ devicetree <devicetree@vger.kernel.org>, Cedric Le Goater <clg@kaod.org>,
+ linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-There are minor differences in the values for the threshold value and
-the scan line size between families of ASPEED SoC. Additionally the SCU
-registers for the output control and scratch registers differ between
-families.
+On 2/9/2021 4:10 AM, Joel Stanley wrote:
+> On Wed, 3 Feb 2021 at 23:03, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
+>>
+>> Hi Joel
+>>
+>> On 1/28/2021 11:36 AM, Jae Hyun Yoo wrote:
+>>> Hi Joel
+>>>
+>>> On 1/27/2021 4:06 PM, Joel Stanley wrote:
+>>>>>> All this information doesn't need to be in the binding.
+>>>>>>
+>>>>>> It's also an oddly structured dts file if this is what you are doing...
+>>>>>
+>>>>> I removed the default buffer mode settings that I added into
+>>>>> 'aspeed-g4.dtsi' and 'aspeed-g5.dtsi' in v1 to avoid touching of the
+>>>>> default transfer mode setting, but each bus should use its dedicated
+>>>>> SRAM buffer range for enabling buffer mode so I added this information
+>>>>> at here as overriding examples instead. I thought that binding document
+>>>>> is a right place for providing this information but looks like it's not.
+>>>>> Any recommended place for it? Is it good enough if I add it just into
+>>>>> the commit message?
+>>>>
+>>>> I agree with Rob, we don't need this described in the device tree
+>>>> (binding or dts). We know what the layout is for a given aspeed
+>>>> family, so the driver can have this information hard coded.
+>>>>
+>>>> (Correct me if I've misinterpted here Rob)
+>>>>
+>>>
+>>> Makes sense. Will add these settings into the driver module as hard
+>>> coded per each bus.
+>>>
+>>
+>> Realized that the SRAM buffer range setting should be added into device
+>> tree because each bus module should get the dedicated IO resource range.
+>> So I'm going to add it to dtsi default reg setting for each I2C bus
+>> and will remove this description in binding. Also, I'll add a mode
+>> setting property instead to keep the current setting as byte mode.
+> 
+> I don't understand. What do you propose adding?
+> 
 
-This adds device tree matching to parameterise these values, allowing us
-to add support for the AST2400 now, and in the future the AST2600.
+I'm going to add reg resource for the SRAM buffer per each bus like
 
-Reviewed-by: Jeremy Kerr <jk@ozlabs.org>
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
-v3:
- - Fix match table
-v2:
- - Add jk's review
- - Clean up comments and unused define
- - Add VGA password register
----
- drivers/gpu/drm/aspeed/aspeed_gfx.h      |  8 ++--
- drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c | 11 ++---
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c  | 57 ++++++++++++++++++------
- 3 files changed, 55 insertions(+), 21 deletions(-)
+reg = <0x40 0x40>, <0x800 0x80>;
 
-diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx.h b/drivers/gpu/drm/aspeed/aspeed_gfx.h
-index f1e7e56abc02..96501152bafa 100644
---- a/drivers/gpu/drm/aspeed/aspeed_gfx.h
-+++ b/drivers/gpu/drm/aspeed/aspeed_gfx.h
-@@ -11,6 +11,11 @@ struct aspeed_gfx {
- 	struct reset_control		*rst;
- 	struct regmap			*scu;
- 
-+	u32				dac_reg;
-+	u32				vga_scratch_reg;
-+	u32				throd_val;
-+	u32				scan_line_max;
-+
- 	struct drm_simple_display_pipe	pipe;
- 	struct drm_connector		connector;
- };
-@@ -100,6 +105,3 @@ int aspeed_gfx_create_output(struct drm_device *drm);
- /* CRT_THROD */
- #define CRT_THROD_LOW(x)		(x)
- #define CRT_THROD_HIGH(x)		((x) << 8)
--
--/* Default Threshold Seting */
--#define G5_CRT_THROD_VAL	(CRT_THROD_LOW(0x24) | CRT_THROD_HIGH(0x3C))
-diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-index e54686c31a90..20c2197b270f 100644
---- a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-+++ b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-@@ -59,8 +59,8 @@ static void aspeed_gfx_enable_controller(struct aspeed_gfx *priv)
- 	u32 ctrl1 = readl(priv->base + CRT_CTRL1);
- 	u32 ctrl2 = readl(priv->base + CRT_CTRL2);
- 
--	/* SCU2C: set DAC source for display output to Graphics CRT (GFX) */
--	regmap_update_bits(priv->scu, 0x2c, BIT(16), BIT(16));
-+	/* Set DAC source for display output to Graphics CRT (GFX) */
-+	regmap_update_bits(priv->scu, priv->dac_reg, BIT(16), BIT(16));
- 
- 	writel(ctrl1 | CRT_CTRL_EN, priv->base + CRT_CTRL1);
- 	writel(ctrl2 | CRT_CTRL_DAC_EN, priv->base + CRT_CTRL2);
-@@ -74,7 +74,7 @@ static void aspeed_gfx_disable_controller(struct aspeed_gfx *priv)
- 	writel(ctrl1 & ~CRT_CTRL_EN, priv->base + CRT_CTRL1);
- 	writel(ctrl2 & ~CRT_CTRL_DAC_EN, priv->base + CRT_CTRL2);
- 
--	regmap_update_bits(priv->scu, 0x2c, BIT(16), 0);
-+	regmap_update_bits(priv->scu, priv->dac_reg, BIT(16), 0);
- }
- 
- static void aspeed_gfx_crtc_mode_set_nofb(struct aspeed_gfx *priv)
-@@ -127,7 +127,8 @@ static void aspeed_gfx_crtc_mode_set_nofb(struct aspeed_gfx *priv)
- 	 * Terminal Count: memory size of one scan line
- 	 */
- 	d_offset = m->hdisplay * bpp / 8;
--	t_count = (m->hdisplay * bpp + 127) / 128;
-+	t_count = DIV_ROUND_UP(m->hdisplay * bpp, priv->scan_line_max);
-+
- 	writel(CRT_DISP_OFFSET(d_offset) | CRT_TERM_COUNT(t_count),
- 			priv->base + CRT_OFFSET);
- 
-@@ -135,7 +136,7 @@ static void aspeed_gfx_crtc_mode_set_nofb(struct aspeed_gfx *priv)
- 	 * Threshold: FIFO thresholds of refill and stop (16 byte chunks
- 	 * per line, rounded up)
- 	 */
--	writel(G5_CRT_THROD_VAL, priv->base + CRT_THROD);
-+	writel(priv->throd_val, priv->base + CRT_THROD);
- }
- 
- static void aspeed_gfx_pipe_enable(struct drm_simple_display_pipe *pipe,
-diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-index 54a6bda03c0e..6b3a01ba3e0d 100644
---- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-+++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-@@ -7,6 +7,7 @@
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/of_device.h>
- #include <linux/of_reserved_mem.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-@@ -57,6 +58,34 @@
-  * which is available under NDA from ASPEED.
-  */
- 
-+struct aspeed_gfx_config {
-+	u32 dac_reg;		/* DAC register in SCU */
-+	u32 vga_scratch_reg;	/* VGA scratch register in SCU */
-+	u32 throd_val;		/* Default Threshold Seting */
-+	u32 scan_line_max;	/* Max memory size of one scan line */
-+};
-+
-+static const struct aspeed_gfx_config ast2400_config = {
-+	.dac_reg = 0x2c,
-+	.vga_scratch_reg = 0x50,
-+	.throd_val = CRT_THROD_LOW(0x1e) | CRT_THROD_HIGH(0x12),
-+	.scan_line_max = 64,
-+};
-+
-+static const struct aspeed_gfx_config ast2500_config = {
-+	.dac_reg = 0x2c,
-+	.vga_scratch_reg = 0x50,
-+	.throd_val = CRT_THROD_LOW(0x24) | CRT_THROD_HIGH(0x3c),
-+	.scan_line_max = 128,
-+};
-+
-+static const struct of_device_id aspeed_gfx_match[] = {
-+	{ .compatible = "aspeed,ast2400-gfx", .data = &ast2400_config },
-+	{ .compatible = "aspeed,ast2500-gfx", .data = &ast2500_config },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, aspeed_gfx_match);
-+
- static const struct drm_mode_config_funcs aspeed_gfx_mode_config_funcs = {
- 	.fb_create		= drm_gem_fb_create,
- 	.atomic_check		= drm_atomic_helper_check,
-@@ -97,13 +126,13 @@ static irqreturn_t aspeed_gfx_irq_handler(int irq, void *data)
- 	return IRQ_NONE;
- }
- 
--
--
- static int aspeed_gfx_load(struct drm_device *drm)
- {
- 	struct platform_device *pdev = to_platform_device(drm->dev);
- 	struct aspeed_gfx *priv = to_aspeed_gfx(drm);
- 	struct device_node *np = pdev->dev.of_node;
-+	const struct aspeed_gfx_config *config;
-+	const struct of_device_id *match;
- 	struct resource *res;
- 	int ret;
- 
-@@ -112,6 +141,16 @@ static int aspeed_gfx_load(struct drm_device *drm)
- 	if (IS_ERR(priv->base))
- 		return PTR_ERR(priv->base);
- 
-+	match = of_match_device(aspeed_gfx_match, &pdev->dev);
-+	if (!match)
-+		return -EINVAL;
-+	config = match->data;
-+
-+	priv->dac_reg = config->dac_reg;
-+	priv->vga_scratch_reg = config->vga_scratch_reg;
-+	priv->throd_val = config->throd_val;
-+	priv->scan_line_max = config->scan_line_max;
-+
- 	priv->scu = syscon_regmap_lookup_by_phandle(np, "syscon");
- 	if (IS_ERR(priv->scu)) {
- 		priv->scu = syscon_regmap_lookup_by_compatible("aspeed,ast2500-scu");
-@@ -206,14 +245,6 @@ static const struct drm_driver aspeed_gfx_driver = {
- 	.minor = 0,
- };
- 
--static const struct of_device_id aspeed_gfx_match[] = {
--	{ .compatible = "aspeed,ast2500-gfx" },
--	{ }
--};
--
--#define ASPEED_SCU_VGA0		0x50
--#define ASPEED_SCU_MISC_CTRL	0x2c
--
- static ssize_t dac_mux_store(struct device *dev, struct device_attribute *attr,
- 			     const char *buf, size_t count)
- {
-@@ -228,7 +259,7 @@ static ssize_t dac_mux_store(struct device *dev, struct device_attribute *attr,
- 	if (val > 3)
- 		return -EINVAL;
- 
--	rc = regmap_update_bits(priv->scu, ASPEED_SCU_MISC_CTRL, 0x30000, val << 16);
-+	rc = regmap_update_bits(priv->scu, priv->dac_reg, 0x30000, val << 16);
- 	if (rc < 0)
- 		return 0;
- 
-@@ -241,7 +272,7 @@ static ssize_t dac_mux_show(struct device *dev, struct device_attribute *attr, c
- 	u32 reg;
- 	int rc;
- 
--	rc = regmap_read(priv->scu, ASPEED_SCU_MISC_CTRL, &reg);
-+	rc = regmap_read(priv->scu, priv->dac_reg, &reg);
- 	if (rc)
- 		return rc;
- 
-@@ -256,7 +287,7 @@ vga_pw_show(struct device *dev, struct device_attribute *attr, char *buf)
- 	u32 reg;
- 	int rc;
- 
--	rc = regmap_read(priv->scu, ASPEED_SCU_VGA0, &reg);
-+	rc = regmap_read(priv->scu, priv->vga_scratch_reg, &reg);
- 	if (rc)
- 		return rc;
- 
--- 
-2.30.0
+into the aspeed-g*.dtsi but adding like this will not be a key for
+enabling buffer mode like this v2 does. Also, I'm going to remove the
+'aspeed,dma-buf-size' in this patch series and I'll add fixed DMA length
+as a configuration per each SoC. Instead, I'm going to add a xfer mode
+property e.g. 'aspeed,i2c-xfer-mode' to select 'byte', 'buffer' or 'dma'
+modes.
 
+Thanks,
+Jae
