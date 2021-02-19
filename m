@@ -2,94 +2,88 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C7D31F384
-	for <lists+linux-aspeed@lfdr.de>; Fri, 19 Feb 2021 02:08:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67C2E31FA82
+	for <lists+linux-aspeed@lfdr.de>; Fri, 19 Feb 2021 15:26:24 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DhYNW50ycz30RD
-	for <lists+linux-aspeed@lfdr.de>; Fri, 19 Feb 2021 12:08:11 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Dhv5V1sDCz3cJr
+	for <lists+linux-aspeed@lfdr.de>; Sat, 20 Feb 2021 01:26:22 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=cerno.tech header.i=@cerno.tech header.a=rsa-sha256 header.s=fm2 header.b=G6pm+BxV;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=F8tizhTR;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=UFpwJQsw;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=FoLOrDxh;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=cerno.tech (client-ip=64.147.123.27;
- helo=wnew2-smtp.messagingengine.com; envelope-from=maxime@cerno.tech;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.229;
+ helo=new3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=cerno.tech header.i=@cerno.tech header.a=rsa-sha256
- header.s=fm2 header.b=G6pm+BxV; 
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm2 header.b=UFpwJQsw; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=F8tizhTR; 
+ header.a=rsa-sha256 header.s=fm2 header.b=FoLOrDxh; 
  dkim-atps=neutral
-X-Greylist: delayed 835 seconds by postgrey-1.36 at boromir;
- Fri, 19 Feb 2021 03:49:22 AEDT
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DhLJy5v9Mz30Hg
- for <linux-aspeed@lists.ozlabs.org>; Fri, 19 Feb 2021 03:49:22 +1100 (AEDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id DF1EFE1F;
- Thu, 18 Feb 2021 11:35:18 -0500 (EST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Dhv4s4C0Gz30Qj;
+ Sat, 20 Feb 2021 01:25:48 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 31E68580342;
+ Fri, 19 Feb 2021 09:25:44 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Thu, 18 Feb 2021 11:35:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=9glu1NqYQ89GMrISno2hyWbjb5g
- /OTCuIq2T05YOits=; b=G6pm+BxV6Dh9oiD6SJUz1xXNJ7zPPCZpBW9AEchzgQY
- SsCnHwIhIZleE9PczJeaxSABPuNfyZNS1u3Zj2kDGJdZzYOuF3md0m5GftSNoeev
- ZavMKbuw+WSPSBcY4VpVTBkV/ddPDz1xHbCCETt+RAuJ3CD0g/aAsRM9ST0bJ2+t
- +6ifUhzBy+1w+NmK0Bu03Ar0ji4npJeGmU9jySby/2b7puTSkKn/YECDpUC+LyuL
- 6Guj5EkOzfnyrZ7fuCEdeNrI7VmN9ZSWN6LpeNmu5/FnzVAUNcjxOj673ayo+RK2
- 5fiMH3d3rCy4RcepJW9kS8GD2lNioOxaP+2WrEFLkFQ==
+ by compute3.internal (MEProxy); Fri, 19 Feb 2021 09:25:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm2; bh=FsrzPsv6OPy2s0HzNgRya7RFf2
+ dKgOCEMkjhAogzc4Q=; b=UFpwJQswCMtAG9CPQyWnimBuOsUKGXxK/OvHOc5228
+ ykTtbpchX2ftZE3Seq9NLdH9lPtpGLn6oyR6dn9tf1A9DfqBOsmy67Ryzc9/tUFB
+ OCCFGFv8Tt6fQd/vRc3FQ1vE/H/GVC3l1o7NmVXzJmE3trq+65qvwYGglXijuJ2D
+ OxG57HFsYNScFaFNqjT71YkbwL+Nh1Mx7zTXXmAGvDMRZbnQVhQiCrobJqERyDnd
+ /uBYKvKIdYSleWdy6AKCqksG4vXlsl7adKqL1y2Fk+4OpDfokA9lsZ96PLE3ymkP
+ BE9+0FiWA3OG21EbjOAYslo4J0Yt71cDKTQMB9RS3SfA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=9glu1N
- qYQ89GMrISno2hyWbjb5g/OTCuIq2T05YOits=; b=F8tizhTRDZ1QmkV4IX/nKz
- GFGeeljOv0nlv95ycFp0ze5k8JaZwhxcx+uGwtKUsVGuJaf3wBvlVHShQ6AEUuUa
- nYa/M+CR3Q7nQv96fSu/CfaeIwuzJxRKrhn2B8yNMcGRvghgtZ0Vp/RbSek1ItaO
- Huq8VE54K1HbMzSfgJ/qk4vTktg7KPqCaeXhHlIBqpyMVIsKqMHjMXcuPGS+ft/T
- 80Nr4qrm62gEv7vJ1wWgcbm6pcoegFAPfttgQ+bfSTEtA0b5vB4AgmFNGzLe9Jjp
- 2mDgst8VHznkjEYhvASc+FuMU+CJuXELKFptery4MIiY6qnvOy5wsWIYxYIQt8qA
- ==
-X-ME-Sender: <xms:Q5cuYNHGf4DP6s5Yrk94g87bEt9maVsvZUvIZ5_OSwOa3ygXsvSckA>
- <xme:Q5cuYCWJqVHxc0TBvW8RaM0wSdODYkxfn4yClOKahSKwcF7ZJMIFzdXO9brx_KJON
- wVOak8LO-iBIzeTj3U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjeeggdekjecutefuodetggdotefrodftvf
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=FsrzPsv6OPy2s0HzN
+ gRya7RFf2dKgOCEMkjhAogzc4Q=; b=FoLOrDxhBbp9a0vOd1lxrfuWfjuBmf8m2
+ 0IvMCil+cxA7AGG2mdFoZ7c0ZuScCF8NTpjJz1E99jMZKUIlHuFaFuGxhj4eD7r4
+ 7wDQ7CKwkFhf/yqwfYUMrlxnO9aErp+xofXV+K950oE9i58But3yZcKFMHQom9lV
+ VDGwAA2iYn0+NhEz8G8yWF9k3mPgaaWzuFeJPt6JaL60cyFINgRbtbAB6nTSDYAI
+ 8n4s/McgI7DN+hm9L4ciAiMVOgs2JS0dPuUNBdcAUI8MqhfXN02QLwQ8gX/ifQQJ
+ Pz+r2xqBkVQoX9g+Yofd1PGSfqP9LVwYXKRy0Pu94oSctM7LQHVPQ==
+X-ME-Sender: <xms:ZsovYDuP-ybKSjMmdXyd93-DYDIMxkwrZU_TLpyf-5bkjgacXO3L4g>
+ <xme:ZsovYEcaJRgGaaEVw4c9SRZMN4KsDoVpNkSnHgR6FEwHxXidXRw1NJmNLedfAgxpF
+ Cfxr9bUtlVdkt-YfA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjeeigdeigecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
- udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Q5cuYPL64pGtEXDOIjB2LytBtepgEjTDIlirUSWB4Z_2bk7CHwRyNw>
- <xmx:Q5cuYDGxFYNq90q1Kozd9_sE8xI5mkNSdlmaFJwB_t_-qpDhKS53yA>
- <xmx:Q5cuYDU83mA2iruvPx6pKrkqUS3fSvQrhe9kV_x71Rp0kdmagu5q-g>
- <xmx:RpcuYHmzfxpDFq6rYEjERoNkSWa7GUcR73y9VFLtc6uo7hgIIot_W0suCF8>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id DE99E24005C;
- Thu, 18 Feb 2021 11:35:14 -0500 (EST)
-Date: Thu, 18 Feb 2021 17:35:12 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2] drm/gem: Move drm_gem_fb_prepare_fb() to GEM atomic
- helpers
-Message-ID: <20210218163512.arnmixdkygysxrqk@gilmour>
-References: <20210211081636.28311-1-tzimmermann@suse.de>
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+ dtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghjrdhi
+ ugdrrghuqeenucggtffrrghtthgvrhhnpeejgffffedvveekudfhheduffeuudethefhhe
+ egvefhlefggfffudefffduteffudenucffohhmrghinhepihhnthgvlhdrtghomhdpghhi
+ thhhuhgsrdgtohhmpdgumhhtfhdrohhrghenucfkphepudegrddvrdeluddrfeejnecuve
+ hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgif
+ segrjhdrihgurdgruh
+X-ME-Proxy: <xmx:ZsovYGxSPGDtr989h1CfmmdiV91s6HL_p5FT7fBxxGtdOnBrUMvePw>
+ <xmx:ZsovYCOMLxSmL_8SfvpgP5GOMfC5HQcxRJCRl1dOY6nn0r9Z51RMxw>
+ <xmx:ZsovYD_hrRbrjyjHFF4mhYkAvM7xQOfFSgd65nTm51xQ5eFb65ZsYA>
+ <xmx:aMovYLNiH3Wqj8d2yMrBjUvZM4g1uyIHh9nwomtoM1DCWQ4-tLT-9Q>
+Received: from localhost.localdomain
+ (ppp14-2-91-37.adl-apt-pir-bras31.tpg.internode.on.net [14.2.91.37])
+ by mail.messagingengine.com (Postfix) with ESMTPA id A2EEE24005D;
+ Fri, 19 Feb 2021 09:25:35 -0500 (EST)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: openipmi-developer@lists.sourceforge.net, openbmc@lists.ozlabs.org,
+ minyard@acm.org
+Subject: [PATCH 00/19] ipmi: Allow raw access to KCS devices
+Date: Sat, 20 Feb 2021 00:55:04 +1030
+Message-Id: <20210219142523.3464540-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qyrmapmaovukaths"
-Content-Disposition: inline
-In-Reply-To: <20210211081636.28311-1-tzimmermann@suse.de>
-X-Mailman-Approved-At: Fri, 19 Feb 2021 12:08:01 +1100
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,58 +95,143 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-aspeed@lists.ozlabs.org,
- airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
- daniel@ffwll.ch, xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
- linux-amlogic@lists.infradead.org, freedreno@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, tmaimon77@gmail.com,
+ linux-aspeed@lists.ozlabs.org, linux-gpio@vger.kernel.org,
+ avifishman70@gmail.com, venture@google.com, linus.walleij@linaro.org,
+ linux-kernel@vger.kernel.org, tali.perry1@gmail.com, yuenn@google.com,
+ robh+dt@kernel.org, lee.jones@linaro.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hello,
 
---qyrmapmaovukaths
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This series is a bit of a mix of things, but its primary purpose is to
+expose BMC KCS IPMI devices to userspace in a way that enables userspace
+to talk to host firmware using protocols that are not IPMI.  The new
+chardev implementation exposes the Input Data Register (IDR), Output
+Data Register (ODR) and Status Register (STR) via read() and write(),
+and implements poll() for event monitoring.
 
-Hi,
+The existing /dev/ipmi-kcs* chardev interface exposes the KCS devices in
+a way which encoded the IPMI protocol in its behaviour. However, as
+LPC[0] KCS devices give us bi-directional interrupts between the host
+and a BMC with both a data and status byte, they are useful for purposes
+beyond IPMI.
 
-On Thu, Feb 11, 2021 at 09:16:36AM +0100, Thomas Zimmermann wrote:
-> diff --git a/include/drm/drm_gem_framebuffer_helper.h b/include/drm/drm_gem_framebuffer_helper.h
-> index 6b013154911d..495d174d9989 100644
-> --- a/include/drm/drm_gem_framebuffer_helper.h
-> +++ b/include/drm/drm_gem_framebuffer_helper.h
-> @@ -9,9 +9,11 @@ struct drm_framebuffer;
->  struct drm_framebuffer_funcs;
->  struct drm_gem_object;
->  struct drm_mode_fb_cmd2;
-> +#if 0
->  struct drm_plane;
->  struct drm_plane_state;
->  struct drm_simple_display_pipe;
-> +#endif
+As a concrete example, libmctp[1] implements a vendor-defined
+host-interface MCTP[2] binding using a combination of LPC Firmware
+cycles for bulk data transfer and a KCS device via LPC IO cycles for
+out-of-band protocol control messages[3]. This gives a throughput
+improvement over the standard KCS binding[4] while continuing to exploit
+the ease of setup of the LPC bus for early boot firmware on the host
+processor.
 
-That's probably not what you meant?
+The series takes a bit of a winding path to achieve its aim:
 
-With that fixed,
-Acked-by: Maxime Ripard <mripard@kernel.org>
+1. It begins with patches 1-5 put together by Chia-Wei, which I've
+rebased on v5.11. These fix the ASPEED LPC bindings and other non-KCS
+LPC-related ASPEED device drivers in a way that enables the SerIRQ
+patches at the end of the series. With Joel's review I'm hoping these 5
+can go through the aspeed tree, and that the rest can go through the
+IPMI tree.
 
-Thanks!
-Maxime
+2. Next, patches 6-13 fairly heavily refactor the KCS support in the
+IPMI part of the tree, re-architecting things such that it's possible to
+support multiple chardev implementations sitting on top of the ASPEED
+and Nuvoton device drivers. However, the KCS code didn't really have
+great separation of concerns as it stood, so even if we disregard the
+multiple-chardev support I think the cleanups are worthwhile.
 
---qyrmapmaovukaths
-Content-Type: application/pgp-signature; name="signature.asc"
+3. Patch 14 adds some interrupt management capabilities to the KCS
+device drivers in preparation for patch 15, which introduces the new
+"raw" KCS device interface. I'm not stoked about the device name/path,
+so if people are looking to bikeshed something then feel free to lay
+into that.
 
------BEGIN PGP SIGNATURE-----
+4. The remaining patches switch the ASPEED KCS devicetree binding to
+dt-schema, add a new interrupt property to describe the SerIRQ behaviour
+of the device and finally clean up Serial IRQ support in the ASPEED KCS
+driver.
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYC6XQAAKCRDj7w1vZxhR
-xeYjAQDBp12JMmHuiBCHQBmWyl9fGbmCMg6R9psxq9edd+0vigD+MjBWZAmh8A1d
-2S0DtBQtnfgH07vDxZs1Eb8jJZ+x/QQ=
-=WmxA
------END PGP SIGNATURE-----
+Rob: The dt-binding patches still come before the relevant driver
+changes, I tried to keep the two close together in the series, hence the
+bindings changes not being patches 1 and 2.
 
---qyrmapmaovukaths--
+I've exercised the series under qemu with the rainier-bmc machine plus
+some preliminary KCS support[5]. I've also substituted this series in
+place of a hacky out-of-tree driver that we've been using for the
+libmctp stack and successfully booted the host processor under our
+internal full-platform simulation tools for a Rainier system.
+
+Note that this work touches the Nuvoton driver as well as ASPEED's, but
+I don't have the capability to test those changes or the IPMI chardev
+path. Tested-by tags would be much appreciated if you can exercise one
+or both.
+
+Please review!
+
+Andrew
+
+[0] https://www.intel.com/content/dam/www/program/design/us/en/documents/low-pin-count-interface-specification.pdf
+[1] https://github.com/openbmc/libmctp/
+[2] https://www.dmtf.org/sites/default/files/standards/documents/DSP0236_1.3.1.pdf
+[3] https://github.com/openbmc/libmctp/blob/master/docs/bindings/vendor-astlpc.md
+[4] https://www.dmtf.org/sites/default/files/standards/documents/DSP0254_1.0.0.pdf
+[5] https://github.com/amboar/qemu/tree/kcs
+
+Andrew Jeffery (14):
+  ipmi: kcs_bmc_aspeed: Use of match data to extract KCS properties
+  ipmi: kcs_bmc: Make status update atomic
+  ipmi: kcs_bmc: Rename {read,write}_{status,data}() functions
+  ipmi: kcs_bmc: Split out kcs_bmc_cdev_ipmi
+  ipmi: kcs_bmc: Turn the driver data-structures inside-out
+  ipmi: kcs_bmc: Split headers into device and client
+  ipmi: kcs_bmc: Strip private client data from struct kcs_bmc
+  ipmi: kcs_bmc: Decouple the IPMI chardev from the core
+  ipmi: kcs_bmc: Allow clients to control KCS IRQ state
+  ipmi: kcs_bmc: Add a "raw" character device interface
+  dt-bindings: ipmi: Convert ASPEED KCS binding to schema
+  dt-bindings: ipmi: Add optional SerIRQ property to ASPEED KCS devices
+  ipmi: kcs_bmc_aspeed: Implement KCS SerIRQ configuration
+  ipmi: kcs_bmc_aspeed: Fix IBFIE typo from datasheet
+
+Chia-Wei, Wang (5):
+  dt-bindings: aspeed-lpc: Remove LPC partitioning
+  ARM: dts: Remove LPC BMC and Host partitions
+  ipmi: kcs: aspeed: Adapt to new LPC DTS layout
+  pinctrl: aspeed-g5: Adapt to new LPC device tree layout
+  soc: aspeed: Adapt to new LPC device tree layout
+
+ Documentation/ABI/testing/dev-raw-kcs         |  25 +
+ .../bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml | 106 ++++
+ .../bindings/ipmi/aspeed-kcs-bmc.txt          |  33 -
+ .../devicetree/bindings/mfd/aspeed-lpc.txt    | 100 +--
+ arch/arm/boot/dts/aspeed-g4.dtsi              |  68 +--
+ arch/arm/boot/dts/aspeed-g5.dtsi              | 119 ++--
+ arch/arm/boot/dts/aspeed-g6.dtsi              | 121 ++--
+ drivers/char/ipmi/Kconfig                     |  30 +
+ drivers/char/ipmi/Makefile                    |   2 +
+ drivers/char/ipmi/kcs_bmc.c                   | 532 +++++-----------
+ drivers/char/ipmi/kcs_bmc.h                   |  94 +--
+ drivers/char/ipmi/kcs_bmc_aspeed.c            | 536 ++++++++++------
+ drivers/char/ipmi/kcs_bmc_cdev_ipmi.c         | 570 ++++++++++++++++++
+ drivers/char/ipmi/kcs_bmc_cdev_raw.c          | 442 ++++++++++++++
+ drivers/char/ipmi/kcs_bmc_client.h            |  47 ++
+ drivers/char/ipmi/kcs_bmc_device.h            |  20 +
+ drivers/char/ipmi/kcs_bmc_npcm7xx.c           |  98 ++-
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c    |  17 +-
+ drivers/soc/aspeed/aspeed-lpc-ctrl.c          |  20 +-
+ drivers/soc/aspeed/aspeed-lpc-snoop.c         |  23 +-
+ 20 files changed, 2021 insertions(+), 982 deletions(-)
+ create mode 100644 Documentation/ABI/testing/dev-raw-kcs
+ create mode 100644 Documentation/devicetree/bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml
+ delete mode 100644 Documentation/devicetree/bindings/ipmi/aspeed-kcs-bmc.txt
+ create mode 100644 drivers/char/ipmi/kcs_bmc_cdev_ipmi.c
+ create mode 100644 drivers/char/ipmi/kcs_bmc_cdev_raw.c
+ create mode 100644 drivers/char/ipmi/kcs_bmc_client.h
+ create mode 100644 drivers/char/ipmi/kcs_bmc_device.h
+
+-- 
+2.27.0
+
