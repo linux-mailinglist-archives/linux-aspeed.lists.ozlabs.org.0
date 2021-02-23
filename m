@@ -1,59 +1,69 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC9A32337F
-	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Feb 2021 22:53:25 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D323233B7
+	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Feb 2021 23:31:59 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DlXqR2Stgz30R2
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Feb 2021 08:53:23 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DlYgx14xqz30QK
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Feb 2021 09:31:57 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=FeYR2qol;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20161025 header.b=t4xgPhOx;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=163.com
- (client-ip=220.181.12.17; helo=m12-17.163.com;
- envelope-from=dingsenjie@163.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256
- header.s=s110527 header.b=FeYR2qol; dkim-atps=neutral
-X-Greylist: delayed 1006 seconds by postgrey-1.36 at boromir;
- Tue, 23 Feb 2021 13:28:06 AEDT
-Received: from m12-17.163.com (m12-17.163.com [220.181.12.17])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=google.com (client-ip=2607:f8b0:4864:20::1033;
+ helo=mail-pj1-x1033.google.com; envelope-from=brendanhiggins@google.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256
+ header.s=20161025 header.b=t4xgPhOx; dkim-atps=neutral
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Dl2yt1hWlz30LL;
- Tue, 23 Feb 2021 13:27:57 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=EQlFb
- PsFTZi9ewGkDle+g/qeavm7rzg+OmBnQFzqMn8=; b=FeYR2qolkQI8aS4sNCwbv
- LD6hnD2hBkUU6yBOYGBp+V4kbVdWswAmZgpJfXtK7hpMF7Ts8v/P260WmG0DN40t
- 7uuEPFdhx7/iEoa+S9u4KUOLgA6gwZiR1wkEa2+IMPzcbwilWaA1dk55ad5MvyTA
- pJT6W/PiMis5d/GTW/RbCQ=
-Received: from COOL-20201222LC.ccdomain.com (unknown [218.94.48.178])
- by smtp13 (Coremail) with SMTP id EcCowACHPXrSYzRgRuu7mQ--.4187S2;
- Tue, 23 Feb 2021 10:09:23 +0800 (CST)
-From: dingsenjie@163.com
-To: brendanhiggins@google.com, benh@kernel.crashing.org, joel@jms.id.au,
- andrew@aj.id.au, openbmc@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Subject: [PATCH] i2c/busses:remove unneeded variable: "ret"
-Date: Tue, 23 Feb 2021 10:09:25 +0800
-Message-Id: <20210223020925.22856-1-dingsenjie@163.com>
-X-Mailer: git-send-email 2.21.0.windows.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DlYgS2vX7z30JR
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 24 Feb 2021 09:31:30 +1100 (AEDT)
+Received: by mail-pj1-x1033.google.com with SMTP id e9so2988732pjj.0
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 23 Feb 2021 14:31:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=k1RzooZPZP1J4eGG1QIqaiAicm+Bu37ef5lc5yWEgH4=;
+ b=t4xgPhOx/fSPdt9GfCu0R0De6/bDyWxmpEoRAnUJr3nOJHDifQWPwxokNt7mbELdv/
+ bhXSf11bwUOi27tQcVlvVJPHO1IlOMaYoZugaRUA1LaNr3mDwYkdIZqTisVGAitkICPB
+ SksJBCEwx31Zlzzx9qOeouKee4op1oBaHz6DunH3WeM4GcOaLffIiaxJ27Ae9+YfKPry
+ MCb8qfSwnexxFOFNvhL1BV9lm+5yUsCqGRDaVHYeSjHKah5yInwLAxwbglzR9X7T/AN+
+ uDOEaT977YBIAKlTyM5bpzHZabZwgUGEiJ5ZI/XtQJMq9u9AE+TZe7ellMGmv9G/Ixxn
+ Fbxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=k1RzooZPZP1J4eGG1QIqaiAicm+Bu37ef5lc5yWEgH4=;
+ b=bcbWAvjJjxGQFwMATM0VKqQ0H7nkZTjJ3KWrlCVdOPYGUiz0JTN782kdOxAb4OgLIH
+ YkByZzyqIdVu7ypxdL/GDDyMjfNBm7sv0edMicBLy4M/WUdxx/YGPxK2wKYqpWAzvg2J
+ ErrjFJWFmCRH4xJ1cMTYLvQonivrCjun/6USdM5Avn4fq+jfcwM8Oshs5z+Glh/Jtao7
+ xpGgztjckrBpWee+FF2qeuNgSBMsm62+qWM1etgXbBFSZ+r5xhkGKc5CNE6c9K3+cFcD
+ LMRwfMSs63C19mrM54JkAkAGElLmSepXIlFDiRIlf4VmU8YiGPgaloWb6LUiiWiNDucA
+ adfQ==
+X-Gm-Message-State: AOAM5327q+xjU/dGBO8Gfz7IZWArtXkLu+f7pF0hVJ9TRMqf/aup2ofK
+ kxUG8t53qBNL/Fxcyuj1HNx2g3BYef06WFWI/nUVfg==
+X-Google-Smtp-Source: ABdhPJz6AeMs16zm2xQVDtus3cuIEyeB5wTXLC2MGx6pelc1e0zKNRbFQm3TdaKPHwXT9D9EujJ0ZjjXUTabbAv7Wqg=
+X-Received: by 2002:a17:90a:e64a:: with SMTP id
+ ep10mr1079603pjb.20.1614119487708; 
+ Tue, 23 Feb 2021 14:31:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: EcCowACHPXrSYzRgRuu7mQ--.4187S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrur43XF4xKw1rur4xWryxAFb_yoWfArX_KF
- 1kW3Z7Gr1DZr95A345A3s8XryDKFyrurn5W3Z5Kay3CFy5Z348XFWDuryfJrs8Xrs7CFnr
- Zr1UWF47Aw17GjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU0StC7UUUUU==
-X-Originating-IP: [218.94.48.178]
-X-CM-SenderInfo: 5glqw25hqmxvi6rwjhhfrp/1tbiThNCyFUDH1LYqgAAs+
-X-Mailman-Approved-At: Wed, 24 Feb 2021 08:53:17 +1100
+References: <20210216182735.11639-1-jae.hyun.yoo@linux.intel.com>
+ <20210216182735.11639-2-jae.hyun.yoo@linux.intel.com>
+In-Reply-To: <20210216182735.11639-2-jae.hyun.yoo@linux.intel.com>
+From: Brendan Higgins <brendanhiggins@google.com>
+Date: Tue, 23 Feb 2021 14:31:16 -0800
+Message-ID: <CAFd5g44agiB+d5_RuMmL7=exhzUt=aSMEWMEgEkbAZCgH0JbJA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: i2c: aspeed: add transfer mode support
+To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,43 +75,20 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: dingsenjie <dingsenjie@yulong.com>, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, Wolfram Sang <wsa@the-dreams.de>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>, linux-i2c@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Cedric Le Goater <clg@kaod.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: dingsenjie <dingsenjie@yulong.com>
+On Tue, Feb 16, 2021 at 10:15 AM Jae Hyun Yoo
+<jae.hyun.yoo@linux.intel.com> wrote:
+>
+> Append bindings to support transfer mode.
+>
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 
-remove unneeded variable: "ret".
-
-Signed-off-by: dingsenjie <dingsenjie@yulong.com>
----
- drivers/i2c/busses/i2c-aspeed.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-index 724bf30..efad900 100644
---- a/drivers/i2c/busses/i2c-aspeed.c
-+++ b/drivers/i2c/busses/i2c-aspeed.c
-@@ -175,7 +175,6 @@ struct aspeed_i2c_bus {
- static int aspeed_i2c_recover_bus(struct aspeed_i2c_bus *bus)
- {
- 	unsigned long time_left, flags;
--	int ret = 0;
- 	u32 command;
- 
- 	spin_lock_irqsave(&bus->lock, flags);
-@@ -232,7 +231,7 @@ static int aspeed_i2c_recover_bus(struct aspeed_i2c_bus *bus)
- out:
- 	spin_unlock_irqrestore(&bus->lock, flags);
- 
--	return ret;
-+	return 0;
- 
- reset_out:
- 	spin_unlock_irqrestore(&bus->lock, flags);
--- 
-1.9.1
-
-
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
