@@ -1,54 +1,50 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6E232347D
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Feb 2021 01:35:44 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44E88324450
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Feb 2021 20:04:57 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4DlcQk3wKlz30hw
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Feb 2021 11:35:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Dm52Z1Tjnz3cLT
+	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Feb 2021 06:04:54 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.88; helo=mga01.intel.com;
+ (client-ip=192.55.52.115; helo=mga14.intel.com;
  envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-X-Greylist: delayed 64 seconds by postgrey-1.36 at boromir;
- Wed, 24 Feb 2021 11:35:39 AEDT
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4DlcQg603dz30Lj;
- Wed, 24 Feb 2021 11:35:39 +1100 (AEDT)
-IronPort-SDR: faY5fuHyCnCq0TmxAqWW4SelJo814YYEoJp3zTXw5cfjBYvkaj2e4RFTfCa80lCFnayFYN0noI
- BCvJK8uHnzdA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9904"; a="204449564"
-X-IronPort-AV: E=Sophos;i="5.81,201,1610438400"; d="scan'208";a="204449564"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2021 16:34:30 -0800
-IronPort-SDR: VYskAicEFbpP58lUSZgBoPY9YA5oVTyV7rgg+qrfkyP2+E95SDJ8wmPUrZGJ//4X9X4WsegZbQ
- 5v1BaFLgJJSg==
-X-IronPort-AV: E=Sophos;i="5.81,201,1610438400"; d="scan'208";a="380713235"
-Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.209.6.81])
- ([10.209.6.81])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Feb 2021 16:34:29 -0800
-Subject: Re: [PATCH v3 3/4] i2c: aspeed: add buffer mode transfer support
-To: Brendan Higgins <brendanhiggins@google.com>
-References: <20210216182735.11639-1-jae.hyun.yoo@linux.intel.com>
- <20210216182735.11639-4-jae.hyun.yoo@linux.intel.com>
- <CAFd5g47MBQ67S3XzaH9rDPSieihNJ_WPhUgw=Pkg1Vk1PK3AvQ@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Dm52D5Vgmz30LD;
+ Thu, 25 Feb 2021 06:04:35 +1100 (AEDT)
+IronPort-SDR: ynfrEwVJr/WA0uEi6YF0PGL4mlukwrto73PpZ0ByyaXjU5wYNXJMCyHrpJFNGYfrNUAlFJs7QK
+ Ywb46wnII4yg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9905"; a="184578380"
+X-IronPort-AV: E=Sophos;i="5.81,203,1610438400"; d="scan'208";a="184578380"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Feb 2021 11:04:31 -0800
+IronPort-SDR: ec4wSrbjWprrG+CqMCD1dtd9cisMuOLDTTVd2yvbomizVIzi75j/cI/xPQNoyGSi5voh9Zboz6
+ UR4dUV3CiZXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,203,1610438400"; d="scan'208";a="367098910"
+Received: from maru.jf.intel.com ([10.54.51.77])
+ by orsmga006.jf.intel.com with ESMTP; 24 Feb 2021 11:04:30 -0800
 From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <fb60042c-e1c9-bf79-7769-a97c626b4f4b@linux.intel.com>
-Date: Tue, 23 Feb 2021 16:34:24 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+To: Brendan Higgins <brendanhiggins@google.com>,
+ Wolfram Sang <wsa@the-dreams.de>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Joel Stanley <joel@jms.id.au>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Tao Ren <taoren@fb.com>, Cedric Le Goater <clg@kaod.org>
+Subject: [PATCH v4 0/4] i2c: aspeed: Add buffer and DMA modes support
+Date: Wed, 24 Feb 2021 11:17:16 -0800
+Message-Id: <20210224191720.7724-1-jae.hyun.yoo@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <CAFd5g47MBQ67S3XzaH9rDPSieihNJ_WPhUgw=Pkg1Vk1PK3AvQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,111 +56,80 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Wolfram Sang <wsa@the-dreams.de>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>, Rob Herring <robh+dt@kernel.org>,
- linux-i2c@vger.kernel.org, Cedric Le Goater <clg@kaod.org>
+Cc: devicetree@vger.kernel.org, openbmc@lists.ozlabs.org,
+ linux-i2c@vger.kernel.org, linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Brendan,
+This patch series adds buffer mode and DMA mode transfer support for the
+Aspeed I2C driver. With this change, buffer mode and DMA mode can be
+selectively used depend on platform configuration.
 
-On 2/23/2021 3:03 PM, Brendan Higgins wrote:
-> On Tue, Feb 16, 2021 at 10:15 AM Jae Hyun Yoo
-> <jae.hyun.yoo@linux.intel.com> wrote:
->>
->> This driver uses byte mode that makes lots of interrupt calls
->> which isn't good for performance and it makes the driver very
->> timing sensitive. To improve performance of the driver, this commit
->> adds buffer mode transfer support which uses I2C SRAM buffer
->> instead of using a single byte buffer.
->>
->> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->> Tested-by: Tao Ren <taoren@fb.com>
-> 
-> Overall looks pretty good! There were just a couple bits of code which
-> were not immediately obvious to me that I would like to see improved:
-> 
->> ---
->> Changes since v2:
->> - Refined SoC family dependent xfer mode configuration functions.
->>
->> Changes since v1:
->> - Updated commit message.
->> - Refined using abstract functions.
->>
->>   drivers/i2c/busses/i2c-aspeed.c | 464 ++++++++++++++++++++++++++++----
->>   1 file changed, 412 insertions(+), 52 deletions(-)
->>
->> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
->> index 724bf30600d6..343e621ff133 100644
->> --- a/drivers/i2c/busses/i2c-aspeed.c
->> +++ b/drivers/i2c/busses/i2c-aspeed.c
-> [...]
->> +static inline u32
->> +aspeed_i2c_prepare_tx_buf(struct aspeed_i2c_bus *bus, struct i2c_msg *msg)
->> +{
->> +       u8 slave_addr = i2c_8bit_addr_from_msg(msg);
->> +       u32 command = 0;
->> +       int len;
->> +
->> +       if (msg->len + 1 > bus->buf_size)
->> +               len = bus->buf_size;
->> +       else
->> +               len = msg->len + 1;
->> +
->> +       if (bus->buf_base) {
->> +               u8 wbuf[4];
->> +               int i;
->> +
->> +               command |= ASPEED_I2CD_TX_BUFF_ENABLE;
->> +
->> +               /*
->> +                * Yeah, it looks bad but byte writing on remapped I2C SRAM
->> +                * causes corruption so use this way to make dword writings.
->> +                */
-> 
-> Not surprised. It looks like you reuse this code in a couple of
-> places, at the very least I think you should break this out into a
-> helper function. Otherwise, please make a similar comment in the other
-> locations.
+* Buffer mode
+  AST2400:
+    It has 2 KBytes (256 Bytes x 8 pages) of I2C SRAM buffer pool from
+    0x1e78a800 to 0x1e78afff that can be used for all busses with
+    buffer pool manipulation. To simplify implementation for supporting
+    both AST2400 and AST2500, it assigns each 128 Bytes per bus without
+    using buffer pool manipulation so total 1792 Bytes of I2C SRAM
+    buffer will be used.
 
-There is one more place which has a similar code but loop count, tx
-buffer and message buffer indexing are slightly different so better
-leave them, IMO. Instead, I'll add this comment even for the other one.
+  AST2500:
+    It has 16 Bytes of individual I2C SRAM buffer per each bus and its
+    range is from 0x1e78a200 to 0x1e78a2df, so it doesn't have 'buffer
+    page selection' bit field in the Function control register, and
+    neither 'base address pointer' bit field in the Pool buffer control
+    register it has. To simplify implementation for supporting both
+    AST2400 and AST2500, it writes zeros on those register bit fields
+    but it's okay because it does nothing in AST2500.
 
-> Also, why doesn't writesl()
-> (https://elixir.bootlin.com/linux/v5.11/source/include/asm-generic/io.h#L413)
-> work here?
+  AST2600:
+    It has 32 Bytes of individual I2C SRAM buffer per each bus and its
+    range is from 0x1e78ac00 to 0x1e78adff. Works just like AST2500
+    does.
 
-This is caused by Aspeed I2C SRAM specific behavior so it can't be
-covered by writesl().
+* DMA mode
+  Only AST2500 and later versions support DMA mode under some limitations
+  in case of AST2500:
+    I2C is sharing the DMA H/W with UHCI host controller and MCTP
+    controller. Since those controllers operate with DMA mode only, I2C
+    has to use buffer mode or byte mode instead if one of those
+    controllers is enabled. Also make sure that if SD/eMMC or Port80
+    snoop uses DMA mode instead of PIO or FIFO respectively, I2C can't
+    use DMA mode.
 
-Will submit v4 soon. Thanks for your review!
+Please review it.
 
-Best,
-Jae
+Changes since v3:
+- Added a comment to explain SRAM buffer handling logic.
 
->> +               wbuf[0] = slave_addr;
->> +               for (i = 1; i < len; i++) {
->> +                       wbuf[i % 4] = msg->buf[i - 1];
->> +                       if (i % 4 == 3)
->> +                               writel(*(u32 *)wbuf, bus->buf_base + i - 3);
->> +               }
->> +               if (--i % 4 != 3)
->> +                       writel(*(u32 *)wbuf, bus->buf_base + i - (i % 4));
->> +
->> +               writel(FIELD_PREP(ASPEED_I2CD_BUF_TX_COUNT_MASK, len - 1) |
->> +                      FIELD_PREP(ASPEED_I2CD_BUF_OFFSET_MASK, bus->buf_offset),
->> +                      bus->base + ASPEED_I2C_BUF_CTRL_REG);
->> +       }
->> +
->> +       bus->buf_index = len - 1;
->> +
->> +       return command;
->> +}
->> +
-> [...]
-> 
+Changes since v2:
+- Added SRAM resources back to default dtsi and added mode selection
+  property.
+- Refined SoC family dependent xfer mode configuration functions.
+
+Changes since v1:
+V1: https://lore.kernel.org/linux-arm-kernel/20191007231313.4700-1-jae.hyun.yoo@linux.intel.com/
+- Removed a bug fix patch which was merged already from this patch series. 
+- Removed buffer reg settings from default device tree and added the settings
+  into bindings document to show the predefined buffer range per each bus.
+- Updated commit message and comments.
+- Refined driver code using abstract functions.
+
+Jae Hyun Yoo (4):
+  dt-bindings: i2c: aspeed: add transfer mode support
+  ARM: dts: aspeed: modify I2C node to support buffer mode
+  i2c: aspeed: add buffer mode transfer support
+  i2c: aspeed: add DMA mode transfer support
+
+ .../devicetree/bindings/i2c/i2c-aspeed.txt    |  37 +-
+ arch/arm/boot/dts/aspeed-g4.dtsi              |  47 +-
+ arch/arm/boot/dts/aspeed-g5.dtsi              |  47 +-
+ arch/arm/boot/dts/aspeed-g6.dtsi              |  32 +-
+ drivers/i2c/busses/i2c-aspeed.c               | 641 ++++++++++++++++--
+ 5 files changed, 688 insertions(+), 116 deletions(-)
+
+-- 
+2.17.1
+
