@@ -1,50 +1,49 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1424A332C71
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Mar 2021 17:44:17 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA284332CBF
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Mar 2021 18:03:01 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Dw1JG5WFkz3cKW
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Mar 2021 03:44:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Dw1jv5dLXz3cLN
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Mar 2021 04:02:59 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.93; helo=mga11.intel.com;
+ (client-ip=192.55.52.43; helo=mga05.intel.com;
  envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Dw1JD4vlwz3cGg;
- Wed, 10 Mar 2021 03:44:11 +1100 (AEDT)
-IronPort-SDR: xZX/zArzqBZ/mHQ6G+BX5d0V1Pjh4sphzqqDPg88gwGPsZga/KIoBNTRDX09I4guvQsmdYv627
- Ozw5cLbW1eaw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="184913647"
-X-IronPort-AV: E=Sophos;i="5.81,236,1610438400"; d="scan'208";a="184913647"
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Dw1jr3R5yz3cJq;
+ Wed, 10 Mar 2021 04:02:55 +1100 (AEDT)
+IronPort-SDR: n1l8jhDMsWipsHyCU6H506SKOtzqIi3GEcbPRKdj3vM+VT7oOmi1jaLd8xeJzBZw2Gmmz+1Vit
+ zc4NIoKtc9Og==
+X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="273313070"
+X-IronPort-AV: E=Sophos;i="5.81,236,1610438400"; d="scan'208";a="273313070"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2021 08:44:07 -0800
-IronPort-SDR: tLqRxPfsQ4ayHmwBHR9QmVWRZcMJ+Gv44Fw9E8vQNISMoxrr47qKaTsANVlJd2yN/QFcziNzKt
- dASRy4EaMOKg==
-X-IronPort-AV: E=Sophos;i="5.81,236,1610438400"; d="scan'208";a="409806959"
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Mar 2021 09:02:52 -0800
+IronPort-SDR: oWcoa8Y/WiZv6p/AyfcMdgE44YAoMStz78ikxsMY68hnO1KLYe+pgGwYLsDYsxnrmh1/KyMsrd
+ 7uJEw9YVuVng==
+X-IronPort-AV: E=Sophos;i="5.81,236,1610438400"; d="scan'208";a="409814455"
 Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.251.3.100])
  ([10.251.3.100])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Mar 2021 08:44:06 -0800
-Subject: Re: [PATCH 3/3] aspeed-video: add COMP_READY to VE_SPURIOUS_IRQS
-To: Joel Stanley <joel@jms.id.au>, Zev Weiss <zev@bewilderbeest.net>,
- Ryan Chen <ryan_chen@aspeedtech.com>
-References: <20201215024542.18888-1-zev@bewilderbeest.net>
- <20201215024542.18888-4-zev@bewilderbeest.net>
- <CACPK8XdAfYaAPeyDL4nsG+04xgr-u3+CQKNNdpHAQb4vG7=54g@mail.gmail.com>
+ 09 Mar 2021 09:02:51 -0800
+Subject: Re: [PATCH v4 1/4] dt-bindings: i2c: aspeed: add transfer mode support
+To: Rob Herring <robh@kernel.org>
+References: <20210224191720.7724-1-jae.hyun.yoo@linux.intel.com>
+ <20210224191720.7724-2-jae.hyun.yoo@linux.intel.com>
+ <20210306203011.GA1152769@robh.at.kernel.org>
 From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <e2f23365-53c6-3526-4544-7d36300c2bea@linux.intel.com>
-Date: Tue, 9 Mar 2021 08:43:58 -0800
+Message-ID: <f6732348-d6c8-f49b-6123-afe542bb1f8c@linux.intel.com>
+Date: Tue, 9 Mar 2021 09:02:51 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <CACPK8XdAfYaAPeyDL4nsG+04xgr-u3+CQKNNdpHAQb4vG7=54g@mail.gmail.com>
+In-Reply-To: <20210306203011.GA1152769@robh.at.kernel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -59,51 +58,119 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-media@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, Wolfram Sang <wsa@the-dreams.de>,
+ openbmc@lists.ozlabs.org, Brendan Higgins <brendanhiggins@google.com>,
+ linux-i2c@vger.kernel.org, Cedric Le Goater <clg@kaod.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 12/21/2020 8:49 PM, Joel Stanley wrote:
-> On Tue, 15 Dec 2020 at 02:46, Zev Weiss <zev@bewilderbeest.net> wrote:
+Hi Rob,
+
+On 3/6/2021 12:30 PM, Rob Herring wrote:
+> On Wed, Feb 24, 2021 at 11:17:17AM -0800, Jae Hyun Yoo wrote:
+>> Append bindings to support transfer mode.
 >>
->> This joins CAPTURE_COMPLETE and FRAME_COMPLETE in the set of interrupts
->> that have been seen asserted by the hardware even when disabled, leading
->> to the interrupt eventually getting disabled as described in commit
->> 65d270acb2d662c3346793663ac3a759eb4491b8.
->>
->> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
-> 
-> I have less experience with this part of the chip, so I defer to Jae
-> or Ryan for an ack.
-
-I didn't see unexpected VE_INTERRUPT_COMP_READY events in my system but
-it seems a fix good to have.
-
-Acked-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-
+>> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
 >> ---
->>   drivers/media/platform/aspeed-video.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
+>> Changes since v3:
+>> - None
 >>
->> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
->> index 218aae3be809..48c52bf91a1b 100644
->> --- a/drivers/media/platform/aspeed-video.c
->> +++ b/drivers/media/platform/aspeed-video.c
->> @@ -564,7 +564,8 @@ static void aspeed_video_irq_res_change(struct aspeed_video *video, ulong delay)
->>    * register.
->>    */
->>   #define VE_SPURIOUS_IRQS \
->> -       (VE_INTERRUPT_CAPTURE_COMPLETE | VE_INTERRUPT_FRAME_COMPLETE)
->> +       (VE_INTERRUPT_CAPTURE_COMPLETE | VE_INTERRUPT_FRAME_COMPLETE \
->> +        | VE_INTERRUPT_COMP_READY)
+>> Changes since v2:
+>> - Moved SRAM resources back to default dtsi and added mode selection
+>>    property.
 >>
->>   static irqreturn_t aspeed_video_irq(int irq, void *arg)
->>   {
->> --
->> 2.29.2
+>> Changes since v1:
+>> - Removed buffer reg settings from default device tree and added the settings
+>>    into here to show the predefined buffer range per each bus.
+>>
+>>   .../devicetree/bindings/i2c/i2c-aspeed.txt    | 37 +++++++++++++++----
+>>   1 file changed, 30 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt b/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
+>> index b47f6ccb196a..242343177324 100644
+>> --- a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
+>> +++ b/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
+>> @@ -17,6 +17,20 @@ Optional Properties:
+>>   - bus-frequency	: frequency of the bus clock in Hz defaults to 100 kHz when not
+>>   		  specified
+>>   - multi-master	: states that there is another master active on this bus.
+>> +- aspeed,i2c-xfer-mode	: should be "byte", "buf" or "dma" to select transfer
+>> +			  mode defaults to "byte" mode when not specified.
+>> +
+>> +			  I2C DMA mode on AST2500 has these restrictions:
+>> +			    - If one of these controllers is enabled
+>> +				* UHCI host controller
+>> +				* MCTP controller
+>> +			      I2C has to use buffer mode or byte mode instead
+>> +			      since these controllers run only in DMA mode and
+>> +			      I2C is sharing the same DMA H/W with them.
+>> +			    - If one of these controllers uses DMA mode, I2C
+>> +			      can't use DMA mode
+>> +				* SD/eMMC
+>> +				* Port80 snoop
+> 
+> How does one decide between byte or buf mode?
+
+If a given system makes just one byte r/w transactions most of the time
+then byte mode will be a right setting. Otherwise, buf mode is more
+efficient because it doesn't generate a bunch of interrupts on every
+byte handling.
+
+>>   
+>>   Example:
+>>   
+>> @@ -26,20 +40,29 @@ i2c {
+>>   	#size-cells = <1>;
+>>   	ranges = <0 0x1e78a000 0x1000>;
+>>   
+>> -	i2c_ic: interrupt-controller@0 {
+>> -		#interrupt-cells = <1>;
+>> -		compatible = "aspeed,ast2400-i2c-ic";
+>> +	i2c_gr: i2c-global-regs@0 {
+>> +		compatible = "aspeed,ast2500-i2c-gr", "syscon";
+>>   		reg = <0x0 0x40>;
+>> -		interrupts = <12>;
+>> -		interrupt-controller;
+>> +
+>> +		#address-cells = <1>;
+>> +		#size-cells = <1>;
+>> +		ranges = <0x0 0x0 0x40>;
+>> +
+>> +		i2c_ic: interrupt-controller@0 {
+>> +			#interrupt-cells = <1>;
+>> +			compatible = "aspeed,ast2500-i2c-ic";
+>> +			reg = <0x0 0x4>;
+>> +			interrupts = <12>;
+>> +			interrupt-controller;
+>> +		};
+>>   	};
+>>   
+>>   	i2c0: i2c-bus@40 {
+>>   		#address-cells = <1>;
+>>   		#size-cells = <0>;
+>>   		#interrupt-cells = <1>;
+>> -		reg = <0x40 0x40>;
+>> -		compatible = "aspeed,ast2400-i2c-bus";
+>> +		reg = <0x40 0x40>, <0x200 0x10>;
+>> +		compatible = "aspeed,ast2500-i2c-bus";
+> 
+> The example changes are all unrelated to adding the new property. Should
+> be a separate patch or just dropped.
+
+The example changes are not directly related to the new property but
+related to the transfer mode support in this patch set. 'i2c_gr' node is
+added to provide a way for accessing I2C global registers to enable
+I2C SRAM, and 'reg' is modified to add the SRAM resource range.
+
+Thanks,
+Jae
+
+>>   		clocks = <&syscon ASPEED_CLK_APB>;
+>>   		resets = <&syscon ASPEED_RESET_I2C>;
+>>   		bus-frequency = <100000>;
+>> -- 
+>> 2.17.1
 >>
