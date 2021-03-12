@@ -1,54 +1,66 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE9B33422E
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Mar 2021 16:55:47 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3771933823F
+	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Mar 2021 01:27:04 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Dwc9s0hnCz3cKR
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Mar 2021 02:55:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4DxRTK6mgMz3bPX
+	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Mar 2021 11:27:01 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Whz4MyDX;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.115; helo=mga14.intel.com;
- envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::731;
+ helo=mail-qk1-x731.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=Whz4MyDX; dkim-atps=neutral
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Dwc9p1nHmz30L6;
- Thu, 11 Mar 2021 02:55:41 +1100 (AEDT)
-IronPort-SDR: /mGZ6p59HnIOyUKJMzXuiJiUKwf/e7NN6zBA0sY98qKNRp9tCH+Y2aMFJ467+KpHg7kKHfKXFQ
- 3cJOliEInT1g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="187858184"
-X-IronPort-AV: E=Sophos;i="5.81,237,1610438400"; d="scan'208";a="187858184"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2021 07:55:39 -0800
-IronPort-SDR: /6eKFr8ry0VtVGJOb9d9xQK0rmfnthDtnNFQFohYpPLs8T52s8cLX5JG5QSF0oavx6e+jiVGji
- c5CtbcZkhVEg==
-X-IronPort-AV: E=Sophos;i="5.81,237,1610438400"; d="scan'208";a="447943096"
-Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.212.177.249])
- ([10.212.177.249])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Mar 2021 07:55:38 -0800
-Subject: Re: [PATCH v4 1/4] dt-bindings: i2c: aspeed: add transfer mode support
-To: Rob Herring <robh@kernel.org>
-References: <20210224191720.7724-1-jae.hyun.yoo@linux.intel.com>
- <20210224191720.7724-2-jae.hyun.yoo@linux.intel.com>
- <20210306203011.GA1152769@robh.at.kernel.org>
- <f6732348-d6c8-f49b-6123-afe542bb1f8c@linux.intel.com>
- <CAL_Jsq+H2wCyTKhGcQvgiuyMtGW0hytQgw=948q0JGLSLOo9KA@mail.gmail.com>
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <f1811747-3826-215a-d822-85170303a7c9@linux.intel.com>
-Date: Wed, 10 Mar 2021 07:55:38 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4DxRTH0dsKz2yjN;
+ Fri, 12 Mar 2021 11:26:58 +1100 (AEDT)
+Received: by mail-qk1-x731.google.com with SMTP id l4so22697173qkl.0;
+ Thu, 11 Mar 2021 16:26:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FbmokgZymiS3iblK7SguwZRYnWpNx1j40+buPp7T5hI=;
+ b=Whz4MyDX/Z4x61M2IOu46yFDNbrBy9hxI40mUilWmBGYlA6KNkDz/vz3svNyBHzQWQ
+ gLeaU5E2C4JDURV0Ro3lWaIi7CZzig33rNWCj6r1XmNNZeowmF0drcd3o1ADJTATwwGH
+ iP65fPEnz//mgxSwPRetyM1YEmdYAMC9np278=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FbmokgZymiS3iblK7SguwZRYnWpNx1j40+buPp7T5hI=;
+ b=gcDXvr0n63iH4fvbFs+6R2ejLO3b2BQGP7bzi6tbnFluBS9Hp+ujRhrv0TnEW1Lylv
+ gtgbK89QBBYranJQIyDDd5Cbqtz2ix688Y+WpA8nfUnDlViW4Cc22Rr579m/3RsPx1yY
+ hJpyCBd9c7X0/lDol0AyEDsTptCOR0N5b1SpNB1QHnO4r7VvyHUe6/+kQQKLEWHOkFki
+ 5Wx0BpsGjm0aUOrUkQfaM2rLkbhop6NU5yZ7Pe7OCzIK/2weGFYGOK5XXlqZBylDWTcu
+ nfAFHFBhYZbgZq2k0QiricSGg1F8r4xPO2ZCetYjFn2abrH4tfZ4iGHmzxxSU8QXlFx/
+ GavQ==
+X-Gm-Message-State: AOAM530ze/WqOYdb5ddnErmeaaeWWGX3N1EQY5CfOvhKq1EHoOHYltMJ
+ aI442zQbhTsRmole0FrFtyDWf0GsNIlJCudxjvLG9Q2TBuY=
+X-Google-Smtp-Source: ABdhPJzQy1fZxNI+jlTTtWmDGQKTLadDYa40QFao7q89di04GjVYULBfHmtP6r+/2GRiITO90WaY0pQIh8Gx0mHD8xQ=
+X-Received: by 2002:a37:a147:: with SMTP id k68mr10400285qke.66.1615508815554; 
+ Thu, 11 Mar 2021 16:26:55 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAL_Jsq+H2wCyTKhGcQvgiuyMtGW0hytQgw=948q0JGLSLOo9KA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20201019085717.32413-1-dylan_hung@aspeedtech.com>
+ <20201019085717.32413-5-dylan_hung@aspeedtech.com>
+ <CACPK8Xc8NSBzN+LnZ=b5t7ODjLg9B6m2WDdR-C9SRWaDEXwOtQ@mail.gmail.com>
+In-Reply-To: <CACPK8Xc8NSBzN+LnZ=b5t7ODjLg9B6m2WDdR-C9SRWaDEXwOtQ@mail.gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 12 Mar 2021 00:26:43 +0000
+Message-ID: <CACPK8XfMEy2o39v3CG4Zzj9H_kqSFBOddL3SC-_OryMqVXEjOw@mail.gmail.com>
+Subject: Re: [PATCH 4/4] ftgmac100: Restart MAC HW once
+To: Dylan Hung <dylan_hung@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,85 +72,53 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Wolfram Sang <wsa@the-dreams.de>,
+Cc: BMC-SW <BMC-SW@aspeedtech.com>, Po-Yu Chuang <ratbert@faraday-tech.com>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Networking <netdev@vger.kernel.org>,
  OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux I2C <linux-i2c@vger.kernel.org>, Cedric Le Goater <clg@kaod.org>
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, "David S . Miller" <davem@davemloft.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 3/9/2021 6:15 PM, Rob Herring wrote:
-> On Tue, Mar 9, 2021 at 10:02 AM Jae Hyun Yoo
-> <jae.hyun.yoo@linux.intel.com> wrote:
->>
->> Hi Rob,
->>
->> On 3/6/2021 12:30 PM, Rob Herring wrote:
->>> On Wed, Feb 24, 2021 at 11:17:17AM -0800, Jae Hyun Yoo wrote:
->>>> Append bindings to support transfer mode.
->>>>
->>>> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->>>> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
->>>> ---
->>>> Changes since v3:
->>>> - None
->>>>
->>>> Changes since v2:
->>>> - Moved SRAM resources back to default dtsi and added mode selection
->>>>     property.
->>>>
->>>> Changes since v1:
->>>> - Removed buffer reg settings from default device tree and added the settings
->>>>     into here to show the predefined buffer range per each bus.
->>>>
->>>>    .../devicetree/bindings/i2c/i2c-aspeed.txt    | 37 +++++++++++++++----
->>>>    1 file changed, 30 insertions(+), 7 deletions(-)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt b/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
->>>> index b47f6ccb196a..242343177324 100644
->>>> --- a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
->>>> +++ b/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
->>>> @@ -17,6 +17,20 @@ Optional Properties:
->>>>    - bus-frequency    : frequency of the bus clock in Hz defaults to 100 kHz when not
->>>>                 specified
->>>>    - multi-master     : states that there is another master active on this bus.
->>>> +- aspeed,i2c-xfer-mode      : should be "byte", "buf" or "dma" to select transfer
->>>> +                      mode defaults to "byte" mode when not specified.
->>>> +
->>>> +                      I2C DMA mode on AST2500 has these restrictions:
->>>> +                        - If one of these controllers is enabled
->>>> +                            * UHCI host controller
->>>> +                            * MCTP controller
->>>> +                          I2C has to use buffer mode or byte mode instead
->>>> +                          since these controllers run only in DMA mode and
->>>> +                          I2C is sharing the same DMA H/W with them.
->>>> +                        - If one of these controllers uses DMA mode, I2C
->>>> +                          can't use DMA mode
->>>> +                            * SD/eMMC
->>>> +                            * Port80 snoop
->>>
->>> How does one decide between byte or buf mode?
->>
->> If a given system makes just one byte r/w transactions most of the time
->> then byte mode will be a right setting. Otherwise, buf mode is more
->> efficient because it doesn't generate a bunch of interrupts on every
->> byte handling.
-> 
-> Then why doesn't the driver do byte transactions when it gets small
-> 1-4? byte transactions and buffer transactions when it gets larger
-> sized transactions.
+On Tue, 20 Oct 2020 at 04:14, Joel Stanley <joel@jms.id.au> wrote:
+>
+> On Mon, 19 Oct 2020 at 08:57, Dylan Hung <dylan_hung@aspeedtech.com> wrote:
+> >
+> > The interrupt handler may set the flag to reset the mac in the future,
+> > but that flag is not cleared once the reset has occured.
+> >
+> > Fixes: 10cbd6407609 ("ftgmac100: Rework NAPI & interrupts handling")
+> > Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
+> > Signed-off-by: Joel Stanley <joel@jms.id.au>
+>
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-Good question and it could be an option of this implementation.
-Actually, each mode needs different register handling so we need to add
-additional conditional branches to make it dynamic mode change depends
-on the data size which can be a downside. Also, checked that small
-amount of data transfer efficiency in 'buf' transfer mode is almost same
-to 'byte' mode so there would be no big benefit from the dynamic mode
-change. Of course, we can remove the 'byte' transfer mode but we should
-also provide flexibility of configuration on what this hardware can
-support, IMO.
+net maintainers, this one never made it into the tree. Do you need me
+to re-send it?
 
-Thanks,
-Jae
+Cheers,
+
+Joel
+
+>
+> > ---
+> >  drivers/net/ethernet/faraday/ftgmac100.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/net/ethernet/faraday/ftgmac100.c b/drivers/net/ethernet/faraday/ftgmac100.c
+> > index 0c67fc3e27df..57736b049de3 100644
+> > --- a/drivers/net/ethernet/faraday/ftgmac100.c
+> > +++ b/drivers/net/ethernet/faraday/ftgmac100.c
+> > @@ -1326,6 +1326,7 @@ static int ftgmac100_poll(struct napi_struct *napi, int budget)
+> >          */
+> >         if (unlikely(priv->need_mac_restart)) {
+> >                 ftgmac100_start_hw(priv);
+> > +               priv->need_mac_restart = false;
+> >
+> >                 /* Re-enable "bad" interrupts */
+> >                 ftgmac100_write(FTGMAC100_INT_BAD, priv->base + FTGMAC100_OFFSET_IER);
+> > --
+> > 2.17.1
+> >
