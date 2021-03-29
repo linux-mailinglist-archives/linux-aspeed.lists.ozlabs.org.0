@@ -2,139 +2,90 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C17E34CFF2
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Mar 2021 14:21:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA32234D305
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Mar 2021 17:00:54 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4F8BWr06Ldz302T
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Mar 2021 23:21:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4F8G3m64X7z304G
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Mar 2021 02:00:52 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=svAcFRgL;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=l51NtAGM;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=os.amperecomputing.com (client-ip=40.107.70.113;
- helo=nam04-sn1-obe.outbound.protection.outlook.com;
- envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com
- header.a=rsa-sha256 header.s=selector2 header.b=svAcFRgL; 
- dkim-atps=neutral
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr700113.outbound.protection.outlook.com [40.107.70.113])
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
+ header.s=pp1 header.b=l51NtAGM; dkim-atps=neutral
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4F8BWn0hGqz2yYt
- for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Mar 2021 23:21:24 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zfc20Qw9e/TNNaijHZhO3okeaqI8pHcQmOM5QxfujkXcXKQJiAVtyAHBRQuD2LP48vzV1VFBmUWjkgv5OYDFvBWLreuV//PIyaMIARVaGCzoR2sznRJiamNe5z3yFpW/TjQuSAP4lReJE91UF60COwh5cc/kGdTKkHW12Cf8ENfCJHAHX9inQINq2lc48aswDtVsiSxbH2e+ltahUBeCXrM6DMZ6p3AuUKZUtcNK+eNF6rdla/yt/RXE9YcOWcAQCN3k6oFI4HGIb4ZnOOoIxzZMerN0QEeMVHMBsMuhV71HGXPbiHcEtSjf//1k/L6jGWTu8AyXxOij75vKrsLx6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XqHjPS2ZFMbpE/ZK4aGBE+Do3ZagtZqKtL07G3kJyQk=;
- b=nxmjNRt/QvysAT/o5tkJzjMNJL8vl7uLP86jnigVDHwfsqO0Rr0pOmDXrOybw4iDKpEyfMYJTNFIzlv4tvWHtCtLaNkrJ/t5Vyh5h5uDrd7xSn26BF5IDk64PRviAB5qFMDg/L9JMFOjpyjwXXSJz2P9DbYO04UcMyB3DU6v46qk2xLkJGM2lxQ4v26DNxik9TetPwi/UmNbs9Xy8A1dYXE6+k4pplGjr1qbs7AkdTFi9LfZDiWYtPk/iexAc9cQg8XX3aM6zy353rrSUH0LMmv4kFpa+UE3jBLiDSNJVIO4MLGa0u9h0F9/oBD+7SWfg7X5cRO8DRrm16VXPlFcMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XqHjPS2ZFMbpE/ZK4aGBE+Do3ZagtZqKtL07G3kJyQk=;
- b=svAcFRgLmDuQCgmn8Jne2NpJjhPpc9Ce6peOafpVGVPMGNTRgADyfdnU0mReiQAcB4Tbfl7A5WclA4xgSyFM6GTWn+dPgjOoc8LVbwOctNJng7sK9FaZmWRxRlY/MXmkZto6h5s6y7OBvwuvuHBQojsTntDq+yp/evCmZMiH0rE=
-Authentication-Results: os.amperecomputing.com; dkim=none (message not signed)
- header.d=none; os.amperecomputing.com;
- dmarc=none action=none
- header.from=os.amperecomputing.com;
-Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
- MW4PR01MB6273.prod.exchangelabs.com (2603:10b6:303:65::19) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3977.25; Mon, 29 Mar 2021 12:21:18 +0000
-Received: from MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::d840:7aa7:58d4:b503]) by MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::d840:7aa7:58d4:b503%5]) with mapi id 15.20.3977.033; Mon, 29 Mar 2021
- 12:21:18 +0000
-Subject: Re: [PATCH v1 0/3] Add Aspeed SSIF BMC driver
-From: Quan Nguyen <quan@os.amperecomputing.com>
-To: Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Wolfram Sang <wsa@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- openipmi-developer@lists.sourceforge.net, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org
-References: <20210329120914.4527-1-quan@os.amperecomputing.com>
-Message-ID: <99817f47-a597-e486-c75e-e631d86bc46f@os.amperecomputing.com>
-Date: Mon, 29 Mar 2021 19:20:56 +0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.8.1
-In-Reply-To: <20210329120914.4527-1-quan@os.amperecomputing.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [118.69.219.201]
-X-ClientProxiedBy: HK2PR0302CA0009.apcprd03.prod.outlook.com
- (2603:1096:202::19) To MW2PR0102MB3482.prod.exchangelabs.com
- (2603:10b6:302:c::32)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4F8G3d2VQDz300C
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Mar 2021 02:00:43 +1100 (AEDT)
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 12TEXiik127565; Mon, 29 Mar 2021 11:00:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=AN4hdJZ0MsMZuPxJjikdHVAlfmL9PV9h6iu+52Gywu8=;
+ b=l51NtAGMo08XepkOtm2Y0fTkJjaXdTTmbl853GYkkgvBbVcPaPF9XLHifXW6zgpY7vte
+ tGBwCUdXLjk4UVtXrPWblgujxXXivnaflOhP+gDdT8jMEU3aVkKQ1qu2tzXMzGYqfm+0
+ y3p5EsEgq7JiOO3uxl2xZBND013t7kFTVe2WV/7a4S21c+A60Lmx8W3V5xRkKDlywicr
+ mVmYtR79celz27wDBjl4m0hduxrTK1tV6YObORYf1SoaZqDvrsWlDXgMvhDITDik+7kk
+ 1jjlbPDUC/scQhaYV+WR6uAHhnx06PtxbIBE+yzR0fSoc1HiSQz+BgzFrn1PYMbwgkVQ aA== 
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37jhnkk07c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 Mar 2021 11:00:34 -0400
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12TEqlee007196;
+ Mon, 29 Mar 2021 15:00:33 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma04wdc.us.ibm.com with ESMTP id 37hvb8q4b9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 29 Mar 2021 15:00:33 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 12TF0W4J31392048
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 29 Mar 2021 15:00:32 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D8BD77806B;
+ Mon, 29 Mar 2021 15:00:31 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8A8C078072;
+ Mon, 29 Mar 2021 15:00:31 +0000 (GMT)
+Received: from v0005c16.aus.stglabs.ibm.com (unknown [9.163.3.96])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 29 Mar 2021 15:00:31 +0000 (GMT)
+From: Eddie James <eajames@linux.ibm.com>
+To: joel@jms.id.au
+Subject: [PATCH 00/22] ARM: dts: aspeed: Updates for Rainier and Everest
+ machines
+Date: Mon, 29 Mar 2021 09:59:58 -0500
+Message-Id: <20210329150020.13632-1-eajames@linux.ibm.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.38.32.128] (118.69.219.201) by
- HK2PR0302CA0009.apcprd03.prod.outlook.com (2603:1096:202::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3999.14 via Frontend Transport; Mon, 29 Mar 2021 12:21:13 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: db83c537-3bed-4912-e9c6-08d8f2ad278a
-X-MS-TrafficTypeDiagnostic: MW4PR01MB6273:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MW4PR01MB62731E89EB44132FB754E906F27E9@MW4PR01MB6273.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gdhr2/KylfO6kNYOUpWk9vfrjE/2LPcQBVwVSady0laAZKJan8ajvG1qY5L11aTMAzYs9l7w4TADJBB2BB99zQ1+mMGHrZAC/t8x684gTg9sxxYXINfMUblPRHYwVeXJceE5VYWfA0ebtFQ5TTcNxsdHjyKV6rMM0ntGz5edOpsBzFb1rHYiBJiAiertgPI2yiLrghkE/EN6DkZYJehWwwUe6RXwKK+9KwV4rW7rnGcjDwnaIZFIz+hpe7KN//YkRGhITZdfa9lYygH64ZNqwbZxTlvySc2aNtbR/2aNeZx3aTErVC62/EDBySOHP5BLO5Vq7Sdd1R/W90YwH0AQsDanyoowiMcml5ljP0JTP5H0NvazKdtz3qaGxVyS1fq4lKErdZI1GWJVa9faxT4GMI//ncWp44lfiwRQF3H+E2qnvEiAaMRH+Y1VI8Z0wc8g8BLO3o/Xvm6BA7x0PjG9hoceyZAANvE+gMJfdBpjczKpch/uQXrWR8hSc5WZGg+DP5FpExbAq5K2vxcFOMX+WAXHrbROCY3TznM0krp58FD8K92CarKwXXCdimPArHT83u0zxzTT7c0I/mw70KW7TmnYyp9WBeDHPbKsxQUMX8iG4cb04KC5qyDtC1B5Xr2EhIuBEb3Z63VL0CpBkb0TL3I5SbZ4st4M2eYTYG7+gtiOvGfuGdHijYWrEXm5lnPNmlc80ZXxzcMnVlx5fRXRpFlS/NwSjVtW/zD1yr3lSl4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR0102MB3482.prod.exchangelabs.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(346002)(39840400004)(376002)(366004)(396003)(53546011)(66556008)(186003)(956004)(2616005)(7416002)(26005)(16526019)(107886003)(316002)(31686004)(4326008)(110136005)(8676002)(16576012)(8936002)(52116002)(54906003)(6486002)(478600001)(66946007)(2906002)(5660300002)(6666004)(38100700001)(921005)(86362001)(83380400001)(31696002)(66476007)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?alR2OW9IM1RBMjVQaG5HRGRXL1BDMFYyMzJvUjM5VUZXbGpSZlh6dzJscVJJ?=
- =?utf-8?B?ZjlybzJ3UUIzWnpvczdJZzYxZmtvRUhqNjZkYmdTZHFTV3ZoRjZuNDVieFVN?=
- =?utf-8?B?dEJwYWtuSDYrZTcvWURPQ0lRd3c5TXVxUk9oT3BUbHV3Nms4SEpyMkRsVFVL?=
- =?utf-8?B?b0tja2RGNWlUOUd1bEcwbjkvUVdjeFkyZGtGMUwyODVrUlV6WTV0L2RkMEdo?=
- =?utf-8?B?VitZSWplaFNhOHNicnBGTEtHZG9tbTcrSldMZWtIQ2xJMmluU1BFOFM2YUl4?=
- =?utf-8?B?cDlvOVp5Y3B3d3FvT0Vwb3ZueEhVVC9NVmRyc1RWVDlJb3JBWWZYdGpFK2tL?=
- =?utf-8?B?VUJqVXl4Q3JFVnNETXkyWmFVMGJkaURLOE1WRVZlODhqZVd6SFg4cTF5cXBC?=
- =?utf-8?B?cGxLNjdCeHZiMDY2Q0VNeklFQWswRzN5aWlXaXhZUlNZbkd5YTV2K1JlWnRT?=
- =?utf-8?B?L3RMV25KT2RTQWlaWnVmcmhaOXVFWU1oUVY2S1dKM2o0YThhVWR3OWRyaElu?=
- =?utf-8?B?anZ0c2tYMHg2b1NVQWsyY0NOTWZ4cXEyRnVoWE85cm1tdUVaLzV2aHVMc2NW?=
- =?utf-8?B?YXFxa0QwOTByM2c1eWlnQWJkd25tdUtuaTUvZjhRNVhURnhDSWZzUFl1UkFa?=
- =?utf-8?B?d0pYenlwUWcwZDhmK2pONlpaZnFsQ3dvL2Q2V0Z6MWI3aVNUV29xQndScHRU?=
- =?utf-8?B?MmZvcm1qK3FtU0FENFFjejl6aytFOFlydERKU0FFaVc4Q0JwMmo5MDc4Szgy?=
- =?utf-8?B?RE81K3JKMTFFNXF3emM0RzE5blhNeWxUcE1uZEQxL1RoTFFuQ0ExMkRMb1Fh?=
- =?utf-8?B?eTkxeG44ZE5oaGRiS2t3NFBQYWFJTTJLNzQ0M2Q3QTZIM25qZDRJUjE1NHlP?=
- =?utf-8?B?OVd3Um5DZ1lMZndDc1VwcXJ5RU41bHdnVE9kNll2VFJONm1rZ3UyRXdUeWJi?=
- =?utf-8?B?d0xKTGRXbXF4V3ZDY2VrK0srSkNmOWYrY21qSEFGOU5NUmxJc0VyeG1FWmZq?=
- =?utf-8?B?WHZiRkk3bFZIMGIwUGtKZVliNjhZTUZmVzJ4bGFNb0VLUVNqVWlCbUtlM2Rr?=
- =?utf-8?B?a0k4WE1GK3NMNEJ4WU0yU1NjeTU5UnhSdmYvZHR3NlM0dWxGWjM5ckdtVWNP?=
- =?utf-8?B?QU4waHVWMVBPbXJrQXd2UFJWK3Y4bzVzOG9NSzI2ZkVEWmprdXVJbkp4ZGR0?=
- =?utf-8?B?eThCOFdFcVZIODlMdEI2cEo3bkV6V0dYdGZycGtScC9qVjFRdlRoS0N2V2R4?=
- =?utf-8?B?RXI4di9peHZHVzVvSlp3NE9CL1F2emJBQkU1aXBQdm94MXMyY0piWVlaZUpW?=
- =?utf-8?B?d1V6R3pKSU11OXU2d1NidGVkK0Y5SjBqZjRYc0R4VEJlcDlpMmNDcmpIcVVy?=
- =?utf-8?B?T29QZVpiRkRiN09NL3c1RVpGZi93WFpNdnNOSkVvU1FGbTFQTDgwM1E5R0Ir?=
- =?utf-8?B?UXNOTlN5eUo1RHVOOEp2NUZyU0I4Q0NYd0t4YWJmaVdNWGtNQkUvRmZXNWZZ?=
- =?utf-8?B?Rkkvblk2Ukg5NjMvMGRhNHpTbld4U2VYUm9BandMbnVja2xyWWJycjNXN29z?=
- =?utf-8?B?T0ltb3A4bVhaVmZxKzRiamdTWUNaR1k2TTBvSlNnWmJqUXFESGxEMCtSVHNX?=
- =?utf-8?B?UGk3emRhVHVEQkcwVXVNL2s0Rzg0Z2ZubXdLOThtckxRd1pxQjdRTmJsZk5h?=
- =?utf-8?B?SFltWEs0bTNoRXVZNVFGM05WeWREQ2FDMXBmT1pEZ3lDZGljMkVYaDVZcnBi?=
- =?utf-8?Q?hd3MxZ9HjcvhPiIbYe78bIHaSQVd/asty3t0Nzc?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: db83c537-3bed-4912-e9c6-08d8f2ad278a
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2021 12:21:18.2662 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EahnrmMw+BC6T7bakI/IQLjZJ42cSWLGFUUL7syge7VoKIwlonuPl/iHCSRQbp+Y8aXwBFCDVWunXFC/7FE0Ss7haIxSYQHhGIQh/ZUg7Y4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR01MB6273
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: IVIdx3z3jX6BanOTNOl3v6w3_mTtmkw_
+X-Proofpoint-ORIG-GUID: IVIdx3z3jX6BanOTNOl3v6w3_mTtmkw_
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-03-29_09:2021-03-26,
+ 2021-03-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1011
+ mlxscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
+ mlxlogscore=794 bulkscore=0 phishscore=0 spamscore=0 impostorscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2103250000 definitions=main-2103290112
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,40 +97,65 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Open Source Submission <patches@amperecomputing.com>,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
- Phong Vo <phong@os.amperecomputing.com>
+Cc: devicetree@vger.kernel.org, robh+dt@kernel.org,
+ linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Please ignore this series as I have missed an important audience.
+This series updates the device trees for the Rainier and Everest system
+BMCs. For Rainier, the changes have been tested fairly extensively in
+hardware. Everest has largely been tested in simulation and some basic
+hardware verification testing.
 
-Going to resend another series. My apology.
-- Quan
+Alpana Kumari (3):
+  ARM: dts: aspeed: rainier: Add presence GPIOs
+  ARM: dts: aspeed: everest: GPIOs support
+  ARM: dts: aspeed: rainier: Support pass 2 planar
 
-On 29/03/2021 19:09, Quan Nguyen wrote:
-> This series add support for the Aspeed specific SSIF BMC driver which
-> is to perform in-band IPMI communication with the host in management
-> (BMC) side.
-> 
-> Quan Nguyen (3):
->    i2c: i2c-core-smbus: Expose PEC calculate function for generic use
->    drivers: char: ipmi: Add Aspeed SSIF BMC driver
->    bindings: ipmi: Add binding for Aspeed SSIF BMC driver
-> 
->   .../bindings/ipmi/aspeed-ssif-bmc.txt         |  18 +
->   drivers/char/ipmi/Kconfig                     |  22 +
->   drivers/char/ipmi/Makefile                    |   2 +
->   drivers/char/ipmi/ssif_bmc.c                  | 645 ++++++++++++++++++
->   drivers/char/ipmi/ssif_bmc.h                  |  92 +++
->   drivers/char/ipmi/ssif_bmc_aspeed.c           | 132 ++++
->   drivers/i2c/i2c-core-smbus.c                  |  12 +-
->   include/linux/i2c.h                           |   1 +
->   8 files changed, 922 insertions(+), 2 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/ipmi/aspeed-ssif-bmc.txt
->   create mode 100644 drivers/char/ipmi/ssif_bmc.c
->   create mode 100644 drivers/char/ipmi/ssif_bmc.h
->   create mode 100644 drivers/char/ipmi/ssif_bmc_aspeed.c
-> 
+Brandon Wyman (2):
+  ARM: dts: aspeed: rainier: Add gpio-keys-polled for fans
+  ARM: dts: aspeed: everest: Add power supply i2c devices
+
+Eddie James (7):
+  ARM: dts: aspeed: rainier: Add additional processor CFAMs
+  ARM: dts: aspeed: rainier: Enable fan watchdog
+  ARM: dts: aspeed: rainier 4U: Fix fan configuration
+  ARM: dts: Aspeed: Everest: Add FSI CFAMs and re-number engines
+  ARM: dts: Aspeed: Everest: Add RTC
+  ARM: dts: aspeed: everest: Enable fan watchdog
+  ARM: dts: aspeed: Add Rainier 1S4U machine
+
+Jim Wright (1):
+  ARM: dts: aspeed: everest: Add UCD90320 power sequencer
+
+Matthew Barth (2):
+  ARM: dts: Aspeed: Everest: Add max31785 fan controller device
+  ARM: dts: Aspeed: Everest: Add pca9552 fan presence
+
+PriyangaRamasamy (1):
+  ARM: dts: aspeed: Everest: Add I2C components
+
+Vishwanatha Subbanna (6):
+  ARM: dts: aspeed: rainier: Add Operator Panel LEDs
+  ARM: dts: aspeed: rainier: Add directly controlled LEDs
+  ARM: dts: aspeed: rainier: Add leds that are off PCA9552
+  ARM: dts: aspeed: rainier: Add leds that are off pic16f882
+  ARM: dts: aspeed: rainier: Add leds on optional DASD cards
+  ARM: dts: aspeed: rainier: Add leds on optional PCI cable cards
+
+ arch/arm/boot/dts/Makefile                    |    3 +
+ arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts  | 1770 +++++++++++-
+ .../boot/dts/aspeed-bmc-ibm-rainier-1s4u.dts  |   14 +
+ .../boot/dts/aspeed-bmc-ibm-rainier-4u-v2.dts |  198 ++
+ .../boot/dts/aspeed-bmc-ibm-rainier-4u.dts    |   14 +
+ .../boot/dts/aspeed-bmc-ibm-rainier-v2.dts    |  198 ++
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts  | 2367 +++++++++++++++--
+ 7 files changed, 4290 insertions(+), 274 deletions(-)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-ibm-rainier-1s4u.dts
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-ibm-rainier-4u-v2.dts
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-ibm-rainier-v2.dts
+
+-- 
+2.27.0
 
