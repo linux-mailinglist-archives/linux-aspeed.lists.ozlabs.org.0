@@ -2,73 +2,127 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7F334CD3E
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Mar 2021 11:43:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3132934CFC1
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Mar 2021 14:09:50 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4F871Q1rRjz302m
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Mar 2021 20:43:22 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4F8BGN10lZz302T
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Mar 2021 23:09:48 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=N+NkL0Bv;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=HJvUyOCV;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::533;
- helo=mail-pg1-x533.google.com; envelope-from=rashmica.g@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=N+NkL0Bv; dkim-atps=neutral
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ smtp.mailfrom=os.amperecomputing.com (client-ip=40.107.223.124;
+ helo=nam11-dm6-obe.outbound.protection.outlook.com;
+ envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com
+ header.a=rsa-sha256 header.s=selector2 header.b=HJvUyOCV; 
+ dkim-atps=neutral
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2124.outbound.protection.outlook.com [40.107.223.124])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4F871N19rjz301X
- for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Mar 2021 20:43:19 +1100 (AEDT)
-Received: by mail-pg1-x533.google.com with SMTP id v10so9037099pgs.12
- for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Mar 2021 02:43:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GCO+HLMUHqwP+IidTwyt4nWDFD74p2XFYnz20c69ZzM=;
- b=N+NkL0BvHbk+8P2TYKNJJBjn8k338s2pxeZF2+J5Ud0AXYiYmUd0XADwi0aNi7RLLK
- e81q/O1crM45iSPKGItcAD2JZZZ+we77sM0nrvcLqdLGCv3rG+lSB5AljFFUFIHq2awu
- Q9c2RM8DkcdWhwF9cYDPa3KhSracOQgkoF7kCRUOM82F4BqtndtSPyNs4vnt8jFDh8S5
- nemZKrxDXlpsnJSv7lo+zhIEkXp/xrISrCUPuZoL5tQzwJAm8nkiv286a7U/iBcnpqmL
- mLldh/Sk2Tnh4UIwPlh7wzGiSt1TrDs7I5obVmVXRP2Y8oOoeMIp/gPSwehz+Io1vGK0
- gsuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GCO+HLMUHqwP+IidTwyt4nWDFD74p2XFYnz20c69ZzM=;
- b=VG8FmELBsuCw2qa9b7slAe7Lq45AyBVm2ut2uaRjRuG9BBBbzZpK3ma8Rf1wdggV0N
- f1LvAiLtVkDsGMVKU1omnHE3qi+6YistVaVCi0Jh11epTGKA2RDqyVzjYjUH18oxmzj6
- VWIOwa5f3iSpCDEEyRtF3GPRaC1AhM7aeA5tkHhjxULpuCl+BsF7keU8rrdSyW4fhCo9
- OpI324uDV5BtozusFe+fTyrUNhcOptZlW9nTTHhSnXka5D5aPnOeu404NwtY6435h7bB
- rFRubatUCbRyuUGpWGgXDwzyGQ7tXrNfS92a5SXmxTTKcPxhzIB02qTFbuDfDpSJ04pB
- 65fg==
-X-Gm-Message-State: AOAM53341o0iL8gTdj8jmwLy/+cGRplzuBnzUnj9oRQfjUoxpRSeZjer
- C4vVJJ/DJGy84LychGQnhRL2qga918iB6w==
-X-Google-Smtp-Source: ABdhPJykhOXy1F3yQ7v6t33crenlcHFMadoq2XUxA9qPwLfpW/z3mLy27Ru8ch8eCQwmp8u/MFW3hQ==
-X-Received: by 2002:a63:4462:: with SMTP id t34mr22756427pgk.389.1617010994285; 
- Mon, 29 Mar 2021 02:43:14 -0700 (PDT)
-Received: from rashmica.home.majoof.com (150.24.220.111.sta.wbroadband.net.au.
- [111.220.24.150])
- by smtp.gmail.com with ESMTPSA id q25sm15970980pff.104.2021.03.29.02.43.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Mar 2021 02:43:13 -0700 (PDT)
-From: Rashmica Gupta <rashmica.g@gmail.com>
-To: linux-aspeed@lists.ozlabs.org, joel@jms.id.au, robh+dt@kernel.org,
- andrew@aj.id.au, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] ARM: dts: rainier: Update to access sensors via iio-hwmon
-Date: Mon, 29 Mar 2021 20:42:55 +1100
-Message-Id: <20210329094255.347713-1-rashmica.g@gmail.com>
-X-Mailer: git-send-email 2.26.3
-MIME-Version: 1.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4F8BGJ4cBRz2yZ3
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Mar 2021 23:09:42 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BEwMST9Gsdjyp+CuxcPrAtK+2c5tOU38gplNyrmtQrVrqNCnCZkqTNIBlSTtVAc6jVs1yks0Tdu+AkIaw9YJ2+sfnW7V+Yi2I8FzjppWeSp80DM/apfgGWO/XtJZCq/f1DHVLij9tnGbxSMisvVHJubc4T2Lt8q3u9HzmTVVvOXDuEWHfb0ezUdbYqrAukLrqrMvzyEjofJ4SKlXYZZ2HZgHcH5J2eSNUkdNzX8rVtVXRmOqrUuRS3sBlKr1q7VU2jpwfPYx+EY4t2ZZKWyOpxEk8Jt0enlKTr+raa3qJImKiDO7USBbAm2pj2r7BLxqvU0naebXHfw4Ho3LBfF0Hg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HtlvKtuM6MihIyIrL118Lis3UII/LxYHW7mF9vKD0s4=;
+ b=Io3Bfx0ZSIXA5QqWDq9k+LyK62cN/MpE6v4HJbPp9azVqKEyM4KisTYVJoIpYdkm57B0RGCU5ftUF7sXVcKqY9ybPz0kpndD+KDTudritu5LozPj9HCadTQVK9p548BFVrsI56wMxe3y971AFjXL0mbzXl4rrqjKl4Gubp14lmoUj07I05LJ3x17nJK1HYTUuYVvBTlp7CqCrVSeTnC5t3ez+9oNAyMPu3Pa1eLEaY0YVc6I2OAsG8MlsUdxKZVkGHFJpcRA79Fsmi4jQXpNSA5b5wJaIRJdjz762XcIPl1rvjdyi9gbqkTctHAbLiuTLDq+DwSiQLAIIfjRB4Lj2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HtlvKtuM6MihIyIrL118Lis3UII/LxYHW7mF9vKD0s4=;
+ b=HJvUyOCVYASfrgtHOKh5fw7+w1DrzjcatQFYVETT8SUwPUqoTtA40M04hmbG1nI9h9S+gKs1Do8enti3z7fXt5ah0NcfFdPWr4LE8CN/IthvnpQO6CobijXfgz2jbyAfJaD0jFLIcY0ygQK98iqPGA6YIf6R3RnI1YQ/KywsQdM=
+Authentication-Results: acm.org; dkim=none (message not signed)
+ header.d=none;acm.org; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
+ MWHPR01MB2320.prod.exchangelabs.com (2603:10b6:300:26::11) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3977.25; Mon, 29 Mar 2021 12:09:35 +0000
+Received: from MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::d840:7aa7:58d4:b503]) by MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::d840:7aa7:58d4:b503%5]) with mapi id 15.20.3977.033; Mon, 29 Mar 2021
+ 12:09:34 +0000
+From: Quan Nguyen <quan@os.amperecomputing.com>
+To: Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Wolfram Sang <wsa@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ openipmi-developer@lists.sourceforge.net, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org
+Subject: [PATCH v1 0/3] Add Aspeed SSIF BMC driver
+Date: Mon, 29 Mar 2021 19:09:11 +0700
+Message-Id: <20210329120914.4527-1-quan@os.amperecomputing.com>
+X-Mailer: git-send-email 2.28.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [118.69.219.201]
+X-ClientProxiedBy: HKAPR04CA0010.apcprd04.prod.outlook.com
+ (2603:1096:203:d0::20) To MW2PR0102MB3482.prod.exchangelabs.com
+ (2603:10b6:302:c::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from hcm-sw-17.amperecomputing.com (118.69.219.201) by
+ HKAPR04CA0010.apcprd04.prod.outlook.com (2603:1096:203:d0::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3977.26 via Frontend Transport; Mon, 29 Mar 2021 12:09:30 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6503f41a-172e-4cfd-1244-08d8f2ab8407
+X-MS-TrafficTypeDiagnostic: MWHPR01MB2320:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR01MB2320A355F7EC138F638EE835F27E9@MWHPR01MB2320.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nWQbmN1IeQ/9NDDefGJpwQGP3nfpsZ7ro1kpgB0vXMCcaU3x9Rur8Ucf9xb9AgauQvCDMiKiAvxpePNfzEqkwr8eHfNEKlE2UKNt9lGBjgmiDlHaZYOY/EeREPn6+kQ7DGR73J2RX8O3AokbZ5ESOKKCcNTiVjdm4n2s0bHY1+8ME1HD0yjGJDSPsuewJv5B22B06WsMcfVquY1ToYys8O7Gx31VJugdMJcTEvxElTkTO52lZ2vszbAzjjWgOa/yFFmDNSv5OpRCvEIO0P/eKH98vvLqBGx9NYHe4sOJfFfCLv/f5KmMlE68arFv08ElGxmn1RJZjIn5FUGley/O4pGYsagpusFoNK7Ql2sTl8IVv+CsBikJyvFaja1wZkG1+EXOM6WSbOZmRchop/bdIQlPUuuuLN3pZFw2AHRnImqXbChu7ForjjnGnNaIRRqshzMJF3Qd2mef/Ieu30xTru6N9w15wzGSfxRpIPLw3F3RobJCGT8mXDOX/EKB1TfffP1OxWaQcWlGV3C+ZkzwX+AGXk85P7gu4n3x/nLHEpOwoSrdiRBrzca19Du7LGY9+n9dJtj4UtKUp7E6Hcuq7KyLbn4Jp1dq1KOvlVGNM3NfnuVRm2Cvtr7b22Cxn5/xLJDXSgpmEie+i/6ip9Y56WZZZp2Y3DCSCeAzxm/jhUE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR0102MB3482.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(136003)(346002)(376002)(39840400004)(7416002)(107886003)(921005)(86362001)(110136005)(6486002)(8676002)(52116002)(4326008)(8936002)(6512007)(66946007)(2906002)(956004)(5660300002)(2616005)(478600001)(26005)(6506007)(4744005)(1076003)(83380400001)(54906003)(186003)(16526019)(6666004)(316002)(66476007)(66556008)(38100700001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?5njVkJq+schj7xWZe5EWzjoyRwMZI+a0jgmQg2NksCmVQAErq5SpIe0FFqS6?=
+ =?us-ascii?Q?27O1gj+yiMwaWmi++fhOyKP/AT5vnNsrm+QlBT/V6hO/+Nsd9ZPhH3QydKf7?=
+ =?us-ascii?Q?geL7F/7UEjwfNYdztKXg07H4JFLLH/1XdbiNHUumORKV7BqyKpR14ix/rklY?=
+ =?us-ascii?Q?afXvfTLuItfdGiKxEddJcUxLQgGMpfw7k3TOVyNv5PfUh/WJ0xZr2xau+mfi?=
+ =?us-ascii?Q?z5NfvtjGyHIGTTxqLYwkLEvX5AIZUPG4BxKt/xcOeJ2j4kE2OvgH2ed72Xj5?=
+ =?us-ascii?Q?JthtUCetomVfILAVI45imYiNbwY1Sp7a2YmI4AwmDmVr+P5HAmuInQKk3PU/?=
+ =?us-ascii?Q?Ncb5UoOdIfY3da46FCDT6W3tyGyYD2x78yNNU/S8TMBRhc4KBdDC8R8SVBoQ?=
+ =?us-ascii?Q?o4vk/yIihxu4C4UoXwhhjkE3MOTw2q6Ga5500Uo3R1IW7/JPJp/rMw8nXw+J?=
+ =?us-ascii?Q?JTHb4h/rAMIaGL2suC8MJX2rJiyBEXf9Ws5CsCd7s93uXP9IKlIW+meQ5pU+?=
+ =?us-ascii?Q?YtzfjxMskA8OzLGTgK3xE7ewhV/Bd8yWUyVd8QaV6rSeFqkBCerp40T1naIm?=
+ =?us-ascii?Q?UHjmFhbMe3DSheGyxRzPRXLoSvUt5M4j6q7ZOM5/I4vz7GmSbKfVfviWzPx3?=
+ =?us-ascii?Q?j5HnjkJiKHsT0Sclsk/mhN3/6lCidrn0Ezz+TwyLjJj5ATjSZitQI6iNUc0J?=
+ =?us-ascii?Q?D9hQP+GUbUdZWvFdm3aCkEvPZlTSJ3Ygf56trKmbicycCwG9GvLLlZretxmk?=
+ =?us-ascii?Q?aauvcuru7qm08p/geLB0EwfeA9A5fX43RifLGnOGCH27Dtz2dc54cq1irWUg?=
+ =?us-ascii?Q?hUQPR3lWLiDQrZk+cH4/XuzUWKslvPOzlBP2HmsCEDwMITQ94Px58kWczi6P?=
+ =?us-ascii?Q?6xVCX3ZggFQGNtB3FFu0UAkldW7Gs4JEQGogdDHd4XruToigfUwVDk57XF/M?=
+ =?us-ascii?Q?7gesQiTRZDYTJud4JdjQH5NxIrVF1z1ZTfbocvX/FbMBpBPEvrgpE9h5v/Gd?=
+ =?us-ascii?Q?1jSNXxc+chlm6rqQn+7UnFegpjS97VOh6tltlwR+VUDm1XqMCMT4eu8okcIX?=
+ =?us-ascii?Q?rY/gGxIV8utjVPt+k25I8wk+8ytv/CFmJjTmuL2VRDqZibXFqz5A/DA/absa?=
+ =?us-ascii?Q?NEkuQxUjTkcwsFS7Vt9WPCeJNfu+cwBjBab021v+IO8IIvbOQQIILKe99nBG?=
+ =?us-ascii?Q?7/b52wYhOgu/H31ZC0tzG2aztMwW+EsscHDhPUyJijyvvB0d/NyhAKnBFWfZ?=
+ =?us-ascii?Q?TZbkCcwLTHgTKlos/U4r5wgmx35B8mfIE95NDI+BGfIx1ULOk0vZJOJiWaOW?=
+ =?us-ascii?Q?7jC+n1R2oTVOojn73fuG6Epg?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6503f41a-172e-4cfd-1244-08d8f2ab8407
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2021 12:09:34.7157 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +HqrnXmjVFWdgzC6L1yzgNNCgdnbt0N/vPxt92jvWbdzkjv+dtXrmOOXlwCCKYw01jhAGnBukpwEXPRkO/qoPuKrG5oi0/dDkUrLS5WOVFQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR01MB2320
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,48 +134,36 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Open Source Submission <patches@amperecomputing.com>,
+ "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
+ Phong Vo <phong@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Signed-off-by: Rashmica Gupta <rashmica.g@gmail.com>
----
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+This series add support for the Aspeed specific SSIF BMC driver which
+is to perform in-band IPMI communication with the host in management
+(BMC) side.
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-index fefb0b8fd6d5..2dc72de07906 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-@@ -173,6 +173,16 @@ i2c2mux3: i2c@3 {
- 		};
- 	};
- 
-+	iio-hwmon-dps310 {
-+		compatible = "iio-hwmon";
-+		io-channels = <&dps 0>;
-+	};
-+
-+	iio-hwmon-si7020 {
-+		compatible = "iio-hwmon";
-+		io-channels = <&si 1>;
-+	};
-+
- 	leds {
- 		compatible = "gpio-leds";
- 
-@@ -1972,9 +1982,10 @@ &i2c7 {
- 	multi-master;
- 	status = "okay";
- 
--	si7021-a20@20 {
-+	si:si7021-a20@20 {
- 		compatible = "silabs,si7020";
- 		reg = <0x20>;
-+		#io-channel-cells = <1>;
- 	};
- 
- 	tmp275@48 {
+Quan Nguyen (3):
+  i2c: i2c-core-smbus: Expose PEC calculate function for generic use
+  drivers: char: ipmi: Add Aspeed SSIF BMC driver
+  bindings: ipmi: Add binding for Aspeed SSIF BMC driver
+
+ .../bindings/ipmi/aspeed-ssif-bmc.txt         |  18 +
+ drivers/char/ipmi/Kconfig                     |  22 +
+ drivers/char/ipmi/Makefile                    |   2 +
+ drivers/char/ipmi/ssif_bmc.c                  | 645 ++++++++++++++++++
+ drivers/char/ipmi/ssif_bmc.h                  |  92 +++
+ drivers/char/ipmi/ssif_bmc_aspeed.c           | 132 ++++
+ drivers/i2c/i2c-core-smbus.c                  |  12 +-
+ include/linux/i2c.h                           |   1 +
+ 8 files changed, 922 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/ipmi/aspeed-ssif-bmc.txt
+ create mode 100644 drivers/char/ipmi/ssif_bmc.c
+ create mode 100644 drivers/char/ipmi/ssif_bmc.h
+ create mode 100644 drivers/char/ipmi/ssif_bmc_aspeed.c
+
 -- 
-2.26.3
+2.28.0
 
