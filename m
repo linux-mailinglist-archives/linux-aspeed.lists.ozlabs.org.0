@@ -2,38 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E94834C3B3
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Mar 2021 08:17:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C7F334CD3E
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Mar 2021 11:43:24 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4F82S63xpMz302L
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Mar 2021 17:17:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4F871Q1rRjz302m
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Mar 2021 20:43:22 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=N+NkL0Bv;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=lst.de
- (client-ip=213.95.11.211; helo=verein.lst.de; envelope-from=hch@lst.de;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::533;
+ helo=mail-pg1-x533.google.com; envelope-from=rashmica.g@gmail.com;
  receiver=<UNKNOWN>)
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=N+NkL0Bv; dkim-atps=neutral
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4F82S42W4fz2yyP;
- Mon, 29 Mar 2021 17:17:39 +1100 (AEDT)
-Received: by verein.lst.de (Postfix, from userid 2407)
- id 80D5868B05; Mon, 29 Mar 2021 08:17:35 +0200 (CEST)
-Date: Mon, 29 Mar 2021 08:17:35 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Tao Ren <rentao.bupt@gmail.com>
-Subject: Re: [PATCH] usb: gadget: aspeed: set port_dev dma mask
-Message-ID: <20210329061735.GA27510@lst.de>
-References: <20210326070214.6719-1-rentao.bupt@gmail.com>
- <10920f34-289c-feac-79b6-71bff2aea67d@arm.com>
- <20210326120526.GA14169@lst.de>
- <20210327221759.GA2997@taoren-ubuntu-R90MNF91>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4F871N19rjz301X
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Mar 2021 20:43:19 +1100 (AEDT)
+Received: by mail-pg1-x533.google.com with SMTP id v10so9037099pgs.12
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Mar 2021 02:43:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GCO+HLMUHqwP+IidTwyt4nWDFD74p2XFYnz20c69ZzM=;
+ b=N+NkL0BvHbk+8P2TYKNJJBjn8k338s2pxeZF2+J5Ud0AXYiYmUd0XADwi0aNi7RLLK
+ e81q/O1crM45iSPKGItcAD2JZZZ+we77sM0nrvcLqdLGCv3rG+lSB5AljFFUFIHq2awu
+ Q9c2RM8DkcdWhwF9cYDPa3KhSracOQgkoF7kCRUOM82F4BqtndtSPyNs4vnt8jFDh8S5
+ nemZKrxDXlpsnJSv7lo+zhIEkXp/xrISrCUPuZoL5tQzwJAm8nkiv286a7U/iBcnpqmL
+ mLldh/Sk2Tnh4UIwPlh7wzGiSt1TrDs7I5obVmVXRP2Y8oOoeMIp/gPSwehz+Io1vGK0
+ gsuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GCO+HLMUHqwP+IidTwyt4nWDFD74p2XFYnz20c69ZzM=;
+ b=VG8FmELBsuCw2qa9b7slAe7Lq45AyBVm2ut2uaRjRuG9BBBbzZpK3ma8Rf1wdggV0N
+ f1LvAiLtVkDsGMVKU1omnHE3qi+6YistVaVCi0Jh11epTGKA2RDqyVzjYjUH18oxmzj6
+ VWIOwa5f3iSpCDEEyRtF3GPRaC1AhM7aeA5tkHhjxULpuCl+BsF7keU8rrdSyW4fhCo9
+ OpI324uDV5BtozusFe+fTyrUNhcOptZlW9nTTHhSnXka5D5aPnOeu404NwtY6435h7bB
+ rFRubatUCbRyuUGpWGgXDwzyGQ7tXrNfS92a5SXmxTTKcPxhzIB02qTFbuDfDpSJ04pB
+ 65fg==
+X-Gm-Message-State: AOAM53341o0iL8gTdj8jmwLy/+cGRplzuBnzUnj9oRQfjUoxpRSeZjer
+ C4vVJJ/DJGy84LychGQnhRL2qga918iB6w==
+X-Google-Smtp-Source: ABdhPJykhOXy1F3yQ7v6t33crenlcHFMadoq2XUxA9qPwLfpW/z3mLy27Ru8ch8eCQwmp8u/MFW3hQ==
+X-Received: by 2002:a63:4462:: with SMTP id t34mr22756427pgk.389.1617010994285; 
+ Mon, 29 Mar 2021 02:43:14 -0700 (PDT)
+Received: from rashmica.home.majoof.com (150.24.220.111.sta.wbroadband.net.au.
+ [111.220.24.150])
+ by smtp.gmail.com with ESMTPSA id q25sm15970980pff.104.2021.03.29.02.43.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Mar 2021 02:43:13 -0700 (PDT)
+From: Rashmica Gupta <rashmica.g@gmail.com>
+To: linux-aspeed@lists.ozlabs.org, joel@jms.id.au, robh+dt@kernel.org,
+ andrew@aj.id.au, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] ARM: dts: rainier: Update to access sensors via iio-hwmon
+Date: Mon, 29 Mar 2021 20:42:55 +1100
+Message-Id: <20210329094255.347713-1-rashmica.g@gmail.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210327221759.GA2997@taoren-ubuntu-R90MNF91>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,37 +80,48 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Felipe Balbi <balbi@kernel.org>,
- linux-usb@vger.kernel.org, kernel test robot <lkp@intel.com>,
- linux-aspeed@lists.ozlabs.org, Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Thomas Tai <thomas.tai@oracle.com>,
- linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
- Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
- linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, Mar 27, 2021 at 03:17:59PM -0700, Tao Ren wrote:
-> On Fri, Mar 26, 2021 at 01:05:26PM +0100, Christoph Hellwig wrote:
-> > On Fri, Mar 26, 2021 at 12:03:03PM +0000, Robin Murphy wrote:
-> > > This might happen to work out, but is far from correct. Just wait until you 
-> > > try it on a platform where the USB controller is behind an IOMMU...
-> > >
-> > > It looks like something is more fundamentally wrong here - the device 
-> > > passed to DMA API calls must be the actual hardware device performing the 
-> > > DMA, which in USB-land I believe means the controller's sysdev.
-> > 
-> > The shiny new usb_intf_get_dma_device API provides the device to use.
-> 
-> Thanks Robin and Christoph for the feedback.
-> 
-> If I understand correctly, usb_intf_get_dma_device API is mainly for usb
-> host drivers? I just found usb_gadget_map_request_by_dev API: does it
-> make sense to replace usb_gadget_map_request with
-> usb_gadget_map_request_by_dev so we can pass the actual DMA-capable
-> hardware device (aspeed-vhub platform device) to the API?
+Signed-off-by: Rashmica Gupta <rashmica.g@gmail.com>
+---
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-Oh, right you're dealing with a gadget side driver.  Not sure about
-the API there, I'll let the relevant maintainers chime in.
+diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+index fefb0b8fd6d5..2dc72de07906 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+@@ -173,6 +173,16 @@ i2c2mux3: i2c@3 {
+ 		};
+ 	};
+ 
++	iio-hwmon-dps310 {
++		compatible = "iio-hwmon";
++		io-channels = <&dps 0>;
++	};
++
++	iio-hwmon-si7020 {
++		compatible = "iio-hwmon";
++		io-channels = <&si 1>;
++	};
++
+ 	leds {
+ 		compatible = "gpio-leds";
+ 
+@@ -1972,9 +1982,10 @@ &i2c7 {
+ 	multi-master;
+ 	status = "okay";
+ 
+-	si7021-a20@20 {
++	si:si7021-a20@20 {
+ 		compatible = "silabs,si7020";
+ 		reg = <0x20>;
++		#io-channel-cells = <1>;
+ 	};
+ 
+ 	tmp275@48 {
+-- 
+2.26.3
+
