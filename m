@@ -1,61 +1,63 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929CF3515C5
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Apr 2021 16:56:30 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B16351716
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Apr 2021 19:09:42 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FB5qJ3rgSz3bp3
-	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Apr 2021 01:56:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FB8n01gB6z2yxr
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Apr 2021 04:09:40 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.210.53; helo=mail-ot1-f53.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
- [209.85.210.53])
+ smtp.mailfrom=gmail.com (client-ip=209.85.167.181;
+ helo=mail-oi1-f181.google.com; envelope-from=robherring2@gmail.com;
+ receiver=<UNKNOWN>)
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
+ [209.85.167.181])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FB5qH1BFnz2ysr;
- Fri,  2 Apr 2021 01:56:26 +1100 (AEDT)
-Received: by mail-ot1-f53.google.com with SMTP id
- h6-20020a0568300346b02901b71a850ab4so2354547ote.6; 
- Thu, 01 Apr 2021 07:56:26 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FB8mz04PKz2yhK;
+ Fri,  2 Apr 2021 04:09:38 +1100 (AEDT)
+Received: by mail-oi1-f181.google.com with SMTP id i81so2463231oif.6;
+ Thu, 01 Apr 2021 10:09:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=b51MdFXC3VyV3rk2wSYcP9E+sT/K1k0PZUFp+W5EgPY=;
- b=rHGOMoUYEgnp3ucaLJVRowVHSMm+bA3AMxLm1qNAsPnvAr/yDWgvsVxFY4N+ks8pNB
- VllEATUxAtAwgwmxdZwBcNgmen01tItHmfHjzSAm/jALu14qDg4WZNHRDRvyqy7djZcL
- 3wdF2pDSHHiXH2N2gb8M3EATO+mpPkh0skI/QZcEKW/9K23aobak2tNFkzLKxdmBX68u
- lq40eP0qAQrDzlfrNfed9JWdEr4qPgDA0AKsuxg/ZfXafFLETmCfOMn3/NwZiZmvDI9A
- IikK7T79UYk6/YOZ+a/1aDJphVnyLoDmdogKhMqaJxEn2bVwvf+TOjGtGOpZbUce6U04
- e+qQ==
-X-Gm-Message-State: AOAM532R1lQBMZUMwNZS+cEuEZuL/bD3h7e5VrI6gZdqjyh2MeZt7qGt
- ycfjVcRnmhNvlivcpn29DQ==
-X-Google-Smtp-Source: ABdhPJzvGwq10FN++hBJ+VBjgxixDeXeYVqnUGGXPtJLMldLSliVun6grNAzy9JrRlq2ysk537TmhA==
-X-Received: by 2002:a05:6830:4d:: with SMTP id
- d13mr7257198otp.295.1617288983889; 
- Thu, 01 Apr 2021 07:56:23 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=+aXNjJuVUumi5TRfsImw8Zt0yNPvfmonu1KMDych7KE=;
+ b=I2yvJiVFXY0NyBjkWaUVJzCt2z6OfCJRT6AleAcgYU2HkQF4JUbKjbI1uM4OyI7+Ee
+ 6HLw+aUcgnGYLYe8i064T4VMcptsuUCWBB0M2HeVTL2wbRz6szqBpPlrZF1TidqduYg2
+ RUZMqhyeG3pKcQwKYS2fNtfqPU/dbjXcaWIEt0B11kzSfJsiMccMUZfy3e3tFv6LjwUC
+ Jz+C5Scs5EaaOqtd0AgKt50jXAVX9rX3nVx9QdqY+rVII5HvpZd3m9Cwny29y5uHydHJ
+ E+5IeeRed6Z48P7AWirifHIf7g31HUg46zcQGZrOY8fhPkbScqJFLQd+RL6EdHdMDJYf
+ SlLA==
+X-Gm-Message-State: AOAM532oxfhCw+wuk/ufQHFXIDsHe2JwY4SkhtxQjL9Mo8rJTJtuapem
+ AQowp15ubrXaWOxnR7wJ1g==
+X-Google-Smtp-Source: ABdhPJx8VdMpHnlAiOBeHsNkwA82OIfkMjQjd799V7gJHykNelnxJL3Z4wK3Gyo/lsR35Rm1qdYsig==
+X-Received: by 2002:a05:6808:146:: with SMTP id
+ h6mr6901775oie.118.1617296975408; 
+ Thu, 01 Apr 2021 10:09:35 -0700 (PDT)
 Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id t22sm1229535otl.49.2021.04.01.07.56.22
+ by smtp.gmail.com with ESMTPSA id g21sm1219961ooa.15.2021.04.01.10.09.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Apr 2021 07:56:23 -0700 (PDT)
-Received: (nullmailer pid 409159 invoked by uid 1000);
- Thu, 01 Apr 2021 14:56:21 -0000
+ Thu, 01 Apr 2021 10:09:34 -0700 (PDT)
+Received: (nullmailer pid 623796 invoked by uid 1000);
+ Thu, 01 Apr 2021 17:09:33 -0000
+Date: Thu, 1 Apr 2021 12:09:33 -0500
 From: Rob Herring <robh@kernel.org>
-To: Zev Weiss <zev@bewilderbeest.net>
-In-Reply-To: <20210401005702.28271-4-zev@bewilderbeest.net>
-References: <YGOuhjD19SmjmQou@hatter.bewilderbeest.net>
- <20210401005702.28271-1-zev@bewilderbeest.net>
- <20210401005702.28271-4-zev@bewilderbeest.net>
-Subject: Re: [PATCH v2 3/3] dt-bindings: serial: 8250: add aspeed,
- sirq-active-high
-Date: Thu, 01 Apr 2021 09:56:21 -0500
-Message-Id: <1617288981.559685.409158.nullmailer@robh.at.kernel.org>
+To: Quan Nguyen <quan@os.amperecomputing.com>
+Subject: Re: [PATCH v2 3/3] bindings: ipmi: Add binding for Aspeed SSIF BMC
+ driver
+Message-ID: <20210401170933.GA622142@robh.at.kernel.org>
+References: <20210330141029.20412-1-quan@os.amperecomputing.com>
+ <20210330141029.20412-4-quan@os.amperecomputing.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210330141029.20412-4-quan@os.amperecomputing.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,44 +69,25 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: - <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>,
- Rob Herring <robh+dt@kernel.org>, linux-serial@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Corey Minyard <minyard@acm.org>, openbmc@lists.ozlabs.org,
+ "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
+ linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>,
+ Wolfram Sang <wsa@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ openipmi-developer@lists.sourceforge.net,
+ Open Source Submission <patches@amperecomputing.com>,
+ linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 31 Mar 2021 19:57:02 -0500, Zev Weiss wrote:
-> This provides a simpler, more direct alternative to the deprecated
-> aspeed,sirq-polarity-sense property for indicating the polarity of
-> the Aspeed VUART's SIRQ line.
+On Tue, Mar 30, 2021 at 09:10:29PM +0700, Quan Nguyen wrote:
+> Add device tree binding document for the Aspeed SSIF BMC driver.
 > 
-> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
 > ---
->  Documentation/devicetree/bindings/serial/8250.yaml | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
-> 
+>  .../bindings/ipmi/aspeed-ssif-bmc.txt          | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/ipmi/aspeed-ssif-bmc.txt
 
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/serial/8250.yaml:16:30: [warning] too few spaces after comma (commas)
-./Documentation/devicetree/bindings/serial/8250.yaml:17:30: [warning] too few spaces after comma (commas)
-
-dtschema/dtc warnings/errors:
-
-See https://patchwork.ozlabs.org/patch/1460791
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+Same comment as you ignored on v1.
