@@ -2,60 +2,60 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E35351029
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Apr 2021 09:36:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 929CF3515C5
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Apr 2021 16:56:30 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4F9w3S3tpfz309l
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Apr 2021 18:36:20 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=C6N3FcwA;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FB5qJ3rgSz3bp3
+	for <lists+linux-aspeed@lfdr.de>; Fri,  2 Apr 2021 01:56:28 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=bewilderbeest.net (client-ip=71.19.156.171;
- helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net
- header.a=rsa-sha256 header.s=thorn header.b=C6N3FcwA; 
- dkim-atps=neutral
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net
- [71.19.156.171])
+ smtp.mailfrom=gmail.com (client-ip=209.85.210.53; helo=mail-ot1-f53.google.com;
+ envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
+ [209.85.210.53])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4F9w3P1h6wz301G;
- Thu,  1 Apr 2021 18:36:16 +1100 (AEDT)
-Received: from hatter.bewilderbeest.net (unknown [IPv6:2600:6c44:7f:ba20::7c6])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: zev)
- by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 52C8C8C;
- Thu,  1 Apr 2021 00:36:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
- s=thorn; t=1617262574;
- bh=B3O9cEE/x7yQOH3OCzBfuz/r90ljyAx9qgSdSAUBQeg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=C6N3FcwA7Id76ASk9cp4pGQ/ND/WQGbdAlIE2LuJdb68naJSLZ7qYJ/XbnoQstgtt
- xTa2QgbpBg4DvpayDCbLB54CIq3bTjSQQ6zcFkFUKeSHHTO+CIwNuFQdsKvqj/BUK7
- yr22HupdBi6ZVCWCAO6kxXZftOwKlcz0EeoIf9NM=
-Date: Thu, 1 Apr 2021 02:36:11 -0500
-From: Zev Weiss <zev@bewilderbeest.net>
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH v2 2/3] drivers/tty/serial/8250: add DT property for
- aspeed vuart sirq polarity
-Message-ID: <YGV368K00FHSj5aY@hatter.bewilderbeest.net>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FB5qH1BFnz2ysr;
+ Fri,  2 Apr 2021 01:56:26 +1100 (AEDT)
+Received: by mail-ot1-f53.google.com with SMTP id
+ h6-20020a0568300346b02901b71a850ab4so2354547ote.6; 
+ Thu, 01 Apr 2021 07:56:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=b51MdFXC3VyV3rk2wSYcP9E+sT/K1k0PZUFp+W5EgPY=;
+ b=rHGOMoUYEgnp3ucaLJVRowVHSMm+bA3AMxLm1qNAsPnvAr/yDWgvsVxFY4N+ks8pNB
+ VllEATUxAtAwgwmxdZwBcNgmen01tItHmfHjzSAm/jALu14qDg4WZNHRDRvyqy7djZcL
+ 3wdF2pDSHHiXH2N2gb8M3EATO+mpPkh0skI/QZcEKW/9K23aobak2tNFkzLKxdmBX68u
+ lq40eP0qAQrDzlfrNfed9JWdEr4qPgDA0AKsuxg/ZfXafFLETmCfOMn3/NwZiZmvDI9A
+ IikK7T79UYk6/YOZ+a/1aDJphVnyLoDmdogKhMqaJxEn2bVwvf+TOjGtGOpZbUce6U04
+ e+qQ==
+X-Gm-Message-State: AOAM532R1lQBMZUMwNZS+cEuEZuL/bD3h7e5VrI6gZdqjyh2MeZt7qGt
+ ycfjVcRnmhNvlivcpn29DQ==
+X-Google-Smtp-Source: ABdhPJzvGwq10FN++hBJ+VBjgxixDeXeYVqnUGGXPtJLMldLSliVun6grNAzy9JrRlq2ysk537TmhA==
+X-Received: by 2002:a05:6830:4d:: with SMTP id
+ d13mr7257198otp.295.1617288983889; 
+ Thu, 01 Apr 2021 07:56:23 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id t22sm1229535otl.49.2021.04.01.07.56.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Apr 2021 07:56:23 -0700 (PDT)
+Received: (nullmailer pid 409159 invoked by uid 1000);
+ Thu, 01 Apr 2021 14:56:21 -0000
+From: Rob Herring <robh@kernel.org>
+To: Zev Weiss <zev@bewilderbeest.net>
+In-Reply-To: <20210401005702.28271-4-zev@bewilderbeest.net>
 References: <YGOuhjD19SmjmQou@hatter.bewilderbeest.net>
  <20210401005702.28271-1-zev@bewilderbeest.net>
- <20210401005702.28271-3-zev@bewilderbeest.net>
- <CACPK8XdPVf1WMmo8C8RJtd-1cH5qV9odEDhDUHWRiMOk=dQNtg@mail.gmail.com>
- <YGVXuyqOyxc8kcQz@hatter.bewilderbeest.net>
- <06aee58f-819b-4486-a5ea-22e6d45e2be5@beta.fastmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <06aee58f-819b-4486-a5ea-22e6d45e2be5@beta.fastmail.com>
+ <20210401005702.28271-4-zev@bewilderbeest.net>
+Subject: Re: [PATCH v2 3/3] dt-bindings: serial: 8250: add aspeed,
+ sirq-active-high
+Date: Thu, 01 Apr 2021 09:56:21 -0500
+Message-Id: <1617288981.559685.409158.nullmailer@robh.at.kernel.org>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,74 +67,44 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-serial@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, Jeremy Kerr <jk@ozlabs.org>
+Cc: - <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>,
+ Rob Herring <robh+dt@kernel.org>, linux-serial@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Apr 01, 2021 at 12:34:04AM CDT, Andrew Jeffery wrote:
->
->
->On Thu, 1 Apr 2021, at 15:48, Zev Weiss wrote:
->> On Wed, Mar 31, 2021 at 11:15:44PM CDT, Joel Stanley wrote:
->> >On Thu, 1 Apr 2021 at 00:57, Zev Weiss <zev@bewilderbeest.net> wrote:
->> >>
->> >> This provides a simple boolean to use instead of the deprecated
->> >> aspeed,sirq-polarity-sense property.
->> >>
->> >> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
->> >> ---
->> >>  drivers/tty/serial/8250/8250_aspeed_vuart.c | 3 +++
->> >>  1 file changed, 3 insertions(+)
->> >>
->> >> diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
->> >> index c33e02cbde93..e5ef9f957f9a 100644
->> >> --- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
->> >> +++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
->> >> @@ -482,6 +482,9 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
->> >>                 of_node_put(sirq_polarity_sense_args.np);
->> >>         }
->> >>
->> >> +       if (of_property_read_bool(np, "aspeed,sirq-active-high"))
->> >> +               aspeed_vuart_set_sirq_polarity(vuart, 1);
->> >
->> >This assumes the default is always low, so we don't need a property to
->> >set it to that state?
->> >
->> >Would it make more sense to have the property describe if it's high or
->> >low? (I'm happy for the answer to be "no", as we've gotten by for the
->> >past few years without it).
->> >
->>
->> Yeah, that sounds like better way to approach it -- I think I'll
->> rearrange as Andrew suggested in
->> https://lore.kernel.org/openbmc/d66753ee-7db2-41e5-9fe5-762b1ab678bc@www.fastmail.com/
->>
->> >This brings up another point. We already have the sysfs file for
->> >setting the lpc address, from userspace. In OpenBMC land this can be
->> >set with obmc-console-client (/etc/obmc-console.conf). Should we add
->> >support to that application for setting the irq polarity too, and do
->> >away with device tree descriptions?
->> >
->>
->> I guess I might lean slightly toward keeping the DT description so that
->> if for whatever reason obmc-console-server flakes out and doesn't start
->> you're better positioned to try banging on /dev/ttyS* manually if you're
->> desperate.  Though I suppose that in turn might imply that I'm arguing
->> for adding DT properties for lpc_address and sirq too,
->
->Why not just adopt exactly what I've done with KCS, where we have aspeed,lpc-io-reg and aspeed,lpc-interrupts?
->
->Andrew
+On Wed, 31 Mar 2021 19:57:02 -0500, Zev Weiss wrote:
+> This provides a simpler, more direct alternative to the deprecated
+> aspeed,sirq-polarity-sense property for indicating the polarity of
+> the Aspeed VUART's SIRQ line.
+> 
+> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+> ---
+>  Documentation/devicetree/bindings/serial/8250.yaml | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+> 
 
-Ah -- yes, that does sound like a sensible approach.  I'll send a v3 
-with that worked in.
+My bot found errors running 'make dt_binding_check' on your patch:
 
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/serial/8250.yaml:16:30: [warning] too few spaces after comma (commas)
+./Documentation/devicetree/bindings/serial/8250.yaml:17:30: [warning] too few spaces after comma (commas)
 
-Zev
+dtschema/dtc warnings/errors:
+
+See https://patchwork.ozlabs.org/patch/1460791
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
