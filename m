@@ -1,63 +1,55 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4833B358929
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 18:00:45 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AC93358BB4
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 19:50:51 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FGQwB5XKXz3brd
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 02:00:42 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FGTMF46bVz3bSl
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 03:50:49 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.210.51; helo=mail-ot1-f51.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
- [209.85.210.51])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=linux.intel.com
+ (client-ip=192.55.52.93; helo=mga11.intel.com;
+ envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FGQvq3z9Nz2yRh;
- Fri,  9 Apr 2021 02:00:23 +1000 (AEST)
-Received: by mail-ot1-f51.google.com with SMTP id
- s16-20020a0568301490b02901b83efc84a0so2735820otq.10; 
- Thu, 08 Apr 2021 09:00:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=FJhdNB/Jqtva0JYrfZMbI9rYQop/sljVACwChgRC7N4=;
- b=eFTRbyFgE2OT8aKqbsuIZCeKOFztc9UygGzDUZwIldPv9l4roFf1eEri0Qs6gn7G4q
- nuMDZHd0gD4vcIvHrzDYRipQqJDKJsX2Wi0N+BMpSagQE7rOTqfTVaUJwkh4/mzDT6P6
- t1x+3uQp5cUIfURRX1kprTlV8c1fTfdDKNcrUIC3ddikJLLMucZyEeOkJ9uPAt/ofrBr
- F0Exm5r4LbSYzvLjmwbecIO9a92hYNBGl7lWkzCdZ2OMtyfJhJJf42n26vFszzXS4vkY
- bgqgIREG5cZVxTNFA54dg0Y2pQebKFwV5GB5zAekgy+Ip4LX6G7tfhLRmA6dHspfyf47
- ak0Q==
-X-Gm-Message-State: AOAM531xmm/+ytLjxhLaEt5XhV7Oz0PwqdVwiwTDhjQ5DSzx8qQ3NVkc
- rYPYYy4ZmRySpFZ69bIcyQ==
-X-Google-Smtp-Source: ABdhPJwH+MmUiUnKTRh6M/yGWE1b/8MeTFU59jPjnPJKA+PSvg23MxAoNNbcFS5814FWsFsyc7N02g==
-X-Received: by 2002:a05:6830:8f:: with SMTP id
- a15mr8209266oto.299.1617897621071; 
- Thu, 08 Apr 2021 09:00:21 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id a6sm6251796otb.41.2021.04.08.09.00.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Apr 2021 09:00:20 -0700 (PDT)
-Received: (nullmailer pid 1555457 invoked by uid 1000);
- Thu, 08 Apr 2021 16:00:19 -0000
-Date: Thu, 8 Apr 2021 11:00:19 -0500
-From: Rob Herring <robh@kernel.org>
-To: Zev Weiss <zev@bewilderbeest.net>
-Subject: Re: [PATCH v5 4/4] dt-bindings: serial: 8250: add aspeed, lpc-io-reg
- and aspeed, lpc-interrupts
-Message-ID: <20210408160019.GA1555403@robh.at.kernel.org>
-References: <20210408011637.5361-1-zev@bewilderbeest.net>
- <20210408011637.5361-5-zev@bewilderbeest.net>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FGTMB66lnz2y0N;
+ Fri,  9 Apr 2021 03:50:45 +1000 (AEST)
+IronPort-SDR: 7UQFCggrLBFlRq2e54AxLxR5nvUkcviVWeH2WapJph7YUwjHi7UNSaciifv18RGMejZhe37uf0
+ qE3tAlWYftBw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9948"; a="190398902"
+X-IronPort-AV: E=Sophos;i="5.82,207,1613462400"; d="scan'208";a="190398902"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2021 10:50:42 -0700
+IronPort-SDR: p3wh+dLx0XeI3dTL4S60AIwO/HXvhpohRVDWptGhIxxc+i8Sq6es+WRDGpb/HfdaG4cxlzj3zl
+ OHfGZJhhjuhg==
+X-IronPort-AV: E=Sophos;i="5.82,207,1613462400"; d="scan'208";a="530687284"
+Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.251.26.54])
+ ([10.251.26.54])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2021 10:50:41 -0700
+Subject: Re: [PATCH v4 1/4] dt-bindings: i2c: aspeed: add transfer mode support
+From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+To: Rob Herring <robh@kernel.org>
+References: <20210224191720.7724-1-jae.hyun.yoo@linux.intel.com>
+ <20210224191720.7724-2-jae.hyun.yoo@linux.intel.com>
+ <20210306203011.GA1152769@robh.at.kernel.org>
+ <f6732348-d6c8-f49b-6123-afe542bb1f8c@linux.intel.com>
+ <CAL_Jsq+H2wCyTKhGcQvgiuyMtGW0hytQgw=948q0JGLSLOo9KA@mail.gmail.com>
+ <f1811747-3826-215a-d822-85170303a7c9@linux.intel.com>
+Message-ID: <fadf1244-ed6e-5973-ff1b-018bd20ff3b1@linux.intel.com>
+Date: Thu, 8 Apr 2021 10:50:41 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210408011637.5361-5-zev@bewilderbeest.net>
+In-Reply-To: <f1811747-3826-215a-d822-85170303a7c9@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,24 +61,98 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: - <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>,
- Rob Herring <robh+dt@kernel.org>, linux-serial@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, Wolfram Sang <wsa@the-dreams.de>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Linux I2C <linux-i2c@vger.kernel.org>, Cedric Le Goater <clg@kaod.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 07 Apr 2021 20:16:37 -0500, Zev Weiss wrote:
-> These correspond to the existing lpc_address, sirq, and sirq_polarity
-> sysfs attributes; the second element of aspeed,lpc-interrupts provides
-> a replacement for the deprecated aspeed,sirq-polarity-sense property.
-> 
-> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
-> ---
->  .../devicetree/bindings/serial/8250.yaml      | 27 ++++++++++++++++---
->  1 file changed, 24 insertions(+), 3 deletions(-)
-> 
+Ping.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On 3/10/2021 7:55 AM, Jae Hyun Yoo wrote:
+> On 3/9/2021 6:15 PM, Rob Herring wrote:
+>> On Tue, Mar 9, 2021 at 10:02 AM Jae Hyun Yoo
+>> <jae.hyun.yoo@linux.intel.com> wrote:
+>>>
+>>> Hi Rob,
+>>>
+>>> On 3/6/2021 12:30 PM, Rob Herring wrote:
+>>>> On Wed, Feb 24, 2021 at 11:17:17AM -0800, Jae Hyun Yoo wrote:
+>>>>> Append bindings to support transfer mode.
+>>>>>
+>>>>> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>>>>> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+>>>>> ---
+>>>>> Changes since v3:
+>>>>> - None
+>>>>>
+>>>>> Changes since v2:
+>>>>> - Moved SRAM resources back to default dtsi and added mode selection
+>>>>>     property.
+>>>>>
+>>>>> Changes since v1:
+>>>>> - Removed buffer reg settings from default device tree and added 
+>>>>> the settings
+>>>>>     into here to show the predefined buffer range per each bus.
+>>>>>
+>>>>>    .../devicetree/bindings/i2c/i2c-aspeed.txt    | 37 
+>>>>> +++++++++++++++----
+>>>>>    1 file changed, 30 insertions(+), 7 deletions(-)
+>>>>>
+>>>>> diff --git a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt 
+>>>>> b/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
+>>>>> index b47f6ccb196a..242343177324 100644
+>>>>> --- a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
+>>>>> +++ b/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
+>>>>> @@ -17,6 +17,20 @@ Optional Properties:
+>>>>>    - bus-frequency    : frequency of the bus clock in Hz defaults 
+>>>>> to 100 kHz when not
+>>>>>                 specified
+>>>>>    - multi-master     : states that there is another master active 
+>>>>> on this bus.
+>>>>> +- aspeed,i2c-xfer-mode      : should be "byte", "buf" or "dma" to 
+>>>>> select transfer
+>>>>> +                      mode defaults to "byte" mode when not 
+>>>>> specified.
+>>>>> +
+>>>>> +                      I2C DMA mode on AST2500 has these restrictions:
+>>>>> +                        - If one of these controllers is enabled
+>>>>> +                            * UHCI host controller
+>>>>> +                            * MCTP controller
+>>>>> +                          I2C has to use buffer mode or byte mode 
+>>>>> instead
+>>>>> +                          since these controllers run only in DMA 
+>>>>> mode and
+>>>>> +                          I2C is sharing the same DMA H/W with them.
+>>>>> +                        - If one of these controllers uses DMA 
+>>>>> mode, I2C
+>>>>> +                          can't use DMA mode
+>>>>> +                            * SD/eMMC
+>>>>> +                            * Port80 snoop
+>>>>
+>>>> How does one decide between byte or buf mode?
+>>>
+>>> If a given system makes just one byte r/w transactions most of the time
+>>> then byte mode will be a right setting. Otherwise, buf mode is more
+>>> efficient because it doesn't generate a bunch of interrupts on every
+>>> byte handling.
+>>
+>> Then why doesn't the driver do byte transactions when it gets small
+>> 1-4? byte transactions and buffer transactions when it gets larger
+>> sized transactions.
+> 
+> Good question and it could be an option of this implementation.
+> Actually, each mode needs different register handling so we need to add
+> additional conditional branches to make it dynamic mode change depends
+> on the data size which can be a downside. Also, checked that small
+> amount of data transfer efficiency in 'buf' transfer mode is almost same
+> to 'byte' mode so there would be no big benefit from the dynamic mode
+> change. Of course, we can remove the 'byte' transfer mode but we should
+> also provide flexibility of configuration on what this hardware can
+> support, IMO.
+> 
+> Thanks,
+> Jae
