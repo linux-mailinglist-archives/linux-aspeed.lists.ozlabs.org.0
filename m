@@ -2,78 +2,89 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 104C93577C5
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 00:34:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F999357915
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 02:34:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FFzhj70M8z30B5
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 08:34:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FG2Mb1NlNz30CH
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 10:34:35 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=QqEQVjUA;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=MM9XsgZA;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=YNL4vDQr;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::12a;
- helo=mail-il1-x12a.google.com; envelope-from=bjwyman@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.25;
+ helo=out1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=QqEQVjUA; dkim-atps=neutral
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com
- [IPv6:2607:f8b0:4864:20::12a])
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm2 header.b=MM9XsgZA; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=YNL4vDQr; 
+ dkim-atps=neutral
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FFzhf6J8Zz2yxm
- for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Apr 2021 08:34:09 +1000 (AEST)
-Received: by mail-il1-x12a.google.com with SMTP id 6so98616ilt.9
- for <linux-aspeed@lists.ozlabs.org>; Wed, 07 Apr 2021 15:34:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=l5x8E8IpB6sBOTSYy7T7VMMyQFpGPv4ck3hMiF4swhc=;
- b=QqEQVjUA/Fiwi89/NL2AyGwFBPVPPOLUkceVpGjJ0Ln3tFYM+3GiuxBFgLLvBk1W8U
- niGhuXKl08MiHlRAD7tVRDD4zFwFQd+R7wy50p7JUTJ929C5wgFa4ORPjSwccS2EGKAr
- 3twyQpu9pRTcsvBSnZx0ZSpnwwJZZ94THz+2DpTayXtLaImpFEgyog+CPpnqgmQIm2av
- gOg7wqNaUg3xaFy6ZHd5WPRbJfneX8F5Amr3x9Uo+nlIJ8XBdpw9t/FQ6WTulCH4IS/r
- 2DekhNK1qzVtUHkoVJ+9TISFYHW6lBaDcHnYP0lTdDo8HyyR1WEJVFeR1Ua1VmzmW5PC
- 6nww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=l5x8E8IpB6sBOTSYy7T7VMMyQFpGPv4ck3hMiF4swhc=;
- b=ZDhN+Xa7imQWtPkSMPXbNSqntScykouixqHgtPyf+3xkoxlfWUwEdezU/I4VXIEgqb
- jl986xsTSccU6r6C5ZcujQjj4uGVPYnrzOvNizckAqSuo5hzN532f7Ax9rOKxqwd4tvs
- LqpPaUU6qduQfqjZV8EEdHIEHWiMzqdnncbeYYfYbVV1cOofJEO4kzaX9TOcmmw+ZoCK
- QjmFLV5KcphVb7QfDEdZwWgRJJgE3d0ODD3WAbxjqraZYUu8yWcQdkptPG9HMsh1Y4pD
- LgRtU7UjqDaccfkwbcWy6fJZgCAZvPpdcpU6KDFl3oJcmhf9Os3svqC1NXpCQUw2B+WV
- d++w==
-X-Gm-Message-State: AOAM530U/9zLauTdgnSifYyyPxCrtydyxz6cVu/UhFQMrt79m754bSqB
- ynbTUQWTUPlXixe1cd7ZLrbsj6v9/Vb4AA==
-X-Google-Smtp-Source: ABdhPJzPKZEiVctM8VC3mirjU8CPONK+xKH95eGyh2ea+GSaZsjmVzycO3rChD2Gz0V0s/X7TY02Gg==
-X-Received: by 2002:a92:c844:: with SMTP id b4mr4457253ilq.36.1617834846367;
- Wed, 07 Apr 2021 15:34:06 -0700 (PDT)
-Received: from [192.168.4.31] (199-48-94-65.rochmnaa.metronetinc.net.
- [199.48.94.65])
- by smtp.gmail.com with ESMTPSA id e7sm2002295ilm.60.2021.04.07.15.34.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Apr 2021 15:34:05 -0700 (PDT)
-Subject: Re: [PATCH 15/22] ARM: dts: Aspeed: Everest: Add pca9552 fan presence
-To: Eddie James <eajames@linux.ibm.com>, joel@jms.id.au
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FG2MV0S5Dz2yx6
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Apr 2021 10:34:29 +1000 (AEST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 68AEB5C011D;
+ Wed,  7 Apr 2021 20:34:25 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Wed, 07 Apr 2021 20:34:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=A6y1xhjxB+rYO016EU+ElgKOQtyeyVG
+ GpE9ZLWZByAU=; b=MM9XsgZA06Lv6b7FcLpi25PtwPNOLTLOEGZS/xqAzU8CCQ8
+ xIVmlYvD4HgVEsdvIgO/tS3HeGPxlrHI9tQLhUnbEFoSVNJSYd1nPAFDcHpGe5V8
+ t+pYm4DKrBnO4wNb4KDeq+MqUXpsB/vHGXqAB2KbR4QBATUUbs87tDrZR/7zjsW6
+ kAwYaViXr8RZll8x6Y5MJqI4I5u8FyE9QwaaBOS2tvt2skdmECRz0CdSB+4CzUW5
+ nyDUnsX/bNXsThWus3TU0E5Xq50lV0dsUphhjyEViNsk4g4NjMUuyq0FXWMoG9mz
+ y9iBIxyJBdD4G2E9ZoBgJWcSgLHSNDdWMXI2/sw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=A6y1xh
+ jxB+rYO016EU+ElgKOQtyeyVGGpE9ZLWZByAU=; b=YNL4vDQroo3M0wjmEHQfnf
+ PO4yvEKjC1+dfFH8BOoIr9EwPf4GavKIkhPU6qYllfSnl80PkoAp8hu8A2PcqFlF
+ tayxhpl0sEi07gqurjNd2U+4VhuyKFVMEb9WX6u1Fd5JBPX47YlWT8br7jTAH/td
+ kI4Nn/IosWYi2nrFTpyr2WuaYisfXlwQyKS4qDQUYV4MQSN1p1VWxi0b3+UqpK94
+ BI5tD/Y/gF3X9xG9ni3jYz0OtiP1iJ1rdGQXf2kQyrJMYE0DYakyZOkHwU6mJU6k
+ XiQLKfGhX6wKMdE89N54SjwK9Qb8SneLWd7B5Oh+aZi+Ev+0yERTnU7oSFg2c2og
+ ==
+X-ME-Sender: <xms:kE9uYMp8BEY32VLg7Qz0qAT7IJ82-tBtQvVNDnBZa7dUxh5nPVP9zw>
+ <xme:kE9uYCq6NFa6zTxFIBr0o0dtHT6eo_jDkCV4udIWxcQv9-l4bkSVCYu5zvUDyi2X6
+ p80rPa1qyMb3HE8JA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejkedgfeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+ grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
+ hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ eprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:kE9uYBNYzRU148cbJGs9Ll1TWfwG33zNYh2sWPaVFP1aIQpeBIp7JA>
+ <xmx:kE9uYD7-9rXNHDFLZgxPmG3cNukQuoYZeD0BgRFaPcP1cq1jW3m8Jw>
+ <xmx:kE9uYL64AcSmbQ9hqIx9a2GHimAjuTR3oMv5x8KwjCWKe6KXEuUfAw>
+ <xmx:kU9uYNlN7jauyB3FeKCcj1mEbVUbFCjuJFGMZjIMInEza1jd7Bu-JA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 0D824A0007A; Wed,  7 Apr 2021 20:34:24 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-273-g8500d2492d-fm-20210323.002-g8500d249
+Mime-Version: 1.0
+Message-Id: <dbe4fa5f-370a-41fd-a1ab-7b065b5cb8d1@www.fastmail.com>
+In-Reply-To: <20210329150020.13632-21-eajames@linux.ibm.com>
 References: <20210329150020.13632-1-eajames@linux.ibm.com>
- <20210329150020.13632-16-eajames@linux.ibm.com>
-From: Brandon Wyman <bjwyman@gmail.com>
-Message-ID: <a6ca4ac6-6f6d-b6d5-f3c9-ed304aac3eb0@gmail.com>
-Date: Wed, 7 Apr 2021 17:34:05 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
-MIME-Version: 1.0
-In-Reply-To: <20210329150020.13632-16-eajames@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+ <20210329150020.13632-21-eajames@linux.ibm.com>
+Date: Thu, 08 Apr 2021 10:04:03 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Eddie James" <eajames@linux.ibm.com>, "Joel Stanley" <joel@jms.id.au>
+Subject: Re: [PATCH 20/22] ARM: dts: aspeed: everest: Enable fan watchdog
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,172 +96,21 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, robh+dt@kernel.org,
- Matthew Barth <msbarth@us.ibm.com>, linux-aspeed@lists.ozlabs.org
+Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-aspeed@lists.ozlabs.org, Matthew Barth <msbarth@linux.ibm.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
-On 2021-03-29 10:00, Eddie James wrote:
-> From: Matthew Barth <msbarth@us.ibm.com>
->
-> Add the pca9552 at address 0x61 on i2c14 behind mux0 channel 3 with the
-> 4 GPIO fan presence inputs.
->
-> Signed-off-by: Matthew Barth <msbarth@us.ibm.com>
+
+On Tue, 30 Mar 2021, at 01:30, Eddie James wrote:
+> Set watchdog 1 to pulse the fan watchdog circuit that drives the FAULT
+> pin of the MAX31785, resulting in fans running at full speed, if at
+> any point the BMC stops pulsing it, such as a BMC reboot at runtime.
+> Enable watchdog 2 for BMC reboots.
+> 
+> Signed-off-by: Matthew Barth <msbarth@linux.ibm.com>
 > Signed-off-by: Eddie James <eajames@linux.ibm.com>
 
-Reviewed-by: Brandon Wyman <bjwyman@gmail.com>
-
-
-> ---
->   arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts | 128 +++++++++++++++++++
->   1 file changed, 128 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-> index de2606b416e6..d7f23b74dd4b 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-> @@ -171,6 +171,37 @@ vga_memory: region@bf000000 {
->   			reg = <0xbf000000 0x01000000>; /* 16M */
->   		};
->   	};
-> +
-> +	gpio-keys-polled {
-> +		compatible = "gpio-keys-polled";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		poll-interval = <1000>;
-> +
-> +		fan0-presence {
-> +			label = "fan0-presence";
-> +			gpios = <&pca0 15 GPIO_ACTIVE_LOW>;
-> +			linux,code = <15>;
-> +		};
-> +
-> +		fan1-presence {
-> +			label = "fan1-presence";
-> +			gpios = <&pca0 14 GPIO_ACTIVE_LOW>;
-> +			linux,code = <14>;
-> +		};
-> +
-> +		fan2-presence {
-> +			label = "fan2-presence";
-> +			gpios = <&pca0 13 GPIO_ACTIVE_LOW>;
-> +			linux,code = <13>;
-> +		};
-> +
-> +		fan3-presence {
-> +			label = "fan3-presence";
-> +			gpios = <&pca0 12 GPIO_ACTIVE_LOW>;
-> +			linux,code = <12>;
-> +		};
-> +	};
->   };
->   
->   &i2c0 {
-> @@ -567,6 +598,103 @@ fan@3 {
->   					maxim,fan-fault-pin-mon;
->   				};
->   			};
-> +
-> +			pca0: pca9552@61 {
-> +				compatible = "nxp,pca9552";
-> +				reg = <0x61>;
-> +
-> +				gpio-controller;
-> +				#gpio-cells = <2>;
-> +
-> +				gpio-line-names =
-> +					"","","","",
-> +					"","","","",
-> +					"","","","",
-> +					"presence-fan3",
-> +					"presence-fan2",
-> +					"presence-fan1",
-> +					"presence-fan0";
-> +
-> +				gpio@0 {
-> +					reg = <0>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +
-> +				gpio@1 {
-> +					reg = <1>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +
-> +				gpio@2 {
-> +					reg = <2>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +
-> +				gpio@3 {
-> +					reg = <3>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +
-> +				gpio@4 {
-> +					reg = <4>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +
-> +				gpio@5 {
-> +					reg = <5>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +
-> +				gpio@6 {
-> +					reg = <6>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +
-> +				gpio@7 {
-> +					reg = <7>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +
-> +				gpio@8 {
-> +					reg = <8>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +
-> +				gpio@9 {
-> +					reg = <9>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +
-> +				gpio@10 {
-> +					reg = <10>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +
-> +				gpio@11 {
-> +					reg = <11>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +
-> +				gpio@12 {
-> +					reg = <12>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +
-> +				gpio@13 {
-> +					reg = <13>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +
-> +				gpio@14 {
-> +					reg = <14>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +
-> +				gpio@15 {
-> +					reg = <15>;
-> +					type = <PCA955X_TYPE_GPIO>;
-> +				};
-> +			};
->   		};
->   	};
->   
+Acked-by: Andrew Jeffery <andrew@aj.id.au>
