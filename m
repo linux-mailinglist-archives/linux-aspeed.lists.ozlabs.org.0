@@ -1,89 +1,88 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F999357915
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 02:34:37 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43824357938
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 02:58:18 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FG2Mb1NlNz30CH
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 10:34:35 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FG2tv5gSxz309c
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 10:58:15 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=MM9XsgZA;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=YNL4vDQr;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=pAHIJEIc;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=jE7y9Zhe;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.25;
- helo=out1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.221;
+ helo=new1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=MM9XsgZA; 
+ header.s=fm2 header.b=pAHIJEIc; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=YNL4vDQr; 
+ header.a=rsa-sha256 header.s=fm2 header.b=jE7y9Zhe; 
  dkim-atps=neutral
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FG2MV0S5Dz2yx6
- for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Apr 2021 10:34:29 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FG2ts16t6z2yxP;
+ Thu,  8 Apr 2021 10:58:12 +1000 (AEST)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 68AEB5C011D;
- Wed,  7 Apr 2021 20:34:25 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id E52E8580811;
+ Wed,  7 Apr 2021 20:58:09 -0400 (EDT)
 Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Wed, 07 Apr 2021 20:34:25 -0400
+ by compute3.internal (MEProxy); Wed, 07 Apr 2021 20:58:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=A6y1xhjxB+rYO016EU+ElgKOQtyeyVG
- GpE9ZLWZByAU=; b=MM9XsgZA06Lv6b7FcLpi25PtwPNOLTLOEGZS/xqAzU8CCQ8
- xIVmlYvD4HgVEsdvIgO/tS3HeGPxlrHI9tQLhUnbEFoSVNJSYd1nPAFDcHpGe5V8
- t+pYm4DKrBnO4wNb4KDeq+MqUXpsB/vHGXqAB2KbR4QBATUUbs87tDrZR/7zjsW6
- kAwYaViXr8RZll8x6Y5MJqI4I5u8FyE9QwaaBOS2tvt2skdmECRz0CdSB+4CzUW5
- nyDUnsX/bNXsThWus3TU0E5Xq50lV0dsUphhjyEViNsk4g4NjMUuyq0FXWMoG9mz
- y9iBIxyJBdD4G2E9ZoBgJWcSgLHSNDdWMXI2/sw==
+ :subject:content-type; s=fm2; bh=JPUdlKMQjHPtG1cD72DyTfbFE4O/cJI
+ Usrpufhou+vk=; b=pAHIJEIcH7Nr+ehc+Sz8Juhx576O7heog4hPquD1narYRlz
+ oE2Pd5vl2RYPp4LMhshkQ/ca6vx4WC54FnRC7G93rMYibebQTX6T70ctYI9EkXHd
+ bh5aftI2qvf1LQAQ1qYOR0Vz/ikWJMEklcTe9gl5T1vSXbKECBG8f/q/e0z6DOMA
+ +3lIVwgrkLfweOcAaShMZxEc95oMj7ot55UydCRDistFiM618K4H2M/rOcOmAmFm
+ xIM1NUbjJ+wHhqs56TwUrvm5R7iagaISvI+X3MOYzPpqQiwa3y7HnH7EvMd5/buH
+ jqMWcr6kBHuLdxX+DkTdCfY5epLP1g3KPBEbcEg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=A6y1xh
- jxB+rYO016EU+ElgKOQtyeyVGGpE9ZLWZByAU=; b=YNL4vDQroo3M0wjmEHQfnf
- PO4yvEKjC1+dfFH8BOoIr9EwPf4GavKIkhPU6qYllfSnl80PkoAp8hu8A2PcqFlF
- tayxhpl0sEi07gqurjNd2U+4VhuyKFVMEb9WX6u1Fd5JBPX47YlWT8br7jTAH/td
- kI4Nn/IosWYi2nrFTpyr2WuaYisfXlwQyKS4qDQUYV4MQSN1p1VWxi0b3+UqpK94
- BI5tD/Y/gF3X9xG9ni3jYz0OtiP1iJ1rdGQXf2kQyrJMYE0DYakyZOkHwU6mJU6k
- XiQLKfGhX6wKMdE89N54SjwK9Qb8SneLWd7B5Oh+aZi+Ev+0yERTnU7oSFg2c2og
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=JPUdlK
+ MQjHPtG1cD72DyTfbFE4O/cJIUsrpufhou+vk=; b=jE7y9ZhewMvo/hKQD/7Xg+
+ /EJzRhGjpBM6OLpqLsJefcSqYTwokbCW90vOFQbiFOruU1/JGjTTlsEz6go9nHaz
+ DKMLsjBi+gUzCHGukZ1CsK9XNWzxkrlrMY2TvyrqINwqWn9vGJWER1DMbP5waf0o
+ rcNHGAifLEQ/eECtdrn97hJ6h92RYySd3MtYFMpWMSpW0uM0jTi/tVeAj7kN2s0V
+ oJQ4xbG27ISH8QUshCASJEjjWyxfZG6J/RUDpMbgsNsaxJTeAZsW6BzM+6lYxObE
+ CeLRnDTJgdXUGL0wSstMguTa90W4akIh+YtGNs4Q2vljuy+qlt5czWdm89gAAAUA
  ==
-X-ME-Sender: <xms:kE9uYMp8BEY32VLg7Qz0qAT7IJ82-tBtQvVNDnBZa7dUxh5nPVP9zw>
- <xme:kE9uYCq6NFa6zTxFIBr0o0dtHT6eo_jDkCV4udIWxcQv9-l4bkSVCYu5zvUDyi2X6
- p80rPa1qyMb3HE8JA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejkedgfeeiucetufdoteggodetrfdotf
+X-ME-Sender: <xms:H1VuYKSWbh_ppt2SwGYRTdci_zQysYvS-7qOG0rLJKrtuy3FjsiPqQ>
+ <xme:H1VuYPyXkxzlp9i8p2RsOC5gdrbuKuPNIakNsfPhd2aKsXtNO2OXn91jqxYhsqKug
+ BtVleAeTtC_zHHkww>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudejkedggeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
  rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
- hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:kE9uYBNYzRU148cbJGs9Ll1TWfwG33zNYh2sWPaVFP1aIQpeBIp7JA>
- <xmx:kE9uYD7-9rXNHDFLZgxPmG3cNukQuoYZeD0BgRFaPcP1cq1jW3m8Jw>
- <xmx:kE9uYL64AcSmbQ9hqIx9a2GHimAjuTR3oMv5x8KwjCWKe6KXEuUfAw>
- <xmx:kU9uYNlN7jauyB3FeKCcj1mEbVUbFCjuJFGMZjIMInEza1jd7Bu-JA>
+ grthhtvghrnhepudfftddvveekfffgteffffeuveegjeelgefhffejtdehtdfhlefgkeef
+ hfefkeeinecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:H1VuYH12FGFZNoaScZzJQuoQy7UHEGCXTE3aXDv1GhoKj30HwETQVA>
+ <xmx:H1VuYGAtSp6-VHwWbzIWptPh62dQBvpyI3ipV727CR1rc9kp6Wollg>
+ <xmx:H1VuYDhWHVs5RVxqO97fhfVOOmaVx9Pj4JFgrjC5-X_mZmSwV1GLaA>
+ <xmx:IVVuYCRGg20FAF4k2MLWf4ZyJFHNhFoZLSXMf_UdTOeRrujnU-KMGQ>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 0D824A0007A; Wed,  7 Apr 2021 20:34:24 -0400 (EDT)
+ id 6DDDFA00079; Wed,  7 Apr 2021 20:58:07 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.5.0-alpha0-273-g8500d2492d-fm-20210323.002-g8500d249
 Mime-Version: 1.0
-Message-Id: <dbe4fa5f-370a-41fd-a1ab-7b065b5cb8d1@www.fastmail.com>
-In-Reply-To: <20210329150020.13632-21-eajames@linux.ibm.com>
-References: <20210329150020.13632-1-eajames@linux.ibm.com>
- <20210329150020.13632-21-eajames@linux.ibm.com>
-Date: Thu, 08 Apr 2021 10:04:03 +0930
+Message-Id: <2db77e16-3f44-4c02-a7ba-a4fac8141ae3@www.fastmail.com>
+In-Reply-To: <20210319061952.145040-1-andrew@aj.id.au>
+References: <20210319061952.145040-1-andrew@aj.id.au>
+Date: Thu, 08 Apr 2021 10:27:46 +0930
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Eddie James" <eajames@linux.ibm.com>, "Joel Stanley" <joel@jms.id.au>
-Subject: Re: [PATCH 20/22] ARM: dts: aspeed: everest: Enable fan watchdog
+To: "Corey Minyard" <minyard@acm.org>
+Subject: Re: [PATCH v2 00/21] ipmi: Allow raw access to KCS devices
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -96,21 +95,110 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-aspeed@lists.ozlabs.org, Matthew Barth <msbarth@linux.ibm.com>
+Cc: devicetree@vger.kernel.org, Tomer Maimon <tmaimon77@gmail.com>,
+ linux-aspeed@lists.ozlabs.org, Avi Fishman <avifishman70@gmail.com>,
+ Patrick Venture <venture@google.com>, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, Tali Perry <tali.perry1@gmail.com>,
+ linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ openipmi-developer@lists.sourceforge.net, Lee Jones <lee.jones@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Corey,
 
-
-On Tue, 30 Mar 2021, at 01:30, Eddie James wrote:
-> Set watchdog 1 to pulse the fan watchdog circuit that drives the FAULT
-> pin of the MAX31785, resulting in fans running at full speed, if at
-> any point the BMC stops pulsing it, such as a BMC reboot at runtime.
-> Enable watchdog 2 for BMC reboots.
+On Fri, 19 Mar 2021, at 16:49, Andrew Jeffery wrote:
+> Hello,
 > 
-> Signed-off-by: Matthew Barth <msbarth@linux.ibm.com>
-> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> This series is a bit of a mix of things, but its primary purpose is to
+> expose BMC KCS IPMI devices to userspace in a way that enables userspace
+> to talk to host firmware using protocols that are not IPMI.
+> 
+> v1 can be found here:
+> 
+> https://lore.kernel.org/openbmc/20210219142523.3464540-1-andrew@aj.id.au/
+> 
+> Changes in v2 include:
+> 
+> * A rebase onto v5.12-rc2
+> * Incorporation of off-list feedback on SerIRQ configuration from
+>   Chiawei
+> * Further validation on hardware for ASPEED KCS devices 2, 3 and 4
+> * Lifting the existing single-open constraint of the IPMI chardev
+> * Fixes addressing Rob's feedback on the conversion of the ASPEED KCS
+>   binding to dt-schema
+> * Fixes addressing Rob's feedback on the new aspeed,lpc-interrupts
+>   property definition for the ASPEED KCS binding
+> 
+> A new chardev device is added whose implementation exposes the Input
+> Data Register (IDR), Output Data Register (ODR) and Status Register
+> (STR) via read() and write(), and implements poll() for event
+> monitoring.
+> 
+> The existing /dev/ipmi-kcs* chardev interface exposes the KCS devices in
+> a way which encoded the IPMI protocol in its behaviour. However, as
+> LPC[0] KCS devices give us bi-directional interrupts between the host
+> and a BMC with both a data and status byte, they are useful for purposes
+> beyond IPMI.
+> 
+> As a concrete example, libmctp[1] implements a vendor-defined MCTP[2]
+> binding using a combination of LPC Firmware cycles for bulk data
+> transfer and a KCS device via LPC IO cycles for out-of-band protocol
+> control messages[3]. This gives a throughput improvement over the
+> standard KCS binding[4] while continuing to exploit the ease of setup of
+> the LPC bus for early boot firmware on the host processor.
+> 
+> The series takes a bit of a winding path to achieve its aim:
+> 
+> 1. It begins with patches 1-5 put together by Chia-Wei, which I've
+> rebased on v5.12-rc2. These fix the ASPEED LPC bindings and other
+> non-KCS LPC-related ASPEED device drivers in a way that enables the
+> SerIRQ patches at the end of the series. With Joel's review I'm hoping
+> these 5 can go through the aspeed tree, and that the rest can go through
+> the IPMI tree.
+> 
+> 2. Next, patches 6-13 fairly heavily refactor the KCS support in the
+> IPMI part of the tree, re-architecting things such that it's possible to
+> support multiple chardev implementations sitting on top of the ASPEED
+> and Nuvoton device drivers. However, the KCS code didn't really have
+> great separation of concerns as it stood, so even if we disregard the
+> multiple-chardev support I think the cleanups are worthwhile.
+> 
+> 3. Patch 14 adds some interrupt management capabilities to the KCS
+> device drivers in preparation for patch 16, which introduces the new
+> "raw" KCS device interface. I'm not stoked about the device name/path,
+> so if people are looking to bikeshed something then feel free to lay
+> into that.
+> 
+> 4. The remaining patches switch the ASPEED KCS devicetree binding to
+> dt-schema, add a new interrupt property to describe the SerIRQ behaviour
+> of the device and finally clean up Serial IRQ support in the ASPEED KCS
+> driver.
+> 
+> Rob: The dt-binding patches still come before the relevant driver
+> changes, I tried to keep the two close together in the series, hence the
+> bindings changes not being patches 1 and 2.
+> 
+> I've exercised the series under qemu with the rainier-bmc machine plus
+> additional patches for KCS support[5]. I've also substituted this series in
+> place of a hacky out-of-tree driver that we've been using for the
+> libmctp stack and successfully booted the host processor under our
+> internal full-platform simulation tools for a Rainier system.
+> 
+> Note that this work touches the Nuvoton driver as well as ASPEED's, but
+> I don't have the capability to test those changes or the IPMI chardev
+> path. Tested-by tags would be much appreciated if you can exercise one
+> or both.
+> 
+> Please review!
 
-Acked-by: Andrew Jeffery <andrew@aj.id.au>
+Unfortunately the cover letter got detached from the rest of the series.
+
+Any chance you can take a look at the patches?
+
+https://lore.kernel.org/linux-arm-kernel/20210319062752.145730-1-andrew@aj.id.au/
+
+Cheers,
+
+Andrew
