@@ -1,72 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE6D358492
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 15:24:57 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 301AA35891C
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 17:59:17 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FGMSR2xr0z30L4
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 23:24:55 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FGQtW1711z30QG
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 01:59:15 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=arndb.de
- (client-ip=212.227.17.10; helo=mout.kundenserver.de;
- envelope-from=arnd@arndb.de; receiver=<UNKNOWN>)
-X-Greylist: delayed 309 seconds by postgrey-1.36 at boromir;
- Thu, 08 Apr 2021 23:24:53 AEST
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=209.85.167.175;
+ helo=mail-oi1-f175.google.com; envelope-from=robherring2@gmail.com;
+ receiver=<UNKNOWN>)
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
+ [209.85.167.175])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FGMSP2PVlz30Cb
- for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Apr 2021 23:24:52 +1000 (AEST)
-Received: from mail-oi1-f173.google.com ([209.85.167.173]) by
- mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1M27ix-1lS1j90Deb-002aFt for <linux-aspeed@lists.ozlabs.org>; Thu, 08 Apr
- 2021 15:19:38 +0200
-Received: by mail-oi1-f173.google.com with SMTP id i81so2115714oif.6
- for <linux-aspeed@lists.ozlabs.org>; Thu, 08 Apr 2021 06:19:36 -0700 (PDT)
-X-Gm-Message-State: AOAM533zsQFOW16vGuhBqfCz8SfktrIdDvBjeqCK1WLXBXaIhCbDgBMO
- xiNtxbRa7c7D6zty34EP9NGJczL1uXkm0/4r+rQ=
-X-Google-Smtp-Source: ABdhPJzHb7t36K8Eh3/YW98i9jFFwt105TSLCljFkAhUwPloRFuMsDPsNoXrOsOYqi1vkp97GaHnIbSFi7HvVPlRimE=
-X-Received: by 2002:a05:6808:313:: with SMTP id
- i19mr5867255oie.67.1617887975911; 
- Thu, 08 Apr 2021 06:19:35 -0700 (PDT)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FGQtS436yz309k;
+ Fri,  9 Apr 2021 01:59:11 +1000 (AEST)
+Received: by mail-oi1-f175.google.com with SMTP id a8so2638946oic.11;
+ Thu, 08 Apr 2021 08:59:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=jtoAw95rvXg1r6cke0J3PIsrEjdw50dBNfyvcmHc460=;
+ b=aGQOAPhmDtum07P3uLCBUBOaoYxu+WQlrSF8+Xczgkyzb5m8EHjMdW1eAXgoCMKifN
+ N+TNx0tcNXIiZtqD0SLXVHpnLYVD6/SD2DlWFrBVJZBmyl+ipizMHOWSIt5dZVKG4Cqu
+ zyJDq2j5SFXhIHdrGFI4GzgUIoUhTv8fQR4Fh/yaFeW/rUCW+wjSoTNpXuvTWM+wIcCO
+ pq0+jUqydFYx3GLtE3r4Er9aUXXUDdMEJZ0OP7DlwoE+Fg8X7R61zVfln1C0l5pyidh/
+ JNlAVuG2dE97g4pO8RByUgxd9ctPGrUWe1kvVa+3jvad1p0PX09AM3RtLjBJaPa1PPg+
+ evyg==
+X-Gm-Message-State: AOAM530svueG7eekOWYhBpSYABNn++/ve8rSm5Dilg+WfTLSjB7RiDiL
+ S+49suhjffgnUKdqxtejoA==
+X-Google-Smtp-Source: ABdhPJx+JWT72oKSZA+LWx7PNFVqKo3fxY81eBJG9HzWXkLOF9mbK8ZbLh65asfWyyJWKv4Ts+ehVQ==
+X-Received: by 2002:aca:da04:: with SMTP id r4mr6652760oig.123.1617897548115; 
+ Thu, 08 Apr 2021 08:59:08 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
+ [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id f12sm282199otf.65.2021.04.08.08.59.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Apr 2021 08:59:07 -0700 (PDT)
+Received: (nullmailer pid 1553733 invoked by uid 1000);
+ Thu, 08 Apr 2021 15:59:06 -0000
+Date: Thu, 8 Apr 2021 10:59:06 -0500
+From: Rob Herring <robh@kernel.org>
+To: Zev Weiss <zev@bewilderbeest.net>
+Subject: Re: [PATCH v5 1/4] dt-bindings: serial: 8250: deprecate aspeed,
+ sirq-polarity-sense
+Message-ID: <20210408155906.GA1553685@robh.at.kernel.org>
+References: <20210408011637.5361-1-zev@bewilderbeest.net>
+ <20210408011637.5361-2-zev@bewilderbeest.net>
 MIME-Version: 1.0
-References: <20210408092011.52763-1-david@redhat.com>
- <20210408092011.52763-3-david@redhat.com>
- <CAK8P3a09LdJ-87ZrN28y=t8Sa0zL-3NOvEWhkStMY+2EbO7UAw@mail.gmail.com>
- <cd14d4b4-da82-b21c-2cd6-8e474d97b955@redhat.com>
- <CAK8P3a0Wg1mGZoBkD_RwMx-jzQNK2krrDxDQV5uhCHoyz-e=dw@mail.gmail.com>
- <7496ac87-9676-1b4e-3444-c2a662ec376b@redhat.com>
- <CAK8P3a1tVwkDbtvKi8atkrg1-CfoQHGrXLCzn_uo+=dfZJfdQA@mail.gmail.com>
- <3a2d64a7-8425-8daf-17ee-95b9f0c635f9@redhat.com>
- <CACRpkdYizKGhtYzE+22oZAduLNCOGP9Vbp=LQbXG1C-a+MyMcg@mail.gmail.com>
-In-Reply-To: <CACRpkdYizKGhtYzE+22oZAduLNCOGP9Vbp=LQbXG1C-a+MyMcg@mail.gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 8 Apr 2021 15:19:19 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2Wu7tT-YajfdXSSVvg5MYMEnEy3APJ83DcLeJdGkkSrQ@mail.gmail.com>
-Message-ID: <CAK8P3a2Wu7tT-YajfdXSSVvg5MYMEnEy3APJ83DcLeJdGkkSrQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] drivers/gpu/drm: don't select DMA_CMA or CMA from
- aspeed or etnaviv
-To: Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:PNblxz39FFUtl3w0yq9hAOvD5hr33UsCZ4epWrM+hbxF/nZTJYy
- QMZ0IRkJD9iS/aJOF75tdRsiMid/EoM8f6x37IRGlIqZDSv/9poXv2aQcBLmAynyaJqBAUT
- 8BJHJbrD7aZsUACr26ihmsPDaNyoZX/+ovbZx1KkGDQpjQfwUA7kLZGm7k4QyeX/7J9lpdT
- 3eOpT43j++LysJHw7N9FQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:AyfefCQv+wM=:ociLV5nea1pbUwdXshxq8C
- ICNH2rJfA9dA+Pm7Ky5gCJ12mfxj5NWV1vwze3Wsv1QHzJIceax2fb1kg/0kQlt7qDShGA7Wa
- 6p/Ij58LZX+iSQegLRdoNunUmGjrWvlOOI3o0Mqee73Ltjmf679aEPEkR9Qb25aeBMiWuGHdy
- g+wrRvEpOM0R5QKIbsU1OQ4cBxp9orw85vBz9ubEUl2r+ououYs3k3DUzR/upl1cXI7fk0P8N
- rqbBhZygEcv2WNZFrl3kaxG1c7WlJ58X4f1uNfTf/OhlpV/IEyrRTFZfKQphFWVhqL2i7NSOG
- A9KpbbHw6eUbqo5jmZGXU1X2kmWuKGedYXDa4fXcl2XKN3cBUVf7kJBi5+aUWrIcfKdylpfHb
- 3NkWvScROnb6ZKY5qkKVqesYL6xtk/bBa4pM2bI69T8ubU9Onr3F6p9etTCOpxtaGuxJ7ChcT
- t72Zk8JmMM3/3dQNXNzdI6FbPp2X+sZzdPgCvLWtyVQg77icowcbe8FmsABpt2DKLf02suNMD
- O0Ap8JObNtBeevC+wypc6XWGlSz4UOe/SB9fqnQ82/Kmz3UmxQoX7QgfeeWGCGuei0/9dTBO+
- Znci0lVFAR56tHyx0qsFDW9fSRetJDE2oW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210408011637.5361-2-zev@bewilderbeest.net>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,67 +68,26 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- David Hildenbrand <david@redhat.com>, David Airlie <airlied@linux.ie>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Michal Simek <michal.simek@xilinx.com>, Linux-MM <linux-mm@kvack.org>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Peter Collingbourne <pcc@google.com>, Mike Rapoport <rppt@kernel.org>,
- Lucas Stach <l.stach@pengutronix.de>
+Cc: - <devicetree@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>,
+ Rob Herring <robh+dt@kernel.org>, linux-serial@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Apr 8, 2021 at 2:50 PM Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> On Thu, Apr 8, 2021 at 2:01 PM David Hildenbrand <david@redhat.com> wrote:
->
-> > > This is something you could do using a hidden helper symbol like
-> > >
-> > > config DRMA_ASPEED_GFX
-> > >         bool "Aspeed display driver"
-> > >         select DRM_WANT_CMA
-> > >
-> > > config DRM_WANT_CMA
-> > >         bool
-> > >         help
-> > >            Select this from any driver that benefits from CMA being enabled
-> > >
-> > > config DMA_CMA
-> > >         bool "Use CMA helpers for DRM"
-> > >         default DRM_WANT_CMA
-> > >
-> > >           Arnd
-> > >
-> >
-> > That's precisely what I had first, with an additional "WANT_CMA" --  but
-> > looking at the number of such existing options (I was able to spot 1 !)
->
-> If you do this it probably makes sense to fix a few other drivers
-> Kconfig in the process. It's not just a problem with your driver.
-> "my" drivers:
->
-> drivers/gpu/drm/mcde/Kconfig
-> drivers/gpu/drm/pl111/Kconfig
-> drivers/gpu/drm/tve200/Kconfig
->
-> certainly needs this as well, and pretty much anything that is
-> selecting DRM_KMS_CMA_HELPER or
-> DRM_GEM_CMA_HELPER "wants" DMA_CMA.
+On Wed, 07 Apr 2021 20:16:34 -0500, Zev Weiss wrote:
+> This property ties SIRQ polarity to SCU register bits that don't
+> necessarily have any direct relationship to it; the only use of it was
+> removed in commit c82bf6e133d3 ("ARM: aspeed: g5: Do not set sirq
+> polarity").
+> 
+> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
+> ---
+>  Documentation/devicetree/bindings/serial/8250.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Are there any that don't select either of the helpers and
-still want CMA? If not, it would be easy to just add
-
-   default  DRM_KMS_CMA_HELPER || DRM_GEM_CMA_HELPER
-
-and skipt the extra symbol.
-
-        Arnd
+Acked-by: Rob Herring <robh@kernel.org>
