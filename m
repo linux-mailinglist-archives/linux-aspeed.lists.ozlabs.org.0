@@ -2,71 +2,72 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9A3359032
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 01:13:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7EA3359033
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 01:13:12 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FGcW86LXSz3bVS
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 09:13:08 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FGcWB4Pqjz3bSj
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 09:13:10 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Tl7UtTD/;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=EGxATaY7;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ax0V9V52;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ax0V9V52;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=redhat.com (client-ip=170.10.133.124;
+ smtp.mailfrom=redhat.com (client-ip=216.205.24.124;
  helo=us-smtp-delivery-124.mimecast.com; envelope-from=david@redhat.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256
- header.s=mimecast20190719 header.b=Tl7UtTD/; 
+ header.s=mimecast20190719 header.b=ax0V9V52; 
  dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com
- header.a=rsa-sha256 header.s=mimecast20190719 header.b=EGxATaY7; 
+ header.a=rsa-sha256 header.s=mimecast20190719 header.b=ax0V9V52; 
  dkim-atps=neutral
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FGH2g2rYwz304F
- for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Apr 2021 20:05:47 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FGH2l6fZVz30Dn
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Apr 2021 20:05:51 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617876344;
+ s=mimecast20190719; t=1617876349;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3hIUGR7T1jq8/KKRgcERVMJAsaJS4XnhJM+Q6zBzCus=;
- b=Tl7UtTD/Dm2R2xqfJd2VMX6ElhyRcunUAH/h0rhmiJoCwEcKU60neE6K9gUq0twLh39bMb
- Djpq/5XDJ4poLMq3kAA1ItOft7hbhCoI3U03GEKwyw/Xp3+PE0yaoBk9tEr+977upEWr6K
- GT4WDcS1cxgj+0Y77KrERcv8i9Jc8oA=
+ bh=z9Dj4SFSaVWyR+8NK+rxi5Rn3YTZvnpfh+Q8YuSQZyo=;
+ b=ax0V9V52HsMKwmSN06rOpdAFGZBfBbI/pPENVWlu4g/h8BU2Xmr2xhWhY5E7w8qb3WulyO
+ p94IGTKetOBjohWH68gXsS5lPJaA8p8BGKrGs3qO4lGjeoXHxVvuNpj91ojcDiOpJ1mKRz
+ hHlagqXNLjtQaN5EKCbNb5HfvoP1Nnk=
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1617876345;
+ s=mimecast20190719; t=1617876349;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3hIUGR7T1jq8/KKRgcERVMJAsaJS4XnhJM+Q6zBzCus=;
- b=EGxATaY7doVxbCoa6sURMQK2mM6Wj2eSFdaOX4nvCzUQopYCK1kkUZVLSxH7vwp7cu1C1m
- ngXSU0gYdH02pA5Gakqt8bIPFreg9YyhMEp6ZP8mfCOB62YPnXOqssunIe/d2rr9pQz1r/
- ioMMWXxFWD+9Er3UblPJhl7JsNc27GI=
+ bh=z9Dj4SFSaVWyR+8NK+rxi5Rn3YTZvnpfh+Q8YuSQZyo=;
+ b=ax0V9V52HsMKwmSN06rOpdAFGZBfBbI/pPENVWlu4g/h8BU2Xmr2xhWhY5E7w8qb3WulyO
+ p94IGTKetOBjohWH68gXsS5lPJaA8p8BGKrGs3qO4lGjeoXHxVvuNpj91ojcDiOpJ1mKRz
+ hHlagqXNLjtQaN5EKCbNb5HfvoP1Nnk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-e2_tv6p3MD6q1cn0ApacPw-1; Thu, 08 Apr 2021 06:05:39 -0400
-X-MC-Unique: e2_tv6p3MD6q1cn0ApacPw-1
+ us-mta-447-OCTmOn1eMs6tx3dNB1cHHg-1; Thu, 08 Apr 2021 06:05:45 -0400
+X-MC-Unique: OCTmOn1eMs6tx3dNB1cHHg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4518B107ACCA;
- Thu,  8 Apr 2021 10:05:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D820F6D241;
+ Thu,  8 Apr 2021 10:05:41 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-231.ams2.redhat.com [10.36.114.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D9E0B1972B;
- Thu,  8 Apr 2021 10:05:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9112119D9F;
+ Thu,  8 Apr 2021 10:05:37 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] drivers/video/fbdev: don't select DMA_CMA
-Date: Thu,  8 Apr 2021 12:05:22 +0200
-Message-Id: <20210408100523.63356-2-david@redhat.com>
+Subject: [PATCH v2 2/2] drivers/gpu/drm: don't select DMA_CMA or CMA from
+ aspeed or etnaviv
+Date: Thu,  8 Apr 2021 12:05:23 +0200
+Message-Id: <20210408100523.63356-3-david@redhat.com>
 In-Reply-To: <20210408100523.63356-1-david@redhat.com>
 References: <20210408100523.63356-1-david@redhat.com>
 MIME-Version: 1.0
@@ -111,25 +112,43 @@ Implying DMA_CMA should be sufficient, as that depends on CMA.
 
 Note: If this is a real dependency, we should use "depends on DMA_CMA"
 instead -  but I assume the driver can work without CMA just fine --
-esp. when we wouldn't have HAVE_DMA_CONTIGUOUS or CMA right now.
+esp. when we wouldn't have HAVE_DMA_CONTIGUOUS right now.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- drivers/video/fbdev/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/aspeed/Kconfig  | 3 +--
+ drivers/gpu/drm/etnaviv/Kconfig | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 4f02db65dede..d37cd5341e1b 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -2186,7 +2186,7 @@ config FB_HYPERV
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
- 	select FB_DEFERRED_IO
--	select DMA_CMA if HAVE_DMA_CONTIGUOUS && CMA
+diff --git a/drivers/gpu/drm/aspeed/Kconfig b/drivers/gpu/drm/aspeed/Kconfig
+index 5e95bcea43e9..b35bb1aa9b91 100644
+--- a/drivers/gpu/drm/aspeed/Kconfig
++++ b/drivers/gpu/drm/aspeed/Kconfig
+@@ -6,9 +6,8 @@ config DRM_ASPEED_GFX
+ 	depends on MMU
+ 	select DRM_KMS_HELPER
+ 	select DRM_KMS_CMA_HELPER
+-	select DMA_CMA if HAVE_DMA_CONTIGUOUS
+-	select CMA if HAVE_DMA_CONTIGUOUS
+ 	select MFD_SYSCON
 +	imply DMA_CMA
  	help
- 	  This framebuffer driver supports Microsoft Hyper-V Synthetic Video.
+ 	  Chose this option if you have an ASPEED AST2500 SOC Display
+ 	  Controller (aka GFX).
+diff --git a/drivers/gpu/drm/etnaviv/Kconfig b/drivers/gpu/drm/etnaviv/Kconfig
+index faa7fc68b009..5f5576b7221a 100644
+--- a/drivers/gpu/drm/etnaviv/Kconfig
++++ b/drivers/gpu/drm/etnaviv/Kconfig
+@@ -9,9 +9,8 @@ config DRM_ETNAVIV
+ 	select THERMAL if DRM_ETNAVIV_THERMAL
+ 	select TMPFS
+ 	select WANT_DEV_COREDUMP
+-	select CMA if HAVE_DMA_CONTIGUOUS
+-	select DMA_CMA if HAVE_DMA_CONTIGUOUS
+ 	select DRM_SCHED
++	imply DMA_CMA
+ 	help
+ 	  DRM driver for Vivante GPUs.
  
 -- 
 2.30.2
