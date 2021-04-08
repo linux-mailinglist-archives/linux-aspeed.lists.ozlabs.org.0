@@ -1,67 +1,95 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC0535811F
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 12:50:23 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E14358213
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 13:38:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FGJ252Hhsz30L8
-	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 20:50:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FGK5l1lr3z30Kb
+	for <lists+linux-aspeed@lfdr.de>; Thu,  8 Apr 2021 21:38:35 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.a=rsa-sha256 header.s=google header.b=eS60djC9;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=arndb.de
- (client-ip=217.72.192.74; helo=mout.kundenserver.de;
- envelope-from=arnd@arndb.de; receiver=<UNKNOWN>)
-X-Greylist: delayed 309 seconds by postgrey-1.36 at boromir;
- Thu, 08 Apr 2021 20:50:19 AEST
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
+ spf=none (no SPF record) smtp.mailfrom=ffwll.ch
+ (client-ip=2a00:1450:4864:20::42f; helo=mail-wr1-x42f.google.com;
+ envelope-from=daniel@ffwll.ch; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=ffwll.ch header.i=@ffwll.ch header.a=rsa-sha256
+ header.s=google header.b=eS60djC9; dkim-atps=neutral
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FGJ231d8kz2yxN
- for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Apr 2021 20:50:18 +1000 (AEST)
-Received: from mail-wm1-f45.google.com ([209.85.128.45]) by
- mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MGR3r-1lN2A61XmX-00Gr3w for <linux-aspeed@lists.ozlabs.org>; Thu, 08 Apr
- 2021 12:45:03 +0200
-Received: by mail-wm1-f45.google.com with SMTP id
- z24-20020a1cf4180000b029012463a9027fso973993wma.5
- for <linux-aspeed@lists.ozlabs.org>; Thu, 08 Apr 2021 03:45:03 -0700 (PDT)
-X-Gm-Message-State: AOAM533A5ePiXX0HyyEq3KM3rqYBc04u1sbBswovKTOMcrB5qLFAf1wb
- hUB5LIWMfzfFUDPgZ8muXkxgY3OFzoVNFbDf3RM=
-X-Google-Smtp-Source: ABdhPJytz/lV77i5o3bCVeCx28eGBRpFGJa3HAhceDBuu8+SNlIqf7YyHBd9MAcXBsV7ViVqwijCZWLATsW/w+YkaWY=
-X-Received: by 2002:a1c:4c0c:: with SMTP id z12mr7558571wmf.38.1617878702742; 
- Thu, 08 Apr 2021 03:45:02 -0700 (PDT)
-MIME-Version: 1.0
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FGK5f3lxYz2yx4
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  8 Apr 2021 21:38:27 +1000 (AEST)
+Received: by mail-wr1-x42f.google.com with SMTP id q26so1763916wrz.9
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 08 Apr 2021 04:38:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=HNjO0LstTaF0YJ+tzxAFP4Syvm5fGCE8nxebVcvJLjU=;
+ b=eS60djC9Lqi8q7fWOXC+yuTwdoDdp/fK2d8XmHmBdVmsTRb7l+NFwK+960b7+jwa0f
+ FmsY22x6AYJ4yv6tWLC7INl0trTXzlztAcd+b0jK6akV35kkzli/s4AEGxnp0E9T3Hzm
+ WeCrdaOppkgKGi6FkMG4W1g5pPS3g8Esg94hM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=HNjO0LstTaF0YJ+tzxAFP4Syvm5fGCE8nxebVcvJLjU=;
+ b=RgbJeGNg7UsBvH5PQaXkxtejOb3T+4yhCKwTQNnvJ1ruptXJBWX7XzSIL/u8PHdk4L
+ 26MCglZ5D/jTO/91IARnLXQfJpmTad/REonB/YqeajCoYs/oAnSI2NmvFDOjT6DtBrd+
+ A3ilVV2Ii0j+KhfOUmf+tRtnbqleDnp1PDInkikn0LCzOGL7Ksif5d5NHkm8fgN2cDkc
+ ZSxnQAgDmQ+TACEMswSkOY/PMglrg/14N0LEJ3LYkvZKpjMI4bVY/vYST4eLiMt6Zbdj
+ f78favx9h7RJT/CESyODmxgvWi3Cb+g59aP4xA0XjyShJrc2zUb89E2pN9DM2SWar1S5
+ jB6Q==
+X-Gm-Message-State: AOAM530RCUM5dw4mbw4VsXrnLrCImiGqg/b1rV1w+8HQepCA2EHmdXJI
+ 6J0Tmk0krb4T0r6nUeR6ylz+Vw==
+X-Google-Smtp-Source: ABdhPJySG7qOaE9NShNXxHx9QrPK+umWifIaVL7kyUfSfMRMt7h7zvfu4kAyJkMeLpb8wsS1VXGRaA==
+X-Received: by 2002:a5d:6d0f:: with SMTP id e15mr9348009wrq.218.1617881900156; 
+ Thu, 08 Apr 2021 04:38:20 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id n5sm24657875wrp.50.2021.04.08.04.38.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Apr 2021 04:38:19 -0700 (PDT)
+Date: Thu, 8 Apr 2021 13:38:17 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v1 2/2] drivers/gpu/drm: don't select DMA_CMA or CMA from
+ aspeed or etnaviv
+Message-ID: <YG7rKfJkTDJorqvY@phenom.ffwll.local>
+Mail-Followup-To: Arnd Bergmann <arnd@arndb.de>,
+ David Hildenbrand <david@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux-MM <linux-mm@kvack.org>, Joel Stanley <joel@jms.id.au>,
+ David Airlie <airlied@linux.ie>, Andrew Jeffery <andrew@aj.id.au>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Mike Rapoport <rppt@kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Michal Simek <michal.simek@xilinx.com>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Peter Collingbourne <pcc@google.com>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>
 References: <20210408092011.52763-1-david@redhat.com>
  <20210408092011.52763-3-david@redhat.com>
  <CAK8P3a09LdJ-87ZrN28y=t8Sa0zL-3NOvEWhkStMY+2EbO7UAw@mail.gmail.com>
- <cd14d4b4-da82-b21c-2cd6-8e474d97b955@redhat.com>
-In-Reply-To: <cd14d4b4-da82-b21c-2cd6-8e474d97b955@redhat.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 8 Apr 2021 12:44:46 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0Wg1mGZoBkD_RwMx-jzQNK2krrDxDQV5uhCHoyz-e=dw@mail.gmail.com>
-Message-ID: <CAK8P3a0Wg1mGZoBkD_RwMx-jzQNK2krrDxDQV5uhCHoyz-e=dw@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] drivers/gpu/drm: don't select DMA_CMA or CMA from
- aspeed or etnaviv
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:MyvFjnd94pXSBatEfNKu+uRGJuquxH0JHm6CCogr1JkOudHbU8o
- Fb/MQMHQVJUxt6XT3DUdZszumGXad+SuesyEq88DQTjl5Wa/gsbFv8t+V0fWkKesKfLgdTR
- y82eeLAiZ2mruPEJiFbg2EC6vKRTHhRiQKROPphq0TjMSN26cKiuA0hUH8VGirWnXmenggA
- lfOI+AN7vNSyvu5R09v1g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lTSF3U/uk9U=:E1MzEeXOpyj0osbCDoMRBs
- oaoSzYuLX1rH+bVWaHERr0SMS8AqjRN1VAr2By+Uj+04Z65gGXz4GW1Cjzb/pzRxB2DoLg9ey
- tvyuBvhC/vZkxg3PB9pnYoDar8FQm7dV+bV/+C9eZIeOVLFtvbBxQlRlJPU6xjxS4M/oOI0E8
- XFuyht5Jgq/9G/oiWPsbclfeDjnQ8w2WxPMp3QQGXSYsS+MpEe17OqDb7CLrTV5swD5v/x6+y
- oFSTeec/t26liR8kp9fho5b4zB5L8A+4w13JKHlddHLB11U+Qdt+ihcnAoQ+pXNaSME1mrj0S
- lxvnW1Kaiqm/IKsHtX3uYcBo80OMCeRIlTG1SqzdN/2ETdSBvL6JtIqw7qzo0pfhFTINSVALB
- 9UbdJ6FyM27MlQiGHas9teIfnYXQSh/E3jkBlOzcr8qIKCV3SvQPGTnBWHmnqPCpMxNLyB99o
- Xd2j/jLwE3pAb4pA1Evo6FCSf8TRus0IMmKITRdn1Ua+hKABEUDaG09F7eP4phOJNK79gBcTu
- zhd5WKtcp6JXpeoqypERhu1aykuZYlAaOmm3zPWzyb+/J99iBBJTqNeXWrhaUqmNbq6uloS5s
- Ue3M3UNxT5mBIM54iU0zRw6IQGBfDdtxTm
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a09LdJ-87ZrN28y=t8Sa0zL-3NOvEWhkStMY+2EbO7UAw@mail.gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,88 +101,64 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
  linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ David Hildenbrand <david@redhat.com>, David Airlie <airlied@linux.ie>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Linux-MM <linux-mm@kvack.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Michal Simek <michal.simek@xilinx.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Linus Walleij <linus.walleij@linaro.org>,
- Randy Dunlap <rdunlap@infradead.org>,
  The etnaviv authors <etnaviv@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Michal Simek <michal.simek@xilinx.com>, Linux-MM <linux-mm@kvack.org>,
  Christian Gmeiner <christian.gmeiner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Peter Collingbourne <pcc@google.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Lucas Stach <l.stach@pengutronix.de>
+ Peter Collingbourne <pcc@google.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Mike Rapoport <rppt@kernel.org>,
+ Lucas Stach <l.stach@pengutronix.de>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Apr 8, 2021 at 12:29 PM David Hildenbrand <david@redhat.com> wrote:
-> On 08.04.21 12:20, Arnd Bergmann wrote:
-> > On Thu, Apr 8, 2021 at 11:22 AM David Hildenbrand <david@redhat.com> wrote:
-> >>
-> >> Random drivers should not override a user configuration of core knobs
-> >> (e.g., CONFIG_DMA_CMA=n). Use "imply" instead, to still respect
-> >> dependencies and manual overrides.
-> >>
-> >> "This is similar to "select" as it enforces a lower limit on another
-> >>   symbol except that the "implied" symbol's value may still be set to n
-> >>   from a direct dependency or with a visible prompt."
-> >>
-> >> Implying DRM_CMA should be sufficient, as that depends on CMA.
-> >>
-> >> Note: If this is a real dependency, we should use "depends on DMA_CMA"
-> >> instead -  but I assume the driver can work without CMA just fine --
-> >> esp. when we wouldn't have HAVE_DMA_CONTIGUOUS right now.
+On Thu, Apr 08, 2021 at 12:20:50PM +0200, Arnd Bergmann wrote:
+> On Thu, Apr 8, 2021 at 11:22 AM David Hildenbrand <david@redhat.com> wrote:
 > >
-> > 'imply' is almost never the right solution, and it tends to cause more
-> > problems than it solves.
->
-> I thought that was the case with "select" :)
-
-Yes, but that's a different set of problems
-
+> > Random drivers should not override a user configuration of core knobs
+> > (e.g., CONFIG_DMA_CMA=n). Use "imply" instead, to still respect
+> > dependencies and manual overrides.
 > >
-> > In particular, it does not prevent a configuration with 'DRM_CMA=m'
->
-> I assume you meant "DRM_CMA=n" ? DRM_CMA cannot be built as a module.
+> > "This is similar to "select" as it enforces a lower limit on another
+> >  symbol except that the "implied" symbol's value may still be set to n
+> >  from a direct dependency or with a visible prompt."
+> >
+> > Implying DRM_CMA should be sufficient, as that depends on CMA.
+> >
+> > Note: If this is a real dependency, we should use "depends on DMA_CMA"
+> > instead -  but I assume the driver can work without CMA just fine --
+> > esp. when we wouldn't have HAVE_DMA_CONTIGUOUS right now.
+> 
+> 'imply' is almost never the right solution, and it tends to cause more
+> problems than it solves.
+> 
+> In particular, it does not prevent a configuration with 'DRM_CMA=m'
+> and 'DRMA_ASPEED_GFX=y', or any build failures from such
+> a configuration.
+> 
+> If you want this kind of soft dependency, you need
+> 'depends on DRM_CMA || !DRM_CMA'.
 
-Ok, at least that makes it easier.
+The problem is that depends on is a real pain for users to find their
+drivers. This is why we have a ton of select, because the kconfig ui tends
+to suck.
 
-> > and 'DRMA_ASPEED_GFX=y', or any build failures from such
-> > a configuration.
->
-> I don't follow. "DRM_CMA=n" and 'DRMA_ASPEED_GFX=y' is supposed to work
-> just fine (e.g., without HAVE_DMA_CONTIGUOUS) or what am I missing?
-
-I thought you were trying to solve the problem where DRMA_ASPEED_GFX
-can optionally link against CMA but would fail to build when the CMA code
-is in a loadable module.
-
-If the problem you are trying to solve is a different one, you need a different
-solution, not what I posted above.
-
-> > If you want this kind of soft dependency, you need
-> > 'depends on DRM_CMA || !DRM_CMA'.
->
-> Seriously? I think the point of imply is "please enable if possible and
-> not prevented by someone else".
-
-That used to be the meaning, but it changed a few years ago. Now
-it means "when a used manually turns on this symbol, turn on the
-implied one as well, but let them turn it off again if they choose".
-
-This is pretty much a NOP.
-
-> Your example looks more like a NOP - no?
-> Or will it have the same effect?
-
-The example I gave is only meaningful if both are tristate, which is
-not the case here as you explain.
-
-It is a somewhat awkward way to say "prevent this symbol from
-being =y if the dependency is =m".
-
-      Arnd
+If you want to change this, we need automatic conflict resolution like apt
+and other package managers have, with suggestions how to fix the config if
+you want to enable a driver, but some of its requirements are missing. The
+current approach of hiding driver symbols complete if any of their
+dependencies are off is really not great.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
