@@ -2,143 +2,91 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23FAE359410
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 06:38:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5C0359450
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 07:07:12 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FGlks6zJ0z3brW
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 14:38:45 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FGmMf5gnzz30HP
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 15:07:10 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=equinixinc.onmicrosoft.com header.i=@equinixinc.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-equinixinc-onmicrosoft-com header.b=MZMBO9+g;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=Oc2By+aO;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=uvdRnJkp;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=equinix.com (client-ip=148.163.148.236;
- helo=mx0a-00268f01.pphosted.com;
- envelope-from=prvs=5733813a0f=zweiss@equinix.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=equinixinc.onmicrosoft.com
- header.i=@equinixinc.onmicrosoft.com header.a=rsa-sha256
- header.s=selector2-equinixinc-onmicrosoft-com header.b=MZMBO9+g; 
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.29;
+ helo=out5-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm2 header.b=Oc2By+aO; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=uvdRnJkp; 
  dkim-atps=neutral
-Received: from mx0a-00268f01.pphosted.com (mx0a-00268f01.pphosted.com
- [148.163.148.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FGljx5GD2z3bwg;
- Fri,  9 Apr 2021 14:37:56 +1000 (AEST)
-Received: from pps.filterd (m0165118.ppops.net [127.0.0.1])
- by mx0a-00268f01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 1394TmuC000555; Fri, 9 Apr 2021 04:37:20 GMT
-Received: from nam04-sn1-obe.outbound.protection.outlook.com
- (mail-sn1nam04lp2054.outbound.protection.outlook.com [104.47.44.54])
- by mx0a-00268f01.pphosted.com with ESMTP id 37t1u22wvr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 09 Apr 2021 04:37:20 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aTRlOMExV4Lk/cosIzTXIoEG+C1TTFXGV30llukd7LVdBqzYTukiN/O6a9GoYlU7XXyc3H1C5a5A/y0QY+1gWRB2rqPrsPMhLbaR47bIVYhBBJuoAkxEqBS4HoLVBBpRKhz8Z1ch9GKfiLoieQGz6RdlLycXfVhJA2aMiS9PP67tgQgra2fqjZ7Vi2umzbTXEm8k7Ne87nnS3efXDPhd00tAZ3afNbvsx0+0gLxFmuyh452php9OH5xV2/CZYFxhuVQHk3Y3MVsNljskCcDJ67tmT58xJW8hqo4aA5pbeguj0siEes9W+UqagntvhasPc+BhjKUiF++Y0QoHGa3uOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q0XqLQ5x6fLV/7awTCA33b+0ukyXDRSLUB8A1UWKTRA=;
- b=JmYne0bl+MUnM9+R6iNBG4Gf4V4XayqJDZey76ZoNPNziJDRxjziT5pUg87vFT+qB8w1LNnYpv8FFD0BUfGJGWZXgjZ+Lu+iRPAZ3WRWb3RjPLue99/JW2i8UL4ajBEpjh/cvQYHTxnpVhVRIFiAz/55/zgovPheO8EGbPE3LXWyHZlSL1sUBvQgpfZL+wMVAzPo673NGlW+8RBHpVfCGover/ttNyE5y8BuocPCi8bKnUCh+0GQ33JToQ99oNQylwnFOhCNJ/94Q3RwbvrE7DCGY6WSR6bUP5/ty9tDyVNGdKhepei9boMV0YEjq8odoLD3UjASxAaIAzBe6QlxYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=equinix.com; dmarc=pass action=none header.from=equinix.com;
- dkim=pass header.d=equinix.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=equinixinc.onmicrosoft.com; s=selector2-equinixinc-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q0XqLQ5x6fLV/7awTCA33b+0ukyXDRSLUB8A1UWKTRA=;
- b=MZMBO9+gTW+/y/efI2pwG8Wl8KNj7FiNVkhcPlfAaS9VMyakqAx7W1+5zWZst97ouqlL1Vpm7AnegSwkuzJRIb1BZFzH8Z9DQ9u9aJMfTdBjmV3jn2c4yCHODMKe0Q9Pne50x3HvZv5WSBBYG2lauR6oGpgjzjrVR5ynCjvNR48=
-Received: from DM5PR04MB0762.namprd04.prod.outlook.com (2603:10b6:3:f3::13) by
- DM6PR04MB6938.namprd04.prod.outlook.com (2603:10b6:5:248::18) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4020.17; Fri, 9 Apr 2021 04:37:18 +0000
-Received: from DM5PR04MB0762.namprd04.prod.outlook.com
- ([fe80::4c98:aeb:87a8:13ad]) by DM5PR04MB0762.namprd04.prod.outlook.com
- ([fe80::4c98:aeb:87a8:13ad%5]) with mapi id 15.20.4020.017; Fri, 9 Apr 2021
- 04:37:18 +0000
-From: Zev Weiss <zweiss@equinix.com>
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH v2 14/21] ipmi: kcs_bmc: Allow clients to control KCS IRQ
- state
-Thread-Topic: [PATCH v2 14/21] ipmi: kcs_bmc: Allow clients to control KCS IRQ
- state
-Thread-Index: AQHXLPoFr3oBt6vrQ0S/zAqvLfUSlw==
-Date: Fri, 9 Apr 2021 04:37:18 +0000
-Message-ID: <YG/Z/eZCES65fXQi@packtop>
-References: <20210319062752.145730-1-andrew@aj.id.au>
- <20210319062752.145730-14-andrew@aj.id.au>
-In-Reply-To: <20210319062752.145730-14-andrew@aj.id.au>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: aj.id.au; dkim=none (message not signed)
- header.d=none;aj.id.au; dmarc=none action=none header.from=equinix.com;
-x-originating-ip: [24.181.166.149]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3b757aee-50ec-4e64-bea2-08d8fb112886
-x-ms-traffictypediagnostic: DM6PR04MB6938:
-x-microsoft-antispam-prvs: <DM6PR04MB6938E48009E8DC5795C94EF9C3739@DM6PR04MB6938.namprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:288;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: eCP/oNtQ4uUx0x5mZPSGE4dAMIOrVUdiJoB7xJl6C93e0Ii/n2bvAw16fvSgiJIvlWC1+hlEuP4S6o0s3CClYkm5XX+jlMGlmJGMzIoLTthq9VA9IA+Jx10HUR7gwM7Fb+qX6RIgc95G+fojUAXewS7Olp4NhZsi/sgkyCUaUKVSMQenMro+tHtvDDvWIoWVvLfVf35CwBGZ25a/5dJRT8vXwMx9KSq5AMoYia9yFooNSsuIctrk2PboC7+u9hihjm/JSpHZT3jyYXRHkP3KPh5ND9v4Ia8tn5ZlNIOkYEIlnusyvXI53glbXZz7YgBAYnxoq2icD+2FBMEO/Ba5dBeTEIyNyDF2cxKDY3kzWJl37M9SX4DxiInkQPaUnORxJrhsRadnaLINKEPRKn2gcijGJZ/WoI1UQgRMYEfLRf6sLKuWXI3SQwNhYxHP+D4eVaWpRRt5VnYb6s8DQOXkP81LRcdgZ15amkVvfOHFS7r7vhjQFTZeuR8zBgy/Osbxhyil3hewYDUbOmqd9NuIbgdG8eUfvL1TR8jIdiMTnEvqg9XKLiXNn9ZA4npbkTaQpd/s0nKDERKQNAXCqIBBTl/xAk+2o/SzubYcMC2ZyuVoWl/qSQvje6vc1ae64jIwF+BcnrkJClrTlXthwg7C0X6IrRsNanYpwvLO0YI/d+A=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR04MB0762.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(7916004)(376002)(396003)(39860400002)(136003)(346002)(366004)(478600001)(8936002)(5660300002)(71200400001)(6506007)(8676002)(6916009)(6486002)(9686003)(54906003)(316002)(38100700001)(83380400001)(4326008)(33716001)(7416002)(76116006)(30864003)(91956017)(26005)(2906002)(86362001)(186003)(66556008)(64756008)(66476007)(66946007)(6512007)(66446008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?xUf0I2cvP4r7we6UVAOYDH4m15eOQiiIxo5moj1sxPUpGCKDbpqfxFwy3beC?=
- =?us-ascii?Q?HwQB9J5KZItvJ2ad8kZdxP//OYj8kILrcFMLPIge1394+jkA1FcUU2dO9Rcp?=
- =?us-ascii?Q?hm962kB0QiFWve1V5t9W2GbrIJTkzIElgOSseOx9slQYFWauFOIE7ykffhNg?=
- =?us-ascii?Q?FznATbft1gxQv62NO6A4VohM2+Lql5R6kVmiKfG7xd4WTgZt94yyf8r+kgEO?=
- =?us-ascii?Q?k3gCi9zduok1SDT0OpD43sza2Rfw18QMpz058/nYLz70mHigyHOeq0DG1nZq?=
- =?us-ascii?Q?4Rqhj4MabRE0AqBC29wmPg3/8DpckT18UnX6u1+D7R429MCd8kWFYlLlmmjG?=
- =?us-ascii?Q?BPD+v4qkR+qqH2CLIsc0PXsGI7gEkTymwoqfy2kQSkbBxWvOga3YU6mFe/pC?=
- =?us-ascii?Q?CbAKIGZZbdFYAuK6gJvfrJCrcjEK7Jr3ok29o3hZB1OxKjZ3fIv/dtw3b7XJ?=
- =?us-ascii?Q?Zwus8r771y/oJ7HIV/tfUCK+QCtTdmcdpZ14jTsQB0sUxX7yW2vjLL+r3t7y?=
- =?us-ascii?Q?YRRIpRSya6+RXgg3F7SRjY1NGV5FJ7hm5GLoJXtFONCq7b5k7RpuvNpTXzwc?=
- =?us-ascii?Q?ZUEY1JyD3rvA5iATPXdDpdcF8TAYgo0cf5w32o41J/pHSc7NSXQf6771UIdr?=
- =?us-ascii?Q?PPjqM9MNjCQltURgqBL4yJpL0w3N2mbKQD+zbUM7VG/czRv7WjqxtLb8GIgr?=
- =?us-ascii?Q?vS+eE0Q644WdhYRZikAidEaxJgZb+IZ6exXJinAxhx6oVP4vwkxGhKoVbe70?=
- =?us-ascii?Q?wJ/nLV5iK0yZyNONMvlJWKCb8RjVSw/TdspkW+a4rqHo/hey7VlRIaDqJzdl?=
- =?us-ascii?Q?RVdHXqcTPPzYaa+u/i5ry1BGPl1sZOS6KAnNUlRJKcorMfKEEtCXeEuKS91m?=
- =?us-ascii?Q?RgAG77ys/3/QL0Jkrggz0QtojMXA9ofI+h7pXa37Yb17P+LNpv4OGQI4uvX6?=
- =?us-ascii?Q?RGItzYs3NHCE+plxFJRaakUL/S3M+O1tbW5d01w/8MzOac7gNjQUpvc0OFaG?=
- =?us-ascii?Q?eOFPuu8HPvqEqjrRxePTBuSVAduyrrNkekQeUZb7aoj++op+gkIEvYLa94e0?=
- =?us-ascii?Q?TfhkHng1t41xy+YHRBVZzSPlsZLUDMs2t4Ald4ffrpgwhhOCYZ3AiIstA4/m?=
- =?us-ascii?Q?Chi7FP0ALsqp7Q9W1qJ44GakKcriER9rtQP7zzBpFmWKC6KGY+/rt32mqUY1?=
- =?us-ascii?Q?OOTS4qsMw7gw8SKS3UFNe6QV/ziJZAJ42jvR84ucu6yLvmAFItqC0pVz3XDq?=
- =?us-ascii?Q?H25/6dyMFfwEYjkUQ3pPqsy24ws7b89rv6xiwFQ4UXJeULgP3ulaP5K0ZmN7?=
- =?us-ascii?Q?6sV7Q1vdU0qPbYILwlto1ZmDda1zy47n53tf3fRak1J1zQ=3D=3D?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <DC27F13AC486834F8378FC6733084C93@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: equinix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR04MB0762.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b757aee-50ec-4e64-bea2-08d8fb112886
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Apr 2021 04:37:18.4630 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72adb271-2fc7-4afe-a5ee-9de6a59f6bfb
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3dDFZAcFtkIc94Su95iLr0RD9kXNiG/U40iB39EOH5yeq+KtejsKen/spdq0Q+1WgqbWyuXU0F12M5BqcGHWgw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6938
-X-Proofpoint-ORIG-GUID: jPSPUD7vsLKeezrINWIFMTyYfmyFcMnu
-X-Proofpoint-GUID: jPSPUD7vsLKeezrINWIFMTyYfmyFcMnu
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-09_03:2021-04-08,
- 2021-04-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 impostorscore=0
- lowpriorityscore=0 adultscore=0 suspectscore=0 clxscore=1015 phishscore=0
- bulkscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104090031
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FGmM43XN8z2yx6;
+ Fri,  9 Apr 2021 15:06:40 +1000 (AEST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3BCDF5C00DC;
+ Fri,  9 Apr 2021 01:06:38 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Fri, 09 Apr 2021 01:06:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=mxLFzNV3p0aWRPTd2D1rW2nB8WwCHV/
+ KmSpV66nSk/E=; b=Oc2By+aONtbTP4QV8cs/AySEkzS/sdmDYs0E7MWiuMr+AP6
+ +Jv6p84NFYA0tbiwdHkk15NfkgK8fK7u6ab1JUJmk9mc01kZ+l7rf2t9MLC/AwGz
+ HTYPE2DhRy9zNUSd/KZpUmKKpz3KA8VHpO4nALqB1emBXPB1AobR0fRG0SkHfwfW
+ FlkW4AZNfHM5rMdzpCmDNOx4B36xFQW1AXetPM3P/yNaB70eoGYHLOAwr5rnRqYf
+ Q91v1iGcdjOhIGQUEBNO5xLLR3DkPgwDDIoyP4/gT+c6noayOBEpGpxhhnrYrFIL
+ xThCR/FtC/iR3uy4ose0bVyz1KcT3zJwnvW3+tw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=mxLFzN
+ V3p0aWRPTd2D1rW2nB8WwCHV/KmSpV66nSk/E=; b=uvdRnJkpC/09mqEE+cJ/b1
+ XO7mUxofkzdKoYDEP46d46reRrmxu/1jAgaA1R626t31qftbZeAipP9z0D4tGSda
+ zc4TzpJ47aGImaAvb2fCK39XZVmEVLHjt2ttaXj8b6g+6GB2gh+Ef9zdNq99Fij2
+ hnpLxvjgK+YkP2GfVCk6dtzd3A+SdxS7PuZnFdxLiqnkUrnQY6B/1bGRC7Pc4bFv
+ Trm+AAkBrOJ+tk3knrMmCc5ByA7DpJkiR47mseJ99GsV818ZFjgVsUDdNFA2+069
+ zQT7tfcvGYrGXfz3peBdE4vmJvhwm21rtnUAPK9Amkuhux8lauIVL6I2AGc+4jew
+ ==
+X-ME-Sender: <xms:3OBvYEAr_Wt3-BrZGmq_Jiiy-e9EFJg_Cs3sgHibIUifb437Fpadeg>
+ <xme:3OBvYGgGnRakapBSn55eiaLsKPZkvOTjOB0ykBGpJKtp6uI4k2hLr12eRNz5I4wxN
+ 9NP6r974RM0eC9WRw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudektddgledtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+ grthhtvghrnhepkeelgedtkeduudetveektdfhtedtveffvedutdfgfeejhfeuleelffeh
+ vefgffdtnecuffhomhgrihhnpehinhhfrhgruggvrggurdhorhhgnecuvehluhhsthgvrh
+ fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgu
+ rdgruh
+X-ME-Proxy: <xmx:3OBvYHmC3cMpY7sUfNG8oQMONtJM1YjQPKcyPhovaqPyXpDa90FJgQ>
+ <xmx:3OBvYKyv-OI1T1_cdIwC5BIGKE0raNoFKg1PpRXALexjxVe56PFaLw>
+ <xmx:3OBvYJQYi2gWGskNIfuWp__f2jriC4eMeJso4N9ewrQgTKXhWE4Fsw>
+ <xmx:3uBvYIHgC6pybE4Us5RIn7OZctovkJSRDlJ7vsyaOZq4rQhdY_GJrg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 51608A0007C; Fri,  9 Apr 2021 01:06:36 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-273-g8500d2492d-fm-20210323.002-g8500d249
+Mime-Version: 1.0
+Message-Id: <db7271d8-8d13-4a8c-a7ba-564e4e769ea5@www.fastmail.com>
+In-Reply-To: <20210408011637.5361-3-zev@bewilderbeest.net>
+References: <20210408011637.5361-1-zev@bewilderbeest.net>
+ <20210408011637.5361-3-zev@bewilderbeest.net>
+Date: Fri, 09 Apr 2021 14:36:16 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Zev Weiss" <zev@bewilderbeest.net>, "Joel Stanley" <joel@jms.id.au>
+Subject: =?UTF-8?Q?Re:_[PATCH_v5_2/4]_drivers/tty/serial/8250:_refactor_sirq_and_?=
+ =?UTF-8?Q?lpc_address_setting_code?=
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,416 +98,140 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "tmaimon77@gmail.com" <tmaimon77@gmail.com>,
- "minyard@acm.org" <minyard@acm.org>,
- "avifishman70@gmail.com" <avifishman70@gmail.com>,
- "venture@google.com" <venture@google.com>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "tali.perry1@gmail.com" <tali.perry1@gmail.com>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "openipmi-developer@lists.sourceforge.net"
- <openipmi-developer@lists.sourceforge.net>,
- "lee.jones@linaro.org" <lee.jones@linaro.org>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
+Cc: linux-aspeed@lists.ozlabs.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ Jiri Slaby <jirislaby@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Mar 19, 2021 at 01:27:45AM CDT, Andrew Jeffery wrote:
->Add a mechanism for controlling whether the client associated with a
->KCS device will receive Input Buffer Full (IBF) and Output Buffer Empty
->(OBE) events. This enables an abstract implementation of poll() for KCS
->devices.
->
->A wart in the implementation is that the ASPEED KCS devices don't
->support an OBE interrupt for the BMC. Instead we pretend it has one by
->polling the status register waiting for the Output Buffer Full (OBF) bit
->to clear, and generating an event when OBE is observed.
->
->Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
->---
-> drivers/char/ipmi/kcs_bmc.c         |   6 ++
-> drivers/char/ipmi/kcs_bmc.h         |   3 +
-> drivers/char/ipmi/kcs_bmc_aspeed.c  | 150 ++++++++++++++++++----------
-> drivers/char/ipmi/kcs_bmc_client.h  |   2 +
-> drivers/char/ipmi/kcs_bmc_device.h  |   1 +
-> drivers/char/ipmi/kcs_bmc_npcm7xx.c |  25 ++++-
-> 6 files changed, 130 insertions(+), 57 deletions(-)
->
->diff --git a/drivers/char/ipmi/kcs_bmc.c b/drivers/char/ipmi/kcs_bmc.c
->index 694db6ee2a92..05bbb72418b2 100644
->--- a/drivers/char/ipmi/kcs_bmc.c
->+++ b/drivers/char/ipmi/kcs_bmc.c
->@@ -184,6 +184,12 @@ int kcs_bmc_unregister_cdev(struct kcs_bmc_cdev *cdev=
-)
-> }
-> EXPORT_SYMBOL(kcs_bmc_unregister_cdev);
->
->+void kcs_bmc_update_event_mask(struct kcs_bmc_device *kcs_bmc, u8 mask, u=
-8 events)
->+{
->+	kcs_bmc->ops->irq_mask_update(kcs_bmc, mask, events);
->+}
->+EXPORT_SYMBOL(kcs_bmc_update_event_mask);
->+
-> MODULE_LICENSE("GPL v2");
-> MODULE_AUTHOR("Haiyue Wang <haiyue.wang@linux.intel.com>");
-> MODULE_AUTHOR("Andrew Jeffery <andrew@aj.id.au>");
->diff --git a/drivers/char/ipmi/kcs_bmc.h b/drivers/char/ipmi/kcs_bmc.h
->index 5deb9a0b8e60..11fff935218c 100644
->--- a/drivers/char/ipmi/kcs_bmc.h
->+++ b/drivers/char/ipmi/kcs_bmc.h
->@@ -11,6 +11,9 @@
-> #define KCS_BMC_EVENT_NONE	0
-> #define KCS_BMC_EVENT_HANDLED	1
->
->+#define KCS_BMC_EVENT_TYPE_OBE	BIT(0)
->+#define KCS_BMC_EVENT_TYPE_IBF	BIT(1)
->+
-> #define KCS_BMC_STR_OBF		BIT(0)
-> #define KCS_BMC_STR_IBF		BIT(1)
-> #define KCS_BMC_STR_CMD_DAT	BIT(3)
->diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_bm=
-c_aspeed.c
->index 6f26e7366c0b..5f26471c038c 100644
->--- a/drivers/char/ipmi/kcs_bmc_aspeed.c
->+++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
->@@ -60,10 +60,18 @@
-> #define LPC_ODR4             0x118
-> #define LPC_STR4             0x11C
->
->+#define OBE_POLL_PERIOD	     (HZ / 2)
->+
-> struct aspeed_kcs_bmc {
-> 	struct kcs_bmc_device kcs_bmc;
->
-> 	struct regmap *map;
->+
->+	struct {
->+		spinlock_t lock;
->+		bool remove;
->+		struct timer_list timer;
->+	} obe;
-> };
->
-> struct aspeed_kcs_of_ops {
->@@ -159,68 +167,89 @@ static void aspeed_kcs_enable_channel(struct kcs_bmc=
-_device *kcs_bmc, bool enabl
->
-> 	switch (kcs_bmc->channel) {
-> 	case 1:
->-		if (enable) {
->-			regmap_update_bits(priv->map, LPC_HICR2,
->-					LPC_HICR2_IBFIF1, LPC_HICR2_IBFIF1);
->-			regmap_update_bits(priv->map, LPC_HICR0,
->-					LPC_HICR0_LPC1E, LPC_HICR0_LPC1E);
->-		} else {
->-			regmap_update_bits(priv->map, LPC_HICR0,
->-					LPC_HICR0_LPC1E, 0);
->-			regmap_update_bits(priv->map, LPC_HICR2,
->-					LPC_HICR2_IBFIF1, 0);
->-		}
->-		break;
->-
->+		regmap_update_bits(priv->map, LPC_HICR0, LPC_HICR0_LPC1E, enable * LPC_=
-HICR0_LPC1E);
->+		return;
-> 	case 2:
->-		if (enable) {
->-			regmap_update_bits(priv->map, LPC_HICR2,
->-					LPC_HICR2_IBFIF2, LPC_HICR2_IBFIF2);
->-			regmap_update_bits(priv->map, LPC_HICR0,
->-					LPC_HICR0_LPC2E, LPC_HICR0_LPC2E);
->-		} else {
->-			regmap_update_bits(priv->map, LPC_HICR0,
->-					LPC_HICR0_LPC2E, 0);
->-			regmap_update_bits(priv->map, LPC_HICR2,
->-					LPC_HICR2_IBFIF2, 0);
->-		}
->-		break;
->-
->+		regmap_update_bits(priv->map, LPC_HICR0, LPC_HICR0_LPC2E, enable * LPC_=
-HICR0_LPC2E);
->+		return;
-> 	case 3:
->-		if (enable) {
->-			regmap_update_bits(priv->map, LPC_HICR2,
->-					LPC_HICR2_IBFIF3, LPC_HICR2_IBFIF3);
->-			regmap_update_bits(priv->map, LPC_HICR0,
->-					LPC_HICR0_LPC3E, LPC_HICR0_LPC3E);
->-			regmap_update_bits(priv->map, LPC_HICR4,
->-					LPC_HICR4_KCSENBL, LPC_HICR4_KCSENBL);
->-		} else {
->-			regmap_update_bits(priv->map, LPC_HICR0,
->-					LPC_HICR0_LPC3E, 0);
->-			regmap_update_bits(priv->map, LPC_HICR4,
->-					LPC_HICR4_KCSENBL, 0);
->-			regmap_update_bits(priv->map, LPC_HICR2,
->-					LPC_HICR2_IBFIF3, 0);
->-		}
->-		break;
->-
->+		regmap_update_bits(priv->map, LPC_HICR0, LPC_HICR0_LPC3E, enable * LPC_=
-HICR0_LPC3E);
->+		regmap_update_bits(priv->map, LPC_HICR4,
->+				   LPC_HICR4_KCSENBL, enable * LPC_HICR4_KCSENBL);
->+		return;
-> 	case 4:
->-		if (enable)
->-			regmap_update_bits(priv->map, LPC_HICRB,
->-					LPC_HICRB_IBFIF4 | LPC_HICRB_LPC4E,
->-					LPC_HICRB_IBFIF4 | LPC_HICRB_LPC4E);
->+		regmap_update_bits(priv->map, LPC_HICRB, LPC_HICRB_LPC4E, enable * LPC_=
-HICRB_LPC4E);
->+		return;
->+	default:
->+		pr_warn("%s: Unsupported channel: %d", __func__, kcs_bmc->channel);
->+		return;
->+	}
->+}
->+
->+static void aspeed_kcs_check_obe(struct timer_list *timer)
->+{
->+	struct aspeed_kcs_bmc *priv =3D container_of(timer, struct aspeed_kcs_bm=
-c, obe.timer);
->+	unsigned long flags;
->+	u8 str;
->+
->+	spin_lock_irqsave(&priv->obe.lock, flags);
->+	if (priv->obe.remove) {
->+		spin_unlock_irqrestore(&priv->obe.lock, flags);
->+		return;
->+	}
->+
->+	str =3D aspeed_kcs_inb(&priv->kcs_bmc, priv->kcs_bmc.ioreg.str);
->+	if (str & KCS_BMC_STR_OBF) {
->+		mod_timer(timer, jiffies + OBE_POLL_PERIOD);
->+		spin_unlock_irqrestore(&priv->obe.lock, flags);
->+		return;
->+	}
->+	spin_unlock_irqrestore(&priv->obe.lock, flags);
->+
->+	kcs_bmc_handle_event(&priv->kcs_bmc);
->+}
->+
->+static void aspeed_kcs_irq_mask_update(struct kcs_bmc_device *kcs_bmc, u8=
- mask, u8 state)
->+{
->+	struct aspeed_kcs_bmc *priv =3D to_aspeed_kcs_bmc(kcs_bmc);
->+
->+	/* We don't have an OBE IRQ, emulate it */
->+	if (KCS_BMC_EVENT_TYPE_OBE & mask) {
->+		if (KCS_BMC_EVENT_TYPE_OBE & state)
->+			mod_timer(&priv->obe.timer, jiffies + OBE_POLL_PERIOD);
-> 		else
->-			regmap_update_bits(priv->map, LPC_HICRB,
->-					LPC_HICRB_IBFIF4 | LPC_HICRB_LPC4E,
->-					0);
->-		break;
->+			del_timer(&priv->obe.timer);
->+	}
->
->-	default:
->-		break;
->+	if (KCS_BMC_EVENT_TYPE_IBF & mask) {
->+		const bool enable =3D !!(KCS_BMC_EVENT_TYPE_IBF & state);
 
-Totally superficial nitpick: the operand ordering for the bitmask tests
-in this function seem a bit inconsistent with what I think is the usual
-style of 'variable & BITMASK_MACRO' (reminiscent of "yoda
-conditionals").
 
->+
->+		switch (kcs_bmc->channel) {
->+		case 1:
->+			regmap_update_bits(priv->map, LPC_HICR2, LPC_HICR2_IBFIF1,
->+					   enable * LPC_HICR2_IBFIF1);
->+			return;
->+		case 2:
->+			regmap_update_bits(priv->map, LPC_HICR2, LPC_HICR2_IBFIF2,
->+					   enable * LPC_HICR2_IBFIF2);
->+			return;
->+		case 3:
->+			regmap_update_bits(priv->map, LPC_HICR2, LPC_HICR2_IBFIF3,
->+					   enable * LPC_HICR2_IBFIF3);
->+			return;
->+		case 4:
->+			regmap_update_bits(priv->map, LPC_HICRB, LPC_HICRB_IBFIF4,
->+					   enable * LPC_HICRB_IBFIF4);
->+			return;
->+		default:
->+			pr_warn("%s: Unsupported channel: %d", __func__, kcs_bmc->channel);
->+			return;
->+		}
-> 	}
-> }
->
-> static const struct kcs_bmc_device_ops aspeed_kcs_ops =3D {
->+	.irq_mask_update =3D aspeed_kcs_irq_mask_update,
-> 	.io_inputb =3D aspeed_kcs_inb,
-> 	.io_outputb =3D aspeed_kcs_outb,
-> 	.io_updateb =3D aspeed_kcs_updateb,
->@@ -378,6 +407,10 @@ static int aspeed_kcs_probe(struct platform_device *p=
-dev)
-> 		return -ENODEV;
-> 	}
->
->+	spin_lock_init(&priv->obe.lock);
->+	priv->obe.remove =3D false;
->+	timer_setup(&priv->obe.timer, aspeed_kcs_check_obe, 0);
->+
-> 	aspeed_kcs_set_address(kcs_bmc, addr);
->
-> 	rc =3D aspeed_kcs_config_irq(kcs_bmc, pdev);
->@@ -386,6 +419,8 @@ static int aspeed_kcs_probe(struct platform_device *pd=
-ev)
->
-> 	platform_set_drvdata(pdev, priv);
->
->+	aspeed_kcs_irq_mask_update(kcs_bmc, (KCS_BMC_EVENT_TYPE_IBF | KCS_BMC_EV=
-ENT_TYPE_OBE),
->+				   KCS_BMC_EVENT_TYPE_IBF);
-> 	aspeed_kcs_enable_channel(kcs_bmc, true);
->
-> 	rc =3D kcs_bmc_add_device(&priv->kcs_bmc);
->@@ -404,6 +439,15 @@ static int aspeed_kcs_remove(struct platform_device *=
-pdev)
->
-> 	kcs_bmc_remove_device(kcs_bmc);
->
->+	aspeed_kcs_enable_channel(kcs_bmc, false);
->+	aspeed_kcs_irq_mask_update(kcs_bmc, (KCS_BMC_EVENT_TYPE_IBF | KCS_BMC_EV=
-ENT_TYPE_OBE), 0);
->+
->+	/* Make sure it's proper dead */
->+	spin_lock_irq(&priv->obe.lock);
->+	priv->obe.remove =3D true;
->+	spin_unlock_irq(&priv->obe.lock);
->+	del_timer_sync(&priv->obe.timer);
->+
-> 	return 0;
-> }
->
->diff --git a/drivers/char/ipmi/kcs_bmc_client.h b/drivers/char/ipmi/kcs_bm=
-c_client.h
->index d0a7404ff584..456796da33de 100644
->--- a/drivers/char/ipmi/kcs_bmc_client.h
->+++ b/drivers/char/ipmi/kcs_bmc_client.h
->@@ -37,6 +37,8 @@ int kcs_bmc_unregister_cdev(struct kcs_bmc_cdev *cdev);
-> int kcs_bmc_enable_device(struct kcs_bmc_device *kcs_bmc, struct kcs_bmc_=
-client *client);
-> void kcs_bmc_disable_device(struct kcs_bmc_device *kcs_bmc, struct kcs_bm=
-c_client *client);
->
->+void kcs_bmc_update_event_mask(struct kcs_bmc_device *kcs_bmc, u8 mask, u=
-8 events);
->+
-> u8 kcs_bmc_read_data(struct kcs_bmc_device *kcs_bmc);
-> void kcs_bmc_write_data(struct kcs_bmc_device *kcs_bmc, u8 data);
-> u8 kcs_bmc_read_status(struct kcs_bmc_device *kcs_bmc);
->diff --git a/drivers/char/ipmi/kcs_bmc_device.h b/drivers/char/ipmi/kcs_bm=
-c_device.h
->index 57b7174b2bac..f1ca8912496a 100644
->--- a/drivers/char/ipmi/kcs_bmc_device.h
->+++ b/drivers/char/ipmi/kcs_bmc_device.h
->@@ -7,6 +7,7 @@
-> #include "kcs_bmc.h"
->
-> struct kcs_bmc_device_ops {
->+	void (*irq_mask_update)(struct kcs_bmc_device *kcs_bmc, u8 mask, u8 enab=
-le);
-> 	u8 (*io_inputb)(struct kcs_bmc_device *kcs_bmc, u32 reg);
-> 	void (*io_outputb)(struct kcs_bmc_device *kcs_bmc, u32 reg, u8 b);
-> 	void (*io_updateb)(struct kcs_bmc_device *kcs_bmc, u32 reg, u8 mask, u8 =
-b);
->diff --git a/drivers/char/ipmi/kcs_bmc_npcm7xx.c b/drivers/char/ipmi/kcs_b=
-mc_npcm7xx.c
->index dce93ec895fc..c2032728a03d 100644
->--- a/drivers/char/ipmi/kcs_bmc_npcm7xx.c
->+++ b/drivers/char/ipmi/kcs_bmc_npcm7xx.c
->@@ -38,6 +38,7 @@
-> #define KCS2CTL		0x2A
-> #define KCS3CTL		0x3C
-> #define    KCS_CTL_IBFIE	BIT(0)
->+#define    KCS_CTL_OBEIE	BIT(0)
->
-> #define KCS1IE		0x1C
-> #define KCS2IE		0x2E
->@@ -117,13 +118,23 @@ static void npcm7xx_kcs_enable_channel(struct kcs_bm=
-c_device *kcs_bmc, bool enab
-> {
-> 	struct npcm7xx_kcs_bmc *priv =3D to_npcm7xx_kcs_bmc(kcs_bmc);
->
->-	regmap_update_bits(priv->map, priv->reg->ctl, KCS_CTL_IBFIE,
->-			   enable ? KCS_CTL_IBFIE : 0);
->-
-> 	regmap_update_bits(priv->map, priv->reg->ie, KCS_IE_IRQE | KCS_IE_HIRQE,
-> 			   enable ? KCS_IE_IRQE | KCS_IE_HIRQE : 0);
-> }
->
->+static void npcm7xx_kcs_irq_mask_update(struct kcs_bmc_device *kcs_bmc, u=
-8 mask, u8 state)
->+{
->+	struct npcm7xx_kcs_bmc *priv =3D to_npcm7xx_kcs_bmc(kcs_bmc);
->+
->+	if (KCS_BMC_EVENT_TYPE_OBE & mask)
->+		regmap_update_bits(priv->map, priv->reg->ctl, KCS_CTL_OBEIE,
->+				   !!(KCS_BMC_EVENT_TYPE_OBE & state) * KCS_CTL_OBEIE);
->+
->+	if (KCS_BMC_EVENT_TYPE_IBF & mask)
->+		regmap_update_bits(priv->map, priv->reg->ctl, KCS_CTL_IBFIE,
->+				   !!(KCS_BMC_EVENT_TYPE_IBF & state) * KCS_CTL_IBFIE);
+On Thu, 8 Apr 2021, at 10:46, Zev Weiss wrote:
+> This splits dedicated aspeed_vuart_set_{sirq,lpc_address}() functions
+> out of the sysfs store functions in preparation for adding DT
+> properties that will be poking the same registers.  While we're at it,
+> these functions now provide some basic bounds-checking on their
+> arguments.
+> 
+> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+> ---
+>  drivers/tty/serial/8250/8250_aspeed_vuart.c | 51 ++++++++++++++-------
+>  1 file changed, 35 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c 
+> b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+> index c33e02cbde93..8433f8dbb186 100644
+> --- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
+> +++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+> @@ -72,22 +72,31 @@ static ssize_t lpc_address_show(struct device *dev,
+>  	return snprintf(buf, PAGE_SIZE - 1, "0x%x\n", addr);
+>  }
+>  
+> +static int aspeed_vuart_set_lpc_address(struct aspeed_vuart *vuart, u32 addr)
+> +{
+> +	if (addr > U16_MAX)
+> +		return -EINVAL;
+> +
+> +	writeb(addr >> 8, vuart->regs + ASPEED_VUART_ADDRH);
+> +	writeb(addr >> 0, vuart->regs + ASPEED_VUART_ADDRL);
+> +
+> +	return 0;
+> +}
+> +
+>  static ssize_t lpc_address_store(struct device *dev,
+>  				 struct device_attribute *attr,
+>  				 const char *buf, size_t count)
+>  {
+>  	struct aspeed_vuart *vuart = dev_get_drvdata(dev);
+> -	unsigned long val;
+> +	u32 val;
+>  	int err;
+>  
+> -	err = kstrtoul(buf, 0, &val);
+> +	err = kstrtou32(buf, 0, &val);
+>  	if (err)
+>  		return err;
+>  
+> -	writeb(val >> 8, vuart->regs + ASPEED_VUART_ADDRH);
+> -	writeb(val >> 0, vuart->regs + ASPEED_VUART_ADDRL);
+> -
+> -	return count;
+> +	err = aspeed_vuart_set_lpc_address(vuart, val);
+> +	return err ? : count;
+>  }
+>  
+>  static DEVICE_ATTR_RW(lpc_address);
+> @@ -105,27 +114,37 @@ static ssize_t sirq_show(struct device *dev,
+>  	return snprintf(buf, PAGE_SIZE - 1, "%u\n", reg);
+>  }
+>  
+> +static int aspeed_vuart_set_sirq(struct aspeed_vuart *vuart, u32 sirq)
+> +{
+> +	u8 reg;
+> +
+> +	if (sirq > (ASPEED_VUART_GCRB_HOST_SIRQ_MASK >> ASPEED_VUART_GCRB_HOST_SIRQ_SHIFT))
+> +		return -EINVAL;
+> +
+> +	sirq <<= ASPEED_VUART_GCRB_HOST_SIRQ_SHIFT;
+> +	sirq &= ASPEED_VUART_GCRB_HOST_SIRQ_MASK;
 
-Same operand ordering thing here...
+This might be less verbose if we reordered things a little:
 
->+}
->+
-> static irqreturn_t npcm7xx_kcs_irq(int irq, void *arg)
-> {
-> 	struct kcs_bmc_device *kcs_bmc =3D arg;
->@@ -151,6 +162,7 @@ static int npcm7xx_kcs_config_irq(struct kcs_bmc_devic=
-e *kcs_bmc,
-> }
+```
+sirq <<= ASPEED_VUART_GCRB_HOST_SIRQ_SHIFT;
+if (sirq & ASPEED_VUART_GCRB_HOST_SIRQ_MASK)
+	return -EINVAL;
+sirq &= ASPEED_VUART_GCRB_HOST_SIRQ_MASK;
+```
+
+But otherwise it looks okay, so
+
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+
+> +
+> +	reg = readb(vuart->regs + ASPEED_VUART_GCRB);
+> +	reg &= ~ASPEED_VUART_GCRB_HOST_SIRQ_MASK;
+> +	reg |= sirq;
+> +	writeb(reg, vuart->regs + ASPEED_VUART_GCRB);
+> +
+> +	return 0;
+> +}
+> +
+>  static ssize_t sirq_store(struct device *dev, struct device_attribute 
+> *attr,
+>  			  const char *buf, size_t count)
+>  {
+>  	struct aspeed_vuart *vuart = dev_get_drvdata(dev);
+>  	unsigned long val;
+>  	int err;
+> -	u8 reg;
+>  
+>  	err = kstrtoul(buf, 0, &val);
+>  	if (err)
+>  		return err;
+>  
+> -	val <<= ASPEED_VUART_GCRB_HOST_SIRQ_SHIFT;
+> -	val &= ASPEED_VUART_GCRB_HOST_SIRQ_MASK;
+> -
+> -	reg = readb(vuart->regs + ASPEED_VUART_GCRB);
+> -	reg &= ~ASPEED_VUART_GCRB_HOST_SIRQ_MASK;
+> -	reg |= val;
+> -	writeb(reg, vuart->regs + ASPEED_VUART_GCRB);
+> -
+> -	return count;
+> +	err = aspeed_vuart_set_sirq(vuart, val);
+> +	return err ? : count;
+>  }
+>  
+>  static DEVICE_ATTR_RW(sirq);
+> -- 
+> 2.31.1
+> 
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 >
-> static const struct kcs_bmc_device_ops npcm7xx_kcs_ops =3D {
->+	.irq_mask_update =3D npcm7xx_kcs_irq_mask_update,
-> 	.io_inputb =3D npcm7xx_kcs_inb,
-> 	.io_outputb =3D npcm7xx_kcs_outb,
-> 	.io_updateb =3D npcm7xx_kcs_updateb,
->@@ -191,11 +203,13 @@ static int npcm7xx_kcs_probe(struct platform_device =
-*pdev)
->
-> 	platform_set_drvdata(pdev, priv);
->
->-	npcm7xx_kcs_enable_channel(kcs_bmc, true);
-> 	rc =3D npcm7xx_kcs_config_irq(kcs_bmc, pdev);
-> 	if (rc)
-> 		return rc;
->
->+	npcm7xx_kcs_irq_mask_update(kcs_bmc, (KCS_BMC_EVENT_TYPE_IBF | KCS_BMC_E=
-VENT_TYPE_OBE),
->+				    KCS_BMC_EVENT_TYPE_IBF);
->+	npcm7xx_kcs_enable_channel(kcs_bmc, true);
->
-> 	pr_info("channel=3D%u idr=3D0x%x odr=3D0x%x str=3D0x%x\n",
-> 		chan,
->@@ -211,6 +225,9 @@ static int npcm7xx_kcs_remove(struct platform_device *=
-pdev)
->
-> 	kcs_bmc_remove_device(kcs_bmc);
->
->+	npcm7xx_kcs_enable_channel(kcs_bmc, false);
->+	npcm7xx_kcs_irq_mask_update(kcs_bmc, (KCS_BMC_EVENT_TYPE_IBF | KCS_BMC_E=
-VENT_TYPE_OBE), 0);
->+
-> 	return 0;
-> }
->
->--=20
->2.27.0
->=
