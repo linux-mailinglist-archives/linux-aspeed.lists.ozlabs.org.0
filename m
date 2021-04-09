@@ -1,91 +1,130 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A346359098
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 01:47:11 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE76A3592C9
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 05:14:21 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FGdGP0WX7z30F9
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 09:47:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FGjsR59xfz30L3
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 13:14:19 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=lnFwOf4E;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=RR2UR/Dw;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=j3yHDQPt;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.229;
- helo=new3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=lnFwOf4E; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=RR2UR/Dw; 
+ smtp.mailfrom=os.amperecomputing.com (client-ip=40.107.92.120;
+ helo=nam10-bn7-obe.outbound.protection.outlook.com;
+ envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com
+ header.a=rsa-sha256 header.s=selector2 header.b=j3yHDQPt; 
  dkim-atps=neutral
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2120.outbound.protection.outlook.com [40.107.92.120])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FGdGJ38cYz2yQv;
- Fri,  9 Apr 2021 09:47:03 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id EFA965805A7;
- Thu,  8 Apr 2021 19:46:58 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Thu, 08 Apr 2021 19:46:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=3gGVX3JOaG38XWZoaFoORuXmUHcSVYu
- PdREEhXwr2lM=; b=lnFwOf4EL+ECFKXoXPRXOpXUUPG3taJf/ImmKVTwL97B24g
- h3RlixiPG8WqIkzLfvmPG+Mx4WzW2qh6u5HeMchAMSAWlzEPoVz3SAK/CmmBQQZV
- vsj61ImqTPyR7bOcv1bQ1yuCWHcF7bRAxrN2t5wcU/59H/zB+N/T1Q04/RnWfd0C
- 5Yzlti2tdXPwwzC6PJHIm6sZ/Nv+hM465zdUlYFZqkMghOHT+pMB8dciT9pRp9Yi
- mv/AenehPCuMMsGZZ28yWFpQrL0jUgHc5T9MAM8w6WjTlgWItQzVfcjVonDPGRWR
- QazXSY4nX+z6D9VvhCNXnr5iw23frCDAtbR+4mA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=3gGVX3
- JOaG38XWZoaFoORuXmUHcSVYuPdREEhXwr2lM=; b=RR2UR/DwyT+tnS+oLi2+WZ
- aQEgXV5QaBt1NMMLPdUYLwmkmBqu+2bIF4jUJaut/3y/XXXJDwfZDlufZYgaKC4o
- 5KQLGZL2lklUG29GHw67B6NJdHmM6njYa2b60RhYGvu7uKzMMIJ44dGK0c+j8wnC
- D5Bf1eSisDklyZJGnLt53hHdgTC24xKDfW992Wn9NHJzmFWfe/j68kN7cgwz4Fjz
- 3BX6g2FgXvzL+VrshhbpPJKgobivz7PWCRiAZFKYkNH0SgIukzx8kfUpWE3DOpEa
- AhO6EO0O9uVejDI5fqEw3RDFSLHoFc4yW0mmYYMcpmLfRxA8LmMfvP6p8j1u2bjw
- ==
-X-ME-Sender: <xms:8JVvYABtmjmz89n_8bZqwN9g7QVpCROxcRhe_fSokdaZT0Nnn-t51g>
- <xme:8JVvYCiFpAgwel-c5LdaV26DGsgnRFSxeJTDxXHjp0dK1rK6s7eaAPCh63xl-HDB9
- aP9Tl5FFLr1hMcnDg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudektddgvdegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhepudfftddvveekfffgteffffeuveegjeelgefhffejtdehtdfhlefgkeef
- hfefkeeinecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
- gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:8JVvYDn67uV7od1rXZlxzL1plYYBwn1U3mvdS68-YbwWghNzfOqeQg>
- <xmx:8JVvYGws__rMbJbzdKLbdoLGeHiIt4qm3oQw5kAVhzg0vpYLKoAChw>
- <xmx:8JVvYFS2YvgQnpwAhLXLYIOo0xo_tk6iSGVaP5LXEuBbg__VYzlJdw>
- <xmx:8pVvYGBMihZ7Bk4d8V6f4pvUUsJr3-DP9xfNGRT8Q922NanT-sa7bg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 91F22A0007C; Thu,  8 Apr 2021 19:46:56 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-273-g8500d2492d-fm-20210323.002-g8500d249
-Mime-Version: 1.0
-Message-Id: <6ff29d26-543a-4790-abb4-ebaa3f8d0265@www.fastmail.com>
-In-Reply-To: <20210408121441.GG7166@minyard.net>
-References: <20210319061952.145040-1-andrew@aj.id.au>
- <2db77e16-3f44-4c02-a7ba-a4fac8141ae3@www.fastmail.com>
- <20210408121441.GG7166@minyard.net>
-Date: Fri, 09 Apr 2021 09:16:35 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Corey Minyard" <minyard@acm.org>
-Subject: Re: [PATCH v2 00/21] ipmi: Allow raw access to KCS devices
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FGjsM65sJz2yyr;
+ Fri,  9 Apr 2021 13:14:14 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dbV8/t45Tzb3SuY9UwwOlr8PlUDPNdMNobQigRm1rwiyu4W/gLQDC4ye5RvmKHxyhBMZQTxRH8OvKn35jzV2WqPNdl39lYpOYaiJx3rzLUEa9wJYgTo0mCD3WhBGXiesWZwnECzs8C8qyV7vrNuC5oGbFH9WdnPdcFUO7XFRiBbo/++frBuk4xsnD29J3YluRSlcQ55tltMfjlmAbQX7Z42EgWbB9A13dSyNA3rx5Ts72nkDSB4dDeI8lli+BWietJ8KJIK2/vMWO46NMA5rULwlMSKlNIf2I+WeA07r4nWjwIezeoV87BJdaR6n9ziv/aTON150NEM7o9czh2s/NA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IVhCOEEjyjK8hBErrPHRMrkFFG75goC/w2Dgrlmgxpc=;
+ b=P3+Kp/aMq4nlwbg0sAbWwmSnhPEklkQGR/2xzEBLD8zzClhuuUzSftEk5vew7zb4lsyyEbizws85mfZMqNpGB4AFHVGL5fIrAkz5BJxIw5IWz9yQ6cPETBzcZBgdgmxSOMkuU7+pg1WkIrodI9o3Hbpr1SHogZigJ7vbTumsFvMelHNSnCe2vkRH/oHodF13oWLhYdJZ4q0ALII37fiXthHVxtHZXL9zIt8gPZICZQL58yXGfDXujC6uWxz7ObIZDQBgG7QUklQAD0/20hYxatvDKIxv9I6SDJZpiRlO6amiI2GMdIunx62fpEyuV0xlmwP4mQuhn24j7qveee9LmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IVhCOEEjyjK8hBErrPHRMrkFFG75goC/w2Dgrlmgxpc=;
+ b=j3yHDQPtKD3ORKTbpj2ZX3GAVbkmAI8Oopftl0BMJq73tU+ZWwpyLRxxu2p1g8yOaXkcNO1B58AkqhlJtwx/drdcXV80VroKddKymf+GZH0PP20H9GQn1N9leoC1bRl2RqEPb8s2ISQviP3kRijiMRY+cyNqn28T/ymql3wN/Z0=
+Authentication-Results: jms.id.au; dkim=none (message not signed)
+ header.d=none;jms.id.au; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
+ MWHPR0101MB2991.prod.exchangelabs.com (2603:10b6:301:36::14) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3999.26; Fri, 9 Apr 2021 03:14:07 +0000
+Received: from MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::d840:7aa7:58d4:b503]) by MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::d840:7aa7:58d4:b503%5]) with mapi id 15.20.4020.016; Fri, 9 Apr 2021
+ 03:14:01 +0000
+From: Quan Nguyen <quan@os.amperecomputing.com>
+To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+ Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org
+Subject: [PATCH v3 0/4] Add Ampere's Altra SMPro hwmon driver
+Date: Fri,  9 Apr 2021 10:13:28 +0700
+Message-Id: <20210409031332.21919-1-quan@os.amperecomputing.com>
+X-Mailer: git-send-email 2.28.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-Originating-IP: [118.69.219.201]
+X-ClientProxiedBy: HK0PR01CA0054.apcprd01.prod.exchangelabs.com
+ (2603:1096:203:a6::18) To MW2PR0102MB3482.prod.exchangelabs.com
+ (2603:10b6:302:c::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from hcm-sw-17.amperecomputing.com (118.69.219.201) by
+ HK0PR01CA0054.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17 via Frontend
+ Transport; Fri, 9 Apr 2021 03:13:56 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5fc0438a-187b-473d-e7a7-08d8fb05855a
+X-MS-TrafficTypeDiagnostic: MWHPR0101MB2991:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR0101MB2991A7CADE494182AC3320DEF2739@MWHPR0101MB2991.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: U6+IIfpcEOncMy1qTQI8XKLHvSMsuyRm/4wFnPgLPe1n1TMaiYY7IKng+/4Pnvtl4Z2/ue098NWUJK5fMKrrjDy8CSiBeHgeQLgpFbZF6ILZIKwdXKWcJoGQpcpiXlbVqSE5uBXKETkaGsH3QdtRUJzKGKSWRl/kN6PpslyzUd+yj6LoDuDB/qhovmsiQHtlRSj8hFprlxnsdpy4c4fMOePZim9XYbRC8Jhtm5NRecFy8zWCWCpbDJJQNJ+CrQm/fkJd2pO0/QWfFuiq54AC8QP0Znfvs/kpYAt63qpVtrqUiEX6fXQok3Xi2aU0LKBRo6SWiST9fjtQsfmkZ6VQycaQD8Zzl2ZGgmbaX+h87qeXa7z5M2CwyZrOD/BLlXmnld6a3ASI9UrqJSBvMkM2O+0iQCmUZ1FqUQqeJrAVOZyaAovLhYhY3auli/PKNXK8B7cqvV/VUQWI2tXEb83uRq33hXG+y5bTNJ/p29hvbx8KJaquDoVPWm3JdSduF/XErrAnHRH94oakL1MQvJd02DlN/GO/QXzRhGWbSL7HMePzthCrvnTrcjQbkrORRNVbkL3DgeJhHoiKrVanG5uN+UlILV3hl83T1KH/W0E5s4NO+xirX2lxsvlC1IwSE1mBge8yNuW1hE4IEQ5dCe3ksU0VK07TLsStiKgcZUe4vd2C8VGn8T806NXu9JaONi5jH3DoEp1mBDx13ZyRyPgNfA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR0102MB3482.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(39850400004)(396003)(136003)(346002)(376002)(6512007)(478600001)(38350700001)(921005)(6666004)(26005)(316002)(6486002)(1076003)(83380400001)(2906002)(86362001)(7416002)(186003)(16526019)(6506007)(5660300002)(107886003)(38100700001)(4326008)(66946007)(956004)(8936002)(8676002)(2616005)(52116002)(66556008)(54906003)(110136005)(66476007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Gy6A3fKlCjs3rK6m/ON32FwJ0t15HtNHU78zoVjWLEhZAXbuWbnTzrFR5dyi?=
+ =?us-ascii?Q?YiI4eduMxNdflZrzfo7zH4f6waDa69s3haFnO1eSILm/zMWTirWFgfwEc79Z?=
+ =?us-ascii?Q?FSXzeulQU1+xwtOA3ejpGDdBaal/5Ar0988hTtecU3OmHRyEIVGnlbQEcq55?=
+ =?us-ascii?Q?XkKx6fhQC/zcwbd+0PTXoarVboe7Hw3XsWklQ1ZJEDcq2nVaD/1biUZLIifr?=
+ =?us-ascii?Q?uusSsZbipGh/+eQWkqzm5agfB92KA+Dh/J2mW1dtX98OXMwicySLhotTJaJb?=
+ =?us-ascii?Q?33VzMsTItGxDfP1SGgRnEHVWlKLr/K8e/HSw7T5k+irxmyIitp5qq+ZSc6o1?=
+ =?us-ascii?Q?MJ25t7Fg9k8W8QqJjVBQOlAqDIxvZDO9ypcgZcSZiLLbHaY670GsCruIMclS?=
+ =?us-ascii?Q?31eg13L5xrYUWmAgTNw7dGCwF0Yp9L5QdqrX3chdNA931FydzDBEg8UNtmIv?=
+ =?us-ascii?Q?kFKGt/lydsEiISb/cJvDduxQB9kYVFSmOiIf2zJtnEWjFc3XWuGvx+kGp4f7?=
+ =?us-ascii?Q?KOjQe+rRqRN6uHT2bdNmYT9H0lFzKDPh8t/Z3AJgZQ+Ksbgyth6Vo6O2J+Vn?=
+ =?us-ascii?Q?MsW5pdL/kN+B3EwqVVf2bKqfxCnoHvH4w5PUC9B6XpRtPbxwe2y2cd+NpLns?=
+ =?us-ascii?Q?TIWmzPisz3skDl0BV8yA7MBmbEqrTU1koivV7KIkrQY9be/bgoUusHptcWO4?=
+ =?us-ascii?Q?sY5IhHPataAPTVKPR/fCPtjrrBtKnTa3aolWdOHvmJvh69jJe9mT8DXZRcYd?=
+ =?us-ascii?Q?wYKpn5yKGw2lD6HtW11TKr7YDHiA0qEhtOj0IFBK8cCU8mHisRckY4PdJJAl?=
+ =?us-ascii?Q?jPHQje+p6WJFpvoOeGSOsSaEeXjmBtqj7qDIjwTcx/01vYG49SeWPQh1vYik?=
+ =?us-ascii?Q?jM+bN7lhDpOa7S5JIh0CLPEcgEhHOromolI8HVw8GuDolJgLZQ+DjV4PoU/1?=
+ =?us-ascii?Q?bWXMUlUcgR8ByRtDC8AD43WNxsWQSp2oyVrIKaX6G112H69I66rmMbqF4dKD?=
+ =?us-ascii?Q?SCceFbYfYwNNG398UQqNOf2skbeG6I7JWQoSqY0y9tNSWQ91n7QoDAfXbfey?=
+ =?us-ascii?Q?VUK2Gyi+aEjY+1kx/UofoFdO03DlyrbIyD6c7awOrQmBe/29RukdKNi5BHM4?=
+ =?us-ascii?Q?pQDnBeHS3cNR4cTjiDXscGd8ec9+1EXffzNVTVoa4i6yJK0ABQb3QR0a7RwL?=
+ =?us-ascii?Q?885usKtnckepA39owRpuAc4hOBTkf+CgCGEelBgzI1h00Gr5JnHVGPXmTBDx?=
+ =?us-ascii?Q?bQN8QtCYXwnovTgTHP4rCHSprl7nVYNPehclqqroXKZlh5FgzsrduMO5QZeX?=
+ =?us-ascii?Q?MjnS1KDQCRoUH8jY0P/Ebj1c?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5fc0438a-187b-473d-e7a7-08d8fb05855a
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2021 03:14:01.0606 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zTlIWtiu9e2OIL4ilLdb2pXUE3FZdHd20gOmhSZ5LE+BsZKZkRshO/oGbhVHQ1oLHlCZpgeOEVcNkoWEXrdyk5I9hTV9jtArj+3JSOZFATM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0101MB2991
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,125 +136,68 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tomer Maimon <tmaimon77@gmail.com>,
- linux-aspeed@lists.ozlabs.org, Avi Fishman <avifishman70@gmail.com>,
- Patrick Venture <venture@google.com>, openbmc@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, Tali Perry <tali.perry1@gmail.com>,
- linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- openipmi-developer@lists.sourceforge.net, Lee Jones <lee.jones@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>, linux-arm-kernel@lists.infradead.org
+Cc: Open Source Submission <patches@amperecomputing.com>,
+ "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
+ Phong Vo <phong@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+This patch series adds support for Ampere SMpro hwmon driver. This
+driver supports accessing various CPU sensors provided by the SMpro
+co-processor including temperature, power, voltages, and current found
+on Ampere Altra processor family.
 
+v3:
+  + Supported list of compatible string [Rob]
+  + Introduced reg property in DT to specify reg offset [Rob]
+  + Updated description and other minor changes in yaml file [Rob]
+  + Handled negative temperature value [Guenter]
+  + Returned -ENODEV if Manufacturer ID is wrong [Guenter]
+  + Refactored smpro_read_string() and smpro_temp_read() [Guenter]
+  + Removed smpro_write() function [Guenter]
+  + Added minor refactor changes [Quan]
 
-On Thu, 8 Apr 2021, at 21:44, Corey Minyard wrote:
-> On Thu, Apr 08, 2021 at 10:27:46AM +0930, Andrew Jeffery wrote:
-> > Hi Corey,
-> > 
-> > On Fri, 19 Mar 2021, at 16:49, Andrew Jeffery wrote:
-> > > Hello,
-> > > 
-> > > This series is a bit of a mix of things, but its primary purpose is to
-> > > expose BMC KCS IPMI devices to userspace in a way that enables userspace
-> > > to talk to host firmware using protocols that are not IPMI.
-> > > 
-> > > v1 can be found here:
-> > > 
-> > > https://lore.kernel.org/openbmc/20210219142523.3464540-1-andrew@aj.id.au/
-> > > 
-> > > Changes in v2 include:
-> > > 
-> > > * A rebase onto v5.12-rc2
-> > > * Incorporation of off-list feedback on SerIRQ configuration from
-> > >   Chiawei
-> > > * Further validation on hardware for ASPEED KCS devices 2, 3 and 4
-> > > * Lifting the existing single-open constraint of the IPMI chardev
-> > > * Fixes addressing Rob's feedback on the conversion of the ASPEED KCS
-> > >   binding to dt-schema
-> > > * Fixes addressing Rob's feedback on the new aspeed,lpc-interrupts
-> > >   property definition for the ASPEED KCS binding
-> > > 
-> > > A new chardev device is added whose implementation exposes the Input
-> > > Data Register (IDR), Output Data Register (ODR) and Status Register
-> > > (STR) via read() and write(), and implements poll() for event
-> > > monitoring.
-> > > 
-> > > The existing /dev/ipmi-kcs* chardev interface exposes the KCS devices in
-> > > a way which encoded the IPMI protocol in its behaviour. However, as
-> > > LPC[0] KCS devices give us bi-directional interrupts between the host
-> > > and a BMC with both a data and status byte, they are useful for purposes
-> > > beyond IPMI.
-> > > 
-> > > As a concrete example, libmctp[1] implements a vendor-defined MCTP[2]
-> > > binding using a combination of LPC Firmware cycles for bulk data
-> > > transfer and a KCS device via LPC IO cycles for out-of-band protocol
-> > > control messages[3]. This gives a throughput improvement over the
-> > > standard KCS binding[4] while continuing to exploit the ease of setup of
-> > > the LPC bus for early boot firmware on the host processor.
-> > > 
-> > > The series takes a bit of a winding path to achieve its aim:
-> > > 
-> > > 1. It begins with patches 1-5 put together by Chia-Wei, which I've
-> > > rebased on v5.12-rc2. These fix the ASPEED LPC bindings and other
-> > > non-KCS LPC-related ASPEED device drivers in a way that enables the
-> > > SerIRQ patches at the end of the series. With Joel's review I'm hoping
-> > > these 5 can go through the aspeed tree, and that the rest can go through
-> > > the IPMI tree.
-> > > 
-> > > 2. Next, patches 6-13 fairly heavily refactor the KCS support in the
-> > > IPMI part of the tree, re-architecting things such that it's possible to
-> > > support multiple chardev implementations sitting on top of the ASPEED
-> > > and Nuvoton device drivers. However, the KCS code didn't really have
-> > > great separation of concerns as it stood, so even if we disregard the
-> > > multiple-chardev support I think the cleanups are worthwhile.
-> > > 
-> > > 3. Patch 14 adds some interrupt management capabilities to the KCS
-> > > device drivers in preparation for patch 16, which introduces the new
-> > > "raw" KCS device interface. I'm not stoked about the device name/path,
-> > > so if people are looking to bikeshed something then feel free to lay
-> > > into that.
-> > > 
-> > > 4. The remaining patches switch the ASPEED KCS devicetree binding to
-> > > dt-schema, add a new interrupt property to describe the SerIRQ behaviour
-> > > of the device and finally clean up Serial IRQ support in the ASPEED KCS
-> > > driver.
-> > > 
-> > > Rob: The dt-binding patches still come before the relevant driver
-> > > changes, I tried to keep the two close together in the series, hence the
-> > > bindings changes not being patches 1 and 2.
-> > > 
-> > > I've exercised the series under qemu with the rainier-bmc machine plus
-> > > additional patches for KCS support[5]. I've also substituted this series in
-> > > place of a hacky out-of-tree driver that we've been using for the
-> > > libmctp stack and successfully booted the host processor under our
-> > > internal full-platform simulation tools for a Rainier system.
-> > > 
-> > > Note that this work touches the Nuvoton driver as well as ASPEED's, but
-> > > I don't have the capability to test those changes or the IPMI chardev
-> > > path. Tested-by tags would be much appreciated if you can exercise one
-> > > or both.
-> > > 
-> > > Please review!
-> > 
-> > Unfortunately the cover letter got detached from the rest of the series.
-> > 
-> > Any chance you can take a look at the patches?
-> 
-> There were some minor concerns that were unanswered, and there really
-> was no review by others for many of the patches.
+v2:
+  + Used 'struct of_device_id's .data attribute [Lee Jones]
+  + Removed "virtual" sensors [Guenter]
+  + Fixed typo "mili" to "milli", "nanoWatt" to "microWatt" [Guenter]
+  + Reported SOC_TDP as "Socket TDP" using max attributes [Guenter]
+  + Clarified "highest" meaning in documentation [Guenter]
+  + Corrected return error code when host is turn off [Guenter]
+  + Reported MEM HOT Threshold for all DIMMs as temp*_crit [Guenter]
+  + Removed license info as SPDX-License-Identifier existed [Guenter]
+  + Added is_visible() support [Guenter]
+  + Used HWMON_CHANNEL_INFO() macro and LABEL attributes [Guenter]
+  + Made is_valid_id() return boolean [Guenter]
+  + Returned -EPROBE_DEFER when smpro reg inaccessible [Guenter]
+  + Removed unnecessary error message when dev register fail [Guenter]
+  + Removed Socket TDP sensor [Quan]
+  + Changed "ampere,ac01-smpro" to "ampere,smpro" [Quan]
+  + Included sensor type and channel in labels [Quan]
+  + Refactorized code to fix checkpatch.pl --strict complaint [Quan]
 
-Right; I was planning to clean up the minor concerns once I'd received 
-some more feedback. I could have done a better job of communicating 
-that :)
+Quan Nguyen (4):
+  dt-bindings: mfd: Add bindings for Ampere Altra SMPro drivers
+  mfd: simple-mfd-i2c: Adds Ampere's Altra SMpro support
+  hwmon: smpro: Add Ampere's Altra smpro-hwmon driver
+  docs: hwmon: (smpro-hwmon) Add documentation
 
-> 
-> I would like this patch set, it makes some good cleanups.  But I would
-> like some more review and testing by others, if possible. 
+ .../bindings/hwmon/ampere,ac01-hwmon.yaml     |  28 +
+ .../devicetree/bindings/mfd/ampere,smpro.yaml | 105 ++++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/smpro-hwmon.rst           | 101 ++++
+ drivers/hwmon/Kconfig                         |   8 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/smpro-hwmon.c                   | 491 ++++++++++++++++++
+ drivers/mfd/Kconfig                           |  10 +
+ drivers/mfd/simple-mfd-i2c.c                  |   6 +
+ 9 files changed, 751 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
+ create mode 100644 Documentation/hwmon/smpro-hwmon.rst
+ create mode 100644 drivers/hwmon/smpro-hwmon.c
 
-No worries. I'm trying to rope some others in to take a look.
+-- 
+2.28.0
 
-Thanks for the response.
-
-Andrew
