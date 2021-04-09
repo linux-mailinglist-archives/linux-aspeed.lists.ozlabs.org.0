@@ -1,91 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12221359523
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 08:07:42 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40758359535
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 08:14:50 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FGnjR6NYYz30Dv
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 16:07:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FGnsh1K07z30J5
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 16:14:48 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=pEb+ianf;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=LNxNQJGg;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=B67LEXXf;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.230;
- helo=new4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::72b;
+ helo=mail-qk1-x72b.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=pEb+ianf; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=LNxNQJGg; 
- dkim-atps=neutral
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=B67LEXXf; dkim-atps=neutral
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
+ [IPv6:2607:f8b0:4864:20::72b])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FGnhw4C7Pz2xdN;
- Fri,  9 Apr 2021 16:07:12 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 6DB6F5806D9;
- Fri,  9 Apr 2021 02:07:10 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Fri, 09 Apr 2021 02:07:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=xv1zETl1iB5irtIRE5Ue6naQ2DCplT+
- Qow5AJr+u6Gs=; b=pEb+ianfzwAfRDEaTJOMTUMGKZNZYn8XI6eeOcIkxBcld2V
- 0M0yMx7Ah9L4jojZhSlx4UtoSkAxW2Sr+BMNKvQoO7YIfRSTdGy4sR1AD21Szs27
- QrM2oVZsX3Hwf7vdRudLdaGCs3savGhxKWLevdjJW/FMWR3BhLFt/MVWSE8ZrEQb
- M7Ar/Xi5NIVYWVhuK4+UoezUSbdQMEd4CIvReWCPtK6ofhCoqeq2cvkIT3IWt9tA
- tUiSZukAr+mAJTCB3BZqxOOx7PtBUlQ96Kz85MV7TUq+8kx0Q4QD0SHKW213E4IG
- 3O2KyER/4YH6taX4pASQVGSZbCYopHNoKiipe7A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=xv1zET
- l1iB5irtIRE5Ue6naQ2DCplT+Qow5AJr+u6Gs=; b=LNxNQJGg/cAvzOj+gc1zjg
- bHwAZiLz6xx66pPDxqS3TOkm0gm/sRfbipxCup5hkiDOUVcGUm2taLQSKiCnGnXw
- ffv+D+EFJ/AuG1YlKvGL8vt5GekgU1VTKNE6jede9OVirWADAt/VMB8v0Tm61ez3
- bWXhr6yOU3iQJPogaShBTLD5Cv9eTPuurqMskW6QZOJXvqIY6E7iCBkHyJkkBqo2
- OxcKxvUy0xfCQADymsmWW/N6JbD+zCXI0ScTFLMBLCScEqRaAtZKvPwW5OE+2ruR
- m+z9FbTHN1XUHLvR/KVtcAb6RQBRcW5Z5dZIHx00NIS2fUCV2V3Ax/Uaqp67dcVA
- ==
-X-ME-Sender: <xms:De9vYAokWYs_woEEpDZLo6d6Bh8FdNcZKbKeykDkmgluY2Mcl2by-g>
- <xme:De9vYGpwg5ij96Fz9T01aXrgC21EPAPHhWgYDsRCeMLldtsz4ucqowCNuhMvHClkY
- jzsT146aK3Ogb3xgg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudektddguddtvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehn
- ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
- frrghtthgvrhhnpedutddtkeeugeegvddttdeukeeiuddtgfeuuddtfeeiueetfeeileet
- tedvtdfhieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:De9vYFNxDoxdpRtlQApYCyglGczswlSyLi9x6VutS_BzFEJHwegi_Q>
- <xmx:De9vYH4-XlOH5s6ehFTXQFJt5wqW9OLxHRHuoMAdu1csFLGKR_6jug>
- <xmx:De9vYP6TsUe2YdppspqDimLN9HgsKChjdsl7Ah30P_7Gi5YDobpNtA>
- <xmx:Du9vYDqXfFY-7SZ8-4TKPT40dkraw-aY6048pTAkU2jPnR5Q3tYchQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 7C074A0007C; Fri,  9 Apr 2021 02:07:09 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-273-g8500d2492d-fm-20210323.002-g8500d249
-Mime-Version: 1.0
-Message-Id: <e5c84ec2-5fe7-4f29-866a-331f652edd79@www.fastmail.com>
-In-Reply-To: <YG/RkB07Wh69/xdu@packtop>
-References: <20210319062752.145730-1-andrew@aj.id.au>
- <20210319062752.145730-11-andrew@aj.id.au> <YG/RkB07Wh69/xdu@packtop>
-Date: Fri, 09 Apr 2021 15:36:48 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Zev Weiss" <zweiss@equinix.com>
-Subject: =?UTF-8?Q?Re:_[PATCH_v2_11/21]_ipmi:_kcs=5Fbmc:_Split_headers_into_devic?=
- =?UTF-8?Q?e_and_client?=
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FGnsf10Y8z2yy3
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  9 Apr 2021 16:14:43 +1000 (AEST)
+Received: by mail-qk1-x72b.google.com with SMTP id s132so214600qke.1
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 08 Apr 2021 23:14:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=FRZO+HCHZaJtI6l3DQpMewHRTRciapnJj+KPs9srAYQ=;
+ b=B67LEXXfgUlYFemvN+DJR7IYbvMH3mkXnOcevWgTrbqUc0CCPaMU+JYsg6zlQQ39tg
+ CqOlZAHS8pilJzDBQQdxg8x53R3TWbJIxRmaXY9ScNs63C8XEMDtt3JF6910/nkjF00m
+ gTRpG9uVnxB0d1EubDsXdNDqK/7r2lczBaPP0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=FRZO+HCHZaJtI6l3DQpMewHRTRciapnJj+KPs9srAYQ=;
+ b=EgOcG2cHJELg/k0HTugGOPLjoWiaai1g4xqW0AqlVcoLBYLVHHQifrn5sTqyYRCj7q
+ LyeXehYhBl49aOj1lOnuWiv4MDfldU1ZyvlDnu90r7zM5PZVzz/iyz6YAZLaKVhtgNUD
+ axtJF8KyqRlGBVGvusnOVDXMaMRrq3rw7dZ1ub3wRt/gCm7lISkSVwd3QDJW2IzQDZbe
+ 5bN7cTJvS9jquyVoczQFUunVisT9gKZNfGF5hJ7EloUIyPd7J4xcUcxTX09oAFnuKa0s
+ 8w+ngobx4fKSxhSy4s59/r/nUiOq+pPzGf9k1+YtKFWh3oLQeMstfo3yZSnaJj6FBsJ2
+ /pqA==
+X-Gm-Message-State: AOAM533AeLKGpDdxJi1O088weCbYIe1X372YDfqDRpogwN/OsOgxdHF+
+ RzflRj4LDNMuPblB7dSKdptTJH+cQuqFvvM/R5E=
+X-Google-Smtp-Source: ABdhPJx2tT32pLMBe/ETq04appLjgR5JqaPIOwjjPXDIviNZnJEEKdWtCGh+Ko6rd/Bw2dFAt/4A9EMFCeGXfn9YOE4=
+X-Received: by 2002:a05:620a:c11:: with SMTP id
+ l17mr12431122qki.487.1617948880016; 
+ Thu, 08 Apr 2021 23:14:40 -0700 (PDT)
+MIME-Version: 1.0
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 9 Apr 2021 06:14:27 +0000
+Message-ID: <CACPK8Xe-KV5BeQwOH6NKC1++FCVqwwNCGBh7hEbBORfrmxfTtQ@mail.gmail.com>
+Subject: [GIT PULL] ARM: bmc: devicetree changes for 5.13
+To: SoC Team <soc@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,149 +68,90 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Tomer Maimon <tmaimon77@gmail.com>, Corey Minyard <minyard@acm.org>,
- Avi Fishman <avifishman70@gmail.com>, Patrick Venture <venture@google.com>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Tali Perry <tali.perry1@gmail.com>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "openipmi-developer@lists.sourceforge.net"
- <openipmi-developer@lists.sourceforge.net>, Lee Jones <lee.jones@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hello Soc maintainers,
 
+Here's a pull request from me for the ASPEED and Nuvoton changes
+targeting the v5.13 merge window. As you can see I've chosen to
+arrange the pull request as one single "BMC-related" set of changes.
+If we choose to continue with this, in the future I will cover the
+ASPEED, NPCM and soon to be merged WPCM (legacy Nuvoton) systems.
 
-On Fri, 9 Apr 2021, at 13:31, Zev Weiss wrote:
-> On Fri, Mar 19, 2021 at 01:27:42AM CDT, Andrew Jeffery wrote:
-> >Strengthen the distinction between code that abstracts the
-> >implementation of the KCS behaviours (device drivers) and code that
-> >exploits KCS behaviours (clients). Neither needs to know about the APIs
-> >required by the other, so provide separate headers.
-> >
-> >Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> >---
-> > drivers/char/ipmi/kcs_bmc.c           | 21 ++++++++++-----
-> > drivers/char/ipmi/kcs_bmc.h           | 30 ++++++++++-----------
-> > drivers/char/ipmi/kcs_bmc_aspeed.c    | 20 +++++++++-----
-> > drivers/char/ipmi/kcs_bmc_cdev_ipmi.c | 39 ++++++++++++++++++---------
-> > drivers/char/ipmi/kcs_bmc_client.h    | 29 ++++++++++++++++++++
-> > drivers/char/ipmi/kcs_bmc_device.h    | 19 +++++++++++++
-> > drivers/char/ipmi/kcs_bmc_npcm7xx.c   | 20 +++++++++-----
-> > 7 files changed, 129 insertions(+), 49 deletions(-)
-> > create mode 100644 drivers/char/ipmi/kcs_bmc_client.h
-> > create mode 100644 drivers/char/ipmi/kcs_bmc_device.h
-> >
-> >diff --git a/drivers/char/ipmi/kcs_bmc.c b/drivers/char/ipmi/kcs_bmc.c
-> >index 709b6bdec165..1046ce2bbefc 100644
-> >--- a/drivers/char/ipmi/kcs_bmc.c
-> >+++ b/drivers/char/ipmi/kcs_bmc.c
-> >@@ -1,46 +1,52 @@
-> > // SPDX-License-Identifier: GPL-2.0
-> > /*
-> >  * Copyright (c) 2015-2018, Intel Corporation.
-> >+ * Copyright (c) 2021, IBM Corp.
-> >  */
-> >
-> > #include <linux/module.h>
-> >
-> > #include "kcs_bmc.h"
-> >
-> >+/* Implement both the device and client interfaces here */
-> >+#include "kcs_bmc_device.h"
-> >+#include "kcs_bmc_client.h"
-> >+
-> >+/* Consumer data access */
-> >+
-> > u8 kcs_bmc_read_data(struct kcs_bmc *kcs_bmc)
-> > {
-> >-	return kcs_bmc->io_inputb(kcs_bmc, kcs_bmc->ioreg.idr);
-> >+	return kcs_bmc->ops->io_inputb(kcs_bmc, kcs_bmc->ioreg.idr);
-> > }
-> > EXPORT_SYMBOL(kcs_bmc_read_data);
-> >
-> > void kcs_bmc_write_data(struct kcs_bmc *kcs_bmc, u8 data)
-> > {
-> >-	kcs_bmc->io_outputb(kcs_bmc, kcs_bmc->ioreg.odr, data);
-> >+	kcs_bmc->ops->io_outputb(kcs_bmc, kcs_bmc->ioreg.odr, data);
-> > }
-> > EXPORT_SYMBOL(kcs_bmc_write_data);
-> >
-> > u8 kcs_bmc_read_status(struct kcs_bmc *kcs_bmc)
-> > {
-> >-	return kcs_bmc->io_inputb(kcs_bmc, kcs_bmc->ioreg.str);
-> >+	return kcs_bmc->ops->io_inputb(kcs_bmc, kcs_bmc->ioreg.str);
-> > }
-> > EXPORT_SYMBOL(kcs_bmc_read_status);
-> >
-> > void kcs_bmc_write_status(struct kcs_bmc *kcs_bmc, u8 data)
-> > {
-> >-	kcs_bmc->io_outputb(kcs_bmc, kcs_bmc->ioreg.str, data);
-> >+	kcs_bmc->ops->io_outputb(kcs_bmc, kcs_bmc->ioreg.str, data);
-> > }
-> > EXPORT_SYMBOL(kcs_bmc_write_status);
-> >
-> > void kcs_bmc_update_status(struct kcs_bmc *kcs_bmc, u8 mask, u8 val)
-> > {
-> >-	kcs_bmc->io_updateb(kcs_bmc, kcs_bmc->ioreg.str, mask, val);
-> >+	kcs_bmc->ops->io_updateb(kcs_bmc, kcs_bmc->ioreg.str, mask, val);
-> > }
-> > EXPORT_SYMBOL(kcs_bmc_update_status);
-> >
-> >-int kcs_bmc_ipmi_event(struct kcs_bmc *kcs_bmc);
-> > int kcs_bmc_handle_event(struct kcs_bmc *kcs_bmc)
-> > {
-> >-	return kcs_bmc_ipmi_event(kcs_bmc);
-> >+	return kcs_bmc->client.ops->event(&kcs_bmc->client);
-> > }
-> > EXPORT_SYMBOL(kcs_bmc_handle_event);
-> >
-> >@@ -60,4 +66,5 @@ EXPORT_SYMBOL(kcs_bmc_remove_device);
-> >
-> > MODULE_LICENSE("GPL v2");
-> > MODULE_AUTHOR("Haiyue Wang <haiyue.wang@linux.intel.com>");
-> >+MODULE_AUTHOR("Andrew Jeffery <andrew@aj.id.au>");
-> > MODULE_DESCRIPTION("KCS BMC to handle the IPMI request from system software");
-> >diff --git a/drivers/char/ipmi/kcs_bmc.h b/drivers/char/ipmi/kcs_bmc.h
-> >index bf0ae327997f..a1350e567723 100644
-> >--- a/drivers/char/ipmi/kcs_bmc.h
-> >+++ b/drivers/char/ipmi/kcs_bmc.h
-> >@@ -8,6 +8,15 @@
-> >
-> > #include <linux/miscdevice.h>
-> >
-> >+#include "kcs_bmc_client.h"
-> >+
-> >+#define KCS_BMC_EVENT_NONE	0
-> >+#define KCS_BMC_EVENT_HANDLED	1
-> 
-> Is there a particular reason we're introducing these macros and using an
-> int return type for kcs_bmc_client_ops.event instead of just having it
-> be irqreturn_t?  Other event types or outcomes we're anticipating needing
-> to handle maybe?
+The following changes since commit ee33e2fb3d70267de00f7c0b09e7e3b309a686df:
 
-In earlier iterations of the patches I was doing some extra work in the 
-event handling path and felt it was useful at the time. However I've 
-refactored things a little and this may have outlived its usefulness.
+  ARM: dts: nuvoton: Add Quanta GBS BMC Device Tree (2021-04-08 11:21:05 +0930)
 
-I'll reasses!
+are available in the Git repository at:
 
-> 
-> >+
-> >+#define KCS_BMC_STR_OBF		BIT(0)
-> >+#define KCS_BMC_STR_IBF		BIT(1)
-> >+#define KCS_BMC_STR_CMD_DAT	BIT(3)
-> 
-> The first two of these macros are used later in the series, but the third
-> doesn't end up used at all I think?
+  git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
+tags/bmc-5.13-devicetree
 
-I think I just added it as documentation as the hardware-defined bits 
-aren't contiguous.
+for you to fetch changes up to ee33e2fb3d70267de00f7c0b09e7e3b309a686df:
 
-Andrew
+  ARM: dts: nuvoton: Add Quanta GBS BMC Device Tree (2021-04-08 11:21:05 +0930)
+
+----------------------------------------------------------------
+BMC device tree updates for 5.13
+
+The ASPEED and Nuvoton pull request now comes as a combined BMC pull
+request.
+
+ - New machines
+
+  * ASRock E3C246D4I, an AST2500 BMC for an Xeon E-2100/E-2200 mini-ITX
+    system
+  * Quanta GBS, an NPCM730 BMC for an x86 server
+
+ - Power10 BMC updates for Everest and Rainier
+
+ - GPIO line names for Mihawk
+
+----------------------------------------------------------------
+
+Alpana Kumari (2):
+      ARM: dts: aspeed: rainier: Add presence GPIOs
+      ARM: dts: aspeed: everest: GPIOs support
+
+Brandon Wyman (2):
+      ARM: dts: aspeed: rainier: Add gpio-keys-polled for fans
+      ARM: dts: aspeed: everest: Add power supply i2c devices
+
+Eddie James (7):
+      ARM: dts: aspeed: rainier: Add additional processor CFAMs
+      ARM: dts: aspeed: rainier: Enable fan watchdog
+      ARM: dts: aspeed: rainier 4U: Fix fan configuration
+      ARM: dts: aspeed: everest: Add FSI CFAMs and re-number engines
+      ARM: dts: aspeed: everest: Add RTC
+      ARM: dts: aspeed: everest: Enable fan watchdog
+      ARM: dts: aspeed: Add Rainier 1S4U machine
+
+George Hung (1):
+      ARM: dts: nuvoton: Add Quanta GBS BMC Device Tree
+
+Jim Wright (1):
+      ARM: dts: aspeed: everest: Add UCD90320 power sequencer
+
+Joel Stanley (2):
+      ARM: dts: aspeed: rainier: Add missing fan nodes
+      ARM: dts: aspeed: everest: Add size/address cells
+
+Matthew Barth (2):
+      ARM: dts: aspeed: everest: Add max31785 fan controller device
+      ARM: dts: aspeed: everest: Add pca9552 fan presence
+
+Nichole Wang (1):
+      ARM: dts: aspeed: mihawk: Add GPIO line names
+
+Priyanga Ramasamy (1):
+      ARM: dts: aspeed: everest: Add I2C components
+
+Vishwanatha Subbanna (1):
+      ARM: dts: aspeed: rainier: Add directly controlled LEDs
+
+Zev Weiss (1):
+      ARM: dts: aspeed: Add ASRock E3C246D4I BMC
