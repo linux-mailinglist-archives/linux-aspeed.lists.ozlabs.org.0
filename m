@@ -1,62 +1,58 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4360B35957D
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 08:30:12 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0568C35959B
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 08:36:19 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FGpCQ1cMYz30L8
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 16:30:10 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FGpLS6X94z30Kb
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 16:36:16 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=PXJMuB/s;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=mKveTuIk;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::72b;
- helo=mail-qk1-x72b.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab;
+ helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=PXJMuB/s; dkim-atps=neutral
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
- [IPv6:2607:f8b0:4864:20::72b])
+ unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net
+ header.a=rsa-sha256 header.s=thorn header.b=mKveTuIk; 
+ dkim-atps=neutral
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net
+ [IPv6:2605:2700:0:5::4713:9cab])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FGpCN1G4tz2y68
- for <linux-aspeed@lists.ozlabs.org>; Fri,  9 Apr 2021 16:30:06 +1000 (AEST)
-Received: by mail-qk1-x72b.google.com with SMTP id x11so4816793qkp.11
- for <linux-aspeed@lists.ozlabs.org>; Thu, 08 Apr 2021 23:30:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=t6sfaiKhpJzm6PSIf/ddHU0ldz4ZXvQKkmw7oDKOIyg=;
- b=PXJMuB/sRtry0TFRSRVSvL9b1Obex34q0EYuMI0KevjzaahGxSYOdPJj3p7uQMktf/
- SmDk9QgSUPq+OoXavw9h2kYvWLge9VXenmNjZbO+kUFE75AhlFQGG35rCT128ILSFQJa
- hfO1qs7pyU+lY9CFAMh9YRXev0ZMrHy0InAZQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=t6sfaiKhpJzm6PSIf/ddHU0ldz4ZXvQKkmw7oDKOIyg=;
- b=eGKE/G5ah6XNyPfBUp9zazmsgOSAPDuy9EUw19x1Ewy6w5ltGulTC8llzZC4OUtjXm
- n5yytHQ6OAkV0k2ER34DGW6xZWyX7vLhSmiGHmuU72I9euBqYTjJbQEpKfcKiKQlASz6
- yTCe3af8t6ImO+XWXDd75x85qtl/wymnGaRmvVOtQcSQZVRLSMsAP/sshfG0U1qL/1OM
- nrlPyPxxuKtoLEzkh75sI++rZeJPwku4FlkTTuiqGJYU3fhH0wwY0F3LSw1Q0Q8trr+q
- 1N62UIdJWDPzdZ77IOp1KZTe4M65E3rK8I8zrNP+ggWml8Fz2ieT0Da22kGRC8ya4urx
- Iekw==
-X-Gm-Message-State: AOAM532t1/XkyPPLAZ15cS+4exNcTxS8BL0fTfnEfBpG3DHrlYvKswjv
- kQZcjrwHWDm8wYFA2fqpMmBAH+I37cWAX+qIwBQ=
-X-Google-Smtp-Source: ABdhPJxgu3cBHKkUKgRIxfjzhkmIIhaArUkzZ7ELQ+REDApTFFkya83HBLiA9F2iqAllfdJfMfC0rTiuwzYTrj86UsY=
-X-Received: by 2002:a05:620a:c11:: with SMTP id
- l17mr12472020qki.487.1617949804254; 
- Thu, 08 Apr 2021 23:30:04 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FGpKy3sbKz2yx3;
+ Fri,  9 Apr 2021 16:35:49 +1000 (AEST)
+Received: from hatter.bewilderbeest.net (unknown [IPv6:2600:6c44:7f:ba20::7c6])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: zev)
+ by thorn.bewilderbeest.net (Postfix) with ESMTPSA id BE0C286;
+ Thu,  8 Apr 2021 23:35:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
+ s=thorn; t=1617950142;
+ bh=hL8ydsRBjSGH93b6DxoXiwuUEU1J17Wd5fwxzHWrkNk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mKveTuIk1LSmdqqibJKuKd4WfGGtVPH2qUmK7P0kElsfhc2lKlcw9tuMcG0DDd2wX
+ xPsuYjCibyjCeDJ0A7GHT6pacWenP3xpeJwVSvL3LsCYMpYrpXhUP42V/nHUCQJ419
+ guR2vdR+BBTQBLRxhVIPUmO+WorScztFE/rt3vI0=
+Date: Fri, 9 Apr 2021 01:35:39 -0500
+From: Zev Weiss <zev@bewilderbeest.net>
+To: Andrew Jeffery <andrew@aj.id.au>
+Subject: Re: [PATCH v5 3/4] drivers/tty/serial/8250: add aspeed, lpc-io-reg
+ and aspeed, lpc-interrupts DT properties
+Message-ID: <YG/1u/kxl12sIO0V@hatter.bewilderbeest.net>
+References: <20210408011637.5361-1-zev@bewilderbeest.net>
+ <20210408011637.5361-4-zev@bewilderbeest.net>
+ <3eef2478-c5b8-4f14-a937-16bbe0a3e05a@www.fastmail.com>
 MIME-Version: 1.0
-From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 9 Apr 2021 06:29:52 +0000
-Message-ID: <CACPK8Xcb12LsVr7CUaXXjQskKbVjb7x+jgueG1Hik-kBPWtDSg@mail.gmail.com>
-Subject: [GIT PULL] ARM: aspeed: lpc changes for 5.13
-To: SoC Team <soc@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <3eef2478-c5b8-4f14-a937-16bbe0a3e05a@www.fastmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,52 +64,109 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-aspeed@lists.ozlabs.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ Jiri Slaby <jirislaby@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Soc maintainers,
+On Fri, Apr 09, 2021 at 12:14:54AM CDT, Andrew Jeffery wrote:
+>Hi Zev,
+>
+>A couple of minor comments:
+>
+>On Thu, 8 Apr 2021, at 10:46, Zev Weiss wrote:
+>> These allow describing all the Aspeed VUART attributes currently
+>> available via sysfs.  aspeed,sirq
+>
+>aspeed,lpc-interrupts now
 
-This is a pull request containing a slightly messy device tree and
-associated driver changes for the ASPEED systems. It corrects some
-design decisions made when first mainlining support for the BMC
-devices on the LPC bus that have stopped us from being able to write
-drivers for eg. KCS.
+Ah right, thanks.
 
-Andrew has worked with Chai-Wei from ASPEED on this process. These set
-of changes have acks from the maintainers, and allow Andrew to go
-ahead with fixing the KCS drivers in the future. The branch should
-apply with no conflicts no matter which order it is merged.
+>
+>> provides a replacement for the
+>> deprecated aspeed,sirq-polarity-sense property.
+>>
+>> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+>> ---
+>>  drivers/tty/serial/8250/8250_aspeed_vuart.c | 44 ++++++++++++++++++++-
+>>  1 file changed, 43 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c
+>> b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+>> index 8433f8dbb186..75ef006fa24b 100644
+>> --- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
+>> +++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+>> @@ -28,6 +28,10 @@
+>>  #define ASPEED_VUART_ADDRL		0x28
+>>  #define ASPEED_VUART_ADDRH		0x2c
+>>
+>> +#define ASPEED_VUART_DEFAULT_LPC_ADDR	0x3f8
+>> +#define ASPEED_VUART_DEFAULT_SIRQ	4
+>> +#define ASPEED_VUART_DEFAULT_SIRQ_POLARITY	IRQ_TYPE_LEVEL_LOW
+>> +
+>>  struct aspeed_vuart {
+>>  	struct device		*dev;
+>>  	void __iomem		*regs;
+>> @@ -393,7 +397,8 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
+>>  	struct aspeed_vuart *vuart;
+>>  	struct device_node *np;
+>>  	struct resource *res;
+>> -	u32 clk, prop;
+>> +	u32 clk, prop, sirq[2];
+>> +	bool sirq_polarity;
+>>  	int rc;
+>>
+>>  	np = pdev->dev.of_node;
+>> @@ -501,6 +506,43 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
+>>  		of_node_put(sirq_polarity_sense_args.np);
+>>  	}
+>>
+>> +	rc = of_property_read_u32(np, "aspeed,lpc-io-reg", &prop);
+>> +	if (rc < 0)
+>> +		prop = ASPEED_VUART_DEFAULT_LPC_ADDR;
+>> +
+>> +	rc = aspeed_vuart_set_lpc_address(vuart, prop);
+>> +	if (rc < 0) {
+>> +		dev_err(&pdev->dev, "invalid value in aspeed,lpc-io-reg property\n");
+>> +		goto err_clk_disable;
+>> +	}
+>> +
+>> +	rc = of_property_read_u32_array(np, "aspeed,lpc-interrupts", sirq, 2);
+>> +	if (rc < 0) {
+>> +		sirq[0] = ASPEED_VUART_DEFAULT_SIRQ;
+>> +		sirq[1] = ASPEED_VUART_DEFAULT_SIRQ_POLARITY;
+>> +	}
+>> +
+>> +	rc = aspeed_vuart_set_sirq(vuart, sirq[0]);
+>> +	if (rc < 0) {
+>> +		dev_err(&pdev->dev, "invalid sirq number in aspeed,lpc-interrupts > property\n");
+>> +		goto err_clk_disable;
+>> +	}
+>> +
+>> +	switch (sirq[1]) {
+>> +	case IRQ_TYPE_LEVEL_LOW:
+>> +		sirq_polarity = false;
+>> +		break;
+>> +	case IRQ_TYPE_LEVEL_HIGH:
+>> +		sirq_polarity = true;
+>> +		break;
+>> +	default:
+>> +		dev_err(&pdev->dev, "invalid sirq polarity in aspeed,lpc-interrupts
+>> property\n");
+>> +		rc = -EINVAL;
+>> +		goto err_clk_disable;
+>> +	}
+>
+>A bit ugly open-coding the mapping and error handling, maybe worth a helper?
+>
 
-If you would like to handle this another way then let me know.
+Yeah, that sounds reasonable -- will do.
 
-The following changes since commit 489774ff5db943642751f4f0fdac9033239208c6:
+Thanks!
 
-  soc: aspeed: Adapt to new LPC device tree layout (2021-04-09 13:39:22 +0930)
 
-are available in the Git repository at:
+Zev
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
-tags/aspeed-5.13-lpc
-
-for you to fetch changes up to 489774ff5db943642751f4f0fdac9033239208c6:
-
-  soc: aspeed: Adapt to new LPC device tree layout (2021-04-09 13:39:22 +0930)
-
-----------------------------------------------------------------
-ASPEED LPC updates for 5.13
-
-These patches fix the ASPEED LPC bindings and LPC-related device drivers
-so in the future the KCS driver can properly use the hardware.
-
-----------------------------------------------------------------
-Chia-Wei, Wang (5):
-      dt-bindings: aspeed-lpc: Remove LPC partitioning
-      ARM: dts: Remove LPC BMC and Host partitions
-      ipmi: kcs: aspeed: Adapt to new LPC DTS layout
-      pinctrl: aspeed-g5: Adapt to new LPC device tree layout
-      soc: aspeed: Adapt to new LPC device tree layout
