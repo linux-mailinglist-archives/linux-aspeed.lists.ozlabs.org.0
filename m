@@ -2,57 +2,52 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEF593595F8
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 09:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFBDB359635
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 09:17:46 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FGpvC5pFxz3bPN
-	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 17:01:11 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FGqGJ564mz30JL
+	for <lists+linux-aspeed@lfdr.de>; Fri,  9 Apr 2021 17:17:44 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=CidT4DYv;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=o2f38BEs;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab;
- helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net
- header.a=rsa-sha256 header.s=thorn header.b=CidT4DYv; 
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=arnd@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=o2f38BEs; 
  dkim-atps=neutral
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net
- [IPv6:2605:2700:0:5::4713:9cab])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FGpv855Rwz2xYb;
- Fri,  9 Apr 2021 17:01:08 +1000 (AEST)
-Received: from hatter.bewilderbeest.net (unknown [IPv6:2600:6c44:7f:ba20::7c6])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: zev)
- by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 240CB86;
- Fri,  9 Apr 2021 00:01:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
- s=thorn; t=1617951666;
- bh=+JLpB4B4pZBi2h8DfTURJ08nGqgdO/pYNV0sF8isNXA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CidT4DYvw7ZKpQkK8gdGXnDdEJXCD9goWMGofn7kROmWmdqG5EWltzowMmaLMHNGU
- 6M7G/SO7aMkIYPy7bEV3EaXiUUNr3sIQU3g/L8T8wnqwdiGHfBq5p8sFg0zAprzD90
- FGNpAD/S63WbHASqkhrS6RDPjVQU9ap1qxx8FeqA=
-Date: Fri, 9 Apr 2021 02:01:04 -0500
-From: Zev Weiss <zev@bewilderbeest.net>
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH v5 2/4] drivers/tty/serial/8250: refactor sirq and lpc
- address setting code
-Message-ID: <YG/7sFv+2AlLKbZ5@hatter.bewilderbeest.net>
-References: <20210408011637.5361-1-zev@bewilderbeest.net>
- <20210408011637.5361-3-zev@bewilderbeest.net>
- <db7271d8-8d13-4a8c-a7ba-564e4e769ea5@www.fastmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FGqGH0dTbz2xb8
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  9 Apr 2021 17:17:43 +1000 (AEST)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9D83661178;
+ Fri,  9 Apr 2021 07:17:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1617952660;
+ bh=uygj9zBfptFX92rchP4Ynh/JGD0wJp90BR8NgN0XWbU=;
+ h=From:List-Id:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=o2f38BEsEIKhiqiWk/PsQpFwVE2m4pitqyKjdNGWESG2Zf4lxm8hj4ZO+Fq7Wm956
+ cMlZD+r7hciqVFG3Ug6Xw1WpzrKy9VbcEFKlYJwBSuI+8XLMCyoLeJDJCoU3BgvnqH
+ +4LoJyWCJK/A4iD8pHN7DkPDkp8yV7TXJSbixo6f8YV4koda0w/I4oikDfm82oh7Ut
+ +4n2M06bZyshzLt5dI7La7Di3hWHgwKS/uk1NDeev0Ox58a/5geWBbJVvEjXcXI74F
+ Av7PPV734QUEYnJkWoZMw/bJ+6FKyovVnFjNI0QzseRrcxw7KBwQQWZR8byrwklcTf
+ lPessPAZ4Zgqw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: SoC Team <soc@kernel.org>,
+	Joel Stanley <joel@jms.id.au>
+Subject: Re: [GIT PULL] ARM: bmc: devicetree changes for 5.13
+Date: Fri,  9 Apr 2021 09:17:35 +0200
+Message-Id: <161795265048.1749935.15830124997910239772.b4-ty@arndb.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <CACPK8Xe-KV5BeQwOH6NKC1++FCVqwwNCGBh7hEbBORfrmxfTtQ@mail.gmail.com>
+References: <CACPK8Xe-KV5BeQwOH6NKC1++FCVqwwNCGBh7hEbBORfrmxfTtQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <db7271d8-8d13-4a8c-a7ba-564e4e769ea5@www.fastmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,106 +59,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- Jiri Slaby <jirislaby@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Apr 09, 2021 at 12:06:16AM CDT, Andrew Jeffery wrote:
->
->
->On Thu, 8 Apr 2021, at 10:46, Zev Weiss wrote:
->> This splits dedicated aspeed_vuart_set_{sirq,lpc_address}() functions
->> out of the sysfs store functions in preparation for adding DT
->> properties that will be poking the same registers.  While we're at it,
->> these functions now provide some basic bounds-checking on their
->> arguments.
->>
->> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
->> ---
->>  drivers/tty/serial/8250/8250_aspeed_vuart.c | 51 ++++++++++++++-------
->>  1 file changed, 35 insertions(+), 16 deletions(-)
->>
->> diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c
->> b/drivers/tty/serial/8250/8250_aspeed_vuart.c
->> index c33e02cbde93..8433f8dbb186 100644
->> --- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
->> +++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
->> @@ -72,22 +72,31 @@ static ssize_t lpc_address_show(struct device *dev,
->>  	return snprintf(buf, PAGE_SIZE - 1, "0x%x\n", addr);
->>  }
->>
->> +static int aspeed_vuart_set_lpc_address(struct aspeed_vuart *vuart, u32 addr)
->> +{
->> +	if (addr > U16_MAX)
->> +		return -EINVAL;
->> +
->> +	writeb(addr >> 8, vuart->regs + ASPEED_VUART_ADDRH);
->> +	writeb(addr >> 0, vuart->regs + ASPEED_VUART_ADDRL);
->> +
->> +	return 0;
->> +}
->> +
->>  static ssize_t lpc_address_store(struct device *dev,
->>  				 struct device_attribute *attr,
->>  				 const char *buf, size_t count)
->>  {
->>  	struct aspeed_vuart *vuart = dev_get_drvdata(dev);
->> -	unsigned long val;
->> +	u32 val;
->>  	int err;
->>
->> -	err = kstrtoul(buf, 0, &val);
->> +	err = kstrtou32(buf, 0, &val);
->>  	if (err)
->>  		return err;
->>
->> -	writeb(val >> 8, vuart->regs + ASPEED_VUART_ADDRH);
->> -	writeb(val >> 0, vuart->regs + ASPEED_VUART_ADDRL);
->> -
->> -	return count;
->> +	err = aspeed_vuart_set_lpc_address(vuart, val);
->> +	return err ? : count;
->>  }
->>
->>  static DEVICE_ATTR_RW(lpc_address);
->> @@ -105,27 +114,37 @@ static ssize_t sirq_show(struct device *dev,
->>  	return snprintf(buf, PAGE_SIZE - 1, "%u\n", reg);
->>  }
->>
->> +static int aspeed_vuart_set_sirq(struct aspeed_vuart *vuart, u32 sirq)
->> +{
->> +	u8 reg;
->> +
->> +	if (sirq > (ASPEED_VUART_GCRB_HOST_SIRQ_MASK >> ASPEED_VUART_GCRB_HOST_SIRQ_SHIFT))
->> +		return -EINVAL;
->> +
->> +	sirq <<= ASPEED_VUART_GCRB_HOST_SIRQ_SHIFT;
->> +	sirq &= ASPEED_VUART_GCRB_HOST_SIRQ_MASK;
->
->This might be less verbose if we reordered things a little:
->
->```
->sirq <<= ASPEED_VUART_GCRB_HOST_SIRQ_SHIFT;
->if (sirq & ASPEED_VUART_GCRB_HOST_SIRQ_MASK)
->	return -EINVAL;
->sirq &= ASPEED_VUART_GCRB_HOST_SIRQ_MASK;
->```
+From: Arnd Bergmann <arnd@arndb.de>
 
-Hmm, that (or something similar, perhaps with a '~' on the mask in the 
-if condition?) does seem like it'd be a nice improvement, though I 
-suppose it'd also mean we'd fail to reject some way-out-of-range sirq 
-values (e.g. if it had its MSB set) -- so I think I'll leave it as is, 
-just in the name of thoroughness/paranoia?
+On Fri, 9 Apr 2021 06:14:27 +0000, Joel Stanley wrote:
+> Here's a pull request from me for the ASPEED and Nuvoton changes
+> targeting the v5.13 merge window. As you can see I've chosen to
+> arrange the pull request as one single "BMC-related" set of changes.
+> If we choose to continue with this, in the future I will cover the
+> ASPEED, NPCM and soon to be merged WPCM (legacy Nuvoton) systems.
+> 
+> The following changes since commit ee33e2fb3d70267de00f7c0b09e7e3b309a686df:
+> 
+> [...]
 
->
->But otherwise it looks okay, so
->
->Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
->
+Merged into arm/dt, thanks!
 
-Thanks.
+merge commit: e3bbc53ac8827babb5001037883e4edd2068168d
 
+       Arnd
