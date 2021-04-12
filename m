@@ -2,61 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C2D35BD18
-	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Apr 2021 10:48:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281D335C3D9
+	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Apr 2021 12:24:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FJj7q1RRzz309Z
-	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Apr 2021 18:48:39 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=uey+W82d;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FJlGW1418z30C3
+	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Apr 2021 20:24:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=arnd@kernel.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=uey+W82d; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com;
+ receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FJj7m5L0zz301J;
- Mon, 12 Apr 2021 18:48:36 +1000 (AEST)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E629D6137F;
- Mon, 12 Apr 2021 08:48:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1618217313;
- bh=eLznHwvEfmec088sW414tCcwJZyAy1dqSqy3r+pI7zc=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=uey+W82dISxV0CSUCEiP+7gx9QuEZBJfcRoFlSMpkmrDlRAJJ0xVAOCsY94BkROLO
- zR/I466PgDid3faek70DuVNVg7noHojv66W6cwsIyY2yvu9Lt2qRuc9nGzCIxgZBXn
- b+pFwRet18DXS13aa8a0O4MFYM9FTwIPGTmzP+TKLFSBeZqwLd+xPrXiLpfNkZam//
- nTLqalOsrHTkSgYJ0euxXxHf96MAHZTKfV0Uyr+Q3gmjq/OvXQUq6zhW/U9m2u5Nji
- FvCPzYE1fW7fbdBhJcyx8lAQrFqUby6/4TW+Qu7SCI6vP9Tw1jB9lcRoTkvaxiDZxi
- iOtWMOODr0mgA==
-Received: by mail-wr1-f44.google.com with SMTP id p6so5294544wrn.9;
- Mon, 12 Apr 2021 01:48:32 -0700 (PDT)
-X-Gm-Message-State: AOAM532fbRizn1MVry/zR5bumu15s2KukNOsOlO+xFQkbB/q4PM/qJZE
- dUWI2KUa3q2G2nSOT1PQz1+SqsKPKLvRz1HKxYw=
-X-Google-Smtp-Source: ABdhPJwdOphNG/NExZknsy5yMxBCnGZA+q7EKNOchQAgxbs01jSI9QEePmT+lsicnZYJB8nH9FG1BOhyUFdSoL2u8ew=
-X-Received: by 2002:adf:c70b:: with SMTP id k11mr30918454wrg.165.1618217311367; 
- Mon, 12 Apr 2021 01:48:31 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FJlGT2dKdz30C3
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 12 Apr 2021 20:24:33 +1000 (AEST)
+Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
+ by twspam01.aspeedtech.com with ESMTP id 13C9jS7K096718
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 12 Apr 2021 17:45:28 +0800 (GMT-8)
+ (envelope-from billy_tsai@aspeedtech.com)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 13C9iS0m096463;
+ Mon, 12 Apr 2021 17:44:28 +0800 (GMT-8)
+ (envelope-from billy_tsai@aspeedtech.com)
+Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 12 Apr
+ 2021 17:54:50 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: <lee.jones@linaro.org>, <robh+dt@kernel.org>, <joel@jms.id.au>,
+ <andrew@aj.id.au>, <thierry.reding@gmail.com>,
+ <u.kleine-koenig@pengutronix.de>, <p.zabel@pengutronix.de>,
+ <billy_tasi@aspeedtech.com>, <devicetree@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>
+Subject: [PATCH 0/4] Support pwm driver for aspeed ast26xx
+Date: Mon, 12 Apr 2021 17:54:53 +0800
+Message-ID: <20210412095457.15095-1-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210319062752.145730-1-andrew@aj.id.au>
- <20210319062752.145730-16-andrew@aj.id.au>
- <CAK8P3a1HDQdbTAT4aRMLu-VFz720ynPqPHG5b22NZ5p5QfUqOw@mail.gmail.com>
- <ba63f830-4758-49aa-a63e-f204a8eec1b4@www.fastmail.com>
-In-Reply-To: <ba63f830-4758-49aa-a63e-f204a8eec1b4@www.fastmail.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Mon, 12 Apr 2021 10:48:14 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3RXr5CR7DJgD9rEkN8owpPxXRgzRnPB_5LuQcHkzc4LA@mail.gmail.com>
-Message-ID: <CAK8P3a3RXr5CR7DJgD9rEkN8owpPxXRgzRnPB_5LuQcHkzc4LA@mail.gmail.com>
-Subject: Re: [PATCH v2 16/21] ipmi: kcs_bmc: Add a "raw" character device
- interface
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.149]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 13C9iS0m096463
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,74 +61,32 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- DTML <devicetree@vger.kernel.org>, Tomer Maimon <tmaimon77@gmail.com>,
- Corey Minyard <minyard@acm.org>, Avi Fishman <avifishman70@gmail.com>,
- Patrick Venture <venture@google.com>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Tali Perry <tali.perry1@gmail.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, openipmi-developer@lists.sourceforge.net,
- Lee Jones <lee.jones@linaro.org>, Linus Walleij <linus.walleij@linaro.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Apr 12, 2021 at 3:33 AM Andrew Jeffery <andrew@aj.id.au> wrote:
-> On Fri, 9 Apr 2021, at 17:25, Arnd Bergmann wrote:
-> > On Fri, Mar 19, 2021 at 7:31 AM Andrew Jeffery <andrew@aj.id.au> wrote:
-> > >
-> > > The existing IPMI chardev encodes IPMI behaviours as the name suggests.
-> > > However, KCS devices are useful beyond IPMI (or keyboards), as they
-> > > provide a means to generate IRQs and exchange arbitrary data between a
-> > > BMC and its host system.
-> >
-> > I only noticed the series after Joel asked about the DT changes on the arm
-> > side. One question though:
-> >
-> > How does this related to the drivers/input/serio/ framework that also talks
-> > to the keyboard controller for things that are not keyboards?
->
-> I've taken a brief look and I feel they're somewhat closely related.
->
-> It's plausible that we could wrangle the code so the Aspeed and Nuvoton
-> KCS drivers move under drivers/input/serio. If you squint, the i8042
-> serio device driver has similarities with what the Aspeed and Nuvoton
-> device drivers are providing to the KCS IPMI stack.
+The legacy driver of aspeed pwm is binding with tach controller and it
+doesn't follow the pwm framworks usage. In addition, the pwm register
+usage of the 6th generation of ast26xx has drastic change. So these
+patch serials add the new aspeed pwm driver to fix up the problem above.
 
-After looking some more into it, I finally understood that the two are
-rather complementary. While the  drivers/char/ipmi/kcs_bmc.c
-is the other (bmc) end of drivers/char/ipmi/ipmi_kcs_sm.c, it seems
-that the proposed kcs_bmc_cdev_raw.c interface would be
-what corresponds to the other side of
-drivers/input/serio/i8042.c+userio.c. Then again, these are also on
-separate ports (0x60 for the keyboard controller, 0xca2 for the BMC
-KCS), so they would never actually talk to one another.
+Billy Tsai (4):
+  dt-bindings: Add bindings for aspeed pwm-tach.
+  dt-bindings: Add bindings for aspeed pwm
+  pwm: Add Aspeed ast2600 PWM support
+  pwm: Add support for aspeed pwm controller
 
-> Both the KCS IPMI and raw chardev I've implemented in this patch need
-> both read and write access to the status register (STR). serio could
-> potentially expose its value through serio_interrupt() using the
-> SERIO_OOB_DATA flag, but I haven't put any thought into it beyond this
-> sentence. We'd need some extra support for writing STR via the serio
-> API. I'm not sure that fits into the abstraction (unless we make
-> serio_write() take a flags argument?).
->
-> In that vein, the serio_raw interface is close to the functionality
-> that the raw chardev provides in this patch, though again serio_raw
-> lacks userspace access to STR. Flags are ignored in the ->interrupt()
-> callback so all values received via ->interrupt() are exposed as data.
-> The result is there's no way to take care of SERIO_OOB_DATA in the
-> read() path. Given that, I think we'd have to expose an ioctl() to
-> access the STR value after taking care of SERIO_OOB_DATA in
-> ->interrupt().
->
-> I'm not sure where that lands us.
+ .../bindings/mfd/aspeed,ast2600-pwm-tach.yaml |  52 ++++
+ .../bindings/pwm/aspeed,ast2600-pwm.yaml      |  47 +++
+ drivers/pwm/Kconfig                           |   6 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-aspeed-g6.c                   | 291 ++++++++++++++++++
+ 5 files changed, 397 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
+ create mode 100644 drivers/pwm/pwm-aspeed-g6.c
 
-Based on what I looked up, I think you can just forget about my original
-question. We have two separate interfaces that use an Intel 8042-style
-protocol, but they don't really interact.
+-- 
+2.25.1
 
-      Arnd
