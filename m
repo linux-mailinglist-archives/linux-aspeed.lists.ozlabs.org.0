@@ -2,58 +2,92 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE3F35C770
-	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Apr 2021 15:20:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6605735D3CF
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Apr 2021 01:19:25 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FJq9C5ttmz30Ff
-	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Apr 2021 23:20:15 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FK4SR6QL1z30J5
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Apr 2021 09:19:19 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=OckiTd8l;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=nO/2wlY1;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.167.180;
- helo=mail-oi1-f180.google.com; envelope-from=robherring2@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.224;
+ helo=new2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
- [209.85.167.180])
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm2 header.b=OckiTd8l; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=nO/2wlY1; 
+ dkim-atps=neutral
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FJq9B5LSwz303M
- for <linux-aspeed@lists.ozlabs.org>; Mon, 12 Apr 2021 23:20:13 +1000 (AEST)
-Received: by mail-oi1-f180.google.com with SMTP id k18so8469373oik.1
- for <linux-aspeed@lists.ozlabs.org>; Mon, 12 Apr 2021 06:20:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=5n3lwv9EjfPJBx+21UO8C42pguWqHmFLoVLJG4Pmt/8=;
- b=QYexNQnzs3JABJ11k1rkZ9FgFElB3xknEZFiUyjTPD+D9Fn7icVYS613724TyCuh3q
- v2kD8H3xFCvqqwRU0+d59wwYUxLfMAU3UxIEGp1pkrv0FQsNOEWUPYLZOrjI0KKwJX8R
- cZvZbqRB8B58VXSj+sr9a96DvvI+iv3g3EZWTxJPWppcbA6mPxy2HAv7UamPfwbf1ORO
- KG8PmHgpYmPVCpdX88eaVFHsAzF6HcrZoXmhePrEE5YStFOKyjRdlz6AXf4yXREwJGpa
- IdKfToqECUH1Z42VidXw0SH++xrCN6mj5EnLDvxBVSuD91lC+v1W8LD6iGdOSjpKhK6x
- tpyg==
-X-Gm-Message-State: AOAM530C2eWYOnBj3/2OxtQaS9d2m4rTlsAa6v8xvLIInrkZibJ3NTXd
- p9Lhjl7GbiJM+LWkRzXwJQ==
-X-Google-Smtp-Source: ABdhPJxkwQARah6Q/rf1DbNTOAJlUzHL9osoUKpq9VAyJPVrU6baUsVLQdOFRK5Og/wakyM83q8y4Q==
-X-Received: by 2002:a05:6808:b09:: with SMTP id
- s9mr19069272oij.36.1618233610277; 
- Mon, 12 Apr 2021 06:20:10 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id 3sm2636995otw.58.2021.04.12.06.20.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Apr 2021 06:20:09 -0700 (PDT)
-Received: (nullmailer pid 3757980 invoked by uid 1000);
- Mon, 12 Apr 2021 13:20:00 -0000
-From: Rob Herring <robh@kernel.org>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-In-Reply-To: <20210412095457.15095-3-billy_tsai@aspeedtech.com>
-References: <20210412095457.15095-1-billy_tsai@aspeedtech.com>
- <20210412095457.15095-3-billy_tsai@aspeedtech.com>
-Subject: Re: [PATCH 2/4] dt-bindings: Add bindings for aspeed pwm
-Date: Mon, 12 Apr 2021 08:20:00 -0500
-Message-Id: <1618233600.223110.3757979.nullmailer@robh.at.kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FK4SL4R2xz30D9;
+ Tue, 13 Apr 2021 09:19:13 +1000 (AEST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 8CA7858048D;
+ Mon, 12 Apr 2021 19:19:07 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Mon, 12 Apr 2021 19:19:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=qQBlqSHrbP74nwK5ZoPyDEpe8rdqcKv
+ hgstn0BCo0rU=; b=OckiTd8llIgbnwXD17TPAC++YyuUKw+uHMRMGnbFEpgOlDP
+ d/MOtZ1gmKronwW1OyK6jubD2kb0eet6zk9H7St+rUkMJtuRdB4EZsyr/5Q4DPXj
+ F8F4oyPcx1UOyXGLKN09keDgfeIw7c7GsjdlS9x4IVbWv0WLbEM4+p9k7ZB4dmJ7
+ MYmHFy4JAyuuUNH0HSwD/EbFplNtdtvWg2ynoxqHaRvPUGc75Gxfqb+mpzqCifW3
+ USB6kLr21FdDTYd8EnxLjjbxxEbIhBQaSXJDxY65NYSFUwvh1fev84+OX6kIiH8E
+ nr+lN4I8y/9O1vs3zwMZEN012al+cVrhYr3WGbA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=qQBlqS
+ HrbP74nwK5ZoPyDEpe8rdqcKvhgstn0BCo0rU=; b=nO/2wlY1YfeoZS5M3XfSJi
+ Nhq/DRejLxzD9DJA5v4bbuMwII2/AjKL/r0/BX26MsrmTsJtofo425iMA/V3paR8
+ qDEJP7uxXVIzAzpwO0nbgyy399XrNnHoKlv0PZP4FyCsSl+hYQKMdcpUdAUDK+Ou
+ TtEQZqVN7rXp6/hCLi8CSXrg6ggM0YrEvxTCBf9CHYqM/Kds83gL+mw/Yd0mD6uy
+ b/uRsSfDHjtRVhZsadD0ZcIWzs8O9nb4h0gE3gTNomDtgQaS4BhWlnfkrwUknWil
+ WVgga0aTHxC+2aUgz2O8QSga+Zx/xgVjCD3H8eM8B4nw2FV2SJRkO0BbXh510xzA
+ ==
+X-ME-Sender: <xms:adV0YJ0UVhU33ApUjSU8s4kkD4HJw9AAcKa1e1V0yENH02EqIxp2zA>
+ <xme:adV0YAHx3dqRcaem2tCaTaE_I1Sz6jVLQkf21w_0dPMKy-z1OdQHFnEj_yNxUVxEH
+ 9y4xGiuEM8-7WcHNA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudekkedgudelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+ grthhtvghrnhepuddttdekueeggedvtddtueekiedutdfguedutdefieeuteefieelteet
+ vddthfeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ eprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:adV0YJ7bUpmzu-c5IosFt0K3bSzYXXTmaUyn7v4crW9c1mNmmp_Igg>
+ <xmx:adV0YG3iInhNQZwO4WnU_7vHCGegJ32zwffX7wTXMsqRvdIplDasrQ>
+ <xmx:adV0YMEaCP2CeEPx_AqoxI3gmeEJBCCzfRO6ZPna-dp5o0RomnT88Q>
+ <xmx:a9V0YP8WGNBrxYW9yMbm5lOC_pLK9wdS0GWGlVSxu6xwvpNQrd6U5w>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id F38CDA00492; Mon, 12 Apr 2021 19:19:04 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-273-g8500d2492d-fm-20210323.002-g8500d249
+Mime-Version: 1.0
+Message-Id: <11b63819-d37c-406d-9ebf-424d226a6839@www.fastmail.com>
+In-Reply-To: <20210412065032.GC23408@aspeedtech.com>
+References: <20210408015218.20560-1-steven_lee@aspeedtech.com>
+ <20210408015218.20560-3-steven_lee@aspeedtech.com>
+ <acaa2cc2-9b12-442e-a767-3c4b41affa21@www.fastmail.com>
+ <20210412065032.GC23408@aspeedtech.com>
+Date: Tue, 13 Apr 2021 08:48:16 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Steven Lee" <steven_lee@aspeedtech.com>
+Subject: =?UTF-8?Q?Re:_[PATCH_v1_2/2]_mmc:_sdhci-of-aspeed:_Support_toggling_SD_b?=
+ =?UTF-8?Q?us_signal_voltage_by_GPIO?=
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,49 +99,256 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-pwm@vger.kernel.org, BMC-SW@aspeedtech.com, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org, thierry.reding@gmail.com, billy_tasi@aspeedtech.com,
- p.zabel@pengutronix.de, u.kleine-koenig@pengutronix.de, lee.jones@linaro.org,
- linux-arm-kernel@lists.infradead.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ "moderated list:ASPEED SD/MMC DRIVER" <linux-aspeed@lists.ozlabs.org>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ "moderated list:ASPEED SD/MMC DRIVER" <openbmc@lists.ozlabs.org>,
+ Ryan Chen <ryanchen.aspeed@gmail.com>, Adrian Hunter <adrian.hunter@intel.com>,
+ open list <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 12 Apr 2021 17:54:55 +0800, Billy Tsai wrote:
-> This patch adds device bindings for aspeed pwm device which should be
-> the sub-node of aspeed,ast2600-pwm-tach.
+
+
+On Mon, 12 Apr 2021, at 16:20, Steven Lee wrote:
+> The 04/09/2021 12:14, Andrew Jeffery wrote:
+> > Hi Steven,
+> > 
+> > On Thu, 8 Apr 2021, at 11:22, Steven Lee wrote:
+> > > AST2600-A2 EVB provides reference design to support toggling signal
+> > > voltage between 3.3v and 1.8v by power-switch-gpio pin that defined in
+> > > the device tree.
+> > 
+> > Is this something you think we need support for beyond the EVB? It 
+> > sounds a lot like a knob to enable testing of different SD/MMC power 
+> > configurations and not something that you'd otherwise see in a system 
+> > design.
+> >
 > 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> ---
->  .../bindings/pwm/aspeed,ast2600-pwm.yaml      | 47 +++++++++++++++++++
->  1 file changed, 47 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
+> It can be used for testing different SD power configuration.
+> The main purpose of the patch is letting the driver has the ability to 
+> change the bus voltage for switching SD bus speed between UHS-I mode and
+> normal/high speed mode in AST2600-A2 EVB according to the value of
+> power-switch-gpio that defined in the device tree. 
+
+Ah okay. I'm not strong on all the power requirements for each of the 
+bus modes :)
+
+> But I am not sure whether it needs to be support in mainline kernel.
+> Since it requires a particular hardware circuit design outside of ASPEED
+> AST2600 SoC, and AST2600-A2 EVB does have that design.
+
+This shouldn't be a problem with Uffe's suggestion on the binding patch.
+
+Better to have support in mainline than maintain out-of-tree patches!
+
 > 
+> > > It also supporting enabling/disabling SD bus power by
+> > > power-gpio.
+> > 
+> > This sounds like it could be useful but I'll defer to Ulf with regards 
+> > to the binding.
+> > 
+> > > 
+> > > In the reference design, GPIOV0 of AST2600-A2 EVB is connected to power
+> > > load switch that providing 3.3v to SD1 bus vdd. GPIOV1 is connected to
+> > > a 1.8v and a 3.3v power load switch that providing signal voltage to
+> > > SD1 bus.
+> > > If GPIOV0 is active high, SD1 bus is enabled. Otherwise, SD1 bus is
+> > > disabled.
+> > > If GPIOV1 is active high, 3.3v power load switch is enabled, SD1 signal
+> > > voltage is 3.3v, otherwise, 1.8v power load switch will be enabled, SD1
+> > > signal voltage becomes 1.8v.
+> > > 
+> > > AST2600-A2 EVB also support toggling signal voltage for SD2 bus.
+> > > The design is the same as SD1 bus. It uses GPIOV2 as power-gpio and
+> > > GPIOV3 as power-switch-gpio.
+> > > 
+> > > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+> > > ---
+> > >  drivers/mmc/host/sdhci-of-aspeed.c | 155 +++++++++++++++++++++++++----
+> > >  1 file changed, 137 insertions(+), 18 deletions(-)
+> > > 
+> > > diff --git a/drivers/mmc/host/sdhci-of-aspeed.c 
+> > > b/drivers/mmc/host/sdhci-of-aspeed.c
+> > > index 7d8692e90996..a74a03d37915 100644
+> > > --- a/drivers/mmc/host/sdhci-of-aspeed.c
+> > > +++ b/drivers/mmc/host/sdhci-of-aspeed.c
+> > > @@ -5,6 +5,7 @@
+> > >  #include <linux/clk.h>
+> > >  #include <linux/delay.h>
+> > >  #include <linux/device.h>
+> > > +#include <linux/gpio/consumer.h>
+> > >  #include <linux/io.h>
+> > >  #include <linux/math64.h>
+> > >  #include <linux/mmc/host.h>
+> > > @@ -30,6 +31,7 @@
+> > >  #define   ASPEED_SDC_S0_PHASE_IN_EN	BIT(2)
+> > >  #define   ASPEED_SDC_S0_PHASE_OUT_EN	GENMASK(1, 0)
+> > >  #define   ASPEED_SDC_PHASE_MAX		31
+> > > +#define ASPEED_CLOCK_PHASE 0xf4
+> > 
+> > This isn't related to the power GPIOs, and we already have phase 
+> > support as suggested by the macros immediately above the one you've 
+> > added here.
+> > 
+> > Please remove it and make use of the existing mmc phase devicetree 
+> > binding and driver support.
+> > 
+> 
+> Will remove it.
+> 
+> > >  
+> > >  struct aspeed_sdc {
+> > >  	struct clk *clk;
+> > > @@ -58,18 +60,21 @@ struct aspeed_sdhci_phase_desc {
+> > >  	struct aspeed_sdhci_tap_desc out;
+> > >  };
+> > >  
+> > > -struct aspeed_sdhci_pdata {
+> > > +struct aspeed_sdhci_data {
+> > 
+> > Why are we renaming this? It looks like it creates a lot of noise in 
+> > the patch. The data it captured was platform data, hence 'pdata' in the 
+> > name. In my opinon it's fine if we also have a member called pdata.
+> > 
+> 
+> Since I add a new member in aspeed_sdhci_pdata(In the patch, it is named
+> aspeed_sdhci_data) for separating the platform data of aspeed-g5 and
+> aspped-g6, the type of the member is sdhci_pltfm_data.
+> Therefore, I use the pdata for my new created member and renamed the
+> original pdata as data as follows.
+> 
+> static const struct of_device_id aspeed_sdhci_of_match[] = {
+>   { .compatible = "aspeed,ast2400-sdhci", .data = &ast2400_sdhci_data, },
+> };
+> 
+> static const struct aspeed_sdhci_data ast2400_sdhci_data = {
+>   .clk_div_start = 2,
+>   .pdata = &ast2400_sdhci_pdata,
+> };
+> 
+> 
+> Regardless, I will revert it to the original name and rename
+> my new created variable.
+> 
+> > >  	unsigned int clk_div_start;
+> > >  	const struct aspeed_sdhci_phase_desc *phase_desc;
+> > >  	size_t nr_phase_descs;
+> > > +	const struct sdhci_pltfm_data *pdata;
+> > >  };
+> > >  
+> > >  struct aspeed_sdhci {
+> > > -	const struct aspeed_sdhci_pdata *pdata;
+> > > +	const struct aspeed_sdhci_data *data;
+> > >  	struct aspeed_sdc *parent;
+> > >  	u32 width_mask;
+> > >  	struct mmc_clk_phase_map phase_map;
+> > >  	const struct aspeed_sdhci_phase_desc *phase_desc;
+> > > +	struct gpio_desc *pwr_pin;
+> > > +	struct gpio_desc *pwr_sw_pin;
+> > >  };
+> > >  
+> > >  static void aspeed_sdc_configure_8bit_mode(struct aspeed_sdc *sdc,
+> > > @@ -209,7 +214,6 @@ static void aspeed_sdhci_set_clock(struct 
+> > > sdhci_host *host, unsigned int clock)
+> > >  	sdhci = sdhci_pltfm_priv(pltfm_host);
+> > >  
+> > >  	parent = clk_get_rate(pltfm_host->clk);
+> > > -
+> > 
+> > Unrelated whitespace cleanup.
+> > 
+> > >  	sdhci_writew(host, 0, SDHCI_CLOCK_CONTROL);
+> > >  
+> > >  	if (clock == 0)
+> > > @@ -234,14 +238,13 @@ static void aspeed_sdhci_set_clock(struct 
+> > > sdhci_host *host, unsigned int clock)
+> > >  	 * supporting the value 0 in (EMMC12C[7:6], EMMC12C[15:8]), and 
+> > > capture
+> > >  	 * the 0-value capability in clk_div_start.
+> > >  	 */
+> > > -	for (div = sdhci->pdata->clk_div_start; div < 256; div *= 2) {
+> > > +	for (div = sdhci->data->clk_div_start; div < 256; div *= 2) {
+> > >  		bus = parent / div;
+> > >  		if (bus <= clock)
+> > >  			break;
+> > >  	}
+> > >  
+> > >  	div >>= 1;
+> > > -
+> > 
+> > Unrelated whitespace cleanup.
+> > 
+> > >  	clk = div << SDHCI_DIVIDER_SHIFT;
+> > >  
+> > >  	aspeed_sdhci_configure_phase(host, bus);
+> > > @@ -292,8 +295,78 @@ static u32 aspeed_sdhci_readl(struct sdhci_host 
+> > > *host, int reg)
+> > >  	return val;
+> > >  }
+> > >  
+> > > +static void sdhci_aspeed_set_power(struct sdhci_host *host, unsigned char mode,
+> > > +				   unsigned short vdd)
+> > > +{
+> > > +	struct sdhci_pltfm_host *pltfm_priv = sdhci_priv(host);
+> > > +	struct aspeed_sdhci *dev = sdhci_pltfm_priv(pltfm_priv);
+> > > +	u8 pwr = 0;
+> > > +
+> > > +	if (!dev->pwr_pin)
+> > > +		return sdhci_set_power(host, mode, vdd);
+> > > +
+> > > +	if (mode != MMC_POWER_OFF) {
+> > > +		switch (1 << vdd) {
+> > > +		case MMC_VDD_165_195:
+> > > +		/*
+> > > +		 * Without a regulator, SDHCI does not support 2.0v
+> > > +		 * so we only get here if the driver deliberately
+> > > +		 * added the 2.0v range to ocr_avail. Map it to 1.8v
+> > > +		 * for the purpose of turning on the power.
+> > > +		 */
+> > > +		case MMC_VDD_20_21:
+> > > +				pwr = SDHCI_POWER_180;
+> > > +				break;
+> > > +		case MMC_VDD_29_30:
+> > > +		case MMC_VDD_30_31:
+> > > +				pwr = SDHCI_POWER_300;
+> > > +				break;
+> > > +		case MMC_VDD_32_33:
+> > > +		case MMC_VDD_33_34:
+> > > +				pwr = SDHCI_POWER_330;
+> > > +				break;
+> > > +		default:
+> > > +				WARN(1, "%s: Invalid vdd %#x\n",
+> > > +				     mmc_hostname(host->mmc), vdd);
+> > > +				break;
+> > > +		}
+> > > +	}
+> > > +
+> > > +	if (host->pwr == pwr)
+> > > +		return;
+> > > +
+> > > +	host->pwr = pwr;
+> > > +
+> > > +	if (pwr == 0) {
+> > 
+> > Shouldn't we be testing against an SDHCI_POWER_* macro?
+> > 
+> 
+> It is copied from sdhci_set_power_noreg() of sdhci.c
+> The difference is we need to change the bus voltage before writing
+> SDHCI_POWER_CONTROL.
+> Since There are only SDHCI_POWER_ON, SDHCI_POWER_180, SDHCI_POWER_300,
+> and SDHCI_POWER_330 defined in sdhci.h.
+> Do you mean pwr should be checked with SDHCI_POWER_ON, SDHCI_POWER_180,
+> SDHCI_POWER_300, and SDHCI_POWER_330?
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+No, I was a bit lazy and didn't look at what macros were defined.
 
-yamllint warnings/errors:
+Cheers,
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml: Additional properties are not allowed ('pwm-cells' was unexpected)
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml: Additional properties are not allowed ('pwm-cells' was unexpected)
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml: ignoring, error in schema: 
-warning: no schema found in file: ./Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
-Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.example.dt.yaml:0:0: /example-0/pwm_tach@1e610000: failed to match any schema with compatible: ['aspeed,ast2600-pwm-tach', 'simple-mfd', 'syscon']
-Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.example.dt.yaml:0:0: /example-0/pwm_tach@1e610000/pwm@0: failed to match any schema with compatible: ['aspeed,ast2600-pwm']
-
-See https://patchwork.ozlabs.org/patch/1465116
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+Andrew
