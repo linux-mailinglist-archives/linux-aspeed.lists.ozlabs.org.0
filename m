@@ -1,57 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F1435B8BA
-	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Apr 2021 04:42:51 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CACC935B920
+	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Apr 2021 05:48:01 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FJY1j5q1wz30C9
-	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Apr 2021 12:42:49 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FJZSv5LhBz30Dr
+	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Apr 2021 13:47:59 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=Pj17EJIJ;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=S3GeX56E;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=bewilderbeest.net (client-ip=71.19.156.171;
+ smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab;
  helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net
- header.a=rsa-sha256 header.s=thorn header.b=Pj17EJIJ; 
+ header.a=rsa-sha256 header.s=thorn header.b=S3GeX56E; 
  dkim-atps=neutral
 Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net
- [71.19.156.171])
+ [IPv6:2605:2700:0:5::4713:9cab])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FJY1g3Jylz2xZW;
- Mon, 12 Apr 2021 12:42:46 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FJZSP13HRz300K;
+ Mon, 12 Apr 2021 13:47:32 +1000 (AEST)
 Received: from hatter.bewilderbeest.net (unknown [IPv6:2600:6c44:7f:ba20::7c6])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: zev)
- by thorn.bewilderbeest.net (Postfix) with ESMTPSA id AD5774DC;
- Sun, 11 Apr 2021 19:42:41 -0700 (PDT)
+ by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 60AF24DC;
+ Sun, 11 Apr 2021 20:47:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
- s=thorn; t=1618195362;
- bh=2JSiMj2lTtmX/cUYNHcQfWGUlLOWOoaYmlbsGHi9kio=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Pj17EJIJVgdcFiOCc3Sp5k+Ahwe2EdYCOMrNIkcBILxo9psf3hCrccvT9SMGg01VH
- HuSkUSpuQaQCc85/EC1LmH/OEuwkcoDCRqG9EYUJRGYv9QG+8O6kzFbVqCZgZ9ZA32
- enjwhxM73UTmJ+0J96VAy9QZoMEhfN4R7652iOlo=
-Date: Sun, 11 Apr 2021 21:42:39 -0500
+ s=thorn; t=1618199247;
+ bh=PchFdXcg+941tH+XkYeqz92HXenAc27JmxDyUQQKTdw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=S3GeX56EyvZ0kf4dfQG1TfthRJG2RhWY4/aC4WQMzC4QioL2l3CYDLUl2+SD5Uwbx
+ rPt/Gipv09iozsgYBpvOJjTBBOSq6bJrm+eCimGEZj0nxq8yccex/RJW5smHH1z8Qk
+ AOzdcLdSlymvODJ3uxxYcMYFQnQ/8p1ALVLpdVXk=
 From: Zev Weiss <zev@bewilderbeest.net>
 To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH v3] ARM: dts: aspeed: add ASRock E3C246D4I BMC
-Message-ID: <YHOznzolgu+j9Ruh@hatter.bewilderbeest.net>
-References: <20210401044232.9637-1-zev@bewilderbeest.net>
- <84202973-1a94-4630-beeb-f33d044a0364@www.fastmail.com>
- <CACPK8XcfuEyqGmO72taXFPARxwzLyct5__0C0CF-nyEf6Yubnw@mail.gmail.com>
+Subject: [PATCH v6 0/4] serial: 8250_aspeed_vuart: generalized DT properties
+Date: Sun, 11 Apr 2021 22:47:08 -0500
+Message-Id: <20210412034712.16778-1-zev@bewilderbeest.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CACPK8XcfuEyqGmO72taXFPARxwzLyct5__0C0CF-nyEf6Yubnw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,36 +59,72 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Zev Weiss <zev@bewilderbeest.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>,
+ Rob Herring <robh+dt@kernel.org>, linux-serial@vger.kernel.org,
+ Jiri Slaby <jirislaby@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sun, Apr 11, 2021 at 09:20:59PM CDT, Joel Stanley wrote:
->On Mon, 12 Apr 2021 at 02:16, Andrew Jeffery <andrew@aj.id.au> wrote:
->> On Thu, 1 Apr 2021, at 15:12, Zev Weiss wrote:
->
->> > +&vuart {
->> > +     status = "okay";
->> > +     aspeed,sirq-active-high;
->>
->> This should probably go away, but otherwise,
->
->Zev, this has already been merged (both to mainline for v5.13 and in
->openbmc), so any fixups need to come as patches on top of the existing
->code.
->
+This series generalizes the aspeed-vuart driver's device tree
+properties to cover all the attributes it currently exposes via sysfs.
 
-Got it, thanks -- I figured I'd wait until the DT-properties patches got 
-approved & merged (I'll be sending v6 of that shortly) and then send an 
-incremental update for the e3c246d4i dts to match the final form of 
-those.
+The aspeed,sirq-polarity-sense property was a bit of a design mistake
+in that it ties Aspeed VUART SIRQ polarity to SCU register bits that
+aren't really inherently related to it; the first patch in this series
+deprecates it (though we hope to eventually remove it).
+
+The rest of the series adds two new properties, aspeed,lpc-io-reg and
+aspeed,lpc-interrupts.  The latter allows describing the SIRQ polarity
+(along with the interrupt number) directly, providing a simpler
+replacement for aspeed,sirq-polarity-sense.
+
+Changes since v5 [4]:
+ - corrected stale DT property name in commit message
+ - factored aspeed_vuart_map_irq_polarity() out of
+   aspeed_vuart_probe()
+ - fixed commit message subject line prefixes
+
+Changes since v4 [3]:
+ - fixed commit reference formatting in commit message
+
+Changes since v3 [2]:
+ - renamed properties to match aspeed,ast2400-kcs-bmc
+
+Changes since v2 [0]:
+ - expanded to also handle sirq number and lpc address in addition to
+   sirq polarity
+ - added default settings if DT properties not specified
+ - refactored existing sysfs code slightly, adding range checks
+ - cleaned up 'make dt_binding_check' warnings
+
+Changes since v1 [1]:
+ - deprecate and retain aspeed,sirq-polarity-sense instead of removing it
+ - drop e3c246d4i dts addition from this series
 
 
-Zev
+[0] https://lore.kernel.org/openbmc/20210401005702.28271-1-zev@bewilderbeest.net/
+[1] https://lore.kernel.org/openbmc/20210330002338.335-1-zev@bewilderbeest.net/
+[2] https://lore.kernel.org/openbmc/20210402004716.15961-1-zev@bewilderbeest.net/
+[3] https://lore.kernel.org/openbmc/20210402182724.20848-1-zev@bewilderbeest.net/
+[4] https://lore.kernel.org/openbmc/20210408011637.5361-1-zev@bewilderbeest.net/
+
+
+Zev Weiss (4):
+  dt-bindings: serial: 8250: deprecate aspeed,sirq-polarity-sense
+  serial: 8250_aspeed_vuart: refactor sirq and lpc address setting code
+  serial: 8250_aspeed_vuart: add aspeed,lpc-io-reg and
+    aspeed,lpc-interrupts DT properties
+  dt-bindings: serial: 8250: add aspeed,lpc-io-reg and
+    aspeed,lpc-interrupts
+
+ .../devicetree/bindings/serial/8250.yaml      |  28 ++++-
+ drivers/tty/serial/8250/8250_aspeed_vuart.c   | 102 ++++++++++++++----
+ 2 files changed, 109 insertions(+), 21 deletions(-)
+
+-- 
+2.31.1
 
