@@ -1,91 +1,98 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82CB535D527
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Apr 2021 04:11:56 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C0735D565
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Apr 2021 04:43:52 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FK8HZ3WvFz30H2
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Apr 2021 12:11:54 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FK90Q3dbcz3bVM
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Apr 2021 12:43:50 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=LQfIT23J;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:febc::72f;
- helo=apc01-hk2-obe.outbound.protection.outlook.com;
- envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
-Received: from APC01-HK2-obe.outbound.protection.outlook.com
- (mail-hk2apc01on072f.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:febc::72f])
+ smtp.mailfrom=us.ibm.com (client-ip=148.163.156.1;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=miltonm@us.ibm.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
+ header.s=pp1 header.b=LQfIT23J; dkim-atps=neutral
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FK8HW3Mswz302b
- for <linux-aspeed@lists.ozlabs.org>; Tue, 13 Apr 2021 12:11:49 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AtJ3ukqLuGSdXiZYRcAiUs0FF/uXiHrdqRbulrth59M9o5hBpRNP+v7hMEIMVYZHtGGUHliJREsVwVLcRIDdddOGj8OzwqiQBgaGUE84WntyGgZ+mVJXnbVjbk+56XBXMM6xDfU1vHZKuppTtl17lICgxYILNlBVfMl+rxOkByQEnuy7NTT5jnJZyRcLe84jQeBpgrrhe4l8KZGmSyvpxm+3nGaoqLGFqXp3M0IQh9yZT5cYN5y6VGugfuMmZAvFe7EeuARxp48/F2Fcu38y+GMfbrhWcG/6ERBt5h5FHS1xcWkv1gNboRoCDpjPRk8oQRSNI4If/bvX57byHq31qw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RtFkONwTsv4YY8agLXNOZThLsllqfV5U6g9hvd3Ksow=;
- b=bKG3MRkFj5u/g1mKn+dT00uODhoSs3ypM8ewqjIOpDGZbq5+D7ZctTInLB7dhN0FQV1RRst630Xfp1e8kjqgH1lGSIXVjbUnNCSuoBo/Qulic0G7PxozkEG3N1cjwatIiRnq3SnDxj2/8D/mZEoo3i4c9V6Wm6UaA1HV2rDv1sau3qCFlDyGTCRMtru/jgtw87TjaJ0YPWdRfUATnMha4hW/oQg5PlAmpJwJOqUhpCvTnTcx8gW9FGD0x/FcG7u1/D+kIUscMGyMfFmYq8EAWy88UfGUH4uj3qeWzqQUk2IOo/xCYPP8tJr8CTQxCg7miw8Q9sc52Wm854SRJyU+Ig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-Received: from HK0PR06MB3362.apcprd06.prod.outlook.com (2603:1096:203:8b::10)
- by HK2PR06MB3537.apcprd06.prod.outlook.com (2603:1096:202:36::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.21; Tue, 13 Apr
- 2021 02:11:30 +0000
-Received: from HK0PR06MB3362.apcprd06.prod.outlook.com
- ([fe80::4d49:12fe:2d9a:b1bd]) by HK0PR06MB3362.apcprd06.prod.outlook.com
- ([fe80::4d49:12fe:2d9a:b1bd%3]) with mapi id 15.20.4020.022; Tue, 13 Apr 2021
- 02:11:30 +0000
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 4/4] pwm: Add support for aspeed pwm controller
-Thread-Topic: [PATCH 4/4] pwm: Add support for aspeed pwm controller
-Thread-Index: AQHXL4HkpEnvYhPT9U6/7p/B4+axNaqwutwAgAGA3YA=
-Date: Tue, 13 Apr 2021 02:11:30 +0000
-Message-ID: <BAD0AD58-BE95-4EF2-BC3F-EFAA19A91965@aspeedtech.com>
-References: <20210412095457.15095-1-billy_tsai@aspeedtech.com>
- <20210412095457.15095-5-billy_tsai@aspeedtech.com>
- <20210412111400.w4yafy2r2lcy3qqv@pengutronix.de>
-In-Reply-To: <20210412111400.w4yafy2r2lcy3qqv@pengutronix.de>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: pengutronix.de; dkim=none (message not signed)
- header.d=none;pengutronix.de; dmarc=none action=none
- header.from=aspeedtech.com;
-x-originating-ip: [211.20.114.70]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: acf280fe-c321-4469-d16d-08d8fe2173bd
-x-ms-traffictypediagnostic: HK2PR06MB3537:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HK2PR06MB353703725F848F10BCD7A6C78B4F9@HK2PR06MB3537.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5u4ME1wft5yNZjvJ7oiG4xvQ51pt7QTK/NDFTiGO8/EHt/dOQh34cmvpevXpvlupY0KBXr0TScPEBraExoQYqdIczfkJWKtQJ3JCBxTk6xMmgpcIhJO35aJAX3X0JM37o2t0ke73KrC85JMXTinPko1Ri2J4ReS08vNC+w6gku/n+VfTeqUHHc3wRvyLAS8nuMOpAlVO5Y39Zom2Wr1Wf4mr/Q07VkPNjj5b/eGQgPJHopnLkCuJSwv377bSuuqeV7jM6zzOhjCAb8us1foDTRm5KrMPifGkOPWVBvtjGVs0VfpGffWwL1gf0rCroGDex5AXISZrS+600Rt7RRUQrcIQr33J1eaxvm8NrN9t2ysUSffJakQ2lAWSn0xM7EiyjLTdQUJ0G9c32yQKst026SjwGWQpjdpb+aBINJ8Hcgn2jMIzxShow9Jovbkl/sTyOTcOwPyYh5Pa2rFXGh+xMYBtlwSJBZ3cE4xh3Qq1SGMIA+43Qf1pFJX6Pxoch1Z5+VgFBU8gBvpnQ4kSB/q12DQ8WNbY1lC0dhkIomFDh6YUraYvKqDSmDXFDwiV0tP+QIfU/TC91GPEoHMjYy/yku51PMFVDK7kuLHCtaSIbgtfKLcGFm+deszX1dDOmKiFqmo9HazpEVyGeoQp2WYAAvay/hpdWeype5XW6sn44bMx0qlWPvZouGo7476fTPCERUn55BNBVAbEvcmXXnQxhPRoEQuSnQzWniEiqgK2VhQxdTqldB/MKXtO58p+uJub
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3362.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(376002)(136003)(396003)(346002)(39840400004)(71200400001)(38100700002)(76116006)(107886003)(66476007)(66946007)(33656002)(64756008)(66446008)(7416002)(66556008)(6506007)(54906003)(6512007)(8676002)(55236004)(5660300002)(2906002)(4326008)(6916009)(478600001)(26005)(86362001)(6486002)(36756003)(966005)(316002)(2616005)(66574015)(8936002)(186003)(122000001)(45980500001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: axW2e844Y3ISbp+wwEYlsqyunoTro8Ki6wOmysjGdl4DQcPd1+9GYqGjkWHEDMnr9flS3XHNxgsiHDTS3y3/O0zZRzluq5OULAt/GWgs1s2zzcS9yDH1/9IH83HE1Dn/HGBGB9nrQqf+hIRyibGBG5O++678URMOP70eedoUs8YS8v/jO+adohLWLnbcWnWyB2DaORd8nshesSyHn25A4jHaizZL0VQ5wH83HJv2YCHnSA/zQqfdnKl7HzsmzRNhtbErlx1RjnUjATHydF/0NQQJRIEUO5G2PZ+BiFPJ/hI/5F6xJ1Ju4yLDTGt0S/7AFLpHfbBHzLWrBRPcHjxidUilhgOOj769MJxQu0DOTv3FlSvHv9ymNztEVn3jOD4JJaTXdXbIi24C5cD3HyVUFMcRbPd8OJKQ7Yp73q34kX36HmVtfxmk0yMC3VKWLEldeqxK0vF8VQYDixsH9Jd8eAxbg8ZJi3DvNdnCv1v8UsWI7md5XjznYncbbElkGYbpGRZmpUV3acKF1Aq/Fjl5RCW5vIhNJ3n0sBvhJCgaVFHSDS1f0RCMvbI2v8YbiDv+f12etDI91flRWaza7qq+qQT+ocblmpDv+3By7KuN2Xldv1LtLgW65PopZtNGkWPkSTGrtsupijXIwDJeB3mF5XYqlaHhWRVU0K9AYXrh8DRVs8VOtV5DCc3seygH6w9hgqVVnRMQQFYWaE6fyW/Ss5umcoCDE1OyC/ISOgJENZwP+9CHpP9jn4q7ISawduIU
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <95FB6D91137D5E42B958F38694EDCE15@apcprd06.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FK8zv1b4Jz30BR
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 13 Apr 2021 12:43:22 +1000 (AEST)
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13D2YJdL147921
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 12 Apr 2021 22:43:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=in-reply-to : from : to
+ : cc : date : references : content-type : message-id :
+ content-transfer-encoding : mime-version : subject; s=pp1;
+ bh=1EegNePvlfRJ5UCnwknjrsGUcTK3dCk5x+70rY0+tQY=;
+ b=LQfIT23J9dz4tgv/5nlFRGvn+G/K/GG1H2ozfnSP1A4GBuWa1LE9AG2uReyCtS1wqc0x
+ 6dwM//jaWpPWob2VOy074SNcqGNo/RT/fQ+mJ1NwN33D2K6JXDc74EaBgW8fkiyvgSwq
+ IFSG+PB+hJaM/owBVZg8Et+G3b4vWfy2eHdyuQSDs7vhcDlbDicOVtMAVlEjANe7pIEN
+ YUs021NlquF7Cm3n/9Hd+JGYYUf3B8riEyIKSwDLquJM6wjjwJZBOK6TSAAfnBUebpKR
+ +UokSKO+h9pWi+XlvX1esMl3R//MqbRoH7cFc7GrTYf7jHQOthuT9wXCH71jeUa1PFuJ hg== 
+Received: from smtp.notes.na.collabserv.com (smtp.notes.na.collabserv.com
+ [158.85.210.109])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 37vkdghsc5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 12 Apr 2021 22:43:17 -0400
+Received: from localhost
+ by smtp.notes.na.collabserv.com with smtp.notes.na.collabserv.com ESMTP
+ for <linux-aspeed@lists.ozlabs.org> from <miltonm@us.ibm.com>;
+ Tue, 13 Apr 2021 02:43:17 -0000
+Received: from us1b3-smtp07.a3dr.sjc01.isc4sb.com (10.122.203.198)
+ by smtp.notes.na.collabserv.com (10.122.47.48) with
+ smtp.notes.na.collabserv.com ESMTP; Tue, 13 Apr 2021 02:43:15 -0000
+Received: from us1b3-mail228.a3dr.sjc03.isc4sb.com ([10.168.214.55])
+ by us1b3-smtp07.a3dr.sjc01.isc4sb.com
+ with ESMTP id 2021041302431439-860115 ;
+ Tue, 13 Apr 2021 02:43:14 +0000 
+In-Reply-To: <20210413013010.GA353@aspeedtech.com>
+From: "Milton Miller II" <miltonm@us.ibm.com>
+To: Steven Lee <steven_lee@aspeedtech.com>
+Date: Tue, 13 Apr 2021 02:43:14 +0000
+Sensitivity: 
+Importance: Normal
+X-Priority: 3 (Normal)
+References: <20210413013010.GA353@aspeedtech.com>,
+ <20210408015218.20560-1-steven_lee@aspeedtech.com>
+ <20210408015218.20560-2-steven_lee@aspeedtech.com>
+ <20210409184118.GA3934798@robh.at.kernel.org>
+X-Mailer: IBM iNotes ($HaikuForm 1054.1) | IBM Domino Build
+ SCN1812108_20180501T0841_FP130 January 13, 2021 at 14:04
+X-LLNOutbound: False
+X-Disclaimed: 12715
+X-TNEFEvaluated: 1
+Content-Type: text/plain; charset=UTF-8
+x-cbid: 21041302-1429-0000-0000-000003AD7C50
+X-IBM-SpamModules-Scores: BY=0; FL=0; FP=0; FZ=0; HX=0; KW=0; PH=0; SC=0;
+ ST=0; TS=0; UL=0; ISC=; MB=0.008445
+X-IBM-SpamModules-Versions: BY=3.00014940; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000296; SDB=6.01526390; UDB=6.00825164; IPR=6.01308223; 
+ MB=3.00036522; MTD=3.00000008; XFM=3.00000015; UTC=2021-04-13 02:43:16
+X-IBM-AV-DETECTION: SAVI=unsuspicious REMOTE=unsuspicious XFE=unused
+X-IBM-AV-VERSION: SAVI=2021-03-22 13:55:12 - 6.00012377
+x-cbparentid: 21041302-1430-0000-0000-00003A2C7F01
+Message-Id: <OF2606E97A.D9A04B5B-ON002586B6.000DC6EE-002586B6.000EF1DC@notes.na.collabserv.com>
+X-Proofpoint-GUID: LoGBgidv7H3LDMxhYSgkZWxialymQVOB
+X-Proofpoint-ORIG-GUID: LoGBgidv7H3LDMxhYSgkZWxialymQVOB
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3362.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: acf280fe-c321-4469-d16d-08d8fe2173bd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Apr 2021 02:11:30.1121 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NIEjRLeydxa5WGPTxvDKzKmG/PVN0e5yErJIvlNpzyeRjk0Smq9uqhgPOJVLKSGUFDjF4vn1wrIktW4JDP2kLAH2OzBQddk2SFr6xIZHYL8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2PR06MB3537
+Subject: RE: [PATCH v1 1/2] dt-bindings: mmc: sdhci-of-aspeed: Add power-gpio
+ and power-switch-gpio
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-12_15:2021-04-12,
+ 2021-04-12 signatures=0
+X-Proofpoint-Spam-Reason: orgsafe
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,42 +104,192 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "billy_tasi@aspeedtech.com" <billy_tasi@aspeedtech.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- BMC-SW <BMC-SW@aspeedtech.com>, "lee.jones@linaro.org" <lee.jones@linaro.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Rob Herring <robh@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ "moderated list:ASPEED SD/MMC DRIVER" <linux-aspeed@lists.ozlabs.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE
+ TREE BINDINGS" <devicetree@vger.kernel.org>,
+ Ryan Chen <ryanchen.aspeed@gmail.com>,
+ "moderated list:ASPEED SD/MMC DRIVER" <openbmc@lists.ozlabs.org>,
+ "open list:ASPEED SD/MMC DRIVER" <linux-mmc@vger.kernel.org>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-VGhhbmtzIGZvciB5b3VyIHJldmlldw0KDQpCZXN0IFJlZ2FyZHMsDQpCaWxseSBUc2FpDQoNCk9u
-IDIwMjEvNC8xMiwgNzoxNCBQTSxVd2UgS2xlaW5lLUvDtm5pZ3dyb3RlOg0KDQogICAgPkhlbGxv
-LA0KDQogICAgPk9uIE1vbiwgQXByIDEyLCAyMDIxIGF0IDA1OjU0OjU3UE0gKzA4MDAsIEJpbGx5
-IFRzYWkgd3JvdGU6DQogICAgPj4gQWRkIHN1cHBvcnQgZm9yIHRoZSBwd20gY29udHJvbGxlciB3
-aGljaCBjYW4gYmUgZm91bmQgYXQgYXNwZWVkIGFzdDI2MDANCiAgICA+PiBzb2MuIFRoaXMgZHJp
-dmVyIGlzIHBhcnQgZnVuY3Rpb24gb2YgbXVsdGktZnVuY2l0b24gb2YgZGV2aWNlICJwd20tdGFj
-aA0KICAgID4+IGNvbnRyb2xsZXIiLg0KDQogICAgPnBsZWFzZSBzcXVhc2ggdGhpcyBpbnRvIHBh
-dGNoIDMuDQoNCk9LLCBJIHdpbGwgc3F1YXNoIGl0IHdoZW4gc2VuZGluZyB2Mi4NCg0KICAgID4+
-IFNpZ25lZC1vZmYtYnk6IEJpbGx5IFRzYWkgPGJpbGx5X3RzYWlAYXNwZWVkdGVjaC5jb20+DQog
-ICAgPj4gLS0tDQogICAgPj4gIGRyaXZlcnMvcHdtL0tjb25maWcgIHwgNiArKysrKysNCiAgICA+
-PiAgZHJpdmVycy9wd20vTWFrZWZpbGUgfCAxICsNCiAgICA+PiAgMiBmaWxlcyBjaGFuZ2VkLCA3
-IGluc2VydGlvbnMoKykNCiAgICA+PiANCiAgICA+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9wd20v
-S2NvbmZpZyBiL2RyaXZlcnMvcHdtL0tjb25maWcNCiAgICA+PiBpbmRleCA2M2JlNTM2MmZkM2Eu
-Ljk0N2VkNjQyZGViZSAxMDA2NDQNCiAgICA+PiAtLS0gYS9kcml2ZXJzL3B3bS9LY29uZmlnDQog
-ICAgPj4gKysrIGIvZHJpdmVycy9wd20vS2NvbmZpZw0KICAgID4+IEBAIC00Miw2ICs0MiwxMiBA
-QCBjb25maWcgUFdNX0RFQlVHDQogICAgPj4gIAkgIEl0IGlzIGV4cGVjdGVkIHRvIGludHJvZHVj
-ZSBzb21lIHJ1bnRpbWUgb3ZlcmhlYWQgYW5kIGRpYWdub3N0aWMNCiAgICA+PiAgCSAgb3V0cHV0
-IHRvIHRoZSBrZXJuZWwgbG9nLCBzbyBvbmx5IGVuYWJsZSB3aGlsZSB3b3JraW5nIG9uIGEgZHJp
-dmVyLg0KICAgID4+ICANCiAgICA+PiArY29uZmlnIFBXTV9BU1BFRURfRzYNCiAgICA+PiArCXRy
-aXN0YXRlICJBU1BFRURHNiBQV00gc3VwcG9ydCINCg0KICAgID5ObyBkZXBlbmRzPw0KDQpJIHdp
-bGwgYWRkICJkZXBlbmRzIG9uIChBUkNIX0FTUEVFRCB8fCBDT01QSUxFX1RFU1QpIiBmb3IgdGhp
-cyBjb25maWd1cmUuDQoNCiAgICA+QmVzdCByZWdhcmRzDQogICAgPlV3ZQ0KDQogICAgPi0tIA0K
-ICAgID5QZW5ndXRyb25peCBlLksuICAgICAgICAgICAgICAgICAgICAgICAgICAgfCBVd2UgS2xl
-aW5lLUvDtm5pZyAgICAgICAgICAgIHwNCiAgICA+SW5kdXN0cmlhbCBMaW51eCBTb2x1dGlvbnMg
-ICAgICAgICAgICAgICAgIHwgaHR0cHM6Ly93d3cucGVuZ3V0cm9uaXguZGUvIHwNCg0K
+
+
+-----"openbmc" <openbmc-bounces+miltonm=3Dus.ibm.com@lists.ozlabs.org> wrot=
+e: -----
+
+>To: Rob Herring <robh@kernel.org>
+>From: Steven Lee=20
+>Sent by: "openbmc"=20
+>Date: 04/12/2021 08:31PM
+>Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+><devicetree@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+>Ryan Chen <ryan_chen@aspeedtech.com>, "moderated list:ASPEED SD/MMC
+>DRIVER" <linux-aspeed@lists.ozlabs.org>, Andrew Jeffery
+><andrew@aj.id.au>, "open list:ASPEED SD/MMC DRIVER"
+><linux-mmc@vger.kernel.org>, "moderated list:ASPEED SD/MMC DRIVER"
+><openbmc@lists.ozlabs.org>, Ryan Chen <ryanchen.aspeed@gmail.com>,
+>Adrian Hunter <adrian.hunter@intel.com>, open list
+><linux-kernel@vger.kernel.org>, Chin-Ting Kuo
+><chin-ting_kuo@aspeedtech.com>, "moderated list:ARM/ASPEED MACHINE
+>SUPPORT" <linux-arm-kernel@lists.infradead.org>
+>Subject: [EXTERNAL] Re: [PATCH v1 1/2] dt-bindings: mmc:
+>sdhci-of-aspeed: Add power-gpio and power-switch-gpio
+>
+>The 04/10/2021 02:41, Rob Herring wrote:
+>> On Thu, Apr 08, 2021 at 09:52:17AM +0800, Steven Lee wrote:
+>> > AST2600-A2 EVB provides the reference design for enabling SD bus
+>power
+>> > and toggling SD bus signal voltage by GPIO pins.
+>> > Add the definition and example for power-gpio and
+>power-switch-gpio
+>> > properties.
+>> >=20
+>> > In the reference design, GPIOV0 of AST2600-A2 EVB is connected to
+>power
+>> > load switch that providing 3.3v to SD1 bus vdd. GPIOV1 is
+>connected to
+>> > a 1.8v and a 3.3v power load switch that providing signal voltage
+>to
+>> > SD1 bus.
+>> > If GPIOV0 is active high, SD1 bus is enabled. Otherwise, SD1 bus
+>is
+>> > disabled.
+>> > If GPIOV1 is active high, 3.3v power load switch is enabled, SD1
+>signal
+>> > voltage is 3.3v. Otherwise, 1.8v power load switch will be
+>enabled, SD1
+>> > signal voltage becomes 1.8v.
+>> >=20
+>> > AST2600-A2 EVB also support toggling signal voltage for SD2 bus.
+>> > The design is the same as SD1 bus. It uses GPIOV2 as power-gpio
+>and GPIOV3
+>> > as power-switch-gpio.
+>> >=20
+>> > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+>> > ---
+>> >  .../devicetree/bindings/mmc/aspeed,sdhci.yaml | 25
+>+++++++++++++++++++
+>> >  1 file changed, 25 insertions(+)
+>> >=20
+>> > diff --git
+>a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+>b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+>> > index 987b287f3bff..515a74614f3c 100644
+>> > --- a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+>> > +++ b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+>> > @@ -37,6 +37,14 @@ properties:
+>> >    clocks:
+>> >      maxItems: 1
+>> >      description: The SD/SDIO controller clock gate
+>> > +  power-gpio:
+>>=20
+>> '-gpios' is the preferred form even if just 1.
+>>=20
+>
+>Thanks for reviewing, I will change the name.
+
+is this a clock gate or a power on gpio?
+
+
+>
+>> > +    description:
+>> > +      The GPIO for enabling/disabling SD bus power.
+>> > +    maxItems: 1
+>>=20
+>> blank line
+>>=20
+>
+>I will remove the blank line.
+>
+>> > +  power-switch-gpio:
+>> > +    description:
+>> > +      The GPIO for toggling the signal voltage between 3.3v and
+>1.8v.
+
+Which way does it toggle for which voltage?
+
+Oh, you said in the change log but not in the binding.
+
+But please, use gpio controled regulators as Ulf suggested and is
+already used by other mmc controllers upstream.
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/
+Documentation/devicetree/bindings/regulator/gpio-regulator.yaml
+
+Ulf> Please do not model these as GPIO pins like this. Instead, it's better
+Ulf> to model them as gpio regulators, since the mmc core manages them as
+Ulf> regulators.
+Ulf>=20
+Ulf> We have a vmmc regulator (corresponding to vdd) and a vqmmc regulator
+Ulf> (corresponding the signal-voltage level). These are also described in
+Ulf> the common mmc DT bindings, see
+Ulf> Documentation/devicetree/bindings/mmc/mmc-controller.yaml
+Ulf> .
+
+milton
+
+>> > +    maxItems: 1
+>> >=20=20
+>> >  patternProperties:
+>> >    "^sdhci@[0-9a-f]+$":
+>> > @@ -61,6 +69,14 @@ patternProperties:
+>> >        sdhci,auto-cmd12:
+>> >          type: boolean
+>> >          description: Specifies that controller should use auto
+>CMD12
+>> > +      power-gpio:
+>> > +        description:
+>> > +          The GPIO for enabling/disabling SD bus power.
+>> > +        maxItems: 1
+>> > +      power-switch-gpio:
+>> > +        description:
+>> > +          The GPIO for toggling the signal voltage between 3.3v
+>and 1.8v.
+>> > +        maxItems: 1
+>> >      required:
+>> >        - compatible
+>> >        - reg
+>> > @@ -80,6 +96,7 @@ required:
+>> >  examples:
+>> >    - |
+>> >      #include <dt-bindings/clock/aspeed-clock.h>
+>> > +    #include <dt-bindings/gpio/aspeed-gpio.h>
+>> >      sdc@1e740000 {
+>> >              compatible =3D "aspeed,ast2500-sd-controller";
+>> >              reg =3D <0x1e740000 0x100>;
+>> > @@ -94,6 +111,10 @@ examples:
+>> >                      interrupts =3D <26>;
+>> >                      sdhci,auto-cmd12;
+>> >                      clocks =3D <&syscon ASPEED_CLK_SDIO>;
+>> > +                    power-gpio =3D <&gpio0 ASPEED_GPIO(V, 0)
+>> > +                                     GPIO_ACTIVE_HIGH>;
+>> > +                    power-switch-gpio =3D <&gpio0 ASPEED_GPIO(V,
+>1)
+>> > +                                     GPIO_ACTIVE_HIGH>;
+>> >              };
+>> >=20=20
+>> >              sdhci1: sdhci@200 {
+>> > @@ -102,5 +123,9 @@ examples:
+>> >                      interrupts =3D <26>;
+>> >                      sdhci,auto-cmd12;
+>> >                      clocks =3D <&syscon ASPEED_CLK_SDIO>;
+>> > +                    power-gpio =3D <&gpio0 ASPEED_GPIO(V, 2)
+>> > +                                     GPIO_ACTIVE_HIGH>;
+>> > +                    power-switch-gpio =3D <&gpio0 ASPEED_GPIO(V,
+>3)
+>> > +                                     GPIO_ACTIVE_HIGH>;
+>> >              };
+>> >      };
+>> > --=20
+>> > 2.17.1
+>> >=20
+>
+>
+
