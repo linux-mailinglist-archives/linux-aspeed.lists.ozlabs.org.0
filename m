@@ -1,75 +1,96 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941CF35E750
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Apr 2021 21:50:54 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6471635E76C
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Apr 2021 22:09:11 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FKbnS3Dc5z2xfm
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Apr 2021 05:50:52 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FKcBY2JShz30HD
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Apr 2021 06:09:09 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20161025 header.b=ep3RW5lf;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=KhXBibXv;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=google.com (client-ip=2607:f8b0:4864:20::1029;
- helo=mail-pj1-x1029.google.com; envelope-from=brendanhiggins@google.com;
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256
- header.s=20161025 header.b=ep3RW5lf; dkim-atps=neutral
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
+ header.s=pp1 header.b=KhXBibXv; dkim-atps=neutral
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FKbmz3s5bz3030
- for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Apr 2021 05:50:24 +1000 (AEST)
-Received: by mail-pj1-x1029.google.com with SMTP id
- j6-20020a17090adc86b02900cbfe6f2c96so9567421pjv.1
- for <linux-aspeed@lists.ozlabs.org>; Tue, 13 Apr 2021 12:50:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oOecOrjP4ebjB9MfD+t/MwQe3gJqtePCpwG7b5PQgBs=;
- b=ep3RW5lfGiKUgUbny3bLO13DIO+Ejr205QO9Sj9bTseb2gaW4CooOeZ0UQy8VFbUo4
- IoX72M2BDxEO7GAvHFCZUjex8Xjs5EFdJz2j2ipVz8L/TDgYsBhFf718ooClu5tAY56+
- cNV3vwNptvDHbYivOEHLlfEUesW22uB/9W7/fRxp0jEh5N85IWibEQEgCkCSpXBN2pVM
- M/TE4CRqqcG6GBj+VLaDiv1tOZL/YPffagrD+73atSsvba5eqQEGmwBWvEVEAtzHxMca
- jBfOfF9bViKDnyIXT7i2qh/7zBfV3rhpzaBuLm2LkW+q67OGIYjpAdGJUnyyC5xjfGCk
- AYhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oOecOrjP4ebjB9MfD+t/MwQe3gJqtePCpwG7b5PQgBs=;
- b=VNS2PS9ZHKzwLNJ8vvQxiANwI7vKwpqEMuOumaY3ZQn6gbKvX9aOC8DbIkGTcK+jOh
- TmcQHimEMXKmI4NykwiYqdtsmCQjAOQ8t597wMZ3Kl1RnYGMw01r4imIz11GDsHIfN45
- 0RWo1pLQBluUnmmvgUkJ9gkaxF574M2zn0+WJzUhp04tc999Rbk2oBp/+APpzdolbZcf
- GFe/WZrOMzSIF1mzwAt1Hy28N9KIlorCXRdy+n+UkfkPXgUR93oEyNv7FJNAZX2N8UPZ
- iFliTHQtMAfRC9PMTrfuDdwWrfkHZNp6Xhj4X28d7szC7Rv9TQgoefEmRuggxCnKYsr5
- FcQA==
-X-Gm-Message-State: AOAM532wSg5Wm/V0iQrexFjIRRyRSw5sBaU/KCSSiaEDos63EKphQEeA
- ZBCQTjRBE1Mt8wyfxJXJZXgX7bkdMCjuR8zv3/LucQ==
-X-Google-Smtp-Source: ABdhPJwaj6udX1dNnKNlsRCyFoPlCACj+fhdmzsOnCuN8ke1sAMbselzI6xf9r5pQiR9bEI7Hb/t9N6kmsPzQMoE9to=
-X-Received: by 2002:a17:90a:c7d5:: with SMTP id
- gf21mr1692957pjb.80.1618343422498; 
- Tue, 13 Apr 2021 12:50:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210224191720.7724-1-jae.hyun.yoo@linux.intel.com>
- <20210224191720.7724-2-jae.hyun.yoo@linux.intel.com>
- <20210306203011.GA1152769@robh.at.kernel.org>
- <f6732348-d6c8-f49b-6123-afe542bb1f8c@linux.intel.com>
- <CAL_Jsq+H2wCyTKhGcQvgiuyMtGW0hytQgw=948q0JGLSLOo9KA@mail.gmail.com>
- <f1811747-3826-215a-d822-85170303a7c9@linux.intel.com>
- <fadf1244-ed6e-5973-ff1b-018bd20ff3b1@linux.intel.com>
-In-Reply-To: <fadf1244-ed6e-5973-ff1b-018bd20ff3b1@linux.intel.com>
-From: Brendan Higgins <brendanhiggins@google.com>
-Date: Tue, 13 Apr 2021 12:50:11 -0700
-Message-ID: <CAFd5g453L_+tu=vd0foiswJP16+repffPBEPCy6mpZQqnM50Ug@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] dt-bindings: i2c: aspeed: add transfer mode support
-To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FKcBW0Yv2z304X;
+ Wed, 14 Apr 2021 06:09:06 +1000 (AEST)
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 13DK3PxC175481; Tue, 13 Apr 2021 16:08:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=TWVqT+biIie5U0vDKWFF2EaxQEXoONy8pq4DWay0w6Y=;
+ b=KhXBibXvJI+rnP0pS7hcSgn/qdTnz27Z8935SnwVOtICrV4bsECVWGLwijBpVlso1nKn
+ iMJDVn60rp9U3T8S4Au+fqdswYnzHx3YIWHPCZBJCar22DxE2TUNBFkMWAAjifjofZwt
+ HmvylbpgnqXctUwyY7eqv6rfffPZU7pu7VJopCprRIrjLfkV+4ms8H6anVbKJCnezU5K
+ RI7JMX4O8HVqa8nkU7CyZ0jR4zMqC4eVGWg9ISlFEiKF4qx2nGKMooLae2PjJ6Xyris7
+ tr9yh9YKnf7Nz+sI0aHJZnx9fr4edK4RAL9Ty6TvBoFQ8H4nW9WJuRwIBiuNpn5HKYp8 kQ== 
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 37wckq9g7h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Apr 2021 16:08:54 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13DK719c024092;
+ Tue, 13 Apr 2021 20:08:54 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma03dal.us.ibm.com with ESMTP id 37u3n9aebm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 13 Apr 2021 20:08:54 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13DK8rhj26542510
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 13 Apr 2021 20:08:53 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F1DB86A051;
+ Tue, 13 Apr 2021 20:08:52 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9F40F6A047;
+ Tue, 13 Apr 2021 20:08:52 +0000 (GMT)
+Received: from v0005c16 (unknown [9.211.55.32])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 13 Apr 2021 20:08:52 +0000 (GMT)
+Message-ID: <bfb940efdba7d308cf5e91874604582cb5173ada.camel@linux.ibm.com>
+Subject: Re: [PATCH] fsi: aspeed: Emit fewer barriers in opb operations
+From: Eddie James <eajames@linux.ibm.com>
+To: Joel Stanley <joel@jms.id.au>, Jeremy Kerr <jk@ozlabs.org>, Andrew
+ Jeffery <andrew@aj.id.au>
+Date: Tue, 13 Apr 2021 15:08:52 -0500
+In-Reply-To: <20210223041737.171274-1-joel@jms.id.au>
+References: <20210223041737.171274-1-joel@jms.id.au>
+Organization: IBM
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-14.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: mnCVsRH21Y0gM829eFc6Q5aqg77Dckpe
+X-Proofpoint-GUID: mnCVsRH21Y0gM829eFc6Q5aqg77Dckpe
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-04-13_15:2021-04-13,
+ 2021-04-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0
+ clxscore=1011 mlxscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
+ bulkscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104130132
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,116 +102,95 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Wolfram Sang <wsa@the-dreams.de>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- devicetree <devicetree@vger.kernel.org>, Linux I2C <linux-i2c@vger.kernel.org>,
- Cedric Le Goater <clg@kaod.org>
+Cc: linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Apr 8, 2021 at 10:50 AM Jae Hyun Yoo
-<jae.hyun.yoo@linux.intel.com> wrote:
->
-> Ping.
->
-> On 3/10/2021 7:55 AM, Jae Hyun Yoo wrote:
-> > On 3/9/2021 6:15 PM, Rob Herring wrote:
-> >> On Tue, Mar 9, 2021 at 10:02 AM Jae Hyun Yoo
-> >> <jae.hyun.yoo@linux.intel.com> wrote:
-> >>>
-> >>> Hi Rob,
-> >>>
-> >>> On 3/6/2021 12:30 PM, Rob Herring wrote:
-> >>>> On Wed, Feb 24, 2021 at 11:17:17AM -0800, Jae Hyun Yoo wrote:
-> >>>>> Append bindings to support transfer mode.
-> >>>>>
-> >>>>> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> >>>>> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
-> >>>>> ---
-> >>>>> Changes since v3:
-> >>>>> - None
-> >>>>>
-> >>>>> Changes since v2:
-> >>>>> - Moved SRAM resources back to default dtsi and added mode selection
-> >>>>>     property.
-> >>>>>
-> >>>>> Changes since v1:
-> >>>>> - Removed buffer reg settings from default device tree and added
-> >>>>> the settings
-> >>>>>     into here to show the predefined buffer range per each bus.
-> >>>>>
-> >>>>>    .../devicetree/bindings/i2c/i2c-aspeed.txt    | 37
-> >>>>> +++++++++++++++----
-> >>>>>    1 file changed, 30 insertions(+), 7 deletions(-)
-> >>>>>
-> >>>>> diff --git a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
-> >>>>> b/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
-> >>>>> index b47f6ccb196a..242343177324 100644
-> >>>>> --- a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
-> >>>>> +++ b/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
-> >>>>> @@ -17,6 +17,20 @@ Optional Properties:
-> >>>>>    - bus-frequency    : frequency of the bus clock in Hz defaults
-> >>>>> to 100 kHz when not
-> >>>>>                 specified
-> >>>>>    - multi-master     : states that there is another master active
-> >>>>> on this bus.
-> >>>>> +- aspeed,i2c-xfer-mode      : should be "byte", "buf" or "dma" to
-> >>>>> select transfer
-> >>>>> +                      mode defaults to "byte" mode when not
-> >>>>> specified.
-> >>>>> +
-> >>>>> +                      I2C DMA mode on AST2500 has these restrictions:
-> >>>>> +                        - If one of these controllers is enabled
-> >>>>> +                            * UHCI host controller
-> >>>>> +                            * MCTP controller
-> >>>>> +                          I2C has to use buffer mode or byte mode
-> >>>>> instead
-> >>>>> +                          since these controllers run only in DMA
-> >>>>> mode and
-> >>>>> +                          I2C is sharing the same DMA H/W with them.
-> >>>>> +                        - If one of these controllers uses DMA
-> >>>>> mode, I2C
-> >>>>> +                          can't use DMA mode
-> >>>>> +                            * SD/eMMC
-> >>>>> +                            * Port80 snoop
-> >>>>
-> >>>> How does one decide between byte or buf mode?
-> >>>
-> >>> If a given system makes just one byte r/w transactions most of the time
-> >>> then byte mode will be a right setting. Otherwise, buf mode is more
-> >>> efficient because it doesn't generate a bunch of interrupts on every
-> >>> byte handling.
-> >>
-> >> Then why doesn't the driver do byte transactions when it gets small
-> >> 1-4? byte transactions and buffer transactions when it gets larger
-> >> sized transactions.
-> >
-> > Good question and it could be an option of this implementation.
-> > Actually, each mode needs different register handling so we need to add
-> > additional conditional branches to make it dynamic mode change depends
-> > on the data size which can be a downside. Also, checked that small
-> > amount of data transfer efficiency in 'buf' transfer mode is almost same
-> > to 'byte' mode so there would be no big benefit from the dynamic mode
-> > change. Of course, we can remove the 'byte' transfer mode but we should
-> > also provide flexibility of configuration on what this hardware can
-> > support, IMO.
+On Tue, 2021-02-23 at 14:47 +1030, Joel Stanley wrote:
+> When setting up a read or write to the OPB memory space, we must
+> perform
+> five or six AHB writes. The ordering of these up until the trigger
+> write
+> does not matter, so use writel_relaxed.
 
-I would rather set the choice in device tree or Kconfig, which the
-former is what I think you did here.
+Reviewed-by: Eddie James <eajames@linux.ibm.com>
 
-As for doing byte mode for small transactions and buffer/DMA for large
-transactions, I would prefer sticking to a single mode based on what
-is selected at build/boot time. Seems less error prone to me. Then
-again, Rob probably has more experience in this area than I do, so
-maybe this kind of thing is pretty common and I just don't realize it.
+I have also tested this patch on hardware, so
 
-In any case, as for getting rid of byte mode, I would support that,
-but not in this patch set. I would rather switch the default and get
-users on buffer/DMA mode before taking away a fallback option.
+Tested-by: Eddie James <eajames@linux.ibm.com>
 
-My 2 cents, but I think the OzLabs and other active OpenBMC people are
-probably a little more up to date on this.
+> 
+> The generated code goes from (Debian GCC 10.2.1-6):
+> 
+>         mov     r8, r3
+>         mcr     15, 0, sl, cr7, cr10, {4}
+>         str     sl, [r6, #20]
+>         mcr     15, 0, sl, cr7, cr10, {4}
+>         str     r3, [r6, #24]
+>         mcr     15, 0, sl, cr7, cr10, {4}
+>         str     r1, [r6, #28]
+>         mcr     15, 0, sl, cr7, cr10, {4}
+>         str     r2, [r6, #32]
+>         mcr     15, 0, sl, cr7, cr10, {4}
+>         mov     r1, #1
+>         str     r1, [r6, #64]   ; 0x40
+>         mcr     15, 0, sl, cr7, cr10, {4}
+>         str     r1, [r6, #4]
+> 
+> to this:
+> 
+>         str     r3, [r7, #20]
+>         str     r2, [r7, #24]
+>         str     r1, [r7, #28]
+>         str     r3, [r7, #64]
+>         mov     r8, #0
+>         mcr     15, 0, r8, cr7, cr10, {4}
+>         str     r3, [r7, #4]
+> 
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> ---
+>  drivers/fsi/fsi-master-aspeed.c | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-
+> master-aspeed.c
+> index 90dbe58ca1ed..09fff86b2bac 100644
+> --- a/drivers/fsi/fsi-master-aspeed.c
+> +++ b/drivers/fsi/fsi-master-aspeed.c
+> @@ -101,11 +101,11 @@ static int __opb_write(struct fsi_master_aspeed
+> *aspeed, u32 addr,
+>  	u32 reg, status;
+>  	int ret;
+>  
+> -	writel(CMD_WRITE, base + OPB0_RW);
+> -	writel(transfer_size, base + OPB0_XFER_SIZE);
+> -	writel(addr, base + OPB0_FSI_ADDR);
+> -	writel(val, base + OPB0_FSI_DATA_W);
+> -	writel(0x1, base + OPB_IRQ_CLEAR);
+> +	writel_relaxed(CMD_WRITE, base + OPB0_RW);
+> +	writel_relaxed(transfer_size, base + OPB0_XFER_SIZE);
+> +	writel_relaxed(addr, base + OPB0_FSI_ADDR);
+> +	writel_relaxed(val, base + OPB0_FSI_DATA_W);
+> +	writel_relaxed(0x1, base + OPB_IRQ_CLEAR);
+>  	writel(0x1, base + OPB_TRIGGER);
+>  
+>  	ret = readl_poll_timeout(base + OPB_IRQ_STATUS, reg,
+> @@ -149,10 +149,10 @@ static int __opb_read(struct fsi_master_aspeed
+> *aspeed, uint32_t addr,
+>  	u32 result, reg;
+>  	int status, ret;
+>  
+> -	writel(CMD_READ, base + OPB0_RW);
+> -	writel(transfer_size, base + OPB0_XFER_SIZE);
+> -	writel(addr, base + OPB0_FSI_ADDR);
+> -	writel(0x1, base + OPB_IRQ_CLEAR);
+> +	writel_relaxed(CMD_READ, base + OPB0_RW);
+> +	writel_relaxed(transfer_size, base + OPB0_XFER_SIZE);
+> +	writel_relaxed(addr, base + OPB0_FSI_ADDR);
+> +	writel_relaxed(0x1, base + OPB_IRQ_CLEAR);
+>  	writel(0x1, base + OPB_TRIGGER);
+>  
+>  	ret = readl_poll_timeout(base + OPB_IRQ_STATUS, reg,
 
-Cheers
