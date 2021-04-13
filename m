@@ -2,91 +2,74 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2179E35E73A
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Apr 2021 21:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 941CF35E750
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Apr 2021 21:50:54 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FKbcw6qbbz30Jb
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Apr 2021 05:43:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FKbnS3Dc5z2xfm
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Apr 2021 05:50:52 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=a4sB9LVJ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20161025 header.b=ep3RW5lf;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
+ smtp.mailfrom=google.com (client-ip=2607:f8b0:4864:20::1029;
+ helo=mail-pj1-x1029.google.com; envelope-from=brendanhiggins@google.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
- header.s=pp1 header.b=a4sB9LVJ; dkim-atps=neutral
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256
+ header.s=20161025 header.b=ep3RW5lf; dkim-atps=neutral
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FKbcn4gBWz3bSw
- for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Apr 2021 05:43:21 +1000 (AEST)
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13DJXB2e194412; Tue, 13 Apr 2021 15:43:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=gMBKhaYzx9hiGiHXWzN9ZQAXIdMnArhMd6faaVouwBM=;
- b=a4sB9LVJOue9FbB3+58+ETqsVRQ5+wNpUplNER7i279U+xCkYQuBpTDEEOLpajuOoF+x
- W+cJT3me92AfTZgqlm+MzW+Zo7PCWhs1EnvlzS1bZoD4Ktwxe2egOOiRK3anho+dHB/F
- +0lwVBonwSZagwX8SdsyAEdDXbqkUIWtSh4brcuICWNFuVbUrDSkxQ9DEWdSCcBIF2pY
- 4L7dbOVO+IksugN1LTq5MsGPmMxF+fXEZk0lUt0JUaJbZEMKilyy/K8rYJh8aEzOmFpc
- yWKVpaUdhLZTMWyh7b8eHn5Q9oKU1IoU8cinVrbp8TT68V0fdV5zWSYfezrfmt6sVpmt Ig== 
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 37w9gyen3q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Apr 2021 15:43:18 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13DJgEGC004574;
- Tue, 13 Apr 2021 19:43:17 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma02dal.us.ibm.com with ESMTP id 37u3n9t70e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Apr 2021 19:43:17 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 13DJhHJg32571844
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 13 Apr 2021 19:43:17 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 187E5AE05F;
- Tue, 13 Apr 2021 19:43:17 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A3195AE062;
- Tue, 13 Apr 2021 19:43:16 +0000 (GMT)
-Received: from v0005c16.aus.stglabs.ibm.com (unknown [9.211.55.32])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 13 Apr 2021 19:43:16 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH 4/4] ARM: dts: aspeed: Rainier: Update to pass 2 hardware
-Date: Tue, 13 Apr 2021 14:43:08 -0500
-Message-Id: <20210413194308.36930-5-eajames@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210413194308.36930-1-eajames@linux.ibm.com>
-References: <20210413194308.36930-1-eajames@linux.ibm.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FKbmz3s5bz3030
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Apr 2021 05:50:24 +1000 (AEST)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ j6-20020a17090adc86b02900cbfe6f2c96so9567421pjv.1
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 13 Apr 2021 12:50:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oOecOrjP4ebjB9MfD+t/MwQe3gJqtePCpwG7b5PQgBs=;
+ b=ep3RW5lfGiKUgUbny3bLO13DIO+Ejr205QO9Sj9bTseb2gaW4CooOeZ0UQy8VFbUo4
+ IoX72M2BDxEO7GAvHFCZUjex8Xjs5EFdJz2j2ipVz8L/TDgYsBhFf718ooClu5tAY56+
+ cNV3vwNptvDHbYivOEHLlfEUesW22uB/9W7/fRxp0jEh5N85IWibEQEgCkCSpXBN2pVM
+ M/TE4CRqqcG6GBj+VLaDiv1tOZL/YPffagrD+73atSsvba5eqQEGmwBWvEVEAtzHxMca
+ jBfOfF9bViKDnyIXT7i2qh/7zBfV3rhpzaBuLm2LkW+q67OGIYjpAdGJUnyyC5xjfGCk
+ AYhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oOecOrjP4ebjB9MfD+t/MwQe3gJqtePCpwG7b5PQgBs=;
+ b=VNS2PS9ZHKzwLNJ8vvQxiANwI7vKwpqEMuOumaY3ZQn6gbKvX9aOC8DbIkGTcK+jOh
+ TmcQHimEMXKmI4NykwiYqdtsmCQjAOQ8t597wMZ3Kl1RnYGMw01r4imIz11GDsHIfN45
+ 0RWo1pLQBluUnmmvgUkJ9gkaxF574M2zn0+WJzUhp04tc999Rbk2oBp/+APpzdolbZcf
+ GFe/WZrOMzSIF1mzwAt1Hy28N9KIlorCXRdy+n+UkfkPXgUR93oEyNv7FJNAZX2N8UPZ
+ iFliTHQtMAfRC9PMTrfuDdwWrfkHZNp6Xhj4X28d7szC7Rv9TQgoefEmRuggxCnKYsr5
+ FcQA==
+X-Gm-Message-State: AOAM532wSg5Wm/V0iQrexFjIRRyRSw5sBaU/KCSSiaEDos63EKphQEeA
+ ZBCQTjRBE1Mt8wyfxJXJZXgX7bkdMCjuR8zv3/LucQ==
+X-Google-Smtp-Source: ABdhPJwaj6udX1dNnKNlsRCyFoPlCACj+fhdmzsOnCuN8ke1sAMbselzI6xf9r5pQiR9bEI7Hb/t9N6kmsPzQMoE9to=
+X-Received: by 2002:a17:90a:c7d5:: with SMTP id
+ gf21mr1692957pjb.80.1618343422498; 
+ Tue, 13 Apr 2021 12:50:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 3sRlSMEaPwTIQ876bsDd8SIRmUtQqRzq
-X-Proofpoint-ORIG-GUID: 3sRlSMEaPwTIQ876bsDd8SIRmUtQqRzq
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-04-13_15:2021-04-13,
- 2021-04-13 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- phishscore=0 impostorscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0
- suspectscore=0 clxscore=1015 bulkscore=0 adultscore=0 mlxlogscore=999
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104130128
+References: <20210224191720.7724-1-jae.hyun.yoo@linux.intel.com>
+ <20210224191720.7724-2-jae.hyun.yoo@linux.intel.com>
+ <20210306203011.GA1152769@robh.at.kernel.org>
+ <f6732348-d6c8-f49b-6123-afe542bb1f8c@linux.intel.com>
+ <CAL_Jsq+H2wCyTKhGcQvgiuyMtGW0hytQgw=948q0JGLSLOo9KA@mail.gmail.com>
+ <f1811747-3826-215a-d822-85170303a7c9@linux.intel.com>
+ <fadf1244-ed6e-5973-ff1b-018bd20ff3b1@linux.intel.com>
+In-Reply-To: <fadf1244-ed6e-5973-ff1b-018bd20ff3b1@linux.intel.com>
+From: Brendan Higgins <brendanhiggins@google.com>
+Date: Tue, 13 Apr 2021 12:50:11 -0700
+Message-ID: <CAFd5g453L_+tu=vd0foiswJP16+repffPBEPCy6mpZQqnM50Ug@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] dt-bindings: i2c: aspeed: add transfer mode support
+To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,257 +81,116 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, Wolfram Sang <wsa@the-dreams.de>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ devicetree <devicetree@vger.kernel.org>, Linux I2C <linux-i2c@vger.kernel.org>,
+ Cedric Le Goater <clg@kaod.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add the muxes present in pass 2 and remove the eeproms that were
-removed.
+On Thu, Apr 8, 2021 at 10:50 AM Jae Hyun Yoo
+<jae.hyun.yoo@linux.intel.com> wrote:
+>
+> Ping.
+>
+> On 3/10/2021 7:55 AM, Jae Hyun Yoo wrote:
+> > On 3/9/2021 6:15 PM, Rob Herring wrote:
+> >> On Tue, Mar 9, 2021 at 10:02 AM Jae Hyun Yoo
+> >> <jae.hyun.yoo@linux.intel.com> wrote:
+> >>>
+> >>> Hi Rob,
+> >>>
+> >>> On 3/6/2021 12:30 PM, Rob Herring wrote:
+> >>>> On Wed, Feb 24, 2021 at 11:17:17AM -0800, Jae Hyun Yoo wrote:
+> >>>>> Append bindings to support transfer mode.
+> >>>>>
+> >>>>> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> >>>>> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+> >>>>> ---
+> >>>>> Changes since v3:
+> >>>>> - None
+> >>>>>
+> >>>>> Changes since v2:
+> >>>>> - Moved SRAM resources back to default dtsi and added mode selection
+> >>>>>     property.
+> >>>>>
+> >>>>> Changes since v1:
+> >>>>> - Removed buffer reg settings from default device tree and added
+> >>>>> the settings
+> >>>>>     into here to show the predefined buffer range per each bus.
+> >>>>>
+> >>>>>    .../devicetree/bindings/i2c/i2c-aspeed.txt    | 37
+> >>>>> +++++++++++++++----
+> >>>>>    1 file changed, 30 insertions(+), 7 deletions(-)
+> >>>>>
+> >>>>> diff --git a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
+> >>>>> b/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
+> >>>>> index b47f6ccb196a..242343177324 100644
+> >>>>> --- a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
+> >>>>> +++ b/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
+> >>>>> @@ -17,6 +17,20 @@ Optional Properties:
+> >>>>>    - bus-frequency    : frequency of the bus clock in Hz defaults
+> >>>>> to 100 kHz when not
+> >>>>>                 specified
+> >>>>>    - multi-master     : states that there is another master active
+> >>>>> on this bus.
+> >>>>> +- aspeed,i2c-xfer-mode      : should be "byte", "buf" or "dma" to
+> >>>>> select transfer
+> >>>>> +                      mode defaults to "byte" mode when not
+> >>>>> specified.
+> >>>>> +
+> >>>>> +                      I2C DMA mode on AST2500 has these restrictions:
+> >>>>> +                        - If one of these controllers is enabled
+> >>>>> +                            * UHCI host controller
+> >>>>> +                            * MCTP controller
+> >>>>> +                          I2C has to use buffer mode or byte mode
+> >>>>> instead
+> >>>>> +                          since these controllers run only in DMA
+> >>>>> mode and
+> >>>>> +                          I2C is sharing the same DMA H/W with them.
+> >>>>> +                        - If one of these controllers uses DMA
+> >>>>> mode, I2C
+> >>>>> +                          can't use DMA mode
+> >>>>> +                            * SD/eMMC
+> >>>>> +                            * Port80 snoop
+> >>>>
+> >>>> How does one decide between byte or buf mode?
+> >>>
+> >>> If a given system makes just one byte r/w transactions most of the time
+> >>> then byte mode will be a right setting. Otherwise, buf mode is more
+> >>> efficient because it doesn't generate a bunch of interrupts on every
+> >>> byte handling.
+> >>
+> >> Then why doesn't the driver do byte transactions when it gets small
+> >> 1-4? byte transactions and buffer transactions when it gets larger
+> >> sized transactions.
+> >
+> > Good question and it could be an option of this implementation.
+> > Actually, each mode needs different register handling so we need to add
+> > additional conditional branches to make it dynamic mode change depends
+> > on the data size which can be a downside. Also, checked that small
+> > amount of data transfer efficiency in 'buf' transfer mode is almost same
+> > to 'byte' mode so there would be no big benefit from the dynamic mode
+> > change. Of course, we can remove the 'byte' transfer mode but we should
+> > also provide flexibility of configuration on what this hardware can
+> > support, IMO.
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
----
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 193 +++++++++++++++----
- 1 file changed, 153 insertions(+), 40 deletions(-)
+I would rather set the choice in device tree or Kconfig, which the
+former is what I think you did here.
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-index b13bd7ed18d1..941c0489479a 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-@@ -50,6 +50,17 @@ aliases {
- 		i2c17 = &i2c2mux1;
- 		i2c18 = &i2c2mux2;
- 		i2c19 = &i2c2mux3;
-+		i2c20 = &i2c4mux0chn0;
-+		i2c21 = &i2c4mux0chn1;
-+		i2c22 = &i2c4mux0chn2;
-+		i2c23 = &i2c5mux0chn0;
-+		i2c24 = &i2c5mux0chn1;
-+		i2c25 = &i2c6mux0chn0;
-+		i2c26 = &i2c6mux0chn1;
-+		i2c27 = &i2c6mux0chn2;
-+		i2c28 = &i2c6mux0chn3;
-+		i2c29 = &i2c11mux0chn0;
-+		i2c30 = &i2c11mux0chn1;
- 
- 		spi10 = &cfam0_spi0;
- 		spi11 = &cfam0_spi1;
-@@ -1118,19 +1129,46 @@ tmp275@4a {
- 		reg = <0x4a>;
- 	};
- 
--	eeprom@50 {
--		compatible = "atmel,24c64";
--		reg = <0x50>;
--	};
-+	pca9546@70 {
-+		compatible = "nxp,pca9546";
-+		reg = <0x70>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		status = "okay";
-+		i2c-mux-idle-disconnect;
- 
--	eeprom@51 {
--		compatible = "atmel,24c64";
--		reg = <0x51>;
--	};
-+		i2c4mux0chn0: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
- 
--	eeprom@52 {
--		compatible = "atmel,24c64";
--		reg = <0x52>;
-+			eeprom@50 {
-+				compatible = "atmel,24c64";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c4mux0chn1: i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+
-+			eeprom@51 {
-+				compatible = "atmel,24c64";
-+				reg = <0x51>;
-+			};
-+		};
-+
-+		i2c4mux0chn2: i2c@2 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <2>;
-+
-+			eeprom@52 {
-+				compatible = "atmel,24c64";
-+				reg = <0x52>;
-+			};
-+		};
- 	};
- };
- 
-@@ -1147,14 +1185,35 @@ tmp275@49 {
- 		reg = <0x49>;
- 	};
- 
--	eeprom@50 {
--		compatible = "atmel,24c64";
--		reg = <0x50>;
--	};
-+	pca9546@70 {
-+		compatible = "nxp,pca9546";
-+		reg = <0x70>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		status = "okay";
-+		i2c-mux-idle-disconnect;
- 
--	eeprom@51 {
--		compatible = "atmel,24c64";
--		reg = <0x51>;
-+		i2c5mux0chn0: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c64";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c5mux0chn1: i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+
-+			eeprom@51 {
-+				compatible = "atmel,24c64";
-+				reg = <0x51>;
-+			};
-+		};
- 	};
- };
- 
-@@ -1176,24 +1235,57 @@ tmp275@4b {
- 		reg = <0x4b>;
- 	};
- 
--	eeprom@50 {
--		compatible = "atmel,24c64";
--		reg = <0x50>;
--	};
-+	pca9546@70 {
-+		compatible = "nxp,pca9546";
-+		reg = <0x70>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		status = "okay";
-+		i2c-mux-idle-disconnect;
- 
--	eeprom@51 {
--		compatible = "atmel,24c64";
--		reg = <0x51>;
--	};
-+		i2c6mux0chn0: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
- 
--	eeprom@52 {
--		compatible = "atmel,24c64";
--		reg = <0x52>;
--	};
-+			eeprom@53 {
-+				compatible = "atmel,24c64";
-+				reg = <0x53>;
-+			};
-+		};
- 
--	eeprom@53 {
--		compatible = "atmel,24c64";
--		reg = <0x53>;
-+		i2c6mux0chn1: i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+
-+			eeprom@52 {
-+				compatible = "atmel,24c64";
-+				reg = <0x52>;
-+			};
-+		};
-+
-+		i2c6mux0chn2: i2c@2 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <2>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c64";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c6mux0chn3: i2c@3 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <3>;
-+
-+			eeprom@51 {
-+				compatible = "atmel,24c64";
-+				reg = <0x51>;
-+			};
-+		};
- 	};
- };
- 
-@@ -1550,14 +1642,35 @@ tmp275@49 {
- 		reg = <0x49>;
- 	};
- 
--	eeprom@50 {
--		compatible = "atmel,24c64";
--		reg = <0x50>;
--	};
-+	pca9546@70 {
-+		compatible = "nxp,pca9546";
-+		reg = <0x70>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		status = "okay";
-+		i2c-mux-idle-disconnect;
- 
--	eeprom@51 {
--		compatible = "atmel,24c64";
--		reg = <0x51>;
-+		i2c11mux0chn0: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c64";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c11mux0chn1: i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+
-+			eeprom@51 {
-+				compatible = "atmel,24c64";
-+				reg = <0x51>;
-+			};
-+		};
- 	};
- };
- 
--- 
-2.27.0
+As for doing byte mode for small transactions and buffer/DMA for large
+transactions, I would prefer sticking to a single mode based on what
+is selected at build/boot time. Seems less error prone to me. Then
+again, Rob probably has more experience in this area than I do, so
+maybe this kind of thing is pretty common and I just don't realize it.
 
+In any case, as for getting rid of byte mode, I would support that,
+but not in this patch set. I would rather switch the default and get
+users on buffer/DMA mode before taking away a fallback option.
+
+My 2 cents, but I think the OzLabs and other active OpenBMC people are
+probably a little more up to date on this.
+
+Cheers
