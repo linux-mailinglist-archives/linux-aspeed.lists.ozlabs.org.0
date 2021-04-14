@@ -1,78 +1,51 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D01335F132
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Apr 2021 12:04:34 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F3935F1B2
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Apr 2021 12:51:03 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FKykS11bqz3bT7
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Apr 2021 20:04:32 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=lt8+i8lo;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FKzm54ljWz30Fd
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Apr 2021 20:51:01 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::62d;
- helo=mail-ej1-x62d.google.com; envelope-from=lee.jones@linaro.org;
+Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=lt8+i8lo; dkim-atps=neutral
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
- [IPv6:2a00:1450:4864:20::62d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FKyjz6Vw4z303H
- for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Apr 2021 20:04:07 +1000 (AEST)
-Received: by mail-ej1-x62d.google.com with SMTP id w3so30550591ejc.4
- for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Apr 2021 03:04:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=2OpST8LZI3on8yL2X/9Onf1MCgH2abOvm7orSC5DgBk=;
- b=lt8+i8lovz9jfZGaOrASIPMN/fDFTBck9Fq0nTM7pv1znMsXju14rrSC+rEONzv9ar
- u8P/Ee2s4Az7i0+dfG7w0hGm4uxOQxlg9BBeUdtQ66hdIlFpTie0XO4AFDHqK41jtekf
- PxP3cAUwvl9veQ5sUPSixbmg830+ZVLq2TlR+1K/ceAAc9pFHvIYXLFyyk1xXmwEm6Zm
- itFdzMrXqMv0FpCEDFEwPrcaS3ZlYZqrTliSbNIjY2ewsuRbOQRNjohDB3Wgm47jwWDf
- CKXzTRgoug31mdPXDoaSeNa0hJL56biyPxQz/vvKy43gXYgE5SpOc+1jKG/iszmaaDNr
- CFiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=2OpST8LZI3on8yL2X/9Onf1MCgH2abOvm7orSC5DgBk=;
- b=VDqpfAUEHUdwK9ljd1U/7d9jWQPcLS72dgj4MkB5LMzSqYVVqaJqrpQjNuc3Z56Rxr
- JYlbTm5LpdAsNAlZBfVvpccZoQm8xeZuTJ8gKmW3VbpwFxO1wJ7BlN9FCl9PUXwSUwnz
- T8sRT66kaSLuhWHEvxIar3JB/7GTAK/ey7fwcYEDifeNl0xZv7/LqeXj47cVeSnxigSF
- Az+kj+E8zODn2Yvj/LHoF62Q4UXO+SPo2rVXLYv40C0JYS7vzipgP1eayXbmMyUdwF91
- /yQlnwGmARgWCyb7iNHj9QBTSWb0JFOTgF1IIL6fyWuiUZgzxLWA0VM+pe10Gs0wgDFV
- nyZw==
-X-Gm-Message-State: AOAM530Fr33e3wzHDt9zyyQDCM3f3H2X2GWjeqAK/6hRfQs2CBaOpbXG
- OWw8zuDYbl731Q7MeihvnbbKNA==
-X-Google-Smtp-Source: ABdhPJz91W52QEgwyT/N/q7ZpiRgN8LqDMeAi7/HCXCRFRkriz17el2EnLVeJBWrE/CdPAzD1GN89A==
-X-Received: by 2002:a17:907:1b06:: with SMTP id
- mp6mr37360252ejc.292.1618394640619; 
- Wed, 14 Apr 2021 03:04:00 -0700 (PDT)
-Received: from dell ([91.110.221.215])
- by smtp.gmail.com with ESMTPSA id d18sm1809230edv.1.2021.04.14.03.03.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Apr 2021 03:04:00 -0700 (PDT)
-Date: Wed, 14 Apr 2021 11:03:58 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Quan Nguyen <quan@os.amperecomputing.com>
-Subject: Re: [PATCH v2 2/4] mfd: simple-mfd-i2c: Adds Ampere's Altra SMpro
- support
-Message-ID: <20210414100358.GL4869@dell>
-References: <20210329015238.19474-1-quan@os.amperecomputing.com>
- <20210329015238.19474-3-quan@os.amperecomputing.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FKzm36rhmz2yhf
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Apr 2021 20:50:57 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 13EAd1Si057543;
+ Wed, 14 Apr 2021 18:39:01 +0800 (GMT-8)
+ (envelope-from billy_tsai@aspeedtech.com)
+Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 14 Apr
+ 2021 18:49:31 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: <lee.jones@linaro.org>, <robh+dt@kernel.org>, <joel@jms.id.au>,
+ <andrew@aj.id.au>, <thierry.reding@gmail.com>,
+ <u.kleine-koenig@pengutronix.de>, <p.zabel@pengutronix.de>,
+ <billy_tsai@aspeedtech.com>, <devicetree@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>
+Subject: [v2 0/2] Support pwm driver for aspeed ast26xx
+Date: Wed, 14 Apr 2021 18:49:37 +0800
+Message-ID: <20210414104939.1093-1-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210329015238.19474-3-quan@os.amperecomputing.com>
+X-Originating-IP: [192.168.2.149]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 13EAd1Si057543
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,35 +57,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- Jean Delvare <jdelvare@suse.com>, linux-aspeed@lists.ozlabs.org,
- Jonathan Corbet <corbet@lwn.net>, openbmc@lists.ozlabs.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
- Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>,
- Open Source Submission <patches@amperecomputing.com>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 29 Mar 2021, Quan Nguyen wrote:
+The legacy driver of aspeed pwm is binding with tach controller and it
+doesn't follow the pwm framworks usage. In addition, the pwm register
+usage of the 6th generation of ast26xx has drastic change. So these
+patch serials add the new aspeed pwm driver to fix up the problem above.
 
-> Adds an MFD driver for SMpro found on the Mt.Jade hardware reference
-> platform with Ampere's Altra processor family.
-> 
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
-> ---
->  drivers/mfd/Kconfig          | 10 ++++++++++
->  drivers/mfd/simple-mfd-i2c.c |  6 ++++++
->  2 files changed, 16 insertions(+)
+Changes since v1:
+- Fix the dt_binding_check fail suggested by Rob Herring
+- Add depends to PWM_ASPEED_G6 configure suggested by Uwe Kleine-Konig
+- pwm-aspeed-g6.c suggested by Uwe Kleine-König
+  - Fix license header
+  - Use bitfiled.h macro to define register fields
+  - Implement .remove device function
+  - Implement .get_state pwm api
 
-For my own reference (apply this as-is to your sign-off block):
+Billy Tsai (2):
+  dt-bindings: Add bindings for aspeed pwm-tach and pwm.
+  pwm: Add Aspeed ast2600 PWM support
 
-  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+ .../bindings/mfd/aspeed,ast2600-pwm-tach.yaml |  60 ++++
+ .../bindings/pwm/aspeed,ast2600-pwm.yaml      |  44 +++
+ drivers/pwm/Kconfig                           |   7 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-aspeed-g6.c                   | 324 ++++++++++++++++++
+ 5 files changed, 436 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
+ create mode 100644 drivers/pwm/pwm-aspeed-g6.c
 
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.25.1
+
