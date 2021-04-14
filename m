@@ -1,53 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE1035F1B3
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Apr 2021 12:51:06 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDA435F364
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Apr 2021 14:21:44 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FKzm81Jm6z30hV
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Apr 2021 20:51:04 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FL1mk0QDCz30FC
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Apr 2021 22:21:42 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=eqLzLdr9;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::32e;
+ helo=mail-ot1-x32e.google.com; envelope-from=groeck7@gmail.com;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=eqLzLdr9; dkim-atps=neutral
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FKzm546rtz30FQ
- for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Apr 2021 20:51:01 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 13EAd1LV057544;
- Wed, 14 Apr 2021 18:39:02 +0800 (GMT-8)
- (envelope-from billy_tsai@aspeedtech.com)
-Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 14 Apr
- 2021 18:49:32 +0800
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: <lee.jones@linaro.org>, <robh+dt@kernel.org>, <joel@jms.id.au>,
- <andrew@aj.id.au>, <thierry.reding@gmail.com>,
- <u.kleine-koenig@pengutronix.de>, <p.zabel@pengutronix.de>,
- <billy_tsai@aspeedtech.com>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
- <linux-pwm@vger.kernel.org>
-Subject: [v2 2/2] pwm: Add Aspeed ast2600 PWM support
-Date: Wed, 14 Apr 2021 18:49:39 +0800
-Message-ID: <20210414104939.1093-3-billy_tsai@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210414104939.1093-1-billy_tsai@aspeedtech.com>
-References: <20210414104939.1093-1-billy_tsai@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FL1mg1hw9z2yRW;
+ Wed, 14 Apr 2021 22:21:37 +1000 (AEST)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ v19-20020a0568300913b029028423b78c2dso10515701ott.8; 
+ Wed, 14 Apr 2021 05:21:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=02BMsB15iI+PWQUPoeumqyghFPOPvXSDGERlBfTrle0=;
+ b=eqLzLdr9Pjk3+/8iLROe0LWoHNgDJdbtV2No1HXQDTNvqcRqUrQgDcV3hCGtuqXghv
+ XLK7ZJPiR0Y1xcr69vSjt2tXkhSzFk0Tho5f6L1ztMDaN9UhrjCP0LA8+Jhc/mgpMF2r
+ x4qs9jXapleWSHFcPbWx7OD0fLNiuRivrpoTLDYBtTwUXH8yYcDOA1xq8n5feqJXfqXR
+ GgOBeNNjT27Sg+f418+WU5RA6mplCs7zUU5E9C6EwIyiYewhsWwGJWsRq5ixE45W6K5w
+ VyDBKlU5E03+/YVpmkIeDJlxm+CzNsDSyDkH0VSeIzPHC5SyyULbZdMI7SCKi+A+Aggw
+ m1WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=02BMsB15iI+PWQUPoeumqyghFPOPvXSDGERlBfTrle0=;
+ b=kiDh8ztS9d3n3/urQF3l1kmgoSvnz9NuKlfqe1AvkiowZB/Y9zt0OVHexvmQ555m2Z
+ vMdBL34wxY8rxoKUiSCCEfA6huZFVoby5JGvG9zMb4msF4CfsPf668lEFOqi74UBG0rD
+ SWfWCvhX3TAylcPoYCMeO9BGpibdOaNJqPk9crE05dRwimhg85YFfQDcnK5TT8sGkQT4
+ M4wRPhExhTz0CGR9HXID+0NHT1YQS0JddkytK1uUhJNtEmdbE7zezxIDAyvTfE3TuZFr
+ wh3REgSFXsThFOuoBzlIhwUmmVcljM7lkix097X5lCSv9a1IIMRaFJq7ZEqzDPzHsqun
+ UosA==
+X-Gm-Message-State: AOAM531cBabDkcZA45WNJ4d7+UeRGi/ajN+VVXfiAy/9bgrkyWO/M7WF
+ C0YZ/cvnUCwP5BcNS8Q98A4=
+X-Google-Smtp-Source: ABdhPJyaEkd7Bdabm6n+YdK3vbAc6GAFpNYwFaWwjPJxTyGPjj2SXBEQeNBvahJJ9wQDTSEEHyw3aQ==
+X-Received: by 2002:a9d:4613:: with SMTP id y19mr4685326ote.262.1618402892746; 
+ Wed, 14 Apr 2021 05:21:32 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id m127sm3495702oib.32.2021.04.14.05.21.31
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 14 Apr 2021 05:21:32 -0700 (PDT)
+Date: Wed, 14 Apr 2021 05:21:30 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Quan Nguyen <quan@os.amperecomputing.com>
+Subject: Re: [PATCH v3 2/4] mfd: simple-mfd-i2c: Adds Ampere's Altra SMpro
+ support
+Message-ID: <20210414122130.GA113503@roeck-us.net>
+References: <20210409031332.21919-1-quan@os.amperecomputing.com>
+ <20210409031332.21919-3-quan@os.amperecomputing.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.149]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 13EAd1LV057544
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210409031332.21919-3-quan@os.amperecomputing.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,383 +83,74 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>, linux-aspeed@lists.ozlabs.org,
+ Jonathan Corbet <corbet@lwn.net>, openbmc@lists.ozlabs.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
+ Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>,
+ Open Source Submission <patches@amperecomputing.com>,
+ Lee Jones <lee.jones@linaro.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This patch add the support of PWM controller which can be found at aspeed
-ast2600 soc. The pwm supoorts up to 16 channels and it's part function
-of multi-funciton device "pwm-tach controller".
+On Fri, Apr 09, 2021 at 10:13:30AM +0700, Quan Nguyen wrote:
+> Adds an MFD driver for SMpro found on the Mt.Jade hardware reference
+> platform with Ampere's Altra processor family.
+> 
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> ---
+>  drivers/mfd/Kconfig          | 10 ++++++++++
+>  drivers/mfd/simple-mfd-i2c.c |  6 ++++++
+>  2 files changed, 16 insertions(+)
+> 
+> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+> index d07e8cf93286..f7a6460f7aa0 100644
+> --- a/drivers/mfd/Kconfig
+> +++ b/drivers/mfd/Kconfig
+> @@ -77,6 +77,16 @@ config MFD_AS3711
+>  	help
+>  	  Support for the AS3711 PMIC from AMS
+>  
+> +config MFD_SMPRO
+> +	tristate "Ampere Computing MFD SMpro core driver"
+> +	select MFD_SIMPLE_MFD_I2C
 
-Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
----
- drivers/pwm/Kconfig         |   7 +
- drivers/pwm/Makefile        |   1 +
- drivers/pwm/pwm-aspeed-g6.c | 324 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 332 insertions(+)
- create mode 100644 drivers/pwm/pwm-aspeed-g6.c
+This is missing "depends on I2C".
 
-diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-index 9a4f66ae8070..d6c1e25717d7 100644
---- a/drivers/pwm/Kconfig
-+++ b/drivers/pwm/Kconfig
-@@ -42,6 +42,13 @@ config PWM_DEBUG
- 	  It is expected to introduce some runtime overhead and diagnostic
- 	  output to the kernel log, so only enable while working on a driver.
- 
-+config PWM_ASPEED_G6
-+	tristate "ASPEEDG6 PWM support"
-+	depends on ARCH_ASPEED || COMPILE_TEST
-+	help
-+	  This driver provides support for ASPEED G6 PWM controllers.
-+
-+
- config PWM_AB8500
- 	tristate "AB8500 PWM support"
- 	depends on AB8500_CORE && ARCH_U8500
-diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
-index 6374d3b1d6f3..2d9b4590662e 100644
---- a/drivers/pwm/Makefile
-+++ b/drivers/pwm/Makefile
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_PWM)		+= core.o
- obj-$(CONFIG_PWM_SYSFS)		+= sysfs.o
-+obj-$(CONFIG_PWM_ASPEED_G6)	+= pwm-aspeed-g6.o
- obj-$(CONFIG_PWM_AB8500)	+= pwm-ab8500.o
- obj-$(CONFIG_PWM_ATMEL)		+= pwm-atmel.o
- obj-$(CONFIG_PWM_ATMEL_HLCDC_PWM)	+= pwm-atmel-hlcdc.o
-diff --git a/drivers/pwm/pwm-aspeed-g6.c b/drivers/pwm/pwm-aspeed-g6.c
-new file mode 100644
-index 000000000000..b537a5d7015a
---- /dev/null
-+++ b/drivers/pwm/pwm-aspeed-g6.c
-@@ -0,0 +1,324 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (C) 2021 ASPEED Technology Inc.
-+ *
-+ * PWM controller driver for Aspeed ast26xx SoCs.
-+ * This drivers doesn't rollback to previous version of aspeed SoCs.
-+ *
-+ * Hardware Features:
-+ * 1. Support up to 16 channels
-+ * 2. Support PWM frequency range from 24Hz to 780KHz
-+ * 3. Duty cycle from 0 to 100% with 1/256 resolution incremental
-+ * 4. Support wdt reset tolerance (Driver not ready)
-+ *
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/errno.h>
-+#include <linux/delay.h>
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/module.h>
-+#include <linux/of_platform.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/sysfs.h>
-+#include <linux/reset.h>
-+#include <linux/regmap.h>
-+#include <linux/bitfield.h>
-+#include <linux/slab.h>
-+#include <linux/pwm.h>
-+/* The channel number of Aspeed pwm controller */
-+#define PWM_ASPEED_NR_PWMS 16
-+
-+/* PWM Control Register */
-+#define PWM_ASPEED_CTRL_CH(ch) (((ch * 0x10) + 0x00))
-+#define PWM_LOAD_SEL_RISING_AS_WDT BIT(19)
-+#define PWM_DUTY_LOAD_AS_WDT_ENABLE BIT(18)
-+#define PWM_DUTY_SYNC_DISABLE BIT(17)
-+#define PWM_CLK_ENABLE BIT(16)
-+#define PWM_LEVEL_OUTPUT BIT(15)
-+#define PWM_INVERSE BIT(14)
-+#define PWM_OPEN_DRAIN_ENABLE BIT(13)
-+#define PWM_PIN_ENABLE BIT(12)
-+#define PWM_CLK_DIV_H GENMASK(11, 8)
-+#define PWM_CLK_DIV_L GENMASK(7, 0)
-+
-+/* PWM Duty Cycle Register */
-+#define PWM_ASPEED_DUTY_CYCLE_CH(ch) (((ch * 0x10) + 0x04))
-+#define PWM_PERIOD GENMASK(31, 24)
-+#define PWM_POINT_AS_WDT GENMASK(23, 16)
-+#define PWM_FALLING_POINT GENMASK(15, 8)
-+#define PWM_RISING_POINT GENMASK(7, 0)
-+
-+/* PWM fixed value */
-+#define PWM_FIXED_PERIOD 0xff
-+
-+struct aspeed_pwm_data {
-+	struct pwm_chip chip;
-+	struct clk *clk;
-+	struct regmap *regmap;
-+	struct reset_control *reset;
-+};
-+
-+static void aspeed_set_pwm_channel_enable(struct regmap *regmap, u8 pwm_channel,
-+					  bool enable)
-+{
-+	regmap_update_bits(regmap, PWM_ASPEED_CTRL_CH(pwm_channel),
-+			   (PWM_CLK_ENABLE | PWM_PIN_ENABLE),
-+			   enable ? (PWM_CLK_ENABLE | PWM_PIN_ENABLE) : 0);
-+}
-+/*
-+ * The PWM frequency = HCLK(200Mhz) / (clock division L bit *
-+ * clock division H bit * (period bit + 1))
-+ */
-+static void aspeed_set_pwm_freq(struct aspeed_pwm_data *priv,
-+				struct pwm_device *pwm, u32 freq)
-+{
-+	u32 target_div, freq_a_fix_div, out_freq;
-+	u32 tmp_div_h, tmp_div_l, diff, min_diff = INT_MAX;
-+	u32 div_h = BIT(5) - 1, div_l = BIT(8) - 1;
-+	u8 div_found;
-+	u32 index = pwm->hwpwm;
-+	/* Frequency after fixed divide */
-+	freq_a_fix_div = clk_get_rate(priv->clk) / (PWM_FIXED_PERIOD + 1);
-+	/*
-+	 * Use round up to avoid 0 case.
-+	 * After that the only scenario which can't find divide pair is too slow
-+	 */
-+	target_div = DIV_ROUND_UP(freq_a_fix_div, freq);
-+	div_found = 0;
-+	/* calculate for target frequency */
-+	for (tmp_div_h = 0; tmp_div_h < 0x10; tmp_div_h++) {
-+		tmp_div_l = target_div / BIT(tmp_div_h) - 1;
-+
-+		if (tmp_div_l < 0 || tmp_div_l > 255)
-+			continue;
-+
-+		diff = freq - ((freq_a_fix_div >> tmp_div_h) / (tmp_div_l + 1));
-+		if (abs(diff) < abs(min_diff)) {
-+			min_diff = diff;
-+			div_l = tmp_div_l;
-+			div_h = tmp_div_h;
-+			div_found = 1;
-+			if (diff == 0)
-+				break;
-+		}
-+	}
-+	if (div_found == 0) {
-+		pr_debug("target freq: %d too slow set minimal frequency\n",
-+			 freq);
-+	}
-+	out_freq = freq_a_fix_div / (BIT(div_h) * (div_l + 1));
-+	pr_debug("div h %x, l : %x\n", div_h, div_l);
-+	pr_debug("hclk %ld, target pwm freq %d, real pwm freq %d\n",
-+		 clk_get_rate(priv->clk), freq, out_freq);
-+
-+	regmap_update_bits(priv->regmap, PWM_ASPEED_CTRL_CH(index),
-+			   (PWM_CLK_DIV_H | PWM_CLK_DIV_L),
-+			   FIELD_PREP(PWM_CLK_DIV_H, div_h) |
-+				   FIELD_PREP(PWM_CLK_DIV_L, div_l));
-+}
-+
-+static void aspeed_set_pwm_duty(struct aspeed_pwm_data *priv,
-+				struct pwm_device *pwm, u32 duty_pt)
-+{
-+	u32 index = pwm->hwpwm;
-+
-+	if (duty_pt == 0) {
-+		aspeed_set_pwm_channel_enable(priv->regmap, index, false);
-+	} else {
-+		regmap_update_bits(priv->regmap,
-+				   PWM_ASPEED_DUTY_CYCLE_CH(index),
-+				   PWM_FALLING_POINT,
-+				   FIELD_PREP(PWM_FALLING_POINT, duty_pt));
-+		aspeed_set_pwm_channel_enable(priv->regmap, index, true);
-+	}
-+}
-+
-+static void aspeed_set_pwm_polarity(struct aspeed_pwm_data *priv,
-+				    struct pwm_device *pwm, u8 polarity)
-+{
-+	u32 index = pwm->hwpwm;
-+
-+	regmap_update_bits(priv->regmap, PWM_ASPEED_CTRL_CH(index), PWM_INVERSE,
-+			   (polarity) ? PWM_INVERSE : 0);
-+}
-+
-+static int aspeed_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
-+{
-+	struct device *dev = chip->dev;
-+	struct aspeed_pwm_data *priv = dev_get_drvdata(dev);
-+	struct pwm_state *channel;
-+	u32 index = pwm->hwpwm;
-+	/*
-+	 * Fixed the period to the max value and rising point to 0
-+	 * for high resolution and simplified frequency calculation.
-+	 */
-+	regmap_update_bits(priv->regmap, PWM_ASPEED_DUTY_CYCLE_CH(index),
-+			   PWM_PERIOD,
-+			   FIELD_PREP(PWM_PERIOD, PWM_FIXED_PERIOD));
-+
-+	regmap_update_bits(priv->regmap, PWM_ASPEED_DUTY_CYCLE_CH(index),
-+			   PWM_RISING_POINT, 0);
-+
-+	channel = kzalloc(sizeof(*channel), GFP_KERNEL);
-+	if (!channel)
-+		return -ENOMEM;
-+
-+	return pwm_set_chip_data(pwm, channel);
-+}
-+
-+static void aspeed_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
-+{
-+	struct pwm_state *channel = pwm_get_chip_data(pwm);
-+
-+	kfree(channel);
-+}
-+
-+static inline struct aspeed_pwm_data *
-+aspeed_pwm_chip_to_data(struct pwm_chip *c)
-+{
-+	return container_of(c, struct aspeed_pwm_data, chip);
-+}
-+
-+static int aspeed_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-+			    const struct pwm_state *state)
-+{
-+	struct device *dev = chip->dev;
-+	struct aspeed_pwm_data *priv = aspeed_pwm_chip_to_data(chip);
-+	struct pwm_state *channel = pwm_get_chip_data(pwm);
-+	/* compute the ns to Hz */
-+	u32 freq = DIV_ROUND_UP_ULL(1000000000, state->period);
-+	u32 duty_pt = DIV_ROUND_UP_ULL(
-+		state->duty_cycle * (PWM_FIXED_PERIOD + 1), state->period);
-+	dev_dbg(dev, "freq: %d, duty_pt: %d", freq, duty_pt);
-+	if (state->enabled) {
-+		aspeed_set_pwm_freq(priv, pwm, freq);
-+		aspeed_set_pwm_duty(priv, pwm, duty_pt);
-+		aspeed_set_pwm_polarity(priv, pwm, state->polarity);
-+	} else {
-+		aspeed_set_pwm_duty(priv, pwm, 0);
-+	}
-+	channel->period = state->period;
-+	channel->duty_cycle = state->duty_cycle;
-+	channel->polarity = state->polarity;
-+	channel->enabled = state->enabled;
-+
-+	return 0;
-+}
-+
-+static void aspeed_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-+				 struct pwm_state *state)
-+{
-+	struct pwm_state *channel = pwm_get_chip_data(pwm);
-+
-+	state->period = channel->period;
-+	state->duty_cycle = channel->duty_cycle;
-+	state->polarity = channel->polarity;
-+	state->enabled = channel->enabled;
-+}
-+
-+static const struct pwm_ops aspeed_pwm_ops = {
-+	.request = aspeed_pwm_request,
-+	.free = aspeed_pwm_free,
-+	.apply = aspeed_pwm_apply,
-+	.get_state = aspeed_pwm_get_state,
-+	.owner = THIS_MODULE,
-+};
-+
-+static int aspeed_pwm_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	int ret;
-+	struct aspeed_pwm_data *priv;
-+	struct device_node *np;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	np = pdev->dev.parent->of_node;
-+	if (!of_device_is_compatible(np, "aspeed,ast2600-pwm-tach")) {
-+		dev_err(dev, "unsupported pwm device binding\n");
-+		return -ENODEV;
-+	}
-+
-+	priv->regmap = syscon_node_to_regmap(np);
-+	if (IS_ERR(priv->regmap)) {
-+		dev_err(dev, "Couldn't get regmap\n");
-+		return -ENODEV;
-+	}
-+
-+	priv->clk = devm_clk_get(dev, NULL);
-+	if (IS_ERR(priv->clk))
-+		return -ENODEV;
-+
-+	ret = clk_prepare_enable(priv->clk);
-+	if (ret) {
-+		dev_err(dev, "couldn't enable clock\n");
-+		return ret;
-+	}
-+
-+	priv->reset = reset_control_get_shared(dev, NULL);
-+	if (IS_ERR(priv->reset)) {
-+		dev_err(dev, "can't get aspeed_pwm_tacho reset: %pe\n",
-+			ERR_PTR((long)priv->reset));
-+		return PTR_ERR(priv->reset);
-+	}
-+
-+	ret = reset_control_deassert(priv->reset);
-+	if (ret) {
-+		dev_err(&pdev->dev, "cannot deassert reset control: %pe\n",
-+			ERR_PTR(ret));
-+		return ret;
-+	}
-+
-+	priv->chip.dev = dev;
-+	priv->chip.ops = &aspeed_pwm_ops;
-+	priv->chip.npwm = PWM_ASPEED_NR_PWMS;
-+	priv->chip.of_xlate = of_pwm_xlate_with_flags;
-+	priv->chip.of_pwm_n_cells = 3;
-+
-+	ret = pwmchip_add(&priv->chip);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to add PWM chip: %pe\n", ERR_PTR(ret));
-+		return ret;
-+	}
-+	dev_set_drvdata(dev, priv);
-+	return ret;
-+}
-+
-+static int aspeed_pwm_remove(struct platform_device *dev)
-+{
-+	struct aspeed_pwm_data *priv = platform_get_drvdata(dev);
-+
-+	reset_control_assert(priv->reset);
-+	clk_disable_unprepare(priv->clk);
-+
-+	return pwmchip_remove(&priv->chip);
-+}
-+
-+static const struct of_device_id of_pwm_match_table[] = {
-+	{
-+		.compatible = "aspeed,ast2600-pwm",
-+	},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, of_pwm_match_table);
-+
-+static struct platform_driver aspeed_pwm_driver = {
-+	.probe		= aspeed_pwm_probe,
-+	.remove		= aspeed_pwm_remove,
-+	.driver		= {
-+		.name	= "aspeed_pwm",
-+		.of_match_table = of_pwm_match_table,
-+	},
-+};
-+
-+module_platform_driver(aspeed_pwm_driver);
-+
-+MODULE_AUTHOR("Billy Tsai <billy_tsai@aspeedtech.com>");
-+MODULE_DESCRIPTION("ASPEED PWM device driver");
-+MODULE_LICENSE("GPL v2");
--- 
-2.25.1
-
+> +	help
+> +	  Say yes here to enable SMpro driver support for Ampere's Altra
+> +	  processor family.
+> +
+> +	  Ampere's Altra SMpro exposes an I2C regmap interface that can
+> +	  be accessed by child devices.
+> +
+>  config MFD_AS3722
+>  	tristate "ams AS3722 Power Management IC"
+>  	select MFD_CORE
+> diff --git a/drivers/mfd/simple-mfd-i2c.c b/drivers/mfd/simple-mfd-i2c.c
+> index 87f684cff9a1..9a44655f5592 100644
+> --- a/drivers/mfd/simple-mfd-i2c.c
+> +++ b/drivers/mfd/simple-mfd-i2c.c
+> @@ -21,6 +21,11 @@ static const struct regmap_config simple_regmap_config = {
+>  	.val_bits = 8,
+>  };
+>  
+> +static const struct regmap_config simple_word_regmap_config = {
+> +	.reg_bits = 8,
+> +	.val_bits = 16,
+> +};
+> +
+>  static int simple_mfd_i2c_probe(struct i2c_client *i2c)
+>  {
+>  	const struct regmap_config *config;
+> @@ -39,6 +44,7 @@ static int simple_mfd_i2c_probe(struct i2c_client *i2c)
+>  
+>  static const struct of_device_id simple_mfd_i2c_of_match[] = {
+>  	{ .compatible = "kontron,sl28cpld" },
+> +	{ .compatible = "ampere,smpro", .data = &simple_word_regmap_config },
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(of, simple_mfd_i2c_of_match);
