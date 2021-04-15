@@ -1,51 +1,118 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E8335FE6B
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Apr 2021 01:27:34 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5208536009B
+	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Apr 2021 05:44:53 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FLJY05FMXz30Dr
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Apr 2021 09:27:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FLQFv1zrmz30FC
+	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Apr 2021 13:44:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
- helo=metis.ext.pengutronix.de; envelope-from=l.stach@pengutronix.de;
- receiver=<UNKNOWN>)
-X-Greylist: delayed 1101 seconds by postgrey-1.36 at boromir;
- Fri, 09 Apr 2021 22:49:24 AEST
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FGyd05M0jz30Qk
- for <linux-aspeed@lists.ozlabs.org>; Fri,  9 Apr 2021 22:49:23 +1000 (AEST)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1lUqHd-00037W-3M; Fri, 09 Apr 2021 14:30:45 +0200
-Message-ID: <18d42d56167f0e2af6d0edaf596b20fcd778b96c.camel@pengutronix.de>
-Subject: Re: [PATCH v3] drivers: introduce and use WANT_DMA_CMA for soft
- dependencies on DMA_CMA
-From: Lucas Stach <l.stach@pengutronix.de>
-To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
-Date: Fri, 09 Apr 2021 14:30:34 +0200
-In-Reply-To: <20210409112035.27221-1-david@redhat.com>
-References: <20210409112035.27221-1-david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+ smtp.mailfrom=aspeedtech.com (client-ip=40.107.131.95;
+ helo=apc01-sg2-obe.outbound.protection.outlook.com;
+ envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-eopbgr1310095.outbound.protection.outlook.com [40.107.131.95])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FLQFs5PKGz300b
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Apr 2021 13:44:47 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=garDlr2W7zYLWRx723Css7NOX94WayRA3uSE+QFd+YlddP1q1QPtUYDg+mtUH7w3trfBJAzPt3FjWNcIg0XSqqleeFBH7jvWCbbMv7XgdKhxNShVe02beMI87xCrTG/RQQzbzyhhFUaGXAZTqSBLXyxNxos7zE/DUQj8DOYt3o/gZ0BsaSbYjrdI/G5E3duKxOr1MbqHtM7CWa56vZsqdT+f0C1i3Mz9PF5hOi2TKFlPzFHO8sme9v6uWoxChbslN8Op0UuMnyOjvB4/TL+UgVrgTWjHg2o2ftPI07LOmc+GL1oZT9yUbTnMxrTPwK8VWUgH3OgRRt9SetK9XjU2Xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ekNazvJ9NfQZDe/Iy9+kG+qnO8hQkwpRJojTzgWnBRw=;
+ b=IUvevn64yDemq5U1/CY6r263wE0X36uW9Zr+2nvQ3jC142ns//e2VrP8nvpcUzR3QoDBY2mhoGGrGumFRu4rjU08ThBU47VzPaW95QT+/jWSBkviOX2qfMmiT3HYPWvEfpEVYIemqm/pRG+Ju6Rw1qIc8O0Am8aXkVc8iDfI9zITbBl4RDhBq2ooDjT28+uOeoW6v7TN1AtwSP2MyUmJlbp+fzpbYze1XFFxmx7c9XQ/slF5t2KYaARpKFyHAp90SjziUr7cEdHhSm8FEUfyS7+lIBfzgNp5E/Z22mhMS04n1Beg5/q0kGCjIr//V+hcpCgkXHDcuc2mSk86zoS14g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+Received: from HK0PR06MB3362.apcprd06.prod.outlook.com (2603:1096:203:8b::10)
+ by HK0PR06MB3362.apcprd06.prod.outlook.com (2603:1096:203:8b::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.18; Thu, 15 Apr
+ 2021 03:44:30 +0000
+Received: from HK0PR06MB3362.apcprd06.prod.outlook.com
+ ([fe80::4d49:12fe:2d9a:b1bd]) by HK0PR06MB3362.apcprd06.prod.outlook.com
+ ([fe80::4d49:12fe:2d9a:b1bd%3]) with mapi id 15.20.4020.022; Thu, 15 Apr 2021
+ 03:44:30 +0000
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [v2 1/2] dt-bindings: Add bindings for aspeed pwm-tach and pwm.
+Thread-Topic: [v2 1/2] dt-bindings: Add bindings for aspeed pwm-tach and pwm.
+Thread-Index: AQHXMRveymfOqXW0b0q4pkWKQfA6vaq0lT+AgADh7IA=
+Date: Thu, 15 Apr 2021 03:44:29 +0000
+Message-ID: <B9287FE7-5EF5-40B3-BCB3-08DA11D6CDD7@aspeedtech.com>
+References: <20210414104939.1093-1-billy_tsai@aspeedtech.com>
+ <20210414104939.1093-2-billy_tsai@aspeedtech.com>
+ <20210414221553.GA56046@robh.at.kernel.org>
+In-Reply-To: <20210414221553.GA56046@robh.at.kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=aspeedtech.com;
+x-originating-ip: [211.20.114.70]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 509caba7-2a5f-4c45-7ccf-08d8ffc0c673
+x-ms-traffictypediagnostic: HK0PR06MB3362:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <HK0PR06MB3362ED46E22C4C7783D46DC08B4D9@HK0PR06MB3362.apcprd06.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: nfxQEM/dHQoD5MJajZ+vy4OzSKOClqd7XibvnXMScmY7lM9lsa8sP+OcYYPdVsm/CIOwqeL/rmPS63trqiVWNmA+7yZ/Wt0gaRKhxzxvDM8vjTx/JRUt+tpTkNdJG79FjCZTiqWGfet7CVX2rc0Uf4XMOWjYZbY2Dzc1M/QOpsHO8k2owWcv6D0Oag1RfOymOTmDkSgyJHAoXX40SD9wPhB/48ADu+wWo56I2frjviFD/mQ+88fNO/rykXcV4vUHbDyjdKhmG3T6c+YCykEki2jcgKjheVVygmlXtaZgnjxxBoZD+TxBejo7bSrUoHCaUT604Xi/x676mGUqngc46p8CsGH+FOQqAdJUjz7u0sZN+8ncxTBDfWIH+Zr+0fboURAD+JgTJ3BQd3RxQC+Vv5knnWfv0+PmXO2aTkbsUsOdU9KscIfjEAEoxZfwQVgXdvTZPq4JON98GebZLgiYqb3/A2DSBzgGF0Zh7G32Wq4fmAMEF0zmXyGcDd1iXJsAGPf+9G9JtROiH5+sJedjNcmX1BnUQQmCOQja+6X+Hm1vqz/un1oudDDBNI4SvUxQxwhcCO9ypOD+T6XdqfLv9tQrgngzHjJcbI3AmfhYVLdbMLtKmPJFt/6NVt3L+izmRTNl4cFk3/yTFpk+Lj5kfQuy3Yq8nKYFIk7q5ZCUXYQXHJc3b4bL2Vy+d/RIw6B/fxmaIJbki1LLDh50ASa20qI3e3m1FRAg6Eg79XhP0hg=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR06MB3362.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(39840400004)(346002)(136003)(396003)(376002)(8936002)(2616005)(186003)(4326008)(38100700002)(6506007)(76116006)(66446008)(7416002)(83380400001)(966005)(107886003)(66556008)(122000001)(71200400001)(36756003)(8676002)(66946007)(478600001)(6512007)(86362001)(6916009)(54906003)(55236004)(2906002)(26005)(5660300002)(64756008)(33656002)(6486002)(316002)(66476007)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?K0pKczZvMEtSUk9TWkNxbTc0MkEzaHlmVXpFMDBWcUFDTGZhMTF3cVVvY0VV?=
+ =?utf-8?B?eUNjNWprM2s0djRrUEp0Y2tJTlYrcjdmRGo5eTFvSDZ3SXgrUWlQeUdBWnNx?=
+ =?utf-8?B?dTFRV0RxWERZK1d1QUFLVlRjTXI3Njh4UTk0OTBaTGhuWmJmSDBzUVU2dm13?=
+ =?utf-8?B?bldFM0JnMVVwR3o2VFR3WUtnMWtYdFFjVTc1MmsweVBMZ2syK0Y1T21hK25p?=
+ =?utf-8?B?NzJBZXhFUjE1ZjJBWWdwd203N0V5TVZ1b2paYktneFFlWkpLZG5VRHNXeE5t?=
+ =?utf-8?B?UjM1OUlpRmtjK3RiRWxqN1lJaUErTzJkSjluTkRjQlFQMmEvQm1XRE9DU05h?=
+ =?utf-8?B?OE9nMStvZGw4MGl3bFlJcldvNENuNTF5Y2tycFMyZytPWDRPaW5DQ0l3L09U?=
+ =?utf-8?B?T2YzV3Bpa1BITVRLUFpVbEhkZzhyeDFwT2lBSkdObDZmaC9yb3R4TU5ZNDha?=
+ =?utf-8?B?SkFiVm9uZjhVRlBobTN3ZEh6Y2NpbHFFUXdTNHVMVkt5dC9uTFVzbm9kOWc1?=
+ =?utf-8?B?dkVRR0JtMTAyaEg4aUJRVjhRVGdRQzdraWpHbjkzWHRaWm1STHFBM1BYSFVx?=
+ =?utf-8?B?SkhFMmg4S0Q4ZUZPb21pZ2dLNE8zUzFPUExyaWhVa3NLREdyNmVDeWppblNZ?=
+ =?utf-8?B?VW5YQUNWSndqQ3lwL0JmbEpyNzlNNGFoU2Z6TXh0cVlOYmJHK3puT3dROThh?=
+ =?utf-8?B?Um9hcXZTdkN1MFNTdmxXRGNPUFdZNUszNjl5RGhtVVQzT2N6Rno5d0xkem9H?=
+ =?utf-8?B?eEVtNjUvTkxUMUFrM1EvcXlMQzZOaUFRS3R6dTY4U056a1V6SU5VZlBobm5n?=
+ =?utf-8?B?WmhRRm5lY0dkbUY2c0h4ckdaUFVYcHkrNEpsanViNDJiVDdKSjQrMk96TFlN?=
+ =?utf-8?B?ZHNtTUZSRTJJZllQck1TN0p0cmZjT29VSFJZemUrY1JKWjBnVHBxWEZFUkpN?=
+ =?utf-8?B?M1pkZUFFYVpxeXkrNEcwbndFWUlMY29QSi9PSjBZLzJERG9Lc1RYV0haY1ZQ?=
+ =?utf-8?B?aDVxT1JLRjFVRVZ6amFWL0NySHZPWkRrL2hjTXVXMTczTE9oUGNFYVhrVjFs?=
+ =?utf-8?B?aWxDc1pYNVZ5L0hhL3pUcnBxT0k2MVR3Rm5rclRNdHB6alcvbFdSOW04cjRD?=
+ =?utf-8?B?dTY2dzI5V1pOay9qY0FoTldwZzFmSXpsZXlhYWhWQkVoaU9NWTB0bHovL3cx?=
+ =?utf-8?B?WVh5U25laHJnNnd3MXV1WnlXaFJwUTVlVWZLOE1NaEw1UjBPbHFhbVoyMU4x?=
+ =?utf-8?B?dk82QTREMWUreWY4UnVyT0Nremgrc3p1NEwyeXl4V1hUOER5cUpYbXlkRG1H?=
+ =?utf-8?B?TmIya1d6TFlMaThZeGlzbytyQ2JkaTMyZ3pMV2o5eTdmL25ZVWF0UnFpTTV6?=
+ =?utf-8?B?QUdwakRlbjR2cE1zNnZHQldJK3BXVHQxRU1OaVJmZERUR2RoeDNuTC9sV1U5?=
+ =?utf-8?B?MzNQNUIxcjNsclh3bUVsUGp0QjM5cnBkcFo3QWl6RkowaGNRa3NYNzdsRlgz?=
+ =?utf-8?B?UStyelBQbnVFUUg2VkRVZnFnSXg2MzdWcDkvZTVtNzEvRUxUVlVMWllPV2Qw?=
+ =?utf-8?B?SmpReVhBTTZiWDdicTlXbGJFeTdPNThvTE9RNkphOEVNejFRaGZyenNmNWtU?=
+ =?utf-8?B?U1FTZnJ6T25UY0d3TmtsMVg2WUtOZmkyWmIwbnZiQ082YittOWdTL1JhdGVu?=
+ =?utf-8?B?c1B6dHpuQm9KRnRTdkFqejdzclAzck1NTDVtcHZLc3ExcGtTTlVnY2hGQTZu?=
+ =?utf-8?Q?11AEkkUYRVrO5c9nfX7X0lMhzSg36vi9MQYcLpw?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9942EB53D3348D4EBB01D175B4BB5843@apcprd06.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
-X-Mailman-Approved-At: Thu, 15 Apr 2021 09:27:30 +1000
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3362.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 509caba7-2a5f-4c45-7ccf-08d8ffc0c673
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2021 03:44:29.8487 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WOgiLvGvqzGfkhcymoolZqS7cYplnbRvOhA5Gl5BfzIcAJjTUTnGTujq5CVNICpgdrYKFp5QK62Zx1+pWJbnOj57SQ4pFQS8+libSJl3iIQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB3362
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,297 +124,121 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- David Airlie <airlied@linux.ie>, Linus Walleij <linus.walleij@linaro.org>,
- dri-devel@lists.freedesktop.org, Paul Cercueil <paul@crapouillou.net>,
- Eric Anholt <eric@anholt.net>, Suman Anna <s-anna@ti.com>,
- Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Michal Simek <michal.simek@xilinx.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Russell King <linux+etnaviv@armlinux.org.uk>,
- "Alexander A. Klimov" <grandmaster@al2klimov.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- etnaviv@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Peter Collingbourne <pcc@google.com>,
- linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
- linux-mips@vger.kernel.org, iommu@lists.linux-foundation.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrew Morton <akpm@linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>,
- Mike Rapoport <rppt@kernel.org>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+ BMC-SW <BMC-SW@aspeedtech.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+ "lee.jones@linaro.org" <lee.jones@linaro.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Am Freitag, dem 09.04.2021 um 13:20 +0200 schrieb David Hildenbrand:
-> Random drivers should not override a user configuration of core knobs
-> (e.g., CONFIG_DMA_CMA=n). Applicable drivers would like to use DMA_CMA,
-> which depends on CMA, if possible; however, these drivers also have to
-> tolerate if DMA_CMA is not available/functioning, for example, if no CMA
-> area for DMA_CMA use has been setup via "cma=X". In the worst case, the
-> driver cannot do it's job properly in some configurations.
-> 
-> For example, commit 63f5677544b3 ("drm/etnaviv: select CMA and DMA_CMA if
-> available") documents
-> 	While this is no build dependency, etnaviv will only work correctly
-> 	on most systems if CMA and DMA_CMA are enabled. Select both options
-> 	if available to avoid users ending up with a non-working GPU due to
-> 	a lacking kernel config.
-> So etnaviv really wants to have DMA_CMA, however, can deal with some cases
-> where it is not available.
-> 
-> Let's introduce WANT_DMA_CMA and use it in most cases where drivers
-> select CMA/DMA_CMA, or depend on DMA_CMA (in a wrong way via CMA because
-> of recursive dependency issues).
-> 
-> We'll assume that any driver that selects DRM_GEM_CMA_HELPER or
-> DRM_KMS_CMA_HELPER would like to use DMA_CMA if possible.
-> 
-> With this change, distributions can disable CONFIG_CMA or
-> CONFIG_DMA_CMA, without it silently getting enabled again by random
-> drivers. Also, we'll now automatically try to enabled both, CONFIG_CMA
-> and CONFIG_DMA_CMA if they are unspecified and any driver is around that
-> selects WANT_DMA_CMA -- also implicitly via DRM_GEM_CMA_HELPER or
-> DRM_KMS_CMA_HELPER.
-> 
-> For example, if any driver selects WANT_DMA_CMA and we do a
-> "make olddefconfig":
-> 
-> 1. With "# CONFIG_CMA is not set" and no specification of
->    "CONFIG_DMA_CMA"
-> 
-> -> CONFIG_DMA_CMA won't be part of .config
-> 
-> 2. With no specification of CONFIG_CMA or CONFIG_DMA_CMA
-> 
-> Contiguous Memory Allocator (CMA) [Y/n/?] (NEW)
-> DMA Contiguous Memory Allocator (DMA_CMA) [Y/n/?] (NEW)
-> 
-> 3. With "# CONFIG_CMA is not set" and "# CONFIG_DMA_CMA is not set"
-> 
-> -> CONFIG_DMA_CMA will be removed from .config
-> 
-> Note: drivers/remoteproc seems to be special; commit c51e882cd711
-> ("remoteproc/davinci: Update Kconfig to depend on DMA_CMA") explains that
-> there is a real dependency to DMA_CMA for it to work; leave that dependency
-> in place and don't convert it to a soft dependency.
-
-Hm, to me this sounds much like the reasoning for the etnaviv
-dependency. There is no actual build dependency, as the allocations are
-done through the DMA API, but for the allocations to succeed you most
-likely want CMA to be enabled. But that's just an observation from the
-outside, I have no real clue about the remoteproc drivers.
-
-As far as the etnaviv changes are concerned:
-Acked-by: Lucas Stach <l.stach@pengutronix.de>
-
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: Andrew Jeffery <andrew@aj.id.au>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Cc: Paul Cercueil <paul@crapouillou.net>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Mike Rapoport <rppt@kernel.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> Cc: Eric Anholt <eric@anholt.net>
-> Cc: Michal Simek <michal.simek@xilinx.com>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-> Cc: Peter Collingbourne <pcc@google.com>
-> Cc: Suman Anna <s-anna@ti.com>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-aspeed@lists.ozlabs.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: etnaviv@lists.freedesktop.org
-> Cc: linux-mips@vger.kernel.org
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: iommu@lists.linux-foundation.org
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
-> 
-> Let's see if this approach is better for soft dependencies (and if we
-> actually have some hard dependencies in there). This is the follow-up
-> of
->   https://lkml.kernel.org/r/20210408092011.52763-1-david@redhat.com
->   https://lkml.kernel.org/r/20210408100523.63356-1-david@redhat.com
-> 
-> I was wondering if it would make sense in some drivers to warn if either
-> CONFIG_DMA_CMA is not available or if DRM_CMA has not been configured
-> properly - just to give people a heads up that something might more likely
-> go wrong; that would, however, be future work.
-> 
-> v2 -> v3:
-> - Don't use "imply" but instead use a new WANT_DMA_CMA and make the default
->   of CMA and DMA_CMA depend on it.
-> - Also adjust ingenic, mcde, tve200; these sound like soft dependencies as
->   well (although DMA_CMA is really desired)
-> 
-> v1 -> v2:
-> - Fix DRM_CMA -> DMA_CMA
-> 
-> ---
->  drivers/gpu/drm/Kconfig         | 2 ++
->  drivers/gpu/drm/aspeed/Kconfig  | 2 --
->  drivers/gpu/drm/etnaviv/Kconfig | 3 +--
->  drivers/gpu/drm/ingenic/Kconfig | 1 -
->  drivers/gpu/drm/mcde/Kconfig    | 1 -
->  drivers/gpu/drm/tve200/Kconfig  | 1 -
->  drivers/video/fbdev/Kconfig     | 2 +-
->  kernel/dma/Kconfig              | 7 +++++++
->  mm/Kconfig                      | 1 +
->  9 files changed, 12 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 85b79a7fee63..6f9989adfa93 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -201,12 +201,14 @@ config DRM_TTM_HELPER
->  config DRM_GEM_CMA_HELPER
->  	bool
->  	depends on DRM
-> +	select WANT_DMA_CMA
->  	help
->  	  Choose this if you need the GEM CMA helper functions
->  
-> 
-> 
-> 
->  config DRM_KMS_CMA_HELPER
->  	bool
->  	depends on DRM
-> +	select WANT_DMA_CMA
->  	select DRM_GEM_CMA_HELPER
->  	help
->  	  Choose this if you need the KMS CMA helper functions
-> diff --git a/drivers/gpu/drm/aspeed/Kconfig b/drivers/gpu/drm/aspeed/Kconfig
-> index 5e95bcea43e9..e5ff33f85f21 100644
-> --- a/drivers/gpu/drm/aspeed/Kconfig
-> +++ b/drivers/gpu/drm/aspeed/Kconfig
-> @@ -6,8 +6,6 @@ config DRM_ASPEED_GFX
->  	depends on MMU
->  	select DRM_KMS_HELPER
->  	select DRM_KMS_CMA_HELPER
-> -	select DMA_CMA if HAVE_DMA_CONTIGUOUS
-> -	select CMA if HAVE_DMA_CONTIGUOUS
->  	select MFD_SYSCON
->  	help
->  	  Chose this option if you have an ASPEED AST2500 SOC Display
-> diff --git a/drivers/gpu/drm/etnaviv/Kconfig b/drivers/gpu/drm/etnaviv/Kconfig
-> index faa7fc68b009..a3e7649b44a7 100644
-> --- a/drivers/gpu/drm/etnaviv/Kconfig
-> +++ b/drivers/gpu/drm/etnaviv/Kconfig
-> @@ -9,8 +9,7 @@ config DRM_ETNAVIV
->  	select THERMAL if DRM_ETNAVIV_THERMAL
->  	select TMPFS
->  	select WANT_DEV_COREDUMP
-> -	select CMA if HAVE_DMA_CONTIGUOUS
-> -	select DMA_CMA if HAVE_DMA_CONTIGUOUS
-> +	select WANT_DMA_CMA
->  	select DRM_SCHED
->  	help
->  	  DRM driver for Vivante GPUs.
-> diff --git a/drivers/gpu/drm/ingenic/Kconfig b/drivers/gpu/drm/ingenic/Kconfig
-> index 3b57f8be007c..156b11b7bbb8 100644
-> --- a/drivers/gpu/drm/ingenic/Kconfig
-> +++ b/drivers/gpu/drm/ingenic/Kconfig
-> @@ -2,7 +2,6 @@ config DRM_INGENIC
->  	tristate "DRM Support for Ingenic SoCs"
->  	depends on MIPS || COMPILE_TEST
->  	depends on DRM
-> -	depends on CMA
->  	depends on OF
->  	depends on COMMON_CLK
->  	select DRM_BRIDGE
-> diff --git a/drivers/gpu/drm/mcde/Kconfig b/drivers/gpu/drm/mcde/Kconfig
-> index 71c689b573c9..217d54c4babc 100644
-> --- a/drivers/gpu/drm/mcde/Kconfig
-> +++ b/drivers/gpu/drm/mcde/Kconfig
-> @@ -1,7 +1,6 @@
->  config DRM_MCDE
->  	tristate "DRM Support for ST-Ericsson MCDE (Multichannel Display Engine)"
->  	depends on DRM
-> -	depends on CMA
->  	depends on ARM || COMPILE_TEST
->  	depends on OF
->  	depends on COMMON_CLK
-> diff --git a/drivers/gpu/drm/tve200/Kconfig b/drivers/gpu/drm/tve200/Kconfig
-> index e2d163c74ed6..d04b7322c770 100644
-> --- a/drivers/gpu/drm/tve200/Kconfig
-> +++ b/drivers/gpu/drm/tve200/Kconfig
-> @@ -2,7 +2,6 @@
->  config DRM_TVE200
->  	tristate "DRM Support for Faraday TV Encoder TVE200"
->  	depends on DRM
-> -	depends on CMA
->  	depends on ARM || COMPILE_TEST
->  	depends on OF
->  	select DRM_BRIDGE
-> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-> index 4f02db65dede..e8acd4f77d41 100644
-> --- a/drivers/video/fbdev/Kconfig
-> +++ b/drivers/video/fbdev/Kconfig
-> @@ -2186,7 +2186,7 @@ config FB_HYPERV
->  	select FB_CFB_COPYAREA
->  	select FB_CFB_IMAGEBLIT
->  	select FB_DEFERRED_IO
-> -	select DMA_CMA if HAVE_DMA_CONTIGUOUS && CMA
-> +	select WANT_DMA_CMA
->  	help
->  	  This framebuffer driver supports Microsoft Hyper-V Synthetic Video.
->  
-> 
-> 
-> 
-> diff --git a/kernel/dma/Kconfig b/kernel/dma/Kconfig
-> index 77b405508743..928f16d2461d 100644
-> --- a/kernel/dma/Kconfig
-> +++ b/kernel/dma/Kconfig
-> @@ -103,8 +103,15 @@ config DMA_DIRECT_REMAP
->  	select DMA_REMAP
->  	select DMA_COHERENT_POOL
->  
-> 
-> 
-> 
-> +config WANT_DMA_CMA
-> +	bool
-> +	help
-> +	  Drivers should "select" this option if they desire to use the
-> +	  DMA_CMA mechanism.
-> +
->  config DMA_CMA
->  	bool "DMA Contiguous Memory Allocator"
-> +	default y if WANT_DMA_CMA
->  	depends on HAVE_DMA_CONTIGUOUS && CMA
->  	help
->  	  This enables the Contiguous Memory Allocator which allows drivers
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index 24c045b24b95..169598ee56b1 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -485,6 +485,7 @@ config FRONTSWAP
->  
-> 
-> 
-> 
->  config CMA
->  	bool "Contiguous Memory Allocator"
-> +	default y if WANT_DMA_CMA
->  	depends on MMU
->  	select MIGRATION
->  	select MEMORY_ISOLATION
-
-
+SGkgUm9iLA0KDQpPbiAyMDIxLzQvMTUsIDY6MTYgQU0sUm9iIEhlcnJpbmd3cm90ZToNCg0KICAg
+IE9uIFdlZCwgQXByIDE0LCAyMDIxIGF0IDA2OjQ5OjM4UE0gKzA4MDAsIEJpbGx5IFRzYWkgd3Jv
+dGU6DQogICAgPj4gVGhpcyBwYXRjaCBhZGRzIGRldmljZSBiaW5kaW5ncyBmb3IgYXNwZWVkIHB3
+bS10YWNoIGRldmljZSB3aGljaCBpcyBhDQogICAgPj4gbXVsdGktZnVuY3Rpb24gZGV2aWNlIGlu
+Y2x1ZGUgcHduIGFuZCB0YWNoIGZ1bmN0aW9uIGFuZCBwd20gZGV2aWNlIHdoaWNoDQogICAgPj4g
+c2hvdWxkIGJlIHRoZSBzdWItbm9kZSBvZiBwd20tdGFjaCBkZXZpY2UuDQogICAgPj4gDQogICAg
+Pj4gU2lnbmVkLW9mZi1ieTogQmlsbHkgVHNhaSA8YmlsbHlfdHNhaUBhc3BlZWR0ZWNoLmNvbT4N
+CiAgICA+PiBDaGFuZ2UtSWQ6IEkxOGQ5ZGVhMTRjM2EwNGUxYjdlMzhmZmVjZDQ5ZDQ1OTE3Yjli
+NTQ1DQogICAgPg0KICAgID5Ecm9wDQogICAgPg0KICAgID4+IC0tLQ0KICAgID4+ICAuLi4vYmlu
+ZGluZ3MvbWZkL2FzcGVlZCxhc3QyNjAwLXB3bS10YWNoLnlhbWwgfCA2MCArKysrKysrKysrKysr
+KysrKysrDQogICAgPj4gIC4uLi9iaW5kaW5ncy9wd20vYXNwZWVkLGFzdDI2MDAtcHdtLnlhbWwg
+ICAgICB8IDQ0ICsrKysrKysrKysrKysrDQogICAgPj4gIDIgZmlsZXMgY2hhbmdlZCwgMTA0IGlu
+c2VydGlvbnMoKykNCiAgICA+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2
+aWNldHJlZS9iaW5kaW5ncy9tZmQvYXNwZWVkLGFzdDI2MDAtcHdtLXRhY2gueWFtbA0KICAgID4+
+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3B3
+bS9hc3BlZWQsYXN0MjYwMC1wd20ueWFtbA0KICAgID4+IA0KICAgID4+IGRpZmYgLS1naXQgYS9E
+b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWZkL2FzcGVlZCxhc3QyNjAwLXB3bS10
+YWNoLnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWZkL2FzcGVlZCxh
+c3QyNjAwLXB3bS10YWNoLnlhbWwNCiAgICA+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KICAgID4+
+IGluZGV4IDAwMDAwMDAwMDAwMC4uZWFmOGJkZjhkNDRlDQogICAgPj4gLS0tIC9kZXYvbnVsbA0K
+ICAgID4+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZmQvYXNwZWVk
+LGFzdDI2MDAtcHdtLXRhY2gueWFtbA0KICAgID4+IEBAIC0wLDAgKzEsNjAgQEANCiAgICA+PiAr
+IyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogKEdQTC0yLjAtb25seSBPUiBCU0QtMi1DbGF1c2Up
+DQogICAgPj4gKyMgQ29weXJpZ2h0IChDKSAyMDIxIEFTUEVFRCwgSW5jLg0KICAgID4+ICslWUFN
+TCAxLjINCiAgICA+PiArLS0tDQogICAgPj4gKyRpZDogaHR0cDovL2RldmljZXRyZWUub3JnL3Nj
+aGVtYXMvbWZkL2FzcGVlZCxhc3QyNjAwLXB3bS10YWNoLnlhbWwjDQogICAgPj4gKyRzY2hlbWE6
+IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9tZXRhLXNjaGVtYXMvY29yZS55YW1sIw0KICAgID4+ICsN
+CiAgICA+PiArdGl0bGU6IFBXTSBUYWNoIGNvbnRyb2xsZXIgRGV2aWNlIFRyZWUgQmluZGluZ3MN
+CiAgICA+PiArDQogICAgPj4gK2Rlc2NyaXB0aW9uOiB8DQogICAgPj4gKyAgVGhlIFBXTSBUYWNo
+IGNvbnRyb2xsZXIgaXMgcmVwcmVzZW50ZWQgYXMgYSBtdWx0aS1mdW5jdGlvbiBkZXZpY2Ugd2hp
+Y2gNCiAgICA+PiArICBpbmNsdWRlczoNCiAgICA+PiArICAgIFBXTQ0KICAgID4+ICsgICAgVGFj
+aA0KDQogICAgPiBCdXQgaXMgaXQgcmVhbGx5PyBBIFBXTSBhbmQgdGFjaCBzb3VuZHMgbGlrZSBh
+IGZhbiBjb250cm9sbGVyLiBMb29rIGF0IA0KDQpPdXIgUFdNIGlzIG5vdCBvbmx5IGZvciBmYW5z
+IGJ1dCBhbHNvIHVzZWQgZm9yIHRoZSBtb3RvciwgbGVkLCBidXp6ZXIsIGFuZCBzbyBvbi4gDQpT
+byBJIHdhbnQgdG8gc3BsaXQgdGhlIGZ1bmN0aW9uIGludG8gdHdvIGRldmljZXMgd2l0aCBhIG11
+bHRpLWZ1bmN0aW9uIGRldmljZS4gDQpPbmUgZm9yIFBXTSBvdXRwdXQgYW5kIG9uZSBmb3IgdGFj
+aCBtb25pdG9yLg0KDQogICAgPiBvdGhlciBleGlzdGluZyBQV00rdGFjaCBiaW5kaW5ncyB3ZSBo
+YXZlIGZvciBmYW5zLg0KDQpJIGRpZG4ndCBzZWUgdGhlIFBXTSt0YWNoIGJpbmRpbmdzIGNhbiB5
+b3UgZ2l2ZSBzb21lIGV4YW1wbGUgZm9yIG1lLCB0aGFua3MuDQoNCiAgICA+PiArDQogICAgPj4g
+K21haW50YWluZXJzOg0KICAgID4+ICsgIC0gQmlsbHkgVHNhaSA8YmlsbHlfdHNhaUBhc3BlZWR0
+ZWNoLmNvbT4NCiAgICA+PiArDQogICAgPj4gK3Byb3BlcnRpZXM6DQogICAgPj4gKyAgY29tcGF0
+aWJsZToNCiAgICA+PiArICAgIGl0ZW1zOg0KICAgID4+ICsgICAgICAtIGVudW06DQogICAgPj4g
+KyAgICAgICAgICAtIGFzcGVlZCxhc3QyNjAwLXB3bS10YWNoDQogICAgPj4gKyAgICAgIC0gY29u
+c3Q6IHN5c2Nvbg0KICAgID4+ICsgICAgICAtIGNvbnN0OiBzaW1wbGUtbWZkDQogICAgPj4gKyAg
+cmVnOg0KICAgID4+ICsgICAgbWF4SXRlbXM6IDENCiAgICA+PiArICAiI2FkZHJlc3MtY2VsbHMi
+Og0KICAgID4+ICsgICAgY29uc3Q6IDENCiAgICA+PiArICAiI3NpemUtY2VsbHMiOg0KICAgID4+
+ICsgICAgY29uc3Q6IDENCiAgICA+PiArDQogICAgPj4gK3JlcXVpcmVkOg0KICAgID4+ICsgIC0g
+Y29tcGF0aWJsZQ0KICAgID4+ICsgIC0gcmVnDQogICAgPj4gKyAgLSAiI2FkZHJlc3MtY2VsbHMi
+DQogICAgPj4gKyAgLSAiI3NpemUtY2VsbHMiDQogICAgPj4gKw0KICAgID4+ICthZGRpdGlvbmFs
+UHJvcGVydGllczoNCiAgICA+PiArICB0eXBlOiBvYmplY3QNCg0KICAgID4gQXMgeW91IGtub3cg
+dGhlIDIgbm9kZSBuYW1lcywgdGhleSBzaG91bGQgYmUgZG9jdW1lbnRlZC4gSG93ZXZlciwgc2Vl
+IA0KICAgID4gYmVsb3cuDQoNCiAgICA+PiArDQogICAgPj4gK2V4YW1wbGVzOg0KICAgID4+ICsg
+IC0gfA0KICAgID4+ICsgICAgcHdtX3RhY2g6IHB3bV90YWNoQDFlNjEwMDAwIHsNCiAgICA+PiAr
+ICAgICAgY29tcGF0aWJsZSA9ICJhc3BlZWQsYXN0MjYwMC1wd20tdGFjaCIsICJzeXNjb24iLCAi
+c2ltcGxlLW1mZCI7DQogICAgPj4gKyAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+Ow0KICAgID4+
+ICsgICAgICAjc2l6ZS1jZWxscyA9IDwxPjsNCiAgICA+PiArICAgICAgcmVnID0gPDB4MWU2MTAw
+MDAgMHgxMDA+Ow0KICAgID4+ICsNCiAgICA+PiArICAgICAgcHdtOiBwd21AMCB7DQogICAgPj4g
+KyAgICAgICAgY29tcGF0aWJsZSA9ICJhc3BlZWQsYXN0MjYwMC1wd20iOw0KICAgID4+ICsgICAg
+ICAgICNwd20tY2VsbHMgPSA8Mz47DQogICAgPj4gKyAgICAgICAgcmVnID0gPDB4MCAweDEwMD47
+DQogICAgPj4gKyAgICAgIH07DQogICAgPj4gKw0KICAgID4+ICsgICAgICB0YWNoOiB0YWNoQDEg
+ew0KICAgID4+ICsgICAgICAgIGNvbXBhdGlibGUgPSAiYXNwZWVkLGFzdDI2MDAtdGFjaCI7DQog
+ICAgPj4gKyAgICAgICAgcmVnID0gPDB4MCAweDEwMD47DQoNCiAgICA+IFlvdSBoYXZlIDIgbm9k
+ZXMgYXQgdGhlIHNhbWUgYWRkcmVzcy4gTm90IHZhbGlkLg0KDQpPdXIgcHdtIGFuZCB0YWNoIGlz
+IHVzZWQgdGhlIHNhbWUgYmFzZSBhZGRyZXNzIGFuZCB0aGUgb2Zmc2V0IGlzIGxpa2UgYmVsb3c6
+DQoNClBXTTAgdXNlZCAweDAgMHg0LCBUYWNoMCB1c2VkIDB4OCAweGMNClBXTTEgdXNlZCAweDEw
+IDB4MTQsIFRhY2gxIHVzZWQgMHgxOCAweDFjDQouLi4NCg0KSSB3aWxsIHJlbW92ZSB0aGUgcmVn
+IHByb3BlcnR5IGZyb20gcHdtIGFuZCB0YWNoIG5vZGUgYW5kIHJlbW92ZSB0aGUgIiNhZGRyZXNz
+LWNlbGxzIiBhbmQNCiIjc2l6ZS1jZWxscyIgZnJvbSB0aGUgcGFyZW50IG5vZGUuDQoNCiAgICA+
+PiArICAgICAgfTsNCg0KICAgID4gVGhlcmUncyBubyByZWFsIG5lZWQgZm9yIDIgY2hpbGQgbm9k
+ZXMuIFRoZSBwYXJlbnQgbm9kZSBjYW4gYmUgYSBQV00gDQogICAgPiBwcm92aWRlci4NCg0KSG93
+ZXZlciwgSW4gb3VyIHVzYWdlLCB0aGUgcGFyZW50IG5vZGUgaXMgYSBtZmQsIG5vdCBhIHNpbXBs
+ZSBQV00gZGV2aWNlIG9ubHkuIEkgZG9uJ3Qgd2FudCB0bw0KY29tYmluZSB0aGUgZGlmZmVyZW50
+IGZ1bmN0aW9ucyB3aXRoIHRoZSBvbmUgZGV2aWNlIG5vZGUuDQoNCg0KICAgID4+ICsgICAgfTsN
+CiAgICA+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3B3
+bS9hc3BlZWQsYXN0MjYwMC1wd20ueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
+aW5ncy9wd20vYXNwZWVkLGFzdDI2MDAtcHdtLnlhbWwNCiAgICA+PiBuZXcgZmlsZSBtb2RlIDEw
+MDY0NA0KICAgID4+IGluZGV4IDAwMDAwMDAwMDAwMC4uOTc5MjNlNjhjY2I5DQogICAgPj4gLS0t
+IC9kZXYvbnVsbA0KICAgID4+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
+cy9wd20vYXNwZWVkLGFzdDI2MDAtcHdtLnlhbWwNCiAgICA+PiBAQCAtMCwwICsxLDQ0IEBADQog
+ICAgPj4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4wLW9ubHkgT1IgQlNELTIt
+Q2xhdXNlKQ0KICAgID4+ICsjIENvcHlyaWdodCAoQykgMjAyMSBBU1BFRUQsIEluYy4NCiAgICA+
+PiArJVlBTUwgMS4yDQogICAgPj4gKy0tLQ0KICAgID4+ICskaWQ6IGh0dHA6Ly9kZXZpY2V0cmVl
+Lm9yZy9zY2hlbWFzL3B3bS9hc3BlZWQsYXN0MjYwMC1wd20ueWFtbCMNCiAgICA+PiArJHNjaGVt
+YTogaHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlhbWwjDQogICAgPj4g
+Kw0KICAgID4+ICt0aXRsZTogQVNQRUVEIEFTVDI2MDAgUFdNIGNvbnRyb2xsZXINCiAgICA+PiAr
+DQogICAgPj4gK21haW50YWluZXJzOg0KICAgID4+ICsgIC0gQmlsbHkgVHNhaSA8YmlsbHlfdHNh
+aUBhc3BlZWR0ZWNoLmNvbT4NCiAgICA+PiArDQogICAgPj4gK2Rlc2NyaXB0aW9uOiB8DQogICAg
+Pj4gKyAgVGhlIEFTUEVFRCBQV00gY29udHJvbGxlciBjYW4gc3VwcG9ydCB1cHRvIDE2IFBXTSBv
+dXRwdXRzLg0KICAgID4+ICsNCiAgICA+PiArcHJvcGVydGllczoNCiAgICA+PiArICBjb21wYXRp
+YmxlOg0KICAgID4+ICsgICAgZW51bToNCiAgICA+PiArICAgICAgLSBhc3BlZWQsYXN0MjYwMC1w
+d20NCiAgICA+PiArDQogICAgPj4gKyAgIiNwd20tY2VsbHMiOg0KICAgID4+ICsgICAgY29uc3Q6
+IDMNCiAgICA+PiArDQogICAgPj4gKyAgcmVnOg0KICAgID4+ICsgICAgbWF4SXRlbXM6IDENCiAg
+ICA+PiArDQogICAgPj4gK2FkZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQ0KICAgID4+ICsNCiAg
+ICA+PiArZXhhbXBsZXM6DQogICAgPj4gKyAgLSB8DQogICAgPj4gKyAgICAvLyBUaGUgUFdNIHNo
+b3VsZCBiZSBhIHN1Ym5vZGUgb2YgYSAiYXNwZWVkLGFzdDI2MDAtcHdtLXRhY2giIGNvbXBhdGli
+bGUNCiAgICA+PiArICAgIC8vIG5vZGUuDQogICAgPj4gKyAgICBwd21fdGFjaDogcHdtX3RhY2hA
+MWU2MTAwMDAgew0KICAgID4+ICsgICAgICBjb21wYXRpYmxlID0gImFzcGVlZCxhc3QyNjAwLXB3
+bS10YWNoIiwgInN5c2NvbiIsICJzaW1wbGUtbWZkIjsNCiAgICA+PiArICAgICAgI2FkZHJlc3Mt
+Y2VsbHMgPSA8MT47DQogICAgPj4gKyAgICAgICNzaXplLWNlbGxzID0gPDE+Ow0KICAgID4+ICsg
+ICAgICByZWcgPSA8MHgxZTYxMDAwMCAweDEwMD47DQogICAgPj4gKw0KICAgID4+ICsgICAgICBw
+d206IHB3bUAwIHsNCiAgICA+PiArICAgICAgICBjb21wYXRpYmxlID0gImFzcGVlZCxhc3QyNjAw
+LXB3bSI7DQogICAgPj4gKyAgICAgICAgI3B3bS1jZWxscyA9IDwzPjsNCiAgICA+PiArICAgICAg
+ICByZWcgPSA8MHgwIDB4MTAwPjsNCiAgICA+PiArICAgICAgfTsNCiAgICA+PiArICAgIH07DQog
+ICAgPj4gLS0gDQogICAgPj4gMi4yNS4xDQogICAgPj4NCg0K
