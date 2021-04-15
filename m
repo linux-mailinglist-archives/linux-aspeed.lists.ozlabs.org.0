@@ -2,117 +2,136 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5208536009B
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Apr 2021 05:44:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F056B3600D6
+	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Apr 2021 06:13:56 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FLQFv1zrmz30FC
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Apr 2021 13:44:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FLQvQ6djGz30Fb
+	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Apr 2021 14:13:54 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=bQoEV40D;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=40.107.131.95;
- helo=apc01-sg2-obe.outbound.protection.outlook.com;
- envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
- (mail-eopbgr1310095.outbound.protection.outlook.com [40.107.131.95])
+ smtp.mailfrom=os.amperecomputing.com (client-ip=40.107.244.135;
+ helo=nam12-mw2-obe.outbound.protection.outlook.com;
+ envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com
+ header.a=rsa-sha256 header.s=selector2 header.b=bQoEV40D; 
+ dkim-atps=neutral
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2135.outbound.protection.outlook.com [40.107.244.135])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FLQFs5PKGz300b
- for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Apr 2021 13:44:47 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FLQvM1tgfz300x;
+ Thu, 15 Apr 2021 14:13:49 +1000 (AEST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=garDlr2W7zYLWRx723Css7NOX94WayRA3uSE+QFd+YlddP1q1QPtUYDg+mtUH7w3trfBJAzPt3FjWNcIg0XSqqleeFBH7jvWCbbMv7XgdKhxNShVe02beMI87xCrTG/RQQzbzyhhFUaGXAZTqSBLXyxNxos7zE/DUQj8DOYt3o/gZ0BsaSbYjrdI/G5E3duKxOr1MbqHtM7CWa56vZsqdT+f0C1i3Mz9PF5hOi2TKFlPzFHO8sme9v6uWoxChbslN8Op0UuMnyOjvB4/TL+UgVrgTWjHg2o2ftPI07LOmc+GL1oZT9yUbTnMxrTPwK8VWUgH3OgRRt9SetK9XjU2Xw==
+ b=JrKU6vN37iiaBx7jDHHGBVF7gSr4ihe5O3U5s21jz6UhkR7VSe2UJRK1mStKrbU1qEwdZXjvqwHiyNqkBpMDk2dgteCNUdWjAmafLPB3AQ1PhuXuU6x7gxUQaRHferCDzUtgpKwupIYdgAaQP/g4Oj+YWlG4GxAk1sSN3J0oiqh/3Z6m/QCgLjAF9BwEOlqe2Prc40uKLEMxLKLyR1W3T7styTyBun7jvzsmmrs5FVswjg/CWImtt8kE5qa2apQxLa0M5oydBGF0meEQZW3bF06GAoOzneNe/u9qN4wattDYWl7x7UEZLgsnJgsGvrizZCHvGamIXZoclxAEHfifqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ekNazvJ9NfQZDe/Iy9+kG+qnO8hQkwpRJojTzgWnBRw=;
- b=IUvevn64yDemq5U1/CY6r263wE0X36uW9Zr+2nvQ3jC142ns//e2VrP8nvpcUzR3QoDBY2mhoGGrGumFRu4rjU08ThBU47VzPaW95QT+/jWSBkviOX2qfMmiT3HYPWvEfpEVYIemqm/pRG+Ju6Rw1qIc8O0Am8aXkVc8iDfI9zITbBl4RDhBq2ooDjT28+uOeoW6v7TN1AtwSP2MyUmJlbp+fzpbYze1XFFxmx7c9XQ/slF5t2KYaARpKFyHAp90SjziUr7cEdHhSm8FEUfyS7+lIBfzgNp5E/Z22mhMS04n1Beg5/q0kGCjIr//V+hcpCgkXHDcuc2mSk86zoS14g==
+ bh=PaVK9do43a91jtMEzqBRUOaSahKxp/rTicesDZbbxNY=;
+ b=kaxZnUtEmxA/QUF9iNL41mJOs1M7GHH9d432v0scYwNsy1TEkTjvhTJR2Lt0ogpTadPegQRflslEokDc9Et9m0zwYLyOpNBnkYSki0p/T1xAgl75tpVl3t0HYREUK59epB3fCPwEXlUpKbMNETYKQBr7twSOHWaEKtgoVWegAgTrSfX+SMA7crMyvmJC3u4sIIsg92xVkxdqfQngU6j6N3zdJtmmIK4LRgsb397RLywHe4QB99wn5k60FlpD863rudjNznVoyH7kAVrJ28s4fXDHG9QwhvCSBYKZNywyozcGO9HIFDBFfN1qNH3RzwdGBDdStP8NOS7rpsfoswN2YA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-Received: from HK0PR06MB3362.apcprd06.prod.outlook.com (2603:1096:203:8b::10)
- by HK0PR06MB3362.apcprd06.prod.outlook.com (2603:1096:203:8b::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.18; Thu, 15 Apr
- 2021 03:44:30 +0000
-Received: from HK0PR06MB3362.apcprd06.prod.outlook.com
- ([fe80::4d49:12fe:2d9a:b1bd]) by HK0PR06MB3362.apcprd06.prod.outlook.com
- ([fe80::4d49:12fe:2d9a:b1bd%3]) with mapi id 15.20.4020.022; Thu, 15 Apr 2021
- 03:44:30 +0000
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [v2 1/2] dt-bindings: Add bindings for aspeed pwm-tach and pwm.
-Thread-Topic: [v2 1/2] dt-bindings: Add bindings for aspeed pwm-tach and pwm.
-Thread-Index: AQHXMRveymfOqXW0b0q4pkWKQfA6vaq0lT+AgADh7IA=
-Date: Thu, 15 Apr 2021 03:44:29 +0000
-Message-ID: <B9287FE7-5EF5-40B3-BCB3-08DA11D6CDD7@aspeedtech.com>
-References: <20210414104939.1093-1-billy_tsai@aspeedtech.com>
- <20210414104939.1093-2-billy_tsai@aspeedtech.com>
- <20210414221553.GA56046@robh.at.kernel.org>
-In-Reply-To: <20210414221553.GA56046@robh.at.kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=aspeedtech.com;
-x-originating-ip: [211.20.114.70]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 509caba7-2a5f-4c45-7ccf-08d8ffc0c673
-x-ms-traffictypediagnostic: HK0PR06MB3362:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HK0PR06MB3362ED46E22C4C7783D46DC08B4D9@HK0PR06MB3362.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4714;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: nfxQEM/dHQoD5MJajZ+vy4OzSKOClqd7XibvnXMScmY7lM9lsa8sP+OcYYPdVsm/CIOwqeL/rmPS63trqiVWNmA+7yZ/Wt0gaRKhxzxvDM8vjTx/JRUt+tpTkNdJG79FjCZTiqWGfet7CVX2rc0Uf4XMOWjYZbY2Dzc1M/QOpsHO8k2owWcv6D0Oag1RfOymOTmDkSgyJHAoXX40SD9wPhB/48ADu+wWo56I2frjviFD/mQ+88fNO/rykXcV4vUHbDyjdKhmG3T6c+YCykEki2jcgKjheVVygmlXtaZgnjxxBoZD+TxBejo7bSrUoHCaUT604Xi/x676mGUqngc46p8CsGH+FOQqAdJUjz7u0sZN+8ncxTBDfWIH+Zr+0fboURAD+JgTJ3BQd3RxQC+Vv5knnWfv0+PmXO2aTkbsUsOdU9KscIfjEAEoxZfwQVgXdvTZPq4JON98GebZLgiYqb3/A2DSBzgGF0Zh7G32Wq4fmAMEF0zmXyGcDd1iXJsAGPf+9G9JtROiH5+sJedjNcmX1BnUQQmCOQja+6X+Hm1vqz/un1oudDDBNI4SvUxQxwhcCO9ypOD+T6XdqfLv9tQrgngzHjJcbI3AmfhYVLdbMLtKmPJFt/6NVt3L+izmRTNl4cFk3/yTFpk+Lj5kfQuy3Yq8nKYFIk7q5ZCUXYQXHJc3b4bL2Vy+d/RIw6B/fxmaIJbki1LLDh50ASa20qI3e3m1FRAg6Eg79XhP0hg=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3362.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(39840400004)(346002)(136003)(396003)(376002)(8936002)(2616005)(186003)(4326008)(38100700002)(6506007)(76116006)(66446008)(7416002)(83380400001)(966005)(107886003)(66556008)(122000001)(71200400001)(36756003)(8676002)(66946007)(478600001)(6512007)(86362001)(6916009)(54906003)(55236004)(2906002)(26005)(5660300002)(64756008)(33656002)(6486002)(316002)(66476007)(45980500001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?K0pKczZvMEtSUk9TWkNxbTc0MkEzaHlmVXpFMDBWcUFDTGZhMTF3cVVvY0VV?=
- =?utf-8?B?eUNjNWprM2s0djRrUEp0Y2tJTlYrcjdmRGo5eTFvSDZ3SXgrUWlQeUdBWnNx?=
- =?utf-8?B?dTFRV0RxWERZK1d1QUFLVlRjTXI3Njh4UTk0OTBaTGhuWmJmSDBzUVU2dm13?=
- =?utf-8?B?bldFM0JnMVVwR3o2VFR3WUtnMWtYdFFjVTc1MmsweVBMZ2syK0Y1T21hK25p?=
- =?utf-8?B?NzJBZXhFUjE1ZjJBWWdwd203N0V5TVZ1b2paYktneFFlWkpLZG5VRHNXeE5t?=
- =?utf-8?B?UjM1OUlpRmtjK3RiRWxqN1lJaUErTzJkSjluTkRjQlFQMmEvQm1XRE9DU05h?=
- =?utf-8?B?OE9nMStvZGw4MGl3bFlJcldvNENuNTF5Y2tycFMyZytPWDRPaW5DQ0l3L09U?=
- =?utf-8?B?T2YzV3Bpa1BITVRLUFpVbEhkZzhyeDFwT2lBSkdObDZmaC9yb3R4TU5ZNDha?=
- =?utf-8?B?SkFiVm9uZjhVRlBobTN3ZEh6Y2NpbHFFUXdTNHVMVkt5dC9uTFVzbm9kOWc1?=
- =?utf-8?B?dkVRR0JtMTAyaEg4aUJRVjhRVGdRQzdraWpHbjkzWHRaWm1STHFBM1BYSFVx?=
- =?utf-8?B?SkhFMmg4S0Q4ZUZPb21pZ2dLNE8zUzFPUExyaWhVa3NLREdyNmVDeWppblNZ?=
- =?utf-8?B?VW5YQUNWSndqQ3lwL0JmbEpyNzlNNGFoU2Z6TXh0cVlOYmJHK3puT3dROThh?=
- =?utf-8?B?Um9hcXZTdkN1MFNTdmxXRGNPUFdZNUszNjl5RGhtVVQzT2N6Rno5d0xkem9H?=
- =?utf-8?B?eEVtNjUvTkxUMUFrM1EvcXlMQzZOaUFRS3R6dTY4U056a1V6SU5VZlBobm5n?=
- =?utf-8?B?WmhRRm5lY0dkbUY2c0h4ckdaUFVYcHkrNEpsanViNDJiVDdKSjQrMk96TFlN?=
- =?utf-8?B?ZHNtTUZSRTJJZllQck1TN0p0cmZjT29VSFJZemUrY1JKWjBnVHBxWEZFUkpN?=
- =?utf-8?B?M1pkZUFFYVpxeXkrNEcwbndFWUlMY29QSi9PSjBZLzJERG9Lc1RYV0haY1ZQ?=
- =?utf-8?B?aDVxT1JLRjFVRVZ6amFWL0NySHZPWkRrL2hjTXVXMTczTE9oUGNFYVhrVjFs?=
- =?utf-8?B?aWxDc1pYNVZ5L0hhL3pUcnBxT0k2MVR3Rm5rclRNdHB6alcvbFdSOW04cjRD?=
- =?utf-8?B?dTY2dzI5V1pOay9qY0FoTldwZzFmSXpsZXlhYWhWQkVoaU9NWTB0bHovL3cx?=
- =?utf-8?B?WVh5U25laHJnNnd3MXV1WnlXaFJwUTVlVWZLOE1NaEw1UjBPbHFhbVoyMU4x?=
- =?utf-8?B?dk82QTREMWUreWY4UnVyT0Nremgrc3p1NEwyeXl4V1hUOER5cUpYbXlkRG1H?=
- =?utf-8?B?TmIya1d6TFlMaThZeGlzbytyQ2JkaTMyZ3pMV2o5eTdmL25ZVWF0UnFpTTV6?=
- =?utf-8?B?QUdwakRlbjR2cE1zNnZHQldJK3BXVHQxRU1OaVJmZERUR2RoeDNuTC9sV1U5?=
- =?utf-8?B?MzNQNUIxcjNsclh3bUVsUGp0QjM5cnBkcFo3QWl6RkowaGNRa3NYNzdsRlgz?=
- =?utf-8?B?UStyelBQbnVFUUg2VkRVZnFnSXg2MzdWcDkvZTVtNzEvRUxUVlVMWllPV2Qw?=
- =?utf-8?B?SmpReVhBTTZiWDdicTlXbGJFeTdPNThvTE9RNkphOEVNejFRaGZyenNmNWtU?=
- =?utf-8?B?U1FTZnJ6T25UY0d3TmtsMVg2WUtOZmkyWmIwbnZiQ082YittOWdTL1JhdGVu?=
- =?utf-8?B?c1B6dHpuQm9KRnRTdkFqejdzclAzck1NTDVtcHZLc3ExcGtTTlVnY2hGQTZu?=
- =?utf-8?Q?11AEkkUYRVrO5c9nfX7X0lMhzSg36vi9MQYcLpw?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9942EB53D3348D4EBB01D175B4BB5843@apcprd06.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PaVK9do43a91jtMEzqBRUOaSahKxp/rTicesDZbbxNY=;
+ b=bQoEV40DVFPPiilSo41PsOMcwSvQWBr3G2qZEjv8JUXY5/rjp9+4cRFxrBl3LvODD+Bo/myPWjt/r74s8hCVBk+gjtnxFaz5qLnfHWH65Y4mizweibBlgIAifUiYeq9yDOgUx/JqwzqurizU+TJhQE8d6SCVfn2Q3bv8FE3ntnI=
+Authentication-Results: os.amperecomputing.com; dkim=none (message not signed)
+ header.d=none; os.amperecomputing.com;
+ dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
+ CO2PR01MB2071.prod.exchangelabs.com (2603:10b6:102:b::17) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4020.21; Thu, 15 Apr 2021 04:13:42 +0000
+Received: from MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::d840:7aa7:58d4:b503]) by MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::d840:7aa7:58d4:b503%5]) with mapi id 15.20.4042.018; Thu, 15 Apr 2021
+ 04:13:42 +0000
+Subject: Re: [PATCH v3 3/4] hwmon: smpro: Add Ampere's Altra smpro-hwmon driver
+To: Guenter Roeck <linux@roeck-us.net>
+References: <20210409031332.21919-1-quan@os.amperecomputing.com>
+ <20210409031332.21919-4-quan@os.amperecomputing.com>
+ <20210414123349.GA18905@roeck-us.net>
+From: Quan Nguyen <quan@os.amperecomputing.com>
+Message-ID: <6a620f7c-af06-61db-feec-66814fdbae7e@os.amperecomputing.com>
+Date: Thu, 15 Apr 2021 11:13:22 +0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.9.1
+In-Reply-To: <20210414123349.GA18905@roeck-us.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [118.69.219.201]
+X-ClientProxiedBy: SG2PR06CA0211.apcprd06.prod.outlook.com
+ (2603:1096:4:68::19) To MW2PR0102MB3482.prod.exchangelabs.com
+ (2603:10b6:302:c::32)
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.38.32.245] (118.69.219.201) by
+ SG2PR06CA0211.apcprd06.prod.outlook.com (2603:1096:4:68::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4042.16 via Frontend Transport; Thu, 15 Apr 2021 04:13:35 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2b410591-a1d9-47a2-1d48-08d8ffc4da28
+X-MS-TrafficTypeDiagnostic: CO2PR01MB2071:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CO2PR01MB2071A31E8377FA4318770FEEF24D9@CO2PR01MB2071.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: W/qOQncqL7BSK8fIe6xxmPxyhOnvGDnMZvp0xvglRyO64CC/KVVwG8haZ5ojphbZqawUGzWOg95TEbUxuFNNuWwhrs8r94T95RGkIryA/imcJW9w0I/CudzO1Gs+JWnZUt2ohhgGUUetl19UQiHYPOch2KjaXiDBHb6TZGwTERfY0e3UQ6WtXsUlA6Dn2t5u1HGi1x4VuBEAbQj1ElTEqV+2A+yTjDh4xRw8LGwQhz0mUKIeDfFC2+hvaveGd2Rur1C2jFMW16t5st6qHB+zLG8gzCo0i7LE1dW6x7trGFlL1FnNf0QtlOxZs9qHy6WzLKdDSsHG0hc1g7xiKmbm7EAfnKsuJqnCX0isTCzIfiGDzuLzEeK+qcN5CB8G8P+q/JGPsTHVSnbL4HeFrQFN7oPKgk4WXX+P2ilzG/fTjwh4ilgx8qyEWAsVFYttb9eDjeI2xILRuvXAZfSfJ+0kE0o26mtdKmtHpCaSC+AlWxRdSF7sqH66kcK4MlIN1q5d9BoP6qCfysm+cOH/DjCE5KP5TYQyEP+mZDEeZSn6yNn0fo+w1uvKnaS4Tve2hjVljUsm5ynvCbaQqUuj3tlPdv6aYMLenIrt8C3okqKQeu9B+as0un+3Uz9NWFBDptaJlKwXXUe5+nH+TOMTZ/jKYU+jfElKQnMh9MZLPhq6o7U2v9iHT0H8PWyjntUd00hnsEfGlXLAXaahgvy2yxJiog==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR0102MB3482.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(136003)(39850400004)(366004)(346002)(186003)(956004)(6666004)(16526019)(30864003)(53546011)(2616005)(38100700002)(16576012)(54906003)(478600001)(38350700002)(83380400001)(316002)(26005)(31696002)(5660300002)(8936002)(7416002)(52116002)(66476007)(86362001)(66556008)(4326008)(6916009)(31686004)(66946007)(6486002)(107886003)(8676002)(2906002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cEJBN1VHbGZjV3RuTndndWx1U0srbTdhanoxenlBQTE0Z2RhL29NSkkwVHh4?=
+ =?utf-8?B?bnJUTVp0WEtJaUdWVGR5REpxanlHZDFHRlZOL0NPQ3pzTHZDUU5kS25VazF0?=
+ =?utf-8?B?cjVsbzZuUkwzbERtYTBjSVRFTDIrYy9rcktHNlRvRTRtV2dKSlZ5bjlmQXY0?=
+ =?utf-8?B?cERzOG1uaDgvcjZpSVc1QWI2cWxzNVNhZ3JKdFNGRFF0cWRrNFZXSW4yZGpp?=
+ =?utf-8?B?RkxGcllQcStXZk1zSTQ0SlJDbDFVSFA4Z1ErMHNudE8wODFrQkpobkFoaWtQ?=
+ =?utf-8?B?QVVhRGk3akFJdUtySkdhNEVRR0tub0VEU1RSaDBacXBZWUJxdEs3QnZ3QTNw?=
+ =?utf-8?B?eG9Nbk56VlBYK0trT1FTTVJFQ25RK1R5Nno2R2tGb04yZE5oZnVVT0l1RWtQ?=
+ =?utf-8?B?NnBtblBneHFTVS82ekVxMSt3WXFUbVlYb1dHQTF1SWhLeCtudjVhcm9jWU1n?=
+ =?utf-8?B?bUJwY1ZvRFc0NHNIaFVjSVhhU3VzckNTWG1FN01DN1IzdTh0RUYvN1NDRWhX?=
+ =?utf-8?B?Z3VsOCtqaThucVVIMGE5WjF5T0dIZEc0V2xKVGd6K2g4ZVRuUkZVVUxtbTlB?=
+ =?utf-8?B?V2VGTHI1YWgrQ0E5RnV2WEdFZEU0RDYrWkJ0TnFkYTI1TGQwL3hoWHBldlZB?=
+ =?utf-8?B?VkxIK2lwamdCdHhaS293bDhkZ2VKbnhRL1lrYXFobU1NbGt3UDIyUjc4dkR1?=
+ =?utf-8?B?Q0VnYTU5c0d5YldwRTNqNWpOUUd5ZzU1TnNFWVhXV0I0d044eFRIcEczbkJ3?=
+ =?utf-8?B?Mndldld3RENreGU4T0t2b09mOVhuZVZCeWZ3ckdLL2d2aXNNQXI3eDFDcHNN?=
+ =?utf-8?B?akdFVXpaTEcwN0l0N3dDTlRsWWZlWG1NT05kZ2U5VTNSVjJHSExjaWxlNkl1?=
+ =?utf-8?B?bnVXSng4YVd3a2FKMWdzb2R1WVg2enVaS1RmVDJqNml2dDlMNVo0OHg2SmNk?=
+ =?utf-8?B?VGVRampWSEl0UVVDMHJyT2VucWI3QUsxaVE4bGd1bS8vUVcwWUcyL3hoVGVU?=
+ =?utf-8?B?RkhlNDR6dE1sRU5YSFBBNjR0OC8vTkNmNUNiVENGSXBmL2NQMTlmYWxOMXlI?=
+ =?utf-8?B?a2pQVWMxMWRDNHZrRlg1Z0RDK1VsVFFIa0pldVk4V3g5b29NZkJLUlYrc2Nu?=
+ =?utf-8?B?V3RKV3RVTUtKN3RsQzVLbXlibnpVc280bE5ZeWlhanR6SS93RHcxRnZFcVVO?=
+ =?utf-8?B?Zm1hSkljTGl4dGRZcDhMVTNZK3ROSlJoZkhJYm1Va1paR3FtRU56cERjdU5n?=
+ =?utf-8?B?R0tNM3NqeTBNWWRJd2cxR2ZlNG1kaFNFTllyUHlyZlhlbDd2RmE0dkZYQ0dJ?=
+ =?utf-8?B?UGU5NUkyV25YeXF6UG4zWFZrZ0pRVDRTdUtsTTBXblkrMFdhaS90dk9OSHcw?=
+ =?utf-8?B?ZWlMQlZ6SnZXdWFxSzJCZ2tPckd2bWx4K2swQ0l3N1kzYTN6WjZOZkxCQk9m?=
+ =?utf-8?B?dnBLQWIwY216V005c2dUb1RGT3I2cGFpYndiWnBjR2hYTzJXQzZNWktpSm5J?=
+ =?utf-8?B?OWMzS3orbE9oWVN5NWwzWXJtVUJKWFJrODQ3cXE1bS9xVW84eVdiM24zNHh2?=
+ =?utf-8?B?QXJjNmh3RExkREtQSkQ4UzRBdDd6dzhzTEdmeGwwVUplVFhhYko0VjdUNHQr?=
+ =?utf-8?B?V0Zkbmtzb3dzMW9GcDV1Q2U0NXpnTEJaRUZKd2pKbkg2WVpmL2NHVDFNSjVx?=
+ =?utf-8?B?NThGN0FoZnlDSytwVmVVaGo3Rjkya1VSYUJ2Sm43VjFsRVZES3FVaFhpSnNT?=
+ =?utf-8?Q?FB3q3wgmq84cY7CtvllC6XhlZzTd8WTxkngwKoi?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b410591-a1d9-47a2-1d48-08d8ffc4da28
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3362.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 509caba7-2a5f-4c45-7ccf-08d8ffc0c673
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2021 03:44:29.8487 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WOgiLvGvqzGfkhcymoolZqS7cYplnbRvOhA5Gl5BfzIcAJjTUTnGTujq5CVNICpgdrYKFp5QK62Zx1+pWJbnOj57SQ4pFQS8+libSJl3iIQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB3362
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2021 04:13:41.8236 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xEccVKLvZJIqxGBOImwotLEpFeSVvnB7uLIRc2uODWusVJE/97W6FLO1fOWkMFl+oHQWr8a+mCnFN+znYM2OJ55m4rsv5XtKk6GKT9pvr3o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO2PR01MB2071
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,121 +143,581 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
- BMC-SW <BMC-SW@aspeedtech.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
- "lee.jones@linaro.org" <lee.jones@linaro.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>, linux-aspeed@lists.ozlabs.org,
+ Jonathan Corbet <corbet@lwn.net>, openbmc@lists.ozlabs.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
+ Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>,
+ Open Source Submission <patches@amperecomputing.com>,
+ Lee Jones <lee.jones@linaro.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGkgUm9iLA0KDQpPbiAyMDIxLzQvMTUsIDY6MTYgQU0sUm9iIEhlcnJpbmd3cm90ZToNCg0KICAg
-IE9uIFdlZCwgQXByIDE0LCAyMDIxIGF0IDA2OjQ5OjM4UE0gKzA4MDAsIEJpbGx5IFRzYWkgd3Jv
-dGU6DQogICAgPj4gVGhpcyBwYXRjaCBhZGRzIGRldmljZSBiaW5kaW5ncyBmb3IgYXNwZWVkIHB3
-bS10YWNoIGRldmljZSB3aGljaCBpcyBhDQogICAgPj4gbXVsdGktZnVuY3Rpb24gZGV2aWNlIGlu
-Y2x1ZGUgcHduIGFuZCB0YWNoIGZ1bmN0aW9uIGFuZCBwd20gZGV2aWNlIHdoaWNoDQogICAgPj4g
-c2hvdWxkIGJlIHRoZSBzdWItbm9kZSBvZiBwd20tdGFjaCBkZXZpY2UuDQogICAgPj4gDQogICAg
-Pj4gU2lnbmVkLW9mZi1ieTogQmlsbHkgVHNhaSA8YmlsbHlfdHNhaUBhc3BlZWR0ZWNoLmNvbT4N
-CiAgICA+PiBDaGFuZ2UtSWQ6IEkxOGQ5ZGVhMTRjM2EwNGUxYjdlMzhmZmVjZDQ5ZDQ1OTE3Yjli
-NTQ1DQogICAgPg0KICAgID5Ecm9wDQogICAgPg0KICAgID4+IC0tLQ0KICAgID4+ICAuLi4vYmlu
-ZGluZ3MvbWZkL2FzcGVlZCxhc3QyNjAwLXB3bS10YWNoLnlhbWwgfCA2MCArKysrKysrKysrKysr
-KysrKysrDQogICAgPj4gIC4uLi9iaW5kaW5ncy9wd20vYXNwZWVkLGFzdDI2MDAtcHdtLnlhbWwg
-ICAgICB8IDQ0ICsrKysrKysrKysrKysrDQogICAgPj4gIDIgZmlsZXMgY2hhbmdlZCwgMTA0IGlu
-c2VydGlvbnMoKykNCiAgICA+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2
-aWNldHJlZS9iaW5kaW5ncy9tZmQvYXNwZWVkLGFzdDI2MDAtcHdtLXRhY2gueWFtbA0KICAgID4+
-ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3B3
-bS9hc3BlZWQsYXN0MjYwMC1wd20ueWFtbA0KICAgID4+IA0KICAgID4+IGRpZmYgLS1naXQgYS9E
-b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWZkL2FzcGVlZCxhc3QyNjAwLXB3bS10
-YWNoLnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWZkL2FzcGVlZCxh
-c3QyNjAwLXB3bS10YWNoLnlhbWwNCiAgICA+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KICAgID4+
-IGluZGV4IDAwMDAwMDAwMDAwMC4uZWFmOGJkZjhkNDRlDQogICAgPj4gLS0tIC9kZXYvbnVsbA0K
-ICAgID4+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZmQvYXNwZWVk
-LGFzdDI2MDAtcHdtLXRhY2gueWFtbA0KICAgID4+IEBAIC0wLDAgKzEsNjAgQEANCiAgICA+PiAr
-IyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogKEdQTC0yLjAtb25seSBPUiBCU0QtMi1DbGF1c2Up
-DQogICAgPj4gKyMgQ29weXJpZ2h0IChDKSAyMDIxIEFTUEVFRCwgSW5jLg0KICAgID4+ICslWUFN
-TCAxLjINCiAgICA+PiArLS0tDQogICAgPj4gKyRpZDogaHR0cDovL2RldmljZXRyZWUub3JnL3Nj
-aGVtYXMvbWZkL2FzcGVlZCxhc3QyNjAwLXB3bS10YWNoLnlhbWwjDQogICAgPj4gKyRzY2hlbWE6
-IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9tZXRhLXNjaGVtYXMvY29yZS55YW1sIw0KICAgID4+ICsN
-CiAgICA+PiArdGl0bGU6IFBXTSBUYWNoIGNvbnRyb2xsZXIgRGV2aWNlIFRyZWUgQmluZGluZ3MN
-CiAgICA+PiArDQogICAgPj4gK2Rlc2NyaXB0aW9uOiB8DQogICAgPj4gKyAgVGhlIFBXTSBUYWNo
-IGNvbnRyb2xsZXIgaXMgcmVwcmVzZW50ZWQgYXMgYSBtdWx0aS1mdW5jdGlvbiBkZXZpY2Ugd2hp
-Y2gNCiAgICA+PiArICBpbmNsdWRlczoNCiAgICA+PiArICAgIFBXTQ0KICAgID4+ICsgICAgVGFj
-aA0KDQogICAgPiBCdXQgaXMgaXQgcmVhbGx5PyBBIFBXTSBhbmQgdGFjaCBzb3VuZHMgbGlrZSBh
-IGZhbiBjb250cm9sbGVyLiBMb29rIGF0IA0KDQpPdXIgUFdNIGlzIG5vdCBvbmx5IGZvciBmYW5z
-IGJ1dCBhbHNvIHVzZWQgZm9yIHRoZSBtb3RvciwgbGVkLCBidXp6ZXIsIGFuZCBzbyBvbi4gDQpT
-byBJIHdhbnQgdG8gc3BsaXQgdGhlIGZ1bmN0aW9uIGludG8gdHdvIGRldmljZXMgd2l0aCBhIG11
-bHRpLWZ1bmN0aW9uIGRldmljZS4gDQpPbmUgZm9yIFBXTSBvdXRwdXQgYW5kIG9uZSBmb3IgdGFj
-aCBtb25pdG9yLg0KDQogICAgPiBvdGhlciBleGlzdGluZyBQV00rdGFjaCBiaW5kaW5ncyB3ZSBo
-YXZlIGZvciBmYW5zLg0KDQpJIGRpZG4ndCBzZWUgdGhlIFBXTSt0YWNoIGJpbmRpbmdzIGNhbiB5
-b3UgZ2l2ZSBzb21lIGV4YW1wbGUgZm9yIG1lLCB0aGFua3MuDQoNCiAgICA+PiArDQogICAgPj4g
-K21haW50YWluZXJzOg0KICAgID4+ICsgIC0gQmlsbHkgVHNhaSA8YmlsbHlfdHNhaUBhc3BlZWR0
-ZWNoLmNvbT4NCiAgICA+PiArDQogICAgPj4gK3Byb3BlcnRpZXM6DQogICAgPj4gKyAgY29tcGF0
-aWJsZToNCiAgICA+PiArICAgIGl0ZW1zOg0KICAgID4+ICsgICAgICAtIGVudW06DQogICAgPj4g
-KyAgICAgICAgICAtIGFzcGVlZCxhc3QyNjAwLXB3bS10YWNoDQogICAgPj4gKyAgICAgIC0gY29u
-c3Q6IHN5c2Nvbg0KICAgID4+ICsgICAgICAtIGNvbnN0OiBzaW1wbGUtbWZkDQogICAgPj4gKyAg
-cmVnOg0KICAgID4+ICsgICAgbWF4SXRlbXM6IDENCiAgICA+PiArICAiI2FkZHJlc3MtY2VsbHMi
-Og0KICAgID4+ICsgICAgY29uc3Q6IDENCiAgICA+PiArICAiI3NpemUtY2VsbHMiOg0KICAgID4+
-ICsgICAgY29uc3Q6IDENCiAgICA+PiArDQogICAgPj4gK3JlcXVpcmVkOg0KICAgID4+ICsgIC0g
-Y29tcGF0aWJsZQ0KICAgID4+ICsgIC0gcmVnDQogICAgPj4gKyAgLSAiI2FkZHJlc3MtY2VsbHMi
-DQogICAgPj4gKyAgLSAiI3NpemUtY2VsbHMiDQogICAgPj4gKw0KICAgID4+ICthZGRpdGlvbmFs
-UHJvcGVydGllczoNCiAgICA+PiArICB0eXBlOiBvYmplY3QNCg0KICAgID4gQXMgeW91IGtub3cg
-dGhlIDIgbm9kZSBuYW1lcywgdGhleSBzaG91bGQgYmUgZG9jdW1lbnRlZC4gSG93ZXZlciwgc2Vl
-IA0KICAgID4gYmVsb3cuDQoNCiAgICA+PiArDQogICAgPj4gK2V4YW1wbGVzOg0KICAgID4+ICsg
-IC0gfA0KICAgID4+ICsgICAgcHdtX3RhY2g6IHB3bV90YWNoQDFlNjEwMDAwIHsNCiAgICA+PiAr
-ICAgICAgY29tcGF0aWJsZSA9ICJhc3BlZWQsYXN0MjYwMC1wd20tdGFjaCIsICJzeXNjb24iLCAi
-c2ltcGxlLW1mZCI7DQogICAgPj4gKyAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+Ow0KICAgID4+
-ICsgICAgICAjc2l6ZS1jZWxscyA9IDwxPjsNCiAgICA+PiArICAgICAgcmVnID0gPDB4MWU2MTAw
-MDAgMHgxMDA+Ow0KICAgID4+ICsNCiAgICA+PiArICAgICAgcHdtOiBwd21AMCB7DQogICAgPj4g
-KyAgICAgICAgY29tcGF0aWJsZSA9ICJhc3BlZWQsYXN0MjYwMC1wd20iOw0KICAgID4+ICsgICAg
-ICAgICNwd20tY2VsbHMgPSA8Mz47DQogICAgPj4gKyAgICAgICAgcmVnID0gPDB4MCAweDEwMD47
-DQogICAgPj4gKyAgICAgIH07DQogICAgPj4gKw0KICAgID4+ICsgICAgICB0YWNoOiB0YWNoQDEg
-ew0KICAgID4+ICsgICAgICAgIGNvbXBhdGlibGUgPSAiYXNwZWVkLGFzdDI2MDAtdGFjaCI7DQog
-ICAgPj4gKyAgICAgICAgcmVnID0gPDB4MCAweDEwMD47DQoNCiAgICA+IFlvdSBoYXZlIDIgbm9k
-ZXMgYXQgdGhlIHNhbWUgYWRkcmVzcy4gTm90IHZhbGlkLg0KDQpPdXIgcHdtIGFuZCB0YWNoIGlz
-IHVzZWQgdGhlIHNhbWUgYmFzZSBhZGRyZXNzIGFuZCB0aGUgb2Zmc2V0IGlzIGxpa2UgYmVsb3c6
-DQoNClBXTTAgdXNlZCAweDAgMHg0LCBUYWNoMCB1c2VkIDB4OCAweGMNClBXTTEgdXNlZCAweDEw
-IDB4MTQsIFRhY2gxIHVzZWQgMHgxOCAweDFjDQouLi4NCg0KSSB3aWxsIHJlbW92ZSB0aGUgcmVn
-IHByb3BlcnR5IGZyb20gcHdtIGFuZCB0YWNoIG5vZGUgYW5kIHJlbW92ZSB0aGUgIiNhZGRyZXNz
-LWNlbGxzIiBhbmQNCiIjc2l6ZS1jZWxscyIgZnJvbSB0aGUgcGFyZW50IG5vZGUuDQoNCiAgICA+
-PiArICAgICAgfTsNCg0KICAgID4gVGhlcmUncyBubyByZWFsIG5lZWQgZm9yIDIgY2hpbGQgbm9k
-ZXMuIFRoZSBwYXJlbnQgbm9kZSBjYW4gYmUgYSBQV00gDQogICAgPiBwcm92aWRlci4NCg0KSG93
-ZXZlciwgSW4gb3VyIHVzYWdlLCB0aGUgcGFyZW50IG5vZGUgaXMgYSBtZmQsIG5vdCBhIHNpbXBs
-ZSBQV00gZGV2aWNlIG9ubHkuIEkgZG9uJ3Qgd2FudCB0bw0KY29tYmluZSB0aGUgZGlmZmVyZW50
-IGZ1bmN0aW9ucyB3aXRoIHRoZSBvbmUgZGV2aWNlIG5vZGUuDQoNCg0KICAgID4+ICsgICAgfTsN
-CiAgICA+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3B3
-bS9hc3BlZWQsYXN0MjYwMC1wd20ueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
-aW5ncy9wd20vYXNwZWVkLGFzdDI2MDAtcHdtLnlhbWwNCiAgICA+PiBuZXcgZmlsZSBtb2RlIDEw
-MDY0NA0KICAgID4+IGluZGV4IDAwMDAwMDAwMDAwMC4uOTc5MjNlNjhjY2I5DQogICAgPj4gLS0t
-IC9kZXYvbnVsbA0KICAgID4+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
-cy9wd20vYXNwZWVkLGFzdDI2MDAtcHdtLnlhbWwNCiAgICA+PiBAQCAtMCwwICsxLDQ0IEBADQog
-ICAgPj4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4wLW9ubHkgT1IgQlNELTIt
-Q2xhdXNlKQ0KICAgID4+ICsjIENvcHlyaWdodCAoQykgMjAyMSBBU1BFRUQsIEluYy4NCiAgICA+
-PiArJVlBTUwgMS4yDQogICAgPj4gKy0tLQ0KICAgID4+ICskaWQ6IGh0dHA6Ly9kZXZpY2V0cmVl
-Lm9yZy9zY2hlbWFzL3B3bS9hc3BlZWQsYXN0MjYwMC1wd20ueWFtbCMNCiAgICA+PiArJHNjaGVt
-YTogaHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlhbWwjDQogICAgPj4g
-Kw0KICAgID4+ICt0aXRsZTogQVNQRUVEIEFTVDI2MDAgUFdNIGNvbnRyb2xsZXINCiAgICA+PiAr
-DQogICAgPj4gK21haW50YWluZXJzOg0KICAgID4+ICsgIC0gQmlsbHkgVHNhaSA8YmlsbHlfdHNh
-aUBhc3BlZWR0ZWNoLmNvbT4NCiAgICA+PiArDQogICAgPj4gK2Rlc2NyaXB0aW9uOiB8DQogICAg
-Pj4gKyAgVGhlIEFTUEVFRCBQV00gY29udHJvbGxlciBjYW4gc3VwcG9ydCB1cHRvIDE2IFBXTSBv
-dXRwdXRzLg0KICAgID4+ICsNCiAgICA+PiArcHJvcGVydGllczoNCiAgICA+PiArICBjb21wYXRp
-YmxlOg0KICAgID4+ICsgICAgZW51bToNCiAgICA+PiArICAgICAgLSBhc3BlZWQsYXN0MjYwMC1w
-d20NCiAgICA+PiArDQogICAgPj4gKyAgIiNwd20tY2VsbHMiOg0KICAgID4+ICsgICAgY29uc3Q6
-IDMNCiAgICA+PiArDQogICAgPj4gKyAgcmVnOg0KICAgID4+ICsgICAgbWF4SXRlbXM6IDENCiAg
-ICA+PiArDQogICAgPj4gK2FkZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQ0KICAgID4+ICsNCiAg
-ICA+PiArZXhhbXBsZXM6DQogICAgPj4gKyAgLSB8DQogICAgPj4gKyAgICAvLyBUaGUgUFdNIHNo
-b3VsZCBiZSBhIHN1Ym5vZGUgb2YgYSAiYXNwZWVkLGFzdDI2MDAtcHdtLXRhY2giIGNvbXBhdGli
-bGUNCiAgICA+PiArICAgIC8vIG5vZGUuDQogICAgPj4gKyAgICBwd21fdGFjaDogcHdtX3RhY2hA
-MWU2MTAwMDAgew0KICAgID4+ICsgICAgICBjb21wYXRpYmxlID0gImFzcGVlZCxhc3QyNjAwLXB3
-bS10YWNoIiwgInN5c2NvbiIsICJzaW1wbGUtbWZkIjsNCiAgICA+PiArICAgICAgI2FkZHJlc3Mt
-Y2VsbHMgPSA8MT47DQogICAgPj4gKyAgICAgICNzaXplLWNlbGxzID0gPDE+Ow0KICAgID4+ICsg
-ICAgICByZWcgPSA8MHgxZTYxMDAwMCAweDEwMD47DQogICAgPj4gKw0KICAgID4+ICsgICAgICBw
-d206IHB3bUAwIHsNCiAgICA+PiArICAgICAgICBjb21wYXRpYmxlID0gImFzcGVlZCxhc3QyNjAw
-LXB3bSI7DQogICAgPj4gKyAgICAgICAgI3B3bS1jZWxscyA9IDwzPjsNCiAgICA+PiArICAgICAg
-ICByZWcgPSA8MHgwIDB4MTAwPjsNCiAgICA+PiArICAgICAgfTsNCiAgICA+PiArICAgIH07DQog
-ICAgPj4gLS0gDQogICAgPj4gMi4yNS4xDQogICAgPj4NCg0K
+On 14/04/2021 19:33, Guenter Roeck wrote:
+> On Fri, Apr 09, 2021 at 10:13:31AM +0700, Quan Nguyen wrote:
+>> This commit adds support for Ampere SMpro hwmon driver. This driver
+>> supports accessing various CPU sensors provided by the SMpro co-processor
+>> including temperature, power, voltages, and current.
+>>
+>> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+>> ---
+> 
+> Change log goes here. You are making it difficult to review your patches.
+> 
+Will add changelog here in next version.
+
+>>   drivers/hwmon/Kconfig       |   8 +
+>>   drivers/hwmon/Makefile      |   1 +
+>>   drivers/hwmon/smpro-hwmon.c | 491 ++++++++++++++++++++++++++++++++++++
+>>   3 files changed, 500 insertions(+)
+>>   create mode 100644 drivers/hwmon/smpro-hwmon.c
+>>
+>> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+>> index 0ddc974b102e..ba4b5a911baf 100644
+>> --- a/drivers/hwmon/Kconfig
+>> +++ b/drivers/hwmon/Kconfig
+>> @@ -67,6 +67,14 @@ config SENSORS_ABITUGURU3
+>>   	  This driver can also be built as a module. If so, the module
+>>   	  will be called abituguru3.
+>>   
+>> +config SENSORS_SMPRO
+>> +	tristate "Ampere's Altra SMpro hardware monitoring driver"
+>> +	depends on MFD_SMPRO
+>> +	help
+>> +	  If you say yes here you get support for the thermal, voltage,
+>> +	  current and power sensors of Ampere's Altra processor family SoC
+>> +	  with SMpro co-processor.
+>> +
+>>   config SENSORS_AD7314
+>>   	tristate "Analog Devices AD7314 and compatibles"
+>>   	depends on SPI
+>> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+>> index 59e78bc212cf..b25391f9c651 100644
+>> --- a/drivers/hwmon/Makefile
+>> +++ b/drivers/hwmon/Makefile
+>> @@ -174,6 +174,7 @@ obj-$(CONFIG_SENSORS_SHT3x)	+= sht3x.o
+>>   obj-$(CONFIG_SENSORS_SHTC1)	+= shtc1.o
+>>   obj-$(CONFIG_SENSORS_SIS5595)	+= sis5595.o
+>>   obj-$(CONFIG_SENSORS_SMM665)	+= smm665.o
+>> +obj-$(CONFIG_SENSORS_SMPRO)	+= smpro-hwmon.o
+>>   obj-$(CONFIG_SENSORS_SMSC47B397)+= smsc47b397.o
+>>   obj-$(CONFIG_SENSORS_SMSC47M1)	+= smsc47m1.o
+>>   obj-$(CONFIG_SENSORS_SMSC47M192)+= smsc47m192.o
+>> diff --git a/drivers/hwmon/smpro-hwmon.c b/drivers/hwmon/smpro-hwmon.c
+>> new file mode 100644
+>> index 000000000000..a3389fcbad82
+>> --- /dev/null
+>> +++ b/drivers/hwmon/smpro-hwmon.c
+>> @@ -0,0 +1,491 @@
+>> +// SPDX-License-Identifier: GPL-2.0+
+>> +/*
+>> + * Ampere Computing SoC's SMPro Hardware Monitoring Driver
+>> + *
+>> + * Copyright (c) 2021, Ampere Computing LLC
+>> + */
+>> +#include <linux/bitfield.h>
+>> +#include <linux/bitops.h>
+>> +#include <linux/hwmon.h>
+>> +#include <linux/hwmon-sysfs.h>
+>> +#include <linux/kernel.h>
+>> +#include <linux/mod_devicetable.h>
+>> +#include <linux/module.h>
+>> +#include <linux/platform_device.h>
+>> +#include <linux/property.h>
+>> +#include <linux/regmap.h>
+>> +
+>> +/* Identification Registers */
+>> +#define MANUFACTURER_ID_REG	0x02
+>> +#define AMPERE_MANUFACTURER_ID	0xCD3A
+>> +
+>> +/* Logical Power Sensor Registers */
+>> +#define SOC_TEMP		0x00
+>> +#define SOC_VRD_TEMP		0x01
+>> +#define DIMM_VRD_TEMP		0x02
+>> +#define CORE_VRD_TEMP		0x03
+>> +#define CH0_DIMM_TEMP		0x04
+>> +#define CH1_DIMM_TEMP		0x05
+>> +#define CH2_DIMM_TEMP		0x06
+>> +#define CH3_DIMM_TEMP		0x07
+>> +#define CH4_DIMM_TEMP		0x08
+>> +#define CH5_DIMM_TEMP		0x09
+>> +#define CH6_DIMM_TEMP		0x0A
+>> +#define CH7_DIMM_TEMP		0x0B
+>> +#define RCA_VRD_TEMP		0x0C
+>> +
+>> +#define CORE_VRD_PWR		0x10
+>> +#define SOC_PWR			0x11
+>> +#define DIMM_VRD1_PWR		0x12
+>> +#define DIMM_VRD2_PWR		0x13
+>> +#define CORE_VRD_PWR_MW		0x16
+>> +#define SOC_PWR_MW		0x17
+>> +#define DIMM_VRD1_PWR_MW	0x18
+>> +#define DIMM_VRD2_PWR_MW	0x19
+>> +#define RCA_VRD_PWR		0x1A
+>> +#define RCA_VRD_PWR_MW		0x1B
+>> +
+>> +#define MEM_HOT_THRESHOLD	0x22
+>> +#define SOC_VR_HOT_THRESHOLD	0x23
+>> +#define CORE_VRD_VOLT		0x24
+>> +#define SOC_VRD_VOLT		0x25
+>> +#define DIMM_VRD1_VOLT		0x26
+>> +#define DIMM_VRD2_VOLT		0x27
+>> +#define RCA_VRD_VOLT		0x28
+>> +
+>> +#define CORE_VRD_CURR		0x29
+>> +#define SOC_VRD_CURR		0x2A
+>> +#define DIMM_VRD1_CURR		0x2B
+>> +#define DIMM_VRD2_CURR		0x2C
+>> +#define RCA_VRD_CURR		0x2D
+>> +
+>> +struct smpro_hwmon {
+>> +	struct regmap *regmap;
+>> +	u32 offset;
+>> +};
+>> +
+>> +struct smpro_sensor {
+>> +	const u8 reg;
+>> +	const u8 reg_ext;
+>> +	const char *label;
+>> +};
+>> +
+>> +static const struct smpro_sensor temperature[] = {
+>> +	{
+>> +		.reg = SOC_TEMP,
+>> +		.label = "temp1 SoC"
+>> +	},
+>> +	{
+>> +		.reg = SOC_VRD_TEMP,
+>> +		.reg_ext = SOC_VR_HOT_THRESHOLD,
+>> +		.label = "temp2 SoC VRD"
+>> +	},
+>> +	{
+>> +		.reg = DIMM_VRD_TEMP,
+>> +		.label = "temp3 DIMM VRD"
+>> +	},
+>> +	{
+>> +		.reg = CORE_VRD_TEMP,
+>> +		.label = "temp4 CORE VRD"
+>> +	},
+>> +	{
+>> +		.reg = CH0_DIMM_TEMP,
+>> +		.reg_ext = MEM_HOT_THRESHOLD,
+>> +		.label = "temp5 CH0 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = CH1_DIMM_TEMP,
+>> +		.reg_ext = MEM_HOT_THRESHOLD,
+>> +		.label = "temp6 CH1 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = CH2_DIMM_TEMP,
+>> +		.reg_ext = MEM_HOT_THRESHOLD,
+>> +		.label = "temp7 CH2 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = CH3_DIMM_TEMP,
+>> +		.reg_ext = MEM_HOT_THRESHOLD,
+>> +		.label = "temp8 CH3 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = CH4_DIMM_TEMP,
+>> +		.reg_ext = MEM_HOT_THRESHOLD,
+>> +		.label = "temp9 CH4 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = CH5_DIMM_TEMP,
+>> +		.reg_ext = MEM_HOT_THRESHOLD,
+>> +		.label = "temp10 CH5 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = CH6_DIMM_TEMP,
+>> +		.reg_ext = MEM_HOT_THRESHOLD,
+>> +		.label = "temp11 CH6 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = CH7_DIMM_TEMP,
+>> +		.reg_ext = MEM_HOT_THRESHOLD,
+>> +		.label = "temp12 CH7 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = RCA_VRD_TEMP,
+>> +		.label = "temp13 RCA VRD"
+>> +	},
+>> +};
+>> +
+>> +static const struct smpro_sensor voltage[] = {
+>> +	{
+>> +		.reg = CORE_VRD_VOLT,
+>> +		.label = "vout0 CORE VRD"
+>> +	},
+>> +	{
+>> +		.reg = SOC_VRD_VOLT,
+>> +		.label = "vout1 SoC VRD"
+>> +	},
+>> +	{
+>> +		.reg = DIMM_VRD1_VOLT,
+>> +		.label = "vout2 DIMM VRD1"
+>> +	},
+>> +	{
+>> +		.reg = DIMM_VRD2_VOLT,
+>> +		.label = "vout3 DIMM VRD2"
+>> +	},
+>> +	{
+>> +		.reg = RCA_VRD_VOLT,
+>> +		.label = "vout4 RCA VRD"
+>> +	},
+>> +};
+>> +
+>> +static const struct smpro_sensor curr_sensor[] = {
+>> +	{
+>> +		.reg = CORE_VRD_CURR,
+>> +		.label = "iout1 CORE VRD"
+>> +	},
+>> +	{
+>> +		.reg = SOC_VRD_CURR,
+>> +		.label = "iout2 SoC VRD"
+>> +	},
+>> +	{
+>> +		.reg = DIMM_VRD1_CURR,
+>> +		.label = "iout3 DIMM VRD1"
+>> +	},
+>> +	{
+>> +		.reg = DIMM_VRD2_CURR,
+>> +		.label = "iout4 DIMM VRD2"
+>> +	},
+>> +	{
+>> +		.reg = RCA_VRD_CURR,
+>> +		.label = "iout5 RCA VRD"
+>> +	},
+>> +};
+>> +
+>> +static const struct smpro_sensor power[] = {
+>> +	{
+>> +		.reg = CORE_VRD_PWR,
+>> +		.reg_ext = CORE_VRD_PWR_MW,
+>> +		.label = "power1 CORE VRD"
+>> +	},
+>> +	{
+>> +		.reg = SOC_PWR,
+>> +		.reg_ext = SOC_PWR_MW,
+>> +		.label = "power2 SoC"
+>> +	},
+>> +	{
+>> +		.reg = DIMM_VRD1_PWR,
+>> +		.reg_ext = DIMM_VRD1_PWR_MW,
+>> +		.label = "power3 DIMM VRD1"
+>> +	},
+>> +	{
+>> +		.reg = DIMM_VRD2_PWR,
+>> +		.reg_ext = DIMM_VRD2_PWR_MW,
+>> +		.label = "power4 DIMM VRD2"
+>> +	},
+>> +	{
+>> +		.reg = RCA_VRD_PWR,
+>> +		.reg_ext = RCA_VRD_PWR_MW,
+>> +		.label = "power5 RCA VRD"
+>> +	},
+>> +};
+>> +
+>> +static int smpro_read_temp(struct device *dev, u32 attr, int channel, long *val)
+>> +{
+>> +	struct smpro_hwmon *hwmon = dev_get_drvdata(dev);
+>> +	unsigned int value;
+>> +	int ret;
+>> +
+>> +	switch (attr) {
+>> +	case hwmon_temp_input:
+>> +		ret = regmap_read(hwmon->regmap, hwmon->offset + temperature[channel].reg, &value);
+>> +		if (ret)
+>> +			return ret;
+>> +		break;
+>> +	case hwmon_temp_crit:
+>> +		ret = regmap_read(hwmon->regmap,
+>> +				  hwmon->offset + temperature[channel].reg_ext, &value);
+>> +		if (ret)
+>> +			return ret;
+>> +		break;
+>> +	default:
+>> +		return -EOPNOTSUPP;
+>> +	}
+>> +
+>> +	*val = sign_extend32(value, 8) * 1000;
+>> +	return 0;
+>> +}
+>> +
+>> +static int smpro_read_in(struct device *dev, u32 attr, int channel, long *val)
+>> +{
+>> +	struct smpro_hwmon *hwmon = dev_get_drvdata(dev);
+>> +	unsigned int value;
+>> +	int ret;
+>> +
+>> +	switch (attr) {
+>> +	case hwmon_in_input:
+>> +		ret = regmap_read(hwmon->regmap, hwmon->offset + voltage[channel].reg, &value);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +		/* 15-bit value in 1mV */
+>> +		*val = value & 0x7fff;
+>> +		return 0;
+>> +	default:
+>> +		return -EOPNOTSUPP;
+>> +	}
+>> +}
+>> +
+>> +static int smpro_read_curr(struct device *dev, u32 attr, int channel, long *val)
+>> +{
+>> +	struct smpro_hwmon *hwmon = dev_get_drvdata(dev);
+>> +	unsigned int value;
+>> +	int ret;
+>> +
+>> +	switch (attr) {
+>> +	case hwmon_curr_input:
+>> +		ret = regmap_read(hwmon->regmap, hwmon->offset + curr_sensor[channel].reg, &value);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +		/* Scale reported by the hardware is 1mA */
+>> +		*val = value & 0x7fff;
+>> +		return 0;
+>> +	default:
+>> +		return -EOPNOTSUPP;
+>> +	}
+>> +}
+>> +
+>> +static int smpro_read_power(struct device *dev, u32 attr, int channel, long *val_pwr)
+>> +{
+>> +	struct smpro_hwmon *hwmon = dev_get_drvdata(dev);
+>> +	unsigned int val = 0, val_mw = 0;
+>> +	int ret;
+>> +
+>> +	switch (attr) {
+>> +	case hwmon_power_input:
+>> +		ret = regmap_read(hwmon->regmap, hwmon->offset + power[channel].reg, &val);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		ret = regmap_read(hwmon->regmap, hwmon->offset + power[channel].reg_ext, &val_mw);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		*val_pwr = val * 1000000 + val_mw * 1000;
+>> +		return 0;
+>> +
+>> +	default:
+>> +		return -EOPNOTSUPP;
+>> +	}
+>> +}
+>> +
+>> +static int smpro_read(struct device *dev, enum hwmon_sensor_types type,
+>> +		      u32 attr, int channel, long *val)
+>> +{
+>> +	switch (type) {
+>> +	case hwmon_temp:
+>> +		return smpro_read_temp(dev, attr, channel, val);
+>> +	case hwmon_in:
+>> +		return smpro_read_in(dev, attr, channel, val);
+>> +	case hwmon_power:
+>> +		return smpro_read_power(dev, attr, channel, val);
+>> +	case hwmon_curr:
+>> +		return smpro_read_curr(dev, attr, channel, val);
+>> +	default:
+>> +		return -EOPNOTSUPP;
+>> +	}
+>> +}
+>> +
+>> +static int smpro_read_string(struct device *dev, enum hwmon_sensor_types type,
+>> +			     u32 attr, int channel, const char **str)
+>> +{
+>> +	switch (type) {
+>> +	case hwmon_temp:
+>> +		switch (attr) {
+>> +		case hwmon_temp_label:
+>> +			*str = temperature[channel].label;
+>> +			return 0;
+>> +		default:
+>> +			break;
+>> +		}
+>> +		break;
+>> +
+>> +	case hwmon_in:
+>> +		switch (attr) {
+>> +		case hwmon_in_label:
+>> +			*str = voltage[channel].label;
+>> +			return 0;
+>> +		default:
+>> +			break;
+>> +		}
+>> +		break;
+>> +
+>> +	case hwmon_curr:
+>> +		switch (attr) {
+>> +		case hwmon_curr_label:
+>> +			*str = curr_sensor[channel].label;
+>> +			return 0;
+>> +		default:
+>> +			break;
+>> +		}
+>> +		break;
+>> +
+>> +	case hwmon_power:
+>> +		switch (attr) {
+>> +		case hwmon_power_label:
+>> +			*str = power[channel].label;
+>> +			return 0;
+>> +		default:
+>> +			break;
+>> +		}
+>> +		break;
+>> +	default:
+>> +		break;
+>> +	}
+>> +
+>> +	return -EOPNOTSUPP;
+>> +}
+>> +
+>> +static umode_t smpro_is_visible(const void *data, enum hwmon_sensor_types type,
+>> +				u32 attr, int channel)
+>> +{
+>> +	const struct smpro_hwmon *hwmon = data;
+>> +	unsigned int value;
+>> +	int ret;
+>> +
+>> +	switch (type) {
+>> +	case hwmon_temp:
+>> +		switch (attr) {
+>> +		case hwmon_temp_input:
+>> +		case hwmon_temp_label:
+>> +		case hwmon_temp_crit:
+>> +			ret = regmap_read(hwmon->regmap,
+>> +					  hwmon->offset + temperature[channel].reg, &value);
+>> +			if (ret || value == 0xFFFF)
+>> +				return 0;
+>> +		break;
+>> +		}
+>> +	default:
+>> +		break;
+>> +	}
+>> +
+>> +	return 0444;
+>> +}
+>> +
+>> +static const struct hwmon_channel_info *smpro_info[] = {
+>> +	HWMON_CHANNEL_INFO(temp,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL),
+>> +	HWMON_CHANNEL_INFO(in,
+>> +			   HWMON_I_INPUT | HWMON_I_LABEL,
+>> +			   HWMON_I_INPUT | HWMON_I_LABEL,
+>> +			   HWMON_I_INPUT | HWMON_I_LABEL,
+>> +			   HWMON_I_INPUT | HWMON_I_LABEL,
+>> +			   HWMON_I_INPUT | HWMON_I_LABEL),
+>> +	HWMON_CHANNEL_INFO(power,
+>> +			   HWMON_P_INPUT | HWMON_P_LABEL,
+>> +			   HWMON_P_INPUT | HWMON_P_LABEL,
+>> +			   HWMON_P_INPUT | HWMON_P_LABEL,
+>> +			   HWMON_P_INPUT | HWMON_P_LABEL,
+>> +			   HWMON_P_INPUT | HWMON_P_LABEL),
+>> +	HWMON_CHANNEL_INFO(curr,
+>> +			   HWMON_C_INPUT | HWMON_C_LABEL,
+>> +			   HWMON_C_INPUT | HWMON_C_LABEL,
+>> +			   HWMON_C_INPUT | HWMON_C_LABEL,
+>> +			   HWMON_C_INPUT | HWMON_C_LABEL,
+>> +			   HWMON_C_INPUT | HWMON_C_LABEL),
+>> +	NULL
+>> +};
+>> +
+>> +static const struct hwmon_ops smpro_hwmon_ops = {
+>> +	.is_visible = smpro_is_visible,
+>> +	.read = smpro_read,
+>> +	.read_string = smpro_read_string,
+>> +};
+>> +
+>> +static const struct hwmon_chip_info smpro_chip_info = {
+>> +	.ops = &smpro_hwmon_ops,
+>> +	.info = smpro_info,
+>> +};
+>> +
+>> +static int smpro_hwmon_probe(struct platform_device *pdev)
+>> +{
+>> +	struct smpro_hwmon *hwmon;
+>> +	struct device *hwmon_dev;
+>> +	unsigned int val;
+>> +	int ret;
+>> +
+>> +	hwmon = devm_kzalloc(&pdev->dev, sizeof(struct smpro_hwmon), GFP_KERNEL);
+>> +	if (!hwmon)
+>> +		return -ENOMEM;
+>> +
+>> +	hwmon->regmap = dev_get_regmap(pdev->dev.parent, NULL);
+>> +	if (!hwmon->regmap)
+>> +		return -ENODEV;
+>> +
+>> +	ret = device_property_read_u32(&pdev->dev, "reg", &hwmon->offset);
+>> +	if (ret)
+>> +		return -EINVAL;
+>> +
+>> +	/* Check for valid ID */
+>> +	ret = regmap_read(hwmon->regmap, MANUFACTURER_ID_REG, &val);
+>> +	if (ret)
+>> +		return -EPROBE_DEFER;
+> 
+> This is unacceptable. regmap_read() could return various errors.
+> An error here might mean that the chip is simply not there, or that
+> there is some other problem with, say, the i2c controller driver.
+> The function might, for all we know, even return -ENOMEM.
+> 
+> If this is supposed to mean that the chip is not yet ready, some other
+> and more specific solution will be needed. -EPROBE_DEFER means that
+> some other driver needs to be loaded first, not "chip is not ready,
+> try again later".
+> 
+> Thanks,
+> Guenter
+> 
+
+Thanks to this clarification and will return regmap_read() return value, 
+ie: "return ret" in next version.
+
+>> +
+>> +	if (val != AMPERE_MANUFACTURER_ID)
+>> +		return -ENODEV;
+>> +
+>> +	hwmon_dev = devm_hwmon_device_register_with_info(&pdev->dev, "smpro_hwmon",
+>> +							 hwmon, &smpro_chip_info, NULL);
+>> +
+>> +	return PTR_ERR_OR_ZERO(hwmon_dev);
+>> +}
+>> +
+>> +static const struct of_device_id smpro_hwmon_of_match[] = {
+>> +	{ .compatible = "ampere,ac01-hwmon" },
+>> +	{}
+>> +};
+>> +MODULE_DEVICE_TABLE(of, smpro_hwmon_of_match);
+>> +
+>> +static struct platform_driver smpro_hwmon_driver = {
+>> +	.probe		= smpro_hwmon_probe,
+>> +	.driver = {
+>> +		.name	= "smpro-hwmon",
+>> +		.of_match_table = smpro_hwmon_of_match,
+>> +	},
+>> +};
+>> +
+>> +module_platform_driver(smpro_hwmon_driver);
+>> +
+>> +MODULE_AUTHOR("Thu Nguyen <thu@os.amperecomputing.com>");
+>> +MODULE_AUTHOR("Quan Nguyen <quan@os.amperecomputing.com>");
+>> +MODULE_DESCRIPTION("Ampere Altra SMPro hwmon driver");
+>> +MODULE_LICENSE("GPL v2");
+
