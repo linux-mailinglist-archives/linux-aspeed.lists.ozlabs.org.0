@@ -1,75 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A65E361771
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Apr 2021 04:13:54 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E923617AC
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Apr 2021 04:47:57 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FM0BS0H2dz3bSv
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Apr 2021 12:13:52 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FM0xj0lqbz30hc
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Apr 2021 12:47:53 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=bnL7FccJ;
+	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=JdqtmxKL;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::52d;
- helo=mail-pg1-x52d.google.com; envelope-from=rentao.bupt@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::72f;
+ helo=mail-qk1-x72f.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=bnL7FccJ; dkim-atps=neutral
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
- [IPv6:2607:f8b0:4864:20::52d])
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=JdqtmxKL; dkim-atps=neutral
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
+ [IPv6:2607:f8b0:4864:20::72f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FM0BP67Dzz2yyK;
- Fri, 16 Apr 2021 12:13:48 +1000 (AEST)
-Received: by mail-pg1-x52d.google.com with SMTP id 31so2742354pgn.13;
- Thu, 15 Apr 2021 19:13:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=4aOl9WYg3lZW03MpbHK6GQG1irPulDKlcMdmsoDYUyM=;
- b=bnL7FccJsG4zTTkJBYehFLpBUVXBexu/pyNJ80IOWqbViQDw7z3C/kvtTNDfM2bzZr
- oDNQDWg5jLTENvwM1CT4YhJio8vD5aMBLl1R17FzJpALCLadHm3CPdbJNNsPdA4cY/4I
- XbiHdLJX5Z3/2oXc5ZJGRTW7KMarBWQ6jnnzR5pnWpR5ob80IGmBVNoooi8HZ3+s/t/P
- EdkhKKY8c44MGFBz+txDcSrUHJFH8PVVc7FtqOqkjlDzwvNJ2XcBZy9xd/y2O7O2pVrq
- Uw+v1zNmT4WN3vB5rdK6ZbtLM8DND5b+tGYU7RzCkT6Heg12fTBO/96323NN1bBsAsdI
- qqUg==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FM0xf4fdsz2yRR
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Apr 2021 12:47:49 +1000 (AEST)
+Received: by mail-qk1-x72f.google.com with SMTP id d23so15450336qko.12
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Apr 2021 19:47:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6JE3V5KjaQnEbya4qNgh7qs/JkAupQE4rt/BY5aNrM0=;
+ b=JdqtmxKLcTODD3GO/nU6JvyNct+1m/rEgQuVm5NnXzpKx9Myln8OB9VZ2cO2x4smEk
+ aNN6MZgsXELHZrl6HFHEXWEPirhCVSRAA9KEPELS3c+cPJXOagyfxj8Gsk1Yw+N9q9ZM
+ CbVF/KLhFKyA1sFhOd9EIBKuZgqae0WnZ2tog=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=4aOl9WYg3lZW03MpbHK6GQG1irPulDKlcMdmsoDYUyM=;
- b=d9AI/tqfbVD+lwiYIFmhTeu+u02xUqL87fw4nfRi6TIHtmWt1bQDQLUigpBJzJwWVH
- YxQqHzm841/y4SFR57awbahK4iM5qAcvKfDYjBKCP+uytShl2ZdnrCCN8Whw3YfrXtkN
- uBoERNrF5ctbv3xNpu1p2i5JYm3I2bk685CiDYAeKRERwOYIWdRbmM6LZ0nEEPg0es9h
- +mU26RlIMWoaG2TyY/NTUHJH1bIGJCT7HkeoMWBkIUy9nwA5ACClOqTyI+b7UecOwEWE
- TgLFL6w7R+uD7iC6FToSJAjG1c4HfptOPVUlOa46vH9ztKbpJ/L9hucBhS4r4Xv8QDk7
- xF+A==
-X-Gm-Message-State: AOAM530fQAAgY8cdpOjG0ur9s+05Z0ylUl8n5pqGVIjGtYsGQt9MRZDW
- M8pdaostXigEKU8SfHqiKHc=
-X-Google-Smtp-Source: ABdhPJzT1yDrVtxLd5Qh4dvbNL5uVKACMlcjXTmzw+HDicnrP+3i8/R73Qp6cm6BaCw/Uj8qOK/3Fw==
-X-Received: by 2002:a05:6a00:2247:b029:25a:978:40b8 with SMTP id
- i7-20020a056a002247b029025a097840b8mr606588pfu.54.1618539225453; 
- Thu, 15 Apr 2021 19:13:45 -0700 (PDT)
-Received: from taoren-ubuntu-R90MNF91.thefacebook.com
- (c-73-252-146-110.hsd1.ca.comcast.net. [73.252.146.110])
- by smtp.gmail.com with ESMTPSA id u25sm3407079pgk.34.2021.04.15.19.13.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Apr 2021 19:13:45 -0700 (PDT)
-From: rentao.bupt@gmail.com
-To: Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, linux-watchdog@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
- Tao Ren <taoren@fb.com>, Amithash Prasad <amithash@fb.com>
-Subject: [PATCH v2] watchdog: aspeed: fix integer overflow in set_timeout
- handler
-Date: Thu, 15 Apr 2021 19:13:37 -0700
-Message-Id: <20210416021337.18715-1-rentao.bupt@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6JE3V5KjaQnEbya4qNgh7qs/JkAupQE4rt/BY5aNrM0=;
+ b=G5VAI4SdmcZsx4UOR3riai+9ZUKZzkfo3GATYyQyEIg5rq27JyCSoEZRQW6tcSjFsL
+ 0tRc2jvVhmRHlaFeFYCQDk5CnL9HB+i/wm3joyBK5tDyA+wTI0Oi8tvnzm+wIdRsDUnA
+ nlUMhxJI4OL8vlwA4ohjZHU9nfe0PbNnkR2WDQLqjJx+dvRLrk/etUY/eGAnDp2CrDks
+ Zjv6mgbB0rFx0k83HYIgGuo+aN88PJvUP0EiWItZy6DKSVOvF+q2o5ChxK/YRYP1SoIw
+ 9MMPOJyHgbo9TkrfHsUAshmYuxetRP2DxyxstHmf3FquCDbhszmcTgWUceAuJvkeioa0
+ /0yg==
+X-Gm-Message-State: AOAM533GLF20zcS+IlIpbcICjOrcBmkhbvNshiVBn9/2ieKS1GBzVu08
+ gQUv1BIHx6sr+QGt6dpZI5dDg6kc2c5KybotIQ9WhO/D
+X-Google-Smtp-Source: ABdhPJwRH0rBofDg5R7VnJqTWOBvdkUj0mitl4J66DsFIFDPjC+jQfQFMHJslh72PksBmcyHiu7HCu5Jv5NyJgnaSe0=
+X-Received: by 2002:ae9:e714:: with SMTP id m20mr6835012qka.66.1618541267167; 
+ Thu, 15 Apr 2021 19:47:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210413194308.36930-1-eajames@linux.ibm.com>
+In-Reply-To: <20210413194308.36930-1-eajames@linux.ibm.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 16 Apr 2021 02:47:35 +0000
+Message-ID: <CACPK8XcvMxsFFDvrN1ueRGwFGJ55Yp4N8vNBA9tdfaa5jqzw8A@mail.gmail.com>
+Subject: Re: [PATCH 0/4] ARM: dts: aspeed: Rainier: Various fixes and update
+To: Eddie James <eajames@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,40 +70,26 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Tao Ren <rentao.bupt@gmail.com>
+On Tue, 13 Apr 2021 at 19:43, Eddie James <eajames@linux.ibm.com> wrote:
+>
+> This series fixes a number of issues introduced in the Rainier device tree.
+> It also brings the device tree up to date with the latest hardware revision.
+>
+> Eddie James (4):
+>   ARM: dts: aspeed: Rainier: Fix PCA9552 on bus 8
+>   ARM: dts: aspeed: Rainier: Fix humidity sensor bus address
+>   ARM: dts: aspeed: Rainier 1S4U: Fix fan nodes
+>   ARM: dts: aspeed: Rainier: Update to pass 2 hardware
 
-Fix the time comparison (timeout vs. max_hw_heartbeat_ms) in set_timeout
-handler to avoid potential integer overflow when the supplied timeout is
-greater than aspeed's maximum allowed timeout (4294 seconds).
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-Fixes: efa859f7d786 ("watchdog: Add Aspeed watchdog driver")
-Reported-by: Amithash Prasad <amithash@fb.com>
-Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
----
- Changes in v2:
-   - do not touch "wdd->timeout": only "max_hw_heartbeat_ms * 1000" is
-     updated to "max_hw_heartbeat_ms / 1000".
+I have applied these to send to mainline.
 
- drivers/watchdog/aspeed_wdt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
-index 7e00960651fa..507fd815d767 100644
---- a/drivers/watchdog/aspeed_wdt.c
-+++ b/drivers/watchdog/aspeed_wdt.c
-@@ -147,7 +147,7 @@ static int aspeed_wdt_set_timeout(struct watchdog_device *wdd,
- 
- 	wdd->timeout = timeout;
- 
--	actual = min(timeout, wdd->max_hw_heartbeat_ms * 1000);
-+	actual = min(timeout, wdd->max_hw_heartbeat_ms / 1000);
- 
- 	writel(actual * WDT_RATE_1MHZ, wdt->base + WDT_RELOAD_VALUE);
- 	writel(WDT_RESTART_MAGIC, wdt->base + WDT_RESTART);
--- 
-2.17.1
-
+Joel
