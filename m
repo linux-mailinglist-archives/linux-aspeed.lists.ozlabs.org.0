@@ -1,64 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70FC3617AE
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Apr 2021 04:48:49 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF9FE3617DE
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Apr 2021 04:55:42 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FM0yl4zyrz30hV
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Apr 2021 12:48:47 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FM16h3kK3z30QX
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Apr 2021 12:55:40 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=OzqwZhi1;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=F1jVfXS7;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::82d;
- helo=mail-qt1-x82d.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::835;
+ helo=mail-qt1-x835.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=OzqwZhi1; dkim-atps=neutral
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
- [IPv6:2607:f8b0:4864:20::82d])
+ header.s=google header.b=F1jVfXS7; dkim-atps=neutral
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com
+ [IPv6:2607:f8b0:4864:20::835])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FM0yk03V2z2yRR
- for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Apr 2021 12:48:45 +1000 (AEST)
-Received: by mail-qt1-x82d.google.com with SMTP id o2so6441951qtr.4
- for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Apr 2021 19:48:45 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FM16f1DMpz2xYl
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Apr 2021 12:55:36 +1000 (AEST)
+Received: by mail-qt1-x835.google.com with SMTP id m16so19214864qtx.9
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Apr 2021 19:55:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fRiW54V2bHrmc5p+fHyLQSdpIWhEJz43c7guQ+QVhrs=;
- b=OzqwZhi1VAlLv4XH9uNSYxD37Zew6jihz5h94kcyVKMJ78fty99JNvvYQvrY2NYlgE
- rPkuaY+zyBq6vQ16sZo6cvC1xLGJRXtWhNcEZRqEyMtG+5TU2DkFFpyzTrtshm5eTQ/j
- MarYFgHpQF4lqE2YZ+XIhTiTXcsGXNV3+mO6o=
+ :cc; bh=suL1dnZ+yJPZCMAJ4Juw2WYLXt8ud7bqHuYeTFy760Y=;
+ b=F1jVfXS7MPMczBX9Ht5uH8AxLh6pAd5Su23muuHP3C9tVk7MRtPXI147skyXKIFckd
+ HgeAOTGile7OpFTWPexrb7eB5snaT1qtUJ+gMaxkGr21L+WGYWxzZgJX4eZY2evI0o5W
+ aOC6o8X4Cva6IL3DucjUIGuXdKTiSz0qLWd5k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=fRiW54V2bHrmc5p+fHyLQSdpIWhEJz43c7guQ+QVhrs=;
- b=h/+NQzC50NxSfTD+UFm6tkdCkJ4tua31/uPTV6oL+xZqmCEio6sjzpeuN+q/sFajOK
- SUU7J8jzAhB6iZOF3K4uR899RT/M+Q442oR0kXfEhXKw9ZBVv58rjJS13q3PIILmUHAW
- 36wuDOJPyT2O2tWecloPGx3DTxkrUkKU4XQcWSsKcE/d70NMqAqQK7iaPFYqgs7QXQMb
- 9c7F5fuxlUHttNkt2cQUyXcsLDIItYjbIM4ry9yuqxw042KAeyQjeNcokVJxmLx+Yg4m
- 0QbrJw2jVyOinjuA+2cg2ZCh9+YInqzo3RpAEPsQmpdmZ/IX0G6uXNHBcODvIiEpoZJC
- lUYQ==
-X-Gm-Message-State: AOAM532C2YIjCNRPs19o304KT/RDcfGlbumAus4rvfgVy9acy2ePkXXQ
- YPZ/l0TEFkO0uoMosDvEROmPjXNHGrjUVQbyM2f+XM5a
-X-Google-Smtp-Source: ABdhPJwBn/8jmP91IpVufk1jU8YJdAdeyOXx4xn0Ct0MRUnMWpOvPhOr7J6a5k0Uu0KwXlR3aWGNJXoInSIU7eQIo4M=
-X-Received: by 2002:ac8:5f87:: with SMTP id j7mr5742195qta.135.1618541322415; 
- Thu, 15 Apr 2021 19:48:42 -0700 (PDT)
+ bh=suL1dnZ+yJPZCMAJ4Juw2WYLXt8ud7bqHuYeTFy760Y=;
+ b=iWZsYsBv2D+zdH/tDMq260Ct8Djf2D/e4yUi8PVJf3bOr8cACbZjC0d3GLXZgqCw7/
+ XdhZAxWDjqzyaOBVwUnwI2vSsD6PyJ6X74I3lxIwRll5HruQKoA3l2MXeo6fD+ZUHo3s
+ zoa+8ah4ZhqFLkEp3c5eeA8miEQYUnePX+GAnIRAK7zt1B/6JvdZiCQW4yrkivj78pie
+ qoHid3b3lebjRojF2muu+EaUUUvbD0poPKfpK7Ew1qcfrU+B8Lkb6UjAoM8n/yZ/5IOI
+ nDICrix4MZlQQbVD3bqwaKuWtVwkzB6rcmFw3l25AflRFOId3BREWW+uzGeY3pUjH/iY
+ WEgw==
+X-Gm-Message-State: AOAM5336Aq8YVYz/cDJ6ORtiBCvqE4P1mX8QsZdDS2dOelax73WL0Wmn
+ USX4jijoq1FAuED1DDBAcelgQNtIu6tmzn6CSAo=
+X-Google-Smtp-Source: ABdhPJwBl5oTwfqjVBgI2UrXXXs/eahKVwoG8bPYGUxhDqljBmSbkoivKoCvbd1/Rw62YcXC9b2FklRA4+mF8+pB6fI=
+X-Received: by 2002:a05:622a:589:: with SMTP id
+ c9mr5979265qtb.363.1618541733396; 
+ Thu, 15 Apr 2021 19:55:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210413194308.36930-1-eajames@linux.ibm.com>
- <CACPK8XcvMxsFFDvrN1ueRGwFGJ55Yp4N8vNBA9tdfaa5jqzw8A@mail.gmail.com>
-In-Reply-To: <CACPK8XcvMxsFFDvrN1ueRGwFGJ55Yp4N8vNBA9tdfaa5jqzw8A@mail.gmail.com>
+References: <20210415155300.1135-1-aladyshev22@gmail.com>
+In-Reply-To: <20210415155300.1135-1-aladyshev22@gmail.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 16 Apr 2021 02:48:30 +0000
-Message-ID: <CACPK8XfCbvibyGQyxWL7pU_nE2UOLowYVzX+fvnn7UVPxr7R4w@mail.gmail.com>
-Subject: Re: [PATCH 0/4] ARM: dts: aspeed: Rainier: Various fixes and update
-To: Eddie James <eajames@linux.ibm.com>
+Date: Fri, 16 Apr 2021 02:55:17 +0000
+Message-ID: <CACPK8XedxKUpgtXCzsmdHw7-U+ySzHmvvb8mGE8QJcxQrEMayg@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: aspeed: amd-ethanolx: Enable all used I2C busses
+To: Konstantin Aladyshev <aladyshev22@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -71,27 +71,86 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Supreeth Venkatesh <supreeth.venkatesh@amd.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 16 Apr 2021 at 02:47, Joel Stanley <joel@jms.id.au> wrote:
+On Thu, 15 Apr 2021 at 15:53, Konstantin Aladyshev
+<aladyshev22@gmail.com> wrote:
 >
-> On Tue, 13 Apr 2021 at 19:43, Eddie James <eajames@linux.ibm.com> wrote:
-> >
-> > This series fixes a number of issues introduced in the Rainier device tree.
-> > It also brings the device tree up to date with the latest hardware revision.
-> >
-> > Eddie James (4):
-> >   ARM: dts: aspeed: Rainier: Fix PCA9552 on bus 8
-> >   ARM: dts: aspeed: Rainier: Fix humidity sensor bus address
-> >   ARM: dts: aspeed: Rainier 1S4U: Fix fan nodes
-> >   ARM: dts: aspeed: Rainier: Update to pass 2 hardware
+> Enable all I2C busses that are used in AMD EthanolX CRB:
+>  i2c0 - APML P0
+>  i2c1 - APML P1
+>  i2c2 - FPGA
+>  i2c3 - 24LC128 EEPROM
+>  i2c4 - P0 Power regulators
+>  i2c5 - P1 Power regulators
+>  i2c6 - P0/P1 Thermal diode
+>  i2c7 - Thermal Sensors
+>  i2c8 - BMC I2C
 >
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
->
-> I have applied these to send to mainline.
+> Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
 
-Next time, please make sure you cc linux-arm-kernel. This way they are
-archived on lore, which is how I grab the patches.
+Thanks, applied.
+
+> ---
+>  arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 30 +++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+> index ac2d04cfaf2f..6aeb47c44eba 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+> @@ -151,6 +151,31 @@ &i2c1 {
+>         status = "okay";
+>  };
+>
+> +//FPGA
+> +&i2c2 {
+> +       status = "okay";
+> +};
+> +
+> +//24LC128 EEPROM
+> +&i2c3 {
+> +       status = "okay";
+> +};
+> +
+> +//P0 Power regulators
+> +&i2c4 {
+> +       status = "okay";
+> +};
+> +
+> +//P1 Power regulators
+> +&i2c5 {
+> +       status = "okay";
+> +};
+> +
+> +//P0/P1 Thermal diode
+> +&i2c6 {
+> +       status = "okay";
+> +};
+> +
+>  // Thermal Sensors
+>  &i2c7 {
+>         status = "okay";
+> @@ -196,6 +221,11 @@ lm75a@4f {
+>         };
+>  };
+>
+> +//BMC I2C
+> +&i2c8 {
+> +       status = "okay";
+> +};
+> +
+>  &kcs1 {
+>         status = "okay";
+>         aspeed,lpc-io-reg = <0x60>;
+> --
+> 2.25.1
+>
