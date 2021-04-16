@@ -1,71 +1,74 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967A8360F73
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Apr 2021 17:53:28 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE25F3616B1
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Apr 2021 02:12:29 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FLkQZ4Hl7z30KF
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Apr 2021 01:53:26 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FLxVL139fz3bTq
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Apr 2021 10:12:26 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=NIfyHh1/;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=s1H68uyi;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::12e;
- helo=mail-lf1-x12e.google.com; envelope-from=aladyshev22@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::102f;
+ helo=mail-pj1-x102f.google.com; envelope-from=rentao.bupt@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=NIfyHh1/; dkim-atps=neutral
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
+ header.s=20161025 header.b=s1H68uyi; dkim-atps=neutral
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FLkQX1h5Jz2yxr
- for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Apr 2021 01:53:22 +1000 (AEST)
-Received: by mail-lf1-x12e.google.com with SMTP id f17so32921071lfu.7
- for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Apr 2021 08:53:22 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FLxVH3b0Rz302V;
+ Fri, 16 Apr 2021 10:12:22 +1000 (AEST)
+Received: by mail-pj1-x102f.google.com with SMTP id s14so8135807pjl.5;
+ Thu, 15 Apr 2021 17:12:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UWC2MC72dgX7erfaiK0WF/mEIAVWPqcVzYbZe8V5Z1E=;
- b=NIfyHh1/PRmS+9vlJuhVugsnRZ6stFNyFEhxN5B4sVKKsp6mAb29+DAaFaoSGLzl+j
- kB7i0+Kdn1JaNr89rQ7uUjyZXvqBm3h02KWgcPFwvSCOMog9/ENOTM3CdQPTdEpMyME0
- W4f9ECChsCIsL8s8MwZG3O1IrDlEHDdkhrjiQctZFjP1FZRORvYCmpO8gg5H8YFAg8/7
- TgnjY/s/871YpFDhEU9bv76gJ3VwUe8cetHG3IbZQHk8uaCxfklBHn7mHSKbXCE8OmTv
- MFCjCXkgZVDC0p7rRjw3tqsPqQ+nS17Ri/cbBv+0JUHR1x+8rryyOdZ8zxExS15upiUa
- MJyA==
+ h=from:to:cc:subject:date:message-id;
+ bh=uOD33pWWzSYPL/0r0lD9kRWmPd2Gntdg/sWshNtZopQ=;
+ b=s1H68uyiA8xZr1m0pvhQEKXukTF7w0kdfEjKzTB7M0AslrsTUFnckgp6j5PjoMi0/V
+ A8dClVXat85tcE1+h1Ph0Hw6PXrknoaUDXPzKC61pdls3wN9f0zxSent7iHTnrdPKFcn
+ Q84fWDl6P8WNvpLENrboT274s5+HBcrh+Nbm8gkmR8QRXLo5Z8uokTjva9/txgahX9FT
+ LjGeOYsbxQ4dgHZ81c6ejSDhWkGp6dJhFg9KYB37298PzoiDSVEWKfZf3qcflyZtcZZF
+ mTr5EaoKarVxSTmYVAuxQXwdw44T/B1WdhxrF8ATzLdPusShyX3JHN4rB5eU2VsLUNIF
+ tPmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UWC2MC72dgX7erfaiK0WF/mEIAVWPqcVzYbZe8V5Z1E=;
- b=miF02KH5xcKxAePFDTx2WezZrWauEFKZXPmEipSo5Zvnhy3PV3XLb62BKmJAw8zep5
- t+nR8abtgj/Ni5BGPHvuMbToVomnBqVNV8Tw6m70Zdn5JJTHPJZY79xwXE/R/Dd0Qc5y
- VxdPM1wPyt63D3jim2olREJTtF9T+30zOWvXeYtoB/0RQHH+OWCgVYJJaSmaWPxFR0rW
- GUvyGJtF4gLcXdY2Z/3al+bxCh6MXTeZ6HjBNWhzgcURahIL0XtL4lvLciExD51EXAqI
- pE0J4XgJ1F0OV50IQbKYQXbl6Uje+cTaJ6K2UtfaMJnHPtIuOzDvLiwpRexOWxcbTyFq
- C4Zg==
-X-Gm-Message-State: AOAM530RKYl2jIj6bkPAWOs2BA5NhvL0m4Nyw56r9A8xuD43szchSPR0
- WXeE7WfNDAuyqnDSTZvnR9E=
-X-Google-Smtp-Source: ABdhPJw1hchhMCsax9EV0N/YbpI2KvNmp+q3ewQiaZLc00QNf4RW4J0wPjOl5hNgeyEJbgWUWIENVQ==
-X-Received: by 2002:a19:3849:: with SMTP id d9mr2943775lfj.388.1618501999617; 
- Thu, 15 Apr 2021 08:53:19 -0700 (PDT)
-Received: from PC10319.67 ([82.97.198.254])
- by smtp.googlemail.com with ESMTPSA id s7sm674074ljg.31.2021.04.15.08.53.19
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=uOD33pWWzSYPL/0r0lD9kRWmPd2Gntdg/sWshNtZopQ=;
+ b=UbJvx40vu7D3+L0WG0clVmsnA2yfIIwVTTiZ1K/35AAb3HEj8N35xpTqXHoin7ZZiK
+ UirrTQAVWyom+lTbr66BzbflL+FOBE12pSwpTwr3CHBnsDYYtNbxzoIarNOYR0K7UXc5
+ ymHY4uo2Jc2EFykm+AFESfjsN86n+SSvCNxm2tM6hmIpgVRnyur83zE33G0br1606Oxt
+ M1uOvB9PG9Oe2gFtBznexf+Fu/B3XAWvpte2AgKhDNiYIaxWkhL0DFnZdexNuNGLU6Fx
+ Ai2BGyIFJ+Emhmnvy3JgAtororcJmP65E1ujsHdF6/m5gkFs3if3nBTY2J55n5e8R2vR
+ vkwQ==
+X-Gm-Message-State: AOAM531d3LE1GIdNdFqvpCxmxHEXBE34ZEk0qhY/gf/58f61xZCcs98q
+ TK5sC0Tryu05xMsBX3d1330=
+X-Google-Smtp-Source: ABdhPJziviff8FmqFA3GpFk3TKqox3jUoOSSMevoRcrU2y1YmgbUbciZYiBwxLlCoVyAGMxBE42qVw==
+X-Received: by 2002:a17:90a:352:: with SMTP id
+ 18mr6329781pjf.223.1618531939116; 
+ Thu, 15 Apr 2021 17:12:19 -0700 (PDT)
+Received: from taoren-ubuntu-R90MNF91.thefacebook.com
+ (c-73-252-146-110.hsd1.ca.comcast.net. [73.252.146.110])
+ by smtp.gmail.com with ESMTPSA id p10sm3312611pgn.85.2021.04.15.17.12.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Apr 2021 08:53:19 -0700 (PDT)
-From: Konstantin Aladyshev <aladyshev22@gmail.com>
-To: 
-Subject: [PATCH] ARM: dts: aspeed: amd-ethanolx: Enable all used I2C busses
-Date: Thu, 15 Apr 2021 18:52:59 +0300
-Message-Id: <20210415155300.1135-1-aladyshev22@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ Thu, 15 Apr 2021 17:12:18 -0700 (PDT)
+From: rentao.bupt@gmail.com
+To: Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, linux-watchdog@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+ Tao Ren <taoren@fb.com>, Amithash Prasad <amithash@fb.com>
+Subject: [PATCH] watchdog: aspeed: fix integer overflow in set_timeout handler
+Date: Thu, 15 Apr 2021 17:12:08 -0700
+Message-Id: <20210416001208.16788-1-rentao.bupt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,78 +80,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- aladyshev22@gmail.com, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, supreeth.venkatesh@amd.com,
- linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Enable all I2C busses that are used in AMD EthanolX CRB:
- i2c0 - APML P0
- i2c1 - APML P1
- i2c2 - FPGA
- i2c3 - 24LC128 EEPROM
- i2c4 - P0 Power regulators
- i2c5 - P1 Power regulators
- i2c6 - P0/P1 Thermal diode
- i2c7 - Thermal Sensors
- i2c8 - BMC I2C
+From: Tao Ren <rentao.bupt@gmail.com>
 
-Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
+Fix the time comparison (timeout vs. max_hw_heartbeat_ms) in set_timeout
+handler to avoid potential integer overflow when the supplied timeout is
+greater than aspeed's maximum allowed timeout (4294 seconds).
+
+Fixes: efa859f7d786 ("watchdog: Add Aspeed watchdog driver")
+Reported-by: Amithash Prasad <amithash@fb.com>
+Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
 ---
- arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts | 30 +++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ drivers/watchdog/aspeed_wdt.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-index ac2d04cfaf2f..6aeb47c44eba 100644
---- a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
-@@ -151,6 +151,31 @@ &i2c1 {
- 	status = "okay";
- };
+diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
+index 7e00960651fa..9f77272dc906 100644
+--- a/drivers/watchdog/aspeed_wdt.c
++++ b/drivers/watchdog/aspeed_wdt.c
+@@ -145,9 +145,8 @@ static int aspeed_wdt_set_timeout(struct watchdog_device *wdd,
+ 	struct aspeed_wdt *wdt = to_aspeed_wdt(wdd);
+ 	u32 actual;
  
-+//FPGA
-+&i2c2 {
-+	status = "okay";
-+};
-+
-+//24LC128 EEPROM
-+&i2c3 {
-+	status = "okay";
-+};
-+
-+//P0 Power regulators
-+&i2c4 {
-+	status = "okay";
-+};
-+
-+//P1 Power regulators
-+&i2c5 {
-+	status = "okay";
-+};
-+
-+//P0/P1 Thermal diode
-+&i2c6 {
-+	status = "okay";
-+};
-+
- // Thermal Sensors
- &i2c7 {
- 	status = "okay";
-@@ -196,6 +221,11 @@ lm75a@4f {
- 	};
- };
+-	wdd->timeout = timeout;
+-
+-	actual = min(timeout, wdd->max_hw_heartbeat_ms * 1000);
++	actual = min(timeout, wdd->max_hw_heartbeat_ms / 1000);
++	wdd->timeout = actual;
  
-+//BMC I2C
-+&i2c8 {
-+	status = "okay";
-+};
-+
- &kcs1 {
- 	status = "okay";
- 	aspeed,lpc-io-reg = <0x60>;
+ 	writel(actual * WDT_RATE_1MHZ, wdt->base + WDT_RELOAD_VALUE);
+ 	writel(WDT_RESTART_MAGIC, wdt->base + WDT_RESTART);
 -- 
-2.25.1
+2.17.1
 
