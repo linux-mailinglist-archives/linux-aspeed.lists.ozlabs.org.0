@@ -1,79 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB6D3627AE
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Apr 2021 20:26:31 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 048E8362D58
+	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Apr 2021 05:43:06 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FMPmj0BvTz3c6n
-	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Apr 2021 04:26:29 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FMf6v6HXWz3bry
+	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Apr 2021 13:43:03 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=I7NkKx+r;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=K0b5nLAi;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1034;
- helo=mail-pj1-x1034.google.com; envelope-from=rentao.bupt@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::533;
+ helo=mail-pg1-x533.google.com; envelope-from=rentao.bupt@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=I7NkKx+r; dkim-atps=neutral
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
+ header.s=20161025 header.b=K0b5nLAi; dkim-atps=neutral
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FMPmN4X50z3c4G;
- Sat, 17 Apr 2021 04:26:11 +1000 (AEST)
-Received: by mail-pj1-x1034.google.com with SMTP id
- f2-20020a17090a4a82b02900c67bf8dc69so16870404pjh.1; 
- Fri, 16 Apr 2021 11:26:11 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FMf6s5HMrz30DQ;
+ Sat, 17 Apr 2021 13:43:00 +1000 (AEST)
+Received: by mail-pg1-x533.google.com with SMTP id j32so5679763pgm.6;
+ Fri, 16 Apr 2021 20:43:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=+NoMdFRqvCj0wjEu2wU+EppPHqkD5aPuBzCUVO8B5Dw=;
- b=I7NkKx+ryboIFsQYOl0hn9Owr8ah4PzLF123GS1rr/xs+Is+upY0kBQ6YKQF01qdjT
- /JXCewbuJ6m9FkA+hTJ0ZLNndSrBrcAxe1SL6n+h8Dz/6WwoLJGOl3Usr09pFM+DDcyZ
- HJpE32jNzCiYvUL/nDIlAczIlyUI4lF30PKHl8NsfqW4O8uK4lBvECjt4Wbi84sc0yUO
- TBw88FWyBysNTaVA0RWN6HfYwvdJzPzqKYBclHUW4yQSNJtWsJQzFIky0SHayASO+TKR
- MGpyBRr6Fzxc539M6xaRvLtYi/XqzOG3e21wiGh1pwMNcYgqwMmamry8dLyz86+6T+LX
- 24uQ==
+ h=from:to:cc:subject:date:message-id;
+ bh=KEgAGlMIMGSD4Y3PLpFSkmFQK4X2O5FS+oaEvb1q+lY=;
+ b=K0b5nLAizD7TGQDjgaOycW3pVacY3L7Ep+L1M4RObdMN2U6homi3AL+6ANBGRcLLyP
+ wk2KHAqRuihRNK6M8acRbWXEB0Yl5BTqeVmylR0C3oBJkWqwK/TMaIKX9RziEPXg30as
+ njFyJGypqwQaTqgu51A9+FAsuVyKn9MV7JecT/nWsdZrWboOJ9fWObm2t0QhjdsHZUaJ
+ nNQceK0PgPxSCKW8hCWNwXpGqh0yWzx/fhIG7ta341FjY68/Gbaz4qLCPTvlRk4JyIwX
+ R9r/KuAf3Fa3rKTMMiOOp7VTE/aytP8eME68cR+Kq4UukzCmlj+h07YXZOeBOhnirMgu
+ WcQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=+NoMdFRqvCj0wjEu2wU+EppPHqkD5aPuBzCUVO8B5Dw=;
- b=Tl0OPrQoXMAHeFlSTHne/qo9NY9h/WpaATZ5ZDID6JBV0BgEVQNJNaD71d5j4GOOys
- y9FqoM0YuTRQxAl2Dw7rY4MTiXz6jWZr1XZRE+2NSR2vPeYAn9+mFxB66KvjO0ZNm1t9
- 1MqqXvso/XA/2yLVAktJK84JkNwEliLHKMN5r2sJo2fQl6E2zdtM+yWuxjqdlV1S0h9L
- Q/PtJHX43/aYWFkLcf/gmf9B0u8n8gTw295KcZ5HRK4DO/tTYtinH+5cJUxzDUpc9/lq
- 0kLUGXPTlN1raSPujvI5gjrtzZvx9YeZrf6iWkptJ14YElUEXyq8t5UkOgX4ZBXMmo3S
- P6Bw==
-X-Gm-Message-State: AOAM531X00DClmWVDg79XNIpcic0q/F1fx9c8gO2+XecQV2cy4S8zkdR
- 3xmspsk006zJXJVf2YT0GZQ=
-X-Google-Smtp-Source: ABdhPJw2kWFT896TOOCfe5suf1zLJSSp2jHsX2kBjJGSkduJ7jRvKnfFRK8cKa3n/6vBVu3+CGwaVQ==
-X-Received: by 2002:a17:90b:344e:: with SMTP id
- lj14mr11195691pjb.89.1618597567017; 
- Fri, 16 Apr 2021 11:26:07 -0700 (PDT)
-Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net.
- [73.252.146.110])
- by smtp.gmail.com with ESMTPSA id x1sm5324218pgp.24.2021.04.16.11.26.05
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 16 Apr 2021 11:26:06 -0700 (PDT)
-Date: Fri, 16 Apr 2021 11:25:59 -0700
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v2] watchdog: aspeed: fix integer overflow in set_timeout
- handler
-Message-ID: <20210416182558.GA4816@taoren-ubuntu-R90MNF91>
-References: <20210416021337.18715-1-rentao.bupt@gmail.com>
- <2771f72a-cc3c-54a5-cc2c-715ea61be6b7@roeck-us.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2771f72a-cc3c-54a5-cc2c-715ea61be6b7@roeck-us.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=KEgAGlMIMGSD4Y3PLpFSkmFQK4X2O5FS+oaEvb1q+lY=;
+ b=F7rrSLZbAPP6mUwDa8vERRhmIryNe7y4Gd04l53dc9AxBa8W0mZFDjPQtA2Uk5M2RU
+ QQ6F4Llq1aPkZ9jtsemlNznHHSkb+01/VSNrT7k8AtEpn1MVTkgES2q2W6Oh9nbpJVex
+ C3bRRGlvkH/Vyll8317JE+7Fhegu5WJeDbrshqgGGwRTKd69h4sVfkOfJ/v4UHffbPyr
+ AYpIYSFLs+tagp+HzJblri6eXeichaHqhTU44vVK/CfnvAIysgeS8C4ilf64MYw/A7ld
+ XTta/grk1q4LSLo1zdOm3kv7ogrx0lwapQjQaFKhRH24GIUtYFx3+MQA/EZaLwylTL/6
+ ab6A==
+X-Gm-Message-State: AOAM532Gog1MO4ZTHoU9ou81HMpW9l1HicMEaAA/SNSoe7tT60sq4BmD
+ 9u48w9Q6ph63OQFUxn+eoCc=
+X-Google-Smtp-Source: ABdhPJz8p4ON3M1hNgneJYgt8P2lIK0ojWFajm7V/CS2x1h65e9dsl/vMa9ItbnRupxHrr2DLFfO/g==
+X-Received: by 2002:a63:c14c:: with SMTP id p12mr1872172pgi.417.1618630977196; 
+ Fri, 16 Apr 2021 20:42:57 -0700 (PDT)
+Received: from taoren-ubuntu-R90MNF91.thefacebook.com
+ (c-73-252-146-110.hsd1.ca.comcast.net. [73.252.146.110])
+ by smtp.gmail.com with ESMTPSA id f18sm4434821pfk.144.2021.04.16.20.42.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Apr 2021 20:42:56 -0700 (PDT)
+From: rentao.bupt@gmail.com
+To: Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, linux-watchdog@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+ Tao Ren <taoren@fb.com>, Amithash Prasad <amithash@fb.com>
+Subject: [PATCH] watchdog: aspeed: fix hardware timeout calculation
+Date: Fri, 16 Apr 2021 20:42:49 -0700
+Message-Id: <20210417034249.5978-1-rentao.bupt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,42 +79,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Apr 15, 2021 at 10:07:32PM -0700, Guenter Roeck wrote:
-> On 4/15/21 7:13 PM, rentao.bupt@gmail.com wrote:
-> > From: Tao Ren <rentao.bupt@gmail.com>
-> > 
-> > Fix the time comparison (timeout vs. max_hw_heartbeat_ms) in set_timeout
-> > handler to avoid potential integer overflow when the supplied timeout is
-> > greater than aspeed's maximum allowed timeout (4294 seconds).
-> > 
-> 
-> I think this is the wrong focus: What this fixes is the wrong hardware
-> timeout calculation. Again, I think that the wrong calculation leads to
-> the overflow should not be the focus of this patch, though it can of
-> course be mentioned.
-> 
-> I'll leave it up to Wim to decide if he wants to apply the patch with the
-> current explanation.
-> 
-> Thanks,
-> Guenter
+From: Tao Ren <rentao.bupt@gmail.com>
 
-Sorry I didn't get your point correctly, and I guess it was because of
-my lack of knowledge in timeout/max_hw_heartbeat_ms/worker (hopefully
-my understanding is correct now :))
+Fix hardware timeout calculation in aspeed_wdt_set_timeout function to
+ensure the reload value does not exceed the hardware limit.
 
-Let me drop this patch and send a new one with different subject and
-description soon.
+Fixes: efa859f7d786 ("watchdog: Add Aspeed watchdog driver")
+Reported-by: Amithash Prasad <amithash@fb.com>
+Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+---
+ drivers/watchdog/aspeed_wdt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
+index 7e00960651fa..507fd815d767 100644
+--- a/drivers/watchdog/aspeed_wdt.c
++++ b/drivers/watchdog/aspeed_wdt.c
+@@ -147,7 +147,7 @@ static int aspeed_wdt_set_timeout(struct watchdog_device *wdd,
+ 
+ 	wdd->timeout = timeout;
+ 
+-	actual = min(timeout, wdd->max_hw_heartbeat_ms * 1000);
++	actual = min(timeout, wdd->max_hw_heartbeat_ms / 1000);
+ 
+ 	writel(actual * WDT_RATE_1MHZ, wdt->base + WDT_RELOAD_VALUE);
+ 	writel(WDT_RESTART_MAGIC, wdt->base + WDT_RESTART);
+-- 
+2.17.1
 
-Cheers,
-
-Tao
