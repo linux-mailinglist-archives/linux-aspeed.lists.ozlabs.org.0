@@ -1,61 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E8D36465E
-	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Apr 2021 16:45:08 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E2583652F3
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Apr 2021 09:11:25 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FP8jt1Kzmz2xgK
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Apr 2021 00:45:06 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FPZbt53qKz2yZR
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Apr 2021 17:11:22 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Gx++tH4A;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=arndb.de
- (client-ip=212.227.126.131; helo=mout.kundenserver.de;
- envelope-from=arnd@arndb.de; receiver=<UNKNOWN>)
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::82c;
+ helo=mail-qt1-x82c.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=Gx++tH4A; dkim-atps=neutral
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
+ [IPv6:2607:f8b0:4864:20::82c])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FP8jq6ZWGz2xZZ
- for <linux-aspeed@lists.ozlabs.org>; Tue, 20 Apr 2021 00:45:00 +1000 (AEST)
-Received: from mail-wm1-f42.google.com ([209.85.128.42]) by
- mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1N0X4e-1lkViu03aG-00wUmx for <linux-aspeed@lists.ozlabs.org>; Mon, 19 Apr
- 2021 16:44:56 +0200
-Received: by mail-wm1-f42.google.com with SMTP id w186so13827886wmg.3
- for <linux-aspeed@lists.ozlabs.org>; Mon, 19 Apr 2021 07:44:55 -0700 (PDT)
-X-Gm-Message-State: AOAM530fiGYvmt223o0zvANxBCcqDf7KjOsWSTzszE/VSiJrrnvfH7w2
- 4UiaESFi5iCS3jgg0pRsEY9gcWpemUPPvyCSSzI=
-X-Google-Smtp-Source: ABdhPJw7qcfKMobGVenQr0RkHIs+d3bPN79IEwmrNiIriuBPJAdh6tyhZljPRwl19JD0XPtw75uuw7csDyaRPzvncLs=
-X-Received: by 2002:a7b:cb42:: with SMTP id v2mr21646797wmj.120.1618843495594; 
- Mon, 19 Apr 2021 07:44:55 -0700 (PDT)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FPZbq02pyz2xYj
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 20 Apr 2021 17:11:16 +1000 (AEST)
+Received: by mail-qt1-x82c.google.com with SMTP id u8so27956596qtq.12
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 20 Apr 2021 00:11:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DyGio9SalvX0/PlzfEkjduQC/y5WfEdpA8EplVfOAKY=;
+ b=Gx++tH4AZWupH+et5Effwkd0iMutrH8tdoiYP7yEr25VGnFXkssJlvBalJCttRrMp4
+ gNScOAIXzH2AwqjtaYOdCbemU5IHr4byYrk0cifVfsT3BDuoGAjTAOYc9xIOMxwR6Nom
+ UhBes4t0y4otC5W3lLl6pVmAoeEA4pE8yygXU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DyGio9SalvX0/PlzfEkjduQC/y5WfEdpA8EplVfOAKY=;
+ b=UdAo9aosykutWJDjIO9FoSxjL2XQ8HM7TAJLSVZerfZO4zYTar/QJb7MylRT/tOflK
+ 5cC5QMZZMkl5IXahe7TPfVOnGXERClvAPEg6LJtoy2a30AD9SuE3y8u8gBTcBDzQsnF9
+ aR8e4aAtaMrsKfzaK1xLFfkFw1x5/ZNTDJgH7Vv+OI1b579+ITz+JQGvbbv1pAIQ6DOs
+ h6Eso8AxlmsNjhuYE/2geqd2eavigXrj4qMJnuAQm6LXvs1ory4ggUxSH9r+1yBhSH9Z
+ bCowunec6mRyoHs8O7g6HkhuZXRDAn4JVmu5ASDzcHKOH7v+fA7WnpQpelsI4KsfnZLG
+ QJxQ==
+X-Gm-Message-State: AOAM533rN5Mw+aH7OSkoO+x7Vw9/I9CEfEnT0e01opssRxaAWq/4Y3gZ
+ PVwP5D2Jm2Gfe/FZInu9hssUTXtcHhJARZqQG9M=
+X-Google-Smtp-Source: ABdhPJzRM0jLdBC1S6f8WwRWuDOdWL0MF6ILvix9Rcgs8unRf15jqAmHD7u9NAj5MuihLO9nz3BlyRgykR9CJm+2GqY=
+X-Received: by 2002:ac8:5f87:: with SMTP id j7mr15120825qta.135.1618902674177; 
+ Tue, 20 Apr 2021 00:11:14 -0700 (PDT)
 MIME-Version: 1.0
 References: <CACPK8Xeet50bqWAY0jG_GRkgvKvFn94XtGDaq1gaVYVkyV_JUQ@mail.gmail.com>
-In-Reply-To: <CACPK8Xeet50bqWAY0jG_GRkgvKvFn94XtGDaq1gaVYVkyV_JUQ@mail.gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Mon, 19 Apr 2021 16:44:39 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1rG6qKjVvr86G=6cgkhReQUbsvQAkdxg7A2HsJ7n499A@mail.gmail.com>
-Message-ID: <CAK8P3a1rG6qKjVvr86G=6cgkhReQUbsvQAkdxg7A2HsJ7n499A@mail.gmail.com>
+ <CAK8P3a1rG6qKjVvr86G=6cgkhReQUbsvQAkdxg7A2HsJ7n499A@mail.gmail.com>
+In-Reply-To: <CAK8P3a1rG6qKjVvr86G=6cgkhReQUbsvQAkdxg7A2HsJ7n499A@mail.gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 20 Apr 2021 07:11:01 +0000
+Message-ID: <CACPK8XfkSQpMz9J+8xN7DP9Wabv=+DAgmX6NGL9742Ss3HsehA@mail.gmail.com>
 Subject: Re: [GIT PULL] ARM: bmc: devicetree changes for 5.13, v2
-To: Joel Stanley <joel@jms.id.au>
+To: Arnd Bergmann <arnd@arndb.de>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:1qU/F6/zkSvCO4wzqclDanwYpnFRaDIfYJj1gpsEd+3ixKNMoCn
- 5r0ZiwnmXdnNatoFr7Rd/hd8BDZZPrZpsMimEOInx+hNH/4h6/WfSbEpO9fFbgq3ImW9ZEP
- vjlBFSRFueW68WGeO1Ou1wk2HNzE6ljmcbkSDMyMPR5LECj6ENLgcimNGWlBpWLWV+omk2q
- d7Pl8Yyq+xb4xhLG3n5cA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iG48eU804bE=:bK1USOd3/e0l2W5kf1XPpa
- m2vz8rK7405K4mAWWQkptgMq4UNsh58/M7izG66Q8xHZ/PlR7u9zHmkclmkej1OCE0TfsfGfs
- X2Kfj7oCIzOnFf76w8kr3U4cfL5kro2hpJ1SApX8PsO/15jSKQomH2vYfb9FylDHB+pWZc9Ke
- 85CmEaZUPLDOMd0GSFp571gJv7pZFsZQ1LpYnX+e8qCU2Mw+6mO1MJu+d81OnWGZX3YQxTTNg
- TDb4RkfTMa9DKuvNeIvb3K114c/P5RP0Ghb70MzFO03R6eoZm6bwHx96JMS8Fa71KQoyQwwHT
- Teh+8Q26y8b5IqHbK1KObo3pS9dgpB63A3z0PkN5NVn4UJi7neU+OxHEYLAuS4ONO8JU2f+Ns
- LPwrkxiaQLYPwoTAiCaix+E1P37f5hT7Dmw93YzFB4gmsGwjs3oJBz/JBwuFT/RVsIzo2jr2V
- MO1ZWhxfp5DYlUOxqFTCAHUuw8gCOpUlyCTBvZpykBiff9POLxbd5H5Hs8JNzurr18URogPCt
- 7sMmACIlzuuZTQjZim7JCz4OISdtxWc8SNKoDF3Eaq99eiZzuTLhwDf+it+Zf+yoy9UCJdVVZ
- Gb1G+2xQgiWSIFIu1R1M0+5sqk0zNmv5z4vgtW0HeeF8dR78oG4wq21v/jAbfv71jS30e5yTi
- Dy24=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,27 +77,43 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Apr 16, 2021 at 5:27 AM Joel Stanley <joel@jms.id.au> wrote:
+On Mon, 19 Apr 2021 at 14:44, Arnd Bergmann <arnd@arndb.de> wrote:
 >
-> Hello Soc maintainers,
+> On Fri, Apr 16, 2021 at 5:27 AM Joel Stanley <joel@jms.id.au> wrote:
+> >
+> > Hello Soc maintainers,
+> >
+> > Here are some fixes for the changes that have already been merged for v5.13.
+> >
+> > I also merged some changes that came in later. If you would prefer to
+> > not take them then I can send a pull with just the fixes.
+> >
+> > The following changes since commit f0145db24e65f6cf13347a90ffb86e5ef2ff2ca2:
+> >
+> > for you to fetch changes up to f0145db24e65f6cf13347a90ffb86e5ef2ff2ca2:
 >
-> Here are some fixes for the changes that have already been merged for v5.13.
+> Hi Joel,
 >
-> I also merged some changes that came in later. If you would prefer to
-> not take them then I can send a pull with just the fixes.
+> something about this pull request doesn't add up, and 'b4' refuses
+> to pull it since the 'since commit f0145db2' and 'up to f0145db2'
+> references refer to the same commit.
 >
-> The following changes since commit f0145db24e65f6cf13347a90ffb86e5ef2ff2ca2:
->
-> for you to fetch changes up to f0145db24e65f6cf13347a90ffb86e5ef2ff2ca2:
+> I assume this is just a copy-paste error on your end, but it would
+> be nice if you could double-check and resend the pull request
+> based on the ee33e2fb3d70 commit that I merged.
 
-Hi Joel,
+Nice catch. It looks I've generated pull requests incorrectly from
+v5.5 onwards, and this is the first time we've noticed. My bash
+history shows I started generating them like this:
 
-something about this pull request doesn't add up, and 'b4' refuses
-to pull it since the 'since commit f0145db2' and 'up to f0145db2'
-references refer to the same commit.
+ git request-pull tag url tag
 
-I assume this is just a copy-paste error on your end, but it would
-be nice if you could double-check and resend the pull request
-based on the ee33e2fb3d70 commit that I merged.
+v5.4 was the first time I'd sent a second PR for the same branch, so
+when it came to generating the next one ctrl+R'd myself into the wrong
+syntax and continued doing so ever since.
 
-       Arnd
+I'll try sending this one again now.
+
+Cheers,
+
+Joel
