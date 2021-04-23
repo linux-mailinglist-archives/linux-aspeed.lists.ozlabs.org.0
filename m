@@ -2,76 +2,59 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A74BD3694B9
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Apr 2021 16:29:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A635F36952F
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Apr 2021 16:55:43 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FRc9k4nywz2yxN
-	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Apr 2021 00:29:14 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=d1pQqNyT;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FRcmF2hDmz2yxP
+	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Apr 2021 00:55:41 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::332;
- helo=mail-ot1-x332.google.com; envelope-from=groeck7@gmail.com;
+ smtp.mailfrom=aculab.com (client-ip=185.58.85.151;
+ helo=eu-smtp-delivery-151.mimecast.com; envelope-from=david.laight@aculab.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=d1pQqNyT; dkim-atps=neutral
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FRc9G1LGbz2xYd;
- Sat, 24 Apr 2021 00:28:49 +1000 (AEST)
-Received: by mail-ot1-x332.google.com with SMTP id
- d3-20020a9d29030000b029027e8019067fso43535751otb.13; 
- Fri, 23 Apr 2021 07:28:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=RilDTx1mAkKSalY1rFUh5tAuC9UZIjAPDIoqWnUMMLc=;
- b=d1pQqNyTqTvuNeSXGmbBl2S3GwY4lVF9NfQoMeuo8DuerAD9ht8plSDFef6fiJNkqQ
- Dd3QaazKa3FQfqVrPEc0dBZmez8uX4aL73BcctOgm1w+KVc16dcBnbYApsNLwYEXyHQC
- tR51MlQL55CiRRqwFJee6YsNzzR5u9F0L1ARRD57xNJ4XSmloiIZMYoMWMBUxqOBq0v5
- U+K2FwiyRIlkkcdMO0RHf13KpjWHZITDT66253tVM7F18UmahNeDbgUMdHuSxH9dfkxN
- p3WQB6Tf1k4unpYhCTgieCE9GDHOJXmEJCQbSaOIvKAbSWE9Q5QXBCdmPsRjWvIiGU/P
- LaGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=RilDTx1mAkKSalY1rFUh5tAuC9UZIjAPDIoqWnUMMLc=;
- b=N0ka6seODnLeJPXBSmLdZ0wUZ2VXj5ry4VU149b0k40IRVrYsrY21rNplNLKij4YMq
- Jms2EGs1gipsQx1Eyvxq0zf4XGoT3jA4CrYWgDz5OvBnY+8TxwYq6lZUh5Ttfjplcfbs
- AZAk9PYqP4hn9eOmX7lv3PIXMh5bDTJmYQvkk8GHVGoFCac/rxWLdvVQtB0UTy+YOBTq
- Lwph2BzptY94ZOhXnk1dMDyQ44EDiASNLlSDzdTXSqHromxrNjDfSsysQSFbitxSJl+s
- QafhsAUXAtPQEQeWwlguuDiJ4219xl1SfjrBz7ZBOANgyEFU71ksVKA4JQNqlYnHEiPS
- 5sjA==
-X-Gm-Message-State: AOAM533XF6JTLoa2gb2YHWZneIouvYYOW9+OwzyFSehsq2YiYfsnexvo
- ytl1sMu5iDwIqNIVrj3lzCk=
-X-Google-Smtp-Source: ABdhPJxIzB1ipeKLfBWKfOj0O+wbyqaTqyC9ua6idBGda0P1bH0ghuFXP2g5ZVZLa+pR+ARc3HLLIg==
-X-Received: by 2002:a05:6830:1e3a:: with SMTP id
- t26mr3568415otr.134.1619188126764; 
- Fri, 23 Apr 2021 07:28:46 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id i9sm1199290oog.17.2021.04.23.07.28.45
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 23 Apr 2021 07:28:45 -0700 (PDT)
-Date: Fri, 23 Apr 2021 07:28:44 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Quan Nguyen <quan@os.amperecomputing.com>
-Subject: Re: [PATCH v4 4/4] docs: hwmon: (smpro-hwmon) Add documentation
-Message-ID: <20210423142844.GA136288@roeck-us.net>
-References: <20210422090843.4614-1-quan@os.amperecomputing.com>
- <20210422090843.4614-5-quan@os.amperecomputing.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FRcmB6h0vz2xfh
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 24 Apr 2021 00:55:37 +1000 (AEST)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-36-dOwhnU8nPbOR9TIB42nwTg-1; Fri, 23 Apr 2021 15:55:31 +0100
+X-MC-Unique: dOwhnU8nPbOR9TIB42nwTg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.2; Fri, 23 Apr 2021 15:55:30 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.015; Fri, 23 Apr 2021 15:55:29 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Sergey Organov' <sorganov@gmail.com>, Walter Harms <wharms@bfs.de>
+Subject: RE: AW: [PATCH] soc: aspeed: fix a ternary sign expansion bug
+Thread-Topic: AW: [PATCH] soc: aspeed: fix a ternary sign expansion bug
+Thread-Index: AQHXOE6YUD1kHD3sxkSNy+8EQaJbFarCLf3Q
+Date: Fri, 23 Apr 2021 14:55:29 +0000
+Message-ID: <635275613c384fe381df4ae4ac30f380@AcuMS.aculab.com>
+References: <YIE90PSXsMTa2Y8n@mwanda>
+ <59596244622c4a15ac8cc0747332d0be@AcuMS.aculab.com>
+ <877dktuvmz.fsf@osv.gnss.ru>
+ <265e2d3accc74c89b5bab22eadb43808@AcuMS.aculab.com>
+ <ebe4a1a6dd0748e28e6ca19aec20223e@bfs.de> <878s59rrn0.fsf@osv.gnss.ru>
+In-Reply-To: <878s59rrn0.fsf@osv.gnss.ru>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210422090843.4614-5-quan@os.amperecomputing.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,167 +66,59 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- Jean Delvare <jdelvare@suse.com>, linux-aspeed@lists.ozlabs.org,
- Jonathan Corbet <corbet@lwn.net>, openbmc@lists.ozlabs.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
- Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>,
- Open Source Submission <patches@amperecomputing.com>,
- Lee Jones <lee.jones@linaro.org>
+Cc: Robert Lippert <rlippert@google.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ Patrick Venture <venture@google.com>,
+ "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Brad Bishop <bradleyb@fuzziesquirrel.com>,
+ Jae Hyun Yoo <jae.hyun.yoo@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ 'Dan Carpenter' <dan.carpenter@oracle.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Apr 22, 2021 at 04:08:43PM +0700, Quan Nguyen wrote:
-> Add documentation for the Ampere(R)'s Altra(R) SMpro hwmon driver.
-> 
-> Signed-off-by: Thu Nguyen <thu@os.amperecomputing.com>
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
-> ---
+From: Sergey Organov
+> Sent: 23 April 2021 15:40
+>=20
+> Walter Harms <wharms@bfs.de> writes:
+>=20
+> > as indepentent observer,
+> > i would go for Dans solution:
+> >
+> > ret =3D kfifo_to_user();
+> > /* if an error occurs just return */
+> > if (ret)
+> >    return ret;
+> >
+> > /* otherwise return the copied number of bytes */
+> >
+> > return copied;
+> >
+> > there is no need for any deeper language knowledge,
+>=20
+> Yep, but this is not idiomatic C, so one looking at this code would
+> tend to convert it back to ternary, and the actual problem here is that
+> the type of 'copied' does not match the return type of the function.
 
-For my reference:
+Actually changing the type of 'ret' to ssize_t is probably
+the safest change.
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+That works until someone tries to optimise out 'ret' by doing:
 
-Guenter
+=09return kfifo_to_user(...) ?: count;
 
-> Changes in v4:
->   + None
-> 
-> Changes in v3:
->   + None
-> 
-> Changes in v2:
->   + Removed "virtual" sensors [Guenter]
->   + Fixed typo "mili" to "milli", "nanoWatt" to "microWatt" [Guenter]
->   + Reported SOC_TDP as "Socket TDP" using max attributes [Guenter]
->   + Clarified "highest" meaning in documentation [Guenter]
->   + Reported MEM HOT Threshold for all DIMMs as temp*_crit [Guenter]
->   + Removed Socket TDP sensor [Quan]
->   + Included sensor type and channel in labels [Quan]
-> 
->  Documentation/hwmon/index.rst       |   1 +
->  Documentation/hwmon/smpro-hwmon.rst | 101 ++++++++++++++++++++++++++++
->  2 files changed, 102 insertions(+)
->  create mode 100644 Documentation/hwmon/smpro-hwmon.rst
-> 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index 48bfa7887dd4..3e3631b253b6 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -166,6 +166,7 @@ Hardware Monitoring Kernel Drivers
->     sis5595
->     sl28cpld
->     smm665
-> +   smpro-hwmon
->     smsc47b397
->     smsc47m192
->     smsc47m1
-> diff --git a/Documentation/hwmon/smpro-hwmon.rst b/Documentation/hwmon/smpro-hwmon.rst
-> new file mode 100644
-> index 000000000000..f978b1370e16
-> --- /dev/null
-> +++ b/Documentation/hwmon/smpro-hwmon.rst
-> @@ -0,0 +1,101 @@
-> +.. SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +Kernel driver Ampere(R)'s Altra(R) SMpro hwmon
-> +==============================================
-> +
-> +Supported chips:
-> +
-> +  * Ampere(R) Altra(R)
-> +
-> +    Prefix: 'smpro'
-> +
-> +    Reference: Altra SoC BMC Interface Specification
-> +
-> +Author: Thu Nguyen <thu@os.amperecomputing.com>
-> +
-> +Description
-> +-----------
-> +This driver supports hardware monitoring for Ampere(R) Altra(R) SoC's based on the
-> +SMpro co-processor (SMpro).
-> +The following sensor types are supported by the driver:
-> +
-> +  * temperature
-> +  * voltage
-> +  * current
-> +  * power
-> +
-> +The SMpro interface provides the registers to query the various sensors and
-> +their values which are then exported to userspace by this driver.
-> +
-> +Usage Notes
-> +-----------
-> +
-> +SMpro hwmon driver creates at least two sysfs files for each sensor.
-> +
-> +* File ``<sensor_type><idx>_label`` reports the sensor label.
-> +* File ``<sensor_type><idx>_input`` returns the sensor value.
-> +
-> +The sysfs files are allocated in the SMpro root fs folder.
-> +There is one root folder for each SMpro instance.
-> +
-> +When the SoC is turned off, the driver will fail to read registers
-> +and return -ENXIO.
-> +
-> +Sysfs entries
-> +-------------
-> +
-> +The following sysfs files are supported:
-> +
-> +* Ampere(R) Altra(R):
-> +
-> +============    =============   ======  ===============================================
-> +Name            Unit            Perm    Description
-> +temp1_input     milli Celsius   RO      SoC temperature
-> +temp2_input     milli Celsius   RO      Max temperature reported among SoC VRDs
-> +temp2_crit      milli Celsius   RO      SoC VRD HOT Threshold temperature
-> +temp3_input     milli Celsius   RO      Max temperature reported among DIMM VRDs
-> +temp4_input     milli Celsius   RO      Max temperature reported among Core VRDs
-> +temp5_input     milli Celsius   RO      Temperature of DIMM0 on CH0
-> +temp5_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
-> +temp6_input     milli Celsius   RO      Temperature of DIMM0 on CH1
-> +temp6_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
-> +temp7_input     milli Celsius   RO      Temperature of DIMM0 on CH2
-> +temp7_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
-> +temp8_input     milli Celsius   RO      Temperature of DIMM0 on CH3
-> +temp8_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
-> +temp9_input     milli Celsius   RO      Temperature of DIMM0 on CH4
-> +temp9_crit      milli Celsius   RO      MEM HOT Threshold for all DIMMs
-> +temp10_input    milli Celsius   RO      Temperature of DIMM0 on CH5
-> +temp10_crit     milli Celsius   RO      MEM HOT Threshold for all DIMMs
-> +temp11_input    milli Celsius   RO      Temperature of DIMM0 on CH6
-> +temp11_crit     milli Celsius   RO      MEM HOT Threshold for all DIMMs
-> +temp12_input    milli Celsius   RO      Temperature of DIMM0 on CH7
-> +temp12_crit     milli Celsius   RO      MEM HOT Threshold for all DIMMs
-> +temp13_input    milli Celsius   RO      Max temperature reported among RCA VRDs
-> +in0_input       milli Volts     RO      Core voltage
-> +in1_input       milli Volts     RO      SoC voltage
-> +in2_input       milli Volts     RO      DIMM VRD1 voltage
-> +in3_input       milli Volts     RO      DIMM VRD2 voltage
-> +in4_input       milli Volts     RO      RCA VRD voltage
-> +cur1_input      milli Amperes   RO      Core VRD current
-> +cur2_input      milli Amperes   RO      SoC VRD current
-> +cur3_input      milli Amperes   RO      DIMM VRD1 current
-> +cur4_input      milli Amperes   RO      DIMM VRD2 current
-> +cur5_input      milli Amperes   RO      RCA VRD current
-> +power1_input    micro Watts     RO      Core VRD power
-> +power2_input    micro Watts     RO      SoC VRD power
-> +power3_input    micro Watts     RO      DIMM VRD1 power
-> +power4_input    micro Watts     RO      DIMM VRD2 power
-> +power5_input    micro Watts     RO      RCA VRD power
-> +============    =============   ======  ===============================================
-> +
-> +Example::
-> +
-> +    # cat in0_input
-> +    830
-> +    # cat temp1_input
-> +    37000
-> +    # cat curr1_input
-> +    9000
-> +    # cat power5_input
-> +    19500000
+Or rattle through and remove the 'pass by reference' 'count'
+parameter from kfifo_to_user() in favour of returning the
+value the callers want.
+
+I need to stop looking at this code :-)
+
+=09David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
+
