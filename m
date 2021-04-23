@@ -1,75 +1,109 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90BCC36BCD7
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Apr 2021 03:05:34 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF8036BCD8
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Apr 2021 03:05:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FTk8X3QbVz304V
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Apr 2021 11:05:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FTk8b6rskz301J
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Apr 2021 11:05:35 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=dPWtMidH;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bfs.de header.i=@bfs.de header.a=rsa-sha256 header.s=dkim201901 header.b=Fn/VUMAz;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::12c;
- helo=mail-lf1-x12c.google.com; envelope-from=sorganov@gmail.com;
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.mailfrom=bfs.de
+ (client-ip=193.174.230.67; helo=mx01-muc.bfs.de; envelope-from=wharms@bfs.de;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=dPWtMidH; dkim-atps=neutral
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=bfs.de header.i=@bfs.de header.a=rsa-sha256
+ header.s=dkim201901 header.b=Fn/VUMAz; 
+ dkim-atps=neutral
+X-Greylist: delayed 448 seconds by postgrey-1.36 at boromir;
+ Fri, 23 Apr 2021 21:11:10 AEST
+Received: from mx01-muc.bfs.de (mx01-muc.bfs.de [193.174.230.67])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FRWCx6QbRz2xZS
- for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Apr 2021 20:45:47 +1000 (AEST)
-Received: by mail-lf1-x12c.google.com with SMTP id g8so76895408lfv.12
- for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Apr 2021 03:45:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:references:date:in-reply-to:message-id
- :user-agent:mime-version;
- bh=TgFjxtYsOVaP6v4PMZp8irtY/yFk5woDCqAeiCFqABA=;
- b=dPWtMidHtJu/eQ7X+GMrm8eY6cIAu28zOaBEA0d3WhtJ630XTxz/F1si9qzLMJHyG/
- hWZjePMhtoigzpcf55ecqAtJmDbEQUIGFZm4CZYbpRJvR6ehddDWWL9cvB7Y2osTZyVs
- 1d3GIe/jyMetbl3liuB/IDuGoHaaM1ncGwjQEED08omLCh0S9wA785smoM5hmFfON8jq
- kM/Dhaqq5HJFosb4yvo4F7pOAtlz8ZwEjW94C5a2IYyOAdoB9N8jprhABxW8X2mVl2lg
- HJc0/A5nX1i+7MWdHiPNth6Nohuk1csOl/wAD1XaqIPxaLYpp7m+aKemnGq+Mdruix67
- rGbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
- :message-id:user-agent:mime-version;
- bh=TgFjxtYsOVaP6v4PMZp8irtY/yFk5woDCqAeiCFqABA=;
- b=PNGZzCia8dS1QTTKmbiCQyH1UHJyfTaW2CiCIxJMG5kRCbbwGjfUtMKVQAAHa9oLAv
- Y4EIgdrlTMvjqtTfl/32uHDWOiGypi4VveuT8Qh8ESX+Cab/v4Kdp2P/t54OAJ/FOXiK
- S/LktXJq7Yta1UAlahWSG8AI93H7+hcBgKoEaRboJSiZwRoocVoOSIYiFLe6cFATYJGz
- 4S4co5o+ZiS/YAcu/39XJhzN38BgXaUu7x/+p184G5Ez+zNYurSzgxSFTTPP2G/iKaZK
- V1ZVRHbvBfl2isWBSm1mOFpLDM2f3lYfkJG/ThNKDtAghMmDjNZpNXnG9cjNyzpfWc9N
- ZD1w==
-X-Gm-Message-State: AOAM533rhtOMOL3vg8IfiJ1gU5PyJZl+idWpm8/ocq6kAy2askgRwcM5
- H8JlEupqaPeu7P5n1urdJJQ=
-X-Google-Smtp-Source: ABdhPJx4pt/zKtSwBTkr28o85OGy0iMHjelM1jfbr/K3643b8l/4aWyywGt6IMkkyHH0FRidibW/TQ==
-X-Received: by 2002:ac2:5682:: with SMTP id 2mr2287134lfr.524.1619174742625;
- Fri, 23 Apr 2021 03:45:42 -0700 (PDT)
-Received: from osv.localdomain ([89.175.180.246])
- by smtp.gmail.com with ESMTPSA id y8sm514938lfe.259.2021.04.23.03.45.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Apr 2021 03:45:41 -0700 (PDT)
-From: Sergey Organov <sorganov@gmail.com>
-To: David Laight <David.Laight@ACULAB.COM>
-Subject: Re: [PATCH] soc: aspeed: fix a ternary sign expansion bug
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FRWnB6fYQz2yQq
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Apr 2021 21:11:10 +1000 (AEST)
+Received: from SRVEX01-SZ.bfs.intern (exchange-sz.bfs.de [10.129.90.31])
+ by mx01-muc.bfs.de (Postfix) with ESMTPS id EBE5620410;
+ Fri, 23 Apr 2021 13:03:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bfs.de; s=dkim201901; 
+ t=1619175812;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6gS2/+OtZeyWoLKq/wHOdWrUCs+DhK5eUj+Z6M6FpE4=;
+ b=Fn/VUMAzwsrl+HvNOer6MZKhub7g33xq81EATh2GdIFcaXSzz6fcSIr/+t5qiT+qL6ntdu
+ m5LV6z8ptTwJh6mbdjf6RbNutzl2FH2md+xfvYqjW3xQJ2UahpPbWpeFfDhOoa2qmHW2q8
+ 3BrNvj2CSTV9NVB9zE1SWxFrG78AdyQCOGqXNkQUPiKLmbSI0i+9kEN1iDUYKmcJF5Lsmv
+ jWggcGf8yJS5JfjjYjl4amc+D9LlwIgX1UwTk79VoP9zq5jOsnKb7gGQMMwHVj2Mvo8cZw
+ oU3qKRa664DUXWWBIrIEzF2+MM3gbL+SBpYv3wYaMT4u2Z2tjlQfy1s2HeK5wA==
+Received: from SRVEX01-SZ.bfs.intern (10.129.90.31) by SRVEX01-SZ.bfs.intern
+ (10.129.90.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2242.4; Fri, 23 Apr
+ 2021 13:03:31 +0200
+Received: from SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a]) by
+ SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a%13]) with mapi id
+ 15.01.2242.008; Fri, 23 Apr 2021 13:03:31 +0200
+From: Walter Harms <wharms@bfs.de>
+To: David Laight <David.Laight@ACULAB.COM>, 'Sergey Organov'
+ <sorganov@gmail.com>
+Subject: AW: [PATCH] soc: aspeed: fix a ternary sign expansion bug
+Thread-Topic: [PATCH] soc: aspeed: fix a ternary sign expansion bug
+Thread-Index: AQHXN1ea5N8/zdZIw0CYuTs8hCrx1qrAlvAAgAFWXQf//+CxgIAAIfA0
+Date: Fri, 23 Apr 2021 11:03:30 +0000
+Message-ID: <ebe4a1a6dd0748e28e6ca19aec20223e@bfs.de>
 References: <YIE90PSXsMTa2Y8n@mwanda>
  <59596244622c4a15ac8cc0747332d0be@AcuMS.aculab.com>
-Date: Fri, 23 Apr 2021 13:45:40 +0300
-In-Reply-To: <59596244622c4a15ac8cc0747332d0be@AcuMS.aculab.com> (David
- Laight's message of "Thu, 22 Apr 2021 16:21:40 +0000")
-Message-ID: <877dktuvmz.fsf@osv.gnss.ru>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
+ <877dktuvmz.fsf@osv.gnss.ru>,
+ <265e2d3accc74c89b5bab22eadb43808@AcuMS.aculab.com>
+In-Reply-To: <265e2d3accc74c89b5bab22eadb43808@AcuMS.aculab.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.137.16.39]
+x-tm-as-product-ver: SMEX-14.0.0.3080-8.6.1012-26108.007
+x-tm-as-result: No-10--6.432100-5.000000
+x-tmase-matchedrid: iGxe9xjWFMzRubRCcrbc5grcxrzwsv5u3dCmvEa6IiHn8EgZxID/ZY/M
+ VY+TBf96xO4FvTZs+ZxqTYv2/zFiBuRZms8DIpYPawF+mgcxqmVUbAPLgXqrA1nXqbstvcD5n9I
+ cqiX7mgBhhkiEB/71A+8sEaIJ8Jp0NQ5PIu1w5I727WtDgGBc8iz4KCOU3J2crcN9BdgNdeZGIz
+ SvkOhmQHmN0n5wvdMIG8motEIKwGh1A7Kay+/ARqRUKLeQWKvT/OXzMJnlSkVqEsgVJ+91qjXoJ
+ TJoH3SyuW01O3xWv96VeaEgHjNmGI7WqXAk15HgmlaAItiONP3WF3mkZiRSLlc/Cedjlcvksbu6
+ taqvQ/oVMcFRBVLLS+4ijS3WP7bm9v1YvKhgkvnlmGNjPpsVKxNNj6+ApDUj1l38M6aWfEgEpsW
+ 1EZup8fXmS36YYdHyjdOwhDBOoNL2up/bgDqTK+ds4fnKv9Cbljgw/8s6b3cHZBaLwEXlKGlF7O
+ hYLlctH1SwyA4h73QSRgU/at6BrnChPHB61wQjl5lQMzKmF9JxXefgn/TNQ3FdaoII8qYI0sEwJ
+ 3QPiJorUHYEBY+ayqdkM6CpJVzugWeg41OVP/1GJPF0AyfIleuLFZZYlisfv1l2Uvx6idpWdFeb
+ WIc3VsRB0bsfrpPI34T9cYMsdwyUtLEU4x78a5kwE2oBRH4Hq0ndFJmradzYCSOGGYGhX31ZMN3
+ dmFhHjvFgsaiECppXFOMLwX9Q8I/sUItVT0+HBmns4ZNuE3zf0ic5zgpSMaAgCgKCG9lmDP7ys8
+ dRrrEdy+NYmKKLmVrVflnGTvH9
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--6.432100-5.000000
+x-tmase-version: SMEX-14.0.0.3080-8.6.1012-26108.007
+x-tm-snts-smtp: 15B6C36F38B894F33A15C27964F85C6631349DFF79213BD1F76D300504A2D5B92000:9
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Spamd-Result: default: False [-18.00 / 7.00]; ARC_NA(0.00)[];
+ TO_DN_EQ_ADDR_SOME(0.00)[]; HAS_XOIP(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ DKIM_SIGNED(0.00)[bfs.de:s=dkim201901];
+ WHITELIST_LOCAL_IP(-15.00)[10.129.90.31];
+ RCPT_COUNT_TWELVE(0.00)[16];
+ FREEMAIL_TO(0.00)[ACULAB.COM,gmail.com];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_COUNT_TWO(0.00)[2];
+ MID_RHS_MATCH_FROM(0.00)[]; BAYES_HAM(-3.00)[99.99%]
+Authentication-Results: mx01-muc.bfs.de;
+	none
+X-Spam-Status: No, score=-18.00
 X-Mailman-Approved-At: Tue, 27 Apr 2021 11:05:09 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -95,58 +129,112 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-David Laight <David.Laight@ACULAB.COM> writes:
+as indepentent observer,
+i would go for Dans solution:
 
-> From: Dan Carpenter
->> Sent: 22 April 2021 10:12
->> 
->> The intent here was to return negative error codes but it actually
->> returns positive values.  The problem is that type promotion with
->> ternary operations is quite complicated.
->> 
->> "ret" is an int.  "copied" is a u32.  And the snoop_file_read() function
->> returns long.  What happens is that "ret" is cast to u32 and becomes
->> positive then it's cast to long and it's still positive.
->> 
->> Fix this by removing the ternary so that "ret" is type promoted directly
->> to long.
->> 
->> Fixes: 3772e5da4454 ("drivers/misc: Aspeed LPC snoop output using misc chardev")
->> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
->> ---
->>  drivers/soc/aspeed/aspeed-lpc-snoop.c | 4 +++-
->>  1 file changed, 3 insertions(+), 1 deletion(-)
->> 
->> diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c b/drivers/soc/aspeed/aspeed-lpc-snoop.c
->> index 210455efb321..eceeaf8dfbeb 100644
->> --- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
->> +++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
->> @@ -94,8 +94,10 @@ static ssize_t snoop_file_read(struct file *file, char __user *buffer,
->>  			return -EINTR;
->>  	}
->>  	ret = kfifo_to_user(&chan->fifo, buffer, count, &copied);
->> +	if (ret)
->> +		return ret;
->> 
->> -	return ret ? ret : copied;
->> +	return copied;
+ret =3D kfifo_to_user();
+/* if an error occurs just return */
+if (ret)
+   return ret;
+
+/* otherwise return the copied number of bytes */
+
+return copied;
+
+there is no need for any deeper language knowledge,
+
+jm2c
+re,
+ wh
+________________________________________
+Von: David Laight <David.Laight@ACULAB.COM>
+Gesendet: Freitag, 23. April 2021 12:54:59
+An: 'Sergey Organov'
+Cc: 'Dan Carpenter'; Joel Stanley; Andrew Jeffery; Chia-Wei, Wang; Jae Hyun=
+ Yoo; John Wang; Brad Bishop; Patrick Venture; Benjamin Fair; Greg Kroah-Ha=
+rtman; Robert Lippert; linux-aspeed@lists.ozlabs.org; linux-kernel@vger.ker=
+nel.org; kernel-janitors@vger.kernel.org
+Betreff: RE: [PATCH] soc: aspeed: fix a ternary sign expansion bug
+
+WARNUNG: Diese E-Mail kam von au=DFerhalb der Organisation. Klicken Sie nic=
+ht auf Links oder =F6ffnen Sie keine Anh=E4nge, es sei denn, Sie kennen den=
+/die Absender*in und wissen, dass der Inhalt sicher ist.
+
+
+From: Sergey Organov
+> Sent: 23 April 2021 11:46
 >
-> I wonder if changing it to:
-> 	return ret ? ret + 0L : copied;
+> David Laight <David.Laight@ACULAB.COM> writes:
 >
-> Might make people think in the future and not convert it back
-> as an 'optimisation'.
+> > From: Dan Carpenter
+> >> Sent: 22 April 2021 10:12
+> >>
+> >> The intent here was to return negative error codes but it actually
+> >> returns positive values.  The problem is that type promotion with
+> >> ternary operations is quite complicated.
+> >>
+> >> "ret" is an int.  "copied" is a u32.  And the snoop_file_read() functi=
+on
+> >> returns long.  What happens is that "ret" is cast to u32 and becomes
+> >> positive then it's cast to long and it's still positive.
+> >>
+> >> Fix this by removing the ternary so that "ret" is type promoted direct=
+ly
+> >> to long.
+> >>
+> >> Fixes: 3772e5da4454 ("drivers/misc: Aspeed LPC snoop output using misc=
+ chardev")
+> >> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> >> ---
+> >>  drivers/soc/aspeed/aspeed-lpc-snoop.c | 4 +++-
+> >>  1 file changed, 3 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c b/drivers/soc/aspee=
+d/aspeed-lpc-snoop.c
+> >> index 210455efb321..eceeaf8dfbeb 100644
+> >> --- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
+> >> +++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
+> >> @@ -94,8 +94,10 @@ static ssize_t snoop_file_read(struct file *file, c=
+har __user *buffer,
+> >>                    return -EINTR;
+> >>    }
+> >>    ret =3D kfifo_to_user(&chan->fifo, buffer, count, &copied);
+> >> +  if (ret)
+> >> +          return ret;
+> >>
+> >> -  return ret ? ret : copied;
+> >> +  return copied;
+> >
+> > I wonder if changing it to:
+> >     return ret ? ret + 0L : copied;
+> >
+> > Might make people think in the future and not convert it back
+> > as an 'optimisation'.
+>
+> It rather made me think: "what the heck is going on here?!"
+>
+> Shouldn't it better be:
+>
+>       return ret ? ret : (long)copied;
+>
+> or even:
+>
+>         return ret ?: (long)copied;
 
-It rather made me think: "what the heck is going on here?!"
+Or change the return type to int ?
 
-Shouldn't it better be:
+The problem is that ?: doesn't behave the way most people expect.
+The two possible values have to be converted to the same type.
 
- 	return ret ? ret : (long)copied;
+Together with the broken decision of the original ANSI C committee
+to change from K&R's 'sign preserving' to 'value preserving'
+integer promotions causes grief here and elsewhere.
+(Not no mention breaking existing code!)
 
-or even:
+        David
 
-        return ret ?: (long)copied;
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
-?
-
--- Sergey Organov
