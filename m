@@ -1,94 +1,88 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C6F36BD3E
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Apr 2021 04:23:16 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id B569D36BE16
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Apr 2021 05:59:56 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FTltB4HdDz2yxP
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Apr 2021 12:23:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FTp1k5G9Dz2yxL
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Apr 2021 13:59:54 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=urK9Npgq;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=FCQvKHNu;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=bCVM03l4;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=X0aOk0FL;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.229;
- helo=new3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.27;
+ helo=out3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=urK9Npgq; 
+ header.s=fm2 header.b=bCVM03l4; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=FCQvKHNu; 
+ header.a=rsa-sha256 header.s=fm2 header.b=X0aOk0FL; 
  dkim-atps=neutral
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FTlt52Dn6z2xZH
- for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Apr 2021 12:23:08 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FTp1f4NG1z2xfd;
+ Tue, 27 Apr 2021 13:59:50 +1000 (AEST)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 39081580493;
- Mon, 26 Apr 2021 22:23:05 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 78E3E5C019E;
+ Mon, 26 Apr 2021 23:59:46 -0400 (EDT)
 Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Mon, 26 Apr 2021 22:23:05 -0400
+ by compute3.internal (MEProxy); Mon, 26 Apr 2021 23:59:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=wrMlmdamjsm6ICSrAXC+epu0/cW9QhG
- KJrdRhGJ+ItA=; b=urK9NpgqzzUKvit8H8SNBKWG5tIlGLCM67BMahNNhErXZOR
- 5P06UHKMU+fbwfzowrghd5D0K6bF5pwzNYPWf7LFCcDDZpLA5uLJAcWULIIb1xoG
- +JzM0JnGMG08vOvPAwvHEifMYMIu+OpwfdcAyEegPphRwc921SUbTyL1efOhur++
- vinJNFJF2AjRk6A2e/QxgyVc3KDRrZjiYM6jcvj3WkO+hGCo7U9k268wI5wj0+Ge
- DAoI2RN4FDjTssSp2uAb3GBBQhJ0ORY1yZWsByvs947L1+PD1sIKL+2Sa9zn47PY
- J/ohd+ylsDVdWNBZqTdOZWpcWZyF8ivuvfmlnvA==
+ :subject:content-type; s=fm2; bh=eZfNkGx2BMSMQ83oloGLPtdwxAJCowu
+ oCAnvMoQdjj8=; b=bCVM03l4/97d497QZGfYgytoNBX+T1CreC0zTE0q6c0+9wZ
+ mEGA4RTEYR+eTwIllHD5sJ3k1BsNcy4B7NDmvbtYqm+gd2nbsE+RU4/xD96BnD9j
+ LGzCxHzTYCQQTk2NONoSTkzzIh+x8DwvuQ/xJ4wGTVkr0tjXi8CSwovp6oZXW7wm
+ sk08hWJfC09ydM3Pwqf9YEIJP+qYDUvOUaNLXI4rnHvjrSDrwN1RHww1wH9ZxdWe
+ R8OBPUy78pvC8TktsOLmV06fOIyQ7kyoK3BwjMNWKQ9Tmse9YVHQn9UcojbsHoa+
+ 6N40imzKpA6fk6x6jKdfgrbK0zcHpiyxKoDkmyQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=wrMlmd
- amjsm6ICSrAXC+epu0/cW9QhGKJrdRhGJ+ItA=; b=FCQvKHNuLK7uxaOV1ITjLI
- bahAtvx+rK/IORmdZRjfRpChnu1ysmixmtU0sAwIVx2gpkf9Vzd1qztA+MN6PJtX
- ha9hSOSTG16Z+TSUlX03D62AItNswSpZgbzLfHZzOWWdXiO8WU6XqjacQfJV2bbB
- GguGJHIrZWpNQa7a/24W4IOBSIjl+m6Z0gE5nOEiVN3caIMw642OQmpOnuoJ8ebb
- SSClrdxfjgTbAdkCJIz1+/UaC4r0IrjW7nC1TU/KyDGGSAuxOs3Vh9gs+TaN9txy
- uVsXqEML/ZPG/3x6PqmReK9edOUTx9Ir+yjePphInAJH3leLR7JlU5PimO2dyHfQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=eZfNkG
+ x2BMSMQ83oloGLPtdwxAJCowuoCAnvMoQdjj8=; b=X0aOk0FLR+JJ2vqD5oDaKr
+ Uritv7xfbgFrUCSGTg+8bCS+WsyTL0rMyPLn0u1IehKhwBRKFsNp4oGvthlkXj9/
+ 3afjivUZqn3NOVqvUL9o4BgmIQsx7OAdDx0z8He8SOux9HPnvBQHUsR6/w6C1Uv1
+ pCVuWd+JB0wC4Y6dWvZtfHAP2SFgVzwlqkNN6QAvHU5m5rJj4ftfuo0+n9B2L1+N
+ ez8Ts7Jt93j38xNFOotRSbbk869kTAesLvUiQOsVBuarMTieipjT7qGD1Vq1lMoB
+ YIkf/u3+VVmnpE8xxZtQKrbTDJ0papDJYtZ/3GD9vcbORF9mJdoVLYVEHdLMmyxQ
  ==
-X-ME-Sender: <xms:hnWHYBBB9WYlIQ61BEFE3GcRafvZj-JRiMZ9PSBOJTvv3pSuzDjUpg>
- <xme:hnWHYPgvl1Faql7KMbS3MayWRoikNE1aQtFJdcAximt6owpAjdKQbWpV392z-CHoE
- S_GiAy6-pVA0hShhQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdduledgkeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhepuddttdekueeggedvtddtueekiedutdfguedutdefieeuteefieelteet
- vddthfeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:hnWHYMmUeNKeh56DmE7DUuK3G9BJ00YGxHLuq4lEpIpn4XrEf4NQBg>
- <xmx:hnWHYLxbM68hFL9O2TZplGIQc0t5vCF1uua5RNSiez-y-_2XJnTvmw>
- <xmx:hnWHYGS73JJdFEChCFIYj069L9ZZZEiWH-rRQmMI0zhfcIz8JjkJpQ>
- <xmx:iXWHYADyirFufMoXNX0TYqWYKNW_rCHOY0UctE8GtBn19aDpixm3EQ>
+X-ME-Sender: <xms:MIyHYLL89azaxFjwekkmWWjoOpLxc6CMprgVNyoDI2-YsdQmcd0dKA>
+ <xme:MIyHYPKf0j0_tyVmd5aE9W-mXaJVVmM-xuD0VBMcSpCtl_Px32EoQXF354BbC8daP
+ M0XJ36L0nrO6NTUnw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdduledguddtkecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehn
+ ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+ frrghtthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedv
+ hefhveeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:MIyHYDve2dQUlUboid9PDA4PTLOVOpqrsBANN4bmZnGbUYjbFAbx9Q>
+ <xmx:MIyHYEYNtKviYmJndPX21uzTgIpm88701W5ffmOjJA8wwv9r3nhrgw>
+ <xmx:MIyHYCZPYgw7pKFv6K6MIP8smjnu8oJ7lbaazwKspQpqRjadZ0MjXw>
+ <xmx:MoyHYJzbJlkBhIZImGFb55oIa0jpv7oSRBAyowe0jM_AtAXkQ1yvyg>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 8ACE6A00079; Mon, 26 Apr 2021 22:23:02 -0400 (EDT)
+ id 07EF0A0007A; Mon, 26 Apr 2021 23:59:44 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.5.0-alpha0-403-gbc3c488b23-fm-20210419.005-gbc3c488b
 Mime-Version: 1.0
-Message-Id: <dd4286c6-c856-40c4-b1f8-060f76258d57@www.fastmail.com>
-In-Reply-To: <20210421135500.3518661-1-arnd@kernel.org>
-References: <20210421135500.3518661-1-arnd@kernel.org>
-Date: Tue, 27 Apr 2021 11:52:41 +0930
+Message-Id: <201d989f-882f-4b73-ab06-5085f99301ed@www.fastmail.com>
+In-Reply-To: <20210416075113.18047-1-zev@bewilderbeest.net>
+References: <20210416075113.18047-1-zev@bewilderbeest.net>
+Date: Tue, 27 Apr 2021 13:29:22 +0930
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Arnd Bergmann" <arnd@kernel.org>,
- "Stefan M Schaeckeler" <sschaeck@cisco.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "Mauro Carvalho Chehab" <mchehab@kernel.org>,
- "Tony Luck" <tony.luck@intel.com>, "Joel Stanley" <joel@jms.id.au>,
- "Troy Lee" <troy_lee@aspeedtech.com>
-Subject: =?UTF-8?Q?Re:_[PATCH]_EDAC/aspeed:_use_proper_format_string_for_printing?=
- =?UTF-8?Q?_resource?=
+To: "Zev Weiss" <zev@bewilderbeest.net>, "Joel Stanley" <joel@jms.id.au>
+Subject: Re: [PATCH] ARM: dts: aspeed: update e3c246d4i vuart properties
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -101,52 +95,22 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Robert Richter <rric@kernel.org>, linux-aspeed@lists.ozlabs.org,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzk@kernel.org>, Liu Shixin <liushixin2@huawei.com>,
- James Morse <james.morse@arm.com>, linux-arm-kernel@lists.infradead.org,
- linux-edac@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
 
-On Wed, 21 Apr 2021, at 23:24, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Fri, 16 Apr 2021, at 17:21, Zev Weiss wrote:
+> This device-tree was merged with a provisional vuart IRQ-polarity
+> property that was still under review and ended up taking a somewhat
+> different form.  This patch updates it to match the final form of the
+> new vuart properties, which additionally allow specifying the SIRQ
+> number and LPC address.
 > 
-> On ARMv7, resource_size_t can be 64-bit, which breaks printing
-> it as %x:
-> 
-> drivers/edac/aspeed_edac.c: In function 'init_csrows':
-> drivers/edac/aspeed_edac.c:257:28: error: format '%x' expects argument 
-> of type 'unsigned int', but argument 4 has type 'resource_size_t' {aka 
-> 'long long unsigned int'} [-Werror=format=]
->   257 |         dev_dbg(mci->pdev, "dt: /memory node resources: first 
-> page r.start=0x%x, resource_size=0x%x, PAGE_SHIFT macro=0x%x\n",
-> 
-> Use the special %pR format string to pretty-print the entire
-> resource instead.
-> 
-> Fixes: edfc2d73ca45 ("EDAC/aspeed: Add support for AST2400 and AST2600")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/edac/aspeed_edac.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
-> index a46da56d6d54..6bd5f8815919 100644
-> --- a/drivers/edac/aspeed_edac.c
-> +++ b/drivers/edac/aspeed_edac.c
-> @@ -254,8 +254,8 @@ static int init_csrows(struct mem_ctl_info *mci)
->  		return rc;
->  	}
->  
-> -	dev_dbg(mci->pdev, "dt: /memory node resources: first page 
-> r.start=0x%x, resource_size=0x%x, PAGE_SHIFT macro=0x%x\n",
-> -		r.start, resource_size(&r), PAGE_SHIFT);
-> +	dev_dbg(mci->pdev, "dt: /memory node resources: first page %pR, PAGE_SHIFT macro=0x%x\n",
-
-Could probably drop the "first page " as well, but it's a dev_dbg() and not a big deal.
+> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
 
 Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
