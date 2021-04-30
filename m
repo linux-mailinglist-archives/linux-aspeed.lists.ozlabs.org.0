@@ -2,13 +2,13 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548B73700E5
-	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Apr 2021 21:00:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF9CC3700E6
+	for <lists+linux-aspeed@lfdr.de>; Fri, 30 Apr 2021 21:00:27 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FX1sK03YPz2yxS
-	for <lists+linux-aspeed@lfdr.de>; Sat,  1 May 2021 05:00:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FX1sP6vNnz3004
+	for <lists+linux-aspeed@lfdr.de>; Sat,  1 May 2021 05:00:25 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=WvKGrhFy;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=X94UuvVM;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
@@ -18,82 +18,75 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
- header.s=pp1 header.b=WvKGrhFy; dkim-atps=neutral
+ header.s=pp1 header.b=X94UuvVM; dkim-atps=neutral
 Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
  [148.163.158.5])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FX1sG4Hcqz300J
- for <linux-aspeed@lists.ozlabs.org>; Sat,  1 May 2021 05:00:18 +1000 (AEST)
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FX1sM535Rz2yxY
+ for <linux-aspeed@lists.ozlabs.org>; Sat,  1 May 2021 05:00:23 +1000 (AEST)
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 13UIY9v6046536; Fri, 30 Apr 2021 15:00:14 -0400
+ 13UIY0d7127582; Fri, 30 Apr 2021 15:00:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=vn6XE8qrzpYiCplFio6vB+ilHSxZ0qI2q0qtfHUbN38=;
- b=WvKGrhFyWRp9PIjtVVgDKvxszgaZmVI3ULmaN8NJSauFOTo2GatFfkthEfxJKmZrOrcX
- V3RILVx8Fz9Yz1+K+VtYRk5EReMnbLIBpF035iopMX+zqwYXBidZWV8LqsH+6jSmFLiD
- i21To4EqH9x6MOGV06Zejo566FDmv+nXpDfy3YEmkAP133U/+Yw04DIjuVOGoQc+i6iY
- cSjaJU4LwwtjE/UFsjcwO43iOOdc5V2uDNYkWlaDewu4Wsb7xjaYnK77XRJpopty5ocK
- FKB9DuKwh2qlqWnvR7V2N1+4xU1twLZJtGKho1Wm1rLHJutPNSj1JQCeSc6F3yle2SmP tg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 388q5rgqv4-1
+ bh=1ZuVnrBxjak3WUuTyYJta5ioocYYreUyMs4E6oJgkjE=;
+ b=X94UuvVMAXqBcgn14SVu/Gv1Ea7U1CsqQVPh/lc6PwV7+I6WCWsedEIbI++klIEyyxcf
+ Rcbune6FmvuMzkSmD7CaNrFOmTbDylSUCVg62YMdmy5oK+RcH0bFebgn/69h3yw3IFQf
+ C9Uwen2MEKx7xPhPc3g/0VL/ibToz25JQjQT45iVV4AvpYf2efuLCaNNKULRASmtGbqd
+ LdzeP3/CB+xKd8+LNM8FSthL186RIk2OdefYig6ccElvNx+x/sWhw6EPaPOULeUSLGS1
+ 3IRVFqsYR3OknGp7BYmsWJvyBd2Y+HjJ3tCm/4zW5aXpYyhYT86WBFLAZlah5BTD1cXG 0w== 
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 388pcq24gf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Apr 2021 15:00:13 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 13UIZ3b7049200;
- Fri, 30 Apr 2021 15:00:13 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0b-001b2d01.pphosted.com with ESMTP id 388q5rgqu9-1
+ Fri, 30 Apr 2021 15:00:19 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13UIrM49006247;
+ Fri, 30 Apr 2021 19:00:18 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma01wdc.us.ibm.com with ESMTP id 384aya5spp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Apr 2021 15:00:13 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13UIwuMa022469;
- Fri, 30 Apr 2021 19:00:12 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma04dal.us.ibm.com with ESMTP id 384ayah1nu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 30 Apr 2021 19:00:12 +0000
+ Fri, 30 Apr 2021 19:00:18 +0000
 Received: from b03ledav001.gho.boulder.ibm.com
  (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 13UJ0BKr37290296
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 13UJ0DUk64094526
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 30 Apr 2021 19:00:11 GMT
+ Fri, 30 Apr 2021 19:00:13 GMT
 Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 47E656E052;
- Fri, 30 Apr 2021 19:00:11 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id A13906E04E;
+ Fri, 30 Apr 2021 19:00:13 +0000 (GMT)
 Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F207F6E059;
- Fri, 30 Apr 2021 19:00:10 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 585FA6E04C;
+ Fri, 30 Apr 2021 19:00:13 +0000 (GMT)
 Received: from v0005c16.aus.stglabs.ibm.com (unknown [9.211.52.42])
  by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 30 Apr 2021 19:00:10 +0000 (GMT)
+ Fri, 30 Apr 2021 19:00:13 +0000 (GMT)
 From: Eddie James <eajames@linux.ibm.com>
 To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH 1/4] ARM: dts: aspeed: Rainier 1S4U: Fix fan channels
-Date: Fri, 30 Apr 2021 13:59:57 -0500
-Message-Id: <20210430190000.31646-2-eajames@linux.ibm.com>
+Subject: [PATCH 2/4] ARM: dts: aspeed: Everest: Fix cable card PCA chips
+Date: Fri, 30 Apr 2021 13:59:58 -0500
+Message-Id: <20210430190000.31646-3-eajames@linux.ibm.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210430190000.31646-1-eajames@linux.ibm.com>
 References: <20210430190000.31646-1-eajames@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: j1Oywk-n1JHQW5eqPm6csQytMnUjqkzi
-X-Proofpoint-GUID: CEg6uWy3OqahQuwMH43I4XooYo-gZxfj
+X-Proofpoint-ORIG-GUID: WAVEvkTdgZR5618XcbdIvIjxkh1GDGJA
+X-Proofpoint-GUID: WAVEvkTdgZR5618XcbdIvIjxkh1GDGJA
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
  definitions=2021-04-30_11:2021-04-30,
  2021-04-30 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=963 phishscore=0
- suspectscore=0 spamscore=0 malwarescore=0 adultscore=0 clxscore=1015
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 mlxscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ phishscore=0 clxscore=1015
+ adultscore=0 mlxlogscore=944 mlxscore=0 impostorscore=0 malwarescore=0
+ suspectscore=0 spamscore=0 bulkscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104060000 definitions=main-2104300125
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -106,34 +99,221 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Andrew Geissler <geissonator@yahoo.com>
+Cc: Santosh Puranik <santosh.puranik@in.ibm.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Andrew Geissler <geissonator@yahoo.com>
+From: Santosh Puranik <santosh.puranik@in.ibm.com>
 
-The 1S4U chassis populates fan channels 0, 1, 2, and 4. Update the DTS
-to reflect this.
+Correct two PCA chips which were placed on the wrong I2C bus and
+address.
 
 Signed-off-by: Eddie James <eajames@linux.ibm.com>
-Signed-off-by: Andrew Geissler <geissonator@yahoo.com>
+Signed-off-by: Santosh Puranik <santosh.puranik@in.ibm.com>
 ---
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier-1s4u.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts | 168 +++++++++----------
+ 1 file changed, 83 insertions(+), 85 deletions(-)
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier-1s4u.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier-1s4u.dts
-index d1d31a59e502..f5f5b18c113a 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier-1s4u.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier-1s4u.dts
-@@ -9,6 +9,6 @@ / {
- };
+diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
+index 3295c8c7c05c..27af28c8847d 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
+@@ -353,10 +353,47 @@ gpio@15 {
  
- &max {
--	/delete-node/ fan4;
-+	/delete-node/ fan3;
- 	/delete-node/ fan5;
- };
+ &i2c1 {
+ 	status = "okay";
++};
++
++&i2c2 {
++	status = "okay";
++};
+ 
+-	pca2: pca9552@61 {
++&i2c3 {
++	status = "okay";
++
++	eeprom@54 {
++		compatible = "atmel,24c128";
++		reg = <0x54>;
++	};
++
++	power-supply@68 {
++		compatible = "ibm,cffps";
++		reg = <0x68>;
++	};
++
++	power-supply@69 {
++		compatible = "ibm,cffps";
++		reg = <0x69>;
++	};
++
++	power-supply@6a {
++		compatible = "ibm,cffps";
++		reg = <0x6a>;
++	};
++
++	power-supply@6b {
++		compatible = "ibm,cffps";
++		reg = <0x6b>;
++	};
++};
++
++&i2c4 {
++	status = "okay";
++
++	pca2: pca9552@65 {
+ 		compatible = "nxp,pca9552";
+-		reg = <0x61>;
++		reg = <0x65>;
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -424,12 +461,54 @@ gpio@9 {
+ 			reg = <9>;
+ 			type = <PCA955X_TYPE_GPIO>;
+ 		};
++	};
+ 
++	i2c-switch@70 {
++		compatible = "nxp,pca9546";
++		reg = <0x70>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		status = "okay";
++		i2c-mux-idle-disconnect;
++
++		i2c4mux0chn0: i2c@0 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <0>;
++			eeprom@52 {
++				compatible = "atmel,24c64";
++				reg = <0x52>;
++			};
++		};
++
++		i2c4mux0chn1: i2c@1 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <1>;
++			eeprom@50 {
++				compatible = "atmel,24c64";
++				reg = <0x50>;
++			};
++		};
++
++		i2c4mux0chn2: i2c@2 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++			reg = <2>;
++			eeprom@51 {
++				compatible = "atmel,24c64";
++				reg = <0x51>;
++			};
++		};
+ 	};
++};
+ 
+-	pca3: pca9552@62 {
++&i2c5 {
++	status = "okay";
++
++	pca3: pca9552@66 {
+ 		compatible = "nxp,pca9552";
+-		reg = <0x62>;
++		reg = <0x66>;
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+@@ -512,87 +591,6 @@ gpio@11 {
+ 
+ 	};
+ 
+-};
+-
+-&i2c2 {
+-	status = "okay";
+-};
+-
+-&i2c3 {
+-	status = "okay";
+-
+-	eeprom@54 {
+-		compatible = "atmel,24c128";
+-		reg = <0x54>;
+-	};
+-
+-	power-supply@68 {
+-		compatible = "ibm,cffps";
+-		reg = <0x68>;
+-	};
+-
+-	power-supply@69 {
+-		compatible = "ibm,cffps";
+-		reg = <0x69>;
+-	};
+-
+-	power-supply@6a {
+-		compatible = "ibm,cffps";
+-		reg = <0x6a>;
+-	};
+-
+-	power-supply@6b {
+-		compatible = "ibm,cffps";
+-		reg = <0x6b>;
+-	};
+-};
+-
+-&i2c4 {
+-	status = "okay";
+-
+-	i2c-switch@70 {
+-		compatible = "nxp,pca9546";
+-		reg = <0x70>;
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		status = "okay";
+-		i2c-mux-idle-disconnect;
+-
+-		i2c4mux0chn0: i2c@0 {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-			reg = <0>;
+-			eeprom@52 {
+-				compatible = "atmel,24c64";
+-				reg = <0x52>;
+-			};
+-		};
+-
+-		i2c4mux0chn1: i2c@1 {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-			reg = <1>;
+-			eeprom@50 {
+-				compatible = "atmel,24c64";
+-				reg = <0x50>;
+-			};
+-		};
+-
+-		i2c4mux0chn2: i2c@2 {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-			reg = <2>;
+-			eeprom@51 {
+-				compatible = "atmel,24c64";
+-				reg = <0x51>;
+-			};
+-		};
+-	};
+-};
+-
+-&i2c5 {
+-	status = "okay";
+-
+ 	i2c-switch@70 {
+ 		compatible = "nxp,pca9546";
+ 		reg = <0x70>;
 -- 
 2.27.0
 
