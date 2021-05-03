@@ -2,97 +2,95 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7007F37111B
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 May 2021 07:05:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60DDA37112A
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 May 2021 07:08:21 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FYWBQ2tDPz2yxS
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 May 2021 15:05:18 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FYWFv2RgMz2yxR
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 May 2021 15:08:19 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=an2TWdeM;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=YkbzeqPr;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=RnbzLX1S;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=MjRnYEdN;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.224;
- helo=new2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.26;
+ helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=an2TWdeM; 
+ header.s=fm2 header.b=RnbzLX1S; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=YkbzeqPr; 
+ header.a=rsa-sha256 header.s=fm2 header.b=MjRnYEdN; 
  dkim-atps=neutral
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FYWBK2nDtz2xZN;
- Mon,  3 May 2021 15:05:13 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FYWFn1CPvz2xZF
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  3 May 2021 15:08:12 +1000 (AEST)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id C8347580965;
- Mon,  3 May 2021 01:05:10 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 274F15C018B;
+ Mon,  3 May 2021 01:08:10 -0400 (EDT)
 Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Mon, 03 May 2021 01:05:10 -0400
+ by compute3.internal (MEProxy); Mon, 03 May 2021 01:08:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=wZbGrNNB8IKzZFmeNM9BGTHd9BMaGLO
- Y6F6xSuyaF18=; b=an2TWdeMwdv8G1iuCS7DLTs+lkXvq+3tfPdMyDwI8dKWrwb
- nqewtPcOrnJcnUQVKnwvR25JJSISoytO/AM9I10ERmpOFh3YFchv8o/zgb2pUhkN
- 3rFGTOPy0wf9w1b92SHb/feEig5yygfJ8YHJ0H+A3zucZYwZ7q/fyRGPPKnpIsHH
- Q1/Oko9+7NSc/136v6C1+UD/KWP3m4HTymdJ/tug0hZVVH86PpjUbleRUIqX4Bmw
- uotf4YaCUQVHfh0pQIbCihGEIVvAVeTrdcgs34TcDN49yj48dBP0/3Yu86neanW5
- IX18wDddBFZTiQuHMcQvRmfo+1IHUKQNvRG+CbQ==
+ :subject:content-type; s=fm2; bh=eKcsIACmrK4wAg4OAkYo77TNYonA7V1
+ j6yg8h3K+bwg=; b=RnbzLX1SFivCa36c8XPklHIzndeRpbPVxkEvtI5OuB1y3Mj
+ 1ogruIaQchXUWnjuqqMqYCr6WOO1+K3bGxZyvOzmbNIieDfhZtkG66DD8W7iVF36
+ LczfsuP1yXGB5OTk37Ip2HjSzl7HdK6Cvk6R3/L02uM6+tFOdgfsn9Mcy24hYCyu
+ 4sOgACozIYjWDMR6eH1dsT8hcfei9SK0Ocbv+dHMBFgwqS9FKwcOIdZnyY11wUfd
+ nYnFDZHX/cn182W7FaibvBQOWdqq/M4rY16glNl1KGsAKjaJxSVgNzbq5zp2CCCX
+ e08Zc2rlBAAchzPgeIbE3C4M8mf1E9n2H4vw0vA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=wZbGrN
- NB8IKzZFmeNM9BGTHd9BMaGLOY6F6xSuyaF18=; b=YkbzeqPr/dG3JUY06vDlmK
- VJk70rwWuEiFMHNiufwjudRM4UPee9bLpphSHInHvz48X/pr8wm1QIIDdyEMeAH9
- 9L8K26/XQ4A3U/oJmErTK2TabpGw9ixtKXIAigvT2xLOZT57b7tenZsZT804NOZ7
- YmZPaxphcpPvwvIxeErT0E4ZQDHx8ybIN3se1m8+D9z2ofm+wcLvDUK53lbKwFiM
- iUk2vKKAju/JwGtrKrHBHe6zWzLKA2qs1MfK8RcxmJHLFU+lAA9xEDXl52XqnJOp
- /DgiEGxQTL0fU5IBhwdtl28uM7WDSiBrA+ACnzPfgITw5EsI+lGAx8/yjaDIGvRQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=eKcsIA
+ CmrK4wAg4OAkYo77TNYonA7V1j6yg8h3K+bwg=; b=MjRnYEdNFY0f5JJgv8Sj0E
+ 77nXxGpl+L3XH1u4msaoMmRVL/DX/CL5q6n8ALdEDdobzPOVGm1fBnFOOvG9ajtO
+ iYh8oYsWHtH7QiMbjQ/E/KiHNLXMMhZYPoodoEAHZZyfhcpTcuuwEBIvsgb+uMkO
+ j2CF8F0eteoGJEsYWLC6CH7D4lI0+T4vyDi7zwGjlaXFfS4RjslzFdNGFNeUBazq
+ lU3ZOQ8avKZHZqZtcDlwJfkqdb9zcEFaCr5/YvcqDxugwo6k3EKQSThThuMysQsL
+ rv7v6T5HCrf9iDhnRE6WnszQMvlK5TXihXe8Xi0Gjg2TC0kr9wAI4h8z090+h1JQ
  ==
-X-ME-Sender: <xms:hYSPYOQ9i-YmIaf2oz8_l3gnTSGkDhB40MtrBw3M1iAe_WQDEsfVug>
- <xme:hYSPYDxOClEVmVpc9F2c4u8tWvqBBRNnk01eWhXmcO27r8jREP03Q9SGpDiWzkaie
- 4maE1qL2S95aaSzYg>
+X-ME-Sender: <xms:OIWPYIheEL-K2-8n6PujesqIqSPQYY2vByDrI5x_DIykwLTQBSlMEQ>
+ <xme:OIWPYBCMPGwpP6TYj4YSCxP8t8riNA7j6wPEu83UUJ46xCxzKwr_XR9Kb1z7vg8oP
+ iOgBpw5sUUWPBPaAQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeffedguddvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
  rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhepudehtddtleektedvfeeitdeljeekveelkeegvdfhtdejhefgfedtfedv
- jeejledtnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
- gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:hYSPYL2PXeI_2hOapbM_66Bgz4GwPLsvlkAlB1ibk3HDt-DKSxX1lQ>
- <xmx:hYSPYKBtGR7LzIS7XveVVluZoP05OGw7jB7K_EXTWWoJkpKOku-UIA>
- <xmx:hYSPYHgxFbWVSRXaZn1HR5SGxmcMaXv_TKAmT426JpXIfwZNWLEq2A>
- <xmx:hoSPYGM25aBK1ISbcPP1Igz7dR0rp18Gu8wf0_CrLi_j7WllcTxiXg>
+ grthhtvghrnhepuddttdekueeggedvtddtueekiedutdfguedutdefieeuteefieelteet
+ vddthfeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ eprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:OIWPYAFbvnHlNC--BcDHp0tY2yVFgKarY0vnqZtzwtdpC8Qr1k6lmQ>
+ <xmx:OIWPYJQRn3uauxFoFfS62utu_Sm6HXRQCGBLLbG2bmGLzEBuIYjzeg>
+ <xmx:OIWPYFw4OVXW0I3AAaxMreP-ODDVihFqVdaRVX8wcKePfQMTgYodjQ>
+ <xmx:OoWPYEw6IV5kb6uGK6-OQccqtf-14si--YGTedFmcqLw1XO15WyCMg>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 4BBB0A00079; Mon,  3 May 2021 01:05:09 -0400 (EDT)
+ id 8A94CA00079; Mon,  3 May 2021 01:08:08 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.5.0-alpha0-403-gbc3c488b23-fm-20210419.005-gbc3c488b
 Mime-Version: 1.0
-Message-Id: <f1e86e81-d385-429a-ab8a-475240925f21@www.fastmail.com>
-In-Reply-To: <20210503014336.20256-4-steven_lee@aspeedtech.com>
+Message-Id: <f237a53e-ad61-469a-a19f-8a1e52c6cfba@www.fastmail.com>
+In-Reply-To: <20210503014336.20256-3-steven_lee@aspeedtech.com>
 References: <20210503014336.20256-1-steven_lee@aspeedtech.com>
- <20210503014336.20256-4-steven_lee@aspeedtech.com>
-Date: Mon, 03 May 2021 14:34:06 +0930
+ <20210503014336.20256-3-steven_lee@aspeedtech.com>
+Date: Mon, 03 May 2021 14:37:47 +0930
 From: "Andrew Jeffery" <andrew@aj.id.au>
 To: "Steven Lee" <steven_lee@aspeedtech.com>,
- "Adrian Hunter" <adrian.hunter@intel.com>,
- "Ulf Hansson" <ulf.hansson@linaro.org>, "Joel Stanley" <joel@jms.id.au>,
- "Philipp Zabel" <p.zabel@pengutronix.de>,
- "moderated list:ASPEED SD/MMC DRIVER" <linux-aspeed@lists.ozlabs.org>,
- "moderated list:ASPEED SD/MMC DRIVER" <openbmc@lists.ozlabs.org>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ "Rob Herring" <robh+dt@kernel.org>, "Joel Stanley" <joel@jms.id.au>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED MACHINE SUPPORT"
  <linux-arm-kernel@lists.infradead.org>, 
+ "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
  "open list" <linux-kernel@vger.kernel.org>
-Subject: =?UTF-8?Q?Re:_[PATCH_v2_3/3]_mmc:_sdhci-of-aspeed:_Sync_capabilities_fro?=
- =?UTF-8?Q?m_device_tree_to_ast2600_SoC_registers?=
+Subject: =?UTF-8?Q?Re:_[PATCH_v2_2/3]_ARM:_dts:_aspeed:_ast2600evb:_Add_timing-ph?=
+ =?UTF-8?Q?ase_property_for_eMMC_controller?=
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -113,251 +111,25 @@ Sender: "Linux-aspeed"
 Hi Steven,
 
 On Mon, 3 May 2021, at 11:13, Steven Lee wrote:
-> Sync Capbility Registers(SDIO140, SDIO144, SDIO240, SDIO244) of ast2600
-> SoC from the device tree.
-> The bit 26(Voltage Support 1.8v) of SDIO140/SDIO240 is set to 1 if
-> "mmc-hs200-1_8v" or "sd-uhs-sdr104" is added in the device tree.
-> The bit 1(SDR104 Supported) of SDR144/SDR244 is set to 1 if "sd-uhs-sdr104"
-> is added in the device tree.
-> "timing-phase" is synced to SDIO0F4(Colock Phase Control)
+> Set eMMC input clock phase to 3, which is more stable on AST2600 EVBs.
 > 
 > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
 > ---
->  drivers/mmc/host/sdhci-of-aspeed.c | 107 ++++++++++++++++++++++++++---
->  1 file changed, 98 insertions(+), 9 deletions(-)
+>  arch/arm/boot/dts/aspeed-ast2600-evb.dts | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/mmc/host/sdhci-of-aspeed.c 
-> b/drivers/mmc/host/sdhci-of-aspeed.c
-> index 7d8692e90996..2d755bac777a 100644
-> --- a/drivers/mmc/host/sdhci-of-aspeed.c
-> +++ b/drivers/mmc/host/sdhci-of-aspeed.c
-> @@ -13,6 +13,7 @@
->  #include <linux/of.h>
->  #include <linux/of_platform.h>
->  #include <linux/platform_device.h>
-> +#include <linux/reset.h>
->  #include <linux/spinlock.h>
+> diff --git a/arch/arm/boot/dts/aspeed-ast2600-evb.dts 
+> b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+> index 2772796e215e..7a93317e27dc 100644
+> --- a/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+> +++ b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+> @@ -102,6 +102,7 @@
 >  
->  #include "sdhci-pltfm.h"
-> @@ -30,10 +31,18 @@
->  #define   ASPEED_SDC_S0_PHASE_IN_EN	BIT(2)
->  #define   ASPEED_SDC_S0_PHASE_OUT_EN	GENMASK(1, 0)
->  #define   ASPEED_SDC_PHASE_MAX		31
-> +#define ASPEED_SDC_CAP1_1_8V           BIT(26)
-> +#define ASPEED_SDC_CAP2_SDR104         BIT(1)
-> +#define PROBE_AFTER_ASSET_DEASSERT     0x1
-> +
-> +struct aspeed_sdc_info {
-> +	u32 flag;
-> +};
->  
->  struct aspeed_sdc {
->  	struct clk *clk;
->  	struct resource *res;
-> +	struct reset_control *rst;
->  
->  	spinlock_t lock;
->  	void __iomem *regs;
-> @@ -72,6 +81,44 @@ struct aspeed_sdhci {
->  	const struct aspeed_sdhci_phase_desc *phase_desc;
->  };
->  
-> +struct aspeed_sdc_info ast2600_sdc_info = {
-> +	.flag = PROBE_AFTER_ASSET_DEASSERT
-> +};
-> +
-> +/*
-> + * The function sets the mirror register for updating
-> + * capbilities of the current slot.
-> + *
-> + *   slot | cap_idx | caps_reg | mirror_reg
-> + *   -----|---------|----------|------------
-> + *     0  |    0    | SDIO140  |   SDIO10
-> + *     0  |    1    | SDIO144  |   SDIO14
-> + *     1  |    0    | SDIO240  |   SDIO20
-> + *     1  |    1    | SDIO244  |   SDIO24
-> + */
-> +static void aspeed_sdc_set_slot_capability(struct sdhci_host *host,
-> +					   struct aspeed_sdc *sdc,
-> +					   u32 reg_val,
-> +					   u8 slot,
-> +					   u8 cap_idx)
+>  &emmc_controller {
+>  	status = "okay";
+> +	timing-phase = <0x300FF>;
 
-Having thought about this some more now we have code, I wonder if we can get
-rid of `cap_idx` as a parameter. Something like:
-
-static void aspeed_sdc_set_slot_capability(struct sdhci_host *host,
-    struct aspeed_sdc *sdc, int capability, bool enable, u8 slot);
-
-From there, instead of
-
-#define ASPEED_SDC_CAP1_1_8V           BIT(26)
-#define ASPEED_SDC_CAP2_SDR104         BIT(1)
-
-We do
-
-/* SDIO{10,20} */
-#define ASPEED_SDC_CAP1_1_8V           (0 * 32 + 26)
-/* SDIO{14,24} */
-#define ASPEED_SDC_CAP2_SDR104         (1 * 32 + 1)
-
-Then in the implementation of aspeed_sdc_set_slot_capability() we 
-derive cap_idx and reg_val:
-
-u8 reg_val = enable * BIT(capability % 32);
-u8 cap_reg = capability / 32;
-
-That way we get rid of the 0 and 1 magic values for cap_idx when 
-invoking aspeed_sdc_set_slot_capability() and the caller can't
-accidentally pass the wrong value.
-
-> +{
-> +	u8 caps_reg_offset;
-> +	u32 caps_reg;
-> +	u32 mirror_reg_offset;
-> +	u32 caps_val;
-> +
-> +	if (cap_idx > 1 || slot > 1)
-> +		return;
-> +
-> +	caps_reg_offset = (cap_idx == 0) ? 0 : 4;
-> +	caps_reg = 0x40 + caps_reg_offset;
-> +	caps_val = sdhci_readl(host, caps_reg);
-
-Hmm, I think you used sdhci_readl() because I commented on that last 
-time. If the global-area registers are truly mirrored we could read 
-from them as well right? In which case we could just use 
-readl(sdc->regs + mirror_reg_offset)? If so we can drop the host 
-parameter and (incorporating my suggestion above) just have:
-
-static void aspeed_sdc_set_slot_capability(struct aspeed_sdc *sdc,
-    int capability, bool enable, u8 slot);
-
-Sorry if I've sort of flip-flopped on that, but I think originally you 
-were still reading from the SDHCI (read-only) address?
-
-> +	caps_val |= reg_val;
-> +	mirror_reg_offset = (slot == 0) ? 0x10 : 0x20;
-> +	mirror_reg_offset += caps_reg_offset;
-> +	writel(caps_val, sdc->regs + mirror_reg_offset);
-> +}
-> +
->  static void aspeed_sdc_configure_8bit_mode(struct aspeed_sdc *sdc,
->  					   struct aspeed_sdhci *sdhci,
->  					   bool bus8)
-> @@ -329,9 +376,11 @@ static int aspeed_sdhci_probe(struct platform_device *pdev)
->  {
->  	const struct aspeed_sdhci_pdata *aspeed_pdata;
->  	struct sdhci_pltfm_host *pltfm_host;
-> +	struct device_node *np = pdev->dev.of_node;
->  	struct aspeed_sdhci *dev;
->  	struct sdhci_host *host;
->  	struct resource *res;
-> +	u32 reg_val;
->  	int slot;
->  	int ret;
->  
-> @@ -372,6 +421,21 @@ static int aspeed_sdhci_probe(struct platform_device *pdev)
->  
->  	sdhci_get_of_property(pdev);
->  
-> +	if (of_property_read_bool(np, "mmc-hs200-1_8v") ||
-> +	    of_property_read_bool(np, "sd-uhs-sdr104"))
-> +		aspeed_sdc_set_slot_capability(host,
-> +					       dev->parent,
-> +					       ASPEED_SDC_CAP1_1_8V,
-> +					       slot,
-> +					       0);
-
-See the discussion above about reworking aspeed_sdc_set_slot_capability.
-
-> +
-> +	if (of_property_read_bool(np, "sd-uhs-sdr104"))
-> +		aspeed_sdc_set_slot_capability(host,
-> +					       dev->parent,
-> +					       ASPEED_SDC_CAP2_SDR104,
-> +					       slot,
-> +					       1);
-
-Again here.
-
-> +
->  	pltfm_host->clk = devm_clk_get(&pdev->dev, NULL);
->  	if (IS_ERR(pltfm_host->clk))
->  		return PTR_ERR(pltfm_host->clk);
-> @@ -476,12 +540,25 @@ static struct platform_driver aspeed_sdhci_driver = {
->  	.remove		= aspeed_sdhci_remove,
->  };
->  
-> +static const struct of_device_id aspeed_sdc_of_match[] = {
-> +	{ .compatible = "aspeed,ast2400-sd-controller", },
-> +	{ .compatible = "aspeed,ast2500-sd-controller", },
-> +	{ .compatible = "aspeed,ast2600-sd-controller", .data = &ast2600_sdc_info},
-> +	{ }
-> +};
-> +
-> +MODULE_DEVICE_TABLE(of, aspeed_sdc_of_match);
-> +
->  static int aspeed_sdc_probe(struct platform_device *pdev)
->  
->  {
->  	struct device_node *parent, *child;
->  	struct aspeed_sdc *sdc;
-> +	const struct of_device_id *match = NULL;
-> +	const struct aspeed_sdc_info *info = NULL;
-> +
->  	int ret;
-> +	u32 timing_phase;
->  
->  	sdc = devm_kzalloc(&pdev->dev, sizeof(*sdc), GFP_KERNEL);
->  	if (!sdc)
-> @@ -489,6 +566,23 @@ static int aspeed_sdc_probe(struct platform_device *pdev)
->  
->  	spin_lock_init(&sdc->lock);
->  
-> +	match = of_match_device(aspeed_sdc_of_match, &pdev->dev);
-> +	if (!match)
-> +		return -ENODEV;
-> +
-> +	if (match->data)
-> +		info = match->data;
-> +
-> +	if (info) {
-> +		if (info->flag & PROBE_AFTER_ASSET_DEASSERT) {
-> +			sdc->rst = devm_reset_control_get(&pdev->dev, NULL);
-> +			if (!IS_ERR(sdc->rst)) {
-> +				reset_control_assert(sdc->rst);
-> +				reset_control_deassert(sdc->rst);
-> +			}
-> +		}
-> +	}
-
-I think this should be a separate patch.
-
-From the code it seems that this is necessary for just the 2600? Where 
-is this documented?
-
-> +
->  	sdc->clk = devm_clk_get(&pdev->dev, NULL);
->  	if (IS_ERR(sdc->clk))
->  		return PTR_ERR(sdc->clk);
-> @@ -506,6 +600,10 @@ static int aspeed_sdc_probe(struct platform_device *pdev)
->  		goto err_clk;
->  	}
->  
-> +	if (!of_property_read_u32(pdev->dev.of_node,
-> +				  "timing-phase", &timing_phase))
-> +		writel(timing_phase, sdc->regs + ASPEED_SDC_PHASE);
-
-I asked on v1 that you use the phase support already in the bindings 
-and in the driver. The example you added in the binding document[1] 
-used the existing devicetree properties but it seems you haven't fixed 
-the code.
-
-Please drop your phase implementation from the patch.
-
-[1] https://lore.kernel.org/lkml/20210503014336.20256-2-steven_lee@aspeedtech.com/
-
-Cheers,
+Please use the existing binding for phase corrections. The existing 
+binding is already supported by the driver (added in v5.12).
 
 Andrew
