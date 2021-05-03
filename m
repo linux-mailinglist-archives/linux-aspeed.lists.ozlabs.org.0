@@ -2,59 +2,52 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4E83717BF
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 May 2021 17:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4559371990
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 May 2021 18:36:08 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FYmrp4RV8z3022
-	for <lists+linux-aspeed@lfdr.de>; Tue,  4 May 2021 01:20:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FYpWV6mr1z2yxW
+	for <lists+linux-aspeed@lfdr.de>; Tue,  4 May 2021 02:36:06 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=G2mEL9a+;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.210.52; helo=mail-ot1-f52.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
- [209.85.210.52])
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=infradead.org
+ (client-ip=2001:8b0:10b:1236::1; helo=casper.infradead.org;
+ envelope-from=rdunlap@infradead.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ secure) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256
+ header.s=casper.20170209 header.b=G2mEL9a+; 
+ dkim-atps=neutral
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FYmrh4N9zz2y0J;
- Tue,  4 May 2021 01:20:51 +1000 (AEST)
-Received: by mail-ot1-f52.google.com with SMTP id
- r26-20020a056830121ab02902a5ff1c9b81so1387731otp.11; 
- Mon, 03 May 2021 08:20:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=GdRfS0NHErZVUqqjMY2tvcA6NmXLytui8eUHJOfx6FM=;
- b=VXTt0uOG92YBXcoDvdDA7ibvjqKRTNUsndzZCalyoqzINbTykzCcLP4q0Us2GfoYpS
- lcz7jmrQ//ZhDc5SCoWQ1w3C92dKw74WFHkX9b6a7cXoEFdCrg2FoUCtMvJr9yzoVCUG
- uHqxT4QVG4L94vRNgkmwcWSnCoHQZZQLae4Lsck0Cyd9TnbpbQ3RStzCAIu1H45tazIz
- 8Z4nPvRMgMHcfipgUY7hYzBRCGNR3pAA8RN4As14OGNX4EweWT5odNVuKv3ZfwihCs2c
- EFcspBKzIFgsGLv9ZX2tijsNMIhG+CUE6dR9G+hzFw0VYOfBnBDhMPbvNQCPIvCIyj6B
- BzbQ==
-X-Gm-Message-State: AOAM531EaLkhp+N109HaIkmG74OZ9TmbvI7l32bWt9pth0OMNZCj+8AO
- st6tcDOkHUyRaNDNe3raSA==
-X-Google-Smtp-Source: ABdhPJw/6Y4/5RNWt0aDLiFM9Q40lQB7DmrNe23N623XZAxpH+zo50yvHPFA1QJ/fbU0MbLiUUK6Qg==
-X-Received: by 2002:a05:6830:205a:: with SMTP id
- f26mr15125496otp.118.1620055247487; 
- Mon, 03 May 2021 08:20:47 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id a19sm24101otk.31.2021.05.03.08.20.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 May 2021 08:20:46 -0700 (PDT)
-Received: (nullmailer pid 1846828 invoked by uid 1000);
- Mon, 03 May 2021 15:20:45 -0000
-From: Rob Herring <robh@kernel.org>
-To: Steven Lee <steven_lee@aspeedtech.com>
-In-Reply-To: <20210503014336.20256-2-steven_lee@aspeedtech.com>
-References: <20210503014336.20256-1-steven_lee@aspeedtech.com>
- <20210503014336.20256-2-steven_lee@aspeedtech.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: mmc: sdhci-of-aspeed: Add description
- for AST2600 EVB.
-Date: Mon, 03 May 2021 10:20:45 -0500
-Message-Id: <1620055245.319540.1846827.nullmailer@robh.at.kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FYpWL6h5Bz2xfn
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  4 May 2021 02:35:56 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=N8b6AHrFH7G1Q2NJd1TCUNskzAIwu+2bvkyfZZCq+Gs=; b=G2mEL9a+ZTIvLPPa3TW+AU9HOJ
+ J/FEk1Sj5zSFQ+Dsf8tYFEEd13wcGpYUQiG6FRjP4Ngr/KCwoI+AvBhzDul8lUMRn3JhO39jK5rtq
+ hxgq70ALF9YdND6HQro2T6+2ILrsDBhrR/R5UUq7FxU+TyRi7Sf4PKeQ0PpX9nuDM59KP3+zz039h
+ lxuRCwzmNf2OkFypm/I0i82HJ84uVCsUSUzXh1+14J4Wk7HBLf/lupgjJ0zB9OvRNS6SBV4EEiH/i
+ V7bNhv2FNV7X9+vM4C1qaLF7//h4dlNlrHsjJidjPnxEiAZ5H29tMJ4Hf2pp7OY+31u1F6EJhiCuO
+ HTIQ445w==;
+Received: from [2601:1c0:6280:3f0::df68] (helo=smtpauth.infradead.org)
+ by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+ id 1ldbWR-00FJuO-1p; Mon, 03 May 2021 16:34:27 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] EDAC: aspeed: print resource_size_t using %pa
+Date: Mon,  3 May 2021 09:34:09 -0700
+Message-Id: <20210503163409.31944-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,93 +59,71 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- "moderated list:ASPEED SD/MMC DRIVER" <linux-aspeed@lists.ozlabs.org>,
- "open list:ASPEED SD/MMC DRIVER" <linux-mmc@vger.kernel.org>,
- "moderated list:ASPEED SD/MMC DRIVER" <openbmc@lists.ozlabs.org>,
- Ryan Chen <ryanchen.aspeed@gmail.com>,
- open list <linux-kernel@vger.kernel.org>, Hongweiz@ami.com,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>
+Cc: kernel test robot <lkp@intel.com>, linux-aspeed@lists.ozlabs.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Tony Luck <tony.luck@intel.com>,
+ Borislav Petkov <bp@alien8.de>, Stefan Schaeckeler <sschaeck@cisco.com>,
+ Borislav Petkov <bp@suse.de>, linux-edac@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 03 May 2021 09:43:34 +0800, Steven Lee wrote:
-> Add the description for describing the AST 2600 EVB reference design of
-> GPIO regulators and provide the example in the document.
-> 
-> AST2600-A2 EVB has the reference design for enabling SD bus
-> power and toggling SD bus signal voltage by GPIO pins.
-> 
-> In the reference design, GPIOV0 of AST2600-A2 EVB is connected to
-> power load switch that providing 3.3v to SD1 bus vdd. GPIOV1 is
-> connected to a 1.8v and a 3.3v power load switch that providing
-> signal voltage to
-> SD1 bus.
-> 
-> If GPIOV0 is active high, SD1 bus is enabled. Otherwise, SD1 bus is
-> disabled.
-> If GPIOV1 is active high, 3.3v power load switch is enabled, SD1
-> signal voltage is 3.3v. Otherwise, 1.8v power load switch will be
-> enabled, SD1 signal voltage becomes 1.8v.
-> 
-> AST2600-A2 EVB also support toggling signal voltage for SD2 bus.
-> The design is the same as SD1 bus. It uses GPIOV2 as power-gpio and
-> GPIOV3 as power-switch-gpio.
-> 
-> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
-> ---
->  .../devicetree/bindings/mmc/aspeed,sdhci.yaml | 99 +++++++++++++++++++
->  1 file changed, 99 insertions(+)
-> 
+Fix build warnings for using "%x" to print resource_size_t in 2 places.
+resource_size_t can be either of u32 or u64. We have a special format
+"%pa" for printing a resource_size_t, which is the same as a phys_addr_t.
+See Documentation/core-api/printk-formats.rst.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+  CC      drivers/edac/aspeed_edac.o
+../drivers/edac/aspeed_edac.c: In function 'init_csrows':
+../drivers/edac/aspeed_edac.c:257:21: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'resource_size_t' {aka 'long long unsigned int'} [-Wformat=]
+  257 |  dev_dbg(mci->pdev, "dt: /memory node resources: first page r.start=0x%x, resource_size=0x%x, PAGE_SHIFT macro=0x%x\n",
+  257 |  dev_dbg(mci->pdev, "dt: /memory node resources: first page r.start=0x%x, resource_size=0x%x, PAGE_SHIFT macro=0x%x\n",
+  257 |  dev_dbg(mci->pdev, "dt: /memory node resources: first page r.start=0x%x, resource_size=0x%x, PAGE_SHIFT macro=0x%x\n",
+../drivers/edac/aspeed_edac.c:257:21: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'resource_size_t' {aka 'long long unsigned int'} [-Wformat=]
+  257 |  dev_dbg(mci->pdev, "dt: /memory node resources: first page r.start=0x%x, resource_size=0x%x, PAGE_SHIFT macro=0x%x\n",
+  257 |  dev_dbg(mci->pdev, "dt: /memory node resources: first page r.start=0x%x, resource_size=0x%x, PAGE_SHIFT macro=0x%x\n",
+  257 |  dev_dbg(mci->pdev, "dt: /memory node resources: first page r.start=0x%x, resource_size=0x%x, PAGE_SHIFT macro=0x%x\n",
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml:97:5: [error] syntax error: expected <block end>, but found '<scalar>' (syntax)
+Fixes: 9b7e6242ee4e ("EDAC, aspeed: Add an Aspeed AST2500 EDAC driver")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Cc: Troy Lee <troy_lee@aspeedtech.com>
+Cc: Stefan Schaeckeler <sschaeck@cisco.com>
+Cc: linux-edac@vger.kernel.org
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Borislav Petkov <bp@suse.de>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: linux-aspeed@lists.ozlabs.org
+---
+Found in linux-next but applies to mainline.
 
-dtschema/dtc warnings/errors:
-make[1]: *** Deleting file 'Documentation/devicetree/bindings/mmc/aspeed,sdhci.example.dts'
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-extract-example", line 45, in <module>
-    binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 421, in load
-    return constructor.get_single_data()
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 109, in get_single_data
-    node = self.composer.get_single_node()
-  File "_ruamel_yaml.pyx", line 706, in _ruamel_yaml.CParser.get_single_node
-  File "_ruamel_yaml.pyx", line 724, in _ruamel_yaml.CParser._compose_document
-  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
-  File "_ruamel_yaml.pyx", line 891, in _ruamel_yaml.CParser._compose_mapping_node
-  File "_ruamel_yaml.pyx", line 904, in _ruamel_yaml.CParser._parse_next_event
-ruamel.yaml.parser.ParserError: while parsing a block mapping
-  in "<unicode string>", line 5, column 1
-did not find expected key
-  in "<unicode string>", line 97, column 5
-make[1]: *** [Documentation/devicetree/bindings/Makefile:20: Documentation/devicetree/bindings/mmc/aspeed,sdhci.example.dts] Error 1
-make[1]: *** Waiting for unfinished jobs....
-./Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml:  while parsing a block mapping
-  in "<unicode string>", line 5, column 1
-did not find expected key
-  in "<unicode string>", line 97, column 5
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml: ignoring, error parsing file
-warning: no schema found in file: ./Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
-make: *** [Makefile:1414: dt_binding_check] Error 2
+ drivers/edac/aspeed_edac.c |    8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-See https://patchwork.ozlabs.org/patch/1472993
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+--- linux-next-20210503.orig/drivers/edac/aspeed_edac.c
++++ linux-next-20210503/drivers/edac/aspeed_edac.c
+@@ -234,6 +234,7 @@ static int init_csrows(struct mem_ctl_in
+ 	u32 nr_pages, dram_type;
+ 	struct dimm_info *dimm;
+ 	struct device_node *np;
++	resource_size_t rsize;
+ 	struct resource r;
+ 	u32 reg04;
+ 	int rc;
+@@ -254,11 +255,12 @@ static int init_csrows(struct mem_ctl_in
+ 		return rc;
+ 	}
+ 
+-	dev_dbg(mci->pdev, "dt: /memory node resources: first page r.start=0x%x, resource_size=0x%x, PAGE_SHIFT macro=0x%x\n",
+-		r.start, resource_size(&r), PAGE_SHIFT);
++	rsize = resource_size(&r);
++	dev_dbg(mci->pdev, "dt: /memory node resources: first page r.start=0x%pa, resource_size=0x%pa, PAGE_SHIFT macro=0x%x\n",
++		&r.start, &rsize, PAGE_SHIFT);
+ 
+ 	csrow->first_page = r.start >> PAGE_SHIFT;
+-	nr_pages = resource_size(&r) >> PAGE_SHIFT;
++	nr_pages = rsize >> PAGE_SHIFT;
+ 	csrow->last_page = csrow->first_page + nr_pages - 1;
+ 
+ 	regmap_read(aspeed_regmap, ASPEED_MCR_CONF, &reg04);
