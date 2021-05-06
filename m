@@ -1,51 +1,50 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F81375C78
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 May 2021 22:54:54 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4453375DA4
+	for <lists+linux-aspeed@lfdr.de>; Fri,  7 May 2021 01:41:15 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Fbm6h0kLNz309w
-	for <lists+linux-aspeed@lfdr.de>; Fri,  7 May 2021 06:54:52 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Fbqpd2mtpz2yWx
+	for <lists+linux-aspeed@lfdr.de>; Fri,  7 May 2021 09:41:13 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=UqSiwV1T;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=R7rM3llm;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=bewilderbeest.net (client-ip=71.19.156.171;
+ smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab;
  helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net
- header.a=rsa-sha256 header.s=thorn header.b=UqSiwV1T; 
+ header.a=rsa-sha256 header.s=thorn header.b=R7rM3llm; 
  dkim-atps=neutral
 Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net
- [71.19.156.171])
+ [IPv6:2605:2700:0:5::4713:9cab])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Fbm6b5MpWz2yj1;
- Fri,  7 May 2021 06:54:46 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FbqpW5Hdzz2yWN;
+ Fri,  7 May 2021 09:41:06 +1000 (AEST)
 Received: from hatter.bewilderbeest.net (unknown [IPv6:2600:6c44:7f:ba20::7c6])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: zev)
- by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 0ADC7475;
- Thu,  6 May 2021 13:54:41 -0700 (PDT)
+ by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 74A9D57F;
+ Thu,  6 May 2021 16:41:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
- s=thorn; t=1620334482;
- bh=vNoReDMKLGxtVQ/HUO76L61RXlajosDXB81QNCQh3t4=;
+ s=thorn; t=1620344462;
+ bh=jIaZvfkenQf1rh57M8vcem0GlDIo6IbnDC4FoRVlbJo=;
  h=From:To:Cc:Subject:Date:From;
- b=UqSiwV1TYfmc9tMThAqiUf57dvCOYSLJQ72d9rXD293X2le3KSui72Bi7EaXgth+F
- SZ3XSRkNJD1pRIK+AEvFsuLzpDYNjYAnAYEXHbh12wL+eLVM/m8BzDMiJetd+iLt/k
- HtvwZnY/7/g/PsZBOupIujs+EK+8ymakCOnzKruE=
+ b=R7rM3llmUGP+0fYa8CpKS0+1h0hUeNv1FOm3hdT2UH2YTOQGi4WDA1S3gnMG7guDn
+ cle+gZkQjVvE0xZGiRncJVc8oIYs4D1hvZ826qUBSCHBiBrjUaf37nNmmUpixLXF8A
+ OiJYoB/0iSCorwoO77FIu3VtyXSaOxQziJji1lq8=
 From: Zev Weiss <zev@bewilderbeest.net>
-To: Brendan Higgins <brendanhiggins@google.com>
-Subject: [PATCH v2] i2c: aspeed: disable additional device addresses on
- ast2[56]xx
-Date: Thu,  6 May 2021 15:54:19 -0500
-Message-Id: <20210506205419.26294-1-zev@bewilderbeest.net>
+To: Eddie James <eajames@linux.ibm.com>
+Subject: [PATCH v2] media: aspeed-video: ignore interrupts that aren't enabled
+Date: Thu,  6 May 2021 18:40:48 -0500
+Message-Id: <20210506234048.3214-1-zev@bewilderbeest.net>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -62,51 +61,65 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: linux-aspeed@lists.ozlabs.org, Zev Weiss <zev@bewilderbeest.net>,
  openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The ast25xx and ast26xx have, respectively, two and three configurable
-slave device addresses to the ast24xx's one.  We only support using
-one at a time, but the others may come up in an indeterminate state
-depending on hardware/bootloader behavior, so we need to make sure we
-disable them so as to avoid ending up with phantom devices on the bus.
+As partially addressed in commit 65d270acb2d6, the ASpeed video engine
+sometimes asserts interrupts that the driver hasn't enabled.  In
+addition to the CAPTURE_COMPLETE and FRAME_COMPLETE interrupts
+addressed in that patch, COMP_READY has also been observed.  Instead
+of playing whack-a-mole with each one individually, we can instead
+just blanket ignore everything we haven't explicitly enabled.
 
 Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
 ---
 
 Changes since v1 [0]:
- - reduced to simplified approach suggested by Joel
+ - dropped error message
+ - switched to a blanket-ignore approach as suggested by Ryan
 
-[0] https://lore.kernel.org/linux-arm-kernel/20200915184525.29665-1-zev@bewilderbeest.net/
+[0] https://lore.kernel.org/linux-arm-kernel/20201215024542.18888-1-zev@bewilderbeest.net/
 
- drivers/i2c/busses/i2c-aspeed.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/media/platform/aspeed-video.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-index 724bf30600d6..67e8b97c0c95 100644
---- a/drivers/i2c/busses/i2c-aspeed.c
-+++ b/drivers/i2c/busses/i2c-aspeed.c
-@@ -727,10 +727,14 @@ static void __aspeed_i2c_reg_slave(struct aspeed_i2c_bus *bus, u16 slave_addr)
- {
- 	u32 addr_reg_val, func_ctrl_reg_val;
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+index 7bb6babdcade..77611c296a25 100644
+--- a/drivers/media/platform/aspeed-video.c
++++ b/drivers/media/platform/aspeed-video.c
+@@ -563,6 +563,12 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+ 	struct aspeed_video *video = arg;
+ 	u32 sts = aspeed_video_read(video, VE_INTERRUPT_STATUS);
  
--	/* Set slave addr. */
--	addr_reg_val = readl(bus->base + ASPEED_I2C_DEV_ADDR_REG);
--	addr_reg_val &= ~ASPEED_I2CD_DEV_ADDR_MASK;
--	addr_reg_val |= slave_addr & ASPEED_I2CD_DEV_ADDR_MASK;
 +	/*
-+	 * Set slave addr.  Reserved bits can all safely be written with zeros
-+	 * on all of ast2[456]00, so zero everything else to ensure we only
-+	 * enable a single slave address (ast2500 has two, ast2600 has three,
-+	 * the enable bits for which are also in this register) so that we don't
-+	 * end up with additional phantom devices responding on the bus.
++	 * Hardware sometimes asserts interrupts that we haven't actually
++	 * enabled; ignore them if so.
 +	 */
-+	addr_reg_val = slave_addr & ASPEED_I2CD_DEV_ADDR_MASK;
- 	writel(addr_reg_val, bus->base + ASPEED_I2C_DEV_ADDR_REG);
++	sts &= aspeed_video_read(video, VE_INTERRUPT_CTRL);
++
+ 	/*
+ 	 * Resolution changed or signal was lost; reset the engine and
+ 	 * re-initialize
+@@ -629,16 +635,6 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+ 			aspeed_video_start_frame(video);
+ 	}
  
- 	/* Turn on slave mode. */
+-	/*
+-	 * CAPTURE_COMPLETE and FRAME_COMPLETE interrupts come even when these
+-	 * are disabled in the VE_INTERRUPT_CTRL register so clear them to
+-	 * prevent unnecessary interrupt calls.
+-	 */
+-	if (sts & VE_INTERRUPT_CAPTURE_COMPLETE)
+-		sts &= ~VE_INTERRUPT_CAPTURE_COMPLETE;
+-	if (sts & VE_INTERRUPT_FRAME_COMPLETE)
+-		sts &= ~VE_INTERRUPT_FRAME_COMPLETE;
+-
+ 	return sts ? IRQ_NONE : IRQ_HANDLED;
+ }
+ 
 -- 
 2.31.1
 
