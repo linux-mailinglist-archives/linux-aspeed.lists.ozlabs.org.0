@@ -1,58 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69E85375244
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 May 2021 12:25:34 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63F81375C78
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 May 2021 22:54:54 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FbV8X35mTz303k
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 May 2021 20:25:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Fbm6h0kLNz309w
+	for <lists+linux-aspeed@lfdr.de>; Fri,  7 May 2021 06:54:52 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=UqSiwV1T;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
- helo=metis.ext.pengutronix.de; envelope-from=pza@pengutronix.de;
+ smtp.mailfrom=bewilderbeest.net (client-ip=71.19.156.171;
+ helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net;
  receiver=<UNKNOWN>)
-Received: from metis.ext.pengutronix.de (unknown
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net
+ header.a=rsa-sha256 header.s=thorn header.b=UqSiwV1T; 
+ dkim-atps=neutral
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net
+ [71.19.156.171])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FbV8P5xKzz2yyP
- for <linux-aspeed@lists.ozlabs.org>; Thu,  6 May 2021 20:25:24 +1000 (AEST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <pza@pengutronix.de>)
- id 1lebBr-0007Y4-Hd; Thu, 06 May 2021 12:25:07 +0200
-Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <pza@pengutronix.de>)
- id 1lebBi-0006VF-Tg; Thu, 06 May 2021 12:24:58 +0200
-Date: Thu, 6 May 2021 12:24:58 +0200
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Steven Lee <steven_lee@aspeedtech.com>
-Subject: Re: [PATCH v3 5/5] mmc: sdhci-of-aspeed: Assert/Deassert reset
- signal before probing eMMC
-Message-ID: <20210506102458.GA20777@pengutronix.de>
-References: <20210506100312.1638-1-steven_lee@aspeedtech.com>
- <20210506100312.1638-6-steven_lee@aspeedtech.com>
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Fbm6b5MpWz2yj1;
+ Fri,  7 May 2021 06:54:46 +1000 (AEST)
+Received: from hatter.bewilderbeest.net (unknown [IPv6:2600:6c44:7f:ba20::7c6])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: zev)
+ by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 0ADC7475;
+ Thu,  6 May 2021 13:54:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
+ s=thorn; t=1620334482;
+ bh=vNoReDMKLGxtVQ/HUO76L61RXlajosDXB81QNCQh3t4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=UqSiwV1TYfmc9tMThAqiUf57dvCOYSLJQ72d9rXD293X2le3KSui72Bi7EaXgth+F
+ SZ3XSRkNJD1pRIK+AEvFsuLzpDYNjYAnAYEXHbh12wL+eLVM/m8BzDMiJetd+iLt/k
+ HtvwZnY/7/g/PsZBOupIujs+EK+8ymakCOnzKruE=
+From: Zev Weiss <zev@bewilderbeest.net>
+To: Brendan Higgins <brendanhiggins@google.com>
+Subject: [PATCH v2] i2c: aspeed: disable additional device addresses on
+ ast2[56]xx
+Date: Thu,  6 May 2021 15:54:19 -0500
+Message-Id: <20210506205419.26294-1-zev@bewilderbeest.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210506100312.1638-6-steven_lee@aspeedtech.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 12:10:55 up 77 days, 13:34, 104 users,  load average: 0.57, 0.39,
- 0.37
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: pza@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,110 +60,53 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- "moderated list:ASPEED SD/MMC DRIVER" <linux-aspeed@lists.ozlabs.org>,
- "open list:ASPEED SD/MMC DRIVER" <linux-mmc@vger.kernel.org>,
- "moderated list:ASPEED SD/MMC DRIVER" <openbmc@lists.ozlabs.org>,
- Ryan Chen <ryanchen.aspeed@gmail.com>, Adrian Hunter <adrian.hunter@intel.com>,
- open list <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Hongweiz@ami.com, "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>
+Cc: linux-aspeed@lists.ozlabs.org, Zev Weiss <zev@bewilderbeest.net>,
+ openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Steven,
+The ast25xx and ast26xx have, respectively, two and three configurable
+slave device addresses to the ast24xx's one.  We only support using
+one at a time, but the others may come up in an indeterminate state
+depending on hardware/bootloader behavior, so we need to make sure we
+disable them so as to avoid ending up with phantom devices on the bus.
 
-On Thu, May 06, 2021 at 06:03:12PM +0800, Steven Lee wrote:
-> For cleaning up the AST2600 eMMC controller, the reset signal should be
-> asserted and deasserted before it is probed.
-> 
-> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
-> ---
->  drivers/mmc/host/sdhci-of-aspeed.c | 49 ++++++++++++++++++++++++------
->  1 file changed, 40 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-> index 4979f98ffb52..8ef06f32abff 100644
-> --- a/drivers/mmc/host/sdhci-of-aspeed.c
-> +++ b/drivers/mmc/host/sdhci-of-aspeed.c
-[...]
-> @@ -533,11 +545,22 @@ static struct platform_driver aspeed_sdhci_driver = {
->  	.remove		= aspeed_sdhci_remove,
->  };
->  
-> +static const struct of_device_id aspeed_sdc_of_match[] = {
-> +	{ .compatible = "aspeed,ast2400-sd-controller", },
-> +	{ .compatible = "aspeed,ast2500-sd-controller", },
-> +	{ .compatible = "aspeed,ast2600-sd-controller", .data = &ast2600_sdc_info},
-> +	{ }
-> +};
-> +
-> +MODULE_DEVICE_TABLE(of, aspeed_sdc_of_match);
-> +
->  static int aspeed_sdc_probe(struct platform_device *pdev)
->  
->  {
->  	struct device_node *parent, *child;
->  	struct aspeed_sdc *sdc;
-> +	const struct of_device_id *match = NULL;
-> +	const struct aspeed_sdc_info *info = NULL;
+Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+---
 
-There is no need to initialize these variables to NULL, see below:
+Changes since v1 [0]:
+ - reduced to simplified approach suggested by Joel
 
->  	int ret;
->  
->  	sdc = devm_kzalloc(&pdev->dev, sizeof(*sdc), GFP_KERNEL);
-> @@ -546,6 +569,23 @@ static int aspeed_sdc_probe(struct platform_device *pdev)
->  
->  	spin_lock_init(&sdc->lock);
->  
-> +	match = of_match_device(aspeed_sdc_of_match, &pdev->dev);
+[0] https://lore.kernel.org/linux-arm-kernel/20200915184525.29665-1-zev@bewilderbeest.net/
 
-match is set unconditionally before it is used,
+ drivers/i2c/busses/i2c-aspeed.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-> +	if (!match)
-> +		return -ENODEV;
-> +
-> +	if (match->data)
-> +		info = match->data;
+diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+index 724bf30600d6..67e8b97c0c95 100644
+--- a/drivers/i2c/busses/i2c-aspeed.c
++++ b/drivers/i2c/busses/i2c-aspeed.c
+@@ -727,10 +727,14 @@ static void __aspeed_i2c_reg_slave(struct aspeed_i2c_bus *bus, u16 slave_addr)
+ {
+ 	u32 addr_reg_val, func_ctrl_reg_val;
+ 
+-	/* Set slave addr. */
+-	addr_reg_val = readl(bus->base + ASPEED_I2C_DEV_ADDR_REG);
+-	addr_reg_val &= ~ASPEED_I2CD_DEV_ADDR_MASK;
+-	addr_reg_val |= slave_addr & ASPEED_I2CD_DEV_ADDR_MASK;
++	/*
++	 * Set slave addr.  Reserved bits can all safely be written with zeros
++	 * on all of ast2[456]00, so zero everything else to ensure we only
++	 * enable a single slave address (ast2500 has two, ast2600 has three,
++	 * the enable bits for which are also in this register) so that we don't
++	 * end up with additional phantom devices responding on the bus.
++	 */
++	addr_reg_val = slave_addr & ASPEED_I2CD_DEV_ADDR_MASK;
+ 	writel(addr_reg_val, bus->base + ASPEED_I2C_DEV_ADDR_REG);
+ 
+ 	/* Turn on slave mode. */
+-- 
+2.31.1
 
-and info could be set unconditionally as well:
-
-	info = match->data;
-
-> +	if (info) {
-> +		if (info->flag & PROBE_AFTER_ASSET_DEASSERT) {
-> +			sdc->rst = devm_reset_control_get(&pdev->dev, NULL);
-
-Please use devm_reset_control_get_exclusive() or
-devm_reset_control_get_optional_exclusive().
-
-> +			if (!IS_ERR(sdc->rst)) {
-
-Please just return errors here instead of ignoring them.
-The reset_control_get_optional variants return NULL in case the
-device node doesn't contain a resets phandle, in case you really
-consider this reset to be optional even though the flag is set?
-
-> +				reset_control_assert(sdc->rst);
-> +				reset_control_deassert(sdc->rst);
-
-Is there no need for delays between assertion and deassertion or after
-the reset is deasserted?
-
-> +			}
-> +		}
-> +	}
-> +
->  	sdc->clk = devm_clk_get(&pdev->dev, NULL);
->  	if (IS_ERR(sdc->clk))
->  		return PTR_ERR(sdc->clk);
-
-In general, I would assert/deassert the reset only after all resources
-are successfully acquired. This might avoid unnecessary resets in case
-of probe deferrals.
-
-regards
-Philipp
