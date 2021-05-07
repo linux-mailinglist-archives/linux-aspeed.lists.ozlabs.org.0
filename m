@@ -1,95 +1,63 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3E2376143
-	for <lists+linux-aspeed@lfdr.de>; Fri,  7 May 2021 09:38:36 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C6BA376971
+	for <lists+linux-aspeed@lfdr.de>; Fri,  7 May 2021 19:22:09 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Fc2PQ4z1bz2yYG
-	for <lists+linux-aspeed@lfdr.de>; Fri,  7 May 2021 17:38:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FcHLl1h5qz2yjK
+	for <lists+linux-aspeed@lfdr.de>; Sat,  8 May 2021 03:22:07 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=G0CwoqHv;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=eScBRXAx;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jMWuPbnO;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.224;
- helo=new2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=robh@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=G0CwoqHv; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=eScBRXAx; 
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=jMWuPbnO; 
  dkim-atps=neutral
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Fc2Nw0Vb7z2xZ2;
- Fri,  7 May 2021 17:38:08 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id D34245808CD;
- Fri,  7 May 2021 03:38:05 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Fri, 07 May 2021 03:38:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=dQDOTzcqfOQiIceNESDpDeh6eU3HFDK
- OGe/G/Fvd6ss=; b=G0CwoqHvNi6AqWjcFA79Hiy0clV7wq2v+N4xhwwBCgQAOSH
- 15qhvR1wEzXsEUv9gOGoP0ARWg+0Pgusa/R/f+i1hAq26LYr5XOXQ/zAAmU0Pgz7
- XOgEUg0gByOgeTiKyRYuMcLphcm1b6hrjzxgJvqYrlXZ9FJPu8YwPSYz7v2K8Y/v
- aIfmfxXqBsNozUZCyylXIOEkR5Rw9GgAMQh0szpbmoqZU/p4lBP4MuB0VZDzs/cE
- wSDJGS8VmXbn88kAzhMJ98uI2dqcXq4iO+ZyAlnUcVViqOxhF99pfpig7AGpbeX7
- 5sNkk5yZHiV/5NPJ4IQE4Nl9nilH2cydovlw1Ew==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=dQDOTz
- cqfOQiIceNESDpDeh6eU3HFDKOGe/G/Fvd6ss=; b=eScBRXAxM+mJSzqH2fGjez
- 5hfDRIafMYhgx9aIB94L0gsYXDbY9Nsxl1ABKcSFdkkOPi4eot4Aj4//BGv1TxZB
- HuLfRYJLPKi2UobdoOR6A6xawAYPhbwa2sjmoB6mCx75xMIbCE4MoSRj5ahM5f6B
- jWrB6Rz5OlV/RHlu3Svikp/Y8QmjhjEGsPMM3nTFb7bP1WTY/m84L19AHiXMqioT
- s6CF2YkVAFqDn7lcTn5yAlOAO6V5GXnD5jEHJbsZGfGqmLM76I/VUfRtg+wd1iot
- 5X3OgFP26BO5CmUApZB/U1M3oH0/j5B52H5/CFYTElqR1TP20pJ6wCTokGRdFRtw
- ==
-X-ME-Sender: <xms:XO6UYK6LHVKbEDBv-YocshXGJOuPe4ZpfKyU5D5gDmWNmtqb6CXN-g>
- <xme:XO6UYD7pcHK1WSfnSwwFIThFallfPLa1u4o_POD4b3mikhvwro8F4w78St58nTzAj
- 6fOEPaGok6rRj_XOA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeguddgudduhecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehn
- ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
- frrghtthgvrhhnpeduhedttdelkeetvdefiedtleejkeevleekgedvhfdtjeehgfeftdef
- vdejjeeltdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgr
- uh
-X-ME-Proxy: <xmx:XO6UYJdbKexbk8yCVKvO8lr41gDyZXItCml2Xdr0j8tc_cWU5V8IGg>
- <xmx:XO6UYHIV_VtlEfoyS5cclBKnlCnQEMLfge2lMs1ktdUOJI9tNFfdEg>
- <xmx:XO6UYOJRYmluXW-HZXIktMZnAR9kxngwoyJy6SfKHn7rVSc1IVxYsA>
- <xmx:Xe6UYJbC0Ld-red-CUnEujuNIVraR3RiJMOPHPxfaU7l4y83cXsbuA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id BBCA1A00079; Fri,  7 May 2021 03:38:04 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-448-gae190416c7-fm-20210505.004-gae190416
-Mime-Version: 1.0
-Message-Id: <2a339218-19d7-4eea-a734-8053dd553dbb@www.fastmail.com>
-In-Reply-To: <20210507062416.GD23749@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FcHLg1Nslz2yXH;
+ Sat,  8 May 2021 03:22:03 +1000 (AEST)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 14F4561466;
+ Fri,  7 May 2021 17:21:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1620408119;
+ bh=tAp8HMPCWwh+NHuRDeCEmS0cp+aQxiTRacpv+7HZQaA=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=jMWuPbnOx6U5JZ6lRhEBYIFqNUnKAwzdc5WQfVuFRGqAC2rekeI9FxYRtfcVBjKuM
+ 97WoLmGZ1f1xezdG2Mm7GDXQkdgtPie37cHlyxL9E/d3wzas81leEO2jGQJfrcrRhb
+ KMnBTLrq4TULos6RHk2OFJ8hDdyR7n71XyrFno4m3EGZkyLY2UtBu6XtEZYVn/YFIs
+ qSdkZX5JN5kVDZCJS+nczGgDSWspBE1R0IFRCuHst3zdUpb/WuylLIZmfWww8BVmvf
+ gZmhsm6y0H/21HbZdM+/lpZu4oq+aFbW0Neda4grx0UZ4qNgcsshKrMsuDKlwCUkqe
+ 3dlNkERzA9Iww==
+Received: by mail-ej1-f51.google.com with SMTP id a4so14747102ejk.1;
+ Fri, 07 May 2021 10:21:58 -0700 (PDT)
+X-Gm-Message-State: AOAM531F/RwxPj5KHXNUVheFnojo3p9QkQnD7Z/lOcJdRplgE9XZb3MS
+ 9uLVct9u9s6Dox8Nfs5dInNClHgYcsJ5OAuQRw==
+X-Google-Smtp-Source: ABdhPJxlHzBX1kiOwdryT4JxLp1ZW5TdkQ+pgCxGNOoI/UqgbP1iECA3RgBAMWk0XjgD5TeZd/KBEkXxO5L1SMOtnxE=
+X-Received: by 2002:a17:906:a0c6:: with SMTP id
+ bh6mr11119997ejb.359.1620408117401; 
+ Fri, 07 May 2021 10:21:57 -0700 (PDT)
+MIME-Version: 1.0
 References: <20210506100312.1638-1-steven_lee@aspeedtech.com>
- <20210506100312.1638-6-steven_lee@aspeedtech.com>
- <20210506102458.GA20777@pengutronix.de>
- <19a81e25-dfa1-4ad3-9628-19f43f4230d2@www.fastmail.com>
- <20210507062416.GD23749@aspeedtech.com>
-Date: Fri, 07 May 2021 17:06:19 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Steven Lee" <steven_lee@aspeedtech.com>
-Subject: =?UTF-8?Q?Re:_[PATCH_v3_5/5]_mmc:_sdhci-of-aspeed:_Assert/Deassert_reset?=
- =?UTF-8?Q?_signal_before_probing_eMMC?=
-Content-Type: text/plain
+ <20210506100312.1638-2-steven_lee@aspeedtech.com>
+ <20210507011324.GA1119409@robh.at.kernel.org>
+ <20210507031348.GA23749@aspeedtech.com>
+In-Reply-To: <20210507031348.GA23749@aspeedtech.com>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 7 May 2021 12:21:45 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLywL6J_uVVquhOMevb6Geed-A2o7fzHQPKvVQxe4gscA@mail.gmail.com>
+Message-ID: <CAL_JsqLywL6J_uVVquhOMevb6Geed-A2o7fzHQPKvVQxe4gscA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] dt-bindings: mmc: sdhci-of-aspeed: Add an example
+ for AST2600-A2 EVB
+To: Steven Lee <steven_lee@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,77 +72,80 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
  "moderated list:ASPEED SD/MMC DRIVER" <linux-aspeed@lists.ozlabs.org>,
- linux-mmc <linux-mmc@vger.kernel.org>,
+ "open list:ASPEED SD/MMC DRIVER" <linux-mmc@vger.kernel.org>,
  "moderated list:ASPEED SD/MMC DRIVER" <openbmc@lists.ozlabs.org>,
  Ryan Chen <ryanchen.aspeed@gmail.com>, Adrian Hunter <adrian.hunter@intel.com>,
- open list <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Hongwei Zhang <Hongweiz@ami.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, "Hongweiz@ami.com" <Hongweiz@ami.com>,
  "moderated list:ARM/ASPEED MACHINE SUPPORT"
  <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Thu, May 6, 2021 at 10:14 PM Steven Lee <steven_lee@aspeedtech.com> wrote:
+>
+> The 05/07/2021 09:13, Rob Herring wrote:
+> > On Thu, May 06, 2021 at 06:03:08PM +0800, Steven Lee wrote:
+> > > AST2600-A2 EVB has the reference design for enabling SD bus
+> > > power and toggling SD bus signal voltage by GPIO pins.
+> > >
+> > > In the reference design, GPIOV0 of AST2600-A2 EVB is connected to
+> > > power load switch that providing 3.3v to SD1 bus vdd. GPIOV1 is
+> > > connected to a 1.8v and a 3.3v power load switch that providing
+> > > signal voltage to
+> > > SD1 bus.
+> > >
+> > > If GPIOV0 is active high, SD1 bus is enabled. Otherwise, SD1 bus is
+> > > disabled.
+> > > If GPIOV1 is active high, 3.3v power load switch is enabled, SD1
+> > > signal voltage is 3.3v. Otherwise, 1.8v power load switch will be
+> > > enabled, SD1 signal voltage becomes 1.8v.
+> > >
+> > > AST2600-A2 EVB also support toggling signal voltage for SD2 bus.
+> > > The design is the same as SD1 bus. It uses GPIOV2 as power-gpio and
+> > > GPIOV3 as power-switch-gpio.
+> > >
+> > > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+> > > ---
+> > >  .../devicetree/bindings/mmc/aspeed,sdhci.yaml | 101 +++++++++++++++++-
+> > >  1 file changed, 97 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+> > > index 987b287f3bff..de7e61b3d37a 100644
+> > > --- a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+> > > +++ b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+> > > @@ -45,10 +45,16 @@ patternProperties:
+> > >
+> > >      properties:
+> > >        compatible:
+> > > -        enum:
+> > > -          - aspeed,ast2400-sdhci
+> > > -          - aspeed,ast2500-sdhci
+> > > -          - aspeed,ast2600-sdhci
+> > > +        oneOf:
+> > > +          - items:
+> > > +              - enum:
+> > > +                  - aspeed,ast2400-sdhci
+> > > +                  - aspeed,ast2500-sdhci
+> > > +                  - aspeed,ast2600-sdhci
+> > > +          - items:
+> > > +              - enum:
+> > > +                  - aspeed,ast2600-sdhci
+> > > +              - const: sdhci
+> >
+> > Why are you adding 'sdhci'. That's not useful as a compatible given how
+> > many quirks different implementations have.
+> >
+> >
+>
+> It is for passing the dtbs_check of the second example.
+> Without this definition, many device trees have the following
+> error:
+>
+> ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+> Additional items are not allowed ('sdhci' was unexpected)
 
+I would probably fix the dts files then. Does anything depend on 'sdhci'?
 
-On Fri, 7 May 2021, at 15:54, Steven Lee wrote:
-> The 05/07/2021 09:32, Andrew Jeffery wrote:
-> > 
-> > 
-> > On Thu, 6 May 2021, at 19:54, Philipp Zabel wrote:
-> > > Hi Steven,
-> > > 
-> > > On Thu, May 06, 2021 at 06:03:12PM +0800, Steven Lee wrote:
-> > > > +	if (info) {
-> > > > +		if (info->flag & PROBE_AFTER_ASSET_DEASSERT) {
-> > > > +			sdc->rst = devm_reset_control_get(&pdev->dev, NULL);
-> > > 
-> > > Please use devm_reset_control_get_exclusive() or
-> > > devm_reset_control_get_optional_exclusive().
-> > > 
-> > > > +			if (!IS_ERR(sdc->rst)) {
-> > > 
-> > > Please just return errors here instead of ignoring them.
-> > > The reset_control_get_optional variants return NULL in case the
-> > > device node doesn't contain a resets phandle, in case you really
-> > > consider this reset to be optional even though the flag is set?
-> > 
-> > It feels like we should get rid of the flag and leave it to the 
-> > devicetree.
-> > 
-> 
-> Do you mean adding a flag, for instance, "mmc-reset" in the
-> device tree and call of_property_read_bool() in aspeed_sdc_probe()?
-> 
-> > I'm still kind of surprised it's not something we want to do for the 
-> > 2400 and 2500 as well.
-> > 
-> 
-> Per discussion with the chip designer, AST2400 and AST2500 doesn't need
-> this implementation since the chip design is different to AST2600.
-
-So digging a bit more deeply on this, it looks like the reset is 
-already taken care of by drivers/clk/clk-ast2600.c in the 
-clk_prepare_enable() path.
-
-clk-ast2600 handles resets when enabling the clock for most peripherals:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/clk/clk-ast2600.c?h=v5.12#n276
-
-and this is true for both the SD controller and the eMMC controller:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/clk/clk-ast2600.c?h=v5.12#n94
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/clk/clk-ast2600.c?h=v5.12#n88
-
-If this weren't the case you'd specify a reset property in the SD/eMMC 
-devicetree nodes for the 2600 and then use 
-devm_reset_control_get_optional_exclusive() as Philipp suggested. See 
-the reset binding here:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/reset/reset.txt?h=v5.12
-
-So on the surface it seems the reset handling in this patch is 
-unnecessary. Have you observed an issue with the SoC that means it's 
-required?
-
-Andrew
+Rob
