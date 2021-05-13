@@ -1,69 +1,77 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 532EA387020
-	for <lists+linux-aspeed@lfdr.de>; Tue, 18 May 2021 05:07:19 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11918387021
+	for <lists+linux-aspeed@lfdr.de>; Tue, 18 May 2021 05:07:20 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FkgsH4YySz2ymC
-	for <lists+linux-aspeed@lfdr.de>; Tue, 18 May 2021 13:07:15 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FkgsK4yqpz3014
+	for <lists+linux-aspeed@lfdr.de>; Tue, 18 May 2021 13:07:17 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20161025 header.b=NxbyH77u;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=canonical.com
- (client-ip=91.189.89.112; helo=youngberry.canonical.com;
- envelope-from=juerg.haefliger@canonical.com; receiver=<UNKNOWN>)
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=flex--davidgow.bounces.google.com
+ (client-ip=2607:f8b0:4864:20::84a; helo=mail-qt1-x84a.google.com;
+ envelope-from=3rx-dyagkdc4nkfsnqygqyyqvo.mywvsxeh-kczoonvscdc.yjvklc.ybq@flex--davidgow.bounces.google.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256
+ header.s=20161025 header.b=NxbyH77u; dkim-atps=neutral
+Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com
+ [IPv6:2607:f8b0:4864:20::84a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FfSR65GwLz2xy3
- for <linux-aspeed@lists.ozlabs.org>; Tue, 11 May 2021 16:18:26 +1000 (AEST)
-Received: from mail-ej1-f70.google.com ([209.85.218.70])
- by youngberry.canonical.com with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
- (envelope-from <juerg.haefliger@canonical.com>) id 1lgLio-0001yE-3Y
- for linux-aspeed@lists.ozlabs.org; Tue, 11 May 2021 06:18:22 +0000
-Received: by mail-ej1-f70.google.com with SMTP id
- p25-20020a1709061419b0290378364a6464so5535838ejc.15
- for <linux-aspeed@lists.ozlabs.org>; Mon, 10 May 2021 23:18:22 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Fh22q61S3z2yjP
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 14 May 2021 05:36:17 +1000 (AEST)
+Received: by mail-qt1-x84a.google.com with SMTP id
+ b20-20020ac87fd40000b02901e1370c5e12so1159847qtk.17
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 13 May 2021 12:36:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=mKHn5nW8hMSnIzbkNUA9bgAI/5jrfrz+RnfoZbF6j1k=;
+ b=NxbyH77uCpX5jHPLaIxntl4MMEN72o3nW4IkVxd/s3G+RDesqezz14zIzof8/hNPe5
+ bs0sPo+sfbA/DkdAe5qwND2yDe8Q64E5hUI4+AlxryJRLiGkfRkjlkEyaeLS0d71adGe
+ EqppPm6oUyDCv9k3uQh/y6lgpmsdCDlIbWeyBJwuntF8gv+cgoXCeMogRGjMI3rhvHiU
+ idKnSaGs+vEa/rnr4VhDzukE8dvmoHkR0nl+RncsQ8iu8K1NZakuYD3gCSj7JWp3xwB/
+ 9z6F4Y/tGgPWGTtRj7Gf2L8/2hhiBm1mowzmxrLDhi1u0Lyaki06ZcxNxWrNj5V5IMuB
+ 4KtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bbXPgmZrL4Pxh0/t8XE8baUOCONdkg5IyBFSdmqHWjM=;
- b=scKgo5VJ89krMUc6ypLH5LimW6HPoLDlm3G+vN1mmOUgYkdh0NmNH+LyGi8vQqSjPl
- Lb0zZBob4czn55Ip7lUTgD5gWmu9RWzD7r064lYcIwvBySsuADNAMyxI1uzVkQ+F9gUD
- 3UmU8Khn/JOsP/uhiwsDXzbaw4U8LAD2EYgMHdfQpbXZOG0g58VFJF4zXVa+79G3f/6U
- g5ovWzY6hYwffRBU03y2tgySPJ2QZCU8AgdNJvNlaLZt2LRxUK0QCXtE9P45FSiKgFFc
- OYMHGQWU1yDms/v1IW5zcHyoMzuTiCQwULTjzMUFP7ykCiKP0EtBA1Y0vjyL/21S3oJX
- z56g==
-X-Gm-Message-State: AOAM532QVEQoepp6IJB+VGlwUWDsyaPvQ0/NBPUwrDvfIeb7BLbuC+I5
- rCKWHDLBU+kOlfuVT8pRMbZg4FTeWSUHWZm3udJYV0dSAdU9pR9/NP7wIBsG/BHBQNKeOM4TdF/
- O8V67GPZ6J8Fie6CQzyazrWVY/aiez5pUNonu2k9VNCk=
-X-Received: by 2002:a17:906:9246:: with SMTP id
- c6mr30337749ejx.10.1620713901802; 
- Mon, 10 May 2021 23:18:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxuFUKxnlEC58W09fcC4t8RpefrIfBsHhh1rU2Dzq5wghcRbv5j9OslBqjPeLytqr3YNEzFFg==
-X-Received: by 2002:a17:906:9246:: with SMTP id
- c6mr30337730ejx.10.1620713901627; 
- Mon, 10 May 2021 23:18:21 -0700 (PDT)
-Received: from gollum.fritz.box ([194.191.244.86])
- by smtp.gmail.com with ESMTPSA id gn36sm10616136ejc.23.2021.05.10.23.18.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 May 2021 23:18:21 -0700 (PDT)
-From: Juerg Haefliger <juerg.haefliger@canonical.com>
-X-Google-Original-From: Juerg Haefliger <juergh@canonical.com>
-To: wim@linux-watchdog.org, linux@roeck-us.net, joel@jms.id.au,
- linux-watchdog@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org
-Subject: [PATCH] watchdog: Use sysfs_emit() and sysfs_emit_at() in "show"
- functions
-Date: Tue, 11 May 2021 08:18:12 +0200
-Message-Id: <20210511061812.480172-1-juergh@canonical.com>
-X-Mailer: git-send-email 2.27.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=mKHn5nW8hMSnIzbkNUA9bgAI/5jrfrz+RnfoZbF6j1k=;
+ b=YaeW3pBGA4G4f9Fb8ui2pFytSHL/ff94ddafh4luwz3XW+QcOSStIVwSG9hMvZjZnU
+ Qk3kfVrGvUhl9wH0bq4TZZ22ywaoVMA/sZ/4WVtD8hbMVxx9y84rfkB1t1HD9z9AyoCW
+ Cu4cCpnQdHFeE2ig+gXSMTkKD65u6mhPEZwzCZIbtFTqm7zuBEhDFte82BOHdjIQVxlo
+ Pvoy67l1lolqvgWW2czUxPoTuqMVoAZ2Z4R4sE5isY25ncHaOOJJOp169HKHtB73f4Ev
+ lpOnSwf3cMzi0mWLLlv63ePZeDi7P2zHNvDuV/MmQ6iAbmO6UiOzBEWqzmEWBAIMYXaL
+ LlLw==
+X-Gm-Message-State: AOAM533sgbj91kavJltkBc2jhP14M1GSnAuTJ4m4e4LrqdFGdWMVz6qm
+ zqbPYvF+lKb2Q+6KWsUdbygPPq1b9iRVnA==
+X-Google-Smtp-Source: ABdhPJzOzRUMhMpdqg5s7k2XyPDWGEgOheQSp/nxRF00tQp7xZJniBllI4qoqrF0m6c5fppZqVcMeF2SI9GnNQ==
+X-Received: from spirogrip.svl.corp.google.com
+ ([2620:15c:2cb:201:5f61:8ca4:879b:809e])
+ (user=davidgow job=sendgmr) by 2002:a05:6214:373:: with SMTP id
+ t19mr9320953qvu.45.1620934573116; Thu, 13 May 2021 12:36:13 -0700 (PDT)
+Date: Thu, 13 May 2021 12:32:00 -0700
+In-Reply-To: <20210513193204.816681-1-davidgow@google.com>
+Message-Id: <20210513193204.816681-6-davidgow@google.com>
+Mime-Version: 1.0
+References: <20210513193204.816681-1-davidgow@google.com>
+X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
+Subject: [PATCH v2 06/10] mmc: sdhci-of-aspeed: Remove some unnecessary casts
+ from KUnit tests
+From: David Gow <davidgow@google.com>
+To: Brendan Higgins <brendanhiggins@google.com>,
+ Daniel Latypov <dlatypov@google.com>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Andrew Jeffery <andrew@aj.id.au>, 
+ Adrian Hunter <adrian.hunter@intel.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+ Joel Stanley <joel@jms.id.au>
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Tue, 18 May 2021 13:07:13 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -76,176 +84,94 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Juerg Haefliger <juergh@canonical.com>, linux-kernel@vger.kernel.org
+Cc: David Gow <davidgow@google.com>, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kunit-dev@googlegroups.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Convert sprintf() in sysfs "show" functions to sysfs_emit() and
-sysfs_emit_at() in order to check for buffer overruns in sysfs outputs.
+With KUnit's EXPECT macros no longer typechecking arguments as strictly,
+get rid of a number of now unnecessary casts.
 
-Signed-off-by: Juerg Haefliger <juergh@canonical.com>
+Signed-off-by: David Gow <davidgow@google.com>
 ---
- drivers/watchdog/aspeed_wdt.c          |  4 ++--
- drivers/watchdog/watchdog_dev.c        | 19 ++++++++++---------
- drivers/watchdog/watchdog_pretimeout.c |  4 ++--
- drivers/watchdog/ziirave_wdt.c         | 12 +++++++-----
- 4 files changed, 21 insertions(+), 18 deletions(-)
+This should be a no-op functionality wise, and while it depends on the
+first couple of patches in this series, it's otherwise independent from
+the others. I think this makes the test more readable, but if you
+particularly dislike it, I'm happy to drop it.
 
-diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
-index 7e00960651fa..933998e5a9de 100644
---- a/drivers/watchdog/aspeed_wdt.c
-+++ b/drivers/watchdog/aspeed_wdt.c
-@@ -175,8 +175,8 @@ static ssize_t access_cs0_show(struct device *dev,
- 	struct aspeed_wdt *wdt = dev_get_drvdata(dev);
- 	u32 status = readl(wdt->base + WDT_TIMEOUT_STATUS);
+ drivers/mmc/host/sdhci-of-aspeed-test.c | 34 ++++++++++++-------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/mmc/host/sdhci-of-aspeed-test.c b/drivers/mmc/host/sdhci-of-aspeed-test.c
+index bb67d159b7d8..1ed4f86291f2 100644
+--- a/drivers/mmc/host/sdhci-of-aspeed-test.c
++++ b/drivers/mmc/host/sdhci-of-aspeed-test.c
+@@ -26,23 +26,23 @@ static void aspeed_sdhci_phase_ddr52(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, 15,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 25));
  
--	return sprintf(buf, "%u\n",
--		      !(status & WDT_TIMEOUT_STATUS_BOOT_SECONDARY));
-+	return sysfs_emit(buf, "%u\n",
-+			  !(status & WDT_TIMEOUT_STATUS_BOOT_SECONDARY));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 0,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 0,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 180));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 0,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 0,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 181));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 182));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 183));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 2,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 2,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 184));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 3,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 3,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 185));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 14,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 14,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 203));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 204));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 205));
  }
  
- static ssize_t access_cs0_store(struct device *dev,
-diff --git a/drivers/watchdog/watchdog_dev.c b/drivers/watchdog/watchdog_dev.c
-index 2946f3a63110..fe68a97973a5 100644
---- a/drivers/watchdog/watchdog_dev.c
-+++ b/drivers/watchdog/watchdog_dev.c
-@@ -451,7 +451,8 @@ static ssize_t nowayout_show(struct device *dev, struct device_attribute *attr,
- {
- 	struct watchdog_device *wdd = dev_get_drvdata(dev);
+@@ -67,21 +67,21 @@ static void aspeed_sdhci_phase_hs200(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, 15,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 96));
  
--	return sprintf(buf, "%d\n", !!test_bit(WDOG_NO_WAY_OUT, &wdd->status));
-+	return sysfs_emit(buf, "%d\n", !!test_bit(WDOG_NO_WAY_OUT,
-+						  &wdd->status));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 180));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 185));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 186));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 187));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 14,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 14,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 269));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 270));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 271));
+-	KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
++	KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
+ 			aspeed_sdhci_phase_to_tap(NULL, rate, 276));
  }
- 
- static ssize_t nowayout_store(struct device *dev, struct device_attribute *attr,
-@@ -485,7 +486,7 @@ static ssize_t status_show(struct device *dev, struct device_attribute *attr,
- 	status = watchdog_get_status(wdd);
- 	mutex_unlock(&wd_data->lock);
- 
--	return sprintf(buf, "0x%x\n", status);
-+	return sysfs_emit(buf, "0x%x\n", status);
- }
- static DEVICE_ATTR_RO(status);
- 
-@@ -494,7 +495,7 @@ static ssize_t bootstatus_show(struct device *dev,
- {
- 	struct watchdog_device *wdd = dev_get_drvdata(dev);
- 
--	return sprintf(buf, "%u\n", wdd->bootstatus);
-+	return sysfs_emit(buf, "%u\n", wdd->bootstatus);
- }
- static DEVICE_ATTR_RO(bootstatus);
- 
-@@ -510,7 +511,7 @@ static ssize_t timeleft_show(struct device *dev, struct device_attribute *attr,
- 	status = watchdog_get_timeleft(wdd, &val);
- 	mutex_unlock(&wd_data->lock);
- 	if (!status)
--		status = sprintf(buf, "%u\n", val);
-+		status = sysfs_emit(buf, "%u\n", val);
- 
- 	return status;
- }
-@@ -521,7 +522,7 @@ static ssize_t timeout_show(struct device *dev, struct device_attribute *attr,
- {
- 	struct watchdog_device *wdd = dev_get_drvdata(dev);
- 
--	return sprintf(buf, "%u\n", wdd->timeout);
-+	return sysfs_emit(buf, "%u\n", wdd->timeout);
- }
- static DEVICE_ATTR_RO(timeout);
- 
-@@ -530,7 +531,7 @@ static ssize_t pretimeout_show(struct device *dev,
- {
- 	struct watchdog_device *wdd = dev_get_drvdata(dev);
- 
--	return sprintf(buf, "%u\n", wdd->pretimeout);
-+	return sysfs_emit(buf, "%u\n", wdd->pretimeout);
- }
- static DEVICE_ATTR_RO(pretimeout);
- 
-@@ -539,7 +540,7 @@ static ssize_t identity_show(struct device *dev, struct device_attribute *attr,
- {
- 	struct watchdog_device *wdd = dev_get_drvdata(dev);
- 
--	return sprintf(buf, "%s\n", wdd->info->identity);
-+	return sysfs_emit(buf, "%s\n", wdd->info->identity);
- }
- static DEVICE_ATTR_RO(identity);
- 
-@@ -549,9 +550,9 @@ static ssize_t state_show(struct device *dev, struct device_attribute *attr,
- 	struct watchdog_device *wdd = dev_get_drvdata(dev);
- 
- 	if (watchdog_active(wdd))
--		return sprintf(buf, "active\n");
-+		return sysfs_emit(buf, "active\n");
- 
--	return sprintf(buf, "inactive\n");
-+	return sysfs_emit(buf, "inactive\n");
- }
- static DEVICE_ATTR_RO(state);
- 
-diff --git a/drivers/watchdog/watchdog_pretimeout.c b/drivers/watchdog/watchdog_pretimeout.c
-index 01ca84be240f..7f257c3485cd 100644
---- a/drivers/watchdog/watchdog_pretimeout.c
-+++ b/drivers/watchdog/watchdog_pretimeout.c
-@@ -55,7 +55,7 @@ int watchdog_pretimeout_available_governors_get(char *buf)
- 	mutex_lock(&governor_lock);
- 
- 	list_for_each_entry(priv, &governor_list, entry)
--		count += sprintf(buf + count, "%s\n", priv->gov->name);
-+		count += sysfs_emit_at(buf, count, "%s\n", priv->gov->name);
- 
- 	mutex_unlock(&governor_lock);
- 
-@@ -68,7 +68,7 @@ int watchdog_pretimeout_governor_get(struct watchdog_device *wdd, char *buf)
- 
- 	spin_lock_irq(&pretimeout_lock);
- 	if (wdd->gov)
--		count = sprintf(buf, "%s\n", wdd->gov->name);
-+		count = sysfs_emit(buf, "%s\n", wdd->gov->name);
- 	spin_unlock_irq(&pretimeout_lock);
- 
- 	return count;
-diff --git a/drivers/watchdog/ziirave_wdt.c b/drivers/watchdog/ziirave_wdt.c
-index 4297280807ca..6c9414d09684 100644
---- a/drivers/watchdog/ziirave_wdt.c
-+++ b/drivers/watchdog/ziirave_wdt.c
-@@ -445,8 +445,9 @@ static ssize_t ziirave_wdt_sysfs_show_firm(struct device *dev,
- 	if (ret)
- 		return ret;
- 
--	ret = sprintf(buf, ZIIRAVE_FW_VERSION_FMT, w_priv->firmware_rev.major,
--		      w_priv->firmware_rev.minor);
-+	ret = sysfs_emit(buf, ZIIRAVE_FW_VERSION_FMT,
-+			 w_priv->firmware_rev.major,
-+			 w_priv->firmware_rev.minor);
- 
- 	mutex_unlock(&w_priv->sysfs_mutex);
- 
-@@ -468,8 +469,9 @@ static ssize_t ziirave_wdt_sysfs_show_boot(struct device *dev,
- 	if (ret)
- 		return ret;
- 
--	ret = sprintf(buf, ZIIRAVE_BL_VERSION_FMT, w_priv->bootloader_rev.major,
--		      w_priv->bootloader_rev.minor);
-+	ret = sysfs_emit(buf, ZIIRAVE_BL_VERSION_FMT,
-+			 w_priv->bootloader_rev.major,
-+			 w_priv->bootloader_rev.minor);
- 
- 	mutex_unlock(&w_priv->sysfs_mutex);
- 
-@@ -491,7 +493,7 @@ static ssize_t ziirave_wdt_sysfs_show_reason(struct device *dev,
- 	if (ret)
- 		return ret;
- 
--	ret = sprintf(buf, "%s", ziirave_reasons[w_priv->reset_reason]);
-+	ret = sysfs_emit(buf, "%s", ziirave_reasons[w_priv->reset_reason]);
- 
- 	mutex_unlock(&w_priv->sysfs_mutex);
  
 -- 
-2.27.0
+2.31.1.751.gd2f1c929bd-goog
 
