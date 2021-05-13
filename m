@@ -1,58 +1,39 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A66537F271
-	for <lists+linux-aspeed@lfdr.de>; Thu, 13 May 2021 06:54:26 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8AC637F449
+	for <lists+linux-aspeed@lfdr.de>; Thu, 13 May 2021 10:40:55 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FgfTD1PLwz2yxn
-	for <lists+linux-aspeed@lfdr.de>; Thu, 13 May 2021 14:54:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FglVY3d84z2yyQ
+	for <lists+linux-aspeed@lfdr.de>; Thu, 13 May 2021 18:40:53 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=perches.com
- (client-ip=216.40.44.153; helo=smtprelay.hostedemail.com;
- envelope-from=joe@perches.com; receiver=<UNKNOWN>)
-X-Greylist: delayed 322 seconds by postgrey-1.36 at boromir;
- Thu, 13 May 2021 14:54:17 AEST
-Received: from smtprelay.hostedemail.com (smtprelay0153.hostedemail.com
- [216.40.44.153])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FgfT56rDWz2yXd
- for <linux-aspeed@lists.ozlabs.org>; Thu, 13 May 2021 14:54:16 +1000 (AEST)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
- [10.5.19.251])
- by smtpgrave03.hostedemail.com (Postfix) with ESMTP id 7965B181C9B84
- for <linux-aspeed@lists.ozlabs.org>; Thu, 13 May 2021 04:48:55 +0000 (UTC)
-Received: from omf07.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
- by smtprelay02.hostedemail.com (Postfix) with ESMTP id 9CEC4BA02;
- Thu, 13 May 2021 04:48:40 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
- omf07.hostedemail.com (Postfix) with ESMTPA id 1CAF7315D73; 
- Thu, 13 May 2021 04:48:39 +0000 (UTC)
-Message-ID: <f2e616645f311ccaf6e0acb996f8c4360a0480ec.camel@perches.com>
-Subject: Re: [PATCH] watchdog: Use sysfs_emit() and sysfs_emit_at() in
- "show" functions
-From: Joe Perches <joe@perches.com>
-To: Juerg Haefliger <juerg.haefliger@canonical.com>, wim@linux-watchdog.org,
- linux@roeck-us.net, joel@jms.id.au, linux-watchdog@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Date: Wed, 12 May 2021 21:48:37 -0700
-In-Reply-To: <20210511061812.480172-1-juergh@canonical.com>
-References: <20210511061812.480172-1-juergh@canonical.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=huawei.com (client-ip=45.249.212.190; helo=szxga04-in.huawei.com;
+ envelope-from=zou_wei@huawei.com; receiver=<UNKNOWN>)
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FglVT5NkZz2yZR;
+ Thu, 13 May 2021 18:40:46 +1000 (AEST)
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FglR85HF5z1BGhb;
+ Thu, 13 May 2021 16:37:56 +0800 (CST)
+Received: from linux-lmwb.huawei.com (10.175.103.112) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.498.0; Thu, 13 May 2021 16:40:28 +0800
+From: Zou Wei <zou_wei@huawei.com>
+To: <jk@ozlabs.org>, <joel@jms.id.au>, <alistair@popple.id.au>,
+ <eajames@linux.ibm.com>, <andrew@aj.id.au>
+Subject: [PATCH -next] fsi: Add missing MODULE_DEVICE_TABLE
+Date: Thu, 13 May 2021 16:57:29 +0800
+Message-ID: <1620896249-52769-1-git-send-email-zou_wei@huawei.com>
+X-Mailer: git-send-email 2.6.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.04
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 1CAF7315D73
-X-Stat-Signature: 6kzj9cfeptqsg315pdhjnu5ex5kpbywt
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/YmSWARqT1SSQJOYqo5pk6qOvYyh48NP4=
-X-HE-Tag: 1620881318-714369
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.112]
+X-CFilter-Loop: Reflected
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,55 +45,74 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Juerg Haefliger <juergh@canonical.com>, linux-kernel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Zou Wei <zou_wei@huawei.com>,
+ linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 2021-05-11 at 08:18 +0200, Juerg Haefliger wrote:
-> Convert sprintf() in sysfs "show" functions to sysfs_emit() and
-> sysfs_emit_at() in order to check for buffer overruns in sysfs outputs.
-[]
-> diff --git a/drivers/watchdog/ziirave_wdt.c b/drivers/watchdog/ziirave_wdt.c
-[]
-> @@ -445,8 +445,9 @@ static ssize_t ziirave_wdt_sysfs_show_firm(struct device *dev,
->  	if (ret)
->  		return ret;
->  
-> 
-> -	ret = sprintf(buf, ZIIRAVE_FW_VERSION_FMT, w_priv->firmware_rev.major,
-> -		      w_priv->firmware_rev.minor);
-> +	ret = sysfs_emit(buf, ZIIRAVE_FW_VERSION_FMT,
-> +			 w_priv->firmware_rev.major,
-> +			 w_priv->firmware_rev.minor);
->  
-> 
->  	mutex_unlock(&w_priv->sysfs_mutex);
->  
-> 
-> @@ -468,8 +469,9 @@ static ssize_t ziirave_wdt_sysfs_show_boot(struct device *dev,
->  	if (ret)
->  		return ret;
->  
-> 
-> -	ret = sprintf(buf, ZIIRAVE_BL_VERSION_FMT, w_priv->bootloader_rev.major,
-> -		      w_priv->bootloader_rev.minor);
-> +	ret = sysfs_emit(buf, ZIIRAVE_BL_VERSION_FMT,
-> +			 w_priv->bootloader_rev.major,
-> +			 w_priv->bootloader_rev.minor);
->  
-> 
->  	mutex_unlock(&w_priv->sysfs_mutex);
->  
-> 
-> @@ -491,7 +493,7 @@ static ssize_t ziirave_wdt_sysfs_show_reason(struct device *dev,
->  	if (ret)
->  		return ret;
->  
-> 
-> -	ret = sprintf(buf, "%s", ziirave_reasons[w_priv->reset_reason]);
-> +	ret = sysfs_emit(buf, "%s", ziirave_reasons[w_priv->reset_reason]);
+This patch adds missing MODULE_DEVICE_TABLE definition which generates
+correct modalias for automatic loading of this driver when it is built
+as an external module.
 
-All of these formats should probably end with a newline
-and the ZIIRAVE_<FOO>_VERSION_FMT defines are to me unnecessary.
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zou Wei <zou_wei@huawei.com>
+---
+ drivers/fsi/fsi-master-aspeed.c | 1 +
+ drivers/fsi/fsi-master-ast-cf.c | 1 +
+ drivers/fsi/fsi-master-gpio.c   | 1 +
+ drivers/fsi/fsi-occ.c           | 1 +
+ 4 files changed, 4 insertions(+)
+
+diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-master-aspeed.c
+index 90dbe58..dbad731 100644
+--- a/drivers/fsi/fsi-master-aspeed.c
++++ b/drivers/fsi/fsi-master-aspeed.c
+@@ -645,6 +645,7 @@ static const struct of_device_id fsi_master_aspeed_match[] = {
+ 	{ .compatible = "aspeed,ast2600-fsi-master" },
+ 	{ },
+ };
++MODULE_DEVICE_TABLE(of, fsi_master_aspeed_match);
+ 
+ static struct platform_driver fsi_master_aspeed_driver = {
+ 	.driver = {
+diff --git a/drivers/fsi/fsi-master-ast-cf.c b/drivers/fsi/fsi-master-ast-cf.c
+index 57a779a..70c03e3 100644
+--- a/drivers/fsi/fsi-master-ast-cf.c
++++ b/drivers/fsi/fsi-master-ast-cf.c
+@@ -1427,6 +1427,7 @@ static const struct of_device_id fsi_master_acf_match[] = {
+ 	{ .compatible = "aspeed,ast2500-cf-fsi-master" },
+ 	{ },
+ };
++MODULE_DEVICE_TABLE(of, fsi_master_acf_match);
+ 
+ static struct platform_driver fsi_master_acf = {
+ 	.driver = {
+diff --git a/drivers/fsi/fsi-master-gpio.c b/drivers/fsi/fsi-master-gpio.c
+index aa97c4a..7d5f29b 100644
+--- a/drivers/fsi/fsi-master-gpio.c
++++ b/drivers/fsi/fsi-master-gpio.c
+@@ -882,6 +882,7 @@ static const struct of_device_id fsi_master_gpio_match[] = {
+ 	{ .compatible = "fsi-master-gpio" },
+ 	{ },
+ };
++MODULE_DEVICE_TABLE(of, fsi_master_gpio_match);
+ 
+ static struct platform_driver fsi_master_gpio_driver = {
+ 	.driver = {
+diff --git a/drivers/fsi/fsi-occ.c b/drivers/fsi/fsi-occ.c
+index 10ca2e2..f9a8808 100644
+--- a/drivers/fsi/fsi-occ.c
++++ b/drivers/fsi/fsi-occ.c
+@@ -635,6 +635,7 @@ static const struct of_device_id occ_match[] = {
+ 	},
+ 	{ },
+ };
++MODULE_DEVICE_TABLE(of, occ_match);
+ 
+ static struct platform_driver occ_driver = {
+ 	.driver = {
+-- 
+2.6.2
 
