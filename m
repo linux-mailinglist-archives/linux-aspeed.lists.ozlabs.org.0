@@ -1,39 +1,58 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8AC637F449
-	for <lists+linux-aspeed@lfdr.de>; Thu, 13 May 2021 10:40:55 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7CFC37FE07
+	for <lists+linux-aspeed@lfdr.de>; Thu, 13 May 2021 21:25:51 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FglVY3d84z2yyQ
-	for <lists+linux-aspeed@lfdr.de>; Thu, 13 May 2021 18:40:53 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Fh1pj60J1z3017
+	for <lists+linux-aspeed@lfdr.de>; Fri, 14 May 2021 05:25:49 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=X+/8f3XP;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=huawei.com (client-ip=45.249.212.190; helo=szxga04-in.huawei.com;
- envelope-from=zou_wei@huawei.com; receiver=<UNKNOWN>)
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FglVT5NkZz2yZR;
- Thu, 13 May 2021 18:40:46 +1000 (AEST)
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FglR85HF5z1BGhb;
- Thu, 13 May 2021 16:37:56 +0800 (CST)
-Received: from linux-lmwb.huawei.com (10.175.103.112) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 13 May 2021 16:40:28 +0800
-From: Zou Wei <zou_wei@huawei.com>
-To: <jk@ozlabs.org>, <joel@jms.id.au>, <alistair@popple.id.au>,
- <eajames@linux.ibm.com>, <andrew@aj.id.au>
-Subject: [PATCH -next] fsi: Add missing MODULE_DEVICE_TABLE
-Date: Thu, 13 May 2021 16:57:29 +0800
-Message-ID: <1620896249-52769-1-git-send-email-zou_wei@huawei.com>
-X-Mailer: git-send-email 2.6.2
+ smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab;
+ helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net
+ header.a=rsa-sha256 header.s=thorn header.b=X+/8f3XP; 
+ dkim-atps=neutral
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net
+ [IPv6:2605:2700:0:5::4713:9cab])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Fh1pZ5QGCz2yZ2;
+ Fri, 14 May 2021 05:25:41 +1000 (AEST)
+Received: from hatter.bewilderbeest.net (unknown [IPv6:2600:6c44:7f:ba20::7c6])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: zev)
+ by thorn.bewilderbeest.net (Postfix) with ESMTPSA id D83633E8;
+ Thu, 13 May 2021 12:25:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
+ s=thorn; t=1620933935;
+ bh=3xQm+9LMy8PS8L08QfP0aJgsWgjlYVW/AhLSsoPmF+g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=X+/8f3XPl1MQ5nQMw8qPZnMaUJqFty0feSXspBZolV9TeFRlqoYfvtYa5IKATp38X
+ 4TFaKvGcf6yM41p+AZ8gYwMbpBcXiNL8FkbkH+VZxz94d/8/Egi9pZ6IgQZjzL2yDY
+ glVjqPZqP/oMRupIjQ/bZVwR6Ty0+DctvMp925dU=
+Date: Thu, 13 May 2021 14:25:32 -0500
+From: Zev Weiss <zev@bewilderbeest.net>
+To: Andrew Jeffery <andrew@aj.id.au>
+Subject: Re: [PATCH 2/3] serial: 8250_aspeed_vuart: initialize vuart->port in
+ aspeed_vuart_probe()
+Message-ID: <YJ19LMLV1HXk6BMf@hatter.bewilderbeest.net>
+References: <20210510014231.647-1-zev@bewilderbeest.net>
+ <20210510014231.647-3-zev@bewilderbeest.net>
+ <6d4338e2-d9be-411a-aeb7-7d46121b73d4@www.fastmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.103.112]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <6d4338e2-d9be-411a-aeb7-7d46121b73d4@www.fastmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,74 +64,79 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Zou Wei <zou_wei@huawei.com>,
- linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- linux-fsi@lists.ozlabs.org
+Cc: linux-aspeed@lists.ozlabs.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
+ Johan Hovold <johan@kernel.org>, linux-kernel@vger.kernel.org,
+ Jeremy Kerr <jk@ozlabs.org>, linux-serial@vger.kernel.org,
+ Jiri Slaby <jirislaby@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This patch adds missing MODULE_DEVICE_TABLE definition which generates
-correct modalias for automatic loading of this driver when it is built
-as an external module.
+On Wed, May 12, 2021 at 08:34:06PM CDT, Andrew Jeffery wrote:
+>
+>
+>On Mon, 10 May 2021, at 11:12, Zev Weiss wrote:
+>> Previously this had only been initialized if we hit the throttling path
+>> in aspeed_vuart_handle_irq(); moving it to the probe function is a
+>> slight consistency improvement and avoids redundant reinitialization in
+>> the interrupt handler.  It also serves as preparation for converting the
+>> driver's I/O accesses to use port->port.membase instead of its own
+>> vuart->regs.
+>>
+>> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+>> ---
+>>  drivers/tty/serial/8250/8250_aspeed_vuart.c | 5 ++---
+>>  1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c
+>> b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+>> index 9e8b2e8e32b6..249164dc397b 100644
+>> --- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
+>> +++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+>> @@ -349,11 +349,9 @@ static int aspeed_vuart_handle_irq(struct
+>> uart_port *port)
+>>  			struct aspeed_vuart *vuart = port->private_data;
+>>  			__aspeed_vuart_set_throttle(up, true);
+>>
+>> -			if (!timer_pending(&vuart->unthrottle_timer)) {
+>> -				vuart->port = up;
+>> +			if (!timer_pending(&vuart->unthrottle_timer))
+>>  				mod_timer(&vuart->unthrottle_timer,
+>>  					  jiffies + unthrottle_timeout);
+>> -			}
+>>
+>>  		} else {
+>>  			count = min(space, 256);
+>> @@ -511,6 +509,7 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
+>>  		goto err_clk_disable;
+>>
+>>  	vuart->line = rc;
+>> +	vuart->port = serial8250_get_port(vuart->line);
+>
+>The documentation of serial8250_get_port() is somewhat concerning wrt
+>the use:
+>
+>https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/tty/serial/8250/8250_core.c?h=v5.13-rc1#n399
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Zou Wei <zou_wei@huawei.com>
----
- drivers/fsi/fsi-master-aspeed.c | 1 +
- drivers/fsi/fsi-master-ast-cf.c | 1 +
- drivers/fsi/fsi-master-gpio.c   | 1 +
- drivers/fsi/fsi-occ.c           | 1 +
- 4 files changed, 4 insertions(+)
+Hmm, good point -- though despite that comment it looks like there is 
+some existing code using it outside of suspend/resume callbacks (in 
+8250_pci.c and 8250_pnp.c).  I'm not certain if those would necessarily 
+be considered good precedent to follow for this, but I don't see any 
+obvious better way of getting hold of the corresponding uart_8250_port 
+(or its port.membase).
 
-diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-master-aspeed.c
-index 90dbe58..dbad731 100644
---- a/drivers/fsi/fsi-master-aspeed.c
-+++ b/drivers/fsi/fsi-master-aspeed.c
-@@ -645,6 +645,7 @@ static const struct of_device_id fsi_master_aspeed_match[] = {
- 	{ .compatible = "aspeed,ast2600-fsi-master" },
- 	{ },
- };
-+MODULE_DEVICE_TABLE(of, fsi_master_aspeed_match);
- 
- static struct platform_driver fsi_master_aspeed_driver = {
- 	.driver = {
-diff --git a/drivers/fsi/fsi-master-ast-cf.c b/drivers/fsi/fsi-master-ast-cf.c
-index 57a779a..70c03e3 100644
---- a/drivers/fsi/fsi-master-ast-cf.c
-+++ b/drivers/fsi/fsi-master-ast-cf.c
-@@ -1427,6 +1427,7 @@ static const struct of_device_id fsi_master_acf_match[] = {
- 	{ .compatible = "aspeed,ast2500-cf-fsi-master" },
- 	{ },
- };
-+MODULE_DEVICE_TABLE(of, fsi_master_acf_match);
- 
- static struct platform_driver fsi_master_acf = {
- 	.driver = {
-diff --git a/drivers/fsi/fsi-master-gpio.c b/drivers/fsi/fsi-master-gpio.c
-index aa97c4a..7d5f29b 100644
---- a/drivers/fsi/fsi-master-gpio.c
-+++ b/drivers/fsi/fsi-master-gpio.c
-@@ -882,6 +882,7 @@ static const struct of_device_id fsi_master_gpio_match[] = {
- 	{ .compatible = "fsi-master-gpio" },
- 	{ },
- };
-+MODULE_DEVICE_TABLE(of, fsi_master_gpio_match);
- 
- static struct platform_driver fsi_master_gpio_driver = {
- 	.driver = {
-diff --git a/drivers/fsi/fsi-occ.c b/drivers/fsi/fsi-occ.c
-index 10ca2e2..f9a8808 100644
---- a/drivers/fsi/fsi-occ.c
-+++ b/drivers/fsi/fsi-occ.c
-@@ -635,6 +635,7 @@ static const struct of_device_id occ_match[] = {
- 	},
- 	{ },
- };
-+MODULE_DEVICE_TABLE(of, occ_match);
- 
- static struct platform_driver occ_driver = {
- 	.driver = {
--- 
-2.6.2
+I did receive a notification that Greg had added this series to his 
+tty-testing branch; not sure if that means he thinks it's OK or if it 
+just kind of slipped by unnoticed though.
+
+>
+>However, given the existing behaviour it shouldn't be problematic?
+>
+
+"existing behaviour" referring to what here?
+
+
+Thanks,
+Zev
 
