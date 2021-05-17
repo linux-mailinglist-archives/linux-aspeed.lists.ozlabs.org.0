@@ -2,130 +2,124 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2E63822F1
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 May 2021 04:54:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B7D382336
+	for <lists+linux-aspeed@lfdr.de>; Mon, 17 May 2021 06:01:15 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Fk3cb68KLz2ymY
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 May 2021 12:54:07 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Fk56127gtz2yx9
+	for <lists+linux-aspeed@lfdr.de>; Mon, 17 May 2021 14:01:13 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=TYEWyHQX;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=Ks1wZ9gE;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=40.107.132.130;
- helo=apc01-pu1-obe.outbound.protection.outlook.com;
- envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
- header.a=rsa-sha256 header.s=selector1 header.b=TYEWyHQX; 
+ smtp.mailfrom=os.amperecomputing.com (client-ip=40.107.223.118;
+ helo=nam11-dm6-obe.outbound.protection.outlook.com;
+ envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com
+ header.a=rsa-sha256 header.s=selector2 header.b=Ks1wZ9gE; 
  dkim-atps=neutral
-Received: from APC01-PU1-obe.outbound.protection.outlook.com
- (mail-eopbgr1320130.outbound.protection.outlook.com [40.107.132.130])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2118.outbound.protection.outlook.com [40.107.223.118])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Fk3cR6YN9z2xvH
- for <linux-aspeed@lists.ozlabs.org>; Mon, 17 May 2021 12:53:58 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Fk55q6Hj2z2xfn;
+ Mon, 17 May 2021 14:01:01 +1000 (AEST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XAKNMrO9V2pWmawDg063o4+H+/CIffYoLTdaWbGlbDfFyz0kcDeUjMAspsHZA5UY+SdsP796fJZ9LUl5n6QpaPq+ENEPZcJXzVUJehiv7qxmJw/A0/QX+3F2a/KouZjvM41isqE2O/d9FkyeO1+busTa5hNPE4fyPcmgkzpTe4u1NnFq33BrZPa0h5c8mz99rKLTdT7ku7GUXjOu42SY/rfUdbEekzOGDYbxgQgLlM66ysii8mOTtF3Y/v02peKCBHYgVtKiCihXV3PosIS42eHgDbMW4UmNrO0cfpVaWxDsTJpVSZcLjb17h+Kco/q1a5NoKM7vcROfAxUzBEcTcQ==
+ b=bWiP0I+zClRVw5OT5fx8JjnhBUMtYxSlbpsRPlNJjPUDjC5uT9EiRrDaNS+q+cTWcXUhll7hBZrDa8D7IltZnVZzGXbbRIjKg86ouey66CXHHzOQaVGYE5vSq/St2OZ24/yZq8EOeywGITk5sEtK+4t6ubSav3B7b6gAC5fmZ25wCoE8c1SXT7ERkJnBGmrfau7MRv+PBQhuM4zaup2pyzdRxg89C7LWJkH+VTMcAVllosv2Xo3M1w5sqZpZZ+gVzKZplJQ2jKax1X4WXyCgIkVWcJjTEoqiutJJfSWasSj0A+vOUziBKgapX8pz+EGsLpKaHVVe2UEOXDntiUZiYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xKqDZhWZ0JG8IWFnWwZLYhXk+Mwv592Z7NCnVP7jW+A=;
- b=K1wUt2vCvFnZBuXSxau7m2XqnfpoU6+WjCL00x35KD9sELzzR1qm4rr39Rhs1g82eIU32QP2I6xsWiKDoOJLCMLavYhAL1aly2jl2wRMnkvzPCVcJyh70wQF3QaXHAmeS1lIOSmZk2y0135yygERObgyHc3FwzOxzSXc9fEwbFRGcX5OqedW5DH7aUG6+n7c45boFiN8FzFINJ++AQYCb2fqZGRNsV3jXXx1rS3LjfOUp6zOgOgzr49a0euLTJ0TnuqqHds8x2Wpxnf482Ph5LkO0rTnZslio6waoMybVF1+c+yjdtVIpptYhjI33dfvJLi+9hiGpEyYAihkQ7ILyw==
+ bh=DZ8YHf5K3+MqTgzYmmP8XAiay0/XJn5CrStvgAUpCcc=;
+ b=ep0EAjPSfUh+5QclpxltaCDPuIOgnLvKbmUPT/MvxmrZ3EW2H5AapqmvNqavY1Z6Xs47abRP7GFzCLrmXlogbISe/BBiDRJ1uby2KR5/72nkvcs6ATTRTuna5fmGBi/GlFLzj5lwRcOqHdgZOtw/qPOd2iKo8KgV9ZdGdrdKiujlq4WR/8W6Wh6+R136RB6pv7e7yHIediLEdMbltOluouZ1wpA/VsoF0e4/iCJIwSP7epXg/7Xa8Sx2xO+8HHoyI7Hl0O+qQaIuOV+Huh7tLnSQX0t/LqMXZbCrQv7zLq+dnLCKPv8DWISjPULkWnxHK6f3RzgrvO/Hanl5mLkzMA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xKqDZhWZ0JG8IWFnWwZLYhXk+Mwv592Z7NCnVP7jW+A=;
- b=TYEWyHQX+UUJE3k27VoNhhv946fWMWnNJVD28DJyfumLevlkFbAjJCpoLXtREbOnhqcN8p/hiwMVxXb5p55dW45tkE9CJMW7k/VEaJF5197b544zY/IuPp1x44qL9kDwAaj+cUlwsdaBRVmyIfS8KiEqo6+iksQrVg+4vVdrFHAXtuTDtfG2b0CFKfOf4k+ltO3MnaVmg7fDQ4ootNu5r9CmPQLWBZoDQExrQV4H8iQfLp/ld4C5cShbnVRShJuRGO48XGyozCrTjT1m8x/h31TkTqxXWpgo9x2LFilULnl0zrWLFtXuXXzavEr2n9QsOc9x8biRvqW4nTEig9PdUQ==
-Received: from HK0PR06MB3362.apcprd06.prod.outlook.com (2603:1096:203:8b::10)
- by HK0PR06MB2211.apcprd06.prod.outlook.com (2603:1096:203:40::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.26; Mon, 17 May
- 2021 02:53:44 +0000
-Received: from HK0PR06MB3362.apcprd06.prod.outlook.com
- ([fe80::58:9144:f232:6918]) by HK0PR06MB3362.apcprd06.prod.outlook.com
- ([fe80::58:9144:f232:6918%7]) with mapi id 15.20.4129.031; Mon, 17 May 2021
- 02:53:44 +0000
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [v5 2/2] pwm: Add Aspeed ast2600 PWM support
-Thread-Topic: [v5 2/2] pwm: Add Aspeed ast2600 PWM support
-Thread-Index: AQHXSGulcCg0aX8h/0K5uaOliF3ibarkqkSAgALasoA=
-Date: Mon, 17 May 2021 02:53:44 +0000
-Message-ID: <7A439233-C5FF-4BCA-8A5C-945EB847F487@aspeedtech.com>
-References: <20210514024845.10531-1-billy_tsai@aspeedtech.com>
- <20210514024845.10531-3-billy_tsai@aspeedtech.com>
- <20210515151827.amiqh6j6brv44jif@pengutronix.de>
-In-Reply-To: <20210515151827.amiqh6j6brv44jif@pengutronix.de>
-Accept-Language: zh-TW, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: pengutronix.de; dkim=none (message not signed)
- header.d=none;pengutronix.de; dmarc=none action=none
- header.from=aspeedtech.com;
-x-originating-ip: [211.20.114.70]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 617d6dab-8e55-49d3-207b-08d918defc3c
-x-ms-traffictypediagnostic: HK0PR06MB2211:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HK0PR06MB22111CD0DECE65586634BDED8B2D9@HK0PR06MB2211.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3173;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: E2JFr8/mLZXOifG9g1xqNL6/KurtT0pSRu6BY9peSrvPi+FZ7846d7f0giqJ1e8TOV/7jj5pBTXaK+MnT9JfrhDP3vkVRwXDWSsK5et0ZQmxOYiJ+yyF97lmWwM1m1E7EkOa2B3D9N7XlFz3X14gGcXt6qbmm4QgjmYj2R+O5jq8nOfU31GwLosr9Vj1LJEpIGLQyk2DlyqMHHOeyA6vQ1nBLhh+mTFxJ6bx9BMCI//cmjNY1oPzWUM0mbhyKR6MeDZCdrphYxm/Ar3pBTDpHQ+NywFHJgN1U9wKl6JkjSHWWAHL8iGv7DsBxx/Cjl9ocp7uHNTk2eqsYCuHK8frEajx8mSpyKFFwAGS8FVJPsDeV1ZVInDKlVuQXJUoB2zipnXd7IlewKlY3sgqsin8BKSI41UwJ2I5AyeXU3lCeoEZzTirCBuUW9Mjp4vvOZ619UJVzweu0LDxc8aSYEFAhuuEcAbZoyD8SkuEovGqE9+/lOTYIZxgN5DxP/YClCe5QPCvz03Jil/sUbCIaldow+iPoQf9kFjF3vUgVqknnpJpvN90LuuBV+/XOo1bkIOC48r2ugUW2mbNYI1TZXQrHAYijBwDEzSQU0Efx2cLyvK5bDLmVW1DwDzGDhsY9ptiR/T7T+akRBUYq7f8HJ9wIkYKnbcg/Mj/ntx9clt7jrw=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3362.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(396003)(39840400004)(376002)(346002)(366004)(54906003)(316002)(8676002)(8936002)(38100700002)(26005)(122000001)(36756003)(71200400001)(186003)(55236004)(66556008)(66476007)(4326008)(6486002)(64756008)(86362001)(76116006)(2616005)(66446008)(66946007)(2906002)(7416002)(6512007)(478600001)(33656002)(6916009)(4744005)(5660300002)(6506007)(45980500001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?MEVIa09iUUlFSG9kcGk4VGQrcVd0ZDRzMVUxT21pM0RNSzJ4SXlBVlcrdm5G?=
- =?utf-8?B?aklhLzdoNXgwYjhNTlBoS3NXc2ltQWVLckUxc211RFlFdC9sQkh6bjlVUVpE?=
- =?utf-8?B?QzRwQ1JscGlSdHVVRHB3R25Hb0k0cTU2cnZUVjB1dTRQUENzQlpFa2VpQ0lB?=
- =?utf-8?B?QzVKamhnRkczcEE5TmhIc0dmYkJablMvYk1oUEpwbzFxR3ZQclRMVS9QbUt1?=
- =?utf-8?B?RWxjN29DaTBkM0JpQVBXSDl5QTRlUWdpdFFDTWgxSXdLRFoxV0ZVN080bWty?=
- =?utf-8?B?dDgydjZNdytvek95WmV1eVZBRWdJTkYwWDRhY0U2T3hNSTNmVDNSYnQ5ZHdL?=
- =?utf-8?B?YUR6Uk5IMWZuTkxWR2NzaEtySHUxNzNOT3N0aTZwTjVMLytNRUVQdUk5aXdF?=
- =?utf-8?B?bzM2dVJZQm91ckw3KzBzSEJKYzMrcVJzQ0hDcWp5NHlCdVlvVkpKd2pySGJL?=
- =?utf-8?B?YmxUMnRjVThkL2ZTL3VQSDlVQWhBYXpibGVQWGw4VnJuQ1UzdHk1cktTWk96?=
- =?utf-8?B?VTYxcHg1MzdXRmgrL3NDL2tDQytFdzd6WHV3VEtVUUdPc1c1ZU1sbmQzR1Fq?=
- =?utf-8?B?ZFN5NlhBeEJLYllNdVBYVWFTeDc0cVdIK1djV2xDeXh0c09MUXdWak1mblNo?=
- =?utf-8?B?cW0zRGpwZEx4UERyNXU2Wm5tTXdIQ2NBVEordjZkTWlGZGs1eU40SDV2MHU1?=
- =?utf-8?B?bEN0T0g2azc5d1BIV3V0d0lORmJZcTZGUWFlUncwWEdObkN1MGVKb1dqTklL?=
- =?utf-8?B?eldyTFBzTEtyNXl5MllQMncvL2lHQ1ZBc3FJbGhkdmlLeVNZcUdQdHVMdGxQ?=
- =?utf-8?B?UWZiVE9IRUxIejA3QWU5QmpFaE9Gak9nT3VSbjBmaW5VWUdQK0psNEVWZ0Vj?=
- =?utf-8?B?ME9pZzZJMUxFd0RKQ0FYSkNQQ0RLeGxJZE1rQkI2K3AySGkycVlrUkxhY1lh?=
- =?utf-8?B?UmlwUWRnSGNKQVE4TWFJd3gzaG1vd3Y2NThiYVdWVnJ2SWtOMUUzWHpDdnU3?=
- =?utf-8?B?ZUx5UXRWYytZUFpHdzduUVl3eFIwQ0pTTHZpSVNZQ0hteUtNRHdlNzkxMFBk?=
- =?utf-8?B?eGV5eXpKbjhxUjBtTFRHYXBtcktsTFFmelA2ZWkzSnUwVFJqMlVNSEYvaFo0?=
- =?utf-8?B?d0JSUVV6UE10ZDdXZHdKYkJIRGwrQ2EwdjFQMEdCakZOU2JhVldsWmd0d1JJ?=
- =?utf-8?B?UUprZWtnUUdvY2ozODg3VXdkSVh0T0NTWlkxOGcrM3pDTHZ1NTBHdWtkVFF0?=
- =?utf-8?B?SXhUOXBPSVFydHpTNzRScTJzMWpONnNCWXIvSEZUODViY1lYTlJrM3YyZzc1?=
- =?utf-8?B?Ti9pczhTelJFZUhueDdGZVdUa0ZqYTN4ZGFmdUxXTDlXb0FVbTdyQllpUUZr?=
- =?utf-8?B?dnA4TXRKYUpCVFdQN3p5Qll5dUp2aWVYdkVhcWUvbnl6WmJvbFpGY3BzT1g0?=
- =?utf-8?B?UFN6OSt1Q2o3VUg4YkdGSnpQSGEvSzIybTlFdTdlUUFkR25LcUNtaXZvNHN3?=
- =?utf-8?B?ZDUyYWZaeHV6VW5vWEVYRlZzVHZNbEtHNitBTU02MUtkRzFaQTZwVC9SUWxU?=
- =?utf-8?B?Y0xvUnRVYm00Z2sxaDgzUGExTlkvcTJiSnhnOVVmMmY1VDNNaUo1aFgwOE5Z?=
- =?utf-8?B?L0tmOTJuOC9RUGJrY0RiOVlSaFNlRDRlQTkwdkFVeTR3a0xDa0dxZDdvQTNL?=
- =?utf-8?B?cHl1VXphbWZQbEJPeHNLdkNXd0VRM2tlZHdNczAyOTZTd1hzRmgrVUxpQWxI?=
- =?utf-8?Q?XXfPLTSvvkzbxrEvE6Tdm2gka88duxfwwcPPfRC?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <028DDC2490E84644A71E36C5C6CB86FD@apcprd06.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ bh=DZ8YHf5K3+MqTgzYmmP8XAiay0/XJn5CrStvgAUpCcc=;
+ b=Ks1wZ9gEUnE2dqRxwuTEifdeypi+szKAWIYY7y42tR7nBIN2yW68kbaQrCy8+/kL5Lgw2iOkg8vlJtJB0P1UWo0RpnzzvnbRI8wPULPPob53lYtB9Pu3hOFZrjSGmTEjzCYQOR3Y1LlO39gdyuvs+xAVljnM9zrxeTeYrHOPlA4=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
+ CO2PR01MB2007.prod.exchangelabs.com (2603:10b6:102:12::17) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4129.25; Mon, 17 May 2021 04:00:55 +0000
+Received: from MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::d840:7aa7:58d4:b503]) by MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::d840:7aa7:58d4:b503%5]) with mapi id 15.20.4129.031; Mon, 17 May 2021
+ 04:00:54 +0000
+From: Quan Nguyen <quan@os.amperecomputing.com>
+To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] Add support PSU and OCP card on Mt. Jade BMC
+Date: Mon, 17 May 2021 11:00:33 +0700
+Message-Id: <20210517040036.13667-1-quan@os.amperecomputing.com>
+X-Mailer: git-send-email 2.28.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [118.69.219.201]
+X-ClientProxiedBy: CH2PR05CA0036.namprd05.prod.outlook.com (2603:10b6:610::49)
+ To MW2PR0102MB3482.prod.exchangelabs.com
+ (2603:10b6:302:c::32)
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from hcm-sw-17.amperecomputing.com (118.69.219.201) by
+ CH2PR05CA0036.namprd05.prod.outlook.com (2603:10b6:610::49) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4150.11 via Frontend Transport; Mon, 17 May 2021 04:00:51 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1b234a80-fdcf-46f4-ee35-08d918e85e35
+X-MS-TrafficTypeDiagnostic: CO2PR01MB2007:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CO2PR01MB20078B81A4E471CEF845FC18F22D9@CO2PR01MB2007.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VdZQvFHqjQKlAOj28lx2jx56jlZaPpv3kF/8+gH2ehOixPKsl7Xr0HGn+8W5cdYwmcjuRMSFWMF/siRvNQHtAG7bEPxxmmWqw/AOUtPsC5LZpVnioGGjiyauVeXaWd2EKL3HQJeXixl1g5c7+4Tin9Xg0bdOQeH7SEtjeh0vKj+SSCG5baZ/wEwL2DQmBQjlM2e6bBNJv7LRkKbwvxudTblhIrLW6pVw6Pg6VyrrHZ73oAxgk8sGUqW5m6l49vbVUC0s6nCcbNvE5N3gu3xFBeYi+l1vrKkms1GR0+cV6GnMrGELuV5G3YrHIa1EH0OR+BHp7Tkb+BDHGX1+lTYoriRG2RId+GXkTfLgBDwoSpN3+5+IvZI4BdzBBCS4k3bRU5FEQ4AlGIb2+2gBQXFtbT74dcnHVbozzhjvOIKd87oUVtvaDp2B/S4bmuQlMncMRQENXLZgSpaFdEgduQYlpl/8XJJyu9gffy3eUNK3bklxuVL7p9O9ZgwBFVvMVWs8lg2eMNrFv3dr3P84wHjuM63EVyQCthlxkw7v3fVSmqD+OuD3eXcTH6lA5lFvsF5W7m9N8NUCAp+ds2DrAFiGzV4/9vgWF4+Ev7uWdKKcthUTDuQEnfJaPuVa+5eR5Kmi0sxU3y4mxFVc7u3BXrySiA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR0102MB3482.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(346002)(136003)(396003)(39850400004)(4744005)(2906002)(8676002)(1076003)(38350700002)(66476007)(8936002)(6486002)(66946007)(83380400001)(52116002)(26005)(6512007)(4326008)(956004)(66556008)(2616005)(186003)(16526019)(478600001)(107886003)(54906003)(110136005)(6506007)(316002)(5660300002)(86362001)(6666004)(38100700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?5ZkfI88pWx84b/M2GC3VVUVhwm9kuoIdWTwe/ugghLZWhabIw5eBVJzRQTV3?=
+ =?us-ascii?Q?WbC788+eC2aehNzCctgKZXlJR2zWLXlQ4Mp/a0vL/hly9tzOJIZfoPs8URme?=
+ =?us-ascii?Q?bltVWGRayivX5egdd1TCPqF7iJcfX7mOiJXhQlc9wkHvbSAekSFLKc+vGAeW?=
+ =?us-ascii?Q?4ySMTKcWXuxXK2LruEZE1WNXZMaDOYSow7zKbJZTuglMocvImwXebotygIZd?=
+ =?us-ascii?Q?Kb02WYM7BJucoJ/C2YNPjhAqQGbydE9IH1DHYO/ja6GBP+L/Cb9HnB7s2oha?=
+ =?us-ascii?Q?LJdnXVvP6xW7Si5U85exRlAwEUCiz+CgnnMQ+chd+O8tahGFhi3XpB4Yycbp?=
+ =?us-ascii?Q?bTOV3agcF/M0VPQ9OpwErJcun4A6kVBahgfUknWrZQ2QnO6l/9CVikecc/BZ?=
+ =?us-ascii?Q?UufP2lCXA06lg/oPqMifpV2VmFHAUSnDUQUseOgyYnh7+wEEO7UKIHOFIyw1?=
+ =?us-ascii?Q?YsFjs7oDH1amnQS07xAayts4xfCEe25TQdm7wRWy0RKDUaOADdt9BdUkoHcg?=
+ =?us-ascii?Q?BPIanhSszl5K5TitqGTPqYLgAkOEwjgmK05pNpZCEzh1I0A9zvFNGm3YumiY?=
+ =?us-ascii?Q?1aVbd8bW6/UJ4n4PhiRbzzltOGck/AD2K0YILd4rNLZewx2N/zmFIIheUba4?=
+ =?us-ascii?Q?EsegfGNhbThljKYCpN7Our+ytkj7H9AyQxRDyBap9s6+s1crtXm6l9WQS+jn?=
+ =?us-ascii?Q?qhmYa1u9LBv5se1/z9m61CTQBcvLHNzLFpSEnzN4dxyTgxT087DgLgj3cPlE?=
+ =?us-ascii?Q?RZEvSskOnjcGZCoM/GwuY/lGrmiGRQyHsQXV56/EORygqVcYrf6p48n1iT2i?=
+ =?us-ascii?Q?Xvv/3rnImoRiCyqnoeFmKU2iMUHpj1Mbzd/9gjVzVK+BxjVkNETUpcT0EfSD?=
+ =?us-ascii?Q?ZTbiHW6f1ZHb/ni4+jYcqXVvvo4e42WCsYE4YKLYlWFQmnEWImqzrX1Bknq0?=
+ =?us-ascii?Q?bKedSbf+UJZ7jdix4H0ZrR2E07W343ruFfx+CU8Zztba5370hJT/WP62k96B?=
+ =?us-ascii?Q?45Yu4nKs2d11A/QHVSfNsnpU27PQ7dtPAwzpD5/W5J9k8RXPtyUjp8fZgy2n?=
+ =?us-ascii?Q?QFGALD8ZP72lcmic4SB7yOtSwh6YgjCW+8WEDzQ7qX4woZAR0YMorF5183ca?=
+ =?us-ascii?Q?1YuZlTgqP76INNfJe1AS4CHMKEPRRXkYVPrm/2JK1mLVU8fScrWADfCIvixh?=
+ =?us-ascii?Q?Vqx9gEAx/6+MU6TAvfki14oGLLBUGcMsBpSmUi5FDk/sp7GVmwSn5Jcx6sVK?=
+ =?us-ascii?Q?yhAKI/EQydqSlNmFQnmg33sYtPXWyS0sc62hb5eHWjDveeSehu3RYuCFU9RH?=
+ =?us-ascii?Q?JmolyBum5JKGLCI31GHQ79x8?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b234a80-fdcf-46f4-ee35-08d918e85e35
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3362.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 617d6dab-8e55-49d3-207b-08d918defc3c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 May 2021 02:53:44.1781 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LhqsalUsMlKKffK9ETFa20YniEkyOkRzPnaX8qjr9gLMmCuB2PPtkRp92WcM8qlBm9jzvo5aozh8++kzggxyWm6HFzEFBBH0rNXqsLwxMDw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2211
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 May 2021 04:00:54.7564 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qIAHkU52FLRUB8JZfGlHWwUttMKPTy72D0NQMIzA3uItEvRdnmoja16I1+hQtEd32y33DKKiYtL7egXxsi4is1WNOpQDCtOVb5kOqldI0Z4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO2PR01MB2007
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,29 +131,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- BMC-SW <BMC-SW@aspeedtech.com>, "lee.jones@linaro.org" <lee.jones@linaro.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: openbmc@lists.ozlabs.org, "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
+ Open Source Submission <patches@amperecomputing.com>,
+ Phong Vo <phong@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGVsbG8sDQoNCu+7v09uIDIwMjEvNS8xNSwgMTE6NTcgUE0sVXdlIEtsZWluZS1Lw7ZuaWd3cm90
-ZToNCg0KCT4JPiArCWRpdl9oID0gRElWX1JPVU5EX0RPV05fVUxMKGRpdl9oLA0KCT4JPiArCQkJ
-CSAgIChGSUVMRF9NQVgoUFdNX0FTUEVFRF9DVFJMX0NMS19ESVZfTCkgKyAxKSk7DQoJPgk+ICsJ
-ZGl2X2ggPSBESVZfUk9VTkRfRE9XTl9VTEwoZGl2X2gsIE5TRUNfUEVSX1NFQyk7DQoNCgk+IEFz
-IGEgZGl2aXNpb24gaXMgYW4gZXhwZW5zaXZlIG9wZXJhdGlvbiB5b3UgY2FuIGJldHRlciBmaXJz
-dCBtdWx0aXBseQ0KCT4gTlNFQ19QRVJfU0VDIGFuZCBGSUVMRF9NQVgoUFdNX0FTUEVFRF9DVFJM
-X0NMS19ESVZfTCkgKyAxIGFuZCBkaXZpZGUgYnkNCgk+IHRoZSByZXN1bHQuDQoNCldoZW4gSSBt
-dWx0aXBseSBOU0VDX1BFUl9TRUMgYW5kIEZJRUxEX01BWChQV01fQVNQRUVEX0NUUkxfQ0xLX0RJ
-Vl9MKSArIDEgdGhlIHJlc3VsdCB3aWxsIG92ZXJmbG93DQpmb3IgMzItYml0cyBhbmQgdGhlIGRp
-dmlzb3IgdHlwZSBvZiBkb19kaXYgaXMgMzItYml0cyBzbyBJIG5lZWQgdG8gZG8gZGl2IHR3aWNl
-IHRvIGF2b2lkIHRoZSBpc3N1ZS4NCkNhbiB5b3UgZ2l2ZSBtZSBzb21lIHN1Z2dlc3RzPw0KDQpU
-aGFua3MNCg0K
+The Mt. Jade BMC is an ASPEED AST2500-based BMC for the Mt. Jade
+hardware reference platform with Ampere's Altra Processor family.
+This series adds support PSU and OCP card on the Ampere's Mt. Jade BMC
+and switch to use the 64MB flash layout as the 32MB layout will soon be
+exhausted.
+
+Quan Nguyen (3):
+  ARM: dts: aspeed: mtjade: Enable OCP card support via NC-SI
+  ARM: dts: aspeed: mtjade: Add PSU support
+  ARM: dts: aspeed: mtjade: switch to 64MB flash layout
+
+ .../arm/boot/dts/aspeed-bmc-ampere-mtjade.dts | 57 +++++++++++++++++--
+ 1 file changed, 53 insertions(+), 4 deletions(-)
+
+-- 
+2.28.0
+
