@@ -2,48 +2,55 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60D738321C
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 May 2021 16:46:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 642C9383AC9
+	for <lists+linux-aspeed@lfdr.de>; Mon, 17 May 2021 19:10:45 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FkMQd5vfbz2yyr
-	for <lists+linux-aspeed@lfdr.de>; Tue, 18 May 2021 00:46:33 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=aG62Q6vc;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FkQcy20twz2yxm
+	for <lists+linux-aspeed@lfdr.de>; Tue, 18 May 2021 03:10:42 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linuxfoundation.org (client-ip=198.145.29.99;
- helo=mail.kernel.org; envelope-from=gregkh@linuxfoundation.org;
+ smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
+ helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org
- header.a=rsa-sha256 header.s=korg header.b=aG62Q6vc; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FkMQV70XRz2ym4;
- Tue, 18 May 2021 00:46:25 +1000 (AEST)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 759D861D47;
- Mon, 17 May 2021 14:46:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1621262782;
- bh=y7lobXNEl29UJeAhMhyDmSKuFIoD0SytKc1vbhMDieg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aG62Q6vcuDN92+cqpoea4jwDFSODUNnskkMIjRJEsjP1+JdIveCOmCNHWP7zMOkiW
- qYM/w8RswSw4noCvt+e8DBwAHhHcf14sl+BUGDfiXfPF+mfyz3y/LbgdW863HW9r65
- 6xBMmjmmtW9h1bL5QlnN0q/PQ/vuJsGoQ8fdI+Vo=
-Date: Mon, 17 May 2021 16:15:04 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH] tty: 8250: Add UART_BUG_TXRACE workaround for Aspeed VUART
-Message-ID: <YKJ6aP/xqAe1hW6A@kroah.com>
-References: <20210517124105.3565860-1-andrew@aj.id.au>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FkQct0Z8dz2yYH
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 18 May 2021 03:10:36 +1000 (AEST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1liglF-0008Nn-Lo; Mon, 17 May 2021 19:10:33 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1liglB-0002jh-0K; Mon, 17 May 2021 19:10:29 +0200
+Date: Mon, 17 May 2021 19:10:28 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Subject: Re: [v5 2/2] pwm: Add Aspeed ast2600 PWM support
+Message-ID: <20210517171028.qioxg53dpzlq4izu@pengutronix.de>
+References: <20210514024845.10531-1-billy_tsai@aspeedtech.com>
+ <20210514024845.10531-3-billy_tsai@aspeedtech.com>
+ <20210515151827.amiqh6j6brv44jif@pengutronix.de>
+ <7A439233-C5FF-4BCA-8A5C-945EB847F487@aspeedtech.com>
+ <20210517060615.3hyifoebyrddsrta@pengutronix.de>
+ <C451B628-C0CC-47E9-84EF-42DB8518FE1E@aspeedtech.com>
+ <20210517063500.toxlb2wbtbqpczwl@pengutronix.de>
+ <52C0ED72-65A7-4C39-820F-D4368191878B@aspeedtech.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="xebupssd5zqcte57"
 Content-Disposition: inline
-In-Reply-To: <20210517124105.3565860-1-andrew@aj.id.au>
+In-Reply-To: <52C0ED72-65A7-4C39-820F-D4368191878B@aspeedtech.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,82 +62,134 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: miltonm@us.ibm.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- jenmin_yuan@aspeedtech.com, jirislaby@kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ BMC-SW <BMC-SW@aspeedtech.com>, "lee.jones@linaro.org" <lee.jones@linaro.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, May 17, 2021 at 10:11:05PM +0930, Andrew Jeffery wrote:
-> Aspeed Virtual UARTs directly bridge e.g. the system console UART on the
-> LPC bus to the UART interface on the BMC's internal APB. As such there's
-> no RS-232 signalling involved - the UART interfaces on each bus are
-> directly connected as the producers and consumers of the one set of
-> FIFOs.
-> 
-> The APB in the AST2600 generally runs at 100MHz while the LPC bus peaks
-> at 33MHz. The difference in clock speeds exposes a race in the VUART
-> design where a Tx data burst on the APB interface can result in a byte
-> lost on the LPC interface. The symptom is LSR[DR] remains clear on the
-> LPC interface despite data being present in its Rx FIFO, while LSR[THRE]
-> remains clear on the APB interface as the host has not consumed the data
-> the BMC has transmitted. In this state, the UART has stalled and no
-> further data can be transmitted without manual intervention (e.g.
-> resetting the FIFOs, resulting in loss of data).
-> 
-> The recommended work-around is to insert a read cycle on the APB
-> interface between writes to THR.
-> 
-> Cc: ChiaWei Wang <chiawei_wang@aspeedtech.com>
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> ---
->  drivers/tty/serial/8250/8250.h              | 1 +
->  drivers/tty/serial/8250/8250_aspeed_vuart.c | 1 +
->  drivers/tty/serial/8250/8250_port.c         | 2 ++
->  3 files changed, 4 insertions(+)
-> 
-> diff --git a/drivers/tty/serial/8250/8250.h b/drivers/tty/serial/8250/8250.h
-> index 52bb21205bb6..4d6f5e0ecd4c 100644
-> --- a/drivers/tty/serial/8250/8250.h
-> +++ b/drivers/tty/serial/8250/8250.h
-> @@ -88,6 +88,7 @@ struct serial8250_config {
->  #define UART_BUG_NOMSR	(1 << 2)	/* UART has buggy MSR status bits (Au1x00) */
->  #define UART_BUG_THRE	(1 << 3)	/* UART has buggy THRE reassertion */
->  #define UART_BUG_PARITY	(1 << 4)	/* UART mishandles parity if FIFO enabled */
-> +#define UART_BUG_TXRACE (1 << 5)	/* UART Tx fails to set remote DR */
 
-BUG()?
+--xebupssd5zqcte57
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->  #ifdef CONFIG_SERIAL_8250_SHARE_IRQ
-> diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
-> index a28a394ba32a..4caab8714e2c 100644
-> --- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
-> +++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
-> @@ -440,6 +440,7 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
->  	port.port.status = UPSTAT_SYNC_FIFO;
->  	port.port.dev = &pdev->dev;
->  	port.port.has_sysrq = IS_ENABLED(CONFIG_SERIAL_8250_CONSOLE);
-> +	port.bugs |= UART_BUG_TXRACE;
->  
->  	rc = sysfs_create_group(&vuart->dev->kobj, &aspeed_vuart_attr_group);
->  	if (rc < 0)
-> diff --git a/drivers/tty/serial/8250/8250_port.c b/drivers/tty/serial/8250/8250_port.c
-> index d45dab1ab316..6c032abfc321 100644
-> --- a/drivers/tty/serial/8250/8250_port.c
-> +++ b/drivers/tty/serial/8250/8250_port.c
-> @@ -1809,6 +1809,8 @@ void serial8250_tx_chars(struct uart_8250_port *up)
->  	count = up->tx_loadsz;
->  	do {
->  		serial_out(up, UART_TX, xmit->buf[xmit->tail]);
-> +		if (up->bugs & UART_BUG_TXRACE)
-> +			serial_in(up, UART_SCR);
+On Mon, May 17, 2021 at 07:12:53AM +0000, Billy Tsai wrote:
+> Hi,
+>=20
+>     > On 2021/5/17, 2:35 PM,Uwe Kleine-K=F6nigwrote:
+>=20
+>     >   On Mon, May 17, 2021 at 06:23:06AM +0000, Billy Tsai wrote:
+>     >   > Hi,
+>     >   > 	On 2021/5/17, 2:06 PM,Uwe Kleine-K=F6nigwrote:
+>     >   >=20
+>     >   > 	On Mon, May 17, 2021 at 02:53:44AM +0000, Billy Tsai wrote:
+>     >   > 	>	> On 2021/5/15, 11:57 PM,Uwe Kleine-K=F6nigwrote:
+>     >   > 	>	>=20
+>     >   > 	>	> 	>	> +	div_h =3D DIV_ROUND_DOWN_ULL(div_h,
+>     >   > 	>	> 	>	> +				   (FIELD_MAX(PWM_ASPEED_CTRL_CLK_DIV_L) + 1));
+>     >   > 	>	> 	>	> +	div_h =3D DIV_ROUND_DOWN_ULL(div_h, NSEC_PER_SEC);
+>     >   > 	>	>=20
+>     >   > 	>	> 	> As a division is an expensive operation you can better =
+first multiply
+>     >   > 	>	> 	> NSEC_PER_SEC and FIELD_MAX(PWM_ASPEED_CTRL_CLK_DIV_L) +=
+ 1 and divide by
+>     >   > 	>	> 	> the result.
+>     >   > 	>	>=20
+>     >   > 	>	> When I multiply NSEC_PER_SEC and FIELD_MAX(PWM_ASPEED_CTRL=
+_CLK_DIV_L) + 1 the result will overflow
+>     >   > 	>	> for 32-bits and the divisor type of do_div is 32-bits so I=
+ need to do div twice to avoid the issue.
+>     >   > 	>	> Can you give me some suggests?
+>     >   >=20
+>     >   > 	> Hmm, you're right. There doesn't seem to be a div64_64, I th=
+ought there
+>     >   > 	> was one. Anyhow, while looking at the various divide functio=
+ns I saw
+>     >   > 	> that dividing by a constant shouldn't be that expensive, so =
+I think the
+>     >   > 	> sane way is to keep the two divisions and add a comment desc=
+ribing the
+>     >   > 	> problem.
+>     >   > According to our fixed value, I think that I can use bit shift =
+to reduce one divide function:
+>     >   >=20
+>     >   > rate =3D clk_get_rate(priv->clk);
+>     >   > /* Get the smallest value for div_h  */
+>     >   > div_h =3D rate * state->period;
+>     >   > div_h >>=3D (__fls(PWM_ASPEED_FIXED_PERIOD + 1) +
+>     >   > 	   __fls(FIELD_MAX(PWM_ASPEED_CTRL_CLK_DIV_L) + 1));
+>     >   > div_h =3D DIV_ROUND_DOWN_ULL(div_h, NSEC_PER_SEC);
+>=20
+>     > Did you check how this is compiled to code? I'd expect that it does=
+n't
+>     > result in better code than writing it as a division. Given that a
+>     > division is easier to understand for a human reader, I'd stick to t=
+hat.
+>=20
+> I found that I can use div64_64 through #include <linux/math64.h> and use=
+ "div64_u64":
+>=20
+> u64 div_h, div_l, divisor;
+> u32 index =3D pwm->hwpwm;
+>=20
+> rate =3D clk_get_rate(priv->clk);
+> /* Get the smallest value for div_h  */
+> div_h =3D rate * state->period;
+> divisor =3D (u64)NSEC_PER_SEC * (PWM_ASPEED_FIXED_PERIOD + 1) *
+>                 (FIELD_MAX(PWM_ASPEED_CTRL_CLK_DIV_L) + 1);
+> div_h =3D div64_u64(div_h, divisor);
+> div_h =3D order_base_2(div_h);
+> if (div_h > 0xf)
+>         div_h =3D 0xf;
+>=20
+> div_l =3D rate * state->period;
+> divisor =3D (u64)NSEC_PER_SEC * (PWM_ASPEED_FIXED_PERIOD + 1) *
+>                 BIT(div_h);
+> div_l =3D div64_u64(div_l, divisor);
+>=20
+> Can I use this one?
 
-Can you document why you are doing a call here to serial_in(), otherwise
-someone running "automated checking scripts" will remove it later as it
-seems to be doing nothing.
+Looks good to me. If you want to improve further you can expand the
+comment about div_h to somethink like:
 
-thanks,
+	/*
+	 * Pick a small value for div_h so that div_l can be big which
+	 * results in a finer resolution near the target period value.
+	 */
 
-greg k-h
+Another detail I don't like much is that the name div_h is only
+justified after the last assignment. I don't have a good suggestion here
+though.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--xebupssd5zqcte57
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCio4IACgkQwfwUeK3K
+7Amhpwf/WtOHMRqxyC/ROADLloWz8ncu+TvosU/nXy3m3ZcuxpOqef8jPpFE8kis
+NmYnj+N9FqyCCJlsfAXJAzUe8B4j/mBUquCgHH/yeqQNoYyzE58poBXkBKX/4bAO
+DUqBPN51DxtLzx3abfrY0hnF8ilLMtz9an8FHyhdY5FqdNXLIBeImYM07kqOgGbw
+hLN5ZUi4XCfj0H0+Lm9b4ammvd4K2ovmYubvm3vON8f2hJNoSqjyTMoJPaE6Te8b
+5Bz+H8LllZqRSoQ4x13/bCRY+Nf8skLASEK5SCnUE0T5r+kMkvDQrf8TuXIXtvJ0
+nveFQR1y3vjvD0EJp7J7xSQSS7EB9A==
+=aEYS
+-----END PGP SIGNATURE-----
+
+--xebupssd5zqcte57--
