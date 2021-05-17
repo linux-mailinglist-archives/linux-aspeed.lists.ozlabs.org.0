@@ -1,70 +1,87 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE83A38283A
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 May 2021 11:23:59 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 949FB382C65
+	for <lists+linux-aspeed@lfdr.de>; Mon, 17 May 2021 14:41:35 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FkDGP60tMz2yyt
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 May 2021 19:23:57 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FkJfP4F0qz2yxY
+	for <lists+linux-aspeed@lfdr.de>; Mon, 17 May 2021 22:41:33 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=wZE8pBAq;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=Jlc+d3Cs;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=jeRyaiih;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::e34;
- helo=mail-vs1-xe34.google.com; envelope-from=ulf.hansson@linaro.org;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.221;
+ helo=new1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=wZE8pBAq; dkim-atps=neutral
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com
- [IPv6:2607:f8b0:4864:20::e34])
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm2 header.b=Jlc+d3Cs; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=jeRyaiih; 
+ dkim-atps=neutral
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FkDFr5L3zz2xv4
- for <linux-aspeed@lists.ozlabs.org>; Mon, 17 May 2021 19:23:27 +1000 (AEST)
-Received: by mail-vs1-xe34.google.com with SMTP id c21so2751414vso.11
- for <linux-aspeed@lists.ozlabs.org>; Mon, 17 May 2021 02:23:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kzYVzmT+Y8ce2flyvbSSPdmquvI+WpoScVhmf9xFNfc=;
- b=wZE8pBAqeARtQbwh+YWftfz+pAOAl52rdskfYBROlX2BYGzyiP8jIhVMX2ZLlI/5TN
- 2h55vokvcNd9L9wocrsTfFNSZ7mvGTPvyT6ydg0YrjKHLTUBuhbjdOqBt6BcYgzbTu4z
- CJC7/JcgyYbA8qJyYy52Qlnrl5Ks8rBSWSII4TJUN/iauAg9QqBcUXZ3Uc46G84x0Wqi
- 7EJaqNos/h447r9ZfuhH/fMb87/SWTIRaTqJufYy20AjL2e6KGye9jf84Rmi4O/7MYAE
- 1JPV3hD1j6WJmF5EQD0WwU2Wke0Zt5Bbr1TPruhZr+U9SyoLJj18Xh+kzPIbsZqQnpMc
- 7cvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kzYVzmT+Y8ce2flyvbSSPdmquvI+WpoScVhmf9xFNfc=;
- b=ENv8eJKLiCWuk6IQFMM7XOZSsI2UZBoEHvxBlns1wuBvVFwkYtaMFx9bZNwuUGyfhF
- 20TNJ2Epz5Uujiue51HIOltNlqOfM3VtYQeY9NTyFElLkR8qqZmI2/mwGudA1jWbcxUD
- 7vNmckoRqJpyVVBodlFUEnzeGk8/7xBnmtVxsowBvEGFfgQuDfj8asMTdN3THMF271Ur
- NbJC7srJe5QVyc2MAEK9ZibaPDImobkvkPoKgFsV8P/RbH6Ezz2nAqhzG70WG2VSkOmn
- svR+dI8S/ANCKa0NzR3LzdO8LhWR8Pd4qhWL7N9UCmdvW1ehmYOFhuKNG5/79ILOi9IL
- 6zuA==
-X-Gm-Message-State: AOAM5311H2Rd/NV7GBmJIkMSgXhk+vuM9GU7SbBrvJ0ORRBDE4pGpAqx
- mv52b/o8Q5DoapB7ycEIawW6OorPZ6/bN/dDLC/2ug==
-X-Google-Smtp-Source: ABdhPJyXKhN5EScVDwjR162oOK33ajPAKsDnGAYw4sYWr1DOTQym8W+LchIR8j6ixX6JvWzsFngChaUy9M79BpaoBus=
-X-Received: by 2002:a05:6102:7b4:: with SMTP id
- x20mr3923640vsg.48.1621243403858; 
- Mon, 17 May 2021 02:23:23 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FkJfD67LCz2yXp;
+ Mon, 17 May 2021 22:41:24 +1000 (AEST)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 9788E5808A4;
+ Mon, 17 May 2021 08:41:20 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Mon, 17 May 2021 08:41:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm2; bh=MF+FHtIUrSHPdv8pdx7xGvA8pK
+ 5kMkTH+JjfQNKGQSU=; b=Jlc+d3CsoDg5Dj5AkPN6IPlUwNaL70WXBrBs+dMRN/
+ /OsddQIg+KK2RdgrXGSzupNs3yjokIJwzi1HuhnX1d/PU6bClf7yrzx/5Irp3Hac
+ aGoQi4XgjX13NH+x5iazvtaGFfR+71YRC/IPT7UdVoZ9N225X4X8Iw8xW7DgA2BA
+ KWxVOk2CDBPuYyRtVUbkxRqZ2VBXOBhc/hI9oW1+Y+GZb85HH8iBfmlbWpikux6e
+ EokBq4fGwg1wGubtQFks6t1kYfeOSnUrRawjo9qyZH08dgOuj4bZzhsnjWElNAjI
+ FrTbnyLuwaJxaPkUeN1geeC3H3hxxF60en+QsztDn3ew==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=MF+FHtIUrSHPdv8pd
+ x7xGvA8pK5kMkTH+JjfQNKGQSU=; b=jeRyaiiheB49PyjYDrrdCFe2KLAqUonB7
+ 8yVjWW/0KiCkm0XFMq0yoqHbq+gFIbDyF5QPN100JWC/9XhOLgnwTSK0Z812u/tU
+ TI+P6QEPcGuaWW9ym7PzWfxPbFN8gQAf/IcyURKfndhWPCcJ2ybVisikvnJCc3v7
+ 8j5+koqHSsUjS7JrKclMRkrbV0KHn+WMo8EASqHcr9J0Qb9KvyxetSieHMMoX7x4
+ jfEyJso3d0RUUvwpeqeqa1BxlyOFxssSgfW75hI8e3pNqH8j7ubglNwcuFEsJ2dA
+ XY5BXR8NFLIB79CyPwHzBN0Moi9G5r2GYzmwY1mATbMkDQMmgTqkw==
+X-ME-Sender: <xms:b2SiYD8Cfk9dr8VfeBG1c3uoajAlDfkBhldGGsPj2R9RY_IH5nzUtw>
+ <xme:b2SiYPuqtQrJK208NsIzpRNBB4Ns8IH8tWbS9q9l0zt7JymRHQeC361taX7eHAwnf
+ 4HiY1_HUHv674OsNg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeihedgheeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeetnhgurhgvficu
+ lfgvfhhfvghrhicuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrghtthgvrh
+ hnpeegfedttdfhfeegtdejveeivdehtefhveejudeujeevvdeifeegvdduffeigeehhfen
+ ucffohhmrghinhepphhorhhtrdguvghvnecukfhppedvtdefrdehjedrvdduhedrkeenuc
+ evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgv
+ fiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:b2SiYBCnuwf9VGbenYUaOk89dozsHE56pR6YpRHHfawIGphupMERVQ>
+ <xmx:b2SiYPftoQrObGOZeY4qvnLnhuY4KyGFx6fhjD8LVjlqI1Z1Kl4A7w>
+ <xmx:b2SiYIMAttCZYKkMXb6Pf-5EMPhuj85capD4X5ZD9pqcPqOONOmlzg>
+ <xmx:cGSiYHp6-oc-IfnjOVyT_NOomPBBvZYKLzJlgRv-7kpg0IMAMIbZZQ>
+Received: from mistburn.lan (203-57-215-8.dyn.iinet.net.au [203.57.215.8])
+ by mail.messagingengine.com (Postfix) with ESMTPA;
+ Mon, 17 May 2021 08:41:14 -0400 (EDT)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: linux-serial@vger.kernel.org
+Subject: [PATCH] tty: 8250: Add UART_BUG_TXRACE workaround for Aspeed VUART
+Date: Mon, 17 May 2021 22:11:05 +0930
+Message-Id: <20210517124105.3565860-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210513193204.816681-1-davidgow@google.com>
- <20210513193204.816681-6-davidgow@google.com>
-In-Reply-To: <20210513193204.816681-6-davidgow@google.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 17 May 2021 11:22:47 +0200
-Message-ID: <CAPDyKFoEeRUjHLZ3iSvPT4_0X107G3Xw+ujxJ9zsDk06dTxo7w@mail.gmail.com>
-Subject: Re: [PATCH v2 06/10] mmc: sdhci-of-aspeed: Remove some unnecessary
- casts from KUnit tests
-To: David Gow <davidgow@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,108 +93,78 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- linux-mmc <linux-mmc@vger.kernel.org>, Daniel Latypov <dlatypov@google.com>,
- Brendan Higgins <brendanhiggins@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-kselftest@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, kunit-dev@googlegroups.com
+Cc: miltonm@us.ibm.com, linux-aspeed@lists.ozlabs.org,
+ gregkh@linuxfoundation.org, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, jenmin_yuan@aspeedtech.com, jirislaby@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 13 May 2021 at 21:36, David Gow <davidgow@google.com> wrote:
->
-> With KUnit's EXPECT macros no longer typechecking arguments as strictly,
-> get rid of a number of now unnecessary casts.
->
-> Signed-off-by: David Gow <davidgow@google.com>
+Aspeed Virtual UARTs directly bridge e.g. the system console UART on the
+LPC bus to the UART interface on the BMC's internal APB. As such there's
+no RS-232 signalling involved - the UART interfaces on each bus are
+directly connected as the producers and consumers of the one set of
+FIFOs.
 
-I guess you will funnel this via another tree than the mmc?
+The APB in the AST2600 generally runs at 100MHz while the LPC bus peaks
+at 33MHz. The difference in clock speeds exposes a race in the VUART
+design where a Tx data burst on the APB interface can result in a byte
+lost on the LPC interface. The symptom is LSR[DR] remains clear on the
+LPC interface despite data being present in its Rx FIFO, while LSR[THRE]
+remains clear on the APB interface as the host has not consumed the data
+the BMC has transmitted. In this state, the UART has stalled and no
+further data can be transmitted without manual intervention (e.g.
+resetting the FIFOs, resulting in loss of data).
 
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+The recommended work-around is to insert a read cycle on the APB
+interface between writes to THR.
 
-Kind regards
-Uffe
+Cc: ChiaWei Wang <chiawei_wang@aspeedtech.com>
+Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+---
+ drivers/tty/serial/8250/8250.h              | 1 +
+ drivers/tty/serial/8250/8250_aspeed_vuart.c | 1 +
+ drivers/tty/serial/8250/8250_port.c         | 2 ++
+ 3 files changed, 4 insertions(+)
 
-> ---
-> This should be a no-op functionality wise, and while it depends on the
-> first couple of patches in this series, it's otherwise independent from
-> the others. I think this makes the test more readable, but if you
-> particularly dislike it, I'm happy to drop it.
->
->  drivers/mmc/host/sdhci-of-aspeed-test.c | 34 ++++++++++++-------------
->  1 file changed, 17 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/mmc/host/sdhci-of-aspeed-test.c b/drivers/mmc/host/sdhci-of-aspeed-test.c
-> index bb67d159b7d8..1ed4f86291f2 100644
-> --- a/drivers/mmc/host/sdhci-of-aspeed-test.c
-> +++ b/drivers/mmc/host/sdhci-of-aspeed-test.c
-> @@ -26,23 +26,23 @@ static void aspeed_sdhci_phase_ddr52(struct kunit *test)
->         KUNIT_EXPECT_EQ(test, 15,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 25));
->
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 0,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 0,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 180));
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 0,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 0,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 181));
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 182));
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 183));
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 2,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 2,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 184));
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 3,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 3,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 185));
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 14,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 14,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 203));
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 204));
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 205));
->  }
->
-> @@ -67,21 +67,21 @@ static void aspeed_sdhci_phase_hs200(struct kunit *test)
->         KUNIT_EXPECT_EQ(test, 15,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 96));
->
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 180));
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 185));
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 186));
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 1,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 187));
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 14,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 14,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 269));
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 270));
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 271));
-> -       KUNIT_EXPECT_EQ(test, (int)ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
-> +       KUNIT_EXPECT_EQ(test, ASPEED_SDHCI_TAP_PARAM_INVERT_CLK | 15,
->                         aspeed_sdhci_phase_to_tap(NULL, rate, 276));
->  }
->
-> --
-> 2.31.1.751.gd2f1c929bd-goog
->
+diff --git a/drivers/tty/serial/8250/8250.h b/drivers/tty/serial/8250/8250.h
+index 52bb21205bb6..4d6f5e0ecd4c 100644
+--- a/drivers/tty/serial/8250/8250.h
++++ b/drivers/tty/serial/8250/8250.h
+@@ -88,6 +88,7 @@ struct serial8250_config {
+ #define UART_BUG_NOMSR	(1 << 2)	/* UART has buggy MSR status bits (Au1x00) */
+ #define UART_BUG_THRE	(1 << 3)	/* UART has buggy THRE reassertion */
+ #define UART_BUG_PARITY	(1 << 4)	/* UART mishandles parity if FIFO enabled */
++#define UART_BUG_TXRACE (1 << 5)	/* UART Tx fails to set remote DR */
+ 
+ 
+ #ifdef CONFIG_SERIAL_8250_SHARE_IRQ
+diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+index a28a394ba32a..4caab8714e2c 100644
+--- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
++++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+@@ -440,6 +440,7 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
+ 	port.port.status = UPSTAT_SYNC_FIFO;
+ 	port.port.dev = &pdev->dev;
+ 	port.port.has_sysrq = IS_ENABLED(CONFIG_SERIAL_8250_CONSOLE);
++	port.bugs |= UART_BUG_TXRACE;
+ 
+ 	rc = sysfs_create_group(&vuart->dev->kobj, &aspeed_vuart_attr_group);
+ 	if (rc < 0)
+diff --git a/drivers/tty/serial/8250/8250_port.c b/drivers/tty/serial/8250/8250_port.c
+index d45dab1ab316..6c032abfc321 100644
+--- a/drivers/tty/serial/8250/8250_port.c
++++ b/drivers/tty/serial/8250/8250_port.c
+@@ -1809,6 +1809,8 @@ void serial8250_tx_chars(struct uart_8250_port *up)
+ 	count = up->tx_loadsz;
+ 	do {
+ 		serial_out(up, UART_TX, xmit->buf[xmit->tail]);
++		if (up->bugs & UART_BUG_TXRACE)
++			serial_in(up, UART_SCR);
+ 		xmit->tail = (xmit->tail + 1) & (UART_XMIT_SIZE - 1);
+ 		port->icount.tx++;
+ 		if (uart_circ_empty(xmit))
+-- 
+2.30.2
+
