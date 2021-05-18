@@ -1,56 +1,93 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 105C7387BD1
-	for <lists+linux-aspeed@lfdr.de>; Tue, 18 May 2021 16:59:41 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24974388335
+	for <lists+linux-aspeed@lfdr.de>; Wed, 19 May 2021 01:39:57 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FkzgG6QnBz2ymN
-	for <lists+linux-aspeed@lfdr.de>; Wed, 19 May 2021 00:59:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FlCCY2T5Xz2ymZ
+	for <lists+linux-aspeed@lfdr.de>; Wed, 19 May 2021 09:39:53 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=dkim header.b=Vl7feaHx;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=ib4T8VxK;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ukghisW6;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=alien8.de (client-ip=5.9.137.197; helo=mail.skyhub.de;
- envelope-from=bp@alien8.de; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256
- header.s=dkim header.b=Vl7feaHx; dkim-atps=neutral
-X-Greylist: delayed 457 seconds by postgrey-1.36 at boromir;
- Wed, 19 May 2021 00:59:30 AEST
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.221;
+ helo=new1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm2 header.b=ib4T8VxK; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=ukghisW6; 
+ dkim-atps=neutral
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Fkzg61nKZz2xb6
- for <linux-aspeed@lists.ozlabs.org>; Wed, 19 May 2021 00:59:30 +1000 (AEST)
-Received: from zn.tnic (p200300ec2f0ae2009a42d70f2967689e.dip0.t-ipconnect.de
- [IPv6:2003:ec:2f0a:e200:9a42:d70f:2967:689e])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E0BAE1EC030E;
- Tue, 18 May 2021 16:51:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1621349500;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=vmuROq0D6YxXIDCZICAwW6w0g0CakT1xbJQQIamFFkM=;
- b=Vl7feaHxOFuwEGBUqtyn3LL2j859bfwfE7YHSlokhy5IGT6MkaA2BvjZuPXlilS/aR/SHa
- nZmYFRa841b2vEV3TNGAKEq4oze701YWm7x0mkoncV+eRocfUYWGS2dzBwCdOZZMPJcMSR
- MOHjp4p/ct0+TtuVpoqaTEVvIcFsbqs=
-Date: Tue, 18 May 2021 16:51:34 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH] EDAC/aspeed: use proper format string for printing
- resource
-Message-ID: <YKPUdhSE+kepi10j@zn.tnic>
-References: <20210421135500.3518661-1-arnd@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210421135500.3518661-1-arnd@kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FlCCP32bPz2xxk;
+ Wed, 19 May 2021 09:39:44 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id E6CED58055C;
+ Tue, 18 May 2021 19:39:40 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute4.internal (MEProxy); Tue, 18 May 2021 19:39:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=1/zMW2aeJhVElhvVTN2cN12wqUkxW2C
+ anpM2QtRA+mM=; b=ib4T8VxKRN4kNFT3DSwJ++tD128xKVOkvxKxW5hAvG8cYhP
+ MYnUN4gC4ULusCj4TsVVq/Ym7sZRZEdiTcrNx3vahWzN7hnZgMR4VH5yilouc8cF
+ U2wVZC6J4te1kqBGN4lIaRfQxwxmaDn/B4eLWg8poWFd5yj27Nj8vCbdOzff96X9
+ f6YiFZ+GRdRMbKr92fkhtm8xDG4YaO4y37D29GgmVTMxzsm7nbvwTlvWqc6rMrjT
+ +o+Xd92OPMOeunvnL5baYLsI6r8XqMqQv+5ZluvrLqGJUJb4fEWZN/FwK/TaHdce
+ kT3LY/CY6R7Lysj51WXPamP8lqzs5C+r4vtXs/g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=1/zMW2
+ aeJhVElhvVTN2cN12wqUkxW2CanpM2QtRA+mM=; b=ukghisW6YZIgDpuJm3HNjE
+ axZzHi69XNt+aQFF12xsWnT7yvTKq+Dirie5tRFv2FuI/ZFjjDEKeIUAaA46CLeE
+ iTGSsRer79dqmYOLn+EZkzuhp63Ty5xk0imLxgUofxqG8omrsMJieYXLLtN7oCC5
+ +ZmnToD0UzKcIu7gqfaxZE7caGeZldNnrg0MsmmrGeiyVQFj6ON/cK3AW9Ct++9s
+ uP0P1wCOvgVqAnyYOWa6UlvbL/eVp4zbfaTzO0t1SBntERBfh4zy66ayR19yXx8B
+ KJgrxGUeVnoBStXvH93NpKdfiMrrdnqeTusC0nEh141lz2KVR/Tj4TbK1JfvTCfA
+ ==
+X-ME-Sender: <xms:OlCkYEfRqm6v7oHh-FASOw5RQJsP7WMW4nHBOajybasGjrZcuqpB9g>
+ <xme:OlCkYGMBK14sI3TUj8Vt-FINLLxQVOBxyJZLfwx--XoSK0P-G2EZOCbf6nSkehGhU
+ GZ2zZaX8fL0_QxBgw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeikedgvddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+ grthhtvghrnhepuddttdekueeggedvtddtueekiedutdfguedutdefieeuteefieelteet
+ vddthfeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ eprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:OlCkYFjhMtQDlkvdntaw19wxXcO6Clz2FFQv12RbmzWdRu1uOf3DMA>
+ <xmx:OlCkYJ9uImJmkdeXm6ceGvbIqV7l5_Pg4e9EMhXHBRNqjHZ2So_64g>
+ <xmx:OlCkYAu449BhmouZCdJEvZWzewvXiWtoE8rFHaQopbjNtVroKRgGvg>
+ <xmx:PFCkYCJ1vAzdWkrhXUSQA5Y5cfv0O1k0dydqQlh18AXusoDrkXysWA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id B0F5FA00079; Tue, 18 May 2021 19:39:38 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-448-gae190416c7-fm-20210505.004-gae190416
+Mime-Version: 1.0
+Message-Id: <f37dff04-7f54-4a8e-a31f-d29988f302c3@www.fastmail.com>
+In-Reply-To: <YKNgziMXms4zWRoY@kroah.com>
+References: <20210517124105.3565860-1-andrew@aj.id.au>
+ <YKJ6aP/xqAe1hW6A@kroah.com>
+ <d7918dcf-b938-498c-a012-3d93a748431b@www.fastmail.com>
+ <YKNgziMXms4zWRoY@kroah.com>
+Date: Wed, 19 May 2021 09:09:04 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Subject: =?UTF-8?Q?Re:_[PATCH]_tty:_8250:_Add_UART=5FBUG=5FTXRACE_workaround_for_?=
+ =?UTF-8?Q?Aspeed_VUART?=
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,57 +99,73 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Tony Luck <tony.luck@intel.com>, Robert Richter <rric@kernel.org>,
- linux-aspeed@lists.ozlabs.org, Arnd Bergmann <arnd@arndb.de>,
- linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Liu Shixin <liushixin2@huawei.com>, James Morse <james.morse@arm.com>,
- Stefan Schaeckeler <sschaeck@cisco.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org
+Cc: Milton Miller II <miltonm@us.ibm.com>, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-serial@vger.kernel.org, jenmin_yuan@aspeedtech.com,
+ Jiri Slaby <jirislaby@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Apr 21, 2021 at 03:54:53PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> On ARMv7, resource_size_t can be 64-bit, which breaks printing
-> it as %x:
-> 
-> drivers/edac/aspeed_edac.c: In function 'init_csrows':
-> drivers/edac/aspeed_edac.c:257:28: error: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'resource_size_t' {aka 'long long unsigned int'} [-Werror=format=]
->   257 |         dev_dbg(mci->pdev, "dt: /memory node resources: first page r.start=0x%x, resource_size=0x%x, PAGE_SHIFT macro=0x%x\n",
-> 
-> Use the special %pR format string to pretty-print the entire
-> resource instead.
-> 
-> Fixes: edfc2d73ca45 ("EDAC/aspeed: Add support for AST2400 and AST2600")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/edac/aspeed_edac.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/edac/aspeed_edac.c b/drivers/edac/aspeed_edac.c
-> index a46da56d6d54..6bd5f8815919 100644
-> --- a/drivers/edac/aspeed_edac.c
-> +++ b/drivers/edac/aspeed_edac.c
-> @@ -254,8 +254,8 @@ static int init_csrows(struct mem_ctl_info *mci)
->  		return rc;
->  	}
->  
-> -	dev_dbg(mci->pdev, "dt: /memory node resources: first page r.start=0x%x, resource_size=0x%x, PAGE_SHIFT macro=0x%x\n",
-> -		r.start, resource_size(&r), PAGE_SHIFT);
-> +	dev_dbg(mci->pdev, "dt: /memory node resources: first page %pR, PAGE_SHIFT macro=0x%x\n",
-> +		&r, PAGE_SHIFT);
->  
->  	csrow->first_page = r.start >> PAGE_SHIFT;
->  	nr_pages = resource_size(&r) >> PAGE_SHIFT;
-> -- 
 
-Applied, thanks.
 
--- 
-Regards/Gruss,
-    Boris.
+On Tue, 18 May 2021, at 16:08, Greg Kroah-Hartman wrote:
+> On Tue, May 18, 2021 at 11:00:39AM +0930, Andrew Jeffery wrote:
+> > 
+> > 
+> > On Mon, 17 May 2021, at 23:45, Greg KH wrote:
+> > > On Mon, May 17, 2021 at 10:11:05PM +0930, Andrew Jeffery wrote:
+> > > > Aspeed Virtual UARTs directly bridge e.g. the system console UART on the
+> > > > LPC bus to the UART interface on the BMC's internal APB. As such there's
+> > > > no RS-232 signalling involved - the UART interfaces on each bus are
+> > > > directly connected as the producers and consumers of the one set of
+> > > > FIFOs.
+> > > > 
+> > > > The APB in the AST2600 generally runs at 100MHz while the LPC bus peaks
+> > > > at 33MHz. The difference in clock speeds exposes a race in the VUART
+> > > > design where a Tx data burst on the APB interface can result in a byte
+> > > > lost on the LPC interface. The symptom is LSR[DR] remains clear on the
+> > > > LPC interface despite data being present in its Rx FIFO, while LSR[THRE]
+> > > > remains clear on the APB interface as the host has not consumed the data
+> > > > the BMC has transmitted. In this state, the UART has stalled and no
+> > > > further data can be transmitted without manual intervention (e.g.
+> > > > resetting the FIFOs, resulting in loss of data).
+> > > > 
+> > > > The recommended work-around is to insert a read cycle on the APB
+> > > > interface between writes to THR.
+> > > > 
+> > > > Cc: ChiaWei Wang <chiawei_wang@aspeedtech.com>
+> > > > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> > > > ---
+> > > >  drivers/tty/serial/8250/8250.h              | 1 +
+> > > >  drivers/tty/serial/8250/8250_aspeed_vuart.c | 1 +
+> > > >  drivers/tty/serial/8250/8250_port.c         | 2 ++
+> > > >  3 files changed, 4 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/tty/serial/8250/8250.h b/drivers/tty/serial/8250/8250.h
+> > > > index 52bb21205bb6..4d6f5e0ecd4c 100644
+> > > > --- a/drivers/tty/serial/8250/8250.h
+> > > > +++ b/drivers/tty/serial/8250/8250.h
+> > > > @@ -88,6 +88,7 @@ struct serial8250_config {
+> > > >  #define UART_BUG_NOMSR	(1 << 2)	/* UART has buggy MSR status bits (Au1x00) */
+> > > >  #define UART_BUG_THRE	(1 << 3)	/* UART has buggy THRE reassertion */
+> > > >  #define UART_BUG_PARITY	(1 << 4)	/* UART mishandles parity if FIFO enabled */
+> > > > +#define UART_BUG_TXRACE (1 << 5)	/* UART Tx fails to set remote DR */
+> > > 
+> > > BUG()?
+> > 
+> > Can you please expand on what you mean here? I don't follow.
+> > 
+> > At least, I think there might be a formatting issue (spaces vs tabs).
+> 
+> Ick, my fault, I meant "BIT()"?  To perhaps use that macro instead of the <<
+> symbol.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Ah, that makes a lot more sense.
+
+I'll send two patches. I'll leave the explicit shift in the bug fix for 
+the VUARTs for consistency, then in a subsequent patch I'll convert the 
+UART_{CAP,BUG}_* macros to use BIT() (which will also clean up 
+UART_BUG_TXRACE).
+
+Andrew
