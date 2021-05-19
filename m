@@ -2,60 +2,144 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F993897C2
-	for <lists+linux-aspeed@lfdr.de>; Wed, 19 May 2021 22:20:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 996DD389816
+	for <lists+linux-aspeed@lfdr.de>; Wed, 19 May 2021 22:38:25 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Flkkk3sY2z308V
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 06:20:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Fll7g47LYz303t
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 06:38:23 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; unprotected) header.d=equinixinc.onmicrosoft.com header.i=@equinixinc.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-equinixinc-onmicrosoft-com header.b=G70Mr8hN;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.161.50; helo=mail-oo1-f50.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com
- [209.85.161.50])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ smtp.mailfrom=equinix.com (client-ip=148.163.159.192;
+ helo=mx0b-00268f01.pphosted.com;
+ envelope-from=prvs=6773c47ddf=zweiss@equinix.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=equinixinc.onmicrosoft.com
+ header.i=@equinixinc.onmicrosoft.com header.a=rsa-sha256
+ header.s=selector2-equinixinc-onmicrosoft-com header.b=G70Mr8hN; 
+ dkim-atps=neutral
+X-Greylist: delayed 5700 seconds by postgrey-1.36 at boromir;
+ Thu, 20 May 2021 06:38:16 AEST
+Received: from mx0b-00268f01.pphosted.com (mx0b-00268f01.pphosted.com
+ [148.163.159.192])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Flkkg2R2Lz2xvJ
- for <linux-aspeed@lists.ozlabs.org>; Thu, 20 May 2021 06:20:10 +1000 (AEST)
-Received: by mail-oo1-f50.google.com with SMTP id
- e27-20020a056820061bb029020da48eed5cso3281559oow.10
- for <linux-aspeed@lists.ozlabs.org>; Wed, 19 May 2021 13:20:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Oz0/YJoURbTznyuffRuq6rxLXJB3zz/sK4EYSBr8mLY=;
- b=NxmJykXYddKbMvfBmLtLUJGIeEQm4aXZ4hP84jCgKHLn0c78cEy8nLDCjL9PB8IIlC
- xanir0ss4CYb7dq9CWedTCwFcp2c+fLh9u95tHX7KdfbasV+WAQoMUcVb/VTeEoNXWyw
- mAGYiJz5bg2uxp8FynbK01l4gUX9YJYlN6xAqvcvLVMSvsX18KwhoN+q+f8zn4GNK/Or
- pehXkv3SC2bK4j8BNMLj5LPyDxN75c6DA4YS+Wee0yddJn2xN5IiIh6n/r3Vlo21pCGg
- vdf+JIARxzRvpb+ndXrX7xQUFtrRdlb5fcRY9RsPkRbz865MtFxW/w+3wsl4mTmXZwlo
- lyug==
-X-Gm-Message-State: AOAM533Hyy6zOYiIxDYJq/GJ/Lq6DZETwuq4QuVvjenL0fs88nzUKtW0
- Oegne37pQ/lSu4wp8NZBPQ==
-X-Google-Smtp-Source: ABdhPJzwDeL/mPSqrfMjTmz4S1736w7fy206SUD7bP0L+IkZ5uj8fKlE2OjvqnyAK60okuQVFpiiWA==
-X-Received: by 2002:a4a:cb95:: with SMTP id y21mr944381ooq.68.1621455607464;
- Wed, 19 May 2021 13:20:07 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id p1sm181095otk.58.2021.05.19.13.20.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 13:20:06 -0700 (PDT)
-Received: (nullmailer pid 3580694 invoked by uid 1000);
- Wed, 19 May 2021 20:20:04 -0000
-Date: Wed, 19 May 2021 15:20:04 -0500
-From: Rob Herring <robh@kernel.org>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [v6 1/2] dt-bindings: Add bindings for aspeed pwm-tach.
-Message-ID: <20210519202004.GA3566127@robh.at.kernel.org>
-References: <20210518005517.9036-1-billy_tsai@aspeedtech.com>
- <20210518005517.9036-2-billy_tsai@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Fll7X0tLMz2xZH;
+ Thu, 20 May 2021 06:38:14 +1000 (AEST)
+Received: from pps.filterd (m0165121.ppops.net [127.0.0.1])
+ by mx0b-00268f01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14JIrQIi001497; Wed, 19 May 2021 19:02:54 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2046.outbound.protection.outlook.com [104.47.66.46])
+ by mx0b-00268f01.pphosted.com with ESMTP id 38n53f8rue-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 19 May 2021 19:02:53 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cCsOYuzsLiS/Ev8HBLFh2tQKIKn4ZnDtyPijFRFF7IzJ1oqs8WDPUCx8dbdUPm3FHr/8EjVdZFXc98QJ8qZufr/eSCbNz3kBzUBjQSqea3HhxADB9LSqe05oHe4BVs9MePWcr8QECTL2TNAnpD3s7FFrNiiJPCrOtDCEKJ4Qu1W8jZSgR6UWD3rxSO1fhmt9IoZ/8bTIVatGvgbODKCfgpGMBSLK9YOhIN618/HJ0Zls50EQmRZ82o7dieG773Z4AMAkudCh0V6IQAZmPrrTo9tr458t9KJtV7Gi6vqtBrT9XSXFNmf2/CY1GgCLWgXyfjSbr7yMRzmEQ5KZ6wFrJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kvoCsGU2nQjTYgbXdS5nzV22tJWDyVf+C2DmIiz8KGY=;
+ b=MQz2ukTuGzE1KUQtHk2lSCvjWNP+nuArwlHBayu0Zj2w8rFPdglfK3kYJasSLXXWp7eMgM/IU5F03v/kQXxDFQPsvKoLaunnJLxWkZ1WoUQ3FXYCAf7sxxqKVwO0QJk77+LqLj32rGUYFNtIHPPifeixg+fD9pNn16afy+gVe2znzrdDKdhDz1x7EsiOaDUcvdFdu5qtsrEJ/L6FSemkkHrdNvgm3CkjV2nq/15WdLqmrRQkizYwqzk0beO088iANkAEMIysrD6l5K5ZW7aLbLZUIZKtIx9Cj8CIxpflow/zHBE6iuKeSAJ1BJOrDqpSkSnfYaMfsO1rRYE5iLFKzg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=equinix.com; dmarc=pass action=none header.from=equinix.com;
+ dkim=pass header.d=equinix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=equinixinc.onmicrosoft.com; s=selector2-equinixinc-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kvoCsGU2nQjTYgbXdS5nzV22tJWDyVf+C2DmIiz8KGY=;
+ b=G70Mr8hNK4MUvJHRVwYADZSPMqtWo7GTP2un1AWyUvHTppH6SzdqGo2wuqUOBf3UY2O0GlaRJt/AVrD+fYdpkYMo+QqoSDWV7aoocj6ilCmqLXrsPPyeoxZvkcRzesJ3x0I9EnUffi3wKJckjHLc4pvhYzus6+dEip+C5Xuig9g=
+Received: from DM5PR04MB0762.namprd04.prod.outlook.com (2603:10b6:3:f3::13) by
+ DM6PR04MB5532.namprd04.prod.outlook.com (2603:10b6:5:12d::17) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4129.28; Wed, 19 May 2021 19:02:51 +0000
+Received: from DM5PR04MB0762.namprd04.prod.outlook.com
+ ([fe80::d9ba:6e7f:b51e:6cab]) by DM5PR04MB0762.namprd04.prod.outlook.com
+ ([fe80::d9ba:6e7f:b51e:6cab%2]) with mapi id 15.20.4129.033; Wed, 19 May 2021
+ 19:02:50 +0000
+From: Zev Weiss <zweiss@equinix.com>
+To: Jamin Lin <jamin_lin@aspeedtech.com>
+Subject: Re: [PATCH 1/3] i2c: aspeed: avoid new registers definition of AST2600
+Thread-Topic: [PATCH 1/3] i2c: aspeed: avoid new registers definition of
+ AST2600
+Thread-Index: AQHXTOGQ+04th/dwT0i8Ccm8YNu1Cw==
+Date: Wed, 19 May 2021 19:02:50 +0000
+Message-ID: <YKVg2Kfbex3DYbNI@packtop>
+References: <20210519080436.18975-1-jamin_lin@aspeedtech.com>
+ <20210519080436.18975-2-jamin_lin@aspeedtech.com>
+In-Reply-To: <20210519080436.18975-2-jamin_lin@aspeedtech.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: aspeedtech.com; dkim=none (message not signed)
+ header.d=none; aspeedtech.com; dmarc=none action=none header.from=equinix.com; 
+x-originating-ip: [24.181.166.149]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f83a6770-f627-4288-3300-08d91af8b324
+x-ms-traffictypediagnostic: DM6PR04MB5532:
+x-microsoft-antispam-prvs: <DM6PR04MB5532A50BF223C8ACA86B6910C32B9@DM6PR04MB5532.namprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: o0klEahC8/xfDOGVZ+y/xugA+ddS+D9mkiSdlLJp6lqex5UK9g0Y1wnWbjAfz+BDu8R34aVAlDNX3+3B5i8A0NglRseLRepKnGUJzLqwe/hLwjXe6+JhYgFkKREiOe9aDGDqVdHR+k+0Ju/mvuzsAAYzeDVts+EbUjFi2xkwCFralcsuj726EnNVYMNr2vBIn31xLPt7jz2xyHxIiMq6fbTw/+svga7bCw36Foxszf7e1JCSbIGBPvgrdqriycO6buYtWpbGIeaXaxfNZ/BLp8VgeP6jns0cq/2BG2hwlqbccMfDUVoabgIV8xEd59DFclz7jHTJLHnyCqEbLKY8TNlblJvUUGIetOvSJkO/NN1qiZrY7DcUkH6WglBYY+A+M2oAN8RT53QPVwNs3W15ZDtWhKYYwVDgXg+yeO4AZTj9ptL5FXQpou8Ba1oLirp4leYquzYrAG/Vpyq8rv+xB2Q3hxno7K9onln33i7jShZEtm0SOUTkfFCepjh5REIOT0i9P4AEwsjLa2J5MrekjzbYe0VvG0w/wofQNHCA0McAF+MbTxStSb6+vIOzn5PdVE9H4IAlSM9Gh/RQzi7Ri5/m5tRJnoYZovA4O5oZ0sE=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR04MB0762.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(7916004)(4636009)(376002)(136003)(396003)(346002)(39860400002)(366004)(4326008)(478600001)(54906003)(8936002)(8676002)(316002)(6916009)(86362001)(91956017)(7416002)(66946007)(6486002)(5660300002)(76116006)(122000001)(6512007)(71200400001)(9686003)(26005)(186003)(66556008)(66476007)(64756008)(66446008)(38100700002)(33716001)(6506007)(2906002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?YPZUePZVPDx0O51aDq5UGtkk0XLS4WQfuV/sNJHKhO6Hpb01+20LGgeuplwI?=
+ =?us-ascii?Q?yYNd6uMu2S19ySiBs8xKOhWUk73ZWtaiXa0DhrVv1zRaVSLvs/YvVzu3Yx0B?=
+ =?us-ascii?Q?tWKoPKyBfCQqjfsJ5YiTo/vmFEdGxVavht3WjG2w4La3sPogUPi3yxXbOaR9?=
+ =?us-ascii?Q?Es9BNihUxq8Pib7t4lGsAin7q2/CX+o7AmkGFt28LG1Y/OiRzxZZ3cEy2s7c?=
+ =?us-ascii?Q?T/ZTeJZHDBv1zKaRonWucRZpKe+QRynagI2tQWDMYCE0aZ6c50x54jvZGtVy?=
+ =?us-ascii?Q?woc2wwoHJ50YT7BAPRY3wCxXB6ZjlKFJzZt/jjKLIK61IKhLD5OaZAQVds9t?=
+ =?us-ascii?Q?RQoAtVsWFjmDpNiVk+Lisxts5WYrUGd1cnTIaOr9tbnULI+vhNNyG/j5M5ct?=
+ =?us-ascii?Q?3ScsL48AIGWdflRPsekxzZBwOk+5gUMsQ2W6rzOIbTppjn24edXHbWcYV/oy?=
+ =?us-ascii?Q?JNFjH2al3xfVbQy6qfMG5/+s6crsb8G9LLzN643RplPBnW7xOnDCA0d2RMER?=
+ =?us-ascii?Q?c2kYov7DL2xCbqkG0unQBjmo7R/lNJ95Uh4XCDosMRDTcPVnjvBvhOERKt3i?=
+ =?us-ascii?Q?zxzJUEb5Yj78phUODW3JMI4CaVgFPnt+0EKth6HpzSevSvI4LDCvbw500yGU?=
+ =?us-ascii?Q?5Y2HgLCL8VOJq4z0SzLg43pHRy4S3t35mkpRwMwbohrXIHqB4RNbxqvTT8FA?=
+ =?us-ascii?Q?T4lgr5TK0NsHt/sdXR7gaVmK+hSkJ2+z7niwwFjZRCKo0/5a9ZpJWfiZ6imj?=
+ =?us-ascii?Q?sGFlkKvH5jxm6yNHc0TlgHvLMLxcld5v3o7n4Paqk59HvZkgnJghlYAzwK/p?=
+ =?us-ascii?Q?HScOQa6TMG46FXURY1PK/jcvBVVugvVe+Acn6iTNowfN/xOLsaTWK/7of3wR?=
+ =?us-ascii?Q?bfZzFl+TMiATVVV3A8MAbteY5XlEjMJ67VWXlz+BFiuo+0GqLjlwnOv8yzve?=
+ =?us-ascii?Q?a4afsI92JaxsmR6+mbQ0MUS+HDz8OMtSOcWyJ9g+ox14dShTJp5EAbFgxw3g?=
+ =?us-ascii?Q?YkocReRTy//ZvFbkrcmcuxHLBofbJWiSYEupIMbVP/sZd9+tDXiMmYPl0B+y?=
+ =?us-ascii?Q?q5O+FYvDGzgvm3n2fum+0hP+ZJ04fo249uR55iBztQOlK9xphnDEFLYSU0IA?=
+ =?us-ascii?Q?3vPZCNiVjBAFUCzFc9bkNjNc+UrgQyVDAqwyExyWrpwnYdV45nX5eRPZmlTu?=
+ =?us-ascii?Q?PVW8m+yBzoQnuK6a+wncIaaETT5uEzM4qyg4p33XBM5+IzEgM7JR51q2i/6H?=
+ =?us-ascii?Q?o/5LWIRFkeSnKrIoQrgCmZn/miVMYyUVhfEEYa7AAkp7Td76m9Rt3ZeK01Az?=
+ =?us-ascii?Q?Z4AJ1iN0WnmbWOkRi/JzhH3K/kLGQUw9/zyjOPkpdZzKOQ=3D=3D?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <84F50A129A8DAD49B76EF596CB752539@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210518005517.9036-2-billy_tsai@aspeedtech.com>
+X-OriginatorOrg: equinix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR04MB0762.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f83a6770-f627-4288-3300-08d91af8b324
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 May 2021 19:02:50.8511 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72adb271-2fc7-4afe-a5ee-9de6a59f6bfb
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zDuP14UVcLw+WRfwC3DERIqIJVUsl+QU2gFiThZxkWypGLngxDBgujxc4z4wpx2XmQ6aJxycWTRPzCuYenCgsA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB5532
+X-Proofpoint-ORIG-GUID: wMwPn8DyDFsX_YFW7eiXhh4qf4UDxt8Y
+X-Proofpoint-GUID: wMwPn8DyDFsX_YFW7eiXhh4qf4UDxt8Y
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
+ definitions=2021-05-19_09:2021-05-19,
+ 2021-05-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 mlxscore=0
+ lowpriorityscore=0 impostorscore=0 phishscore=0 spamscore=0 clxscore=1011
+ malwarescore=0 bulkscore=0 adultscore=0 suspectscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2105190115
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,276 +151,94 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-pwm@vger.kernel.org, BMC-SW@aspeedtech.com, linux-kernel@vger.kernel.org,
- thierry.reding@gmail.com, p.zabel@pengutronix.de,
- u.kleine-koenig@pengutronix.de, lee.jones@linaro.org,
- linux-arm-kernel@lists.infradead.org
+Cc: "open list:OPEN FIRMWARE AND
+ FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ "moderated list:ARM/ASPEED I2C
+ DRIVER" <openbmc@lists.ozlabs.org>, Brendan Higgins <brendanhiggins@google.com>,
+ open list <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ "steven_lee@aspeedtech.com" <steven_lee@aspeedtech.com>, "moderated
+ list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>,
+ "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, May 18, 2021 at 08:55:16AM +0800, Billy Tsai wrote:
-> This patch adds device binding for aspeed pwm-tach device which is a
-> multi-function device include pwm and tach function and pwm/tach device
-> bindings which should be the child-node of pwm-tach device.
-> 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> ---
->  .../bindings/hwmon/aspeed,ast2600-tach.yaml   | 66 +++++++++++++++
->  .../bindings/mfd/aspeed,ast2600-pwm-tach.yaml | 84 +++++++++++++++++++
->  .../bindings/pwm/aspeed,ast2600-pwm.yaml      | 62 ++++++++++++++
->  3 files changed, 212 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml
->  create mode 100644 Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
->  create mode 100644 Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml b/Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml
-> new file mode 100644
-> index 000000000000..0b23281e9f5c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml
-> @@ -0,0 +1,66 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2021 ASPEED, Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/hwmon/aspeed,ast2600-tach.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ASPEED AST2600 Tach controller
-> +
-> +maintainers:
-> +  - Billy Tsai <billy_tsai@aspeedtech.com>
-> +
-> +description: |
-> +  The ASPEED Tach controller can support upto 16 fan input.
-> +  This module is part of the ast2600-pwm-tach multi-function device. For more
-> +  details see ../mfd/aspeed,ast2600-pwm-tach.yaml.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2600-tach
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  pinctrl-0: true
-> +
-> +  pinctrl-names:
-> +    const: default
-> +
-> +
-> +required:
-> +  - compatible
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +
-> +additionalProperties:
-> +  type: object
-> +  properties:
-> +    reg:
-> +      description:
-> +        The tach channel used for this fan.
-> +      maxItems: 1
+On Wed, May 19, 2021 at 03:04:27AM CDT, Jamin Lin wrote:
+>The register definition between AST2600 A2 and A3 is different.
+>This patch avoid new registers definition of AST2600 to use
+>this driver. We will submit the path for the new registers
+>definition of AST2600.
+>
+>Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
+>---
+> drivers/i2c/busses/i2c-aspeed.c | 22 ++++++++++++++++++++++
+> 1 file changed, 22 insertions(+)
+>
+>diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspe=
+ed.c
+>index 724bf30600d6..007309077d9f 100644
+>--- a/drivers/i2c/busses/i2c-aspeed.c
+>+++ b/drivers/i2c/busses/i2c-aspeed.c
+>@@ -19,14 +19,20 @@
+> #include <linux/irqchip/chained_irq.h>
+> #include <linux/irqdomain.h>
+> #include <linux/kernel.h>
+>+#include <linux/mfd/syscon.h>
+> #include <linux/module.h>
+> #include <linux/of_address.h>
+> #include <linux/of_irq.h>
+> #include <linux/of_platform.h>
+> #include <linux/platform_device.h>
+>+#include <linux/regmap.h>
+> #include <linux/reset.h>
+> #include <linux/slab.h>
+>
+>+/* I2C Global Registers */
+>+/* 0x0c : I2CG Global Control Register (AST2500)  */
+>+#define ASPEED_I2CG_GLOBAL_CTRL_REG			0x0c
+>+
+> /* I2C Register */
+> #define ASPEED_I2C_FUN_CTRL_REG				0x00
+> #define ASPEED_I2C_AC_TIMING_REG1			0x04
+>@@ -973,6 +979,22 @@ static int aspeed_i2c_probe_bus(struct platform_devic=
+e *pdev)
+> 	struct resource *res;
+> 	int irq, ret;
+>
+>+	if (of_device_is_compatible(pdev->dev.of_node,
+>+				    "aspeed,ast2600-i2c-bus")) {
+>+		u32 global_ctrl;
+>+		struct regmap *gr_regmap;
+>+
+>+		gr_regmap =3D syscon_regmap_lookup_by_compatible("aspeed,ast2600-i2c-gl=
+obal");
+>+
+>+		if (IS_ERR(gr_regmap)) {
+>+			ret =3D PTR_ERR(gr_regmap);
+>+		} else {
+>+			regmap_read(gr_regmap, ASPEED_I2CG_GLOBAL_CTRL_REG, &global_ctrl);
+>+			if (global_ctrl & BIT(2))
+>+				return -EIO;
 
-blank line between each DT property sub-schema please.
+A macro definition might be a bit nicer than a raw BIT(2) here I'd
+think.
 
-> +    aspeed,min-rpm:
-> +      description:
-> +        define the minimal revolutions per minute of the measure fan
-> +        used to calculate the sample period of tach
-> +      default: 1000
-> +    aspeed,pulse-pr:
-> +      description:
-> +        Value specifying the number of pulses per revolution of the
-> +        monitored FAN.
-> +      default: 2
-> +    aspeed,tach-div:
-> +      description:
-> +        define the tachometer clock divider as an integer. Formula of
-> +        tach clock = clock source / (2^tach-div)^2
-> +      minimum: 0
-> +      maximum: 15
-> +      # The value that should be used if the property is not present
-> +      default: 5
-> +  required:
-> +    - reg
-> diff --git a/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml b/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
-> new file mode 100644
-> index 000000000000..d742ccfcc003
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
-> @@ -0,0 +1,84 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2021 ASPEED, Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/aspeed,ast2600-pwm-tach.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: PWM Tach controller Device Tree Bindings
-> +
-> +description: |
-> +  The PWM Tach controller is represented as a multi-function device which
-> +  includes:
-> +    PWM
-> +    Tach
-> +
-> +maintainers:
-> +  - Billy Tsai <billy_tsai@aspeedtech.com>
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - aspeed,ast2600-pwm-tach
-> +      - const: syscon
-> +      - const: simple-mfd
-> +  reg:
-> +    maxItems: 1
-> +  clocks:
-> +    maxItems: 1
-> +  resets:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - resets
-> +
-> +patternProperties:
-> +  "^pwm(@[0-9a-f]+)?$":
-> +    $ref: ../pwm/aspeed,ast2600-pwm.yaml
-> +
-> +  "^tach(@[0-9a-f]+)?$":
-> +    $ref: ../hwmon/aspeed,ast2600-tach.yaml
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/ast2600-clock.h>
-> +    pwm_tach: pwm_tach@1e610000 {
-> +      compatible = "aspeed,ast2600-pwm-tach", "syscon", "simple-mfd";
-> +      reg = <0x1e610000 0x100>;
-> +      clocks = <&syscon ASPEED_CLK_AHB>;
-> +      resets = <&syscon ASPEED_RESET_PWM>;
-> +
-> +      pwm: pwm {
-> +        compatible = "aspeed,ast2600-pwm";
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        #pwm-cells = <3>;
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&pinctrl_pwm0_default>;
-> +        pwm-ch@0 {
-> +          reg = <0>;
-> +          aspeed,wdt-reload-enable;
-> +          aspeed,wdt-reload-duty-point = <32>;
+Also, it seems a bit unfortunate to just bail on the device entirely if
+we find this bit set (seems like a good way for a bootloader to
+inadvertently DoS the kernel), though I guess poking global syscon bits
+in the bus probe function might not be ideal.  Could/should we consider
+some module-level init code to ensure that bit is cleared?
 
-Normally, you configure the PWM on the client side, not the producer 
-side.
 
-> +        };
-> +      };
-> +
-> +      tach: tach {
-> +        compatible = "aspeed,ast2600-tach";
+Zev
 
-Are pwm and tach separate h/w blocks? 
-
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&pinctrl_tach0_default>;
-> +        fan@0 {
-> +          reg = <0>;
-
-How does one configure which PWM is connected to each fan?
-
-Existing bindings use 'reg' for PWM channel and another property for 
-tach channel. Please don't do something different.
-
-> +          aspeed,min-rpm = <1000>;
-> +          aspeed,pulse-pr = <2>;
-> +          aspeed,tach-div = <5>;
-> +        };
-> +      };
-> +    };
-> diff --git a/Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml b/Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
-> new file mode 100644
-> index 000000000000..f1354c8d35b5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
-> @@ -0,0 +1,62 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2021 ASPEED, Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pwm/aspeed,ast2600-pwm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ASPEED AST2600 PWM controller
-> +
-> +maintainers:
-> +  - Billy Tsai <billy_tsai@aspeedtech.com>
-> +
-> +description: |
-> +  The ASPEED PWM controller can support upto 16 PWM outputs.
-> +  This module is part of the ast2600-pwm-tach multi-function device. For more
-> +  details see ../mfd/aspeed,ast2600-pwm-tach.yaml.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2600-pwm
-> +
-> +  "#pwm-cells":
-> +    const: 3
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  pinctrl-0: true
-> +
-> +  pinctrl-names:
-> +    const: default
-> +
-> +
-> +required:
-> +  - compatible
-> +  - "#pwm-cells"
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +
-> +additionalProperties:
-> +  description: Set extend properties for each pwm channel.
-> +  type: object
-> +  properties:
-> +    reg:
-> +      description:
-> +        The pwm channel index.
-> +      maxItems: 1
-> +    aspeed,wdt-reload-enable:
-> +      type: boolean
-> +      description:
-> +        Enable the function of wdt reset reload duty point.
-> +    aspeed,wdt-reload-duty-point:
-> +      description:
-> +        Define the duty point after wdt reset, 0 = 100%
-> +      minimum: 0
-> +      maximum: 255
-> +  required:
-> +    - reg
-> -- 
-> 2.25.1
-> 
+>+		}
+>+	}
+>+
+> 	bus =3D devm_kzalloc(&pdev->dev, sizeof(*bus), GFP_KERNEL);
+> 	if (!bus)
+> 		return -ENOMEM;
+>--=20
+>2.17.1
+>=
