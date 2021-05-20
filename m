@@ -2,78 +2,84 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 966C4389AD3
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 03:19:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05B38389B37
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 04:13:59 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FlsNW3YM1z2yxL
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 11:19:55 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FltZr6TRjz2xvB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 12:13:56 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=eU7zw9r8;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=TBAjCkk+;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ajPVZwIR;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::731;
- helo=mail-qk1-x731.google.com; envelope-from=groeck7@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.221;
+ helo=new1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=eU7zw9r8; dkim-atps=neutral
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
- [IPv6:2607:f8b0:4864:20::731])
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm2 header.b=TBAjCkk+; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=ajPVZwIR; 
+ dkim-atps=neutral
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
+ [66.111.4.221])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FlsNN14gkz2xvK;
- Thu, 20 May 2021 11:19:46 +1000 (AEST)
-Received: by mail-qk1-x731.google.com with SMTP id o27so14679233qkj.9;
- Wed, 19 May 2021 18:19:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:to:cc:references:from:subject:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1D3O+JRxyNjN7AfoZ/LrzEWFZxa2jRcbF0cobpLTwBI=;
- b=eU7zw9r8Zd+1y+GyrlwfK44OtLvUENYjnu3QHCykZLnrIK1EN7Jd8yURoCh4abpebN
- nXffVmA/P4XqKMZfZrpr7T1+Mmuk8i8PSzF4Cb83TFFmSc5OHyzLSo5Ss9zMgIXCFJIS
- M4OMkrTj3I76GCuMk7ahIAtCJDLiY307C2iQihHpsIUhm7tYX+55tYEtD7P+Ezw9TNLh
- TyounvSXxOTukIGHmFD9aU0uAXRo0LdKXYLUf6o5P1PO/wG2Li/5dFsHXjRf4TcdKziN
- T3KUgTFP8G0AJmwUfsb1SCqALHzb1Da224QzqT7nGd2WB2UTOWV3leq8x6jdmO3evhnd
- zo1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1D3O+JRxyNjN7AfoZ/LrzEWFZxa2jRcbF0cobpLTwBI=;
- b=Lp61GyjEZY9Ubl7k5uZcIzOGj1JpW3KGKeAyU2sBsapiDipSSEMlQV0Ics861aJqWj
- U1wvPj0mD5bI3WGlfB1eSc92WDWpmgC5ssGjfHDVGOVYzFPXJ5paU17GLttxihVMDClD
- MX9vtns1gOoLdO6pn6grNX0zI4Za3506DWzLbuUNHAtEzMIPyvLQw8FwCQO74H7JStjS
- wE3WV4PvGd8NBCqhx0QC8gpIdzlqLem5uTUCjk+9ZwwO1DNyZ9uWNCv25STv7E8+y0ah
- Mo84MrR8iPr8mPf7Zgry9Mv0hWRQ+6Vt09zhNuKTdIyWZ654TMCiajhWAqxyIYcA4bMB
- eYPA==
-X-Gm-Message-State: AOAM531a7HO02zc2lZA8+HFR9D0PROZ2LSHaQ+1/jCvl/T/rWQ+p6AaM
- joXj1vSEuPxQ/evteEqpK74A33VakHU=
-X-Google-Smtp-Source: ABdhPJyFOg1bxkiIgR5UtafC5GzENVkl+n00XgA3bXG4idwEtbP07zX0Un68QH28aZ9fnkkoC860yg==
-X-Received: by 2002:ae9:e706:: with SMTP id m6mr2534629qka.74.1621473581138;
- Wed, 19 May 2021 18:19:41 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- u126sm1075725qkd.80.2021.05.19.18.19.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 19 May 2021 18:19:40 -0700 (PDT)
-To: Joel Stanley <joel@jms.id.au>, Quan Nguyen <quan@os.amperecomputing.com>
-References: <20210519074934.20712-1-quan@os.amperecomputing.com>
- <20210519074934.20712-5-quan@os.amperecomputing.com>
- <CACPK8XdyQT=cuSr9KBqC0PBkOLgBUBpyz3kZEA3JuOuZsQN_Rw@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v3 4/7] i2c: aspeed: Acknowledge Tx done w/wo ACK irq late
-Message-ID: <414a51e8-0973-0007-9ffc-2949f3c7b0f8@roeck-us.net>
-Date: Wed, 19 May 2021 18:19:37 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FltZn43cyz2xvK;
+ Thu, 20 May 2021 12:13:52 +1000 (AEST)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.nyi.internal (Postfix) with ESMTP id ACA925808EB;
+ Wed, 19 May 2021 22:13:49 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Wed, 19 May 2021 22:13:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm2; bh=odecAKUaHKQG4X3qJBH558YiNF
+ 7tYkLnTOKSXP3atJM=; b=TBAjCkk+uY2vL+OPwD/lYfZ9Qd6hy31ihSr8xd0dER
+ PAhQvk5iYF7YH9Yvo8H2rOcZGIc+JjioT2xksAA+5QM6/HRC2xe94VBjExBy/FhF
+ MGqjFe0RWKq60dai30WXXqO4IsJXrc34UIvxcctz9BqHbDSLzX2pzkgILvtmvjDQ
+ b2k8t2xr6ZQTQ+wb23M2rYocYszl5wjFwXC9feT0j9PDvdwFoYJE0ARQGoHitZNL
+ idcfpvX5BO1Ai500+DqKTMofPg+IPjidnX6VcyeHc6T+Xt2wvZNnQ/tNzo4yHFkK
+ RM8vQUUax0XWYWW4VVQYN9JDDZCmJg85nJW5ag3eHIqw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=odecAKUaHKQG4X3qJ
+ BH558YiNF7tYkLnTOKSXP3atJM=; b=ajPVZwIRN8x1f044hZZ78SjOdzZ2dcid7
+ 4O6D8HV1KWmQxN+3WPnvpC0HCqGiV4QRKIsofQhNldfU/IZJFNQ0HroscZdCsjtI
+ 21SuRslEESk2tql30Hb2Ryu8Y54iI0JaOEW9y0mu9VC7oL68I/4++1XEifSKRTyi
+ tAVkRR2lEJh7O5Ldk+q46JxM8DF/+yPv/k53jlg7rJflyJN8ckBrI49tZAo+AjnQ
+ KH5jL39tibMDPP5TANRlf1IFKXi2HOqnuGQW/K8PCioBUD797wBgVF9ttEy0CFI3
+ FW3RdwTvQNBqrP7N758PDBV/moyULfKMQ0yQRv2QDuj8tmJxuCSUw==
+X-ME-Sender: <xms:28WlYGlXskmb1XwY4GSsxAC9mvToJbTFdD70sq56mJm1_iX5Udrvlg>
+ <xme:28WlYN2pOYZmMq2P-RRQGPhPnoqb3Tg46zgAtz6jwqc1G5f7wpF8J7yEFlAZwXOl8
+ NKXqVI_SmSHW7u9lQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejtddgheeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegrjhdr
+ ihgurdgruheqnecuggftrfgrthhtvghrnhepieetheduveelhfdvvdejleeuhfelteevhe
+ ffgfeitdefgeekjeefieevgfehhefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghen
+ ucfkphepvddtfedrheejrddvudehrdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+ hrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:28WlYEo5Rio_SEtewHw5ZoTy2Ou0_uUJu5VAoj60hxWk-9-QXLcEWg>
+ <xmx:28WlYKlMelg0fgen-9DB4jqEXMFfdYJONK8y4Z0Rbo8uu4BmGb4tXg>
+ <xmx:28WlYE0-AgMrl9NNVVgJK64_JsAuy6pFlTfMd5xht_AomF0uh0eS4Q>
+ <xmx:3cWlYFIIfjWE1XJLFk1Uatd3BEamHkRzhE9tFYuTqURUSbFhXtLTxA>
+Received: from mistburn.lan (203-57-215-8.dyn.iinet.net.au [203.57.215.8])
+ by mail.messagingengine.com (Postfix) with ESMTPA;
+ Wed, 19 May 2021 22:13:43 -0400 (EDT)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: linux-serial@vger.kernel.org
+Subject: [PATCH v3 0/2] serial: 8250: Mitigate Tx stall risk for Aspeed VUARTs
+Date: Thu, 20 May 2021 11:43:32 +0930
+Message-Id: <20210520021334.497341-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <CACPK8XdyQT=cuSr9KBqC0PBkOLgBUBpyz3kZEA3JuOuZsQN_Rw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -86,147 +92,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Corey Minyard <minyard@acm.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Phong Vo <phong@os.amperecomputing.com>, Wolfram Sang <wsa@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, linux-i2c@vger.kernel.org,
- Philipp Zabel <p.zabel@pengutronix.de>,
- openipmi-developer@lists.sourceforge.net,
- Open Source Submission <patches@amperecomputing.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: miltonm@us.ibm.com, linux-aspeed@lists.ozlabs.org,
+ gregkh@linuxfoundation.org, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, jenmin_yuan@aspeedtech.com, jirislaby@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 5/19/21 4:43 PM, Joel Stanley wrote:
-> On Wed, 19 May 2021 at 07:50, Quan Nguyen <quan@os.amperecomputing.com> wrote:
->>
->> With Tx done w/wo ACK are ack'ed early at beginning of irq handler,
-> 
-> Is w/wo a typo? If not, please write the full words ("with and without")
-> 
->> it is observed that, usually, the Tx done with Ack irq raises in the
->> READ REQUESTED state. This is unexpected and complaint as below appear:
->> "Unexpected Ack on read request"
->>
->> Assumed that Tx done should only be ack'ed once it was truly processed,
->> switch to late ack'ed this two irqs and seen this issue go away through
->> test with AST2500..
-> 
-> Please read Guneter's commit message
-> 2be6b47211e17e6c90ead40d24d2a5cc815f2d5c to confirm that your changes
-> do not invalidate the fix that they made.  Add them to CC for review.
->  
+Hello,
 
-This might re-introduce a race condition if the code that is handling
-Tx done sends another byte without acknowledging the original interrupt,
-and another Tx done (or Tx nack) interrupt is received before the interrupt
-handler returns. If that happens, the second Tx done interrupt would be
-acknowledged but not be handled, and transmit would stall. That may well be
-what I had observed at the time but it is too long ago to remember, sorry.
+Briefly, the series works around a hardware race condition in the Tx path for
+Aspeed virtual UARTs. A write burst to THR on the APB interface may provoke a
+transfer stall where LSR[DR] on the LPC interface remains clear despite the
+presence of data in the Rx FIFO.
 
-> Again, this is a fix that is independent of the ssif work. Please send
-> it separately with a Fixes line.
-> 
->>
->> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
->> ---
->> v3:
->>    + First introduce in v3 [Quan]
->>
->>   drivers/i2c/busses/i2c-aspeed.c | 26 ++++++++++++++++++--------
->>   1 file changed, 18 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
->> index 3fb37c3f23d4..b2e9c8f0ddf7 100644
->> --- a/drivers/i2c/busses/i2c-aspeed.c
->> +++ b/drivers/i2c/busses/i2c-aspeed.c
->> @@ -606,8 +606,12 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
->>
->>          spin_lock(&bus->lock);
->>          irq_received = readl(bus->base + ASPEED_I2C_INTR_STS_REG);
->> -       /* Ack all interrupts except for Rx done */
->> -       writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
->> +       /*
->> +        * Ack all interrupts except for Rx done and
->> +        * Tx done with/without ACK
-> 
-> Nit: this comment can be on one line.
-> 
-> 
->> +        */
->> +       writel(irq_received &
->> +              ~(ASPEED_I2CD_INTR_RX_DONE | ASPEED_I2CD_INTR_TX_ACK | ASPEED_I2CD_INTR_TX_NAK),
->>                 bus->base + ASPEED_I2C_INTR_STS_REG);
->>          readl(bus->base + ASPEED_I2C_INTR_STS_REG);
->>          irq_received &= ASPEED_I2CD_INTR_RECV_MASK;
->> @@ -652,12 +656,18 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
->>                          "irq handled != irq. expected 0x%08x, but was 0x%08x\n",
->>                          irq_received, irq_handled);
->>
->> -       /* Ack Rx done */
->> -       if (irq_received & ASPEED_I2CD_INTR_RX_DONE) {
->> -               writel(ASPEED_I2CD_INTR_RX_DONE,
->> -                      bus->base + ASPEED_I2C_INTR_STS_REG);
->> -               readl(bus->base + ASPEED_I2C_INTR_STS_REG);
->> -       }
->> +       /* Ack Rx done and Tx done with/without ACK */
->> +       /* Note: Re-use irq_handled variable */
-> 
-> I'm not sure what this note means.
-> 
->> +       irq_handled = 0;
->> +       if (irq_received & ASPEED_I2CD_INTR_RX_DONE)
->> +               irq_handled |= ASPEED_I2CD_INTR_RX_DONE;
->> +       if (irq_received & ASPEED_I2CD_INTR_TX_ACK)
->> +               irq_handled |= ASPEED_I2CD_INTR_TX_ACK;
->> +       if (irq_received & ASPEED_I2CD_INTR_TX_NAK)
->> +               irq_handled |= ASPEED_I2CD_INTR_TX_NAK;
->> +       writel(irq_handled, bus->base + ASPEED_I2C_INTR_STS_REG);
-> 
-> Are you intentionally only acking the bits that are set when we read
-> from STS_REG at the start of the handler? If not, we could write this
-> instead:
-> 
-> writel(ASPEED_I2CD_INTR_RX_DONE | ASPEED_I2CD_INTR_TX_ACK |
-> ASPEED_I2CD_INTR_TX_NAK,
->          bus->base + ASPEED_I2C_INTR_STS_REG);
-> 
+v3 addresses comments from Jiri on v2. v2 can be found here:
 
-This would clear those bits unconditionally even if they were not handled.
+https://lore.kernel.org/lkml/20210519000704.3661773-1-andrew@aj.id.au/
 
-> If you only want to ack the bits that are set, then do this:
-> 
->    writel(irq_received &
->              (ASPEED_I2CD_INTR_RX_DONE | ASPEED_I2CD_INTR_TX_ACK |
-> ASPEED_I2CD_INTR_TX_NAK),
->           bus->base + ASPEED_I2C_INTR_STS_REG);
-> 
-> That way, you can avoid all of the tests.
-> 
-Or
-	irq_handled = irq_received &
-		(ASPEED_I2CD_INTR_RX_DONE | ASPEED_I2CD_INTR_TX_ACK | ASPEED_I2CD_INTR_TX_NAK);
-	writel(irq_handled, bus->base + ASPEED_I2C_INTR_STS_REG);
+The documentation patch that fell out of the discussion of patch 2 of v2 can be
+found here:
 
-if the idea was to avoid the long statement.
+https://lore.kernel.org/lkml/20210520015704.489737-1-andrew@aj.id.au/T/#u
 
-Guenter
+Please review!
 
->> +       readl(bus->base + ASPEED_I2C_INTR_STS_REG);
-> 
-> When you move this, please add a comment that reminds us why we do a
-> write-then-read (see commit c926c87b8e36dcc0ea5c2a0a0227ed4f32d0516a).
-> 
->> +
->>          spin_unlock(&bus->lock);
->>          return irq_remaining ? IRQ_NONE : IRQ_HANDLED;
->>   }
->> --
->> 2.28.0
->>
+Andrew
+
+Andrew Jeffery (2):
+  serial: 8250: Add UART_BUG_TXRACE workaround for Aspeed VUART
+  serial: 8250: Use BIT(x) for UART_{CAP,BUG}_*
+
+ drivers/tty/serial/8250/8250.h              | 32 +++++++++++----------
+ drivers/tty/serial/8250/8250_aspeed_vuart.c |  1 +
+ drivers/tty/serial/8250/8250_port.c         | 12 ++++++++
+ 3 files changed, 30 insertions(+), 15 deletions(-)
+
+-- 
+2.30.2
 
