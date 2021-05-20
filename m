@@ -2,69 +2,90 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7701389DF6
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 08:31:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BEC389E50
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 08:52:30 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Fm0Hb2RNYz2yyG
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 16:31:07 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Fm0mD0Rs1z306N
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 16:52:28 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=fKKhcjnh;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=nAwBxIw/;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=canonical.com
- (client-ip=91.189.89.112; helo=youngberry.canonical.com;
- envelope-from=juerg.haefliger@canonical.com; receiver=<UNKNOWN>)
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.230;
+ helo=new4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm2 header.b=fKKhcjnh; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=nAwBxIw/; 
+ dkim-atps=neutral
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Fm0HT2HFTz2yXb
- for <linux-aspeed@lists.ozlabs.org>; Thu, 20 May 2021 16:30:59 +1000 (AEST)
-Received: from mail-ed1-f69.google.com ([209.85.208.69])
- by youngberry.canonical.com with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
- (envelope-from <juerg.haefliger@canonical.com>) id 1ljcCt-0002Aa-Tn
- for linux-aspeed@lists.ozlabs.org; Thu, 20 May 2021 06:30:56 +0000
-Received: by mail-ed1-f69.google.com with SMTP id
- ba15-20020a0564021acfb029038d3b33d7ffso6355470edb.23
- for <linux-aspeed@lists.ozlabs.org>; Wed, 19 May 2021 23:30:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version;
- bh=T8MGweMWh8G1Vb1FxsntXZZXVCiDZgcu3o7qGFDrNfw=;
- b=c9soPT4y1cSG/adNCSM5mwneuFIKqxrSaHHEh/Z6Bzx6nUVMnIlvw4ZMyp+5VzSsGF
- MBV6ECndlAMw8EQao2D+GXRBrAOvl8hDDcAjNV1CbuN9SPCwhIXxfH4ReDO8GvZOWQOM
- 5hdkrJHlSK7efiHSiewy+KtOSK9MyI+0bGjSAl+tPGln1EUZqFV7V5IsfJHOaNNhh0LF
- 7NVHBqvPhak291YvW2x+Bs5ZxkOftDkGWdy8w5B6NGk32q1RbIUG4NUktQ1VbK6U2DES
- J4DSy5gm8mgZ97UbqX9P0DFd0HpZ532UJFZzMougMha4r0rfPxpZK9nyHO+vPpP7Qh8t
- B8og==
-X-Gm-Message-State: AOAM531/LNB0YIZual4krqWB7mtyC/nb3UUpeTZ2hhMc4pRvxwv7nDDH
- lOLBk9WCVUGSAA31F4hyvP65FCkwHbtvUnQ/KWRTvsRWASJHWuHyd0evO+0DW+5HMhChKuAZ6Pl
- wxY2nFHranTEYGfxHVsArBvdjHbnzOlzVUoXuyCl19Uo=
-X-Received: by 2002:a50:ff13:: with SMTP id a19mr3255220edu.300.1621492255641; 
- Wed, 19 May 2021 23:30:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyNuPb1H6GgcBejEqtfEk4G+6+0hpLo6D3PmJC9QoZVsHwbgkZ+4/XF36vpbR0o9XtSZq3ixA==
-X-Received: by 2002:a50:ff13:: with SMTP id a19mr3255207edu.300.1621492255469; 
- Wed, 19 May 2021 23:30:55 -0700 (PDT)
-Received: from smeagol ([194.191.244.86])
- by smtp.gmail.com with ESMTPSA id fb19sm882547ejc.10.2021.05.19.23.30.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 May 2021 23:30:54 -0700 (PDT)
-From: Juerg Haefliger <juerg.haefliger@canonical.com>
-X-Google-Original-From: Juerg Haefliger <juergh@canonical.com>
-Date: Thu, 20 May 2021 08:30:52 +0200
-To: Joe Perches <joe@perches.com>
-Subject: Re: [PATCH] watchdog: Use sysfs_emit() and sysfs_emit_at() in
- "show" functions
-Message-ID: <20210520083052.68a0e1d9@smeagol>
-In-Reply-To: <f2e616645f311ccaf6e0acb996f8c4360a0480ec.camel@perches.com>
-References: <20210511061812.480172-1-juergh@canonical.com>
- <f2e616645f311ccaf6e0acb996f8c4360a0480ec.camel@perches.com>
-Organization: Canonical Ltd
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/L_fDvoyzrJmgDY0oW_xHuS=";
- protocol="application/pgp-signature"; micalg=pgp-sha512
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Fm0lc57D7z2yXb;
+ Thu, 20 May 2021 16:51:56 +1000 (AEST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id A3D105806A2;
+ Thu, 20 May 2021 02:51:52 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Thu, 20 May 2021 02:51:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=zDP1gHyDrszLLnytgrAGtVNqgUC22fE
+ HUxnVJ2tMd80=; b=fKKhcjnhxfcH7inJWHHa3A0cIBqtVrGLLK8jvG+xfQwIGzm
+ bGWCJ44WwNzxCF8LGPZUi65ZCXMXngS1vsTDxRdzfol8lD1dHuEgpGgLFUv9et3w
+ OJ3SvDac4cFKl1d7U4KAW2HknDt9WnjR5lilUFmxt7UivlHmLCBNVRQ0rFBG7VIe
+ MPr81VVcR/4DXrgGz2OxplRAzjFOAF7sk4Mxuyq2BW9MNTqMXg8E4Tr5s9Hh4K+I
+ fhKGLqpgj3uPGGyuTpf+qRwBXHoFPH+p5EEwPLW4xD7Um5nvemR5/YNTyXBK4HZ6
+ vOopsIqr5AfTTY+Z7OWeQGGotHKC657w6JynXNQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=zDP1gH
+ yDrszLLnytgrAGtVNqgUC22fEHUxnVJ2tMd80=; b=nAwBxIw/gsRIXpTw1UBOVP
+ 2Qq3iNRZx42+ZO6l/9j8pz7ZpUVp5GbYOpu37WNhVzijYTZEBDErWpvzF08KJUGI
+ bvojQ4a3ccg4GMH8ZquVURmoeKaswm8PjRsRN1dXLtZTbplRLB2op9ouPYF/gpvt
+ 4q70LvH15smlxFOg5nsaRnwygHe0wnCyUY90s5uQcxTpTqCEdN7dbyGmAviBClId
+ wSw9kirQU4DPrXwLnCQB52FfIKIX4IxhctXuTiuS+iQRTabR6Sb3BIRoPSUQQK8d
+ pi8vxz33I3vi+0mQYJ1NJznWJ9Dx/ZWKVGxJCG6xdTZ/VNBv708Cp3OAizS5Ux2w
+ ==
+X-ME-Sender: <xms:BwemYIWE9ShKCRcIHlIT8n11f3DDJKr76ap4kBC_n_PjMwlNNa1ckw>
+ <xme:BwemYMkGK86YIf_wNEDeQijxAtKrFcWPwOXq3WkMNCTMQZwITAPU5uPXQhBY8Z5eC
+ kUIVLUcLkm0bETAjg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejtddguddugecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehn
+ ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+ frrghtthgvrhhnpeduffdtvdevkeffgfetffffueevgeejleeghfffjedthedthfelgfek
+ fefhfeekieenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgr
+ uh
+X-ME-Proxy: <xmx:BwemYMbRFvfVszlZL3_K6ezre0UAozJvK9U_t6x18uxp2Um6fFn-Rw>
+ <xmx:BwemYHWhmhBEUTF23J-0nzWeWbqJ7TUsu4J-RskfyAbMEDbetvyFog>
+ <xmx:BwemYCmhBYnhkVznydHBegbLzOyq4s3YjENph1GV2_dPWNluMg04Ng>
+ <xmx:CAemYIneiAhMNiKkCrRH-Gg0uc6EV9XAMtfTjAEQ68MxtKZH8ggN0Q>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 9E230A004B5; Thu, 20 May 2021 02:51:51 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-448-gae190416c7-fm-20210505.004-gae190416
+Mime-Version: 1.0
+Message-Id: <5b549fee-63b1-4c05-a1d6-f6a13e235e1e@www.fastmail.com>
+In-Reply-To: <20210510054213.1610760-1-andrew@aj.id.au>
+References: <20210510054213.1610760-1-andrew@aj.id.au>
+Date: Thu, 20 May 2021 16:21:31 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: openipmi-developer@lists.sourceforge.net, openbmc@lists.ozlabs.org,
+ "Corey Minyard" <minyard@acm.org>
+Subject: Re: [PATCH v3 00/16] ipmi: Allow raw access to KCS devices
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,100 +97,69 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-watchdog@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux@roeck-us.net, linux-kernel@vger.kernel.org,
- Juerg Haefliger <juerg.haefliger@canonical.com>, wim@linux-watchdog.org,
+Cc: devicetree@vger.kernel.org, Tomer Maimon <tmaimon77@gmail.com>,
+ linux-aspeed@lists.ozlabs.org, Avi Fishman <avifishman70@gmail.com>,
+ Patrick Venture <venture@google.com>, linux-kernel@vger.kernel.org,
+ Tali Perry <tali.perry1@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Zev Weiss <zweiss@equinix.com>,
  linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---Sig_/L_fDvoyzrJmgDY0oW_xHuS=
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Hi Corey,
 
-On Wed, 12 May 2021 21:48:37 -0700
-Joe Perches <joe@perches.com> wrote:
+On Mon, 10 May 2021, at 15:11, Andrew Jeffery wrote:
+> Hello,
+> 
+> This is the 3rd spin of the series refactoring the keyboard-controller-style
+> device drivers in the IPMI subsystem.
+> 
+> v2 can be found (in two parts because yay patch workflow mistakes) at:
+> 
+> Cover letter:
+> https://lore.kernel.org/linux-arm-kernel/20210319061952.145040-1-andrew@aj.id.au/
+> 
+> Patches:
+> https://lore.kernel.org/linux-arm-kernel/20210319062752.145730-1-andrew@aj.id.au/
+> 
+> Several significant changes in v3:
+> 
+> 1. The series is rebased onto v5.13-rc1
+> 
+> 2. v5.13-rc1 includes Chiawei's patches reworking the LPC devicetree bindings,
+>    so they're no-longer required in the series.
+> 
+> 3. After some discussion with Arnd[1] and investigating the serio subsystem,
+>    I've replaced the "raw" KCS driver (patch 16/21 in v2) with a serio adaptor
+>    (patch 11/16 in this series). The adaptor allows us to take advantage of the
+>    existing chardevs provided by serio.
+> 
+> [1] 
+> https://lore.kernel.org/linux-arm-kernel/37e75b07-a5c6-422f-84b3-54f2bea0b917@www.fastmail.com/
+> 
+> Finally, I've also addressed Zev Weiss' review comments where I thought it was
+> required. These comments covered a lot of minor issues across (almost) all the
+> patches, so it's best to review from a clean slate rather than attempt to review
+> the differences between spins.
 
-> On Tue, 2021-05-11 at 08:18 +0200, Juerg Haefliger wrote:
-> > Convert sprintf() in sysfs "show" functions to sysfs_emit() and
-> > sysfs_emit_at() in order to check for buffer overruns in sysfs outputs.=
- =20
-> []
-> > diff --git a/drivers/watchdog/ziirave_wdt.c b/drivers/watchdog/ziirave_=
-wdt.c =20
-> []
-> > @@ -445,8 +445,9 @@ static ssize_t ziirave_wdt_sysfs_show_firm(struct d=
-evice *dev,
-> > =C2=A0	if (ret)
-> > =C2=A0		return ret;
-> > =C2=A0
-> >=20
-> > -	ret =3D sprintf(buf, ZIIRAVE_FW_VERSION_FMT, w_priv->firmware_rev.maj=
-or,
-> > -		      w_priv->firmware_rev.minor);
-> > +	ret =3D sysfs_emit(buf, ZIIRAVE_FW_VERSION_FMT,
-> > +			 w_priv->firmware_rev.major,
-> > +			 w_priv->firmware_rev.minor);
-> > =C2=A0
-> >=20
-> > =C2=A0	mutex_unlock(&w_priv->sysfs_mutex);
-> > =C2=A0
-> >=20
-> > @@ -468,8 +469,9 @@ static ssize_t ziirave_wdt_sysfs_show_boot(struct d=
-evice *dev,
-> > =C2=A0	if (ret)
-> > =C2=A0		return ret;
-> > =C2=A0
-> >=20
-> > -	ret =3D sprintf(buf, ZIIRAVE_BL_VERSION_FMT, w_priv->bootloader_rev.m=
-ajor,
-> > -		      w_priv->bootloader_rev.minor);
-> > +	ret =3D sysfs_emit(buf, ZIIRAVE_BL_VERSION_FMT,
-> > +			 w_priv->bootloader_rev.major,
-> > +			 w_priv->bootloader_rev.minor);
-> > =C2=A0
-> >=20
-> > =C2=A0	mutex_unlock(&w_priv->sysfs_mutex);
-> > =C2=A0
-> >=20
-> > @@ -491,7 +493,7 @@ static ssize_t ziirave_wdt_sysfs_show_reason(struct=
- device *dev,
-> > =C2=A0	if (ret)
-> > =C2=A0		return ret;
-> > =C2=A0
-> >=20
-> > -	ret =3D sprintf(buf, "%s", ziirave_reasons[w_priv->reset_reason]);
-> > +	ret =3D sysfs_emit(buf, "%s", ziirave_reasons[w_priv->reset_reason]);=
- =20
->=20
-> All of these formats should probably end with a newline
-> and the ZIIRAVE_<FOO>_VERSION_FMT defines are to me unnecessary.
->=20
+I backported this series for OpenBMC and posting those patches provoked
+some feedback:
 
-I'll send a follow-on patch for that.
+* A bug identified in patch 9/18 for the Nuvoton driver where we enable
+  the OBE interrupt:
 
-...Juerg
+https://lore.kernel.org/openbmc/HK2PR03MB4371F006185ADBBF812A5892AE509@HK2PR03MB4371.apcprd03.prod.outlook.com/
 
---Sig_/L_fDvoyzrJmgDY0oW_xHuS=
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+* A discussion on patch 10/18 about lifting the single-open constraint
 
------BEGIN PGP SIGNATURE-----
+https://lore.kernel.org/openbmc/CAPnigKku-EjOnV9gsmnXzH=XZxSU78iLeccNbsK8k2_4b4UwSg@mail.gmail.com/
 
-iQIzBAEBCgAdFiEEhZfU96IuprviLdeLD9OLCQumQrcFAmCmAhwACgkQD9OLCQum
-QrdOUhAAhmiMFmidekLXp9pqzm0r5JwSAY1m4G+OnbZpW9WCaxohD8bivxvVa7Xm
-6EQ6SNXkM6joh9iOr0MOawpiWxD2M//Cfuy2XKMSQudbTE4TE8rDD6KbgsBxWzd4
-6z82Nsd56uBA87Hrl3pVuVBHtPffIxHZGIc04GQIP24up9hZRmeZZj74trNOSdSb
-Dtf0zv2qkkWsWNTolj/aVK9oIo/gRYKFYS4Y2pouUyWO9ZKwceJoKdCZtzZjIeUT
-PIRyAFdd0LR4yVUxIF4pZSixNuL1o03ny5jRIBT8ToYxfS1jielPtsvlva7MWLdW
-wBACWcOkS6ZvvKdYyFDBmvi/6MOwkrLzPuoVxeMitWMZKVoyKXwff8pCPOLd+IVk
-qGKNjn1bNT2oi3AgDo6oA13Fl8rrkRpeJPi5aHZtmz0gs/xBsyD55l2tEBuBQREF
-z6hU4+R7FUak99gLvIVDIaKqmJn6k/1fRoCKr9BokKgS9yqJl8DVxkRNXP1LfaQt
-5RO5nsWLmgI5vSW2ScDa8hHBE0eGgaVaLJeRTSyreuTQFNJrAWpgu3Fc4LKUT2JR
-CXyR+PFBZyNQLv4SomVOztXBN83EO4cBYFebZQF3JERAOdzy4FUvwnuDj+cq//fA
-Ra6RAuVCO3+yjoIxNZVXpZiVIdPQlYeIIzBNwiSJJh06OXpovqI=
-=lrYW
------END PGP SIGNATURE-----
+I need to do a v4 to fix the bug in the Nuvoton driver. Did you have any
+feedback for the remaining patches or thoughts on the discussions linked
+above?  I'd like to incorporate whatever I can into the series before
+respinning.
 
---Sig_/L_fDvoyzrJmgDY0oW_xHuS=--
+Cheers,
+
+Andrew
