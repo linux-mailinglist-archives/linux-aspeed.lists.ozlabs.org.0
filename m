@@ -2,90 +2,51 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28BEC389E50
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 08:52:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD33B38A593
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 12:16:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Fm0mD0Rs1z306N
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 16:52:28 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=fKKhcjnh;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=nAwBxIw/;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Fm5Hp5Q60z3004
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 20:16:38 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.230;
- helo=new4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=steven_lee@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=fKKhcjnh; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=nAwBxIw/; 
- dkim-atps=neutral
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Fm0lc57D7z2yXb;
- Thu, 20 May 2021 16:51:56 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id A3D105806A2;
- Thu, 20 May 2021 02:51:52 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Thu, 20 May 2021 02:51:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=zDP1gHyDrszLLnytgrAGtVNqgUC22fE
- HUxnVJ2tMd80=; b=fKKhcjnhxfcH7inJWHHa3A0cIBqtVrGLLK8jvG+xfQwIGzm
- bGWCJ44WwNzxCF8LGPZUi65ZCXMXngS1vsTDxRdzfol8lD1dHuEgpGgLFUv9et3w
- OJ3SvDac4cFKl1d7U4KAW2HknDt9WnjR5lilUFmxt7UivlHmLCBNVRQ0rFBG7VIe
- MPr81VVcR/4DXrgGz2OxplRAzjFOAF7sk4Mxuyq2BW9MNTqMXg8E4Tr5s9Hh4K+I
- fhKGLqpgj3uPGGyuTpf+qRwBXHoFPH+p5EEwPLW4xD7Um5nvemR5/YNTyXBK4HZ6
- vOopsIqr5AfTTY+Z7OWeQGGotHKC657w6JynXNQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=zDP1gH
- yDrszLLnytgrAGtVNqgUC22fEHUxnVJ2tMd80=; b=nAwBxIw/gsRIXpTw1UBOVP
- 2Qq3iNRZx42+ZO6l/9j8pz7ZpUVp5GbYOpu37WNhVzijYTZEBDErWpvzF08KJUGI
- bvojQ4a3ccg4GMH8ZquVURmoeKaswm8PjRsRN1dXLtZTbplRLB2op9ouPYF/gpvt
- 4q70LvH15smlxFOg5nsaRnwygHe0wnCyUY90s5uQcxTpTqCEdN7dbyGmAviBClId
- wSw9kirQU4DPrXwLnCQB52FfIKIX4IxhctXuTiuS+iQRTabR6Sb3BIRoPSUQQK8d
- pi8vxz33I3vi+0mQYJ1NJznWJ9Dx/ZWKVGxJCG6xdTZ/VNBv708Cp3OAizS5Ux2w
- ==
-X-ME-Sender: <xms:BwemYIWE9ShKCRcIHlIT8n11f3DDJKr76ap4kBC_n_PjMwlNNa1ckw>
- <xme:BwemYMkGK86YIf_wNEDeQijxAtKrFcWPwOXq3WkMNCTMQZwITAPU5uPXQhBY8Z5eC
- kUIVLUcLkm0bETAjg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejtddguddugecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehn
- ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
- frrghtthgvrhhnpeduffdtvdevkeffgfetffffueevgeejleeghfffjedthedthfelgfek
- fefhfeekieenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgr
- uh
-X-ME-Proxy: <xmx:BwemYMbRFvfVszlZL3_K6ezre0UAozJvK9U_t6x18uxp2Um6fFn-Rw>
- <xmx:BwemYHWhmhBEUTF23J-0nzWeWbqJ7TUsu4J-RskfyAbMEDbetvyFog>
- <xmx:BwemYCmhBYnhkVznydHBegbLzOyq4s3YjENph1GV2_dPWNluMg04Ng>
- <xmx:CAemYIneiAhMNiKkCrRH-Gg0uc6EV9XAMtfTjAEQ68MxtKZH8ggN0Q>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 9E230A004B5; Thu, 20 May 2021 02:51:51 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-448-gae190416c7-fm-20210505.004-gae190416
-Mime-Version: 1.0
-Message-Id: <5b549fee-63b1-4c05-a1d6-f6a13e235e1e@www.fastmail.com>
-In-Reply-To: <20210510054213.1610760-1-andrew@aj.id.au>
-References: <20210510054213.1610760-1-andrew@aj.id.au>
-Date: Thu, 20 May 2021 16:21:31 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: openipmi-developer@lists.sourceforge.net, openbmc@lists.ozlabs.org,
- "Corey Minyard" <minyard@acm.org>
-Subject: Re: [PATCH v3 00/16] ipmi: Allow raw access to KCS devices
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Fm5Hm1DRnz2xfT;
+ Thu, 20 May 2021 20:16:35 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 14KA18f0077450;
+ Thu, 20 May 2021 18:01:08 +0800 (GMT-8)
+ (envelope-from steven_lee@aspeedtech.com)
+Received: from slee-VirtualBox.localdomain (192.168.100.253) by
+ TWMBX02.aspeed.com (192.168.0.24) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 20 May 2021 18:13:47 +0800
+From: Steven Lee <steven_lee@aspeedtech.com>
+To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
+ Jeffery" <andrew@aj.id.au>, Adrian Hunter <adrian.hunter@intel.com>, "Ulf
+ Hansson" <ulf.hansson@linaro.org>, "open list:OPEN FIRMWARE AND FLATTENED
+ DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, "moderated
+ list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ open list <linux-kernel@vger.kernel.org>, "moderated list:ASPEED SD/MMC
+ DRIVER" <openbmc@lists.ozlabs.org>, "open list:ASPEED SD/MMC DRIVER"
+ <linux-mmc@vger.kernel.org>
+Subject: [PATCH v4 0/3] mmc: sdhci-of-aspeed: Support toggling SD bus signal
+Date: Thu, 20 May 2021 18:13:42 +0800
+Message-ID: <20210520101346.16772-1-steven_lee@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
 Content-Type: text/plain
+X-Originating-IP: [192.168.100.253]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 14KA18f0077450
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,69 +58,72 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tomer Maimon <tmaimon77@gmail.com>,
- linux-aspeed@lists.ozlabs.org, Avi Fishman <avifishman70@gmail.com>,
- Patrick Venture <venture@google.com>, linux-kernel@vger.kernel.org,
- Tali Perry <tali.perry1@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Zev Weiss <zweiss@equinix.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: steven_lee@aspeedtech.com, Hongweiz@ami.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Corey,
 
-On Mon, 10 May 2021, at 15:11, Andrew Jeffery wrote:
-> Hello,
-> 
-> This is the 3rd spin of the series refactoring the keyboard-controller-style
-> device drivers in the IPMI subsystem.
-> 
-> v2 can be found (in two parts because yay patch workflow mistakes) at:
-> 
-> Cover letter:
-> https://lore.kernel.org/linux-arm-kernel/20210319061952.145040-1-andrew@aj.id.au/
-> 
-> Patches:
-> https://lore.kernel.org/linux-arm-kernel/20210319062752.145730-1-andrew@aj.id.au/
-> 
-> Several significant changes in v3:
-> 
-> 1. The series is rebased onto v5.13-rc1
-> 
-> 2. v5.13-rc1 includes Chiawei's patches reworking the LPC devicetree bindings,
->    so they're no-longer required in the series.
-> 
-> 3. After some discussion with Arnd[1] and investigating the serio subsystem,
->    I've replaced the "raw" KCS driver (patch 16/21 in v2) with a serio adaptor
->    (patch 11/16 in this series). The adaptor allows us to take advantage of the
->    existing chardevs provided by serio.
-> 
-> [1] 
-> https://lore.kernel.org/linux-arm-kernel/37e75b07-a5c6-422f-84b3-54f2bea0b917@www.fastmail.com/
-> 
-> Finally, I've also addressed Zev Weiss' review comments where I thought it was
-> required. These comments covered a lot of minor issues across (almost) all the
-> patches, so it's best to review from a clean slate rather than attempt to review
-> the differences between spins.
+AST2600-A2 EVB has the reference design for enabling SD bus
+power and toggling SD bus signal voltage between 3.3v and 1.8v by
+GPIO regulators.
+This patch series adds sdhci node and gpio regulators in a new dts file
+for AST2600-A2 EVB.
+The description of the reference design of AST2600-A2 EVB is added
+in the new dts file.
 
-I backported this series for OpenBMC and posting those patches provoked
-some feedback:
+This patch also include a helper for updating AST2600 sdhci capability
+registers.
 
-* A bug identified in patch 9/18 for the Nuvoton driver where we enable
-  the OBE interrupt:
+Changes from v3:
+* Remove the example of gpio regulator from dt-bindings.
+* Add sdhci node and gpio regulators to a new dts file.
+* Move the comment of the reference design to the new
+  dts file.
+* Modify commit message of sdhci-of-aspeed.c.
+* Fix coding style issues of sdhci-of-aspeed.c.
+* Remove the implementation of eMMC resetc since it has no relevance to
+  the goal that this patch series want to achieve and it may needs further
+  discussion about the design of reset behavior.
 
-https://lore.kernel.org/openbmc/HK2PR03MB4371F006185ADBBF812A5892AE509@HK2PR03MB4371.apcprd03.prod.outlook.com/
+Changes from v2:
+* Move the comment of the reference design from dt-bindings to device tree.
+* Add clk-phase binding for eMMC controller.
+* Reimplement aspeed_sdc_set_slot_capability().
+* Separate the implementation of eMMC reset to another patch file.
+* Fix yaml document error per the report of dt_binding_check and
+  dtbs_check.
 
-* A discussion on patch 10/18 about lifting the single-open constraint
+Changes from v1:
+* Add the device tree example for AST2600 A2 EVB in dt-bindings
+  document
+* Add timing-phase for eMMC controller.
+* Remove power-gpio and power-switch-gpio from sdhci driver, they should
+  be handled by regulator.
+* Add a helper to update capability registers in the driver.
+* Sync sdhci settings from device tree to SoC capability registers.
+* Sync timing-phase from device tree to SoC Clock Phase Control
+  register
 
-https://lore.kernel.org/openbmc/CAPnigKku-EjOnV9gsmnXzH=XZxSU78iLeccNbsK8k2_4b4UwSg@mail.gmail.com/
+Please help to review.
 
-I need to do a v4 to fix the bug in the Nuvoton driver. Did you have any
-feedback for the remaining patches or thoughts on the discussions linked
-above?  I'd like to incorporate whatever I can into the series before
-respinning.
+Regards,
+Steven
 
-Cheers,
+Steven Lee (3):
+  ARM: dts: aspeed: ast2600evb: Add sdhci node and gpio regulator for A2
+    evb.
+  ARM: dts: aspeed: ast2600evb: Add phase correction for emmc
+    controller.
+  mmc: sdhci-of-aspeed: Configure the SDHCIs as specified by the
+    devicetree.
 
-Andrew
+ arch/arm/boot/dts/aspeed-ast2600-evb-a2.dts | 98 +++++++++++++++++++++
+ arch/arm/boot/dts/aspeed-ast2600-evb.dts    |  3 +-
+ drivers/mmc/host/sdhci-of-aspeed.c          | 48 ++++++++++
+ 3 files changed, 148 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm/boot/dts/aspeed-ast2600-evb-a2.dts
+
+-- 
+2.17.1
+
