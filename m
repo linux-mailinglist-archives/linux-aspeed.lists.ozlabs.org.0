@@ -2,65 +2,129 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E590F3899FF
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 01:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D172C389ABF
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 03:07:00 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FlqFD18hbz2yYY
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 09:43:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Fls5Z6MZJz301k
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 11:06:58 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=hV289Pn1;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=ZszyyV5g;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::72f;
- helo=mail-qk1-x72f.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=hV289Pn1; dkim-atps=neutral
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
- [IPv6:2607:f8b0:4864:20::72f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ smtp.mailfrom=aspeedtech.com (client-ip=40.107.131.114;
+ helo=apc01-sg2-obe.outbound.protection.outlook.com;
+ envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
+ header.a=rsa-sha256 header.s=selector1 header.b=ZszyyV5g; 
+ dkim-atps=neutral
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-eopbgr1310114.outbound.protection.outlook.com [40.107.131.114])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FlqF94ftTz2xv6;
- Thu, 20 May 2021 09:43:24 +1000 (AEST)
-Received: by mail-qk1-x72f.google.com with SMTP id k127so14526113qkc.6;
- Wed, 19 May 2021 16:43:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jZj61H+nZldX9VF8Rk7SoLRZEnhdWQ15nrHYMIdlXL8=;
- b=hV289Pn1fzt0l5vYzw9Zco9XFbeqr0tKlwl117wL+ReIbVLezHs/xFwIcMKafGIL/r
- Ceq9AJkQHisWMOwWZVoe+E3BdzypGyKrbGtP5GVg+wjxmevjIE5q30D1Z3rQCTBmbzyl
- JopSkzzu13aCRFAkE3C3pYN93lb/AFgpuiOcI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jZj61H+nZldX9VF8Rk7SoLRZEnhdWQ15nrHYMIdlXL8=;
- b=BlLk7aoWLrokntCP7ClAje46dwKt/i0j7gY9n/HTAA+gM2/uh+totCvyK3m4Ad1Hju
- /AVrASPRBj1CXukQ+v0kfW/Ju/9jYRg6+zqI0EXlowpheaj8BRuWKTa3p2b3c4RBI3KT
- yVBRYZmPDVsJAtMRlteuALdxiDpzr/FacCnqKRyA/unBMYQKr3AsK1WQXLxDHQaMNUuS
- t/hxAl4qMCihDr43ej35xjzueK8tTnJU5VnEgwlYU6eWPYo0HKti3UXaed/C9y3b0/VB
- j6xM5+9ZUZU5HcpBaHZvtErpB8nzWTrP4rXuaeEYREZ7yvJBz4AJngpoL6T/TKSZ65GW
- zhlQ==
-X-Gm-Message-State: AOAM532LuXAWR6F2HTMJ/3zWlwUs79lC4jZtiUQqV7aHJEAbAn0A9O4o
- Nm0PbN7Q0uYTcyNLXHHkAhd0fKl0y7zHZ7vdJn4=
-X-Google-Smtp-Source: ABdhPJyUszWiuobnzOy5L9VplXiMBG9qLzJjbpbR0WfzIFw8cspGiZ3PnAV6tV3oDvUEgCvPn/rTmcBK9mwiyYTq9ws=
-X-Received: by 2002:a05:620a:704:: with SMTP id 4mr1331345qkc.66.1621467800517; 
- Wed, 19 May 2021 16:43:20 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Fls5T1l7bz2yXX
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 20 May 2021 11:06:51 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BoBrvTyXNLV8hIKhf17llJ9htz8zc2LbY0D66um1SegaMN2kYMwjy1iISkHxylM1z5AgEjp+RSGIM9tTK14fFpUsliF9Gm6vtxgQzmxSpy9fqINQQ21btMnKQUzQMd+xtkjc2n3Mpd0MNAntf6c7yp6hwTpKvAAmgwNBCNv2XvH9Sof+b4WtZrKCowknGttvUlnao3jg7/dKmZiAKl48IHVoPvOe3lXPG+lyh0Hh0y6b57Jlun++As6YeS/M59uw6SqNy6wCngSGnSL06j9zCxukcJrSNFYgV0Gi3jCXYkvxr9IP4oSIv+NrQg9OO4Dep/6tTylJArKFfx0Wuqqj7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qc568JM3g4uZLAgs8GF3WlhNaCtaZ/vqh+8wA2yu9h8=;
+ b=TnOS9k8NIeqHdVfBT4/7JrbqVjTklY1gTwfrfqRmXhv8UqYDtn5e6ke11LDGc7G37Qurtk5ooZrwcOhxdO2lUwGFaixJz2/4IZhfxX3Bm47o8w6LIvaJqsT9dv8GpOA7snS5nEnCMMHgstFY7l8/tfKVKDI0XHrvF7kSGbSnhPrFrtAywAS+sJ3A8C4sARB3/gqWENGfZU+43UFFjFp0z7iW+Hpube2o1UZ+CYJa8WHBhlDd2Kju02iJ/d1dydxujx7mkwNstKyTnI01lIXmiX1G7yTakhC4rpIagJCHxVYcnzRepof3Q/RmfuvgynjBkK4vpNKhTiypn9ZYRLjfog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qc568JM3g4uZLAgs8GF3WlhNaCtaZ/vqh+8wA2yu9h8=;
+ b=ZszyyV5gaednbDGLoXJh+W8kRa3PaQw4mv0823BE3hkZAuZdRMBRe9bMsCnomt0A+B9t4hZ6e5F5a0MjxPLjM6cFEcsSXj9rjGMkXs2B3BpgA7SIfgji2khjr6LIMhZgeDOwCH6RDXiAw9cz6ZZCqoLm9aeeCwnntOhvst4pi5jWidQaafEqJERLhWyiqDRJC5rTd7LoFeuFylhHsV01ZWDcG8ye59ZYipZJWNY81MV+G98pCMtc+B3SUBcB8SnZTBkxHouGoaKVGXHWcbo5cX9LF7rA/kDSZ5rNs6Z8FOuP5XX6v0kEzRmCICtgMkMvrghXcFSDw9jC4kU9pY+l/Q==
+Received: from HK0PR06MB3362.apcprd06.prod.outlook.com (2603:1096:203:8b::10)
+ by HK2PR0601MB1891.apcprd06.prod.outlook.com (2603:1096:202:a::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25; Thu, 20 May
+ 2021 01:06:43 +0000
+Received: from HK0PR06MB3362.apcprd06.prod.outlook.com
+ ([fe80::58:9144:f232:6918]) by HK0PR06MB3362.apcprd06.prod.outlook.com
+ ([fe80::58:9144:f232:6918%7]) with mapi id 15.20.4129.032; Thu, 20 May 2021
+ 01:06:43 +0000
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [v6 1/2] dt-bindings: Add bindings for aspeed pwm-tach.
+Thread-Topic: [v6 1/2] dt-bindings: Add bindings for aspeed pwm-tach.
+Thread-Index: AQHXS4BqdB0ayjhGFUqmRwq8BhHU4qrrQbMAgADWMgA=
+Date: Thu, 20 May 2021 01:06:43 +0000
+Message-ID: <37458AA4-17E4-4329-88A1-C18C0AFC47D5@aspeedtech.com>
+References: <20210518005517.9036-1-billy_tsai@aspeedtech.com>
+ <20210518005517.9036-2-billy_tsai@aspeedtech.com>
+ <20210519202004.GA3566127@robh.at.kernel.org>
+In-Reply-To: <20210519202004.GA3566127@robh.at.kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=aspeedtech.com;
+x-originating-ip: [211.20.114.70]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a334a8d5-e6b6-4035-2bc8-08d91b2b8859
+x-ms-traffictypediagnostic: HK2PR0601MB1891:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <HK2PR0601MB18918C29A2C2511D307E15CC8B2A9@HK2PR0601MB1891.apcprd06.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: k9xDELfey79+KXBNwJWb7ehV0ceCszok21m/gUtnYcOOsTT85oaoCbbd1pAiV71I9n7UNhY1xZEU8nRsC0E4CWtcUjlMNJy32dIwaWZcyUJB0sOLTLdEx74h5P8/RXN8JZpIrpOwCB8vrTUJpf9fziR+JAeJJYtom54tDyhVc8FSl0TYA4EzVi2N08nsJcyJPHQYNe9e1BCIPj7lSfwkacyubK5HZipZxGUu+7AlKNmL3kfqKWMRikVsKyavFwNIlwK9Dkwp6+rH3jhz4AZ9GwVYGCbxemc6mzFEB4rtxFbonsbwtMM9mMItmVJpfeRU640bkTYuzc95mO0yq3ZPMORab0W8Vo9Y7xrBxsqzwpTPwocVMCWh+MAELuxRnk+C91SPG5OnAhOQCJCEKW9ajs1H0DldDxzQK9IsznQwP7YC63BCVM0JC72qIZosKoaxNFF6wXCtCfmw+zkJNZtDih3SZ5Bv9J2tWWFrZKW3RiWMebDVfjxOmJpeP8ISqAR7fPmHRzVvljFGPwFEzx66wdrqnnkvDjXVr7fKxAl08c9zy61YkvYIMH8/Hhf0E5n1AUw5Z1JU16zzDzlpuXkphcmBE8H+yIuqXSQ6iBRiHCJ8hX77/UGDiHOvUdo5UHtiXjdjb4T0ZkPHIR7uF1H7kdtzGiDiRTrfIj+1V3zk51Q=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR06MB3362.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(346002)(396003)(136003)(366004)(39830400003)(376002)(6486002)(33656002)(86362001)(76116006)(38100700002)(83380400001)(122000001)(7416002)(66946007)(478600001)(316002)(8936002)(6916009)(6506007)(4744005)(5660300002)(6512007)(55236004)(2616005)(107886003)(71200400001)(54906003)(4326008)(66476007)(186003)(64756008)(8676002)(66446008)(26005)(66556008)(2906002)(36756003)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?dUpUUEJIMVoyYTNXVnlzbTFhK2l1UXdaazBKdlNHZWVKMFB1OHl6ck1rOHcv?=
+ =?utf-8?B?dHd2VmZWSlFpOGFZME5XWEl3TlpMN0E1eXpZU01GVjhBWG9UYktyU1lndkJT?=
+ =?utf-8?B?RmlUekY2TXZGTkJlZm54NXZNYWxZMGlKZTEweEg4Sy9Ub3p0RlFwZjdoM2dP?=
+ =?utf-8?B?OC9rek9XbXpBcml2djZkV1d5c25tRjBjL0lMcVBOMGNKV1BYWnVITXNrb24r?=
+ =?utf-8?B?NWdmM05QVzdEME5FUzVrYStKTFZaNXdYVkppU04wbnZ2eEpLS0F0VGYxdk1s?=
+ =?utf-8?B?V3VqblNLM3hackE3eVMzKzBKcWdCeGs2L2RkRU8wNDk0b2FnL0ZwZjJHOWh6?=
+ =?utf-8?B?ejBYUWozVXBYclo1ZVVORSs4ejVuRE13UzB3QW9OMUpvWjNJRHR0cHFEckIx?=
+ =?utf-8?B?Z1lyM0pCSzU5bmd4eTF6YkhiUE1lK1RqVzdjUDdQVUtuQlNqUlZLWmtZSFFR?=
+ =?utf-8?B?RmpKanJ5Rmo0bDRtS2Qrd29SdGNzcFN3RTZ2S052aUh1TFpiRHl6QWdGZGdq?=
+ =?utf-8?B?NTBvblhtaEJUbk5FQWxWTVpVTkdNbTBnNUVaY241YmpmemNrS2dKNFcxNW1V?=
+ =?utf-8?B?TENMc3psZHJCMXZMWTNFenlOb2pzQ3V2OHBoSE9BckdsSmhDdHJ3KzE0SUhU?=
+ =?utf-8?B?YlljSTB1R3I5Mk1NVXg0emtaS2o3N1pQZVU3WXpDVEROME94VEtUUURMRytB?=
+ =?utf-8?B?TEhoRFIxejJEV2xSSUJVTmFNVFdDalV0cTd1ZlpQOTh2aHZ3QUNXenZ5MXRK?=
+ =?utf-8?B?cXUvajFBYS9adUd1R2wvOU5zOWtIZ3MvUzVkMHFlUW5yYnYvYzhkWXpyZ3JK?=
+ =?utf-8?B?UlN3dVJ1VDZ4THBTN3h3ak5DY3lFeXM0cFcwUmhCVUswWnJkWFVkbXorWHlL?=
+ =?utf-8?B?SWQvbk02S0ZIem5zd0dwM1JCdllaaFNOUDJGRGdFY0QyYVRKeTY5Z05aZ05G?=
+ =?utf-8?B?U0kzVnFVNU80NDl3cGh5Z0E0OW9BNWZhVlkvdzdqeWU1NkdDUnFBQ01ob1Ny?=
+ =?utf-8?B?UnNQaVVWSGpNWVFwcm4yaExvQWxaaU1iUnR1SmpNNk84QlJBc1EzbUczV0hO?=
+ =?utf-8?B?RWwvOTkrblJQcHA4NUQvMWlEM0puZW9qbkgxRFFKaHBLL0d5VHFkM1JUUnZ5?=
+ =?utf-8?B?ckNxaTNNbGtJTTdySlVMaWlPcjNPQWVhSklLeitUUFF0SG5peld4dnd4QjJv?=
+ =?utf-8?B?NnVmWU1LOFM3emlqc2drRWVaTmo4YkpSdWQ5clN6QTgvSDVBTElOZlNPK1dk?=
+ =?utf-8?B?K3JtVS9LUjRXdmFScjVpQnlkeVlEa01VRTg1NW84WGhRZWdhb1hoaU9UYzNa?=
+ =?utf-8?B?aU43NVZpK0ZqN0FYTm5CbU4vY3FIWVRyZUhTV2ZwUVFJazZIYkZsdXk0bERJ?=
+ =?utf-8?B?bERZRlhGNUlXWC9uaC9XemFmdUJFb3U4RUVEMlBrVXB2eFhMSUkwMFdWKzB4?=
+ =?utf-8?B?QU8ybS9yalNudW4rQXdTQVVxcXArKzNvR08yN0d6ZWVyWXlkdlJ2a3JqbDhm?=
+ =?utf-8?B?bGI1VXVxWnJlWE9Yc1JhV1d6R1BsZ1FiVlRaaVIrTkJJdzEwK1FFN1E1RjVm?=
+ =?utf-8?B?a3hlTDFVMjBTUlpYbW0vZ1NqZFJZUmt6UHlOS1NKY3VheTRzY1dXNDZ4S01I?=
+ =?utf-8?B?RG1ldVFGVEh0KzR2VTdiK1c2RnIvaG1POSt6U2UvTHA1SjdOL3NycCtQTjVR?=
+ =?utf-8?B?WXdVeG9wSmh4Nk43UEpPaTBST2FjK0xGZEZzcEpwT1RtTXlGL0o4RmhUaFNl?=
+ =?utf-8?Q?5s8aZR9AT7P5miefVtxcVRxmyGegO5oS6tZfy1j?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <FE8648D8001FF04FBB725D7BD6012DE3@apcprd06.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20210519074934.20712-1-quan@os.amperecomputing.com>
- <20210519074934.20712-5-quan@os.amperecomputing.com>
-In-Reply-To: <20210519074934.20712-5-quan@os.amperecomputing.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 19 May 2021 23:43:08 +0000
-Message-ID: <CACPK8XdyQT=cuSr9KBqC0PBkOLgBUBpyz3kZEA3JuOuZsQN_Rw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/7] i2c: aspeed: Acknowledge Tx done w/wo ACK irq late
-To: Quan Nguyen <quan@os.amperecomputing.com>,
- Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3362.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a334a8d5-e6b6-4035-2bc8-08d91b2b8859
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 May 2021 01:06:43.1786 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2hSK+QvUETcoVxq85bqAFnHil5xA39NDJX8U03i0Gg1ftDhfsx7sPzm47suVSEDBKf6ap+vMYzaPuZzkAlWZ+24tvF9WWM0XmzYP2v9b+RU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2PR0601MB1891
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,125 +136,38 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Corey Minyard <minyard@acm.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Phong Vo <phong@os.amperecomputing.com>, Wolfram Sang <wsa@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, linux-i2c@vger.kernel.org,
- Philipp Zabel <p.zabel@pengutronix.de>,
- openipmi-developer@lists.sourceforge.net,
- Open Source Submission <patches@amperecomputing.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+ BMC-SW <BMC-SW@aspeedtech.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "u.kleine-koenig@pengutronix.de" <u.kleine-koenig@pengutronix.de>,
+ "lee.jones@linaro.org" <lee.jones@linaro.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 19 May 2021 at 07:50, Quan Nguyen <quan@os.amperecomputing.com> wrote:
->
-> With Tx done w/wo ACK are ack'ed early at beginning of irq handler,
-
-Is w/wo a typo? If not, please write the full words ("with and without")
-
-> it is observed that, usually, the Tx done with Ack irq raises in the
-> READ REQUESTED state. This is unexpected and complaint as below appear:
-> "Unexpected Ack on read request"
->
-> Assumed that Tx done should only be ack'ed once it was truly processed,
-> switch to late ack'ed this two irqs and seen this issue go away through
-> test with AST2500..
-
-Please read Guneter's commit message
-2be6b47211e17e6c90ead40d24d2a5cc815f2d5c to confirm that your changes
-do not invalidate the fix that they made.  Add them to CC for review.
-
-Again, this is a fix that is independent of the ssif work. Please send
-it separately with a Fixes line.
-
->
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
-> ---
-> v3:
->   + First introduce in v3 [Quan]
->
->  drivers/i2c/busses/i2c-aspeed.c | 26 ++++++++++++++++++--------
->  1 file changed, 18 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-> index 3fb37c3f23d4..b2e9c8f0ddf7 100644
-> --- a/drivers/i2c/busses/i2c-aspeed.c
-> +++ b/drivers/i2c/busses/i2c-aspeed.c
-> @@ -606,8 +606,12 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
->
->         spin_lock(&bus->lock);
->         irq_received = readl(bus->base + ASPEED_I2C_INTR_STS_REG);
-> -       /* Ack all interrupts except for Rx done */
-> -       writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
-> +       /*
-> +        * Ack all interrupts except for Rx done and
-> +        * Tx done with/without ACK
-
-Nit: this comment can be on one line.
-
-
-> +        */
-> +       writel(irq_received &
-> +              ~(ASPEED_I2CD_INTR_RX_DONE | ASPEED_I2CD_INTR_TX_ACK | ASPEED_I2CD_INTR_TX_NAK),
->                bus->base + ASPEED_I2C_INTR_STS_REG);
->         readl(bus->base + ASPEED_I2C_INTR_STS_REG);
->         irq_received &= ASPEED_I2CD_INTR_RECV_MASK;
-> @@ -652,12 +656,18 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
->                         "irq handled != irq. expected 0x%08x, but was 0x%08x\n",
->                         irq_received, irq_handled);
->
-> -       /* Ack Rx done */
-> -       if (irq_received & ASPEED_I2CD_INTR_RX_DONE) {
-> -               writel(ASPEED_I2CD_INTR_RX_DONE,
-> -                      bus->base + ASPEED_I2C_INTR_STS_REG);
-> -               readl(bus->base + ASPEED_I2C_INTR_STS_REG);
-> -       }
-> +       /* Ack Rx done and Tx done with/without ACK */
-> +       /* Note: Re-use irq_handled variable */
-
-I'm not sure what this note means.
-
-> +       irq_handled = 0;
-> +       if (irq_received & ASPEED_I2CD_INTR_RX_DONE)
-> +               irq_handled |= ASPEED_I2CD_INTR_RX_DONE;
-> +       if (irq_received & ASPEED_I2CD_INTR_TX_ACK)
-> +               irq_handled |= ASPEED_I2CD_INTR_TX_ACK;
-> +       if (irq_received & ASPEED_I2CD_INTR_TX_NAK)
-> +               irq_handled |= ASPEED_I2CD_INTR_TX_NAK;
-> +       writel(irq_handled, bus->base + ASPEED_I2C_INTR_STS_REG);
-
-Are you intentionally only acking the bits that are set when we read
-from STS_REG at the start of the handler? If not, we could write this
-instead:
-
-writel(ASPEED_I2CD_INTR_RX_DONE | ASPEED_I2CD_INTR_TX_ACK |
-ASPEED_I2CD_INTR_TX_NAK,
-        bus->base + ASPEED_I2C_INTR_STS_REG);
-
-If you only want to ack the bits that are set, then do this:
-
-  writel(irq_received &
-            (ASPEED_I2CD_INTR_RX_DONE | ASPEED_I2CD_INTR_TX_ACK |
-ASPEED_I2CD_INTR_TX_NAK),
-         bus->base + ASPEED_I2C_INTR_STS_REG);
-
-That way, you can avoid all of the tests.
-
-> +       readl(bus->base + ASPEED_I2C_INTR_STS_REG);
-
-When you move this, please add a comment that reminds us why we do a
-write-then-read (see commit c926c87b8e36dcc0ea5c2a0a0227ed4f32d0516a).
-
-> +
->         spin_unlock(&bus->lock);
->         return irq_remaining ? IRQ_NONE : IRQ_HANDLED;
->  }
-> --
-> 2.28.0
->
+SGkgUm9iLA0KDQpPbiAyMDIxLzUvMjAsIDQ6MjAgQU0sUm9iIEhlcnJpbmd3cm90ZToNCg0KICAg
+IE9uIFR1ZSwgTWF5IDE4LCAyMDIxIGF0IDA4OjU1OjE2QU0gKzA4MDAsIEJpbGx5IFRzYWkgd3Jv
+dGU6DQogICAgPiAgID4gKyAgICAgICAgfTsNCiAgICA+ICAgPiArICAgICAgfTsNCiAgICA+ICAg
+PiArDQogICAgPiAgID4gKyAgICAgIHRhY2g6IHRhY2ggew0KICAgID4gICA+ICsgICAgICAgIGNv
+bXBhdGlibGUgPSAiYXNwZWVkLGFzdDI2MDAtdGFjaCI7DQoNCiAgICA+IEFyZSBwd20gYW5kIHRh
+Y2ggc2VwYXJhdGUgaC93IGJsb2Nrcz8gDQoNClllcywgdGhleSBhcmUgdGhlIHNlcGFyYXRlIGgv
+dyBibG9ja3MuDQoNCiAgICA+ICAgPiArICAgICAgICAjYWRkcmVzcy1jZWxscyA9IDwxPjsNCiAg
+ICA+ICAgPiArICAgICAgICAjc2l6ZS1jZWxscyA9IDwwPjsNCiAgICA+ICAgPiArICAgICAgICBw
+aW5jdHJsLW5hbWVzID0gImRlZmF1bHQiOw0KICAgID4gICA+ICsgICAgICAgIHBpbmN0cmwtMCA9
+IDwmcGluY3RybF90YWNoMF9kZWZhdWx0PjsNCiAgICA+ICAgPiArICAgICAgICBmYW5AMCB7DQog
+ICAgPiAgID4gKyAgICAgICAgICByZWcgPSA8MD47DQoNCiAgICA+IEhvdyBkb2VzIG9uZSBjb25m
+aWd1cmUgd2hpY2ggUFdNIGlzIGNvbm5lY3RlZCB0byBlYWNoIGZhbj8NCiAgICA+IEV4aXN0aW5n
+IGJpbmRpbmdzIHVzZSAncmVnJyBmb3IgUFdNIGNoYW5uZWwgYW5kIGFub3RoZXIgcHJvcGVydHkg
+Zm9yIA0KICAgID4gdGFjaCBjaGFubmVsLiBQbGVhc2UgZG9uJ3QgZG8gc29tZXRoaW5nIGRpZmZl
+cmVudC4NCg0KVGhlIGZhbiBub2RlIGluIHRoaXMgcGxhY2Ugc3BlY2lmaWNhbGx5IHJlZmVycyB0
+YWNoIHBpbiwgbWF5YmUgSSBuZWVkIHRvIGNoYW5nZSB0aGUgbmFtaW5nIHRvIGF2b2lkIGNvbmZ1
+c2lvbi4NCldlIGp1c3QgZm9jdXMgb24gdGhlIGZhbiBwcm9wZXJ0aWVzIG9uIHRoaXMgdGFjaCBj
+aGFubmVsIGhhcyBub3RoaW5nIHRvIGRvIHdpdGggcHdtLg0KDQogICAgPiArICAgICAgICAgIGFz
+cGVlZCxtaW4tcnBtID0gPDEwMDA+Ow0KICAgID4gKyAgICAgICAgICBhc3BlZWQscHVsc2UtcHIg
+PSA8Mj47DQogICAgPiArICAgICAgICAgIGFzcGVlZCx0YWNoLWRpdiA9IDw1PjsNCiAgICA+ICsg
+ICAgICAgIH07DQogICAgPiArICAgICAgfTsNCiAgICA+ICsgICAgfTsNCiAgICANCg0K
