@@ -1,49 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08E6389BEB
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 05:35:19 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07030389D0E
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 07:24:57 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FlwNj5Bpvz2xvG
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 13:35:17 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FlyqC0Ntgz2xgP
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 May 2021 15:24:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jamin_lin@aspeedtech.com;
- receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=209.85.221.48; helo=mail-wr1-f48.google.com;
+ envelope-from=jirislaby@gmail.com; receiver=<UNKNOWN>)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+ [209.85.221.48])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FlwNf6JV8z2xvG;
- Thu, 20 May 2021 13:35:13 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 14K3JA4S041222;
- Thu, 20 May 2021 11:19:11 +0800 (GMT-8)
- (envelope-from jamin_lin@aspeedtech.com)
-Received: from aspeedtech.com (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 20 May
- 2021 11:31:48 +0800
-Date: Thu, 20 May 2021 11:31:41 +0800
-From: Jamin Lin <jamin_lin@aspeedtech.com>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH 1/3] i2c: aspeed: avoid new registers definition of AST2600
-Message-ID: <20210520033140.GA3656@aspeedtech.com>
-References: <20210519080436.18975-1-jamin_lin@aspeedtech.com>
- <20210519080436.18975-2-jamin_lin@aspeedtech.com>
- <CACPK8XdNXiGMQZOtsfMMK+w_PSvO20XT8B9MG+rGhdjYoV4ZuQ@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Flyq65lNrz2xtv;
+ Thu, 20 May 2021 15:24:50 +1000 (AEST)
+Received: by mail-wr1-f48.google.com with SMTP id i17so16179590wrq.11;
+ Wed, 19 May 2021 22:24:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=11ZQ56HwZc4BV5BR48kEPzW4yk428PdNM1asWtUZ9+U=;
+ b=Fe7gzLbOoYVoad22v9ehsjNlylxtAv09mu7NS1Y76CDhwX0V4sl8SobO9bS0Pn+VLg
+ TKCkHcXgA8++4TlWbfeYnYohLRajJygapLjovujaXoHpq4//Laj38C8EUdZXIzM5OxFd
+ Sm/D6+2Vd5jE01YjI43Qien9wEt1kTToxfsIxX+YYu4v7sHrMQTb3pFZoesv4t9VsR62
+ E/+4IePAK7p/5V9PJEjjlhY1GpMBwiaNlGJGuMnJn01pAZoAVGiiOLx4+0+BQmD2Knmf
+ R0hFgPdQ1CNR6IOXRdRfPQAlrhRPGlkgDbRT4r+2E/NeAkEoSBYlKTDrSRPuMNXup+S6
+ zWPw==
+X-Gm-Message-State: AOAM533LI673sTCCXCKdPLCdObUnTmX5YSUJTtcoUizFpNGBuRRy0cGJ
+ zj3mrOJ0CYZiGTfUwUhwoiw=
+X-Google-Smtp-Source: ABdhPJxL1ddfj/EY9f/Lv0AnafurtOPdOSn4JIWylC+vH9knX7psIsJVIOw0mB1hSIWDPo5AA2wfEA==
+X-Received: by 2002:a5d:554e:: with SMTP id g14mr2240537wrw.131.1621488287419; 
+ Wed, 19 May 2021 22:24:47 -0700 (PDT)
+Received: from ?IPv6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+ by smtp.gmail.com with ESMTPSA id r5sm1605843wmh.23.2021.05.19.22.24.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 May 2021 22:24:46 -0700 (PDT)
+Subject: Re: [PATCH v3 1/2] serial: 8250: Add UART_BUG_TXRACE workaround for
+ Aspeed VUART
+To: Andrew Jeffery <andrew@aj.id.au>, linux-serial@vger.kernel.org
+References: <20210520021334.497341-1-andrew@aj.id.au>
+ <20210520021334.497341-2-andrew@aj.id.au>
+From: Jiri Slaby <jirislaby@kernel.org>
+Message-ID: <b8eed269-f30d-af69-dbc2-c9fa70009091@kernel.org>
+Date: Thu, 20 May 2021 07:24:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <CACPK8XdNXiGMQZOtsfMMK+w_PSvO20XT8B9MG+rGhdjYoV4ZuQ@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 14K3JA4S041222
+In-Reply-To: <20210520021334.497341-2-andrew@aj.id.au>
+Content-Type: text/plain; charset=iso-8859-2; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,95 +68,95 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "open list:OPEN
- FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
- "moderated list:ARM/ASPEED MACHINE
- SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- "moderated list:ARM/ASPEED I2C DRIVER" <openbmc@lists.ozlabs.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- open list <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Rayn Chen <rayn_chen@aspeedtech.com>, "open
- list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- Steven Lee <steven_lee@aspeedtech.com>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>
+Cc: miltonm@us.ibm.com, linux-aspeed@lists.ozlabs.org,
+ gregkh@linuxfoundation.org, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, jenmin_yuan@aspeedtech.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The 05/19/2021 22:59, Joel Stanley wrote:
-> On Wed, 19 May 2021 at 08:05, Jamin Lin <jamin_lin@aspeedtech.com> wrote:
-> >
-> > The register definition between AST2600 A2 and A3 is different.
-> > This patch avoid new registers definition of AST2600 to use
-> > this driver. We will submit the path for the new registers
-> > definition of AST2600.
+On 20. 05. 21, 4:13, Andrew Jeffery wrote:
+> Aspeed Virtual UARTs directly bridge e.g. the system console UART on the
+> LPC bus to the UART interface on the BMC's internal APB. As such there's
+> no RS-232 signalling involved - the UART interfaces on each bus are
+> directly connected as the producers and consumers of the one set of
+> FIFOs.
 > 
-> The AST2600 v9 datasheet says that bit 2 selects between old and new
-> register sets, and that the old register set is the default.
+> The APB in the AST2600 generally runs at 100MHz while the LPC bus peaks
+> at 33MHz. The difference in clock speeds exposes a race in the VUART
+> design where a Tx data burst on the APB interface can result in a byte
+> lost on the LPC interface. The symptom is LSR[DR] remains clear on the
+> LPC interface despite data being present in its Rx FIFO, while LSR[THRE]
+> remains clear on the APB interface as the host has not consumed the data
+> the BMC has transmitted. In this state, the UART has stalled and no
+> further data can be transmitted without manual intervention (e.g.
+> resetting the FIFOs, resulting in loss of data).
 > 
-> Has the default changed for the A3?, and the datasheet is incorrect?
+> The recommended work-around is to insert a read cycle on the APB
+> interface between writes to THR.
 > 
-> Does the A3 still support the old register set?
-> 
-We suggest user to use the new i2c driver for AST2600 and we will sumbit
-it. This driver is used to AST2500 and AST2400 SOCs. Change this
-driver to check global register of i2c to avoid user build the wrong driver. 
+> Cc: ChiaWei Wang <chiawei_wang@aspeedtech.com>
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 
-> >
-> > Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
-> > ---
-> >  drivers/i2c/busses/i2c-aspeed.c | 22 ++++++++++++++++++++++
-> >  1 file changed, 22 insertions(+)
-> >
-> > diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-> > index 724bf30600d6..007309077d9f 100644
-> > --- a/drivers/i2c/busses/i2c-aspeed.c
-> > +++ b/drivers/i2c/busses/i2c-aspeed.c
-> > @@ -19,14 +19,20 @@
-> >  #include <linux/irqchip/chained_irq.h>
-> >  #include <linux/irqdomain.h>
-> >  #include <linux/kernel.h>
-> > +#include <linux/mfd/syscon.h>
-> >  #include <linux/module.h>
-> >  #include <linux/of_address.h>
-> >  #include <linux/of_irq.h>
-> >  #include <linux/of_platform.h>
-> >  #include <linux/platform_device.h>
-> > +#include <linux/regmap.h>
-> >  #include <linux/reset.h>
-> >  #include <linux/slab.h>
-> >
-> > +/* I2C Global Registers */
-> > +/* 0x0c : I2CG Global Control Register (AST2500)  */
-> > +#define ASPEED_I2CG_GLOBAL_CTRL_REG                    0x0c
-> > +
-> >  /* I2C Register */
-> >  #define ASPEED_I2C_FUN_CTRL_REG                                0x00
-> >  #define ASPEED_I2C_AC_TIMING_REG1                      0x04
-> > @@ -973,6 +979,22 @@ static int aspeed_i2c_probe_bus(struct platform_device *pdev)
-> >         struct resource *res;
-> >         int irq, ret;
-> >
-> > +       if (of_device_is_compatible(pdev->dev.of_node,
-> > +                                   "aspeed,ast2600-i2c-bus")) {
-> > +               u32 global_ctrl;
-> > +               struct regmap *gr_regmap;
-> > +
-> > +               gr_regmap = syscon_regmap_lookup_by_compatible("aspeed,ast2600-i2c-global");
-> > +
-> > +               if (IS_ERR(gr_regmap)) {
-> > +                       ret = PTR_ERR(gr_regmap);
-> > +               } else {
-> > +                       regmap_read(gr_regmap, ASPEED_I2CG_GLOBAL_CTRL_REG, &global_ctrl);
-> > +                       if (global_ctrl & BIT(2))
-> > +                               return -EIO;
-> > +               }
-> > +       }
-> > +
-> >         bus = devm_kzalloc(&pdev->dev, sizeof(*bus), GFP_KERNEL);
-> >         if (!bus)
-> >                 return -ENOMEM;
-> > --
-> > 2.17.1
-> >
+Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+
+> ---
+>   drivers/tty/serial/8250/8250.h              |  1 +
+>   drivers/tty/serial/8250/8250_aspeed_vuart.c |  1 +
+>   drivers/tty/serial/8250/8250_port.c         | 12 ++++++++++++
+>   3 files changed, 14 insertions(+)
+> 
+> diff --git a/drivers/tty/serial/8250/8250.h b/drivers/tty/serial/8250/8250.h
+> index 52bb21205bb6..34aa2714f3c9 100644
+> --- a/drivers/tty/serial/8250/8250.h
+> +++ b/drivers/tty/serial/8250/8250.h
+> @@ -88,6 +88,7 @@ struct serial8250_config {
+>   #define UART_BUG_NOMSR	(1 << 2)	/* UART has buggy MSR status bits (Au1x00) */
+>   #define UART_BUG_THRE	(1 << 3)	/* UART has buggy THRE reassertion */
+>   #define UART_BUG_PARITY	(1 << 4)	/* UART mishandles parity if FIFO enabled */
+> +#define UART_BUG_TXRACE	(1 << 5)	/* UART Tx fails to set remote DR */
+>   
+>   
+>   #ifdef CONFIG_SERIAL_8250_SHARE_IRQ
+> diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+> index a28a394ba32a..4caab8714e2c 100644
+> --- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
+> +++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+> @@ -440,6 +440,7 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
+>   	port.port.status = UPSTAT_SYNC_FIFO;
+>   	port.port.dev = &pdev->dev;
+>   	port.port.has_sysrq = IS_ENABLED(CONFIG_SERIAL_8250_CONSOLE);
+> +	port.bugs |= UART_BUG_TXRACE;
+>   
+>   	rc = sysfs_create_group(&vuart->dev->kobj, &aspeed_vuart_attr_group);
+>   	if (rc < 0)
+> diff --git a/drivers/tty/serial/8250/8250_port.c b/drivers/tty/serial/8250/8250_port.c
+> index d45dab1ab316..fc5ab2032282 100644
+> --- a/drivers/tty/serial/8250/8250_port.c
+> +++ b/drivers/tty/serial/8250/8250_port.c
+> @@ -1809,6 +1809,18 @@ void serial8250_tx_chars(struct uart_8250_port *up)
+>   	count = up->tx_loadsz;
+>   	do {
+>   		serial_out(up, UART_TX, xmit->buf[xmit->tail]);
+> +		if (up->bugs & UART_BUG_TXRACE) {
+> +			/*
+> +			 * The Aspeed BMC virtual UARTs have a bug where data
+> +			 * may get stuck in the BMC's Tx FIFO from bursts of
+> +			 * writes on the APB interface.
+> +			 *
+> +			 * Delay back-to-back writes by a read cycle to avoid
+> +			 * stalling the VUART. Read a register that won't have
+> +			 * side-effects and discard the result.
+> +			 */
+> +			serial_in(up, UART_SCR);
+> +		}
+>   		xmit->tail = (xmit->tail + 1) & (UART_XMIT_SIZE - 1);
+>   		port->icount.tx++;
+>   		if (uart_circ_empty(xmit))
+> 
+
+
+-- 
+js
+suse labs
