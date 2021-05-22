@@ -2,77 +2,49 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE92638CC47
-	for <lists+linux-aspeed@lfdr.de>; Fri, 21 May 2021 19:36:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF4038D672
+	for <lists+linux-aspeed@lfdr.de>; Sat, 22 May 2021 18:07:44 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Fmv0s5dhMz3090
-	for <lists+linux-aspeed@lfdr.de>; Sat, 22 May 2021 03:36:29 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=CTE2dQFp;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FnSzy0kqQz2yx3
+	for <lists+linux-aspeed@lfdr.de>; Sun, 23 May 2021 02:07:42 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::c2f;
- helo=mail-oo1-xc2f.google.com; envelope-from=tcminyard@gmail.com;
+ smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
+ helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=CTE2dQFp; dkim-atps=neutral
-Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
- [IPv6:2607:f8b0:4864:20::c2f])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Fmv0n4CBmz2xv1;
- Sat, 22 May 2021 03:36:22 +1000 (AEST)
-Received: by mail-oo1-xc2f.google.com with SMTP id
- s24-20020a4aead80000b02901fec6deb28aso4745188ooh.11; 
- Fri, 21 May 2021 10:36:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=xsZwyz8bU4yD245jhx9rPS0/zoGZWsugEiI8VeaXwz4=;
- b=CTE2dQFpKlqhV9xA3GSGL8nDvpghVK9LimwK1q3I8P0dnbBZqSYYbFz55efe5eyVDt
- Qit5eNZ2mo8/DdfUIQtWsHmKZWItaKl9jpUZUxi5un1GFMYhTc7fb9BRsYpHaF8a1A7F
- gdnOzm3Vo8MRhsJtXus9p2hh6CGz1j/jQWGHew+EzO1DuP9nVxvKY2CQh99vvyU/uOwM
- yQlHV3e74CVYPd+P2IJrQbwbH8bynY9hHkGTlrHQ4ghvd9aZpKvOXlOvq8YGwb/LG7gM
- 1EB5cyNm7AsaN15riAgXWNW/RJ4KC9uZHXb0KFLpfCw7Xm/mOA0LPg8vck01Yv4JoowH
- pNNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to;
- bh=xsZwyz8bU4yD245jhx9rPS0/zoGZWsugEiI8VeaXwz4=;
- b=MI+Ea1GIPqwodYeYEyl55cxTKHItSaz9Wy5C0Bww8omKT+kfl2ewqqxtfA8K3e9aFb
- em3dH7IZ1YGB4viAastKntSPGkRO5f3+EYo4qhMq5YyRnTWLK48D4n9GbqEFSsM0h9+f
- INVJi3IhFm6bEMkEPYLMY/8aUgwADXEcl0pGID1vspDOUWjeQ11/J7rLzU7GqyTXtUmp
- gFdEM4sKVC7Ukuh5gHKC7KrR+FMW0gQqtDH4LRYggOkHSH4bllLMDEuRtgoAyBPXI7w6
- /uutWMBbl6Z+wqHs77qazD715FB/R43FR8fj3cGA9GCYdGX2mkqRORCE4Cg2mWesZhO/
- dDKQ==
-X-Gm-Message-State: AOAM532EvlPxrO2zNKD2x2gbNmK34vCEhljlIWXKTZ29dkRHWpkV82/U
- 4FHVeb/HYYkQ24iQ6W3Bog==
-X-Google-Smtp-Source: ABdhPJzbCHFdLAdHPLmr/dH91nFshv8QRe7ey6knMySKTHguizVh3ISRUyFZezmXrFL/yp5yhV0qcQ==
-X-Received: by 2002:a4a:c88f:: with SMTP id t15mr9071550ooq.84.1621618579446; 
- Fri, 21 May 2021 10:36:19 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id f2sm1373733otp.77.2021.05.21.10.36.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 May 2021 10:36:18 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:9c8f:21cb:3961:b550])
- by serve.minyard.net (Postfix) with ESMTPSA id 95ABE180105;
- Fri, 21 May 2021 17:36:17 +0000 (UTC)
-Date: Fri, 21 May 2021 12:36:16 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH v3 00/16] ipmi: Allow raw access to KCS devices
-Message-ID: <20210521173616.GK2921206@minyard.net>
-References: <20210510054213.1610760-1-andrew@aj.id.au>
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FnSzq6GJrz2yXp
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 23 May 2021 02:07:34 +1000 (AEST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1lkU9k-0004rd-F7; Sat, 22 May 2021 18:07:16 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1lkU9f-00026L-8u; Sat, 22 May 2021 18:07:11 +0200
+Date: Sat, 22 May 2021 18:07:08 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Subject: Re: [v6 2/2] pwm: Add Aspeed ast2600 PWM support
+Message-ID: <20210522160708.ryr7n7klapszu2da@pengutronix.de>
+References: <20210518005517.9036-1-billy_tsai@aspeedtech.com>
+ <20210518005517.9036-3-billy_tsai@aspeedtech.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="k34lll7347jlokxj"
 Content-Disposition: inline
-In-Reply-To: <20210510054213.1610760-1-andrew@aj.id.au>
+In-Reply-To: <20210518005517.9036-3-billy_tsai@aspeedtech.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,118 +56,370 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: devicetree@vger.kernel.org, tmaimon77@gmail.com,
- linux-aspeed@lists.ozlabs.org, avifishman70@gmail.com, venture@google.com,
- openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, tali.perry1@gmail.com,
- robh+dt@kernel.org, arnd@arndb.de, openipmi-developer@lists.sourceforge.net,
- zweiss@equinix.com, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ thierry.reding@gmail.com, p.zabel@pengutronix.de, BMC-SW@aspeedtech.com,
+ lee.jones@linaro.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, May 10, 2021 at 03:11:57PM +0930, Andrew Jeffery wrote:
-> Hello,
-> 
-> This is the 3rd spin of the series refactoring the keyboard-controller-style
-> device drivers in the IPMI subsystem.
 
-This is a nice set of cleanups outside of just allowing raw access.
-I'll let you handle Zev's comments and a few of mine.
+--k34lll7347jlokxj
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I almost hate to ask this, but would there be value in allowing the BT
-driver to use this abstract interface?  Or maybe it would be just too
-hard to get a common abstraction, more work than it's worth.  It's
-surprising that more people don't want BT as it's vastly superior to
-KCS.  Just a thought for now.  I guess there's SMIC, but hopefully
-nobody wants that.
+Hello,
 
--corey
+On Tue, May 18, 2021 at 08:55:17AM +0800, Billy Tsai wrote:
+> This patch add the support of PWM controller which can be found at aspeed
+> ast2600 soc. The pwm supoorts up to 16 channels and it's part function
+> of multi-function device "pwm-tach controller".
+>=20
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> ---
+>  drivers/pwm/Kconfig         |   9 +
+>  drivers/pwm/Makefile        |   1 +
+>  drivers/pwm/pwm-aspeed-g6.c | 351 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 361 insertions(+)
+>  create mode 100644 drivers/pwm/pwm-aspeed-g6.c
+>=20
+> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
+> index 63be5362fd3a..3b2d4cf024a6 100644
+> --- a/drivers/pwm/Kconfig
+> +++ b/drivers/pwm/Kconfig
+> @@ -51,6 +51,15 @@ config PWM_AB8500
+>  	  To compile this driver as a module, choose M here: the module
+>  	  will be called pwm-ab8500.
+> =20
+> +config PWM_ASPEED_G6
+> +	tristate "ASPEEDG6 PWM support"
+> +	depends on ARCH_ASPEED || COMPILE_TEST
+> +	help
+> +	  Generic PWM framework driver for ASPEED G6 SoC.
+> +
+> +	  To compile this driver as a module, choose M here: the module
+> +	  will be called pwm-aspeed-g6.
+> +
+>  config PWM_ATMEL
+>  	tristate "Atmel PWM support"
+>  	depends on OF
+> diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
+> index cbdcd55d69ee..29d22d806e68 100644
+> --- a/drivers/pwm/Makefile
+> +++ b/drivers/pwm/Makefile
+> @@ -2,6 +2,7 @@
+>  obj-$(CONFIG_PWM)		+=3D core.o
+>  obj-$(CONFIG_PWM_SYSFS)		+=3D sysfs.o
+>  obj-$(CONFIG_PWM_AB8500)	+=3D pwm-ab8500.o
+> +obj-$(CONFIG_PWM_ASPEED_G6)	+=3D pwm-aspeed-g6.o
+>  obj-$(CONFIG_PWM_ATMEL)		+=3D pwm-atmel.o
+>  obj-$(CONFIG_PWM_ATMEL_HLCDC_PWM)	+=3D pwm-atmel-hlcdc.o
+>  obj-$(CONFIG_PWM_ATMEL_TCB)	+=3D pwm-atmel-tcb.o
+> diff --git a/drivers/pwm/pwm-aspeed-g6.c b/drivers/pwm/pwm-aspeed-g6.c
+> new file mode 100644
+> index 000000000000..a80211eb4877
+> --- /dev/null
+> +++ b/drivers/pwm/pwm-aspeed-g6.c
+> @@ -0,0 +1,351 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright (C) 2021 ASPEED Technology Inc.
+> + *
+> + * PWM controller driver for Aspeed ast26xx SoCs.
+> + * This drivers doesn't support earlier version of the IP.
+> + *
+> + * The formula of pwm frequency:
+> + * PWM frequency =3D CLK Source / ((DIV_L + 1) * BIT(DIV_H) * (PERIOD + =
+1))
+> + *
+> + * The software driver fixes the period to 255, which causes the high-fr=
+equency
+> + * precision of the PWM to be coarse, in exchange for the fineness of th=
+e duty cycle.
+> + *
+> + * Register usage:
+> + * PIN_ENABLE: When it is unset the pwm controller will always output lo=
+w to the extern.
+> + * Use to determine whether the PWM channel is enabled or disabled
+> + * CLK_ENABLE: When it is unset the pwm controller will reset the duty c=
+ounter to 0 and
+> + * output low to the PIN_ENABLE mux after that the driver can still chan=
+ge the pwm period
+> + * and duty and the value will apply when CLK_ENABLE be set again.
+> + * Use to determin whether duty_cycle bigger than 0.
+> + * PWM_ASPEED_CTRL_INVERSE: When it is toggled the output value will inv=
+erse immediately.
+> + * PWM_ASPEED_DUTY_CYCLE_FALLING_POINT/PWM_ASPEED_DUTY_CYCLE_RISING_POIN=
+T: When these two
+> + * values are equal it means the duty cycle =3D 100%.
+> + *
+> + * Limitations:
+> + * - When changing both duty cycle and period, we cannot prevent in
+> + *   software that the output might produce a period with mixed
+> + *   settings.
+> + *
+> + * Improvements:
+> + * - When changing the duty cycle or period, our pwm controller will not
+> + *   generate the glitch, the configure will change at next cycle of pwm.
+> + *   This improvement can disable/enable through PWM_ASPEED_CTRL_DUTY_SY=
+NC_DISABLE.
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/errno.h>
+> +#include <linux/delay.h>
+> +#include <linux/io.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mfd/syscon.h>
+> +#include <linux/module.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/sysfs.h>
+> +#include <linux/reset.h>
+> +#include <linux/regmap.h>
+> +#include <linux/bitfield.h>
+> +#include <linux/slab.h>
+> +#include <linux/pwm.h>
+> +#include <linux/math64.h>
+> +
+> +/* The channel number of Aspeed pwm controller */
+> +#define PWM_ASPEED_NR_PWMS 16
+> +
+> +/* PWM Control Register */
+> +#define PWM_ASPEED_CTRL_CH(ch) (((ch)*0x10) + 0x00)
+> +#define PWM_ASPEED_CTRL_LOAD_SEL_RISING_AS_WDT BIT(19)
+> +#define PWM_ASPEED_CTRL_DUTY_LOAD_AS_WDT_ENABLE BIT(18)
+> +#define PWM_ASPEED_CTRL_DUTY_SYNC_DISABLE BIT(17)
+> +#define PWM_ASPEED_CTRL_CLK_ENABLE BIT(16)
+> +#define PWM_ASPEED_CTRL_LEVEL_OUTPUT BIT(15)
+> +#define PWM_ASPEED_CTRL_INVERSE BIT(14)
+> +#define PWM_ASPEED_CTRL_OPEN_DRAIN_ENABLE BIT(13)
+> +#define PWM_ASPEED_CTRL_PIN_ENABLE BIT(12)
+> +#define PWM_ASPEED_CTRL_CLK_DIV_H GENMASK(11, 8)
+> +#define PWM_ASPEED_CTRL_CLK_DIV_L GENMASK(7, 0)
+> +
+> +/* PWM Duty Cycle Register */
+> +#define PWM_ASPEED_DUTY_CYCLE_CH(ch) (((ch)*0x10) + 0x04)
+> +#define PWM_ASPEED_DUTY_CYCLE_PERIOD GENMASK(31, 24)
+> +#define PWM_ASPEED_DUTY_CYCLE_POINT_AS_WDT GENMASK(23, 16)
+> +#define PWM_ASPEED_DUTY_CYCLE_FALLING_POINT GENMASK(15, 8)
+> +#define PWM_ASPEED_DUTY_CYCLE_RISING_POINT GENMASK(7, 0)
+> +
+> +/* PWM fixed value */
+> +#define PWM_ASPEED_FIXED_PERIOD FIELD_MAX(PWM_ASPEED_DUTY_CYCLE_PERIOD)
+> +
+> +struct aspeed_pwm_data {
+> +	struct pwm_chip chip;
+> +	struct clk *clk;
+> +	struct regmap *regmap;
+> +	struct reset_control *reset;
+> +};
+> +
+> +static inline struct aspeed_pwm_data *
+> +aspeed_pwm_chip_to_data(struct pwm_chip *c)
+> +{
+> +	return container_of(c, struct aspeed_pwm_data, chip);
+> +}
+> +
+> +static u64 aspeed_pwm_get_period(struct pwm_chip *chip, struct pwm_devic=
+e *pwm)
+> +{
+> +	struct aspeed_pwm_data *priv =3D aspeed_pwm_chip_to_data(chip);
+> +	unsigned long rate;
+> +	u32 index =3D pwm->hwpwm;
+> +	u32 val;
+> +	u64 period, div_h, div_l, clk_period;
+> +
+> +	rate =3D clk_get_rate(priv->clk);
+> +	regmap_read(priv->regmap, PWM_ASPEED_CTRL_CH(index), &val);
+> +	div_h =3D FIELD_GET(PWM_ASPEED_CTRL_CLK_DIV_H, val);
+> +	div_l =3D FIELD_GET(PWM_ASPEED_CTRL_CLK_DIV_L, val);
+> +	regmap_read(priv->regmap, PWM_ASPEED_DUTY_CYCLE_CH(index), &val);
+> +	clk_period =3D FIELD_GET(PWM_ASPEED_DUTY_CYCLE_PERIOD, val);
+> +	period =3D (NSEC_PER_SEC * BIT(div_h) * (div_l + 1) * (clk_period + 1));
 
-> 
-> v2 can be found (in two parts because yay patch workflow mistakes) at:
-> 
-> Cover letter:
-> https://lore.kernel.org/linux-arm-kernel/20210319061952.145040-1-andrew@aj.id.au/
-> 
-> Patches:
-> https://lore.kernel.org/linux-arm-kernel/20210319062752.145730-1-andrew@aj.id.au/
-> 
-> Several significant changes in v3:
-> 
-> 1. The series is rebased onto v5.13-rc1
-> 
-> 2. v5.13-rc1 includes Chiawei's patches reworking the LPC devicetree bindings,
->    so they're no-longer required in the series.
-> 
-> 3. After some discussion with Arnd[1] and investigating the serio subsystem,
->    I've replaced the "raw" KCS driver (patch 16/21 in v2) with a serio adaptor
->    (patch 11/16 in this series). The adaptor allows us to take advantage of the
->    existing chardevs provided by serio.
-> 
-> [1] https://lore.kernel.org/linux-arm-kernel/37e75b07-a5c6-422f-84b3-54f2bea0b917@www.fastmail.com/
-> 
-> Finally, I've also addressed Zev Weiss' review comments where I thought it was
-> required. These comments covered a lot of minor issues across (almost) all the
-> patches, so it's best to review from a clean slate rather than attempt to review
-> the differences between spins.
-> 
-> Previously:
-> 
-> Changes in v2 include:
-> 
-> * A rebase onto v5.12-rc2
-> * Incorporation of off-list feedback on SerIRQ configuration from
->   Chiawei
-> * Further validation on hardware for ASPEED KCS devices 2, 3 and 4
-> * Lifting the existing single-open constraint of the IPMI chardev
-> * Fixes addressing Rob's feedback on the conversion of the ASPEED KCS
->   binding to dt-schema
-> * Fixes addressing Rob's feedback on the new aspeed,lpc-interrupts
->   property definition for the ASPEED KCS binding
-> 
-> Please test and review!
-> 
-> Andrew
-> 
-> Andrew Jeffery (16):
->   ipmi: kcs_bmc_aspeed: Use of match data to extract KCS properties
->   ipmi: kcs_bmc: Make status update atomic
->   ipmi: kcs_bmc: Rename {read,write}_{status,data}() functions
->   ipmi: kcs_bmc: Split out kcs_bmc_cdev_ipmi
->   ipmi: kcs_bmc: Turn the driver data-structures inside-out
->   ipmi: kcs_bmc: Split headers into device and client
->   ipmi: kcs_bmc: Strip private client data from struct kcs_bmc
->   ipmi: kcs_bmc: Decouple the IPMI chardev from the core
->   ipmi: kcs_bmc: Allow clients to control KCS IRQ state
->   ipmi: kcs_bmc: Don't enforce single-open policy in the kernel
->   ipmi: kcs_bmc: Add serio adaptor
->   dt-bindings: ipmi: Convert ASPEED KCS binding to schema
->   dt-bindings: ipmi: Add optional SerIRQ property to ASPEED KCS devices
->   ipmi: kcs_bmc_aspeed: Implement KCS SerIRQ configuration
->   ipmi: kcs_bmc_aspeed: Fix IBFIE typo from datasheet
->   ipmi: kcs_bmc_aspeed: Optionally apply status address
-> 
->  .../bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml | 106 +++
->  .../bindings/ipmi/aspeed-kcs-bmc.txt          |  33 -
->  drivers/char/ipmi/Kconfig                     |  27 +
->  drivers/char/ipmi/Makefile                    |   2 +
->  drivers/char/ipmi/kcs_bmc.c                   | 526 ++++-----------
->  drivers/char/ipmi/kcs_bmc.h                   |  92 +--
->  drivers/char/ipmi/kcs_bmc_aspeed.c            | 635 +++++++++++++-----
->  drivers/char/ipmi/kcs_bmc_cdev_ipmi.c         | 568 ++++++++++++++++
->  drivers/char/ipmi/kcs_bmc_client.h            |  48 ++
->  drivers/char/ipmi/kcs_bmc_device.h            |  22 +
->  drivers/char/ipmi/kcs_bmc_npcm7xx.c           |  94 ++-
->  drivers/char/ipmi/kcs_bmc_serio.c             | 151 +++++
->  12 files changed, 1582 insertions(+), 722 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml
->  delete mode 100644 Documentation/devicetree/bindings/ipmi/aspeed-kcs-bmc.txt
->  create mode 100644 drivers/char/ipmi/kcs_bmc_cdev_ipmi.c
->  create mode 100644 drivers/char/ipmi/kcs_bmc_client.h
->  create mode 100644 drivers/char/ipmi/kcs_bmc_device.h
->  create mode 100644 drivers/char/ipmi/kcs_bmc_serio.c
-> 
-> -- 
-> 2.27.0
-> 
+The outer pair of parenthesis on the RHS isn't necessary. The maximal
+value that period can have here is:
+
+	1000000000 * 2**15 * 256 * 256
+
+This fits into an u64, but as all but the last factor are 32 bit values
+you might get an overflow here.
+
+> +	period =3D DIV_ROUND_UP_ULL(period, rate);
+> +
+> +	return period;
+> +}
+> +
+> +static int aspeed_pwm_set_period(struct pwm_chip *chip, struct pwm_devic=
+e *pwm,
+> +				 const struct pwm_state *state)
+> +{
+> +	struct device *dev =3D chip->dev;
+> +	struct aspeed_pwm_data *priv =3D aspeed_pwm_chip_to_data(chip);
+> +	unsigned long rate;
+> +	u64 div_h, div_l, divisor;
+> +	u32 index =3D pwm->hwpwm;
+> +
+> +	rate =3D clk_get_rate(priv->clk);
+> +	/*
+> +	 * Pick the smallest value for div_h so that div_l can be the biggest
+> +	 * which results in a finer resolution near the target period value.
+> +	 */
+> +	divisor =3D (u64)NSEC_PER_SEC * (PWM_ASPEED_FIXED_PERIOD + 1) *
+> +		  (FIELD_MAX(PWM_ASPEED_CTRL_CLK_DIV_L) + 1);
+> +	div_h =3D order_base_2(div64_u64(rate * state->period, divisor));
+> +	if (div_h > 0xf)
+> +		div_h =3D 0xf;
+> +
+> +	divisor =3D ((u64)NSEC_PER_SEC * (PWM_ASPEED_FIXED_PERIOD + 1)) << div_=
+h;
+> +	div_l =3D div64_u64(rate * state->period, divisor);
+> +
+> +	if (div_l =3D=3D 0)
+> +		return -ERANGE;
+> +
+> +	div_l -=3D 1;
+> +
+> +	if (div_l > 255)
+> +		div_l =3D 255;
+> +
+> +	dev_dbg(dev, "clk source: %ld div_h %lld, div_l : %lld\n", rate, div_h,
+> +		div_l);
+> +
+> +	regmap_update_bits(
+> +		priv->regmap, PWM_ASPEED_CTRL_CH(index),
+> +		(PWM_ASPEED_CTRL_CLK_DIV_H | PWM_ASPEED_CTRL_CLK_DIV_L),
+> +		FIELD_PREP(PWM_ASPEED_CTRL_CLK_DIV_H, div_h) |
+> +			FIELD_PREP(PWM_ASPEED_CTRL_CLK_DIV_L, div_l));
+> +	return 0;
+> +}
+> +
+> +static void aspeed_pwm_set_duty(struct pwm_chip *chip, struct pwm_device=
+ *pwm,
+> +				const struct pwm_state *state)
+> +{
+> +	struct device *dev =3D chip->dev;
+> +	struct aspeed_pwm_data *priv =3D aspeed_pwm_chip_to_data(chip);
+> +	u32 duty_pt;
+> +	u32 index =3D pwm->hwpwm;
+> +	u64 cur_period;
+> +
+> +	cur_period =3D aspeed_pwm_get_period(chip, pwm);
+> +	duty_pt =3D DIV_ROUND_DOWN_ULL(
+> +		state->duty_cycle * (PWM_ASPEED_FIXED_PERIOD + 1), cur_period);
+> +	dev_dbg(dev, "cur_period =3D %lld, duty_cycle =3D %lld, duty_pt =3D %d\=
+n",
+> +		cur_period, state->duty_cycle, duty_pt);
+> +	if (duty_pt =3D=3D 0) {
+> +		regmap_update_bits(priv->regmap, PWM_ASPEED_CTRL_CH(index),
+> +				   PWM_ASPEED_CTRL_CLK_ENABLE, 0);
+> +	} else {
+> +		if (duty_pt >=3D (PWM_ASPEED_FIXED_PERIOD + 1))
+> +			duty_pt =3D 0;
+> +		regmap_update_bits(
+> +			priv->regmap, PWM_ASPEED_DUTY_CYCLE_CH(index),
+> +			PWM_ASPEED_DUTY_CYCLE_FALLING_POINT,
+> +			FIELD_PREP(PWM_ASPEED_DUTY_CYCLE_FALLING_POINT,
+> +				   duty_pt));
+> +		regmap_update_bits(priv->regmap, PWM_ASPEED_CTRL_CH(index),
+> +				   PWM_ASPEED_CTRL_CLK_ENABLE,
+> +				   PWM_ASPEED_CTRL_CLK_ENABLE);
+> +	}
+> +}
+> +
+> +static void aspeed_pwm_get_state(struct pwm_chip *chip, struct pwm_devic=
+e *pwm,
+> +				 struct pwm_state *state)
+> +{
+> +	struct device *dev =3D chip->dev;
+> +	struct aspeed_pwm_data *priv =3D aspeed_pwm_chip_to_data(chip);
+> +	u32 index =3D pwm->hwpwm;
+> +	bool polarity, ch_en, clk_en;
+> +	u32 duty_pt, val;
+> +
+> +	regmap_read(priv->regmap, PWM_ASPEED_CTRL_CH(index), &val);
+> +	polarity =3D FIELD_GET(PWM_ASPEED_CTRL_INVERSE, val);
+> +	ch_en =3D FIELD_GET(PWM_ASPEED_CTRL_PIN_ENABLE, val);
+> +	clk_en =3D FIELD_GET(PWM_ASPEED_CTRL_CLK_ENABLE, val);
+> +	regmap_read(priv->regmap, PWM_ASPEED_DUTY_CYCLE_CH(index), &val);
+> +	duty_pt =3D FIELD_GET(PWM_ASPEED_DUTY_CYCLE_FALLING_POINT, val);
+> +
+> +	state->period =3D aspeed_pwm_get_period(chip, pwm);
+> +	if (clk_en && duty_pt)
+> +		state->duty_cycle =3D DIV_ROUND_UP_ULL(
+> +			state->period * duty_pt, PWM_ASPEED_FIXED_PERIOD + 1);
+> +	else
+> +		state->duty_cycle =3D clk_en ? state->period : 0;
+> +	state->polarity =3D polarity;
+> +	state->enabled =3D ch_en;
+> +	dev_dbg(dev, "get period: %lldns, duty_cycle: %lldns", state->period,
+> +		state->duty_cycle);
+> +}
+> +
+> +static int aspeed_pwm_apply(struct pwm_chip *chip, struct pwm_device *pw=
+m,
+> +			    const struct pwm_state *state)
+> +{
+> +	struct device *dev =3D chip->dev;
+> +	struct aspeed_pwm_data *priv =3D aspeed_pwm_chip_to_data(chip);
+> +	u32 index =3D pwm->hwpwm;
+> +	int ret;
+> +
+> +	dev_dbg(dev, "apply period: %lldns, duty_cycle: %lldns", state->period,
+> +		state->duty_cycle);
+> +
+> +	regmap_update_bits(priv->regmap, PWM_ASPEED_CTRL_CH(index),
+> +			   PWM_ASPEED_CTRL_PIN_ENABLE,
+> +			   state->enabled ? PWM_ASPEED_CTRL_PIN_ENABLE : 0);
+> +	/*
+> +	 * Fixed the period to the max value and rising point to 0
+> +	 * for high resolution and simplify frequency calculation.
+> +	 */
+> +	regmap_update_bits(priv->regmap, PWM_ASPEED_DUTY_CYCLE_CH(index),
+> +			   (PWM_ASPEED_DUTY_CYCLE_PERIOD |
+> +			    PWM_ASPEED_DUTY_CYCLE_RISING_POINT),
+> +			   FIELD_PREP(PWM_ASPEED_DUTY_CYCLE_PERIOD,
+> +				      PWM_ASPEED_FIXED_PERIOD));
+> +
+> +	ret =3D aspeed_pwm_set_period(chip, pwm, state);
+> +	if (ret)
+> +		return ret;
+> +	aspeed_pwm_set_duty(chip, pwm, state);
+
+aspeed_pwm_set_duty calls aspeed_pwm_get_period() which is a bit
+ineffective after just having set the period.
+
+> +	regmap_update_bits(priv->regmap, PWM_ASPEED_CTRL_CH(index),
+> +			   PWM_ASPEED_CTRL_INVERSE,
+> +			   FIELD_PREP(PWM_ASPEED_CTRL_INVERSE,
+> +				      state->polarity));
+> +	return 0;
+> +}
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--k34lll7347jlokxj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCpLCgACgkQwfwUeK3K
+7AmCSAf/b10m3pzrgftS+pOerE/lMcWweypHlCGoxuBo/WPy3uk708NgCQ+u0110
+fpsX1ItRoBjZwyINMcTywGm43ZxXsmUx1LTF1I5/0ag7Cjgqz7fVOR4Km71At9DV
+DBhgHDJzvLkrnDajE6UfjAulqU5jgMkcEmyyxIeoLkGNUKmLM2azIga3Cr529EDX
+AF5ssSO1lF/U774ynJtneG68MvX0aGhWsKFDgQLP9q87Di5Y2uDFHqS0DB/9JqH2
+d6PyqthvRLydMSCqcfk/zy+izNUo+s9j5ZUwUxj8pdnfEaZ+FohaYgXuOg8CLaTb
+xfUIR2iYm0iiKIM6e6fteqh21QCKqQ==
+=H9ku
+-----END PGP SIGNATURE-----
+
+--k34lll7347jlokxj--
