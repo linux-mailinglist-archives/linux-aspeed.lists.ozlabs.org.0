@@ -1,52 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC1438E4BF
-	for <lists+linux-aspeed@lfdr.de>; Mon, 24 May 2021 13:03:32 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 963AF38E525
+	for <lists+linux-aspeed@lfdr.de>; Mon, 24 May 2021 13:14:20 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FpZ821ZMkz302y
-	for <lists+linux-aspeed@lfdr.de>; Mon, 24 May 2021 21:03:30 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FpZNV15Tcz300J
+	for <lists+linux-aspeed@lfdr.de>; Mon, 24 May 2021 21:14:18 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
- helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de;
+Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=steven_lee@aspeedtech.com;
  receiver=<UNKNOWN>)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FpZ7z10PVz2yxn
- for <linux-aspeed@lists.ozlabs.org>; Mon, 24 May 2021 21:03:25 +1000 (AEST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1ll8MZ-00043h-Df; Mon, 24 May 2021 13:03:11 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1ll8MO-0002iH-Ii; Mon, 24 May 2021 13:03:00 +0200
-Date: Mon, 24 May 2021 13:02:57 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [v6 2/2] pwm: Add Aspeed ast2600 PWM support
-Message-ID: <20210524110257.izcgx4kdmj5c7dou@pengutronix.de>
-References: <20210518005517.9036-1-billy_tsai@aspeedtech.com>
- <20210518005517.9036-3-billy_tsai@aspeedtech.com>
- <20210522160708.ryr7n7klapszu2da@pengutronix.de>
- <9EA46360-8F43-4D1B-9004-3965A6182FA1@aspeedtech.com>
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FpZNQ3Sjqz2yxq;
+ Mon, 24 May 2021 21:14:11 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 14OB0oks024990;
+ Mon, 24 May 2021 19:00:50 +0800 (GMT-8)
+ (envelope-from steven_lee@aspeedtech.com)
+Received: from slee-VirtualBox.localdomain (192.168.100.253) by
+ TWMBX02.aspeed.com (192.168.0.24) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 24 May 2021 19:13:44 +0800
+From: Steven Lee <steven_lee@aspeedtech.com>
+To: Andrew Jeffery <andrew@aj.id.au>, Linus Walleij <linus.walleij@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ "moderated list:ASPEED PINCTRL DRIVERS" <linux-aspeed@lists.ozlabs.org>,
+ "moderated list:ASPEED PINCTRL DRIVERS" <openbmc@lists.ozlabs.org>,
+ "open list:ASPEED PINCTRL DRIVERS" <linux-gpio@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE
+ TREE BINDINGS" <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED
+ MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>, open list
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v1 0/3] pinctrl: pinctrl-g6: Add the 2nd sgpio
+Date: Mon, 24 May 2021 19:13:34 +0800
+Message-ID: <20210524111338.16049-1-steven_lee@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="p3cy6gevslqiqnpq"
-Content-Disposition: inline
-In-Reply-To: <9EA46360-8F43-4D1B-9004-3965A6182FA1@aspeedtech.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+Content-Type: text/plain
+X-Originating-IP: [192.168.100.253]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 14OB0oks024990
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,141 +58,34 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- BMC-SW <BMC-SW@aspeedtech.com>, "lee.jones@linaro.org" <lee.jones@linaro.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: steven_lee@aspeedtech.com, Hongweiz@ami.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+AST2600 has 2 SGPIO master interfaces one with 128 pins and another one
+has 80 pins, it also supports 2 SGPIO slave interfaces.
+However, there is only the first sgpio master/slave interface defined in
+dtsi and pinctrl driver.
+The patch series adds the second SGPIO master and slave interfaces
+in dt-bindings, dtsi and pinctrl driver.
 
---p3cy6gevslqiqnpq
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Please help to review.
 
-Hi Billy,
+Thanks,
+Steven
 
-On Mon, May 24, 2021 at 01:56:19AM +0000, Billy Tsai wrote:
-> On 2021/5/23, 12:07 AM,Uwe Kleine-K=C3=B6nigwrote:
->     On Tue, May 18, 2021 at 08:55:17AM +0800, Billy Tsai wrote:
->     >   > +static u64 aspeed_pwm_get_period(struct pwm_chip *chip, struct=
- pwm_device *pwm)
->     >   > +{
->     >   > +	struct aspeed_pwm_data *priv =3D aspeed_pwm_chip_to_data(chip=
-);
->     >   > +	unsigned long rate;
->     >   > +	u32 index =3D pwm->hwpwm;
->     >   > +	u32 val;
->     >   > +	u64 period, div_h, div_l, clk_period;
->     >   > +
->     >   > +	rate =3D clk_get_rate(priv->clk);
->     >   > +	regmap_read(priv->regmap, PWM_ASPEED_CTRL_CH(index), &val);
->     >   > +	div_h =3D FIELD_GET(PWM_ASPEED_CTRL_CLK_DIV_H, val);
->     >   > +	div_l =3D FIELD_GET(PWM_ASPEED_CTRL_CLK_DIV_L, val);
->     >   > +	regmap_read(priv->regmap, PWM_ASPEED_DUTY_CYCLE_CH(index), &v=
-al);
->     >   > +	clk_period =3D FIELD_GET(PWM_ASPEED_DUTY_CYCLE_PERIOD, val);
->     >   > +	period =3D (NSEC_PER_SEC * BIT(div_h) * (div_l + 1) * (clk_pe=
-riod + 1));
->=20
->     > The outer pair of parenthesis on the RHS isn't necessary. The maxim=
-al
->     > value that period can have here is:
->=20
->     >	1000000000 * 2**15 * 256 * 256
->=20
->     > This fits into an u64, but as all but the last factor are 32 bit va=
-lues
->     > you might get an overflow here.
->=20
-> I don=E2=80=99t know in which case the value will overflow, when my param=
-eter types are all u64.
-> Can you tell me what is "the last factor"?
+Steven Lee (3):
+  dt-bindings: pinctrl: Update enum for adding SGPM2 and SGPS2
+  ARM: dts: aspeed-g6: Add pinctrl settings
+  pinctrl: pinctrl-aspeed-g6: Add sgpio pinctrl settings
 
-Ah, I missed that div_l is u64. NSEC_PER_SEC and BIT(div_h) are both
-long quantities only and 1000000000 * 2**15 might overflow that.
+ .../pinctrl/aspeed,ast2600-pinctrl.yaml       | 10 ++++----
+ arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi      | 10 ++++++++
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c    | 24 +++++++++++++++----
+ drivers/pinctrl/aspeed/pinmux-aspeed.h        |  9 +++++++
+ 4 files changed, 44 insertions(+), 9 deletions(-)
 
->     >   > +static int aspeed_pwm_apply(struct pwm_chip *chip, struct pwm_=
-device *pwm,
->     >   > +			    const struct pwm_state *state)
->     >   > +{
->     >   > +	struct device *dev =3D chip->dev;
->     >   > +	struct aspeed_pwm_data *priv =3D aspeed_pwm_chip_to_data(chip=
-);
->     >   > +	u32 index =3D pwm->hwpwm;
->     >   > +	int ret;
->     >   > +
->     >   > +	dev_dbg(dev, "apply period: %lldns, duty_cycle: %lldns", stat=
-e->period,
->     >   > +		state->duty_cycle);
->     >   > +
->     >   > +	regmap_update_bits(priv->regmap, PWM_ASPEED_CTRL_CH(index),
->     >   > +			   PWM_ASPEED_CTRL_PIN_ENABLE,
->     >   > +			   state->enabled ? PWM_ASPEED_CTRL_PIN_ENABLE : 0);
->     >   > +	/*
->     >   > +	 * Fixed the period to the max value and rising point to 0
->     >   > +	 * for high resolution and simplify frequency calculation.
->     >   > +	 */
->     >   > +	regmap_update_bits(priv->regmap, PWM_ASPEED_DUTY_CYCLE_CH(ind=
-ex),
->     >   > +			   (PWM_ASPEED_DUTY_CYCLE_PERIOD |
->     >   > +			    PWM_ASPEED_DUTY_CYCLE_RISING_POINT),
->     >   > +			   FIELD_PREP(PWM_ASPEED_DUTY_CYCLE_PERIOD,
->     >   > +				      PWM_ASPEED_FIXED_PERIOD));
->     >   > +
->     >   > +	ret =3D aspeed_pwm_set_period(chip, pwm, state);
->     >   > +	if (ret)
->     >   > +		return ret;
->     >   > +	aspeed_pwm_set_duty(chip, pwm, state);
->=20
->     > aspeed_pwm_set_duty calls aspeed_pwm_get_period() which is a bit
->     > ineffective after just having set the period.
->=20
-> When I call aspeed_pwm_set_period it doesn't mean the period is equal to =
-what I set (It may
-> lose some precision Ex: When I set the period 40000ns, the actual period =
-I set is 39680ns) and
-> I didn't get this information when I call aspeed_pwm_set_period. Thus, I =
-need to get the actual
-> period first before set duty.
+-- 
+2.17.1
 
-I'm aware it might lose precision. But calling aspeed_pwm_get_period()
-determines the setting from reading registers, if you reuse all
-information available in aspeed_pwm_set_period() this is cheaper. Also
-it might be beneficial to first compute all necessary register values
-and then write them in quick sequence to keep the window for glitches
-small. Given that aspeed_pwm_set_period and aspeed_pwm_set_duty both
-have only a single caller, doing both in a single function might be an
-idea.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---p3cy6gevslqiqnpq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCrh94ACgkQwfwUeK3K
-7An++AgAh1gL5iovGBXJHgZiS4/Qh9dNgycwY3goMgTLH3o9NfZ2Mc/ziOpEphOO
-2iwXtYaDcoapVOrXFNWdWTUbKfaKd5jHDA1j9QwNUHMJoBmyf+RNR+VU9XpfioZl
-nk6xNcwrWIPQtMbh1c0Dj3cfQ21QT3MS+vfZEBStpbqTQ6nOWUQ+FP5/Y0DWNpay
-JsyTAe4Fzl7HYVmTxtpMp0QHB3BOroo9PwEC6Xq3Gvm+SVyMiiEdEshhNwzePhnh
-hs1lXdaBXSuM1ZacPh838IFRRRfCI4eeK5SeVskrW8cyMYfra47j/N8EK4eIFDw4
-Mssd1Whz5NQeQxyMXbqs9Hfa0CJRVQ==
-=L/9W
------END PGP SIGNATURE-----
-
---p3cy6gevslqiqnpq--
