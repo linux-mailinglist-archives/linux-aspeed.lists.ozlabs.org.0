@@ -2,91 +2,50 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABBB38DE79
-	for <lists+linux-aspeed@lfdr.de>; Mon, 24 May 2021 02:54:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B94DC38DEFF
+	for <lists+linux-aspeed@lfdr.de>; Mon, 24 May 2021 03:53:57 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FpJcy2kKXz301X
-	for <lists+linux-aspeed@lfdr.de>; Mon, 24 May 2021 10:54:10 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=ok68MILG;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=sPFszQIN;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FpKxv4XYdz3014
+	for <lists+linux-aspeed@lfdr.de>; Mon, 24 May 2021 11:53:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.224;
- helo=new2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=jamin_lin@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=ok68MILG; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=sPFszQIN; 
- dkim-atps=neutral
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FpJcr6pypz2xb6;
- Mon, 24 May 2021 10:54:04 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id C31455802BD;
- Sun, 23 May 2021 20:54:02 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Sun, 23 May 2021 20:54:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=c1N+jbjenOjR/XYKJ9JrzDDr2ArT8jH
- cPPYVtFN0+8s=; b=ok68MILGrCZHwK/EEaDToidzeAy70JVtB9FjJ/pwDgHMLPY
- ovb+ac2A0hKcALq3BTdinuwCUU4tFEwGrOvVUL4mgilE0fbIeLVIYkvTSg/A3C9A
- isVLljZCWMdha3ynTPS17MuqSVPwWl+xJfQt4IZm5lrj3u6/bDh1GWIUQBVKySVd
- 7ERl6fYx9Hzwm7OyafapAf+HBqlPX9FYAxNvCWVQ9ffjN0rYZxPnzQvHDbFhf3R7
- IkCLkHtnZMQBtAnVcG+H+5GnhaCsHT3HniEb+iFzns1yaffCeyg6si9NuN84TU7r
- 3z366tuQSQtEi+GBbH7tKxItf/Q+Fdx23+XX7rw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=c1N+jb
- jenOjR/XYKJ9JrzDDr2ArT8jHcPPYVtFN0+8s=; b=sPFszQINYn+1MtITcFCPyx
- lNphgTAT0DJen+WqjLY3YH7HctWzuSJZ3zFTeSqLVuWZDYrW/idxoBb2M6LPgQEt
- ki/8+/Rk5S3eboxuGAYSLYMeGt4FwnCgkj+pOAJmlbNiPSPABGZshOSo60atWGdN
- cG0D6RtmqjLAFdmo/kORMxRpta5VgktFkB9TRMbfmX0piFWDr6uIDOQAVJbV4LjE
- DzJ46YD4tCg8RGGDBhp/tGiEQT+XdDLiX7JE1q4DwXdCPcoKSS4zY+wSpDL+idNh
- R1IVg/tHltd7L39TDpOgOOuq+WjNKHaAYxtN9BElPSGpkJQYPt1F36fzw4/0Bt1g
- ==
-X-ME-Sender: <xms:KfmqYFGXktOhUPKNJDzJOYcQ4Tzeks6lN1hunCMH1BbKURc_qdOeeQ>
- <xme:KfmqYKVP_82xbmIxz_bE2LM3yEsYweE7P_onWJwfGBmcrYdGMtiisHCAzK7IyH6hJ
- zaAN34p43ng12aQBA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejkedgtdelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhepuddttdekueeggedvtddtueekiedutdfguedutdefieeuteefieelteet
- vddthfeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:KfmqYHJ_v5C8EG4EYW_NTn5UOzrX06fnPFbJZwnae3XD3YlkYQwJYg>
- <xmx:KfmqYLEbBUyIlB3eIXd5Hlj8oTL17cnH9n5uxKzO935D-w7tJcEf8g>
- <xmx:KfmqYLWUfTZj2bVKOVzdVzOrcjFw_MTyYmuY4pT_lvT-CSbWNEFr9g>
- <xmx:KvmqYIW307aCSiZ_4TnEnca3DgiXJQoDUWxBQVo4wWBb1GY4ECIEyg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id A081EA004B1; Sun, 23 May 2021 20:54:01 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-448-gae190416c7-fm-20210505.004-gae190416
-Mime-Version: 1.0
-Message-Id: <79f3c6d1-1f74-46ec-99a0-37faf11517b6@www.fastmail.com>
-In-Reply-To: <20210521171412.GI2921206@minyard.net>
-References: <20210510054213.1610760-1-andrew@aj.id.au>
- <20210510054213.1610760-6-andrew@aj.id.au>
- <20210521171412.GI2921206@minyard.net>
-Date: Mon, 24 May 2021 10:23:36 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Corey Minyard" <minyard@acm.org>
-Subject: =?UTF-8?Q?Re:_[PATCH_v3_05/16]_ipmi:_kcs=5Fbmc:_Turn_the_driver_data-str?=
- =?UTF-8?Q?uctures_inside-out?=
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FpKxq4QjVz2yXl;
+ Mon, 24 May 2021 11:53:48 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 14O1eLhp073824;
+ Mon, 24 May 2021 09:40:21 +0800 (GMT-8)
+ (envelope-from jamin_lin@aspeedtech.com)
+Received: from aspeedtech.com (192.168.100.253) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 24 May
+ 2021 09:53:14 +0800
+Date: Mon, 24 May 2021 09:53:11 +0800
+From: Jamin Lin <jamin_lin@aspeedtech.com>
+To: Tao Ren <rentao.bupt@gmail.com>
+Subject: Re: [PATCH 1/3] i2c: aspeed: avoid new registers definition of AST2600
+Message-ID: <20210524015310.GA2591@aspeedtech.com>
+References: <20210519080436.18975-1-jamin_lin@aspeedtech.com>
+ <20210519080436.18975-2-jamin_lin@aspeedtech.com>
+ <CACPK8XdNXiGMQZOtsfMMK+w_PSvO20XT8B9MG+rGhdjYoV4ZuQ@mail.gmail.com>
+ <20210520033140.GA3656@aspeedtech.com>
+ <20210521020033.GB19153@taoren-ubuntu-R90MNF91>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+In-Reply-To: <20210521020033.GB19153@taoren-ubuntu-R90MNF91>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [192.168.100.253]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 14O1eLhp073824
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,99 +57,57 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tomer Maimon <tmaimon77@gmail.com>,
- linux-aspeed@lists.ozlabs.org, Avi Fishman <avifishman70@gmail.com>,
- Patrick Venture <venture@google.com>, openbmc@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, Tali Perry <tali.perry1@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- openipmi-developer@lists.sourceforge.net, Zev Weiss <zweiss@equinix.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED
+ DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, "moderated
+ list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ Steven Lee <steven_lee@aspeedtech.com>, "moderated
+ list:ARM/ASPEED I2C DRIVER" <openbmc@lists.ozlabs.org>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ open list <linux-kernel@vger.kernel.org>, Rob
+ Herring <robh+dt@kernel.org>, Rayn Chen <rayn_chen@aspeedtech.com>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>, "open
+ list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Sat, 22 May 2021, at 02:44, Corey Minyard wrote:
-> On Mon, May 10, 2021 at 03:12:02PM +0930, Andrew Jeffery wrote:
-> > Make the KCS device drivers responsible for allocating their own memory.
-> > 
-> > Until now the private data for the device driver was allocated internal
-> > to the private data for the chardev interface. This coupling required
-> > the slightly awkward API of passing through the struct size for the
-> > driver private data to the chardev constructor, and then retrieving a
-> > pointer to the driver private data from the allocated chardev memory.
-> > 
-> > In addition to being awkward, the arrangement prevents the
-> > implementation of alternative userspace interfaces as the device driver
-> > private data is not independent.
-> > 
-> > Peel a layer off the onion and turn the data-structures inside out by
-> > exploiting container_of() and embedding `struct kcs_device` in the
-> > driver private data.
+The 05/21/2021 02:00, Tao Ren wrote:
+> Hi Jamin,
 > 
-> All in all a very nice cleanup.  A few nits inline.
+> On Thu, May 20, 2021 at 11:31:41AM +0800, Jamin Lin wrote:
+> > The 05/19/2021 22:59, Joel Stanley wrote:
+> > > On Wed, 19 May 2021 at 08:05, Jamin Lin <jamin_lin@aspeedtech.com> wrote:
+> > > >
+> > > > The register definition between AST2600 A2 and A3 is different.
+> > > > This patch avoid new registers definition of AST2600 to use
+> > > > this driver. We will submit the path for the new registers
+> > > > definition of AST2600.
+> > > 
+> > > The AST2600 v9 datasheet says that bit 2 selects between old and new
+> > > register sets, and that the old register set is the default.
+> > > 
+> > > Has the default changed for the A3?, and the datasheet is incorrect?
+> > > 
+> > > Does the A3 still support the old register set?
+> > > 
+> > We suggest user to use the new i2c driver for AST2600 and we will sumbit
+> > it. This driver is used to AST2500 and AST2400 SOCs. Change this
+> > driver to check global register of i2c to avoid user build the wrong driver. 
 > 
-> > 
-> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-> > Reviewed-by: Zev Weiss <zweiss@equinix.com>
-> > ---
-> >  drivers/char/ipmi/kcs_bmc.c           | 19 +++++++--
-> >  drivers/char/ipmi/kcs_bmc.h           | 12 ++----
-> >  drivers/char/ipmi/kcs_bmc_aspeed.c    | 56 +++++++++++++------------
-> >  drivers/char/ipmi/kcs_bmc_cdev_ipmi.c | 60 ++++++++++++++++++---------
-> >  drivers/char/ipmi/kcs_bmc_npcm7xx.c   | 37 ++++++++++-------
-> >  5 files changed, 111 insertions(+), 73 deletions(-)
-> > 
-> > diff --git a/drivers/char/ipmi/kcs_bmc.c b/drivers/char/ipmi/kcs_bmc.c
-> > index ef5c48ffe74a..83da681bf49e 100644
-> > --- a/drivers/char/ipmi/kcs_bmc.c
-> > +++ b/drivers/char/ipmi/kcs_bmc.c
-> > @@ -44,12 +44,23 @@ int kcs_bmc_handle_event(struct kcs_bmc *kcs_bmc)
-> >  }
-> >  EXPORT_SYMBOL(kcs_bmc_handle_event);
-> >  
-> > -struct kcs_bmc *kcs_bmc_ipmi_alloc(struct device *dev, int sizeof_priv, u32 channel);
-> > -struct kcs_bmc *kcs_bmc_alloc(struct device *dev, int sizeof_priv, u32 channel)
-> > +int kcs_bmc_ipmi_add_device(struct kcs_bmc *kcs_bmc);
+> If I understand correctly, the answer implies old register set is still
+> supported in A3 although aspeed suggest people using the new driver/mode?
 > 
-> The above (and it's remove function) should be in an include file.
-
-This is a short-term hack while I'm refactoring the code. It goes away 
-in a later patch when we switch to using an ops struct.
-
-I didn't move it to a header as it's an implementation detail at the 
-end of the day. I see headers as describing a public interface, and in 
-the bigger picture this function isn't part of the public API. But 
-maybe it's too tricky by half. My approach here generated some 
-discussion with Zev as well.
-
+> Can you please share more context behind the suggestion? Such as new
+> register mode has better performance? Or some known issues that were
+> deteted in old mode are fixed in new register mode?
+>
+Yes, AST2600 A1, A2 and A3 support both old and new register set. The difference
+between old and new register set are the register address and supported registers.
+User can choose to use both old and new register set. However, ASPEED would like to 
+change new register set by default for AST2600.
+Thanks-Jamin
 > 
-> > +void kcs_bmc_add_device(struct kcs_bmc *kcs_bmc)
+> Cheers,
 > 
-> This should return an error so the probe can be failed and cleaned up
-> and so confusing message don't get printed after this in one case.
-
-Hmm. I did this because the end result of the series is that we can 
-have multiple chardev interfaces in distinct modules exposing the one 
-KCS device in the one kernel. If more than one of the chardev modules 
-is configured in and one of them fails to initialise themselves with 
-respect to the device driver I didn't think it was right to fail the 
-probe of the device driver (and thus remove any chardev interfaces that 
-did succeed to initialise against it).
-
-But this does limit the usefulness of the device driver instance in the 
-case that only one of the chardev interfaces is configured in and it 
-fails to initialise.
-
-So I think we need to decide on the direction before I adjust the 
-interface here. The patches are architected around the idea of multiple 
-chardevs being configured in to the kernel build and all are exposed at 
-runtime.
-
-The serio subsystem does have the 'drvctl' sysfs knob that allows 
-userspace to dictate which serio chardev interface they want to connect 
-to a serio device driver. Maybe that's preferred over my "connect them 
-all" strategy?
-
-Andrew
+> Tao
