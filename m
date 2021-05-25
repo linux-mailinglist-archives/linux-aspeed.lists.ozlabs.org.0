@@ -1,54 +1,51 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 951A638F991
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 May 2021 06:29:39 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D7338F99B
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 May 2021 06:31:59 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Fq1M53hfLz3bvg
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 May 2021 14:29:37 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Fq1Pn6nsGz303M
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 May 2021 14:31:57 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
  smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=steven_lee@aspeedtech.com;
+ helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com;
  receiver=<UNKNOWN>)
 Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Fq1Kj4X7Hz301L;
- Tue, 25 May 2021 14:28:25 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Fq1Pk45Lpz2yY1
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 25 May 2021 14:31:54 +1000 (AEST)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 14P4EkcC020769;
- Tue, 25 May 2021 12:14:46 +0800 (GMT-8)
- (envelope-from steven_lee@aspeedtech.com)
-Received: from slee-VirtualBox.localdomain (192.168.100.253) by
- TWMBX02.aspeed.com (192.168.0.24) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 25 May 2021 12:27:42 +0800
-From: Steven Lee <steven_lee@aspeedtech.com>
-To: Andrew Jeffery <andrew@aj.id.au>, Linus Walleij <linus.walleij@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- "moderated list:ASPEED PINCTRL DRIVERS" <linux-aspeed@lists.ozlabs.org>,
- "moderated list:ASPEED PINCTRL DRIVERS" <openbmc@lists.ozlabs.org>,
- "open list:ASPEED PINCTRL DRIVERS" <linux-gpio@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE
- TREE BINDINGS" <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED
- MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>, open list
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 3/3] pinctrl: pinctrl-aspeed-g6: Add sgpio pinctrl settings
-Date: Tue, 25 May 2021 12:27:36 +0800
-Message-ID: <20210525042736.10379-4-steven_lee@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210525042736.10379-1-steven_lee@aspeedtech.com>
-References: <20210525042736.10379-1-steven_lee@aspeedtech.com>
+ by twspam01.aspeedtech.com with ESMTP id 14P4INRN021133;
+ Tue, 25 May 2021 12:18:23 +0800 (GMT-8)
+ (envelope-from billy_tsai@aspeedtech.com)
+Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 25 May
+ 2021 12:31:20 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: <lee.jones@linaro.org>, <robh+dt@kernel.org>, <joel@jms.id.au>,
+ <andrew@aj.id.au>, <thierry.reding@gmail.com>,
+ <u.kleine-koenig@pengutronix.de>, <p.zabel@pengutronix.de>,
+ <billy_tsai@aspeedtech.com>, <devicetree@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>
+Subject: [v7 0/2] Support pwm driver for aspeed ast26xx
+Date: Tue, 25 May 2021 12:32:22 +0800
+Message-ID: <20210525043224.27998-1-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.100.253]
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.149]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 14P4EkcC020769
+X-MAIL: twspam01.aspeedtech.com 14P4INRN021133
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,123 +57,83 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: steven_lee@aspeedtech.com, Hongweiz@ami.com
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-AST2600 supports 2 SGPIO master interfaces and 2 SGPIO slave interfaces.
-Current pinctrl driver only define the first sgpio master and slave
-interfaces.
-The sencond SGPIO master and slave interfaces should be added in
-pinctrl driver as well.
+The legacy driver of aspeed pwm is binding with tach controller and it
+doesn't follow the pwm framworks usage. In addition, the pwm register
+usage of the 6th generation of ast26xx has drastic change. So these
+patch serials add the new aspeed pwm driver to fix up the problem above.
 
-Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
----
- drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c | 24 ++++++++++++++++++----
- drivers/pinctrl/aspeed/pinmux-aspeed.h     |  9 ++++++++
- 2 files changed, 29 insertions(+), 4 deletions(-)
+Change since v6:
+- dt-bindings:
+  - Add blank line between each DT property.
+  - Change the sub-node name from fan to tach-ch.
+- pwm-aspeed-g6.c
+  - Merge aspeed_pwm_set_period and aspeed_pwm_set_duty into .apply.
+  - Convert the factor type to u64 when calculating the period value.
+  - Using ROUND_UP strategy to calculate div_h for finer resolution.
 
-diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
-index 5c1a109842a7..36688793b3a0 100644
---- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
-+++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
-@@ -46,8 +46,10 @@
- #define SCU620		0x620 /* Disable GPIO Internal Pull-Down #4 */
- #define SCU634		0x634 /* Disable GPIO Internal Pull-Down #5 */
- #define SCU638		0x638 /* Disable GPIO Internal Pull-Down #6 */
-+#define SCU690		0x690 /* Multi-function Pin Control #24 */
- #define SCU694		0x694 /* Multi-function Pin Control #25 */
- #define SCU69C		0x69C /* Multi-function Pin Control #27 */
-+#define SCU6D0		0x6D0 /* Multi-function Pin Control #29 */
- #define SCUC20		0xC20 /* PCIE configuration Setting Control */
- 
- #define ASPEED_G6_NR_PINS 256
-@@ -81,13 +83,17 @@ FUNC_GROUP_DECL(I2C12, L26, K24);
- #define K26 4
- SIG_EXPR_LIST_DECL_SESG(K26, MACLINK1, MACLINK1, SIG_DESC_SET(SCU410, 4));
- SIG_EXPR_LIST_DECL_SESG(K26, SCL13, I2C13, SIG_DESC_SET(SCU4B0, 4));
--PIN_DECL_2(K26, GPIOA4, MACLINK1, SCL13);
-+SIG_EXPR_LIST_DECL_SESG(K26, SGPS2CK, SGPS2, SIG_DESC_SET(SCU690, 4));
-+SIG_EXPR_LIST_DECL_SESG(K26, SGPM2CLK, SGPM2, SIG_DESC_SET(SCU6D0, 4));
-+PIN_DECL_4(K26, GPIOA4, MACLINK1, SCL13, SGPS2CK, SGPM2CLK);
- FUNC_GROUP_DECL(MACLINK1, K26);
- 
- #define L24 5
- SIG_EXPR_LIST_DECL_SESG(L24, MACLINK2, MACLINK2, SIG_DESC_SET(SCU410, 5));
- SIG_EXPR_LIST_DECL_SESG(L24, SDA13, I2C13, SIG_DESC_SET(SCU4B0, 5));
--PIN_DECL_2(L24, GPIOA5, MACLINK2, SDA13);
-+SIG_EXPR_LIST_DECL_SESG(L24, SGPS2LD, SGPS2, SIG_DESC_SET(SCU690, 5));
-+SIG_EXPR_LIST_DECL_SESG(L24, SGPM2LD, SGPM2, SIG_DESC_SET(SCU6D0, 5));
-+PIN_DECL_4(L24, GPIOA5, MACLINK2, SDA13, SGPS2LD, SGPM2LD);
- FUNC_GROUP_DECL(MACLINK2, L24);
- 
- FUNC_GROUP_DECL(I2C13, K26, L24);
-@@ -95,16 +101,22 @@ FUNC_GROUP_DECL(I2C13, K26, L24);
- #define L23 6
- SIG_EXPR_LIST_DECL_SESG(L23, MACLINK3, MACLINK3, SIG_DESC_SET(SCU410, 6));
- SIG_EXPR_LIST_DECL_SESG(L23, SCL14, I2C14, SIG_DESC_SET(SCU4B0, 6));
--PIN_DECL_2(L23, GPIOA6, MACLINK3, SCL14);
-+SIG_EXPR_LIST_DECL_SESG(L23, SGPS2O, SGPS2, SIG_DESC_SET(SCU690, 6));
-+SIG_EXPR_LIST_DECL_SESG(L23, SGPM2O, SGPM2, SIG_DESC_SET(SCU6D0, 6));
-+PIN_DECL_4(L23, GPIOA6, MACLINK3, SCL14, SGPS2O, SGPM2O);
- FUNC_GROUP_DECL(MACLINK3, L23);
- 
- #define K25 7
- SIG_EXPR_LIST_DECL_SESG(K25, MACLINK4, MACLINK4, SIG_DESC_SET(SCU410, 7));
- SIG_EXPR_LIST_DECL_SESG(K25, SDA14, I2C14, SIG_DESC_SET(SCU4B0, 7));
--PIN_DECL_2(K25, GPIOA7, MACLINK4, SDA14);
-+SIG_EXPR_LIST_DECL_SESG(K25, SGPS2I, SGPS2, SIG_DESC_SET(SCU690, 7));
-+SIG_EXPR_LIST_DECL_SESG(K25, SGPM2I, SGPM2, SIG_DESC_SET(SCU6D0, 7));
-+PIN_DECL_4(K25, GPIOA7, MACLINK4, SDA14, SGPS2I, SGPM2I);
- FUNC_GROUP_DECL(MACLINK4, K25);
- 
- FUNC_GROUP_DECL(I2C14, L23, K25);
-+FUNC_GROUP_DECL(SGPM2, K26, L24, L23, K25);
-+FUNC_GROUP_DECL(SGPS2, K26, L24, L23, K25);
- 
- #define J26 8
- SIG_EXPR_LIST_DECL_SESG(J26, SALT1, SALT1, SIG_DESC_SET(SCU410, 8));
-@@ -2060,7 +2072,9 @@ static const struct aspeed_pin_group aspeed_g6_groups[] = {
- 	ASPEED_PINCTRL_GROUP(EMMCG4),
- 	ASPEED_PINCTRL_GROUP(EMMCG8),
- 	ASPEED_PINCTRL_GROUP(SGPM1),
-+	ASPEED_PINCTRL_GROUP(SGPM2),
- 	ASPEED_PINCTRL_GROUP(SGPS1),
-+	ASPEED_PINCTRL_GROUP(SGPS2),
- 	ASPEED_PINCTRL_GROUP(SIOONCTRL),
- 	ASPEED_PINCTRL_GROUP(SIOPBI),
- 	ASPEED_PINCTRL_GROUP(SIOPBO),
-@@ -2276,7 +2290,9 @@ static const struct aspeed_pin_function aspeed_g6_functions[] = {
- 	ASPEED_PINCTRL_FUNC(SD1),
- 	ASPEED_PINCTRL_FUNC(SD2),
- 	ASPEED_PINCTRL_FUNC(SGPM1),
-+	ASPEED_PINCTRL_FUNC(SGPM2),
- 	ASPEED_PINCTRL_FUNC(SGPS1),
-+	ASPEED_PINCTRL_FUNC(SGPS2),
- 	ASPEED_PINCTRL_FUNC(SIOONCTRL),
- 	ASPEED_PINCTRL_FUNC(SIOPBI),
- 	ASPEED_PINCTRL_FUNC(SIOPBO),
-diff --git a/drivers/pinctrl/aspeed/pinmux-aspeed.h b/drivers/pinctrl/aspeed/pinmux-aspeed.h
-index dba5875ff276..b69ba6b360a2 100644
---- a/drivers/pinctrl/aspeed/pinmux-aspeed.h
-+++ b/drivers/pinctrl/aspeed/pinmux-aspeed.h
-@@ -730,6 +730,15 @@ struct aspeed_pin_desc {
- 			SIG_EXPR_LIST_PTR(pin, low), \
- 			SIG_EXPR_LIST_PTR(pin, other))
- 
-+#define PIN_DECL_4(pin, other, prio1, prio2, prio3, prio4) \
-+	SIG_EXPR_LIST_DECL_SESG(pin, other, other); \
-+	PIN_DECL_(pin, \
-+			SIG_EXPR_LIST_PTR(pin, prio1), \
-+			SIG_EXPR_LIST_PTR(pin, prio2), \
-+			SIG_EXPR_LIST_PTR(pin, prio3), \
-+			SIG_EXPR_LIST_PTR(pin, prio4), \
-+			SIG_EXPR_LIST_PTR(pin, other))
-+
- #define GROUP_SYM(group) group_pins_ ## group
- #define GROUP_DECL(group, ...) \
- 	static const int GROUP_SYM(group)[] = { __VA_ARGS__ }
+Change since v5:
+- pwm-aspeed-g6.c suggested by Uwe Kleine-König
+  - Move the divide at the end of the calculation.
+  - Unified the prefix of the function name.
+  - Use div64_u64 to calculate the divider of frequency.
+
+Change since v4:
+- dt_binding:
+  - pwm/tach yaml: Replace child-node with additionalProperties
+  - pwm-tach yaml: Replace child-node with patternProperties
+- pwm-aspeed-g6.c suggested by Uwe Kleine-König
+  - The bit definitions contained the name of the register.
+  - Remove single caller function and fold it to the caller.
+  - Avoid to divide by the result of a division.
+  - Remove unnecessary condition in .apply().
+  - Use goto for error handling
+
+Changes since v3:
+- Add the dt_binding for aspeed,ast2600-tach.
+- Describe the pwm/tach as child-node of pwm-tach mfd.
+- Complete the properties of pwm node.
+
+Changes since v2:
+- Remove the tach node, #address-cells and #size-cells from pwm-tach.yaml
+- Add clocks and reset properties to pwm-tach.yaml
+- Kconfig/Makfile sorted alphabetically
+- pwm-aspeed-g6.c suggested by Uwe Kleine-König
+  - Add more hardware descriptions at top of the driver.
+  - Remove unused api request and free
+  - Move the initialize settings of all pwm channel to probe.
+  - Change the method of getting the approximate period.
+  - Read the hardware register values to fill the state for .get_state()
+
+Changes since v1:
+- Fix the dt_binding_check fail suggested by Rob Herring
+- Add depends to PWM_ASPEED_G6 configure suggested by Uwe Kleine-Konig
+- pwm-aspeed-g6.c suggested by Uwe Kleine-König
+  - Fix license header
+  - Use bitfiled.h macro to define register fields
+  - Implement .remove device function
+  - Implement .get_state pwm api
+
+Billy Tsai (2):
+  dt-bindings: Add bindings for aspeed pwm-tach.
+  pwm: Add Aspeed ast2600 PWM support
+
+ .../bindings/hwmon/aspeed,ast2600-tach.yaml   |  69 ++++
+ .../bindings/mfd/aspeed,ast2600-pwm-tach.yaml |  87 +++++
+ .../bindings/pwm/aspeed,ast2600-pwm.yaml      |  64 ++++
+ drivers/pwm/Kconfig                           |   9 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-aspeed-g6.c                   | 334 ++++++++++++++++++
+ 6 files changed, 564 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
+ create mode 100644 drivers/pwm/pwm-aspeed-g6.c
+
 -- 
-2.17.1
+2.25.1
 
