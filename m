@@ -1,54 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E740E38FA6C
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 May 2021 07:55:11 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7856E38FBB0
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 May 2021 09:29:31 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Fq3Fn6F9gz3bsr
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 May 2021 15:55:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Fq5Ld3cKcz2yxB
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 May 2021 17:29:29 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=COoIlADa;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=steven_lee@aspeedtech.com;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::731;
+ helo=mail-qk1-x731.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=COoIlADa; dkim-atps=neutral
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Fq3DL3Mqzz2yyM;
- Tue, 25 May 2021 15:53:54 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 14P5eI8Q028256;
- Tue, 25 May 2021 13:40:18 +0800 (GMT-8)
- (envelope-from steven_lee@aspeedtech.com)
-Received: from slee-VirtualBox.localdomain (192.168.100.253) by
- TWMBX02.aspeed.com (192.168.0.24) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 25 May 2021 13:53:15 +0800
-From: Steven Lee <steven_lee@aspeedtech.com>
-To: Andrew Jeffery <andrew@aj.id.au>, Linus Walleij <linus.walleij@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- "moderated list:ASPEED PINCTRL DRIVERS" <linux-aspeed@lists.ozlabs.org>,
- "moderated list:ASPEED PINCTRL DRIVERS" <openbmc@lists.ozlabs.org>,
- "open list:ASPEED PINCTRL DRIVERS" <linux-gpio@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE
- TREE BINDINGS" <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED
- MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>, open list
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 3/3] pinctrl: pinctrl-aspeed-g6: Add sgpio pinctrl settings
-Date: Tue, 25 May 2021 13:53:07 +0800
-Message-ID: <20210525055308.31069-4-steven_lee@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210525055308.31069-1-steven_lee@aspeedtech.com>
-References: <20210525055308.31069-1-steven_lee@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Fq5LW3TGfz2xv2;
+ Tue, 25 May 2021 17:29:23 +1000 (AEST)
+Received: by mail-qk1-x731.google.com with SMTP id i67so29506616qkc.4;
+ Tue, 25 May 2021 00:29:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4BA6UqvX9jBO1xKa7XUgf1vBNEjKeOfkciRH4B0dC6U=;
+ b=COoIlADa7tLJQD4D95gezEkwp+5F4j8gn7yVIWYsnmw45zVtD4vK9Ao1/x7B0sAMxB
+ pRDMzB8VXzkHizzKtXatIBESytLxPsicU5ezsNYTxaV/ROtdyK/865mXzdXQx8Cfq65X
+ 1Tbod/AnylIzvh6WfM1u2KOVASHRYHds+ine4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4BA6UqvX9jBO1xKa7XUgf1vBNEjKeOfkciRH4B0dC6U=;
+ b=qtjYQzGL3MvWbj8gXVl/0W0oiff2Arqcgrol5K86p6c3+fJgwe5tt23/MzjcQHH/IA
+ yukawMwnRBKIjPRy6Y/V4TQDQGszFWp5DGAZoT2AQOuEzLMXI/PUZP8U13CLxVgA22v7
+ n9B55gum6oVvqDOjbp6VBomAVBD3m1p3RtWwicbg+/ypwq+YwL84XylW4mwXEfrCm8U7
+ F9Iz4tDW8qYVeyBL3pFyJKbUD2CwbW1tK5FpEkb4K1I4gbMu0ZksnWkS02JxnKHwXLct
+ AQRWsArI+lbdNojl4YKd1qfASw3iGuFBUGmOcazpoOMnzWgQ0A1nqVSgCbKDbiUEAWoL
+ oDxA==
+X-Gm-Message-State: AOAM532LHHi4AMurivFAoANzOY5jm2BDsyTU13A3sBb7bX5SarDE+fxb
+ d8Hy1ILY++CjoRjYlGPAK/Ph6pMV1djp8qmTZOM=
+X-Google-Smtp-Source: ABdhPJxKzrDa3VSpt0hXXJcRKDzsseymcQy9t4uFIRJUAQJ3ZUN47DWvKG2QIYS04WN6l520oVab/lNi/ety+HreRjs=
+X-Received: by 2002:a37:6442:: with SMTP id y63mr5995781qkb.273.1621927759742; 
+ Tue, 25 May 2021 00:29:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 14P5eI8Q028256
+References: <20210525055308.31069-1-steven_lee@aspeedtech.com>
+ <20210525055308.31069-3-steven_lee@aspeedtech.com>
+In-Reply-To: <20210525055308.31069-3-steven_lee@aspeedtech.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 25 May 2021 07:29:07 +0000
+Message-ID: <CACPK8XcgqmYWw3uL=3zckweepnM0vMucuPU1THPCNowjCkka5w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] ARM: dts: aspeed-g6: Add pinctrl settings
+To: Steven Lee <steven_lee@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,124 +71,63 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: steven_lee@aspeedtech.com, Hongweiz@ami.com
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ "moderated list:ASPEED PINCTRL DRIVERS" <linux-aspeed@lists.ozlabs.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>, Hongwei Zhang <Hongweiz@ami.com>,
+ "open list:ASPEED PINCTRL DRIVERS" <linux-gpio@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ASPEED PINCTRL DRIVERS" <openbmc@lists.ozlabs.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-AST2600 supports 2 SGPIO master interfaces and 2 SGPIO slave interfaces.
-Current pinctrl driver only define the first sgpio master and slave
-interfaces.
-The second SGPIO master and slave interfaces should be added in
-pinctrl driver as well.
+On Tue, 25 May 2021 at 05:53, Steven Lee <steven_lee@aspeedtech.com> wrote:
+>
+> AST2600 supports 2 SGPIO master interfaces and 2 SGPIO slave interfaces.
+> Currently, only SGPIO master 1 and SGPIO slve 1 in the pinctrl dtsi.
+> SGPIO master 2 and slave 2 should be added in pinctrl dtsi as well.
+>
+> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
 
-Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
----
- drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c | 24 ++++++++++++++++++----
- drivers/pinctrl/aspeed/pinmux-aspeed.h     |  9 ++++++++
- 2 files changed, 29 insertions(+), 4 deletions(-)
+Acked-by: Joel Stanley <joel@jms.id.au>
 
-diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
-index 5c1a109842a7..36688793b3a0 100644
---- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
-+++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
-@@ -46,8 +46,10 @@
- #define SCU620		0x620 /* Disable GPIO Internal Pull-Down #4 */
- #define SCU634		0x634 /* Disable GPIO Internal Pull-Down #5 */
- #define SCU638		0x638 /* Disable GPIO Internal Pull-Down #6 */
-+#define SCU690		0x690 /* Multi-function Pin Control #24 */
- #define SCU694		0x694 /* Multi-function Pin Control #25 */
- #define SCU69C		0x69C /* Multi-function Pin Control #27 */
-+#define SCU6D0		0x6D0 /* Multi-function Pin Control #29 */
- #define SCUC20		0xC20 /* PCIE configuration Setting Control */
- 
- #define ASPEED_G6_NR_PINS 256
-@@ -81,13 +83,17 @@ FUNC_GROUP_DECL(I2C12, L26, K24);
- #define K26 4
- SIG_EXPR_LIST_DECL_SESG(K26, MACLINK1, MACLINK1, SIG_DESC_SET(SCU410, 4));
- SIG_EXPR_LIST_DECL_SESG(K26, SCL13, I2C13, SIG_DESC_SET(SCU4B0, 4));
--PIN_DECL_2(K26, GPIOA4, MACLINK1, SCL13);
-+SIG_EXPR_LIST_DECL_SESG(K26, SGPS2CK, SGPS2, SIG_DESC_SET(SCU690, 4));
-+SIG_EXPR_LIST_DECL_SESG(K26, SGPM2CLK, SGPM2, SIG_DESC_SET(SCU6D0, 4));
-+PIN_DECL_4(K26, GPIOA4, MACLINK1, SCL13, SGPS2CK, SGPM2CLK);
- FUNC_GROUP_DECL(MACLINK1, K26);
- 
- #define L24 5
- SIG_EXPR_LIST_DECL_SESG(L24, MACLINK2, MACLINK2, SIG_DESC_SET(SCU410, 5));
- SIG_EXPR_LIST_DECL_SESG(L24, SDA13, I2C13, SIG_DESC_SET(SCU4B0, 5));
--PIN_DECL_2(L24, GPIOA5, MACLINK2, SDA13);
-+SIG_EXPR_LIST_DECL_SESG(L24, SGPS2LD, SGPS2, SIG_DESC_SET(SCU690, 5));
-+SIG_EXPR_LIST_DECL_SESG(L24, SGPM2LD, SGPM2, SIG_DESC_SET(SCU6D0, 5));
-+PIN_DECL_4(L24, GPIOA5, MACLINK2, SDA13, SGPS2LD, SGPM2LD);
- FUNC_GROUP_DECL(MACLINK2, L24);
- 
- FUNC_GROUP_DECL(I2C13, K26, L24);
-@@ -95,16 +101,22 @@ FUNC_GROUP_DECL(I2C13, K26, L24);
- #define L23 6
- SIG_EXPR_LIST_DECL_SESG(L23, MACLINK3, MACLINK3, SIG_DESC_SET(SCU410, 6));
- SIG_EXPR_LIST_DECL_SESG(L23, SCL14, I2C14, SIG_DESC_SET(SCU4B0, 6));
--PIN_DECL_2(L23, GPIOA6, MACLINK3, SCL14);
-+SIG_EXPR_LIST_DECL_SESG(L23, SGPS2O, SGPS2, SIG_DESC_SET(SCU690, 6));
-+SIG_EXPR_LIST_DECL_SESG(L23, SGPM2O, SGPM2, SIG_DESC_SET(SCU6D0, 6));
-+PIN_DECL_4(L23, GPIOA6, MACLINK3, SCL14, SGPS2O, SGPM2O);
- FUNC_GROUP_DECL(MACLINK3, L23);
- 
- #define K25 7
- SIG_EXPR_LIST_DECL_SESG(K25, MACLINK4, MACLINK4, SIG_DESC_SET(SCU410, 7));
- SIG_EXPR_LIST_DECL_SESG(K25, SDA14, I2C14, SIG_DESC_SET(SCU4B0, 7));
--PIN_DECL_2(K25, GPIOA7, MACLINK4, SDA14);
-+SIG_EXPR_LIST_DECL_SESG(K25, SGPS2I, SGPS2, SIG_DESC_SET(SCU690, 7));
-+SIG_EXPR_LIST_DECL_SESG(K25, SGPM2I, SGPM2, SIG_DESC_SET(SCU6D0, 7));
-+PIN_DECL_4(K25, GPIOA7, MACLINK4, SDA14, SGPS2I, SGPM2I);
- FUNC_GROUP_DECL(MACLINK4, K25);
- 
- FUNC_GROUP_DECL(I2C14, L23, K25);
-+FUNC_GROUP_DECL(SGPM2, K26, L24, L23, K25);
-+FUNC_GROUP_DECL(SGPS2, K26, L24, L23, K25);
- 
- #define J26 8
- SIG_EXPR_LIST_DECL_SESG(J26, SALT1, SALT1, SIG_DESC_SET(SCU410, 8));
-@@ -2060,7 +2072,9 @@ static const struct aspeed_pin_group aspeed_g6_groups[] = {
- 	ASPEED_PINCTRL_GROUP(EMMCG4),
- 	ASPEED_PINCTRL_GROUP(EMMCG8),
- 	ASPEED_PINCTRL_GROUP(SGPM1),
-+	ASPEED_PINCTRL_GROUP(SGPM2),
- 	ASPEED_PINCTRL_GROUP(SGPS1),
-+	ASPEED_PINCTRL_GROUP(SGPS2),
- 	ASPEED_PINCTRL_GROUP(SIOONCTRL),
- 	ASPEED_PINCTRL_GROUP(SIOPBI),
- 	ASPEED_PINCTRL_GROUP(SIOPBO),
-@@ -2276,7 +2290,9 @@ static const struct aspeed_pin_function aspeed_g6_functions[] = {
- 	ASPEED_PINCTRL_FUNC(SD1),
- 	ASPEED_PINCTRL_FUNC(SD2),
- 	ASPEED_PINCTRL_FUNC(SGPM1),
-+	ASPEED_PINCTRL_FUNC(SGPM2),
- 	ASPEED_PINCTRL_FUNC(SGPS1),
-+	ASPEED_PINCTRL_FUNC(SGPS2),
- 	ASPEED_PINCTRL_FUNC(SIOONCTRL),
- 	ASPEED_PINCTRL_FUNC(SIOPBI),
- 	ASPEED_PINCTRL_FUNC(SIOPBO),
-diff --git a/drivers/pinctrl/aspeed/pinmux-aspeed.h b/drivers/pinctrl/aspeed/pinmux-aspeed.h
-index dba5875ff276..b69ba6b360a2 100644
---- a/drivers/pinctrl/aspeed/pinmux-aspeed.h
-+++ b/drivers/pinctrl/aspeed/pinmux-aspeed.h
-@@ -730,6 +730,15 @@ struct aspeed_pin_desc {
- 			SIG_EXPR_LIST_PTR(pin, low), \
- 			SIG_EXPR_LIST_PTR(pin, other))
- 
-+#define PIN_DECL_4(pin, other, prio1, prio2, prio3, prio4) \
-+	SIG_EXPR_LIST_DECL_SESG(pin, other, other); \
-+	PIN_DECL_(pin, \
-+			SIG_EXPR_LIST_PTR(pin, prio1), \
-+			SIG_EXPR_LIST_PTR(pin, prio2), \
-+			SIG_EXPR_LIST_PTR(pin, prio3), \
-+			SIG_EXPR_LIST_PTR(pin, prio4), \
-+			SIG_EXPR_LIST_PTR(pin, other))
-+
- #define GROUP_SYM(group) group_pins_ ## group
- #define GROUP_DECL(group, ...) \
- 	static const int GROUP_SYM(group)[] = { __VA_ARGS__ }
--- 
-2.17.1
+Linus, feel free to take this entire series through your tree.
 
+> ---
+>  arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi b/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
+> index 7028e21bdd98..7e90d713f5e5 100644
+> --- a/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
+> +++ b/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
+> @@ -862,11 +862,21 @@
+>                 groups = "SGPM1";
+>         };
+>
+> +       pinctrl_sgpm2_default: sgpm2_default {
+> +               function = "SGPM2";
+> +               groups = "SGPM2";
+> +       };
+> +
+>         pinctrl_sgps1_default: sgps1_default {
+>                 function = "SGPS1";
+>                 groups = "SGPS1";
+>         };
+>
+> +       pinctrl_sgps2_default: sgps2_default {
+> +               function = "SGPS2";
+> +               groups = "SGPS2";
+> +       };
+> +
+>         pinctrl_sioonctrl_default: sioonctrl_default {
+>                 function = "SIOONCTRL";
+>                 groups = "SIOONCTRL";
+> --
+> 2.17.1
+>
