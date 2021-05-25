@@ -2,66 +2,75 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555F839016B
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 May 2021 14:56:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1297E390630
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 May 2021 18:06:12 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FqDbw2th1z2yy9
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 May 2021 22:56:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FqJpp0QLRz2yxj
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 May 2021 02:06:10 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=nBkCcXaG;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.a=rsa-sha256 header.s=google header.b=B3DENF8e;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f30;
- helo=mail-qv1-xf30.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=ffwll.ch
+ (client-ip=2a00:1450:4864:20::430; helo=mail-wr1-x430.google.com;
+ envelope-from=daniel@ffwll.ch; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=nBkCcXaG; dkim-atps=neutral
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com
- [IPv6:2607:f8b0:4864:20::f30])
+ secure) header.d=ffwll.ch header.i=@ffwll.ch header.a=rsa-sha256
+ header.s=google header.b=B3DENF8e; dkim-atps=neutral
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FqDbq1m98z2yZF;
- Tue, 25 May 2021 22:56:20 +1000 (AEST)
-Received: by mail-qv1-xf30.google.com with SMTP id c13so14729802qvx.5;
- Tue, 25 May 2021 05:56:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=26X9qK4i0o6JrWdnAd2JnpXvFHwNqdNddtrdo/NdfKI=;
- b=nBkCcXaGwEkQhV6TKf2zXfPW4FjThvleyqszqwJFSVAou+D+bRwAbaxBSeKr8Pes11
- E5e18rziC1t8POYTRl4a6k8F416Y9cBU3ZUoIqpy6M/uYy9nvutL1W43NWNsss+At6NY
- 6pcrFoSCPJm1K1tXt+w2Haimjmc6bi/oNcQGs=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FqJpf4wlSz2yWK
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 26 May 2021 02:05:59 +1000 (AEST)
+Received: by mail-wr1-x430.google.com with SMTP id i17so32811241wrq.11
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 25 May 2021 09:05:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=f7DBrUo3wL4Qpwwbs5pU+Y2UR7h2QKSlSLVfoQUFNMI=;
+ b=B3DENF8eoHhecWAFNQVLS2JEamnemU33gyvaAri/jUlxzebGZ65BPV0vBbEDgtL0i2
+ ktvkA4hfm35xWOsU0Qpu7M/Khpm+8vhn3XskgiCo4rDbB3tRmN4WHjCEACwUXqYx4FeY
+ Jtta5hNrcC+yqioS0IajWgJ26ctB5Cv70tzOE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=26X9qK4i0o6JrWdnAd2JnpXvFHwNqdNddtrdo/NdfKI=;
- b=rHU2Z2Nfq66M92WuQjxpMie52OWXNlKEpRvc2FdCKvHU8rNpYDlFAlo5pKFLyzUxOb
- VU+abGQV2T7zCFW7BS9SWzCOtfJcykTsoDQdKgpI88PvlLK8cXyC6ejMXIFGxunF1ckg
- ENhY9RRJ2aMHTwfYQhjRXwi3QBW801B1twi0LisWZSQ9vh9ilb6OHbRSsJged+jXKROc
- xOYJ8I/vumDhPrJuPbYQH3eMSa4ngHG/I8YB+Rp5dXvad6DhtqdhUFqjD8YfLow0E5Rn
- s18CtLQMUJ7uigbuoFNpl7Q4Zj5c/sB8998OvagM4aXs88YqYcjpo1nVmJDMPep5tbhK
- Bj0Q==
-X-Gm-Message-State: AOAM532UaUIaNtH1f6aJMvvQhXaSdatf2raVNdpb7QMN0Ag2qXRNgEQy
- ajewc0Q82boaxVPhvOEWc5HAGp/vDp0VwgFsAEE=
-X-Google-Smtp-Source: ABdhPJzDQUGrbvEccQD0Kpi4U8eTcle1vYjBru7kgLT7HNZqT7Mrjy2Zqn6NAZqxZDh/CJTJUcX0PuPEQ1ETi39cZKo=
-X-Received: by 2002:ad4:4961:: with SMTP id p1mr36377153qvy.43.1621947375551; 
- Tue, 25 May 2021 05:56:15 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=f7DBrUo3wL4Qpwwbs5pU+Y2UR7h2QKSlSLVfoQUFNMI=;
+ b=QqmzBEebQeXz+DkIv5TnA48u/xdX0QMjrScdM2OPw/43gughTDeIjgHkQ2WcWGailt
+ 2M5c+/661haM14VWCT9BTjkY7CQ7cWrvYvNoCR9cOHw+u1EcC+CG7eSqNsODcxS/TB5f
+ D7R2BL/9wS1qEl8TyTi7G6nGRJW5vpv/GGB/nXhKf6oe8ixslT+LveParThdZVJ5SC5f
+ QwkSsQ7eWExb3OTTHTK7GGh66NdFhdC9sLIGbF6Z2f9u9zjczeC1Wr528uw0nFcvz+p8
+ p8ryIJgGWH6+0eCO68yqBgjoBcYoSb6NycVie/Ll403gde90rMcRnpK1ijg2x7H6DaxC
+ OMvQ==
+X-Gm-Message-State: AOAM531ax+0NTanqWdjEBj6Zr1/gSc10IldG61DKlL2icWf4hx141ZUk
+ JswXRXUQFa0dHAPeXMzYv+Q43w==
+X-Google-Smtp-Source: ABdhPJzmCQM+KdUAXONpPffkFRK0K5WklaT15aqWUiMtaXWooOfXUGpF52ocgwjNDKESzlRppx+OrQ==
+X-Received: by 2002:a5d:638b:: with SMTP id p11mr28170569wru.90.1621958753771; 
+ Tue, 25 May 2021 09:05:53 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h15sm11169638wmq.1.2021.05.25.09.05.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 May 2021 09:05:52 -0700 (PDT)
+Date: Tue, 25 May 2021 18:05:50 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH 11/11] drm/tiny: drm_gem_simple_display_pipe_prepare_fb
+ is the default
+Message-ID: <YK0gXjANguasJLu5@phenom.ffwll.local>
+References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
+ <20210521090959.1663703-11-daniel.vetter@ffwll.ch>
+ <0b2b3fd7-7740-4c4e-78a5-142a6e9892ea@tronnes.org>
 MIME-Version: 1.0
-References: <20210524073308.9328-1-steven_lee@aspeedtech.com>
- <CACPK8XcfvUQD5xwb=2Va5Sr+bmaWfJMZkh61HK1=J1qLYc84zQ@mail.gmail.com>
- <20210525094815.GA8757@aspeedtech.com>
-In-Reply-To: <20210525094815.GA8757@aspeedtech.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 25 May 2021 12:56:03 +0000
-Message-ID: <CACPK8XfdYAcx=RX07hf1ar8A7th8G8390exvKbgh92X=ov8u2A@mail.gmail.com>
-Subject: Re: [PATCH v5 0/4] mmc: sdhci-of-aspeed: Support toggling SD bus
- signal
-To: Steven Lee <steven_lee@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0b2b3fd7-7740-4c4e-78a5-142a6e9892ea@tronnes.org>
+X-Operating-System: Linux phenom 5.10.32scarlett+ 
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,65 +82,37 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- "moderated list:ASPEED SD/MMC DRIVER" <openbmc@lists.ozlabs.org>,
- linux-mmc <linux-mmc@vger.kernel.org>, Adrian Hunter <adrian.hunter@intel.com>,
- open list <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Hongwei Zhang <Hongweiz@ami.com>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ David Lechner <david@lechnology.com>, Emma Anholt <emma@anholt.net>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, xen-devel@lists.xenproject.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Linus Walleij <linus.walleij@linaro.org>,
+ linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 25 May 2021 at 09:48, Steven Lee <steven_lee@aspeedtech.com> wrote:
->
-> The 05/25/2021 15:55, Joel Stanley wrote:
-> > When I was testing on my A2 EVB I saw this:
-> >
-> > [    1.436219] sdhci-aspeed 1e750100.sdhci: Requested out of range
-> > phase tap 192 for 9 degrees of phase compensation at 1562500Hz,
-> > clamping to tap 15
-> > [    1.450913] sdhci-aspeed 1e750100.sdhci: Requested out of range
-> > phase tap 963 for 45 degrees of phase compensation at 1562500Hz,
-> > clamping to tap 15
-> >
-> > Do you know what is happening there?
-> >
->
-> Per MMC spec, eMMC bus speed is set as legacy mode(0~26MHz) at startup of
-> eMMC initializtion flow. Clock phase calculation is triggered in set_clock()
-> and it calculates taps based on phase_deg(<9>, <225>) in the dts file and the
-> current speed(1562500Hz), which causes the warning message you mentioned.
-> As the phase_deg in the dts file should be calculated with 100MHz.
->
-> https://lkml.org/lkml/2021/5/24/95
->
-> But after some initialization flow, eMMC bus speed will be set to
-> correct speed(100MHz).
-> Clock phase calculation will be triggered again to get correct taps.
+On Fri, May 21, 2021 at 04:09:13PM +0200, Noralf Trønnes wrote:
+> 
+> 
+> Den 21.05.2021 11.09, skrev Daniel Vetter:
+> > Goes through all the drivers and deletes the default hook since it's
+> > the default now.
+> > 
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> 
+> Acked-by: Noralf Trønnes <noralf@tronnes.org>
 
-Thanks for the explanation. I added another debug print and I can see
-it doing what you describe:
-
-[    1.465904] sdhci-aspeed 1e750100.sdhci: Requested out of range
-phase tap 192 for 9 degrees of phase compensation at 1562500Hz,
-clamping to tap 15
-[    1.480598] sdhci-aspeed 1e750100.sdhci: rate 1562500 phase 9 tap 15
-[    1.490316] sdhci-aspeed 1e750100.sdhci: Requested out of range
-phase tap 963 for 45 degrees of phase compensation at 1562500Hz,
-clamping to tap 15
-[    1.505077] sdhci-aspeed 1e750100.sdhci: rate 1562500 phase 45 tap 15
-[    1.515059] sdhci-aspeed 1e750100.sdhci: rate 100000000 phase 9 tap 3
-[    1.524886] sdhci-aspeed 1e750100.sdhci: rate 100000000 phase 45 tap 15
-[    1.534904] sdhci-aspeed 1e750100.sdhci: rate 100000000 phase 9 tap 3
-[    1.544713] sdhci-aspeed 1e750100.sdhci: rate 100000000 phase 45 tap 15
-
-We should change the "out of range" message to be dev_dbg, as it is
-expected on a normal boot.
-
-Cheers,
-
-Joel
+Can you perhaps also look at the prep patch right before this one?
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
