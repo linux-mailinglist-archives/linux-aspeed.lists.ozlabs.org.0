@@ -2,92 +2,72 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C847390C98
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 May 2021 01:00:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33707390FEA
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 May 2021 07:12:58 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FqV142lw4z3021
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 May 2021 09:00:40 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FqfGc1q0Jz2yqC
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 May 2021 15:12:56 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=r+Ba5JSf;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=j/tvEBgc;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=Zlx5UUxE;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.230;
- helo=new4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::429;
+ helo=mail-pf1-x429.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=r+Ba5JSf; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=j/tvEBgc; 
- dkim-atps=neutral
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=Zlx5UUxE; dkim-atps=neutral
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
+ [IPv6:2607:f8b0:4864:20::429])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FqV0S5g9Tz2yXW;
- Wed, 26 May 2021 09:00:07 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 08757580F64;
- Tue, 25 May 2021 19:00:04 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Tue, 25 May 2021 19:00:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=k2E6Xl2OGkKHi1Co9wKE/zYBcsaaJtP
- CLHu3XoEVoQ0=; b=r+Ba5JSfHnYEVlp/TkUTUnYG03Qko6M6XZGkGlDC6YcunKf
- BHWlxaBLNmYkqWyR36EMS+hW/z3uQfM439RN4++ABiAzQDLFOAAiWudJRqpxMH6J
- lkEwppBtDbcXRzKaTCSFVxcQh8EB+kzSbOJ2EqdmCyy4PLXeT5N1CbAxRADLCIde
- er8+tAw/sdHdbJnOxoeSjdGuVqB8/VU4vGiVg8uN51zalxvra21PM5iF5CVK4Qbw
- IodHaj4AY2mY+DCsicOEWt/mTq9vWpYx+gnghHgrDkNIRoT31CkeOSs8nBTL3Rl7
- pirZlfhAYnHp+cF+29zgtjTMAb9aRshlz5O90xQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=k2E6Xl
- 2OGkKHi1Co9wKE/zYBcsaaJtPCLHu3XoEVoQ0=; b=j/tvEBgcYT6NruAOEo3pmY
- NFb2EXKVliDobySmbPRtNYOyV1iIUzK1TKy4x/RWO85Ehi7yeLPyWjPT/4LqJ5kM
- tT75MNO8RJ+xkmG+WE+sT9aS42wi9qbN7S8B0X6+bEQy7+MabqEKyiwiDbcARWBS
- zU3jptQswjST6QeAGjqNYjREgPUmk8A+o5cQbIF/NyYA9eVxmV3V3XNmKNko3mWh
- lOsBOW5wpb0TdeO7+BUvROO+GKlOUgUqI3+UhDkpp0w1cux/ESh4hDeaXWzUjNwo
- t0iLJ1dmo+WjC7Tub1KqwQrTSMOQHH+fAV5IPXOiUTjvbbg7wmsV3YJE/hQAGSKw
- ==
-X-ME-Sender: <xms:coGtYGCUw_IwHteOiD36wp6XozWVtIrqrZEQR6pmnzy2hZWcm0s56g>
- <xme:coGtYAiJCmUqHCyBkbEi-cGrKurmv-_JD49TRsgimGYLHezCwQ6Q8tluCrAoXDN1H
- tiQCitaXuXEu-iTeA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekvddgudeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhepkeekteekuddvffeigeetkeegudduffejfffguedvveffvdekheeivdet
- hefftefhnecuffhomhgrihhnpehlkhhmlhdrohhrghenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:coGtYJngWbcMwKlahILBMLZx3vkNJjDejNejGHrMeWeEqwvPh7m-9w>
- <xmx:coGtYEyD_dC7VoMgHak49JjdCvUWccHAklJzntTLHG7mlGK5DGQ41g>
- <xmx:coGtYLTzOu7698bAdzm07BYsxnElSqI1BLC96NBw9gLMSRUbnR4TMA>
- <xmx:dIGtYDYUKATlHWFKXDhHESTfJoCiGjHfn1sIw-EOM3IEM8KuwvywoQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 159C4A00079; Tue, 25 May 2021 19:00:02 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-448-gae190416c7-fm-20210505.004-gae190416
-Mime-Version: 1.0
-Message-Id: <e95c5263-d50f-4316-bb93-e14449559b1b@www.fastmail.com>
-In-Reply-To: <CACPK8XfdYAcx=RX07hf1ar8A7th8G8390exvKbgh92X=ov8u2A@mail.gmail.com>
-References: <20210524073308.9328-1-steven_lee@aspeedtech.com>
- <CACPK8XcfvUQD5xwb=2Va5Sr+bmaWfJMZkh61HK1=J1qLYc84zQ@mail.gmail.com>
- <20210525094815.GA8757@aspeedtech.com>
- <CACPK8XfdYAcx=RX07hf1ar8A7th8G8390exvKbgh92X=ov8u2A@mail.gmail.com>
-Date: Wed, 26 May 2021 08:29:41 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Joel Stanley" <joel@jms.id.au>, "Steven Lee" <steven_lee@aspeedtech.com>
-Subject: =?UTF-8?Q?Re:_[PATCH_v5_0/4]_mmc:_sdhci-of-aspeed:_Support_toggling_SD_b?=
- =?UTF-8?Q?us_signal?=
-Content-Type: text/plain
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FqfGV2T2sz2yWR
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 26 May 2021 15:12:49 +1000 (AEST)
+Received: by mail-pf1-x429.google.com with SMTP id g18so86954pfr.2
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 25 May 2021 22:12:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BAnKXbgoQEeSmAnu5/pW7REAH8b4on9a0l5whKjM1X4=;
+ b=Zlx5UUxEdGQnx1ArTAU/o3mCqdtzSczxblreJ4OTYfRRsr7nb3FEcmexvTneUJPpSz
+ +hJdVnERo/p8iDqxCVlT8AoeW0CBgFjdlcMgjGHaGsL1unIzVhPZrJd0mO8ghxmMlW7g
+ OJWaJ7uU683vHqvfdP2DzL+WGcSqP8ZMpFsfp8gLb4f+iGVEwd1raN1GCwqfTBg1R/bj
+ 0dhkxcoG87RmMzHSitNi8qxRxrU64av3QKRDnsmjn5ArGVsOEBpBB4qX3lMt/bluZ41s
+ zGm18QTnqXXr8yHUKQC0rR4rVgu2hx33GXpM+QVRZ4zGp0UFeN7HHCYTcRjBgHXK7xhq
+ dITA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=BAnKXbgoQEeSmAnu5/pW7REAH8b4on9a0l5whKjM1X4=;
+ b=JpU/NtGRnZ96R3pJmXZgDEpdp4Jx5fe4VBrfSQdH5qyVMJu/O18jX/2ah9kQ1JFwIt
+ tN0XQtHt+JNFz6Gf2Wdf517x2MIlOBAYv1ac28Ntmx60KXN7sm8K59YndaFabfakkOUv
+ gW5eS1PEGlu0CEOcHw9ZpeWskaee7mEpDnukfQG0x+7TdNquJ9KqTcwM2CVVh071EyLb
+ baNEYwMolxsFWUIJfandh4rTLUUe+sIoYs0Hwvn698+r4H4M3PSCq4AqVukBsR1OOHVJ
+ o8/7BXkkGyt5vrtuCFQ0dqW1BOSjSwU0n0EKkhSv0QfSAN5jaKg4OCas+CQTr2yAjY1f
+ WA9Q==
+X-Gm-Message-State: AOAM532fkKlqs8t2E/Glq+HQ9w9Cd8i/YCSW4FwZ4Mui2bprVL466DdE
+ s9NQ3Mhn/OB3GpXjK9L3mus=
+X-Google-Smtp-Source: ABdhPJxOzmvZLiHUaOUHu9L16J28CWvyvZplgFvsgvTgllCYv1NJYwbso1Kv8YQ6bRqP0CGwgtPjKg==
+X-Received: by 2002:aa7:8506:0:b029:2e4:dae2:9d89 with SMTP id
+ v6-20020aa785060000b02902e4dae29d89mr25163505pfn.78.1622005961881; 
+ Tue, 25 May 2021 22:12:41 -0700 (PDT)
+Received: from localhost.localdomain ([45.124.203.14])
+ by smtp.gmail.com with ESMTPSA id a21sm14819684pfk.152.2021.05.25.22.12.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 25 May 2021 22:12:40 -0700 (PDT)
+From: Joel Stanley <joel@jms.id.au>
+To: Arnd Bergmann <arnd@arndb.de>,
+	linux-aspeed@lists.ozlabs.org
+Subject: [PATCH] ARM: dts: aspeed: Set earlycon boot argument
+Date: Wed, 26 May 2021 14:42:20 +0930
+Message-Id: <20210526051220.136432-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,72 +79,442 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- "moderated list:ASPEED SD/MMC DRIVER" <openbmc@lists.ozlabs.org>,
- linux-mmc <linux-mmc@vger.kernel.org>, Adrian Hunter <adrian.hunter@intel.com>,
- open list <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Hongwei Zhang <Hongweiz@ami.com>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>
+Cc: Ryan Sie <ryans@supermicro.com.tw>, Ben Pai <Ben_Pai@wistron.com>,
+ Zev Weiss <zev@bewilderbeest.net>, Andrew Peng <pengms1@lenovo.com>,
+ Adriana Kobylak <anoo@us.ibm.com>, Yuan Yao <yao.yuan@linaro.org>,
+ Ken Chen <chen.kenyy@inventec.com>, Brad Bishop <bradleyb@fuzziesquirrel.com>,
+ Brian Yang <yang.brianc.w@inventec.com>, linux-arm-kernel@lists.infradead.org,
+ Supreeth Venkatesh <supreeth.venkatesh@amd.com>, Xo Wang <xow@google.com>,
+ Manikandan Elumalai <manikandan.hcl.ers.epl@gmail.com>,
+ Lotus Xu <xuxiaohan@bytedance.com>, Hongwei Zhang <hongweiz@ami.com>,
+ Alexander Filippov <a.filippov@yadro.com>,
+ Quan Nguyen <quan@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
+Most of the aspeed boards have copied the 'earlyprink' string in
+the bootargs. However, there's no earlyprink driver configured in the
+defconfigs, so this does nothing.
 
-On Tue, 25 May 2021, at 22:26, Joel Stanley wrote:
-> On Tue, 25 May 2021 at 09:48, Steven Lee <steven_lee@aspeedtech.com> wrote:
-> >
-> > The 05/25/2021 15:55, Joel Stanley wrote:
-> > > When I was testing on my A2 EVB I saw this:
-> > >
-> > > [    1.436219] sdhci-aspeed 1e750100.sdhci: Requested out of range
-> > > phase tap 192 for 9 degrees of phase compensation at 1562500Hz,
-> > > clamping to tap 15
-> > > [    1.450913] sdhci-aspeed 1e750100.sdhci: Requested out of range
-> > > phase tap 963 for 45 degrees of phase compensation at 1562500Hz,
-> > > clamping to tap 15
-> > >
-> > > Do you know what is happening there?
-> > >
-> >
-> > Per MMC spec, eMMC bus speed is set as legacy mode(0~26MHz) at startup of
-> > eMMC initializtion flow. Clock phase calculation is triggered in set_clock()
-> > and it calculates taps based on phase_deg(<9>, <225>) in the dts file and the
-> > current speed(1562500Hz), which causes the warning message you mentioned.
-> > As the phase_deg in the dts file should be calculated with 100MHz.
-> >
-> > https://lkml.org/lkml/2021/5/24/95
-> >
-> > But after some initialization flow, eMMC bus speed will be set to
-> > correct speed(100MHz).
-> > Clock phase calculation will be triggered again to get correct taps.
-> 
-> Thanks for the explanation. I added another debug print and I can see
-> it doing what you describe:
-> 
-> [    1.465904] sdhci-aspeed 1e750100.sdhci: Requested out of range
-> phase tap 192 for 9 degrees of phase compensation at 1562500Hz,
-> clamping to tap 15
-> [    1.480598] sdhci-aspeed 1e750100.sdhci: rate 1562500 phase 9 tap 15
-> [    1.490316] sdhci-aspeed 1e750100.sdhci: Requested out of range
-> phase tap 963 for 45 degrees of phase compensation at 1562500Hz,
-> clamping to tap 15
-> [    1.505077] sdhci-aspeed 1e750100.sdhci: rate 1562500 phase 45 tap 15
-> [    1.515059] sdhci-aspeed 1e750100.sdhci: rate 100000000 phase 9 tap 3
-> [    1.524886] sdhci-aspeed 1e750100.sdhci: rate 100000000 phase 45 tap 15
-> [    1.534904] sdhci-aspeed 1e750100.sdhci: rate 100000000 phase 9 tap 3
-> [    1.544713] sdhci-aspeed 1e750100.sdhci: rate 100000000 phase 45 tap 15
-> 
-> We should change the "out of range" message to be dev_dbg, as it is
-> expected on a normal boot.
+A combination of setting stdout in the chosen node and adding earlycon
+to bootargs causes early serial output to appear early. This changes all
+boards to use this option.
 
-I would think the issue is rather that we shouldn't be applying a phase 
-correction for a bus speed that isn't what the correction was specified 
-for.
+The console=ttyS4,115200 option is still required, as this is used by
+the run time uart driver.
 
-Let me look at this a bit further.
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ arch/arm/boot/dts/aspeed-ast2500-evb.dts                 | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts            | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts           | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts     | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-arm-stardragon4800-rep2.dts | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts        | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dts         | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts            | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts      | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts         | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-inspur-on5263m5.dts         | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-intel-s2600wf.dts           | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-lenovo-hr630.dts            | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-lenovo-hr855xg2.dts         | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-microsoft-olympus.dts       | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dts             | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts              | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-mowgli.dts              | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts              | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-palmetto.dts            | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts             | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-swift.dts               | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts              | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts              | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts         | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts               | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts        | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-quanta-q71l.dts             | 2 +-
+ arch/arm/boot/dts/aspeed-bmc-supermicro-x11spi.dts       | 2 +-
+ 29 files changed, 29 insertions(+), 29 deletions(-)
 
-Andrew
+diff --git a/arch/arm/boot/dts/aspeed-ast2500-evb.dts b/arch/arm/boot/dts/aspeed-ast2500-evb.dts
+index 8bec21ed0de5..583a241f1151 100644
+--- a/arch/arm/boot/dts/aspeed-ast2500-evb.dts
++++ b/arch/arm/boot/dts/aspeed-ast2500-evb.dts
+@@ -13,7 +13,7 @@ aliases {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=tty0 console=ttyS4,115200 earlyprintk";
++		bootargs = "console=tty0 console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+index 6aeb47c44eba..79d17841b3d7 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts
+@@ -34,7 +34,7 @@ aliases {
+ 	};
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 	leds {
+ 		compatible = "gpio-leds";
+diff --git a/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts b/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
+index 8f5ec22e51c2..bbf8d548397b 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
+@@ -9,7 +9,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts b/arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts
+index c2ece0b91885..3395de96ee11 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dts
+@@ -10,7 +10,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-arm-stardragon4800-rep2.dts b/arch/arm/boot/dts/aspeed-bmc-arm-stardragon4800-rep2.dts
+index 2c29ac037d32..7c6af7f226e7 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-arm-stardragon4800-rep2.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-arm-stardragon4800-rep2.dts
+@@ -10,7 +10,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts b/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts
+index dcab6e78dfa4..33e413ca07e4 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts
+@@ -15,7 +15,7 @@ aliases {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=tty0 console=ttyS4,115200 earlyprintk";
++		bootargs = "console=tty0 console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dts b/arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dts
+index 5ef88c377358..01dace8f5e5f 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dts
+@@ -55,7 +55,7 @@ aliases {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts
+index 2fb8b147f489..90a3f485c67a 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-cmm.dts
+@@ -280,7 +280,7 @@ aliases {
+ 
+ 	chosen {
+ 		stdout-path = &uart1;
+-		bootargs = "console=ttyS1,9600n8 root=/dev/ram rw earlyprintk";
++		bootargs = "console=ttyS1,9600n8 root=/dev/ram rw earlycon";
+ 	};
+ 
+ 	ast-adc-hwmon {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
+index 7b4b2b126ad8..b6b16356f571 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dts
+@@ -37,7 +37,7 @@ aliases {
+ 	};
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts b/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
+index 07593897fc9a..1752f3250e44 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
+@@ -10,7 +10,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-inspur-on5263m5.dts b/arch/arm/boot/dts/aspeed-bmc-inspur-on5263m5.dts
+index 80c92e065a10..5a98a19f445e 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-inspur-on5263m5.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-inspur-on5263m5.dts
+@@ -11,7 +11,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "earlyprintk";
++		bootargs = "earlycon";
+ 	};
+ 
+ 	memory {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-intel-s2600wf.dts b/arch/arm/boot/dts/aspeed-bmc-intel-s2600wf.dts
+index 6e9baf3bba53..d5b7d28cda88 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-intel-s2600wf.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-intel-s2600wf.dts
+@@ -10,7 +10,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "earlyprintk";
++		bootargs = "earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-lenovo-hr630.dts b/arch/arm/boot/dts/aspeed-bmc-lenovo-hr630.dts
+index c29e5f4d86ad..8f543cca7c21 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-lenovo-hr630.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-lenovo-hr630.dts
+@@ -27,7 +27,7 @@ aliases {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=tty0 console=ttyS4,115200 earlyprintk";
++		bootargs = "console=tty0 console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-lenovo-hr855xg2.dts b/arch/arm/boot/dts/aspeed-bmc-lenovo-hr855xg2.dts
+index 084c455ad4cb..bcc1820f5c07 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-lenovo-hr855xg2.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-lenovo-hr855xg2.dts
+@@ -27,7 +27,7 @@ aliases {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=tty0 console=ttyS4,115200 earlyprintk";
++		bootargs = "console=tty0 console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-microsoft-olympus.dts b/arch/arm/boot/dts/aspeed-bmc-microsoft-olympus.dts
+index 73319917cb74..3ef8358ff764 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-microsoft-olympus.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-microsoft-olympus.dts
+@@ -11,7 +11,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@40000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dts b/arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dts
+index 42b37a204241..c0847636f20b 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dts
+@@ -11,7 +11,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
+index 15c1f0ac81dc..a52a289cee85 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-mihawk.dts
+@@ -57,7 +57,7 @@ aliases {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-mowgli.dts b/arch/arm/boot/dts/aspeed-bmc-opp-mowgli.dts
+index 8503152faaf0..7d38d121ec6d 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-mowgli.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-mowgli.dts
+@@ -11,7 +11,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts b/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts
+index 91dced7e7849..3d4bdad27c2d 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-nicole.dts
+@@ -10,7 +10,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-palmetto.dts b/arch/arm/boot/dts/aspeed-bmc-opp-palmetto.dts
+index eb4e93a57ff4..cd660c1ff3f5 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-palmetto.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-palmetto.dts
+@@ -10,7 +10,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@40000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts b/arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts
+index fd2e014dae75..084f54866f38 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-romulus.dts
+@@ -9,7 +9,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
+index d56b5ed09b37..4816486c0c9e 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-swift.dts
+@@ -10,7 +10,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+index c1478d2db602..e863ec088970 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+@@ -13,7 +13,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200n8";
++		bootargs = "console=ttyS4,115200n8 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
+index 01074b6e3e03..328ef472c479 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-vesnin.dts
+@@ -11,7 +11,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@40000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts b/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
+index 85d58a63ae90..230f3584bcab 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-witherspoon.dts
+@@ -10,7 +10,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts b/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts
+index 4bcc82046362..7ae4ea0d2931 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-zaius.dts
+@@ -17,7 +17,7 @@ aliases {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts b/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts
+index 03c161493ffc..61bc74b423cf 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts
+@@ -14,7 +14,7 @@ aliases {
+ 	};
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-quanta-q71l.dts b/arch/arm/boot/dts/aspeed-bmc-quanta-q71l.dts
+index a68ff0675c28..9605e53f5bbf 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-quanta-q71l.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-quanta-q71l.dts
+@@ -28,7 +28,7 @@ aliases {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "console=ttyS4,115200 earlyprintk";
++		bootargs = "console=ttyS4,115200 earlycon";
+ 	};
+ 
+ 	memory@40000000 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-supermicro-x11spi.dts b/arch/arm/boot/dts/aspeed-bmc-supermicro-x11spi.dts
+index bc16ad2b5c80..50f3c6a5c0c8 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-supermicro-x11spi.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-supermicro-x11spi.dts
+@@ -11,7 +11,7 @@ / {
+ 
+ 	chosen {
+ 		stdout-path = &uart5;
+-		bootargs = "earlyprintk";
++		bootargs = "earlycon";
+ 	};
+ 
+ 	memory@80000000 {
+-- 
+2.30.2
+
