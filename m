@@ -1,15 +1,15 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0671B392451
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 May 2021 03:28:33 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B2B39246B
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 May 2021 03:40:09 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Fr9FC0sjfz2yhd
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 May 2021 11:28:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Fr9VZ6ypYz2yhf
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 May 2021 11:40:06 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=ShbfusHb;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=O57hhZ27;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=MhjuPl8E;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=tugK6A7D;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
@@ -19,80 +19,71 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=ShbfusHb; 
+ header.s=fm2 header.b=MhjuPl8E; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=O57hhZ27; 
+ header.a=rsa-sha256 header.s=fm2 header.b=tugK6A7D; 
  dkim-atps=neutral
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Fr9F76vBHz2xv1
- for <linux-aspeed@lists.ozlabs.org>; Thu, 27 May 2021 11:28:27 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Fr9VS6TgLz2xv1
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 27 May 2021 11:40:00 +1000 (AEST)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id CC55C5805E5;
- Wed, 26 May 2021 21:28:25 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 0D86A58060A;
+ Wed, 26 May 2021 21:39:58 -0400 (EDT)
 Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Wed, 26 May 2021 21:28:25 -0400
+ by compute3.internal (MEProxy); Wed, 26 May 2021 21:39:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm2; bh=QugCToE2oD/Akw5181hdEz10jkbZriJ
- +fq6eWbXxrco=; b=ShbfusHb2jQRdrZ4WtIJPdk34pieGO5nJI88/AnOM1NrEXH
- mxxVr739gJoOcnpgcIfvGpavhJ/rzH5ynFWmziD7Sdd9QEM60CPQUyjthUscd+Ao
- g5WJHjn6UVVrks0qs9h75p03IhEKNRhQBJ0zw8tRsbazhaNPG1ZwSVefr7WRPzAW
- ZkcOtX4oAIa/YJEm+VlRkaMtu12mZ+XDUXgUeUdzMWVp8Qudidqs96dHp7wbqfEG
- +mg7nDDE6CUP16N1GN9fjteKN0LKbEF1UM55izrJ0MWAOFDmMza5gjQm7BPkaOIz
- 7WxeK756xHVS3X9Z4A4UYzMXy+gvOiahEztNz0w==
+ :subject:content-type; s=fm2; bh=L+fivTA27mQM4nAAxth200/TuxEV89H
+ UUTPJI9Oe6LI=; b=MhjuPl8E1Vo/PddEIYT4qvh1AgOWgjrrMsw9dOM0Kr847RI
+ Yfl4qbLiSu5LAXBu5stXaZcgiaALUY/nJsbE00j4vk5jLG3Mf/1IOVSiOwPtJRDX
+ aw3W3G5YO0XkTu7cdqRxS5PAZRO6Zkmfy8r7HQMeUGjiWnjvZNDjBlbrPKMY3WT5
+ I7hLgbzY4RriYMfoyfZQa2GqKreRUDjzlvNQin3Q3wfDf00wAEQVsVLJJuy19n8R
+ izIARg1BArS02RibY4WXOpKu5F5FbfAyWimilxm8U+NBY46+6oWV3LEyWkVDx0YS
+ MBXRt0xh5QFMQjmze7lS6h95TwLJoaLwIrgsvwQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=QugCTo
- E2oD/Akw5181hdEz10jkbZriJ+fq6eWbXxrco=; b=O57hhZ27gBq5/8Pf+kfZwf
- jyReChV75Usqb3IXGA4x7xP0PjN8Pam0CeyWMpwQpfx4VVh3ImlSE8SscUfxL0lJ
- y3lhjSqS4O8Pk1m3zOZfvACCp7teGQzQcFl6QvRGaV5TVoMO2oXJnh20dhuRG8WZ
- 71DlFvD5NyQm/KtqrB1FA/MRnFFEcOYxzi5aOcGy2Wot8fWYBaMcgRL01usYPPEP
- H7fBf+LKAZD71mnTOogNJ/1J3B4qWkBgQnRzLX46S55WOj/AnWI6S1lYhUqCl6YD
- g1GkfnW5JmVq5e01VQLU8nXHQJrgdcliH852k2RN4gRrW4MvGiF1qwFIBliHJrSQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=L+fivT
+ A27mQM4nAAxth200/TuxEV89HUUTPJI9Oe6LI=; b=tugK6A7D4C7XLnVyZcV6AB
+ +laFhJ2H31UwSA8hue2hJbitoUWTS57M0IfCd0ZvYPRsAnP8xIn9qbbgatqZPmJT
+ 0RbklhY3WtekCt2A2sZfX9zTTJiJauzcWf6m3ZS8/gT53zEhLb5trDI+YS0arXmy
+ EzjT4ZBDaoQehhMYAKbo7WYiqDK20xy8/zIBu1cIdJ07CC2M95t/OSy+rctVSg9u
+ QZmMQsrh1FqO/QGx0x4juyIZ06I1fJsHFwq3EtwdC72liRCkOOtxanSXa0x5djeZ
+ 1MgZx3UwSrVelrVhp8XZ4x7DAJ6ue0fUOdb60Nh5fNSTKPmHPWQfumCF2MPdhYJw
  ==
-X-ME-Sender: <xms:uPWuYNHXi0w5BmP6bqSOUeJdgJmJfG3ad_39EYd0YiWrCU96h1ux1w>
- <xme:uPWuYCXGErZGIn27dshwhB1wPARFBNMq0Ap4Xd3WMbm7WIkrnh05SkxUq9eP5FhV9
- Hl_iQP0o8DQqLpB1w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekgedggeegucetufdoteggodetrfdotf
+X-ME-Sender: <xms:afiuYPNLPmPxl71aZTTMeZ_2N5V4InN-5Iq0_vAmXYOU3Ho6gDo2Zg>
+ <xme:afiuYJ_EvD-9LozlBwwFoNBfIN8LwrqALWlj5GQfbnAvXpc_yJKvpFgw8wmMEaotg
+ qkQgZkN6-DA1ITYCQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekgedggeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
  rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
  grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
- hfevueffnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
+ hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:uPWuYPLzfxsxLkof8NqAH2S60FJeAH8qnHWK6hzsG2oRqy7krdAPcQ>
- <xmx:uPWuYDG2oa7wYPYiL8emwsggs7nfOWUwmkWVlLMi6GU2nWUNceeoJw>
- <xmx:uPWuYDVd-lNbSJ6WxC63lZTbrktc-ZAuUMmPmx4gA7UXj3cL7F4rdA>
- <xmx:ufWuYMOmtvPVzk96d2q2vndB3wP1QUwRzovt1Xqq4u3qaf-6ohPurQ>
+X-ME-Proxy: <xmx:afiuYOTp-te6-0QbsbTf4J12FKp2H-jUdVzvahgMM3a_9bPq391hyA>
+ <xmx:afiuYDvaC__kXHSMTqj9oheiXSdnoSOYLB2NhAkH-0jDzBiEjfc4ew>
+ <xmx:afiuYHexxNKDGdWdcVamn5wr5fP1HN8DRRlvSIa8Na3Fjg8p1uIR_A>
+ <xmx:bviuYN9rRU7Q0lKvcLfdi5neZC1jMJehQDmo3Qh55yvZmHPQSi4Ubg>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 7D234A00079; Wed, 26 May 2021 21:28:24 -0400 (EDT)
+ id D4102A0007A; Wed, 26 May 2021 21:39:53 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.5.0-alpha0-468-gdb53729b73-fm-20210517.001-gdb53729b
 Mime-Version: 1.0
-Message-Id: <69b31043-957c-40af-9ab9-6bcc63ccdc85@www.fastmail.com>
-In-Reply-To: <20210526094609.14068-3-steven_lee@aspeedtech.com>
-References: <20210526094609.14068-1-steven_lee@aspeedtech.com>
- <20210526094609.14068-3-steven_lee@aspeedtech.com>
-Date: Thu, 27 May 2021 10:57:43 +0930
+Message-Id: <2176d536-c7c0-482a-84eb-b1d02da1b067@www.fastmail.com>
+In-Reply-To: <20210526051220.136432-1-joel@jms.id.au>
+References: <20210526051220.136432-1-joel@jms.id.au>
+Date: Thu, 27 May 2021 11:09:33 +0930
 From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Steven Lee" <steven_lee@aspeedtech.com>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "Bartosz Golaszewski" <bgolaszewski@baylibre.com>,
- "Rob Herring" <robh+dt@kernel.org>, "Joel Stanley" <joel@jms.id.au>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>, 
- "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- "open list" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1 2/4] ARM: dts: aspeed-g6: Add SGPIO node.
+To: "Joel Stanley" <joel@jms.id.au>, "Arnd Bergmann" <arnd@arndb.de>,
+ linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH] ARM: dts: aspeed: Set earlycon boot argument
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -105,47 +96,37 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Hongwei Zhang <Hongweiz@ami.com>
+Cc: Ryan Sie <ryans@supermicro.com.tw>, Ben Pai <Ben_Pai@wistron.com>,
+ Zev Weiss <zev@bewilderbeest.net>, Ken Chen <chen.kenyy@inventec.com>,
+ Andrew Peng <pengms1@lenovo.com>, Adriana Kobylak <anoo@us.ibm.com>,
+ "\(Exiting\) Yao Yuan" <yao.yuan@linaro.org>,
+ Brad Bishop <bradleyb@fuzziesquirrel.com>,
+ =?UTF-8?Q?YangBrianC=2EW_=E6=A5=8A=E5=98=89=E5=81=89_TAO?=
+ <yang.brianc.w@inventec.com>, linux-arm-kernel@lists.infradead.org,
+ Supreeth Venkatesh <supreeth.venkatesh@amd.com>, Xo Wang <xow@google.com>,
+ manikandan-e <manikandan.hcl.ers.epl@gmail.com>,
+ Lotus Xu <xuxiaohan@bytedance.com>, Hongwei Zhang <hongweiz@ami.com>,
+ "Alexander A. Filippov" <a.filippov@yadro.com>,
+ Quan Nguyen <quan@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Steven,
 
-On Wed, 26 May 2021, at 19:16, Steven Lee wrote:
-> AST2600 supports 2 SGPIO master interfaces one with 128 pins another one
-> with 80 pins.
 
-Is there any chance the serial GPIO controllers can be explicitly 
-listed in the Memory Space Allocation Table of the datasheet? Currently 
-they're covered by the entry for "GPIO Controller (Parallel GPIO)" 
-which is listed as ranging from 0x1e780000-0x1e7807ff.
-
-Admittedly the details are listed in chapter 41 for the GPIO 
-Controller, but it would be handy to not have to dig.
-
+On Wed, 26 May 2021, at 14:42, Joel Stanley wrote:
 > 
-> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
-> ---
->  arch/arm/boot/dts/aspeed-g6.dtsi | 32 ++++++++++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
+> Most of the aspeed boards have copied the 'earlyprink' string in
+> the bootargs. However, there's no earlyprink driver configured in the
+> defconfigs, so this does nothing.
 > 
-> diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-> index f96607b7b4e2..556ce9535c22 100644
-> --- a/arch/arm/boot/dts/aspeed-g6.dtsi
-> +++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-> @@ -377,6 +377,38 @@
->  				#interrupt-cells = <2>;
->  			};
->  
-> +			sgpiom0: sgpiom@1e780500 {
-> +				#gpio-cells = <2>;
-> +				gpio-controller;
-> +				compatible = "aspeed,ast2600-sgpiom";
-> +				reg = <0x1e780500 0x100>;
-> +				interrupts = <GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>;
-> +				max-ngpios = <128>;
+> A combination of setting stdout in the chosen node and adding earlycon
+> to bootargs causes early serial output to appear early. This changes all
+> boards to use this option.
+> 
+> The console=ttyS4,115200 option is still required, as this is used by
+> the run time uart driver.
+> 
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
 
-I need to think more about this one.
-
-Andrew
+Acked-by: Andrew Jeffery <andrew@aj.id.au>
