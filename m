@@ -2,54 +2,60 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E55392BC3
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 May 2021 12:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE4C39369A
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 May 2021 21:47:11 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FrP9n1YKlz3023
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 May 2021 20:26:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Frdcs5HkBz3000
+	for <lists+linux-aspeed@lfdr.de>; Fri, 28 May 2021 05:47:09 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=p9SqVy1Q;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jamin_lin@aspeedtech.com;
- receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=wsa@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=p9SqVy1Q; 
+ dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FrP9K0cfXz2yYN;
- Thu, 27 May 2021 20:25:54 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 14RACFjn019312;
- Thu, 27 May 2021 18:12:15 +0800 (GMT-8)
- (envelope-from jamin_lin@aspeedtech.com)
-Received: from localhost.localdomain (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 27 May
- 2021 18:25:19 +0800
-From: Jamin Lin <jamin_lin@aspeedtech.com>
-To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
- Jeffery" <andrew@aj.id.au>, Brendan Higgins <brendanhiggins@google.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>, Rayn Chen
- <rayn_chen@aspeedtech.com>, "open list:I2C SUBSYSTEM HOST DRIVERS"
- <linux-i2c@vger.kernel.org>, "open list:OPEN FIRMWARE AND FLATTENED DEVICE
- TREE BINDINGS" <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED
- MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>, "moderated
- list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>, open list
- <linux-kernel@vger.kernel.org>, "moderated list:ARM/ASPEED I2C DRIVER"
- <openbmc@lists.ozlabs.org>
-Subject: [PATCH v2 1/1] dt-bindings: aspeed-i2c: Convert txt to yaml format
-Date: Thu, 27 May 2021 18:25:05 +0800
-Message-ID: <20210527102512.20684-2-jamin_lin@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210527102512.20684-1-jamin_lin@aspeedtech.com>
-References: <20210527102512.20684-1-jamin_lin@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Frdcn6L2lz2ylk;
+ Fri, 28 May 2021 05:47:05 +1000 (AEST)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 48F606124C;
+ Thu, 27 May 2021 19:47:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1622144823;
+ bh=7TxnJJnNtwAUGZlPXh3fsE0Uo6KwnuA5yZH8z0w+sjU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=p9SqVy1QqWu0JV2zeKQ/gJlaS7FOcPgVN11Mx+qq+SpXvUCCTUU/QAo2svWSZr2Bd
+ Chdw9cls7OUGp3k6MZawfXS5M2NltR+SbS4QgBiaoDnRyvHoeNexjCzkWMkdIUc+Mb
+ vLabP1cXff/fLaFxHCFqfWA48zDMTuTruccKdpAEC5Aoo7w+WJzrygsc2L6cnKTi7j
+ KQUpOnADIsvR6JJMxJ7RjpK7azQLK6TsacwPFPSkoULJLgjvbTtzqfzVc55pYwf86F
+ OyOo8UkD+7bnaGzJj/qA9jw1eUy4LoPSThi6pcTwFByZ6XSwEl5zo64WUWWCtes17h
+ vHcJf5UnfmJBw==
+Date: Thu, 27 May 2021 21:46:59 +0200
+From: Wolfram Sang <wsa@kernel.org>
+To: Zev Weiss <zev@bewilderbeest.net>
+Subject: Re: [PATCH v2] i2c: aspeed: disable additional device addresses on
+ ast2[56]xx
+Message-ID: <YK/3M94uwuLQNwbz@kunai>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+ Zev Weiss <zev@bewilderbeest.net>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Joel Stanley <joel@jms.id.au>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Andrew Jeffery <andrew@aj.id.au>, linux-i2c@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+References: <20210506205419.26294-1-zev@bewilderbeest.net>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 14RACFjn019312
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="JB9G8qcO/AQ7ihJy"
+Content-Disposition: inline
+In-Reply-To: <20210506205419.26294-1-zev@bewilderbeest.net>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,168 +67,49 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: steven_lee@aspeedtech.com
+Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Convert aspeed i2c to yaml.
 
-Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
----
- .../devicetree/bindings/i2c/aspeed,i2c.yaml   | 86 +++++++++++++++++++
- .../devicetree/bindings/i2c/i2c-aspeed.txt    | 49 -----------
- 2 files changed, 86 insertions(+), 49 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
- delete mode 100644 Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
+--JB9G8qcO/AQ7ihJy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml b/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
-new file mode 100644
-index 000000000000..1f7064d77708
---- /dev/null
-+++ b/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
-@@ -0,0 +1,86 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ASPEED I2C on the AST24XX, AST25XX, and AST26XX SoCs Device Tree Bindings
-+
-+maintainers:
-+  - Rayn Chen <rayn_chen@aspeedtech.com>
-+
-+allOf:
-+  - $ref: /schemas/i2c/i2c-controller.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - aspeed,ast2400-i2c-bus
-+      - aspeed,ast2500-i2c-bus
-+      - aspeed,ast2600-i2c-bus
-+
-+  "#size-cells":
-+    const: 0
-+
-+  "#address-cells":
-+    const: 1
-+
-+  reg:
-+    minItems: 1
-+    maxItems: 2
-+    items:
-+      - description: address offset and range of bus
-+      - description: address offset and range of bus buffer
-+
-+  interrupts:
-+    maxItems: 1
-+    description: interrupt number
-+
-+  clocks:
-+    maxItems: 1
-+    description:
-+      root clock of bus, should reference the APB
-+      clock in the second cell
-+
-+  reset:
-+    maxItems: 1
-+    description: phandle to reset controller with the reset number in
-+      the second cell
-+
-+  bus-frequency:
-+    minimum: 500
-+    maximum: 4000000
-+    default: 100000
-+    description: frequency of the bus clock in Hz defaults to 100 kHz when not
-+      specified
-+
-+  multi-master:
-+    type: boolean
-+    description:
-+      states that there is another master active on this bus
-+
-+required:
-+  - reg
-+  - compatible
-+  - clocks
-+  - resets
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/aspeed-clock.h>
-+    i2c0: i2c-bus@40 {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      #interrupt-cells = <1>;
-+      reg = <0x40 0x40>;
-+      compatible = "aspeed,ast2500-i2c-bus";
-+      clocks = <&syscon ASPEED_CLK_APB>;
-+      resets = <&syscon ASPEED_RESET_I2C>;
-+      bus-frequency = <100000>;
-+      interrupts = <0>;
-+      interrupt-parent = <&i2c_ic>;
-+      status = "disabled";
-+      /* Does not need pinctrl properties */
-+    };
-diff --git a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt b/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
-deleted file mode 100644
-index b47f6ccb196a..000000000000
---- a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
-+++ /dev/null
-@@ -1,49 +0,0 @@
--Device tree configuration for the I2C busses on the AST24XX, AST25XX, and AST26XX SoCs.
--
--Required Properties:
--- #address-cells	: should be 1
--- #size-cells		: should be 0
--- reg			: address offset and range of bus
--- compatible		: should be "aspeed,ast2400-i2c-bus"
--			  or "aspeed,ast2500-i2c-bus"
--			  or "aspeed,ast2600-i2c-bus"
--- clocks		: root clock of bus, should reference the APB
--			  clock in the second cell
--- resets		: phandle to reset controller with the reset number in
--			  the second cell
--- interrupts		: interrupt number
--
--Optional Properties:
--- bus-frequency	: frequency of the bus clock in Hz defaults to 100 kHz when not
--		  specified
--- multi-master	: states that there is another master active on this bus.
--
--Example:
--
--i2c {
--	compatible = "simple-bus";
--	#address-cells = <1>;
--	#size-cells = <1>;
--	ranges = <0 0x1e78a000 0x1000>;
--
--	i2c_ic: interrupt-controller@0 {
--		#interrupt-cells = <1>;
--		compatible = "aspeed,ast2400-i2c-ic";
--		reg = <0x0 0x40>;
--		interrupts = <12>;
--		interrupt-controller;
--	};
--
--	i2c0: i2c-bus@40 {
--		#address-cells = <1>;
--		#size-cells = <0>;
--		#interrupt-cells = <1>;
--		reg = <0x40 0x40>;
--		compatible = "aspeed,ast2400-i2c-bus";
--		clocks = <&syscon ASPEED_CLK_APB>;
--		resets = <&syscon ASPEED_RESET_I2C>;
--		bus-frequency = <100000>;
--		interrupts = <0>;
--		interrupt-parent = <&i2c_ic>;
--	};
--};
--- 
-2.17.1
+On Thu, May 06, 2021 at 03:54:19PM -0500, Zev Weiss wrote:
+> The ast25xx and ast26xx have, respectively, two and three configurable
+> slave device addresses to the ast24xx's one.  We only support using
+> one at a time, but the others may come up in an indeterminate state
+> depending on hardware/bootloader behavior, so we need to make sure we
+> disable them so as to avoid ending up with phantom devices on the bus.
+>=20
+> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
 
+Applied to for-next, thanks!
+
+
+--JB9G8qcO/AQ7ihJy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmCv9zMACgkQFA3kzBSg
+KbYoaw/+K6TmK5yofJdaPXVDzkuK9GycZAqgbQp7fiCMVeCJi9sp4sZfOC/qJHDl
+i+d/1nqKttII/RjpHvzcQDnzXK7Mx/KaolUoQGIRRUoXI5PT2Rsc1qjOGxswicee
+ncF/nG2SKuKQoiFfEchL9/OWsKn8JysNhrGRsBpK8S2bINXajAHf/3NHSuIB8hT8
+LHdFtx+P5yRB2t7NLwGx1OTv5keCUEpzVnuzYcYdvfwUcbcLgSaybvDmkjyx/LHv
+xwFBvls6D24yd526D5kOfedxA2zZPnxfS5vYSnfL4Qsek21QSK28PuOtF4bbNHwp
+wBddF4z3Ba1ZCmXp93FsH7HmzzB9X2gnQhOaK1lyf0Qd7UL1qJXsWoN0D38VAzG8
+pvxotK7zbPcLU+9Jfu7I6p37ff64MVz66+nblGDjttSR767uic7jlL/Hgyim8V16
+HeT5nrjHjJW7jeTLsDz8UZU3xzGNmZzpRTWreNm+TBJl9Kv7gPR5j1z3Z5cQ5jf8
+MstxERJwFnMBlb1ma5PrQm7iyddy3cKyp+jKic0adN/tLwtl9mfwi/tQgEjsCw9m
+O6AcGxtfwIFeysjtgI0DjZUo+IQii/o9CcUPmFu4xsOZSsWwISFimP+LwVZDx6MM
+bgATzrQ0pKryV+AD4W8TP9XI42w2u7eSW/5NBRjkkJAZ+p5d6Bk=
+=dwZ9
+-----END PGP SIGNATURE-----
+
+--JB9G8qcO/AQ7ihJy--
