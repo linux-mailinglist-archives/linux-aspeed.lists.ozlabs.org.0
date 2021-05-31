@@ -2,70 +2,142 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E499393ED9
-	for <lists+linux-aspeed@lfdr.de>; Fri, 28 May 2021 10:36:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B612B3954BF
+	for <lists+linux-aspeed@lfdr.de>; Mon, 31 May 2021 06:41:08 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Fryh31spsz2ymb
-	for <lists+linux-aspeed@lfdr.de>; Fri, 28 May 2021 18:36:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FtjKb0HvMz301k
+	for <lists+linux-aspeed@lfdr.de>; Mon, 31 May 2021 14:41:07 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=eKWJz4ar;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=syPd1vmJ;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::12b;
- helo=mail-lf1-x12b.google.com; envelope-from=linus.walleij@linaro.org;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=eKWJz4ar; dkim-atps=neutral
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ smtp.mailfrom=os.amperecomputing.com (client-ip=40.107.243.99;
+ helo=nam12-dm6-obe.outbound.protection.outlook.com;
+ envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com
+ header.a=rsa-sha256 header.s=selector2 header.b=syPd1vmJ; 
+ dkim-atps=neutral
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2099.outbound.protection.outlook.com [40.107.243.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Frygz5YtWz2xtj
- for <linux-aspeed@lists.ozlabs.org>; Fri, 28 May 2021 18:35:56 +1000 (AEST)
-Received: by mail-lf1-x12b.google.com with SMTP id b26so4171040lfq.4
- for <linux-aspeed@lists.ozlabs.org>; Fri, 28 May 2021 01:35:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qXzQIPasUcthmSDz8eSF+P9ruKadFcmRFPG5VSNQtL8=;
- b=eKWJz4art9JMWcy6y6iWK9LFwP2pQvAov+Vsbn1np7ccpJfXlVE+B9uDjzPJkkISWg
- 2jHaOl5Oe3gGxfXA6LgeTrMqL3Gcw59pnwKpxvt8qVyoVD3gBZ5kgubk2uIVa3+XtnMV
- 2V92ED5sEIA5YUZIqSGlECauLUkp+VLy0BPS29E5R4b1OW/oEDzMGfRYxzM+31d+6868
- uf5AXz1khjan90xUAKlOHv+5eb4/32xWzgjOA4a4yMZ67GancPJwneDU6vE1rcZ2041T
- 2ZfGpbwNnxRzyB+Cw/7D8H11DdXHZHN53I7V1Mhgpvu3OZ8ELlLXIA0P4KJczeoWtWpC
- AsSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qXzQIPasUcthmSDz8eSF+P9ruKadFcmRFPG5VSNQtL8=;
- b=GpjWvmrdhZ+OG8j4ghOlUluzQIsR1ZJ8r1nO4VHNgU5ehqQtLgkXsD4POmgbwSVSc0
- UgO/SAe74ksOra2r3lBd9IC5X387dHhwXgramLZrJAEu2r8aj77AvHTEWSORyFrDRgQ9
- 0RoI0q/IHQp/Xm9qjFNZrOcVQ+sQ5uLW4G2ljQSF5xD0I/zxlH49UZ99ZIG/OfD4br5h
- a5il+Zs8R4P1pfSyWuRSKUUbMmz2DtxA95a+HHApIgzSj9qAIeVlFhca8emLCc1soNlK
- c4BQgorwtw+rQMvMTVClB39PtMW3vhaKOrM7mo9yAI4ayrNG6Q6nToI2zkAHm3/tKmPV
- 90Cg==
-X-Gm-Message-State: AOAM5339TUpFawDhwfQIAcLGD+C+rCVPs74zs3AiWH/TpEHc0RY5XLht
- vAonfTB4nvv6WjIQ7Fw4ZH20t4tNskOYE6fH+LdHhw==
-X-Google-Smtp-Source: ABdhPJx7fY2eoo3ewpiwsQcdfnOZOMZDOGzICz8TqAeiPIIG9rFXZg0ycCOFOJyYz6YC0EypW/bfzb3UTuupkbD3PwU=
-X-Received: by 2002:ac2:47e6:: with SMTP id b6mr5005230lfp.649.1622190949032; 
- Fri, 28 May 2021 01:35:49 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FtjJv0Q2cz2xgL;
+ Mon, 31 May 2021 14:40:28 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LMtNGV4xNBVt8pNmuRuBy2w4h9Q5THzuLVIOVxO/6iYyXEBn/qq/Hak0RzR384qim7bBN01n9Q3wa5CpPDsecVjhwD14Ba1beKoPjQuhqlCapnro4AEY9UDD7xAeY2AsZLQpMXYjEJ6OGgy4aFTCQZrHH+rtGJ3eriodgjarkZcEJAR/K1qmvWGMOXuygFHGKm4f9iv5119JJFf9I0P0+Jxh3Pfo60giaCrOQCQeXTWHebrArjNnGO+PVFu3e8CiID4vYphIDVog4B97DSKhnRltZzAiR6gfgFkXlq9MVzMck1qiRlOqei5MReDEF+mx6fz/bZz8CcXfrXfLoht+hQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ICqXDKhCJ1R/lWVouUO+7Pww7EbhoqngrFqn9ZECIRg=;
+ b=BmnxJdQZilyo6jNbbYMZGenE0HGZmhQ55hmFGJHkH/EU24yEBnUywwzU65uUntdExCdzBTwWLctWoMygiCLG0usczAZLk4JqoqVQafVPO7b6QeeMybjAEzMxcjpGdXvwszr5p81CBS0/6MZqWWQgKVcwd6n7enzv4FHIYsf3LE1OiDETwjdmU7miwdAbg5KiqBraOkJudgniKk+16fAKMlBceuSaYHuq7SXP7bYvJGgL5n63OFJz2uUp1ZT/X4fm5sSNuonRr6L6bULVE2v59AoV4VPJ6Asr5LKKSyiCF0czFrhTV3nY816iYrG1gtPaYAW8rHX0Jni0pl4tL3xG3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ICqXDKhCJ1R/lWVouUO+7Pww7EbhoqngrFqn9ZECIRg=;
+ b=syPd1vmJhdQgdKte9QpET1OWxBlUwFRTqL69Eu6xxsIZ+z1q6YsHhzs2uF11SZ1RROzkTFb4amu9aQAz7huOE0KlxlljmWTHzMkunUaCE6fouigAA3Qv40HXpZAcvIlEiRYmTDs9CEu4660v6pF9eqXgkJ8meELVq5+qjjexTk4=
+Authentication-Results: os.amperecomputing.com; dkim=none (message not signed)
+ header.d=none; os.amperecomputing.com;
+ dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
+ CO1PR01MB6614.prod.exchangelabs.com (2603:10b6:303:d9::6) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4173.20; Mon, 31 May 2021 04:40:19 +0000
+Received: from MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::7d5f:eca4:a33a:342e]) by MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::7d5f:eca4:a33a:342e%5]) with mapi id 15.20.4173.030; Mon, 31 May 2021
+ 04:40:19 +0000
+Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: Add bindings for Ampere Altra
+ SMPro drivers
+From: Quan Nguyen <quan@os.amperecomputing.com>
+To: Rob Herring <robh@kernel.org>
+References: <20210422090843.4614-1-quan@os.amperecomputing.com>
+ <20210422090843.4614-2-quan@os.amperecomputing.com>
+ <20210430201918.GA3806853@robh.at.kernel.org>
+ <52550615-ae38-d88e-a597-29dc9c71755a@os.amperecomputing.com>
+ <ee17c000-6f70-84d9-f7a1-0d30b03dafab@os.amperecomputing.com>
+Message-ID: <aa5997f6-e629-e82b-ea0a-484888c0271f@os.amperecomputing.com>
+Date: Mon, 31 May 2021 11:40:07 +0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.10.2
+In-Reply-To: <ee17c000-6f70-84d9-f7a1-0d30b03dafab@os.amperecomputing.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [2402:800:623c:5f9b:4ce:f00e:7db8:5363]
+X-ClientProxiedBy: HK2PR02CA0128.apcprd02.prod.outlook.com
+ (2603:1096:202:16::12) To MW2PR0102MB3482.prod.exchangelabs.com
+ (2603:10b6:302:c::32)
 MIME-Version: 1.0
-References: <20210527005455.25758-1-steven_lee@aspeedtech.com>
- <20210527005455.25758-2-steven_lee@aspeedtech.com>
- <CACRpkdZFcFuT9rdrc8BfEBmhy0--9uLMSJWfr=A+nU117_BT8A@mail.gmail.com>
- <20210528040934.GA28403@aspeedtech.com>
-In-Reply-To: <20210528040934.GA28403@aspeedtech.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 28 May 2021 10:35:37 +0200
-Message-ID: <CACRpkdYnvzOW_86QgLAsNpNXWZXpaMiE7g9_jHZ0ZsFyhOjjAg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: aspeed-sgpio: Convert txt bindings to
- yaml.
-To: Steven Lee <steven_lee@aspeedtech.com>, Rob Herring <robh+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2402:800:623c:5f9b:4ce:f00e:7db8:5363]
+ (2402:800:623c:5f9b:4ce:f00e:7db8:5363) by
+ HK2PR02CA0128.apcprd02.prod.outlook.com (2603:1096:202:16::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4173.20 via Frontend Transport; Mon, 31 May 2021 04:40:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 95e30351-d8ee-4d5e-1676-08d923ee3164
+X-MS-TrafficTypeDiagnostic: CO1PR01MB6614:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CO1PR01MB6614C976ED4B71941794951CF23F9@CO1PR01MB6614.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: F+MMYn1rAPV7ME8yj50v/gvCs1wAe1YpSXZrVlSP0u8v4oWsMXg1Hgd8nrzp4h06n01uYDAHhlooEyzzD0FXYIfBipY/aRsdhdjHFekFNSV0yJmeO4/eqQtz3erIFwb2L3izJu2VQQIt6VpHcAWPw1g4CUmSFhh2e8A0Tpi3Rtr9yZ1eJUsqoWVAJZBPI90isNeYQYkkUOMakp133YLQm41f2V39AuPEImJ7fxSfcsCrIWuNmswbUcoHadCSGHWiVYoO6KOPDXRep+F57sAOjrZhjdw1J2PzkHIFgJYgSTmSNp9Psjr8b+3x7hO38jNTuwVZy1ywhC7n2mJk4SfsAa5bKdk1W/jknckDXem2NAS6MUh33NtEQiQJRwywz82ub5ERYDn+hnP8pzOh/5acg9w95X00Z3hB1jvKW+OM0GZFAt+cVDcveiFjA+N3hWTYVl4YQJvcQxFVEhDHRd/K1C5+3cCIJBO5SMhXnGTrqfiV6KHrslzBx1vvU2ihD05s9cshsRO1W5EMHsohJWdEq0FsA/d+0wdRZIXoFwi/sapP4Ovacq889C9f2/bDSmY12MvEx5hrZoLjE+rbO81Hx9DpO8918Pv7Z2Xs9KRh+KvUDBdhzLC1IXU0L9Ihuy4JsBOBSV+Vc5p6e3xrIs4Ex6+Xke/131/V8TtGK21FnQ2EOC6cuGEyAsXfY2oOj1rZiwJdEvtxYNcLgb5WxkPrRzzSPOA/AeaOWlb1DhlwzAPBc4t9S6kVBSxXjGoN+igcdZNsxtiQQ2V0P8l4ldA/OA4+XjRHwy6vBkfUx7uERrY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR0102MB3482.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(396003)(366004)(39840400004)(346002)(66946007)(83380400001)(38100700002)(86362001)(8676002)(66476007)(54906003)(53546011)(16526019)(8936002)(66556008)(5660300002)(2616005)(966005)(7416002)(6486002)(2906002)(6666004)(478600001)(4326008)(31686004)(316002)(6916009)(52116002)(31696002)(186003)(107886003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?OGNOR2NXbWZzRFB6RUp4MS9zWUdOS24xYzhVNlhBNmVTNG8rOG9BUWc0SUJW?=
+ =?utf-8?B?cUVhdFpyRnlDVkp1ci9MTFNCUXlNbStEK0xqeDQwdjc0enhmTnNYQTk0S2Jq?=
+ =?utf-8?B?NEpvM1NFU3liZXdRWVFqak9WV2FlSUIyUjhtODljdTNlUW45b3VnMzdqNjQ4?=
+ =?utf-8?B?c3Zmc2w4THBWbzRoU3BxZ1FQcTdsWU1xc3FXWW05dDhQVlVrRkdyTkUwT2xW?=
+ =?utf-8?B?ZWRzMk5RRE9md3I1Nm1IeGhZdWNkNG50dTU5WXFUR2x6Z2ZQdkJvQXpnTFMw?=
+ =?utf-8?B?TVNzcGJHSVNxVm5sb3ZSUVc2NVNNR2VMc1lNdXBLOVFIaWhLYjhYcFZjelIy?=
+ =?utf-8?B?ampMdUdxMGg4QjhnMXc2b0dKLzRoYmI5NzYxV2pJL0F5NzR6OFFnblV2OTdJ?=
+ =?utf-8?B?cVdRV1dmOFhGcDBTSDdPWUNoaGpnM1hsLzUwUnNCVDBxM28yZmlQeElyS0I5?=
+ =?utf-8?B?WmFibFpJOU9vOWFmd2dEMkMwZlRMczRmakFQQkt0eHptL0ErQm91dCswQTFm?=
+ =?utf-8?B?MDNTdjlJWkNsdmh1dWZPUE1CdCtKVzJhQUhOL2loSnAxbjFVRzFEY2N3RDFL?=
+ =?utf-8?B?K2FacmwyTVNmVUt2S0tCOUppNlFVdTAreVBnUSthWVAybjdBcENFUkN3cFZz?=
+ =?utf-8?B?KysydUtTSWQ0SEZqVk16SjdzNU40RHVyMDNuS3pwdzBWbFFzQkFieDRmZTJ0?=
+ =?utf-8?B?NEkyK2svaUZxelhVaGdnd1ppUHBIUlZXa0NQZUlGWTErQVBHaFpBVzUvNjhy?=
+ =?utf-8?B?VytITEVXV2RFcmpRMENJQUF6SEhrVDdNZGdjWVVBbzJQQS9XUFJSZDNycDkz?=
+ =?utf-8?B?ZU5PTnAyNGIrdCt3TFJyY3VPQUZJV2tuT0wyOGZYRzJsWmlNWloxQVBqamFw?=
+ =?utf-8?B?Rm5uME1mR1EwbmRqYXlaYXBNYkl1N05JT2tlWDk1a1VkejBRbmJTYlYxMlBY?=
+ =?utf-8?B?N0tpR1Z3M1FKUFlLQWY5MDhFWlNLbm9WNUxJdFU5MlZtN2ViS0NYWG1OeGZ3?=
+ =?utf-8?B?cVRpR2pWLzF2aGxoQUVxRDFkdkc5bG5GMzFFZDRNUEZ2V2I2eWhuaXV3NDBp?=
+ =?utf-8?B?SDJKWUhLbGNMc0h3WnNBTDlia2Z2L2hDbHlNTXNRUVpKWFdNY3lTMFRMU3FH?=
+ =?utf-8?B?Z3ZvTnBsUUhOaC95WC9KQkQwNVovd0ZEc2E2TVhEY1BuUEJrdDBoM2tiMmhx?=
+ =?utf-8?B?U1dRalcwK01hOS95VWI0WkovWEdIVTF5Rzh6UytzQ0c5b0d5bVRmc3RLYksy?=
+ =?utf-8?B?L2JmUURaUzFtbkgvOWVjQ2RYdExJVjMwTlVjbHFBRXdQejM5UmxCVkE2Qi9Q?=
+ =?utf-8?B?bDlZbytab0JSclo4VTVPVEJZenNBTmZOV3VUK29WdXpSUFkwRnF0TFpYQnd4?=
+ =?utf-8?B?Y3VzaWxiNVBsZ1BxaDYzN2FYTDQwWGNRZlJ6bXF3RDlKOVVoSHVVZjRnSEUv?=
+ =?utf-8?B?QkJtTEhCb1l3cmppdFgvMzJsTmJZQTQ5MlA1NmM2d3MveWJyOTdmdndLcEZn?=
+ =?utf-8?B?NEhLa2NOanFzUnJnRXRIcXYzWThtbDBvT21xeEpaR1pVSzhybWRhM2E1NjBT?=
+ =?utf-8?B?TEdCRDF0MXI0ckVRSFFDWSs2dzB2UlFicFYyZEZNdzZ1TU80dk00UGJUaUtY?=
+ =?utf-8?B?UTU1NmF1ZVB6MUVsWFIzcGdoVHhyVHdmNGtrRk9wNVAybERFNGNBTzNnTllT?=
+ =?utf-8?B?dDk4NjFsM21IUG5xTzBaWlBDM1hva1prNG1GZTdYTS83TVhpZGxodzVWc01U?=
+ =?utf-8?B?OVNXa09UbzE0UURnRVFOV1hrT1RaMEdDMlgxak16UXhMdGxNQjFISk5YR01i?=
+ =?utf-8?B?VHZhamFZZXozZWt6RFM2VEs3MDBKNUJMMStpNGF2SS9vbDhNN0p4YTJ5dVZ1?=
+ =?utf-8?Q?NtZjDbEF6U6TG?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95e30351-d8ee-4d5e-1676-08d923ee3164
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2021 04:40:19.1075 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wKCTPCKf7A6V3kxPNtYjhJO195sLWSyzuK7ncbN7SnKRfq4Y6LoZ0YZtB4li8nTp4sIRP9IT3KT9MOr/bmkyI2R4A8V2aBBHMM3TkL959ns=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR01MB6614
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,90 +149,186 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Hongwei Zhang <Hongweiz@ami.com>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>, linux-aspeed@lists.ozlabs.org,
+ Jonathan Corbet <corbet@lwn.net>, openbmc@lists.ozlabs.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
+ Phong Vo <phong@os.amperecomputing.com>,
+ Open Source Submission <patches@amperecomputing.com>,
+ Lee Jones <lee.jones@linaro.org>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, May 28, 2021 at 6:10 AM Steven Lee <steven_lee@aspeedtech.com> wrote:
-> The 05/28/2021 07:51, Linus Walleij wrote:
-> > On Thu, May 27, 2021 at 2:55 AM Steven Lee <steven_lee@aspeedtech.com> wrote:
-> >
-> > > +  max-ngpios:
-> > > +    description:
-> > > +      represents the number of actual hardware-supported GPIOs (ie,
-> > > +      slots within the clocked serial GPIO data). Since each HW GPIO is both an
-> > > +      input and an output, we provide max_ngpios * 2 lines on our gpiochip
-> > > +      device. We also use it to define the split between the inputs and
-> > > +      outputs; the inputs start at line 0, the outputs start at max_ngpios.
-> > > +    minimum: 0
-> > > +    maximum: 128
-> >
-> > Why can this not be derived from the compatible value?
-> >
-> > Normally there should be one compatible per hardware variant
-> > of the block. And this should be aligned with that, should it not?
-> >
-> > If this is not the case, maybe more detailed compatible strings
-> > are needed, maybe double compatibles with compatible per
-> > family and SoC?
-> >
->
-> Thanks for your suggestion.
-> I add max-ngpios in dt-bindings as there is ngpios defined in
-> dt-bindings, users can get the both max-ngpios and ngpios information
-> from dtsi without digging sgpio driver.
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/aspeed-g5.dtsi#n354
->
-> If adding more detailed compatibles is better, I will add them to sgpio driver
-> in V3 patch and remove max-ngpios from dt-bindings.
->
-> Since AST2600 has 2 sgpio controller one with 128 pins and another one with 80 pins.
-> For supporting max-ngpios in compatibles, 2 platform data for each
-> ast2600 sgpio controller as follows are necessary.
->
-> ```
-> static const struct aspeed_sgpio_pdata ast2600_sgpiom1_pdata = {
->         .max_ngpios = 128;
-> };
-> static const struct aspeed_sgpio_pdata ast2600_sgpiom2_pdata = {
->         .max_ngpios = 80;
-> };
->
-> { .compatible = "aspeed,ast2500-sgpio" , .data = &ast2400_sgpio_pdata, },
-> { .compatible = "aspeed,ast2600-sgpiom1", .data = &ast2600_sgpiom1_pdata, },
-> { .compatible = "aspeed,ast2600-sgpiom2", .data = &ast2600_sgpiom2_pdata, },
+On 18/05/2021 06:36, Quan Nguyen wrote:
+> On 05/05/2021 15:44, Quan Nguyen wrote:
+>> On 01/05/2021 03:19, Rob Herring wrote:
+>>> On Thu, Apr 22, 2021 at 04:08:40PM +0700, Quan Nguyen wrote:
+>>>> Adds device tree bindings for SMPro driver found on the Mt.Jade 
+>>>> hardware
+>>>> reference platform with Ampere's Altra Processor family.
+>>>>
+>>>> The SMpro co-processor on Ampere Altra processor family is to monitor
+>>>> and report various data included hwmon-related info, RAS errors, and
+>>>> other miscellaneous information. This parent SMPro MFD driver creates
+>>>> a single simple register map to be shared by all sub-devices and leave
+>>>> all the specific to be handled by the child drivers.
+>>>
+>>> Again, just because you have multiple functions aka MFD, that doesn't
+>>> mean you need child nodes for each function. The only thing you have
+>>> in DT is a register address. Does this vary? If so, how often? How many
+>>> different versions of a DT do you currently or expect to have?
+>>>
+>> Hi Rob,
+>>
+>> Thank you for your review.
+>> I will try to explain what I think below and expect to receive more 
+>> comments to improve these patches. And if any misundertood, please 
+>> help correct me.
+>>
+>> The idea is to keep the SMPro MFD as a simple generic register map and 
+>> expect not to change or to handle any specific in this parent device 
+>> driver. This is why we see the simple_mfd_i2c fit in this case.
+>>
+>> And so, all the specific details will be handled in child devices 
+>> driver and we expect to have child nodes for these child devices. If 
+>> the child node exist we can then add any specific if necessary later.
+>>
+>> One case is that, each socket (ie: the Ampere Altra processor) has it 
+>> own SMPro co-processor instance in form of register map and each 
+>> socket could be either slave or master. Some function may not 
+>> available in slave socket but exist in master socket and we simply 
+>> choose not to define the child node if that function not existed.
+>>
+>> The other case is that if there are multi instances of the same 
+>> function in one SMPro MFD register map, then each instance might need 
+>> to be differentiated by using is own register address or maybe a DT 
+>> property. Then we can simply add them to the node of these instance.
+>>
+>> For your specific questions:
+>>
+>> + Does this vary ?
+>> yes, I think so. The register address in each child nodes may vary if 
+>> the SMPro co-processor firmware change its register map layout or 
+>> maybe other instances of a function added. Child device drivers are 
+>> expected to handle these changes if necessary.
+>>
+>> + About how often ?
+>> I actually can't say how often but the purpose of this SMPro register 
+>> map is to provide the info to the BMC. The BMC will need more info 
+>> from the host so I think changes will be unavoidable.
+>>
+>> Please help with your comments
+>> Thank you,
+>> - Quan
+>>
+> Dear Rob,
+> 
+> do you have any suggestion to improve this patch?
+> 
+> - Quan
 
-There is a soft border between two IP blocks being "compatible"
-and parameterized and two IP blocks being different and having
-unique compatibles.
+Dear Rob,
 
-For example we know for sure we don't use different compatibles
-because of how interrupt lines or DMA channels are connected.
+I'm sorry it's me again, I'm just hope you could share your thoughts on 
+the DT node for sub-devices using simple-mfd-i2c drivers.
 
-So if this is an external thing, outside of the IP itself, I might back
-off on this and say it shall be a parameter.
+In commit 3abee4579484 ("mfd: Add simple regmap based I2C driver"), 
+there is note that "Once the register map has been successfully 
+initialised, any sub-devices represented by child nodes in Device Tree 
+will be subsequently registered".
 
-But max-ngpios? It is confusingly similar to ngpios.
+So it seems unavoidable to have DT nodes for sub-devices which uses 
+simple-mfd-i2c. I'm a bit confused if DT nodes in this case should be 
+avoided.
 
-So we need to think about this name.
+Please see 
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/patch?id=3abee4579484c554961bb0af92a77adc0ebd791d
 
-Something like gpio-hardware-slots or something else that
-really describe what this is.
+Thank you,
+- Quan
 
-Does this always strictly follow ngpios so that the number
-of gpio slots == ngpios * 2? In that case only put ngpios into
-the device tree and multiply by 2 in the driver, because ngpios
-is exactly for this: parameterizing hardware limitations.
+PS:
+Below is for quick reference:
 
-Yours,
-Linus Walleij
+ From 3abee4579484c554961bb0af92a77adc0ebd791d Mon Sep 17 00:00:00 2001
+From: Michael Walle <michael@walle.cc>
+Date: Mon, 14 Sep 2020 23:43:29 +0200
+Subject: mfd: Add simple regmap based I2C driver
+
+There are I2C devices which contain several different functions but
+doesn't require any special access functions. For these kind of drivers
+an I2C regmap should be enough.
+
+Create an I2C driver which creates an I2C regmap and enumerates its
+children. If a device wants to use this as its MFD core driver, it has
+to add an individual compatible string. It may provide its own regmap
+configuration.
+
+Subdevices can use dev_get_regmap() on the parent to get their regmap
+instance.
+
+Signed-off-by: Michael Walle <michael@walle.cc>
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+  drivers/mfd/Kconfig          | 12 ++++++++++
+  drivers/mfd/Makefile         |  1 +
+  drivers/mfd/simple-mfd-i2c.c | 56 
+++++++++++++++++++++++++++++++++++++++++++++
+  3 files changed, 69 insertions(+)
+  create mode 100644 drivers/mfd/simple-mfd-i2c.c
+
+diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+index 33df0837ab415..6e1a38944d282 100644
+--- a/drivers/mfd/Kconfig
++++ b/drivers/mfd/Kconfig
+@@ -1162,6 +1162,18 @@ config MFD_SI476X_CORE
+  	  To compile this driver as a module, choose M here: the
+  	  module will be called si476x-core.
+
++config MFD_SIMPLE_MFD_I2C
++	tristate
++	depends on I2C
++	select REGMAP_I2C
++	help
++	  This driver creates a single register map with the intention for it
++	  to be shared by all sub-devices.
++
++	  Once the register map has been successfully initialised, any
++	  sub-devices represented by child nodes in Device Tree will be
++	  subsequently registered.
++
+  config MFD_SM501
+  	tristate "Silicon Motion SM501"
+  	depends on HAS_DMA
+diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+index a60e5f835283e..78d24a3e7c9e5 100644
+--- a/drivers/mfd/Makefile
++++ b/drivers/mfd/Makefile
+@@ -264,3 +264,4 @@ obj-$(CONFIG_MFD_STMFX) 	+= stmfx.o
+  obj-$(CONFIG_MFD_KHADAS_MCU) 	+= khadas-mcu.o
+
+  obj-$(CONFIG_SGI_MFD_IOC3)	+= ioc3.o
++obj-$(CONFIG_MFD_SIMPLE_MFD_I2C)	+= simple-mfd-i2c.o
+diff --git a/drivers/mfd/simple-mfd-i2c.c b/drivers/mfd/simple-mfd-i2c.c
+new file mode 100644
+index 0000000000000..28e96a246be11
+--- /dev/null
++++ b/drivers/mfd/simple-mfd-i2c.c
+@@ -0,0 +1,56 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Simple MFD - I2C
++ *
++ * This driver creates a single register map with the intention for it 
+to be
++ * shared by all sub-devices.  Children can use their parent's device 
+structure
++ * (dev.parent) in order to reference it.
++ *
++ * Once the register map has been successfully initialised, any sub-devices
++ * represented by child nodes in Device Tree will be subsequently 
+registered.
++ */
++
