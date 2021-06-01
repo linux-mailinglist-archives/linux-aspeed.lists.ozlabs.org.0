@@ -2,51 +2,72 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94FA9395505
-	for <lists+linux-aspeed@lfdr.de>; Mon, 31 May 2021 07:24:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D8839713F
+	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Jun 2021 12:16:56 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FtkHK6NFcz2ysq
-	for <lists+linux-aspeed@lfdr.de>; Mon, 31 May 2021 15:24:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FvSkZ2b8Bz2yxm
+	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Jun 2021 20:16:54 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=sl+L5T4g;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=steven_lee@aspeedtech.com;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::136;
+ helo=mail-lf1-x136.google.com; envelope-from=linus.walleij@linaro.org;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
+ header.s=google header.b=sl+L5T4g; dkim-atps=neutral
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FtkHG0QMtz2yXL
- for <linux-aspeed@lists.ozlabs.org>; Mon, 31 May 2021 15:24:08 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 14V5A8us020907;
- Mon, 31 May 2021 13:10:08 +0800 (GMT-8)
- (envelope-from steven_lee@aspeedtech.com)
-Received: from aspeedtech.com (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 31 May
- 2021 13:23:27 +0800
-Date: Mon, 31 May 2021 13:23:19 +0800
-From: Steven Lee <steven_lee@aspeedtech.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v2 1/4] dt-bindings: aspeed-sgpio: Convert txt bindings
- to yaml.
-Message-ID: <20210531052318.GA3973@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FvSkS6rdRz2yXZ
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  1 Jun 2021 20:16:46 +1000 (AEST)
+Received: by mail-lf1-x136.google.com with SMTP id q1so20948719lfo.3
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 01 Jun 2021 03:16:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9JgJKLG77oA4fsPfmhV/22/+J8paV7JGFmptd3FIW44=;
+ b=sl+L5T4gBDijTK/6PvXm02T1i8WN8JiAWYOScypKiijXgVP6N1crIeVt+wWGBXXFDH
+ 3bj7Vv2phMrmsLD6ekzlzlzgtg2MgXSKL/DL63Y3EGZnDOsTqKgLIRO7b2umrlTw7std
+ GWGZhhGmbTAdUS6Dv8FSjCuGB7AjPT0R9XNIoF13jT7jKHHc1epZX0edVkf0ldfOuGMo
+ w0hFrTRebe8kTg5hCXmkUHuC/HgJQqiM6NB06D1hzudz1sJotMH4RxG6uEuf/CvkMs/+
+ oQe44XFiI/94UDn7W448kquuUxis6Cae4rc3z8SkQmHKh30VUpteVsP4C5Lh02HTEguu
+ g3tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9JgJKLG77oA4fsPfmhV/22/+J8paV7JGFmptd3FIW44=;
+ b=CtYu6HmLpdeU6yjxL0ndjM+EpUCwTxEeHoWJDwmMt32H2yunzmwicf6A5VNjyW/S/J
+ eDu6I/FO2GFPHQ35YG1nXMDtnbuY9rhZqRmbgcYfFVoA7P0D7Q1Obbo4hRsJAGRrPpM2
+ m+Ls1Ze/B5DuWz0PCoYXO6psqR42oY7avzBWDN711Vlf9n6Ir1OhV715+81ebNl61UB7
+ mN6wWFLhOwag8hWVOHU8K9o6wJ2oRLUladQdvP8rGZgFY4TXXh9kW1NSf7VkOJ/qSHgB
+ bScMIMHGKjkIXc9+u9G+g2IrnzrMjIUZN87uiriuPAWHwdvrGL3JS+deIHaBsHy6Ib26
+ HdCA==
+X-Gm-Message-State: AOAM530nh5U/oQUzVveUh0SL3yVAcTvn6RnWLShuu7RZE6VPkhBAkVXN
+ rAk/0k6HSDPAHGIfoxT5Ho/N7wcWPJ8wJqosZmf4lA==
+X-Google-Smtp-Source: ABdhPJy/xrCcERW+957lXcvVNGT5zyGBGdADRSZbatHeuqcKcxbF4gcIYsCn4wfFQ5npF9r30qUpQIoF7hiIHQTgIxE=
+X-Received: by 2002:a19:5503:: with SMTP id n3mr9973147lfe.649.1622542598494; 
+ Tue, 01 Jun 2021 03:16:38 -0700 (PDT)
+MIME-Version: 1.0
 References: <20210527005455.25758-1-steven_lee@aspeedtech.com>
  <20210527005455.25758-2-steven_lee@aspeedtech.com>
  <CACRpkdZFcFuT9rdrc8BfEBmhy0--9uLMSJWfr=A+nU117_BT8A@mail.gmail.com>
  <20210528040934.GA28403@aspeedtech.com>
  <CACRpkdYnvzOW_86QgLAsNpNXWZXpaMiE7g9_jHZ0ZsFyhOjjAg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <CACRpkdYnvzOW_86QgLAsNpNXWZXpaMiE7g9_jHZ0ZsFyhOjjAg@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 14V5A8us020907
+ <20210531052318.GA3973@aspeedtech.com>
+In-Reply-To: <20210531052318.GA3973@aspeedtech.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 1 Jun 2021 12:16:27 +0200
+Message-ID: <CACRpkdbq5me7erKdzaDHrPP5QjY4-Oxqz20tg2rSn3yrWDrhYQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: aspeed-sgpio: Convert txt bindings to
+ yaml.
+To: Steven Lee <steven_lee@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,8 +80,8 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED MACHINE
- SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ <devicetree@vger.kernel.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
  "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
  open list <linux-kernel@vger.kernel.org>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>,
@@ -71,98 +92,26 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The 05/28/2021 16:35, Linus Walleij wrote:
-> On Fri, May 28, 2021 at 6:10 AM Steven Lee <steven_lee@aspeedtech.com> wrote:
-> > The 05/28/2021 07:51, Linus Walleij wrote:
-> > > On Thu, May 27, 2021 at 2:55 AM Steven Lee <steven_lee@aspeedtech.com> wrote:
-> > >
-> > > > +  max-ngpios:
-> > > > +    description:
-> > > > +      represents the number of actual hardware-supported GPIOs (ie,
-> > > > +      slots within the clocked serial GPIO data). Since each HW GPIO is both an
-> > > > +      input and an output, we provide max_ngpios * 2 lines on our gpiochip
-> > > > +      device. We also use it to define the split between the inputs and
-> > > > +      outputs; the inputs start at line 0, the outputs start at max_ngpios.
-> > > > +    minimum: 0
-> > > > +    maximum: 128
-> > >
-> > > Why can this not be derived from the compatible value?
-> > >
-> > > Normally there should be one compatible per hardware variant
-> > > of the block. And this should be aligned with that, should it not?
-> > >
-> > > If this is not the case, maybe more detailed compatible strings
-> > > are needed, maybe double compatibles with compatible per
-> > > family and SoC?
-> > >
-> >
-> > Thanks for your suggestion.
-> > I add max-ngpios in dt-bindings as there is ngpios defined in
-> > dt-bindings, users can get the both max-ngpios and ngpios information
-> > from dtsi without digging sgpio driver.
-> >
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/aspeed-g5.dtsi#n354
-> >
-> > If adding more detailed compatibles is better, I will add them to sgpio driver
-> > in V3 patch and remove max-ngpios from dt-bindings.
-> >
-> > Since AST2600 has 2 sgpio controller one with 128 pins and another one with 80 pins.
-> > For supporting max-ngpios in compatibles, 2 platform data for each
-> > ast2600 sgpio controller as follows are necessary.
-> >
-> > ```
-> > static const struct aspeed_sgpio_pdata ast2600_sgpiom1_pdata = {
-> >         .max_ngpios = 128;
-> > };
-> > static const struct aspeed_sgpio_pdata ast2600_sgpiom2_pdata = {
-> >         .max_ngpios = 80;
-> > };
-> >
-> > { .compatible = "aspeed,ast2500-sgpio" , .data = &ast2400_sgpio_pdata, },
-> > { .compatible = "aspeed,ast2600-sgpiom1", .data = &ast2600_sgpiom1_pdata, },
-> > { .compatible = "aspeed,ast2600-sgpiom2", .data = &ast2600_sgpiom2_pdata, },
-> 
-> There is a soft border between two IP blocks being "compatible"
-> and parameterized and two IP blocks being different and having
-> unique compatibles.
-> 
-> For example we know for sure we don't use different compatibles
-> because of how interrupt lines or DMA channels are connected.
-> 
+On Mon, May 31, 2021 at 7:23 AM Steven Lee <steven_lee@aspeedtech.com> wrote:
 
-Thanks for sharing the knowledge and examples.
+> The parameter max-ngpios is the maxmum number of gpio pins that SoC supported,
+> ngpios is the maximum number of gpio pins that sgpio devices(e.g. sgpio cards) supported.
 
-> So if this is an external thing, outside of the IP itself, I might back
-> off on this and say it shall be a parameter.
-> 
-> But max-ngpios? It is confusingly similar to ngpios.
-> 
-> So we need to think about this name.
-> 
-> Something like gpio-hardware-slots or something else that
-> really describe what this is.
-> 
-> Does this always strictly follow ngpios so that the number
-> of gpio slots == ngpios * 2? In that case only put ngpios into
-> the device tree and multiply by 2 in the driver, because ngpios
-> is exactly for this: parameterizing hardware limitations.
-> 
+When you put it like that you really make it sound like you already
+know, just looking at the compatible string, what max-ngpios is?
 
-The parameter max-ngpios is the maxmum number of gpio pins that SoC supported,
-ngpios is the maximum number of gpio pins that sgpio devices(e.g. sgpio cards) supported.
+I.e. do you know for these three:
 
-For instance, a sgpio card that supports 64 gpio pins which is connected to
-ast2600evb sgpio master interface 2. The dts file should be configured as follows.
+aspeed,ast2400-sgpiom
+aspeed,ast2500-sgpiom
+aspeed,ast2600-sgpiom
 
-```
-max-ngpios = <80>
-ngpios = <64>
+the unique number of slots for each? A 1-to-1 correspondance?
 
-```
+Then just add code to set this value from looking at the compatible
+in the driver. You can write some text in description in these bindings
+about how many slots each SoC has but there is no need to add any
+extra parameter if you already know this from the SoC.
 
-About the parameter naming, I was wondering if 'ngpios-of-sgpiom' is more clear
-than max-ngpios as it is the maximum number of gpio pins that sgpio master
-interfaces supported.
-
-> Yours,
-> Linus Walleij
+Yours,
+Linus Walleij
