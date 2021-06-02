@@ -2,62 +2,60 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11B139944F
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Jun 2021 22:10:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8469E399468
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Jun 2021 22:17:31 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FwKs52X6Pz2yxv
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Jun 2021 06:10:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FwL156Vrzz2yxv
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Jun 2021 06:17:29 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.210.50; helo=mail-ot1-f50.google.com;
+ smtp.mailfrom=gmail.com (client-ip=209.85.210.45; helo=mail-ot1-f45.google.com;
  envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
- [209.85.210.50])
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
+ [209.85.210.45])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FwKs03D4kz2yXm
- for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Jun 2021 06:10:27 +1000 (AEST)
-Received: by mail-ot1-f50.google.com with SMTP id
- c31-20020a056830349fb02903a5bfa6138bso3590089otu.7
- for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Jun 2021 13:10:26 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FwL124Rhjz2yWt;
+ Thu,  3 Jun 2021 06:17:25 +1000 (AEST)
+Received: by mail-ot1-f45.google.com with SMTP id
+ i12-20020a05683033ecb02903346fa0f74dso3593004otu.10; 
+ Wed, 02 Jun 2021 13:17:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=KJXe/j4S+tTBfupUvcLNtHwssps3qp4qDEKF4hgTJ3E=;
- b=Y9+1ByV8+5XgiqqDAlAAAwVvPe5IGQg3NJcIShH9/JJsJJmToFdy7rFnIt+7YBk2qc
- aHsXoyw9hUr7oah3O9g/C5KYeTU3f6VTzxd8A/5+IjvVqLENZoQ7mAvGHLESZvmp4MY0
- qHl+kbjYlX13cQTTvxQg+dD5/3QEHxEYz6z+elyJvOKsb8RxY7QKqzrBxN+WOrPzk3I5
- 8TkI/5TO90/nPzX5k6P1Rck3wmZLY9R5StQDWt0u/UAei9TiTV3gHKv61xih9Egn908j
- c3cF8Vdx8JPTv/bXWTZFhJaF1UvUw+nf7xNB5pxMl2Nz5lF6l0MABWQhHGYN5FBx5hV4
- 0VCA==
-X-Gm-Message-State: AOAM5332wzTumRTcaOQTpS8wTOCDo//+/bxK3ZIoztWLu2FMQDoinhzu
- i2VNMKOiqwvlrlC8DgCPZA==
-X-Google-Smtp-Source: ABdhPJx4iZCcx1NuCo6GfI2rKBzE1Fi8O4daJSQD2hB9/vnoJOnXkkRiZa8E39kJeTxqN6ge2Z8eQA==
-X-Received: by 2002:a05:6830:164c:: with SMTP id
- h12mr27991909otr.321.1622664623785; 
- Wed, 02 Jun 2021 13:10:23 -0700 (PDT)
+ bh=/jmVznYmQTH93X26NjVfXHcldPh3SZGCs6s2/JZMXiE=;
+ b=smw2OwLBdlFGgaJPstOilejhvrJss8RoqNuHHJSStpII/wscEIAsuq9Zmkok958Tq4
+ UBBjtJAuWbQkQmblG3Y9+y4Y9yUygsWgd0UyC3Ki/e80/jBMvLFLHhmG56yFRJU4IF8M
+ UTRcC2DZmjmUL7YjxWxLBflBl5UAnssPL5n7Hwy5HPv+I/mjNiXNC8UnmVQYjmveybRp
+ qtIcMHlup1ldYB5k0g0Z802UWxx0QsuL2tozDUQ3M36BHC0aJE42Gwq/zYr+ul22vHF2
+ 7cLTiqxNdeGhATaI9lzdXhgLsrutULbFRVatggv3Y9opVwG2iDDcvuB1Us6pr2ZPQExx
+ A3JA==
+X-Gm-Message-State: AOAM532PK7Y3aEncoiHPdUyQPRyc6xePz9kW72MzeytDUNE+XpmRG63V
+ XDdW1VdK5oSU3bprcLsXZnBiOJmbWw==
+X-Google-Smtp-Source: ABdhPJyniojfQZIQ5XkjjIwjiuhE4C04qsmxU08698rH3heQFT1ZtGUEhu3qHxE4j9cQaciRdXki9Q==
+X-Received: by 2002:a9d:5e8c:: with SMTP id f12mr27237550otl.18.1622665042758; 
+ Wed, 02 Jun 2021 13:17:22 -0700 (PDT)
 Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net.
  [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id h9sm189017otn.56.2021.06.02.13.10.22
+ by smtp.gmail.com with ESMTPSA id q15sm208624oon.28.2021.06.02.13.17.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jun 2021 13:10:22 -0700 (PDT)
-Received: (nullmailer pid 3907739 invoked by uid 1000);
- Wed, 02 Jun 2021 20:10:21 -0000
-Date: Wed, 2 Jun 2021 15:10:21 -0500
+ Wed, 02 Jun 2021 13:17:22 -0700 (PDT)
+Received: (nullmailer pid 3920332 invoked by uid 1000);
+ Wed, 02 Jun 2021 20:17:20 -0000
+Date: Wed, 2 Jun 2021 15:17:20 -0500
 From: Rob Herring <robh@kernel.org>
-To: Steven Lee <steven_lee@aspeedtech.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: aspeed-sgpio: Convert txt bindings
- to yaml.
-Message-ID: <20210602201021.GA3900491@robh.at.kernel.org>
-References: <20210527005455.25758-1-steven_lee@aspeedtech.com>
- <20210527005455.25758-2-steven_lee@aspeedtech.com>
+To: Jamin Lin <jamin_lin@aspeedtech.com>
+Subject: Re: [PATCH v2 1/1] dt-bindings: aspeed-i2c: Convert txt to yaml format
+Message-ID: <20210602201720.GA3910963@robh.at.kernel.org>
+References: <20210527102512.20684-1-jamin_lin@aspeedtech.com>
+ <20210527102512.20684-2-jamin_lin@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210527005455.25758-2-steven_lee@aspeedtech.com>
+In-Reply-To: <20210527102512.20684-2-jamin_lin@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,183 +70,135 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>,
  "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- open list <linux-kernel@vger.kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, Hongweiz@ami.com,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>
+ "moderated list:ARM/ASPEED I2C DRIVER" <openbmc@lists.ozlabs.org>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ open list <linux-kernel@vger.kernel.org>, Rayn Chen <rayn_chen@aspeedtech.com>,
+ steven_lee@aspeedtech.com, "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>,
+ "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, May 27, 2021 at 08:54:50AM +0800, Steven Lee wrote:
-> SGPIO bindings should be converted as yaml format.
-> In addition to the file conversion, a new property max-ngpios is
-> added in the yaml file as well.
-> The new property is required by the enhanced sgpio driver for
-> making the configuration of the max number of gpio pins more flexible.
-
-The rest of the binding looks fine. Make this property a separate patch 
-if you don't end up dropping it.
-
+On Thu, May 27, 2021 at 06:25:05PM +0800, Jamin Lin wrote:
+> Convert aspeed i2c to yaml.
 > 
-> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+> Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
 > ---
->  .../bindings/gpio/aspeed,sgpio.yaml           | 91 +++++++++++++++++++
->  .../devicetree/bindings/gpio/sgpio-aspeed.txt | 46 ----------
->  2 files changed, 91 insertions(+), 46 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
->  delete mode 100644 Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
+>  .../devicetree/bindings/i2c/aspeed,i2c.yaml   | 86 +++++++++++++++++++
+>  .../devicetree/bindings/i2c/i2c-aspeed.txt    | 49 -----------
+>  2 files changed, 86 insertions(+), 49 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
 > 
-> diff --git a/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml b/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
+> diff --git a/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml b/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
 > new file mode 100644
-> index 000000000000..02eb0c5023e9
+> index 000000000000..1f7064d77708
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
-> @@ -0,0 +1,91 @@
+> +++ b/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
+> @@ -0,0 +1,86 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/gpio/aspeed,sgpio.yaml#
+> +$id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Aspeed SGPIO controller
+> +title: ASPEED I2C on the AST24XX, AST25XX, and AST26XX SoCs Device Tree Bindings
 > +
 > +maintainers:
-> +  - Andrew Jeffery <andrew@aj.id.au>
+> +  - Rayn Chen <rayn_chen@aspeedtech.com>
 > +
-> +description:
-> +  This SGPIO controller is for ASPEED AST2400, AST2500 and AST2600 SoC,
-> +  AST2600 have two sgpio master one with 128 pins another one with 80 pins,
-> +  AST2500/AST2400 have one sgpio master with 80 pins. Each of the Serial
-> +  GPIO pins can be programmed to support the following options
-> +  - Support interrupt option for each input port and various interrupt
-> +    sensitivity option (level-high, level-low, edge-high, edge-low)
-> +  - Support reset tolerance option for each output port
-> +  - Directly connected to APB bus and its shift clock is from APB bus clock
-> +    divided by a programmable value.
-> +  - Co-work with external signal-chained TTL components (74LV165/74LV595)
+> +allOf:
+> +  - $ref: /schemas/i2c/i2c-controller.yaml#
 > +
 > +properties:
 > +  compatible:
 > +    enum:
-> +      - aspeed,ast2400-sgpiom
-> +      - aspeed,ast2500-sgpiom
-> +      - aspeed,ast2600-sgpiom
+> +      - aspeed,ast2400-i2c-bus
+> +      - aspeed,ast2500-i2c-bus
+> +      - aspeed,ast2600-i2c-bus
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  "#address-cells":
+> +    const: 1
+
+These 2 are covered by i2c-controller.yaml.
+
 > +
 > +  reg:
-> +    maxItems: 1
-> +
-> +  gpio-controller: true
-> +
-> +  '#gpio-cells':
-> +    const: 2
+> +    minItems: 1
+> +    maxItems: 2
+> +    items:
+> +      - description: address offset and range of bus
+> +      - description: address offset and range of bus buffer
 > +
 > +  interrupts:
 > +    maxItems: 1
-> +
-> +  interrupt-controller: true
+> +    description: interrupt number
+
+Drop. Not a useful description.
+
 > +
 > +  clocks:
 > +    maxItems: 1
-> +
-> +  ngpios:
-> +    minimum: 0
-> +    maximum: 128
-> +
-> +  max-ngpios:
 > +    description:
-> +      represents the number of actual hardware-supported GPIOs (ie,
-> +      slots within the clocked serial GPIO data). Since each HW GPIO is both an
-> +      input and an output, we provide max_ngpios * 2 lines on our gpiochip
-> +      device. We also use it to define the split between the inputs and
-> +      outputs; the inputs start at line 0, the outputs start at max_ngpios.
-> +    minimum: 0
-> +    maximum: 128
+> +      root clock of bus, should reference the APB
+> +      clock in the second cell
 > +
-> +  bus-frequency: true
+> +  reset:
+
+resets
+
+> +    maxItems: 1
+> +    description: phandle to reset controller with the reset number in
+> +      the second cell
+
+No need to describe the format of 'resets'.
+
+> +
+> +  bus-frequency:
+> +    minimum: 500
+> +    maximum: 4000000
+> +    default: 100000
+> +    description: frequency of the bus clock in Hz defaults to 100 kHz when not
+> +      specified
+> +
+> +  multi-master:
+> +    type: boolean
+> +    description:
+> +      states that there is another master active on this bus
 > +
 > +required:
-> +  - compatible
 > +  - reg
-> +  - gpio-controller
-> +  - '#gpio-cells'
-> +  - interrupts
-> +  - interrupt-controller
-> +  - ngpios
-> +  - max-ngpios
+> +  - compatible
 > +  - clocks
-> +  - bus-frequency
+> +  - resets
 > +
-> +additionalProperties: false
+> +unevaluatedProperties: false
 > +
 > +examples:
 > +  - |
 > +    #include <dt-bindings/clock/aspeed-clock.h>
-> +    sgpio: sgpio@1e780200 {
-> +        #gpio-cells = <2>;
-> +        compatible = "aspeed,ast2500-sgpiom";
-> +        gpio-controller;
-> +        interrupts = <40>;
-> +        reg = <0x1e780200 0x0100>;
-> +        clocks = <&syscon ASPEED_CLK_APB>;
-> +        interrupt-controller;
-> +        ngpios = <8>;
-> +        max-ngpios = <80>;
-> +        bus-frequency = <12000000>;
+> +    i2c0: i2c-bus@40 {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +      #interrupt-cells = <1>;
+> +      reg = <0x40 0x40>;
+> +      compatible = "aspeed,ast2500-i2c-bus";
+
+Convention is compatible first in the list of properties.
+
+> +      clocks = <&syscon ASPEED_CLK_APB>;
+> +      resets = <&syscon ASPEED_RESET_I2C>;
+> +      bus-frequency = <100000>;
+> +      interrupts = <0>;
+> +      interrupt-parent = <&i2c_ic>;
+> +      status = "disabled";
+
+Don't show status in examples especially when disabling disables some 
+validation...
+
+> +      /* Does not need pinctrl properties */
 > +    };
-> diff --git a/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt b/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
-> deleted file mode 100644
-> index be329ea4794f..000000000000
-> --- a/Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
-> +++ /dev/null
-> @@ -1,46 +0,0 @@
-> -Aspeed SGPIO controller Device Tree Bindings
-> ---------------------------------------------
-> -
-> -This SGPIO controller is for ASPEED AST2500 SoC, it supports up to 80 full
-> -featured Serial GPIOs. Each of the Serial GPIO pins can be programmed to
-> -support the following options:
-> -- Support interrupt option for each input port and various interrupt
-> -  sensitivity option (level-high, level-low, edge-high, edge-low)
-> -- Support reset tolerance option for each output port
-> -- Directly connected to APB bus and its shift clock is from APB bus clock
-> -  divided by a programmable value.
-> -- Co-work with external signal-chained TTL components (74LV165/74LV595)
-> -
-> -Required properties:
-> -
-> -- compatible : Should be one of
-> -  "aspeed,ast2400-sgpio", "aspeed,ast2500-sgpio"
-> -- #gpio-cells : Should be 2, see gpio.txt
-> -- reg : Address and length of the register set for the device
-> -- gpio-controller : Marks the device node as a GPIO controller
-> -- interrupts : Interrupt specifier, see interrupt-controller/interrupts.txt
-> -- interrupt-controller : Mark the GPIO controller as an interrupt-controller
-> -- ngpios : number of *hardware* GPIO lines, see gpio.txt. This will expose
-> -  2 software GPIOs per hardware GPIO: one for hardware input, one for hardware
-> -  output. Up to 80 pins, must be a multiple of 8.
-> -- clocks : A phandle to the APB clock for SGPM clock division
-> -- bus-frequency : SGPM CLK frequency
-> -
-> -The sgpio and interrupt properties are further described in their respective
-> -bindings documentation:
-> -
-> -- Documentation/devicetree/bindings/gpio/gpio.txt
-> -- Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
-> -
-> -  Example:
-> -	sgpio: sgpio@1e780200 {
-> -		#gpio-cells = <2>;
-> -		compatible = "aspeed,ast2500-sgpio";
-> -		gpio-controller;
-> -		interrupts = <40>;
-> -		reg = <0x1e780200 0x0100>;
-> -		clocks = <&syscon ASPEED_CLK_APB>;
-> -		interrupt-controller;
-> -		ngpios = <8>;
-> -		bus-frequency = <12000000>;
-> -	};
-> -- 
-> 2.17.1
