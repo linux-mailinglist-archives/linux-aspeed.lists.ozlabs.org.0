@@ -2,53 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6E9399ED6
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Jun 2021 12:19:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8B4399F7E
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Jun 2021 13:06:20 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FwhhY5Bplz2yxj
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Jun 2021 20:19:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Fwjkf6W5rz301L
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Jun 2021 21:06:18 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=F5QtRXmZ;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=steven_lee@aspeedtech.com;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::632;
+ helo=mail-pl1-x632.google.com; envelope-from=andy.shevchenko@gmail.com;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=F5QtRXmZ; dkim-atps=neutral
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FwhhW1s71z2yx2
- for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Jun 2021 20:19:23 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 153A5FqA045513;
- Thu, 3 Jun 2021 18:05:15 +0800 (GMT-8)
- (envelope-from steven_lee@aspeedtech.com)
-Received: from slee-VirtualBox.localdomain (192.168.100.253) by
- TWMBX02.aspeed.com (192.168.0.24) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 3 Jun 2021 18:18:43 +0800
-From: Steven Lee <steven_lee@aspeedtech.com>
-To: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <bgolaszewski@baylibre.com>, Rob Herring <robh+dt@kernel.org>, Joel Stanley
- <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, "open list:GPIO
- SUBSYSTEM" <linux-gpio@vger.kernel.org>, "open list:OPEN FIRMWARE AND
- FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, "moderated
- list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- open list <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 5/5] gpio: gpio-aspeed-sgpio: Move irq_chip to aspeed-sgpio
- struct
-Date: Thu, 3 Jun 2021 18:18:21 +0800
-Message-ID: <20210603101822.9645-6-steven_lee@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210603101822.9645-1-steven_lee@aspeedtech.com>
-References: <20210603101822.9645-1-steven_lee@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Fwjkb5g23z2yxy
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Jun 2021 21:06:13 +1000 (AEST)
+Received: by mail-pl1-x632.google.com with SMTP id e1so2668654pld.13
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 03 Jun 2021 04:06:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ENLbFd+69Y0nrnJCUItoGXO9C5A4sDHjRpfSagYL0Ko=;
+ b=F5QtRXmZFb7NwQQkmFmgGvzp2WWX1Ixug6Zeg+t2AH9OnAcH+cl6GizbK1s3CMBlMD
+ chxLoJM2z32lx0/iKvl5XTK/wS6JXauqD0bAh8+Mj7YO6kZGpa9VHS3PvhQfPcJLCe2F
+ 3S9szbHfuhTmTGaeJPHUQ+6xcQmEiKE6GAP/tzZm49HSSBzA17XM7F75jKYEBFgLI8p9
+ mvXEdonE89fUt4FBkUZHApLur+tBGpzL5MLUvpiZH90iv3QpFg/4OeP1M7kzsikHl1d5
+ Qgc3R4OWZvKBuPJT6OO/Li4zTeWcBpYqDqT5Lqxe5QJk/E3+yb5JnQIl7BACwXPXslNk
+ ovSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ENLbFd+69Y0nrnJCUItoGXO9C5A4sDHjRpfSagYL0Ko=;
+ b=Xxn7qjSpN9xKGxWgQH12Y7IV71lxhkf+D39FlURnCKp/KL9k+AOjf+7u/6sByQeh4J
+ Ilo3UXuo3tzZz224ImLcOzQEFNJDbU4oy2otvL/BU1luz2h+cP7aPRK+kbqh3bK4Cmsa
+ fB3qKyaTnIrxRpWNQ/IDK8U68zuBwMJx8OvdaVPjSBeQNlFtufXCpzowhXDpB9aqFXW3
+ NAaMNCcWlx+yLnRk2kgwr3AWHNEkQnHkzoDYPu1WIS07UoZYCY0LsHXhhf3fJ/4PKB7S
+ wENkynhXSsVoiZfwmyFoe2ZiZ2FT60D/rWWNyat5hJbK8EFHrFhkeAPYv0M3vmLnlxoq
+ e7Fg==
+X-Gm-Message-State: AOAM530dEPZrhjToHSrxJNpwmWokqaWOyO+U9Pvqzsse/hfb+ExP6LHO
+ trpoAQS+rRkFYANWdzir7/e6amb3Blb26H3hwoM=
+X-Google-Smtp-Source: ABdhPJwdBL2z4L2+Wc/ypiCeWfr+P8eVqMmubLXTKRDec5XtGid3Q4+2xbH79lJMAgSDdFdV0ALw46qnoA/yXj0GJ4E=
+X-Received: by 2002:a17:902:b205:b029:105:cb55:3a7a with SMTP id
+ t5-20020a170902b205b0290105cb553a7amr17392850plr.17.1622718369356; Thu, 03
+ Jun 2021 04:06:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 153A5FqA045513
+References: <20210603101822.9645-1-steven_lee@aspeedtech.com>
+ <20210603101822.9645-4-steven_lee@aspeedtech.com>
+In-Reply-To: <20210603101822.9645-4-steven_lee@aspeedtech.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 3 Jun 2021 14:05:53 +0300
+Message-ID: <CAHp75Vef0HDXAHzSNL-LtA0Sra6Zpivt513_+aFR_um0JeFkog@mail.gmail.com>
+Subject: Re: [PATCH v3 3/5] gpio: gpio-aspeed-sgpio: Add AST2600 sgpio support
+To: Steven Lee <steven_lee@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,64 +75,60 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: steven_lee@aspeedtech.com, Hongweiz@ami.com
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, Hongweiz@ami.com,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The current design initializes irq->chip from a global irqchip struct,
-which causes multiple sgpio devices use the same irq_chip.
-The patch moves irq_chip to aspeed_sgpio struct for initializing
-irq_chip from their private gpio struct.
+On Thu, Jun 3, 2021 at 1:19 PM Steven Lee <steven_lee@aspeedtech.com> wrote:
+>
+> AST2600 SoC has 2 SGPIO master interfaces one with 128 pins another one
+> with 80 pins.
+> In the current driver, the maximum number of gpio pins of SoC is hardcoded
+> as 80 and the gpio pin count mask for GPIO Configuration register is
+> hardcode as GENMASK(9,6). In addition, some functions uses the hardcoded
 
-Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
----
- drivers/gpio/gpio-aspeed-sgpio.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+use
 
-diff --git a/drivers/gpio/gpio-aspeed-sgpio.c b/drivers/gpio/gpio-aspeed-sgpio.c
-index 8003308811f7..2f490a658c40 100644
---- a/drivers/gpio/gpio-aspeed-sgpio.c
-+++ b/drivers/gpio/gpio-aspeed-sgpio.c
-@@ -43,6 +43,7 @@ struct aspeed_sgpio_pdata {
- 
- struct aspeed_sgpio {
- 	struct gpio_chip chip;
-+	struct irq_chip intc;
- 	struct clk *pclk;
- 	spinlock_t lock;
- 	void __iomem *base;
-@@ -438,14 +439,6 @@ static void aspeed_sgpio_irq_handler(struct irq_desc *desc)
- 	chained_irq_exit(ic, desc);
- }
- 
--static struct irq_chip aspeed_sgpio_irqchip = {
--	.name       = "aspeed-sgpio",
--	.irq_ack    = aspeed_sgpio_irq_ack,
--	.irq_mask   = aspeed_sgpio_irq_mask,
--	.irq_unmask = aspeed_sgpio_irq_unmask,
--	.irq_set_type   = aspeed_sgpio_set_type,
--};
--
- static int aspeed_sgpio_setup_irqs(struct aspeed_sgpio *gpio,
- 				   struct platform_device *pdev)
- {
-@@ -468,8 +461,14 @@ static int aspeed_sgpio_setup_irqs(struct aspeed_sgpio *gpio,
- 		iowrite32(0xffffffff, bank_reg(gpio, bank, reg_irq_status));
- 	}
- 
-+	gpio->intc.name = dev_name(&pdev->dev);
-+	gpio->intc.irq_ack = aspeed_sgpio_irq_ack;
-+	gpio->intc.irq_mask = aspeed_sgpio_irq_mask;
-+	gpio->intc.irq_unmask = aspeed_sgpio_irq_unmask;
-+	gpio->intc.irq_set_type = aspeed_sgpio_set_type;
-+
- 	irq = &gpio->chip.irq;
--	irq->chip = &aspeed_sgpio_irqchip;
-+	irq->chip = &gpio->intc;
- 	irq->init_valid_mask = aspeed_sgpio_irq_init_valid_mask;
- 	irq->handler = handle_bad_irq;
- 	irq->default_type = IRQ_TYPE_NONE;
+> value to calculate the gpio offset.
+> The patch adds ast2600 compatibles and platform data that includes the
+> max number of gpio pins supported by ast2600 and gpio pin count mask for
+> GPIO Configuration register.
+> The patch also modifies some functions to pass aspeed_sgpio struct for
+> calculating gpio offset wihtout using the hardcoded value.
+
+without
+
+...
+
+> +#include <linux/of_device.h>
+
+Why?
+
+...
+
+> +#define GPIO_OFFSET(x)        ((x) & 0x1f)
+
+GENMASK()
+
+...
+
+> +       pdata = of_device_get_match_data(&pdev->dev);
+
+device_get_match_data()
+
+I guess you may replace all those of_*() to the corresponding
+device_*() or fwnode_*() calls.
+
 -- 
-2.17.1
-
+With Best Regards,
+Andy Shevchenko
