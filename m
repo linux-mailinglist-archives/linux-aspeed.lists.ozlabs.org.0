@@ -1,55 +1,72 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC70399836
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Jun 2021 04:49:43 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B055D3998DA
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Jun 2021 06:09:29 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FwVjd58vxz308M
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Jun 2021 12:49:41 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FwXTg58Fxz2yyj
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Jun 2021 14:09:27 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=CthlleVQ;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jamin_lin@aspeedtech.com;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::635;
+ helo=mail-pl1-x635.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=CthlleVQ; dkim-atps=neutral
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FwVjF6x3Wz2yXk;
- Thu,  3 Jun 2021 12:49:21 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 1532ZNE6005439;
- Thu, 3 Jun 2021 10:35:23 +0800 (GMT-8)
- (envelope-from jamin_lin@aspeedtech.com)
-Received: from localhost.localdomain (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 3 Jun
- 2021 10:48:51 +0800
-From: Jamin Lin <jamin_lin@aspeedtech.com>
-To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
- Jeffery" <andrew@aj.id.au>, Brendan Higgins <brendanhiggins@google.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>, Rayn Chen
- <rayn_chen@aspeedtech.com>, "open list:I2C SUBSYSTEM HOST DRIVERS"
- <linux-i2c@vger.kernel.org>, "open list:OPEN FIRMWARE AND FLATTENED DEVICE
- TREE BINDINGS" <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED
- MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>, "moderated
- list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>, open list
- <linux-kernel@vger.kernel.org>, "moderated list:ARM/ASPEED I2C DRIVER"
- <openbmc@lists.ozlabs.org>
-Subject: [PATCH v3 1/1] dt-bindings: aspeed-i2c: Convert txt to yaml format
-Date: Thu, 3 Jun 2021 10:48:19 +0800
-Message-ID: <20210603024839.27976-2-jamin_lin@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210603024839.27976-1-jamin_lin@aspeedtech.com>
-References: <20210603024839.27976-1-jamin_lin@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FwXTd368Yz2xv2
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Jun 2021 14:09:25 +1000 (AEST)
+Received: by mail-pl1-x635.google.com with SMTP id t21so2225592plo.2
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Jun 2021 21:09:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3hn28gfY/rqh3HZRGgCSSf4lUCmrnecLtv3YwUWPk4Y=;
+ b=CthlleVQh5+NmNfNczLpIRPC8AnZ8ORb9uyitX3+d8cKjnh4LGIr0jAWL6B7dqoypi
+ KhAKPKZWWXTyN424pYZi2AkE7u9ISSXh9UcUaxN6gS3MpPsL7vtVgiV1rF34GT8jtfeU
+ qHuVN3KF/nw6pWbdNSiD2scRYkdpu8NZKBb+VdOCVkiF/yGYbJ+iv69rF7resj0hvjJm
+ Ct4Uwk7hC9YDq7oRWdvpwuzBy218Gv/NAJFb0Lwb9Hrih/X+SYFs2clyEPlWmDISwpIe
+ M4CH+OYKQzy6zKf5/sEnogNsIc6hD4nGpbqZHQjobEIACGIHFZ3lOWcBvIQlH6dJvfm/
+ ytvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=3hn28gfY/rqh3HZRGgCSSf4lUCmrnecLtv3YwUWPk4Y=;
+ b=HmxOeZdP93hCcpOyadWn7hqxUfve+mqLF7y5MpSkWIob6eSlXXdYQES25lkpQ2Qj2H
+ 9gHEAYdtqr0vLwiCRyjvIHd+EsO4G1PSjNxMDMopoqIXY2HL9GfprekzWiRG2Q4ZxKXJ
+ HsaELoFmlMScrid7u6tXJUgL4lWUK/xdURZ2romxolwKqoddHB7M0YjqYpGmldLF/tnw
+ KcLE5r4smbtauipp6eFGVmNX8HS9iBwtj9RPjHvYuv7JGzHoKfO0GZQvLKy6lXxEsqBw
+ TP5F2scKqxHjeaUi1x6TgkR8w/mEvDUlug4c+RhGsXhJey4Gws6oPWAzpDgXwAxoSGOs
+ iEqA==
+X-Gm-Message-State: AOAM532fb0u50TPnJ6FR+UwWVRgPMu4g88vjmGqTYpv0zFQ1D19y3sfw
+ 4Hxwl13dm3/zS2gE5ql7+nc=
+X-Google-Smtp-Source: ABdhPJzRdzRQP9QQixdOP42voj4dRjnWgKAfCX8OUmZV7dRrOloYx/MGFvIaHwH7kNXlqTzFXr8AFg==
+X-Received: by 2002:a17:902:e74d:b029:10d:9cd0:2c69 with SMTP id
+ p13-20020a170902e74db029010d9cd02c69mr2250121plf.82.1622693361531; 
+ Wed, 02 Jun 2021 21:09:21 -0700 (PDT)
+Received: from voyager.lan ([45.124.203.14])
+ by smtp.gmail.com with ESMTPSA id q68sm797036pjq.45.2021.06.02.21.09.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Jun 2021 21:09:20 -0700 (PDT)
+From: Joel Stanley <joel@jms.id.au>
+To: Andrew Jeffery <andrew@aj.id.au>
+Subject: [PATCH] ARM: config: aspeed: Add DEBUG_FS and EXT4
+Date: Thu,  3 Jun 2021 13:39:06 +0930
+Message-Id: <20210603040906.125109-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1532ZNE6005439
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,157 +78,53 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: steven_lee@aspeedtech.com
+Cc: linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Convert aspeed i2c to yaml.
+DEBUG_FS was lost way back in v5.5, and EXT4 is used by ast2600 systems
+that have MMC.
 
-Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
+Fixes: 0e4a459f56c3 ("tracing: Remove unnecessary DEBUG_FS dependency")
+Signed-off-by: Joel Stanley <joel@jms.id.au>
 ---
- .../devicetree/bindings/i2c/aspeed,i2c.yaml   | 75 +++++++++++++++++++
- .../devicetree/bindings/i2c/i2c-aspeed.txt    | 49 ------------
- 2 files changed, 75 insertions(+), 49 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
- delete mode 100644 Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
+ arch/arm/configs/aspeed_g4_defconfig | 1 +
+ arch/arm/configs/aspeed_g5_defconfig | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml b/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
-new file mode 100644
-index 000000000000..9a40605c3433
---- /dev/null
-+++ b/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
-@@ -0,0 +1,75 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ASPEED I2C on the AST24XX, AST25XX, and AST26XX SoCs Device Tree Bindings
-+
-+maintainers:
-+  - Rayn Chen <rayn_chen@aspeedtech.com>
-+
-+allOf:
-+  - $ref: /schemas/i2c/i2c-controller.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - aspeed,ast2400-i2c-bus
-+      - aspeed,ast2500-i2c-bus
-+      - aspeed,ast2600-i2c-bus
-+
-+  reg:
-+    minItems: 1
-+    maxItems: 2
-+    items:
-+      - description: address offset and range of bus
-+      - description: address offset and range of bus buffer
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+    description:
-+      root clock of bus, should reference the APB
-+      clock in the second cell
-+
-+  resets:
-+    maxItems: 1
-+
-+  bus-frequency:
-+    minimum: 500
-+    maximum: 4000000
-+    default: 100000
-+    description: frequency of the bus clock in Hz defaults to 100 kHz when not
-+      specified
-+
-+  multi-master:
-+    type: boolean
-+    description:
-+      states that there is another master active on this bus
-+
-+required:
-+  - reg
-+  - compatible
-+  - clocks
-+  - resets
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/aspeed-clock.h>
-+    i2c0: i2c-bus@40 {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      #interrupt-cells = <1>;
-+      compatible = "aspeed,ast2500-i2c-bus";
-+      reg = <0x40 0x40>;
-+      clocks = <&syscon ASPEED_CLK_APB>;
-+      resets = <&syscon ASPEED_RESET_I2C>;
-+      bus-frequency = <100000>;
-+      interrupts = <0>;
-+      interrupt-parent = <&i2c_ic>;
-+    };
-diff --git a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt b/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
-deleted file mode 100644
-index b47f6ccb196a..000000000000
---- a/Documentation/devicetree/bindings/i2c/i2c-aspeed.txt
-+++ /dev/null
-@@ -1,49 +0,0 @@
--Device tree configuration for the I2C busses on the AST24XX, AST25XX, and AST26XX SoCs.
--
--Required Properties:
--- #address-cells	: should be 1
--- #size-cells		: should be 0
--- reg			: address offset and range of bus
--- compatible		: should be "aspeed,ast2400-i2c-bus"
--			  or "aspeed,ast2500-i2c-bus"
--			  or "aspeed,ast2600-i2c-bus"
--- clocks		: root clock of bus, should reference the APB
--			  clock in the second cell
--- resets		: phandle to reset controller with the reset number in
--			  the second cell
--- interrupts		: interrupt number
--
--Optional Properties:
--- bus-frequency	: frequency of the bus clock in Hz defaults to 100 kHz when not
--		  specified
--- multi-master	: states that there is another master active on this bus.
--
--Example:
--
--i2c {
--	compatible = "simple-bus";
--	#address-cells = <1>;
--	#size-cells = <1>;
--	ranges = <0 0x1e78a000 0x1000>;
--
--	i2c_ic: interrupt-controller@0 {
--		#interrupt-cells = <1>;
--		compatible = "aspeed,ast2400-i2c-ic";
--		reg = <0x0 0x40>;
--		interrupts = <12>;
--		interrupt-controller;
--	};
--
--	i2c0: i2c-bus@40 {
--		#address-cells = <1>;
--		#size-cells = <0>;
--		#interrupt-cells = <1>;
--		reg = <0x40 0x40>;
--		compatible = "aspeed,ast2400-i2c-bus";
--		clocks = <&syscon ASPEED_CLK_APB>;
--		resets = <&syscon ASPEED_RESET_I2C>;
--		bus-frequency = <100000>;
--		interrupts = <0>;
--		interrupt-parent = <&i2c_ic>;
--	};
--};
+diff --git a/arch/arm/configs/aspeed_g4_defconfig b/arch/arm/configs/aspeed_g4_defconfig
+index 58d293b63581..a3ee647b1ebb 100644
+--- a/arch/arm/configs/aspeed_g4_defconfig
++++ b/arch/arm/configs/aspeed_g4_defconfig
+@@ -254,6 +254,7 @@ CONFIG_DEBUG_INFO_REDUCED=y
+ CONFIG_DEBUG_INFO_DWARF4=y
+ CONFIG_GDB_SCRIPTS=y
+ CONFIG_STRIP_ASM_SYMS=y
++CONFIG_DEBUG_FS=y
+ CONFIG_SCHED_STACK_END_CHECK=y
+ CONFIG_PANIC_ON_OOPS=y
+ CONFIG_PANIC_TIMEOUT=-1
+diff --git a/arch/arm/configs/aspeed_g5_defconfig b/arch/arm/configs/aspeed_g5_defconfig
+index 047975eccefb..2db48438c5d2 100644
+--- a/arch/arm/configs/aspeed_g5_defconfig
++++ b/arch/arm/configs/aspeed_g5_defconfig
+@@ -247,6 +247,7 @@ CONFIG_FSI_MASTER_ASPEED=y
+ CONFIG_FSI_SCOM=y
+ CONFIG_FSI_SBEFIFO=y
+ CONFIG_FSI_OCC=y
++CONFIG_EXT4_FS=y
+ CONFIG_FANOTIFY=y
+ CONFIG_OVERLAY_FS=y
+ CONFIG_TMPFS=y
+@@ -276,6 +277,7 @@ CONFIG_DEBUG_INFO_REDUCED=y
+ CONFIG_DEBUG_INFO_DWARF4=y
+ CONFIG_GDB_SCRIPTS=y
+ CONFIG_STRIP_ASM_SYMS=y
++CONFIG_DEBUG_FS=y
+ CONFIG_SOFTLOCKUP_DETECTOR=y
+ # CONFIG_DETECT_HUNG_TASK is not set
+ CONFIG_WQ_WATCHDOG=y
 -- 
-2.17.1
+2.30.2
 
