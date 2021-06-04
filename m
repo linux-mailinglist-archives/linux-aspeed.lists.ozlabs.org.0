@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E283339B043
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Jun 2021 04:15:07 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 818BC39B04E
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Jun 2021 04:18:50 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Fx5vF72j5z3021
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Jun 2021 12:15:05 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Fx5zX3Ystz3021
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Jun 2021 12:18:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
@@ -17,33 +17,33 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Fx5v852P5z2yWl
- for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Jun 2021 12:14:59 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Fx5zT37tDz2yWJ
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Jun 2021 12:18:44 +1000 (AEST)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 15420tHr031948;
- Fri, 4 Jun 2021 10:00:55 +0800 (GMT-8)
+ by twspam01.aspeedtech.com with ESMTP id 15424eXE032117;
+ Fri, 4 Jun 2021 10:04:40 +0800 (GMT-8)
  (envelope-from steven_lee@aspeedtech.com)
 Received: from aspeedtech.com (192.168.100.253) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 4 Jun
- 2021 10:14:26 +0800
-Date: Fri, 4 Jun 2021 10:14:23 +0800
+ 2021 10:18:10 +0800
+Date: Fri, 4 Jun 2021 10:18:08 +0800
 From: Steven Lee <steven_lee@aspeedtech.com>
 To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH v3 3/5] gpio: gpio-aspeed-sgpio: Add AST2600 sgpio support
-Message-ID: <20210604021422.GA25112@aspeedtech.com>
+Subject: Re: [PATCH v3 4/5] gpio: gpio-aspeed-sgpio: Add set_config function
+Message-ID: <20210604021807.GB25112@aspeedtech.com>
 References: <20210603101822.9645-1-steven_lee@aspeedtech.com>
- <20210603101822.9645-4-steven_lee@aspeedtech.com>
- <CAHp75Vef0HDXAHzSNL-LtA0Sra6Zpivt513_+aFR_um0JeFkog@mail.gmail.com>
+ <20210603101822.9645-5-steven_lee@aspeedtech.com>
+ <CAHp75VcPdUeK49w9qg9RuJY7ASMyFMEEi=cX1gnp=wM_QHDZ+w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <CAHp75Vef0HDXAHzSNL-LtA0Sra6Zpivt513_+aFR_um0JeFkog@mail.gmail.com>
+In-Reply-To: <CAHp75VcPdUeK49w9qg9RuJY7ASMyFMEEi=cX1gnp=wM_QHDZ+w@mail.gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Originating-IP: [192.168.100.253]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 15420tHr031948
+X-MAIL: twspam01.aspeedtech.com 15424eXE032117
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,58 +69,37 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The 06/03/2021 19:05, Andy Shevchenko wrote:
-> On Thu, Jun 3, 2021 at 1:19 PM Steven Lee <steven_lee@aspeedtech.com> wrote:
+The 06/03/2021 19:07, Andy Shevchenko wrote:
+> On Thu, Jun 3, 2021 at 1:20 PM Steven Lee <steven_lee@aspeedtech.com> wrote:
 > >
-> > AST2600 SoC has 2 SGPIO master interfaces one with 128 pins another one
-> > with 80 pins.
-> > In the current driver, the maximum number of gpio pins of SoC is hardcoded
-> > as 80 and the gpio pin count mask for GPIO Configuration register is
-> > hardcode as GENMASK(9,6). In addition, some functions uses the hardcoded
-> 
-> use
-> 
-> > value to calculate the gpio offset.
-> > The patch adds ast2600 compatibles and platform data that includes the
-> > max number of gpio pins supported by ast2600 and gpio pin count mask for
-> > GPIO Configuration register.
-> > The patch also modifies some functions to pass aspeed_sgpio struct for
-> > calculating gpio offset wihtout using the hardcoded value.
-> 
-> without
+> > AST SoC supports *retain pin state* function when wdt reset.
+> > The patch adds set_config function for handling sgpio reset tolerance
+> > register.
 > 
 > ...
 > 
-> > +#include <linux/of_device.h>
+> > +static int aspeed_sgpio_set_config(struct gpio_chip *chip, unsigned int offset,
+> > +                                  unsigned long config)
+> > +{
+> > +       unsigned long param = pinconf_to_config_param(config);
+> > +       u32 arg = pinconf_to_config_argument(config);
+> > +
+> > +       if (param == PIN_CONFIG_PERSIST_STATE)
+> > +               return aspeed_sgpio_reset_tolerance(chip, offset, arg);
 > 
-> Why?
+> > +       else
 > 
-> ...
+> Redundant.
 > 
-
-I will remove it as of_device_get_match_data() will be replaced
-to device_get_match_data()
-
-> > +#define GPIO_OFFSET(x)        ((x) & 0x1f)
+> > +               return -EOPNOTSUPP;
 > 
-> GENMASK()
+> IIRC we are using ENOTSUPP internally in the kernel. YEs, checkpatch
+> warning may be ignored.
 > 
-> ...
-> 
-
-Do you mean the macro should be modified as follows?
-#define GPIO_OFFSET(x)        ((x) & GENMASK(4, 0))
-
-> > +       pdata = of_device_get_match_data(&pdev->dev);
-> 
-> device_get_match_data()
-> 
-> I guess you may replace all those of_*() to the corresponding
-> device_*() or fwnode_*() calls.
+> > +}
 > 
 
-Thanks for the reviews, I will add a new patch for replacing all
-of_*() to device_*().
+I will modify the code as you suggested above, thanks.
 
 > -- 
 > With Best Regards,
