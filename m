@@ -1,71 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2973039D34D
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Jun 2021 05:13:34 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A15139D34E
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Jun 2021 05:13:36 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Fyz3J4R6nz3049
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Jun 2021 13:13:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Fyz3L3N5yz3079
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Jun 2021 13:13:34 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=q4Rh802W;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=b13FwupJ;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::633;
- helo=mail-pl1-x633.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::42f;
+ helo=mail-pf1-x42f.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=q4Rh802W; dkim-atps=neutral
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
+ header.s=20161025 header.b=b13FwupJ; dkim-atps=neutral
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
+ [IPv6:2607:f8b0:4864:20::42f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Fyz394Fr7z2yXX
- for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Jun 2021 13:13:24 +1000 (AEST)
-Received: by mail-pl1-x633.google.com with SMTP id x10so7855742plg.3
- for <linux-aspeed@lists.ozlabs.org>; Sun, 06 Jun 2021 20:13:23 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Fyz3C0Dyrz2yXX
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Jun 2021 13:13:26 +1000 (AEST)
+Received: by mail-pf1-x42f.google.com with SMTP id y15so12029941pfl.4
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 06 Jun 2021 20:13:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0gXR47yl4Xfai+uR9bdpI8wWNZEQFRwXmQzpYmjltTs=;
- b=q4Rh802WIXFIzSm1ep4yKdxY26hc3DtgbdE8Fg2hyZeGm0ce+N3egNUfxP6t3JsvcP
- lOuYt67ip/smImNfJ5gCD6jcaTx3BYYEYQwRFbxnNmbng2X7Qms/28iyGDVx3bqTcfSX
- fn7AaKKg6g3Fnfcxwuj1F3vK1THiwtb6AfnmIzlk9KSBvbR+pFSooN88Wi6QYVscd10/
- /64efrORPsbct0j8RkGZLwdlupSCwozt9ljPAVw7+IQd5YJA+3eLLhB+2FMuNNbxWk8T
- 2rkBXckvEg643KxG8e9CW8gNaOfE5EII8CdZ/fX8uiJA3sX3h3/im1ILZeWguhs/Wg+M
- lNQQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=tja2eEKRLdtZx1+yDf5N9kFI3VpM2P40hbwrYRqxeDs=;
+ b=b13FwupJemHzLwD8SPxER+JyLyjyeUH0Na+gXlXsT3Am6A9NH6NPAJ6nMvPhoG+Nij
+ lufeUeH8EW+J8Cu84ZFFuFwsxNT2QgOljEQXrntX+ANvbmWQoVE2BOl4RtXcl+kL7fUZ
+ 2IR9oiA7Ir1Rnfk3YcivCzROpaGucauNdLxBQKZvkhEX5XwLthSfBXtupAZ5Z5aZqzTk
+ 2c0fAkRPlkStAKGs37rRNEsDvMUQvEVB2RmH7rMf1JYg6IzLaeriMA2I7Zt3m2qKHvWD
+ LWwCkqsdI3vkXLSIyPGVPNMtyulHBSBujjQUwn7QC2jEcU7MN6ZydXd89o00CvOa3UVu
+ 5g+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=0gXR47yl4Xfai+uR9bdpI8wWNZEQFRwXmQzpYmjltTs=;
- b=GbVDpEvQShXRayE/iYFfTYCMhzfA+WsVPcH1Yl8+sh+qZkp80G8jusESXFW7fIef0P
- 8qa0eD7kaDEEhk5R0uVjQs9JZaAxZQzJJIVTg42tP5IxNdhHiRSmPXzqsg3qidyZVcIS
- 5OlWwuM5bL6OkmPf/yRXAVmgs1b+UpMYVGxbRxqa3yO3TAFWdYpZWHzMqOvgsmpgUsDI
- Ia1wl+Xspx4M11mXyavnKwIaTZxTrysUvF+C7mLGnmAjDFdK1w0ViOLz5sgxSTL1fiO/
- w9WWj3+oWMoeWtPUmoxKkIPsuISI53oK7Jayq+MeGTTPO7jSVH2cLP7JU9Fh9/tWBwOB
- /L5Q==
-X-Gm-Message-State: AOAM531V1+dU7lNs+CCy8jDF0jX9u38zref+riH/Vm3YUrrIOqC1LQ95
- gGxmjzb3aJi17RilCe5CMd4=
-X-Google-Smtp-Source: ABdhPJzSHkb3l0s9JfORZdCI4jOZxr7/Z6Fwh/1t1kIe0pE9U8C550cAq7kIPc3J/+j8ik18EGKRxQ==
-X-Received: by 2002:a17:902:ed0c:b029:104:8397:3376 with SMTP id
- b12-20020a170902ed0cb029010483973376mr15847666pld.60.1623035599895; 
- Sun, 06 Jun 2021 20:13:19 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=tja2eEKRLdtZx1+yDf5N9kFI3VpM2P40hbwrYRqxeDs=;
+ b=gnM4k/HO92KiaA2YbWNDq68nNalmhrcmd+ffe4foeJqL09M/aj2bIEilKuGK9IDM/w
+ D5TbH6Sex5ZGrTn+S+kGPEIfV6DfFzI4pbfkC5ZVy7VY7wr2rlghjhI28dqAQqAm5GD2
+ k2XDGKLmLKkoasS/Gp+yqVf0Oq+EqnjgnlNx6WqXBj/mT0zK4ag5Cz+4T6TaJSVp3JIm
+ jMC3EBKnoVhznJJkal+AeV3L2uM1vICRPYC6fr1l9Tmyj13emufe55Qhe1UNeV9kAkrS
+ 7L7CiU9GO6YSWI3JCqug/OVlIeqlp5IO8dCzp+2EWABFzXIbr5nEKTc6v/UcwCywhCB1
+ ETGQ==
+X-Gm-Message-State: AOAM5339xQchKg+a5DWtIgise/N6/AKP9OnN0E94kKGETbYYcTftFBy+
+ XlQSKGyMwGRiMd4I1nwDSHY=
+X-Google-Smtp-Source: ABdhPJwoSjxJE0jdTVPwIAGkiR3+9aZa/+hKhDDsbd6B+3V84okEaeYiIxajeWL++e9FCvHscWyRKg==
+X-Received: by 2002:aa7:96d0:0:b029:2e9:fea1:c9c1 with SMTP id
+ h16-20020aa796d00000b02902e9fea1c9c1mr14997535pfq.67.1623035603821; 
+ Sun, 06 Jun 2021 20:13:23 -0700 (PDT)
 Received: from voyager.lan ([45.124.203.14])
- by smtp.gmail.com with ESMTPSA id x33sm5763751pfh.108.2021.06.06.20.13.16
+ by smtp.gmail.com with ESMTPSA id x33sm5763751pfh.108.2021.06.06.20.13.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Jun 2021 20:13:18 -0700 (PDT)
+ Sun, 06 Jun 2021 20:13:23 -0700 (PDT)
 From: Joel Stanley <joel@jms.id.au>
 To: Andrew Jeffery <andrew@aj.id.au>, Eddie James <eajames@linux.ibm.com>,
  Brad Bishop <bradleyb@fuzziesquirrel.com>
-Subject: [PATCH 0/6] ARM: dts: aspeed: Add Everest LED descriptions
-Date: Mon,  7 Jun 2021 12:42:53 +0930
-Message-Id: <20210607031259.475020-1-joel@jms.id.au>
+Subject: [PATCH 1/6] ARM: dts: aspeed: everest: Add system level indicator leds
+Date: Mon,  7 Jun 2021 12:42:54 +0930
+Message-Id: <20210607031259.475020-2-joel@jms.id.au>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210607031259.475020-1-joel@jms.id.au>
+References: <20210607031259.475020-1-joel@jms.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -79,25 +81,76 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>,
+ linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This describes the various status LEDs attached to expanders on the
-Everest system.
+From: Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>
 
-Vishwanatha Subbanna (6):
-  ARM: dts: aspeed: everest: Add system level indicator leds
-  ARM: dts: aspeed: everest: Add nvme and fan indicator leds
-  ARM: dts: aspeed: everest: Add pcie slot indicator leds
-  ARM: dts: aspeed: everest: Add dimm indicator leds
-  ARM: dts: aspeed: everest: Add vrm and other indicator leds
-  ARM: dts: aspeed: everest: Add pcie cable card indicator leds
+These are the system level indicator leds that are driven by
+PCA9551 connected to the Operator Panel.
 
- arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts | 1997 ++++++++++++++++--
- 1 file changed, 1866 insertions(+), 131 deletions(-)
+Signed-off-by: Vishwanatha Subbanna <vishwa@linux.vnet.ibm.com>
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts | 42 ++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
+diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
+index 2ddd10e93a80..6a17b75b5d5b 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
+@@ -890,6 +890,48 @@ eeprom@50 {
+ 				compatible = "atmel,24c32";
+ 				reg = <0x50>;
+ 			};
++
++			pca_oppanel: pca9551@60 {
++				compatible = "nxp,pca9551";
++				reg = <0x60>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				gpio-controller;
++				#gpio-cells = <2>;
++
++				led@0 {
++					label = "front-sys-id0";
++					reg = <0>;
++					retain-state-shutdown;
++					default-state = "keep";
++					type = <PCA955X_TYPE_LED>;
++				};
++
++				led@1 {
++					label = "front-check-log0";
++					reg = <1>;
++					retain-state-shutdown;
++					default-state = "keep";
++					type = <PCA955X_TYPE_LED>;
++				};
++
++				led@2 {
++					label = "front-enc-fault1";
++					reg = <2>;
++					retain-state-shutdown;
++					default-state = "keep";
++					type = <PCA955X_TYPE_LED>;
++				};
++
++				led@3 {
++					label = "front-sys-pwron0";
++					reg = <3>;
++					retain-state-shutdown;
++					default-state = "keep";
++					type = <PCA955X_TYPE_LED>;
++				};
++			};
+ 		};
+ 
+ 		i2c14mux0chn3: i2c@3 {
 -- 
 2.30.2
 
