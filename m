@@ -1,64 +1,51 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38E139D3C8
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Jun 2021 06:11:53 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 493BB39D5B4
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Jun 2021 09:16:01 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Fz0Lc2CW0z303y
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Jun 2021 14:11:52 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=eKsNiSwD;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Fz4R34d68z3062
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Jun 2021 17:15:59 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::729;
- helo=mail-qk1-x729.google.com; envelope-from=joel.stan@gmail.com;
+Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=steven_lee@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=eKsNiSwD; dkim-atps=neutral
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Fz0LT46xxz2yY0
- for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Jun 2021 14:11:44 +1000 (AEST)
-Received: by mail-qk1-x729.google.com with SMTP id i68so11878786qke.3
- for <linux-aspeed@lists.ozlabs.org>; Sun, 06 Jun 2021 21:11:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hbR25Ey1jYTS5sXaXKkm7NsaVYIVVD2EtITwUZt+jv4=;
- b=eKsNiSwDdQrxODDTUtuA3Uy1ZOpjV0TNA6OQVCt8it1vcmDzH4pXSHCslNNVdqQs6H
- gtXvbWVWqX3fhQ1IQVbXQICfR06Wd1oOm/RbPoR3y5haOeOC1BV0Wc7q6mzp77VZxTyJ
- G/XG14v1FeXw9YdIv+tixboAv/PzlMASCV8FM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hbR25Ey1jYTS5sXaXKkm7NsaVYIVVD2EtITwUZt+jv4=;
- b=P1ARE2W7O6TcOTk9PpgLkbV8iScY8jdpYLk2iLFkHCPdEt+pSXE34Dq+CjR1x1UHS/
- SntqVvCapueIcWy7IHiCv83pmYuldeHuG9aAPDxXkWf2xMOOBhIg7uwOWxEjfTMnOIoE
- i/KTqscD7KoRff4h6qGzgST2DGepYpHleEW2/bn/0lhDJBI9ufqx3llO98FTimWq2moK
- idqlx41VfJdvr8Hm8rQZshx72AKii7fSoGuclOSDsaJiptng1hz0psshTLhBbGkpMMiE
- I6ByMiCW5uqguOVkU9DZadx0EOj+sn3pWdBoHKMx6c6xQWDUWEKcTMo26KcNN1nmWc3Y
- S0Pw==
-X-Gm-Message-State: AOAM530OytHG7uQTrnG5sim+UiV6yq9HFl+Mu3pc1t5Fiqa5c+PgBztY
- JIub6b7yF1LGUIn9hJhNVMbTlmFlFFdyMT46ghk=
-X-Google-Smtp-Source: ABdhPJww3/VFgYyaDmLGX7xYSKpphZ34RO5B4B8KHOZzHIN6EN/Za5WTmJybfY+OvXChMMKumHsWj9EEfDRLcB/9Xp0=
-X-Received: by 2002:a37:b404:: with SMTP id d4mr3459096qkf.465.1623039100241; 
- Sun, 06 Jun 2021 21:11:40 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Fz4Qy1MRYz2yY0
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  7 Jun 2021 17:15:51 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 15771UrV056303;
+ Mon, 7 Jun 2021 15:01:30 +0800 (GMT-8)
+ (envelope-from steven_lee@aspeedtech.com)
+Received: from slee-VirtualBox.localdomain (192.168.100.253) by
+ TWMBX02.aspeed.com (192.168.0.24) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 7 Jun 2021 15:15:15 +0800
+From: Steven Lee <steven_lee@aspeedtech.com>
+To: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <bgolaszewski@baylibre.com>, Rob Herring <robh+dt@kernel.org>, Joel Stanley
+ <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, "open list:GPIO
+ SUBSYSTEM" <linux-gpio@vger.kernel.org>, "open list:OPEN FIRMWARE AND
+ FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, "moderated
+ list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 0/7] ASPEED sgpio driver enhancement.
+Date: Mon, 7 Jun 2021 15:15:05 +0800
+Message-ID: <20210607071514.11727-1-steven_lee@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20210607013020.85885-1-andrew@aj.id.au>
-In-Reply-To: <20210607013020.85885-1-andrew@aj.id.au>
-From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 7 Jun 2021 04:11:28 +0000
-Message-ID: <CACPK8Xc1hKarizpPAWNmx1sHrPTuak0hhwZ4ZO09+iMSR+cmiA@mail.gmail.com>
-Subject: Re: [PATCH] mmc: sdhci-of-aspeed: Turn down a phase correction warning
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [192.168.100.253]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 15771UrV056303
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,50 +57,75 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Steven Lee <steven_lee@aspeedtech.com>, linux-mmc <linux-mmc@vger.kernel.org>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: steven_lee@aspeedtech.com, Hongweiz@ami.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 7 Jun 2021 at 01:30, Andrew Jeffery <andrew@aj.id.au> wrote:
->
-> The card timing and the bus frequency are not changed atomically with
-> respect to calls to the set_clock() callback in the driver. The result
-> is the driver sees a transient state where there's a mismatch between
-> the two and thus the inputs to the phase correction calculation
-> formula are garbage.
->
-> Switch from dev_warn() to dev_dbg() to avoid noise in the normal case,
-> though the change does make bad configurations less likely to be
-> noticed.
->
-> Reported-by: Joel Stanley <joel@jms.id.au>
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+AST2600 SoC has 2 SGPIO master interfaces one with 128 pins another one
+with 80 pins, AST2500/AST2400 SoC has 1 SGPIO master interface that
+supports up to 80 pins.
+In the current driver design, the max number of sgpio pins is hardcoded
+in macro MAX_NR_HW_SGPIO and the value is 80.
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+For supporting sgpio master interfaces of AST2600 SoC, the patch series
+contains the following enhancement:
+- Convert txt dt-bindings to yaml.
+- Update aspeed-g6 dtsi to support the enhanced sgpio.
+- Define max number of gpio pins in ast2600 platform data. Old chip
+  uses the original hardcoded value.
+- Support muiltiple SGPIO master interfaces.
+- Support up to 128 pins.
+- Support wdt reset tolerance.
+- Fix irq_chip issues which causes multiple sgpio devices use the same
+  irq_chip data.
+- Replace all of_*() APIs with device_*().
 
-> ---
->  drivers/mmc/host/sdhci-of-aspeed.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-> index d001c51074a0..e4665a438ec5 100644
-> --- a/drivers/mmc/host/sdhci-of-aspeed.c
-> +++ b/drivers/mmc/host/sdhci-of-aspeed.c
-> @@ -150,7 +150,7 @@ static int aspeed_sdhci_phase_to_tap(struct device *dev, unsigned long rate_hz,
->
->         tap = div_u64(phase_period_ps, prop_delay_ps);
->         if (tap > ASPEED_SDHCI_NR_TAPS) {
-> -               dev_warn(dev,
-> +               dev_dbg(dev,
->                          "Requested out of range phase tap %d for %d degrees of phase compensation at %luHz, clamping to tap %d\n",
->                          tap, phase_deg, rate_hz, ASPEED_SDHCI_NR_TAPS);
->                 tap = ASPEED_SDHCI_NR_TAPS;
-> --
-> 2.30.2
->
+Changes from v3:
+* Split dt-bindings patch to 2 patches
+* Rename ast2600-sgpiom1 compatible with ast2600-sgiom-128
+* Rename ast2600-sgpiom2 compatible with ast2600-sgiom-80
+* Correct the typo in commit messages.
+* Fix coding style issues.
+* Replace all of_*() APIs with device_*().
+
+Changes from v2:
+* Remove maximum/minimum of ngpios from bindings.
+* Remove max-ngpios from bindings and dtsi.
+* Remove ast2400-sgpiom and ast2500-sgpiom compatibles from dts and
+  driver.
+* Add ast2600-sgpiom1 and ast2600-sgpiom2 compatibles as their max
+  number of available gpio pins are different.
+* Modify functions to pass aspeed_sgpio struct instead of passing
+  max_ngpios.
+* Split sgpio driver patch to 3 patches
+
+Changes from v1:
+* Fix yaml format issues.
+* Fix issues reported by kernel test robot.
+
+Please help to review.
+
+Thanks,
+Steven
+
+Steven Lee (7):
+  dt-bindings: aspeed-sgpio: Convert txt bindings to yaml.
+  dt-bindings: aspeed-sgpio: Add ast2600 sgpio compatibles.
+  ARM: dts: aspeed-g6: Add SGPIO node.
+  gpio: gpio-aspeed-sgpio: Add AST2600 sgpio support
+  gpio: gpio-aspeed-sgpio: Add set_config function
+  gpio: gpio-aspeed-sgpio: Move irq_chip to aspeed-sgpio struct
+  gpio: gpio-aspeed-sgpio: Use generic device property APIs
+
+ .../bindings/gpio/aspeed,sgpio.yaml           |  78 ++++++++
+ .../devicetree/bindings/gpio/sgpio-aspeed.txt |  46 -----
+ arch/arm/boot/dts/aspeed-g6.dtsi              |  30 +++
+ drivers/gpio/gpio-aspeed-sgpio.c              | 185 +++++++++++++-----
+ 4 files changed, 244 insertions(+), 95 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
+ delete mode 100644 Documentation/devicetree/bindings/gpio/sgpio-aspeed.txt
+
+-- 
+2.17.1
+
