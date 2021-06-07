@@ -2,14 +2,14 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD28739EA1C
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Jun 2021 01:29:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3296139EA49
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Jun 2021 01:44:33 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FzV240xRLz2yyG
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Jun 2021 09:29:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4FzVMg3zWxz2yxW
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Jun 2021 09:44:31 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=HgSEJu9c;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=B7NFnr6Z;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=l/b+IF9I;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Ku9xR5zn;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
@@ -19,47 +19,47 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm3 header.b=HgSEJu9c; 
+ header.s=fm3 header.b=l/b+IF9I; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm3 header.b=B7NFnr6Z; 
+ header.a=rsa-sha256 header.s=fm3 header.b=Ku9xR5zn; 
  dkim-atps=neutral
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
  [66.111.4.230])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FzV1x3RmYz2yWx
- for <linux-aspeed@lists.ozlabs.org>; Tue,  8 Jun 2021 09:29:09 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4FzVMY1wlqz2xtp
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  8 Jun 2021 09:44:25 +1000 (AEST)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.nyi.internal (Postfix) with ESMTP id 8BA23580533;
- Mon,  7 Jun 2021 19:29:06 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 67171580384;
+ Mon,  7 Jun 2021 19:44:22 -0400 (EDT)
 Received: from imap43 ([10.202.2.93])
- by compute2.internal (MEProxy); Mon, 07 Jun 2021 19:29:06 -0400
+ by compute2.internal (MEProxy); Mon, 07 Jun 2021 19:44:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=JeacI608ztlENt+g/Kfe0iOKdJjNDia
- HCrhjdIxMGDE=; b=HgSEJu9c/q8HnpLV3yCHbHIKtSQuICOrEk2tT4mVGEHDpBe
- Rt5XHfJmxBZSRao6WXuT6jslFlHOIWAhe9TtXjprc0a2T8YrhwAIoMrlj70r1PHG
- 4zPsukok5dP9eUN9ewQvnhqQkEajUbYXIA7/QdDhl3YPSHBnt+f4ZPhzFz1ibS96
- xYcDHZVCyawm0m+ANkLraLmHyv0X1DCM+Gl7mQTZ7b+9heI3jx/h9BfLYnY8sxLu
- kTYZK6iy3bgcaySWE0BoCHYiul6yAAwKv1js1Sn/5UHq5l/UJ1taS70HI9sPjs6G
- le1l56VB1UHUiPsKScXW46cciKa1yHxfDU4888w==
+ :subject:content-type; s=fm3; bh=LKjlonoDHSB6cNwTtD8tHFxqDhZN1so
+ OtK2I94aHC28=; b=l/b+IF9I1o2T95qmtGCbzZMIaq/yVseBnrOR5+ca30EnIm7
+ KNjRhFAd616PGvHuds5o+uEjuy8myYNG59dADy/TG0lBBaGlJ5rEnmLsAC78D83H
+ 3kwWZLCs+WxPLyb2OekS32PpcYW7Ax7w7p4AkniIs10Ivl2sXPX566y+VOERqHzE
+ MABedMa8kB7a4rwCXWcuprBrL4vpszDQ7z0OPnGYU820PCA6LkDpq/scGM0G+Wqf
+ yxB8y7YAFrN+YBbyLmSduQIx+2aJpckxO2AKFZXaH2zYp93miQKY5KPDO/MNIl0I
+ Gptea1yxbl24VeVOFIIyIB+t5SuWFsocUcrdm4Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=JeacI6
- 08ztlENt+g/Kfe0iOKdJjNDiaHCrhjdIxMGDE=; b=B7NFnr6Z9CaPmmwhvz4tZA
- WTDlxEjHuE9/hKP5XB+UgGuKHCJkd+Eau5yvc/IMD/BaTtbgbEUamyrnB//WVaDP
- RmlgfRb6BpomRG+QL5ZRi0mucx1NBhYNCvPL+jUWngVGhm1iRKshBtIIAFr1qbss
- Bnp6HHBmfq05oGRKLPynHs4BWeQhQs8/AxR4+KiEm+9j8zgDPwh0l+Q8YidR5jdd
- dklqR5McUEGpBHl4qUthcujFsHo+7GWZU6CDwIqyTCZI+zYitAFDvV5Lw1g7LYXT
- +4+DnWrpDW8vealbFSm/CMSDv28GDb6/K/jZYfApE+2YNNUih29/8oJDLS0D9aGA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=LKjlon
+ oDHSB6cNwTtD8tHFxqDhZN1soOtK2I94aHC28=; b=Ku9xR5znRcyCXRSZ/adzND
+ aJS2Qi+WAOb73KhflrhK+y/mcbGzfxLl6ju6dtKRum6cq4Lsb+fFFAf+/Xljn5HY
+ 7t02pgFYcs9nW6fbSr6uS2bWN4hFRhXPEOEGg/ytx1b9d5DoNv0rT3fti+lCHGAL
+ DddwuvZdsBkUA/b1V1V08bDeelsiTYgdBbZfs4B4rP5EtCyIaT4ZH2SzhwGAw8RE
+ 2puv73sLHWl6sPAV3tFsqvnhZBOlimHjh8mLCUr5ecQA9N7/RfefknZeu9L7p8A4
+ ZtpQZ9/IBe/6ocGYzNPvrti7j9+AfHrt1IVP0IdJELKesR3ItDToHcggzIV/DHHw
  ==
-X-ME-Sender: <xms:v6u-YPSeiImkXurjzOJpXHSPUgjk8IjbJXlNCLMCombKb85hRg_3ug>
- <xme:v6u-YAwC4bazm7e1Gjquvj0TBYETi2hWPH57tu7Nx77V1BwPcSRLQo-2ITg30Vt1d
- BHqtZ_1Zse_Z5v4jg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtkedgudefucetufdoteggodetrfdotf
+X-ME-Sender: <xms:U6--YBwzYwzopNFjYHBsXnf9oFXwucQ4T4_ONOIyvhyd5TZZhPVaRg>
+ <xme:U6--YBQH7hOMomZ7w2nfGuIq0ecDa-PLk5PYGDPHV7GhPRkV5W1J_eK8wZp91QzMN
+ W_n6paUf2m2hJNcqA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtkedgudeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
@@ -67,20 +67,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtkedgudefucetufdoteggod
  grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
  hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:v6u-YE3_FEjyQ7xSdMbwrrMst0vlwckPfnsAxofLuy1W6dwODYJwOQ>
- <xmx:v6u-YPBNL_SWodZo2vhfGpwijcuR5qxyHuTEwQEhdRSVozjz7u5psw>
- <xmx:v6u-YIiTra2l-0jXkk9UYftWEa8xWEx7kHVwU5Iaooj5lp_5ZXtQWQ>
- <xmx:wqu-YNYXQN4LeH-s0U-doqGLYC-FVKzOfnb6n5Ng9QJAJ5kaj9DxZQ>
+X-ME-Proxy: <xmx:U6--YLVThSygM4ZTY374Sr5EPdlK_uVAxpF0oE6I3bCsJDgRXOBRHQ>
+ <xmx:U6--YDiuuCM6I0cf0jE20W61UiysyUjd-uWpD04UFUGupwCfUBh_Qg>
+ <xmx:U6--YDBCDIp3gjkiV297484gXmnK3-ObmZLWx4G57UkV48jI2mvGCw>
+ <xmx:Vq--YH7Ax7O-F3MzmzxAJw7sO1FRbdSgDiJCeeRQd9j8BrEj0hOZHw>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id A3E24AC0062; Mon,  7 Jun 2021 19:29:03 -0400 (EDT)
+ id 66036AC0064; Mon,  7 Jun 2021 19:44:19 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.5.0-alpha0-519-g27a961944e-fm-20210531.001-g27a96194
 Mime-Version: 1.0
-Message-Id: <5277db96-4eb8-4794-a1fa-6a5bc40bffb7@www.fastmail.com>
-In-Reply-To: <20210607071514.11727-4-steven_lee@aspeedtech.com>
+Message-Id: <f3805ca3-3d77-4482-b75f-3e869625e0bc@www.fastmail.com>
+In-Reply-To: <20210607071514.11727-5-steven_lee@aspeedtech.com>
 References: <20210607071514.11727-1-steven_lee@aspeedtech.com>
- <20210607071514.11727-4-steven_lee@aspeedtech.com>
-Date: Tue, 08 Jun 2021 08:58:42 +0930
+ <20210607071514.11727-5-steven_lee@aspeedtech.com>
+Date: Tue, 08 Jun 2021 09:13:59 +0930
 From: "Andrew Jeffery" <andrew@aj.id.au>
 To: "Steven Lee" <steven_lee@aspeedtech.com>,
  "Linus Walleij" <linus.walleij@linaro.org>,
@@ -92,7 +92,7 @@ To: "Steven Lee" <steven_lee@aspeedtech.com>,
  <linux-arm-kernel@lists.infradead.org>, 
  "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
  "open list" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 3/7] ARM: dts: aspeed-g6: Add SGPIO node.
+Subject: Re: [PATCH v4 4/7] gpio: gpio-aspeed-sgpio: Add AST2600 sgpio support
 Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -110,51 +110,322 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+
+
 On Mon, 7 Jun 2021, at 16:45, Steven Lee wrote:
-> AST2600 supports 2 SGPIO master interfaces one with 128 pins another one
+> AST2600 SoC has 2 SGPIO master interfaces one with 128 pins another one
 > with 80 pins.
+> In the current driver, the maximum number of gpio pins of SoC is hardcoded
+> as 80 and the gpio pin count mask for GPIO Configuration register is
+> hardcode as GENMASK(9,6). In addition, some functions use the hardcoded
+> value to calculate the gpio offset.
+> The patch adds ast2600 compatibles and platform data that includes the
+> max number of gpio pins supported by ast2600 and gpio pin count mask for
+> GPIO Configuration register.
+> The patch also modifies some functions to pass aspeed_sgpio struct for
+> calculating gpio offset without using the hardcoded value.
 > 
 > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
 > ---
->  arch/arm/boot/dts/aspeed-g6.dtsi | 30 ++++++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
+>  drivers/gpio/gpio-aspeed-sgpio.c | 110 +++++++++++++++++++++----------
+>  1 file changed, 76 insertions(+), 34 deletions(-)
 > 
-> diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-> index f96607b7b4e2..c09b24824b6d 100644
-> --- a/arch/arm/boot/dts/aspeed-g6.dtsi
-> +++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-> @@ -377,6 +377,36 @@
->  				#interrupt-cells = <2>;
->  			};
+> diff --git a/drivers/gpio/gpio-aspeed-sgpio.c b/drivers/gpio/gpio-aspeed-sgpio.c
+> index 64e54f8c30d2..8b893356f0ca 100644
+> --- a/drivers/gpio/gpio-aspeed-sgpio.c
+> +++ b/drivers/gpio/gpio-aspeed-sgpio.c
+> @@ -35,12 +35,18 @@
+>  #define ASPEED_SGPIO_CLK_DIV_MASK	GENMASK(31, 16)
+>  #define ASPEED_SGPIO_ENABLE		BIT(0)
 >  
-> +			sgpiom0: sgpiom@1e780500 {
-> +				#gpio-cells = <2>;
-> +				gpio-controller;
-> +				compatible = "aspeed,ast2600-sgpiom-128";
-> +				reg = <0x1e780500 0x100>;
-> +				interrupts = <GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>;
-> +				ngpios = <128>;
-
-Doesn't this affect the way the data is presented on the bus?
-
-My understanding is this should be defined by each platform, not in the dtsi. Having said that, it appears it is specified in aspeed-g5.dtsi (as the value 8?).
-
-> +				clocks = <&syscon ASPEED_CLK_APB2>;
-> +				interrupt-controller;
-> +				bus-frequency = <12000000>;
-> +				pinctrl-names = "default";
-> +				pinctrl-0 = <&pinctrl_sgpm1_default>;
-> +				status = "disabled";
-> +			};
+> +struct aspeed_sgpio_pdata {
+> +	const u32 pin_mask;
+> +	int max_ngpios;
+> +};
 > +
-> +			sgpiom1: sgpiom@1e780600 {
-> +				#gpio-cells = <2>;
-> +				gpio-controller;
-> +				compatible = "aspeed,ast2600-sgpiom-80";
-> +				reg = <0x1e780600 0x100>;
-> +				interrupts = <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>;
-> +				ngpios = <80>;
+>  struct aspeed_sgpio {
+>  	struct gpio_chip chip;
+>  	struct clk *pclk;
+>  	spinlock_t lock;
+>  	void __iomem *base;
+>  	int irq;
+> +	int max_ngpios;
+>  	int n_sgpio;
+>  };
+>  
+> @@ -75,7 +81,13 @@ static const struct aspeed_sgpio_bank 
+> aspeed_sgpio_banks[] = {
+>  		.val_regs = 0x0038,
+>  		.rdata_reg = 0x0078,
+>  		.irq_regs = 0x003C,
+> -		.names = { "I", "J" },
+> +		.names = { "I", "J", "K", "L" },
+> +	},
+> +	{
+> +		.val_regs = 0x0090,
+> +		.rdata_reg = 0x007C,
+> +		.irq_regs = 0x0094,
+> +		.names = { "M", "N", "O", "P" },
+>  	},
+>  };
+>  
+> @@ -121,15 +133,15 @@ static void __iomem *bank_reg(struct aspeed_sgpio *gpio,
+>  	}
+>  }
+>  
+> -#define GPIO_BANK(x)    ((x % SGPIO_OUTPUT_OFFSET) >> 5)
+> -#define GPIO_OFFSET(x)  ((x % SGPIO_OUTPUT_OFFSET) & 0x1f)
+> -#define GPIO_BIT(x)     BIT(GPIO_OFFSET(x))
+> +#define GPIO_BANK(x, gpio)    ((x % (gpio)->max_ngpios) >> 5)
 
-As above.
+I couldn't stop myself from commenting on this: The 'context' parameter should be first (by convention), so:
+
+#define GPIO_BANK(gpio, x) ((x % (gpio)->max_ngpios) >> 5)
+
+There's another fix necessary here too - the x needs to be parenthesised:
+
+#define GPIO_BANK(gpio, x) (((x) % (gpio)->max_ngpios) >> 5)
+
+> +#define GPIO_OFFSET(x)        ((x) & GENMASK(4, 0))
+> +#define GPIO_BIT(x, gpio)     BIT(GPIO_OFFSET(x % (gpio)->max_ngpios))
+
+Again, put the context parameter first. And again we should add the parentheses around x in the expression.
+
+>  
+> -static const struct aspeed_sgpio_bank *to_bank(unsigned int offset)
+> +static const struct aspeed_sgpio_bank *to_bank(unsigned int offset, 
+> const struct aspeed_sgpio *gpio)
+>  {
+>  	unsigned int bank;
+>  
+> -	bank = GPIO_BANK(offset);
+> +	bank = GPIO_BANK(offset, gpio);
+>  
+>  	WARN_ON(bank >= ARRAY_SIZE(aspeed_sgpio_banks));
+>  	return &aspeed_sgpio_banks[bank];
+> @@ -139,18 +151,19 @@ static int aspeed_sgpio_init_valid_mask(struct 
+> gpio_chip *gc,
+>  		unsigned long *valid_mask, unsigned int ngpios)
+>  {
+>  	struct aspeed_sgpio *sgpio = gpiochip_get_data(gc);
+> +	int max_ngpios = sgpio->max_ngpios;
+>  	int n = sgpio->n_sgpio;
+> -	int c = SGPIO_OUTPUT_OFFSET - n;
+> +	int c = max_ngpios - n;
+>  
+> -	WARN_ON(ngpios < MAX_NR_HW_SGPIO * 2);
+> +	WARN_ON(ngpios < max_ngpios * 2);
+>  
+>  	/* input GPIOs in the lower range */
+>  	bitmap_set(valid_mask, 0, n);
+>  	bitmap_clear(valid_mask, n, c);
+>  
+> -	/* output GPIOS above SGPIO_OUTPUT_OFFSET */
+> -	bitmap_set(valid_mask, SGPIO_OUTPUT_OFFSET, n);
+> -	bitmap_clear(valid_mask, SGPIO_OUTPUT_OFFSET + n, c);
+> +	/* output GPIOS above max_ngpios */
+> +	bitmap_set(valid_mask, max_ngpios, n);
+> +	bitmap_clear(valid_mask, max_ngpios + n, c);
+>  
+>  	return 0;
+>  }
+> @@ -161,30 +174,30 @@ static void 
+> aspeed_sgpio_irq_init_valid_mask(struct gpio_chip *gc,
+>  	struct aspeed_sgpio *sgpio = gpiochip_get_data(gc);
+>  	int n = sgpio->n_sgpio;
+>  
+> -	WARN_ON(ngpios < MAX_NR_HW_SGPIO * 2);
+> +	WARN_ON(ngpios < sgpio->max_ngpios * 2);
+>  
+>  	/* input GPIOs in the lower range */
+>  	bitmap_set(valid_mask, 0, n);
+>  	bitmap_clear(valid_mask, n, ngpios - n);
+>  }
+>  
+> -static bool aspeed_sgpio_is_input(unsigned int offset)
+> +static bool aspeed_sgpio_is_input(unsigned int offset, const struct 
+> aspeed_sgpio *gpio)
+>  {
+> -	return offset < SGPIO_OUTPUT_OFFSET;
+> +	return offset < gpio->max_ngpios;
+>  }
+>  
+>  static int aspeed_sgpio_get(struct gpio_chip *gc, unsigned int offset)
+>  {
+>  	struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
+> -	const struct aspeed_sgpio_bank *bank = to_bank(offset);
+> +	const struct aspeed_sgpio_bank *bank = to_bank(offset, gpio);
+>  	unsigned long flags;
+>  	enum aspeed_sgpio_reg reg;
+>  	int rc = 0;
+>  
+>  	spin_lock_irqsave(&gpio->lock, flags);
+>  
+> -	reg = aspeed_sgpio_is_input(offset) ? reg_val : reg_rdata;
+> -	rc = !!(ioread32(bank_reg(gpio, bank, reg)) & GPIO_BIT(offset));
+> +	reg = aspeed_sgpio_is_input(offset, gpio) ? reg_val : reg_rdata;
+> +	rc = !!(ioread32(bank_reg(gpio, bank, reg)) & GPIO_BIT(offset, gpio));
+>  
+>  	spin_unlock_irqrestore(&gpio->lock, flags);
+>  
+> @@ -194,11 +207,11 @@ static int aspeed_sgpio_get(struct gpio_chip *gc, 
+> unsigned int offset)
+>  static int sgpio_set_value(struct gpio_chip *gc, unsigned int offset, 
+> int val)
+>  {
+>  	struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
+> -	const struct aspeed_sgpio_bank *bank = to_bank(offset);
+> +	const struct aspeed_sgpio_bank *bank = to_bank(offset, gpio);
+>  	void __iomem *addr_r, *addr_w;
+>  	u32 reg = 0;
+>  
+> -	if (aspeed_sgpio_is_input(offset))
+> +	if (aspeed_sgpio_is_input(offset, gpio))
+>  		return -EINVAL;
+>  
+>  	/* Since this is an output, read the cached value from rdata, then
+> @@ -209,9 +222,9 @@ static int sgpio_set_value(struct gpio_chip *gc, 
+> unsigned int offset, int val)
+>  	reg = ioread32(addr_r);
+>  
+>  	if (val)
+> -		reg |= GPIO_BIT(offset);
+> +		reg |= GPIO_BIT(offset, gpio);
+>  	else
+> -		reg &= ~GPIO_BIT(offset);
+> +		reg &= ~GPIO_BIT(offset, gpio);
+>  
+>  	iowrite32(reg, addr_w);
+>  
+> @@ -232,7 +245,9 @@ static void aspeed_sgpio_set(struct gpio_chip *gc, 
+> unsigned int offset, int val)
+>  
+>  static int aspeed_sgpio_dir_in(struct gpio_chip *gc, unsigned int offset)
+>  {
+> -	return aspeed_sgpio_is_input(offset) ? 0 : -EINVAL;
+> +	struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
+> +
+> +	return aspeed_sgpio_is_input(offset, gpio) ? 0 : -EINVAL;
+>  }
+>  
+>  static int aspeed_sgpio_dir_out(struct gpio_chip *gc, unsigned int 
+> offset, int val)
+> @@ -253,7 +268,9 @@ static int aspeed_sgpio_dir_out(struct gpio_chip 
+> *gc, unsigned int offset, int v
+>  
+>  static int aspeed_sgpio_get_direction(struct gpio_chip *gc, unsigned 
+> int offset)
+>  {
+> -	return !!aspeed_sgpio_is_input(offset);
+> +	struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
+> +
+> +	return !!aspeed_sgpio_is_input(offset, gpio);
+>  }
+>  
+>  static void irqd_to_aspeed_sgpio_data(struct irq_data *d,
+> @@ -268,8 +285,8 @@ static void irqd_to_aspeed_sgpio_data(struct irq_data *d,
+>  	WARN_ON(!internal);
+>  
+>  	*gpio = internal;
+> -	*bank = to_bank(*offset);
+> -	*bit = GPIO_BIT(*offset);
+> +	*bank = to_bank(*offset, internal);
+> +	*bit = GPIO_BIT(*offset, internal);
+>  }
+>  
+>  static void aspeed_sgpio_irq_ack(struct irq_data *d)
+> @@ -466,9 +483,21 @@ static int aspeed_sgpio_setup_irqs(struct 
+> aspeed_sgpio *gpio,
+>  	return 0;
+>  }
+>  
+> +static const struct aspeed_sgpio_pdata ast2600_sgpiom_128_pdata = {
+> +	.max_ngpios = 128,
+> +	.pin_mask = GENMASK(10, 6),
+> +};
+> +
+> +static const struct aspeed_sgpio_pdata ast2600_sgpiom_80_pdata = {
+> +	.max_ngpios = 80,
+> +	.pin_mask = GENMASK(10, 6),
+> +};
+> +
+>  static const struct of_device_id aspeed_sgpio_of_table[] = {
+>  	{ .compatible = "aspeed,ast2400-sgpio" },
+>  	{ .compatible = "aspeed,ast2500-sgpio" },
+
+Add .data for these too.
+
+> +	{ .compatible = "aspeed,ast2600-sgpiom-128", .data = 
+> &ast2600_sgpiom_128_pdata, },
+> +	{ .compatible = "aspeed,ast2600-sgpiom-80", .data = 
+> &ast2600_sgpiom_80_pdata, },
+>  	{}
+>  };
+>  
+> @@ -476,10 +505,11 @@ MODULE_DEVICE_TABLE(of, aspeed_sgpio_of_table);
+>  
+>  static int __init aspeed_sgpio_probe(struct platform_device *pdev)
+>  {
+> +	u32 nr_gpios, sgpio_freq, sgpio_clk_div, gpio_cnt_regval, pin_mask;
+> +	const struct aspeed_sgpio_pdata *pdata;
+>  	struct aspeed_sgpio *gpio;
+> -	u32 nr_gpios, sgpio_freq, sgpio_clk_div;
+> -	int rc;
+>  	unsigned long apb_freq;
+> +	int rc;
+>  
+>  	gpio = devm_kzalloc(&pdev->dev, sizeof(*gpio), GFP_KERNEL);
+>  	if (!gpio)
+> @@ -489,13 +519,26 @@ static int __init aspeed_sgpio_probe(struct 
+> platform_device *pdev)
+>  	if (IS_ERR(gpio->base))
+>  		return PTR_ERR(gpio->base);
+>  
+> +	pdata = device_get_match_data(&pdev->dev);
+> +	if (pdata) {
+> +		gpio->max_ngpios = pdata->max_ngpios;
+> +		pin_mask = pdata->pin_mask;
+> +	} else {
+> +		gpio->max_ngpios = MAX_NR_HW_SGPIO;
+> +		pin_mask = ASPEED_SGPIO_PINS_MASK;
+
+Given the refactor I think the MAX_NR_HW_SGPIO and ASPEED_SGPIO_PINS_MASK macros are confusing and should be dropped.
+
+Further, I think it would be better to just define these 'default' values in .data for the 2400 and 2500 compatibles and drop this if/else entirely.
+
+> +	}
+> +
+>  	rc = of_property_read_u32(pdev->dev.of_node, "ngpios", &nr_gpios);
+>  	if (rc < 0) {
+>  		dev_err(&pdev->dev, "Could not read ngpios property\n");
+>  		return -EINVAL;
+> -	} else if (nr_gpios > MAX_NR_HW_SGPIO) {
+> +	} else if (nr_gpios % 8) {
+> +		dev_err(&pdev->dev, "Number of GPIOs not multiple of 8: %d\n",
+> +			nr_gpios);
+> +		return -EINVAL;
+> +	} else if (nr_gpios > gpio->max_ngpios) {
+
+I'd prefer this in a separate patch.
+
+>  		dev_err(&pdev->dev, "Number of GPIOs exceeds the maximum of %d: 
+> %d\n",
+> -			MAX_NR_HW_SGPIO, nr_gpios);
+> +			gpio->max_ngpios, nr_gpios);
+>  		return -EINVAL;
+>  	}
+>  	gpio->n_sgpio = nr_gpios;
+> @@ -531,15 +574,14 @@ static int __init aspeed_sgpio_probe(struct 
+> platform_device *pdev)
+>  	if (sgpio_clk_div > (1 << 16) - 1)
+>  		return -EINVAL;
+>  
+> -	iowrite32(FIELD_PREP(ASPEED_SGPIO_CLK_DIV_MASK, sgpio_clk_div) |
+> -		  FIELD_PREP(ASPEED_SGPIO_PINS_MASK, (nr_gpios / 8)) |
+> -		  ASPEED_SGPIO_ENABLE,
+> -		  gpio->base + ASPEED_SGPIO_CTRL);
+> +	gpio_cnt_regval = ((nr_gpios / 8) << 6) & pin_mask;
+
+Add a #define for the field starting at bit 6.
 
 Andrew
