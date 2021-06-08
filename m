@@ -2,66 +2,35 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 825AC39F774
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Jun 2021 15:16:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D49E3A068D
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Jun 2021 00:03:06 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4FzrNt6vyRz302f
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Jun 2021 23:16:46 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Omj0Ojhv;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4G04485xWhz305t
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Jun 2021 08:03:04 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::934;
- helo=mail-ua1-x934.google.com; envelope-from=ulf.hansson@linaro.org;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=Omj0Ojhv; dkim-atps=neutral
-Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com
- [IPv6:2607:f8b0:4864:20::934])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4FzrNn23xmz2yyj
- for <linux-aspeed@lists.ozlabs.org>; Tue,  8 Jun 2021 23:16:38 +1000 (AEST)
-Received: by mail-ua1-x934.google.com with SMTP id p1so11536337uam.13
- for <linux-aspeed@lists.ozlabs.org>; Tue, 08 Jun 2021 06:16:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=606SEYScY/4Dm3TG2zXGyFR6Ly8KOu4QIRdQzAVRtJ4=;
- b=Omj0OjhvQ++d98yJSdmaXOk1bHCbynHCXQlXQa4ETkUydcSD2yCZsQqwxh76dHd2EN
- NaWVtW1fj9h0vehRKFR5saruc/HSNNc/MPrxxWz/VBlEh3plbcCVVi7mLPc/cdtEMjy+
- E4WWkbPCIAG0+XNmMsGsEqTYJ8c3wLylpNI+N/iJb/Z5KHrVybXjVzqToRgJn3smF09b
- 2HequXh1rPYIH1tSjlB9dVMVGB4wH39RIvNrK6DiaQSouBto3Qh+jBRfLayJKOyekeb8
- 78E7x9hrCKxO4h4PJFuDyza3nuNy5exKSLnx8qPGVe4Glpd/4Qj0oQJR4JX72hBb4/lu
- rxig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=606SEYScY/4Dm3TG2zXGyFR6Ly8KOu4QIRdQzAVRtJ4=;
- b=N8qUywucRk0W1nWigHC3xN/A+XgFtRsYW7jAqx1a0PJ88qmgfrDy2a1ZD7+zOgwntl
- 3PHAYCW7GqQ9dy3o8astRHD/YS8FtJ9R5sn83DzzYvFgpi64tqUBiDTvurfppCEqzrae
- XoH1RUwpK8Xt4zHY9gxmdsWlSrCS6YFvj/8FDFzhxpRqhb5THl6wjBWcinS2DCXIxABW
- gU80ihFh8LGGslrSNTFkWu/m9UNx+wIu+KNJ7JbmIHR0rWmdDsuVhKsaHbox3EwAehqU
- Uw1t7EjiF9M1+tLrHnDtuVDkwitv7AoY5DTJjz1zcEzgmq6aRJLURdF/6dSLiPKLqJFb
- dMTw==
-X-Gm-Message-State: AOAM532cIuDQ4VOqiTbzXvlMX7AJb9fMIjzTV1QwJGeipuUaw9b2Fvwz
- HPKT+V4b1O3zOc2EC3HXYZ/2aZMAWLkC3UYjelLQlQ==
-X-Google-Smtp-Source: ABdhPJz5aZwPNxnntAA8aRpvQS8xefc61/tur00rKpE7jf8yvD/K9Pq7D2dgwSTb802UwSLtR5tTYL3kwFEXhrF2Jjk=
-X-Received: by 2002:ab0:484b:: with SMTP id c11mr3216292uad.100.1623158194715; 
- Tue, 08 Jun 2021 06:16:34 -0700 (PDT)
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.mailfrom=arm.com
+ (client-ip=217.140.110.172; helo=foss.arm.com;
+ envelope-from=sudeep.holla@arm.com; receiver=<UNKNOWN>)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by lists.ozlabs.org (Postfix) with ESMTP id 4G04455vzzz2xYp
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Jun 2021 08:02:58 +1000 (AEST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F36FAD6E;
+ Tue,  8 Jun 2021 15:02:54 -0700 (PDT)
+Received: from usa.arm.com (e103737-lin.cambridge.arm.com [10.1.197.49])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2A1463F73D;
+ Tue,  8 Jun 2021 15:02:54 -0700 (PDT)
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: linux-aspeed@lists.ozlabs.org
+Subject: [PATCH] ARM: dts: aspeed: Drop wrong and inconsistent "sdhci"
+ compatible
+Date: Tue,  8 Jun 2021 23:02:47 +0100
+Message-Id: <20210608220247.2237139-1-sudeep.holla@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210607013020.85885-1-andrew@aj.id.au>
-In-Reply-To: <20210607013020.85885-1-andrew@aj.id.au>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 8 Jun 2021 15:15:57 +0200
-Message-ID: <CAPDyKFrqKW9VwEga0bzY+H9Br57RbfXBnxJFP_-rWcfpic-0hA@mail.gmail.com>
-Subject: Re: [PATCH] mmc: sdhci-of-aspeed: Turn down a phase correction warning
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,52 +42,45 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Steven Lee <steven_lee@aspeedtech.com>, linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Rob Herring <robh+dt@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 7 Jun 2021 at 03:30, Andrew Jeffery <andrew@aj.id.au> wrote:
->
-> The card timing and the bus frequency are not changed atomically with
-> respect to calls to the set_clock() callback in the driver. The result
-> is the driver sees a transient state where there's a mismatch between
-> the two and thus the inputs to the phase correction calculation
-> formula are garbage.
->
-> Switch from dev_warn() to dev_dbg() to avoid noise in the normal case,
-> though the change does make bad configurations less likely to be
-> noticed.
->
-> Reported-by: Joel Stanley <joel@jms.id.au>
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+As per mmc/aspeed,sdhci.yaml, "sdhci" is not a valid compatible. In fact,
+it is not documented at all(including old txt bindings). Also it is
+pretty inconsistent within the same dtsi. Once instance of controller
+refers to it while the other doesn't.
 
-Applied for next, thanks!
+Fix it by dropping the wrong "sdhci" compatible.
 
-Kind regards
-Uffe
+Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
+---
+ arch/arm/boot/dts/aspeed-g6.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> ---
->  drivers/mmc/host/sdhci-of-aspeed.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-> index d001c51074a0..e4665a438ec5 100644
-> --- a/drivers/mmc/host/sdhci-of-aspeed.c
-> +++ b/drivers/mmc/host/sdhci-of-aspeed.c
-> @@ -150,7 +150,7 @@ static int aspeed_sdhci_phase_to_tap(struct device *dev, unsigned long rate_hz,
->
->         tap = div_u64(phase_period_ps, prop_delay_ps);
->         if (tap > ASPEED_SDHCI_NR_TAPS) {
-> -               dev_warn(dev,
-> +               dev_dbg(dev,
->                          "Requested out of range phase tap %d for %d degrees of phase compensation at %luHz, clamping to tap %d\n",
->                          tap, phase_deg, rate_hz, ASPEED_SDHCI_NR_TAPS);
->                 tap = ASPEED_SDHCI_NR_TAPS;
-> --
-> 2.30.2
->
+diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
+index f96607b7b4e2..3488e8ba9df8 100644
+--- a/arch/arm/boot/dts/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+@@ -541,7 +541,7 @@ sdc: sdc@1e740000 {
+ 				status = "disabled";
+ 
+ 				sdhci0: sdhci@1e740100 {
+-					compatible = "aspeed,ast2600-sdhci", "sdhci";
++					compatible = "aspeed,ast2600-sdhci";
+ 					reg = <0x100 0x100>;
+ 					interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
+ 					sdhci,auto-cmd12;
+@@ -550,7 +550,7 @@ sdhci0: sdhci@1e740100 {
+ 				};
+ 
+ 				sdhci1: sdhci@1e740200 {
+-					compatible = "aspeed,ast2600-sdhci", "sdhci";
++					compatible = "aspeed,ast2600-sdhci";
+ 					reg = <0x200 0x100>;
+ 					interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
+ 					sdhci,auto-cmd12;
+-- 
+2.25.1
+
