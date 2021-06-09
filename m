@@ -2,13 +2,13 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C49F83A0F7D
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Jun 2021 11:17:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EC1F3A11B9
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Jun 2021 12:54:58 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4G0M2h1JT7z3070
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Jun 2021 19:17:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4G0PBm67xNz308S
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Jun 2021 20:54:56 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=CKuHDfWB;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=aqmTQ4Tq;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
@@ -18,52 +18,49 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=CKuHDfWB; dkim-atps=neutral
+ header.s=google header.b=aqmTQ4Tq; dkim-atps=neutral
 Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
  [IPv6:2a00:1450:4864:20::232])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4G0M2c2MW7z2ysq
- for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Jun 2021 19:17:41 +1000 (AEST)
-Received: by mail-lj1-x232.google.com with SMTP id bn21so30774465ljb.1
- for <linux-aspeed@lists.ozlabs.org>; Wed, 09 Jun 2021 02:17:41 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4G0PBj2pzYz2xg6
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Jun 2021 20:54:52 +1000 (AEST)
+Received: by mail-lj1-x232.google.com with SMTP id 131so31103286ljj.3
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 09 Jun 2021 03:54:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bEG/w+83YCQdhcjk3hMB/2pU0Hzz9e45pwvsQ652QZ4=;
- b=CKuHDfWBu2cwegozqj52R/g3GZnPS2uOKYtWbcWrnQB6pLHMwhDhTdoZjvpBq//AiL
- MLxZwa2uz9ZntVlOJ7sQsyWFIe1iS5JsYfe6Lp4pDUma8MeZfS8l4UsRweQRithBuXfi
- EBy5eM3VpgWhDTrdpb+aKxy/aKTOrUT+8yOM4aiREY/vEfJ8S79T46wGL2VFWYLNCAdt
- n4Qs2ypust5VOR80/jR1KriOS1AseOLMyQ/MF2eOfQyY6vWIXkSLS1Fh12e3/L4h6yNt
- 4bBVNkTdUJT3V1j4OsonlnbJTe2gnRrchrwtR+oaGAsPQGQgUGqFBJ4KoZktllY3pBaF
- 9x7Q==
+ :cc; bh=cvIuq7yCBZI9oh+HolFFkb/f7sv15WjrCKTD1PWydYE=;
+ b=aqmTQ4Tq7tp3JhjxH4GQ9HXZVvX8RRZOYwnTZqi9FwM6DNLCDlVKbHyie15+145qBI
+ o6An9yE8okaeikBuxFIdZs9p4u/S/tbNX2MTXDdDPcCd7ychrX5KlcQmqoBHvyS/8y1h
+ aZa2dxXYrL9EbKPIUC/kIdVAGRkxfR4+kmzpfVgiI7rkvePdrajM08ARcHhUO88/QK2O
+ hdXXraH/qgd3SkAAiB+DPV3k4t8u8A70JSZe7qkIfHciR8T1SK8BsKtLhEhUMBqVjAGZ
+ G60hZjGepVKScMs3xNKpAJ8FlPOv6u3jYG45jLhhpQbOIHjrSkCsCl+mSQnRSl74lJpK
+ t3pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=bEG/w+83YCQdhcjk3hMB/2pU0Hzz9e45pwvsQ652QZ4=;
- b=W/BhOAQ+LEQuqtFXIuJ/rPlsJAmgSnHWAgXH7dpqRZv9d11SW/6IO6JzhbhF4cuKgb
- uaZSQo3vA5RZdztKjGZOGdQMZVzCb6w5UwCGE1vb4NYDEB3aWg8lCKG6kyXNSGiuSFEu
- Joy/WKlDl40QaLWw6AJb6y/rp+IjN5cffSt4SPpQx72jykfvK9OYMilc+H+jj2Qzhbhl
- jRhmx+joWiZIS5Kn8aePp6Dpr5nKGcREJnBmdUv3s/Lio//fUdOTcvFe0rhTuiTevoP6
- 7wJPbk3kTM5Vw9pvxi01k2eVqkqfhAmNT/c8cXlcSdK3tjd0rBKxv8mB8QGCr07BVW9m
- aOUA==
-X-Gm-Message-State: AOAM533L0n7kx+y0ebABpTs7DPyR0DHWg+9xI0nZJUVmjLNQpHCR8Nvq
- Fop8lJEpSPnjA/jdThVLKXjp6k4kgDVA93Crd2VpYA==
-X-Google-Smtp-Source: ABdhPJwh4YesWYyUgVjZAE6+CeyPfHk/453koIwepndYg3pfX5+tYJ7/ek1lIJ5PGwRvjl003ULe/1DyWqcXDvcPOhc=
-X-Received: by 2002:a2e:1319:: with SMTP id 25mr21554697ljt.200.1623230253367; 
- Wed, 09 Jun 2021 02:17:33 -0700 (PDT)
+ bh=cvIuq7yCBZI9oh+HolFFkb/f7sv15WjrCKTD1PWydYE=;
+ b=Wo5ksOKpDxKl9RB4OFyw5tVCvuxpZYnCstVY5BS8d4QIi5tfOW5mxd+NyPCH2HTg6t
+ XMg4Ic9rd7k+WxDGxjzFHdO6MC64Jso8UuOQ+Ya+wfAlXadHS0pVxeJKNmVM6jL0Yup0
+ ZnSSkzjlbFSKjtmRNW9LB0/wtMdqzPsu+Z57X4YiqSIw3RTxI/fpLYIQFXM9TkkGvUET
+ CuwsNjg7R1irqdWc0lY10/J19iXAmEsFSkgEoGoBs8Do33EPXJoZ23vnk7RQvlj3R3rC
+ pe8K+ZoX0rCsfOZ05PlJO+300ZtJIAOyC6LJlNVPVSySNJVq8t1MRed+jfmoXaRfrwJE
+ tn8A==
+X-Gm-Message-State: AOAM531Z0QixAfNFWKyUPN5NeWm4nVLHKA8mRoGCbQRf1zZFQwDIgn0r
+ FaAPN5RZpIvHTFObLltuFEgkESKDpNgNmu11fx278A==
+X-Google-Smtp-Source: ABdhPJy9jtLYPd3PIA6YsEvO5XTv5tO8NP31qTDfX0RScssCc2S2g4ub5LbPM5p6JmfTmLKacK2QOK7wOSZswNzp3KA=
+X-Received: by 2002:a05:651c:1411:: with SMTP id
+ u17mr11232132lje.438.1623236088374; 
+ Wed, 09 Jun 2021 03:54:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210603101822.9645-1-steven_lee@aspeedtech.com>
- <20210603101822.9645-2-steven_lee@aspeedtech.com>
- <516bb11a-b75f-49e1-ba79-e5a4c344a7ab@www.fastmail.com>
- <20210604033039.GC25112@aspeedtech.com>
-In-Reply-To: <20210604033039.GC25112@aspeedtech.com>
+References: <20210608102547.4880-1-steven_lee@aspeedtech.com>
+In-Reply-To: <20210608102547.4880-1-steven_lee@aspeedtech.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 9 Jun 2021 11:17:22 +0200
-Message-ID: <CACRpkdawakx66Nix41h=FzhL--QEMZCcDX=a_hf_kTq+0DjpAg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] dt-bindings: aspeed-sgpio: Convert txt bindings to
- yaml.
+Date: Wed, 9 Jun 2021 12:54:37 +0200
+Message-ID: <CACRpkdZOStr+K9U9QTkAcsk4NxuSqBRVv_-9_VkGJbT69iSxmQ@mail.gmail.com>
+Subject: Re: [PATCH v5 00/10] ASPEED sgpio driver enhancement.
 To: Steven Lee <steven_lee@aspeedtech.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -90,18 +87,38 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Jun 4, 2021 at 5:31 AM Steven Lee <steven_lee@aspeedtech.com> wrote:
+On Tue, Jun 8, 2021 at 12:26 PM Steven Lee <steven_lee@aspeedtech.com> wrote:
 
-> However, it might affect users who update kernel/driver from the
-> old kernel/driver as they may expect the gpio output pin base is start
-> from 80(MAX_NR_HW_SGPIO).
+> AST2600 SoC has 2 SGPIO master interfaces one with 128 pins another one
+> with 80 pins, AST2500/AST2400 SoC has 1 SGPIO master interface that
+> supports up to 80 pins.
+> In the current driver design, the max number of sgpio pins is hardcoded
+> in macro MAX_NR_HW_SGPIO and the value is 80.
+>
+> For supporting sgpio master interfaces of AST2600 SoC, the patch series
+> contains the following enhancement:
+> - Convert txt dt-bindings to yaml.
+> - Update aspeed-g6 dtsi to support the enhanced sgpio.
+> - Define max number of gpio pins in ast2600 platform data. Old chip
+>   uses the original hardcoded value.
+> - Support muiltiple SGPIO master interfaces.
+> - Support up to 128 pins.
+> - Support wdt reset tolerance.
+> - Fix irq_chip issues which causes multiple sgpio devices use the same
+>   irq_chip data.
+> - Replace all of_*() APIs with device_*().
+>
+> Changes from v4:
 
-Why? What users? In-kernel, out-of-tree-kernel or userspace users?
+v5 looks good to me!
 
-In-kernel users can be fixed, out-of-tree kernels we don't care about
-and userspace should be using the character device.
+I just need Rob's or another DT persons nod on the bindings (or timeout)
+before I merge it. Poke me if nothing happens.
 
-Just change it.
+>   ARM: dts: aspeed-g6: Add SGPIO node.
+>   ARM: dts: aspeed-g5: Remove ngpios from sgpio node.
+
+These two need to be merged through the SoC tree, the rest I will handle.
 
 Yours,
 Linus Walleij
