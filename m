@@ -2,99 +2,48 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C263A08D1
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Jun 2021 02:56:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 808463A09AE
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Jun 2021 03:54:12 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4G07wQ34dlz305v
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Jun 2021 10:56:38 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=TCl987RP;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=LpY8IeH5;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4G09Bp6hxXz302Y
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Jun 2021 11:54:10 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.230;
- helo=new4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=steven_lee@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm3 header.b=TCl987RP; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm3 header.b=LpY8IeH5; 
- dkim-atps=neutral
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4G07wL75FXz2yxX
- for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Jun 2021 10:56:34 +1000 (AEST)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.nyi.internal (Postfix) with ESMTP id 032DA580922;
- Tue,  8 Jun 2021 20:56:32 -0400 (EDT)
-Received: from imap43 ([10.202.2.93])
- by compute2.internal (MEProxy); Tue, 08 Jun 2021 20:56:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=UEXUkaEiFQLjUvGmFiXJYNKYLn4GSKf
- Tv6e4CZYJsGQ=; b=TCl987RPTWC88e5PPQSgE+1qbePmZ/8iS6PC3qlnAMVXwGb
- ypLi0vQyfxhS4QW0Ya9NpzGB1C/UQ6JjgJCvfYnl0S157z+nPod0VRiYfF5ioeV9
- n/FtqPmGqrlSwR/14hPpX86Ji2iCOt5Q7GvlsMW179xr4sPCfMjnTinvvdh4HY08
- RClDdQck+TLWsNgYMcoPZFHJaamZBUVcuzjNV1FiftvY32vgmoMb5Tg+MBHY0M6q
- ldJD3VCm7r0M7jeypdo4ZeuMb7614S/NHVrS216JTPj3Dh3V0xlW4CxAthe2pQuQ
- U+1T4JTCfHfhyPXdoTCLYimwGvseovIAUfk/JVw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=UEXUka
- EiFQLjUvGmFiXJYNKYLn4GSKfTv6e4CZYJsGQ=; b=LpY8IeH51vX0Ts4LZ5c7h0
- TU2+6aHMRaxlx2pzZ2fIOivdgUbyPGcdO9SXrrEybJuL024+LKteiMrBUL4lhlzo
- F+FOoQIkFeluyxqhVnau2Nv9TAeJv/eZ9YFi68DZnxZ1nl986EFaD1JpUvufSkAc
- MBNxo6CpPPSO8Tt1tIjVodi4jye2WM1ZYKEc5ALQ6lvMvjxMfNxZiAk9auqquAfz
- JNEEDdR7k8MZ8XUR0KoZ06ZfTwtO806w24Bee8ee1GDoWffNzP3RRfdj332EakGC
- vZOFVBfPcRGJkwlQhfEeHtTtRwy+RTwRBIMao0f9do1+4WfiUeerNid9BTCDYkHQ
- ==
-X-ME-Sender: <xms:vxHAYFhxctgAA3C4xcXS4ppQsJcn4-jv1El4ucwQfLjhFWlD2Zq66g>
- <xme:vxHAYKBupQ_RU5g-KVQm4FKlBUWivq8vPR7pQyVOsm4gtj6laIt3F0HAMRelhH2VA
- Cf_xVvxMmkyAP7EAQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedutddgfeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhepuddttdekueeggedvtddtueekiedutdfguedutdefieeuteefieelteet
- vddthfeinecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
- eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:vxHAYFEytP3CrsE9oyllP_AFL-UakUpXq0Y808ZD7b8Gshzx9zeCKg>
- <xmx:vxHAYKSefdA0tah_-C2awatNP-9wfRJmtcWYAL1EsLTxI6Iys-0y4g>
- <xmx:vxHAYCyod1UvLXhPm-9alWmlAEcO_IXxRs8gfGffvXMJTJ5tY3ZQ6Q>
- <xmx:wBHAYHqdCOfNkdNosTpvUcQqEvibNwtSvfxmQESAUPaLLsvXieGWPg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id D6CB9AC0062; Tue,  8 Jun 2021 20:56:31 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-519-g27a961944e-fm-20210531.001-g27a96194
-Mime-Version: 1.0
-Message-Id: <311d0c03-06f3-4c68-aa5a-877a592b6975@www.fastmail.com>
-In-Reply-To: <20210608102547.4880-11-steven_lee@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4G09Bj372qz2xZH
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Jun 2021 11:54:04 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 1591c2nC096728;
+ Wed, 9 Jun 2021 09:38:02 +0800 (GMT-8)
+ (envelope-from steven_lee@aspeedtech.com)
+Received: from aspeedtech.com (192.168.100.253) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 9 Jun
+ 2021 09:51:53 +0800
+Date: Wed, 9 Jun 2021 09:51:49 +0800
+From: Steven Lee <steven_lee@aspeedtech.com>
+To: Andrew Jeffery <andrew@aj.id.au>
+Subject: Re: [PATCH v5 03/10] ARM: dts: aspeed-g6: Add SGPIO node.
+Message-ID: <20210609015148.GA14839@aspeedtech.com>
 References: <20210608102547.4880-1-steven_lee@aspeedtech.com>
- <20210608102547.4880-11-steven_lee@aspeedtech.com>
-Date: Wed, 09 Jun 2021 10:26:11 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Steven Lee" <steven_lee@aspeedtech.com>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "Bartosz Golaszewski" <bgolaszewski@baylibre.com>,
- "Rob Herring" <robh+dt@kernel.org>, "Joel Stanley" <joel@jms.id.au>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>, 
- "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- "open list" <linux-kernel@vger.kernel.org>
-Subject: =?UTF-8?Q?Re:_[PATCH_v5_10/10]_gpio:_gpio-aspeed-sgpio:_Return_error_if_?=
- =?UTF-8?Q?ngpios_is_not_multiple_of_8.?=
-Content-Type: text/plain
+ <20210608102547.4880-4-steven_lee@aspeedtech.com>
+ <cef3e619-bd49-4318-bdcd-f844d2b80af7@www.fastmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+In-Reply-To: <cef3e619-bd49-4318-bdcd-f844d2b80af7@www.fastmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [192.168.100.253]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1591c2nC096728
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,20 +55,85 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Hongwei Zhang <Hongweiz@ami.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED MACHINE
+ SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, Hongwei Zhang <Hongweiz@ami.com>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On Tue, 8 Jun 2021, at 19:55, Steven Lee wrote:
-> Add an else-if condition in the probe function to check whether ngpios is
-> multiple of 8.
-> Per AST datasheet, numbers of available serial GPIO pins in Serial GPIO
-> Configuration Register must be n bytes. For instance, if n = 1, it means
-> AST SoC supports 8 GPIO pins.
+The 06/09/2021 08:43, Andrew Jeffery wrote:
 > 
-> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+> 
+> On Tue, 8 Jun 2021, at 19:55, Steven Lee wrote:
+> > AST2600 supports 2 SGPIO master interfaces one with 128 pins another one
+> > with 80 pins.
+> > 
+> > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+> > ---
+> >  arch/arm/boot/dts/aspeed-g6.dtsi | 28 ++++++++++++++++++++++++++++
+> >  1 file changed, 28 insertions(+)
+> > 
+> > diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
+> > index f96607b7b4e2..c55baaf94314 100644
+> > --- a/arch/arm/boot/dts/aspeed-g6.dtsi
+> > +++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+> > @@ -377,6 +377,34 @@
+> >  				#interrupt-cells = <2>;
+> >  			};
+> >  
+> > +			sgpiom0: sgpiom@1e780500 {
+> > +				#gpio-cells = <2>;
+> > +				gpio-controller;
+> > +				compatible = "aspeed,ast2600-sgpiom-128";
+> > +				reg = <0x1e780500 0x100>;
+> > +				interrupts = <GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>;
+> > +				clocks = <&syscon ASPEED_CLK_APB2>;
+> 
+> The example in the binding document used ASPEED_CLK_APB. Which is correct? I assume ASPEED_CLK_APB2?
+> 
 
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+The example in the binding document is for aspeed-g5.
+aspeed-g5 and aspeed-g6 use different clocks.
+Should I add a new patch for adding an example for aspeed-g6?
+
+> > +				interrupt-controller;
+> > +				bus-frequency = <12000000>;
+> > +				pinctrl-names = "default";
+> > +				pinctrl-0 = <&pinctrl_sgpm1_default>;
+> > +				status = "disabled";
+> > +			};
+> > +
+> > +			sgpiom1: sgpiom@1e780600 {
+> > +				#gpio-cells = <2>;
+> > +				gpio-controller;
+> > +				compatible = "aspeed,ast2600-sgpiom-80";
+> > +				reg = <0x1e780600 0x100>;
+> > +				interrupts = <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>;
+> > +				clocks = <&syscon ASPEED_CLK_APB2>;
+> > +				interrupt-controller;
+> > +				bus-frequency = <12000000>;
+> > +				pinctrl-names = "default";
+> > +				pinctrl-0 = <&pinctrl_sgpm2_default>;
+> > +				status = "disabled";
+> > +			};
+> > +
+> >  			gpio1: gpio@1e780800 {
+> >  				#gpio-cells = <2>;
+> >  				gpio-controller;
+> > -- 
+> > 2.17.1
+> > 
+> > 
+> > _______________________________________________
+> > linux-arm-kernel mailing list
+> > linux-arm-kernel@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> > 
