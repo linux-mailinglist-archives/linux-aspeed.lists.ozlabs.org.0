@@ -2,47 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BDAF3A2244
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Jun 2021 04:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C9293A25CF
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Jun 2021 09:50:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4G0nrs0Nl8z306M
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Jun 2021 12:25:49 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4G0x3b4qLRz307M
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Jun 2021 17:50:35 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=AdvT/igY;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=steven_lee@aspeedtech.com;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::12d;
+ helo=mail-lf1-x12d.google.com; envelope-from=linus.walleij@linaro.org;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
+ header.s=google header.b=AdvT/igY; dkim-atps=neutral
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4G0nrn5vc6z2ymP
- for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Jun 2021 12:25:43 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 15A2ASoQ033844;
- Thu, 10 Jun 2021 10:10:28 +0800 (GMT-8)
- (envelope-from steven_lee@aspeedtech.com)
-Received: from aspeedtech.com (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 10 Jun
- 2021 10:24:20 +0800
-Date: Thu, 10 Jun 2021 10:24:19 +0800
-From: Steven Lee <steven_lee@aspeedtech.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v5 00/10] ASPEED sgpio driver enhancement.
-Message-ID: <20210610022416.GA27188@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4G0x3W1NjSz2yyG
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Jun 2021 17:50:29 +1000 (AEST)
+Received: by mail-lf1-x12d.google.com with SMTP id r198so1692659lff.11
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Jun 2021 00:50:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BV0mX6VHU5X8dHAexL1PQHyIj2OEzudYmOcUzeY2MX4=;
+ b=AdvT/igYobAKGf9/uDLDpNApWa3Pq6oV7rSkMR3xAYpt3CF1g7hBOIQXtIQnQnfLcg
+ V9MCCOKKAbHgP6RiOfevPWvrGybrM0Uisq1KLDzOUrRYmAiMGJf4xjX8wG0zGPaKrC2H
+ YtjNivLvnvqdYnnpF5TPK9UmUlmTSguPrDj30cheFYhIeKrdcGvDUn0VHt1DjPqlyISP
+ wivifzrYIDWZN+HQJegNQQgvR6Yf9NxaB2YBqkfqwbHZjfXWNuu+wZQ120m3N83COajN
+ pMoqB3XHUVSNPnWkV8KMdiR6S4l1UuE99hUPw9UX7pd7CLJj6lSgNilo0vQ6pn76sXTS
+ eiGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BV0mX6VHU5X8dHAexL1PQHyIj2OEzudYmOcUzeY2MX4=;
+ b=q7O9sr54ouUR0w7s+gPVG/WqMr79NzHRM83agyiBiHsB7m6jI6K3K84/E/tq6i8k1w
+ qQ+yJ3qKHg3BTkibHmot6k0PSgESIuPI/Lg9Idq5RIdcCJXsZ3E2y6Ir1XFoS244p8bj
+ KN/2g2VUFwlWoq3zDjFHQtOXjhRlDoL8q5FPci8FC6e8uOlJkVPmf07kxDzzFD+zu2Wj
+ zs3EtgjGwfkjb6twa8EqREEPAR5jN85sSgi1RMUvFob1WiocH8n9Na85sCF9882E50rR
+ 7ZopKhEJ1iK9lg9mr5kMFmD9E1mxukyUraPMeJdmT9GL0wjetWuxtq3fRszu/t9jRzrv
+ IItQ==
+X-Gm-Message-State: AOAM532EhDH6lJHSK2FgG7JD39M2JIKTd63p1QPgbyg3NUlyUFZlIhx2
+ GStdnPZbCb25Br/e6eGgk4T4Pc80A05pq+TJeuR63A==
+X-Google-Smtp-Source: ABdhPJwXgej17X2Hq45GoFUg6Fkxs282tt7kcgRz+7nJDajhBBMWhiNOQrCm3BSAzecuEcF6CuKi3ff9MxykHNNR6SE=
+X-Received: by 2002:a05:6512:20c9:: with SMTP id
+ u9mr1074510lfr.291.1623311420585; 
+ Thu, 10 Jun 2021 00:50:20 -0700 (PDT)
+MIME-Version: 1.0
 References: <20210608102547.4880-1-steven_lee@aspeedtech.com>
  <CACRpkdZOStr+K9U9QTkAcsk4NxuSqBRVv_-9_VkGJbT69iSxmQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <CACRpkdZOStr+K9U9QTkAcsk4NxuSqBRVv_-9_VkGJbT69iSxmQ@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 15A2ASoQ033844
+ <20210610022416.GA27188@aspeedtech.com>
+In-Reply-To: <20210610022416.GA27188@aspeedtech.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 10 Jun 2021 09:50:09 +0200
+Message-ID: <CACRpkda60eB6i2+2MQFyhqYn4Q0WRGPPs91cu9K-g1maov61+w@mail.gmail.com>
+Subject: Re: [PATCH v5 00/10] ASPEED sgpio driver enhancement.
+To: Steven Lee <steven_lee@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,8 +77,8 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED MACHINE
- SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ <devicetree@vger.kernel.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
  "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
  open list <linux-kernel@vger.kernel.org>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>,
@@ -67,52 +89,25 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The 06/09/2021 18:54, Linus Walleij wrote:
-> On Tue, Jun 8, 2021 at 12:26 PM Steven Lee <steven_lee@aspeedtech.com> wrote:
-> 
-> > AST2600 SoC has 2 SGPIO master interfaces one with 128 pins another one
-> > with 80 pins, AST2500/AST2400 SoC has 1 SGPIO master interface that
-> > supports up to 80 pins.
-> > In the current driver design, the max number of sgpio pins is hardcoded
-> > in macro MAX_NR_HW_SGPIO and the value is 80.
-> >
-> > For supporting sgpio master interfaces of AST2600 SoC, the patch series
-> > contains the following enhancement:
-> > - Convert txt dt-bindings to yaml.
-> > - Update aspeed-g6 dtsi to support the enhanced sgpio.
-> > - Define max number of gpio pins in ast2600 platform data. Old chip
-> >   uses the original hardcoded value.
-> > - Support muiltiple SGPIO master interfaces.
-> > - Support up to 128 pins.
-> > - Support wdt reset tolerance.
-> > - Fix irq_chip issues which causes multiple sgpio devices use the same
-> >   irq_chip data.
-> > - Replace all of_*() APIs with device_*().
-> >
-> > Changes from v4:
-> 
-> v5 looks good to me!
-> 
-> I just need Rob's or another DT persons nod on the bindings (or timeout)
-> before I merge it. Poke me if nothing happens.
-> 
-> >   ARM: dts: aspeed-g6: Add SGPIO node.
-> >   ARM: dts: aspeed-g5: Remove ngpios from sgpio node.
-> 
-> These two need to be merged through the SoC tree, the rest I will handle.
-> 
-Hi Linus, Andrew,
+On Thu, Jun 10, 2021 at 4:24 AM Steven Lee <steven_lee@aspeedtech.com> wrote:
 
-Per the comment in the following mail
-https://lkml.org/lkml/2021/6/9/317
+> Per the comment in the following mail
+> https://lkml.org/lkml/2021/6/9/317
+>
+> I was wondering if I should prepare v6 for the currnet solution or
+> I should drop this patch series then prepare another patch for the
+> new solution(piar GPIO input/output) which breaks userspace but is
+> better than the current solution.
 
-I was wondering if I should prepare v6 for the currnet solution or
-I should drop this patch series then prepare another patch for the
-new solution(piar GPIO input/output) which breaks userspace but is
-better than the current solution.
+I would say just go ahead with the new solution. AFAIK Aspeed
+has pretty tight control over what kind of userspace run on these
+systems.
 
-Thanks,
-Steven
+BTW please influence Aspeed to use the GPIO character device
+and ligpiod
+https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/
+if you are doing any kind of userspace GPIO control (which I
+suspect that you do).
 
-> Yours,
-> Linus Walleij
+Yours,
+Linus Walleij
