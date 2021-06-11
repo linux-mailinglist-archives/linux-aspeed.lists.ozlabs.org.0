@@ -1,92 +1,74 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BBEA3A37D9
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Jun 2021 01:28:08 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7FF23A4925
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Jun 2021 21:03:17 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4G1KsL477nz3bnW
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Jun 2021 09:28:06 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4G1qxJ21XSz3byl
+	for <lists+linux-aspeed@lfdr.de>; Sat, 12 Jun 2021 05:03:16 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=I1WmP4JU;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=EnisUU2J;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.a=rsa-sha256 header.s=20150623 header.b=aMWPZNu0;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.229;
- helo=new3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=baylibre.com (client-ip=2607:f8b0:4864:20::b33;
+ helo=mail-yb1-xb33.google.com; envelope-from=bgolaszewski@baylibre.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm3 header.b=I1WmP4JU; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm3 header.b=EnisUU2J; 
- dkim-atps=neutral
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
+ unprotected) header.d=baylibre-com.20150623.gappssmtp.com
+ header.i=@baylibre-com.20150623.gappssmtp.com header.a=rsa-sha256
+ header.s=20150623 header.b=aMWPZNu0; dkim-atps=neutral
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
+ [IPv6:2607:f8b0:4864:20::b33])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4G1KsC62hfz308N
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Jun 2021 09:27:59 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 2ACB45806C7;
- Thu, 10 Jun 2021 19:27:56 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Thu, 10 Jun 2021 19:27:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=cFF/8oG3M1dicXtAwlQThY8CTKYnxK4
- oe2z09qMEzC0=; b=I1WmP4JUnIzWVed7DF0ufUJB30mobzScfiDXaiW34NhRCDN
- KZkL+KxdedDIbprjITw2lA9ngO8scHP7Pgvf0AL4jAMDSROXYd3xO1PpaPOsmgfu
- OkYjgL5dnVjMJxyVV9eG+0xcQC/kEWxHg0NM/bskbIZDxD5dvtod48L1nENhQCp9
- s4HA74Ts5s+magBEjvWyW2ABZSH1zpiOXSxWI0TOXMg5CgHh1JUYZIFA01y/tr7K
- lkj8/0TyJlspWfYEmCsMtK+12VR9gK7pt0k7nZB7n2BOGQoSwWHcv1LiFj+bBbgi
- ShShN3zFatpYmxDSf5NqkKuqjjzsVYn1xCcVpmQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=cFF/8o
- G3M1dicXtAwlQThY8CTKYnxK4oe2z09qMEzC0=; b=EnisUU2J9adx4JKrNozsKF
- o+FxpHPpBKo3EOYlitCFjioTJjA9LlKAu07URV9pyyT9/H8058gvbhAHbyumqDwR
- +jYaZr+QxINa4Iq1FNPF+ITq9Ryj56bneQ2DvVoZQF0UK5q+sKktQmk2kN0TE0lZ
- 7bCIZnqXmjUk8Rp9qzyh8IAolLXofilztZhYFmEK9vgg7hMfw4wTN/rpGaGaw1iG
- N33f0CW1yMZtOcv/FNOO96luD9H80CLB91So4H3w457s0HVxGC+Q9UEelI+Ru7I5
- 6X+7jDJr74P6ytX0dtIc60CXXC8SmirU4BHI9ymrn5JoJbATjf3BCiD0QCn0Yjjw
- ==
-X-ME-Sender: <xms:-p_CYH0gycjPd9wXY7FtXAecNkq9NJWOgOlYAEiVxGfkY2RXoVGrnA>
- <xme:-p_CYGE_BdJYPhy7RaPGRPn97NtXyX5JfRi_RsHVObE-o92l1j-ne6PeyFj0EPNLd
- 9FlkJgszfmGJbpraA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeduiedgvdduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhepudehtddtleektedvfeeitdeljeekveelkeegvdfhtdejhefgfedtfedv
- jeejledtnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
- gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:-p_CYH56-aVJHv5U-UOQJwdtkZoaY4UlYTXTZpKmtuw5HkzlRZ0CQw>
- <xmx:-p_CYM3HUUSylPIDcaK_I4awiiUE3joXqxjLdTNH3LhF-4yO9XDaNw>
- <xmx:-p_CYKEElMOBf29gl-rPh26uz3wSodiotYvxCtqHKwVWqSvgbLVUMg>
- <xmx:_J_CYC8B-dmfCOHgLBquuxksa1axY5h4MVpVHYrGLX-kfp879vBYFQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 09798A0007A; Thu, 10 Jun 2021 19:27:54 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-519-g27a961944e-fm-20210531.001-g27a96194
-Mime-Version: 1.0
-Message-Id: <f639f1bb-fe53-4c15-a6dd-91b45ea7eef1@www.fastmail.com>
-In-Reply-To: <20210610162320.GA1910317@robh.at.kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4G1qxC6kpzz307J
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 12 Jun 2021 05:03:08 +1000 (AEST)
+Received: by mail-yb1-xb33.google.com with SMTP id q21so5714641ybg.8
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Jun 2021 12:03:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ca6H2fyumZSb+eKMZ7WVBfn+mdbBLwSkfIc3JCOOo00=;
+ b=aMWPZNu0C6XDfhORKql1wIVPjcZXsyNf1TErE5dsDoA+CkUhGhuCqPgkjZIYwXbMah
+ HDEvEyrDmQueDgJRvz21YAx4ALlJUdZ2VPqDWt5Wa5486MxOFw4iiJ+pNlyGhGAU9qdz
+ h93QKuu5vW0SJrcfh5DniZPLJUfdm8YMSnOZtUMeAOkA/vdQIxYTiwCxvZzWw/yso+w1
+ 3QTB47fzDa8unr48AJAb9ZnsguMWN/2CYwpqk5vzevBQk0RI5b6b4O9rWByrQkZWAqk/
+ BngLY9MEn9xONu5lUTL3lSEFGcCjSL6/5PC56Hx+Jj4y6JmKpaySF9TooDv6U4UEwy5h
+ fG8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ca6H2fyumZSb+eKMZ7WVBfn+mdbBLwSkfIc3JCOOo00=;
+ b=T2SSDslq6b0/DwGenmGzyafJ7gxWBt8Tq5OvWobr6k0Vafo3XxiT/zhZF4z5ISTFO5
+ VwoppqJM0tPsrT4lpGA1OxRh3AtrI9ReIwLw+pKpdNHUa22Daw7gX1Jj77MffTFgfKKl
+ k8Gljq0RNjwDGoP3SzRryaA49pHP5Aur6GfeQaOwTuBqKgeT61oS7Uxr3hl6f7WxnCwS
+ tk4IbwQdtSxIKC+THALE3+oGtrRjYrfJOdwGmd919UXQEU5O0byN51fU41hF7cANjFn4
+ xflNH8W+1sbmOcaNqUhQ37m4rPWu3dl8lI9cy2vbW/mfPAHl2N1BDb5hclxrQQRsSRyf
+ De5g==
+X-Gm-Message-State: AOAM532/0aTqH7GVc4N17dcKIXe8bQt5h/P496gbm3aWl6P7KHxSIuuX
+ J3RlnZiQEb0MhNDQknuCiQk/J69SxK+D6CvJwlAWfQ==
+X-Google-Smtp-Source: ABdhPJwZHsPWI3zqCfdxyOXgBLv+wobDe+BhBsloA91sKRTTqLWgQjTE1yxqpVaZw80uNADiR1hf5M+7bZykDVSp+pE=
+X-Received: by 2002:a25:cf15:: with SMTP id f21mr7680332ybg.366.1623438183875; 
+ Fri, 11 Jun 2021 12:03:03 -0700 (PDT)
+MIME-Version: 1.0
 References: <20210608102547.4880-1-steven_lee@aspeedtech.com>
- <20210608102547.4880-3-steven_lee@aspeedtech.com>
- <20210610162320.GA1910317@robh.at.kernel.org>
-Date: Fri, 11 Jun 2021 08:57:12 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Rob Herring" <robh@kernel.org>, "Steven Lee" <steven_lee@aspeedtech.com>
-Subject: =?UTF-8?Q?Re:_[PATCH_v5_02/10]_dt-bindings:_aspeed-sgpio:_Add_ast2600_sg?=
- =?UTF-8?Q?pio_compatibles.?=
-Content-Type: text/plain
+ <20210608102547.4880-7-steven_lee@aspeedtech.com>
+ <6f87ccf4-9b8f-4c67-84a1-e83a2ee5103b@www.fastmail.com>
+ <20210609041227.GB14839@aspeedtech.com>
+ <1a4dc5a6-8035-4879-ba9d-b6d6afd48196@www.fastmail.com>
+In-Reply-To: <1a4dc5a6-8035-4879-ba9d-b6d6afd48196@www.fastmail.com>
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date: Fri, 11 Jun 2021 21:02:53 +0200
+Message-ID: <CAMpxmJUMQg2tsO+GLzNDNwoEtm6G3OHcK5M3zPOt9A4LDmCyYw@mail.gmail.com>
+Subject: Re: [PATCH v5 06/10] gpio: gpio-aspeed-sgpio: Add AST2400 and AST2500
+ platform data.
+To: Steven Lee <steven_lee@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,73 +83,123 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
  <devicetree@vger.kernel.org>,
  "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
  Linus Walleij <linus.walleij@linaro.org>,
  open list <linux-kernel@vger.kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Hongwei Zhang <Hongweiz@ami.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Hongwei Zhang <Hongweiz@ami.com>,
  "moderated list:ARM/ASPEED MACHINE SUPPORT"
  <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Wed, Jun 9, 2021 at 8:46 AM Andrew Jeffery <andrew@aj.id.au> wrote:
+>
+>
+>
+> On Wed, 9 Jun 2021, at 13:42, Steven Lee wrote:
+> > The 06/09/2021 08:55, Andrew Jeffery wrote:
+> > >
+> > >
+> > > On Tue, 8 Jun 2021, at 19:55, Steven Lee wrote:
+> > > > We use platform data to store GPIO pin mask and the max number of
+> > > > available GPIO pins for AST2600.
+> > > > Refactor driver to also add the platform data for AST2400/AST2500 and
+> > > > remove unused MAX_NR_HW_SGPIO and ASPEED_SGPIO_PINS_MASK macros.
+> > > >
+> > > > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+> > > > ---
+> > > >  drivers/gpio/gpio-aspeed-sgpio.c | 34 +++++++++++---------------------
+> > > >  1 file changed, 12 insertions(+), 22 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpio/gpio-aspeed-sgpio.c b/drivers/gpio/gpio-aspeed-sgpio.c
+> > > > index ea20a0127748..7d0a4f6fd9d1 100644
+> > > > --- a/drivers/gpio/gpio-aspeed-sgpio.c
+> > > > +++ b/drivers/gpio/gpio-aspeed-sgpio.c
+> > > > @@ -17,21 +17,8 @@
+> > > >  #include <linux/spinlock.h>
+> > > >  #include <linux/string.h>
+> > > >
+> > > > -/*
+> > > > - * MAX_NR_HW_GPIO represents the number of actual hardware-supported GPIOs (ie,
+> > > > - * slots within the clocked serial GPIO data). Since each HW GPIO is both an
+> > > > - * input and an output, we provide MAX_NR_HW_GPIO * 2 lines on our gpiochip
+> > > > - * device.
+> > > > - *
+> > > > - * We use SGPIO_OUTPUT_OFFSET to define the split between the inputs and
+> > > > - * outputs; the inputs start at line 0, the outputs start at OUTPUT_OFFSET.
+> > > > - */
+> > > > -#define MAX_NR_HW_SGPIO                  80
+> > > > -#define SGPIO_OUTPUT_OFFSET              MAX_NR_HW_SGPIO
+> > > > -
+> > > >  #define ASPEED_SGPIO_CTRL                0x54
+> > > >
+> > > > -#define ASPEED_SGPIO_PINS_MASK           GENMASK(9, 6)
+> > > >  #define ASPEED_SGPIO_CLK_DIV_MASK        GENMASK(31, 16)
+> > > >  #define ASPEED_SGPIO_ENABLE              BIT(0)
+> > > >  #define ASPEED_SGPIO_PINS_SHIFT          6
+> > > > @@ -484,6 +471,11 @@ static int aspeed_sgpio_setup_irqs(struct
+> > > > aspeed_sgpio *gpio,
+> > > >   return 0;
+> > > >  }
+> > > >
+> > > > +static const struct aspeed_sgpio_pdata ast2400_sgpio_pdata = {
+> > > > + .max_ngpios = 80,
+> > > > + .pin_mask = GENMASK(9, 6),
+> > > > +};
+> > > > +
+> > > >  static const struct aspeed_sgpio_pdata ast2600_sgpiom_128_pdata = {
+> > > >   .max_ngpios = 128,
+> > > >   .pin_mask = GENMASK(10, 6),
+> > > > @@ -495,8 +487,8 @@ static const struct aspeed_sgpio_pdata
+> > > > ast2600_sgpiom_80_pdata = {
+> > > >  };
+> > > >
+> > > >  static const struct of_device_id aspeed_sgpio_of_table[] = {
+> > > > - { .compatible = "aspeed,ast2400-sgpio" },
+> > > > - { .compatible = "aspeed,ast2500-sgpio" },
+> > > > + { .compatible = "aspeed,ast2400-sgpio", .data = &ast2400_sgpio_pdata,
+> > > > },
+> > > > + { .compatible = "aspeed,ast2500-sgpio", .data = &ast2400_sgpio_pdata,
+> > > > },
+> > > >   { .compatible = "aspeed,ast2600-sgpiom-128", .data =
+> > > > &ast2600_sgpiom_128_pdata, },
+> > > >   { .compatible = "aspeed,ast2600-sgpiom-80", .data =
+> > > > &ast2600_sgpiom_80_pdata, },
+> > > >   {}
+> > > > @@ -521,13 +513,11 @@ static int __init aspeed_sgpio_probe(struct
+> > > > platform_device *pdev)
+> > > >           return PTR_ERR(gpio->base);
+> > > >
+> > > >   pdata = device_get_match_data(&pdev->dev);
+> > > > - if (pdata) {
+> > > > -         gpio->max_ngpios = pdata->max_ngpios;
+> > > > -         pin_mask = pdata->pin_mask;
+> > > > - } else {
+> > > > -         gpio->max_ngpios = MAX_NR_HW_SGPIO;
+> > > > -         pin_mask = ASPEED_SGPIO_PINS_MASK;
+> > > > - }
+> > > > + if (!pdata)
+> > > > +         return -EINVAL;
+> > > > +
+> > > > + gpio->max_ngpios = pdata->max_ngpios;
+> > > > + pin_mask = pdata->pin_mask;
+> > >
+> > > Hmm, okay, maybe just re-order the patches so this commit comes before the previous one. That way we don't immediately rip out this condition that we just introduced in the previous patch.
+> > >
+> > > I think I suggested squashing it into the previous patch, but with the removal of the comments and macros I think it's worth leaving it separate, just reordered.
+> > >
+> >
+> > I was wondering if I can squash patch-05 and patch-06 into one patch
+> > as this patch(patch-06) requires macros, structures, and functions that
+> > modified in the previous patch(patch-05).
+>
+> Yeah, fair enough. Just squash them.
+>
+> Cheers,
+>
+> Andrew
 
+I'm ready to pick this up as soon as you respin the series.
 
-On Fri, 11 Jun 2021, at 01:53, Rob Herring wrote:
-> On Tue, Jun 08, 2021 at 06:25:37PM +0800, Steven Lee wrote:
-> > AST2600 SoC has 2 SGPIO master interfaces one with 128 pins another one
-> > with 80 pins. Add ast2600-sgpiom0-80 and ast2600-sgpiom-128 compatibles
-> > and update descriptions to introduce the max number of available gpio
-> > pins that AST2600 supported.
-> > 
-> > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
-> > Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-> > ---
-> >  Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml | 9 ++++++---
-> >  1 file changed, 6 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml b/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
-> > index b2ae211411ff..0e42eded3c1e 100644
-> > --- a/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
-> > +++ b/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
-> > @@ -10,9 +10,10 @@ maintainers:
-> >    - Andrew Jeffery <andrew@aj.id.au>
-> >  
-> >  description:
-> > -  This SGPIO controller is for ASPEED AST2500 SoC, it supports up to 80 full
-> > -  featured Serial GPIOs. Each of the Serial GPIO pins can be programmed to
-> > -  support the following options
-> > +  This SGPIO controller is for ASPEED AST2400, AST2500 and AST2600 SoC,
-> > +  AST2600 have two sgpio master one with 128 pins another one with 80 pins,
-> > +  AST2500/AST2400 have one sgpio master with 80 pins. Each of the Serial
-> > +  GPIO pins can be programmed to support the following options
-> >    - Support interrupt option for each input port and various interrupt
-> >      sensitivity option (level-high, level-low, edge-high, edge-low)
-> >    - Support reset tolerance option for each output port
-> > @@ -25,6 +26,8 @@ properties:
-> >      enum:
-> >        - aspeed,ast2400-sgpio
-> >        - aspeed,ast2500-sgpio
-> > +      - aspeed,ast2600-sgpiom-80
-> > +      - aspeed,ast2600-sgpiom-128
-> 
-> If the number of GPIOs is the only difference, then I don't think you 
-> should get rid of ngpios. It's one thing if it varies from one SoC to 
-> the next, but if something is per instance we should have a property.
-> 
-
-There are two issues:
-
-1. The maximum number of GPIOs supported by the controller
-2. The maximum number of GPIOs supported by the platform
-
-These are different because of what the controller does - here's some previous discussion on the topic:
-
-https://lore.kernel.org/linux-gpio/f2875111-9ba9-43b7-b2a4-d00c8725f5a0@www.fastmail.com/
-
-We've used ngpios to describe 2; this decision was made prior to the 2600 design - the SGPIO controller for both the 2400 and 2500 supported a maximum of 80 GPIOs. With the 2600 we have to differentiate between the two SGPIO controllers because they support a different maximum number of GPIOs. The proposed approach of different compatibles keeps the behaviour of ngpios the same across all controller implementations.
-
-Cheers,
-
-Andrew
+Bart
