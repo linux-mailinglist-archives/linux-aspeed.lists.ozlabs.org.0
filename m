@@ -2,52 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5812C3A75BE
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Jun 2021 06:23:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 092563A88C5
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Jun 2021 20:47:13 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4G3wCr6QW6z306N
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Jun 2021 14:23:04 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4G4HNv28d0z2ym5
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Jun 2021 04:47:11 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=AkDl/pWC;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=steven_lee@aspeedtech.com;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::32d;
+ helo=mail-ot1-x32d.google.com; envelope-from=tcminyard@gmail.com;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=AkDl/pWC; dkim-atps=neutral
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4G3wCm2Z7Dz2xtx
- for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Jun 2021 14:22:58 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 15F482WE037072;
- Tue, 15 Jun 2021 12:08:02 +0800 (GMT-8)
- (envelope-from steven_lee@aspeedtech.com)
-Received: from aspeedtech.com (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 15 Jun
- 2021 12:22:16 +0800
-Date: Tue, 15 Jun 2021 12:22:08 +0800
-From: Steven Lee <steven_lee@aspeedtech.com>
-To: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v5 06/10] gpio: gpio-aspeed-sgpio: Add AST2400 and
- AST2500 platform data.
-Message-ID: <20210615042207.GB30360@aspeedtech.com>
-References: <20210608102547.4880-1-steven_lee@aspeedtech.com>
- <20210608102547.4880-7-steven_lee@aspeedtech.com>
- <6f87ccf4-9b8f-4c67-84a1-e83a2ee5103b@www.fastmail.com>
- <20210609041227.GB14839@aspeedtech.com>
- <1a4dc5a6-8035-4879-ba9d-b6d6afd48196@www.fastmail.com>
- <CAMpxmJUMQg2tsO+GLzNDNwoEtm6G3OHcK5M3zPOt9A4LDmCyYw@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4G4HNq4Ls8z2yXS;
+ Wed, 16 Jun 2021 04:47:06 +1000 (AEST)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ w22-20020a0568304116b02904060c6415c7so12970721ott.1; 
+ Tue, 15 Jun 2021 11:47:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=M0jPcyN+0GksOscsUu1GV8Mpyh0R661ZmzEHh6E/AMs=;
+ b=AkDl/pWCrmnX6WAe8kjc7Wu2g9cEQcW98r+hZ/47zJliuKZ3xPv4lrcY57XTWjjCPN
+ TjDxOAuDg549gDq99JX8OINGoRcK9OMKQwzfF4EeKoPx+0wHS1mRdtircff8T97yLmkc
+ Vz3ZGBcK/nrDKZg/iaRS6UurBkq7EnJqDlo8mgG8s5pSPB9dG8sia604BeCydvudAoPv
+ qcb63CZN0VPQFmYzTsivOp3pohEJOvQJB6ZmSBWX/lxmFFm5R6W7LdFzgmp0ZKYeIEMQ
+ TDWvaOEEqRlZflUBxRXidrsGv+QaNPpu+/aRnHiURxqxmURv04tQxyOUaTyA+AarqVIs
+ ieNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition:in-reply-to;
+ bh=M0jPcyN+0GksOscsUu1GV8Mpyh0R661ZmzEHh6E/AMs=;
+ b=mE0Kk/SQc7Z4o+t1Alvi+Drsene3A8uSewp8qI31PWMmTT0wS+5y4l7jYbG+KpeOiQ
+ TAdWboItYLruReP7fydOhUpX+734oPmLa3UDXD2geordVCm7QhQgGFxIZteI4yNm52JD
+ KKa+ExIHmqMafE4Q93rsQlnLC21lzQDB23cnpElngycW7oNK6Gknw9VA/DuFRlDhw/Jy
+ EzZnYJU80y7fe87iS90SfdcSjwbP7+qVl9uqLhPgj1cQIt2VWPIMEpcim2UMh3NkAun3
+ 0kusATTd6E6Zh4e9z70AmfHg1WHpBiEW72CwV21UQ28863v+PfaLVJ920Bu4jKXXTQ69
+ wtog==
+X-Gm-Message-State: AOAM533l5qw8OCTYDu520xYwKvvkUFasDKV2CFNWdSvjF6b5AyGh0y2c
+ H9Zs3lRB/eaSZk4vRMoOlw==
+X-Google-Smtp-Source: ABdhPJxQ9rkGnGivDEkuBfraFu5hFHW+Mr+Pxscs4LsNz+yhlOVsSAou40KfWpqyzu7Hu5pbUpQVVw==
+X-Received: by 2002:a9d:6a03:: with SMTP id g3mr502028otn.189.1623782821114;
+ Tue, 15 Jun 2021 11:47:01 -0700 (PDT)
+Received: from serve.minyard.net ([47.184.156.158])
+ by smtp.gmail.com with ESMTPSA id r1sm4355328oth.19.2021.06.15.11.47.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Jun 2021 11:47:00 -0700 (PDT)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:50dd:ab38:f475:bd86])
+ by serve.minyard.net (Postfix) with ESMTPSA id 258ED180293;
+ Tue, 15 Jun 2021 18:46:59 +0000 (UTC)
+Date: Tue, 15 Jun 2021 13:46:57 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Andrew Jeffery <andrew@aj.id.au>
+Subject: Re: [PATCH v4 00/16] ipmi: Allow raw access to KCS devices
+Message-ID: <20210615184657.GF2921206@minyard.net>
+References: <20210608104757.582199-1-andrew@aj.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMpxmJUMQg2tsO+GLzNDNwoEtm6G3OHcK5M3zPOt9A4LDmCyYw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 15F482WE037072
+In-Reply-To: <20210608104757.582199-1-andrew@aj.id.au>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,141 +84,114 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND
- FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- open list <linux-kernel@vger.kernel.org>, "open list:GPIO
- SUBSYSTEM" <linux-gpio@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Hongwei Zhang <Hongweiz@ami.com>, "moderated
- list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>
+Reply-To: minyard@acm.org
+Cc: devicetree@vger.kernel.org, tmaimon77@gmail.com,
+ linux-aspeed@lists.ozlabs.org, KWLIU@nuvoton.com, avifishman70@gmail.com,
+ venture@google.com, openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ tali.perry1@gmail.com, robh+dt@kernel.org, arnd@arndb.de,
+ openipmi-developer@lists.sourceforge.net, zweiss@equinix.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The 06/12/2021 03:02, Bartosz Golaszewski wrote:
-> On Wed, Jun 9, 2021 at 8:46 AM Andrew Jeffery <andrew@aj.id.au> wrote:
-> >
-> >
-> >
-> > On Wed, 9 Jun 2021, at 13:42, Steven Lee wrote:
-> > > The 06/09/2021 08:55, Andrew Jeffery wrote:
-> > > >
-> > > >
-> > > > On Tue, 8 Jun 2021, at 19:55, Steven Lee wrote:
-> > > > > We use platform data to store GPIO pin mask and the max number of
-> > > > > available GPIO pins for AST2600.
-> > > > > Refactor driver to also add the platform data for AST2400/AST2500 and
-> > > > > remove unused MAX_NR_HW_SGPIO and ASPEED_SGPIO_PINS_MASK macros.
-> > > > >
-> > > > > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
-> > > > > ---
-> > > > >  drivers/gpio/gpio-aspeed-sgpio.c | 34 +++++++++++---------------------
-> > > > >  1 file changed, 12 insertions(+), 22 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpio/gpio-aspeed-sgpio.c b/drivers/gpio/gpio-aspeed-sgpio.c
-> > > > > index ea20a0127748..7d0a4f6fd9d1 100644
-> > > > > --- a/drivers/gpio/gpio-aspeed-sgpio.c
-> > > > > +++ b/drivers/gpio/gpio-aspeed-sgpio.c
-> > > > > @@ -17,21 +17,8 @@
-> > > > >  #include <linux/spinlock.h>
-> > > > >  #include <linux/string.h>
-> > > > >
-> > > > > -/*
-> > > > > - * MAX_NR_HW_GPIO represents the number of actual hardware-supported GPIOs (ie,
-> > > > > - * slots within the clocked serial GPIO data). Since each HW GPIO is both an
-> > > > > - * input and an output, we provide MAX_NR_HW_GPIO * 2 lines on our gpiochip
-> > > > > - * device.
-> > > > > - *
-> > > > > - * We use SGPIO_OUTPUT_OFFSET to define the split between the inputs and
-> > > > > - * outputs; the inputs start at line 0, the outputs start at OUTPUT_OFFSET.
-> > > > > - */
-> > > > > -#define MAX_NR_HW_SGPIO                  80
-> > > > > -#define SGPIO_OUTPUT_OFFSET              MAX_NR_HW_SGPIO
-> > > > > -
-> > > > >  #define ASPEED_SGPIO_CTRL                0x54
-> > > > >
-> > > > > -#define ASPEED_SGPIO_PINS_MASK           GENMASK(9, 6)
-> > > > >  #define ASPEED_SGPIO_CLK_DIV_MASK        GENMASK(31, 16)
-> > > > >  #define ASPEED_SGPIO_ENABLE              BIT(0)
-> > > > >  #define ASPEED_SGPIO_PINS_SHIFT          6
-> > > > > @@ -484,6 +471,11 @@ static int aspeed_sgpio_setup_irqs(struct
-> > > > > aspeed_sgpio *gpio,
-> > > > >   return 0;
-> > > > >  }
-> > > > >
-> > > > > +static const struct aspeed_sgpio_pdata ast2400_sgpio_pdata = {
-> > > > > + .max_ngpios = 80,
-> > > > > + .pin_mask = GENMASK(9, 6),
-> > > > > +};
-> > > > > +
-> > > > >  static const struct aspeed_sgpio_pdata ast2600_sgpiom_128_pdata = {
-> > > > >   .max_ngpios = 128,
-> > > > >   .pin_mask = GENMASK(10, 6),
-> > > > > @@ -495,8 +487,8 @@ static const struct aspeed_sgpio_pdata
-> > > > > ast2600_sgpiom_80_pdata = {
-> > > > >  };
-> > > > >
-> > > > >  static const struct of_device_id aspeed_sgpio_of_table[] = {
-> > > > > - { .compatible = "aspeed,ast2400-sgpio" },
-> > > > > - { .compatible = "aspeed,ast2500-sgpio" },
-> > > > > + { .compatible = "aspeed,ast2400-sgpio", .data = &ast2400_sgpio_pdata,
-> > > > > },
-> > > > > + { .compatible = "aspeed,ast2500-sgpio", .data = &ast2400_sgpio_pdata,
-> > > > > },
-> > > > >   { .compatible = "aspeed,ast2600-sgpiom-128", .data =
-> > > > > &ast2600_sgpiom_128_pdata, },
-> > > > >   { .compatible = "aspeed,ast2600-sgpiom-80", .data =
-> > > > > &ast2600_sgpiom_80_pdata, },
-> > > > >   {}
-> > > > > @@ -521,13 +513,11 @@ static int __init aspeed_sgpio_probe(struct
-> > > > > platform_device *pdev)
-> > > > >           return PTR_ERR(gpio->base);
-> > > > >
-> > > > >   pdata = device_get_match_data(&pdev->dev);
-> > > > > - if (pdata) {
-> > > > > -         gpio->max_ngpios = pdata->max_ngpios;
-> > > > > -         pin_mask = pdata->pin_mask;
-> > > > > - } else {
-> > > > > -         gpio->max_ngpios = MAX_NR_HW_SGPIO;
-> > > > > -         pin_mask = ASPEED_SGPIO_PINS_MASK;
-> > > > > - }
-> > > > > + if (!pdata)
-> > > > > +         return -EINVAL;
-> > > > > +
-> > > > > + gpio->max_ngpios = pdata->max_ngpios;
-> > > > > + pin_mask = pdata->pin_mask;
-> > > >
-> > > > Hmm, okay, maybe just re-order the patches so this commit comes before the previous one. That way we don't immediately rip out this condition that we just introduced in the previous patch.
-> > > >
-> > > > I think I suggested squashing it into the previous patch, but with the removal of the comments and macros I think it's worth leaving it separate, just reordered.
-> > > >
-> > >
-> > > I was wondering if I can squash patch-05 and patch-06 into one patch
-> > > as this patch(patch-06) requires macros, structures, and functions that
-> > > modified in the previous patch(patch-05).
-> >
-> > Yeah, fair enough. Just squash them.
-> >
-> > Cheers,
-> >
-> > Andrew
+On Tue, Jun 08, 2021 at 08:17:41PM +0930, Andrew Jeffery wrote:
 > 
-> I'm ready to pick this up as soon as you respin the series.
+> Hello,
 > 
+> This is the 4th spin of the series refactoring the keyboard-controller-style
+> device drivers in the IPMI subsystem.
 
-Hi Bart,
-
-Per the discussion in the following mail threads, I may redesign
-aspeed sgpio driver for the new solution.
-
-https://lkml.org/lkml/2021/6/3/1507
-https://lkml.org/lkml/2021/6/10/240
-
-Patch02- Patch06 of this patch series will need to be modified for
-the new solution, although some of them have Reviewed-by tag.
+Ok, no comments and everything looks good, I have this queued for the
+next Linux release.
 
 Thanks,
-Steven
 
-> Bart
+-corey
+
+> 
+> v3 can be found at:
+> 
+> https://lore.kernel.org/lkml/20210510054213.1610760-1-andrew@aj.id.au/
+> 
+> v4:
+> 
+> * Makes kcs_bmc_add_device() return an error if no client successfully
+>   initialised with respect to the binding of the device driver
+> * Retains the existing single-open semantics (v3 allowed multiple-open)
+> * Fixes the OBE macro for the NPCM7xx KCS driver
+> * Cleans up Yoda-style masks (mask constant on the LHS rather than RHS)
+> * Cleans up includes in kcs_bmc_client.h
+> * Adds some comments to the SerIO adapter to clarify object lifetimes
+> 
+> Previously:
+> 
+> Changes in v3:
+> 
+> * The series was rebased onto v5.13-rc1
+> * v5.13-rc1 includes Chiawei's patches reworking the LPC devicetree bindings,
+>   so they're no-longer required in the series.
+> * After some discussion with Arnd[1] and investigating the serio subsystem,
+>   I've replaced the "raw" KCS driver (patch 16/21 in v2) with a serio adaptor
+>   (patch 11/16 in this series). The adaptor allows us to take advantage of the
+>   existing chardevs provided by serio.
+> 
+> [1] https://lore.kernel.org/linux-arm-kernel/37e75b07-a5c6-422f-84b3-54f2bea0b917@www.fastmail.com/
+> 
+> Changes in v2 include:
+> 
+> * A rebase onto v5.12-rc2
+> * Incorporation of off-list feedback on SerIRQ configuration from
+>   Chiawei
+> * Further validation on hardware for ASPEED KCS devices 2, 3 and 4
+> * Lifting the existing single-open constraint of the IPMI chardev
+> * Fixes addressing Rob's feedback on the conversion of the ASPEED KCS
+>   binding to dt-schema
+> * Fixes addressing Rob's feedback on the new aspeed,lpc-interrupts
+>   property definition for the ASPEED KCS binding
+> 
+> Please test and review!
+> 
+> Andrew
+> 
+> Andrew Jeffery (16):
+>   ipmi: kcs_bmc_aspeed: Use of match data to extract KCS properties
+>   ipmi: kcs_bmc: Make status update atomic
+>   ipmi: kcs_bmc: Rename {read,write}_{status,data}() functions
+>   ipmi: kcs_bmc: Split out kcs_bmc_cdev_ipmi
+>   ipmi: kcs_bmc: Turn the driver data-structures inside-out
+>   ipmi: kcs_bmc: Split headers into device and client
+>   ipmi: kcs_bmc: Strip private client data from struct kcs_bmc
+>   ipmi: kcs_bmc: Decouple the IPMI chardev from the core
+>   ipmi: kcs_bmc: Allow clients to control KCS IRQ state
+>   ipmi: kcs_bmc: Enable IBF on open
+>   ipmi: kcs_bmc: Add serio adaptor
+>   dt-bindings: ipmi: Convert ASPEED KCS binding to schema
+>   dt-bindings: ipmi: Add optional SerIRQ property to ASPEED KCS devices
+>   ipmi: kcs_bmc_aspeed: Implement KCS SerIRQ configuration
+>   ipmi: kcs_bmc_aspeed: Fix IBFIE typo from datasheet
+>   ipmi: kcs_bmc_aspeed: Optionally apply status address
+> 
+>  .../bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml | 106 +++
+>  .../bindings/ipmi/aspeed-kcs-bmc.txt          |  33 -
+>  drivers/char/ipmi/Kconfig                     |  27 +
+>  drivers/char/ipmi/Makefile                    |   2 +
+>  drivers/char/ipmi/kcs_bmc.c                   | 523 ++++-----------
+>  drivers/char/ipmi/kcs_bmc.h                   |  92 +--
+>  drivers/char/ipmi/kcs_bmc_aspeed.c            | 633 +++++++++++++-----
+>  drivers/char/ipmi/kcs_bmc_cdev_ipmi.c         | 568 ++++++++++++++++
+>  drivers/char/ipmi/kcs_bmc_client.h            |  45 ++
+>  drivers/char/ipmi/kcs_bmc_device.h            |  22 +
+>  drivers/char/ipmi/kcs_bmc_npcm7xx.c           |  92 ++-
+>  drivers/char/ipmi/kcs_bmc_serio.c             | 157 +++++
+>  12 files changed, 1594 insertions(+), 706 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/ipmi/aspeed-kcs-bmc.txt
+>  create mode 100644 drivers/char/ipmi/kcs_bmc_cdev_ipmi.c
+>  create mode 100644 drivers/char/ipmi/kcs_bmc_client.h
+>  create mode 100644 drivers/char/ipmi/kcs_bmc_device.h
+>  create mode 100644 drivers/char/ipmi/kcs_bmc_serio.c
+> 
+> -- 
+> 2.30.2
+> 
