@@ -2,132 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B51113A8F36
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Jun 2021 05:12:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F5053A9060
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Jun 2021 06:16:41 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4G4VcH2JcTz307x
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Jun 2021 13:12:47 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4G4X1z5krWz308H
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Jun 2021 14:16:39 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=br96Kjgj;
+	dkim=pass (1024-bit key; unprotected) header.d=velankanigroup.com header.i=ramakrishnan@velankanigroup.com header.a=rsa-sha256 header.s=zoho header.b=agiXrhZE;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=os.amperecomputing.com (client-ip=40.107.237.122;
- helo=nam12-bn8-obe.outbound.protection.outlook.com;
- envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=velankanigroup.com (client-ip=103.117.158.11;
+ helo=sender-op-o11.zoho.in; envelope-from=ramakrishnan@velankanigroup.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com
- header.a=rsa-sha256 header.s=selector2 header.b=br96Kjgj; 
- dkim-atps=neutral
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2122.outbound.protection.outlook.com [40.107.237.122])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4G4VZZ1X3vz2yWN;
- Wed, 16 Jun 2021 13:11:18 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GmnLmGOVeFmSHgC2T66BrIqQXQwmo4i2+nbV1tKFLhHtdUuXzHSHTEId7YoFFBEqZnwJcojb4G5ZravcjNbvlfHVNmERrsdH4DNHsx269Vox93b843mU9u8bE/11QNdlx80VuH9KnOHi0MhEalUT8TNFS16d3i9fiquN/kACqY8OjEH8aLSKxD9uyxSEo0duU5rhPrwRMCrc7CIPZzGwsufEXIENA6Vnr0Ng2wej+LN6v24826+MlJA0DtsZXcPS2Bfl45bHf/65JI2RkrE2FqtAPjj+qvz+p0VPUtQhUzbRzWu6eCb8ov9ZwW8nAw0qSokRPuN3CWn/GylEBURitA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UaAf3KD4+QzGmbP8YE4+XWgkw1HmY388wpKZqZVh/AY=;
- b=CwHPKm1vpt18fvMQVkdaGBZVHEx/EtmjY/JciZozKhqm/a+HOKKTl8AW/o6yowBjH9scz0CDzSy4u4byNuD1JS6/KuYW8aRc72vdh/dI5VgAMKuyPiRKbwXC1NvLQCskTXRcBxvUOSHNZ28sewgGT80cw360yWTBG4oYi01jLqH/rn2jYwpdiZcvxr3pQSCod8NtGkUKI1zSQaP8x1e2BimW9EhrlI7XTUNItPte2ae+puJucrAOQrJgAuj+pNC70tAXK4farW6QRSDoIDYNx0u0eCV1y0h6oQJmAILruFdeMCDsaYPXEuHvAiphDDVHF+pEgZRlEi3qILvxmGNpLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UaAf3KD4+QzGmbP8YE4+XWgkw1HmY388wpKZqZVh/AY=;
- b=br96KjgjF0ZhLQYzVaB2t/WoZBjCXrwP3Xgsdn2O4FY8j/OpjsxWkLnEeGIKcGhjZYiMjNjelPr7mmiic3o/wcXvFXiWkA2MhVZcPqjG7W1n6aqVeW2Gbrjmd5y1Dmbb/IuLAFxoNqVcdEcAZr9KClS9NKryBOgC52T+2/2rBeE=
-Authentication-Results: google.com; dkim=none (message not signed)
- header.d=none;google.com; dmarc=none action=none
- header.from=os.amperecomputing.com;
-Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
- CO2PR01MB2200.prod.exchangelabs.com (2603:10b6:102:7::26) with
- Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4219.24; Wed, 16 Jun 2021 03:11:11 +0000
-Received: from MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::452a:24fb:12cb:9d7e]) by MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::452a:24fb:12cb:9d7e%5]) with mapi id 15.20.4219.026; Wed, 16 Jun 2021
- 03:11:11 +0000
-From: Quan Nguyen <quan@os.amperecomputing.com>
-To: Brendan Higgins <brendanhiggins@google.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Wolfram Sang <wsa@kernel.org>, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
- Guenter Roeck <linux@roeck-us.net>, linux-i2c@vger.kernel.org,
- openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] i2c: aspeed: Acknowledge Tx done with and without ACK
- irq late
-Date: Wed, 16 Jun 2021 10:10:46 +0700
-Message-Id: <20210616031046.2317-3-quan@os.amperecomputing.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210616031046.2317-1-quan@os.amperecomputing.com>
-References: <20210616031046.2317-1-quan@os.amperecomputing.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [118.69.219.201]
-X-ClientProxiedBy: HKAPR03CA0001.apcprd03.prod.outlook.com
- (2603:1096:203:c8::6) To MW2PR0102MB3482.prod.exchangelabs.com
- (2603:10b6:302:c::32)
+ unprotected) header.d=velankanigroup.com
+ header.i=ramakrishnan@velankanigroup.com header.a=rsa-sha256 header.s=zoho
+ header.b=agiXrhZE; dkim-atps=neutral
+Received: from sender-op-o11.zoho.in (sender-op-o11.zoho.in [103.117.158.11])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4G4X1v6XdXz302g
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Jun 2021 14:16:35 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; t=1623816991; cv=none; d=zohomail.in; s=zohoarc; 
+ b=ZS99tzT/p/Sd9QBTpx85pNAfXGi3eJuBtoKXpuOcEcHJXYrQFO8Sdr/C7I3fEbvmZP1GEODRte5OP6Yisy/jYyr0snwBQvcpfSWZ+MfCHYNnHzRVZcu2oQ7AH7MGcPee2UtyN8d4r5sD4JAcb5bJ27pfsHfz9NoatTnV0Gi5TBg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
+ s=zohoarc; 
+ t=1623816991; h=Content-Type:Date:From:MIME-Version:Message-ID:Subject:To; 
+ bh=AbIHs8i68xfK3/shRMudSiXkNDseKt0+7TGH7ByJbXg=; 
+ b=QyTFfHDAehtxqpbBdK3DsMqJFuX27ghxIXRfwXVP5qwA1lx2nK885lBF0EMkMiCPUmhilzJ/A/s9W/FeXglfVrD15/G66NdVZU/6843U6FpBy5/Ty/0VN+Y4nkQFD9fDVZ+OCGNKAKlliu2SnX/sLIgE+OZtynWIpwJqLJz4F+E=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+ dkim=pass  header.i=velankanigroup.com;
+ spf=pass  smtp.mailfrom=ramakrishnan@velankanigroup.com;
+ dmarc=pass header.from=<ramakrishnan@velankanigroup.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1623816991; 
+ s=zoho; d=velankanigroup.com; i=ramakrishnan@velankanigroup.com;
+ h=Date:From:To:Message-Id:In-Reply-To:Subject:MIME-Version:Content-Type;
+ bh=AbIHs8i68xfK3/shRMudSiXkNDseKt0+7TGH7ByJbXg=;
+ b=agiXrhZE24drAUW6WHrxpt5D8xgWgDGMFV5nebZy2dSuCB+a5QmxbI8Oob8FzcW1
+ LUBJNyXGen4/ryAb3q5Mbjv1/avsOctba/pJGsrHwwtL2kpXEc2TcmWxE9/ArvgF8+s
+ OTLPh3W0/pkR102sTV5s9EkpC4r030AlXDyV6onc=
+Received: from mail.zoho.in by mx.zoho.in
+ with SMTP id 1623816991095353.5773208745345;
+ Wed, 16 Jun 2021 09:46:31 +0530 (IST)
+Date: Wed, 16 Jun 2021 09:46:31 +0530
+From: ramakrishnan <ramakrishnan@velankanigroup.com>
+To: "linux-aspeed" <linux-aspeed@lists.ozlabs.org>
+Message-Id: <17a1308f173.6938bac93765.4526632294642356057@velankanigroup.com>
+In-Reply-To: 
+Subject: 32 bit Post Code capture and display in AMD EPYC Daytona platform
+ with ATS2500 BMC
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from hcm-sw-17.amperecomputing.com (118.69.219.201) by
- HKAPR03CA0001.apcprd03.prod.outlook.com (2603:1096:203:c8::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4242.9 via Frontend Transport; Wed, 16 Jun 2021 03:11:07 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6b9b62b8-f427-4ff0-db3a-08d930746447
-X-MS-TrafficTypeDiagnostic: CO2PR01MB2200:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO2PR01MB2200E8C7A6359A09EFED6045F20F9@CO2PR01MB2200.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PqwNLb1VQHWBGzZJz9OfKgF5Ew0LNYdzRa3LSMQXUeoVmeFOfx+NAPh0CgVyj08s6/NnfBOxVRHf949jzhGyEC1PxYiHGEB6t4oi68oFcZ3F5cJzhRs81yFleZrZ1eB3cpaZqF4svAWcmrOAN4cIX4jEcookWjCoFUy2JpqZjbWAmqw4WBdABaJSbqawVzgGYLkZQL77/2DrzlWYyWhZvTc8r/O2BEofA3iC793X0tTY6ddr3VhDY2P4uqcEFK3nDxmVGfDyxXFdyZWFg3CZ8SOiA4rY0a2Zcd92y9K7GydM5vq10c37mmwGAO2e/ErHDkKJxKA2ajj/qN8+zkk1TaQa+4qKzcbfC+oW/mvZDWS33nndhYCMEvlCcGGUaMOkXF7R9lvE4HLXKB6DPoR9GaVLisuNbn4mbWjRpKwkIw95XgKoD63P3vabx80WzD7G6/LrwyMIk4QecWNtWig3pG8DcTFcOIUbOpirdyfH7cCwDjgk7BugyYxvxu5GBIHtrCuf2dVGkKHHGM1jO0NaWwVKr+8hE1Wukj0w+aP1CLdFB2PN0+SyLGeagYNz0hXggWv1g/6MUZmZtMEzKmWaoXhLx8HKvn1cxMFd9YbfaFNjHjXsctkHF/6XdSe+GUORfHtuLZdDL+MSM3ceStXojvxtERjzcMfu3yy27y+g7cND+KmmqDsJ1sQCTXAsUjoHyeWVnKDYUHN1OKvUSFND7nqPrGTfTEz/eW6YzLxl5XVKsffQm57OIpqnOn/87xw3J3aACUsxvXy3leGK78YvwiGjIkNdN/Jg5F/oSEN7Nzw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR0102MB3482.prod.exchangelabs.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(396003)(366004)(346002)(376002)(136003)(66946007)(956004)(1076003)(186003)(16526019)(921005)(2616005)(38100700002)(38350700002)(6512007)(5660300002)(7416002)(83380400001)(8676002)(2906002)(6506007)(107886003)(4326008)(110136005)(54906003)(26005)(6666004)(6486002)(478600001)(52116002)(966005)(8936002)(86362001)(316002)(66476007)(66556008);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PZtlynXgUlcbgq+bxkQECUP0m4/3l6s0ukGkkFzTug9NdKMlu5Ed81+wUa0i?=
- =?us-ascii?Q?GEuFMWOyu134xa/ghSL+qkDVvOOjXPCSAVL7by7Md3Y+AE1BK5jAd1B7EkfK?=
- =?us-ascii?Q?s0Id5xK1z+MYui1gzef2cEjB6llmdHArD8qrsyJoUxkWqZdSu7RNH0FZNei+?=
- =?us-ascii?Q?rfBTuTNB+ZdWsWiB21VB3IGOUGj01Hm/oQa5GeeSVJiVEpFippGyygHSMphV?=
- =?us-ascii?Q?cm9qEsQEVZFR7nMe/IZEW7PlysAhuwtKQ1prulROiZkuFFkfxJP4spf9S2hP?=
- =?us-ascii?Q?9NJfGFn/byalE7l0VOJIeCsBQ5ko7PZlU/gHweuyPxGvurN6O7YMXxdml6y6?=
- =?us-ascii?Q?2k3rA8325FTnWrVByB1AH3U/6jeNpne1oYUEwaPiAmqSPqg+BrZrbqcTMt5y?=
- =?us-ascii?Q?/RqeULTyv4JTl/L7Y+Zd/rNKFOuHbAyJCPDXuy2IdtA2Xv93K2KFbdLhJhIC?=
- =?us-ascii?Q?eJeoiE/gUoxl1N0mAzwd6rJJqUDI073dV5dnRm8XUiWBkn6tjXOzanpyDMBD?=
- =?us-ascii?Q?p4125BCqmDTxaSrOhMHC3OT7cAtUw9C+riDIszFkdy3Ecm5DLrgrz9YHr4zq?=
- =?us-ascii?Q?en570uHwuK15VXTKFc40zknruw9S72wJ4OzEwh8PIfrc7RvSgjb/20loTS/6?=
- =?us-ascii?Q?udAI3wkC7QVaZfLJzF5GVr/1NEIKBe/spOdACRnQtlvCZAk8cf7e0DoI3APH?=
- =?us-ascii?Q?vaPQmOsO3f52YGUyqkcd0HMKqGama5SF67hnqb3Gi3xSNLdEYl0pWmuoPBjO?=
- =?us-ascii?Q?Vb5xFMsX7F2LEavtjSCT+GEXDL/8vHbVhTTaQggKPiNvrV3j7g8y3zVZ5Cp1?=
- =?us-ascii?Q?yHzjsj+6vFdieYnJSjWbkMRAsesdAhi7pZ4HyTifa1idrB+BgSkdRl1N3/mi?=
- =?us-ascii?Q?D4qceokqCyZZ3Cn19eWKEK0iNAvMwDqABRhmKp05ysHlm2IdkZNVXn0Hc/xA?=
- =?us-ascii?Q?aI2GAsBX7PZiM9WMWjs7RtG52sjvAxnuSV2chYckzweh2pz2DleOmXbASDtF?=
- =?us-ascii?Q?tf0v26vHATc+hS9rkxnkGUbHd9OEUwKeNOkknMhyPg/WTbaccxjOLAF+/IZk?=
- =?us-ascii?Q?oYUrYiHeI2Fi0213Y2OPQL1cb1abDADlkbxs7hFq+aEOCBBGpNmtynokfx12?=
- =?us-ascii?Q?XzwQrXTGWpW5BBZN6OwQJ0yK1YUc3I4Tze4L8ZNW8fAQyyGSSlCpV1UidjxA?=
- =?us-ascii?Q?SZXRvXglOEbGRCYckVqXypAU+JC8f/GbjVkt0aA3HIs0WBDmkPfl6uHIbNbN?=
- =?us-ascii?Q?jTS5E8HUlxcJm0Xloy8p3j9XLkZ/ll9qDtahbSJ90eWE+9SsoYVO7bdlQ3p2?=
- =?us-ascii?Q?eqFzVyb/r8CF4o8Wa6gc+xzq?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b9b62b8-f427-4ff0-db3a-08d930746447
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2021 03:11:11.2192 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: W9q9KKdJTR42CsC0jJZgDNVpXm7jWoLbRxsrcS6bB3cOCFCBt9bgPJmVcbAvNPfFNckrqgqZYE4FWkmWqH1oeiYlMUTu/vhssoLA5f/Unno=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO2PR01MB2200
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_11239_1053827573.1623816991092"
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,84 +70,175 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Open Source Submission <patches@amperecomputing.com>,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
- Phong Vo <phong@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Commit 2be6b47211e1 ("i2c: aspeed: Acknowledge most interrupts early in
-interrupt handler") acknowledges most interrupts early before the slave
-irq handler is executed, except for the "Receive Done Interrupt status"
-which is acknowledged late in the interrupt.
-However, it is observed that the early acknowledgment of "Transmit Done
-Interrupt Status" (with ACK or NACK) often causes the interrupt to be
-raised in READ REQUEST state, resulting in "Unexpected ACK on read
-request." complaint messages.
+------=_Part_11239_1053827573.1623816991092
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Assuming that the "Transmit Done" interrupt should only be acknowledged
-once it is truly processed, this commit fixes this issue by acknowledging
-this interrupt for both ACK and NACK cases late in the interrupt handler
-also.
+Hi,
 
-Fixes: 2be6b47211e1 (i2c: aspeed: Acknowledge most interrupts early in interrupt handler)
-Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
----
-v2:
-  + Split to separate series [Joel]
-  + Added the Fixes line [Joel]
-  + Fixed multiline comment [Joel]
-  + Refactor irq clearing code [Joel, Guenter]
-  + Revised commit message [Joel]
-  + Revised commit message [Quan]
-  + About a note to remind why the readl() should immediately follow the
-  writel() to fix the race condition when clearing irq status from
-  commit c926c87b8e36 ("i2c: aspeed: Avoid i2c interrupt status clear race
-  condition"), I think it looks straight forward in this patch and decided
-  not to add that note. [Joel]
 
-v1:
-  + First introduced in https://lkml.org/lkml/2021/5/19/205
 
- drivers/i2c/busses/i2c-aspeed.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+we are developing openBMC port for the AMD EPYC Daytona platform with ATS 2=
+500 BMC.=C2=A0 I=C2=A0 need the following functionality to be implemented.
 
-diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-index 3fb37c3f23d4..0f82b46866a8 100644
---- a/drivers/i2c/busses/i2c-aspeed.c
-+++ b/drivers/i2c/busses/i2c-aspeed.c
-@@ -606,8 +606,9 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
- 
- 	spin_lock(&bus->lock);
- 	irq_received = readl(bus->base + ASPEED_I2C_INTR_STS_REG);
--	/* Ack all interrupts except for Rx done */
--	writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
-+	/* Ack all interrupts except for Rx done and Tx done with/without ACK */
-+	writel(irq_received &
-+	       ~(ASPEED_I2CD_INTR_RX_DONE | ASPEED_I2CD_INTR_TX_ACK | ASPEED_I2CD_INTR_TX_NAK),
- 	       bus->base + ASPEED_I2C_INTR_STS_REG);
- 	readl(bus->base + ASPEED_I2C_INTR_STS_REG);
- 	irq_received &= ASPEED_I2CD_INTR_RECV_MASK;
-@@ -652,12 +653,12 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
- 			"irq handled != irq. expected 0x%08x, but was 0x%08x\n",
- 			irq_received, irq_handled);
- 
--	/* Ack Rx done */
--	if (irq_received & ASPEED_I2CD_INTR_RX_DONE) {
--		writel(ASPEED_I2CD_INTR_RX_DONE,
--		       bus->base + ASPEED_I2C_INTR_STS_REG);
--		readl(bus->base + ASPEED_I2C_INTR_STS_REG);
--	}
-+	/* Ack Rx done and Tx done with/without ACK */
-+	writel(irq_received &
-+	       (ASPEED_I2CD_INTR_RX_DONE | ASPEED_I2CD_INTR_TX_ACK | ASPEED_I2CD_INTR_TX_NAK),
-+	       bus->base + ASPEED_I2C_INTR_STS_REG);
-+	readl(bus->base + ASPEED_I2C_INTR_STS_REG);
-+
- 	spin_unlock(&bus->lock);
- 	return irq_remaining ? IRQ_NONE : IRQ_HANDLED;
- }
--- 
-2.28.0
+
+
+1. Capture of the LSB of the 32-bit post code=C2=A0 and lit 8 LEDs on the G=
+PIOAA port=C2=A0 by configuring SNPWADR with one snooping address of 0x0080=
+ and directing the data to the GPIO port pins GPIOAA[7:0].
+
+
+
+2. Also read and store the 32-bit Post code as=C2=A0 4 bytes from the=C2=A0=
+ the LPC I/O write cycles directed to=C2=A0 Port address 0x0080 , 0x0081, 0=
+x0082 and 0x0083=C2=A0 in the root=C2=A0 file system for every power cycle =
+and later display on the web GUI by=C2=A0 Configuring=C2=A0 post code contr=
+ol register PCCR0-3 for=C2=A0 DMA/FIFO mode.=C2=A0
+
+
+
+Could you please let=C2=A0 us know if=C2=A0 implementation for the above sa=
+id two is available in=C2=A0 openBMC community else suggest implementation=
+=C2=A0 =C2=A0pointers.
+
+=C2=A0
+
+Can any one=C2=A0 provide SW linux kernel 5.x=C2=A0 =C2=A0driver for=C2=A0 =
+second functionality=C2=A0 =C2=A0implementation or link to driver, if it ex=
+ist , in the open=C2=A0 community.
+
+
+
+suggestion to implementation pointer is also welcome.
+
+
+=C2=A0
+
+
+
+
+Regards,
+
+Ramakrishnan
+------=_Part_11239_1053827573.1623816991092
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head>=
+<meta content=3D"text/html;charset=3DUTF-8" http-equiv=3D"Content-Type"></h=
+ead><body ><div style=3D"font-family: Verdana, Arial, Helvetica, sans-serif=
+; font-size: 10pt;"><div style=3D"color: rgb(0, 0, 0); font-family: Verdana=
+, Arial, Helvetica, sans-serif; font-style: normal; font-variant-ligatures:=
+ normal; font-variant-caps: normal; font-weight: 400; letter-spacing: norma=
+l; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; w=
+hite-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width=
+: 0px; text-decoration-thickness: initial; text-decoration-style: initial; =
+text-decoration-color: initial; font-size: 13.3333px; background-color: rgb=
+(255, 255, 255);">Hi,<br></div><div style=3D"color: rgb(0, 0, 0); font-fami=
+ly: Verdana, Arial, Helvetica, sans-serif; font-style: normal; font-variant=
+-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spa=
+cing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transfo=
+rm: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-s=
+troke-width: 0px; text-decoration-thickness: initial; text-decoration-style=
+: initial; text-decoration-color: initial; font-size: 13.3333px; background=
+-color: rgb(255, 255, 255);"><br></div><div style=3D"color: rgb(0, 0, 0); f=
+ont-family: Verdana, Arial, Helvetica, sans-serif; font-style: normal; font=
+-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; le=
+tter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text=
+-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webki=
+t-text-stroke-width: 0px; text-decoration-thickness: initial; text-decorati=
+on-style: initial; text-decoration-color: initial; font-size: 13.3333px; ba=
+ckground-color: rgb(255, 255, 255);">we are developing openBMC port for the=
+ AMD EPYC Daytona platform with ATS 2500 BMC.&nbsp; I&nbsp; need the follow=
+ing functionality to be implemented.<br></div><div style=3D"color: rgb(0, 0=
+, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-style: norma=
+l; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: =
+400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0p=
+x; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;=
+ -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-d=
+ecoration-style: initial; text-decoration-color: initial; font-size: 13.333=
+3px; background-color: rgb(255, 255, 255);"><br></div><div style=3D"color: =
+rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-styl=
+e: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-=
+weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-in=
+dent: 0px; text-transform: none; white-space: normal; widows: 2; word-spaci=
+ng: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial=
+; text-decoration-style: initial; text-decoration-color: initial; font-size=
+: 13.3333px; background-color: rgb(255, 255, 255);">1. Capture of the LSB o=
+f the 32-bit post code&nbsp; and lit 8 LEDs on the GPIOAA port&nbsp; by con=
+figuring SNPWADR with one snooping address of 0x0080 and directing the data=
+ to the GPIO port pins GPIOAA[7:0].<br></div><div style=3D"color: rgb(0, 0,=
+ 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-style: normal=
+; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 4=
+00; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px=
+; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-de=
+coration-style: initial; text-decoration-color: initial; font-size: 13.3333=
+px; background-color: rgb(255, 255, 255);"><br></div><div style=3D"color: r=
+gb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-style=
+: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-w=
+eight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-ind=
+ent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacin=
+g: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial;=
+ text-decoration-style: initial; text-decoration-color: initial; font-size:=
+ 13.3333px; background-color: rgb(255, 255, 255);">2. Also read and store t=
+he 32-bit Post code as&nbsp; 4 bytes from the&nbsp; the LPC I/O write cycle=
+s directed to&nbsp; Port address 0x0080 , 0x0081, 0x0082 and 0x0083&nbsp; i=
+n the root&nbsp; file system for every power cycle and later display on the=
+ web GUI by&nbsp; Configuring&nbsp; post code control register PCCR0-3 for&=
+nbsp; DMA/FIFO mode.&nbsp;<br></div><div style=3D"color: rgb(0, 0, 0); font=
+-family: Verdana, Arial, Helvetica, sans-serif; font-style: normal; font-va=
+riant-ligatures: normal; font-variant-caps: normal; font-weight: 400; lette=
+r-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-tr=
+ansform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-t=
+ext-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-=
+style: initial; text-decoration-color: initial; font-size: 13.3333px; backg=
+round-color: rgb(255, 255, 255);"><br></div><div style=3D"color: rgb(0, 0, =
+0); font-family: Verdana, Arial, Helvetica, sans-serif; font-style: normal;=
+ font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 40=
+0; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px;=
+ text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -=
+webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-dec=
+oration-style: initial; text-decoration-color: initial; font-size: 13.3333p=
+x; background-color: rgb(255, 255, 255);">Could you please let&nbsp; us kno=
+w if&nbsp; implementation for the above said two is available in&nbsp; open=
+BMC community else suggest implementation&nbsp; &nbsp;pointers.<br></div><d=
+iv style=3D"color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures=
+: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: norm=
+al; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-widt=
+h: 0px; text-decoration-thickness: initial; text-decoration-style: initial;=
+ text-decoration-color: initial; font-family: &quot;Lato 2&quot;, sans-seri=
+f; font-size: 14px; background-color: rgb(255, 255, 255);"><p style=3D"marg=
+in: 0px;" class=3D""><span style=3D"font-size: 10pt; font-family: Verdana, =
+sans-serif;">&nbsp;</span><br></p><p style=3D"margin: 0px;" class=3D""><spa=
+n style=3D"font-size: 10pt; font-family: Verdana, sans-serif;">Can any one&=
+nbsp; provide SW linux kernel 5.x&nbsp; &nbsp;driver for&nbsp; second funct=
+ionality&nbsp; &nbsp;implementation or link to driver, if it exist , in the=
+ open&nbsp; community.</span><br></p><div><br></div><div><span style=3D"fon=
+t-size: 10pt; font-family: Verdana, sans-serif;">suggestion to implementati=
+on pointer is also welcome.</span><br></div></div><div style=3D"color: rgb(=
+0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-=
+caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-al=
+ign: start; text-indent: 0px; text-transform: none; white-space: normal; wi=
+dows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration=
+-thickness: initial; text-decoration-style: initial; text-decoration-color:=
+ initial; font-family: &quot;Lato 2&quot;, sans-serif; font-size: 14px; bac=
+kground-color: rgb(255, 255, 255);"><p style=3D"margin: 0px;" class=3D""><s=
+pan style=3D"font-size: 10pt; font-family: Verdana, sans-serif;">&nbsp;</sp=
+an><br></p></div><div style=3D"color: rgb(0, 0, 0); font-family: Verdana, A=
+rial, Helvetica, sans-serif; font-style: normal; font-variant-ligatures: no=
+rmal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
+orphans: 2; text-align: start; text-indent: 0px; text-transform: none; whit=
+e-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0=
+px; text-decoration-thickness: initial; text-decoration-style: initial; tex=
+t-decoration-color: initial; font-size: 13.3333px; background-color: rgb(25=
+5, 255, 255);"><div><br></div><div>Regards,<br></div><div>Ramakrishnan<br><=
+/div></div><div><br></div><div data-zbluepencil-ignore=3D"true" id=3D""><di=
+v><br></div></div><div><br></div></div><br></body></html>
+------=_Part_11239_1053827573.1623816991092--
 
