@@ -2,77 +2,92 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6CB93AA3BC
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Jun 2021 21:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CEA3AA72C
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Jun 2021 01:04:18 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4G4vhN219Gz30JY
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Jun 2021 05:02:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4G51346kkTz30Fm
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Jun 2021 09:04:16 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=QKlM7nFU;
+	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=YuogiRdx;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=b5PnAMLV;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::22b;
- helo=mail-oi1-x22b.google.com; envelope-from=tcminyard@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=64.147.123.21;
+ helo=wout5-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=QKlM7nFU; dkim-atps=neutral
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm3 header.b=YuogiRdx; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm3 header.b=b5PnAMLV; 
+ dkim-atps=neutral
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4G4vhJ1sTtz2yyl
- for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Jun 2021 05:02:38 +1000 (AEST)
-Received: by mail-oi1-x22b.google.com with SMTP id q10so3609526oij.5
- for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Jun 2021 12:02:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=UOqLQQmsoCxqiYwODGOxvwScag2+ijPfJja63uXJkvM=;
- b=QKlM7nFUoB6J9K6LCVtW4wLxrfvSkz/9/nDxNyxDziZoJE7UBptRchMsuVPPsv/Hh6
- 0hoMsU+kE/siiKIoEARnj+zwFE8PmjgdODBmhLSDyKIQnUHb5mT7rlhid2dRz4RZKI/1
- vm4AD/ORdZWtQjEHXa03hMC9KsTCZM+Vu+kDID2Vzbbo1Zy1tCzn9xoJLK9bGpIWQ0M3
- X/Hvi9oD4cMfRkNHQ7PZvIQb4wcnbP5lJsan/SoaGrXV6dn7us3t/odsNRmWZL50gXrH
- tXos9ISMyX0/UUW/opRzLItk0oDWUNvFsoT4dfNaFMLJ19g29AeyElaIe2MR1hrrlcVG
- VX5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to;
- bh=UOqLQQmsoCxqiYwODGOxvwScag2+ijPfJja63uXJkvM=;
- b=UZLzKg284qHv5+nTh9RfkJhVuLbQkqPrYHkKE3WSNTfdq98rT4zw/TDFIllCer6M8n
- NRlBKuuurhO5rU5w7Hhyfbi6BLRS1Db1UpAeCLg1zMDhSuzoGDXGaoeMO02OQaxooeF3
- fpWfU5ODonRU7loq5Wn0FcXfiUpfROw3M9o3/57Zaj5ljbo34NLaWD22Fk3wYJQuNH8N
- YwecDxA9s30xxmCwcwawTSgOfUt2kcb16P1X2h70BZF5paYDCHnhzQC53I/Pe5Xg7Ptb
- Qt6JBmuIEmX4gSriNq8pZ1IVQ535zGfVuukXHxCAguvxKh/AE1Lp5HlkeZNYvQH4N39l
- 71dg==
-X-Gm-Message-State: AOAM532LISPiVxNL+yJp1ajgWZ2RJ4ZbOJwYQQFw3kTBesmRlm4zv9bo
- n2nSLJNLKOe/xue788UG9w==
-X-Google-Smtp-Source: ABdhPJzogjBWC3Po3+HvkfTYzT7IZOBBIi2tfx6vpj5GURwwDUR39OAgLN+pokD5M0qf1LT+kBQ+bQ==
-X-Received: by 2002:aca:281a:: with SMTP id 26mr8138043oix.142.1623870152808; 
- Wed, 16 Jun 2021 12:02:32 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.156.158])
- by smtp.gmail.com with ESMTPSA id p9sm694118otl.64.2021.06.16.12.02.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jun 2021 12:02:31 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:742a:6ad4:30ea:e332])
- by serve.minyard.net (Postfix) with ESMTPSA id B2FF61800E7;
- Wed, 16 Jun 2021 19:02:30 +0000 (UTC)
-Date: Wed, 16 Jun 2021 14:02:29 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Colin King <colin.king@canonical.com>
-Subject: Re: [PATCH][next] ipmi: kcs_bmc_aspeed: Fix less than zero
- comparison of a unsigned int
-Message-ID: <20210616190229.GG2921206@minyard.net>
-References: <20210616162913.15259-1-colin.king@canonical.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4G512w1drXz2xYf
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Jun 2021 09:04:07 +1000 (AEST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id E563819B7;
+ Wed, 16 Jun 2021 19:03:59 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Wed, 16 Jun 2021 19:04:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm3; bh=PO02j9SYy4Fuys7DY1CucmNO5PH1IkV
+ Pa73qEXnyVUk=; b=YuogiRdx2QXF1ySvr2xrBPfLQns/DMRgUb9Y/wZf4OHqi5g
+ zwNoGKiFQ2hYUmNYRa8KHKtOXrT2cPdDD0AxzEfv7XLoAMBc+9nHsSIJhz9CXilM
+ GhwM9Qg2Ssbo4mdZvwIweD1QVcQ5MIJpDWxdMPgdFemBBl/XZUBF+A8KXkj0eJpk
+ pJSd+WN6Vm2xoNPkTsNDCP9Q7jjyItBY3C0ZKu5maBGV+1H1n2crdI0BGwkzFP+x
+ OJIwPqQzQYXK0Ax6JxcSGLjZ4acHN1Q6gGu/lHR/0M3v70TQTUkR5KcxgPSkeMJg
+ H+2dVZdal1BSXbnOSrTz9vJqYihW9bhupa0VAYw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=PO02j9
+ SYy4Fuys7DY1CucmNO5PH1IkVPa73qEXnyVUk=; b=b5PnAMLVWSDKdbEo8EWUN8
+ V+8i8a1QdMNW4fWXRIXlWsfVwLiVhrOWCPnO2bE8w0phO3HnQF4ah3UQj70xyhKe
+ B23XpcduqyABKgba3swsYDCls+vi1bbxTRQ6dYbwgnncxKAG5mjHRulJJUXTHInn
+ l5g3ggi68Kr1KcxRcRReuBk4UxjY6tcCBl/DX+rSfIPthCL1gtb02+MhjrEtjVsH
+ rPLZ+0Y1VeLarLAFFNvLjVcMOBw94bOmzt0zRcKBNe4/Wus1VbF+LgUgOI/4LPYW
+ lzwRex7Ph5w8oRKeDT2p3F/D+iR6IyEzsyAsbJ4UZDELZaiOz+HCb73Ctn4Ym5zg
+ ==
+X-ME-Sender: <xms:XoPKYBJpH2jtt7pDG71yvrzoJd4nhGdpOYF9Ow4bI_UvJeFbkgJ6fw>
+ <xme:XoPKYNIEVE4GnGSjYKQ3v2ZRxEhDmjrW5qUMHAIlNWMC27b7FG8O0y1DjDekBLLU2
+ vtm86RWEJggeGUtBA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeftddgudegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+ grthhtvghrnhepuddttdekueeggedvtddtueekiedutdfguedutdefieeuteefieelteet
+ vddthfeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ eprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:XoPKYJsRE1vyMZI2WKvrt9dNizdy3lKOiAYzapsHGXKgb0Yd2wZGMQ>
+ <xmx:XoPKYCYtt9IBBtNCfnITaXWBEMLsM930c_RWAeuFmmMDSShT0Rx2sQ>
+ <xmx:XoPKYIYh2hk82XCAXK0sRpJ4p2HimScYIdb49pqqLMvj_Q-lSSHn7Q>
+ <xmx:X4PKYHz1pVOmPlTrK-xyOMUnlzcEgUkIkMzYHBwunJYpOiiCIjI6pQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id CAA02A00079; Wed, 16 Jun 2021 19:03:58 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-526-gf020ecf851-fm-20210616.001-gf020ecf8
+Mime-Version: 1.0
+Message-Id: <9902c945-4651-4023-bede-6833392b3811@www.fastmail.com>
 In-Reply-To: <20210616162913.15259-1-colin.king@canonical.com>
+References: <20210616162913.15259-1-colin.king@canonical.com>
+Date: Thu, 17 Jun 2021 08:33:38 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Colin King" <colin.king@canonical.com>,
+ "Corey Minyard" <minyard@acm.org>, "Joel Stanley" <joel@jms.id.au>,
+ openipmi-developer@lists.sourceforge.net,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
+Subject: =?UTF-8?Q?Re:_[PATCH][next]_ipmi:_kcs=5Fbmc=5Faspeed:_Fix_less_than_zero?=
+ =?UTF-8?Q?_comparison_of_a_unsigned_int?=
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,56 +99,25 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: linux-aspeed@lists.ozlabs.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
- linux-arm-kernel@lists.infradead.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Jun 16, 2021 at 05:29:13PM +0100, Colin King wrote:
+
+
+On Thu, 17 Jun 2021, at 01:59, Colin King wrote:
 > From: Colin Ian King <colin.king@canonical.com>
 > 
 > The comparisons of the unsigned int hw_type to less than zero always
 > false because it is unsigned. Fix this by using an int for the
 > assignment and less than zero check.
-
-Thanks, I added this to my tree.
-
--corey
-
 > 
+
 > Addresses-Coverity: ("Unsigned compared against 0")
 > Fixes: 9d2df9a0ad80 ("ipmi: kcs_bmc_aspeed: Implement KCS SerIRQ configuration")
 > Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  drivers/char/ipmi/kcs_bmc_aspeed.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_bmc_aspeed.c
-> index 0401089f8895..92a37b33494c 100644
-> --- a/drivers/char/ipmi/kcs_bmc_aspeed.c
-> +++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
-> @@ -301,13 +301,15 @@ static inline int aspeed_kcs_map_serirq_type(u32 dt_type)
->  static int aspeed_kcs_config_upstream_irq(struct aspeed_kcs_bmc *priv, u32 id, u32 dt_type)
->  {
->  	unsigned int mask, val, hw_type;
-> +	int ret;
->  
->  	if (id > 15)
->  		return -EINVAL;
->  
-> -	hw_type = aspeed_kcs_map_serirq_type(dt_type);
-> -	if (hw_type < 0)
-> -		return hw_type;
-> +	ret = aspeed_kcs_map_serirq_type(dt_type);
-> +	if (ret < 0)
-> +		return ret;
-> +	hw_type = ret;
->  
->  	priv->upstream_irq.mode = aspeed_kcs_irq_serirq;
->  	priv->upstream_irq.id = id;
-> -- 
-> 2.31.1
-> 
+
+Thanks for catching that.
+
+Andrew
