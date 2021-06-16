@@ -2,63 +2,40 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 108153A9EDA
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Jun 2021 17:21:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2B6F3AA151
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Jun 2021 18:29:45 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4G4pmd51qMz3bVD
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Jun 2021 01:21:05 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=buypIobs;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4G4rHr2Xyqz30Cc
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Jun 2021 02:29:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=robh@kernel.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=buypIobs; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=canonical.com
+ (client-ip=91.189.89.112; helo=youngberry.canonical.com;
+ envelope-from=colin.king@canonical.com; receiver=<UNKNOWN>)
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4G4pmZ1vRMz309V
- for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Jun 2021 01:21:02 +1000 (AEST)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3C13E61356
- for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Jun 2021 15:20:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623856859;
- bh=27eUZzjv41JFT/kKzRpcOFEIMGKaONkaM9MTgUB4lvc=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=buypIobsBvwFCoYyKG42xHmi6qlL+WknZA0yV9zcssR1qukECIItvMs5lYF24rq39
- 7G2rK+9x62EOIbBxA0GYsKblM2k/E/zY2ttt9SmAeF7mvexO/3Tz9FULTJZ4xZ8hQp
- qo21npzZcH3m2VJR+PEzbRav27lgret3OHmHLrMa+yzTf6uyIS2u06r0IfJ8J87NEX
- OqsnNy+LYpdR4X0lEw0DFSgZR3N9ejKQ6K068cLLxzaz7UHmmGuIxDDU53pfou+Y7I
- 7PxjBInaO0mwtN8Ezuk56bJ2wt0T5Z4h3v7InClBkLr24pCiSYHUhSE/RiPZV2v6m+
- JY0BVpsRsnbVg==
-Received: by mail-ej1-f50.google.com with SMTP id g8so4591859ejx.1
- for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Jun 2021 08:20:59 -0700 (PDT)
-X-Gm-Message-State: AOAM533eAy3qugEg2J+nPh0ACbzD6X8QNP0B3N7ZAh5eJ+lXUIGwPrW8
- llzFiIWV3IFW68PrUiOysKHlSUWaIScnr5AiKQ==
-X-Google-Smtp-Source: ABdhPJwVu+BsUV7DzrQnvv679MoG3zGD601vblw0HBeBpWUI8BezJDE8UWYZlHYd9yj6WnDUi1/TfNk1GXKkgoaWTXw=
-X-Received: by 2002:a17:907:2059:: with SMTP id
- pg25mr76098ejb.130.1623856857816; 
- Wed, 16 Jun 2021 08:20:57 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4G4rHk1qnWz301K
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Jun 2021 02:29:36 +1000 (AEST)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
+ (envelope-from <colin.king@canonical.com>)
+ id 1ltYPh-0003ld-IQ; Wed, 16 Jun 2021 16:29:13 +0000
+From: Colin King <colin.king@canonical.com>
+To: Corey Minyard <minyard@acm.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, openipmi-developer@lists.sourceforge.net,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
+Subject: [PATCH][next] ipmi: kcs_bmc_aspeed: Fix less than zero comparison of
+ a unsigned int
+Date: Wed, 16 Jun 2021 17:29:13 +0100
+Message-Id: <20210616162913.15259-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210608102547.4880-1-steven_lee@aspeedtech.com>
- <20210608102547.4880-3-steven_lee@aspeedtech.com>
- <20210610162320.GA1910317@robh.at.kernel.org>
- <f639f1bb-fe53-4c15-a6dd-91b45ea7eef1@www.fastmail.com>
-In-Reply-To: <f639f1bb-fe53-4c15-a6dd-91b45ea7eef1@www.fastmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 16 Jun 2021 09:20:44 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJ_nwwyCBDg9p+AnriKw=9dC0WmLCw7dcz6qA87hRAu5g@mail.gmail.com>
-Message-ID: <CAL_JsqJ_nwwyCBDg9p+AnriKw=9dC0WmLCw7dcz6qA87hRAu5g@mail.gmail.com>
-Subject: Re: [PATCH v5 02/10] dt-bindings: aspeed-sgpio: Add ast2600 sgpio
- compatibles.
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,96 +47,47 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Steven Lee <steven_lee@aspeedtech.com>,
- open list <linux-kernel@vger.kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Hongwei Zhang <Hongweiz@ami.com>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Jun 10, 2021 at 5:27 PM Andrew Jeffery <andrew@aj.id.au> wrote:
->
->
->
-> On Fri, 11 Jun 2021, at 01:53, Rob Herring wrote:
-> > On Tue, Jun 08, 2021 at 06:25:37PM +0800, Steven Lee wrote:
-> > > AST2600 SoC has 2 SGPIO master interfaces one with 128 pins another o=
-ne
-> > > with 80 pins. Add ast2600-sgpiom0-80 and ast2600-sgpiom-128 compatibl=
-es
-> > > and update descriptions to introduce the max number of available gpio
-> > > pins that AST2600 supported.
-> > >
-> > > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
-> > > Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-> > > ---
-> > >  Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml | 9 ++++++-=
---
-> > >  1 file changed, 6 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml=
- b/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
-> > > index b2ae211411ff..0e42eded3c1e 100644
-> > > --- a/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
-> > > +++ b/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
-> > > @@ -10,9 +10,10 @@ maintainers:
-> > >    - Andrew Jeffery <andrew@aj.id.au>
-> > >
-> > >  description:
-> > > -  This SGPIO controller is for ASPEED AST2500 SoC, it supports up to=
- 80 full
-> > > -  featured Serial GPIOs. Each of the Serial GPIO pins can be program=
-med to
-> > > -  support the following options
-> > > +  This SGPIO controller is for ASPEED AST2400, AST2500 and AST2600 S=
-oC,
-> > > +  AST2600 have two sgpio master one with 128 pins another one with 8=
-0 pins,
-> > > +  AST2500/AST2400 have one sgpio master with 80 pins. Each of the Se=
-rial
-> > > +  GPIO pins can be programmed to support the following options
-> > >    - Support interrupt option for each input port and various interru=
-pt
-> > >      sensitivity option (level-high, level-low, edge-high, edge-low)
-> > >    - Support reset tolerance option for each output port
-> > > @@ -25,6 +26,8 @@ properties:
-> > >      enum:
-> > >        - aspeed,ast2400-sgpio
-> > >        - aspeed,ast2500-sgpio
-> > > +      - aspeed,ast2600-sgpiom-80
-> > > +      - aspeed,ast2600-sgpiom-128
-> >
-> > If the number of GPIOs is the only difference, then I don't think you
-> > should get rid of ngpios. It's one thing if it varies from one SoC to
-> > the next, but if something is per instance we should have a property.
-> >
->
-> There are two issues:
->
-> 1. The maximum number of GPIOs supported by the controller
-> 2. The maximum number of GPIOs supported by the platform
->
-> These are different because of what the controller does - here's some pre=
-vious discussion on the topic:
->
-> https://lore.kernel.org/linux-gpio/f2875111-9ba9-43b7-b2a4-d00c8725f5a0@w=
-ww.fastmail.com/
->
-> We've used ngpios to describe 2; this decision was made prior to the 2600=
- design - the SGPIO controller for both the 2400 and 2500 supported a maxim=
-um of 80 GPIOs. With the 2600 we have to differentiate between the two SGPI=
-O controllers because they support a different maximum number of GPIOs. The=
- proposed approach of different compatibles keeps the behaviour of ngpios t=
-he same across all controller implementations.
+From: Colin Ian King <colin.king@canonical.com>
 
-Okay, that makes sense.
+The comparisons of the unsigned int hw_type to less than zero always
+false because it is unsigned. Fix this by using an int for the
+assignment and less than zero check.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Addresses-Coverity: ("Unsigned compared against 0")
+Fixes: 9d2df9a0ad80 ("ipmi: kcs_bmc_aspeed: Implement KCS SerIRQ configuration")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/char/ipmi/kcs_bmc_aspeed.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c b/drivers/char/ipmi/kcs_bmc_aspeed.c
+index 0401089f8895..92a37b33494c 100644
+--- a/drivers/char/ipmi/kcs_bmc_aspeed.c
++++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
+@@ -301,13 +301,15 @@ static inline int aspeed_kcs_map_serirq_type(u32 dt_type)
+ static int aspeed_kcs_config_upstream_irq(struct aspeed_kcs_bmc *priv, u32 id, u32 dt_type)
+ {
+ 	unsigned int mask, val, hw_type;
++	int ret;
+ 
+ 	if (id > 15)
+ 		return -EINVAL;
+ 
+-	hw_type = aspeed_kcs_map_serirq_type(dt_type);
+-	if (hw_type < 0)
+-		return hw_type;
++	ret = aspeed_kcs_map_serirq_type(dt_type);
++	if (ret < 0)
++		return ret;
++	hw_type = ret;
+ 
+ 	priv->upstream_irq.mode = aspeed_kcs_irq_serirq;
+ 	priv->upstream_irq.id = id;
+-- 
+2.31.1
+
