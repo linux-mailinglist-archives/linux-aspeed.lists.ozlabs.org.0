@@ -2,63 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5053A9060
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Jun 2021 06:16:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 108153A9EDA
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Jun 2021 17:21:07 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4G4X1z5krWz308H
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Jun 2021 14:16:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4G4pmd51qMz3bVD
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Jun 2021 01:21:05 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=velankanigroup.com header.i=ramakrishnan@velankanigroup.com header.a=rsa-sha256 header.s=zoho header.b=agiXrhZE;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=buypIobs;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=velankanigroup.com (client-ip=103.117.158.11;
- helo=sender-op-o11.zoho.in; envelope-from=ramakrishnan@velankanigroup.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=velankanigroup.com
- header.i=ramakrishnan@velankanigroup.com header.a=rsa-sha256 header.s=zoho
- header.b=agiXrhZE; dkim-atps=neutral
-Received: from sender-op-o11.zoho.in (sender-op-o11.zoho.in [103.117.158.11])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4G4X1v6XdXz302g
- for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Jun 2021 14:16:35 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; t=1623816991; cv=none; d=zohomail.in; s=zohoarc; 
- b=ZS99tzT/p/Sd9QBTpx85pNAfXGi3eJuBtoKXpuOcEcHJXYrQFO8Sdr/C7I3fEbvmZP1GEODRte5OP6Yisy/jYyr0snwBQvcpfSWZ+MfCHYNnHzRVZcu2oQ7AH7MGcPee2UtyN8d4r5sD4JAcb5bJ27pfsHfz9NoatTnV0Gi5TBg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; 
- t=1623816991; h=Content-Type:Date:From:MIME-Version:Message-ID:Subject:To; 
- bh=AbIHs8i68xfK3/shRMudSiXkNDseKt0+7TGH7ByJbXg=; 
- b=QyTFfHDAehtxqpbBdK3DsMqJFuX27ghxIXRfwXVP5qwA1lx2nK885lBF0EMkMiCPUmhilzJ/A/s9W/FeXglfVrD15/G66NdVZU/6843U6FpBy5/Ty/0VN+Y4nkQFD9fDVZ+OCGNKAKlliu2SnX/sLIgE+OZtynWIpwJqLJz4F+E=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
- dkim=pass  header.i=velankanigroup.com;
- spf=pass  smtp.mailfrom=ramakrishnan@velankanigroup.com;
- dmarc=pass header.from=<ramakrishnan@velankanigroup.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1623816991; 
- s=zoho; d=velankanigroup.com; i=ramakrishnan@velankanigroup.com;
- h=Date:From:To:Message-Id:In-Reply-To:Subject:MIME-Version:Content-Type;
- bh=AbIHs8i68xfK3/shRMudSiXkNDseKt0+7TGH7ByJbXg=;
- b=agiXrhZE24drAUW6WHrxpt5D8xgWgDGMFV5nebZy2dSuCB+a5QmxbI8Oob8FzcW1
- LUBJNyXGen4/ryAb3q5Mbjv1/avsOctba/pJGsrHwwtL2kpXEc2TcmWxE9/ArvgF8+s
- OTLPh3W0/pkR102sTV5s9EkpC4r030AlXDyV6onc=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 1623816991095353.5773208745345;
- Wed, 16 Jun 2021 09:46:31 +0530 (IST)
-Date: Wed, 16 Jun 2021 09:46:31 +0530
-From: ramakrishnan <ramakrishnan@velankanigroup.com>
-To: "linux-aspeed" <linux-aspeed@lists.ozlabs.org>
-Message-Id: <17a1308f173.6938bac93765.4526632294642356057@velankanigroup.com>
-In-Reply-To: 
-Subject: 32 bit Post Code capture and display in AMD EPYC Daytona platform
- with ATS2500 BMC
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=robh@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=buypIobs; 
+ dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4G4pmZ1vRMz309V
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Jun 2021 01:21:02 +1000 (AEST)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3C13E61356
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Jun 2021 15:20:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1623856859;
+ bh=27eUZzjv41JFT/kKzRpcOFEIMGKaONkaM9MTgUB4lvc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=buypIobsBvwFCoYyKG42xHmi6qlL+WknZA0yV9zcssR1qukECIItvMs5lYF24rq39
+ 7G2rK+9x62EOIbBxA0GYsKblM2k/E/zY2ttt9SmAeF7mvexO/3Tz9FULTJZ4xZ8hQp
+ qo21npzZcH3m2VJR+PEzbRav27lgret3OHmHLrMa+yzTf6uyIS2u06r0IfJ8J87NEX
+ OqsnNy+LYpdR4X0lEw0DFSgZR3N9ejKQ6K068cLLxzaz7UHmmGuIxDDU53pfou+Y7I
+ 7PxjBInaO0mwtN8Ezuk56bJ2wt0T5Z4h3v7InClBkLr24pCiSYHUhSE/RiPZV2v6m+
+ JY0BVpsRsnbVg==
+Received: by mail-ej1-f50.google.com with SMTP id g8so4591859ejx.1
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Jun 2021 08:20:59 -0700 (PDT)
+X-Gm-Message-State: AOAM533eAy3qugEg2J+nPh0ACbzD6X8QNP0B3N7ZAh5eJ+lXUIGwPrW8
+ llzFiIWV3IFW68PrUiOysKHlSUWaIScnr5AiKQ==
+X-Google-Smtp-Source: ABdhPJwVu+BsUV7DzrQnvv679MoG3zGD601vblw0HBeBpWUI8BezJDE8UWYZlHYd9yj6WnDUi1/TfNk1GXKkgoaWTXw=
+X-Received: by 2002:a17:907:2059:: with SMTP id
+ pg25mr76098ejb.130.1623856857816; 
+ Wed, 16 Jun 2021 08:20:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative; 
- boundary="----=_Part_11239_1053827573.1623816991092"
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+References: <20210608102547.4880-1-steven_lee@aspeedtech.com>
+ <20210608102547.4880-3-steven_lee@aspeedtech.com>
+ <20210610162320.GA1910317@robh.at.kernel.org>
+ <f639f1bb-fe53-4c15-a6dd-91b45ea7eef1@www.fastmail.com>
+In-Reply-To: <f639f1bb-fe53-4c15-a6dd-91b45ea7eef1@www.fastmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 16 Jun 2021 09:20:44 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJ_nwwyCBDg9p+AnriKw=9dC0WmLCw7dcz6qA87hRAu5g@mail.gmail.com>
+Message-ID: <CAL_JsqJ_nwwyCBDg9p+AnriKw=9dC0WmLCw7dcz6qA87hRAu5g@mail.gmail.com>
+Subject: Re: [PATCH v5 02/10] dt-bindings: aspeed-sgpio: Add ast2600 sgpio
+ compatibles.
+To: Andrew Jeffery <andrew@aj.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,175 +70,96 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Steven Lee <steven_lee@aspeedtech.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Hongwei Zhang <Hongweiz@ami.com>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-------=_Part_11239_1053827573.1623816991092
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Jun 10, 2021 at 5:27 PM Andrew Jeffery <andrew@aj.id.au> wrote:
+>
+>
+>
+> On Fri, 11 Jun 2021, at 01:53, Rob Herring wrote:
+> > On Tue, Jun 08, 2021 at 06:25:37PM +0800, Steven Lee wrote:
+> > > AST2600 SoC has 2 SGPIO master interfaces one with 128 pins another o=
+ne
+> > > with 80 pins. Add ast2600-sgpiom0-80 and ast2600-sgpiom-128 compatibl=
+es
+> > > and update descriptions to introduce the max number of available gpio
+> > > pins that AST2600 supported.
+> > >
+> > > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+> > > Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+> > > ---
+> > >  Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml | 9 ++++++-=
+--
+> > >  1 file changed, 6 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml=
+ b/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
+> > > index b2ae211411ff..0e42eded3c1e 100644
+> > > --- a/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
+> > > +++ b/Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
+> > > @@ -10,9 +10,10 @@ maintainers:
+> > >    - Andrew Jeffery <andrew@aj.id.au>
+> > >
+> > >  description:
+> > > -  This SGPIO controller is for ASPEED AST2500 SoC, it supports up to=
+ 80 full
+> > > -  featured Serial GPIOs. Each of the Serial GPIO pins can be program=
+med to
+> > > -  support the following options
+> > > +  This SGPIO controller is for ASPEED AST2400, AST2500 and AST2600 S=
+oC,
+> > > +  AST2600 have two sgpio master one with 128 pins another one with 8=
+0 pins,
+> > > +  AST2500/AST2400 have one sgpio master with 80 pins. Each of the Se=
+rial
+> > > +  GPIO pins can be programmed to support the following options
+> > >    - Support interrupt option for each input port and various interru=
+pt
+> > >      sensitivity option (level-high, level-low, edge-high, edge-low)
+> > >    - Support reset tolerance option for each output port
+> > > @@ -25,6 +26,8 @@ properties:
+> > >      enum:
+> > >        - aspeed,ast2400-sgpio
+> > >        - aspeed,ast2500-sgpio
+> > > +      - aspeed,ast2600-sgpiom-80
+> > > +      - aspeed,ast2600-sgpiom-128
+> >
+> > If the number of GPIOs is the only difference, then I don't think you
+> > should get rid of ngpios. It's one thing if it varies from one SoC to
+> > the next, but if something is per instance we should have a property.
+> >
+>
+> There are two issues:
+>
+> 1. The maximum number of GPIOs supported by the controller
+> 2. The maximum number of GPIOs supported by the platform
+>
+> These are different because of what the controller does - here's some pre=
+vious discussion on the topic:
+>
+> https://lore.kernel.org/linux-gpio/f2875111-9ba9-43b7-b2a4-d00c8725f5a0@w=
+ww.fastmail.com/
+>
+> We've used ngpios to describe 2; this decision was made prior to the 2600=
+ design - the SGPIO controller for both the 2400 and 2500 supported a maxim=
+um of 80 GPIOs. With the 2600 we have to differentiate between the two SGPI=
+O controllers because they support a different maximum number of GPIOs. The=
+ proposed approach of different compatibles keeps the behaviour of ngpios t=
+he same across all controller implementations.
 
-Hi,
+Okay, that makes sense.
 
-
-
-we are developing openBMC port for the AMD EPYC Daytona platform with ATS 2=
-500 BMC.=C2=A0 I=C2=A0 need the following functionality to be implemented.
-
-
-
-1. Capture of the LSB of the 32-bit post code=C2=A0 and lit 8 LEDs on the G=
-PIOAA port=C2=A0 by configuring SNPWADR with one snooping address of 0x0080=
- and directing the data to the GPIO port pins GPIOAA[7:0].
-
-
-
-2. Also read and store the 32-bit Post code as=C2=A0 4 bytes from the=C2=A0=
- the LPC I/O write cycles directed to=C2=A0 Port address 0x0080 , 0x0081, 0=
-x0082 and 0x0083=C2=A0 in the root=C2=A0 file system for every power cycle =
-and later display on the web GUI by=C2=A0 Configuring=C2=A0 post code contr=
-ol register PCCR0-3 for=C2=A0 DMA/FIFO mode.=C2=A0
-
-
-
-Could you please let=C2=A0 us know if=C2=A0 implementation for the above sa=
-id two is available in=C2=A0 openBMC community else suggest implementation=
-=C2=A0 =C2=A0pointers.
-
-=C2=A0
-
-Can any one=C2=A0 provide SW linux kernel 5.x=C2=A0 =C2=A0driver for=C2=A0 =
-second functionality=C2=A0 =C2=A0implementation or link to driver, if it ex=
-ist , in the open=C2=A0 community.
-
-
-
-suggestion to implementation pointer is also welcome.
-
-
-=C2=A0
-
-
-
-
-Regards,
-
-Ramakrishnan
-------=_Part_11239_1053827573.1623816991092
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head>=
-<meta content=3D"text/html;charset=3DUTF-8" http-equiv=3D"Content-Type"></h=
-ead><body ><div style=3D"font-family: Verdana, Arial, Helvetica, sans-serif=
-; font-size: 10pt;"><div style=3D"color: rgb(0, 0, 0); font-family: Verdana=
-, Arial, Helvetica, sans-serif; font-style: normal; font-variant-ligatures:=
- normal; font-variant-caps: normal; font-weight: 400; letter-spacing: norma=
-l; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; w=
-hite-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width=
-: 0px; text-decoration-thickness: initial; text-decoration-style: initial; =
-text-decoration-color: initial; font-size: 13.3333px; background-color: rgb=
-(255, 255, 255);">Hi,<br></div><div style=3D"color: rgb(0, 0, 0); font-fami=
-ly: Verdana, Arial, Helvetica, sans-serif; font-style: normal; font-variant=
--ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spa=
-cing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transfo=
-rm: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-s=
-troke-width: 0px; text-decoration-thickness: initial; text-decoration-style=
-: initial; text-decoration-color: initial; font-size: 13.3333px; background=
--color: rgb(255, 255, 255);"><br></div><div style=3D"color: rgb(0, 0, 0); f=
-ont-family: Verdana, Arial, Helvetica, sans-serif; font-style: normal; font=
--variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; le=
-tter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text=
--transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webki=
-t-text-stroke-width: 0px; text-decoration-thickness: initial; text-decorati=
-on-style: initial; text-decoration-color: initial; font-size: 13.3333px; ba=
-ckground-color: rgb(255, 255, 255);">we are developing openBMC port for the=
- AMD EPYC Daytona platform with ATS 2500 BMC.&nbsp; I&nbsp; need the follow=
-ing functionality to be implemented.<br></div><div style=3D"color: rgb(0, 0=
-, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-style: norma=
-l; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: =
-400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0p=
-x; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;=
- -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-d=
-ecoration-style: initial; text-decoration-color: initial; font-size: 13.333=
-3px; background-color: rgb(255, 255, 255);"><br></div><div style=3D"color: =
-rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-styl=
-e: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-=
-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-in=
-dent: 0px; text-transform: none; white-space: normal; widows: 2; word-spaci=
-ng: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial=
-; text-decoration-style: initial; text-decoration-color: initial; font-size=
-: 13.3333px; background-color: rgb(255, 255, 255);">1. Capture of the LSB o=
-f the 32-bit post code&nbsp; and lit 8 LEDs on the GPIOAA port&nbsp; by con=
-figuring SNPWADR with one snooping address of 0x0080 and directing the data=
- to the GPIO port pins GPIOAA[7:0].<br></div><div style=3D"color: rgb(0, 0,=
- 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-style: normal=
-; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 4=
-00; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px=
-; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-de=
-coration-style: initial; text-decoration-color: initial; font-size: 13.3333=
-px; background-color: rgb(255, 255, 255);"><br></div><div style=3D"color: r=
-gb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-style=
-: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-w=
-eight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-ind=
-ent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacin=
-g: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial;=
- text-decoration-style: initial; text-decoration-color: initial; font-size:=
- 13.3333px; background-color: rgb(255, 255, 255);">2. Also read and store t=
-he 32-bit Post code as&nbsp; 4 bytes from the&nbsp; the LPC I/O write cycle=
-s directed to&nbsp; Port address 0x0080 , 0x0081, 0x0082 and 0x0083&nbsp; i=
-n the root&nbsp; file system for every power cycle and later display on the=
- web GUI by&nbsp; Configuring&nbsp; post code control register PCCR0-3 for&=
-nbsp; DMA/FIFO mode.&nbsp;<br></div><div style=3D"color: rgb(0, 0, 0); font=
--family: Verdana, Arial, Helvetica, sans-serif; font-style: normal; font-va=
-riant-ligatures: normal; font-variant-caps: normal; font-weight: 400; lette=
-r-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-tr=
-ansform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-t=
-ext-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-=
-style: initial; text-decoration-color: initial; font-size: 13.3333px; backg=
-round-color: rgb(255, 255, 255);"><br></div><div style=3D"color: rgb(0, 0, =
-0); font-family: Verdana, Arial, Helvetica, sans-serif; font-style: normal;=
- font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 40=
-0; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px;=
- text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -=
-webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-dec=
-oration-style: initial; text-decoration-color: initial; font-size: 13.3333p=
-x; background-color: rgb(255, 255, 255);">Could you please let&nbsp; us kno=
-w if&nbsp; implementation for the above said two is available in&nbsp; open=
-BMC community else suggest implementation&nbsp; &nbsp;pointers.<br></div><d=
-iv style=3D"color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures=
-: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: norm=
-al; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-widt=
-h: 0px; text-decoration-thickness: initial; text-decoration-style: initial;=
- text-decoration-color: initial; font-family: &quot;Lato 2&quot;, sans-seri=
-f; font-size: 14px; background-color: rgb(255, 255, 255);"><p style=3D"marg=
-in: 0px;" class=3D""><span style=3D"font-size: 10pt; font-family: Verdana, =
-sans-serif;">&nbsp;</span><br></p><p style=3D"margin: 0px;" class=3D""><spa=
-n style=3D"font-size: 10pt; font-family: Verdana, sans-serif;">Can any one&=
-nbsp; provide SW linux kernel 5.x&nbsp; &nbsp;driver for&nbsp; second funct=
-ionality&nbsp; &nbsp;implementation or link to driver, if it exist , in the=
- open&nbsp; community.</span><br></p><div><br></div><div><span style=3D"fon=
-t-size: 10pt; font-family: Verdana, sans-serif;">suggestion to implementati=
-on pointer is also welcome.</span><br></div></div><div style=3D"color: rgb(=
-0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-=
-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-al=
-ign: start; text-indent: 0px; text-transform: none; white-space: normal; wi=
-dows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration=
--thickness: initial; text-decoration-style: initial; text-decoration-color:=
- initial; font-family: &quot;Lato 2&quot;, sans-serif; font-size: 14px; bac=
-kground-color: rgb(255, 255, 255);"><p style=3D"margin: 0px;" class=3D""><s=
-pan style=3D"font-size: 10pt; font-family: Verdana, sans-serif;">&nbsp;</sp=
-an><br></p></div><div style=3D"color: rgb(0, 0, 0); font-family: Verdana, A=
-rial, Helvetica, sans-serif; font-style: normal; font-variant-ligatures: no=
-rmal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; =
-orphans: 2; text-align: start; text-indent: 0px; text-transform: none; whit=
-e-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0=
-px; text-decoration-thickness: initial; text-decoration-style: initial; tex=
-t-decoration-color: initial; font-size: 13.3333px; background-color: rgb(25=
-5, 255, 255);"><div><br></div><div>Regards,<br></div><div>Ramakrishnan<br><=
-/div></div><div><br></div><div data-zbluepencil-ignore=3D"true" id=3D""><di=
-v><br></div></div><div><br></div></div><br></body></html>
-------=_Part_11239_1053827573.1623816991092--
-
+Reviewed-by: Rob Herring <robh@kernel.org>
