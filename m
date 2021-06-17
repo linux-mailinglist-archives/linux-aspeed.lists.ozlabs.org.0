@@ -2,92 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CEA3AA72C
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Jun 2021 01:04:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5013AB00E
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Jun 2021 11:45:33 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4G51346kkTz30Fm
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Jun 2021 09:04:16 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=YuogiRdx;
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=b5PnAMLV;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4G5HGy6f8kz3bsW
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Jun 2021 19:45:30 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=64.147.123.21;
- helo=wout5-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=jamin_lin@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm3 header.b=YuogiRdx; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm3 header.b=b5PnAMLV; 
- dkim-atps=neutral
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4G512w1drXz2xYf
- for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Jun 2021 09:04:07 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id E563819B7;
- Wed, 16 Jun 2021 19:03:59 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Wed, 16 Jun 2021 19:04:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm3; bh=PO02j9SYy4Fuys7DY1CucmNO5PH1IkV
- Pa73qEXnyVUk=; b=YuogiRdx2QXF1ySvr2xrBPfLQns/DMRgUb9Y/wZf4OHqi5g
- zwNoGKiFQ2hYUmNYRa8KHKtOXrT2cPdDD0AxzEfv7XLoAMBc+9nHsSIJhz9CXilM
- GhwM9Qg2Ssbo4mdZvwIweD1QVcQ5MIJpDWxdMPgdFemBBl/XZUBF+A8KXkj0eJpk
- pJSd+WN6Vm2xoNPkTsNDCP9Q7jjyItBY3C0ZKu5maBGV+1H1n2crdI0BGwkzFP+x
- OJIwPqQzQYXK0Ax6JxcSGLjZ4acHN1Q6gGu/lHR/0M3v70TQTUkR5KcxgPSkeMJg
- H+2dVZdal1BSXbnOSrTz9vJqYihW9bhupa0VAYw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=PO02j9
- SYy4Fuys7DY1CucmNO5PH1IkVPa73qEXnyVUk=; b=b5PnAMLVWSDKdbEo8EWUN8
- V+8i8a1QdMNW4fWXRIXlWsfVwLiVhrOWCPnO2bE8w0phO3HnQF4ah3UQj70xyhKe
- B23XpcduqyABKgba3swsYDCls+vi1bbxTRQ6dYbwgnncxKAG5mjHRulJJUXTHInn
- l5g3ggi68Kr1KcxRcRReuBk4UxjY6tcCBl/DX+rSfIPthCL1gtb02+MhjrEtjVsH
- rPLZ+0Y1VeLarLAFFNvLjVcMOBw94bOmzt0zRcKBNe4/Wus1VbF+LgUgOI/4LPYW
- lzwRex7Ph5w8oRKeDT2p3F/D+iR6IyEzsyAsbJ4UZDELZaiOz+HCb73Ctn4Ym5zg
- ==
-X-ME-Sender: <xms:XoPKYBJpH2jtt7pDG71yvrzoJd4nhGdpOYF9Ow4bI_UvJeFbkgJ6fw>
- <xme:XoPKYNIEVE4GnGSjYKQ3v2ZRxEhDmjrW5qUMHAIlNWMC27b7FG8O0y1DjDekBLLU2
- vtm86RWEJggeGUtBA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeftddgudegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreerjeenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhepuddttdekueeggedvtddtueekiedutdfguedutdefieeuteefieelteet
- vddthfeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:XoPKYJsRE1vyMZI2WKvrt9dNizdy3lKOiAYzapsHGXKgb0Yd2wZGMQ>
- <xmx:XoPKYCYtt9IBBtNCfnITaXWBEMLsM930c_RWAeuFmmMDSShT0Rx2sQ>
- <xmx:XoPKYIYh2hk82XCAXK0sRpJ4p2HimScYIdb49pqqLMvj_Q-lSSHn7Q>
- <xmx:X4PKYHz1pVOmPlTrK-xyOMUnlzcEgUkIkMzYHBwunJYpOiiCIjI6pQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id CAA02A00079; Wed, 16 Jun 2021 19:03:58 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-526-gf020ecf851-fm-20210616.001-gf020ecf8
-Mime-Version: 1.0
-Message-Id: <9902c945-4651-4023-bede-6833392b3811@www.fastmail.com>
-In-Reply-To: <20210616162913.15259-1-colin.king@canonical.com>
-References: <20210616162913.15259-1-colin.king@canonical.com>
-Date: Thu, 17 Jun 2021 08:33:38 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Colin King" <colin.king@canonical.com>,
- "Corey Minyard" <minyard@acm.org>, "Joel Stanley" <joel@jms.id.au>,
- openipmi-developer@lists.sourceforge.net,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Subject: =?UTF-8?Q?Re:_[PATCH][next]_ipmi:_kcs=5Fbmc=5Faspeed:_Fix_less_than_zero?=
- =?UTF-8?Q?_comparison_of_a_unsigned_int?=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4G5HGv3BRhz30Ff
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Jun 2021 19:45:24 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 15H9U8Ja024573;
+ Thu, 17 Jun 2021 17:30:08 +0800 (GMT-8)
+ (envelope-from jamin_lin@aspeedtech.com)
+Received: from localhost.localdomain (192.168.100.253) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 17 Jun
+ 2021 17:44:31 +0800
+From: Jamin Lin <jamin_lin@aspeedtech.com>
+To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
+ Jeffery" <andrew@aj.id.au>, Philipp Zabel <p.zabel@pengutronix.de>,
+ "Wolfram Sang" <wsa+renesas@sang-engineering.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Jarkko Nikula <jarkko.nikula@linux.intel.com>, Jean Delvare
+ <jdelvare@suse.de>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski@canonical.com>, Khalil Blaiech
+ <kblaiech@mellanox.com>, Yicong Yang <yangyicong@hisilicon.com>,
+ =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <bence98@sch.bme.hu>, Mike Rapoport
+ <rppt@kernel.org>, =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?=
+ <u.kleine-koenig@pengutronix.de>, Guenter Roeck <linux@roeck-us.net>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ Ryan Chen <ryan_chen@aspeedtech.com>,
+ "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>, "open
+ list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/ASPEED MACHINE
+ SUPPORT" <linux-aspeed@lists.ozlabs.org>, open list
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH 0/3] *** Support ASPEED AST2600 I2C ***
+Date: Thu, 17 Jun 2021 17:43:37 +0800
+Message-ID: <20210617094424.27123-1-jamin_lin@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
 Content-Type: text/plain
+X-Originating-IP: [192.168.100.253]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 15H9U8Ja024573
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,25 +68,32 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: steven_lee@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Support I2C controller of ASPEED AST2600 and
+enable the new register set
 
+Jamin Lin (3):
+  dts: aspeed: Add node for AST2600 I2C and I2CS
+  dt-bindings: i2c-new: Add bindings for AST2600 I2C
+  i2c:support new register set for ast2600
 
-On Thu, 17 Jun 2021, at 01:59, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
-> 
-> The comparisons of the unsigned int hw_type to less than zero always
-> false because it is unsigned. Fix this by using an int for the
-> assignment and less than zero check.
-> 
+ .../bindings/i2c/aspeed,new-i2c.yaml          |  107 +
+ arch/arm/boot/dts/aspeed-g6.dtsi              |  150 +-
+ drivers/i2c/busses/Kconfig                    |   11 +
+ drivers/i2c/busses/Makefile                   |    1 +
+ drivers/i2c/busses/ast2600-i2c-global.c       |  205 ++
+ drivers/i2c/busses/ast2600-i2c-global.h       |   25 +
+ drivers/i2c/busses/i2c-new-aspeed.c           | 1796 +++++++++++++++++
+ 7 files changed, 2263 insertions(+), 32 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/i2c/aspeed,new-i2c.yaml
+ create mode 100644 drivers/i2c/busses/ast2600-i2c-global.c
+ create mode 100644 drivers/i2c/busses/ast2600-i2c-global.h
+ create mode 100644 drivers/i2c/busses/i2c-new-aspeed.c
 
-> Addresses-Coverity: ("Unsigned compared against 0")
-> Fixes: 9d2df9a0ad80 ("ipmi: kcs_bmc_aspeed: Implement KCS SerIRQ configuration")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+-- 
+2.17.1
 
-Thanks for catching that.
-
-Andrew
