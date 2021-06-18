@@ -2,48 +2,84 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 491B13AC1BF
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Jun 2021 06:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9504F3AC30D
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Jun 2021 08:03:33 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4G5ldP01dwz3dYL
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Jun 2021 14:03:05 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4G5pJM5FhVz3bxj
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Jun 2021 16:03:31 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=gHnChd0A;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=JtppSal1;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jamin_lin@aspeedtech.com;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.26;
+ helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm3 header.b=gHnChd0A; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm3 header.b=JtppSal1; 
+ dkim-atps=neutral
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4G5lYd0BF2z3c9X
- for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Jun 2021 13:59:48 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 15I3ic7p020343;
- Fri, 18 Jun 2021 11:44:38 +0800 (GMT-8)
- (envelope-from jamin_lin@aspeedtech.com)
-Received: from aspeedtech.com (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 18 Jun
- 2021 11:59:01 +0800
-Date: Fri, 18 Jun 2021 11:58:55 +0800
-From: Jamin Lin <jamin_lin@aspeedtech.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH 3/3] i2c:support new register set for ast2600
-Message-ID: <20210618035855.GB31659@aspeedtech.com>
-References: <20210617094424.27123-1-jamin_lin@aspeedtech.com>
- <20210617094424.27123-4-jamin_lin@aspeedtech.com>
- <YMslyzUKp/7J0ncu@smile.fi.intel.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4G5pJD0TPKz3bvv
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Jun 2021 16:03:22 +1000 (AEST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3F2BB5C0138;
+ Fri, 18 Jun 2021 02:03:19 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 18 Jun 2021 02:03:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=rFN1Isa+gtwR+R9fDmDDjGykid
+ 10VpuGsivirIWLYTc=; b=gHnChd0AppeS/zLSfPThfZJ8XJ3JOHpVGyw76G9LgZ
+ zX7DQiFiFVR+iRxruvwLMNIu7BcaBai1LwdSz2v9JD5GQAIJ2iK+dPGKcdo+sb/D
+ 7cNRZPRIRFuKFsTwtk8bLNvL+9/2EvprhyTS81vQL2CwRV9PfkOu6Q8Whd/tH4A3
+ ivf70XYcK+QD2EryLoeHIqnaPhzxCKeJBsEYCtqK5Jy59ubt4SfBSmtVV/aiWrZV
+ qF9806UiM1yINbvT5xTJ6x6ZJR1uD9Lsf0ZQcUhTb9FnGvyxERA3CrBmhnLsDxLw
+ FH4IDBBjcgvMPVqGNNz5r7Y1eM5YYb5s2L2kLfcjfxCw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=rFN1Isa+gtwR+R9fD
+ mDDjGykid10VpuGsivirIWLYTc=; b=JtppSal1I0GnycNhJdo/PhzOn8h6ZFFBD
+ nLhZjKw1UqWNdhA5idN4L/11bOsJ0+2PiU0NQ74XISYwoSC0cJblfxK85O+C7xSc
+ ABryj8L28vRjI7Ytx2dKqdtUzikxn9/nJ1+Pg4L377oKx7Pr8wE1FVG+a7G0VaST
+ JdqIK6y3eJsWCcKxSlh+52aem+MPDcQ1wlExAQQHs9yQrGPetLjv/4zW4InATC4W
+ AfzBpAWuuUBoRatFo6EHf7JSgXSoYxZu6/EP3aUV5kC5SWvvAIDW0hqTSt2TLCus
+ hTzmpljlXHMjTNPwN4Wp/NMC+iEIaKmJe9z6tFGWYSgKhuWXOo5BQ==
+X-ME-Sender: <xms:JjfMYIp4o58s19lHc2EQRVdNN2OdW6XKqdJZUQkjjlcP8Ca89bekPg>
+ <xme:JjfMYOpqFOo8AvIwK9pTSZEQbE9ZN8aN1ki8r4zA5H0Spoc3IvT9k4dcQKfdXvHIx
+ yU9ibDyAZ6b9nk1SA>
+X-ME-Received: <xmr:JjfMYNMZ2HUbGkVUb5lYmyKKGbUxWBkxLYBlRahSMkkLElo-UiTXhR6wu4rxxMgMIKvCZpVEFJMJS_UHqLibAeOB9_CE1hYbPDXrtsnMtKvtwgaTw5h_3_CR>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeefvddgleelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegrjhdr
+ ihgurdgruheqnecuggftrfgrthhtvghrnhepkefhieffjeevfeevhedtieeihfefvdejle
+ dvvddthefftedujeethfeuueelfedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
+ rghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:JjfMYP78nWFeeCR1CwsUxcE5UeRLRdVpgaUP-Yof5kYo5mTZQOaB2g>
+ <xmx:JjfMYH6w_DtttQp7toWUqC4FzzbN323B46-uCLPDMu792YREYNy9Lg>
+ <xmx:JjfMYPj1NgpwO5wx15u8FZv4DbpUxAPZe4iR7oEifJ6WLbY3kAQrvg>
+ <xmx:JzfMYK3Qgsnsdc5-eSNAQo24c5QBg4DOZnDzq_Zk__c_ywESKiybuw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 18 Jun 2021 02:03:15 -0400 (EDT)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: joel@jms.id.au
+Subject: [PATCH] ARM: dts: rainier: Enable KCS channels 2 and 3
+Date: Fri, 18 Jun 2021 15:33:05 +0930
+Message-Id: <20210618060305.4031224-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <YMslyzUKp/7J0ncu@smile.fi.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 15I3ic7p020343
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,60 +91,40 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Yicong Yang <yangyicong@hisilicon.com>, Wolfram
- Sang <wsa+renesas@sang-engineering.com>, "open
- list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- Jean Delvare <jdelvare@suse.de>, "moderated list:ARM/ASPEED MACHINE
- SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Khalil Blaiech <kblaiech@mellanox.com>, "open list:OPEN
- FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
- Bence =?utf-8?B?Q3PDs2vDoXM=?= <bence98@sch.bme.hu>,
- Arnd Bergmann <arnd@arndb.de>, Steven Lee <steven_lee@aspeedtech.com>,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>,
- open list <linux-kernel@vger.kernel.org>,
- Jarkko Nikula <jarkko.nikula@linux.intel.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Mike Rapoport <rppt@kernel.org>
+Cc: devicetree@vger.kernel.org, robh+dt@kernel.org,
+ linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The 06/17/2021 10:36, Andy Shevchenko wrote:
-> On Thu, Jun 17, 2021 at 05:43:40PM +0800, Jamin Lin wrote:
-> > Add i2c new driver to support new register set for AST2600.
-> > AST2600 support three modes for data transfer which are
-> > byte mode, buffer mode and dma mode, respectively.
-> > The global driver of i2c is used to set the new register
-> > mode and define the base clock frequency
-> > of baseclk_1~baseclk_4.
-> > 
-> > Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
-> > ---
-> >  drivers/i2c/busses/Kconfig              |   11 +
-> >  drivers/i2c/busses/Makefile             |    1 +
-> >  drivers/i2c/busses/ast2600-i2c-global.c |  205 +++
-> >  drivers/i2c/busses/ast2600-i2c-global.h |   25 +
-> >  drivers/i2c/busses/i2c-new-aspeed.c     | 1796 +++++++++++++++++++++++
-> 
-> I commented _something_ (but read comments carefully, they will cover much
-> more). The overall it seems you have to:
->  - shrink the code base by at least ~15% (it's possible), i.e. -200 LOCs
-Can you describe it more detail?
-Do you mean I should separate the patch file to fix size limitation? 
->  - rethink how you do calculations and bit operations
->  - better code style
->
-Thanks for your review and very good suggestion
-I will update them and sent patch again.
-By the way, I received test failed email from Robot due to compiling
-warning. I will fix them, too. 
+KCS 2 and 3 are used as out-of-band signalling channels between the host
+and the BMC on the Rainier platform.
 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+---
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+index 941c0489479a..38aad878d482 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+@@ -1780,3 +1780,14 @@ &xdma {
+ 	status = "okay";
+ 	memory-region = <&vga_memory>;
+ };
++
++&kcs2 {
++	status = "okay";
++	aspeed,lpc-io-reg = <0xca8 0xcac>;
++};
++
++&kcs3 {
++	status = "okay";
++	aspeed,lpc-io-reg = <0xca2>;
++	aspeed,lpc-interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
++};
+-- 
+2.30.2
+
