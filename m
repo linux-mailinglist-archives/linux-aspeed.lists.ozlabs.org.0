@@ -2,50 +2,101 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 935153AE2AD
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Jun 2021 07:15:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B3613AF5D8
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Jun 2021 21:09:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4G7d5f2Mn8z306D
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Jun 2021 15:15:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4G7zc26Hbgz306N
+	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Jun 2021 05:09:38 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=bTA667Bh;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jamin_lin@aspeedtech.com;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
+ helo=mx0b-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
+ header.s=pp1 header.b=bTA667Bh; dkim-atps=neutral
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4G7d5b3sNZz2yjY
- for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Jun 2021 15:15:30 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 15L50DTC006012;
- Mon, 21 Jun 2021 13:00:13 +0800 (GMT-8)
- (envelope-from jamin_lin@aspeedtech.com)
-Received: from aspeedtech.com (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 21 Jun
- 2021 13:14:48 +0800
-Date: Mon, 21 Jun 2021 13:14:46 +0800
-From: Jamin Lin <jamin_lin@aspeedtech.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH 3/3] i2c:support new register set for ast2600
-Message-ID: <20210621051446.GB27876@aspeedtech.com>
-References: <20210617094424.27123-1-jamin_lin@aspeedtech.com>
- <20210617094424.27123-4-jamin_lin@aspeedtech.com>
- <YMslyzUKp/7J0ncu@smile.fi.intel.com>
- <20210618035855.GB31659@aspeedtech.com>
- <YMxuz03aTijWH6uj@smile.fi.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <YMxuz03aTijWH6uj@smile.fi.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 15L50DTC006012
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4G7zby5Mlkz2yX3;
+ Tue, 22 Jun 2021 05:09:33 +1000 (AEST)
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 15LJ3IN7125148; Mon, 21 Jun 2021 15:09:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : date : in-reply-to : references : content-type : mime-version
+ : content-transfer-encoding; s=pp1;
+ bh=wA9R2ROkbjWq0XIfzLFQB883uTfDMFuk98dLX2GE9O4=;
+ b=bTA667BhKGC0W3Y7unCtBXmqO0vmYYleYMCfdR/iDIImHnsqPHCLZjUS1UFx7Jem5LrL
+ Qzw0ZCHYyfUbxuE0/n5Mp9UMx+MNPPDNX0ECE3T1A9T703x5Zmu8KPMuDH4fmgs4kvb7
+ XDYq403s1ViYPyCkEu/ATCgu5TsGYlfd9tKowu/ivYsVWCLDdo+HuiK2G33SvKpqVLFk
+ wtlKnJNnm5llx2I+pxlsXjNSeTjAWbdxYQWWtNUj7IMgLk5zujDmh0YNYD2x60L1imYG
+ sTbB+yCScu3496hiA61L7giL+TCH1WV1buQT7JYM5pQ7SnSuKSWXao3Zllkj5I1YMbAD Cg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39axjv3mkp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Jun 2021 15:09:29 -0400
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 15LJ4BNL128336;
+ Mon, 21 Jun 2021 15:09:29 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39axjv3mkc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Jun 2021 15:09:29 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 15LJ1rpQ005871;
+ Mon, 21 Jun 2021 19:09:29 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma01wdc.us.ibm.com with ESMTP id 399878hjtr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Jun 2021 19:09:29 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 15LJ9SVg9699966
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 21 Jun 2021 19:09:28 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9BA44AC059;
+ Mon, 21 Jun 2021 19:09:28 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1DE45AC05E;
+ Mon, 21 Jun 2021 19:09:28 +0000 (GMT)
+Received: from v0005c16 (unknown [9.211.133.13])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Mon, 21 Jun 2021 19:09:27 +0000 (GMT)
+Message-ID: <d0e66d10765ae85b1bd939ddacc7f7d861190196.camel@linux.ibm.com>
+Subject: Re: [PATCH] ARM: dts: aspeed: Everest PSU #3 address change
+From: Eddie James <eajames@linux.ibm.com>
+To: Brandon Wyman <bjwyman@gmail.com>, Joel Stanley <joel@jms.id.au>,
+ openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org
+Date: Mon, 21 Jun 2021 14:09:27 -0500
+In-Reply-To: <20210610202940.3650554-1-bjwyman@gmail.com>
+References: <20210610202940.3650554-1-bjwyman@gmail.com>
+Organization: IBM
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-14.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 9x51zH9hzzq7XFPFlEs3eWHq6r4g25C0
+X-Proofpoint-ORIG-GUID: Gn70PZloxbp2h9BSLr2fpJQ6fuvxR5no
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-06-21_10:2021-06-21,
+ 2021-06-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 mlxscore=0 adultscore=0 phishscore=0 mlxlogscore=999
+ clxscore=1011 priorityscore=1501 spamscore=0 suspectscore=0 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106210112
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,59 +108,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Yicong Yang <yangyicong@hisilicon.com>, Wolfram
- Sang <wsa+renesas@sang-engineering.com>, "open
- list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- Jean Delvare <jdelvare@suse.de>, "moderated list:ARM/ASPEED MACHINE
- SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Khalil Blaiech <kblaiech@mellanox.com>, "open list:OPEN
- FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
- Bence =?utf-8?B?Q3PDs2vDoXM=?= <bence98@sch.bme.hu>,
- Arnd Bergmann <arnd@arndb.de>, Steven Lee <steven_lee@aspeedtech.com>,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>,
- open list <linux-kernel@vger.kernel.org>,
- Jarkko Nikula <jarkko.nikula@linux.intel.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Mike Rapoport <rppt@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The 06/18/2021 10:00, Andy Shevchenko wrote:
-> On Fri, Jun 18, 2021 at 11:58:55AM +0800, Jamin Lin wrote:
-> > The 06/17/2021 10:36, Andy Shevchenko wrote:
-> > > On Thu, Jun 17, 2021 at 05:43:40PM +0800, Jamin Lin wrote:
-> > > > Add i2c new driver to support new register set for AST2600.
-> > > > AST2600 support three modes for data transfer which are
-> > > > byte mode, buffer mode and dma mode, respectively.
-> > > > The global driver of i2c is used to set the new register
-> > > > mode and define the base clock frequency
-> > > > of baseclk_1~baseclk_4.
+On Thu, 2021-06-10 at 20:29 +0000, Brandon Wyman wrote:
+> From: "B. J. Wyman" <bjwyman@gmail.com>
 > 
-> > >  - shrink the code base by at least ~15% (it's possible), i.e. -200 LOCs
-> > Can you describe it more detail?
-> > Do you mean I should separate the patch file to fix size limitation? 
+> The third power supply had an I2C address conflict with another
+> device
+> in the system. The device will have the address changed from 6Ah to
+> 6Dh.
+
+Thanks Brandon.
+
+Reviewed-by: Eddie James <eajames@linux.ibm.com>
+
 > 
-> No. Based on my brief review you introduce to many redundant LOCs (lines of
-> code). Remove them, refactor the code, make it small and neat and easy to read
-> and understand. It is possible to achieve!
->
-Will fix
-Thanks
-> > >  - rethink how you do calculations and bit operations
-> > >  - better code style
-> > >
-> > Thanks for your review and very good suggestion
-> > I will update them and sent patch again.
-> > By the way, I received test failed email from Robot due to compiling
-> > warning. I will fix them, too.
+> Signed-off-by: B. J. Wyman <bjwyman@gmail.com>
+> ---
+>  arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
+> b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
+> index 3295c8c7c05c..480cb6604c7d 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
+> @@ -536,9 +536,9 @@ power-supply@69 {
+>  		reg = <0x69>;
+>  	};
+>  
+> -	power-supply@6a {
+> +	power-supply@6d {
+>  		compatible = "ibm,cffps";
+> -		reg = <0x6a>;
+> +		reg = <0x6d>;
+>  	};
+>  
+>  	power-supply@6b {
+
