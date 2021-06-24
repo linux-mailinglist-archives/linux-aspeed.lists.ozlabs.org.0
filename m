@@ -2,74 +2,79 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC22E3B2F4B
-	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Jun 2021 14:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B42C63B3526
+	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Jun 2021 20:01:58 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4G9fwQ5L5Lz309V
-	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Jun 2021 22:44:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4G9nyY0Rgbz3bnn
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Jun 2021 04:01:57 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=TUytgdOp;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=fQpRjSL2;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::32a;
- helo=mail-ot1-x32a.google.com; envelope-from=groeck7@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::d36;
+ helo=mail-io1-xd36.google.com; envelope-from=bjwyman@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=TUytgdOp; dkim-atps=neutral
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
+ header.s=20161025 header.b=fQpRjSL2; dkim-atps=neutral
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com
+ [IPv6:2607:f8b0:4864:20::d36])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4G9fwL6zJGz306m
- for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Jun 2021 22:44:33 +1000 (AEST)
-Received: by mail-ot1-x32a.google.com with SMTP id
- d21-20020a9d72d50000b02904604cda7e66so3632917otk.7
- for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Jun 2021 05:44:33 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4G9nyS6JR5z307k;
+ Fri, 25 Jun 2021 04:01:50 +1000 (AEST)
+Received: by mail-io1-xd36.google.com with SMTP id f10so9368738iok.6;
+ Thu, 24 Jun 2021 11:01:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Q3gvZmypEjLXLqsFmPmNg0fnsAU683BrMuDR/uus3S8=;
- b=TUytgdOpb5Dh7U9LBK+OVwUmgXNPe/LpMGCGsLMVUVefURAC/FGHmidrYT3x56hMlv
- kUOiDdl+iw+9OiLKEue02u+DwW//WcvApLPcvEzBhZ+N3oLYkX7gMEhRV/yav4NvgsiN
- K0EFn3fWEKCQNBwlCYzzat8iK7cBbEmS0rVBmSoGoxTonFxC3kLa+PkbWsC5ITeCqWVT
- MjDmZrxd3X0tvMk27+Chkb/jQ9HrHLP0qK1elHqVuOPQvN5JvKvXuZ3BNh1bcF4LYLxe
- ZoC1u3wgfRs6SEmzFrG0ZEn07yYcQvcpMbGIuA7oK+x20vdgCwgWurHLuMWc9GlNgzPJ
- HKfA==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=rhWDqKm/Z6fGnJdlKRNiulGkwn/9re9++vjaZyOdWG0=;
+ b=fQpRjSL2khmMSQ07fSPAWaO2T7dWD8/bqmqqoN2MESvDxswARLmO+CVGNrLOEQv8X0
+ UXdMhCzFMaDiQqxut6/6hII0DidLQLLXQVzQlDV9GOx+Kf3NGF058FYSESlybtHOG2zh
+ x+OuIfO7KFAlyegffNW54R0pTUmuYO18v2TAcrJaWBEsmfPKxFQoSq+2Zu6TdXvap+xm
+ BPs35yeRwszxKzqzxJnJWuKS8rXACpEjIzTlNKWY+1arB8XOl1z82kiy+g+EYFUAVPCD
+ cFFqOT10xGhRKxVHN7+jOg0SlV4Srz/v8brkaNokBPqb6KBofjTrrQYI0oL21o8x8r4l
+ 4pbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to;
- bh=Q3gvZmypEjLXLqsFmPmNg0fnsAU683BrMuDR/uus3S8=;
- b=HSCUv4ExbVPpHW3vxcf/Z60ghxc+Rq2VSut3sXUxBK6jmXrpXFNL3pJMJLVuJMILyz
- QhIi/+h9IafjzBEnh25Cq+rv6/BWRcW5BaAOEyfQcP8tLKF8s8IPkOmypbaE6xyyQB+o
- O+wtgkiIwMV9FL349rm6zmVHpoXDDuv38ZMeJ8ohrJdqEaVoWZ/ozR3zx/Jzj6iBcpol
- pulLPXFqg9knHZ7iNQnl0jx1ZXplCSozh9Ndgb9B60TSzFki3haoexIjeE6SfTEuOveu
- I+R4q+PdqyEGJD23xDxJyUZJGzoCsJ6qqTe/KFEy+Hwxw51r8B1Ls0T3PAyp7XX6rC6y
- 1lBg==
-X-Gm-Message-State: AOAM532EcoHREuN8cEP4DjWUd5REFQPvYwzqr14BtHP3uqN09JGVAlRA
- Kb5SH1k0Myvuxdm35wIsNBU=
-X-Google-Smtp-Source: ABdhPJyGU8PRH2pP3pbdqSGcc0Y7/MlzY7Ggy4CwdK//7tZYzApvAnUs/5/Br9kykr9JEZOqHdR5hA==
-X-Received: by 2002:a05:6830:154b:: with SMTP id
- l11mr4598072otp.66.1624538669960; 
- Thu, 24 Jun 2021 05:44:29 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id h27sm642857ote.79.2021.06.24.05.44.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Jun 2021 05:44:29 -0700 (PDT)
-Date: Thu, 24 Jun 2021 05:44:28 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [PATCH] hwmon: (aspeed-pwm-tacho) Using falling edge.
-Message-ID: <20210624124428.GB1670703@roeck-us.net>
-References: <20210624035821.25375-1-billy_tsai@aspeedtech.com>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=rhWDqKm/Z6fGnJdlKRNiulGkwn/9re9++vjaZyOdWG0=;
+ b=m8Q2gdcfdz9wSNrL1da0uhyfvoXuB/se0hNRjdkjsfdHlshkddb7cRWf7aMXll2uD/
+ Jus/6AFoIxr3CGiXc6J5TFedC1k04hgFSOm+hb2hi/RH1pMSBOAQJk3awaL7/wY9/szm
+ ozElJA6d+MDY+fjmEZM8GcOe5lJ0/bVk9zY5mkIlsV7YLZtM5LIOgNWgJsrqW1wv1xmW
+ 7b4+6LLpOV6TKAZK5F/IM7OCzUNFNhfrOfDrp6PrqVxAcIK+LhTKu9sNRF1QPYAoNy5p
+ TD3hUA/xrtDvnGkIIQrG2Gkca0/J//gsdBBClQvshXXMDonfaeyjSMdFZFEgsffH2mON
+ rTGQ==
+X-Gm-Message-State: AOAM530FKnZ6fNM4nA2kWXLLzcOVVqxnRwGBZXooWcfb3BquV7CxEfvI
+ 3967iliLjYf6lrwUkTet1BCzfPi5zk4qBw==
+X-Google-Smtp-Source: ABdhPJzn59XtvV7GH04OGHTki2LP3Ap+yvKG4p8DnZ533MbUg9MAN78Bhls8WvWzO1XcN6JJEoD2MA==
+X-Received: by 2002:a02:cba8:: with SMTP id v8mr5755923jap.111.1624557706014; 
+ Thu, 24 Jun 2021 11:01:46 -0700 (PDT)
+Received: from [192.168.4.31] (199-48-94-117.rochmnaa.metronetinc.net.
+ [199.48.94.117])
+ by smtp.gmail.com with ESMTPSA id h26sm1692843ioh.34.2021.06.24.11.01.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Jun 2021 11:01:45 -0700 (PDT)
+Subject: Re: [PATCH] ARM: dts: aspeed: Rainier remove PSU gpio-keys
+To: Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
+ openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org
+References: <20210623230401.3050076-1-bjwyman@gmail.com>
+ <7365c20e-541c-4e32-a907-0519534117ae@www.fastmail.com>
+From: Brandon Wyman <bjwyman@gmail.com>
+Message-ID: <c6f3dea3-b602-84a3-e06b-550672c3b6b8@gmail.com>
+Date: Thu, 24 Jun 2021 13:01:45 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210624035821.25375-1-billy_tsai@aspeedtech.com>
+In-Reply-To: <7365c20e-541c-4e32-a907-0519534117ae@www.fastmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,54 +86,23 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, BMC-SW@aspeedtech.com, jdelvare@suse.com,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Jun 24, 2021 at 11:58:21AM +0800, Billy Tsai wrote:
-> The tach shouldn't use both edges to measure. When the tach input
-> duty cycle isn't 50% the return value will inaccurate.
-> 
-A tachometer doesn't have a duty cycle. A pwm has a duty cycle, but that
-is completely independent of the pwm duty cycle used to set the fan speed.
-So this patch does not really make sense with the above explanation.
 
-The impact of this patch is likely that the reported fan speed is reduced
-by 50%. It may well be that the driver currently reports twice the real fan
-speed. I have no idea if that is the case, but if it is it should not be
-conditional. The description above states "when the tach input cycle isn't
-50%", suggesting that this is conditional on some other configuration.
-I don't know what that might be either.
-
-So, sorry, I can't accept this patch without a more detailed and accurate
-description and explanation why it is needed.
-
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> ---
->  drivers/hwmon/aspeed-pwm-tacho.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hwmon/aspeed-pwm-tacho.c b/drivers/hwmon/aspeed-pwm-tacho.c
-> index 3d8239fd66ed..0a70a0e22acf 100644
-> --- a/drivers/hwmon/aspeed-pwm-tacho.c
-> +++ b/drivers/hwmon/aspeed-pwm-tacho.c
-> @@ -158,7 +158,7 @@
->   * 10: both
->   * 11: reserved.
->   */
-> -#define M_TACH_MODE 0x02 /* 10b */
-> +#define M_TACH_MODE 0x00 /* 10b */
-
-That comment is now wrong.
-
-Guenter
-
->  #define M_TACH_UNIT 0x0210
->  #define INIT_FAN_CTRL 0xFF
->  
-> -- 
-> 2.25.1
-> 
+On 2021-06-23 18:08, Andrew Jeffery wrote:
+>
+> On Thu, 24 Jun 2021, at 08:34, Brandon Wyman wrote:
+>> From: "B. J. Wyman" <bjwyman@gmail.com>
+>>
+>> Remove the gpio-keys entries for the power supply presence lines from
+>> the Rainier device tree. The user space applications are going to change
+>> from using libevdev to libgpiod.
+>>
+> Have they already added support for libgpiod? We should support both at
+> least while we're switching over.
+There is a change, hopefully nearing the end of review, that will 
+support both.
+>
+> Andrew
