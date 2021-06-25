@@ -2,64 +2,74 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E4E3B8C96
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Jul 2021 05:12:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE48C3B8CB7
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Jul 2021 05:45:38 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GFjvS6PKrz303f
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Jul 2021 13:12:52 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GFkdD4wk3z3000
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Jul 2021 13:45:36 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=alBMPcQg;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=sOmZYSIj;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::82c;
- helo=mail-qt1-x82c.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1042;
+ helo=mail-pj1-x1042.google.com; envelope-from=liuxiwei1013@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=alBMPcQg; dkim-atps=neutral
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
- [IPv6:2607:f8b0:4864:20::82c])
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=sOmZYSIj; dkim-atps=neutral
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GFjtw42LZz2yMb;
- Thu,  1 Jul 2021 13:12:23 +1000 (AEST)
-Received: by mail-qt1-x82c.google.com with SMTP id r20so3166158qtp.3;
- Wed, 30 Jun 2021 20:12:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KqTfUx+1bpJ+GEZ1JasFELVQC7fHMfJcaiqyDCFPIuw=;
- b=alBMPcQgQ4sDn+WFk4di7zdZI+/oW/JiE9BmC+6+i/eynxs5Q0F3qzXMd7jvbJKdcs
- al/BWmsBczUkNgGX5+H5/V+IfzFfTZPVMZE1W6Noo41j/BuxZ885p4LEtUOIqJ4dG6lJ
- XC9l//ve4l7B0pZnQSDiMWuxyfXb0dEdbjCBM=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GB87X5CfWz308C;
+ Fri, 25 Jun 2021 17:40:56 +1000 (AEST)
+Received: by mail-pj1-x1042.google.com with SMTP id
+ g6-20020a17090adac6b029015d1a9a6f1aso6842681pjx.1; 
+ Fri, 25 Jun 2021 00:40:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ak4It9MsAaf8gTmUjfk7OqroHrSMpNp6aLewzuoe870=;
+ b=sOmZYSIjpQlknoMSJkaw5PkOMVn1PdkStlQALfl22r7uD5yYITQze8FqovvDJ23Nxi
+ Cdlj7qH0jy3dVrmotZ1HHX1M8h7D7Vj01NhRqZfJ422QDc5LjO/t19ks4xQO+Uk9kBwk
+ 5UlQl/RSWpOTiHaBz3RkkAifYPN3xwxNK8sg4YFFz9DlNrptvKui8k8XD7cLiHJo5M4+
+ fsQRnqrL5xem26YnKWVmLcOQV4451ieEoeF8gzZqKPipg1cGsjApOGyyHi0739fjgWcY
+ fyfY5KRznnALDGyy9Re9/5DAs476IOF3BmZf5SsSM4BBsyIklNMPAAbfkRI/89M7z0JL
+ ZE+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KqTfUx+1bpJ+GEZ1JasFELVQC7fHMfJcaiqyDCFPIuw=;
- b=HOEixXpThTf4BW/3QO9QOqertbedxVkcnp5tN53/2qqZby3YEUEVH+hXi1hsJVChFW
- ThSrE9HIg1p0RqkzkA3xg4hwCy1lWB0/n9dU0EkSM2RSjRO+P6ffC0U4KxkypZeM2w+u
- f2FTSx7nKdgRoH7busr23CByVTwqX9LVUYvC4FaltgXr/qRhsaJAp/D9CmL3XKWixWzp
- akgvcSpdpunK9MYga2COJA//JJKs5Zu7XZ78LftuTI5lCms4TC2qiNlqVlbWP+qDcYUp
- L7RrOJUWU7LTdS55YS4NqEECColjwOeq1mewsATEmQ26U/jcRa0Ss2dhQHtS7maBjTM5
- a9bg==
-X-Gm-Message-State: AOAM53286NON/p2IxjoGWTnJILwDRyeXugDu4ZbeK4ahueWB49pqnHPs
- q8s8e5z5yatycfTDYz6RCHjVXa2YopRpXgtF+/o=
-X-Google-Smtp-Source: ABdhPJy2kf91B2vTqHlagKoi/6aakbeQj8UnEv2eAc/5e2Sz//Sa79thJYLh7yTsO1ikEDcd9FDWPoHzHnB45g8OURo=
-X-Received: by 2002:a05:622a:50f:: with SMTP id
- l15mr14036901qtx.263.1625109140085; 
- Wed, 30 Jun 2021 20:12:20 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ak4It9MsAaf8gTmUjfk7OqroHrSMpNp6aLewzuoe870=;
+ b=svbkwUXQ3gM4SMQdncX/w3P7E6gElh3I+5xT+PEL+bUiLY8onNH7YXS7iRdAdaEJdT
+ 3tPhmMkpPVpc/0FLSmy8ewldtkl+HcaCOU5aMAMJLb+Xvu1Hq4tOkP4PjeSL6cFFRogZ
+ zRFq2wLjhZOlejJaPeVfkymUVlPwlhzNUYA4O4/kyx7acJbNMhZPx9Vrb3JlQWE86uc6
+ 8R7jw0vDgUY6eDfzGThztl4f6+eIccNy9bG3c3NUGlaLWSbmxbQDg9l2r/W2QTLdXOo6
+ n3TetFteeU7obkx4VL2xWA5BmnQmOJr8GbEAmm7dz/FuE5olqGf/twV1pm5nS8l1ULn9
+ 3MTA==
+X-Gm-Message-State: AOAM531/cmTfj2qe/n6QIU9c2wJt+gQnxp32AkS4ocgwGh29mt74DToa
+ L04fetV+5UWNb20AuEjrscP39e4GFmCAjw==
+X-Google-Smtp-Source: ABdhPJzrpfKopSv073SsVvH6mdLIBivdk+tfVAvdFG0tEDC3YKj7V33SFsdfZwVAiQxCQHCqvlx4Uw==
+X-Received: by 2002:a17:90a:a790:: with SMTP id
+ f16mr20048620pjq.176.1624606852228; 
+ Fri, 25 Jun 2021 00:40:52 -0700 (PDT)
+Received: from localhost (95.169.4.245.16clouds.com. [95.169.4.245])
+ by smtp.gmail.com with ESMTPSA id q66sm4683605pja.34.2021.06.25.00.40.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 25 Jun 2021 00:40:51 -0700 (PDT)
+From: George Liu <liuxiwei1013@gmail.com>
+X-Google-Original-From: George Liu <liuxiwei@inspur.com>
+To: linux-aspeed@lists.ozlabs.org
+Subject: [PATCH v1] ARM: dts: fp5280g2: Add KCS node for LPC MCTP
+Date: Fri, 25 Jun 2021 15:40:31 +0800
+Message-Id: <20210625074031.32576-1-liuxiwei@inspur.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210416075113.18047-1-zev@bewilderbeest.net>
-In-Reply-To: <20210416075113.18047-1-zev@bewilderbeest.net>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 1 Jul 2021 03:12:07 +0000
-Message-ID: <CACPK8XeRg5P8+W8kyxSNyOa7JBhua5QdP_oCVJALGPJQio0dhA@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: aspeed: update e3c246d4i vuart properties
-To: Zev Weiss <zev@bewilderbeest.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 01 Jul 2021 13:45:34 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,64 +81,34 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ George Liu <liuxiwei@inspur.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 16 Apr 2021 at 07:52, Zev Weiss <zev@bewilderbeest.net> wrote:
->
-> This device-tree was merged with a provisional vuart IRQ-polarity
-> property that was still under review and ended up taking a somewhat
-> different form.  This patch updates it to match the final form of the
-> new vuart properties, which additionally allow specifying the SIRQ
-> number and LPC address.
->
-> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+Signed-off-by: George Liu <liuxiwei@inspur.com>
+---
+ arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts | 5 +++++
+ 1 file changed, 5 insertions(+)
 
+diff --git a/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts b/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
+index 1752f3250e44..66c0542b2694 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
+@@ -300,6 +300,11 @@ &lpc_ctrl {
+ 	flash = <&spi1>;
+ };
+ 
++&kcs4 {
++	compatible = "openbmc,mctp-lpc";
++	status = "okay";
++};
++
+ &mac0 {
+ 	status = "okay";
+ 	pinctrl-names = "default";
+-- 
+2.30.2
 
-Fixes: ca03042f0f12 ("serial: 8250_aspeed_vuart: add aspeed,
-lpc-io-reg and aspeed, lpc-interrupts DT properties")
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-
-> ---
->
-> The relevant aspeed-vuart patches [0] have been merged into Greg KH's
-> tty-next tree, so I figure it's probably okay to proceed with the
-> corresponding dts adjustments now.
->
-> [0] https://lore.kernel.org/openbmc/20210412034712.16778-1-zev@bewilderbeest.net/
->
->  arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts b/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts
-> index dcab6e78dfa4..8be40c8283af 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts
-> @@ -4,6 +4,7 @@
->  #include "aspeed-g5.dtsi"
->  #include <dt-bindings/gpio/aspeed-gpio.h>
->  #include <dt-bindings/i2c/i2c.h>
-> +#include <dt-bindings/interrupt-controller/irq.h>
->
->  /{
->         model = "ASRock E3C246D4I BMC";
-> @@ -73,7 +74,8 @@ &uart5 {
->
->  &vuart {
->         status = "okay";
-> -       aspeed,sirq-active-high;
-> +       aspeed,lpc-io-reg = <0x2f8>;
-> +       aspeed,lpc-interrupts = <3 IRQ_TYPE_LEVEL_HIGH>;
->  };
->
->  &mac0 {
-> --
-> 2.31.1
->
