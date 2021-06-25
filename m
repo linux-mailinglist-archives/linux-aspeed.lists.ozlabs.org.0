@@ -2,84 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FD03B3C84
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Jun 2021 08:10:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B783B463F
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Jun 2021 17:02:54 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GB67W1bxVz3bs3
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Jun 2021 16:10:47 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GBKxT1Njpz3bwV
+	for <lists+linux-aspeed@lfdr.de>; Sat, 26 Jun 2021 01:02:53 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=A7w4iBn7;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Q5K7HNpy;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Q8YzMdka;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.28;
- helo=out4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=wsa@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm3 header.b=A7w4iBn7; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm3 header.b=Q5K7HNpy; 
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=Q8YzMdka; 
  dkim-atps=neutral
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GB67J2MZCz302K;
- Fri, 25 Jun 2021 16:10:35 +1000 (AEST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 9A56F5C0136;
- Fri, 25 Jun 2021 02:10:30 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 25 Jun 2021 02:10:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm3; bh=LUduNXh8afYXbZaxuU0n9BSi4R
- cIQyqyuYJqZGn4aX4=; b=A7w4iBn7/mLLqz57kL7lTTwksg0IDY0v6ZkbuqPMvz
- ZQS6WHcPu2pvenIJMpdCRd3fwsR/eLdkPJJhkp66B7fnOM5niS5FQZWs2SmpNbuq
- lwiatYzxCkHVzpYchDeN9dXmWdcbPknMR9xRO51xQBAvE08T3EnMLmXp2Isty6ty
- mSwbeladtcJkyeQdEAlSw2fyZswXSE0uPghTx6o6bbVhyWQKiOhEH+LOItT/9DiJ
- xexvHTz4kPon+bfuXIpmMu1qdNg7rROm6I7M5RYLmWki52Egqck8jma5BZJc91Le
- BdX6vh7Tg9WyuT0w6iW3KF9hjHN/sIxRoVovxCUQKJoA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=LUduNXh8afYXbZaxu
- U0n9BSi4RcIQyqyuYJqZGn4aX4=; b=Q5K7HNpydhuqt3xq/2HoSb8JAyO1BVkRj
- 8vOfbllhHjDDEd3PeNjNrvik/6yFaWnrhlasXCZ6pfUyg7C1Yacp8ZX7VHOmyl8X
- q05WiDF9LwMh0uSmhrzgE4DASLWil7C6618qyLdH21IFBmlzwrDIdUi6tjX4pJLK
- fcBkWkd7nSoUtD1p5wrKM5+Untm8F/V2qYPFYr0t9IzPEIXT4rqMNiePZFjw9/rp
- 0qbCc7SG9MYgmQYIKtudB1v6Yq0/cMBhjC+fdwACysN6hm1aWbpzvi3AFzMQvEJV
- eL7ykRu1sUhzeipk23RiJTWA04KLLsrLtjA+Ki+R3jScJKbjMq2Jw==
-X-ME-Sender: <xms:VXPVYEYaYNDXcXN5gEboqhIaL-qf4pW2_NMr9wZ6AOP-HWUZm8cigA>
- <xme:VXPVYPYvBEWYCj8GhPsv-lWQck6rdD_DDQqyT5D7otVHHj33XQTU_e_u7k5hHehM7
- 5BuvCosAuX6i2CNrw>
-X-ME-Received: <xmr:VXPVYO_HB6hePwbBJ5lqMOk6OIiUt1SRRwpri6xb3RQbLIGM8wuvmmWdkikdpmjPgzBmMkP85ln5uWT5r1W3lt7CBqx46ajz3NQZsdsPYDMzkAJp6cQ3A03BaLlgyEJ78dFUMQI2usFU8Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeegiedguddtiecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertd
- ertddtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghj
- rdhiugdrrghuqeenucggtffrrghtthgvrhhnpeekhfeiffejveefveehtdeiiefhfedvje
- elvddvtdehffetudejtefhueeuleeftdenucevlhhushhtvghrufhiiigvpedtnecurfgr
- rhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:VXPVYOpGKGDsj-ny5DcIJwp6pc36kAGNibwSOHIhQRaQkg0JVEHmog>
- <xmx:VXPVYPox2Kge905tLt-o4kQxBUtW3_EGZJlMtmcydTDQCABgVy4Z0A>
- <xmx:VXPVYMR_UoDv1kQRUNq1qD8AhMDdnm0dNHcbGiBx92e_uYIupChymA>
- <xmx:VnPVYAAkG84Dwse1LP-Cfax3AKsqfFzLDT8b7kZhwK0EDPRmOhvEaw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Jun 2021 02:10:26 -0400 (EDT)
-From: Andrew Jeffery <andrew@aj.id.au>
-To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH] ARM: dts: tacoma: Add phase corrections for eMMC
-Date: Fri, 25 Jun 2021 15:40:17 +0930
-Message-Id: <20210625061017.1149942-1-andrew@aj.id.au>
-X-Mailer: git-send-email 2.30.2
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GBKwy0MLDz303M;
+ Sat, 26 Jun 2021 01:02:25 +1000 (AEST)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3EEA56197B;
+ Fri, 25 Jun 2021 15:02:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1624633341;
+ bh=+nC2189eKCU6T28/hcgTvLONm44gotEpXOHRDCHlrOs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Q8YzMdkakrr+6yUHSuakRSX6dve5Mt0T++6DuB0We2J28fogIsOo9FQ11MXaOVy2u
+ rMUydL3PCwwARSXaHl8pAA7iOIwtiBSx/3lJhrsDlT18J00aw03AkGPXCKWYYHn22c
+ 6x8x0KYIP+Rb18j/gcfQtkoTocm2zRF7nf/1glRBNHgDJwkOlZmOLG0/9g7w4UqlKO
+ wxMSaeyFhVjQpGqSdpoLNLurW/2P4e4IEX8KG1GvlUu9S74GoSaRbFQEfYfYZfuzLG
+ FaVEaVw+r0cBBB+ROFDPC6JXDaskPV1CI5+PhiaB1ieS6y8YtbbfDjtSzEy+ObKl92
+ v37ZiTceM2Ppw==
+Date: Fri, 25 Jun 2021 17:02:19 +0200
+From: Wolfram Sang <wsa@kernel.org>
+To: Quan Nguyen <quan@os.amperecomputing.com>
+Subject: Re: [PATCH v3 1/7] i2c: i2c-core-smbus: Expose PEC calculate
+ function for generic use
+Message-ID: <YNXv+2SpsTLStsIE@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+ Quan Nguyen <quan@os.amperecomputing.com>,
+ Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ openipmi-developer@lists.sourceforge.net,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-i2c@vger.kernel.org,
+ Open Source Submission <patches@amperecomputing.com>,
+ Phong Vo <phong@os.amperecomputing.com>,
+ "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
+ openbmc@lists.ozlabs.org
+References: <20210519074934.20712-1-quan@os.amperecomputing.com>
+ <20210519074934.20712-2-quan@os.amperecomputing.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="+2nERxd5au+gK8PN"
+Content-Disposition: inline
+In-Reply-To: <20210519074934.20712-2-quan@os.amperecomputing.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,36 +75,53 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, openbmc@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Corey Minyard <minyard@acm.org>, openbmc@lists.ozlabs.org,
+ "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
+ Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org,
+ Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ openipmi-developer@lists.sourceforge.net,
+ Open Source Submission <patches@amperecomputing.com>,
+ linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The degree values were reversed out from the magic tap values of 7 (in)
-and 15 + inversion (out) initially suggested by Aspeed.
 
-With the patch tacoma survives several gigabytes of reads and writes
-using dd while without it locks up randomly during the boot process.
+--+2nERxd5au+gK8PN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
----
- arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts | 1 +
- 1 file changed, 1 insertion(+)
+On Wed, May 19, 2021 at 02:49:28PM +0700, Quan Nguyen wrote:
+> Expose the PEC calculation i2c_smbus_pec() for generic use.
+>=20
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-index c1478d2db602..670080bb80eb 100644
---- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
-@@ -189,6 +189,7 @@ &emmc_controller {
- 
- &emmc {
- 	status = "okay";
-+	clk-phase-mmc-hs200 = <36>, <270>;
- };
- 
- &fsim0 {
--- 
-2.30.2
+You are the second one who wanted this exported. I agree it makes sense
+for slave drivers. So, I'll skip the required user because two are in
+flight. Applied to for-next, thanks!
 
+
+--+2nERxd5au+gK8PN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmDV7/oACgkQFA3kzBSg
+KbZ8xg//dLfzMR1eQtBMxT1tUHLNopwRIXCsraVBzK+s0nbpuIDwP7mxiTLlLnQ9
+vp/mzzur/NvhOqJ7uBrc1tPIyo6fcNtH9sq1S1hGQcV6kFR/fZ920TvGo/uE1AvN
+GHU8vUz2TBjYvctu9fiBIYecfDB0KAkYPHTV6zpANUn2CnifvIdBJ7E38IVUk5n/
+b0cZEsjj1HV7Hnp+GHw5CPsHYOV3LP9Nlbu+z++AzcYhhbEXxUEFaiMUS4LQ58Px
+idn6ndXW8L5r69OH7Y+YR2EvEKm4rwqs21rnh0Iql1U+eQVYrL9cafa1/uXdah3r
+OKWrcFEhyomnHAI8QQ1aK6fIyDB9ms93asIwhKdy9oKO7ZDTXH5gsUvE35L+mhoZ
+tv5IiOfNoI6stXCotmaqAWXIP5/B/ucuyEMiA5Dyjfa+uutIHgT+l4tGvchnpe3T
+jKbmr7SlGW410XhyVc+No8zD0yug7YpC6IQ+AEWHMsSXR4dIU87ZTxcGRXZKeKv5
+agJ5M0eRWRKjJpatkK/7mOumtaIcnT4jyGfXiwKOlsS8XIYzeq6WsT08EpVXQIKR
+eQVYbm3Y1d8rI3AYts1le1VqEv69PShYBXuvbm4FG9H6fKkAVX9i2dLGwiS8GiWM
+lskRRpMa6GpsLn0t+uurUWkgXzK+c06NBejGsWTs9nq5s41Y1bU=
+=X8AV
+-----END PGP SIGNATURE-----
+
+--+2nERxd5au+gK8PN--
