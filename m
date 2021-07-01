@@ -2,82 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A6C3B730A
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Jun 2021 15:15:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E4E3B8C96
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Jul 2021 05:12:55 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GDlMV4yKhz2yP0
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Jun 2021 23:15:18 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GFjvS6PKrz303f
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Jul 2021 13:12:52 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=Lduf+YRF;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=alBMPcQg;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::331;
- helo=mail-ot1-x331.google.com; envelope-from=groeck7@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::82c;
+ helo=mail-qt1-x82c.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=Lduf+YRF; dkim-atps=neutral
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=alBMPcQg; dkim-atps=neutral
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
+ [IPv6:2607:f8b0:4864:20::82c])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GDlMK2bNmz2yNH
- for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Jun 2021 23:15:07 +1000 (AEST)
-Received: by mail-ot1-x331.google.com with SMTP id
- i12-20020a05683033ecb02903346fa0f74dso22588725otu.10
- for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Jun 2021 06:15:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cjpoeExDVoTQk33TVGG8V5XenOGECJoUHQ3xv8jXV0g=;
- b=Lduf+YRFSGDZRfa99b12nFYZp6MB40Cfj2CasYH9jDlr7Oj390Z81FUd97KiMfwVwq
- tRfpVbBXZcn9vdYT25uIWwo0zgZA5e0XCrhwQFX8I43IDNUUC0ijNl8ezZhwcsEw2lc1
- ygs4Xig3fPIfjtAjq1PlmEgrbity+55v6lLFSbwqS9T6HCRZktdPvXpp6+0dT2+cax2o
- ui90fHHVb86IZ+g2JIOljcQiX5VQV9+pYZPUPvuBU2+gAHXijE5Cro4iFZ+B1rxQQ6yR
- YjY1w6bVSfTF4JNqPgGrrFf+cJH/vhRYmYasxdh9JRNF8S/jN5U2RKxmLdnkf/SAxh4V
- Y+aQ==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GFjtw42LZz2yMb;
+ Thu,  1 Jul 2021 13:12:23 +1000 (AEST)
+Received: by mail-qt1-x82c.google.com with SMTP id r20so3166158qtp.3;
+ Wed, 30 Jun 2021 20:12:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KqTfUx+1bpJ+GEZ1JasFELVQC7fHMfJcaiqyDCFPIuw=;
+ b=alBMPcQgQ4sDn+WFk4di7zdZI+/oW/JiE9BmC+6+i/eynxs5Q0F3qzXMd7jvbJKdcs
+ al/BWmsBczUkNgGX5+H5/V+IfzFfTZPVMZE1W6Noo41j/BuxZ885p4LEtUOIqJ4dG6lJ
+ XC9l//ve4l7B0pZnQSDiMWuxyfXb0dEdbjCBM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cjpoeExDVoTQk33TVGG8V5XenOGECJoUHQ3xv8jXV0g=;
- b=lBqmmIhqJkIBsN4VliHG9zgxOg+dTt0PI6JrQpupSvqJXsUzEdw6zcIvUbNyvzNpvz
- 73uvCRnh9MW1EDSNf6fSVcEeAl3coYuFBSeLAa0+LrDmOK6E2Cp0ryHrHw2ZNw46uutS
- /+ea9icc7UCKbMbq6PFA5x/APZJCqde9rW1nK9Z3ljakFLNGgW2hpsUS08xxGZw9eej7
- x56x6SzoIqWExK5Qp+XEwjKiEDfJgvDgVlXnzNiPWLlFpqMuMyJ28wFhdthPGdKi09vr
- jMKvGhi64fLJ+WeA1dXuNHAjUMyOAnD4P6USS7mdQRQY0NFfA24KFtQDwylUccwnF7lk
- 1YjQ==
-X-Gm-Message-State: AOAM533Ff/kQysHub2LHmiH2X2tjOt/1xln56p6pbd/Em67vfHzS6Otz
- BfBqs7vkX/cksO9nFDbOBeU=
-X-Google-Smtp-Source: ABdhPJyRlNpLuQzVgJPWzuF5+Swtehe2Queq7hf5wR6XIiXzHXha2ry0XkD9BP4hjRW3rLAqNKkdQw==
-X-Received: by 2002:a9d:57cc:: with SMTP id q12mr4695576oti.286.1624972502363; 
- Tue, 29 Jun 2021 06:15:02 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- o24sm4113745otp.13.2021.06.29.06.14.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Jun 2021 06:15:01 -0700 (PDT)
-Subject: Re: [PATCH] hwmon: (aspeed-pwm-tacho) Using falling edge.
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-References: <20210624035821.25375-1-billy_tsai@aspeedtech.com>
- <20210624124428.GB1670703@roeck-us.net>
- <51093C5F-61E2-4155-9C9A-035E330AEA1E@aspeedtech.com>
- <43b0c30c-949a-8a6f-268f-c2a550fca30d@roeck-us.net>
- <9CFDB695-1F7C-4B80-8AF9-A591C4D38813@aspeedtech.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <d1b66816-b74b-a846-06e3-4f3720bcccec@roeck-us.net>
-Date: Tue, 29 Jun 2021 06:14:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KqTfUx+1bpJ+GEZ1JasFELVQC7fHMfJcaiqyDCFPIuw=;
+ b=HOEixXpThTf4BW/3QO9QOqertbedxVkcnp5tN53/2qqZby3YEUEVH+hXi1hsJVChFW
+ ThSrE9HIg1p0RqkzkA3xg4hwCy1lWB0/n9dU0EkSM2RSjRO+P6ffC0U4KxkypZeM2w+u
+ f2FTSx7nKdgRoH7busr23CByVTwqX9LVUYvC4FaltgXr/qRhsaJAp/D9CmL3XKWixWzp
+ akgvcSpdpunK9MYga2COJA//JJKs5Zu7XZ78LftuTI5lCms4TC2qiNlqVlbWP+qDcYUp
+ L7RrOJUWU7LTdS55YS4NqEECColjwOeq1mewsATEmQ26U/jcRa0Ss2dhQHtS7maBjTM5
+ a9bg==
+X-Gm-Message-State: AOAM53286NON/p2IxjoGWTnJILwDRyeXugDu4ZbeK4ahueWB49pqnHPs
+ q8s8e5z5yatycfTDYz6RCHjVXa2YopRpXgtF+/o=
+X-Google-Smtp-Source: ABdhPJy2kf91B2vTqHlagKoi/6aakbeQj8UnEv2eAc/5e2Sz//Sa79thJYLh7yTsO1ikEDcd9FDWPoHzHnB45g8OURo=
+X-Received: by 2002:a05:622a:50f:: with SMTP id
+ l15mr14036901qtx.263.1625109140085; 
+ Wed, 30 Jun 2021 20:12:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <9CFDB695-1F7C-4B80-8AF9-A591C4D38813@aspeedtech.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210416075113.18047-1-zev@bewilderbeest.net>
+In-Reply-To: <20210416075113.18047-1-zev@bewilderbeest.net>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 1 Jul 2021 03:12:07 +0000
+Message-ID: <CACPK8XeRg5P8+W8kyxSNyOa7JBhua5QdP_oCVJALGPJQio0dhA@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: aspeed: update e3c246d4i vuart properties
+To: Zev Weiss <zev@bewilderbeest.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,89 +71,64 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- BMC-SW <BMC-SW@aspeedtech.com>, "jdelvare@suse.com" <jdelvare@suse.com>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 6/28/21 10:26 PM, Billy Tsai wrote:
-> On 2021/6/28, 9:56 PM, "Guenter Roeck" <groeck7@gmail.com on behalf of linux@roeck-us.net> wrote:
-> 
->      On 6/24/21 8:35 PM, Billy Tsai wrote:
->      >   > On 2021/6/24, 8:44 PM, "Guenter Roeck" <groeck7@gmail.com on behalf of linux@roeck-us.net> wrote:
->      >   >
->      >   >      On Thu, Jun 24, 2021 at 11:58:21AM +0800, Billy Tsai wrote:
->      >   >      >> The tach shouldn't use both edges to measure. When the tach input
->      >   >      >> duty cycle isn't 50% the return value will inaccurate.
->      >   >      >>
->      >   >      > A tachometer doesn't have a duty cycle. A pwm has a duty cycle, but that
->      >   >      > is completely independent of the pwm duty cycle used to set the fan speed.
->      >   >      > So this patch does not really make sense with the above explanation.
->      >   >
->      >   > The duty cycle means the waveform that reported from the fan tach pin not pwm signal.
->      >   >
->      >   >      > The impact of this patch is likely that the reported fan speed is reduced
->      >   >      > by 50%. It may well be that the driver currently reports twice the real fan
->      >   >      > speed. I have no idea if that is the case, but if it is it should not be
->      >   >      > conditional. The description above states "when the tach input cycle isn't
->      >   >      > 50%", suggesting that this is conditional on some other configuration.
->      >   >      > I don't know what that might be either.
->      >   >
->      >   > According to the tach mode, our tach controller will sample the time of once conditional meet and translate it to tach value.
->      >   > When the tach signal duty cycle isn't 50%, using both edges mode will get the tach value with error rate.
->      >   > In addition, the current report value of both edges will twice the result which will enlarge the error rate.
->      >   > Actually, the tach signal won't be a complete 50% duty cycle, so both edges mode isn't recommanded for the fan usage.
->      >   > With rising-to-rising mode the skew time of tach signal will also effect the accuracy.
->      >   > Thus, using the falling-to-falling mode is the better way for a fan tach monitor.
->      >   > But for flexibility, I think using dts property to control the tach mode is better the user can change the mode to adapter the monitor device.
->      >   >
-> 
->      >   Trying again, using my own words.
-> 
->      >   A fan normally provides two short pulses per revolution. Those are short
->      >   puleses, and one does not typically talk about "duty cycle" or "waveform"
->      >   in this context. The driver currently counts both edges of those pulses.
-> 
-> Our tach controller will count how many tach clocks in those shot pulses.
-> In both edge mode the counting period only half of the pulse. Thus, it is more sensitive
-> to the signal quality of the shot pulse when using both edges mode.
-> 
->      >   Assuming that a fan reports, say, 1,000 pulses per minute, the hardware
->      >   would report a edle count of 2,000. This should translate into 500 RPM.
->      >   I don't know if this is currently the case in the driver; if not, it would
->      >   be a bug. Either case, the suggested change would reduce the pulse count
->      >   reported by the hardware to 1,000. If we assume that the driver currently
->      >   translates this correctly to 500 RPM, the suggested change would result
->      >   in the driver reporting 250 RPM, which would be wrong.
-> 
->      >   So there are two possibilities:
->      >   1) The driver currently reports 1,000 RPM in this situation. This would be a bug
->      >       which needs to get fixed.
->      >   2) The driver currently correctly reports 500 RPM. In this case, the suggested
->      >       patch would introduce a bug because the code is not adjusted for the reduced
->      >       pulse count.
-> 
->      >   The problem is that the patch does not address either of the situations above.
->      >   In case 1), it should state that the code currently reports twice the real
->      >   fan speed, and that the patch fixes that problem. In case 2), the patch should
->      >   also fix the arithmetic used to calculate RPM from the pulse count.
->      >   Either case, I disagree that this should be handled in devicetree. It has
->      >   nothing to do with hardware description or configuration but is in the
->      >   discretion of the driver author/implementer.
-> 
-> The driver doesn't have the two situations you describe, it already considers the different
-> sampling modes at the arithmetic. The patch is used to make users have the option to select
-> the mode not just fix it to the both edges mode.
-> 
-
-Thanks for the explanation. Please include that in the patch description, and please avoid
-unusual terms such as "duty cycle" or "waveform".
-
-Thanks,
-Guenter
+On Fri, 16 Apr 2021 at 07:52, Zev Weiss <zev@bewilderbeest.net> wrote:
+>
+> This device-tree was merged with a provisional vuart IRQ-polarity
+> property that was still under review and ended up taking a somewhat
+> different form.  This patch updates it to match the final form of the
+> new vuart properties, which additionally allow specifying the SIRQ
+> number and LPC address.
+>
+> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
 
 
+Fixes: ca03042f0f12 ("serial: 8250_aspeed_vuart: add aspeed,
+lpc-io-reg and aspeed, lpc-interrupts DT properties")
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+
+> ---
+>
+> The relevant aspeed-vuart patches [0] have been merged into Greg KH's
+> tty-next tree, so I figure it's probably okay to proceed with the
+> corresponding dts adjustments now.
+>
+> [0] https://lore.kernel.org/openbmc/20210412034712.16778-1-zev@bewilderbeest.net/
+>
+>  arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts b/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts
+> index dcab6e78dfa4..8be40c8283af 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts
+> @@ -4,6 +4,7 @@
+>  #include "aspeed-g5.dtsi"
+>  #include <dt-bindings/gpio/aspeed-gpio.h>
+>  #include <dt-bindings/i2c/i2c.h>
+> +#include <dt-bindings/interrupt-controller/irq.h>
+>
+>  /{
+>         model = "ASRock E3C246D4I BMC";
+> @@ -73,7 +74,8 @@ &uart5 {
+>
+>  &vuart {
+>         status = "okay";
+> -       aspeed,sirq-active-high;
+> +       aspeed,lpc-io-reg = <0x2f8>;
+> +       aspeed,lpc-interrupts = <3 IRQ_TYPE_LEVEL_HIGH>;
+>  };
+>
+>  &mac0 {
+> --
+> 2.31.1
+>
