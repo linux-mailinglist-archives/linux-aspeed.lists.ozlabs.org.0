@@ -1,61 +1,90 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33DF3B8D28
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Jul 2021 06:32:24 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC103B8D53
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Jul 2021 07:09:24 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GFlg941cwz2yxj
-	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Jul 2021 14:32:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GFmTt49V1z301C
+	for <lists+linux-aspeed@lfdr.de>; Thu,  1 Jul 2021 15:09:22 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=FkWPmGQX;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=DhkT3nLZ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=NYPWWtQ0;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f31;
- helo=mail-qv1-xf31.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.26;
+ helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=FkWPmGQX; dkim-atps=neutral
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com
- [IPv6:2607:f8b0:4864:20::f31])
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm3 header.b=DhkT3nLZ; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm3 header.b=NYPWWtQ0; 
+ dkim-atps=neutral
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GFlg35rM7z2yL2
- for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Jul 2021 14:32:14 +1000 (AEST)
-Received: by mail-qv1-xf31.google.com with SMTP id v17so2315358qvw.12
- for <linux-aspeed@lists.ozlabs.org>; Wed, 30 Jun 2021 21:32:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=ZDwANdeZngtquubBMny4xTGFmM5ryOv877t1DM8d0eY=;
- b=FkWPmGQX3BLG1gJRHwscUBE0g7ow4mpQOlLBQ0IgCC51x7Cmf3b9OFxJRRtt6Wsi0f
- gD5oFrX+a479C1xGk3wsyVvOEoSIAPsgLq2OqvoO0dyeCl5MeeUu4OqxDGZHHg20Go6K
- hvz2BoEFv5zUeDAlLyhD1+DcbiJRbfIThMcfc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=ZDwANdeZngtquubBMny4xTGFmM5ryOv877t1DM8d0eY=;
- b=SishnquKCd3NgT0jlBtAfyJ+fqID0si1SSGJOunlh3csK0LYPUj2JBVVkpxEy5IGRn
- u6pga/WnNpptv2AFbVruQJC8FRCvKJUpL1lZewIq6/4jMnz8636zNRYoBsfF20jF2phr
- 2HfwbiggLXL0e9aXmaOXi2sSE07+BKsWZEmyqM+IpLF8C8Al/siEicARmEtLSmHTwDM9
- H7RIO97K7hq9fWP8x7TzmlNAldTMXe+zKHUjJX5lB+rljN5C0rNq9VjLbvRN3nCwxJmA
- ltloRkcNp+qCHS3cK0mwDsy5jAIoRcmBuzKFqSeY729LUIo+N0nt/+wqmc4VKkfklz2I
- xVXg==
-X-Gm-Message-State: AOAM533SOxk8CxNfnMPmgYKyHWr33uBAcsp3HjxUVzTuWnr1YoeHtYQm
- sarIgbXfkbWooXqr9O5bDCKms6QIbEZQdI8kkIk=
-X-Google-Smtp-Source: ABdhPJyvbSh42hrNgpYeAMR1+1kC/eGTFXnpd3MmgjT334Jw16Tx7OzUCX/fFZK8JW0WGhgBu0/4Y37FGDUg1bY5AVM=
-X-Received: by 2002:ad4:436b:: with SMTP id u11mr6159929qvt.18.1625113930426; 
- Wed, 30 Jun 2021 21:32:10 -0700 (PDT)
-MIME-Version: 1.0
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 1 Jul 2021 04:31:59 +0000
-Message-ID: <CACPK8XefdPzeOUDnDgk9cHQEs-9wF_ZSPdYQRzuNOpGZTyGUKQ@mail.gmail.com>
-Subject: [GIT PULL] ARM: aspeed: devicetree fixes for 5.14
-To: SoC Team <soc@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GFmTj5L3nz2xtl;
+ Thu,  1 Jul 2021 15:09:13 +1000 (AEST)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.nyi.internal (Postfix) with ESMTP id DB91C5C00CF;
+ Thu,  1 Jul 2021 01:09:09 -0400 (EDT)
+Received: from imap43 ([10.202.2.93])
+ by compute2.internal (MEProxy); Thu, 01 Jul 2021 01:09:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm3; bh=Af3Co6FyFp9gkhQ3NUa2r1lZjjLS0lS
+ MsBIkx1twd4M=; b=DhkT3nLZ4lDulCckp3cTnT1kZ1l3pTYTsnXokfS+ZhfH7K1
+ GXxevbWyH/87hCnnsqlv697uHBgrEZgQIMX2p7JnGMTloynuGi8gO7RnrvwVg1s7
+ 7IiZayuCl8xyocra5lvpVGZqNe9kaCNftASlBa20ol3niCeKIKAxoZsvvbWM5C7D
+ lB48aOeu1tRh6Oo8FrMucsOH6FpeQIZI0aEd9K2oUn37VDE6nTgzmMUqgXmavxp0
+ KDm52WYJmZnyGvDxX8KQP1FmC3mSxmEhyDlxCtrM02XS8YwkLUZTOWdOmuRJoOYl
+ qIbTHJlbPgYf+WBXqhepwGnzYvc3u5LVDGqqGyw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Af3Co6
+ FyFp9gkhQ3NUa2r1lZjjLS0lSMsBIkx1twd4M=; b=NYPWWtQ0oHClSW7O5cLZ/7
+ OhN3LwE03b/SZT4N+9POnqtE+ApWFZRWXeNeIr8tOmn4OFtBlEJlBUdyL58UeJCD
+ bzjSM5ga1EW+3MKlOes7E6ivFMGx6sue+uaWDrr70yaoZzsKXiOrRuZLoLATMNlk
+ FXrQlopx+16Lv3xoFMRKYNXWCuvEzrA4Op7IUJ2QkvKxFkiNN/zhSIq6Lk43oTG9
+ vvdKLPQeN6f3pm3BS0D6qJPCSz8FOt2QjeSzxR8TE95xviJP/m1ExPWmKDPVbSQc
+ /8X5ACYBNwGe1HT0E9ioTYJG+pjZsZO9CguejDFQcgvwnPdI0T0rmweq+zxM4/gQ
+ ==
+X-ME-Sender: <xms:9E3dYNRQuWN7yW3RgmXQF8ewQTxiA0I6rLEdKW7gF1ZrTET4tjPpAg>
+ <xme:9E3dYGz-65eix5NO3Bn9j5ivXLMXvGX93EAuwZ_SOd8nK46XjBg0xoDjt4gTTqEsh
+ D1707FZjFk2XZOLOA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeihedgkeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+ grthhtvghrnhepudfftddvveekfffgteffffeuveegjeelgefhffejtdehtdfhlefgkeef
+ hfefkeeinecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:9E3dYC20AOGkdlFbLFlefFuPZvRxO8UPQCVme-g1RLAg0PaIP2FvHA>
+ <xmx:9E3dYFCRjNNytUKi_TX5qpzcJQuDiWhLCOD0yJZrqbCiim6atL5Jkw>
+ <xmx:9E3dYGiDa--Z9hRClydmgXUlZBUpfnw5dGsFQVuVN2jbd6PqtW9Yrg>
+ <xmx:9U3dYOd7Yb2hwts6sDP7SV6t0lEyuU3DZx84FpT2aQ6hk-zh1zqSeA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 77075AC0073; Thu,  1 Jul 2021 01:09:08 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-530-gd0c265785f-fm-20210616.002-gd0c26578
+Mime-Version: 1.0
+Message-Id: <f13125b1-3af6-4cd4-895b-4d98bf78b568@www.fastmail.com>
+In-Reply-To: <CACPK8Xd9tsMJaQ9BQSGL0Vfi4UpJ1iuOtMVmfKneydd-zYBhsw@mail.gmail.com>
+References: <20210625061017.1149942-1-andrew@aj.id.au>
+ <CACPK8Xd9tsMJaQ9BQSGL0Vfi4UpJ1iuOtMVmfKneydd-zYBhsw@mail.gmail.com>
+Date: Thu, 01 Jul 2021 14:38:48 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Joel Stanley" <joel@jms.id.au>
+Subject: Re: [PATCH] ARM: dts: tacoma: Add phase corrections for eMMC
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,58 +96,51 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Zev Weiss <zweiss@equinix.com>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Soc maintainers,
 
-Here are some minor fixes for the aspeed device trees.
 
-The following changes since commit dd87684c7c9b82ad450cf063c58b4131074ad8f2:
+On Thu, 1 Jul 2021, at 13:10, Joel Stanley wrote:
+> On Fri, 25 Jun 2021 at 06:10, Andrew Jeffery <andrew@aj.id.au> wrote:
+> >
+> > The degree values were reversed out from the magic tap values of 7 (in)
+> > and 15 + inversion (out) initially suggested by Aspeed.
+> >
+> > With the patch tacoma survives several gigabytes of reads and writes
+> > using dd while without it locks up randomly during the boot process.
+> >
+> > Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> 
+> Thanks for the fix. Is this required due to "mmc: sdhci-of-aspeed: Add
+> AST2600 bus clock support" or "mmc: sdhci-of-aspeed: Expose clock
+> phase controls"?
 
-  ARM: dts: aspeed: everest: Add pcie cable card indicator leds
-(2021-06-07 13:38:55 +0930)
+Sort of neither, it's really a bug with the devicetrees.
 
-are available in the Git repository at:
+> 
+> On the topic of those patches, it would be good if we could operate
+> the devices (with the slower speed?) when the device tree does not
+> provide the phase values. Think about system bringup, or where you
+> need the system booting in order to determine the phase calculations.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
-tags/aspeed-5.14-devicetree-2
+You can use the maximum-frequency binding to make things go slow enough 
+to paper over phase issues. This helped us limp along early on.
 
-for you to fetch changes up to ab4a49d36010564c70fe5586a4c2b1985866616f:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/mmc/mmc-controller.yaml?h=v5.13#n90
 
-  ARM: dts: aspeed: everest: PSU #3 address change (2021-07-01 13:41:33 +0930)
+But really it depends on how bad the issues are at a given speed.
 
-----------------------------------------------------------------
-ASPEED device tree fixes for 5.14
+> 
+> What changes would be required to the host driver for it to work out of the box?
 
- - eMMC phase corrections so Tacoma and Everest can boot
+Maybe the above is enough of a crutch?
 
- - VUART irq polarity fix for e3c246d4i, using new bindings
-
- - I2C address fix for Rainier power supply
-
- - GPIO line name fixes
-
-----------------------------------------------------------------
-Andrew Jeffery (2):
-      ARM: dts: tacoma: Add phase corrections for eMMC
-      ARM: dts: everest: Add phase corrections for eMMC
-
-B. J. Wyman (1):
-      ARM: dts: aspeed: everest: PSU #3 address change
-
-Joel Stanley (1):
-      ARM: dts: aspeed: Fix AST2600 machines line names
-
-Zev Weiss (1):
-      ARM: dts: aspeed: Update e3c246d4i vuart properties
-
- arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dts | 4 +++-
- arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts      | 9 +++++----
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts      | 5 +----
- arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts       | 6 ++----
- 4 files changed, 11 insertions(+), 13 deletions(-)
+Andrew
