@@ -2,13 +2,13 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D125A3C2CD5
-	for <lists+linux-aspeed@lfdr.de>; Sat, 10 Jul 2021 04:19:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A97273C2D93
+	for <lists+linux-aspeed@lfdr.de>; Sat, 10 Jul 2021 04:23:11 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GMDHS55WTz30Hk
-	for <lists+linux-aspeed@lfdr.de>; Sat, 10 Jul 2021 12:19:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GMDMx4Xy6z30B9
+	for <lists+linux-aspeed@lfdr.de>; Sat, 10 Jul 2021 12:23:09 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=O90eLDm0;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=FbPT65sK;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
@@ -17,34 +17,34 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
  envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=O90eLDm0; 
+ header.s=k20201202 header.b=FbPT65sK; 
  dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GMDHK0VZyz2yfb;
- Sat, 10 Jul 2021 12:19:08 +1000 (AEST)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9B92F613B5;
- Sat, 10 Jul 2021 02:19:04 +0000 (UTC)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GMDMt4n79z2yLn;
+ Sat, 10 Jul 2021 12:23:06 +1000 (AEST)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6C90461412;
+ Sat, 10 Jul 2021 02:23:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625883545;
+ s=k20201202; t=1625883784;
  bh=8ZbvH99bcq1nyw8SRd4cTB+F8f4pK/NJxDYhzKamEWg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=O90eLDm0AQIGmcBx9kH9kMBQDgD57BuI32EHP05oK604KPeuYzxLi7QKM6ARK2NIK
- nLju6iq1KM6FDbIgHepq2HL5NFKT2wo/O03aDrpMsfrxMpGEYuSk4qqYExhKoR+xUy
- kGG9AgHbfOKrtJtN8FLU4t/F14S7gxJnjjeOSLE1ZH9r7cuspWSArsMWFsh+0MLyAg
- BjsX+bSgeim3p5iV7xHEW3q5GEDJxmgX0WSVGYuozaA89NivpeGjbW7lbfKKiMcamW
- D0/MhhB7+r6/wcO5VSvKJX+XGP9N1RifMqve4E8APu49A0zHx0DiBqEBJplqeR3X2S
- OgPguM4vhvNCg==
+ b=FbPT65sKYfFsGEMqVwavgBIIpPad98j1YBBciidu0Dc5wBsmSqZJik8VhhLcsFJWl
+ TpCM2YFw6KkpneoR+8jgTzQy2X0AYxd2Lu8fRlFXeXnY12Eh6l79bIfTe2f3spnWsf
+ qcl6iRNuwnuulNwDpJT3197PJ9ROim97+uncqza3RQ8/x0fpfENagpT0Z92x6bQU41
+ nHRkdXxIZW0C5rUaE2kLdEmExVHZ7HOhtNo91ebOKG1ajWO3b80LJKIhXvRxWKdepd
+ k72YxZmSfBCPgkw9wz2aG1prxvdwYjBmxqfWqQ5Mhp4B5gDaL9OUSL6ZvoEMMV1qvG
+ KJiR7D/7l6w7g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 056/114] fsi: Add missing MODULE_DEVICE_TABLE
-Date: Fri,  9 Jul 2021 22:16:50 -0400
-Message-Id: <20210710021748.3167666-56-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 051/104] fsi: Add missing MODULE_DEVICE_TABLE
+Date: Fri,  9 Jul 2021 22:21:03 -0400
+Message-Id: <20210710022156.3168825-51-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710021748.3167666-1-sashal@kernel.org>
-References: <20210710021748.3167666-1-sashal@kernel.org>
+In-Reply-To: <20210710022156.3168825-1-sashal@kernel.org>
+References: <20210710022156.3168825-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
