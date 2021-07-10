@@ -2,13 +2,13 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A97273C2D93
-	for <lists+linux-aspeed@lfdr.de>; Sat, 10 Jul 2021 04:23:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BAC13C2E2D
+	for <lists+linux-aspeed@lfdr.de>; Sat, 10 Jul 2021 04:26:06 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GMDMx4Xy6z30B9
-	for <lists+linux-aspeed@lfdr.de>; Sat, 10 Jul 2021 12:23:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GMDRJ0Jpxz3bsS
+	for <lists+linux-aspeed@lfdr.de>; Sat, 10 Jul 2021 12:26:04 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=FbPT65sK;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=JTVH+pnY;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
@@ -17,34 +17,34 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
  envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=FbPT65sK; 
+ header.s=k20201202 header.b=JTVH+pnY; 
  dkim-atps=neutral
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GMDMt4n79z2yLn;
- Sat, 10 Jul 2021 12:23:06 +1000 (AEST)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6C90461412;
- Sat, 10 Jul 2021 02:23:03 +0000 (UTC)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GMDQk5zkPz3dWn;
+ Sat, 10 Jul 2021 12:25:34 +1000 (AEST)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8C2CE613EB;
+ Sat, 10 Jul 2021 02:25:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625883784;
- bh=8ZbvH99bcq1nyw8SRd4cTB+F8f4pK/NJxDYhzKamEWg=;
+ s=k20201202; t=1625883932;
+ bh=4hJItN6G5Ntt+ACsURXSuo5KUGJz8kHc99OGwUEZQK8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FbPT65sKYfFsGEMqVwavgBIIpPad98j1YBBciidu0Dc5wBsmSqZJik8VhhLcsFJWl
- TpCM2YFw6KkpneoR+8jgTzQy2X0AYxd2Lu8fRlFXeXnY12Eh6l79bIfTe2f3spnWsf
- qcl6iRNuwnuulNwDpJT3197PJ9ROim97+uncqza3RQ8/x0fpfENagpT0Z92x6bQU41
- nHRkdXxIZW0C5rUaE2kLdEmExVHZ7HOhtNo91ebOKG1ajWO3b80LJKIhXvRxWKdepd
- k72YxZmSfBCPgkw9wz2aG1prxvdwYjBmxqfWqQ5Mhp4B5gDaL9OUSL6ZvoEMMV1qvG
- KJiR7D/7l6w7g==
+ b=JTVH+pnYQpN6O3w9caIowd8cyEJU5rCEok5UTQ91SNrxFuC4iUcqXdYzkkHp37lcy
+ fFvEL/b+9VBEGVi5SB+ltXCsYndd36VtTQ7n584rLK4cV7+cprE75C41vCqt3hUvu5
+ R9c30mBQx1xGH9/2obo7XJOR3qzl8eYdgqUjQ7O+QS+gofRMJh/9rCcgXu3aI4nPwG
+ /OxWhTDCjEYT3KaMy8+O115ubME/xpgN/MLasdgXd0bpJXp9RM+jsjj7dgrmcKUpvV
+ J5tpQ3njEV1NbXGfSg+xSSjGMDKcpoSnfnZ2IuvXGC46Gt5u4P4HLamtVLtsGTbwo5
+ jFjROC8vfatyA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 051/104] fsi: Add missing MODULE_DEVICE_TABLE
-Date: Fri,  9 Jul 2021 22:21:03 -0400
-Message-Id: <20210710022156.3168825-51-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 48/93] fsi: Add missing MODULE_DEVICE_TABLE
+Date: Fri,  9 Jul 2021 22:23:42 -0400
+Message-Id: <20210710022428.3169839-48-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710022156.3168825-1-sashal@kernel.org>
-References: <20210710022156.3168825-1-sashal@kernel.org>
+In-Reply-To: <20210710022428.3169839-1-sashal@kernel.org>
+References: <20210710022428.3169839-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -124,11 +124,11 @@ index aa97c4a250cb..7d5f29b4b595 100644
  static struct platform_driver fsi_master_gpio_driver = {
  	.driver = {
 diff --git a/drivers/fsi/fsi-occ.c b/drivers/fsi/fsi-occ.c
-index 10ca2e290655..f9a88083e5f3 100644
+index 9eeb856c8905..01eb04d52bf0 100644
 --- a/drivers/fsi/fsi-occ.c
 +++ b/drivers/fsi/fsi-occ.c
-@@ -635,6 +635,7 @@ static const struct of_device_id occ_match[] = {
- 	},
+@@ -578,6 +578,7 @@ static const struct of_device_id occ_match[] = {
+ 	{ .compatible = "ibm,p9-occ" },
  	{ },
  };
 +MODULE_DEVICE_TABLE(of, occ_match);
