@@ -2,53 +2,40 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A003C466C
-	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Jul 2021 12:04:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F2D3C6607
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Jul 2021 00:08:34 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GNfWg6c4Lz304d
-	for <lists+linux-aspeed@lfdr.de>; Mon, 12 Jul 2021 20:04:47 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GNyZm3n0Qz3068
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Jul 2021 08:08:32 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=steven_lee@aspeedtech.com;
- receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=intel.com (client-ip=134.134.136.65; helo=mga03.intel.com;
+ envelope-from=iwona.winiarska@intel.com; receiver=<UNKNOWN>)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GNfWd3C82z303n
- for <linux-aspeed@lists.ozlabs.org>; Mon, 12 Jul 2021 20:04:45 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 16C9lfEp099610;
- Mon, 12 Jul 2021 17:47:41 +0800 (GMT-8)
- (envelope-from steven_lee@aspeedtech.com)
-Received: from localhost.localdomain (192.168.100.253) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 12 Jul
- 2021 18:03:35 +0800
-From: Steven Lee <steven_lee@aspeedtech.com>
-To: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <bgolaszewski@baylibre.com>, Rob Herring <robh+dt@kernel.org>, Joel Stanley
- <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, "open list:GPIO
- SUBSYSTEM" <linux-gpio@vger.kernel.org>, "open list:OPEN FIRMWARE AND
- FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, "moderated
- list:ARM/ASPEED MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
- open list <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 9/9] gpio: gpio-aspeed-sgpio: Return error if ngpios is not
- multiple of 8.
-Date: Mon, 12 Jul 2021 18:03:16 +0800
-Message-ID: <20210712100317.23298-10-steven_lee@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210712100317.23298-1-steven_lee@aspeedtech.com>
-References: <20210712100317.23298-1-steven_lee@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GNyZj0KBfz2yM6;
+ Tue, 13 Jul 2021 08:08:22 +1000 (AEST)
+X-IronPort-AV: E=McAfee;i="6200,9189,10043"; a="210104969"
+X-IronPort-AV: E=Sophos;i="5.84,235,1620716400"; d="scan'208";a="210104969"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2021 15:07:15 -0700
+X-IronPort-AV: E=Sophos;i="5.84,235,1620716400"; d="scan'208";a="492295335"
+Received: from jzloch-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.249.136.11])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2021 15:07:10 -0700
+From: Iwona Winiarska <iwona.winiarska@intel.com>
+To: linux-kernel@vger.kernel.org,
+	openbmc@lists.ozlabs.org
+Subject: [PATCH 00/14] Introduce PECI subsystem
+Date: Tue, 13 Jul 2021 00:04:33 +0200
+Message-Id: <20210712220447.957418-1-iwona.winiarska@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.100.253]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 16C9lfEp099610
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,38 +47,158 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: steven_lee@aspeedtech.com, Hongweiz@ami.com
+Cc: linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ x86@kernel.org, Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Ingo Molnar <mingo@redhat.com>, Guenter Roeck <linux@roeck-us.net>,
+ devicetree@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+ Rob Herring <robh+dt@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ Tony Luck <tony.luck@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Yazen Ghannam <yazen.ghannam@amd.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add an else-if condition in the probe function to check whether ngpios is
-multiple of 8.
-Per AST datasheet, numbers of available serial GPIO pins in Serial GPIO
-Configuration Register must be n bytes. For instance, if n = 1, it means
-AST SoC supports 8 GPIO pins.
+Note: All changes to arch/x86 are contained within patches 01-02.
 
-Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
----
- drivers/gpio/gpio-aspeed-sgpio.c | 4 ++++
- 1 file changed, 4 insertions(+)
+The Platform Environment Control Interface (PECI) is a communication
+interface between Intel processors and management controllers (e.g.
+Baseboard Management Controller, BMC).
 
-diff --git a/drivers/gpio/gpio-aspeed-sgpio.c b/drivers/gpio/gpio-aspeed-sgpio.c
-index b3d05fc724f0..191b82a2560c 100644
---- a/drivers/gpio/gpio-aspeed-sgpio.c
-+++ b/drivers/gpio/gpio-aspeed-sgpio.c
-@@ -537,6 +537,10 @@ static int __init aspeed_sgpio_probe(struct platform_device *pdev)
- 	if (rc < 0) {
- 		dev_err(&pdev->dev, "Could not read ngpios property\n");
- 		return -EINVAL;
-+	} else if (nr_gpios % 8) {
-+		dev_err(&pdev->dev, "Number of GPIOs not multiple of 8: %d\n",
-+			nr_gpios);
-+		return -EINVAL;
- 	}
- 
- 	rc = device_property_read_u32(&pdev->dev, "bus-frequency", &sgpio_freq);
+This series adds a PECI subsystem and introduces drivers which run in
+the Linux instance on the management controller (not the main Intel
+processor) and is intended to be used by the OpenBMC [1], a Linux
+distribution for BMC devices.
+The information exposed over PECI (like processor and DIMM
+temperature) refers to the Intel processor and can be consumed by
+daemons running on the BMC to, for example, display the processor
+temperature in its web interface.
+
+The PECI bus is collection of code that provides interface support
+between PECI devices (that actually represent processors) and PECI
+controllers (such as the "peci-aspeed" controller) that allow to
+access physical PECI interface. PECI devices are bound to PECI
+drivers that provides access to PECI services. This series introduces
+a generic "peci-cpu" driver that exposes hardware monitoring "cputemp"
+and "dimmtemp" using the auxiliary bus.
+
+Exposing "raw" PECI to userspace, either to write userspace drivers or
+for debug/testing purpose was left out of this series to encourage
+writing kernel drivers instead, but may be pursued in the future.
+
+Introducing PECI to upstream Linux was already attempted before [2].
+Since it's been over a year since last revision, and the series
+changed quite a bit in the meantime, I've decided to start from v1.
+
+I would also like to give credit to everyone who helped me with
+different aspects of preliminary review:
+- Pierre-Louis Bossart,
+- Tony Luck, 
+- Andy Shevchenko,
+- Dave Hansen.
+
+[1] https://github.com/openbmc/openbmc
+[2] https://lore.kernel.org/openbmc/20191211194624.2872-1-jae.hyun.yoo@linux.intel.com/
+
+Iwona Winiarska (12):
+  x86/cpu: Move intel-family to arch-independent headers
+  x86/cpu: Extract cpuid helpers to arch-independent
+  dt-bindings: Add generic bindings for PECI
+  dt-bindings: Add bindings for peci-aspeed
+  ARM: dts: aspeed: Add PECI controller nodes
+  peci: Add core infrastructure
+  peci: Add device detection
+  peci: Add support for PECI device drivers
+  peci: Add peci-cpu driver
+  hwmon: peci: Add cputemp driver
+  hwmon: peci: Add dimmtemp driver
+  docs: Add PECI documentation
+
+Jae Hyun Yoo (2):
+  peci: Add peci-aspeed controller driver
+  docs: hwmon: Document PECI drivers
+
+ .../devicetree/bindings/peci/peci-aspeed.yaml | 111 ++++
+ .../bindings/peci/peci-controller.yaml        |  28 +
+ Documentation/hwmon/index.rst                 |   2 +
+ Documentation/hwmon/peci-cputemp.rst          |  93 ++++
+ Documentation/hwmon/peci-dimmtemp.rst         |  58 ++
+ Documentation/index.rst                       |   1 +
+ Documentation/peci/index.rst                  |  16 +
+ Documentation/peci/peci.rst                   |  48 ++
+ MAINTAINERS                                   |  32 ++
+ arch/arm/boot/dts/aspeed-g4.dtsi              |  14 +
+ arch/arm/boot/dts/aspeed-g5.dtsi              |  14 +
+ arch/arm/boot/dts/aspeed-g6.dtsi              |  14 +
+ arch/x86/Kconfig                              |   1 +
+ arch/x86/include/asm/cpu.h                    |   3 -
+ arch/x86/include/asm/intel-family.h           | 141 +----
+ arch/x86/include/asm/microcode.h              |   2 +-
+ arch/x86/kvm/cpuid.h                          |   3 +-
+ arch/x86/lib/Makefile                         |   2 +-
+ drivers/Kconfig                               |   3 +
+ drivers/Makefile                              |   1 +
+ drivers/edac/mce_amd.c                        |   3 +-
+ drivers/hwmon/Kconfig                         |   2 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/peci/Kconfig                    |  31 ++
+ drivers/hwmon/peci/Makefile                   |   7 +
+ drivers/hwmon/peci/common.h                   |  46 ++
+ drivers/hwmon/peci/cputemp.c                  | 503 +++++++++++++++++
+ drivers/hwmon/peci/dimmtemp.c                 | 508 ++++++++++++++++++
+ drivers/peci/Kconfig                          |  36 ++
+ drivers/peci/Makefile                         |  10 +
+ drivers/peci/controller/Kconfig               |  12 +
+ drivers/peci/controller/Makefile              |   3 +
+ drivers/peci/controller/peci-aspeed.c         | 501 +++++++++++++++++
+ drivers/peci/core.c                           | 224 ++++++++
+ drivers/peci/cpu.c                            | 347 ++++++++++++
+ drivers/peci/device.c                         | 211 ++++++++
+ drivers/peci/internal.h                       | 137 +++++
+ drivers/peci/request.c                        | 502 +++++++++++++++++
+ drivers/peci/sysfs.c                          |  82 +++
+ include/linux/peci-cpu.h                      |  38 ++
+ include/linux/peci.h                          |  93 ++++
+ include/linux/x86/cpu.h                       |   9 +
+ include/linux/x86/intel-family.h              | 146 +++++
+ lib/Kconfig                                   |   5 +
+ lib/Makefile                                  |   2 +
+ lib/x86/Makefile                              |   3 +
+ {arch/x86/lib => lib/x86}/cpu.c               |   2 +-
+ 47 files changed, 3902 insertions(+), 149 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/peci/peci-aspeed.yaml
+ create mode 100644 Documentation/devicetree/bindings/peci/peci-controller.yaml
+ create mode 100644 Documentation/hwmon/peci-cputemp.rst
+ create mode 100644 Documentation/hwmon/peci-dimmtemp.rst
+ create mode 100644 Documentation/peci/index.rst
+ create mode 100644 Documentation/peci/peci.rst
+ create mode 100644 drivers/hwmon/peci/Kconfig
+ create mode 100644 drivers/hwmon/peci/Makefile
+ create mode 100644 drivers/hwmon/peci/common.h
+ create mode 100644 drivers/hwmon/peci/cputemp.c
+ create mode 100644 drivers/hwmon/peci/dimmtemp.c
+ create mode 100644 drivers/peci/Kconfig
+ create mode 100644 drivers/peci/Makefile
+ create mode 100644 drivers/peci/controller/Kconfig
+ create mode 100644 drivers/peci/controller/Makefile
+ create mode 100644 drivers/peci/controller/peci-aspeed.c
+ create mode 100644 drivers/peci/core.c
+ create mode 100644 drivers/peci/cpu.c
+ create mode 100644 drivers/peci/device.c
+ create mode 100644 drivers/peci/internal.h
+ create mode 100644 drivers/peci/request.c
+ create mode 100644 drivers/peci/sysfs.c
+ create mode 100644 include/linux/peci-cpu.h
+ create mode 100644 include/linux/peci.h
+ create mode 100644 include/linux/x86/cpu.h
+ create mode 100644 include/linux/x86/intel-family.h
+ create mode 100644 lib/x86/Makefile
+ rename {arch/x86/lib => lib/x86}/cpu.c (95%)
+
 -- 
-2.17.1
+2.31.1
 
