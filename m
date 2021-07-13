@@ -1,38 +1,38 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CD73C6A07
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Jul 2021 07:55:23 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B170D3C6A2A
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Jul 2021 08:01:25 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GP8xN6vl9z2yN7
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Jul 2021 15:55:20 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GP94M413Yz305k
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 Jul 2021 16:01:23 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=e/6I05Mq;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=tcmFlByJ;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=os.amperecomputing.com (client-ip=40.107.93.105;
- helo=nam10-dm6-obe.outbound.protection.outlook.com;
+ smtp.mailfrom=os.amperecomputing.com (client-ip=40.107.223.96;
+ helo=nam11-dm6-obe.outbound.protection.outlook.com;
  envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com
- header.a=rsa-sha256 header.s=selector2 header.b=e/6I05Mq; 
+ header.a=rsa-sha256 header.s=selector2 header.b=tcmFlByJ; 
  dkim-atps=neutral
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2105.outbound.protection.outlook.com [40.107.93.105])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2096.outbound.protection.outlook.com [40.107.223.96])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GP8x83VrLz2yMs
- for <linux-aspeed@lists.ozlabs.org>; Tue, 13 Jul 2021 15:55:08 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GP94G6S7Qz2yMs;
+ Tue, 13 Jul 2021 16:01:17 +1000 (AEST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dKokhhxeZ7t3TqK8YDA7mTD3FXagu3MVIOORZKFurupPJx6R5FNerABAN7saTOySDy/qiIMiziwaQuelMmzrQznmKHgYRGn2GdMYgTmhK9nQB2aAL0DVLdInmEBcBr7HD3bg9gAcnn0r2Nz5vBht289agdEO8TxFoFtvvY1UNUNRt7I4ItLukb5pidSSRfxnxXXSBUByFt1dV2qviEXQ1ZS4/uAGAHlQKjXZVpUz9K03uE6yWt1k2YWHa22N7tJkHBqM9mtveqFx0DvdRi1C1UfC+sfoqHoF09e7Gs05oFVBBObQyHmVoDYtgbxBAFtQSs8aZcLZFaGHVrkbXQpPjg==
+ b=WAi1oaYPzLfrD4/FDnQBeCau6zXBZtEsN+eUZ8h0EDGt7Njjnl0h/i1ZJbFdaTM0e2osq5caAJv8Y7kT8WlpZODNc3b8H8Nck6LlPjv+uMAulpCa3Ef/FODbzlRVLFdG99eIzTgPXS8AzA0Ucsj/7OB1a6nYkDHUOz0GFyuxWMJ12SxRBV8U+xLw3LAJzyxg0VS0/fFtWOKMBe9IOYCDEwD63TjnnAngNvjgLu1o2DgSYeCTfTU0K+bgg2ULdBgw/zDz/9lLiBu1ccxmiDJ0x8kjb24QHpOuHUv++55W+VncvxLrQBlATMOIGQQN+o42Cu6bmAkUvirauBsXNlHfWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZiCqv816ye69wa5yoL7KXA6UEBvLis8Z1T3oFCWysr4=;
- b=SUXxGSmXWUg0cdij2b4YLY1Tr8+pjJQA2bCKNCzejnYyu7gv4CHCu1gt5kRUw2Meqt84/l7mmS5A93gpj54k5FUjATYGL520N0VpYXdmsNniyea7nzbAvjb2QmnjhlADpwzSExneDZVTcADEYJNQtmQ+mN3NYc3Q55bUSCAAhJPBLLHgaQLPEud6m2yct/0OBi4dTqSvvdltwC8HYBIewfi5QIjgVL/HqVuMrmdqkodOx/Kb2pi0RuKhxkoR/CLlY6Q9jSpzrgIpnGn4qgtOS65AL9nckohGzT3yjsYJjcML2sdu6/v4GHwnZLJO2oV1IzsYZCA4r2bABKcL+x/Tiw==
+ bh=KpI2DB3LowwXkWjhZj1eu9Brd7NJtIUUsTgO/PMskHk=;
+ b=VyroCLl7TUk0DF4yOOHxpEJH5+W+bI569ja6h0IF2z2AD0J/kV3ELXh1+filRnPcxA7OUl+8clgpnd1Tx+J4aFCXcwXJlydabBZ+ATRPdiiq8SqgiGz1iKL/w+ArVNfD92ea62oi2wKxryzkHNaxcmBdCVad0eL3I11uWO+ybu4Cw//WzqqzP76DXlbp3FEWyGMfLShwcTLYheHUFPQBBg6ZRe36Zhwt5Etu0smQjvNDYjlEDQn4MoMBrVym69HL4i1r0sTq5kkevqNqiQAYm/dhQCh/ZlH8J1fGYYZ/4rPpCncyBa9ZMTaAUJ3AFFFtWYYiyyYo2tLKeNTDQvEmUQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
  header.from=os.amperecomputing.com; dkim=pass
@@ -40,93 +40,90 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=os.amperecomputing.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZiCqv816ye69wa5yoL7KXA6UEBvLis8Z1T3oFCWysr4=;
- b=e/6I05MqowrpfcYlE51HbKaK2HQ22S8P9oV/OtmW9Xgl9SAP+1N4Gtx1DtHrRYMJz4uoOBRghp2baDLrGFcrAt3n49FSLLbc3QdqKoyp/rlb+VkwJwNBOqlA1qlSKA8LMjOjLo4pC9h38j/7th/UQfk1D4dOjfgZuvw2gTWIujo=
-Authentication-Results: acm.org; dkim=none (message not signed)
- header.d=none;acm.org; dmarc=none action=none
+ bh=KpI2DB3LowwXkWjhZj1eu9Brd7NJtIUUsTgO/PMskHk=;
+ b=tcmFlByJb7aFtHqleAqIjpsscdFY7ualR6RMAk7OCr7jFUghAnb2ygTfMfkearlussGBfwqZ5dnyWOA+4hJrcTvOqM46hdoCJhWXS8CWbNx0FN8zqSjro8ixh6N8O5ORTQknp/j0VmmjA5296ma/HvEO6ho3QaZM6hZyjbuCUgs=
+Authentication-Results: jms.id.au; dkim=none (message not signed)
+ header.d=none;jms.id.au; dmarc=none action=none
  header.from=os.amperecomputing.com;
 Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
- CO1PR01MB6535.prod.exchangelabs.com (2603:10b6:303:d9::17) with
+ MW4PR01MB6323.prod.exchangelabs.com (2603:10b6:303:78::23) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4308.19; Tue, 13 Jul 2021 05:54:55 +0000
+ 15.20.4308.20; Tue, 13 Jul 2021 06:00:57 +0000
 Received: from MW2PR0102MB3482.prod.exchangelabs.com
  ([fe80::452a:24fb:12cb:9d7e]) by MW2PR0102MB3482.prod.exchangelabs.com
  ([fe80::452a:24fb:12cb:9d7e%5]) with mapi id 15.20.4308.027; Tue, 13 Jul 2021
- 05:54:55 +0000
+ 06:00:57 +0000
 From: Quan Nguyen <quan@os.amperecomputing.com>
-To: Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Brendan Higgins <brendanhiggins@google.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Wolfram Sang <wsa@kernel.org>, openipmi-developer@lists.sourceforge.net,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org
-Subject: [PATCH v4 3/3] i2c: aspeed: Add slave_enable() to toggle slave mode
-Date: Tue, 13 Jul 2021 12:54:25 +0700
-Message-Id: <20210713055425.30636-4-quan@os.amperecomputing.com>
+To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+ Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org
+Subject: [PATCH v5 0/4] Add Ampere's Altra SMPro hwmon driver
+Date: Tue, 13 Jul 2021 13:00:27 +0700
+Message-Id: <20210713060031.31568-1-quan@os.amperecomputing.com>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210713055425.30636-1-quan@os.amperecomputing.com>
-References: <20210713055425.30636-1-quan@os.amperecomputing.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: HKAPR03CA0027.apcprd03.prod.outlook.com
- (2603:1096:203:c9::14) To MW2PR0102MB3482.prod.exchangelabs.com
+X-ClientProxiedBy: HK2PR03CA0052.apcprd03.prod.outlook.com
+ (2603:1096:202:17::22) To MW2PR0102MB3482.prod.exchangelabs.com
  (2603:10b6:302:c::32)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from hcm-sw-17.amperecomputing.com (118.69.219.201) by
- HKAPR03CA0027.apcprd03.prod.outlook.com (2603:1096:203:c9::14) with Microsoft
+ HK2PR03CA0052.apcprd03.prod.outlook.com (2603:1096:202:17::22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.10 via Frontend Transport; Tue, 13 Jul 2021 05:54:51 +0000
+ 15.20.4331.10 via Frontend Transport; Tue, 13 Jul 2021 06:00:53 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 59cf5a78-500a-4faa-344d-08d945c2bd61
-X-MS-TrafficTypeDiagnostic: CO1PR01MB6535:
+X-MS-Office365-Filtering-Correlation-Id: 5f22a43d-6bde-446a-cc52-08d945c394be
+X-MS-TrafficTypeDiagnostic: MW4PR01MB6323:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO1PR01MB6535F84453339498B404861DF2149@CO1PR01MB6535.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:820;
+X-Microsoft-Antispam-PRVS: <MW4PR01MB6323A4F989F1608272EA88ADF2149@MW4PR01MB6323.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tJl95ke1G4O9CylA6LvRbk5zv0oaj/iqUEo5usfurJetFn7+t+MyXKb/wzA4z7Uf3WGhh57uotD036aj2+K9lrQYhe1kgMsnIg8ccBnuizRDOFEnUieXYyYNYMR1rLGkM8B0o1gqqEKpXS/lx1pF0L/x3cBsgBenWlme2n9E2Yl9wlmxgLctniDEEROxFwXP56YBWGHmiH2czo4Wh4UtIvhm1l2tBTCrblWxCcAUfTbwoIgff+VhFcCxAbehrelD4ufTQ3btS5Sjo/MUEJiwAeDMHhwoRHSKBd1XNPyt1AaTOcSKjJi3KM3HV0MDdIKGzSHNXCHyjn0RT4y9rxg9I8YPkxbs2w8E4q9k01Bn158K16CrC1Z9SPsmEysSJO0Ob74Rk0/ADFLEU4EDZnm+v2zc8MUgeXbwpJfYkVhmlooTWYzjlQjxPoZRyJ+aCLaFZGNPCP1mJNT+ObcM03lwfToeoPnyEvd0s578oglxHZddtPEZq2nE11KhvIuGVgPfMqvBys4rBawWf6/u4V1TxZ9AP2vIIOK0FMzAXofvRUSrI2Bk8kPEP69Eutw2q6PAMWg+PcKIywNjWESQRnE6ex5VmLZsHhRng0Z491fZ/eHgonxvp8RVdNWcdIUzV0aNMwHcvV0sBh62Q/ZGsBW/odrFs5td8tZe56UJ5knKTnViaVtNetocYQCOwt2mPPHK6z+1H+8nJ8TBAxx0yYN1xFCITZbq6hI8bAMkKHeNia8=
+X-Microsoft-Antispam-Message-Info: QnPX/aSaMlt5JnCvwL5CFeYXutVSQojuOAKddvyFO1U9ECnswj1H53BBz1i2kLNd75ac/7y758hUM65IGIt8ganl0CfDM+KVItPbhjFkTlBNuoCM8nBoSVvJxvAMmWYM/RtoJaCXR9bftXnsMQGRmAC+VyutaAlfObKYbwtYhuLD0dYQy9AT97cZ4WZAywribWYkCE64zfJ0+lXeDgGqCZkmAaI6IMwPF8fPSAlYkTtibeHQnckdhdZXk5PD7V87/OHrcUlvMeSYsaUt20jIe6jk7w4jKC9NGpYk0c1dZSEDzC/BH+dYlTfky2vpZTAz7FvB8ApXiywooUdh+bMqtoBGJdDa6ZPopsQX4T8uCJT7sRzDL8rW8KV3aeR2Q4RMdNXRVFumPjOS6mpDd6MN3+he8XJH0LGw+8KfOSHAepWoezO62UMkCPVn5nO6LKdVXuQRnACDiHKVjb94mMmJBxRrk6TiUUB029Q84AClmv3W/OZCOoymsxpsVaVD9m69lA6iec1pu3Ij54r6gbFaknhHfBkSc5CXIRkGL4fHN+IhOCs6680rKl4RiQnW1a+htEhZjz1amXKqpnJ5qvkp4WqTkaDO0Mr4p1n2Gg8y5rfMjsVf8O7CYX3xzJQFtoV75Sn6sNt/0XCX6XL4gd+rokpyWhLnYzyZK6CziHd8ajvLhd5ieK+McWcIAaXueWl240K5naxHqH1h6zBmzZPr6/rg4qJHNj3FmA+tU1/KAGw=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MW2PR0102MB3482.prod.exchangelabs.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(136003)(366004)(396003)(39850400004)(346002)(956004)(8676002)(54906003)(86362001)(5660300002)(2616005)(2906002)(1076003)(7416002)(52116002)(66946007)(107886003)(478600001)(66556008)(6666004)(66476007)(6506007)(921005)(110136005)(26005)(186003)(38100700002)(316002)(4326008)(38350700002)(83380400001)(6512007)(8936002)(6486002);
+ SFS:(4636009)(39850400004)(346002)(376002)(396003)(366004)(136003)(1076003)(6486002)(6506007)(66556008)(52116002)(66476007)(8936002)(26005)(86362001)(6512007)(4326008)(956004)(2616005)(2906002)(8676002)(6666004)(54906003)(110136005)(186003)(66946007)(478600001)(7416002)(38100700002)(83380400001)(5660300002)(38350700002)(107886003)(921005)(316002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XwsMqXkOtNZR82eUcGE/g2I+G4px+EdhThx1Yk8YbvS2xR9128AQ+iTGUzWr?=
- =?us-ascii?Q?PQJtSme+63+0n3eoE5R9fDQGPGgfi65dF2EFT0VNRhfGF19zzxdSM6KP6+6n?=
- =?us-ascii?Q?BIL1JmshII8ob9iJgikEhCFiusHW7NGGla+17/+OhWgV+KFFr/atmJlJvFgP?=
- =?us-ascii?Q?FXETNtjCrQcmulFotqPVdksklm6MqXqz7l78plpVj76It9W05C5Pz2qzLtMo?=
- =?us-ascii?Q?G7jTI35Z6/MuuQR7XxbC7k3XWbCAY/tVG3zdfDl6bqyM35h4EJg5BJ3RXiMo?=
- =?us-ascii?Q?8AuQTwYTB0+4a98oc/V34efhwJKtR2OvzdQuR0y+hCzZN+Nt2c8kyRplhJMW?=
- =?us-ascii?Q?iUIQS09w6b0YnYggTvHEpPqnN9Cglma1Dp8k2N1XdVcXLB9kJ8d4lj+4+X/B?=
- =?us-ascii?Q?h8FoFYeCcCKoismfkrpbJYVKaigENTZIpJ2DeTDfpicVNvCqvlVeuasi+ypP?=
- =?us-ascii?Q?d5kq/1y9OZ1hJbiX0UFEMmSgKpuBDzRM1TRRhtzqHMTALZumf9q3nlp/hTCv?=
- =?us-ascii?Q?DkJ1NnxgHRgKvMElUH6hws+5EvNbygIkWvog7CEwD8Q6SuBOhZhDjBEBNIcM?=
- =?us-ascii?Q?dRo4Lj7IDXraunZV+xC+vO3ary0wjdxABKkjr8MwDPv10Oc7VNOzJnNM/2hE?=
- =?us-ascii?Q?oxEXaPa1e4OH2f/3IESYKnFvAuadzhIdgFkDLChQF0tD1e5ldEZ68Pz353yh?=
- =?us-ascii?Q?Qrcj2qrZoXMTzeafW0/QUg8DmXCS1ieHnYMIj/SbqUhP7TE7T4ETWzhzdtxp?=
- =?us-ascii?Q?Ny6XhMw5yxMMQaJLF1+Pa+HhPS1Fj/F3YlzfxYAaugdTUapkUm3AewpfaSqB?=
- =?us-ascii?Q?oGz+SRH5/Ya519uJ+uYDy1159RXLV0bHMxZPeMm00ZJFkDkyKz0KEnTqrX+N?=
- =?us-ascii?Q?BriyLObvdd2cbF+FjgQVNCfDT2HkbsrKJ+7sz45lOC8TfmUKmezEyeMl1edO?=
- =?us-ascii?Q?HeFeKtd+Y8IKJcZsd765ihI/fl1nGbWRwysIlGkeMtaSeyWb75e8cc3kC3T3?=
- =?us-ascii?Q?3XmO7+nNK5m7i+86DgzLkqoryBZzqgM/D8Rk99WRSe8IFTIV1ZNhEiQgADc6?=
- =?us-ascii?Q?wLxmyGiMsA1gNdlVifZF+fxhUjshUCYLDXuq0GdvlZinFFed9lk4hLREaALQ?=
- =?us-ascii?Q?C9dEM5dvE0n8lDIXvvyhLAgHF/x2BJqH8aSbVfW8BQyLh7d5sB1SGKIFYAZA?=
- =?us-ascii?Q?3s0S+2suTlwq4+cLUeeM8UAA+P2PaqRi5/ta3JWdAUbtYIXE4a5gpNG4ead7?=
- =?us-ascii?Q?exjavlU6E9GTQjLDLnIyF1Zlso0ExrzCoyiccfLeSk69uIc7l7ly5Zq8j6+y?=
- =?us-ascii?Q?+7KapkYS7ddlTzg/+Y5Euo+T?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rqPlT15u4aKw8kPIFqFkSvY2KoVnhY36Zl2T6Tb63rUq9E0Lp1s5zxU79wJY?=
+ =?us-ascii?Q?uXrHaLw6FbaKFBE7iyZj7fcyWXdpe9D43B3DD+cT2zGTqxLjY+0XOjS03zdq?=
+ =?us-ascii?Q?fBhoORYikb6N0GL40bI+zCuvfEUnvP6gGCZj0TSctzjXMyIgzgUDzqWsMiwp?=
+ =?us-ascii?Q?3LphzRBs6PjxRB8Jo0r+DirPEd6ybACIDgfeyywgp12n5f04PutRqP+1lmUc?=
+ =?us-ascii?Q?ufW4K+ciXrJiHkAMt90buvgfj2snNRNR9GiEphneCBjzqQq2fP4lEvVeQnf4?=
+ =?us-ascii?Q?zkA74fQcDbz8QD3uEtOWZJtp5WRwGFk84me8pQ3SJsUCYp5wA3m2dehGHYXH?=
+ =?us-ascii?Q?8ZClZgGfiRuBCwLZb+rvW9QBwAMtw7Bi/PCA86JdfpZHzsvtSCV9U+KLeHGh?=
+ =?us-ascii?Q?HV7H21+ZAmFyFYdHD/OmQM8VOs7rh3HOzz8OdNQO1XF6xiCMzbcMH1NjrkWr?=
+ =?us-ascii?Q?3h1/kjUxh/dPW5S6VFxoeWwV4B8WiNWwvLtQuu8+bJ1lrAUDQZENtfHpH4dE?=
+ =?us-ascii?Q?hRabaE5Rh2cVriMsXzWIS1G0p73LIKJUpmRdqiWqqpHcrwxzEyoFyC+YrIqW?=
+ =?us-ascii?Q?Ax/7GeWwzJAG73jwUbC+TU2ZXJkOYUq5PjM/HT3k6iPy1n9D4Zda3mcAn64L?=
+ =?us-ascii?Q?si9YNuRo786DFOxSJ+5czlyQkdZhtdtdCQ6fsTe93IMmd6W1g6JwRwp6hh3X?=
+ =?us-ascii?Q?Asxke1PqlR8fgDj19DkFTumPdP22quqfGZn5ZKnvmQQlteeNh/GUcINyZdu6?=
+ =?us-ascii?Q?kBBltk4aJPT1hT8uV1A9VC01ZQmYIwB+Wn5qeeWaAlxNoS2kmZHJLWw31FhI?=
+ =?us-ascii?Q?dc6ZfRpQfr+A5lza7fuSAyOa2pRlg5gOJBS4uHnL1OBg3N6MThzoErMfwyps?=
+ =?us-ascii?Q?MvcuXrtW7ndsqJodSbLi3u/7ZSEiIMA9CTxNZ3MTHDPvdxlbydI0aoznptqb?=
+ =?us-ascii?Q?vyerTOZF53Fg7H3cVzlCuZeCQqLdI0n8gYu9N9Cw2fzValX4pIcrDXzlSxJS?=
+ =?us-ascii?Q?rUF9PGzUsApx+npe9bKvIYugBPm/Rd5dsiCTu492cTFsyaeh5qYfoFjew/vk?=
+ =?us-ascii?Q?bGt4ThLdOyQ3/IvoaoyZh0IirAvErH5UlvYOPVMNAciGaB66H80iEpyDjQVC?=
+ =?us-ascii?Q?o4+cacjtt27WURtvzdZxWBEmMhPYIg6E89wDHZAgYuSu4+SYib8M3zx1lPr7?=
+ =?us-ascii?Q?RYuh8j4rfiBBKFTZybJYp7nBD8WRFeiibVYDP7XnE1C8lLSAA+CDnbJKzIr5?=
+ =?us-ascii?Q?weV5nBoRGQHTbi4hOfA9tUWHVJL3DydplIrxD37YiWUHk9dUgnTh1L/sG1J5?=
+ =?us-ascii?Q?NmPgMeFxb2cT5g+9kjBfUk3J?=
 X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59cf5a78-500a-4faa-344d-08d945c2bd61
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f22a43d-6bde-446a-cc52-08d945c394be
 X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2021 05:54:55.7109 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2021 06:00:57.0174 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: smBguKr95Q4IqhWCuS0nn3Yx/24pHkzjMfF7Bix6ruQvgsPNCVkpWaV7t8+LkDZenah2nnOyvsBJ9naZOOn7/rnKix0iquldowea9GLCz0U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR01MB6535
+X-MS-Exchange-CrossTenant-UserPrincipalName: s7hKmBHOQXWRDegLSowWvRvUpb9Y0hDhy7nFVHix99UKu4AmKwAVz6I7UPCgXtfxwB4/JKNpWlyBXpx19NC9IUg5RHvQvfLOxtFOhvIK4mw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR01MB6323
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,84 +142,82 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Slave needs time to prepare the response data before Master could
-enquiry via read transaction. However, there is no mechanism for
-i2c-aspeed Slave to notify Master that it needs more time to process
-and this make Master side to time out when trying to get the response.
+This patch series adds support for Ampere SMpro hwmon driver. This
+driver supports accessing various CPU sensors provided by the SMpro
+co-processor including temperature, power, voltages, and current found
+on Ampere Altra processor family.
 
-This commit introduces the slave_enable() callback in struct
-i2c_algorithm for Slave to temporary stop the Slave mode while working
-on the response and re-enable the Slave when response data ready.
+The SMpro co-processor on Ampere Altra processor family is to monitor
+and report various data included hwmon-related info, RAS errors, and
+other miscellaneous information. The SMPro MFD driver intializes the
+register map and instantiates all sub-devices. All the specifics will
+be handled in the child drivers.
 
-Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
----
+v5:
+  + Introduced the smpro-mfd driver and drop the use of
+  simple-mfd-i2c driver to avoid DT node with no resource in child
+  device DT nodes [Rob]
+  + Removed the use of reg DT property in child driver [Quan]
+  + Validated ManufactureID when probing smpro-mfd drivers [Quan]
+  + As child devices are instantiated by SMPro MFD driver, drop the
+  ManufacturerID checking in child driver, ie: smpro-hwmon [Quan]
+  + Revised commit messages [Quan]
+
 v4:
-  + First introduced follow Ryan's suggestion               [Ryan]
-  + Fix recursive spinlock issue in v3 (aspeed_set_slave_busy())
-  and apply in this patch                                 [Graeme]
+  + Revised commit message [Quan]
+  + Fixed build issue found by kernel test robot [Guenter]
+  + Returned regmap_read() error code [Guenter]
 
- drivers/i2c/busses/i2c-aspeed.c | 20 ++++++++++++++++++++
- include/linux/i2c.h             |  2 ++
- 2 files changed, 22 insertions(+)
+v3:
+  + Supported list of compatible string [Rob]
+  + Introduced reg property in DT to specify reg offset [Rob]
+  + Updated description and other minor changes in yaml file [Rob]
+  + Handled negative temperature value [Guenter]
+  + Returned -ENODEV if Manufacturer ID is wrong [Guenter]
+  + Refactored smpro_read_string() and smpro_temp_read() [Guenter]
+  + Removed smpro_write() function [Guenter]
+  + Added minor refactor changes [Quan]
 
-diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-index 67e8b97c0c95..a6a19dc8a501 100644
---- a/drivers/i2c/busses/i2c-aspeed.c
-+++ b/drivers/i2c/busses/i2c-aspeed.c
-@@ -785,6 +785,25 @@ static int aspeed_i2c_unreg_slave(struct i2c_client *client)
- 
- 	return 0;
- }
-+
-+static int aspeed_i2c_slave_enable(struct i2c_client *client, bool enable)
-+{
-+	struct aspeed_i2c_bus *bus = i2c_get_adapdata(client->adapter);
-+	u32 func_ctrl_reg_val;
-+
-+	if (!bus->slave)
-+		return -EINVAL;
-+
-+	/* Toggle slave mode. */
-+	func_ctrl_reg_val = readl(bus->base + ASPEED_I2C_FUN_CTRL_REG);
-+	if (enable)
-+		func_ctrl_reg_val |= ASPEED_I2CD_SLAVE_EN;
-+	else
-+		func_ctrl_reg_val &= ~ASPEED_I2CD_SLAVE_EN;
-+	writel(func_ctrl_reg_val, bus->base + ASPEED_I2C_FUN_CTRL_REG);
-+
-+	return 0;
-+}
- #endif /* CONFIG_I2C_SLAVE */
- 
- static const struct i2c_algorithm aspeed_i2c_algo = {
-@@ -793,6 +812,7 @@ static const struct i2c_algorithm aspeed_i2c_algo = {
- #if IS_ENABLED(CONFIG_I2C_SLAVE)
- 	.reg_slave	= aspeed_i2c_reg_slave,
- 	.unreg_slave	= aspeed_i2c_unreg_slave,
-+	.slave_enable	= aspeed_i2c_slave_enable,
- #endif /* CONFIG_I2C_SLAVE */
- };
- 
-diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-index 3eb60a2e9e61..8c1765aa7e3f 100644
---- a/include/linux/i2c.h
-+++ b/include/linux/i2c.h
-@@ -520,6 +520,7 @@ i2c_register_board_info(int busnum, struct i2c_board_info const *info,
-  *   from the ``I2C_FUNC_*`` flags.
-  * @reg_slave: Register given client to I2C slave mode of this adapter
-  * @unreg_slave: Unregister given client from I2C slave mode of this adapter
-+ * @slave_enable: Toggle enable slave mode for given client of this adapter
-  *
-  * The following structs are for those who like to implement new bus drivers:
-  * i2c_algorithm is the interface to a class of hardware solutions which can
-@@ -557,6 +558,7 @@ struct i2c_algorithm {
- #if IS_ENABLED(CONFIG_I2C_SLAVE)
- 	int (*reg_slave)(struct i2c_client *client);
- 	int (*unreg_slave)(struct i2c_client *client);
-+	int (*slave_enable)(struct i2c_client *client, bool enable);
- #endif
- };
- 
+v2:
+  + Used 'struct of_device_id's .data attribute [Lee Jones]
+  + Removed "virtual" sensors [Guenter]
+  + Fixed typo "mili" to "milli", "nanoWatt" to "microWatt" [Guenter]
+  + Reported SOC_TDP as "Socket TDP" using max attributes [Guenter]
+  + Clarified "highest" meaning in documentation [Guenter]
+  + Corrected return error code when host is turn off [Guenter]
+  + Reported MEM HOT Threshold for all DIMMs as temp*_crit [Guenter]
+  + Removed license info as SPDX-License-Identifier existed [Guenter]
+  + Added is_visible() support [Guenter]
+  + Used HWMON_CHANNEL_INFO() macro and LABEL attributes [Guenter]
+  + Made is_valid_id() return boolean [Guenter]
+  + Returned -EPROBE_DEFER when smpro reg inaccessible [Guenter]
+  + Removed unnecessary error message when dev register fail [Guenter]
+  + Removed Socket TDP sensor [Quan]
+  + Changed "ampere,ac01-smpro" to "ampere,smpro" [Quan]
+  + Included sensor type and channel in labels [Quan]
+  + Refactorized code to fix checkpatch.pl --strict complaint [Quan]
+
+Quan Nguyen (4):
+  dt-bindings: mfd: Add bindings for Ampere Altra SMPro MFD driver
+  mfd: smpro-mfd: Adds Ampere's Altra SMpro MFD driver
+  hwmon: smpro: Add Ampere's Altra smpro-hwmon driver
+  docs: hwmon: (smpro-hwmon) Add documentation
+
+ .../devicetree/bindings/mfd/ampere,smpro.yaml |  52 ++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/smpro-hwmon.rst           | 101 ++++
+ drivers/hwmon/Kconfig                         |   8 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/smpro-hwmon.c                   | 463 ++++++++++++++++++
+ drivers/mfd/Kconfig                           |  12 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/smpro-mfd.c                       |  74 +++
+ 9 files changed, 713 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
+ create mode 100644 Documentation/hwmon/smpro-hwmon.rst
+ create mode 100644 drivers/hwmon/smpro-hwmon.c
+ create mode 100644 drivers/mfd/smpro-mfd.c
+
 -- 
 2.28.0
 
