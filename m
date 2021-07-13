@@ -2,59 +2,59 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC9283C797B
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Jul 2021 00:14:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 578543C79CC
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Jul 2021 00:44:23 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GPZgS64Msz306l
-	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Jul 2021 08:14:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GPbKd2HHhz3066
+	for <lists+linux-aspeed@lfdr.de>; Wed, 14 Jul 2021 08:44:21 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.166.41; helo=mail-io1-f41.google.com;
+ smtp.mailfrom=gmail.com (client-ip=209.85.166.52; helo=mail-io1-f52.google.com;
  envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
- [209.85.166.41])
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
+ [209.85.166.52])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GPZgM20c5z2yNT
- for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Jul 2021 08:14:38 +1000 (AEST)
-Received: by mail-io1-f41.google.com with SMTP id z11so7453560iow.0
- for <linux-aspeed@lists.ozlabs.org>; Tue, 13 Jul 2021 15:14:38 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GPbKY3QF0z2xy3
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Jul 2021 08:44:16 +1000 (AEST)
+Received: by mail-io1-f52.google.com with SMTP id u7so29219331ion.3
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 13 Jul 2021 15:44:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=RpU6tfEd13P9yTBdvZdhGhlLt5ObHps/ZkeBp0WE0QA=;
- b=afVV/zFN1b33XDkYTTC7jyRB2I3CeIQJ3cKHWdLSz4r8Olqf3vtn1kxaTIEVcZMAkS
- XAteYd+53EXW9W1MNPxEmQoa0zbBarqGQb3iEpbmgHM0I2/DlG1CgflWHw5Ok98z4GB0
- hLiSnrenIv/AbGCsSI4+baMqWYgAchjw8C9zsqSRtQ0AngqD3jwTwpSSrUHX86Efd023
- PcVUanF2pHtw4te5qVIZUaXRn9DXFytBfMI6Bm8DqzuTmbBqLs9t959nidgwDRmaE136
- RtGfidJXii9pRvPjYlQQTrKOHSQMWFLaFnGEZICFM/Q23irZs96J+0Ia7+h/C/+zuEKo
- 1fhA==
-X-Gm-Message-State: AOAM533+lOlmssFPBP/9FfkT5TfbKEh90biFSEP+0LTPE5BO0ScA/PFf
- 0iUdVVG7pMv/PAG9W9IbvA==
-X-Google-Smtp-Source: ABdhPJzuVTo5lRZxqxJXVtSulqUkfqAXPBFkEEpwR+JcZEG4LgbqZ7v6QYhqAItUH3hRjVsS4lroTA==
-X-Received: by 2002:a05:6638:3882:: with SMTP id
- b2mr6002780jav.15.1626214475237; 
- Tue, 13 Jul 2021 15:14:35 -0700 (PDT)
+ bh=/1Qu7cMHa9uzbYo7ijXv1POZZirJoa4gkML3s+GgcbM=;
+ b=dF5OOwVVvDyS4wODVVOPS/wPpXr/PLhl/83urMNU4ibVuDr51gTwiO0NlpgEkRXMHp
+ DJ16EHpKmwcAoJ+9uDMgY0rsXPERO0kWamEa321knTpdnNZ60305j/GX4gs2fLnkMV+R
+ ArjBHntUR+r+IsW9V7ZKbYHduDh+fUUpS4jRka3DdvOKTeqMi0yQJosr/e9OJQ053+QZ
+ y+yG9IQmsCtwMWu+TsBEOrbSgUVzSdP4tqT0vGeoa8Xr2XroXLuOE4uxk9Gxd6CXsSEg
+ Uuyd+NdusbF0abfVPvBVhDnYEBIlciPJS5IjLemzc7TD8ZIbISjDtxAHVXxEdoZtwq/M
+ 5WsQ==
+X-Gm-Message-State: AOAM533k+GoGQUl5y4kzwov+Uop8061ZYUwIz0o1Mx6+WuZe2UQ7q5CC
+ dK6ppBdXii74b7FYmpJ/xw==
+X-Google-Smtp-Source: ABdhPJzvmAfJKZ7SSfXPpwfF6OxiNSXzxMH5ZbpeWkU8qDr2LMSI2feSX2xxnpi1I9TrTAAvde/cuQ==
+X-Received: by 2002:a05:6602:8c3:: with SMTP id
+ h3mr4877942ioz.144.1626216254403; 
+ Tue, 13 Jul 2021 15:44:14 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
- by smtp.gmail.com with ESMTPSA id z22sm73610iog.13.2021.07.13.15.14.33
+ by smtp.gmail.com with ESMTPSA id c19sm193611ili.62.2021.07.13.15.44.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 15:14:34 -0700 (PDT)
-Received: (nullmailer pid 941748 invoked by uid 1000);
- Tue, 13 Jul 2021 22:14:31 -0000
-Date: Tue, 13 Jul 2021 16:14:31 -0600
+ Tue, 13 Jul 2021 15:44:13 -0700 (PDT)
+Received: (nullmailer pid 987828 invoked by uid 1000);
+ Tue, 13 Jul 2021 22:44:10 -0000
+Date: Tue, 13 Jul 2021 16:44:10 -0600
 From: Rob Herring <robh@kernel.org>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [v9 1/2] dt-bindings: Add bindings for aspeed pwm-tach.
-Message-ID: <20210713221431.GA936073@robh.at.kernel.org>
-References: <20210709065217.6153-1-billy_tsai@aspeedtech.com>
- <20210709065217.6153-2-billy_tsai@aspeedtech.com>
+To: Steven Lee <steven_lee@aspeedtech.com>
+Subject: Re: [PATCH v6 2/9] dt-bindings: aspeed-sgpio: Add ast2600 sgpio
+Message-ID: <20210713224410.GA987786@robh.at.kernel.org>
+References: <20210712100317.23298-1-steven_lee@aspeedtech.com>
+ <20210712100317.23298-3-steven_lee@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210709065217.6153-2-billy_tsai@aspeedtech.com>
+In-Reply-To: <20210712100317.23298-3-steven_lee@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,274 +66,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-pwm@vger.kernel.org, BMC-SW@aspeedtech.com, linux-kernel@vger.kernel.org,
- thierry.reding@gmail.com, p.zabel@pengutronix.de,
- u.kleine-koenig@pengutronix.de, lee.jones@linaro.org,
- linux-arm-kernel@lists.infradead.org
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, Hongweiz@ami.com,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Jul 09, 2021 at 02:52:16PM +0800, Billy Tsai wrote:
-> This patch adds device binding for aspeed pwm-tach device which is a
-> multi-function device include pwm and tach function and pwm/tach device
-> bindings which should be the child-node of pwm-tach device.
-
-I'll say it again, the fan control h/w needs some common bindings for 
-describing fans and fan connections to pwm and tach. I'm not going to 
-sign off on more fan bindings just doing their own thing.
-
+On Mon, 12 Jul 2021 18:03:09 +0800, Steven Lee wrote:
+> AST2600 SoC has 2 SGPIO master interfaces one with 128 pins another one
+> with 80 pins. Add ast2600-sgpiom compatibles and update descriptions to
+> introduce the max number of available gpio pins that AST2600 supported.
 > 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
 > ---
->  .../bindings/hwmon/aspeed,ast2600-tach.yaml   | 69 +++++++++++++++
->  .../bindings/mfd/aspeed,ast2600-pwm-tach.yaml | 87 +++++++++++++++++++
->  .../bindings/pwm/aspeed,ast2600-pwm.yaml      | 64 ++++++++++++++
->  3 files changed, 220 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml
->  create mode 100644 Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
->  create mode 100644 Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
+>  Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml b/Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml
-> new file mode 100644
-> index 000000000000..a08471f96a61
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml
-> @@ -0,0 +1,69 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2021 Aspeed, Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/hwmon/aspeed,ast2600-tach.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Aspeed Ast2600 Tach controller
-> +
-> +maintainers:
-> +  - Billy Tsai <billy_tsai@aspeedtech.com>
-> +
-> +description: |
-> +  The Aspeed Tach controller can support upto 16 fan input.
-> +  This module is part of the ast2600-pwm-tach multi-function device. For more
-> +  details see ../mfd/aspeed,ast2600-pwm-tach.yaml.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2600-tach
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  pinctrl-0: true
-> +
-> +  pinctrl-names:
-> +    const: default
-> +
-> +required:
-> +  - compatible
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +
-> +additionalProperties:
-> +  type: object
-> +  properties:
-> +    reg:
-> +      description:
-> +        The tach channel used for this fan.
-> +      maxItems: 1
-> +
-> +    aspeed,min-rpm:
-> +      description:
-> +        define the minimal revolutions per minute of the measure fan
-> +        used to calculate the sample period of tach
-> +      default: 1000
-> +
-> +    aspeed,pulse-pr:
-> +      description:
-> +        Value specifying the number of pulses per revolution of the
-> +        monitored FAN.
-> +      default: 2
-> +
-> +    aspeed,tach-div:
-> +      description:
-> +        define the tachometer clock divider as an integer. Formula of
-> +        tach clock = clock source / (2^tach-div)^2
-> +      minimum: 0
-> +      maximum: 15
-> +      # The value that should be used if the property is not present
-> +      default: 5
-> +
-> +  required:
-> +    - reg
-> diff --git a/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml b/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
-> new file mode 100644
-> index 000000000000..ab49aff1928a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
-> @@ -0,0 +1,87 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2021 Aspeed, Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/aspeed,ast2600-pwm-tach.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: PWM Tach controller Device Tree Bindings
-> +
-> +description: |
-> +  The PWM Tach controller is represented as a multi-function device which
-> +  includes:
-> +    PWM
-> +    Tach
-> +
-> +maintainers:
-> +  - Billy Tsai <billy_tsai@aspeedtech.com>
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - aspeed,ast2600-pwm-tach
-> +      - const: syscon
-> +      - const: simple-mfd
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - resets
-> +
-> +patternProperties:
-> +  "^pwm(@[0-9a-f]+)?$":
-> +    $ref: ../pwm/aspeed,ast2600-pwm.yaml
-> +
-> +  "^tach(@[0-9a-f]+)?$":
-> +    $ref: ../hwmon/aspeed,ast2600-tach.yaml
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/ast2600-clock.h>
-> +    pwm_tach: pwm_tach@1e610000 {
-> +      compatible = "aspeed,ast2600-pwm-tach", "syscon", "simple-mfd";
-> +      reg = <0x1e610000 0x100>;
-> +      clocks = <&syscon ASPEED_CLK_AHB>;
-> +      resets = <&syscon ASPEED_RESET_PWM>;
-> +
-> +      pwm: pwm {
-> +        compatible = "aspeed,ast2600-pwm";
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        #pwm-cells = <3>;
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&pinctrl_pwm0_default>;
-> +        pwm-ch@0 {
-> +          reg = <0>;
-> +          aspeed,wdt-reload-enable;
-> +          aspeed,wdt-reload-duty-point = <32>;
-> +        };
-> +      };
-> +
-> +      tach: tach {
-> +        compatible = "aspeed,ast2600-tach";
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&pinctrl_tach0_default>;
-> +        tach-ch@0 {
-> +          reg = <0>;
-> +          aspeed,min-rpm = <1000>;
-> +          aspeed,pulse-pr = <2>;
-> +          aspeed,tach-div = <5>;
-> +        };
-> +      };
-> +    };
-> diff --git a/Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml b/Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
-> new file mode 100644
-> index 000000000000..f501f8a769df
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
-> @@ -0,0 +1,64 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2021 Aspeed, Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pwm/aspeed,ast2600-pwm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Aspeed Ast2600 PWM controller
-> +
-> +maintainers:
-> +  - Billy Tsai <billy_tsai@aspeedtech.com>
-> +
-> +description: |
-> +  The Aspeed PWM controller can support upto 16 PWM outputs.
-> +  This module is part of the ast2600-pwm-tach multi-function device. For more
-> +  details see ../mfd/aspeed,ast2600-pwm-tach.yaml.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2600-pwm
-> +
-> +  "#pwm-cells":
-> +    const: 3
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  pinctrl-0: true
-> +
-> +  pinctrl-names:
-> +    const: default
-> +
-> +required:
-> +  - compatible
-> +  - "#pwm-cells"
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +
-> +additionalProperties:
-> +  description: Set extend properties for each pwm channel.
-> +  type: object
-> +  properties:
-> +    reg:
-> +      description:
-> +        The pwm channel index.
-> +      maxItems: 1
-> +
-> +    aspeed,wdt-reload-enable:
-> +      type: boolean
-> +      description:
-> +        Enable the function of wdt reset reload duty point.
-> +
-> +    aspeed,wdt-reload-duty-point:
-> +      description:
-> +        Define the duty point after wdt reset, 0 = 100%
-> +      minimum: 0
-> +      maximum: 255
-> +
-> +  required:
-> +    - reg
-> -- 
-> 2.25.1
-> 
-> 
+
+Reviewed-by: Rob Herring <robh@kernel.org>
