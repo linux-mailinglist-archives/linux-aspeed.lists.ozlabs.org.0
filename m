@@ -1,70 +1,74 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C69A3CAF2A
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Jul 2021 00:36:29 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A0353CAF33
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Jul 2021 00:36:52 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GQq3b4BW2z2yxB
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Jul 2021 08:36:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GQq422Pjmz2ymZ
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Jul 2021 08:36:50 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel-com.20150623.gappssmtp.com header.i=@intel-com.20150623.gappssmtp.com header.a=rsa-sha256 header.s=20150623 header.b=x+X7r/05;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=intel.com (client-ip=192.55.52.88; helo=mga01.intel.com;
- envelope-from=tony.luck@intel.com; receiver=<UNKNOWN>)
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=intel.com (client-ip=2607:f8b0:4864:20::1029;
+ helo=mail-pj1-x1029.google.com; envelope-from=dan.j.williams@intel.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=intel-com.20150623.gappssmtp.com
+ header.i=@intel-com.20150623.gappssmtp.com header.a=rsa-sha256
+ header.s=20150623 header.b=x+X7r/05; dkim-atps=neutral
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GQjcV27KFz2yhr;
- Fri, 16 Jul 2021 04:30:57 +1000 (AEST)
-X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="232435789"
-X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; d="scan'208";a="232435789"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2021 11:29:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,243,1620716400"; d="scan'208";a="413725599"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by orsmga003.jf.intel.com with ESMTP; 15 Jul 2021 11:29:47 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Thu, 15 Jul 2021 11:29:47 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Thu, 15 Jul 2021 11:29:46 -0700
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2242.010;
- Thu, 15 Jul 2021 11:29:46 -0700
-From: "Luck, Tony" <tony.luck@intel.com>
-To: "Williams, Dan J" <dan.j.williams@intel.com>, "Winiarska, Iwona"
- <iwona.winiarska@intel.com>
-Subject: RE: [PATCH 01/14] x86/cpu: Move intel-family to arch-independent
- headers
-Thread-Topic: [PATCH 01/14] x86/cpu: Move intel-family to arch-independent
- headers
-Thread-Index: AQHXd2pbzZadhIqqdEqWEklQPBy5PKtDKGuAgAGQOwCAABg7gP//jU5Q
-Date: Thu, 15 Jul 2021 18:29:46 +0000
-Message-ID: <475c3f70da104d4bac6a902cc41e48d8@intel.com>
-References: <20210712220447.957418-1-iwona.winiarska@intel.com>
- <20210712220447.957418-2-iwona.winiarska@intel.com>
- <32c71687f11fb418dafa45ecf15f7c6b50dd0397.camel@intel.com>
- <218ef97a68491e88d8012799385ee244544a157a.camel@intel.com>
- <CAPcyv4hxsjKjLkEgGuG6tHvYxUa69315OvhYRORvCtXv6vu2nw@mail.gmail.com>
-In-Reply-To: <CAPcyv4hxsjKjLkEgGuG6tHvYxUa69315OvhYRORvCtXv6vu2nw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GQl2X0RNqz3btV
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Jul 2021 05:35:13 +1000 (AEST)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ b5-20020a17090a9905b029016fc06f6c5bso5209773pjp.5
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Jul 2021 12:35:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=intel-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tWQzYFArmX7BK0KtHhu7qCMLH8EpJJltCicUZnmhozs=;
+ b=x+X7r/05mLeYMY5IOOQXqOPlH4+7oeO79bZ5YPDJ++PHDQKt0r4FcvE/lkq15akq7B
+ Ce5RF/y77x9dJasWX7jMdKXiDyCRNfCPc0xcdgmMO0nH9GJ8PcKjDkDCNNwh88V3I8q+
+ DVd8W4UyeBtFOTbd2yOFKy6XhIXfiUb4cjWvUYZNsBW6xRsYQlKKhDyHMQ8HR13L0zF5
+ yJn4825mzOpNHdMV2eZ72kAoCCdIieowUKQvUmzKFsCD1CehD3TdyOBZuq4PFKBRFYvE
+ J7XyrEX7xMecHu4TmiRqBc6ToIEqTL1RABDWAcgFcJqtXWCwwkUwT8cTATLu+1RfuxFH
+ zOzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tWQzYFArmX7BK0KtHhu7qCMLH8EpJJltCicUZnmhozs=;
+ b=Iuaahqj5MGd9atTcoilAG3Mk3EwUXKjgCPZgQc3/i9xSe88PUW/tbCmwjqEN/iueCH
+ UZPtl4sBpCPu+8fhLYASYXKGhyvOcS0nwLl3zT57csnL0Zlt4ON8cN/Y483kM9sNtg+O
+ gVE3UXbSwqiZ1DxaZeeVKMfwAakpe8jxBUR5gKCsTeIPikP/BDkYwvh/i3vQsKP8GFFj
+ tGYKCa9UWkY8kzai3+4jdrihkO2puqSpz1DNh4tgCxwOIqwbVKQ5aw3qlcH0Fmh3D5Qo
+ XVs+h6K41xpWcPnFnZE4M4Uvttlomkc5JUIXhijxQqdxC+f2iJoezwSGZMJwhNDkmBJq
+ XBsQ==
+X-Gm-Message-State: AOAM530g62s1lVRSLZo/AKtpM8RPCpGZOebzvGw5dcTk/7PGTAkGyk73
+ I5yjTB+DLVlTwpSMBlRHAW1pzVdeIDw3LdrJAzjXfQ==
+X-Google-Smtp-Source: ABdhPJwxNVyUFsXl8r6NxD+c6uWM8R2fmbcCrxfwX4wABHvVgCgyv6hXJdQx4qtT/3WKROCvcTTm94Gam5hqhrB02Do=
+X-Received: by 2002:a17:90a:8407:: with SMTP id
+ j7mr11756922pjn.13.1626377708767; 
+ Thu, 15 Jul 2021 12:35:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 16 Jul 2021 08:36:25 +1000
+References: <20210712220447.957418-1-iwona.winiarska@intel.com>
+ <3b9cfe5f728c40c473a22070029c8790b452daf4.camel@intel.com>
+ <fe9a5191e401b38325aaff11365b5970034d26cc.camel@intel.com>
+In-Reply-To: <fe9a5191e401b38325aaff11365b5970034d26cc.camel@intel.com>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Thu, 15 Jul 2021 12:34:58 -0700
+Message-ID: <CAPcyv4h-PrBhPU7FcuKwk++o5unKY03H85M-inpDGvmDh-ybGQ@mail.gmail.com>
+Subject: Re: [PATCH 00/14] Introduce PECI subsystem
+To: "Winiarska, Iwona" <iwona.winiarska@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Fri, 16 Jul 2021 08:36:32 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,7 +96,8 @@ Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
  "tglx@linutronix.de" <tglx@linutronix.de>,
  "mchehab@kernel.org" <mchehab@kernel.org>,
  "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "Luck,
+ Tony" <tony.luck@intel.com>,
  "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>
@@ -100,16 +105,41 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-PiBIYXZpbmcgMiBwb3RlbnRpYWwgcGxhY2VzIGZvciB0aGUgc2FtZSBkZWZpbml0aW9uIGNhdXNl
-cyBhIHNtYWxsDQo+IG9uZ29pbmcgbWFpbnRlbmFuY2UgLyByZXZpZXcgYnVyZGVuLCBzbyBJIHZv
-dGUgbW92aW5nIHRoZSBmaWxlIHJhdGhlcg0KPiB0aGFuIGxlYXZpbmcgYSBwbGFjZSBob2xkZXIs
-IGJ1dCBpdCdzIHVsdGltYXRlbHkgYW4geDg2IG1haW50YWluZXINCj4gY2FsbC4NCg0KSSB0aG91
-Z2h0IHRoZSBwYXRjaCBrZXB0IHRoZSBvbGQgZmlsZSBhcyBhIHN0dWIgd2l0aCBqdXN0IG9uZSBs
-aW5lOg0KDQojaW5jbHVkZSA8bGludXgveDg2L2ludGVsLWZhbWlseS5oPg0KDQp0byBncmFiIHRo
-ZSByZWFsIGRhdGEgZnJvbSB0aGUgbmV3IGxvY2F0aW9uLiAgU28gdGhlIGluZm9ybWF0aW9uIGlz
-bid0DQppbiB0d28gcGxhY2VzLg0KDQokIGdpdCBncmVwIC1sIGFzbS9pbnRlbC1mYW1pbHkuaCB8
-IHdjIC1sDQo1Mw0KDQpEYW5nLiBXZSBzZWVtIHRvIGxvdmUgc3ByYXlpbmcgbW9kZWwgc3BlY2lm
-aWMgY29kZSBhbGwgb3ZlciB0aGUgcGxhY2UgOi0oDQoNCk15IG9waW5pb24gaXMgdG8gcG9zdCBh
-cyBJd29uYSB3cm90ZSBpdCAuLi4gYnV0IGJlIHByZXBhcmVkIGZvciB0aGUgbWFpbnRhaW5lcnMN
-CnRvIHNheSAiSXQncyBvbmx5IDUzIGZpbGVzIC4uLiBqdXN0IGZpeCB0aGVtIGFsbCINCg0KLVRv
-bnkNCg0K
+On Thu, Jul 15, 2021 at 10:33 AM Winiarska, Iwona
+<iwona.winiarska@intel.com> wrote:
+>
+> On Wed, 2021-07-14 at 16:51 +0000, Williams, Dan J wrote:
+> > On Tue, 2021-07-13 at 00:04 +0200, Iwona Winiarska wrote:
+> > > Note: All changes to arch/x86 are contained within patches 01-02.
+> >
+> > Hi Iwona,
+> >
+> > One meta question first, who is this submission "To:"? Is there an
+> > existing upstream maintainer path for OpenBMC changes? Are you
+> > expecting contributions to this subsystem from others? While Greg
+> > sometimes ends up as default maintainer for new stuff, I wonder if
+> > someone from the OpenBMC commnuity should step up to fill this role?
+> >
+>
+> The intention was to direct it to Greg, but I guess I didn't express
+> that through the mail headers.
+
+Usually something like a "Hey Greg, please consider applying..." in
+the cover letter lets people know who the upstream path is for the
+series.
+
+> I am expecting contributions - for example there is at least one other
+> major BMC vendor which also ships PECI controllers.
+
+You're expecting to take patches from them and you'll forward them to
+Greg, or they'll go to Greg directly?
+
+>
+> From my perspective, the pieces that make up a BMC are pretty loosely
+> connected (at least from the kernel perspective - scattered all over
+> the kernel tree), so I don't see how that would work in practice.
+
+No worries, Greg continues to scale more than other mere mortals for
+these kinds of things. I was more asking because it was not clear from
+these patches, nor MAINTAINERS, and it's healthy for Linux to grow new
+patch wranglers from time to time.
