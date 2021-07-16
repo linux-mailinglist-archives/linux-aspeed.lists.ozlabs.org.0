@@ -1,139 +1,51 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006743CB0E0
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Jul 2021 04:48:31 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00BC93CB104
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Jul 2021 05:14:44 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GQwfN5vsVz3000
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Jul 2021 12:48:28 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=bmP8cHdT;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GQxDd68Mlz3004
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Jul 2021 13:14:41 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=os.amperecomputing.com (client-ip=40.107.223.97;
- helo=nam11-dm6-obe.outbound.protection.outlook.com;
- envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com
- header.a=rsa-sha256 header.s=selector2 header.b=bmP8cHdT; 
- dkim-atps=neutral
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2097.outbound.protection.outlook.com [40.107.223.97])
+Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com;
+ receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GQwfK0vSgz2yN8
- for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Jul 2021 12:48:24 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IFuc5y7wjR52Km5DwegyKnWAzdQpnSX8cR1wVGuGb4OJZRF7+ZYRwQz2KFj4GeVn/U6XPcjCWKYqOFF0blmDAK5hwJFhX6LYojpNZbtmqKJoFhY1f/ZvkijgmKLsiOcg16xoXzCvm7n4d+XgiFIofhQOuSQ2jRyp1F+lXEYEikKsQqlwdudSYAW5jw9+TrZM+ZrJidUtjcPDuNkQI8Q6yljBGovZJ+kxASFKUpR/h+FQsaMYkmXLPDUB58rPckjCs6QVZa2d2Vb2r5VGhyTvZM5JOPSiie7G/Zn+58B+iGzgiksevUtis6V7juZslouY4HN5pNriJUOlH35dYSb0Vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H7zw78nN5+ZzVr2zvrgkL75ETOX1lHS4TBEMKxEt4Yc=;
- b=jxK0Ma0WnqocTxmyJFn5KouWIp4wS0olzNqRhkVZ2cmV3nJ1Q45ffyvboRp5djh44VZCXFG1aVZ3kl2ZGuu6jw9cLBfzgy8W1fhsorsL9t3xiL8ITMl/wp+jswoX1e9NTKUM63yugX+6E60z+4acSdJupJbEcVL/PQ9jswfo6BaoQJidCr8NL6kihlKR/SjIfQiQMprUBOW41VKVVrtzwwO5styjnq2N3++D+CTMbHStsZexuUw1V82AF/QxFzhOqls3Oion32Rr59B1TI4kFbsZ9lNAEoOGOczVxF58FQLCkVO32S9benpsjR7x5x//G/t7ZlUr+hdAzl59KL7FKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H7zw78nN5+ZzVr2zvrgkL75ETOX1lHS4TBEMKxEt4Yc=;
- b=bmP8cHdT6vdsbE8Gf4HJxeMhFM6x/KR8S8+FC9hNsRH/Rd13STui6mTdmQkW7vQleOqBFmtyRy3OaakxRox7tms9lksG1639orAepI3RR8yI8cxpshC/TgjOrEdsiBxlD7TGGqPwxk7GKKTrthxJgsTxfPEH9UXA/4GfA5hCUmI=
-Authentication-Results: os.amperecomputing.com; dkim=none (message not signed)
- header.d=none; os.amperecomputing.com;
- dmarc=none action=none
- header.from=os.amperecomputing.com;
-Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
- MWHPR0101MB3039.prod.exchangelabs.com (2603:10b6:301:31::14) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4219.22; Fri, 16 Jul 2021 02:48:05 +0000
-Received: from MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::452a:24fb:12cb:9d7e]) by MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::452a:24fb:12cb:9d7e%5]) with mapi id 15.20.4331.026; Fri, 16 Jul 2021
- 02:48:04 +0000
-Subject: Re: [PATCH v5 0/3] Add SSIF BMC driver
-To: minyard@acm.org
-References: <20210714033833.11640-1-quan@os.amperecomputing.com>
- <20210715233248.GF3406@minyard.net>
-From: Quan Nguyen <quan@os.amperecomputing.com>
-Message-ID: <1f5ac258-084b-a71d-735e-c9f81d838c19@os.amperecomputing.com>
-Date: Fri, 16 Jul 2021 09:47:53 +0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
-In-Reply-To: <20210715233248.GF3406@minyard.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: HK2PR03CA0049.apcprd03.prod.outlook.com
- (2603:1096:202:17::19) To MW2PR0102MB3482.prod.exchangelabs.com
- (2603:10b6:302:c::32)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GQxDZ5MtJz2yN8
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Jul 2021 13:14:35 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 16G2vwLi090942;
+ Fri, 16 Jul 2021 10:57:58 +0800 (GMT-8)
+ (envelope-from billy_tsai@aspeedtech.com)
+Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 16 Jul
+ 2021 11:14:07 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: <lee.jones@linaro.org>, <robh+dt@kernel.org>, <joel@jms.id.au>,
+ <andrew@aj.id.au>, <thierry.reding@gmail.com>,
+ <u.kleine-koenig@pengutronix.de>, <p.zabel@pengutronix.de>,
+ <billy_tsai@aspeedtech.com>, <devicetree@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>
+Subject: [v10 0/2] Support pwm driver for aspeed ast26xx
+Date: Fri, 16 Jul 2021 11:14:10 +0800
+Message-ID: <20210716031412.19258-1-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2402:800:623c:a5ad:439:3cf4:ddb0:478f]
- (2402:800:623c:a5ad:439:3cf4:ddb0:478f) by
- HK2PR03CA0049.apcprd03.prod.outlook.com (2603:1096:202:17::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4352.11 via Frontend Transport; Fri, 16 Jul 2021 02:48:00 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b687462a-e2c1-4507-8e63-08d94804227d
-X-MS-TrafficTypeDiagnostic: MWHPR0101MB3039:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MWHPR0101MB303992EBF6FB470957663134F2119@MWHPR0101MB3039.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HcWFP3UAQG6vYg4G9ZWvGMSu9QzFGikcdkxUBGRXegMzM2bx/oE/8hnxTZVi1bPlyoO6/YTANnshlPoqJqbTvOsJVrHPtppWrd2IfCcbfjjVfsJt5FDJMDFQlZ721JSRKEE/SIMuWi7zS0hgJ327lz2MN8i05OsM2NE0TdO59Z+cHyY6CYxTtVuK1f+uXYwULqzpFgT82FYxxia1dNIytjCOL+E2zfQd19RuiAFCNpDAM6AkQ1MPZcb4XqQD0FWtehTSD0Dy2bAKHuOlidXUnz40UHvqod+6pUrFaPlKLgj7vCvWJlxb77uMlN4bKZBLQld0irke6pCixnUiTo3Y5HA17rBS9WS8lGSWPoXzMtXWbLwFEucGJUsZawhoCMoYzZAk2qSYnx676o5VVbHkJOC3e+nVNnSHaibruCb42nUczaIuXxqH6HyTXhpWmGdRMgXDc31ICSKbRm8aDnnv8AGe7GekPq5Xge4S7rb/X/wFIrF7N7wpszwje3pVuGOMh8Aj3L0xBVqtMYTXz1dRAOx795OFfhUI2rlpL7pKb+EqqqpYMYPAuh/abm8+nyJTaoCzJpZGO/U6QzXTiTDFTs71D9U5W7MhjGtlb2fNsIesnbHN42Rwi26ut1l8DufUUrl60ZPfJHIXZUafR35Aj2H7TfIDewD67XUEL70tew+eaUswPSpPlj+PdS+p3Z9y1uEwrlWwP0hU3M3EvejAwX2MInOQoTKMvuFOknO7Ojc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW2PR0102MB3482.prod.exchangelabs.com; PTR:; CAT:NONE;
- SFS:(4636009)(39850400004)(346002)(366004)(396003)(136003)(376002)(8936002)(8676002)(7416002)(107886003)(6486002)(2906002)(38100700002)(4326008)(83380400001)(31686004)(2616005)(54906003)(6916009)(66556008)(6666004)(66476007)(5660300002)(186003)(478600001)(66946007)(31696002)(52116002)(86362001)(316002)(53546011)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djhialB2MnpETDgvNVlna1ZKZVl0WDdVNFM5ekp4SFlKMkw4ZFF1RDRJNGVN?=
- =?utf-8?B?bGhMTmdhR1BGdHRiMzVuS0JOZHBrTnhndXBpUzFYZkFoSHlyV3RhN2ZaODV5?=
- =?utf-8?B?NUhrTTh5MVZLVVlPSlNjclQrbi92cnNleXU2ZG1CNHJHTzJRemh6NjAwVmQw?=
- =?utf-8?B?OVpuU2NJUytDa1Q3OTlCSjlsaU5wUUpBbHB2ODdpV0FVaFVkajl4ektZYWN5?=
- =?utf-8?B?RW1OTS95eWZsRVRSVkRUMEV4a0lTUnNIdWxLRWlGNng1Q3lzM1RPRHI2cEpE?=
- =?utf-8?B?R2tDV2RqL3Z0SzNqUWlXN0g1MDBMMkJ0bjVUZFN5NDNabW5kSkloL2NEZEVP?=
- =?utf-8?B?SmEyK0IvUVphVnMxVTVmYS9tSHdQRFB5TjhPRE9ZeE95S2dRTm1IYnhwdU05?=
- =?utf-8?B?NWs2SUkyKy9qclBiQjJtd1VGK0ZiMmlSalRyaUIyMHVUQlB6eWNBakRJZUtZ?=
- =?utf-8?B?cHVrMGlUdnNQOFVkd1pyMThObW5MQ3NWSkU3L1JSTjJKdStkNFh6RE5OWFk1?=
- =?utf-8?B?YlBFWTNxUDJhT0pKOS96dHBjWnhUNkgrc0lQV3hKWmsxM2dGZzNDdzc2a09l?=
- =?utf-8?B?RHFVZzZpOHFZNEg1bGFBZmZQYUpwZ1JzVXJUdnJnRXczT2RxWWJ1WSs3NkVT?=
- =?utf-8?B?M3ArQjlLaDNtTTArdmJpdlpkT1NLRHVUZUtaYWdCdmNUMndkbVp1dHRxZDc0?=
- =?utf-8?B?QmV1N2diMS9IZkl4NzJPSXBnNG9VMTR0U3E3ZVM2MWluSHdrdXpIUmZoZWR0?=
- =?utf-8?B?QjlacXByWS9qckhmb2E4cENRR1RrdCtyU1BvMzlQL2Q0MXphaVNqUjR2cEp4?=
- =?utf-8?B?RXZGNEs0ajdsVFZJK3hxdFFKNHRaLzhJZkcyNWcvTm95am1wR0RkRlV3N1lK?=
- =?utf-8?B?cWV2REZFT0hMWGJZWFM4aVNybjR5Y2hHTjkwR3NxWjE4eVppTkx6UjZ4cCs2?=
- =?utf-8?B?YW0wRGRXdlVvMy9FZUhuaXFuUHNCWnNGOUdyNlhxYlRRR0R4R3lEU2pSRzE2?=
- =?utf-8?B?a3l3UEczYzJETjk3bWQ0MWxqTjBVZ2pCSnVWQXRqUzVEQUk0WFowTGRBNlJX?=
- =?utf-8?B?ckY4T0JJRXFTV1pja0w2MktCUFUrcE9EeEdya0k3TVk0d0pHai9VQ3JvTmxU?=
- =?utf-8?B?UUc0QzRRQ0xRVElQSUl4dG1UL3VUN25aRFJBcllKR0lLdmlLR1BwWVVaM1NE?=
- =?utf-8?B?ZW93MjFQYlhGcUhlalB5ejlHcnR5RDVtOU1UWHR0TUR3VUhBK0hudldiV09x?=
- =?utf-8?B?dDU3Vmo3RUtSdUpRZm9yczhvTkp3MEd3ZEl4TW1Ja1dzRXE1SHJSVE54a0R1?=
- =?utf-8?B?R1B6NmdRaG52bUJQdkRnYWJya1NvT2V3VFdXeUlPeEREWEJCTUhuYTNENnpp?=
- =?utf-8?B?NGpYTEZjZ0x3dUsxLzZQa2FQUS9EeXpJdllOdTlDM244NHV2SUlhTStQUUFh?=
- =?utf-8?B?QlIyOTQ0cXgyTUpPOENhVG1aaVU3Ym9tQkNoWWRJRHZjd2VkVWlML3lHZ3dk?=
- =?utf-8?B?dy81Y0NOODI3eUZwRnQxb2RDRkZabGllclUweENWcml0UWEzU3FzNSttaG5i?=
- =?utf-8?B?a21zTnB2TWZhaHVCaGxHY0ExcGZtTkhYZ09wVml1OWk4dWlsZjJqMkV1Szdz?=
- =?utf-8?B?SXE3OU9LVGU1Z3NQMW5qS1hMRWw3V1ZpVVB1UGN2RGRqeTZOWkRwWTgrVzRW?=
- =?utf-8?B?Zk9vWWRkNXUvN1BKMEpMSHVBd1M4SHdCTXNhWFhiZGF2dk5IdklrSWtxaHh3?=
- =?utf-8?B?QitUSVRaR3NrSUxOZXc1eXZQR3RlcUg0UDNGeXRNK1RlQmdYaXA5MEl1SHor?=
- =?utf-8?B?TGpPQVVnVFgvb1YvQ21rYW8wcS9Zb1NkRE52ZlhqZU1MRlhBSStta1ZEVzV5?=
- =?utf-8?Q?K/fs+Urdn40Jl?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b687462a-e2c1-4507-8e63-08d94804227d
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2021 02:48:04.8696 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: un4xjWYUee9q5PcaCi/+LcHg/lyR066okOyHcL57rP8S1J7zp3EFkLbZVsCMy7f43dWiYrYduSgDWS/TFUIovhDExnzkbMPGl+gzPucUc9Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0101MB3039
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.149]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 16G2vwLi090942
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,112 +57,107 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
- Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org,
- Phong Vo <phong@os.amperecomputing.com>, Wolfram Sang <wsa@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, openipmi-developer@lists.sourceforge.net,
- Open Source Submission <patches@amperecomputing.com>,
- linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 16/07/2021 06:32, Corey Minyard wrote:
-> On Wed, Jul 14, 2021 at 10:38:30AM +0700, Quan Nguyen wrote:
->> This series add support the SSIF BMC driver which is to perform in-band
->> IPMI communication with their host in management (BMC) side.
->>
->> SSIF BMC driver in this series is tested with Aspeed AST2500.
-> 
-> Ok, I have queued this and added Rob's review.  Five versions, you had
-> to work for this one :).
-> 
-> Thanks,
-> 
-> -corey
-> 
-Thank you very much for your help in these version :)
-- Quan
+The legacy driver of aspeed pwm is binding with tach controller and it
+doesn't follow the pwm framworks usage. In addition, the pwm register
+usage of the 6th generation of ast26xx has drastic change. So these
+patch serials add the new aspeed pwm driver to fix up the problem above.
 
->>
->> v5:
->>    + Correct the patches order to fix the bisect issue found by
->>    kernel build robot
->>
->> v4:
->>    + Fix recursive spinlock                                      [Graeme]
->>    + Send response with Completion code 0xFF when aborting         [Quan]
->>    + Fix warning with dt_binding_check                              [Rob]
->>    + Change aspeed-ssif-bmc.yaml to ssif-bmc.yaml                  [Quan]
->>    + Added bounding check on SMBus writes and the whole request     [Dan]
->>    + Moved buffer to end of struct ssif_bmc_ctx to avoid context
->>      corruption if somehow buffer is written past the end           [Dan]
->>    + Return -EINVAL if userspace buffer too small, dont
->>      silence truncate                                       [Corey, Joel]
->>    + Not necessary to check NONBLOCK in lock                      [Corey]
->>    + Enforce one user at a time                                    [Joel]
->>    + Reject write with invalid response length from userspace     [Corey]
->>    + Add state machines for better ssif bmc state handling         [Quan]
->>    + Drop ssif_bmc_aspeed.c and make ssif_bmc.c is generic
->>      SSIF BMC driver                                               [Quan]
->>    + Change compatible string "aspeed,ast2500-ssif-bmc" to
->>      "ampere,ssif-bmc"                                             [Quan]
->>    + Toggle Slave enable in i2c-aspeed to turn on/off slave mode   [Ryan]
->>    + Added slave_enable() to struct i2c_algorithm to control
->>      slave mode and to address the recursive spinlock      [Graeme, Ryan]
->>    + Abort current request with invalid SMBus write or
->>      invalid command                                               [Quan]
->>    + Abort all request if there is pending response                [Quan]
->>    + Changed validate_pec() to validate_request()                  [Quan]
->>    + Add unsupported_smbus_cmd() to handle unknown SMBus command   [Quan]
->>    + Print internal state string for ease investigating issue      [Quan]
->>    + Move to READY state on SLAVE_STOP event                       [Quan]
->>    + Change initilize_transfer() to process_smbus_cmd()            [Quan]
->>    + Introduce functions for each slave event                      [Quan]
->>
->> v3:
->>    + Switched binding doc to use DT schema format [Rob]
->>    + Splited into generic ssif_bmc and aspeed-specific [Corey, Joel]
->>    + Removed redundant license info [Joel]
->>    + Switched to use traditional if-else [Joel]
->>    + Removed unused ssif_bmc_ioctl() [Joel]
->>    + Made handle_request()/complete_response() to return void [Joel]
->>    + Refactored send_ssif_bmc_response()/receive_ssif_bmc_request()
->>    [Corey]
->>    + Remove mutex [Corey]
->>    + Use spin_lock/unlock_irqsave/restore in callback [Corey]
->>    + Removed the unnecessary memset [Corey]
->>    + Switch to use dev_err() [Corey]
->>    + Combine mask/unmask two interrupts together [Corey]
->>    + Fixed unhandled Tx done with NAK [Quan]
->>    + Late ack'ed Tx done w/wo Ack irq [Quan]
->>    + Use aspeed-specific exported aspeed_set_slave_busy() when slave busy
->>    to fix the deadlock [Graeme, Philipp, Quan]
->>    + Clean buffer for last multipart read [Quan]
->>    + Handle unknown incoming command [Quan]
->>
->> v2:
->>    + Fixed compiling error with COMPILE_TEST for arc
->>
->> Quan Nguyen (3):
->>    i2c: aspeed: Add slave_enable() to toggle slave mode
->>    ipmi: ssif_bmc: Add SSIF BMC driver
->>    bindings: ipmi: Add binding for SSIF BMC driver
->>
->>   .../devicetree/bindings/ipmi/ssif-bmc.yaml    |  38 +
->>   drivers/char/ipmi/Kconfig                     |  11 +
->>   drivers/char/ipmi/Makefile                    |   1 +
->>   drivers/char/ipmi/ssif_bmc.c                  | 781 ++++++++++++++++++
->>   drivers/char/ipmi/ssif_bmc.h                  | 106 +++
->>   drivers/i2c/busses/i2c-aspeed.c               |  20 +
->>   include/linux/i2c.h                           |   2 +
->>   7 files changed, 959 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/ipmi/ssif-bmc.yaml
->>   create mode 100644 drivers/char/ipmi/ssif_bmc.c
->>   create mode 100644 drivers/char/ipmi/ssif_bmc.h
->>
->> -- 
->> 2.28.0
->>
+Change since v9:
+- dt-bindings:
+  - Change the naming of tach subnode channel setting property to
+  aspeed,tach-ch.
+- pwm-aspeed-ast2600.c
+  - Fix the naming of some parameters.
+  - Capitalise error messages.
+  - Handling potentially mult overflow when .apply
+
+Change since v8:
+- pwm-aspeed-ast2600.c
+  - Replace "* _BITULL(div_h)" to "<< div_h"
+  - Fix duty_cycle precision problem.
+  - Add the comment about the formula of duty_cycle.
+
+Change since v7:
+- pwm-aspeed-g6.c
+  - Rename the driver: pwm-aspeed-g6.c -> pwm-aspeed-ast2600.c.
+  - Macro remove "_CH" part of the register name.
+  - Unroll the aspeed_pwm_get_period and remove it.
+  - Simplify the formula to get duty_pt
+  - Reduce the number of writing register. Organize all the fields and
+    write them at once.
+
+Change since v6:
+- dt-bindings:
+  - Add blank line between each DT property.
+  - Change the sub-node name from fan to tach-ch.
+- pwm-aspeed-g6.c
+  - Merge aspeed_pwm_set_period and aspeed_pwm_set_duty into .apply.
+  - Convert the factor type to u64 when calculating the period value.
+  - Using ROUND_UP strategy to calculate div_h for finer resolution.
+
+Change since v5:
+- pwm-aspeed-g6.c suggested by Uwe Kleine-König
+  - Move the divide at the end of the calculation.
+  - Unified the prefix of the function name.
+  - Use div64_u64 to calculate the divider of frequency.
+
+Change since v4:
+- dt_binding:
+  - pwm/tach yaml: Replace child-node with additionalProperties
+  - pwm-tach yaml: Replace child-node with patternProperties
+- pwm-aspeed-g6.c suggested by Uwe Kleine-König
+  - The bit definitions contained the name of the register.
+  - Remove single caller function and fold it to the caller.
+  - Avoid to divide by the result of a division.
+  - Remove unnecessary condition in .apply().
+  - Use goto for error handling
+
+Changes since v3:
+- Add the dt_binding for aspeed,ast2600-tach.
+- Describe the pwm/tach as child-node of pwm-tach mfd.
+- Complete the properties of pwm node.
+
+Changes since v2:
+- Remove the tach node, #address-cells and #size-cells from pwm-tach.yaml
+- Add clocks and reset properties to pwm-tach.yaml
+- Kconfig/Makfile sorted alphabetically
+- pwm-aspeed-g6.c suggested by Uwe Kleine-König
+  - Add more hardware descriptions at top of the driver.
+  - Remove unused api request and free
+  - Move the initialize settings of all pwm channel to probe.
+  - Change the method of getting the approximate period.
+  - Read the hardware register values to fill the state for .get_state()
+
+Changes since v1:
+- Fix the dt_binding_check fail suggested by Rob Herring
+- Add depends to PWM_ASPEED_G6 configure suggested by Uwe Kleine-Konig
+- pwm-aspeed-g6.c suggested by Uwe Kleine-König
+  - Fix license header
+  - Use bitfiled.h macro to define register fields
+  - Implement .remove device function
+  - Implement .get_state pwm api
+
+Billy Tsai (2):
+  dt-bindings: Add bindings for aspeed pwm-tach.
+  pwm: Add Aspeed ast2600 PWM support
+
+ .../bindings/hwmon/aspeed,ast2600-tach.yaml   |  68 ++++
+ .../bindings/mfd/aspeed,ast2600-pwm-tach.yaml |  76 +++++
+ .../bindings/pwm/aspeed,ast2600-pwm.yaml      |  64 ++++
+ drivers/pwm/Kconfig                           |  10 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-aspeed-ast2600.c              | 322 ++++++++++++++++++
+ 6 files changed, 541 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,ast2600-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/aspeed,ast2600-pwm-tach.yaml
+ create mode 100644 Documentation/devicetree/bindings/pwm/aspeed,ast2600-pwm.yaml
+ create mode 100644 drivers/pwm/pwm-aspeed-ast2600.c
+
+-- 
+2.25.1
 
