@@ -1,79 +1,132 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781143CAFB1
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Jul 2021 01:33:06 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0373CB0A8
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Jul 2021 04:03:51 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GQrJw0g4Kz300c
-	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Jul 2021 09:33:04 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GQvfs0hm8z3014
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Jul 2021 12:03:49 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=XwTyE5pm;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=iejFKJiq;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::32a;
- helo=mail-ot1-x32a.google.com; envelope-from=tcminyard@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=aspeedtech.com (client-ip=40.107.130.134;
+ helo=apc01-hk2-obe.outbound.protection.outlook.com;
+ envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=XwTyE5pm; dkim-atps=neutral
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
+ header.a=rsa-sha256 header.s=selector1 header.b=iejFKJiq; 
+ dkim-atps=neutral
+Received: from APC01-HK2-obe.outbound.protection.outlook.com
+ (mail-eopbgr1300134.outbound.protection.outlook.com [40.107.130.134])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GQrJp3GCVz2yXc
- for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Jul 2021 09:32:57 +1000 (AEST)
-Received: by mail-ot1-x32a.google.com with SMTP id
- i12-20020a05683033ecb02903346fa0f74dso7978879otu.10
- for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Jul 2021 16:32:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=HlStEC6or+9N8Cwt9oF7vYLgwg9asjNsBZZ4MGIjNuM=;
- b=XwTyE5pm0jwBWOsd9hfC3ExcIg9nDiFjftH6RKtP2U6uxrFd3HpIt+/6uhbQsvK+m4
- +WgH8vS6kSCb6llnSZN2Cg7QvWlP+uATjtMBLc3O0xbahN6kZoPlLFMEcb6sZxi33/OH
- Hxi9DhfOQEmy6ogjJc1gNBMa4gjYMAvnGsVyeWmultjZndXZUBO6SW40v0t+cJvieZBz
- bsaK2qIUVHX5chaC6NFB8ix/HsUTzUuhekYeTY2lvVxvvZ7YbAN1KlcyB2d6ANbDDYEH
- /o2euloqJZRbeaFQt+0TubLigYBEExc7MO9Y2AkNEDIzfHNV5bEOiMxEKmz/jMNXY56M
- 19qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to;
- bh=HlStEC6or+9N8Cwt9oF7vYLgwg9asjNsBZZ4MGIjNuM=;
- b=Y+0+Iw3yzg7+YYdulb9Y/t73H1BrdbAeqpfcDBA4VtpHbr88NJpYKoeCC9EMIVAA3t
- 5kzdg0HXJLBp7DVDID+y6P0ZgNfsM4rC1cApExAncvn2wcOTN7LAWNGBojgGG/NXVOqH
- 5Hju0OBcCUI8fNI6Ewk6tOrIve4vH9WcsxIGnD3TG+CPvl3VQZkpZusMZxAKlD8p8zJE
- ug2jDpgDLKt6Ni04GOqG2pOpMSHlwA+Xwihq+8AR1Ka0k/xOZcPcZa2tz9qXpsICQLZQ
- FpvP8oClq9RKZan/d5x0rO72+DZgtBzYYfZyksDU4hqJ5qmh1ckBuzSp64FE8pqasnvI
- Gr7A==
-X-Gm-Message-State: AOAM533GNLM4xmlJpkewEtTODA4Laq33PdTvdzgklcNThBqWnGrvQYh6
- i+nTa8hrV0QZ3aI7rvMRsQ==
-X-Google-Smtp-Source: ABdhPJyRd2kar/SWjGLB/Gtxx9oUFFRXtmYqGetIjej3d7xwi0kq0iA0ROOS36HUp113zMuPAXTt0g==
-X-Received: by 2002:a05:6830:114f:: with SMTP id
- x15mr5751678otq.356.1626391972537; 
- Thu, 15 Jul 2021 16:32:52 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id x129sm1566206oia.26.2021.07.15.16.32.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jul 2021 16:32:51 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:8515:1333:671e:f6ae])
- by serve.minyard.net (Postfix) with ESMTPSA id 2B629180058;
- Thu, 15 Jul 2021 23:32:50 +0000 (UTC)
-Date: Thu, 15 Jul 2021 18:32:48 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Quan Nguyen <quan@os.amperecomputing.com>
-Subject: Re: [PATCH v5 0/3] Add SSIF BMC driver
-Message-ID: <20210715233248.GF3406@minyard.net>
-References: <20210714033833.11640-1-quan@os.amperecomputing.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GQvfk3FFsz2yLl
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 16 Jul 2021 12:03:40 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LiSIRTWlDwazgTCqsLmRGG0qbn+URzsSKStHKA6hHktAT7/KfVYLrB4rvghdFaskUuUuXmyjdcKYc97UihTcNpihLmicWC7wJv6ZdTEGGAkgfWDZt9112yB55v1AWNsBGSgwiBg06Pn0gylvfgvGr8PS0UkXY1sWZktpElIKQ+ujoPZngKVVdzvWUuTRXeNGVBnebbOZyGAhCWdE3MBbnCwmrfk+EVeGWaLZEVyRwyzS/mxoBO5X3RnOa7W9XaTJDKthppNNcXIzFqR0+xEK7Z/lncLBoti2wlV0xTwV04TmRvtgdC8Z1ieH8LvVzDlZT4UNBcANk+mWtJ8ZY84PyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UMHveLY0n3s1gMM9qI+SGFSo4PjJ8JdQX1aJoLdIB/g=;
+ b=IiBaXoWaYlw25sDZkfWEY+59lR3JLVrrKfVFfYWvInVf5tM+utXpQqbnTsQNDPHSFs2w31teIi9ecdQhGet+0UeVohwFaXcv4Hjz38p/Jqx4Q7ZxmO4jBqMZeweh1h+bR4g6Hc9q8XhRjm4t5paiZSbppAT84/GYIj3t2hq4nsHBQia8oEbLfcfUwuG2WMMa9bJNfkRn3utPexQbU1z02KKSk35xxZzrwRtYjJRGuKHvjWYeF7nUScGn9t+V58XaVq7U1vThWd/QIireDehuOLXq6Y0UpTaevw8ODYsMTaHZVQyHX+2LIPzYdqlJiLbbB5kgvVrPjujcXLHE77EvVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UMHveLY0n3s1gMM9qI+SGFSo4PjJ8JdQX1aJoLdIB/g=;
+ b=iejFKJiqi6aZ9q/wWz8KlsJFAHeJtonLZ3pzvfcD9YJ95FJDQfK5bFN6gOFPrSmF0+et8B/TpQN8qiNjoeHqfrq3s1UAoiX+SNz+8GuTHr0W4FQMmVhSps52SB6CDHgOUAvYYLd5XF6uIBpMZcjcczxgdRJyQun7aLk+10TLPmGkEx7K/JKEStD05ZEUz6J3Lt/FKPXXv1InxjwORUybJFAHqSJU8pfnwzpbEi+vTAWmKWACLL+Ng+JOpwcjeDDUoipCMB6yK5j5W7TMXVihEwJhx4nCgmovW5H0R1qctqyStIU6kAWHLyboSAVt5PsOvPoF+XfYapKl1d2NrQAJdQ==
+Received: from HK0PR06MB3362.apcprd06.prod.outlook.com (2603:1096:203:8b::10)
+ by HK0PR06MB3233.apcprd06.prod.outlook.com (2603:1096:203:84::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Fri, 16 Jul
+ 2021 01:48:21 +0000
+Received: from HK0PR06MB3362.apcprd06.prod.outlook.com
+ ([fe80::a529:f5b3:b9d6:5e27]) by HK0PR06MB3362.apcprd06.prod.outlook.com
+ ([fe80::a529:f5b3:b9d6:5e27%4]) with mapi id 15.20.4331.025; Fri, 16 Jul 2021
+ 01:48:21 +0000
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [v9 2/2] pwm: Add Aspeed ast2600 PWM support
+Thread-Topic: [v9 2/2] pwm: Add Aspeed ast2600 PWM support
+Thread-Index: AQHXdI70LATZWzg1kUKYrs9wZPLHOKtELJmAgAE5s4A=
+Date: Fri, 16 Jul 2021 01:48:20 +0000
+Message-ID: <BD5B012C-B377-45E2-B04E-61D12B086670@aspeedtech.com>
+References: <20210709065217.6153-1-billy_tsai@aspeedtech.com>
+ <20210709065217.6153-3-billy_tsai@aspeedtech.com>
+ <20210715150533.vppkw5oiomkxmfrn@pengutronix.de>
+In-Reply-To: <20210715150533.vppkw5oiomkxmfrn@pengutronix.de>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: pengutronix.de; dkim=none (message not signed)
+ header.d=none;pengutronix.de; dmarc=none action=none
+ header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c7a87955-e844-46c8-bf64-08d947fbcaa9
+x-ms-traffictypediagnostic: HK0PR06MB3233:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <HK0PR06MB3233EEDBF2CEE37E34E24C338B119@HK0PR06MB3233.apcprd06.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fdrb/D0fxxxUJTm3UjDwdOGNitmBtL7/q1QLGaGaJ+OtHCmReYdGuMVXHeqELOaHViJW1L5zWv6/o9v1m9yXbNGpX6tQmuCtZ6dQaB0wmalFAQxXga1r8v9Dx8aVi0nLvVhlltHL/S1v3uqbG8cQTIDK2F2EfSxCaQ0L8qTecJX+8+bXgGhsd6X9AgPdD+lN010i0skAPmNP5PYrAbzE+ATWGA2s+7Furn+kdst7C8zTynYQAk7lo2wUgyy31ezVN5/ixI9YrQpeYxGKd5m/knWXS3g929mu/dm5YdEf6z9NX+Jas2rLiMRS6DqF9KqWAGzmJjMbYOAIbFsoEtnu+Pm4N6jh6C+f3UX2/U6NQF+nifDgrqtK+XcL2JZgcMxDC7K0qckWX+trJz5dch12h9WujfNGBUnq1MvSFLpmIp0F+ZLO8eAq15rHJ2nwhDo94vWxajYsxEGNQNEk4gRG98MIBSTK8WBAQ+qAzSo7IPsujvdfQyMDsYIfpR04OQylg7Nr67npY+8tU++bOkGt8gZZZdvUOS0wG+pyfUMML95PTdsiN6Y195Z255vX1cVKUJ5bQzO3cex1Iy5kothEFOEHHdDZ5VSuHGtYoPsq3z1kuU+bk2sQhICan7WDMUA3foBL3tVIYTH3Pyg9Wm7mSWPeLI/ZoK5TgrOZAf9DI9i6les0sD+forpBmGKtVcFC8Tw0L0rOshLBSKp3V8bqueaUQFPMFUNDs1zYU24+CXw=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR06MB3362.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(346002)(136003)(396003)(39830400003)(376002)(6506007)(6916009)(53546011)(478600001)(8676002)(8936002)(86362001)(4326008)(71200400001)(5660300002)(316002)(36756003)(2616005)(38100700002)(122000001)(54906003)(7416002)(64756008)(55236004)(66446008)(66574015)(6512007)(66946007)(76116006)(66476007)(26005)(66556008)(186003)(6486002)(2906002)(33656002)(83380400001)(107886003)(38070700004)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?a3hOWUxCZndJTzdWSGMwMit0ZXBqQVpxNmEzK0o2bzJuWDF3eWhkeFZtQW5C?=
+ =?utf-8?B?NTc4bnA3cGM4RjRmSUk1anJsZHNsaWFzaDRNUjRmVzVGdXhOVFI3QzZhalRK?=
+ =?utf-8?B?Y0EzeEFXRGxNUnFHTUlhenA5aG9BN2lFU3lhUnp6bDJXVjBqUTkxUnBuR0Vy?=
+ =?utf-8?B?OEhuNDg0QTV5d2t1RGl6Q1hQRzBQT0o5Z2V1eWtrMS9kQXcxZG4xeFdvS2V3?=
+ =?utf-8?B?WGNYeWZOWlV0MVh1VVZURkpGa0kxNURTSUo4cjMzMWF1Rnk1L1g3ckRGR2Vh?=
+ =?utf-8?B?a2VVcHZwTXBrZFd3cXBFenpyS2pscmZRTjRVRFF6ZEpTWC85Q3pETi9oamla?=
+ =?utf-8?B?UStzREs3MkUyc1V6bXJRYU5KL3ltTUdUalBtY3hkV0NSMzVWazkzTHp4TlNM?=
+ =?utf-8?B?MmZzeWZndzRGSjJMbXpIMW9pZnZWemJndkJSS1Q5a294N3dMR0M5Nkx3Uzcr?=
+ =?utf-8?B?Wkx1SkhQTnhTYkxvcXNzaEVxYzRjWUI4ZHNKQ29NTmFwT1VtR3FBY2crUXQ4?=
+ =?utf-8?B?TDB0bC9BVHNhTTJKN0Y0ak9uWXE3N05OeTJZaEpteVQrNkxTOVNUbitWYVpR?=
+ =?utf-8?B?U0xSWmlYN2lsQTNYRzZqWjZONklLd1hGUzZzTStHb1gxRFpuNkRPbmhiYlg4?=
+ =?utf-8?B?L3EvMzgrQlZTT3hsWDBoaTVKa2lZNVNvb3drUXVINWNlUndiaERLZTd2NzNt?=
+ =?utf-8?B?MVNDVzR3OVhxRXdKYWJYY0pxWTVkam5kczlhSjF6SXRmUUFSQTE4elF2OUFU?=
+ =?utf-8?B?dUdYd1FIaEcveWJhREtqSDNEWkx5VWlxV3RiOGZiRHEram9GaU9ibXZuZHYy?=
+ =?utf-8?B?clNONURiTXRCN1VsOTZIc0VIUUh4MG42SDZ4RTF6KzY2VUNjeHpnRDBDQm5x?=
+ =?utf-8?B?NFFqNi9FOVo4ODcvL0xGYUFhaVVkNGpFeXhXaGRKcnh0VkZ2WXQrSUM4bUl2?=
+ =?utf-8?B?UGQ2TWlDaCtDSldRdE5pa0tucmxRZW5PVTduWHNMNE5yeDYxbTNIem9PMHIv?=
+ =?utf-8?B?T0VsU3FWcjIvNXpzN3A5MFl4MlprSXNJRlVYN3VmdWZjQ3ZwdWhSK0ZjSnNt?=
+ =?utf-8?B?R0RpTTJYWnZBOThvWVNDSFdLOG5CR0JSZyszWVlWaHU5WkxMeE9tQVFkYVdS?=
+ =?utf-8?B?SXBGRXFLSW9lUXRmUVdLM2txUGZvbjJKemx1L2JnTTFSdURyQnFKVGJDUDRW?=
+ =?utf-8?B?Z2pxUktuVlhqdGlvN2k1ZWRMVDdvVWx0Q1EvMUFvOVFhK2xrVjJYd2pYQWZY?=
+ =?utf-8?B?S01wQ3JZMnJGZExVRDNaVzhoS3FES3JsOUZkT051aDJieFVkREcwaldyc2pl?=
+ =?utf-8?B?d2huTk1adXBuV0tLdzNMcEdQNklrenliSzRGNU5wWkVYb0NDSlc4RmVIYlM3?=
+ =?utf-8?B?WFRUQmxPRVQ4ZTA3YjJWSXdKeXpHSW9KRldib2lBTHlhbHU2UmFDWFQ1czdt?=
+ =?utf-8?B?UFprZXVZTW1sdTNLM1JydFFEOTVNZm1oaWpQa0dlSEt2Z05zQXNMalQ1N2tt?=
+ =?utf-8?B?Y1YrSVhQN1U5elFMRnQwQmJRSm1ibDcrb2xUSFYwYVBmTnA4aXpvWDlYZVR5?=
+ =?utf-8?B?TDdlR3J3NHVxVHlYM3ZoZHJkK3F1dUdFcCtxSk10OXZxZkI3dk9ia2FXTGUr?=
+ =?utf-8?B?VDJrMEtLdVB3WS8vN1U1c09YNzQzREZXWkFQTWgzQktKWUVIRENLV0d0L25Z?=
+ =?utf-8?B?WEZRUDZ3VzVxNnVFbFpTZGpDTExjLzlOVWhTRjlRVUZ6UEhTWTlXaUpIUlBO?=
+ =?utf-8?Q?20hGrlmJXbW2RwGmRAUoUTSKe4IvMtv/5DRs4Sk?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F748F69162666D49BEB3AD14AD93E465@apcprd06.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210714033833.11640-1-quan@os.amperecomputing.com>
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3362.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7a87955-e844-46c8-bf64-08d947fbcaa9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2021 01:48:21.1042 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: e0bIsjqlsLELBwtJWbWqT7XQ5JXbfYOwuTccHsFn8OpWYoYYe5Elcx8ujmUN68EbZYkLgntFtnkhZyERr++M+DLHS1GgSnG3CzBuzFhqL4g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB3233
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,108 +138,101 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
- Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org,
- Phong Vo <phong@os.amperecomputing.com>, Wolfram Sang <wsa@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, openipmi-developer@lists.sourceforge.net,
- Open Source Submission <patches@amperecomputing.com>,
- linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ BMC-SW <BMC-SW@aspeedtech.com>, "lee.jones@linaro.org" <lee.jones@linaro.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Jul 14, 2021 at 10:38:30AM +0700, Quan Nguyen wrote:
-> This series add support the SSIF BMC driver which is to perform in-band
-> IPMI communication with their host in management (BMC) side.
-> 
-> SSIF BMC driver in this series is tested with Aspeed AST2500.
-
-Ok, I have queued this and added Rob's review.  Five versions, you had
-to work for this one :).
-
-Thanks,
-
--corey
-
-> 
-> v5:
->   + Correct the patches order to fix the bisect issue found by
->   kernel build robot
-> 
-> v4:
->   + Fix recursive spinlock                                      [Graeme]
->   + Send response with Completion code 0xFF when aborting         [Quan]
->   + Fix warning with dt_binding_check                              [Rob]
->   + Change aspeed-ssif-bmc.yaml to ssif-bmc.yaml                  [Quan]
->   + Added bounding check on SMBus writes and the whole request     [Dan]
->   + Moved buffer to end of struct ssif_bmc_ctx to avoid context
->     corruption if somehow buffer is written past the end           [Dan]
->   + Return -EINVAL if userspace buffer too small, dont
->     silence truncate                                       [Corey, Joel]
->   + Not necessary to check NONBLOCK in lock                      [Corey]
->   + Enforce one user at a time                                    [Joel]
->   + Reject write with invalid response length from userspace     [Corey]
->   + Add state machines for better ssif bmc state handling         [Quan]
->   + Drop ssif_bmc_aspeed.c and make ssif_bmc.c is generic
->     SSIF BMC driver                                               [Quan]
->   + Change compatible string "aspeed,ast2500-ssif-bmc" to
->     "ampere,ssif-bmc"                                             [Quan]
->   + Toggle Slave enable in i2c-aspeed to turn on/off slave mode   [Ryan]
->   + Added slave_enable() to struct i2c_algorithm to control
->     slave mode and to address the recursive spinlock      [Graeme, Ryan]
->   + Abort current request with invalid SMBus write or
->     invalid command                                               [Quan]
->   + Abort all request if there is pending response                [Quan]
->   + Changed validate_pec() to validate_request()                  [Quan]
->   + Add unsupported_smbus_cmd() to handle unknown SMBus command   [Quan]
->   + Print internal state string for ease investigating issue      [Quan]
->   + Move to READY state on SLAVE_STOP event                       [Quan]
->   + Change initilize_transfer() to process_smbus_cmd()            [Quan]
->   + Introduce functions for each slave event                      [Quan]
-> 
-> v3:
->   + Switched binding doc to use DT schema format [Rob]
->   + Splited into generic ssif_bmc and aspeed-specific [Corey, Joel]
->   + Removed redundant license info [Joel]
->   + Switched to use traditional if-else [Joel]
->   + Removed unused ssif_bmc_ioctl() [Joel]
->   + Made handle_request()/complete_response() to return void [Joel]
->   + Refactored send_ssif_bmc_response()/receive_ssif_bmc_request()
->   [Corey]
->   + Remove mutex [Corey]
->   + Use spin_lock/unlock_irqsave/restore in callback [Corey]
->   + Removed the unnecessary memset [Corey]
->   + Switch to use dev_err() [Corey]
->   + Combine mask/unmask two interrupts together [Corey]
->   + Fixed unhandled Tx done with NAK [Quan]
->   + Late ack'ed Tx done w/wo Ack irq [Quan]
->   + Use aspeed-specific exported aspeed_set_slave_busy() when slave busy
->   to fix the deadlock [Graeme, Philipp, Quan]
->   + Clean buffer for last multipart read [Quan]
->   + Handle unknown incoming command [Quan]
-> 
-> v2:
->   + Fixed compiling error with COMPILE_TEST for arc
-> 
-> Quan Nguyen (3):
->   i2c: aspeed: Add slave_enable() to toggle slave mode
->   ipmi: ssif_bmc: Add SSIF BMC driver
->   bindings: ipmi: Add binding for SSIF BMC driver
-> 
->  .../devicetree/bindings/ipmi/ssif-bmc.yaml    |  38 +
->  drivers/char/ipmi/Kconfig                     |  11 +
->  drivers/char/ipmi/Makefile                    |   1 +
->  drivers/char/ipmi/ssif_bmc.c                  | 781 ++++++++++++++++++
->  drivers/char/ipmi/ssif_bmc.h                  | 106 +++
->  drivers/i2c/busses/i2c-aspeed.c               |  20 +
->  include/linux/i2c.h                           |   2 +
->  7 files changed, 959 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/ipmi/ssif-bmc.yaml
->  create mode 100644 drivers/char/ipmi/ssif_bmc.c
->  create mode 100644 drivers/char/ipmi/ssif_bmc.h
-> 
-> -- 
-> 2.28.0
-> 
+SGVsbG8gVXdlIEtsZWluZS1Lw7ZuaWcsIA0KDQpPbiAyMDIxLzcvMTUsIDExOjA2IFBNLCAiVXdl
+IEtsZWluZS1Lw7ZuaWciIDx1LmtsZWluZS1rb2VuaWdAcGVuZ3V0cm9uaXguZGU+PiB3cm90ZToN
+Cg0KICAgIE9uIEZyaSwgSnVsIDA5LCAyMDIxIGF0IDAyOjUyOjE3UE0gKzA4MDAsIEJpbGx5IFRz
+YWkgd3JvdGU6DQogICAgPj4gVGhpcyBwYXRjaCBhZGQgdGhlIHN1cHBvcnQgb2YgUFdNIGNvbnRy
+b2xsZXIgd2hpY2ggY2FuIGJlIGZvdW5kIGF0IGFzcGVlZA0KICAgID4+IGFzdDI2MDAgc29jLiBU
+aGUgcHdtIHN1cG9vcnRzIHVwIHRvIDE2IGNoYW5uZWxzIGFuZCBpdCdzIHBhcnQgZnVuY3Rpb24N
+CiAgICA+PiBvZiBtdWx0aS1mdW5jdGlvbiBkZXZpY2UgInB3bS10YWNoIGNvbnRyb2xsZXIiLg0K
+ICAgID4+IA0KICAgID4+IFNpZ25lZC1vZmYtYnk6IEJpbGx5IFRzYWkgPGJpbGx5X3RzYWlAYXNw
+ZWVkdGVjaC5jb20+DQogICAgPj4gLS0tDQogICAgPj4gIGRyaXZlcnMvcHdtL0tjb25maWcgICAg
+ICAgICAgICAgIHwgICA5ICsNCiAgICA+PiAgZHJpdmVycy9wd20vTWFrZWZpbGUgICAgICAgICAg
+ICAgfCAgIDEgKw0KICAgID4+ICBkcml2ZXJzL3B3bS9wd20tYXNwZWVkLWFzdDI2MDAuYyB8IDMx
+NiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQogICAgPj4gIDMgZmlsZXMgY2hhbmdl
+ZCwgMzI2IGluc2VydGlvbnMoKykNCiAgICA+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMv
+cHdtL3B3bS1hc3BlZWQtYXN0MjYwMC5jDQogICAgPj4gDQogICAgPj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvcHdtL0tjb25maWcgYi9kcml2ZXJzL3B3bS9LY29uZmlnDQogICAgPj4gaW5kZXggNjNi
+ZTUzNjJmZDNhLi5hNWFhYzNjYTRhYzcgMTAwNjQ0DQogICAgPj4gLS0tIGEvZHJpdmVycy9wd20v
+S2NvbmZpZw0KICAgID4+ICsrKyBiL2RyaXZlcnMvcHdtL0tjb25maWcNCiAgICA+PiBAQCAtNTEs
+NiArNTEsMTUgQEAgY29uZmlnIFBXTV9BQjg1MDANCiAgICA+PiAgCSAgVG8gY29tcGlsZSB0aGlz
+IGRyaXZlciBhcyBhIG1vZHVsZSwgY2hvb3NlIE0gaGVyZTogdGhlIG1vZHVsZQ0KICAgID4+ICAJ
+ICB3aWxsIGJlIGNhbGxlZCBwd20tYWI4NTAwLg0KICAgID4+ICANCiAgICA+PiArY29uZmlnIFBX
+TV9BU1BFRURfQVNUMjYwMA0KICAgID4+ICsJdHJpc3RhdGUgIkFzcGVlZCBhc3QyNjAwIFBXTSBz
+dXBwb3J0Ig0KICAgID4+ICsJZGVwZW5kcyBvbiBBUkNIX0FTUEVFRCB8fCBDT01QSUxFX1RFU1QN
+Cg0KICAgID4gSSB0aGluayB5b3UgbmVlZA0KDQogICAgPglkZXBkZW5zIG9uIEhBVkVfQ0xLICYm
+IEhBU19JT01FTQ0KDQogICAgPiBoZXJlLg0KDQpPaywgSSB3aWxsIGFkZCBpdCB0byBuZXh0IHZl
+cnNpb24uDQoNCiAgICA+PiArCWhlbHANCiAgICA+PiArCSAgVGhpcyBkcml2ZXIgcHJvdmlkZXMg
+c3VwcG9ydCBmb3IgQXNwZWVkIGFzdDI2MDAgUFdNIGNvbnRyb2xsZXJzLg0KICAgID4+ICsNCiAg
+ICA+PiArCSAgVG8gY29tcGlsZSB0aGlzIGRyaXZlciBhcyBhIG1vZHVsZSwgY2hvb3NlIE0gaGVy
+ZTogdGhlIG1vZHVsZQ0KICAgID4+ICsJICB3aWxsIGJlIGNhbGxlZCBwd20tYXNwZWVkLWFzdDI2
+MDAuDQogICAgPj4gKw0KICAgID4+ICBjb25maWcgUFdNX0FUTUVMDQogICAgPj4gIAl0cmlzdGF0
+ZSAiQXRtZWwgUFdNIHN1cHBvcnQiDQogICAgPj4gIAlkZXBlbmRzIG9uIE9GDQogICAgPj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvcHdtL01ha2VmaWxlIGIvZHJpdmVycy9wd20vTWFrZWZpbGUNCiAg
+ICA+PiBpbmRleCBjYmRjZDU1ZDY5ZWUuLmFkYTQ1NGY5MTI5YSAxMDA2NDQNCiAgICA+PiAtLS0g
+YS9kcml2ZXJzL3B3bS9NYWtlZmlsZQ0KICAgID4+ICsrKyBiL2RyaXZlcnMvcHdtL01ha2VmaWxl
+DQogICAgPj4gQEAgLTIsNiArMiw3IEBADQogICAgPj4gIG9iai0kKENPTkZJR19QV00pCQkrPSBj
+b3JlLm8NCiAgICA+PiAgb2JqLSQoQ09ORklHX1BXTV9TWVNGUykJCSs9IHN5c2ZzLm8NCiAgICA+
+PiAgb2JqLSQoQ09ORklHX1BXTV9BQjg1MDApCSs9IHB3bS1hYjg1MDAubw0KICAgID4+ICtvYmot
+JChDT05GSUdfUFdNX0FTUEVFRF9BU1QyNjAwKQkrPSBwd20tYXNwZWVkLWFzdDI2MDAubw0KICAg
+ID4+ICBvYmotJChDT05GSUdfUFdNX0FUTUVMKQkJKz0gcHdtLWF0bWVsLm8NCiAgICA+PiAgb2Jq
+LSQoQ09ORklHX1BXTV9BVE1FTF9ITENEQ19QV00pCSs9IHB3bS1hdG1lbC1obGNkYy5vDQogICAg
+Pj4gIG9iai0kKENPTkZJR19QV01fQVRNRUxfVENCKQkrPSBwd20tYXRtZWwtdGNiLm8NCiAgICA+
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9wd20vcHdtLWFzcGVlZC1hc3QyNjAwLmMgYi9kcml2ZXJz
+L3B3bS9wd20tYXNwZWVkLWFzdDI2MDAuYw0KICAgID4+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQog
+ICAgPj4gaW5kZXggMDAwMDAwMDAwMDAwLi42OGE0NWJhM2IzMmINCiAgICA+PiAtLS0gL2Rldi9u
+dWxsDQogICAgPj4gKysrIGIvZHJpdmVycy9wd20vcHdtLWFzcGVlZC1hc3QyNjAwLmMNCiAgICA+
+PiBAQCAtMCwwICsxLDMxNiBAQA0KICAgID4+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjog
+R1BMLTIuMC1vci1sYXRlcg0KICAgID4+ICsvKg0KICAgID4+ICsgKiBDb3B5cmlnaHQgKEMpIDIw
+MjEgQXNwZWVkIFRlY2hub2xvZ3kgSW5jLg0KICAgID4+ICsgKg0KICAgID4+ICsgKiBQV00gY29u
+dHJvbGxlciBkcml2ZXIgZm9yIEFzcGVlZCBhc3QyNjAwIFNvQ3MuDQogICAgPj4gKyAqIFRoaXMg
+ZHJpdmVycyBkb2Vzbid0IHN1cHBvcnQgZWFybGllciB2ZXJzaW9uIG9mIHRoZSBJUC4NCiAgICA+
+PiArICoNCiAgICA+PiArICogVGhlIGZvcm11bGEgb2YgcHdtIHBlcmlvZCBkdXJhdGlvbjoNCiAg
+ICA+PiArICogcGVyaW9kIGR1cmF0aW9uID0gKChESVZfTCArIDEpICogKFBFUklPRCArIDEpIDw8
+IERJVl9IKSAvIGlucHV0LWNsaw0KICAgID4+ICsgKg0KICAgID4+ICsgKiBUaGUgZm9ybXVsYSBv
+ZiBwd20gZHV0eSBjeWNsZSBkdXJhdGlvbjoNCiAgICA+PiArICogZHV0eSBjeWNsZSBkdXJhdGlv
+biA9IHBlcmlvZCBkdXJhdGlvbiAqIERVVFlfQ1lDTEVfRkFMTElOR19QT0lOVCAvIChQRVJJT0Qg
+KyAxKQ0KICAgID4+ICsgKiA9ICgoRElWX0wgKyAxKSAqIERVVFlfQ1lDTEVfRkFMTElOR19QT0lO
+VCA8PCBESVZfSCkgLyBpbnB1dC1jbGsNCiAgICA+PiArICoNCiAgICA+PiArICogVGhlIHNvZnR3
+YXJlIGRyaXZlciBmaXhlcyB0aGUgcGVyaW9kIHRvIDI1NSwgd2hpY2ggY2F1c2VzIHRoZSBoaWdo
+LWZyZXF1ZW5jeQ0KICAgID4+ICsgKiBwcmVjaXNpb24gb2YgdGhlIFBXTSB0byBiZSBjb2Fyc2Us
+IGluIGV4Y2hhbmdlIGZvciB0aGUgZmluZW5lc3Mgb2YgdGhlIGR1dHkgY3ljbGUuDQogICAgPj4g
+KyAqDQogICAgPj4gKyAqIFJlZ2lzdGVyIHVzYWdlOg0KICAgID4+ICsgKiBQSU5fRU5BQkxFOiBX
+aGVuIGl0IGlzIHVuc2V0IHRoZSBwd20gY29udHJvbGxlciB3aWxsIGFsd2F5cyBvdXRwdXQgbG93
+IHRvIHRoZSBleHRlcm4uDQogICAgPj4gKyAqIFVzZSB0byBkZXRlcm1pbmUgd2hldGhlciB0aGUg
+UFdNIGNoYW5uZWwgaXMgZW5hYmxlZCBvciBkaXNhYmxlZA0KICAgID4+ICsgKiBDTEtfRU5BQkxF
+OiBXaGVuIGl0IGlzIHVuc2V0IHRoZSBwd20gY29udHJvbGxlciB3aWxsIHJlc2V0IHRoZSBkdXR5
+IGNvdW50ZXIgdG8gMCBhbmQNCiAgICA+PiArICogb3V0cHV0IGxvdyB0byB0aGUgUElOX0VOQUJM
+RSBtdXggYWZ0ZXIgdGhhdCB0aGUgZHJpdmVyIGNhbiBzdGlsbCBjaGFuZ2UgdGhlIHB3bSBwZXJp
+b2QNCiAgICA+PiArICogYW5kIGR1dHkgYW5kIHRoZSB2YWx1ZSB3aWxsIGFwcGx5IHdoZW4gQ0xL
+X0VOQUJMRSBiZSBzZXQgYWdhaW4uDQogICAgPj4gKyAqIFVzZSB0byBkZXRlcm1pbmUgd2hldGhl
+ciBkdXR5X2N5Y2xlIGJpZ2dlciB0aGFuIDAuDQogICAgPj4gKyAqIFBXTV9BU1BFRURfQ1RSTF9J
+TlZFUlNFOiBXaGVuIGl0IGlzIHRvZ2dsZWQgdGhlIG91dHB1dCB2YWx1ZSB3aWxsIGludmVyc2Ug
+aW1tZWRpYXRlbHkuDQogICAgPj4gKyAqIFBXTV9BU1BFRURfRFVUWV9DWUNMRV9GQUxMSU5HX1BP
+SU5UL1BXTV9BU1BFRURfRFVUWV9DWUNMRV9SSVNJTkdfUE9JTlQ6IFdoZW4gdGhlc2UgdHdvDQog
+ICAgPj4gKyAqIHZhbHVlcyBhcmUgZXF1YWwgaXQgbWVhbnMgdGhlIGR1dHkgY3ljbGUgPSAxMDAl
+Lg0KICAgID4+ICsgKg0KICAgID4+ICsgKiBMaW1pdGF0aW9uczoNCiAgICA+PiArICogLSBXaGVu
+IGNoYW5naW5nIGJvdGggZHV0eSBjeWNsZSBhbmQgcGVyaW9kLCB3ZSBjYW5ub3QgcHJldmVudCBp
+bg0KICAgID4+ICsgKiAgIHNvZnR3YXJlIHRoYXQgdGhlIG91dHB1dCBtaWdodCBwcm9kdWNlIGEg
+cGVyaW9kIHdpdGggbWl4ZWQNCiAgICA+PiArICogICBzZXR0aW5ncy4NCiAgICA+PiArICogLSBE
+aXNhYmxpbmcgdGhlIFBXTSBkb2Vzbid0IGNvbXBsZXRlIHRoZSBjdXJyZW50IHBlcmlvZC4NCg0K
+ICAgID4gQW5vdGhlciBpczogVGhlIFBXTSBkb2Vzbid0IHN1cHBvcnQgZHV0eV9jeWNsZSAwLCBv
+biBzdWNoIGEgcmVxdWVzdCB0aGUNCiAgICA+IFBXTSBpcyBkaXNhYmxlZCB3aGljaCByZXN1bHRz
+IGluIGEgY29uc3RhbnQgaW5hY3RpdmUgbGV2ZWwuDQoNCiAgICA+IChUaGlzIGlzIGNvcnJlY3Qs
+IGlzIGl0PyBPciBkb2VzIGl0IHlpZWxkIGEgY29uc3RhbnQgMCBsZXZlbD8pDQoNCk91ciBwd20g
+Y2FuIHN1cHBvcnQgZHV0eV9jeWNsZSAwIGJ5IHVuc2V0IENMS19FTkFCTEUuDQoNCk90aGVyIG5h
+bWluZyBzdWdnZXN0aW9uIEkgd2lsbCBmaXggaW4gdGhlIG5leHQgdmVyc2lvbi4NCg0KVGhhbmtz
+DQoNCg==
