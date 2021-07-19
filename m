@@ -2,75 +2,49 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8153CCBE7
-	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Jul 2021 03:04:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A40213CCF19
+	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Jul 2021 10:06:29 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GSkBX4QPpz30DR
-	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Jul 2021 11:04:04 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=pLeL5RFZ;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GSvYv42bgz3bTc
+	for <lists+linux-aspeed@lfdr.de>; Mon, 19 Jul 2021 18:06:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::52e;
- helo=mail-pg1-x52e.google.com; envelope-from=rentao.bupt@gmail.com;
+Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=pLeL5RFZ; dkim-atps=neutral
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GSkBP4Y8Fz2yMP;
- Mon, 19 Jul 2021 11:03:56 +1000 (AEST)
-Received: by mail-pg1-x52e.google.com with SMTP id 62so17409939pgf.1;
- Sun, 18 Jul 2021 18:03:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=MRCpTY3XLrkorIsL4Kd4E8S+WPJpKt1Ijbch/c1mGOQ=;
- b=pLeL5RFZQiIgbIb2XQoVgv8uvI77if3Uj5JFRnwbFAlDIvZ6DVgb92hr749pQ3rTu4
- K+f0/0I4BhRB6RAOIgcb/034/r0I4L92qWznyCKnSYv0bSWd3avYuiP3x9Pj7M/f/XE9
- FL32Zw3JcnHg3kbmeSxIsYKbxIliwRd0I4BJKdK7GQXPnCaL3cZNlxgquVE+IZ6XGiJC
- mjU8+GyNBkCPgX4p7j1zrXrC1VtK9MhqMyXKAjZI3MrFH010qXXWoLeGb57IW3N78jyF
- VA8LVoj3pNz/5+vt23j0jLm2coyI4xHbbHhPlMp/DX/dsSYDUL3tvqVaIOTGoDKxaYIU
- TP5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=MRCpTY3XLrkorIsL4Kd4E8S+WPJpKt1Ijbch/c1mGOQ=;
- b=Jno+VxPyz/sStXzRpSxdirSt8wV6Sod4K0E0t7kC1dFylWxn2tWDsrPRu7H8m5n2pD
- Id4sXQ7lCjW3ugL3GHU8csH9roXTZvLAQgDvdzETJCjmIBR1pH8DbbL7homJWAQ4NRNd
- Z41QFNT9IAN752KTAYeeoYZIoYF9s4Dq1fx4k0/6+e0owyY2ZlI+68OL8g4zrQ3ny6bH
- ZYZB32/QBX+FmjfRCjY62A8xwAnMVCoxHFOix3XnFFQrq/w49ByQ6kMPTxN5E415q2oZ
- 5fGsjAunuDCarnbpJUqcn3+Gf43D7ZFDq6YC2Q+X3uQk1W/j0uC6GQPTdIRnf1pSL7pn
- CfDQ==
-X-Gm-Message-State: AOAM532vyITWl7NhXLy3HT853CtYy0rG0eX7GHy1DR0IDKsZASK3Ym7Z
- fwM2BqxoUrpi/CLP+ZB+Qe8=
-X-Google-Smtp-Source: ABdhPJzrBWV4/Ba2hzqbP4/NkJLwwHvjBXXwfmNYZnM46wPk4JxF6EfjTOKcrVuXzaMYqz1kTACCcg==
-X-Received: by 2002:a65:6217:: with SMTP id d23mr22426920pgv.105.1626656633335; 
- Sun, 18 Jul 2021 18:03:53 -0700 (PDT)
-Received: from taoren-ubuntu-R90MNF91 (c-73-252-146-110.hsd1.ca.comcast.net.
- [73.252.146.110])
- by smtp.gmail.com with ESMTPSA id il13sm11365330pjb.7.2021.07.18.18.03.52
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 18 Jul 2021 18:03:53 -0700 (PDT)
-Date: Sun, 18 Jul 2021 18:03:46 -0700
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH 0/4] ARM: dts: aspeed: Enable ADC for wedge100 BMC
-Message-ID: <20210719010346.GA6817@taoren-ubuntu-R90MNF91>
-References: <20210719001724.6410-1-rentao.bupt@gmail.com>
- <CACPK8Xdgp50KbVvhSbhrwUiTB6MJ5PoBzV9n18ubZAAOprOGiw@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GSvYn33m9z2ydJ
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 19 Jul 2021 18:06:21 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 16J7nQBf015319;
+ Mon, 19 Jul 2021 15:49:26 +0800 (GMT-8)
+ (envelope-from billy_tsai@aspeedtech.com)
+Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 19 Jul
+ 2021 16:05:47 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: <jic23@kernel.org>, <lars@metafoo.de>, <pmeerw@pmeerw.net>,
+ <robh+dt@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
+ <p.zabel@pengutronix.de>, <billy_tsai@aspeedtech.com>,
+ <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <raltherr@google.com>
+Subject: [v1 0/7] Add support for ast2600 ADC
+Date: Mon, 19 Jul 2021 16:06:00 +0800
+Message-ID: <20210719080607.28712-1-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACPK8Xdgp50KbVvhSbhrwUiTB6MJ5PoBzV9n18ubZAAOprOGiw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.149]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 16J7nQBf015319
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,39 +56,30 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Jul 19, 2021 at 12:21:20AM +0000, Joel Stanley wrote:
-> On Mon, 19 Jul 2021 at 00:17, <rentao.bupt@gmail.com> wrote:
-> >
-> > From: Tao Ren <rentao.bupt@gmail.com>
-> >
-> > The patch series enables ADC for Facebook Wedge100 BMC platform.
-> >
-> > Patch #1 enables ADC in Facebook AST2400 common dtsi because ADC is used
-> > on all the Facebook AST2400 Network BMC platforms.
-> >
-> > Patch #2 removes the redundant ADC entry from Wedge40 dts.
-> >
-> > Patch #3 removes the redundant ADC entry from Galaxy100 dts.
-> >
-> > Patch #4 enables the ADC voltage sensoring channels in Wedge100 dts.
-> 
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
-> 
-> Thanks Tao, I will apply these for v5.15.
+This patch serials make aspeed_adc.c can support ast2600.
+In additional,
+patch #6 is used to improve the adc accurate and 
+patch #7 is used to fix the clock issue in the original code.
 
-Thanks Joel!
+Billy Tsai (7):
+  dt-bindings: iio: adc: rename the aspeed adc yaml
+  dt-bindings: iio: adc: Binding ast2600 adc.
+  iio: adc: aspeed: completes the bitfield declare.
+  iio: adc: aspeed: Allow driver to support ast2600
+  iio: adc: aspeed: Add func to set sampling rate.
+  iio: adc: aspeed: Add compensation phase.
+  iio: adc: aspeed: Fix the calculate error of clock.
 
+ ...speed,ast2400-adc.yaml => aspeed,adc.yaml} |  23 +-
+ drivers/iio/adc/aspeed_adc.c                  | 313 ++++++++++++++----
+ 2 files changed, 266 insertions(+), 70 deletions(-)
+ rename Documentation/devicetree/bindings/iio/adc/{aspeed,ast2400-adc.yaml => aspeed,adc.yaml} (53%)
 
-Cheers,
+-- 
+2.25.1
 
-Tao
