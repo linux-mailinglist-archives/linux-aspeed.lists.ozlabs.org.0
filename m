@@ -2,50 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF8113D3665
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 10:16:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F31323D3821
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 11:55:44 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GWMbs4zp7z30CJ
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 18:16:41 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GWPp65BVXz30C7
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 19:55:42 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=PgwQBnjS;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=fail (SPF fail - not authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::22c;
+ helo=mail-lj1-x22c.google.com; envelope-from=linus.walleij@linaro.org;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
+ header.s=google header.b=PgwQBnjS; dkim-atps=neutral
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GWMbp6SHMz30BT
- for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jul 2021 18:16:38 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 16N7x7uR041953;
- Fri, 23 Jul 2021 15:59:07 +0800 (GMT-8)
- (envelope-from billy_tsai@aspeedtech.com)
-Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 23 Jul
- 2021 16:15:41 +0800
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: <jic23@kernel.org>, <lars@metafoo.de>, <pmeerw@pmeerw.net>,
- <robh+dt@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
- <p.zabel@pengutronix.de>, <linux-iio@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [v2 8/8] iio: adc: aspeed: Support battery sensing.
-Date: Fri, 23 Jul 2021 16:16:21 +0800
-Message-ID: <20210723081621.29477-9-billy_tsai@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210723081621.29477-1-billy_tsai@aspeedtech.com>
-References: <20210723081621.29477-1-billy_tsai@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GWPp21Wz6z2yR2
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jul 2021 19:55:35 +1000 (AEST)
+Received: by mail-lj1-x22c.google.com with SMTP id x7so982967ljn.10
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jul 2021 02:55:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fP0e5+pzHaDijpgYG1lLGjRTibrvPnmwfOfR2a79Oo4=;
+ b=PgwQBnjSvLk4x+X2yQe7jp60ecUt1DEGtW2oMScbsZQYq//k/F5P24Ew8ozjmFMAv9
+ eJLWQ32egQtmYPHnGW6HvSZ9bECnSmqMdHK/CdIUE2xOzb9PTjHViKBsodCcLS9H9+f1
+ Y2v9/uQadwjgUv2+rxkPwgOUbyhQ/tzVSp0ADSKQCeFZREoTBTbLkLfHJpCyU++//o+w
+ PPa5gWBS/iR8l/Th/mvFurpKKz6QThYvBgU5z9cAC7//s2s7N2FnEuu/x4BKaszBe59W
+ w+5WnT6deW8axtamvoy1MiN6nbQmi9jHGBzH7V68wgdPjVcq5exj2BrLbAasWHSw4Qfc
+ 4pLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fP0e5+pzHaDijpgYG1lLGjRTibrvPnmwfOfR2a79Oo4=;
+ b=deGMjDwB+Qw4nX2R0pK3UMduyy4aIq37jiGwxs4A22vNH5ixHr/xQFEsvRd0pL3ZpM
+ a/BofWdxB5Z9L8mQd7V9vGNMZh/n0eVrqBmileECMh3/tNDk5/7ygdaKvFPIk1TjZSjP
+ Xsrs+Y5rF2V1xkojNK2+niL6YINHgvyMs0SeSZaDoyvlmC0dyIVUEjhLG9wEffRDPxnj
+ +HGYlzhURIuNFrq7PpF6/D1eHZjMJAZ5qf7/xdXBRtxcRiMAUR6YQoXM2i0j2KW3we2z
+ 0nzQjT5zj7uBUq1TFdwI9z+UWi3DUYsfJp0Tgqlp8RDgRxqaflFHVMc09iP/rvNCWPtw
+ DsVw==
+X-Gm-Message-State: AOAM530MzP8j5zVx8UDFk8OGKDYobLbOuH8J3xjONLo+R3CwPAoCoxXi
+ DyYS9TIHEsFDJHvSYK7snTdwjdOuYPLhWEptonU3Kw==
+X-Google-Smtp-Source: ABdhPJwPEw7PL/ZNV+knFCr6ygwXtfSSsgPtD8AuMekygxnk/RTl974xpeWic6KoZZjpg5e/ZwPK/u6fHqHmTlKzNJs=
+X-Received: by 2002:a2e:908d:: with SMTP id l13mr2708186ljg.467.1627034126232; 
+ Fri, 23 Jul 2021 02:55:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.149]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 16N7x7uR041953
+References: <20210712100317.23298-1-steven_lee@aspeedtech.com>
+ <20210712100317.23298-2-steven_lee@aspeedtech.com>
+In-Reply-To: <20210712100317.23298-2-steven_lee@aspeedtech.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 23 Jul 2021 11:55:15 +0200
+Message-ID: <CACRpkdY6LZ1+bZkc+Nk3Fr4vn8neYHjMNeAxDR_8u44Nq71+Xw@mail.gmail.com>
+Subject: Re: [PATCH v6 1/9] dt-bindings: aspeed-sgpio: Convert txt bindings to
+ yaml.
+To: Steven Lee <steven_lee@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,123 +75,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Rob Herring <robh+dt@kernel.org>, Hongwei Zhang <Hongweiz@ami.com>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-In ast2600, ADC integrate dividing circuit at last input channel for
-battery sensing. This patch use the dts property "battery-sensing" to
-enable this feature makes the last channel of each adc can tolerance
-higher voltage than reference voltage.
+On Mon, Jul 12, 2021 at 12:03 PM Steven Lee <steven_lee@aspeedtech.com> wrote:
 
-Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
----
- drivers/iio/adc/aspeed_adc.c | 60 +++++++++++++++++++++++++++++++++---
- 1 file changed, 55 insertions(+), 5 deletions(-)
+> sgpio-aspeed bindings should be converted to yaml format.
+>
+> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
-index 7e674b607e36..6c7e2bb7b1ac 100644
---- a/drivers/iio/adc/aspeed_adc.c
-+++ b/drivers/iio/adc/aspeed_adc.c
-@@ -45,6 +45,9 @@
- #define ASPEED_ADC_REF_VOLTAGE_1200mV		FIELD_PREP(ASPEED_ADC_REF_VOLTAGE, 1)
- #define ASPEED_ADC_REF_VOLTAGE_EXT_HIGH		FIELD_PREP(ASPEED_ADC_REF_VOLTAGE, 2)
- #define ASPEED_ADC_REF_VOLTAGE_EXT_LOW		FIELD_PREP(ASPEED_ADC_REF_VOLTAGE, 3)
-+#define ASPEED_ADC_BATTERY_SENSING_DIV		BIT(6)
-+#define ASPEED_ADC_BATTERY_SENSING_DIV_2_3	FIELD_PREP(ASPEED_ADC_BATTERY_SENSING_DIV, 0)
-+#define ASPEED_ADC_BATTERY_SENSING_DIV_1_3	FIELD_PREP(ASPEED_ADC_BATTERY_SENSING_DIV, 1)
- #define ASPEED_ADC_CTRL_INIT_RDY		BIT(8)
- #define ASPEED_ADC_CH7_MODE			BIT(12)
- #define ASPEED_ADC_CH7_NORMAL			FIELD_PREP(ASPEED_ADC_CH7_MODE, 0)
-@@ -76,6 +79,11 @@ struct aspeed_adc_model_data {
- 	unsigned int num_channels;
- };
- 
-+struct adc_gain {
-+	u8 mult;
-+	u8 div;
-+};
-+
- struct aspeed_adc_data {
- 	struct device		*dev;
- 	void __iomem		*base;
-@@ -87,6 +95,8 @@ struct aspeed_adc_data {
- 	int			vref;
- 	u32			sample_period_ns;
- 	int			cv;
-+	bool			battery_sensing;
-+	struct adc_gain		battery_mode_gain;
- };
- 
- #define ASPEED_CHAN(_idx, _data_reg_addr) {			\
-@@ -185,14 +195,38 @@ static int aspeed_adc_read_raw(struct iio_dev *indio_dev,
- 			       int *val, int *val2, long mask)
- {
- 	struct aspeed_adc_data *data = iio_priv(indio_dev);
-+	u32 adc_engine_control_reg_val;
- 
- 	switch (mask) {
- 	case IIO_CHAN_INFO_RAW:
--		*val = readw(data->base + chan->address) + data->cv;
--		if (*val < 0)
--			*val = 0;
--		else if (*val >= ASPEED_ADC_MAX_RAW_DATA)
--			*val = ASPEED_ADC_MAX_RAW_DATA;
-+		if (data->battery_sensing && chan->channel == 7) {
-+			adc_engine_control_reg_val =
-+				readl(data->base + ASPEED_REG_ENGINE_CONTROL);
-+			writel(adc_engine_control_reg_val |
-+				       ASPEED_ADC_CH7_BATTERY |
-+				       ASPEED_ADC_BATTERY_SENSING_ENABLE,
-+			       data->base + ASPEED_REG_ENGINE_CONTROL);
-+			/*
-+			 * After enable battery sensing mode need to wait some time for adc stable
-+			 * Experiment result is 1ms.
-+			 */
-+			mdelay(1);
-+			*val = readw(data->base + chan->address) + data->cv;
-+			if (*val < 0)
-+				*val = 0;
-+			else if (*val >= ASPEED_ADC_MAX_RAW_DATA)
-+				*val = ASPEED_ADC_MAX_RAW_DATA;
-+			*val = (*val * data->battery_mode_gain.mult) /
-+			       data->battery_mode_gain.div;
-+			writel(adc_engine_control_reg_val,
-+			       data->base + ASPEED_REG_ENGINE_CONTROL);
-+		} else {
-+			*val = readw(data->base + chan->address) + data->cv;
-+			if (*val < 0)
-+				*val = 0;
-+			else if (*val >= ASPEED_ADC_MAX_RAW_DATA)
-+				*val = ASPEED_ADC_MAX_RAW_DATA;
-+		}
- 		return IIO_VAL_INT;
- 
- 	case IIO_CHAN_INFO_SCALE:
-@@ -392,6 +426,22 @@ static int aspeed_adc_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto vref_config_error;
- 
-+	if (of_find_property(data->dev->of_node, "battery-sensing", NULL)) {
-+		if (model_data->version >= aspeed_adc_ast2600) {
-+			data->battery_sensing = 1;
-+			if (readl(data->base + ASPEED_REG_ENGINE_CONTROL) &
-+			    ASPEED_ADC_BATTERY_SENSING_DIV_1_3) {
-+				data->battery_mode_gain.mult = 3;
-+				data->battery_mode_gain.div = 1;
-+			} else {
-+				data->battery_mode_gain.mult = 3;
-+				data->battery_mode_gain.div = 2;
-+			}
-+		} else
-+			dev_warn(&pdev->dev,
-+				 "Failed to enable battey-sensing mode\n");
-+	}
-+
- 	if (model_data->wait_init_sequence) {
- 		adc_engine_control_reg_val =
- 			readl(data->base + ASPEED_REG_ENGINE_CONTROL);
--- 
-2.25.1
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
+Yours,
+Linus Walleij
