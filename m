@@ -2,14 +2,14 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B3A63D35DE
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 09:59:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE4A13D35DF
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 09:59:54 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GWMDN0q3vz30D7
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 17:59:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GWMDS5Z5qz30Cr
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 17:59:52 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=UaJkAHfS;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=MuqPGjGj;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=d0ZxzPrI;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=KVj3Hgfs;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
@@ -19,67 +19,66 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm3 header.b=UaJkAHfS; 
+ header.s=fm3 header.b=d0ZxzPrI; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm3 header.b=MuqPGjGj; 
+ header.a=rsa-sha256 header.s=fm3 header.b=KVj3Hgfs; 
  dkim-atps=neutral
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GWMDK3shvz30Dg
- for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jul 2021 17:59:45 +1000 (AEST)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 9F669581634;
- Fri, 23 Jul 2021 03:59:43 -0400 (EDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GWMDQ0JLmz3029
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jul 2021 17:59:50 +1000 (AEST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 2448D58163D;
+ Fri, 23 Jul 2021 03:59:48 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Fri, 23 Jul 2021 03:59:43 -0400
+ by compute6.internal (MEProxy); Fri, 23 Jul 2021 03:59:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
  :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=M4brAVDojAQdO
- LA2SxZ90X+cdLlh9vmdPo456Vzq22Y=; b=UaJkAHfSJlqvnLlAxoVYhMu3YGzIW
- C8YJ40iQz6oS+vLeDZVdyww2Cj8HAxYPlcTcbNzB6fis99yiJfVPMq1dcPhreeZd
- D2Fg/WWiN1YIyoGtoPH4KiIGzCFXY7vXWdxgSTnhjaACW97200Nb19HyEje1UaVS
- 69AyaIaGURK1s6JF+AdipI1TYP1UsAqZ0SqjhudGp4xqttsHWi/LjySiHy7NFSeR
- DMIUGZcpnWvCU05o9rRiIU6uC7LPq637dMWJCAFe7MQyacqI902mz62/CnMxEgNi
- s9QP58ybb/iRtDFQYEX6nXfVhwhILYVW+C0oxGAbYUuN+KqktTEBUKnAw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=yMNleqijxoKWL
+ G2/iRJF83Hp6/4Eiy8KM4eaq0aduKo=; b=d0ZxzPrInqmmJP9WyhsLKYYrWHtdz
+ r5nUAh83q6FssL1zuVYuCT3Kx5bWW/WpfCmg5IdWiSa+E1Xu8kWFG21GY4ZUwg6+
+ KU3YlW3jjKfCgAxzzZx1ywevWx4/NuSvUq3ltkyRR3BRnCHMtMBe1hyeOvWW1dkV
+ HxEbV0QoBIPOROvEju0lOlDYLOQ2G8p1pKrP4W2ovSxx8VmMNByFpzx3GEA1isdX
+ JFEqYUj9OzdWxqyAhu0gmDed5dTRvPWPdk97etYuwNgXk/QYMRn4cP97OHVvVazp
+ k3BL5fXVxEU177pOY3vFB/q50Br1eG9YtCs1OXjVCUoS642Zv1EnlhNgQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=M4brAVDojAQdOLA2SxZ90X+cdLlh9vmdPo456Vzq22Y=; b=MuqPGjGj
- z4RqTO2akb/D6DrmY7u2KCRcbO82GvxBZGdgcG4eGCO8PnaCbEZSbaIjfgg8e7fc
- nVaxtbL4mAkGAgcDMaLLdF/QYV0SN572zXfFkOU9bmtyrDOvf8mcEqMymYhH1Spi
- V3ySplcMvCaoxjPsdeFNhPeB7vfm0WVpsPJG4BJ3flFV9SOmKFmIDyHryiY82pz4
- zIoFZHvoyWgcq21XbbO0M7QAua7V7i8UywG4pwh0rqGuDMb/5FhSlrxViU4ibTV0
- R9Th43nCXkjxbHZleHo0KXKV/ZknPSvLgi7fIs4euCGGLBJKuJYNEUlC71uP2xtq
- f9cncUhGeDr/1A==
-X-ME-Sender: <xms:7nb6YKaGMre-FUnYXQkybNb0OB4kri70aJkMHXp9IPNq-L6o58uz3g>
- <xme:7nb6YNaUesLqBgvj58hDHasJTAVgVp-zK-5ALtU5yFGqxrITOaVjT1QkRO2F2Q6Hl
- txWd6CgLTCAGgTZfA>
-X-ME-Received: <xmr:7nb6YE_7kbBN18eHGUSFFyO7cg0q3gGeSR2yjl2Tam2gn6yepcWlXReSRW1gcmyYuexPkP4k9gpoq6T2XiNKy-FT6nFP1L7KUQRu1PO6iCQOETHY1iYW20D3rJcz-1KUlhh_aQ>
+ fm3; bh=yMNleqijxoKWLG2/iRJF83Hp6/4Eiy8KM4eaq0aduKo=; b=KVj3Hgfs
+ h6uD4VUrAKDHz2z3yxYCgknIa1eJ2IjcSO7JVhUu/zgJVuH9bWcR+tYTrEOl/nnK
+ 6goAiSC2RDdqXn2cTQN8usnF2OiHVNaUNf73dNHz6YFipat4GXpV7NAUUJ3FZ/nG
+ eBHMQO8lhtgmrZcDrKnvyW+DupCLTool/bdTQa004zAC2YFGj3pCzP6gnhxkF+Z2
+ HSCRNo3NTqyL0Pvn2EAop4qM40IdLsuHLngRtqKEyyMScsV5Qf1xNq5nq3UQLwk7
+ 4QuglNsdYoHmVdp5Kk5UYwyYLZluxLM9nIXi8h0LFXT55QLCv7kG6UaZscxrtXsw
+ 8fqkFHBTAykO2Q==
+X-ME-Sender: <xms:9Hb6YLyFT18ne0OgjIDNlyZvzB3qm98YUIj8kpgdlA35RWY1HnQmdA>
+ <xme:9Hb6YDT1SKClqAJKJySJO9OA10ZuRaYQ8t97_MtZULFsKDaJ-4cfT0Skrts0WkPpx
+ Gj11zdp46grUfEtdA>
+X-ME-Received: <xmr:9Hb6YFV3reaabvItKImLjAvReOMz5Pu3wvHtqRYJ7sixj4K4Ntm1cgWWgZNtsbbNlkD15QP20TTXfkDT1ufrEgK_KvrrXVlkNRlQgxSTDaEoKzHBeU2XlNynJNdAbaKIenMisQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfeejgdduvddvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
  dtredttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegr
  jhdrihgurdgruheqnecuggftrfgrthhtvghrnhepjefgvdevheetkeevgeegleelgfelte
- etjeffleffvdduudevieffgeetleevhfetnecuvehluhhsthgvrhfuihiivgeptdenucfr
+ etjeffleffvdduudevieffgeetleevhfetnecuvehluhhsthgvrhfuihiivgepudenucfr
  rghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:7nb6YMpmqMny-sMDSLFOiy4Yr-yysHbycOJ7ArI8UueOa4NW8jXVhw>
- <xmx:7nb6YFoEiVPT-hXy_bQ_6TjDeBFdmU5FOJNMQoAq_YwG7FPGIHvRnQ>
- <xmx:7nb6YKRSHjtBc_soCP-epuQONTd_68MukeVAzPd4Nz4IgHPv3VWwtA>
- <xmx:73b6YA3OLPULSetxTXX94unDxJgE3dg1BbSvQIzgR2fAdUCbAqe66A>
+X-ME-Proxy: <xmx:9Hb6YFiZUQ57LeD5qYIvtHdKw_99Mb3Vws-oQWyVZMRHbYVz-kW9_g>
+ <xmx:9Hb6YNAe51HrnXFshOVt8wgxQeA1150f6NCTFV7Vz9Mf5qc6gjJG1Q>
+ <xmx:9Hb6YOKavc3rizlJQnMPU2Bui15Hzhv3HJmh8lP5Pv-LGHVGL_Fi4w>
+ <xmx:9Hb6YBvA395xYm1aCRhZoyUV2J_Ma808wRhqs7uCPaJbJ3F4cDlG-w>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 23 Jul 2021 03:59:38 -0400 (EDT)
+ 23 Jul 2021 03:59:43 -0400 (EDT)
 From: Andrew Jeffery <andrew@aj.id.au>
 To: linux-leds@vger.kernel.org,
 	linux-gpio@vger.kernel.org
-Subject: [RFC PATCH 5/6] ARM: dts: rainier: Add presence-detect and fault
- indictor GPIO expander
-Date: Fri, 23 Jul 2021 17:28:57 +0930
-Message-Id: <20210723075858.376378-6-andrew@aj.id.au>
+Subject: [RFC PATCH 6/6] pinctrl: Check get_group_pins callback on init
+Date: Fri, 23 Jul 2021 17:28:58 +0930
+Message-Id: <20210723075858.376378-7-andrew@aj.id.au>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210723075858.376378-1-andrew@aj.id.au>
 References: <20210723075858.376378-1-andrew@aj.id.au>
@@ -103,101 +102,28 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Expose the ability for the hardware to indicate that it is present, and
-if it is present, for the BMC to mark it as faulty.
+Do configurations exist where this doesn't make sense? I lost some time
+to debugging the fact that I was missing the callback :(
 
 Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 ---
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 76 ++++++++++++++++++++
- 1 file changed, 76 insertions(+)
+ drivers/pinctrl/core.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-index 941c0489479a..84651d090965 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-@@ -1685,6 +1685,82 @@ eeprom@50 {
- 		compatible = "atmel,24c64";
- 		reg = <0x50>;
- 	};
-+
-+	dbp0: led-controller@60 {
-+		compatible = "nxp,pca9552";
-+		reg = <0x60>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		ngpios = <8>;
-+		gpio-ranges = <&dbp0 0 8 8>;
-+
-+		led@0 {
-+			label = "led-fault-0";
-+			reg = <0>;
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			type = <PCA955X_TYPE_LED>;
-+		};
-+
-+		led@1 {
-+			label = "led-fault-1";
-+			reg = <1>;
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			type = <PCA955X_TYPE_LED>;
-+		};
-+
-+		led@2 {
-+			label = "led-fault-2";
-+			reg = <2>;
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			type = <PCA955X_TYPE_LED>;
-+		};
-+
-+		led@3 {
-+			label = "led-fault-3";
-+			reg = <3>;
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			type = <PCA955X_TYPE_LED>;
-+		};
-+
-+		led@4 {
-+			label = "led-fault-4";
-+			reg = <4>;
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			type = <PCA955X_TYPE_LED>;
-+		};
-+
-+		led@5 {
-+			label = "led-fault-5";
-+			reg = <5>;
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			type = <PCA955X_TYPE_LED>;
-+		};
-+
-+		led@6 {
-+			label = "led-fault-6";
-+			reg = <6>;
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			type = <PCA955X_TYPE_LED>;
-+		};
-+
-+		led@7 {
-+			label = "led-fault-7";
-+			reg = <7>;
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			type = <PCA955X_TYPE_LED>;
-+		};
-+	};
- };
+diff --git a/drivers/pinctrl/core.c b/drivers/pinctrl/core.c
+index e4862552eb9b..4c436a419856 100644
+--- a/drivers/pinctrl/core.c
++++ b/drivers/pinctrl/core.c
+@@ -1994,7 +1994,8 @@ static int pinctrl_check_ops(struct pinctrl_dev *pctldev)
  
- &i2c14 {
+ 	if (!ops ||
+ 	    !ops->get_groups_count ||
+-	    !ops->get_group_name)
++	    !ops->get_group_name ||
++	    !ops->get_group_pins)
+ 		return -EINVAL;
+ 
+ 	return 0;
 -- 
 2.30.2
 
