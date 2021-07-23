@@ -1,67 +1,66 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31323D3821
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 11:55:44 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFBDD3D3825
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 11:56:16 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GWPp65BVXz30C7
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 19:55:42 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GWPpk3NBNz30C7
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 19:56:14 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=PgwQBnjS;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=mBol1gdn;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::22c;
- helo=mail-lj1-x22c.google.com; envelope-from=linus.walleij@linaro.org;
+ smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::231;
+ helo=mail-lj1-x231.google.com; envelope-from=linus.walleij@linaro.org;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=PgwQBnjS; dkim-atps=neutral
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
+ header.s=google header.b=mBol1gdn; dkim-atps=neutral
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GWPp21Wz6z2yR2
- for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jul 2021 19:55:35 +1000 (AEST)
-Received: by mail-lj1-x22c.google.com with SMTP id x7so982967ljn.10
- for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jul 2021 02:55:35 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GWPph2Rx4z2yR2
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jul 2021 19:56:12 +1000 (AEST)
+Received: by mail-lj1-x231.google.com with SMTP id l4so1021309ljq.4
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jul 2021 02:56:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fP0e5+pzHaDijpgYG1lLGjRTibrvPnmwfOfR2a79Oo4=;
- b=PgwQBnjSvLk4x+X2yQe7jp60ecUt1DEGtW2oMScbsZQYq//k/F5P24Ew8ozjmFMAv9
- eJLWQ32egQtmYPHnGW6HvSZ9bECnSmqMdHK/CdIUE2xOzb9PTjHViKBsodCcLS9H9+f1
- Y2v9/uQadwjgUv2+rxkPwgOUbyhQ/tzVSp0ADSKQCeFZREoTBTbLkLfHJpCyU++//o+w
- PPa5gWBS/iR8l/Th/mvFurpKKz6QThYvBgU5z9cAC7//s2s7N2FnEuu/x4BKaszBe59W
- w+5WnT6deW8axtamvoy1MiN6nbQmi9jHGBzH7V68wgdPjVcq5exj2BrLbAasWHSw4Qfc
- 4pLg==
+ :cc; bh=CkR8wUqEbTCkDMFp55npGJ8Or66e381+fs8zfOqDe30=;
+ b=mBol1gdnCW9lQ+lz6XAteY3lI3csu9WMtA0hENo95F4qrMNJqguZTw5jECZQaT68PD
+ OOnFjsx/N/QVdfKiwzFo0+GSF0AwVPd73eGapGPy4z0z5DjcjTFQN1SbSF1o40P6wuOG
+ 5TqQm6w+ywesAzGsFrXN9BQfdL7ngQzcAg3co2oYzUwTXqwekOyu/xFam31KBEBUaghW
+ c0dLwaXCiG1gM0ESk5NmgaBHhfOS1vaMGx253sVy8bVkxE4ZcSAsnx1jzs4RLdvaGuWu
+ RomuFfIXZrKCS/8p9TE2My4H6xvgY+vI4SgKN/9wQVBT2HTm7MWZkbO6cEouLJv3jVb9
+ zf8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=fP0e5+pzHaDijpgYG1lLGjRTibrvPnmwfOfR2a79Oo4=;
- b=deGMjDwB+Qw4nX2R0pK3UMduyy4aIq37jiGwxs4A22vNH5ixHr/xQFEsvRd0pL3ZpM
- a/BofWdxB5Z9L8mQd7V9vGNMZh/n0eVrqBmileECMh3/tNDk5/7ygdaKvFPIk1TjZSjP
- Xsrs+Y5rF2V1xkojNK2+niL6YINHgvyMs0SeSZaDoyvlmC0dyIVUEjhLG9wEffRDPxnj
- +HGYlzhURIuNFrq7PpF6/D1eHZjMJAZ5qf7/xdXBRtxcRiMAUR6YQoXM2i0j2KW3we2z
- 0nzQjT5zj7uBUq1TFdwI9z+UWi3DUYsfJp0Tgqlp8RDgRxqaflFHVMc09iP/rvNCWPtw
- DsVw==
-X-Gm-Message-State: AOAM530MzP8j5zVx8UDFk8OGKDYobLbOuH8J3xjONLo+R3CwPAoCoxXi
- DyYS9TIHEsFDJHvSYK7snTdwjdOuYPLhWEptonU3Kw==
-X-Google-Smtp-Source: ABdhPJwPEw7PL/ZNV+knFCr6ygwXtfSSsgPtD8AuMekygxnk/RTl974xpeWic6KoZZjpg5e/ZwPK/u6fHqHmTlKzNJs=
-X-Received: by 2002:a2e:908d:: with SMTP id l13mr2708186ljg.467.1627034126232; 
- Fri, 23 Jul 2021 02:55:26 -0700 (PDT)
+ bh=CkR8wUqEbTCkDMFp55npGJ8Or66e381+fs8zfOqDe30=;
+ b=peMODdp/2LzIPvfZulYCCqNd8u86Lc4fU0O7i/JlTjHkVNOLXMCYguCgwYUrfFboXy
+ 1Ypdibol9AV5AVdRAlFnA8R2S9RJBd3Qu4h4MU00+QkTxHviR1BYycvZYkayl2KTHyWY
+ EAiTyGt0yWEcrUSQugLuidHUkYfs4+2IVOg+a3f3JGMSkFlInNe9RYWMAqCvAouIhoUY
+ Ia6hilmCfzLvGj7brpQUcSlzxqziW1ojnIwHmzPSHgszyQMnisxjkJEBsoeNX2+Gy1mD
+ F5C9RgryKKM/mezCLMgqEh87zjXKusGBdPEk7NMVvsJlRfJ69dfxrV0JWfR94YL6UqbD
+ moWQ==
+X-Gm-Message-State: AOAM531CaGsUjPMIAhQbPMUdXYHuNjHIF+Bx6i7ArBNWb0X2BBeIPffg
+ 15FL7B9JARern2k/aQ8k12EWwyOjvP3rZ/oNzfrByA==
+X-Google-Smtp-Source: ABdhPJxnM2vPTMe/QERI1wzVFNT+EmxMDa0ooWJyC5d5IaGRNdU8tc70qB6aI0GBFYtqfCAwt6+jzUSnai8uPaJBxyg=
+X-Received: by 2002:a2e:950:: with SMTP id 77mr2791047ljj.438.1627034168552;
+ Fri, 23 Jul 2021 02:56:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210712100317.23298-1-steven_lee@aspeedtech.com>
- <20210712100317.23298-2-steven_lee@aspeedtech.com>
-In-Reply-To: <20210712100317.23298-2-steven_lee@aspeedtech.com>
+ <20210712100317.23298-3-steven_lee@aspeedtech.com>
+In-Reply-To: <20210712100317.23298-3-steven_lee@aspeedtech.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 23 Jul 2021 11:55:15 +0200
-Message-ID: <CACRpkdY6LZ1+bZkc+Nk3Fr4vn8neYHjMNeAxDR_8u44Nq71+Xw@mail.gmail.com>
-Subject: Re: [PATCH v6 1/9] dt-bindings: aspeed-sgpio: Convert txt bindings to
- yaml.
+Date: Fri, 23 Jul 2021 11:55:57 +0200
+Message-ID: <CACRpkdbwR_TKB9r0CpMRrMybF=SpHN4shw5tiwZf6v=ZzTgG+w@mail.gmail.com>
+Subject: Re: [PATCH v6 2/9] dt-bindings: aspeed-sgpio: Add ast2600 sgpio
 To: Steven Lee <steven_lee@aspeedtech.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -90,10 +89,11 @@ Sender: "Linux-aspeed"
 
 On Mon, Jul 12, 2021 at 12:03 PM Steven Lee <steven_lee@aspeedtech.com> wrote:
 
-> sgpio-aspeed bindings should be converted to yaml format.
+> AST2600 SoC has 2 SGPIO master interfaces one with 128 pins another one
+> with 80 pins. Add ast2600-sgpiom compatibles and update descriptions to
+> introduce the max number of available gpio pins that AST2600 supported.
 >
 > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
 
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
