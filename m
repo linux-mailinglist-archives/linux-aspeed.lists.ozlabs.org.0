@@ -2,66 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5C53D3829
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 11:57:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D333D3D3831
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 11:58:53 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GWPrQ0xpMz30C0
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 19:57:42 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GWPsl5gGGz30C7
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 19:58:51 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Vd49lfeY;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=NGgdq7v+;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::130;
- helo=mail-lf1-x130.google.com; envelope-from=linus.walleij@linaro.org;
+ smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::136;
+ helo=mail-lf1-x136.google.com; envelope-from=linus.walleij@linaro.org;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=Vd49lfeY; dkim-atps=neutral
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
+ header.s=google header.b=NGgdq7v+; dkim-atps=neutral
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GWPrL2Xlcz2yR2
- for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jul 2021 19:57:38 +1000 (AEST)
-Received: by mail-lf1-x130.google.com with SMTP id m13so1081928lfg.13
- for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jul 2021 02:57:38 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GWPsj5KH1z2yR2
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jul 2021 19:58:49 +1000 (AEST)
+Received: by mail-lf1-x136.google.com with SMTP id d18so1156367lfb.6
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jul 2021 02:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1bbyf9wEbZ38VDjiofzmlZm9MieG09qKdTHuQhixjL4=;
- b=Vd49lfeYHO7m8XFZBEcLvBP7vdwYvtGHQ0mTtY12Lafze1aKNSrYjq+4UxV9IEgKTg
- 6dvGLMIsFwKXRJN8nUJgbqPzBC2rGlUxx/ta66Tes7KL1y23WsmQpST7Thz+FcRMtOgl
- wpkcWb614X7JXBglHNWwQwuSZMYIxBP4rJT9cU283px3ORyh9oLT+eHGeIvEO9IblTiM
- Nt4EGcEtV+J0e8jAr6WYnyGHMtFZ9aShHurpKEDB3/YmRtxQssxRDiityIR37tYDQsoP
- vnYrEfUvEkfWpKOsBXyVgEYm6qKv+vXmYbjIBYU2ZBpTB9IEfEheF6Ic9QCifSKH/dZL
- kKQg==
+ :cc; bh=bXuM8D5k6/Yl7ozL3DfM+PVJYiIerLcTEkx5mVID/UU=;
+ b=NGgdq7v+o5iqkF3EI+m7OhMam7v6/wLB+PtgVWtPK+zgiAfitTZEjpKoG8KZfnGRZ0
+ XJ8xuYkmi14aUj966cwbUP99rci0Pn0csyZhH9ZTUDnuQSS32kadqR3lypzYlQJVtsnM
+ M/Ob2kqRn3bnETXtydx4LmnRgUUYyQCgOuGSK3GFT7vITGtGj0rltsuaNPV67aIl2IPE
+ bHvysTHvHR7wop3cRkd0567v6cxdtTxGnhtE0ta1ytVcgpKU5CaZP8raw12NEl4CmFcw
+ RqAlqSRFEHdmfT39ZgMX58L1/MNwxVvr9JKjOeHcHDvcFn9WS2ZMo7vYxE3BPlFA+Tmq
+ I92A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=1bbyf9wEbZ38VDjiofzmlZm9MieG09qKdTHuQhixjL4=;
- b=qU/kgJS1HZ2VFcQPgKFyYL97b5HCHDnRdLnBvVBOLVBcvJovUrtIcLMgW3CjwrBPqF
- sZOXqdRvLALAky1mcNVrcxc1CkWSICXRuMhqIiu/yDGAzODEIk7xAvtBv6NRKA3V7Dth
- EaUMQnemzj1qitb3KsexnDypE5FiyXeLEQTP/TGj3uQOwI2sSb84V8gpLgGc+Z6+fRvH
- o8y7sBMMbOlEuzsQFFgoDfXGVpA2tp4GYzHBGppiQyqvgTU523FiZaCLhSNXoFwC/cvv
- X4wRrV4gqMJsT6JkgeRnlQbGjzVOYv+1WpQ+Bac/JbTqn8xgghUi5KT75glv6mqlxTAP
- dbJw==
-X-Gm-Message-State: AOAM532ZYlBVYaGq94KxLG6d1u8g5yqT40BXndEuaBAB9K7asQMzHF5F
- TqyzMOlfxdlGUkWG8Kd/ZTctZlKbqyWTtor2lju7SQ==
-X-Google-Smtp-Source: ABdhPJzzn9llVraGZFX3Sur65HKKdYLq6gDhly6QMZqF+AQYyUowNRhBbb8Fwus2a0a0L9IdKACbNp5HfcMMz4FIdes=
-X-Received: by 2002:a05:6512:3f1f:: with SMTP id
- y31mr2585008lfa.29.1627034255015; 
- Fri, 23 Jul 2021 02:57:35 -0700 (PDT)
+ bh=bXuM8D5k6/Yl7ozL3DfM+PVJYiIerLcTEkx5mVID/UU=;
+ b=N8aFJPPvJGVB2LvvIG5ZwBdq5y+uBXNrBDZWpfMoVERFqTIRTxxtQr6+5CRZHiFycQ
+ 7v7BFB9GQ7ZH2m/2b++5+FrmbZogqoSE+exFyiggjZZ7E74qqBxyo4j1gE+eXJxF1TLZ
+ DQ2BjoE/gy8BXSg0lGqYSY9IksYSI56A8d7KKIzWtGGiV6ZJ46+h+BgMIpl8m3Fd3Mv/
+ qOJ51BpHvgrwQlxMZLYaBGwA+loV6x0XAZ8NZejyubUcQ35Jhw6TvBBOIqAYmCmwCZzL
+ PtQ2Tz8oT+fj1FBMkvwOuOavK2guy4cPFHPmmAlQ1UMo6yH4fy5dnQzkM6dAZ6Oy2U2L
+ 4+ZQ==
+X-Gm-Message-State: AOAM532G7l/0Ikhi8jS9stYjaRmYIA7LHK4XDn3xZASXNFzhK4g5jOtz
+ bj3hIGulCmxC+oEBz8Ch8GK1fMTFiTuAs8CSY++Brw==
+X-Google-Smtp-Source: ABdhPJzUNSEtuAGq/AntijcVwb7VOysRbc8PRRpm+HrzsTl4s4LzDpYbxtndNsmw3C9e7zr97SPpp9rInqEhXg6DtRs=
+X-Received: by 2002:ac2:5e71:: with SMTP id a17mr2434778lfr.465.1627034325426; 
+ Fri, 23 Jul 2021 02:58:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210712100317.23298-1-steven_lee@aspeedtech.com>
- <20210712100317.23298-6-steven_lee@aspeedtech.com>
-In-Reply-To: <20210712100317.23298-6-steven_lee@aspeedtech.com>
+ <20210712100317.23298-7-steven_lee@aspeedtech.com>
+In-Reply-To: <20210712100317.23298-7-steven_lee@aspeedtech.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 23 Jul 2021 11:57:24 +0200
-Message-ID: <CACRpkdbSEXd4bfhEi2UfHvjrUzzibqNBCfdcYfcWcknSgndyYQ@mail.gmail.com>
-Subject: Re: [PATCH v6 5/9] gpio: gpio-aspeed-sgpio: Add AST2600 sgpio support
+Date: Fri, 23 Jul 2021 11:58:34 +0200
+Message-ID: <CACRpkdbKyV_Crw8MS63SZGf=nKztDkKnJgRprLdvXe0u7BmVNg@mail.gmail.com>
+Subject: Re: [PATCH v6 6/9] gpio: gpio-aspeed-sgpio: Add set_config function
 To: Steven Lee <steven_lee@aspeedtech.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -90,47 +89,14 @@ Sender: "Linux-aspeed"
 
 On Mon, Jul 12, 2021 at 12:04 PM Steven Lee <steven_lee@aspeedtech.com> wrote:
 
-> The maximum number of gpio pins of SoC is hardcoded as 80 and the gpio pin
-> count mask for GPIO Configuration register is hardcode as GENMASK(9,6).
-> However, AST2600 has 2 sgpio master interfaces, one of them supports up
-> to 128 gpio pins and pin count mask of GPIO Configuration Register is 5
-> bits.
->
-> The patch adds ast2600 compatibles, removes MAX_NR_HW_SGPIO and
-> corresponding design to make the gpio input/output pin base are determined
-> by ngpios.
-> The patch also removed hardcoded pin mask and adds ast2400, ast2500,
-> ast2600 platform data that include gpio pin count mask for GPIO
-> Configuration Register.
->
-> The original pin order is as follows:
-> (suppose MAX_NR_HW_SGPIO is 80 and ngpios is 10 as well)
-> Input:
-> 0 1 2 3 ... 9
-> Output:
-> 80 81 82 ... 89
->
-> The new pin order is as follows:
-> Input:
-> 0 2 4 6 ... 18
-> Output:
-> 1 3 5 7 ... 19
->
-> SGPIO pin id and input/output pin mapping is as follows:
-> SGPIO0(0,1), SGPIO1(2,3), ..., SGPIO79(158,159)
->
-> For example:
-> Access SGPIO5(10,11)
-> Get SGPIO pin 5 (suppose sgpio chip id is 2)
-> gpioget 2 10
->
-> Set SGPIO pin 5 (suppose sgpio chip id is 2)
-> gpioset 2 11=1
-> gpioset 2 11=0
+> AST SoC supports *retain pin state* function when wdt reset.
+> The patch adds set_config function for handling sgpio reset tolerance
+> register.
 >
 > Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+> Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
 
-Nice use of match data. This is exactly how it shall be done.
+Excellent reuse of existing pin config property.
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
