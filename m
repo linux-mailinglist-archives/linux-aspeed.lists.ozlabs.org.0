@@ -1,52 +1,62 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E07D3D3D01
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 17:57:11 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D6D43D415F
+	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jul 2021 22:13:22 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GWYq8681Sz30Dg
-	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Jul 2021 01:57:08 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GWgVl6kCpz30Hg
+	for <lists+linux-aspeed@lfdr.de>; Sat, 24 Jul 2021 06:13:19 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=huawei.com (client-ip=185.176.79.56;
- helo=frasgout.his.huawei.com; envelope-from=jonathan.cameron@huawei.com;
+ smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
+ helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de;
  receiver=<UNKNOWN>)
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GWYq35Dtlz308f
- for <linux-aspeed@lists.ozlabs.org>; Sat, 24 Jul 2021 01:57:01 +1000 (AEST)
-Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4GWYYW0jbQz6H7lk;
- Fri, 23 Jul 2021 23:45:19 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 23 Jul 2021 17:56:56 +0200
-Received: from localhost (10.210.170.238) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2176.2; Fri, 23 Jul
- 2021 16:56:55 +0100
-Date: Fri, 23 Jul 2021 16:56:29 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GWgVj3YKtz30Dh
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 24 Jul 2021 06:13:15 +1000 (AEST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1m71XV-0005Yj-8f; Fri, 23 Jul 2021 22:12:57 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1m71XR-0005GT-1q; Fri, 23 Jul 2021 22:12:53 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1m71XR-0000Yi-05; Fri, 23 Jul 2021 22:12:53 +0200
+Date: Fri, 23 Jul 2021 22:12:50 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [v2 8/8] iio: adc: aspeed: Support battery sensing.
-Message-ID: <20210723165629.00005610@Huawei.com>
-In-Reply-To: <20210723081621.29477-9-billy_tsai@aspeedtech.com>
-References: <20210723081621.29477-1-billy_tsai@aspeedtech.com>
- <20210723081621.29477-9-billy_tsai@aspeedtech.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
+Subject: Re: [v9 2/2] pwm: Add Aspeed ast2600 PWM support
+Message-ID: <20210723201250.x4ki5ackfznmn4aw@pengutronix.de>
+References: <20210709065217.6153-3-billy_tsai@aspeedtech.com>
+ <20210715150533.vppkw5oiomkxmfrn@pengutronix.de>
+ <BD5B012C-B377-45E2-B04E-61D12B086670@aspeedtech.com>
+ <20210716070943.ayxkz2irkwhgincz@pengutronix.de>
+ <DD5590B4-11BC-411B-95BF-03AC26C078E4@aspeedtech.com>
+ <20210716101301.l563tdwt5xuq5iq6@pengutronix.de>
+ <3F12A498-DF5C-4954-8BCE-8C0C66BC9734@aspeedtech.com>
+ <4BC9AEF6-31EA-4EDA-BCB2-7E4D44B6D5D2@aspeedtech.com>
+ <20210721124859.clv6qlitbyomdz6s@pengutronix.de>
+ <7F794DD8-0FC6-491D-B071-CAD6C216E044@aspeedtech.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.210.170.238]
-X-ClientProxiedBy: lhreml704-chm.china.huawei.com (10.201.108.53) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="toxq6bq4j46rzjqb"
+Content-Disposition: inline
+In-Reply-To: <7F794DD8-0FC6-491D-B071-CAD6C216E044@aspeedtech.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,145 +68,147 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- lars@metafoo.de, p.zabel@pengutronix.de, linux-aspeed@lists.ozlabs.org,
- BMC-SW@aspeedtech.com, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- robh+dt@kernel.org, pmeerw@pmeerw.net, jic23@kernel.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ BMC-SW <BMC-SW@aspeedtech.com>, "lee.jones@linaro.org" <lee.jones@linaro.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 23 Jul 2021 16:16:21 +0800
-Billy Tsai <billy_tsai@aspeedtech.com> wrote:
 
-> In ast2600, ADC integrate dividing circuit at last input channel for
-> battery sensing. This patch use the dts property "battery-sensing" to
-> enable this feature makes the last channel of each adc can tolerance
+--toxq6bq4j46rzjqb
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-this feature allows the last channel of each ADC to tolerate a higher
-voltage than the reference voltage.
+On Fri, Jul 23, 2021 at 04:23:23AM +0000, Billy Tsai wrote:
+> On 2021/7/23, 3:17 AM, "Uwe Kleine-K=F6nig" <u.kleine-koenig@pengutronix.=
+de> wrote:
+>=20
+>     On Wed, Jul 21, 2021 at 10:52:21AM +0000, Billy Tsai wrote:
+>     >> Hi Uwe,
+>     >>=20
+>     >>     On 2021/7/16, 6:13 PM, "Uwe Kleine-K=F6nig" <u.kleine-koenig@p=
+engutronix.de> wrote:
+>     >>=20
+>     >>         On Fri, Jul 16, 2021 at 09:22:22AM +0000, Billy Tsai wrote:
+>     >>         >> On 2021/7/16, 3:10 PM, "Uwe Kleine-K=F6nig" <u.kleine-k=
+oenig@pengutronix.de> wrote:
+>     >>         >>=20
+>     >>         >>     On Fri, Jul 16, 2021 at 01:48:20AM +0000, Billy Tsa=
+i wrote:
+>     >>         >>     >> On 2021/7/15, 11:06 PM, "Uwe Kleine-K=F6nig" <u.=
+kleine-koenig@pengutronix.de>> wrote:
+>     >>         >>     >>     > Another is: The PWM doesn't support duty_c=
+ycle 0, on such a request the
+>     >>         >>     >>     > PWM is disabled which results in a constan=
+t inactive level.
+>     >>         >>     >>=20
+>     >>         >>     >>     > (This is correct, is it? Or does it yield =
+a constant 0 level?)
+>     >>         >>     >>=20
+>     >>         >>     >> Our pwm can support duty_cycle 0 by unset CLK_EN=
+ABLE.
+>     >>         >>=20
+>     >>         >>     > This has a slightly different semantic though. So=
+me consumer might
+>     >>         >>     > expect that the following sequence:
+>     >>         >>=20
+>     >>         >>     >	pwm_apply(mypwm, { .period =3D 10000, .duty_cycle=
+ =3D 10000, .enabled =3D true })
+>     >>         >>     >	pwm_apply(mypwm, { .period =3D 10000, .duty_cycle=
+ =3D 0, .enabled =3D true })
+>     >>         >>     >	pwm_apply(mypwm, { .period =3D 10000, .duty_cycle=
+ =3D 10000, .enabled =3D true })
+>     >>         >>=20
+>     >>         >>     > results in the output being low for an integer mu=
+ltiple of 10 =B5s. This
+>     >>         >>     > isn't given with setting CLK_ENABLE to zero, is i=
+t? (I didn't recheck,
+>     >>         >>     > if the PWM doesn't complete periods on reconfigur=
+ation this doesn't
+>     >>         >>     > matter much though.)
+>     >>         >> Thanks for the explanation.
+>     >>         >> Our hardware actually can only support duty from 1/256 =
+to 256/256.
+>     >>         >> For this situation I can do possible solution:
+>     >>         >> We can though change polarity to meet this requirement.=
+ Inverse the pin and use
+>     >>         >> duty_cycle 100.=20
+>     >>         >> But I think this is not a good solution for this proble=
+m right?
+>     >>=20
+>     >>         > If this doesn't result in more glitches that would be fi=
+ne for me.
+>     >>         > (Assuming it is documented good enough in the code to be
+>     >>         > understandable.)
+>     >>=20
+>     >>     > The polarity of our pwm controller will affect the duty cycl=
+e range:
+>     >>     > PWM_POLARITY_INVERSED : Support duty_cycle from 0% to 99%
+>     >>     > PWM_POLARITY_NORMAL: Support duty_cycle from 1% to 100%
+>     >>     > Dynamic change polarity will result in more glitches. Thus, =
+this will become
+>     >>     > a trade-off between 100% and 0% duty_cycle support for user =
+to use our pwm device.
+>     >>     > I will document it and send next patch.
+>     >>=20
+>     >> For handling the situation that the user want to set the duty cycl=
+e to 0%, the driver can:
+>     >> 1. Just return the error.
+>     >> 2. Use the minimum duty cycle value.
+>     >> I don't know which solution will be the better way or others.
+>     >> I would be grateful if you can give me some suggestion about this =
+problem.
+>=20
+>     > I thought if you disable the PWM it emits the inactive level? Then =
+this
+>     > is the best you can do if duty_cycle =3D 0 is requested.
+>=20
+> Thanks for your quick reply.
+> When duty_cycle =3D 0 is requested my driver currently will emit the inac=
+tive level.
+> So, the next patch I need to do is to add the comment about this?
 
-> higher voltage than reference voltage.
-> 
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-This looks fine otherwise, but one more general question inline.
+Not sure I got the complete picture now. The things I consider important
+are:
 
-Thanks,
+ - If your hardware cannot emit a 100% or 0% relative duty cycle, note
+   this in the Limitations section
 
-Jonathan
+ - Assuming your PWM emits the inactive level when disabled (that is 0
+   for PWM_POLARITY_NORMAL and 1 for PWM_POLARITY_INVERSED) this is the
+   best that can be done when a 0% relative duty cycle is requested
+   (assuming the hardware cannot implement that in a normal way).
 
-> ---
->  drivers/iio/adc/aspeed_adc.c | 60 +++++++++++++++++++++++++++++++++---
->  1 file changed, 55 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
-> index 7e674b607e36..6c7e2bb7b1ac 100644
-> --- a/drivers/iio/adc/aspeed_adc.c
-> +++ b/drivers/iio/adc/aspeed_adc.c
-> @@ -45,6 +45,9 @@
->  #define ASPEED_ADC_REF_VOLTAGE_1200mV		FIELD_PREP(ASPEED_ADC_REF_VOLTAGE, 1)
->  #define ASPEED_ADC_REF_VOLTAGE_EXT_HIGH		FIELD_PREP(ASPEED_ADC_REF_VOLTAGE, 2)
->  #define ASPEED_ADC_REF_VOLTAGE_EXT_LOW		FIELD_PREP(ASPEED_ADC_REF_VOLTAGE, 3)
-> +#define ASPEED_ADC_BATTERY_SENSING_DIV		BIT(6)
-> +#define ASPEED_ADC_BATTERY_SENSING_DIV_2_3	FIELD_PREP(ASPEED_ADC_BATTERY_SENSING_DIV, 0)
-> +#define ASPEED_ADC_BATTERY_SENSING_DIV_1_3	FIELD_PREP(ASPEED_ADC_BATTERY_SENSING_DIV, 1)
->  #define ASPEED_ADC_CTRL_INIT_RDY		BIT(8)
->  #define ASPEED_ADC_CH7_MODE			BIT(12)
->  #define ASPEED_ADC_CH7_NORMAL			FIELD_PREP(ASPEED_ADC_CH7_MODE, 0)
-> @@ -76,6 +79,11 @@ struct aspeed_adc_model_data {
->  	unsigned int num_channels;
->  };
->  
-> +struct adc_gain {
-> +	u8 mult;
-> +	u8 div;
-> +};
-> +
->  struct aspeed_adc_data {
->  	struct device		*dev;
->  	void __iomem		*base;
-> @@ -87,6 +95,8 @@ struct aspeed_adc_data {
->  	int			vref;
->  	u32			sample_period_ns;
->  	int			cv;
-> +	bool			battery_sensing;
-> +	struct adc_gain		battery_mode_gain;
->  };
->  
->  #define ASPEED_CHAN(_idx, _data_reg_addr) {			\
-> @@ -185,14 +195,38 @@ static int aspeed_adc_read_raw(struct iio_dev *indio_dev,
->  			       int *val, int *val2, long mask)
->  {
->  	struct aspeed_adc_data *data = iio_priv(indio_dev);
-> +	u32 adc_engine_control_reg_val;
->  
->  	switch (mask) {
->  	case IIO_CHAN_INFO_RAW:
-> -		*val = readw(data->base + chan->address) + data->cv;
-> -		if (*val < 0)
-> -			*val = 0;
-> -		else if (*val >= ASPEED_ADC_MAX_RAW_DATA)
-> -			*val = ASPEED_ADC_MAX_RAW_DATA;
+I hope this answered your remaining questions.
 
-Not related to this patch, but can the device support a per channel
-reference selection? I.e. some channels use different internal references or
-external references from others?
+Best regards
+Uwe
 
-If so we should consider if it is necessary to expose that functionality
-in the dt-binding.
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-> +		if (data->battery_sensing && chan->channel == 7) {
-> +			adc_engine_control_reg_val =
-> +				readl(data->base + ASPEED_REG_ENGINE_CONTROL);
-> +			writel(adc_engine_control_reg_val |
-> +				       ASPEED_ADC_CH7_BATTERY |
-> +				       ASPEED_ADC_BATTERY_SENSING_ENABLE,
-> +			       data->base + ASPEED_REG_ENGINE_CONTROL);
-> +			/*
-> +			 * After enable battery sensing mode need to wait some time for adc stable
-> +			 * Experiment result is 1ms.
-> +			 */
-> +			mdelay(1);
-> +			*val = readw(data->base + chan->address) + data->cv;
-> +			if (*val < 0)
-> +				*val = 0;
-> +			else if (*val >= ASPEED_ADC_MAX_RAW_DATA)
-> +				*val = ASPEED_ADC_MAX_RAW_DATA;
-> +			*val = (*val * data->battery_mode_gain.mult) /
-> +			       data->battery_mode_gain.div;
-> +			writel(adc_engine_control_reg_val,
-> +			       data->base + ASPEED_REG_ENGINE_CONTROL);
-> +		} else {
-> +			*val = readw(data->base + chan->address) + data->cv;
-> +			if (*val < 0)
-> +				*val = 0;
-> +			else if (*val >= ASPEED_ADC_MAX_RAW_DATA)
-> +				*val = ASPEED_ADC_MAX_RAW_DATA;
-> +		}
->  		return IIO_VAL_INT;
->  
->  	case IIO_CHAN_INFO_SCALE:
-> @@ -392,6 +426,22 @@ static int aspeed_adc_probe(struct platform_device *pdev)
->  	if (ret)
->  		goto vref_config_error;
->  
-> +	if (of_find_property(data->dev->of_node, "battery-sensing", NULL)) {
-> +		if (model_data->version >= aspeed_adc_ast2600) {
-> +			data->battery_sensing = 1;
-> +			if (readl(data->base + ASPEED_REG_ENGINE_CONTROL) &
-> +			    ASPEED_ADC_BATTERY_SENSING_DIV_1_3) {
-> +				data->battery_mode_gain.mult = 3;
-> +				data->battery_mode_gain.div = 1;
-> +			} else {
-> +				data->battery_mode_gain.mult = 3;
-> +				data->battery_mode_gain.div = 2;
-> +			}
-> +		} else
-> +			dev_warn(&pdev->dev,
-> +				 "Failed to enable battey-sensing mode\n");
-> +	}
-> +
->  	if (model_data->wait_init_sequence) {
->  		adc_engine_control_reg_val =
->  			readl(data->base + ASPEED_REG_ENGINE_CONTROL);
+--toxq6bq4j46rzjqb
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmD7Ir8ACgkQwfwUeK3K
+7AkC4Qf/UySDPXNcbHOt72z/xM5f81I/l//h6KQb/ov/i2Acp8sazD1ANZ2+oN1/
+ZeecnsddK2CbLAHwuB53a7PUNfUmnFFf0hqaJGqG4k7ijswU+ln8mGj3Riaz1/8f
+P2fVTq62m7qmG7qF0WZoGcip9PHD0RO4yYOE/MwriQqsZV8e0z+rmd1xE536ys73
+A1JdFOThHpA8ZeQNbLaEvXkfHQ8qcamXcWGmnSgWyC6sUqYtRvyu+MPCgQs//ANB
+N+zGyKRfytVIl70GdbioHUn7vNQLwTVkfliecpdoCbdZaCpdQEzuZQVwztuEVctH
+siL6R66w7b074QtT3qfOvoKcLmeqIg==
+=LY3j
+-----END PGP SIGNATURE-----
+
+--toxq6bq4j46rzjqb--
