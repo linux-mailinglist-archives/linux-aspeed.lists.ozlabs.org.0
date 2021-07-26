@@ -1,131 +1,144 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FB13D541F
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Jul 2021 09:22:00 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D65DA3D6964
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Jul 2021 00:21:19 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GYBFL5Xscz3022
-	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Jul 2021 17:21:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GYZC151xZz2yRy
+	for <lists+linux-aspeed@lfdr.de>; Tue, 27 Jul 2021 08:21:17 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=Z5mxFmvK;
+	dkim=pass (1024-bit key; unprotected) header.d=equinixinc.onmicrosoft.com header.i=@equinixinc.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-equinixinc-onmicrosoft-com header.b=CFffZs9e;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=40.107.131.102;
- helo=apc01-sg2-obe.outbound.protection.outlook.com;
- envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
- header.a=rsa-sha256 header.s=selector1 header.b=Z5mxFmvK; 
+ smtp.mailfrom=equinix.com (client-ip=148.163.159.192;
+ helo=mx0b-00268f01.pphosted.com;
+ envelope-from=prvs=8841ea84e2=zweiss@equinix.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=equinixinc.onmicrosoft.com
+ header.i=@equinixinc.onmicrosoft.com header.a=rsa-sha256
+ header.s=selector2-equinixinc-onmicrosoft-com header.b=CFffZs9e; 
  dkim-atps=neutral
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
- (mail-eopbgr1310102.outbound.protection.outlook.com [40.107.131.102])
+X-Greylist: delayed 688 seconds by postgrey-1.36 at boromir;
+ Tue, 27 Jul 2021 08:21:14 AEST
+Received: from mx0b-00268f01.pphosted.com (mx0b-00268f01.pphosted.com
+ [148.163.159.192])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GYBFF3SFDz2yxx
- for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Jul 2021 17:21:51 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GYZBy0zQcz2yNr
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 27 Jul 2021 08:21:13 +1000 (AEST)
+Received: from pps.filterd (m0165120.ppops.net [127.0.0.1])
+ by mx0b-00268f01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16QLxVeZ011084; Mon, 26 Jul 2021 22:09:02 GMT
+Received: from nam04-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08lp2172.outbound.protection.outlook.com [104.47.73.172])
+ by mx0b-00268f01.pphosted.com with ESMTP id 3a2361rcyv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 26 Jul 2021 22:09:02 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HsoZfZwXviF6/vYnv6kdndEntGtYpQYHlHMJR1x9GfSoU1KCSgw3590QN3vdxi8FF4wRZS3fU/G22K8XU+VK9rbnvZAqqCLheHmsdbybbW3bFDDNLahdk7yOk1/EHxGefbzn+I/9Jbv/k6y6V9toT43Wak+vmVelv1qMxdyI/VoQVnZJBk/q2vJtYLZ0EQQsphdOBSGZSN2rdZH6kIQ/wt3R3UG/mEQPZ0IrYhsBGwJnyJzLEa0Dkb4v6NROGexLJIeU5SclEZ1a/ZMEtp0fZ+yAHF9hRIMoT1wy/XlHBYmy3Eh5k9tuG92nAvfiGjGJstLbm3ieqvFRHLZUiZJB+w==
+ b=m//oiskBmobNYhOmumeQ8cL5Ar978I0wfKGMsUNRJMKahQaW2LZKNvIOMOoJ6Qyn4gSwhnGnyeHnsv31t39lMiR3B3ZqhOiVwsS69m+S5svl6OkK+OaKuBRKTGWlAiwge/16O7W5C8nqPzNpkEekAxuBYmqRnXUzH6z/IGH4jGMy4PI3eTuZp3/pORlL4ICyWdZSTOEwX8I27webFMCNtzxtD6Pj5ZwF4mqQaYoXeE4JQaK9Hk+/l+T20ivB4jlRYPB2SqCnnBs4SaoY3/GmxaE/MyArJCFzT/EpAVdgNzix/qrbZ1hJZ0mlg6OYhwek+ibspmTcC88qxwU+GyrmYA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sHTQIR14x3cgSrTv/tRFfxg/eWHk0jjnQJIzS/Tr3z4=;
- b=DwZUF5bJq/a6HK5iIkQeyjyaWgRo0fwSSypFawRKiAvEiE1FPK/Hb9dtGFLzXAqtI9w2KHO3gytEa5OTCUUDUy4Tjp6uYN1zBOcSGd6rCxUwpNZON8BcKJP60GobtOeJ7OrUbUFkiqB981QIb7f3l4gcxcrmf/1Nnqk6GSScKyYx+VdKOSAcy5bBAsK+Pp7KpaUAkdNEOHw3rz49TA/0B+z/36inFdjduzdadSiYPfaeFmxZrn/yl7miSNJJzm5v58+N7NYu6cjWb1t3T9wrDIcWfRfwuv1f2mg8zMQIUvRLTWs1qAR9tMoz68lR/X+Rzs4JyPW8xpPvXaPJowFDTA==
+ bh=dPwes0Zv3EE/AL9Bz+HaN/YQiakA58qvAuG76VtsrXs=;
+ b=VIAVFFueA5Fmecur47gscHQr+YpTJOk8APICbH7orxZ7k4onCdqCEC5Iev3/sAkho6kJhKW71tFpjz4iAbbnsTSFLinClEHIVWOeTrMmoVmwqtxNCiKwPJF7DzcWVR2H/e9NCpFFRR40a7sH2NcdzHTeiy60yvie7gpZT2i5aqEk+8Nx9b0RE9CI0GGvF5ygCqhUla4MW8z3zwKzHw9frcAQnsm22q5SSCVSnI6DpA25heX3vLrPqrgu7WONnwSpDQxpF50dIYnW4qwGOUYfVL6+vfQLPYVW1MaITYcFKZ5TQ0PrdQi0S+XQb3pHyFvV9RPeRzjbPLAHCTjTx9lL/Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
+ smtp.mailfrom=equinix.com; dmarc=pass action=none header.from=equinix.com;
+ dkim=pass header.d=equinix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=equinixinc.onmicrosoft.com; s=selector2-equinixinc-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sHTQIR14x3cgSrTv/tRFfxg/eWHk0jjnQJIzS/Tr3z4=;
- b=Z5mxFmvK2vjMtlT7dmBzxWxSUuY9Q+5MmlfJnkSdBf0k54KPHzQHAKBEWL9hlTsGCuO8i9E6qHHxHoALgzk+O/DBJTHkkCnLdUYgtHehTcKlJzmgh6Yh0O+T0YkrDSvTpznBZELroTr5wt6VLIo0Ont9PzlK6sY2I+aAf2CkImvDTyL9/Kaowh0ANqr+9JONUK6JQvn+KQhn/srSU66/1qWNsJ+BXj8N2P+FrthuCAMglSpOFSgbpjRO03E+qN7Tx1tRHCKLF31Dz/l8zIYO+bCbdEkT6eWEhE6+67WhthZAtAnMF6SuIx+2/OkEEBQqMi15Q1nieXMxFyWRvQC2RA==
-Received: from HK0PR06MB3362.apcprd06.prod.outlook.com (2603:1096:203:8b::10)
- by HK0PR06MB2514.apcprd06.prod.outlook.com (2603:1096:203:63::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.26; Mon, 26 Jul
- 2021 07:21:29 +0000
-Received: from HK0PR06MB3362.apcprd06.prod.outlook.com
- ([fe80::a529:f5b3:b9d6:5e27]) by HK0PR06MB3362.apcprd06.prod.outlook.com
- ([fe80::a529:f5b3:b9d6:5e27%4]) with mapi id 15.20.4352.031; Mon, 26 Jul 2021
- 07:21:29 +0000
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Subject: Re: [v2 2/8] dt-bindings: iio: adc: Binding ast2600 adc.
-Thread-Topic: [v2 2/8] dt-bindings: iio: adc: Binding ast2600 adc.
-Thread-Index: AQHXf5rvPcPGvGefq0qulT4TGT2ZratQpUiAgAS/UQA=
-Date: Mon, 26 Jul 2021 07:21:29 +0000
-Message-ID: <8D93D26B-AE57-4E38-A1AD-FA62894F2947@aspeedtech.com>
-References: <20210723081621.29477-1-billy_tsai@aspeedtech.com>
- <20210723081621.29477-3-billy_tsai@aspeedtech.com>
- <20210723155141.000039ee@Huawei.com>
-In-Reply-To: <20210723155141.000039ee@Huawei.com>
-Accept-Language: zh-TW, en-US
+ bh=dPwes0Zv3EE/AL9Bz+HaN/YQiakA58qvAuG76VtsrXs=;
+ b=CFffZs9e/+TWQfTEVj/3aB/rCrehENMdM9Vy/e2np6Khsq+zqM4sSG2h9BP/EtfNg3KXG6G6q0YGExze2+KYIcpaf9DtJwEO3LIpCYx7R+EYNSMxnjVcZGHmNCvc8fWfHH1/dA1Fq7eJHo4gHVmUEAmrtEMB62EHjtkgSWzBT6U=
+Received: from DM8PR04MB8007.namprd04.prod.outlook.com (2603:10b6:5:314::20)
+ by DM8PR04MB8071.namprd04.prod.outlook.com (2603:10b6:8:2::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4352.26; Mon, 26 Jul 2021 22:09:00 +0000
+Received: from DM8PR04MB8007.namprd04.prod.outlook.com
+ ([fe80::953d:f9ec:b2cc:ca2b]) by DM8PR04MB8007.namprd04.prod.outlook.com
+ ([fe80::953d:f9ec:b2cc:ca2b%6]) with mapi id 15.20.4352.031; Mon, 26 Jul 2021
+ 22:08:59 +0000
+From: Zev Weiss <zweiss@equinix.com>
+To: Iwona Winiarska <iwona.winiarska@intel.com>
+Subject: Re: [PATCH 12/14] hwmon: peci: Add dimmtemp driver
+Thread-Topic: [PATCH 12/14] hwmon: peci: Add dimmtemp driver
+Thread-Index: AQHXgmrVZf3R942350iYDt4H3MKFzA==
+Date: Mon, 26 Jul 2021 22:08:59 +0000
+Message-ID: <20210726220858.GO8018@packtop>
+References: <20210712220447.957418-1-iwona.winiarska@intel.com>
+ <20210712220447.957418-13-iwona.winiarska@intel.com>
+In-Reply-To: <20210712220447.957418-13-iwona.winiarska@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: Huawei.com; dkim=none (message not signed)
- header.d=none;Huawei.com; dmarc=none action=none header.from=aspeedtech.com;
+authentication-results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=equinix.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e43e27fb-1174-4d2c-c5cc-08d95005fc9c
-x-ms-traffictypediagnostic: HK0PR06MB2514:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HK0PR06MB2514A6FFB7FDF4CC67E848B48BE89@HK0PR06MB2514.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-office365-filtering-correlation-id: 30a79180-f23d-4b8b-ef47-08d95081f87a
+x-ms-traffictypediagnostic: DM8PR04MB8071:
+x-microsoft-antispam-prvs: <DM8PR04MB80714DC9CCA68C241D83F0A6C3E89@DM8PR04MB8071.namprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2803;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: GlouHvUiGHBFQXqrg3DQLdDPZaIxP0fvBLr4rSkqBVMSwglgrsRH848my2+3muX89sIYzHsZvgQk4t52T0eUaGo16oOQuRy6qTk7KcKz0MIkjuM23tS2OfTqK79tX3nsBMB4OhKA8lLTN0kgEya6m+0A3K0pObVlipXcVYFilcpCkfPMU+3Xuuw/GKY3L3u9BPk8rPD5hCeJWQnA2s823dgz2p5usjKcH/sMVMlgXKoDvHa2DlT4daxOFlXDGAMNcYv5EHP8+5AYBpHoaogvJOd2h4zHpLLKKSJpasE/yBPXjLmPAj1PM0+zteaeZo9fZnjV83adjlPjDkZhQ9zgLfPD2IbkXtYUSlWOYOuj5lR7tSWmg9018IOTem209qdG1nQXQwo7OFn8ViGq22xHptIHayKoOyPWzQnbxTWQpcTA35e7LBqBrZ/RiO6u2sx9vOFvyydpTYhPl1WgpwPMzQ6IAiBMY0xV78b7lrgqYYOnR2Hcg/h8qbTs8aOx2DwH+8kv8BXunryVhAvrkTYAT25F9oGttm5yKoqEw/dkqZeqUB/VK98FbTiiYt47/vVjh2HSZzZgaaEC2bFtYXhE8yLbyNDN5u/DEVU3Qdxkoi6b4UGZMXhmfpz34VVM7sc45VsDyhVarBbSNYq7NnxV3KOxqNLuqYxtTjtoIpnuiANdU0d9BvJxYXZoVtfCsvQ5KpSymesc+v8klYwiC27IpLeQzQGb2lCsvgEQpKYPvS1uLTiT80KeWyqjAAJgVt82
+x-microsoft-antispam-message-info: PPnibRwsRKk8CZz8Q7f++T2fKLJasIua/6lQjGZz7Zokx8mOuomE2Y0dypO2N+KjfzSoVaYIj02u2c8M+rPfrd6mxL6KIEsguXG2XGmsaFNt2rQiV/Kxqeg9S3IdpFGy7NQQLpmeaWS2YBuC6gH3Rk+qCoNWU0wyEsGq+iIzooCpNoMbWHXpDn4zaeMi3AROjJoOlwzhgP+M9GJkzPtttXsLQm24aFkYxaAiB0VAn8gx2HD1Lcd45SDXdmBilJC2X1LQxwS/GY+YTQ/mKSJLkS3nRKvLU0OK73Sf4iRpDlROK73cVcgz6DXHdsjWTDLmXrraC9EvwiqoBcz7DA2UN9gqeUhib/Eu0OhHEqgfh6lXMgjWfFe2S6xAFV+gAFckHFAc1SNMjRs9RYEm+6a6GO/LZfRvsEm1apeEbimuV305JHmi7yMvrRb7a/3eEtiPvoH7e6AsRFNIOv9j78I+ZAdrutvyyC48j6NOrZ9BWqJHRaw5XvB8s/rmLtSfNqCgFa/2EQUG+pgARz+jCBftHmfhX+X5J8PW0l9jVokVzIP5QHt7oHR8uf9p5vTRZNtw/sOvJgpmH70HAGtuFX1+UdnyfjRJmd06IeE6SSBMSd6L6rLDmHuBGz/YoBhhG4+G32N/pjqj9jKbr7W6VHuf0UFv6sgVqr0rR3MiCjfjgUvJ3biadLPIeaN0x5BCg5fHsE/NI0yT1+oHx3GD8PaOww==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3362.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(396003)(136003)(39840400004)(376002)(346002)(71200400001)(38100700002)(6512007)(2906002)(26005)(8936002)(8676002)(122000001)(6486002)(508600001)(6506007)(186003)(55236004)(7416002)(107886003)(64756008)(66556008)(66446008)(5660300002)(36756003)(66476007)(66946007)(86362001)(2616005)(53546011)(4326008)(6916009)(54906003)(76116006)(316002)(33656002)(45980500001)(38070700004);
+ IPV:NLI; SFV:NSPM; H:DM8PR04MB8007.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(7916004)(4636009)(39860400002)(396003)(136003)(346002)(366004)(376002)(122000001)(86362001)(83380400001)(38100700002)(71200400001)(26005)(6506007)(2906002)(33656002)(8676002)(1076003)(4326008)(54906003)(66446008)(66946007)(6916009)(66476007)(64756008)(33716001)(186003)(6486002)(66556008)(76116006)(478600001)(9686003)(316002)(30864003)(7416002)(8936002)(5660300002)(6512007)(38070700004)(579004);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MzBvcGVDMFJxam9sdlRxZGtuV2NXeXZQczRocHNEZWZXS0ZHTzhsS0VaSFNx?=
- =?utf-8?B?OWM2dWh2RVl1bllOekF0WFZTOGVZdUxUbDJ2cExHSkhUTFRxK255M1JzSEov?=
- =?utf-8?B?Z0NpYkVEdUhWRzZKY200dklnSy9MUEpkenpGS2Zxa2VBckxKVHluUitWRkJY?=
- =?utf-8?B?N1pQNkZXYk9FNWMwVzZkaGtqU2ZTUGtRVzk2K0pkMDh4c2hGOFBVYm9BdFpj?=
- =?utf-8?B?cHBoQUJ2UzJNMFRiTnphZXU0UFRSSXFhUWFZRXFFZFJRcW96aEQyZlF4V25H?=
- =?utf-8?B?ZXM0NWk3UXhBVFkwQlBzbFJLYW45NHYrMEpqMC9pcEMwUU5vd0p4NzlBeDlD?=
- =?utf-8?B?UmpEeHVjOFhLSTF0ZTRYUnNCaGxXV2Z2RERlSDV1djBFWnV6RDYyMk42MFJT?=
- =?utf-8?B?QVNtem00TjhmdHBaOWhhU3BCZGkzSG5oL20zTFk5UW5pYUUrYWNDSVQ2R3gz?=
- =?utf-8?B?K0ZXUTUyS1JmandNdGRZaExqN0ZlSkVwSVE3NnQvUnlPcHI0STdDVTJOTTBQ?=
- =?utf-8?B?VkJSSWk4UlZHcjJvVmkwQmFYTk1yaFM4Z2l1cVpwRVB6ajVhYlk1S1dGZkp3?=
- =?utf-8?B?Z3MvYWRPeWtvM2tFVTJ1SklRRTVIQlVwZWRsRDFOY0RZWnBqZkdNMHloSnVw?=
- =?utf-8?B?UWt3UU5tVU5STHdmSGp2anJXOEJJVXFtVlU1MXgzS1JONFJtTkZYS3Iya1N1?=
- =?utf-8?B?SDZPa1FnekxZYUh1L3R0cENFa1BnYkdUcy8wb2xqTExQQTkvclp5ekFrRStD?=
- =?utf-8?B?SnhCVUsyQkt0QlNKSWNyNmswTlJaSkF3NnBZcE1tc0lpZlNtMnBienNBTkhh?=
- =?utf-8?B?K1RPTS93Q2VoSXBEMVRkT3VVZ0YzVTJGZVh5ZUhFZHpjRVZiUkxvcGhrdmkz?=
- =?utf-8?B?aC9xRmtYSnZmVzF5N1F2dWthOUJXVjhCWlA0azVGZ2JwR0w1NkRKYmMyR0Vj?=
- =?utf-8?B?VnBUQzRxUWRRTWJ2ckQ0SG0zR0ZvU0djM3ZZOXg3ZWZickNrMUQ4d3l6bnhH?=
- =?utf-8?B?NUJ1WTRWQWNjSnpjc2JrbE5JZFExYnhKSDJnVWlCRVVFSHFpMVBnWVE5UWNw?=
- =?utf-8?B?Z3B5cnBrUStiK3puWm5vR283cW1SY28zN3BjNlc1cG80bm9nWGJZdFhPcURu?=
- =?utf-8?B?ZmFxYjFCVjAxSkVXR2FUZEpiVzFCTmlKUlZLWktTMTRpY0RlODNUekJrWkJz?=
- =?utf-8?B?dG9PYUwwcHIxNHY4VU43ZmU2c29jZFRuejArNUNjQlhZQVFpSHIzMkVvWEwv?=
- =?utf-8?B?dVQyNFFqT05aa1hvZHBZTmgzRmtsekQxTkpuSUJXVHNPSitLOTFYVnlwK1hK?=
- =?utf-8?B?dVdrRHJQU2FUZHMyV0pCNHdqTE9xQW9jVm9aaEo4ckRzNkxOZ3NIYnJ6Sm5E?=
- =?utf-8?B?d0V2MVhMUmVSQVk5azd3R1Nad0RtOUt6WmgvQ0xmcGpjdlpSQXI2Vm9QRS83?=
- =?utf-8?B?YlUrTTN1SHE3MFN0dXNBODJyUVNJZE8va2dXdmU0ZklWMmZ6Z1hYK3VjSTFJ?=
- =?utf-8?B?RGVFU3hNNk1KMHNwckJiTldYSU9lS0J6YjZlR2xnNUFrSXpiOVpHUUdRV1RO?=
- =?utf-8?B?a29nVTN6SHhNamZZZTU5QlF2UnpycUc0SjNLc1FuRDZJbk5JM1ZBcmp6VVlQ?=
- =?utf-8?B?Uk55Ty95Qjg0S3M1Q2FaT2Uyd2crVGQ5MnJJakpHOWJwRGxNM1pZK2FsSW9K?=
- =?utf-8?B?VXhsY2xsYWRMUFY0UlNKaEhkbDlrNUJlOFNHRWVFcEIvOHFaazR4cnk5dXRT?=
- =?utf-8?Q?6FJJriyaOzB2CkxYXcqdn31VhdwDn/qd0FA6n7W?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5F19EFE1B9603549A6E375AAC263E689@apcprd06.prod.outlook.com>
-Content-Transfer-Encoding: base64
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?0JL9vn8YT8spO0f5DI3D9SIrAkN/eO6DmUULm+auJjYPEWPThUXPAEba3hB8?=
+ =?us-ascii?Q?YoGZT/mcwO+m2wVP8TVmNkBarFwBAwWlRrvCpsdlno7TKCmekk1NcRUhUhGT?=
+ =?us-ascii?Q?UzEIt5zPSPM7fdMe+DXWiI5UyUxawpjTDSXKbvlk1kIR+6FzaVKzefew3TK+?=
+ =?us-ascii?Q?C+11Beo1455ZIKu4fG9d4vNlUkN9mAwwCi55o5VaqxkpaZkq5Ky5+v0GB9cr?=
+ =?us-ascii?Q?uBgKKtY4UiKkwqwpYkz2mHNYB+64fsDSCCiohvNp0eqBGNMg/UY4g8l1ql2C?=
+ =?us-ascii?Q?4fO53KAuDXDhq+w/bZmLCZlgJCFRHABXJuDKRxBjojb/jF8hK4aOklq894Gl?=
+ =?us-ascii?Q?sFE0dkLFNYx0OYs03opGDPIJ0m3RcYme0dFLQAy+PHCpbmEYX9pd1RjAy2Mz?=
+ =?us-ascii?Q?1OSnmyWL+tUYuDdX6GABdOsOW/CjwmpFuquiMIVMAgcnJQNkxqZFkhoucf0h?=
+ =?us-ascii?Q?0DgoQvolofVbQ/QVKmBQJ1eI0HS6LIkwhM66UT4fGbRCDXmnaBOC2flIjGgw?=
+ =?us-ascii?Q?/583+ZLuBsy3Bm+E4pwIB8ShSgazo3lIlbCk+HUJQn6uvD93L7Lf5mm1uuIj?=
+ =?us-ascii?Q?jMHFpwcZWayUulgJ7+wpH1HyExwNwvDAN8eHmfY+hqfywbB+JYlORXE2IZmf?=
+ =?us-ascii?Q?ZTZMmHNv31mV5UISxicM8tYaFJl+8g2JanTjgtKa6JKRZEuAX2dV8BCBSlWM?=
+ =?us-ascii?Q?zIu/ZMJ9NvHEaZptA080HpWTAn9VArtVy+S+oXWiHIzUAkfJwK6ln+zHosyh?=
+ =?us-ascii?Q?/U7OYsnNJk93B5UqQ4bdQcctVfSZaG06WC4DqLu2wYBSpMRK/+XySWpiqGG8?=
+ =?us-ascii?Q?cGztTBbjcCBPeuXdZrnhSSMuspFrv2mJ2VSSOYncId5CRJjBXyb5Qcd1+mvh?=
+ =?us-ascii?Q?rzS+rBP2zVR+Ja6QEIAKXyiNpiq33qJNZI+rzdimNjYXMzVv7RFP3es44Lz7?=
+ =?us-ascii?Q?vwG0xhujnjJS5EhfjxM3POHbGLu2BSPaEzQ0JL2FDT3vhTqm3BUyDfIpV8YJ?=
+ =?us-ascii?Q?dfZoGYwIrz0ztYrnJpLuL6HSBwOcg5aT23aqQBE/Nr4Qeo5NgB53EboWARQP?=
+ =?us-ascii?Q?M1RuHqCU+gJBFOQIprkcLWpwscjQVeouVMqoBrdJH2c4pYMYo/3SobQnt+Sc?=
+ =?us-ascii?Q?JDPL++3kEa6AF5uUNYQ1k9+Z478XWJ5Agij9sDlZX0vhzZHWyMtrxiYXMSCx?=
+ =?us-ascii?Q?7mjtHtAljH5MZvRighd6Q4ueEw2welitjt3OSZ5L5mzsbzhkE2nOVqUNmy47?=
+ =?us-ascii?Q?oJf8dTmmHzURa79Yhbd+UOvgGhwMHN2m5bKyM/2H8ei3rQtAWO4unJBqCQGz?=
+ =?us-ascii?Q?KfKUV63rtlheQbh/+PozhveS?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <0DCB3260303D56479246FC0C8C5B31BC@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
+X-OriginatorOrg: equinix.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3362.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e43e27fb-1174-4d2c-c5cc-08d95005fc9c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jul 2021 07:21:29.1627 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8007.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30a79180-f23d-4b8b-ef47-08d95081f87a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jul 2021 22:08:59.7692 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-id: 72adb271-2fc7-4afe-a5ee-9de6a59f6bfb
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TFeHbUtAKN/L3qJlepGKjjzCzfcXi46b8KmOVbnavN96RNdXUvu7hZK6MvpYdeJVzO9syG5LZbilmWMF0s1PCLbOgjrFoZA9a5n8fl1PboI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2514
+X-MS-Exchange-CrossTenant-userprincipalname: 7qdE7eWXFynY9Y40QcVswzkIdb/Mz6O9wnoaeh+z6ypnILy2vhWnM26L4hjN8ihMzJtLQv6iS8IWm1MUcbnr6g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR04MB8071
+X-Proofpoint-ORIG-GUID: fme1-Zqbrt6cWamt_9EeJ6kaMHVka5RB
+X-Proofpoint-GUID: fme1-Zqbrt6cWamt_9EeJ6kaMHVka5RB
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-26_14:2021-07-26,
+ 2021-07-26 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 suspectscore=0
+ spamscore=0 lowpriorityscore=0 phishscore=0 adultscore=0 mlxlogscore=999
+ priorityscore=1501 clxscore=1011 malwarescore=0 impostorscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2107260128
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,57 +150,639 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
+Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "x86@kernel.org" <x86@kernel.org>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Ingo Molnar <mingo@redhat.com>, Guenter Roeck <linux@roeck-us.net>,
  "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "lars@metafoo.de" <lars@metafoo.de>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- BMC-SW <BMC-SW@aspeedtech.com>,
+ Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ Tony Luck <tony.luck@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>, "jic23@kernel.org" <jic23@kernel.org>
+ Yazen Ghannam <yazen.ghannam@amd.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGkgSm9uYXRoYW4sDQoNClRoYW5rcyBmb3IgeW91ciByZXZpZXcuIEkgd2lsbCBmaXggdGhlbS4N
-CkFib3V0IHRoZSB2cmVmIEkgcmVwbHkgaW5saW5lLg0KDQpPbiAyMDIxLzcvMjMsIDEwOjUyIFBN
-LCAiSm9uYXRoYW4gQ2FtZXJvbiIgPEpvbmF0aGFuLkNhbWVyb25ASHVhd2VpLmNvbT4gd3JvdGU6
-DQoNCiAgICBPbiBGcmksIDIzIEp1bCAyMDIxIDE2OjE2OjE1ICswODAwDQogICAgQmlsbHkgVHNh
-aSA8YmlsbHlfdHNhaUBhc3BlZWR0ZWNoLmNvbT4gd3JvdGU6DQoNCiAgICA+ICAgPiArICDigKIg
-SW50ZXJuYWwgb3IgRXh0ZXJuYWwgcmVmZXJlbmNlIHZvbHRhZ2UuDQogICAgPiAgID4gKyAg4oCi
-IFN1cHBvcnQgMiBJbnRlcm5hbCByZWZlcmVuY2Ugdm9sdGFnZSAxLjJ2IG9yIDIuNXYuDQogICAg
-PiAgID4gKyAg4oCiIEludGVncmF0ZSBkaXZpZGluZyBjaXJjdWl0IGZvciBiYXR0ZXJ5IHNlbnNp
-bmcuDQogICAgPiAgID4gIA0KICAgID4gICA+ICBwcm9wZXJ0aWVzOg0KICAgID4gICA+ICAgIGNv
-bXBhdGlibGU6DQogICAgPiAgID4gICAgICBlbnVtOg0KICAgID4gICA+ICAgICAgICAtIGFzcGVl
-ZCxhc3QyNDAwLWFkYw0KICAgID4gICA+ICAgICAgICAtIGFzcGVlZCxhc3QyNTAwLWFkYw0KICAg
-ID4gICA+ICsgICAgICAtIGFzcGVlZCxhc3QyNjAwLWFkYw0KICAgID4gICA+ICANCiAgICA+ICAg
-PiAgICByZWc6DQogICAgPiAgID4gICAgICBtYXhJdGVtczogMQ0KICAgID4gICA+IEBAIC0zMyw2
-ICs0NSwxOCBAQCBwcm9wZXJ0aWVzOg0KICAgID4gICA+ICAgICIjaW8tY2hhbm5lbC1jZWxscyI6
-DQogICAgPiAgID4gICAgICBjb25zdDogMQ0KICAgID4gICA+ICANCiAgICA+ICAgPiArICB2cmVm
-Og0KICAgID4gICA+ICsgICAgbWluSXRlbXM6IDkwMA0KICAgID4gICA+ICsgICAgbWF4SXRlbXM6
-IDI3MDANCiAgICA+ICAgPiArICAgIGRlZmF1bHQ6IDI1MDANCiAgICA+ICAgPiArICAgIGRlc2Ny
-aXB0aW9uOg0KICAgID4gICA+ICsgICAgICBBREMgUmVmZXJlbmNlIHZvbHRhZ2UgaW4gbWlsbGl2
-b2x0cy4NCg0KICAgID4gICBJJ20gbm90IGNsZWFyIGZyb20gdGhpcyBkZXNjcmlwdGlvbi4gIElz
-IHRoaXMgZGVzY3JpYmluZyBhbiBleHRlcm5hbGx5DQogICAgPiAgIGNvbm5lY3RlZCB2b2x0YWdl
-IHJlZmVyZW5jZT8gIElmIHNvIGl0IG5lZWRzIHRvIGJlIGRvbmUgYXMgYSByZWd1bGF0b3IuDQog
-ICAgPiAgIElmIGl0J3MgYSBjbGFzc2ljIGhpZ2ggcHJlY2lzaW9uIHJlZmVyZW5jZSwgdGhlIGR0
-cyBjYW4ganVzdCB1c2UNCiAgICA+ICAgYSBmaXhlZCByZWd1bGF0b3IuDQoNCkluIHRoZSBhc3Qy
-NjAwLCB0aGUgQURDIHN1cHBvcnRzIHR3byBpbnRlcm5hbCByZWZlcmVuY2Ugdm9sdGFnZXMgb2Yg
-MS4ydiBvciAyLjV2LA0KYXMgd2VsbCBhcyBleHRlcm5hbCB2b2x0YWdlcy4gV2hlbiB0aGUgdXNl
-ciBzZWxlY3RzIGEgdm9sdGFnZSBvZiAxLjJ2IG9yIDIuNXYsIG15DQpkcml2ZXIgd2lsbCBmaXJz
-dCBzZWxlY3QgdG8gdXNlIHRoZSBpbnRlcm5hbCB2b2x0YWdlLiANCkFzIHlvdSBtZW50aW9uIGF0
-IHBhdGNoICM0LCB5b3Ugc3VnZ2VzdCB0byB1c2UgdHdvIHByb3BlcnR5IHRvIGhhbmRsZSB0aGlz
-IGZlYXR1cmUuDQp2cmVmOiBpbmRpY2F0ZSB0aGUgcmVndWxhdG9yIGhhbmRsZXIuIExpa2Ugb3Ro
-ZXIgZHQtYmluZGluZ3MgdXNlZC4NCmFzcGVlZCxpbnRfdnJlZl9tdjogaW5kaWNhdGUgdGhlIGNo
-b3NlbiBvZiAxLjJ2IG9yIDIuNXYNCmFuZCB1c2UgIm1vZGVsX2RhdGEtPnZyZWZfZml4ZWQiIHRv
-IGV4Y2x1ZGUgYXN0MjQwMCBhbmQgYXN0MjUwMA0KSXMgaXQgcmlnaHQ/DQoNClRoYW5rcw0KDQog
-ICAgPiAgID4gKw0KICAgID4gICA+ICsgIGJhdHRlcnktc2Vuc2luZzoNCiAgICA+ICAgPiArICAg
-IHR5cGU6IGJvb2xlYW4NCiAgICA+ICAgPiArICAgIGRlc2NyaXB0aW9uOg0KICAgID4gICA+ICsg
-ICAgICBJbmZvcm0gdGhlIGRyaXZlciB0aGF0IGxhc3QgY2hhbm5lbCB3aWxsIGJlIHVzZWQgdG8g
-c2Vuc29yIGJhdHRlcnkuDQoNCiAgICA+ICAgVGhpcyBpc24ndCAoSSB0aGluaz8pIGEgc3RhbmRh
-cmQgZHQgYmluZGluZywgc28gaXQgbmVlZHMgYSBtYW51ZmFjdHVyZXINCiAgICA+ICAgcHJlZml4
-Lg0KDQogICAgPiAgIGFzcGVlZCxiYXR0ZXJ5LXNlbnNpbmcNCg0KQmVzdCBSZWdhcmRzLA0KQmls
-bHkgVHNhaQ0KDQoNCg==
+On Mon, Jul 12, 2021 at 05:04:45PM CDT, Iwona Winiarska wrote:
+>Add peci-dimmtemp driver for Digital Thermal Sensor (DTS) thermal
+>readings of DIMMs that are accessible via the processor PECI interface.
+>
+>The main use case for the driver (and PECI interface) is out-of-band
+>management, where we're able to obtain the DTS readings from an external
+>entity connected with PECI, e.g. BMC on server platforms.
+>
+>Co-developed-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+>Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
+>Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+>---
+> drivers/hwmon/peci/Kconfig    |  13 +
+> drivers/hwmon/peci/Makefile   |   2 +
+> drivers/hwmon/peci/dimmtemp.c | 508 ++++++++++++++++++++++++++++++++++
+> 3 files changed, 523 insertions(+)
+> create mode 100644 drivers/hwmon/peci/dimmtemp.c
+>
+>diff --git a/drivers/hwmon/peci/Kconfig b/drivers/hwmon/peci/Kconfig
+>index e10eed68d70a..f2d57efa508b 100644
+>--- a/drivers/hwmon/peci/Kconfig
+>+++ b/drivers/hwmon/peci/Kconfig
+>@@ -14,5 +14,18 @@ config SENSORS_PECI_CPUTEMP
+> 	  This driver can also be built as a module. If so, the module
+> 	  will be called peci-cputemp.
+>
+>+config SENSORS_PECI_DIMMTEMP
+>+	tristate "PECI DIMM temperature monitoring client"
+>+	depends on PECI
+>+	select SENSORS_PECI
+>+	select PECI_CPU
+>+	help
+>+	  If you say yes here you get support for the generic Intel PECI hwmon
+>+	  driver which provides Digital Thermal Sensor (DTS) thermal readings of
+>+	  DIMM components that are accessible via the processor PECI interface.
+>+
+>+	  This driver can also be built as a module. If so, the module
+>+	  will be called peci-dimmtemp.
+>+
+> config SENSORS_PECI
+> 	tristate
+>diff --git a/drivers/hwmon/peci/Makefile b/drivers/hwmon/peci/Makefile
+>index e8a0ada5ab1f..191cfa0227f3 100644
+>--- a/drivers/hwmon/peci/Makefile
+>+++ b/drivers/hwmon/peci/Makefile
+>@@ -1,5 +1,7 @@
+> # SPDX-License-Identifier: GPL-2.0-only
+>
+> peci-cputemp-y :=3D cputemp.o
+>+peci-dimmtemp-y :=3D dimmtemp.o
+>
+> obj-$(CONFIG_SENSORS_PECI_CPUTEMP)	+=3D peci-cputemp.o
+>+obj-$(CONFIG_SENSORS_PECI_DIMMTEMP)	+=3D peci-dimmtemp.o
+>diff --git a/drivers/hwmon/peci/dimmtemp.c b/drivers/hwmon/peci/dimmtemp.c
+>new file mode 100644
+>index 000000000000..2fcb8607137a
+>--- /dev/null
+>+++ b/drivers/hwmon/peci/dimmtemp.c
+>@@ -0,0 +1,508 @@
+>+// SPDX-License-Identifier: GPL-2.0-only
+>+// Copyright (c) 2018-2021 Intel Corporation
+>+
+>+#include <linux/auxiliary_bus.h>
+>+#include <linux/bitfield.h>
+>+#include <linux/bitops.h>
+>+#include <linux/hwmon.h>
+>+#include <linux/jiffies.h>
+>+#include <linux/module.h>
+>+#include <linux/peci.h>
+>+#include <linux/peci-cpu.h>
+>+#include <linux/units.h>
+>+#include <linux/workqueue.h>
+>+#include <linux/x86/intel-family.h>
+>+
+>+#include "common.h"
+>+
+>+#define DIMM_MASK_CHECK_DELAY_JIFFIES	msecs_to_jiffies(5000)
+>+#define DIMM_MASK_CHECK_RETRY_MAX	60 /* 60 x 5 secs =3D 5 minutes */
+>+
+>+/* Max number of channel ranks and DIMM index per channel */
+>+#define CHAN_RANK_MAX_ON_HSX	8
+>+#define DIMM_IDX_MAX_ON_HSX	3
+>+#define CHAN_RANK_MAX_ON_BDX	4
+>+#define DIMM_IDX_MAX_ON_BDX	3
+>+#define CHAN_RANK_MAX_ON_BDXD	2
+>+#define DIMM_IDX_MAX_ON_BDXD	2
+>+#define CHAN_RANK_MAX_ON_SKX	6
+>+#define DIMM_IDX_MAX_ON_SKX	2
+>+#define CHAN_RANK_MAX_ON_ICX	8
+>+#define DIMM_IDX_MAX_ON_ICX	2
+>+#define CHAN_RANK_MAX_ON_ICXD	4
+>+#define DIMM_IDX_MAX_ON_ICXD	2
+>+
+>+#define CHAN_RANK_MAX		CHAN_RANK_MAX_ON_HSX
+>+#define DIMM_IDX_MAX		DIMM_IDX_MAX_ON_HSX
+>+#define DIMM_NUMS_MAX		(CHAN_RANK_MAX * DIMM_IDX_MAX)
+
+Should we perhaps have a static_assert(DIMM_NUMS_MAX <=3D 64) so that
+check_populated_dimms() doesn't silently break if we ever have a system
+with > 64 dimms?  (Not sure how far off that might be, but doesn't seem
+*that* wildly inconceivable, anyway.)
+
+On a similar note, it'd be nice if there were some neat way of
+automating the maintenance of CHAN_RANK_MAX and DIMM_IDX_MAX, but I
+don't know of any great solutions for that offhand.  (Shrug.)
+
+>+
+>+#define CPU_SEG_MASK		GENMASK(23, 16)
+>+#define GET_CPU_SEG(x)		(((x) & CPU_SEG_MASK) >> 16)
+>+#define CPU_BUS_MASK		GENMASK(7, 0)
+>+#define GET_CPU_BUS(x)		((x) & CPU_BUS_MASK)
+>+
+>+#define DIMM_TEMP_MAX		GENMASK(15, 8)
+>+#define DIMM_TEMP_CRIT		GENMASK(23, 16)
+>+#define GET_TEMP_MAX(x)		(((x) & DIMM_TEMP_MAX) >> 8)
+>+#define GET_TEMP_CRIT(x)	(((x) & DIMM_TEMP_CRIT) >> 16)
+>+
+>+struct dimm_info {
+>+	int chan_rank_max;
+>+	int dimm_idx_max;
+>+	u8 min_peci_revision;
+
+This field doesn't seem to be used for anything that I can see; is it
+really needed?
+
+>+};
+>+
+>+struct peci_dimmtemp {
+>+	struct peci_device *peci_dev;
+>+	struct device *dev;
+>+	const char *name;
+>+	const struct dimm_info *gen_info;
+>+	struct delayed_work detect_work;
+>+	struct peci_sensor_data temp[DIMM_NUMS_MAX];
+>+	long temp_max[DIMM_NUMS_MAX];
+>+	long temp_crit[DIMM_NUMS_MAX];
+>+	int retry_count;
+>+	char **dimmtemp_label;
+>+	DECLARE_BITMAP(dimm_mask, DIMM_NUMS_MAX);
+>+};
+>+
+>+static u8 __dimm_temp(u32 reg, int dimm_order)
+>+{
+>+	return (reg >> (dimm_order * 8)) & 0xff;
+>+}
+>+
+>+static int get_dimm_temp(struct peci_dimmtemp *priv, int dimm_no)
+>+{
+>+	int dimm_order =3D dimm_no % priv->gen_info->dimm_idx_max;
+>+	int chan_rank =3D dimm_no / priv->gen_info->dimm_idx_max;
+>+	struct peci_device *peci_dev =3D priv->peci_dev;
+>+	u8 cpu_seg, cpu_bus, dev, func;
+>+	u64 offset;
+>+	u32 data;
+>+	u16 reg;
+>+	int ret;
+>+
+>+	if (!peci_sensor_need_update(&priv->temp[dimm_no]))
+>+		return 0;
+>+
+>+	ret =3D peci_pcs_read(peci_dev, PECI_PCS_DDR_DIMM_TEMP, chan_rank, &data=
+);
+>+	if (ret)
+>+		return ret;
+>+
+>+	priv->temp[dimm_no].value =3D __dimm_temp(data, dimm_order) * MILLIDEGRE=
+E_PER_DEGREE;
+>+
+>+	switch (peci_dev->info.model) {
+>+	case INTEL_FAM6_ICELAKE_X:
+>+	case INTEL_FAM6_ICELAKE_D:
+>+		ret =3D peci_ep_pci_local_read(peci_dev, 0, 13, 0, 2, 0xd4, &data);
+>+		if (ret || !(data & BIT(31)))
+>+			break; /* Use default or previous value */
+>+
+>+		ret =3D peci_ep_pci_local_read(peci_dev, 0, 13, 0, 2, 0xd0, &data);
+>+		if (ret)
+>+			break; /* Use default or previous value */
+>+
+>+		cpu_seg =3D GET_CPU_SEG(data);
+>+		cpu_bus =3D GET_CPU_BUS(data);
+>+
+>+		/*
+>+		 * Device 26, Offset 224e0: IMC 0 channel 0 -> rank 0
+>+		 * Device 26, Offset 264e0: IMC 0 channel 1 -> rank 1
+>+		 * Device 27, Offset 224e0: IMC 1 channel 0 -> rank 2
+>+		 * Device 27, Offset 264e0: IMC 1 channel 1 -> rank 3
+>+		 * Device 28, Offset 224e0: IMC 2 channel 0 -> rank 4
+>+		 * Device 28, Offset 264e0: IMC 2 channel 1 -> rank 5
+>+		 * Device 29, Offset 224e0: IMC 3 channel 0 -> rank 6
+>+		 * Device 29, Offset 264e0: IMC 3 channel 1 -> rank 7
+>+		 */
+>+		dev =3D 0x1a + chan_rank / 2;
+>+		offset =3D 0x224e0 + dimm_order * 4;
+>+		if (chan_rank % 2)
+>+			offset +=3D 0x4000;
+>+
+>+		ret =3D peci_mmio_read(peci_dev, 0, cpu_seg, cpu_bus, dev, 0, offset, &=
+data);
+>+		if (ret)
+>+			return ret;
+>+
+>+		priv->temp_max[dimm_no] =3D GET_TEMP_MAX(data) * MILLIDEGREE_PER_DEGREE=
+;
+>+		priv->temp_crit[dimm_no] =3D GET_TEMP_CRIT(data) * MILLIDEGREE_PER_DEGR=
+EE;
+
+These two lines look identical in all (non-default) cases; should we
+deduplicate them by just moving them to after the switch?
+
+>+
+>+		break;
+>+	case INTEL_FAM6_SKYLAKE_X:
+>+		/*
+>+		 * Device 10, Function 2: IMC 0 channel 0 -> rank 0
+>+		 * Device 10, Function 6: IMC 0 channel 1 -> rank 1
+>+		 * Device 11, Function 2: IMC 0 channel 2 -> rank 2
+>+		 * Device 12, Function 2: IMC 1 channel 0 -> rank 3
+>+		 * Device 12, Function 6: IMC 1 channel 1 -> rank 4
+>+		 * Device 13, Function 2: IMC 1 channel 2 -> rank 5
+>+		 */
+>+		dev =3D 10 + chan_rank / 3 * 2 + (chan_rank % 3 =3D=3D 2 ? 1 : 0);
+>+		func =3D chan_rank % 3 =3D=3D 1 ? 6 : 2;
+>+		reg =3D 0x120 + dimm_order * 4;
+>+
+>+		ret =3D peci_pci_local_read(peci_dev, 2, dev, func, reg, &data);
+>+		if (ret)
+>+			return ret;
+>+
+>+		priv->temp_max[dimm_no] =3D GET_TEMP_MAX(data) * MILLIDEGREE_PER_DEGREE=
+;
+>+		priv->temp_crit[dimm_no] =3D GET_TEMP_CRIT(data) * MILLIDEGREE_PER_DEGR=
+EE;
+>+
+>+		break;
+>+	case INTEL_FAM6_BROADWELL_D:
+>+		/*
+>+		 * Device 10, Function 2: IMC 0 channel 0 -> rank 0
+>+		 * Device 10, Function 6: IMC 0 channel 1 -> rank 1
+>+		 * Device 12, Function 2: IMC 1 channel 0 -> rank 2
+>+		 * Device 12, Function 6: IMC 1 channel 1 -> rank 3
+>+		 */
+>+		dev =3D 10 + chan_rank / 2 * 2;
+>+		func =3D (chan_rank % 2) ? 6 : 2;
+>+		reg =3D 0x120 + dimm_order * 4;
+>+
+>+		ret =3D peci_pci_local_read(peci_dev, 2, dev, func, reg, &data);
+>+		if (ret)
+>+			return ret;
+>+
+>+		priv->temp_max[dimm_no] =3D GET_TEMP_MAX(data) * MILLIDEGREE_PER_DEGREE=
+;
+>+		priv->temp_crit[dimm_no] =3D GET_TEMP_CRIT(data) * MILLIDEGREE_PER_DEGR=
+EE;
+>+
+>+		break;
+>+	case INTEL_FAM6_HASWELL_X:
+>+	case INTEL_FAM6_BROADWELL_X:
+>+		/*
+>+		 * Device 20, Function 0: IMC 0 channel 0 -> rank 0
+>+		 * Device 20, Function 1: IMC 0 channel 1 -> rank 1
+>+		 * Device 21, Function 0: IMC 0 channel 2 -> rank 2
+>+		 * Device 21, Function 1: IMC 0 channel 3 -> rank 3
+>+		 * Device 23, Function 0: IMC 1 channel 0 -> rank 4
+>+		 * Device 23, Function 1: IMC 1 channel 1 -> rank 5
+>+		 * Device 24, Function 0: IMC 1 channel 2 -> rank 6
+>+		 * Device 24, Function 1: IMC 1 channel 3 -> rank 7
+>+		 */
+>+		dev =3D 20 + chan_rank / 2 + chan_rank / 4;
+>+		func =3D chan_rank % 2;
+>+		reg =3D 0x120 + dimm_order * 4;
+>+
+>+		ret =3D peci_pci_local_read(peci_dev, 1, dev, func, reg, &data);
+>+		if (ret)
+>+			return ret;
+>+
+>+		priv->temp_max[dimm_no] =3D GET_TEMP_MAX(data) * MILLIDEGREE_PER_DEGREE=
+;
+>+		priv->temp_crit[dimm_no] =3D GET_TEMP_CRIT(data) * MILLIDEGREE_PER_DEGR=
+EE;
+>+
+>+		break;
+>+	default:
+>+		return -EOPNOTSUPP;
+>+	}
+>+
+>+	peci_sensor_mark_updated(&priv->temp[dimm_no]);
+>+
+>+	return 0;
+>+}
+>+
+>+static int dimmtemp_read_string(struct device *dev,
+>+				enum hwmon_sensor_types type,
+>+				u32 attr, int channel, const char **str)
+>+{
+>+	struct peci_dimmtemp *priv =3D dev_get_drvdata(dev);
+>+
+>+	if (attr !=3D hwmon_temp_label)
+>+		return -EOPNOTSUPP;
+>+
+>+	*str =3D (const char *)priv->dimmtemp_label[channel];
+>+
+>+	return 0;
+>+}
+>+
+>+static int dimmtemp_read(struct device *dev, enum hwmon_sensor_types type=
+,
+>+			 u32 attr, int channel, long *val)
+>+{
+>+	struct peci_dimmtemp *priv =3D dev_get_drvdata(dev);
+>+	int ret;
+>+
+>+	ret =3D get_dimm_temp(priv, channel);
+>+	if (ret)
+>+		return ret;
+>+
+>+	switch (attr) {
+>+	case hwmon_temp_input:
+>+		*val =3D priv->temp[channel].value;
+>+		break;
+>+	case hwmon_temp_max:
+>+		*val =3D priv->temp_max[channel];
+>+		break;
+>+	case hwmon_temp_crit:
+>+		*val =3D priv->temp_crit[channel];
+>+		break;
+>+	default:
+>+		return -EOPNOTSUPP;
+>+	}
+>+
+>+	return 0;
+>+}
+>+
+>+static umode_t dimmtemp_is_visible(const void *data, enum hwmon_sensor_ty=
+pes type,
+>+				   u32 attr, int channel)
+>+{
+>+	const struct peci_dimmtemp *priv =3D data;
+>+
+>+	if (test_bit(channel, priv->dimm_mask))
+>+		return 0444;
+>+
+>+	return 0;
+>+}
+>+
+>+static const struct hwmon_ops peci_dimmtemp_ops =3D {
+>+	.is_visible =3D dimmtemp_is_visible,
+>+	.read_string =3D dimmtemp_read_string,
+>+	.read =3D dimmtemp_read,
+>+};
+>+
+>+static int check_populated_dimms(struct peci_dimmtemp *priv)
+>+{
+>+	int chan_rank_max =3D priv->gen_info->chan_rank_max;
+>+	int dimm_idx_max =3D priv->gen_info->dimm_idx_max;
+>+	int chan_rank, dimm_idx, ret;
+>+	u64 dimm_mask =3D 0;
+>+	u32 pcs;
+>+
+>+	for (chan_rank =3D 0; chan_rank < chan_rank_max; chan_rank++) {
+>+		ret =3D peci_pcs_read(priv->peci_dev, PECI_PCS_DDR_DIMM_TEMP, chan_rank=
+, &pcs);
+>+		if (ret) {
+>+			/*
+>+			 * Overall, we expect either success or -EINVAL in
+>+			 * order to determine whether DIMM is populated or not.
+>+			 * For anything else - we fall back to defering the
+>+			 * detection to be performed at a later point in time.
+>+			 */
+>+			if (ret =3D=3D -EINVAL)
+>+				continue;
+>+			else
+>+				return -EAGAIN;
+>+		}
+>+
+>+		for (dimm_idx =3D 0; dimm_idx < dimm_idx_max; dimm_idx++)
+>+			if (__dimm_temp(pcs, dimm_idx))
+>+				dimm_mask |=3D BIT(chan_rank * dimm_idx_max + dimm_idx);
+>+	}
+>+	/*
+>+	 * It's possible that memory training is not done yet. In this case we
+>+	 * defer the detection to be performed at a later point in time.
+>+	 */
+>+	if (!dimm_mask)
+>+		return -EAGAIN;
+>+
+>+	dev_dbg(priv->dev, "Scanned populated DIMMs: %#llx\n", dimm_mask);
+
+Hmm, though aside from this one debug print it seems like this function
+could just as easily operate directly on priv->dimm_mask if we wanted to
+make it safe for >64 dimms (I have no particular objection to keeping it
+as-is for now though).
+
+>+
+>+	bitmap_from_u64(priv->dimm_mask, dimm_mask);
+>+
+>+	return 0;
+>+}
+>+
+>+static int create_dimm_temp_label(struct peci_dimmtemp *priv, int chan)
+>+{
+>+	int rank =3D chan / priv->gen_info->dimm_idx_max;
+>+	int idx =3D chan % priv->gen_info->dimm_idx_max;
+>+
+>+	priv->dimmtemp_label[chan] =3D devm_kasprintf(priv->dev, GFP_KERNEL,
+>+						    "DIMM %c%d", 'A' + rank,
+>+						    idx + 1);
+>+	if (!priv->dimmtemp_label[chan])
+>+		return -ENOMEM;
+>+
+>+	return 0;
+>+}
+>+
+>+static const u32 peci_dimmtemp_temp_channel_config[] =3D {
+>+	[0 ... DIMM_NUMS_MAX - 1] =3D HWMON_T_LABEL | HWMON_T_INPUT | HWMON_T_MA=
+X | HWMON_T_CRIT,
+>+	0
+>+};
+>+
+>+static const struct hwmon_channel_info peci_dimmtemp_temp_channel =3D {
+>+	.type =3D hwmon_temp,
+>+	.config =3D peci_dimmtemp_temp_channel_config,
+>+};
+>+
+>+static const struct hwmon_channel_info *peci_dimmtemp_temp_info[] =3D {
+>+	&peci_dimmtemp_temp_channel,
+>+	NULL
+>+};
+>+
+>+static const struct hwmon_chip_info peci_dimmtemp_chip_info =3D {
+>+	.ops =3D &peci_dimmtemp_ops,
+>+	.info =3D peci_dimmtemp_temp_info,
+>+};
+>+
+>+static int create_dimm_temp_info(struct peci_dimmtemp *priv)
+>+{
+>+	int ret, i, channels;
+>+	struct device *dev;
+>+
+>+	ret =3D check_populated_dimms(priv);
+>+	if (ret =3D=3D -EAGAIN) {
+>+		if (priv->retry_count < DIMM_MASK_CHECK_RETRY_MAX) {
+>+			schedule_delayed_work(&priv->detect_work,
+>+					      DIMM_MASK_CHECK_DELAY_JIFFIES);
+>+			priv->retry_count++;
+>+			dev_dbg(priv->dev, "Deferred populating DIMM temp info\n");
+>+			return ret;
+>+		}
+>+
+>+		dev_info(priv->dev, "Timeout populating DIMM temp info\n");
+>+		return -ETIMEDOUT;
+>+	}
+>+
+>+	channels =3D priv->gen_info->chan_rank_max * priv->gen_info->dimm_idx_ma=
+x;
+>+
+>+	priv->dimmtemp_label =3D devm_kzalloc(priv->dev, channels * sizeof(char =
+*), GFP_KERNEL);
+>+	if (!priv->dimmtemp_label)
+>+		return -ENOMEM;
+>+
+>+	for_each_set_bit(i, priv->dimm_mask, DIMM_NUMS_MAX) {
+>+		ret =3D create_dimm_temp_label(priv, i);
+>+		if (ret)
+>+			return ret;
+>+	}
+>+
+>+	dev =3D devm_hwmon_device_register_with_info(priv->dev, priv->name, priv=
+,
+>+						   &peci_dimmtemp_chip_info, NULL);
+>+	if (IS_ERR(dev)) {
+>+		dev_err(priv->dev, "Failed to register hwmon device\n");
+>+		return PTR_ERR(dev);
+>+	}
+>+
+>+	dev_dbg(priv->dev, "%s: sensor '%s'\n", dev_name(dev), priv->name);
+>+
+>+	return 0;
+>+}
+>+
+>+static void create_dimm_temp_info_delayed(struct work_struct *work)
+>+{
+>+	struct peci_dimmtemp *priv =3D container_of(to_delayed_work(work),
+>+						  struct peci_dimmtemp,
+>+						  detect_work);
+>+	int ret;
+>+
+>+	ret =3D create_dimm_temp_info(priv);
+>+	if (ret && ret !=3D -EAGAIN)
+>+		dev_dbg(priv->dev, "Failed to populate DIMM temp info\n");
+>+}
+>+
+>+static int peci_dimmtemp_probe(struct auxiliary_device *adev, const struc=
+t auxiliary_device_id *id)
+>+{
+>+	struct device *dev =3D &adev->dev;
+>+	struct peci_device *peci_dev =3D to_peci_device(dev->parent);
+>+	struct peci_dimmtemp *priv;
+>+	int ret;
+>+
+>+	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+>+	if (!priv)
+>+		return -ENOMEM;
+>+
+>+	priv->name =3D devm_kasprintf(dev, GFP_KERNEL, "peci_dimmtemp.cpu%d",
+>+				    peci_dev->info.socket_id);
+>+	if (!priv->name)
+>+		return -ENOMEM;
+>+
+>+	dev_set_drvdata(dev, priv);
+>+	priv->dev =3D dev;
+>+	priv->peci_dev =3D peci_dev;
+>+	priv->gen_info =3D (const struct dimm_info *)id->driver_data;
+>+
+>+	INIT_DELAYED_WORK(&priv->detect_work, create_dimm_temp_info_delayed);
+>+
+>+	ret =3D create_dimm_temp_info(priv);
+>+	if (ret && ret !=3D -EAGAIN) {
+>+		dev_dbg(dev, "Failed to populate DIMM temp info\n");
+>+		return ret;
+>+	}
+>+
+>+	return 0;
+>+}
+>+
+>+static void peci_dimmtemp_remove(struct auxiliary_device *adev)
+>+{
+>+	struct peci_dimmtemp *priv =3D dev_get_drvdata(&adev->dev);
+>+
+>+	cancel_delayed_work_sync(&priv->detect_work);
+>+}
+>+
+>+static const struct dimm_info dimm_hsx =3D {
+>+	.chan_rank_max	=3D CHAN_RANK_MAX_ON_HSX,
+>+	.dimm_idx_max	=3D DIMM_IDX_MAX_ON_HSX,
+>+	.min_peci_revision =3D 0x30,
+>+};
+>+
+>+static const struct dimm_info dimm_bdx =3D {
+>+	.chan_rank_max	=3D CHAN_RANK_MAX_ON_BDX,
+>+	.dimm_idx_max	=3D DIMM_IDX_MAX_ON_BDX,
+>+	.min_peci_revision =3D 0x30,
+>+};
+>+
+>+static const struct dimm_info dimm_bdxd =3D {
+>+	.chan_rank_max	=3D CHAN_RANK_MAX_ON_BDXD,
+>+	.dimm_idx_max	=3D DIMM_IDX_MAX_ON_BDXD,
+>+	.min_peci_revision =3D 0x30,
+>+};
+>+
+>+static const struct dimm_info dimm_skx =3D {
+>+	.chan_rank_max	=3D CHAN_RANK_MAX_ON_SKX,
+>+	.dimm_idx_max	=3D DIMM_IDX_MAX_ON_SKX,
+>+	.min_peci_revision =3D 0x30,
+>+};
+>+
+>+static const struct dimm_info dimm_icx =3D {
+>+	.chan_rank_max	=3D CHAN_RANK_MAX_ON_ICX,
+>+	.dimm_idx_max	=3D DIMM_IDX_MAX_ON_ICX,
+>+	.min_peci_revision =3D 0x40,
+>+};
+>+
+>+static const struct dimm_info dimm_icxd =3D {
+>+	.chan_rank_max	=3D CHAN_RANK_MAX_ON_ICXD,
+>+	.dimm_idx_max	=3D DIMM_IDX_MAX_ON_ICXD,
+>+	.min_peci_revision =3D 0x40,
+>+};
+>+
+>+static const struct auxiliary_device_id peci_dimmtemp_ids[] =3D {
+>+	{
+>+		.name =3D "peci_cpu.dimmtemp.hsx",
+>+		.driver_data =3D (kernel_ulong_t)&dimm_hsx,
+>+	},
+>+	{
+>+		.name =3D "peci_cpu.dimmtemp.bdx",
+>+		.driver_data =3D (kernel_ulong_t)&dimm_bdx,
+>+	},
+>+	{
+>+		.name =3D "peci_cpu.dimmtemp.bdxd",
+>+		.driver_data =3D (kernel_ulong_t)&dimm_bdxd,
+>+	},
+>+	{
+>+		.name =3D "peci_cpu.dimmtemp.skx",
+>+		.driver_data =3D (kernel_ulong_t)&dimm_skx,
+>+	},
+>+	{
+>+		.name =3D "peci_cpu.dimmtemp.icx",
+>+		.driver_data =3D (kernel_ulong_t)&dimm_icx,
+>+	},
+>+	{
+>+		.name =3D "peci_cpu.dimmtemp.icxd",
+>+		.driver_data =3D (kernel_ulong_t)&dimm_icxd,
+>+	},
+>+	{ }
+>+};
+>+MODULE_DEVICE_TABLE(auxiliary, peci_dimmtemp_ids);
+>+
+>+static struct auxiliary_driver peci_dimmtemp_driver =3D {
+>+	.probe		=3D peci_dimmtemp_probe,
+>+	.remove		=3D peci_dimmtemp_remove,
+>+	.id_table	=3D peci_dimmtemp_ids,
+>+};
+>+
+>+module_auxiliary_driver(peci_dimmtemp_driver);
+>+
+>+MODULE_AUTHOR("Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>");
+>+MODULE_AUTHOR("Iwona Winiarska <iwona.winiarska@intel.com>");
+>+MODULE_DESCRIPTION("PECI dimmtemp driver");
+>+MODULE_LICENSE("GPL");
+>+MODULE_IMPORT_NS(PECI_CPU);
+>--=20
+>2.31.1
+>=
