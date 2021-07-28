@@ -2,70 +2,71 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ACA73D8A67
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Jul 2021 11:13:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA873D999B
+	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Jul 2021 01:38:39 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GZSdX4Cygz30F0
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Jul 2021 19:13:52 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GZqqK1gCfz3bbs
+	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Jul 2021 09:38:37 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=iC6z8Qct;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=DHHzoOVX;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::102c;
- helo=mail-pj1-x102c.google.com; envelope-from=andy.shevchenko@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62e;
+ helo=mail-pl1-x62e.google.com; envelope-from=rentao.bupt@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=iC6z8Qct; dkim-atps=neutral
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
+ header.s=20161025 header.b=DHHzoOVX; dkim-atps=neutral
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GZSdS5BS9z303D
- for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Jul 2021 19:13:47 +1000 (AEST)
-Received: by mail-pj1-x102c.google.com with SMTP id
- j18-20020a17090aeb12b029017737e6c349so2239214pjz.0
- for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Jul 2021 02:13:47 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GZqpn456Qz3068;
+ Thu, 29 Jul 2021 09:38:08 +1000 (AEST)
+Received: by mail-pl1-x62e.google.com with SMTP id c16so4679701plh.7;
+ Wed, 28 Jul 2021 16:38:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6m4UZEx/kYzeDD67ywCPsN6+L14vcm0XjCn8vgnR0gs=;
- b=iC6z8Qctytr3DWMW26XBlXyJXmcX9mHqtGYg7L6xD94wbl7ajzQi5zIilGaoIAsNBu
- ZN7L0JWLQB0NsyAQiW+JqWlOT1mTbK4f+uOaBNUne3qrnSByPi9LK4eaUGHE6oXAo+tw
- 7gXczYP9K2NW9xgp4RU0Wn0tG7xRBm8dvpW/t/+zJk+V0r1Lb6GZzxN+922cNAK3aV+j
- lKtMq4xZPZfiDze9gJjeELttGZiHW7K0jpIUX7aPHQVSLXgmQga/VBWMx7C7W9UDTxml
- zt0rZuogVBn8QhRnDgl2my8YDzXxJUe2Cy1wtm27Z5pRU6koXTuaHQgUeJXb1z/uUgVX
- Qrbg==
+ h=from:to:cc:subject:date:message-id;
+ bh=SfhM5hIjH4I2dOHB9xgS2+AKrC0SvF1WxH5UJ+fSmRk=;
+ b=DHHzoOVXCFpB2m+umRRgHMk+kFAqECOeEl5r1oi4ckNWeivoGTI7aAz4oGGAr7LbAT
+ E7qu8ZeZbpQrwKhiWLnhQ1L1yuaQIOi8WRfuTLsaIy6fB9UIvwKSwt23RSmGoTV6Pgx2
+ s/RSqrrUd52uFOZqAd6r9JzRVBiZN56m+Rfnu9DeysgNaBeGA/2A1fEFymHivV3rXEY5
+ JVRLMeGgcP5ZS/orWw5L5LIJuVshEUGfmJdntab/jA/1lP1hYGdt2cWyjahQ3df0O5OA
+ ZcYaWK9r5Y5oozvErh9m0J8eHzKdduGjWSanUXVITeN031HEknOZGVUasXewZ8DwS7dm
+ YAEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6m4UZEx/kYzeDD67ywCPsN6+L14vcm0XjCn8vgnR0gs=;
- b=rqBK8bBlIHu4MT1jE5RYSbmVJqDHso4T8DjJRUZIBTK7lxKvvGi3efISnoG28ZwlQx
- d9czj3F49Y9E4S9Hz+vtYEdWR4k4mDP/gN/EEMgyykFkq0BEBoVm6ZOb++2IQWU3p2zO
- uQPlXorcfENey86c+OoAwHY6SFtbN7hXNBW+9dSFvjxD48e4ugxVcYOd5gz2gVXSyACm
- nIyMN2Jf8Gjb0jk2uGK5RMnq/7Z1Z12PMtsFY6iFDFXOwaUrcL8M5kgdU0kpJ269zU9d
- 0NFi8qUJ1FhYo+uzjN2yU05jIl+2rFESdUJlJnnKFNTBFMbovnkXfhSLRjBaxD9bSCdf
- GnHA==
-X-Gm-Message-State: AOAM531OO7qsZyX7rTO/gB0f/RJEp28VHI2kMiEad+NLOmPjPIAFoiMt
- BJDwBqqM+yMLR+HzyR2/6cBJdNJT1dG551BwYhY=
-X-Google-Smtp-Source: ABdhPJyyR2mCT0pEZEhhVsDOslGMUTe+AfTMeNLSOODQi5iwax+TD6tMAXsYw27Coe070sKnGki21opJt2OQkPeCxzA=
-X-Received: by 2002:a17:902:ac90:b029:12c:e7a:c183 with SMTP id
- h16-20020a170902ac90b029012c0e7ac183mr14859743plr.21.1627463622505; Wed, 28
- Jul 2021 02:13:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210723075858.376378-1-andrew@aj.id.au>
- <CAHp75VeQML7njMZ6x8kC-ZJVexC1xJ6n1cB3JneVMAVfuOJgWw@mail.gmail.com>
- <d019990e-a725-4ef5-bb54-aadee9d18b86@www.fastmail.com>
-In-Reply-To: <d019990e-a725-4ef5-bb54-aadee9d18b86@www.fastmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 28 Jul 2021 12:13:06 +0300
-Message-ID: <CAHp75Vc2W+WmwNj1AvH6EiT_80c+5gADV9QzK+asHxpd1Ucppw@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/6] leds: Fix pca955x GPIO pin mappings
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=SfhM5hIjH4I2dOHB9xgS2+AKrC0SvF1WxH5UJ+fSmRk=;
+ b=tBSmpfVzwqJ6FoTmvhgAYIgEFZ2c0OtNymr6EFcnA217DjtDpBU/VtJZ8BH4qORR9c
+ i1+V2ehmkaIOxyXvuIXI4WUaitF019Eqhg6B4Na9B6Rfbi5eI6SCM15PE60nzqdL8h+b
+ Y3ua/xbg59QR0/Ci+BXlJvC/7p+m2hk0fs9hhfKTMmBmvgCdzj77AOV7K7BJb7y0KBZJ
+ lqON49XijpuzejZFfi+KvqY8SOyJZammOLAMj6l7Dq1wl6HPu/wpH/J0z/Gm3qAzozXE
+ P8VG4zuv9P+CoAumOlXL+T4FbCN9IURQehx74Ib0dQHuZTXBMZDrifSQFG2JvqBO+Mvi
+ 8ceg==
+X-Gm-Message-State: AOAM531nli9PXzCq7KggpL5rf0zr/S+y/RWKGhXYTVf93fBI69FtbQfl
+ Wj1/KObDAalgmuTIxlJCmTY=
+X-Google-Smtp-Source: ABdhPJw9M4Lxsn7ys7mPlyLWaO6vlx6TfaLR1km4tFwmfpcL1zh55ty79nFEMvIxyek5uv8z6iI/9A==
+X-Received: by 2002:a17:902:8bc4:b029:12b:8470:e29e with SMTP id
+ r4-20020a1709028bc4b029012b8470e29emr2080316plo.2.1627515485326; 
+ Wed, 28 Jul 2021 16:38:05 -0700 (PDT)
+Received: from taoren-ubuntu-R90MNF91.thefacebook.com
+ (c-73-252-146-110.hsd1.ca.comcast.net. [73.252.146.110])
+ by smtp.gmail.com with ESMTPSA id k37sm1038671pgm.84.2021.07.28.16.38.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Jul 2021 16:38:04 -0700 (PDT)
+From: rentao.bupt@gmail.com
+To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com
+Subject: [PATCH 0/6] ARM: dts: Add Facebook AST2600 BMCs
+Date: Wed, 28 Jul 2021 16:37:49 -0700
+Message-Id: <20210728233755.17963-1-rentao.bupt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,77 +78,51 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, Pavel Machek <pavel@ucw.cz>,
- "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Jul 28, 2021 at 8:43 AM Andrew Jeffery <andrew@aj.id.au> wrote:
-> On Fri, 23 Jul 2021, at 17:45, Andy Shevchenko wrote:
-> > On Friday, July 23, 2021, Andrew Jeffery <andrew@aj.id.au> wrote:
+From: Tao Ren <rentao.bupt@gmail.com>
 
-> > > This series does a bunch of crimes, so it's an RFC. I'm cross-posting to the
-> > > pinctrl/GPIO and LEDs lists because the PCA955x devices impact all of them. What
-> > > needs fixing is the leds-pca955x driver's failure to map the GPIO numberspace to
-> > > the pin numberspace of the PCA955x devices. The series solves that by
-> > > implementing pinctrl and pinmux in the leds-pca955x driver.
-> > >
-> > > Things I'm unsure about:
-> > >
-> > > 1. Patch 1: The pinctrl_gpio_as_pin() API feels a bit dirty, not sure what
-> > >    others thoughts are on that (Linus?).
-> > >
-> > > 2. Patch 2: I've added a new callback to hook the entirety of the pinctrl map
-> > >    parsing rather than supplying a subnode-specific callback. This was necessary
-> > >    to handle the PCA955x devicetree binding in a backwards compatible way.
-> > >
-> > > 3. Patch 4: The PCA955x devices don't actually have any pinmux hardware, but the
-> > >    properties of the pinctrl/pinmux subsystems in the kernel map nicely onto the
-> > >    problem we have. But it's quite a bit of code...
-> > >
-> > > 4. Patch 6: I also lost a bunch of time to overlooking the get_group_pins()
-> > >    callback for pinctrl, and it seems odd to me that it isn't required.
-> > >
-> > > Please review!
-> >
-> >
-> > Sounds like a hack.
->
-> Yes, possibly. Feedback like this is why I sent the series as an RFC.
->
-> > I was briefly looking into patches 1-4 and suddenly
-> > realized that the fix can be similar as in PCA9685 (PWM), I.e. we
-> > always have chips for the entire pin space and one may map them
-> > accordingly, requested in one realm (LED) in the other (GPIO)
-> > automatically is BUSY. Or I missed the point?
->
-> No, you haven't missed the point. I will look at the PCA9685 driver.
->
-> That said, my goal was to implement the behaviour intended by the
-> existing binding (i.e. fix a bug).
+The patch series introuces 3 new Facebook AST2600 Network BMC platforms.
 
-Okay, so it implies that this used to work at some point. What has
-changed from that point? Why can't we simply fix the culprit commit?
+Patch #1 adds dtsi file to describe the fixed flash layout of 128MB mtd
+device. The flash layout is used by all the 3 AST2600 BMC as well as
+Wedge400 (AST2500).
 
-> However, userspace would never have
-> got the results it expected with the existing driver implementation, so
-> I guess you could argue that no such (useful) userspace exists. Given
-> that, we could adopt the strategy of always defining a gpiochip
-> covering the whole pin space, and parts of the devicetree binding just
-> become redundant.
+Patch #2 simplies Wedge400 dts by including the flash layout dtsi.
 
-I'm lost now. GPIO has its own userspace ABI, how does it work right
-now in application to this chip?
+Patch #3 adds common dtsi which is included by all the new Facebook
+AST2600 Network BMC platforms.
+
+Patch #4 adds the device tree for Facebook Cloudripper (AST2600) BMC.
+
+Patch #5 adds the device tree for Facebook Elbert (AST2600) BMC.
+
+Patch #6 adds the device tree for Facebook Fuji (AST2600) BMC.
+
+Tao Ren (6):
+  ARM: dts: Add Facebook BMC 128MB flash layout
+  ARM: dts: aspeed: wedge400: Use common flash layout
+  ARM: dts: aspeed: Common dtsi for Facebook AST2600 Network BMCs
+  ARM: dts: aspeed: Add Facebook Cloudripper (AST2600) BMC
+  ARM: dts: aspeed: Add Facebook Elbert (AST2600) BMC
+  ARM: dts: aspeed: Add Facebook Fuji (AST2600) BMC
+
+ arch/arm/boot/dts/Makefile                    |    3 +
+ .../dts/aspeed-bmc-facebook-cloudripper.dts   |  564 ++++++++
+ .../boot/dts/aspeed-bmc-facebook-elbert.dts   |  185 +++
+ .../arm/boot/dts/aspeed-bmc-facebook-fuji.dts | 1276 +++++++++++++++++
+ .../boot/dts/aspeed-bmc-facebook-wedge400.dts |   48 +-
+ .../dts/ast2600-facebook-netbmc-common.dtsi   |  176 +++
+ .../dts/facebook-bmc-flash-layout-128.dtsi    |   60 +
+ 7 files changed, 2265 insertions(+), 47 deletions(-)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-cloudripper.dts
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-elbert.dts
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-fuji.dts
+ create mode 100644 arch/arm/boot/dts/ast2600-facebook-netbmc-common.dtsi
+ create mode 100644 arch/arm/boot/dts/facebook-bmc-flash-layout-128.dtsi
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.17.1
+
