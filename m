@@ -1,80 +1,90 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F123D84DC
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Jul 2021 02:49:19 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C1ED3D873F
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Jul 2021 07:44:03 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GZFRJ6Bzvz30HJ
-	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Jul 2021 10:49:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GZMzP2694z30Ks
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 Jul 2021 15:44:01 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=XxXcSAvH;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=Bql/f7NS;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=SDMIgFrZ;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f2c;
- helo=mail-qv1-xf2c.google.com; envelope-from=groeck7@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.224;
+ helo=new2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=XxXcSAvH; dkim-atps=neutral
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
- [IPv6:2607:f8b0:4864:20::f2c])
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm3 header.b=Bql/f7NS; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm3 header.b=SDMIgFrZ; 
+ dkim-atps=neutral
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GZFRB1pdyz303F;
- Wed, 28 Jul 2021 10:49:09 +1000 (AEST)
-Received: by mail-qv1-xf2c.google.com with SMTP id d3so702295qvq.6;
- Tue, 27 Jul 2021 17:49:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZYSkWz7X4lVExOiPJYIDBIKS/NtBt7O7x8a39WZcw3A=;
- b=XxXcSAvHMJhwvcJMawngDxrodFcL2rVGZxd02Jy4gc0VItkwXCY/5wc4zKof87q1rI
- gC6R9QO9JRWd148OyM03HUlx2p3Arz6gF4XjTLOV9Co3CGT7YwRJ4S0sybasvynrgGMk
- a2UujeghF0Y4ziZ6k1DGo/AM8u5215eD0xqdm5zpEq94N0uZiymbgBWhxxM7CLwnUdWp
- N/EfXnHNN87tcsaJ0T/wyc8cAtalWSB/du8b1rjoiQbvQU4ff2kZRRYWQ0S7ChP6AkmM
- RgkvMwreh14PxMO23goH1W/q+DjP0Ot4yRjO6CuVKDe5YojCjSC0XbAjOYgoERHmbbln
- zsCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZYSkWz7X4lVExOiPJYIDBIKS/NtBt7O7x8a39WZcw3A=;
- b=iP1auB8VpmYUIL4FAQnK3sVwysH957MWpQCnQRfCGwLLY3E1XUfcQeRbg6r2u7+yHm
- pibsDoq/sqNnHQBDzwuO3h31Gcih/Zoj9vYrOX3lccCnuPgkg0F3EjUueoSty6hJ43Mv
- 0+u0OyxOi8+shqmdu46tdeoGfTw+6oGJgVRcoHrsyk4qbOLA9MXz88uwqe1inBeWZcF4
- QEx8ZFxjZi5k6zlxGDw+vZF2HBVkEFwLe+M/eJEM7NRTJ7RdXPV2pQz+p0BkO+3qQXso
- /uf/FY3+1avD7RgSE6yNZkAw0rUm6qmLm7DizXPyhidZ6ztsZM68KJZvl6yd2HoM+EwX
- RdWg==
-X-Gm-Message-State: AOAM5304M0HQ9jAxmANykSyQrk6XtSIKwkrqKSvIjKd3XMKH9TNTrfph
- NYWSUd8BxCJ8OQU3fRLFFQ8=
-X-Google-Smtp-Source: ABdhPJxdzeFGwi00dHcakpdAEHj91b5POB/NtMklO+oyPvYZZZaVzb+xSa7UDkJ1O5U7s1PTVATRaQ==
-X-Received: by 2002:ad4:58cb:: with SMTP id dh11mr8742794qvb.29.1627433345679; 
- Tue, 27 Jul 2021 17:49:05 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- f11sm2191098qtp.85.2021.07.27.17.49.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Jul 2021 17:49:05 -0700 (PDT)
-Subject: Re: [PATCH 13/14] docs: hwmon: Document PECI drivers
-To: Zev Weiss <zweiss@equinix.com>, Iwona Winiarska <iwona.winiarska@intel.com>
-References: <20210712220447.957418-1-iwona.winiarska@intel.com>
- <20210712220447.957418-14-iwona.winiarska@intel.com>
- <20210727225808.GU8018@packtop>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <0521a076-9772-532f-2eab-8870464ca211@roeck-us.net>
-Date: Tue, 27 Jul 2021 17:49:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210727225808.GU8018@packtop>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GZMzD0Vqfz309c
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 28 Jul 2021 15:43:51 +1000 (AEST)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 110B858075E;
+ Wed, 28 Jul 2021 01:43:48 -0400 (EDT)
+Received: from imap43 ([10.202.2.93])
+ by compute2.internal (MEProxy); Wed, 28 Jul 2021 01:43:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm3; bh=8mTsTAru489HGgVKdhQ8Pd5T2sBSOVb
+ +V3PjJK0kxrE=; b=Bql/f7NSgB8BpjW+EMx4py9cvlE5UW14bPWU/99jy2DAAHq
+ JhDXy/kIGxAQ4SD5IPJj/ctT4bjGtCSO9HfRoHUVK8qt4ryjshwcLHrR+kJi49J6
+ oNwqkoRQh9Qdl1Iozc0HLAVkfQR9Tec4+LvNEHwlvFkzuhKrwJwEZqXDLxZS9tcY
+ TK1BGtbzxSkKz71LDy/p7MoOBWVp4ooD3PbPzK5EbPLwKTFwbULELBNS1fB84gig
+ MXpmJMgdUcSSkbq597CZ+choHZvuFYwT3zMBt8XpndRX+VCLiwdvBhFPWK4ia9EP
+ H6WTnHNT4i1xj8msdRq9VkbtdYpneDraL46CZrQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=8mTsTA
+ ru489HGgVKdhQ8Pd5T2sBSOVb+V3PjJK0kxrE=; b=SDMIgFrZ3Ikjjmhf4nBd2K
+ efRFbPHc/AnxB0s23kJ3Lu8RhP2R48XcKGMedP8MxrdxPark4GX/OQG0nKnlRR1L
+ FklLr5tYPP5dyrYgKvClgVyC2xERuWqELsP2kBifOeY3uI8QtdCoG6VE5oIPvged
+ i4qKQpTYVycyZllvhDwhQg/O0gVzKEuc0UdRCO63Kq8ZnhPsegmrQMttER7Ub1Rv
+ B4VmRF4KVtXraJfKAdet0AgGvskylMqNiZABqu54mzekqfgojHXP83KwqFwot5T2
+ AOHbjDQ2a/6oaUGXPlsUlR8iODZzTnM7czIyLVoVyMXzYyBb27lTK0yX/SCKkmCw
+ ==
+X-ME-Sender: <xms:ke4AYfNn-XlVWvWxZMkukETnWRJQSjYLNvdhDStlxOOC__6TLVkZkQ>
+ <xme:ke4AYZ-wj9g1NdtglQrSD4gSsoRba-DpSo35aM3UM6tPJiSCenRJo4BZwaIaC6_z8
+ 6A9baF55IvSaFIRfA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeekgdekhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
+ htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
+ veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:ke4AYeRl0fmJ2MUX9vcWQ4MxoR7Uvf0AvK9p1msLXqzVHLXcuj-tyg>
+ <xmx:ke4AYTumxmpL-iNc5tAaRNzs-9HCY2yOgvaEEez24JQhlJql1j412Q>
+ <xmx:ke4AYXeNlZQS5pOqBGNdKgZ-a26Qf0whlVX0yC2RSPpkmC40U4ZJVQ>
+ <xmx:lO4AYb7LjTl9DtFs_Mcm45ridCpbFUsDyQSmJVrMEgnbrXb0hzXc9g>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 9CBAFAC0DD0; Wed, 28 Jul 2021 01:43:45 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-545-g7a4eea542e-fm-20210727.001-g7a4eea54
+Mime-Version: 1.0
+Message-Id: <d019990e-a725-4ef5-bb54-aadee9d18b86@www.fastmail.com>
+In-Reply-To: <CAHp75VeQML7njMZ6x8kC-ZJVexC1xJ6n1cB3JneVMAVfuOJgWw@mail.gmail.com>
+References: <20210723075858.376378-1-andrew@aj.id.au>
+ <CAHp75VeQML7njMZ6x8kC-ZJVexC1xJ6n1cB3JneVMAVfuOJgWw@mail.gmail.com>
+Date: Wed, 28 Jul 2021 15:13:24 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Andy Shevchenko" <andy.shevchenko@gmail.com>
+Subject: Re: [RFC PATCH 0/6] leds: Fix pca955x GPIO pin mappings
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,264 +96,71 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "x86@kernel.org" <x86@kernel.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Ingo Molnar <mingo@redhat.com>,
+Cc: "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
  "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Jean Delvare <jdelvare@suse.com>, Rob Herring <robh+dt@kernel.org>,
- Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- Tony Luck <tony.luck@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Yazen Ghannam <yazen.ghannam@amd.com>
+ "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, Pavel Machek <pavel@ucw.cz>,
+ "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 7/27/21 3:58 PM, Zev Weiss wrote:
-> On Mon, Jul 12, 2021 at 05:04:46PM CDT, Iwona Winiarska wrote:
->> From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->>
->> Add documentation for peci-cputemp driver that provides DTS thermal
->> readings for CPU packages and CPU cores and peci-dimmtemp driver that
->> provides DTS thermal readings for DIMMs.
->>
->> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->> Co-developed-by: Iwona Winiarska <iwona.winiarska@intel.com>
->> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
->> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
->> ---
->> Documentation/hwmon/index.rst         |  2 +
->> Documentation/hwmon/peci-cputemp.rst  | 93 +++++++++++++++++++++++++++
->> Documentation/hwmon/peci-dimmtemp.rst | 58 +++++++++++++++++
->> MAINTAINERS                           |  2 +
->> 4 files changed, 155 insertions(+)
->> create mode 100644 Documentation/hwmon/peci-cputemp.rst
->> create mode 100644 Documentation/hwmon/peci-dimmtemp.rst
->>
->> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
->> index bc01601ea81a..cc76b5b3f791 100644
->> --- a/Documentation/hwmon/index.rst
->> +++ b/Documentation/hwmon/index.rst
->> @@ -154,6 +154,8 @@ Hardware Monitoring Kernel Drivers
->>     pcf8591
->>     pim4328
->>     pm6764tr
->> +   peci-cputemp
->> +   peci-dimmtemp
->>     pmbus
->>     powr1220
->>     pxe1610
->> diff --git a/Documentation/hwmon/peci-cputemp.rst b/Documentation/hwmon/peci-cputemp.rst
->> new file mode 100644
->> index 000000000000..d3a218ba810a
->> --- /dev/null
->> +++ b/Documentation/hwmon/peci-cputemp.rst
->> @@ -0,0 +1,93 @@
->> +.. SPDX-License-Identifier: GPL-2.0-only
->> +
->> +Kernel driver peci-cputemp
->> +==========================
->> +
->> +Supported chips:
->> +	One of Intel server CPUs listed below which is connected to a PECI bus.
->> +		* Intel Xeon E5/E7 v3 server processors
->> +			Intel Xeon E5-14xx v3 family
->> +			Intel Xeon E5-24xx v3 family
->> +			Intel Xeon E5-16xx v3 family
->> +			Intel Xeon E5-26xx v3 family
->> +			Intel Xeon E5-46xx v3 family
->> +			Intel Xeon E7-48xx v3 family
->> +			Intel Xeon E7-88xx v3 family
->> +		* Intel Xeon E5/E7 v4 server processors
->> +			Intel Xeon E5-16xx v4 family
->> +			Intel Xeon E5-26xx v4 family
->> +			Intel Xeon E5-46xx v4 family
->> +			Intel Xeon E7-48xx v4 family
->> +			Intel Xeon E7-88xx v4 family
->> +		* Intel Xeon Scalable server processors
->> +			Intel Xeon D family
->> +			Intel Xeon Bronze family
->> +			Intel Xeon Silver family
->> +			Intel Xeon Gold family
->> +			Intel Xeon Platinum family
->> +
->> +	Datasheet: Available from http://www.intel.com/design/literature.htm
->> +
->> +Author: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->> +
->> +Description
->> +-----------
->> +
->> +This driver implements a generic PECI hwmon feature which provides Digital
->> +Thermal Sensor (DTS) thermal readings of the CPU package and CPU cores that are
->> +accessible via the processor PECI interface.
->> +
->> +All temperature values are given in millidegree Celsius and will be measurable
->> +only when the target CPU is powered on.
->> +
->> +Sysfs interface
->> +-------------------
->> +
->> +======================= =======================================================
->> +temp1_label		"Die"
->> +temp1_input		Provides current die temperature of the CPU package.
->> +temp1_max		Provides thermal control temperature of the CPU package
->> +			which is also known as Tcontrol.
->> +temp1_crit		Provides shutdown temperature of the CPU package which
->> +			is also known as the maximum processor junction
->> +			temperature, Tjmax or Tprochot.
->> +temp1_crit_hyst		Provides the hysteresis value from Tcontrol to Tjmax of
->> +			the CPU package.
->> +
->> +temp2_label		"DTS"
->> +temp2_input		Provides current DTS temperature of the CPU package.
-> 
-> Would this be a good place to note the slightly counter-intuitive nature
-> of DTS readings?  i.e. add something along the lines of "The DTS sensor
-> produces a delta relative to Tjmax, so negative values are normal and
-> values approaching zero are hot."  (In my experience people who aren't
-> already familiar with it tend to think something's wrong when a CPU
-> temperature reading shows -50C.)
-> 
 
-All attributes shall follow the ABI, and the driver must translate reported
-values to degrees C. If those sensors do not follow the ABI and report something
-else, I won't accept the driver.
 
-Guenter
+On Fri, 23 Jul 2021, at 17:45, Andy Shevchenko wrote:
+> 
+> 
+> On Friday, July 23, 2021, Andrew Jeffery <andrew@aj.id.au> wrote:
+> > Hello,
+> > 
+> > This series does a bunch of crimes, so it's an RFC. I'm cross-posting to the
+> > pinctrl/GPIO and LEDs lists because the PCA955x devices impact all of them. What
+> > needs fixing is the leds-pca955x driver's failure to map the GPIO numberspace to
+> > the pin numberspace of the PCA955x devices. The series solves that by
+> > implementing pinctrl and pinmux in the leds-pca955x driver.
+> > 
+> > Things I'm unsure about:
+> > 
+> > 1. Patch 1: The pinctrl_gpio_as_pin() API feels a bit dirty, not sure what
+> >    others thoughts are on that (Linus?).
+> > 
+> > 2. Patch 2: I've added a new callback to hook the entirety of the pinctrl map
+> >    parsing rather than supplying a subnode-specific callback. This was necessary
+> >    to handle the PCA955x devicetree binding in a backwards compatible way.
+> > 
+> > 3. Patch 4: The PCA955x devices don't actually have any pinmux hardware, but the
+> >    properties of the pinctrl/pinmux subsystems in the kernel map nicely onto the
+> >    problem we have. But it's quite a bit of code...
+> > 
+> > 4. Patch 6: I also lost a bunch of time to overlooking the get_group_pins()
+> >    callback for pinctrl, and it seems odd to me that it isn't required.
+> > 
+> > Please review!
+> 
+> 
+> Sounds like a hack.
 
->> +temp2_max		Provides thermal control temperature of the CPU package
->> +			which is also known as Tcontrol.
->> +temp2_crit		Provides shutdown temperature of the CPU package which
->> +			is also known as the maximum processor junction
->> +			temperature, Tjmax or Tprochot.
->> +temp2_crit_hyst		Provides the hysteresis value from Tcontrol to Tjmax of
->> +			the CPU package.
->> +
->> +temp3_label		"Tcontrol"
->> +temp3_input		Provides current Tcontrol temperature of the CPU
->> +			package which is also known as Fan Temperature target.
->> +			Indicates the relative value from thermal monitor trip
->> +			temperature at which fans should be engaged.
->> +temp3_crit		Provides Tcontrol critical value of the CPU package
->> +			which is same to Tjmax.
->> +
->> +temp4_label		"Tthrottle"
->> +temp4_input		Provides current Tthrottle temperature of the CPU
->> +			package. Used for throttling temperature. If this value
->> +			is allowed and lower than Tjmax - the throttle will
->> +			occur and reported at lower than Tjmax.
->> +
->> +temp5_label		"Tjmax"
->> +temp5_input		Provides the maximum junction temperature, Tjmax of the
->> +			CPU package.
->> +
->> +temp[6-N]_label		Provides string "Core X", where X is resolved core
->> +			number.
->> +temp[6-N]_input		Provides current temperature of each core.
->> +temp[6-N]_max		Provides thermal control temperature of the core.
->> +temp[6-N]_crit		Provides shutdown temperature of the core.
->> +temp[6-N]_crit_hyst	Provides the hysteresis value from Tcontrol to Tjmax of
->> +			the core.
-> 
-> I only see *_label and *_input for the per-core temperature sensors, no
-> *_max, *_crit, or *_crit_hyst.
-> 
->> +
->> +======================= =======================================================
->> diff --git a/Documentation/hwmon/peci-dimmtemp.rst b/Documentation/hwmon/peci-dimmtemp.rst
->> new file mode 100644
->> index 000000000000..1778d9317e43
->> --- /dev/null
->> +++ b/Documentation/hwmon/peci-dimmtemp.rst
->> @@ -0,0 +1,58 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +Kernel driver peci-dimmtemp
->> +===========================
->> +
->> +Supported chips:
->> +	One of Intel server CPUs listed below which is connected to a PECI bus.
->> +		* Intel Xeon E5/E7 v3 server processors
->> +			Intel Xeon E5-14xx v3 family
->> +			Intel Xeon E5-24xx v3 family
->> +			Intel Xeon E5-16xx v3 family
->> +			Intel Xeon E5-26xx v3 family
->> +			Intel Xeon E5-46xx v3 family
->> +			Intel Xeon E7-48xx v3 family
->> +			Intel Xeon E7-88xx v3 family
->> +		* Intel Xeon E5/E7 v4 server processors
->> +			Intel Xeon E5-16xx v4 family
->> +			Intel Xeon E5-26xx v4 family
->> +			Intel Xeon E5-46xx v4 family
->> +			Intel Xeon E7-48xx v4 family
->> +			Intel Xeon E7-88xx v4 family
->> +		* Intel Xeon Scalable server processors
->> +			Intel Xeon D family
->> +			Intel Xeon Bronze family
->> +			Intel Xeon Silver family
->> +			Intel Xeon Gold family
->> +			Intel Xeon Platinum family
->> +
->> +	Datasheet: Available from http://www.intel.com/design/literature.htm
->> +
->> +Author: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->> +
->> +Description
->> +-----------
->> +
->> +This driver implements a generic PECI hwmon feature which provides Digital
->> +Thermal Sensor (DTS) thermal readings of DIMM components that are accessible
->> +via the processor PECI interface.
-> 
-> I had thought "DTS" referred to a fairly specific sensor in the CPU; is
-> the same term also used for DIMM temp sensors or is the mention of it
-> here a copy/paste error?
-> 
->> +
->> +All temperature values are given in millidegree Celsius and will be measurable
->> +only when the target CPU is powered on.
->> +
->> +Sysfs interface
->> +-------------------
->> +
->> +======================= =======================================================
->> +
->> +temp[N]_label		Provides string "DIMM CI", where C is DIMM channel and
->> +			I is DIMM index of the populated DIMM.
->> +temp[N]_input		Provides current temperature of the populated DIMM.
->> +temp[N]_max		Provides thermal control temperature of the DIMM.
->> +temp[N]_crit		Provides shutdown temperature of the DIMM.
->> +
->> +======================= =======================================================
->> +
->> +Note:
->> +	DIMM temperature attributes will appear when the client CPU's BIOS
->> +	completes memory training and testing.
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 35ba9e3646bd..d16da127bbdc 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -14509,6 +14509,8 @@ M:	Iwona Winiarska <iwona.winiarska@intel.com>
->> R:	Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->> L:	linux-hwmon@vger.kernel.org
->> S:	Supported
->> +F:	Documentation/hwmon/peci-cputemp.rst
->> +F:	Documentation/hwmon/peci-dimmtemp.rst
->> F:	drivers/hwmon/peci/
->>
->> PECI SUBSYSTEM
->> -- 
->> 2.31.1
->>
-> 
+Yes, possibly. Feedback like this is why I sent the series as an RFC.
 
+> I was briefly looking into patches 1-4 and suddenly 
+> realized that the fix can be similar as in PCA9685 (PWM), I.e. we 
+> always have chips for the entire pin space and one may map them 
+> accordingly, requested in one realm (LED) in the other (GPIO) 
+> automatically is BUSY. Or I missed the point?
+
+No, you haven't missed the point. I will look at the PCA9685 driver.
+
+That said, my goal was to implement the behaviour intended by the 
+existing binding (i.e. fix a bug). However, userspace would never have 
+got the results it expected with the existing driver implementation, so 
+I guess you could argue that no such (useful) userspace exists. Given 
+that, we could adopt the strategy of always defining a gpiochip 
+covering the whole pin space, and parts of the devicetree binding just 
+become redundant.
+
+Andrew
