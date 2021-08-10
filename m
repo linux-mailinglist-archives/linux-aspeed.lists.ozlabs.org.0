@@ -1,66 +1,66 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775B23E5BCA
-	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Aug 2021 15:35:01 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6F23E5C51
+	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Aug 2021 15:54:39 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GkYpq2yP9z30F9
-	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Aug 2021 23:34:59 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GkZFS1YwBz30FD
+	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Aug 2021 23:54:36 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=ZkMvWvxM;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=W8fomkKI;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::22a;
- helo=mail-lj1-x22a.google.com; envelope-from=linus.walleij@linaro.org;
+ smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::135;
+ helo=mail-lf1-x135.google.com; envelope-from=linus.walleij@linaro.org;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=ZkMvWvxM; dkim-atps=neutral
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
+ header.s=google header.b=W8fomkKI; dkim-atps=neutral
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GkYpl4d3qz2yLS
- for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Aug 2021 23:34:54 +1000 (AEST)
-Received: by mail-lj1-x22a.google.com with SMTP id h17so17787049ljh.13
- for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Aug 2021 06:34:54 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GkZFK5CfBz2yZc
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Aug 2021 23:54:27 +1000 (AEST)
+Received: by mail-lf1-x135.google.com with SMTP id g13so41670264lfj.12
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Aug 2021 06:54:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=weC7sDSz7PzZbDSqoiKFHyafe+0MyeXAiBAfK1qKcS4=;
- b=ZkMvWvxM4pvYUqy5fI/4E/yYTR8XZ9e8pydJ6+ayXV+l/hEgGcg9Ypw9CVe+FUTQ2v
- /houmtJqyVgq02TKQ6a746nHq4/i+0VpeDz9l/1d2CpGOlFO38Q1vpU6i7sO+p2s3tMI
- DUlynGX/7LZqhwkoGdQ1I52fAp7G+fpqh10/pb1NMYjXvJSVuesWsHOSGtrvkuPxriNc
- jvVf677JQLZxYssZpEuMQaobwk4MEkUKrGAGiABlPkeOE1bm7qE+ceiIrkU9NvaF3v3R
- LaSTJbXjQcT785+AN9Ak3xvACeT3zp4mEp3Lyn0uUHq+VwXoC16GbDvi0V6XITOL18RG
- FEBA==
+ :cc; bh=jwWuIJqiBzpe1+2G6GtRorjiBXRmpvLNd3Ic9h54t+Q=;
+ b=W8fomkKIUYVT177erd3QXdCb9N+w4GU7xEHCTq5V+/pLfs4vtKwHrQWVUWoJUa0WKb
+ yROIoySSTQNgzo/gwzIxqRF0R5bfQS+nDpd4VtEzC7ELr7a7smTBhEYmnBQS7iU28eFl
+ 6/XmILEUsrPbVSQo2USlm6N8PSX516JZiNcZJXsvUVhtLxfMxR0eLAOF6GrZr45uhpYA
+ i7Yq+yxNWPQ9DzLISfpIM6HOHFoZYWG8HkNOCTHmLhZ4GupDBs4AmopLoCHgMdalRbIB
+ DLdHvCypgf5HJo3jpK3W4lZxDXnfAGL3udivEZnwKrCtcdQJBxxszPhgqQXRt34MHJsX
+ q8WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=weC7sDSz7PzZbDSqoiKFHyafe+0MyeXAiBAfK1qKcS4=;
- b=OPMLYisRP4YDO+yxrOzgyFDWdxxvLkpMgulPqIZcwEjyYxuckVvACaXNtRukAdBPFo
- wJUHU5BmXrLXJllVT8w5OIe9TEKpP+oJVcTv023joY7d3YQNckHO9AcfxGGH5L5dKBpl
- nVvv0wo27C2pHKSO4tr9eizWhd7effFMe/w+6Ir4qr6LAICjFfU7fN7lPtjBg//lqgLe
- Ke8dy1CeY8hxsRm4mjFFZ3ciMDnldBalpn+Yw7XuRbN5hOsO0Qyif+lKuXZUPiF5o1g1
- InTupgvAqzJNrZuu1lCsptk3Yi2ghmZdh2uO0pypXD4vgkXGVYjiKma0D6ZXJa0WD/hl
- jQuA==
-X-Gm-Message-State: AOAM530DSNyalcEZM+4OIp5nT6X7o3882hTsavbj3qfN0uIEX67R37r0
- alnXVDHugf4ltCQzqxrM454lyGUuRgExXuAsf+BMeQ==
-X-Google-Smtp-Source: ABdhPJxTxTJieZbnaNjRPZUIvrVUDFyycbbX1QvFSIH1cQRHK81GI3c7N6EJyS6zlrZ5d2BhxV7i2qX73NcqQoP17mQ=
-X-Received: by 2002:a2e:888f:: with SMTP id k15mr19671128lji.326.1628602490522; 
- Tue, 10 Aug 2021 06:34:50 -0700 (PDT)
+ bh=jwWuIJqiBzpe1+2G6GtRorjiBXRmpvLNd3Ic9h54t+Q=;
+ b=X6sLcAuByiU7CMfQlanRUlS0kcxkNIlz3DMLdtSHwVVMLvY9JBqE3awEKmfP28HViW
+ aHgtWxDgeL3QH60vzZnrdoM2PCvZMWABTZayaJoD2I9o8lpJPrHs5jI/C/tNfaB4H3UI
+ iK1LxTSeRznZgkISBp7Rz0/ALXAeBlYjwOGL8ck+LqE9zQeJ1AQDvlA7JvNoKmIs3Jdd
+ azlnqEZrPvfY2wAOkyyii2ACPI9bAE0sIZilHmhaBALCFOTO+neN3CzUuKv6Pbu+w5v8
+ XycmCUPMf/Ch8IbQuSdTLQPWwdj0sic0eQHFBsl9sBDZXz57NKIXIljje8b44urhLYU5
+ bdNw==
+X-Gm-Message-State: AOAM532OeAt1S2OLgMgAkOCrnyPAk9MFHbAagG73/2a5fhaiUFaeUmzh
+ xy/uZw1xGgYdUVglf6cLc5hn/7MtbXojRJEJoLIFkQ==
+X-Google-Smtp-Source: ABdhPJydL53OBU+42r6QKcJIZe4IlQ/SoqsP/bpkjgaMcCdQZB8nlKWRZ68tmLNyMtyFuqJpiUzbjuD8656QAXWk9KU=
+X-Received: by 2002:ac2:4d0f:: with SMTP id r15mr21366821lfi.649.1628603662266; 
+ Tue, 10 Aug 2021 06:54:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210723075858.376378-1-andrew@aj.id.au>
- <20210723075858.376378-2-andrew@aj.id.au>
-In-Reply-To: <20210723075858.376378-2-andrew@aj.id.au>
+ <20210723075858.376378-5-andrew@aj.id.au>
+In-Reply-To: <20210723075858.376378-5-andrew@aj.id.au>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 10 Aug 2021 15:34:39 +0200
-Message-ID: <CACRpkdZ4A3Lw2U+_jXfbuXJFhpesi3SzNN1Codqxi4sLNu5zPw@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/6] pinctrl: Add pinctrl_gpio_as_pin()
+Date: Tue, 10 Aug 2021 15:54:11 +0200
+Message-ID: <CACRpkdZm9C23aHTWs8DNX1RChSB4A-X0PoyW5wnH2XyQQeviag@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/6] leds: pca955x: Use pinctrl to map GPIOs to pins
 To: Andrew Jeffery <andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -88,31 +88,21 @@ Sender: "Linux-aspeed"
 
 On Fri, Jul 23, 2021 at 9:59 AM Andrew Jeffery <andrew@aj.id.au> wrote:
 
-> Allow gpiochips to map the GPIO numberspace onto a pin numberspace when
-> the register layout for GPIO control is implemented in terms of the
-> pin numberspace.
->
-> This requirement sounds kind of strange, but the patch is driven by
-> trying to resolve a bug in the leds-pca955x driver where this mapping is
-> not correctly performed.
->
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-
+> The leds-pca955x driver currently assumes that the GPIO numberspace and
+> the pin numberspace are the same. This quickly falls apart with a
+> devicetree binding such as the following:
 (...)
 
-Hm  this looks a bit strange...
+Honestly I do not understand this patch. It seems to implement a pin
+controller and using it in nonstandard ways.
 
-> +int pinctrl_gpio_as_pin(struct pinctrl_dev *pctldev, unsigned int gpio)
+If something implements the pin controller driver API it should be
+used as such IMO, externally. This seems to be using it do relay
+calls to itself which seems complicated, just invent something
+locally in the driver in that case? No need to use pin control?
 
-This is not a good name for this function. Try to come up with
-a name that says exactly what the function does.
-
-E.g. "apple pear as apple slice" isn't very helpful, the use case for
-this is really hard to understand.
-
-> +EXPORT_SYMBOL_GPL(pinctrl_find_gpio_range_from_pin);
-
-This looks completely wrong.
+Can you explain why this LED driver needs to implement a pin
+controller?
 
 Yours,
 Linus Walleij
