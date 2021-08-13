@@ -1,93 +1,66 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251DC3EA5C3
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Aug 2021 15:37:16 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B043EAE28
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Aug 2021 03:29:44 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GlnmV0Dl9z30KN
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Aug 2021 23:37:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Gm5ZY6dFpz3bNk
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Aug 2021 11:29:41 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=N+l05ozx;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=XgmjOaNQ;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::329;
- helo=mail-ot1-x329.google.com; envelope-from=tcminyard@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f32;
+ helo=mail-qv1-xf32.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=N+l05ozx; dkim-atps=neutral
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=XgmjOaNQ; dkim-atps=neutral
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com
+ [IPv6:2607:f8b0:4864:20::f32])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GlnmJ3qJpz2yMG
- for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Aug 2021 23:37:02 +1000 (AEST)
-Received: by mail-ot1-x329.google.com with SMTP id
- c23-20020a0568301af7b029050cd611fb72so7744749otd.3
- for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Aug 2021 06:37:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=lxEYcLoSmKcwAqq6lEWUTNh1J0BSQ5RJ+tPc70kIvv8=;
- b=N+l05ozxyD1NG1dkZUngFULf3v7jhRSbnR3bHLqfiz9dby07s+mONwlfvcPK0q4TpC
- 7TiWQGQOBdoF1zE3c/2Gu2F+K4pOTl/yJy7prAkKAgeKH9paMe+57QeOsB1Sw8iBuDgf
- Bg7Lnbtyiqb+chBrZwjK1IQMznYfVvO7//56Eb19UoWrGfVEesfIKpwXICsLwFDGNkOT
- LBXWVs6EteP/0VimsFRXf7DXL7R4RVLFWiIewc/ERmTBNu76kb7rS5cQ+lxfBSfozlXq
- mhnZAoTGxU5l0sh9IM0Vh4vNMDkUmbcaFnAZsSxbEemP4+e0WlFJJyZTB9PmygkiPE6E
- BNLg==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Gm5ZP4wfdz302V;
+ Fri, 13 Aug 2021 11:29:32 +1000 (AEST)
+Received: by mail-qv1-xf32.google.com with SMTP id kl2so4350436qvb.11;
+ Thu, 12 Aug 2021 18:29:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=d7y1hw5LdhKxpKxA/yXBN3ZJJ9yKaaGgYxkF16tEOMQ=;
+ b=XgmjOaNQhbcCpvEmbZ5/zeX1bIUCgsvOXXufJ2DPyPwiVEcOXqrSKm7FQ6EHIiZPyf
+ oLeOmGXFO5wc15/y2C90t9Vq9dPWNQ1zd0kaJv433461YrWvDUAzi2BBUezZlhb5C9cK
+ XEDHQ5hrZEWfa+AOsbVJMlsxxBhsgTXh6Acys=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:subject:message-id:reply-to
- :references:mime-version:content-disposition:in-reply-to;
- bh=lxEYcLoSmKcwAqq6lEWUTNh1J0BSQ5RJ+tPc70kIvv8=;
- b=gijKqSey3zyVNXulliiKaaT1IMaqu7s1/ed5ywL4M/VnkETaE8vtSg4m1KP+NDmo+b
- nqpGsYj8Ks2jlxyJ1QBfUeMH2YzUGDgMdfIyrQQhH1RysjM1fWOmDRfGAxQG+Izt8DYz
- bFWPNeDMVqtzFs3BtB/hfmRxR7p5t4oZNWQRqk0zW+CiyY0Z/esFuhhzMdVAAZLgQgj7
- kno/ehPc9NUaLeIwxPlNo6/lc+nqvWC41ufSmJEhFoKudTJtezQVZxpP8z9Udr9HAiYh
- fE+p4kLhws019TXxjPLg6VLCF7sSZea/jJN1jQodkLw2PbSojcSrIi7pvQpfHtGQNT1K
- 74Vg==
-X-Gm-Message-State: AOAM533N0Vn2QumwuXnSdtjvS3wbCO12X4GusdsKiPIwt538b61gfXs8
- Kbskrequ26Gjt5EfBVVbJ+vjzU0LZsOiMFY=
-X-Google-Smtp-Source: ABdhPJwSEJIsmvBs2Ju7id/07iwZC6CGzdrHno0A3fxPpp0tLpTJfwR7oTj/F4lF6MngczX5vwnTPg==
-X-Received: by 2002:a05:6830:90f:: with SMTP id
- v15mr3478948ott.202.1628775418413; 
- Thu, 12 Aug 2021 06:36:58 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.156.158])
- by smtp.gmail.com with ESMTPSA id r16sm605716otu.26.2021.08.12.06.36.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Aug 2021 06:36:57 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:39aa:3f67:e568:698d])
- by serve.minyard.net (Postfix) with ESMTPSA id 4F1F1180058;
- Thu, 12 Aug 2021 13:36:56 +0000 (UTC)
-Date: Thu, 12 Aug 2021 08:36:55 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Wolfram Sang <wsa@kernel.org>, Quan Nguyen <quan@os.amperecomputing.com>,
- Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>,
- Brendan Higgins <brendanhiggins@google.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- openipmi-developer@lists.sourceforge.net,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org,
- Open Source Submission <patches@amperecomputing.com>,
- Phong Vo <phong@os.amperecomputing.com>,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-Subject: Re: [Openipmi-developer] [PATCH v5 1/3] i2c: aspeed: Add
- slave_enable() to toggle slave mode
-Message-ID: <20210812133655.GT3406@minyard.net>
-References: <20210714033833.11640-1-quan@os.amperecomputing.com>
- <20210714033833.11640-2-quan@os.amperecomputing.com>
- <YRTQP9sX0hkTJMTx@shikoro>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=d7y1hw5LdhKxpKxA/yXBN3ZJJ9yKaaGgYxkF16tEOMQ=;
+ b=h3pnMYFUrI+aDNF2LiRo545cDCLXCpMDYnThL7iKAggohVpo4WsYzhJNKk5RkMoJq3
+ JLXazrQZoWS7GG2dJtoCHffOqKIwwoAAne9Ie5yJ3H2E7LqP3Ok5+V7fdTR+5Kk0mLw/
+ n2YLb/S2hgt14oD4UGXV6CwBMuVAyoz0lyNfsBBVssfIJ0P4NYinCMWHuYlGEfLoSNG9
+ 4W+rysNsOA/UKBbdYZn4f/8D2YQ+aIrxKc/jHz978taej/5Mxij7+wWHmcY9gN+U130u
+ EkR9gFWYAwLXpwEj2JDL1tog/X3x3dKTyCQMPjSxTaPAMO/yaCE/NZ8fAgvl2LaklHdC
+ YrYw==
+X-Gm-Message-State: AOAM531nZacOxaK8fDNPSkMzXVmBjaLdIti9GLRYF83cw1ks5DKE7+df
+ eTfLl3U22WzTF0S3fy7sLQ42Y/4bbCX0BHNHCjc=
+X-Google-Smtp-Source: ABdhPJwhFLUqMIHIWOI/nCQlWmPOcdMRcHIRqjb8rAdMkprVxUulQ0uUl0tMgKhaIcL2vd8J9M1zxJmLtEpFhq9AfOM=
+X-Received: by 2002:a0c:e6a4:: with SMTP id j4mr107833qvn.16.1628818169431;
+ Thu, 12 Aug 2021 18:29:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YRTQP9sX0hkTJMTx@shikoro>
+References: <20210805222818.8391-1-rentao.bupt@gmail.com>
+ <20210805222818.8391-5-rentao.bupt@gmail.com>
+In-Reply-To: <20210805222818.8391-5-rentao.bupt@gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 13 Aug 2021 01:29:17 +0000
+Message-ID: <CACPK8XcV5On2D4D+SXnfw1M0owwfCL4Su19jOEA7yWpq+T3jLw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/6] ARM: dts: aspeed: Add Facebook Cloudripper
+ (AST2600) BMC
+To: Tao Ren <rentao.bupt@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,57 +72,37 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: minyard@acm.org
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Aug 12, 2021 at 09:39:43AM +0200, Wolfram Sang wrote:
-> Hi all,
-> 
-> On Wed, Jul 14, 2021 at 10:38:31AM +0700, Quan Nguyen wrote:
-> > Slave needs time to prepare the response data before Master could
-> > enquiry via read transaction. However, there is no mechanism for
-> > i2c-aspeed Slave to notify Master that it needs more time to process
-> > and this make Master side to time out when trying to get the response.
-> > 
-> > This commit introduces the slave_enable() callback in struct
-> > i2c_algorithm for Slave to temporary stop the Slave mode while working
-> > on the response and re-enable the Slave when response data ready.
-> 
-> Sorry that I couldn't chime in earlier, but NAK!
-> 
-> >  include/linux/i2c.h             |  2 ++
-> 
-> @Corey: Please do not change this file without my ACK. It is not a
-> trivial change but an API extenstion and that should really be acked by
-> the subsystem maintainer, in this case me. I was really surprised to see
-> this in linux-next already.
+On Thu, 5 Aug 2021 at 22:28, <rentao.bupt@gmail.com> wrote:
+> +&mdio1 {
+> +       status = "okay";
 
-I am sorry, I'll pull it out.
+You're enabling this but it looks like it's unused?
 
--corey
-
-> 
-> @all: Plus, I neither like the API (because it doesn't look generic to
-> me but mostly handling one issue needed here) nor do I fully understand
-> the use case. Normally, when a read is requested and the backend needs
-> time to deliver the data, the hardware should stretch the SCL clock
-> until some data register is finally written to. If it doesn't do it for
-> whatever reason, this is a quirky hardware in my book and needs handling
-> in the driver only. So, what is special with this HW? Can't we solve it
-> differently?
-> 
-> All the best,
-> 
->    Wolfram
-> 
-
-
-
-
-> _______________________________________________
-> Openipmi-developer mailing list
-> Openipmi-developer@lists.sourceforge.net
-> https://lists.sourceforge.net/lists/listinfo/openipmi-developer
-
+> +};
+> +
+> +&mdio3 {
+> +       status = "okay";
+> +
+> +       ethphy1: ethernet-phy@13 {
+> +               compatible = "ethernet-phy-ieee802.3-c22";
+> +               reg = <0x0d>;
+> +       };
+> +};
+> +
+> +&mac3 {
+> +       status = "okay";
+> +       phy-mode = "rgmii";
+> +       phy-handle = <&ethphy1>;
+> +       pinctrl-names = "default";
+> +       pinctrl-0 = <&pinctrl_rgmii4_default>;
+> +};
