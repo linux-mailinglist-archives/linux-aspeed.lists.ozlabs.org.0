@@ -1,80 +1,56 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C1283EAFFC
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Aug 2021 08:24:55 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C0A03EB3BE
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Aug 2021 12:02:42 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GmD7916rQz3bXJ
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Aug 2021 16:24:53 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=XSCXFQhS;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GmJyR6dMYz3bj5
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Aug 2021 20:02:39 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::102f;
- helo=mail-pj1-x102f.google.com; envelope-from=rentao.bupt@gmail.com;
+ smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
+ helo=metis.ext.pengutronix.de; envelope-from=p.zabel@pengutronix.de;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=XSCXFQhS; dkim-atps=neutral
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GmD736WKSz2xgN;
- Fri, 13 Aug 2021 16:24:45 +1000 (AEST)
-Received: by mail-pj1-x102f.google.com with SMTP id
- n13-20020a17090a4e0d00b0017946980d8dso281686pjh.5; 
- Thu, 12 Aug 2021 23:24:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=NQOgsa59p3OqAoKwO2wbmemr8LIvk6W1Ex9qIpv1D+8=;
- b=XSCXFQhSWV7wnRv57pbuYofo7JuIdaxxRNPHMw/xEfbe6NmKM6ykVQdgYUBklVGXPt
- rKfSyNKxoD29KTu5xqVebvxgmj+HQIl2JkmioID0fJg/LzUNPvhIXG3Vcop3nFkuj14I
- FGY3Kbp96asKLB5ByhIos71CS14z4hsdaJ4VUTenxmYD3kvEgp+NFBhyD62R7+MDP5Eh
- kc5BpCXKg5uoxoPF87mD53VtYGw/nk/dtYu/9aS09wyJh1wWFYwDpv7WObJGyxYfjYb0
- KFQc89cK+uSTT0QzyBh73WoCtc5MWPanA8P+1T2arRjN6gIb0+zsOloGRsV6Wg9K8jFx
- 9OWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=NQOgsa59p3OqAoKwO2wbmemr8LIvk6W1Ex9qIpv1D+8=;
- b=sE5W9MvpfIVy3NHByHcZb6evwNRBZH96bgxSO75PJfbtwvZx86ybOPNzpKlAhFyKCg
- ye8dzpkzocMnosod0MheCdwvlm1CcVgVgTLbhsXWat9VeENpQ7SmTcfkG/QVMz29JUoL
- zk/sxKtNg8HSMBt6lvP7ouaWKDFeRwjX75eaScwFhNzfXi04JDCuitQ2FQi02jYdjZPI
- +uSw9pjgM7QSfmD0JykAWUqRo1gXARsgpzFfuNInmi+ZP3KodOjq8vuPj5iei7RJB8x7
- 6UbePBT4LSQ8AMUbH/hoKV8jU5I3RmK0FlGh9BbLEaWp9cIW+MXYE2SnjH1LDqX8C8ME
- Br6w==
-X-Gm-Message-State: AOAM531opD/mFWYQmvfsDYxstmVfIWgh9KUiZej5Ls4wbddR8LEtBOz7
- /JtABPsi3nY3lly1Sc5Sopc=
-X-Google-Smtp-Source: ABdhPJxsJUWbeaU62Wj9coO/fud1cjIRqM6Z84ZOc4FvCf3W9tPAlNR+vMa1GvVoUW+NjYXNOmbNdA==
-X-Received: by 2002:a05:6a00:aca:b029:392:9c79:3a39 with SMTP id
- c10-20020a056a000acab02903929c793a39mr931084pfl.57.1628835882167; 
- Thu, 12 Aug 2021 23:24:42 -0700 (PDT)
-Received: from taoren-ubuntu-R90MNF91 (c-73-92-48-112.hsd1.ca.comcast.net.
- [73.92.48.112])
- by smtp.gmail.com with ESMTPSA id b7sm790956pfl.195.2021.08.12.23.24.41
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 12 Aug 2021 23:24:42 -0700 (PDT)
-Date: Thu, 12 Aug 2021 23:24:35 -0700
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, taoren@fb.com
-Subject: Re: [PATCH] ARM: dts: aspeed: minipack: Update flash partition table
-Message-ID: <20210813062435.GA24497@taoren-ubuntu-R90MNF91>
-References: <20210720002704.7390-1-rentao.bupt@gmail.com>
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GmJyM0L52z30G4
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Aug 2021 20:02:33 +1000 (AEST)
+Received: from lupine.hi.pengutronix.de
+ ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1mEU14-0003CR-44; Fri, 13 Aug 2021 12:02:18 +0200
+Received: from pza by lupine with local (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1mEU11-0003w2-Fx; Fri, 13 Aug 2021 12:02:15 +0200
+Message-ID: <5da35c2030e57621fa56795cd193e727f53205fe.camel@pengutronix.de>
+Subject: Re: [v11 2/2] pwm: Add Aspeed ast2600 PWM support
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Billy Tsai <billy_tsai@aspeedtech.com>, lee.jones@linaro.org, 
+ robh+dt@kernel.org, joel@jms.id.au, andrew@aj.id.au,
+ thierry.reding@gmail.com,  u.kleine-koenig@pengutronix.de,
+ devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org,  linux-kernel@vger.kernel.org,
+ linux-pwm@vger.kernel.org
+Date: Fri, 13 Aug 2021 12:02:15 +0200
+In-Reply-To: <20210812040942.5365-3-billy_tsai@aspeedtech.com>
+References: <20210812040942.5365-1-billy_tsai@aspeedtech.com>
+ <20210812040942.5365-3-billy_tsai@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210720002704.7390-1-rentao.bupt@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,59 +62,51 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Joel,
+Hi Billy,
 
-Looks like the patch is not included in "dt-for-v5.15". Any comments? Or
-should I send v2 if the email was not delivered?
-
-
-Cheers,
-
-Tao
-
-On Mon, Jul 19, 2021 at 05:27:04PM -0700, rentao.bupt@gmail.com wrote:
-> From: Tao Ren <rentao.bupt@gmail.com>
-> 
-> Update firmware flash "data0" partition size from 4MB to 8MB for larger
-> persistent storage on minipack BMC.
-> 
-> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+On Thu, 2021-08-12 at 12:09 +0800, Billy Tsai wrote:
+> This patch add the support of PWM controller which can be found at aspeed
+> ast2600 soc. The pwm supoorts up to 16 channels and it's part function
+> of multi-function device "pwm-tach controller".
+>=20
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 > ---
->  arch/arm/boot/dts/aspeed-bmc-facebook-minipack.dts | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-minipack.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-minipack.dts
-> index 9eb23e874f19..230d16cd9967 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-facebook-minipack.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-minipack.dts
-> @@ -265,19 +265,19 @@
->  		};
->  
->  		/*
-> -		 * FIT image: 59.5 MB.
-> +		 * FIT image: 55.5 MB.
->  		 */
->  		fit@80000 {
-> -			reg = <0x80000 0x3b80000>;
-> +			reg = <0x80000 0x3780000>;
->  			label = "fit";
->  		};
->  
->  		/*
-> -		 * "data0" partition (4MB) is reserved for persistent
-> +		 * "data0" partition (8MB) is reserved for persistent
->  		 * data store.
->  		 */
->  		data0@3800000 {
-> -			reg = <0x3c00000 0x400000>;
-> +			reg = <0x3800000 0x800000>;
->  			label = "data0";
->  		};
->  
-> -- 
-> 2.17.1
-> 
+[...]
+> diff --git a/drivers/pwm/pwm-aspeed-ast2600.c b/drivers/pwm/pwm-aspeed-as=
+t2600.c
+> new file mode 100644
+> index 000000000000..f89ce1d4cd67
+> --- /dev/null
+> +++ b/drivers/pwm/pwm-aspeed-ast2600.c
+> @@ -0,0 +1,327 @@
+[...]
+> +static int aspeed_pwm_probe(struct platform_device *pdev)
+> +{
+[...]
+> +	priv->clk =3D devm_clk_get(&parent_dev->dev, 0);
+> +	if (IS_ERR(priv->clk))
+> +		return dev_err_probe(dev, PTR_ERR(priv->clk),
+> +				     "Couldn't get clock\n");
+> +
+> +	ret =3D clk_prepare_enable(priv->clk);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Couldn't enable clock\n");
+> +
+> +	priv->reset =3D devm_reset_control_get_shared(&parent_dev->dev, NULL);
+> +	if (IS_ERR(priv->reset)) {
+> +		ret =3D dev_err_probe(dev, PTR_ERR(priv->reset),
+> +				    "Get reset failed\n");
+> +		goto err_disable_clk;
+> +	}
+
+I suggest to request the reset control before enabling the clock. That
+way you can simplify the error path and avoid enabling the clock in case
+of reset_control_get failure.
+
+regards
+Philipp
