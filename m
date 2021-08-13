@@ -2,55 +2,56 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0A03EB3BE
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Aug 2021 12:02:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9B83EB78C
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Aug 2021 17:18:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GmJyR6dMYz3bj5
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Aug 2021 20:02:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GmRz22L2Vz3brd
+	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Aug 2021 01:18:38 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=EbfPbkWC;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
- helo=metis.ext.pengutronix.de; envelope-from=p.zabel@pengutronix.de;
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch
+ (client-ip=185.16.172.187; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch;
  receiver=<UNKNOWN>)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256
+ header.s=20171124 header.b=EbfPbkWC; dkim-atps=neutral
+X-Greylist: delayed 1930 seconds by postgrey-1.36 at boromir;
+ Sat, 14 Aug 2021 01:18:30 AEST
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GmJyM0L52z30G4
- for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Aug 2021 20:02:33 +1000 (AEST)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1mEU14-0003CR-44; Fri, 13 Aug 2021 12:02:18 +0200
-Received: from pza by lupine with local (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1mEU11-0003w2-Fx; Fri, 13 Aug 2021 12:02:15 +0200
-Message-ID: <5da35c2030e57621fa56795cd193e727f53205fe.camel@pengutronix.de>
-Subject: Re: [v11 2/2] pwm: Add Aspeed ast2600 PWM support
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Billy Tsai <billy_tsai@aspeedtech.com>, lee.jones@linaro.org, 
- robh+dt@kernel.org, joel@jms.id.au, andrew@aj.id.au,
- thierry.reding@gmail.com,  u.kleine-koenig@pengutronix.de,
- devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org,  linux-kernel@vger.kernel.org,
- linux-pwm@vger.kernel.org
-Date: Fri, 13 Aug 2021 12:02:15 +0200
-In-Reply-To: <20210812040942.5365-3-billy_tsai@aspeedtech.com>
-References: <20210812040942.5365-1-billy_tsai@aspeedtech.com>
- <20210812040942.5365-3-billy_tsai@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.30.5-1.1 
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GmRyt2Hs8z3bW8;
+ Sat, 14 Aug 2021 01:18:30 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+ s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+ Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+ bh=38IBKVZVPTV/8WbCeQGQRU16Bwkgg1bsJyoAG5N1EVM=; b=EbfPbkWC+9PSeZNWrM8Tt5/V1z
+ KJ8x52VMBSgil//JYcbD96Ksen36PdaS2wSWoNjqqMthtxBttm2q/AwP2vLV0fxfj91517AGuReAj
+ O2LdYoGoVInOMtHs3+4aYQZMJwF39qcijVsG6bRUExyRzVdqkOZ9s047SciVEiLpUwzs=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+ (envelope-from <andrew@lunn.ch>)
+ id 1mEYRa-00HVga-GS; Fri, 13 Aug 2021 16:45:58 +0200
+Date: Fri, 13 Aug 2021 16:45:58 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Tao Ren <rentao.bupt@gmail.com>
+Subject: Re: [PATCH v2 4/6] ARM: dts: aspeed: Add Facebook Cloudripper
+ (AST2600) BMC
+Message-ID: <YRaFpq1LvRzMYr/A@lunn.ch>
+References: <20210805222818.8391-1-rentao.bupt@gmail.com>
+ <20210805222818.8391-5-rentao.bupt@gmail.com>
+ <CACPK8XcV5On2D4D+SXnfw1M0owwfCL4Su19jOEA7yWpq+T3jLw@mail.gmail.com>
+ <20210813034016.GA21895@taoren-ubuntu-R90MNF91>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210813034016.GA21895@taoren-ubuntu-R90MNF91>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,51 +63,31 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Billy,
+On Thu, Aug 12, 2021 at 08:40:17PM -0700, Tao Ren wrote:
+> On Fri, Aug 13, 2021 at 01:29:17AM +0000, Joel Stanley wrote:
+> > On Thu, 5 Aug 2021 at 22:28, <rentao.bupt@gmail.com> wrote:
+> > > +&mdio1 {
+> > > +       status = "okay";
+> > 
+> > You're enabling this but it looks like it's unused?
+> 
+> Thanks Joel for the careful review. The MDIO controller is not paired
+> with BMC MAC; instead, it's connected to the MDC/MDIO interface of the
+> on-board switch (whose ports are connected to BMC, Host and front panel
+> management port).
 
-On Thu, 2021-08-12 at 12:09 +0800, Billy Tsai wrote:
-> This patch add the support of PWM controller which can be found at aspeed
-> ast2600 soc. The pwm supoorts up to 16 channels and it's part function
-> of multi-function device "pwm-tach controller".
->=20
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> ---
-[...]
-> diff --git a/drivers/pwm/pwm-aspeed-ast2600.c b/drivers/pwm/pwm-aspeed-as=
-t2600.c
-> new file mode 100644
-> index 000000000000..f89ce1d4cd67
-> --- /dev/null
-> +++ b/drivers/pwm/pwm-aspeed-ast2600.c
-> @@ -0,0 +1,327 @@
-[...]
-> +static int aspeed_pwm_probe(struct platform_device *pdev)
-> +{
-[...]
-> +	priv->clk =3D devm_clk_get(&parent_dev->dev, 0);
-> +	if (IS_ERR(priv->clk))
-> +		return dev_err_probe(dev, PTR_ERR(priv->clk),
-> +				     "Couldn't get clock\n");
-> +
-> +	ret =3D clk_prepare_enable(priv->clk);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Couldn't enable clock\n");
-> +
-> +	priv->reset =3D devm_reset_control_get_shared(&parent_dev->dev, NULL);
-> +	if (IS_ERR(priv->reset)) {
-> +		ret =3D dev_err_probe(dev, PTR_ERR(priv->reset),
-> +				    "Get reset failed\n");
-> +		goto err_disable_clk;
-> +	}
+What switch is it? Is there a DSA driver for it? drivers/net/dsa/*
+Ideally you want Linux to be controlling the switch, in the standard
+linux way.
 
-I suggest to request the reset control before enabling the clock. That
-way you can simplify the error path and avoid enabling the clock in case
-of reset_control_get failure.
-
-regards
-Philipp
+     Andrew
