@@ -2,56 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBAB73EC386
-	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Aug 2021 17:27:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9953ECC92
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Aug 2021 04:12:04 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Gn46Z5l96z30NY
-	for <lists+linux-aspeed@lfdr.de>; Sun, 15 Aug 2021 01:27:18 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GnyN22TY5z3bPZ
+	for <lists+linux-aspeed@lfdr.de>; Mon, 16 Aug 2021 12:12:02 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=ZptVl3md;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=J6xikWU8;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch
- (client-ip=185.16.172.187; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f31;
+ helo=mail-qv1-xf31.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256
- header.s=20171124 header.b=ZptVl3md; dkim-atps=neutral
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=J6xikWU8; dkim-atps=neutral
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com
+ [IPv6:2607:f8b0:4864:20::f31])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Gn46S2yJKz30B2;
- Sun, 15 Aug 2021 01:27:11 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
- s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
- Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
- Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
- bh=k5oaY0yxV1bCHw1gaOjIPXieerYTHQ1q9Of4rT8QusE=; b=ZptVl3mdz5xew2/cEvmLXeaPEx
- kfWsMX17M/uIERuvvQsegMfyaHuAX+EZ0mziXAYD6MRw/qUSF8wXGeHQfxqFrdwsOxsuBRizEhpky
- n27x1Z+yZTYummSjmDQhYN0vbxL9ccLr1+BQa7sGLKWPIJaRaI0VJuxGiCR0Z4OWZYio=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
- (envelope-from <andrew@lunn.ch>)
- id 1mEvYl-0004x1-9S; Sat, 14 Aug 2021 17:26:55 +0200
-Date: Sat, 14 Aug 2021 17:26:55 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Tao Ren <rentao.bupt@gmail.com>
-Subject: Re: [PATCH v2 4/6] ARM: dts: aspeed: Add Facebook Cloudripper
- (AST2600) BMC
-Message-ID: <YRfgv5OknMluW7jj@lunn.ch>
-References: <20210805222818.8391-1-rentao.bupt@gmail.com>
- <20210805222818.8391-5-rentao.bupt@gmail.com>
- <CACPK8XcV5On2D4D+SXnfw1M0owwfCL4Su19jOEA7yWpq+T3jLw@mail.gmail.com>
- <20210813034016.GA21895@taoren-ubuntu-R90MNF91>
- <YRaFpq1LvRzMYr/A@lunn.ch>
- <20210814052228.GA1298@taoren-ubuntu-R90MNF91>
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GnyMv3BVwz30G8;
+ Mon, 16 Aug 2021 12:11:54 +1000 (AEST)
+Received: by mail-qv1-xf31.google.com with SMTP id g6so8552021qvj.8;
+ Sun, 15 Aug 2021 19:11:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RCriSD8EWtXhtQKktiE7TncAOMeRWKmTNW5hb/Sa0/g=;
+ b=J6xikWU8wKm7Z9E0G7SsPulofLjO9FwDDKk21zs2cS4nuZgEE55Z4YadanEpsD2pRz
+ o7ld0W5h6zoOP1Jok3c3wPlHF55eyD2TThWk1jEQRblyp3T56n4LUQ1B/qy3nRYv14g2
+ pi6Ng+x6TPfgywj+NB2fiJAZVH1J84ALBpjN4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RCriSD8EWtXhtQKktiE7TncAOMeRWKmTNW5hb/Sa0/g=;
+ b=dJGjpbE1lPRZXW5/4Qe6Ez4oernFrJQ37xAHvcU/7ZPwJlTedIgAvaFOlQdRga+tNK
+ Aw67MNfZBmzYBjpn7pzbTpc8JfhuT7j7veLFeXYZ7QoA6LqoRtAk++EWcRhV+O1qENWw
+ g4StPc3YkU4VukXJA3/rg3poIZHRpSLhmJ/+3zMrghsVqzjyslT3b1qTGyT4ciBlf7k0
+ kZU8wk47KZTmPtBQmoypb0++t0p8u4Z5qeOrN2x/eGa4HUxbUmWZWlKeFlUV99P70/uY
+ Z+ZKp+bNeVsapCKXmbIS8vtphCoajUVizJS5yGvpWrpuignAxcfaeu5csUDiFLLYNp1w
+ JRGQ==
+X-Gm-Message-State: AOAM530HY5nunvINHbGAvnNojMwff68bLeQa+fuQhxopVa7wQp+EdzjJ
+ TLWnmIxgScO8U7U41igpEQWK58xxawsO1ZbruhQ=
+X-Google-Smtp-Source: ABdhPJwhXnrmqh156PtVzL9hcyEAfhvLDsdhzqB6+2cdZvwR1531PgQsyNtKhyvPLIGl5qxjxGsdHQDU14nxJs1lA8E=
+X-Received: by 2002:a05:6214:8c2:: with SMTP id
+ da2mr10826803qvb.10.1629079909644; 
+ Sun, 15 Aug 2021 19:11:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210814052228.GA1298@taoren-ubuntu-R90MNF91>
+References: <20210720002704.7390-1-rentao.bupt@gmail.com>
+ <20210813062435.GA24497@taoren-ubuntu-R90MNF91>
+In-Reply-To: <20210813062435.GA24497@taoren-ubuntu-R90MNF91>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 16 Aug 2021 02:11:40 +0000
+Message-ID: <CACPK8XcAqU3KASespqS3dPterpzyqD4wYH=qOS8Ok2yUrB_F+Q@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: aspeed: minipack: Update flash partition table
+To: Tao Ren <rentao.bupt@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,14 +82,15 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> Thanks for jumping in. We are using BCM5389 and the MDIO bus is used to
-> access BCM5389 MDC/MDIO interface in Pseudo-PHY mode.
-> 
-> I didn't know drivers/net/dsa, but let me check out the drivers and see
-> if it works in the Cloudripper environment.
+On Fri, 13 Aug 2021 at 06:24, Tao Ren <rentao.bupt@gmail.com> wrote:
+>
+> Hi Joel,
+>
+> Looks like the patch is not included in "dt-for-v5.15". Any comments? Or
+> should I send v2 if the email was not delivered?
 
-The b53 driver knows about this switch, so please make use of that
-driver. See Documentation/devicetree/bindings/net/dsa/brcm,b53.yaml
-for how you describe it in DT.
+I had missed it. It's now applied for 5.15.
 
-    Andrew
+Cheers,
+
+Joel
