@@ -1,66 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE81F3EE85A
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Aug 2021 10:23:28 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 725983EF722
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Aug 2021 03:06:00 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GpkZ66S1rz30B9
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Aug 2021 18:23:26 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Gq8pt1zMTz3bPV
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Aug 2021 11:05:58 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=NZVF8fit;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=bRoUi9vN;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f2c;
- helo=mail-qv1-xf2c.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::529;
+ helo=mail-pg1-x529.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=NZVF8fit; dkim-atps=neutral
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
- [IPv6:2607:f8b0:4864:20::f2c])
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20161025 header.b=bRoUi9vN; dkim-atps=neutral
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
+ [IPv6:2607:f8b0:4864:20::529])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GpkYK6cl9z2yfZ;
- Tue, 17 Aug 2021 18:22:45 +1000 (AEST)
-Received: by mail-qv1-xf2c.google.com with SMTP id g11so1962253qvd.2;
- Tue, 17 Aug 2021 01:22:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zhjo9QSmw27pDivMhjrb1fCoYUKc8i8zzEI/B9kHVhk=;
- b=NZVF8fit7hyXSPzExzEkJtIoVr1V3KynrL+YIZDtDj3g/VL60ad/eRLqKeY8XfgCTP
- xVxLxfwkyTvks0CJevqs/T6MTnraap9Gs/WvbwPn1gekC5YAv49+9kDizy0zYFbb+swW
- UvIe5jsgoXDmJvdiD4Fhbhhn1Bqw6Kbgb7KqI=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Gq8pn0JjYz2yWR
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Aug 2021 11:05:50 +1000 (AEST)
+Received: by mail-pg1-x529.google.com with SMTP id r2so519189pgl.10
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 17 Aug 2021 18:05:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=igQyjQEDsE8KCNtPH25+5iy9F0754XhA9uaInC4OogY=;
+ b=bRoUi9vNbc9sVqT33EDW09xJUaQJshq4N/A6oocvtk/a+DPWyn7yfYJjxj3f7NTW3W
+ 5SXkaSxnlG7FiE6bWz4HJjnGTsoMR4FAnuDWA9rDNCvCrfgSnDq6uOvKb4OfeIGJMpP0
+ blR73nE4Xeu1l4wSkWbsrL6gXdkdFAq0cK4sTXsjdyY3ltTzx+B0pgEjxC7kOKdXvg8q
+ 6grwcWUybNR6vAh3fzisXtKf0z+SPhAeBJ694n2YJmql++HEN4nzsgJ0IgJVRUMbSDqy
+ LzfpN80fQGQoGndG7j7KQyz2VboF0tMU3B7vSFJKZJE9nVw6eJ39+SvyUA5ZaHtjtViu
+ pGzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zhjo9QSmw27pDivMhjrb1fCoYUKc8i8zzEI/B9kHVhk=;
- b=Kb9MLvFKD1bzfhR4lFJOYANOl8g0VZi0W2zSXy7ckIcvYB4+eKQCU+q1IykOBQuOp0
- rlXECwUqeKH3C/6udptfSADeRoXn7q17oqZF6dPI7C85I6TNeFr1jybOU/BO2kJNuaBm
- xdeBCG0DhGikViykhL/WxcFnEGM5sOdfDN+94YZjv5Jw6MlqVT5dCN00ypFF9JVrwKPE
- y8iUilO4+805x9bHDeSRzHd+iwlad1en6RsSRkPBslcUHprYFieh39t9pUI9tXq2Dby+
- s+3ld24IO4KSZ7gytoJywB10xD20BhFo/D0+8ovKsj04OIrj8DVqDHziEMIabdsicbCb
- SFTQ==
-X-Gm-Message-State: AOAM5327tOz77FB9dlBbldU5aiaLZq4AOFpJVPSHJ/kCtsDUWSobRFXB
- BkpGc2abOMSY1g347mgtCHwhF680HzuX96KUVrk=
-X-Google-Smtp-Source: ABdhPJxs2wRduY04otm4gWEktimpcjtM+CNdRIrl75q4UfXuJ1TNyMFVVKJSyZYP7FRnBlgJIZLHfIdlc0Qw2ayFhlo=
-X-Received: by 2002:a05:6214:8c2:: with SMTP id
- da2mr2183129qvb.10.1629188563529; 
- Tue, 17 Aug 2021 01:22:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210816160002.18645-1-jlwright@us.ibm.com>
-In-Reply-To: <20210816160002.18645-1-jlwright@us.ibm.com>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=igQyjQEDsE8KCNtPH25+5iy9F0754XhA9uaInC4OogY=;
+ b=iQTgw1gZmylILEt3ybp2MzSOPrPX8LiBpq5d7bhnsAi9ncUPY73LszLVVG5/2Py7FG
+ CMSTi6cRsDSHCqU3BJYBRxNWlHMJPeEhrSCKYYRxJgAI+hsKPhSvvAByLgNW0NhKKvKv
+ z4XKr1sXz6BT3a2Ikir7A6Uus+qvmC1cSJBrUTjPZn62s741whLv03fOei2ZEVoDueHa
+ 3fpul8ReYWKscMnvjIVbGTOU2MjLtDXBmOCJLEMYlhon7ScEpYGzuoJkB1pJuicspzS4
+ bBZERN3ySoipVJWbwtc/HHhMl/rleEZfJmfGexhjNvxslgWEP+5k+DuxNCucvj4l1X/2
+ +XAA==
+X-Gm-Message-State: AOAM530yxUKWbBGK0MLp/KX9zU3k6gAwr4ntpLTXTTScIVuf7lJ8M+oJ
+ dDX2Dqx5Z2Tbn53Pda8eTFY=
+X-Google-Smtp-Source: ABdhPJz8ji8qJtCm6gxsY72qLhN3WZNe19tXCK8Xwh3UpZkr9aoHwvUn4oE3BfTMt2XeZQ8z3fWrsw==
+X-Received: by 2002:a05:6a00:1a49:b029:3e0:3b2c:c9c7 with SMTP id
+ h9-20020a056a001a49b02903e03b2cc9c7mr6530188pfv.8.1629248746397; 
+ Tue, 17 Aug 2021 18:05:46 -0700 (PDT)
+Received: from localhost.localdomain ([45.124.203.15])
+ by smtp.gmail.com with ESMTPSA id 17sm3307670pjd.3.2021.08.17.18.05.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Aug 2021 18:05:45 -0700 (PDT)
 From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 17 Aug 2021 08:22:31 +0000
-Message-ID: <CACPK8XcgFkcA4cpqzTmwS-tpauWeAeFHqzhjyxOWvggKSOJFQw@mail.gmail.com>
-Subject: Re: [PATCH linux dev-5.10] ARM: dts: aspeed: p10bmc: Add power
- control pins
-To: Jim Wright <jlwright@us.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Dylan Hung <dylan_hung@aspeedtech.com>,
+	Andrew Jeffery <andrew@aj.id.au>
+Subject: [PATCH] soc: aspeed: socinfo: Add AST2625 variant
+Date: Wed, 18 Aug 2021 10:35:34 +0930
+Message-Id: <20210818010534.2508122-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,54 +79,35 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>
+Cc: linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 16 Aug 2021 at 16:01, Jim Wright <jlwright@us.ibm.com> wrote:
->
-> Add to p10bmc systems the GPIO line names used in chassis power on / off
-> control and chassis power good monitoring. Names used are as documented at [1].
->
-> [1] https://github.com/openbmc/docs/blob/master/designs/device-tree-gpio-naming.md
->
-> Signed-off-by: Jim Wright <jlwright@us.ibm.com>
+Add AST26XX series AST2625-A3 SOC ID, taken from the vendor u-boot SDK:
 
-Thanks, applied.
+ arch/arm/mach-aspeed/ast2600/scu_info.c
+ +       SOC_ID("AST2625-A3", 0x0503040305030403),
 
-> ---
->  arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts | 2 +-
->  arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-> index 01a0b2b03ddd..941efff7c943 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-> @@ -253,7 +253,7 @@ &gpio0 {
->         /*O0-O7*/       "","","","","","","","",
->         /*P0-P7*/       "","","","","led-pcieslot-power","","","",
->         /*Q0-Q7*/       "","","","","","","","",
-> -       /*R0-R7*/       "","","","","","I2C_FLASH_MICRO_N","","",
-> +       /*R0-R7*/       "","power-chassis-control","power-chassis-good","","","I2C_FLASH_MICRO_N","","",
->         /*S0-S7*/       "","","","","","","","",
->         /*T0-T7*/       "","","","","","","","",
->         /*U0-U7*/       "","","","","","","","",
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> index f87bc5dc8aba..605ad80ef967 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> @@ -243,7 +243,7 @@ &gpio0 {
->         /*O0-O7*/       "","","","usb-power","","","","",
->         /*P0-P7*/       "","","","","pcieslot-power","","","",
->         /*Q0-Q7*/       "cfam-reset","","","","","","","",
-> -       /*R0-R7*/       "","","","","","","","",
-> +       /*R0-R7*/       "","power-chassis-control","power-chassis-good","","","","","",
->         /*S0-S7*/       "presence-ps0","presence-ps1","presence-ps2","presence-ps3",
->                                 "","","","",
->         /*T0-T7*/       "","","","","","","","",
-> --
-> 2.32.0
->
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+Dylan, can you please review this for me?
+
+ drivers/soc/aspeed/aspeed-socinfo.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/soc/aspeed/aspeed-socinfo.c b/drivers/soc/aspeed/aspeed-socinfo.c
+index e3215f826d17..1ca140356a08 100644
+--- a/drivers/soc/aspeed/aspeed-socinfo.c
++++ b/drivers/soc/aspeed/aspeed-socinfo.c
+@@ -26,6 +26,7 @@ static struct {
+ 	{ "AST2600", 0x05000303 },
+ 	{ "AST2620", 0x05010203 },
+ 	{ "AST2605", 0x05030103 },
++	{ "AST2625", 0x05030403 },
+ };
+ 
+ static const char *siliconid_to_name(u32 siliconid)
+-- 
+2.32.0
+
