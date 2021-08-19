@@ -1,72 +1,70 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73393F12F1
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Aug 2021 07:52:41 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDF483F13CE
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Aug 2021 08:52:28 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Gqv7C4Bqvz3bYt
-	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Aug 2021 15:52:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GqwSB6M2gz3bYp
+	for <lists+linux-aspeed@lfdr.de>; Thu, 19 Aug 2021 16:52:26 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=dMrZyt1F;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20161025 header.b=ZmnS1X0d;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::642;
- helo=mail-pl1-x642.google.com; envelope-from=liuxiwei1013@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::634;
+ helo=mail-pl1-x634.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20161025 header.b=dMrZyt1F; dkim-atps=neutral
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
+ header.s=20161025 header.b=ZmnS1X0d; dkim-atps=neutral
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Gqv7805HQz307D;
- Thu, 19 Aug 2021 15:52:35 +1000 (AEST)
-Received: by mail-pl1-x642.google.com with SMTP id w6so3254826plg.9;
- Wed, 18 Aug 2021 22:52:35 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GqwS53MgWz2yYd
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 19 Aug 2021 16:52:19 +1000 (AEST)
+Received: by mail-pl1-x634.google.com with SMTP id e15so3340906plh.8
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Aug 2021 23:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
+ h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=IF17aolAlURwpUnWUph8bUVhuWbBF2d6WJwX4WbnNTg=;
- b=dMrZyt1F3hsIKuO7fUpYJRjEo/VlUYlC5wrhdPkOgTPHv/q7L9oZNyGXgU8O/5YPa1
- ZUpaROFhFNeXOimJ15G5nC7IcR2fEe2hfkyeBEy7sPT23eycHsc0XRapOwXD9vOPstrn
- U9bEWJkncUXE8dPNvY+MT0s7H+ZFkm8ue/7xCWkE/4KAEx9FrgiEfy4pnra10GiGaHQ0
- o0/VHrjy8IB8XbBGpjrWKf1JMITmkJtY6mM63tNKGIF9td14di10jCmXRj15yu3tYNn6
- d3rCzYYP6KJ44D5BddEkUjMOu8G86JRvI8zWaYTY5bL8QRZhW+jTrCNjsakhjxaa+KbJ
- c1ig==
+ bh=s9LzzzjCIKGbYZUYDa9u4GWaXQi07iSF8WpyAvcQM48=;
+ b=ZmnS1X0dOH9EOWtj+Tka43Y6yGnrO7rbYevAnYwAawbX9xzgCWyDJQYL5sigE773/Y
+ oUbbGjn8B//g/NPiI/FeyuxW9AfmFYsLoL+urrD6yJ/Gei2bShLaoyzwVtMfY/6zRIxG
+ Wyqy0/hOUE+deE51UpjnnAsW5uLOQ08mBMh94gN0RSgJvslY0WzkO6rH/YlrwJrdxzyT
+ fqD9N4zd2TlsichPhefj90wFd46ueDETFRw4JVbPN62CK4C+KTyM2jK5tv3F2tDBROVJ
+ 3TvS0WxAf3bnP0RGacW1LF1JlBETwp8+v2nribiLS2Lpql/9L4oOPjRaax3znx5NumGU
+ HWSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IF17aolAlURwpUnWUph8bUVhuWbBF2d6WJwX4WbnNTg=;
- b=Q23bS8pMEi8uYa7ADlHZiSudI8Wx374My6aocq1cwIxcsJGe9DEEQnOp3U2jVNteax
- t2a2mW56qJ5rW0c883ZzbzbgPgIDl/gxehD3Mo5T2W8QeD1eD8Ih+nc8gJuG3elE1XOg
- hQmyKHZVKsZ14MuHFdqnYnaeUbYy5toGD1WHUxwhDAC53TZmNANbYxJ/Bep5PN9lzRU3
- CHpjHd//F9VBK2XuZ93ACEGSsMSe1mjDQGndKQdvBT2+mxFWlO5UdZLjCpoC48BCH5xK
- tcvT8E8bJB7FOSPftq6hFq/71uWQTdWST8/Ufgbbva94XDY3wiQlh2EkCkCiiP8Crl+T
- +URQ==
-X-Gm-Message-State: AOAM533Migz0cD/1k762HZ70ET0pG0OYX3oxrW+pHu9xW3Bvks0/LIR4
- XZqsxpWKSzycikVbaTT1nMs=
-X-Google-Smtp-Source: ABdhPJwtzQIbitrTyYk+vzJWEmbnvQ+C4XZlT5gcs8oW+Qkj0ReIzTignGSUCDvdAoV7s1cVJyzHzg==
-X-Received: by 2002:a17:902:7786:b029:12c:dac0:15ba with SMTP id
- o6-20020a1709027786b029012cdac015bamr10194807pll.27.1629352352799; 
- Wed, 18 Aug 2021 22:52:32 -0700 (PDT)
-Received: from localhost (95.169.4.245.16clouds.com. [95.169.4.245])
- by smtp.gmail.com with ESMTPSA id j35sm2162177pgm.55.2021.08.18.22.52.32
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=s9LzzzjCIKGbYZUYDa9u4GWaXQi07iSF8WpyAvcQM48=;
+ b=YgClP+5Wb+Kg7T7ajrWKWIix167FwmgU74TVvyqyeNLWynF01j5e/cd24GPdsdGTxt
+ 3wng8H0Kl8ZNX2WvGccmiWGd5X1JdHaBC0JxQqwQRAKoCRQmMB7Xyjd++rfZzqIUdWrg
+ dtmywTcx/PKrL31Ah4MRhVZlbbwVXFX9hlCDkh3zjgnmLPMrI1TjQoEZc+y1Q//MAmBf
+ l02IEgYBBbklJLCKUe8nNkgOCCPDCKR6Hr3DUJEs5wbioXScbkL2a2VqxcNQXElHafj6
+ jbGWxvaP/8256ldv5MxK6bIJL31p8Cjs6BBkHiaJv9yBB9ffRy2R6wsm/txfqgTWng3B
+ 3FmA==
+X-Gm-Message-State: AOAM531X/2RkDAVPpiIUFX82081/rBzk40TIhXi/bYmtLwtfAPDGeoSF
+ SP3kUIZKnlCTf1qtnsUAfvA=
+X-Google-Smtp-Source: ABdhPJyCojOaXvEhfJRHWO8wDQzaX4sl5w0cGIWZbYbyWi1VYC9YieHbhyfmg6zReqUpZVJCvnfbYA==
+X-Received: by 2002:a17:903:1cb:b0:12d:b9c8:4e22 with SMTP id
+ e11-20020a17090301cb00b0012db9c84e22mr10633712plh.42.1629355935808; 
+ Wed, 18 Aug 2021 23:52:15 -0700 (PDT)
+Received: from localhost.localdomain ([45.124.203.15])
+ by smtp.gmail.com with ESMTPSA id 4sm1860035pjb.21.2021.08.18.23.52.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 22:52:32 -0700 (PDT)
-From: George Liu <liuxiwei1013@gmail.com>
-X-Google-Original-From: George Liu <liuxiwei@inspur.com>
-To: joel@jms.id.au,
-	openbmc@lists.ozlabs.org
-Subject: [PATCH] ARM: dts: fp5280g2: Enable KCS 3 for MCTP binding
-Date: Thu, 19 Aug 2021 13:52:27 +0800
-Message-Id: <20210819055227.140980-1-liuxiwei@inspur.com>
-X-Mailer: git-send-email 2.30.2
+ Wed, 18 Aug 2021 23:52:14 -0700 (PDT)
+From: Joel Stanley <joel@jms.id.au>
+To: Andrew Jeffery <andrew@aj.id.au>
+Subject: [PATCH 0/4] ARM: config: aspeed: Defconfig updates
+Date: Thu, 19 Aug 2021 16:21:59 +0930
+Message-Id: <20210819065203.2620911-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -80,40 +78,24 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: robh+dt@kernel.org, George Liu <liuxiwei@inspur.com>,
- linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org
+Cc: linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Signed-off-by: George Liu <liuxiwei@inspur.com>
----
- arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts | 7 +++++++
- 1 file changed, 7 insertions(+)
+Here are some defconfig updates that we've been using in the openbmc
+distro kernel tree for a while now.
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts b/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
-index 1752f3250e44..d0c3acbf6c8c 100644
---- a/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts
-@@ -3,6 +3,7 @@
- #include "aspeed-g5.dtsi"
- #include <dt-bindings/gpio/aspeed-gpio.h>
- #include <dt-bindings/leds/leds-pca955x.h>
-+#include <dt-bindings/interrupt-controller/irq.h>
- 
- / {
- 	model = "FP5280G2 BMC";
-@@ -902,4 +903,10 @@ fan@7 {
- 
- };
- 
-+&kcs3 {
-+	status = "okay";
-+	aspeed,lpc-io-reg = <0xca2>;
-+	aspeed,lpc-interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
-+};
-+
- #include "ibm-power9-dual.dtsi"
+Joel Stanley (4):
+  ARM: config: aspeed: Enable hardened allocator feature
+  ARM: config: aspeed: Enable KCS adapter for raw SerIO
+  ARM: config: aspeed_g4: Enable EDAC and SPGIO
+  ARM: config: aspeed: Regenerate defconfigs
+
+ arch/arm/configs/aspeed_g4_defconfig | 16 +++++-----------
+ arch/arm/configs/aspeed_g5_defconfig | 25 +++++++++----------------
+ 2 files changed, 14 insertions(+), 27 deletions(-)
+
 -- 
-2.30.2
+2.32.0
 
