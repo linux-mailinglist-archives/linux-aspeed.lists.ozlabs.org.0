@@ -2,51 +2,45 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D4733F4578
-	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Aug 2021 09:02:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30733F56DF
+	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Aug 2021 05:58:22 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GtNVC2XPMz2xsK
-	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Aug 2021 17:02:43 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GtwLz73tvz2yLQ
+	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Aug 2021 13:58:19 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com;
- receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GtNV23Xmnz2xgy
- for <linux-aspeed@lists.ozlabs.org>; Mon, 23 Aug 2021 17:02:33 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 17N6hHAT051029;
- Mon, 23 Aug 2021 14:43:19 +0800 (GMT-8)
- (envelope-from billy_tsai@aspeedtech.com)
-Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 23 Aug
- 2021 15:01:47 +0800
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: <jic23@kernel.org>, <lars@metafoo.de>, <pmeerw@pmeerw.net>,
- <robh+dt@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
- <p.zabel@pengutronix.de>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
- <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [v4 09/15] iio: adc: aspeed: Use devm_add_action_or_reset.
-Date: Mon, 23 Aug 2021 15:02:34 +0800
-Message-ID: <20210823070240.12600-10-billy_tsai@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210823070240.12600-1-billy_tsai@aspeedtech.com>
-References: <20210823070240.12600-1-billy_tsai@aspeedtech.com>
+ smtp.mailfrom=baidu.com (client-ip=111.202.115.85; helo=baidu.com;
+ envelope-from=caihuoqing@baidu.com; receiver=<UNKNOWN>)
+X-Greylist: delayed 2788 seconds by postgrey-1.36 at boromir;
+ Mon, 23 Aug 2021 15:44:58 AEST
+Received: from baidu.com (mx20.baidu.com [111.202.115.85])
+ by lists.ozlabs.org (Postfix) with ESMTP id 4GtLmW05jTz2xXn
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 23 Aug 2021 15:44:49 +1000 (AEST)
+Received: from BC-Mail-Ex18.internal.baidu.com (unknown [172.31.51.12])
+ by Forcepoint Email with ESMTPS id DB02ED0727DB2C4EA62D;
+ Mon, 23 Aug 2021 12:58:13 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BC-Mail-Ex18.internal.baidu.com (172.31.51.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2242.12; Mon, 23 Aug 2021 12:58:13 +0800
+Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Mon, 23 Aug 2021 12:58:13 +0800
+From: Cai Huoqing <caihuoqing@baidu.com>
+To: <balbi@kernel.org>, <gregkh@linuxfoundation.org>, <joel@jms.id.au>,
+ <andrew@aj.id.au>
+Subject: [PATCH] usb: gadget: aspeed: Remove repeated verbose license text
+Date: Mon, 23 Aug 2021 12:58:07 +0800
+Message-ID: <20210823045807.49-1-caihuoqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [192.168.2.149]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 17N6hHAT051029
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BC-Mail-Ex19.internal.baidu.com (172.31.51.13) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+X-Mailman-Approved-At: Tue, 24 Aug 2021 13:58:18 +1000
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,172 +52,103 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
+Cc: linux-usb@vger.kernel.org, Cai Huoqing <caihuoqing@baidu.com>,
+ linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This patch use devm_add_action_or_reset to handle the error in probe
-phase.
+remove it because SPDX-License-Identifier is already used
 
-Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/iio/adc/aspeed_adc.c | 92 +++++++++++++++++++++---------------
- 1 file changed, 55 insertions(+), 37 deletions(-)
+ drivers/usb/gadget/udc/aspeed-vhub/core.c | 5 -----
+ drivers/usb/gadget/udc/aspeed-vhub/dev.c  | 5 -----
+ drivers/usb/gadget/udc/aspeed-vhub/ep0.c  | 5 -----
+ drivers/usb/gadget/udc/aspeed-vhub/epn.c  | 5 -----
+ drivers/usb/gadget/udc/aspeed-vhub/hub.c  | 5 -----
+ 5 files changed, 25 deletions(-)
 
-diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
-index 52db38be9699..1c87e12a0cab 100644
---- a/drivers/iio/adc/aspeed_adc.c
-+++ b/drivers/iio/adc/aspeed_adc.c
-@@ -187,6 +187,27 @@ static const struct iio_info aspeed_adc_iio_info = {
- 	.debugfs_reg_access = aspeed_adc_reg_access,
- };
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+index d11d3d14313f..7a635c499777 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+@@ -5,11 +5,6 @@
+  * core.c - Top level support
+  *
+  * Copyright 2017 IBM Corporation
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License as published by
+- * the Free Software Foundation; either version 2 of the License, or
+- * (at your option) any later version.
+  */
  
-+static void aspeed_adc_unregister_divider(void *data)
-+{
-+	struct clk_hw *clk = data;
-+
-+	clk_hw_unregister_divider(clk);
-+}
-+
-+static void aspeed_adc_reset_assert(void *data)
-+{
-+	struct reset_control *rst = data;
-+
-+	reset_control_assert(rst);
-+}
-+
-+static void aspeed_adc_clk_disable_unprepare(void *data)
-+{
-+	struct clk *clk = data;
-+
-+	clk_disable_unprepare(clk);
-+}
-+
- static int aspeed_adc_vref_config(struct iio_dev *indio_dev)
- {
- 	struct aspeed_adc_data *data = iio_priv(indio_dev);
-@@ -232,6 +253,12 @@ static int aspeed_adc_probe(struct platform_device *pdev)
- 			&data->clk_lock);
- 		if (IS_ERR(data->clk_prescaler))
- 			return PTR_ERR(data->clk_prescaler);
-+
-+		ret = devm_add_action_or_reset(data->dev,
-+					       aspeed_adc_unregister_divider,
-+					       data->clk_prescaler);
-+		if (ret)
-+			return ret;
- 		snprintf(clk_parent_name, 32, clk_name);
- 		scaler_flags = CLK_SET_RATE_PARENT;
- 	}
-@@ -244,23 +271,30 @@ static int aspeed_adc_probe(struct platform_device *pdev)
- 		&pdev->dev, clk_name, clk_parent_name, scaler_flags,
- 		data->base + ASPEED_REG_CLOCK_CONTROL, 0,
- 		data->model_data->scaler_bit_width, 0, &data->clk_lock);
--	if (IS_ERR(data->clk_scaler)) {
--		ret = PTR_ERR(data->clk_scaler);
--		goto scaler_error;
--	}
-+	if (IS_ERR(data->clk_scaler))
-+		return PTR_ERR(data->clk_scaler);
-+
-+	ret = devm_add_action_or_reset(data->dev, aspeed_adc_unregister_divider,
-+				       data->clk_scaler);
-+	if (ret)
-+		return ret;
+ #include <linux/kernel.h>
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
+index d268306a7bfe..d918e8b2af3c 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
+@@ -5,11 +5,6 @@
+  * dev.c - Individual device/gadget management (ie, a port = a gadget)
+  *
+  * Copyright 2017 IBM Corporation
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License as published by
+- * the Free Software Foundation; either version 2 of the License, or
+- * (at your option) any later version.
+  */
  
- 	data->rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
- 	if (IS_ERR(data->rst)) {
- 		dev_err(&pdev->dev,
- 			"invalid or missing reset controller device tree entry");
--		ret = PTR_ERR(data->rst);
--		goto reset_error;
-+		return PTR_ERR(data->rst);
- 	}
- 	reset_control_deassert(data->rst);
+ #include <linux/kernel.h>
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
+index 022b777b85f8..74ea36c19b1e 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
+@@ -5,11 +5,6 @@
+  * ep0.c - Endpoint 0 handling
+  *
+  * Copyright 2017 IBM Corporation
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License as published by
+- * the Free Software Foundation; either version 2 of the License, or
+- * (at your option) any later version.
+  */
  
-+	ret = devm_add_action_or_reset(data->dev, aspeed_adc_reset_assert,
-+				       data->rst);
-+	if (ret)
-+		return ret;
-+
- 	ret = aspeed_adc_vref_config(indio_dev);
- 	if (ret)
--		goto vref_config_error;
-+		return ret;
+ #include <linux/kernel.h>
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/epn.c b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
+index cb164c615e6f..917892ca8753 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/epn.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
+@@ -5,11 +5,6 @@
+  * epn.c - Generic endpoints management
+  *
+  * Copyright 2017 IBM Corporation
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License as published by
+- * the Free Software Foundation; either version 2 of the License, or
+- * (at your option) any later version.
+  */
  
- 	if (data->model_data->wait_init_sequence) {
- 		/* Enable engine in normal mode. */
-@@ -277,13 +311,19 @@ static int aspeed_adc_probe(struct platform_device *pdev)
- 					 ASPEED_ADC_INIT_POLLING_TIME,
- 					 ASPEED_ADC_INIT_TIMEOUT);
- 		if (ret)
--			goto poll_timeout_error;
-+			return ret;
- 	}
+ #include <linux/kernel.h>
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
+index 5c7dea5e0ff1..b9960fdd8a51 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
+@@ -5,11 +5,6 @@
+  * hub.c - virtual hub handling
+  *
+  * Copyright 2017 IBM Corporation
+- *
+- * This program is free software; you can redistribute it and/or modify
+- * it under the terms of the GNU General Public License as published by
+- * the Free Software Foundation; either version 2 of the License, or
+- * (at your option) any later version.
+  */
  
- 	/* Start all channels in normal mode. */
- 	ret = clk_prepare_enable(data->clk_scaler->clk);
- 	if (ret)
--		goto clk_enable_error;
-+		return ret;
-+
-+	ret = devm_add_action_or_reset(data->dev,
-+				       aspeed_adc_clk_disable_unprepare,
-+				       data->clk_scaler->clk);
-+	if (ret)
-+		return ret;
- 
- 	adc_engine_control_reg_val =
- 		ASPEED_ADC_CTRL_CHANNEL |
-@@ -299,41 +339,19 @@ static int aspeed_adc_probe(struct platform_device *pdev)
- 	indio_dev->num_channels = data->model_data->num_channels;
- 
- 	ret = iio_device_register(indio_dev);
--	if (ret)
--		goto iio_register_error;
--
-+	if (ret) {
-+		writel(FIELD_PREP(ASPEED_ADC_OP_MODE,
-+				  ASPEED_ADC_OP_MODE_PWR_DOWN),
-+		       data->base + ASPEED_REG_ENGINE_CONTROL);
-+		return ret;
-+	}
- 	return 0;
--
--iio_register_error:
--	writel(FIELD_PREP(ASPEED_ADC_OP_MODE, ASPEED_ADC_OP_MODE_PWR_DOWN),
--	       data->base + ASPEED_REG_ENGINE_CONTROL);
--	clk_disable_unprepare(data->clk_scaler->clk);
--clk_enable_error:
--poll_timeout_error:
--vref_config_error:
--	reset_control_assert(data->rst);
--reset_error:
--	clk_hw_unregister_divider(data->clk_scaler);
--scaler_error:
--	if (data->model_data->need_prescaler)
--		clk_hw_unregister_divider(data->clk_prescaler);
--	return ret;
- }
- 
- static int aspeed_adc_remove(struct platform_device *pdev)
- {
- 	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
--	struct aspeed_adc_data *data = iio_priv(indio_dev);
--
- 	iio_device_unregister(indio_dev);
--	writel(FIELD_PREP(ASPEED_ADC_OP_MODE, ASPEED_ADC_OP_MODE_PWR_DOWN),
--	       data->base + ASPEED_REG_ENGINE_CONTROL);
--	clk_disable_unprepare(data->clk_scaler->clk);
--	reset_control_assert(data->rst);
--	clk_hw_unregister_divider(data->clk_scaler);
--	if (data->model_data->need_prescaler)
--		clk_hw_unregister_divider(data->clk_prescaler);
--
- 	return 0;
- }
- 
+ #include <linux/kernel.h>
 -- 
 2.25.1
 
