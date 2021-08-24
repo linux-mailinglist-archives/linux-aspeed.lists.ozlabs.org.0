@@ -2,45 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B30733F56DF
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Aug 2021 05:58:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D94023F576C
+	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Aug 2021 06:52:39 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GtwLz73tvz2yLQ
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Aug 2021 13:58:19 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GtxYd4NJpz2yLb
+	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Aug 2021 14:52:37 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=jK5R/1J6;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=baidu.com (client-ip=111.202.115.85; helo=baidu.com;
- envelope-from=caihuoqing@baidu.com; receiver=<UNKNOWN>)
-X-Greylist: delayed 2788 seconds by postgrey-1.36 at boromir;
- Mon, 23 Aug 2021 15:44:58 AEST
-Received: from baidu.com (mx20.baidu.com [111.202.115.85])
- by lists.ozlabs.org (Postfix) with ESMTP id 4GtLmW05jTz2xXn
- for <linux-aspeed@lists.ozlabs.org>; Mon, 23 Aug 2021 15:44:49 +1000 (AEST)
-Received: from BC-Mail-Ex18.internal.baidu.com (unknown [172.31.51.12])
- by Forcepoint Email with ESMTPS id DB02ED0727DB2C4EA62D;
- Mon, 23 Aug 2021 12:58:13 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex18.internal.baidu.com (172.31.51.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Mon, 23 Aug 2021 12:58:13 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Mon, 23 Aug 2021 12:58:13 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <balbi@kernel.org>, <gregkh@linuxfoundation.org>, <joel@jms.id.au>,
- <andrew@aj.id.au>
-Subject: [PATCH] usb: gadget: aspeed: Remove repeated verbose license text
-Date: Mon, 23 Aug 2021 12:58:07 +0800
-Message-ID: <20210823045807.49-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::72a;
+ helo=mail-qk1-x72a.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=jK5R/1J6; dkim-atps=neutral
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
+ [IPv6:2607:f8b0:4864:20::72a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GtxYT4Ms8z2xrx
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 24 Aug 2021 14:52:28 +1000 (AEST)
+Received: by mail-qk1-x72a.google.com with SMTP id a66so3049302qkc.1
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 23 Aug 2021 21:52:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Yq1+yUuzy73wmTqQz582kZA2h/Vz+BygSw30/pNdJ98=;
+ b=jK5R/1J6FGwa7V2HDP+dXM6DehJp7486SAVwEyNuLuzgvf+sUdjX/wWc+Bf2BgAy8q
+ wgdW3wlF0ucp00hRnzrnw2rUIeY3lexLJMLtcoMq7eJg5AT8W5UvOj03nQaqgwALNixa
+ 7+wLEGad9gskiyOBs9z/0F8hP572nFkcRbbLk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Yq1+yUuzy73wmTqQz582kZA2h/Vz+BygSw30/pNdJ98=;
+ b=ewNmBTmH0RBLp3FYSI48vBsiw0TM+2ygy0n+u6KSpsPPyS5a06ePquA7a8Rr+MzoNE
+ T4vZM35jjYh2GNhAutY16gN0a4UYOs6n2E6yMDnw0mVrVTNcSNxjSVBKv7YG5snzfnWN
+ KQbU2Zj9dGHme9wcU+2vLIeAOVn//etoNWeerxPuHimdJoWgfmLlrlT92NzbNIbwZoMz
+ KLW/2KYdlyRhqv5VetiJehlnyIDnQfqn8R/66TCgKhEJtkDGQXisCDtK/hex+sAfFbWa
+ N/FoVQykHQJyXq/oBEAs5eOQiPpVeyLwah7xeBZaAuL4JETqTI+takFm47mh7y/C+GQ6
+ jX2A==
+X-Gm-Message-State: AOAM532axQ++43jRq08TsLLHZtTeaHQ9YEZ6pA47QhWCOBhJc7OYO0oC
+ wpgD1AI2WV1JrYhmAsSDKI49CXvxH3GWO+/ciFI=
+X-Google-Smtp-Source: ABdhPJyx48VNVn8ol4dHMHg/fYDo3nox3UD2s0gnTQTNfkARsC33l5P49m6oxctyuUZfRLtV/EdKCXG0diG20/iqz0w=
+X-Received: by 2002:a37:a094:: with SMTP id
+ j142mr25021107qke.465.1629780745130; 
+ Mon, 23 Aug 2021 21:52:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex19.internal.baidu.com (172.31.51.13) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
-X-Mailman-Approved-At: Tue, 24 Aug 2021 13:58:18 +1000
+References: <20210823130043.1087204-1-yangyingliang@huawei.com>
+In-Reply-To: <20210823130043.1087204-1-yangyingliang@huawei.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 24 Aug 2021 04:52:13 +0000
+Message-ID: <CACPK8XeUJV2cCaCu+xnX-pGkHVxV9vp3LPj8dJbJbi8SC4Bazw@mail.gmail.com>
+Subject: Re: [PATCH -next] soc: aspeed-lpc-ctrl: Fix missing
+ clk_disable_unprepare() on error in aspeed_lpc_ctrl_probe()
+To: Yang Yingliang <yangyingliang@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,103 +72,40 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-usb@vger.kernel.org, Cai Huoqing <caihuoqing@baidu.com>,
- linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-remove it because SPDX-License-Identifier is already used
+On Mon, 23 Aug 2021 at 12:55, Yang Yingliang <yangyingliang@huawei.com> wrote:
+>
+> Fix the missing clk_disable_unprepare() before return
+> from aspeed_lpc_ctrl_probe() in the error handling case.
+>
+> Fixes: 2f9b25fa6682 ("soc: aspeed: Re-enable FWH2AHB on AST2600")
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> ---
+>  drivers/soc/aspeed/aspeed-lpc-ctrl.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/soc/aspeed/aspeed-lpc-ctrl.c b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+> index 6893c5ec3259..f4c989584d6b 100644
+> --- a/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+> +++ b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+> @@ -312,7 +312,8 @@ static int aspeed_lpc_ctrl_probe(struct platform_device *pdev)
+>                 lpc_ctrl->scu = syscon_regmap_lookup_by_compatible("aspeed,ast2600-scu");
+>                 if (IS_ERR(lpc_ctrl->scu)) {
+>                         dev_err(dev, "couldn't find scu\n");
+> -                       return PTR_ERR(lpc_ctrl->scu);
+> +                       rc = PTR_ERR(lpc_ctrl->scu);
+> +                       goto err;
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- drivers/usb/gadget/udc/aspeed-vhub/core.c | 5 -----
- drivers/usb/gadget/udc/aspeed-vhub/dev.c  | 5 -----
- drivers/usb/gadget/udc/aspeed-vhub/ep0.c  | 5 -----
- drivers/usb/gadget/udc/aspeed-vhub/epn.c  | 5 -----
- drivers/usb/gadget/udc/aspeed-vhub/hub.c  | 5 -----
- 5 files changed, 25 deletions(-)
+Thanks for the patch. Alternatively, we could move this code above the
+devm_clk_get/clk_prepare_enable. I would prefer that option, if you
+want to send a v2.
 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-index d11d3d14313f..7a635c499777 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-@@ -5,11 +5,6 @@
-  * core.c - Top level support
-  *
-  * Copyright 2017 IBM Corporation
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License as published by
-- * the Free Software Foundation; either version 2 of the License, or
-- * (at your option) any later version.
-  */
- 
- #include <linux/kernel.h>
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-index d268306a7bfe..d918e8b2af3c 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-@@ -5,11 +5,6 @@
-  * dev.c - Individual device/gadget management (ie, a port = a gadget)
-  *
-  * Copyright 2017 IBM Corporation
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License as published by
-- * the Free Software Foundation; either version 2 of the License, or
-- * (at your option) any later version.
-  */
- 
- #include <linux/kernel.h>
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
-index 022b777b85f8..74ea36c19b1e 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
-@@ -5,11 +5,6 @@
-  * ep0.c - Endpoint 0 handling
-  *
-  * Copyright 2017 IBM Corporation
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License as published by
-- * the Free Software Foundation; either version 2 of the License, or
-- * (at your option) any later version.
-  */
- 
- #include <linux/kernel.h>
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/epn.c b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-index cb164c615e6f..917892ca8753 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
-@@ -5,11 +5,6 @@
-  * epn.c - Generic endpoints management
-  *
-  * Copyright 2017 IBM Corporation
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License as published by
-- * the Free Software Foundation; either version 2 of the License, or
-- * (at your option) any later version.
-  */
- 
- #include <linux/kernel.h>
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-index 5c7dea5e0ff1..b9960fdd8a51 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-@@ -5,11 +5,6 @@
-  * hub.c - virtual hub handling
-  *
-  * Copyright 2017 IBM Corporation
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License as published by
-- * the Free Software Foundation; either version 2 of the License, or
-- * (at your option) any later version.
-  */
- 
- #include <linux/kernel.h>
--- 
-2.25.1
+Cheers,
 
+Joel
