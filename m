@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B273F6C81
-	for <lists+linux-aspeed@lfdr.de>; Wed, 25 Aug 2021 02:22:38 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B113F6C9A
+	for <lists+linux-aspeed@lfdr.de>; Wed, 25 Aug 2021 02:25:48 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GvRWc3RNRz2yKS
-	for <lists+linux-aspeed@lfdr.de>; Wed, 25 Aug 2021 10:22:36 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GvRbG08TYz2yLQ
+	for <lists+linux-aspeed@lfdr.de>; Wed, 25 Aug 2021 10:25:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,12 +17,12 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GvRWY4spbz2yLN
- for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Aug 2021 10:22:13 +1000 (AEST)
-Received: (from root@localhost) by twspam01.aspeedtech.com id 17P03YZ4092974
- for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Aug 2021 08:03:34 +0800 (GMT-8)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GvRbC5Bcsz2xxn
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Aug 2021 10:25:43 +1000 (AEST)
+Received: (from root@localhost) by twspam01.aspeedtech.com id 17P0758M097396
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Aug 2021 08:07:05 +0800 (GMT-8)
  (envelope-from billy_tsai@aspeedtech.com)
-Message-Id: <202108250003.17P03YZ4092974@twspam01.aspeedtech.com>
+Message-Id: <202108250007.17P0758M097396@twspam01.aspeedtech.com>
 Received: from mail.aspeedtech.com ([192.168.0.24])
  by twspam01.aspeedtech.com with ESMTP id 17O8rHKq098405;
  Tue, 24 Aug 2021 16:53:17 +0800 (GMT-8)
@@ -49,7 +49,7 @@ X-Originating-IP: [192.168.2.149]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 17P03YZ4092974
+X-MAIL: twspam01.aspeedtech.com 17P0758M097396
 X-MSS: FORWARD@twspam01.aspeedtech.com
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
