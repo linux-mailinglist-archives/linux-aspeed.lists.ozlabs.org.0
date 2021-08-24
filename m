@@ -2,65 +2,51 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94023F576C
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Aug 2021 06:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF0D73F5923
+	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Aug 2021 09:40:20 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GtxYd4NJpz2yLb
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Aug 2021 14:52:37 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=jK5R/1J6;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Gv1H14gH6z2yLk
+	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Aug 2021 17:40:13 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::72a;
- helo=mail-qk1-x72a.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=jK5R/1J6; dkim-atps=neutral
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
- [IPv6:2607:f8b0:4864:20::72a])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GtxYT4Ms8z2xrx
- for <linux-aspeed@lists.ozlabs.org>; Tue, 24 Aug 2021 14:52:28 +1000 (AEST)
-Received: by mail-qk1-x72a.google.com with SMTP id a66so3049302qkc.1
- for <linux-aspeed@lists.ozlabs.org>; Mon, 23 Aug 2021 21:52:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Yq1+yUuzy73wmTqQz582kZA2h/Vz+BygSw30/pNdJ98=;
- b=jK5R/1J6FGwa7V2HDP+dXM6DehJp7486SAVwEyNuLuzgvf+sUdjX/wWc+Bf2BgAy8q
- wgdW3wlF0ucp00hRnzrnw2rUIeY3lexLJMLtcoMq7eJg5AT8W5UvOj03nQaqgwALNixa
- 7+wLEGad9gskiyOBs9z/0F8hP572nFkcRbbLk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Yq1+yUuzy73wmTqQz582kZA2h/Vz+BygSw30/pNdJ98=;
- b=ewNmBTmH0RBLp3FYSI48vBsiw0TM+2ygy0n+u6KSpsPPyS5a06ePquA7a8Rr+MzoNE
- T4vZM35jjYh2GNhAutY16gN0a4UYOs6n2E6yMDnw0mVrVTNcSNxjSVBKv7YG5snzfnWN
- KQbU2Zj9dGHme9wcU+2vLIeAOVn//etoNWeerxPuHimdJoWgfmLlrlT92NzbNIbwZoMz
- KLW/2KYdlyRhqv5VetiJehlnyIDnQfqn8R/66TCgKhEJtkDGQXisCDtK/hex+sAfFbWa
- N/FoVQykHQJyXq/oBEAs5eOQiPpVeyLwah7xeBZaAuL4JETqTI+takFm47mh7y/C+GQ6
- jX2A==
-X-Gm-Message-State: AOAM532axQ++43jRq08TsLLHZtTeaHQ9YEZ6pA47QhWCOBhJc7OYO0oC
- wpgD1AI2WV1JrYhmAsSDKI49CXvxH3GWO+/ciFI=
-X-Google-Smtp-Source: ABdhPJyx48VNVn8ol4dHMHg/fYDo3nox3UD2s0gnTQTNfkARsC33l5P49m6oxctyuUZfRLtV/EdKCXG0diG20/iqz0w=
-X-Received: by 2002:a37:a094:: with SMTP id
- j142mr25021107qke.465.1629780745130; 
- Mon, 23 Aug 2021 21:52:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210823130043.1087204-1-yangyingliang@huawei.com>
-In-Reply-To: <20210823130043.1087204-1-yangyingliang@huawei.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 24 Aug 2021 04:52:13 +0000
-Message-ID: <CACPK8XeUJV2cCaCu+xnX-pGkHVxV9vp3LPj8dJbJbi8SC4Bazw@mail.gmail.com>
+ smtp.mailfrom=huawei.com (client-ip=45.249.212.189; helo=szxga03-in.huawei.com;
+ envelope-from=yangyingliang@huawei.com; receiver=<UNKNOWN>)
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Gv1Gs4JmCz2y8S
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 24 Aug 2021 17:40:01 +1000 (AEST)
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Gv1GJ17D1z89RY;
+ Tue, 24 Aug 2021 15:39:36 +0800 (CST)
+Received: from dggpeml500017.china.huawei.com (7.185.36.243) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 24 Aug 2021 15:39:48 +0800
+Received: from [10.174.178.174] (10.174.178.174) by
+ dggpeml500017.china.huawei.com (7.185.36.243) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 24 Aug 2021 15:39:48 +0800
 Subject: Re: [PATCH -next] soc: aspeed-lpc-ctrl: Fix missing
  clk_disable_unprepare() on error in aspeed_lpc_ctrl_probe()
-To: Yang Yingliang <yangyingliang@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Joel Stanley <joel@jms.id.au>
+References: <20210823130043.1087204-1-yangyingliang@huawei.com>
+ <CACPK8XeUJV2cCaCu+xnX-pGkHVxV9vp3LPj8dJbJbi8SC4Bazw@mail.gmail.com>
+From: Yang Yingliang <yangyingliang@huawei.com>
+Message-ID: <7ee18b90-f877-15cd-e8aa-c8024847f924@huawei.com>
+Date: Tue, 24 Aug 2021 15:39:47 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <CACPK8XeUJV2cCaCu+xnX-pGkHVxV9vp3LPj8dJbJbi8SC4Bazw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.178.174]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500017.china.huawei.com (7.185.36.243)
+X-CFilter-Loop: Reflected
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,34 +64,40 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 23 Aug 2021 at 12:55, Yang Yingliang <yangyingliang@huawei.com> wrote:
->
-> Fix the missing clk_disable_unprepare() before return
-> from aspeed_lpc_ctrl_probe() in the error handling case.
->
-> Fixes: 2f9b25fa6682 ("soc: aspeed: Re-enable FWH2AHB on AST2600")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
->  drivers/soc/aspeed/aspeed-lpc-ctrl.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/soc/aspeed/aspeed-lpc-ctrl.c b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
-> index 6893c5ec3259..f4c989584d6b 100644
-> --- a/drivers/soc/aspeed/aspeed-lpc-ctrl.c
-> +++ b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
-> @@ -312,7 +312,8 @@ static int aspeed_lpc_ctrl_probe(struct platform_device *pdev)
->                 lpc_ctrl->scu = syscon_regmap_lookup_by_compatible("aspeed,ast2600-scu");
->                 if (IS_ERR(lpc_ctrl->scu)) {
->                         dev_err(dev, "couldn't find scu\n");
-> -                       return PTR_ERR(lpc_ctrl->scu);
-> +                       rc = PTR_ERR(lpc_ctrl->scu);
-> +                       goto err;
+Hi,
 
-Thanks for the patch. Alternatively, we could move this code above the
-devm_clk_get/clk_prepare_enable. I would prefer that option, if you
-want to send a v2.
+On 2021/8/24 12:52, Joel Stanley wrote:
+> On Mon, 23 Aug 2021 at 12:55, Yang Yingliang <yangyingliang@huawei.com> wrote:
+>> Fix the missing clk_disable_unprepare() before return
+>> from aspeed_lpc_ctrl_probe() in the error handling case.
+>>
+>> Fixes: 2f9b25fa6682 ("soc: aspeed: Re-enable FWH2AHB on AST2600")
+>> Reported-by: Hulk Robot <hulkci@huawei.com>
+>> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+>> ---
+>>   drivers/soc/aspeed/aspeed-lpc-ctrl.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/soc/aspeed/aspeed-lpc-ctrl.c b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+>> index 6893c5ec3259..f4c989584d6b 100644
+>> --- a/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+>> +++ b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+>> @@ -312,7 +312,8 @@ static int aspeed_lpc_ctrl_probe(struct platform_device *pdev)
+>>                  lpc_ctrl->scu = syscon_regmap_lookup_by_compatible("aspeed,ast2600-scu");
+>>                  if (IS_ERR(lpc_ctrl->scu)) {
+>>                          dev_err(dev, "couldn't find scu\n");
+>> -                       return PTR_ERR(lpc_ctrl->scu);
+>> +                       rc = PTR_ERR(lpc_ctrl->scu);
+>> +                       goto err;
+> Thanks for the patch. Alternatively, we could move this code above the
+> devm_clk_get/clk_prepare_enable. I would prefer that option, if you
+> want to send a v2.
+I can send a v2.
 
-Cheers,
-
-Joel
+Thanks,
+Yang
+>
+> Cheers,
+>
+> Joel
+> .
