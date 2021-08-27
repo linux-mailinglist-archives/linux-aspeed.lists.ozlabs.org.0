@@ -2,130 +2,72 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C453F96C8
-	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Aug 2021 11:23:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF6633F9C58
+	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Aug 2021 18:25:29 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GwvQS3wFZz2ynS
-	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Aug 2021 19:23:12 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Gx4nT59DHz2yx9
+	for <lists+linux-aspeed@lfdr.de>; Sat, 28 Aug 2021 02:25:17 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=o+WrVWAM;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel-com.20150623.gappssmtp.com header.i=@intel-com.20150623.gappssmtp.com header.a=rsa-sha256 header.s=20150623 header.b=aNaHRKsi;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=40.107.130.134;
- helo=apc01-hk2-obe.outbound.protection.outlook.com;
- envelope-from=chiawei_wang@aspeedtech.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=intel.com (client-ip=2607:f8b0:4864:20::1031;
+ helo=mail-pj1-x1031.google.com; envelope-from=dan.j.williams@intel.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
- header.a=rsa-sha256 header.s=selector1 header.b=o+WrVWAM; 
- dkim-atps=neutral
-Received: from APC01-HK2-obe.outbound.protection.outlook.com
- (mail-eopbgr1300134.outbound.protection.outlook.com [40.107.130.134])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=intel-com.20150623.gappssmtp.com
+ header.i=@intel-com.20150623.gappssmtp.com header.a=rsa-sha256
+ header.s=20150623 header.b=aNaHRKsi; dkim-atps=neutral
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GwvQC4gC2z2yPc;
- Fri, 27 Aug 2021 19:22:56 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ry7LhI9S+zUbszThSr8XLLd+Q92FBOpelygK8OlFltlyjKU4AHwmT3BeEA/IO3kDB37hxba1ZBu2T6q1sFkHQqYET6SQRQf/bajaze8KzCvj7sEpkqPjW7t94TlodCB74Yi1PtxNTanClW41xdtjfupcaODEIgmn3n6MaYyoGFD6B/GIzotVkLgw/JF8dJzgL6rxI/rAd1LPeZzK0N+E7ghLzMrJ2Uk/wZXBR8w6Yyov+h5bIhIMpGsg8Te1V1j52J5702zgb1UwJZcAWo2JEsAWOHZSRqzk2OgV2uIZD3dbCHa5MwRJzXnwLl0KU9Jyx3GfWcWmzqBOS57jXlVyLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uH3S7LybM2AjVNtMe0A8PBKpWi8Vhv0S1++R4s8Rhwg=;
- b=S4aF9rDrsImGdslciczG0kcyPPViGYmu/GX4wff0sf8HXK1ohNt5tsS5Zs25BRSPTNGXCZtX+rLgUKgRqq6oGXTnAwwE8nQaFkh2spugwEYzkAJzsyxLAD7oVyWlIEna0tB5On6hUjLzGC95t2sZC0QCs/Vdop3VftFsLARVGFej7kRMfjgt4BR3ITDeoz78EpQISWZXg0AfVBfScLDF9zjWOVq+f4p2YLKXnLvSGlNrpB2OZWS8jst8hjssggSUr856KSRgd35q98cne8NV9BB+Uz0F0YtNYzFVGZ0dWVWO39BzTZO37OMB33k1IMeDmiFBNPT+rODifu7r9Y0j0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uH3S7LybM2AjVNtMe0A8PBKpWi8Vhv0S1++R4s8Rhwg=;
- b=o+WrVWAMOGDz0g6u02PmmzACKd2XVXnLX6zBLjWV74EgvcJeFsDjKVToRcuMYpO4pwbLscZ8OEXvY8DUlEWVZeAK6k6z5sci8JLd4BCAygRbgRx0G7DhBZuw3ZbaLRsYsIegWrjuWM3xj7pYadKEjhnL18A47TSCZYXrScQNLLKC58s0AzY7LCqlBE5jGmFsUQryzIVSdrETW2tPc77MGZ9MbreRprcLyvQVYf+jDsmYXPY9swz2koEWzHi5aOY9o/qF6Y/0irrZneXGxU4ZJbaTYkDkhnM/3fX+FoRvvL9JuPOwyC945udfy/qYpiW7kDF9618nC77EAZQ7m9M0mQ==
-Received: from HK0PR06MB3779.apcprd06.prod.outlook.com (2603:1096:203:b8::10)
- by HK2PR06MB3458.apcprd06.prod.outlook.com (2603:1096:202:38::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.18; Fri, 27 Aug
- 2021 08:49:16 +0000
-Received: from HK0PR06MB3779.apcprd06.prod.outlook.com
- ([fe80::4c26:6668:f551:3a62]) by HK0PR06MB3779.apcprd06.prod.outlook.com
- ([fe80::4c26:6668:f551:3a62%3]) with mapi id 15.20.4436.025; Fri, 27 Aug 2021
- 08:49:16 +0000
-From: ChiaWei Wang <chiawei_wang@aspeedtech.com>
-To: Joel Stanley <joel@jms.id.au>
-Subject: RE: [PATCH v3 3/4] soc: aspeed: Add eSPI driver
-Thread-Topic: [PATCH v3 3/4] soc: aspeed: Add eSPI driver
-Thread-Index: AQHXmkI+4Lhg3IxgrEO2OY2fsCr5kauGcBUAgABIZaCAACFtAIAAIuCA
-Date: Fri, 27 Aug 2021 08:49:16 +0000
-Message-ID: <HK0PR06MB3779B6CD28A84D3DC651211191C89@HK0PR06MB3779.apcprd06.prod.outlook.com>
-References: <20210826061623.6352-4-chiawei_wang@aspeedtech.com>
- <202108270732.OvBQ4K3D-lkp@intel.com>
- <HK0PR06MB377927BDCA9CC79B598251B291C89@HK0PR06MB3779.apcprd06.prod.outlook.com>
- <CACPK8Xf1g2fp5X3ELBUyjzP6Fmvt1XWLU_UgCKdZaDVjdyKryQ@mail.gmail.com>
-In-Reply-To: <CACPK8Xf1g2fp5X3ELBUyjzP6Fmvt1XWLU_UgCKdZaDVjdyKryQ@mail.gmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: jms.id.au; dkim=none (message not signed)
- header.d=none;jms.id.au; dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 85f78bdb-f028-4943-f5a6-08d969378d67
-x-ms-traffictypediagnostic: HK2PR06MB3458:
-x-microsoft-antispam-prvs: <HK2PR06MB34589D8F591F4B00BB24462691C89@HK2PR06MB3458.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: qtFHvyRrm2kEu9berQZhbY097jhv1G8ZrR06niou+T6L6Zh39QPNI0QiIA+fhisTTpDT1FxLXkVVJMQvYkOp49ds0ui2ZEfD0E7uStnTlnqriBs0vXRcwzRE5LRIXZyw6gDr5ZARWEuoBQRDcckRc1/anMdAnosHGIGU5WwjsYY8xBt5t7R53xCZzy7f7j9YqRcHHi4Ynn/2BZ2R8cCn/yJ/uTZIJ1kvYUYI7zJtuV8el/JHXR1A06a9TpRF710+xoxK10T7RsROpviklt2hox/HEmRiThjlJW5VY8K6w+vNHEIzCr7/Bg7LAOvUTvBW1I00pArcjhiwMuxTTvDV4YMHH5h8Z4uSsozKXu1S1jMlHBYfLRiRBSLVhAUUuS7bomjUrWketLgWyq9xryLWLsW7wGKof1/Uw5SbjTrRNoSLVgvKmY3wbjrKCnqodkOTeH8m8y/QaY6A7k84iD4Y7aOCluUTV00wl4yVU+XQNLXRgocAdAkYACAhVA8iXUVNi7xP51Lpvxjg40uFg2LRb2vob70OFc0UNM3Eobq69FFSXZKylSiI8nCXlbiOaJTPuYNOEWdVEHDaoPMNmlnv3882Ms28gZC6iw3rk63SaXHOv6din04sA8x0xgybzciiEDo7EAE+W6dd/oFQw3bdV8Pmr55PeAPg9laI/SPPfHq34PTkB9bxXBKcTCb8t3q84dKzNheCjIqHocQTbhReBA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3779.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(346002)(376002)(396003)(366004)(39840400004)(54906003)(76116006)(64756008)(66556008)(66476007)(9686003)(2906002)(316002)(86362001)(66946007)(66446008)(7416002)(38070700005)(5660300002)(6916009)(52536014)(71200400001)(4326008)(26005)(8936002)(33656002)(122000001)(4744005)(8676002)(7696005)(6506007)(186003)(38100700002)(478600001)(55016002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TERDaVFUMTJaR3hmUWlMZkJaQzYwV3RsUWdzaE5zS0prWEJubHR5eHUxNlU2?=
- =?utf-8?B?S0dIcVN3aGVnSEkxcVQ4RkpFUjNEU2RBcEY3dUR6OU1Ic1dUTCtrb3I2eDRM?=
- =?utf-8?B?SjlBaTl4ZUNLczBKczU0Q2p3d3pxcGtaQUl3bld5NDVveEVQaXoxUitvZHhN?=
- =?utf-8?B?NmludTVDUGNTZ1pRV01oc0RXZDhoZUh0bEFxbC95UTRHM0pISjRLRFJnemo1?=
- =?utf-8?B?VllHUVJUMlpZL0Zkai90MjR2YjRzSFk5bEpPWnRhWWQ0NWw1eWpYWktzU2Rl?=
- =?utf-8?B?NDNndjAvcjFLSitWb1JJaElpUHdtejluQlFGcUIweFF0MjBocXJvdmJaTjBk?=
- =?utf-8?B?QWx3VmZtZGhWTktlY1BUY0IzM1lGU0dzOWNkZXlnUnpEcWkvQi92TnByUkln?=
- =?utf-8?B?MlFsRDhTZnZZYkpDeENiN2RUQU1nZFA3QmxmK0hGWlYxNysxc3h1cmtNK0sx?=
- =?utf-8?B?S25acE1pTGo1SElmTExwelpVdnZvblZjQnViazJ1TFFRZnhLcXI0Nzk4eWhh?=
- =?utf-8?B?clJGMDdtU2N6Zm80RW16dHVpL1JGbEkrSGdwSnZHSitOWCtWSDYrTkNtWCtR?=
- =?utf-8?B?aVBaejQ5eHArM2xxRnJrSGIyelZWTmRyOEpNQng3NkxIQmlVMWVpMjZUbkk4?=
- =?utf-8?B?S3JxcDZ4MGRnTFJFemNqblVwT3dUclVqMVlqZldmRnJKUk56VkxLSFVqTDg4?=
- =?utf-8?B?enBDMGtlQWNRakhSRG9yVmtwNnB4VHh5M0NUQ2s3NitiWTBmZCt3MVhtWWxv?=
- =?utf-8?B?bkdoL0IwZkY1dm84ZWttVnpIL280RlJBWmVjdVUvdDFSd2tqcXMvbWVJdldY?=
- =?utf-8?B?OWJqZ0I4V1JDd0M0UkVCV05HZDYrWHVxZzExR1plVlNFY1pWUlFGSXR4Q3F1?=
- =?utf-8?B?Vk5lWVBLbEtsUTNrc3VuQ1BWbVVWTU1LN2Z5ZEUvNUE3WjZLUjdPV0ozQlc5?=
- =?utf-8?B?cHUvb0Y4YUd4TVQ2RE5lcW9KVWJJMVJTVEI0b1hER05NSjRyMjJ5VkJzd291?=
- =?utf-8?B?SEsvbldFZk9TSzJKT1VYMjJuQzh5cWtkZVVPVHBodnk4aWk2MGQzbWltWFEw?=
- =?utf-8?B?RUgwa0NHbzZDVE9LQ3dQb1VkTUdxMmEwaFE4MGNzMlF4ZWtIT0pETUIvUEVu?=
- =?utf-8?B?WHlZYVhteWVaRG5IYU80eXVrNXAxcWFUZjJ3bStCTjZDY3AxWWVIWkFRSmRP?=
- =?utf-8?B?R2dmb1k0cEgyWWRaMXFPS0JnajVOZVd5bTlLblV2eHFZcm4yWmxxTUx3VGxM?=
- =?utf-8?B?VTg0aDVPV2lucklWWFdFTERSSWR3SmVQNlV5YWd0Z1FBaVFNVFR6UlE0VGtI?=
- =?utf-8?B?UHloZi96ZzJRTGtTQVNiME1mR05DSlp0WU1hYXd1dW5mc1o3TkMxckc4TzRp?=
- =?utf-8?B?bUhDTGxLKzFwYTVzKzg0WTNBalM0aTVudUg2eHVuVTJIdXh2UDQ4a2tDYWFX?=
- =?utf-8?B?MEJkd1dRcFFOVDMvUlFjdC9mRERYUGpZZWV2TWVUSldjdlA4THJBa1N6QW5r?=
- =?utf-8?B?U01xOHB5R1UycjBSbEFMUjliRTUxQTRyOVVocjV3dXc5cE1TVXluUU9PU0Ey?=
- =?utf-8?B?S1RwL0tVZ3ExVlFueGNUelpURG9FWE5nQ3l6bjJGYnd4THhRYXVCQnRrMyti?=
- =?utf-8?B?RXk0cEN4UlpsMEs2YXdWaytPZ05IYTQ5ejNEQ2lzQUJadXZna2tLMDM4SFpw?=
- =?utf-8?B?WlV6cDhKUTRIOUozeklWOHRtZXJwcnhmbWw4TjlSVG1LQmZKSktaM244MVlq?=
- =?utf-8?Q?XRO59P/vlmAZJt70XxFKgIY9s7O+SixHGtmN9Ka?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Gx4nJ6ykZz2ypX
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 28 Aug 2021 02:25:03 +1000 (AEST)
+Received: by mail-pj1-x1031.google.com with SMTP id j1so4881811pjv.3
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Aug 2021 09:25:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=intel-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=olUZYI52FUW5gVkrVAMR5duictYeHKMMzQr6nXakedQ=;
+ b=aNaHRKsiD+SM+Lu9zvZtUAsPhN72aJZEO5ggEUbd+9i2E2zx+tYCvMVsH57GRkwHdf
+ TEaqxgEcVqpk2OQ9H7VyX1+9BLBU1szPxLHX49NuTsQbgdwMV28fkCyIXIQW5Xd+QD3R
+ WQ8/mhACDBZ1RuZyFTGtQQEZWkuERfp+C3Hd1pWoNSnZkvtdCCCdX43x97hoWme9ZdEO
+ 45oFzDbvZXtq0iWx7LSdO55FY2oYiiyByKOWYg3IoUUbV30sBk3aaucbioyl2Cd8PO6k
+ bo+KZEykhRVe2BTh/XS6P2KQyoHNyAxEkUHVXaf1/Vmq1vtUC/5rzUkbwFKRZBjsF7bZ
+ 26nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=olUZYI52FUW5gVkrVAMR5duictYeHKMMzQr6nXakedQ=;
+ b=uZp09u6SCLyi9jEw54Fbzc1VmZiDTpUuxPFrXZ/u0CuM9d0RF5ysv/nQ5kQVyAUeqx
+ H60tX6dcztLk5RJeyT976Z3nnpwHIA1Dgi0ccweFyHDXO6QzoPL7hCkbxIe23A1iwwkK
+ jAPjWzuW2X7lwRH0Cl1CGvTr/vledvS9vFkBmM5E0Mat9UNP48n/dqQyvSKlsqZrBebz
+ /dsVPC92UO1Ojtx5xIW25LFgYWfOQbZB7tTuFP0z/nHTBtqaQxbojkVOta8lz/aDrlEc
+ ogX26A+HFIhg5AHosYhsWx0v20mVOyW3NO04BPm7fwCfek0FHwInftnXcEZ2kna0vQqX
+ 2Oyg==
+X-Gm-Message-State: AOAM533ID6BmUIdwqiZDlb43Swl0ebMy6ya2bvfAHsAvvLOJN+49efEU
+ e+nWzeym8N2o4jqn4DJDkiGIvtb95huGtSWA/d+GLg==
+X-Google-Smtp-Source: ABdhPJy9Fys2MKe+4NKONrWKg51ffmdsBaOmd1A6Uev8PSTHXgB2mLpKO7Fg2ktC2vZ1DnSMGf/U9PYBzR/IUsq76cs=
+X-Received: by 2002:a17:90a:708c:: with SMTP id
+ g12mr24462608pjk.13.1630081500678; 
+ Fri, 27 Aug 2021 09:25:00 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3779.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85f78bdb-f028-4943-f5a6-08d969378d67
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Aug 2021 08:49:16.4675 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1Vw+evIYvjSp101Rsys6yrxUwHUISURpPV5lAZu7txitaSVvB1jRBDScgOIy+Z4a7iDCVissZWpexkKqO+uWvPpWvtJWyxRoo14FH+th8oA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2PR06MB3458
+References: <20210803113134.2262882-1-iwona.winiarska@intel.com>
+ <20210803113134.2262882-8-iwona.winiarska@intel.com>
+ <CAPcyv4jPVSt9Wr2TkDActFVLP+ygaDwBnsKG410Nf1qfP_MB9A@mail.gmail.com>
+ <b26ee278838698289869964fe59578f0d5f7b19c.camel@intel.com>
+In-Reply-To: <b26ee278838698289869964fe59578f0d5f7b19c.camel@intel.com>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Fri, 27 Aug 2021 09:24:49 -0700
+Message-ID: <CAPcyv4hUm0Ec1+_n0PZ+S0A9Tt1=8oLdeYtEiEnAmntm8PtmKQ@mail.gmail.com>
+Subject: Re: [PATCH v2 07/15] peci: Add peci-aspeed controller driver
+To: "Winiarska, Iwona" <iwona.winiarska@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,27 +79,241 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>,
- kernel test robot <lkp@intel.com>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "zweiss@equinix.com" <zweiss@equinix.com>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "corbet@lwn.net" <corbet@lwn.net>,
  "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "x86@kernel.org" <x86@kernel.org>,
+ "pierre-louis.bossart@linux.intel.com" <pierre-louis.bossart@linux.intel.com>,
+ "mingo@redhat.com" <mingo@redhat.com>,
+ "linux@roeck-us.net" <linux@roeck-us.net>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "jdelvare@suse.com" <jdelvare@suse.com>, "arnd@arndb.de" <arnd@arndb.de>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+ "Lutomirski, Andy" <luto@kernel.org>,
+ "tglx@linutronix.de" <tglx@linutronix.de>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "Luck,
+ Tony" <tony.luck@intel.com>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "rdunlap@infradead.org" <rdunlap@infradead.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+ "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
+ "d.mueller@elsoft.ch" <d.mueller@elsoft.ch>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-PiBGcm9tOiBKb2VsIFN0YW5sZXkgPGpvZWxAam1zLmlkLmF1Pg0KPiBTZW50OiBGcmlkYXksIEF1
-Z3VzdCAyNywgMjAyMSAxOjQ5IFBNDQo+IA0KPiBPbiBGcmksIDI3IEF1ZyAyMDIxIGF0IDAzOjUy
-LCBDaGlhV2VpIFdhbmcNCj4gPGNoaWF3ZWlfd2FuZ0Bhc3BlZWR0ZWNoLmNvbT4gd3JvdGU6DQo+
-ID4NCj4gPiBBc3BlZWQgNXRoIGFuZCA2dGggZ2VuZXJhdGlvbiBTb0NzIGFyZSBiYXNlZCBvbiB0
-aGUgQVJNIDMyLWJpdHMNCj4gYXJjaGl0ZWN0dXJlLg0KPiA+IFNob3VsZCB3ZSBmb2xsb3cgdGhl
-IHJlcG9ydCB0byBtYWtlIHRoZSBkcml2ZXIgNjQtYml0cyBjb21wYXRpYmxlPw0KPiA+IE9yIHJl
-dmlzZSB0aGUgZHJpdmVyIHRvIHVzZSBtb3JlIHNwZWNpZmljIGRhdGEgdHlwZXM/DQo+IA0KPiBZ
-ZXMsIGluIGdlbmVyYWwgaXQncyBleHBlY3RlZCB5b3VyIGRyaXZlciB3aWxsIGNvbXBpbGUgY2xl
-YW5seSBmb3IgNjQtYml0DQo+IGFyY2hpdGVjdHVyZXMuIFRoaXMgaGVscHMgd2l0aCB0ZXN0aW5n
-IGFuZCBzdGF0aWMgYW5hbHlzaXMsIHdoZXJlIENJIGJ1aWxkcyBhbGwgdGhlDQo+IGRyaXZlcnMg
-Zm9yIHg4Ni4NCg0KVW5kZXJzdG9vZC4gV2lsbCBmaXggdGhlIGRhdGEgdHlwZSBpc3N1ZSBpbiB0
-aGUgbmV4dCBzdWJtaXNzaW9uLg0KVGhhbmtzLg0KDQpDaGlhd2VpDQo=
+On Thu, Aug 26, 2021 at 4:55 PM Winiarska, Iwona
+<iwona.winiarska@intel.com> wrote:
+>
+> On Wed, 2021-08-25 at 18:35 -0700, Dan Williams wrote:
+> > On Tue, Aug 3, 2021 at 4:35 AM Iwona Winiarska
+> > <iwona.winiarska@intel.com> wrote:
+> > >
+> > > From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> > >
+> > > ASPEED AST24xx/AST25xx/AST26xx SoCs supports the PECI electrical
+> > > interface (a.k.a PECI wire).
+> >
+> > Maybe a one sentence blurb here and in the Kconfig reminding people
+> > why they should care if they have a PECI driver or not?
+>
+> Ok, I'll expand it a bit.
+[..]
+> > > +static int aspeed_peci_xfer(struct peci_controller *controller,
+> > > +                           u8 addr, struct peci_request *req)
+> > > +{
+> > > +       struct aspeed_peci *priv = dev_get_drvdata(controller->dev.parent);
+> > > +       unsigned long flags, timeout = msecs_to_jiffies(priv-
+> > > >cmd_timeout_ms);
+> > > +       u32 peci_head;
+> > > +       int ret;
+> > > +
+> > > +       if (req->tx.len > ASPEED_PECI_DATA_BUF_SIZE_MAX ||
+> > > +           req->rx.len > ASPEED_PECI_DATA_BUF_SIZE_MAX)
+> > > +               return -EINVAL;
+> > > +
+> > > +       /* Check command sts and bus idle state */
+> > > +       ret = aspeed_peci_check_idle(priv);
+> > > +       if (ret)
+> > > +               return ret; /* -ETIMEDOUT */
+> > > +
+> > > +       spin_lock_irqsave(&priv->lock, flags);
+> > > +       reinit_completion(&priv->xfer_complete);
+> > > +
+> > > +       peci_head = FIELD_PREP(ASPEED_PECI_TARGET_ADDR_MASK, addr) |
+> > > +                   FIELD_PREP(ASPEED_PECI_WR_LEN_MASK, req->tx.len) |
+> > > +                   FIELD_PREP(ASPEED_PECI_RD_LEN_MASK, req->rx.len);
+> > > +
+> > > +       writel(peci_head, priv->base + ASPEED_PECI_RW_LENGTH);
+> > > +
+> > > +       memcpy_toio(priv->base + ASPEED_PECI_WR_DATA0, req->tx.buf,
+> > > min_t(u8, req->tx.len, 16));
+> > > +       if (req->tx.len > 16)
+> > > +               memcpy_toio(priv->base + ASPEED_PECI_WR_DATA4, req->tx.buf +
+> > > 16,
+> > > +                           req->tx.len - 16);
+> > > +
+> > > +       dev_dbg(priv->dev, "HEAD : 0x%08x\n", peci_head);
+> > > +       print_hex_dump_bytes("TX : ", DUMP_PREFIX_NONE, req->tx.buf, req-
+> > > >tx.len);
+> >
+> > On CONFIG_DYNAMIC_DEBUG=n builds the kernel will do all the work of
+> > reading through this buffer, but skip emitting it. Are you sure you
+> > want to pay that overhead for every transaction?
+>
+> I can remove it or I can add something like:
+>
+> #if IS_ENABLED(CONFIG_PECI_DEBUG)
+> #define peci_debug(fmt, ...) pr_debug(fmt, ##__VA_ARGS__)
+> #else
+> #define peci_debug(...) do { } while (0)
+> #endif
+
+It's the hex dump I'm worried about, not the debug statements as much.
+
+I think the choices are remove the print_hex_dump_bytes(), put it
+behind an IS_ENABLED(CONFIG_DYNAMIC_DEBUG) to ensure the overhead is
+skipped in the CONFIG_DYNAMIC_DEBUG=n case, or live with the overhead
+if this is not a fast path / infrequently used.
+
+>
+> (and similar peci_trace with trace_printk for usage in IRQ handlers and such).
+>
+> What do you think?
+
+In general, no, don't wrap the base level print routines with
+driver-specific ones. Also, trace_printk() is only for debug builds.
+Note that trace points are built to be even less overhead than
+dev_dbg(), so there's no overhead concern with disabled tracepoints,
+they literally translate to nops when disabled.
+
+>
+> >
+> > > +
+> > > +       priv->status = 0;
+> > > +       writel(ASPEED_PECI_CMD_FIRE, priv->base + ASPEED_PECI_CMD);
+> > > +       spin_unlock_irqrestore(&priv->lock, flags);
+> > > +
+> > > +       ret = wait_for_completion_interruptible_timeout(&priv-
+> > > >xfer_complete, timeout);
+> >
+> > spin_lock_irqsave() says "I don't know if interrupts are disabled
+> > already, so I'll save the state, whatever it is, and restore later"
+> >
+> > wait_for_completion_interruptible_timeout() says "I know I am in a
+> > sleepable context where interrupts are enabled"
+> >
+> > So, one of those is wrong, i.e. should it be spin_{lock,unlock}_irq()?
+>
+> You're right - I'll fix it.
+>
+> >
+> >
+> > > +       if (ret < 0)
+> > > +               return ret;
+> > > +
+> > > +       if (ret == 0) {
+> > > +               dev_dbg(priv->dev, "Timeout waiting for a response!\n");
+> > > +               return -ETIMEDOUT;
+> > > +       }
+> > > +
+> > > +       spin_lock_irqsave(&priv->lock, flags);
+> > > +
+> > > +       writel(0, priv->base + ASPEED_PECI_CMD);
+> > > +
+> > > +       if (priv->status != ASPEED_PECI_INT_CMD_DONE) {
+> > > +               spin_unlock_irqrestore(&priv->lock, flags);
+> > > +               dev_dbg(priv->dev, "No valid response!\n");
+> > > +               return -EIO;
+> > > +       }
+> > > +
+> > > +       spin_unlock_irqrestore(&priv->lock, flags);
+> > > +
+> > > +       memcpy_fromio(req->rx.buf, priv->base + ASPEED_PECI_RD_DATA0,
+> > > min_t(u8, req->rx.len, 16));
+> > > +       if (req->rx.len > 16)
+> > > +               memcpy_fromio(req->rx.buf + 16, priv->base +
+> > > ASPEED_PECI_RD_DATA4,
+> > > +                             req->rx.len - 16);
+> > > +
+> > > +       print_hex_dump_bytes("RX : ", DUMP_PREFIX_NONE, req->rx.buf, req-
+> > > >rx.len);
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static irqreturn_t aspeed_peci_irq_handler(int irq, void *arg)
+> > > +{
+> > > +       struct aspeed_peci *priv = arg;
+> > > +       u32 status;
+> > > +
+> > > +       spin_lock(&priv->lock);
+> > > +       status = readl(priv->base + ASPEED_PECI_INT_STS);
+> > > +       writel(status, priv->base + ASPEED_PECI_INT_STS);
+> > > +       priv->status |= (status & ASPEED_PECI_INT_MASK);
+> > > +
+> > > +       /*
+> > > +        * In most cases, interrupt bits will be set one by one but also
+> > > note
+> > > +        * that multiple interrupt bits could be set at the same time.
+> > > +        */
+> > > +       if (status & ASPEED_PECI_INT_BUS_TIMEOUT)
+> > > +               dev_dbg_ratelimited(priv->dev,
+> > > "ASPEED_PECI_INT_BUS_TIMEOUT\n");
+> > > +
+> > > +       if (status & ASPEED_PECI_INT_BUS_CONTENTION)
+> > > +               dev_dbg_ratelimited(priv->dev,
+> > > "ASPEED_PECI_INT_BUS_CONTENTION\n");
+> > > +
+> > > +       if (status & ASPEED_PECI_INT_WR_FCS_BAD)
+> > > +               dev_dbg_ratelimited(priv->dev,
+> > > "ASPEED_PECI_INT_WR_FCS_BAD\n");
+> > > +
+> > > +       if (status & ASPEED_PECI_INT_WR_FCS_ABORT)
+> > > +               dev_dbg_ratelimited(priv->dev,
+> > > "ASPEED_PECI_INT_WR_FCS_ABORT\n");
+> >
+> > Are you sure these would not be better as tracepoints? If you're
+> > debugging an interrupt related failure, the ratelimiting might get in
+> > your way when you really need to know when one of these error
+> > interrupts fire relative to another event.
+>
+> Tracepoints are ABI(ish), and using a full blown tracepoint just for IRQ status
+> would probably be too much.
+
+Tracepoints become ABI once someone ships tooling that depends on them
+being there. These don't look  attractive for a tool, and they don't
+look difficult to maintain if the interrupt handler needs to be
+reworked. I.e. it would be trivial to keep a dead tracepoint around if
+worse came to worse to keep a tool from failing to load.
+
+> I was thinking about something like trace_printk hidden under a
+> "CONFIG_PECI_DEBUG" (see above), but perhaps that's something for the future
+> improvement?
+
+Again trace_printk() is only for private builds.
+
+>
+> >
+> > > +
+> > > +       /*
+> > > +        * All commands should be ended up with a ASPEED_PECI_INT_CMD_DONE
+> > > bit
+> > > +        * set even in an error case.
+> > > +        */
+> > > +       if (status & ASPEED_PECI_INT_CMD_DONE)
+> > > +               complete(&priv->xfer_complete);
+> >
+> > Hmm, no need to check if there was a sequencing error, like a command
+> > was never submitted?
+>
+> It's handled by checking if HW is idle in xfer before a command is sent, where
+> we just expect a single interrupt per command.
+
+I'm asking how do you determine if this status was spurious, or there
+was a sequencing error in the driver?
