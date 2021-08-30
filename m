@@ -1,133 +1,42 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5423FB28B
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Aug 2021 10:36:40 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id E46993FB365
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Aug 2021 11:49:26 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GykF83WyPz2yLN
-	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Aug 2021 18:36:28 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=F5gh+3Di;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Gyls927ZNz2yLN
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Aug 2021 19:49:17 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=40.107.130.111;
- helo=apc01-hk2-obe.outbound.protection.outlook.com;
- envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
- header.a=rsa-sha256 header.s=selector1 header.b=F5gh+3Di; 
- dkim-atps=neutral
-Received: from APC01-HK2-obe.outbound.protection.outlook.com
- (mail-eopbgr1300111.outbound.protection.outlook.com [40.107.130.111])
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=jic23@kernel.org; receiver=<UNKNOWN>)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GykDw4bl5z2xvV
- for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Aug 2021 18:36:13 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SK56sauOhd9EFwxyfBlwWjgmgkDYOxQWa/SahlkrBpNMHz992saD5VJAgwx1h9FOWrPvL+BgnZ9/y6C8qc+BQKqC/1WnSA5T+EyAUS+ZzDLcKM9UnTabeaFLdDHTc0+KmEbeSCOcqVTFcNwSpBtgUsNPYTFPXWvmxcl5XErOya1F3zS00PXJBAHjENf5bmIJJwwazcOgPsGcP+pMf74sNjVeoTovXnamtCJp2JaxLJgNoMsW/dHisxanuVsPbc8zLbMfyK1n6Hfb88BiosVcSKndQmydKrjBEjiIL5470ej99doilJn2cTVWoLY39U951n2tlKNjxwkIURRK1TEfRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BAw82U5o9rp1AgnAK7LiqX+JlnihDxwwJZVQDqJk4Vc=;
- b=SoT3Y1xsJFm8lm7gUCCoLFAlgUckV4joYqyvYxPvADu/GcFUfCaVyy1qxZMq1TYCWCsg09Q5NaKsCmKhGt4fn8V1WW9jnTDr6Fv0Lo1zGJj9BbQi3jZxtfBNjWeSE6nucNVTfr8MaI6Kt5L7mm2i6vI9Vs2Q3kfgVFcNhmlydiC+LrQDCCKCDgomNuFU2sewxlcj/3PFWQa3amS7b1GhnzASNPxWC8+D2eU8YTKB61oZ5F5sLO0fz7JKeEIGmRLKGW288c+eJ3lGf8p4IGN2KHE1kfQAy0vK5xb/Vy7N0/4iEV7s7vxdeDjUNYRWtXnGRNqIoemA0KsFvbky53tFdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BAw82U5o9rp1AgnAK7LiqX+JlnihDxwwJZVQDqJk4Vc=;
- b=F5gh+3DiJdMHzTHN22/u0WkIU4SBLCqu1xfs50YhNl4iq4cGLY6oadBG548Uhxz4NKRMiIaEKbG2FzAps/tK6DDvNI7+p35A4gurkoLdNvgtB2ME+kjJsUXrmZakKld/y2xY9rYk45DZJhvUzzSyvhUjso4Q8zGP5/1dRAI9IJMO2sPl11EQ3b6uebvkkos/TGAvX804WJ64sJRd/rU1pT62J4+huMy9P9BABk3E4GUYF+eo8YOhaZ/NVZgC4g2kKWIJvpRwL36rRJPCrQdMSraC9uRYbwAxQ1HltCmE/8himPcbfiLioUCzDWv3Dm6UN0VVbwaI5I0jSZncwOC9ew==
-Received: from HK0PR06MB3362.apcprd06.prod.outlook.com (2603:1096:203:8b::10)
- by HK0PR06MB2130.apcprd06.prod.outlook.com (2603:1096:203:42::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.18; Mon, 30 Aug
- 2021 08:35:53 +0000
-Received: from HK0PR06MB3362.apcprd06.prod.outlook.com
- ([fe80::10fc:291d:32b8:dcb4]) by HK0PR06MB3362.apcprd06.prod.outlook.com
- ([fe80::10fc:291d:32b8:dcb4%7]) with mapi id 15.20.4436.025; Mon, 30 Aug 2021
- 08:35:53 +0000
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: Jonathan Cameron <jic23@kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Gyls1360xz2xvH
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Aug 2021 19:49:09 +1000 (AEST)
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net
+ [81.101.6.87])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id A7F406103D;
+ Mon, 30 Aug 2021 09:49:01 +0000 (UTC)
+Date: Mon, 30 Aug 2021 10:52:13 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
 Subject: Re: [RESEND v4 12/15] iio: adc: aspeed: Add func to set sampling rate.
-Thread-Topic: [RESEND v4 12/15] iio: adc: aspeed: Add func to set sampling
- rate.
-Thread-Index: AQHXnOtGanZsbH3nSEydpTOzzlCKGauMQFoA
-Date: Mon, 30 Aug 2021 08:35:53 +0000
-Message-ID: <FE947284-E67B-49DB-B538-3ECAD8317BD4@aspeedtech.com>
+Message-ID: <20210830105213.25ee20a2@jic23-huawei>
+In-Reply-To: <FE947284-E67B-49DB-B538-3ECAD8317BD4@aspeedtech.com>
 References: <20210824091243.9393-1-billy_tsai@aspeedtech.com>
  <202108250003.17P03KRU092474@twspam01.aspeedtech.com>
  <20210829163659.2f7f5974@jic23-huawei>
-In-Reply-To: <20210829163659.2f7f5974@jic23-huawei>
-Accept-Language: zh-TW, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f4f23b9f-12a1-42de-ab24-08d96b912df5
-x-ms-traffictypediagnostic: HK0PR06MB2130:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HK0PR06MB2130F28FAC329D7DF980B59E8BCB9@HK0PR06MB2130.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: jYS0jA4g5ZjkWwTnW65crgOLvIzjNhwH+RqE0/dfHR+qOyY2Go+/9WeoseX3ntjYY2qvgg+2RevrvetlDLPCahbag+XAz/tNEt2JBVObTv4VPXHYF2KjgzeNt2O7uYgMO4ijP9BuHCYpkTiWgk+9roZfkJ1FNXTcmuwvkzfxCaCFbYDU812AdDotDUM7wdffAfyaD7VtYx7Six19Umz6dk6jdXGZpdfWhMatJbbTozwywhbc5WUEsM8VJyCivAROC58qihQyhfZBhiSesig5EpZcGxGSo8Wy3Xy1kqOysnpwdySjssflQRz8fexVKyf2NsoFybPIkWWlpijBAo20ciSrDwJONt5VJ3eM5QMgZrEbk6qb3jh0MV8Ghfh6z2COUS4iFkiBUyUxoCxTsyG7b0/6Fv6yWcamj+GrUN5sX/pP6ZUMzOrh0ANlhBmQC2gtluyCOnwM8wdp84y/7UD+U9kjW4tf8usZl2BohlMZRslBniPLZ1sd+7/gEwmKDkdtr+l783e+ck54iEi8fGTKqEs2gEqM9usAclrd0r8AWqQiUqUFcS/Ds7txz1minsiTtVBn8w7gm/OxFAB2e19on6pCedgc6WnHg9JBCeFsjYf8tStpBMzYjVsECv5F1o//BJY7phS545dHjCGLPy5V4e8bdwUqHNJ/iw9Zn5/YUiyz0T2WcByvRBEKy3ybOpdd5rUt312f/ctmEfchJsyGz6AVtiWW56TJrFlc0tTiDcNO1RY4lGPbYhIQJusZf+Nw
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3362.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(376002)(366004)(136003)(39840400004)(346002)(186003)(76116006)(8936002)(2906002)(6512007)(66556008)(64756008)(66946007)(66476007)(66446008)(2616005)(26005)(4326008)(107886003)(8676002)(71200400001)(6486002)(33656002)(53546011)(122000001)(86362001)(478600001)(7416002)(6506007)(38070700005)(83380400001)(316002)(54906003)(36756003)(6916009)(5660300002)(38100700002)(45980500001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Vm1DMmhzQlIyTWpyUEtBSnBvU3BTMlNhNjZCYXBtK1gwUm5PODVSQld0d1VR?=
- =?utf-8?B?SFVlMnZ0WUNRTW1FWUFQNi9jUjFxWmlid3M3MWR2M0lFd3RCRk9XUEovVW1E?=
- =?utf-8?B?MkNiKzZ4VjlDQ1VmWk5KTTViWGE2bmhlZ1BnWlpDQWU1bWZwK0xLOXBLaFVW?=
- =?utf-8?B?UUYxZmZNWWMwdkNGd24rb3Y0bjJlQmR4VHg1cUUzOUpRMTBIeUF6M1diZWd1?=
- =?utf-8?B?YnViZmhTd1U2Mmo5UWdVZE40KzVVUXN3ZVJtWWE5UGVsMkMzcXV5b1ZGRW1D?=
- =?utf-8?B?MTFadlg4WmM5MGQ1V3p3eUEwZ05wdkRES291SWttL0VlekFhNXlHM3J6Z2g3?=
- =?utf-8?B?K2JIaDFGR3F2bnJYbm5ueUhUaUdRc2szMFBUQjVWb3JkeUhpZ0dtNE5taGZJ?=
- =?utf-8?B?bWpOTEovOHZTZHFSeWpJYWdYc3VmeUxXUy9jemtNVXEzTjQwbEw1cnFINTVT?=
- =?utf-8?B?WXNGc0VleU54VmN1a21aWWRBODVwTmhVMEJiZVVDa0Q5WGhBckdVZFpUeG0x?=
- =?utf-8?B?YjFNUnRtVmdBSTBWeUlLbUZ3Y3ptZ0pSNk9jMEMra1VvYzZ3MGMyaXBJNmh5?=
- =?utf-8?B?WGwwRHJ1MEt1cm4xQXVzNlppZERHUE9OeUVWSmMwSnB0djUrL3F3RWx1dEcz?=
- =?utf-8?B?RU53REdlSStwa1lINTBTNmRtRUNRVkl0YS96eWVHQWlHeGRsUFhOdzlwVEdx?=
- =?utf-8?B?Z3dka2ZreUdLTVVWUTJEQ01EREM2SnVHRXVUQXp6a0QyMlgwbjc4QmlwOGpW?=
- =?utf-8?B?Z3NQMjdtRFMwWlMzVnJjKzZZbytjK0JEUjl5WDJmcFp5VDJmdXRudGZXeHFN?=
- =?utf-8?B?aWxOUjNETCt3c3V5dDhsaUlhcllNWlRObHpKbEJIZzhZNFBnbmNJaitYSzdr?=
- =?utf-8?B?VDVULzhsbEEzZmhaRUFuNDFUNHg5cXFkd3NqRFlkNDBzVGlaRnp3ZWl6cmVH?=
- =?utf-8?B?MFlxaUVlZkdiSUxyczlhMWVybzNQQ3BnRGVpYVRSdG1BeEpWcWpUQWl6VjBJ?=
- =?utf-8?B?dzlWa0tYTS9YNTlXZEYzbmRhZFZTMWd2YjR1dGtKSEpMNEJmeDZTS1pLN1RE?=
- =?utf-8?B?b0JYNzZFcWMwRXJxb1A1NFpVdFJhaUN3emd1b25CeTZJd3lLcXFickZtZHZs?=
- =?utf-8?B?RDRwZExkNGJ4TU1aMkVkZlVZTWsva1c4U3Q5RUJkQVQrK0ZqdFJ3c01ZTUNO?=
- =?utf-8?B?bkVuaGNKbVNvSlV0dVhmSzNLeG5VYlVPemVsandpclFIMkNLU01aY2lXQ0tG?=
- =?utf-8?B?U005MzIvL1BianBOUjhvam9UdkI2VnlVaU0vWXZKMG9wZ0ZmMkxEeVprNVlK?=
- =?utf-8?B?bWEwLzg3U21ZTmJaK2NOVEt6OVRERTB2b0xTb3BHNldlMmRCcndKT1ZKSlM4?=
- =?utf-8?B?L1NEYmt4eG56ZEIvWmFScnFlekRtbEV6UzRTNFQwTkd4Uk13MlJYMUFlWWJ1?=
- =?utf-8?B?Vi9ic0JJMlN4Y2c1L1hHVWkyOG02cEFxa3lkZTFmZnBKaFlCZ0NuQ1RCaU43?=
- =?utf-8?B?Z1hlMGJGdnJ1cVhHdEVNZXdKVFMxYjFsQSt3cjcwcEtXNDA5WW0ySGpEWVBH?=
- =?utf-8?B?RUl6c3VqQXFyOUZUWUI5VC94cGtVdDhuMlRGWEJqMVY4UWFyNmhkd3VwOHRj?=
- =?utf-8?B?RW1JeTNidmhEb24rcTZPMFUwRCttMTZyNjVESmhZQjVLckhMbUpnOURJemZC?=
- =?utf-8?B?L2NkS3kyMWtSaXF0WVhKYTR5UkFlb3VoNVpzb3pkTTJ4VDNPT1ZFYWlNL2dE?=
- =?utf-8?B?MEZXRVZxZTQ3RzducWlKMUtKdW9jMGx6cWJPL1p1RXNmM3c5cnFzZktDN2Ri?=
- =?utf-8?B?bEcxUnZqSFl4VFFKalRWUT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6C82C4700F4F6A44AAC33E05F6FBDC36@apcprd06.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ <FE947284-E67B-49DB-B538-3ECAD8317BD4@aspeedtech.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3362.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4f23b9f-12a1-42de-ab24-08d96b912df5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Aug 2021 08:35:53.2602 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: d9Khiiu73HNFWxol2hQpE8yaHfWW0sjf8jO3OAHVJO4ltNJf97xpSKZChz5MVdT82N3QkvBb0++h3ERlyFdOvYpgvhmG0weWrns46/5OfEY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2130
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,40 +62,75 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGkgSm9uYXRoYW4sDQoNCk9uIDIwMjEvOC8yOSwgMTE6MzMgUE0sICJKb25hdGhhbiBDYW1lcm9u
-IiA8amljMjNAa2VybmVsLm9yZz4gd3JvdGU6DQoNCiAgICBPbiBUdWUsIDI0IEF1ZyAyMDIxIDE3
-OjEyOjQwICswODAwDQogICAgQmlsbHkgVHNhaSA8YmlsbHlfdHNhaUBhc3BlZWR0ZWNoLmNvbT4g
-d3JvdGU6DQoNCiAgICA+PiBBZGQgdGhlIGZ1bmN0aW9uIHRvIHNldCB0aGUgc2FtcGxpbmcgcmF0
-ZSBhbmQga2VlcCB0aGUgc2FtcGxpbmcgcGVyaW9kDQogICAgPj4gZm9yIGEgZHJpdmVyIHVzZWQg
-dG8gd2FpdCB0aGUgbGFzdGVzdCB2YWx1ZS4NCiAgICA+PiANCiAgICA+PiBTaWduZWQtb2ZmLWJ5
-OiBCaWxseSBUc2FpIDxiaWxseV90c2FpQGFzcGVlZHRlY2guY29tPg0KDQogICAgPiBXaHkgbW92
-ZSB0aGUgY29kZSBhcyB3ZWxsIGFzIGZhY3RvcmluZyBvdXQgdGhlIHNldHRlciBmdW5jdGlvbj8N
-CiAgICA+IEkgZG91YnQgaXQgZG9lcyBhbnkgaGFybSwgYnV0IEknZCBsaWtlIHRvIHVuZGVyc3Rh
-bmQgd2h5IHlvdSBkaWQgaXQuDQoNCiAgICA+IEpvbmF0aGFuDQoNCiAgICA+PiArCXJldCA9IGNs
-a19wcmVwYXJlX2VuYWJsZShkYXRhLT5jbGtfc2NhbGVyLT5jbGspOw0KICAgID4+ICsJaWYgKHJl
-dCkNCiAgICA+PiArCQlyZXR1cm4gcmV0Ow0KICAgID4+ICsNCiAgICA+PiArCXJldCA9IGRldm1f
-YWRkX2FjdGlvbl9vcl9yZXNldChkYXRhLT5kZXYsDQogICAgPj4gKwkJCQkgICAgICAgYXNwZWVk
-X2FkY19jbGtfZGlzYWJsZV91bnByZXBhcmUsDQogICAgPj4gKwkJCQkgICAgICAgZGF0YS0+Y2xr
-X3NjYWxlci0+Y2xrKTsNCiAgICA+PiArCWlmIChyZXQpDQogICAgPj4gKwkJcmV0dXJuIHJldDsN
-CiAgICA+PiArDQogICAgPj4gKwlyZXQgPSBhc3BlZWRfYWRjX3NldF9zYW1wbGluZ19yYXRlKGlu
-ZGlvX2RldiwgQVNQRUVEX0FEQ19ERUZfU0FNUExJTkdfUkFURSk7DQogICAgPj4gKwlpZiAocmV0
-KQ0KICAgID4+ICsJCXJldHVybiByZXQ7DQogICAgPj4gKw0KICAgID4+ICAJcmV0ID0gYXNwZWVk
-X2FkY192cmVmX2NvbmZpZyhpbmRpb19kZXYpOw0KICAgID4+ICAJaWYgKHJldCkNCiAgICA+PiAg
-CQlyZXR1cm4gcmV0Ow0KICAgID4+IEBAIC00MTMsMTYgKzQ0NSw2IEBAIHN0YXRpYyBpbnQgYXNw
-ZWVkX2FkY19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KICAgID4+ICAJfQ0K
-ICAgID4+ICANCiAgICA+PiAgCS8qIFN0YXJ0IGFsbCBjaGFubmVscyBpbiBub3JtYWwgbW9kZS4g
-Ki8NCg0KICAgID4gV2h5IG1vdmUgdGhpcyBjb2RlIHVwPw0KDQpCZWNhdXNlIHRoZSBBREMgY2xv
-Y2sgaXMgcmVxdWlyZWQgd2hlbiBpbml0aWFsaXppbmcgdGhlIEFEQyBkZXZpY2UuDQpJbiBvdXIg
-c3lzdGVtLCB0aGUgY2xvY2sgaXMgYWx3YXlzIG9uLiBUaHVzLCB0aGUgbGVnYWN5IGRyaXZlciB3
-b24ndCBlbmNvdW50ZXIgYW55IGlzc3Vlcy4NCkkgbW92ZSB0aGUgY2xrX3ByZXBhcmVfZW5hYmxl
-IGFoZWFkIG9mIGluaXRpYWxpemluZyBwaGFzZSBmb3IgbWFraW5nIHRoZSBkcml2ZXIgcHJvYmUg
-bG9naWNhbGx5IGNsb3NlciB0byB0aGUgaGFyZHdhcmUuIA0KDQogICAgPj4gLQlyZXQgPSBjbGtf
-cHJlcGFyZV9lbmFibGUoZGF0YS0+Y2xrX3NjYWxlci0+Y2xrKTsNCiAgICA+PiAtCWlmIChyZXQp
-DQogICAgPj4gLQkJcmV0dXJuIHJldDsNCiAgICA+PiAtDQogICAgPj4gLQlyZXQgPSBkZXZtX2Fk
-ZF9hY3Rpb25fb3JfcmVzZXQoZGF0YS0+ZGV2LA0KICAgID4+IC0JCQkJICAgICAgIGFzcGVlZF9h
-ZGNfY2xrX2Rpc2FibGVfdW5wcmVwYXJlLA0KICAgID4+IC0JCQkJICAgICAgIGRhdGEtPmNsa19z
-Y2FsZXItPmNsayk7DQogICAgPj4gLQlpZiAocmV0KQ0KICAgID4+IC0JCXJldHVybiByZXQ7DQog
-ICAgPj4gLQ0KICAgID4+ICAJYWRjX2VuZ2luZV9jb250cm9sX3JlZ192YWwgPQ0KICAgID4+ICAJ
-CXJlYWRsKGRhdGEtPmJhc2UgKyBBU1BFRURfUkVHX0VOR0lORV9DT05UUk9MKTsNCiAgICA+PiAg
-CWFkY19lbmdpbmVfY29udHJvbF9yZWdfdmFsIHw9DQoNCg0KQmVzdCBSZWdhcmRzLA0KQmlsbHkg
-VHNhaQ0KDQo=
+On Mon, 30 Aug 2021 08:35:53 +0000
+Billy Tsai <billy_tsai@aspeedtech.com> wrote:
+
+> Hi Jonathan,
+> 
+> On 2021/8/29, 11:33 PM, "Jonathan Cameron" <jic23@kernel.org> wrote:
+> 
+>     On Tue, 24 Aug 2021 17:12:40 +0800
+>     Billy Tsai <billy_tsai@aspeedtech.com> wrote:
+> 
+>     >> Add the function to set the sampling rate and keep the sampling period
+>     >> for a driver used to wait the lastest value.
+>     >> 
+>     >> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>  
+> 
+>     > Why move the code as well as factoring out the setter function?
+>     > I doubt it does any harm, but I'd like to understand why you did it.  
+> 
+>     > Jonathan  
+> 
+>     >> +	ret = clk_prepare_enable(data->clk_scaler->clk);
+>     >> +	if (ret)
+>     >> +		return ret;
+>     >> +
+>     >> +	ret = devm_add_action_or_reset(data->dev,
+>     >> +				       aspeed_adc_clk_disable_unprepare,
+>     >> +				       data->clk_scaler->clk);
+>     >> +	if (ret)
+>     >> +		return ret;
+>     >> +
+>     >> +	ret = aspeed_adc_set_sampling_rate(indio_dev, ASPEED_ADC_DEF_SAMPLING_RATE);
+>     >> +	if (ret)
+>     >> +		return ret;
+>     >> +
+>     >>  	ret = aspeed_adc_vref_config(indio_dev);
+>     >>  	if (ret)
+>     >>  		return ret;
+>     >> @@ -413,16 +445,6 @@ static int aspeed_adc_probe(struct platform_device *pdev)
+>     >>  	}
+>     >>  
+>     >>  	/* Start all channels in normal mode. */  
+> 
+>     > Why move this code up?  
+> 
+> Because the ADC clock is required when initializing the ADC device.
+> In our system, the clock is always on. Thus, the legacy driver won't encounter any issues.
+> I move the clk_prepare_enable ahead of initializing phase for making the driver probe logically closer to the hardware. 
+
+Thanks. Please add something to the patch description to say this.
+
+Jonathan
+
+> 
+>     >> -	ret = clk_prepare_enable(data->clk_scaler->clk);
+>     >> -	if (ret)
+>     >> -		return ret;
+>     >> -
+>     >> -	ret = devm_add_action_or_reset(data->dev,
+>     >> -				       aspeed_adc_clk_disable_unprepare,
+>     >> -				       data->clk_scaler->clk);
+>     >> -	if (ret)
+>     >> -		return ret;
+>     >> -
+>     >>  	adc_engine_control_reg_val =
+>     >>  		readl(data->base + ASPEED_REG_ENGINE_CONTROL);
+>     >>  	adc_engine_control_reg_val |=  
+> 
+> 
+> Best Regards,
+> Billy Tsai
+> 
+
