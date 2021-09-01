@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B19503FD1C3
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Sep 2021 05:31:15 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DCB43FD1CA
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Sep 2021 05:32:41 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4GzqN149V3z2yQG
-	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Sep 2021 13:31:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4GzqPT14ZTz2ywc
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Sep 2021 13:32:29 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,11 +17,11 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4GzqMV216zz2xrg;
- Wed,  1 Sep 2021 13:30:42 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4GzqMd178wz2yPV;
+ Wed,  1 Sep 2021 13:30:52 +1000 (AEST)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 1813BFCp043735;
- Wed, 1 Sep 2021 11:11:15 +0800 (GMT-8)
+ by twspam01.aspeedtech.com with ESMTP id 1813BFgG043736;
+ Wed, 1 Sep 2021 11:11:17 +0800 (GMT-8)
  (envelope-from chiawei_wang@aspeedtech.com)
 Received: from ChiaWeiWang-PC.aspeed.com (192.168.2.66) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
@@ -31,9 +31,9 @@ To: <robh+dt@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
  <linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
  <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 2/4] MAINTAINER: Add ASPEED eSPI driver entry
-Date: Wed, 1 Sep 2021 11:30:13 +0800
-Message-ID: <20210901033015.910-3-chiawei_wang@aspeedtech.com>
+Subject: [PATCH v4 4/4] ARM: dts: aspeed: Add eSPI node
+Date: Wed, 1 Sep 2021 11:30:15 +0800
+Message-ID: <20210901033015.910-5-chiawei_wang@aspeedtech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210901033015.910-1-chiawei_wang@aspeedtech.com>
 References: <20210901033015.910-1-chiawei_wang@aspeedtech.com>
@@ -43,7 +43,7 @@ X-Originating-IP: [192.168.2.66]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1813BFCp043735
+X-MAIL: twspam01.aspeedtech.com 1813BFgG043736
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,34 +59,41 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add Ryan Chen and myself as the maintainer of Aspeed eSPI
-driver. Joel Stanley is added as the reviewer.
+Add eSPI to the device tree for Aspeed 5/6th generation SoCs.
 
 Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
 ---
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ arch/arm/boot/dts/aspeed-g6.dtsi | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f3267183e993..35c3164277ac 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1720,6 +1720,15 @@ F:	drivers/crypto/axis
- F:	drivers/mmc/host/usdhi6rol0.c
- F:	drivers/pinctrl/pinctrl-artpec*
+diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
+index f96607b7b4e2..47dc0b3993d1 100644
+--- a/arch/arm/boot/dts/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+@@ -364,6 +364,23 @@
+ 				status = "disabled";
+ 			};
  
-+ARM/ASPEED ESPI DRIVER
-+M:	Chia-Wei Wang <chiawei_wang@aspeedtech.com>
-+M:	Ryan Chen <ryan_chen@aspeedtech.com>
-+R:	Joel Stanley <joel@jms.id.au>
-+L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
-+L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/soc/aspeed/espi.yaml
++			espi: espi@1e6ee000 {
++				compatible = "aspeed,ast2600-espi", "simple-mfd", "syscon";
++				reg = <0x1e6ee000 0x1000>;
 +
- ARM/ASPEED I2C DRIVER
- M:	Brendan Higgins <brendanhiggins@google.com>
- R:	Benjamin Herrenschmidt <benh@kernel.crashing.org>
++				#address-cells = <1>;
++				#size-cells = <1>;
++				ranges = <0x0 0x1e6ee000 0x1000>;
++
++				espi_ctrl: espi-ctrl@0 {
++					compatible = "aspeed,ast2600-espi-ctrl";
++					reg = <0x0 0x800>;
++					interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
++					clocks = <&syscon ASPEED_CLK_GATE_ESPICLK>;
++					status = "disabled";
++				};
++			};
++
+ 			gpio0: gpio@1e780000 {
+ 				#gpio-cells = <2>;
+ 				gpio-controller;
 -- 
 2.17.1
 
