@@ -1,92 +1,40 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D95400790
-	for <lists+linux-aspeed@lfdr.de>; Fri,  3 Sep 2021 23:49:10 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46DAE401024
+	for <lists+linux-aspeed@lfdr.de>; Sun,  5 Sep 2021 16:21:49 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4H1Wdw54c8z2yYS
-	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Sep 2021 07:49:08 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=gTAQGZ49;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4H2Ycq1Y5tz2yHW
+	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Sep 2021 00:21:47 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
- header.s=pp1 header.b=gTAQGZ49; dkim-atps=neutral
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=jic23@kernel.org; receiver=<UNKNOWN>)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4H1Wdp37Wjz2xZg
- for <linux-aspeed@lists.ozlabs.org>; Sat,  4 Sep 2021 07:49:02 +1000 (AEST)
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 183LYDPi020883; Fri, 3 Sep 2021 17:48:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=XyUch22TYckoMZcmrdiMV+zhKoZj/airo+gwcH6sNLE=;
- b=gTAQGZ498Ocek3KvyZl8WWWCCEYcc+eyUMWVgzSiLrP2amJhWiTbyIQMRdU7DSx0Isp+
- JWQzUcgfyFxL5olAi5mVpnhhSfevRkr9wD9K7eX0cCqrKxUs4xnU0swgUbURE0lINok4
- pAwUNPwLrMtaNsM2C2Tr11ax3ODlIS6W4VlUdXHsJzeKLoPV+LQEl3Pd2BDLSuhaVL4b
- BM0RsxxJT5bbmnGvb2gxoueIoTCzMhwTukC+AnUuR7dkNuowLD2a5MB2uuMrsfvN/9H+
- vhEvzZWtOvK0pvLgtVUE07bY/JRmgEw1uX38E2jLLMgCddo/h32zq/X81r2dySYNZrUC 9g== 
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3autse9cag-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Sep 2021 17:48:53 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 183LgMvI019099;
- Fri, 3 Sep 2021 21:48:52 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma01dal.us.ibm.com with ESMTP id 3au6q8ckxm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Sep 2021 21:48:52 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 183LmoEq37814756
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 3 Sep 2021 21:48:50 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3E754AE066;
- Fri,  3 Sep 2021 21:48:50 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1AD78AE067;
- Fri,  3 Sep 2021 21:48:49 +0000 (GMT)
-Received: from v0005c16.aus.stglabs.ibm.com (unknown [9.211.75.30])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri,  3 Sep 2021 21:48:48 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: linux-aspeed@lists.ozlabs.org
-Subject: [PATCH 2/2] ARM: dts: aspeed: everest: Add I2C bus 15 muxes
-Date: Fri,  3 Sep 2021 16:48:36 -0500
-Message-Id: <20210903214836.48286-3-eajames@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210903214836.48286-1-eajames@linux.ibm.com>
-References: <20210903214836.48286-1-eajames@linux.ibm.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4H2Ych566mz2xfP
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  6 Sep 2021 00:21:40 +1000 (AEST)
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net
+ [81.101.6.87])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id E78AB60E8B;
+ Sun,  5 Sep 2021 14:21:35 +0000 (UTC)
+Date: Sun, 5 Sep 2021 15:25:01 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Subject: Re: [v5 01/15] iio: adc: aspeed: set driver data when adc probe.
+Message-ID: <20210905152501.2c45d43a@jic23-huawei>
+In-Reply-To: <20210831071458.2334-2-billy_tsai@aspeedtech.com>
+References: <20210831071458.2334-1-billy_tsai@aspeedtech.com>
+ <20210831071458.2334-2-billy_tsai@aspeedtech.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: nlocbXtpYBgMo-OimJhHglCSNikdzui3
-X-Proofpoint-ORIG-GUID: nlocbXtpYBgMo-OimJhHglCSNikdzui3
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-09-03_07:2021-09-03,
- 2021-09-03 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- bulkscore=0 spamscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 suspectscore=0 phishscore=0 adultscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2108310000 definitions=main-2109030125
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,194 +46,42 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: lkammath@in.ibm.com, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, lars@metafoo.de, pmeerw@pmeerw.net,
+ linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com, broonie@kernel.org,
+ lgirdwood@gmail.com, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ robh+dt@kernel.org, p.zabel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add the muxes that are attached on I2C bus 15.
+On Tue, 31 Aug 2021 15:14:44 +0800
+Billy Tsai <billy_tsai@aspeedtech.com> wrote:
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
----
- arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts | 158 +++++++++++++++++++
- 1 file changed, 158 insertions(+)
+> Fix the issue when adc remove will get the null driver data.
+> 
+> Fixed: commit 573803234e72 ("iio: Aspeed ADC")
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+Thanks Billy
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-index 2efd70666738..e7da58595d14 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
-@@ -96,6 +96,18 @@ aliases {
- 		i2c32 = &i2c14mux1chn1;
- 		i2c33 = &i2c14mux1chn2;
- 		i2c34 = &i2c14mux1chn3;
-+		i2c35 = &i2c15mux0chn0;
-+		i2c36 = &i2c15mux0chn1;
-+		i2c37 = &i2c15mux0chn2;
-+		i2c38 = &i2c15mux0chn3;
-+		i2c39 = &i2c15mux1chn0;
-+		i2c40 = &i2c15mux1chn1;
-+		i2c41 = &i2c15mux1chn2;
-+		i2c42 = &i2c15mux1chn3;
-+		i2c43 = &i2c15mux2chn0;
-+		i2c44 = &i2c15mux2chn1;
-+		i2c45 = &i2c15mux2chn2;
-+		i2c46 = &i2c15mux2chn3;
- 
- 		serial4 = &uart5;
- 
-@@ -2816,6 +2828,152 @@ eeprom@50 {
- 
- &i2c15 {
- 	status = "okay";
-+
-+	i2c-switch@70 {
-+		compatible = "nxp,pca9546";
-+		reg = <0x70>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		i2c-mux-idle-disconnect;
-+
-+		i2c15mux0chn0: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c64";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c15mux0chn1: i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c64";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c15mux0chn2: i2c@2 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <2>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c64";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c15mux0chn3: i2c@3 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <3>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c64";
-+				reg = <0x50>;
-+			};
-+		};
-+	};
-+
-+	i2c-switch@71 {
-+		compatible = "nxp,pca9546";
-+		reg = <0x71>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		i2c-mux-idle-disconnect;
-+
-+		i2c15mux1chn0: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c64";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c15mux1chn1: i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c64";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c15mux1chn2: i2c@2 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <2>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c64";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c15mux1chn3: i2c@3 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <3>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c64";
-+				reg = <0x50>;
-+			};
-+		};
-+	};
-+
-+	i2c-switch@72 {
-+		compatible = "nxp,pca9546";
-+		reg = <0x72>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		i2c-mux-idle-disconnect;
-+
-+		i2c15mux2chn0: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c64";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c15mux2chn1: i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c64";
-+				reg = <0x50>;
-+			};
-+		};
-+
-+		i2c15mux2chn2: i2c@2 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <2>;
-+		};
-+
-+		i2c15mux2chn3: i2c@3 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <3>;
-+		};
-+	};
- };
- 
- &ehci1 {
--- 
-2.27.0
+Applied to the fixes-togreg branch of iio.git and marked for stable.
+
+Jonathan
+
+> ---
+>  drivers/iio/adc/aspeed_adc.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
+> index 19efaa41bc34..34ec0c28b2df 100644
+> --- a/drivers/iio/adc/aspeed_adc.c
+> +++ b/drivers/iio/adc/aspeed_adc.c
+> @@ -183,6 +183,7 @@ static int aspeed_adc_probe(struct platform_device *pdev)
+>  
+>  	data = iio_priv(indio_dev);
+>  	data->dev = &pdev->dev;
+> +	platform_set_drvdata(pdev, indio_dev);
+>  
+>  	data->base = devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(data->base))
 
