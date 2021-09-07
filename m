@@ -2,68 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD6740319A
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Sep 2021 01:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D782240319B
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Sep 2021 01:43:33 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4H41xN5qYxz2yJ9
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Sep 2021 09:41:12 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4H42035WhRz2yHR
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Sep 2021 09:43:31 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=qsDSSEuV;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=pYDS1l8N;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=google.com (client-ip=2a00:1450:4864:20::133;
- helo=mail-lf1-x133.google.com; envelope-from=osk@google.com;
+ smtp.mailfrom=google.com (client-ip=2a00:1450:4864:20::129;
+ helo=mail-lf1-x129.google.com; envelope-from=osk@google.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256
- header.s=20210112 header.b=qsDSSEuV; dkim-atps=neutral
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
+ header.s=20210112 header.b=pYDS1l8N; dkim-atps=neutral
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4H41xJ1QpLz2xXh
- for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Sep 2021 09:41:06 +1000 (AEST)
-Received: by mail-lf1-x133.google.com with SMTP id m28so1084097lfj.6
- for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Sep 2021 16:41:05 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4H42001DD1z2xry
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Sep 2021 09:43:28 +1000 (AEST)
+Received: by mail-lf1-x129.google.com with SMTP id n2so1188843lfk.0
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Sep 2021 16:43:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=orvMsKTnXllXNNcLgdiSuCHx+Dvr/JT1JXTdS9UZGOo=;
- b=qsDSSEuV0iJFmdSWGImuzJbq41C7c4SdK4FJCleAGxfWup4jIhEvQqtGtYqK9QR4/7
- YtIOPEMoq54nmKWbwxdAJnBqeQo6s7X29vw37HPK8/AA5IwVhuvHxVtbKSzPLB3ZeNT4
- T53b+f9uHcuN2iVENphwXiFBHwpj/3jby8aEgYCGv2oOVuUOMru8i6Cj/6AznNyreanO
- Zd+H/0qOLvoy8X/A/NoIsLiSYJSXdwf3UtQdH1B0lp155ZRus5U+naxPHOUeDRBDjF17
- N2abNd+muzf8Mtpago065GHHFZUfg+sUASyRFnxfCxhfw1c7M/7cKHdSzkf6Rt0yyxMH
- 6JHQ==
+ :cc; bh=qbR0azSstYv0bM0YwB+7IFgxmLnd5oQnRM84XNbUsk4=;
+ b=pYDS1l8NObhJyvqxmZqxvZxKoo1kfcKoWMP3+vJb6jmJGhNVePTwqs4/vLcjzkJqnx
+ fu4RydoJpB+3lcFKabShYNgEG5iEzVNdc4INJkL9JHLl0PkYexdy+f0B+iQOlW33ZnWQ
+ 6za0Qe6PU/vixhDJoh1Al7mUqxQmYWADRzFiFt/oxfzbH32iM+34Zvp+DbrteH+Gt6sy
+ KtM1vCG6F6V04Ptk/vyylwaqydOp4uVEXawSEGwB7CS6I9OGFvZFRZNw0rj33YZ+WCGC
+ SU1t4VUWXbKbN3jYKPQvmZfOd9n8dlPrq9eUn86D1ZCWlStB/KQSz1HZ5eIRcn5TvRMr
+ FkHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=orvMsKTnXllXNNcLgdiSuCHx+Dvr/JT1JXTdS9UZGOo=;
- b=Vkx/T4DNaCb9awcMQDwbNYEmHBLBnmjDigUQuuDk6Ik+iHEOTOLvE8iZZ4sTDO9PiD
- caCfotrlbMhnfxUEKTMZvCPKVvcwm1PYfktyxBWbmBfKPjhc6K68Nl09YU0Va22Af4Od
- RaoXFiVZ4JgO9yEFklxXO1y/W2/eWXD1PH8Wi/kIpnw+HfbAL78woUa6VOlW6s1udII7
- 1FgfdsI23LPVnD7/94C32N34vJMmTQ5gOv5Rf9Wu15DoV5gg2Ss6vuXDgUonl76D9gwV
- G7iU2+yN20vffND2OqFsm80i1csLhhAzhaHIydaLEosIVFWPEOcgyZgOsXlfiQJ5EIOf
- S4KA==
-X-Gm-Message-State: AOAM531pWa676mFEfbjas++mtyLtSgO86N2taLKfBMawPG5yRfKFDEu5
- 0VaJiyvTfl7kvRiW71T5EjQlXbqy4AyN+5kWNbnttg==
-X-Google-Smtp-Source: ABdhPJwqVS/EcGVolSUlcKxEHmr9ztUBUl3LPffgx+QLMwfdV4049eu2Va4DYUIZDCah25IzthDj1tmXE9S9KHDX6ao=
-X-Received: by 2002:a05:6512:32c8:: with SMTP id
- f8mr665599lfg.243.1631058057337; 
- Tue, 07 Sep 2021 16:40:57 -0700 (PDT)
+ bh=qbR0azSstYv0bM0YwB+7IFgxmLnd5oQnRM84XNbUsk4=;
+ b=kWte0N3dT0XZ/SZ/UapiaEqvEUZsr5Gaha/2SLGYEvdPdrsBGRNl0vcAkMhrGMa+ac
+ 4xcj0VcGXPVwiE4fBGpR4YOyXQZ7cxw3gqTT3zMAl3yHnQ9yNSohSQzlX039NVBpT+w3
+ 5Vbz3OuDY6tbvaG+H6S32ALTDyWYOD1/UM/1vcq+kNhRtlnqF3Lt/hNAGAfP56y1bbu4
+ mQBMIvHT3/1q8JaOxVvkm3Y8asf2qJJJqIzBK8uFSpN5U6KA9pzJv7c+TpJs4lfkKNlP
+ IrtBhxaGUSUaipIvCW/32UgSUnj+22brs7aLTWuqHXbvZ/BbCyxTLCqY6bkIcfPR9Urb
+ P5GA==
+X-Gm-Message-State: AOAM530tmeMsZa9lkYb4lwCCxrUGkeWUtbCsG47ow5UrtQP1ADlSatSa
+ WDCGp17WHKGqzawB0yxWlMkkxuX1X1i2L7tHYpNOLg==
+X-Google-Smtp-Source: ABdhPJysq7C/8JUxjB7jMt+HBrl1Oh8mZEyj2Yr7LrWvL3t8psExSt4FBEjdnCxGEAQxF/b4KczAU5bq/zhyLdMaT1o=
+X-Received: by 2002:a05:6512:3e15:: with SMTP id
+ i21mr599844lfv.273.1631058203391; 
+ Tue, 07 Sep 2021 16:43:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210907194931.1173750-1-osk@google.com>
  <CACPK8Xd-2FeUh3+yeJ7T87Vz8+A94TqiYO1Am0Tk=5nDLbeVQQ@mail.gmail.com>
 In-Reply-To: <CACPK8Xd-2FeUh3+yeJ7T87Vz8+A94TqiYO1Am0Tk=5nDLbeVQQ@mail.gmail.com>
 From: Oskar Senft <osk@google.com>
-Date: Tue, 7 Sep 2021 19:40:41 -0400
-Message-ID: <CABoTLcTHyfj+bOEyDM1HeZzbB=2AqK2vTqFO5UonDSYKpL0+Bw@mail.gmail.com>
+Date: Tue, 7 Sep 2021 19:43:07 -0400
+Message-ID: <CABoTLcQXJy+nX7G=AzMgJe2PxbNaS7H9_RwR3wGGGg7FMR8EXA@mail.gmail.com>
 Subject: Re: [PATCH] ARM: dts: aspeed: Add TYAN S7106 BMC machine
 To: Joel Stanley <joel@jms.id.au>
-Content-Type: multipart/alternative; boundary="0000000000001df12705cb704cdc"
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,30 +82,209 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---0000000000001df12705cb704cdc
-Content-Type: text/plain; charset="UTF-8"
+RESEND - this time in plain text. Sorry for the noise.
 
 Hey Joel
 
-Thank you so much for the super fast review! So many things have changed a
-bit since I worked on this DTS originally (years ago) - thanks for pointing
-me to the updates! I'll make the changes as recommended.
+Thank you so much for the super fast review! So many things have
+changed a bit since I worked on this DTS originally (years ago) -
+thanks for pointing me to the updates! I'll make the changes as
+recommended.
 
-> +&gpio {
->
-> +       status = "okay";
+> > +&gpio {
+> > +       status = "okay";
 > > +       gpio-line-names =
 > > +       /*A0-A7*/       "","","IDLED_N","","","","","",
 > > +       /*B0-B7*/       "","","","","","","","",
 > > +       /*C0-C7*/       "","","","","ID_BUTTON","POST_COMPLETE","","",
 > > +       /*D0-D7*/       "","","PS_PWROK","PLTRST_N","","","","",
-> > +       /*E0-E7*/
->  "POWER_BUTTON","POWER_OUT","RESET_BUTTON","RESET_OUT",
-> > +
->  "NMI_BUTTON","NMI_OUT","","HEARTBEAT_LED_N",
+> > +       /*E0-E7*/       "POWER_BUTTON","POWER_OUT","RESET_BUTTON","RESET_OUT",
+> > +                                       "NMI_BUTTON","NMI_OUT","","HEARTBEAT_LED_N",
 >
 > We have a document that contains names for common BMC GPIOs:
 >
+> https://github.com/openbmc/docs/blob/master/designs/device-tree-gpio-naming.md
+>
+> Ideally your device tree would use them, but given this is an old
+> platform then I understand if you want to maintain compatibility with
+> existing userspace.
+
+This is good to know! This is a "new" platform in the sense that we're
+finally upstreaming (even if we have been running it for 2 years on an
+older internal build). Also, this is going to be the basis for at
+least one additional TYAN board, so I'd like to get it "as right as
+possible" to avoid bad copy&paste. I was following the "standard"
+names from x86-power-control
+(https://github.com/openbmc/x86-power-control) so I had already
+renamed some of TYAN's original net names. With that, I'd be happy to
+rename all of the signals to follow the OpenBMC standard.
+
+Some questions on that, given that there are a few signals that don't
+have an obvious equivalent in the GPIO naming doc:
+
+- Some LEDs and outputs are _N-ed, i.e. active low. Is there a good
+way to indicate that? This is important, e.g. for "ALERT".
+
+- There are some signals that are inputs but are not buttons, e.g.
+"PLTRST_N". Also, this particular example is active low.
+
+- There are a bunch of output signals that control muxes, e.g.
+BMC_PE_SMB_EN_1_N. Is there a naming convention for those?
+
+Does it make sense for each OpenBMC signal to also indicate the
+original net name from the schematics. I realize that not many people
+have access to that, but it would be good for those who do. I'd rather
+document "too much" than too little.
+
+Thanks
+Oskar.
+
+On Tue, Sep 7, 2021 at 6:33 PM Joel Stanley <joel@jms.id.au> wrote:
+>
+> On Tue, 7 Sept 2021 at 19:49, Oskar Senft <osk@google.com> wrote:
+> >
+> > The TYAN S7106 is a server platform with an ASPEED AST2500 BMC.
+>
+> Looks good Oskar. Some minor improvements suggested below.
+>
+> I'll pull this in to the openbmc tree once it's looking good, so
+> there's no need to resend it separately in this case.
+>
+> Please do cc linux-arm-kernel@lists.infradead.org when submitting
+> patches upstream.
+>
+> > Signed-off-by: Oskar Senft <osk@google.com>
+> > ---
+> >  arch/arm/boot/dts/aspeed-bmc-tyan-s7106.dts | 415 ++++++++++++++++++++
+> >  1 file changed, 415 insertions(+)
+> >  create mode 100644 arch/arm/boot/dts/aspeed-bmc-tyan-s7106.dts
+>
+> You need to add this to arch/arm/boot/dts/Makefile so it is built.
+>
+> > diff --git a/arch/arm/boot/dts/aspeed-bmc-tyan-s7106.dts b/arch/arm/boot/dts/aspeed-bmc-tyan-s7106.dts
+> > new file mode 100644
+> > index 000000000000..292bfb1a4bb2
+> > --- /dev/null
+> > +++ b/arch/arm/boot/dts/aspeed-bmc-tyan-s7106.dts
+> > @@ -0,0 +1,415 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/dts-v1/;
+> > +
+> > +#include "aspeed-g5.dtsi"
+> > +#include <dt-bindings/gpio/aspeed-gpio.h>
+> > +
+> > +/ {
+> > +       model = "Tyan S7106 BMC";
+> > +       compatible = "tyan,s7106-bmc", "aspeed,ast2500";
+> > +
+> > +       chosen {
+> > +               stdout-path = &uart5;
+> > +               bootargs = "console=ttyS4,115200 earlyprintk";
+>
+> s/earlyprintk/earlycon/
+>
+> See 239566b032f3 ("ARM: dts: aspeed: Set earlycon boot argument") for
+> background.
+>
+> > +       };
+> > +
+> > +       memory@80000000 {
+> > +               device_type = "memory";
+> > +               reg = <0x80000000 0x20000000>;
+> > +       };
+> > +
+> > +       reserved-memory {
+> > +               #address-cells = <1>;
+> > +               #size-cells = <1>;
+> > +               ranges;
+> > +
+> > +               p2a_memory: region@987F0000 {
+>
+> I think we're standardising on lower case for hex numbers.
+>
+> > +                       no-map;
+> > +                       reg = <0x987F0000 0x00010000>; /* 64KB */
+> > +               };
+> > +
+> > +               vga_memory: framebuffer@9f000000 {
+> > +                       no-map;
+> > +                       reg = <0x9f000000 0x01000000>; /* 16M */
+> > +               };
+> > +
+> > +               gfx_memory: framebuffer {
+> > +                       size = <0x01000000>; /* 16M */
+> > +                       alignment = <0x01000000>;
+> > +                       compatible = "shared-dma-pool";
+> > +                       reusable;
+> > +               };
+> > +       };
+>
+> > +&mac0 {
+> > +       status = "okay";
+> > +
+> > +       use-ncsi;
+> > +       no-hw-checksum;
+>
+> Are you sure you need no-hw-checksum?
+>
+> Back in the day we disabled it when using ncsi on the ast2400, as we
+> thought it was broken when using NCSI. That was not the case:
+>
+>  commit 6aff0bf641cf69e487d7b46fc8be773d161f814d
+>  Author: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+>  Date:   Wed Apr 12 13:27:03 2017 +1000
+>
+>     ftgmac100: Disable HW checksum generation on AST2400, enable on others
+>
+>     We found out that HW checksum generation only works from AST2500
+>     onward. This disables it on AST2400 and removes the "no-hw-checksum"
+>     properties in the device-trees. The problem we had wasn't related
+>     to NC-SI.
+>
+> I suggest dropping the property.
+>
+> > +
+> > +       pinctrl-names = "default";
+> > +       pinctrl-0 = <&pinctrl_rmii1_default>;
+> > +};
+>
+> > +&kcs1 {
+> > +       status = "okay";
+> > +       kcs_addr = <0xca8>;
+>
+> This style of kcs binding is deprecated. Instead we use this form:
+>
+>         aspeed,lpc-io-reg = <0xca8>;
+>
+> > +};
+> > +
+> > +&kcs3 {
+> > +       status = "okay";
+> > +       kcs_addr = <0xca2>;
+> > +};
+> > +
+> > +&gfx {
+> > +       status = "okay";
+> > +       memory-region = <&gfx_memory>;
+>
+> This display device is for when the BMC is running to display it's own content.
+>
+> If the system is only showing the output from the host, then you don't
+> need this enabled.
+>
+> > +};
+> > +
+> > +&gpio {
+> > +       status = "okay";
+> > +       gpio-line-names =
+> > +       /*A0-A7*/       "","","IDLED_N","","","","","",
+> > +       /*B0-B7*/       "","","","","","","","",
+> > +       /*C0-C7*/       "","","","","ID_BUTTON","POST_COMPLETE","","",
+> > +       /*D0-D7*/       "","","PS_PWROK","PLTRST_N","","","","",
+> > +       /*E0-E7*/       "POWER_BUTTON","POWER_OUT","RESET_BUTTON","RESET_OUT",
+> > +                                       "NMI_BUTTON","NMI_OUT","","HEARTBEAT_LED_N",
+>
+> We have a document that contains names for common BMC GPIOs:
 >
 > https://github.com/openbmc/docs/blob/master/designs/device-tree-gpio-naming.md
 >
@@ -113,98 +292,30 @@ me to the updates! I'll make the changes as recommended.
 > platform then I understand if you want to maintain compatibility with
 > existing userspace.
 >
-> This is good to know! This is a "new" platform in the sense that we're
-finally upstreaming (even if we have been running it for 2 years on an
-older internal build). Also, this is going to be the basis for at least one
-additional TYAN board, so I'd like to get it "as right as possible" to
-avoid bad copy&paste. I was following the "standard" names from
-x86-power-control (https://github.com/openbmc/x86-power-control) so I had
-already renamed some of TYAN's original net names. With that, I'd be happy
-to rename all of the signals to follow the OpenBMC standard.
-
-Some questions on that, given that there are a few signals that don't have
-an obvious equivalent in the GPIO naming doc:
-
-   - Some LEDs and outputs are _N-ed, i.e. active low. Is there a good way
-   to indicate that? This is important, e.g. for "ALERT".
-   - There are some signals that are inputs but are not buttons, e.g.
-   "PLTRST_N". Also, this particular example is active low.
-   - There are a bunch of output signals that control muxes,
-   e.g. BMC_PE_SMB_EN_1_N. Is there a naming convention for those?
-
-Does it make sense for each OpenBMC signal to also indicate the original
-net name from the schematics. I realize that not many people have access to
-that, but it would be good for those who do. I'd rather document "too much"
-than too little.
-
-Thanks
-Oskar.
-
---0000000000001df12705cb704cdc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hey Joel<div><br></div><div>Thank you so =
-much for the super fast review! So many things have changed a bit since I w=
-orked on this DTS originally (years ago) - thanks for pointing me to the up=
-dates! I&#39;ll make the changes as recommended.</div><div><br></div></div>=
-<div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">&gt; +&amp;gpio {<br></blockquote><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0status =3D &quot;okay&quot;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0gpio-line-names =3D<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*A0-A7*/=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=
-&quot;,&quot;&quot;,&quot;IDLED_N&quot;,&quot;&quot;,&quot;&quot;,&quot;&qu=
-ot;,&quot;&quot;,&quot;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*B0-B7*/=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=
-&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&qu=
-ot;&quot;,&quot;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*C0-C7*/=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=
-&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;ID_BUTTON&quot;,&quot;P=
-OST_COMPLETE&quot;,&quot;&quot;,&quot;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*D0-D7*/=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=
-&quot;,&quot;&quot;,&quot;PS_PWROK&quot;,&quot;PLTRST_N&quot;,&quot;&quot;,=
-&quot;&quot;,&quot;&quot;,&quot;&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/*E0-E7*/=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=
-POWER_BUTTON&quot;,&quot;POWER_OUT&quot;,&quot;RESET_BUTTON&quot;,&quot;RES=
-ET_OUT&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot=
-;NMI_BUTTON&quot;,&quot;NMI_OUT&quot;,&quot;&quot;,&quot;HEARTBEAT_LED_N&qu=
-ot;,<br>
-<br>
-We have a document that contains names for common BMC GPIOs:<br>
-<br>
-<a href=3D"https://github.com/openbmc/docs/blob/master/designs/device-tree-=
-gpio-naming.md" rel=3D"noreferrer" target=3D"_blank">https://github.com/ope=
-nbmc/docs/blob/master/designs/device-tree-gpio-naming.md</a><br>
-<br>
-Ideally your device tree would use them, but given this is an old<br>
-platform then I understand if you want to maintain compatibility with<br>
-existing userspace.<br><br></blockquote><div>This is good to know! This is =
-a &quot;new&quot; platform in the sense that we&#39;re finally upstreaming =
-(even if we have been running it for 2 years on an older internal build). A=
-lso, this is going to be the basis for at least one additional TYAN board,=
-=C2=A0so I&#39;d like to get it &quot;as right as possible&quot; to avoid=
-=C2=A0bad copy&amp;paste. I was following the &quot;standard&quot; names fr=
-om x86-power-control (<a href=3D"https://github.com/openbmc/x86-power-contr=
-ol">https://github.com/openbmc/x86-power-control</a>) so I had already rena=
-med some of TYAN&#39;s original net names. With that, I&#39;d be happy to r=
-ename all of the signals to follow the OpenBMC standard.</div><div><br></di=
-v><div>Some questions on that, given that there are a few signals that don&=
-#39;t have an obvious equivalent in the GPIO naming doc:</div><div><ul><li>=
-Some LEDs and outputs are _N-ed, i.e. active low. Is there a good way to in=
-dicate that? This is important, e.g. for &quot;ALERT&quot;.</li><li>There a=
-re some signals that are inputs but are not buttons, e.g. &quot;PLTRST_N&qu=
-ot;. Also, this particular example is active low.</li><li>There are a bunch=
- of output signals that control muxes, e.g.=C2=A0BMC_PE_SMB_EN_1_N. Is ther=
-e a naming convention for those?</li></ul><div>Does it make sense for each =
-OpenBMC signal to also indicate the original net name from the schematics. =
-I realize that not many people have access to that, but it would be good fo=
-r those who do. I&#39;d rather document &quot;too much&quot; than too littl=
-e.</div></div><div><br></div><div>Thanks</div><div>Oskar.</div><div><br></d=
-iv></div></div>
-
---0000000000001df12705cb704cdc--
+> > +       /*F0-F7*/       "","CLEAR_CMOS_N","","","IPMI_ALERT_LED_N","","","",
+> > +       /*G0-G7*/       "BMC_PE_SMB_EN_1_N","BMC_PE_SMB_EN_2_N","","","","","","",
+> > +       /*H0-H7*/       "","","","","","","","",
+> > +       /*I0-I7*/       "","","","","","","","",
+> > +       /*J0-J7*/       "","","","","","","","",
+> > +       /*K0-K7*/       "","","","","","","","",
+> > +       /*L0-L7*/       "","","","","","","","",
+> > +       /*M0-M7*/       "","","","","","","","",
+> > +       /*N0-N7*/       "","","","","","","","",
+> > +       /*O0-O7*/       "","","","","","","","",
+> > +       /*P0-P7*/       "","","","","","","","",
+> > +       /*Q0-Q7*/       "","","","","BMC_PE_SMB_SW_BIT0","BMC_PE_SMB_SW_BIT1","","",
+> > +       /*R0-R7*/       "","","","","","","","",
+> > +       /*S0-S7*/       "","","","","","","","",
+> > +       /*T0-T7*/       "","","","","","","","",
+> > +       /*U0-U7*/       "","","","","","","","",
+> > +       /*V0-V7*/       "","","","","","","","",
+> > +       /*W0-W7*/       "","","","","","","","",
+> > +       /*X0-X7*/       "","","","","","","","",
+> > +       /*Y0-Y7*/       "","","","","","","","",
+> > +       /*Z0-Z7*/   "","","","","","","","",
+> > +       /*AA0-AA7*/     "","","","BMC_SMB3_PCH_IE_SML3_EN","","","","",
+> > +       /*AB0-AB7*/     "","","","","","","","";
+> > +};
+> > --
+> > 2.33.0.309.g3052b89438-goog
+> >
