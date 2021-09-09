@@ -1,52 +1,70 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60D6404341
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Sep 2021 03:52:52 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F4D4045CE
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Sep 2021 08:52:42 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4H4hpp3645z2yHX
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Sep 2021 11:52:50 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4H4qSm18cSz2yJT
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Sep 2021 16:52:40 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bytedance-com.20150623.gappssmtp.com header.i=@bytedance-com.20150623.gappssmtp.com header.a=rsa-sha256 header.s=20150623 header.b=gyFgjz4/;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record)
- smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158;
- helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=bytedance.com (client-ip=2607:f8b0:4864:20::229;
+ helo=mail-oi1-x229.google.com; envelope-from=yulei.sh@bytedance.com;
  receiver=<UNKNOWN>)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=bytedance-com.20150623.gappssmtp.com
+ header.i=@bytedance-com.20150623.gappssmtp.com header.a=rsa-sha256
+ header.s=20150623 header.b=gyFgjz4/; dkim-atps=neutral
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4H4hpk3MSkz2xXm;
- Thu,  9 Sep 2021 11:52:46 +1000 (AEST)
-Received: from [172.16.66.38] (unknown [49.255.141.98])
- by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 03D262012C;
- Thu,  9 Sep 2021 09:52:44 +0800 (AWST)
-Message-ID: <9fa4ae962c185e0e4f07f0299356969c17ae5ea5.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v4 3/4] soc: aspeed: Add eSPI driver
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-To: ChiaWei Wang <chiawei_wang@aspeedtech.com>, "robh+dt@kernel.org"
- <robh+dt@kernel.org>, "joel@jms.id.au" <joel@jms.id.au>, "andrew@aj.id.au"
- <andrew@aj.id.au>, "linux-aspeed@lists.ozlabs.org"
- <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org"
- <openbmc@lists.ozlabs.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Date: Thu, 09 Sep 2021 09:52:43 +0800
-In-Reply-To: <HK0PR06MB377924CFCBFE9BD40E1C4A5D91D49@HK0PR06MB3779.apcprd06.prod.outlook.com>
-References: <20210901033015.910-1-chiawei_wang@aspeedtech.com>
- <20210901033015.910-4-chiawei_wang@aspeedtech.com>
- <20c13b9bb023091758cac3a07fb4037b7d796578.camel@codeconstruct.com.au>
- <HK0PR06MB37792273A075533C2570002391CE9@HK0PR06MB3779.apcprd06.prod.outlook.com>
- <513cb05f8d83d08a5c1e491dc0a9b6784195e7dd.camel@codeconstruct.com.au>
- <HK0PR06MB37799C48533B084CF864E49D91D29@HK0PR06MB3779.apcprd06.prod.outlook.com>
- <6593206c0bc90186f255c6ea86339576576f70dc.camel@codeconstruct.com.au>
- <HK0PR06MB377924CFCBFE9BD40E1C4A5D91D49@HK0PR06MB3779.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4H4qSd4KD7z2xr0
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  9 Sep 2021 16:52:31 +1000 (AEST)
+Received: by mail-oi1-x229.google.com with SMTP id y128so1302541oie.4
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 08 Sep 2021 23:52:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=n/dbtsQItzFXG3VUtr5tpCtogf60jhbRfY1HqI+6zeg=;
+ b=gyFgjz4/3LjQCakqfOSTVUCjrvKZcjbZHuTwspXxUdu8JCq0c29GPSXdlOJKg8kEX/
+ whefJmwhR4dTsN+4Gtszow3uSHaLa5N4E7aWgjz+fNO0IEHOy7H0M4nx65A/RsyTaZOd
+ bFa5if1a/nFRzVskAHrouMI9W4Vnu7ZFnuBB87FdKR5L0hsBQlzU0YTb2e3JofdAJqy1
+ byh6cJb/po6bcwbieRkpagopbAf7WGXNJVdA8iTq3Q3KX+yphpw35xa2wVt9WnPNA9xT
+ i4CI2w7tN6MPiCB+aeM+VQefMXj5aKzAEQSX6vvBYMNa7rfqiB2GgaLjhYbOhkOVqtET
+ o5Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=n/dbtsQItzFXG3VUtr5tpCtogf60jhbRfY1HqI+6zeg=;
+ b=llYCctF+EaV7xaZWMG026BpzkAcCdcGxB8kvh8dD5gQzffPqDfSnGuMCOs21cZ41jD
+ Xp2svaRxZ6C1thwXbYcUgfnPecU0+wMheuK64McOejAYNlCQrIY8J48W7cY2GGhRPosy
+ vlpSC3KtxVtjV0lHUzSYba5O8Nd1YBjmLPBFP19rSgGnZhi6bDVN9S1Qe06dQVTjZLL9
+ skKOkLFBcGs6tJHjQScBMibFUi7EVEX7aw8L+s5l3A/BhzML7MZDeTeTKuYr4jC4xSDk
+ p9uE7ltnMUKoBvrkHpbIHBDbG/TFH+P4n3ZUwTg/ioPxkf5lrPZbM4aAivRBBRW6nLNu
+ VTPQ==
+X-Gm-Message-State: AOAM531RR+MhOh5/xanA3V3eciYs3QMqGF6/ZMdlaULRDfXCVR2G2ixs
+ DLmlyOugzW6s7T+9Wd+CqXrCL0zu34B8fgE1cyfAdA==
+X-Google-Smtp-Source: ABdhPJxYlOZA1Z3SpX9pxnUob+P/iJhoYZcvVtQEHgSSu3BJmDqo3PtVCpNE/CpESGExUkz55CWZKfuAz539Xbp3cZY=
+X-Received: by 2002:a05:6808:1294:: with SMTP id
+ a20mr962310oiw.4.1631170348266; 
+ Wed, 08 Sep 2021 23:52:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20210902021817.17506-1-chiawei_wang@aspeedtech.com>
+In-Reply-To: <20210902021817.17506-1-chiawei_wang@aspeedtech.com>
+From: Lei Yu <yulei.sh@bytedance.com>
+Date: Thu, 9 Sep 2021 14:52:17 +0800
+Message-ID: <CAGm54UERFkOLXtG3wwL9x1-HAXjmRoaG4ZRbZZOLjP1bLZ=LSg@mail.gmail.com>
+Subject: Re: [External] [PATCH v2 0/3] arm: aspeed: Add UART routing support
+To: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,85 +76,55 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Morris Mao <morris_mao@aspeedtech.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT" <linux-aspeed@lists.ozlabs.org>,
+ openbmc <openbmc@lists.ozlabs.org>, open list <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, lee.jones@linaro.org,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>, Oskar Senft <osk@google.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Chiawei,
+The patches are tested on meta-g220a build and it works fine with some
+changes in the sysfs path[1].
 
-> Yes, there is security concern using HW mode.
-> Our designer is considering to remove the HW mode support in the next
-> generation of Aspeed SoCs.
-> So far we haven't encountered a scenario demanding HW mode.
+Tested-by: Lei YU <yulei.sh@bytedance.com>
 
-Great to hear :) can we unconditionally set ESPI000[9] in the driver
-then?
+[1]: https://github.com/openbmc/meta-bytedance/blob/master/meta-g220a/recipes-phosphor/console/obmc-console/obmc-console%40.service#L7-L10
 
-> > With than in mind, if we're disabling hardware mode - what does the
-> > direction control setting effect when we're in software mode
-> > (ESPICTRL[9] == 1)? Does it even matter?
-> 
-> Yes, the direction matters even in SW mode.
-> When the direction is 'master-to-slave' and the GPIO value is updated
-> by the Host through PUT_VW, a VW interrupt is trigger to notify BMC.
-> For the 'slave-to-master' GPIO, a alert is generated to notify the
-> Host to issue GET_VW for the GPIO value updated by the BMC by
-> ESPI09C.
-
-OK, but the datasheet mentions that ESPICFG804 is only applicable when
-ESPI000[9] = 0, or is that not the case?
-
-But based on what you've said: yes, it sounds like the generic gpiodev
-parts won't be useful for this.
-
-> > Separate from this: I'm also proposing that we represent the system
-> > event VWs
-> > as gpiodevs as well.
-> > 
-> > > A raw packet, primitive interface should have better flexibility
-> > > to
-> > > manage MCTP packets over the OOB channel.
-> > 
-> > OK, let me phrase this differently: can the OOB channel be used for
-> > anything other than SMBus messaging? Is it useful to provide an
-> > interface that isn't a standard SMBus/i2c device?
-> 
-> Yes, the PCH spec. also defines two additional packet format for an
-> eSPI slave to retrieve PCH Temperature Data and RTC time.
-> It should be trivial to prepare a byte buffer in that format and send
-> it through the raw packet interface.
-
-OK, understood.
-
-> > If you need custom uapi definitions for this driver, that might be
-> > okay, but it's going to be more work for you (to define an interface
-> > that can be supported long-term), rather than using standard
-> > infrastructure that already exists.
-> 
-> Thus I suggested that we can refer to the IPMI KCS BMC driver, which
-> supports the selection of different user interfaces, RAW or IPMI.
-
-Yep, but the KCS "raw" register set is standardised as part of the IPMI
-spec too, which helps to define a stable user API. We don't have that in
-this case.
-
-Overall though, if you want to start with the "low-level" API, then
-introduce "enhanced" functionality - like an actual SMBus driver -
-alongside that, then that sounds like an OK approach.
-
-> If IOCTL is considered to be not user friendly or magic code
-> polluting, file-based read/write on the miscdevice node is also an
-> option.
-
-It's not really my decision to make, but a read/write event interface
-would seem to be more consistent to me. Is there an obvious event format
-that would be common across all channels, perhaps? We'd probably also
-need a poll too - to make use of incoming events, like master-to-slave
-VW changes, perhaps?
-
-Cheers,
+On Thu, Sep 2, 2021 at 10:20 AM Chia-Wei Wang
+<chiawei_wang@aspeedtech.com> wrote:
+>
+> Add UART routing driver and the device tree nodes.
+>
+> v2:
+>  - Add dt-bindings
+>  - Add ABI documents for the exported sysfs interface
+>  - Revise driver implementation suggested by Joel
+>
+> Chia-Wei Wang (3):
+>   dt-bindings: aspeed-lpc: Add UART routing compatible string
+>   soc: aspeed: Add UART routing support
+>   ARM: dts: aspeed: Add uart routing to device tree
+>
+>  .../testing/sysfs-driver-aspeed-uart-routing  |  15 +
+>  .../devicetree/bindings/mfd/aspeed-lpc.txt    |  22 +
+>  arch/arm/boot/dts/aspeed-g5.dtsi              |   6 +
+>  arch/arm/boot/dts/aspeed-g6.dtsi              |   6 +
+>  drivers/soc/aspeed/Kconfig                    |  10 +
+>  drivers/soc/aspeed/Makefile                   |   9 +-
+>  drivers/soc/aspeed/aspeed-uart-routing.c      | 601 ++++++++++++++++++
+>  7 files changed, 665 insertions(+), 4 deletions(-)
+>  create mode 100644 Documentation/ABI/testing/sysfs-driver-aspeed-uart-routing
+>  create mode 100644 drivers/soc/aspeed/aspeed-uart-routing.c
+>
+> --
+> 2.17.1
+>
 
 
-Jeremy
-
+-- 
+BRs,
+Lei YU
