@@ -1,52 +1,59 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A764085C1
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Sep 2021 09:52:18 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B229408AE6
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Sep 2021 14:19:01 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4H7Jbh4jt8z2yKS
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Sep 2021 17:52:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4H7QWR1PMGz2yLQ
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Sep 2021 22:18:59 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com;
- receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=gmail.com (client-ip=209.85.210.50; helo=mail-ot1-f50.google.com;
+ envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
+ [209.85.210.50])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4H7Jbf2S1Bz2yKW
- for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Sep 2021 17:52:13 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 18D7VMmL004726;
- Mon, 13 Sep 2021 15:31:22 +0800 (GMT-8)
- (envelope-from billy_tsai@aspeedtech.com)
-Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 13 Sep
- 2021 15:51:07 +0800
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: <jic23@kernel.org>, <lars@metafoo.de>, <pmeerw@pmeerw.net>,
- <robh+dt@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
- <p.zabel@pengutronix.de>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
- <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [v6 11/11] iio: adc: aspeed: Get and set trimming data.
-Date: Mon, 13 Sep 2021 15:53:37 +0800
-Message-ID: <20210913075337.19991-12-billy_tsai@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210913075337.19991-1-billy_tsai@aspeedtech.com>
-References: <20210913075337.19991-1-billy_tsai@aspeedtech.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.149]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 18D7VMmL004726
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4H7QWJ5Hmpz2xtT;
+ Mon, 13 Sep 2021 22:18:50 +1000 (AEST)
+Received: by mail-ot1-f50.google.com with SMTP id
+ i3-20020a056830210300b0051af5666070so13002338otc.4; 
+ Mon, 13 Sep 2021 05:18:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=QviKwU9E32B1NHqI9WCd3jJH00Se8iBU33oRL7KYCVI=;
+ b=Vl6WRt1l5woCTrvDGRlV3vMuK/N14FjAXg+UsdN16Fh5X2/SZWlXCLqqlC9UOX3pGx
+ /OdSgooEYxikew/xY1lCJumGJHdxK/6GYwRXFI5/TVP32Ihoji9B2D9P2dfbDuNb9jjW
+ ChM2F/qULh4iB1qz74LQn6qisZkgzdUl5WDyczyWYlgj0/0537wyzYvSnpbhmb+A1nzC
+ TyzsKwcX3qwPwEKPvhC61X3QjAnbYrllow1+sAMLsVq/d1t1o9USY9Vea0Btr1myGYMu
+ +vw2nU4O3pq/YMaElujR9s+nzYy+1w3xNNxnJWpbf0S4NTtILEqOGH9Cl8Z3nOIaI1J9
+ /1RQ==
+X-Gm-Message-State: AOAM530NSomZ6lbDCx64uVMDPSumpgOc8qPFkmIBWx6nir7GJSAWz++/
+ gO6er4WYNDZ2Gla8yNOl0g==
+X-Google-Smtp-Source: ABdhPJzMsElTnZR96Stl0Jidt4vyTF4mY6gkVe/sRFOau/+qhl1NPc8J930JqDDSM8aDFfgq6rLrHQ==
+X-Received: by 2002:a9d:7cd7:: with SMTP id r23mr9250801otn.165.1631535527526; 
+ Mon, 13 Sep 2021 05:18:47 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id k8sm1791521oom.20.2021.09.13.05.18.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Sep 2021 05:18:46 -0700 (PDT)
+Received: (nullmailer pid 444719 invoked by uid 1000);
+ Mon, 13 Sep 2021 12:18:43 -0000
+From: Rob Herring <robh@kernel.org>
+To: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+In-Reply-To: <20210913060231.15619-2-chiawei_wang@aspeedtech.com>
+References: <20210913060231.15619-1-chiawei_wang@aspeedtech.com>
+ <20210913060231.15619-2-chiawei_wang@aspeedtech.com>
+Subject: Re: [PATCH v4 1/4] dt-bindings: mfd: aspeed-lpc: Convert to YAML
+ schema
+Date: Mon, 13 Sep 2021 07:18:43 -0500
+Message-Id: <1631535523.196891.444718.nullmailer@robh.at.kernel.org>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,161 +65,48 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org, osk@google.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The ADC controller has a trimming register for fine-tune the reference
-voltage. The trimming value comes from the OTP register which will be
-written during chip production. This patch will read this OTP value and
-configure it to the ADC register when the ADC controller probes and using
-dts property "aspeed,trim-data-valid" to determine whether to execute this
-flow.
+On Mon, 13 Sep 2021 14:02:28 +0800, Chia-Wei Wang wrote:
+> Convert the bindings of Aspeed LPC from text file into YAML schema.
+> 
+> Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+> ---
+>  .../devicetree/bindings/mfd/aspeed-lpc.txt    | 157 ---------------
+>  .../devicetree/bindings/mfd/aspeed-lpc.yaml   | 187 ++++++++++++++++++
+>  2 files changed, 187 insertions(+), 157 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/mfd/aspeed-lpc.txt
+>  create mode 100644 Documentation/devicetree/bindings/mfd/aspeed-lpc.yaml
+> 
 
-Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
----
- drivers/iio/adc/aspeed_adc.c | 71 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 71 insertions(+)
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
-index c4112284fe07..d4d8ac07d40d 100644
---- a/drivers/iio/adc/aspeed_adc.c
-+++ b/drivers/iio/adc/aspeed_adc.c
-@@ -25,6 +25,8 @@
- #include <linux/spinlock.h>
- #include <linux/types.h>
- #include <linux/bitfield.h>
-+#include <linux/regmap.h>
-+#include <linux/mfd/syscon.h>
- 
- #include <linux/iio/iio.h>
- #include <linux/iio/driver.h>
-@@ -80,6 +82,11 @@
-  */
- #define ASPEED_ADC_DEF_SAMPLING_RATE	65000
- 
-+struct aspeed_adc_trim_locate {
-+	const unsigned int offset;
-+	const unsigned int field;
-+};
-+
- struct aspeed_adc_model_data {
- 	const char *model_name;
- 	unsigned int min_sampling_rate;	// Hz
-@@ -90,6 +97,7 @@ struct aspeed_adc_model_data {
- 	bool bat_sense_sup;
- 	u8 scaler_bit_width;
- 	unsigned int num_channels;
-+	const struct aspeed_adc_trim_locate *trim_locate;
- };
- 
- struct adc_gain {
-@@ -165,6 +173,44 @@ static const struct iio_chan_spec aspeed_adc_iio_bat_channels[] = {
- 	ASPEED_BAT_CHAN(7, 0x1E),
- };
- 
-+static int aspeed_adc_set_trim_data(struct iio_dev *indio_dev)
-+{
-+	struct device_node *syscon;
-+	struct regmap *scu;
-+	u32 scu_otp, trimming_val;
-+	struct aspeed_adc_data *data = iio_priv(indio_dev);
-+
-+	syscon = of_find_node_by_name(NULL, "syscon");
-+	if (syscon == NULL) {
-+		dev_warn(data->dev, "Couldn't find syscon node\n");
-+		return -EOPNOTSUPP;
-+	}
-+	scu = syscon_node_to_regmap(syscon);
-+	if (IS_ERR(scu)) {
-+		dev_warn(data->dev, "Failed to get syscon regmap\n");
-+		return -EOPNOTSUPP;
-+	}
-+	if (data->model_data->trim_locate) {
-+		if (regmap_read(scu, data->model_data->trim_locate->offset,
-+				&scu_otp)) {
-+			dev_warn(data->dev,
-+				 "Failed to get adc trimming data\n");
-+			trimming_val = 0x8;
-+		} else {
-+			trimming_val =
-+				((scu_otp) &
-+				 (data->model_data->trim_locate->field)) >>
-+				__ffs(data->model_data->trim_locate->field);
-+		}
-+		dev_dbg(data->dev,
-+			"trimming val = %d, offset = %08x, fields = %08x\n",
-+			trimming_val, data->model_data->trim_locate->offset,
-+			data->model_data->trim_locate->field);
-+		writel(trimming_val, data->base + ASPEED_REG_COMPENSATION_TRIM);
-+	}
-+	return 0;
-+}
-+
- static int aspeed_adc_compensation(struct iio_dev *indio_dev)
- {
- 	struct aspeed_adc_data *data = iio_priv(indio_dev);
-@@ -514,6 +560,13 @@ static int aspeed_adc_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
-+	if (of_find_property(data->dev->of_node, "aspeed,trim-data-valid",
-+			     NULL)) {
-+		ret = aspeed_adc_set_trim_data(indio_dev);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	if (of_find_property(data->dev->of_node, "aspeed,battery-sensing",
- 			     NULL)) {
- 		if (data->model_data->bat_sense_sup) {
-@@ -590,6 +643,21 @@ static int aspeed_adc_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
-+static const struct aspeed_adc_trim_locate ast2500_adc_trim = {
-+	.offset = 0x154,
-+	.field = GENMASK(31, 28),
-+};
-+
-+static const struct aspeed_adc_trim_locate ast2600_adc0_trim = {
-+	.offset = 0x5d0,
-+	.field = GENMASK(3, 0),
-+};
-+
-+static const struct aspeed_adc_trim_locate ast2600_adc1_trim = {
-+	.offset = 0x5d0,
-+	.field = GENMASK(7, 4),
-+};
-+
- static const struct aspeed_adc_model_data ast2400_model_data = {
- 	.model_name = "ast2400-adc",
- 	.vref_fixed_mv = 2500,
-@@ -609,6 +677,7 @@ static const struct aspeed_adc_model_data ast2500_model_data = {
- 	.need_prescaler = true,
- 	.scaler_bit_width = 10,
- 	.num_channels = 16,
-+	.trim_locate = &ast2500_adc_trim,
- };
- 
- static const struct aspeed_adc_model_data ast2600_adc0_model_data = {
-@@ -619,6 +688,7 @@ static const struct aspeed_adc_model_data ast2600_adc0_model_data = {
- 	.bat_sense_sup = true,
- 	.scaler_bit_width = 16,
- 	.num_channels = 8,
-+	.trim_locate = &ast2600_adc0_trim,
- };
- 
- static const struct aspeed_adc_model_data ast2600_adc1_model_data = {
-@@ -629,6 +699,7 @@ static const struct aspeed_adc_model_data ast2600_adc1_model_data = {
- 	.bat_sense_sup = true,
- 	.scaler_bit_width = 16,
- 	.num_channels = 8,
-+	.trim_locate = &ast2600_adc1_trim,
- };
- 
- static const struct of_device_id aspeed_adc_matches[] = {
--- 
-2.25.1
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/mfd/aspeed-lpc.example.dts:30.35-36.15: Warning (unique_unit_address): /example-0/lpc@1e789000/lpc-ctrl@80: duplicate unit-address (also used in node /example-0/lpc@1e789000/lpc-snoop@80)
+Documentation/devicetree/bindings/mfd/aspeed-lpc.example.dt.yaml:0:0: /example-0/lpc@1e789000/lpc-ctrl@80: failed to match any schema with compatible: ['aspeed,ast2600-lpc-ctrl']
+Documentation/devicetree/bindings/mfd/aspeed-lpc.example.dt.yaml:0:0: /example-0/lpc@1e789000/reset-controller@98: failed to match any schema with compatible: ['aspeed,ast2600-lpc-reset']
+Documentation/devicetree/bindings/mfd/aspeed-lpc.example.dt.yaml:0:0: /example-0/lpc@1e789000/lpc-snoop@80: failed to match any schema with compatible: ['aspeed,ast2600-lpc-snoop']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1527193
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
