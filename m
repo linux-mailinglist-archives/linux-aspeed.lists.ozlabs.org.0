@@ -1,49 +1,50 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C3D408476
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Sep 2021 08:04:57 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C25E44085B5
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Sep 2021 09:52:01 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4H7GCq5y63z2ywb
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Sep 2021 16:04:55 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4H7JbM4y7Tz2yP3
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Sep 2021 17:51:59 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
  smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=chiawei_wang@aspeedtech.com;
+ helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com;
  receiver=<UNKNOWN>)
 Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4H7G9r3c5fz2xrr;
- Mon, 13 Sep 2021 16:03:12 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4H7Jb95Tkmz2xgJ
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Sep 2021 17:51:47 +1000 (AEST)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 18D5gg93094965;
- Mon, 13 Sep 2021 13:42:45 +0800 (GMT-8)
- (envelope-from chiawei_wang@aspeedtech.com)
-Received: from ChiaWeiWang-PC.aspeed.com (192.168.2.66) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 13 Sep 2021 14:02:27 +0800
-From: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
-To: <joel@jms.id.au>, <andrew@aj.id.au>, <robh+dt@kernel.org>,
+ by twspam01.aspeedtech.com with ESMTP id 18D7VKnB004716;
+ Mon, 13 Sep 2021 15:31:20 +0800 (GMT-8)
+ (envelope-from billy_tsai@aspeedtech.com)
+Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 13 Sep
+ 2021 15:51:05 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: <jic23@kernel.org>, <lars@metafoo.de>, <pmeerw@pmeerw.net>,
+ <robh+dt@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
+ <p.zabel@pengutronix.de>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
+ <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <openbmc@lists.ozlabs.org>
-Subject: [PATCH v4 4/4] ARM: dts: aspeed: Add uart routing to device tree
-Date: Mon, 13 Sep 2021 14:02:31 +0800
-Message-ID: <20210913060231.15619-5-chiawei_wang@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210913060231.15619-1-chiawei_wang@aspeedtech.com>
-References: <20210913060231.15619-1-chiawei_wang@aspeedtech.com>
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [v6 00/11] Add support for ast2600 ADC
+Date: Mon, 13 Sep 2021 15:53:26 +0800
+Message-ID: <20210913075337.19991-1-billy_tsai@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [192.168.2.66]
+X-Originating-IP: [192.168.2.149]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 18D5gg93094965
+X-MAIL: twspam01.aspeedtech.com 18D7VKnB004716
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,73 +56,76 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: osk@google.com
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add LPC uart routing to the device tree for Aspeed SoCs.
+This patch serials make aspeed_adc.c can support ast2600 and backward
+compatible.
 
-Signed-off-by: Oskar Senft <osk@google.com>
-Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
-Tested-by: Lei YU <yulei.sh@bytedance.com>
----
- arch/arm/boot/dts/aspeed-g4.dtsi | 6 ++++++
- arch/arm/boot/dts/aspeed-g5.dtsi | 6 ++++++
- arch/arm/boot/dts/aspeed-g6.dtsi | 6 ++++++
- 3 files changed, 18 insertions(+)
+Change since v5:
+aspeed_adc.c:
+  - Use devm_clk_hw_register_divider()
+  - Enabling and setting the ADC to normal mode is a necessary flow, so
+  take it out of the condition.
 
-diff --git a/arch/arm/boot/dts/aspeed-g4.dtsi b/arch/arm/boot/dts/aspeed-g4.dtsi
-index c5aeb3cf3a09..b313a1cf5f73 100644
---- a/arch/arm/boot/dts/aspeed-g4.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g4.dtsi
-@@ -383,6 +383,12 @@
- 					interrupts = <8>;
- 					status = "disabled";
- 				};
-+
-+				uart_routing: uart-routing@9c {
-+					compatible = "aspeed,ast2400-uart-routing";
-+					reg = <0x9c 0x4>;
-+					status = "disabled";
-+				};
- 			};
- 
- 			uart2: serial@1e78d000 {
-diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
-index 73ca1ec6fc24..c7049454c7cb 100644
---- a/arch/arm/boot/dts/aspeed-g5.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g5.dtsi
-@@ -491,6 +491,12 @@
- 					#reset-cells = <1>;
- 				};
- 
-+				uart_routing: uart-routing@9c {
-+					compatible = "aspeed,ast2500-uart-routing";
-+					reg = <0x9c 0x4>;
-+					status = "disabled";
-+				};
-+
- 				lhc: lhc@a0 {
- 					compatible = "aspeed,ast2500-lhc";
- 					reg = <0xa0 0x24 0xc8 0x8>;
-diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-index 1b47be1704f8..cdc59c5d86fe 100644
---- a/arch/arm/boot/dts/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-@@ -551,6 +551,12 @@
- 					#reset-cells = <1>;
- 				};
- 
-+				uart_routing: uart-routing@98 {
-+					compatible = "aspeed,ast2600-uart-routing";
-+					reg = <0x98 0x8>;
-+					status = "disabled";
-+				};
-+
- 				ibt: ibt@140 {
- 					compatible = "aspeed,ast2600-ibt-bmc";
- 					reg = <0x140 0x18>;
+Change since v4:
+dt-bindings:
+  - Add clocks maxItems.
+  - Rename the property to meet the property-units.yaml.
+  - Add the description for the difference between adc0 and adc1.
+aspeed_adc.c:
+  - Use new property name to get internal reference voltage: units from mv
+  to uv.
+  - Fix -Wnonnull warning caused by snprintf parameters.
+  - Add suffix mv to the vref parameters.
+  - Use ARRAY_SIZE instead of 32.
+  - Add a reset action for ADC power down and Use devm_iio_device_register.
+  - Fix typo error.
+  - Separate the offset interface of ch7 when battery sensing enable
+
+Change since v3:
+dt-bindings:
+  - Fix properties:aspeed,int_vref_mv type error.
+
+Change since v2:
+dt-bindings:
+  - Create a new dt-bindings for ast2600 adc
+aspeed_adc.c:
+  - Splits the patch for more details
+  - Remove version enum and use the flags in model data to distinguish
+  hardware feature
+  - Support trimming data get and set.
+  - Use devm_add_action_or_reset to simplify probe error handling.
+
+Changes since v1:
+dt-bindings:
+  - Fix the aspeed,adc.yaml check error.
+  - Add battery-sensing property.
+aspeed_adc.c:
+  - Change the init flow:
+    Clock and reference voltage setting should be completed before adc
+    engine enable.
+  - Change the default sampling rate to meet most user case.
+  - Add patch #8 to suppoert battery sensing mode.
+
+Billy Tsai (11):
+  iio: adc: aspeed: Keep model data to driver data.
+  iio: adc: aspeed: Restructure the model data
+  iio: adc: aspeed: Add vref config function
+  iio: adc: aspeed: Use model_data to set clk scaler.
+  iio: adc: aspeed: Use devm_add_action_or_reset.
+  iio: adc: aspeed: Support ast2600 adc.
+  iio: adc: aspeed: Fix the calculate error of clock.
+  iio: adc: aspeed: Add func to set sampling rate.
+  iio: adc: aspeed: Add compensation phase.
+  iio: adc: aspeed: Support battery sensing.
+  iio: adc: aspeed: Get and set trimming data.
+
+ drivers/iio/adc/aspeed_adc.c | 554 +++++++++++++++++++++++++++++------
+ 1 file changed, 459 insertions(+), 95 deletions(-)
+
 -- 
-2.17.1
+2.25.1
 
