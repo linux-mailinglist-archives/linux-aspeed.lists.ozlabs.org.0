@@ -1,104 +1,69 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293D840B96A
-	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Sep 2021 22:46:44 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26CF540BDBC
+	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Sep 2021 04:21:59 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4H8Fkn6j6zz2yPZ
-	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Sep 2021 06:46:41 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4H8P9d0CG3z2yJd
+	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Sep 2021 12:21:57 +1000 (AEST)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=pCg5W+X7;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=X4as+tR2;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=anoo@linux.ibm.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::735;
+ helo=mail-qk1-x735.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
- header.s=pp1 header.b=pCg5W+X7; dkim-atps=neutral
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=X4as+tR2; dkim-atps=neutral
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
+ [IPv6:2607:f8b0:4864:20::735])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4H8Fkf2YR2z2yJ1;
- Wed, 15 Sep 2021 06:46:33 +1000 (AEST)
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 18EKUUHd034773;
- Tue, 14 Sep 2021 16:46:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=content-type : subject :
- from : in-reply-to : date : cc : message-id : references : to :
- content-transfer-encoding : mime-version; s=pp1;
- bh=jfau7N1/bvxLvrBBW22CTzOG62QNwlPRoUcvLRd5PnE=;
- b=pCg5W+X73zqYebJ1bk88Kbxuc8WEdjWsl6GOtFrqObs3tQt1OVAF41P+tO55osv0it/3
- lE0N73xphr8hF9W6eWfl/k/A66vB8RDz058AorGOtol6Yq2T4AV9CKy5nbK7wouKS3BN
- br916LCVGcOXKrcuSkaXbeyeiQicz/xKTxoV1L4BtnzRjfynGetZ46XXN/T1gI7SoAmf
- gL8B64k0ekjoyib5mmOIUe4Ivde0YWSaIYB3IFiM0A81jj6MWugBRJ5RKlgKHqu+ko3q
- 2JFXicAX9MtmXAEnsMIdldh44F7K+EJZLibJxSpgFy6LzGkcQda965PZQVZSmpNy/XkT Uw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3b32u28922-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Sep 2021 16:46:24 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18EKZIBm022602;
- Tue, 14 Sep 2021 16:46:23 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3b32u2891r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Sep 2021 16:46:23 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18EKg3EH009864;
- Tue, 14 Sep 2021 20:46:22 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com
- (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
- by ppma04dal.us.ibm.com with ESMTP id 3b0m3b21yv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Sep 2021 20:46:22 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 18EKkKet30474708
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 14 Sep 2021 20:46:20 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8A59C78069;
- Tue, 14 Sep 2021 20:46:20 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 697727805C;
- Tue, 14 Sep 2021 20:46:19 +0000 (GMT)
-Received: from smtpclient.apple (unknown [9.160.54.83])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Tue, 14 Sep 2021 20:46:19 +0000 (GMT)
-Content-Type: text/plain;
-	charset=utf-8
-Subject: Re: [PATCH v2] ARM: dts: aspeed: rainier: Add N_MODE_VREF gpio
-From: Adriana Kobylak <anoo@linux.ibm.com>
-In-Reply-To: <CACPK8XfjF+aiEMLocscMEOw8ebKoT2MK8djvv4voyFOBjumXRg@mail.gmail.com>
-Date: Tue, 14 Sep 2021 15:44:06 -0500
-Message-Id: <23EB5226-63A1-45AF-A50E-2A9D6DABFC08@linux.ibm.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4H8P9T3FGXz2xr8;
+ Wed, 15 Sep 2021 12:21:48 +1000 (AEST)
+Received: by mail-qk1-x735.google.com with SMTP id t190so1852792qke.7;
+ Tue, 14 Sep 2021 19:21:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=A+KAQJV7yr5BHufuqHUeYpeLECPeGugfRBKqmtmeEC8=;
+ b=X4as+tR2z4jqAmk5O1K0ygHqymiDqUcDCapkO0TOoqLvDVqIuL0ILdEhs+u4/nVufu
+ fBKOEhOmrgIWoAhtWCjGE0bSYU5Xb44ffJy2fERDSp8lJkW9K4Uwi18q3RgPjV0c/lT+
+ gfi0fNv8Ewl5mdqg4deRUJb8qj7PsinrPIP70=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=A+KAQJV7yr5BHufuqHUeYpeLECPeGugfRBKqmtmeEC8=;
+ b=yPKfFe2KNP3bF41C7pJ3LdkwhCiyq6Fx2Tn175JTZnH7jPWQjroQ1OE19QbFDOu1UO
+ ELP7hjPyuoALcCYj9D5v73R11UV17EhaI1nAr46gRLqSF7Np/wVjfs/mBLJtU1YlVWgA
+ KJW29wWdTHZeA8+qmCTew72T02o+W+cpl150A2TNDstObSu2eYoji2YnOu08mxRc2J1s
+ 5+e9qDqZVNWzR5I+ElOxCw6GvWCnbAs3rO4tnQrz1R9QyjrX+MmuqlbvvxtCpM4sNfM6
+ ya+IQn84PWkXXcbp+5nNukP/4nqdkTnoflsiO/YL5Z6OcvW8lmH18Eik6Vqsbz1YG/qZ
+ 6QZA==
+X-Gm-Message-State: AOAM532bMWqK+4dtCXfi5fYHSQMBlQ2rfcHczG8ttlAnRBLo9vSkSEdP
+ Kjdphpuhim0/Q6Vf+/zyxTpeP61KBg74I2xN7YU=
+X-Google-Smtp-Source: ABdhPJwdfQIBMrmxJzpwVpZM1a+IKrHbWPgYk9i5TDUgw+nGTgDCmDfk9YQHlYuUugQY8Pp8dlh4YM1r7rU7EdBiEM0=
+X-Received: by 2002:a37:67d7:: with SMTP id b206mr7876480qkc.395.1631672504815; 
+ Tue, 14 Sep 2021 19:21:44 -0700 (PDT)
+MIME-Version: 1.0
 References: <20210910195417.2838841-1-anoo@linux.ibm.com>
  <CACPK8XfjF+aiEMLocscMEOw8ebKoT2MK8djvv4voyFOBjumXRg@mail.gmail.com>
-To: Joel Stanley <joel@jms.id.au>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: eX9e3dyr4e7iG9RdGxEOmQ0VDWWLZlcR
-X-Proofpoint-ORIG-GUID: cjNZPeq1AmmwVJFKoAH1z60MEsUQN5Nw
+ <23EB5226-63A1-45AF-A50E-2A9D6DABFC08@linux.ibm.com>
+In-Reply-To: <23EB5226-63A1-45AF-A50E-2A9D6DABFC08@linux.ibm.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Wed, 15 Sep 2021 02:21:32 +0000
+Message-ID: <CACPK8Xd9MK6oZ=Ac85EkKn7vPvEfqjMKSk=73_R=_16US+6gHQ@mail.gmail.com>
+Subject: Re: [PATCH v2] ARM: dts: aspeed: rainier: Add N_MODE_VREF gpio
+To: Adriana Kobylak <anoo@linux.ibm.com>, Andrew Jeffery <andrew@aj.id.au>, 
+ Andrew Geissler <geissonator@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-09-11_02,2021-09-09_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- bulkscore=0 impostorscore=0 suspectscore=0 mlxlogscore=999
- lowpriorityscore=0 clxscore=1015 adultscore=0 phishscore=0
- priorityscore=1501 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2109030001 definitions=main-2109140109
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,160 +83,88 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Tue, 14 Sept 2021 at 20:46, Adriana Kobylak <anoo@linux.ibm.com> wrote:
+>
+>
+>
+> > On Sep 14, 2021, at 3:49 AM, Joel Stanley <joel@jms.id.au> wrote:
+> >
+> > On Fri, 10 Sept 2021 at 19:54, Adriana Kobylak <anoo@linux.ibm.com> wro=
+te:
+> >>
+> >> From: Adriana Kobylak <anoo@us.ibm.com>
+> >>
+> >> The N_MODE_VREF gpio is designed to be used to specify how many power
+> >> supplies the system should have (2 or 4).  If enough power supplies fa=
+il
+> >> so that the system no longer has redundancy (no longer n+1), the
+> >> hardware will signal to the Onboard Chip Controller that the system ma=
+y
+> >> be oversubscribed, and performance may need to be reduced so the syste=
+m
+> >> can maintain it's powered on state. This gpio is on a 9552, populate a=
+ll
+> >> the gpios on that chip for completeness.
+> >>
+> >> Signed-off-by: Adriana Kobylak <anoo@us.ibm.com>
+> >> ---
+> >>
+> >> v2: Update commit message.
+> >>
+> >> arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 103 +++++++++++++++++++
+> >> 1 file changed, 103 insertions(+)
+> >>
+> >> diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/b=
+oot/dts/aspeed-bmc-ibm-rainier.dts
+> >> index 6fd3ddf97a21..d5eea86dc260 100644
+> >> --- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+> >> +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+> >> @@ -1502,6 +1502,109 @@ eeprom@51 {
+> >>                reg =3D <0x51>;
+> >>        };
+> >>
+> >> +       pca_pres3: pca9552@60 {
+> >> +               compatible =3D "nxp,pca9552";
+> >> +               reg =3D <0x60>;
+> >> +               #address-cells =3D <1>;
+> >> +               #size-cells =3D <0>;
+> >> +               gpio-controller;
+> >> +               #gpio-cells =3D <2>;
+> >> +
+> >> +               gpio-line-names =3D
+> >> +                       "",
+> >> +                       "APSS_RESET_N",
+> >> +                       "", "", "", "",
+> >> +                       "P10_DCM0_PRES",
+> >> +                       "P10_DCM1_PRES",
+> >> +                       "", "",
+> >> +                       "N_MODE_CPU_N",
+> >> +                       "",
+> >> +                       "PRESENT_VRM_DCM0_N",
+> >> +                       "PRESENT_VRM_DCM1_N",
+> >> +                       "N_MODE_VREF",
+> >
+> > Should any (all?) of these names be documented?
+> >
+> > https://github.com/openbmc/docs/blob/master/designs/device-tree-gpio-na=
+ming.md
+>
+> Not sure. Seems the openbmc doc is documenting the gpios for gpiochip0 on=
+ly?
 
+AIUI the document is for GPIOs that are exposed to userspace.
 
-> On Sep 14, 2021, at 3:49 AM, Joel Stanley <joel@jms.id.au> wrote:
->=20
-> On Fri, 10 Sept 2021 at 19:54, Adriana Kobylak <anoo@linux.ibm.com> wrote:
->>=20
->> From: Adriana Kobylak <anoo@us.ibm.com>
->>=20
->> The N_MODE_VREF gpio is designed to be used to specify how many power
->> supplies the system should have (2 or 4).  If enough power supplies fail
->> so that the system no longer has redundancy (no longer n+1), the
->> hardware will signal to the Onboard Chip Controller that the system may
->> be oversubscribed, and performance may need to be reduced so the system
->> can maintain it's powered on state. This gpio is on a 9552, populate all
->> the gpios on that chip for completeness.
->>=20
->> Signed-off-by: Adriana Kobylak <anoo@us.ibm.com>
->> ---
->>=20
->> v2: Update commit message.
->>=20
->> arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 103 +++++++++++++++++++
->> 1 file changed, 103 insertions(+)
->>=20
->> diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boo=
-t/dts/aspeed-bmc-ibm-rainier.dts
->> index 6fd3ddf97a21..d5eea86dc260 100644
->> --- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
->> +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
->> @@ -1502,6 +1502,109 @@ eeprom@51 {
->>                reg =3D <0x51>;
->>        };
->>=20
->> +       pca_pres3: pca9552@60 {
->> +               compatible =3D "nxp,pca9552";
->> +               reg =3D <0x60>;
->> +               #address-cells =3D <1>;
->> +               #size-cells =3D <0>;
->> +               gpio-controller;
->> +               #gpio-cells =3D <2>;
->> +
->> +               gpio-line-names =3D
->> +                       "",
->> +                       "APSS_RESET_N",
->> +                       "", "", "", "",
->> +                       "P10_DCM0_PRES",
->> +                       "P10_DCM1_PRES",
->> +                       "", "",
->> +                       "N_MODE_CPU_N",
->> +                       "",
->> +                       "PRESENT_VRM_DCM0_N",
->> +                       "PRESENT_VRM_DCM1_N",
->> +                       "N_MODE_VREF",
->=20
-> Should any (all?) of these names be documented?
->=20
-> https://github.com/openbmc/docs/blob/master/designs/device-tree-gpio-nami=
-ng.md
+It doesn't matter where they're coming from. If they are going to be
+used by a libgpio application, they need to have names, and the names
+should be documented where possible.
 
-Not sure. Seems the openbmc doc is documenting the gpios for gpiochip0 only=
-? The gpio names for 9552 in this patch come from the System Workbook, and =
+> The gpio names for 9552 in this patch come from the System Workbook, and =
 doesn=E2=80=99t seem the gpios from the existing 9552 that also come from t=
 he System Workbook are documented in the openbmc design doc, such as SLOT6_=
 PRSNT_EN_RSVD, SLOT11_EXPANDER_PRSNT_N, etc.
 
->=20
->=20
->> +                       "";
->> +
->> +               gpio@0 {
->> +                       reg =3D <0>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +
->> +               gpio@1 {
->> +                       reg =3D <1>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +
->> +               gpio@2 {
->> +                       reg =3D <2>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +
->> +               gpio@3 {
->> +                       reg =3D <3>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +
->> +               gpio@4 {
->> +                       reg =3D <4>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +
->> +               gpio@5 {
->> +                       reg =3D <5>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +
->> +               gpio@6 {
->> +                       reg =3D <6>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +
->> +               gpio@7 {
->> +                       reg =3D <7>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +
->> +               gpio@8 {
->> +                       reg =3D <8>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +
->> +               gpio@9 {
->> +                       reg =3D <9>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +
->> +               gpio@10 {
->> +                       reg =3D <10>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +
->> +               gpio@11 {
->> +                       reg =3D <11>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +
->> +               gpio@12 {
->> +                       reg =3D <12>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +
->> +               gpio@13 {
->> +                       reg =3D <13>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +
->> +               gpio@14 {
->> +                       reg =3D <14>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +
->> +               gpio@15 {
->> +                       reg =3D <15>;
->> +                       type =3D <PCA955X_TYPE_GPIO>;
->> +               };
->> +       };
->> +
->>        pca_pres2: pca9552@61 {
->>                compatible =3D "nxp,pca9552";
->>                reg =3D <0x61>;
->> --
->> 2.25.1
->>=20
+They should be fixed, if possible.
 
+Cheers,
+
+Joel
