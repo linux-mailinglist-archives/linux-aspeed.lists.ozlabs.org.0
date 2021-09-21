@@ -2,40 +2,86 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E5BB4107F0
-	for <lists+linux-aspeed@lfdr.de>; Sat, 18 Sep 2021 19:53:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A59412DFA
+	for <lists+linux-aspeed@lfdr.de>; Tue, 21 Sep 2021 06:40:10 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HBdjH4zJ9z2yPS
-	for <lists+linux-aspeed@lfdr.de>; Sun, 19 Sep 2021 03:53:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HD7yG06vgz2yQ4
+	for <lists+linux-aspeed@lfdr.de>; Tue, 21 Sep 2021 14:40:06 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=E61X9XFX;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=QY39RzHw;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=jic23@kernel.org; receiver=<UNKNOWN>)
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=aj.id.au (client-ip=64.147.123.18;
+ helo=wnew4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm3 header.b=E61X9XFX; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm3 header.b=QY39RzHw; 
+ dkim-atps=neutral
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HBdjD6JqTz2xxn
- for <linux-aspeed@lists.ozlabs.org>; Sun, 19 Sep 2021 03:53:36 +1000 (AEST)
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net
- [81.101.6.87])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2C0D76101B;
- Sat, 18 Sep 2021 17:53:30 +0000 (UTC)
-Date: Sat, 18 Sep 2021 18:57:10 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [v6 07/11] iio: adc: aspeed: Fix the calculate error of clock.
-Message-ID: <20210918185710.52725301@jic23-huawei>
-In-Reply-To: <1A7A8472-1AAA-4F51-A9CF-08BF1837F9EB@aspeedtech.com>
-References: <20210913075337.19991-1-billy_tsai@aspeedtech.com>
- <20210913075337.19991-8-billy_tsai@aspeedtech.com>
- <1A7A8472-1AAA-4F51-A9CF-08BF1837F9EB@aspeedtech.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HD7y50ntyz2yHD
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 21 Sep 2021 14:39:56 +1000 (AEST)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.west.internal (Postfix) with ESMTP id 01FA52B01422;
+ Tue, 21 Sep 2021 00:39:51 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Tue, 21 Sep 2021 00:39:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=I4ve/cgxK4c8BY7+UtD8bEL+nk
+ Zo9i2k6Rhodknqgww=; b=E61X9XFXPJOOQayHDvUcuo+rTPfjF/ky5zk3Mi4hS2
+ rVVK7HKI5BQweODHKuu2SNklSikLEnAOIzatUf1x7kuwKzatQtG8tUPknIs5tEwC
+ WeIgCgSwgZnqaYJajBac1iUb5AEU7Crh7uNRm4PudjOuvyrWKcwmt9GooSEqsKH9
+ CYmYdY9A5VMxgX62Qu87Jsm9OC9KHz5PIv8rCwVpdF8khFJoT9I/55qqnn1HRQT8
+ GQPGdPZRlM4kemArr9OEUtxrC47/24fL2tFGdsL4y9rYZ8UUsMYUxWenQrbWKH/w
+ GMqT7P2AKDB/oK7+vfBqLNGXOajv2TfAVNMWd2Ap72gA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=I4ve/cgxK4c8BY7+U
+ tD8bEL+nkZo9i2k6Rhodknqgww=; b=QY39RzHwtcUTsQe560mXBFfewJazNxmHD
+ kwLUpf7ulzx9P9K3cbWHYtxi73rS8UXVYnkpWgoNnUWYVwmBe5MIKYeoPJqwYS7p
+ 8vdPnFh/xwbXc/Y0lcfECT9cswW4rB3WpfzGetDElmk99o6KkJywz3cZZ/0q/QdQ
+ TOT14YNDOEY4N5PeZ6qzRHueeixC8eUkNUKd/Gg8yDHzkXjBgdahpO2UkJFXDtKV
+ bhpxE91z17KsYiSiBa9KZrXRv1b30oKbhiFR4j9MdF/lrOkveu8Po4QdJY5VRFur
+ Q/jpmVZwhK+fYOmEguV54k4krU1zeC/MYZDeXMEY0Yw1zCpbTogsw==
+X-ME-Sender: <xms:FmJJYZHJLT_T9fV3dqW3bn9m2U46-eGylFh4XlKuzQXB_3YE8gqlxQ>
+ <xme:FmJJYeU0OeEl9zSWJOabAYrzoNaha1yRsl6ZE8cCPK2NpZFfuU-tv5XvBJb-KbBj-
+ bR0YyIfbpkgG96sgg>
+X-ME-Received: <xmr:FmJJYbKbXZvDlhXv7C8ptlPjqRKPl3orZ4pXxhhk09hj8_genBMP718FbOqfRUpDvoX8pAvKaZbliGvmUvhI_zCcMW6dY7EueWDqSrYWDlzhZrBJpPe8Pa3_2mNKuo_Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeifedgkeehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+ dttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegrjhdr
+ ihgurdgruheqnecuggftrfgrthhtvghrnhepieetheduveelhfdvvdejleeuhfelteevhe
+ ffgfeitdefgeekjeefieevgfehhefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghen
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurh
+ gvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:FmJJYfGiuGlE5cw--FLcNStViYGe8Uy1h9DQ4UQTwmfdb66xrBaeeA>
+ <xmx:FmJJYfWqcVZH0UBaIn9YnzwLehPcyxlDMEUPUf-0McBBRXb6O-4wXQ>
+ <xmx:FmJJYaOEwH6J_x2IEnl145O3Y_kw28D3KNxTrG4gxdHtfVTs1-ViLA>
+ <xmx:F2JJYYPknL0ldam98KQi0LPq5Ky-KgSwjxjyJmQM9K7vP2J_MHVekGZfzYw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 21 Sep 2021 00:39:45 -0400 (EDT)
+From: Andrew Jeffery <andrew@aj.id.au>
+To: linux-leds@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Subject: [PATCH 0/2] leds: pca955x: Expose GPIOs for all pins
+Date: Tue, 21 Sep 2021 14:09:34 +0930
+Message-Id: <20210921043936.468001-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,113 +93,58 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "lars@metafoo.de" <lars@metafoo.de>, "pmeerw@pmeerw.net" <pmeerw@pmeerw.net>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- BMC-SW <BMC-SW@aspeedtech.com>, "broonie@kernel.org" <broonie@kernel.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linus.walleij@linaro.org, linux-kernel@vger.kernel.org,
+ andy.shevchenko@gmail.com, robh+dt@kernel.org, clg@kaod.org, pavel@ucw.cz,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 17 Sep 2021 01:12:13 +0000
-Billy Tsai <billy_tsai@aspeedtech.com> wrote:
+Hello,
 
-> On 2021/9/13, 3:51 PM, "Billy Tsai" <billy_tsai@aspeedtech.com> wrote:
-> 
->     > The ADC clock formula is
->     > ast2400/2500:
->     > ADC clock period = PCLK * 2 * (ADC0C[31:17] + 1) * (ADC0C[9:0] + 1)
->     > ast2600:
->     > ADC clock period = PCLK * 2 * (ADC0C[15:0] + 1)
->     > They all have one fixed divided 2 and the legacy driver didn't handle it.
->     > This patch register the fixed factory clock device as the parent of ADC
->     > clock scaler to fix this issue.  
-> 
->     > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
->     > ---
->     >  drivers/iio/adc/aspeed_adc.c | 27 +++++++++++++++++++++++++++
->     >  1 file changed, 27 insertions(+)  
-> 
->     > diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
->     > index 3ec4e1a2ddd3..262b5f80c728 100644
->     > --- a/drivers/iio/adc/aspeed_adc.c
->     > +++ b/drivers/iio/adc/aspeed_adc.c
->     > @@ -4,6 +4,12 @@
->     >   *
->     >   * Copyright (C) 2017 Google, Inc.
->     >   * Copyright (C) 2021 Aspeed Technology Inc.
->     > + *
->     > + * ADC clock formula:
->     > + * Ast2400/Ast2500:
->     > + * clock period = period of PCLK * 2 * (ADC0C[31:17] + 1) * (ADC0C[9:0] + 1)
->     > + * Ast2600:
->     > + * clock period = period of PCLK * 2 * (ADC0C[15:0] + 1)
->     >   */  
-> 
->     >  #include <linux/clk.h>
->     > @@ -85,6 +91,7 @@ struct aspeed_adc_data {
->     >  	struct regulator	*regulator;
->     >  	void __iomem		*base;
->     >  	spinlock_t		clk_lock;
->     > +	struct clk_hw		*fixed_div_clk;
->     >  	struct clk_hw		*clk_prescaler;
->     >  	struct clk_hw		*clk_scaler;
->     >  	struct reset_control	*rst;
->     > @@ -197,6 +204,13 @@ static const struct iio_info aspeed_adc_iio_info = {
->     >  	.debugfs_reg_access = aspeed_adc_reg_access,
->     >  };  
->  
->     > +static void aspeed_adc_unregister_fixed_divider(void *data)
->     > +{
->     > +	struct clk_hw *clk = data;
->     > +
->     > +	clk_hw_unregister_fixed_factor(clk);
->     > +}
->     > +
->     >  static void aspeed_adc_reset_assert(void *data)
->     >  {
->     >  	struct reset_control *rst = data;
->     > @@ -321,6 +335,19 @@ static int aspeed_adc_probe(struct platform_device *pdev)
->     >  	spin_lock_init(&data->clk_lock);
->     >  	snprintf(clk_parent_name, ARRAY_SIZE(clk_parent_name), "%s",
->     >  		 of_clk_get_parent_name(pdev->dev.of_node, 0));
->     > +	snprintf(clk_name, ARRAY_SIZE(clk_name), "%s-fixed-div",
->     > +		 data->model_data->model_name);
->     > +	data->fixed_div_clk = clk_hw_register_fixed_factor(
->     > +		&pdev->dev, clk_name, clk_parent_name, 0, 1, 2);
->     > +	if (IS_ERR(data->fixed_div_clk))
->     > +		return PTR_ERR(data->fixed_div_clk);
->     > +
->     > +	ret = devm_add_action_or_reset(data->dev,
->     > +				       aspeed_adc_unregister_fixed_divider,
->     > +				       data->clk_prescaler);  
-> 
-> I found that the parameter aspeed_adc_unregister_fixed_divider is wrong.
-> I will send patch v7 after the other patches are reviewed.
+This is a rework of a Rube Goldberg-inspired RFC I posted previously:
 
-I took another look at the series and I'm happy with all of them so will
-(almost certainly) pick them up at v7 unless other reviews come in.
+https://lore.kernel.org/lkml/20210723075858.376378-1-andrew@aj.id.au/
 
-Thanks,
+This time around there's a lot less Rube - the series:
 
-Jonathan
+1. Contains no (ab)use of pinctrl
+2. Always exposes all pins as GPIOs
+3. Internally tracks the active pins
 
-> 
-> Thanks
-> 
->     > +	if (ret)
->     > +		return ret;
->     > +	snprintf(clk_parent_name, ARRAY_SIZE(clk_parent_name), clk_name);  
-> 
->     >  	if (data->model_data->need_prescaler) {
->     >  		snprintf(clk_name, ARRAY_SIZE(clk_name), "%s-prescaler",
->     > -- 
->     > 2.25.1  
-> 
+Without these patches the driver limits the number of pins exposed on
+the gpiochip to the number of pins specified as GPIO in the devicetree,
+but doesn't map between the GPIO and pin number spaces. The result is
+that specifying offset or interleaved GPIOs in the devicetree gives
+unexpected behaviour in userspace.
+
+By always exposing all pins as GPIOs the patches resolve the lack of
+mapping between GPIO offsets and pins on the package in the driver by
+ensuring we always have a 1-to-1 mapping.
+
+The issue is primarily addressed by patch 1/2. Patch 2/2 makes it
+possible to not expose any pins as LEDs (and therefore make them all
+accessible as GPIOs). This has a follow-on effect of allowing the driver
+to bind to a device instantiated at runtime without requiring a
+description in the devicetree.
+
+I've tested the series under qemu to inspect the various interactions
+between LEDs vs GPIOs as well as conflicting GPIO requests.
+
+Please review!
+
+Andrew
+
+Andrew Jeffery (2):
+  leds: pca955x: Make the gpiochip always expose all pins
+  leds: pca955x: Allow zero LEDs to be specified
+
+ drivers/leds/leds-pca955x.c | 65 +++++++++++++++++++------------------
+ 1 file changed, 34 insertions(+), 31 deletions(-)
+
+
+base-commit: 239f32b4f161c1584cd4b386d6ab8766432a6ede
+-- 
+2.30.2
 
