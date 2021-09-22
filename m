@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE8141466D
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Sep 2021 12:32:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9C78414668
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Sep 2021 12:32:47 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HDvkl4rYFz2yZf
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Sep 2021 20:32:47 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HDvkj6Jvpz2ynF
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Sep 2021 20:32:45 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,10 +17,10 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HDvkf73cPz2yN6;
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HDvkf3r3Zz2yJv;
  Wed, 22 Sep 2021 20:32:42 +1000 (AEST)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 18MAB9Ko012569;
+ by twspam01.aspeedtech.com with ESMTP id 18MAB9Cp012570;
  Wed, 22 Sep 2021 18:11:09 +0800 (GMT-8)
  (envelope-from chin-ting_kuo@aspeedtech.com)
 Received: from localhost.localdomain (192.168.10.9) by TWMBX02.aspeed.com
@@ -33,9 +33,9 @@ To: <robh+dt@kernel.org>, <joel@jms.id.au>, <mturquette@baylibre.com>,
  <linux-mmc@vger.kernel.org>, <devicetree@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
  <linux-clk@vger.kernel.org>, <andrew@aj.id.au>
-Subject: [PATCH 07/10] arm: dts: aspeed: Adjust clock phase parameter
-Date: Wed, 22 Sep 2021 18:31:13 +0800
-Message-ID: <20210922103116.30652-8-chin-ting_kuo@aspeedtech.com>
+Subject: [PATCH 08/10] arm: dts: ibm: Adjust clock phase parameter
+Date: Wed, 22 Sep 2021 18:31:14 +0800
+Message-ID: <20210922103116.30652-9-chin-ting_kuo@aspeedtech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210922103116.30652-1-chin-ting_kuo@aspeedtech.com>
 References: <20210922103116.30652-1-chin-ting_kuo@aspeedtech.com>
@@ -45,7 +45,7 @@ X-Originating-IP: [192.168.10.9]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 18MAB9Ko012569
+X-MAIL: twspam01.aspeedtech.com 18MAB9Cp012570
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,77 +62,76 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Change clock phase degree for AST2600 EVB.
-These parameter has been verified with 100MHz
-clock frequency for eMMC and SD controllers.
+- Add max-tap-delay property for eMMC controller.
+- Change clock phase degree for AST2600 on IBM platforms.
 
 Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
 ---
- arch/arm/boot/dts/aspeed-ast2600-evb-a1.dts | 8 ++++++++
- arch/arm/boot/dts/aspeed-ast2600-evb.dts    | 9 ++++++---
- 2 files changed, 14 insertions(+), 3 deletions(-)
+ arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts | 3 ++-
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 3 ++-
+ arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts  | 3 ++-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm/boot/dts/aspeed-ast2600-evb-a1.dts b/arch/arm/boot/dts/aspeed-ast2600-evb-a1.dts
-index dd7148060c4a..2d83617dc436 100644
---- a/arch/arm/boot/dts/aspeed-ast2600-evb-a1.dts
-+++ b/arch/arm/boot/dts/aspeed-ast2600-evb-a1.dts
-@@ -13,3 +13,11 @@
- };
- 
- /delete-node/ &sdc;
-+
-+&emmc_controller {
-+	max-tap-delay = <706>;
-+};
-+
-+&emmc {
-+	clk-phase-mmc-hs200 = <0 13>, <1 103>;
-+};
-diff --git a/arch/arm/boot/dts/aspeed-ast2600-evb.dts b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
-index 4551dba499c2..f728b9d9b4cf 100644
---- a/arch/arm/boot/dts/aspeed-ast2600-evb.dts
-+++ b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
-@@ -143,13 +143,15 @@
+diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
+index 2efd70666738..eccb4749755a 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts
+@@ -2824,6 +2824,7 @@
  
  &emmc_controller {
  	status = "okay";
-+	/* Measured value with *handwave* environmentals and static loading */
-+	max-tap-delay = <736>;
++	max-tap-delay = <1253>;
+ };
+ 
+ &pinctrl_emmc_default {
+@@ -2832,7 +2833,7 @@
+ 
+ &emmc {
+ 	status = "okay";
+-	clk-phase-mmc-hs200 = <210>, <228>;
++	clk-phase-mmc-hs200 = <1 124>, <1 141>;
+ };
+ 
+ &fsim0 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+index 6419c9762c0b..2138a8a10d6e 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+@@ -299,6 +299,7 @@
+ 
+ &emmc_controller {
+ 	status = "okay";
++	max-tap-delay = <1253>;
+ };
+ 
+ &pinctrl_emmc_default {
+@@ -307,7 +308,7 @@
+ 
+ &emmc {
+ 	status = "okay";
+-	clk-phase-mmc-hs200 = <180>, <180>;
++	clk-phase-mmc-hs200 = <1 90>, <1 90>;
+ };
+ 
+ &fsim0 {
+diff --git a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+index e39f310d55eb..7427809354cc 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts
+@@ -182,11 +182,12 @@
+ 
+ &emmc_controller {
+ 	status = "okay";
++	max-tap-delay = <1253>;
  };
  
  &emmc {
- 	non-removable;
- 	bus-width = <4>;
- 	max-frequency = <100000000>;
--	clk-phase-mmc-hs200 = <9>, <225>;
-+	clk-phase-mmc-hs200 = <0 27>, <1 95>;
- };
- 
- &rtc {
-@@ -260,6 +262,7 @@
- 
- &sdc {
  	status = "okay";
-+	max-tap-delay = <9000>;
+-	clk-phase-mmc-hs200 = <36>, <270>;
++	clk-phase-mmc-hs200 = <0 40>, <1 181>;
  };
  
- /*
-@@ -287,7 +290,7 @@
- 	sdhci,wp-inverted;
- 	vmmc-supply = <&vcc_sdhci0>;
- 	vqmmc-supply = <&vccq_sdhci0>;
--	clk-phase-sd-hs = <7>, <200>;
-+	clk-phase-uhs-sdr50 = <0 130>, <0 238>;
- };
- 
- &sdhci1 {
-@@ -300,5 +303,5 @@
- 	sdhci,wp-inverted;
- 	vmmc-supply = <&vcc_sdhci1>;
- 	vqmmc-supply = <&vccq_sdhci1>;
--	clk-phase-sd-hs = <7>, <200>;
-+	clk-phase-uhs-sdr50 = <0 130>, <0 130>;
- };
+ &fsim0 {
 -- 
 2.17.1
 
