@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69799414360
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Sep 2021 10:15:37 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B2341435E
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Sep 2021 10:15:32 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HDrhR23PQz2ymy
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Sep 2021 18:15:35 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HDrhL3Bcgz2ypM
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Sep 2021 18:15:30 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,10 +17,10 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HDrhN1Hgsz2yMP
- for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Sep 2021 18:15:32 +1000 (AEST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HDrhD5Nj5z2yLq
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Sep 2021 18:15:22 +1000 (AEST)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 18M7sbIp099782;
+ by twspam01.aspeedtech.com with ESMTP id 18M7sbl9099783;
  Wed, 22 Sep 2021 15:54:37 +0800 (GMT-8)
  (envelope-from billy_tsai@aspeedtech.com)
 Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
@@ -33,9 +33,9 @@ To: <jic23@kernel.org>, <lars@metafoo.de>, <pmeerw@pmeerw.net>,
  <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>,
  <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [v7 02/11] iio: adc: aspeed: Restructure the model data
-Date: Wed, 22 Sep 2021 16:15:11 +0800
-Message-ID: <20210922081520.30580-3-billy_tsai@aspeedtech.com>
+Subject: [v7 03/11] iio: adc: aspeed: Add vref config function
+Date: Wed, 22 Sep 2021 16:15:12 +0800
+Message-ID: <20210922081520.30580-4-billy_tsai@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210922081520.30580-1-billy_tsai@aspeedtech.com>
 References: <20210922081520.30580-1-billy_tsai@aspeedtech.com>
@@ -46,7 +46,7 @@ X-Originating-IP: [192.168.2.149]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 18M7sbIp099782
+X-MAIL: twspam01.aspeedtech.com 18M7sbl9099783
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,92 +63,64 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This patch refactors the model data structure to distinguish the
-function form different versions of aspeed ADC.
-- Rename the vref_voltage to vref_fixed_mv and add vref_mv driver data
-When driver probe will check vref_fixed_mv value and store it to vref_mv
-which isn't const value.
-- Add num_channels
-Make num_channles of iio device can be changed by different model_data
-- Add need_prescaler flag and scaler_bit_width
-The need_prescaler flag is used to tell the driver the clock divider needs
-another Prescaler and the scaler_bit_width to set the clock divider
-bitfield width.
+Add the function to check the vref_fixed_mv and set the value to driver
+data.
 
 Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 ---
- drivers/iio/adc/aspeed_adc.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ drivers/iio/adc/aspeed_adc.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
-index 76ae1c3f584b..cc808ec89a0f 100644
+index cc808ec89a0f..aec335956310 100644
 --- a/drivers/iio/adc/aspeed_adc.c
 +++ b/drivers/iio/adc/aspeed_adc.c
-@@ -71,8 +71,11 @@ struct aspeed_adc_model_data {
- 	const char *model_name;
- 	unsigned int min_sampling_rate;	// Hz
- 	unsigned int max_sampling_rate;	// Hz
--	unsigned int vref_voltage;	// mV
-+	unsigned int vref_fixed_mv;
- 	bool wait_init_sequence;
-+	bool need_prescaler;
-+	u8 scaler_bit_width;
-+	unsigned int num_channels;
- };
- 
- struct aspeed_adc_data {
-@@ -83,6 +86,7 @@ struct aspeed_adc_data {
- 	struct clk_hw		*clk_prescaler;
- 	struct clk_hw		*clk_scaler;
- 	struct reset_control	*rst;
-+	int			vref_mv;
- };
- 
- #define ASPEED_CHAN(_idx, _data_reg_addr) {			\
-@@ -126,7 +130,7 @@ static int aspeed_adc_read_raw(struct iio_dev *indio_dev,
+@@ -130,7 +130,7 @@ static int aspeed_adc_read_raw(struct iio_dev *indio_dev,
  		return IIO_VAL_INT;
  
  	case IIO_CHAN_INFO_SCALE:
--		*val = data->model_data->vref_voltage;
-+		*val = data->model_data->vref_fixed_mv;
+-		*val = data->model_data->vref_fixed_mv;
++		*val = data->vref_mv;
  		*val2 = ASPEED_RESOLUTION_BITS;
  		return IIO_VAL_FRACTIONAL_LOG2;
  
-@@ -280,7 +284,7 @@ static int aspeed_adc_probe(struct platform_device *pdev)
- 	indio_dev->info = &aspeed_adc_iio_info;
- 	indio_dev->modes = INDIO_DIRECT_MODE;
- 	indio_dev->channels = aspeed_adc_iio_channels;
--	indio_dev->num_channels = ARRAY_SIZE(aspeed_adc_iio_channels);
-+	indio_dev->num_channels = data->model_data->num_channels;
- 
- 	ret = iio_device_register(indio_dev);
- 	if (ret)
-@@ -320,17 +324,23 @@ static int aspeed_adc_remove(struct platform_device *pdev)
- 
- static const struct aspeed_adc_model_data ast2400_model_data = {
- 	.model_name = "ast2400-adc",
--	.vref_voltage = 2500, // mV
-+	.vref_fixed_mv = 2500,
- 	.min_sampling_rate = 10000,
- 	.max_sampling_rate = 500000,
-+	.need_prescaler = true,
-+	.scaler_bit_width = 10,
-+	.num_channels = 16,
+@@ -195,6 +195,17 @@ static const struct iio_info aspeed_adc_iio_info = {
+ 	.debugfs_reg_access = aspeed_adc_reg_access,
  };
  
- static const struct aspeed_adc_model_data ast2500_model_data = {
- 	.model_name = "ast2500-adc",
--	.vref_voltage = 1800, // mV
-+	.vref_fixed_mv = 1800,
- 	.min_sampling_rate = 1,
- 	.max_sampling_rate = 1000000,
- 	.wait_init_sequence = true,
-+	.need_prescaler = true,
-+	.scaler_bit_width = 10,
-+	.num_channels = 16,
- };
++static int aspeed_adc_vref_config(struct iio_dev *indio_dev)
++{
++	struct aspeed_adc_data *data = iio_priv(indio_dev);
++
++	if (data->model_data->vref_fixed_mv) {
++		data->vref_mv = data->model_data->vref_fixed_mv;
++		return 0;
++	}
++	return 0;
++}
++
+ static int aspeed_adc_probe(struct platform_device *pdev)
+ {
+ 	struct iio_dev *indio_dev;
+@@ -250,6 +261,10 @@ static int aspeed_adc_probe(struct platform_device *pdev)
+ 	}
+ 	reset_control_deassert(data->rst);
  
- static const struct of_device_id aspeed_adc_matches[] = {
++	ret = aspeed_adc_vref_config(indio_dev);
++	if (ret)
++		goto vref_config_error;
++
+ 	if (data->model_data->wait_init_sequence) {
+ 		/* Enable engine in normal mode. */
+ 		writel(FIELD_PREP(ASPEED_ADC_OP_MODE,
+@@ -298,6 +313,7 @@ static int aspeed_adc_probe(struct platform_device *pdev)
+ 	clk_disable_unprepare(data->clk_scaler->clk);
+ clk_enable_error:
+ poll_timeout_error:
++vref_config_error:
+ 	reset_control_assert(data->rst);
+ reset_error:
+ 	clk_hw_unregister_divider(data->clk_scaler);
 -- 
 2.25.1
 
