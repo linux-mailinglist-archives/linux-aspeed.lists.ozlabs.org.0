@@ -1,52 +1,71 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3830C41436F
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Sep 2021 10:16:18 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 202D541450E
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Sep 2021 11:24:33 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HDrjD0Pc5z2yfg
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Sep 2021 18:16:16 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HDtCz00WDz2ym5
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Sep 2021 19:24:30 +1000 (AEST)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=baylibre-com.20210112.gappssmtp.com header.i=@baylibre-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=hdQl6Jhv;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com;
+ smtp.mailfrom=baylibre.com (client-ip=2607:f8b0:4864:20::736;
+ helo=mail-qk1-x736.google.com; envelope-from=bgolaszewski@baylibre.com;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=baylibre-com.20210112.gappssmtp.com
+ header.i=@baylibre-com.20210112.gappssmtp.com header.a=rsa-sha256
+ header.s=20210112 header.b=hdQl6Jhv; dkim-atps=neutral
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
+ [IPv6:2607:f8b0:4864:20::736])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HDrj84Fkxz2xKT
- for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Sep 2021 18:16:12 +1000 (AEST)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 18M7sdQ0099805;
- Wed, 22 Sep 2021 15:54:39 +0800 (GMT-8)
- (envelope-from billy_tsai@aspeedtech.com)
-Received: from BillyTsai-pc.aspeed.com (192.168.2.149) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 22 Sep
- 2021 16:14:57 +0800
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-To: <jic23@kernel.org>, <lars@metafoo.de>, <pmeerw@pmeerw.net>,
- <robh+dt@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
- <p.zabel@pengutronix.de>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
- <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [v7 11/11] iio: adc: aspeed: Get and set trimming data.
-Date: Wed, 22 Sep 2021 16:15:20 +0800
-Message-ID: <20210922081520.30580-12-billy_tsai@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210922081520.30580-1-billy_tsai@aspeedtech.com>
-References: <20210922081520.30580-1-billy_tsai@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HDtCv2X9Wz2yQ8
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Sep 2021 19:24:23 +1000 (AEST)
+Received: by mail-qk1-x736.google.com with SMTP id p4so7602502qki.3
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Sep 2021 02:24:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qQjS+YUNUrQvd5p8/QPjpYBhtl8QQcNn03ovFra/KVc=;
+ b=hdQl6Jhv3nKZPrRqxUD2kabVRg98+lvqgn0CoqSwGnnrDujQzC69v6nON0dRjJfVec
+ 52e8QEZnDENir/5Twp754+5olSRwaYd0d5E/NnqVPxxjpekU2VL/Odg2EWucQDC3/zwZ
+ GOIxWYwg42AitFyF696e21sf16kvS2qJAH6Tmk4y0gd2wig/p+DTZ2Nyh2ddnLuFPnvF
+ pw1zBFHBP6s8LCkmIwy/WSMjvdSVi8OUdLSArKRpuafTBOy0bEPLl9SRuC0vBfL7iLKv
+ PG4LJhWp+8brmA7zsWKrcgqOJxYHGIB4OKydFwYovbcsFc0C4zhQBuP3bplk6SoLP/VW
+ opbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qQjS+YUNUrQvd5p8/QPjpYBhtl8QQcNn03ovFra/KVc=;
+ b=MSIWc7jAbAJG6SJpr/hGFntrk9wGjDUC2m/1OWCzVfeWdnE3bX/s6VUR/Seqb+xhfk
+ 49ead+MNoCW6EXUnNZWp6PSJ688Yj/XZAwH7HMsxipPYFHViKSqe+p2IoSVbZnpd+poe
+ GTfrLlr6wD7and67pU7FX9tAgkWwySf7DltX7PcvQlCt4oukSyWZGiybFxtu+RexgNIE
+ U8xgjxQWlckA+BydK+kBdLzqimQx3mNHdZDB3dMR+1W4We+O9A+6XxZ6pCI5NHjNhaP4
+ 9MRGojkNbc9Z/E7ePgWJyjxVp2pPR2uIP9pYn8RYKSUHwIaewHf4VtVYIk6mbppNcwOR
+ f1Kw==
+X-Gm-Message-State: AOAM530TL1I4tGNbKOUcfARIc1hI4OA5slxFwYCmS7Gff4at+V5uKzWV
+ 3M68xzmh6Fwtfav3laaeW924qTG0qQNFxbkpWGYH8g==
+X-Google-Smtp-Source: ABdhPJwLDef2xFFrYqwxuqRg5CszN9RklipON1tm1Qj57SF5l366b9nDgkBGGoz51etUG4uuzzrqW2ZyVSSBfmmG7JM=
+X-Received: by 2002:a25:7146:: with SMTP id m67mr43571579ybc.353.1632302659089; 
+ Wed, 22 Sep 2021 02:24:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.149]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 18M7sdQ0099805
+References: <20210907095525.24668-1-steven_lee@aspeedtech.com>
+ <20210907095525.24668-2-steven_lee@aspeedtech.com>
+In-Reply-To: <20210907095525.24668-2-steven_lee@aspeedtech.com>
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date: Wed, 22 Sep 2021 11:24:08 +0200
+Message-ID: <CAMpxmJVzAiZvg2xfUGgt5RqTyRbZggkxUTGZJod_5Tq2pzsS8g@mail.gmail.com>
+Subject: Re: [PATCH -next v1 1/1] gpio: gpio-aspeed-sgpio: Fix wrong hwirq in
+ irq handler.
+To: Steven Lee <steven_lee@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,161 +77,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
+Cc: "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-aspeed@lists.ozlabs.org>, Linus Walleij <linus.walleij@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Hongwei Zhang <Hongweiz@ami.com>,
+ "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The ADC controller has a trimming register for fine-tune the reference
-voltage. The trimming value comes from the OTP register which will be
-written during chip production. This patch will read this OTP value and
-configure it to the ADC register when the ADC controller probes and using
-dts property "aspeed,trim-data-valid" to determine whether to execute this
-flow.
+On Tue, Sep 7, 2021 at 11:55 AM Steven Lee <steven_lee@aspeedtech.com> wrote:
+>
+> The current hwirq is calculated based on the old GPIO pin order(input
+> GPIO range is from 0 to ngpios - 1).
+> It should be calculated based on the current GPIO input pin order(input
+> GPIOs are 0, 2, 4, ..., (ngpios - 1) * 2).
+>
+> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
+> ---
+>  drivers/gpio/gpio-aspeed-sgpio.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpio/gpio-aspeed-sgpio.c b/drivers/gpio/gpio-aspeed-sgpio.c
+> index 10f303d15225..3d6ef37a7702 100644
+> --- a/drivers/gpio/gpio-aspeed-sgpio.c
+> +++ b/drivers/gpio/gpio-aspeed-sgpio.c
+> @@ -395,7 +395,7 @@ static void aspeed_sgpio_irq_handler(struct irq_desc *desc)
+>                 reg = ioread32(bank_reg(data, bank, reg_irq_status));
+>
+>                 for_each_set_bit(p, &reg, 32)
+> -                       generic_handle_domain_irq(gc->irq.domain, i * 32 + p);
+> +                       generic_handle_domain_irq(gc->irq.domain, i * 32 + p * 2);
+>         }
+>
+>         chained_irq_exit(ic, desc);
+> --
+> 2.17.1
+>
 
-Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
----
- drivers/iio/adc/aspeed_adc.c | 71 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 71 insertions(+)
+Applied for fixes, thanks!
 
-diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
-index e22c59f6c3d0..c7e15c0c1951 100644
---- a/drivers/iio/adc/aspeed_adc.c
-+++ b/drivers/iio/adc/aspeed_adc.c
-@@ -25,6 +25,8 @@
- #include <linux/spinlock.h>
- #include <linux/types.h>
- #include <linux/bitfield.h>
-+#include <linux/regmap.h>
-+#include <linux/mfd/syscon.h>
- 
- #include <linux/iio/iio.h>
- #include <linux/iio/driver.h>
-@@ -80,6 +82,11 @@
-  */
- #define ASPEED_ADC_DEF_SAMPLING_RATE	65000
- 
-+struct aspeed_adc_trim_locate {
-+	const unsigned int offset;
-+	const unsigned int field;
-+};
-+
- struct aspeed_adc_model_data {
- 	const char *model_name;
- 	unsigned int min_sampling_rate;	// Hz
-@@ -90,6 +97,7 @@ struct aspeed_adc_model_data {
- 	bool bat_sense_sup;
- 	u8 scaler_bit_width;
- 	unsigned int num_channels;
-+	const struct aspeed_adc_trim_locate *trim_locate;
- };
- 
- struct adc_gain {
-@@ -165,6 +173,44 @@ static const struct iio_chan_spec aspeed_adc_iio_bat_channels[] = {
- 	ASPEED_BAT_CHAN(7, 0x1E),
- };
- 
-+static int aspeed_adc_set_trim_data(struct iio_dev *indio_dev)
-+{
-+	struct device_node *syscon;
-+	struct regmap *scu;
-+	u32 scu_otp, trimming_val;
-+	struct aspeed_adc_data *data = iio_priv(indio_dev);
-+
-+	syscon = of_find_node_by_name(NULL, "syscon");
-+	if (syscon == NULL) {
-+		dev_warn(data->dev, "Couldn't find syscon node\n");
-+		return -EOPNOTSUPP;
-+	}
-+	scu = syscon_node_to_regmap(syscon);
-+	if (IS_ERR(scu)) {
-+		dev_warn(data->dev, "Failed to get syscon regmap\n");
-+		return -EOPNOTSUPP;
-+	}
-+	if (data->model_data->trim_locate) {
-+		if (regmap_read(scu, data->model_data->trim_locate->offset,
-+				&scu_otp)) {
-+			dev_warn(data->dev,
-+				 "Failed to get adc trimming data\n");
-+			trimming_val = 0x8;
-+		} else {
-+			trimming_val =
-+				((scu_otp) &
-+				 (data->model_data->trim_locate->field)) >>
-+				__ffs(data->model_data->trim_locate->field);
-+		}
-+		dev_dbg(data->dev,
-+			"trimming val = %d, offset = %08x, fields = %08x\n",
-+			trimming_val, data->model_data->trim_locate->offset,
-+			data->model_data->trim_locate->field);
-+		writel(trimming_val, data->base + ASPEED_REG_COMPENSATION_TRIM);
-+	}
-+	return 0;
-+}
-+
- static int aspeed_adc_compensation(struct iio_dev *indio_dev)
- {
- 	struct aspeed_adc_data *data = iio_priv(indio_dev);
-@@ -514,6 +560,13 @@ static int aspeed_adc_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
-+	if (of_find_property(data->dev->of_node, "aspeed,trim-data-valid",
-+			     NULL)) {
-+		ret = aspeed_adc_set_trim_data(indio_dev);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	if (of_find_property(data->dev->of_node, "aspeed,battery-sensing",
- 			     NULL)) {
- 		if (data->model_data->bat_sense_sup) {
-@@ -590,6 +643,21 @@ static int aspeed_adc_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
-+static const struct aspeed_adc_trim_locate ast2500_adc_trim = {
-+	.offset = 0x154,
-+	.field = GENMASK(31, 28),
-+};
-+
-+static const struct aspeed_adc_trim_locate ast2600_adc0_trim = {
-+	.offset = 0x5d0,
-+	.field = GENMASK(3, 0),
-+};
-+
-+static const struct aspeed_adc_trim_locate ast2600_adc1_trim = {
-+	.offset = 0x5d0,
-+	.field = GENMASK(7, 4),
-+};
-+
- static const struct aspeed_adc_model_data ast2400_model_data = {
- 	.model_name = "ast2400-adc",
- 	.vref_fixed_mv = 2500,
-@@ -609,6 +677,7 @@ static const struct aspeed_adc_model_data ast2500_model_data = {
- 	.need_prescaler = true,
- 	.scaler_bit_width = 10,
- 	.num_channels = 16,
-+	.trim_locate = &ast2500_adc_trim,
- };
- 
- static const struct aspeed_adc_model_data ast2600_adc0_model_data = {
-@@ -619,6 +688,7 @@ static const struct aspeed_adc_model_data ast2600_adc0_model_data = {
- 	.bat_sense_sup = true,
- 	.scaler_bit_width = 16,
- 	.num_channels = 8,
-+	.trim_locate = &ast2600_adc0_trim,
- };
- 
- static const struct aspeed_adc_model_data ast2600_adc1_model_data = {
-@@ -629,6 +699,7 @@ static const struct aspeed_adc_model_data ast2600_adc1_model_data = {
- 	.bat_sense_sup = true,
- 	.scaler_bit_width = 16,
- 	.num_channels = 8,
-+	.trim_locate = &ast2600_adc1_trim,
- };
- 
- static const struct of_device_id aspeed_adc_matches[] = {
--- 
-2.25.1
-
+Bart
