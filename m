@@ -2,97 +2,48 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B643C4230B9
-	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Oct 2021 21:22:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59F94423457
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Oct 2021 01:13:27 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HP6tL3clSz2ymq
-	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Oct 2021 06:22:50 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=qS+pVncP;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HPD0P1n9Jz2xtH
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Oct 2021 10:13:25 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=anoo@linux.ibm.com;
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=tommy_huang@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
- header.s=pp1 header.b=qS+pVncP; dkim-atps=neutral
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HP6tC441mz2xX8;
- Wed,  6 Oct 2021 06:22:42 +1100 (AEDT)
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 195IGSoG029152; 
- Tue, 5 Oct 2021 15:22:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=IxD25rDbm/u5c/0cZr2UhQqHUCON5rxL3c1FpfqnLRI=;
- b=qS+pVncPzIs7Vz+3KYnoIu3hbYN6epwOMvUZadmEtorq53xNh1COgZyYwl0VbFoC80Q0
- n1nJLlV3g0IwmDTqeriS4zhtVgWd1fELR1PQiBlFWweCBPdMS2OQGpYas44MofLLu0Nz
- l/Gl3aKZ9LHhLNZFE+AOGlP0Fl+xgo7BOPLOet+qnmx6aI0zHULEqzSu1YsZF1Oxc6ab
- OgcLm7DNbU8jUQTYXc8kd8VsaCpd7g+tZctrEIWr1O/zccuey0aQIMigwfCKyZxlkJh8
- +USMHC45D41aAGair58wH2X8WZnWKHIrfHjlGF1bxdpZMVl0kufZMddp3/u/X10rt/Mf eQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3bguu8sh8k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Oct 2021 15:22:34 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 195IpSHB020591;
- Tue, 5 Oct 2021 15:22:34 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3bguu8sh89-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Oct 2021 15:22:34 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 195JICxs002209;
- Tue, 5 Oct 2021 19:22:33 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma01dal.us.ibm.com with ESMTP id 3bef2d9j44-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Oct 2021 19:22:33 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
- [9.57.199.108])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 195JMSLN18940312
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Oct 2021 19:22:28 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9417FB206C;
- Tue,  5 Oct 2021 19:22:28 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EC6DCB2064;
- Tue,  5 Oct 2021 19:22:27 +0000 (GMT)
-Received: from fstone01p1.aus.stglabs.ibm.com (unknown [9.3.116.196])
- by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  5 Oct 2021 19:22:27 +0000 (GMT)
-From: Adriana Kobylak <anoo@linux.ibm.com>
-To: joel@jms.id.au, eajames@linux.ibm.com,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Subject: [PATCH v3] ARM: dts: aspeed: rainier: Add power-config-full-load gpio
-Date: Tue,  5 Oct 2021 19:22:26 +0000
-Message-Id: <20211005192226.213539-1-anoo@linux.ibm.com>
-X-Mailer: git-send-email 2.25.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: uKKUgnI4RP0iibHenc-3QdLTjJvlEZoI
-X-Proofpoint-GUID: 0-FZWjGJrQ_ZknfIephQA9Y0N0F01dny
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HJPMW1hzFz2xsm
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 28 Sep 2021 12:57:54 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 18S2aTCb072684;
+ Tue, 28 Sep 2021 10:36:29 +0800 (GMT-8)
+ (envelope-from tommy_huang@aspeedtech.com)
+Received: from tommy0527-VirtualBox.aspeedtech.com (192.168.2.141) by
+ TWMBX02.aspeed.com (192.168.0.24) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 28 Sep 2021 10:57:10 +0800
+From: tommy-huang <tommy_huang@aspeedtech.com>
+To: <joel@jms.id.au>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <robh+dt@kernel.org>, <andrew@aj.id.au>,
+ <linux-aspeed@lists.ozlabs.org>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH 0/6] *** Add AST2600 GFX node ***
+Date: Tue, 28 Sep 2021 10:56:57 +0800
+Message-ID: <20210928025703.10909-1-tommy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-10-05_04,2021-10-04_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- clxscore=1015 phishscore=0 mlxlogscore=991 bulkscore=0 malwarescore=0
- impostorscore=0 spamscore=0 lowpriorityscore=0 adultscore=0 suspectscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109230001 definitions=main-2110050112
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.141]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 18S2aTCb072684
+X-Mailman-Approved-At: Wed, 06 Oct 2021 10:12:27 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,57 +55,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: spinler@us.ibm.com, derekh@us.ibm.com, openbmc@lists.ozlabs.org,
- Adriana Kobylak <anoo@us.ibm.com>, shawnmm@us.ibm.com
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Adriana Kobylak <anoo@us.ibm.com>
+Add AST2600 GFX support first.
 
-Add the power-config-full-load described in:
-https://github.com/openbmc/docs/blob/master/designs/device-tree-gpio-naming.md#power-config-full-load
+Joel Stanley (5):
+  ARM: dts: aspeed: Add GFX node to AST2600
+  ARM: dts: aspeed: ast2600-evb: Enable GFX device
+  drm/aspeed: Add AST2600 support
+  HACK: drm/aspeed: INTR_STS hadndling
+  HACK: drm/aspeed: Paramterise modes
 
-The power-config-full-load gpio is designed to be used to specify how
-many power supplies the system should have, in rainier it is 2 or 4.  If
-enough power supplies fail so that the system no longer has redundancy
-(no longer n+1), the hardware will signal to the Onboard Chip Controller
-that the system may be oversubscribed, and performance may need to be
-reduced so the system can maintain it's powered on state.
+tommy-huang (1):
+  dt-bindings: gpu: Add ASPEED GFX bindings document
 
-Signed-off-by: Adriana Kobylak <anoo@us.ibm.com>
----
+ .../devicetree/bindings/gpu/aspeed-gfx.txt     |  1 +
+ arch/arm/boot/dts/aspeed-ast2600-evb.dts       | 13 +++++++++++++
+ arch/arm/boot/dts/aspeed-g6.dtsi               | 11 +++++++++++
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c        | 18 +++++++++++++-----
+ 4 files changed, 38 insertions(+), 5 deletions(-)
 
-v2: Update commit message.
-v3: Updated gpio name to power-config-full-load to match design doc.
-
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-index 33fae8ad1305..10bde77fb847 100644
---- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-@@ -1998,6 +1998,19 @@ eeprom@51 {
- 		reg = <0x51>;
- 	};
- 
-+	pca_pres3: pca9552@60 {
-+		compatible = "nxp,pca9552";
-+		reg = <0x60>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		gpio-line-names =
-+			"", "", "", "", "", "", "", "",
-+			"", "", "", "", "", "", "power-config-full-load", "";
-+	};
-+
- 	pca_pres2: pca9552@61 {
- 		compatible = "nxp,pca9552";
- 		reg = <0x61>;
 -- 
-2.25.1
+2.17.1
 
