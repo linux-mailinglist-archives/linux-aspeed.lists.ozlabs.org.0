@@ -2,62 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9E441CEA5
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Sep 2021 00:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4CB241CF19
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Sep 2021 00:11:35 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HKVk56LLkz2yxv
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Sep 2021 08:03:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HKVvn57WCz2yJw
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Sep 2021 08:11:33 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.210.51; helo=mail-ot1-f51.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
- [209.85.210.51])
+ smtp.mailfrom=gmail.com (client-ip=209.85.167.179;
+ helo=mail-oi1-f179.google.com; envelope-from=robherring2@gmail.com;
+ receiver=<UNKNOWN>)
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com
+ [209.85.167.179])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HKVk13wDwz2xXV;
- Thu, 30 Sep 2021 08:03:04 +1000 (AEST)
-Received: by mail-ot1-f51.google.com with SMTP id
- l16-20020a9d6a90000000b0053b71f7dc83so4739601otq.7; 
- Wed, 29 Sep 2021 15:03:04 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HKVvh4jh5z2xtZ;
+ Thu, 30 Sep 2021 08:11:27 +1000 (AEST)
+Received: by mail-oi1-f179.google.com with SMTP id t189so4786528oie.7;
+ Wed, 29 Sep 2021 15:11:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=GcUYa1rhgvpl8VdHADUZYNm6UstnV1HeTo+qppWEyug=;
- b=JQLdgSrUGhwEnaR8Z31g4BGWEgz30dfV5HPR9SN80K1TbiHRqHvWqO5Al1pGjuhCxz
- QrOFFoadT+PSrQuEqlGw36UcSGxe5g5lGmwL1HIBwXxIoPbLCWFg7xH89EbVfJK393Xx
- /PpnJVuhi3mlX2v6b6LGkmyPPO1PF96kLc/0S1VXPGpVBUHXTqQKUlIeUUQfFodm1kST
- JDpsaN6TF7XdLgXkSwqKOUWYYXCvJWizixAzqSb5nasyJRga+XVmjEBi73RY9va6MgME
- 1Zb3LBwxLFG0JSpXUkZzPskP3hNKkaNvaLUnz9MNj2eJarXRSqQMKR1ATsJpABs+H+qK
- cyOw==
-X-Gm-Message-State: AOAM532GZgOCgbOxorclaOP0V3ZQoTvaPyMtISup1cptn7rqgS2eGlB7
- 9yboRmtDLD5YoUJ39uGC8A==
-X-Google-Smtp-Source: ABdhPJwQDOagZBRoi522zoziMq1VzMOqfIKxn1VI4w493zMZ5pqhJf7meCiZxSI/vfoTJIF3QFV01A==
-X-Received: by 2002:a05:6830:1d3:: with SMTP id
- r19mr2092898ota.136.1632952981336; 
- Wed, 29 Sep 2021 15:03:01 -0700 (PDT)
+ bh=Xe2Jz+HG0oynCJl0Rh79iqr/d53l3gDFqX1VxKfAJeg=;
+ b=OfW00goHuMuvQynhsSuZyZSKuLwOrGu+TF9lKUkzqRxhDOiA6FDljz7/OV7Bti/xuc
+ 243AYTO4hs2hP6UYiDwlsW+AmVvncllggUEmRNsYWbz8mSJZ+fObKZ0ppq/CidT4bWWy
+ +RnMSh1Ln2t69iDvYI2n04r8YosCHLgKXG3LmHNMvdC1pqdzi6rCK1mT0ztv3GtXIXs3
+ 1f3w/0LDPUZ/A7H8b3Du9aUnZpeMTBtgreIwF8kwQ7scIGo09WInSCNy9MwFM0Uc7KOz
+ mIuoECdbrN006r+SeDEAczj5ZQlf8oDDEILADSm0Cc476heJUDbF1LE28AepaOw4ggZH
+ ttYA==
+X-Gm-Message-State: AOAM530cXvtVxo0E9qb/D3fZGG31lLM5CSlea7Rs4aoCiJ9hiwowQdCr
+ Rbo5AGQtJCeK+n5/CmnD0Q==
+X-Google-Smtp-Source: ABdhPJy/+/VB5A39jM44w1plBCdCfDo7DjkavPi1UzNuFA1EpZDX2UQk/OCAu6tqg2tZ2h0FWKJbAA==
+X-Received: by 2002:a05:6808:309f:: with SMTP id
+ bl31mr17941oib.41.1632953485705; 
+ Wed, 29 Sep 2021 15:11:25 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
  [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id q25sm210326oof.33.2021.09.29.15.03.00
+ by smtp.gmail.com with ESMTPSA id k2sm207954oog.5.2021.09.29.15.11.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Sep 2021 15:03:00 -0700 (PDT)
-Received: (nullmailer pid 298763 invoked by uid 1000);
- Wed, 29 Sep 2021 22:02:59 -0000
-Date: Wed, 29 Sep 2021 17:02:59 -0500
+ Wed, 29 Sep 2021 15:11:25 -0700 (PDT)
+Received: (nullmailer pid 313269 invoked by uid 1000);
+ Wed, 29 Sep 2021 22:11:24 -0000
+Date: Wed, 29 Sep 2021 17:11:24 -0500
 From: Rob Herring <robh@kernel.org>
 To: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
-Subject: Re: [PATCH v7 2/5] dt-bindings: mfd: aspeed-lpc: Convert to YAML
- schema
-Message-ID: <YVTik08lNtDRGn0L@robh.at.kernel.org>
+Subject: Re: [PATCH v7 3/5] dt-bindings: aspeed: Add UART routing controller
+Message-ID: <YVTkjKdXcyIVImmP@robh.at.kernel.org>
 References: <20210927023053.6728-1-chiawei_wang@aspeedtech.com>
- <20210927023053.6728-3-chiawei_wang@aspeedtech.com>
+ <20210927023053.6728-4-chiawei_wang@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210927023053.6728-3-chiawei_wang@aspeedtech.com>
+In-Reply-To: <20210927023053.6728-4-chiawei_wang@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,16 +75,17 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 27 Sep 2021 10:30:50 +0800, Chia-Wei Wang wrote:
-> Convert the bindings of Aspeed LPC from text file into YAML schema.
+On Mon, 27 Sep 2021 10:30:51 +0800, Chia-Wei Wang wrote:
+> Add dt-bindings for Aspeed UART routing controller.
 > 
+> Signed-off-by: Oskar Senft <osk@google.com>
 > Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > ---
->  .../devicetree/bindings/mfd/aspeed-lpc.txt    | 157 ---------------
->  .../devicetree/bindings/mfd/aspeed-lpc.yaml   | 188 ++++++++++++++++++
->  2 files changed, 188 insertions(+), 157 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/mfd/aspeed-lpc.txt
->  create mode 100644 Documentation/devicetree/bindings/mfd/aspeed-lpc.yaml
+>  .../devicetree/bindings/mfd/aspeed-lpc.yaml   |  4 ++
+>  .../bindings/soc/aspeed/uart-routing.yaml     | 56 +++++++++++++++++++
+>  2 files changed, 60 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/soc/aspeed/uart-routing.yaml
 > 
 
 Applied, thanks!
