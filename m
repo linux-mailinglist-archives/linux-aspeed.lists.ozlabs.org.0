@@ -2,77 +2,47 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8CCB41D6C5
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Sep 2021 11:49:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F55B41E7AC
+	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Oct 2021 08:39:58 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HKpPN4pGYz304j
-	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Sep 2021 19:49:44 +1000 (AEST)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=cq3rnTHp;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HLL7w0DlWz306h
+	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Oct 2021 16:39:56 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::436;
- helo=mail-wr1-x436.google.com; envelope-from=lee.jones@linaro.org;
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=cq3rnTHp; dkim-atps=neutral
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HKpNc1ssrz2yKN
- for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Sep 2021 19:49:03 +1000 (AEST)
-Received: by mail-wr1-x436.google.com with SMTP id t8so9042164wrq.4
- for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Sep 2021 02:49:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=llOBBt4Gg+T9pqqsZvZwGFvS5VWM4PKtaHhvHx5cDu4=;
- b=cq3rnTHpiJLC7u1rp+dTA4Tkn8YnC/Uxbx4zk7KGYupPqBxF2H6F4mM09fWB4D+zFc
- +XAyfUPNGzah5S2uhYBiABCnXIm2DpXiY524KFwd8XMgW8u/0MMKWXjqPMMscNfyV7lG
- ucb9J69p5dJtHiRrmEbTjDuveAejBZsNWLFKIuEhOKNwufDQB7BeW5/BHvCRudRMFn8t
- Gw5Ifhz5DSsGzxMXC48iw+2b/gRnzNxOTtXzcxFfM/3+lbPsfRXH3EXKNTknsSo0iLQr
- 6oYgOsjqTI0pwxkePg2Bl0J/n+KObkv+mL42GFG2G06imwu2sRtZha4zGObnzN5yNCal
- 4jRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=llOBBt4Gg+T9pqqsZvZwGFvS5VWM4PKtaHhvHx5cDu4=;
- b=bXrBrFhYCkJW8JW6d5vHT0XprYXCDMH+cPH7ZRArdnAxUZVUWT2rEl3LRRggrqjKoz
- cWs0c+iJXc8Wt4EhXHjVkmaxCLRj7BNqoXwItay2AWg9wMkEeM/Yw5L+Hvo/yJgdtj9O
- 3kx79HM2uHK3M/KNWLkDO49yOItncJEqk7/VcQOrfWhEdm1gYGAM9fa5G7W6cJE0hABQ
- S0ti7n05x1QCEU8sORmtgBOfcfsjye20/dYTbyWUiwg/J9QnSBKxK1TqwiECx0hw9ek+
- Kf3p/EsXE+5ZPUdSC6nrAnYHYVOvdskOgsja0fGUUUrE3jVKu4eBlV//fxOqHMbyOM8w
- EPGA==
-X-Gm-Message-State: AOAM530C63LwvFZYKeSgmhhkb3YRIb/kR863IJevu5D6iOMkwBpbCAo1
- 8zkJ4kfQfsFQB/9oQaT9zFd1pQ==
-X-Google-Smtp-Source: ABdhPJyt8cvU9G9LKfhdgUEJfpJ+vPB6W8X7llmrHiV/Xto7jNbE0aL8sJgPNIQ+nPVS7QZyOgnOzw==
-X-Received: by 2002:a5d:5989:: with SMTP id n9mr5092711wri.89.1632995335610;
- Thu, 30 Sep 2021 02:48:55 -0700 (PDT)
-Received: from google.com ([95.148.6.233])
- by smtp.gmail.com with ESMTPSA id s13sm887561wrv.97.2021.09.30.02.48.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Sep 2021 02:48:55 -0700 (PDT)
-Date: Thu, 30 Sep 2021 10:48:53 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v7 2/5] dt-bindings: mfd: aspeed-lpc: Convert to YAML
- schema
-Message-ID: <YVWIBQFZaGXbeg28@google.com>
-References: <20210927023053.6728-1-chiawei_wang@aspeedtech.com>
- <20210927023053.6728-3-chiawei_wang@aspeedtech.com>
- <YVTik08lNtDRGn0L@robh.at.kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HLL7m5zgzz2y6F;
+ Fri,  1 Oct 2021 16:39:44 +1000 (AEST)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 1916Ht6c088858;
+ Fri, 1 Oct 2021 14:17:56 +0800 (GMT-8)
+ (envelope-from jammy_huang@aspeedtech.com)
+Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Fri, 1 Oct 2021 14:38:45 +0800
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+ <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
+ <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3] media: aspeed: add debugfs
+Date: Fri, 1 Oct 2021 14:34:32 +0800
+Message-ID: <20211001063431.8446-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YVTik08lNtDRGn0L@robh.at.kernel.org>
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1916Ht6c088858
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,33 +54,220 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org, osk@google.com,
- openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 29 Sep 2021, Rob Herring wrote:
+To show video real-time information as below:
 
-> On Mon, 27 Sep 2021 10:30:50 +0800, Chia-Wei Wang wrote:
-> > Convert the bindings of Aspeed LPC from text file into YAML schema.
-> > 
-> > Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
-> > ---
-> >  .../devicetree/bindings/mfd/aspeed-lpc.txt    | 157 ---------------
-> >  .../devicetree/bindings/mfd/aspeed-lpc.yaml   | 188 ++++++++++++++++++
-> >  2 files changed, 188 insertions(+), 157 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/mfd/aspeed-lpc.txt
-> >  create mode 100644 Documentation/devicetree/bindings/mfd/aspeed-lpc.yaml
-> > 
-> 
-> Applied, thanks!
+Caputre:
+  Signal              : Unlock
+  Width               : 1920
+  Height              : 1080
+  FRC                 : 30
 
-Are you taking these now?
+Performance:
+  Frame#              : 0
+  Frame Duration(ms)  :
+    Now               : 0
+    Min               : 0
+    Max               : 0
+  FPS                 : 0
 
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+---
+v3:
+ - let struct, aspeed_video_debugfs_ops, be const
+v2:
+ - Change the style of debugfs information
+ - Use Min/Max to remove test and branch cases
+---
+ drivers/media/platform/aspeed-video.c | 101 ++++++++++++++++++++++++++
+ 1 file changed, 101 insertions(+)
+
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+index 8b3939b8052d..c5c413844441 100644
+--- a/drivers/media/platform/aspeed-video.c
++++ b/drivers/media/platform/aspeed-video.c
+@@ -21,6 +21,8 @@
+ #include <linux/videodev2.h>
+ #include <linux/wait.h>
+ #include <linux/workqueue.h>
++#include <linux/debugfs.h>
++#include <linux/ktime.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-dev.h>
+ #include <media/v4l2-device.h>
+@@ -203,6 +205,14 @@ struct aspeed_video_buffer {
+ 	struct list_head link;
+ };
+ 
++struct aspeed_video_perf {
++	ktime_t last_sample;
++	u32 totaltime;
++	u32 duration;
++	u32 duration_min;
++	u32 duration_max;
++};
++
+ #define to_aspeed_video_buffer(x) \
+ 	container_of((x), struct aspeed_video_buffer, vb)
+ 
+@@ -241,6 +251,8 @@ struct aspeed_video {
+ 	unsigned int frame_left;
+ 	unsigned int frame_right;
+ 	unsigned int frame_top;
++
++	struct aspeed_video_perf perf;
+ };
+ 
+ #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
+@@ -444,6 +456,16 @@ static void aspeed_video_write(struct aspeed_video *video, u32 reg, u32 val)
+ 		readl(video->base + reg));
+ }
+ 
++static void update_perf(struct aspeed_video_perf *p)
++{
++	p->duration =
++		ktime_to_ms(ktime_sub(ktime_get(),  p->last_sample));
++	p->totaltime += p->duration;
++
++	p->duration_max = max(p->duration, p->duration_max);
++	p->duration_min = min(p->duration, p->duration_min);
++}
++
+ static int aspeed_video_start_frame(struct aspeed_video *video)
+ {
+ 	dma_addr_t addr;
+@@ -482,6 +504,8 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
+ 	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
+ 			    VE_INTERRUPT_COMP_COMPLETE);
+ 
++	video->perf.last_sample = ktime_get();
++
+ 	aspeed_video_update(video, VE_SEQ_CTRL, 0,
+ 			    VE_SEQ_CTRL_TRIG_CAPTURE | VE_SEQ_CTRL_TRIG_COMP);
+ 
+@@ -600,6 +624,8 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+ 		u32 frame_size = aspeed_video_read(video,
+ 						   VE_JPEG_COMP_SIZE_READ_BACK);
+ 
++		update_perf(&video->perf);
++
+ 		spin_lock(&video->lock);
+ 		clear_bit(VIDEO_FRAME_INPRG, &video->flags);
+ 		buf = list_first_entry_or_null(&video->buffers,
+@@ -760,6 +786,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+ 	det->width = MIN_WIDTH;
+ 	det->height = MIN_HEIGHT;
+ 	video->v4l2_input_status = V4L2_IN_ST_NO_SIGNAL;
++	memset(&video->perf, 0, sizeof(video->perf));
+ 
+ 	do {
+ 		if (tries) {
+@@ -1450,6 +1477,8 @@ static int aspeed_video_start_streaming(struct vb2_queue *q,
+ 	struct aspeed_video *video = vb2_get_drv_priv(q);
+ 
+ 	video->sequence = 0;
++	video->perf.duration_max = 0;
++	video->perf.duration_min = 0xffffffff;
+ 
+ 	rc = aspeed_video_start_frame(video);
+ 	if (rc) {
+@@ -1517,6 +1546,72 @@ static const struct vb2_ops aspeed_video_vb2_ops = {
+ 	.buf_queue =  aspeed_video_buf_queue,
+ };
+ 
++#ifdef CONFIG_DEBUG_FS
++static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
++{
++	struct aspeed_video *v = s->private;
++
++	seq_puts(s, "\n");
++
++	seq_printf(s, "  %-20s:\t%s\n", "Signal",
++		   v->v4l2_input_status ? "Unlock" : "Lock");
++	seq_printf(s, "  %-20s:\t%d\n", "Width", v->pix_fmt.width);
++	seq_printf(s, "  %-20s:\t%d\n", "Height", v->pix_fmt.height);
++	seq_printf(s, "  %-20s:\t%d\n", "FRC", v->frame_rate);
++
++	seq_puts(s, "\n");
++
++	seq_puts(s, "Performance:\n");
++	seq_printf(s, "  %-20s:\t%d\n", "Frame#", v->sequence);
++	seq_printf(s, "  %-20s:\n", "Frame Duration(ms)");
++	seq_printf(s, "    %-18s:\t%d\n", "Now", v->perf.duration);
++	seq_printf(s, "    %-18s:\t%d\n", "Min", v->perf.duration_min);
++	seq_printf(s, "    %-18s:\t%d\n", "Max", v->perf.duration_max);
++	seq_printf(s, "  %-20s:\t%d\n", "FPS", 1000/(v->perf.totaltime/v->sequence));
++
++
++	return 0;
++}
++
++int aspeed_video_proc_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, aspeed_video_debugfs_show, inode->i_private);
++}
++
++static const struct file_operations aspeed_video_debugfs_ops = {
++	.owner   = THIS_MODULE,
++	.open    = aspeed_video_proc_open,
++	.read    = seq_read,
++	.llseek  = seq_lseek,
++	.release = single_release,
++};
++
++static struct dentry *debugfs_entry;
++
++static void aspeed_video_debugfs_remove(struct aspeed_video *video)
++{
++	debugfs_remove_recursive(debugfs_entry);
++	debugfs_entry = NULL;
++}
++
++static int aspeed_video_debugfs_create(struct aspeed_video *video)
++{
++	debugfs_entry = debugfs_create_file(DEVICE_NAME, 0444, NULL,
++						   video,
++						   &aspeed_video_debugfs_ops);
++	if (!debugfs_entry)
++		aspeed_video_debugfs_remove(video);
++
++	return debugfs_entry == NULL ? -EIO : 0;
++}
++#else
++static void aspeed_video_debugfs_remove(struct aspeed_video *video) { }
++static int aspeed_video_debugfs_create(struct aspeed_video *video)
++{
++	return 0;
++}
++#endif /* CONFIG_DEBUG_FS */
++
+ static int aspeed_video_setup_video(struct aspeed_video *video)
+ {
+ 	const u64 mask = ~(BIT(V4L2_JPEG_CHROMA_SUBSAMPLING_444) |
+@@ -1708,6 +1803,10 @@ static int aspeed_video_probe(struct platform_device *pdev)
+ 		return rc;
+ 	}
+ 
++	rc = aspeed_video_debugfs_create(video);
++	if (rc)
++		dev_err(video->dev, "debugfs create failed\n");
++
+ 	return 0;
+ }
+ 
+@@ -1719,6 +1818,8 @@ static int aspeed_video_remove(struct platform_device *pdev)
+ 
+ 	aspeed_video_off(video);
+ 
++	aspeed_video_debugfs_remove(video);
++
+ 	clk_unprepare(video->vclk);
+ 	clk_unprepare(video->eclk);
+ 
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.25.1
+
