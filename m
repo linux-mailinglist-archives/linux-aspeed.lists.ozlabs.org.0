@@ -1,46 +1,39 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C13041F2B5
-	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Oct 2021 19:09:56 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C483E41FCF8
+	for <lists+linux-aspeed@lfdr.de>; Sat,  2 Oct 2021 18:08:00 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HLc6p0Ffzz301P
-	for <lists+linux-aspeed@lfdr.de>; Sat,  2 Oct 2021 03:09:54 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HMBhr43pBz3035
+	for <lists+linux-aspeed@lfdr.de>; Sun,  3 Oct 2021 03:07:56 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.43; helo=mga05.intel.com;
- envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=jic23@kernel.org; receiver=<UNKNOWN>)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HLc6g6lyhz2yPp;
- Sat,  2 Oct 2021 03:09:47 +1000 (AEST)
-X-IronPort-AV: E=McAfee;i="6200,9189,10124"; a="311045012"
-X-IronPort-AV: E=Sophos;i="5.85,339,1624345200"; d="scan'208";a="311045012"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2021 10:06:49 -0700
-X-IronPort-AV: E=Sophos;i="5.85,339,1624345200"; d="scan'208";a="710036628"
-Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.134.77.171])
- ([10.134.77.171])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2021 10:06:48 -0700
-Subject: Re: [PATCH v4 0/4] i2c: aspeed: Add buffer and DMA modes support
-To: Zev Weiss <zweiss@equinix.com>
-References: <20210224191720.7724-1-jae.hyun.yoo@linux.intel.com>
- <20210930024448.GU17315@packtop>
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Message-ID: <95dd9359-7dc0-00ce-2867-b35c3b4ebb2f@linux.intel.com>
-Date: Fri, 1 Oct 2021 10:06:47 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HMBhj34RCz2yP3
+ for <linux-aspeed@lists.ozlabs.org>; Sun,  3 Oct 2021 03:07:49 +1100 (AEDT)
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net
+ [81.101.6.87])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6940B61A0A;
+ Sat,  2 Oct 2021 16:07:43 +0000 (UTC)
+Date: Sat, 2 Oct 2021 17:11:40 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Colin King <colin.king@canonical.com>
+Subject: Re: [PATCH][next] iio: adc: aspeed: Fix spelling mistake "battey"
+ -> "battery"
+Message-ID: <20211002171140.1af667ef@jic23-huawei>
+In-Reply-To: <20211001120018.17570-1-colin.king@canonical.com>
+References: <20211001120018.17570-1-colin.king@canonical.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210930024448.GU17315@packtop>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -53,35 +46,42 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- Wolfram Sang <wsa@the-dreams.de>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Cedric Le Goater <clg@kaod.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, linux-aspeed@lists.ozlabs.org,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Zev,
+On Fri,  1 Oct 2021 13:00:18 +0100
+Colin King <colin.king@canonical.com> wrote:
 
-On 9/29/2021 7:44 PM, Zev Weiss wrote:
-> On Wed, Feb 24, 2021 at 11:17:16AM PST, Jae Hyun Yoo wrote:
->> This patch series adds buffer mode and DMA mode transfer support for the
->> Aspeed I2C driver. With this change, buffer mode and DMA mode can be
->> selectively used depend on platform configuration.
->>
+> From: Colin Ian King <colin.king@canonical.com>
 > 
-> Any updates on these patches?  They provide a welcome performance
-> improvement for some stuff I've been doing -- for the v4 series:
+> There is a spelling mistake in a dev_warn message. Fix it.
 > 
-> Tested-by: Zev Weiss <zweiss@equinix.com>
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Hi Colin,
 
-Thanks for sharing your test result.
+Thanks and applied.
 
-I'm bringing this patch set back to discussion.
+Jonathan
 
-Thanks,
-Jae
+> ---
+>  drivers/iio/adc/aspeed_adc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
+> index 3e9850a43372..a957cad1bfab 100644
+> --- a/drivers/iio/adc/aspeed_adc.c
+> +++ b/drivers/iio/adc/aspeed_adc.c
+> @@ -581,7 +581,7 @@ static int aspeed_adc_probe(struct platform_device *pdev)
+>  			}
+>  		} else
+>  			dev_warn(&pdev->dev,
+> -				 "Failed to enable battey-sensing mode\n");
+> +				 "Failed to enable battery-sensing mode\n");
+>  	}
+>  
+>  	ret = clk_prepare_enable(data->clk_scaler->clk);
+
