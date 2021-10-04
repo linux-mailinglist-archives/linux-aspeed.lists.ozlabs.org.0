@@ -1,61 +1,57 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FC6E42165B
-	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Oct 2021 20:24:57 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA3542170E
+	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Oct 2021 21:13:44 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HNTdz0r6jz2yYl
-	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Oct 2021 05:24:55 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HNVkG39rDz2ynn
+	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Oct 2021 06:13:42 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=dkim header.b=hB1AzTSs;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.167.177;
- helo=mail-oi1-f177.google.com; envelope-from=robherring2@gmail.com;
- receiver=<UNKNOWN>)
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
- [209.85.167.177])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ smtp.mailfrom=alien8.de (client-ip=2a01:4f8:190:11c2::b:1457;
+ helo=mail.skyhub.de; envelope-from=bp@alien8.de; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256
+ header.s=dkim header.b=hB1AzTSs; dkim-atps=neutral
+X-Greylist: delayed 561 seconds by postgrey-1.36 at boromir;
+ Tue, 05 Oct 2021 06:13:37 AEDT
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HNTdw01LKz2yNQ
- for <linux-aspeed@lists.ozlabs.org>; Tue,  5 Oct 2021 05:24:51 +1100 (AEDT)
-Received: by mail-oi1-f177.google.com with SMTP id q16so22811853oiw.10
- for <linux-aspeed@lists.ozlabs.org>; Mon, 04 Oct 2021 11:24:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=uqtsnyNKKJS9yEITd+jPQas/rw37SI2DxYEgJEPNXP8=;
- b=lPKOt6CH4bPHEPI/0AGloCHQrcObsNnhc9jdQJEsqBLmRzrJ7+3y/rAofhj5w+wBU2
- g4InB19MUuZKNWpb7GQJPx0Mqil6TIeG2XcuazuCfKX3mnWGiUtIYYWmRMkoWQgIzlD5
- 6H9WMkoW0iWqKoaGbsLihZLK9I7b94V132rDWNPpQvmUmKx1cPgfZ2212/r9YUfKX6WO
- u+uO6emIMeSh1ur/q8HbYaZfI3t7DtXuiSbzB+podqRSZ4MsFSvP/k/UchYm8cTSvLEE
- rkReJAsB4zyYburITHt72azqVBAWJyBgfx03blpYza/kO5qwDWcisq7QXkGQc0gjT3Pa
- Snew==
-X-Gm-Message-State: AOAM531O01CmxFO2ggz++gnsL0DfF9035ylxv7y5EqzL9tFC18ILIzAa
- M/524EecnT3F7bExcA9sAQ==
-X-Google-Smtp-Source: ABdhPJyTyPZM+WOk9JYo2l4wBBPBqaBkwGZycQzvuQxp5B5a6aRmAyRc76soi8nj+CiRbzOQa0HtHQ==
-X-Received: by 2002:a54:4d89:: with SMTP id y9mr4913473oix.22.1633371888817;
- Mon, 04 Oct 2021 11:24:48 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id l28sm2928304oof.30.2021.10.04.11.24.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 11:24:48 -0700 (PDT)
-Received: (nullmailer pid 1605963 invoked by uid 1000);
- Mon, 04 Oct 2021 18:24:47 -0000
-Date: Mon, 4 Oct 2021 13:24:47 -0500
-From: Rob Herring <robh@kernel.org>
-To: tommy-huang <tommy_huang@aspeedtech.com>
-Subject: Re: [PATCH 6/6] dt-bindings: gpu: Add ASPEED GFX bindings document
-Message-ID: <YVtG72uZKHrkGk6u@robh.at.kernel.org>
-References: <20210928025703.10909-1-tommy_huang@aspeedtech.com>
- <20210928025703.10909-7-tommy_huang@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HNVk94GmTz2yNn;
+ Tue,  5 Oct 2021 06:13:37 +1100 (AEDT)
+Received: from zn.tnic (p200300ec2f0fe4009c23c25c98857304.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f0f:e400:9c23:c25c:9885:7304])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 774201EC03D2;
+ Mon,  4 Oct 2021 21:03:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1633374238;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=0Nms4auAY3J/VUVtMgcFZcZpc069CLLUqzM+bdeYLVk=;
+ b=hB1AzTSsB1cgjjLDziTXH0QngoL3aO0oKRg7k+c5hPO68B1wguz1yl6+QrOaVKi3NLEbrh
+ joloXjbwL8oGdS5mMnbNgevjUzDOetUYM2ffcG/crFVIlxNq94ibITOrm89OrC30+oHyJW
+ th69nz+SBcfqNS7StlH4IeV54nrlyNI=
+Date: Mon, 4 Oct 2021 21:03:55 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Iwona Winiarska <iwona.winiarska@intel.com>
+Subject: Re: [PATCH v2 01/15] x86/cpu: Move intel-family to arch-independent
+ headers
+Message-ID: <YVtQG+idmwKn0qLe@zn.tnic>
+References: <20210803113134.2262882-1-iwona.winiarska@intel.com>
+ <20210803113134.2262882-2-iwona.winiarska@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210928025703.10909-7-tommy_huang@aspeedtech.com>
+In-Reply-To: <20210803113134.2262882-2-iwona.winiarska@intel.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,21 +63,57 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com, linux-aspeed@lists.ozlabs.org,
- devicetree@vger.kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org, daniel@ffwll.ch,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>, Zev Weiss <zweiss@equinix.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, openbmc@lists.ozlabs.org, x86@kernel.org,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Ingo Molnar <mingo@redhat.com>, Guenter Roeck <linux@roeck-us.net>,
+ devicetree@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+ Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh+dt@kernel.org>,
+ Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ Tony Luck <tony.luck@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ Yazen Ghannam <yazen.ghannam@amd.com>, David Muller <d.mueller@elsoft.ch>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 28 Sep 2021 10:57:03 +0800, tommy-huang wrote:
-> Add ast2600-gfx description for gfx driver.
+On Tue, Aug 03, 2021 at 01:31:20PM +0200, Iwona Winiarska wrote:
+> Baseboard management controllers (BMC) often run Linux but are usually
+> implemented with non-X86 processors. They can use PECI to access package
+> config space (PCS) registers on the host CPU and since some information,
+> e.g. figuring out the core count, can be obtained using different
+> registers on different CPU generations, they need to decode the family
+> and model.
 > 
-> Signed-off-by: tommy-huang <tommy_huang@aspeedtech.com>
+> Move the data from arch/x86/include/asm/intel-family.h into a new file
+> include/linux/x86/intel-family.h so that it can be used by other
+> architectures.
+> 
+> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
+> Reviewed-by: Tony Luck <tony.luck@intel.com>
+> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
 > ---
->  Documentation/devicetree/bindings/gpu/aspeed-gfx.txt | 1 +
->  1 file changed, 1 insertion(+)
-> 
+> To limit tree-wide changes and help people that were expecting
+> intel-family defines in arch/x86 to find it more easily without going
+> through git history, we're not removing the original header
+> completely, we're keeping it as a "stub" that includes the new one.
+> If there is a consensus that the tree-wide option is better,
+> we can choose this approach.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Why can't the linux/ namespace header include the x86 one so that
+nothing changes for arch/x86/?
+
+And if it is really only a handful of families you need, you might just
+as well copy them into the peci headers and slap a comment above it
+saying where they come from and save yourself all that churn...
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
