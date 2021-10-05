@@ -2,56 +2,97 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEADE421709
-	for <lists+linux-aspeed@lfdr.de>; Mon,  4 Oct 2021 21:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B643C4230B9
+	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Oct 2021 21:22:52 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HNVcL2vX8z2ynw
-	for <lists+linux-aspeed@lfdr.de>; Tue,  5 Oct 2021 06:08:34 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HP6tL3clSz2ymq
+	for <lists+linux-aspeed@lfdr.de>; Wed,  6 Oct 2021 06:22:50 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=dkim header.b=EKdSCXKP;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=qS+pVncP;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=alien8.de (client-ip=5.9.137.197; helo=mail.skyhub.de;
- envelope-from=bp@alien8.de; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256
- header.s=dkim header.b=EKdSCXKP; dkim-atps=neutral
-X-Greylist: delayed 257 seconds by postgrey-1.36 at boromir;
- Tue, 05 Oct 2021 06:08:24 AEDT
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=anoo@linux.ibm.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
+ header.s=pp1 header.b=qS+pVncP; dkim-atps=neutral
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HNVc81qKgz2xY1;
- Tue,  5 Oct 2021 06:08:24 +1100 (AEDT)
-Received: from zn.tnic (p200300ec2f0fe4009c23c25c98857304.dip0.t-ipconnect.de
- [IPv6:2003:ec:2f0f:e400:9c23:c25c:9885:7304])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A06841EC03FE;
- Mon,  4 Oct 2021 21:08:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1633374501;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=i6PxikJNA1V7HfDVyLAobLqaSjOebbk6J6n8Zlv5QfE=;
- b=EKdSCXKP0dFy4SUcN7yE1/LTYYr7g50Rq74dwqthJVY7HnSsWQ0haYRQBlHM9qpvT/ZewA
- L/dhM/XkdJucHyEk/QoP7sLQggGOKhbB/la4UEPn7+C8g2QJ/yp32xgC5HZdOGksGMh1OO
- gOfqpItzsrx/A1wmMvUKtArbVnZHUQM=
-Date: Mon, 4 Oct 2021 21:08:22 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Iwona Winiarska <iwona.winiarska@intel.com>
-Subject: Re: [PATCH v2 02/15] x86/cpu: Extract cpuid helpers to
- arch-independent
-Message-ID: <YVtRJiYD9EqGh7TM@zn.tnic>
-References: <20210803113134.2262882-1-iwona.winiarska@intel.com>
- <20210803113134.2262882-3-iwona.winiarska@intel.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HP6tC441mz2xX8;
+ Wed,  6 Oct 2021 06:22:42 +1100 (AEDT)
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 195IGSoG029152; 
+ Tue, 5 Oct 2021 15:22:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=IxD25rDbm/u5c/0cZr2UhQqHUCON5rxL3c1FpfqnLRI=;
+ b=qS+pVncPzIs7Vz+3KYnoIu3hbYN6epwOMvUZadmEtorq53xNh1COgZyYwl0VbFoC80Q0
+ n1nJLlV3g0IwmDTqeriS4zhtVgWd1fELR1PQiBlFWweCBPdMS2OQGpYas44MofLLu0Nz
+ l/Gl3aKZ9LHhLNZFE+AOGlP0Fl+xgo7BOPLOet+qnmx6aI0zHULEqzSu1YsZF1Oxc6ab
+ OgcLm7DNbU8jUQTYXc8kd8VsaCpd7g+tZctrEIWr1O/zccuey0aQIMigwfCKyZxlkJh8
+ +USMHC45D41aAGair58wH2X8WZnWKHIrfHjlGF1bxdpZMVl0kufZMddp3/u/X10rt/Mf eQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3bguu8sh8k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Oct 2021 15:22:34 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 195IpSHB020591;
+ Tue, 5 Oct 2021 15:22:34 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3bguu8sh89-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Oct 2021 15:22:34 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 195JICxs002209;
+ Tue, 5 Oct 2021 19:22:33 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma01dal.us.ibm.com with ESMTP id 3bef2d9j44-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Oct 2021 19:22:33 +0000
+Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
+ [9.57.199.108])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 195JMSLN18940312
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 5 Oct 2021 19:22:28 GMT
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9417FB206C;
+ Tue,  5 Oct 2021 19:22:28 +0000 (GMT)
+Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EC6DCB2064;
+ Tue,  5 Oct 2021 19:22:27 +0000 (GMT)
+Received: from fstone01p1.aus.stglabs.ibm.com (unknown [9.3.116.196])
+ by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue,  5 Oct 2021 19:22:27 +0000 (GMT)
+From: Adriana Kobylak <anoo@linux.ibm.com>
+To: joel@jms.id.au, eajames@linux.ibm.com,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
+Subject: [PATCH v3] ARM: dts: aspeed: rainier: Add power-config-full-load gpio
+Date: Tue,  5 Oct 2021 19:22:26 +0000
+Message-Id: <20211005192226.213539-1-anoo@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: uKKUgnI4RP0iibHenc-3QdLTjJvlEZoI
+X-Proofpoint-GUID: 0-FZWjGJrQ_ZknfIephQA9Y0N0F01dny
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210803113134.2262882-3-iwona.winiarska@intel.com>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-10-05_04,2021-10-04_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ clxscore=1015 phishscore=0 mlxlogscore=991 bulkscore=0 malwarescore=0
+ impostorscore=0 spamscore=0 lowpriorityscore=0 adultscore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109230001 definitions=main-2110050112
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,70 +104,57 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
- Dan Williams <dan.j.williams@intel.com>, Zev Weiss <zweiss@equinix.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, openbmc@lists.ozlabs.org, x86@kernel.org,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Ingo Molnar <mingo@redhat.com>, Guenter Roeck <linux@roeck-us.net>,
- devicetree@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
- Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh+dt@kernel.org>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- Tony Luck <tony.luck@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
- Yazen Ghannam <yazen.ghannam@amd.com>, David Muller <d.mueller@elsoft.ch>
+Cc: spinler@us.ibm.com, derekh@us.ibm.com, openbmc@lists.ozlabs.org,
+ Adriana Kobylak <anoo@us.ibm.com>, shawnmm@us.ibm.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Aug 03, 2021 at 01:31:21PM +0200, Iwona Winiarska wrote:
-> Baseboard management controllers (BMC) often run Linux but are usually
-> implemented with non-X86 processors. They can use PECI to access package
-> config space (PCS) registers on the host CPU and since some information,
-> e.g. figuring out the core count, can be obtained using different
-> registers on different CPU generations, they need to decode the family
-> and model.
-> 
-> The format of Package Identifier PCS register that describes CPUID
-> information has the same layout as CPUID_1.EAX, so let's allow to reuse
-> cpuid helpers by making it available for other architectures as well.
-> 
-> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
-> Reviewed-by: Tony Luck <tony.luck@intel.com>
-> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> ---
->  MAINTAINERS                      | 1 +
->  arch/x86/Kconfig                 | 1 +
->  arch/x86/include/asm/cpu.h       | 3 ---
->  arch/x86/include/asm/microcode.h | 2 +-
->  arch/x86/kvm/cpuid.h             | 3 ++-
->  arch/x86/lib/Makefile            | 2 +-
->  drivers/edac/mce_amd.c           | 3 +--
->  include/linux/x86/cpu.h          | 9 +++++++++
->  lib/Kconfig                      | 4 ++++
->  lib/Makefile                     | 2 ++
->  lib/x86/Makefile                 | 3 +++
->  {arch/x86/lib => lib/x86}/cpu.c  | 2 +-
->  12 files changed, 26 insertions(+), 9 deletions(-)
->  create mode 100644 include/linux/x86/cpu.h
->  create mode 100644 lib/x86/Makefile
->  rename {arch/x86/lib => lib/x86}/cpu.c (95%)
+From: Adriana Kobylak <anoo@us.ibm.com>
 
-AFAICT, all that churn is done for x86_family() and x86_model() which
-are used *exactly* *once* and which are almost trivial anyway.
+Add the power-config-full-load described in:
+https://github.com/openbmc/docs/blob/master/designs/device-tree-gpio-naming.md#power-config-full-load
 
-What's wrong with simply computing the family and model "by hand", so to
-speak, in peci_device_info_init() and do away with that diffstat
+The power-config-full-load gpio is designed to be used to specify how
+many power supplies the system should have, in rainier it is 2 or 4.  If
+enough power supplies fail so that the system no longer has redundancy
+(no longer n+1), the hardware will signal to the Onboard Chip Controller
+that the system may be oversubscribed, and performance may need to be
+reduced so the system can maintain it's powered on state.
 
- 12 files changed, 26 insertions(+), 9 deletions(-)
+Signed-off-by: Adriana Kobylak <anoo@us.ibm.com>
+---
 
-?
+v2: Update commit message.
+v3: Updated gpio name to power-config-full-load to match design doc.
 
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+index 33fae8ad1305..10bde77fb847 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
+@@ -1998,6 +1998,19 @@ eeprom@51 {
+ 		reg = <0x51>;
+ 	};
+ 
++	pca_pres3: pca9552@60 {
++		compatible = "nxp,pca9552";
++		reg = <0x60>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		gpio-controller;
++		#gpio-cells = <2>;
++
++		gpio-line-names =
++			"", "", "", "", "", "", "", "",
++			"", "", "", "", "", "", "power-config-full-load", "";
++	};
++
+ 	pca_pres2: pca9552@61 {
+ 		compatible = "nxp,pca9552";
+ 		reg = <0x61>;
 -- 
-Regards/Gruss,
-    Boris.
+2.25.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
