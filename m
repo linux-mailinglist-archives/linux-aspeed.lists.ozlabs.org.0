@@ -1,83 +1,93 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 748BF4298E3
-	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Oct 2021 23:27:41 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id E40024298E4
+	for <lists+linux-aspeed@lfdr.de>; Mon, 11 Oct 2021 23:27:43 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HSsMb0Wyfz2yLm
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Oct 2021 08:27:39 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=KZoMDjct;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HSsMd2sQnz2ymr
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 Oct 2021 08:27:41 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::82c;
- helo=mail-qt1-x82c.google.com; envelope-from=frowand.list@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=KZoMDjct; dkim-atps=neutral
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
- [IPv6:2607:f8b0:4864:20::82c])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ smtp.mailfrom=intel.com (client-ip=192.55.52.88; helo=mga01.intel.com;
+ envelope-from=dave.hansen@intel.com; receiver=<UNKNOWN>)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HQzC33Ml1z2ywX;
- Sat,  9 Oct 2021 06:43:41 +1100 (AEDT)
-Received: by mail-qt1-x82c.google.com with SMTP id m26so10629981qtn.1;
- Fri, 08 Oct 2021 12:43:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=txtnvg7blPU7HQRh6QW4CdbKgSFFsV7Icy1mQ2ZPblw=;
- b=KZoMDjctnN+693gxmSWUzBBC1g3g41UHZuWf7wrLuslXZt5a4DWN4yOXKuYwHJ1J7x
- X9HFxVuBs1moHaihl0fByuwtKEaVwKq+s3qa648SNhURZj2aUTOxbBQq1YMu8bWjXLG5
- Bzvcmxjl8JBiwWqedO/M1Gt5hRC8gcHpiuSBAU5j882P1MHIRcur2ZbXPVi7R9n/9+PK
- gwyMp8q8sQpnDg+/X/IUrg0X4kzxb2Ic/S+QZv+0nqqlciuNXY5sAxH5/ztxjMi+ywxN
- WZa/XZogOqEGQP+Lgev5E5CbBKNFCp4VCRwah19rIiGQn5DqOVirLxfLOFnd9HyRdafS
- z3UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=txtnvg7blPU7HQRh6QW4CdbKgSFFsV7Icy1mQ2ZPblw=;
- b=U/MXY6a28oVg01Cqrb/2gNp7FElIOhITZQzU5v3slAavWjByeurGHqpH6fd5tL4MPj
- zXPorcdktPzsDPVDx8Ct4rwZVsY1dXA1fKuAFfgLsQB47SwbAQ00mJ8yz7iA/0hXpqDT
- BHQqhEUKIDhSyR/e1GQAdc992EgJL1TpaNE8EF6KlkVAliJBggd5pN1oEMF62LAMraud
- xijMvhRRT2TvDyh85LshQsJHooEiWlFqRFGrtB3JPYpJB0U8EyGLtfQ5z3PimVHsaUpT
- IckMO+6Wlc2F7iah4ANRYI54rLYI/aG67Rg//fqkqsZBByS+EhEWMov0/prZBMAGV29P
- 7jyg==
-X-Gm-Message-State: AOAM530BOHcsHkN1Ekp5ebUWR/5htW2fIqp4F8Xg+ZiD+TQ1b7BjY/Cg
- oFsM8Qy7emg4n6hR+U8hWnk=
-X-Google-Smtp-Source: ABdhPJxW8C59Jq0Pei+jZgoEB1O83v6o+W3HERrHg0pzeXv7bQKu2fYbCfGPFy/xFLqdAnsi84VdUw==
-X-Received: by 2002:ac8:5a:: with SMTP id i26mr244744qtg.269.1633722219005;
- Fri, 08 Oct 2021 12:43:39 -0700 (PDT)
-Received: from [192.168.1.49] (c-67-187-90-124.hsd1.ky.comcast.net.
- [67.187.90.124])
- by smtp.gmail.com with ESMTPSA id a17sm164016qtn.86.2021.10.08.12.43.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Oct 2021 12:43:38 -0700 (PDT)
-Subject: Re: [PATCH 0/9] Dynamic DT device nodes
-To: Rob Herring <robh+dt@kernel.org>, Zev Weiss <zev@bewilderbeest.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20211007000954.30621-1-zev@bewilderbeest.net>
- <CAHp75VdYBB_FaMr-uKswdvDBdobTYZkiE6ncoALuG+YYVoMwyw@mail.gmail.com>
- <YV64ZbcsHvBObH2j@hatter.bewilderbeest.net> <YV7Miz9RMMx/17A0@kroah.com>
- <YV8VGeMreR6NJad4@hatter.bewilderbeest.net>
- <CAL_JsqLk-CqKVgWp3=XccHrCdQgdGoezB6=HAXMDe1Q5R4-0HA@mail.gmail.com>
-From: Frank Rowand <frowand.list@gmail.com>
-Message-ID: <662f6ff3-61b9-e1e6-5059-699edbb2ab1c@gmail.com>
-Date: Fri, 8 Oct 2021 14:43:37 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HSq1B2YLzz2xtb;
+ Tue, 12 Oct 2021 06:41:27 +1100 (AEDT)
+X-IronPort-AV: E=McAfee;i="6200,9189,10134"; a="250345435"
+X-IronPort-AV: E=Sophos;i="5.85,365,1624345200"; d="scan'208";a="250345435"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2021 12:40:23 -0700
+X-IronPort-AV: E=Sophos;i="5.85,365,1624345200"; d="scan'208";a="490605922"
+Received: from vg1-mobl2.amr.corp.intel.com (HELO [10.212.193.198])
+ ([10.212.193.198])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2021 12:40:20 -0700
+Subject: Re: [PATCH v2 01/15] x86/cpu: Move intel-family to arch-independent
+ headers
+To: "Winiarska, Iwona" <iwona.winiarska@intel.com>,
+ "bp@alien8.de" <bp@alien8.de>
+References: <20210803113134.2262882-1-iwona.winiarska@intel.com>
+ <20210803113134.2262882-2-iwona.winiarska@intel.com>
+ <YVtQG+idmwKn0qLe@zn.tnic>
+ <58ef4107e9b2c60a2605aac0d2fb6670a95bc9e0.camel@intel.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <67f2cfda-c78b-6282-f5a3-2f345f8e2849@intel.com>
+Date: Mon, 11 Oct 2021 12:40:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqLk-CqKVgWp3=XccHrCdQgdGoezB6=HAXMDe1Q5R4-0HA@mail.gmail.com>
+In-Reply-To: <58ef4107e9b2c60a2605aac0d2fb6670a95bc9e0.camel@intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 12 Oct 2021 08:27:32 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -90,117 +100,67 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-aspeed@lists.ozlabs.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Jeremy Kerr <jk@codeconstruct.com.au>,
- Francis Laniel <laniel_francis@privacyrequired.com>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Andy Shevchenko <andy.shevchenko@gmail.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Alexey Dobriyan <adobriyan@gmail.com>,
- devicetree <devicetree@vger.kernel.org>, Kees Cook <keescook@chromium.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Dan Williams <dan.j.williams@intel.com>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Daniel Axtens <dja@axtens.net>, Andy Shevchenko <andy@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Heiner Kallweit <hkallweit1@gmail.com>
+Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "Williams,
+ Dan J" <dan.j.williams@intel.com>, "zweiss@equinix.com" <zweiss@equinix.com>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "x86@kernel.org" <x86@kernel.org>,
+ "pierre-louis.bossart@linux.intel.com" <pierre-louis.bossart@linux.intel.com>,
+ "mingo@redhat.com" <mingo@redhat.com>,
+ "linux@roeck-us.net" <linux@roeck-us.net>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "jdelvare@suse.com" <jdelvare@suse.com>, "arnd@arndb.de" <arnd@arndb.de>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>, "Lutomirski,
+ Andy" <luto@kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "Luck,
+ Tony" <tony.luck@intel.com>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "rdunlap@infradead.org" <rdunlap@infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
+ "d.mueller@elsoft.ch" <d.mueller@elsoft.ch>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 10/7/21 3:03 PM, Rob Herring wrote:
-> On Thu, Oct 7, 2021 at 10:41 AM Zev Weiss <zev@bewilderbeest.net> wrote:
->>
->> On Thu, Oct 07, 2021 at 03:31:39AM PDT, Greg Kroah-Hartman wrote:
->>> On Thu, Oct 07, 2021 at 02:05:41AM -0700, Zev Weiss wrote:
->>>> On Thu, Oct 07, 2021 at 12:04:41AM PDT, Andy Shevchenko wrote:
->>>>> On Thu, Oct 7, 2021 at 3:10 AM Zev Weiss <zev@bewilderbeest.net> wrote:
->>>>>> This patch series is in some ways kind of a v2 for the "Dynamic
->>>>>> aspeed-smc flash chips via 'reserved' DT status" series I posted
->>>>>> previously [0], but takes a fairly different approach suggested by Rob
->>>>>> Herring [1] and doesn't actually touch the aspeed-smc driver or
->>>>>> anything in the MTD subsystem, so I haven't marked it as such.
->>>>>>
->>>>>> To recap a bit of the context from that series, in OpenBMC there's a
->>>>>> need for certain devices (described by device-tree nodes) to be able
->>>>>> to be attached and detached at runtime (for example the SPI flash for
->>>>>> the host's firmware, which is shared between the BMC and the host but
->>>>>> can only be accessed by one or the other at a time).
->>>>>
->>>>> This seems quite dangerous. Why do you need that?
->>>>
->>>> Sometimes the host needs access to the flash (it's the host's firmware,
->>>> after all), sometimes the BMC needs access to it (e.g. to perform an
->>>> out-of-band update to the host's firmware).  To achieve the latter, the
->>>> flash needs to be attached to the BMC, but that requires some careful
->>>> coordination with the host to arbitrate which one actually has access to it
->>>> (that coordination is handled by userspace, which then tells the kernel
->>>> explicitly when the flash should be attached and detached).
->>>>
->>>> What seems dangerous?
->>>>
->>>>> Why can't device tree overlays be used?
->>>>
->>>> I'm hoping to stay closer to mainline.  The OpenBMC kernel has a documented
->>>> policy strongly encouraging upstream-first development:
->>>> https://github.com/openbmc/docs/blob/master/kernel-development.md
->>>>
->>>> I doubt Joel (the OpenBMC kernel maintainer) would be eager to start
->>>> carrying the DT overlay patches; I'd likewise strongly prefer to avoid
->>>> carrying them myself as additional downstream patches.  Hence the attempt at
->>>> getting a solution to the problem upstream.
+On 10/11/21 12:21 PM, Winiarska, Iwona wrote:
+> On Mon, 2021-10-04 at 21:03 +0200, Borislav Petkov wrote:
+>> On Tue, Aug 03, 2021 at 01:31:20PM +0200, Iwona Winiarska wrote:
+>>> Baseboard management controllers (BMC) often run Linux but are usually
+>>> implemented with non-X86 processors. They can use PECI to access package
+>>> config space (PCS) registers on the host CPU and since some information,
+>>> e.g. figuring out the core count, can be obtained using different
+>>> registers on different CPU generations, they need to decode the family
+>>> and model.
 >>>
->>> Then why not work to get device tree overlays to be merged properly?
-> 
-> TBC, it's 'just' the general purpose userspace interface to apply
-> overlays that's missing.
-
-A fuller view of what is missing is at:
-
-https://elinux.org/Frank%27s_Evolving_Overlay_Thoughts#issues_and_what_needs_to_be_completed_--_Not_an_exhaustive_list
-
-
-> 
-> I did suggest what's done here as overlays are kind of an overkill for
-> this usecase. Much easier to write to a sysfs file than write an
-> overlay, compile it with dtc, and provide it to the kernel all just to
-> enable a device.
-> 
-> Perhaps this could also be supported in the driver model directly.
-> Given the "what about ACPI question", that is probably what should be
-> done unless the answer is we don't care. I think we'd just need a flag
-> to create devices, but not bind automatically. Or maybe abusing
-> driver_override can accomplish that.
-> 
->>> Don't work on a half-of-a-solution when the real solution is already
->>> here.
+>>> Move the data from arch/x86/include/asm/intel-family.h into a new file
+>>> include/linux/x86/intel-family.h so that it can be used by other
+>>> architectures.
 >>>
->>
->> I had been under the impression that the overlay patches had very dim
->> prospects of ever being accepted and that this might be a more tractable
->> alternative, but apparently was mistaken -- I'll look into what the
->> outstanding issues were with that and perhaps take a stab at addressing
->> them.
-> 
+>>> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
+>>> Reviewed-by: Tony Luck <tony.luck@intel.com>
+>>> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+>>> ---
+>>> To limit tree-wide changes and help people that were expecting
+>>> intel-family defines in arch/x86 to find it more easily without going
+>>> through git history, we're not removing the original header
+>>> completely, we're keeping it as a "stub" that includes the new one.
+>>> If there is a consensus that the tree-wide option is better,
+>>> we can choose this approach.
+>> Why can't the linux/ namespace header include the x86 one so that
+>> nothing changes for arch/x86/?
+> Same reason why PECI can't just include arch/x86 directly (we're building for
+> ARM, not x86).
+If you're in include/linux/x86-hacks.h, what prevents you from doing
 
-> What's dim is the patches allowing any modification to any part of the
-> DT. Any changes to a DT need to work (i.e. have some effect). For
-> example, randomly changing/adding/removing properties wouldn't have
-> any effect because they've probably already be read and used.
+#include "../../arch/x86/include/asm/intel-family.h"
 
-Yes, that is a good description.
+?
 
-> 
-> What I've suggested before is some sort of registration of nodes
-> allowed to apply child nodes and properties to. That would serve the
-> add-on board usecases which have been the main driver of this to date.
-> That also got hung up on defining interface nodes to add-on boards.
-> Your scope is more limited and can be limited to that scope while
-> using the same configfs interface.
-> 
-> Rob
-> 
-
+In the end, to the compiler, it's just a file in a weird location in the
+tree.  I think I'd prefer one weird include to moving that file out of
+arch/x86.
