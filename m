@@ -2,94 +2,57 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268AE42B2F4
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Oct 2021 04:56:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2535B42B7BC
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Oct 2021 08:42:38 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HTcc449sVz2ybB
-	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Oct 2021 13:56:04 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HTjdR4cwtz2yY7
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 Oct 2021 17:42:35 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=mendozajonas.com header.i=@mendozajonas.com header.a=rsa-sha256 header.s=fm1 header.b=IwqhZ2PQ;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=EFBfADF6;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=dkim header.b=VlLM3hqi;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=mendozajonas.com (client-ip=66.111.4.224;
- helo=new2-smtp.messagingengine.com; envelope-from=sam@mendozajonas.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=mendozajonas.com header.i=@mendozajonas.com
- header.a=rsa-sha256 header.s=fm1 header.b=IwqhZ2PQ; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=EFBfADF6; 
- dkim-atps=neutral
-X-Greylist: delayed 559 seconds by postgrey-1.36 at boromir;
- Wed, 13 Oct 2021 13:55:55 AEDT
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ smtp.mailfrom=alien8.de (client-ip=2a01:4f8:190:11c2::b:1457;
+ helo=mail.skyhub.de; envelope-from=bp@alien8.de; receiver=<UNKNOWN>)
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HTcbv4sbJz2xtZ;
- Wed, 13 Oct 2021 13:55:55 +1100 (AEDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id A236E5805DD;
- Tue, 12 Oct 2021 22:46:31 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Tue, 12 Oct 2021 22:46:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- mendozajonas.com; h=message-id:subject:from:to:cc:date
- :in-reply-to:references:content-type:mime-version
- :content-transfer-encoding; s=fm1; bh=+E7F0YWmqRY7h6makWzK8RcDUH
- P7dmZaJRlPDdMf1ug=; b=IwqhZ2PQASvkp6GZ1X4nmPUo2+mgkl6BejxqX/F+bN
- FUDb0Z0QqWeATGLZqE/Ed2bXP8J4MntmkoapyNnSNvxJwrqxKwAMgwxAwKwz8VRc
- HdlbPBUOBE8IkStBpPkAhIeMaKkzpoMJvWA4Ru0Z3NX4ZwNYTzJbkmiy+EgTSgpX
- BuaBOG+oEeOQKMc7FDeMkow6w4HP9eafWVhxZzYrUxEzpN3fD6ImPRUs6Z2Vh5oH
- 5DhGOWQ/rg+DqC8oEI5XGsrRilBfHqgRjSQ0msUMm/BwHbNcULWHBU+Bu/P2mRA0
- u11ojxYQuaJPj7CNirV6gD9dbR/n2sY4mL4rznoEbshA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=+E7F0YWmqRY7h6makWzK8RcDUHP7dmZaJRlPDdMf1
- ug=; b=EFBfADF6uEgUiRhavisj/MQdWunqxQrllDiFzwV5zC+2lnccdpB/+/FH1
- K3zQ4Jip6oF+Jyj2tPLiP9oAuKbOzcQ8Xj40R/9rjJUfwF6DWZhZUMpRc7Ug1an8
- 16YiO4ot8YZguN4hMTN5ZJNgrwe3mkNkERqJ5oqQ/Oc4IX9UPEWn95o0ZQtL5W8j
- u+XWtK7nYaIEIHVHtlDmjGQ3ByB8GJRl7WS4he+09kTCGad8XKcmOH8fOhSskBvU
- 9HmpBEc64LMjTMKd6H9AGAczsOVIW1D5HFU9fICDwhl9CwNqHu21bcXV1HSBdYm2
- 0BWPFwogRvghsm4Yw7REozZAITu3A==
-X-ME-Sender: <xms:hkhmYYsydRgnmIG_2Kx-2WvQ6Xl6BWUluO_JfQsBQzyWywnHRB9caQ>
- <xme:hkhmYVeDaR935O---C-qQ4h4QZ49_Mq3eiMMWuOITkvKZ594Vu9k_uv8hGT9npaWI
- BIT8KqZXLscu3b1eA>
-X-ME-Received: <xmr:hkhmYTxugakxtqRCivgo_FfAYKDaLUMxyHNzYH7pxWCpdSt6MzxZZ5B2k-WBsoCdRQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddtledgiedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepkffuhffvffgjfhgtfggggfesthekredttderjeenucfhrhhomhepufgrmhhu
- vghlucfovghnughoiigrqdflohhnrghsuceoshgrmhesmhgvnhguohiirghjohhnrghsrd
- gtohhmqeenucggtffrrghtthgvrhhnpefgvedvvdffhfeihedukeegheeludduhfehuddt
- gefftddugeffjeetjeduteduvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
- epmhgrihhlfhhrohhmpehsrghmsehmvghnughoiigrjhhonhgrshdrtghomh
-X-ME-Proxy: <xmx:hkhmYbNDWWG5jqtR5vjtSMbPmiaOo5H1abbtGAAHKs9Wtd6bsf567g>
- <xmx:hkhmYY9pHIUzImTwu-fhBpxdNl_um-5ungduh24-F-2BcfQuyLk5NA>
- <xmx:hkhmYTUIqgZiEGXWqHmjBVbHuxLdpd4qkdH3_C0fC2eYaW3LmqwzHg>
- <xmx:h0hmYTa3YlRUS_owCFVD2HGmT2hqDU2zIRae-pRVzYzEbkKkJt8H-A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 12 Oct 2021 22:46:29 -0400 (EDT)
-Message-ID: <dd6df3ee84110649d901f041883c3d44c0798cda.camel@mendozajonas.com>
-Subject: Re: [PATCH] net: ncsi: Adding padding bytes in the payload
-From: Samuel Mendoza-Jonas <sam@mendozajonas.com>
-To: Joel Stanley <joel@jms.id.au>, Kumar Thangavel
- <kumarthangavel.hcl@gmail.com>
-Date: Tue, 12 Oct 2021 19:46:28 -0700
-In-Reply-To: <CACPK8XcJudWoKgXORvRzGAbtBwHm3a56RULriVABfERZgNgt9w@mail.gmail.com>
-References: <20211012062240.GA5761@gmail.com>
- <CACPK8XcJudWoKgXORvRzGAbtBwHm3a56RULriVABfERZgNgt9w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HTjdD43qJz2xX6;
+ Wed, 13 Oct 2021 17:42:20 +1100 (AEDT)
+Received: from zn.tnic (p200300ec2f0ce200d6cfbc8b4a6526d3.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f0c:e200:d6cf:bc8b:4a65:26d3])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 076361EC01A9;
+ Wed, 13 Oct 2021 08:42:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1634107329;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=RJHwoQ0GRj7G38aIyE/+JmuKk5oLW3/IXloYTjGdLPM=;
+ b=VlLM3hqiRjov/ZUPpeKCNRCnjNajATN4ZcYXc7ZzMcDIFNKZhMuLyvbwbTV4hNSh7eWHn8
+ fPCgRIXxmKE32JTk43eOePcvO+B1Oj286a3oFYZbzrSJQIMJqxSZjpWKlE/Z9g/IFEvVXX
+ VMGzYr69ythLmV1z4a+M8jVC9oRwEZg=
+Date: Wed, 13 Oct 2021 08:42:06 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: "Winiarska, Iwona" <iwona.winiarska@intel.com>
+Subject: Re: [PATCH v2 01/15] x86/cpu: Move intel-family to arch-independent
+ headers
+Message-ID: <YWZ/vqHXibwOWtDu@zn.tnic>
+References: <20210803113134.2262882-1-iwona.winiarska@intel.com>
+ <20210803113134.2262882-2-iwona.winiarska@intel.com>
+ <YVtQG+idmwKn0qLe@zn.tnic>
+ <58ef4107e9b2c60a2605aac0d2fb6670a95bc9e0.camel@intel.com>
+ <YWSZTq8NWWcCMXtA@zn.tnic>
+ <337b6332312ea63862aedd09279417c9e1c7e11f.camel@intel.com>
+ <YWStQSrRJQ09KXVY@zn.tnic>
+ <15d81463b631e03b00a7031510304d5598fc246c.camel@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <15d81463b631e03b00a7031510304d5598fc246c.camel@intel.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,120 +64,47 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Networking <netdev@vger.kernel.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, patrickw3@fb.com, velumanit@hcl.com,
- "David S. Miller" <davem@davemloft.net>
+Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "Williams,
+ Dan J" <dan.j.williams@intel.com>, "zweiss@equinix.com" <zweiss@equinix.com>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "x86@kernel.org" <x86@kernel.org>,
+ "pierre-louis.bossart@linux.intel.com" <pierre-louis.bossart@linux.intel.com>,
+ "mingo@redhat.com" <mingo@redhat.com>,
+ "linux@roeck-us.net" <linux@roeck-us.net>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "jdelvare@suse.com" <jdelvare@suse.com>, "arnd@arndb.de" <arnd@arndb.de>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>, "Lutomirski,
+ Andy" <luto@kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, "Luck,
+ Tony" <tony.luck@intel.com>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "rdunlap@infradead.org" <rdunlap@infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "yazen.ghannam@amd.com" <yazen.ghannam@amd.com>,
+ "d.mueller@elsoft.ch" <d.mueller@elsoft.ch>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 2021-10-12 at 22:44 +0000, Joel Stanley wrote:
-> On Tue, 12 Oct 2021 at 06:23, Kumar Thangavel
-> <kumarthangavel.hcl@gmail.com> wrote:
-> > 
-> > Update NC-SI command handler (both standard and OEM) to take into
-> > account of payload paddings in allocating skb (in case of payload
-> > size is not 32-bit aligned).
-> > 
-> > The checksum field follows payload field, without taking payload
-> > padding into account can cause checksum being truncated, leading to
-> > dropped packets.
-> 
-> Can you help us review this by pointing out where this is described in
-> the NCSI spec?
-> 
-> We've been running this code for a number of years now and I wonder
-> why this hasn't been a problem so far.
+On Tue, Oct 12, 2021 at 11:15:00PM +0000, Winiarska, Iwona wrote:
+> We (OpenBMC) do have PECI HW, so that shouldn't be a problem.
 
-I'm assuming this is referencing section 8.2.2.2:
-If the payload is present and does not end on a 32-bit boundary, one to
-three padding bytes equal to 0x00 shall be present to align the
-checksum field to a 32-bit boundary.
+Yeah, don't take it personally, but asking people to test stuff for you
+doesn't really work, in practice.
 
-But I'm also surprised this hasn't caused issues so far if we've been
-getting it wrong. Is there an example that reproduces the issue?
+> Both CPUID.EAX=1 decoding and definitions in intel-family are pretty "well-
+> defined".
 
-Cheers,
-Sam
+Sure, they are "well-defined" until we change them for whatever reason.
+Then they will be "well-defined" again. But different.
 
-> 
-> Cheers,
-> 
-> Joel
-> 
-> > 
-> > Signed-off-by: Kumar Thangavel <thangavel.k@hcl.com>
-> > 
-> > ---
-> >  net/ncsi/ncsi-cmd.c | 21 +++++++++++++++++----
-> >  1 file changed, 17 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/net/ncsi/ncsi-cmd.c b/net/ncsi/ncsi-cmd.c
-> > index ba9ae482141b..4625fc935603 100644
-> > --- a/net/ncsi/ncsi-cmd.c
-> > +++ b/net/ncsi/ncsi-cmd.c
-> > @@ -214,11 +214,19 @@ static int ncsi_cmd_handler_oem(struct sk_buff
-> > *skb,
-> >         struct ncsi_cmd_oem_pkt *cmd;
-> >         unsigned int len;
-> > 
-> > +       /* NC-SI spec requires payload to be padded with 0
-> > +        * to 32-bit boundary before the checksum field.
-> > +        * Ensure the padding bytes are accounted for in
-> > +        * skb allocation
-> > +        */
-> > +
-> > +       unsigned short payload = ALIGN(nca->payload, 4);
-> > +
-> >         len = sizeof(struct ncsi_cmd_pkt_hdr) + 4;
-> > -       if (nca->payload < 26)
-> > +       if (payload < 26)
-> >                 len += 26;
-> >         else
-> > -               len += nca->payload;
-> > +               len += payload;
-> > 
-> >         cmd = skb_put_zero(skb, len);
-> >         memcpy(&cmd->mfr_id, nca->data, nca->payload);
-> > @@ -272,6 +280,7 @@ static struct ncsi_request
-> > *ncsi_alloc_command(struct ncsi_cmd_arg *nca)
-> >         struct net_device *dev = nd->dev;
-> >         int hlen = LL_RESERVED_SPACE(dev);
-> >         int tlen = dev->needed_tailroom;
-> > +       int payload;
-> >         int len = hlen + tlen;
-> >         struct sk_buff *skb;
-> >         struct ncsi_request *nr;
-> > @@ -281,14 +290,18 @@ static struct ncsi_request
-> > *ncsi_alloc_command(struct ncsi_cmd_arg *nca)
-> >                 return NULL;
-> > 
-> >         /* NCSI command packet has 16-bytes header, payload, 4 bytes
-> > checksum.
-> > +        * Payload needs padding so that the checksum field follwoing
-> > payload is
-> > +        * aligned to 32bit boundary.
-> >          * The packet needs padding if its payload is less than 26
-> > bytes to
-> >          * meet 64 bytes minimal ethernet frame length.
-> >          */
-> >         len += sizeof(struct ncsi_cmd_pkt_hdr) + 4;
-> > -       if (nca->payload < 26)
-> > +
-> > +       payload = ALIGN(nca->payload, 4);
-> > +       if (payload < 26)
-> >                 len += 26;
-> >         else
-> > -               len += nca->payload;
-> > +               len += payload;
-> > 
-> >         /* Allocate skb */
-> >         skb = alloc_skb(len, GFP_ATOMIC);
-> > --
-> > 2.17.1
-> > 
+-- 
+Regards/Gruss,
+    Boris.
 
-
+https://people.kernel.org/tglx/notes-about-netiquette
