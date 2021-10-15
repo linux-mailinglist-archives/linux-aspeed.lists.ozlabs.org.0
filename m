@@ -1,51 +1,127 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3015A433EFF
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Oct 2021 21:07:39 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7DCE4340B9
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Oct 2021 23:42:49 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HYjtJ5SZSz3bP6
-	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Oct 2021 06:07:36 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HYnKM2MD0z3bXc
+	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Oct 2021 08:42:47 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Lv4ZuE2d;
+	dkim=pass (1024-bit key; unprotected) header.d=vivo0.onmicrosoft.com header.i=@vivo0.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-vivo0-onmicrosoft-com header.b=mj8WW4/S;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=kuba@kernel.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=Lv4ZuE2d; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ smtp.mailfrom=vivo.com (client-ip=2a01:111:f400:febd::715;
+ helo=apc01-sg2-obe.outbound.protection.outlook.com;
+ envelope-from=wangqing@vivo.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=vivo0.onmicrosoft.com header.i=@vivo0.onmicrosoft.com
+ header.a=rsa-sha256 header.s=selector2-vivo0-onmicrosoft-com
+ header.b=mj8WW4/S; dkim-atps=neutral
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-sg2apc01on0715.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:febd::715])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HYjt83Hm7z2ypT;
- Wed, 20 Oct 2021 06:07:28 +1100 (AEDT)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3A4D76101A;
- Tue, 19 Oct 2021 19:07:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1634670445;
- bh=HaUgFa7ZDveIyObp/cXpK7mjo1xVVWIUnROJaQjyCDk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Lv4ZuE2dNjZ7BhmzM/CwPcZ1HTJZ0DpCuwSRiGqEfX9gBxoo3yXHirGGg34++hx54
- VL5nIzqRGK+AmEcTwDp9sr+jn/dlNSjjaA3RMXtl16t0rzryHftQHAGSX0D74ktK4D
- cdF0AQAyStQHXno4+ecCMwMW7sgWDyVfW7PGc1U6f9k3pAPpAUJEjPYYCSZkyn36SK
- jwxSvhlZljt0fO4urkF7uZFVkJ2DHpaFt5qCo26PX2RlEiAfjgH/nNlE3AnlyRZLgX
- Aa7qD2G0M8HK1evEUL4qHTMkIMuiCpqoAZrURiZ2G6txLyOKIL+mxkrihNlmiz2BDN
- VMkYKI+Zbz5KQ==
-Date: Tue, 19 Oct 2021 12:07:24 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Kumar Thangavel <kumarthangavel.hcl@gmail.com>
-Subject: Re: [PATCH v2] Add payload to be 32-bit aligned to fix dropped packets
-Message-ID: <20211019120724.50776b81@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20211019144127.GA12978@gmail.com>
-References: <20211019144127.GA12978@gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HVxlH30cLz2ywT
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 15 Oct 2021 17:51:55 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GvLeJrs6HTWUqEiOECo5A1LuKnocC6EaVJ1BwlDMJ7n2DEqyAe+6g38fuFLMGxwbckzOrmibeJTNWb+ckHBgelrkYnR1XqFkjqyDiYEgCSC0HVDWjGciPVDeqMPaw/HMIRFeOekX3/avdXLkBJZn4P3iMz8GkpUSWt2yvpJU7BGvkJeWWyvtqvYwkEE6Ix8MlOnKaTL92pAHsgxfThvab6BjwCnH2WQ/SmsYZm+3ds4/9YLI4WLXoXcpy+tW793yElE/G5YbMo/XnlqUYjkKvmm5yb+OI1GjCUDpAJkUa3TMiaAna1ZUafx0VmPhwM4GQHDskWcDkMv0YyaVQJ2IRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YG7BUZSVe+LwsTJ2vA1sHxcdan5uuhYJmBcKPouVDnA=;
+ b=kGYuaE5/KYTrNA9iJzZJ3++ACo8KUr48PAUo4VFVzr4xRLOv9WvTp8MDSakUV13WDXT7jsh9Smj7y6ArKhUP2zKRSLfvk7g5TCXU+u8ZSvirMqpGyoZ7zreRATsJ6lDfo7xVdKKgn3/EfeuvGIBDVVwRxvYYf6EcLrbdE3JDGeMrLabp/CzfIh6WaX59/zsZRTMKl1f0sJe/RrgsOjwbB5W8o4+s+UgL36ChPeHTeAcpx9o5vmCxFhbhWk6pPPEMdR1O8Pgy4jOpLgG4WcwIROlR1X2d4hAWhxXYAcBpYF5AjUOF48X48Cr7gHYSMMCs8tmX4R2INH5i7pZtaKhN/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YG7BUZSVe+LwsTJ2vA1sHxcdan5uuhYJmBcKPouVDnA=;
+ b=mj8WW4/SKy3WpSGEaCm3ZsQnb/cjBnPgZ2qxATHM7ZBPr/Q+kGwV4svug41wUyInXdxYGBzR/PmXsNgFuHWrNS9fZB542jX3KzyDyafF7HM/NcqqU24aFw4fW130MLqlzKjP/MJ8HEfCtleSNrCYzXxxMr6lQDRuRVdt9UAaFok=
+Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=vivo.com;
+Received: from SL2PR06MB3082.apcprd06.prod.outlook.com (2603:1096:100:37::17)
+ by SL2PR06MB3003.apcprd06.prod.outlook.com (2603:1096:100:33::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18; Fri, 15 Oct
+ 2021 06:51:31 +0000
+Received: from SL2PR06MB3082.apcprd06.prod.outlook.com
+ ([fe80::4c9b:b71f:fb67:6414]) by SL2PR06MB3082.apcprd06.prod.outlook.com
+ ([fe80::4c9b:b71f:fb67:6414%6]) with mapi id 15.20.4608.017; Fri, 15 Oct 2021
+ 06:51:31 +0000
+From: Qing Wang <wangqing@vivo.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, linux-serial@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] tty: 8250: replace snprintf in show functions with sysfs_emit
+Date: Thu, 14 Oct 2021 23:51:22 -0700
+Message-Id: <1634280682-5002-1-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
+Content-Type: text/plain
+X-ClientProxiedBy: HKAPR03CA0010.apcprd03.prod.outlook.com
+ (2603:1096:203:c8::15) To SL2PR06MB3082.apcprd06.prod.outlook.com
+ (2603:1096:100:37::17)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from ubuntu.localdomain (218.213.202.189) by
+ HKAPR03CA0010.apcprd03.prod.outlook.com (2603:1096:203:c8::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.20.4608.13 via Frontend Transport; Fri, 15 Oct 2021 06:51:29 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a257fe8b-46f4-4097-2c38-08d98fa837f1
+X-MS-TrafficTypeDiagnostic: SL2PR06MB3003:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SL2PR06MB30037436715C6FEB4D741026BDB99@SL2PR06MB3003.apcprd06.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1107;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ozBo0OhRK7PksXBCUEnEQERqLZ2uxeto9t/OJKLZ7IpgLnd0BecGSXZfiHQ1LDrSNuzq2jii4UC1CY6XXJfZBhWdRvT75QP7JN9Y7iwtrID9TeWRre+P7VkVAsZOa3QXjKn7q94aJ504BZlAMOC9zQpHwPHm3AavHYsfgbRONAmjxTi+8gkpSbPRtKjcoEJs0vFLDehtujvrkO903t31yuggpL41ZYdUgNl1kN2XccguoK0i0kH3CS4Ez32KAaVQAXsQhQASncDZRkWerqV0pHqx2k893z6NY+nf9GTYJYpqituhFvIb/akKMCyjd3MdgOhmZPZrxmPXT2aQstU31bfGVtTGHj01tTJLnphPtyBj+GCkV8UyTOIEg1eR5wWhpggCNR1ziZSbC1DiMBVGJffe+luYB6KVN/VvI+QNcXw8SdueJH+unfVHOu7n+R3R6UicQp/Kh5RD19JSEPQDejeAWx29gdKqpC50pZO9qs5YqmLe9WacT1BQ5ZKIJ8nPs1EByFJW2TnQuDpB8WhKmjwX0DBpKRV3/SEhXXyG5n8w1HkjPXO7ViLaMi672dufGQmulFWl2TA3ppsYe+0vB1ltC/6QtvhvnT/4anBa7QwLdtUpwbvj/DgpUZCkR9b/P6CvsmLDtqb2y9UvfgDlkS20qKDOKOS1IX8MCCSosiJEQ1n3MxsQ9Ga9NZyiD0t8KvJZtiBOruRfiIvSUyon/w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SL2PR06MB3082.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(66556008)(5660300002)(8936002)(66476007)(83380400001)(316002)(2906002)(4326008)(36756003)(110136005)(6666004)(66946007)(86362001)(186003)(956004)(2616005)(107886003)(26005)(6512007)(8676002)(508600001)(52116002)(38350700002)(6506007)(6486002)(38100700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kzVgKVc4+4vzU6uWdm42dBlUVvJ3i2Qarf8uGIR0iBPapz4+8bul95l85ofK?=
+ =?us-ascii?Q?idDd8dv6NqsMGeOd5HwQRB2QB9vxoxGnlTQnEQU/BY+oFhoH/PZDC1jsjIX7?=
+ =?us-ascii?Q?eTlwscnHTookMX3Yw64ORzj6hJgjKe5YJ2/08+dn8ZBSj/I9ByjdZA123ZxR?=
+ =?us-ascii?Q?9GkY5GAReVdb3dfIwXruM9h7BqAx1gtB37t26O3hOVIPpqcDIwMNp/yxWP30?=
+ =?us-ascii?Q?ia/8ukQw9qyANvVtL94yrET/qEhFXMmTrL4wL6v9w+xg0KPzXN93DUopG9uS?=
+ =?us-ascii?Q?u891L0PTKhiedjfrZoz/GQSq+QuXt8hdtIRkKgMVVA9LOS9QtYfhgrYtOryI?=
+ =?us-ascii?Q?A2XNWRSqQRAfkahYHAp47REm4psUGZuGzGEglJmS67OdhkLR+hRPXKGNFA4l?=
+ =?us-ascii?Q?EXowjifMv+xYnHza9O6Tg6MEIZydOyisSFTlxU+IjHp4KIVdlYKam66ymSo7?=
+ =?us-ascii?Q?lnAM7Iax3ElPbxSMKrlCf4ivaaj4iQJnnsGrCxRwoe/CZNzx5DZlwDZKsqhS?=
+ =?us-ascii?Q?4LRk86Oyp4NxZoegnErjWPLF9UquRnSdPvPS8YNdIgv4exEWK4Gob2TRzsQ1?=
+ =?us-ascii?Q?K2uNGHJZS4q28rKB8WLfjxu76C/z7j4U2zlwsO10y6t3xFBO187vKSbpUqUv?=
+ =?us-ascii?Q?gfxTM3trfrYrwPQrj8f+dBb+qWzsW9lb1b/TSk3wgAJSu9L+ISgkrGuOkSJs?=
+ =?us-ascii?Q?VorWMChm+uNXyeBUiDPCGVmciytPFEdjrnTrerPh7LOA4AT1iEMGSIzBkHxu?=
+ =?us-ascii?Q?J17yGY0RcrYjLIs4zN1FggN5ORJGEO1c7JpcVra+Vvuw/6lhtOLD8BuYOETr?=
+ =?us-ascii?Q?FFAIWn+eqXEEdAtwzWp3WHGwDBzBuHnZjP2TfuLsZYIIRquSvuCQN1mW1MjE?=
+ =?us-ascii?Q?tHJpO70eMesb+cWWUPDJKfObJ+qRTh/pTMHQbjlWoapw5uK31TOcGS3ngszd?=
+ =?us-ascii?Q?DMYxbyCXK0w2v1lGGTp8tJQ5hfsNvWmvJRoBAGdJ7BGlC6qV/OC8i3+aGgOH?=
+ =?us-ascii?Q?c741NRTTn/g0lvvHg5kyEl65CGtG2v+yF9FGrG39dUNUlaBk/yriiiV8kIlJ?=
+ =?us-ascii?Q?FlT8th3/vxZy+iYVj6iyDoPMey0MIYy6/IKhFFAOu8luV2g8sA79aTR1HFFG?=
+ =?us-ascii?Q?W6WrqU/Hq9V1oP+5tOYRGlWsp9iopx9isdYXW+y5XbrfIl1HAOII0W38bi4l?=
+ =?us-ascii?Q?GOV8wR0/ZhHlF4DNpOYpydljVpCiJjaputuvZTub3aRz+u/KO1vSH1iadXGe?=
+ =?us-ascii?Q?0TuuQv3iP1wVZx2lh4Z8674qjBt7T5i0dp3whbOZv4FU0Ga4WXt4ODf+oPB8?=
+ =?us-ascii?Q?VkzenYhmErJpqDrR4zViPZv2?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a257fe8b-46f4-4097-2c38-08d98fa837f1
+X-MS-Exchange-CrossTenant-AuthSource: SL2PR06MB3082.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2021 06:51:30.8404 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TShA0TKSqTNgQEKsezys7ZPCcZXLAcaJXQpBpZHx/j7brTTtHtTa4A/lvEpuh9JcF0hX8IGmnbHUwyCfdWR4rw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SL2PR06MB3003
+X-Mailman-Approved-At: Wed, 20 Oct 2021 08:42:43 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,15 +133,67 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: sdasari@fb.com, linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org,
- openbmc@lists.ozlabs.org, patrickw3@fb.com,
- Samuel Mendoza-Jonas <sam@mendozajonas.com>, velumanit@hcl.com,
- "David S. Miller" <davem@davemloft.net>
+Cc: Qing Wang <wangqing@vivo.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 19 Oct 2021 20:11:27 +0530 Kumar Thangavel wrote:
-> +	payload = ALIGN(nca->payload, 4)
+show() must not use snprintf() when formatting the value to be
+returned to user space.
 
-This is missing a semicolon.
+Fix the coccicheck warnings:
+WARNING: use scnprintf or sprintf.
+
+Signed-off-by: Qing Wang <wangqing@vivo.com>
+---
+ drivers/tty/serial/8250/8250_aspeed_vuart.c | 6 +++---
+ drivers/tty/serial/8250/8250_port.c         | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+index 2350fb3..082b9bd 100644
+--- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
++++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+@@ -82,7 +82,7 @@ static ssize_t lpc_address_show(struct device *dev,
+ 	addr = (aspeed_vuart_readb(vuart, ASPEED_VUART_ADDRH) << 8) |
+ 		(aspeed_vuart_readb(vuart, ASPEED_VUART_ADDRL));
+ 
+-	return snprintf(buf, PAGE_SIZE - 1, "0x%x\n", addr);
++	return sysfs_emit(buf - 1, "0x%x\n", addr);
+ }
+ 
+ static int aspeed_vuart_set_lpc_address(struct aspeed_vuart *vuart, u32 addr)
+@@ -124,7 +124,7 @@ static ssize_t sirq_show(struct device *dev,
+ 	reg &= ASPEED_VUART_GCRB_HOST_SIRQ_MASK;
+ 	reg >>= ASPEED_VUART_GCRB_HOST_SIRQ_SHIFT;
+ 
+-	return snprintf(buf, PAGE_SIZE - 1, "%u\n", reg);
++	return sysfs_emit(buf - 1, "%u\n", reg);
+ }
+ 
+ static int aspeed_vuart_set_sirq(struct aspeed_vuart *vuart, u32 sirq)
+@@ -171,7 +171,7 @@ static ssize_t sirq_polarity_show(struct device *dev,
+ 	reg = aspeed_vuart_readb(vuart, ASPEED_VUART_GCRA);
+ 	reg &= ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
+ 
+-	return snprintf(buf, PAGE_SIZE - 1, "%u\n", reg ? 1 : 0);
++	return sysfs_emit(buf - 1, "%u\n", reg ? 1 : 0);
+ }
+ 
+ static void aspeed_vuart_set_sirq_polarity(struct aspeed_vuart *vuart,
+diff --git a/drivers/tty/serial/8250/8250_port.c b/drivers/tty/serial/8250/8250_port.c
+index 1da29a2..635cc42 100644
+--- a/drivers/tty/serial/8250/8250_port.c
++++ b/drivers/tty/serial/8250/8250_port.c
+@@ -3085,7 +3085,7 @@ static ssize_t rx_trig_bytes_show(struct device *dev,
+ 	if (rxtrig_bytes < 0)
+ 		return rxtrig_bytes;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%d\n", rxtrig_bytes);
++	return sysfs_emit(buf, "%d\n", rxtrig_bytes);
+ }
+ 
+ static int do_set_rxtrig(struct tty_port *port, unsigned char bytes)
+-- 
+2.7.4
+
