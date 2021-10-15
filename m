@@ -2,51 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57B2A42E73B
-	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Oct 2021 05:30:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDE942E774
+	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Oct 2021 06:01:54 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HVsGx6bkrz302d
-	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Oct 2021 14:30:33 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HVsz42XG7z306l
+	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Oct 2021 15:01:52 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=gIXasXOq;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::831;
+ helo=mail-qt1-x831.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=gIXasXOq; dkim-atps=neutral
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com
+ [IPv6:2607:f8b0:4864:20::831])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HVsGq73yJz2yM7;
- Fri, 15 Oct 2021 14:30:26 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 19F38CnT038176;
- Fri, 15 Oct 2021 11:08:12 +0800 (GMT-8)
- (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 15 Oct
- 2021 11:29:54 +0800
-Message-ID: <e94e8b49-e7cc-c358-3b6b-1af82c70982c@aspeedtech.com>
-Date: Fri, 15 Oct 2021 11:29:55 +0800
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HVsyz1THLz2yp8
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 15 Oct 2021 15:01:44 +1100 (AEDT)
+Received: by mail-qt1-x831.google.com with SMTP id w2so7794122qtn.0
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Oct 2021 21:01:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=ECBOEkwsFwUl/LQLvdaX8K1iYZNdAdzVqfvemry/2Js=;
+ b=gIXasXOqP3ZyNyTBXLwyCySfZifxVIYOiEQJmV+nxk/PHLSxGrhrIGcgesEMSwYtbw
+ rzulIvfb37aOBwzkHvO/2jsQxTxGQCaJN3hoFAMCgszHfdGgpZNds6+SChBW9PRQorza
+ /pZ8u0n1z1AHojts8kU0xMlPWIGuBgf7+oBjA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=ECBOEkwsFwUl/LQLvdaX8K1iYZNdAdzVqfvemry/2Js=;
+ b=xc1PJ3Cj8xKdww7NtAC1Ic+KwXIAU+8oKpPvpVAEVKMeIe/h9PH2LF457vSvKwg4zw
+ ez7ZpeI/ajP1PzwXs6QKYF6meI3QULNK/nXfvHa17OxsEYU1FNp1eAWohIU0bdg5dukf
+ 7e7k6mfgZZW9iyMDwNmNqjzxvPd83KPtdbt1v4C2rGGhI/XCyxmugV6cvBXvTcPYKee/
+ TIOHpiG4bY8Z3lH0JemFEvF1YMJC9PJoBEFiRy8a5hLWArEPv/0Bh5Zn6TD6n4sdRLrw
+ nAusW5jQsN56TYM1XLw6AGrSgScO/TxuWdBBaqwHi/cygCF3dJLxj93gJP30+cWUPrlL
+ H58w==
+X-Gm-Message-State: AOAM5333Fgn2S75aOxCBbkDHCZ8x5H+1SdqL3m70Lqyg+xL/XVZ9jQNV
+ BI1JElWJ1aVlwO4Jr9ijq1EPVyXKSp66AOvbqvM=
+X-Google-Smtp-Source: ABdhPJz5ihCwKgESTZKbaaX82wih0wrKU9fUlqSYcBkxd2H4K+BVYtLy0hdfzMJuRZWu1v78+2JJaDVjGuxV09hydak=
+X-Received: by 2002:a05:622a:1451:: with SMTP id
+ v17mr11094292qtx.25.1634270501310; 
+ Thu, 14 Oct 2021 21:01:41 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 6/6] media: aspeed: richer debugfs
-Content-Language: en-US
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-References: <20211014034819.2283-1-jammy_huang@aspeedtech.com>
- <20211014034819.2283-7-jammy_huang@aspeedtech.com>
- <f7d3900f-9e1c-1c2b-f14a-a3828852eadc@molgen.mpg.de>
- <53fa3d1a-d75b-2fb1-a315-c6406f33289c@molgen.mpg.de>
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <53fa3d1a-d75b-2fb1-a315-c6406f33289c@molgen.mpg.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 19F38CnT038176
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 15 Oct 2021 04:01:30 +0000
+Message-ID: <CACPK8XdrMzY9tzdof7KpzxKquTo7GcWW4N9Zqwtmmu73C7htXA@mail.gmail.com>
+Subject: [GIT PULL] ARM: aspeed: devicetree changes for 5.16
+To: SoC Team <soc@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,161 +68,89 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Andrew Jeffery <andrewrjeffery@gmail.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Dear Paul,
+Hello Soc maintainers,
 
-Thanks for you help. I will have an updated patch later accordingly.
+Here are the aspeed device tree changes for v5.16.
 
-On 2021/10/14 下午 02:57, Paul Menzel wrote:
-> Dear Jammy,
->
->
-> Am 14.10.21 um 08:54 schrieb Paul Menzel:
->
->> Am 14.10.21 um 05:48 schrieb Jammy Huang:
->> media: aspeed: richer debugfs
-> It’d be great if you used a statement by adding a verb in imperative
-> mood [1]. Maybe:
->
->> Extend debug message
-> or
->
->> Add more debug log messages
->>> updated as below:
->>>
->>> Caputre:
->> Capture
->>
->>>     Mode                : Direct fetch
->>>     VGA bpp mode        : 32
->>>     Signal              : Unlock
->>>     Width               : 1920
->>>     Height              : 1080
->>>     FRC                 : 30
->>>
->>> Compression:
->>>     Format              : JPEG
->>>     Subsampling         : 444
->>>     Quality             : 0
->>>     HQ Mode             : N/A
->>>     HQ Quality          : 0
->>>     Mode                : N/A
->>>
->>> Performance:
->>>     Frame#              : 0
->>>     Frame Duration(ms)  :
->>>       Now               : 0
->>>       Min               : 0
->>>       Max               : 0
->>>     FPS                 : 0
->> Do you have output with non-zero values? ;-)
->>
->> On what device did you test this?
->>
->>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->>> ---
->>>    drivers/media/platform/aspeed-video.c | 41 +++++++++++++++++++++++++--
->>>    1 file changed, 38 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/aspeed-video.c
->>> b/drivers/media/platform/aspeed-video.c
->>> index e1031fd09ac6..f2e5c49ee906 100644
->>> --- a/drivers/media/platform/aspeed-video.c
->>> +++ b/drivers/media/platform/aspeed-video.c
->>> @@ -464,6 +464,9 @@ static const struct v4l2_dv_timings_cap
->>> aspeed_video_timings_cap = {
->>>        },
->>>    };
->>> +static const char * const compress_mode_str[] = {"DCT Only",
->>> +    "DCT VQ mix 2-color", "DCT VQ mix 4-color"};
->>> +
->>>    static unsigned int debug;
->>>    static void aspeed_video_init_jpeg_table(u32 *table, bool yuv420)
->>> @@ -1077,8 +1080,6 @@ static void aspeed_video_set_resolution(struct
->>> aspeed_video *video)
->>>    static void aspeed_video_update_regs(struct aspeed_video *video)
->>>    {
->>> -    static const char * const compress_mode_str[] = {"DCT Only",
->>> -        "DCT VQ mix 2-color", "DCT VQ mix 4-color"};
->>>        u32 comp_ctrl =    FIELD_PREP(VE_COMP_CTRL_DCT_LUM,
->>> video->jpeg_quality) |
->>>            FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10) |
->>>            FIELD_PREP(VE_COMP_CTRL_EN_HQ, video->hq_mode) |
->>> @@ -1795,9 +1796,29 @@ static const struct vb2_ops
->>> aspeed_video_vb2_ops = {
->>>    static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
->>>    {
->>>        struct aspeed_video *v = s->private;
->>> +    u32 val08;
->> Why does `08` refer to?
->>
->>>        seq_puts(s, "\n");
->>> +    val08 = aspeed_video_read(v, VE_CTRL);
->>> +    seq_puts(s, "Caputre:\n");
->>> +    if (FIELD_GET(VE_CTRL_DIRECT_FETCH, val08)) {
->>> +        seq_printf(s, "  %-20s:\tDirect fetch\n", "Mode");
->>> +        seq_printf(s, "  %-20s:\t%s\n", "VGA bpp mode",
->>> +               FIELD_GET(VE_CTRL_INT_DE, val08) ? "16" : "32");
->>> +    } else {
->>> +        seq_printf(s, "  %-20s:\tSync\n", "Mode");
->>> +        seq_printf(s, "  %-20s:\t%s\n", "Video source",
->>> +               FIELD_GET(VE_CTRL_SOURCE, val08) ?
->>> +               "external" : "internal");
->>> +        seq_printf(s, "  %-20s:\t%s\n", "DE source",
->>> +               FIELD_GET(VE_CTRL_INT_DE, val08) ?
->>> +               "internal" : "external");
->>> +        seq_printf(s, "  %-20s:\t%s\n", "Cursor overlay",
->>> +               FIELD_GET(VE_CTRL_AUTO_OR_CURSOR, val08) ?
->>> +               "Without" : "With");
->>> +    }
->>> +
->>>        seq_printf(s, "  %-20s:\t%s\n", "Signal",
->>>               v->v4l2_input_status ? "Unlock" : "Lock");
->>>        seq_printf(s, "  %-20s:\t%d\n", "Width", v->pix_fmt.width);
->>> @@ -1806,6 +1827,21 @@ static int aspeed_video_debugfs_show(struct
->>> seq_file *s, void *data)
->>>        seq_puts(s, "\n");
->>> +    seq_puts(s, "Compression:\n");
->>> +    seq_printf(s, "  %-20s:\t%s\n", "Format",
->>> +           v->partial_jpeg ? "Aspeed" : "JPEG");
->>> +    seq_printf(s, "  %-20s:\t%s\n", "Subsampling",
->>> +           v->yuv420 ? "420" : "444");
->>> +    seq_printf(s, "  %-20s:\t%d\n", "Quality", v->jpeg_quality);
->>> +    seq_printf(s, "  %-20s:\t%s\n", "HQ Mode",
->>> +           v->partial_jpeg ? (v->hq_mode ? "on" : "off") : "N/A");
->>> +    seq_printf(s, "  %-20s:\t%d\n", "HQ Quality", v->jpeg_hq_quality);
->>> +    seq_printf(s, "  %-20s:\t%s\n", "Mode",
->>> +           v->partial_jpeg ? compress_mode_str[v->compression_mode]
->>> +                   : "N/A");
->>> +
->>> +    seq_puts(s, "\n");
->>> +
->>>        seq_puts(s, "Performance:\n");
->>>        seq_printf(s, "  %-20s:\t%d\n", "Frame#", v->sequence);
->>>        seq_printf(s, "  %-20s:\n", "Frame Duration(ms)");
->> Remove the colon, and add a space before (?
->>
->>> @@ -1814,7 +1850,6 @@ static int aspeed_video_debugfs_show(struct
->>> seq_file *s, void *data)
->>>        seq_printf(s, "    %-18s:\t%d\n", "Max", v->perf.duration_max);
->>>        seq_printf(s, "  %-20s:\t%d\n", "FPS",
->>> 1000/(v->perf.totaltime/v->sequence));
->>> -
->>>        return 0;
->>>    }
->
-> Kind regards,
->
-> Paul
->
->
-> [1]: https://chris.beams.io/posts/git-commit/
+The following changes since commit 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f:
+
+  Linux 5.15-rc1 (2021-09-12 16:28:37 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
+tags/aspeed-5.16-devicetree
+
+for you to fetch changes up to 4eb7fe3333a021c8d0f35bcb5cd7c4e42800df62:
+
+  ARM: dts: aspeed: fp5280g2: Use the 64M layout (2021-10-14 18:25:17 +1030)
+
+----------------------------------------------------------------
+ASPEED device tree updates for 5.15
+
+ - New machines:
+
+  * TYAN S7106 BMC, a x86 server from about four years ago
+
+ - Descriptions for the AST2600 ADC, which now has an upstream driver
+
+ - Lots of GPIO line names. The OpenBMC project has adopted a scheme for
+   naming the lines, and new additions will follow this guide
+
+ - New I2C devices for Rainier, Everest, EthanolX, Mt Jade
+
+ - Fixes for fp5280g2 which has seen some recent development, including
+   the addtion of a QEmu machine for testing
+
+----------------------------------------------------------------
+Adriana Kobylak (1):
+      ARM: dts: aspeed: rainier: Add power-config-full-load gpio
+
+Ben Tyner (3):
+      ARM: dts: rainier: Define name for gpio line Q2
+      ARM: dts: everest: Define name for gpio line Q2
+      ARM: dts: everest: Define name for gpio line B6
+
+Eddie James (3):
+      ARM: dts: aspeed: rainier: Add system LEDs
+      ARM: dts: aspeed: everest: Add I2C bus 15 muxes
+      ARM: dts: aspeed: Add ADC for AST2600 and enable for Rainier and Everest
+
+George Liu (1):
+      ARM: dts: fp5280g2: Enable KCS 3 for MCTP binding
+
+Isaac Kurth (1):
+      ARM: dts: everest: Add 'factory-reset-toggle' as GPIOF6
+
+Joel Stanley (1):
+      ARM: dts: aspeed: p10bmc: Define secure boot gpio
+
+John Wang (1):
+      ARM: dts: aspeed: fp5280g2: Use the 64M layout
+
+Konstantin Aladyshev (1):
+      ARM: dts: aspeed: amd-ethanolx: Add FRU EEPROM
+
+Oskar Senft (1):
+      ARM: dts: aspeed: Add TYAN S7106 BMC machine
+
+Quan Nguyen (1):
+      ARM: dts: aspeed: mtjade: Add some gpios
+
+ arch/arm/boot/dts/Makefile                       |    3 +-
+ arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts    |    5 +
+ arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts   |   21 +-
+ arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts     |  182 ++-
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts     | 1571 +++++++++++++++++++---
+ arch/arm/boot/dts/aspeed-bmc-inspur-fp5280g2.dts |    9 +-
+ arch/arm/boot/dts/aspeed-bmc-tyan-s7106.dts      |  488 +++++++
+ arch/arm/boot/dts/aspeed-g6.dtsi                 |   20 +
+ 8 files changed, 2075 insertions(+), 224 deletions(-)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-tyan-s7106.dts
