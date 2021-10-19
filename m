@@ -1,54 +1,127 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5348C431426
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Oct 2021 12:11:50 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56389432DFD
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Oct 2021 08:18:01 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HXt2W74nYz2yZv
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 Oct 2021 21:11:47 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HYNpG2wzJz2ypV
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Oct 2021 17:17:58 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=dzv623B1;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
- receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+ smtp.mailfrom=os.amperecomputing.com (client-ip=40.107.244.107;
+ helo=nam12-mw2-obe.outbound.protection.outlook.com;
+ envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com
+ header.a=rsa-sha256 header.s=selector2 header.b=dzv623B1; 
+ dkim-atps=neutral
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2107.outbound.protection.outlook.com [40.107.244.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HXt1z4wzXz2yN4;
- Mon, 18 Oct 2021 21:11:17 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 19I9meJY075064;
- Mon, 18 Oct 2021 17:48:40 +0800 (GMT-8)
- (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 18 Oct
- 2021 18:10:35 +0800
-Message-ID: <8f20094e-506a-f03a-4dfc-669d7b0d19d8@aspeedtech.com>
-Date: Mon, 18 Oct 2021 18:10:35 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 4/6] media: aspeed: Support aspeed mode to reduce
- compressed data
-Content-Language: en-US
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-References: <20211014034819.2283-1-jammy_huang@aspeedtech.com>
- <20211014034819.2283-5-jammy_huang@aspeedtech.com>
- <ddb1e6dc-6b4f-4f67-9122-dae3dab1ae65@molgen.mpg.de>
- <5675befe-48df-9f09-f30f-d407538ad070@aspeedtech.com>
- <5466798e-32c1-81f5-3428-7bbfe31cdea7@molgen.mpg.de>
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <5466798e-32c1-81f5-3428-7bbfe31cdea7@molgen.mpg.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HYNp6249dz2ynr;
+ Tue, 19 Oct 2021 17:17:48 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PVsfoTI4Gb5CpRZLJMbffa+H5AKxPwx9krnTnx6FC5GR/inKkFCrrpz7GRFaNZUCNcNHTiDHU9RB1XkDgquxzQNs6tZlU2dWrR/QZV9zQGo+Qv6qDlvyzvGA2i25YBru7ghibuWLTNSwW03xAXnogy4oR1JW9+WoI/67Qarr5pbVfQTP7UFdPot6gKgj/4rIk5xtyN8esKLpklSc2B3CMkdBxNH1vYwpFIUaVwJMOpl4zRHj1X1d4ADbGPdOCF2LknhiofigGtB6uTsrdWdo/eYv14OnrLPCdvyCvWhWfBHRoNZK1E9XLNZnKfsLl6UGM2Bt46fzz9yLfBCB7ZoZ6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kv4/+TRblO4J544PIc42mHH7u3vjlrwCQiVV6hLPe84=;
+ b=HBbXLdqNGdOMnfdPESotinmYUaO1qUSFsvnqMQ2JSid0CkCICMwnMnPZEpOJkMsG8aPo34/Cga5qH1OYTUFnSRSZREqsUesfKSzE5HwCzsBOMeKk5UlSScF9K5SRFFWbeKPotGbktE0zGAZZGkr1rZC16RMxhJ/sPkt5kP3Vz/V/X9v0gOOpmxFmf8Nn5iwVSP6YTpJM+fIy1o+Go0Qu+d7UQibHqRe20TX2OIplbUN4bKYGNUsh7IWArsVHGWugBta9ofceav6PDe0wwmUXBuxp7/PYo3v9pC5Y7V3rwehYzrHU6zLVrYvq/q0CLxBR37oK5jD6ZSIBPuL+GPGHmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kv4/+TRblO4J544PIc42mHH7u3vjlrwCQiVV6hLPe84=;
+ b=dzv623B1z7IJq0DnhwLUhO8GSZT2DQ3oBFvVqdHHokIdjYX9k6/h8TYcEEgXb65zU8pcy9lwsNuT9/WnFpcXZaeC+0cdet8TxVULB3SPBkjvuy29UJQLewBol/G1aJ1/avcQPVwahv5z+GECpXEgr7P44GZRZZqzfDEsOykRICQ=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from SJ0PR01MB7282.prod.exchangelabs.com (2603:10b6:a03:3f2::24) by
+ BYAPR01MB5062.prod.exchangelabs.com (2603:10b6:a03:7f::18) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4608.17; Tue, 19 Oct 2021 06:02:15 +0000
+Received: from SJ0PR01MB7282.prod.exchangelabs.com
+ ([fe80::f14d:21a9:9ebf:2924]) by SJ0PR01MB7282.prod.exchangelabs.com
+ ([fe80::f14d:21a9:9ebf:2924%9]) with mapi id 15.20.4608.018; Tue, 19 Oct 2021
+ 06:02:15 +0000
+From: Quan Nguyen <quan@os.amperecomputing.com>
+To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, OpenBMC Maillist <openbmc@lists.ozlabs.org>
+Subject: [PATCH v2 0/3] Update gpios, nvme i2c busses and uefi partition
+Date: Tue, 19 Oct 2021 13:01:52 +0700
+Message-Id: <20211019060155.945-1-quan@os.amperecomputing.com>
+X-Mailer: git-send-email 2.28.0
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 19I9meJY075064
+Content-Type: text/plain
+X-ClientProxiedBy: HK0PR01CA0059.apcprd01.prod.exchangelabs.com
+ (2603:1096:203:a6::23) To SJ0PR01MB7282.prod.exchangelabs.com
+ (2603:10b6:a03:3f2::24)
+MIME-Version: 1.0
+Received: from hcm-sw-17.amperecomputing.com (118.69.219.201) by
+ HK0PR01CA0059.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.18 via Frontend
+ Transport; Tue, 19 Oct 2021 06:02:12 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6381198d-ee16-4aeb-0a93-08d992c5ffe9
+X-MS-TrafficTypeDiagnostic: BYAPR01MB5062:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR01MB506221B3C3E8FD03A3029B11F2BD9@BYAPR01MB5062.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4HJ7oqO/AiWdc3B3oom6Z9aRzq1qY77InmXTiTyl+Tx8TBRUFUeAMUM9faH9HCE6IFNQgvaSAPkwfL9EsWBuJkKymj34dXfnEgvsx9tao06nabYkcpxyiF6T6S5ju8g+3q76d2DrRruxmKRNhT8zC0F9bI7pE2hf3hOT4vFVxxbVVQZNkpOipA3D/qFQmsVIMtLyEMzM55GGU8GOVxCYdVnK0xKS52PcTOdvNiEw9r+piB2LzZdo6gJpiUbA/2VAJN+woYHG/xEaIcksj9WTpd7V+DVTPXt7uzJOt0007GQQK0lmwAL2u+iiKxwBlYncCFwO8kSsGtALfUfoOyv4FSSekNUQfwEn/LOz2HCrELXIkz7jwQJb58hvyjwqkUMT/f/MoynjToFwX98OAOq/NuJhP/q7xeBlwUnZTj2xB/QwSIWSfTFCc9p2pvQT0c/kx9zTG+uzAgcUN5hvtZKhNvDe77xZJ6yOk3Ylmeuq/NTNCOPZd6FHwy85Y3jpW9EQLM+b7Hr7+QxU8hJBNtMHM9bTwhB8fst+7tsWjxNnn/V9rpsoS8+h5oojWe2F8Zus504mbkDWVYGG31LScYj66JFX7Wblggd+rcw6OEbWnZoTCk+9NgiVt7yotySx2V/03ceuVqwAj4kFmY2Ea+xi5oz8ka+Ti5Ioqb+rlt2+N4BB0O8aaExctyFDRJJlnsZSZLWcX182mbUjnl1nul52+X7gmlu2ndlC0xdBJkBaDAmYE+ZZ9R9J1AuyXN7kFGeQ55wyXUPemfiEhpgINAnFSK1g2bom/AbevSBPJJESXiw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR01MB7282.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(54906003)(6512007)(110136005)(956004)(2616005)(508600001)(66946007)(5660300002)(107886003)(66556008)(966005)(6666004)(316002)(8936002)(2906002)(52116002)(38350700002)(6506007)(38100700002)(4744005)(86362001)(6486002)(83380400001)(8676002)(186003)(66476007)(4326008)(1076003)(26005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?68Ubw/cLHlztKThhL3ayp9qfQappd+fLNhctHCf/zMq22wuGASQpJDNaE5Bs?=
+ =?us-ascii?Q?5cax0+0vbjqDiOod9UiiHs4eGwNltucceqoyrOYdzSOfkf8EFZJ004DzFYF5?=
+ =?us-ascii?Q?t29voWy3uCWP/q8xHD2SZ4pt0mC3tR8dYbHaIoFN3i02xdJrSPVKLpgSCf78?=
+ =?us-ascii?Q?0eSWrJsVtLIku2qUdFevH9rrrsWRaRJqthc1ROwNYQVNaij2FuDjVW6fV5q7?=
+ =?us-ascii?Q?Eygwzm4uWTxmsu9R0qY4M9c27ROzKfX8CSLeDhFSqbJApNam9knHLU8R6V7T?=
+ =?us-ascii?Q?I3irbNoiGi/Veq+2JHWMo2s8cSPPHK5FUhchQm3/f2bMWRof76XXXjVk1Vxj?=
+ =?us-ascii?Q?kL1ersDAvtpn6bzxtu7usGhPZGTdc4rh+SJbzXDthXHeAAB9hbEc02NMZER2?=
+ =?us-ascii?Q?2GekSCggXZ4bu0kqGK8pCzW6T18BHb4j26U4IJYx3DkwezfUXNu2jvj9WT9A?=
+ =?us-ascii?Q?i+7zAfEZCYa4uLDiGNNV9EfeG5wTNCtrYzsGtaLtztavlukvUzMcakclXm3v?=
+ =?us-ascii?Q?8dB/FKjdP4MUq6BYvs3NO+VEuyprtEgPmGwyOXGJDjJiJ9KaZh37E/C5ao5a?=
+ =?us-ascii?Q?HzpGKJudCvhDqUZamiqJBB3u0naTw8wuWblahid5otksJ01FKg4UnzcHcNuU?=
+ =?us-ascii?Q?WTLQOaq6d/eg8Psn5irtB0kUv+HszOX2NwzPUR9N6hBlpUBVxpTyBCGoHllJ?=
+ =?us-ascii?Q?bTCq+3dCzJX2nBT14X7d5EDCFYOorN69I5P4aF5JjQIJqzPHOHlktlaG1cL3?=
+ =?us-ascii?Q?vhrvDhfIfuQ9QloCUexI/d8iHSvqo7JpU9WIMOfnGJjBGKm1SwI638fh+uTl?=
+ =?us-ascii?Q?L7LGkEB6BA0sHMEyItWWQ8sWqPfy3YQzVXcx4M7iOXCIaLnb6r7Mwpw1j6G3?=
+ =?us-ascii?Q?zpRAf85oB8IhQmQjpsLGaQGB1xA81zIIW226IXKi+L+IsUmWodjUDVCzPwC5?=
+ =?us-ascii?Q?Ixu0txMouY1l1eLKWlkbXASX1i5nZfMmulAM6rQw/48vtaTYcFMqLdycmoLP?=
+ =?us-ascii?Q?Mxj6j3aWrw4AkEC5QYSmqv99xaAsTCEyQYk1oBLh/JYTT80A4Wy7B6/YKT9d?=
+ =?us-ascii?Q?KZs5RXpMAGKUMLGc/+eW/qb+xZKE9ficdzCK9hoQU9JHFMnxCXfn8XnjE5ya?=
+ =?us-ascii?Q?QfEl0WcY4Jhj8ERJ6kiwmuVOy2zZxxzs65NG22zodL2fdglZn8AwsoscM4f8?=
+ =?us-ascii?Q?oe5AwowQujbZEE9S+VMwYdjWrn8Te55f1Xb54n7Ir6KzxMURRMyTWcoAQ6LH?=
+ =?us-ascii?Q?t/cH4qTr/NbPxQB5xYKgye+43BgI9XqUBq/N7VhxogPkNNxDlKJKq++9zbPG?=
+ =?us-ascii?Q?PJzVPLP/KX4sVYIo+uDNrYR7?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6381198d-ee16-4aeb-0a93-08d992c5ffe9
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR01MB7282.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2021 06:02:15.4418 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Nq1ZIVlnAy566SbSW1TFdeb/IFJ//BEggjvoX2Afl0pITiYeDgeT2/kwfxqoSKSd4O9h8fjuJbjlib88CfLBeMMwk09RQ92w/4vsw6lSHCQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR01MB5062
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,111 +133,32 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: Open Source Submission <patches@amperecomputing.com>,
+ "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
+ Phong Vo <phong@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Dear Paul,
+This patchset adds gpios, i2c configuration busses for NVMe
+slots and uefi spi nor partition for BMC on Mt.Jade hardware
+reference platform.
 
-Thanks for your help.
+v2: 
+  + Added changes for NVMe slot i2c busses and uefi partition [Quan]
 
-On 2021/10/18 下午 05:34, Paul Menzel wrote:
-> Dear Jammy,
->
->
-> Am 18.10.21 um 10:51 schrieb Jammy Huang:
->
->> On 2021/10/14 下午 02:47, Paul Menzel wrote:
->>> Am 14.10.21 um 05:48 schrieb Jammy Huang:
->>>> aspeed support differential jpeg format which only compress the parts
->>> support*s*
->>>
->>>> which are changed. In this way, it reduces both the amount of data to be
->>>> transferred by network and those to be decoded on the client side.
->>> Please mention the datasheet name and revision and section, where this
->>> functionality is described.
->> Sorry but our datasheet is confidential. The basic idea of this
->> feature is that we can just compress the blocks which is different
->> with previous frame rather than full frame. This idea is similar to
->> the I & P frame in multimedia.
-> It’s still good to have the name and revision of the datasheet, the code
-> was developed against documented. (Public datasheets would be even
-> better, also for review.)
-You can reference to the datasheet of ast2600 revision 9 at section 36, 
-Video Engine.
+v1:
+  + Add some gpios                                            [Quan]
+  https://lore.kernel.org/r/all/20210917082945.19111-1-quan@os.amperecomputing.com
 
->
->>> Which chips support it?
->> AST2400/2500/2600 all support it.
->>>> 4 new ctrls are added:
->>>> *Aspeed JPEG Format: to control aspeed's partial jpeg on/off
->>>> *Aspeed Compression Mode: to control aspeed's compression mode
->>>> *Aspeed HQ Mode: to control aspeed's HQ mode on/off
->>>> *Aspeed HQ Quality: to control the quality of aspeed's HQ mode
->>> Please add a space after the bullet points.
->>>
->>> Excuse my ignorance, how can these options be controlled?
->> * Aspeed JPEG Format: to control jpeg format
->>     0: standard jpeg, 1: aspeed jpeg
->> * Aspeed Compression Mode: to control aspeed's compression mode
->>     0: DCT Only, 1: DCT VQ mix 2-color, 2: DCT VQ mix 4-color
->>     This is AST2400 only. It will adapt JPEG or VQ encoding method according
->>     to the context automatically.
->> * Aspeed HQ Mode: to control aspeed's HQ mode on/off
->>     0: disabled, 1: enabled
->> * Aspeed HQ Quality: to control the quality(0~11) of aspeed's HQ mode,
->>     only usefull if Aspeed HQ mode is enabled
-> Thank you. So some sysfs file?
-This is a v4l2 based driver, so I prefer to use v4l2 control interface 
-rather than sysfs.
-The user can iterate v4l2 control by V4L2_CTRL_FLAG_NEXT_CTRL to know 
-what is
-available. For example, the following is the information that 
-aspeed_video driver supports
+Quan Nguyen (3):
+  ARM: dts: aspeed: mtjade: Add some gpios
+  ARM: dts: aspeed: mtjade: Add I2C buses for NVMe devices
+  ARM: dts: aspeed: mtjade: Add uefi partition
 
-[User Controls                 ]
-Aspeed JPEG Format             : type=1, minimum=0, maximum=2, step=1, 
-default_value=0
-Aspeed Compression Mode        : type=1, minimum=0, maximum=2, step=1, 
-default_value=0
-Aspeed HQ Mode                 : type=2, minimum=0, maximum=1, step=1, 
-default_value=0
-Aspeed HQ Quality              : type=1, minimum=0, maximum=11, step=1, 
-default_value=0
-[JPEG Compression Controls     ]
-Chroma Subsampling             : type=3, minimum=0, maximum=2, step=1, 
-default_value=0
-Compression Quality            : type=1, minimum=0, maximum=11, step=1, 
-default_value=0
+ .../arm/boot/dts/aspeed-bmc-ampere-mtjade.dts | 288 +++++++++++++++++-
+ 1 file changed, 287 insertions(+), 1 deletion(-)
 
->
->>>> Aspeed JPEG Format requires an additional buffer, called bcd, to store
->>>> the information that which macro block in the new frame is different
->>> s/that which/which/
->>>
->>>> from the old one.
->>>>
->>>> To have bcd correctly working, we need to swap the buffers for src0/1 to
->>>> make src1 refer to previous frame and src0 to the coming new frame.
->>> How did you test it? What do the clients need to support?
->>>
->>> Did you test, how much bandwidth is saved? Some numbers would be nice.
->> I tested it by aspeed's kvm client which support decoding the aspeed
->> format. Currently, I am porting this feature to novnc to have openbmc
->> support it.
-> Nice.
->> The bandwidth saved is variant. It depends on how many blocks is
->> different between new and old frame.If the new frame is identical
->> with the previous one, the compressed frame only needs 12 Bytes.
-> Thank you for the explanation.
->
->
-> Kind regards,
->
-> Paul
+-- 
+2.28.0
+
