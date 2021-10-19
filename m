@@ -2,65 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92066432E94
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Oct 2021 08:48:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BA6E43388E
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Oct 2021 16:41:48 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HYPTD1QP2z2yZ6
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Oct 2021 17:48:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HYbzY5T74z306h
+	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Oct 2021 01:41:45 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=gUB404x1;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=D3mEBmuU;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f29;
- helo=mail-qv1-xf29.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::634;
+ helo=mail-pl1-x634.google.com; envelope-from=kumarthangavel.hcl@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=gUB404x1; dkim-atps=neutral
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com
- [IPv6:2607:f8b0:4864:20::f29])
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20210112 header.b=D3mEBmuU; dkim-atps=neutral
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HYPRw6Lgjz3c61;
- Tue, 19 Oct 2021 17:47:08 +1100 (AEDT)
-Received: by mail-qv1-xf29.google.com with SMTP id k19so11663092qvm.13;
- Mon, 18 Oct 2021 23:47:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VwIYfW0Zf+mAEKNLwqvojyl/bgvNRKJ4LTxr8Eay+V8=;
- b=gUB404x1RJbgSLd2YiaVb360stI1E0MKIQ2XbtSHStIxqT6CgbZgLuMMBYkSJXU1Nh
- n0USHhTy2FDU/9kbIDBMUvjyQz7zliTZfgCNlsQ7+U5G6Y7dbWvChZXou0qUyA6JKV7f
- PU8l6fK8eiS6RbQlKfze7kNYSBhiYdq9o4L4A=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HYbzR5gMrz2yXM;
+ Wed, 20 Oct 2021 01:41:38 +1100 (AEDT)
+Received: by mail-pl1-x634.google.com with SMTP id v20so13803031plo.7;
+ Tue, 19 Oct 2021 07:41:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:date:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=DrUUPCizKwC3ksHUSZfDSrYdCien60d8cF3/MHkkAR0=;
+ b=D3mEBmuU2Jfs0CVLC4Ty1Y0EGDWYqIwfVWosSjUmWCdJygIoa8WY83TMLm8WTxtQZJ
+ 7bjkg6KAhunuH2TQ+FcFWCM4wpL3RqAytnDGWxt0QijP8YHDvxs7j9LxARn3d4hnV6iP
+ KPCajNapGZz0IJaGH03hUeDRL0IdZuabBYjYKHg2uPG68ehmmNCVg1y7DLk7rT4HeIF6
+ Tp0EaaBRRX7HkiJFDME+pfMXeqziOE3ttSXaa6U9/iEU/r5bmld76B8An3jZOXnadUbI
+ SuILJz41GhzhN3zbjN0USfISZyGuZ0sOfMMauOWrZXGMHLcRTjAKf1+VEGKpUrsVmYZb
+ Yhmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VwIYfW0Zf+mAEKNLwqvojyl/bgvNRKJ4LTxr8Eay+V8=;
- b=uWIwA4qomWIX6/8N7te45BQzxRb9sLnzDP4cnF32V74iE7kgpQKTSdYtWAArcAImO2
- u2ZIYpf2J8KaGJjpKALeYD9mkx1xlVgKHpTkqSJXSDGY00+7xDlvj46gJiOKyGHB5EA3
- F7GOaVrNA+Db/JOGlC5WppEl3Zd3ga8kICbED0L+Br/Kgpd8S2bbXt3j3Yy+OgEoxqES
- 7pAjcXRZ3slW/14g2PsVHFyFUhaR0HyJeD8AvTkWP0t40SpGqO1yY2/v6WtGSOPGJ+Zm
- tqIl9q9J4xi5lAo8HNEMPtlWfXBtKmijpJEu83F124Tg1oDUAoSCwCuDD+B5uRx6w7ai
- /Bwg==
-X-Gm-Message-State: AOAM531jDV41jP73AYlxwPwJ83B22STPVq+3vGiY+xRzFiKk8VXVyeU7
- ulODDspQ8g6WfcB+YAN8cF+oVkJIi+8RaLojmivgzSkj
-X-Google-Smtp-Source: ABdhPJwfxf183iO7OxBAtX1Zjk+UiHTT4DnVJqYwnqDIC90ALBhdq8pg720sirxT55vW2dHwHUbK1bCBrs264CwpSFA=
-X-Received: by 2002:a05:6214:4eb:: with SMTP id
- cl11mr29935905qvb.43.1634626026343; 
- Mon, 18 Oct 2021 23:47:06 -0700 (PDT)
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=DrUUPCizKwC3ksHUSZfDSrYdCien60d8cF3/MHkkAR0=;
+ b=Q9qV++w3/+EaM5ZeYpFP9LPyagZExoTAHvugXEuxT9PPwkKJJFoStCm0Ugf7FzknHI
+ Ns7O33arjnWvpKKEi3D27SiGu8JWQhiWC884mdeTgK2PL8/WIliDfBvyNn9UjooZh8sc
+ KxMwkuwDX0kwJXOU2x3ee/VaHA9CiaEdeMUKzMZ+84eB9uE+jAvSmso+vqKfe1oOD8mz
+ W1G5cUPWhR+o9Rvmz8jhTOMDT53QeeEVCHm0sRjq8/6XZSfkYWV6wS+7DTfN+g4DAFlQ
+ eOnPWWDHjTuQLz57SFfleunVpNmA/GBq10ALL89S6HJbwLkM8mGoUg3emUMBdtbBuFmI
+ Fsww==
+X-Gm-Message-State: AOAM530i42pAlhJOVStla04/ADcypOmFfWf7g2LXg/d5Ebr4SnQyAPiC
+ zAWChnh2S+UdNUxTGmM2u/A=
+X-Google-Smtp-Source: ABdhPJytA/SP7vE15F+aX1mnXYy3M4wlUUWJxDance6nXshNDMRAD1AJE+MRazc7aj3dqMIS248ibQ==
+X-Received: by 2002:a17:90a:8a0b:: with SMTP id
+ w11mr168690pjn.177.1634654494536; 
+ Tue, 19 Oct 2021 07:41:34 -0700 (PDT)
+Received: from gmail.com ([122.178.163.228])
+ by smtp.gmail.com with ESMTPSA id t38sm13051952pfg.102.2021.10.19.07.41.30
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 19 Oct 2021 07:41:34 -0700 (PDT)
+From: Kumar Thangavel <kumarthangavel.hcl@gmail.com>
+X-Google-Original-From: Kumar Thangavel <thangavel.k@hcl.com>
+Date: Tue, 19 Oct 2021 20:11:27 +0530
+To: Samuel Mendoza-Jonas <sam@mendozajonas.com>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH v2] Add payload to be 32-bit aligned to fix dropped packets
+Message-ID: <20211019144127.GA12978@gmail.com>
 MIME-Version: 1.0
-References: <20211019060155.945-1-quan@os.amperecomputing.com>
- <20211019060155.945-4-quan@os.amperecomputing.com>
-In-Reply-To: <20211019060155.945-4-quan@os.amperecomputing.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 19 Oct 2021 06:46:54 +0000
-Message-ID: <CACPK8Xc_+HU3=rZtORUw+hu2SFbOm3ZYHkUnrrKpBcTUAfHeQw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] ARM: dts: aspeed: mtjade: Add uefi partition
-To: Quan Nguyen <quan@os.amperecomputing.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,54 +80,91 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>,
- Open Source Submission <patches@amperecomputing.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: sdasari@fb.com, linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org,
+ openbmc@lists.ozlabs.org, velumanit@hcl.com, patrickw3@fb.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 19 Oct 2021 at 06:02, Quan Nguyen <quan@os.amperecomputing.com> wrote:
->
-> Add SPI NOR partition for uefi.
->
-> Signed-off-by: Thang Q. Nguyen <thang@os.amperecomputing.com>
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+Update NC-SI command handler (both standard and OEM) to take into
+account of payload paddings in allocating skb (in case of payload
+size is not 32-bit aligned).
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+The checksum field follows payload field, without taking payload
+padding into account can cause checksum being truncated, leading to
+dropped packets.
 
-> ---
-> v2:
->   + Introdued in v2
->
->  arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts b/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
-> index 723c7063c223..4c3c3f1a12ea 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts
-> @@ -374,6 +374,15 @@ flash@0 {
->                 m25p,fast-read;
->                 label = "pnor";
->                 /* spi-max-frequency = <100000000>; */
-> +               partitions {
-> +                       compatible = "fixed-partitions";
-> +                       #address-cells = <1>;
-> +                       #size-cells = <1>;
-> +                       uefi@400000 {
-> +                               reg = <0x400000 0x1C00000>;
-> +                               label = "pnor-uefi";
-> +                       };
-> +               };
->         };
->  };
->
-> --
-> 2.28.0
->
+Signed-off-by: Kumar Thangavel <thangavel.k@hcl.com>
+Acked-by: Samuel Mendoza-Jonas <sam@mendozajonas.com>
+Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
+
+---
+  v2:
+   - Added NC-SI spec version and section
+   - Removed blank line
+   - corrected spellings
+
+  v1:
+   - Initial draft.
+
+---
+ net/ncsi/ncsi-cmd.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
+
+diff --git a/net/ncsi/ncsi-cmd.c b/net/ncsi/ncsi-cmd.c
+index ba9ae482141b..29a75b79a811 100644
+--- a/net/ncsi/ncsi-cmd.c
++++ b/net/ncsi/ncsi-cmd.c
+@@ -213,12 +213,19 @@ static int ncsi_cmd_handler_oem(struct sk_buff *skb,
+ {
+ 	struct ncsi_cmd_oem_pkt *cmd;
+ 	unsigned int len;
++	/* NC-SI spec DSP_0222_1.2.0, section 8.2.2.2
++	 * requires payload to be padded with 0 to
++	 * 32-bit boundary before the checksum field.
++	 * Ensure the padding bytes are accounted for in
++	 * skb allocation
++	 */
++	unsigned short payload = ALIGN(nca->payload, 4);
+ 
+ 	len = sizeof(struct ncsi_cmd_pkt_hdr) + 4;
+-	if (nca->payload < 26)
++	if (payload < 26)
+ 		len += 26;
+ 	else
+-		len += nca->payload;
++		len += payload;
+ 
+ 	cmd = skb_put_zero(skb, len);
+ 	memcpy(&cmd->mfr_id, nca->data, nca->payload);
+@@ -272,6 +279,7 @@ static struct ncsi_request *ncsi_alloc_command(struct ncsi_cmd_arg *nca)
+ 	struct net_device *dev = nd->dev;
+ 	int hlen = LL_RESERVED_SPACE(dev);
+ 	int tlen = dev->needed_tailroom;
++	int payload;
+ 	int len = hlen + tlen;
+ 	struct sk_buff *skb;
+ 	struct ncsi_request *nr;
+@@ -281,14 +289,17 @@ static struct ncsi_request *ncsi_alloc_command(struct ncsi_cmd_arg *nca)
+ 		return NULL;
+ 
+ 	/* NCSI command packet has 16-bytes header, payload, 4 bytes checksum.
++	 * Payload needs padding so that the checksum field following payload is
++	 * aligned to 32-bit boundary.
+ 	 * The packet needs padding if its payload is less than 26 bytes to
+ 	 * meet 64 bytes minimal ethernet frame length.
+ 	 */
+ 	len += sizeof(struct ncsi_cmd_pkt_hdr) + 4;
+-	if (nca->payload < 26)
++	payload = ALIGN(nca->payload, 4)
++	if (payload < 26)
+ 		len += 26;
+ 	else
+-		len += nca->payload;
++		len += payload;
+ 
+ 	/* Allocate skb */
+ 	skb = alloc_skb(len, GFP_ATOMIC);
+-- 
+2.17.1
+
