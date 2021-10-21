@@ -1,60 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF07435A5A
-	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Oct 2021 07:35:03 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76969435AE4
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Oct 2021 08:29:22 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HZbln0dtvz2ypB
-	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Oct 2021 16:35:01 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HZcyR6NzDz2ymt
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Oct 2021 17:29:19 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=W/GkOBcU;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Td2fY8rz;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::831;
- helo=mail-qt1-x831.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::731;
+ helo=mail-qk1-x731.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=W/GkOBcU; dkim-atps=neutral
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com
- [IPv6:2607:f8b0:4864:20::831])
+ header.s=google header.b=Td2fY8rz; dkim-atps=neutral
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
+ [IPv6:2607:f8b0:4864:20::731])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HZblj0RWMz2xXV
- for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Oct 2021 16:34:54 +1100 (AEDT)
-Received: by mail-qt1-x831.google.com with SMTP id w8so5150284qts.4
- for <linux-aspeed@lists.ozlabs.org>; Wed, 20 Oct 2021 22:34:54 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HZcyL1MLBz2xY1;
+ Thu, 21 Oct 2021 17:29:11 +1100 (AEDT)
+Received: by mail-qk1-x731.google.com with SMTP id h20so5852495qko.13;
+ Wed, 20 Oct 2021 23:29:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=GCDNxBCfQrTCgy65OYovBu7GvVP02m8fWJKotJSowI8=;
- b=W/GkOBcUgbznUu6AFf4sEGPIgLXPobT/BxjC+RQ3UsOXTtnV5s6Hu7Ehbf53dn/0dW
- die3vh2BoBfZDlbB/dS5zHgJleBKE0Qhk/wgjqtCn4fxrG4pT94SfjyDUzNfI/VGaKoC
- wFijimLQhIyC+PKSWs3jla26tom1jdJut+KGg=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0e08ZBM6li1C7tIxn5UtaiVKx16gPUU53/VSVrg5fJo=;
+ b=Td2fY8rzFcaK0Z8RxrmdaIX5MS//Nz7s/uqzHILWSw/VIPmQfG3YXqAP3T1TWwk4LQ
+ eMvK7Ag7S9dMbVvXNTU8YFYN2X6ZGEwsN9UDFtp2yhjHSGFoVOMfTWUlJ93HGpFvj+hT
+ stQqNCSOAwW1/HSCSJGI9Ad5OtyUezsZ8YbT4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=GCDNxBCfQrTCgy65OYovBu7GvVP02m8fWJKotJSowI8=;
- b=Od4Ol2FxBblaWYh2kZ2NQr2KQu1asxoCeVNWe4Ig5gRm3aXHTmxYhzY/GXtWaLRIKn
- ELenfumxOf6cwB/yITey5qRoZo8keyRqbKovd52whik0r83l2QCDYofd2UbbGjc6O4Zk
- 6BGOHyv90leiTdfKayfD5GV8wnh+nju+bQWs8yT5gwptrDy9A6xFCQAP6VmfTAmyYuvH
- SfQod2pAcqdYa04bYkmucEyA3TA6EkTT3r13RZHTIluPdYYYrKsmyz+6Zuim70N95F8b
- OpO9zajaEGW+BcXfFj4Rqs58P5xSM8+DHjhLS2xhwR+YySmcmVxyEafMaZnmYpS82lpA
- sHZA==
-X-Gm-Message-State: AOAM531/unX9Ymh79g29mqKvRIUkkSMWHfeiic+EDlsJJgvf0OS5aw+s
- V5REnosQ/+/tk4oHKcK4IFH9k32+n6QPRPEQ9JAN+faE2Po=
-X-Google-Smtp-Source: ABdhPJyMzuyXO0SBIINy0WPCXlJC1D/b24gY7qkNEliyXfFi81yGd9amHY8WRVOpNJ9LSE4dVghPNhwf5FLlVMDmErM=
-X-Received: by 2002:ac8:5f06:: with SMTP id x6mr3827041qta.295.1634794491508; 
- Wed, 20 Oct 2021 22:34:51 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0e08ZBM6li1C7tIxn5UtaiVKx16gPUU53/VSVrg5fJo=;
+ b=gT69jSeU18GlRrzSThrDK5WK141/TUHJ1XuSm03e7XLsiQpAy80uprGu2zIOJrW9BF
+ hxX5t+IIGoG4cfGBjBg7beXUP0zZXqmitr/p5BK2TeGqjHxyf6XF4zFTop8C+dWI+KxZ
+ g+pJGfOuTDOaOhRHh1AliMKuyXZRTHX4icd7z0D3kPSSuZ1ffQsa2WVvaH3mngCi53M3
+ nmLO0WcZcbiqVCqI2FzkhKmhB3wGjymvpIjQGIBUWn3pc7bsBL9JTbENOUUjNPe9QBpM
+ lyTvLxBfxC2d8tCAxNeN8G1jseA5v232yeKgMp/2xCk3ta+iBf56/wyCTs5BPfdAhgph
+ 7Zpg==
+X-Gm-Message-State: AOAM531T4leiJ3HHeZGcc+ckqueCzqbALKawyBoDIHo6Q2VeAubXp+42
+ PVKddkUn8ed7lOYebjytDdVlr0N/CeNk9X6Q2v4=
+X-Google-Smtp-Source: ABdhPJzYRyu7h/1T0GKhoPH0Q6POzzEPYiGIWsiuBu5bnlqmFPvMvmpbey9PZ3ED3wlZtCpFep2wbVDF16aMVFxE040=
+X-Received: by 2002:a05:620a:4010:: with SMTP id
+ h16mr3013062qko.292.1634797748541; 
+ Wed, 20 Oct 2021 23:29:08 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210927023053.6728-1-chiawei_wang@aspeedtech.com>
+ <20210927023053.6728-2-chiawei_wang@aspeedtech.com>
+ <CACPK8Xc+9yFJn_pO1sAVQJu_FWkA1U9XnbB+TLYgfdbHi1TyaQ@mail.gmail.com>
+In-Reply-To: <CACPK8Xc+9yFJn_pO1sAVQJu_FWkA1U9XnbB+TLYgfdbHi1TyaQ@mail.gmail.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 21 Oct 2021 05:34:39 +0000
-Message-ID: <CACPK8Xd0mVn2Cy7d=VBTDMpU=WHrftsiihwH224ekFSDGKAbyA@mail.gmail.com>
-Subject: [GIT PULL] ARM: aspeed: defconfig changes for 5.16
-To: SoC Team <soc@kernel.org>
+Date: Thu, 21 Oct 2021 06:28:56 +0000
+Message-ID: <CACPK8Xfj=wJBCX5ogyf02pLJsLrooVWBJ92GJ1E+jxQW5wiFEw@mail.gmail.com>
+Subject: Re: [PATCH v7 1/5] ARM: dts: aspeed: Drop reg-io-width from LPC nodes
+To: Chia-Wei Wang <chiawei_wang@aspeedtech.com>,
+ Andrew Jeffery <andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -67,49 +74,81 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Oskar Senft <osk@google.com>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Soc maintainers,
+On Fri, 8 Oct 2021 at 04:35, Joel Stanley <joel@jms.id.au> wrote:
+>
+> On Mon, 27 Sept 2021 at 02:31, Chia-Wei Wang
+> <chiawei_wang@aspeedtech.com> wrote:
+> >
+> > The 'reg-io-width' properties are not used by LPC drivers
+> > nor documented as part of bindings. Therefore drop them.
+>
+> I assume they are there due to the lpc having a 'syscon' compatible.
+> THey are documented in the syscon bindings:
+>
+> Documentation/devicetree/bindings/mfd/syscon.yaml
+>
+> Andrew, do you have any comments?
 
-Here are aspeed defconfig changes for v5.16.
+Andrew indicated to me that he agreed with my observation: the
+properties should be present as they are used by the regmap/syscon.
 
-The following changes since commit 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f:
-
-  Linux 5.15-rc1 (2021-09-12 16:28:37 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
-tags/aspeed-5.16-defconfig
-
-for you to fetch changes up to 52a490e0efac02f236295cf43e136a1cb3a786f7:
-
-  ARM: configs: aspeed: Remove unused USB gadget devices (2021-10-15
-15:02:32 +1030)
-
-----------------------------------------------------------------
-ASPEED defconfig updates for 5.16
-
- - Add options that are enabled in the common OpenBMC kernel
-
- - Re-enable DRM_FBDEV_EMULATION
-
- - Turn on the various sensor drivers that are used in BMC systems,
- so we can boot test where they are modelled in Qemu
-
-----------------------------------------------------------------
-Joel Stanley (6):
-      ARM: configs: aspeed_g5: Reneable DRM_FBDEV_EMULATION
-      ARM: configs: aspeed: Disable IPV6 SIT device
-      ARM: configs: aspeed: Enable commonly used drivers
-      ARM: configs: aspeed: Enable pstore and lockup detectors
-      ARM: config: aspeed: Enable Network Block Device
-      ARM: configs: aspeed: Remove unused USB gadget devices
-
- arch/arm/configs/aspeed_g4_defconfig |  1 +
- arch/arm/configs/aspeed_g5_defconfig | 35 ++++++++++++++++++++++-------------
- 2 files changed, 23 insertions(+), 13 deletions(-)
+>
+> >
+> > This is in preparation to move aspeed-lpc.txt to YAML schema.
+> >
+> > Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+> > ---
+> >  arch/arm/boot/dts/aspeed-g4.dtsi | 1 -
+> >  arch/arm/boot/dts/aspeed-g5.dtsi | 1 -
+> >  arch/arm/boot/dts/aspeed-g6.dtsi | 1 -
+> >  3 files changed, 3 deletions(-)
+> >
+> > diff --git a/arch/arm/boot/dts/aspeed-g4.dtsi b/arch/arm/boot/dts/aspeed-g4.dtsi
+> > index c5aeb3cf3a09..45a25eb4baa4 100644
+> > --- a/arch/arm/boot/dts/aspeed-g4.dtsi
+> > +++ b/arch/arm/boot/dts/aspeed-g4.dtsi
+> > @@ -345,7 +345,6 @@
+> >                         lpc: lpc@1e789000 {
+> >                                 compatible = "aspeed,ast2400-lpc-v2", "simple-mfd", "syscon";
+> >                                 reg = <0x1e789000 0x1000>;
+> > -                               reg-io-width = <4>;
+> >
+> >                                 #address-cells = <1>;
+> >                                 #size-cells = <1>;
+> > diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
+> > index 73ca1ec6fc24..8e1d00d8445e 100644
+> > --- a/arch/arm/boot/dts/aspeed-g5.dtsi
+> > +++ b/arch/arm/boot/dts/aspeed-g5.dtsi
+> > @@ -436,7 +436,6 @@
+> >                         lpc: lpc@1e789000 {
+> >                                 compatible = "aspeed,ast2500-lpc-v2", "simple-mfd", "syscon";
+> >                                 reg = <0x1e789000 0x1000>;
+> > -                               reg-io-width = <4>;
+> >
+> >                                 #address-cells = <1>;
+> >                                 #size-cells = <1>;
+> > diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
+> > index 1b47be1704f8..0d1aae6887cd 100644
+> > --- a/arch/arm/boot/dts/aspeed-g6.dtsi
+> > +++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+> > @@ -490,7 +490,6 @@
+> >                         lpc: lpc@1e789000 {
+> >                                 compatible = "aspeed,ast2600-lpc-v2", "simple-mfd", "syscon";
+> >                                 reg = <0x1e789000 0x1000>;
+> > -                               reg-io-width = <4>;
+> >
+> >                                 #address-cells = <1>;
+> >                                 #size-cells = <1>;
+> > --
+> > 2.17.1
+> >
