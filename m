@@ -1,51 +1,61 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F8BE43468C
-	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Oct 2021 10:11:12 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF07435A5A
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Oct 2021 07:35:03 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HZ3GP6Gpjz2yp8
-	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Oct 2021 19:11:09 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HZbln0dtvz2ypB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Oct 2021 16:35:01 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=W/GkOBcU;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::831;
+ helo=mail-qt1-x831.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=W/GkOBcU; dkim-atps=neutral
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com
+ [IPv6:2607:f8b0:4864:20::831])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HZ3GL4N1Sz2xXJ;
- Wed, 20 Oct 2021 19:11:05 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 19K7mgAu029087;
- Wed, 20 Oct 2021 15:48:42 +0800 (GMT-8)
- (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 20 Oct
- 2021 16:10:44 +0800
-Message-ID: <2608eec6-0007-e8f6-25d7-2e6db95d1230@aspeedtech.com>
-Date: Wed, 20 Oct 2021 16:10:45 +0800
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HZblj0RWMz2xXV
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Oct 2021 16:34:54 +1100 (AEDT)
+Received: by mail-qt1-x831.google.com with SMTP id w8so5150284qts.4
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 20 Oct 2021 22:34:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=GCDNxBCfQrTCgy65OYovBu7GvVP02m8fWJKotJSowI8=;
+ b=W/GkOBcUgbznUu6AFf4sEGPIgLXPobT/BxjC+RQ3UsOXTtnV5s6Hu7Ehbf53dn/0dW
+ die3vh2BoBfZDlbB/dS5zHgJleBKE0Qhk/wgjqtCn4fxrG4pT94SfjyDUzNfI/VGaKoC
+ wFijimLQhIyC+PKSWs3jla26tom1jdJut+KGg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=GCDNxBCfQrTCgy65OYovBu7GvVP02m8fWJKotJSowI8=;
+ b=Od4Ol2FxBblaWYh2kZ2NQr2KQu1asxoCeVNWe4Ig5gRm3aXHTmxYhzY/GXtWaLRIKn
+ ELenfumxOf6cwB/yITey5qRoZo8keyRqbKovd52whik0r83l2QCDYofd2UbbGjc6O4Zk
+ 6BGOHyv90leiTdfKayfD5GV8wnh+nju+bQWs8yT5gwptrDy9A6xFCQAP6VmfTAmyYuvH
+ SfQod2pAcqdYa04bYkmucEyA3TA6EkTT3r13RZHTIluPdYYYrKsmyz+6Zuim70N95F8b
+ OpO9zajaEGW+BcXfFj4Rqs58P5xSM8+DHjhLS2xhwR+YySmcmVxyEafMaZnmYpS82lpA
+ sHZA==
+X-Gm-Message-State: AOAM531/unX9Ymh79g29mqKvRIUkkSMWHfeiic+EDlsJJgvf0OS5aw+s
+ V5REnosQ/+/tk4oHKcK4IFH9k32+n6QPRPEQ9JAN+faE2Po=
+X-Google-Smtp-Source: ABdhPJyMzuyXO0SBIINy0WPCXlJC1D/b24gY7qkNEliyXfFi81yGd9amHY8WRVOpNJ9LSE4dVghPNhwf5FLlVMDmErM=
+X-Received: by 2002:ac8:5f06:: with SMTP id x6mr3827041qta.295.1634794491508; 
+ Wed, 20 Oct 2021 22:34:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 3/7] media: aspeed: add more debug log message
-Content-Language: en-US
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-References: <20211018092207.13336-1-jammy_huang@aspeedtech.com>
- <20211018092207.13336-4-jammy_huang@aspeedtech.com>
- <8212f2f5-d661-b598-1490-0ad5266ff2ca@molgen.mpg.de>
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <8212f2f5-d661-b598-1490-0ad5266ff2ca@molgen.mpg.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 19K7mgAu029087
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 21 Oct 2021 05:34:39 +0000
+Message-ID: <CACPK8Xd0mVn2Cy7d=VBTDMpU=WHrftsiihwH224ekFSDGKAbyA@mail.gmail.com>
+Subject: [GIT PULL] ARM: aspeed: defconfig changes for 5.16
+To: SoC Team <soc@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,142 +67,49 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Dear Paul,
+Hello Soc maintainers,
 
-Sure, thanks for your help.
+Here are aspeed defconfig changes for v5.16.
 
+The following changes since commit 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f:
 
-Best regards,
+  Linux 5.15-rc1 (2021-09-12 16:28:37 -0700)
 
-Jammy
+are available in the Git repository at:
 
+  git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
+tags/aspeed-5.16-defconfig
 
-On 2021/10/18 下午 05:59, Paul Menzel wrote:
-> Dear Jammy:
->
->
-> Am 18.10.21 um 11:22 schrieb Jammy Huang:
->
-> Nit (summary/suject:: message*s*
->
-> Could you add an excerpt of the new log messages please?
->
->
-> Kind regards,
->
-> Paul
->
->
->> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->> ---
->>    drivers/media/platform/aspeed-video.c | 24 ++++++++++++++++++++++++
->>    1 file changed, 24 insertions(+)
->>
->> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
->> index 642ca96c8c52..24ca07f40f14 100644
->> --- a/drivers/media/platform/aspeed-video.c
->> +++ b/drivers/media/platform/aspeed-video.c
->> @@ -461,12 +461,17 @@ static void aspeed_video_write(struct aspeed_video *video, u32 reg, u32 val)
->>    
->>    static void update_perf(struct aspeed_video_perf *p)
->>    {
->> +	struct aspeed_video *v = container_of(p, struct aspeed_video,
->> +					      perf);
->> +
->>    	p->duration =
->>    		ktime_to_ms(ktime_sub(ktime_get(),  p->last_sample));
->>    	p->totaltime += p->duration;
->>    
->>    	p->duration_max = max(p->duration, p->duration_max);
->>    	p->duration_min = min(p->duration, p->duration_min);
->> +	v4l2_dbg(2, debug, &v->v4l2_dev, "time consumed: %d ms\n",
->> +		 p->duration);
->>    }
->>    
->>    static int aspeed_video_start_frame(struct aspeed_video *video)
->> @@ -593,6 +598,12 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
->>    	struct aspeed_video *video = arg;
->>    	u32 sts = aspeed_video_read(video, VE_INTERRUPT_STATUS);
->>    
->> +	v4l2_dbg(1, debug, &video->v4l2_dev, "irq sts=%#x %s%s%s%s\n", sts,
->> +		 sts & VE_INTERRUPT_MODE_DETECT_WD ? ", unlock" : "",
->> +		 sts & VE_INTERRUPT_MODE_DETECT ? ", lock" : "",
->> +		 sts & VE_INTERRUPT_CAPTURE_COMPLETE ? ", capture-done" : "",
->> +		 sts & VE_INTERRUPT_COMP_COMPLETE ? ", comp-done" : "");
->> +
->>    	/*
->>    	 * Resolution changed or signal was lost; reset the engine and
->>    	 * re-initialize
->> @@ -910,6 +921,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
->>    
->>    	/* Don't use direct mode below 1024 x 768 (irqs don't fire) */
->>    	if (size < DIRECT_FETCH_THRESHOLD) {
->> +		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Sync Mode\n");
->>    		aspeed_video_write(video, VE_TGS_0,
->>    				   FIELD_PREP(VE_TGS_FIRST,
->>    					      video->frame_left - 1) |
->> @@ -921,6 +933,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
->>    					      video->frame_bottom + 1));
->>    		aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_INT_DE);
->>    	} else {
->> +		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Direct Mode\n");
->>    		aspeed_video_update(video, VE_CTRL, 0, VE_CTRL_DIRECT_FETCH);
->>    	}
->>    
->> @@ -937,6 +950,10 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
->>    		if (!aspeed_video_alloc_buf(video, &video->srcs[1], size))
->>    			goto err_mem;
->>    
->> +		v4l2_dbg(1, debug, &video->v4l2_dev, "src buf0 addr(%#x) size(%d)\n",
->> +			 video->srcs[0].dma, video->srcs[0].size);
->> +		v4l2_dbg(1, debug, &video->v4l2_dev, "src buf1 addr(%#x) size(%d)\n",
->> +			 video->srcs[1].dma, video->srcs[1].size);
->>    		aspeed_video_write(video, VE_SRC0_ADDR, video->srcs[0].dma);
->>    		aspeed_video_write(video, VE_SRC1_ADDR, video->srcs[1].dma);
->>    	}
->> @@ -1201,6 +1218,9 @@ static int aspeed_video_set_dv_timings(struct file *file, void *fh,
->>    
->>    	timings->type = V4L2_DV_BT_656_1120;
->>    
->> +	v4l2_dbg(1, debug, &video->v4l2_dev, "set new timings(%dx%d)\n",
->> +		 timings->bt.width, timings->bt.height);
->> +
->>    	return 0;
->>    }
->>    
->> @@ -1383,6 +1403,7 @@ static void aspeed_video_resolution_work(struct work_struct *work)
->>    			.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
->>    		};
->>    
->> +		v4l2_dbg(1, debug, &video->v4l2_dev, "fire source change event\n");
->>    		v4l2_event_queue(&video->vdev, &ev);
->>    	} else if (test_bit(VIDEO_STREAMING, &video->flags)) {
->>    		/* No resolution change so just restart streaming */
->> @@ -1718,6 +1739,7 @@ static int aspeed_video_init(struct aspeed_video *video)
->>    		dev_err(dev, "Unable to request IRQ %d\n", irq);
->>    		return rc;
->>    	}
->> +	dev_info(video->dev, "irq %d\n", irq);
->>    
->>    	video->eclk = devm_clk_get(dev, "eclk");
->>    	if (IS_ERR(video->eclk)) {
->> @@ -1754,6 +1776,8 @@ static int aspeed_video_init(struct aspeed_video *video)
->>    		rc = -ENOMEM;
->>    		goto err_release_reserved_mem;
->>    	}
->> +	dev_info(video->dev, "alloc mem size(%d) at %#x for jpeg header\n",
->> +		 VE_JPEG_HEADER_SIZE, video->jpeg.dma);
->>    
->>    	aspeed_video_init_jpeg_table(video->jpeg.virt, video->yuv420);
->>    
->>
+for you to fetch changes up to 52a490e0efac02f236295cf43e136a1cb3a786f7:
+
+  ARM: configs: aspeed: Remove unused USB gadget devices (2021-10-15
+15:02:32 +1030)
+
+----------------------------------------------------------------
+ASPEED defconfig updates for 5.16
+
+ - Add options that are enabled in the common OpenBMC kernel
+
+ - Re-enable DRM_FBDEV_EMULATION
+
+ - Turn on the various sensor drivers that are used in BMC systems,
+ so we can boot test where they are modelled in Qemu
+
+----------------------------------------------------------------
+Joel Stanley (6):
+      ARM: configs: aspeed_g5: Reneable DRM_FBDEV_EMULATION
+      ARM: configs: aspeed: Disable IPV6 SIT device
+      ARM: configs: aspeed: Enable commonly used drivers
+      ARM: configs: aspeed: Enable pstore and lockup detectors
+      ARM: config: aspeed: Enable Network Block Device
+      ARM: configs: aspeed: Remove unused USB gadget devices
+
+ arch/arm/configs/aspeed_g4_defconfig |  1 +
+ arch/arm/configs/aspeed_g5_defconfig | 35 ++++++++++++++++++++++-------------
+ 2 files changed, 23 insertions(+), 13 deletions(-)
