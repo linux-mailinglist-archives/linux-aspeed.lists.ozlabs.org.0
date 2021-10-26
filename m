@@ -2,43 +2,72 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561D743AC06
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Oct 2021 08:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4749A43B4C4
+	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Oct 2021 16:50:11 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HdhJM1fyJz2y7K
-	for <lists+linux-aspeed@lfdr.de>; Tue, 26 Oct 2021 17:10:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Hdvr1139jz2yb7
+	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Oct 2021 01:50:09 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=C521lOPn;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=molgen.mpg.de (client-ip=141.14.17.11; helo=mx1.molgen.mpg.de;
- envelope-from=pmenzel@molgen.mpg.de; receiver=<UNKNOWN>)
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::42a;
+ helo=mail-pf1-x42a.google.com; envelope-from=kumarthangavel.hcl@gmail.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20210112 header.b=C521lOPn; dkim-atps=neutral
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HdhJJ2mLWz2xX6;
- Tue, 26 Oct 2021 17:10:23 +1100 (AEDT)
-Received: from [192.168.0.2] (ip5f5aef4c.dynamic.kabel-deutschland.de
- [95.90.239.76])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id 5DC7F61E6478B;
- Tue, 26 Oct 2021 08:10:18 +0200 (CEST)
-Message-ID: <24f55e7d-2f2d-2181-2265-7365d648be8f@molgen.mpg.de>
-Date: Tue, 26 Oct 2021 08:10:18 +0200
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Hdvqx1pT5z2xt0;
+ Wed, 27 Oct 2021 01:50:02 +1100 (AEDT)
+Received: by mail-pf1-x42a.google.com with SMTP id f11so14533925pfc.12;
+ Tue, 26 Oct 2021 07:50:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:date:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=YZIm96LbqBgjV0pIqz1KZWtt3dypc/WAF3GjBy/AirE=;
+ b=C521lOPnJzqQc9Qm6CmJkWAUgVXrrVLGgRh1IuwwiB+RePruIXXMz5wOD+72YgnOT5
+ WGLt1YJcb/52YLQf5aipWz9PR6qNiK4mj6d287Eif+vxQRFzSYkg9rlU30M3vhpTsCjQ
+ fyEBGyrbqS/ISCnwacLl4VQ9Kl0nXyUN3H252uE7JAQszJ+Uew03uFlwqjOqwFREJOLD
+ 14YmSMyasT7Xb6r+hFIyVZsFevQzC7RDNGiBe1veL3rJfMyCjJuXEI6Hjx57IrA7M5xY
+ w1vtoKHtsa+tSh7IHewiF9pSMd2/CGygOTM1ms3n5UZnR6Wg5qUvAVOr70WXjsW+Kbzy
+ vyVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=YZIm96LbqBgjV0pIqz1KZWtt3dypc/WAF3GjBy/AirE=;
+ b=hJuCgB/6NxTxMutPXlTVU5pdnvLz32sBTNWfdXChnMZnhjQQgRQqZC+sleQkvFTPJF
+ CDTrrX89Kmw0jk5L0zkx57lvwT58uoBFwOX6Gsg77NUbaSJG8q1W4ERugQKY9FWy038R
+ lnlZ1OU9HZfzSR5wXJylrj1rSlc02Q2K3QpMLS7w0BGNvr0zpNDOPznEgHugawFR1+tN
+ GHqaAqlodU+rWxGij4Foqw8nOpJblHskD7ZpnJquE3qMXy/yFTSr4/BVfj05tNUzqp8x
+ Vm7QVHp5EedPYo4IDIS4opiMV2fibkmfn2TEiU27txtbFrshLct02Zj6JEemIwNMCWOq
+ BggA==
+X-Gm-Message-State: AOAM531pniTVdCYIrxYUR3qCx7V2ADhYWw1OjTJ2qW/PaXwQZTcKvA/a
+ Fto6cM4uJpaQcXifsVOgjuk=
+X-Google-Smtp-Source: ABdhPJzGuv2WnfRgauy6ynsONYcB+kO9o5T9gSlxjwdToJz3l9PC7qFnCd6tDQqwyjVHfqTFWvEEtQ==
+X-Received: by 2002:a63:8541:: with SMTP id u62mr12153651pgd.248.1635259800697; 
+ Tue, 26 Oct 2021 07:50:00 -0700 (PDT)
+Received: from gmail.com ([122.178.170.40])
+ by smtp.gmail.com with ESMTPSA id v13sm19001289pgt.7.2021.10.26.07.49.57
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 26 Oct 2021 07:50:00 -0700 (PDT)
+From: Kumar Thangavel <kumarthangavel.hcl@gmail.com>
+X-Google-Original-From: Kumar Thangavel <thangavel.k@hcl.com>
+Date: Tue, 26 Oct 2021 20:19:53 +0530
+To: Samuel Mendoza-Jonas <sam@mendozajonas.com>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH v3] Add payload to be 32-bit aligned to fix dropped packets
+Message-ID: <20211026144953.GA15611@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-Subject: Re: [PATCH 01/10] clk: aspeed: ast2600: Porting sdhci clock source
-Content-Language: en-US
-To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-References: <20210922103116.30652-1-chin-ting_kuo@aspeedtech.com>
- <20210922103116.30652-2-chin-ting_kuo@aspeedtech.com>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20210922103116.30652-2-chin-ting_kuo@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,151 +79,102 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com, sboyd@kernel.org,
- steven_lee@aspeedtech.com, mturquette@baylibre.com, linux-mmc@vger.kernel.org,
- adrian.hunter@intel.com, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
- openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: sdasari@fb.com, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ velumanit@hcl.com, patrickw3@fb.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Dear Chin-Ting,
+Update NC-SI command handler (both standard and OEM) to take into
+account of payload paddings in allocating skb (in case of payload
+size is not 32-bit aligned).
 
+The checksum field follows payload field, without taking payload
+padding into account can cause checksum being truncated, leading to
+dropped packets.
 
-Thank you for your patch. Some small things.
+Signed-off-by: Kumar Thangavel <kumarthangavel.hcl@gmail.com>
+Acked-by: Samuel Mendoza-Jonas <sam@mendozajonas.com>
+Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
 
-Please use imperative mood in the commit messages summary [1]:
+---
+  v3:
+   - Added Macro for MAX
+   - Fixed the missed semicolon
 
-clk: aspeed: ast2600: Port SDHCI clock source
+  v2:
+   - Added NC-SI spec version and section
+   - Removed blank line
+   - corrected spellings
 
-On 22.09.21 12:31, Chin-Ting Kuo wrote:
-> - There are two clock sources used to generate
->    SD/SDIO clock, APLL clock and HCLK (200MHz).
->    User can select which clock source should be used
->    by configuring SCU310[8].
-> - The SD/SDIO clock divider selection table SCU310[30:28]
->    is different between AST2600-A1 and AST2600-A2/A3.
->    For AST2600-A1, 200MHz SD/SDIO clock cannot be
->    gotten by the dividers in SCU310[30:28] if APLL
->    is not the multiple of 200MHz and HCLK is 200MHz.
->    For AST2600-A2/A3, a new divider, "1", is added and
->    200MHz SD/SDIO clock can be obtained by adopting HCLK
->    as clock source and setting SCU310[30:28] to 3b'111.
+  v1:
+   - Initial draft
 
-Please reference the datasheet name and version, and please reflow the 
-commit message for 75 characters per line.
+---
+ net/ncsi/ncsi-cmd.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-> Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-> ---
->   drivers/clk/clk-ast2600.c | 69 ++++++++++++++++++++++++++++++++++-----
->   1 file changed, 61 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/clk/clk-ast2600.c b/drivers/clk/clk-ast2600.c
-> index bc3be5f3eae1..a6778c18274a 100644
-> --- a/drivers/clk/clk-ast2600.c
-> +++ b/drivers/clk/clk-ast2600.c
-> @@ -168,6 +168,30 @@ static const struct clk_div_table ast2600_div_table[] = {
->   	{ 0 }
->   };
->   
-> +static const struct clk_div_table ast2600_sd_div_a1_table[] = {
-> +	{ 0x0, 2 },
-> +	{ 0x1, 4 },
-> +	{ 0x2, 6 },
-> +	{ 0x3, 8 },
-> +	{ 0x4, 10 },
-> +	{ 0x5, 12 },
-> +	{ 0x6, 14 },
-> +	{ 0x7, 16 },
-> +	{ 0 }
-> +};
-> +
-> +static const struct clk_div_table ast2600_sd_div_a2_table[] = {
-> +	{ 0x0, 2 },
-> +	{ 0x1, 4 },
-> +	{ 0x2, 6 },
-> +	{ 0x3, 8 },
-> +	{ 0x4, 10 },
-> +	{ 0x5, 12 },
-> +	{ 0x6, 14 },
-> +	{ 0x7, 1 },
-> +	{ 0 }
-> +};
-> +
->   /* For hpll/dpll/epll/mpll */
->   static struct clk_hw *ast2600_calc_pll(const char *name, u32 val)
->   {
-> @@ -424,6 +448,11 @@ static const char *const emmc_extclk_parent_names[] = {
->   	"mpll",
->   };
->   
-> +static const char *const sd_extclk_parent_names[] = {
-> +	"hclk",
-> +	"apll",
-> +};
-> +
->   static const char * const vclk_parent_names[] = {
->   	"dpll",
->   	"d1pll",
-> @@ -523,18 +552,42 @@ static int aspeed_g6_clk_probe(struct platform_device *pdev)
->   		return PTR_ERR(hw);
->   	aspeed_g6_clk_data->hws[ASPEED_CLK_EMMC] = hw;
->   
-> -	/* SD/SDIO clock divider and gate */
-> -	hw = clk_hw_register_gate(dev, "sd_extclk_gate", "hpll", 0,
-> -			scu_g6_base + ASPEED_G6_CLK_SELECTION4, 31, 0,
-> -			&aspeed_g6_clk_lock);
-> +	clk_hw_register_fixed_rate(NULL, "hclk", NULL, 0, 200000000);
-> +
-> +	regmap_read(map, 0x310, &val);
-> +	hw = clk_hw_register_mux(dev, "sd_extclk_mux",
-> +				 sd_extclk_parent_names,
-> +				 ARRAY_SIZE(sd_extclk_parent_names), 0,
-> +				 scu_g6_base + ASPEED_G6_CLK_SELECTION4, 8, 1,
-> +				 0, &aspeed_g6_clk_lock);
->   	if (IS_ERR(hw))
->   		return PTR_ERR(hw);
-> -	hw = clk_hw_register_divider_table(dev, "sd_extclk", "sd_extclk_gate",
-> -			0, scu_g6_base + ASPEED_G6_CLK_SELECTION4, 28, 3, 0,
-> -			ast2600_div_table,
-> -			&aspeed_g6_clk_lock);
-> +
-> +	hw = clk_hw_register_gate(dev, "sd_extclk_gate", "sd_extclk_mux",
-> +				  0, scu_g6_base + ASPEED_G6_CLK_SELECTION4,
-> +				  31, 0, &aspeed_g6_clk_lock);
->   	if (IS_ERR(hw))
->   		return PTR_ERR(hw);
-> +
-> +	regmap_read(map, 0x14, &val);
-> +	/* AST2600-A2/A3 clock divisor is different from AST2600-A1 */
-> +	if (((val & GENMASK(23, 16)) >> 16) >= 2) {
-> +		/* AST2600-A2/A3 */
-> +		hw = clk_hw_register_divider_table(dev, "sd_extclk", "sd_extclk_gate",
-> +					0, scu_g6_base + ASPEED_G6_CLK_SELECTION4, 28, 3, 0,
-> +					ast2600_sd_div_a2_table,
-> +					&aspeed_g6_clk_lock);
-> +		if (IS_ERR(hw))
-> +			return PTR_ERR(hw);
-> +	} else {
-> +		/* AST2600-A1 */
-> +		hw = clk_hw_register_divider_table(dev, "sd_extclk", "sd_extclk_gate",
-> +					0, scu_g6_base + ASPEED_G6_CLK_SELECTION4, 28, 3, 0,
-> +					ast2600_sd_div_a1_table,
-> +					&aspeed_g6_clk_lock);
-> +		if (IS_ERR(hw))
-> +			return PTR_ERR(hw);
-> +	}
->   	aspeed_g6_clk_data->hws[ASPEED_CLK_SDIO] = hw;
->   
->   	/* MAC1/2 RMII 50MHz RCLK */
-> 
+diff --git a/net/ncsi/ncsi-cmd.c b/net/ncsi/ncsi-cmd.c
+index ba9ae482141b..179e39105072 100644
+--- a/net/ncsi/ncsi-cmd.c
++++ b/net/ncsi/ncsi-cmd.c
+@@ -18,6 +18,8 @@
+ #include "internal.h"
+ #include "ncsi-pkt.h"
+ 
++#define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
++
+ u32 ncsi_calculate_checksum(unsigned char *data, int len)
+ {
+ 	u32 checksum = 0;
+@@ -213,12 +215,16 @@ static int ncsi_cmd_handler_oem(struct sk_buff *skb,
+ {
+ 	struct ncsi_cmd_oem_pkt *cmd;
+ 	unsigned int len;
++	/* NC-SI spec DSP_0222_1.2.0, section 8.2.2.2
++	 * requires payload to be padded with 0 to
++	 * 32-bit boundary before the checksum field.
++	 * Ensure the padding bytes are accounted for in
++	 * skb allocation
++	 */
+ 
++	unsigned short payload = ALIGN(nca->payload, 4);
+ 	len = sizeof(struct ncsi_cmd_pkt_hdr) + 4;
+-	if (nca->payload < 26)
+-		len += 26;
+-	else
+-		len += nca->payload;
++	len += MAX(payload, 26);
+ 
+ 	cmd = skb_put_zero(skb, len);
+ 	memcpy(&cmd->mfr_id, nca->data, nca->payload);
+@@ -272,6 +278,7 @@ static struct ncsi_request *ncsi_alloc_command(struct ncsi_cmd_arg *nca)
+ 	struct net_device *dev = nd->dev;
+ 	int hlen = LL_RESERVED_SPACE(dev);
+ 	int tlen = dev->needed_tailroom;
++	int payload;
+ 	int len = hlen + tlen;
+ 	struct sk_buff *skb;
+ 	struct ncsi_request *nr;
+@@ -281,14 +288,14 @@ static struct ncsi_request *ncsi_alloc_command(struct ncsi_cmd_arg *nca)
+ 		return NULL;
+ 
+ 	/* NCSI command packet has 16-bytes header, payload, 4 bytes checksum.
++	 * Payload needs padding so that the checksum field following payload is
++	 * aligned to 32-bit boundary.
+ 	 * The packet needs padding if its payload is less than 26 bytes to
+ 	 * meet 64 bytes minimal ethernet frame length.
+ 	 */
+ 	len += sizeof(struct ncsi_cmd_pkt_hdr) + 4;
+-	if (nca->payload < 26)
+-		len += 26;
+-	else
+-		len += nca->payload;
++	payload = ALIGN(nca->payload, 4);
++	len += MAX(payload, 26);
+ 
+ 	/* Allocate skb */
+ 	skb = alloc_skb(len, GFP_ATOMIC);
+-- 
+2.17.1
 
-Does Linux already log, if A1 or A2/A3 is detected?
-
-Should a debug message be added, what clock divisor is used?
-
-
-Kind regards,
-
-Paul
