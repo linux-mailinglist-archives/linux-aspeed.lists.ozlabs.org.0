@@ -2,67 +2,47 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCAE343C835
-	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Oct 2021 12:59:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D10143D9F2
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Oct 2021 05:44:46 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HfQgx5kcNz2yNT
-	for <lists+linux-aspeed@lfdr.de>; Wed, 27 Oct 2021 21:59:57 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=HVlZRtxA;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HfrzJ1MF2z2yRX
+	for <lists+linux-aspeed@lfdr.de>; Thu, 28 Oct 2021 14:44:44 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::135;
- helo=mail-lf1-x135.google.com; envelope-from=aladyshev22@gmail.com;
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=HVlZRtxA; dkim-atps=neutral
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HfQgs2k6Yz2xCN
- for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Oct 2021 21:59:52 +1100 (AEDT)
-Received: by mail-lf1-x135.google.com with SMTP id bp15so5319864lfb.4
- for <linux-aspeed@lists.ozlabs.org>; Wed, 27 Oct 2021 03:59:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Zsf5W6YqowSseyvuTUMml4+bgTU62PWsyrp4oNO1xMk=;
- b=HVlZRtxATzTeW9s77vFDU1/2HETT9Vc8F/2vUCf47K4QJbtvN1amTS5v97H6uQ9m5L
- hVgobVhWgmmJNor2lCPhE1GX6grKq6E1GRGsCSxIBo1iXLAyZ6ARA3n5JLWgohMWhcvn
- qz+kuyYksI8LPtBnpJXcZ37BHI7XjlHMUaJJepBjIHmNhUkeOdY23NYCq9VtJ5CzCpFQ
- 2swWDx+TQ9eEQpc4yTEEh4+FODH9EPqQofcacFdqEIIwKmbcCgi8EovuLA/DqGoxtHIm
- m/bhGdtcz50fA2UdUVqIjZwUXV8cOt1K4IXtmGwlnVrPJH1UVhUFneEdi4qKsnTodh81
- OIhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Zsf5W6YqowSseyvuTUMml4+bgTU62PWsyrp4oNO1xMk=;
- b=UWxnyvhhPaN8tuFFHMiCD5SIyc1TktrJgd1sAHqmRdMvCVXXcdUOVugk5Pw7rtUOti
- bYp6m4LTfv63ZMxsNXc6kJ12x92BCLUYrmWrJ+Jhp/EJT9D2DUHAUBPnBqOod6LIMJtj
- Wpokq9eEg9QQT5YE74gN/mJezzWZ5xFdjwXRpZibmawGDlSMJxJ3B5rAfvWOiUsJFaBU
- qmB4lTa8oC0ajj55hIP+891JGiTcTaLRHU0O+0ROCUghLiQHG84zKjRAcRtTngQ4KwmL
- U4ePAbAsBAQbMDuCpPPXPrvn2N573URj/QMQem856EvOf5yeSqFsdAEtnU2ENuKI7fbx
- Yb6A==
-X-Gm-Message-State: AOAM531egoWtlAgkeLFB2upT1EtBOE6ejuTSjOqgHur9+jCPqKr81twC
- vkqYqI0HVwfNe1OS0zmIZfdvd2ktQj87f7hsPZY=
-X-Google-Smtp-Source: ABdhPJw2RtAnvTTu8eKJ1Gu5xdiQKMCSymgMHX2aBMj3kskaGPm2Lg7bnH1qL2p+8Qq1exiko2TgCjBz58gOBrLcDXs=
-X-Received: by 2002:ac2:5d4b:: with SMTP id w11mr29074118lfd.676.1635332388998; 
- Wed, 27 Oct 2021 03:59:48 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HfrzD4WxCz2xtw;
+ Thu, 28 Oct 2021 14:44:36 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 19S3KrXU065393;
+ Thu, 28 Oct 2021 11:20:53 +0800 (GMT-8)
+ (envelope-from jammy_huang@aspeedtech.com)
+Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 28 Oct 2021 11:43:23 +0800
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+ <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
+ <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v7] media: aspeed: add debugfs
+Date: Thu, 28 Oct 2021 11:43:32 +0800
+Message-ID: <20211028034332.15961-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211026200058.2183-1-aladyshev22@gmail.com>
- <CACPK8Xd5eYpsFNw1jEjv3NaShgzE3zC_Ct29pJM34TfrqRTNtQ@mail.gmail.com>
-In-Reply-To: <CACPK8Xd5eYpsFNw1jEjv3NaShgzE3zC_Ct29pJM34TfrqRTNtQ@mail.gmail.com>
-From: Konstantin Aladyshev <aladyshev22@gmail.com>
-Date: Wed, 27 Oct 2021 14:05:45 +0300
-Message-ID: <CACSj6VVTFa0t9WK=R2TucG7eFqUzBsWYFzvsaRt6eXOiFuQORA@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: aspeed: Add AMD DaytonaX BMC
-To: Joel Stanley <joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 19S3KrXU065393
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,93 +54,225 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- SoC Team <soc@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Supreeth Venkatesh <supreeth.venkatesh@amd.com>, geissonator@yahoo.com,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Thanks for the comments. Can I ask you some questions about this
-`device-tree-gpio-naming.md`?
+A debugfs file, /sys/kernel/debug/aspeed-video, will be created. You can
+read it to get video real-time information as below:
 
-1) First of all in my naming I've tried to use naming scheme the same
-as the EthanolX CRB DTS currently has
-(https://github.com/torvalds/linux/blob/d25f27432f80a800a3592db128254c8140bd71bf/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts#L102).
-Do you want me to change GPIO naming in the EthanolX CRB as well?
-2) Also this naming comes from the signal names in the board
-schematics. This way it is clear to check schematics vs DTS. If we use
-this OpenBMC naming style, we will lose that correspondence. Is it
-really good?
-3) In the initial version of the DTS file I've supplied only a minimal
-set of GPIO, that are used by OpenBMC. GPIOs for x86-power-control app
-and led id/fault gpios. With renaming these GPIOs I'm only sure about
-these GPIOs:
+Capture:
+  Signal              : Lock
+  Width               : 1920
+  Height              : 1080
+  FRC                 : 60
 
-FAULT_LED                  - led-fault
-CHASSIS_ID_BTN        - led-identify
+Performance:
+  Frame#              : 38
+  Frame Duration(ms)  :
+    Now               : 21
+    Min               : 21
+    Max               : 21
+  FPS                 : 47
 
-What about the rest? For example the document doesn't really state
-what the *-button postfix states? Is it for asserting or monitoring
-buttons? How should I name these signals?
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+---
+v7:
+  - avoid divide-by-zero
+v6:
+  - update commit message
+v5:
+  - correct log
+  - update commit message
+v4:
+  - use void as aspeed_video_debugfs_create()'s return type
+  - update commit message
+v3:
+ - let struct, aspeed_video_debugfs_ops, be const
+v2:
+ - Change the style of debugfs information
+ - Use Min/Max to remove test and branch cases
+---
+ drivers/media/platform/aspeed-video.c | 96 +++++++++++++++++++++++++++
+ 1 file changed, 96 insertions(+)
 
-ASSERT_BMC_READY
-ASSERT_RST_BTN
-ASSERT_PWR_BTN
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+index 8b3939b8052d..5ffbabf884eb 100644
+--- a/drivers/media/platform/aspeed-video.c
++++ b/drivers/media/platform/aspeed-video.c
+@@ -21,6 +21,8 @@
+ #include <linux/videodev2.h>
+ #include <linux/wait.h>
+ #include <linux/workqueue.h>
++#include <linux/debugfs.h>
++#include <linux/ktime.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-dev.h>
+ #include <media/v4l2-device.h>
+@@ -203,6 +205,14 @@ struct aspeed_video_buffer {
+ 	struct list_head link;
+ };
+ 
++struct aspeed_video_perf {
++	ktime_t last_sample;
++	u32 totaltime;
++	u32 duration;
++	u32 duration_min;
++	u32 duration_max;
++};
++
+ #define to_aspeed_video_buffer(x) \
+ 	container_of((x), struct aspeed_video_buffer, vb)
+ 
+@@ -241,6 +251,8 @@ struct aspeed_video {
+ 	unsigned int frame_left;
+ 	unsigned int frame_right;
+ 	unsigned int frame_top;
++
++	struct aspeed_video_perf perf;
+ };
+ 
+ #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
+@@ -444,6 +456,16 @@ static void aspeed_video_write(struct aspeed_video *video, u32 reg, u32 val)
+ 		readl(video->base + reg));
+ }
+ 
++static void update_perf(struct aspeed_video_perf *p)
++{
++	p->duration =
++		ktime_to_ms(ktime_sub(ktime_get(),  p->last_sample));
++	p->totaltime += p->duration;
++
++	p->duration_max = max(p->duration, p->duration_max);
++	p->duration_min = min(p->duration, p->duration_min);
++}
++
+ static int aspeed_video_start_frame(struct aspeed_video *video)
+ {
+ 	dma_addr_t addr;
+@@ -482,6 +504,8 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
+ 	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
+ 			    VE_INTERRUPT_COMP_COMPLETE);
+ 
++	video->perf.last_sample = ktime_get();
++
+ 	aspeed_video_update(video, VE_SEQ_CTRL, 0,
+ 			    VE_SEQ_CTRL_TRIG_CAPTURE | VE_SEQ_CTRL_TRIG_COMP);
+ 
+@@ -600,6 +624,8 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
+ 		u32 frame_size = aspeed_video_read(video,
+ 						   VE_JPEG_COMP_SIZE_READ_BACK);
+ 
++		update_perf(&video->perf);
++
+ 		spin_lock(&video->lock);
+ 		clear_bit(VIDEO_FRAME_INPRG, &video->flags);
+ 		buf = list_first_entry_or_null(&video->buffers,
+@@ -760,6 +786,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+ 	det->width = MIN_WIDTH;
+ 	det->height = MIN_HEIGHT;
+ 	video->v4l2_input_status = V4L2_IN_ST_NO_SIGNAL;
++	memset(&video->perf, 0, sizeof(video->perf));
+ 
+ 	do {
+ 		if (tries) {
+@@ -1450,6 +1477,8 @@ static int aspeed_video_start_streaming(struct vb2_queue *q,
+ 	struct aspeed_video *video = vb2_get_drv_priv(q);
+ 
+ 	video->sequence = 0;
++	video->perf.duration_max = 0;
++	video->perf.duration_min = 0xffffffff;
+ 
+ 	rc = aspeed_video_start_frame(video);
+ 	if (rc) {
+@@ -1517,6 +1546,69 @@ static const struct vb2_ops aspeed_video_vb2_ops = {
+ 	.buf_queue =  aspeed_video_buf_queue,
+ };
+ 
++#ifdef CONFIG_DEBUG_FS
++static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
++{
++	struct aspeed_video *v = s->private;
++
++	seq_puts(s, "\n");
++
++	seq_puts(s, "Capture:\n");
++	seq_printf(s, "  %-20s:\t%s\n", "Signal",
++		   v->v4l2_input_status ? "Unlock" : "Lock");
++	seq_printf(s, "  %-20s:\t%d\n", "Width", v->pix_fmt.width);
++	seq_printf(s, "  %-20s:\t%d\n", "Height", v->pix_fmt.height);
++	seq_printf(s, "  %-20s:\t%d\n", "FRC", v->frame_rate);
++
++	seq_puts(s, "\n");
++
++	seq_puts(s, "Performance:\n");
++	seq_printf(s, "  %-20s:\t%d\n", "Frame#", v->sequence);
++	seq_printf(s, "  %-20s:\n", "Frame Duration(ms)");
++	seq_printf(s, "    %-18s:\t%d\n", "Now", v->perf.duration);
++	seq_printf(s, "    %-18s:\t%d\n", "Min", v->perf.duration_min);
++	seq_printf(s, "    %-18s:\t%d\n", "Max", v->perf.duration_max);
++	seq_printf(s, "  %-20s:\t%d\n", "FPS",
++		   (v->perf.totaltime && v->sequence) ?
++		   1000/(v->perf.totaltime/v->sequence) : 0);
++
++
++	return 0;
++}
++
++int aspeed_video_proc_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, aspeed_video_debugfs_show, inode->i_private);
++}
++
++static const struct file_operations aspeed_video_debugfs_ops = {
++	.owner   = THIS_MODULE,
++	.open    = aspeed_video_proc_open,
++	.read    = seq_read,
++	.llseek  = seq_lseek,
++	.release = single_release,
++};
++
++static struct dentry *debugfs_entry;
++
++static void aspeed_video_debugfs_remove(struct aspeed_video *video)
++{
++	debugfs_remove_recursive(debugfs_entry);
++}
++
++static void aspeed_video_debugfs_create(struct aspeed_video *video)
++{
++	debugfs_entry = debugfs_create_file(DEVICE_NAME, 0444, NULL, video,
++					    &aspeed_video_debugfs_ops);
++}
++#else
++static void aspeed_video_debugfs_remove(struct aspeed_video *video) { }
++static int aspeed_video_debugfs_create(struct aspeed_video *video)
++{
++	return 0;
++}
++#endif /* CONFIG_DEBUG_FS */
++
+ static int aspeed_video_setup_video(struct aspeed_video *video)
+ {
+ 	const u64 mask = ~(BIT(V4L2_JPEG_CHROMA_SUBSAMPLING_444) |
+@@ -1708,6 +1800,8 @@ static int aspeed_video_probe(struct platform_device *pdev)
+ 		return rc;
+ 	}
+ 
++	aspeed_video_debugfs_create(video);
++
+ 	return 0;
+ }
+ 
+@@ -1719,6 +1813,8 @@ static int aspeed_video_remove(struct platform_device *pdev)
+ 
+ 	aspeed_video_off(video);
+ 
++	aspeed_video_debugfs_remove(video);
++
+ 	clk_unprepare(video->vclk);
+ 	clk_unprepare(video->eclk);
+ 
+-- 
+2.25.1
 
-MON_P0_RST_BTN
-MON_P0_PWR_BTN
-MON_P0_PWR_GOOD
-MON_PWROK
-
-Can you help me with those?
-
-4) And what should I do to the board GPIO signals that OpenBMC doesn't
-use? If you look at the EthanolX CRB DTS
-(https://github.com/torvalds/linux/blob/d25f27432f80a800a3592db128254c8140bd71bf/arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dts#L102)
-it has a ton of GPIOs. Should they be renamed to this OpenBMC style as
-well? Or can they be named exactly like in the schematics?
-
-I've also CCed original author of the `device-tree-gpio-naming.md`
-document Andrew Geissler. Andrew, can you please provide your opinion
-on the subject?
-
-Best regards,
-Konstantin Aladyshev
-
-On Wed, Oct 27, 2021 at 12:03 AM Joel Stanley <joel@jms.id.au> wrote:
->
-> Hello Konstantin,
->
-> On Tue, 26 Oct 2021 at 20:01, Konstantin Aladyshev
-> <aladyshev22@gmail.com> wrote:
-> >
-> > Add initial version of device tree for the BMC in the AMD DaytonaX
-> > platform.
-> >
-> > AMD DaytonaX platform is a customer reference board (CRB) with an
-> > Aspeed ast2500 BMC manufactured by AMD.
-> >
-> > Signed-off-by: Konstantin Aladyshev <aladyshev22@gmail.com>
->
-> This looks good. I have one comment about the GPIOs below.
->
-> > +&gpio {
-> > +       status = "okay";
-> > +       gpio-line-names =
-> > +       /*A0-A7*/       "","","FAULT_LED","","","","","",
-> > +       /*B0-B7*/       "","","","","","","","",
-> > +       /*C0-C7*/       "CHASSIS_ID_BTN","","","","","","","",
-> > +       /*D0-D7*/       "","","ASSERT_BMC_READY","","","","","",
-> > +       /*E0-E7*/       "MON_P0_RST_BTN","ASSERT_RST_BTN","MON_P0_PWR_BTN","ASSERT_PWR_BTN","",
-> > +                       "MON_P0_PWR_GOOD","MON_PWROK","",
->
-> For systems that will run openbmc, we try to use naming conventions
-> from this document:
->
-> https://github.com/openbmc/docs/blob/master/designs/device-tree-gpio-naming.md
->
-> If a GPIO is missing from that doc I encourage you to add it.
