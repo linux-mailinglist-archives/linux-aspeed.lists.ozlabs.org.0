@@ -2,78 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3AC442DBA
-	for <lists+linux-aspeed@lfdr.de>; Tue,  2 Nov 2021 13:22:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E92CF442EE7
+	for <lists+linux-aspeed@lfdr.de>; Tue,  2 Nov 2021 14:12:37 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Hk8Dw1DsJz2yQL
-	for <lists+linux-aspeed@lfdr.de>; Tue,  2 Nov 2021 23:22:56 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=gqgGeoKV;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Hk9LC5nCKz2yJF
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Nov 2021 00:12:35 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f2e;
- helo=mail-qv1-xf2e.google.com; envelope-from=tcminyard@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=gqgGeoKV; dkim-atps=neutral
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com
- [IPv6:2607:f8b0:4864:20::f2e])
+ smtp.mailfrom=kaod.org (client-ip=178.32.121.110;
+ helo=1.mo548.mail-out.ovh.net; envelope-from=clg@kaod.org; receiver=<UNKNOWN>)
+X-Greylist: delayed 4201 seconds by postgrey-1.36 at boromir;
+ Wed, 03 Nov 2021 00:12:29 AEDT
+Received: from 1.mo548.mail-out.ovh.net (1.mo548.mail-out.ovh.net
+ [178.32.121.110])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Hk8Dm4MD8z2xXr
- for <linux-aspeed@lists.ozlabs.org>; Tue,  2 Nov 2021 23:22:47 +1100 (AEDT)
-Received: by mail-qv1-xf2e.google.com with SMTP id i13so620590qvm.1
- for <linux-aspeed@lists.ozlabs.org>; Tue, 02 Nov 2021 05:22:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=524j3weIMUBYVohdC3QFfF1dIv9YteXIYBPPUPdtNZI=;
- b=gqgGeoKVcua9Eja33WGYMqhcVmZEluUj9WI0JxTO7JMhAdAoofYhm2DMUWOe17ogJR
- YDX/jP/LWDCq+gD2PsifYEkFXkAqj0TeWKjv8g6eL6UYjeUQ2IKoeMYqLuBZ42U5I4I0
- 9YB2oOvhoBqvmDTHilv2hZdUT3u4Y+g1fFuYD5iKP41w6fXEFPbl5sF8HIK/+vQs53+v
- 0hBOnuLTxg8XM4uvOOUvZEi5uUXE3Hs4IZPwaSGA5KLogHVkP//DzKiN2RrQd5AG2pyB
- u6hD3gNXIdU8EP/PVBGUbxmjidwtSM1TwsATBbtAriVFXAIbYgDbWGHxuaIa8AtPdR2j
- DpfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to;
- bh=524j3weIMUBYVohdC3QFfF1dIv9YteXIYBPPUPdtNZI=;
- b=K9J+CchAPEqx7bAMyiBhcRzTmooEB32QOjsv9+FE81WoWBP9PJCOln7Dg3LSjrMHX4
- tXcCswddLSn4smeRTX5bqJ41ft8U9uFDNg1XHqYsYWM7cJg1PC1UshoeeF+mlWZd1DUc
- 0sSF6bZf+i8PiSgKV3+Kdrje3LT5LjUwyyD+dUR3AVDqclkeIXIJalRksoXtVkQy2zRh
- 4jfzS/jP7mG2NlW9aWnQcg18LCjPpW3Vjy2ONc3FomWhrihjq4/SB4LcAMf3MhsLpdv7
- ThZl9EDswAQZbQhfrUtFqMQJSz8TgXSKmoQE3FynlR2FjTnCGfQKF4xLbVwJWYbMGP6f
- 07/A==
-X-Gm-Message-State: AOAM530C9i0wjFMPa5Bh7o1fiUpTeHk+Kkw0rMiPxqlm0i0VnIXvZS5x
- 8ULw4gP+vEvlgyMeeDQNoQ==
-X-Google-Smtp-Source: ABdhPJwC+GW2Z14j8Ar7+l/yPNFCH4WawZMyhX5wmqOW3DdYy7QDet5X850by09ALefKzmA4gePHeQ==
-X-Received: by 2002:a05:6214:2584:: with SMTP id
- fq4mr17116466qvb.53.1635855764249; 
- Tue, 02 Nov 2021 05:22:44 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.156.158])
- by smtp.gmail.com with ESMTPSA id i11sm48290qtq.44.2021.11.02.05.22.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Nov 2021 05:22:43 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:b4e0:932d:f90c:fafb])
- by serve.minyard.net (Postfix) with ESMTPSA id C9A0B1800BA;
- Tue,  2 Nov 2021 12:22:42 +0000 (UTC)
-Date: Tue, 2 Nov 2021 07:22:41 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH -next 0/4] Add LCLK control into Aspeed LPC sub drivers
-Message-ID: <20211102122241.GK4667@minyard.net>
-References: <20211101233751.49222-1-jae.hyun.yoo@intel.com>
- <CACPK8XfBi+jY5ftLqsEVXHe01SQBNpTSwo+WtXN3=YUQnXACtw@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Hk9L52MFNz2xtc
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  3 Nov 2021 00:12:27 +1100 (AEDT)
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.72])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 5D66321070;
+ Tue,  2 Nov 2021 09:35:49 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 2 Nov
+ 2021 10:35:48 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004e727d65d-8397-4210-84a7-829b0dd3b7f5,
+ 5C292F81AE153BA05FA9CE80812C04756C1C1785) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <194999c0-e9b3-1b0d-3739-faa2b7f72391@kaod.org>
+Date: Tue, 2 Nov 2021 10:35:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACPK8XfBi+jY5ftLqsEVXHe01SQBNpTSwo+WtXN3=YUQnXACtw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH -next 2/4] ipmi: bt: add clock control logic
+Content-Language: en-US
+To: <jae.hyun.yoo@intel.com>, Rob Herring <robh+dt@kernel.org>, Corey Minyard
+ <minyard@acm.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+ <andrew@aj.id.au>, Haiyue Wang <haiyue.wang@linux.intel.com>, Jae Hyun Yoo
+ <jae.hyun.yoo@linux.intel.com>
+References: <20211101233751.49222-1-jae.hyun.yoo@intel.com>
+ <20211101233751.49222-3-jae.hyun.yoo@intel.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211101233751.49222-3-jae.hyun.yoo@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: b52a7976-2078-43c7-9601-4622d6a06c64
+X-Ovh-Tracer-Id: 465278140314979317
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvdehhedgtdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepohhpvghnihhpmhhiqdguvghvvghlohhpvghrsehlihhsthhsrdhsohhurhgtvghfohhrghgvrdhnvght
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,84 +68,110 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Zev Weiss <zev@bewilderbeest.net>, Rob Herring <robh+dt@kernel.org>,
- Jae Hyun Yoo <jae.hyun.yoo@intel.com>, Cedric Le Goater <clg@kaod.org>,
- openipmi-developer@lists.sourceforge.net,
- Haiyue Wang <haiyue.wang@linux.intel.com>
+Cc: devicetree@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+ linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Nov 01, 2021 at 11:36:38PM +0000, Joel Stanley wrote:
-> On Mon, 1 Nov 2021 at 23:18, <jae.hyun.yoo@intel.com> wrote:
-> >
-> > From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> >
-> > Hello all,
-> >
-> > This series is for appliying below fix to all Aspped LPC sub drivers.
-> > https://lore.kernel.org/all/20201208091748.1920-1-wangzhiqiang.bj@bytedance.com/
-> >
-> > An LPC sub driver can be enabled without using the lpc-ctrl driver or it
-> > can be registered ahead of lpc-ctrl depends on each system configuration and
-> > this difference introduces that LPC can be enabled without heart beating of
-> > LCLK so it causes improper handling on host interrupts when the host sends
-> > interrupts in that time frame. Then kernel eventually forcibly disables the
-> > interrupt with dumping stack and printing a 'nobody cared this irq' message
-> > out.
-> >
-> > To prevent this issue, all LPC sub drivers should enable LCLK individually
-> > so this patch adds clock control logic into the remaining Aspeed LPC sub
-> > drivers.
+On 11/2/21 00:37, jae.hyun.yoo@intel.com wrote:
+> From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 > 
-> Thanks for sending this out!
+> If LPC BT driver is registered ahead of lpc-ctrl module, LPC BT
+> hardware block will be enabled without heart beating of LCLK until
+> lpc-ctrl enables the LCLK. This issue causes improper handling on
+> host interrupts when the host sends interrupts in that time frame.
+> Then kernel eventually forcibly disables the interrupt with
+> dumping stack and printing a 'nobody cared this irq' message out.
 > 
-> This will resolve a few of the issues we have in the issue tracker:
+> To prevent this issue, all LPC sub drivers should enable LCLK
+> individually so this patch adds clock control logic into the LPC
+> BT driver.
 > 
-> https://github.com/openbmc/linux/issues/210
-> https://github.com/openbmc/linux/issues/130
-> 
-> The patches look good to me. I think you've just missed Corey's PR for
-> v5.16, but I will stick them in the openbmc tree once they've had a
-> review.
+> Fixes: 54f9c4d0778b ("ipmi: add an Aspeed BT IPMI BMC driver")
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 
-We can still get them in to 5.16 if it's important for that; this is a
-bug fix, after all, and it's early.  I just need to know the urgency.
+LGTM,
 
-Get the Reviewed-by's in and add the bindings and I can get it into the
-next tree for a bit, then I can submit.  We may be in rc1 by then, but
-that's ok.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
--corey
+Thanks,
 
+C.
+
+> ---
+>   drivers/char/ipmi/bt-bmc.c | 24 +++++++++++++++++++++++-
+>   1 file changed, 23 insertions(+), 1 deletion(-)
 > 
-> Cheers,
+> diff --git a/drivers/char/ipmi/bt-bmc.c b/drivers/char/ipmi/bt-bmc.c
+> index 7450904e330a..a20f92cc7b18 100644
+> --- a/drivers/char/ipmi/bt-bmc.c
+> +++ b/drivers/char/ipmi/bt-bmc.c
+> @@ -5,6 +5,7 @@
+>   
+>   #include <linux/atomic.h>
+>   #include <linux/bt-bmc.h>
+> +#include <linux/clk.h>
+>   #include <linux/errno.h>
+>   #include <linux/interrupt.h>
+>   #include <linux/io.h>
+> @@ -62,6 +63,7 @@ struct bt_bmc {
+>   	wait_queue_head_t	queue;
+>   	struct timer_list	poll_timer;
+>   	struct mutex		mutex;
+> +	struct clk		*clk;
+>   };
+>   
+>   static atomic_t open_count = ATOMIC_INIT(0);
+> @@ -423,6 +425,19 @@ static int bt_bmc_probe(struct platform_device *pdev)
+>   	if (IS_ERR(bt_bmc->base))
+>   		return PTR_ERR(bt_bmc->base);
+>   
+> +	bt_bmc->clk = devm_clk_get(dev, NULL);
+> +	if (IS_ERR(bt_bmc->clk)) {
+> +		rc = PTR_ERR(bt_bmc->clk);
+> +		if (rc != -EPROBE_DEFER)
+> +			dev_err(dev, "Unable to get clock\n");
+> +		return rc;
+> +	}
+> +	rc = clk_prepare_enable(bt_bmc->clk);
+> +	if (rc) {
+> +		dev_err(dev, "Unable to enable clock\n");
+> +		return rc;
+> +	}
+> +
+>   	mutex_init(&bt_bmc->mutex);
+>   	init_waitqueue_head(&bt_bmc->queue);
+>   
+> @@ -433,7 +448,7 @@ static int bt_bmc_probe(struct platform_device *pdev)
+>   	rc = misc_register(&bt_bmc->miscdev);
+>   	if (rc) {
+>   		dev_err(dev, "Unable to register misc device\n");
+> -		return rc;
+> +		goto err;
+>   	}
+>   
+>   	bt_bmc_config_irq(bt_bmc, pdev);
+> @@ -457,6 +472,11 @@ static int bt_bmc_probe(struct platform_device *pdev)
+>   	clr_b_busy(bt_bmc);
+>   
+>   	return 0;
+> +
+> +err:
+> +	clk_disable_unprepare(bt_bmc->clk);
+> +
+> +	return rc;
+>   }
+>   
+>   static int bt_bmc_remove(struct platform_device *pdev)
+> @@ -466,6 +486,8 @@ static int bt_bmc_remove(struct platform_device *pdev)
+>   	misc_deregister(&bt_bmc->miscdev);
+>   	if (bt_bmc->irq < 0)
+>   		del_timer_sync(&bt_bmc->poll_timer);
+> +	clk_disable_unprepare(bt_bmc->clk);
+> +
+>   	return 0;
+>   }
+>   
 > 
-> Joel
-> 
-> >
-> > Please review this series.
-> >
-> > Thanks,
-> > Jae
-> >
-> > Jae Hyun Yoo (4):
-> >   ARM: dts: aspeed: add LCLK setting into LPC IBT node
-> >   ipmi: bt: add clock control logic
-> >   ARM: dts: aspeed: add LCLK setting into LPC KCS nodes
-> >   ipmi: kcs_bmc_aspeed: add clock control logic
-> >
-> >  arch/arm/boot/dts/aspeed-g4.dtsi   |  1 +
-> >  arch/arm/boot/dts/aspeed-g5.dtsi   |  5 +++++
-> >  arch/arm/boot/dts/aspeed-g6.dtsi   |  5 +++++
-> >  drivers/char/ipmi/bt-bmc.c         | 24 ++++++++++++++++++++++-
-> >  drivers/char/ipmi/kcs_bmc_aspeed.c | 31 ++++++++++++++++++++++++++----
-> >  5 files changed, 61 insertions(+), 5 deletions(-)
-> >
-> > --
-> > 2.25.1
-> >
+
