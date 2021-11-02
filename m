@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 966F7443736
-	for <lists+linux-aspeed@lfdr.de>; Tue,  2 Nov 2021 21:21:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5824E443737
+	for <lists+linux-aspeed@lfdr.de>; Tue,  2 Nov 2021 21:21:20 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HkLrr39xgz2yb7
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Nov 2021 07:21:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HkLrt1Sw7z2yZ2
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Nov 2021 07:21:18 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -15,15 +15,15 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HkLrf292kz2xsf
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HkLrg0bTjz2xsf
  for <linux-aspeed@lists.ozlabs.org>; Wed,  3 Nov 2021 07:21:06 +1100 (AEDT)
-X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="218552908"
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="218552908"
+X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="218552909"
+X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="218552909"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  02 Nov 2021 13:17:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="500738814"
+X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="500738816"
 Received: from maru.jf.intel.com ([10.54.51.77])
  by orsmga008.jf.intel.com with ESMTP; 02 Nov 2021 13:17:48 -0700
 From: jae.hyun.yoo@intel.com
@@ -32,14 +32,14 @@ To: Rob Herring <robh+dt@kernel.org>, Corey Minyard <minyard@acm.org>,
  Cedric Le Goater <clg@kaod.org>, Haiyue Wang <haiyue.wang@linux.intel.com>,
  ChiaWei Wang <chiawei_wang@aspeedtech.com>,
  Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Subject: [PATCH -next v2 3/6] ipmi: bt: add clock control logic
-Date: Tue,  2 Nov 2021 13:37:14 -0700
-Message-Id: <20211102203717.96794-4-jae.hyun.yoo@intel.com>
+Subject: [PATCH -next v2 4/6] ARM: dts: aspeed: add LCLK setting into LPC KCS
+ nodes
+Date: Tue,  2 Nov 2021 13:37:15 -0700
+Message-Id: <20211102203717.96794-5-jae.hyun.yoo@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211102203717.96794-1-jae.hyun.yoo@intel.com>
 References: <20211102203717.96794-1-jae.hyun.yoo@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -60,97 +60,90 @@ Sender: "Linux-aspeed"
 
 From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 
-If LPC BT driver is registered ahead of lpc-ctrl module, LPC BT
-hardware block will be enabled without heart beating of LCLK until
-lpc-ctrl enables the LCLK. This issue causes improper handling on
-host interrupts when the host sends interrupts in that time frame.
-Then kernel eventually forcibly disables the interrupt with
-dumping stack and printing a 'nobody cared this irq' message out.
+Add LCLK clock setting into LPC KCS nodes to enable the LCLK by
+individual LPC sub drivers.
 
-To prevent this issue, all LPC sub drivers should enable LCLK
-individually so this patch adds clock control logic into the LPC
-BT driver.
-
-Fixes: 54f9c4d0778b ("ipmi: add an Aspeed BT IPMI BMC driver")
 Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
 ---
 v1 -> v2:
  - No change.
 
- drivers/char/ipmi/bt-bmc.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/aspeed-g5.dtsi | 4 ++++
+ arch/arm/boot/dts/aspeed-g6.dtsi | 4 ++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/drivers/char/ipmi/bt-bmc.c b/drivers/char/ipmi/bt-bmc.c
-index 7450904e330a..a20f92cc7b18 100644
---- a/drivers/char/ipmi/bt-bmc.c
-+++ b/drivers/char/ipmi/bt-bmc.c
-@@ -5,6 +5,7 @@
+diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-g5.dtsi
+index d0cc4be2de59..7495f93c5069 100644
+--- a/arch/arm/boot/dts/aspeed-g5.dtsi
++++ b/arch/arm/boot/dts/aspeed-g5.dtsi
+@@ -446,6 +446,7 @@ kcs1: kcs@24 {
+ 					compatible = "aspeed,ast2500-kcs-bmc-v2";
+ 					reg = <0x24 0x1>, <0x30 0x1>, <0x3c 0x1>;
+ 					interrupts = <8>;
++					clocks = <&syscon ASPEED_CLK_GATE_LCLK>;
+ 					status = "disabled";
+ 				};
  
- #include <linux/atomic.h>
- #include <linux/bt-bmc.h>
-+#include <linux/clk.h>
- #include <linux/errno.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
-@@ -62,6 +63,7 @@ struct bt_bmc {
- 	wait_queue_head_t	queue;
- 	struct timer_list	poll_timer;
- 	struct mutex		mutex;
-+	struct clk		*clk;
- };
+@@ -453,6 +454,7 @@ kcs2: kcs@28 {
+ 					compatible = "aspeed,ast2500-kcs-bmc-v2";
+ 					reg = <0x28 0x1>, <0x34 0x1>, <0x40 0x1>;
+ 					interrupts = <8>;
++					clocks = <&syscon ASPEED_CLK_GATE_LCLK>;
+ 					status = "disabled";
+ 				};
  
- static atomic_t open_count = ATOMIC_INIT(0);
-@@ -423,6 +425,19 @@ static int bt_bmc_probe(struct platform_device *pdev)
- 	if (IS_ERR(bt_bmc->base))
- 		return PTR_ERR(bt_bmc->base);
+@@ -460,6 +462,7 @@ kcs3: kcs@2c {
+ 					compatible = "aspeed,ast2500-kcs-bmc-v2";
+ 					reg = <0x2c 0x1>, <0x38 0x1>, <0x44 0x1>;
+ 					interrupts = <8>;
++					clocks = <&syscon ASPEED_CLK_GATE_LCLK>;
+ 					status = "disabled";
+ 				};
  
-+	bt_bmc->clk = devm_clk_get(dev, NULL);
-+	if (IS_ERR(bt_bmc->clk)) {
-+		rc = PTR_ERR(bt_bmc->clk);
-+		if (rc != -EPROBE_DEFER)
-+			dev_err(dev, "Unable to get clock\n");
-+		return rc;
-+	}
-+	rc = clk_prepare_enable(bt_bmc->clk);
-+	if (rc) {
-+		dev_err(dev, "Unable to enable clock\n");
-+		return rc;
-+	}
-+
- 	mutex_init(&bt_bmc->mutex);
- 	init_waitqueue_head(&bt_bmc->queue);
+@@ -467,6 +470,7 @@ kcs4: kcs@114 {
+ 					compatible = "aspeed,ast2500-kcs-bmc-v2";
+ 					reg = <0x114 0x1>, <0x118 0x1>, <0x11c 0x1>;
+ 					interrupts = <8>;
++					clocks = <&syscon ASPEED_CLK_GATE_LCLK>;
+ 					status = "disabled";
+ 				};
  
-@@ -433,7 +448,7 @@ static int bt_bmc_probe(struct platform_device *pdev)
- 	rc = misc_register(&bt_bmc->miscdev);
- 	if (rc) {
- 		dev_err(dev, "Unable to register misc device\n");
--		return rc;
-+		goto err;
- 	}
+diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
+index 465c3549fdc3..891b862363a7 100644
+--- a/arch/arm/boot/dts/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+@@ -520,6 +520,7 @@ kcs1: kcs@24 {
+ 					compatible = "aspeed,ast2500-kcs-bmc-v2";
+ 					reg = <0x24 0x1>, <0x30 0x1>, <0x3c 0x1>;
+ 					interrupts = <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
++					clocks = <&syscon ASPEED_CLK_GATE_LCLK>;
+ 					kcs_chan = <1>;
+ 					status = "disabled";
+ 				};
+@@ -528,6 +529,7 @@ kcs2: kcs@28 {
+ 					compatible = "aspeed,ast2500-kcs-bmc-v2";
+ 					reg = <0x28 0x1>, <0x34 0x1>, <0x40 0x1>;
+ 					interrupts = <GIC_SPI 139 IRQ_TYPE_LEVEL_HIGH>;
++					clocks = <&syscon ASPEED_CLK_GATE_LCLK>;
+ 					status = "disabled";
+ 				};
  
- 	bt_bmc_config_irq(bt_bmc, pdev);
-@@ -457,6 +472,11 @@ static int bt_bmc_probe(struct platform_device *pdev)
- 	clr_b_busy(bt_bmc);
+@@ -535,6 +537,7 @@ kcs3: kcs@2c {
+ 					compatible = "aspeed,ast2500-kcs-bmc-v2";
+ 					reg = <0x2c 0x1>, <0x38 0x1>, <0x44 0x1>;
+ 					interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
++					clocks = <&syscon ASPEED_CLK_GATE_LCLK>;
+ 					status = "disabled";
+ 				};
  
- 	return 0;
-+
-+err:
-+	clk_disable_unprepare(bt_bmc->clk);
-+
-+	return rc;
- }
- 
- static int bt_bmc_remove(struct platform_device *pdev)
-@@ -466,6 +486,8 @@ static int bt_bmc_remove(struct platform_device *pdev)
- 	misc_deregister(&bt_bmc->miscdev);
- 	if (bt_bmc->irq < 0)
- 		del_timer_sync(&bt_bmc->poll_timer);
-+	clk_disable_unprepare(bt_bmc->clk);
-+
- 	return 0;
- }
+@@ -542,6 +545,7 @@ kcs4: kcs@114 {
+ 					compatible = "aspeed,ast2500-kcs-bmc-v2";
+ 					reg = <0x114 0x1>, <0x118 0x1>, <0x11c 0x1>;
+ 					interrupts = <GIC_SPI 141 IRQ_TYPE_LEVEL_HIGH>;
++					clocks = <&syscon ASPEED_CLK_GATE_LCLK>;
+ 					status = "disabled";
+ 				};
  
 -- 
 2.25.1
