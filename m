@@ -2,61 +2,71 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1424445E6
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Nov 2021 17:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A114445FE
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Nov 2021 17:36:03 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HksgL5dbDz2xvc
-	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Nov 2021 03:29:50 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HkspS6Zgpz2yHS
+	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Nov 2021 03:36:00 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=sOCrnQn1;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ojrTeb5n;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=robh@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::52f;
+ helo=mail-ed1-x52f.google.com; envelope-from=kumarthangavel.hcl@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=sOCrnQn1; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20210112 header.b=ojrTeb5n; dkim-atps=neutral
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Hksft0xcTz2yLg
- for <linux-aspeed@lists.ozlabs.org>; Thu,  4 Nov 2021 03:29:25 +1100 (AEDT)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C2C2060F10
- for <linux-aspeed@lists.ozlabs.org>; Wed,  3 Nov 2021 16:29:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1635956963;
- bh=xOABt8qeC9A9l4bh2g20t12RpjOx+xP+axBwdu8bH/I=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=sOCrnQn1XOtO/G7eEm72MDyK4Akei0cYCWPld84EwFTB3hGGpdFQ+W7lf1dNef3AO
- RcXcCxfGy1WRZDEZ7RROkD09KMxvtMrAGjj87+tlezQlYcmu0oKBam5UqIY/bYIvg9
- 3QVwLE6ZhYKRtlfg93jl/iBO0U5uWQLhKSxFbsyjRQvgvspkR3md6WslIzqa7cvSJC
- eifmQBUg1R05A89iBrKIRlWb5kTaHwcaw9Ewc+rqb+WOTLAerJB5A0R2K4h6mFFqXt
- ZwRX/UUgUHMbxJCZGfzYTHBztwVDB/HDgDBLfBdp4U9YprIqEQc3I+nDHTM0oSGxyZ
- 9yl0k/aoz8SKQ==
-Received: by mail-ed1-f43.google.com with SMTP id o8so11341656edc.3
- for <linux-aspeed@lists.ozlabs.org>; Wed, 03 Nov 2021 09:29:23 -0700 (PDT)
-X-Gm-Message-State: AOAM533VHFKf4YkDOnySe0Wp1Tx1IN4dZaA/wrMOV2e8wDu+Au9NXiQH
- oxx9Wt7jjyqVSE27F5v0o2LE1DReMGBWPIQZHw==
-X-Google-Smtp-Source: ABdhPJwrgCpf59XLe8AzG7aA287qwiUonBjeXHhzxNgyHuhZcky+70ZcLVmG9yQtmb7fXidrSaVea6PBkVRNdzGFm1M=
-X-Received: by 2002:a50:da06:: with SMTP id z6mr61608023edj.355.1635956959583; 
- Wed, 03 Nov 2021 09:29:19 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HkspN49qCz2xD4;
+ Thu,  4 Nov 2021 03:35:54 +1100 (AEDT)
+Received: by mail-ed1-x52f.google.com with SMTP id v11so8918064edc.9;
+ Wed, 03 Nov 2021 09:35:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Fl6Lfbm+X3UayVvu1C+abXBObfdqGAMXq7dg4VuZX2Y=;
+ b=ojrTeb5na24B7cVdE5f0WeZLEzuhcTWkRpTjTKgl0jtXwDjDMV1LmW5TmyskSlaCab
+ qf7oar6g/lGW9yxiFKvzbJrPtfKHv4fM8AnJlK0D8mNn8MSosMV46ZG/VbyDw8ZyVDlN
+ 4G/A1mqc8dqN42e1X/5Fy0yYlzgaOinZymU6P3H8WTVx4UStgpzQ8+i1cuosDXtf4N6c
+ Wn7Edwu/a8yD1U5caS9XworKLnZSidqPrOhopm78Hd0+jInUfwqvYYHSNlYOWuU0kLyn
+ UUIfGyupoYnmdWgZcCfarnbUVctVknxJ/7k3t1Z8z4S+2YtUBHmFComOUV50cmK7arH6
+ yeCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Fl6Lfbm+X3UayVvu1C+abXBObfdqGAMXq7dg4VuZX2Y=;
+ b=zVW+y0WUPYYMfBw8UxfcjMm6i5JkMHj9s6yAhgaK2FXJmuZS35LeyoFCtLSdrCVCkb
+ MrMvy27IYLTvVaun16DTzR/dQaR/Fy8kDvSetmVhbL2mJ4mpAX/Fo75vMFcRErhLCMX1
+ KT+0ypTpG/DwBv59qDH4IF1DYNvtYAJORtFgguo9nPy9kM14jd1hKZjnnRQ0nhf0JE25
+ as38MfytjEW4R/VuO9ehHYB8kNrAG99Pw8lP9MRxIeMIyPLjZgOMLkV8J0RGQspOlOoF
+ +CF4rxskj2s5S0lnE50Mw6/SSbWOJLmer8h2WnPZEHflFXa6eaVO6sakD8yaZ7jGcGyj
+ xIvw==
+X-Gm-Message-State: AOAM5300EBAyfP/2OMNh0kd2e1yeVfxoyCKaISKBXPYP8MYWvBxXa4Qm
+ BG/2Min7IdNuGYedS4NFbleqKeXB4wb0MNX7BsQ=
+X-Google-Smtp-Source: ABdhPJwGjwr/Uf8m0Fc3GQC8E/cgWQEZk8tLwHPoqezLFLf1XC9hp9ajQDKMY986F1IE5CVmR5hAkODhA1dxX2hINEo=
+X-Received: by 2002:a05:6402:4304:: with SMTP id
+ m4mr6105179edc.396.1635957351242; 
+ Wed, 03 Nov 2021 09:35:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211102203717.96794-1-jae.hyun.yoo@intel.com>
- <20211102203717.96794-6-jae.hyun.yoo@intel.com>
- <1635902437.654631.3880388.nullmailer@robh.at.kernel.org>
- <8db279c9-4c76-91a5-3617-a17effb2d103@linux.intel.com>
-In-Reply-To: <8db279c9-4c76-91a5-3617-a17effb2d103@linux.intel.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 3 Nov 2021 11:29:08 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+SwCqFycKz4+agRsB3qr4Rbfra55Q6tNbMH2bNtoX+hA@mail.gmail.com>
-Message-ID: <CAL_Jsq+SwCqFycKz4+agRsB3qr4Rbfra55Q6tNbMH2bNtoX+hA@mail.gmail.com>
-Subject: Re: [PATCH -next v2 5/6] dt-bindings: ipmi: aspeed,kcs-bmc: add
- 'clocks' as a required property
-To: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20211028095047.GA15236@gmail.com>
+ <CAA7TbctGtHBuVOsamFH1sQq_C5BvtsRyCM+b0Z7W=fS_eb8ATA@mail.gmail.com>
+ <20211103084939.04f6813f@kicinski-fedora-PC1C0HJN>
+ <CAA7Tbcu7rOxhP45m0tkQBKWxUFGwtQ3Z485wyCtS-wVaTtq2=g@mail.gmail.com>
+ <20211103091620.718b4e11@kicinski-fedora-PC1C0HJN>
+In-Reply-To: <20211103091620.718b4e11@kicinski-fedora-PC1C0HJN>
+From: Kumar Thangavel <kumarthangavel.hcl@gmail.com>
+Date: Wed, 3 Nov 2021 22:07:43 +0530
+Message-ID: <CAA7Tbcu4cs-K_hpW6Ox3SKbCbvFyt5upC6qkLOjFttw=ee+UtQ@mail.gmail.com>
+Subject: Re: [PATCH v4] Add payload to be 32-bit aligned to fix dropped packets
+To: Jakub Kicinski <kuba@kernel.org>
+Content-Type: multipart/alternative; boundary="000000000000c9e03205cfe50037"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,91 +78,64 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- devicetree@vger.kernel.org, Corey Minyard <minyard@acm.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, jae.hyun.yoo@intel.com,
- openipmi-developer@lists.sourceforge.net,
- Haiyue Wang <haiyue.wang@linux.intel.com>, Cedric Le Goater <clg@kaod.org>
+Cc: Sai Dasari <sdasari@fb.com>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>, patrickw3@fb.com,
+ Samuel Mendoza-Jonas <sam@mendozajonas.com>, velumanit@hcl.com,
+ "David S. Miller" <davem@davemloft.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Nov 3, 2021 at 11:08 AM Jae Hyun Yoo
-<jae.hyun.yoo@linux.intel.com> wrote:
+--000000000000c9e03205cfe50037
+Content-Type: text/plain; charset="UTF-8"
+
+Ok Sure Jakub.
+
+Thanks,
+Kumar.
+
+On Wed, Nov 3, 2021 at 9:46 PM Jakub Kicinski <kuba@kernel.org> wrote:
+
+> On Wed, 3 Nov 2021 21:43:03 +0530 Kumar Thangavel wrote:
+> > Hi Jakub,
+> >
+> > Thanks for your response.
+> >
+> > Somehow, My mails are not delivered to netdev@vger.kernel.org.
+> >
+> > So, I removed it in my last 2 patchsets.
+> >
+> > I will try again to CCing netdev@vger.kernel.org.
 >
-> Hi Rob,
+> For normal replies you need to use plain text, not HTML. The mailing
+> list rejects HTML emails. But the patch should go thru, we'll see.
 >
-> On 11/2/2021 6:20 PM, Rob Herring wrote:
-> > On Tue, 02 Nov 2021 13:37:16 -0700, jae.hyun.yoo@intel.com wrote:
-> >> From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> >>
-> >> Add 'clocks' as a required property.
-> >>
-> >> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> >> ---
-> >> v1 -> v2:
-> >> Changes sinve v1:
-> >>   - Added 'clocks' property into kcs-bmc bindings using
-> >>     'aspeed,ast2400-kcs-bmc.yaml' because it's not merged into
-> >>     'aspeed-lpc.yaml' yet. The bindings merging could be done using a
-> >>     separate patch later.
-> >>
-> >>   .../devicetree/bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml   | 7 +++++++
-> >>   1 file changed, 7 insertions(+)
-> >>
-> >
-> > Running 'make dtbs_check' with the schema in this patch gives the
-> > following warnings. Consider if they are expected or the schema is
-> > incorrect. These may not be new warnings.
-> >
-> > Note that it is not yet a requirement to have 0 warnings for dtbs_check.
-> > This will change in the future.
-> >
-> > Full log is available here: https://patchwork.ozlabs.org/patch/1549943
-> >
-> >
-> > kcs@114: 'clocks' is a required property
-> >       arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dt.yaml
-> >       arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dt.yaml
-> >       arch/arm/boot/dts/aspeed-bmc-inspur-nf5280m6.dt.yaml
-> >
-> > kcs@24: 'clocks' is a required property
-> >       arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dt.yaml
-> >
-> > kcs@28: 'clocks' is a required property
-> >       arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dt.yaml
-> >       arch/arm/boot/dts/aspeed-bmc-facebook-elbert.dt.yaml
-> >       arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dt.yaml
-> >
-> > kcs@2c: 'clocks' is a required property
-> >       arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dt.yaml
-> >       arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dt.yaml
-> >       arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dt.yaml
-> >       arch/arm/boot/dts/aspeed-bmc-facebook-elbert.dt.yaml
-> >       arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dt.yaml
-> >       arch/arm/boot/dts/aspeed-bmc-inspur-nf5280m6.dt.yaml
-> >
->
-> #4/6 in this patch adds 'clocks' into aspeed-g5.dtsi and aspeed-g6.dtsi
-> as a default property and all above dts files include the dtsi file so
-> these warning shouldn't be seen. Is it a result after applying all
-> changes in this series or just after cherry picking #5/6 patch only?
 
-Only patch 5 is applied.
+--000000000000c9e03205cfe50037
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> I tested 'dtbs_check' before submitting this series I tested it again
-> and got the same good result like below.
->
-> Aren't the above warnings false positive? Or did I miss something?
+<div dir=3D"ltr">Ok Sure Jakub.=C2=A0<br><br>Thanks,<div>Kumar.</div></div>=
+<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed=
+, Nov 3, 2021 at 9:46 PM Jakub Kicinski &lt;<a href=3D"mailto:kuba@kernel.o=
+rg">kuba@kernel.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">On Wed, 3 Nov 2021 21:43:03 +0530 Kumar Thangavel wrote:=
+<br>
+&gt; Hi Jakub,<br>
+&gt; <br>
+&gt; Thanks for your response.<br>
+&gt; <br>
+&gt; Somehow, My mails are not delivered to <a href=3D"mailto:netdev@vger.k=
+ernel.org" target=3D"_blank">netdev@vger.kernel.org</a>.<br>
+&gt; <br>
+&gt; So, I removed it in my last 2 patchsets.<br>
+&gt; <br>
+&gt; I will try again to CCing <a href=3D"mailto:netdev@vger.kernel.org" ta=
+rget=3D"_blank">netdev@vger.kernel.org</a>.<br>
+<br>
+For normal replies you need to use plain text, not HTML. The mailing<br>
+list rejects HTML emails. But the patch should go thru, we&#39;ll see.<br>
+</blockquote></div>
 
-What you missed is this is an ABI. You cannot make something required
-that was not required before. If the driver follows the schema and
-makes 'clocks' required, then old DTBs with a new kernel will break.
-
-It's possible that 'clocks' was always required or that it never
-worked without clocks, then this change is okay. Looking at this
-patch, I have no way to know that. The commit message has to explain
-that. A commit message needs to answer WHY are you making the change.
-You don't really need WHAT the change is as anyone can read the diff.
-
-Rob
+--000000000000c9e03205cfe50037--
