@@ -2,47 +2,58 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74645443AC1
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Nov 2021 02:14:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D245443ADD
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Nov 2021 02:20:57 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HkTLy34w7z2y7X
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Nov 2021 12:14:18 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HkTVb26T7z2yHC
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Nov 2021 12:20:55 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
- receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=gmail.com (client-ip=209.85.210.47; helo=mail-ot1-f47.google.com;
+ envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+ [209.85.210.47])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HkTLr0BcLz2xCh;
- Wed,  3 Nov 2021 12:14:08 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 1A30oVLk051715;
- Wed, 3 Nov 2021 08:50:31 +0800 (GMT-8)
- (envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 3 Nov 2021 09:13:21 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
- <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
- <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] media: aspeed: fix mode-detect always time out at 2nd run
-Date: Wed, 3 Nov 2021 09:13:57 +0800
-Message-ID: <20211103011357.22067-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1A30oVLk051715
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HkTVX5hQjz2x9b
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  3 Nov 2021 12:20:50 +1100 (AEDT)
+Received: by mail-ot1-f47.google.com with SMTP id
+ p11-20020a9d4e0b000000b0055a5741bff7so1390165otf.2
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 02 Nov 2021 18:20:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=fe5Xv+kyJauzq7ZNqvI2QuktA50T37+vjr5WzceAdTw=;
+ b=eTLyqOXRJcUz5K/aUnQN4mdcI5Ls2rfvhb+mB5Gg24e3RxjHVU37ozjB4P7kf4bdBm
+ yJXLcHB22nQ7KCoNxREiFKOmd0zJAIGpSOBEgkAjgOmkFJJK+UmuKKyUDsUCoEqha0W7
+ NEEKr0ht4UxGt7H8rhB/25DEF3E60z5slJTnHZ5PwV0PO+3BQvWMNQ89XqbFyWwMhTwZ
+ Q00wNXY5pJ9fw3gxqSsrZsWKrBicPiMEBIsIkTct+2aZSfNiAcZTrqaUUWDlzGQ2/hbk
+ bdlUPVy9SZClPZXZ8P8PrtSIQOm96L6iJCxePX8wmQ8Tooy4hY3y8cp5A/j6vq5Z/vXL
+ NFvA==
+X-Gm-Message-State: AOAM53202UF5de0DlIK+DhazFw8XjSYmY6HCTbynO8bT0lKjO0ch6cbI
+ LVyM4TeUNdq/ydaIFhxSoA==
+X-Google-Smtp-Source: ABdhPJz012ObTzy65pW0RU2VGVoksQdKqgK4OuppwSTNNNdYMfy9+gVwPH8EccTAzNuAlHk+IzJTig==
+X-Received: by 2002:a9d:518a:: with SMTP id y10mr24416564otg.143.1635902446777; 
+ Tue, 02 Nov 2021 18:20:46 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id az10sm166312oib.45.2021.11.02.18.20.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Nov 2021 18:20:46 -0700 (PDT)
+Received: (nullmailer pid 3880389 invoked by uid 1000);
+ Wed, 03 Nov 2021 01:20:37 -0000
+From: Rob Herring <robh@kernel.org>
+To: jae.hyun.yoo@intel.com
+In-Reply-To: <20211102203717.96794-6-jae.hyun.yoo@intel.com>
+References: <20211102203717.96794-1-jae.hyun.yoo@intel.com>
+ <20211102203717.96794-6-jae.hyun.yoo@intel.com>
+Subject: Re: [PATCH -next v2 5/6] dt-bindings: ipmi: aspeed,
+ kcs-bmc: add 'clocks' as a required property
+Date: Tue, 02 Nov 2021 20:20:37 -0500
+Message-Id: <1635902437.654631.3880388.nullmailer@robh.at.kernel.org>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,53 +65,60 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Paul Menzel <pmenzel@molgen.mpg.de>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ Corey Minyard <minyard@acm.org>, linux-aspeed@lists.ozlabs.org,
+ Rob Herring <robh+dt@kernel.org>, openipmi-developer@lists.sourceforge.net,
+ Haiyue Wang <haiyue.wang@linux.intel.com>, Cedric Le Goater <clg@kaod.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-aspeed_video_get_resolution() will try to do res-detect again if the
-timing got in last try is invalid. But it will always time out because
-VE_SEQ_CTRL_TRIG_MODE_DET is only cleared after 1st mode-detect.
+On Tue, 02 Nov 2021 13:37:16 -0700, jae.hyun.yoo@intel.com wrote:
+> From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> 
+> Add 'clocks' as a required property.
+> 
+> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+> ---
+> v1 -> v2:
+> Changes sinve v1:
+>  - Added 'clocks' property into kcs-bmc bindings using
+>    'aspeed,ast2400-kcs-bmc.yaml' because it's not merged into
+>    'aspeed-lpc.yaml' yet. The bindings merging could be done using a
+>    separate patch later.
+> 
+>  .../devicetree/bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml   | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
 
-To fix the problem, just clear VE_SEQ_CTRL_TRIG_MODE_DET before setting
-it in aspeed_video_enable_mode_detect().
+Running 'make dtbs_check' with the schema in this patch gives the
+following warnings. Consider if they are expected or the schema is
+incorrect. These may not be new warnings.
 
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-Acked-by: Paul Menzel <pmenzel@molgen.mpg.de>
----
-v2:
-  - update commit message
----
- drivers/media/platform/aspeed-video.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+This will change in the future.
 
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index 5ffbabf884eb..fea5e4d0927e 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -518,6 +518,10 @@ static void aspeed_video_enable_mode_detect(struct aspeed_video *video)
- 	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
- 			    VE_INTERRUPT_MODE_DETECT);
- 
-+	/* Disable mode detect in order to re-trigger */
-+	aspeed_video_update(video, VE_SEQ_CTRL,
-+			    VE_SEQ_CTRL_TRIG_MODE_DET, 0);
-+
- 	/* Trigger mode detect */
- 	aspeed_video_update(video, VE_SEQ_CTRL, 0, VE_SEQ_CTRL_TRIG_MODE_DET);
- }
-@@ -809,10 +813,6 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 			return;
- 		}
- 
--		/* Disable mode detect in order to re-trigger */
--		aspeed_video_update(video, VE_SEQ_CTRL,
--				    VE_SEQ_CTRL_TRIG_MODE_DET, 0);
--
- 		aspeed_video_check_and_set_polarity(video);
- 
- 		aspeed_video_enable_mode_detect(video);
--- 
-2.25.1
+Full log is available here: https://patchwork.ozlabs.org/patch/1549943
+
+
+kcs@114: 'clocks' is a required property
+	arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dt.yaml
+	arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dt.yaml
+	arch/arm/boot/dts/aspeed-bmc-inspur-nf5280m6.dt.yaml
+
+kcs@24: 'clocks' is a required property
+	arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dt.yaml
+
+kcs@28: 'clocks' is a required property
+	arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dt.yaml
+	arch/arm/boot/dts/aspeed-bmc-facebook-elbert.dt.yaml
+	arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dt.yaml
+
+kcs@2c: 'clocks' is a required property
+	arch/arm/boot/dts/aspeed-bmc-amd-ethanolx.dt.yaml
+	arch/arm/boot/dts/aspeed-bmc-asrock-e3c246d4i.dt.yaml
+	arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dt.yaml
+	arch/arm/boot/dts/aspeed-bmc-facebook-elbert.dt.yaml
+	arch/arm/boot/dts/aspeed-bmc-facebook-tiogapass.dt.yaml
+	arch/arm/boot/dts/aspeed-bmc-inspur-nf5280m6.dt.yaml
 
