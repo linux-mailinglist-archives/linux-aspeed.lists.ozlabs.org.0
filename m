@@ -2,49 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66318443AA3
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Nov 2021 01:55:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33CE4443AA9
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Nov 2021 01:59:35 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HkSxQ2QNzz2y7K
-	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Nov 2021 11:55:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HkT1x0pQrz2y7X
+	for <lists+linux-aspeed@lfdr.de>; Wed,  3 Nov 2021 11:59:33 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=EwMeJReS;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.120; helo=mga04.intel.com;
- envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f2a;
+ helo=mail-qv1-xf2a.google.com; envelope-from=tcminyard@gmail.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20210112 header.b=EwMeJReS; dkim-atps=neutral
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com
+ [IPv6:2607:f8b0:4864:20::f2a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HkSxM4Z2Gz2xDM
- for <linux-aspeed@lists.ozlabs.org>; Wed,  3 Nov 2021 11:55:34 +1100 (AEDT)
-X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="230124057"
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="230124057"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 17:54:32 -0700
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; d="scan'208";a="583914590"
-Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.209.55.177])
- ([10.209.55.177])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2021 17:54:31 -0700
-Message-ID: <63678f47-8b4a-1385-a755-bc7c2316ca0d@linux.intel.com>
-Date: Tue, 2 Nov 2021 17:54:30 -0700
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HkT1s4lyJz2xB8
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  3 Nov 2021 11:59:28 +1100 (AEDT)
+Received: by mail-qv1-xf2a.google.com with SMTP id u16so967916qvk.4
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 02 Nov 2021 17:59:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=h+FtktSBGtvGfOhDF8b/AVzYi4kQSm1ZeFNNHmkXlFM=;
+ b=EwMeJReSB5I3854NCV6PTfVNODDjMfIi7fXVX8sLNAJs7szQ29jOR43a/0naPxh2FK
+ dYsrIIHNLkKVPC5A22c6boDvb701j14lPPb+5phW1XD9OAVjnwy+ZiBwJrCF0+e/H10a
+ nJ373Y21PHBNgyGe/nfkntnZEPgpUUZ+yNelpZTazNFvpBaR4tSM8wi21KL1yLnoTYjz
+ hwE4jYmUw735v8q9GWZLc+YkqF7MGBi82AZvMVfxDJwNbS4YyeMPDZ0XWNTAEYCh2bsc
+ /UwE/6tw8UWH13cKDz8iUzJ6jek7l8Beiti5KmIuJ5+5M5fV3ZtdsKxreqWcyLmLrAxv
+ I1Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition:in-reply-to;
+ bh=h+FtktSBGtvGfOhDF8b/AVzYi4kQSm1ZeFNNHmkXlFM=;
+ b=E2InGmvDEyTtAApk+qVwDepI27gKJB57w4TXh38BIxRHYuDiVxm04aaEEUHqCo8eyJ
+ 3s5A9koIZGJpaq47EgTDWLCOODjhujIc0f8ggeSzmeKLSd12esF0wJItRm+s3v9MKO2B
+ PP2U11yrYAs1tj627Pzw+l4GbQzDczfD+GQMvEgY9GAz2sbz1Y8I0AzoyZUM60EGfvt8
+ 6v99TD8+lgx4Y2I5xQjYRspcay2bO0xyIfGHiW+HUMiKGLxNA3o5yRaTBzGru8fpg+cU
+ qjxnqJtSpPzUXhCkgE0pR5mo34gWU6z6tXGcuawTWinBOBkUrVUxECNomZIhiej7noTM
+ cTAA==
+X-Gm-Message-State: AOAM533JWAhOXNBphkFPPzrnNMpDPapnzwwEWF5vj0nJK4ZIO09Jz+7E
+ g7RyKMpc6O7uDH3p5t1GBg==
+X-Google-Smtp-Source: ABdhPJxYTFe+/H+/2eDVPHUh15JejRMXQsnrYykDake5H7RlOjK7ucGttAIR9G3rOVHtpUjv1Ci7og==
+X-Received: by 2002:a05:622a:d5:: with SMTP id
+ p21mr26792476qtw.44.1635901165049; 
+ Tue, 02 Nov 2021 17:59:25 -0700 (PDT)
+Received: from serve.minyard.net ([47.184.156.158])
+ by smtp.gmail.com with ESMTPSA id q4sm427526qkn.61.2021.11.02.17.59.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Nov 2021 17:59:24 -0700 (PDT)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:b4e0:932d:f90c:fafb])
+ by serve.minyard.net (Postfix) with ESMTPSA id 93C741800B9;
+ Wed,  3 Nov 2021 00:59:23 +0000 (UTC)
+Date: Tue, 2 Nov 2021 19:59:22 -0500
+From: Corey Minyard <minyard@acm.org>
+To: jae.hyun.yoo@intel.com
+Subject: Re: [PATCH -next v2 0/6] Add LCLK control into Aspeed LPC sub drivers
+Message-ID: <20211103005922.GN4667@minyard.net>
+References: <20211102203717.96794-1-jae.hyun.yoo@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-Subject: Re: [PATCH -next 0/4] Add LCLK control into Aspeed LPC sub drivers
-Content-Language: en-US
-To: Zev Weiss <zev@bewilderbeest.net>
-References: <20211101233751.49222-1-jae.hyun.yoo@intel.com>
- <CACPK8XfBi+jY5ftLqsEVXHe01SQBNpTSwo+WtXN3=YUQnXACtw@mail.gmail.com>
- <YYHSHoELvKRI4Zh1@hatter.bewilderbeest.net>
- <d2a18e3b-cb02-37b5-cad8-45c3e8ff3bb4@linux.intel.com>
- <YYHYMKDD7hz15ceR@hatter.bewilderbeest.net>
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-In-Reply-To: <YYHYMKDD7hz15ceR@hatter.bewilderbeest.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211102203717.96794-1-jae.hyun.yoo@intel.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,179 +84,71 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Corey Minyard <minyard@acm.org>,
- Rob Herring <robh+dt@kernel.org>, Jae Hyun Yoo <jae.hyun.yoo@intel.com>,
+Reply-To: minyard@acm.org
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>,
  openipmi-developer@lists.sourceforge.net,
  Haiyue Wang <haiyue.wang@linux.intel.com>, Cedric Le Goater <clg@kaod.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-
-
-On 11/2/2021 5:30 PM, Zev Weiss wrote:
-> On Tue, Nov 02, 2021 at 05:17:30PM PDT, Jae Hyun Yoo wrote:
->> Hi Zev,
->>
->> On 11/2/2021 5:04 PM, Zev Weiss wrote:
->>> On Mon, Nov 01, 2021 at 04:36:38PM PDT, Joel Stanley wrote:
->>>> On Mon, 1 Nov 2021 at 23:18, <jae.hyun.yoo@intel.com> wrote:
->>>>>
->>>>> From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
->>>>>
->>>>> Hello all,
->>>>>
->>>>> This series is for appliying below fix to all Aspped LPC sub drivers.
->>>>> https://lore.kernel.org/all/20201208091748.1920-1-wangzhiqiang.bj@bytedance.com/ 
->>>>>
->>>>>
->>>>>
->>>>> An LPC sub driver can be enabled without using the lpc-ctrl driver 
->>>>> or it
->>>>> can be registered ahead of lpc-ctrl depends on each system 
->>>>> configuration and
->>>>> this difference introduces that LPC can be enabled without heart 
->>>>> beating of
->>>>> LCLK so it causes improper handling on host interrupts when the 
->>>>> host sends
->>>>> interrupts in that time frame. Then kernel eventually forcibly 
->>>>> disables the
->>>>> interrupt with dumping stack and printing a 'nobody cared this irq' 
->>>>> message
->>>>> out.
->>>>>
->>>>> To prevent this issue, all LPC sub drivers should enable LCLK 
->>>>> individually
->>>>> so this patch adds clock control logic into the remaining Aspeed 
->>>>> LPC sub
->>>>> drivers.
->>>>
->>>> Thanks for sending this out!
->>>>
->>>> This will resolve a few of the issues we have in the issue tracker:
->>>>
->>>> https://github.com/openbmc/linux/issues/210
->>>> https://github.com/openbmc/linux/issues/130
->>>>
->>>> The patches look good to me. I think you've just missed Corey's PR for
->>>> v5.16, but I will stick them in the openbmc tree once they've had a
->>>> review.
->>>>
->>>
->>> Hi Jae,
->>>
->>> I tried this series out on the same in-progress OpenBMC port from 
->>> issue number 210 linked above and am still seeing problems (dmesg 
->>> pasted below).
->>>
->>> I cherry-picked commit f9241fe8b9652 ("ARM: dts: aspeed: Add uart 
->>> routing to device tree") from linux-next to allow the first patch to 
->>> apply cleanly; is there anything else I might be missing that'd be 
->>> needed to test the series properly?
->>
->> Looks like below dmesg shows an error from 'aspeed_lpc_snoop_probe'
->> which this series doesn't touch. Do you have below fix in your code
->> tree?
->>
->> https://lore.kernel.org/all/20201208091748.1920-1-wangzhiqiang.bj@bytedance.com/ 
->>
->>
->> Thanks,
->> Jae
->>
+On Tue, Nov 02, 2021 at 01:37:11PM -0700, jae.hyun.yoo@intel.com wrote:
+> From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 > 
-> Yes, I've got that patch (commit 3f94cf1558), and the accompanying dts 
-> update to add the clocks property to the lpc-snoop device (commit 
-> d050d049f8).
+> Hello all,
 > 
-> However, while there is an aspeed_lpc_snoop_probe() backtrace there, 
-> note that there's *also* one from aspeed_kcs_probe() further on 
-> (starting at timestamp 3.263306).
+> This series is for appliying below fix to all Aspped LPC sub drivers.
+> https://lore.kernel.org/all/20201208091748.1920-1-wangzhiqiang.bj@bytedance.com/
+
+Ok, I've added this to my next tree.
+
+There was some duplicated code between the aspeed and bt files, but I'm
+not sure it's enough to matter.
+
+-corey
+
 > 
+> An LPC sub driver can be enabled without using the lpc-ctrl driver or it
+> can be registered ahead of lpc-ctrl depends on each system configuration and
+> this difference introduces that LPC can be enabled without heart beating of
+> LCLK so it causes improper handling on host interrupts when the host sends
+> interrupts in that time frame. Then kernel eventually forcibly disables the
+> interrupt with dumping stack and printing a 'nobody cared this irq' message
+> out.
 > 
-> Zev
+> To prevent this issue, all LPC sub drivers should enable LCLK individually
+> so this patch adds clock control logic into the remaining Aspeed LPC sub
+> drivers.
 > 
-
-Can you please test additional changes below?
-
-Thanks,
-Jae
-
-diff --git a/drivers/char/ipmi/kcs_bmc_aspeed.c 
-b/drivers/char/ipmi/kcs_bmc_aspeed.c
-index 00706472cc4d..af03aea0f3ce 100644
---- a/drivers/char/ipmi/kcs_bmc_aspeed.c
-+++ b/drivers/char/ipmi/kcs_bmc_aspeed.c
-@@ -644,6 +644,17 @@ static int aspeed_kcs_probe(struct platform_device 
-*pdev)
-         if (rc)
-                 goto err;
-
-+       platform_set_drvdata(pdev, priv);
-+
-+       aspeed_kcs_irq_mask_update(kcs_bmc, (KCS_BMC_EVENT_TYPE_IBF | 
-KCS_BMC_EVENT_TYPE_OBE), 0);
-+       aspeed_kcs_enable_channel(kcs_bmc, true);
-+
-+       rc = kcs_bmc_add_device(&priv->kcs_bmc);
-+       if (rc) {
-+               dev_warn(&pdev->dev, "Failed to register channel %d: 
-%d\n", kcs_bmc->channel, rc);
-+               goto err;
-+       }
-+
-         /* Host to BMC IRQ */
-         rc = aspeed_kcs_config_downstream_irq(kcs_bmc, pdev);
-         if (rc)
-@@ -658,17 +669,6 @@ static int aspeed_kcs_probe(struct platform_device 
-*pdev)
-                 priv->upstream_irq.mode = aspeed_kcs_irq_none;
-         }
-
--       platform_set_drvdata(pdev, priv);
--
--       aspeed_kcs_irq_mask_update(kcs_bmc, (KCS_BMC_EVENT_TYPE_IBF | 
-KCS_BMC_EVENT_TYPE_OBE), 0);
--       aspeed_kcs_enable_channel(kcs_bmc, true);
--
--       rc = kcs_bmc_add_device(&priv->kcs_bmc);
--       if (rc) {
--               dev_warn(&pdev->dev, "Failed to register channel %d: 
-%d\n", kcs_bmc->channel, rc);
--               goto err;
--       }
--
-         dev_info(&pdev->dev, "Initialised channel %d at 0x%x\n",
-                         kcs_bmc->channel, addrs[0]);
-
-diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c 
-b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-index eceeaf8dfbeb..044c8f6665b7 100644
---- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
-+++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-@@ -306,10 +306,6 @@ static int aspeed_lpc_snoop_probe(struct 
-platform_device *pdev)
-                 return rc;
-         }
-
--       rc = aspeed_lpc_snoop_config_irq(lpc_snoop, pdev);
--       if (rc)
--               goto err;
--
-         rc = aspeed_lpc_enable_snoop(lpc_snoop, dev, 0, port);
-         if (rc)
-                 goto err;
-@@ -324,6 +320,10 @@ static int aspeed_lpc_snoop_probe(struct 
-platform_device *pdev)
-                 }
-         }
-
-+       rc = aspeed_lpc_snoop_config_irq(lpc_snoop, pdev);
-+       if (rc)
-+               goto err;
-+
-         return 0;
-
-  err:
+> Please review this series.
+> 
+> Thanks,
+> Jae
+> 
+> Changes sinve v1:
+>  - Added 'clocks' property into ibt and kcs-bmc bindings using
+>    'aspeed,ast2400-ibt-bmc.txt' and 'aspeed,ast2400-kcs-bmc.yaml'
+>    respectively because these are not merged into 'aspeed-lpc.yaml' yet.
+>    The bindings merging could be done using a separate patch later.
+> 
+> Jae Hyun Yoo (6):
+>   ARM: dts: aspeed: add LCLK setting into LPC IBT node
+>   dt-bindings: ipmi: bt-bmc: add 'clocks' as a required property
+>   ipmi: bt: add clock control logic
+>   ARM: dts: aspeed: add LCLK setting into LPC KCS nodes
+>   dt-bindings: ipmi: aspeed,kcs-bmc: add 'clocks' as a required property
+>   ipmi: kcs_bmc_aspeed: add clock control logic
+> 
+>  .../bindings/ipmi/aspeed,ast2400-ibt-bmc.txt  |  2 ++
+>  .../bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml |  7 +++++
+>  arch/arm/boot/dts/aspeed-g4.dtsi              |  1 +
+>  arch/arm/boot/dts/aspeed-g5.dtsi              |  5 +++
+>  arch/arm/boot/dts/aspeed-g6.dtsi              |  5 +++
+>  drivers/char/ipmi/bt-bmc.c                    | 24 +++++++++++++-
+>  drivers/char/ipmi/kcs_bmc_aspeed.c            | 31 ++++++++++++++++---
+>  7 files changed, 70 insertions(+), 5 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
