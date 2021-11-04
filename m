@@ -1,93 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27CDA445121
-	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Nov 2021 10:30:33 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 776044456A8
+	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Nov 2021 16:57:31 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HlJK26yB5z2yJM
-	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Nov 2021 20:30:30 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm3 header.b=ti54t+gB;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=enq4j17W;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HlSvW4wwrz2yQH
+	for <lists+linux-aspeed@lfdr.de>; Fri,  5 Nov 2021 02:57:27 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=stwcx.xyz (client-ip=66.111.4.224;
- helo=new2-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256
- header.s=fm3 header.b=ti54t+gB; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=enq4j17W; 
- dkim-atps=neutral
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=linux.intel.com
+ (client-ip=134.134.136.20; helo=mga02.intel.com;
+ envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
+X-Greylist: delayed 124 seconds by postgrey-1.36 at boromir;
+ Fri, 05 Nov 2021 02:57:23 AEDT
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HlJJt2lcfz2xtj
- for <linux-aspeed@lists.ozlabs.org>; Thu,  4 Nov 2021 20:30:21 +1100 (AEDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 5A196580881;
- Thu,  4 Nov 2021 05:30:17 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Thu, 04 Nov 2021 05:30:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=qYCY7tttcemIZgcojAlZUXbTUNV
- NVtf/FEcSNSxidEo=; b=ti54t+gBbZVWISv3Jrb2lUE9jcs840yKwzRgKPqto+i
- dyzTrPXpmInqIea+1dpmYei7g9abeESIBj/6UX/Dds5P7VbFKzTy4F6myN0iF7Eb
- 73y/eT7DRInhfL9iRduWzdHQEzXdjcfJKLpmSgW8VDy5jmI4FI3U4CQJ5N/Wrcct
- /D6aFyYHvy4QYirnpiFDvGawCWXuDZmvLDGroEMqrDWIEDlwYZQOd+hU3DhHoME0
- qcp0W5pZoQrws7caYnAtfYHxPYBPwF25Ce6jgc5vGmx6q8MG9x6rL5I+8gxXzRIm
- W8dXEESC6+BdyYSgfM6gT+nDwJroBUWKKP/KKGyDwWA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=qYCY7t
- ttcemIZgcojAlZUXbTUNVNVtf/FEcSNSxidEo=; b=enq4j17WhFBFEgYNiXpZv4
- byWi20QvDq2Tr3q1BH9RcodcPniXzwekDF/LHtZcREVXKr0WpnJ91wrS1vCsu1Ar
- 0jqVUZ9dmbzh36n5RVEJBXU6ZDrx2BASB4kSrZ//v9LQw+jzEfwdZYiOwpl3UM+r
- 2H71TTgYxaYr3QbBuhLeQKi0x47/EDCZ0mxT/SXd8IeTWPD6TbZWRXKuH9W1m7W7
- yUoKXTRJuEZhR0sBjnE0miVKL3nxk9XfEHohKXMYE+zQ6Dr+KvTX5y6oquH8P08L
- DcLg5PLjqJuDr1Ia3g3St/tbtWutrP4A2dkT9mv4kM0AOHFnU7Lmv1szAVwPqiIw
- ==
-X-ME-Sender: <xms:KKiDYUJzzV7vWYg7opkojjVIH8ayQkJFNLIc6tTVimmTbyIoXN4WCA>
- <xme:KKiDYUJ71bepFVH-ot2Gd2oUO0z7ewAM6UzszVKNUZaMQ9hb2MkZ2HGQsk47ZfX96
- a_GhWmzImYJZ_spzqs>
-X-ME-Received: <xmr:KKiDYUsf2-YGb3EBXhtrCIbkvPPyPbZs9nkLjfR9WGwOFWaCagEBhCb1AHl-CWpuxpKk_VeV4RQpqhWztXZ64yJnxmoE7-5t>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtdeggddtudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
- hrlhcuvffnffculdefhedmnecujfgurhepfffhvffukfhfgggtuggjsehgtderredttdej
- necuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghksehsth
- iftgigrdighiiiqeenucggtffrrghtthgvrhhnpeekvdehudevkefhuedvteethfeflefh
- vdehiefgudegvdfggfetffevkeetudegudenucffohhmrghinhepghhithhhuhgsrdgtoh
- hmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgr
- thhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:KKiDYRYhcVFDnQN_AQKAuZLvAO1xtvlOxfIFHi-pzRNm8iEZtOVJzA>
- <xmx:KKiDYbaecCGBal_Ga-tC-QR1Zi5Y_pZsyChJmgiiSVdDRpatWzL_Tg>
- <xmx:KKiDYdCzORA1vRwKPTZwlRzJF60SYSpzqM4onLB8hVLyAEtnxpC37Q>
- <xmx:KaiDYYRKtBkdVcvjyrkctFy02Y0MueW0VJ8azSpn2kgu7N5wyhIL4g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 4 Nov 2021 05:30:16 -0400 (EDT)
-Date: Thu, 4 Nov 2021 04:30:14 -0500
-From: Patrick Williams <patrick@stwcx.xyz>
-To: Howard Chiu =?utf-8?B?KOmCseWGoOedvyk=?= <Howard.Chiu@quantatw.com>
-Subject: Re: [PATCH v1] ARM: dts: aspeed: Adding Facebook Bletchley BMC
-Message-ID: <YYOoJgXyOdgNmI6B@heinlein>
-References: <20211103071417.388388-1-howard.chiu@quantatw.com>
- <YYKatBCCroiYxLew@heinlein>
- <HKAPR04MB40039608E14195D859DE7EC5968D9@HKAPR04MB4003.apcprd04.prod.outlook.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HlSvR6lDCz2y8P;
+ Fri,  5 Nov 2021 02:57:23 +1100 (AEDT)
+X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="218927945"
+X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="218927945"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2021 08:54:14 -0700
+X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="468512031"
+Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.209.121.122])
+ ([10.209.121.122])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2021 08:54:14 -0700
+Message-ID: <883dd517-7996-8c44-8cea-1c8838b367b6@linux.intel.com>
+Date: Thu, 4 Nov 2021 08:54:13 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pNxo54Czgw/SMy95"
-Content-Disposition: inline
-In-Reply-To: <HKAPR04MB40039608E14195D859DE7EC5968D9@HKAPR04MB4003.apcprd04.prod.outlook.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Subject: Re: [PATCH] media: aspeed: use reset to replace clk off/on
+To: Jammy Huang <jammy_huang@aspeedtech.com>, eajames@linux.ibm.com,
+ mchehab@kernel.org, joel@jms.id.au, andrew@aj.id.au,
+ linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+References: <20211103054316.25272-1-jammy_huang@aspeedtech.com>
+Content-Language: en-US
+In-Reply-To: <20211103054316.25272-1-jammy_huang@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,158 +58,98 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "arnd@arndb.de" <arnd@arndb.de>, Howard Chiu <howard10703049@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "soc@kernel.org" <soc@kernel.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Jammy,
 
---pNxo54Czgw/SMy95
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/2/2021 10:43 PM, Jammy Huang wrote:
+> reset should be more proper than clk off/on to bring HW back to good
+> state.
+> 
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+> ---
+>   drivers/media/platform/aspeed-video.c | 22 +++++++++++++++++++---
+>   1 file changed, 19 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+> index fea5e4d0927e..10d182139809 100644
+> --- a/drivers/media/platform/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -23,6 +23,7 @@
+>   #include <linux/workqueue.h>
+>   #include <linux/debugfs.h>
+>   #include <linux/ktime.h>
+> +#include <linux/reset.h>
+>   #include <media/v4l2-ctrls.h>
+>   #include <media/v4l2-dev.h>
+>   #include <media/v4l2-device.h>
+> @@ -220,6 +221,7 @@ struct aspeed_video {
+>   	void __iomem *base;
+>   	struct clk *eclk;
+>   	struct clk *vclk;
+> +	struct reset_control *reset;
+>   
+>   	struct device *dev;
+>   	struct v4l2_ctrl_handler ctrl_handler;
+> @@ -554,6 +556,13 @@ static void aspeed_video_on(struct aspeed_video *video)
+>   	set_bit(VIDEO_CLOCKS_ON, &video->flags);
+>   }
+>   
+> +static void aspeed_video_reset(struct aspeed_video *v)
+> +{
+> +	reset_control_assert(v->reset);
+> +	udelay(100);
+> +	reset_control_deassert(v->reset);
+> +}
+> +
+>   static void aspeed_video_bufs_done(struct aspeed_video *video,
+>   				   enum vb2_buffer_state state)
+>   {
+> @@ -574,7 +583,9 @@ static void aspeed_video_irq_res_change(struct aspeed_video *video, ulong delay)
+>   	set_bit(VIDEO_RES_CHANGE, &video->flags);
+>   	clear_bit(VIDEO_FRAME_INPRG, &video->flags);
+>   
+> -	aspeed_video_off(video);
+> +	aspeed_video_write(video, VE_INTERRUPT_CTRL, 0);
+> +	aspeed_video_write(video, VE_INTERRUPT_STATUS, 0xffffffff);
+> +	aspeed_video_reset(video);
+>   	aspeed_video_bufs_done(video, VB2_BUF_STATE_ERROR);
+>   
+>   	schedule_delayed_work(&video->res_work, delay);
+> @@ -1507,8 +1518,7 @@ static void aspeed_video_stop_streaming(struct vb2_queue *q)
+>   		 * Need to force stop any DMA and try and get HW into a good
+>   		 * state for future calls to start streaming again.
+>   		 */
+> -		aspeed_video_off(video);
+> -		aspeed_video_on(video);
+> +		aspeed_video_reset(video);
 
-On Thu, Nov 04, 2021 at 03:30:08AM +0000, Howard Chiu (=E9=82=B1=E5=86=A0=
-=E7=9D=BF) wrote:
+You can find the ECLK configuration in 'clk-aspeed.c' or in
+'clk-ast2600.c' that it's coupled with the video engine reset (SCU04[6]
+for AST2500 / SCU040[6] for AST2600). It means that if we call 
+clk_disable() and clk_enable() through aspeed_video_off() and
+aspeed_video_on(), the video engine reset will be implicitly asserted
+and de-asserted by the clock driver so the reset mechanism is already in
+the existing code.
 
-> > Is this board using 64MB or 128MB modules?  Many of the newer systems
-> > have been
-> > starting to use 128MB.  I just want to confirm this is correct.
-> 1Gb SPI flash, MX66L1G45GMI-08G
+Thanks,
+Jae
 
-1Gb =3D 1024Mb / 8 =3D 128MB, right?  Shouldn't we use the 128MB layout?
-
-> > > +	sled0_ioexp: pca9539@76 {
-> > > +		compatible =3D "nxp,pca9539";
-> > > +		reg =3D <0x76>;
-> > > +		#address-cells =3D <1>;
-> > > +		#size-cells =3D <0>;
-> > > +		gpio-controller;
-> > > +		#gpio-cells =3D <2>;
-> > > +
-> > > +		gpio-line-names =3D
-> > > +
-> > 	"","SLED0_BMC_CCG5_INT","SLED0_INA230_ALERT","SLED0_P12V_STBY_
-> > ALERT",
-> > > +
-> > 	"SLED0_SSD_ALERT","SLED0_MS_DETECT","SLED0_MD_REF_PWM","",
-> > > +
-> > 	"SLED0_MD_STBY_RESET","SLED0_MD_IOEXP_EN_FAULT","SLED0_MD_D
-> > IR","SLED0_MD_DECAY",
-> > > +
-> > 	"SLED0_MD_MODE1","SLED0_MD_MODE2","SLED0_MD_MODE3","SLED
-> > 0_AC_PWR_EN";
-> >=20
-> > In general, in OpenBMC, we have a preference for the GPIOs to not be
-> > schematic
-> > names but to be named based on their [software-oriented] function.  Ple=
-ase
-> > take
-> > a look at:
-> >=20
-> >=20
-> > https://github.com/openbmc/docs/blob/master/designs/device-tree-gpio-na
-> > ming.md
-> >=20
-> > Any function you see that isn't documented there we should try to get
-> > documented
-> > before fixing the GPIO name to match it.
-> >=20
-> I intend to delete them for now if I have to document them first, because=
-=20
-> most of them are platform-specific GPIO, not for general purpose and also=
- not
-> suitable to current OpenBMC.
-> For example, OpenBMC believes there is only one GPIO to be used to power =
-on=20
-> the chassis, but Bletchley has six.
-> I define gpio-line-names for gpioset/geioget/phosphor-multi-gpio-monitor
-> usage, and they can be replaced with gpiochip number and offset instead.
-> The disadvantage is that they won't be human-friendly when TEs develop th=
-eir tool to test these GPIOs.
-> > > +		gpio-line-names =3D
-> > > +		"SLED0_EMBER_LED","SLED0_BLUE_LED","SLED0_RST_IOEXP","",
-
-Deleting them entirely sounds even less desirable.  If these were just for
-humans, then having a schematic name is better than nothing.  But when you
-suggest their usage to be "TEs develop their tool to test these GPIOs" that
-seems to indicate this becomes ABI and we want stable, documented names, to
-limit the churn on users.
-
-I don't believe the gpiochip/pin numbers are considered stable ABI.  Our te=
-am
-has previously had to do an abstraction between 4.x and 5.x kernel because =
-of
-changes in that space.
-
-My initial preference would be that you leave them in as schematic names, f=
-or
-human purposes, until you start using them in code at which point they shou=
-ld be
-well-documented and using the style we've set out in the document above.
-
-Re: "OpenBMC believes there is only one GPIO to be used to power on the cha=
-ssis,
-but Bletchley has six."... This does not make it system-specific.  Yosemite=
--v2
-has 4 independently managed systems, with their own power sequencing.  There
-should be work going on by that team to expand the GPIO documentation to co=
-ver N
-sub-chassis as well; it just might be that you are ahead of them in documen=
-ting
-it.
-
-It should be trivial to expand the `power-chassis-control` and
-`power-chassis-good` documentation to support sub-chassis.  I can do this f=
-or
-you if you need.  Many of your GPIOs were related to LEDs which are also al=
-ready
-covered by this doc (except might need minor wording for sub-chassis as wel=
-l).
-Can you let me know which other GPIO functions you think you'll need that a=
-ren't
-already in that document and we can work to get them added?
-
-> > > +&i2c13 {
-> > > +	multi-master;
-> > > +	aspeed,hw-timeout-ms =3D <1000>;
-> > > +	status =3D "okay";
-> > > +};
-> >=20
-> > Was this intentional to have defined a multi-master bus with nothing on=
- it?
-> There is a OCP debug card which is a hot plugging device.
-> We only need to specify this bus with "multi-mater" property for IPMB sup=
-port.
-
-Got it.
-
---=20
-Patrick Williams
-
---pNxo54Czgw/SMy95
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmGDqCQACgkQqwNHzC0A
-wRnlOA//RV+35oOn9wEW+jO6oZi0M5yL51mdYiahoSlrSbjn9M3rydZPeCHA2Nfo
-nn+TpAalJ6fNmAjwGdGyQCcorRGgKb4WRw1WW91lErBydFRTSIbL0lJ4dIIQsdjh
-VtRhivTCz1UDMsGYGy+rFc4f/NAIXq3fFDaY5ek58BBUZtHMHHpvaQhvEzg982kS
-iOSsQ79dInmoX/1m5PQDGt67Fx/lcuJCVmlVl5OFuD3UTmpeSckgbs/kT6S4jiiF
-Y/SUWHGOrx9rWwRsNdDgCFJLmWjwTFpopI8hwkw/PkP9w5Y3twv/Ulng4FG/wvuR
-eBLc0bYY69bPXfOWP6UVg3ChnJAiE1mNQNlUwNrbvCF/Rc3NtBM4hIOZ6zDLBc6g
-l54ITv6DLl07KARnYICr/eVCRvSV2znMHxju3c6Lcsql68T98h3+KGsMzX62dd7Q
-O+diXES9DbmR4yMxXN//LN+adaqiRVCo8ubSZ5dnK6bgqJJqd+repyl48XwQCoTU
-KES8EeT+s/rye5AG1o877GEt2yoVjdaETlYzZGZTBRO9tKJ1CVrVBs71J1JFaMP0
-lCI3rDGGz0vzZjNzVMw+xUO/EH8ddOh9wGBCEzypRNAE5ikipidbms5s2BehMWU/
-mPiI/oQk5RHl4q5dxeWi42QScTkXHq3fToJ7ZBoeJN9Oy5Xz4l4=
-=cy2B
------END PGP SIGNATURE-----
-
---pNxo54Czgw/SMy95--
+>   		aspeed_video_init_regs(video);
+>   
+> @@ -1715,6 +1725,12 @@ static int aspeed_video_init(struct aspeed_video *video)
+>   		return rc;
+>   	}
+>   
+> +	video->reset = devm_reset_control_get(dev, NULL);
+> +	if (IS_ERR(video->reset)) {
+> +		dev_err(dev, "Unable to get reset\n");
+> +		return PTR_ERR(video->reset);
+> +	}
+> +
+>   	video->eclk = devm_clk_get(dev, "eclk");
+>   	if (IS_ERR(video->eclk)) {
+>   		dev_err(dev, "Unable to get ECLK\n");
+> 
