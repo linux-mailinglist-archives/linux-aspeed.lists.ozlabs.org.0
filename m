@@ -2,51 +2,53 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776044456A8
-	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Nov 2021 16:57:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D9A4456E9
+	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Nov 2021 17:10:55 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HlSvW4wwrz2yQH
-	for <lists+linux-aspeed@lfdr.de>; Fri,  5 Nov 2021 02:57:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HlTC12mfNz2yQG
+	for <lists+linux-aspeed@lfdr.de>; Fri,  5 Nov 2021 03:10:53 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=134.134.136.20; helo=mga02.intel.com;
+ (client-ip=192.55.52.43; helo=mga05.intel.com;
  envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-X-Greylist: delayed 124 seconds by postgrey-1.36 at boromir;
- Fri, 05 Nov 2021 02:57:23 AEDT
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HlSvR6lDCz2y8P;
- Fri,  5 Nov 2021 02:57:23 +1100 (AEDT)
-X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="218927945"
-X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="218927945"
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HlTBv0fdMz2xYW
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Nov 2021 03:10:45 +1100 (AEDT)
+X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="317936963"
+X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="317936963"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 08:54:14 -0700
-X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="468512031"
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2021 09:09:42 -0700
+X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="468519314"
 Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.209.121.122])
  ([10.209.121.122])
  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 08:54:14 -0700
-Message-ID: <883dd517-7996-8c44-8cea-1c8838b367b6@linux.intel.com>
-Date: Thu, 4 Nov 2021 08:54:13 -0700
+ 04 Nov 2021 09:09:41 -0700
+Message-ID: <f9203632-4730-dba6-49a7-240b45a00bed@linux.intel.com>
+Date: Thu, 4 Nov 2021 09:09:41 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.1
-From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-Subject: Re: [PATCH] media: aspeed: use reset to replace clk off/on
-To: Jammy Huang <jammy_huang@aspeedtech.com>, eajames@linux.ibm.com,
- mchehab@kernel.org, joel@jms.id.au, andrew@aj.id.au,
- linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
-References: <20211103054316.25272-1-jammy_huang@aspeedtech.com>
+Subject: Re: [PATCH -next 0/4] Add LCLK control into Aspeed LPC sub drivers
 Content-Language: en-US
-In-Reply-To: <20211103054316.25272-1-jammy_huang@aspeedtech.com>
+To: Zev Weiss <zev@bewilderbeest.net>
+References: <20211101233751.49222-1-jae.hyun.yoo@intel.com>
+ <CACPK8XfBi+jY5ftLqsEVXHe01SQBNpTSwo+WtXN3=YUQnXACtw@mail.gmail.com>
+ <YYHSHoELvKRI4Zh1@hatter.bewilderbeest.net>
+ <d2a18e3b-cb02-37b5-cad8-45c3e8ff3bb4@linux.intel.com>
+ <YYHYMKDD7hz15ceR@hatter.bewilderbeest.net>
+ <63678f47-8b4a-1385-a755-bc7c2316ca0d@linux.intel.com>
+ <YYHhMGm4C0srTW1x@hatter.bewilderbeest.net>
+ <768252cc-2466-3b4b-9087-549b83e00a81@linux.intel.com>
+ <YYM78OxYMYwiFzWD@hatter.bewilderbeest.net>
+From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+In-Reply-To: <YYM78OxYMYwiFzWD@hatter.bewilderbeest.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,98 +60,37 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, Corey Minyard <minyard@acm.org>,
+ Rob Herring <robh+dt@kernel.org>, Jae Hyun Yoo <jae.hyun.yoo@intel.com>,
+ openipmi-developer@lists.sourceforge.net,
+ Haiyue Wang <haiyue.wang@linux.intel.com>, Cedric Le Goater <clg@kaod.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Jammy,
-
-On 11/2/2021 10:43 PM, Jammy Huang wrote:
-> reset should be more proper than clk off/on to bring HW back to good
-> state.
+On 11/3/2021 6:48 PM, Zev Weiss wrote:
+> On Wed, Nov 03, 2021 at 08:56:10AM PDT, Jae Hyun Yoo wrote:
+>>
+>> Hi Zev,
+>>
+>> Not sure but looks like one of LPC functions is enabled while kernel
+>> booting.
 > 
-> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-> ---
->   drivers/media/platform/aspeed-video.c | 22 +++++++++++++++++++---
->   1 file changed, 19 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index fea5e4d0927e..10d182139809 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -23,6 +23,7 @@
->   #include <linux/workqueue.h>
->   #include <linux/debugfs.h>
->   #include <linux/ktime.h>
-> +#include <linux/reset.h>
->   #include <media/v4l2-ctrls.h>
->   #include <media/v4l2-dev.h>
->   #include <media/v4l2-device.h>
-> @@ -220,6 +221,7 @@ struct aspeed_video {
->   	void __iomem *base;
->   	struct clk *eclk;
->   	struct clk *vclk;
-> +	struct reset_control *reset;
->   
->   	struct device *dev;
->   	struct v4l2_ctrl_handler ctrl_handler;
-> @@ -554,6 +556,13 @@ static void aspeed_video_on(struct aspeed_video *video)
->   	set_bit(VIDEO_CLOCKS_ON, &video->flags);
->   }
->   
-> +static void aspeed_video_reset(struct aspeed_video *v)
-> +{
-> +	reset_control_assert(v->reset);
-> +	udelay(100);
-> +	reset_control_deassert(v->reset);
-> +}
-> +
->   static void aspeed_video_bufs_done(struct aspeed_video *video,
->   				   enum vb2_buffer_state state)
->   {
-> @@ -574,7 +583,9 @@ static void aspeed_video_irq_res_change(struct aspeed_video *video, ulong delay)
->   	set_bit(VIDEO_RES_CHANGE, &video->flags);
->   	clear_bit(VIDEO_FRAME_INPRG, &video->flags);
->   
-> -	aspeed_video_off(video);
-> +	aspeed_video_write(video, VE_INTERRUPT_CTRL, 0);
-> +	aspeed_video_write(video, VE_INTERRUPT_STATUS, 0xffffffff);
-> +	aspeed_video_reset(video);
->   	aspeed_video_bufs_done(video, VB2_BUF_STATE_ERROR);
->   
->   	schedule_delayed_work(&video->res_work, delay);
-> @@ -1507,8 +1518,7 @@ static void aspeed_video_stop_streaming(struct vb2_queue *q)
->   		 * Need to force stop any DMA and try and get HW into a good
->   		 * state for future calls to start streaming again.
->   		 */
-> -		aspeed_video_off(video);
-> -		aspeed_video_on(video);
-> +		aspeed_video_reset(video);
+> Looks like that was exactly the clue I needed -- obvious in retrospect, 
+> but I realize now that I'm only seeing this happen when I bypass the 
+> normal shutdown sequence via 'reboot -f'; with a plain 'reboot' I don't 
+> hit any problems.  Can you reproduce it that way?
 
-You can find the ECLK configuration in 'clk-aspeed.c' or in
-'clk-ast2600.c' that it's coupled with the video engine reset (SCU04[6]
-for AST2500 / SCU040[6] for AST2600). It means that if we call 
-clk_disable() and clk_enable() through aspeed_video_off() and
-aspeed_video_on(), the video engine reset will be implicitly asserted
-and de-asserted by the clock driver so the reset mechanism is already in
-the existing code.
+My system doesn't follow the reproduction pattern. What I usually do to
+reproduce it is, making a host reset and followed by making a BMC reset
+then host will try to send something through KCS channel and snoop-80
+while BMC LPC drivers are being loaded. It's not easy to reproduce it
+using my system and it's very timing sensitive.
 
-Thanks,
-Jae
+As I suggested in previous email, disable all LPC sub functions and
+enable back one by one. It could help for identifying which LPC sub
+module causes the issue.
 
->   		aspeed_video_init_regs(video);
->   
-> @@ -1715,6 +1725,12 @@ static int aspeed_video_init(struct aspeed_video *video)
->   		return rc;
->   	}
->   
-> +	video->reset = devm_reset_control_get(dev, NULL);
-> +	if (IS_ERR(video->reset)) {
-> +		dev_err(dev, "Unable to get reset\n");
-> +		return PTR_ERR(video->reset);
-> +	}
-> +
->   	video->eclk = devm_clk_get(dev, "eclk");
->   	if (IS_ERR(video->eclk)) {
->   		dev_err(dev, "Unable to get ECLK\n");
-> 
+-Jae
