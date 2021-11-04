@@ -2,53 +2,52 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D9A4456E9
-	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Nov 2021 17:10:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03473445707
+	for <lists+linux-aspeed@lfdr.de>; Thu,  4 Nov 2021 17:18:06 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HlTC12mfNz2yQG
-	for <lists+linux-aspeed@lfdr.de>; Fri,  5 Nov 2021 03:10:53 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HlTMH6wpgz2yWG
+	for <lists+linux-aspeed@lfdr.de>; Fri,  5 Nov 2021 03:18:03 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.43; helo=mga05.intel.com;
+ (client-ip=192.55.52.151; helo=mga17.intel.com;
  envelope-from=jae.hyun.yoo@linux.intel.com; receiver=<UNKNOWN>)
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HlTBv0fdMz2xYW
- for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Nov 2021 03:10:45 +1100 (AEDT)
-X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="317936963"
-X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="317936963"
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HlTMD5GCQz2xXm
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Nov 2021 03:18:00 +1100 (AEDT)
+X-IronPort-AV: E=McAfee;i="6200,9189,10157"; a="212483019"
+X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="212483019"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 09:09:42 -0700
-X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="468519314"
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2021 09:16:58 -0700
+X-IronPort-AV: E=Sophos;i="5.87,209,1631602800"; d="scan'208";a="468521539"
 Received: from yoojae-mobl.amr.corp.intel.com (HELO [10.209.121.122])
  ([10.209.121.122])
  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2021 09:09:41 -0700
-Message-ID: <f9203632-4730-dba6-49a7-240b45a00bed@linux.intel.com>
-Date: Thu, 4 Nov 2021 09:09:41 -0700
+ 04 Nov 2021 09:16:57 -0700
+Message-ID: <27c6e902-7cb3-97c6-f4db-b31a81869115@linux.intel.com>
+Date: Thu, 4 Nov 2021 09:16:57 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.1
-Subject: Re: [PATCH -next 0/4] Add LCLK control into Aspeed LPC sub drivers
+Subject: Re: [PATCH -next v2 5/6] dt-bindings: ipmi: aspeed,kcs-bmc: add
+ 'clocks' as a required property
 Content-Language: en-US
-To: Zev Weiss <zev@bewilderbeest.net>
-References: <20211101233751.49222-1-jae.hyun.yoo@intel.com>
- <CACPK8XfBi+jY5ftLqsEVXHe01SQBNpTSwo+WtXN3=YUQnXACtw@mail.gmail.com>
- <YYHSHoELvKRI4Zh1@hatter.bewilderbeest.net>
- <d2a18e3b-cb02-37b5-cad8-45c3e8ff3bb4@linux.intel.com>
- <YYHYMKDD7hz15ceR@hatter.bewilderbeest.net>
- <63678f47-8b4a-1385-a755-bc7c2316ca0d@linux.intel.com>
- <YYHhMGm4C0srTW1x@hatter.bewilderbeest.net>
- <768252cc-2466-3b4b-9087-549b83e00a81@linux.intel.com>
- <YYM78OxYMYwiFzWD@hatter.bewilderbeest.net>
+To: Joel Stanley <joel@jms.id.au>
+References: <20211102203717.96794-1-jae.hyun.yoo@intel.com>
+ <20211102203717.96794-6-jae.hyun.yoo@intel.com>
+ <1635902437.654631.3880388.nullmailer@robh.at.kernel.org>
+ <8db279c9-4c76-91a5-3617-a17effb2d103@linux.intel.com>
+ <CAL_Jsq+SwCqFycKz4+agRsB3qr4Rbfra55Q6tNbMH2bNtoX+hA@mail.gmail.com>
+ <796e0c02-5bca-e8a9-a17f-898aafec237f@linux.intel.com>
+ <CACPK8Xcwkz1QLOvN0MiSkX+jj2NZY10--1qo7M8UMyEmQQtYmA@mail.gmail.com>
 From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-In-Reply-To: <YYM78OxYMYwiFzWD@hatter.bewilderbeest.net>
+In-Reply-To: <CACPK8Xcwkz1QLOvN0MiSkX+jj2NZY10--1qo7M8UMyEmQQtYmA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,37 +59,44 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Corey Minyard <minyard@acm.org>,
- Rob Herring <robh+dt@kernel.org>, Jae Hyun Yoo <jae.hyun.yoo@intel.com>,
+Cc: Rob Herring <robh@kernel.org>, Corey Minyard <minyard@acm.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ devicetree <devicetree@vger.kernel.org>, Jae Hyun Yoo <jae.hyun.yoo@intel.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
  openipmi-developer@lists.sourceforge.net,
  Haiyue Wang <haiyue.wang@linux.intel.com>, Cedric Le Goater <clg@kaod.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 11/3/2021 6:48 PM, Zev Weiss wrote:
-> On Wed, Nov 03, 2021 at 08:56:10AM PDT, Jae Hyun Yoo wrote:
+On 11/3/2021 3:45 PM, Joel Stanley wrote:
+> On Wed, 3 Nov 2021 at 17:27, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
 >>
->> Hi Zev,
->>
->> Not sure but looks like one of LPC functions is enabled while kernel
->> booting.
+>> On 11/3/2021 9:29 AM, Rob Herring wrote:
 > 
-> Looks like that was exactly the clue I needed -- obvious in retrospect, 
-> but I realize now that I'm only seeing this happen when I bypass the 
-> normal shutdown sequence via 'reboot -f'; with a plain 'reboot' I don't 
-> hit any problems.  Can you reproduce it that way?
+>>> It's possible that 'clocks' was always required or that it never
+>>> worked without clocks, then this change is okay. Looking at this
+>>> patch, I have no way to know that. The commit message has to explain
+>>> that. A commit message needs to answer WHY are you making the change.
+>>> You don't really need WHAT the change is as anyone can read the diff.
+>>
+>> Then what would be better? Would it be good enough if I add more detail
+>> commit message including a note that dtb recompiling is required? Or,
+>> should I change this series to treat the 'clocks' as an optional
+>> property? Can you please share your thought?
+> 
+> Make it essential. It was only by accident that things have worked
+> without this change.
+> 
+> While keeping backwards compatibility with dtbs is a goal we strive
+> for, in practice we use the dtb from the corresponding kernel source
+> tree, so as long as the patch to the driver is applied in the same
+> place as the patch to the device tree no systems will break.
 
-My system doesn't follow the reproduction pattern. What I usually do to
-reproduce it is, making a host reset and followed by making a BMC reset
-then host will try to send something through KCS channel and snoop-80
-while BMC LPC drivers are being loaded. It's not easy to reproduce it
-using my system and it's very timing sensitive.
+Okay. I'll keep 'clocks' property as a required property and will make
+the commit message of this patch more descriptive. Thanks a lot for your
+feedback.
 
-As I suggested in previous email, disable all LPC sub functions and
-enable back one by one. It could help for identifying which LPC sub
-module causes the issue.
+Cheers,
+Jae
 
--Jae
