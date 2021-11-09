@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7786C44A539
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Nov 2021 04:13:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E7044AB01
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Nov 2021 10:55:37 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HpCjC2MvXz2ymk
-	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Nov 2021 14:13:03 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HpNdg0gQrz2yYx
+	for <lists+linux-aspeed@lfdr.de>; Tue,  9 Nov 2021 20:55:35 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,24 +17,23 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HpCj73PzDz2xDg;
- Tue,  9 Nov 2021 14:12:56 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HpNdZ050Wz2yJL;
+ Tue,  9 Nov 2021 20:55:27 +1100 (AEDT)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 1A92nC39061473;
- Tue, 9 Nov 2021 10:49:12 +0800 (GMT-8)
+ by twspam01.aspeedtech.com with ESMTP id 1A99VZMQ096262;
+ Tue, 9 Nov 2021 17:31:35 +0800 (GMT-8)
  (envelope-from jammy_huang@aspeedtech.com)
 Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 9 Nov 2021 11:12:27 +0800
+ Tue, 9 Nov 2021 17:54:50 +0800
 From: Jammy Huang <jammy_huang@aspeedtech.com>
 To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
  <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
  <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
  <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] media: aspeed: Update signal status immediately to ensure
- sane hw state
-Date: Tue, 9 Nov 2021 11:12:27 +0800
-Message-ID: <20211109031227.1792-1-jammy_huang@aspeedtech.com>
+Subject: [PATCH] media: aspeed: Fix incorrect resolution detected
+Date: Tue, 9 Nov 2021 17:54:53 +0800
+Message-ID: <20211109095453.12363-1-jammy_huang@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -43,7 +42,7 @@ X-Originating-IP: [192.168.2.115]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1A92nC39061473
+X-MAIL: twspam01.aspeedtech.com 1A99VZMQ096262
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,64 +54,52 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Paul Menzel <pmenzel@molgen.mpg.de>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-If res-chg, VE_INTERRUPT_MODE_DETECT_WD irq will be raised. But
-v4l2_input_status won't be updated to no-signal immediately until
-aspeed_video_get_resolution() in aspeed_video_resolution_work().
+During the process of os-installation, detected resolution's height
+could be less than the correct one.
 
-During the period of time, aspeed_video_start_frame() could be called
-because it doesn't know signal becomes unstable now. If it goes with
-aspeed_video_init_regs() of aspeed_video_irq_res_change()
-simultaneously, it will mess up hw state.
-
-To fix this problem, v4l2_input_status is updated to no-signal
-immediately for VE_INTERRUPT_MODE_DETECT_WD irq.
+Increase min-required-count of stable signal to fix the problem.
 
 Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
 Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-Acked-by: Paul Menzel <pmenzel@molgen.mpg.de>
 ---
-v2:
-  - update subject and commit message
----
- drivers/media/platform/aspeed-video.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/platform/aspeed-video.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index 1ade264a8b69..3facd7ecc1a1 100644
+index 5da52646b298..625a77ddb479 100644
 --- a/drivers/media/platform/aspeed-video.c
 +++ b/drivers/media/platform/aspeed-video.c
-@@ -762,6 +762,8 @@ static void aspeed_video_irq_res_change(struct aspeed_video *video, ulong delay)
- 	set_bit(VIDEO_RES_CHANGE, &video->flags);
- 	clear_bit(VIDEO_FRAME_INPRG, &video->flags);
+@@ -196,6 +196,12 @@
+ #define  VE_INTERRUPT_VSYNC_DESC	BIT(11)
  
-+	video->v4l2_input_status = V4L2_IN_ST_NO_SIGNAL;
+ #define VE_MODE_DETECT			0x30c
++#define  VE_MODE_DT_HOR_TOLER		GENMASK(31, 28)
++#define  VE_MODE_DT_VER_TOLER		GENMASK(27, 24)
++#define  VE_MODE_DT_HOR_STABLE		GENMASK(23, 20)
++#define  VE_MODE_DT_VER_STABLE		GENMASK(19, 16)
++#define  VE_MODE_DT_EDG_THROD		GENMASK(15, 8)
 +
- 	aspeed_video_off(video);
- 	aspeed_video_on(video);
- 	aspeed_video_bufs_done(video, VB2_BUF_STATE_ERROR);
-@@ -1889,7 +1891,6 @@ static void aspeed_video_resolution_work(struct work_struct *work)
- 	struct delayed_work *dwork = to_delayed_work(work);
- 	struct aspeed_video *video = container_of(dwork, struct aspeed_video,
- 						  res_work);
--	u32 input_status = video->v4l2_input_status;
+ #define VE_MEM_RESTRICT_START		0x310
+ #define VE_MEM_RESTRICT_END		0x314
  
- 	/* Exit early in case no clients remain */
- 	if (test_bit(VIDEO_STOPPED, &video->flags))
-@@ -1902,8 +1903,7 @@ static void aspeed_video_resolution_work(struct work_struct *work)
- 	aspeed_video_get_resolution(video);
+@@ -1199,7 +1205,12 @@ static void aspeed_video_init_regs(struct aspeed_video *video)
+ 	aspeed_video_write(video, VE_SCALING_FILTER3, 0x00200000);
  
- 	if (video->detected_timings.width != video->active_timings.width ||
--	    video->detected_timings.height != video->active_timings.height ||
--	    input_status != video->v4l2_input_status) {
-+	    video->detected_timings.height != video->active_timings.height) {
- 		static const struct v4l2_event ev = {
- 			.type = V4L2_EVENT_SOURCE_CHANGE,
- 			.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
+ 	/* Set mode detection defaults */
+-	aspeed_video_write(video, VE_MODE_DETECT, 0x22666500);
++	aspeed_video_write(video, VE_MODE_DETECT,
++			   FIELD_PREP(VE_MODE_DT_HOR_TOLER, 2) |
++			   FIELD_PREP(VE_MODE_DT_VER_TOLER, 2) |
++			   FIELD_PREP(VE_MODE_DT_HOR_STABLE, 10) |
++			   FIELD_PREP(VE_MODE_DT_VER_STABLE, 10) |
++			   FIELD_PREP(VE_MODE_DT_EDG_THROD, 0x65));
+ 
+ 	aspeed_video_write(video, VE_BCD_CTRL, 0);
+ }
 -- 
 2.25.1
 
