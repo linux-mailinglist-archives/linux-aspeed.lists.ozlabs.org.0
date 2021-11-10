@@ -2,72 +2,81 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A018944CD24
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Nov 2021 23:52:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB79144CD25
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Nov 2021 23:52:21 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HqKqN3rHLz2yZf
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Nov 2021 09:52:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HqKqR4nC6z2yPp
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Nov 2021 09:52:19 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=yadro.com header.i=@yadro.com header.a=rsa-sha256 header.s=mta-01 header.b=gO9R8N8L;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=wRJDhtBu;
+	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=sbsvONG8;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=yadro.com (client-ip=89.207.88.252; helo=mta-01.yadro.com;
- envelope-from=a.kartashev@yadro.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.mailfrom=suse.de
+ (client-ip=195.135.220.28; helo=smtp-out1.suse.de;
+ envelope-from=dkirjanov@suse.de; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=yadro.com header.i=@yadro.com header.a=rsa-sha256
- header.s=mta-01 header.b=gO9R8N8L; dkim-atps=neutral
-Received: from mta-01.yadro.com (mta-02.yadro.com [89.207.88.252])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256
+ header.s=susede2_rsa header.b=wRJDhtBu; 
+ dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256
+ header.s=susede2_ed25519 header.b=sbsvONG8; 
+ dkim-atps=neutral
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Hq2VS1R6Mz2yHM;
- Wed, 10 Nov 2021 22:21:35 +1100 (AEDT)
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 436B44149C;
- Wed, 10 Nov 2021 11:21:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-transfer-encoding:mime-version:user-agent:content-type
- :content-type:organization:references:in-reply-to:date:date:from
- :from:subject:subject:message-id:received:received:received; s=
- mta-01; t=1636543287; x=1638357688; bh=0j+5adaOZ/y7OCM2k3Q3Gxg0r
- f6lX+g+/MKSVly8bkU=; b=gO9R8N8LqYo2ycdHDGCPNW9Do+n5AAfUQvsVnDM2W
- VLqyYvrNLp1ac6Wh87aJUzr17nj9TPqeh09rNGVycfyDoPhsfjPep2uN+HbDesv9
- BNAoBLaQkby/Gi2s+xSpqV2MjuXcjhM0dZrse9bXBH8M/lNSI3Ut/nKKaald4jke
- nI=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id fd_qe8dQZ0sm; Wed, 10 Nov 2021 14:21:27 +0300 (MSK)
-Received: from T-EXCH-04.corp.yadro.com (t-exch-04.corp.yadro.com
- [172.17.100.104])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Hq5zR05NXz2xXZ;
+ Thu, 11 Nov 2021 00:58:26 +1100 (AEDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 4A78D41499;
- Wed, 10 Nov 2021 14:21:24 +0300 (MSK)
-Received: from [10.199.10.105] (10.199.10.105) by T-EXCH-04.corp.yadro.com
- (172.17.100.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 10
- Nov 2021 14:21:24 +0300
-Message-ID: <1a063a1797fd9247dae3660cd04d1f19b0fc32b8.camel@yadro.com>
-Subject: Re: [PATCH v4 4/4] ARM: dts: aspeed: Add eSPI node
-From: Andrei Kartashev <a.kartashev@yadro.com>
-To: Chia-Wei Wang <chiawei_wang@aspeedtech.com>, <robh+dt@kernel.org>,
- <joel@jms.id.au>, <andrew@aj.id.au>, <linux-aspeed@lists.ozlabs.org>,
- <openbmc@lists.ozlabs.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Date: Wed, 10 Nov 2021 14:21:23 +0300
-In-Reply-To: <20210901033015.910-5-chiawei_wang@aspeedtech.com>
-References: <20210901033015.910-1-chiawei_wang@aspeedtech.com>
- <20210901033015.910-5-chiawei_wang@aspeedtech.com>
-Organization: YADRO
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B974E21B04;
+ Wed, 10 Nov 2021 13:58:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1636552702; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sXZTBdeyVQwbfHLEl2Qd3oJBHCIZMitnb/RbNeAIjJY=;
+ b=wRJDhtBuSOeZmDM6u2YhE+0EazYL98T1jy6Fhz3o6OlW9TUjVnLcMFogEkXtW7FBgwSZN9
+ lru9gEpad175upns/O5IieuPSn23BB7hgRe8Vw0an2Zwe4gyGVbDiDg8znE0xmlBkbjpky
+ EpizCq51KRFClJB7vpqY2ov3nrS79aw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1636552702;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sXZTBdeyVQwbfHLEl2Qd3oJBHCIZMitnb/RbNeAIjJY=;
+ b=sbsvONG8khFAQhe3w0KvitiT8akzWBEgU11b//FXCollxDs6K30cPetcf4Rxt1r5bwgy7S
+ C4cP68rZQR+42TBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EC40F13BFF;
+ Wed, 10 Nov 2021 13:58:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id CzYjNv3Pi2HCLgAAMHmgww
+ (envelope-from <dkirjanov@suse.de>); Wed, 10 Nov 2021 13:58:21 +0000
+Subject: Re: [PATCH v4] Add payload to be 32-bit aligned to fix dropped packets
+To: Kumar Thangavel <kumarthangavel.hcl@gmail.com>,
+ Samuel Mendoza-Jonas <sam@mendozajonas.com>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
+References: <20211110095432.GA9571@gmail.com>
+From: Denis Kirjanov <dkirjanov@suse.de>
+Message-ID: <3f23e37d-98fd-26db-6851-73a63c4f6d0a@suse.de>
+Date: Wed, 10 Nov 2021 16:58:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <20211110095432.GA9571@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: ru
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.199.10.105]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-04.corp.yadro.com (172.17.100.104)
 X-Mailman-Approved-At: Thu, 11 Nov 2021 09:52:00 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -80,59 +89,101 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: sdasari@fb.com, linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org,
+ openbmc@lists.ozlabs.org, velumanit@hcl.com, patrickw3@fb.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Chia-Wei,
-
-How is it about g5? Why did you add definition only for g6 here?
 
 
-On Wed, 2021-09-01 at 11:30 +0800, Chia-Wei Wang wrote:
-> Add eSPI to the device tree for Aspeed 5/6th generation SoCs.
+11/10/21 12:54 PM, Kumar Thangavel пишет:
+> Update NC-SI command handler (both standard and OEM) to take into
+> account of payload paddings in allocating skb (in case of payload
+> size is not 32-bit aligned).
 > 
-> Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+> The checksum field follows payload field, without taking payload
+> padding into account can cause checksum being truncated, leading to
+> dropped packets.
+
+Please add Fixes tag
+> 
+> Signed-off-by: Kumar Thangavel <thangavel.k@hcl.com>
+> Acked-by: Samuel Mendoza-Jonas <sam@mendozajonas.com>
+> Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
+> 
 > ---
->  arch/arm/boot/dts/aspeed-g6.dtsi | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
+>    v4:
+>     - Updated existing macro for max function
 > 
-> diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi
-> b/arch/arm/boot/dts/aspeed-g6.dtsi
-> index f96607b7b4e2..47dc0b3993d1 100644
-> --- a/arch/arm/boot/dts/aspeed-g6.dtsi
-> +++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-> @@ -364,6 +364,23 @@
->                                 status = "disabled";
->                         };
->  
-> +                       espi: espi@1e6ee000 {
-> +                               compatible = "aspeed,ast2600-espi",
-> "simple-mfd", "syscon";
-> +                               reg = <0x1e6ee000 0x1000>;
-> +
-> +                               #address-cells = <1>;
-> +                               #size-cells = <1>;
-> +                               ranges = <0x0 0x1e6ee000 0x1000>;
-> +
-> +                               espi_ctrl: espi-ctrl@0 {
-> +                                       compatible = "aspeed,ast2600-
-> espi-ctrl";
-> +                                       reg = <0x0 0x800>;
-> +                                       interrupts = <GIC_SPI 42
-> IRQ_TYPE_LEVEL_HIGH>;
-> +                                       clocks = <&syscon
-> ASPEED_CLK_GATE_ESPICLK>;
-> +                                       status = "disabled";
-> +                               };
-> +                       };
-> +
->                         gpio0: gpio@1e780000 {
->                                 #gpio-cells = <2>;
->                                 gpio-controller;
-
--- 
-Best regards,
-Andrei Kartashev
-
-
+>    v3:
+>     - Added Macro for MAX
+>     - Fixed the missed semicolon
+> 
+>    v2:
+>     - Added NC-SI spec version and section
+>     - Removed blank line
+>     - corrected spellings
+> 
+>    v1:
+>     - Initial draft
+> 
+> ---
+> ---
+>   net/ncsi/ncsi-cmd.c | 21 +++++++++++++--------
+>   1 file changed, 13 insertions(+), 8 deletions(-)
+> 
+> diff --git a/net/ncsi/ncsi-cmd.c b/net/ncsi/ncsi-cmd.c
+> index ba9ae482141b..e44fe138c20f 100644
+> --- a/net/ncsi/ncsi-cmd.c
+> +++ b/net/ncsi/ncsi-cmd.c
+> @@ -213,12 +213,16 @@ static int ncsi_cmd_handler_oem(struct sk_buff *skb,
+>   {
+>   	struct ncsi_cmd_oem_pkt *cmd;
+>   	unsigned int len;
+> +	/* NC-SI spec DSP_0222_1.2.0, section 8.2.2.2
+> +	 * requires payload to be padded with 0 to
+> +	 * 32-bit boundary before the checksum field.
+> +	 * Ensure the padding bytes are accounted for in
+> +	 * skb allocation
+> +	 */
+>   
+> +	unsigned short payload = ALIGN(nca->payload, 4);
+>   	len = sizeof(struct ncsi_cmd_pkt_hdr) + 4;
+> -	if (nca->payload < 26)
+> -		len += 26;
+Would be nice to have a constant
+> -	else
+> -		len += nca->payload;
+> +	len += max(payload, 26);
+>   
+>   	cmd = skb_put_zero(skb, len);
+>   	memcpy(&cmd->mfr_id, nca->data, nca->payload);
+> @@ -272,6 +276,7 @@ static struct ncsi_request *ncsi_alloc_command(struct ncsi_cmd_arg *nca)
+>   	struct net_device *dev = nd->dev;
+>   	int hlen = LL_RESERVED_SPACE(dev);
+>   	int tlen = dev->needed_tailroom;
+> +	int payload;
+>   	int len = hlen + tlen;
+>   	struct sk_buff *skb;
+>   	struct ncsi_request *nr;
+> @@ -281,14 +286,14 @@ static struct ncsi_request *ncsi_alloc_command(struct ncsi_cmd_arg *nca)
+>   		return NULL;
+>   
+>   	/* NCSI command packet has 16-bytes header, payload, 4 bytes checksum.
+> +	 * Payload needs padding so that the checksum field following payload is
+> +	 * aligned to 32-bit boundary.
+>   	 * The packet needs padding if its payload is less than 26 bytes to
+>   	 * meet 64 bytes minimal ethernet frame length.
+>   	 */
+>   	len += sizeof(struct ncsi_cmd_pkt_hdr) + 4;
+> -	if (nca->payload < 26)
+> -		len += 26;
+> -	else
+> -		len += nca->payload;
+> +	payload = ALIGN(nca->payload, 4);
+> +	len += max(payload, 26);
+>   
+>   	/* Allocate skb */
+>   	skb = alloc_skb(len, GFP_ATOMIC);
+> 
