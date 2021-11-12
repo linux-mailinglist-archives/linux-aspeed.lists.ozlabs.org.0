@@ -2,144 +2,98 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D776044CF50
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Nov 2021 02:55:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0265044EDE7
+	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Nov 2021 21:30:11 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HqPtx50chz2yPh
-	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Nov 2021 12:55:37 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HrVZS5XvFz302G
+	for <lists+linux-aspeed@lfdr.de>; Sat, 13 Nov 2021 07:30:08 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=GGnLpu6w;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=SK1hig5U;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:febd::70f;
- helo=apc01-sg2-obe.outbound.protection.outlook.com;
- envelope-from=chiawei_wang@aspeedtech.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=anoo@linux.ibm.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
- header.a=rsa-sha256 header.s=selector1 header.b=GGnLpu6w; 
- dkim-atps=neutral
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
- (mail-sg2apc01on070f.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:febd::70f])
+ unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256
+ header.s=pp1 header.b=SK1hig5U; dkim-atps=neutral
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HqPtl5jJPz2y0G;
- Thu, 11 Nov 2021 12:55:24 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fuA0LwGQ7cBPrFsTxtbTyub+qtBc05rUekTTnZWGu8QhieWuJqUdceB45jYE/iDTmAt34TWSExJZnLCLat/aU16DxFOLI5b6gBIMZYhoOanB8BHjMVnCeNsFCtAiZoMGYnzSzjbkrSNmzgGXLAXEhhe1QAygF9IKRYrOPe3+HZsPAriAec9r8x7/Ls1DUPF1AO/nNtQx4DvHEuRjVowdJbBoEKgnHMcsCCFbo/6irFXshuYfwk3o8TZ6tpiBEPc8UPSs6Ik0ip4TU0RcZH2QZ7Ug6g5P9BtSFSLQaLRaunf8I216zVGiN552Z8MP3bjNT/w/LWrpoagf/6KK8EIJyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V8qB2A6lRdxGWcHNATYycPKcXUjCOz+a7SnWDbdCIVk=;
- b=PTw7oT6vwHog1UIx7Qsr88EtMPevHXSCpXVv9+Md/0iQ98Svq3N6iLTJE5sTK7GtqIsaO+YXK9h6040IFRm40j0rHyH9kOQeEowCWtiMHH02n38hBzPZJCrUd1M4hpC/SsgnvTTaNjQdDAgtVvBArptAyHz4IXD77Trvnh+sv5nZvZ++m51QosUy+OJAG7Ld/z+Jw0WRrFX6Li1XXamPSP+/OgojetRlXgC4rLx729BouWmRuEtp+2z+U+PvklYgjdYnaWR2IwYg9AqtqU0Ptsp2lZqGQ8qYnYh6jYY87AxC8cWy1lxcpDhXiLqJWFSJzcubPCeskHnGuevbN/2vbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V8qB2A6lRdxGWcHNATYycPKcXUjCOz+a7SnWDbdCIVk=;
- b=GGnLpu6wDFOGRPFY/2LpbP7S/0QvgxKxpEdanul1PSklTDy5DYD/X8StFvt/JjbUftxviZfMIUmPK/eU1ZkJqhnXy1+O4daOKFj31iVMxw5tEWiCCmY31jcbUQNN+qRGcbvBIgnWbB7VK6yRbFw21wqev9ynZmPBwLiJOZy2AJN9UdEHaanFx31l1JWR7ekpWdtPQhG1SUd2wf+2edaCt7ua25w3onQhPZ50u+Bef+gaSst31ArNApIsfbh4VMppncO4cMzEwDzbCocQMOWVsnxT1dANDBwsH93Udl/cLoP4xHDwR3Hx5OM3neiJ57lYucn8+Cg4oG5MPh0z72uStA==
-Received: from HK0PR06MB3779.apcprd06.prod.outlook.com (2603:1096:203:b8::10)
- by HK2PR0601MB1827.apcprd06.prod.outlook.com (2603:1096:202:6::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.15; Thu, 11 Nov
- 2021 01:55:01 +0000
-Received: from HK0PR06MB3779.apcprd06.prod.outlook.com
- ([fe80::f4aa:d005:b469:2a71]) by HK0PR06MB3779.apcprd06.prod.outlook.com
- ([fe80::f4aa:d005:b469:2a71%6]) with mapi id 15.20.4690.015; Thu, 11 Nov 2021
- 01:55:01 +0000
-From: ChiaWei Wang <chiawei_wang@aspeedtech.com>
-To: Andrei Kartashev <a.kartashev@yadro.com>, "robh+dt@kernel.org"
- <robh+dt@kernel.org>, "joel@jms.id.au" <joel@jms.id.au>, "andrew@aj.id.au"
- <andrew@aj.id.au>, "linux-aspeed@lists.ozlabs.org"
- <linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org"
- <openbmc@lists.ozlabs.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v4 4/4] ARM: dts: aspeed: Add eSPI node
-Thread-Topic: [PATCH v4 4/4] ARM: dts: aspeed: Add eSPI node
-Thread-Index: AQHXnuIAA5h6M5p/p0S7eMEIdjKhnKv9DGuAgADzn8A=
-Date: Thu, 11 Nov 2021 01:55:00 +0000
-Message-ID: <HK0PR06MB3779D83D1BA4D3E6FB24CEFA91949@HK0PR06MB3779.apcprd06.prod.outlook.com>
-References: <20210901033015.910-1-chiawei_wang@aspeedtech.com>
- <20210901033015.910-5-chiawei_wang@aspeedtech.com>
- <1a063a1797fd9247dae3660cd04d1f19b0fc32b8.camel@yadro.com>
-In-Reply-To: <1a063a1797fd9247dae3660cd04d1f19b0fc32b8.camel@yadro.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: yadro.com; dkim=none (message not signed)
- header.d=none;yadro.com; dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ede04bb0-20ea-44fe-9e9f-08d9a4b645c6
-x-ms-traffictypediagnostic: HK2PR0601MB1827:
-x-microsoft-antispam-prvs: <HK2PR0601MB1827AD5CF9D5CFF69CBC362091949@HK2PR0601MB1827.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: MCpXZYQTxR9n3ro1Q9WVB5hKVDkVQ7ef7+1hH21oIj0qO2TPWj4Iy8Gm56v/AZEL8Cr9kluvea6kTO+zCzBY2oWrS4gd3ettcHCiJ3X07E4q60C71aKj2X+ut1vX9tqtOkb1SwSk09cqlawrg2v+0Fw/4KYr3PhWhjARxyxKuLw+y+dNELz7Xc6OuSY8IjQDXc1r8IXjQGYf3PsGg6ckzim/c/4djoMKEBbfZSip7rwCEHHMSDS5oTOFEQoTO7sd7vMnT6ivV8EIXK3B/MDN0bOrVf+qeNH4vXrWZWzBf1wYbu/jZ1kzyyCCuYmEExuI5E/eS92kdtg4hA9tlwCLRZzGYhM/tDW+ug50mo5XxhSB4Dyap6kYb/lECZhUea/SiNr0jZuRqcRQh61NL9ghEH9MnhcxA6QkIKxvaOKrjJ3FEm7NzMsTQ7jSN4Cd1posr504H4sfYjITAjkzmSPPH4g5WOKy+3ORZbDdrdXuOdNSXILHYjU68BRQu8kjUV3Rb4bTJ0Gfx3hzYwHmLLpKdzNby4zo3uC8z1jTdBOfXihSXEOzhmstgoLEgngEhcQkQmg9mXgruM30Ala7/HPmV9exczJeevQxzLsSysYcZCRFc6mfz5dpW5Y2GnLfHGdX4Aa8EnZ/WQMIztZ6PGT2epCN5u0T4QFTE+joASz+eZqcp6IdtRWc1+t6iZBoSbUSgneGvZQNmmDS3m7DihrRNQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3779.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(136003)(39840400004)(366004)(396003)(376002)(26005)(122000001)(76116006)(9686003)(66556008)(38070700005)(5660300002)(33656002)(110136005)(38100700002)(7696005)(66476007)(316002)(66946007)(83380400001)(55016002)(508600001)(66446008)(8936002)(2906002)(186003)(86362001)(6506007)(8676002)(71200400001)(107886003)(4326008)(64756008)(52536014);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dEhLWlBNV2lVTCtlWmY0R01vR241OVdFMEFCSUNGWEY4ZXdQdUR5bS9zZ2tx?=
- =?utf-8?B?ZUNVb1c4ZjY2UWpuRjhISFlQTUxQMFJYMy9ST2ZLdTc3elE5cXlGc2cxekFn?=
- =?utf-8?B?My9sMVhrVVFHVGtkYThUNUU3MEs5eDA2ZzhhMjNCN21HMTE3Q0NUQ2ZOMXpH?=
- =?utf-8?B?RGZWMXRmZnRBSzRkL3c3VmNUUE9qNmFUMmtXZWdyRGd5VWRpaHUvYzFzL25B?=
- =?utf-8?B?dmVTTXh4R1crM3NsQnNaMmpsNEhWMVFBRWU1ZEp3Sjc3NlpyK0JDMThjRkpT?=
- =?utf-8?B?TDBlYUliZ05RRzIvRHMwczhlMnQ4Y2tDWFhHcmxycW1ES0JqMlVwVEdZcFU1?=
- =?utf-8?B?Tk9kd05mV0dlK1JaMXR6K3ZhWkRxbkZkVXZiQ0hpOXV2emxMUy9SMy9uYlVR?=
- =?utf-8?B?OFo5aG8ydUV6YlV2Z1BHSG5ZdEhSR3lISm9OZ29JcUEyTzVGdVhRZHVQM205?=
- =?utf-8?B?Y0wzNG41UTB0RlhPNng4UitnTHBGc3VUcUdCZlB4bWcwV2VlcVkrTXl4andG?=
- =?utf-8?B?OTlTYUlPN0NFK0Zna2hCRjBFQ2tEajFiSmhDeDl3NkRiRDRIWnhody9Yc2xa?=
- =?utf-8?B?ZjJmWUJocHR0ZUowVWJNeVNkOWM3QUhmdXk3RjVmY2lGTyt1c0cwWmhjU21E?=
- =?utf-8?B?T3JpTWhRVENFV3h5M0JEblhBL3NWR2lodzhGVzRXcTVtNlBvM2J1WWloYTB5?=
- =?utf-8?B?dkZCWkl2NFZ1TEFndm10NTdpV0hDRmtLWmxjVmhua2VTNG5hWi83R1I2RW1R?=
- =?utf-8?B?aE1ZS0Q4ajVlZUxZeDhWV0N3Q3grcEw4WUROOE5rMUNOYzVMdExnRHEya1hI?=
- =?utf-8?B?WGFBQ1FEUEdhaEpYeUg2cTdtbTl2b3lzM2lCTEVaTTQ2ZGZUSEhXVVgrNCtY?=
- =?utf-8?B?L2xFKzcyV1ZjOXFMNkZuYXFLM2pDUk9mdzZzYUVSaDlmcnJ4SXpRRHBRa1Er?=
- =?utf-8?B?ZnhscXQ3ZDF6RjlNUVVjQkRJWHhWRVZBNndBMUNIVUVES3lYZ3VvSEN5TE03?=
- =?utf-8?B?VXY3Nm8ySjBIbHJnZWdqS1dlUTFsM0RPRVdwYVdwSnV5L3ovWXEvT2JDZE5z?=
- =?utf-8?B?MnIyamhjd2xwZjhyejlPY213RXlWYU50d3R1RWVDLzJDdDMxeUowSWFwanJj?=
- =?utf-8?B?ZXV0a2pBdVZ1eHpCOXZUZDQrWldzYUtZRXdIUzJBa0UyV2FtLzZERWgyY2lD?=
- =?utf-8?B?STFUSmNnRkhCWXZkdVFpMTV5aXJNdWlZR3IyS0poNXVYWlZMTzNLSkg1Qkov?=
- =?utf-8?B?aldXSnQvR0NSejluRUJTT1pqM0krYy92NWY0VnlNV2huQXB2K3ZkdERrZzVO?=
- =?utf-8?B?dlVROFByeTAxbVVHQzJINlVvTTkyaVNvVE12ZElUYWQ2K3JHZ0VaRzNZRGVn?=
- =?utf-8?B?akZnY0oxUXFIK2NKS1J1aUMyVXlVN3N6Y2gweWhybVZDUDBLdGlROGRvSGNT?=
- =?utf-8?B?RVpVR0RlMno4d1hhSThqMkJzeGZ3ODRXZEFZanJZc2puY0VONDN5OVNLcXNt?=
- =?utf-8?B?bS9TdGlaaU84empWanNBc3FDNUhhY0o2YTBsOWdJbWRjaXFpVzRQK3pmdE5N?=
- =?utf-8?B?K0EwcklCcHFXbERDN1FxcXA1Z1I4dnNoaDdoWXZLWXpFbDM3blU3WlNBZE1R?=
- =?utf-8?B?V0pFb0ZlcXF3dW5SOEpjOFJhQ3JFZjlrMDBOL1FSL0VSV3ZzL2h6Z0pIcDhS?=
- =?utf-8?B?czUwWkZ0NUxpNWpyK21sekFHb3lVS1hMeFBHT01ySHRvR1VYL3dHL1VnMDVP?=
- =?utf-8?B?ZWdmc0w0U0t3UEZ6WGc0L09USXd2NFRDd2pQclc1YklncUl0UVVvWFVsa0hx?=
- =?utf-8?B?cjRhY0oyV3RvcnlXbjZENGdoSnhacFh6M0M0TllkWlJaRk80dXh5dE1sd0xl?=
- =?utf-8?B?VlIzWUlORk9LSnhJVDZDU3Rtc0pTRm9JWTdjTVBEMzJCNEE5NlRSQzdnYnJC?=
- =?utf-8?B?YWl5NXlpb2o4M21NQTlzYWorOXBWY1c4VS9henBYUDJhb2FvZXNwRk5adlE0?=
- =?utf-8?B?N2ZYbVZGZGU0V1B2N1JMSThvTk1pY0J4cjUwVTEvSkJiOERKMi9JUVF2bDFK?=
- =?utf-8?B?bmJoaEFrUWJEK2lCMDE0TjZWTVZxb01XSE1MR0tvY0RpRTgwZXpXOEZTME81?=
- =?utf-8?B?QjMyT3ExOUg0MU5RNWpRZE13VXN0cFV4bFJSME1MMjZrcm9EbVZybGtlMGlP?=
- =?utf-8?B?Q0I4ZEthTko5QzVoM3E1UVBUYko0M1FFZDNJSlFpenFHQ0UzeEhjZ2lLVjQ0?=
- =?utf-8?B?aXVaa00yWm4wQVhtMFVhd3lpOThnPT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HrVZL2Lflz2yfr;
+ Sat, 13 Nov 2021 07:30:01 +1100 (AEDT)
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1ACKD3RF013752; 
+ Fri, 12 Nov 2021 20:29:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=HXFplJHayDK9tdmNj0AR0yX2Zw7ksjGKwNpuy5qtPLg=;
+ b=SK1hig5Uo6+sR99lEHxi5XheBsuci4yxgnNXm3S7ANQHv7Sk9j2yf+fVw4kkyyYFVjuN
+ W9n6pXXgoYsv9MoD3ZulQvPxr7WAt+Nns6eir5eKTJhGnfDP7M3X8zZXL6SC3q7J7xT9
+ wAoc4ALcGv0DJgDIbcdn1b9OilMbKoQvbwrLxQc2pHTXWh4tNnFvOtuWWLjwtXn0QPkV
+ koLi5dPGXong/jfRr7OSFb7dxa2A5kAbTCc8VANsjyO+GjmpY0gL0Yeax9sK5f/27lo8
+ y6NnECCOX2XXdWzcPuSHYquCG26vJY5VxnsPUTUsXrZLYfGWcftoWjDk2SIL8LkJ+YtT CA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c9y43g9a0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 12 Nov 2021 20:29:37 +0000
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1ACKFHxW021575;
+ Fri, 12 Nov 2021 20:29:37 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3c9y43g99t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 12 Nov 2021 20:29:37 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1ACKDLZ0020198;
+ Fri, 12 Nov 2021 20:29:36 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma01dal.us.ibm.com with ESMTP id 3c5hbety0q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 12 Nov 2021 20:29:36 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1ACKTYw257475502
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 12 Nov 2021 20:29:34 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2C540C6063;
+ Fri, 12 Nov 2021 20:29:34 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B4779C605A;
+ Fri, 12 Nov 2021 20:29:33 +0000 (GMT)
+Received: from fstone01p1.aus.stglabs.ibm.com (unknown [9.3.116.196])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 12 Nov 2021 20:29:33 +0000 (GMT)
+From: Adriana Kobylak <anoo@linux.ibm.com>
+To: linux@armlinux.org.uk, joel@jms.id.au, andrew@aj.id.au, olof@lixom.net,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] ARM: configs: aspeed: Add support for USB flash drives
+Date: Fri, 12 Nov 2021 20:29:31 +0000
+Message-Id: <20211112202931.2379145-1-anoo@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3779.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ede04bb0-20ea-44fe-9e9f-08d9a4b645c6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2021 01:55:00.9394 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jSWYZZrtgQgI2JX8hrPodK6HJh9wy3CsvjbXGVNg+2i/xhMw0q650W/VdtW2HTqHzX3rr+QUFr0vLh7avJA0fx02a3cdg9hT3wdm7LiFJk4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2PR0601MB1827
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Li_P3rDViSUZmdcxYvh6Z2jdYEQjN8qa
+X-Proofpoint-GUID: pr-DF1aqYKsbRAaOL80q7zjY_KkdZiyp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
+ definitions=2021-11-12_05,2021-11-12_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1011
+ impostorscore=0 priorityscore=1501 adultscore=0 phishscore=0 mlxscore=0
+ malwarescore=0 mlxlogscore=999 suspectscore=0 lowpriorityscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111120107
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,56 +105,84 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: bruce.mitchell@linux.vnet.ibm.com, openbmc@lists.ozlabs.org,
+ Adriana Kobylak <anoo@us.ibm.com>, liuxiwei1013@gmail.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGkgQW5kcmVpLA0KDQpUaGUgcGF0Y2ggbWlzc2VzIHRoZSBnNSBwYXJ0Lg0KSSB3aWxsIGZpeCB0
-aGlzIGluIHRoZSBuZXh0IHJldmlzaW9uLg0KDQpSZWdhcmRzLA0KQ2hpYXdlaQ0KDQo+IEZyb206
-IEFuZHJlaSBLYXJ0YXNoZXYgPGEua2FydGFzaGV2QHlhZHJvLmNvbT4NCj4gU2VudDogV2VkbmVz
-ZGF5LCBOb3ZlbWJlciAxMCwgMjAyMSA3OjIxIFBNDQo+IA0KPiBIaSBDaGlhLVdlaSwNCj4gDQo+
-IEhvdyBpcyBpdCBhYm91dCBnNT8gV2h5IGRpZCB5b3UgYWRkIGRlZmluaXRpb24gb25seSBmb3Ig
-ZzYgaGVyZT8NCj4gDQo+IA0KPiBPbiBXZWQsIDIwMjEtMDktMDEgYXQgMTE6MzAgKzA4MDAsIENo
-aWEtV2VpIFdhbmcgd3JvdGU6DQo+ID4gQWRkIGVTUEkgdG8gdGhlIGRldmljZSB0cmVlIGZvciBB
-c3BlZWQgNS82dGggZ2VuZXJhdGlvbiBTb0NzLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogQ2hp
-YS1XZWkgV2FuZyA8Y2hpYXdlaV93YW5nQGFzcGVlZHRlY2guY29tPg0KPiA+IC0tLQ0KPiA+IMKg
-YXJjaC9hcm0vYm9vdC9kdHMvYXNwZWVkLWc2LmR0c2kgfCAxNyArKysrKysrKysrKysrKysrKw0K
-PiA+IMKgMSBmaWxlIGNoYW5nZWQsIDE3IGluc2VydGlvbnMoKykNCj4gPg0KPiA+IGRpZmYgLS1n
-aXQgYS9hcmNoL2FybS9ib290L2R0cy9hc3BlZWQtZzYuZHRzaQ0KPiA+IGIvYXJjaC9hcm0vYm9v
-dC9kdHMvYXNwZWVkLWc2LmR0c2kNCj4gPiBpbmRleCBmOTY2MDdiN2I0ZTIuLjQ3ZGMwYjM5OTNk
-MSAxMDA2NDQNCj4gPiAtLS0gYS9hcmNoL2FybS9ib290L2R0cy9hc3BlZWQtZzYuZHRzaQ0KPiA+
-ICsrKyBiL2FyY2gvYXJtL2Jvb3QvZHRzL2FzcGVlZC1nNi5kdHNpDQo+ID4gQEAgLTM2NCw2ICsz
-NjQsMjMgQEANCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgc3RhdHVzID0gImRpc2FibGVkIjsNCj4gPiDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB9Ow0KPiA+DQo+ID4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBlc3BpOiBlc3BpQDFlNmVl
-MDAwIHsNCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqBjb21wYXRpYmxlID0NCj4gImFzcGVlZCxhc3QyNjAwLWVzcGkiLA0K
-PiA+ICJzaW1wbGUtbWZkIiwgInN5c2NvbiI7DQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVnID0gPDB4MWU2ZWUwMDAN
-Cj4gMHgxMDAwPjsNCj4gPiArDQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgI2FkZHJlc3MtY2VsbHMgPSA8MT47DQo+ID4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgI3NpemUtY2VsbHMgPSA8MT47DQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmFuZ2VzID0gPDB4MCAweDFlNmVl
-MDAwDQo+IDB4MTAwMD47DQo+ID4gKw0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGVzcGlfY3RybDogZXNwaS1jdHJsQDAg
-ew0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBjb21wYXRpYmxlID0NCj4gImFzcGVlZCxhc3Qy
-NjAwLQ0KPiA+IGVzcGktY3RybCI7DQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlZyA9IDww
-eDANCj4gMHg4MDA+Ow0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpbnRlcnJ1cHRzID0NCj4g
-PEdJQ19TUEkgNDINCj4gPiBJUlFfVFlQRV9MRVZFTF9ISUdIPjsNCj4gPiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgY2xvY2tzID0NCj4gPCZzeXNjb24NCj4gPiBBU1BFRURfQ0xLX0dBVEVfRVNQSUNM
-Sz47DQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHN0YXR1cyA9DQo+ICJkaXNhYmxlZCI7DQo+
-ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgfTsNCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoH07DQo+ID4gKw0KPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoGdwaW8wOiBncGlvQDFlNzgwMDAwIHsNCj4gPiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgI2dwaW8tY2Vs
-bHMgPSA8Mj47DQo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdwaW8tY29udHJvbGxlcjsNCj4gDQo+IC0tDQo+IEJlc3Qg
-cmVnYXJkcywNCj4gQW5kcmVpIEthcnRhc2hldg0KPiANCg0K
+From: Adriana Kobylak <anoo@us.ibm.com>
+
+Add support to detect USB flash drives and create the /dev/sd* devices.
+Also add support for vfat to support USB drives formatted as FAT32.
+This support will be used to enable firmware updates via USB flash
+drives where the firmware image is stored in the USB drive and it's
+plugged into the BMC USB port.
+
+Signed-off-by: Adriana Kobylak <anoo@us.ibm.com>
+Tested-by: Adriana Kobylak <anoo@us.ibm.com>
+---
+ arch/arm/configs/aspeed_g5_defconfig | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/configs/aspeed_g5_defconfig b/arch/arm/configs/aspeed_g5_defconfig
+index bee9422919aa..1b0d82c64ad4 100644
+--- a/arch/arm/configs/aspeed_g5_defconfig
++++ b/arch/arm/configs/aspeed_g5_defconfig
+@@ -37,11 +37,9 @@ CONFIG_KEXEC=y
+ CONFIG_VFP=y
+ CONFIG_NEON=y
+ CONFIG_KERNEL_MODE_NEON=y
+-CONFIG_FIRMWARE_MEMMAP=y
+ CONFIG_KPROBES=y
+ CONFIG_JUMP_LABEL=y
+ CONFIG_MODULES=y
+-# CONFIG_BLK_DEV_BSG is not set
+ # CONFIG_BLK_DEBUG_FS is not set
+ # CONFIG_MQ_IOSCHED_DEADLINE is not set
+ # CONFIG_MQ_IOSCHED_KYBER is not set
+@@ -98,6 +96,7 @@ CONFIG_NET_NCSI=y
+ CONFIG_DEVTMPFS=y
+ CONFIG_DEVTMPFS_MOUNT=y
+ # CONFIG_PREVENT_FIRMWARE_BUILD is not set
++CONFIG_FIRMWARE_MEMMAP=y
+ CONFIG_MTD=y
+ CONFIG_MTD_BLOCK=y
+ CONFIG_MTD_PARTITIONED_MASTER=y
+@@ -111,6 +110,8 @@ CONFIG_BLK_DEV_LOOP=y
+ CONFIG_BLK_DEV_NBD=y
+ CONFIG_EEPROM_AT24=y
+ CONFIG_EEPROM_AT25=y
++CONFIG_SCSI=y
++CONFIG_BLK_DEV_SD=y
+ CONFIG_NETDEVICES=y
+ CONFIG_NETCONSOLE=y
+ # CONFIG_NET_VENDOR_ALACRITECH is not set
+@@ -230,6 +231,7 @@ CONFIG_USB_DYNAMIC_MINORS=y
+ CONFIG_USB_EHCI_HCD=y
+ CONFIG_USB_EHCI_ROOT_HUB_TT=y
+ CONFIG_USB_EHCI_HCD_PLATFORM=y
++CONFIG_USB_STORAGE=y
+ CONFIG_USB_GADGET=y
+ CONFIG_USB_ASPEED_VHUB=y
+ CONFIG_USB_CONFIGFS=y
+@@ -277,6 +279,7 @@ CONFIG_FSI_OCC=y
+ CONFIG_EXT4_FS=y
+ CONFIG_FANOTIFY=y
+ CONFIG_OVERLAY_FS=y
++CONFIG_VFAT_FS=y
+ CONFIG_TMPFS=y
+ CONFIG_JFFS2_FS=y
+ # CONFIG_JFFS2_FS_WRITEBUFFER is not set
+@@ -292,6 +295,8 @@ CONFIG_PSTORE_PMSG=y
+ CONFIG_PSTORE_FTRACE=y
+ CONFIG_PSTORE_RAM=y
+ # CONFIG_NETWORK_FILESYSTEMS is not set
++CONFIG_NLS_CODEPAGE_437=y
++CONFIG_NLS_ISO8859_1=y
+ CONFIG_HARDENED_USERCOPY=y
+ CONFIG_FORTIFY_SOURCE=y
+ CONFIG_CRYPTO_HMAC=y
+-- 
+2.25.1
+
