@@ -1,92 +1,50 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 333F744FC96
-	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Nov 2021 01:36:20 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70BB344FF6C
+	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Nov 2021 08:47:12 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HsqxY4bvTz2yHb
-	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Nov 2021 11:36:17 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=naSStiP/;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=EvxFmVa4;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Ht1Vk2k1mz2ypB
+	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Nov 2021 18:47:10 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=64.147.123.18;
- helo=wnew4-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=naSStiP/; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=EvxFmVa4; 
- dkim-atps=neutral
-X-Greylist: delayed 524 seconds by postgrey-1.36 at boromir;
- Mon, 15 Nov 2021 11:36:08 AEDT
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
- [64.147.123.18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HsqxN65XZz2xD3;
- Mon, 15 Nov 2021 11:36:08 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 584C42B0124F;
- Sun, 14 Nov 2021 19:27:19 -0500 (EST)
-Received: from imap43 ([10.202.2.93])
- by compute4.internal (MEProxy); Sun, 14 Nov 2021 19:27:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=mkjJ4Y/pteRNeSPhoh6wdSUlB0Vt8cF
- uTD9VcATUOEs=; b=naSStiP/3c2eGHVTWTXAvdPaFC55Ueu//Ntac+HOsU5xGn7
- El9G3ESUPI777by+gnfb8fecgcmUTOOchltcJElbL1din5HFGDl+RVVMuBby13FJ
- dtkx6ARt2bGaGNsIa/YQl+nxxiRTC9sA5QCdYOBjdb4xon8YektHed7ujFrEqk6B
- kwlgSvAX5U6yvjVw+UYEI5ylsuKVKqSleWP1CyZFPVFBLKANGMvDm6UJzW9pEWYp
- iGvv2iM8YlgUIoLu51kuYyiiLv3ZvakyrvOs/BxWctSHL+YxZsCU6zVuPctdDlmt
- rNMRI7/khFwInWIL4JbCv/DTJvHJQ7jlveIGoFQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=mkjJ4Y
- /pteRNeSPhoh6wdSUlB0Vt8cFuTD9VcATUOEs=; b=EvxFmVa4SJYIdwcnZlg9dw
- RP0/MfGG0yRCJvFZ0TKe8F+9oIwpnLyJBA0+ruSooXxCM9UY7KOaBR0SRF2A+gtX
- aHuhcAvb5kCe5eSI5aoCHopOs5r3E5fSxnJD/P4qK09+d6en86fsir/yNWhoQ1mg
- /f+AdBQlBmUb3L6vJtqVGSJubNwMUr3KBvHOEyZlcKiFN/cc0hd0einMaalxqDPO
- Xnmswu06Wg1xjOOaQLnE0tzqNwy6VO7lA3REQXIB6heOrkzL2z4DQwnLLUjBwG9C
- OP7SiUE3f2XUGfVLVQJevs1APm/Xe7tSPWGkRbDPeswiHBXLfEcgY+rTPRwo+tUA
- ==
-X-ME-Sender: <xms:ZqmRYWDOSjvoQzZvep4vHsK9UG7Cqb52_ZTugtnlYmxA0mCdzsL3Kw>
- <xme:ZqmRYQg7ujw72pPXe0-BYE_PFJiH4Uu1DcIzMA56a677xgYJag-S0tfmwojLk7NZf
- L4t_YnLaPNS8jxjhw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrvdekgddvvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
- vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
- htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
- veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- grnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:ZqmRYZmqFH9wEhnHlYt34MAhNsKiB4MtOqnZa_LShsYg6tKcouOh_Q>
- <xmx:ZqmRYUyFAeVrB2K48z1O19MVjnlrubpZ2mZFEqUo-IYAWgRd4YPkOw>
- <xmx:ZqmRYbTNu-VSVVor1wfjPuSAtVqh6eWpjA7Bf1pUmq0K7VpYz-mEuQ>
- <xmx:ZqmRYQI1QRL2kqX8CjJdDTJzAw5BLHiBzMrfAEN_Ryaeg5wJnjntSS-Ufng>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 00E63AC0DD1; Sun, 14 Nov 2021 19:27:17 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-1371-g2296cc3491-fm-20211109.003-g2296cc34
-Mime-Version: 1.0
-Message-Id: <65620ec1-94fb-48f7-a8f8-8e9f409b0fc8@www.fastmail.com>
-In-Reply-To: <20211113002948.GE14774@packtop>
-References: <20211112202931.2379145-1-anoo@linux.ibm.com>
- <20211113002948.GE14774@packtop>
-Date: Mon, 15 Nov 2021 10:56:33 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Zev Weiss" <zweiss@equinix.com>, "Adriana Kobylak" <anoo@linux.ibm.com>
-Subject: Re: [PATCH] ARM: configs: aspeed: Add support for USB flash drives
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Ht1TB39dkz2xsm;
+ Mon, 15 Nov 2021 18:45:49 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 1AF7Kprr080859;
+ Mon, 15 Nov 2021 15:20:51 +0800 (GMT-8)
+ (envelope-from jammy_huang@aspeedtech.com)
+Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 15 Nov 2021 15:44:26 +0800
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
+ <andrew@aj.id.au>, <hverkuil-cisco@xs4all.nl>,
+ <sakari.ailus@linux.intel.com>, <gregkh@linuxfoundation.org>,
+ <laurent.pinchart@ideasonboard.com>, <linux-media@vger.kernel.org>,
+ <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 0/9] add aspeed-jpeg support for aspeed-video
+Date: Mon, 15 Nov 2021 15:44:28 +0800
+Message-ID: <20211115074437.28079-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1AF7Kprr080859
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,42 +56,44 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: George Liu <liuxiwei1013@gmail.com>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- Bruce Mitchell <bruce.mitchell@linux.vnet.ibm.com>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- Adriana Kobylak <anoo@us.ibm.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+The aim of this series is to add aspeed-jpeg support for aspeed-video
+driver.
+
+To achieve this major goal some refactors are included.
+
+In the last, debugfs information is also updated per this change.
+
+Changes in v4:
+ - Add definition for the Aspeed JPEG format
+ - Reserve controls for ASPEED
+ - Use s_fmt to update format rather than new control
+ - Update aspeed hq quality range, 1 ~ 12
 
 
-On Sat, 13 Nov 2021, at 10:59, Zev Weiss wrote:
-> On Fri, Nov 12, 2021 at 12:29:31PM PST, Adriana Kobylak wrote:
->>From: Adriana Kobylak <anoo@us.ibm.com>
->>
->>Add support to detect USB flash drives and create the /dev/sd* devices.
->>Also add support for vfat to support USB drives formatted as FAT32.
->>This support will be used to enable firmware updates via USB flash
->>drives where the firmware image is stored in the USB drive and it's
->>plugged into the BMC USB port.
->>
->
-> Hmm, how common is it for BMCs to have a USB port?  Perhaps it's more so
-> than I realize, but at least in my (admittedly somewhat limited)
-> experience I've yet to encounter one that does, so I'm wondering how
-> appropriate these options are for the aspeed-g5 defconfig if they might
-> just end up as a bunch of code that's never executed on most BMCs.
+Jammy Huang (9):
+  media: aspeed: move err-handling together to the bottom
+  media: aspeed: use v4l2_info/v4l2_warn/v4l2_dbg for log
+  media: aspeed: add more debug log messages
+  media: aspeed: refactor to gather format/compress settings
+  media: v4l: Add definition for the Aspeed JPEG format
+  media: v4l2-ctrls: Reserve controls for ASPEED
+  media: aspeed: Support aspeed mode to reduce compressed data
+  media: aspeed: add comments and macro
+  media: aspeed: Extend debug message
 
-The intent with the Aspeed defconfigs was to enable options that 
-provide a broad coverage of features used by e.g. upstream OpenBMC 
-systems. This aids kernel maintenance for OpenBMC. The platform 
-configuration in OpenBMC should provide a kernel config that only 
-enables options relevant to that specific platform. With this in mind I 
-think it's fine that USB support is enabled in the defconfigs.
+ .../media/uapi/v4l/pixfmt-reserved.rst        |  12 +
+ drivers/media/platform/aspeed-video.c         | 464 ++++++++++++++----
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ include/uapi/linux/aspeed-video.h             |  15 +
+ include/uapi/linux/v4l2-controls.h            |   5 +
+ include/uapi/linux/videodev2.h                |   1 +
+ 6 files changed, 413 insertions(+), 85 deletions(-)
+ create mode 100644 include/uapi/linux/aspeed-video.h
 
-Andrew
+-- 
+2.25.1
+
