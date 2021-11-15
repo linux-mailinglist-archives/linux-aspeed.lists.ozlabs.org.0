@@ -1,52 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBFD644FF84
-	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Nov 2021 08:49:46 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D0845077B
+	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Nov 2021 15:49:08 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Ht1Yh4LmJz3bZx
-	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Nov 2021 18:49:44 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HtBsZ5Rw8z2yMy
+	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Nov 2021 01:49:06 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=k2JqhB/c;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::433;
+ helo=mail-pf1-x433.google.com; envelope-from=kumarthangavel.hcl@gmail.com;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20210112 header.b=k2JqhB/c; dkim-atps=neutral
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Ht1TL6ql0z2yPm;
- Mon, 15 Nov 2021 18:45:58 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 1AF7KrAB080866;
- Mon, 15 Nov 2021 15:20:54 +0800 (GMT-8)
- (envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 15 Nov 2021 15:44:28 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
- <andrew@aj.id.au>, <hverkuil-cisco@xs4all.nl>,
- <sakari.ailus@linux.intel.com>, <gregkh@linuxfoundation.org>,
- <laurent.pinchart@ideasonboard.com>, <linux-media@vger.kernel.org>,
- <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 9/9] media: aspeed: Extend debug message
-Date: Mon, 15 Nov 2021 15:44:37 +0800
-Message-ID: <20211115074437.28079-10-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211115074437.28079-1-jammy_huang@aspeedtech.com>
-References: <20211115074437.28079-1-jammy_huang@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HtBsQ6NfWz2xXg;
+ Tue, 16 Nov 2021 01:48:58 +1100 (AEDT)
+Received: by mail-pf1-x433.google.com with SMTP id x131so15220124pfc.12;
+ Mon, 15 Nov 2021 06:48:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:date:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent; bh=W+Hq2phrYgE/sih4cUE4IW0apjvnE17VNBKBZTkliAc=;
+ b=k2JqhB/cmW+d3Ry+KWcgnMTDrMNX5/zJ/O8RFNBk24euCCxxA4Tyexx7yMkT0LYfHy
+ v7aPrPIDGxUi3hekkp8e0nCUzv/7AcNh9rJSQyA/rJGuj3FlBLF/gMvq+/k+V0/ylUur
+ 6BgRGIhYkBnKB+Ut4H3SqJWBV20OStlfOWegCGtQ0KsJIWIUziV3fYmVhjAWNwORZwM+
+ rHXXfq6cAleFuij0gqs7KBFrFhMoJtDQ9I6jGlzfp0ojuiKQv97/1wzL2ZEBP6TftSwi
+ Za00oJ+x4AHk3uq4PBEM9A9mqTarPyC5sTJlxAGXGlxaRvWZjUV3dRzHSe855I8lJwfQ
+ nqTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=W+Hq2phrYgE/sih4cUE4IW0apjvnE17VNBKBZTkliAc=;
+ b=I96dxOcxhJ3LD6N5uX9GNsXUuAOQuZL9dnpwXbsxNNWVpAukSUs5cMrDZNFfXf6m8W
+ 8TPGc6UEOWXtjU3AEGfvAAZqBjddZ8Nh20frbpdppGC0T7YQEXEY5rmK79Ot70gAIH0m
+ UTKw9GGjhX3e22b6aEqXc0B4d018K72KHhrURbvs+HxwAKmg/dbUIEPmJbAgNG9DVd2E
+ etzHuHTFESgHkg62YhkHuhA88z3On3dldEkDkTthcuLkISQ5e+4+si8RjDQLlzTOl2MG
+ rESofZ+AknxV2hdTKLDbzqazdJyWBbB11xoV5jupDh9Z7U38DzVUG4b7ZkAwwz0fQoYM
+ L5Fg==
+X-Gm-Message-State: AOAM531wArIODcnjb6xvvUgvu6E1jFpdYWYVNtGF5oGg7OGC2H7qiLez
+ HkLEcYDUEIZmE0eDVhE3wlI=
+X-Google-Smtp-Source: ABdhPJzOmAqRow3mtUBFk7RQe23RjcZmiy9nAKSWNVOi2QDuDIQhChAJ0+z48WxCQvZF62es8IT/Ig==
+X-Received: by 2002:a63:a01a:: with SMTP id r26mr24346553pge.88.1636987734391; 
+ Mon, 15 Nov 2021 06:48:54 -0800 (PST)
+Received: from gmail.com ([117.202.1.72])
+ by smtp.gmail.com with ESMTPSA id lw1sm20003043pjb.38.2021.11.15.06.48.49
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 15 Nov 2021 06:48:53 -0800 (PST)
+From: Kumar Thangavel <kumarthangavel.hcl@gmail.com>
+X-Google-Original-From: Kumar Thangavel <thangavel.k@hcl.com>
+Date: Mon, 15 Nov 2021 20:18:46 +0530
+To: Samuel Mendoza-Jonas <sam@mendozajonas.com>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH v5] Add payload to be 32-bit aligned to fix dropped packets
+Message-ID: <20211115144846.GA12078@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1AF7KrAB080866
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,103 +79,111 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: sdasari@fb.com, linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org,
+ openbmc@lists.ozlabs.org, velumanit@hcl.com, patrickw3@fb.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-updated as below:
+Update NC-SI command handler (both standard and OEM) to take into
+account of payload paddings in allocating skb (in case of payload
+size is not 32-bit aligned).
 
-Capture:
-  Mode                : Direct fetch
-  VGA bpp mode        : 32
-  Signal              : lock
-  Width               : 1920
-  Height              : 1080
-  FRC                 : 0
+The checksum field follows payload field, without taking payload
+padding into account can cause checksum being truncated, leading to
+dropped packets.
 
-Compression:
-  Format              : JPEG
-  Subsampling         : 444
-  Quality             : 4
-  HQ Mode             : N/A
-  HQ Quality          : 0
-  Mode                : N/A
+Fixes: fb4ee67529ff ("net/ncsi: Add NCSI OEM command support")
+Signed-off-by: Kumar Thangavel <thangavel.k@hcl.com>
+Acked-by: Samuel Mendoza-Jonas <sam@mendozajonas.com>
+Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
 
-Performance:
-  Frame#              : 4
-  Frame Duration(ms)  :
-    Now               : 22
-    Min               : 21
-    Max               : 22
-  FPS                 : 45
-
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
 ---
-v4:
-  - update debugfs log
-v3:
-  - no update
-v2:
-  - update commit message
----
- drivers/media/platform/aspeed-video.c | 33 +++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+  v5:
+   - Added Fixes tag
+   - Added const variable for padding_bytes
 
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index 00730bdda561..1b7ec8d1884b 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -1801,10 +1801,29 @@ static const struct vb2_ops aspeed_video_vb2_ops = {
- static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
+  v4:
+   - Used existing macro for max function
+
+  v3:
+   - Added Macro for MAX
+   - Fixed the missed semicolon
+
+  v2:
+   - Added NC-SI spec version and section
+   - Removed blank line
+   - corrected spellings
+
+  v1:
+   - Initial draft
+
+---
+---
+ net/ncsi/ncsi-cmd.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
+
+diff --git a/net/ncsi/ncsi-cmd.c b/net/ncsi/ncsi-cmd.c
+index ba9ae482141b..9571bb4dd991 100644
+--- a/net/ncsi/ncsi-cmd.c
++++ b/net/ncsi/ncsi-cmd.c
+@@ -18,6 +18,8 @@
+ #include "internal.h"
+ #include "ncsi-pkt.h"
+ 
++const unsigned short padding_bytes = 26;
++
+ u32 ncsi_calculate_checksum(unsigned char *data, int len)
  {
- 	struct aspeed_video *v = s->private;
-+	u32 val08;
+ 	u32 checksum = 0;
+@@ -213,12 +215,16 @@ static int ncsi_cmd_handler_oem(struct sk_buff *skb,
+ {
+ 	struct ncsi_cmd_oem_pkt *cmd;
+ 	unsigned int len;
++	/* NC-SI spec DSP_0222_1.2.0, section 8.2.2.2
++	 * requires payload to be padded with 0 to
++	 * 32-bit boundary before the checksum field.
++	 * Ensure the padding bytes are accounted for in
++	 * skb allocation
++	 */
  
- 	seq_puts(s, "\n");
++	unsigned short payload = ALIGN(nca->payload, 4);
+ 	len = sizeof(struct ncsi_cmd_pkt_hdr) + 4;
+-	if (nca->payload < 26)
+-		len += 26;
+-	else
+-		len += nca->payload;
++	len += max(payload, padding_bytes);
  
- 	seq_puts(s, "Capture:\n");
-+	val08 = aspeed_video_read(v, VE_CTRL);
-+	if (FIELD_GET(VE_CTRL_DIRECT_FETCH, val08)) {
-+		seq_printf(s, "  %-20s:\tDirect fetch\n", "Mode");
-+		seq_printf(s, "  %-20s:\t%s\n", "VGA bpp mode",
-+			   FIELD_GET(VE_CTRL_INT_DE, val08) ? "16" : "32");
-+	} else {
-+		seq_printf(s, "  %-20s:\tSync\n", "Mode");
-+		seq_printf(s, "  %-20s:\t%s\n", "Video source",
-+			   FIELD_GET(VE_CTRL_SOURCE, val08) ?
-+			   "external" : "internal");
-+		seq_printf(s, "  %-20s:\t%s\n", "DE source",
-+			   FIELD_GET(VE_CTRL_INT_DE, val08) ?
-+			   "internal" : "external");
-+		seq_printf(s, "  %-20s:\t%s\n", "Cursor overlay",
-+			   FIELD_GET(VE_CTRL_AUTO_OR_CURSOR, val08) ?
-+			   "Without" : "With");
-+	}
-+
- 	seq_printf(s, "  %-20s:\t%s\n", "Signal",
- 		   v->v4l2_input_status ? "Unlock" : "Lock");
- 	seq_printf(s, "  %-20s:\t%d\n", "Width", v->pix_fmt.width);
-@@ -1813,6 +1832,20 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
+ 	cmd = skb_put_zero(skb, len);
+ 	memcpy(&cmd->mfr_id, nca->data, nca->payload);
+@@ -272,6 +278,7 @@ static struct ncsi_request *ncsi_alloc_command(struct ncsi_cmd_arg *nca)
+ 	struct net_device *dev = nd->dev;
+ 	int hlen = LL_RESERVED_SPACE(dev);
+ 	int tlen = dev->needed_tailroom;
++	int payload;
+ 	int len = hlen + tlen;
+ 	struct sk_buff *skb;
+ 	struct ncsi_request *nr;
+@@ -281,14 +288,14 @@ static struct ncsi_request *ncsi_alloc_command(struct ncsi_cmd_arg *nca)
+ 		return NULL;
  
- 	seq_puts(s, "\n");
+ 	/* NCSI command packet has 16-bytes header, payload, 4 bytes checksum.
++	 * Payload needs padding so that the checksum field following payload is
++	 * aligned to 32-bit boundary.
+ 	 * The packet needs padding if its payload is less than 26 bytes to
+ 	 * meet 64 bytes minimal ethernet frame length.
+ 	 */
+ 	len += sizeof(struct ncsi_cmd_pkt_hdr) + 4;
+-	if (nca->payload < 26)
+-		len += 26;
+-	else
+-		len += nca->payload;
++	payload = ALIGN(nca->payload, 4);
++	len += max(payload, padding_bytes);
  
-+	seq_puts(s, "Compression:\n");
-+	seq_printf(s, "  %-20s:\t%s\n", "Format", format_str[v->format]);
-+	seq_printf(s, "  %-20s:\t%s\n", "Subsampling",
-+		   v->yuv420 ? "420" : "444");
-+	seq_printf(s, "  %-20s:\t%d\n", "Quality", v->jpeg_quality);
-+	seq_printf(s, "  %-20s:\t%s\n", "HQ Mode",
-+		   (v->format == VIDEO_FMT_ASPEED) ? (v->hq_mode ? "on" : "off") : "N/A");
-+	seq_printf(s, "  %-20s:\t%d\n", "HQ Quality", v->jpeg_hq_quality);
-+	seq_printf(s, "  %-20s:\t%s\n", "Mode",
-+		   (v->format == VIDEO_FMT_ASPEED) ?
-+		   compress_mode_str[v->compression_mode] : "N/A");
-+
-+	seq_puts(s, "\n");
-+
- 	seq_puts(s, "Performance:\n");
- 	seq_printf(s, "  %-20s:\t%d\n", "Frame#", v->sequence);
- 	seq_printf(s, "  %-20s:\n", "Frame Duration(ms)");
+ 	/* Allocate skb */
+ 	skb = alloc_skb(len, GFP_ATOMIC);
 -- 
-2.25.1
+2.17.1
 
