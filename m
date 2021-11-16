@@ -1,65 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A6ED452837
-	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Nov 2021 04:08:16 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E976452909
+	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Nov 2021 05:16:45 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HtWGP6c9Yz2xtK
-	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Nov 2021 14:08:13 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=HX+WlerY;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HtXnQ75f3z2y7P
+	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Nov 2021 15:16:42 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f2d;
- helo=mail-qv1-xf2d.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=HX+WlerY; dkim-atps=neutral
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
- [IPv6:2607:f8b0:4864:20::f2d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HtWGH27Dbz2xDM
- for <linux-aspeed@lists.ozlabs.org>; Tue, 16 Nov 2021 14:08:05 +1100 (AEDT)
-Received: by mail-qv1-xf2d.google.com with SMTP id u16so12772718qvk.4
- for <linux-aspeed@lists.ozlabs.org>; Mon, 15 Nov 2021 19:08:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=p+3tuhUNj0IibcDWormquB6v06wUV9mYHE56GduUS2M=;
- b=HX+WlerYmiz45dfnhbTRz6BP49luNrI3xPfvXAYTA5J893Cp1bgpgD2R5O7ilpXhW2
- Ztmg7mlqRhJkIkuQm++MMxicg1qvpkbTGvPIau+qkbupjPVIfVYoLwIHU9tvFf/5pFBG
- WgEPgLF0Bhivdt+M0+t9VJ0AkIctplBmfJFqs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=p+3tuhUNj0IibcDWormquB6v06wUV9mYHE56GduUS2M=;
- b=RIGkW+18I47xSMszQWrMHQJwj5aTGTMxu/EPqx0LHprtay/TrRUVOUpI3efe6ktwKp
- 1ZDbth+vcSyIs5NShhDnM3lx5QkulHh15nlzxOo3sqGYhpmoRzr95fRGblgYoiog6lrs
- IJ5p7aLmKlJ+GMxNeL45py+dXwahLB9vcKA2y1nfiDMqlAha8QlJV3kPO3+BgD+iymGD
- pdLGwy7tAv+Fh0TGU/VwL07yOD8tIkn4Jv8SmfDlf+0PPLcXUmESk5kd5hUfa3iw20Lm
- QnOO3SHGlYywXHWF/7bCbwdraYJK9hL/9FQlQjdn8fdmmwskQxLDqs68c6as4c8Cxgao
- 8RXg==
-X-Gm-Message-State: AOAM533UPQrixo+KzNSBr/0QrENdiXbyFCjqQ0gQZhJlONwRNGakrWPE
- rfZp8DnGnLXwSye7SAw605jfKMYym6oWek1qnUY=
-X-Google-Smtp-Source: ABdhPJxVHar3OL/4LwNLEgzkuKc1H5RS71UlqygRtUVrY8OEkV+Kz3DE/kgpDDzrS8wn8JXdXAJ7KIukSIeqLNgOs0g=
-X-Received: by 2002:a05:6214:e41:: with SMTP id
- o1mr42634802qvc.43.1637032080033; 
- Mon, 15 Nov 2021 19:08:00 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HtXnM0HVWz2xBl;
+ Tue, 16 Nov 2021 15:16:35 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 1AG3pk6Z094719;
+ Tue, 16 Nov 2021 11:51:46 +0800 (GMT-8)
+ (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 16 Nov
+ 2021 12:15:24 +0800
+Message-ID: <67e3be3a-7e18-115b-18b7-b3d5419e0992@aspeedtech.com>
+Date: Tue, 16 Nov 2021 12:15:25 +0800
 MIME-Version: 1.0
-References: <20211110062656.3041994-1-howard.chiu@quantatw.com>
-In-Reply-To: <20211110062656.3041994-1-howard.chiu@quantatw.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 16 Nov 2021 03:07:48 +0000
-Message-ID: <CACPK8Xc6wV4KbMAT_ekyMTTbfNqx2ox_d7mEFGVT4OvBDDadBQ@mail.gmail.com>
-Subject: Re: [PATCH v2] ARM: dts: aspeed: Adding Facebook Bletchley BMC
-To: Howard Chiu <howard10703049@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [PATCH v4 7/9] media: aspeed: Support aspeed mode to reduce
+ compressed data
+Content-Language: en-US
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20211115074437.28079-1-jammy_huang@aspeedtech.com>
+ <20211115074437.28079-8-jammy_huang@aspeedtech.com>
+ <YZIYIsURV0Gv1bc6@paasikivi.fi.intel.com>
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <YZIYIsURV0Gv1bc6@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1AG3pk6Z094719
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,103 +58,104 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- SoC Team <soc@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Howard Chiu <howard.chiu@quantatw.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Howard,
+Hi Sakari,
 
-On Wed, 10 Nov 2021 at 06:29, Howard Chiu <howard10703049@gmail.com> wrote:
+OK, I will add a patch which uses data in device table to tell the 
+differences between
+SoC to the series. Thanks for your advice.
+
+On 2021/11/15 下午 04:19, Sakari Ailus wrote:
+> Hi Jammy,
 >
-> Initial introduction of Facebook Bletchley equipped with
-> Aspeed 2600 BMC SoC.
+> Thanks for the patch. A few comments below...
 >
-> Signed-off-by: Howard Chiu <howard.chiu@quantatw.com>
-> ---
+> On Mon, Nov 15, 2021 at 03:44:35PM +0800, Jammy Huang wrote:
+>> @@ -969,35 +1045,70 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>>   
+>>   static void aspeed_video_update_regs(struct aspeed_video *video)
+>>   {
+>> -	u32 comp_ctrl = VE_COMP_CTRL_RSVD |
+>> -		FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
+>> -		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10);
+>> +	u8 jpeg_hq_quality = clamp((int)video->jpeg_hq_quality - 1, 0,
+>> +				   ASPEED_VIDEO_JPEG_NUM_QUALITIES - 1);
+>> +	u32 comp_ctrl =	FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
+>> +		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10) |
+>> +		FIELD_PREP(VE_COMP_CTRL_EN_HQ, video->hq_mode) |
+>> +		FIELD_PREP(VE_COMP_CTRL_HQ_DCT_LUM, jpeg_hq_quality) |
+>> +		FIELD_PREP(VE_COMP_CTRL_HQ_DCT_CHR, jpeg_hq_quality |
+>> +			   0x10);
+>>   	u32 ctrl = 0;
+>> -	u32 seq_ctrl = VE_SEQ_CTRL_JPEG_MODE;
+>> +	u32 seq_ctrl = 0;
+>>   
+>> -	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n",
+>> -		 video->frame_rate);
+>> -	v4l2_dbg(1, debug, &video->v4l2_dev, "subsample(%s)\n",
+>> +	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n", video->frame_rate);
+>> +	v4l2_dbg(1, debug, &video->v4l2_dev, "jpeg format(%s) subsample(%s)\n",
+>> +		 format_str[video->format],
+>>   		 video->yuv420 ? "420" : "444");
+>> -	v4l2_dbg(1, debug, &video->v4l2_dev, "compression quality(%d)\n",
+>> -		 video->jpeg_quality);
+>> +	v4l2_dbg(1, debug, &video->v4l2_dev, "compression quality(%d) hq(%s) hq_quality(%d)\n",
+>> +		 video->jpeg_quality, video->hq_mode ? "on" : "off",
+>> +		 video->jpeg_hq_quality);
+>> +	v4l2_dbg(1, debug, &video->v4l2_dev, "compression mode(%s)\n",
+>> +		 compress_mode_str[video->compression_mode]);
+>> +
+>> +	if (video->format == VIDEO_FMT_ASPEED)
+>> +		aspeed_video_update(video, VE_BCD_CTRL, 0, VE_BCD_CTRL_EN_BCD);
+>> +	else
+>> +		aspeed_video_update(video, VE_BCD_CTRL, VE_BCD_CTRL_EN_BCD, 0);
+>>   
+>>   	if (video->frame_rate)
+>>   		ctrl |= FIELD_PREP(VE_CTRL_FRC, video->frame_rate);
+>>   
+>> +	if (video->format == VIDEO_FMT_STANDARD) {
+>> +		comp_ctrl &= ~FIELD_PREP(VE_COMP_CTRL_EN_HQ, video->hq_mode);
+>> +		seq_ctrl |= VE_SEQ_CTRL_JPEG_MODE;
+>> +	}
+>> +
+>>   	if (video->yuv420)
+>>   		seq_ctrl |= VE_SEQ_CTRL_YUV420;
+>>   
+>>   	if (video->jpeg.virt)
+>>   		aspeed_video_update_jpeg_table(video->jpeg.virt, video->yuv420);
+>>   
+>> +#ifdef CONFIG_MACH_ASPEED_G4
+> This would be better done based on the device recognised, not the selected
+> compile target. The same goes for the rest of the conditional pre-processor
+> bits.
+>
+>> +	switch (video->compression_mode) {
+>> +	case 0:	//DCT only
+>> +		comp_ctrl |= VE_COMP_CTRL_VQ_DCT_ONLY;
+>> +		break;
+>> +	case 1:	//DCT VQ mix 2-color
+>> +		comp_ctrl &= ~(VE_COMP_CTRL_VQ_4COLOR | VE_COMP_CTRL_VQ_DCT_ONLY);
+>> +		break;
+>> +	case 2:	//DCT VQ mix 4-color
+>> +		comp_ctrl |= VE_COMP_CTRL_VQ_4COLOR;
+>> +		break;
+>> +	}
+>> +#endif
+>> +
 
-Please use this area to document the differences between versions of
-your patch. Let us know what you've fixed, and what you've decided not
-to change based on review.
+-- 
+Best Regards
+Jammy
 
-> +&uart5 {
-> +       // Workaround for A0
-> +       compatible = "snps,dw-apb-uart";
-> +};
-
-Are you still using a0 boards?
-
-> +
-> +&i2c0 {
-> +       status = "okay";
-> +       /* TODO: Add HSC MP5023 */
-> +       /* TODO: Add ADC INA230 */
-> +
-> +       tmp421@4f {
-> +               compatible = "ti,tmp421";
-> +               reg = <0x4f>;
-> +       };
-> +
-> +       sled0_ioexp: pca9539@76 {
-> +               compatible = "nxp,pca9539";
-> +               reg = <0x76>;
-> +               #address-cells = <1>;
-> +               #size-cells = <0>;
-> +               gpio-controller;
-> +               #gpio-cells = <2>;
-> +
-> +               gpio-line-names =
-> +               "","SLED0_BMC_CCG5_INT","SLED0_INA230_ALERT","SLED0_P12V_STBY_ALERT",
-> +               "SLED0_SSD_ALERT","SLED0_MS_DETECT","SLED0_MD_REF_PWM","",
-> +               "SLED0_MD_STBY_RESET","SLED0_MD_IOEXP_EN_FAULT","SLED0_MD_DIR","SLED0_MD_DECAY",
-> +               "SLED0_MD_MODE1","SLED0_MD_MODE2","SLED0_MD_MODE3","SLED0_AC_PWR_EN";
-
-I'll wait for Patrick's review on these. I would prefer you follow the
-openbmc naming scheme that he mentioned in v1 of your patch.
-
-> +
-> +               gpio@0 {
-> +                       reg = <0>;
-> +               };
-
-I think this is incorrect, you would need to specify:
-
-type = <PCA955X_TYPE_GPIO>
-
-However with this change, there's no need to specify the individual gpio nodes:
-
-https://lore.kernel.org/all/20210921043936.468001-2-andrew@aj.id.au/
-
-
-> +
-> +&i2c4 {
-> +       status = "okay";
-> +       /* TODO: Add HSC MP5023 */
-> +       /* TODO: Add ADC INA230 */
-> +
-> +       tmp421@4f {
-> +               compatible = "ti,tmp421";
-> +               reg = <0x4f>;
-> +       };
-> +
-> +       sled4_ioexp: pca9539@76 {
-> +               compatible = "nxp,pca9539";
-> +               reg = <0x76>;
-> +               #address-cells = <1>;
-> +               #size-cells = <0>;
-> +               gpio-controller;
-> +               #gpio-cells = <2>;
-> +
-> +               gpio-line-names =
-> +               "","SLED4_BMC_CCG5_INT","SLED4_INA230_ALERT","SLED4_P12V_STBY_ALERT",
-> +               "SLED4_SSD_ALERT","SLED4_MS_DETECT","SLED4_MD_REF_PWM","",
-> +               "SLED4_MD_STBY_RESET","SLED4_MD_IOEXP_EN_FAULT","SLED4_MD_DIR","SLED4_MD_DECAY",
-> +               "SLED4_MD_MODE1","SLED4_MD_MODE2","SLED4_MD_MODE3","SLED4_AC_PWR_EN";
-
-As Patrick mentioned, I think we want to have a convention for
-multi-node machines in the GPIO naming.
