@@ -2,70 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BBE3453F24
-	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Nov 2021 04:51:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D0BA453F25
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Nov 2021 04:51:37 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Hv89r3pPxz2yYl
-	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Nov 2021 14:51:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Hv89z2mFWz2yPs
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Nov 2021 14:51:35 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=RmBFqPTI;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=UzE9NTuK;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1033;
- helo=mail-pj1-x1033.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::531;
+ helo=mail-pg1-x531.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=RmBFqPTI; dkim-atps=neutral
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
+ header.s=20210112 header.b=UzE9NTuK; dkim-atps=neutral
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
+ [IPv6:2607:f8b0:4864:20::531])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Hv89m53Dpz2yPN
- for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Nov 2021 14:51:24 +1100 (AEDT)
-Received: by mail-pj1-x1033.google.com with SMTP id h24so1200196pjq.2
- for <linux-aspeed@lists.ozlabs.org>; Tue, 16 Nov 2021 19:51:24 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Hv89s0KxDz2yQ8
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Nov 2021 14:51:28 +1100 (AEDT)
+Received: by mail-pg1-x531.google.com with SMTP id p17so1033122pgj.2
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 16 Nov 2021 19:51:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tIhZG+CbbMmgzuL06GZqXJZNzmxGG5DYaNDz94CFpeY=;
- b=RmBFqPTIMkFmrsaBO+0iCxe94FYp5PQsfcdYHGedbuSIithhbmP8MeUQ8nKHXBye1Q
- hHS6QUzwtBLvjNwgPywRNR4JzDISdb38yBokfzlP4Izsc4DzDA3RPLNSM2mQt7p6xKff
- 2CaOI4x882fDDE5uxOxJsKqHZwwMHOW9Le9rHDTSmwSf19s0sXj53cayzuFFC2fsqyAw
- imYMl2m+He/T4/gxK09SsTxAvhu/SZ9C2wRGV8dM+ZWA83GmpEIMbsy5lhAsjVjrjNw9
- MjJ3pf1KwY5m7nX5Cz1DPzVcDqnjiafBpNdY/4YWUvsY5iUKLsODCiFn+ONSK60sHCyr
- MH9w==
+ bh=Na4Atxvp5SDv0NmvglOs+7sRMoBgX8DxKVHfywq8TaM=;
+ b=UzE9NTuKQx5aPM/Er8F26hFBz9h2z3MW38yfaBg+GTlv/nmbGiX/2+1qfYp0c6+hNR
+ 5yrAUEgAr5TVV/oWq3ty/wTGnV6yngAHg+rW7Mg/CspEdqu66gdhcYocQCQSSUgfCM2E
+ z9NkqhBFdJxEHIBEKktPXglMXh7TLmMRj8Kb9TfOl4N4uf/BG4IYc+AT6gHLAeQvDPeE
+ /4MsmUGcWHt0piqzSnOezYTeLNa2O6bG0yuVTBYCKZMb41U1CxvFQptXgKaNHPzFuWp9
+ aJlQlTWyzViKtPd1PlExqxfco4vBGifK8Nd7vCnmqEWiLNRqVlWoZDHfINktYSM4fUMC
+ lExA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=tIhZG+CbbMmgzuL06GZqXJZNzmxGG5DYaNDz94CFpeY=;
- b=iBGkRnyttxBjsIcxYf10MsAnOXCKlJ96AcU61s87EUjw2arlDB/d02qt2F/PSgGh2I
- kxBUiRlYFwrzjX9dlBphc3Sj9qQZFyIhS1hgivO0gnTt2MUHJuH9Q5QKtkWzna42zHNs
- 6zM9reOUkzH9G+B9DXbp44YNQmV9Tw1JqC0PGQrIFBf2KMio9ZUvPpjqDTaeIkrJq6Y9
- JFDJhQLcwvEnyaHgzEkqrRuQ1jRgMnoCepuj2GLA2a5N+XX/mdhOa7xUPcnyXF5BI+dW
- LyDluxAcrEUdFFEpYdZkdgYF007aMR5jrQxNSATdO76SruuvjMNK8nowrpEX2BQUP+te
- 0RYg==
-X-Gm-Message-State: AOAM530D2BwcMtceHCIIS0I1GKkUTkbQTgytk/kN0EqoQb9GVap7xVAN
- GqBviYAapbzCAZk9pdFgurM=
-X-Google-Smtp-Source: ABdhPJzEbj9ggqVmPebbmGB6+qsREhi30XIsiNVa2iPnIOqFNcysnM/GBHI7tl2kQnNqYPUCMNll2Q==
-X-Received: by 2002:a17:90a:690d:: with SMTP id
- r13mr5509019pjj.40.1637121082351; 
- Tue, 16 Nov 2021 19:51:22 -0800 (PST)
+ bh=Na4Atxvp5SDv0NmvglOs+7sRMoBgX8DxKVHfywq8TaM=;
+ b=GRUHN/FgBgyn5I/4y/hHp03Jo7eREn1wOvDKcwqMvwIybP3Pqt45PYvN89hhgQi58U
+ ZWM5t7XVC0iUkrnxcEhbpOwGBqK8zmkcA7lH3mW1VEGroUScArnWxVyR36TNVPEBa7xo
+ hQfhvrAE9kbjqbSz25eK4LtSs79BxtSYbJKkyqBz27PZWyJPLDMd0ZjNQRFvmL7lsTxF
+ pmEdKZ/cJjTE85qMz70cZn+RMbozyBgli7TY4swSGrjWWfzxj+wD39leY+9mLU08WZRQ
+ vhBuUas0g9TZPct+BPzHKtw14df1XB82vq7ZbBiOcugI9BfXdS8n0AnUsVcwEiUwq/HN
+ /uUA==
+X-Gm-Message-State: AOAM531b4x/6mpFwGzEnw9otd3Ghgx+KFJL6oRygAciN1Ftq4cMuVSGn
+ 1vVhnsFzXB3GT6EjKG9+nc2d3IFrqHJzNRfo
+X-Google-Smtp-Source: ABdhPJyfoa/fBZLztLXiWQPqmsXg2vkFWDAFUGLgJDnaeKwWPfykFaQBXjaVoJ2Khs0bfAjvqXzlsg==
+X-Received: by 2002:a63:5a63:: with SMTP id k35mr3083582pgm.230.1637121086796; 
+ Tue, 16 Nov 2021 19:51:26 -0800 (PST)
 Received: from voyager.guest.fluxperth.local
  (210-10-213-150.per.static-ipl.aapt.com.au. [210.10.213.150])
- by smtp.gmail.com with ESMTPSA id c15sm3671339pjg.53.2021.11.16.19.51.18
+ by smtp.gmail.com with ESMTPSA id c15sm3671339pjg.53.2021.11.16.19.51.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Nov 2021 19:51:21 -0800 (PST)
+ Tue, 16 Nov 2021 19:51:26 -0800 (PST)
 From: Joel Stanley <joel@jms.id.au>
 To: Andrew Jeffery <andrew@aj.id.u>,
 	Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 1/3] dt-bindings: aspeed: Add Secure Boot Controller bindings
-Date: Wed, 17 Nov 2021 11:51:04 +0800
-Message-Id: <20211117035106.321454-2-joel@jms.id.au>
+Subject: [PATCH 2/3] ARM: dts: aspeed: Add secure boot controller node
+Date: Wed, 17 Nov 2021 11:51:05 +0800
+Message-Id: <20211117035106.321454-3-joel@jms.id.au>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211117035106.321454-1-joel@jms.id.au>
 References: <20211117035106.321454-1-joel@jms.id.au>
@@ -88,57 +87,30 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The secure boot controller was first introduced in the AST2600.
+The ast2600 has a secure boot controller.
 
 Signed-off-by: Joel Stanley <joel@jms.id.au>
+Reviewed-by: Ryan Chen <ryan_chen@aspeedtech.com>
 ---
- .../bindings/arm/aspeed/aspeed,sbc.yaml       | 37 +++++++++++++++++++
- 1 file changed, 37 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/arm/aspeed/aspeed,sbc.yaml
+ arch/arm/boot/dts/aspeed-g6.dtsi | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed,sbc.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed,sbc.yaml
-new file mode 100644
-index 000000000000..c72aab706484
---- /dev/null
-+++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed,sbc.yaml
-@@ -0,0 +1,37 @@
-+# SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-2-Clause)
-+# Copyright 2021 Joel Stanley, IBM Corp.
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/arm/aspeed/aspeed,sbc.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
+index 5106a424f1ce..16b36c13695a 100644
+--- a/arch/arm/boot/dts/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+@@ -384,6 +384,11 @@ adc1: adc@1e6e9100 {
+ 				status = "disabled";
+ 			};
+ 
++			sbc: secure-boot-controller@1e6f2000 {
++				compatible = "aspeed,ast2600-sbc";
++				reg = <0x1e6f2000 0x1000>;
++			};
 +
-+title: ASPEED Secure Boot Controller
-+
-+maintainers:
-+  - Joel Stanley <joel@jms.id.au>
-+  - Andrew Jeffery <andrew@aj.id.au>
-+
-+description: |
-+  The ASPEED SoCs have a register bank for interacting with the secure boot
-+  controller.
-+
-+properties:
-+  compatible:
-+    items:
-+      - const: aspeed,ast2600-sbc
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    sbc: secure-boot-controller@1e6f2000 {
-+            compatible = "aspeed,ast2600-sbc";
-+            reg = <0x1e6f2000 0x1000>;
-+    };
+ 			gpio0: gpio@1e780000 {
+ 				#gpio-cells = <2>;
+ 				gpio-controller;
 -- 
 2.33.0
 
