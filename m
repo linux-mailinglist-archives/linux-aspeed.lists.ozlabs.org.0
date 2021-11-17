@@ -2,149 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006E6453F6F
-	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Nov 2021 05:21:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F18C453F3F
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Nov 2021 05:10:10 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Hv8qs6Wd6z2yQw
-	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Nov 2021 15:20:57 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Hv8bM6lVzz2yQw
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Nov 2021 15:10:07 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=equinix.com header.i=@equinix.com header.a=rsa-sha256 header.s=pps202002 header.b=FAsqXrvo;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=MVUenwOc;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=equinix.com (client-ip=148.163.159.192;
- helo=mx0b-00268f01.pphosted.com;
- envelope-from=prvs=295534784e=zweiss@equinix.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=equinix.com header.i=@equinix.com header.a=rsa-sha256
- header.s=pps202002 header.b=FAsqXrvo; 
- dkim-atps=neutral
-X-Greylist: delayed 1413 seconds by postgrey-1.36 at boromir;
- Wed, 17 Nov 2021 15:20:53 AEDT
-Received: from mx0b-00268f01.pphosted.com (mx0b-00268f01.pphosted.com
- [148.163.159.192])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::72e;
+ helo=mail-qk1-x72e.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=MVUenwOc; dkim-atps=neutral
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
+ [IPv6:2607:f8b0:4864:20::72e])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Hv8qn3KJxz2yHH
- for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Nov 2021 15:20:51 +1100 (AEDT)
-Received: from pps.filterd (m0105197.ppops.net [127.0.0.1])
- by mx0a-00268f01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1AGM75X7001926;
- Wed, 17 Nov 2021 03:56:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=equinix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=pps202002;
- bh=OnBoLIinA8ZVcUKyo3aWjXcXPaIDQc05MLobH4FB3HI=;
- b=FAsqXrvo0VGTebxN3L60qvcwRIlinB+Lr0czVU/eTmdXylLKeAYJMbV+D2i+SJUu2fGz
- 3kTg0R2i+Y1Pfx6hGwicmd0NjJJZpyFDPbPxcdWDiWqgNB5Z4ahP9xPdUhuDFeNfOnJP
- WxxDjMNn/9CNoCoshvzeNrXEDsnj0tz0e46m4qY1d97oeEUuizzN0OMw3iBeNXw2mD+r
- 707sXmXjvpRzBrnhsnVDyDjjUk3aqi6LEHzIfxOQXeujO4IuVBJXyF+N8c4TCD5Zv4fP
- 5bu1OEEy0pogOejp9XObLgla8/yjNrHPGdc0C1nj63G/ep75vYRPu1J8HqDPZxZjkdxo ng== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2173.outbound.protection.outlook.com [104.47.58.173])
- by mx0a-00268f01.pphosted.com (PPS) with ESMTPS id 3cck9199bb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 17 Nov 2021 03:56:47 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Cos66wkYXCAftbWuu4ugM9VU8bXnXUvVNX9VBpiLduAtMYMn56zQTjQDAgH8z7vyfQOHvwmt3YM37FKpr0oSLfJ6oFAHBkMVSaBwCv1W+J78p1jxtLHprIoitErj7GZs2zVtkBl0/S+X3kRZGdFp8yptqTaTEcqukitzKBVlJEFzXeqBT/CQ42+X6ylW/9aQBGE8SciwlUJe/4uoMp2DPz0p9wUahAaehnlP1KyJe/Lq/SYPVv5gw4mmyjb5GuDUztBUfrVxRRVhpolG//p0GamPiYUbibPZCPBV8UuEzdZMZzDsOhte8mdKnhaNDX5ed4VHrB8xWvS96tups5ruhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OnBoLIinA8ZVcUKyo3aWjXcXPaIDQc05MLobH4FB3HI=;
- b=iqnS4AaD+MB4RYKUPmtHfRBr2aJPEBaqvHgJgxmWMB2Y2dUDSFbMs5eX/zQYGeFr5H9WOhqoS1rD5x2GUzfWBt8n/t+7mhugRtmhM7u4TZLmD1HIsqVqEbmIgPha53SF2qmkstN5BKTEPSf9U92PnhU3Ybgidxn1SqwL3oEvlcXC/zTbZ4+FRzCpjoeuRn10HZo+uJI51IICgH8A4/magQ8eF0hGf37NNCKTeLlcjoNIHgfuIJ/+YR48XOKtb8ONZJpUtP3kA5G4hulGIAKz8dNeE4wQN4KVmbLnjDjW3Bayt0ehX4/5Q/vfI8ZIH0K/9JdBz3kM0nfjQ1ZbLSEA9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=equinix.com; dmarc=pass action=none header.from=equinix.com;
- dkim=pass header.d=equinix.com; arc=none
-Received: from DM8PR04MB8007.namprd04.prod.outlook.com (2603:10b6:5:314::20)
- by DM8PR04MB7894.namprd04.prod.outlook.com (2603:10b6:8:26::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Wed, 17 Nov
- 2021 03:56:43 +0000
-Received: from DM8PR04MB8007.namprd04.prod.outlook.com
- ([fe80::61fc:37a:892f:c6b9]) by DM8PR04MB8007.namprd04.prod.outlook.com
- ([fe80::61fc:37a:892f:c6b9%9]) with mapi id 15.20.4713.019; Wed, 17 Nov 2021
- 03:56:43 +0000
-From: Zev Weiss <zweiss@equinix.com>
-To: Iwona Winiarska <iwona.winiarska@intel.com>
-Subject: Re: [PATCH v3 00/13] Introduce PECI subsystem
-Thread-Topic: [PATCH v3 00/13] Introduce PECI subsystem
-Thread-Index: AQHX22ciodUE7zq1ukuEx2RIl/cSbg==
-Date: Wed, 17 Nov 2021 03:56:43 +0000
-Message-ID: <20211117035642.GH14774@packtop>
-References: <20211115182552.3830849-1-iwona.winiarska@intel.com>
-In-Reply-To: <20211115182552.3830849-1-iwona.winiarska@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 822b1a9e-340f-473c-0c60-08d9a97e44ad
-x-ms-traffictypediagnostic: DM8PR04MB7894:
-x-microsoft-antispam-prvs: <DM8PR04MB789493CDBD87577E07CC3AC1C39A9@DM8PR04MB7894.namprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: DDp9cIP+72FdsUGuCoH2HR1mxLFF4jvgb83eBFWeAwAcw7QjW+DvvGOORDMrd+RXTx9aJAMBfFKrN0ZMiHp0CLD9oqlBpgCf8yYQPi+ukvElwB4JpqQGh0AnoQl/6bmbn8kNSWGRiwKwPP++OhWUzH3zNeK9mKXwdcOAaDQ9NYl3eVsoKT9LomkGxXUubNSr3wbJTJU2lPcz4xvZbE8y2j+PcNkS8k7p80xpRX9uIc8DXMjTTSHtJw+ak0Kfbm5O0WhP11g7vF30FJN+Uo+vUJK4pZQ05S8Q/dWidHrzO4eFTXc3rn7rXM+A4yQ6yRXZL/Aj5kczhU11//GmDFyyRiDXjIIJZRiwWA32pfzlsK8A+oKz8HZACaUjCwoQ1kUbp7SVwFyZL1ca5kZ8562SVWu009kWViUhCX3fi7AY2SSnlyzgE3QC6+6vy8uyM5Tuk+WTGwFxOvET7r+/RohiJSzGVc22gGZtgwP1UjSwwznLo0cVscMzXKFwhP/69iLOwHuLUX8e4AHEVFql42rVFDu3Q7mJsFajfnOnhkrYi55a5eatyut/5nBnTTld6NqIy51+3OON2q7weXA2tIj6HiGNOM1wlISl7W4ZVMWPziwN/r/SHQwv+Bo3dYytEsUUFkawfFxeFIPMMuuly+nM1gYwE9cmgNBKws7ilUbAwzDckgCCNPWgyv0obqpC2i/K3NqAK7vQAZVhBk/LJCu17w==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR04MB8007.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(7916004)(4636009)(366004)(8676002)(122000001)(186003)(83380400001)(6916009)(71200400001)(33656002)(508600001)(33716001)(66446008)(64756008)(2906002)(66556008)(6512007)(38070700005)(86362001)(316002)(1076003)(8936002)(66946007)(4326008)(91956017)(76116006)(66476007)(6486002)(5660300002)(54906003)(7416002)(6506007)(38100700002)(9686003)(26005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?sFaV0zqu89OdqWfCoycFUG/7YLwkwsqx0UNfkxenlA+rdVAirRMFVNuPvYX5?=
- =?us-ascii?Q?9lZFOQ/1vN0VIyJLdmV7XOMjW1S9RhQbD5Hw01KeU3xSjNK8+apSJq32IZcW?=
- =?us-ascii?Q?UpVB2qcxY+zvoDFHIix3jkxQ4vm4bGoONS5RWqimeXCUu5sjnR7KMKFRr8FN?=
- =?us-ascii?Q?AxXDtocFDqipXI3GanyJAF3zsmXRlwbZ7GJdsESH5pNT0H96KbgRjPdHEvYN?=
- =?us-ascii?Q?lj2ZspVRhRFuRXIhiG4zBcVjrcL5ZA1ktgrIxewM5SAeEMAoBJx0necc+LIA?=
- =?us-ascii?Q?vS2hbthxsUizYt6WtUzfcI+Q+IHQnvLjvm97wO3lCidEXy7dQSmoE7/+YoYU?=
- =?us-ascii?Q?wdUpiehdzeS21FrCHYJdF4HFOqrX0lppuqihba8dRo6OwrgHzVFGYWSUc6T+?=
- =?us-ascii?Q?YZ3qtUmFlU9x6AWZOcUJAxTJYvM1dvAPEioqiv0/QIXrfwWT2BYUYSYFsTn4?=
- =?us-ascii?Q?MpBfRuE1NF/M/jf8vYfyd2LHF0IjImzpErn1WfLd3fMrAhvmEbBTbO+4MM6f?=
- =?us-ascii?Q?Z6edEV7vDrrBcoVrpQGd+rUa+hSgdPV6T9CA1aJ2qh7QLzfjdBW1YsvNH3AJ?=
- =?us-ascii?Q?apc5I5BSlZ6gKpINMHvhC3/1vINz4QaVixzjZFB6fgq2552B3b2eVf6ef38p?=
- =?us-ascii?Q?fTzwEQieOHDPo3S2W+2QuwSQ+20Wk80YxE3zWetoT7N2+6HIkHGMlTFv6HPf?=
- =?us-ascii?Q?2w7n5FWjYzy9JZANN3u2STvb6ZKNlMGKM8XS5ODZzt9KSKyrKVXOjdDa3mv6?=
- =?us-ascii?Q?jxhYkgf6yRyJggfPiz4TbU4b6ToRlpDIne4nHM0hH7rNiJDBz+0q0eDn8mtm?=
- =?us-ascii?Q?8mMQWtieaGSHcyxrDUCi+aVxEtsb01BxH2rjRSFY7xSAGPeP6y4fBA2GrtRa?=
- =?us-ascii?Q?VYS447+JnuCv9ExWbfOWL8hUQzs/uG0l4s7HqQzCeD+5V8rvOmxC0PjZ+CTV?=
- =?us-ascii?Q?d+AnctqsCJbLdvbS0cZEbuEAopAZdS6+TKjMkvF+PrUC2IZqTEyFUAydedXA?=
- =?us-ascii?Q?0kD4JTKvqCv9cRuTOZkGPUs+tccSoN8wg5RoAvLIO60MSHfTtNDk9xqYMtxN?=
- =?us-ascii?Q?tiCXM6YoA63VC1RMNfHxzDuxGQXKzANuHSDEv7K3LC8IbVNA4LZUG9oRU+t9?=
- =?us-ascii?Q?UNNq+7QSJgoqCgfKzgLo5MKQCGPZHCh/YYOTT92VpBCVlUUIejd7m+CWAY4N?=
- =?us-ascii?Q?YtI4686VTmS9iiKyCR0bIjMap8a7SbjclUnJygVb3YNkxWqYKjXSCGefe1ii?=
- =?us-ascii?Q?gVHC9nBfXX5Nc7/S3TekU5suezO+iTpUAvJtRXshMNmiSrX30xP93cyA9XWN?=
- =?us-ascii?Q?DgL0MMRPaFD5m700hp179KsmFpeXaeaXzw0VG6B54khYLzb5/ZItTEge0RQ4?=
- =?us-ascii?Q?hShHS2ptxh9EceIAEpGm7sLDz+6Ymrtlbpyza+kUR6dgdWLwP53A/BxaEszL?=
- =?us-ascii?Q?BnhxPkfw0uw9Q88Z9jV/WJSVRxA5ACrxKfyPS2VJoHPxMZ6L9T+FXNVt0IIt?=
- =?us-ascii?Q?qQZ0LQxHzSdIcrCAWeZLn5hzbZHb0aT6UJ4nFeCo8zC5eGVO8lobEHmNafwR?=
- =?us-ascii?Q?pukN6X6thtc0FS7QJA/SmVYfqhFCMTlHwKE7gdi1T2dgEl+N5PMrW6yw92xf?=
- =?us-ascii?Q?oS409JSkMYZjiWAy1pF9rC0=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <966ED3E34F8B6E43AB8C2EE5D46DA139@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Hv8bH3vrJz2yHq
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Nov 2021 15:10:01 +1100 (AEDT)
+Received: by mail-qk1-x72e.google.com with SMTP id d2so1185411qki.12
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 16 Nov 2021 20:10:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HxVTZxtZquz4x3u5Kq8UkO0yjTH9Q2w5eX8LuUUsoE8=;
+ b=MVUenwOcceN0XLJb1Byv2qqu7fP7xYJpowfJJW1y0YlDP8t8Dp7T7LolfToW8JbdoS
+ fhx7vV9FwyYM3mwu4DJnB5Z6QKBuhnZs7sQFk8NlTQWndabgH+LUAWNkDS32tNCOqCTH
+ yiEmy742LX7hvyJzhuLjkTXClTRKCP1Kb/LLs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HxVTZxtZquz4x3u5Kq8UkO0yjTH9Q2w5eX8LuUUsoE8=;
+ b=nBq64SeLNq3ZGGzX++V75T4WJ/jcMhcLKd5nUji5uQLnaadi6+7xen5vV6pb5r8rxZ
+ 2eRoOT23HlgnnhW2NfruxKX8AG/Dqzy8A8MXEvIHdH/VDkf6eiAlwsGM9sJkmXmf+vGi
+ +VNGbFiNHuDNI28zttbf0KrswQ07MrdJFuxeh7XXRb0cx2LeAz2JA6Fv3+uT967x7pxi
+ rMh3n1tKHIND0auI4TkIz28GUKSdbw+yKXAYVGedJiXRh4UG6lYsnple2HLMWmOLnHx/
+ VkfC0K6SgP+ntkgT2i6qwrh/Ef8JxuG03PLfsRULTcHvaaNrMolhycsgLO7+jYgiD7Za
+ DDlQ==
+X-Gm-Message-State: AOAM533Z9U/4mEyTw9PolihEheqo+ldGeOfavun+sqxNsONTd8s5Xlmz
+ W6pzAm63f+7MIcVvwxWx5PVSr7iqYd8zbKdGEy0=
+X-Google-Smtp-Source: ABdhPJwK8cohubH1skRrn5h5GOVs79g9HktvNlyKFsLE57BDWq/9/uzbxsHQOvUoKtMPGfPYkFH79ZXNqWTUMTy6u+I=
+X-Received: by 2002:a05:620a:298a:: with SMTP id
+ r10mr10669039qkp.381.1637122196217; 
+ Tue, 16 Nov 2021 20:09:56 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: equinix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR04MB8007.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 822b1a9e-340f-473c-0c60-08d9a97e44ad
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2021 03:56:43.0600 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72adb271-2fc7-4afe-a5ee-9de6a59f6bfb
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: A/mn+y/hrAGJvgTE3vQGdT6qkZvjdFA6x3BeCIxig5cclF5oT2XyCkWFu2NMlAADu9sD04ZvS0QtktEaTj7+cw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR04MB7894
-X-Proofpoint-ORIG-GUID: TU6xJ7G0EfzaDLW0TpxJxaF7WyOJ1QiF
-X-Proofpoint-GUID: TU6xJ7G0EfzaDLW0TpxJxaF7WyOJ1QiF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-17_01,2021-11-16_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- bulkscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
- phishscore=0 spamscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2111170017
+References: <20210224090620.25419-1-govert.overgaauw@prodrive-technologies.com>
+In-Reply-To: <20210224090620.25419-1-govert.overgaauw@prodrive-technologies.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Wed, 17 Nov 2021 04:09:44 +0000
+Message-ID: <CACPK8XdLMVzRiYsfH9EUfcVcKR_4AyxVHR8qGs1hxYSsJXa41g@mail.gmail.com>
+Subject: Re: [PATCH] aspeed-lpc-snoop: add 16-bit POST code support
+To: Govert Overgaauw <govert.overgaauw@prodrive-technologies.com>, 
+ Zev Weiss <zweiss@equinix.com>, Ryan Chen <ryan_chen@aspeedtech.com>, 
+ Oskar Senft <osk@google.com>, Lei YU <mine260309@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,56 +73,268 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Dave Hansen <dave.hansen@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Guenter Roeck <linux@roeck-us.net>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Jean Delvare <jdelvare@suse.com>, Arnd Bergmann <arnd@arndb.de>,
- Rob Herring <robh+dt@kernel.org>, Borislav Petkov <bp@alien8.de>,
- Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- Tony Luck <tony.luck@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- David Muller <d.mueller@elsoft.ch>
+Cc: Stef van Os <stef.van.os@prodrive-technologies.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Nov 15, 2021 at 10:25:39AM PST, Iwona Winiarska wrote:
->Hi,
+Hi Govert,
+
+On Wed, 24 Feb 2021 at 09:07, Govert Overgaauw
+<govert.overgaauw@prodrive-technologies.com> wrote:
 >
->This is a third round of patches introducing PECI subsystem.
->Sorry for the delay between v2 and v3.
+> Intel coffeelake plattform uses a 16-bit POST code format instead of 8-bit. Add
+> a third FIFO for storing the combined 16-bit post codes.
+
+Thanks for the patch. It slipped through the cracks. I would like to
+merge it if we could get some review and/or testing.
+
+Ryan, Zev, Oskar, Lei: please jump in if you're able to help.
+
+Cheers,
+
+Joel
+
 >
-
-Hi Iwona,
-
-I've done some testing of these patches on my AST2500/E-2778G OpenBMC
-platform -- I had to do a small bit of hacking to add support for
-INTEL_FAM6_KABYLAKE, but with that in place the newly-added code for the
-8.8 format seems to work as it should.  Thanks!
-
-In poking at it a bit further I encountered some sub-optimal behavior
-w.r.t. to host power state transitions and timeouts though --
-essentially, if I ever hit a timeout in aspeed_peci_xfer() (for example
-on a read of a hwmon tempX_input file after an unexpected host
-shutdown), it seems to get stuck in a state where even if the host comes
-back online, all attempted PECI transfers continue just timing out.
-(Rebooting the BMC seems to resolve the problem.)  This also happens if
-I remove the peci client device via the 'remove' sysfs file, shut down
-the host, and then do a rescan via sysfs while the host is off (i.e.
-another operation that times out).
-
-Let me know if there's any other info that would be helpful for
-debugging.
-
-
-Thanks,
-Zev
+> Signed-off-by: Govert Overgaauw <govert.overgaauw@prodrive-technologies.com>
+> ---
+>  drivers/soc/aspeed/aspeed-lpc-snoop.c | 117 +++++++++++++++++---------
+>  1 file changed, 79 insertions(+), 38 deletions(-)
+>
+> diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c b/drivers/soc/aspeed/aspeed-lpc-snoop.c
+> index 682ba0eb4eba..40d113d253fc 100644
+> --- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
+> +++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
+> @@ -58,7 +58,7 @@ struct aspeed_lpc_snoop_model_data {
+>         unsigned int has_hicrb_ensnp;
+>  };
+>
+> -struct aspeed_lpc_snoop_channel {
+> +struct aspeed_lpc_snoop_fifo {
+>         struct kfifo            fifo;
+>         wait_queue_head_t       wq;
+>         struct miscdevice       miscdev;
+> @@ -67,32 +67,39 @@ struct aspeed_lpc_snoop_channel {
+>  struct aspeed_lpc_snoop {
+>         struct regmap           *regmap;
+>         int                     irq;
+> -       struct aspeed_lpc_snoop_channel chan[NUM_SNOOP_CHANNELS];
+> +       struct aspeed_lpc_snoop_fifo chan[NUM_SNOOP_CHANNELS];
+> +
+> +       /*
+> +        * 16-bit postcodes are combination
+> +        * of both channels written to a seperate device file, because
+> +        * both bytes have to be added on the same interrupt.
+> +        */
+> +       struct aspeed_lpc_snoop_fifo combined;
+>  };
+>
+> -static struct aspeed_lpc_snoop_channel *snoop_file_to_chan(struct file *file)
+> +static struct aspeed_lpc_snoop_fifo *snoop_file_to_fifo(struct file *file)
+>  {
+>         return container_of(file->private_data,
+> -                           struct aspeed_lpc_snoop_channel,
+> +                           struct aspeed_lpc_snoop_fifo,
+>                             miscdev);
+>  }
+>
+>  static ssize_t snoop_file_read(struct file *file, char __user *buffer,
+>                                 size_t count, loff_t *ppos)
+>  {
+> -       struct aspeed_lpc_snoop_channel *chan = snoop_file_to_chan(file);
+> +       struct aspeed_lpc_snoop_fifo *fifo = snoop_file_to_fifo(file);
+>         unsigned int copied;
+>         int ret = 0;
+>
+> -       if (kfifo_is_empty(&chan->fifo)) {
+> +       if (kfifo_is_empty(&fifo->fifo)) {
+>                 if (file->f_flags & O_NONBLOCK)
+>                         return -EAGAIN;
+> -               ret = wait_event_interruptible(chan->wq,
+> -                               !kfifo_is_empty(&chan->fifo));
+> +               ret = wait_event_interruptible(fifo->wq,
+> +                               !kfifo_is_empty(&fifo->fifo));
+>                 if (ret == -ERESTARTSYS)
+>                         return -EINTR;
+>         }
+> -       ret = kfifo_to_user(&chan->fifo, buffer, count, &copied);
+> +       ret = kfifo_to_user(&fifo->fifo, buffer, count, &copied);
+>
+>         return ret ? ret : copied;
+>  }
+> @@ -100,10 +107,10 @@ static ssize_t snoop_file_read(struct file *file, char __user *buffer,
+>  static __poll_t snoop_file_poll(struct file *file,
+>                                     struct poll_table_struct *pt)
+>  {
+> -       struct aspeed_lpc_snoop_channel *chan = snoop_file_to_chan(file);
+> +       struct aspeed_lpc_snoop_fifo *fifo = snoop_file_to_fifo(file);
+>
+> -       poll_wait(file, &chan->wq, pt);
+> -       return !kfifo_is_empty(&chan->fifo) ? EPOLLIN : 0;
+> +       poll_wait(file, &fifo->wq, pt);
+> +       return !kfifo_is_empty(&fifo->fifo) ? EPOLLIN : 0;
+>  }
+>
+>  static const struct file_operations snoop_fops = {
+> @@ -113,21 +120,22 @@ static const struct file_operations snoop_fops = {
+>         .llseek = noop_llseek,
+>  };
+>
+> -/* Save a byte to a FIFO and discard the oldest byte if FIFO is full */
+> -static void put_fifo_with_discard(struct aspeed_lpc_snoop_channel *chan, u8 val)
+> +/* Save data to a FIFO and discard the oldest byte if FIFO is full */
+> +static void put_fifo_with_discard(struct aspeed_lpc_snoop_fifo *fifo, size_t len, u8 *buf)
+>  {
+> -       if (!kfifo_initialized(&chan->fifo))
+> +       if (!kfifo_initialized(&fifo->fifo))
+>                 return;
+> -       if (kfifo_is_full(&chan->fifo))
+> -               kfifo_skip(&chan->fifo);
+> -       kfifo_put(&chan->fifo, val);
+> -       wake_up_interruptible(&chan->wq);
+> +       if (kfifo_is_full(&fifo->fifo))
+> +               kfifo_skip(&fifo->fifo);
+> +       kfifo_in(&fifo->fifo, buf, len);
+> +       wake_up_interruptible(&fifo->wq);
+>  }
+>
+>  static irqreturn_t aspeed_lpc_snoop_irq(int irq, void *arg)
+>  {
+>         struct aspeed_lpc_snoop *lpc_snoop = arg;
+>         u32 reg, data;
+> +       u16 postval = 0;
+>
+>         if (regmap_read(lpc_snoop->regmap, HICR6, &reg))
+>                 return IRQ_NONE;
+> @@ -140,20 +148,25 @@ static irqreturn_t aspeed_lpc_snoop_irq(int irq, void *arg)
+>         /* Ack pending IRQs */
+>         regmap_write(lpc_snoop->regmap, HICR6, reg);
+>
+> -       /* Read and save most recent snoop'ed data byte to FIFO */
+> +       /* Read and save most recent snoop'ed data byte(s) to FIFO */
+>         regmap_read(lpc_snoop->regmap, SNPWDR, &data);
+>
+>         if (reg & HICR6_STR_SNP0W) {
+>                 u8 val = (data & SNPWDR_CH0_MASK) >> SNPWDR_CH0_SHIFT;
+>
+> -               put_fifo_with_discard(&lpc_snoop->chan[0], val);
+> +               put_fifo_with_discard(&lpc_snoop->chan[0], sizeof(val), &val);
+> +               postval |= val;
+>         }
+>         if (reg & HICR6_STR_SNP1W) {
+>                 u8 val = (data & SNPWDR_CH1_MASK) >> SNPWDR_CH1_SHIFT;
+>
+> -               put_fifo_with_discard(&lpc_snoop->chan[1], val);
+> +               put_fifo_with_discard(&lpc_snoop->chan[1], sizeof(val), &val);
+> +               postval |= (val << 8);
+>         }
+>
+> +       if (postval)
+> +               put_fifo_with_discard(&lpc_snoop->combined, sizeof(postval), (u8 *)&postval);
+> +
+>         return IRQ_HANDLED;
+>  }
+>
+> @@ -179,6 +192,34 @@ static int aspeed_lpc_snoop_config_irq(struct aspeed_lpc_snoop *lpc_snoop,
+>         return 0;
+>  }
+>
+> +static int aspeed_lpc_create_fifo_chardev(struct aspeed_lpc_snoop_fifo *fifo,
+> +       struct device *dev, int devnum)
+> +{
+> +       int rc = 0;
+> +
+> +       init_waitqueue_head(&fifo->wq);
+> +       /* Create FIFO datastructure */
+> +       rc = kfifo_alloc(&fifo->fifo,
+> +                        SNOOP_FIFO_SIZE, GFP_KERNEL);
+> +       if (rc)
+> +               return rc;
+> +
+> +       fifo->miscdev.minor = MISC_DYNAMIC_MINOR;
+> +       fifo->miscdev.name =
+> +               devm_kasprintf(dev, GFP_KERNEL, "%s%d", DEVICE_NAME, devnum);
+> +       fifo->miscdev.fops = &snoop_fops;
+> +       fifo->miscdev.parent = dev;
+> +
+> +       return misc_register(&fifo->miscdev);
+> +}
+> +
+> +static void aspeed_lpc_destroy_fifo_chardev(struct aspeed_lpc_snoop_fifo *fifo)
+> +{
+> +
+> +       kfifo_free(&fifo->fifo);
+> +       misc_deregister(&fifo->miscdev);
+> +}
+> +
+>  static int aspeed_lpc_enable_snoop(struct aspeed_lpc_snoop *lpc_snoop,
+>                                    struct device *dev,
+>                                    int channel, u16 lpc_port)
+> @@ -188,19 +229,8 @@ static int aspeed_lpc_enable_snoop(struct aspeed_lpc_snoop *lpc_snoop,
+>         const struct aspeed_lpc_snoop_model_data *model_data =
+>                 of_device_get_match_data(dev);
+>
+> -       init_waitqueue_head(&lpc_snoop->chan[channel].wq);
+> -       /* Create FIFO datastructure */
+> -       rc = kfifo_alloc(&lpc_snoop->chan[channel].fifo,
+> -                        SNOOP_FIFO_SIZE, GFP_KERNEL);
+> -       if (rc)
+> -               return rc;
+> -
+> -       lpc_snoop->chan[channel].miscdev.minor = MISC_DYNAMIC_MINOR;
+> -       lpc_snoop->chan[channel].miscdev.name =
+> -               devm_kasprintf(dev, GFP_KERNEL, "%s%d", DEVICE_NAME, channel);
+> -       lpc_snoop->chan[channel].miscdev.fops = &snoop_fops;
+> -       lpc_snoop->chan[channel].miscdev.parent = dev;
+> -       rc = misc_register(&lpc_snoop->chan[channel].miscdev);
+> +       rc = aspeed_lpc_create_fifo_chardev(&lpc_snoop->chan[channel],
+> +               dev, channel);
+>         if (rc)
+>                 return rc;
+>
+> @@ -250,8 +280,7 @@ static void aspeed_lpc_disable_snoop(struct aspeed_lpc_snoop *lpc_snoop,
+>                 return;
+>         }
+>
+> -       kfifo_free(&lpc_snoop->chan[channel].fifo);
+> -       misc_deregister(&lpc_snoop->chan[channel].miscdev);
+> +       aspeed_lpc_destroy_fifo_chardev(&lpc_snoop->chan[channel]);
+>  }
+>
+>  static int aspeed_lpc_snoop_probe(struct platform_device *pdev)
+> @@ -295,9 +324,18 @@ static int aspeed_lpc_snoop_probe(struct platform_device *pdev)
+>                                        1, &port) == 0) {
+>                 rc = aspeed_lpc_enable_snoop(lpc_snoop, dev, 1, port);
+>                 if (rc)
+> -                       aspeed_lpc_disable_snoop(lpc_snoop, 0);
+> +                       goto err_port1;
+> +
+> +               rc = aspeed_lpc_create_fifo_chardev(&lpc_snoop->combined, dev, 2);
+> +               if (rc)
+> +                       goto err_combined;
+>         }
+>
+> +       return rc;
+> +err_combined:
+> +       aspeed_lpc_disable_snoop(lpc_snoop, 1);
+> +err_port1:
+> +       aspeed_lpc_disable_snoop(lpc_snoop, 0);
+>         return rc;
+>  }
+>
+> @@ -309,6 +347,9 @@ static int aspeed_lpc_snoop_remove(struct platform_device *pdev)
+>         aspeed_lpc_disable_snoop(lpc_snoop, 0);
+>         aspeed_lpc_disable_snoop(lpc_snoop, 1);
+>
+> +       /* disable combined fifo device */
+> +       aspeed_lpc_destroy_fifo_chardev(&lpc_snoop->combined);
+> +
+>         return 0;
+>  }
+>
+> --
+> 2.20.1
+>
