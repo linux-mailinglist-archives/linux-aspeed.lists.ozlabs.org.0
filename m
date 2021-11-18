@@ -2,73 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAEE04552FA
-	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Nov 2021 03:58:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49E474554C7
+	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Nov 2021 07:26:31 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Hvkyb2DQRz2ynp
-	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Nov 2021 13:58:47 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HvqZF1YzBz2yp9
+	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Nov 2021 17:26:29 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=f+fel3Le;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ixCxdcij;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::533;
- helo=mail-pg1-x533.google.com; envelope-from=howard10703049@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::632;
+ helo=mail-pl1-x632.google.com; envelope-from=howard10703049@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=f+fel3Le; dkim-atps=neutral
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
+ header.s=20210112 header.b=ixCxdcij; dkim-atps=neutral
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HvkyS0PpFz2yPs
- for <linux-aspeed@lists.ozlabs.org>; Thu, 18 Nov 2021 13:58:37 +1100 (AEDT)
-Received: by mail-pg1-x533.google.com with SMTP id 136so4065323pgc.0
- for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Nov 2021 18:58:37 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HvqZ45zjkz2yTr
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 18 Nov 2021 17:26:18 +1100 (AEDT)
+Received: by mail-pl1-x632.google.com with SMTP id p18so4333849plf.13
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Nov 2021 22:26:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Et7K9gyPgDPK+2bDtYcVInbWq0aInOTpwKkTVhY9i80=;
- b=f+fel3LeKP/AWYiJm6qlPA5BLKS3ho5T2oNezaB4nlX164nD3vA+tXMeUA9oMuIUaG
- /drF2tTUaH9zEZ4Pd6iwuEMIMN3lcOFT0ZejYs4kBiPanKHoic3WeAwV4jObeqchNcBN
- EhQMjuiaC+TBM4aTAq79yzqxjem/Ib5AjJuVJol11J/RdO46tK487CKPdxw3WbDBRCUS
- N0JmA8+PzBB9vTtHqp7cf5ttrKmslhOXaKlk44DAWCdyv9vGoSxThfx84mMQd0YiAjYX
- AZPSNfDrqIs9/fIAqKfCwcd+yvlC+x8dzKcEtozzur3l/oTSXUoBWqGNAB6pM6l52hdA
- VwFw==
+ bh=2QXWIaxABbz+0W0HqSmYqhwljZLlr286p2Rc5a+WKLg=;
+ b=ixCxdcijxnQQtcmDSNKIoOG0JyWRkvEgIHSxC1JgHlGnBDnxVvVtzD9gZflK8yUwxW
+ PLMvIsOPmsSeCErTTkWeCjnZzRYU/+EBHX0fYgcCCFPjOqfU7Jr2nbx+WbL0EEXiH6nu
+ 5A8h9Erm29ZGlaaYVs+oZChDUzxNwdJ2NPSJfvEG3ahRF30aoreCkZwGR/yS1fRuAAXg
+ /DtMvbsjqeSKOGhNYBlktQgboMbQdIU9dMaxohHD3OY4thUJYeCW/sxvm65ZtRfatC2V
+ qAAMSn3sRYT2qvyDYGRHzuT88HHsjx4gthmVPFjT94ukU9vFkmDdBQslXdb8BWJxz9EB
+ dNAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Et7K9gyPgDPK+2bDtYcVInbWq0aInOTpwKkTVhY9i80=;
- b=JLExeHo6e6DUMvRS+yzJkxxx/cXRO9dNcYVR/81IbowmpoYcjELgTzYEFQTmvP8Mh8
- zo8LidKGU4e6IZmHZ0eA2Q5WmfbrfRFwt9YIxlaPBD/aOv7eZMhuydVRrB9Vk/lFCIlo
- z1ZSCudVjOmD062VNEDArbGC9zpJy0PgRWj3oyjpAc0RWJXeLI1V4Pf8a/YTUx6f+QzM
- EUKS3euR4Dhh5oNDECeTM4BED6ODvyLzJpPouilP9bDlfLgcP0zij7AaqwUwXF7FUFLp
- Zo1xfSZ00503uyT2+3t13RzUQaeg2yEK7iY4CseHkBlOsT6XtQc5r/PfkJjqDjE18eb/
- EpsA==
-X-Gm-Message-State: AOAM5336Ujb8WrQNUrRR4+ZzEHpyQxQ/VD4riFIeZkn0rGtq7GQbfeaj
- pyifavk8RKp6gPsBS8jiC4o=
-X-Google-Smtp-Source: ABdhPJyY9WQjTqSrWO1qbo857pj/L05teaQXv60VeKm+lkTh2rl1D2Ufxs7oXzupiWY9ctShrxe7rw==
-X-Received: by 2002:aa7:88d5:0:b0:49f:e382:3d62 with SMTP id
- k21-20020aa788d5000000b0049fe3823d62mr11494560pff.76.1637204313896; 
- Wed, 17 Nov 2021 18:58:33 -0800 (PST)
+ bh=2QXWIaxABbz+0W0HqSmYqhwljZLlr286p2Rc5a+WKLg=;
+ b=pYbl/Z08CoAEvudXZ8GkKcGcuRRfpKzjiATL83A55hYDFdcYlV7VaShqYqsflYIJ/z
+ pkIKT3z4C6mrTMWVq8jH/jzT2/WRmhoB6WMw6yyDgG3Z8pQF0B8T0kHqZPKQjCtWyLba
+ 3wmD6lbWNVfxWBxDk/mP6X7INZkDEbOhMMnMGkc1n/dTeK4jLNpXC/h37OPLzhLmq/Ty
+ oia4guSOPbP+q1982HwATvsTsqYS9kUzB/Qypeu5kj7pONRd8eU8agzaJY6cPyz1brDB
+ neOFHXIwAurlUQCd4Xauzqw4vhtsyJh+Xm+Yze9qhJZKbmUcoOC3xRzIPmcHTxkKeyzi
+ GDiw==
+X-Gm-Message-State: AOAM530DtnOxMssBOZ4zvaBL0qmXXKadUII8iZ2wpvDKBDw4VkhliMwE
+ rtMsXUKRh7rRKNinZmfeSm0=
+X-Google-Smtp-Source: ABdhPJymLRF4x7lMoKkEC7bjFt4PDM8YZDkxDCGK8sjR4md41JNSK9L8Icuu2D/pl1EXoi9VZ/hpzQ==
+X-Received: by 2002:a17:902:6a8a:b0:143:905f:aec7 with SMTP id
+ n10-20020a1709026a8a00b00143905faec7mr64657362plk.8.1637216775641; 
+ Wed, 17 Nov 2021 22:26:15 -0800 (PST)
 Received: from howard-System-Product-Name.dhcpserver.bu9bmc.local
  (125-228-123-29.hinet-ip.hinet.net. [125.228.123.29])
- by smtp.gmail.com with ESMTPSA id m7sm812355pgn.32.2021.11.17.18.58.30
+ by smtp.gmail.com with ESMTPSA id f22sm1821583pfj.49.2021.11.17.22.26.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Nov 2021 18:58:33 -0800 (PST)
+ Wed, 17 Nov 2021 22:26:14 -0800 (PST)
 From: Howard Chiu <howard10703049@gmail.com>
 X-Google-Original-From: Howard Chiu <howard.chiu@quantatw.com>
 To: arnd@arndb.de, olof@lixom.net, soc@kernel.org, robh+dt@kernel.org,
  joel@jms.id.au, andrew@aj.id.au, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-aspeed@lists.ozlabs.org, patrick@stwcx.xyz
-Subject: [PATCH v4] ARM: dts: aspeed: Adding Facebook Bletchley BMC
-Date: Thu, 18 Nov 2021 10:56:27 +0800
-Message-Id: <20211118025627.3517958-1-howard.chiu@quantatw.com>
+Subject: [PATCH v5] ARM: dts: aspeed: Adding Facebook Bletchley BMC
+Date: Thu, 18 Nov 2021 14:24:09 +0800
+Message-Id: <20211118062409.3519367-1-howard.chiu@quantatw.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -93,7 +93,10 @@ Aspeed 2600 BMC SoC.
 
 Signed-off-by: Howard Chiu <howard.chiu@quantatw.com>
 
-change since v3:
+Change since v4:
+- Change address of TMP421 on i2c-12 to 0x4d
+
+Change since v3:
 - Add a TMP421 on i2c-10
 
 Change since v2:
@@ -127,7 +130,7 @@ index 0de64f237cd8..b804b577010a 100644
  	aspeed-bmc-facebook-elbert.dtb \
 diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
 new file mode 100644
-index 000000000000..e6eaf3b4d27a
+index 000000000000..1603b0b30d9f
 --- /dev/null
 +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
 @@ -0,0 +1,736 @@
@@ -781,9 +784,9 @@ index 000000000000..e6eaf3b4d27a
 +		reg = <0x4c>;
 +	};
 +
-+	tmp421@4f {
++	tmp421@4d {
 +		compatible = "ti,tmp421";
-+		reg = <0x4f>;
++		reg = <0x4d>;
 +	};
 +
 +	fan_ioexp: pca9552@67 {
