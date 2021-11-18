@@ -1,52 +1,49 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7732C4555FC
-	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Nov 2021 08:45:14 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C644455B16
+	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Nov 2021 12:59:24 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HvsK42M70z3cCK
-	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Nov 2021 18:45:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HvyyL27Zcz305P
+	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Nov 2021 22:59:22 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
- receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=linux.intel.com
+ (client-ip=192.55.52.115; helo=mga14.intel.com;
+ envelope-from=sakari.ailus@linux.intel.com; receiver=<UNKNOWN>)
+X-Greylist: delayed 124 seconds by postgrey-1.36 at boromir;
+ Thu, 18 Nov 2021 22:59:18 AEDT
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HvsDk46Csz2ywZ;
- Thu, 18 Nov 2021 18:41:26 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 1AI7GPnR076150;
- Thu, 18 Nov 2021 15:16:26 +0800 (GMT-8)
- (envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Thu, 18 Nov 2021 15:40:12 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
- <andrew@aj.id.au>, <hverkuil-cisco@xs4all.nl>,
- <sakari.ailus@linux.intel.com>, <gregkh@linuxfoundation.org>,
- <laurent.pinchart@ideasonboard.com>, <linux-media@vger.kernel.org>,
- <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v5 09/10] media: aspeed: add comments and macro
-Date: Thu, 18 Nov 2021 15:40:30 +0800
-Message-ID: <20211118074030.685-10-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211118074030.685-1-jammy_huang@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HvyyG2Ygzz2yb3;
+ Thu, 18 Nov 2021 22:59:18 +1100 (AEDT)
+X-IronPort-AV: E=McAfee;i="6200,9189,10171"; a="234407492"
+X-IronPort-AV: E=Sophos;i="5.87,244,1631602800"; d="scan'208";a="234407492"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2021 03:56:10 -0800
+X-IronPort-AV: E=Sophos;i="5.87,244,1631602800"; d="scan'208";a="505577255"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2021 03:56:07 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+ by paasikivi.fi.intel.com (Postfix) with SMTP id E050020138;
+ Thu, 18 Nov 2021 13:56:04 +0200 (EET)
+Date: Thu, 18 Nov 2021 13:56:04 +0200
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jammy Huang <jammy_huang@aspeedtech.com>
+Subject: Re: [PATCH v5 02/10] media: aspeed: use v4l2_info/v4l2_warn/v4l2_dbg
+ for log
+Message-ID: <YZY/VCt8WZx/4dFt@paasikivi.fi.intel.com>
 References: <20211118074030.685-1-jammy_huang@aspeedtech.com>
+ <20211118074030.685-3-jammy_huang@aspeedtech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1AI7GPnR076150
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211118074030.685-3-jammy_huang@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,113 +55,28 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-aspeed@lists.ozlabs.org, gregkh@linuxfoundation.org,
+ openbmc@lists.ozlabs.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, hverkuil-cisco@xs4all.nl, mchehab@kernel.org,
+ linux-arm-kernel@lists.infradead.org, laurent.pinchart@ideasonboard.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add comments to describe video-stat and 'struct aspeed_video'.
-Add macro, ASPEED_VIDEO_V4L2_MIN_BUF_REQ, to describe the buffers
-needed.
+Hi Jammy,
 
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
-v5:
-  - no update
-v4:
-  - update comments
-v3:
-  - no update
-v2:
-  - no update
----
- drivers/media/platform/aspeed-video.c | 39 ++++++++++++++++++++++++---
- 1 file changed, 36 insertions(+), 3 deletions(-)
+On Thu, Nov 18, 2021 at 03:40:23PM +0800, Jammy Huang wrote:
+> The debug log level, 0~3, is controlled by module_param, debug.
+> The higher the value, the more the information.
+>   0: off
+>   1: info
+>   2: debug
+>   3: register operations
+> 
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
 
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index 419825ed7737..03bb6c46f2a1 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -33,6 +33,8 @@
- #include <linux/videodev2.h>
- #include <uapi/linux/aspeed-video.h>
- 
-+#define ASPEED_VIDEO_V4L2_MIN_BUF_REQ 3
-+
- #define DEVICE_NAME			"aspeed-video"
- 
- #define ASPEED_VIDEO_JPEG_NUM_QUALITIES	12
-@@ -193,6 +195,15 @@
- #define VE_MEM_RESTRICT_START		0x310
- #define VE_MEM_RESTRICT_END		0x314
- 
-+/*
-+ * @VIDEO_MODE_DETECT_DONE:	a flag raised if signal lock
-+ * @VIDEO_RES_CHANGE:		a flag raised if res_change work on-going
-+ * @VIDEO_RES_DETECT:		a flag raised if res. detection on-going
-+ * @VIDEO_STREAMING:		a flag raised if user requires stream-on
-+ * @VIDEO_FRAME_INPRG:		a flag raised if hw working on a frame
-+ * @VIDEO_STOPPED:		a flag raised if device release
-+ * @VIDEO_CLOCKS_ON:		a flag raised if clk is on
-+ */
- enum {
- 	VIDEO_MODE_DETECT_DONE,
- 	VIDEO_RES_CHANGE,
-@@ -231,6 +242,28 @@ struct aspeed_video_perf {
- #define to_aspeed_video_buffer(x) \
- 	container_of((x), struct aspeed_video_buffer, vb)
- 
-+/**
-+ * struct aspeed_video - driver data
-+ *
-+ * @flags:		holds the state of video
-+ * @sequence:		holds the last number of frame completed
-+ * @max_compressed_size:holds max compressed stream's size
-+ * @srcs:		holds the buffer information for srcs
-+ * @jpeg:		holds the buffer information for jpeg header
-+ * @bcd:		holds the buffer information for bcd work
-+ * @yuv420:		a flag raised if JPEG subsampling is 420
-+ * @format:		holds the video format
-+ * @hq_mode:		a flag raised if HQ is enabled. Only for VIDEO_FMT_ASPEED
-+ * @frame_rate:		holds the frame_rate
-+ * @jpeg_quality:	holds jpeq's quality (0~11)
-+ * @jpeg_hq_quality:	holds hq's quality (0~11) only if hq_mode enabled
-+ * @compression_mode:	holds jpeg compression mode
-+ * @frame_bottom:	end position of video data in vertical direction
-+ * @frame_left:		start position of video data in horizontal direction
-+ * @frame_right:	end position of video data in horizontal direction
-+ * @frame_top:		start position of video data in vertical direction
-+ * @perf:		holds the statistics primary for debugfs
-+ */
- struct aspeed_video {
- 	void __iomem *base;
- 	struct clk *eclk;
-@@ -1305,7 +1338,7 @@ static int aspeed_video_get_parm(struct file *file, void *fh,
- 	struct aspeed_video *video = video_drvdata(file);
- 
- 	a->parm.capture.capability = V4L2_CAP_TIMEPERFRAME;
--	a->parm.capture.readbuffers = 3;
-+	a->parm.capture.readbuffers = ASPEED_VIDEO_V4L2_MIN_BUF_REQ;
- 	a->parm.capture.timeperframe.numerator = 1;
- 	if (!video->frame_rate)
- 		a->parm.capture.timeperframe.denominator = MAX_FRAME_RATE;
-@@ -1322,7 +1355,7 @@ static int aspeed_video_set_parm(struct file *file, void *fh,
- 	struct aspeed_video *video = video_drvdata(file);
- 
- 	a->parm.capture.capability = V4L2_CAP_TIMEPERFRAME;
--	a->parm.capture.readbuffers = 3;
-+	a->parm.capture.readbuffers = ASPEED_VIDEO_V4L2_MIN_BUF_REQ;
- 
- 	if (a->parm.capture.timeperframe.numerator)
- 		frame_rate = a->parm.capture.timeperframe.denominator /
-@@ -1906,7 +1939,7 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
- 	vbq->drv_priv = video;
- 	vbq->buf_struct_size = sizeof(struct aspeed_video_buffer);
- 	vbq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
--	vbq->min_buffers_needed = 3;
-+	vbq->min_buffers_needed = ASPEED_VIDEO_V4L2_MIN_BUF_REQ;
- 
- 	rc = vb2_queue_init(vbq);
- 	if (rc) {
+Just wondering: what's the purpose of switching to v4l2_*() functions for
+printing when dev_*() equivalents already can do the same?
+
 -- 
-2.25.1
-
+Sakari Ailus
