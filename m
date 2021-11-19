@@ -2,50 +2,37 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606DD456A45
-	for <lists+linux-aspeed@lfdr.de>; Fri, 19 Nov 2021 07:32:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42C3456A73
+	for <lists+linux-aspeed@lfdr.de>; Fri, 19 Nov 2021 07:54:17 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HwRfv13chz305c
-	for <lists+linux-aspeed@lfdr.de>; Fri, 19 Nov 2021 17:32:39 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=deOy+AnU;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HwS7q5rg0z305K
+	for <lists+linux-aspeed@lfdr.de>; Fri, 19 Nov 2021 17:54:15 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=kuba@kernel.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=deOy+AnU; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record)
+ smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158;
+ helo=codeconstruct.com.au; envelope-from=jk@codeconstruct.com.au;
+ receiver=<UNKNOWN>)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HwRfn2W59z2xsh;
- Fri, 19 Nov 2021 17:32:33 +1100 (AEDT)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7FDC561154;
- Fri, 19 Nov 2021 06:32:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637303549;
- bh=OHkAYsvD0uKPKb8nG+HuJxykyXW7Ftf3m1+RoFYWSW8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=deOy+AnUvi+g1408Su7D3Z8MNREHZaOt8joLNAtV22FgtduKQEf7T6GvU8fiQqekE
- NUY1T/IeO+JYqKpWjx+tWfCYPxkL9IJ0yaTi9wTO2ZLEseTx3tD4V+PipYzhUiYOXN
- BAbGTnNURMDwcCRJprTWAOqlvZrEKnkGQY9K7hhCLggGOXeNjpl8i3aNmbXZdQqsE6
- OidbUst6fx4OCfB8cZYebpun+PVsGm21hijVN0GKLB7215lizhtXZ/2Gt82uiK8oLw
- FFdgGXvz3s9KPwOQ8//L6/BYj+uXNgvWjUOzUnuhGzv9/JVX+zB4DasVOLMVH2JdzW
- p8ng3bwVYIJ2w==
-Date: Thu, 18 Nov 2021 22:32:28 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Kumar Thangavel <kumarthangavel.hcl@gmail.com>
-Subject: Re: [PATCH v7] Add payload to be 32-bit aligned to fix dropped packets
-Message-ID: <20211118223228.7edfeade@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20211118160301.GA19542@gmail.com>
-References: <20211118160301.GA19542@gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HwS7g6vYBz2xYG
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 19 Nov 2021 17:54:07 +1100 (AEDT)
+Received: from [172.16.68.9] (unknown [49.255.141.98])
+ by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 72E5F20181;
+ Fri, 19 Nov 2021 14:54:03 +0800 (AWST)
+Message-ID: <483e616cb69c780f6102ae058a26704a0443d38f.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] drm/aspeed: Fix vga_pw sysfs output
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+To: Joel Stanley <joel@jms.id.au>, Oskar Senft <osk@google.com>
+Date: Fri, 19 Nov 2021 14:54:01 +0800
+In-Reply-To: <20211117010145.297253-1-joel@jms.id.au>
+References: <20211117010145.297253-1-joel@jms.id.au>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,18 +44,31 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: sdasari@fb.com, linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org,
- openbmc@lists.ozlabs.org, patrickw3@fb.com,
- Samuel Mendoza-Jonas <sam@mendozajonas.com>, velumanit@hcl.com,
- "David S. Miller" <davem@davemloft.net>
+Cc: linux-aspeed@lists.ozlabs.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ Ali El-Haj-Mahmoud <aaelhaj@google.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 18 Nov 2021 21:33:02 +0530 Kumar Thangavel wrote:
-> +const static int padding_bytes =3D 26;
+Hi Joel,
 
-/net/ncsi/ncsi-cmd.c:21:1: warning: =E2=80=98static=E2=80=99 is not at begi=
-nning of declaration [-Wold-style-declaration]
-   21 | const static int padding_bytes =3D 26;
-      | ^~~~~
+> Before the drm driver had support for this file there was a driver
+> that exposed the contents of the vga password register to userspace.
+> It would present the entire register instead of interpreting it.
+> 
+> The drm implementation chose to mask of the lower bit, without
+> explaining why. This breaks the existing userspace, which is looking
+> for 0xa8 in the lower byte.
+> 
+> Change our implementation to expose the entire register.
+
+As a userspace consumer of this:
+
+Reviewed-by: Jeremy Kerr <jk@codeconstruct.com.au>
+
+Thanks!
+
+
+Jeremy
+
