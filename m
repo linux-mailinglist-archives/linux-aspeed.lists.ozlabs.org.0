@@ -2,53 +2,93 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D111456C76
-	for <lists+linux-aspeed@lfdr.de>; Fri, 19 Nov 2021 10:39:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F45456E07
+	for <lists+linux-aspeed@lfdr.de>; Fri, 19 Nov 2021 12:11:04 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HwWnw6w8Rz307x
-	for <lists+linux-aspeed@lfdr.de>; Fri, 19 Nov 2021 20:39:00 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HwYr612wDz307j
+	for <lists+linux-aspeed@lfdr.de>; Fri, 19 Nov 2021 22:11:02 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=cerno.tech header.i=@cerno.tech header.a=rsa-sha256 header.s=fm1 header.b=SHgShHBf;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=dK1MlZtP;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
+ smtp.mailfrom=cerno.tech (client-ip=66.111.4.26;
+ helo=out2-smtp.messagingengine.com; envelope-from=maxime@cerno.tech;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=cerno.tech header.i=@cerno.tech header.a=rsa-sha256
+ header.s=fm1 header.b=SHgShHBf; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=dK1MlZtP; 
+ dkim-atps=neutral
+X-Greylist: delayed 582 seconds by postgrey-1.36 at boromir;
+ Fri, 19 Nov 2021 22:10:53 AEDT
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HwWnp343Sz2yb6;
- Fri, 19 Nov 2021 20:38:51 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 1AJ9Dv16017475;
- Fri, 19 Nov 2021 17:13:57 +0800 (GMT-8)
- (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 19 Nov
- 2021 17:37:46 +0800
-Message-ID: <b38e52d3-2800-ea59-1008-d5327c1c3e40@aspeedtech.com>
-Date: Fri, 19 Nov 2021 17:37:47 +0800
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HwYqx0ggHz2yYl
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 19 Nov 2021 22:10:53 +1100 (AEDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 508085C0152;
+ Fri, 19 Nov 2021 06:01:04 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Fri, 19 Nov 2021 06:01:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+ wMbZ7KJ8PdGz2rR2LNAQ/bdGFOMlOCIwBFKQo5W87oo=; b=SHgShHBfQqfPyfFY
+ JMuudBwdBj4zAjNCch2ICy/5x/oNoTTfNKFOfOQbRxoX29gz8Rka1MltAI+Gzc55
+ 5PnWndVro5d1ELWUunMukP4597pTz4g5bDUcBO3gtPY6E14sR/iF8iGyjd8mb2Fv
+ sjqu8AjhvLii61F532Qbp+u5WmXvbMFGPGTrPQ9WJYYf2qcFiSvpkDJoUN8mPBI2
+ 8/KpF74VaavXtmAN5BBXkKhZgX8Ba6xcl6mfoPHdpyMFDrW/JlWAVRCnS9UCKmHI
+ WEBTFKNjZaMCDh+sLr1OcI553cbgSnewnhw7lEGxAtm71WfZp5+35dX3DOEduR9H
+ iPJiIA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=wMbZ7KJ8PdGz2rR2LNAQ/bdGFOMlOCIwBFKQo5W87
+ oo=; b=dK1MlZtP894wuVX9B/JZkfQwr/ZZfo8MmuYuCYcGdAdvDAua415VX+OGO
+ 8as6uO+yCnuB4TdOi1gSnueAczGYAfeU3n32KZ0KTtc6GLHXoy30B0VI5g3L5wgk
+ Wd0vQTiXkA3zjJttZSrNIIjF1LKNZOa3AtMBY7jKo9OGcNxz6dpg8gZszCO/tBym
+ todDhYZvciVJgLQaq+QTik+bzFCp993M4ip2KrvXCffTEKlpK2nPmo+o4xzOQfE4
+ jfJbJr74IkaQL0edQxD/EWvgcZWDqWxD7c0vmNaipizJczytHK+C35Jj0/7ZF04U
+ zJ4bdQErHDCmFIJStF7aULKPoVzlQ==
+X-ME-Sender: <xms:7oOXYdGhKKf1IsAEWGpPK7F3dnTDmlZfyarrfTaltFUzlme5N6XqPg>
+ <xme:7oOXYSXIUGDO0NNdbwYX1IHlnwW4FMdQz_JmbV9ANxSKmpxoytqIOXuIrTcPxgXVN
+ DMPW2SwA3iQ-brg6e4>
+X-ME-Received: <xmr:7oOXYfLNsiUr8fm5-zfDTMFEG4gno_0M7ey8LhgU2nfxO45Y3dxb5L_-yW6TBnZfO5dUnH83yeg_qJQj8fsYfl_dgNimczNxvkgX1wDF1UY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeekgddvudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
+ keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:7oOXYTGIJK4BcqKyZSCGsP0crtLVMYXj3OzT_dD5g6Iun_Q7K4Glfg>
+ <xmx:7oOXYTXHWT9QXhKFJ9dPc-Iz61f-RAF1iyNEcO47Ly_W1Jbf-Yq_rg>
+ <xmx:7oOXYeML9r2cjHjVbuJnNJ5cCfeweUpq2cxQkIk0_WUcdVcAOT6JZg>
+ <xmx:8IOXYaGlQJmrTVoiAmZEyrD-DcgbOr3MvgwyCF5_A0wd8ltFCaiRmQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 19 Nov 2021 06:01:02 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jeremy Kerr <jk@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
+ Oskar Senft <osk@google.com>
+Subject: Re: (subset) [PATCH] drm/aspeed: Fix vga_pw sysfs output
+Date: Fri, 19 Nov 2021 12:00:57 +0100
+Message-Id: <163731964127.830809.15279573029825789668.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211117010145.297253-1-joel@jms.id.au>
+References: <20211117010145.297253-1-joel@jms.id.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH v5 05/10] media: v4l: Add definition for the Aspeed JPEG
- format
-Content-Language: en-US
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-References: <20211118074030.685-1-jammy_huang@aspeedtech.com>
- <20211118074030.685-6-jammy_huang@aspeedtech.com>
- <YZZIDNCLJXwrqY4W@paasikivi.fi.intel.com>
- <0bed6093-0af6-4fc4-716f-6cf8b1302320@aspeedtech.com>
- <1cc9afa7-397e-64a0-9f1b-b4d3bd85a8f0@molgen.mpg.de>
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <1cc9afa7-397e-64a0-9f1b-b4d3bd85a8f0@molgen.mpg.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1AJ9Dv16017475
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,91 +100,25 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: linux-aspeed@lists.ozlabs.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Ali El-Haj-Mahmoud <aaelhaj@google.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Dear Paul,
+On Wed, 17 Nov 2021 09:01:45 +0800, Joel Stanley wrote:
+> Before the drm driver had support for this file there was a driver that
+> exposed the contents of the vga password register to userspace. It would
+> present the entire register instead of interpreting it.
+> 
+> The drm implementation chose to mask of the lower bit, without explaining
+> why. This breaks the existing userspace, which is looking for 0xa8 in
+> the lower byte.
+> 
+> [...]
 
-OK, thanks for your suggestion.
+Applied to drm/drm-misc (drm-misc-fixes).
 
-On 2021/11/19 下午 04:39, Paul Menzel wrote:
-> Dear Jammy,
->
->
-> Am 19.11.21 um 03:02 schrieb Jammy Huang:
->
->> On 2021/11/18 下午 08:33, Sakari Ailus wrote:
->>> On Thu, Nov 18, 2021 at 03:40:26PM +0800, Jammy Huang wrote:
->>>> This introduces support for the Aspeed JPEG format, where the new frame
->>>> can refer to previous frame to reduce the amount of compressed data. The
->>>> concept is similar to I/P frame of video compression. I will compare the
->>>> new frame with previous one to decide which macroblock's data is
->>>> changed, and only the changed macroblocks will be compressed.
->>>>
->>>> This Aspeed JPEG format is used by the video engine on Aspeed platforms,
->>>> which is generally adapted for remote KVM.
->>>>
->>>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->>>> ---
->>>> v5:
->>>>     - no update
->>>> v4:
->>>>     - new
->>>> ---
->>>>    Documentation/media/uapi/v4l/pixfmt-reserved.rst | 12 ++++++++++++
->>>>    drivers/media/v4l2-core/v4l2-ioctl.c             |  1 +
->>>>    include/uapi/linux/videodev2.h                   |  1 +
->>>>    3 files changed, 14 insertions(+)
->>>>
->>>> diff --git a/Documentation/media/uapi/v4l/pixfmt-reserved.rst
->>>> b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
->>>> index b2cd155e691b..23c05063133d 100644
->>>> --- a/Documentation/media/uapi/v4l/pixfmt-reserved.rst
->>>> +++ b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
->>>> @@ -264,6 +264,18 @@ please make a proposal on the linux-media
->>>> mailing list.
->>>>        of tiles, resulting in 32-aligned resolutions for the luminance
->>>> plane
->>>>        and 16-aligned resolutions for the chrominance plane (with 2x2
->>>>        subsampling).
->>>> +    * .. _V4L2-PIX-FMT-AJPG:
->>>> +
->>>> +      - ``V4L2_PIX_FMT_AJPG``
->>>> +      - 'AJPG'
->>>> +      - ASPEED JPEG format used by the aspeed-video driver on Aspeed platforms,
->>>> +        which is generally adapted for remote KVM.
->>>> +        On each frame compression, I will compare the new frame with previous
->>>> +        one to decide which macroblock's data is changed, and only the changed
->>>> +        macroblocks will be compressed.
->>>> +
->>>> +        You could reference to chapter 36, Video Engine, of AST2600's datasheet
->>>> +        for more information.
->>> Is this datasheet publicly available? Do you have a URL?
->> Sorry, this datasheet is not publicly available.
->> Hans mentioned this as well in the discussion below:
->>
->> https://lkml.org/lkml/2021/11/10/101
-> If questions come up during review, please also add the answers to the
-> commit message of the next iteration. ;-) Maybe:
->
->> The implementation is based on datasheet *Name goes here*, revision
->> X, which is not publicly available.
-> Kind regards,
->
-> Paul
-
--- 
-Best Regards
-Jammy
-
+Thanks!
+Maxime
