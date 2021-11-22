@@ -2,38 +2,37 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8654596A1
-	for <lists+linux-aspeed@lfdr.de>; Mon, 22 Nov 2021 22:28:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDF2C459697
+	for <lists+linux-aspeed@lfdr.de>; Mon, 22 Nov 2021 22:28:28 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HygPW0Ybhz2xsT
-	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Nov 2021 08:28:47 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HygP66mcmz2ynG
+	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Nov 2021 08:28:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=none (no SPF record) smtp.mailfrom=linux-m68k.org
- (client-ip=2a02:1800:120:4::f00:d; helo=newton.telenet-ops.be;
+ (client-ip=195.130.132.45; helo=newton.telenet-ops.be;
  envelope-from=geert@linux-m68k.org; receiver=<UNKNOWN>)
-Received: from newton.telenet-ops.be (newton.telenet-ops.be
- [IPv6:2a02:1800:120:4::f00:d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HyX9n55g8z2yfn
- for <linux-aspeed@lists.ozlabs.org>; Tue, 23 Nov 2021 03:03:08 +1100 (AEDT)
-Received: from michel.telenet-ops.be (michel.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:18])
- by newton.telenet-ops.be (Postfix) with ESMTPS id 4HyX185hV5zMrTX1
- for <linux-aspeed@lists.ozlabs.org>; Mon, 22 Nov 2021 16:55:40 +0100 (CET)
+Received: from newton.telenet-ops.be (newton.telenet-ops.be [195.130.132.45])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HyX224wYqz2yHC
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 23 Nov 2021 02:56:26 +1100 (AEDT)
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:19])
+ by newton.telenet-ops.be (Postfix) with ESMTPS id 4HyX20006bzMrZ5l
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 22 Nov 2021 16:56:23 +0100 (CET)
 Received: from ramsan.of.borg ([84.195.186.194])
- by michel.telenet-ops.be with bizsmtp
- id MTuz260074C55Sk06TuzF0; Mon, 22 Nov 2021 16:55:40 +0100
+ by laurent.telenet-ops.be with bizsmtp
+ id MTvi2600Z4C55Sk01TviwZ; Mon, 22 Nov 2021 16:56:23 +0100
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1mpBe6-00EL3h-Gu; Mon, 22 Nov 2021 16:54:18 +0100
+ id 1mpBe6-00EL3i-LK; Mon, 22 Nov 2021 16:54:18 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1mpBe5-00HGzF-Od; Mon, 22 Nov 2021 16:54:17 +0100
+ id 1mpBe5-00HGzM-PZ; Mon, 22 Nov 2021 16:54:17 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Tony Lindgren <tony@atomide.com>, Russell King <linux@armlinux.org.uk>,
  Rajendra Nayak <rnayak@codeaurora.org>, Paul Walmsley <paul@pwsan.com>,
@@ -58,9 +57,9 @@ To: Tony Lindgren <tony@atomide.com>, Russell King <linux@armlinux.org.uk>,
  Daniel Lezcano <daniel.lezcano@linaro.org>,
  Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH/RFC 11/17] mmc: sdhci-of-aspeed: Use bitfield helpers
-Date: Mon, 22 Nov 2021 16:54:04 +0100
-Message-Id: <9e5d21f088c3b571d6a6bdeb8899726f51d5bc47.1637592133.git.geert+renesas@glider.be>
+Subject: [PATCH/RFC 12/17] pinctrl: aspeed: Use bitfield helpers
+Date: Mon, 22 Nov 2021 16:54:05 +0100
+Message-Id: <15158715ad2278191e310ac5a8d3dba7cc4fb9cc.1637592133.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1637592133.git.geert+renesas@glider.be>
 References: <cover.1637592133.git.geert+renesas@glider.be>
@@ -90,7 +89,8 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Use the field_prep() helper, instead open-coding the same operation.
+Use the field_{get,prep}() helpers, instead of open-coding the same
+operations.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
@@ -98,32 +98,136 @@ Compile-tested only.
 Marked RFC, as this depends on [PATCH 01/17], but follows a different
 path to upstream.
 ---
- drivers/mmc/host/sdhci-of-aspeed.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c | 3 ++-
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c | 3 ++-
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c | 3 ++-
+ drivers/pinctrl/aspeed/pinctrl-aspeed.c    | 5 +++--
+ drivers/pinctrl/aspeed/pinmux-aspeed.c     | 6 ++++--
+ 5 files changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-index 6e4e132903a6346b..26ac73aafb2ed55d 100644
---- a/drivers/mmc/host/sdhci-of-aspeed.c
-+++ b/drivers/mmc/host/sdhci-of-aspeed.c
+diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c
+index bfed0e2746437b4a..bfb2a7b229915a68 100644
+--- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c
++++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c
 @@ -2,6 +2,7 @@
- /* Copyright (C) 2019 ASPEED Technology Inc. */
+ /*
+  * Copyright (C) 2016 IBM Corp.
+  */
++#include <linux/bitfield.h>
+ #include <linux/bitops.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+@@ -2551,7 +2552,7 @@ static int aspeed_g4_sig_expr_set(struct aspeed_pinmux_data *ctx,
+ 	for (i = 0; i < expr->ndescs; i++) {
+ 		const struct aspeed_sig_desc *desc = &expr->descs[i];
+ 		u32 pattern = enable ? desc->enable : desc->disable;
+-		u32 val = (pattern << __ffs(desc->mask));
++		u32 val = field_prep(desc->mask, pattern);
+ 
+ 		if (!ctx->maps[desc->ip])
+ 			return -ENODEV;
+diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+index 4c0d26606b6cc7d6..8cc6d9c1f1c78296 100644
+--- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
++++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c
+@@ -2,6 +2,7 @@
+ /*
+  * Copyright (C) 2016 IBM Corp.
+  */
++#include <linux/bitfield.h>
+ #include <linux/bitops.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+@@ -2724,7 +2725,7 @@ static int aspeed_g5_sig_expr_set(struct aspeed_pinmux_data *ctx,
+ 	for (i = 0; i < expr->ndescs; i++) {
+ 		const struct aspeed_sig_desc *desc = &expr->descs[i];
+ 		u32 pattern = enable ? desc->enable : desc->disable;
+-		u32 val = (pattern << __ffs(desc->mask));
++		u32 val = field_prep(desc->mask, pattern);
+ 		struct regmap *map;
+ 
+ 		map = aspeed_g5_acquire_regmap(ctx, desc->ip);
+diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
+index a3fa03bcd9a30577..00f7b69a74e9e743 100644
+--- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
++++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
  /* Copyright (C) 2019 IBM Corp. */
++#include <linux/bitfield.h>
+ #include <linux/bitops.h>
+ #include <linux/init.h>
+ #include <linux/io.h>
+@@ -2649,7 +2650,7 @@ static int aspeed_g6_sig_expr_set(struct aspeed_pinmux_data *ctx,
+ 	for (i = 0; i < expr->ndescs; i++) {
+ 		const struct aspeed_sig_desc *desc = &expr->descs[i];
+ 		u32 pattern = enable ? desc->enable : desc->disable;
+-		u32 val = (pattern << __ffs(desc->mask));
++		u32 val = field_prep(desc->mask, pattern);
+ 		bool is_strap;
+ 
+ 		if (!ctx->maps[desc->ip])
+diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed.c b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
+index c94e24aadf922d2a..839ac48f75836352 100644
+--- a/drivers/pinctrl/aspeed/pinctrl-aspeed.c
++++ b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
+@@ -3,6 +3,7 @@
+  * Copyright (C) 2016 IBM Corp.
+  */
  
 +#include <linux/bitfield.h>
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/device.h>
-@@ -131,8 +132,8 @@ aspeed_sdc_set_phase_tap(const struct aspeed_sdhci_tap_desc *desc,
- {
- 	reg &= ~(desc->enable_mask | desc->tap_mask);
- 	if (enable) {
--		reg |= tap << __ffs(desc->tap_mask);
--		reg |= desc->enable_value << __ffs(desc->enable_mask);
-+		reg |= field_prep(desc->tap_mask, tap);
-+		reg |= field_prep(desc->enable_mask, desc->enable_value);
- 	}
+ #include <linux/mfd/syscon.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+@@ -547,7 +548,7 @@ int aspeed_pin_config_get(struct pinctrl_dev *pctldev, unsigned int offset,
+ 		return rc;
  
- 	return reg;
+ 	pmap = find_pinconf_map(pdata, param, MAP_TYPE_VAL,
+-			(val & pconf->mask) >> __ffs(pconf->mask));
++				field_get(pconf->mask, val));
+ 
+ 	if (!pmap)
+ 		return -EINVAL;
+@@ -595,7 +596,7 @@ int aspeed_pin_config_set(struct pinctrl_dev *pctldev, unsigned int offset,
+ 		if (WARN_ON(!pmap))
+ 			return -EINVAL;
+ 
+-		val = pmap->val << __ffs(pconf->mask);
++		val = field_prep(pconf->mask, pmap->val);
+ 
+ 		rc = regmap_update_bits(pdata->scu, pconf->reg,
+ 					pconf->mask, val);
+diff --git a/drivers/pinctrl/aspeed/pinmux-aspeed.c b/drivers/pinctrl/aspeed/pinmux-aspeed.c
+index 4aa46383c2c533f0..61ddd550439325ee 100644
+--- a/drivers/pinctrl/aspeed/pinmux-aspeed.c
++++ b/drivers/pinctrl/aspeed/pinmux-aspeed.c
+@@ -3,6 +3,8 @@
+ 
+ /* Pieces to enable drivers to implement the .set callback */
+ 
++#include <linux/bitfield.h>
++
+ #include "pinmux-aspeed.h"
+ 
+ static const char *const aspeed_pinmux_ips[] = {
+@@ -17,7 +19,7 @@ static inline void aspeed_sig_desc_print_val(
+ 	pr_debug("Want %s%X[0x%08X]=0x%X, got 0x%X from 0x%08X\n",
+ 			aspeed_pinmux_ips[desc->ip], desc->reg,
+ 			desc->mask, enable ? desc->enable : desc->disable,
+-			(rv & desc->mask) >> __ffs(desc->mask), rv);
++			field_get(desc->mask, rv), rv);
+ }
+ 
+ /**
+@@ -55,7 +57,7 @@ int aspeed_sig_desc_eval(const struct aspeed_sig_desc *desc,
+ 	aspeed_sig_desc_print_val(desc, enabled, raw);
+ 	want = enabled ? desc->enable : desc->disable;
+ 
+-	return ((raw & desc->mask) >> __ffs(desc->mask)) == want;
++	return field_get(desc->mask, raw) == want;
+ }
+ 
+ /**
 -- 
 2.25.1
 
