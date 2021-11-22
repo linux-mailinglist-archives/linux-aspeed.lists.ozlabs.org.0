@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DB5145969F
-	for <lists+linux-aspeed@lfdr.de>; Mon, 22 Nov 2021 22:28:45 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F8654596A1
+	for <lists+linux-aspeed@lfdr.de>; Mon, 22 Nov 2021 22:28:49 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HygPR06Fnz2yn9
-	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Nov 2021 08:28:43 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HygPW0Ybhz2xsT
+	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Nov 2021 08:28:47 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
@@ -17,23 +17,23 @@ Received: from newton.telenet-ops.be (newton.telenet-ops.be
  [IPv6:2a02:1800:120:4::f00:d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HyX9n3tyHz2yb9
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HyX9n55g8z2yfn
  for <linux-aspeed@lists.ozlabs.org>; Tue, 23 Nov 2021 03:03:08 +1100 (AEDT)
-Received: from albert.telenet-ops.be (albert.telenet-ops.be
- [IPv6:2a02:1800:110:4::f00:1a])
- by newton.telenet-ops.be (Postfix) with ESMTPS id 4HyX186RLtzMrTXD
+Received: from michel.telenet-ops.be (michel.telenet-ops.be
+ [IPv6:2a02:1800:110:4::f00:18])
+ by newton.telenet-ops.be (Postfix) with ESMTPS id 4HyX185hV5zMrTX1
  for <linux-aspeed@lists.ozlabs.org>; Mon, 22 Nov 2021 16:55:40 +0100 (CET)
 Received: from ramsan.of.borg ([84.195.186.194])
- by albert.telenet-ops.be with bizsmtp
- id MTuz260014C55Sk06Tuzyl; Mon, 22 Nov 2021 16:55:40 +0100
+ by michel.telenet-ops.be with bizsmtp
+ id MTuz260074C55Sk06TuzF0; Mon, 22 Nov 2021 16:55:40 +0100
 Received: from rox.of.borg ([192.168.97.57])
  by ramsan.of.borg with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1mpBe6-00EL3g-9G; Mon, 22 Nov 2021 16:54:18 +0100
+ id 1mpBe6-00EL3h-Gu; Mon, 22 Nov 2021 16:54:18 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
  (envelope-from <geert@linux-m68k.org>)
- id 1mpBe5-00HGz8-Ni; Mon, 22 Nov 2021 16:54:17 +0100
+ id 1mpBe5-00HGzF-Od; Mon, 22 Nov 2021 16:54:17 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Tony Lindgren <tony@atomide.com>, Russell King <linux@armlinux.org.uk>,
  Rajendra Nayak <rnayak@codeaurora.org>, Paul Walmsley <paul@pwsan.com>,
@@ -58,9 +58,9 @@ To: Tony Lindgren <tony@atomide.com>, Russell King <linux@armlinux.org.uk>,
  Daniel Lezcano <daniel.lezcano@linaro.org>,
  Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH/RFC 10/17] media: ti-vpe: cal: Use bitfield helpers
-Date: Mon, 22 Nov 2021 16:54:03 +0100
-Message-Id: <d0ec5ecf5681cc36e0b86f8b35dde5d4a79dd5e8.1637592133.git.geert+renesas@glider.be>
+Subject: [PATCH/RFC 11/17] mmc: sdhci-of-aspeed: Use bitfield helpers
+Date: Mon, 22 Nov 2021 16:54:04 +0100
+Message-Id: <9e5d21f088c3b571d6a6bdeb8899726f51d5bc47.1637592133.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1637592133.git.geert+renesas@glider.be>
 References: <cover.1637592133.git.geert+renesas@glider.be>
@@ -90,7 +90,7 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Use the field_prep() helper, instead of open-coding the same operation.
+Use the field_prep() helper, instead open-coding the same operation.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
@@ -98,31 +98,32 @@ Compile-tested only.
 Marked RFC, as this depends on [PATCH 01/17], but follows a different
 path to upstream.
 ---
- drivers/media/platform/ti-vpe/cal.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/mmc/host/sdhci-of-aspeed.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-index 527e22d022f300b7..5fcf1b55ff2879ac 100644
---- a/drivers/media/platform/ti-vpe/cal.h
-+++ b/drivers/media/platform/ti-vpe/cal.h
-@@ -303,7 +303,7 @@ static inline void cal_write_field(struct cal_dev *cal, u32 offset, u32 value,
- 	u32 val = cal_read(cal, offset);
+diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
+index 6e4e132903a6346b..26ac73aafb2ed55d 100644
+--- a/drivers/mmc/host/sdhci-of-aspeed.c
++++ b/drivers/mmc/host/sdhci-of-aspeed.c
+@@ -2,6 +2,7 @@
+ /* Copyright (C) 2019 ASPEED Technology Inc. */
+ /* Copyright (C) 2019 IBM Corp. */
  
- 	val &= ~mask;
--	val |= (value << __ffs(mask)) & mask;
-+	val |= field_prep(mask, value);
- 	cal_write(cal, offset, val);
- }
++#include <linux/bitfield.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+@@ -131,8 +132,8 @@ aspeed_sdc_set_phase_tap(const struct aspeed_sdhci_tap_desc *desc,
+ {
+ 	reg &= ~(desc->enable_mask | desc->tap_mask);
+ 	if (enable) {
+-		reg |= tap << __ffs(desc->tap_mask);
+-		reg |= desc->enable_value << __ffs(desc->enable_mask);
++		reg |= field_prep(desc->tap_mask, tap);
++		reg |= field_prep(desc->enable_mask, desc->enable_value);
+ 	}
  
-@@ -312,7 +312,7 @@ static inline void cal_set_field(u32 *valp, u32 field, u32 mask)
- 	u32 val = *valp;
- 
- 	val &= ~mask;
--	val |= (field << __ffs(mask)) & mask;
-+	val |= field_prep(mask, field);
- 	*valp = val;
- }
- 
+ 	return reg;
 -- 
 2.25.1
 
