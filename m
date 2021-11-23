@@ -2,67 +2,68 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A345C45B320
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Nov 2021 05:27:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F0145B321
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Nov 2021 05:27:04 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HzSdb4FSBz304j
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Nov 2021 15:26:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HzSdf5zK7z301j
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Nov 2021 15:27:02 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=B5wgrGMQ;
+	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=JvnlyRw9;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.167.181;
- helo=mail-oi1-f181.google.com; envelope-from=geert.uytterhoeven@gmail.com;
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.mailfrom=suse.de
+ (client-ip=195.135.220.29; helo=smtp-out2.suse.de; envelope-from=tiwai@suse.de;
  receiver=<UNKNOWN>)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
- [209.85.167.181])
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256
+ header.s=susede2_rsa header.b=B5wgrGMQ; 
+ dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256
+ header.s=susede2_ed25519 header.b=JvnlyRw9; 
+ dkim-atps=neutral
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HyyH82z7Vz2xXg;
- Tue, 23 Nov 2021 19:39:16 +1100 (AEDT)
-Received: by mail-oi1-f181.google.com with SMTP id n66so43265336oia.9;
- Tue, 23 Nov 2021 00:39:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YD9+CLUS5Xv902/pEfqOtiLcZyXas3B/t1a2ZRr+mI0=;
- b=Z4v/2e2F8dOftVjY36D6n/KxFD9vlHTYGaFjDWl3N31UrN6ijdnWxh39yR0wkr7Z9T
- lTswJsGedRjuVHF4A67bg7j0zoSP/BbRfSrIFFv3wUnU0SSgKAyzwqSNW39dZQFMx8hN
- fiNdipGmapcSH0bXesGuxJUEaDNGtJoZ3q3jnyi9JmUZCA2ELUYPLWGxgv0qzAzxJTxd
- p70bKFVpYcgk41s08q46552nr0LVMM1kQbXrvxWw/9kWgZICKX/NGPOgYjcAuN6MMGh4
- 8yOTZ3uJkIJjY7COxsAknfcvddtCb87pT0DFuq+rxMm/XBGQEkzQC+T8OWu+rj2P4day
- VE3g==
-X-Gm-Message-State: AOAM5333Ss/xSFHEgrkhTuvPq0Hi/eDeVgAmESe825u3XSrbIU++QCqQ
- D7ELElH8fkSfUKgmwRrbaM1JA6U+Bami4Q==
-X-Google-Smtp-Source: ABdhPJwveDdertywQNcRGK2jZ2ZSmqOWzJqIsXLkQu7vTPDuBllnKmumANBnVUhNbunrDkemcTZOig==
-X-Received: by 2002:a05:6808:1152:: with SMTP id
- u18mr621957oiu.73.1637656753552; 
- Tue, 23 Nov 2021 00:39:13 -0800 (PST)
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com.
- [209.85.210.53])
- by smtp.gmail.com with ESMTPSA id g26sm2109690ots.25.2021.11.23.00.39.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Nov 2021 00:39:13 -0800 (PST)
-Received: by mail-ot1-f53.google.com with SMTP id
- x43-20020a056830246b00b00570d09d34ebso32809995otr.2; 
- Tue, 23 Nov 2021 00:39:13 -0800 (PST)
-X-Received: by 2002:a9f:2431:: with SMTP id 46mr6012282uaq.114.1637656742896; 
- Tue, 23 Nov 2021 00:39:02 -0800 (PST)
-MIME-Version: 1.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Hz1y845Nwz2yb1;
+ Tue, 23 Nov 2021 22:24:48 +1100 (AEDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 210DC1FD39;
+ Tue, 23 Nov 2021 11:24:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1637666684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UFMk9Bgs0C48EUfsk3ZFvxtIETbpuVrnTCZsE9y/THg=;
+ b=B5wgrGMQxccfarx7KLxD/v3wx8FzL961VMxubhW0cO/WUVPlEQomF+nVuFGnnBslrEEhT1
+ xudqYqMaf+YphX2nzCoCbfB0B6g9AeH9QfhE7lu7z3ACo7VQrklZRhovUB+NCMR7oDuaNe
+ 0hq0zD2HZHDxU7bsE6McRJtXzhuF0Ds=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1637666684;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UFMk9Bgs0C48EUfsk3ZFvxtIETbpuVrnTCZsE9y/THg=;
+ b=JvnlyRw9hsp7oaQ0km8FOqiXL/FSSMsTm/BLHjKdYHEZKscA/ru44PAvFmPvH3xzeJazLO
+ xpP7CG8EyA51s0BA==
+Received: from alsa1.suse.de (alsa1.suse.de [10.160.4.42])
+ by relay2.suse.de (Postfix) with ESMTP id E56A2A3B85;
+ Tue, 23 Nov 2021 11:24:41 +0000 (UTC)
+Date: Tue, 23 Nov 2021 12:24:41 +0100
+Message-ID: <s5hwnkz9ksm.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH/RFC 16/17] ALSA: ice1724: Use bitfield helpers
+In-Reply-To: <45fa162856814176045ffbb49ee64cf0ea7e00bc.1637592133.git.geert+renesas@glider.be>
 References: <cover.1637592133.git.geert+renesas@glider.be>
- <3a54a6703879d10f08cf0275a2a69297ebd2b1d4.1637592133.git.geert+renesas@glider.be>
- <01b44b38c087c151171f8d45a2090474c2559306.camel@sipsolutions.net>
- <5936f811-fa48-33e9-2a1a-66c68f74aa5e@ieee.org>
-In-Reply-To: <5936f811-fa48-33e9-2a1a-66c68f74aa5e@ieee.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 23 Nov 2021 09:38:51 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX4C0EgkGXR=MwSuBOFoj7O9xx8xwH5dP8rWzN1ckejQA@mail.gmail.com>
-Message-ID: <CAMuHMdX4C0EgkGXR=MwSuBOFoj7O9xx8xwH5dP8rWzN1ckejQA@mail.gmail.com>
-Subject: Re: [PATCH 01/17] bitfield: Add non-constant field_{prep,
- get}() helpers
-To: Alex Elder <elder@ieee.org>
-Content-Type: text/plain; charset="UTF-8"
+ <45fa162856814176045ffbb49ee64cf0ea7e00bc.1637592133.git.geert+renesas@glider.be>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Content-Type: text/plain; charset=US-ASCII
 X-Mailman-Approved-At: Wed, 24 Nov 2021 15:26:47 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -98,52 +99,27 @@ Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
  linux-pm@vger.kernel.org, linux-mmc@vger.kernel.org,
  Nicolas Ferre <nicolas.ferre@microchip.com>, linux-kernel@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- netdev@vger.kernel.org, Johannes Berg <johannes@sipsolutions.net>,
- "David S . Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
+ netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Alex,
+On Mon, 22 Nov 2021 16:54:09 +0100,
+Geert Uytterhoeven wrote:
+> 
+> Use the field_{get,prep}() helpers, instead of open-coding the same
+> operations.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Compile-tested only.
+> Marked RFC, as this depends on [PATCH 01/17], but follows a different
+> path to upstream.
 
-On Tue, Nov 23, 2021 at 2:52 AM Alex Elder <elder@ieee.org> wrote:
-> On 11/22/21 10:32 AM, Johannes Berg wrote:
-> > On Mon, 2021-11-22 at 16:53 +0100, Geert Uytterhoeven wrote:
-> >> The existing FIELD_{GET,PREP}() macros are limited to compile-time
-> >> constants.  However, it is very common to prepare or extract bitfield
-> >> elements where the bitfield mask is not a compile-time constant.
-> >
-> > I'm not sure it's really a good idea to add a third API here?
-> >
-> > We have the upper-case (constant) versions, and already
-> > {u32,...}_get_bits()/etc.
->
-> I've used these a lot (and personally prefer the lower-case ones).
->
-> Your new macros don't do anything to ensure the field mask is
-> of the right form, which is basically:  (2 ^ width - 1) << shift
+Acked-by: Takashi Iwai <tiwai@suse.de>
 
-> I really like the property that the field mask must be constant.
 
-That's correct. How to enforce that in the non-const case?
-BUG()/WARN() is not an option ;-)
+thanks,
 
-> That being said, I've had to use some strange coding patterns
-> in order to adhere to the "const only" rule in a few cases.
-> So if you can come up with a satisfactory naming scheme I'm
-> all for it.
-
-There are plenty of drivers that handle masks stored in a data
-structure, so it would be good if they can use a suitable helper,
-as open-coding is prone to errors.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Takashi
