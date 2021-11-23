@@ -2,80 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F10145A708
-	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Nov 2021 16:58:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F03545B31B
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Nov 2021 05:26:50 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Hz81c1hlxz2ymP
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Nov 2021 02:58:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HzSdN3Xcfz2yyK
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Nov 2021 15:26:48 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=F3h+p3rn;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=DP4A1u9w;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::22a;
- helo=mail-oi1-x22a.google.com; envelope-from=groeck7@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=kuba@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=F3h+p3rn; dkim-atps=neutral
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
- [IPv6:2607:f8b0:4864:20::22a])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=DP4A1u9w; 
+ dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Hz80s0xlNz2xrP;
- Wed, 24 Nov 2021 02:57:32 +1100 (AEDT)
-Received: by mail-oi1-x22a.google.com with SMTP id bj13so45515669oib.4;
- Tue, 23 Nov 2021 07:57:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tDjoMJkmiCcFGdF6dcsQYg0MFBwPTTirRRHoT1oey7I=;
- b=F3h+p3rna1hgJMQ2amlf+ALUT7PuPQRM7rEmRW/imm8BDqtBQG4JoRrF1V9Tp2glRr
- U6t2ggtR4Fd1uYVhJPkOcUlzqnqXKrWbB+KuE1uGOt6ipPpCtoFnXsSDxYHn/dNJP8ke
- Izpox4iI3wq74SQSV+G7LR4wENLrD2IO1ucM4UDLVCCLxB9HNCTPuRjYUszH2gS3UC6p
- brm92l3sf68lTFh/owt4zVPiq2WRxkLUw8znWRHa1MomnmnsL37iFOz4W2JeMSab+mLR
- SMION44E+YLOBc32dEBpDxambbnB3gqr/RToWcm0ywR0XNic2D2WXbHNc0B2CdxR5yo5
- PpOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tDjoMJkmiCcFGdF6dcsQYg0MFBwPTTirRRHoT1oey7I=;
- b=SaPUJ3T3GQ+N5zbgk3iqkEm0kVJQph1WF1cPJvjQnirEoH+RXZVYnAXrcnwtiZuX7+
- ++TQkqrlR83bla807hoysDRAXvbTAImdnV6YzdEM30TS1YILVtZv0AKAuYeNHMXCpMR1
- IBmzZMmiSXb/OzQcKJZs69TGUUNYrQkJPVTOdLef6yWOMR6OSfbikqDOgwSe5mySI0s3
- zC4gh12DUQVWA/VA2Mzo0fDGc+i2eratnlatvErgtGsrQsRnatDevaTbI3w1+zlCUdho
- h3sUb2ZyTt0Xb/RlptKrQ0CKo7uNmxq7Sz6dAw4y4CbL0ADDPjbS7C9lx+W+8We08AEy
- GkFg==
-X-Gm-Message-State: AOAM5318CXgmIaHd4PXKl+Rt/LFdZr1rabiIodGIh6nhn8xiCA9wc9xt
- PPUSW4lgO9kD+ebEl8roQMk=
-X-Google-Smtp-Source: ABdhPJyJEZGrtc0xcH378fpDYmIhdU3TWk/zSgIRsI4w8vfi4DX4cvdmiQV1eRnHYGTf+mpBnhA89Q==
-X-Received: by 2002:aca:acc4:: with SMTP id v187mr3446169oie.35.1637683049879; 
- Tue, 23 Nov 2021 07:57:29 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- c3sm2721498oiw.8.2021.11.23.07.57.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Nov 2021 07:57:29 -0800 (PST)
-Subject: Re: [PATCH v4 12/13] docs: hwmon: Document PECI drivers
-To: Iwona Winiarska <iwona.winiarska@intel.com>,
- linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20211123140706.2945700-1-iwona.winiarska@intel.com>
- <20211123140706.2945700-13-iwona.winiarska@intel.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <d9dd9352-54e4-9837-b818-4bd38353e477@roeck-us.net>
-Date: Tue, 23 Nov 2021 07:57:26 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HymTj2qzvz2y7P;
+ Tue, 23 Nov 2021 12:17:45 +1100 (AEDT)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D9BC60FE7;
+ Tue, 23 Nov 2021 01:17:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1637630262;
+ bh=aoZBtBydzk0bAevU49rnDfe9zlt/fW7CJBCoU7dRxYA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=DP4A1u9wNAGb4TisYL/xclxXLCsu2eYg5z5kmYiYSKFhn68ml1u5EecsH0UtRKHqf
+ 6WSeXmftsKJnT0cJoC45C1J/DRKEkyY8ZtRnMG5HUdipvmpB5FFIlmEIJvncTHRUsl
+ ZJL0QNbzVlJaWzKiVHfmtZTk38Yn3TlLB2z6CLXnGmgwi//WUT0SYP6cVTF8nOAJxN
+ 15rOBhxuQkabwtldmp65OfJNj5TeFJmkuLPCAwUI0Dna0FEvAJIm2JVOaykJdOmzdN
+ ItdPFw828/65BBT1WXG3h6a2jxgAjBQ+Bbe/D392jq/wYgwXj4sze1/1CQib/FK9DM
+ tH9oaaLRu5SxA==
+Date: Mon, 22 Nov 2021 17:17:39 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Johannes Berg <johannes@sipsolutions.net>
+Subject: Re: [PATCH 01/17] bitfield: Add non-constant field_{prep,get}()
+ helpers
+Message-ID: <20211122171739.03848154@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <01b44b38c087c151171f8d45a2090474c2559306.camel@sipsolutions.net>
+References: <cover.1637592133.git.geert+renesas@glider.be>
+ <3a54a6703879d10f08cf0275a2a69297ebd2b1d4.1637592133.git.geert+renesas@glider.be>
+ <01b44b38c087c151171f8d45a2090474c2559306.camel@sipsolutions.net>
 MIME-Version: 1.0
-In-Reply-To: <20211123140706.2945700-13-iwona.winiarska@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Wed, 24 Nov 2021 15:26:47 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,32 +61,57 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
- Dave Hansen <dave.hansen@intel.com>, Zev Weiss <zweiss@equinix.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- devicetree@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
- Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh+dt@kernel.org>,
- Borislav Petkov <bp@alien8.de>, Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- Tony Luck <tony.luck@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
- David Muller <d.mueller@elsoft.ch>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Liam Girdwood <lgirdwood@gmail.com>, Tony Lindgren <tony@atomide.com>,
+ linux-wireless@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
+ Amit Kucheria <amitk@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Adrian Hunter <adrian.hunter@intel.com>, linux-clk@vger.kernel.org,
+ Ping-Ke Shih <pkshih@realtek.com>, Lars-Peter Clausen <lars@metafoo.de>,
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, linux-iio@vger.kernel.org,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Zhang Rui <rui.zhang@intel.com>, Linus Walleij <linus.walleij@linaro.org>,
+ linux-media@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+ alsa-devel@alsa-project.org, linux-omap@vger.kernel.org,
+ Benoit Parrot <bparrot@ti.com>, linux-gpio@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>,
+ Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>, Takashi Iwai <tiwai@suse.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
+ linux-arm-kernel@lists.infradead.org, Eduardo Valentin <edubezval@gmail.com>,
+ Paul Walmsley <paul@pwsan.com>, Rajendra Nayak <rnayak@codeaurora.org>,
+ Tero Kristo <kristo@kernel.org>, Keerthy <j-keerthy@ti.com>,
+ linux-pm@vger.kernel.org, linux-mmc@vger.kernel.org,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 11/23/21 6:07 AM, Iwona Winiarska wrote:
-> From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+On Mon, 22 Nov 2021 17:32:43 +0100 Johannes Berg wrote:
+> On Mon, 2021-11-22 at 16:53 +0100, Geert Uytterhoeven wrote:
+> > The existing FIELD_{GET,PREP}() macros are limited to compile-time
+> > constants.  However, it is very common to prepare or extract bitfield
+> > elements where the bitfield mask is not a compile-time constant.
 > 
-> Add documentation for peci-cputemp driver that provides DTS thermal
-> readings for CPU packages and CPU cores, and peci-dimmtemp driver that
-> provides Temperature Sensor on DIMM readings.
+> I'm not sure it's really a good idea to add a third API here?
+
++1
+
+> We have the upper-case (constant) versions, and already
+> {u32,...}_get_bits()/etc.
 > 
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
-> Co-developed-by: Iwona Winiarska <iwona.winiarska@intel.com>
-> Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
-> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+> Also, you're using __ffs(), which doesn't work for 64-bit on 32-bit
+> architectures (afaict), so that seems a bit awkward.
+> 
+> Maybe we can make {u32,...}_get_bits() be doing compile-time only checks
+> if it is indeed a constant? The __field_overflow() usage is already only
+> done if __builtin_constant_p(v), so I guess we can do the same with
+> __bad_mask()?
 
-
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+Either that or add decomposition macros. Are compilers still really bad
+at passing small structs by value?
