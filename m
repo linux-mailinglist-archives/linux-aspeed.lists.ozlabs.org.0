@@ -1,58 +1,49 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E50E045B327
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Nov 2021 05:27:23 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB52E45B437
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Nov 2021 07:12:03 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4HzSf169SBz2yg3
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Nov 2021 15:27:21 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=bMkLLetQ;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4HzVyn48XKz2yms
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Nov 2021 17:12:01 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=kuba@kernel.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=bMkLLetQ; 
- dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=dylan_hung@aspeedtech.com;
+ receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HzLTM2BBdz2xsL;
- Wed, 24 Nov 2021 10:49:26 +1100 (AEDT)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EBAD760F41;
- Tue, 23 Nov 2021 23:49:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637711364;
- bh=IW4qN8u05oVacusnPMH1cuKnY7vyge2dygNZ0jyMnfs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=bMkLLetQudL1AnjDLBkGz2KJV65XFDNAI+qMERM3p2htB/mPltEFDc0SoR5SG7cTn
- yUvjgLX4fj3iycoMCeZbceNqv8VJp4xXmhJ5j4daJdQUx70dPPE1ZSDF3I8EJ3CrBl
- FL9EHxBPJYKnvkt5L2363w5f8MTJ/hI+N0EksRg4Tqq2ECyAP9r+yfiU6OtA4c1HNW
- sJDJxZC66+IkfqVqHU0aoaIJ7PQLiQE76d+ztRn4+dA/AYxJtUD+/ZrA56NgYcGb99
- 3NhcCdyp7MdhPQ2MlzMSxitFt7xyg2kF02pUQFCNG1ojXEWE+DZkeLhKg7BQKKAgjZ
- pglhaeH4khWUA==
-Date: Tue, 23 Nov 2021 15:49:22 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Johannes Berg <johannes@sipsolutions.net>
-Subject: Re: [PATCH 01/17] bitfield: Add non-constant field_{prep,get}()
- helpers
-Message-ID: <20211123154922.600fd3b5@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <637a4183861a1f2cdab52b7652bfa7ed33fbcdd2.camel@sipsolutions.net>
-References: <cover.1637592133.git.geert+renesas@glider.be>
- <3a54a6703879d10f08cf0275a2a69297ebd2b1d4.1637592133.git.geert+renesas@glider.be>
- <01b44b38c087c151171f8d45a2090474c2559306.camel@sipsolutions.net>
- <20211122171739.03848154@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <CAMuHMdWAAGrQUZN18cnDTDUUhuPNTZTFkRMe2Sbf+s7CedPSxA@mail.gmail.com>
- <637a4183861a1f2cdab52b7652bfa7ed33fbcdd2.camel@sipsolutions.net>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HzVyf4mSSz2xvy
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 24 Nov 2021 17:11:53 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 1AO5klpJ059581;
+ Wed, 24 Nov 2021 13:46:47 +0800 (GMT-8)
+ (envelope-from dylan_hung@aspeedtech.com)
+Received: from DylanHung-PC.aspeed.com (192.168.2.216) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 24 Nov
+ 2021 14:10:54 +0800
+From: Dylan Hung <dylan_hung@aspeedtech.com>
+To: <linux-kernel@vger.kernel.org>, <linux-aspeed@lists.ozlabs.org>,
+ <linux-arm-kernel@lists.infradead.org>, <netdev@vger.kernel.org>,
+ <andrew@aj.id.au>, <joel@jms.id.au>, <kuba@kernel.org>,
+ <davem@davemloft.net>, <linux@armlinux.org.uk>, <hkallweit1@gmail.com>,
+ <andrew@lunn.ch>
+Subject: [PATCH] net:phy: Fix "Link is Down" issue
+Date: Wed, 24 Nov 2021 14:10:57 +0800
+Message-ID: <20211124061057.12555-1-dylan_hung@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Wed, 24 Nov 2021 15:26:47 +1100
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.216]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1AO5klpJ059581
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,48 +55,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, linux-aspeed@lists.ozlabs.org,
- Liam Girdwood <lgirdwood@gmail.com>, Tony Lindgren <tony@atomide.com>,
- linux-wireless@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
- Amit Kucheria <amitk@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, linux-clk@vger.kernel.org,
- Ping-Ke Shih <pkshih@realtek.com>, Lars-Peter Clausen <lars@metafoo.de>,
- openbmc@lists.ozlabs.org, "Rafael J . Wysocki" <rafael@kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>,
- linux-iio@vger.kernel.org, Ludovic Desroches <ludovic.desroches@microchip.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Zhang Rui <rui.zhang@intel.com>,
- Linus Walleij <linus.walleij@linaro.org>, linux-media@vger.kernel.org,
- Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org,
- linux-omap@vger.kernel.org, Benoit Parrot <bparrot@ti.com>,
- linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>, Takashi Iwai <tiwai@suse.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
- linux-arm-kernel@lists.infradead.org, Eduardo Valentin <edubezval@gmail.com>,
- Paul Walmsley <paul@pwsan.com>, Rajendra Nayak <rnayak@codeaurora.org>,
- Tero Kristo <kristo@kernel.org>, Keerthy <j-keerthy@ti.com>,
- linux-pm@vger.kernel.org, linux-mmc@vger.kernel.org,
- Adrian Hunter <adrian.hunter@intel.com>, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 23 Nov 2021 17:24:15 +0100 Johannes Berg wrote:
-> > (*_replace_bits() seems to be useful, though)  
-> 
-> Indeed.
-> 
-> Also as I said in my other mail, the le32/be32/... variants are
-> tremendously useful, and they fundamentally cannot be expressed with the
-> FIELD_GET() or field_get() macros. IMHO this is a clear advantage to the
+The issue happened randomly in runtime.  The message "Link is Down" is
+popped but soon it recovered to "Link is Up".
 
-Can you elaborate?
+The "Link is Down" results from the incorrect read data for reading the
+PHY register via MDIO bus.  The correct sequence for reading the data
+shall be:
+1. fire the command
+2. wait for command done (this step was missing)
+3. wait for data idle
+4. read data from data register
 
-> typed versions, and if you ask me we should get rid of the FIELD_GETand
-> FIELD_PREP entirely - difficult now, but at least let's not propagate
-> that?
+Fixes: a9770eac511a ("net: mdio: Move MDIO drivers into a new subdirectory")
+Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
+---
+ drivers/net/mdio/mdio-aspeed.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-I don't see why.
+diff --git a/drivers/net/mdio/mdio-aspeed.c b/drivers/net/mdio/mdio-aspeed.c
+index cad820568f75..966c3b4ad59d 100644
+--- a/drivers/net/mdio/mdio-aspeed.c
++++ b/drivers/net/mdio/mdio-aspeed.c
+@@ -61,6 +61,13 @@ static int aspeed_mdio_read(struct mii_bus *bus, int addr, int regnum)
+ 
+ 	iowrite32(ctrl, ctx->base + ASPEED_MDIO_CTRL);
+ 
++	rc = readl_poll_timeout(ctx->base + ASPEED_MDIO_CTRL, ctrl,
++				!(ctrl & ASPEED_MDIO_CTRL_FIRE),
++				ASPEED_MDIO_INTERVAL_US,
++				ASPEED_MDIO_TIMEOUT_US);
++	if (rc < 0)
++		return rc;
++
+ 	rc = readl_poll_timeout(ctx->base + ASPEED_MDIO_DATA, data,
+ 				data & ASPEED_MDIO_DATA_IDLE,
+ 				ASPEED_MDIO_INTERVAL_US,
+-- 
+2.25.1
+
