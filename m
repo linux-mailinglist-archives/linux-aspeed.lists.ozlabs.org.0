@@ -1,48 +1,53 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C6645E368
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Nov 2021 00:35:28 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E0F45E369
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Nov 2021 00:35:31 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J0Z4G1qhNz2ymc
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Nov 2021 10:35:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J0Z4K1fdjz30R8
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Nov 2021 10:35:29 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=qwjskdle;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sipsolutions.net header.i=@sipsolutions.net header.a=rsa-sha256 header.s=mail header.b=cbvNymNX;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
- envelope-from=kuba@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=sipsolutions.net (client-ip=2a01:4f8:191:4433::2;
+ helo=sipsolutions.net; envelope-from=johannes@sipsolutions.net;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=qwjskdle; 
+ secure) header.d=sipsolutions.net header.i=@sipsolutions.net
+ header.a=rsa-sha256 header.s=mail header.b=cbvNymNX; 
  dkim-atps=neutral
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HzjLN4rBQz2yN1;
- Thu, 25 Nov 2021 00:59:40 +1100 (AEDT)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B124C6135F;
- Wed, 24 Nov 2021 13:59:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1637762378;
- bh=qRP+clj8R/VdWhftZ8Y8X7gwjyLiR1Ndt0XMFQ1d99I=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=qwjskdleu3wFs5Bp+wvn7/HQgcncwjzNLbZJvm05oYaNrcYQTwWP5OPt4NA+r19ce
- xvpj4Ygu81mu+0T0HClP6KV/QWjpcF9snHTHoGaG5tUeLxnTTWkLES0g3C2OG9fyHP
- 3gdMDDzRgjs1FxHFxipNVT3bu4+1WLgAMlUBkLt05N30IajW10WzN8g5y+5eK5i725
- UrYk6tfyltIEGHPLMkyi6LuRszHy8ZTAL81DcgYxpSc8FxYZIzgFUL244Ub8IMFPQK
- iyz4glX1RQI/lDwdXU9D49kB+bXi/+6kFMsXGuBY9Lzmn68zgSqocZJHLF6A/zwCj2
- E8n91Zb/v+PWQ==
-Date: Wed, 24 Nov 2021 05:59:35 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Johannes Berg <johannes@sipsolutions.net>
+Received: from sipsolutions.net (s3.sipsolutions.net
+ [IPv6:2a01:4f8:191:4433::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4HzjYx1prsz2x9K;
+ Thu, 25 Nov 2021 01:09:40 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=sipsolutions.net; s=mail; h=Content-Transfer-Encoding:MIME-Version:
+ Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+ Resent-Cc:Resent-Message-ID; bh=ehMa9pgWHBM7TnvPMQnjh4s1Rj7IHG2tDkzpNOpErAk=; 
+ t=1637762980; x=1638972580; b=cbvNymNXTl3OOR4xI2kENt36B0SJBzdxod1/qVj70JDIE8A
+ KUEgitEM0vBCQACluhgrLAdnnbKXJXCNdb3alfskKQQJahs1E/5SrRS9pz58pk/cAHNrCbE2QSS0+
+ X4PU8cYgfb9x4HYqdCp9JPGVFxp8DoZyZ2D/NGugrenWR1I+i8WuTEIMwcHsXy1W0Z0W9jWIBW+27
+ F8Q2cuCouEOo7D0O7YA3StbDF+3+2QxNVgEWHfYJpSuHHOq3DDuy4NlMjx89+y/NRTnPI0BjA6o4e
+ pxbeWbfyMBXwUO1P5HmgNLEg6bxzhY7OmAR5Q4M4dEnB8cItypkJYdQIZMcoFJOw==;
+Received: by sipsolutions.net with esmtpsa
+ (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.95) (envelope-from <johannes@sipsolutions.net>)
+ id 1mpsw9-002JSq-Fw; Wed, 24 Nov 2021 15:07:49 +0100
+Message-ID: <eea90adf2d51326f6d0bf0b97834063752a35c3f.camel@sipsolutions.net>
 Subject: Re: [PATCH 01/17] bitfield: Add non-constant field_{prep,get}()
  helpers
-Message-ID: <20211124055935.416dc472@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <05d4673a0343bfd83824d307e9cf8bf92e3814a6.camel@sipsolutions.net>
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Jakub Kicinski <kuba@kernel.org>
+Date: Wed, 24 Nov 2021 15:07:47 +0100
+In-Reply-To: <20211124055935.416dc472@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
 References: <cover.1637592133.git.geert+renesas@glider.be>
  <3a54a6703879d10f08cf0275a2a69297ebd2b1d4.1637592133.git.geert+renesas@glider.be>
  <01b44b38c087c151171f8d45a2090474c2559306.camel@sipsolutions.net>
@@ -51,9 +56,12 @@ References: <cover.1637592133.git.geert+renesas@glider.be>
  <637a4183861a1f2cdab52b7652bfa7ed33fbcdd2.camel@sipsolutions.net>
  <20211123154922.600fd3b5@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
  <05d4673a0343bfd83824d307e9cf8bf92e3814a6.camel@sipsolutions.net>
+ <20211124055935.416dc472@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-malware-bazaar: not-scanned
 X-Mailman-Approved-At: Fri, 26 Nov 2021 10:35:12 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -89,49 +97,46 @@ Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
  linux-pm@vger.kernel.org, linux-mmc@vger.kernel.org,
  Adrian Hunter <adrian.hunter@intel.com>, linux-kernel@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
- Jonathan Cameron <jic23@kernel.org>
+ netdev@vger.kernel.org, "David S .
+ Miller" <davem@davemloft.net>, Jonathan Cameron <jic23@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 24 Nov 2021 09:03:24 +0100 Johannes Berg wrote:
-> On Tue, 2021-11-23 at 15:49 -0800, Jakub Kicinski wrote:
-> > > Indeed.
-> > > 
-> > > Also as I said in my other mail, the le32/be32/... variants are
-> > > tremendously useful, and they fundamentally cannot be expressed with the
-> > > FIELD_GET() or field_get() macros. IMHO this is a clear advantage to the  
-> > 
-> > Can you elaborate?  
+On Wed, 2021-11-24 at 05:59 -0800, Jakub Kicinski wrote:
 > 
-> Well, the way I see it, the only advantage of FIELD_GET() is that it
-> will auto-determine the type (based on the mask type.) This cannot work
-> if you need be/le conversions, because the be/le type annotations are
-> invisible to the compiler.
+> FWIW I never found the be/le versions useful. Most of the time the data
+> comes from bus accessors which swap or is unaligned so you have to do
+> be/le_get_unaligned, which swaps. Plus if you access/set multiple
+> fields you'd swap them one by one which seems wasteful.
+
+Oh, we use them all the time in wifi!
+
+I'm not sure I'm too concerned about wasteful - actually in wifi most of
+the time it's little endian to start with, which matches the CPU for all
+practical uses of wifi (**), and often we just access one field or so.
+And anyway if we extract more than a single bit we need to swap anyway,
+and I hope if it's just a single bit the compiler will optimize since
+the one side is a constant? But whatever ...
+
+(**) I had a fight with big-endian ARM a few years ago just to get wifi
+tested on big-endian ...
+
+
+> Right now it seems the uppercase macros are more prevalent.
 > 
-> So obviously you could write a BE32_FIELD_GET(), but then really that's
-> equivalent to be32_get_bits() - note you you have to actually specify
-> the type in the macro name. I guess in theory you could make macros
-> where the type is an argument (like FIELD_GET_TYPE(be32, ...)), but I
-> don't see how that gains anything.
 
-Ah, that's what you meant! Thanks for spelling it out.
+Not in my world ;-)
 
-FWIW I never found the be/le versions useful. Most of the time the data
-comes from bus accessors which swap or is unaligned so you have to do
-be/le_get_unaligned, which swaps. Plus if you access/set multiple
-fields you'd swap them one by one which seems wasteful.
+$ git grep FIELD_GET -- ... | wc -l
+20
+$ git grep le32_get_bits -- ... | wc -l
+44
+$ git grep le16_get_bits -- ... | wc -l
+12
+$ git grep u8_get_bits -- ... | wc -l
+17
 
-> > > typed versions, and if you ask me we should get rid of the FIELD_GETand
-> > > FIELD_PREP entirely - difficult now, but at least let's not propagate
-> > > that?  
-> > 
-> > I don't see why.  
-> 
-> Just for being more regular, in the spirit of "there's exactly one
-> correct way of doing it" :)
+:-)
 
-Right now it seems the uppercase macros are more prevalent.
-
-Could just be because of the way the "swapping ones" are defined.
+johannes
