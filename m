@@ -1,46 +1,61 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B78B45DCA1
-	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Nov 2021 15:47:30 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 404F945DDCE
+	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Nov 2021 16:45:08 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J0LM40FGrz307L
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Nov 2021 01:47:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J0MdZ06Jzz3c6R
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Nov 2021 02:45:06 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=jY4QbYrh;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.a=rsa-sha256 header.s=pandora-2019 header.b=fBMUWHnU;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch
- (client-ip=185.16.172.187; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch;
+ spf=none (no SPF record) smtp.mailfrom=armlinux.org.uk
+ (client-ip=2001:4d48:ad52:32c8:5054:ff:fe00:142; helo=pandora.armlinux.org.uk;
+ envelope-from=linux+linux-aspeed=lists.ozlabs.org@armlinux.org.uk;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256
- header.s=20171124 header.b=jY4QbYrh; dkim-atps=neutral
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ secure) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.a=rsa-sha256
+ header.s=pandora-2019 header.b=fBMUWHnU; 
+ dkim-atps=neutral
+X-Greylist: delayed 508 seconds by postgrey-1.36 at boromir;
+ Fri, 26 Nov 2021 02:44:32 AEDT
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
+ [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J0LLx6pHCz2xsH
- for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Nov 2021 01:47:21 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
- s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
- Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
- Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
- bh=2hMaCRMxVgM4TVI32WQvFsJU4187k7V84pmrkSmEJTI=; b=jY4QbYrhzSWswJ7lDvlmVBQyEA
- kiQcBkcxsGpQYTBdv6mnmgAKMT893mctRejpIWXGkZteoNoRbxuvWgVSSwZ1zcBiVhes+gPWiy1fW
- DPQkyZfEIsnyy2WaSxJuwiWxPTm6RRj5ZtQJ9HZQFgXyYAg03NXNNpt47SvNwR1kYrAQ=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
- (envelope-from <andrew@lunn.ch>)
- id 1mqG1m-00EcKC-D0; Thu, 25 Nov 2021 15:47:10 +0100
-Date: Thu, 25 Nov 2021 15:47:10 +0100
-From: Andrew Lunn <andrew@lunn.ch>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J0Mcw0dwwz3c4c
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Nov 2021 02:44:31 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=4ZeojgPqWWrsMI5BHeJYX983PNTgh8dQN9F2ioLGkIs=; b=fBMUWHnUBpQs3qU9Nq4aPHReY7
+ 19sN6LtcvO+1tO01gi432dy2Hr+LDGv9p/F5YxpbSsTLAZzUd+q6A6Ng5b1x4nTEyM9SWKJKHBKSh
+ poCFCNfK5RS40voK6YrugKO6S6MJkzOORq2mOMfXI/ZiFJd8BrE1185BQuV6caPzxIKAK9I5WwUow
+ ilQzkFMVKVpt+JcV0WJOlgBoi+5gzyLIlKwC0k7Sxpyn9/h+v57wOJYaKvSGxswIpI6/8OIncVi6K
+ H2JI9zCtBYIEqdR9uSEGdxW+UQRSfYnweSMLMqXFSUcLoXviemf8ml7FRMhxSu+UtU2Aae14IkhEM
+ MDvlN7oA==;
+Received: from shell.armlinux.org.uk
+ ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:55896)
+ by pandora.armlinux.org.uk with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <linux@armlinux.org.uk>)
+ id 1mqGmi-000240-E6; Thu, 25 Nov 2021 15:35:40 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+ (envelope-from <linux@shell.armlinux.org.uk>)
+ id 1mqGme-0002Oo-7d; Thu, 25 Nov 2021 15:35:36 +0000
+Date: Thu, 25 Nov 2021 15:35:36 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
 To: Dylan Hung <dylan_hung@aspeedtech.com>
 Subject: Re: [PATCH v2] mdio: aspeed: Fix "Link is Down" issue
-Message-ID: <YZ+h7qXTLvRRXpj0@lunn.ch>
+Message-ID: <YZ+tSMT4Z6CpOgJ3@shell.armlinux.org.uk>
 References: <20211125024432.15809-1-dylan_hung@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -57,10 +72,10 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com, linux-aspeed@lists.ozlabs.org,
+Cc: andrew@lunn.ch, linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com,
  netdev@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- linux@armlinux.org.uk, kuba@kernel.org, davem@davemloft.net,
- linux-arm-kernel@lists.infradead.org, hkallweit1@gmail.com
+ kuba@kernel.org, davem@davemloft.net, linux-arm-kernel@lists.infradead.org,
+ hkallweit1@gmail.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
@@ -82,6 +97,10 @@ On Thu, Nov 25, 2021 at 10:44:32AM +0800, Dylan Hung wrote:
 > Reviewed-by: Joel Stanley <joel@jms.id.au>
 > Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
-    Andrew
+Thanks.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
