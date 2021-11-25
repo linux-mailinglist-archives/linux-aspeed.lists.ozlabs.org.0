@@ -2,53 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA0B45E36A
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Nov 2021 00:35:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5332945E36B
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Nov 2021 00:35:36 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J0Z4M502Bz3bmr
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Nov 2021 10:35:31 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J0Z4Q1btvz3bd0
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Nov 2021 10:35:34 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ePD6MPCA;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=huawei.com (client-ip=185.176.79.56;
- helo=frasgout.his.huawei.com; envelope-from=jonathan.cameron@huawei.com;
- receiver=<UNKNOWN>)
-X-Greylist: delayed 1155 seconds by postgrey-1.36 at boromir;
- Thu, 25 Nov 2021 02:40:39 AEDT
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
+ smtp.mailfrom=kernel.org (client-ip=198.145.29.99; helo=mail.kernel.org;
+ envelope-from=patchwork-bot+netdevbpf@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=ePD6MPCA; 
+ dkim-atps=neutral
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4HzlZv70w5z2yNY;
- Thu, 25 Nov 2021 02:40:37 +1100 (AEDT)
-Received: from fraeml739-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Hzl7x66WJz67x9G;
- Wed, 24 Nov 2021 23:20:45 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml739-chm.china.huawei.com (10.206.15.220) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 24 Nov 2021 16:21:16 +0100
-Received: from localhost (10.52.122.252) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Wed, 24 Nov
- 2021 15:21:14 +0000
-Date: Wed, 24 Nov 2021 15:21:12 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH/RFC 08/17] iio: humidity: hts221: Use bitfield helpers
-Message-ID: <20211124152112.000078bf@Huawei.com>
-In-Reply-To: <c906f7449c0210cefba53eab2c2d87105d5c8599.1637592133.git.geert+renesas@glider.be>
-References: <cover.1637592133.git.geert+renesas@glider.be>
- <c906f7449c0210cefba53eab2c2d87105d5c8599.1637592133.git.geert+renesas@glider.be>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J0Mz13QcZz2xBP
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Nov 2021 03:00:13 +1100 (AEDT)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 236B66108E;
+ Thu, 25 Nov 2021 16:00:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1637856010;
+ bh=ucYoul2wvLTG4PBO56hF4AxJWAGQbC8TJdZcAk422Ks=;
+ h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+ b=ePD6MPCAjCTjr8QWwQYoks4TOCIjpPFBQQvPqPPsb/JcwATS6NHiA8K/5nqsaN5kV
+ rjvQy1StCKoCq0IdZG1BeRZ4oy+rQ0exEEwN+HNnEtfPEgeJ+Im7evrQNnx7pyWL1a
+ VJ3DmstgvES4ranJaEy9QbqZPozUIOW03yFGEdIbGsDcJ9e97j1r1QuoIxB+9YXXsT
+ NaZFWbejIvCREg2Sid3PXBgxHUCXED2DwXmCtWpry3iF5r/kJHxoWa3Jxw/9+E7yZr
+ +2dLbQ9dr374v8LDqL6ZKzV3mEhFZx1LEUWizLScI981xQ3dxNZfVY0txTdRneJJ9+
+ IcyHja+Gy5+fw==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain
+ [127.0.0.1])
+ by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 1624160A21;
+ Thu, 25 Nov 2021 16:00:10 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.122.252]
-X-ClientProxiedBy: lhreml733-chm.china.huawei.com (10.201.108.84) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] mdio: aspeed: Fix "Link is Down" issue
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: <163785601008.7926.14064362154729889685.git-patchwork-notify@kernel.org>
+Date: Thu, 25 Nov 2021 16:00:10 +0000
+References: <20211125024432.15809-1-dylan_hung@aspeedtech.com>
+In-Reply-To: <20211125024432.15809-1-dylan_hung@aspeedtech.com>
+To: Dylan Hung <dylan_hung@aspeedtech.com>
 X-Mailman-Approved-At: Fri, 26 Nov 2021 10:35:12 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -61,89 +62,40 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, linux-aspeed@lists.ozlabs.org,
- Liam Girdwood <lgirdwood@gmail.com>, Tony Lindgren <tony@atomide.com>,
- linux-wireless@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
- Amit Kucheria <amitk@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Adrian Hunter <adrian.hunter@intel.com>, linux-clk@vger.kernel.org,
- Ping-Ke Shih <pkshih@realtek.com>, Lars-Peter Clausen <lars@metafoo.de>,
- openbmc@lists.ozlabs.org, "Rafael J . Wysocki" <rafael@kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>, Russell King <linux@armlinux.org.uk>,
- linux-iio@vger.kernel.org, Ludovic Desroches <ludovic.desroches@microchip.com>,
- Jakub Kicinski <kuba@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Linus Walleij <linus.walleij@linaro.org>, linux-media@vger.kernel.org,
- Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org,
- linux-omap@vger.kernel.org, Benoit Parrot <bparrot@ti.com>,
- linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>, Lorenzo
- Bianconi <lorenzo.bianconi83@gmail.com>, Takashi Iwai <tiwai@suse.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
- linux-arm-kernel@lists.infradead.org, Eduardo Valentin <edubezval@gmail.com>,
- Paul Walmsley <paul@pwsan.com>, Rajendra Nayak <rnayak@codeaurora.org>,
- Tero Kristo <kristo@kernel.org>, Keerthy <j-keerthy@ti.com>,
- linux-pm@vger.kernel.org, linux-mmc@vger.kernel.org,
- Nicolas Ferre <nicolas.ferre@microchip.com>, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, Jonathan
- Cameron <jic23@kernel.org>
+Cc: andrew@lunn.ch, linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ linux@armlinux.org.uk, kuba@kernel.org, davem@davemloft.net,
+ linux-arm-kernel@lists.infradead.org, hkallweit1@gmail.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 22 Nov 2021 16:54:01 +0100
-Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+Hello:
 
-> Use the field_prep() helper, instead of open-coding the same operation.
+This patch was applied to netdev/net.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Thu, 25 Nov 2021 10:44:32 +0800 you wrote:
+> The issue happened randomly in runtime.  The message "Link is Down" is
+> popped but soon it recovered to "Link is Up".
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Hi Geert,
-
-If this should got forwards, looks like a nice cleanup for the two IIO
-ones, so I'll be happy to pick them up once infrastructure in place
-(ideally have the infrastructure an immutable branch to save having
-to revisit in 3+ months time!)
-
-Jonathan
-
-> ---
-> Compile-tested only.
-> Marked RFC, as this depends on [PATCH 01/17], but follows a different
-> path to upstream.
-> ---
->  drivers/iio/humidity/hts221_core.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> The "Link is Down" results from the incorrect read data for reading the
+> PHY register via MDIO bus.  The correct sequence for reading the data
+> shall be:
+> 1. fire the command
+> 2. wait for command done (this step was missing)
+> 3. wait for data idle
+> 4. read data from data register
 > 
-> diff --git a/drivers/iio/humidity/hts221_core.c b/drivers/iio/humidity/hts221_core.c
-> index 6a39615b696114cd..749aedc469ede5c1 100644
-> --- a/drivers/iio/humidity/hts221_core.c
-> +++ b/drivers/iio/humidity/hts221_core.c
-> @@ -7,6 +7,7 @@
->   * Lorenzo Bianconi <lorenzo.bianconi@st.com>
->   */
->  
-> +#include <linux/bitfield.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/device.h>
-> @@ -171,7 +172,7 @@ static int hts221_update_avg(struct hts221_hw *hw,
->  			     u16 val)
->  {
->  	const struct hts221_avg *avg = &hts221_avg_list[type];
-> -	int i, err, data;
-> +	int i, err;
->  
->  	for (i = 0; i < HTS221_AVG_DEPTH; i++)
->  		if (avg->avg_avl[i] == val)
-> @@ -180,9 +181,8 @@ static int hts221_update_avg(struct hts221_hw *hw,
->  	if (i == HTS221_AVG_DEPTH)
->  		return -EINVAL;
->  
-> -	data = ((i << __ffs(avg->mask)) & avg->mask);
-> -	err = regmap_update_bits(hw->regmap, avg->addr,
-> -				 avg->mask, data);
-> +	err = regmap_update_bits(hw->regmap, avg->addr, avg->mask,
-> +				 field_prep(avg->mask, i));
->  	if (err < 0)
->  		return err;
->  
+> [...]
+
+Here is the summary with links:
+  - [v2] mdio: aspeed: Fix "Link is Down" issue
+    https://git.kernel.org/netdev/net/c/9dbe33cf371b
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
