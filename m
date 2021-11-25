@@ -1,70 +1,70 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026F545D7C1
-	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Nov 2021 10:54:48 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id E39B945DC5E
+	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Nov 2021 15:32:43 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J0CsK64QCz3c5q
-	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Nov 2021 20:54:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J0L215ndZz30J9
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Nov 2021 01:32:41 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=f+NP+Gbr;
+	dkim=pass (2048-bit key; secure) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=s2 header.b=QrnlUbg/;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::534;
- helo=mail-ed1-x534.google.com; envelope-from=kumarthangavel.hcl@gmail.com;
+ smtp.mailfrom=xs4all.nl (client-ip=2001:888:0:108::1c;
+ helo=lb1-smtp-cloud9.xs4all.net; envelope-from=hverkuil-cisco@xs4all.nl;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=f+NP+Gbr; dkim-atps=neutral
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com
- [IPv6:2a00:1450:4864:20::534])
+ secure) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=s2
+ header.b=QrnlUbg/; dkim-atps=neutral
+X-Greylist: delayed 70 seconds by postgrey-1.36 at boromir;
+ Fri, 26 Nov 2021 01:32:31 AEDT
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net
+ [IPv6:2001:888:0:108::1c])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J0CsF0Vmkz2yMc;
- Thu, 25 Nov 2021 20:54:40 +1100 (AEDT)
-Received: by mail-ed1-x534.google.com with SMTP id t5so23321518edd.0;
- Thu, 25 Nov 2021 01:54:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=l3e4y3dKQ5bF28kOJ3CCuHRbuX7HJ7NATR43PyJwm9A=;
- b=f+NP+GbrdRxZuREHYvvTrRfB1/QsQkaT7vYUMNwkuIIkFNL+77IcXbd07oqRvOQsY5
- b7z+qYKB2QOPkFbcoKgBBnRw2AQlQjnm5C52J3G94zza6FC5c6t7+XvEBh3HvzL5q/s9
- uRsvl4GCuqBjzMgce8ul8HGNxXs82/tMnmZ90fvfycWi1gLx8bJXXi0XeFQA3TX9atfr
- JUknXw7LMzCLsULiSYLr+hgnzAdns3WTdbMUuB78QNX8whktZqVUfgXj8rzmJrXyhFVF
- sMcBlLn0Jk5gP+/7MmA89c1qvBrdrQUi7gZ3GzFPAauLhT4IqudsVzT4G8UMKLw9iYtg
- xzXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=l3e4y3dKQ5bF28kOJ3CCuHRbuX7HJ7NATR43PyJwm9A=;
- b=W5R73f5NBK5YpQZ7ho4uWWNRTvjAaAOj2IFQGRzr9snWwlHqNRpstgQrfCJeOe/ewL
- iDk7K8az9o+71ZL5UPuHPmBsTiRRhzoKCBzRlnARpfKfQb1bqXH7uim01BvARXG+/FWP
- vrrcr3LsyxnScXNMYNgW6q3ChD2ZOh73gBw1pLQtQk9btk/ntdps9pLe4xdH1fiC3CgZ
- M3YdGEoIWt6b8Y/0j4GphX5tyyceD9nouS6g7oDehn/yfvv0UPyKPEiOFkLwtk73smqv
- yTypGFWfDt+ObwSvntJIyXO49tREsiLKwQY69l/8z2uQxZSIwqPHXOmrJIGCPt8YzVlx
- rM2g==
-X-Gm-Message-State: AOAM5324pIHPv9y8a8chZ1Mc7Np0wS9pOFkS/2AqFbbUd3AGGQ2227t+
- 4dV8Gj2CqydNl29aRt+OfSmWri3Mnxj/zNYLYWI=
-X-Google-Smtp-Source: ABdhPJyU1Rn5IAGuhJRjQ6n7BPBqVhYwzvqlUP+1YtSNQA7ffWrfYp+r2JpSlZworqTNIyGpItDfZhBYRVhyuAF74KM=
-X-Received: by 2002:a17:907:7f9e:: with SMTP id
- qk30mr29359313ejc.238.1637834071875; 
- Thu, 25 Nov 2021 01:54:31 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J0L1q07b2z304t;
+ Fri, 26 Nov 2021 01:32:30 +1100 (AEDT)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+ by smtp-cloud9.xs4all.net with ESMTPA
+ id qFmBm7ibv1HGJqFmEm3TVx; Thu, 25 Nov 2021 15:31:10 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+ t=1637850670; bh=5ffXjwSsgloEyYJYtbhQ1bly4l8zPhxtOR5nkQkghBU=;
+ h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+ Subject;
+ b=QrnlUbg/aM0ItYUu7Y4/3AMOfF/2S2cXvqp/Qr0pQeXbZ5okGhAUxAe4xzeJXTOLb
+ 1RzzV7pIm5UZX52LNehKHv0ZUllCD3F5x1sJ9OlRfJf+PXIf3l5dkWDMulj45ugCay
+ 8EVnKoCsWG9OUG2jUjzuCPAzhUlpQ+VCt+ZLZZDN0v59qpiC0cvXhUbHl1e67Lt/+T
+ X1u1cDG9bJo3BJ3WdaNrN8KxcUh5hb2PKAVWbcvB4/R1OIzfhPiEh71/R3Jzx3mzm5
+ f5sUocwDrC5pK5yxoCYeX05FDYhnVMVQk1Td3lroT46Mw3G6Q4Le933pSvt5vI6KTe
+ EmCQcfzb7zk/g==
+Subject: Re: [PATCH v5 00/10] add aspeed-jpeg support for aspeed-video
+To: Jammy Huang <jammy_huang@aspeedtech.com>, eajames@linux.ibm.com,
+ mchehab@kernel.org, joel@jms.id.au, andrew@aj.id.au,
+ sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+ laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+References: <20211118074030.685-1-jammy_huang@aspeedtech.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <5ab806d1-e407-1fa4-83ec-93ebe8df7db4@xs4all.nl>
+Date: Thu, 25 Nov 2021 15:31:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211122163818.GA11306@gmail.com>
- <163775520854.1662.10651574507891086617.git-patchwork-notify@kernel.org>
-In-Reply-To: <163775520854.1662.10651574507891086617.git-patchwork-notify@kernel.org>
-From: Kumar Thangavel <kumarthangavel.hcl@gmail.com>
-Date: Thu, 25 Nov 2021 15:26:27 +0530
-Message-ID: <CAA7TbcvDeH5sCULo+2rEhZ5ZTht2vPF3uVh4knt7r77JquH4fA@mail.gmail.com>
-Subject: Re: [PATCH v8] net/ncsi : Add payload to be 32-bit aligned to fix
- dropped packets
-To: patchwork-bot+netdevbpf@kernel.org
-Content-Type: multipart/alternative; boundary="0000000000000e23af05d199f6d7"
+In-Reply-To: <20211118074030.685-1-jammy_huang@aspeedtech.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfBbn5NtcItpB76d/vKbIDQQTS7WrC5ft3pABh57+v3X2vWF6jiE3Jzv4a9USchcpi7T9YBLVD9QH4Q82hsMO6zSRIDTcW+y+5+ymXjLKqknQdQ5TJUZw
+ OrBN1ft8D4sbCwzUu6UhRgkvG6r6ROEJjN8APAvkVY9SaG1WgUKSAXv3JRjyr9UPU4OjTyYq/yqwNBvIovMOx0QKoyqFCZnAXRphz3H4M+wLAb6AfAeAAtKj
+ gP+Evel4EdVullN9V6d3yiLYLkTqi1QhAvAUYvhgJtcqNeZW9UzwZlwaHOut4tH5xMdNnqXc5VfGjRAn+4OU4El2FwjsnulrsJvvgmSMjBFfr2+/SkUOPkWV
+ Nl9V/xERC84hOmfLQ40UT3SPxTAYxpIOqD+71F3y7iX44T5mYGHnAdYSYkk77dBKYNCQElH6wGM4Si7q+zi5t5nhoiEjNHEdTTXs+YWEsBIgdlvFSeTS0oAZ
+ hW0GPsHJI7NP/P/JaZISRIJuISaBUJC37NxlnkSNF+dDzORem6lw7GgoRnfXXwSjPjsNQKK0bcB8BAc38TN4mWHVkNmWqlpvuI9V2SEV/4ofkC9cPuEfDsI7
+ oENNm+wxNwIWUhkYpiyDMAGg5LhZUhbxStnMrC81U4ZkJAD128K/cKfJf29/4fB7t++GmNMCSbglgoi59oja8rWO
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,92 +76,65 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Sai Dasari <sdasari@fb.com>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Networking <netdev@vger.kernel.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>, patrickw3@fb.com,
- Jakub Kicinski <kuba@kernel.org>, Samuel Mendoza-Jonas <sam@mendozajonas.com>,
- velumanit@hcl.com, "David S. Miller" <davem@davemloft.net>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---0000000000000e23af05d199f6d7
-Content-Type: text/plain; charset="UTF-8"
+Hi Jammy,
 
-Awesome, thanks!
+I suggest posting a v3 that moves the patches that deal with the
+Aspeed JPEG format to the end of the series. That way I can easily
+merge the patches up to that point, and the Aspeed JPEG support can
+be handled separately.
 
-On Wed, Nov 24, 2021 at 5:30 PM <patchwork-bot+netdevbpf@kernel.org> wrote:
+I'm not sure if it can be merged without that format being documented,
+either in pixfmt-reserved.rst, by implementing support for it in
+libv4lconvert from v4l-utils, or by providing a URL to some other
+publicly available source code. We really don't like adding pixel
+formats that cannot be interpreted by someone without access to the
+datasheets.
 
-> Hello:
->
-> This patch was applied to netdev/net.git (master)
-> by David S. Miller <davem@davemloft.net>:
->
-> On Mon, 22 Nov 2021 22:08:18 +0530 you wrote:
-> > Update NC-SI command handler (both standard and OEM) to take into
-> > account of payload paddings in allocating skb (in case of payload
-> > size is not 32-bit aligned).
-> >
-> > The checksum field follows payload field, without taking payload
-> > padding into account can cause checksum being truncated, leading to
-> > dropped packets.
-> >
-> > [...]
->
-> Here is the summary with links:
->   - [v8] net/ncsi : Add payload to be 32-bit aligned to fix dropped packets
->     https://git.kernel.org/netdev/net/c/ac132852147a
->
-> You are awesome, thank you!
-> --
-> Deet-doot-dot, I am a bot.
-> https://korg.docs.kernel.org/patchwork/pwbot.html
->
->
->
+Regards,
 
---0000000000000e23af05d199f6d7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	Hans
 
-<div dir=3D"ltr"><div dir=3D"ltr">Awesome, thanks!=C2=A0<br></div><br><div =
-class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 24,=
- 2021 at 5:30 PM &lt;<a href=3D"mailto:patchwork-bot%2Bnetdevbpf@kernel.org=
-">patchwork-bot+netdevbpf@kernel.org</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">Hello:<br>
-<br>
-This patch was applied to netdev/net.git (master)<br>
-by David S. Miller &lt;<a href=3D"mailto:davem@davemloft.net" target=3D"_bl=
-ank">davem@davemloft.net</a>&gt;:<br>
-<br>
-On Mon, 22 Nov 2021 22:08:18 +0530 you wrote:<br>
-&gt; Update NC-SI command handler (both standard and OEM) to take into<br>
-&gt; account of payload paddings in allocating skb (in case of payload<br>
-&gt; size is not 32-bit aligned).<br>
-&gt; <br>
-&gt; The checksum field follows payload field, without taking payload<br>
-&gt; padding into account can cause checksum being truncated, leading to<br=
->
-&gt; dropped packets.<br>
-&gt; <br>
-&gt; [...]<br>
-<br>
-Here is the summary with links:<br>
-=C2=A0 - [v8] net/ncsi : Add payload to be 32-bit aligned to fix dropped pa=
-ckets<br>
-=C2=A0 =C2=A0 <a href=3D"https://git.kernel.org/netdev/net/c/ac132852147a" =
-rel=3D"noreferrer" target=3D"_blank">https://git.kernel.org/netdev/net/c/ac=
-132852147a</a><br>
-<br>
-You are awesome, thank you!<br>
--- <br>
-Deet-doot-dot, I am a bot.<br>
-<a href=3D"https://korg.docs.kernel.org/patchwork/pwbot.html" rel=3D"norefe=
-rrer" target=3D"_blank">https://korg.docs.kernel.org/patchwork/pwbot.html</=
-a><br>
-<br>
-<br>
-</blockquote></div></div>
+On 18/11/2021 08:40, Jammy Huang wrote:
+> The aim of this series is to add aspeed-jpeg support for aspeed-video
+> driver.
+> 
+> To achieve this major goal some refactors are included.
+> 
+> In the last, debugfs information is also updated per this change.
+> 
+> Changes in v5:
+>  - Use model data to tell different soc
+> 
+> Changes in v4:
+>  - Add definition for the Aspeed JPEG format
+>  - Reserve controls for ASPEED
+>  - Use s_fmt to update format rather than new control
+>  - Update aspeed hq quality range, 1 ~ 12
+> 
+> 
+> Jammy Huang (10):
+>   media: aspeed: move err-handling together to the bottom
+>   media: aspeed: use v4l2_info/v4l2_warn/v4l2_dbg for log
+>   media: aspeed: add more debug log messages
+>   media: aspeed: refactor to gather format/compress settings
+>   media: v4l: Add definition for the Aspeed JPEG format
+>   media: v4l2-ctrls: Reserve controls for ASPEED
+>   media: aspeed: use model-data
+>   media: aspeed: Support aspeed mode to reduce compressed data
+>   media: aspeed: add comments and macro
+>   media: aspeed: Extend debug message
+> 
+>  .../media/uapi/v4l/pixfmt-reserved.rst        |  12 +
+>  drivers/media/platform/aspeed-video.c         | 534 ++++++++++++++----
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+>  include/uapi/linux/aspeed-video.h             |  15 +
+>  include/uapi/linux/v4l2-controls.h            |   5 +
+>  include/uapi/linux/videodev2.h                |   1 +
+>  6 files changed, 467 insertions(+), 101 deletions(-)
+>  create mode 100644 include/uapi/linux/aspeed-video.h
+> 
 
---0000000000000e23af05d199f6d7--
