@@ -1,56 +1,52 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A12245EB19
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Nov 2021 11:11:15 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D52145EC9C
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Nov 2021 12:27:46 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J0r9s2t6Fz3bmc
-	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Nov 2021 21:11:13 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J0st822wCz3bXV
+	for <lists+linux-aspeed@lfdr.de>; Fri, 26 Nov 2021 22:27:44 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
- helo=metis.ext.pengutronix.de; envelope-from=p.zabel@pengutronix.de;
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com;
  receiver=<UNKNOWN>)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J0r9m4Mxlz306h
- for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Nov 2021 21:11:07 +1100 (AEDT)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1mqYBz-000796-FL; Fri, 26 Nov 2021 11:10:55 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1mqYBw-0005NW-IR; Fri, 26 Nov 2021 11:10:52 +0100
-Message-ID: <727777874f925c0d862887589a868859a95d3649.camel@pengutronix.de>
-Subject: Re: [v12 2/2] pwm: Add Aspeed ast2600 PWM support
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Billy Tsai <billy_tsai@aspeedtech.com>, lee.jones@linaro.org, 
- robh+dt@kernel.org, joel@jms.id.au, andrew@aj.id.au,
- thierry.reding@gmail.com,  u.kleine-koenig@pengutronix.de,
- devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org,  linux-kernel@vger.kernel.org,
- linux-pwm@vger.kernel.org
-Date: Fri, 26 Nov 2021 11:10:52 +0100
-In-Reply-To: <20210906024339.21124-3-billy_tsai@aspeedtech.com>
-References: <20210906024339.21124-1-billy_tsai@aspeedtech.com>
- <20210906024339.21124-3-billy_tsai@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.38.3-1 
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J0sYF3PH3z30Bm
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Nov 2021 22:13:02 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 1AQAjlGD048314;
+ Fri, 26 Nov 2021 18:45:47 +0800 (GMT-8)
+ (envelope-from neal_liu@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 26 Nov
+ 2021 19:10:03 +0800
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+ <andrew@aj.id.au>, Cai Huoqing <caihuoqing@baidu.com>, Tao Ren
+ <rentao.bupt@gmail.com>, Julia Lawall <julia.lawall@inria.fr>, "kernel test
+ robot" <lkp@intel.com>, Sasha Levin <sashal@kernel.org>,
+ <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>
+Subject: [PATCH 0/3] Refactor Aspeed USB vhub driver
+Date: Fri, 26 Nov 2021 19:09:51 +0800
+Message-ID: <20211126110954.2677627-1-neal_liu@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.10]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1AQAjlGD048314
+X-Mailman-Approved-At: Fri, 26 Nov 2021 22:27:41 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,50 +58,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
+Cc: Neal Liu <neal_liu@aspeedtech.com>, BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Billy,
+These patch series include 2 parts. One is adding more features
+to pass USB30CV compliance test, the other is fixing hw issues.
+More detail descriptions are included below patchsets.
 
-On Mon, 2021-09-06 at 10:43 +0800, Billy Tsai wrote:
-[...]
-> +static int aspeed_pwm_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev =3D &pdev->dev;
-> +	int ret;
-> +	struct aspeed_pwm_data *priv;
-> +	struct device_node *np;
-> +	struct platform_device *parent_dev;
-> +
-> +	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	np =3D pdev->dev.parent->of_node;
-> +	if (!of_device_is_compatible(np, "aspeed,ast2600-pwm-tach"))
-> +		return dev_err_probe(dev, -ENODEV,
-> +				     "Unsupported pwm device binding\n");
-> +
-> +	priv->regmap =3D syscon_node_to_regmap(np);
-> +	if (IS_ERR(priv->regmap))
-> +		return dev_err_probe(dev, PTR_ERR(priv->regmap),
-> +				     "Couldn't get regmap\n");
-> +
-> +	parent_dev =3D of_find_device_by_node(np);
-> +	priv->clk =3D devm_clk_get(&parent_dev->dev, 0);
-> +	if (IS_ERR(priv->clk))
-> +		return dev_err_probe(dev, PTR_ERR(priv->clk),
-> +				     "Couldn't get clock\n");
-> +
-> +	priv->reset =3D devm_reset_control_get_shared(&parent_dev->dev, NULL);
-> +	if (IS_ERR(priv->reset)) {
-> +		return dev_err_probe(dev, PTR_ERR(priv->reset),
-> +				     "Couldn't get reset control\n");
-> +	}
+*** BLURB HERE ***
 
-I'd remove these curly braces for consistency with the code above.
+Neal Liu (3):
+  usb: aspeed-vhub: add qualifier descriptor
+  usb: aspeed-vhub: support remote wakeup feature
+  usb: aspeed-vhub: fix ep0 OUT ack received wrong length issue
 
-regards
-Philipp
+ drivers/usb/gadget/udc/aspeed-vhub/core.c |  3 ++
+ drivers/usb/gadget/udc/aspeed-vhub/dev.c  | 18 ++++++--
+ drivers/usb/gadget/udc/aspeed-vhub/ep0.c  |  7 ++++
+ drivers/usb/gadget/udc/aspeed-vhub/hub.c  | 51 +++++++++++++++++++----
+ drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  2 +
+ 5 files changed, 68 insertions(+), 13 deletions(-)
+
+-- 
+2.25.1
+
