@@ -2,85 +2,54 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C4746205C
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Nov 2021 20:22:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C779462294
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Nov 2021 21:52:47 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J2wGq4YRGz3bWX
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 06:22:43 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rP23YM30;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J2yGj3Cshz3bXv
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 07:52:45 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org;
- envelope-from=wsa@kernel.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=rP23YM30; 
- dkim-atps=neutral
-X-Greylist: delayed 129 seconds by postgrey-1.36 at boromir;
- Tue, 30 Nov 2021 06:22:39 AEDT
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J2wGl3WsQz2ym7
- for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Nov 2021 06:22:39 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id C9DF1CE13E0;
- Mon, 29 Nov 2021 19:22:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F090EC53FC7;
- Mon, 29 Nov 2021 19:22:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638213755;
- bh=Y5NwSlQVKu/RjuujNCewGKGidAPlSFDXVTVyAhtaMd4=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=rP23YM30IC0YD3XcoytOUD3nAaBxVfg9sYjCOZfzb8zunQm8ShvGTG7V8Uvl21RZ2
- Rtalf+oKhumJ6V0JtMg8w6h8MX4opoA/WJjDnBmKZnRrfEVqYufEewICYKJQKKXTEO
- +DvO8fzn4CsyDezm+73FMLG6t+IIzG1H5mnXI091jdYsOBDks/YCOqWaHJpKbvAx40
- kFBtHb48AAMNmcbHjj3Ho2cL4ObwUglELMdgRg/rVxCWIlgkcyN0a54CiicB46tpAW
- 4M9fxbNtupmVZRYkGTcyRZeZsUrMGe1hMmjVmsD/S6dHwNJEH25zKtBoh6FOJX259s
- xRlhjNUjcuJJw==
-Date: Mon, 29 Nov 2021 20:22:32 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Quan Nguyen <quan@os.amperecomputing.com>,
- Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Brendan Higgins <brendanhiggins@google.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- openipmi-developer@lists.sourceforge.net,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org,
- Open Source Submission <patches@amperecomputing.com>,
- Phong Vo <phong@os.amperecomputing.com>,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-Subject: Re: [PATCH v5 1/3] i2c: aspeed: Add slave_enable() to toggle slave
- mode
-Message-ID: <YaUoeFZn6zLNoGed@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
- Quan Nguyen <quan@os.amperecomputing.com>,
- Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Brendan Higgins <brendanhiggins@google.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- openipmi-developer@lists.sourceforge.net,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org,
- Open Source Submission <patches@amperecomputing.com>,
- Phong Vo <phong@os.amperecomputing.com>,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-References: <20210714033833.11640-1-quan@os.amperecomputing.com>
- <20210714033833.11640-2-quan@os.amperecomputing.com>
- <YRTQP9sX0hkTJMTx@shikoro>
+ smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
+ helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de;
+ receiver=<UNKNOWN>)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J2yGb0slXz2ync
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Nov 2021 07:52:37 +1100 (AEDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1mrndF-0001H9-9a; Mon, 29 Nov 2021 21:52:13 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1mrnd1-001nbP-Cy; Mon, 29 Nov 2021 21:51:58 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1mrnd0-0003gn-Bn; Mon, 29 Nov 2021 21:51:58 +0100
+Date: Mon, 29 Nov 2021 21:51:54 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Subject: Re: [v13 2/2] pwm: Add Aspeed ast2600 PWM support
+Message-ID: <20211129205154.jtm4ehvvfo52toth@pengutronix.de>
+References: <20211129064329.27006-1-billy_tsai@aspeedtech.com>
+ <20211129064329.27006-3-billy_tsai@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="d1UpdctGHU2n/12Q"
+ protocol="application/pgp-signature"; boundary="ltrr7wjbtue7nf5u"
 Content-Disposition: inline
-In-Reply-To: <YRTQP9sX0hkTJMTx@shikoro>
+In-Reply-To: <20211129064329.27006-3-billy_tsai@aspeedtech.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,54 +61,87 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, jdelvare@suse.com,
+ linux-aspeed@lists.ozlabs.org, linux-pwm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org, thierry.reding@gmail.com,
+ p.zabel@pengutronix.de, BMC-SW@aspeedtech.com, lee.jones@linaro.org,
+ linux@roeck-us.net, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
---d1UpdctGHU2n/12Q
-Content-Type: text/plain; charset=us-ascii
+--ltrr7wjbtue7nf5u
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hello Billy,
 
-I still wonder if we can't get the SSIF BMC driver upstream...
+just two minor thing left to criticise:
 
-> @all: Plus, I neither like the API (because it doesn't look generic to
-> me but mostly handling one issue needed here) nor do I fully understand
-> the use case. Normally, when a read is requested and the backend needs
-> time to deliver the data, the hardware should stretch the SCL clock
-> until some data register is finally written to. If it doesn't do it for
-> whatever reason, this is a quirky hardware in my book and needs handling
-> in the driver only. So, what is special with this HW? Can't we solve it
-> differently?
+On Mon, Nov 29, 2021 at 02:43:29PM +0800, Billy Tsai wrote:
+> +	if (clk_en && duty_pt) {
+> +		dividend =3D (u64)NSEC_PER_SEC * (div_l + 1) * duty_pt
+> +				 << div_h;
+> +		state->duty_cycle =3D DIV_ROUND_UP_ULL(dividend, rate);
+> +	} else
+> +		state->duty_cycle =3D clk_en ? state->period : 0;
 
-... for that, it would be great if somebody could answer my questions
-here :)
+I wonder about checkpatch not criticising this construct. See
+Documentation/process/coding-style.rst:
 
-Happy hacking,
+	Do not unnecessarily use braces where a single statement will
+	do. [...] This does not apply if only one branch of a
+	conditional statement is a single statement; in the latter case
+	use braces in both branches
 
-   Wolfram
+> [...]
+> +static int aspeed_pwm_apply(struct pwm_chip *chip, struct pwm_device *pw=
+m,
+> +			    const struct pwm_state *state)
+> +{
+> +	struct device *dev =3D chip->dev;
+> +	struct aspeed_pwm_data *priv =3D aspeed_pwm_chip_to_data(chip);
+> +	u32 hwpwm =3D pwm->hwpwm, duty_pt;
+> +	unsigned long rate;
+> +	u64 div_h, div_l, divisor, expect_period;
+> +	bool clk_en;
+> +
+> +	expect_period =3D state->period;
+> +	dev_dbg(dev, "expect period: %lldns, duty_cycle: %lldns", expect_period,
+> +		state->duty_cycle);
+> +
+> +	rate =3D clk_get_rate(priv->clk);
+> +	if (expect_period > div64_u64(ULLONG_MAX, (u64)rate))
+> +		expect_period =3D div64_u64(ULLONG_MAX, (u64)rate);
 
+If you write that as
 
---d1UpdctGHU2n/12Q
+	expect_period =3D min(div64_u64(ULLONG_MAX, (u64)rate), expect_period);
+
+you make sure that the division is only calculated once.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--ltrr7wjbtue7nf5u
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGlKHgACgkQFA3kzBSg
-Kbaj7Q/+K++8yheJLiYAr0liA2UQdfCq+XezGICIbZAVxxsZK8n1//zZg7zn5/im
-iUQ/roCf08jiF7YOvNDErnCyJTNpVvm9JHvNlYf/TvB9zv7Lwxu3ysMUFaiV00dT
-c6MskoCbxYPdDEz3UtYJ6eJE4qaU0prhazQlYqJvJu1W/cN41e23eHWfiRvSPg65
-ui/7bC0mCLia8VUl2OUs6MGedop+JiqmvaKm5cmoZf7Idi5wxyOVbpQ3955ys1Y/
-4FWtD1YvJubfqZW0WBRDzFiesE5QY+ryqVcu4AdbwdT9jdik4t9vz0yJsgpPOQ/+
-2AAnfuvzWdSvQL5+2aGITnOrT2qJDDePA87OaE0egYKyyUfX533Y8Yit1Fc5OQeh
-hgTvVOzuBsaJVcJTEka49RpzuCha9SeOs8oOV1tOx7rO7tL7kLmKmUmWyj1cRm35
-C15QuoyRZ83+l2v+x27L+leKiWlTabVV1/D+gfVSmt1GD/qKoc/h0Lxss1x1VGcW
-YVopBoNqawQLVsX7EhordVwZNjBuU473rFfYxWPW+DDi34WaFIOlf2b0XN8gNymU
-F8tQo20t7Nd2KvwhmTDUT7j5nXbEJbS3/TqeSMpOQi3kjskHWr78o267qqe0kIzT
-xNkLGxWkdF71AbdjUMUJu+pxli9ABhL0OqxhZ4imhrRZBIKo0wQ=
-=qfX/
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmGlPWcACgkQwfwUeK3K
+7Ak8pwf/f38P/ANk72PoQ6XaxGN4JtL+YI2d3Fnkk/akQZog/rZXoqAqA+vpeUZN
+ZCP6kfvy1afZmpmJZ5/A7IcEVbx63vryrJDubwJBpEjW+XQ7zUEIkWviTmmfgtbf
+d4alL1S8iU6oPpM4ijAZi+AUbwOkzu0mLEW6Cvx/EPJaahmLxWTUjip+WVgEN3XW
+CbrXaQCNLjX2E+OE/ddOC2kCwGJjM8eOjoMl7xZ6gL0mEMyyQpReIxDKuUUK3PSA
+RhTGOVEP0CVoksgQaMf8X5aKQvbQqzlS0/Tpinpb2sPTeefRouahOsqb5aieNsbH
+qrCFLTc6x3uQByyGnIUj9364lD8/5A==
+=/Kh7
 -----END PGP SIGNATURE-----
 
---d1UpdctGHU2n/12Q--
+--ltrr7wjbtue7nf5u--
