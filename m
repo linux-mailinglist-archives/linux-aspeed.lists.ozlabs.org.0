@@ -2,54 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C779462294
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Nov 2021 21:52:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 210DE4625D8
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Nov 2021 23:41:31 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J2yGj3Cshz3bXv
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 07:52:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J30h90M6tz3cb5
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 09:41:29 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
- helo=metis.ext.pengutronix.de; envelope-from=ukl@pengutronix.de;
+ smtp.mailfrom=gmail.com (client-ip=209.85.167.170;
+ helo=mail-oi1-f170.google.com; envelope-from=robherring2@gmail.com;
  receiver=<UNKNOWN>)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
+ [209.85.167.170])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J2yGb0slXz2ync
- for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Nov 2021 07:52:37 +1100 (AEDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1mrndF-0001H9-9a; Mon, 29 Nov 2021 21:52:13 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <ukl@pengutronix.de>)
- id 1mrnd1-001nbP-Cy; Mon, 29 Nov 2021 21:51:58 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1mrnd0-0003gn-Bn; Mon, 29 Nov 2021 21:51:58 +0100
-Date: Mon, 29 Nov 2021 21:51:54 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: Re: [v13 2/2] pwm: Add Aspeed ast2600 PWM support
-Message-ID: <20211129205154.jtm4ehvvfo52toth@pengutronix.de>
-References: <20211129064329.27006-1-billy_tsai@aspeedtech.com>
- <20211129064329.27006-3-billy_tsai@aspeedtech.com>
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J30gt0Yvnz3cY5
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Nov 2021 09:41:13 +1100 (AEDT)
+Received: by mail-oi1-f170.google.com with SMTP id r26so37444078oiw.5
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Nov 2021 14:41:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/mVagZKB5sENnWA5/x92h5prjYHHYygiRoEd9UYVS20=;
+ b=KvLoZ65Q40X4KpFH0QzHd/JZpM8HbELshv/wWfiy4fovgfYWxhFCuzbVZccK+wspIJ
+ ZOaNBS8f6J01lkYgaXqmXjbN3+80X+5avJ7af0v0zQXHxicA6qqkSmIb3FZBB5rjkbP/
+ 7sIiyYGH57LICAuJiUa76Hd2hNMk+I4uP1Jl3EC62tGwevMj7l7Urx6nmo6tks8h7kMg
+ L3jk/7P0gRATmQHE5gwBMVONU3JCLoc5JISXuwibSYCgcv0dYdSyYVqVmOlaNm4o/xr/
+ BDqVDx7Hy/8trJeJb3hg0xsp2JhucPYsm1l//nGHhZQiP5t+UWqiy99bxfwrIUyPbHCs
+ cLGw==
+X-Gm-Message-State: AOAM531Shou+6/PbXLofIjlckU1HBiEB39xxOotnMu70ldFO6d/g1C8Z
+ VY/lnSiybf15VmgWC8CM2Q==
+X-Google-Smtp-Source: ABdhPJzPrmQTisKPqX+mcQG21GYX6RJWb/RaFSFgyZkE7/CVaR4iKXleUPZI2cSTY9KS1sSs9GCAbA==
+X-Received: by 2002:a05:6808:1644:: with SMTP id
+ az4mr877879oib.86.1638225671084; 
+ Mon, 29 Nov 2021 14:41:11 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id q9sm2857314oti.32.2021.11.29.14.41.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Nov 2021 14:41:10 -0800 (PST)
+Received: (nullmailer pid 743486 invoked by uid 1000);
+ Mon, 29 Nov 2021 22:41:09 -0000
+Date: Mon, 29 Nov 2021 16:41:09 -0600
+From: Rob Herring <robh@kernel.org>
+To: Joel Stanley <joel@jms.id.au>
+Subject: Re: [PATCH 1/3] dt-bindings: aspeed: Add Secure Boot Controller
+ bindings
+Message-ID: <YaVXBZb2QFpjEGtj@robh.at.kernel.org>
+References: <20211117035106.321454-1-joel@jms.id.au>
+ <20211117035106.321454-2-joel@jms.id.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ltrr7wjbtue7nf5u"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211129064329.27006-3-billy_tsai@aspeedtech.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+In-Reply-To: <20211117035106.321454-2-joel@jms.id.au>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,87 +69,76 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, jdelvare@suse.com,
- linux-aspeed@lists.ozlabs.org, linux-pwm@vger.kernel.org,
- linux-kernel@vger.kernel.org, robh+dt@kernel.org, thierry.reding@gmail.com,
- p.zabel@pengutronix.de, BMC-SW@aspeedtech.com, lee.jones@linaro.org,
- linux@roeck-us.net, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Paul Menzel <pmenzel@molgen.mpg.de>, Andrew Jeffery <andrew@aj.id.u>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Wed, Nov 17, 2021 at 11:51:04AM +0800, Joel Stanley wrote:
+> The secure boot controller was first introduced in the AST2600.
+> 
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> ---
+>  .../bindings/arm/aspeed/aspeed,sbc.yaml       | 37 +++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/arm/aspeed/aspeed,sbc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed,sbc.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed,sbc.yaml
+> new file mode 100644
+> index 000000000000..c72aab706484
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed,sbc.yaml
+> @@ -0,0 +1,37 @@
+> +# SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-2-Clause)
 
---ltrr7wjbtue7nf5u
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+GPL-2.0-only OR BSD-2-Clause
 
-Hello Billy,
-
-just two minor thing left to criticise:
-
-On Mon, Nov 29, 2021 at 02:43:29PM +0800, Billy Tsai wrote:
-> +	if (clk_en && duty_pt) {
-> +		dividend =3D (u64)NSEC_PER_SEC * (div_l + 1) * duty_pt
-> +				 << div_h;
-> +		state->duty_cycle =3D DIV_ROUND_UP_ULL(dividend, rate);
-> +	} else
-> +		state->duty_cycle =3D clk_en ? state->period : 0;
-
-I wonder about checkpatch not criticising this construct. See
-Documentation/process/coding-style.rst:
-
-	Do not unnecessarily use braces where a single statement will
-	do. [...] This does not apply if only one branch of a
-	conditional statement is a single statement; in the latter case
-	use braces in both branches
-
-> [...]
-> +static int aspeed_pwm_apply(struct pwm_chip *chip, struct pwm_device *pw=
-m,
-> +			    const struct pwm_state *state)
-> +{
-> +	struct device *dev =3D chip->dev;
-> +	struct aspeed_pwm_data *priv =3D aspeed_pwm_chip_to_data(chip);
-> +	u32 hwpwm =3D pwm->hwpwm, duty_pt;
-> +	unsigned long rate;
-> +	u64 div_h, div_l, divisor, expect_period;
-> +	bool clk_en;
+> +# Copyright 2021 Joel Stanley, IBM Corp.
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/arm/aspeed/aspeed,sbc.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
 > +
-> +	expect_period =3D state->period;
-> +	dev_dbg(dev, "expect period: %lldns, duty_cycle: %lldns", expect_period,
-> +		state->duty_cycle);
+> +title: ASPEED Secure Boot Controller
 > +
-> +	rate =3D clk_get_rate(priv->clk);
-> +	if (expect_period > div64_u64(ULLONG_MAX, (u64)rate))
-> +		expect_period =3D div64_u64(ULLONG_MAX, (u64)rate);
+> +maintainers:
+> +  - Joel Stanley <joel@jms.id.au>
+> +  - Andrew Jeffery <andrew@aj.id.au>
+> +
+> +description: |
 
-If you write that as
+Only need '|' to preserve formatting which you don't have.
 
-	expect_period =3D min(div64_u64(ULLONG_MAX, (u64)rate), expect_period);
+With those addressed,
 
-you make sure that the division is only calculated once.
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ltrr7wjbtue7nf5u
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmGlPWcACgkQwfwUeK3K
-7Ak8pwf/f38P/ANk72PoQ6XaxGN4JtL+YI2d3Fnkk/akQZog/rZXoqAqA+vpeUZN
-ZCP6kfvy1afZmpmJZ5/A7IcEVbx63vryrJDubwJBpEjW+XQ7zUEIkWviTmmfgtbf
-d4alL1S8iU6oPpM4ijAZi+AUbwOkzu0mLEW6Cvx/EPJaahmLxWTUjip+WVgEN3XW
-CbrXaQCNLjX2E+OE/ddOC2kCwGJjM8eOjoMl7xZ6gL0mEMyyQpReIxDKuUUK3PSA
-RhTGOVEP0CVoksgQaMf8X5aKQvbQqzlS0/Tpinpb2sPTeefRouahOsqb5aieNsbH
-qrCFLTc6x3uQByyGnIUj9364lD8/5A==
-=/Kh7
------END PGP SIGNATURE-----
-
---ltrr7wjbtue7nf5u--
+> +  The ASPEED SoCs have a register bank for interacting with the secure boot
+> +  controller.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: aspeed,ast2600-sbc
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    sbc: secure-boot-controller@1e6f2000 {
+> +            compatible = "aspeed,ast2600-sbc";
+> +            reg = <0x1e6f2000 0x1000>;
+> +    };
+> -- 
+> 2.33.0
+> 
+> 
