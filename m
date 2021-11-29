@@ -2,13 +2,13 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C171646206D
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Nov 2021 20:27:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C4746205C
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Nov 2021 20:22:45 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J2wMx4scTz3bXJ
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 06:27:09 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J2wGq4YRGz3bWX
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 06:22:43 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ZZrHcQYu;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rP23YM30;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
@@ -17,56 +17,70 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
  envelope-from=wsa@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=ZZrHcQYu; 
+ header.s=k20201202 header.b=rP23YM30; 
  dkim-atps=neutral
-X-Greylist: delayed 396 seconds by postgrey-1.36 at boromir;
- Tue, 30 Nov 2021 06:27:06 AEDT
+X-Greylist: delayed 129 seconds by postgrey-1.36 at boromir;
+ Tue, 30 Nov 2021 06:22:39 AEDT
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J2wMt3cbPz306R;
- Tue, 30 Nov 2021 06:27:06 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J2wGl3WsQz2ym7
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Nov 2021 06:22:39 +1100 (AEDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id A4122CE13D8;
- Mon, 29 Nov 2021 19:20:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3847C53FC7;
- Mon, 29 Nov 2021 19:20:22 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id C9DF1CE13E0;
+ Mon, 29 Nov 2021 19:22:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F090EC53FC7;
+ Mon, 29 Nov 2021 19:22:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638213623;
- bh=g/nsYskIq0J2gIpANu+wdPav06i49Mv0L127LqeWDic=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZZrHcQYuIz2+z6eGi7PKmEwwhGdcpFmkHNkAtnlOxfYSQqQIiZXQV3n/Zxexl1Sne
- LGEaInfaa0NcDRMmyel5OApl5FeUuMg9RenyiQ515L9vJ4pat2aNNkBeZYmcQZJWH9
- BjOzWz3sACWFtEqYz88K1XcKZ7nWgsn+P8gttjAylwKBkTPLbLuRTwtEIhZXsqAamJ
- a23yF2v3+M+z8O4cz2fK0T+/Gpr2DUKiRtx+PGgh5LmqNYhfVKcmYHIDX4KnUw7zMn
- rOUo06+MlC1ypTvTriX/NCB48pFT0uKtFFkOQ3RAWEMOKMOnvTN4YTafK5mDkONbeN
- TEQ9TUa3ZJJ2w==
-Date: Mon, 29 Nov 2021 20:20:20 +0100
+ s=k20201202; t=1638213755;
+ bh=Y5NwSlQVKu/RjuujNCewGKGidAPlSFDXVTVyAhtaMd4=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=rP23YM30IC0YD3XcoytOUD3nAaBxVfg9sYjCOZfzb8zunQm8ShvGTG7V8Uvl21RZ2
+ Rtalf+oKhumJ6V0JtMg8w6h8MX4opoA/WJjDnBmKZnRrfEVqYufEewICYKJQKKXTEO
+ +DvO8fzn4CsyDezm+73FMLG6t+IIzG1H5mnXI091jdYsOBDks/YCOqWaHJpKbvAx40
+ kFBtHb48AAMNmcbHjj3Ho2cL4ObwUglELMdgRg/rVxCWIlgkcyN0a54CiicB46tpAW
+ 4M9fxbNtupmVZRYkGTcyRZeZsUrMGe1hMmjVmsD/S6dHwNJEH25zKtBoh6FOJX259s
+ xRlhjNUjcuJJw==
+Date: Mon, 29 Nov 2021 20:22:32 +0100
 From: Wolfram Sang <wsa@kernel.org>
-To: Quan Nguyen <quan@os.amperecomputing.com>
-Subject: Re: [PATCH v2 0/2] i2c: aspeed: Late ack Tx done irqs and fix
- unhandled Tx done with NAK
-Message-ID: <YaUn9HO4STM+LmAD@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
- Quan Nguyen <quan@os.amperecomputing.com>,
+To: Quan Nguyen <quan@os.amperecomputing.com>,
+ Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
  Brendan Higgins <brendanhiggins@google.com>,
  Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
- Guenter Roeck <linux@roeck-us.net>, linux-i2c@vger.kernel.org,
- openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ openipmi-developer@lists.sourceforge.net,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-i2c@vger.kernel.org,
  Open Source Submission <patches@amperecomputing.com>,
  Phong Vo <phong@os.amperecomputing.com>,
  "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-References: <20210616031046.2317-1-quan@os.amperecomputing.com>
+Subject: Re: [PATCH v5 1/3] i2c: aspeed: Add slave_enable() to toggle slave
+ mode
+Message-ID: <YaUoeFZn6zLNoGed@kunai>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+ Quan Nguyen <quan@os.amperecomputing.com>,
+ Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ openipmi-developer@lists.sourceforge.net,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-i2c@vger.kernel.org,
+ Open Source Submission <patches@amperecomputing.com>,
+ Phong Vo <phong@os.amperecomputing.com>,
+ "Thang Q . Nguyen" <thang@os.amperecomputing.com>
+References: <20210714033833.11640-1-quan@os.amperecomputing.com>
+ <20210714033833.11640-2-quan@os.amperecomputing.com>
+ <YRTQP9sX0hkTJMTx@shikoro>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="hSONgx73KSpSsJcS"
+ protocol="application/pgp-signature"; boundary="d1UpdctGHU2n/12Q"
 Content-Disposition: inline
-In-Reply-To: <20210616031046.2317-1-quan@os.amperecomputing.com>
+In-Reply-To: <YRTQP9sX0hkTJMTx@shikoro>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,73 +92,54 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org,
- Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
- Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org,
- Phong Vo <phong@os.amperecomputing.com>,
- Open Source Submission <patches@amperecomputing.com>,
- Guenter Roeck <linux@roeck-us.net>, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
---hSONgx73KSpSsJcS
+--d1UpdctGHU2n/12Q
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 16, 2021 at 10:10:44AM +0700, Quan Nguyen wrote:
-> This series consists of two patches to fix the below issues observed
-> when testing with slave mode:
->   + Unhandled Tx done with NAK
->   + Early ack'ed of Tx done (ACK and NAK) causing "Unexpected Ack on
->   read request".
->=20
+Hi,
 
-aspeed maintainers, are you happy with this series now?
+I still wonder if we can't get the SSIF BMC driver upstream...
 
-> v2:
->   + Split these patches to separate series [Joel]
->   + Added the Fixes lines [Joel]
->   + Fixed multiline comment [Joel]
->   + Refactor irq clearing code [Joel, Guenter]
->   + Revised commit message [Joel, Quan]
->=20
-> v1:
->   + These patches are first introduced in
->   https://lkml.org/lkml/2021/5/19/205
->=20
-> Quan Nguyen (2):
->   i2c: aspeed: Fix unhandled Tx done with NAK
->   i2c: aspeed: Acknowledge Tx done with and without ACK irq late
->=20
->  drivers/i2c/busses/i2c-aspeed.c | 22 ++++++++++++++--------
->  1 file changed, 14 insertions(+), 8 deletions(-)
->=20
-> --=20
-> 2.28.0
->=20
+> @all: Plus, I neither like the API (because it doesn't look generic to
+> me but mostly handling one issue needed here) nor do I fully understand
+> the use case. Normally, when a read is requested and the backend needs
+> time to deliver the data, the hardware should stretch the SCL clock
+> until some data register is finally written to. If it doesn't do it for
+> whatever reason, this is a quirky hardware in my book and needs handling
+> in the driver only. So, what is special with this HW? Can't we solve it
+> differently?
 
---hSONgx73KSpSsJcS
+... for that, it would be great if somebody could answer my questions
+here :)
+
+Happy hacking,
+
+   Wolfram
+
+
+--d1UpdctGHU2n/12Q
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGlJ/QACgkQFA3kzBSg
-KbZoxg/+Me1R4XCxqO4t3nohVs8D4zoBBn+b2tQCtqhHNlmbD8hVLPiWu3vfwu3f
-xLDMgOHONd6/rxrw5N2bN8t1oX0AXz2yhxMeVYKgO3jm3AIFuf6bQiqNgBEw009r
-V0NgFmKmN7VkkA3AX5tZKb67P9MSMoVTmWPteZtSzvbphyZr74U8Gv4XpaX1X6ep
-QuQXO3LGvHEJ+WDF5T38eXR1lXZZFTraGqkPmmslFiNOX00XCw5w3zv0PKg8oO4a
-7HRqAxvFiWOw+MD29hkSop+Pjt8G8heq+ZUyIFuBJ6VKLWgCtuaBVnR9B4KlSo1U
-r96yEHx7zrGx8BMMjp/39Ds3oJzkjQR/LzVMy/DAwb8FO0YtELsMJkg1n18r/BFt
-a1ezWd28jFfuVJVTtE5CKZBgPT0wSq4738L236sENmfC0Lo5Zjd3p8miJCnZnlXz
-ePc0fL6PjdJCTNZIlM21mBNvNUWiSW+zsF2+ASJDIwFUVbEaBdvt0k4fSW5GoSX0
-ribRkt2str4gFtyg+s+19mnb8UHZlQnpQunHqpXiaO93iPGqATZFKpwhCG77qJO3
-ifsYMJ+Cui4uPv9xZcTqRJmeqP9ElqYzCz6YVq0EDcLaKaBYfESu0pu1NKTsohB6
-JNJlXes7kqTsu0l4dxspbwNwAGiUe8pk+Vfirn6kM41SUNxKaEE=
-=MdjE
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGlKHgACgkQFA3kzBSg
+Kbaj7Q/+K++8yheJLiYAr0liA2UQdfCq+XezGICIbZAVxxsZK8n1//zZg7zn5/im
+iUQ/roCf08jiF7YOvNDErnCyJTNpVvm9JHvNlYf/TvB9zv7Lwxu3ysMUFaiV00dT
+c6MskoCbxYPdDEz3UtYJ6eJE4qaU0prhazQlYqJvJu1W/cN41e23eHWfiRvSPg65
+ui/7bC0mCLia8VUl2OUs6MGedop+JiqmvaKm5cmoZf7Idi5wxyOVbpQ3955ys1Y/
+4FWtD1YvJubfqZW0WBRDzFiesE5QY+ryqVcu4AdbwdT9jdik4t9vz0yJsgpPOQ/+
+2AAnfuvzWdSvQL5+2aGITnOrT2qJDDePA87OaE0egYKyyUfX533Y8Yit1Fc5OQeh
+hgTvVOzuBsaJVcJTEka49RpzuCha9SeOs8oOV1tOx7rO7tL7kLmKmUmWyj1cRm35
+C15QuoyRZ83+l2v+x27L+leKiWlTabVV1/D+gfVSmt1GD/qKoc/h0Lxss1x1VGcW
+YVopBoNqawQLVsX7EhordVwZNjBuU473rFfYxWPW+DDi34WaFIOlf2b0XN8gNymU
+F8tQo20t7Nd2KvwhmTDUT7j5nXbEJbS3/TqeSMpOQi3kjskHWr78o267qqe0kIzT
+xNkLGxWkdF71AbdjUMUJu+pxli9ABhL0OqxhZ4imhrRZBIKo0wQ=
+=qfX/
 -----END PGP SIGNATURE-----
 
---hSONgx73KSpSsJcS--
+--d1UpdctGHU2n/12Q--
