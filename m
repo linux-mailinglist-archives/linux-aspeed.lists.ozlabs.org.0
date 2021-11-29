@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 373D346288A
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 00:46:48 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37888462895
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 00:50:15 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J327V0Ftbz3bhh
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 10:46:46 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J32CT17Xgz3bg8
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 10:50:13 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -14,13 +14,13 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
  helo=gate.crashing.org; envelope-from=benh@kernel.crashing.org;
  receiver=<UNKNOWN>)
 Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by lists.ozlabs.org (Postfix) with ESMTP id 4J327P2LQcz3036
- for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Nov 2021 10:46:40 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTP id 4J32CP5vJSz2xBv
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Nov 2021 10:50:09 +1100 (AEDT)
 Received: from ip6-localhost (localhost.localdomain [127.0.0.1])
- by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 1ATNf0UG024811;
- Mon, 29 Nov 2021 17:41:01 -0600
-Message-ID: <84b2d2c6b530d0a3a9b86b0ffcbfa70935bdb0a9.camel@kernel.crashing.org>
-Subject: Re: [PATCH 1/3] usb: aspeed-vhub: add qualifier descriptor
+ by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 1ATNjirY024975;
+ Mon, 29 Nov 2021 17:45:45 -0600
+Message-ID: <279c42970790787e928ed017149e300835085235.camel@kernel.crashing.org>
+Subject: Re: [PATCH 2/3] usb: aspeed-vhub: support remote wakeup feature
 From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 To: Neal Liu <neal_liu@aspeedtech.com>, Felipe Balbi <balbi@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joel Stanley
@@ -30,10 +30,10 @@ To: Neal Liu <neal_liu@aspeedtech.com>, Felipe Balbi <balbi@kernel.org>,
  <sashal@kernel.org>,
  linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Date: Tue, 30 Nov 2021 10:40:59 +1100
-In-Reply-To: <20211126110954.2677627-2-neal_liu@aspeedtech.com>
+Date: Tue, 30 Nov 2021 10:45:44 +1100
+In-Reply-To: <20211126110954.2677627-3-neal_liu@aspeedtech.com>
 References: <20211126110954.2677627-1-neal_liu@aspeedtech.com>
- <20211126110954.2677627-2-neal_liu@aspeedtech.com>
+ <20211126110954.2677627-3-neal_liu@aspeedtech.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
@@ -55,23 +55,33 @@ Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 On Fri, 2021-11-26 at 19:09 +0800, Neal Liu wrote:
-> 
-> @@ -417,10 +435,9 @@ enum std_req_rc ast_vhub_std_hub_request(struct ast_vhub_ep *ep,
+> Remote wakeup signaling will be automatically issued
+> whenever any write commands has been received in suspend
+> state.
+
+> --- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
+> +++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+> @@ -240,6 +240,9 @@ void ast_vhub_init_hw(struct ast_vhub *vhub)
+>  	if (vhub->force_usb1)
+>  		ctrl |= VHUB_CTRL_FULL_SPEED_ONLY;
 >  
->  		/* GET/SET_CONFIGURATION */
->  	case DeviceRequest | USB_REQ_GET_CONFIGURATION:
-> -		return ast_vhub_simple_reply(ep, 1);
-> +		return ast_vhub_simple_reply(ep, vhub->current_config);
->  	case DeviceOutRequest | USB_REQ_SET_CONFIGURATION:
-> -		if (wValue != 1)
-> -			return std_req_stall;
-> +		vhub->current_config = wValue;
->  		return std_req_complete;
+> +	/* Enable auto remote wakeup */
+> +	ctrl |= VHUB_CTRL_AUTO_REMOTE_WAKEUP;
+> +
+>  	ctrl |= VHUB_CTRL_UPSTREAM_CONNECT;
+>  	writel(ctrl, vhub->regs + AST_VHUB_CTRL);
 
-This is odd.. why should we support arbitrary SET_CONFIGURATION for
-configs we don't support ?
+Should this  be controlled by d->wakeup_en ? IE, we have a feature for
+the host to enable/disable remote wakeup, should we honor it ?
+ 
+> +	} else if (wValue == USB_DEVICE_TEST_MODE) {
+> +		val = readl(d->vhub->regs + AST_VHUB_CTRL);
+> +		val &= ~GENMASK(10, 8);
+> +		val |= VHUB_CTRL_SET_TEST_MODE((wIndex >> 8) & 0x7);
+> +		writel(val, d->vhub->regs + AST_VHUB_CTRL);
 
-Otherwise looks good.
+This is unrelated to remote wakeup is it ? In which case it should
+probably be a separate patch.
 
 Cheers,
 Ben.
