@@ -1,57 +1,74 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA09E46304E
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 10:52:48 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 414D5463083
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 11:03:15 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J3HZk3chNz3bg8
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 20:52:46 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J3Hpn12SCz3bhl
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 21:03:13 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=aiu3DAfh;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
- helo=metis.ext.pengutronix.de; envelope-from=p.zabel@pengutronix.de;
- receiver=<UNKNOWN>)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J3HZf5wmqz2x9H
- for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Nov 2021 20:52:41 +1100 (AEDT)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1mrzoB-0003kK-0n; Tue, 30 Nov 2021 10:52:19 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1mrzo9-0003oR-5R; Tue, 30 Nov 2021 10:52:17 +0100
-Message-ID: <e28a5d5de9b940717e6444f019eab63ab1bb0b75.camel@pengutronix.de>
-Subject: Re: [v13 2/2] pwm: Add Aspeed ast2600 PWM support
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Billy Tsai <billy_tsai@aspeedtech.com>, jdelvare@suse.com, 
- linux@roeck-us.net, robh+dt@kernel.org, joel@jms.id.au, andrew@aj.id.au, 
- lee.jones@linaro.org, thierry.reding@gmail.com,
- u.kleine-koenig@pengutronix.de,  linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org,  linux-kernel@vger.kernel.org,
- linux-pwm@vger.kernel.org
-Date: Tue, 30 Nov 2021 10:52:17 +0100
-In-Reply-To: <20211129064329.27006-3-billy_tsai@aspeedtech.com>
-References: <20211129064329.27006-1-billy_tsai@aspeedtech.com>
- <20211129064329.27006-3-billy_tsai@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.38.3-1 
+ smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org;
+ envelope-from=wsa@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=aiu3DAfh; 
+ dkim-atps=neutral
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J3Hpg1Tqfz30JT
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Nov 2021 21:03:07 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 4476ECE1872;
+ Tue, 30 Nov 2021 10:03:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B4CFC53FC7;
+ Tue, 30 Nov 2021 10:03:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1638266582;
+ bh=/x0GGzKFVt0Dy7r4zIhS59DKhLpLSCOv6TfyEvgAn/E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=aiu3DAfh8MthxvWAwRpRhPEHK7GTD+ROtg4Dm6dvj0giFP+oAyQUQur5meks8hFGP
+ xuoAtkqMJU7VwQOPbx31xQwgPdJ0+dqObWX30klV/fxaYpUJd1uxc3uuXN6efBS6t8
+ qUf7xqXNNwIEhUchAaROr2KK0DqSjkUkxLr6cn1oBAjecy1FeMXbdsY5XGuDJKWubv
+ cMOhPNvXlMq/NAdBslnbglXQvN8JZYemEbx+uDKiEVgmQ57wjqZJK+6hGy4YJ/CNNc
+ vT+Yp2G1ct1I++ZlivOFy/AFf8+7eG88Vfgh17aIeLPuf6VzqN/6CGaw+a2S2Ch+im
+ 4/FQP9oDaLUdg==
+Date: Tue, 30 Nov 2021 11:02:59 +0100
+From: Wolfram Sang <wsa@kernel.org>
+To: Quan Nguyen <quan@os.amperecomputing.com>
+Subject: Re: [PATCH v5 1/3] i2c: aspeed: Add slave_enable() to toggle slave
+ mode
+Message-ID: <YaX2021qO696FG1D@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+ Quan Nguyen <quan@os.amperecomputing.com>,
+ Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ openipmi-developer@lists.sourceforge.net,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-i2c@vger.kernel.org,
+ Open Source Submission <patches@amperecomputing.com>,
+ Phong Vo <phong@os.amperecomputing.com>,
+ "Thang Q . Nguyen" <thang@os.amperecomputing.com>
+References: <20210714033833.11640-1-quan@os.amperecomputing.com>
+ <20210714033833.11640-2-quan@os.amperecomputing.com>
+ <YRTQP9sX0hkTJMTx@shikoro> <YaUoeFZn6zLNoGed@kunai>
+ <b8ee3be7-c0f6-d1fd-1ba1-13066b329ee3@os.amperecomputing.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="GLgFZVkdCWguog1a"
+Content-Disposition: inline
+In-Reply-To: <b8ee3be7-c0f6-d1fd-1ba1-13066b329ee3@os.amperecomputing.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,25 +80,77 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Corey Minyard <minyard@acm.org>,
+ "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
+ Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org,
+ Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>,
+ openipmi-developer@lists.sourceforge.net,
+ Open Source Submission <patches@amperecomputing.com>,
+ linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 2021-11-29 at 14:43 +0800, Billy Tsai wrote:
-[...]
-> +	ret =3D clk_prepare_enable(priv->clk);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Couldn't enable clock\n");
-> +
-> +	ret =3D reset_control_deassert(priv->reset);
-> +	if (ret) {
-> +		dev_err_probe(dev, ret, "Couldn't deassert reset control\n");
-> +		goto err_disable_clk;
-> +	}
 
-Is there any reason to keep the clocks running and the controller out of
-reset while the PWM outputs are disabled?
+--GLgFZVkdCWguog1a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-regards
-Philipp
+Hi,
+
+> Thanks Wolfram to help bring this up,
+
+Sure thing! It would be sad to see this work bitrot.
+
+> This driver was tested with Aspeed ast2500 and we have tried many way to
+> avoid using slave_enable() to toggle slave mode but there is no progress.
+
+I see. I also can't help you there. I have neither experience with nor
+access to this HW.
+
+> Our expectation is still to have this driver upstream'ed and I'm thinking
+> about testing this driver on other HW and re-post the driver.
+
+That sounds like a good plan.
+
+> I have to admit that you are all right with the above comments. The fact =
+is
+> we still not be able to find any way to solve this differently. We don't =
+own
+> this HW and dont know what happen on this particular issue. The SCL clock
+> stretching on this HW does not work as expected and the slave_enable() is
+> the only solution for now. I hope if someone could help with the issue as
+> well.
+
+=46rom this distance, it looks like HW access and a logic analyzer might
+be helpful in understanding the behaviour. Pity that you don't own the
+HW.
+
+Good luck nonetheless!
+
+   Wolfram
+
+
+--GLgFZVkdCWguog1a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGl9tAACgkQFA3kzBSg
+Kba4dA/+LQ+TgyjbUYOZOjpRRji7agnQYuqCWgQAJb0L8O9WQWEaoPwlAYP2DpHP
+WdVIVnuLhRvwWKSI2yNAJRZURY4fbvrSAXFoeyY1DrxxLVj7GB4Ku9dKGUQEu8vk
+SufpI4wpozucy32ZHAY8sDlquSILlCHEchyb8851rfbBWKBhQfKwNtO+vwEYqcy6
+UqEp1wxYUV0WpXCDiGXb3m+qViyb84t54YzBSHzKvBFYyRi1S94BESgQ3W2XVRPA
+BGwy+uhgF32jeBFs6wdv+zCpq+NBmAZg/czXt2naPF6HkNjG4ZTMgROmqoery36M
+VEuhlE6us23UVcCDujArrFcH1+qhhTYSAOxZZ9qDSWYmsxxF0k/fHi55bszcCoyE
+Ba3OFUe8TKMfYARMkjpRtN60aLtq/E7M+X1/774Q2BUvvS9UVUMs5jK7umQsuJ/3
+7BZIFiXT1RKExUKxD5dHVyCXnO6AoF1t3aNZlqlgo9IDmWhQeyfqM+oHwBjqINYD
+hmLL3djjgpe9DksOXDFu17ywiSB33+OvfWhO502tbDrv+QxIbsIR4G+wffxcUG+b
+Ts8pgy7y+6cdNxLvrpUv+SjzATHxRmwWuTGNr8hlgxtckDybKKkWeEmQLdIlrVYg
+Y24ut60ocJP+alOr+eP2bqQDyNqx+ARwSFBP6FKA+04ASyeNrro=
+=qe3w
+-----END PGP SIGNATURE-----
+
+--GLgFZVkdCWguog1a--
