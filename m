@@ -2,73 +2,50 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414D5463083
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 11:03:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5ED463168
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 11:44:27 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J3Hpn12SCz3bhl
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 21:03:13 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=aiu3DAfh;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J3JkK4H2Sz3bnC
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 21:44:25 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=145.40.73.55; helo=sin.source.kernel.org;
- envelope-from=wsa@kernel.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=aiu3DAfh; 
- dkim-atps=neutral
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=neal_liu@aspeedtech.com;
+ receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J3Hpg1Tqfz30JT
- for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Nov 2021 21:03:07 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 4476ECE1872;
- Tue, 30 Nov 2021 10:03:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B4CFC53FC7;
- Tue, 30 Nov 2021 10:03:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638266582;
- bh=/x0GGzKFVt0Dy7r4zIhS59DKhLpLSCOv6TfyEvgAn/E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aiu3DAfh8MthxvWAwRpRhPEHK7GTD+ROtg4Dm6dvj0giFP+oAyQUQur5meks8hFGP
- xuoAtkqMJU7VwQOPbx31xQwgPdJ0+dqObWX30klV/fxaYpUJd1uxc3uuXN6efBS6t8
- qUf7xqXNNwIEhUchAaROr2KK0DqSjkUkxLr6cn1oBAjecy1FeMXbdsY5XGuDJKWubv
- cMOhPNvXlMq/NAdBslnbglXQvN8JZYemEbx+uDKiEVgmQ57wjqZJK+6hGy4YJ/CNNc
- vT+Yp2G1ct1I++ZlivOFy/AFf8+7eG88Vfgh17aIeLPuf6VzqN/6CGaw+a2S2Ch+im
- 4/FQP9oDaLUdg==
-Date: Tue, 30 Nov 2021 11:02:59 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Quan Nguyen <quan@os.amperecomputing.com>
-Subject: Re: [PATCH v5 1/3] i2c: aspeed: Add slave_enable() to toggle slave
- mode
-Message-ID: <YaX2021qO696FG1D@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
- Quan Nguyen <quan@os.amperecomputing.com>,
- Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Brendan Higgins <brendanhiggins@google.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- openipmi-developer@lists.sourceforge.net,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org,
- Open Source Submission <patches@amperecomputing.com>,
- Phong Vo <phong@os.amperecomputing.com>,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-References: <20210714033833.11640-1-quan@os.amperecomputing.com>
- <20210714033833.11640-2-quan@os.amperecomputing.com>
- <YRTQP9sX0hkTJMTx@shikoro> <YaUoeFZn6zLNoGed@kunai>
- <b8ee3be7-c0f6-d1fd-1ba1-13066b329ee3@os.amperecomputing.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J3JkF3NnXz307j
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Nov 2021 21:44:19 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 1AUAIVeg077384;
+ Tue, 30 Nov 2021 18:18:31 +0800 (GMT-8)
+ (envelope-from neal_liu@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 30 Nov
+ 2021 18:43:02 +0800
+From: Neal Liu <neal_liu@aspeedtech.com>
+To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+ <andrew@aj.id.au>, Cai Huoqing <caihuoqing@baidu.com>, Tao Ren
+ <rentao.bupt@gmail.com>, Julia Lawall <julia.lawall@inria.fr>, "kernel test
+ robot" <lkp@intel.com>, Sasha Levin <sashal@kernel.org>,
+ <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>
+Subject: [PATCH v2 0/4] Refactor Aspeed USB vhub driver
+Date: Tue, 30 Nov 2021 18:42:52 +0800
+Message-ID: <20211130104256.3106797-1-neal_liu@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="GLgFZVkdCWguog1a"
-Content-Disposition: inline
-In-Reply-To: <b8ee3be7-c0f6-d1fd-1ba1-13066b329ee3@os.amperecomputing.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.10.10]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1AUAIVeg077384
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,77 +57,34 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Corey Minyard <minyard@acm.org>,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
- Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org,
- Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>,
- openipmi-developer@lists.sourceforge.net,
- Open Source Submission <patches@amperecomputing.com>,
- linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
+Cc: Neal Liu <neal_liu@aspeedtech.com>, BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+These patch series include 2 parts. One is adding more features
+to pass USB30CV compliance test, the other is fixing hw issues.
+More detail descriptions are included below patchsets.
 
---GLgFZVkdCWguog1a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Change since v1:
+- Remove unnecessary configs for SET_CONFIGURATION.
+- Separate supporting test mode to new patch.
 
-Hi,
+*** BLURB HERE ***
 
-> Thanks Wolfram to help bring this up,
+Neal Liu (4):
+  usb: aspeed-vhub: add qualifier descriptor
+  usb: aspeed-vhub: support auto remote wakeup feature
+  usb: aspeed-vhub: fix ep0 OUT ack received wrong length issue
+  usb: aspeed-vhub: support test mode feature
 
-Sure thing! It would be sad to see this work bitrot.
+ drivers/usb/gadget/udc/aspeed-vhub/core.c |  3 ++
+ drivers/usb/gadget/udc/aspeed-vhub/dev.c  | 18 +++++++--
+ drivers/usb/gadget/udc/aspeed-vhub/ep0.c  |  7 ++++
+ drivers/usb/gadget/udc/aspeed-vhub/hub.c  | 46 ++++++++++++++++++++---
+ drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  1 +
+ 5 files changed, 65 insertions(+), 10 deletions(-)
 
-> This driver was tested with Aspeed ast2500 and we have tried many way to
-> avoid using slave_enable() to toggle slave mode but there is no progress.
+-- 
+2.25.1
 
-I see. I also can't help you there. I have neither experience with nor
-access to this HW.
-
-> Our expectation is still to have this driver upstream'ed and I'm thinking
-> about testing this driver on other HW and re-post the driver.
-
-That sounds like a good plan.
-
-> I have to admit that you are all right with the above comments. The fact =
-is
-> we still not be able to find any way to solve this differently. We don't =
-own
-> this HW and dont know what happen on this particular issue. The SCL clock
-> stretching on this HW does not work as expected and the slave_enable() is
-> the only solution for now. I hope if someone could help with the issue as
-> well.
-
-=46rom this distance, it looks like HW access and a logic analyzer might
-be helpful in understanding the behaviour. Pity that you don't own the
-HW.
-
-Good luck nonetheless!
-
-   Wolfram
-
-
---GLgFZVkdCWguog1a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmGl9tAACgkQFA3kzBSg
-Kba4dA/+LQ+TgyjbUYOZOjpRRji7agnQYuqCWgQAJb0L8O9WQWEaoPwlAYP2DpHP
-WdVIVnuLhRvwWKSI2yNAJRZURY4fbvrSAXFoeyY1DrxxLVj7GB4Ku9dKGUQEu8vk
-SufpI4wpozucy32ZHAY8sDlquSILlCHEchyb8851rfbBWKBhQfKwNtO+vwEYqcy6
-UqEp1wxYUV0WpXCDiGXb3m+qViyb84t54YzBSHzKvBFYyRi1S94BESgQ3W2XVRPA
-BGwy+uhgF32jeBFs6wdv+zCpq+NBmAZg/czXt2naPF6HkNjG4ZTMgROmqoery36M
-VEuhlE6us23UVcCDujArrFcH1+qhhTYSAOxZZ9qDSWYmsxxF0k/fHi55bszcCoyE
-Ba3OFUe8TKMfYARMkjpRtN60aLtq/E7M+X1/774Q2BUvvS9UVUMs5jK7umQsuJ/3
-7BZIFiXT1RKExUKxD5dHVyCXnO6AoF1t3aNZlqlgo9IDmWhQeyfqM+oHwBjqINYD
-hmLL3djjgpe9DksOXDFu17ywiSB33+OvfWhO502tbDrv+QxIbsIR4G+wffxcUG+b
-Ts8pgy7y+6cdNxLvrpUv+SjzATHxRmwWuTGNr8hlgxtckDybKKkWeEmQLdIlrVYg
-Y24ut60ocJP+alOr+eP2bqQDyNqx+ARwSFBP6FKA+04ASyeNrro=
-=qe3w
------END PGP SIGNATURE-----
-
---GLgFZVkdCWguog1a--
