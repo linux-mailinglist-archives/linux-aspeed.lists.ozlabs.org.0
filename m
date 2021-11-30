@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07DFF463292
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 12:39:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1AD846328B
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 12:39:42 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J3KyH75NMz2yZt
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 22:39:51 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J3Ky45PlWz3bW9
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Nov 2021 22:39:40 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,10 +17,10 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J3KyF22lnz30KC
- for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Nov 2021 22:39:48 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J3Ky12XpKz2yK6
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Nov 2021 22:39:35 +1100 (AEDT)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 1AUBEMLr082287;
+ by twspam01.aspeedtech.com with ESMTP id 1AUBEM3p082288;
  Tue, 30 Nov 2021 19:14:22 +0800 (GMT-8)
  (envelope-from neal_liu@aspeedtech.com)
 Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
@@ -34,9 +34,9 @@ To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman
  robot" <lkp@intel.com>, Sasha Levin <sashal@kernel.org>,
  <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH v2 1/4] usb: aspeed-vhub: add qualifier descriptor
-Date: Tue, 30 Nov 2021 19:38:44 +0800
-Message-ID: <20211130113847.1405873-2-neal_liu@aspeedtech.com>
+Subject: [PATCH v2 2/4] usb: aspeed-vhub: support auto remote wakeup feature
+Date: Tue, 30 Nov 2021 19:38:45 +0800
+Message-ID: <20211130113847.1405873-3-neal_liu@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211130113847.1405873-1-neal_liu@aspeedtech.com>
 References: <20211130113847.1405873-1-neal_liu@aspeedtech.com>
@@ -47,7 +47,7 @@ X-Originating-IP: [192.168.10.10]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1AUBEMLr082287
+X-MAIL: twspam01.aspeedtech.com 1AUBEM3p082288
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,92 +67,29 @@ Sender: "Linux-aspeed"
 +Ben.
 ---
 
-Support qualifier descriptor to pass USB30CV compliance test.
+Remote wakeup signaling will be automatically issued
+whenever any write commands has been received in suspend
+state.
 
 Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
 ---
- drivers/usb/gadget/udc/aspeed-vhub/hub.c  | 24 +++++++++++++++++++++++
- drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  1 +
- 2 files changed, 25 insertions(+)
+ drivers/usb/gadget/udc/aspeed-vhub/core.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-index b9960fdd8a51..93f27a745760 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-@@ -68,6 +68,18 @@ static const struct usb_device_descriptor ast_vhub_dev_desc = {
- 	.bNumConfigurations	= 1,
- };
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+index 7a635c499777..122ee7ef0b03 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
+@@ -240,6 +240,9 @@ void ast_vhub_init_hw(struct ast_vhub *vhub)
+ 	if (vhub->force_usb1)
+ 		ctrl |= VHUB_CTRL_FULL_SPEED_ONLY;
  
-+static const struct usb_qualifier_descriptor ast_vhub_qual_desc = {
-+	.bLength = 0xA,
-+	.bDescriptorType = USB_DT_DEVICE_QUALIFIER,
-+	.bcdUSB = cpu_to_le16(0x0200),
-+	.bDeviceClass = USB_CLASS_HUB,
-+	.bDeviceSubClass = 0,
-+	.bDeviceProtocol = 0,
-+	.bMaxPacketSize0 = 64,
-+	.bNumConfigurations = 1,
-+	.bRESERVED = 0,
-+};
++	/* Enable auto remote wakeup */
++	ctrl |= VHUB_CTRL_AUTO_REMOTE_WAKEUP;
 +
- /*
-  * Configuration descriptor: same comments as above
-  * regarding handling USB1 mode.
-@@ -271,9 +283,11 @@ static int ast_vhub_rep_desc(struct ast_vhub_ep *ep,
- 		BUILD_BUG_ON(dsize > sizeof(vhub->vhub_dev_desc));
- 		BUILD_BUG_ON(USB_DT_DEVICE_SIZE >= AST_VHUB_EP0_MAX_PACKET);
- 		break;
-+	case USB_DT_OTHER_SPEED_CONFIG:
- 	case USB_DT_CONFIG:
- 		dsize = AST_VHUB_CONF_DESC_SIZE;
- 		memcpy(ep->buf, &vhub->vhub_conf_desc, dsize);
-+		((u8 *)ep->buf)[1] = desc_type;
- 		BUILD_BUG_ON(dsize > sizeof(vhub->vhub_conf_desc));
- 		BUILD_BUG_ON(AST_VHUB_CONF_DESC_SIZE >= AST_VHUB_EP0_MAX_PACKET);
- 		break;
-@@ -283,6 +297,10 @@ static int ast_vhub_rep_desc(struct ast_vhub_ep *ep,
- 		BUILD_BUG_ON(dsize > sizeof(vhub->vhub_hub_desc));
- 		BUILD_BUG_ON(AST_VHUB_HUB_DESC_SIZE >= AST_VHUB_EP0_MAX_PACKET);
- 		break;
-+	case USB_DT_DEVICE_QUALIFIER:
-+		dsize = sizeof(vhub->vhub_qual_desc);
-+		memcpy(ep->buf, &vhub->vhub_qual_desc, dsize);
-+		break;
- 	default:
- 		return std_req_stall;
- 	}
-@@ -428,6 +446,8 @@ enum std_req_rc ast_vhub_std_hub_request(struct ast_vhub_ep *ep,
- 		switch (wValue >> 8) {
- 		case USB_DT_DEVICE:
- 		case USB_DT_CONFIG:
-+		case USB_DT_DEVICE_QUALIFIER:
-+		case USB_DT_OTHER_SPEED_CONFIG:
- 			return ast_vhub_rep_desc(ep, wValue >> 8,
- 						 wLength);
- 		case USB_DT_STRING:
-@@ -1033,6 +1053,10 @@ static int ast_vhub_init_desc(struct ast_vhub *vhub)
- 	else
- 		ret = ast_vhub_str_alloc_add(vhub, &ast_vhub_strings);
+ 	ctrl |= VHUB_CTRL_UPSTREAM_CONNECT;
+ 	writel(ctrl, vhub->regs + AST_VHUB_CTRL);
  
-+	/* Initialize vhub Qualifier Descriptor. */
-+	memcpy(&vhub->vhub_qual_desc, &ast_vhub_qual_desc,
-+		sizeof(vhub->vhub_qual_desc));
-+
- 	return ret;
- }
- 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-index 87a5dea12d3c..6b9dfa6e10eb 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-@@ -425,6 +425,7 @@ struct ast_vhub {
- 	struct ast_vhub_full_cdesc	vhub_conf_desc;
- 	struct usb_hub_descriptor	vhub_hub_desc;
- 	struct list_head		vhub_str_desc;
-+	struct usb_qualifier_descriptor	vhub_qual_desc;
- };
- 
- /* Standard request handlers result codes */
 -- 
 2.25.1
 
