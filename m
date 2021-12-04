@@ -2,41 +2,56 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CBA746867A
-	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Dec 2021 18:12:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 061974686D6
+	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Dec 2021 18:56:28 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J5x7y3PBmz30GD
-	for <lists+linux-aspeed@lfdr.de>; Sun,  5 Dec 2021 04:12:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J5y6x6kLJz2yY0
+	for <lists+linux-aspeed@lfdr.de>; Sun,  5 Dec 2021 04:56:25 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rC7Zy9oK;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=intel.com (client-ip=192.55.52.151; helo=mga17.intel.com;
- envelope-from=iwona.winiarska@intel.com; receiver=<UNKNOWN>)
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org;
+ envelope-from=arnd@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=rC7Zy9oK; 
+ dkim-atps=neutral
+X-Greylist: delayed 562 seconds by postgrey-1.36 at boromir;
+ Sun, 05 Dec 2021 04:56:21 AEDT
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J5y6s0qW7z2xt0
+ for <linux-aspeed@lists.ozlabs.org>; Sun,  5 Dec 2021 04:56:20 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J5x7s4Ghgz2xtL
- for <linux-aspeed@lists.ozlabs.org>; Sun,  5 Dec 2021 04:12:09 +1100 (AEDT)
-X-IronPort-AV: E=McAfee;i="6200,9189,10188"; a="217820743"
-X-IronPort-AV: E=Sophos;i="5.87,287,1631602800"; d="scan'208";a="217820743"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2021 09:11:10 -0800
-X-IronPort-AV: E=Sophos;i="5.87,287,1631602800"; d="scan'208";a="610773176"
-Received: from skoikkar-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.144.57])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2021 09:11:06 -0800
-From: Iwona Winiarska <iwona.winiarska@intel.com>
-To: linux-gpio@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: [PATCH 2/2] gpio: aspeed-sgpio: Convert aspeed_sgpio.lock to
- raw_spinlock
-Date: Sat,  4 Dec 2021 18:10:27 +0100
-Message-Id: <20211204171027.451220-2-iwona.winiarska@intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211204171027.451220-1-iwona.winiarska@intel.com>
-References: <20211204171027.451220-1-iwona.winiarska@intel.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 97E4360ED7;
+ Sat,  4 Dec 2021 17:46:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC333C341C2;
+ Sat,  4 Dec 2021 17:46:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1638640012;
+ bh=m53DYrzONUqXySnuyI8Iv8xHXEMmcTWjOknPMtQWpbU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=rC7Zy9oKyV5tet0TB29vkn49q0Ijv3HDdkSoK40B0JTRJvQO1WfXJgismeFAJGFRD
+ wKn32hfbg+EMbHeOgQ7V3FgZA1aiGIkS2sGYzDlOE6NPJenvuASa5VD7Y8E85+Gp3x
+ k4p2Eru1hUBJkF3YD1MOwhSYjJKFqNad0GDEjjlZQIQJ4+gwRPJ6MO3oc+zcWiqPGp
+ 6YzacJ9jFjVb2s/W0R+wdcaymfnflDIyEu9Kn41L5y7SEVX0+GsHZi8a0vE+Tl4f/0
+ 9UlQ+KHAOi0XeAWAWX8O209zBA6Si2l9X+RFsnf/mi81NbgeFYbOP+HDcVChZuvGir
+ dAv1HFpi7txug==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Joel Stanley <joel@jms.id.au>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 2/2] drm: aspeed: select CONFIG_DRM_GEM_CMA_HELPER
+Date: Sat,  4 Dec 2021 18:46:23 +0100
+Message-Id: <20211204174637.1160725-2-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20211204174637.1160725-1-arnd@kernel.org>
+References: <20211204174637.1160725-1-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -50,158 +65,43 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The gpio-aspeed-sgpio driver implements an irq_chip which need to be
-invoked from hardirq context. Since spin_lock() can sleep with
-PREEMPT_RT, it is no longer legal to invoke it while interrupts are
-disabled.
-This also causes lockdep to complain about:
-[   25.919465] [ BUG: Invalid wait context ]
-because aspeed_sgpio.lock (spin_lock_t) is taken under irq_desc.lock
-(raw_spinlock_t).
-Let's use of raw_spinlock_t instead of spinlock_t.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
+The aspeed driver uses the gem_cma_helper code, but does
+noto enforce enabling this through Kconfig:
+
+x86_64-linux-ld: drivers/gpu/drm/aspeed/aspeed_gfx_drv.o:(.rodata+0x2c8): undefined reference to `drm_gem_cma_prime_import_sg_table'
+x86_64-linux-ld: drivers/gpu/drm/aspeed/aspeed_gfx_drv.o:(.rodata+0x2d8): undefined reference to `drm_gem_cma_dumb_create'
+x86_64-linux-ld: drivers/gpu/drm/aspeed/aspeed_gfx_crtc.o: in function `aspeed_gfx_pipe_update':
+aspeed_gfx_crtc.c:(.text+0xe5): undefined reference to `drm_fb_cma_get_gem_obj'
+
+Add the same 'select' that is used in other such drivers.
+
+Fixes: 09717af7d13d ("drm: Remove CONFIG_DRM_KMS_CMA_HELPER option")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpio/gpio-aspeed-sgpio.c | 32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/aspeed/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpio/gpio-aspeed-sgpio.c b/drivers/gpio/gpio-aspeed-sgpio.c
-index 3d6ef37a7702..931d5c38d7de 100644
---- a/drivers/gpio/gpio-aspeed-sgpio.c
-+++ b/drivers/gpio/gpio-aspeed-sgpio.c
-@@ -31,7 +31,7 @@ struct aspeed_sgpio {
- 	struct gpio_chip chip;
- 	struct irq_chip intc;
- 	struct clk *pclk;
--	spinlock_t lock;
-+	raw_spinlock_t lock;
- 	void __iomem *base;
- 	int irq;
- };
-@@ -173,12 +173,12 @@ static int aspeed_sgpio_get(struct gpio_chip *gc, unsigned int offset)
- 	enum aspeed_sgpio_reg reg;
- 	int rc = 0;
- 
--	spin_lock_irqsave(&gpio->lock, flags);
-+	raw_spin_lock_irqsave(&gpio->lock, flags);
- 
- 	reg = aspeed_sgpio_is_input(offset) ? reg_val : reg_rdata;
- 	rc = !!(ioread32(bank_reg(gpio, bank, reg)) & GPIO_BIT(offset));
- 
--	spin_unlock_irqrestore(&gpio->lock, flags);
-+	raw_spin_unlock_irqrestore(&gpio->lock, flags);
- 
- 	return rc;
- }
-@@ -215,11 +215,11 @@ static void aspeed_sgpio_set(struct gpio_chip *gc, unsigned int offset, int val)
- 	struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&gpio->lock, flags);
-+	raw_spin_lock_irqsave(&gpio->lock, flags);
- 
- 	sgpio_set_value(gc, offset, val);
- 
--	spin_unlock_irqrestore(&gpio->lock, flags);
-+	raw_spin_unlock_irqrestore(&gpio->lock, flags);
- }
- 
- static int aspeed_sgpio_dir_in(struct gpio_chip *gc, unsigned int offset)
-@@ -236,9 +236,9 @@ static int aspeed_sgpio_dir_out(struct gpio_chip *gc, unsigned int offset, int v
- 	/* No special action is required for setting the direction; we'll
- 	 * error-out in sgpio_set_value if this isn't an output GPIO */
- 
--	spin_lock_irqsave(&gpio->lock, flags);
-+	raw_spin_lock_irqsave(&gpio->lock, flags);
- 	rc = sgpio_set_value(gc, offset, val);
--	spin_unlock_irqrestore(&gpio->lock, flags);
-+	raw_spin_unlock_irqrestore(&gpio->lock, flags);
- 
- 	return rc;
- }
-@@ -277,11 +277,11 @@ static void aspeed_sgpio_irq_ack(struct irq_data *d)
- 
- 	status_addr = bank_reg(gpio, bank, reg_irq_status);
- 
--	spin_lock_irqsave(&gpio->lock, flags);
-+	raw_spin_lock_irqsave(&gpio->lock, flags);
- 
- 	iowrite32(bit, status_addr);
- 
--	spin_unlock_irqrestore(&gpio->lock, flags);
-+	raw_spin_unlock_irqrestore(&gpio->lock, flags);
- }
- 
- static void aspeed_sgpio_irq_set_mask(struct irq_data *d, bool set)
-@@ -296,7 +296,7 @@ static void aspeed_sgpio_irq_set_mask(struct irq_data *d, bool set)
- 	irqd_to_aspeed_sgpio_data(d, &gpio, &bank, &bit, &offset);
- 	addr = bank_reg(gpio, bank, reg_irq_enable);
- 
--	spin_lock_irqsave(&gpio->lock, flags);
-+	raw_spin_lock_irqsave(&gpio->lock, flags);
- 
- 	reg = ioread32(addr);
- 	if (set)
-@@ -306,7 +306,7 @@ static void aspeed_sgpio_irq_set_mask(struct irq_data *d, bool set)
- 
- 	iowrite32(reg, addr);
- 
--	spin_unlock_irqrestore(&gpio->lock, flags);
-+	raw_spin_unlock_irqrestore(&gpio->lock, flags);
- }
- 
- static void aspeed_sgpio_irq_mask(struct irq_data *d)
-@@ -355,7 +355,7 @@ static int aspeed_sgpio_set_type(struct irq_data *d, unsigned int type)
- 		return -EINVAL;
- 	}
- 
--	spin_lock_irqsave(&gpio->lock, flags);
-+	raw_spin_lock_irqsave(&gpio->lock, flags);
- 
- 	addr = bank_reg(gpio, bank, reg_irq_type0);
- 	reg = ioread32(addr);
-@@ -372,7 +372,7 @@ static int aspeed_sgpio_set_type(struct irq_data *d, unsigned int type)
- 	reg = (reg & ~bit) | type2;
- 	iowrite32(reg, addr);
- 
--	spin_unlock_irqrestore(&gpio->lock, flags);
-+	raw_spin_unlock_irqrestore(&gpio->lock, flags);
- 
- 	irq_set_handler_locked(d, handler);
- 
-@@ -467,7 +467,7 @@ static int aspeed_sgpio_reset_tolerance(struct gpio_chip *chip,
- 
- 	reg = bank_reg(gpio, to_bank(offset), reg_tolerance);
- 
--	spin_lock_irqsave(&gpio->lock, flags);
-+	raw_spin_lock_irqsave(&gpio->lock, flags);
- 
- 	val = readl(reg);
- 
-@@ -478,7 +478,7 @@ static int aspeed_sgpio_reset_tolerance(struct gpio_chip *chip,
- 
- 	writel(val, reg);
- 
--	spin_unlock_irqrestore(&gpio->lock, flags);
-+	raw_spin_unlock_irqrestore(&gpio->lock, flags);
- 
- 	return 0;
- }
-@@ -575,7 +575,7 @@ static int __init aspeed_sgpio_probe(struct platform_device *pdev)
- 	iowrite32(FIELD_PREP(ASPEED_SGPIO_CLK_DIV_MASK, sgpio_clk_div) | gpio_cnt_regval |
- 		  ASPEED_SGPIO_ENABLE, gpio->base + ASPEED_SGPIO_CTRL);
- 
--	spin_lock_init(&gpio->lock);
-+	raw_spin_lock_init(&gpio->lock);
- 
- 	gpio->chip.parent = &pdev->dev;
- 	gpio->chip.ngpio = nr_gpios * 2;
+diff --git a/drivers/gpu/drm/aspeed/Kconfig b/drivers/gpu/drm/aspeed/Kconfig
+index 36c4a7e86981..024ccab14f88 100644
+--- a/drivers/gpu/drm/aspeed/Kconfig
++++ b/drivers/gpu/drm/aspeed/Kconfig
+@@ -5,6 +5,7 @@ config DRM_ASPEED_GFX
+ 	depends on (COMPILE_TEST || ARCH_ASPEED)
+ 	depends on MMU
+ 	select DRM_KMS_HELPER
++	select DRM_GEM_CMA_HELPER
+ 	select DMA_CMA if HAVE_DMA_CONTIGUOUS
+ 	select CMA if HAVE_DMA_CONTIGUOUS
+ 	select MFD_SYSCON
 -- 
-2.31.1
+2.29.2
 
