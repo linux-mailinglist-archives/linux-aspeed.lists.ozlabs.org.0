@@ -2,47 +2,48 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B0B746878E
-	for <lists+linux-aspeed@lfdr.de>; Sat,  4 Dec 2021 21:47:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10937468E36
+	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Dec 2021 01:13:51 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J61w71r3Qz2yX8
-	for <lists+linux-aspeed@lfdr.de>; Sun,  5 Dec 2021 07:47:19 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J6kRw6WZcz2yPL
+	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Dec 2021 11:13:48 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=intel.com (client-ip=134.134.136.100; helo=mga07.intel.com;
- envelope-from=lkp@intel.com; receiver=<UNKNOWN>)
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J61w31Rvxz2yHM
- for <linux-aspeed@lists.ozlabs.org>; Sun,  5 Dec 2021 07:47:09 +1100 (AEDT)
-X-IronPort-AV: E=McAfee;i="6200,9189,10188"; a="300528983"
-X-IronPort-AV: E=Sophos;i="5.87,288,1631602800"; d="scan'208";a="300528983"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2021 12:46:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,288,1631602800"; d="scan'208";a="598478173"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
- by FMSMGA003.fm.intel.com with ESMTP; 04 Dec 2021 12:46:01 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1mtbuz-000JQc-0i; Sat, 04 Dec 2021 20:46:01 +0000
-Date: Sun, 5 Dec 2021 04:45:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Howard Chiu <howard10703049@gmail.com>, robh+dt@kernel.org,
- joel@jms.id.au, andrew@aj.id.au, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7] ARM: dts: aspeed: Adding Facebook Bletchley BMC
-Message-ID: <202112050427.TQfPqAXr-lkp@intel.com>
-References: <20211202091303.979044-1-howard.chiu@quantatw.com>
+ smtp.mailfrom=kernel.crashing.org (client-ip=63.228.1.57;
+ helo=gate.crashing.org; envelope-from=benh@kernel.crashing.org;
+ receiver=<UNKNOWN>)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by lists.ozlabs.org (Postfix) with ESMTP id 4J6kRn68Jpz2xF1
+ for <linux-aspeed@lists.ozlabs.org>; Mon,  6 Dec 2021 11:13:40 +1100 (AEDT)
+Received: from ip6-localhost (localhost.localdomain [127.0.0.1])
+ by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 1B608gtt022162;
+ Sun, 5 Dec 2021 18:08:44 -0600
+Message-ID: <07472b315d6adecb874f29128e9b5fe3eadad590.camel@kernel.crashing.org>
+Subject: Re: [PATCH 2/3] usb: aspeed-vhub: support remote wakeup feature
+From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To: Neal Liu <neal_liu@aspeedtech.com>, Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joel Stanley
+ <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, Cai Huoqing
+ <caihuoqing@baidu.com>, Tao Ren <rentao.bupt@gmail.com>, Julia Lawall
+ <julia.lawall@inria.fr>, kernel test robot <lkp@intel.com>, Sasha Levin
+ <sashal@kernel.org>, "linux-usb@vger.kernel.org"
+ <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+ <linux-aspeed@lists.ozlabs.org>
+Date: Mon, 06 Dec 2021 11:08:42 +1100
+In-Reply-To: <HK0PR06MB3202F55EEE02B9931D9CD4AD80699@HK0PR06MB3202.apcprd06.prod.outlook.com>
+References: <20211126110954.2677627-1-neal_liu@aspeedtech.com>
+ <20211126110954.2677627-3-neal_liu@aspeedtech.com>
+ <279c42970790787e928ed017149e300835085235.camel@kernel.crashing.org>
+ <HK0PR06MB3202A1F0710655B3E8EA709580679@HK0PR06MB3202.apcprd06.prod.outlook.com>
+ <5d234a400a89f64ad183020b93b68f478f1addc7.camel@kernel.crashing.org>
+ <HK0PR06MB3202F55EEE02B9931D9CD4AD80699@HK0PR06MB3202.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211202091303.979044-1-howard.chiu@quantatw.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,45 +55,52 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Howard Chiu <howard.chiu@quantatw.com>
+Cc: BMC-SW <BMC-SW@aspeedtech.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Howard,
+On Thu, 2021-12-02 at 03:03 +0000, Neal Liu wrote:
+> > 
+> Let's me describe more details for our hardware behavior and hope you
+> understand.
+> 
+> HUB00[3]: MANUAL_REMOTE_WAKEUP
+> HUB00[4]: AUTO_REMOTE_WAKEUP
+> 
+> Set HUB00[3] implies USB device will do remote wakeup if any write
+> command to vhub register.
+> Set HUB00[4] implies USB device will do remote wakeup. It can only be
+> set in suspend state.
+> 
+> For current design, d->wakeup_en only controls whether HUB00[4] can
+> be set through usb_gadget_ops.wakeup().
+> If some applications (take KVM as example) want to wakeup host by
+> sending a packet, it won't go through sb_gadget_ops.wakeup().
+> We enable HUB00[3] to fix this problem. It won't override above
+> mentioned behavior.
+> If host has enabled the USB_DEVICE_REMOTE_WAKEUP feature, it has 2
+> ways to wakeup host.
+> 1. set srp 1 (/sys/device/platform/xxxxxxxxx/udc/xxxxxx/srp)
+> 2. emulated device has activity
+> If host has disabled the USB_DEVICE_REMOTE_WAKEUP feature, these 2
+> ways still cannot wakeup host even if USB bus is in resume state.
+> Thanks
 
-Thank you for the patch! Yet something to improve:
+So what you are saying is that currently, the various gadgets aren't
+calling usb_gadget_wakeup() ?
 
-[auto build test ERROR on soc/for-next]
-[also build test ERROR on v5.16-rc3 next-20211203]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Ie. it should be a gadget policy to decide when to wake-up I suppose,
+but it's true that nothing in the core nor the existing gadgets seem to
+handle that.
 
-url:    https://github.com/0day-ci/linux/commits/Howard-Chiu/ARM-dts-aspeed-Adding-Facebook-Bletchley-BMC/20211202-171524
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-config: arm-randconfig-c002-20211202 (https://download.01.org/0day-ci/archive/20211205/202112050427.TQfPqAXr-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/4c77c422c22eee6a98c7e5f25325ab535a06c4c5
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Howard-Chiu/ARM-dts-aspeed-Adding-Facebook-Bletchley-BMC/20211202-171524
-        git checkout 4c77c422c22eee6a98c7e5f25325ab535a06c4c5
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm SHELL=/bin/bash
+I think what you propose is a band-aid. The real problem is that the
+gadget drivers should trigger wakeups (or the core should do so on
+activity).
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+That said, for now, I don't object to adding that "auto" bit, but I
+would prefer if that behaviour was use configurable.
 
-All errors (new ones prefixed by >>):
+Cheers,
+Ben.
 
->> Error: arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts:810.1-5 Label or path pwm not found
->> Error: arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts:820.1-6 Label or path tach not found
->> FATAL ERROR: Syntax error parsing input tree
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
