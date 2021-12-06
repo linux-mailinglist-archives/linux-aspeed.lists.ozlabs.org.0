@@ -1,81 +1,60 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2885246919E
-	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Dec 2021 09:38:08 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD2746A34B
+	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Dec 2021 18:42:50 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J6xdl1Xqlz2yXv
-	for <lists+linux-aspeed@lfdr.de>; Mon,  6 Dec 2021 19:38:03 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=iMGX8K+u;
-	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BflOTt4X;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J79kH6g7Wz2yfr
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 04:42:47 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=suse.de
- (client-ip=195.135.220.29; helo=smtp-out2.suse.de;
- envelope-from=tzimmermann@suse.de; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256
- header.s=susede2_rsa header.b=iMGX8K+u; 
- dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256
- header.s=susede2_ed25519 header.b=BflOTt4X; 
- dkim-atps=neutral
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=209.85.210.42; helo=mail-ot1-f42.google.com;
+ envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
+ [209.85.210.42])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J6xdb3jDsz2xsx
- for <linux-aspeed@lists.ozlabs.org>; Mon,  6 Dec 2021 19:37:55 +1100 (AEDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A480B1FD2F;
- Mon,  6 Dec 2021 08:37:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1638779871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=972ohPie0Z0KqBX9H7clElE9YIL3jOwiptpokykEtBE=;
- b=iMGX8K+uEF/YgwCbln3FzoDL9aNMgoT535ctYWyUDaUkcCFrDNPjJzRyK2b6TeMX4OKgzd
- sGjn7wU3GhK1y04eot6jyUf+paG9cjw6poE5awQG3Es9nl7Qudz1nRD0Lji9AEN47SqdY9
- Xrfgt7VJENpF4BkP0xjk3W1EoLjqmyU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1638779871;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=972ohPie0Z0KqBX9H7clElE9YIL3jOwiptpokykEtBE=;
- b=BflOTt4X1dIBvTgcAU+Sddycj98FbUpybrauX8Mh/D7iewoYOYaDt9pxyFUOtzSZmeq9H+
- Ho9YwqfDvdDM9+AA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6DDAE1330B;
- Mon,  6 Dec 2021 08:37:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id +E/AGd/LrWF2EgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 06 Dec 2021 08:37:51 +0000
-Message-ID: <845d7175-8c35-9061-3751-6292a9336c8f@suse.de>
-Date: Mon, 6 Dec 2021 09:37:50 +0100
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J79kD3v0nz2xCt;
+ Tue,  7 Dec 2021 04:42:42 +1100 (AEDT)
+Received: by mail-ot1-f42.google.com with SMTP id
+ u18-20020a9d7212000000b00560cb1dc10bso14564435otj.11; 
+ Mon, 06 Dec 2021 09:42:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AbndXfdUqpyPQteYDfKjE1VIDsx2qwSU9ZClP6riQdE=;
+ b=6PbxTA727EPdj7hxJrRGi/ZahyulLr7JpQc+L+NcBmYph4d8lDFO5eFg/dlu7ZmKeO
+ U2C2g5PJd38Dt6Mp4d+Mn2i3819PqCAOpUPddwjUMcNuQT+I5CDdw4KUG0mN0OXxsNca
+ 4MPnga1LpILDsZBzUhbHn0/mrnfXC2jgrx+sYn175W3lKiPO0k+MX+l+LXFwTvfNSgOr
+ bbWkekLQxuHRPB4NwhR7M2dTD2gBQgj5yAPwBKO058KgF8uFdAYciyjEEGXuQz2Upjnv
+ ETuJ7iLX/mwMHddGuQc7P+vd3dRGS/x4SOim9K7I1vxahqiZPQIwwO4O8jZji6KEoLS7
+ HJuw==
+X-Gm-Message-State: AOAM530dU7/IMqDE/QsjYOcY6AwUIJs2L5ifrTwzKkJjf2zGj9rXKK3n
+ HLKLVRb8V8vM2Fc7Ux+Pdg==
+X-Google-Smtp-Source: ABdhPJzRIALyGrYVn7vIW3KpfiJT2LlB6/qH5jyCFoTtpMhgKtFla0ts7XKqa5lxJaRE1k7QLXD+DA==
+X-Received: by 2002:a05:6830:1bc3:: with SMTP id
+ v3mr30400158ota.276.1638812559197; 
+ Mon, 06 Dec 2021 09:42:39 -0800 (PST)
+Received: from xps15.herring.priv (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.googlemail.com with ESMTPSA id b17sm2494489ots.66.2021.12.06.09.42.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Dec 2021 09:42:38 -0800 (PST)
+From: Rob Herring <robh@kernel.org>
+To: Brendan Higgins <brendanhiggins@google.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Rayn Chen <rayn_chen@aspeedtech.com>
+Subject: [PATCH] dt-bindings: i2c: aspeed: Drop stray '#interrupt-cells'
+Date: Mon,  6 Dec 2021 11:42:37 -0600
+Message-Id: <20211206174237.2298580-1-robh@kernel.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 2/2] drm: aspeed: select CONFIG_DRM_GEM_CMA_HELPER
-Content-Language: en-US
-To: Arnd Bergmann <arnd@kernel.org>, Joel Stanley <joel@jms.id.au>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <20211204174637.1160725-1-arnd@kernel.org>
- <20211204174637.1160725-2-arnd@kernel.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20211204174637.1160725-2-arnd@kernel.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------8R89IqoHERVJMb3PbTk8pCki"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,76 +66,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, linux-i2c@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------8R89IqoHERVJMb3PbTk8pCki
-Content-Type: multipart/mixed; boundary="------------0xhI9fQKvQOX086OhseY7365";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Arnd Bergmann <arnd@kernel.org>, Joel Stanley <joel@jms.id.au>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Arnd Bergmann <arnd@arndb.de>, Andrew Jeffery <andrew@aj.id.au>,
- linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Message-ID: <845d7175-8c35-9061-3751-6292a9336c8f@suse.de>
-Subject: Re: [PATCH 2/2] drm: aspeed: select CONFIG_DRM_GEM_CMA_HELPER
-References: <20211204174637.1160725-1-arnd@kernel.org>
- <20211204174637.1160725-2-arnd@kernel.org>
-In-Reply-To: <20211204174637.1160725-2-arnd@kernel.org>
+'#interrupt-cells' is not documented which causes a warning when
+'unevaluatedProperties' is implemented. Unless the I2C controller is
+also an interrupt controller, '#interrupt-cells' is not valid. This
+doesn't appear to be the case from the driver, so just remove it from
+the example.
 
---------------0xhI9fQKvQOX086OhseY7365
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Cc: Brendan Higgins <brendanhiggins@google.com>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Joel Stanley <joel@jms.id.au>
+Cc: Andrew Jeffery <andrew@aj.id.au>
+Cc: Rayn Chen <rayn_chen@aspeedtech.com>
+Cc: linux-i2c@vger.kernel.org
+Cc: openbmc@lists.ozlabs.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml | 1 -
+ 1 file changed, 1 deletion(-)
 
-SGkgQXJuZA0KDQpBbSAwNC4xMi4yMSB1bSAxODo0NiBzY2hyaWViIEFybmQgQmVyZ21hbm46
-DQo+IEZyb206IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+DQo+IA0KPiBUaGUgYXNw
-ZWVkIGRyaXZlciB1c2VzIHRoZSBnZW1fY21hX2hlbHBlciBjb2RlLCBidXQgZG9lcw0KPiBu
-b3RvIGVuZm9yY2UgZW5hYmxpbmcgdGhpcyB0aHJvdWdoIEtjb25maWc6DQo+IA0KPiB4ODZf
-NjQtbGludXgtbGQ6IGRyaXZlcnMvZ3B1L2RybS9hc3BlZWQvYXNwZWVkX2dmeF9kcnYubzoo
-LnJvZGF0YSsweDJjOCk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGRybV9nZW1fY21hX3By
-aW1lX2ltcG9ydF9zZ190YWJsZScNCj4geDg2XzY0LWxpbnV4LWxkOiBkcml2ZXJzL2dwdS9k
-cm0vYXNwZWVkL2FzcGVlZF9nZnhfZHJ2Lm86KC5yb2RhdGErMHgyZDgpOiB1bmRlZmluZWQg
-cmVmZXJlbmNlIHRvIGBkcm1fZ2VtX2NtYV9kdW1iX2NyZWF0ZScNCj4geDg2XzY0LWxpbnV4
-LWxkOiBkcml2ZXJzL2dwdS9kcm0vYXNwZWVkL2FzcGVlZF9nZnhfY3J0Yy5vOiBpbiBmdW5j
-dGlvbiBgYXNwZWVkX2dmeF9waXBlX3VwZGF0ZSc6DQo+IGFzcGVlZF9nZnhfY3J0Yy5jOigu
-dGV4dCsweGU1KTogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgZHJtX2ZiX2NtYV9nZXRfZ2Vt
-X29iaicNCj4gDQo+IEFkZCB0aGUgc2FtZSAnc2VsZWN0JyB0aGF0IGlzIHVzZWQgaW4gb3Ro
-ZXIgc3VjaCBkcml2ZXJzLg0KPiANCj4gRml4ZXM6IDA5NzE3YWY3ZDEzZCAoImRybTogUmVt
-b3ZlIENPTkZJR19EUk1fS01TX0NNQV9IRUxQRVIgb3B0aW9uIikNCj4gU2lnbmVkLW9mZi1i
-eTogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4NCg0KVGhhbmtzISBJJ3ZlIGFkZGVk
-IGJvdGggcGF0Y2hlcyB0byBkcm0tbWlzYy1uZXh0Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21h
-cw0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVy
-DQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUs
-IDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0K
-R2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+diff --git a/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml b/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
+index ea643e6c3ef5..f597f73ccd87 100644
+--- a/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
++++ b/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
+@@ -63,7 +63,6 @@ examples:
+     i2c0: i2c-bus@40 {
+       #address-cells = <1>;
+       #size-cells = <0>;
+-      #interrupt-cells = <1>;
+       compatible = "aspeed,ast2500-i2c-bus";
+       reg = <0x40 0x40>;
+       clocks = <&syscon ASPEED_CLK_APB>;
+-- 
+2.32.0
 
---------------0xhI9fQKvQOX086OhseY7365--
-
---------------8R89IqoHERVJMb3PbTk8pCki
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmGty94FAwAAAAAACgkQlh/E3EQov+A6
-2Q//fWsXVQMvMxgfdhp3XDAoLjbs2RECtKZEOpmfynytSmJdQ/58PchUo1sizAVOrz5vm78W5DT2
-3COftJa9PTHEbjHT99lzjXMXrMf8x2GR6wiUpP3q6LRLiycxO92ElLC/JPttb4FChd5fZF876POK
-sBRyPvnHAstfOC2yBoKLYI9QVk8dj0NRsWz3kKAE5gY5x6wJ6kamIvh3Vx4D+udWfivIUtozOsx1
-ap9L0C7ybnmFeKqOhPHLl+KXPKl8Hm0Dt6LDLs7K9bXRRTh8awYu0LijjF0GfY/iC+k7IYDbHD1z
-dnZcI4BdfQO4ce4usvso3hKx95N7Amf3yr2fEmwwIivC9v7g2qZRek4fpHuCkwXUjell/yuHo08i
-li3RVP3E+0i2rQ1a7+1xmDToXvImkPfFZfYwlm0TjrmxNKx+1V/37C45o9D0WuwTlB+OdCVQD7pZ
-jjUNId7X9s9C1P54p/J7mAcp4Eb/gx5sS8+N28soLRyB+uEmtP1VlQC/ySSRpezABbrbF9eO4ple
-NF4mnMsWc/jk4UqAR7qBFzG8Mh1zLddjBJAVel8CUkizZwYJtx1H6+61TMjTnizrx0+GJeg1RgpE
-+oFyiaY+T9qJ49mBGnceffJ+Za9VMe/GlhaDcW6RIBsGEo4LRMTJftVn67g7LWvLyI6FTQqt1GhO
-a94=
-=VCLf
------END PGP SIGNATURE-----
-
---------------8R89IqoHERVJMb3PbTk8pCki--
