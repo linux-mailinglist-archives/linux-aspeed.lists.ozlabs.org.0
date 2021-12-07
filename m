@@ -2,56 +2,76 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3781D472E68
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Dec 2021 15:01:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C8A9473765
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Dec 2021 23:22:10 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JCNV30pBmz3069
-	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Dec 2021 01:01:47 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JCbbN2CWPz305F
+	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Dec 2021 09:22:08 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=terxZXDu;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=gRh0LSOO;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linuxfoundation.org (client-ip=2604:1380:4641:c500::1;
- helo=dfw.source.kernel.org; envelope-from=gregkh@linuxfoundation.org;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::32a;
+ helo=mail-wm1-x32a.google.com; envelope-from=thierry.reding@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org
- header.a=rsa-sha256 header.s=korg header.b=terxZXDu; 
- dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20210112 header.b=gRh0LSOO; dkim-atps=neutral
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JCNTz57q0z2xrq
- for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Dec 2021 01:01:43 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 940C26101B;
- Mon, 13 Dec 2021 14:01:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82BC5C34602;
- Mon, 13 Dec 2021 14:01:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1639404096;
- bh=BgybE5B6gOYKFZiJQhdNJnLs6C3rGroxuqy0tEJHivo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=terxZXDuaZnaS1+FxWAwB0vFkleccI6YMa2NQEYO+qztjPoL4Vi2tZ2YRFGTMISbB
- Q2SSG+ER5CLT1aLtt/1plvju4ZZ2jQ8YzAKNMelVSavJDlL7Lf+QPUiqihm6+2xnGj
- JfkMQkkpkvEBFx/e1ae7U3itaz4PC/zVlvcPljiU=
-Date: Mon, 13 Dec 2021 15:01:33 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Neal Liu <neal_liu@aspeedtech.com>
-Subject: Re: [PATCH v3 2/4] usb: aspeed-vhub: fix remote wakeup failure in
- iKVM use case
-Message-ID: <YbdSPWX2pnp5pT9G@kroah.com>
-References: <20211208100545.1441397-1-neal_liu@aspeedtech.com>
- <20211208100545.1441397-3-neal_liu@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J7YrJ2dvFz2ywH;
+ Tue,  7 Dec 2021 19:49:19 +1100 (AEDT)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ i8-20020a7bc948000000b0030db7b70b6bso1168805wml.1; 
+ Tue, 07 Dec 2021 00:49:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=QR97QPW6f+NCgAfPv43w1fjZD41f7yPQgmLStq1mi9A=;
+ b=gRh0LSOOXgIypuCdQaadqe7XgZFROTeqpk1WWlszBVKUUUiTyjV00+KOcnYsNRAX47
+ 5X3ALW2nTtvtWHqgaUe9zA4UUUjrNu10vXPJPvxB58W9EN1tSP8hz05dDkuR0k+s+AZh
+ xrzBKOxupUAn/CqiBNghQJtdF4tjfmSatN2sUUoqaqD3IEIMToLSi2Ke5c6iim46iQys
+ Kb/0orwNvVJywlOh8k9fd9C/fPMILruFbp5RSzOfYaZ5dPnRThCRcSGb3qjJ9RpA3+KZ
+ yn3g2KlCui30P8L+KmIAw671RtfrcvdbaCtIGh26eFGhOlnNJG3uH0yXlWBodbi7NoaO
+ BQNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=QR97QPW6f+NCgAfPv43w1fjZD41f7yPQgmLStq1mi9A=;
+ b=I6UqSSE4XaG7mukR1OtNwOvdLFZvm/bEoUxgdKtQhVl5JZrKs9JnYqEup65AgvvuFu
+ 5N1ySjco6VPplqvYhiWeH/KjEh1b+YvCSWRtYR8WNbyt6k28osLW7s+Qovc0aBY+8qbS
+ 0uUYLt51Rjd4WakhBIGbS8ziPS92oqoZvWTYPso/EJV3ZSH6pRaPAIvUqKbP6SBvkjDl
+ VejZHot0fa7LXD17W2w5vo3mvy/KnupaBmbMJ9EbpGl+hVPAqJXKbxZVjgctvpebxg9W
+ Kqqhj85rO+iz93Fkfk534wylVidpgqecmzii0b2jsi2x/m9Eyn5P5THnVu0L43Vh1Tg8
+ VYdQ==
+X-Gm-Message-State: AOAM53099jrfIw3WuNH8Dbj7JbtBe1EbM7VWhYgo+eJDu1GDtPwi5r93
+ zqx5cRbX6toLqMHYpEkAkK4=
+X-Google-Smtp-Source: ABdhPJwlcEDhqDKisTkge+HksHvcucpIyuEWBZi2ohpxLgw/uhMKKUgIA3jxgrmbJ1OgEC7tsfbrEQ==
+X-Received: by 2002:a7b:c407:: with SMTP id k7mr5272284wmi.35.1638866955262;
+ Tue, 07 Dec 2021 00:49:15 -0800 (PST)
+Received: from orome.fritz.box ([193.209.96.43])
+ by smtp.gmail.com with ESMTPSA id x1sm13693748wru.40.2021.12.07.00.49.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Dec 2021 00:49:14 -0800 (PST)
+Date: Tue, 7 Dec 2021 09:49:11 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: i2c: aspeed: Drop stray '#interrupt-cells'
+Message-ID: <Ya8gB4mu3yFYCbhp@orome.fritz.box>
+References: <20211206174237.2298580-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ICqRkSFbTbP5VtpW"
 Content-Disposition: inline
-In-Reply-To: <20211208100545.1441397-3-neal_liu@aspeedtech.com>
+In-Reply-To: <20211206174237.2298580-1-robh@kernel.org>
+User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
+X-Mailman-Approved-At: Tue, 14 Dec 2021 09:22:05 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,30 +83,69 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Felipe Balbi <balbi@kernel.org>,
- kernel test robot <lkp@intel.com>, linux-aspeed@lists.ozlabs.org,
- BMC-SW@aspeedtech.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Julia Lawall <julia.lawall@inria.fr>, Cai Huoqing <caihuoqing@baidu.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, Brendan Higgins <brendanhiggins@google.com>,
+ linux-kernel@vger.kernel.org, Rayn Chen <rayn_chen@aspeedtech.com>,
+ linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Dec 08, 2021 at 06:05:43PM +0800, Neal Liu wrote:
-> Signaling remote wakeup if an emulated USB device has any activity
-> if the device is allowed by host.
-> 
-> Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
+
+--ICqRkSFbTbP5VtpW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Dec 06, 2021 at 11:42:37AM -0600, Rob Herring wrote:
+> '#interrupt-cells' is not documented which causes a warning when
+> 'unevaluatedProperties' is implemented. Unless the I2C controller is
+> also an interrupt controller, '#interrupt-cells' is not valid. This
+> doesn't appear to be the case from the driver, so just remove it from
+> the example.
+>=20
+> Cc: Brendan Higgins <brendanhiggins@google.com>
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Joel Stanley <joel@jms.id.au>
+> Cc: Andrew Jeffery <andrew@aj.id.au>
+> Cc: Rayn Chen <rayn_chen@aspeedtech.com>
+> Cc: linux-i2c@vger.kernel.org
+> Cc: openbmc@lists.ozlabs.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-aspeed@lists.ozlabs.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
->  drivers/usb/gadget/udc/aspeed-vhub/epn.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml | 1 -
+>  1 file changed, 1 deletion(-)
 
-What commit does this fix?
+Interestingly I have a patch for this as well but it does the opposite
+and adds interrupt-controller and #interrupt-cells. Upon closer
+inspection I was tricked into this because the i2c-aspeed driver
+includes linux/irqchip/chained_irq.h and linux/irqdomain.h and therefore
+I assumed that it was indeed implementing an interrupt controller. But
+none of the symbols in those files are ever used, so your version seems
+to be correct.
 
-Does it need to go to stable kernels?
+Reviewed-by: Thierry Reding <treding@nvidia.com>
 
-Should it be independent of this patch series that adds new features?
+--ICqRkSFbTbP5VtpW
+Content-Type: application/pgp-signature; name="signature.asc"
 
-thanks,
+-----BEGIN PGP SIGNATURE-----
 
-greg k-h
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmGvIAcACgkQ3SOs138+
+s6HGYg/+O+id0oZwHJkCp6siA2gEqNUXVYkH6mzWDT9oDmO7ABtPrYBDdQi8FLda
+Y2GS9i6jKuW6j/EP8fDX61ksJhBBuu1Aj89ivX3aPE9QwZXOHCUaVYnRjEVPyUN3
+eFv0QSBMWxsLDNQ0bpOFA5ZpxkJ87wnh1z9u5Vkf4F9q6yUZcWuICwJJImgF5Udm
+LcUaBVBLys7gLX4ixJPHymnB9ogCxS87QTdGXSY94E3iR46Spkr2LKOXVaKbqVKJ
+OBQIdlk64ZSpQOQ1mUDRAdkSoZtyEik4MBbdOwb5/9bT9QvPu7h1Yi+DWxwJpW9x
+40KZD8JDK0xNlJAlUtkiwbu9frmpZrSz359rnQ9HXLbze5p89xsvpLtOiYDemTBW
+VYfFjGVMYAhLx5UgIMDTO4f5oQeBeG4N7XkrSAIEK4zZ9OAjwJ25w5aojJuULqgH
+/jtYeTcU6dkJ0RD3V7+vhaiznwlPZr4tfu63Fqt3Ai3EVYMqKks78wZhwtrrhrOO
+/SpWSv4jyAC7Mh1R6KnDD193ar6IPdW6DkCeuEokRVCpdRjtBGSX2aplXgVlRk+r
+YB3WdOKqkaJuEqKhzYuUdaHsTyRSdzSrb19hWbtHjZc+nuQHLs4GqpAxCxNHoXNR
+V8bGdcm7GQOiVRbaaY9a0+d82p6+hk0rvv9TtKqE+afw/enojQI=
+=8Ial
+-----END PGP SIGNATURE-----
+
+--ICqRkSFbTbP5VtpW--
