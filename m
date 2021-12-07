@@ -2,47 +2,137 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id F30F946B054
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 02:56:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4A746B141
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 04:08:49 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J7NhF6hB6z2yfn
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 12:56:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J7QHL6T39z2ybK
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 14:08:46 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; unprotected) header.d=quantacorp.onmicrosoft.com header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-quantacorp-onmicrosoft-com header.b=q89kK9Xz;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
- receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+ smtp.mailfrom=quantatw.com (client-ip=40.107.130.121;
+ helo=apc01-hk2-obe.outbound.protection.outlook.com;
+ envelope-from=howard.chiu@quantatw.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=quantacorp.onmicrosoft.com
+ header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256
+ header.s=selector2-quantacorp-onmicrosoft-com header.b=q89kK9Xz; 
+ dkim-atps=neutral
+Received: from APC01-HK2-obe.outbound.protection.outlook.com
+ (mail-eopbgr1300121.outbound.protection.outlook.com [40.107.130.121])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J7NhC1H8dz2xY4;
- Tue,  7 Dec 2021 12:56:42 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 1B71V0US059545;
- Tue, 7 Dec 2021 09:31:00 +0800 (GMT-8)
- (envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 7 Dec 2021 09:55:54 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
- <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
- <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] media: aspeed: Use runtime configuration
-Date: Tue, 7 Dec 2021 09:55:44 +0800
-Message-ID: <20211207015544.1755-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J7QHB6L39z2xvP
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Dec 2021 14:08:36 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ah8fZ4ILvystdVjZlk74jecIPfXcVWdYO1GLj1XcgkaeMzU7GkiI3MQelnPMqtmohfg0PSN+g8J5bky6/GmODAKiBsBYpe/PwnQ5DbzW616Nrhqxes6umLFZwOmIShbyeAEVnNZGNcodpb8TPW6K0jY5lUA3bPOK+H7M+yZ1wrqZyPaHnHkZ7XA/nWNYNp0vGxlhUkQEP3ySeNPs0kqiMsIzVww5Nor8TlfDTxrtt2wFVj9heg/ChuM89ut5hveeuFtbg2/JjRn3FU2qznLiBmyIuYwgDS+jRiyop+U+ECQPUx5iksAFMrAacz8Jfn3Wj4ri3mfZWXsqVLXwddLmwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Clx8ESvujD63OvAJg2+wYUf8ACNqdKEQCK5hMOxalZk=;
+ b=RVzz1YjEkcaFsDBUApwLt6fpGRpVix3SMpgcAEJwhTe1CgyM4v5ALNISVfTTpt4DY8jMEE147hAb6fdCzG7jmjdmHu6LpGUpjwajDZafehoX6DfWhMx9kqYIxSxoFmQPt2kBM0463rtxW8r+nHyqUoJj9pldj5sJckV9pt7UpDJzFdX6OE9mIX/WnwG6bEQgrUW2gImTbF+taWRQH9bKSkfZzYpLYjrFqloB67RP2WY9Sjh3kvPbeeovwsV6vs+RmzJzc69vzcQOcXQBhQFQfScvg65/YOsCzdsat33AF/uhJuQCVWXT1NqNcpJyb8fEFJXTpXcIEqcuTjNpmfgcEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quantatw.com; dmarc=pass action=none header.from=quantatw.com;
+ dkim=pass header.d=quantatw.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quantacorp.onmicrosoft.com; s=selector2-quantacorp-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Clx8ESvujD63OvAJg2+wYUf8ACNqdKEQCK5hMOxalZk=;
+ b=q89kK9XzRRWfGjQAWmOlDlfJYC0Hm+4ly+fIc4gaJc2DQqEHDR21rFrf08QhuUgEtVUtipMezLPC6VVwWgfpYLhkTbDjIElgRTB2Hc9bkbDL0goTrmokFXPhyCSBaOR6AONagbr+pLj0DpWkYHBTuh0WMMzCJyPsl2J3fNocomU=
+Received: from HKAPR04MB4003.apcprd04.prod.outlook.com (2603:1096:203:df::11)
+ by HK0PR04MB2897.apcprd04.prod.outlook.com (2603:1096:203:5f::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.19; Tue, 7 Dec
+ 2021 02:53:53 +0000
+Received: from HKAPR04MB4003.apcprd04.prod.outlook.com
+ ([fe80::50ac:5788:d373:7194]) by HKAPR04MB4003.apcprd04.prod.outlook.com
+ ([fe80::50ac:5788:d373:7194%5]) with mapi id 15.20.4755.022; Tue, 7 Dec 2021
+ 02:53:53 +0000
+From: =?utf-8?B?SG93YXJkIENoaXUgKOmCseWGoOedvyk=?= <Howard.Chiu@quantatw.com>
+To: Joel Stanley <joel@jms.id.au>, Patrick Williams <patrick@stwcx.xyz>
+Subject: RE: [PATCH v6] ARM: dts: aspeed: Adding Facebook Bletchley BMC
+Thread-Topic: [PATCH v6] ARM: dts: aspeed: Adding Facebook Bletchley BMC
+Thread-Index: AQHX6vPlDf93t8kSvkG92vOctn4vNawmU+qQ
+Date: Tue, 7 Dec 2021 02:53:53 +0000
+Message-ID: <HKAPR04MB40033D58E2C1F96DDF16C13C966E9@HKAPR04MB4003.apcprd04.prod.outlook.com>
+References: <20211201033738.121846-1-howard.chiu@quantatw.com>
+ <Ya5/v+VhOM9o9BtQ@heinlein>
+ <CACPK8XdCjqB+HZ_g9O=gjnSne3=iV44i6jKP5M8yWcsjnttaog@mail.gmail.com>
+In-Reply-To: <CACPK8XdCjqB+HZ_g9O=gjnSne3=iV44i6jKP5M8yWcsjnttaog@mail.gmail.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=quantatw.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: bc595948-6a7e-43e9-524c-08d9b92cce3f
+x-ms-traffictypediagnostic: HK0PR04MB2897:EE_
+x-microsoft-antispam-prvs: <HK0PR04MB2897FFF708D575E74A039965966E9@HK0PR04MB2897.apcprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 9TspiqLFU5+27mTf4hIvk2D0yMS5mByNpPpyYF6z7EM3srICP1djsfruUuwu8U+CqZUXzS0qpdO1NoW/njJZqhutWgQQjryZmqSQATXhJZZ3x198Sb4Ya+0MFenjX4TmUAcAhGvn3VZ4ck6/QGd73/zcsSX//5J2Sepjrj7gkQlYUOyx0MNGI/Ljwdjszo4eNKymbuUbYo8ZyChhkEE+yxnwmnbHtyHhhrbt9ZFAi6R2NJ3/lZ89CW/qhVFjcwHyNpdYgq8dIqknXnOP3htYNH2Qeve2dHr0fL+K0ig6jWBsbo6gHljOmTEgzLYysdM5x/xm4EegJ0dx7vpgWYzJH5wXtJ5z15hdkmwE1TWKzJXYhrrrPCkjUSUW0ju3FLAtaqS1128k/eWuC8yewkjD1BI7pW8w/b2W72Xwg9qR9BQ4NnA7QvP/ROwuLoRiuSoVhp03O3ejD4jIZYmvM8f2RH4YFX5AVrTFUwOsEvHRsV1WInkpN8Zu/FiKm8ziW0Teko0rquKcDX2sVfty3WW9YoSgIN4MHdSjHHoVAyyXqn7YUlYS0I678Vh1+f3C6xa2YQQxA58QJQrI7vBjqa3oCUFYXuv2qSpsUrv0sM0N0j7GtWmVNbkkY9E+hbclu+2t4fg4xaE6hZ22b1I9LwMJdHqrJ0yQvuqhWHPx7lyjaN5qcLSRg7tVsrvO4GCbEc+BEo8AVJv6bWnU+2gbyvK2RQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HKAPR04MB4003.apcprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(47680400002)(53546011)(7696005)(6506007)(38100700002)(5660300002)(2906002)(66556008)(55016003)(66446008)(71200400001)(64756008)(122000001)(54906003)(66946007)(186003)(52536014)(85182001)(7416002)(66476007)(8676002)(4326008)(38070700005)(316002)(76116006)(110136005)(26005)(508600001)(83380400001)(9686003)(33656002)(8936002)(86362001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cGErT3RHS0hmNnlLQ21WcCtWTndFSWs1bnVPc0xwNnpxUGR4WEg2N0FBcnBv?=
+ =?utf-8?B?SjY5MlZiUks3a0NaUVdGUTQ3bytWd0VSSEx0Qy9USlQveUtEVUwveWFmMGFF?=
+ =?utf-8?B?Unc4SmRmQ2VBTTM1NlE0eVNoZjUzdUxickZZL0JxMURDaml3bno1T2lpMVNC?=
+ =?utf-8?B?Z3g0NGhlOE0rTGNGT3hGc05lNGlUZ3ljM3NmVXppY1Q4eUFMNWJ1T3pUbWN5?=
+ =?utf-8?B?TVlMZjIxMDVld29RU3JwQWh4cC83c1drOHlXT3I0c0J0NjAwN1ZnakZMSEsx?=
+ =?utf-8?B?a3NUN2E4bmx6bVBuWHRFRnU0NU1mVmZXNkdITkg3aGtzQUJndnAzYTByemVT?=
+ =?utf-8?B?STJnSlMyS1F5ZE9YYWVjU0FrSWsvS0xYUWRKR09McVNCY3ptdXVRNWRqQjNX?=
+ =?utf-8?B?V3BpSldSelMrVU1HMU9Fdk81Z3JEanMxUUNrY3A1enRDTHFDeko1UDJERjRR?=
+ =?utf-8?B?TEZIT2NSZWJJbU00cjlnUWFQbmVpQzY1R1BqODRxS3ozTW1YOXBmTU5SaDZQ?=
+ =?utf-8?B?azI3TnREUisyZHEweVRvN21YU0dpZjl6aVNyYi9SRFYyZ3Zsa2MxL2thMnZW?=
+ =?utf-8?B?K0dQL3JTY2xKRUhXU0QvMDVrM2JCSlFHYnBWWUE5SDBaZk9GRm1LRWRncmVi?=
+ =?utf-8?B?SklSUStFS3gyZXYzYXNPenJRUkRFL0FnOGdxNEhweTZhd3JXMXFpSHEyRXlV?=
+ =?utf-8?B?aFA5NU1TbUFzSWt4a0JQbXRzSmVWeVgveUdjOENaT21wemc3eFpoNTMydVph?=
+ =?utf-8?B?TFIzYWtvR1VKcTIyaEZRbTBYbi9IK2RXVUk1Smx4MDVvZmpCaDN3TXhPdzVQ?=
+ =?utf-8?B?ci9sVDNyNjB1UGZiTTZPaHZmVDEwU2pxRXBqL2U4Z1FpQ3VCNjgvMmJHQzJ6?=
+ =?utf-8?B?R0lNY3lBdk1zUXRsSTZ6QjlZZTdzQTJ4WjBPSmtUemtBWnEyZ0ZkamtScFht?=
+ =?utf-8?B?MVRzd1czQ0pFeVlRS1JHYXB5SUpjR1NncnBIbWx4UXd1Y3diSk4zUkJxWXRk?=
+ =?utf-8?B?U3NhTVlJQ21NcXIzcVZVNUZkblk0K3pnMFh0OHk5dVd3bHZaRGJuaThIM3U5?=
+ =?utf-8?B?dktRU3dVaEJuWUkrZXBPVXUwMm01bGk3a0hBSTllVFBzRVZkSVlCMWt4bm1q?=
+ =?utf-8?B?UVJLWlQwTGU4b0pSbzU1YUlLaU1UOE81aTUxV01qY3NrVWtrS3BYZnpxL0VJ?=
+ =?utf-8?B?eWtEQUswMy80NU14VWxsNS8xa3pucEd1azFCeDJvZ2ViS055K0VNdVRSMkpR?=
+ =?utf-8?B?MVZrVmcyOUdhMUsrbU9IWVB4SzZpeFNYci9IREFsdStrNWpzdFpQckk0Y2Vy?=
+ =?utf-8?B?QmV0NlV4c2JIdUpLc2hyRjR1T1ZzTHNzMitSSDdqNGtuY2dUMjAraWxkUUNO?=
+ =?utf-8?B?OHBMV1NBNVRQU2sxSjBGZG1vTnNXSll3SmMrbHpwaXhlcnNENWxKSW82Q1Nx?=
+ =?utf-8?B?eTVLWEpBZjRvUjZ2NDlTclk0L0ZjYXB4SGtxMkN3SWpjbEpUZzRLclRuaE1O?=
+ =?utf-8?B?ZUlQUG1JWkJDcTBEQUwwV2FnQ2hnb0ROM3VmK3NFT25mdkRzL0RoQVQwdTk4?=
+ =?utf-8?B?THZKQ3BXMk8yVzZQdXpmM3pFbjVHQ3dONjlDdXgwNktLYmFaUkpEZngrR3FS?=
+ =?utf-8?B?N2VrcVBFVjFBS0FhOU9tcmNKOGpWRmRSdVk1ZjJMVmRUSExxSVFSYUwwTEZB?=
+ =?utf-8?B?VjFoaHpSTGhMUS81ZU0zSkJJMFd3U0V5SXlvaUo5aVltYW1Pb2c3OG1aOG9O?=
+ =?utf-8?B?dDA2ZE1uV2ZWTWdBTXVIS05NQXdXZXdvb0hOR09Rdjk3NmpEbjZtMGE5NFRF?=
+ =?utf-8?B?Rmpid3puMU1wcjVkY1JkK2NEUVcyWDBkekZ4b3Zpc2JlRUxxSXh2NXBRUHFu?=
+ =?utf-8?B?WERKK1V2NEdjSUVydzJXRG5USW9adlNZNzUyWC9YcjRQSE5rVkNxTjNCV3Nk?=
+ =?utf-8?B?VFVrTlN2S1o2b2JzVS9xM3YySzFJN2R6OWZoS1ZWTHY2NGEzVERFNDJxZ3RE?=
+ =?utf-8?B?WGV2RHpIb3Bnc1NpWDZlQTJHTFhnWk4wZXFuRkxaeWNqMkpaam80bllOa0hi?=
+ =?utf-8?B?S3U0TnFUcVd6c1V3OXRGeUQ5YzVZY3AwdUZSMzJuTlExT01WSVBBL0ZtY2Z6?=
+ =?utf-8?B?NG1XM0ZkTTExOTlkNzBvWVpYb0gxd1pHb2F5MnRZSjNoOURNTUlXUFNhYktX?=
+ =?utf-8?B?bnJseHBRekRLRnBwNXY0OVVkR1M1cC9rMEVJTnQySTUxL05icXFLZXBZQmRR?=
+ =?utf-8?B?TVZVU1VrV243QWpVSTkyanpxNzBnPT0=?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1B71V0US059545
+X-OriginatorOrg: quantatw.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HKAPR04MB4003.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc595948-6a7e-43e9-524c-08d9b92cce3f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Dec 2021 02:53:53.9123 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 179b0327-07fc-4973-ac73-8de7313561b2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1Sv3XoEwxvaGb58hlVjdviThPWCa55KyLD/VESeVEzz+qwBZyq3HrtGHb6H3TTTedEK2ixbAsuuJrSKnHrU7zRJyNyaNapV5OkcDK9TMxyo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR04MB2897
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,177 +144,58 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>,
+ Howard Chiu <howard10703049@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ SoC Team <soc@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The aspeed video IP has some differences between SoC families. Currently
-the driver decides which registers to use at compile time, which means
-a single kernel can not be used between platforms.
-
-Switch to using runtime configuration of the registers that vary between
-SoC families.
-
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
- drivers/media/platform/aspeed-video.c | 71 ++++++++++++++++++++-------
- 1 file changed, 52 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index d2335d669fb3..ba8ee82b38c3 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -75,11 +75,8 @@
- #define  VE_SEQ_CTRL_CAP_BUSY		BIT(16)
- #define  VE_SEQ_CTRL_COMP_BUSY		BIT(18)
- 
--#ifdef CONFIG_MACH_ASPEED_G4
--#define  VE_SEQ_CTRL_JPEG_MODE		BIT(8)	/* AST2400 */
--#else
--#define  VE_SEQ_CTRL_JPEG_MODE		BIT(13)	/* AST2500/2600 */
--#endif
-+#define AST2500_VE_SEQ_CTRL_JPEG_MODE	BIT(13)
-+#define AST2400_VE_SEQ_CTRL_JPEG_MODE	BIT(8)
- 
- #define VE_CTRL				0x008
- #define  VE_CTRL_HSYNC_POL		BIT(0)
-@@ -136,9 +133,8 @@
- #define  VE_COMP_CTRL_HQ_DCT_CHR	GENMASK(26, 22)
- #define  VE_COMP_CTRL_HQ_DCT_LUM	GENMASK(31, 27)
- 
--#define VE_OFFSET_COMP_STREAM		0x078
--
--#define VE_JPEG_COMP_SIZE_READ_BACK	0x084
-+#define AST2400_VE_COMP_SIZE_READ_BACK	0x078
-+#define AST2600_VE_COMP_SIZE_READ_BACK	0x084
- 
- #define VE_SRC_LR_EDGE_DET		0x090
- #define  VE_SRC_LR_EDGE_DET_LEFT	GENMASK(11, 0)
-@@ -233,6 +229,8 @@ struct aspeed_video {
- 	struct video_device vdev;
- 	struct mutex video_lock;	/* v4l2 and videobuf2 lock */
- 
-+	struct aspeed_video_config config;
-+
- 	wait_queue_head_t wait;
- 	spinlock_t lock;		/* buffer list lock */
- 	struct delayed_work res_work;
-@@ -258,6 +256,30 @@ struct aspeed_video {
- 
- #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
- 
-+struct aspeed_video_config {
-+	u32 version;
-+	u32 jpeg_mode;
-+	u32 comp_size_read;
-+};
-+
-+static const struct aspeed_video_config ast2400_config = {
-+	.version = 4,
-+	.jpeg_mode = AST2400_VE_SEQ_CTRL_JPEG_MODE,
-+	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
-+};
-+
-+static const struct aspeed_video_config ast2500_config = {
-+	.version = 5,
-+	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
-+	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
-+};
-+
-+static const struct aspeed_video_config ast2600_config = {
-+	.version = 6,
-+	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
-+	.comp_size_read = AST2600_VE_COMP_SIZE_READ_BACK,
-+};
-+
- static const u32 aspeed_video_jpeg_header[ASPEED_VIDEO_JPEG_HEADER_SIZE] = {
- 	0xe0ffd8ff, 0x464a1000, 0x01004649, 0x60000101, 0x00006000, 0x0f00feff,
- 	0x00002d05, 0x00000000, 0x00000000, 0x00dbff00
-@@ -640,7 +662,7 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
- 	if (sts & VE_INTERRUPT_COMP_COMPLETE) {
- 		struct aspeed_video_buffer *buf;
- 		u32 frame_size = aspeed_video_read(video,
--						   VE_JPEG_COMP_SIZE_READ_BACK);
-+						   video->config.comp_size_read);
- 
- 		update_perf(&video->perf);
- 
-@@ -973,7 +995,7 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
- 		FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
- 		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10);
- 	u32 ctrl = 0;
--	u32 seq_ctrl = VE_SEQ_CTRL_JPEG_MODE;
-+	u32 seq_ctrl = video->config.jpeg_mode;
- 
- 	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n",
- 		 video->frame_rate);
-@@ -993,7 +1015,7 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
- 
- 	/* Set control registers */
- 	aspeed_video_update(video, VE_SEQ_CTRL,
--			    VE_SEQ_CTRL_JPEG_MODE | VE_SEQ_CTRL_YUV420,
-+			    video->config.jpeg_mode | VE_SEQ_CTRL_YUV420,
- 			    seq_ctrl);
- 	aspeed_video_update(video, VE_CTRL, VE_CTRL_FRC, ctrl);
- 	aspeed_video_update(video, VE_COMP_CTRL,
-@@ -1790,8 +1812,18 @@ static int aspeed_video_init(struct aspeed_video *video)
- 	return rc;
- }
- 
-+static const struct of_device_id aspeed_video_of_match[] = {
-+	{ .compatible = "aspeed,ast2400-video-engine", .data = &ast2400_config },
-+	{ .compatible = "aspeed,ast2500-video-engine", .data = &ast2500_config },
-+	{ .compatible = "aspeed,ast2600-video-engine", .data = &ast2600_config },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
-+
- static int aspeed_video_probe(struct platform_device *pdev)
- {
-+	const struct aspeed_video_config *config;
-+	const struct of_device_id *match;
- 	int rc;
- 	struct resource *res;
- 	struct aspeed_video *video =
-@@ -1815,6 +1847,13 @@ static int aspeed_video_probe(struct platform_device *pdev)
- 	if (IS_ERR(video->base))
- 		return PTR_ERR(video->base);
- 
-+	match = of_match_node(aspeed_video_of_match, pdev->dev.of_node);
-+	if (!match)
-+		return -EINVAL;
-+
-+	config = match->data;
-+	video->config = *config;
-+
- 	rc = aspeed_video_init(video);
- 	if (rc)
- 		return rc;
-@@ -1828,6 +1867,8 @@ static int aspeed_video_probe(struct platform_device *pdev)
- 
- 	aspeed_video_debugfs_create(video);
- 
-+	dev_info(video->dev, "compatible for g%d\n", config->version);
-+
- 	return 0;
- }
- 
-@@ -1860,14 +1901,6 @@ static int aspeed_video_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
--static const struct of_device_id aspeed_video_of_match[] = {
--	{ .compatible = "aspeed,ast2400-video-engine" },
--	{ .compatible = "aspeed,ast2500-video-engine" },
--	{ .compatible = "aspeed,ast2600-video-engine" },
--	{}
--};
--MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
--
- static struct platform_driver aspeed_video_driver = {
- 	.driver = {
- 		.name = DEVICE_NAME,
--- 
-2.25.1
-
+SGkgSm9lbA0KDQpCbGV0Y2hsZXkgcGxhdGZvcm0gbmVlZHMgdG8gc3VwcG9ydCBmYW4gY29udHJv
+bC4NClNpbmNlIEJpbGx5J3MgcGF0Y2ggZm9yIHVwc3RyZWFtIGlzIHN0aWxsIHVuZGVyIHJldmll
+dywgSSBjYW4ndCBhZGQgcHdtL3RhY2ggbm9kZSBpbnRvIGR0cyBvciB0aGUgYnVpbGQgd291bGQg
+ZmFpbC4NCg0KQXMgeW91IGtub3csIEkgaGFkIGNvbW1pdHRlZCB0aGUgcHdtL3RhY2ggZHJpdmVy
+IGZvciBhc3QyNnh4IHRvIE9wZW5CTUMgbGludXgsIGNvdWxkIEkgY29tbWl0IHRoZSBkdHMgdG8g
+T3BlbkJNQyBsaW51eCBpbnN0ZWFkIG9mIHVwc3RyZWFtIGZvciBlYXJseSBidWlsZD8gDQoNCkhv
+d2FyZA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEpvZWwgU3Rhbmxl
+eSA8am9lbEBqbXMuaWQuYXU+DQo+IFNlbnQ6IFR1ZXNkYXksIERlY2VtYmVyIDcsIDIwMjEgNjo1
+MiBBTQ0KPiBUbzogUGF0cmljayBXaWxsaWFtcyA8cGF0cmlja0BzdHdjeC54eXo+DQo+IENjOiBI
+b3dhcmQgQ2hpdSA8aG93YXJkMTA3MDMwNDlAZ21haWwuY29tPjsgQXJuZCBCZXJnbWFubg0KPiA8
+YXJuZEBhcm5kYi5kZT47IE9sb2YgSm9oYW5zc29uIDxvbG9mQGxpeG9tLm5ldD47IFNvQyBUZWFt
+DQo+IDxzb2NAa2VybmVsLm9yZz47IFJvYiBIZXJyaW5nIDxyb2JoK2R0QGtlcm5lbC5vcmc+OyBB
+bmRyZXcgSmVmZmVyeQ0KPiA8YW5kcmV3QGFqLmlkLmF1PjsgTGludXggQVJNIDxsaW51eC1hcm0t
+a2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmc+Ow0KPiBkZXZpY2V0cmVlIDxkZXZpY2V0cmVlQHZn
+ZXIua2VybmVsLm9yZz47IExpbnV4IEtlcm5lbCBNYWlsaW5nIExpc3QNCj4gPGxpbnV4LWtlcm5l
+bEB2Z2VyLmtlcm5lbC5vcmc+OyBsaW51eC1hc3BlZWQgPGxpbnV4LWFzcGVlZEBsaXN0cy5vemxh
+YnMub3JnPjsNCj4gSG93YXJkIENoaXUgKOmCseWGoOedvykgPEhvd2FyZC5DaGl1QHF1YW50YXR3
+LmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2Nl0gQVJNOiBkdHM6IGFzcGVlZDogQWRkaW5n
+IEZhY2Vib29rIEJsZXRjaGxleSBCTUMNCj4gDQo+IE9uIE1vbiwgNiBEZWMgMjAyMSBhdCAyMToy
+NSwgUGF0cmljayBXaWxsaWFtcyA8cGF0cmlja0BzdHdjeC54eXo+IHdyb3RlOg0KPiA+DQo+ID4g
+T24gV2VkLCBEZWMgMDEsIDIwMjEgYXQgMTE6Mzc6MzhBTSArMDgwMCwgSG93YXJkIENoaXUgd3Jv
+dGU6DQo+ID4gPiBJbml0aWFsIGludHJvZHVjdGlvbiBvZiBGYWNlYm9vayBCbGV0Y2hsZXkgZXF1
+aXBwZWQgd2l0aA0KPiA+ID4gQXNwZWVkIDI2MDAgQk1DIFNvQy4NCj4gPiA+DQo+ID4gPiBTaWdu
+ZWQtb2ZmLWJ5OiBIb3dhcmQgQ2hpdSA8aG93YXJkLmNoaXVAcXVhbnRhdHcuY29tPg0KPiA+ID4N
+Cj4gPg0KPiA+IC4uLg0KPiA+DQo+ID4gPiBDaGFuZ2Ugc2luY2UgdjI6DQo+ID4gPiAtIFJlbW92
+ZSB1YXJ0NSB3b3JrYXJvdW5kDQo+ID4gPiAtIFJlbW92ZSBncGlvIG5vZGVzIG9mIHBjYTk1NTIv
+cGNhOTUzOQ0KPiA+ID4gLSBNb2RpZnkgZ3Bpby1saW5lLW5hbWUgb2YgbGVkL3Bvd2VyL3ByZXNl
+bmNlIHBpbnMgd2l0aCBvcGVuYm1jDQo+IHBhdHRlcm4NCj4gPg0KPiA+IEEgbnVtYmVyIG9mIHRo
+ZSBHUElPcyBkbyBub3QgaGF2ZSBkZWZpbmVkIG9wZW5ibWMgcGF0dGVybnMgZm9yIHRoZW0geWV0
+Lg0KPiBUaGUNCj4gPiBuYW1lcyB5b3UgaGF2ZSBjaG9zZW4gYXJlIG9rIGZvciBub3csIGJ1dCB3
+ZSB3aWxsIGJlIGNoYW5naW5nIHRoZW0gYXMgd2UNCj4gcmVmaW5lDQo+ID4gZGV2ZWxvcG1lbnQg
+b2YgdGhpcyBtYWNoaW5lIGZ1cnRoZXIuDQo+ID4NCj4gPiA+ICsgICAgICAgICAgICAgZ3Bpby1s
+aW5lLW5hbWVzID0NCj4gPiA+ICsNCj4gIlNMRUQwX01TX0RFVEVDVDEiLCJTTEVEMF9WQlVTX0JN
+Q19FTiIsIlNMRUQwX0lOQTIzMF9BTEVSVCIsIlNMRQ0KPiBEMF9QMTJWX1NUQllfQUxFUlQiLA0K
+PiA+ID4gKw0KPiAiU0xFRDBfU1NEX0FMRVJUIiwiU0xFRDBfTVNfREVURUNUMCIsIlNMRUQwX1JT
+VF9DQ0c1IiwiU0xFRDBfRlVTQg0KPiAzMDJfSU5UIiwNCj4gPiA+ICsNCj4gIlNMRUQwX01EX1NU
+QllfUkVTRVQiLCJTTEVEMF9NRF9JT0VYUF9FTl9GQVVMVCIsIlNMRUQwX01EX0RJUiIsIg0KPiBT
+TEVEMF9NRF9ERUNBWSIsDQo+ID4gPiArDQo+ICJTTEVEMF9NRF9NT0RFMSIsIlNMRUQwX01EX01P
+REUyIiwiU0xFRDBfTURfTU9ERTMiLCJwb3dlci1obw0KPiBzdDAiOw0KPiA+DQo+ID4gU3VjaCBh
+cyB0aGVzZS4uLg0KPiA+DQo+ID4gPiAtLQ0KPiA+ID4gMi4yNS4xDQo+ID4gPg0KPiA+DQo+ID4g
+T3RoZXJ3aXNlLA0KPiA+DQo+ID4gUmV2aWV3ZWQtYnk6IFBhdHJpY2sgV2lsbGlhbXMgPHBhdHJp
+Y2tAc3R3Y3gueHl6Pg0KPiANCj4gVGhhbmtzIGZvciByZXZpZXdpbmcuDQo+IA0KPiBIb3dhcmQs
+IEknbSBtZXJnaW5nIHBhdGNoZXMgZm9yIHY1LjE3IGJ1dCBJIGNhbid0IGFwcGx5IHRoaXMgdW50
+aWwgeW91DQo+IGZpeCB0aGUgd2FybmluZ3MgSSBtZW50aW9uZWQuDQo+IA0KPiBDaGVlcnMsDQo+
+IA0KPiBKZW9sDQo+ID4NCj4gPiAtLQ0KPiA+IFBhdHJpY2sgV2lsbGlhbXMNCg==
