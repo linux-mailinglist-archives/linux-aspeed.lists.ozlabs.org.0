@@ -1,138 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4A746B141
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 04:08:49 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6957046B12E
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 04:04:18 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J7QHL6T39z2ybK
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 14:08:46 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=quantacorp.onmicrosoft.com header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-quantacorp-onmicrosoft-com header.b=q89kK9Xz;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J7QB81krMz2ybL
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 14:04:16 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=quantatw.com (client-ip=40.107.130.121;
- helo=apc01-hk2-obe.outbound.protection.outlook.com;
- envelope-from=howard.chiu@quantatw.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=quantacorp.onmicrosoft.com
- header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256
- header.s=selector2-quantacorp-onmicrosoft-com header.b=q89kK9Xz; 
- dkim-atps=neutral
-Received: from APC01-HK2-obe.outbound.protection.outlook.com
- (mail-eopbgr1300121.outbound.protection.outlook.com [40.107.130.121])
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
+ receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J7QHB6L39z2xvP
- for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Dec 2021 14:08:36 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ah8fZ4ILvystdVjZlk74jecIPfXcVWdYO1GLj1XcgkaeMzU7GkiI3MQelnPMqtmohfg0PSN+g8J5bky6/GmODAKiBsBYpe/PwnQ5DbzW616Nrhqxes6umLFZwOmIShbyeAEVnNZGNcodpb8TPW6K0jY5lUA3bPOK+H7M+yZ1wrqZyPaHnHkZ7XA/nWNYNp0vGxlhUkQEP3ySeNPs0kqiMsIzVww5Nor8TlfDTxrtt2wFVj9heg/ChuM89ut5hveeuFtbg2/JjRn3FU2qznLiBmyIuYwgDS+jRiyop+U+ECQPUx5iksAFMrAacz8Jfn3Wj4ri3mfZWXsqVLXwddLmwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Clx8ESvujD63OvAJg2+wYUf8ACNqdKEQCK5hMOxalZk=;
- b=RVzz1YjEkcaFsDBUApwLt6fpGRpVix3SMpgcAEJwhTe1CgyM4v5ALNISVfTTpt4DY8jMEE147hAb6fdCzG7jmjdmHu6LpGUpjwajDZafehoX6DfWhMx9kqYIxSxoFmQPt2kBM0463rtxW8r+nHyqUoJj9pldj5sJckV9pt7UpDJzFdX6OE9mIX/WnwG6bEQgrUW2gImTbF+taWRQH9bKSkfZzYpLYjrFqloB67RP2WY9Sjh3kvPbeeovwsV6vs+RmzJzc69vzcQOcXQBhQFQfScvg65/YOsCzdsat33AF/uhJuQCVWXT1NqNcpJyb8fEFJXTpXcIEqcuTjNpmfgcEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quantatw.com; dmarc=pass action=none header.from=quantatw.com;
- dkim=pass header.d=quantatw.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quantacorp.onmicrosoft.com; s=selector2-quantacorp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Clx8ESvujD63OvAJg2+wYUf8ACNqdKEQCK5hMOxalZk=;
- b=q89kK9XzRRWfGjQAWmOlDlfJYC0Hm+4ly+fIc4gaJc2DQqEHDR21rFrf08QhuUgEtVUtipMezLPC6VVwWgfpYLhkTbDjIElgRTB2Hc9bkbDL0goTrmokFXPhyCSBaOR6AONagbr+pLj0DpWkYHBTuh0WMMzCJyPsl2J3fNocomU=
-Received: from HKAPR04MB4003.apcprd04.prod.outlook.com (2603:1096:203:df::11)
- by HK0PR04MB2897.apcprd04.prod.outlook.com (2603:1096:203:5f::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.19; Tue, 7 Dec
- 2021 02:53:53 +0000
-Received: from HKAPR04MB4003.apcprd04.prod.outlook.com
- ([fe80::50ac:5788:d373:7194]) by HKAPR04MB4003.apcprd04.prod.outlook.com
- ([fe80::50ac:5788:d373:7194%5]) with mapi id 15.20.4755.022; Tue, 7 Dec 2021
- 02:53:53 +0000
-From: =?utf-8?B?SG93YXJkIENoaXUgKOmCseWGoOedvyk=?= <Howard.Chiu@quantatw.com>
-To: Joel Stanley <joel@jms.id.au>, Patrick Williams <patrick@stwcx.xyz>
-Subject: RE: [PATCH v6] ARM: dts: aspeed: Adding Facebook Bletchley BMC
-Thread-Topic: [PATCH v6] ARM: dts: aspeed: Adding Facebook Bletchley BMC
-Thread-Index: AQHX6vPlDf93t8kSvkG92vOctn4vNawmU+qQ
-Date: Tue, 7 Dec 2021 02:53:53 +0000
-Message-ID: <HKAPR04MB40033D58E2C1F96DDF16C13C966E9@HKAPR04MB4003.apcprd04.prod.outlook.com>
-References: <20211201033738.121846-1-howard.chiu@quantatw.com>
- <Ya5/v+VhOM9o9BtQ@heinlein>
- <CACPK8XdCjqB+HZ_g9O=gjnSne3=iV44i6jKP5M8yWcsjnttaog@mail.gmail.com>
-In-Reply-To: <CACPK8XdCjqB+HZ_g9O=gjnSne3=iV44i6jKP5M8yWcsjnttaog@mail.gmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=quantatw.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: bc595948-6a7e-43e9-524c-08d9b92cce3f
-x-ms-traffictypediagnostic: HK0PR04MB2897:EE_
-x-microsoft-antispam-prvs: <HK0PR04MB2897FFF708D575E74A039965966E9@HK0PR04MB2897.apcprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9TspiqLFU5+27mTf4hIvk2D0yMS5mByNpPpyYF6z7EM3srICP1djsfruUuwu8U+CqZUXzS0qpdO1NoW/njJZqhutWgQQjryZmqSQATXhJZZ3x198Sb4Ya+0MFenjX4TmUAcAhGvn3VZ4ck6/QGd73/zcsSX//5J2Sepjrj7gkQlYUOyx0MNGI/Ljwdjszo4eNKymbuUbYo8ZyChhkEE+yxnwmnbHtyHhhrbt9ZFAi6R2NJ3/lZ89CW/qhVFjcwHyNpdYgq8dIqknXnOP3htYNH2Qeve2dHr0fL+K0ig6jWBsbo6gHljOmTEgzLYysdM5x/xm4EegJ0dx7vpgWYzJH5wXtJ5z15hdkmwE1TWKzJXYhrrrPCkjUSUW0ju3FLAtaqS1128k/eWuC8yewkjD1BI7pW8w/b2W72Xwg9qR9BQ4NnA7QvP/ROwuLoRiuSoVhp03O3ejD4jIZYmvM8f2RH4YFX5AVrTFUwOsEvHRsV1WInkpN8Zu/FiKm8ziW0Teko0rquKcDX2sVfty3WW9YoSgIN4MHdSjHHoVAyyXqn7YUlYS0I678Vh1+f3C6xa2YQQxA58QJQrI7vBjqa3oCUFYXuv2qSpsUrv0sM0N0j7GtWmVNbkkY9E+hbclu+2t4fg4xaE6hZ22b1I9LwMJdHqrJ0yQvuqhWHPx7lyjaN5qcLSRg7tVsrvO4GCbEc+BEo8AVJv6bWnU+2gbyvK2RQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HKAPR04MB4003.apcprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(47680400002)(53546011)(7696005)(6506007)(38100700002)(5660300002)(2906002)(66556008)(55016003)(66446008)(71200400001)(64756008)(122000001)(54906003)(66946007)(186003)(52536014)(85182001)(7416002)(66476007)(8676002)(4326008)(38070700005)(316002)(76116006)(110136005)(26005)(508600001)(83380400001)(9686003)(33656002)(8936002)(86362001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cGErT3RHS0hmNnlLQ21WcCtWTndFSWs1bnVPc0xwNnpxUGR4WEg2N0FBcnBv?=
- =?utf-8?B?SjY5MlZiUks3a0NaUVdGUTQ3bytWd0VSSEx0Qy9USlQveUtEVUwveWFmMGFF?=
- =?utf-8?B?Unc4SmRmQ2VBTTM1NlE0eVNoZjUzdUxickZZL0JxMURDaml3bno1T2lpMVNC?=
- =?utf-8?B?Z3g0NGhlOE0rTGNGT3hGc05lNGlUZ3ljM3NmVXppY1Q4eUFMNWJ1T3pUbWN5?=
- =?utf-8?B?TVlMZjIxMDVld29RU3JwQWh4cC83c1drOHlXT3I0c0J0NjAwN1ZnakZMSEsx?=
- =?utf-8?B?a3NUN2E4bmx6bVBuWHRFRnU0NU1mVmZXNkdITkg3aGtzQUJndnAzYTByemVT?=
- =?utf-8?B?STJnSlMyS1F5ZE9YYWVjU0FrSWsvS0xYUWRKR09McVNCY3ptdXVRNWRqQjNX?=
- =?utf-8?B?V3BpSldSelMrVU1HMU9Fdk81Z3JEanMxUUNrY3A1enRDTHFDeko1UDJERjRR?=
- =?utf-8?B?TEZIT2NSZWJJbU00cjlnUWFQbmVpQzY1R1BqODRxS3ozTW1YOXBmTU5SaDZQ?=
- =?utf-8?B?azI3TnREUisyZHEweVRvN21YU0dpZjl6aVNyYi9SRFYyZ3Zsa2MxL2thMnZW?=
- =?utf-8?B?K0dQL3JTY2xKRUhXU0QvMDVrM2JCSlFHYnBWWUE5SDBaZk9GRm1LRWRncmVi?=
- =?utf-8?B?SklSUStFS3gyZXYzYXNPenJRUkRFL0FnOGdxNEhweTZhd3JXMXFpSHEyRXlV?=
- =?utf-8?B?aFA5NU1TbUFzSWt4a0JQbXRzSmVWeVgveUdjOENaT21wemc3eFpoNTMydVph?=
- =?utf-8?B?TFIzYWtvR1VKcTIyaEZRbTBYbi9IK2RXVUk1Smx4MDVvZmpCaDN3TXhPdzVQ?=
- =?utf-8?B?ci9sVDNyNjB1UGZiTTZPaHZmVDEwU2pxRXBqL2U4Z1FpQ3VCNjgvMmJHQzJ6?=
- =?utf-8?B?R0lNY3lBdk1zUXRsSTZ6QjlZZTdzQTJ4WjBPSmtUemtBWnEyZ0ZkamtScFht?=
- =?utf-8?B?MVRzd1czQ0pFeVlRS1JHYXB5SUpjR1NncnBIbWx4UXd1Y3diSk4zUkJxWXRk?=
- =?utf-8?B?U3NhTVlJQ21NcXIzcVZVNUZkblk0K3pnMFh0OHk5dVd3bHZaRGJuaThIM3U5?=
- =?utf-8?B?dktRU3dVaEJuWUkrZXBPVXUwMm01bGk3a0hBSTllVFBzRVZkSVlCMWt4bm1q?=
- =?utf-8?B?UVJLWlQwTGU4b0pSbzU1YUlLaU1UOE81aTUxV01qY3NrVWtrS3BYZnpxL0VJ?=
- =?utf-8?B?eWtEQUswMy80NU14VWxsNS8xa3pucEd1azFCeDJvZ2ViS055K0VNdVRSMkpR?=
- =?utf-8?B?MVZrVmcyOUdhMUsrbU9IWVB4SzZpeFNYci9IREFsdStrNWpzdFpQckk0Y2Vy?=
- =?utf-8?B?QmV0NlV4c2JIdUpLc2hyRjR1T1ZzTHNzMitSSDdqNGtuY2dUMjAraWxkUUNO?=
- =?utf-8?B?OHBMV1NBNVRQU2sxSjBGZG1vTnNXSll3SmMrbHpwaXhlcnNENWxKSW82Q1Nx?=
- =?utf-8?B?eTVLWEpBZjRvUjZ2NDlTclk0L0ZjYXB4SGtxMkN3SWpjbEpUZzRLclRuaE1O?=
- =?utf-8?B?ZUlQUG1JWkJDcTBEQUwwV2FnQ2hnb0ROM3VmK3NFT25mdkRzL0RoQVQwdTk4?=
- =?utf-8?B?THZKQ3BXMk8yVzZQdXpmM3pFbjVHQ3dONjlDdXgwNktLYmFaUkpEZngrR3FS?=
- =?utf-8?B?N2VrcVBFVjFBS0FhOU9tcmNKOGpWRmRSdVk1ZjJMVmRUSExxSVFSYUwwTEZB?=
- =?utf-8?B?VjFoaHpSTGhMUS81ZU0zSkJJMFd3U0V5SXlvaUo5aVltYW1Pb2c3OG1aOG9O?=
- =?utf-8?B?dDA2ZE1uV2ZWTWdBTXVIS05NQXdXZXdvb0hOR09Rdjk3NmpEbjZtMGE5NFRF?=
- =?utf-8?B?Rmpid3puMU1wcjVkY1JkK2NEUVcyWDBkekZ4b3Zpc2JlRUxxSXh2NXBRUHFu?=
- =?utf-8?B?WERKK1V2NEdjSUVydzJXRG5USW9adlNZNzUyWC9YcjRQSE5rVkNxTjNCV3Nk?=
- =?utf-8?B?VFVrTlN2S1o2b2JzVS9xM3YySzFJN2R6OWZoS1ZWTHY2NGEzVERFNDJxZ3RE?=
- =?utf-8?B?WGV2RHpIb3Bnc1NpWDZlQTJHTFhnWk4wZXFuRkxaeWNqMkpaam80bllOa0hi?=
- =?utf-8?B?S3U0TnFUcVd6c1V3OXRGeUQ5YzVZY3AwdUZSMzJuTlExT01WSVBBL0ZtY2Z6?=
- =?utf-8?B?NG1XM0ZkTTExOTlkNzBvWVpYb0gxd1pHb2F5MnRZSjNoOURNTUlXUFNhYktX?=
- =?utf-8?B?bnJseHBRekRLRnBwNXY0OVVkR1M1cC9rMEVJTnQySTUxL05icXFLZXBZQmRR?=
- =?utf-8?B?TVZVU1VrV243QWpVSTkyanpxNzBnPT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J7QB20xCkz2xDM;
+ Tue,  7 Dec 2021 14:04:07 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 1B72c6u1065147;
+ Tue, 7 Dec 2021 10:38:06 +0800 (GMT-8)
+ (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 7 Dec
+ 2021 11:03:00 +0800
+Message-ID: <e61856d5-c371-ab52-2814-d0d8aabee0f0@aspeedtech.com>
+Date: Tue, 7 Dec 2021 11:03:00 +0800
 MIME-Version: 1.0
-X-OriginatorOrg: quantatw.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HKAPR04MB4003.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc595948-6a7e-43e9-524c-08d9b92cce3f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Dec 2021 02:53:53.9123 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 179b0327-07fc-4973-ac73-8de7313561b2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1Sv3XoEwxvaGb58hlVjdviThPWCa55KyLD/VESeVEzz+qwBZyq3HrtGHb6H3TTTedEK2ixbAsuuJrSKnHrU7zRJyNyaNapV5OkcDK9TMxyo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR04MB2897
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v5 00/10] add aspeed-jpeg support for aspeed-video
+Content-Language: en-US
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, "eajames@linux.ibm.com"
+ <eajames@linux.ibm.com>, "mchehab@kernel.org" <mchehab@kernel.org>,
+ "joel@jms.id.au" <joel@jms.id.au>, "andrew@aj.id.au" <andrew@aj.id.au>,
+ "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+ <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+References: <20211118074030.685-1-jammy_huang@aspeedtech.com>
+ <5ab806d1-e407-1fa4-83ec-93ebe8df7db4@xs4all.nl>
+ <b6ba49f3-a9ed-f5e6-959c-309db8cce7f6@aspeedtech.com>
+ <6e0da74e-ddce-3c94-42a1-f98833489d60@xs4all.nl>
+ <549aaf9a-cd72-e200-0329-30f6c71b8ed7@aspeedtech.com>
+In-Reply-To: <549aaf9a-cd72-e200-0329-30f6c71b8ed7@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1B72c6u1065147
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,58 +70,127 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>,
- Howard Chiu <howard10703049@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- SoC Team <soc@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGkgSm9lbA0KDQpCbGV0Y2hsZXkgcGxhdGZvcm0gbmVlZHMgdG8gc3VwcG9ydCBmYW4gY29udHJv
-bC4NClNpbmNlIEJpbGx5J3MgcGF0Y2ggZm9yIHVwc3RyZWFtIGlzIHN0aWxsIHVuZGVyIHJldmll
-dywgSSBjYW4ndCBhZGQgcHdtL3RhY2ggbm9kZSBpbnRvIGR0cyBvciB0aGUgYnVpbGQgd291bGQg
-ZmFpbC4NCg0KQXMgeW91IGtub3csIEkgaGFkIGNvbW1pdHRlZCB0aGUgcHdtL3RhY2ggZHJpdmVy
-IGZvciBhc3QyNnh4IHRvIE9wZW5CTUMgbGludXgsIGNvdWxkIEkgY29tbWl0IHRoZSBkdHMgdG8g
-T3BlbkJNQyBsaW51eCBpbnN0ZWFkIG9mIHVwc3RyZWFtIGZvciBlYXJseSBidWlsZD8gDQoNCkhv
-d2FyZA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEpvZWwgU3Rhbmxl
-eSA8am9lbEBqbXMuaWQuYXU+DQo+IFNlbnQ6IFR1ZXNkYXksIERlY2VtYmVyIDcsIDIwMjEgNjo1
-MiBBTQ0KPiBUbzogUGF0cmljayBXaWxsaWFtcyA8cGF0cmlja0BzdHdjeC54eXo+DQo+IENjOiBI
-b3dhcmQgQ2hpdSA8aG93YXJkMTA3MDMwNDlAZ21haWwuY29tPjsgQXJuZCBCZXJnbWFubg0KPiA8
-YXJuZEBhcm5kYi5kZT47IE9sb2YgSm9oYW5zc29uIDxvbG9mQGxpeG9tLm5ldD47IFNvQyBUZWFt
-DQo+IDxzb2NAa2VybmVsLm9yZz47IFJvYiBIZXJyaW5nIDxyb2JoK2R0QGtlcm5lbC5vcmc+OyBB
-bmRyZXcgSmVmZmVyeQ0KPiA8YW5kcmV3QGFqLmlkLmF1PjsgTGludXggQVJNIDxsaW51eC1hcm0t
-a2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmc+Ow0KPiBkZXZpY2V0cmVlIDxkZXZpY2V0cmVlQHZn
-ZXIua2VybmVsLm9yZz47IExpbnV4IEtlcm5lbCBNYWlsaW5nIExpc3QNCj4gPGxpbnV4LWtlcm5l
-bEB2Z2VyLmtlcm5lbC5vcmc+OyBsaW51eC1hc3BlZWQgPGxpbnV4LWFzcGVlZEBsaXN0cy5vemxh
-YnMub3JnPjsNCj4gSG93YXJkIENoaXUgKOmCseWGoOedvykgPEhvd2FyZC5DaGl1QHF1YW50YXR3
-LmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2Nl0gQVJNOiBkdHM6IGFzcGVlZDogQWRkaW5n
-IEZhY2Vib29rIEJsZXRjaGxleSBCTUMNCj4gDQo+IE9uIE1vbiwgNiBEZWMgMjAyMSBhdCAyMToy
-NSwgUGF0cmljayBXaWxsaWFtcyA8cGF0cmlja0BzdHdjeC54eXo+IHdyb3RlOg0KPiA+DQo+ID4g
-T24gV2VkLCBEZWMgMDEsIDIwMjEgYXQgMTE6Mzc6MzhBTSArMDgwMCwgSG93YXJkIENoaXUgd3Jv
-dGU6DQo+ID4gPiBJbml0aWFsIGludHJvZHVjdGlvbiBvZiBGYWNlYm9vayBCbGV0Y2hsZXkgZXF1
-aXBwZWQgd2l0aA0KPiA+ID4gQXNwZWVkIDI2MDAgQk1DIFNvQy4NCj4gPiA+DQo+ID4gPiBTaWdu
-ZWQtb2ZmLWJ5OiBIb3dhcmQgQ2hpdSA8aG93YXJkLmNoaXVAcXVhbnRhdHcuY29tPg0KPiA+ID4N
-Cj4gPg0KPiA+IC4uLg0KPiA+DQo+ID4gPiBDaGFuZ2Ugc2luY2UgdjI6DQo+ID4gPiAtIFJlbW92
-ZSB1YXJ0NSB3b3JrYXJvdW5kDQo+ID4gPiAtIFJlbW92ZSBncGlvIG5vZGVzIG9mIHBjYTk1NTIv
-cGNhOTUzOQ0KPiA+ID4gLSBNb2RpZnkgZ3Bpby1saW5lLW5hbWUgb2YgbGVkL3Bvd2VyL3ByZXNl
-bmNlIHBpbnMgd2l0aCBvcGVuYm1jDQo+IHBhdHRlcm4NCj4gPg0KPiA+IEEgbnVtYmVyIG9mIHRo
-ZSBHUElPcyBkbyBub3QgaGF2ZSBkZWZpbmVkIG9wZW5ibWMgcGF0dGVybnMgZm9yIHRoZW0geWV0
-Lg0KPiBUaGUNCj4gPiBuYW1lcyB5b3UgaGF2ZSBjaG9zZW4gYXJlIG9rIGZvciBub3csIGJ1dCB3
-ZSB3aWxsIGJlIGNoYW5naW5nIHRoZW0gYXMgd2UNCj4gcmVmaW5lDQo+ID4gZGV2ZWxvcG1lbnQg
-b2YgdGhpcyBtYWNoaW5lIGZ1cnRoZXIuDQo+ID4NCj4gPiA+ICsgICAgICAgICAgICAgZ3Bpby1s
-aW5lLW5hbWVzID0NCj4gPiA+ICsNCj4gIlNMRUQwX01TX0RFVEVDVDEiLCJTTEVEMF9WQlVTX0JN
-Q19FTiIsIlNMRUQwX0lOQTIzMF9BTEVSVCIsIlNMRQ0KPiBEMF9QMTJWX1NUQllfQUxFUlQiLA0K
-PiA+ID4gKw0KPiAiU0xFRDBfU1NEX0FMRVJUIiwiU0xFRDBfTVNfREVURUNUMCIsIlNMRUQwX1JT
-VF9DQ0c1IiwiU0xFRDBfRlVTQg0KPiAzMDJfSU5UIiwNCj4gPiA+ICsNCj4gIlNMRUQwX01EX1NU
-QllfUkVTRVQiLCJTTEVEMF9NRF9JT0VYUF9FTl9GQVVMVCIsIlNMRUQwX01EX0RJUiIsIg0KPiBT
-TEVEMF9NRF9ERUNBWSIsDQo+ID4gPiArDQo+ICJTTEVEMF9NRF9NT0RFMSIsIlNMRUQwX01EX01P
-REUyIiwiU0xFRDBfTURfTU9ERTMiLCJwb3dlci1obw0KPiBzdDAiOw0KPiA+DQo+ID4gU3VjaCBh
-cyB0aGVzZS4uLg0KPiA+DQo+ID4gPiAtLQ0KPiA+ID4gMi4yNS4xDQo+ID4gPg0KPiA+DQo+ID4g
-T3RoZXJ3aXNlLA0KPiA+DQo+ID4gUmV2aWV3ZWQtYnk6IFBhdHJpY2sgV2lsbGlhbXMgPHBhdHJp
-Y2tAc3R3Y3gueHl6Pg0KPiANCj4gVGhhbmtzIGZvciByZXZpZXdpbmcuDQo+IA0KPiBIb3dhcmQs
-IEknbSBtZXJnaW5nIHBhdGNoZXMgZm9yIHY1LjE3IGJ1dCBJIGNhbid0IGFwcGx5IHRoaXMgdW50
-aWwgeW91DQo+IGZpeCB0aGUgd2FybmluZ3MgSSBtZW50aW9uZWQuDQo+IA0KPiBDaGVlcnMsDQo+
-IA0KPiBKZW9sDQo+ID4NCj4gPiAtLQ0KPiA+IFBhdHJpY2sgV2lsbGlhbXMNCg==
+Hi Hans,
+
+The implementation of decoder for this format as been available here.
+https://github.com/AspeedTech-BMC/aspeed_codec
+
+On 2021/12/2 上午 09:29, Jammy Huang wrote:
+> Hi Hans,
+>
+> Thanks for your review and suggestions.
+>
+> On 2021/11/26 下午 05:51, Hans Verkuil wrote:
+>> On 26/11/2021 09:17, Jammy Huang wrote:
+>>> Hi Hans,
+>>>
+>>> Please refer to Page 132, 'Video stream data format – ASPEED mode compression' of
+>>> https://github.com/AspeedTech-BMC/openbmc/releases/download/v07.02/SDK_User_Guide_v07.02.pdf
+>>>
+>>> Is above information enough??
+>> Hmm, close. It would need some additional information, possibly documented in the source
+>> code:
+>>
+>> - What is the Frame Header? (the doc just says that it is different, but not what it actually is)
+>> - What is the EOI code? Is it equal to 'FEND'? (not quite clear to me)
+>>
+>> I think the documentation looks sufficient once those two items are addressed.
+> Information you mentioned will be included in next revision,
+> "SDK_User_Guide_v07.03.pdf".
+> The releases will be updated to
+> https://github.com/AspeedTech-BMC/openbmc/releases
+>>> Or maybe we can postpone this series until the source code for this format ready.
+>>> I think I can accomplish it by the end of this year.
+>> That's quite soon, so perhaps that would be the best approach. That way you also
+>> know exactly what information is missing from the SDK User Guide, and if that is
+>> documented, then this format can be used in the kernel.
+>>
+>> But several of the patches in the series are independent of the new jpeg format,
+>> so it might be useful to get those in first.
+> Understood. For the patches below, I will resend except for patch
+> 5/6/8/10 which are closely
+> relative to aspeed jpeg format.
+>
+>      1. media: aspeed: move err-handling together to the bottom
+>      2. media: aspeed: use v4l2_info/v4l2_warn/v4l2_dbg for log
+>      3. media: aspeed: add more debug log messages
+>      4. media: aspeed: refactor to gather format/compress settings
+>      5. media: v4l: Add definition for the Aspeed JPEG format
+>      6. media: v4l2-ctrls: Reserve controls for ASPEED
+>      7. media: aspeed: use model-data
+>      8. media: aspeed: Support aspeed mode to reduce compressed data
+>      9. media: aspeed: add comments and macro
+>      10.media: aspeed: Extend debug message
+>
+>
+>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>> On 2021/11/25 下午 10:31, Hans Verkuil wrote:
+>>>> Hi Jammy,
+>>>>
+>>>> I suggest posting a v3 that moves the patches that deal with the
+>>>> Aspeed JPEG format to the end of the series. That way I can easily
+>>>> merge the patches up to that point, and the Aspeed JPEG support can
+>>>> be handled separately.
+>>>>
+>>>> I'm not sure if it can be merged without that format being documented,
+>>>> either in pixfmt-reserved.rst, by implementing support for it in
+>>>> libv4lconvert from v4l-utils, or by providing a URL to some other
+>>>> publicly available source code. We really don't like adding pixel
+>>>> formats that cannot be interpreted by someone without access to the
+>>>> datasheets.
+>>>>
+>>>> Regards,
+>>>>
+>>>> 	Hans
+>>>>
+>>>> On 18/11/2021 08:40, Jammy Huang wrote:
+>>>>> The aim of this series is to add aspeed-jpeg support for aspeed-video
+>>>>> driver.
+>>>>>
+>>>>> To achieve this major goal some refactors are included.
+>>>>>
+>>>>> In the last, debugfs information is also updated per this change.
+>>>>>
+>>>>> Changes in v5:
+>>>>>     - Use model data to tell different soc
+>>>>>
+>>>>> Changes in v4:
+>>>>>     - Add definition for the Aspeed JPEG format
+>>>>>     - Reserve controls for ASPEED
+>>>>>     - Use s_fmt to update format rather than new control
+>>>>>     - Update aspeed hq quality range, 1 ~ 12
+>>>>>
+>>>>>
+>>>>> Jammy Huang (10):
+>>>>>      media: aspeed: move err-handling together to the bottom
+>>>>>      media: aspeed: use v4l2_info/v4l2_warn/v4l2_dbg for log
+>>>>>      media: aspeed: add more debug log messages
+>>>>>      media: aspeed: refactor to gather format/compress settings
+>>>>>      media: v4l: Add definition for the Aspeed JPEG format
+>>>>>      media: v4l2-ctrls: Reserve controls for ASPEED
+>>>>>      media: aspeed: use model-data
+>>>>>      media: aspeed: Support aspeed mode to reduce compressed data
+>>>>>      media: aspeed: add comments and macro
+>>>>>      media: aspeed: Extend debug message
+>>>>>
+>>>>>     .../media/uapi/v4l/pixfmt-reserved.rst        |  12 +
+>>>>>     drivers/media/platform/aspeed-video.c         | 534 ++++++++++++++----
+>>>>>     drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+>>>>>     include/uapi/linux/aspeed-video.h             |  15 +
+>>>>>     include/uapi/linux/v4l2-controls.h            |   5 +
+>>>>>     include/uapi/linux/videodev2.h                |   1 +
+>>>>>     6 files changed, 467 insertions(+), 101 deletions(-)
+>>>>>     create mode 100644 include/uapi/linux/aspeed-video.h
+>>>>>
+-- 
+Best Regards
+Jammy
+
