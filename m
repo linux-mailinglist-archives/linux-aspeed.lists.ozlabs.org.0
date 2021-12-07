@@ -2,142 +2,67 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ACF146B320
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 07:43:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 970D146B32A
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 07:46:11 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J7W2Y16Wyz2yp2
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 17:43:01 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J7W693BX1z2ymP
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 17:46:09 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=quantacorp.onmicrosoft.com header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-quantacorp-onmicrosoft-com header.b=khtBwuJb;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Q+yWS6Io;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=quantatw.com (client-ip=2a01:111:f400:feab::720;
- helo=apc01-sg2-obe.outbound.protection.outlook.com;
- envelope-from=howard.chiu@quantatw.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::72b;
+ helo=mail-qk1-x72b.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=quantacorp.onmicrosoft.com
- header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256
- header.s=selector2-quantacorp-onmicrosoft-com header.b=khtBwuJb; 
- dkim-atps=neutral
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
- (mail-sgaapc01on20720.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:feab::720])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=Q+yWS6Io; dkim-atps=neutral
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
+ [IPv6:2607:f8b0:4864:20::72b])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J7W2Q4dNVz2yHq
- for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Dec 2021 17:42:52 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l9KLq/jNMO2JoVNEfZThzLERhH0L5kqEbejDLEayA08GGsMptoG9/GUlR7z+NmPurAFS1OBANbUb5lp0Qt9YrhLjNtoMvaH52IoQVPnRVnQFWevSxheBPm7rhPgMrEL6S0Xwsz22RGZ/hFSqJnLUm+kbB5YczWAQi9EW30VoS60kSramsOKqfXYDvqDz4BIJ2bUHZj0aGzXm/il+h7ogb2+m9LNKVbNH+DCQxSuhn1+jrjjlhs4mRzCMilaUbRT0fOviYIAkG4e7F8SUfwASTYh7SLP2+mFg5AsqGtsEGGkwyi1fiadiLSekFwxvSJIVyzRBwtFv8esBFe64A8/DZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+QFAJ1lbLn/7Sxqg0acNofJvz1RmIfH9EnLmg920sgk=;
- b=Xs6NceZM76x46WTRXE7UnDOaeAQIqj697mxYv1wIznZp9OmRIk9Pk5eeGDU5f21U9zCdT/x8m3DvY7Q3dZI7kWstMGgtq+nDpvJ23PwYZSI+q1yuvQg3C+6luBwtFiYspKIUK7t171+Jh8809yw65Yau8pNrNnk0hkINVDo/9h/1/CsC7rqpoBpl6FoI28QYTt3VerkrhNN0FNKoQ3HkEie9no7Vh207vR1SPHzQqjpPfw8WSLVAUq6Wz/1asv94lppDS4yAt0dOKiyr1hqJ6zN8mwQT8eGa2ayPZN5jgE+JRdgIAmP02BdnM8ZCju/dVTDPqmGwXdQFQrpdIG/XRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quantatw.com; dmarc=pass action=none header.from=quantatw.com;
- dkim=pass header.d=quantatw.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quantacorp.onmicrosoft.com; s=selector2-quantacorp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+QFAJ1lbLn/7Sxqg0acNofJvz1RmIfH9EnLmg920sgk=;
- b=khtBwuJbWOvNX97iomZG3KC5kmgccuq8qAya975MebRGNgU30+34V75Yb9qhi1Dc/rD+V6BmE3H9EEL/o4VRDZpDAOaeuOYId5BOjeTMMrsCZ93BDAxNN0+xdurlIQP/Ll4p4HLAirgEmUnadm5ijrB1gDStEHxsUBDiEiTvYoc=
-Received: from HKAPR04MB4003.apcprd04.prod.outlook.com (2603:1096:203:df::11)
- by HK0PR04MB2769.apcprd04.prod.outlook.com (2603:1096:203:54::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4755.11; Tue, 7 Dec
- 2021 06:42:33 +0000
-Received: from HKAPR04MB4003.apcprd04.prod.outlook.com
- ([fe80::50ac:5788:d373:7194]) by HKAPR04MB4003.apcprd04.prod.outlook.com
- ([fe80::50ac:5788:d373:7194%5]) with mapi id 15.20.4755.022; Tue, 7 Dec 2021
- 06:42:33 +0000
-From: =?utf-8?B?SG93YXJkIENoaXUgKOmCseWGoOedvyk=?= <Howard.Chiu@quantatw.com>
-To: Joel Stanley <joel@jms.id.au>
-Subject: RE: [PATCH v6] ARM: dts: aspeed: Adding Facebook Bletchley BMC
-Thread-Topic: [PATCH v6] ARM: dts: aspeed: Adding Facebook Bletchley BMC
-Thread-Index: AQHX6vPlDf93t8kSvkG92vOctn4vNawmU+qQgAALh4CAAC/pcIAABHOAgAAAbxA=
-Date: Tue, 7 Dec 2021 06:42:33 +0000
-Message-ID: <HKAPR04MB4003F9B004832D65286DC40E966E9@HKAPR04MB4003.apcprd04.prod.outlook.com>
-References: <20211201033738.121846-1-howard.chiu@quantatw.com>
- <Ya5/v+VhOM9o9BtQ@heinlein>
- <CACPK8XdCjqB+HZ_g9O=gjnSne3=iV44i6jKP5M8yWcsjnttaog@mail.gmail.com>
- <HKAPR04MB40033D58E2C1F96DDF16C13C966E9@HKAPR04MB4003.apcprd04.prod.outlook.com>
- <CACPK8Xd93Kmvh7kT+4tbMO0+6LWa-2ORmt_KNB_hpqMYhso46A@mail.gmail.com>
- <HKAPR04MB4003DBD7D21B59723CDC5718966E9@HKAPR04MB4003.apcprd04.prod.outlook.com>
- <CACPK8XduCFo-LdvL7ung8QksCsuyQypaXC_E-i5obC3SZ00AYg@mail.gmail.com>
-In-Reply-To: <CACPK8XduCFo-LdvL7ung8QksCsuyQypaXC_E-i5obC3SZ00AYg@mail.gmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=quantatw.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: dedfc12e-9f9e-4f73-0dd3-08d9b94cbfcd
-x-ms-traffictypediagnostic: HK0PR04MB2769:EE_
-x-microsoft-antispam-prvs: <HK0PR04MB27698E32DD11964944E91E6B966E9@HK0PR04MB2769.apcprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2FySdYDVZnbzvrIAZgwd2iA0NH5vKo+ytsBB/XbhSot9rDGV+yZHUYDrc4paB+ua9JXQ0vljbaT91PYzpHZUCWETLZWI0q1DpAC9MbJpx4J7abcPDaZsMgJxtG6VsOVfg+DQQwevcEnnVke/CQzaLEuLqAasZgiMqeXNMNfptFWjPvbW/wQB2O7S+S3PxbxCjV8hpT3/ScXC54vqwpYJHMTofboypsztH+cLUeBtBb65kaUl1wqtOVaV1zDe5CGeQ+2/jjsBvu862iSHR+yVqXxi70SnGkWrjnb61iC8VXgPitLhweEOfgirloQDHnSweeEgeBPEOtCK3+oGwEIt/Kr6lSZgzoqceE5vt65p6XU7H8wt4R404cKK7kW9jjPqzNCDM+t7cY+0GhcDdkw5kB7SalHQhp6T4BWpsM5fnj8MOboKeWWn4egW8IXHhvPyheeWWVAOopMFPYpRdMVgLxj+fLh1u+79aPbNmKQJukEWRiTROA5VAHZtti3JlK3ZhMeHoZWorqxjXWPca8eiASqcb4ny4aHQDlXFBrnBqHVUo+bimQ4nvzI9pUx/G9c3yzNuTYtmwwxUppvd+RetylZZIIDu7cYfdA0LO4DOId48orCxnum6uRVYtp25Cjs8tiDD8qMNppFNPpZtPDJHknV3YBPrhvBptbMosBGQM1VbVHbE5yFujn+7dC/XQvqa9+gyGD8LgyguqCByW2T1bw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HKAPR04MB4003.apcprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(47680400002)(508600001)(55016003)(8936002)(7416002)(6916009)(54906003)(316002)(2906002)(86362001)(52536014)(83380400001)(7696005)(122000001)(9686003)(38070700005)(5660300002)(71200400001)(6506007)(38100700002)(186003)(26005)(53546011)(66946007)(66476007)(33656002)(66556008)(76116006)(4326008)(64756008)(66446008)(85182001)(8676002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dG50aWxhMlU0MThnRkxXMDdJaEc1WHdUUmsxK08xUFZWRDNHZWNjWXVqVUlW?=
- =?utf-8?B?YUFNTUN1bThFY2tFN3c5UUdNTFY5cFBQbkJVdW9aZHBNMTdkMnJtdGczNi9W?=
- =?utf-8?B?NmdDU2NDSnZ6aUdHUnNFeXdqWHZjZ2JvSU8xNGl4d1dlK0wxWkgvaXlBS2lD?=
- =?utf-8?B?MmViU0c1SkRtNGQ1NDJBaGVaQzkvclcvL3FLc0JqRG1JLzNoSTUwck1wRi9y?=
- =?utf-8?B?UGZHTUJQT3dSN3BkWnUxak1tK05TcWZTdnY5dFBOR1RSaklNRXp1Y1BIVTAr?=
- =?utf-8?B?SkdXVitlZHY2UndSbDVTYVE3dEVLUHVMZE9nTGM5KytENkhMRGpxUzlucm82?=
- =?utf-8?B?ajF4VktMbW5DNTA0aFU1QjRKdXFmQnVpV2x1OFdwbjZwRy9yNkNMOHBFMksr?=
- =?utf-8?B?T3ZjUjlTTlJzenVUcW9TMmNBdkpWZW1lZzE2Ym9pUE9KdXJaMCtwQUo4OVZz?=
- =?utf-8?B?QktnSENvWllFSk9ndytuYTd0c2EzVVVBbnhubmNhSWt2dlpnbkRYQWkwMFlw?=
- =?utf-8?B?WER5bmVOZ2sxbVpKckYycXhMcWloa3llZ2twR0VWZ3JCSXEyVTVDVGQ4MGFZ?=
- =?utf-8?B?M25GRUhHYnFNZnR4TjdTVmxqNnFTYUxraGVlbkt5eXMxUGpLL1ZoVzlXbG9z?=
- =?utf-8?B?b2F1blRmbGZHY1J4aEdLZysvL1dkY1FPVmxVYU1zUW5CK0VsMmhpMGYrM3Vn?=
- =?utf-8?B?ZkNBMXA1Qnl3dmw5dllwRVlYazV4VHlFaXgvV2EraTladlhRT0RxZUt4OHUx?=
- =?utf-8?B?TEIyRnY2RjNNbzlzb1dFTXBsY2djQUt2QWZReE1kRkMySytlTDVJcklRU1Jm?=
- =?utf-8?B?TEx1dGk5M2o4RE5JcEFQTnlZall0MjY2MlR5SERPWGcyNDZLbXBad2FIcWY4?=
- =?utf-8?B?SDFHOG9hNS9iMFhma0wraE9wMjVvRk1lQnVxRHBJdzNhZWFOTThiOVRiaFRP?=
- =?utf-8?B?bWU5NFJLV2pvQTA1VVVlNkZlWUxqT2J1SW9yZjZCQ2RuYWZHaTRzSDJsdGkx?=
- =?utf-8?B?OVc4dmRtV3I4V2JCNHR3Sk8zbS9pRHFzR0VoTlpYbFRTKy9BT0N2eGlDWjNQ?=
- =?utf-8?B?RExBbzdwOVJ6aDNNQVNicTRrMVZ3ZzNtd3pEay9KWWFDNXppVE5qeGVwbUlN?=
- =?utf-8?B?VDkwTHk3R2NLczJvOVpzWVNxS3d1Uys4UHBvdUppdDZ2MnhkWkF6ajlsYkVr?=
- =?utf-8?B?R2NsemtLaEVMOVRQT01nbDliOVZWbXBQRGx4a1hPZitMcnFXeHJGNkJjWTho?=
- =?utf-8?B?WG5jTmF1TDFDNklWajR0TnBNR1FPZHpVdjVhbmdsSDl0YnhTeHYzRG9wVklV?=
- =?utf-8?B?UVNnSHF5QTQ5R0FZZEI0ck5PZTlCZ2g5WEtyV3RmWmFqeTlZVHhDMlowOGZB?=
- =?utf-8?B?bExDQ1pVdVFCSjBpK3lIeHpveDRFbW9ESXdNeDRHa0VOY3lOaXA4a3hSNXkr?=
- =?utf-8?B?YmQ3TVcrZzVnTEZaZGRZbjFMY2xHRzJpalRGbFlvRU5nNTYwblhWZFR4andY?=
- =?utf-8?B?VU0rMU9YOGt5VDgzMWFGVklnN3JyMVRDLytHMit1eGthSVgrRHpqa04rSThX?=
- =?utf-8?B?N2hFT3N2MnptdHhTSnpEakhGN2hjSXU0c2E0Q3VMZFZIR0xkRzRCNUp1bFl5?=
- =?utf-8?B?R094RVpiY0tzNzJoSmxWeDd3YUxaTmQrNnZaR0lhK29vdXFCekphTkNaWm9t?=
- =?utf-8?B?YmlWVFRnc3NtR25Oc3cveTZ2bE1MK1F0UDBCTEdHdkZ5c21ZSEUvWG94bkFC?=
- =?utf-8?B?NFJ6ZXZqT2IwSmIvSU02VWlFU1VDY3JuR2ZEcVhxVXh0V0MrWVpYdDUycVZC?=
- =?utf-8?B?eStWYnhOY0owQnBJZEhMVVNub0VLdnJGdkRVdlVUdEw1WGNQblk3eGN5VUYz?=
- =?utf-8?B?STdlWVFEZWZKakUxcVRkWmVlQlllZkJ5M1FGT3JySjg2SDVHcFZXY2xQWVJq?=
- =?utf-8?B?RzhlSUlwQzZLb3J4UnFqZUprb1lQN205MUdVUXNBUldhZ1hkYXh1ZkYwVjhW?=
- =?utf-8?B?ZXM3SlZ6a3JJZ0J2NkIyYmpJMERhWkRqSVRlUjNqV3RkYTZ3RDIrcWZLendF?=
- =?utf-8?B?NmNZWkJlbjlDcEh3RVIwRmd1L0w2eXpvT244RzZybjF3bTQyY0RFdkNySThO?=
- =?utf-8?B?OE1yRG1GKysrVlIvU2d5Q3BIV1Q4RFkrblQrMFNuL2g1WW82WlNqRTFtMDRX?=
- =?utf-8?B?OUpWQmJtQThDSHlsclZWZHdXd0NhemxoMTV5STc0Zzc5Qk5kMlBmMkM2UmxV?=
- =?utf-8?B?bXhlWmd4RXh0TjZId2NmY2MyaXdnPT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J7W661mbwz2xXg
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Dec 2021 17:46:05 +1100 (AEDT)
+Received: by mail-qk1-x72b.google.com with SMTP id d2so13721796qki.12
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Dec 2021 22:46:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=zbba/UkaBqT6lJeesV5XnDR8ly5tsCHkshlo7j8jGmI=;
+ b=Q+yWS6IouAezP2RtXT7wfG4/tNxdp9ZXLR+wW9lKJBMyDsJlbJ5H3xZ0rKJ6fVBHbG
+ dSSqWRMXnedRWTkImMBJ02GzPEnNeRFyXRgjK0GwRALs2WOZh06MkTmzmmR7igDS3WRT
+ n9cK0g2H5P2BlLtjlmxoUtb2D+/i7e+uibXPM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=zbba/UkaBqT6lJeesV5XnDR8ly5tsCHkshlo7j8jGmI=;
+ b=pVh8+W0rRI6LNTHm9V8ICMRAuNuObS+Mu/UWrfcYxNIIeH4k1/X/W/lOxRyFKWm/Rc
+ DeUmRBXEmChUBlaOJTFmXwRqVzrX9UZvF8mK68FmJ2vuDuHX9NeoscL8BHKZPcRPVHFI
+ NGgquKl+v6dpT7c05Tm4Y7U5RwCf5NwjuaMYwFVK8UqcqnDJHO3KG/Kt0BD8pWzzDL3f
+ C6sDTQMweziQ2lk/wUJr3lXDuovzI+1XwJfX3xLo3yNJVDPBwa4FpVJRGQa9nfN5hkOX
+ dcWY6jyfNeiBCdFTzfeogWinJR8HdSRqRr7tntinSKBkuq5lEUe4D23MxHMPC2MtoiLB
+ 2ycg==
+X-Gm-Message-State: AOAM532dtkifsBxJnDmZ074rOEbun+tdMmYwz4qekLV6dO5X9aSZLflX
+ Dk6zLXnk5j+0IQtKX6FsJbBG4AbRwHiMbmJiJIg=
+X-Google-Smtp-Source: ABdhPJwMyI+isbOcD9jb1sDe2P/kVRSvemDmcx2g+X8998rktI8XFF6NjHYwG35zn7OuoJyPRSFLT3eZWu86DISifLQ=
+X-Received: by 2002:a05:620a:1004:: with SMTP id
+ z4mr37420042qkj.243.1638859560150; 
+ Mon, 06 Dec 2021 22:46:00 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: quantatw.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HKAPR04MB4003.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dedfc12e-9f9e-4f73-0dd3-08d9b94cbfcd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Dec 2021 06:42:33.4769 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 179b0327-07fc-4973-ac73-8de7313561b2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Cl3dBqZvillspKyAVkN1YEpchJYxDUs6qhLmKEOsn+DuVMmH4wlXjpacQtdVlNCNcXKpdYNaBAfBE+dFl8FWWJ17eH5akB3vq8/gRrWTDS0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR04MB2769
+References: <20211130055933.32708-1-billy_tsai@aspeedtech.com>
+In-Reply-To: <20211130055933.32708-1-billy_tsai@aspeedtech.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 7 Dec 2021 06:45:47 +0000
+Message-ID: <CACPK8XfM4C7v3keXaxMs9SkqNzb8XWbZ6QvcZXWcy3ZKJCrvWQ@mail.gmail.com>
+Subject: Re: [v14 0/2] Support pwm driver for aspeed ast26xx
+To: Billy Tsai <billy_tsai@aspeedtech.com>, Guenter Roeck <linux@roeck-us.net>,
+ Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,129 +74,170 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>,
- Howard Chiu <howard10703049@gmail.com>,
+Cc: linux-hwmon@vger.kernel.org, devicetree <devicetree@vger.kernel.org>,
+ Jean Delvare <jdelvare@suse.com>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ linux-pwm@vger.kernel.org, BMC-SW <BMC-SW@aspeedtech.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Patrick Williams <patrick@stwcx.xyz>, SoC Team <soc@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
+ Lee Jones <lee.jones@linaro.org>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGkgSm9lbA0KDQo+IE9uY2Ugd2UndmUgZml4ZWQgdGhlIGlzc3VlcyB3aXRoIHRoZSBiaW5kaW5n
-cywgd2UgY2FuIHB1dCB0aGUgZHJpdmVyDQo+IGluIHRoZSBvcGVuYm1jIHRyZWUuIExldCdzIHNw
-ZW5kIG91ciBlZmZvcnQgZml4aW5nIHRoYXQuDQpJdCBtZWFucyBJIGNhbiBjb21taXQgQmxldGNo
-bGV5IERUUyB3aXRoIGZhbiBzdXBwb3J0IHRvIE9wZW5CTUMgdHJlZSBvbmNlIEJpbGx5J3MgZHJp
-dmVyIGdvdCBhcHByb3ZlZCwgcmlnaHQ/DQoNCkhvd2FyZA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVz
-c2FnZS0tLS0tDQo+IEZyb206IEpvZWwgU3RhbmxleSA8am9lbEBqbXMuaWQuYXU+DQo+IFNlbnQ6
-IFR1ZXNkYXksIERlY2VtYmVyIDcsIDIwMjEgMjozNyBQTQ0KPiBUbzogSG93YXJkIENoaXUgKOmC
-seWGoOedvykgPEhvd2FyZC5DaGl1QHF1YW50YXR3LmNvbT4NCj4gQ2M6IFBhdHJpY2sgV2lsbGlh
-bXMgPHBhdHJpY2tAc3R3Y3gueHl6PjsgSG93YXJkIENoaXUNCj4gPGhvd2FyZDEwNzAzMDQ5QGdt
-YWlsLmNvbT47IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+OyBPbG9mDQo+IEpvaGFuc3Nv
-biA8b2xvZkBsaXhvbS5uZXQ+OyBTb0MgVGVhbSA8c29jQGtlcm5lbC5vcmc+OyBSb2IgSGVycmlu
-Zw0KPiA8cm9iaCtkdEBrZXJuZWwub3JnPjsgQW5kcmV3IEplZmZlcnkgPGFuZHJld0Bhai5pZC5h
-dT47IExpbnV4IEFSTQ0KPiA8bGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnPjsg
-ZGV2aWNldHJlZQ0KPiA8ZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc+OyBMaW51eCBLZXJuZWwg
-TWFpbGluZyBMaXN0DQo+IDxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPjsgbGludXgtYXNw
-ZWVkIDxsaW51eC1hc3BlZWRAbGlzdHMub3psYWJzLm9yZz4NCj4gU3ViamVjdDogUmU6IFtQQVRD
-SCB2Nl0gQVJNOiBkdHM6IGFzcGVlZDogQWRkaW5nIEZhY2Vib29rIEJsZXRjaGxleSBCTUMNCj4g
-DQo+IE9uIFR1ZSwgNyBEZWMgMjAyMSBhdCAwNjozNCwgSG93YXJkIENoaXUgKOmCseWGoOedvykN
-Cj4gPEhvd2FyZC5DaGl1QHF1YW50YXR3LmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBIaSBKb2VsDQo+
-ID4NCj4gPiA+IEknZCBzdWdnZXN0IG5vLCBvbWl0IHRob3NlIGZlYXR1cmVzIGZvciBub3csIGFu
-ZCB5b3UgY2FuIGFkZCB0aGVtIGluDQo+ID4gPiBvbmNlIHdlIGhhdmUgYSBkcml2ZXIuIFRoZSBk
-ZXZpY2UgdHJlZSBiaW5kaW5ncyBmb3IgdGhlIHRhY2gvcHdtIG5lZWQNCj4gPiA+IHNvbWUgd29y
-ayBiZWZvcmUgdGhleSBjYW4gYmUgYXBwcm92ZWQuDQo+ID4NCj4gPiBUaGUgZHJpdmVyIHlvdSBt
-ZW50aW9uZWQgaXMgZm9yIE9wZW5CTUMgTGludXggb3IgdXBzdHJlYW0/DQo+ID4gSWYgaXQgaXMg
-Zm9yIE9wZW5CTUMsIHRoZSB1cHN0cmVhbSByb2JvdCB3aWxsIHJlamVjdCBteSBEVFMgYmVjYXVz
-ZSB0aGUNCj4gYXNwZWVkLWc2LmR0c2kgZGlkIG5vdCBjb250YWluIHB3bS90YWNoIG5vZGUuDQo+
-ID4NCj4gPiBJZiBpdCBpcyBmb3IgdXBzdHJlYW0sIGl0IHdpbGwgYmUgYSBsb25nIHRpbWUgdGhh
-dCBPcGVuQk1DIExpbnV4IHdvbid0IGhhdmUNCj4gdGFjaCBkcml2ZXIgZm9yIGFzdDI2MDAgc2Vy
-aWVzLCBhbmQgbXkgcGF0Y2ggdG8gY29tbWl0IHdpdGggQmlsbHkncyBlYXJseSBkcml2ZXINCj4g
-Zm9yIE9wZW5CTUMgTGludXggaXMgYWxzbyBtZWFuaW5nbGVzcy4NCj4gDQo+IE9uY2Ugd2UndmUg
-Zml4ZWQgdGhlIGlzc3VlcyB3aXRoIHRoZSBiaW5kaW5ncywgd2UgY2FuIHB1dCB0aGUgZHJpdmVy
-DQo+IGluIHRoZSBvcGVuYm1jIHRyZWUuIExldCdzIHNwZW5kIG91ciBlZmZvcnQgZml4aW5nIHRo
-YXQuDQo+IA0KPiA+DQo+ID4gPiBXaGVuIEkgYXNrZWQgeW91IHRvIGZpeCB0aGUgcGF0Y2gsIEkg
-d2FzIHJlZmVycmluZyB0byB0aGUgdXNiLWMNCj4gPiA+IHdhcm5pbmdzIHRoYXQgSSBwb3N0ZWQg
-YWJvdXQgdGhlIG90aGVyIHdlZWsuDQo+ID4gSSB3aWxsIGZpeCBpdCBhbmQgb3RoZXJzIHlvdSBt
-ZW50aW9uZWQgaW4gdGhlIHY3IHBhdGNoLg0KPiA+DQo+ID4gSG93YXJkDQo+ID4NCj4gPiA+IC0t
-LS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiBGcm9tOiBKb2VsIFN0YW5sZXkgPGpvZWxA
-am1zLmlkLmF1Pg0KPiA+ID4gU2VudDogVHVlc2RheSwgRGVjZW1iZXIgNywgMjAyMSAxMTozMCBB
-TQ0KPiA+ID4gVG86IEhvd2FyZCBDaGl1ICjpgrHlhqDnnb8pIDxIb3dhcmQuQ2hpdUBxdWFudGF0
-dy5jb20+DQo+ID4gPiBDYzogUGF0cmljayBXaWxsaWFtcyA8cGF0cmlja0BzdHdjeC54eXo+OyBI
-b3dhcmQgQ2hpdQ0KPiA+ID4gPGhvd2FyZDEwNzAzMDQ5QGdtYWlsLmNvbT47IEFybmQgQmVyZ21h
-bm4gPGFybmRAYXJuZGIuZGU+OyBPbG9mDQo+ID4gPiBKb2hhbnNzb24gPG9sb2ZAbGl4b20ubmV0
-PjsgU29DIFRlYW0gPHNvY0BrZXJuZWwub3JnPjsgUm9iIEhlcnJpbmcNCj4gPiA+IDxyb2JoK2R0
-QGtlcm5lbC5vcmc+OyBBbmRyZXcgSmVmZmVyeSA8YW5kcmV3QGFqLmlkLmF1PjsgTGludXggQVJN
-DQo+ID4gPiA8bGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnPjsgZGV2aWNldHJl
-ZQ0KPiA+ID4gPGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnPjsgTGludXggS2VybmVsIE1haWxp
-bmcgTGlzdA0KPiA+ID4gPGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc+OyBsaW51eC1hc3Bl
-ZWQNCj4gPGxpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnPg0KPiA+ID4gU3ViamVjdDogUmU6
-IFtQQVRDSCB2Nl0gQVJNOiBkdHM6IGFzcGVlZDogQWRkaW5nIEZhY2Vib29rIEJsZXRjaGxleSBC
-TUMNCj4gPiA+DQo+ID4gPiBPbiBUdWUsIDcgRGVjIDIwMjEgYXQgMDI6NTMsIEhvd2FyZCBDaGl1
-ICjpgrHlhqDnnb8pDQo+ID4gPiA8SG93YXJkLkNoaXVAcXVhbnRhdHcuY29tPiB3cm90ZToNCj4g
-PiA+ID4NCj4gPiA+ID4gSGkgSm9lbA0KPiA+ID4gPg0KPiA+ID4gPiBCbGV0Y2hsZXkgcGxhdGZv
-cm0gbmVlZHMgdG8gc3VwcG9ydCBmYW4gY29udHJvbC4NCj4gPiA+ID4gU2luY2UgQmlsbHkncyBw
-YXRjaCBmb3IgdXBzdHJlYW0gaXMgc3RpbGwgdW5kZXIgcmV2aWV3LCBJIGNhbid0IGFkZCBwd20v
-dGFjaA0KPiA+ID4gbm9kZSBpbnRvIGR0cyBvciB0aGUgYnVpbGQgd291bGQgZmFpbC4NCj4gPiA+
-ID4NCj4gPiA+ID4gQXMgeW91IGtub3csIEkgaGFkIGNvbW1pdHRlZCB0aGUgcHdtL3RhY2ggZHJp
-dmVyIGZvciBhc3QyNnh4IHRvDQo+IE9wZW5CTUMNCj4gPiA+IGxpbnV4LCBjb3VsZCBJIGNvbW1p
-dCB0aGUgZHRzIHRvIE9wZW5CTUMgbGludXggaW5zdGVhZCBvZiB1cHN0cmVhbSBmb3INCj4gZWFy
-bHkNCj4gPiA+IGJ1aWxkPw0KPiA+ID4NCj4gPiA+IEknZCBzdWdnZXN0IG5vLCBvbWl0IHRob3Nl
-IGZlYXR1cmVzIGZvciBub3csIGFuZCB5b3UgY2FuIGFkZCB0aGVtIGluDQo+ID4gPiBvbmNlIHdl
-IGhhdmUgYSBkcml2ZXIuIFRoZSBkZXZpY2UgdHJlZSBiaW5kaW5ncyBmb3IgdGhlIHRhY2gvcHdt
-IG5lZWQNCj4gPiA+IHNvbWUgd29yayBiZWZvcmUgdGhleSBjYW4gYmUgYXBwcm92ZWQuDQo+ID4g
-Pg0KPiA+ID4gV2hlbiBJIGFza2VkIHlvdSB0byBmaXggdGhlIHBhdGNoLCBJIHdhcyByZWZlcnJp
-bmcgdG8gdGhlIHVzYi1jDQo+ID4gPiB3YXJuaW5ncyB0aGF0IEkgcG9zdGVkIGFib3V0IHRoZSBv
-dGhlciB3ZWVrLg0KPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4gSG93YXJkDQo+ID4gPiA+DQo+ID4g
-PiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+ID4gPiBGcm9tOiBKb2VsIFN0
-YW5sZXkgPGpvZWxAam1zLmlkLmF1Pg0KPiA+ID4gPiA+IFNlbnQ6IFR1ZXNkYXksIERlY2VtYmVy
-IDcsIDIwMjEgNjo1MiBBTQ0KPiA+ID4gPiA+IFRvOiBQYXRyaWNrIFdpbGxpYW1zIDxwYXRyaWNr
-QHN0d2N4Lnh5ej4NCj4gPiA+ID4gPiBDYzogSG93YXJkIENoaXUgPGhvd2FyZDEwNzAzMDQ5QGdt
-YWlsLmNvbT47IEFybmQgQmVyZ21hbm4NCj4gPiA+ID4gPiA8YXJuZEBhcm5kYi5kZT47IE9sb2Yg
-Sm9oYW5zc29uIDxvbG9mQGxpeG9tLm5ldD47IFNvQyBUZWFtDQo+ID4gPiA+ID4gPHNvY0BrZXJu
-ZWwub3JnPjsgUm9iIEhlcnJpbmcgPHJvYmgrZHRAa2VybmVsLm9yZz47IEFuZHJldyBKZWZmZXJ5
-DQo+ID4gPiA+ID4gPGFuZHJld0Bhai5pZC5hdT47IExpbnV4IEFSTQ0KPiA8bGludXgtYXJtLWtl
-cm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnPjsNCj4gPiA+ID4gPiBkZXZpY2V0cmVlIDxkZXZpY2V0
-cmVlQHZnZXIua2VybmVsLm9yZz47IExpbnV4IEtlcm5lbCBNYWlsaW5nIExpc3QNCj4gPiA+ID4g
-PiA8bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZz47IGxpbnV4LWFzcGVlZA0KPiA+ID4gPGxp
-bnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnPjsNCj4gPiA+ID4gPiBIb3dhcmQgQ2hpdSAo6YKx
-5Yag552/KSA8SG93YXJkLkNoaXVAcXVhbnRhdHcuY29tPg0KPiA+ID4gPiA+IFN1YmplY3Q6IFJl
-OiBbUEFUQ0ggdjZdIEFSTTogZHRzOiBhc3BlZWQ6IEFkZGluZyBGYWNlYm9vayBCbGV0Y2hsZXkN
-Cj4gQk1DDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBPbiBNb24sIDYgRGVjIDIwMjEgYXQgMjE6MjUs
-IFBhdHJpY2sgV2lsbGlhbXMgPHBhdHJpY2tAc3R3Y3gueHl6Pg0KPiB3cm90ZToNCj4gPiA+ID4g
-PiA+DQo+ID4gPiA+ID4gPiBPbiBXZWQsIERlYyAwMSwgMjAyMSBhdCAxMTozNzozOEFNICswODAw
-LCBIb3dhcmQgQ2hpdSB3cm90ZToNCj4gPiA+ID4gPiA+ID4gSW5pdGlhbCBpbnRyb2R1Y3Rpb24g
-b2YgRmFjZWJvb2sgQmxldGNobGV5IGVxdWlwcGVkIHdpdGgNCj4gPiA+ID4gPiA+ID4gQXNwZWVk
-IDI2MDAgQk1DIFNvQy4NCj4gPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1i
-eTogSG93YXJkIENoaXUgPGhvd2FyZC5jaGl1QHF1YW50YXR3LmNvbT4NCj4gPiA+ID4gPiA+ID4N
-Cj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiAuLi4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiA+
-IENoYW5nZSBzaW5jZSB2MjoNCj4gPiA+ID4gPiA+ID4gLSBSZW1vdmUgdWFydDUgd29ya2Fyb3Vu
-ZA0KPiA+ID4gPiA+ID4gPiAtIFJlbW92ZSBncGlvIG5vZGVzIG9mIHBjYTk1NTIvcGNhOTUzOQ0K
-PiA+ID4gPiA+ID4gPiAtIE1vZGlmeSBncGlvLWxpbmUtbmFtZSBvZiBsZWQvcG93ZXIvcHJlc2Vu
-Y2UgcGlucyB3aXRoIG9wZW5ibWMNCj4gPiA+ID4gPiBwYXR0ZXJuDQo+ID4gPiA+ID4gPg0KPiA+
-ID4gPiA+ID4gQSBudW1iZXIgb2YgdGhlIEdQSU9zIGRvIG5vdCBoYXZlIGRlZmluZWQgb3BlbmJt
-YyBwYXR0ZXJucyBmb3INCj4gdGhlbQ0KPiA+ID4geWV0Lg0KPiA+ID4gPiA+IFRoZQ0KPiA+ID4g
-PiA+ID4gbmFtZXMgeW91IGhhdmUgY2hvc2VuIGFyZSBvayBmb3Igbm93LCBidXQgd2Ugd2lsbCBi
-ZSBjaGFuZ2luZyB0aGVtDQo+IGFzDQo+ID4gPiB3ZQ0KPiA+ID4gPiA+IHJlZmluZQ0KPiA+ID4g
-PiA+ID4gZGV2ZWxvcG1lbnQgb2YgdGhpcyBtYWNoaW5lIGZ1cnRoZXIuDQo+ID4gPiA+ID4gPg0K
-PiA+ID4gPiA+ID4gPiArICAgICAgICAgICAgIGdwaW8tbGluZS1uYW1lcyA9DQo+ID4gPiA+ID4g
-PiA+ICsNCj4gPiA+ID4gPg0KPiA+ID4NCj4gIlNMRUQwX01TX0RFVEVDVDEiLCJTTEVEMF9WQlVT
-X0JNQ19FTiIsIlNMRUQwX0lOQTIzMF9BTEVSVCIsIlNMRQ0KPiA+ID4gPiA+IEQwX1AxMlZfU1RC
-WV9BTEVSVCIsDQo+ID4gPiA+ID4gPiA+ICsNCj4gPiA+ID4gPg0KPiA+ID4NCj4gIlNMRUQwX1NT
-RF9BTEVSVCIsIlNMRUQwX01TX0RFVEVDVDAiLCJTTEVEMF9SU1RfQ0NHNSIsIlNMRUQwX0ZVU0IN
-Cj4gPiA+ID4gPiAzMDJfSU5UIiwNCj4gPiA+ID4gPiA+ID4gKw0KPiA+ID4gPiA+DQo+ID4gPg0K
-PiAiU0xFRDBfTURfU1RCWV9SRVNFVCIsIlNMRUQwX01EX0lPRVhQX0VOX0ZBVUxUIiwiU0xFRDBf
-TURfRElSIiwiDQo+ID4gPiA+ID4gU0xFRDBfTURfREVDQVkiLA0KPiA+ID4gPiA+ID4gPiArDQo+
-ID4gPiA+ID4NCj4gPiA+DQo+ICJTTEVEMF9NRF9NT0RFMSIsIlNMRUQwX01EX01PREUyIiwiU0xF
-RDBfTURfTU9ERTMiLCJwb3dlci1obw0KPiA+ID4gPiA+IHN0MCI7DQo+ID4gPiA+ID4gPg0KPiA+
-ID4gPiA+ID4gU3VjaCBhcyB0aGVzZS4uLg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gLS0N
-Cj4gPiA+ID4gPiA+ID4gMi4yNS4xDQo+ID4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPg0KPiA+ID4g
-PiA+ID4gT3RoZXJ3aXNlLA0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IFJldmlld2VkLWJ5OiBQ
-YXRyaWNrIFdpbGxpYW1zIDxwYXRyaWNrQHN0d2N4Lnh5ej4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+
-IFRoYW5rcyBmb3IgcmV2aWV3aW5nLg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gSG93YXJkLCBJJ20g
-bWVyZ2luZyBwYXRjaGVzIGZvciB2NS4xNyBidXQgSSBjYW4ndCBhcHBseSB0aGlzIHVudGlsIHlv
-dQ0KPiA+ID4gPiA+IGZpeCB0aGUgd2FybmluZ3MgSSBtZW50aW9uZWQuDQo+ID4gPiA+ID4NCj4g
-PiA+ID4gPiBDaGVlcnMsDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBKZW9sDQo+ID4gPiA+ID4gPg0K
-PiA+ID4gPiA+ID4gLS0NCj4gPiA+ID4gPiA+IFBhdHJpY2sgV2lsbGlhbXMNCg==
+Hi Billy,
+
+On Tue, 30 Nov 2021 at 05:58, Billy Tsai <billy_tsai@aspeedtech.com> wrote:
+>
+> The legacy driver of aspeed pwm is binding with tach controller and it
+> doesn't follow the pwm framworks usage. In addition, the pwm register
+> usage of the 6th generation of ast26xx has drastic change. So these
+> patch serials add the new aspeed pwm driver to fix up the problem above.
+
+Sorry for not taking a look earlier. Well done on making it this far.
+
+There's a few things that need to be addressed before merging this.
+
+Firstly, the bindings need fixing up. I think these should be the one
+file. The device tree bindings are supposed to describe the hardware,
+and it doesn't make sense to separate them out just because we plan on
+using two subsystems to implement the functionality.
+
+Rob, please chime in if you would prefer something different.
+
+Secondly, we need to clarify why this is a pwm driver and not a hwmon
+driver like we had for the 2500 hardware, and that you're planning on
+submitting a hwmon driver for the other half of the registers.
+
+Finally, do you really need to use regmap? It's lots of overhead for a
+mmio driver, and I like to see it avoided where possible. I know the
+regions are shared, but are there any individual registers shared?
+
+Cheers,
+
+Joel
+
+
+
+>
+> Change since v13:
+> - pwm-aspeed-ast2600.c
+>   - Fix the usage of the braces to meet the coding-style.rst
+>   - Use min function to reduce the times of division.
+>
+> Change since v12:
+> - pwm-aspeed-ast2600.c
+>   - Fix the comment about the duty cycle and period of the PWM.
+>   - Configured to max period when request period > max period.
+>   - Remove unnecessary curly braces.
+>
+> Change since v11:
+> - pwm-aspeed-ast2600.c
+>   - Request reset controller before clock enable.
+>
+> Change since v10:
+> - pwm-aspeed-ast2600.c
+>   - Add more comment to explain the feature of PWM
+>   - Fix the naming of some parameters.
+>   - Set pin_enable and clk_enable at the same time.
+>   - Always set fixed divisor to hw register when apply.
+>
+> Change since v9:
+> - dt-bindings:
+>   - Change the naming of tach subnode channel setting property to
+>   aspeed,tach-ch.
+> - pwm-aspeed-ast2600.c
+>   - Fix the naming of some parameters.
+>   - Capitalise error messages.
+>   - Handling potentially mult overflow when .apply
+>
+> Change since v8:
+> - pwm-aspeed-ast2600.c
+>   - Replace "* _BITULL(div_h)" to "<< div_h"
+>   - Fix duty_cycle precision problem.
+>   - Add the comment about the formula of duty_cycle.
+>
+> Change since v7:
+> - pwm-aspeed-g6.c
+>   - Rename the driver: pwm-aspeed-g6.c -> pwm-aspeed-ast2600.c.
+>   - Macro remove "_CH" part of the register name.
+>   - Unroll the aspeed_pwm_get_period and remove it.
+>   - Simplify the formula to get duty_pt
+>   - Reduce the number of writing register. Organize all the fields and
+>     write them at once.
+>
+> Change since v6:
+> - dt-bindings:
+>   - Add blank line between each DT property.
+>   - Change the sub-node name from fan to tach-ch.
+> - pwm-aspeed-g6.c
+>   - Merge aspeed_pwm_set_period and aspeed_pwm_set_duty into .apply.
+>   - Convert the factor type to u64 when calculating the period value.
+>   - Using ROUND_UP strategy to calculate div_h for finer resolution.
+>
+> Change since v5:
+> - pwm-aspeed-g6.c suggested by Uwe Kleine-K=C3=B6nig
+>   - Move the divide at the end of the calculation.
+>   - Unified the prefix of the function name.
+>   - Use div64_u64 to calculate the divider of frequency.
+>
+> Change since v4:
+> - dt_binding:
+>   - pwm/tach yaml: Replace child-node with additionalProperties
+>   - pwm-tach yaml: Replace child-node with patternProperties
+> - pwm-aspeed-g6.c suggested by Uwe Kleine-K=C3=B6nig
+>   - The bit definitions contained the name of the register.
+>   - Remove single caller function and fold it to the caller.
+>   - Avoid to divide by the result of a division.
+>   - Remove unnecessary condition in .apply().
+>   - Use goto for error handling
+>
+> Changes since v3:
+> - Add the dt_binding for aspeed,ast2600-tach.
+> - Describe the pwm/tach as child-node of pwm-tach mfd.
+> - Complete the properties of pwm node.
+>
+> Changes since v2:
+> - Remove the tach node, #address-cells and #size-cells from pwm-tach.yaml
+> - Add clocks and reset properties to pwm-tach.yaml
+> - Kconfig/Makfile sorted alphabetically
+> - pwm-aspeed-g6.c suggested by Uwe Kleine-K=C3=B6nig
+>   - Add more hardware descriptions at top of the driver.
+>   - Remove unused api request and free
+>   - Move the initialize settings of all pwm channel to probe.
+>   - Change the method of getting the approximate period.
+>   - Read the hardware register values to fill the state for .get_state()
+>
+> Changes since v1:
+> - Fix the dt_binding_check fail suggested by Rob Herring
+> - Add depends to PWM_ASPEED_G6 configure suggested by Uwe Kleine-Konig
+> - pwm-aspeed-g6.c suggested by Uwe Kleine-K=C3=B6nig
+>   - Fix license header
+>   - Use bitfiled.h macro to define register fields
+>   - Implement .remove device function
+>   - Implement .get_state pwm api
+>
+> Billy Tsai (2):
+>   dt-bindings: Add bindings for aspeed pwm-tach.
+>   pwm: Add Aspeed ast2600 PWM support
+>
+>  .../bindings/hwmon/aspeed,ast2600-tach.yaml   |  68 ++++
+>  .../bindings/mfd/aspeed,ast2600-pwm-tach.yaml |  76 ++++
+>  .../bindings/pwm/aspeed,ast2600-pwm.yaml      |  64 ++++
+>  drivers/pwm/Kconfig                           |  10 +
+>  drivers/pwm/Makefile                          |   1 +
+>  drivers/pwm/pwm-aspeed-ast2600.c              | 325 ++++++++++++++++++
+>  6 files changed, 544 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,ast260=
+0-tach.yaml
+>  create mode 100644 Documentation/devicetree/bindings/mfd/aspeed,ast2600-=
+pwm-tach.yaml
+>  create mode 100644 Documentation/devicetree/bindings/pwm/aspeed,ast2600-=
+pwm.yaml
+>  create mode 100644 drivers/pwm/pwm-aspeed-ast2600.c
+>
+> --
+> 2.25.1
+>
