@@ -2,73 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85EF46B3E3
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 08:29:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 062CF46B80A
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 10:52:22 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J7X4J5CFCz2xsj
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 18:29:36 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J7bDw6hPRz2ypZ
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 20:52:16 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=NmvOXXZ9;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Y2rj0MM1;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::631;
- helo=mail-pl1-x631.google.com; envelope-from=howard10703049@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62a;
+ helo=mail-pl1-x62a.google.com; envelope-from=howard10703049@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=NmvOXXZ9; dkim-atps=neutral
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
+ header.s=20210112 header.b=Y2rj0MM1; dkim-atps=neutral
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J7X486Tnnz2xXC
- for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Dec 2021 18:29:26 +1100 (AEDT)
-Received: by mail-pl1-x631.google.com with SMTP id y8so8832836plg.1
- for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Dec 2021 23:29:26 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J7bDl5fFlz2yb1
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Dec 2021 20:52:05 +1100 (AEDT)
+Received: by mail-pl1-x62a.google.com with SMTP id u11so9061246plf.3
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Dec 2021 01:52:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ahRCxbjdUp3n7Kgw5517Zf6JX/Gey1ctclfncmSddl0=;
- b=NmvOXXZ9jTvVcQ4W2F5eHx1H9BBlE4S9Aqh58v9/kxFAdhml8Q3nKlJrCA8BrF306T
- X/Y51EFGpyQY4eZFoT34QOEJB3r1xng6J/dDb/i2OocF3TEJEpS1eHyNajSw3yuMpBwc
- AgyXPc/7fCB+rpFk3uMz5AlN5VMZuCRLjgwZZRYw+YhS9kZJbs8AFwhn0rDE/ej8feNQ
- SKDLLTfpzFUQbNGcV3OnPUi6gxyZFIIB6gsAFiQa3gzW3KAQwft2EYmflfEHemlGLXfj
- /eT8MfJbgd4Elm7Qx11HIAh2pgw0QssUni0ZjuJpLMBDvkJT3SwJmGHCQIIFvJSBe/yy
- 2vnQ==
+ bh=7FOxtJIlEMirXsbVrr+a4ML5vPiKhQ34IbjqLyOK5xk=;
+ b=Y2rj0MM1AfFLu43mrZjN3gjj4wC8IRphf5TGgAq7J9CyOeyObmQfAraKGe8eDBPH0a
+ P514aJCNCWjdomQ6Y6vJg/2k+tjnI4WUHvHDnBdoYs9yx02Yb+LVh0jRIkJsd/rzM0Pg
+ k4mNur1Vi2Y3bCIUiT5ycNbmaQYWG+0Znh+mk1yoVRzCb8LnN0do4D5hOW/pFdvUmxu2
+ HyKvH1DKwn52zraTGHoU1itUU+cQ/CAyAoYQeQAdASQH/VjDrQ1uz8jtismlJP1uF0ZJ
+ 9Xcvv7jzFsu20tYfpzzccyDAssZ5MqX5HipPIagc1hSkm+wKBozu9bP7LSdqawXO1YUD
+ 4yFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ahRCxbjdUp3n7Kgw5517Zf6JX/Gey1ctclfncmSddl0=;
- b=TQHL1wPjCgqfWp+4Yj0B1jm+SI7RGGQBG7XCZEILp5CbcpN/gp/CwTh0yhdigBPXms
- g0aCMFC/15cf0DMGXftbdiUJBdCs2+cYAeYMxi9w/RCcKuA8t8Bji7mzg+xR4I68Awxi
- 3ZC00qlCljsE6zgr6XvVXgmMOFx1FwhxB5ZoOa8ZpwbvsyUP82KfYyKkg/CkoCTk8PlK
- 1Vh8UgWoIpJvkwGLCRweFcmdOEhCUu/yq8vGZpeCSISDLpqKAIOEJv4rvIWtzmjVR0tv
- E1J5smtD3jeFJTUvGGOB5W/Bjr2JAxGB/rYCK34gdR967yZOsroZ+WX5sMIK23veKAI/
- z3IA==
-X-Gm-Message-State: AOAM530BZBPFsp2FFkutVxmqw55jqKcWxsBiKIqSSlo699dBQC/DThF7
- 8BeX9mlrYWQBmvhXztwHNHQ=
-X-Google-Smtp-Source: ABdhPJxO1S51kmagkhGucDs/rqW4ZYgk8MWs+6vxdv2VqZGMghQZfKp6To4mJkOyeljkjmz8/ZwVow==
-X-Received: by 2002:a17:90b:4c8d:: with SMTP id
- my13mr4665483pjb.107.1638862163698; 
- Mon, 06 Dec 2021 23:29:23 -0800 (PST)
+ bh=7FOxtJIlEMirXsbVrr+a4ML5vPiKhQ34IbjqLyOK5xk=;
+ b=4MCOL7F3ViJrDgHjavIDScTHlRr+QYHrqMW3dPlLOFwL4aENs7XWblqVtYlya0X1uO
+ DLgcod0alvjOTKcza1fc1wiC1GjSWVrtbjRM8x5lz58yXWIs6m6YEhJNC+6HF7QwTX4J
+ 9V6fLpx+4h7ujg2KBEZbr9CixePz2o9rVK4nXbAxIeaJgUuVsrlndnkKlakvSPKnRCse
+ WQMHSwAOGx3ntMfMdXbcv8hkfUgtP3IZ4UVavuGDF1lPdrDxxLvSbCfBgmCzXNfipZ4Y
+ mRpfgCFdgzcDyP9F5fkp8Se7N8FnNxLvR3Uv1PFErmU+pqftvAqD60udHq4aPoeQTJFU
+ DACA==
+X-Gm-Message-State: AOAM532MfmwOmg7j3ieGFjHnFUdw0yFgfJRMpSYxWcCZMfdKqXdHEPPc
+ ZJ/O8qkjXbgaFz5qAeBeC8M=
+X-Google-Smtp-Source: ABdhPJxPeg4shx1AEkBpZSCajYwv0FKmrVv3kcqUzCDXy07GHUqsg7mULcR1+xn98OtSpoiQfV+3sw==
+X-Received: by 2002:a17:90a:e613:: with SMTP id
+ j19mr5405986pjy.182.1638870720790; 
+ Tue, 07 Dec 2021 01:52:00 -0800 (PST)
 Received: from howard-System-Product-Name.dhcpserver.bu9bmc.local
  (125-228-123-29.hinet-ip.hinet.net. [125.228.123.29])
- by smtp.gmail.com with ESMTPSA id w7sm11914420pgo.56.2021.12.06.23.29.21
+ by smtp.gmail.com with ESMTPSA id 12sm2178294pjn.16.2021.12.07.01.51.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Dec 2021 23:29:23 -0800 (PST)
+ Tue, 07 Dec 2021 01:52:00 -0800 (PST)
 From: Howard Chiu <howard10703049@gmail.com>
 X-Google-Original-From: Howard Chiu <howard.chiu@quantatw.com>
 To: robh+dt@kernel.org, joel@jms.id.au, andrew@aj.id.au,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
  patrick@stwcx.xyz, Potin.Lai@quantatw.com
-Subject: [PATCH v7] ARM: dts: aspeed: Adding Facebook Bletchley BMC
-Date: Tue,  7 Dec 2021 15:26:03 +0800
-Message-Id: <20211207072601.354274-1-howard.chiu@quantatw.com>
+Subject: [PATCH v8] ARM: dts: aspeed: Adding Facebook Bletchley BMC
+Date: Tue,  7 Dec 2021 17:49:24 +0800
+Message-Id: <20211207094923.422422-1-howard.chiu@quantatw.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -93,13 +93,16 @@ Aspeed 2600 BMC SoC.
 
 Signed-off-by: Howard Chiu <howard.chiu@quantatw.com>
 ---
+Change since v7:
+- Add switchphy mode back due to unknown failure
+
 Change since v6:
 - Fix FUSB302 node warnings
 - Remove switchphy node.
 - Remvoe status property from spi-gpio node
 - Remove interrupt pin of FUSB302 temporally due to hardware issue
 - Add more gpio-line-name
-- Replace MP5023 device driver with "mps,mp5023"
+- Replace MP5023 device drivr with "mps,mp5023"
 
 Change since v5:
 - Add an EEPROM on i2c-7
@@ -126,8 +129,8 @@ Change since v1:
 - Use openbmc-flash-layout-128.dtsi
 
  arch/arm/boot/dts/Makefile                    |   1 +
- .../dts/aspeed-bmc-facebook-bletchley.dts     | 751 ++++++++++++++++++
- 2 files changed, 752 insertions(+)
+ .../dts/aspeed-bmc-facebook-bletchley.dts     | 756 ++++++++++++++++++
+ 2 files changed, 757 insertions(+)
  create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
 
 diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
@@ -144,10 +147,10 @@ index 0de64f237cd8..b804b577010a 100644
  	aspeed-bmc-facebook-elbert.dtb \
 diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
 new file mode 100644
-index 000000000000..af14f3172c6f
+index 000000000000..f973ea883b97
 --- /dev/null
 +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-@@ -0,0 +1,751 @@
+@@ -0,0 +1,756 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +// Copyright (c) 2021 Facebook Inc.
 +/dts-v1/;
@@ -197,6 +200,10 @@ index 000000000000..af14f3172c6f
 +			spi-max-frequency = <33000000>;
 +			reg = <0>;
 +		};
++	};
++
++	switchphy: ethernet-phy@0 {
++		// Fixed link
 +	};
 +
 +	leds {
@@ -313,6 +320,7 @@ index 000000000000..af14f3172c6f
 +&mac2 {
 +	status = "okay";
 +	phy-mode = "rgmii";
++	phy-handle = <&switchphy>;
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&pinctrl_rgmii3_default>;
 +
