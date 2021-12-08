@@ -2,60 +2,47 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B0D46C69C
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Dec 2021 22:20:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F3046CA04
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Dec 2021 02:34:31 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J7tVb6XQdz2ypZ
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Dec 2021 08:20:07 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J80851KgNz2yp1
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Dec 2021 12:34:29 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.161.42; helo=mail-oo1-f42.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com
- [209.85.161.42])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=tommy_huang@aspeedtech.com;
+ receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J7tVV4sFWz2xB0
- for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Dec 2021 08:20:01 +1100 (AEDT)
-Received: by mail-oo1-f42.google.com with SMTP id
- w5-20020a4a2745000000b002c2649b8d5fso144144oow.10
- for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Dec 2021 13:20:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=TDybkYmRgN7ASFL9lU803KLgt8MDRIp7lKanWAFVy8w=;
- b=jEZIP0sVgrNqvvH2l9eJTG4taXH/t92+Xu1cPU9YO62XxEih+Ax3FJg6wlISFZ73/X
- LHB5pIQO1excF+giFX6oASKXcdY8pBRxUbLyuTjcJP7r8oB4LHVlAcJd7cgEyx2qzP0i
- Qr68xqjdyrTBuZYtQL9FktqN2RurMIYwiMSl0e8yxq8syYJazYjku794thepbbkMcM1A
- KZBJUX95Y4m/Ow20divkE6OenUsm7TuSyQnMoDUvHUJ1hfjc8u6XS5P0C1KwQyyFRAmL
- 8EnNgK6rxNfJ7TK2bb8SK5Y2Tva6KyV7BDONjPRcPyoinG1ag4f8rjOQKyCPLpA8aka6
- 7U5A==
-X-Gm-Message-State: AOAM530n2yQ1C9RQeXqgAErumL/zcfZCR7ubqtaTIzkt1BzNvZu+bfX2
- W1OzB8qVsXFrNppzLMrWMA==
-X-Google-Smtp-Source: ABdhPJzQx6ifBIeo7YNw/4J7ZMf9KeE80PBI87o4MLSSxGDKBHAC15DEydOg8wZjHXu+Y1USi6AwDQ==
-X-Received: by 2002:a4a:b00e:: with SMTP id f14mr27855125oon.10.1638911997778; 
- Tue, 07 Dec 2021 13:19:57 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id o2sm214597oik.11.2021.12.07.13.19.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Dec 2021 13:19:56 -0800 (PST)
-Received: (nullmailer pid 850716 invoked by uid 1000);
- Tue, 07 Dec 2021 21:19:55 -0000
-Date: Tue, 7 Dec 2021 15:19:55 -0600
-From: Rob Herring <robh@kernel.org>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [v14 0/2] Support pwm driver for aspeed ast26xx
-Message-ID: <Ya/P+4CNTnUUqlG9@robh.at.kernel.org>
-References: <20211130055933.32708-1-billy_tsai@aspeedtech.com>
- <CACPK8XfM4C7v3keXaxMs9SkqNzb8XWbZ6QvcZXWcy3ZKJCrvWQ@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J80811xbXz2yXv
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Dec 2021 12:34:24 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 1B818kGF089260;
+ Wed, 8 Dec 2021 09:08:46 +0800 (GMT-8)
+ (envelope-from tommy_huang@aspeedtech.com)
+Received: from tommy0527-VirtualBox.aspeedtech.com (192.168.2.141) by
+ TWMBX02.aspeed.com (192.168.0.24) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 8 Dec 2021 09:33:44 +0800
+From: Tommy Haung <tommy_huang@aspeedtech.com>
+To: <joel@jms.id.au>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <robh+dt@kernel.org>, <andrew@aj.id.au>,
+ <linux-aspeed@lists.ozlabs.org>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v5 0/7] Add Aspeed AST2600 soc display support
+Date: Wed, 8 Dec 2021 09:33:30 +0800
+Message-ID: <20211208013337.13806-1-tommy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACPK8XfM4C7v3keXaxMs9SkqNzb8XWbZ6QvcZXWcy3ZKJCrvWQ@mail.gmail.com>
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.141]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1B818kGF089260
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,42 +54,71 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, devicetree <devicetree@vger.kernel.org>,
- Jean Delvare <jdelvare@suse.com>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- linux-pwm@vger.kernel.org, BMC-SW <BMC-SW@aspeedtech.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Uwe Kleine-Konig <u.kleine-koenig@pengutronix.de>,
- Lee Jones <lee.jones@linaro.org>, Guenter Roeck <linux@roeck-us.net>
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Dec 07, 2021 at 06:45:47AM +0000, Joel Stanley wrote:
-> Hi Billy,
-> 
-> On Tue, 30 Nov 2021 at 05:58, Billy Tsai <billy_tsai@aspeedtech.com> wrote:
-> >
-> > The legacy driver of aspeed pwm is binding with tach controller and it
-> > doesn't follow the pwm framworks usage. In addition, the pwm register
-> > usage of the 6th generation of ast26xx has drastic change. So these
-> > patch serials add the new aspeed pwm driver to fix up the problem above.
-> 
-> Sorry for not taking a look earlier. Well done on making it this far.
-> 
-> There's a few things that need to be addressed before merging this.
-> 
-> Firstly, the bindings need fixing up. I think these should be the one
-> file. The device tree bindings are supposed to describe the hardware,
-> and it doesn't make sense to separate them out just because we plan on
-> using two subsystems to implement the functionality.
-> 
-> Rob, please chime in if you would prefer something different.
+v5:
+  Add lost reset define.
 
-I prefer to see a common binding for fans which I said multiple times 
-on this series. As the same thing keeps getting posted, I've stopped 
-looking at this one.
+v4:
+  Add necessary reset control for ast2600.
+  Add chip caps for futher use.
+  These code are test on AST2500 and AST2600 by below steps.
 
-Rob
+  1. Add below config to turn VT and LOGO on.
+
+	CONFIG_TTY=y
+	CONFIG_VT=y
+	CONFIG_CONSOLE_TRANSLATIONS=y
+	CONFIG_VT_CONSOLE=y
+	CONFIG_VT_CONSOLE_SLEEP=y
+	CONFIG_HW_CONSOLE=y
+	CONFIG_VT_HW_CONSOLE_BINDING=y
+	CONFIG_UNIX98_PTYS=y
+	CONFIG_LDISC_AUTOLOAD=y
+	CONFIG_DEVMEM=y
+	CONFIG_DUMMY_CONSOLE=y
+	CONFIG_FRAMEBUFFER_CONSOLE=y
+	CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
+	CONFIG_LOGO=y
+	CONFIG_LOGO_LINUX_CLUT224=y
+
+  2. The Linux logo will be shown on the screen, when the BMC boot in Linux.
+
+v3:
+  Refine the patch for clear separate purpose.
+  Skip to send devicetree patch
+
+v2:
+  Remove some unnecessary patch.
+  Refine for reviwer request.
+
+v1:
+  First add patch.
+
+Joel Stanley (2):
+  ARM: dts: aspeed: Add GFX node to AST2600
+  ARM: dts: aspeed: ast2600-evb: Enable GFX device
+
+Tommy Haung (1):
+  dt-bindings:ast2600-clock Add CRT reset define
+
+tommy-huang (4):
+  drm/aspeed: Update INTR_STS handling
+  drm/aspeed: Add AST2600 chip support
+  drm/aspeed: Add reset and clock for AST2600
+  arm:boot:dts:aspeed-g6 Add more gfx reset control
+
+ arch/arm/boot/dts/aspeed-ast2600-evb.dts  | 18 +++++++
+ arch/arm/boot/dts/aspeed-g6.dtsi          | 13 +++++
+ drivers/gpu/drm/aspeed/aspeed_gfx.h       | 17 +++++-
+ drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c  | 16 ++++++
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c   | 65 +++++++++++++++++++++--
+ include/dt-bindings/clock/ast2600-clock.h |  1 +
+ 6 files changed, 124 insertions(+), 6 deletions(-)
+
+-- 
+2.17.1
+
