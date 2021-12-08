@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40DBF46D095
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Dec 2021 11:06:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C2D46D097
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Dec 2021 11:07:01 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J8CWM3srkz306h
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Dec 2021 21:06:55 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J8CWR60XVz2xXZ
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Dec 2021 21:06:59 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,11 +17,11 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J8CWC6mLqz2xXZ
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J8CWD07jvz2ynm
  for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Dec 2021 21:06:46 +1100 (AEDT)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 1B89eqpL032351;
- Wed, 8 Dec 2021 17:40:52 +0800 (GMT-8)
+ by twspam01.aspeedtech.com with ESMTP id 1B89eqpM032351;
+ Wed, 8 Dec 2021 17:40:53 +0800 (GMT-8)
  (envelope-from neal_liu@aspeedtech.com)
 Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 8 Dec
@@ -35,10 +35,12 @@ To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman
  <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>,
  <linux-aspeed@lists.ozlabs.org>, <benh@kernel.crashing.org>
-Subject: [PATCH v3 0/4] Refactor Aspeed USB vhub driver
-Date: Wed, 8 Dec 2021 18:05:41 +0800
-Message-ID: <20211208100545.1441397-1-neal_liu@aspeedtech.com>
+Subject: [PATCH v3 1/4] usb: aspeed-vhub: add qualifier descriptor
+Date: Wed, 8 Dec 2021 18:05:42 +0800
+Message-ID: <20211208100545.1441397-2-neal_liu@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211208100545.1441397-1-neal_liu@aspeedtech.com>
+References: <20211208100545.1441397-1-neal_liu@aspeedtech.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -46,7 +48,7 @@ X-Originating-IP: [192.168.10.10]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1B89eqpL032351
+X-MAIL: twspam01.aspeedtech.com 1B89eqpM032351
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,33 +65,99 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-These patch series include 2 parts. One is adding more features
-to pass USB30CV compliance test, the other is fixing hw issues.
-More detail descriptions are included below patchsets.
+USB3 Command Verifier (USB3CV) is the official tool for
+USB3 Hub and Device Framework testing.
 
-Change since v2:
-- Add more description in changelog.
-- Fix remote wakeup issue patch and make it more configurable.
+A high-speed capable device that has different device information
+for full-speed and high-speed must have a Device Qualifier Descriptor.
 
-Change since v1:
-- Remove unnecessary configs for SET_CONFIGURATION.
-- Separate supporting test mode to new patch.
+This patch is to support device qualifier to pass
+USB3CV - Chapter 9 Test [USB 2 devices] - Device Qualifier Tests.
 
-*** BLURB HERE ***
-
-Neal Liu (4):
-  usb: aspeed-vhub: add qualifier descriptor
-  usb: aspeed-vhub: fix remote wakeup failure in iKVM use case
-  usb: aspeed-vhub: fix ep0 OUT ack received wrong length issue
-  usb: aspeed-vhub: support test mode feature
-
- drivers/usb/gadget/udc/aspeed-vhub/dev.c  | 19 +++++++--
- drivers/usb/gadget/udc/aspeed-vhub/ep0.c  |  7 ++++
- drivers/usb/gadget/udc/aspeed-vhub/epn.c  |  5 +++
- drivers/usb/gadget/udc/aspeed-vhub/hub.c  | 47 ++++++++++++++++++++---
+Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
+---
+ drivers/usb/gadget/udc/aspeed-vhub/hub.c  | 24 +++++++++++++++++++++++
  drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  1 +
- 5 files changed, 69 insertions(+), 10 deletions(-)
+ 2 files changed, 25 insertions(+)
 
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
+index b9960fdd8a51..93f27a745760 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
+@@ -68,6 +68,18 @@ static const struct usb_device_descriptor ast_vhub_dev_desc = {
+ 	.bNumConfigurations	= 1,
+ };
+ 
++static const struct usb_qualifier_descriptor ast_vhub_qual_desc = {
++	.bLength = 0xA,
++	.bDescriptorType = USB_DT_DEVICE_QUALIFIER,
++	.bcdUSB = cpu_to_le16(0x0200),
++	.bDeviceClass = USB_CLASS_HUB,
++	.bDeviceSubClass = 0,
++	.bDeviceProtocol = 0,
++	.bMaxPacketSize0 = 64,
++	.bNumConfigurations = 1,
++	.bRESERVED = 0,
++};
++
+ /*
+  * Configuration descriptor: same comments as above
+  * regarding handling USB1 mode.
+@@ -271,9 +283,11 @@ static int ast_vhub_rep_desc(struct ast_vhub_ep *ep,
+ 		BUILD_BUG_ON(dsize > sizeof(vhub->vhub_dev_desc));
+ 		BUILD_BUG_ON(USB_DT_DEVICE_SIZE >= AST_VHUB_EP0_MAX_PACKET);
+ 		break;
++	case USB_DT_OTHER_SPEED_CONFIG:
+ 	case USB_DT_CONFIG:
+ 		dsize = AST_VHUB_CONF_DESC_SIZE;
+ 		memcpy(ep->buf, &vhub->vhub_conf_desc, dsize);
++		((u8 *)ep->buf)[1] = desc_type;
+ 		BUILD_BUG_ON(dsize > sizeof(vhub->vhub_conf_desc));
+ 		BUILD_BUG_ON(AST_VHUB_CONF_DESC_SIZE >= AST_VHUB_EP0_MAX_PACKET);
+ 		break;
+@@ -283,6 +297,10 @@ static int ast_vhub_rep_desc(struct ast_vhub_ep *ep,
+ 		BUILD_BUG_ON(dsize > sizeof(vhub->vhub_hub_desc));
+ 		BUILD_BUG_ON(AST_VHUB_HUB_DESC_SIZE >= AST_VHUB_EP0_MAX_PACKET);
+ 		break;
++	case USB_DT_DEVICE_QUALIFIER:
++		dsize = sizeof(vhub->vhub_qual_desc);
++		memcpy(ep->buf, &vhub->vhub_qual_desc, dsize);
++		break;
+ 	default:
+ 		return std_req_stall;
+ 	}
+@@ -428,6 +446,8 @@ enum std_req_rc ast_vhub_std_hub_request(struct ast_vhub_ep *ep,
+ 		switch (wValue >> 8) {
+ 		case USB_DT_DEVICE:
+ 		case USB_DT_CONFIG:
++		case USB_DT_DEVICE_QUALIFIER:
++		case USB_DT_OTHER_SPEED_CONFIG:
+ 			return ast_vhub_rep_desc(ep, wValue >> 8,
+ 						 wLength);
+ 		case USB_DT_STRING:
+@@ -1033,6 +1053,10 @@ static int ast_vhub_init_desc(struct ast_vhub *vhub)
+ 	else
+ 		ret = ast_vhub_str_alloc_add(vhub, &ast_vhub_strings);
+ 
++	/* Initialize vhub Qualifier Descriptor. */
++	memcpy(&vhub->vhub_qual_desc, &ast_vhub_qual_desc,
++		sizeof(vhub->vhub_qual_desc));
++
+ 	return ret;
+ }
+ 
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
+index 87a5dea12d3c..6b9dfa6e10eb 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
++++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
+@@ -425,6 +425,7 @@ struct ast_vhub {
+ 	struct ast_vhub_full_cdesc	vhub_conf_desc;
+ 	struct usb_hub_descriptor	vhub_hub_desc;
+ 	struct list_head		vhub_str_desc;
++	struct usb_qualifier_descriptor	vhub_qual_desc;
+ };
+ 
+ /* Standard request handlers result codes */
 -- 
 2.25.1
 
