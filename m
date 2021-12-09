@@ -2,54 +2,42 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 104EE46D333
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Dec 2021 13:22:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4465146DF35
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Dec 2021 01:08:56 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J8GWC6J7Hz307C
-	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Dec 2021 23:21:59 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=lSwMKS6e;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J8ZBr1HlHz30J5
+	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Dec 2021 11:08:52 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linuxfoundation.org (client-ip=2604:1380:4601:e00::1;
- helo=ams.source.kernel.org; envelope-from=gregkh@linuxfoundation.org;
+ smtp.mailfrom=kernel.crashing.org (client-ip=63.228.1.57;
+ helo=gate.crashing.org; envelope-from=benh@kernel.crashing.org;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org
- header.a=rsa-sha256 header.s=korg header.b=lSwMKS6e; 
- dkim-atps=neutral
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J8GW51BKyz2yb3
- for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Dec 2021 23:21:51 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C833DB81F7E;
- Wed,  8 Dec 2021 12:21:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D70E0C00446;
- Wed,  8 Dec 2021 12:21:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1638966105;
- bh=PVkkQFXWG4umRf60V6w6ydbBF3YnqKZE9jz7TAb1A80=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lSwMKS6ex2UKlsVAIL5RSkL4Y5cXPshRcPxd192LvWwy23FWPJ+Q6PDbsCO0XvxpI
- BGxDr8dznjq1Dm2C9qBxZWoPNxGFsNZgoWVVRAa4C0M+2w5GCiPyFNEBCE5ZVHPAV2
- jd3SuRMCVKElMUfTI07tokL3ggrs4UXX8XzJUXM0=
-Date: Wed, 8 Dec 2021 13:21:42 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Neal Liu <neal_liu@aspeedtech.com>
-Subject: Re: [PATCH v3 0/4] Refactor Aspeed USB vhub driver
-Message-ID: <YbCjVqAie/d84oBm@kroah.com>
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by lists.ozlabs.org (Postfix) with ESMTP id 4J8ZBk0ZwMz2xD4
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  9 Dec 2021 11:08:44 +1100 (AEDT)
+Received: from ip6-localhost (localhost.localdomain [127.0.0.1])
+ by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 1B9040AW017244;
+ Wed, 8 Dec 2021 18:04:01 -0600
+Message-ID: <590efb96ddd139ed7b9ffcfef1910d8688c4a877.camel@kernel.crashing.org>
+Subject: Re: [PATCH v3 1/4] usb: aspeed-vhub: add qualifier descriptor
+From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To: Neal Liu <neal_liu@aspeedtech.com>, Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joel Stanley
+ <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, Cai Huoqing
+ <caihuoqing@baidu.com>, Tao Ren <rentao.bupt@gmail.com>, Julia Lawall
+ <julia.lawall@inria.fr>, kernel test robot <lkp@intel.com>, Sasha Levin
+ <sashal@kernel.org>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
+Date: Thu, 09 Dec 2021 11:04:00 +1100
+In-Reply-To: <20211208100545.1441397-2-neal_liu@aspeedtech.com>
 References: <20211208100545.1441397-1-neal_liu@aspeedtech.com>
+ <20211208100545.1441397-2-neal_liu@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211208100545.1441397-1-neal_liu@aspeedtech.com>
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,28 +49,118 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Felipe Balbi <balbi@kernel.org>,
- kernel test robot <lkp@intel.com>, linux-aspeed@lists.ozlabs.org,
- BMC-SW@aspeedtech.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Julia Lawall <julia.lawall@inria.fr>, Cai Huoqing <caihuoqing@baidu.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Dec 08, 2021 at 06:05:41PM +0800, Neal Liu wrote:
-> These patch series include 2 parts. One is adding more features
-> to pass USB30CV compliance test, the other is fixing hw issues.
-> More detail descriptions are included below patchsets.
+On Wed, 2021-12-08 at 18:05 +0800, Neal Liu wrote:
+> USB3 Command Verifier (USB3CV) is the official tool for
+> USB3 Hub and Device Framework testing.
 > 
-> Change since v2:
-> - Add more description in changelog.
-> - Fix remote wakeup issue patch and make it more configurable.
+> A high-speed capable device that has different device information
+> for full-speed and high-speed must have a Device Qualifier
+> Descriptor.
 > 
-> Change since v1:
-> - Remove unnecessary configs for SET_CONFIGURATION.
-> - Separate supporting test mode to new patch.
+> This patch is to support device qualifier to pass
+> USB3CV - Chapter 9 Test [USB 2 devices] - Device Qualifier Tests.
 > 
-> *** BLURB HERE ***
+> Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
+> ---
 
-Blurb is missing :(
+Acked-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+
+>  drivers/usb/gadget/udc/aspeed-vhub/hub.c  | 24
+> +++++++++++++++++++++++
+>  drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  1 +
+>  2 files changed, 25 insertions(+)
+> 
+> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
+> b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
+> index b9960fdd8a51..93f27a745760 100644
+> --- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
+> +++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
+> @@ -68,6 +68,18 @@ static const struct usb_device_descriptor
+> ast_vhub_dev_desc = {
+>  	.bNumConfigurations	= 1,
+>  };
+>  
+> +static const struct usb_qualifier_descriptor ast_vhub_qual_desc = {
+> +	.bLength = 0xA,
+> +	.bDescriptorType = USB_DT_DEVICE_QUALIFIER,
+> +	.bcdUSB = cpu_to_le16(0x0200),
+> +	.bDeviceClass = USB_CLASS_HUB,
+> +	.bDeviceSubClass = 0,
+> +	.bDeviceProtocol = 0,
+> +	.bMaxPacketSize0 = 64,
+> +	.bNumConfigurations = 1,
+> +	.bRESERVED = 0,
+> +};
+> +
+>  /*
+>   * Configuration descriptor: same comments as above
+>   * regarding handling USB1 mode.
+> @@ -271,9 +283,11 @@ static int ast_vhub_rep_desc(struct ast_vhub_ep
+> *ep,
+>  		BUILD_BUG_ON(dsize > sizeof(vhub->vhub_dev_desc));
+>  		BUILD_BUG_ON(USB_DT_DEVICE_SIZE >=
+> AST_VHUB_EP0_MAX_PACKET);
+>  		break;
+> +	case USB_DT_OTHER_SPEED_CONFIG:
+>  	case USB_DT_CONFIG:
+>  		dsize = AST_VHUB_CONF_DESC_SIZE;
+>  		memcpy(ep->buf, &vhub->vhub_conf_desc, dsize);
+> +		((u8 *)ep->buf)[1] = desc_type;
+>  		BUILD_BUG_ON(dsize > sizeof(vhub->vhub_conf_desc));
+>  		BUILD_BUG_ON(AST_VHUB_CONF_DESC_SIZE >=
+> AST_VHUB_EP0_MAX_PACKET);
+>  		break;
+> @@ -283,6 +297,10 @@ static int ast_vhub_rep_desc(struct ast_vhub_ep
+> *ep,
+>  		BUILD_BUG_ON(dsize > sizeof(vhub->vhub_hub_desc));
+>  		BUILD_BUG_ON(AST_VHUB_HUB_DESC_SIZE >=
+> AST_VHUB_EP0_MAX_PACKET);
+>  		break;
+> +	case USB_DT_DEVICE_QUALIFIER:
+> +		dsize = sizeof(vhub->vhub_qual_desc);
+> +		memcpy(ep->buf, &vhub->vhub_qual_desc, dsize);
+> +		break;
+>  	default:
+>  		return std_req_stall;
+>  	}
+> @@ -428,6 +446,8 @@ enum std_req_rc ast_vhub_std_hub_request(struct
+> ast_vhub_ep *ep,
+>  		switch (wValue >> 8) {
+>  		case USB_DT_DEVICE:
+>  		case USB_DT_CONFIG:
+> +		case USB_DT_DEVICE_QUALIFIER:
+> +		case USB_DT_OTHER_SPEED_CONFIG:
+>  			return ast_vhub_rep_desc(ep, wValue >> 8,
+>  						 wLength);
+>  		case USB_DT_STRING:
+> @@ -1033,6 +1053,10 @@ static int ast_vhub_init_desc(struct ast_vhub
+> *vhub)
+>  	else
+>  		ret = ast_vhub_str_alloc_add(vhub, &ast_vhub_strings);
+>  
+> +	/* Initialize vhub Qualifier Descriptor. */
+> +	memcpy(&vhub->vhub_qual_desc, &ast_vhub_qual_desc,
+> +		sizeof(vhub->vhub_qual_desc));
+> +
+>  	return ret;
+>  }
+>  
+> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
+> b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
+> index 87a5dea12d3c..6b9dfa6e10eb 100644
+> --- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
+> +++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
+> @@ -425,6 +425,7 @@ struct ast_vhub {
+>  	struct ast_vhub_full_cdesc	vhub_conf_desc;
+>  	struct usb_hub_descriptor	vhub_hub_desc;
+>  	struct list_head		vhub_str_desc;
+> +	struct usb_qualifier_descriptor	vhub_qual_desc;
+>  };
+>  
+>  /* Standard request handlers result codes */
+
