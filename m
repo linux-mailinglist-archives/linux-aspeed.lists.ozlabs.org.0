@@ -1,126 +1,75 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 474AB46E0F7
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Dec 2021 03:40:14 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D5446FDDB
+	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Dec 2021 10:35:11 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4J8dYS0xf3z30Hj
-	for <lists+linux-aspeed@lfdr.de>; Thu,  9 Dec 2021 13:40:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4J9Qjn5dHSz3c6Y
+	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Dec 2021 20:35:09 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=H8ZN5Mgm;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bytedance-com.20210112.gappssmtp.com header.i=@bytedance-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=kX3Ata2t;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=40.107.255.118;
- helo=apc01-psa-obe.outbound.protection.outlook.com;
- envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=bytedance.com (client-ip=2607:f8b0:4864:20::436;
+ helo=mail-pf1-x436.google.com; envelope-from=yulei.sh@bytedance.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
- header.a=rsa-sha256 header.s=selector1 header.b=H8ZN5Mgm; 
- dkim-atps=neutral
-Received: from APC01-PSA-obe.outbound.protection.outlook.com
- (mail-psaapc01on2118.outbound.protection.outlook.com [40.107.255.118])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=bytedance-com.20210112.gappssmtp.com
+ header.i=@bytedance-com.20210112.gappssmtp.com header.a=rsa-sha256
+ header.s=20210112 header.b=kX3Ata2t; dkim-atps=neutral
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4J8dYM6bsPz2xXZ
- for <linux-aspeed@lists.ozlabs.org>; Thu,  9 Dec 2021 13:40:06 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DWNzBGH3VuOxkzZS5iZB65qFQevouAgcGLdKxNXx85E2HSLm4YFVkB6FPLn24yqkAWiaUQbYjCj5etpKUoDzKJfur5+QUL5sKFqdXjZtsSEh22+iBHf+cyrkylLd+YHkqe7/tDGdQWeYc+XUB2CBA4Ue75OdAAJHbzkW9iAEo/kobr6btHGxYD6nlOpzDAPjrEr6sqHbkHTA8Om3FBma4yVg+Fg/H793Lm/4Px+HEhnejhsR+37vCB0zjwOBLa07IxUOD85XpWI+GqRJWdwfwln8LSsJY0jaNIcQ1wYZjbAxrT4/bOHT0eNTBlilvpuQHEewcYHRL/g4g7VopopeDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J2sa1Ke1+pqEKZXRsv0aURMvivCxznlmM9PV6JrdYhk=;
- b=QcJs7bi/w7qPhF8XW21ipBBPDyzuV5kf1rFzR3Cn5Qmgq31jfiWBhZw1XmhrLRakBojyL0LYCvbJHjpj6mQfiqKiXpKhmUMsJ5DfgoGCcmBxILhu0nwHKIH6BhFEtnnJX7GC7wsfG2bM9YtBYUNsF1FRYDgQpGWcrl6FuFhsmmIdEXtTfR0lGXm/+ccx2D2VbWR9w3myl2Kno9Fr+uchDFPOXXYIRS6IDem0DzXtM7yABEaW5HShVwJRXr3P9viVJzj8bKhW/Gwax8+c8aALa8Yoq1Gdd4RySXptVhJX+a6JW4QsNGoQhXRbPHTxEfI/OsnMbeGG09j9RwCNldHjbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J2sa1Ke1+pqEKZXRsv0aURMvivCxznlmM9PV6JrdYhk=;
- b=H8ZN5MgmEvKhswEJF3aSUvVoGcHUehBBHPUyqNZ8phSMyleQv+dexl1Q8P1psGHvgiaqPhLeASN2oDk7yFtpr5ZaCGWiUWRLmZn2gr+wN/rNFmKYBALjGUpog2oze/V1s1cGc0RAEJa91lOv+I+kLvVSx30IHUIlTk+5Fce6bdrZ6sN23FptUE5PWfaUBRKzPVpK6gh2j35Nq8p/g8G2iPWwVXjEgaxSouGQkDcbBk29iAjLDntoE4Nlr06mEDUI/QZvNpTMBUTqXt02ie6rHKweB6THau2Ue1tekHrv8jHZ75fMkhv69F/3/n9HOswhfgTkmsrIz2/Gl1CEnHUylQ==
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
- by HK0PR06MB3651.apcprd06.prod.outlook.com (2603:1096:203:b5::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.12; Thu, 9 Dec
- 2021 02:39:46 +0000
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::6d89:70e9:fcfe:e126]) by HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::6d89:70e9:fcfe:e126%4]) with mapi id 15.20.4755.024; Thu, 9 Dec 2021
- 02:39:46 +0000
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: RE: [PATCH v3 0/4] Refactor Aspeed USB vhub driver
-Thread-Topic: [PATCH v3 0/4] Refactor Aspeed USB vhub driver
-Thread-Index: AQHX7Bsxq+D0fA8gh0SvDC59T4yTsawohBoAgADvPhA=
-Date: Thu, 9 Dec 2021 02:39:46 +0000
-Message-ID: <HK0PR06MB3202D7AB1492C2DD542FD75180709@HK0PR06MB3202.apcprd06.prod.outlook.com>
-References: <20211208100545.1441397-1-neal_liu@aspeedtech.com>
- <YbCjVqAie/d84oBm@kroah.com>
-In-Reply-To: <YbCjVqAie/d84oBm@kroah.com>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8c24d31a-4be0-4d41-814f-08d9babd29d3
-x-ms-traffictypediagnostic: HK0PR06MB3651:EE_
-x-microsoft-antispam-prvs: <HK0PR06MB3651715C487FD06146F82CA980709@HK0PR06MB3651.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: MR2pKH6bEDVgutTXNJDtzmxG4NUSNPPGNKwUrst12c/JVXpST1QkDYpPYBVjwCThubBsNcmi5rmkIEPyT4po+bF97XqLeYq5iRmud+yL/PEcWbvh2hghL40QXjUbd3eTNuS/ALfKYcIBU1p9AyTfMfvWnjSmB/w+xfenwWaL9M2baK5Msul1UlfcSUdr6BtRkuEtfOq+qfUjzxt53K+MocM0Fu2X07F7XKxbdIbtl9OC0Xba7KTxQJc36JLQdvj7iBNx/zVj0qiyeVI0gfgR2iL1xKbhjJYQShDQ/iI9TqYIQnGW9Ybc8od+KGD+gZWTy+GFZL8iE5qWpqx5xfYPacYW6VH9nczL92NHFuIw+QBzbj8XiabtxpiAnesY0VxT2YOA5lcfGNE4Aj6g4XX8socfcQvdrhivJ81cj9LZQbdKnMUGkD4BIBT0rpVblCa3ZMr3ZCV2R2RgJwAcjFomwPHv8AJdlhWQnsGAOk44mFO1W3OWZetZWJ48/0saYXROPAYLewO6O0MwLKZGUVhSyZiOiOkoRg1aw3ZRxErpTkCC0IHhlRH86zOlOn+t5KzklwKdvlEDu9bgSrZY2QGVwRBmSIiVRDBvGN4ZmZDbQQJ5ExtI4BBzqSlC9aKYzzDR66BpSNFGgunEtsK8AI9aI1xuvQ7lxk5aZ0KIC5heDZqTPoaesQCn32NS0qUSPgAuFIIXLDEsCdvLIy+zdv8Jgw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3202.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(376002)(346002)(396003)(366004)(136003)(39850400004)(66556008)(71200400001)(6916009)(76116006)(316002)(5660300002)(55016003)(66946007)(83380400001)(66446008)(33656002)(7696005)(9686003)(66476007)(64756008)(7416002)(54906003)(86362001)(4326008)(2906002)(107886003)(53546011)(38070700005)(38100700002)(122000001)(508600001)(8676002)(26005)(8936002)(52536014)(6506007)(186003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Et82iycdc/+T3uT00BzZR+515JPq0JSysyzzandewR+Qp8adBdZjzI6DeYC3?=
- =?us-ascii?Q?XtoEmS/KsjB6FYY+x9lX9ZhJnmoxxRrJQ9Cp7uJtuSx/6ZS6R8sTQl5OwauJ?=
- =?us-ascii?Q?A8maeO+50+XXCGth2M+adabRZ5CLFxaOXnvqbH/oVQ179qvLBanryBJBylBt?=
- =?us-ascii?Q?04IeUtiTrc80X/p7yKmUT2btrDiYqGM5C+smvY3dnmcgOOO2ILSCL9nZhPuy?=
- =?us-ascii?Q?VkJ4EJojn3KFv1CGZ/Z1WuRMzBgwfQWKvGlT0In69ia5syBEoL9zP5Hc2JrW?=
- =?us-ascii?Q?RFqzeAEX7F/UybS8EFBIqik4Xg3mUMkd4z3+Bf0k1TvCuxugB0iG6Swezf7u?=
- =?us-ascii?Q?Y196Y743moBQHWkpYnI/buaAVtxnTwIkSZlNFus2381j6uHO291btG4Zfmdi?=
- =?us-ascii?Q?uAgF1VpmmN1K9PkOwcfj/tB+w7GhACSLUENm6Hqzre2Wvt+hBK0+sWweIzZR?=
- =?us-ascii?Q?5Jeek2zcQzd/TDQup5sjo/0UwzaRIq/ak7R6FFWezndBu9DxyCI9OCdlnWsm?=
- =?us-ascii?Q?o4JDI/ELwStXtsm0DVd6sSwMpnlXQkjHgyiMZc5jObCJIRQNFzXS/wPX9Zkk?=
- =?us-ascii?Q?3uCQAc/Uw+Q13repqwHky6IPkkDTDsjVrE33WKtSVKOUNaF6iypITXlM23d4?=
- =?us-ascii?Q?RWJGf+TVqZz62pBUJKLutB7cdxV3DbWSIyF2NuhGr/Iqv9yF23j2fIbJaRWf?=
- =?us-ascii?Q?z9fSBtnJqImwpwt2E2ouLBPRhXB4/hKhNunz/dhz6p+ZzSeS6+ZyoihRB3vo?=
- =?us-ascii?Q?c+NYv+5pGuH24ZOBx6F6JJTabFc4BH/fT+KP966OQ3EvcdG16e+ODBjkC6Oe?=
- =?us-ascii?Q?2rsxo3Qbm2yJYYpRhY6OllNvPFHk8JMTzbrnJeOHqhhfbWY3CoFDffMPpXWN?=
- =?us-ascii?Q?fRWPzNXrw0DtBn/OAktV1AnyuJC+WDZ/gS4L1zEdHtiWhll7z9AwjX8ufgRl?=
- =?us-ascii?Q?t2nTAzEkWFyu1/qQPjVxpCmYvNQKuaH4lYTgDeJH5gr8BYaD5kbPmhMw087G?=
- =?us-ascii?Q?fwNiL4PS4lJbdO9X/3BooA0PWYkBGHcu7gguGPKCkpHN2uLBnrtCIZzmhU7m?=
- =?us-ascii?Q?rAct3rPPoxhhR0WMMz9JM8axl96JBJJtsnqOR2L1nDEl5uZxCMW/8DZ/W5Uf?=
- =?us-ascii?Q?xjrzUkeUD2Nb7nvMpNzLlw7SUYfrEXdEi+P25/9KDkAVtpw9LCUy/q8oEBbo?=
- =?us-ascii?Q?xoKYhMLi/4pvnX5HvGM6ujyT0ilpBbhPQ8B6V3Z56QdesjDxAoRV14XY4CQT?=
- =?us-ascii?Q?wOqD7E4F0rtgbwnIMO0WINIua9lqpDE9u7UfEmBl26eM/SN3sdVAFvI0zX7q?=
- =?us-ascii?Q?GS0RNWT9RSFtIzuzkERjoWyEoAVnxNLnFpbVb+asMH8YK2G0JuZdrGezaugW?=
- =?us-ascii?Q?z2zIseys2VWw1bq+RMl7Yw6t8jZxMLWPDZ7c/r5SPlNTB6tU7Fd2pMC4GA0Y?=
- =?us-ascii?Q?ZRFMBVyO2Et0KUYVRKimAKYt7A5aifx8B3oWR6h2R11E91wZ2JpJX1N0JT57?=
- =?us-ascii?Q?u1fq1nL0a/Q8d4v6nBIaZj/cNhpQE3lqlqQmMsS1BH2D95uBn+sWFLJP39Yp?=
- =?us-ascii?Q?PUHLvjz1cMVlyNPDzZrNFuLkeNTsyYeH3e/+5buRcZFYDjjVGbaZDzgFGzy2?=
- =?us-ascii?Q?ZO7Nf8OilLkudRMHlJvekaM=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4J9Qjf4SlBz3bfl
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Dec 2021 20:34:58 +1100 (AEDT)
+Received: by mail-pf1-x436.google.com with SMTP id u80so7955160pfc.9
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Dec 2021 01:34:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4TT1p+eLjRJsZY0SbZkrxkKX/qmSCca7EegSbohNmfE=;
+ b=kX3Ata2tiIgIpyUVnssNPBLENyrUyHmdPqkXVb6XeZ5Hi1bBVilkWgZ5Ir/b6ETK7Z
+ KU22LrwwnwxXwL8wVp+Yn5rp+mdJdyoY4HROY1bV8bEENHSeHPbIEyP5DN0daNYIcxAx
+ 3p9C2FmPUi3+WK0zNdMZrIchoYZjA0ydaVwYnToiXTDDUEzzGhZmCSPjfkPUc30Kz0sy
+ tYSHgPCuMOAX6YHMCvFoUYSpzHMUytnp+1bkhC/4ipmpF4Kc6Y1mpdxp+uDNJyypEJFM
+ QrVmI47fXDpIsLa7gLvmDDPPq81K8g9l7ixU0KBLP9PdO9qAOdE0qnnJxeHZhjiekv/e
+ U2dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4TT1p+eLjRJsZY0SbZkrxkKX/qmSCca7EegSbohNmfE=;
+ b=tAh5zvPBQAgvpY+6z9ILsHq2kBjvqqlBOkIM+KTPaWzqh/fmqkG+TyVxa3HU8xPCq4
+ 2EMhBBH4VU/+UWC4cwquMafP38mqhK/HTeksy+78w6DTRyYRLUzxYA9v0J9TfJncECJu
+ kDWs8jAGTRwzElnO40q3O7WZbcpmoKGcnGmWqhHXdO+s4AlgRZx1LnJQbb4ZirnQ6nvq
+ iiWI72JDNNgG58WaXd/CJiMutTNJX8HOvx5kEVKXifwxM2vREEtA9yDmGCj6I4i8pjvk
+ 3tTIdgM1N2vXNE9aA24Yy2oKsqn4QPbvROPj2GpXJJpaSkl1p/T5ZdjQBrEhSw16il1A
+ O8bQ==
+X-Gm-Message-State: AOAM531thqfvMueV/Yq0aFW7ienNPvTo0BYW84YQmECFX89h7Pi62Mq6
+ HFqfuvOTclq1oSzKJoYQnB8SVg==
+X-Google-Smtp-Source: ABdhPJwf44o2Gfvevvq0zV3kXEXCt56jqrnYE05lAdKFp0o7N7jhEL805abVwQDsoz8TgvJyrPjoTw==
+X-Received: by 2002:a63:1f16:: with SMTP id f22mr27539411pgf.259.1639128895335; 
+ Fri, 10 Dec 2021 01:34:55 -0800 (PST)
+Received: from localhost ([221.194.138.194])
+ by smtp.gmail.com with ESMTPSA id t131sm1969905pgb.31.2021.12.10.01.34.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Dec 2021 01:34:54 -0800 (PST)
+From: Lei YU <yulei.sh@bytedance.com>
+To: Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Joel Stanley <joel@jms.id.au>,
+ openbmc <openbmc@lists.ozlabs.org>, linux-aspeed@lists.ozlabs.org
+Subject: [PATCH] ARM: dts: Add openbmc-flash-layout-64-alt.dtsi
+Date: Fri, 10 Dec 2021 17:34:43 +0800
+Message-Id: <20211210093443.2140557-1-yulei.sh@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c24d31a-4be0-4d41-814f-08d9babd29d3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Dec 2021 02:39:46.1229 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LK5kYtHvBut2dq4OFHQIrFBZS+oBSh8ST82/AWiQRxDsHP827HMzfzOWMIUaFHgUdSywFyMjRMsD/SS/ai+8ww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB3651
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,51 +81,62 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Felipe Balbi <balbi@kernel.org>,
- kernel test robot <lkp@intel.com>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- BMC-SW <BMC-SW@aspeedtech.com>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Julia Lawall <julia.lawall@inria.fr>, Cai Huoqing <caihuoqing@baidu.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> -----Original Message-----
-> From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Sent: Wednesday, December 8, 2021 8:22 PM
-> To: Neal Liu <neal_liu@aspeedtech.com>
-> Cc: Felipe Balbi <balbi@kernel.org>; Joel Stanley <joel@jms.id.au>; Andre=
-w
-> Jeffery <andrew@aj.id.au>; Cai Huoqing <caihuoqing@baidu.com>; Tao Ren
-> <rentao.bupt@gmail.com>; Julia Lawall <julia.lawall@inria.fr>; kernel tes=
-t
-> robot <lkp@intel.com>; Sasha Levin <sashal@kernel.org>;
-> linux-usb@vger.kernel.org; linux-kernel@vger.kernel.org;
-> linux-arm-kernel@lists.infradead.org; linux-aspeed@lists.ozlabs.org;
-> benh@kernel.crashing.org; BMC-SW <BMC-SW@aspeedtech.com>
-> Subject: Re: [PATCH v3 0/4] Refactor Aspeed USB vhub driver
->=20
-> On Wed, Dec 08, 2021 at 06:05:41PM +0800, Neal Liu wrote:
-> > These patch series include 2 parts. One is adding more features to
-> > pass USB30CV compliance test, the other is fixing hw issues.
-> > More detail descriptions are included below patchsets.
-> >
-> > Change since v2:
-> > - Add more description in changelog.
-> > - Fix remote wakeup issue patch and make it more configurable.
-> >
-> > Change since v1:
-> > - Remove unnecessary configs for SET_CONFIGURATION.
-> > - Separate supporting test mode to new patch.
-> >
-> > *** BLURB HERE ***
->=20
-> Blurb is missing :(
+Add openbmc-flash-layout-64-alt.dtsi to describe the partitions of the
+secondary flash for OpenBMC's 64M static layout.
+The layout is the same as openbmc-flash-layout-64.dtsi and the labels
+are prepended with "alt-" for the partitions.
 
-I would remove this comment if new patch is necessary.
-Thanks
+Signed-off-by: Lei YU <yulei.sh@bytedance.com>
+---
+ .../boot/dts/openbmc-flash-layout-64-alt.dtsi | 35 +++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+ create mode 100644 arch/arm/boot/dts/openbmc-flash-layout-64-alt.dtsi
 
--Neal
+diff --git a/arch/arm/boot/dts/openbmc-flash-layout-64-alt.dtsi b/arch/arm/boot/dts/openbmc-flash-layout-64-alt.dtsi
+new file mode 100644
+index 000000000000..650525867561
+--- /dev/null
++++ b/arch/arm/boot/dts/openbmc-flash-layout-64-alt.dtsi
+@@ -0,0 +1,35 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright (C) 2020 Bytedance.
++ */
++
++partitions {
++	compatible = "fixed-partitions";
++	#address-cells = <1>;
++	#size-cells = <1>;
++
++	u-boot@0 {
++		reg = <0x0 0xe0000>; // 896KB
++		label = "alt-u-boot";
++	};
++
++	u-boot-env@e0000 {
++		reg = <0xe0000 0x20000>; // 128KB
++		label = "alt-u-boot-env";
++	};
++
++	kernel@100000 {
++		reg = <0x100000 0x900000>; // 9MB
++		label = "alt-kernel";
++	};
++
++	rofs@a00000 {
++		reg = <0xa00000 0x2000000>; // 32MB
++		label = "alt-rofs";
++	};
++
++	rwfs@6000000 {
++		reg = <0x2a00000 0x1600000>; // 22MB
++		label = "alt-rwfs";
++	};
++};
+-- 
+2.25.1
+
