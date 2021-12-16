@@ -1,91 +1,69 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C8847650B
-	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Dec 2021 22:58:57 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8CE04768B4
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Dec 2021 04:29:40 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JDpzg3G96z3c7N
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Dec 2021 08:58:55 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JDyKG590kz3bvH
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Dec 2021 14:29:38 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=UTMHkvJK;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=V7R38EvD;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=TayLYKm7;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=64.147.123.24;
- helo=wout1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::232;
+ helo=mail-oi1-x232.google.com; envelope-from=linus.walleij@linaro.org;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm1 header.b=UTMHkvJK; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=V7R38EvD; 
- dkim-atps=neutral
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
+ unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
+ header.s=google header.b=TayLYKm7; dkim-atps=neutral
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JDpzV6NTYz2ynt;
- Thu, 16 Dec 2021 08:58:46 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 675BB3200B23;
- Wed, 15 Dec 2021 16:58:42 -0500 (EST)
-Received: from imap43 ([10.202.2.93])
- by compute4.internal (MEProxy); Wed, 15 Dec 2021 16:58:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=X4Mjz1gSwctzS5BqbmLnHFsBnm1B/10
- sggy8KjqskWk=; b=UTMHkvJKfYL3boy2Zb/XROQDALb8tpmPcCzI2vckncPpz8n
- 3aMD3d0cYXVMPpr1U0u7DwU2P9PrPP0GGl+ss45FDgoxCXDxW8sGC1WFgqZNivc0
- Tdto0pcAE772biGs/Qju6VB2xGGyk85zCxDbzT3jCRxT2iMK0vYwiVLxNTuF6lao
- Y16TUcx7N9giVRqjL8VuuX1H4wyZhfB+hniy6CGm4PxB8hjs/V2BwAVRh73Vckpz
- wl9yojO1tA7zMKfof+OU3oZYUXBl9/Pbrs7j11iKLBp7q09xeavrGXpVqx3VOkrK
- a2b9NH9gJGw0J6iv3OwXy/9B8urFcKl3C1FDB/g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=X4Mjz1
- gSwctzS5BqbmLnHFsBnm1B/10sggy8KjqskWk=; b=V7R38EvDn/4qcJsqKbiCQt
- 3TwCeujb5SbMkkNQMjQZW4lDJ82rxdcfIXHgYoxCYeukMeR/W4cJ1N79MJtCdrm4
- 821BtzlH8U1UK1qjWg4ToJmfmLP3a8VMlOmzVBTqT6uhRzH3FWjyp9jWvadsDt6T
- dMcMqIo07sIx6vGuvVR2YD9eEA8pF1dQBtdyy0BqsCVY10xJW/E0UOT5f1gQcbOb
- Ji+MRi7mCtVAYdZFVXEzedxvU5ebMAmEAIxc8VMvX/8llMh/cNXnpc7utGn2KXu5
- UTfkafObVt0Xo4I4JUvDmacQbOyV9NRut80gfnyyORZGe8MAaVFJ9CikYi5H2vCQ
- ==
-X-ME-Sender: <xms:EWW6Yb0prKNAE7wES0yXr--3npTfNq6LLL-KEXYNwzOb-Ps6t7aN-w>
- <xme:EWW6YaGv_wWjopLw9ItH2eJdj9o5Ob6bwdU7U9_nRBfnEyAzFfwk1HyyYoRcOoKAL
- gex70hZvLW4fW6eUw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrledvgdduheejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
- hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:EWW6Yb7FdMNHuD0UfUiAjvoH6yAsZDweHNtNaVsAR4nfReG2VgY9pw>
- <xmx:EWW6YQ1SbHbfNRbfKbFgXedaiclyeUlhL1HvQvBkKNAcvDM8KdGMYg>
- <xmx:EWW6YeFhFuTZFbdPG4-_hkNTt3qwh98mZxzzUBWVPiDncDZvV7lJ_Q>
- <xmx:EWW6YT54G1zO4o4wGZBnY6wqKO5nharSRNEPA3RYa16V8qnyDJc0tg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 8E9C0AC03DB; Wed, 15 Dec 2021 16:58:41 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-4524-g5e5d2efdba-fm-20211214.001-g5e5d2efd
-Mime-Version: 1.0
-Message-Id: <05d64453-09a3-4399-bd8c-595efd185ade@www.fastmail.com>
-In-Reply-To: <20211215214022.146391-1-julianbraha@gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JDyK9508Tz2ywd
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Dec 2021 14:29:31 +1100 (AEDT)
+Received: by mail-oi1-x232.google.com with SMTP id bk14so34577325oib.7
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Dec 2021 19:29:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UsxS3cyMXTSd/5dEUxUXWzl1BGIjNb+A41isAFW684A=;
+ b=TayLYKm7gCeuqQb9cm8r765MqSSpedezKlCFG8xuhGLQYCwJNyYDVMEG9leDr0u6CY
+ fkNvIOlP9Na/Th6qkKNnc6x+bvfn8C8lupqPK7GiP7KRjyScMKhpEBkWEtgt9hUCE6gg
+ 7vVOEtnJeGFR/LuffNb47ewKOslDxgwk+YJldC6AIh79XDjMjwwiQemDK8YgxOgxHDdd
+ fLAQDncAJH78sXCzbh0lMRemUmr0p4Dd9BWnRgL4sP1dI+kj1vRzNknASF59iFIsZqOA
+ PgmFJivdme8GXgdMRXa2x1h9Ju02hqMcTCmAKSikTGvGiB8SDQ6n6+TMkJQQJkvDg/GI
+ TpFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UsxS3cyMXTSd/5dEUxUXWzl1BGIjNb+A41isAFW684A=;
+ b=5eNfSX3wEUbDIw5ZnFQFBMPwp8ubVaRvMPKenH5F61KAeGp338M5FG1oJTKdCX7zX2
+ n16NPO8QbIcEqEEKfxn3SNNKdiJRHai0Y9imQFW65Ioy3XgMCbGZ8pEBd8oGdwwpZP0A
+ ZUZVbWH0XndTFYVwN/+cN+F4kPlnknckBWfU81Sj+KBBk+gllH5yJ0QlmXaQoS9UBfyL
+ ZAfGfJLjEdTQn+aOirCxZZTxtd0SADx/xi2jJvsXG4cs+Q2YlqozGjpM950xp4wJKIaP
+ YgboPmNqqNIMgblbQq1V9+4Sr5ccaD/MOnf9cImlr7nqUnahITSZxCZXYyy9YSTPDoZs
+ SKGw==
+X-Gm-Message-State: AOAM532yIDGK5p21Hfxory7la4G7TvsNewxijavhx5IRirgGpcuC+w6q
+ DXpYZ1cgRuB9sG+O5WzNI7S8BRIXGG9GbBiLNNPUlw==
+X-Google-Smtp-Source: ABdhPJxJdoUfL7Na9pv4TPbOhdVT16g8SCas8hbxRD9wkYxYOAC6HLsTEj8L3HiugXvF3P9AS5qpGWRXfTs8rzXSWFE=
+X-Received: by 2002:a05:6808:60e:: with SMTP id
+ y14mr2618437oih.162.1639625367674; 
+ Wed, 15 Dec 2021 19:29:27 -0800 (PST)
+MIME-Version: 1.0
 References: <20211215214022.146391-1-julianbraha@gmail.com>
-Date: Thu, 16 Dec 2021 08:28:21 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Julian Braha" <julianbraha@gmail.com>,
- "Linus Walleij" <linus.walleij@linaro.org>, "Joel Stanley" <joel@jms.id.au>
+In-Reply-To: <20211215214022.146391-1-julianbraha@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 16 Dec 2021 04:29:15 +0100
+Message-ID: <CACRpkdYngi90omV64yj4OEQysKhVVaOpwXAThUtv51Rv9NvxNw@mail.gmail.com>
 Subject: Re: [PATCH v1] pinctrl: aspeed: fix unmet dependencies on MFD_SYSCON
  for PINCTRL_ASPEED
-Content-Type: text/plain
+To: Julian Braha <julianbraha@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,43 +82,13 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+On Wed, Dec 15, 2021 at 10:40 PM Julian Braha <julianbraha@gmail.com> wrote:
 
-
-On Thu, 16 Dec 2021, at 08:10, Julian Braha wrote:
 > When PINCTRL_ASPEED_G* is selected,
 > and MFD_SYSCON is not selected,
 > Kbuild gives the following warnings:
->
-> WARNING: unmet direct dependencies detected for PINCTRL_ASPEED
->   Depends on [n]: PINCTRL [=y] && (ARCH_ASPEED [=n] || COMPILE_TEST 
-> [=y]) && OF [=y] && MFD_SYSCON [=n]
->   Selected by [y]:
->   - PINCTRL_ASPEED_G4 [=y] && PINCTRL [=y] && (MACH_ASPEED_G4 [=n] || 
-> COMPILE_TEST [=y]) && OF [=y]
->
-> WARNING: unmet direct dependencies detected for PINCTRL_ASPEED
->   Depends on [n]: PINCTRL [=y] && (ARCH_ASPEED [=n] || COMPILE_TEST 
-> [=y]) && OF [=y] && MFD_S>
->   Selected by [y]:
->   - PINCTRL_ASPEED_G5 [=y] && PINCTRL [=y] && (MACH_ASPEED_G5 [=n] || 
-> COMPILE_TEST [=y]) && O>
->
-> WARNING: unmet direct dependencies detected for PINCTRL_ASPEED
->   Depends on [n]: PINCTRL [=y] && (ARCH_ASPEED [=n] || COMPILE_TEST 
-> [=y]) && OF [=y] && MFD_S>
->   Selected by [y]:
->   - PINCTRL_ASPEED_G6 [=y] && PINCTRL [=y] && (MACH_ASPEED_G6 [=n] || 
-> COMPILE_TEST [=y]) && O>
->
-> This is because MACH_ASPEED_G* depend on (ARCH_ASPEED || COMPILE_TEST).
-> ARCH_ASPEED enables the MFD_SYSCON dependency, but COMPILE_TEST doesn't.
->
-> These unmet dependency bugs were detected by Kismet,
-> a static analysis tool for Kconfig. Please advise
-> if this is not the appropriate solution.
->
-> Signed-off-by: Julian Braha <julianbraha@gmail.com>
 
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+Patch applied as nonurgent fix.
 
-Thanks.
+Yours,
+Linus Walleij
