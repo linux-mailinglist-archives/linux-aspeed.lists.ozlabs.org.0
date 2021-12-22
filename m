@@ -1,59 +1,60 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE5947CB25
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Dec 2021 02:54:40 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B8B447CB29
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Dec 2021 02:55:59 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JJbwt13YMz301k
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Dec 2021 12:54:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JJbyP15f3z2xtv
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Dec 2021 12:55:57 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=huc845Tn;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=XTjBGn0w;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::734;
- helo=mail-qk1-x734.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::829;
+ helo=mail-qt1-x829.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=huc845Tn; dkim-atps=neutral
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
+ header.s=google header.b=XTjBGn0w; dkim-atps=neutral
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
+ [IPv6:2607:f8b0:4864:20::829])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JJbwp2d9Zz2xXW
- for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Dec 2021 12:54:34 +1100 (AEDT)
-Received: by mail-qk1-x734.google.com with SMTP id t83so887785qke.8
- for <linux-aspeed@lists.ozlabs.org>; Tue, 21 Dec 2021 17:54:34 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JJbyK2qt4z2xsx
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Dec 2021 12:55:53 +1100 (AEDT)
+Received: by mail-qt1-x829.google.com with SMTP id m25so585122qtq.13
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 21 Dec 2021 17:55:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:from:date:message-id:subject:to:cc;
- bh=HFSYhlP839ztZdYk29Ex144WAucP2wu8MzPmrNXTlQA=;
- b=huc845Tn47CEh0haij4OJsh57TON22ZNkRaYpXqQlh9aCJAjs8sP8Fl/0k47xF82tr
- vRiWHtUdzQG7gZh/10V7K6RHG3hjv483l2ACcs4oYMHGSSH02skT0/ZUx8HdKzOOkMZ6
- 3akzt+zq+ikss1bjqvR9CEo22ltUrag85BDY8=
+ bh=KmpwSeOQl/QXGSnivi72HaYeJIGlBFlV9jlga5Atti8=;
+ b=XTjBGn0w756fQPrPI26L5to+oyhssIy2zdDvxoDGjoJrW8qnEz+oyLd4APhv/T/447
+ lLmYjGD4p6NGNEZgtqhXAmYD/upSrvTX59E00hbjiNyN8lggW7BqKbtk3Sf/tr8PCpku
+ eXORwRYHsgGFKBewyivNB9iKqrHqPA85Au7kM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=HFSYhlP839ztZdYk29Ex144WAucP2wu8MzPmrNXTlQA=;
- b=cU2X6fSIoaK5LYEAHpPvws1zmT2FdOcJipC0SxjQRIEL4uga4/sXAC4itF8qizeJSR
- R6vPY2JL755VZQQHT2GqTFlfVxDAGBiyT0GtHw9dpz8o186eV7y7K7mjz2nHWVx9tVeY
- EHSjNoVw5BTctSoNGFHkhmYCIqsbjdbDkluqgtV3Mzsabs5lDpxuzGs61kDcAC0C/xZN
- MoWx5bjxZutY61G6LCVjFzV893YWH/zS6MxdgUmRp4wayJikoyNKRiY7NDPTWk45jkrq
- 8UqO5KGEkTrw4bfcdQdJla281ldwlumonvaGsI1mJ85LUwXwQTmwW5s9UDLhojg9H0jA
- 9t9w==
-X-Gm-Message-State: AOAM531yle3NnMjhte1SMiVXAcShDrCuxE27k5jjAJlkQKabjGsxOH+I
- 5enMjIxVrPngqtJjPMGJkzXi3ZQxYDWtlKZvHZM=
-X-Google-Smtp-Source: ABdhPJwpXXAdFHNTEtfPzvHirKYCeb2CCGjAds6+T4yOYMQEzs1ifEBbU8o9BULp7bPgbte+1SZj3AVa8aC5mhHLDpg=
-X-Received: by 2002:ae9:ef11:: with SMTP id d17mr779610qkg.347.1640138070840; 
- Tue, 21 Dec 2021 17:54:30 -0800 (PST)
+ bh=KmpwSeOQl/QXGSnivi72HaYeJIGlBFlV9jlga5Atti8=;
+ b=tY2J4q1nTtgGBF0Oej9FEeQt84bMn3sv9U+czo8sVMEqmnGSrg6gQexn5NJTl4XFTY
+ E7LPsZsa8OlsXm884l1upS/z3S4vt6twLmbACSApzaN1ZFGqXmOKfNKvfnWK1xf3H9I1
+ HC+nNwK5eEMjtbSMLId3g/ncu3HBgVFIALBQUAqh4gfvcC6AyoOxxt0u7asUU+FqWd05
+ ySLvEZIa20rQzkfZIDstp5CurUMhziixALLGUy9SCzVOcQYzaK9s1c16bWZrmwzWc4Yc
+ YFp6Hv7sr0T6+2V85cRQPCcFktjMogn+MMvTRwpsW5QGuK5cxFwvnHwsMC1u9RRgDwBa
+ fPWg==
+X-Gm-Message-State: AOAM532lGDXlsPA9cGfdr9EwgaoVwi3uxY+UzdzpDmOEDdrwk8qxdrDG
+ 4f2lpB8pbjX2FEBwXYnSpi6LO8+8/buKu62o3YA=
+X-Google-Smtp-Source: ABdhPJyF7ZbgfJsQdSxtdlu7B7xBtMb507XLSR6NmqaZmoheT4ZN5mE79OYaqyVfY+EyNgs+lTNxfCA7quoz9F4+CC4=
+X-Received: by 2002:a05:622a:38d:: with SMTP id
+ j13mr740008qtx.159.1640138150024; 
+ Tue, 21 Dec 2021 17:55:50 -0800 (PST)
 MIME-Version: 1.0
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 22 Dec 2021 01:54:19 +0000
-Message-ID: <CACPK8Xd1RfMLRbwBWqo8nm=w0V2AubmzraVW3h==XBcs21+mnA@mail.gmail.com>
-Subject: [GIT PULL] ARM: aspeed: devicetree changes for 5.17
+Date: Wed, 22 Dec 2021 01:55:38 +0000
+Message-ID: <CACPK8Xc6q=N6iFLnHt8RHhxvBhqu73WN9jBvitbwU3L6SJv85Q@mail.gmail.com>
+Subject: [GIT PULL] ARM: aspeed: soc changes for 5.17
 To: SoC Team <soc@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -75,7 +76,7 @@ Sender: "Linux-aspeed"
 
 Hello Soc maintainers,
 
-Here are the aspeed device tree changes for v5.17.
+Here are the aspeed soc changes for v5.17.
 
 The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
 
@@ -84,91 +85,26 @@ The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
 are available in the Git repository at:
 
   git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
-tags/aspeed-5.17-devicetree
+tags/aspeed-5.17-soc
 
-for you to fetch changes up to 45cd8bbaaa18ab1c4f4387529db72b33be463197:
+for you to fetch changes up to 79ee56da2e4f49adf174dd7a2e10ce488506c865:
 
-  ARM: dts: aspeed: add LCLK setting into LPC KCS nodes (2021-12-21
-15:33:10 +1030)
-
-----------------------------------------------------------------
-ASPEED device tree updates for 5.17
-
- - New machines:
-
-  * TYAN S8036 AST2500 BMC
-  * Facebook Bletchley AST2600 BMC
-  * Yadro VEGMAN series of AST2500 BMC for x86 servers
-
- - LPC clock additions, to fix long standing missed irq on boot issue
-
- - Secure boot controller description for AST2600
-
- - Alternate chip flash layout, used by Bytedance's G220A
-
- - Various additions to Rainier, Everest, S7106
+  ARM: aspeed: Add secure boot controller support (2021-12-21 15:56:30 +1030)
 
 ----------------------------------------------------------------
-Ali El-Haj-Mahmoud (1):
-      ARM: dts: aspeed: Add TYAN S8036 BMC machine
+ASPEED soc updates for 5.17
 
-Andrei Kartashev (2):
-      dt-bindings: vendor-prefixes: add YADRO
-      ARM: dts: aspeed: add device tree for YADRO VEGMAN BMC
+ * Fix for deferred probing of LPC clock
 
-Eddie James (2):
-      ARM: dts: aspeed: p10: Enable USB host ports
-      ARM: dts: aspeed: p10: Add TPM device
+ * Display secure boot status when on AST2600
 
-Howard Chiu (1):
-      ARM: dts: aspeed: Adding Facebook Bletchley BMC
+----------------------------------------------------------------
+Jae Hyun Yoo (1):
+      soc: aspeed: lpc-ctrl: Block error printing on probe defer cases
 
-Jae Hyun Yoo (3):
-      ARM: dts: aspeed: add LCLK setting into LPC IBT node
-      dt-bindings: ipmi: bt-bmc: add 'clocks' as a required property
-      ARM: dts: aspeed: add LCLK setting into LPC KCS nodes
+Joel Stanley (1):
+      ARM: aspeed: Add secure boot controller support
 
-Joel Stanley (2):
-      dt-bindings: aspeed: Add Secure Boot Controller bindings
-      ARM: dts: aspeed: Add secure boot controller node
-
-Lei YU (2):
-      ARM: dts: Add openbmc-flash-layout-64-alt.dtsi
-      ARM: dts: aspeed: g220a: Enable secondary flash
-
-Oskar Senft (2):
-      ARM: dts: aspeed: tyan-s7106: Update nct7802 config
-      ARM: dts: aspeed: tyan-s7106: Add uart_routing and fix vuart config
-
-Quan Nguyen (2):
-      ARM: dts: aspeed: mtjade: Add I2C buses for NVMe devices
-      ARM: dts: aspeed: mtjade: Add uefi partition
-
- .../devicetree/bindings/arm/aspeed/aspeed,sbc.yaml |  37 +
- .../bindings/ipmi/aspeed,ast2400-ibt-bmc.txt       |   2 +
- .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
- arch/arm/boot/dts/Makefile                         |   7 +-
- arch/arm/boot/dts/aspeed-bmc-ampere-mtjade.dts     | 267 ++++++++
- arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dts   |  12 +
- .../arm/boot/dts/aspeed-bmc-facebook-bletchley.dts | 756 +++++++++++++++++++++
- arch/arm/boot/dts/aspeed-bmc-ibm-everest.dts       |  17 +-
- arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts       |  11 +
- arch/arm/boot/dts/aspeed-bmc-tyan-s7106.dts        |  40 ++
- arch/arm/boot/dts/aspeed-bmc-tyan-s8036.dts        | 470 +++++++++++++
- arch/arm/boot/dts/aspeed-bmc-vegman-n110.dts       | 149 ++++
- arch/arm/boot/dts/aspeed-bmc-vegman-rx20.dts       | 255 +++++++
- arch/arm/boot/dts/aspeed-bmc-vegman-sx20.dts       | 154 +++++
- arch/arm/boot/dts/aspeed-bmc-vegman.dtsi           | 311 +++++++++
- arch/arm/boot/dts/aspeed-g4.dtsi                   |   1 +
- arch/arm/boot/dts/aspeed-g5.dtsi                   |   5 +
- arch/arm/boot/dts/aspeed-g6.dtsi                   |  10 +
- arch/arm/boot/dts/openbmc-flash-layout-64-alt.dtsi |  35 +
- 19 files changed, 2539 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/arm/aspeed/aspeed,sbc.yaml
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-tyan-s8036.dts
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-vegman-n110.dts
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-vegman-rx20.dts
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-vegman-sx20.dts
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-vegman.dtsi
- create mode 100644 arch/arm/boot/dts/openbmc-flash-layout-64-alt.dtsi
+ drivers/soc/aspeed/aspeed-lpc-ctrl.c |  7 ++--
+ drivers/soc/aspeed/aspeed-socinfo.c  | 73 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 76 insertions(+), 4 deletions(-)
