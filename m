@@ -2,62 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F9B47CAD5
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Dec 2021 02:38:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 679AB47CADD
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Dec 2021 02:42:24 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JJbZ14NQKz2ywR
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Dec 2021 12:38:17 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JJbfk27VBz2ywV
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Dec 2021 12:42:22 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=NEsC0bwT;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Hodil8n7;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::730;
- helo=mail-qk1-x730.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::72e;
+ helo=mail-qk1-x72e.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=NEsC0bwT; dkim-atps=neutral
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
- [IPv6:2607:f8b0:4864:20::730])
+ header.s=google header.b=Hodil8n7; dkim-atps=neutral
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
+ [IPv6:2607:f8b0:4864:20::72e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JJbYv3z3fz2xt0;
- Wed, 22 Dec 2021 12:38:09 +1100 (AEDT)
-Received: by mail-qk1-x730.google.com with SMTP id p4so859765qkm.7;
- Tue, 21 Dec 2021 17:38:09 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JJbff6g24z2xt0
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Dec 2021 12:42:18 +1100 (AEDT)
+Received: by mail-qk1-x72e.google.com with SMTP id l11so847387qke.11
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 21 Dec 2021 17:42:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fJAfK3DqpfiPmHQwaBI/smOBiafG0laxAPbgGyOvQTg=;
- b=NEsC0bwTrII2R5alA3OhKMtCJh6qrGtuahtPqUjey2ycLMqVZjwaz2JNlqDUDv/LSz
- ZQqLPDa9wna5XSVi0/muG0Apl+8GH4q4zGAPrcxoZX9XOmTJRnuCPjYxhATh7kTWXRyf
- gUiVLkVJypdREiMOBk6ZrWff6h4SMV81HMYzg=
+ :cc; bh=PCN9MbBbsSLQre2+oydcyhTYZYw9WIy7kClZtsQdVGI=;
+ b=Hodil8n7Mt8VfemZoZNHNMvamNcrtiYAv02Ce8X4y5Pxv0KHIIS4S6OUmNqR6VKb/I
+ 2LvR5VCXlnjf/AuA1RVpV/PP+6zIP1znHhVk84y+/7LhCHBd2xcKYqmwBgZyF4N0nYEc
+ mE10s6w7CgRCvZ16BzPQcs9k0rUOhLG3P8bH4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=fJAfK3DqpfiPmHQwaBI/smOBiafG0laxAPbgGyOvQTg=;
- b=W7xBFVcezxY0MGDwgec8V8ryNokpKiyHTpOwW+KOokpy550Jlk+HPFi1Hip+Td19Y0
- 6f9XeG+aHQOVEyf/IRYf8epx9kqdf/pm4uQJzkB9yY7CxwH6jk66aaJowhNc3TNUUnlJ
- c4QY8J/4IForhoKH/4gRBCznSt7RAOjI2803antseR7dWQekfc2uwLqCoqHQTdyEt1Kk
- NMl+7wcbeHOS4l53dem58Y+y3G/ms6X2mbYDmI/gEPcy5vBuL9kXcFjytEQbo/MXg+TX
- nECj4aJ8xu7s4TNXgXPQUlqG4S44MCFEhak/SMtpa3PofuqJbWQByHGEJ3aP4bDNhAo4
- b+8w==
-X-Gm-Message-State: AOAM532vKuHl5ZKDNWiDVpPMcGmdHbw5E7+Y15MINa7mP+RefcTmZ0Sg
- WEabTaDk07Uu64N2/hM6pfdMDx+i1KU0fYZ+Vvs=
-X-Google-Smtp-Source: ABdhPJxhiavwjj59AhM6tp4D2rXd4oQSL5w/FRsldzbqAWfZsoEC+QgYrJGyQgUTUvGjcxZ9auohlAELtVpy61lkCeg=
-X-Received: by 2002:a37:94c2:: with SMTP id w185mr740322qkd.666.1640137086103; 
- Tue, 21 Dec 2021 17:38:06 -0800 (PST)
+ bh=PCN9MbBbsSLQre2+oydcyhTYZYw9WIy7kClZtsQdVGI=;
+ b=uudYDUyM44e4Jd2QiaO2yVNs+q6gfexS0SN1qhlJUnGxnim1xnXjfHqoD92Ino4t5R
+ Ma2M9OgAu8JcO6R7MSac7G+4t7mdmE56oITCypxtHqRpLSg6qhF+3389YeHhm5AydIPr
+ T1Cv/V83GWGktSc2Y237ZEZNANu6foUcvMGmSKlApVAsuQ5PBuLtWnV5gH4vBS6BFBvV
+ SudZQRDXLFqkCSXChnCvDBqLtQO6+sc9QsgnXYH2E5VToL2ETiQT0q//B4goj6BlzKJD
+ 2x6kBrZ+Dps9vz0ut/R1CHZIK8xxw2zFQLePQsOvBnsRONrdQQMhpaSlEUQHJpAJMQaF
+ FoGA==
+X-Gm-Message-State: AOAM533OAl24/cWSID31EqIyegGvMZvuvWV11ZnERsKRn7g8Jo95flP0
+ Jxwyd4xAd7QQ133/O8YmBy5DADzMh866xX4GpXg=
+X-Google-Smtp-Source: ABdhPJwmJ9i4jMsvi4V6fz7AloWq/zVOcLqmADCy9D0Hm4pUYF7rzmNHvE+3eh7PMM5aKtpxu3YC39924vWtAqxG3uU=
+X-Received: by 2002:a37:94c2:: with SMTP id w185mr746817qkd.666.1640137335360; 
+ Tue, 21 Dec 2021 17:42:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20211210093623.2140640-1-yulei.sh@bytedance.com>
-In-Reply-To: <20211210093623.2140640-1-yulei.sh@bytedance.com>
+References: <20211207094923.422422-1-howard.chiu@quantatw.com>
+ <CACPK8XddhFn3PreJM3D=djkREgqGD7yZhS7YoqxxXsNfhZpLhQ@mail.gmail.com>
+ <YcH2MSByPLAvw5mI@heinlein>
+In-Reply-To: <YcH2MSByPLAvw5mI@heinlein>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 22 Dec 2021 01:37:53 +0000
-Message-ID: <CACPK8XeK977rY33Kt3-vhEbqa68iXbG6vbRAfRGYxC94tE=t_g@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: aspeed: g220a: Enable secondary flash
-To: Lei YU <yulei.sh@bytedance.com>
+Date: Wed, 22 Dec 2021 01:42:02 +0000
+Message-ID: <CACPK8XcNSO9pwJiL_-0jyCSZ5jxdY6HdU5MDReByMcRbyeA6yQ@mail.gmail.com>
+Subject: Re: [PATCH v8] ARM: dts: aspeed: Adding Facebook Bletchley BMC
+To: Patrick Williams <patrick@stwcx.xyz>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -72,57 +74,33 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: devicetree <devicetree@vger.kernel.org>,
  linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- openbmc <openbmc@lists.ozlabs.org>,
+ Howard Chiu <howard10703049@gmail.com>,
+ =?UTF-8?B?UG90aW4gTGFpICjos7Tmn4/lu7cp?= <Potin.Lai@quantatw.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Howard Chiu <howard.chiu@quantatw.com>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Lei,
+On Tue, 21 Dec 2021 at 15:43, Patrick Williams <patrick@stwcx.xyz> wrote:
+>
+> On Tue, Dec 21, 2021 at 04:37:55AM +0000, Joel Stanley wrote:
+> > Hi Patrick,
+> >
+> > On Tue, 7 Dec 2021 at 09:52, Howard Chiu <howard10703049@gmail.com> wrote:
+> > >
+> > > Initial introduction of Facebook Bletchley equipped with
+> > > Aspeed 2600 BMC SoC.
+> > >
+> > > Signed-off-by: Howard Chiu <howard.chiu@quantatw.com>
+> >
+> > Are you ok for this one to go in for v5.17?
+>
+> Yes.
+>
+> Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
+>
+> Would also appreciate if you could apply to your Aspeed tree for OpenBMC.
 
-On Fri, 10 Dec 2021 at 09:36, Lei YU <yulei.sh@bytedance.com> wrote:
->
-> Enable the secondary flash of the g220a's BMC and the wdt2.
->
-> Signed-off-by: Lei YU <yulei.sh@bytedance.com>
-
-I've applied this and the layout patch for v5.17, and to the openbmc tree.
-
-> ---
->  arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dts | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dts b/arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dts
-> index 01dace8f5e5f..05f392f42960 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-bytedance-g220a.dts
-> @@ -260,6 +260,13 @@ flash@0 {
->                 spi-max-frequency = <50000000>;
->  #include "openbmc-flash-layout-64.dtsi"
->         };
-> +       flash@1 {
-> +               status = "okay";
-> +               label = "alt-bmc";
-> +               m25p,fast-read;
-> +               spi-max-frequency = <50000000>;
-> +#include "openbmc-flash-layout-64-alt.dtsi"
-> +       };
->  };
->
->  &spi1 {
-> @@ -278,6 +285,10 @@ &adc {
->         status = "okay";
->  };
->
-> +&wdt2 {
-> +       aspeed,alt-boot;
-> +};
-> +
->  &gpio {
->         status = "okay";
->         gpio-line-names =
-> --
-> 2.25.1
->
+Thanks. I've done both.
