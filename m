@@ -2,56 +2,60 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44D5F47ED3B
-	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Dec 2021 09:33:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B5BA47EF1B
+	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Dec 2021 14:19:58 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JL0gf6cMsz2ywF
-	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Dec 2021 19:33:02 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JL72h2BPvz3051
+	for <lists+linux-aspeed@lfdr.de>; Sat, 25 Dec 2021 00:19:56 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=eUv9EiLy;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=EEJ8KMwB;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linuxfoundation.org (client-ip=2604:1380:4641:c500::1;
- helo=dfw.source.kernel.org; envelope-from=gregkh@linuxfoundation.org;
+ smtp.mailfrom=kernel.org (client-ip=2604:1380:4601:e00::1;
+ helo=ams.source.kernel.org; envelope-from=broonie@kernel.org;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org
- header.a=rsa-sha256 header.s=korg header.b=eUv9EiLy; 
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=EEJ8KMwB; 
  dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JL0gX08wJz2xtL;
- Fri, 24 Dec 2021 19:32:54 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JL72c0c7jz2yPT;
+ Sat, 25 Dec 2021 00:19:52 +1100 (AEDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0335461FE8;
- Fri, 24 Dec 2021 08:32:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7584DC36AE5;
- Fri, 24 Dec 2021 08:32:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1640334770;
- bh=oAGJa1eQZdR4k8gaHp+oWjXb51Y31FZ01er7yJKkMOI=;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 18C2CB82278;
+ Fri, 24 Dec 2021 13:19:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FF53C36AE5;
+ Fri, 24 Dec 2021 13:19:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1640351985;
+ bh=RRC0/259fcqHbTn1tWwd3RXhY57VSROcl0lc6qKKWdY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eUv9EiLyLp7rAXeV2DY3PM6Ci3kQf/LPxlARr3ea+c4lU8gY7hDvWmUxS0p6/3XWm
- q4w4vwFGH6Rk/InS30d/o3V5XGw7C0s4P7lCU8xHnsO65KgGJFTpUrCUndyg6YFy/1
- lmHAOe6plivc/xHjQWNEqw7aYRNmmztia9FBkrXU=
-Date: Fri, 24 Dec 2021 09:32:44 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ b=EEJ8KMwBUMwKQVwvE8D34Otw7cDN5W5yRIX4/F/mJXKzKsHAlFf2b/ujW+9dkkq9m
+ nvwlgHv29Gs1iv1gzJHkweZW3DN3N6qgfMmviBXMCEDKw0Dq52WZHYiyAKffwqoBb8
+ qG0kyPcnBpujUGB+4SC5+LJvN+/+bNqtuV16aaWYfkZzf/b/i0VVr51Dpi5ZGQt9Jy
+ oIshsV73npxECqQXUFaT1DRB46FwXtTWvK6Sn4e1yKxWcEn4imNsszFopXtZFNJrm2
+ pkjABeo5XycsVYISnnjbIQZK+DajbUAnL+DPZUJ7/YOTykmQJW+MQNSMFJfVlRRg46
+ wwoSQXY6bt+ng==
+Date: Fri, 24 Dec 2021 13:19:43 +0000
+From: Mark Brown <broonie@kernel.org>
 To: Quan Nguyen <quan@os.amperecomputing.com>
-Subject: Re: [PATCH v6 6/9] misc: smpro-errmon: Add Ampere's SMpro error
- monitor driver
-Message-ID: <YcWFrCjWSG65KQgb@kroah.com>
+Subject: Re: [PATCH v6 5/9] regmap: Introduces regmap lock helpers
+Message-ID: <YcXI73GKNdx/gvUb@sirena.org.uk>
 References: <20211224041352.29405-1-quan@os.amperecomputing.com>
- <20211224041352.29405-7-quan@os.amperecomputing.com>
+ <20211224041352.29405-6-quan@os.amperecomputing.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="mlX9XU0JAkRu6gCR"
 Content-Disposition: inline
-In-Reply-To: <20211224041352.29405-7-quan@os.amperecomputing.com>
+In-Reply-To: <20211224041352.29405-6-quan@os.amperecomputing.com>
+X-Cookie: I brake for chezlogs!
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,35 +78,40 @@ Cc: linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
  "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
  Rob Herring <robh+dt@kernel.org>,
  Open Source Submission <patches@amperecomputing.com>,
- linux-hwmon@vger.kernel.org, Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>,
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+ linux-hwmon@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, Dec 24, 2021 at 11:13:49AM +0700, Quan Nguyen wrote:
-> This commit adds Ampere's SMpro error monitor driver for monitoring
-> and reporting RAS-related errors as reported by SMpro co-processor
-> found on Ampere's Altra processor family.
-> 
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
-> ---
-> Change in v6:
->   + First introduced in v6 [Quan]
-> 
->  drivers/mfd/smpro-mfd.c     |   1 +
->  drivers/misc/Kconfig        |   7 +
->  drivers/misc/Makefile       |   1 +
->  drivers/misc/smpro-errmon.c | 571 ++++++++++++++++++++++++++++++++++++
->  4 files changed, 580 insertions(+)
->  create mode 100644 drivers/misc/smpro-errmon.c
 
-You need Documentation/ABI/ updates when you add sysfs files.  Please do
-that for your next version of this patch.
+--mlX9XU0JAkRu6gCR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Also remember that sysfs is only "one value per file", this driver seems
-to violate that in huge ways and is not ok.
+On Fri, Dec 24, 2021 at 11:13:48AM +0700, Quan Nguyen wrote:
+> This commit introduces regmap_acquire/release_lock() functions and makes
+> them available for drivers that need atomic access of regmap registers
 
-thanks,
+You've not explained what something would need this for and how
+it's expected to work - we don't provide unlocked access to the
+regmap to client drivers so I don't see how one could safely use
+this.  It's unclear to me what this would mean or why it's not
+better implemented in the client driver.
 
-greg k-h
+--mlX9XU0JAkRu6gCR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmHFyO4ACgkQJNaLcl1U
+h9DaeAf+LrT+e8nVJuT7C0PxLOgU/FymUBhAX0UdyOknH3zdIG0c7DcvOXau1O1x
+Kld90ZKSql9M73A3NpWy7ZnamQwLSd+7ik25B9lSL6lY7yRK7Or2N5YL0yWWg9Tl
+fJq5v7gTLRLHk5DYQaO7OGXpW5GHKuE4VB7u2aoiWGH1/ovF1odyGVRhbFz6Yn2c
+8PaAz4+ja4FDk77vird8NbSpHWOTFVPJg1hq9Kl1ru/ylihcqcNQOlYdubCxLudc
+LZSmGUv3WYRRq6ruyjGgQblUkYdlakLVTk8lNi5LaJamD2gKBqPOi1Q1NvPGrhZi
+JIMOd8EICA6jR9Hj+s1SIxK4RJNPDQ==
+=Dgc1
+-----END PGP SIGNATURE-----
+
+--mlX9XU0JAkRu6gCR--
