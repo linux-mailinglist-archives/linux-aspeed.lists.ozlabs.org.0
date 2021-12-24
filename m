@@ -2,72 +2,49 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4767947CF08
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Dec 2021 10:18:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1953747EA40
+	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Dec 2021 02:29:37 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JJnnY0WKqz2yqC
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Dec 2021 20:18:57 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=bgdev-pl.20210112.gappssmtp.com header.i=@bgdev-pl.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=pxusAbbW;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JKqH30TClz3bX0
+	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Dec 2021 12:29:35 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=bgdev.pl
- (client-ip=2a00:1450:4864:20::52c; helo=mail-ed1-x52c.google.com;
- envelope-from=brgl@bgdev.pl; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=bgdev-pl.20210112.gappssmtp.com
- header.i=@bgdev-pl.20210112.gappssmtp.com header.a=rsa-sha256
- header.s=20210112 header.b=pxusAbbW; dkim-atps=neutral
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
+ receiver=<UNKNOWN>)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JJnnR52X9z2xsx
- for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Dec 2021 20:18:49 +1100 (AEDT)
-Received: by mail-ed1-x52c.google.com with SMTP id y22so6124294edq.2
- for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Dec 2021 01:18:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HWSjPah2c2AaRSP+2vHU6yInVlSDXI70ImIfpbXN8E4=;
- b=pxusAbbWkBP8vA3FVas18AbqOH3j0+P39gHD1PiNPE+veMjKeURYaGR2eFOeBB01PF
- 8Fj+NJU2IougbIMEWqzIy+ekGrkV++QGSTrw2itZd6TzRtUkmHeuSg7WswBRKf9NQPYx
- eah3fr/rMVIakHtSBSAf3LQqOFDI4IzYO+PsqUT1BtypJ4FL+reEw8D6HK06IGC7M1y8
- peOyuf7CT5cb2Jti3eQ7JBlGp/xP9HfCtRopVV1SfHep7KQ9yOSOppztuoGgUw1gkxK8
- nOVDsUwekpzbqXxNCZKSBkPpCnUV4vWpGYpMSnpX7YFe6dnLU2ORnAiA0Y8iCdOcsjw8
- 8Znw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HWSjPah2c2AaRSP+2vHU6yInVlSDXI70ImIfpbXN8E4=;
- b=DEJMhWg0dU+0Asiu/n0KrLCT41e9C9o84nQl7e3Rhk6cxoz7KrOJw1WHofxafGUIh9
- eMTyqqgJxCIAMGsx3vXCDUgDSIgqArxoqiZgD1IBvvGnycmrDDGopaSVeYxhpmg3MNEI
- t9k5Upk030q5CDM48uxmY4GhNdjXf0LHr1c+Eg0Vz9No3srZaZX4ya/YukLSR7ftiXus
- SuyHSp2fang6m5PVDopi+SEEFz6gi11z6/sdoxpjK3uH0d1Xe1SY3QXclAy8y+hnC2aB
- deNhIvJ1rfq5SCrt01+kjyIar+OQJL5XKzA2O7au2tBF54fcYIUX9J8i/TxleznI0/O1
- MyPg==
-X-Gm-Message-State: AOAM533Km7gVwD6NRkV5g39AoKejNA0VYcJOEaq8ru1qD2QagYihWqd8
- U5lkADuM8hP90pNGjS2Go0BNbxH4hD/K8zZUOjFU/A==
-X-Google-Smtp-Source: ABdhPJwEJev27Pc2q/Iq5MO4SuuzrQ73ie5VYbxYb/YHRh5CcCGKaz0WlKP0N/rYQvL7TgMmI9IsLY1BsrhRpNwgHe4=
-X-Received: by 2002:a17:906:2ac4:: with SMTP id
- m4mr1789058eje.734.1640164722465; 
- Wed, 22 Dec 2021 01:18:42 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JKqGY5QZRz2yHj;
+ Fri, 24 Dec 2021 12:29:07 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 1BO1M7jM007688;
+ Fri, 24 Dec 2021 09:22:07 +0800 (GMT-8)
+ (envelope-from jammy_huang@aspeedtech.com)
+Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Fri, 24 Dec 2021 09:27:37 +0800
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+To: <hverkuil-cisco@xs4all.nl>, <sakari.ailus@linux.intel.com>,
+ <gregkh@linuxfoundation.org>, <eajames@linux.ibm.com>,
+ <mchehab@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
+ <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v8 0/4] add aspeed-jpeg support for aspeed-video
+Date: Fri, 24 Dec 2021 09:27:34 +0800
+Message-ID: <20211224012738.1551-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211214040239.8977-1-steven_lee@aspeedtech.com>
- <20211214040239.8977-2-steven_lee@aspeedtech.com>
-In-Reply-To: <20211214040239.8977-2-steven_lee@aspeedtech.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 22 Dec 2021 10:18:31 +0100
-Message-ID: <CAMRc=MdAgK7zKuJ=7cA2T-mSTJD3tWSW2aEB6G=0Tz4X+iHcZQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] gpio: gpio-aspeed-sgpio: Fix wrong hwirq base in
- irq handler
-To: Steven Lee <steven_lee@aspeedtech.com>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1BO1M7jM007688
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,45 +56,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-aspeed@lists.ozlabs.org>, Linus Walleij <linus.walleij@linaro.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Hongwei Zhang <Hongweiz@ami.com>,
- "moderated list:ARM/ASPEED MACHINE SUPPORT"
- <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Dec 14, 2021 at 5:03 AM Steven Lee <steven_lee@aspeedtech.com> wrote:
->
-> Each aspeed sgpio bank has 64 gpio pins(32 input pins and 32 output pins).
-> The hwirq base for each sgpio bank should be multiples of 64 rather than
-> multiples of 32.
->
-> Signed-off-by: Steven Lee <steven_lee@aspeedtech.com>
-> ---
->  drivers/gpio/gpio-aspeed-sgpio.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpio/gpio-aspeed-sgpio.c b/drivers/gpio/gpio-aspeed-sgpio.c
-> index 3d6ef37a7702..b3a9b8488f11 100644
-> --- a/drivers/gpio/gpio-aspeed-sgpio.c
-> +++ b/drivers/gpio/gpio-aspeed-sgpio.c
-> @@ -395,7 +395,7 @@ static void aspeed_sgpio_irq_handler(struct irq_desc *desc)
->                 reg = ioread32(bank_reg(data, bank, reg_irq_status));
->
->                 for_each_set_bit(p, &reg, 32)
-> -                       generic_handle_domain_irq(gc->irq.domain, i * 32 + p * 2);
-> +                       generic_handle_domain_irq(gc->irq.domain, (i * 32 + p) * 2);
->         }
->
->         chained_irq_exit(ic, desc);
-> --
-> 2.17.1
->
+The aim of this series is to add aspeed-jpeg support for aspeed-video
+driver. aspeed-jpeg is a per-frame differential jpeg format which only
+compress the parts which are different from the previous frame. In this
+way, it reduces both the amount of data to be transferred by network and
+those to be decoded on the client side.
 
-Joel, Andrew: any comments on this? I'd like to send it upstream tomorrow.
+In the last, debugfs information is also updated per this change.
 
-Bart
+Changes in v8:
+ - Add information of decoder's implementation
+ 
+Changes in v7:
+ - Separate other patches alone from aspeed-jpeg series
+ - for Aspeed-jpeg, generate an I frame every 8 frames
+ - rename compression_mode as compression_scheme
+ - Add more reference for aspeed-jpeg
+ - Update debugfs message
+
+Changes in v6:
+ - Update description for new format, aspeed-jpeg, in Documentation.
+
+Changes in v5:
+ - Use model data to tell different soc
+
+Changes in v4:
+ - Add definition for the Aspeed JPEG format
+ - Reserve controls for ASPEED
+ - Use s_fmt to update format rather than new control
+ - Update aspeed hq quality range, 1 ~ 12
+
+
+Jammy Huang (4):
+  media: v4l: Add definition for the Aspeed JPEG format
+  media: v4l2-ctrls: Reserve controls for ASPEED
+  media: aspeed: Support aspeed mode to reduce compressed data
+  media: aspeed: Extend debug message
+
+ .../media/uapi/v4l/pixfmt-reserved.rst        |  17 ++
+ drivers/media/platform/aspeed-video.c         | 287 ++++++++++++++++--
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ include/uapi/linux/aspeed-video.h             |  15 +
+ include/uapi/linux/v4l2-controls.h            |   5 +
+ include/uapi/linux/videodev2.h                |   1 +
+ 6 files changed, 307 insertions(+), 19 deletions(-)
+ create mode 100644 include/uapi/linux/aspeed-video.h
+
+-- 
+2.25.1
+
