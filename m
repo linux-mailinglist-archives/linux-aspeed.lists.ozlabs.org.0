@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1953747EA40
-	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Dec 2021 02:29:37 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 050B547EA54
+	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Dec 2021 02:31:39 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JKqH30TClz3bX0
-	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Dec 2021 12:29:35 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JKqKN68CMz3cMQ
+	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Dec 2021 12:31:36 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,10 +17,10 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JKqGY5QZRz2yHj;
- Fri, 24 Dec 2021 12:29:07 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JKqGg2kWHz2yg5;
+ Fri, 24 Dec 2021 12:29:15 +1100 (AEDT)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 1BO1M7jM007688;
+ by twspam01.aspeedtech.com with ESMTP id 1BO1M74U007689;
  Fri, 24 Dec 2021 09:22:07 +0800 (GMT-8)
  (envelope-from jammy_huang@aspeedtech.com)
 Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
@@ -33,18 +33,20 @@ To: <hverkuil-cisco@xs4all.nl>, <sakari.ailus@linux.intel.com>,
  <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
  <linux-arm-kernel@lists.infradead.org>,
  <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v8 0/4] add aspeed-jpeg support for aspeed-video
-Date: Fri, 24 Dec 2021 09:27:34 +0800
-Message-ID: <20211224012738.1551-1-jammy_huang@aspeedtech.com>
+Subject: [PATCH v8 1/4] media: v4l: Add definition for the Aspeed JPEG format
+Date: Fri, 24 Dec 2021 09:27:35 +0800
+Message-ID: <20211224012738.1551-2-jammy_huang@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211224012738.1551-1-jammy_huang@aspeedtech.com>
+References: <20211224012738.1551-1-jammy_huang@aspeedtech.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [192.168.2.115]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1BO1M7jM007688
+X-MAIL: twspam01.aspeedtech.com 1BO1M74U007689
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,52 +62,85 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The aim of this series is to add aspeed-jpeg support for aspeed-video
-driver. aspeed-jpeg is a per-frame differential jpeg format which only
-compress the parts which are different from the previous frame. In this
-way, it reduces both the amount of data to be transferred by network and
-those to be decoded on the client side.
+This introduces support for the Aspeed JPEG format, where the new frame
+can refer to previous frame to reduce the amount of compressed data. The
+concept is similar to I/P frame of video compression. It will compare the
+new frame with previous one to decide which macroblock's data is
+changed, and only the changed macroblocks will be compressed.
 
-In the last, debugfs information is also updated per this change.
+This Aspeed JPEG format is used by the video engine on Aspeed platforms,
+which is generally adapted for remote KVM.
 
-Changes in v8:
- - Add information of decoder's implementation
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+---
+v8:
+  - Add decoder information for aspeed-jpeg
+v7:
+  - Add more information for aspeed-jpeg
+v6:
+  - Update description for new format, aspeed-jpeg, in Documentation.
+v5:
+  - no update
+v4:
+  - new
+---
+ .../media/uapi/v4l/pixfmt-reserved.rst          | 17 +++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c            |  1 +
+ include/uapi/linux/videodev2.h                  |  1 +
+ 3 files changed, 19 insertions(+)
+
+diff --git a/Documentation/media/uapi/v4l/pixfmt-reserved.rst b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
+index b2cd155e691b..1d0dc8d86ed7 100644
+--- a/Documentation/media/uapi/v4l/pixfmt-reserved.rst
++++ b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
+@@ -264,6 +264,23 @@ please make a proposal on the linux-media mailing list.
+ 	of tiles, resulting in 32-aligned resolutions for the luminance plane
+ 	and 16-aligned resolutions for the chrominance plane (with 2x2
+ 	subsampling).
++    * .. _V4L2-PIX-FMT-AJPG:
++
++      - ``V4L2_PIX_FMT_AJPG``
++      - 'AJPG'
++      - ASPEED JPEG format used by the aspeed-video driver on Aspeed platforms,
++        which is generally adapted for remote KVM.
++        On each frame compression, I will compare the new frame with previous
++        one to decide which macroblock's data is changed, and only the changed
++        macroblocks will be compressed.
++
++        The implementation is based on AST2600 A3 datasheet, revision 0.9, which
++        is not publicly available. Or you can reference Video stream data format
++        – ASPEED mode compression of SDK_User_Guide which available on
++        AspeedTech-BMC/openbmc/releases.
++
++        Decoder's implementation can be found here,
++        `https://github.com/AspeedTech-BMC/aspeed_codec/ <https://github.com/AspeedTech-BMC/aspeed_codec/>`__
  
-Changes in v7:
- - Separate other patches alone from aspeed-jpeg series
- - for Aspeed-jpeg, generate an I frame every 8 frames
- - rename compression_mode as compression_scheme
- - Add more reference for aspeed-jpeg
- - Update debugfs message
-
-Changes in v6:
- - Update description for new format, aspeed-jpeg, in Documentation.
-
-Changes in v5:
- - Use model data to tell different soc
-
-Changes in v4:
- - Add definition for the Aspeed JPEG format
- - Reserve controls for ASPEED
- - Use s_fmt to update format rather than new control
- - Update aspeed hq quality range, 1 ~ 12
-
-
-Jammy Huang (4):
-  media: v4l: Add definition for the Aspeed JPEG format
-  media: v4l2-ctrls: Reserve controls for ASPEED
-  media: aspeed: Support aspeed mode to reduce compressed data
-  media: aspeed: Extend debug message
-
- .../media/uapi/v4l/pixfmt-reserved.rst        |  17 ++
- drivers/media/platform/aspeed-video.c         | 287 ++++++++++++++++--
- drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
- include/uapi/linux/aspeed-video.h             |  15 +
- include/uapi/linux/v4l2-controls.h            |   5 +
- include/uapi/linux/videodev2.h                |   1 +
- 6 files changed, 307 insertions(+), 19 deletions(-)
- create mode 100644 include/uapi/linux/aspeed-video.h
-
+ .. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
+ 
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 24db33f803c0..00dde01d2f97 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1378,6 +1378,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 		case V4L2_PIX_FMT_S5C_UYVY_JPG:	descr = "S5C73MX interleaved UYVY/JPEG"; break;
+ 		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
+ 		case V4L2_PIX_FMT_SUNXI_TILED_NV12: descr = "Sunxi Tiled NV12 Format"; break;
++		case V4L2_PIX_FMT_AJPG:		descr = "Aspeed JPEG"; break;
+ 		default:
+ 			if (fmt->description[0])
+ 				return;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 3210b3c82a4a..994eb6155ea9 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -726,6 +726,7 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_INZI     v4l2_fourcc('I', 'N', 'Z', 'I') /* Intel Planar Greyscale 10-bit and Depth 16-bit */
+ #define V4L2_PIX_FMT_SUNXI_TILED_NV12 v4l2_fourcc('S', 'T', '1', '2') /* Sunxi Tiled NV12 Format */
+ #define V4L2_PIX_FMT_CNF4     v4l2_fourcc('C', 'N', 'F', '4') /* Intel 4-bit packed depth confidence information */
++#define V4L2_PIX_FMT_AJPG     v4l2_fourcc('A', 'J', 'P', 'G') /* Aspeed JPEG */
+ 
+ /* 10bit raw bayer packed, 32 bytes for every 25 pixels, last LSB 6 bits unused */
+ #define V4L2_PIX_FMT_IPU3_SBGGR10	v4l2_fourcc('i', 'p', '3', 'b') /* IPU3 packed 10-bit BGGR bayer */
 -- 
 2.25.1
 
