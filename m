@@ -1,83 +1,40 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EC6488C2F
-	for <lists+linux-aspeed@lfdr.de>; Sun,  9 Jan 2022 21:05:45 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4738488E64
+	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Jan 2022 02:55:24 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JX7HW3xRwz30Nb
-	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Jan 2022 07:05:43 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=IHd5MFLN;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JXH2y4XFKz30Lc
+	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Jan 2022 12:55:22 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::32f;
- helo=mail-ot1-x32f.google.com; envelope-from=groeck7@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=IHd5MFLN; dkim-atps=neutral
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=wanadoo.fr
+ (client-ip=80.12.242.132; helo=smtp.smtpout.orange.fr;
+ envelope-from=christophe.jaillet@wanadoo.fr; receiver=<UNKNOWN>)
+Received: from smtp.smtpout.orange.fr (smtp10.smtpout.orange.fr
+ [80.12.242.132])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JX7HM12qGz2ywZ;
- Mon, 10 Jan 2022 07:05:32 +1100 (AEDT)
-Received: by mail-ot1-x32f.google.com with SMTP id
- h5-20020a9d6a45000000b005908066fa64so12234289otn.7; 
- Sun, 09 Jan 2022 12:05:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:to:cc:references:from:subject:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Z/CHwmtPKS9YFQVceEU95L1dygwbhvLKGuEbY6OKojw=;
- b=IHd5MFLNDrqtGXbxIRYdAMF6VuHEEgWIHaubTyC3bxHwpEm/a4O6aZDlDgPv98IAcF
- zCqNbQqHdki2UyU0+VWoL9x1xQQm0UfnjLIPq+yagCnur9E2LeZt2vuGM0uZ8Ao4rcQ7
- LIqIjlp0jDc5gEmiiqBklfNdUVTt0wCIQ4jCwMLXibEhnv1BlatIM+K0+wiEEpGvEjte
- QjXJRGLHLx/6ANL43WG4iaA7G+f5WhN0l9TZdICklewsdqGuabEPOPhjZwmyH5T4QSPn
- 5df73ZZJbEnxmULQhsAvVLd61d9Fc/W9AwuYWOEyP0uD40xf/td0jCGpbEF+9EVKgMNx
- v+bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Z/CHwmtPKS9YFQVceEU95L1dygwbhvLKGuEbY6OKojw=;
- b=YrxdKaskoWap6Erelc65M/XgG+m1k4Qpj5gOiXSZaRdMhs2302zk2ZO4qNWyeatNU9
- bWKhz9pm5VbuQfd7XbgiVRumG6STAsNHs6YJ6X5Zrl6KuWvij94QlpUeL24e+8PIEHAZ
- 6VdUGw2XBbT53X3AhnYXIgymGQSXudTqbC6Ru4FMPunIKJWeariBrSqiPD9vOvrP03Bo
- aW2v0iAUrrBmjAAnis0ZTuLExmACQvHX9BGwHMZkdsDar7bp0f/hV1TND4ysyZPcNajv
- MxUUS+iODy8rM2KU4OisMXQh9LZ1NJ6ogFOJlv6cIdeQFddEb1L3R3vOMwLuwFLsS2+9
- lRqg==
-X-Gm-Message-State: AOAM530ehMMicN2tHvz5ByFHtESuQZihpm8KLn6lpkysXrOg1oqLLLA0
- AqLgmfIuuyPsz3NcuE6RhX5hOZMzfZs=
-X-Google-Smtp-Source: ABdhPJxrW6dSPmq+6bBqrHhbGEkt++JXBn2/b6USAeH0BnRFnTJW52SXHZXOimNZzUI1sZ5hZpT4Sg==
-X-Received: by 2002:a9d:75d5:: with SMTP id c21mr50145659otl.201.1641758729265; 
- Sun, 09 Jan 2022 12:05:29 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- i27sm1070319ots.49.2022.01.09.12.05.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 09 Jan 2022 12:05:28 -0800 (PST)
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Jeremy Kerr <jk@ozlabs.org>, Joel Stanley <joel@jms.id.au>,
- Alistar Popple <alistair@popple.id.au>, Eddie James <eajames@linux.ibm.com>,
- Andrew Jeffery <andrew@aj.id.au>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <3b5c9b693749a956b525c54bed0eeac9f958b8e8.1641734402.git.christophe.jaillet@wanadoo.fr>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v2] fsi: Aspeed: Fix a potential double free
-Message-ID: <5ecd3555-092c-e11d-deb4-98da7c0e3e01@roeck-us.net>
-Date: Sun, 9 Jan 2022 12:05:26 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JMRw46jrtz2xsY
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 27 Dec 2021 04:03:46 +1100 (AEDT)
+Received: from pop-os.home ([86.243.171.122]) by smtp.orange.fr with ESMTPA
+ id 1WoWnyraJ3ptZ1WoXnZEua; Sun, 26 Dec 2021 17:56:12 +0100
+X-ME-Helo: pop-os.home
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Sun, 26 Dec 2021 17:56:12 +0100
+X-ME-IP: 86.243.171.122
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: jk@ozlabs.org, joel@jms.id.au, alistair@popple.id.au,
+ eajames@linux.ibm.com, andrew@aj.id.au, gregkh@linuxfoundation.org
+Subject: [PATCH] fsi: Aspeed: Fix a potential double free
+Date: Sun, 26 Dec 2021 17:56:02 +0100
+Message-Id: <2cafa0607ca171ebd00ac6c7e073b46808e24f00.1640537669.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <3b5c9b693749a956b525c54bed0eeac9f958b8e8.1641734402.git.christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 10 Jan 2022 12:51:28 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,48 +47,57 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: linux-aspeed@lists.ozlabs.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-fsi@lists.ozlabs.org
+ linux-kernel@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-arm-kernel@lists.infradead.org, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 1/9/22 5:20 AM, Christophe JAILLET wrote:
-> A struct device can never be devm_alloc()'ed.
-> Here, it is embedded in "struct fsi_master", and "struct fsi_master" is
-> embedded in "struct fsi_master_aspeed".
-> 
-> Since "struct device" is embedded, the data structure embedding it must be
-> released with the release function, as is already done here.
-> 
-> So use kzalloc() instead of devm_kzalloc() when allocating "aspeed".
-> This prevent a potential double free().
-> 
-> Fixes: 606397d67f41 ("fsi: Add ast2600 master driver")
-> Suggested-by: Greg KH <gregkh@linuxfoundation.org>
-> Suggested-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
-> v2: Keep the release function which is correct
->      s/devm_kzalloc()/kzalloc()/ instead
-> ---
->   drivers/fsi/fsi-master-aspeed.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-master-aspeed.c
-> index 8606e55c1721..ae6319818b14 100644
-> --- a/drivers/fsi/fsi-master-aspeed.c
-> +++ b/drivers/fsi/fsi-master-aspeed.c
-> @@ -542,7 +542,7 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
->   		return rc;
->   	}
->   
-> -	aspeed = devm_kzalloc(&pdev->dev, sizeof(*aspeed), GFP_KERNEL);
-> +	aspeed = kzalloc(sizeof(*aspeed), GFP_KERNEL);
+'aspeed' is a devm_alloc'ed, so there is no need to free it explicitly or
+there will be a double free().
 
-Unfortunately it isn't that easy. error handling in the probe function must take this
-into account and free the memory. Looking at that exposes another bug: The
-failure in opb_readl() should not result in a direct return but disable and
-unprepare the clock.
+Remove the 'release' function that is wrong and unneeded.
 
-Guenter
+Fixes: 606397d67f41 ("fsi: Add ast2600 master driver")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+This patch is completely theoretical. It looks good to me, but there is a
+little too much indirections for me. I'm also not that familiar with
+fixing issue related to 'release' function...
+
+... So review with care :)
+---
+ drivers/fsi/fsi-master-aspeed.c | 9 ---------
+ 1 file changed, 9 deletions(-)
+
+diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-master-aspeed.c
+index 8606e55c1721..4a745ccb60cf 100644
+--- a/drivers/fsi/fsi-master-aspeed.c
++++ b/drivers/fsi/fsi-master-aspeed.c
+@@ -373,14 +373,6 @@ static int aspeed_master_break(struct fsi_master *master, int link)
+ 	return aspeed_master_write(master, link, 0, addr, &cmd, 4);
+ }
+ 
+-static void aspeed_master_release(struct device *dev)
+-{
+-	struct fsi_master_aspeed *aspeed =
+-		to_fsi_master_aspeed(dev_to_fsi_master(dev));
+-
+-	kfree(aspeed);
+-}
+-
+ /* mmode encoders */
+ static inline u32 fsi_mmode_crs0(u32 x)
+ {
+@@ -603,7 +595,6 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
+ 	dev_info(&pdev->dev, "hub version %08x (%d links)\n", reg, links);
+ 
+ 	aspeed->master.dev.parent = &pdev->dev;
+-	aspeed->master.dev.release = aspeed_master_release;
+ 	aspeed->master.dev.of_node = of_node_get(dev_of_node(&pdev->dev));
+ 
+ 	aspeed->master.n_links = links;
+-- 
+2.32.0
+
