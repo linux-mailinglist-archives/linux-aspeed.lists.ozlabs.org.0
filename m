@@ -2,76 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87B8C481190
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Dec 2021 11:17:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8AE481198
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Dec 2021 11:18:51 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JP6lL1S79z30Bl
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Dec 2021 21:17:02 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JP6nN6Xlrz2ywp
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Dec 2021 21:18:48 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=nFApkzhs;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=fTW0JdR1;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::42d;
- helo=mail-wr1-x42d.google.com; envelope-from=lee.jones@linaro.org;
+ smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::32a;
+ helo=mail-wm1-x32a.google.com; envelope-from=lee.jones@linaro.org;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=nFApkzhs; dkim-atps=neutral
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
+ header.s=google header.b=fTW0JdR1; dkim-atps=neutral
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JP6lC2cVlz2yZv
- for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Dec 2021 21:16:53 +1100 (AEDT)
-Received: by mail-wr1-x42d.google.com with SMTP id k18so6739181wrg.11
- for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Dec 2021 02:16:52 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JP6nJ2rZ8z2xTC
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Dec 2021 21:18:44 +1100 (AEDT)
+Received: by mail-wm1-x32a.google.com with SMTP id g132so13260036wmg.2
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Dec 2021 02:18:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=b+zE01u0JpXpyPFug8aJeTgsvJdxFWBY5Ed+UEXJSbA=;
- b=nFApkzhsRA48nGUu+5m10zgx/O8dTMBvvVv1kZzQwiqMHrMxHsItuQb0vBSLa7PUz0
- H5wJ9THDs0vtzxZRwJMcrBdgc05TslxDqhMj0PLv5Rl5bvj0mjFHBxn4Rv768Oj9gyAX
- OO63YnO6HU7LFncpBZ9CNKqug1Ps4gJRdVgHkSqt1rcMUtwoqpWiVS2I8zw0DKquhvmq
- DUBOUyj7NmEMqPSqH8kKTbjsCVw3cJy06PWUmLM5SrVJFDr5XinFywfp1IfAIOX3EnD6
- hYwt1IgD0ZTXATvchXACobxPOQh9Ib2lra6iAMhic7D2RvBRaF2UU0NU8HVzXJeTSvQq
- o6Ow==
+ bh=DhXo7kMC0uPR2/PxJNBSCPHqufGQVkkQQH3q6s5xJ5w=;
+ b=fTW0JdR1ykzRRIY9dw57yS/8M99GGw9D5WoARy8fmCk5IFEFao0lWGNbbjQJkYt+Xy
+ 3MNWPza2N21Cne2wpHD7iYG6Tc3pZFdHBl6alGSWaeBja4XGfd2dQLtkK5lYdBoAVuGN
+ 7BFoU68lYLsNk0WNUFm6RUb7/Fmudi5PwInGqMFkncUajsRgjCOgl0/Eza4QJQ+7GZt0
+ DG+Us1/Dk7SO2aaYbGqoEo0noHRSFuaycOvCLnGZ6NidMlPa3IKnEhDEZtHpkQvt4wy1
+ fXT9/t0kqPyp+R9mVR+CmJj+0vOOR2/h0+awCHcbxM4HFsiu9vuhjXG6XErcuhQrPAjb
+ NHZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=b+zE01u0JpXpyPFug8aJeTgsvJdxFWBY5Ed+UEXJSbA=;
- b=FNajYVUZ8Eq68dziuezQceCk8hWCn5OlO6vlX8SilT1vw89modvK9K4TU0GeQ2ZsCx
- lqbxokdcSrrBiwZzuT9Dony47cJ9+oLzOq5xvgFaPQXeivKkw/ac1Sq4GOoxnl04SaLg
- 6o14A59yYr3Df99fWgtaiBmgOiWHRTHKjcYpWQpfBo6Iua/EuCTOy3UJKudis3gJyGD8
- WLLf7GD8vhfmyWUPx4FZ9KLtrW6P4q8qZSrRBspf37oHpX0wWdK9xamX0V6K9Q1JSlHQ
- AzbXQgLBN0iL5e8kBzwJWIinTMOgUB+cB302ka57/1zgIgX3sUsaK1LVtOoPN8NQaNpO
- EpEQ==
-X-Gm-Message-State: AOAM533uT0TwKt6yN3MPmelmwUsn/nfq4oL2kFsAVJ3HrkpZXrpi243H
- ltLnwXPdXaQo2uTQ7ZN2jpGuBw==
-X-Google-Smtp-Source: ABdhPJx0iWeXqxZaRi6Rm3ozmbJecqRY7o7RGp5qWfmkkNU1k7L7xFc8xl0Wrcp57XJhzm0SxQHnJw==
-X-Received: by 2002:a5d:56c2:: with SMTP id m2mr20111241wrw.313.1640773006492; 
- Wed, 29 Dec 2021 02:16:46 -0800 (PST)
+ bh=DhXo7kMC0uPR2/PxJNBSCPHqufGQVkkQQH3q6s5xJ5w=;
+ b=1wm//MgTy5jh8Xjmc4kdEsJJcxbDKkbKoClzLTnC5baFe6mfiLKFgkIcwSqL29sm71
+ 0So35pffTAqrAGQaxtW+2LwI4HHGJFKPPIs0Lb001ZB8AB14JCFo7snDzxOsbqGAqmpj
+ uGidXHaf+fIhNg7oAeBFJVZ6A3k0GbjTmIT45TwCjinBqhAlSqygNlTX7u4bWp8xU+pj
+ rRazDtk3/JjAINARut3j/XZR2/Tj5dH4mwvQ9Qr2zgDWokKq5VnUzfU/qK6Jz2QnVhG0
+ 2IEMfF6tKaQoCbunpRJsOfN2cqCei8JeKMmCCpeaQlu1Q7KMl7rwyvRdaCBA+0U+WyxC
+ uwLw==
+X-Gm-Message-State: AOAM533FEC2E4FHIykhX4tmnwTjL9gEGHSzfLJRRSUERdlKJOp23R13v
+ 342hUoEpygsxk2iSAcXcsLSlCA==
+X-Google-Smtp-Source: ABdhPJxlh/wswgV+eWD3Uf/3R7henCTK2h+kQsStrI5za04QhH9jaGk/3Wx/qaAyCvETvukN4Wz1CQ==
+X-Received: by 2002:a05:600c:a54:: with SMTP id
+ c20mr20967140wmq.48.1640773120328; 
+ Wed, 29 Dec 2021 02:18:40 -0800 (PST)
 Received: from google.com ([2.31.167.18])
- by smtp.gmail.com with ESMTPSA id o5sm3040713wmc.39.2021.12.29.02.16.45
+ by smtp.gmail.com with ESMTPSA id k6sm19938299wrc.38.2021.12.29.02.18.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Dec 2021 02:16:46 -0800 (PST)
-Date: Wed, 29 Dec 2021 10:16:44 +0000
+ Wed, 29 Dec 2021 02:18:39 -0800 (PST)
+Date: Wed, 29 Dec 2021 10:18:37 +0000
 From: Lee Jones <lee.jones@linaro.org>
 To: Quan Nguyen <quan@os.amperecomputing.com>
-Subject: Re: [PATCH v6 6/9] misc: smpro-errmon: Add Ampere's SMpro error
- monitor driver
-Message-ID: <Ycw1jNNGlkaj3QnI@google.com>
+Subject: Re: [PATCH v6 8/9] misc: smpro-misc: Add Ampere's Altra SMpro misc
+ driver
+Message-ID: <Ycw1/XufNWq/FUss@google.com>
 References: <20211224041352.29405-1-quan@os.amperecomputing.com>
- <20211224041352.29405-7-quan@os.amperecomputing.com>
+ <20211224041352.29405-9-quan@os.amperecomputing.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211224041352.29405-7-quan@os.amperecomputing.com>
+In-Reply-To: <20211224041352.29405-9-quan@os.amperecomputing.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,24 +103,40 @@ Sender: "Linux-aspeed"
 
 On Fri, 24 Dec 2021, Quan Nguyen wrote:
 
-> This commit adds Ampere's SMpro error monitor driver for monitoring
-> and reporting RAS-related errors as reported by SMpro co-processor
-> found on Ampere's Altra processor family.
+> This commit adds driver support for accessing various information
+> reported by Ampere's SMpro co-processor such as Boot Progress and
+> other miscellaneous data.
 > 
 > Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
 > ---
 > Change in v6:
 >   + First introduced in v6 [Quan]
 > 
->  drivers/mfd/smpro-mfd.c     |   1 +
+>  drivers/mfd/smpro-mfd.c   |   1 +
 
-Separate patch please.
+Please pull all of these patches out.
 
->  drivers/misc/Kconfig        |   7 +
->  drivers/misc/Makefile       |   1 +
->  drivers/misc/smpro-errmon.c | 571 ++++++++++++++++++++++++++++++++++++
->  4 files changed, 580 insertions(+)
->  create mode 100644 drivers/misc/smpro-errmon.c
+There are no build dependencies here.
+
+>  drivers/misc/Kconfig      |   7 ++
+>  drivers/misc/Makefile     |   1 +
+>  drivers/misc/smpro-misc.c | 177 ++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 186 insertions(+)
+>  create mode 100644 drivers/misc/smpro-misc.c
+> 
+> diff --git a/drivers/mfd/smpro-mfd.c b/drivers/mfd/smpro-mfd.c
+> index a7cd64bf9eaa..5611dd30f8f4 100644
+> --- a/drivers/mfd/smpro-mfd.c
+> +++ b/drivers/mfd/smpro-mfd.c
+> @@ -28,6 +28,7 @@ static const struct regmap_config simple_word_regmap_config = {
+>  static const struct mfd_cell smpro_devs[] = {
+>  	MFD_CELL_NAME("smpro-hwmon"),
+>  	MFD_CELL_NAME("smpro-errmon"),
+> +	MFD_CELL_NAME("smpro-misc"),
+
+Misc is a Linuxisum which are not allowed in DT.
+
+What does this driver actually do?
 
 -- 
 Lee Jones [李琼斯]
