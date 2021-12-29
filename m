@@ -2,54 +2,76 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4878647FA86
-	for <lists+linux-aspeed@lfdr.de>; Mon, 27 Dec 2021 07:29:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B8C481190
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Dec 2021 11:17:04 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JMnng0yHPz2yw5
-	for <lists+linux-aspeed@lfdr.de>; Mon, 27 Dec 2021 17:29:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JP6lL1S79z30Bl
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Dec 2021 21:17:02 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=ABAPlhry;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=nFApkzhs;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linuxfoundation.org (client-ip=2604:1380:4601:e00::1;
- helo=ams.source.kernel.org; envelope-from=gregkh@linuxfoundation.org;
+ smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::42d;
+ helo=mail-wr1-x42d.google.com; envelope-from=lee.jones@linaro.org;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org
- header.a=rsa-sha256 header.s=korg header.b=ABAPlhry; 
- dkim-atps=neutral
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
+ header.s=google header.b=nFApkzhs; dkim-atps=neutral
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JMnnW2D5Nz2xBK;
- Mon, 27 Dec 2021 17:29:18 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B3957B808C2;
- Mon, 27 Dec 2021 06:29:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7F29C36AEA;
- Mon, 27 Dec 2021 06:29:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1640586552;
- bh=nfs9cY8hI68fJLHPs5Fa7P0ypNV+LDUhpthBrDIFF8E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ABAPlhryXS4apdou9GUXwJ8i5FQcKWPhWFsKp7W0eJWH4AMZRiTk0eGETSG0DstwF
- 84NvaMBh07x3inS0s2BeTyjeaglKmONOOBYVNDTjwo5M006tzcriXVb+OkSmba8D9/
- dbk303EYzmi5XnWPJJQaYoe70dl6LR7fAjpV0GNQ=
-Date: Mon, 27 Dec 2021 07:29:07 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH] fsi: Aspeed: Fix a potential double free
-Message-ID: <YcldM9sgYdjMYMtH@kroah.com>
-References: <2cafa0607ca171ebd00ac6c7e073b46808e24f00.1640537669.git.christophe.jaillet@wanadoo.fr>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JP6lC2cVlz2yZv
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Dec 2021 21:16:53 +1100 (AEDT)
+Received: by mail-wr1-x42d.google.com with SMTP id k18so6739181wrg.11
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Dec 2021 02:16:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=b+zE01u0JpXpyPFug8aJeTgsvJdxFWBY5Ed+UEXJSbA=;
+ b=nFApkzhsRA48nGUu+5m10zgx/O8dTMBvvVv1kZzQwiqMHrMxHsItuQb0vBSLa7PUz0
+ H5wJ9THDs0vtzxZRwJMcrBdgc05TslxDqhMj0PLv5Rl5bvj0mjFHBxn4Rv768Oj9gyAX
+ OO63YnO6HU7LFncpBZ9CNKqug1Ps4gJRdVgHkSqt1rcMUtwoqpWiVS2I8zw0DKquhvmq
+ DUBOUyj7NmEMqPSqH8kKTbjsCVw3cJy06PWUmLM5SrVJFDr5XinFywfp1IfAIOX3EnD6
+ hYwt1IgD0ZTXATvchXACobxPOQh9Ib2lra6iAMhic7D2RvBRaF2UU0NU8HVzXJeTSvQq
+ o6Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=b+zE01u0JpXpyPFug8aJeTgsvJdxFWBY5Ed+UEXJSbA=;
+ b=FNajYVUZ8Eq68dziuezQceCk8hWCn5OlO6vlX8SilT1vw89modvK9K4TU0GeQ2ZsCx
+ lqbxokdcSrrBiwZzuT9Dony47cJ9+oLzOq5xvgFaPQXeivKkw/ac1Sq4GOoxnl04SaLg
+ 6o14A59yYr3Df99fWgtaiBmgOiWHRTHKjcYpWQpfBo6Iua/EuCTOy3UJKudis3gJyGD8
+ WLLf7GD8vhfmyWUPx4FZ9KLtrW6P4q8qZSrRBspf37oHpX0wWdK9xamX0V6K9Q1JSlHQ
+ AzbXQgLBN0iL5e8kBzwJWIinTMOgUB+cB302ka57/1zgIgX3sUsaK1LVtOoPN8NQaNpO
+ EpEQ==
+X-Gm-Message-State: AOAM533uT0TwKt6yN3MPmelmwUsn/nfq4oL2kFsAVJ3HrkpZXrpi243H
+ ltLnwXPdXaQo2uTQ7ZN2jpGuBw==
+X-Google-Smtp-Source: ABdhPJx0iWeXqxZaRi6Rm3ozmbJecqRY7o7RGp5qWfmkkNU1k7L7xFc8xl0Wrcp57XJhzm0SxQHnJw==
+X-Received: by 2002:a5d:56c2:: with SMTP id m2mr20111241wrw.313.1640773006492; 
+ Wed, 29 Dec 2021 02:16:46 -0800 (PST)
+Received: from google.com ([2.31.167.18])
+ by smtp.gmail.com with ESMTPSA id o5sm3040713wmc.39.2021.12.29.02.16.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Dec 2021 02:16:46 -0800 (PST)
+Date: Wed, 29 Dec 2021 10:16:44 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: Quan Nguyen <quan@os.amperecomputing.com>
+Subject: Re: [PATCH v6 6/9] misc: smpro-errmon: Add Ampere's SMpro error
+ monitor driver
+Message-ID: <Ycw1jNNGlkaj3QnI@google.com>
+References: <20211224041352.29405-1-quan@os.amperecomputing.com>
+ <20211224041352.29405-7-quan@os.amperecomputing.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2cafa0607ca171ebd00ac6c7e073b46808e24f00.1640537669.git.christophe.jaillet@wanadoo.fr>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211224041352.29405-7-quan@os.amperecomputing.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,64 +83,46 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- alistair@popple.id.au, linux-kernel@vger.kernel.org, jk@ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-fsi@lists.ozlabs.org
+Cc: linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
+ Dragan Cvetic <dragan.cvetic@xilinx.com>,
+ Phong Vo <phong@os.amperecomputing.com>, Jonathan Corbet <corbet@lwn.net>,
+ openbmc@lists.ozlabs.org, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Derek Kiernan <derek.kiernan@xilinx.com>, Guenter Roeck <linux@roeck-us.net>,
+ devicetree@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Open Source Submission <patches@amperecomputing.com>,
+ linux-hwmon@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sun, Dec 26, 2021 at 05:56:02PM +0100, Christophe JAILLET wrote:
-> 'aspeed' is a devm_alloc'ed, so there is no need to free it explicitly or
-> there will be a double free().
+On Fri, 24 Dec 2021, Quan Nguyen wrote:
 
-A struct device can never be devm_alloced for obvious reasons.  Perhaps
-that is the real problem here?
-
-> Remove the 'release' function that is wrong and unneeded.
+> This commit adds Ampere's SMpro error monitor driver for monitoring
+> and reporting RAS-related errors as reported by SMpro co-processor
+> found on Ampere's Altra processor family.
 > 
-> Fixes: 606397d67f41 ("fsi: Add ast2600 master driver")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
 > ---
-> This patch is completely theoretical. It looks good to me, but there is a
-> little too much indirections for me. I'm also not that familiar with
-> fixing issue related to 'release' function...
+> Change in v6:
+>   + First introduced in v6 [Quan]
 > 
-> ... So review with care :)
-> ---
->  drivers/fsi/fsi-master-aspeed.c | 9 ---------
->  1 file changed, 9 deletions(-)
-> 
-> diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-master-aspeed.c
-> index 8606e55c1721..4a745ccb60cf 100644
-> --- a/drivers/fsi/fsi-master-aspeed.c
-> +++ b/drivers/fsi/fsi-master-aspeed.c
-> @@ -373,14 +373,6 @@ static int aspeed_master_break(struct fsi_master *master, int link)
->  	return aspeed_master_write(master, link, 0, addr, &cmd, 4);
->  }
->  
-> -static void aspeed_master_release(struct device *dev)
-> -{
-> -	struct fsi_master_aspeed *aspeed =
-> -		to_fsi_master_aspeed(dev_to_fsi_master(dev));
-> -
-> -	kfree(aspeed);
-> -}
-> -
->  /* mmode encoders */
->  static inline u32 fsi_mmode_crs0(u32 x)
->  {
-> @@ -603,7 +595,6 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
->  	dev_info(&pdev->dev, "hub version %08x (%d links)\n", reg, links);
->  
->  	aspeed->master.dev.parent = &pdev->dev;
-> -	aspeed->master.dev.release = aspeed_master_release;
+>  drivers/mfd/smpro-mfd.c     |   1 +
 
-Odd, then what deletes this device structure when the release function
-wants to be called?  You should have gotten a big warning from the
-kernel when removing the device from the system at runtime, did you test
-this somehow?
+Separate patch please.
 
-This does not look correct at all.
+>  drivers/misc/Kconfig        |   7 +
+>  drivers/misc/Makefile       |   1 +
+>  drivers/misc/smpro-errmon.c | 571 ++++++++++++++++++++++++++++++++++++
+>  4 files changed, 580 insertions(+)
+>  create mode 100644 drivers/misc/smpro-errmon.c
 
-greg k-h
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
