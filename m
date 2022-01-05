@@ -1,90 +1,57 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07B54484B1F
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jan 2022 00:18:43 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 722A5485118
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jan 2022 11:23:54 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JT7pS3LF0z2ywm
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jan 2022 10:18:40 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JTQZ02f4Nz305q
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jan 2022 21:23:52 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm3 header.b=PgJtxgwe;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=L5I45CSF;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=aX0ygTIV;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=stwcx.xyz (client-ip=66.111.4.26;
- helo=out2-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz;
+ smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab;
+ helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256
- header.s=fm3 header.b=PgJtxgwe; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm1 header.b=L5I45CSF; 
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net
+ header.a=rsa-sha256 header.s=thorn header.b=aX0ygTIV; 
  dkim-atps=neutral
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
+X-Greylist: delayed 371 seconds by postgrey-1.36 at boromir;
+ Wed, 05 Jan 2022 21:23:48 AEDT
+Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net
+ [IPv6:2605:2700:0:5::4713:9cab])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JT7pF1pB3z2xBf
- for <linux-aspeed@lists.ozlabs.org>; Wed,  5 Jan 2022 10:18:28 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 8A3B05C017C;
- Tue,  4 Jan 2022 18:18:24 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 04 Jan 2022 18:18:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=axVMBjIr/XhRKABCeCcLgnPbHr1
- sgLS8A+upCHYVmH4=; b=PgJtxgwefwSS2LS81uYLAi3umYX0eSm8Abwh+YZjpKF
- qkgUwUA4DERRhJt769aENe+T+weEJOXAu2fbWtkH08yMP0s1t6AbXpKaWDqoWZmE
- Vaj+7NOLf/PTvVYlY5xOVE7IbPVinQywDpKYRWselp8aapQaq+PYRoIfQuaQsmdt
- +v7vZzVYhjc6jqtCtGOilm4UcCETgtF/ZS/hLQanHNuBAUenH023kq9rYBBfC5vy
- 6UG4N/MSStSXHyB+dMNsJ2CS2p2WcPdaWF5G4oStII8eqJnrfoeTzGxZs3Dp5z1p
- ITonEkbY6yvgSkpcHDcRihlib7loY9cQrc1uhxPcOHQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=axVMBj
- Ir/XhRKABCeCcLgnPbHr1sgLS8A+upCHYVmH4=; b=L5I45CSFBGPgr5QAhuILtg
- LEwRi5QDca723+K4k7bMw7do09yWruW7Hg5X46Bzj7SyGQVEmbBVxSwWesVosM4n
- NhzQirCAbUmWNHnhcXVxHWUCJDk2o8J4aicyVc78Ffa03YxXQNtiTMjKGiY5jZJF
- GhETTH8YKOuS2oR5RV6UICUa0gOJup9rXggnGfcVp0Frg4lAdrYQbNvw31YUlV8h
- a4vRfRbB+MpA7Ch875PNqwMrgghcorAMY9On8nGAh4clHUCrGMZPG7RCEIOIdalr
- P3jvQJJ52AvArGidf5UqRnTtt7vDxhH4/Ih2/0/VFDooCjXv0FpV7J+Sd3vV5vGg
- ==
-X-ME-Sender: <xms:v9XUYddgPdlzTw0HMUfWJGw0458UwpV_3TG6zIYtg7eZ72vlVHsGXg>
- <xme:v9XUYbOBTaQMF-Z4qGa8jYPz7r5IC0JpsaQJIJma6MYXWUgLO67R_kdJJ7Ro3y7G5
- F6PRc5wddcrcc2KQ1c>
-X-ME-Received: <xmr:v9XUYWhj61njxHztSrTMaTNPjIM5KRRnEVq9udrCUHB4UKI84rTAKdozIC_FoIsePPIoxl0G54ICdRaaTBLm8pb93-H64WnhVyTnww>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrudefgedgtdeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- gfrhhlucfvnfffucdlfeehmdenucfjughrpeffhffvuffkfhggtggujgesghdtreertddt
- vdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
- htfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepgeehheefffegkeevhedthffgudfh
- geefgfdthefhkedtleffveekgfeuffehtdeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepphgrthhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:v9XUYW8vTN2cISxaV-rUqwLf6MP2xfIAaDI1-azT7y9b6-nkLijuBQ>
- <xmx:v9XUYZuwpeR019OdUwAoU-ADZw1JUe1bR3jABq7TSdq-L_Ee96AU8Q>
- <xmx:v9XUYVEQAvFKCSPvD264Mpt6n-GgnMgV7VW2HBibMVrsWCuiRoH92w>
- <xmx:wNXUYdipMNB9uLf8truu575ADZ5RkeVaO-hcIGM8jmDbNx27jfsWOQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 4 Jan 2022 18:18:23 -0500 (EST)
-Date: Tue, 4 Jan 2022 17:18:22 -0600
-From: Patrick Williams <patrick@stwcx.xyz>
-To: Potin Lai <potin.lai@quantatw.com>
-Subject: Re: [PATCH] ARM: dts: aspeed: update dts of Bletchley platform
-Message-ID: <YdTVvuXiPPRaMw99@heinlein>
-References: <20220104093008.624-1-potin.lai@quantatw.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JTQYw3WKbz2xBq
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  5 Jan 2022 21:23:48 +1100 (AEDT)
+Received: from hatter.bewilderbeest.net (174-21-190-118.tukw.qwest.net
+ [174.21.190.118])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: zev)
+ by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 1F30A3E7;
+ Wed,  5 Jan 2022 02:17:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
+ s=thorn; t=1641377852;
+ bh=sakg/fTffWwQEuwRwcQ4RAMqeFmS9yKqoA94UIg2shc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=aX0ygTIVeQdp8u0XAIqdPj1kIAUApS/SjqmpaxJn881z8i25FC2xLReja+icC9tLP
+ ftVL/3G1ygTvsvRjZx9wDlnaF7wK/58jz1nxDbSholk9eBlxogEFpFkZv3g9zjtnEC
+ /Muhl2q+wF80iiLL8NPJZy1e2MwYmaVCGTMAFaLs=
+From: Zev Weiss <zev@bewilderbeest.net>
+To: linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org
+Subject: [PATCH] ARM: dts: aspeed: Add ASRock ROMED8HM3 BMC
+Date: Wed,  5 Jan 2022 02:17:19 -0800
+Message-Id: <20220105101719.7093-1-zev@bewilderbeest.net>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="W1cbhE6m1lnx5SC8"
-Content-Disposition: inline
-In-Reply-To: <20220104093008.624-1-potin.lai@quantatw.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,105 +63,304 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+Cc: devicetree@vger.kernel.org, Zev Weiss <zev@bewilderbeest.net>,
+ Arnd Bergmann <arnd@arndb.de>, openbmc@lists.ozlabs.org,
  linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+ Anthony Jenkins <anthony.jenkins@privafy.com>,
+ Neil Horman <neil.horman@privafy.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+This is a half-width, single-socket Epyc server board with an AST2500
+BMC.  This device tree is sufficient for basic OpenBMC functionality,
+but we'll need to add a few more devices (as driver support becomes
+available) before it's fully usable.
 
---W1cbhE6m1lnx5SC8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+---
+ arch/arm/boot/dts/Makefile                    |   1 +
+ .../boot/dts/aspeed-bmc-asrock-romed8hm3.dts  | 259 ++++++++++++++++++
+ 2 files changed, 260 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts
 
-Hi Potin,
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 0de64f237cd8..4008d2143b44 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -1481,6 +1481,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+ 	aspeed-bmc-arm-centriq2400-rep.dtb \
+ 	aspeed-bmc-arm-stardragon4800-rep2.dtb \
+ 	aspeed-bmc-asrock-e3c246d4i.dtb \
++	aspeed-bmc-asrock-romed8hm3.dtb \
+ 	aspeed-bmc-bytedance-g220a.dtb \
+ 	aspeed-bmc-facebook-cloudripper.dtb \
+ 	aspeed-bmc-facebook-cmm.dtb \
+diff --git a/arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts b/arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts
+new file mode 100644
+index 000000000000..e71ccfd1df63
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts
+@@ -0,0 +1,259 @@
++// SPDX-License-Identifier: GPL-2.0+
++/dts-v1/;
++
++#include "aspeed-g5.dtsi"
++#include <dt-bindings/gpio/aspeed-gpio.h>
++#include <dt-bindings/interrupt-controller/irq.h>
++
++/{
++	model = "ASRock ROMED8HM3 BMC v1.00";
++	compatible = "asrock,romed8hm3-bmc", "aspeed,ast2500";
++
++	aliases {
++		serial4 = &uart5;
++	};
++
++	chosen {
++		stdout-path = &uart5;
++		bootargs = "console=tty0 console=ttyS4,115200 earlycon";
++	};
++
++	memory@80000000 {
++		reg = <0x80000000 0x20000000>;
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		heartbeat {
++			gpios = <&gpio ASPEED_GPIO(H, 6) GPIO_ACTIVE_LOW>;
++			linux,default-trigger = "timer";
++		};
++
++		system-fault {
++			gpios = <&gpio ASPEED_GPIO(Z, 2) GPIO_ACTIVE_LOW>;
++			panic-indicator;
++		};
++	};
++
++	iio-hwmon {
++		compatible = "iio-hwmon";
++		io-channels = <&adc 0>, <&adc 1>, <&adc 2>, <&adc 3>,
++			<&adc 4>, <&adc 5>, <&adc 6>, <&adc 7>,
++			<&adc 8>, <&adc 9>, <&adc 10>, <&adc 11>,
++			<&adc 12>, <&adc 13>, <&adc 14>, <&adc 15>;
++	};
++};
++
++&fmc {
++	status = "okay";
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "bmc";
++		spi-max-frequency = <100000000>; /* 100 MHz */
++#include "openbmc-flash-layout-64.dtsi"
++	};
++};
++
++&uart5 {
++	status = "okay";
++};
++
++&vuart {
++	status = "okay";
++	aspeed,lpc-io-reg = <0x2f8>;
++	aspeed,lpc-interrupts = <3 IRQ_TYPE_LEVEL_HIGH>;
++};
++
++&mac0 {
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rgmii1_default &pinctrl_mdio1_default>;
++};
++
++&i2c0 {
++	status = "okay";
++
++	/* inlet temp sensor */
++	w83773g@4c {
++		compatible = "nuvoton,w83773g";
++		reg = <0x4c>;
++	};
++};
++
++&i2c1 {
++	status = "okay";
++};
++
++&i2c2 {
++	status = "okay";
++
++	/* IPB temp sensor */
++	w83773g@4c {
++		compatible = "nuvoton,w83773g";
++		reg = <0x4c>;
++	};
++
++	/* IPB PMIC */
++	lm25066@40 {
++		compatible = "lm25066";
++		reg = <0x40>;
++	};
++
++	/* 12VSB PMIC */
++	lm25066@41 {
++		compatible = "lm25066";
++		reg = <0x41>;
++	};
++};
++
++&i2c4 {
++	status = "okay";
++};
++
++&i2c5 {
++	status = "okay";
++};
++
++&i2c6 {
++	status = "okay";
++};
++
++&i2c7 {
++	status = "okay";
++
++	/* Baseboard FRU eeprom */
++	eeprom@50 {
++		compatible = "st,24c128", "atmel,24c128";
++		reg = <0x50>;
++		pagesize = <16>;
++	};
++};
++
++&i2c8 {
++	status = "okay";
++};
++
++&i2c9 {
++	status = "okay";
++};
++
++&video {
++	status = "okay";
++};
++
++&vhub {
++	status = "okay";
++};
++
++&lpc_ctrl {
++	status = "okay";
++};
++
++&lpc_snoop {
++	status = "okay";
++	snoop-ports = <0x80>;
++};
++
++&kcs3 {
++	status = "okay";
++	aspeed,lpc-io-reg = <0xca2>;
++};
++
++&pwm_tacho {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_pwm3_default
++		&pinctrl_pwm4_default
++		&pinctrl_pwm5_default
++		&pinctrl_pwm6_default>;
++
++	fan@3 {
++		reg = <0x03>;
++		aspeed,fan-tach-ch = /bits/ 8 <0x03 0x0b>;
++	};
++
++	fan@4 {
++		reg = <0x04>;
++		aspeed,fan-tach-ch = /bits/ 8 <0x04 0x0c>;
++	};
++
++	fan@5 {
++		reg = <0x05>;
++		aspeed,fan-tach-ch = /bits/ 8 <0x05 0x0d>;
++	};
++
++	fan@6 {
++		reg = <0x06>;
++		aspeed,fan-tach-ch = /bits/ 8 <0x06 0x0e>;
++	};
++};
++
++&gpio {
++	status = "okay";
++	gpio-line-names =
++		/*  A */ "LOCATORLED_STATUS_N", "BMC_MAC2_INTB", "NMI_BTN_N", "BMC_NMI",
++			"", "", "", "",
++		/*  B */ "DDR_MEM_TEMP", "", "", "", "", "", "", "",
++		/*  C */ "", "", "", "", "PCIE_HP_SEL_N", "PCIE_SATA_SEL_N", "LOCATORBTN", "",
++		/*  D */ "BMC_PSIN", "BMC_PSOUT", "BMC_RESETCON", "RESETCON",
++			"", "", "", "PSU_FAN_FAIL_N",
++		/*  E */ "", "", "", "", "", "", "", "",
++		/*  F */ "NIC_PWR_GOOD", "PRSNTB0", "PRSNTB1", "PRSNTB2",
++			"PRSNTB3", "", "3VSB_PCIE1_PG", "12V_PCIE1_PG",
++		/*  G */ "HWM_BAT_EN", "CHASSIS_ID0", "CHASSIS_ID1", "CHASSIS_ID2",
++			"BMC_ALERT1_N_R", "BMC_ALERT2_N_R", "BMC_ALERT3_N", "BMC_ALERT4_N",
++		/*  H */ "X24_C1_PRSNT", "X24_C2_PRSNT", "X24_C3_PRSNT", "FM_MEM_THERM_EVENT_BMC_R_N",
++			"FACMODE", "BMC_RTCRST", "BMC_HB_LED_N", "BMC_CASEOPEN",
++		/*  I */ "", "", "", "", "", "", "", "",
++		/*  J */ "BMC_READY", "BMC_PCH_BIOS_CS_N", "", "P0_MA_DDR_QS_CS_N",
++			"", "", "", "",
++		/*  K */ "", "", "", "", "", "", "", "",
++		/*  L */ "", "", "", "", "", "", "", "",
++		/*  M */ "", "", "MEZZ_PWRBRK_N", "OCP_HP_RST_EN",
++			"MAIN_PWR_EN_G", "BMC_MAIN_EN", "AUX_PWR_EN_G", "BMC_AUX_EN",
++		/*  N */ "", "", "", "", "", "", "", "",
++		/*  O */ "", "", "", "", "", "", "", "",
++		/*  P */ "", "", "", "", "", "", "", "",
++		/*  Q */ "", "", "", "",
++			"BMC_SMB_PRESENT_1_N", "BMC_SMB_PRESENT_2_N",
++			"BMC_SMB_PRESENT_3_N", "BMC_PCIE_WAKE_N",
++		/*  R */ "", "", "THERMALTRIP_CLEAR_N", "", "", "", "", "",
++		/*  S */ "", "", "", "", "", "", "", "",
++		/*  T */ "", "", "", "", "", "", "", "",
++		/*  U */ "", "", "", "", "", "", "", "",
++		/*  V */ "", "", "", "", "", "", "", "",
++		/*  W */ "", "", "", "", "", "", "", "",
++		/*  X */ "", "", "", "", "", "", "", "",
++		/*  Y */ "SLP_S3", "SLP_S4_S5", "NODE_ID_1", "NODE_ID_2", "", "", "", "",
++		/*  Z */ "", "", "SYSTEM_FAULT_LED_N", "FAST_THROTTLE_N",
++			"", "", "", "",
++		/* AA */ "FM_CPU0_IBMC_THERMTRIP_N", "", "PROCHOT_L_G", "",
++			"", "", "", "",
++		/* AB */ "BMC_FORCE_SELFREFRESH", "PWRGD_OUT", "", "IRQ_BMC_PCH_SMI_LPC_N",
++			"", "", "", "",
++		/* AC */ "", "", "", "", "", "", "", "";
++};
++
++&adc {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_adc0_default
++		&pinctrl_adc1_default
++		&pinctrl_adc2_default
++		&pinctrl_adc3_default
++		&pinctrl_adc4_default
++		&pinctrl_adc5_default
++		&pinctrl_adc6_default
++		&pinctrl_adc7_default
++		&pinctrl_adc8_default
++		&pinctrl_adc9_default
++		&pinctrl_adc10_default
++		&pinctrl_adc11_default
++		&pinctrl_adc12_default
++		&pinctrl_adc13_default
++		&pinctrl_adc14_default
++		&pinctrl_adc15_default>;
++};
+-- 
+2.34.1
 
-A few minor comments.  You might want to leave more information in the devi=
-ce
-tree for a few of these since they seem like non-obvious settings.
-
-On Tue, Jan 04, 2022 at 05:30:08PM +0800, Potin Lai wrote:
-> updates:
-> * seperate leds into multiple groups
-> * switch sled numbering to 1-based
-> * disable inchip rtc
-> * add flash1 in fmc
-> * switch spi2 pnor using spi-gpio
-> * update gpio-line-names
->=20
-> Signed-off-by: Potin Lai <potin.lai@quantatw.com>
-> ---
->  .../dts/aspeed-bmc-facebook-bletchley.dts     | 277 +++++++++++-------
->  1 file changed, 163 insertions(+), 114 deletions(-)
->=20
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts b/arch/a=
-rm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-> index f973ea883b97..d617cfebcb18 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-=2E..
-> =20
->  &rtc {
-> -	status =3D "okay";
-> +	status =3D "disabled";
->  };
-
-Since it is more atypical to disable the in-chip RTC would you mind leaving=
- a
-comment in the DTS as to why?  I see we have the nxp,pcf85263 later on.
-
->  &spi2 {
->  	status =3D "okay";
-> -	pinctrl-names =3D "default";
-> -	pinctrl-0 =3D <&pinctrl_spi2_default>;
-> +
-> +	compatible =3D "spi-gpio";
-> +	#address-cells =3D <1>;
-> +	#size-cells =3D <0>;
-> +
-> +	gpio-sck =3D <&gpio0 ASPEED_GPIO(X, 3) GPIO_ACTIVE_HIGH>;
-> +	gpio-mosi =3D <&gpio0 ASPEED_GPIO(X, 4) GPIO_ACTIVE_HIGH>;
-> +	gpio-miso =3D <&gpio0 ASPEED_GPIO(X, 5) GPIO_ACTIVE_HIGH>;
-> +	num-chipselects =3D <1>;
-> +	cs-gpios =3D <&gpio0 ASPEED_GPIO(X, 0) GPIO_ACTIVE_LOW>;
-> =20
->  	flash@0 {
->  		status =3D "okay";
->  		m25p,fast-read;
->  		label =3D "pnor";
-> -		spi-max-frequency =3D <100000000>;
-> +		spi-max-frequency =3D <12000000>;
->  	};
->  };
-
-Why is this one being changed to spi-gpio?  That is significantly worse
-performance.  Is there another (non-NOR) SPI device on this bus that is mis=
-sing
-=66rom the device tree?
-
---=20
-Patrick Williams
-
---W1cbhE6m1lnx5SC8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmHU1bwACgkQqwNHzC0A
-wRm1Vg//bMJ6Nm1kWD23OZ+wx3jg/9vRCWRaq+BJPYvMqgPSsoIaUw9l17lb5Z9s
-f7+TS0B02/BtDf6e+LmC2vpAhphEREOglK/KWQAwLwniKhdvybmrjycJFvMF7PGB
-RdejodtBRLg6ZilwBgZtrUTwqm4qEqUZvXMjVLEgmlE1igyU5N02Ak2fILSSQMLi
-l6QmeTcS0OlRwp5Y3RGumCqZ6usRl/NPNmH7RJmAbWvTnbORUiSCHLp8Jvmn4Lzh
-h/C37zb9wqIbC4346AeV7ds44ms4kC+iwuifKAfAizMXwWDjaz/Vi1nfOHePj9Kx
-AhxrhwBRQYOD0XPXLFQpHpJvC6fpUbB7fSpxJqbSVByM+r/e6BkP5OcfacY9EOvC
-4VnMsiAW3atzr6/JdUkqu7KhhleT3N8/y6X2xSzwbrrivqGSIOcPFpRXbTkJCHWb
-qh1ZfCpE4O26T8c+2Nf4EY0ZAzHz0PQxrIIiA9A+McaBhDSE9ZAlrCXDuR8+1I5Q
-HsU8FE7nmlqTrZ/2rw8jzTFiom1jzzQ7KJl2oNsMXUJyCGaS3ZgnjLmcZL43snza
-zrgpPyIt5Q/aFL0bJjHA9EitroG1AneUWEuxUbzz47h/8HNVaL9O10NWzWmZjQxB
-OFADq6a+vd7veiUygTG4cfMt1mBTWyXK32bOgNTWVOqgHpGz9KE=
-=asHv
------END PGP SIGNATURE-----
-
---W1cbhE6m1lnx5SC8--
