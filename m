@@ -1,163 +1,80 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30737486245
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jan 2022 10:43:25 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7506448686D
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jan 2022 18:25:41 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JV1cq0Jzzz30L4
-	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jan 2022 20:43:23 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JVCtC2HmMz30KZ
+	for <lists+linux-aspeed@lfdr.de>; Fri,  7 Jan 2022 04:25:39 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=bxR2QKNx;
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=ILwAbvbK;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ShaVbv1m;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=oracle.com (client-ip=205.220.177.32;
- helo=mx0b-00069f02.pphosted.com; envelope-from=dan.carpenter@oracle.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::231;
+ helo=mail-oi1-x231.google.com; envelope-from=groeck7@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256
- header.s=corp-2021-07-09 header.b=bxR2QKNx; 
- dkim=pass (1024-bit key;
- unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com
- header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com
- header.b=ILwAbvbK; dkim-atps=neutral
-X-Greylist: delayed 5296 seconds by postgrey-1.36 at boromir;
- Thu, 06 Jan 2022 20:43:17 AEDT
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20210112 header.b=ShaVbv1m; dkim-atps=neutral
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
+ [IPv6:2607:f8b0:4864:20::231])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JV1cj4P6fz2yZh;
- Thu,  6 Jan 2022 20:43:11 +1100 (AEDT)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2067Xo2o012787; 
- Thu, 6 Jan 2022 08:14:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=dEgod9P118+sZBItOAP1adXVuQnrIHkqp8/lyG7is3k=;
- b=bxR2QKNx0jxgCVBkRS3lfP5xtkHD5yeJVtHQ1HXXHFT6aYmr3MmhRg3iJ9afPcCBB1EW
- Stp3TdX5aZOCEmOOFJOCo4LYpYNrdZfvfXVz3EFKWEcu13g74BkPhyAMARXi13NFHaNS
- cHYMOEZzydTRL96feQ7WaKJRFB3aa+RgdYzxctrbpsFaUPfIpahahScCYcDXqyC9V7P1
- hD0pmv+UEPiYYCBic9Q65Cu9ONgMC/sa+0QJRg1TME+I1ZFjI8079bXle0Z/xmsCvdOi
- Gu9dOLqTscvIuuKyxK/p7b8s5NpnA/FroQzNHFvGWtzC+JhrALuUy4CcZtf3TWyMrJl1 ng== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3ddmpjryf4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 06 Jan 2022 08:14:43 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20685K9o176477;
- Thu, 6 Jan 2022 08:14:42 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2170.outbound.protection.outlook.com [104.47.57.170])
- by userp3020.oracle.com with ESMTP id 3ddmq6bfp5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 06 Jan 2022 08:14:42 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QzVAdv6XpYsGFRrVPrwhpAtKuBY3vHBNPgBMgpJn6gwKkP6XTS+ybI/nGMCmHSPZXjYvAf/tiQfHP6Wn9Bl07UQnJS9ClYOwGeDlRxbSmN2FJOshScirPxyv3HBD+UrMBvK8Y6TCYw8Cmj9Ho9ySWDUF+BaeNNMZ+91e/4Ms+HfjeFHie2o7msmKwNIeJhGrnzLIZyWAKy89uCybljT7GSwqYGNhgMayTr2QWE+GAWlOd0ofotHLzfWHa1wbsI34DsIngdxg5rqw5+5KCNzsgi0MdcQyEZvxYoyBJFQptWvxrbs7Zh5LqxrtPYDs/uU8Mrx8fwRzrm5LelbFo9caGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dEgod9P118+sZBItOAP1adXVuQnrIHkqp8/lyG7is3k=;
- b=GzQqkNZfVXkuoU/jj7MNGiYLUik9+lmF17SR/zZmyKYOupKzeDImURDBCcWPjWhmJKz2GXaw9Afpj23UkYrkrHWJBBRCPJyGJxPC1/XZr/WVlzYZoDcz2qc2uXIvcFdEmhCQYiJGDjei/uD3gaMcISQsoTawNFdfu8A0nnUhPelhKUZIDCgvWs5L7Q3nKtrx9yZ3KxNGBlQOdccy8AyAU2Bqbl/CO42wwdGZlz3t+flNA5Oa9cX/qbzsNuKWgDdYQV11ag0J5EjCYX8+wOFkfqQ5noSYOBS9icgbQhfz4r0zC/N0v/5sMfxAVMXH+y3j5TinsOmvUDBWK0jiQ5CMzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dEgod9P118+sZBItOAP1adXVuQnrIHkqp8/lyG7is3k=;
- b=ILwAbvbK/EhqDYzHKNpxAa1AAKD7wE/GPNjKLjnHGLNMAu/+6Lk6gxw48XBxMZeEKyBB2RlQ5eUzSXEYCyRJhg6Bfoe/IEjNwfYx51FnG0ZNxVbP4B9s+k0TQbN+g4REu1RCQWWGc8cUBXfA+5ivyhlC41qHhhK3hhi4NrDdst4=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CO1PR10MB4513.namprd10.prod.outlook.com
- (2603:10b6:303:93::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.16; Thu, 6 Jan
- 2022 08:14:41 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b889:5c86:23c0:82b8]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b889:5c86:23c0:82b8%4]) with mapi id 15.20.4844.016; Thu, 6 Jan 2022
- 08:14:40 +0000
-Date: Thu, 6 Jan 2022 11:14:19 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] fsi: Aspeed: Fix a potential double free
-Message-ID: <20220106081418.GH7674@kadam>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JVCt22wxNz2yfh;
+ Fri,  7 Jan 2022 04:25:28 +1100 (AEDT)
+Received: by mail-oi1-x231.google.com with SMTP id r131so4681224oig.1;
+ Thu, 06 Jan 2022 09:25:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:to:cc:references:from:subject:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TozlrHGra5XodYQFqCtDs+94E5DctxLnj7llPHao5XY=;
+ b=ShaVbv1mLd0t/CMtcyvNeH+MVOScPrT2gNMh1L9O+mbMwJJEzoCnU5bOVvLFTFbx29
+ CIW3P5q5QyTpy6pyT4EBsYGYXOSQLWhxqlXSWfnWtyEM+kiCOhVqB0YrvaAr2Pk9qUfa
+ VgIycswwxuc31jd4f9ZqkD2jM3fV2euzyj67EIHLT7Ll2jMm9UUjf1fkvMygD61A+3Ic
+ t45RWPwOVlul4HkRHH39SgCXbeZoXSxQa0AQHbwXUAVYIAbixIN8mkdNtQK1Q99yR8Sh
+ xuQXgPXx9dG3G2WLjltBRGzGRstCVw7RH6mR7QyEn/GVsqzMACOU0P65oBDvCJ0+V0EC
+ H+Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TozlrHGra5XodYQFqCtDs+94E5DctxLnj7llPHao5XY=;
+ b=qW0xPTOl+9xv61ucjX2/1JlrI5ep6XasXTeO+7by6s1M5nQe3AgXT4IVPFMNWI6tV5
+ NJe4W7KXJE9LnQAPj5629vVjlmyIRW6qxqcq/Hoo4jVgxTU+K0XBSF6h2+ue45AIXaYF
+ AIrwEyNM2eN1P9BPz34aF0Rj73eF9SfI61NmsvhyeE4ZkZzutLvob4JH6LCSPAtWslNK
+ gtFG4/da+VaWdy/y7TXr/UZsdl5rqYwGm3HdivMiLfmTTc0jygD75r5geNAPPqQgaj+w
+ WaxqgPpDv6mRKhUAwnp2R6xDmpxaxO5MgN6vcP4JyULyp9oTELV2cjgFLE6RVrSsVDTz
+ fY7w==
+X-Gm-Message-State: AOAM533MiXSRLyN2abE4dh4Z4488w2XCv/o9/wk/+mnVnBzvIjDrEgv4
+ zfef7dUHqTIRfFsd/+0LdF4=
+X-Google-Smtp-Source: ABdhPJwaVLxSFBfd3Dmpfs7ev1L4qtYx6bsFTZlvyEcxN0rHUzXDQWgkZ5ORNW5g6GbEH+1WZr5Ezw==
+X-Received: by 2002:aca:ad57:: with SMTP id w84mr6597267oie.69.1641489925201; 
+ Thu, 06 Jan 2022 09:25:25 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ bi20sm513287oib.29.2022.01.06.09.25.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Jan 2022 09:25:24 -0800 (PST)
+To: Dan Carpenter <dan.carpenter@oracle.com>,
+ Greg KH <gregkh@linuxfoundation.org>
 References: <2cafa0607ca171ebd00ac6c7e073b46808e24f00.1640537669.git.christophe.jaillet@wanadoo.fr>
- <YcldM9sgYdjMYMtH@kroah.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YcldM9sgYdjMYMtH@kroah.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0072.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::23)
- To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+ <YcldM9sgYdjMYMtH@kroah.com> <20220106081418.GH7674@kadam>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH] fsi: Aspeed: Fix a potential double free
+Message-ID: <f2ba50fd-5c6b-e905-17ed-541dcc98c6c1@roeck-us.net>
+Date: Thu, 6 Jan 2022 09:25:22 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 35de76de-fbe5-4890-cf80-08d9d0ec9687
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4513:EE_
-X-Microsoft-Antispam-PRVS: <CO1PR10MB4513AB4FB27C95B5DA45DF968E4C9@CO1PR10MB4513.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1247;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rMoHIRpWH5PDOZVpuFOvifDa5vi+SHppAdvcfIFFVer9Rcs/JQLHFPtGCNdz/hN/nPx8pNpdUHd0ANG61X9U42ozoWwQVQ9sGU1lg7c/ZshKlfDUr7DowyBkE2AGEpqNzILQ8OM49bUDtsbT99cSqZpCm4teofRrrJY8tY40OCxZPiayK6bGaSwKctSGfkJ3/8TLaScvwT5CIsaNIk2WyJY+zkIueurS39/dWc7PaXcGjIurolvqjC1WpjLCIvjlKjbwxeE9Qpf8Q2GWBV+3MXG7fx3vVNDDpGxyMt0DmcCxQGLGFdTDgZ91zhlui/M1ZPWd1QH9KIHsN/ZgXZrfzRpn6nexwksEwSwuH/8alZhfyCIjtsg3pMjBY3b0Afc0bYI8GI4iDs1BYP20Vz9r9hqCO1IqF1dKirnazhNEYG6eWluW3DVsUgKLEHBMSseoXvS/gOOyNc3ErLsm2202xZr4lHlqVH1kgEuu7F6Yd07XnZRsQGRBTxlVWAJsUQu57LfeezzvITKAVmQJuNXq9w/bU2DcbAtc0kD9LG49OuIJx73fQ8tg8tqBWcCLUwGNyccI2YfvLASCkMeSVMr8mApFZlxTAoAmbkVH954A1yBzFpLsltna0IxyLJM/oQFfsY5FI85y7ltWnfDu5TfxeKImwK9UOLe5aPICrj3uUqE57ZxbQe/+6dLPsPcG4FyBK3joTyXkrU5y9a8keya1Uw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(7916004)(366004)(38350700002)(316002)(86362001)(8936002)(6916009)(26005)(66946007)(6666004)(6506007)(7416002)(1076003)(186003)(66556008)(6486002)(33716001)(9686003)(83380400001)(5660300002)(66476007)(8676002)(2906002)(4326008)(33656002)(6512007)(508600001)(44832011)(52116002)(4744005)(38100700002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?r0hCIJk28JXEHINSASrHfAg3uR4D4G9ixHpU5taepAe0RO2/R29XXsS4klaL?=
- =?us-ascii?Q?UuYhaZY3eZRw07critnR4ivpNkhd/Jgz5qzU2eT1YfHQNiBHx8zGvrM4KIlz?=
- =?us-ascii?Q?T+wxnAW3hteo2tnKXMHAVUw+gU1QG26NGB6H2bSeX+mQonFruElojsivq8mB?=
- =?us-ascii?Q?FCiKv62d1inW9Y+0ocQOUSqP3kKRGwPF01yFsFlQMYXWPMMe6owkrT15oFpQ?=
- =?us-ascii?Q?KlkDxD4mn3YJi/Rwq+cLDC/YEfknfynr92snwWXDCgvR1wdO9l3NpXDxlgA4?=
- =?us-ascii?Q?1cFkOaLwQ8X5c6+o75ZVbT60r/8bsCj9XMJvJKOX+tSSY1GW7yNf1dMs50b3?=
- =?us-ascii?Q?PukcWlw1lQYrZxCn+yG7pia2vk8qYoVc6Y46efVkee7aD9xKFTBLkUvQxM90?=
- =?us-ascii?Q?UGWMfXAMdGKwKsnjJhPrs4BnU8qTOqXVdNiJq6G2XikcuWlJJbGPZ9AT4iDg?=
- =?us-ascii?Q?AAk8XBCrS4oH2vQFQbijWGGe3Vovrl4F0V2LbQxtcVBjXqdFWMjxSPvGIB0e?=
- =?us-ascii?Q?31VNSudBNVkcQ5P25b+T3pb7kA4/qylMbGIFDEOlF9vIn+QlBDHZds+ju1Yq?=
- =?us-ascii?Q?NlCMJX8ymUHhYQJpGfjAJk4VSe2TKCJ7hmIaxO3jYKmUvCE/0tqORlNDoBMl?=
- =?us-ascii?Q?L9IcYcF9L/kuaspzmyz7CxAF8+arItTKKnNjg3hSZe43zIOS5PXc1jM5/tCV?=
- =?us-ascii?Q?d1bbHGKVhVW4+BXG1daAnvnntdYjVVZKtamDV2Tehnnl+AKyuAfd40ySzYwD?=
- =?us-ascii?Q?SyBO3ltClxkAV2JUVD3hoBC26UT1t6CRqhksiBwshQE28vJa7Kf4qYaNmKdW?=
- =?us-ascii?Q?cjBBexjrh63pnqMcNa6OMvJhKJ/1QU9Llzx4mq1/vVLoIWH0CPbefI66WFPk?=
- =?us-ascii?Q?dLlaaKc32W+2u0HMK3xESotH9vVJgCytBIj0SkZitLIgvxXzrNTbE6EvLKy0?=
- =?us-ascii?Q?pcnQ/l4/5Qu42nt8ecJ4cOFIalypeCJN2JIq8RMN0V42x4Y1ZnoNEMDOD6hI?=
- =?us-ascii?Q?XxndfDwo32SXY0SCnL5lmpg8TMS9t1YEADedImXe7vaxVHIwJaNmCk2Bvxm6?=
- =?us-ascii?Q?Itsq37uNLEMwb4lapTx65gymdGRHzO5tjC/R+4Z+3S0oW2WkO/FC3cwTV0qp?=
- =?us-ascii?Q?DyRh3hnJMtDyp6uZAM3Akq+vngeFelbqX2HIX6Cs97RhvJtYSHa+WenJ8dFh?=
- =?us-ascii?Q?o8K2kYdrwcBbtZ2xM9EaCyJ1peEvnfpvEW7vejP4X31naymhryCug9vjrI0f?=
- =?us-ascii?Q?5RWM3AiztKWKtvc34WxZMEwF/FaC0D2y49/+XH7bRnEMdbKK6OOvdZ0qy1XY?=
- =?us-ascii?Q?7V2FqijcOioWf+bi8UGF0RMOw/fbYYsNNjoOB+x6MGw16uKcqUeNZhMLLBuV?=
- =?us-ascii?Q?VMNSruFSnCfRDiYP6+oaBo3y0zzpUcNO27pyGGZFHCxSw2A6h3PRyNaYLSDP?=
- =?us-ascii?Q?zkPXZdaOtM498aLFT0QjNwmhGAFxlmKasPwcXiZfI1G+B4mqY411AgX+5n3g?=
- =?us-ascii?Q?ovACLrzKj/RA2qODI0ukqDmhHUNrSyjiCrUktIMwVglHsOp+fkfMALqZiifw?=
- =?us-ascii?Q?h3O9a8BHLic2uO4f2KccMpoYcS0Pqxu/p6+4YcEKGW5CZigg+tXYR3/GARr7?=
- =?us-ascii?Q?gYulADjrvy185iqtZtyuhZqvNTrqTjfOGaFf4FdbLKe2OmUmRAyqlPI4t3vx?=
- =?us-ascii?Q?RvjHORx3LMI6oj+GORqw9H0pn0Y=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35de76de-fbe5-4890-cf80-08d9d0ec9687
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2022 08:14:40.8321 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HxAbp64vz1xqaD3tiYXRJJ6xeUvzsfwOiuNhtPDAub2iAMUkfErIm/N+qcAnVkgFqpZqYwEvAG77bDl3K7PPDMpxf8yQz2QSwCQu/Hu54yw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4513
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10218
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- mlxscore=0 spamscore=0
- suspectscore=0 mlxlogscore=855 phishscore=0 bulkscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2112160000
- definitions=main-2201060056
-X-Proofpoint-ORIG-GUID: Hhf9NE4mws_pnWKgGhB6jpJ8PAv9bSc1
-X-Proofpoint-GUID: Hhf9NE4mws_pnWKgGhB6jpJ8PAv9bSc1
+In-Reply-To: <20220106081418.GH7674@kadam>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,30 +86,51 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- alistair@popple.id.au, linux-kernel@vger.kernel.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, jk@ozlabs.org,
- linux-fsi@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, alistair@popple.id.au,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-arm-kernel@lists.infradead.org, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Dec 27, 2021 at 07:29:07AM +0100, Greg KH wrote:
-> On Sun, Dec 26, 2021 at 05:56:02PM +0100, Christophe JAILLET wrote:
-> > 'aspeed' is a devm_alloc'ed, so there is no need to free it explicitly or
-> > there will be a double free().
+On 1/6/22 12:14 AM, Dan Carpenter wrote:
+> On Mon, Dec 27, 2021 at 07:29:07AM +0100, Greg KH wrote:
+>> On Sun, Dec 26, 2021 at 05:56:02PM +0100, Christophe JAILLET wrote:
+>>> 'aspeed' is a devm_alloc'ed, so there is no need to free it explicitly or
+>>> there will be a double free().
+>>
+>> A struct device can never be devm_alloced for obvious reasons.  Perhaps
+>> that is the real problem here?
+>>
 > 
-> A struct device can never be devm_alloced for obvious reasons.  Perhaps
-> that is the real problem here?
+> I don't understand how "aspeed" is a struct device.
 > 
 
-I don't understand how "aspeed" is a struct device.
+-static void aspeed_master_release(struct device *dev)
+-{
+-	struct fsi_master_aspeed *aspeed =
+-		to_fsi_master_aspeed(dev_to_fsi_master(dev));
+-
+-	kfree(aspeed);
+-}
 
-I've been working on understanding device managed memory recently for
-Smatch.  It's really complicated.  There are a bunch of rules/heuristics
-that I'm slowly creating to generate new warnings but I'm a long way
-from understanding it well myself.
+So "dev" is embedded in struct fsi_master, and struct fsi_master is embedded
+in struct fsi_master_aspeed. Since "struct device" is embedded, the data
+structure embedding it must be released with the release function, as is done
+here. The problem is indeed that the data structure is allocated with
+devm_kzalloc(), which as Greg points out must not be devm_ allocated
+(because its lifetime does not match the lifetime of devm_ allocated
+memory).
 
-regards,
-dan carpenter
+> I've been working on understanding device managed memory recently for
+> Smatch.  It's really complicated.  There are a bunch of rules/heuristics
+> that I'm slowly creating to generate new warnings but I'm a long way
+> from understanding it well myself.
+> 
 
+A data structure embedding struct device must not be devm_ allocated,
+and it must be released with the release callback. Maybe there is
+a means to flag that somehow ?
+
+Guenter
