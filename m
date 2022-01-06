@@ -1,71 +1,47 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11CDD488E6A
-	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Jan 2022 02:55:43 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC92488E6B
+	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Jan 2022 02:55:46 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JXH3J758nz2xWx
-	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Jan 2022 12:55:40 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=fxo6v6Kf;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JXH3M6xstz2xsK
+	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Jan 2022 12:55:43 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=ti.com
- (client-ip=198.47.23.249; helo=lelv0142.ext.ti.com;
- envelope-from=p.yadav@ti.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256
- header.s=ti-com-17Q1 header.b=fxo6v6Kf; 
- dkim-atps=neutral
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ spf=none (no SPF record) smtp.mailfrom=wanadoo.fr
+ (client-ip=80.12.242.124; helo=smtp.smtpout.orange.fr;
+ envelope-from=christophe.jaillet@wanadoo.fr; receiver=<UNKNOWN>)
+Received: from smtp.smtpout.orange.fr (smtp02.smtpout.orange.fr
+ [80.12.242.124])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JTKRh2r5sz2xsJ
- for <linux-aspeed@lists.ozlabs.org>; Wed,  5 Jan 2022 17:33:02 +1100 (AEDT)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 2056WmMd012286;
- Wed, 5 Jan 2022 00:32:48 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1641364368;
- bh=uimfbPYqTHESrm7QoGXNpIPRsgIgtQ+2tdMFjrAlrX8=;
- h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=fxo6v6KfTd3OIjbe8vFB3jIVs/626dLtGAh5RyfY8txMdmvYCrQI1JeRX2GLmBSFa
- o6Siyo8doSk8xH0Uo1DMGMwsOM+QtsTY/iSGIXVsojpOIH+hGXNv2A9NR5wFdulLgL
- 3jq8aLZBVndulHk+9aS0u3P2CnkHl5nNsGRgduu0=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 2056WmJ9074231
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 5 Jan 2022 00:32:48 -0600
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Wed, 5
- Jan 2022 00:32:48 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Wed, 5 Jan 2022 00:32:48 -0600
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 2056WlDD107485;
- Wed, 5 Jan 2022 00:32:47 -0600
-Date: Wed, 5 Jan 2022 12:02:46 +0530
-From: Pratyush Yadav <p.yadav@ti.com>
-To: Patrick Williams <patrick@stwcx.xyz>
-Subject: Re: [PATCH] mtd: aspeed-smc: improve probe resilience
-Message-ID: <20220105063244.lno3xur64uepa7i5@ti.com>
-References: <20211229143334.297305-1-patrick@stwcx.xyz>
- <20211229173411.l2bipmi4x3arqjoo@ti.com>
- <Yc3Qav+ULNdF5zRT@heinlein>
- <20211231102623.izaqlzjvracbbgmp@ti.com>
- <20220103171721.46c8e697@xps13> <YdSP6tKyQ2ZRUC+2@heinlein>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JVFcC6wGLz2yfc
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Jan 2022 05:43:38 +1100 (AEDT)
+Received: from [192.168.1.18] ([90.11.185.88]) by smtp.orange.fr with ESMTPA
+ id 5XcCn6oLyBazo5XcDn2y4b; Thu, 06 Jan 2022 19:36:03 +0100
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Thu, 06 Jan 2022 19:36:03 +0100
+X-ME-IP: 90.11.185.88
+Message-ID: <edd19014-3b99-fa0b-912b-e058c14401d8@wanadoo.fr>
+Date: Thu, 6 Jan 2022 19:35:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <YdSP6tKyQ2ZRUC+2@heinlein>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [PATCH] fsi: Aspeed: Fix a potential double free
+Content-Language: en-US
+To: Guenter Roeck <linux@roeck-us.net>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Greg KH <gregkh@linuxfoundation.org>
+References: <2cafa0607ca171ebd00ac6c7e073b46808e24f00.1640537669.git.christophe.jaillet@wanadoo.fr>
+ <YcldM9sgYdjMYMtH@kroah.com> <20220106081418.GH7674@kadam>
+ <f2ba50fd-5c6b-e905-17ed-541dcc98c6c1@roeck-us.net>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <f2ba50fd-5c6b-e905-17ed-541dcc98c6c1@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 10 Jan 2022 12:51:28 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -78,98 +54,64 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>, linux-aspeed@lists.ozlabs.org,
- Tudor Ambarus <tudor.ambarus@microchip.com>,
- Richard Weinberger <richard@nod.at>, Potin Lai <potin.lai@quantatw.com>,
- linux-kernel@vger.kernel.org, Michael Walle <michael@walle.cc>,
- linux-mtd@lists.infradead.org, Miquel Raynal <miquel.raynal@bootlin.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, alistair@popple.id.au,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-fsi@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 04/01/22 12:20PM, Patrick Williams wrote:
-> Hi Miquel,
+Le 06/01/2022 à 18:25, Guenter Roeck a écrit :
+> On 1/6/22 12:14 AM, Dan Carpenter wrote:
+>> On Mon, Dec 27, 2021 at 07:29:07AM +0100, Greg KH wrote:
+>>> On Sun, Dec 26, 2021 at 05:56:02PM +0100, Christophe JAILLET wrote:
+>>>> 'aspeed' is a devm_alloc'ed, so there is no need to free it 
+>>>> explicitly or
+>>>> there will be a double free().
+>>>
+>>> A struct device can never be devm_alloced for obvious reasons.  Perhaps
+>>> that is the real problem here?
+>>>
+>>
+>> I don't understand how "aspeed" is a struct device.
+>>
 > 
-> On Mon, Jan 03, 2022 at 05:17:21PM +0100, Miquel Raynal wrote:
+> -static void aspeed_master_release(struct device *dev)
+> -{
+> -    struct fsi_master_aspeed *aspeed =
+> -        to_fsi_master_aspeed(dev_to_fsi_master(dev));
+> -
+> -    kfree(aspeed);
+> -}
 > 
-> > > I am fine with taking in bug fixes but no longer want to take in any new 
-> > > features. My main intention was to nudge you to convert it to SPI MEM 
-> > > regardless of whether this is a bug fix or a new feature, because 
-> > > eventually we want to get rid of drivers/mtd/spi-nor/controllers/ and 
-> > > the API that comes along with it.
-> > 
-> > I totally agree with Pratyush here, we no longer want to support the
-> > spi-nor controller API so if, as you say, there are boards failing
-> > in the field, it means there are still users and these users must be
-> > warned that at some point we might discontinue the support of these
-> > drivers if it becomes too painful.
-> >
-> 
-> Your response here makes it seem like you don't realize the scope of this
-> driver.  There are probably, by my estimates, on the order of 10s of millions of
-> deployed systems using this driver in the world.  The vast majority of servers
-> in the world use an AST2400, AST2500, or AST2600 chip, which needs this driver
-> in order access its own flash storage device.  Both OpenBMC and most of the
-> proprietary alternatives use this driver.
+> So "dev" is embedded in struct fsi_master, and struct fsi_master is 
+> embedded
+> in struct fsi_master_aspeed. Since "struct device" is embedded, the data
+> structure embedding it must be released with the release function, as is 
+> done
+> here. The problem is indeed that the data structure is allocated with
+> devm_kzalloc(), which as Greg points out must not be devm_ allocated
+> (because its lifetime does not match the lifetime of devm_ allocated
+> memory).
 
-Then we should easily be able to find people willing to spend a couple 
-days on updating the driver :-)
+Thanks a lot for the detailed explanation.
+Crystal clear for me now.
 
-> 
-> The company I work for has a LOT of systems using this code.  After I made this
-> fix, for a new design being developed, it was pointed out to me that our ODM ran
-> into this problem a few years ago and we've been really bad about upstreaming
-> those fixes.  For this new system I'm trying to keep us on top of all
-> upstreaming efforts.
+Do you want me to send a patch to remove the devm_ or will you?
 
-If a company wants to use an upstream kernel for their systems I think 
-they should invest into maintaining the drivers they are using.
-
-> 
-> To me the inability to access your own storage, resulting in a kernel panic, is
-> a pretty serious issue.  Bug or feature I guess is always in the eye of the
-
-One option you always have is to disable the bad flash in your device 
-tree. I don't see why you would want to keep a flash that does not work 
-enabled anyway.
-
-> beholder though.  I think this is pretty valuable to get in, from an impact
-> standpoint, and pretty minimal in terms of maintenance efforts on the
-> maintainers part.
-
-Yes, I agree that your patch itself has fairly low maintenance burden. I 
-would not be too opposed to taking it in. But for the driver as a whole, 
-that is indeed a maintenance burden since we have to carry code in SPI 
-NOR to support it which makes adding new features a bit tricky.
-
-We had a discussion along these lines for old unmaintained flashes in 
-SPI NOR. The idea then was to warn the people who touched code related 
-to those flashes that they can either update it or we will drop the 
-flashes after X releases. They would still work on older kernels of 
-course, but if there are any upstream users they would have to update 
-the code or live without the flashes.
-
-I would like to use the same approach for the controllers API as well. 
-We can't keep carrying around legacy code forever just because a 
-device/driver has no active developers. If people want to use some 
-driver in the upstream kernel, they should help maintain it.
+CJ
 
 > 
-> I had an offline discussion with someone who knew more history on this driver.
-> My understanding is that the linux-aspeed team is aware of this being deprecated
-> but that there was some missing support for interface training that nobody has
-> gotten around to write?  If that is the case this really isn't even a "simple"
-> port to a new API at this point.
+>> I've been working on understanding device managed memory recently for
+>> Smatch.  It's really complicated.  There are a bunch of rules/heuristics
+>> that I'm slowly creating to generate new warnings but I'm a long way
+>> from understanding it well myself.
+>>
+> 
+> A data structure embedding struct device must not be devm_ allocated,
+> and it must be released with the release callback. Maybe there is
+> a means to flag that somehow ?
+> 
+> Guenter
+> 
 
-Unless the controller needs some unique feature (I don't think it does 
-on a quick glance), the conversion should not be too difficult. For any 
-experienced developer, even if they are unfamiliar with the SPI MEM API, 
-I don't think it should take more than 2-3 days to do the conversion. 
-The code to program the registers would stay the same, all that needs to 
-change is the API through which it is accessed.
-
--- 
-Regards,
-Pratyush Yadav
-Texas Instruments Inc.
