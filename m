@@ -2,56 +2,162 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722A5485118
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jan 2022 11:23:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30737486245
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jan 2022 10:43:25 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JTQZ02f4Nz305q
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Jan 2022 21:23:52 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JV1cq0Jzzz30L4
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Jan 2022 20:43:23 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net header.a=rsa-sha256 header.s=thorn header.b=aX0ygTIV;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2021-07-09 header.b=bxR2QKNx;
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=ILwAbvbK;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=bewilderbeest.net (client-ip=2605:2700:0:5::4713:9cab;
- helo=thorn.bewilderbeest.net; envelope-from=zev@bewilderbeest.net;
+ smtp.mailfrom=oracle.com (client-ip=205.220.177.32;
+ helo=mx0b-00069f02.pphosted.com; envelope-from=dan.carpenter@oracle.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=bewilderbeest.net header.i=@bewilderbeest.net
- header.a=rsa-sha256 header.s=thorn header.b=aX0ygTIV; 
- dkim-atps=neutral
-X-Greylist: delayed 371 seconds by postgrey-1.36 at boromir;
- Wed, 05 Jan 2022 21:23:48 AEDT
-Received: from thorn.bewilderbeest.net (thorn.bewilderbeest.net
- [IPv6:2605:2700:0:5::4713:9cab])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256
+ header.s=corp-2021-07-09 header.b=bxR2QKNx; 
+ dkim=pass (1024-bit key;
+ unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com
+ header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com
+ header.b=ILwAbvbK; dkim-atps=neutral
+X-Greylist: delayed 5296 seconds by postgrey-1.36 at boromir;
+ Thu, 06 Jan 2022 20:43:17 AEDT
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JTQYw3WKbz2xBq
- for <linux-aspeed@lists.ozlabs.org>; Wed,  5 Jan 2022 21:23:48 +1100 (AEDT)
-Received: from hatter.bewilderbeest.net (174-21-190-118.tukw.qwest.net
- [174.21.190.118])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: zev)
- by thorn.bewilderbeest.net (Postfix) with ESMTPSA id 1F30A3E7;
- Wed,  5 Jan 2022 02:17:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bewilderbeest.net;
- s=thorn; t=1641377852;
- bh=sakg/fTffWwQEuwRwcQ4RAMqeFmS9yKqoA94UIg2shc=;
- h=From:To:Cc:Subject:Date:From;
- b=aX0ygTIVeQdp8u0XAIqdPj1kIAUApS/SjqmpaxJn881z8i25FC2xLReja+icC9tLP
- ftVL/3G1ygTvsvRjZx9wDlnaF7wK/58jz1nxDbSholk9eBlxogEFpFkZv3g9zjtnEC
- /Muhl2q+wF80iiLL8NPJZy1e2MwYmaVCGTMAFaLs=
-From: Zev Weiss <zev@bewilderbeest.net>
-To: linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org
-Subject: [PATCH] ARM: dts: aspeed: Add ASRock ROMED8HM3 BMC
-Date: Wed,  5 Jan 2022 02:17:19 -0800
-Message-Id: <20220105101719.7093-1-zev@bewilderbeest.net>
-X-Mailer: git-send-email 2.34.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JV1cj4P6fz2yZh;
+ Thu,  6 Jan 2022 20:43:11 +1100 (AEDT)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2067Xo2o012787; 
+ Thu, 6 Jan 2022 08:14:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=dEgod9P118+sZBItOAP1adXVuQnrIHkqp8/lyG7is3k=;
+ b=bxR2QKNx0jxgCVBkRS3lfP5xtkHD5yeJVtHQ1HXXHFT6aYmr3MmhRg3iJ9afPcCBB1EW
+ Stp3TdX5aZOCEmOOFJOCo4LYpYNrdZfvfXVz3EFKWEcu13g74BkPhyAMARXi13NFHaNS
+ cHYMOEZzydTRL96feQ7WaKJRFB3aa+RgdYzxctrbpsFaUPfIpahahScCYcDXqyC9V7P1
+ hD0pmv+UEPiYYCBic9Q65Cu9ONgMC/sa+0QJRg1TME+I1ZFjI8079bXle0Z/xmsCvdOi
+ Gu9dOLqTscvIuuKyxK/p7b8s5NpnA/FroQzNHFvGWtzC+JhrALuUy4CcZtf3TWyMrJl1 ng== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3ddmpjryf4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 06 Jan 2022 08:14:43 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 20685K9o176477;
+ Thu, 6 Jan 2022 08:14:42 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11lp2170.outbound.protection.outlook.com [104.47.57.170])
+ by userp3020.oracle.com with ESMTP id 3ddmq6bfp5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 06 Jan 2022 08:14:42 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QzVAdv6XpYsGFRrVPrwhpAtKuBY3vHBNPgBMgpJn6gwKkP6XTS+ybI/nGMCmHSPZXjYvAf/tiQfHP6Wn9Bl07UQnJS9ClYOwGeDlRxbSmN2FJOshScirPxyv3HBD+UrMBvK8Y6TCYw8Cmj9Ho9ySWDUF+BaeNNMZ+91e/4Ms+HfjeFHie2o7msmKwNIeJhGrnzLIZyWAKy89uCybljT7GSwqYGNhgMayTr2QWE+GAWlOd0ofotHLzfWHa1wbsI34DsIngdxg5rqw5+5KCNzsgi0MdcQyEZvxYoyBJFQptWvxrbs7Zh5LqxrtPYDs/uU8Mrx8fwRzrm5LelbFo9caGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dEgod9P118+sZBItOAP1adXVuQnrIHkqp8/lyG7is3k=;
+ b=GzQqkNZfVXkuoU/jj7MNGiYLUik9+lmF17SR/zZmyKYOupKzeDImURDBCcWPjWhmJKz2GXaw9Afpj23UkYrkrHWJBBRCPJyGJxPC1/XZr/WVlzYZoDcz2qc2uXIvcFdEmhCQYiJGDjei/uD3gaMcISQsoTawNFdfu8A0nnUhPelhKUZIDCgvWs5L7Q3nKtrx9yZ3KxNGBlQOdccy8AyAU2Bqbl/CO42wwdGZlz3t+flNA5Oa9cX/qbzsNuKWgDdYQV11ag0J5EjCYX8+wOFkfqQ5noSYOBS9icgbQhfz4r0zC/N0v/5sMfxAVMXH+y3j5TinsOmvUDBWK0jiQ5CMzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dEgod9P118+sZBItOAP1adXVuQnrIHkqp8/lyG7is3k=;
+ b=ILwAbvbK/EhqDYzHKNpxAa1AAKD7wE/GPNjKLjnHGLNMAu/+6Lk6gxw48XBxMZeEKyBB2RlQ5eUzSXEYCyRJhg6Bfoe/IEjNwfYx51FnG0ZNxVbP4B9s+k0TQbN+g4REu1RCQWWGc8cUBXfA+5ivyhlC41qHhhK3hhi4NrDdst4=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CO1PR10MB4513.namprd10.prod.outlook.com
+ (2603:10b6:303:93::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.16; Thu, 6 Jan
+ 2022 08:14:41 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b889:5c86:23c0:82b8]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b889:5c86:23c0:82b8%4]) with mapi id 15.20.4844.016; Thu, 6 Jan 2022
+ 08:14:40 +0000
+Date: Thu, 6 Jan 2022 11:14:19 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] fsi: Aspeed: Fix a potential double free
+Message-ID: <20220106081418.GH7674@kadam>
+References: <2cafa0607ca171ebd00ac6c7e073b46808e24f00.1640537669.git.christophe.jaillet@wanadoo.fr>
+ <YcldM9sgYdjMYMtH@kroah.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YcldM9sgYdjMYMtH@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0072.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::23)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 35de76de-fbe5-4890-cf80-08d9d0ec9687
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4513:EE_
+X-Microsoft-Antispam-PRVS: <CO1PR10MB4513AB4FB27C95B5DA45DF968E4C9@CO1PR10MB4513.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1247;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rMoHIRpWH5PDOZVpuFOvifDa5vi+SHppAdvcfIFFVer9Rcs/JQLHFPtGCNdz/hN/nPx8pNpdUHd0ANG61X9U42ozoWwQVQ9sGU1lg7c/ZshKlfDUr7DowyBkE2AGEpqNzILQ8OM49bUDtsbT99cSqZpCm4teofRrrJY8tY40OCxZPiayK6bGaSwKctSGfkJ3/8TLaScvwT5CIsaNIk2WyJY+zkIueurS39/dWc7PaXcGjIurolvqjC1WpjLCIvjlKjbwxeE9Qpf8Q2GWBV+3MXG7fx3vVNDDpGxyMt0DmcCxQGLGFdTDgZ91zhlui/M1ZPWd1QH9KIHsN/ZgXZrfzRpn6nexwksEwSwuH/8alZhfyCIjtsg3pMjBY3b0Afc0bYI8GI4iDs1BYP20Vz9r9hqCO1IqF1dKirnazhNEYG6eWluW3DVsUgKLEHBMSseoXvS/gOOyNc3ErLsm2202xZr4lHlqVH1kgEuu7F6Yd07XnZRsQGRBTxlVWAJsUQu57LfeezzvITKAVmQJuNXq9w/bU2DcbAtc0kD9LG49OuIJx73fQ8tg8tqBWcCLUwGNyccI2YfvLASCkMeSVMr8mApFZlxTAoAmbkVH954A1yBzFpLsltna0IxyLJM/oQFfsY5FI85y7ltWnfDu5TfxeKImwK9UOLe5aPICrj3uUqE57ZxbQe/+6dLPsPcG4FyBK3joTyXkrU5y9a8keya1Uw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(7916004)(366004)(38350700002)(316002)(86362001)(8936002)(6916009)(26005)(66946007)(6666004)(6506007)(7416002)(1076003)(186003)(66556008)(6486002)(33716001)(9686003)(83380400001)(5660300002)(66476007)(8676002)(2906002)(4326008)(33656002)(6512007)(508600001)(44832011)(52116002)(4744005)(38100700002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?r0hCIJk28JXEHINSASrHfAg3uR4D4G9ixHpU5taepAe0RO2/R29XXsS4klaL?=
+ =?us-ascii?Q?UuYhaZY3eZRw07critnR4ivpNkhd/Jgz5qzU2eT1YfHQNiBHx8zGvrM4KIlz?=
+ =?us-ascii?Q?T+wxnAW3hteo2tnKXMHAVUw+gU1QG26NGB6H2bSeX+mQonFruElojsivq8mB?=
+ =?us-ascii?Q?FCiKv62d1inW9Y+0ocQOUSqP3kKRGwPF01yFsFlQMYXWPMMe6owkrT15oFpQ?=
+ =?us-ascii?Q?KlkDxD4mn3YJi/Rwq+cLDC/YEfknfynr92snwWXDCgvR1wdO9l3NpXDxlgA4?=
+ =?us-ascii?Q?1cFkOaLwQ8X5c6+o75ZVbT60r/8bsCj9XMJvJKOX+tSSY1GW7yNf1dMs50b3?=
+ =?us-ascii?Q?PukcWlw1lQYrZxCn+yG7pia2vk8qYoVc6Y46efVkee7aD9xKFTBLkUvQxM90?=
+ =?us-ascii?Q?UGWMfXAMdGKwKsnjJhPrs4BnU8qTOqXVdNiJq6G2XikcuWlJJbGPZ9AT4iDg?=
+ =?us-ascii?Q?AAk8XBCrS4oH2vQFQbijWGGe3Vovrl4F0V2LbQxtcVBjXqdFWMjxSPvGIB0e?=
+ =?us-ascii?Q?31VNSudBNVkcQ5P25b+T3pb7kA4/qylMbGIFDEOlF9vIn+QlBDHZds+ju1Yq?=
+ =?us-ascii?Q?NlCMJX8ymUHhYQJpGfjAJk4VSe2TKCJ7hmIaxO3jYKmUvCE/0tqORlNDoBMl?=
+ =?us-ascii?Q?L9IcYcF9L/kuaspzmyz7CxAF8+arItTKKnNjg3hSZe43zIOS5PXc1jM5/tCV?=
+ =?us-ascii?Q?d1bbHGKVhVW4+BXG1daAnvnntdYjVVZKtamDV2Tehnnl+AKyuAfd40ySzYwD?=
+ =?us-ascii?Q?SyBO3ltClxkAV2JUVD3hoBC26UT1t6CRqhksiBwshQE28vJa7Kf4qYaNmKdW?=
+ =?us-ascii?Q?cjBBexjrh63pnqMcNa6OMvJhKJ/1QU9Llzx4mq1/vVLoIWH0CPbefI66WFPk?=
+ =?us-ascii?Q?dLlaaKc32W+2u0HMK3xESotH9vVJgCytBIj0SkZitLIgvxXzrNTbE6EvLKy0?=
+ =?us-ascii?Q?pcnQ/l4/5Qu42nt8ecJ4cOFIalypeCJN2JIq8RMN0V42x4Y1ZnoNEMDOD6hI?=
+ =?us-ascii?Q?XxndfDwo32SXY0SCnL5lmpg8TMS9t1YEADedImXe7vaxVHIwJaNmCk2Bvxm6?=
+ =?us-ascii?Q?Itsq37uNLEMwb4lapTx65gymdGRHzO5tjC/R+4Z+3S0oW2WkO/FC3cwTV0qp?=
+ =?us-ascii?Q?DyRh3hnJMtDyp6uZAM3Akq+vngeFelbqX2HIX6Cs97RhvJtYSHa+WenJ8dFh?=
+ =?us-ascii?Q?o8K2kYdrwcBbtZ2xM9EaCyJ1peEvnfpvEW7vejP4X31naymhryCug9vjrI0f?=
+ =?us-ascii?Q?5RWM3AiztKWKtvc34WxZMEwF/FaC0D2y49/+XH7bRnEMdbKK6OOvdZ0qy1XY?=
+ =?us-ascii?Q?7V2FqijcOioWf+bi8UGF0RMOw/fbYYsNNjoOB+x6MGw16uKcqUeNZhMLLBuV?=
+ =?us-ascii?Q?VMNSruFSnCfRDiYP6+oaBo3y0zzpUcNO27pyGGZFHCxSw2A6h3PRyNaYLSDP?=
+ =?us-ascii?Q?zkPXZdaOtM498aLFT0QjNwmhGAFxlmKasPwcXiZfI1G+B4mqY411AgX+5n3g?=
+ =?us-ascii?Q?ovACLrzKj/RA2qODI0ukqDmhHUNrSyjiCrUktIMwVglHsOp+fkfMALqZiifw?=
+ =?us-ascii?Q?h3O9a8BHLic2uO4f2KccMpoYcS0Pqxu/p6+4YcEKGW5CZigg+tXYR3/GARr7?=
+ =?us-ascii?Q?gYulADjrvy185iqtZtyuhZqvNTrqTjfOGaFf4FdbLKe2OmUmRAyqlPI4t3vx?=
+ =?us-ascii?Q?RvjHORx3LMI6oj+GORqw9H0pn0Y=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35de76de-fbe5-4890-cf80-08d9d0ec9687
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2022 08:14:40.8321 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HxAbp64vz1xqaD3tiYXRJJ6xeUvzsfwOiuNhtPDAub2iAMUkfErIm/N+qcAnVkgFqpZqYwEvAG77bDl3K7PPDMpxf8yQz2QSwCQu/Hu54yw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4513
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10218
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ mlxscore=0 spamscore=0
+ suspectscore=0 mlxlogscore=855 phishscore=0 bulkscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2112160000
+ definitions=main-2201060056
+X-Proofpoint-ORIG-GUID: Hhf9NE4mws_pnWKgGhB6jpJ8PAv9bSc1
+X-Proofpoint-GUID: Hhf9NE4mws_pnWKgGhB6jpJ8PAv9bSc1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,304 +169,30 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Zev Weiss <zev@bewilderbeest.net>,
- Arnd Bergmann <arnd@arndb.de>, openbmc@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Anthony Jenkins <anthony.jenkins@privafy.com>,
- Neil Horman <neil.horman@privafy.com>
+Cc: kernel-janitors@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ alistair@popple.id.au, linux-kernel@vger.kernel.org,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>, jk@ozlabs.org,
+ linux-fsi@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This is a half-width, single-socket Epyc server board with an AST2500
-BMC.  This device tree is sufficient for basic OpenBMC functionality,
-but we'll need to add a few more devices (as driver support becomes
-available) before it's fully usable.
+On Mon, Dec 27, 2021 at 07:29:07AM +0100, Greg KH wrote:
+> On Sun, Dec 26, 2021 at 05:56:02PM +0100, Christophe JAILLET wrote:
+> > 'aspeed' is a devm_alloc'ed, so there is no need to free it explicitly or
+> > there will be a double free().
+> 
+> A struct device can never be devm_alloced for obvious reasons.  Perhaps
+> that is the real problem here?
+> 
 
-Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
----
- arch/arm/boot/dts/Makefile                    |   1 +
- .../boot/dts/aspeed-bmc-asrock-romed8hm3.dts  | 259 ++++++++++++++++++
- 2 files changed, 260 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts
+I don't understand how "aspeed" is a struct device.
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 0de64f237cd8..4008d2143b44 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1481,6 +1481,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-arm-centriq2400-rep.dtb \
- 	aspeed-bmc-arm-stardragon4800-rep2.dtb \
- 	aspeed-bmc-asrock-e3c246d4i.dtb \
-+	aspeed-bmc-asrock-romed8hm3.dtb \
- 	aspeed-bmc-bytedance-g220a.dtb \
- 	aspeed-bmc-facebook-cloudripper.dtb \
- 	aspeed-bmc-facebook-cmm.dtb \
-diff --git a/arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts b/arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts
-new file mode 100644
-index 000000000000..e71ccfd1df63
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed-bmc-asrock-romed8hm3.dts
-@@ -0,0 +1,259 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/dts-v1/;
-+
-+#include "aspeed-g5.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+#include <dt-bindings/interrupt-controller/irq.h>
-+
-+/{
-+	model = "ASRock ROMED8HM3 BMC v1.00";
-+	compatible = "asrock,romed8hm3-bmc", "aspeed,ast2500";
-+
-+	aliases {
-+		serial4 = &uart5;
-+	};
-+
-+	chosen {
-+		stdout-path = &uart5;
-+		bootargs = "console=tty0 console=ttyS4,115200 earlycon";
-+	};
-+
-+	memory@80000000 {
-+		reg = <0x80000000 0x20000000>;
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		heartbeat {
-+			gpios = <&gpio ASPEED_GPIO(H, 6) GPIO_ACTIVE_LOW>;
-+			linux,default-trigger = "timer";
-+		};
-+
-+		system-fault {
-+			gpios = <&gpio ASPEED_GPIO(Z, 2) GPIO_ACTIVE_LOW>;
-+			panic-indicator;
-+		};
-+	};
-+
-+	iio-hwmon {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc 0>, <&adc 1>, <&adc 2>, <&adc 3>,
-+			<&adc 4>, <&adc 5>, <&adc 6>, <&adc 7>,
-+			<&adc 8>, <&adc 9>, <&adc 10>, <&adc 11>,
-+			<&adc 12>, <&adc 13>, <&adc 14>, <&adc 15>;
-+	};
-+};
-+
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc";
-+		spi-max-frequency = <100000000>; /* 100 MHz */
-+#include "openbmc-flash-layout-64.dtsi"
-+	};
-+};
-+
-+&uart5 {
-+	status = "okay";
-+};
-+
-+&vuart {
-+	status = "okay";
-+	aspeed,lpc-io-reg = <0x2f8>;
-+	aspeed,lpc-interrupts = <3 IRQ_TYPE_LEVEL_HIGH>;
-+};
-+
-+&mac0 {
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rgmii1_default &pinctrl_mdio1_default>;
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+
-+	/* inlet temp sensor */
-+	w83773g@4c {
-+		compatible = "nuvoton,w83773g";
-+		reg = <0x4c>;
-+	};
-+};
-+
-+&i2c1 {
-+	status = "okay";
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+
-+	/* IPB temp sensor */
-+	w83773g@4c {
-+		compatible = "nuvoton,w83773g";
-+		reg = <0x4c>;
-+	};
-+
-+	/* IPB PMIC */
-+	lm25066@40 {
-+		compatible = "lm25066";
-+		reg = <0x40>;
-+	};
-+
-+	/* 12VSB PMIC */
-+	lm25066@41 {
-+		compatible = "lm25066";
-+		reg = <0x41>;
-+	};
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+};
-+
-+&i2c5 {
-+	status = "okay";
-+};
-+
-+&i2c6 {
-+	status = "okay";
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+
-+	/* Baseboard FRU eeprom */
-+	eeprom@50 {
-+		compatible = "st,24c128", "atmel,24c128";
-+		reg = <0x50>;
-+		pagesize = <16>;
-+	};
-+};
-+
-+&i2c8 {
-+	status = "okay";
-+};
-+
-+&i2c9 {
-+	status = "okay";
-+};
-+
-+&video {
-+	status = "okay";
-+};
-+
-+&vhub {
-+	status = "okay";
-+};
-+
-+&lpc_ctrl {
-+	status = "okay";
-+};
-+
-+&lpc_snoop {
-+	status = "okay";
-+	snoop-ports = <0x80>;
-+};
-+
-+&kcs3 {
-+	status = "okay";
-+	aspeed,lpc-io-reg = <0xca2>;
-+};
-+
-+&pwm_tacho {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_pwm3_default
-+		&pinctrl_pwm4_default
-+		&pinctrl_pwm5_default
-+		&pinctrl_pwm6_default>;
-+
-+	fan@3 {
-+		reg = <0x03>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x03 0x0b>;
-+	};
-+
-+	fan@4 {
-+		reg = <0x04>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x04 0x0c>;
-+	};
-+
-+	fan@5 {
-+		reg = <0x05>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x05 0x0d>;
-+	};
-+
-+	fan@6 {
-+		reg = <0x06>;
-+		aspeed,fan-tach-ch = /bits/ 8 <0x06 0x0e>;
-+	};
-+};
-+
-+&gpio {
-+	status = "okay";
-+	gpio-line-names =
-+		/*  A */ "LOCATORLED_STATUS_N", "BMC_MAC2_INTB", "NMI_BTN_N", "BMC_NMI",
-+			"", "", "", "",
-+		/*  B */ "DDR_MEM_TEMP", "", "", "", "", "", "", "",
-+		/*  C */ "", "", "", "", "PCIE_HP_SEL_N", "PCIE_SATA_SEL_N", "LOCATORBTN", "",
-+		/*  D */ "BMC_PSIN", "BMC_PSOUT", "BMC_RESETCON", "RESETCON",
-+			"", "", "", "PSU_FAN_FAIL_N",
-+		/*  E */ "", "", "", "", "", "", "", "",
-+		/*  F */ "NIC_PWR_GOOD", "PRSNTB0", "PRSNTB1", "PRSNTB2",
-+			"PRSNTB3", "", "3VSB_PCIE1_PG", "12V_PCIE1_PG",
-+		/*  G */ "HWM_BAT_EN", "CHASSIS_ID0", "CHASSIS_ID1", "CHASSIS_ID2",
-+			"BMC_ALERT1_N_R", "BMC_ALERT2_N_R", "BMC_ALERT3_N", "BMC_ALERT4_N",
-+		/*  H */ "X24_C1_PRSNT", "X24_C2_PRSNT", "X24_C3_PRSNT", "FM_MEM_THERM_EVENT_BMC_R_N",
-+			"FACMODE", "BMC_RTCRST", "BMC_HB_LED_N", "BMC_CASEOPEN",
-+		/*  I */ "", "", "", "", "", "", "", "",
-+		/*  J */ "BMC_READY", "BMC_PCH_BIOS_CS_N", "", "P0_MA_DDR_QS_CS_N",
-+			"", "", "", "",
-+		/*  K */ "", "", "", "", "", "", "", "",
-+		/*  L */ "", "", "", "", "", "", "", "",
-+		/*  M */ "", "", "MEZZ_PWRBRK_N", "OCP_HP_RST_EN",
-+			"MAIN_PWR_EN_G", "BMC_MAIN_EN", "AUX_PWR_EN_G", "BMC_AUX_EN",
-+		/*  N */ "", "", "", "", "", "", "", "",
-+		/*  O */ "", "", "", "", "", "", "", "",
-+		/*  P */ "", "", "", "", "", "", "", "",
-+		/*  Q */ "", "", "", "",
-+			"BMC_SMB_PRESENT_1_N", "BMC_SMB_PRESENT_2_N",
-+			"BMC_SMB_PRESENT_3_N", "BMC_PCIE_WAKE_N",
-+		/*  R */ "", "", "THERMALTRIP_CLEAR_N", "", "", "", "", "",
-+		/*  S */ "", "", "", "", "", "", "", "",
-+		/*  T */ "", "", "", "", "", "", "", "",
-+		/*  U */ "", "", "", "", "", "", "", "",
-+		/*  V */ "", "", "", "", "", "", "", "",
-+		/*  W */ "", "", "", "", "", "", "", "",
-+		/*  X */ "", "", "", "", "", "", "", "",
-+		/*  Y */ "SLP_S3", "SLP_S4_S5", "NODE_ID_1", "NODE_ID_2", "", "", "", "",
-+		/*  Z */ "", "", "SYSTEM_FAULT_LED_N", "FAST_THROTTLE_N",
-+			"", "", "", "",
-+		/* AA */ "FM_CPU0_IBMC_THERMTRIP_N", "", "PROCHOT_L_G", "",
-+			"", "", "", "",
-+		/* AB */ "BMC_FORCE_SELFREFRESH", "PWRGD_OUT", "", "IRQ_BMC_PCH_SMI_LPC_N",
-+			"", "", "", "",
-+		/* AC */ "", "", "", "", "", "", "", "";
-+};
-+
-+&adc {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_adc0_default
-+		&pinctrl_adc1_default
-+		&pinctrl_adc2_default
-+		&pinctrl_adc3_default
-+		&pinctrl_adc4_default
-+		&pinctrl_adc5_default
-+		&pinctrl_adc6_default
-+		&pinctrl_adc7_default
-+		&pinctrl_adc8_default
-+		&pinctrl_adc9_default
-+		&pinctrl_adc10_default
-+		&pinctrl_adc11_default
-+		&pinctrl_adc12_default
-+		&pinctrl_adc13_default
-+		&pinctrl_adc14_default
-+		&pinctrl_adc15_default>;
-+};
--- 
-2.34.1
+I've been working on understanding device managed memory recently for
+Smatch.  It's really complicated.  There are a bunch of rules/heuristics
+that I'm slowly creating to generate new warnings but I'm a long way
+from understanding it well myself.
+
+regards,
+dan carpenter
 
