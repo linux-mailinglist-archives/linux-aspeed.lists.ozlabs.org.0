@@ -2,41 +2,88 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3286488E6E
-	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Jan 2022 02:55:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C733488F2C
+	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Jan 2022 05:16:47 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JXH3T5yPDz2x9M
-	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Jan 2022 12:55:49 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JXLB50LLsz2yN4
+	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Jan 2022 15:16:45 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm1 header.b=caWaHRxc;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=VfyA7k7w;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=wanadoo.fr
- (client-ip=80.12.242.124; helo=smtp.smtpout.orange.fr;
- envelope-from=christophe.jaillet@wanadoo.fr; receiver=<UNKNOWN>)
-Received: from smtp.smtpout.orange.fr (smtp02.smtpout.orange.fr
- [80.12.242.124])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=aj.id.au (client-ip=64.147.123.24;
+ helo=wout1-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm1 header.b=caWaHRxc; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm1 header.b=VfyA7k7w; 
+ dkim-atps=neutral
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
+ [64.147.123.24])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JX9w84D3zz304w
- for <linux-aspeed@lists.ozlabs.org>; Mon, 10 Jan 2022 09:04:06 +1100 (AEDT)
-Received: from pop-os.home ([90.11.185.88]) by smtp.orange.fr with ESMTPA
- id 6gArnkF9ZqYov6gArnGEU7; Sun, 09 Jan 2022 22:56:30 +0100
-X-ME-Helo: pop-os.home
-X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Sun, 09 Jan 2022 22:56:30 +0100
-X-ME-IP: 90.11.185.88
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Jeremy Kerr <jk@ozlabs.org>, Joel Stanley <joel@jms.id.au>,
- Alistar Popple <alistair@popple.id.au>,
- Eddie James <eajames@linux.ibm.com>, Andrew Jeffery <andrew@aj.id.au>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v3] fsi: Aspeed: Fix a potential double free
-Date: Sun,  9 Jan 2022 22:56:10 +0100
-Message-Id: <2c123f8b0a40dc1a061fae982169fe030b4f47e6.1641765339.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.32.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 10 Jan 2022 12:51:28 +1100
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JXL9w50zDz2xWx
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 10 Jan 2022 15:16:36 +1100 (AEDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id C82213200AB0;
+ Sun,  9 Jan 2022 23:16:32 -0500 (EST)
+Received: from imap43 ([10.202.2.93])
+ by compute4.internal (MEProxy); Sun, 09 Jan 2022 23:16:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=b5Cgl9itd7AC97FOAbhhfyGPsdddoh9
+ msj4rVDJ3UHo=; b=caWaHRxcWAl8nYBXSDr4PW8NNvkJMRQuWcLu9hEZ9CNDs0s
+ EEy37894xvZYvh9fA+hlDc6wWNsrv8i7jzvcJ1GARwKtW7ZTGVj1qFfUiDlaeg2J
+ dLfkr40ZDFo1SO5CHv0ELmuVmyv+V/LSiJBjFpW5er0Yj/Y/cBe4xmDTHfq7piPu
+ mKLmif8xbL9E0NElqE9dR09YgwjFMsSYXlmAn4LrpgtQxg29vevZe1W9VWAYhpy+
+ 8HT1ZEOQJrDvv8LmB8sGqki12Xe2Zzsb1S0m3fcuA8Tfu6t7Rgp3A3zujel0TBsn
+ rqzXz4KdUSGg6LAXhGKVExPp/A6gM5gFv8O8kXA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=b5Cgl9
+ itd7AC97FOAbhhfyGPsdddoh9msj4rVDJ3UHo=; b=VfyA7k7wn5t32bNjm8/hTn
+ UDrubE/UXPYisQHrq7RBTM6D8LirAaZmo0NCB07GiUVyvoEl6qatnl3fdYy6TtUF
+ qoxUGFCTp0JzbwLgAULhiOHfi0Ph7zA57v+/SrX3K2URCyxFDS6mcBLp11CnFSKL
+ mVGPdxHV9IBNMem5XllqBZ4OpUd/CRP/fdlhp7/m46z5/58bRJu3waiX08e+svvF
+ dWUIe4MnwELANTlOs1IWXbikhsBzTSb5py2DH79U7AsPMqORFjlpSEQbC0Cn9/Vj
+ JjhONOBef9h4KsufOfLWlx4/E08C5rCiO+mZu9M2GH7NeurUK6NP16EtKMexya8Q
+ ==
+X-ME-Sender: <xms:H7PbYV8PE7JWj-PJTssWIfIVAforjwSblCXy5UQjgBfuPRsex5S6EA>
+ <xme:H7PbYZsBd8eONcE3QC_B19lgjqBhfpOqr9pOSmHkO2ZtxMdOOW3ImwbaSGIG22U9F
+ GcO4fVdnK2c_V-Dew>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrudegledgjeduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+ grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
+ hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ eprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:ILPbYTBJYbVKjO4M-uAMkW_ksyGRQJX6Teb8UoRIGEaMAAPT7ftslg>
+ <xmx:ILPbYZe1UP9l_uIGlnFkn_KdFNe1h0QraSXc6cX2rQCEZ5I-prfRjA>
+ <xmx:ILPbYaO_-s1mkOOLnrCsDRWxjVn0okLgfFVbGFPEfnrGSkixjmNoTw>
+ <xmx:ILPbYTb-svaH9IcZkee1NapW54GURHRwTrAnMsWXd9S1bT2KRbZX3A>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id DA504AC0EA1; Sun,  9 Jan 2022 23:16:31 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-4527-g032417b6d6-fm-20220109.002-g032417b6
+Mime-Version: 1.0
+Message-Id: <4a3d28d3-5912-4699-975f-480320486851@www.fastmail.com>
+In-Reply-To: <20211231220138.119747-1-petr.vorel@gmail.com>
+References: <20211231220138.119747-1-petr.vorel@gmail.com>
+Date: Mon, 10 Jan 2022 14:46:10 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Petr Vorel" <petr.vorel@gmail.com>, linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH 1/1] arm: dts: aspeed: Fix typo
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,103 +95,18 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Guenter Roeck <linux@roeck-us.net>, linux-arm-kernel@lists.infradead.org,
- linux-fsi@lists.ozlabs.org
+Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-A struct device can never be devm_alloc()'ed.
-Here, it is embedded in "struct fsi_master", and "struct fsi_master" is
-embedded in "struct fsi_master_aspeed".
 
-Since "struct device" is embedded, the data structure embedding it must be
-released with the release function, as is already done here.
 
-So use kzalloc() instead of devm_kzalloc() when allocating "aspeed" and
-update all error handling branches accordingly.
+On Sat, 1 Jan 2022, at 08:31, Petr Vorel wrote:
+> Fixes: 25337c735414 ("ARM: dts: aspeed: Add Inventec Lanyang BMC")
+>
+> Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
 
-This prevent a potential double free().
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
 
-This also fix another issue if opb_readl() fails. Instead of a direct
-return, it now jumps in the error handling path.
-
-Fixes: 606397d67f41 ("fsi: Add ast2600 master driver")
-Suggested-by: Greg KH <gregkh@linuxfoundation.org>
-Suggested-by: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-v2: Keep the release function which is correct
-    s/devm_kzalloc()/kzalloc()/ instead
-
-v3: Update the error handling path to free "aspeed" [Guenter Roeck]
-    Fix another issue when opb_readl() fails [Guenter Roeck]
-
-I hope that fixing both issues in the same patch is ok. It makes no sense
-to me not to update the goto to the correct label if opb_readl() fails.
----
- drivers/fsi/fsi-master-aspeed.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-master-aspeed.c
-index 8606e55c1721..0bed2fab8055 100644
---- a/drivers/fsi/fsi-master-aspeed.c
-+++ b/drivers/fsi/fsi-master-aspeed.c
-@@ -542,25 +542,28 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
- 		return rc;
- 	}
- 
--	aspeed = devm_kzalloc(&pdev->dev, sizeof(*aspeed), GFP_KERNEL);
-+	aspeed = kzalloc(sizeof(*aspeed), GFP_KERNEL);
- 	if (!aspeed)
- 		return -ENOMEM;
- 
- 	aspeed->dev = &pdev->dev;
- 
- 	aspeed->base = devm_platform_ioremap_resource(pdev, 0);
--	if (IS_ERR(aspeed->base))
--		return PTR_ERR(aspeed->base);
-+	if (IS_ERR(aspeed->base)) {
-+		rc = PTR_ERR(aspeed->base);
-+		goto err_free_aspeed;
-+	}
- 
- 	aspeed->clk = devm_clk_get(aspeed->dev, NULL);
- 	if (IS_ERR(aspeed->clk)) {
- 		dev_err(aspeed->dev, "couldn't get clock\n");
--		return PTR_ERR(aspeed->clk);
-+		rc = PTR_ERR(aspeed->clk);
-+		goto err_free_aspeed;
- 	}
- 	rc = clk_prepare_enable(aspeed->clk);
- 	if (rc) {
- 		dev_err(aspeed->dev, "couldn't enable clock\n");
--		return rc;
-+		goto err_free_aspeed;
- 	}
- 
- 	rc = setup_cfam_reset(aspeed);
-@@ -595,7 +598,7 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
- 	rc = opb_readl(aspeed, ctrl_base + FSI_MVER, &raw);
- 	if (rc) {
- 		dev_err(&pdev->dev, "failed to read hub version\n");
--		return rc;
-+		goto err_release;
- 	}
- 
- 	reg = be32_to_cpu(raw);
-@@ -634,6 +637,8 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
- 
- err_release:
- 	clk_disable_unprepare(aspeed->clk);
-+err_free_aspeed:
-+	kfree(aspeed);
- 	return rc;
- }
- 
--- 
-2.32.0
-
+Thanks Petr.
