@@ -1,65 +1,71 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A1448E057
-	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Jan 2022 23:35:59 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3425548E69B
+	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Jan 2022 09:34:03 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JZfR15W8pz30D5
-	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Jan 2022 09:35:57 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JZvj46W0Gz30Kp
+	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Jan 2022 19:34:00 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=RMGbk/JL;
+	dkim=pass (2048-bit key; secure) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256 header.s=xs4all01 header.b=Vm1/T/dB;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f29;
- helo=mail-qv1-xf29.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=RMGbk/JL; dkim-atps=neutral
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com
- [IPv6:2607:f8b0:4864:20::f29])
+ smtp.mailfrom=xs4all.nl (client-ip=195.121.94.167; helo=ewsoutbound.kpnmail.nl;
+ envelope-from=hverkuil-cisco@xs4all.nl; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ secure) header.d=xs4all.nl header.i=@xs4all.nl header.a=rsa-sha256
+ header.s=xs4all01 header.b=Vm1/T/dB; dkim-atps=neutral
+X-Greylist: delayed 1235 seconds by postgrey-1.36 at boromir;
+ Fri, 14 Jan 2022 19:33:54 AEDT
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.167])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JZfQt5FnZz2yR8;
- Fri, 14 Jan 2022 09:35:48 +1100 (AEDT)
-Received: by mail-qv1-xf29.google.com with SMTP id 15so8379178qvp.12;
- Thu, 13 Jan 2022 14:35:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PP1423VmXCNEpr6x85pDcRINUY1BVKseyYhoEt1br1Y=;
- b=RMGbk/JLSU6kUhB4j9bf0zcTVb7Wv+IRlRPvm3PqqF+O3xNmPXRYKyavDmR+dg43k4
- LzmhqFkSO0vtg6oDKp8PgtPaPVSgxH1LrSvTkMxRu45MNCPDT4EFztdAmPDsEXag03qH
- 1Jz6vo0usc22mEUhUqC1T165qYgckKeSkV3TI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PP1423VmXCNEpr6x85pDcRINUY1BVKseyYhoEt1br1Y=;
- b=DQMlHP2cj8SdKEvWpGXzU/p3LeBiyuZWpg9FR6j4L8u+Sz82zWjF1Zz5PXX8ljvAhP
- TvEgWIA6Mf1Ogxp+natnrSGTNafYMg2N1SWeFJ4XfcTiBC5mOShWOLyg/hqIOmnOeRYo
- E0fL5WV6H39pCUEMiG7/J/Wc5yDJ8zX8Xa9swHrc7uDULLc1wW/m+p0oD0ryOlksZQJv
- o0dR6zIxr4LshDsCNHunI8yrMvgA2LsWM/ZTeqa31o5lFV/afa5I5pXc7FSLytb2mZpj
- OXBAeOxXum/zwJCHWLQhmGFkP2zetu0QH0HxAN30bHeo75J+wKA1YtFFtB1N0dHzzEkb
- MT/w==
-X-Gm-Message-State: AOAM531ZOGnXxOdTFXFBVO5h0JYyd1kMvSxy+zQJxU2f6Vuv8e4eubc2
- Hu3aNwROV7m/7PkJuUBvRW8lCn8axRDBFsjoAB0=
-X-Google-Smtp-Source: ABdhPJwvS5RkVPDYOyFBURNlUniibOApJPDqsNHMVoAteSeZU6gCk2guyywcY3fghdn9aoaUbS7/UAVUrq8+IrhskWw=
-X-Received: by 2002:a05:6214:4101:: with SMTP id
- kc1mr5991043qvb.49.1642113345011; 
- Thu, 13 Jan 2022 14:35:45 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JZvhy0dy2z2yYc
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Jan 2022 19:33:52 +1100 (AEDT)
+X-KPN-MessageId: 82f03557-7511-11ec-9a2e-005056abbe64
+Received: from smtp.kpnmail.nl (unknown [10.31.155.38])
+ by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+ id 82f03557-7511-11ec-9a2e-005056abbe64;
+ Fri, 14 Jan 2022 09:11:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=xs4all01;
+ h=content-type:from:to:subject:mime-version:date:message-id;
+ bh=zuml5cb46ityR8xHyuGQOnCJFEzHf/fVcI6uqZxrEzM=;
+ b=Vm1/T/dBf1sPj4g6flqPJ6wMCEQKWb0NGEX/JNEmBIV5EbGt2xf9UOx1U2DP6JFV4WxNuJjmWqEBx
+ sNhfvRLyNoRvcXdyBsactU7UjDENlIVnYAlGB3bMWRjcWizc5fxuIxTVrZKQ7t3GykJy5oj1tIOkds
+ SAfx6lZvQFfBJbJcawioxz5b20Yi4f4vWa4w8Qi/yTD240rnvbErdcAPfyH7OKOmze69j3UMaiKikk
+ +sV48suiT/5Gc5Um5ZZ4f75YltdKHLvdMYECsU27sQg1jobcDb28Q2GfYjjdWL0AJqbOtU4kLmI3kM
+ irDZOaZdjGa2nQdEwBvTz8KpU9J4ORA==
+X-KPN-VerifiedSender: No
+X-CMASSUN: 33|DrdHS/CriUx8uE+kxG18PLhtCM1oJKFMrj1aOy9kvNYQ8+y3N9cmsRAqi8b9Ehc
+ 3PoMjIdumdoSK61BXN6GlTw==
+X-Originating-IP: 193.91.129.219
+Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
+ by smtp.xs4all.nl (Halon) with ESMTPSA
+ id 98daabcd-7511-11ec-94d2-005056abf0db;
+ Fri, 14 Jan 2022 09:11:39 +0100 (CET)
+Message-ID: <703ff71e-c76a-9df1-c644-04efed0199ca@xs4all.nl>
+Date: Fri, 14 Jan 2022 09:11:37 +0100
 MIME-Version: 1.0
-References: <20220113211735.37861-1-geissonator@yahoo.com>
-In-Reply-To: <20220113211735.37861-1-geissonator@yahoo.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 13 Jan 2022 22:35:32 +0000
-Message-ID: <CACPK8XfY58odFjf0KNdYXa5MbCg=A07OEfuyjsbnmMtUmxG6ww@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ARM: dts: aspeed: rainier: add reset-cause-pinhole
-To: Andrew Geissler <geissonator@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.4.1
+Subject: Re: [PATCH v8 1/4] media: v4l: Add definition for the Aspeed JPEG
+ format
+Content-Language: en-US
+To: Jammy Huang <jammy_huang@aspeedtech.com>, sakari.ailus@linux.intel.com,
+ gregkh@linuxfoundation.org, eajames@linux.ibm.com, mchehab@kernel.org,
+ joel@jms.id.au, andrew@aj.id.au, linux-media@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+References: <20211224012738.1551-1-jammy_huang@aspeedtech.com>
+ <20211224012738.1551-2-jammy_huang@aspeedtech.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20211224012738.1551-2-jammy_huang@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,57 +77,97 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Andrew Geissler <geissonator@yahoo.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Andrew,
-
-On Thu, 13 Jan 2022 at 21:18, Andrew Geissler <geissonator@gmail.com> wrote:
->
-> This GPIO is used on the rainier system to indicate the BMC was reset
-> due to a physical pinhole reset.
->
-> See the following doc for more information:
-> https://github.com/openbmc/docs/blob/master/designs/device-tree-gpio-naming.md
->
-> Signed-off-by: Andrew Geissler <geissonator@yahoo.com>
-
-I couldn't apply these cleanly to any tree I had. I think you had a
-patch to add battery-voltage-read-enable, but that's not in the tree
-yet.
-
-I fixed them up to apply.
-
-Cheers,
-
-Joel
-
+On 24/12/2021 02:27, Jammy Huang wrote:
+> This introduces support for the Aspeed JPEG format, where the new frame
+> can refer to previous frame to reduce the amount of compressed data. The
+> concept is similar to I/P frame of video compression. It will compare the
+> new frame with previous one to decide which macroblock's data is
+> changed, and only the changed macroblocks will be compressed.
+> 
+> This Aspeed JPEG format is used by the video engine on Aspeed platforms,
+> which is generally adapted for remote KVM.
+> 
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
 > ---
->  arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> index cfaa606666e2..7ea70c7d698f 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts
-> @@ -247,7 +247,8 @@ &gpio0 {
->         /*C0-C7*/       "","","","","","","","",
->         /*D0-D7*/       "","","","","","","","",
->         /*E0-E7*/       "","","","","","","","",
-> -       /*F0-F7*/       "","","battery-voltage-read-enable","","","","factory-reset-toggle","",
-> +       /*F0-F7*/       "","","battery-voltage-read-enable","reset-cause-pinhole","","",
-> +                               "factory-reset-toggle","",
->         /*G0-G7*/       "","","","","","","","",
->         /*H0-H7*/       "","bmc-ingraham0","rear-enc-id0","rear-enc-fault0","","","","",
->         /*I0-I7*/       "","","","","","","bmc-secure-boot","",
-> --
-> 2.25.1
->
+> v8:
+>   - Add decoder information for aspeed-jpeg
+> v7:
+>   - Add more information for aspeed-jpeg
+> v6:
+>   - Update description for new format, aspeed-jpeg, in Documentation.
+> v5:
+>   - no update
+> v4:
+>   - new
+> ---
+>  .../media/uapi/v4l/pixfmt-reserved.rst          | 17 +++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c            |  1 +
+>  include/uapi/linux/videodev2.h                  |  1 +
+>  3 files changed, 19 insertions(+)
+> 
+> diff --git a/Documentation/media/uapi/v4l/pixfmt-reserved.rst b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
+
+This is the wrong file! It should be:
+
+Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+
+Regards,
+
+	Hans
+
+> index b2cd155e691b..1d0dc8d86ed7 100644
+> --- a/Documentation/media/uapi/v4l/pixfmt-reserved.rst
+> +++ b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
+> @@ -264,6 +264,23 @@ please make a proposal on the linux-media mailing list.
+>  	of tiles, resulting in 32-aligned resolutions for the luminance plane
+>  	and 16-aligned resolutions for the chrominance plane (with 2x2
+>  	subsampling).
+> +    * .. _V4L2-PIX-FMT-AJPG:
+> +
+> +      - ``V4L2_PIX_FMT_AJPG``
+> +      - 'AJPG'
+> +      - ASPEED JPEG format used by the aspeed-video driver on Aspeed platforms,
+> +        which is generally adapted for remote KVM.
+> +        On each frame compression, I will compare the new frame with previous
+> +        one to decide which macroblock's data is changed, and only the changed
+> +        macroblocks will be compressed.
+> +
+> +        The implementation is based on AST2600 A3 datasheet, revision 0.9, which
+> +        is not publicly available. Or you can reference Video stream data format
+> +        – ASPEED mode compression of SDK_User_Guide which available on
+> +        AspeedTech-BMC/openbmc/releases.
+> +
+> +        Decoder's implementation can be found here,
+> +        `https://github.com/AspeedTech-BMC/aspeed_codec/ <https://github.com/AspeedTech-BMC/aspeed_codec/>`__
+>  
+>  .. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
+>  
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 24db33f803c0..00dde01d2f97 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1378,6 +1378,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  		case V4L2_PIX_FMT_S5C_UYVY_JPG:	descr = "S5C73MX interleaved UYVY/JPEG"; break;
+>  		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
+>  		case V4L2_PIX_FMT_SUNXI_TILED_NV12: descr = "Sunxi Tiled NV12 Format"; break;
+> +		case V4L2_PIX_FMT_AJPG:		descr = "Aspeed JPEG"; break;
+>  		default:
+>  			if (fmt->description[0])
+>  				return;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 3210b3c82a4a..994eb6155ea9 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -726,6 +726,7 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_INZI     v4l2_fourcc('I', 'N', 'Z', 'I') /* Intel Planar Greyscale 10-bit and Depth 16-bit */
+>  #define V4L2_PIX_FMT_SUNXI_TILED_NV12 v4l2_fourcc('S', 'T', '1', '2') /* Sunxi Tiled NV12 Format */
+>  #define V4L2_PIX_FMT_CNF4     v4l2_fourcc('C', 'N', 'F', '4') /* Intel 4-bit packed depth confidence information */
+> +#define V4L2_PIX_FMT_AJPG     v4l2_fourcc('A', 'J', 'P', 'G') /* Aspeed JPEG */
+>  
+>  /* 10bit raw bayer packed, 32 bytes for every 25 pixels, last LSB 6 bits unused */
+>  #define V4L2_PIX_FMT_IPU3_SBGGR10	v4l2_fourcc('i', 'p', '3', 'b') /* IPU3 packed 10-bit BGGR bayer */
+
