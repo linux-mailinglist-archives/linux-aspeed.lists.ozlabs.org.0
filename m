@@ -1,71 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C0149020A
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Jan 2022 07:39:11 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77FBE4902DD
+	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Jan 2022 08:19:17 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Jcj194m0fz3002
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Jan 2022 17:39:09 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=XUOQMXTU;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JcjvR36hVz305L
+	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Jan 2022 18:19:15 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::833;
- helo=mail-qt1-x833.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=XUOQMXTU; dkim-atps=neutral
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
- [IPv6:2607:f8b0:4864:20::833])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Jcj156qzDz2x9Z;
- Mon, 17 Jan 2022 17:39:03 +1100 (AEDT)
-Received: by mail-qt1-x833.google.com with SMTP id 14so10883573qty.2;
- Sun, 16 Jan 2022 22:39:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=SCIluCFzTxQ0TtrLY6TuEHxf2MUxrzhJh6COmbq3iWU=;
- b=XUOQMXTUtcTfOf9BsQpiygXXKiUZc56gNZVtQH+/NF1tVv/BkUFzyjB3SIKUb+dbuQ
- KPrNrebmoNr4hVysDx284sWPjG7Zfyf2h6Dl9k1ORBcfkqgytMJtXBVGLGS9F62Ua+3U
- Q+JTzHzydRtLOW7WPYw8iKLVlXLfYM2fUPRfg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SCIluCFzTxQ0TtrLY6TuEHxf2MUxrzhJh6COmbq3iWU=;
- b=rr+NOJK5+32HEepj8cc4xFKX1PVEHhvZwEEVgzKiXRF/4nm4GAArZLG4h1FYmssvTp
- Z3gVT3ByxIq201GnuaNALcpFpMyhz/Py10xB4TWyxH7VcB2Z50Y9ABPdeP32GHJDK8s1
- 0gWM/mO+OQpGzSSVVISGwozIj3JKiB7k7DXom5tR/NyluQzY9G4PRvMPdaeebEtENkuC
- FzFUa8qKJ8for1P3r8Mtt9MLiBaALVJAEByxOsTc0OqixuQd1Oz8tc/X74e3emTm4O4b
- JF6vVSUOAzpUwWDDWnRIWgd6uSe61Dqfj282S/o3IumfLpW+G4GLjX4Kt1IFj7uK8Zqz
- vUfg==
-X-Gm-Message-State: AOAM532ukAe/lwfeERcmYM3arTobFstydQ9p9ZdZEJ1JnEr2Yh2d2eFt
- dI2nEC26sydaR+qllviqIgJT9P2xCrSLpQ09jEI=
-X-Google-Smtp-Source: ABdhPJx3A0SkN3aZCX5+Oi0LolEDukEZHIZ692Qeofq4HDx8uEkmYcqjeqjrsjqSUuJ2WKtgmVX8UiT86lQy8L2WoxI=
-X-Received: by 2002:a05:622a:1116:: with SMTP id
- e22mr7453887qty.58.1642401540369; 
- Sun, 16 Jan 2022 22:39:00 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JcjvJ5Gg5z2x9X;
+ Mon, 17 Jan 2022 18:19:04 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 20H7BSJ7074349;
+ Mon, 17 Jan 2022 15:11:28 +0800 (GMT-8)
+ (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 17 Jan
+ 2022 15:18:21 +0800
+Message-ID: <98096e97-68cc-18fd-d2b6-3477f57f05bd@aspeedtech.com>
+Date: Mon, 17 Jan 2022 15:18:22 +0800
 MIME-Version: 1.0
-References: <20220109132613.122912-1-guoheyi@linux.alibaba.com>
- <ad5e5438-4a3f-2447-4af3-7caa91e7252a@linux.alibaba.com>
- <CACPK8XcYp9iAD3fjBQCax41C-1UpA+1AQW3epyEooYzNLt7R5g@mail.gmail.com>
- <e62fba0b-ebb9-934a-d7cf-6da33ecc4335@linux.alibaba.com>
-In-Reply-To: <e62fba0b-ebb9-934a-d7cf-6da33ecc4335@linux.alibaba.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 17 Jan 2022 06:38:48 +0000
-Message-ID: <CACPK8Xc+v132vM-ytdAUFhywFXGpPF+uPSBWi68ROf_PLD4VQQ@mail.gmail.com>
-Subject: Re: [PATCH] drivers/i2c-aspeed: avoid invalid memory reference after
- timeout
-To: Heyi Guo <guoheyi@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v8 1/4] media: v4l: Add definition for the Aspeed JPEG
+ format
+Content-Language: en-US
+To: Joel Stanley <joel@jms.id.au>
+References: <20211224012738.1551-1-jammy_huang@aspeedtech.com>
+ <20211224012738.1551-2-jammy_huang@aspeedtech.com>
+ <703ff71e-c76a-9df1-c644-04efed0199ca@xs4all.nl>
+ <609cfe9e-2fd8-b31a-9d71-b83d61693f84@aspeedtech.com>
+ <CACPK8XeJQHLWfVbBjArxV_QMDDnRXfccOeXdsn6aBEG7gd8yvw@mail.gmail.com>
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <CACPK8XeJQHLWfVbBjArxV_QMDDnRXfccOeXdsn6aBEG7gd8yvw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 20H7BSJ7074349
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,135 +60,145 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Brendan Higgins <brendanhiggins@google.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:I2C SUBSYSTEM HOST DRIVERS" <linux-i2c@vger.kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 14 Jan 2022 at 14:01, Heyi Guo <guoheyi@linux.alibaba.com> wrote:
+On 2022/1/17 上午 10:24, Joel Stanley wrote:
+> On Mon, 17 Jan 2022 at 02:00, Jammy Huang <jammy_huang@aspeedtech.com> wrote:
+>> Hi Hans,
+>>
+>> On 2022/1/14 下午 04:11, Hans Verkuil wrote:
+>>> On 24/12/2021 02:27, Jammy Huang wrote:
+>>>> This introduces support for the Aspeed JPEG format, where the new frame
+>>>> can refer to previous frame to reduce the amount of compressed data. The
+>>>> concept is similar to I/P frame of video compression. It will compare the
+>>>> new frame with previous one to decide which macroblock's data is
+>>>> changed, and only the changed macroblocks will be compressed.
+>>>>
+>>>> This Aspeed JPEG format is used by the video engine on Aspeed platforms,
+>>>> which is generally adapted for remote KVM.
+>>>>
+>>>> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+>>>> ---
+>>>> v8:
+>>>>     - Add decoder information for aspeed-jpeg
+>>>> v7:
+>>>>     - Add more information for aspeed-jpeg
+>>>> v6:
+>>>>     - Update description for new format, aspeed-jpeg, in Documentation.
+>>>> v5:
+>>>>     - no update
+>>>> v4:
+>>>>     - new
+>>>> ---
+>>>>    .../media/uapi/v4l/pixfmt-reserved.rst          | 17 +++++++++++++++++
+>>>>    drivers/media/v4l2-core/v4l2-ioctl.c            |  1 +
+>>>>    include/uapi/linux/videodev2.h                  |  1 +
+>>>>    3 files changed, 19 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/media/uapi/v4l/pixfmt-reserved.rst b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
+>>> This is the wrong file! It should be:
+>>>
+>>> Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+>> Thanks, I just used git format-patch to generate the cover-letter and
+>> didn't notice this.
+>>
+>> It looks like the file, pixfmt-reserved.rst, has different path in
+>> different Linux kernel,
+>>
+>> * 5.4:           Documentation/media/uapi/v4l/pixfmt-reserved.rst
+>>
+>> * 5.10/5.15: Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+>>
+>> 5.4 is the one I based to submit the patches.
+>>
+>> Could you suggest the kernel that I should based to submit these patches??
+> You should always submit based on the latest release.
 >
-> Hi Joel,
+> There are sometimes exceptions where you will base your patches on
+> something even newer, but generally you should grab the latest.
 >
+> Be sure to re-test on the latest kernel before submitting.
+OK, thank you.
 >
-> =E5=9C=A8 2022/1/11 =E4=B8=8B=E5=8D=886:51, Joel Stanley =E5=86=99=E9=81=
-=93:
-> > On Tue, 11 Jan 2022 at 07:52, Heyi Guo <guoheyi@linux.alibaba.com> wrot=
-e:
-> >> Hi all,
-> >>
-> >> Any comments?
-> >>
-> >> Thanks,
-> >>
-> >> Heyi
-> >>
-> >> =E5=9C=A8 2022/1/9 =E4=B8=8B=E5=8D=889:26, Heyi Guo =E5=86=99=E9=81=93=
-:
-> >>> The memory will be freed by the caller if transfer timeout occurs,
-> >>> then it would trigger kernel panic if the peer device responds with
-> >>> something after timeout and triggers the interrupt handler of aspeed
-> >>> i2c driver.
-> >>>
-> >>> Set the msgs pointer to NULL to avoid invalid memory reference after
-> >>> timeout to fix this potential kernel panic.
-> > Thanks for the patch. How did you discover this issue? Do you have a
-> > test I can run to reproduce the crash?
+> Cheers,
 >
-> We are using one i2c channel to communicate with another MCU by
-> implementing user space SSIF protocol, and the MCU may not respond in
-> time if it is busy. If it responds after timeout occurs, it will trigger
-> below kernel panic:
+> Joel
 >
+>> I will need to change the number of V4L2_CID_USER_ASPEED_BASE per different
+>>
+>> linux kernel as well.
+>>
+>>> Regards,
+>>>
+>>>        Hans
+>>>
+>>>> index b2cd155e691b..1d0dc8d86ed7 100644
+>>>> --- a/Documentation/media/uapi/v4l/pixfmt-reserved.rst
+>>>> +++ b/Documentation/media/uapi/v4l/pixfmt-reserved.rst
+>>>> @@ -264,6 +264,23 @@ please make a proposal on the linux-media mailing list.
+>>>>       of tiles, resulting in 32-aligned resolutions for the luminance plane
+>>>>       and 16-aligned resolutions for the chrominance plane (with 2x2
+>>>>       subsampling).
+>>>> +    * .. _V4L2-PIX-FMT-AJPG:
+>>>> +
+>>>> +      - ``V4L2_PIX_FMT_AJPG``
+>>>> +      - 'AJPG'
+>>>> +      - ASPEED JPEG format used by the aspeed-video driver on Aspeed platforms,
+>>>> +        which is generally adapted for remote KVM.
+>>>> +        On each frame compression, I will compare the new frame with previous
+>>>> +        one to decide which macroblock's data is changed, and only the changed
+>>>> +        macroblocks will be compressed.
+>>>> +
+>>>> +        The implementation is based on AST2600 A3 datasheet, revision 0.9, which
+>>>> +        is not publicly available. Or you can reference Video stream data format
+>>>> +        – ASPEED mode compression of SDK_User_Guide which available on
+>>>> +        AspeedTech-BMC/openbmc/releases.
+>>>> +
+>>>> +        Decoder's implementation can be found here,
+>>>> +        `https://github.com/AspeedTech-BMC/aspeed_codec/ <https://github.com/AspeedTech-BMC/aspeed_codec/>`__
+>>>>
+>>>>    .. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
+>>>>
+>>>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+>>>> index 24db33f803c0..00dde01d2f97 100644
+>>>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+>>>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+>>>> @@ -1378,6 +1378,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>>>>               case V4L2_PIX_FMT_S5C_UYVY_JPG: descr = "S5C73MX interleaved UYVY/JPEG"; break;
+>>>>               case V4L2_PIX_FMT_MT21C:        descr = "Mediatek Compressed Format"; break;
+>>>>               case V4L2_PIX_FMT_SUNXI_TILED_NV12: descr = "Sunxi Tiled NV12 Format"; break;
+>>>> +            case V4L2_PIX_FMT_AJPG:         descr = "Aspeed JPEG"; break;
+>>>>               default:
+>>>>                       if (fmt->description[0])
+>>>>                               return;
+>>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>>>> index 3210b3c82a4a..994eb6155ea9 100644
+>>>> --- a/include/uapi/linux/videodev2.h
+>>>> +++ b/include/uapi/linux/videodev2.h
+>>>> @@ -726,6 +726,7 @@ struct v4l2_pix_format {
+>>>>    #define V4L2_PIX_FMT_INZI     v4l2_fourcc('I', 'N', 'Z', 'I') /* Intel Planar Greyscale 10-bit and Depth 16-bit */
+>>>>    #define V4L2_PIX_FMT_SUNXI_TILED_NV12 v4l2_fourcc('S', 'T', '1', '2') /* Sunxi Tiled NV12 Format */
+>>>>    #define V4L2_PIX_FMT_CNF4     v4l2_fourcc('C', 'N', 'F', '4') /* Intel 4-bit packed depth confidence information */
+>>>> +#define V4L2_PIX_FMT_AJPG     v4l2_fourcc('A', 'J', 'P', 'G') /* Aspeed JPEG */
+>>>>
+>>>>    /* 10bit raw bayer packed, 32 bytes for every 25 pixels, last LSB 6 bits unused */
+>>>>    #define V4L2_PIX_FMT_IPU3_SBGGR10  v4l2_fourcc('i', 'p', '3', 'b') /* IPU3 packed 10-bit BGGR bayer */
+>> --
+>> Best Regards
+>> Jammy
+>>
+-- 
+Best Regards
+Jammy
 
-Thanks for the details. It looks like you've done some testing of
-this, which is good.
-
-> After applying this patch, we'll get below warning instead:
->
-> "bus in unknown state. irq_status: 0x%x\n"
-
-Given we get to here in the irq handler, we've done these two tests:
-
- - aspeed_i2c_is_irq_error()
- - the state is not INACTIVE or PENDING
-
-but there's no buffer ready for us to use. So what has triggered the
-IRQ in this case? Do you have a record of the irq status bits?
-
-I am wondering if the driver should know that the transaction has
-timed out, instead of detecting this unknown state.
-
-
-> > Can you provide a Fixes tag?
->
-> I think the bug was introduced by the first commit of this file :(
->
-> f327c686d3ba44eda79a2d9e02a6a242e0b75787
->
->
-> >
-> > Do other i2c master drivers do this? I took a quick look at the meson
-> > driver and it doesn't appear to clear it's pointer to msgs.
->
-> It is hard to say. It seems other drivers have some recover scheme like
-> aborting the transfer, or loop each messages in process context and
-> don't do much in IRQ handler, which may disable interrupts or not retain
-> the buffer pointer before returning timeout.
-
-I think your change is okay to go in as it fixes the crash, but first
-I want to work out if there's some missing handling of a timeout
-condition that we should add as well.
-
-
->
-> Thanks,
->
-> Heyi
->
->
-> >
-> >>> Signed-off-by: Heyi Guo <guoheyi@linux.alibaba.com>
-> >>>
-> >>> -------
-> >>>
-> >>> Cc: Brendan Higgins <brendanhiggins@google.com>
-> >>> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> >>> Cc: Joel Stanley <joel@jms.id.au>
-> >>> Cc: Andrew Jeffery <andrew@aj.id.au>
-> >>> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> >>> Cc: linux-i2c@vger.kernel.org
-> >>> Cc: openbmc@lists.ozlabs.org
-> >>> Cc: linux-arm-kernel@lists.infradead.org
-> >>> Cc: linux-aspeed@lists.ozlabs.org
-> >>> ---
-> >>>    drivers/i2c/busses/i2c-aspeed.c | 5 +++++
-> >>>    1 file changed, 5 insertions(+)
-> >>>
-> >>> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c=
--aspeed.c
-> >>> index 67e8b97c0c950..3ab0396168680 100644
-> >>> --- a/drivers/i2c/busses/i2c-aspeed.c
-> >>> +++ b/drivers/i2c/busses/i2c-aspeed.c
-> >>> @@ -708,6 +708,11 @@ static int aspeed_i2c_master_xfer(struct i2c_ada=
-pter *adap,
-> >>>                spin_lock_irqsave(&bus->lock, flags);
-> >>>                if (bus->master_state =3D=3D ASPEED_I2C_MASTER_PENDING=
-)
-> >>>                        bus->master_state =3D ASPEED_I2C_MASTER_INACTI=
-VE;
-> >>> +             /*
-> >>> +              * All the buffers may be freed after returning to call=
-er, so
-> >>> +              * set msgs to NULL to avoid memory reference after fre=
-eing.
-> >>> +              */
-> >>> +             bus->msgs =3D NULL;
-> >>>                spin_unlock_irqrestore(&bus->lock, flags);
-> >>>
-> >>>                return -ETIMEDOUT;
