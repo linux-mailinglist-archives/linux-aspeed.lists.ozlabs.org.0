@@ -2,67 +2,59 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70DD9490ADC
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Jan 2022 15:56:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2074914EF
+	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Jan 2022 03:25:34 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Jcw3T2LZrz30Bc
-	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Jan 2022 01:56:53 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JdCL35f5wz30Mj
+	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Jan 2022 13:25:31 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=PLc0DTi7;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=arndb.de
- (client-ip=212.227.126.134; helo=mout.kundenserver.de;
- envelope-from=arnd@arndb.de; receiver=<UNKNOWN>)
-X-Greylist: delayed 310 seconds by postgrey-1.36 at boromir;
- Tue, 18 Jan 2022 01:56:49 AEDT
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Jcw3P0KJcz2yPL
- for <linux-aspeed@lists.ozlabs.org>; Tue, 18 Jan 2022 01:56:48 +1100 (AEDT)
-Received: from mail-wm1-f46.google.com ([209.85.128.46]) by
- mrelayeu.kundenserver.de (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MVJZv-1miM551APv-00SLxG for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Jan
- 2022 15:51:32 +0100
-Received: by mail-wm1-f46.google.com with SMTP id
- g81-20020a1c9d54000000b0034cd1acd9b5so2210969wme.1
- for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Jan 2022 06:51:31 -0800 (PST)
-X-Gm-Message-State: AOAM53255/oyCbStKqrmzgnTyb210U1RQDDTXqix6dO6gP3eMwMosIBF
- sRlUCbJujMrrxnrPX0u3G9w9MXrAW04SoHbYPYk=
-X-Google-Smtp-Source: ABdhPJz0ptDEc+yX5cVaNMsNpzr1ExJC37lgKrbuG6Pso82OS1R1bYOXUvXKG2TAwUf3o5XJNUnHZW0aATTGv4WPv1A=
-X-Received: by 2002:a7b:ce96:: with SMTP id q22mr28292181wmj.82.1642431091240; 
- Mon, 17 Jan 2022 06:51:31 -0800 (PST)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org;
+ envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=PLc0DTi7; 
+ dkim-atps=neutral
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JdCL01SrQz2ymZ
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 18 Jan 2022 13:25:28 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5088B6093C;
+ Tue, 18 Jan 2022 02:25:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F190C36AE3;
+ Tue, 18 Jan 2022 02:25:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1642472726;
+ bh=JRwEwaQ2ghXjEgsdO+LW6h97cIMvCsKA8iS5G29TpR4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=PLc0DTi7QQyqExaAx/h+6cP4053GdtVLRSigT843GESdWSl9v2W7CJWb2Pr6/ohST
+ 9FJFCNOWQPLpZbKUZjzV75X5o024vRU8qaOnjJGyO3vwRITiNPmAPw5hCmjHTmxN5Y
+ cqjloGbEiWvFnlOZkxgcBK5RnsDQ6srzGNXtZ8h+h+caQs565ofZ+J2sIq3UmBaYtJ
+ VmO2hdrkx92tbWoH2W6WFlFuoJPpHwxXRbC4IBzgtGZlkukvH91a2IqLaG9hPZmIe+
+ qzDlWufAWiRkMVEfK1YJ/mTRQKGzsOu/WVVETwSu94sw70175A8POsr2gWQwOiu1KQ
+ duhiND18fsLsw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.16 115/217] gpio: aspeed: Convert aspeed_gpio.lock
+ to raw_spinlock
+Date: Mon, 17 Jan 2022 21:17:58 -0500
+Message-Id: <20220118021940.1942199-115-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220118021940.1942199-1-sashal@kernel.org>
+References: <20220118021940.1942199-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20211117035106.321454-1-joel@jms.id.au>
- <20211117035106.321454-4-joel@jms.id.au>
- <CACPK8XcSPiOoJZ4jyJySvCiW+EXxSVsxiEcK2eOZjGY9b1vrjA@mail.gmail.com>
-In-Reply-To: <CACPK8XcSPiOoJZ4jyJySvCiW+EXxSVsxiEcK2eOZjGY9b1vrjA@mail.gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Mon, 17 Jan 2022 15:51:15 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3MRf0aGt1drkgsuZyBbeoy+S7Ha18SBM01q+3f33oL+Q@mail.gmail.com>
-Message-ID: <CAK8P3a3MRf0aGt1drkgsuZyBbeoy+S7Ha18SBM01q+3f33oL+Q@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ARM: aspeed: Add secure boot controller support
-To: Joel Stanley <joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:MWmQ0MxjfofJpqt/qOVEITKrbPGV3xvqetQ9GyRRVVDWgpDheOQ
- d23EVU8csqYZz8pHoUbj6DfkDHTL/1wazWIWLRhQ9QxIT9bM9JItwK4ST09oCw4sDEBMGzY
- eABoOV8EUPFREL3tjYsNsyXGekXjeFkE4CpL/gykY3KZKPpYJarpGFlHvqwC39flmq+MJtA
- Q2Upsr8aT9ekuISs7TQ5g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JP/bulkmwJo=:oSeQTcOjk/0COCWGSqbbQl
- rxUAmHuezOrhbIHHBEO70kjfHqk043acso7TKgwe/PpMN5rjBXFzOo00eKj+tpxdP/lLEdzYP
- Kdbu+LbKxshMHPQd4w32w3/B+sdRWI6t8NC/yjDxj9HGnM6RB06y+/4Quymx3AkpNFhhFEstj
- 3MQ+F2t8mBRfE/HxP+SZDEI2d6wRjJT2bvGtop+0oHlvLLSf1PenyZEO8Hz8zz420f25kh3Qw
- v30TvKQERInT/ppLgxZRheB3aL5raSnKjZY4vvJvWMqFzX5smvAEzbr68V+tpwB+czoUfLRe5
- GHxcS/4eeO88tOLrfE8lg5CJKPreemTg+FmS6CvWDvUSLor5IfV9TD2+3H9PriCAL16Ab5ws7
- 3p8mAf71TaKmvs5GWc225c7FPL6WhC7B4ynErQDGohWaqk+qCS4WmeDGh+6klRhOQlQ2tH3th
- nfZxwr4POtwCDc8fsT+xNxyDh0CdNs72ffR/LbaAKJdqFGObDy/tEaxR8P0Bkw4159Dc8cObC
- 3REc2SbYHXqrPEl4ZyEDBkuK9Ox3M6bzFp/RGr/EtlQG9j8b3vXV20pf3FvoYogzEvlBZFUvT
- l47sVt/UygUeF/4vPaxm6MggRfvf/0QHsDkIFDs8RT5RVnyJIHlJMpc3Pavh3PEhBya1Yxb++
- x6rVJhj/5Q8z+egKzsddUjh3Mvh/LnkP1jhowv5nWhRd+8wjYmUja6INuUoOzL4oE9M6NHq6J
- gImo1hn8AzC9EnxFaZsZ+yjGRJtvmXwkmUnkIaqg1RX/KJJxmAS0wgglE/49GOrEve+KmdFkq
- sR2tcK0A5zuh+uHkL1vq9JT/QVFaNowpO4Tje4Y1EAuiGxAy0c=
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,113 +66,263 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Paul Menzel <pmenzel@molgen.mpg.de>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>,
- devicetree <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: Sasha Levin <sashal@kernel.org>, linux-aspeed@lists.ozlabs.org,
+ Bartosz Golaszewski <brgl@bgdev.pl>, linux-gpio@vger.kernel.org,
+ linus.walleij@linaro.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Jan 11, 2022 at 12:29 AM Joel Stanley <joel@jms.id.au> wrote:
-> On Wed, 17 Nov 2021 at 03:51, Joel Stanley <joel@jms.id.au> wrote:
-> >
-> > This reads out the status of the secure boot controller and exposes it
-> > in sysfs.
-> >
-> > An example on a AST2600A3 QEMU model:
-> >
-> >  # grep . /sys/bus/soc/devices/soc0/*
-> >  /sys/bus/soc/devices/soc0/abr_image:0
-> >  /sys/bus/soc/devices/soc0/family:AST2600
-> >  /sys/bus/soc/devices/soc0/low_security_key:0
-> >  /sys/bus/soc/devices/soc0/machine:Rainier 2U
-> >  /sys/bus/soc/devices/soc0/otp_protected:0
-> >  /sys/bus/soc/devices/soc0/revision:A3
-> >  /sys/bus/soc/devices/soc0/secure_boot:1
-> >  /sys/bus/soc/devices/soc0/serial_number:888844441234abcd
-> >  /sys/bus/soc/devices/soc0/soc_id:05030303
-> >  /sys/bus/soc/devices/soc0/uart_boot:1
->
-> Quoting from your response to my pull request:
->
-> > - I actually want to avoid custom attributes on soc device instances as much
-> >   as possible. I have not looked in detail at what you add here, but the
-> >   number of custom attributes means we should discuss this properly.
->
-> Can you explain the reasoning here?
->
-> I am a bit surprised given we have this nice feature in struct
-> soc_device_attribute:
->
-> struct soc_device_attribute {
-> ...
->         const struct attribute_group *custom_attr_group;
-> };
+From: Iwona Winiarska <iwona.winiarska@intel.com>
 
-I have two main concerns:
+[ Upstream commit 61a7904b6ace99b1bde0d0e867fa3097f5c8cee2 ]
 
-- any attribute that makes sense across multiple SoC families should probably be
-  part of the standard set of attributes. Ideally this could fit
-within the existing
-  attributes, but if you can make a reasonable case for adding further
-ones, that
-  is fine as well. The standard attributes can then also be accessed from within
-  the kernel with soc_device_match(), rather than just being available
-to user space.
+The gpio-aspeed driver implements an irq_chip which need to be invoked
+from hardirq context. Since spin_lock() can sleep with PREEMPT_RT, it is
+no longer legal to invoke it while interrupts are disabled.
+This also causes lockdep to complain about:
+[    0.649797] [ BUG: Invalid wait context ]
+because aspeed_gpio.lock (spin_lock_t) is taken under irq_desc.lock
+(raw_spinlock_t).
+Let's use of raw_spinlock_t instead of spinlock_t.
 
-- The attributes should all be used to identify the SoC, not a
-particular part of
-  the SoC that is better represented as a separate device.
+Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
+Signed-off-by: Bartosz Golaszewski <brgl@bgdev.pl>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpio/gpio-aspeed.c | 52 +++++++++++++++++++-------------------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
 
-If you are adding five attributes at once, it's likely that these
-don't all fit the
-constraints, though I had not yet looked at the implementation.
+diff --git a/drivers/gpio/gpio-aspeed.c b/drivers/gpio/gpio-aspeed.c
+index 3c8f20c57695f..318a7d95a1a8b 100644
+--- a/drivers/gpio/gpio-aspeed.c
++++ b/drivers/gpio/gpio-aspeed.c
+@@ -53,7 +53,7 @@ struct aspeed_gpio_config {
+ struct aspeed_gpio {
+ 	struct gpio_chip chip;
+ 	struct irq_chip irqc;
+-	spinlock_t lock;
++	raw_spinlock_t lock;
+ 	void __iomem *base;
+ 	int irq;
+ 	const struct aspeed_gpio_config *config;
+@@ -413,14 +413,14 @@ static void aspeed_gpio_set(struct gpio_chip *gc, unsigned int offset,
+ 	unsigned long flags;
+ 	bool copro;
+ 
+-	spin_lock_irqsave(&gpio->lock, flags);
++	raw_spin_lock_irqsave(&gpio->lock, flags);
+ 	copro = aspeed_gpio_copro_request(gpio, offset);
+ 
+ 	__aspeed_gpio_set(gc, offset, val);
+ 
+ 	if (copro)
+ 		aspeed_gpio_copro_release(gpio, offset);
+-	spin_unlock_irqrestore(&gpio->lock, flags);
++	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+ }
+ 
+ static int aspeed_gpio_dir_in(struct gpio_chip *gc, unsigned int offset)
+@@ -435,7 +435,7 @@ static int aspeed_gpio_dir_in(struct gpio_chip *gc, unsigned int offset)
+ 	if (!have_input(gpio, offset))
+ 		return -ENOTSUPP;
+ 
+-	spin_lock_irqsave(&gpio->lock, flags);
++	raw_spin_lock_irqsave(&gpio->lock, flags);
+ 
+ 	reg = ioread32(addr);
+ 	reg &= ~GPIO_BIT(offset);
+@@ -445,7 +445,7 @@ static int aspeed_gpio_dir_in(struct gpio_chip *gc, unsigned int offset)
+ 	if (copro)
+ 		aspeed_gpio_copro_release(gpio, offset);
+ 
+-	spin_unlock_irqrestore(&gpio->lock, flags);
++	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+ 
+ 	return 0;
+ }
+@@ -463,7 +463,7 @@ static int aspeed_gpio_dir_out(struct gpio_chip *gc,
+ 	if (!have_output(gpio, offset))
+ 		return -ENOTSUPP;
+ 
+-	spin_lock_irqsave(&gpio->lock, flags);
++	raw_spin_lock_irqsave(&gpio->lock, flags);
+ 
+ 	reg = ioread32(addr);
+ 	reg |= GPIO_BIT(offset);
+@@ -474,7 +474,7 @@ static int aspeed_gpio_dir_out(struct gpio_chip *gc,
+ 
+ 	if (copro)
+ 		aspeed_gpio_copro_release(gpio, offset);
+-	spin_unlock_irqrestore(&gpio->lock, flags);
++	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+ 
+ 	return 0;
+ }
+@@ -492,11 +492,11 @@ static int aspeed_gpio_get_direction(struct gpio_chip *gc, unsigned int offset)
+ 	if (!have_output(gpio, offset))
+ 		return GPIO_LINE_DIRECTION_IN;
+ 
+-	spin_lock_irqsave(&gpio->lock, flags);
++	raw_spin_lock_irqsave(&gpio->lock, flags);
+ 
+ 	val = ioread32(bank_reg(gpio, bank, reg_dir)) & GPIO_BIT(offset);
+ 
+-	spin_unlock_irqrestore(&gpio->lock, flags);
++	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+ 
+ 	return val ? GPIO_LINE_DIRECTION_OUT : GPIO_LINE_DIRECTION_IN;
+ }
+@@ -539,14 +539,14 @@ static void aspeed_gpio_irq_ack(struct irq_data *d)
+ 
+ 	status_addr = bank_reg(gpio, bank, reg_irq_status);
+ 
+-	spin_lock_irqsave(&gpio->lock, flags);
++	raw_spin_lock_irqsave(&gpio->lock, flags);
+ 	copro = aspeed_gpio_copro_request(gpio, offset);
+ 
+ 	iowrite32(bit, status_addr);
+ 
+ 	if (copro)
+ 		aspeed_gpio_copro_release(gpio, offset);
+-	spin_unlock_irqrestore(&gpio->lock, flags);
++	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+ }
+ 
+ static void aspeed_gpio_irq_set_mask(struct irq_data *d, bool set)
+@@ -565,7 +565,7 @@ static void aspeed_gpio_irq_set_mask(struct irq_data *d, bool set)
+ 
+ 	addr = bank_reg(gpio, bank, reg_irq_enable);
+ 
+-	spin_lock_irqsave(&gpio->lock, flags);
++	raw_spin_lock_irqsave(&gpio->lock, flags);
+ 	copro = aspeed_gpio_copro_request(gpio, offset);
+ 
+ 	reg = ioread32(addr);
+@@ -577,7 +577,7 @@ static void aspeed_gpio_irq_set_mask(struct irq_data *d, bool set)
+ 
+ 	if (copro)
+ 		aspeed_gpio_copro_release(gpio, offset);
+-	spin_unlock_irqrestore(&gpio->lock, flags);
++	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+ }
+ 
+ static void aspeed_gpio_irq_mask(struct irq_data *d)
+@@ -629,7 +629,7 @@ static int aspeed_gpio_set_type(struct irq_data *d, unsigned int type)
+ 		return -EINVAL;
+ 	}
+ 
+-	spin_lock_irqsave(&gpio->lock, flags);
++	raw_spin_lock_irqsave(&gpio->lock, flags);
+ 	copro = aspeed_gpio_copro_request(gpio, offset);
+ 
+ 	addr = bank_reg(gpio, bank, reg_irq_type0);
+@@ -649,7 +649,7 @@ static int aspeed_gpio_set_type(struct irq_data *d, unsigned int type)
+ 
+ 	if (copro)
+ 		aspeed_gpio_copro_release(gpio, offset);
+-	spin_unlock_irqrestore(&gpio->lock, flags);
++	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+ 
+ 	irq_set_handler_locked(d, handler);
+ 
+@@ -716,7 +716,7 @@ static int aspeed_gpio_reset_tolerance(struct gpio_chip *chip,
+ 
+ 	treg = bank_reg(gpio, to_bank(offset), reg_tolerance);
+ 
+-	spin_lock_irqsave(&gpio->lock, flags);
++	raw_spin_lock_irqsave(&gpio->lock, flags);
+ 	copro = aspeed_gpio_copro_request(gpio, offset);
+ 
+ 	val = readl(treg);
+@@ -730,7 +730,7 @@ static int aspeed_gpio_reset_tolerance(struct gpio_chip *chip,
+ 
+ 	if (copro)
+ 		aspeed_gpio_copro_release(gpio, offset);
+-	spin_unlock_irqrestore(&gpio->lock, flags);
++	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+ 
+ 	return 0;
+ }
+@@ -856,7 +856,7 @@ static int enable_debounce(struct gpio_chip *chip, unsigned int offset,
+ 		return rc;
+ 	}
+ 
+-	spin_lock_irqsave(&gpio->lock, flags);
++	raw_spin_lock_irqsave(&gpio->lock, flags);
+ 
+ 	if (timer_allocation_registered(gpio, offset)) {
+ 		rc = unregister_allocated_timer(gpio, offset);
+@@ -916,7 +916,7 @@ static int enable_debounce(struct gpio_chip *chip, unsigned int offset,
+ 	configure_timer(gpio, offset, i);
+ 
+ out:
+-	spin_unlock_irqrestore(&gpio->lock, flags);
++	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+ 
+ 	return rc;
+ }
+@@ -927,13 +927,13 @@ static int disable_debounce(struct gpio_chip *chip, unsigned int offset)
+ 	unsigned long flags;
+ 	int rc;
+ 
+-	spin_lock_irqsave(&gpio->lock, flags);
++	raw_spin_lock_irqsave(&gpio->lock, flags);
+ 
+ 	rc = unregister_allocated_timer(gpio, offset);
+ 	if (!rc)
+ 		configure_timer(gpio, offset, 0);
+ 
+-	spin_unlock_irqrestore(&gpio->lock, flags);
++	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+ 
+ 	return rc;
+ }
+@@ -1015,7 +1015,7 @@ int aspeed_gpio_copro_grab_gpio(struct gpio_desc *desc,
+ 		return -EINVAL;
+ 	bindex = offset >> 3;
+ 
+-	spin_lock_irqsave(&gpio->lock, flags);
++	raw_spin_lock_irqsave(&gpio->lock, flags);
+ 
+ 	/* Sanity check, this shouldn't happen */
+ 	if (gpio->cf_copro_bankmap[bindex] == 0xff) {
+@@ -1036,7 +1036,7 @@ int aspeed_gpio_copro_grab_gpio(struct gpio_desc *desc,
+ 	if (bit)
+ 		*bit = GPIO_OFFSET(offset);
+  bail:
+-	spin_unlock_irqrestore(&gpio->lock, flags);
++	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+ 	return rc;
+ }
+ EXPORT_SYMBOL_GPL(aspeed_gpio_copro_grab_gpio);
+@@ -1060,7 +1060,7 @@ int aspeed_gpio_copro_release_gpio(struct gpio_desc *desc)
+ 		return -EINVAL;
+ 	bindex = offset >> 3;
+ 
+-	spin_lock_irqsave(&gpio->lock, flags);
++	raw_spin_lock_irqsave(&gpio->lock, flags);
+ 
+ 	/* Sanity check, this shouldn't happen */
+ 	if (gpio->cf_copro_bankmap[bindex] == 0) {
+@@ -1074,7 +1074,7 @@ int aspeed_gpio_copro_release_gpio(struct gpio_desc *desc)
+ 		aspeed_gpio_change_cmd_source(gpio, bank, bindex,
+ 					      GPIO_CMDSRC_ARM);
+  bail:
+-	spin_unlock_irqrestore(&gpio->lock, flags);
++	raw_spin_unlock_irqrestore(&gpio->lock, flags);
+ 	return rc;
+ }
+ EXPORT_SYMBOL_GPL(aspeed_gpio_copro_release_gpio);
+@@ -1148,7 +1148,7 @@ static int __init aspeed_gpio_probe(struct platform_device *pdev)
+ 	if (IS_ERR(gpio->base))
+ 		return PTR_ERR(gpio->base);
+ 
+-	spin_lock_init(&gpio->lock);
++	raw_spin_lock_init(&gpio->lock);
+ 
+ 	gpio_id = of_match_node(aspeed_gpio_of_table, pdev->dev.of_node);
+ 	if (!gpio_id)
+-- 
+2.34.1
 
-From what I see in
-
-+static ssize_t abr_image_show(struct device *dev, struct
-device_attribute *attr, char *buf)
-+{
-+       return sprintf(buf, "%d\n", !!(security_status & ABR_IMAGE_SOURCE));
-+}
-+
-+static ssize_t low_security_key_show(struct device *dev, struct
-device_attribute *attr, char *buf)
-+{
-+       return sprintf(buf, "%d\n", !!(security_status & LOW_SEC_KEY));
-+}
-+
-+static ssize_t otp_protected_show(struct device *dev, struct
-device_attribute *attr, char *buf)
-+{
-+       return sprintf(buf, "%d\n", !!(security_status & OTP_PROTECTED));
-+}
-+
-+static ssize_t secure_boot_show(struct device *dev, struct
-device_attribute *attr, char *buf)
-+{
-+       return sprintf(buf, "%d\n", !!(security_status & SECURE_BOOT));
-+}
-+
-+static ssize_t uart_boot_show(struct device *dev, struct
-device_attribute *attr, char *buf)
-+{
-+       return sprintf(buf, "%d\n", !(security_status & UART_BOOT));
-+}
-
-it appears that these are related to how the system was started, which doesn't
-fit either of the requirements: the same information may be useful for
-non-aspeed
-systems, so it would be good to have it in a standardized interface rather than
-vendor extensions, and it doesn't really identify the SoC but instead provides
-information from a device that is inside of the SoC.
-
-Maybe this could be turned into a generalized interface similar to soc_device
-that exposes the boot status in sysfs? We have a couple of files that
-determine e.g. whether the kernel was booted securely, and those could
-all hook up here. It doesn't have to be anything complex, just a node under
-/sys/firmware or /sys/power that has a couple of documented attributes
-that can be filled by drivers.
-
-          Arnd
