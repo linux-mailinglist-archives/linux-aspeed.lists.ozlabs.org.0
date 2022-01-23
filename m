@@ -2,45 +2,60 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A2F4972B9
-	for <lists+linux-aspeed@lfdr.de>; Sun, 23 Jan 2022 16:51:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACDA497651
+	for <lists+linux-aspeed@lfdr.de>; Mon, 24 Jan 2022 00:22:52 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JhczC3VdZz30RD
-	for <lists+linux-aspeed@lfdr.de>; Mon, 24 Jan 2022 02:51:03 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Jhq0T6BGYz30Nj
+	for <lists+linux-aspeed@lfdr.de>; Mon, 24 Jan 2022 10:22:49 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=bootlin.com (client-ip=217.70.178.240;
- helo=mslow1.mail.gandi.net; envelope-from=miquel.raynal@bootlin.com;
+ smtp.mailfrom=kaod.org (client-ip=46.105.54.81;
+ helo=smtpout3.mo529.mail-out.ovh.net; envelope-from=clg@kaod.org;
  receiver=<UNKNOWN>)
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Jhcz415Jcz30L1
- for <linux-aspeed@lists.ozlabs.org>; Mon, 24 Jan 2022 02:50:54 +1100 (AEDT)
-Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 88C6EC97D5
- for <linux-aspeed@lists.ozlabs.org>; Sun, 23 Jan 2022 15:39:46 +0000 (UTC)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id CE7CA20004;
- Sun, 23 Jan 2022 15:39:24 +0000 (UTC)
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Patrick Williams <patrick@stwcx.xyz>,
- Tudor Ambarus <tudor.ambarus@microchip.com>,
- Michael Walle <michael@walle.cc>, Pratyush Yadav <p.yadav@ti.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
-Subject: Re: [PATCH] mtd: aspeed-smc: improve probe resilience
-Date: Sun, 23 Jan 2022 16:39:24 +0100
-Message-Id: <20220123153924.673172-1-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20211229143334.297305-1-patrick@stwcx.xyz>
-References: 
+X-Greylist: delayed 2309 seconds by postgrey-1.36 at boromir;
+ Mon, 24 Jan 2022 10:22:46 AEDT
+Received: from smtpout3.mo529.mail-out.ovh.net
+ (smtpout3.mo529.mail-out.ovh.net [46.105.54.81])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Jhq0Q0jPfz2xY1
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 24 Jan 2022 10:22:43 +1100 (AEDT)
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.173])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 8337FD984D66;
+ Sun, 23 Jan 2022 23:44:07 +0100 (CET)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Sun, 23 Jan
+ 2022 23:44:05 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R004b7e6303c-d087-4cdd-8e9a-f381c1422b65,
+ 90EAC8BD64EA4EE21D802F9E5F0AC1C4B4718499) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <d4ba6413-57ce-14c1-ed48-d00db2f74bd3@kaod.org>
+Date: Sun, 23 Jan 2022 23:44:05 +0100
 MIME-Version: 1.0
-X-linux-mtd-patch-notification: thanks
-X-linux-mtd-patch-commit: b'7f852ec58af6ce8d7c6fc799b82d45d76e4bd994'
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] mtd: aspeed-smc: improve probe resilience
+Content-Language: en-US
+To: Pratyush Yadav <p.yadav@ti.com>, Patrick Williams <patrick@stwcx.xyz>
+References: <20211229143334.297305-1-patrick@stwcx.xyz>
+ <20211229173411.l2bipmi4x3arqjoo@ti.com> <Yc3Qav+ULNdF5zRT@heinlein>
+ <20211231102623.izaqlzjvracbbgmp@ti.com> <20220103171721.46c8e697@xps13>
+ <YdSP6tKyQ2ZRUC+2@heinlein> <20220105063244.lno3xur64uepa7i5@ti.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220105063244.lno3xur64uepa7i5@ti.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 62bc6a40-d1d1-4864-991d-9b803c761a1a
+X-Ovh-Tracer-Id: 15724036627872713720
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvdehgddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,65 +67,54 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Potin Lai <potin.lai@quantatw.com>, linux-mtd@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
+Cc: Vignesh Raghavendra <vigneshr@ti.com>, linux-aspeed@lists.ozlabs.org,
+ Tudor Ambarus <tudor.ambarus@microchip.com>,
+ Richard Weinberger <richard@nod.at>, Potin Lai <potin.lai@quantatw.com>,
+ linux-kernel@vger.kernel.org, Michael Walle <michael@walle.cc>,
+ linux-mtd@lists.infradead.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 2021-12-29 at 14:33:33 UTC, Patrick Williams wrote:
-> The aspeed-smc can have multiple SPI devices attached to it in the
-> device tree.  If one of the devices is missing or failing the entire
-> probe will fail and all MTD devices under the controller will be
-> removed.  On OpenBMC this results in a kernel panic due to missing
-> rootfs:
+>> I had an offline discussion with someone who knew more history on this driver.
+>> My understanding is that the linux-aspeed team is aware of this being deprecated
+>> but that there was some missing support for interface training that nobody has
+>> gotten around to write?  If that is the case this really isn't even a "simple"
+>> port to a new API at this point.
 > 
-> [    0.538774] aspeed-smc 1e620000.spi: Using 50 MHz SPI frequency
-> [    0.540471] aspeed-smc 1e620000.spi: w25q01jv-iq (131072 Kbytes)
-> [    0.540750] aspeed-smc 1e620000.spi: CE0 window [ 0x20000000 - 0x28000000 ] 128MB
-> [    0.540943] aspeed-smc 1e620000.spi: CE1 window [ 0x28000000 - 0x2c000000 ] 64MB
-> [    0.541143] aspeed-smc 1e620000.spi: read control register: 203b0041
-> [    0.581442] 5 fixed-partitions partitions found on MTD device bmc
-> [    0.581625] Creating 5 MTD partitions on "bmc":
-> [    0.581854] 0x000000000000-0x0000000e0000 : "u-boot"
-> [    0.584472] 0x0000000e0000-0x000000100000 : "u-boot-env"
-> [    0.586468] 0x000000100000-0x000000a00000 : "kernel"
-> [    0.588465] 0x000000a00000-0x000006000000 : "rofs"
-> [    0.590552] 0x000006000000-0x000008000000 : "rwfs"
-> [    0.592605] aspeed-smc 1e620000.spi: Using 50 MHz SPI frequency
-> [    0.592801] aspeed-smc 1e620000.spi: unrecognized JEDEC id bytes: 00 00 00 00 00 00
-> [    0.593039] Deleting MTD partitions on "bmc":
-> [    0.593175] Deleting u-boot MTD partition
-> [    0.637929] Deleting u-boot-env MTD partition
-> [    0.829527] Deleting kernel MTD partition
-> [    0.856902] Freeing initrd memory: 1032K
-> [    0.866428] Deleting rofs MTD partition
-> [    0.906264] Deleting rwfs MTD partition
-> [    0.986628] aspeed-smc 1e620000.spi: Aspeed SMC probe failed -2
-> [    0.986929] aspeed-smc: probe of 1e620000.spi failed with error -2
-> ...
-> [    2.936719] /dev/mtdblock: Can't open blockdev
-> mount: mounting /dev/mtdblock on run/initramfs/ro failed: No such file or directory
-> [    2.963030] MTD: Couldn't look up '/dev/mtdblock': -2
-> mount: mounting /dev/mtdblock on run/initramfs/rw failed: No such file or directory
-> 
-> Mounting read-write /dev/mtdblock filesystem failed.  Please fix and run
-> 	mount /dev/mtdblock run/initramfs/rw -t jffs2 -o rw
-> or perform a factory reset with the clean-rwfs-filesystem option.
-> Fatal error, triggering kernel panic!
-> [    3.013047] Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000100
-> 
-> Many BMC designs have two flash chips so that they can handle a hardware
-> failure of one of them.  If one chip failed, it doesn't do any good to
-> have redundancy if they all get removed anyhow.
-> 
-> Improve the resilience of the probe function to handle one of the
-> children being missing or failed.  Only in the case where all children
-> fail to probe should the controller be failed out.
-> 
-> Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
+> Unless the controller needs some unique feature (I don't think it does
+> on a quick glance), the conversion should not be too difficult. For any
+> experienced developer, even if they are unfamiliar with the SPI MEM API,
+> I don't think it should take more than 2-3 days to do the conversion.
+> The code to program the registers would stay the same, all that needs to
+> change is the API through which it is accessed.
 
-Applied to https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git mtd/next, thanks.
+Writing a spimem driver is not a problem, I think people have done
+that in house. Aspeed has one for AST2600. We have one for u-boot
+I wrote sometime ago. I even have one for Linux but training comes
+with ugly hacks to fit in the current stack.
 
-Miquel
+All Aspeed SoCs need training and that has been the problem for the
+last 4 years or so because we can not do training without knowing
+a minimum about the flash being trained :/ The previous framework
+offered a way to do a first scan and tune the delay settings
+afterwards. It worked pretty well on AST2400, AST2500 and AST2600
+even if more complex.
+
+One alternative was to include the setting in the DT but the flash
+modules are not always soldered on the boards, at least on OpenPOWER
+systems which have sockets for them. The board are large, the wires
+long, the need is real, some chips freak out if not tuned correctly.
+
+spimem needs an extension I think. Sorry I have not been able to
+push that forward. Lack of time and other tasks to address on the
+host side of the machine. This is really a software problem, we
+have the HW procedures ready. If a spimem expert could get involved
+to make a few proposals, I would be happy to help and do some testing.
+QEMU models are good enough for the software part. We can do the
+training validation on real HW when ready.
+
+Thanks,
+
+C.
