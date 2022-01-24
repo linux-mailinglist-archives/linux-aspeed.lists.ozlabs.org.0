@@ -2,125 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDFE49D7E1
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Jan 2022 03:12:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDCD149DA88
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Jan 2022 07:21:03 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JkkcR1N04z2ymt
-	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Jan 2022 13:12:07 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Jkr7d523mz3bNC
+	for <lists+linux-aspeed@lfdr.de>; Thu, 27 Jan 2022 17:21:01 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=r+BOo8oS;
+	dkim=pass (1024-bit key; unprotected) header.d=wistron.com header.i=@wistron.com header.a=rsa-sha256 header.s=security header.b=KVRYPfhv;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feab::71a;
- helo=apc01-sg2-obe.outbound.protection.outlook.com;
- envelope-from=neal_liu@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
- header.a=rsa-sha256 header.s=selector1 header.b=r+BOo8oS; 
- dkim-atps=neutral
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
- (mail-sgaapc01on2071a.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:feab::71a])
+ smtp.mailfrom=wistron.com (client-ip=103.200.3.18; helo=segapp01.wistron.com;
+ envelope-from=bob_king@wistron.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=wistron.com header.i=@wistron.com header.a=rsa-sha256
+ header.s=security header.b=KVRYPfhv; dkim-atps=neutral
+X-Greylist: delayed 539 seconds by postgrey-1.36 at boromir;
+ Mon, 24 Jan 2022 19:16:35 AEDT
+Received: from segapp01.wistron.com (segapp01.wistron.com [103.200.3.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JkkcH6WNWz2yJw
- for <linux-aspeed@lists.ozlabs.org>; Thu, 27 Jan 2022 13:11:59 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ci5f95oU9DnG5dT852c4I4YwiNYR5aMPmknHagR5Du4P1Y28wqJvCkIRgjVnO9+ZKJofhDyupdivPyqRp8TbM7fThDL7ibOKwQEbr9aqYvHfR0gUj9Jb+MFJSE5HJMnlAabY2XRPBw2Wu7SKCOjbOM5KlrrSul60nXd5SMOJrCLUtzPW7Jh8vufQvwijxV5TNw+j0FPBLzbG+jIZRnskuVNG4IPTGN719bFV3TRzB661aooj5hCxNalPdoyYanzTkL6DHZS1oKb52eOpgdB+U3NbrIVZHXCf/OwNdCR19Auitsen0KpvxOLaKF2q+NpJbjSzpR7z5S9RlN7BplJqpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jI2apDtkAfC/JE4yARB2Gr5aM5PZabAA78kLxZzmCl0=;
- b=DmZvO+SUz1W7+icazfG+cr81WfIVpEoX418PFUA9ZoNT3PlmQm8bNmpi3y8L6mp8Yag3UKqh5AZquhPqyFIjWndugXby5q04Mp4hwQcWIC2zqF+jss+RAIDNn41ihaBC7R2YMpMuY/CJrRpVNM4LzvoY52yoOgWPXqOh+0B/hNGHh/nKR8bIiuP5zqxPeEbfzXYgtFGv10VGG3O0r+bBvpzzI7BYLWT92KtzKurRsBmYABU0mJAHpkMdHYtJCFGAXjBrGK57+HXwN2Isx2JkygBGEvkgwfBevD+p626fe0wQfyxB+BM1v17uuydP/LD1edN8JOTRT1S5ZcG7GcRx1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jI2apDtkAfC/JE4yARB2Gr5aM5PZabAA78kLxZzmCl0=;
- b=r+BOo8oSQllKFT2NXcGYud/efdC/J/k2Yf9DLnBtKB/KQLWFYNQzLeH/8NiNhLDjlZKxExQMCuVZWnB7iEcHSThVBNacIqzOZctYtvL8cP4CJgBMNOWrD+MDLwcdjm7jzIhCP/EHpBGrYe+AtKyYgSBbJu0oe32I75EKm8YxOszPRQlzR8naEVu76MvX3wBoPVxJZkEBlqQS0YeYoDDyIlVM1K4SJN01Q9zgcgm0AigeeZb5V48o6wA1O88j8haMeJnvr7lFtpEoWvTrspIZgEvX+VYjQk+akQjCuhMriExlQAgKdh7m9XAHNnsv5y3MnAMEQfpC0omjSG4YH7cIYw==
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com (2603:1096:203:87::17)
- by PS1PR06MB2648.apcprd06.prod.outlook.com (2603:1096:803:46::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.12; Thu, 27 Jan
- 2022 02:11:40 +0000
-Received: from HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::6d89:70e9:fcfe:e126]) by HK0PR06MB3202.apcprd06.prod.outlook.com
- ([fe80::6d89:70e9:fcfe:e126%4]) with mapi id 15.20.4930.017; Thu, 27 Jan 2022
- 02:11:40 +0000
-From: Neal Liu <neal_liu@aspeedtech.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Subject: RE: [PATCH] usb: gadget: mass_storage: add READ_TOC cmd mask check
-Thread-Topic: [PATCH] usb: gadget: mass_storage: add READ_TOC cmd mask check
-Thread-Index: AQHYEpzAx/O8KtwQ2kKOB4xKcKk7Uax1doYAgACqmJA=
-Date: Thu, 27 Jan 2022 02:11:40 +0000
-Message-ID: <HK0PR06MB3202A514A1CE186A29DFFD8380219@HK0PR06MB3202.apcprd06.prod.outlook.com>
-References: <20220126100856.3680716-1-neal_liu@aspeedtech.com>
- <YfFwLDLX5D4dYLTb@rowland.harvard.edu>
-In-Reply-To: <YfFwLDLX5D4dYLTb@rowland.harvard.edu>
-Accept-Language: en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f25c6d0c-edfd-405d-45de-08d9e13a5b0e
-x-ms-traffictypediagnostic: PS1PR06MB2648:EE_
-x-microsoft-antispam-prvs: <PS1PR06MB2648492C2647F42724D49EA480219@PS1PR06MB2648.apcprd06.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:221;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: YJDe6S+1gUXMcvNY/lEcLBtVkGf+gVxlkm13XmqeLBRAGAPhYI+h90X5DZ0fh2sy/oF7EOx9FfUDB66fpDVBqIFXG3VGyYmUeNcRiTPTbCQEVeDKzL7DTE/oT5tqKHfzumS9PULKwnPI3Exo91ITK9JrN5LJFNBaYJSb9SInkOQNdmd10utdpJKNesG1Fn74n7fsMKyDeI/pi1zA/a3APGDLmGGyRRhA36IRfgxS29uNNoAOqR+5zC1AkHIq4nL3sxutvB9XL4Ru43EZr1sQRNHcNkb2oWHDcUzbUahRGEO/sjLBF1EHzkTJ/4EsKCxEYlEfS2lwL/dNTFh+YW28PU9NEIDu6x7M4n0VBmi5QYPxhmzyzXlVvP4qzhuxi8yvjUJ2rDRlJdSWilhqrKL5nYZ9/7eModj/Qb6S+tW7c8oCLIFuwEU2YASNBUS4hnRGkg0SQ1tbuk9lq8vZLOJTAl9QleklmWQWMyErsGVFCrrhhqUXblYDAijZdpoRd+h1e2j2c7C0W2uqjzoH/BpGgSfMm4NkipQKA849UESG2mxQsKHaovamkrIXWcyDfyOQB92HxBe3+xsir9IIFbIDkJOjhzrp/9fYHzROgzv3Q2Vm5RurcARCAVEa3ojVCNPWUOMtbx5wQQjWhDk3EZWu6WkwqCrGlcFWqINILJYxeDtpbY1Cr7a0YrtYbmOTafvK9Y5lCFtSyZ987HkBrjWMxiXDfJYAZS9+wUvIfgVowj7y4RT5pur/7+1dBB7+9Duup3ltE3Bd4qQqVTrTLBJXoyulbKC0o81PYNnPlzz6UFo=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR06MB3202.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(136003)(346002)(366004)(39850400004)(376002)(6916009)(26005)(316002)(38100700002)(71200400001)(66946007)(66476007)(4326008)(76116006)(966005)(8676002)(186003)(64756008)(53546011)(8936002)(122000001)(9686003)(5660300002)(54906003)(55016003)(83380400001)(86362001)(508600001)(2906002)(66446008)(33656002)(38070700005)(52536014)(66556008)(6506007)(107886003)(7416002)(7696005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?NufrSatL1cU+j73n2oLUWz6uq6PNWo+Edu6x0RltZFGfkGVQP5ei0lwfPFTh?=
- =?us-ascii?Q?w8EFfo8ZK9bVlNbZKJNXnXkLd/LckuxQxABvroVQH2oFsDbbzlv3u+TH4bNw?=
- =?us-ascii?Q?SCZ5SJZRU4px0G3ZCzVHGdNvvcto39R7T1sOJiUZ4M3tbhNFML07XESaV4Q3?=
- =?us-ascii?Q?RnfE53/v8hkw3uTepnHtZAwsxtt/0/Pa+IV9DCvC23Uc5+2eGG2s5tqO8aoi?=
- =?us-ascii?Q?LvXjDG+YaUJd1kNQuux7EO9QIwLbzddXVv6L4DtKaqHY43MS51KgDdl1RWs0?=
- =?us-ascii?Q?mhOJfj8wEvOvajlJ4bwBmqCnH9Hfp/ZgoP/RgcweKwGyRwU8RCnTE7u5ngfv?=
- =?us-ascii?Q?pNIHVkqGMIcjUkxYOpVbAz+zzkFRH71A17lRRkyi6ZO6aA3fcK8/WxtEEsfY?=
- =?us-ascii?Q?+k2EQDtOb5K5PrZz2DedlcxIK95NtMwko7b9mVMEsh4o+O+fwwBNFzwLe6uJ?=
- =?us-ascii?Q?H9BD1UEsk4SuVMjlKxyuvDPXmyHImDP4ekD411KvLxNdzcqsMO3YTsFFJDdH?=
- =?us-ascii?Q?II4JBp/C9U8qaOzU9qcgS9306Ui+PLgQxH4jkKov73Q28oEcJsU2aRVibpsA?=
- =?us-ascii?Q?ehtT2bieveyCwq+ylRJ18BKfbdqBBdHRIWvCZGz5IU9+x4bxTIcfDc/mNWnL?=
- =?us-ascii?Q?Yjkpte9cG8s/dZVh1f+eoso9a9K1CzuaBeANvsdC3DVxC3xYIy3rt7R1dYF7?=
- =?us-ascii?Q?IqyvR+PRKpoQrr+pkrecbDg7s5pyF07H+c436vUwtPbfCTEH+IWvPIGLQ5Nf?=
- =?us-ascii?Q?0s7vjJs9Ntv7gI1NOvJFXisNYM7NjIBYlGCFR3Uz/o62uKGg21igfEAvO1Zn?=
- =?us-ascii?Q?cVYEUULOH67baKV69j4cIoPa7RWtaO5G3e/QZjVbSZvq/O+ON1XdQQxmon5J?=
- =?us-ascii?Q?lO1J79kkerefrokeurz7nBLoq4gpI+KhCaQqntuIoPua4Kd6ZxgVMkpS/8Qz?=
- =?us-ascii?Q?qk9i5s1zFMPkG0ypbZ76W9bjQFRHPviajVP3mYmuAFQjJ1OPhI+FK+6Gx1i4?=
- =?us-ascii?Q?RSdt+locTHUUiS+9Dd6nPHjuYdA0HxyFY8FXjOUdQJvAJZkQv9owF3C8ux2y?=
- =?us-ascii?Q?yC11Fqos2xfmuYTxojlN3HpbpT9+XWLhZImM9ayDwVa1ait/OcsKOfXlwoed?=
- =?us-ascii?Q?/DS3x9ig9G89ZVNqbIsN2uaaDee5zC52T9DdPw8Dw5nlfrelYD59uRLgfBoq?=
- =?us-ascii?Q?xE1pzbKCHdNH0Qjaha8BOR4ds/NkIwamfN3QDSRh2daurY3OVUYALZR5puan?=
- =?us-ascii?Q?Ujqqv2mxqCdJqI1DYMxV+2P7W6FgJf/TsR0edB4V3YB6SZ4HyesJfIajWQO1?=
- =?us-ascii?Q?6U6oEMgr8ugBAVwdabyP8zUipxrxPvB34kN9YHfNeV66lG+cHFipWdgy5j0C?=
- =?us-ascii?Q?FCYfGEyVphX/VY5BPMVO0jeIPWjcM2VyKN2MJs5mzw4dwlmSNBghYuyhXac6?=
- =?us-ascii?Q?PwxyXTAoEdr8TlgN+SSynvSSuPjADSW6exvqCnzQ6wnBcvivTpp9FbzjCy6v?=
- =?us-ascii?Q?jbbIdi96UuIqwr6o7uhRAEoF2g0l4IL4Uh7rDlGFD2hO+pVY7mH0DSvqI0zw?=
- =?us-ascii?Q?4IMAYGOvCU6e5qogJYAHkIrq4K/lFP8xX90RUQitNsokkoQeLpaB7fC2lvjl?=
- =?us-ascii?Q?fHdHldf7qurb83eVA4o3zvI=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Jj2rM5cQSz2yYJ
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 24 Jan 2022 19:16:35 +1100 (AEDT)
+Received: from EXCHAPP01.whq.wistron (unknown [10.37.38.24])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by segapp01.wistron.com (MTA) with ESMTPS id 4Jj2ds5dMnzMpqRT;
+ Mon, 24 Jan 2022 16:07:29 +0800 (CST)
+Received: from EXCHAPP02.whq.wistron (10.37.38.25) by EXCHAPP01.whq.wistron
+ (10.37.38.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 24 Jan
+ 2022 16:07:28 +0800
+Received: from gitserver.wistron.com (10.37.38.240) by EXCHAPP02.whq.wistron
+ (10.37.38.25) with Microsoft SMTP Server id 15.1.2375.18 via Frontend
+ Transport; Mon, 24 Jan 2022 16:07:28 +0800
+From: Bob King <Bob_King@wistron.com>
+To: <robh+dt@kernel.org>, <joel@jms.id.au>, <andrew@aj.id.au>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] ARM: dts: aspeed: Adding Wistron Lannister BMC
+Date: Mon, 24 Jan 2022 16:07:11 +0800
+Message-ID: <20220124080711.22797-1-Bob_King@wistron.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3202.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f25c6d0c-edfd-405d-45de-08d9e13a5b0e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jan 2022 02:11:40.0400 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9tJAC1W5BBEOOwGeBbJStzRhOxu3WmBk8c/il0VIC42ZfpG3lahMnVDGMSjLUgs7qS/3tWQRcQtgosfzOafpSw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS1PR06MB2648
+Content-Type: text/plain
+X-TM-SNTS-SMTP: EC0C917F35BAF90612C584E673B957E7B0F2229826D79D9F19C44B72C71E22692000:8
+X-OriginalId: qf20OG7TXp002293
+x-msw-jemd-newsletter: false
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wistron.com; s=security;
+ t=1643011650; bh=q6vHLqqe8nkh9QDJUZyjSnRuXLxOO+6FmP4fuQn8DmM=;
+ h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type;
+ b=KVRYPfhvNfigL13GzzQJzuTDt3jCAka9nJSnREpzC4VjweEaxqxcDlXBVoTCV+1iX
+ iEo6T9w+0zBw8iv2iat0+BnkTmt8gTdhVy9mZZKLy5S+kr8YmU+HVpm5bVdUkbVo6a
+ JzLQgQhRTdogeD+nsUNMM3aLq4ZUDm+Ry0XPQMaM=
+X-Mailman-Approved-At: Thu, 27 Jan 2022 17:20:58 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,65 +68,1052 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
- Felipe Balbi <balbi@kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- BMC-SW <BMC-SW@aspeedtech.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Wesley Cheng <quic_wcheng@quicinc.com>, Cai Huoqing <caihuoqing@baidu.com>,
- Chen Lin <chen.lin5@zte.com.cn>
+Cc: Bob King <Bob_King@wistron.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-> -----Original Message-----
-> From: Alan Stern <stern@rowland.harvard.edu>
-> Sent: Thursday, January 27, 2022 12:01 AM
-> To: Neal Liu <neal_liu@aspeedtech.com>
-> Cc: Felipe Balbi <balbi@kernel.org>; Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org>; Chen Lin <chen.lin5@zte.com.cn>; Wesley
-> Cheng <quic_wcheng@quicinc.com>; Nikita Yushchenko
-> <nikita.yoush@cogentembedded.com>; Cai Huoqing <caihuoqing@baidu.com>;
-> linux-usb@vger.kernel.org; linux-kernel@vger.kernel.org;
-> linux-aspeed@lists.ozlabs.org; BMC-SW <BMC-SW@aspeedtech.com>
-> Subject: Re: [PATCH] usb: gadget: mass_storage: add READ_TOC cmd mask
-> check
->=20
-> On Wed, Jan 26, 2022 at 06:08:56PM +0800, Neal Liu wrote:
-> > READ_TOC cmnd[2] specifies Format Field which is defined in SCSI-3
-> > spec. Add command mask to avoid marking this sense data as invalid.
-> >
-> > Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
-> > ---
-> >  drivers/usb/gadget/function/f_mass_storage.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/usb/gadget/function/f_mass_storage.c
-> > b/drivers/usb/gadget/function/f_mass_storage.c
-> > index 46dd11dcb3a8..14d51695b8ae 100644
-> > --- a/drivers/usb/gadget/function/f_mass_storage.c
-> > +++ b/drivers/usb/gadget/function/f_mass_storage.c
-> > @@ -1944,7 +1944,7 @@ static int do_scsi_command(struct fsg_common
-> *common)
-> >  		common->data_size_from_cmnd =3D
-> >  			get_unaligned_be16(&common->cmnd[7]);
-> >  		reply =3D check_command(common, 10, DATA_DIR_TO_HOST,
-> > -				      (7<<6) | (1<<1), 1,
-> > +				      (7<<6) | (1<<1) | (1<<2), 1,
-> >  				      "READ TOC");
-> >  		if (reply =3D=3D 0)
-> >  			reply =3D do_read_toc(common, bh);
->=20
-> You've been anticipated:
->=20
-> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?h=
-=3Dusb
-> -testing&id=3D89ada0fe669a7abf8777b793b874202a0767a24f
->=20
-> Alan Stern
+Initial introduction of Wistron Lannister equipped with
+Aspeed 2600 BMC SoC.
 
-Thanks for you info.
+Signed-off-by: Bob King <Bob_King@wistron.com>
+---
+ arch/arm/boot/dts/Makefile                         |    3 +-
+ arch/arm/boot/dts/aspeed-bmc-wistron-lannister.dts | 1007 ++++++++++++++++++++
+ 2 files changed, 1009 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-wistron-lannister.dts
 
--Neal
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 235ad55..7d37aab 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -1548,4 +1548,5 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+ 	aspeed-bmc-tyan-s8036.dtb \
+ 	aspeed-bmc-vegman-n110.dtb \
+ 	aspeed-bmc-vegman-rx20.dtb \
+-	aspeed-bmc-vegman-sx20.dtb
++	aspeed-bmc-vegman-sx20.dtb \
++	aspeed-bmc-wistron-lannister.dtb
+diff --git a/arch/arm/boot/dts/aspeed-bmc-wistron-lannister.dts b/arch/arm/boot/dts/aspeed-bmc-wistron-lannister.dts
+new file mode 100644
+index 0000000..e8e4f9d
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed-bmc-wistron-lannister.dts
+@@ -0,0 +1,1007 @@
++// SPDX-License-Identifier: GPL-2.0+
++/dts-v1/;
++
++#include "aspeed-g6.dtsi"
++#include <dt-bindings/gpio/aspeed-gpio.h>
++#include <dt-bindings/i2c/i2c.h>
++
++/ {
++	model = "Lannister BMC";
++	compatible = "aspeed,ast2600";
++
++	chosen {
++		stdout-path = &uart5;
++		bootargs = "console=ttyS4,115200n8 root=/dev/ram rw init=/linuxrc";
++	};
++
++	memory@80000000 {
++		device_type = "memory";
++		reg = <0x80000000 0x40000000>;
++	};
++
++	reserved-memory {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++
++		gfx_memory: framebuffer {
++			size = <0x01000000>;
++			alignment = <0x01000000>;
++			compatible = "shared-dma-pool";
++			reusable;
++		};
++
++		video_engine_memory: jpegbuffer {
++			size = <0x02000000>;	/* 32M */
++			alignment = <0x01000000>;
++			compatible = "shared-dma-pool";
++			reusable;
++		};
++	};
++
++	reserved-memory {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++		video_memory: video {
++			size = <0x04000000>;
++			alignment = <0x01000000>;
++			compatible = "shared-dma-pool";
++			no-map;
++		};
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		identify {
++			default-state = "off";
++			gpios = <&gpio0 ASPEED_GPIO(B, 7) GPIO_ACTIVE_LOW>;
++		};
++
++		status_amber {
++			default-state = "off";
++			gpios = <&gpio0 ASPEED_GPIO(G, 3) GPIO_ACTIVE_LOW>;
++		};
++
++		status_green {
++			default-state = "keep";
++			gpios = <&gpio0 ASPEED_GPIO(G, 2) GPIO_ACTIVE_LOW>;
++		};
++
++		bmc-heart-beat {
++			default-state = "off";
++			gpios = <&gpio0 ASPEED_GPIO(P, 7) GPIO_ACTIVE_LOW>;
++		};
++
++		power-ok {
++			default-state = "keep";
++			gpios = <&gpio0 ASPEED_GPIO(R, 6) GPIO_ACTIVE_LOW>;
++		};
++
++		global-error {
++			default-state = "off";
++			gpios = <&gpio0 ASPEED_GPIO(R, 7) GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err1 {
++			default-state = "off";
++			gpios = <&gpio2 0 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err2 {
++			default-state = "off";
++			gpios = <&gpio2 1 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err3 {
++			default-state = "off";
++			gpios = <&gpio2 2 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err4 {
++			default-state = "off";
++			gpios = <&gpio2 3 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err5 {
++			default-state = "off";
++			gpios = <&gpio2 4 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err6 {
++			default-state = "off";
++			gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err7 {
++			default-state = "off";
++			gpios = <&gpio2 6 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err8 {
++			default-state = "off";
++			gpios = <&gpio2 7 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err9 {
++			default-state = "off";
++			gpios = <&gpio2 8 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err10 {
++			default-state = "off";
++			gpios = <&gpio2 9 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err11 {
++			default-state = "off";
++			gpios = <&gpio2 10 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err12 {
++			default-state = "off";
++			gpios = <&gpio2 11 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err13 {
++			default-state = "off";
++			gpios = <&gpio2 12 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err14 {
++			default-state = "off";
++			gpios = <&gpio2 13 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err15 {
++			default-state = "off";
++			gpios = <&gpio2 14 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err16 {
++			default-state = "off";
++			gpios = <&gpio2 15 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err17 {
++			default-state = "off";
++			gpios = <&gpio3 0 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err18 {
++			default-state = "off";
++			gpios = <&gpio3 1 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err19 {
++			default-state = "off";
++			gpios = <&gpio3 2 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err20 {
++			default-state = "off";
++			gpios = <&gpio3 3 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err21 {
++			default-state = "off";
++			gpios = <&gpio3 4 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err22 {
++			default-state = "off";
++			gpios = <&gpio3 5 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err23 {
++			default-state = "off";
++			gpios = <&gpio3 6 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err24 {
++			default-state = "off";
++			gpios = <&gpio3 7 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err25 {
++			default-state = "off";
++			gpios = <&gpio3 8 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err26 {
++			default-state = "off";
++			gpios = <&gpio3 9 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err27 {
++			default-state = "off";
++			gpios = <&gpio3 10 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err28 {
++			default-state = "off";
++			gpios = <&gpio3 11 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err29 {
++			default-state = "off";
++			gpios = <&gpio3 12 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err30 {
++			default-state = "off";
++			gpios = <&gpio3 13 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err31 {
++			default-state = "off";
++			gpios = <&gpio3 14 GPIO_ACTIVE_LOW>;
++		};
++
++		dimm-err32 {
++			default-state = "off";
++			gpios = <&gpio3 15 GPIO_ACTIVE_LOW>;
++		};
++
++		fan1-fault {
++			default-state = "off";
++			gpios = <&gpio4 1 GPIO_ACTIVE_LOW>;
++		};
++
++		fan2-fault {
++			default-state = "off";
++			gpios = <&gpio4 2 GPIO_ACTIVE_LOW>;
++		};
++
++		fan3-fault {
++			default-state = "off";
++			gpios = <&gpio4 3 GPIO_ACTIVE_LOW>;
++		};
++
++		fan4-fault {
++			default-state = "off";
++			gpios = <&gpio4 4 GPIO_ACTIVE_LOW>;
++		};
++
++		fan5-fault {
++			default-state = "off";
++			gpios = <&gpio4 5 GPIO_ACTIVE_LOW>;
++		};
++
++		fan6-fault {
++			default-state = "off";
++			gpios = <&gpio4 6 GPIO_ACTIVE_LOW>;
++		};
++
++		cpu1 {
++			default-state = "off";
++			gpios = <&gpio4 8 GPIO_ACTIVE_LOW>;
++		};
++
++		cpu2 {
++			default-state = "off";
++			gpios = <&gpio4 9 GPIO_ACTIVE_LOW>;
++		};
++
++		riser1-s1 {
++			default-state = "off";
++			gpios = <&gpio5 0 GPIO_ACTIVE_LOW>;
++		};
++
++		riser1-s2 {
++			default-state = "off";
++			gpios = <&gpio5 1 GPIO_ACTIVE_LOW>;
++		};
++
++		riser1-s3 {
++			default-state = "off";
++			gpios = <&gpio5 2 GPIO_ACTIVE_LOW>;
++		};
++
++		riser2-s1 {
++			default-state = "off";
++			gpios = <&gpio5 3 GPIO_ACTIVE_LOW>;
++		};
++
++		riser2-s2 {
++			default-state = "off";
++			gpios = <&gpio5 4 GPIO_ACTIVE_LOW>;
++		};
++
++		riser2-s3 {
++			default-state = "off";
++			gpios = <&gpio5 5 GPIO_ACTIVE_LOW>;
++		};
++
++		riser3-s1 {
++			default-state = "off";
++			gpios = <&gpio5 6 GPIO_ACTIVE_LOW>;
++		};
++
++		riser3-s2 {
++			default-state = "off";
++			gpios = <&gpio5 7 GPIO_ACTIVE_LOW>;
++		};
++
++		m2-1 {
++			default-state = "off";
++			gpios = <&gpio5 8 GPIO_ACTIVE_LOW>;
++		};
++
++		m2-2 {
++			default-state = "off";
++			gpios = <&gpio5 9 GPIO_ACTIVE_LOW>;
++		};
++
++		bat {
++			default-state = "off";
++			gpios = <&gpio5 15 GPIO_ACTIVE_LOW>;
++		};
++	};
++
++	gpio-keys-polled {
++		compatible = "gpio-keys-polled";
++		poll-interval = <1000>;
++
++		fan0-presence {
++			/* GPIO18C2 */
++			label = "fan0-presence";
++			gpios = <&gpio1 ASPEED_GPIO(C, 2) GPIO_ACTIVE_LOW>;
++			linux,code = <ASPEED_GPIO(C, 2)>;
++		};
++
++		fan1-presence {
++			/* GPIO18C3 */
++			label = "fan1-presence";
++			gpios = <&gpio1 ASPEED_GPIO(C, 3) GPIO_ACTIVE_LOW>;
++			linux,code = <ASPEED_GPIO(C, 3)>;
++		};
++
++		fan2-presence {
++			/* GPIO18C7 */
++			label = "fan2-presence";
++			gpios = <&gpio1 ASPEED_GPIO(C, 7) GPIO_ACTIVE_LOW>;
++			linux,code = <ASPEED_GPIO(C, 7)>;
++		};
++
++		fan3-presence {
++			/* GPIO18C6 */
++			label = "fan3-presence";
++			gpios = <&gpio1 ASPEED_GPIO(C, 6) GPIO_ACTIVE_LOW>;
++			linux,code = <ASPEED_GPIO(C, 6)>;
++		};
++
++		fan4-presence {
++			/* GPIO18C5 */
++			label = "fan4-presence";
++			gpios = <&gpio1 ASPEED_GPIO(C, 5) GPIO_ACTIVE_LOW>;
++			linux,code = <ASPEED_GPIO(C, 5)>;
++		};
++
++		fan5-presence {
++			/* GPIO18C4 */
++			label = "fan5-presence";
++			gpios = <&gpio1 ASPEED_GPIO(C, 4) GPIO_ACTIVE_LOW>;
++			linux,code = <ASPEED_GPIO(C, 4)>;
++		};
++	};
++};
++
++&fmc {
++	status = "okay";
++	flash@0 {
++		status = "okay";
++		spi-max-frequency = <50000000>;
++		spi-tx-bus-width = <4>;
++		m25p,fast-read;
++#include "openbmc-flash-layout-64.dtsi"
++	};
++};
++&syscon {
++	uart-clock-high-speed;
++	status = "okay";
++
++	misc_control {
++		compatible = "aspeed,bmc-misc";
++		chip_id {
++			offset = <0x5b0>;
++			bit-mask = <0xffffffff 0xffffffff>;
++			bit-shift = <0>;
++			read-only;
++			reg-width = <64>;
++			hash-data = "d44f9b804976fa23c2e25d62f16154d26520a7e24c5555095fd1b55c027804f1570dcd16189739c640cd7d9a6ce14944a2c4eaf1dc429eed6940e8a83498a474";
++		};
++	};
++};
++
++#if 0
++ GPIO Alias: (runtime alias -> schematic name)
++	ID_BUTTON -> FP_ID_BTN_N
++	CPU_CATERR -> FM_PLT_BMC_THERMTRIP_N
++	PCH_BMC_THERMTRIP -> FM_PLT_BMC_THERMTRIP_N
++	RESET_BUTTON -> FP_BMC_RST_BTN_N
++	RESET_OUT -> RST_BMC_RSTBTN_OUT_R_N
++	POWER_BUTTON -> FP_BMC_PWR_BTN_R_N
++	POWER_OUT -> FM_BMC_PWR_BTN_N
++	PREQ_N -> DBP_ASD_BMC_PREQ_R_N
++	POST_COMPLETE -> FM_BIOS_POST_CMPLT_BMC_N
++	CPU_ERR0 -> FM_CPU_ERR0_LVT3_N
++	CPU_ERR1 -> FM_CPU_ERR1_LVT3_N
++	CPU_ERR2 -> FM_CPU_ERR2_LVT3_N
++	DEBUG_EN_N -> FM_JTAG_TCK_MUX_SEL_R
++	NMI_OUT -> IRQ_BMC_CPU_NMI_R
++	PLTRST_N -> RST_PLTRST_BMC_N
++	PRDY_N -> DBP_ASD_BMC_PRDY_R_N
++	PWR_DEBUG_N ->
++	XDP_PRST_N ->
++	SYSPWROK ->
++	RSMRST_N ->
++	SIO_S3 -> FM_SLPS3_R_N
++	SIO_S5 -> FM_SLPS4_R_N
++	SIO_ONCONTROL -> FM_BMC_ONCTL_R_N
++	SIO_POWER_GOOD -> PWRGD_CPU0_LVC3_R
++	PS_PWROK -> PWRGD_BMC_PS_PWROK_R
++	P3VBAT_BRIDGE_EN ->
++	TCK_MUX_SEL ->
++	SMI -> IRQ_SMI_ACTIVE_BMC_N
++	NMI_BUTTON -> FP_NMI_BTN_N
++#endif
++
++&gpio0 {
++	status = "okay";
++	/* pinctrl-names = "pass-through";
++	pinctrl-0 = <&pinctrl_thru0_default
++			&pinctrl_thru1_default>; */
++	gpio-line-names =
++	/*A0-A7*/	"SMB_BMC0_MUX01_CLK_H","SMB_BMC0_MUX01_DAT_H","RST_BTN_IRMC_N","BTN_PWR_BMC_N","SMB_CPU_PIROM_SCL","SMB_CPU_PIROM_SDA","I2C_BMC_SCL14","I2C_BMC_SDA14",
++	/*B0-B7*/	"FM_SEL_BMC_USB_HOST_N","NMI_OUT","IRQ_SMB3_M2_ALERT_N","SMB_BMC_2_PMBUS_ALERT_N","RST_BMC_PCIE_MUX_N","FM_BMC_EUP_LOT6_N","FM_BMC_BMCINIT_R","FP_ID_LED_N",
++	/*C0-C7*/	"FM_FORCE_BMC_UPDATE_N","RST_RGMII_PHYRST_N","FM_TPM_EN_PULSE","FM_BMC_CRASHLOG_TRIG_N","IRQ_BMC_PCH_NMI_R","FM_CPU1_DISABLE_COD_N","SMB_BMCLC1_CLK_R_H","SMB_BMCLC1_DAT_R_H",
++	/*D0-D7*/	"CPU_ERR0","CPU_ERR1","CPU_ERR2","PRDY_N","FM_SPD_SWITCH_CTRL_N","FM_RISER3_BMC_ID_0","FAN_PRSNT_LC2","FAN_PRSNT_LC1",
++	/*E0-E7*/	"FM_RISER2_RBP_ID_R_0","LED_CSS_R_N","CLK_50M_CKMNG_BMCB","FM_BMC_BOARD_REV_ID2_N","FM_RISER2_ID_0","FM_RISER2_ID_1","SMB_BMCLC2_DAT_R_H","SMB_BMCLC2_CLK_R_H",
++	/*F0-F7*/	"FM_BMC_BOARD_SKU_ID0_N","FM_BMC_BOARD_SKU_ID1_N","FM_BMC_BOARD_SKU_ID2_N","FM_BMC_BOARD_SKU_ID3_N","FM_BMC_BOARD_SKU_ID4_N ","FM_BMC_BOARD_SKU_ID5_N","PRSNT_MONITOR_FP_L","PS_PWROK",
++	/*G0-G7*/	"FM_SMB_BMC_NVME_LVC3_ALERT_N","RST_BMC_I2C_M2_R_N","FP_LED_STATUS_GREEN_N","FP_LED_STATUS_AMBER_N","FM_BMC_BOARD_REV_ID0_N","FM_BMC_BOARD_REV_ID1_N","FM_BMC_CPU_FBRK_OUT_R_N","DBP_PRESENT_IN_R2_N",
++	/*H0-H7*/	"SGPIO_BMC_CLK_R","SGPIO_BMC_LD_R_N","SGPIO_BMC_DOUT_R","SGPIO_BMC_DIN","PLTRST_N","CPU_CATERR","SMB_TEMPSENSOR_STBY_LVC3_R_SCL","SMB_TEMPSENSOR_STBY_LVC3_R_SDA",
++	/*I0-I7*/	"JTAG_ASD_NTRST_R_N","JTAG_ASD_TDI_R","JTAG_ASD_TCK_R","JTAG_ASD_TMS_R","JTAG_ASD_TDO","FM_BMC_PWRBTN_OUT_R_N","","TP_FM_BMC_PCH_SCI_LPC_R_N",
++	/*J0-J7*/	"I2C_BMC_RISER1_SCL1","I2C_BMC_RISER1_SDA1","I2C_BMC_PSU_SCL2","I2C_BMC_PSU_SDA2","I2C_BMC_PWR_SCL3","I2C_BMC_PWR_SDA3","I2C_BMC_SCL4","I2C_BMC_SDA4",
++	/*K0-K7*/	"SMB_HSBP_STBY_LVC3_R_SCL","SMB_HSBP_STBY_LVC3_R_SDA","SMB_SMLINK0_STBY_LVC3_R2_SCL","SMB_SMLINK0_STBY_LVC3_R2_SDA","I2C_BMC_RISER2_SCL7","I2C_BMC_RISER2_SDA7","SMB_PMBUS_SML1_STBY_LVC3_R_SCL","SMB_PMBUS_SML1_STBY_LVC3_R_SDA",
++	/*L0-L7*/	"SMB_PCIE_STBY_LVC3_R_SCL","SMB_PCIE_STBY_LVC3_R_SDA","SMB_HOST_STBY_BMC_LVC3_R_SCL","SMB_HOST_STBY_BMC_LVC3_R_SDA","PREQ_N","TCK_MUX_SEL","V_BMC_GFX_HSYNC_R","V_BMC_GFX_VSYNC_R",
++	/*M0-M7*/	"SPA_CTS_N ","SPA_DCD_N","SPA_DSR_N","PU_SPA_RI_N","SPA_DTR_N","SPA_RTS_N","SPA_SOUT","SPA_SIN",
++	/*N0-N7*/	"SPB_CTS_N","SPB_DCD_N","SPB_DSR_N","PU_SPB_RI_N","SPB_DTR_N","SPB_RTS_N","SPB_SOUT","SPB_SIN",
++	/*O0-O7*/	"FAN_PWM_BMC_1_H","FAN_PWM_BMC_2_H","FAN_PWM_BMC_3_H","FAN_PWM_BMC_4_H","FAN_PWM_BMC_5_H","FAN_PWM_BMC_6_H","NMI_BUTTON","FM_RECOVER_BIOS_R_N",
++	/*P0-P7*/	"RESET_BUTTON","RESET_OUT","POWER_BUTTON","POWER_OUT","FM_RISER3_BMC_ID_1","FM_RISER2_BMC_ID_2","RST_BMC_I2C_R_8","LED_BMC_HEARTBEAT_R_N",
++	/*Q0-Q7*/	"FAN_TACH_BMC_0_N_BUF","FAN_TACH_BMC_1_N_BUF","FAN_TACH_BMC_2_N_BUF","FAN_TACH_BMC_3_N_BUF","FAN_TACH_BMC_4_N_BUF","FAN_TACH_BMC_5_N_BUF","FAN_TACH_BMC_6_N_BUF","FAN_TACH_BMC_7_N_BUF",
++	/*R0-R7*/	"FAN_TACH_BMC_8_N_BUF","FAN_TACH_BMC_9_N_BUF","FAN_TACH_BMC_10_N_BUF","FAN_TACH_BMC_11_N_BUF","FAN_TACH_BMC_LC1_N_BUF","FAN_TACH_BMC_LC2_N_BUF","LED_PWROK_BMC_N","LED_GERR_IRMC_N",
++	/*S0-S7*/	"RGMII_BMC_RMM4_LVC3_R_MDC","RGMII_BMC_RMM4_LVC3_R_MDIO","ID_BUTTON","PCH_BMC_THERMTRIP","TP_LED_BMC_HEARTBEAT_N","A_P3V_BAT_SCALED_EN","FM_ASD_EN_DET_R","FM_PCHHOT_N",
++	/*T0-T7*/	"","","","","","","","",
++	/*U0-U7*/	"","","","","","","","",
++	/*V0-V7*/	"SIO_S3","SIO_S5","TP_BMC_SIO_PWREQ_N","SIO_ONCONTROL","SIO_POWER_GOOD","LED_BMC_HB_LED_N","FM_BMC_SUSACK_N","TP_IRQ_BMC_PCH_SMI_LPC_N_R",
++	/*W0-W7*/	"LPC_LAD0_ESPI_R_IO0","LPC_LAD1_ESPI_R_IO1","LPC_LAD2_ESPI_R_IO2","LPC_LAD3_ESPI_R_IO3","CLK_24M_66M_LPC0_ESPI_BMC","LFRAME_N_ESPI_CS0_BMC_N","IRQ_LPC_SERIRQ_ESPI_ALERT_N","RST_LPC_LRST_ESPI_RST_BMC_R_N",
++	/*X0-X7*/	"ERR_FAT_VRM_N","SMI","POST_COMPLETE","FM_CLR_LDL_H","PU_SPB_FORCEOFF_N","PU_SPA_FORCEOFF_N","FM_RISER1_RBP_ID_0","FM_OCP1_PRSNTB3_N",
++	/*Y0-Y7*/	"FM_M2_PRSTN_BMC_N","IRQ_SML0_ALERT_BMC_R2_N","I2C_BUS8_INT_N","IRQ_SML1_PMBUS_BMC_ALERT_N","SPI_BMC_BOOT_R_IO2","SPI_BMC_BOOT_R_IO3","PU_SPI_BMC_BOOT_ABR","PU_SPI_BMC_BOOT_WP_N",
++	/*Z0-Z7*/	"PWRGD_P3V3_RISER1","PWRGD_P3V3_RISER2","PRSNT_USB3_FP_X_L","PU_GPIOZ3","PU_GPIOZ4","PU_GPIOZ5","PU_GPIOZ6","PU_GPIOZ7";
++};
++
++&gpio1 {
++	status = "disabled";
++	gpio-line-names = /* GPIO18 A-E */
++	/*A0-A7*/	"RGMII_BMC_RMM4_TX_R_CLK","RGMII_BMC_RMM4_TX_R_CTRL","RGMII_BMC_RMM4_R_TXD0","RGMII_BMC_RMM4_R_TXD1","RGMII_BMC_RMM4_R_TXD2","RGMII_BMC_RMM4_R_TXD3","RGMII_BMC_RMM4_RX_CLK","RGMII_BMC_RMM4_RX_CTRL",
++	/*B0-B7*/	"RGMII_BMC_RMM4_RXD0","RGMII_BMC_RMM4_RXD1","RGMII_BMC_RMM4_RXD2","RGMII_BMC_RMM4_RXD3","FAN_PWM_BMC_LC2_H","FAN_PWM_BMC_LC1_H ","RST_EMMC_BMC_R_N","FM_RISER1_BMC_ID_2",
++	/*C0-C7*/	"FM_RISER1_BMC_ID_1","FM_RISER1_BMC_ID_0","FAN_PRSNT1_N","FAN_PRSNT2_N","FAN_PRSNT6_N","FAN_PRSNT5_N","FAN_PRSNT4_N","FAN_PRSNT3_N",
++	/*D0-D7*/	"EMMC_BMC_R_CLK","EMMC_BMC_R_CMD","EMMC_BMC_R_DATA0","EMMC_BMC_R_DATA1","EMMC_BMC_R_DATA2","EMMC_BMC_R_DATA3","EMMC_BMC_CD_N","EMMC_BMC_WP_N",
++	/*E0-E3*/	"EMMC_BMC_R_DATA4","EMMC_BMC_R_DATA5","EMMC_BMC_R_DATA6","EMMC_BMC_R_DATA7";
++};
++
++&sgpiom0 {
++	status = "okay";
++};
++
++&kcs3 {
++	kcs_addr = <0xCA2>;
++	status = "okay";
++};
++
++&kcs4 {
++	kcs_addr = <0xCA4>;
++	status = "okay";
++};
++
++&lpc_snoop {
++	snoop-ports = <0x80>;
++	status = "okay";
++};
++
++&mdio0 {
++	status = "okay";
++
++	ethphy1: ethernet-phy@0 {
++		compatible = "ethernet-phy-ieee802.3-c22";
++		reg = <0>;
++	};
++};
++
++&mac0 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rgmii1_default>;
++	clocks = <&syscon ASPEED_CLK_GATE_MAC1CLK>,
++		 <&syscon ASPEED_CLK_MAC1RCLK>;
++	clock-names = "MACCLK", "RCLK";
++	phy-mode = "rgmii";
++	phy-handle = <&ethphy1>;
++};
++
++&adc0 {
++	status = "okay";
++};
++
++&adc1 {
++	status = "okay";
++};
++
++&uart1 {
++	status = "okay";
++	pinctrl-0 = <&pinctrl_txd1_default
++			 &pinctrl_rxd1_default
++			 &pinctrl_nrts1_default
++			 &pinctrl_ndtr1_default
++			 &pinctrl_ndsr1_default
++			 &pinctrl_ncts1_default
++			 &pinctrl_ndcd1_default
++			 &pinctrl_nri1_default>;
++};
++
++&uart2 {
++	status = "okay";
++	pinctrl-0 = <&pinctrl_txd2_default
++			 &pinctrl_rxd2_default
++			 &pinctrl_nrts2_default
++			 &pinctrl_ndtr2_default
++			 &pinctrl_ndsr2_default
++			 &pinctrl_ncts2_default
++			 &pinctrl_ndcd2_default
++			 &pinctrl_nri2_default>;
++};
++
++&uart3 {
++	status = "okay";
++	pinctrl-0 = <>;
++};
++
++&uart4 {
++	status = "okay";
++	pinctrl-0 = <>;
++};
++
++&uart5 {
++	status = "okay";
++};
++
++&uart_routing {
++	status = "okay";
++};
++
++&i2c0 {
++	/* I2C_BMC_RISER1 */
++	multi-master;
++	status = "okay";
++
++	pca9545@70 {
++		compatible = "nxp,pca9545";
++		#address-cells = <1>;
++		#size-cells = <0>;
++		reg = <0x70>;
++	};
++};
++
++&i2c1 {
++	/* I2C_BMC_PSU */
++	multi-master;
++	status = "okay";
++
++	psu1-eeprom@50 {
++		compatible = "atmel,24c02";
++		reg = <0x50>;
++	};
++
++	psu2-eeprom@51 {
++		compatible = "atmel,24c02";
++		reg = <0x51>;
++	};
++
++	pmbus@58 {
++		compatible = "pmbus,sgd009";
++		reg = <0x58>;
++	};
++
++	pmbus@59 {
++		compatible = "pmbus,sgd009";
++		reg = <0x59>;
++	};
++};
++
++&i2c2 {
++	/* I2C_BMC_PWR */
++	multi-master;
++	status = "okay";
++};
++
++&i2c3 {
++	multi-master;
++	status = "okay";
++
++	gpio2: pca9539@74{
++		compatible = "nxp,pca9539";
++		reg = <0x74>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		gpio-controller;
++		#gpio-cells = <2>;
++
++		gpio@0 {
++			reg = <0>;
++		};
++
++		gpio@1 {
++			reg = <1>;
++		};
++
++		gpio@2 {
++			reg = <2>;
++		};
++
++		gpio@3 {
++			reg = <3>;
++		};
++
++		gpio@4 {
++			reg = <4>;
++		};
++
++		gpio@5 {
++			reg = <5>;
++		};
++
++		gpio@6 {
++			reg = <6>;
++		};
++
++		gpio@7 {
++			reg = <7>;
++		};
++
++		gpio@8 {
++			reg = <8>;
++		};
++
++		gpio@9 {
++			reg = <9>;
++		};
++
++		gpio@10 {
++			reg = <10>;
++		};
++
++		gpio@11 {
++			reg = <11>;
++		};
++
++		gpio@12 {
++			reg = <12>;
++		};
++
++		gpio@13 {
++			reg = <13>;
++		};
++
++		gpio@14 {
++			reg = <14>;
++		};
++
++		gpio@15 {
++			reg = <15>;
++		};
++	};
++
++	gpio3: pca9539@75{
++		compatible = "nxp,pca9539";
++		reg = <0x75>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		gpio-controller;
++		#gpio-cells = <2>;
++
++		gpio@0 {
++			reg = <0>;
++		};
++
++		gpio@1 {
++			reg = <1>;
++		};
++
++		gpio@2 {
++			reg = <2>;
++		};
++
++		gpio@3 {
++			reg = <3>;
++		};
++
++		gpio@4 {
++			reg = <4>;
++		};
++
++		gpio@5 {
++			reg = <5>;
++		};
++
++		gpio@6 {
++			reg = <6>;
++		};
++
++		gpio@7 {
++			reg = <7>;
++		};
++
++		gpio@8 {
++			reg = <8>;
++		};
++
++		gpio@9 {
++			reg = <9>;
++		};
++
++		gpio@10 {
++			reg = <10>;
++		};
++
++		gpio@11 {
++			reg = <11>;
++		};
++
++		gpio@12 {
++			reg = <12>;
++		};
++
++		gpio@13 {
++			reg = <13>;
++		};
++
++		gpio@14 {
++			reg = <14>;
++		};
++
++		gpio@15 {
++			reg = <15>;
++		};
++	};
++
++	gpio4: pca9539@76{
++		compatible = "nxp,pca9539";
++		reg = <0x76>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		gpio-controller;
++		#gpio-cells = <2>;
++
++		gpio@0 {
++			reg = <0>;
++		};
++
++		gpio@1 {
++			reg = <1>;
++		};
++
++		gpio@2 {
++			reg = <2>;
++		};
++
++		gpio@3 {
++			reg = <3>;
++		};
++
++		gpio@4 {
++			reg = <4>;
++		};
++
++		gpio@5 {
++			reg = <5>;
++		};
++
++		gpio@6 {
++			reg = <6>;
++		};
++
++		gpio@7 {
++			reg = <7>;
++		};
++
++		gpio@8 {
++			reg = <8>;
++		};
++
++		gpio@9 {
++			reg = <9>;
++		};
++
++		gpio@10 {
++			reg = <10>;
++		};
++
++		gpio@11 {
++			reg = <11>;
++		};
++
++		gpio@12 {
++			reg = <12>;
++		};
++
++		gpio@13 {
++			reg = <13>;
++		};
++
++		gpio@14 {
++			reg = <14>;
++		};
++
++		gpio@15 {
++			reg = <15>;
++		};
++	};
++
++	gpio5: pca9539@77{
++		compatible = "nxp,pca9539";
++		reg = <0x77>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		gpio-controller;
++		#gpio-cells = <2>;
++
++		gpio@0 {
++			reg = <0>;
++		};
++
++		gpio@1 {
++			reg = <1>;
++		};
++
++		gpio@2 {
++			reg = <2>;
++		};
++
++		gpio@3 {
++			reg = <3>;
++		};
++
++		gpio@4 {
++			reg = <4>;
++		};
++
++		gpio@5 {
++			reg = <5>;
++		};
++
++		gpio@6 {
++			reg = <6>;
++		};
++
++		gpio@7 {
++			reg = <7>;
++		};
++
++		gpio@8 {
++			reg = <8>;
++		};
++
++		gpio@9 {
++			reg = <9>;
++		};
++
++		gpio@10 {
++			reg = <10>;
++		};
++
++		gpio@11 {
++			reg = <11>;
++		};
++
++		gpio@12 {
++			reg = <12>;
++		};
++
++		gpio@13 {
++			reg = <13>;
++		};
++
++		gpio@14 {
++			reg = <14>;
++		};
++
++		gpio@15 {
++			reg = <15>;
++		};
++	};
++};
++
++&i2c4 {
++	/* SMB_HSBP_STBY_LVC3_R */
++	multi-master;
++	status = "okay";
++};
++
++&i2c5 {
++	/* SMB_SMLINK0_STBY_LVC3_R2 */
++	bus-frequency = <1000000>;
++	multi-master;
++	status = "okay";
++};
++
++&i2c6 {
++	/* I2C_BMC_RISER2 */
++	multi-master;
++	status = "okay";
++
++	pca9543@70 {
++		compatible = "nxp,pca9543";
++		#address-cells = <1>;
++		#size-cells = <0>;
++		reg = <0x70>;
++	};
++
++	pca9545@72 {
++		compatible = "nxp,pca9545";
++		#address-cells = <1>;
++		#size-cells = <0>;
++		reg = <0x72>;
++	};
++};
++
++&i2c7 {
++	/* SMB_PMBUS_SML1_STBY_LVC3_R */
++	multi-master;
++	status = "okay";
++};
++
++&i2c8 {
++	/* SMB_PCIE_STBY_LVC3_R */
++	multi-master;
++	status = "okay";
++};
++
++&i2c9 {
++	/* SMB_HOST_STBY_BMC_LVC3_R */
++	multi-master;
++	status = "okay";
++};
++
++&i2c10 {
++	/* SMB_BMC0_MUX01 */
++	multi-master;
++	status = "okay";
++};
++
++&i2c12 {
++	/* SMB_CPU_PIROM */
++	multi-master;
++	status = "okay";
++};
++
++&i2c13 {
++	multi-master;
++	status = "okay";
++};
++
++&i2c15 {
++	/* SMB_TEMPSENSOR_STBY_LVC3_R */
++	multi-master;
++	status = "okay";
++
++	tmp75@48 {
++		compatible = "ti,tmp75";
++		reg = <0x48>;
++	};
++};
++
++&vhub {
++	status = "okay";
++};
+-- 
+2.7.4
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+This email contains confidential or legally privileged information and is for the sole use of its intended recipient. 
+Any unauthorized review, use, copying or distribution of this email or the content of this email is strictly prohibited.
+If you are not the intended recipient, you may reply to the sender and should delete this e-mail immediately.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
