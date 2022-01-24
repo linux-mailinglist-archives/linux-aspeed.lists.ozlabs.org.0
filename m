@@ -1,61 +1,47 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ACDA497651
-	for <lists+linux-aspeed@lfdr.de>; Mon, 24 Jan 2022 00:22:52 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8274F4976E8
+	for <lists+linux-aspeed@lfdr.de>; Mon, 24 Jan 2022 02:44:52 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Jhq0T6BGYz30Nj
-	for <lists+linux-aspeed@lfdr.de>; Mon, 24 Jan 2022 10:22:49 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Jht8L3S8xz30QX
+	for <lists+linux-aspeed@lfdr.de>; Mon, 24 Jan 2022 12:44:50 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kaod.org (client-ip=46.105.54.81;
- helo=smtpout3.mo529.mail-out.ovh.net; envelope-from=clg@kaod.org;
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=chiawei_wang@aspeedtech.com;
  receiver=<UNKNOWN>)
-X-Greylist: delayed 2309 seconds by postgrey-1.36 at boromir;
- Mon, 24 Jan 2022 10:22:46 AEDT
-Received: from smtpout3.mo529.mail-out.ovh.net
- (smtpout3.mo529.mail-out.ovh.net [46.105.54.81])
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Jhq0Q0jPfz2xY1
- for <linux-aspeed@lists.ozlabs.org>; Mon, 24 Jan 2022 10:22:43 +1100 (AEDT)
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.173])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 8337FD984D66;
- Sun, 23 Jan 2022 23:44:07 +0100 (CET)
-Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Sun, 23 Jan
- 2022 23:44:05 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004b7e6303c-d087-4cdd-8e9a-f381c1422b65,
- 90EAC8BD64EA4EE21D802F9E5F0AC1C4B4718499) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <d4ba6413-57ce-14c1-ed48-d00db2f74bd3@kaod.org>
-Date: Sun, 23 Jan 2022 23:44:05 +0100
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Jht8B4F88z2yQC
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 24 Jan 2022 12:44:39 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 20O1acU0011857;
+ Mon, 24 Jan 2022 09:36:38 +0800 (GMT-8)
+ (envelope-from chiawei_wang@aspeedtech.com)
+Received: from ChiaWei-PC.aspeed.com (192.168.2.66) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 24 Jan
+ 2022 09:43:53 +0800
+From: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+To: <sfr@canb.auug.org.au>, <joel@jms.id.au>, <andrew@aj.id.au>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH next] docs/ABI: testing: aspeed-uart-routing: Escape asterisk
+Date: Mon, 24 Jan 2022 09:43:51 +0800
+Message-ID: <20220124014351.9121-1-chiawei_wang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] mtd: aspeed-smc: improve probe resilience
-Content-Language: en-US
-To: Pratyush Yadav <p.yadav@ti.com>, Patrick Williams <patrick@stwcx.xyz>
-References: <20211229143334.297305-1-patrick@stwcx.xyz>
- <20211229173411.l2bipmi4x3arqjoo@ti.com> <Yc3Qav+ULNdF5zRT@heinlein>
- <20211231102623.izaqlzjvracbbgmp@ti.com> <20220103171721.46c8e697@xps13>
- <YdSP6tKyQ2ZRUC+2@heinlein> <20220105063244.lno3xur64uepa7i5@ti.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220105063244.lno3xur64uepa7i5@ti.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 62bc6a40-d1d1-4864-991d-9b803c761a1a
-X-Ovh-Tracer-Id: 15724036627872713720
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvdehgddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.66]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 20O1acU0011857
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,54 +53,48 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>, linux-aspeed@lists.ozlabs.org,
- Tudor Ambarus <tudor.ambarus@microchip.com>,
- Richard Weinberger <richard@nod.at>, Potin Lai <potin.lai@quantatw.com>,
- linux-kernel@vger.kernel.org, Michael Walle <michael@walle.cc>,
- linux-mtd@lists.infradead.org, Miquel Raynal <miquel.raynal@bootlin.com>,
- linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
->> I had an offline discussion with someone who knew more history on this driver.
->> My understanding is that the linux-aspeed team is aware of this being deprecated
->> but that there was some missing support for interface training that nobody has
->> gotten around to write?  If that is the case this really isn't even a "simple"
->> port to a new API at this point.
-> 
-> Unless the controller needs some unique feature (I don't think it does
-> on a quick glance), the conversion should not be too difficult. For any
-> experienced developer, even if they are unfamiliar with the SPI MEM API,
-> I don't think it should take more than 2-3 days to do the conversion.
-> The code to program the registers would stay the same, all that needs to
-> change is the API through which it is accessed.
+Escape asterisk symbols to fix the following warning:
 
-Writing a spimem driver is not a problem, I think people have done
-that in house. Aspeed has one for AST2600. We have one for u-boot
-I wrote sometime ago. I even have one for Linux but training comes
-with ugly hacks to fit in the current stack.
+"WARNING: Inline emphasis start-string without end-string"
 
-All Aspeed SoCs need training and that has been the problem for the
-last 4 years or so because we can not do training without knowing
-a minimum about the flash being trained :/ The previous framework
-offered a way to do a first scan and tune the delay settings
-afterwards. It worked pretty well on AST2400, AST2500 and AST2600
-even if more complex.
+Fixes: c6807970c3bc ("soc: aspeed: Add UART routing support")
+Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+---
+ Documentation/ABI/testing/sysfs-driver-aspeed-uart-routing | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-One alternative was to include the setting in the DT but the flash
-modules are not always soldered on the boards, at least on OpenPOWER
-systems which have sockets for them. The board are large, the wires
-long, the need is real, some chips freak out if not tuned correctly.
+diff --git a/Documentation/ABI/testing/sysfs-driver-aspeed-uart-routing b/Documentation/ABI/testing/sysfs-driver-aspeed-uart-routing
+index b363827da437..910df0e5815a 100644
+--- a/Documentation/ABI/testing/sysfs-driver-aspeed-uart-routing
++++ b/Documentation/ABI/testing/sysfs-driver-aspeed-uart-routing
+@@ -1,4 +1,4 @@
+-What:		/sys/bus/platform/drivers/aspeed-uart-routing/*/uart*
++What:		/sys/bus/platform/drivers/aspeed-uart-routing/\*/uart\*
+ Date:		September 2021
+ Contact:	Oskar Senft <osk@google.com>
+ 		Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+@@ -9,7 +9,7 @@ Description:	Selects the RX source of the UARTx device.
+ 		depends on the selected file.
+ 
+ 		e.g.
+-		cat /sys/bus/platform/drivers/aspeed-uart-routing/*.uart_routing/uart1
++		cat /sys/bus/platform/drivers/aspeed-uart-routing/\*.uart_routing/uart1
+ 		[io1] io2 io3 io4 uart2 uart3 uart4 io6
+ 
+ 		In this case, UART1 gets its input from IO1 (physical serial port 1).
+@@ -17,7 +17,7 @@ Description:	Selects the RX source of the UARTx device.
+ Users:		OpenBMC.  Proposed changes should be mailed to
+ 		openbmc@lists.ozlabs.org
+ 
+-What:		/sys/bus/platform/drivers/aspeed-uart-routing/*/io*
++What:		/sys/bus/platform/drivers/aspeed-uart-routing/\*/io\*
+ Date:		September 2021
+ Contact:	Oskar Senft <osk@google.com>
+ 		Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+-- 
+2.25.1
 
-spimem needs an extension I think. Sorry I have not been able to
-push that forward. Lack of time and other tasks to address on the
-host side of the machine. This is really a software problem, we
-have the HW procedures ready. If a spimem expert could get involved
-to make a few proposals, I would be happy to help and do some testing.
-QEMU models are good enough for the software part. We can do the
-training validation on real HW when ready.
-
-Thanks,
-
-C.
