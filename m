@@ -2,49 +2,47 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3A149AC95
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jan 2022 07:47:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8498649B1CC
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jan 2022 11:43:24 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JjcpZ540bz30Mr
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jan 2022 17:47:02 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Jjk3G43txz3bSx
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jan 2022 21:43:22 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
- receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+ smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1;
+ helo=dfw.source.kernel.org;
+ envelope-from=srs0=pq9m=sj=xs4all.nl=hverkuil@kernel.org; receiver=<UNKNOWN>)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JjcpS02Qsz2xtF;
- Tue, 25 Jan 2022 17:46:53 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 20P6aluw078229;
- Tue, 25 Jan 2022 14:36:47 +0800 (GMT-8)
- (envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 25 Jan 2022 14:44:07 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
- <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
- <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 3/3] media: aspeed: Correct values for detected timing
-Date: Tue, 25 Jan 2022 14:44:09 +0800
-Message-ID: <20220125064409.5502-4-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220125064409.5502-1-jammy_huang@aspeedtech.com>
-References: <20220125064409.5502-1-jammy_huang@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Jjk3B1zgXz301v;
+ Tue, 25 Jan 2022 21:43:18 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EDB986165E;
+ Tue, 25 Jan 2022 10:43:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AADEBC340E0;
+ Tue, 25 Jan 2022 10:43:11 +0000 (UTC)
+Message-ID: <c3202b1f-ff8f-8108-e8a3-8710c8c74d10@xs4all.nl>
+Date: Tue, 25 Jan 2022 11:43:10 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 20P6aluw078229
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v4 0/2] Fix incorrect resolution detected
+Content-Language: en-US
+To: Jammy Huang <jammy_huang@aspeedtech.com>, eajames@linux.ibm.com,
+ mchehab@kernel.org, joel@jms.id.au, andrew@aj.id.au,
+ linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+References: <20220118100729.7651-1-jammy_huang@aspeedtech.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220118100729.7651-1-jammy_huang@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,218 +58,42 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Correct timing's fp/sync/bp value based on the information below.
-It should be noticed that the calculation formula should be changed
-per sync polarity.
+Hi Jammy,
 
-The sequence of signal: sync - backporch - video data - frontporch
+On 18/01/2022 11:07, Jammy Huang wrote:
+> This series fixes incorrect resolution detected.
+> We found this problem happened occasionally in the switch between bios
+> and bootloader.
 
-The following registers start counting from sync's rising edge:
-1. VR090: frame edge's left and right
-2. VR094: frame edge's top and bottom
-3. VR09C: counting from sync's rising edge to falling edge
+Can you rebase this on top of:
 
-[Vertical timing]
-            +--+     +-------------------+     +--+
-            |  |     |     v i d e o     |     |  |
-         +--+  +-----+                   +-----+  +---+
-       vsync+--+
-   frame_top+--------+
-frame_bottom+----------------------------+
+https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=for-v5.18f
 
-                  +-------------------+
-                  |     v i d e o     |
-      +--+  +-----+                   +-----+  +---+
-         |  |                               |  |
-         +--+                               +--+
-       vsync+-------------------------------+
-   frame_top+-----+
-frame_bottom+-------------------------+
+This series doesn't apply cleanly.
 
-[Horizontal timing]
-            +--+     +-------------------+     +--+
-            |  |     |     v i d e o     |     |  |
-         +--+  +-----+                   +-----+  +---+
-       hsync+--+
-  frame_left+--------+
- frame_right+----------------------------+
+Regards,
 
-                  +-------------------+
-                  |     v i d e o     |
-      +--+  +-----+                   +-----+  +---+
-         |  |                               |  |
-         +--+                               +--+
-       hsync+-------------------------------+
-  frame_left+-----+
- frame_right+-------------------------+
+	Hans
 
-Ex. 1920x1200@60 whose vsync polarity is negative
-  VR098: c4d3efff, VR09C: 04cc001f
-  v-total = 0x4D3 (VR098[27:16]) = 1235
-  v-sync  = 0x4CC (VR09C[27:16]) = 1228
-
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
- v4:
-  - Combine this one with patch 4
- v3:
-  - Add API, aspeed_video_get_timings(), to handle the calculation of timings.
- v2:
-  - Code refined per Joel's suggestion
-  - Update commit message to have name matching variable
----
- drivers/media/platform/aspeed-video.c | 109 +++++++++++++++++++++++---
- 1 file changed, 97 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index c241038ee27c..90cdc6fe0caa 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -925,6 +925,99 @@ static void aspeed_video_calc_compressed_size(struct aspeed_video *video,
- 		 video->max_compressed_size);
- }
- 
-+/*
-+ * Update v4l2_bt_timings per current status.
-+ * frame_top/frame_bottom/frame_left/frame_right need to be ready.
-+ *
-+ * The following registers start counting from sync's rising edge:
-+ * 1. VR090: frame edge's left and right
-+ * 2. VR094: frame edge's top and bottom
-+ * 3. VR09C: counting from sync's rising edge to falling edge
-+ *
-+ * [Vertical timing]
-+ *             +--+     +-------------------+     +--+
-+ *             |  |     |     v i d e o     |     |  |
-+ *          +--+  +-----+                   +-----+  +---+
-+ *        vsync+--+
-+ *    frame_top+--------+
-+ * frame_bottom+----------------------------+
-+ *
-+ *                   +-------------------+
-+ *                   |     v i d e o     |
-+ *       +--+  +-----+                   +-----+  +---+
-+ *          |  |                               |  |
-+ *          +--+                               +--+
-+ *        vsync+-------------------------------+
-+ *    frame_top+-----+
-+ * frame_bottom+-------------------------+
-+ *
-+ * [Horizontal timing]
-+ *             +--+     +-------------------+     +--+
-+ *             |  |     |     v i d e o     |     |  |
-+ *          +--+  +-----+                   +-----+  +---+
-+ *        hsync+--+
-+ *   frame_left+--------+
-+ *  frame_right+----------------------------+
-+ *
-+ *                   +-------------------+
-+ *                   |     v i d e o     |
-+ *       +--+  +-----+                   +-----+  +---+
-+ *          |  |                               |  |
-+ *          +--+                               +--+
-+ *        hsync+-------------------------------+
-+ *   frame_left+-----+
-+ *  frame_right+-------------------------+
-+ *
-+ * @v: the struct of aspeed_video
-+ * @det: v4l2_bt_timings to be updated.
-+ */
-+static void aspeed_video_get_timings(struct aspeed_video *v,
-+				     struct v4l2_bt_timings *det)
-+{
-+	u32 mds, sync, htotal, vtotal, vsync, hsync;
-+
-+	mds = aspeed_video_read(v, VE_MODE_DETECT_STATUS);
-+	sync = aspeed_video_read(v, VE_SYNC_STATUS);
-+	htotal = aspeed_video_read(v, VE_H_TOTAL_PIXELS);
-+	vtotal = FIELD_GET(VE_MODE_DETECT_V_LINES, mds);
-+	vsync = FIELD_GET(VE_SYNC_STATUS_VSYNC, sync);
-+	hsync = FIELD_GET(VE_SYNC_STATUS_HSYNC, sync);
-+
-+	/*
-+	 * This is a workaround for polarity detection.
-+	 * Because ast-soc counts sync from sync's rising edge, the reg value
-+	 * of sync would be larger than video's active area if negative.
-+	 */
-+	if (vsync > det->height)
-+		det->polarities &= ~V4L2_DV_VSYNC_POS_POL;
-+	else
-+		det->polarities |= V4L2_DV_VSYNC_POS_POL;
-+	if (hsync > det->width)
-+		det->polarities &= ~V4L2_DV_HSYNC_POS_POL;
-+	else
-+		det->polarities |= V4L2_DV_HSYNC_POS_POL;
-+
-+	if (det->polarities & V4L2_DV_VSYNC_POS_POL) {
-+		det->vbackporch = v->frame_top - vsync;
-+		det->vfrontporch = vtotal - v->frame_bottom;
-+		det->vsync = vsync;
-+	} else {
-+		det->vbackporch = v->frame_top;
-+		det->vfrontporch = vsync - v->frame_bottom;
-+		det->vsync = vtotal - vsync;
-+	}
-+
-+	if (det->polarities & V4L2_DV_HSYNC_POS_POL) {
-+		det->hbackporch = v->frame_left - hsync;
-+		det->hfrontporch = htotal - v->frame_right;
-+		det->hsync = hsync;
-+	} else {
-+		det->hbackporch = v->frame_left;
-+		det->hfrontporch = hsync - v->frame_right;
-+		det->hsync = htotal - hsync;
-+	}
-+}
-+
- #define res_check(v) test_and_clear_bit(VIDEO_MODE_DETECT_DONE, &(v)->flags)
- 
- static void aspeed_video_get_resolution(struct aspeed_video *video)
-@@ -935,8 +1028,6 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 	u32 mds;
- 	u32 src_lr_edge;
- 	u32 src_tb_edge;
--	u32 sync;
--	u32 htotal;
- 	struct v4l2_bt_timings *det = &video->detected_timings;
- 
- 	det->width = MIN_WIDTH;
-@@ -980,24 +1071,16 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 
- 		src_lr_edge = aspeed_video_read(video, VE_SRC_LR_EDGE_DET);
- 		src_tb_edge = aspeed_video_read(video, VE_SRC_TB_EDGE_DET);
--		mds = aspeed_video_read(video, VE_MODE_DETECT_STATUS);
--		sync = aspeed_video_read(video, VE_SYNC_STATUS);
--		htotal = aspeed_video_read(video, VE_H_TOTAL_PIXELS);
- 
- 		video->frame_bottom = FIELD_GET(VE_SRC_TB_EDGE_DET_BOT, src_tb_edge);
- 		video->frame_top = FIELD_GET(VE_SRC_TB_EDGE_DET_TOP, src_tb_edge);
--		det->vfrontporch = video->frame_top;
--		det->vbackporch = FIELD_GET(VE_MODE_DETECT_V_LINES, mds) -
--			video->frame_bottom;
--		det->vsync = FIELD_GET(VE_SYNC_STATUS_VSYNC, sync);
-+
- 		if (video->frame_top > video->frame_bottom)
- 			continue;
- 
- 		video->frame_right = FIELD_GET(VE_SRC_LR_EDGE_DET_RT, src_lr_edge);
- 		video->frame_left = FIELD_GET(VE_SRC_LR_EDGE_DET_LEFT, src_lr_edge);
--		det->hfrontporch = video->frame_left;
--		det->hbackporch = htotal - video->frame_right;
--		det->hsync = FIELD_GET(VE_SYNC_STATUS_HSYNC, sync);
-+
- 		if (video->frame_left > video->frame_right)
- 			continue;
- 
-@@ -1013,6 +1096,8 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- 	det->width = (video->frame_right - video->frame_left) + 1;
- 	video->v4l2_input_status = 0;
- 
-+	aspeed_video_get_timings(video, det);
-+
- 	/*
- 	 * Enable mode-detect watchdog, resolution-change watchdog and
- 	 * automatic compression after frame capture.
--- 
-2.25.1
+> 
+> Changes in v4:
+>  - Correct the subject of patch
+> 
+> Changes in v3:
+>  - In v2, we tried to increase the min-required-count of stable signal
+>    to avoid incorrect transient state in timing detection. But it is
+>    not working for all conditions.
+>    Thus, we go another way in v3. Use regs, which can represent the
+>    signal status, to decide if we needs to do detection again.
+>  
+> Changes in v2:
+>  - Separate the patch into two patches
+> 
+> Jammy Huang (2):
+>   media: aspeed: Add macro for the fields of the mode-detect registers
+>   media: aspeed: Fix unstable timing detection
+> 
+>  drivers/media/platform/aspeed-video.c | 25 ++++++++++++++++++++++++-
+>  1 file changed, 24 insertions(+), 1 deletion(-)
+> 
 
