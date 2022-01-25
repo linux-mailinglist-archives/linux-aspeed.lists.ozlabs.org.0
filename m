@@ -1,65 +1,83 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A404949B526
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jan 2022 14:33:21 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7900B49B6B6
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jan 2022 15:46:46 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JjnqM3YVHz3bTD
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jan 2022 00:33:19 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JjqS42tCrz3bSh
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jan 2022 01:46:44 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SoW7RWo/;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=HMWk3U3N;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=intel.com (client-ip=134.134.136.24; helo=mga09.intel.com;
- envelope-from=lkp@intel.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::22f;
+ helo=mail-oi1-x22f.google.com; envelope-from=groeck7@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256
- header.s=Intel header.b=SoW7RWo/; dkim-atps=neutral
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20210112 header.b=HMWk3U3N; dkim-atps=neutral
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JjnqF31SCz301v;
- Wed, 26 Jan 2022 00:33:11 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643117593; x=1674653593;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=D7hlzJPeHygbU5POvuC9qTcjfzuKUzeZK78Zs9FRQi0=;
- b=SoW7RWo/pgmKg6SjSEjPmXnnEyPr25Q2n5OwucK45RkclUMtGXUGrT2d
- CEeaQzCTSazL8V09R6sRWh8FdjeUwrS8umx03qV6Jy80fjSyn2oaqx1tX
- y9n3X7AVQUWIbM4c51Sve90n4ztgz3BmcFdQRkSYSpFJdPl4wsaJAkkve
- fKSgu12/QOQ6CFv0NUgymebArwZjtkbAtJZBA0mtQ+clJrzg5pcBbtn4j
- E22yQWBALs2mVV4ouqPCl289Kgudqc9rl/fZHPPVRww7dX5VYXVDucncO
- c7Ii3RGUjqxynvXkgOK5Q5hSLwzpUQNNXBdN2XR8vPIzDTdR5tpYfOpjK Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="246080069"
-X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="246080069"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2022 05:32:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,315,1635231600"; d="scan'208";a="627928236"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
- by orsmga004.jf.intel.com with ESMTP; 25 Jan 2022 05:31:57 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1nCLvQ-000Jwk-AH; Tue, 25 Jan 2022 13:31:56 +0000
-Date: Tue, 25 Jan 2022 21:31:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Iwona Winiarska <iwona.winiarska@intel.com>,
- linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v6 05/13] peci: Add peci-aspeed controller driver
-Message-ID: <202201252130.U4qxBhmg-lkp@intel.com>
-References: <20220125011104.2480133-6-iwona.winiarska@intel.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JjqRx0lZ7z30Mf
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jan 2022 01:46:34 +1100 (AEDT)
+Received: by mail-oi1-x22f.google.com with SMTP id p203so15034011oih.10
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jan 2022 06:46:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:content-language:to
+ :cc:references:from:subject:in-reply-to:content-transfer-encoding;
+ bh=7Z5bK0+Pm8PkUYWJw79nfAVnr5089YtPM73aqhByRKU=;
+ b=HMWk3U3Ns5ptKCExZyPaCNn8o7exF6BOZW5ey1aGWKCE77urECqLQzdacioQoIggXv
+ 1fmBVm+hEkodpaVj+Glni4eA5hN8DIdsjPW4e+WfTkzI/OIfSFsoXzQPhMQnVMXsuyaw
+ 9yZrctiNDhZUuib0WDQuxUs+4580gHb3Hgc8MGsJ74rd5BqXsNrIXDN5jEfGFa5dDs/m
+ u23th50rE40GyPS2HoEK7hH/U7AUAqV3VEOjDSOwVUclkfJ4VhI3kj7uHrNbor7xRK3S
+ QN7hRwUjQbgdp85oDXM5Ag1q0vYBZuLgx/ivXSA1gKoPwNVuyTZ+HBC0GvMZKiKSW7rc
+ m8oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=7Z5bK0+Pm8PkUYWJw79nfAVnr5089YtPM73aqhByRKU=;
+ b=aBSS6C9EpCH5EoyA2rW2yNiMhhqCq4BhCeWanoUp5N+SKMiZeyW98rhZvohC5OjmwH
+ C3dTI141D7a4+wEwSzjpGv38TWE1ou+T3YiJVtq4FKZ/8pCtbQ4qTWu4D+kT8C2D0Fsv
+ 1jUNKULJ2fAr5d1rmM7RhnQnl8uyrQpYRr2UHrgzkSX+VJtajpYibr1zWIs3lJoFcyls
+ UWE2kKwmQXalEebjJpqzQoi6frlQkTw9JtZ7FZojruBqWP2pGpLU/AG4uibeNpfyQqaz
+ srUdC2fUHivSSm3a7friP5RV4fX2y5XNQlhlRLOGRVH++RRoiI9NLJMzMzR1FVy9rXdC
+ z5eg==
+X-Gm-Message-State: AOAM5308K4feo3xfFmbRfkC0xk6SeI0AkDgMz8AS+u0ECuqoVB2h9rbE
+ otfg4A028Vz6PjZrMHvwn8c=
+X-Google-Smtp-Source: ABdhPJyQqewm1+WDe2tCvEPLVuiVcWjlKl/DXT10mxiastthfwWfY7zILNKoHxUWlIE/IWQWQ9uUrg==
+X-Received: by 2002:a05:6808:909:: with SMTP id
+ w9mr850518oih.101.1643121992069; 
+ Tue, 25 Jan 2022 06:46:32 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id 44sm7181915otl.15.2022.01.25.06.46.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Jan 2022 06:46:31 -0800 (PST)
+Message-ID: <4e7ca9d8-c545-160a-5578-cf1438223759@roeck-us.net>
+Date: Tue, 25 Jan 2022 06:46:28 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220125011104.2480133-6-iwona.winiarska@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To: krishnar4 <krishnar@ami.com>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Linus Walleij <linus.walleij@linaro.org>
+References: <20220125130116.18646-1-krishnar@ami.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH linux dev-5.15] hwmon: (pmbus) modify PSU fan_target
+ convert value to false
+In-Reply-To: <20220125130116.18646-1-krishnar@ami.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,179 +89,49 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- kbuild-all@lists.01.org, linux-aspeed@lists.ozlabs.org,
- linux-doc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-hwmon@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Pravinash Jeyapaul <pravinashj@ami.com>, linux-kernel@vger.kernel.org,
+ Vinodhini J <vinodhinij@ami.com>, Deepak Kodihalli <dkodihalli@nvidia.com>,
+ Shakeeb Pasha <spasha@nvidia.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Iwona,
+On 1/25/22 05:01, krishnar4 wrote:
+> Description: PSU can't use sysfs fan_target to control PSU fan duty.
+> 
 
-Thank you for the patch! Yet something to improve:
+This is neither a proper subject nor a proper description.
+"modify PSU fan_target convert value to false" means that the
+value reported from the attribute is used directly without
+conversion. The subject should reflect this.
+"Description:" should not be part of the description, and
+the description should describe the reason for the change
+(ie explain clearly what is wrong).
+"PSU can't use sysfs fan_target to control PSU fan duty"
+doesn't explain anything and doesn't match the subject.
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linux/master linus/master v5.17-rc1 next-20220125]
-[cannot apply to joel-aspeed/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+> Signed-off-by: krishnar4 <krishnar@ami.com>
 
-url:    https://github.com/0day-ci/linux/commits/Iwona-Winiarska/Introduce-PECI-subsystem/20220125-115946
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20220125/202201252130.U4qxBhmg-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/35075a61a26913806122a9b500915dc66ad678bd
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Iwona-Winiarska/Introduce-PECI-subsystem/20220125-115946
-        git checkout 35075a61a26913806122a9b500915dc66ad678bd
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=sh SHELL=/bin/bash drivers/
+"krishnar4" is not an acceptable name. This needs to be a real name.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Guenter
 
-All errors (new ones prefixed by >>):
+> ---
+>   drivers/hwmon/pmbus/pmbus_core.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
+> index 776ee2237be2..a56c2e1c4079 100644
+> --- a/drivers/hwmon/pmbus/pmbus_core.c
+> +++ b/drivers/hwmon/pmbus/pmbus_core.c
+> @@ -1889,7 +1889,7 @@ static int pmbus_add_fan_ctrl(struct i2c_client *client,
+>   
+>   	sensor = pmbus_add_sensor(data, "fan", "target", index, page,
+>   				  0xff, PMBUS_VIRT_FAN_TARGET_1 + id, PSC_FAN,
+> -				  false, false, true);
+> +				  false, false, false);
+>   
+>   	if (!sensor)
+>   		return -ENOMEM;
 
->> drivers/clk/clk.c:856:6: error: redefinition of 'clk_unprepare'
-     856 | void clk_unprepare(struct clk *clk)
-         |      ^~~~~~~~~~~~~
-   In file included from drivers/clk/clk.c:9:
-   include/linux/clk.h:303:20: note: previous definition of 'clk_unprepare' with type 'void(struct clk *)'
-     303 | static inline void clk_unprepare(struct clk *clk)
-         |                    ^~~~~~~~~~~~~
->> drivers/clk/clk.c:937:5: error: redefinition of 'clk_prepare'
-     937 | int clk_prepare(struct clk *clk)
-         |     ^~~~~~~~~~~
-   In file included from drivers/clk/clk.c:9:
-   include/linux/clk.h:271:19: note: previous definition of 'clk_prepare' with type 'int(struct clk *)'
-     271 | static inline int clk_prepare(struct clk *clk)
-         |                   ^~~~~~~~~~~
->> drivers/clk/clk.c:1183:6: error: redefinition of 'clk_is_enabled_when_prepared'
-    1183 | bool clk_is_enabled_when_prepared(struct clk *clk)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/clk/clk.c:9:
-   include/linux/clk.h:284:20: note: previous definition of 'clk_is_enabled_when_prepared' with type 'bool(struct clk *)' {aka '_Bool(struct clk *)'}
-     284 | static inline bool clk_is_enabled_when_prepared(struct clk *clk)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for COMMON_CLK
-   Depends on !HAVE_LEGACY_CLK
-   Selected by
-   - PECI_ASPEED && PECI && (ARCH_ASPEED || COMPILE_TEST && OF && HAS_IOMEM
-
-
-vim +/clk_unprepare +856 drivers/clk/clk.c
-
-a6adc30ba7bef8 Dong Aisheng     2016-06-30  844  
-4dff95dc9477a3 Stephen Boyd     2015-04-30  845  /**
-4dff95dc9477a3 Stephen Boyd     2015-04-30  846   * clk_unprepare - undo preparation of a clock source
-4dff95dc9477a3 Stephen Boyd     2015-04-30  847   * @clk: the clk being unprepared
-4dff95dc9477a3 Stephen Boyd     2015-04-30  848   *
-4dff95dc9477a3 Stephen Boyd     2015-04-30  849   * clk_unprepare may sleep, which differentiates it from clk_disable.  In a
-4dff95dc9477a3 Stephen Boyd     2015-04-30  850   * simple case, clk_unprepare can be used instead of clk_disable to gate a clk
-4dff95dc9477a3 Stephen Boyd     2015-04-30  851   * if the operation may sleep.  One example is a clk which is accessed over
-4dff95dc9477a3 Stephen Boyd     2015-04-30  852   * I2c.  In the complex case a clk gate operation may require a fast and a slow
-4dff95dc9477a3 Stephen Boyd     2015-04-30  853   * part.  It is this reason that clk_unprepare and clk_disable are not mutually
-4dff95dc9477a3 Stephen Boyd     2015-04-30  854   * exclusive.  In fact clk_disable must be called before clk_unprepare.
-4dff95dc9477a3 Stephen Boyd     2015-04-30  855   */
-4dff95dc9477a3 Stephen Boyd     2015-04-30 @856  void clk_unprepare(struct clk *clk)
-b2476490ef1113 Mike Turquette   2012-03-15  857  {
-4dff95dc9477a3 Stephen Boyd     2015-04-30  858  	if (IS_ERR_OR_NULL(clk))
-4dff95dc9477a3 Stephen Boyd     2015-04-30  859  		return;
-b2476490ef1113 Mike Turquette   2012-03-15  860  
-a6adc30ba7bef8 Dong Aisheng     2016-06-30  861  	clk_core_unprepare_lock(clk->core);
-1e435256d625c2 Olof Johansson   2013-04-27  862  }
-4dff95dc9477a3 Stephen Boyd     2015-04-30  863  EXPORT_SYMBOL_GPL(clk_unprepare);
-1e435256d625c2 Olof Johansson   2013-04-27  864  
-4dff95dc9477a3 Stephen Boyd     2015-04-30  865  static int clk_core_prepare(struct clk_core *core)
-4dff95dc9477a3 Stephen Boyd     2015-04-30  866  {
-4dff95dc9477a3 Stephen Boyd     2015-04-30  867  	int ret = 0;
-b2476490ef1113 Mike Turquette   2012-03-15  868  
-a63347251907d7 Stephen Boyd     2015-05-06  869  	lockdep_assert_held(&prepare_lock);
-a63347251907d7 Stephen Boyd     2015-05-06  870  
-4dff95dc9477a3 Stephen Boyd     2015-04-30  871  	if (!core)
-4dff95dc9477a3 Stephen Boyd     2015-04-30  872  		return 0;
-b2476490ef1113 Mike Turquette   2012-03-15  873  
-4dff95dc9477a3 Stephen Boyd     2015-04-30  874  	if (core->prepare_count == 0) {
-9a34b45397e5a3 Marek Szyprowski 2017-08-21  875  		ret = clk_pm_runtime_get(core);
-4dff95dc9477a3 Stephen Boyd     2015-04-30  876  		if (ret)
-4dff95dc9477a3 Stephen Boyd     2015-04-30  877  			return ret;
-b2476490ef1113 Mike Turquette   2012-03-15  878  
-9a34b45397e5a3 Marek Szyprowski 2017-08-21  879  		ret = clk_core_prepare(core->parent);
-9a34b45397e5a3 Marek Szyprowski 2017-08-21  880  		if (ret)
-9a34b45397e5a3 Marek Szyprowski 2017-08-21  881  			goto runtime_put;
-9a34b45397e5a3 Marek Szyprowski 2017-08-21  882  
-4dff95dc9477a3 Stephen Boyd     2015-04-30  883  		trace_clk_prepare(core);
-1c155b3dfe0835 Ulf Hansson      2013-03-12  884  
-4dff95dc9477a3 Stephen Boyd     2015-04-30  885  		if (core->ops->prepare)
-4dff95dc9477a3 Stephen Boyd     2015-04-30  886  			ret = core->ops->prepare(core->hw);
-1c155b3dfe0835 Ulf Hansson      2013-03-12  887  
-4dff95dc9477a3 Stephen Boyd     2015-04-30  888  		trace_clk_prepare_complete(core);
-b2476490ef1113 Mike Turquette   2012-03-15  889  
-9a34b45397e5a3 Marek Szyprowski 2017-08-21  890  		if (ret)
-9a34b45397e5a3 Marek Szyprowski 2017-08-21  891  			goto unprepare;
-b2476490ef1113 Mike Turquette   2012-03-15  892  	}
-b2476490ef1113 Mike Turquette   2012-03-15  893  
-4dff95dc9477a3 Stephen Boyd     2015-04-30  894  	core->prepare_count++;
-b2476490ef1113 Mike Turquette   2012-03-15  895  
-9461f7b33d11cb Jerome Brunet    2018-06-19  896  	/*
-9461f7b33d11cb Jerome Brunet    2018-06-19  897  	 * CLK_SET_RATE_GATE is a special case of clock protection
-9461f7b33d11cb Jerome Brunet    2018-06-19  898  	 * Instead of a consumer claiming exclusive rate control, it is
-9461f7b33d11cb Jerome Brunet    2018-06-19  899  	 * actually the provider which prevents any consumer from making any
-9461f7b33d11cb Jerome Brunet    2018-06-19  900  	 * operation which could result in a rate change or rate glitch while
-9461f7b33d11cb Jerome Brunet    2018-06-19  901  	 * the clock is prepared.
-9461f7b33d11cb Jerome Brunet    2018-06-19  902  	 */
-9461f7b33d11cb Jerome Brunet    2018-06-19  903  	if (core->flags & CLK_SET_RATE_GATE)
-9461f7b33d11cb Jerome Brunet    2018-06-19  904  		clk_core_rate_protect(core);
-9461f7b33d11cb Jerome Brunet    2018-06-19  905  
-4dff95dc9477a3 Stephen Boyd     2015-04-30  906  	return 0;
-9a34b45397e5a3 Marek Szyprowski 2017-08-21  907  unprepare:
-9a34b45397e5a3 Marek Szyprowski 2017-08-21  908  	clk_core_unprepare(core->parent);
-9a34b45397e5a3 Marek Szyprowski 2017-08-21  909  runtime_put:
-9a34b45397e5a3 Marek Szyprowski 2017-08-21  910  	clk_pm_runtime_put(core);
-9a34b45397e5a3 Marek Szyprowski 2017-08-21  911  	return ret;
-b2476490ef1113 Mike Turquette   2012-03-15  912  }
-b2476490ef1113 Mike Turquette   2012-03-15  913  
-a6adc30ba7bef8 Dong Aisheng     2016-06-30  914  static int clk_core_prepare_lock(struct clk_core *core)
-a6adc30ba7bef8 Dong Aisheng     2016-06-30  915  {
-a6adc30ba7bef8 Dong Aisheng     2016-06-30  916  	int ret;
-a6adc30ba7bef8 Dong Aisheng     2016-06-30  917  
-a6adc30ba7bef8 Dong Aisheng     2016-06-30  918  	clk_prepare_lock();
-a6adc30ba7bef8 Dong Aisheng     2016-06-30  919  	ret = clk_core_prepare(core);
-a6adc30ba7bef8 Dong Aisheng     2016-06-30  920  	clk_prepare_unlock();
-a6adc30ba7bef8 Dong Aisheng     2016-06-30  921  
-a6adc30ba7bef8 Dong Aisheng     2016-06-30  922  	return ret;
-a6adc30ba7bef8 Dong Aisheng     2016-06-30  923  }
-a6adc30ba7bef8 Dong Aisheng     2016-06-30  924  
-4dff95dc9477a3 Stephen Boyd     2015-04-30  925  /**
-4dff95dc9477a3 Stephen Boyd     2015-04-30  926   * clk_prepare - prepare a clock source
-4dff95dc9477a3 Stephen Boyd     2015-04-30  927   * @clk: the clk being prepared
-4dff95dc9477a3 Stephen Boyd     2015-04-30  928   *
-4dff95dc9477a3 Stephen Boyd     2015-04-30  929   * clk_prepare may sleep, which differentiates it from clk_enable.  In a simple
-4dff95dc9477a3 Stephen Boyd     2015-04-30  930   * case, clk_prepare can be used instead of clk_enable to ungate a clk if the
-4dff95dc9477a3 Stephen Boyd     2015-04-30  931   * operation may sleep.  One example is a clk which is accessed over I2c.  In
-4dff95dc9477a3 Stephen Boyd     2015-04-30  932   * the complex case a clk ungate operation may require a fast and a slow part.
-4dff95dc9477a3 Stephen Boyd     2015-04-30  933   * It is this reason that clk_prepare and clk_enable are not mutually
-4dff95dc9477a3 Stephen Boyd     2015-04-30  934   * exclusive.  In fact clk_prepare must be called before clk_enable.
-4dff95dc9477a3 Stephen Boyd     2015-04-30  935   * Returns 0 on success, -EERROR otherwise.
-4dff95dc9477a3 Stephen Boyd     2015-04-30  936   */
-4dff95dc9477a3 Stephen Boyd     2015-04-30 @937  int clk_prepare(struct clk *clk)
-b2476490ef1113 Mike Turquette   2012-03-15  938  {
-035a61c314eb3d Tomeu Vizoso     2015-01-23  939  	if (!clk)
-4dff95dc9477a3 Stephen Boyd     2015-04-30  940  		return 0;
-035a61c314eb3d Tomeu Vizoso     2015-01-23  941  
-a6adc30ba7bef8 Dong Aisheng     2016-06-30  942  	return clk_core_prepare_lock(clk->core);
-7ef3dcc8145263 James Hogan      2013-07-29  943  }
-4dff95dc9477a3 Stephen Boyd     2015-04-30  944  EXPORT_SYMBOL_GPL(clk_prepare);
-035a61c314eb3d Tomeu Vizoso     2015-01-23  945  
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
