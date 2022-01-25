@@ -1,63 +1,59 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2327499FBC
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jan 2022 00:23:28 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9677249A1E6
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jan 2022 02:13:04 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JjQyk66k7z3bPW
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jan 2022 10:23:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JjTP83rHbz3bPR
+	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jan 2022 12:13:00 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XL9xwdCH;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kaod.org (client-ip=188.165.58.48; helo=6.mo548.mail-out.ovh.net;
- envelope-from=clg@kaod.org; receiver=<UNKNOWN>)
-X-Greylist: delayed 16800 seconds by postgrey-1.36 at boromir;
- Tue, 25 Jan 2022 10:23:19 AEDT
-Received: from 6.mo548.mail-out.ovh.net (6.mo548.mail-out.ovh.net
- [188.165.58.48])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ smtp.mailfrom=intel.com (client-ip=134.134.136.100; helo=mga07.intel.com;
+ envelope-from=iwona.winiarska@intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256
+ header.s=Intel header.b=XL9xwdCH; dkim-atps=neutral
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JjQyb1pzWz30Lc
- for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jan 2022 10:23:16 +1100 (AEDT)
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.237])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id B2D362073E;
- Mon, 24 Jan 2022 18:34:20 +0000 (UTC)
-Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Mon, 24 Jan
- 2022 19:34:19 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R00353a1b078-a404-4540-ae70-b2dabb8d92b1,
- 8B4FF7E59EB7D736B5D3E090BD3F43F29F49559A) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <b222361a-288a-55b2-fc02-04c0b93b4220@kaod.org>
-Date: Mon, 24 Jan 2022 19:34:19 +0100
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JjTP31zQGz2xt0;
+ Tue, 25 Jan 2022 12:12:53 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1643073175; x=1674609175;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=6xLqbgqDlZUekHnaHtgQjVa+NNbsXY1WO2zG3rhTyLI=;
+ b=XL9xwdCH3Ptk4yfhisn0iFAIMH2vQz7K0v5eED6zDHW0yc7PMC7pcv8N
+ fy+6OADeTvOf3lTBBJ2VNpNaqaDrzFciTfwhzsXaJN+mgwF5IAT+eTUQr
+ 3VVQ33hJwFoH+O3xVebSA/67EK3RFkJpER46Wd5CusA9VUwm7zX9CKLHc
+ g/tKnKs58wI3jnLzVyOuK9PsdJ7/CbtXO0NqczaNvbNfrb/AfKpjHUkR7
+ g4fEoeIeG/+dKRC51hOz+3UxeGpYBqHLuPT8vGW9dQtGDyP5YZX+Zq8bc
+ +JTkDBOlKuV5Nav7tSHh/9y1Vu4FHUe9rjp31bBHYRfyVvcybV0vbaZG0 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="309509144"
+X-IronPort-AV: E=Sophos;i="5.88,313,1635231600"; d="scan'208";a="309509144"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2022 17:11:50 -0800
+X-IronPort-AV: E=Sophos;i="5.88,313,1635231600"; d="scan'208";a="534498832"
+Received: from kerguder-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.158.133])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2022 17:11:39 -0800
+From: Iwona Winiarska <iwona.winiarska@intel.com>
+To: linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v6 00/13] Introduce PECI subsystem
+Date: Tue, 25 Jan 2022 02:10:51 +0100
+Message-Id: <20220125011104.2480133-1-iwona.winiarska@intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] mtd: aspeed-smc: improve probe resilience
-Content-Language: en-US
-To: Pratyush Yadav <p.yadav@ti.com>
-References: <20211229143334.297305-1-patrick@stwcx.xyz>
- <20211229173411.l2bipmi4x3arqjoo@ti.com> <Yc3Qav+ULNdF5zRT@heinlein>
- <20211231102623.izaqlzjvracbbgmp@ti.com> <20220103171721.46c8e697@xps13>
- <YdSP6tKyQ2ZRUC+2@heinlein> <20220105063244.lno3xur64uepa7i5@ti.com>
- <d4ba6413-57ce-14c1-ed48-d00db2f74bd3@kaod.org>
- <20220124153644.m3iwlvq5ld5cpbyz@ti.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220124153644.m3iwlvq5ld5cpbyz@ti.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 07b6c703-0c15-4072-babf-e7f8a66e6818
-X-Ovh-Tracer-Id: 17378265064938245112
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrvdeigdduudejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdvgefguddthffhffehffdtteekhfegheegveelgfdugfeftdevhfekjeefgeejnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpohiilhgrsghsrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,239 +65,225 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>, linux-aspeed@lists.ozlabs.org,
- Tudor Ambarus <tudor.ambarus@microchip.com>,
- Richard Weinberger <richard@nod.at>, Potin Lai <potin.lai@quantatw.com>,
- linux-kernel@vger.kernel.org, Patrick Williams <patrick@stwcx.xyz>,
- Michael Walle <michael@walle.cc>, linux-mtd@lists.infradead.org,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
+ Dave Hansen <dave.hansen@intel.com>, Zev Weiss <zweiss@equinix.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>, Arnd Bergmann <arnd@arndb.de>,
+ Rob Herring <robh+dt@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ Tony Luck <tony.luck@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
+ David Muller <d.mueller@elsoft.ch>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
->> spimem needs an extension I think. Sorry I have not been able to
->> push that forward. Lack of time and other tasks to address on the
->> host side of the machine. This is really a software problem, we
->> have the HW procedures ready. If a spimem expert could get involved
->> to make a few proposals, I would be happy to help and do some testing.
->> QEMU models are good enough for the software part. We can do the
->> training validation on real HW when ready.
-> 
-> What information about the flash do you need for this training? 
+Hi!
 
-Last time I looked, we lacked some post_init handler to setup a slave:
-configure the registers defining the AHB windows for each flash
-slave and perform the read timing calibration. calibration should
-only be done once.
+Small updates, mainly in ASPEED PECI driver.
+Biggest one is replacing memcpy_toio/fromio with regular readl/writel,
+to fix problems observed when PECI request/response are unaligned.
 
-See how the aspeed_spi_flash_init() routine doing the calibration
-is hooked up under aspeed_spi_claim_bus() in the u-boot driver :
+Here is the usual cover letter from the previous revision:
 
-   https://github.com/openbmc/u-boot/blob/v2019.04-aspeed-openbmc/drivers/spi/aspeed_spi.c
+The Platform Environment Control Interface (PECI) is a communication
+interface between Intel processors and management controllers (e.g.
+Baseboard Management Controller, BMC).
 
-Not good enough for upstream, Linux would be the same :/
+This series adds a PECI subsystem and introduces drivers which run in
+the Linux instance on the management controller (not the main Intel
+processor) and is intended to be used by the OpenBMC [1], a Linux
+distribution for BMC devices.
+The information exposed over PECI (like processor and DIMM
+temperature) refers to the Intel processor and can be consumed by
+daemons running on the BMC to, for example, display the processor
+temperature in its web interface.
 
-> I proposed a patch series [0] some time ago trying to implement training
-> for TI SoCs. It did not get merged but I do intend to respin it and get
-> it through. Would this API work for your tuning as well?
+The PECI bus is collection of code that provides interface support
+between PECI devices (that actually represent processors) and PECI
+controllers (such as the "peci-aspeed" controller) that allow to
+access physical PECI interface. PECI devices are bound to PECI
+drivers that provides access to PECI services. This series introduces
+a generic "peci-cpu" driver that exposes hardware monitoring "cputemp"
+and "dimmtemp" using the auxiliary bus.
 
-I will take a look.
-  
-> Also, I am curious how your training works. What data do you read for
-> training delays? Where is it stored? 
+Exposing "raw" PECI to userspace, either to write userspace drivers or
+for debug/testing purpose was left out of this series to encourage
+writing kernel drivers instead, but may be pursued in the future.
 
-The driver reads the first 16K at slow speed (that's why we need a
-basic minimal setup of the slave) and checks if the buffer is valid
-enough for the calibration :
+Introducing PECI to upstream Linux was already attempted before [2].
+Since it's been over a year since last revision, and the series
+changed quite a bit in the meantime, I've decided to start from v1.
 
-   https://github.com/openbmc/linux/blob/dev-5.15/drivers/mtd/spi-nor/controllers/aspeed-smc.c#L998
+I would also like to give credit to everyone who helped me with
+different aspects of preliminary review:
+- Pierre-Louis Bossart,
+- Tony Luck, 
+- Andy Shevchenko,
+- Dave Hansen.
 
-it then performs reads by changing the frequency and delays and
-compares results with the initial default buffer.
+[1] https://github.com/openbmc/openbmc
+[2] https://lore.kernel.org/openbmc/20191211194624.2872-1-jae.hyun.yoo@linux.intel.com/
 
-if not, then the driver stays in a safe mode (slow).
+Changes v5 -> v6:
+* Added missing COMMON_CLK selection (lkp@intel.com)
+* Fixed WARN_ON always evaluated to true (lkp@intel.com)
+* Clean interrupt status unconditionally (Joel)
+* Replaced memcpy_toio()/memcpy_fromio() with writel()/readl() to
+  avoid issues when submitting unaligned PECI commands
 
-> In our case we need to flash a
-> known pattern at some location (which is passed in via DT). Do you need
-> to run it for every read transaction or just once after the flash is
-> initialized?
+Changes v4 -> v5:
+* Added clk_aspeed_peci to express controller programming using common
+  clock framework (Billy)
+* Modified peci-aspeed DTS schema to match clock changes (Billy)
+* Added workaround for peci-aspeed controller hang (Billy)
+* Removed unnecessary "else after return" (Guenter)
 
-Just once because it is a heavy process. See the debug outputs below.
-Once we have good read timings and frequency, there is no need to do
-it each time.
+Changes v3 -> v4:
+* Fixed an issue where peci doesn't work after host shutdown (Zev)
+* Replaced kill_device() with peci_device_del_lock (Greg)
+* Fixed dts_valid() parameter type (Guenter)
+* Removed Jae from MAINTAINERS file (Jae)
 
-> [0] https://patchwork.ozlabs.org/project/linux-mtd/list/?series=233504&state=%2A&archive=both
-Thanks,
+Changes v2 -> v3:
 
-C.
+* Dropped x86/cpu patches (Boris)
+* Dropped pr_fmt() for PECI module (Dan)
+* Fixed releasing peci controller device flow (Dan) 
+* Improved peci-aspeed commit-msg and Kconfig help (Dan)
+* Fixed aspeed_peci_xfer() to use the proper spin_lock function (Dan) 
+* Wrapped print_hex_dump_bytes() in CONFIG_DYNAMIC_DEBUG (Dan)
+* Removed debug status logs from aspeed_peci_irq_handler() (Dan)
+* Renamed functions using devres to start with "devm" (Dan)
+* Changed request to be allocated on stack in peci_detect (Dan)
+* Removed redundant WARN_ON on invalid PECI addr (Dan)
+* Changed peci_device_create() to use device_initialize() + device_add() pattern (Dan)
+* Fixed peci_device_destroy() to use kill_device() avoiding double-free (Dan)
+* Renamed functions that perform xfer using "peci_xfer_*" prefix (Dan) 
+* Renamed peci_request_data_dib(temp) -> peci_request_dib(temp)_read (Dan)
+* Fixed thermal margin readings for older Intel processors (Zev) 
+* Misc hwmon simplifications (Guenter)
+* Used BIT_PER_TYPE to verify macro value constrains (Guenter)
+* Improved WARN_ON message to print chan_rank_max and idx_dimm_max (Guenter)
+* Improved dimmtemp to not reattempt probe if no dimms are populated
 
+Changes v1 -> v2:
 
+Biggest changes when it comes to diffstat are locking in HWMON
+(I decided to clean things up a bit while adding it), switching to
+devres usage in more places and exposing sysfs interface in separate patch.
 
-There are 3 controllers, 1e620000/FMC is for the BMC. We keep
-safe settings for it and normally u-boot has done the training
-already . The other two controllers are for the SPI-NOR of the
-host and for these we push the frequency higher.
+* Moved extending X86 ARCHITECTURE MAINTAINERS earlier in series (Dan)
+* Removed "default n" for GENERIC_LIB_X86 (Dan)
+* Added vendor prefix for peci-aspeed specific properties (Rob)
+* Refactored PECI to use devres consistently (Dan)
+* Added missing sysfs documentation and excluded adding peci-sysfs to
+  separate patch (Dan)
+* Used module_init() instead of subsys_init() for peci module initialization (Dan)
+* Removed redundant struct peci_device member (Dan)
+* Improved PECI Kconfig help (Randy/Dan)
+* Fixed/removed log messages (Dan, Guenter)
+* Refactored peci-cputemp and peci-dimmtemp and added missing locks (Guenter)
+* Removed unused dev_set_drvdata() in peci-cputemp and peci-dimmtemp (Guenter)
+* Fixed used types, names, fixed broken and added additional comments
+  to peci-hwmon (Guenter, Zev)
+* Refactored peci-dimmtemp to not return -ETIMEDOUT (Guenter)
+* Added sanity check for min_peci_revision in peci-hwmon drivers (Zev)
+* Added assert for DIMM_NUMS_MAX and additional warning in peci-dimmtemp (Zev)
+* Fixed macro names in peci-aspeed (Zev)
+* Refactored peci-aspeed sanitizing properties to a single helper function (Zev)
+* Fixed peci_cpu_device_ids definition for Broadwell Xeon D (David)
+* Refactor peci_request to use a single allocation (Zev)
+* Used min_t() to improve code readability (Zev)
+* Added macro for PECI_RDENDPTCFG_MMIO_WR_LEN_BASE and fixed adev type
+  array name to more descriptive (Zev)
+* Fixed peci-hwmon commit-msg and documentation (Zev)
 
+Thanks
+-Iwona
 
-AST2600 EVB:
+Iwona Winiarska (11):
+  dt-bindings: Add generic bindings for PECI
+  dt-bindings: Add bindings for peci-aspeed
+  ARM: dts: aspeed: Add PECI controller nodes
+  peci: Add core infrastructure
+  peci: Add device detection
+  peci: Add sysfs interface for PECI bus
+  peci: Add support for PECI device drivers
+  peci: Add peci-cpu driver
+  hwmon: peci: Add cputemp driver
+  hwmon: peci: Add dimmtemp driver
+  docs: Add PECI documentation
 
-[    0.689662] aspeed-smc 1e620000.spi: Using 50 MHz SPI frequency
-[    0.696412] aspeed-smc 1e620000.spi: control register: 203b0641
-[    0.696426] aspeed-smc 1e620000.spi: control register changed to: 00000600
-[    0.696434] aspeed-smc 1e620000.spi: default control register: 00000600
-[    0.696616] aspeed-smc 1e620000.spi: w25q512jv (65536 Kbytes)
-[    0.703108] aspeed-smc 1e620000.spi: CE0 window [ 0x20000000 - 0x24000000 ] 64MB
-[    0.711445] aspeed-smc 1e620000.spi: CE1 window [ 0x24000000 - 0x2c000000 ] 128MB
-[    0.719864] aspeed-smc 1e620000.spi: write control register: 00120602
-[    0.719873] aspeed-smc 1e620000.spi: read control register: 203c0641
-[    0.727026] aspeed-smc 1e620000.spi: AHB frequency: 187 MHz
-[    0.739247] aspeed-smc 1e620000.spi: Trying HCLK/5 [203c0d41] ...
-[    0.767181] aspeed-smc 1e620000.spi:   * [00000000] 0 HCLK delay, DI delay none : PASS
-[    0.767196] aspeed-smc 1e620000.spi: Trying HCLK/4 [203c0641] ...
-[    0.791559] aspeed-smc 1e620000.spi:   * [00000000] 0 HCLK delay, DI delay none : PASS
-[    0.791571] aspeed-smc 1e620000.spi: Found good read timings at HCLK/4
-[    0.795729] 5 fixed-partitions partitions found on MTD device bmc
-[    0.802636] Creating 5 MTD partitions on "bmc":
-[    0.807739] 0x000000000000-0x0000000e0000 : "u-boot"
-[    0.814367] 0x0000000e0000-0x000000100000 : "u-boot-env"
-[    0.821306] 0x000000100000-0x000000a00000 : "kernel"
-[    0.827755] 0x000000a00000-0x000002a00000 : "rofs"
-[    0.834051] 0x000002a00000-0x000004000000 : "rwfs"
-[    0.844040] aspeed-smc 1e630000.spi: Using 100 MHz SPI frequency
-[    0.850912] aspeed-smc 1e630000.spi: control register: 00000400
-[    0.850927] aspeed-smc 1e630000.spi: default control register: 00000400
-[    0.851152] aspeed-smc 1e630000.spi: w25q256 (32768 Kbytes)
-[    0.857427] aspeed-smc 1e630000.spi: CE0 window [ 0x30000000 - 0x32000000 ] 32MB
-[    0.865792] aspeed-smc 1e630000.spi: CE1 window [ 0x32000000 - 0x32000000 ] 0MB (disabled)
-[    0.875129] aspeed-smc 1e630000.spi: write control register: 00120402
-[    0.875142] aspeed-smc 1e630000.spi: read control register: 203c0441
-[    0.882296] aspeed-smc 1e630000.spi: AHB frequency: 187 MHz
-[    0.894509] aspeed-smc 1e630000.spi: Trying HCLK/5 [203c0d41] ...
-[    0.922417] aspeed-smc 1e630000.spi:   * [00000000] 0 HCLK delay, DI delay none : PASS
-[    0.922432] aspeed-smc 1e630000.spi: Trying HCLK/4 [203c0641] ...
-[    0.946791] aspeed-smc 1e630000.spi:   * [00000000] 0 HCLK delay, DI delay none : PASS
-[    0.946803] aspeed-smc 1e630000.spi: Trying HCLK/3 [203c0e41] ...
-[    0.967644] aspeed-smc 1e630000.spi:   * [00000000] 0 HCLK delay, DI delay none : PASS
-[    0.967655] aspeed-smc 1e630000.spi: Trying HCLK/2 [203c0741] ...
-[    0.969325] aspeed-smc 1e630000.spi:   * [00000000] 0 HCLK delay, DI delay none : FAIL
-[    0.971007] aspeed-smc 1e630000.spi:   * [00000008] 0 HCLK delay, DI delay 0.5ns : FAIL
-[    0.972679] aspeed-smc 1e630000.spi:   * [00000018] 0 HCLK delay, DI delay 1.5ns : FAIL
-[    0.974350] aspeed-smc 1e630000.spi:   * [00000028] 0 HCLK delay, DI delay 1.5ns : FAIL
-[    0.976021] aspeed-smc 1e630000.spi:   * [00000038] 0 HCLK delay, DI delay 2.5ns : FAIL
-[    0.977692] aspeed-smc 1e630000.spi:   * [00000048] 0 HCLK delay, DI delay 2.5ns : FAIL
-[    0.979363] aspeed-smc 1e630000.spi:   * [00000058] 0 HCLK delay, DI delay 3.5ns : FAIL
-[    0.981042] aspeed-smc 1e630000.spi:   * [00000068] 0 HCLK delay, DI delay 3.5ns : FAIL
-[    0.982714] aspeed-smc 1e630000.spi:   * [00000078] 0 HCLK delay, DI delay 4.5ns : FAIL
-[    0.984385] aspeed-smc 1e630000.spi:   * [00000088] 0 HCLK delay, DI delay 4.5ns : FAIL
-[    0.986056] aspeed-smc 1e630000.spi:   * [00000098] 0 HCLK delay, DI delay 5.5ns : FAIL
-[    0.987727] aspeed-smc 1e630000.spi:   * [000000a8] 0 HCLK delay, DI delay 5.5ns : FAIL
-[    0.989397] aspeed-smc 1e630000.spi:   * [000000b8] 0 HCLK delay, DI delay 6.5ns : FAIL
-[    0.991084] aspeed-smc 1e630000.spi:   * [000000c8] 0 HCLK delay, DI delay 6.5ns : FAIL
-[    0.992757] aspeed-smc 1e630000.spi:   * [000000d8] 0 HCLK delay, DI delay 7.5ns : FAIL
-[    0.994428] aspeed-smc 1e630000.spi:   * [000000e8] 0 HCLK delay, DI delay 7.5ns : FAIL
-[    0.996099] aspeed-smc 1e630000.spi:   * [000000f8] 0 HCLK delay, DI delay 8.5ns : FAIL
-[    1.013874] aspeed-smc 1e630000.spi:   * [000000f1] 1 HCLK delay, DI delay none : PASS
-[    1.013885] aspeed-smc 1e630000.spi: Found good read timings at HCLK/2
-[    1.021498] aspeed-smc 1e631000.spi: Using 100 MHz SPI frequency
-[    1.028291] aspeed-smc 1e631000.spi: control register: 00000400
-[    1.028302] aspeed-smc 1e631000.spi: default control register: 00000400
-[    1.028510] aspeed-smc 1e631000.spi: w25q256 (32768 Kbytes)
-[    1.034848] aspeed-smc 1e631000.spi: CE0 window [ 0x50000000 - 0x52000000 ] 32MB
-[    1.043197] aspeed-smc 1e631000.spi: CE1 window [ 0x52000000 - 0x52000000 ] 0MB (disabled)
-[    1.052518] aspeed-smc 1e631000.spi: write control register: 00120402
-[    1.052530] aspeed-smc 1e631000.spi: read control register: 203c0441
-[    1.059677] aspeed-smc 1e631000.spi: AHB frequency: 187 MHz
-[    1.071900] aspeed-smc 1e631000.spi: Trying HCLK/5 [203c0d41] ...
-[    1.099805] aspeed-smc 1e631000.spi:   * [00000000] 0 HCLK delay, DI delay none : PASS
-[    1.099817] aspeed-smc 1e631000.spi: Trying HCLK/4 [203c0641] ...
-[    1.124202] aspeed-smc 1e631000.spi:   * [00000000] 0 HCLK delay, DI delay none : PASS
-[    1.124219] aspeed-smc 1e631000.spi: Trying HCLK/3 [203c0e41] ...
-[    1.145070] aspeed-smc 1e631000.spi:   * [00000000] 0 HCLK delay, DI delay none : PASS
-[    1.145082] aspeed-smc 1e631000.spi: Trying HCLK/2 [203c0741] ...
-[    1.146752] aspeed-smc 1e631000.spi:   * [00000000] 0 HCLK delay, DI delay none : FAIL
-[    1.148422] aspeed-smc 1e631000.spi:   * [00000008] 0 HCLK delay, DI delay 0.5ns : FAIL
-[    1.150093] aspeed-smc 1e631000.spi:   * [00000018] 0 HCLK delay, DI delay 1.5ns : FAIL
-[    1.151778] aspeed-smc 1e631000.spi:   * [00000028] 0 HCLK delay, DI delay 1.5ns : FAIL
-[    1.153451] aspeed-smc 1e631000.spi:   * [00000038] 0 HCLK delay, DI delay 2.5ns : FAIL
-[    1.155122] aspeed-smc 1e631000.spi:   * [00000048] 0 HCLK delay, DI delay 2.5ns : FAIL
-[    1.156793] aspeed-smc 1e631000.spi:   * [00000058] 0 HCLK delay, DI delay 3.5ns : FAIL
-[    1.158464] aspeed-smc 1e631000.spi:   * [00000068] 0 HCLK delay, DI delay 3.5ns : FAIL
-[    1.160135] aspeed-smc 1e631000.spi:   * [00000078] 0 HCLK delay, DI delay 4.5ns : FAIL
-[    1.161818] aspeed-smc 1e631000.spi:   * [00000088] 0 HCLK delay, DI delay 4.5ns : FAIL
-[    1.163490] aspeed-smc 1e631000.spi:   * [00000098] 0 HCLK delay, DI delay 5.5ns : FAIL
-[    1.165161] aspeed-smc 1e631000.spi:   * [000000a8] 0 HCLK delay, DI delay 5.5ns : FAIL
-[    1.166833] aspeed-smc 1e631000.spi:   * [000000b8] 0 HCLK delay, DI delay 6.5ns : FAIL
-[    1.168504] aspeed-smc 1e631000.spi:   * [000000c8] 0 HCLK delay, DI delay 6.5ns : FAIL
-[    1.170175] aspeed-smc 1e631000.spi:   * [000000d8] 0 HCLK delay, DI delay 7.5ns : FAIL
-[    1.171863] aspeed-smc 1e631000.spi:   * [000000e8] 0 HCLK delay, DI delay 7.5ns : FAIL
-[    1.173536] aspeed-smc 1e631000.spi:   * [000000f8] 0 HCLK delay, DI delay 8.5ns : FAIL
-[    1.191318] aspeed-smc 1e631000.spi:   * [000000f1] 1 HCLK delay, DI delay none : PASS
-[    1.191330] aspeed-smc 1e631000.spi: Found good read timings at HCLK/2
+Jae Hyun Yoo (2):
+  peci: Add peci-aspeed controller driver
+  docs: hwmon: Document PECI drivers
 
+ Documentation/ABI/testing/sysfs-bus-peci      |  16 +
+ .../devicetree/bindings/peci/peci-aspeed.yaml |  72 ++
+ .../bindings/peci/peci-controller.yaml        |  33 +
+ Documentation/hwmon/index.rst                 |   2 +
+ Documentation/hwmon/peci-cputemp.rst          |  90 +++
+ Documentation/hwmon/peci-dimmtemp.rst         |  57 ++
+ Documentation/index.rst                       |   1 +
+ Documentation/peci/index.rst                  |  16 +
+ Documentation/peci/peci.rst                   |  51 ++
+ MAINTAINERS                                   |  26 +
+ arch/arm/boot/dts/aspeed-g4.dtsi              |  11 +
+ arch/arm/boot/dts/aspeed-g5.dtsi              |  11 +
+ arch/arm/boot/dts/aspeed-g6.dtsi              |  11 +
+ drivers/Kconfig                               |   3 +
+ drivers/Makefile                              |   1 +
+ drivers/hwmon/Kconfig                         |   2 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/peci/Kconfig                    |  31 +
+ drivers/hwmon/peci/Makefile                   |   7 +
+ drivers/hwmon/peci/common.h                   |  58 ++
+ drivers/hwmon/peci/cputemp.c                  | 592 ++++++++++++++++
+ drivers/hwmon/peci/dimmtemp.c                 | 630 ++++++++++++++++++
+ drivers/peci/Kconfig                          |  36 +
+ drivers/peci/Makefile                         |  10 +
+ drivers/peci/controller/Kconfig               |  18 +
+ drivers/peci/controller/Makefile              |   3 +
+ drivers/peci/controller/peci-aspeed.c         | 599 +++++++++++++++++
+ drivers/peci/core.c                           | 236 +++++++
+ drivers/peci/cpu.c                            | 343 ++++++++++
+ drivers/peci/device.c                         | 252 +++++++
+ drivers/peci/internal.h                       | 136 ++++
+ drivers/peci/request.c                        | 482 ++++++++++++++
+ drivers/peci/sysfs.c                          |  82 +++
+ include/linux/peci-cpu.h                      |  40 ++
+ include/linux/peci.h                          | 112 ++++
+ 35 files changed, 4071 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-peci
+ create mode 100644 Documentation/devicetree/bindings/peci/peci-aspeed.yaml
+ create mode 100644 Documentation/devicetree/bindings/peci/peci-controller.yaml
+ create mode 100644 Documentation/hwmon/peci-cputemp.rst
+ create mode 100644 Documentation/hwmon/peci-dimmtemp.rst
+ create mode 100644 Documentation/peci/index.rst
+ create mode 100644 Documentation/peci/peci.rst
+ create mode 100644 drivers/hwmon/peci/Kconfig
+ create mode 100644 drivers/hwmon/peci/Makefile
+ create mode 100644 drivers/hwmon/peci/common.h
+ create mode 100644 drivers/hwmon/peci/cputemp.c
+ create mode 100644 drivers/hwmon/peci/dimmtemp.c
+ create mode 100644 drivers/peci/Kconfig
+ create mode 100644 drivers/peci/Makefile
+ create mode 100644 drivers/peci/controller/Kconfig
+ create mode 100644 drivers/peci/controller/Makefile
+ create mode 100644 drivers/peci/controller/peci-aspeed.c
+ create mode 100644 drivers/peci/core.c
+ create mode 100644 drivers/peci/cpu.c
+ create mode 100644 drivers/peci/device.c
+ create mode 100644 drivers/peci/internal.h
+ create mode 100644 drivers/peci/request.c
+ create mode 100644 drivers/peci/sysfs.c
+ create mode 100644 include/linux/peci-cpu.h
+ create mode 100644 include/linux/peci.h
 
-an ASTS2500 EVB :
+-- 
+2.31.1
 
-[    1.220804] aspeed-smc 1e620000.spi: Using 50 MHz SPI frequency
-[    1.226797] aspeed-smc 1e620000.spi: control register: 000b0641
-[    1.226836] aspeed-smc 1e620000.spi: control register changed to: 00000600
-[    1.226860] aspeed-smc 1e620000.spi: default control register: 00000600
-[    1.227092] aspeed-smc 1e620000.spi: w25q256 (32768 Kbytes)
-[    1.232806] aspeed-smc 1e620000.spi: CE0 window [ 0x20000000 - 0x22000000 ] 32MB
-[    1.240329] aspeed-smc 1e620000.spi: CE1 window [ 0x22000000 - 0x2a000000 ] 128MB
-[    1.247852] aspeed-smc 1e620000.spi: write control register: 00020602
-[    1.247882] aspeed-smc 1e620000.spi: read control register: 203b0641
-[    1.254315] aspeed-smc 1e620000.spi: AHB frequency: 198 MHz
-[    1.265406] aspeed-smc 1e620000.spi: Trying HCLK/5 [203b0d41] ...
-[    1.287111] aspeed-smc 1e620000.spi:   * [00080000] 0 HCLK delay, 4ns DI delay : PASS
-[    1.309048] aspeed-smc 1e620000.spi:   * [00000000] 0 HCLK delay, 0ns DI delay : PASS
-[    1.331223] aspeed-smc 1e620000.spi:   * [00090000] 1 HCLK delay, 4ns DI delay : PASS
-[    1.331278] aspeed-smc 1e620000.spi:  * -> good is pass 1 [0x00000000]
-[    1.331308] aspeed-smc 1e620000.spi: Trying HCLK/4 [203b0641] ...
-[    1.349958] aspeed-smc 1e620000.spi:   * [00008000] 0 HCLK delay, 4ns DI delay : PASS
-[    1.368473] aspeed-smc 1e620000.spi:   * [00000000] 0 HCLK delay, 0ns DI delay : PASS
-[    1.387341] aspeed-smc 1e620000.spi:   * [00009000] 1 HCLK delay, 4ns DI delay : PASS
-[    1.387397] aspeed-smc 1e620000.spi:  * -> good is pass 1 [0x00000000]
-[    1.387435] aspeed-smc 1e620000.spi: Found good read timings at HCLK/4
-[    1.858947] Freeing initrd memory: 1044K
-[    1.906913] 5 fixed-partitions partitions found on MTD device bmc
-[    1.913143] Creating 5 MTD partitions on "bmc":
-[    1.917724] 0x000000000000-0x000000060000 : "u-boot"
-[    1.925920] 0x000000060000-0x000000080000 : "u-boot-env"
-[    1.937262] 0x000000080000-0x0000004c0000 : "kernel"
-[    1.948189] 0x0000004c0000-0x000001c00000 : "rofs"
-[    1.959196] 0x000001c00000-0x000002000000 : "rwfs"
-[    1.971557] aspeed-smc 1e630000.spi: Using 100 MHz SPI frequency
-[    1.977632] aspeed-smc 1e630000.spi: control register: 00000200
-[    1.977669] aspeed-smc 1e630000.spi: default control register: 00000200
-[    1.977961] aspeed-smc 1e630000.spi: w25q256 (32768 Kbytes)
-[    1.983674] aspeed-smc 1e630000.spi: CE0 window [ 0x30000000 - 0x32000000 ] 32MB
-[    1.991183] aspeed-smc 1e630000.spi: CE1 window [ 0x32000000 - 0x38000000 ] 96MB
-[    1.998621] aspeed-smc 1e630000.spi: write control register: 00020202
-[    1.998652] aspeed-smc 1e630000.spi: read control register: 203b0241
-[    2.005086] aspeed-smc 1e630000.spi: AHB frequency: 198 MHz
-[    2.016174] aspeed-smc 1e630000.spi: Trying HCLK/5 [203b0d41] ...
-[    2.038011] aspeed-smc 1e630000.spi:   * [00080000] 0 HCLK delay, 4ns DI delay : PASS
-[    2.060035] aspeed-smc 1e630000.spi:   * [00000000] 0 HCLK delay, 0ns DI delay : PASS
-[    2.082211] aspeed-smc 1e630000.spi:   * [00090000] 1 HCLK delay, 4ns DI delay : PASS
-[    2.082266] aspeed-smc 1e630000.spi:  * -> good is pass 1 [0x00000000]
-[    2.082295] aspeed-smc 1e630000.spi: Trying HCLK/4 [203b0641] ...
-[    2.100938] aspeed-smc 1e630000.spi:   * [00008000] 0 HCLK delay, 4ns DI delay : PASS
-[    2.119623] aspeed-smc 1e630000.spi:   * [00000000] 0 HCLK delay, 0ns DI delay : PASS
-[    2.138440] aspeed-smc 1e630000.spi:   * [00009000] 1 HCLK delay, 4ns DI delay : PASS
-[    2.138491] aspeed-smc 1e630000.spi:  * -> good is pass 1 [0x00000000]
-[    2.138521] aspeed-smc 1e630000.spi: Trying HCLK/3 [203b0e41] ...
-[    2.139827] aspeed-smc 1e630000.spi:   * [00000800] 0 HCLK delay, 4ns DI delay : FAIL
-[    2.155093] aspeed-smc 1e630000.spi:   * [00000000] 0 HCLK delay, 0ns DI delay : PASS
-[    2.170627] aspeed-smc 1e630000.spi:   * [00000900] 1 HCLK delay, 4ns DI delay : PASS
-[    2.186111] aspeed-smc 1e630000.spi:   * [00000100] 1 HCLK delay, 0ns DI delay : PASS
-[    2.186164] aspeed-smc 1e630000.spi:  * -> good is pass 2 [0x00000900]
-[    2.186195] aspeed-smc 1e630000.spi: Trying HCLK/2 [203b0741] ...
-[    2.187103] aspeed-smc 1e630000.spi:   * [00000080] 0 HCLK delay, 4ns DI delay : FAIL
-[    2.188010] aspeed-smc 1e630000.spi:   * [00000000] 0 HCLK delay, 0ns DI delay : FAIL
-[    2.200197] aspeed-smc 1e630000.spi:   * [00000090] 1 HCLK delay, 4ns DI delay : PASS
-[    2.212359] aspeed-smc 1e630000.spi:   * [00000010] 1 HCLK delay, 0ns DI delay : PASS
-[    2.224725] aspeed-smc 1e630000.spi:   * [000000a0] 2 HCLK delay, 4ns DI delay : PASS
-[    2.224777] aspeed-smc 1e630000.spi:  * -> good is pass 3 [0x00000010]
-[    2.224810] aspeed-smc 1e630000.spi: Found good read timings at HCLK/2
-[    2.244098] aspeed-smc 1e631000.spi: Aspeed SMC probe failed -19
