@@ -1,83 +1,58 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7900B49B6B6
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Jan 2022 15:46:46 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 569E349C0D3
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jan 2022 02:42:20 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JjqS42tCrz3bSh
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jan 2022 01:46:44 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=HMWk3U3N;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Jk60S1q1Zz3bPS
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Jan 2022 12:42:16 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::22f;
- helo=mail-oi1-x22f.google.com; envelope-from=groeck7@gmail.com;
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=HMWk3U3N; dkim-atps=neutral
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JjqRx0lZ7z30Mf
- for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Jan 2022 01:46:34 +1100 (AEDT)
-Received: by mail-oi1-x22f.google.com with SMTP id p203so15034011oih.10
- for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Jan 2022 06:46:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:content-language:to
- :cc:references:from:subject:in-reply-to:content-transfer-encoding;
- bh=7Z5bK0+Pm8PkUYWJw79nfAVnr5089YtPM73aqhByRKU=;
- b=HMWk3U3Ns5ptKCExZyPaCNn8o7exF6BOZW5ey1aGWKCE77urECqLQzdacioQoIggXv
- 1fmBVm+hEkodpaVj+Glni4eA5hN8DIdsjPW4e+WfTkzI/OIfSFsoXzQPhMQnVMXsuyaw
- 9yZrctiNDhZUuib0WDQuxUs+4580gHb3Hgc8MGsJ74rd5BqXsNrIXDN5jEfGFa5dDs/m
- u23th50rE40GyPS2HoEK7hH/U7AUAqV3VEOjDSOwVUclkfJ4VhI3kj7uHrNbor7xRK3S
- QN7hRwUjQbgdp85oDXM5Ag1q0vYBZuLgx/ivXSA1gKoPwNVuyTZ+HBC0GvMZKiKSW7rc
- m8oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
- :content-transfer-encoding;
- bh=7Z5bK0+Pm8PkUYWJw79nfAVnr5089YtPM73aqhByRKU=;
- b=aBSS6C9EpCH5EoyA2rW2yNiMhhqCq4BhCeWanoUp5N+SKMiZeyW98rhZvohC5OjmwH
- C3dTI141D7a4+wEwSzjpGv38TWE1ou+T3YiJVtq4FKZ/8pCtbQ4qTWu4D+kT8C2D0Fsv
- 1jUNKULJ2fAr5d1rmM7RhnQnl8uyrQpYRr2UHrgzkSX+VJtajpYibr1zWIs3lJoFcyls
- UWE2kKwmQXalEebjJpqzQoi6frlQkTw9JtZ7FZojruBqWP2pGpLU/AG4uibeNpfyQqaz
- srUdC2fUHivSSm3a7friP5RV4fX2y5XNQlhlRLOGRVH++RRoiI9NLJMzMzR1FVy9rXdC
- z5eg==
-X-Gm-Message-State: AOAM5308K4feo3xfFmbRfkC0xk6SeI0AkDgMz8AS+u0ECuqoVB2h9rbE
- otfg4A028Vz6PjZrMHvwn8c=
-X-Google-Smtp-Source: ABdhPJyQqewm1+WDe2tCvEPLVuiVcWjlKl/DXT10mxiastthfwWfY7zILNKoHxUWlIE/IWQWQ9uUrg==
-X-Received: by 2002:a05:6808:909:: with SMTP id
- w9mr850518oih.101.1643121992069; 
- Tue, 25 Jan 2022 06:46:32 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
- ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id 44sm7181915otl.15.2022.01.25.06.46.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Jan 2022 06:46:31 -0800 (PST)
-Message-ID: <4e7ca9d8-c545-160a-5578-cf1438223759@roeck-us.net>
-Date: Tue, 25 Jan 2022 06:46:28 -0800
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Jk60M6d90z2ygC;
+ Wed, 26 Jan 2022 12:42:09 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 20Q1Y3Zk090248;
+ Wed, 26 Jan 2022 09:34:03 +0800 (GMT-8)
+ (envelope-from jammy_huang@aspeedtech.com)
+Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 26 Jan
+ 2022 09:41:26 +0800
+Message-ID: <8681fe29-69c2-f701-aff4-c27cef2d32d7@aspeedtech.com>
+Date: Wed, 26 Jan 2022 09:41:27 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.5.0
+Subject: Re: [PATCH v4 0/2] Fix incorrect resolution detected
 Content-Language: en-US
-To: krishnar4 <krishnar@ami.com>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Linus Walleij <linus.walleij@linaro.org>
-References: <20220125130116.18646-1-krishnar@ami.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH linux dev-5.15] hwmon: (pmbus) modify PSU fan_target
- convert value to false
-In-Reply-To: <20220125130116.18646-1-krishnar@ami.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Hans Verkuil <hverkuil@xs4all.nl>, "eajames@linux.ibm.com"
+ <eajames@linux.ibm.com>, "mchehab@kernel.org" <mchehab@kernel.org>,
+ "joel@jms.id.au" <joel@jms.id.au>, "andrew@aj.id.au" <andrew@aj.id.au>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+ <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+References: <20220118100729.7651-1-jammy_huang@aspeedtech.com>
+ <c3202b1f-ff8f-8108-e8a3-8710c8c74d10@xs4all.nl>
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+In-Reply-To: <c3202b1f-ff8f-8108-e8a3-8710c8c74d10@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [192.168.2.115]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 20Q1Y3Zk090248
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,49 +64,56 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-hwmon@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Pravinash Jeyapaul <pravinashj@ami.com>, linux-kernel@vger.kernel.org,
- Vinodhini J <vinodhinij@ami.com>, Deepak Kodihalli <dkodihalli@nvidia.com>,
- Shakeeb Pasha <spasha@nvidia.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 1/25/22 05:01, krishnar4 wrote:
-> Description: PSU can't use sysfs fan_target to control PSU fan duty.
-> 
 
-This is neither a proper subject nor a proper description.
-"modify PSU fan_target convert value to false" means that the
-value reported from the attribute is used directly without
-conversion. The subject should reflect this.
-"Description:" should not be part of the description, and
-the description should describe the reason for the change
-(ie explain clearly what is wrong).
-"PSU can't use sysfs fan_target to control PSU fan duty"
-doesn't explain anything and doesn't match the subject.
+On 2022/1/25 下午 06:43, Hans Verkuil wrote:
+> Hi Jammy,
+>
+> On 18/01/2022 11:07, Jammy Huang wrote:
+>> This series fixes incorrect resolution detected.
+>> We found this problem happened occasionally in the switch between bios
+>> and bootloader.
+> Can you rebase this on top of:
+>
+> https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=for-v5.18f
+>
+> This series doesn't apply cleanly.
 
-> Signed-off-by: krishnar4 <krishnar@ami.com>
+OK, I will update patch based on this code base.
 
-"krishnar4" is not an acceptable name. This needs to be a real name.
+Regards,
 
-Guenter
+	Jammy
 
-> ---
->   drivers/hwmon/pmbus/pmbus_core.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
-> index 776ee2237be2..a56c2e1c4079 100644
-> --- a/drivers/hwmon/pmbus/pmbus_core.c
-> +++ b/drivers/hwmon/pmbus/pmbus_core.c
-> @@ -1889,7 +1889,7 @@ static int pmbus_add_fan_ctrl(struct i2c_client *client,
->   
->   	sensor = pmbus_add_sensor(data, "fan", "target", index, page,
->   				  0xff, PMBUS_VIRT_FAN_TARGET_1 + id, PSC_FAN,
-> -				  false, false, true);
-> +				  false, false, false);
->   
->   	if (!sensor)
->   		return -ENOMEM;
+>
+> Regards,
+>
+> 	Hans
+>
+>> Changes in v4:
+>>   - Correct the subject of patch
+>>
+>> Changes in v3:
+>>   - In v2, we tried to increase the min-required-count of stable signal
+>>     to avoid incorrect transient state in timing detection. But it is
+>>     not working for all conditions.
+>>     Thus, we go another way in v3. Use regs, which can represent the
+>>     signal status, to decide if we needs to do detection again.
+>>   
+>> Changes in v2:
+>>   - Separate the patch into two patches
+>>
+>> Jammy Huang (2):
+>>    media: aspeed: Add macro for the fields of the mode-detect registers
+>>    media: aspeed: Fix unstable timing detection
+>>
+>>   drivers/media/platform/aspeed-video.c | 25 ++++++++++++++++++++++++-
+>>   1 file changed, 24 insertions(+), 1 deletion(-)
+>>
+-- 
+Best Regards
+Jammy
 
