@@ -2,60 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A0A04A7428
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Feb 2022 16:00:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 955114A8345
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Feb 2022 12:40:03 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JplNC62tNz3bc3
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Feb 2022 02:00:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JqGtT2cCrz3bZb
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Feb 2022 22:40:01 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DL1/C+c1;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=P94tOZ+K;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=intel.com (client-ip=134.134.136.100; helo=mga07.intel.com;
- envelope-from=iwona.winiarska@intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256
- header.s=Intel header.b=DL1/C+c1; dkim-atps=neutral
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::830;
+ helo=mail-qt1-x830.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=P94tOZ+K; dkim-atps=neutral
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com
+ [IPv6:2607:f8b0:4864:20::830])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JplJZ6kXNz3bb5;
- Thu,  3 Feb 2022 01:57:18 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1643813839; x=1675349839;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=QMYVyv1FTscgpmw+LGMru7OffCk/NusVJ0zbwclwbtY=;
- b=DL1/C+c1egIdvemFT/iYOpVI8ttdRywV2CtuHfKfS7dGtbp+y2kXAtyn
- w85XJzQ3XP1XRfbEeBO3gzcPa5SMjALwcV4P6T99H8Z8np43p5hYaK6yN
- cL8GiJiamVFlPqEYYElV8kkskdg5XKXqohTcfWQLi3znhpmvBXhceNvcR
- hvsgs+C63Yk3YxHB9orUVFYs7HiUD7CsxrxcSz2VyaJH+CDp9kdAxyJkc
- npmEzSyBhKD0N5b5m1bJULNhJGj/fnwPyq3GOD+icV+FW6xUXekRnRup8
- znf40K/cfCEEed/bYadKhOXcllY+Xh4wtIdMqXASkkr7XiCzAod1DbtfW A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="311238064"
-X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; d="scan'208";a="311238064"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 06:56:15 -0800
-X-IronPort-AV: E=Sophos;i="5.88,337,1635231600"; d="scan'208";a="676456570"
-Received: from mwnuczyn-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.137.160])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2022 06:56:05 -0800
-From: Iwona Winiarska <iwona.winiarska@intel.com>
-To: linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v7 13/13] docs: Add PECI documentation
-Date: Wed,  2 Feb 2022 15:48:38 +0100
-Message-Id: <20220202144838.163875-14-iwona.winiarska@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220202144838.163875-1-iwona.winiarska@intel.com>
-References: <20220202144838.163875-1-iwona.winiarska@intel.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JqGtN6F82z30FH
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Feb 2022 22:39:54 +1100 (AEDT)
+Received: by mail-qt1-x830.google.com with SMTP id e16so1890252qtq.6
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 03 Feb 2022 03:39:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=t/FmJ+H6iPvmZzSgzAi6Vzfm5Bl75LQIahcxCaEsuyE=;
+ b=P94tOZ+K0B+HU5I2I9P6ymAbTI2GNSrt0XldvVwf0lmQabuky1T+i+dbQqs2NmUdbU
+ k8pvA1od8fOQ43PMUWKGFelgDliKuS/NSX3z3JqeVHs/f9Dw3dyS/hEydKaHkJlL1p7o
+ kY9d2lpNwPl9sAjNtLZNQnt6oyKrd3UlZ+aos=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=t/FmJ+H6iPvmZzSgzAi6Vzfm5Bl75LQIahcxCaEsuyE=;
+ b=26VrW6QM90I7cNtOKG3fbdO/sFHUEttZSa4dZ/nyfybnxQMpPkWLWxWVHgxl5pLaby
+ x63ztbN4K2AwPnzEhjX18Hh6TCkQmiZ32zGUZ8TeP53RuRdGdzh8EIazGF0pYLMens6P
+ fNsdLfggipB2s273jmq0U2Iiu2ZhxxtOQhzZHgsao8HV1okF3j5sBjmJN9ESFiE1NNBT
+ BfWRsoEgFKG75BMgl6HXw0eNqDr9KlnHJVw3D4NqrunZh7afgbinhQZ1IcwzW+ZouQDp
+ mahLRtkuYhIoHvQ+tvDgdNzpfypoYMsovolomdixzkZG1mzhQvKNvtSTxytWURbiPOBk
+ i0OQ==
+X-Gm-Message-State: AOAM531WzdRO5eZ2wedivQZX0fZGPs5VX/lcf1ClK+L6ZhVE161liCbX
+ 9LFQt+QNLvNBk7y29PPt7KJFugfuOzFeGrPdtuM=
+X-Google-Smtp-Source: ABdhPJxRb/JyUozYSYKLFLDaIbQz9iHfeo6RHF4VQC9PTd8qJYKFSk2SQWVOIjoFfpGT/Rr3BktnRlrOxYI4t86ps7w=
+X-Received: by 2002:ac8:5a93:: with SMTP id c19mr26756233qtc.58.1643888389787; 
+ Thu, 03 Feb 2022 03:39:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220201050501.182961-1-joel@jms.id.au>
+ <20220201050501.182961-3-joel@jms.id.au>
+ <YfjyNo5wBPs16vkz@kroah.com>
+In-Reply-To: <YfjyNo5wBPs16vkz@kroah.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 3 Feb 2022 11:39:38 +0000
+Message-ID: <CACPK8XcYFZUtw_-8A5hzT0dYqtnifuFOf7qoER0YVsbCsReH8A@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ARM: aspeed: Add secure boot controller support
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,140 +72,64 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
- Dave Hansen <dave.hansen@intel.com>, Zev Weiss <zweiss@equinix.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
- Jean Delvare <jdelvare@suse.com>, Arnd Bergmann <arnd@arndb.de>,
- Rob Herring <robh+dt@kernel.org>, Borislav Petkov <bp@alien8.de>,
- Dan Williams <dan.j.williams@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- Tony Luck <tony.luck@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
- David Muller <d.mueller@elsoft.ch>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Add a brief overview of PECI and PECI wire interface.
-The documentation also contains kernel-doc for PECI subsystem internals
-and PECI CPU Driver API.
+On Tue, 1 Feb 2022 at 08:41, Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Feb 01, 2022 at 03:35:01PM +1030, Joel Stanley wrote:
 
-Signed-off-by: Iwona Winiarska <iwona.winiarska@intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
----
- Documentation/index.rst      |  1 +
- Documentation/peci/index.rst | 16 +++++++++++
- Documentation/peci/peci.rst  | 51 ++++++++++++++++++++++++++++++++++++
- MAINTAINERS                  |  1 +
- 4 files changed, 69 insertions(+)
- create mode 100644 Documentation/peci/index.rst
- create mode 100644 Documentation/peci/peci.rst
+> > --- a/drivers/soc/aspeed/aspeed-socinfo.c
+> > +++ b/drivers/soc/aspeed/aspeed-socinfo.c
+> > @@ -8,6 +8,9 @@
+> >  #include <linux/platform_device.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/sys_soc.h>
+> > +#include <linux/firmware_bootinfo.h>
+> > +
+> > +static u32 security_status;
+> >
+> >  static struct {
+> >       const char *name;
+> > @@ -74,6 +77,83 @@ static const char *siliconid_to_rev(u32 siliconid)
+> >       return "??";
+> >  }
+> >
+> > +#define SEC_STATUS           0x14
+> > +#define ABR_IMAGE_SOURCE     BIT(13)
+> > +#define OTP_PROTECTED                BIT(8)
+> > +#define LOW_SEC_KEY          BIT(7)
+> > +#define SECURE_BOOT          BIT(6)
+> > +#define UART_BOOT            BIT(5)
+>
+> Where do these bits come from?
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index b58692d687f6..1988c19d9daf 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -138,6 +138,7 @@ needed).
-    scheduler/index
-    mhi/index
-    tty/index
-+   peci/index
- 
- Architecture-agnostic documentation
- -----------------------------------
-diff --git a/Documentation/peci/index.rst b/Documentation/peci/index.rst
-new file mode 100644
-index 000000000000..989de10416e7
---- /dev/null
-+++ b/Documentation/peci/index.rst
-@@ -0,0 +1,16 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+====================
-+Linux PECI Subsystem
-+====================
-+
-+.. toctree::
-+
-+   peci
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/peci/peci.rst b/Documentation/peci/peci.rst
-new file mode 100644
-index 000000000000..331b1ec00e22
---- /dev/null
-+++ b/Documentation/peci/peci.rst
-@@ -0,0 +1,51 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+========
-+Overview
-+========
-+
-+The Platform Environment Control Interface (PECI) is a communication
-+interface between Intel processor and management controllers
-+(e.g. Baseboard Management Controller, BMC).
-+PECI provides services that allow the management controller to
-+configure, monitor and debug platform by accessing various registers.
-+It defines a dedicated command protocol, where the management
-+controller is acting as a PECI originator and the processor - as
-+a PECI responder.
-+PECI can be used in both single processor and multiple-processor based
-+systems.
-+
-+NOTE:
-+Intel PECI specification is not released as a dedicated document,
-+instead it is a part of External Design Specification (EDS) for given
-+Intel CPU. External Design Specifications are usually not publicly
-+available.
-+
-+PECI Wire
-+---------
-+
-+PECI Wire interface uses a single wire for self-clocking and data
-+transfer. It does not require any additional control lines - the
-+physical layer is a self-clocked one-wire bus signal that begins each
-+bit with a driven, rising edge from an idle near zero volts. The
-+duration of the signal driven high allows to determine whether the bit
-+value is logic '0' or logic '1'. PECI Wire also includes variable data
-+rate established with every message.
-+
-+For PECI Wire, each processor package will utilize unique, fixed
-+addresses within a defined range and that address should
-+have a fixed relationship with the processor socket ID - if one of the
-+processors is removed, it does not affect addresses of remaining
-+processors.
-+
-+PECI subsystem internals
-+------------------------
-+
-+.. kernel-doc:: include/linux/peci.h
-+.. kernel-doc:: drivers/peci/internal.h
-+.. kernel-doc:: drivers/peci/core.c
-+.. kernel-doc:: drivers/peci/request.c
-+
-+PECI CPU Driver API
-+-------------------
-+.. kernel-doc:: drivers/peci/cpu.c
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b7992853a427..23fba6b2609f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15117,6 +15117,7 @@ M:	Iwona Winiarska <iwona.winiarska@intel.com>
- L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
- S:	Supported
- F:	Documentation/devicetree/bindings/peci/
-+F:	Documentation/peci/
- F:	drivers/peci/
- F:	include/linux/peci-cpu.h
- F:	include/linux/peci.h
--- 
-2.34.1
+They are taken from the datasheet.
 
+> > +     pr_info("AST2600 secure boot %s\n",
+> > +             (security_status & SECURE_BOOT) ? "enabled" : "disabled");
+>
+> When all is good, no need to print anything out.
+
+We had some back and forth on this in an earlier iteration of this change:
+
+ https://lore.kernel.org/all/57584776-06e7-0faf-aeb2-eab0c7c5ae1f@molgen.mpg.de/
+
+It boils down to what is "good"? The system is fine if it is not
+provisioned with secure boot keys, if that's the intent of the system
+builder.
+
+A similar thing is done for efi secure boot, where it prints out
+whether it's enabled, disabled or unable to determine.
+
+I'll send out a v2 that takes on the suggestions you made in the cover letter.
+
+Cheers,
+
+Joel
