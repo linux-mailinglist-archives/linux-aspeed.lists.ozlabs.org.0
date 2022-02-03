@@ -2,55 +2,45 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32C74A8400
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Feb 2022 13:44:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E663D4A864A
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Feb 2022 15:33:34 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JqJKG2jfxz3bYv
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Feb 2022 23:44:50 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=hsnENGkz;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JqLkh4dZPz3bYs
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Feb 2022 01:33:32 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linuxfoundation.org (client-ip=2604:1380:4641:c500::1;
- helo=dfw.source.kernel.org; envelope-from=gregkh@linuxfoundation.org;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org
- header.a=rsa-sha256 header.s=korg header.b=hsnENGkz; 
- dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JqJK95W9Qz2xRp
- for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Feb 2022 23:44:45 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DB5FF61747;
- Thu,  3 Feb 2022 12:44:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DF7BC340E4;
- Thu,  3 Feb 2022 12:44:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1643892280;
- bh=ycOvpaH55x2fpR3ZTsVK1M0+GDvSlgHze9LNMIUPl58=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hsnENGkzQnni1T8e6x5zQ9aEf9+x2IVNkh+AVzofNhBm/EUnsHPUsH9lZZWsZXSoY
- +oQNIzmQEKtLGlZ8ISntSJwxgIoihguReJiU4e60PrzrwBgIMUEgRRdbF9YzZJh4EG
- JLaVHlhV3vbHOJKJH5Pw2tcXX+oZgBFEbhFAEWK4=
-Date: Thu, 3 Feb 2022 13:44:36 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Joel Stanley <joel@jms.id.au>
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.mailfrom=arm.com
+ (client-ip=217.140.110.172; helo=foss.arm.com;
+ envelope-from=robin.murphy@arm.com; receiver=<UNKNOWN>)
+X-Greylist: delayed 619 seconds by postgrey-1.36 at boromir;
+ Fri, 04 Feb 2022 01:33:28 AEDT
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by lists.ozlabs.org (Postfix) with ESMTP id 4JqLkc1NZ6z2xt0
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Feb 2022 01:33:26 +1100 (AEDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D9A5A1FB;
+ Thu,  3 Feb 2022 06:23:04 -0800 (PST)
+Received: from [10.57.68.47] (unknown [10.57.68.47])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 915293F774;
+ Thu,  3 Feb 2022 06:23:03 -0800 (PST)
+Message-ID: <f44d2e01-b6cb-5f22-f651-f4dd7ced166f@arm.com>
+Date: Thu, 3 Feb 2022 14:22:59 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.1
 Subject: Re: [PATCH v2 1/3] firmware: Add boot information to sysfs
-Message-ID: <YfvONCxvTTuWqI+J@kroah.com>
+Content-Language: en-GB
+To: Joel Stanley <joel@jms.id.au>, Arnd Bergmann <arnd@arndb.de>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>
 References: <20220203115344.267159-1-joel@jms.id.au>
  <20220203115344.267159-2-joel@jms.id.au>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From: Robin Murphy <robin.murphy@arm.com>
 In-Reply-To: <20220203115344.267159-2-joel@jms.id.au>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,14 +52,13 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-aspeed@lists.ozlabs.org,
- "Rafael J . Wysocki" <rafael@kernel.org>, linux-kernel@vger.kernel.org,
+Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, Feb 03, 2022 at 10:23:42PM +1030, Joel Stanley wrote:
+On 2022-02-03 11:53, Joel Stanley wrote:
 > Machines often have firmware that perform some action before Linux is
 > loaded. It's useful to know how this firmware is configured, so create a
 > sysfs directory and some properties that a system can choose to expose
@@ -85,16 +74,16 @@ On Thu, Feb 03, 2022 at 10:23:42PM +1030, Joel Stanley wrote:
 > Signed-off-by: Joel Stanley <joel@jms.id.au>
 > ---
 > v2:
->  - Rewrite so properties are present in common code and are exposed based
->    on the is_visible callback.
->  - Use sysfs_emit
+>   - Rewrite so properties are present in common code and are exposed based
+>     on the is_visible callback.
+>   - Use sysfs_emit
 > ---
->  .../ABI/testing/sysfs-firmware-bootinfo       | 43 +++++++++
->  drivers/base/firmware.c                       | 90 +++++++++++++++++++
->  include/linux/firmware_bootinfo.h             | 22 +++++
->  3 files changed, 155 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-firmware-bootinfo
->  create mode 100644 include/linux/firmware_bootinfo.h
+>   .../ABI/testing/sysfs-firmware-bootinfo       | 43 +++++++++
+>   drivers/base/firmware.c                       | 90 +++++++++++++++++++
+>   include/linux/firmware_bootinfo.h             | 22 +++++
+>   3 files changed, 155 insertions(+)
+>   create mode 100644 Documentation/ABI/testing/sysfs-firmware-bootinfo
+>   create mode 100644 include/linux/firmware_bootinfo.h
 > 
 > diff --git a/Documentation/ABI/testing/sysfs-firmware-bootinfo b/Documentation/ABI/testing/sysfs-firmware-bootinfo
 > new file mode 100644
@@ -145,22 +134,35 @@ On Thu, Feb 03, 2022 at 10:23:42PM +1030, Joel Stanley wrote:
 > +Description:
 > +		Indicates the system firmware was loaded from a UART instead of
 > +		an internal boot device.
+
+I'd be concerned about how well details like "uart_boot" and "abr_image" 
+scale beyond one SoC family from one vendor. The combinatorial explosion 
+of possible boot configurations across Linux-capable SoCs and firmware 
+in general is larger than I'd care to imagine, even before considering 
+that the nuances don't necessarily stop there - e.g. whether a given 
+storage interface is hard-wired or user-accessible is not a fixed 
+property on many SoCs, and even a socketed SD card might be "trusted" if 
+a board is deployed in a product with a sealed enclosure.
+
+Cheers,
+Robin.
+
 > diff --git a/drivers/base/firmware.c b/drivers/base/firmware.c
 > index 8dff940e0db9..24b931232eb2 100644
 > --- a/drivers/base/firmware.c
 > +++ b/drivers/base/firmware.c
 > @@ -11,6 +11,7 @@
->  #include <linux/module.h>
->  #include <linux/init.h>
->  #include <linux/device.h>
+>   #include <linux/module.h>
+>   #include <linux/init.h>
+>   #include <linux/device.h>
 > +#include <linux/firmware_bootinfo.h>
->  
->  #include "base.h"
->  
+>   
+>   #include "base.h"
+>   
 > @@ -24,3 +25,92 @@ int __init firmware_init(void)
->  		return -ENOMEM;
->  	return 0;
->  }
+>   		return -ENOMEM;
+>   	return 0;
+>   }
 > +
 > +/*
 > + * Exposes attributes documented in Documentation/ABI/testing/sysfs-firmware-bootinfo
@@ -257,35 +259,16 @@ On Thu, Feb 03, 2022 at 10:23:42PM +1030, Joel Stanley wrote:
 > +++ b/include/linux/firmware_bootinfo.h
 > @@ -0,0 +1,22 @@
 > +/* SPDX-License-Identifier: GPL-2.0-or-later */
-
-I have to ask, do you really mean "or later"?
-
-
 > +/* Copyright 2022 IBM Corp. */
 > +
 > +#include <linux/sysfs.h>
 > +#include <linux/init.h>
 > +
 > +#define BOOTINFO_SET(b, n, v) b.n.en = true; b.n.val = v
-
-Please use a while {} loop around these two statements.
-
-Didn't checkpatch warn you about that?
-
+> +
 > +struct bootinfo_entry {
 > +	bool en;
-
-What does "en" mean?  "enabled"?  If so, please spell it out.
-
 > +	bool val;
-
-How can a "value" have a boolean?  Is this "valid"?  Again, please spell
-it out, we have no lack of letters to use here to keep people from being
-confused.
-
-Can you please use kernel-doc comments to describe this structure?
-
-
 > +};
 > +
 > +struct bootinfo {
@@ -295,14 +278,5 @@ Can you please use kernel-doc comments to describe this structure?
 > +	struct bootinfo_entry secure_boot;
 > +	struct bootinfo_entry uart_boot;
 > +};
-
-Same here, please use kernel-doc
-
 > +
 > +int __init firmware_bootinfo_init(struct bootinfo *bootinfo_init);
-
-__init is not needed on a function definition like this.
-
-thanks,
-
-greg k-h
