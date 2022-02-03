@@ -2,65 +2,74 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955114A8345
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Feb 2022 12:40:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7834A835A
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Feb 2022 12:54:11 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JqGtT2cCrz3bZb
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Feb 2022 22:40:01 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JqHBn2Gxfz3bbH
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Feb 2022 22:54:09 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=P94tOZ+K;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=pc58NPAZ;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::830;
- helo=mail-qt1-x830.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::102f;
+ helo=mail-pj1-x102f.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=P94tOZ+K; dkim-atps=neutral
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com
- [IPv6:2607:f8b0:4864:20::830])
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20210112 header.b=pc58NPAZ; dkim-atps=neutral
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
+ [IPv6:2607:f8b0:4864:20::102f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JqGtN6F82z30FH
- for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Feb 2022 22:39:54 +1100 (AEDT)
-Received: by mail-qt1-x830.google.com with SMTP id e16so1890252qtq.6
- for <linux-aspeed@lists.ozlabs.org>; Thu, 03 Feb 2022 03:39:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=t/FmJ+H6iPvmZzSgzAi6Vzfm5Bl75LQIahcxCaEsuyE=;
- b=P94tOZ+K0B+HU5I2I9P6ymAbTI2GNSrt0XldvVwf0lmQabuky1T+i+dbQqs2NmUdbU
- k8pvA1od8fOQ43PMUWKGFelgDliKuS/NSX3z3JqeVHs/f9Dw3dyS/hEydKaHkJlL1p7o
- kY9d2lpNwPl9sAjNtLZNQnt6oyKrd3UlZ+aos=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JqHBc6DGTz30Qy
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Feb 2022 22:53:58 +1100 (AEDT)
+Received: by mail-pj1-x102f.google.com with SMTP id
+ s2-20020a17090ad48200b001b501977b23so9801491pju.2
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 03 Feb 2022 03:53:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Vbzi3fankqPmSVkF0HyJbIAmlqbeSY/pVqmGMKJwLJk=;
+ b=pc58NPAZa3q9fcA8NX1O7NkuWR6f8yxUDU8PA3ghuG09G6aKqYPvh//tJc0tjAyzmy
+ Qo2sb3rRDNCa+JMVh8SacAjZ7tWyaEhDMLSW5MyBtd35UPLr//YzKLm/Y0ZBaXBtZ8ek
+ OyOSkYQtSFIYOyuW00wbvMpk96FUDBkOhtrzlBUnKD0viFZFcc2ATRnVFKrosvR2oHRY
+ liuHGiml+xvFwjedACesMlxh7xTOXq9Mmw8erU/QXjhnZpOP8OVbJZC8ZNBMndXkp1Jo
+ 8eDC89DZV+xfc5+FY7Q3bxVWi2yGidFrzRW4vc31Kv4ZfuQ79F54CkvOC8dZPtGDoBzr
+ Dv5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=t/FmJ+H6iPvmZzSgzAi6Vzfm5Bl75LQIahcxCaEsuyE=;
- b=26VrW6QM90I7cNtOKG3fbdO/sFHUEttZSa4dZ/nyfybnxQMpPkWLWxWVHgxl5pLaby
- x63ztbN4K2AwPnzEhjX18Hh6TCkQmiZ32zGUZ8TeP53RuRdGdzh8EIazGF0pYLMens6P
- fNsdLfggipB2s273jmq0U2Iiu2ZhxxtOQhzZHgsao8HV1okF3j5sBjmJN9ESFiE1NNBT
- BfWRsoEgFKG75BMgl6HXw0eNqDr9KlnHJVw3D4NqrunZh7afgbinhQZ1IcwzW+ZouQDp
- mahLRtkuYhIoHvQ+tvDgdNzpfypoYMsovolomdixzkZG1mzhQvKNvtSTxytWURbiPOBk
- i0OQ==
-X-Gm-Message-State: AOAM531WzdRO5eZ2wedivQZX0fZGPs5VX/lcf1ClK+L6ZhVE161liCbX
- 9LFQt+QNLvNBk7y29PPt7KJFugfuOzFeGrPdtuM=
-X-Google-Smtp-Source: ABdhPJxRb/JyUozYSYKLFLDaIbQz9iHfeo6RHF4VQC9PTd8qJYKFSk2SQWVOIjoFfpGT/Rr3BktnRlrOxYI4t86ps7w=
-X-Received: by 2002:ac8:5a93:: with SMTP id c19mr26756233qtc.58.1643888389787; 
- Thu, 03 Feb 2022 03:39:49 -0800 (PST)
-MIME-Version: 1.0
-References: <20220201050501.182961-1-joel@jms.id.au>
- <20220201050501.182961-3-joel@jms.id.au>
- <YfjyNo5wBPs16vkz@kroah.com>
-In-Reply-To: <YfjyNo5wBPs16vkz@kroah.com>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Vbzi3fankqPmSVkF0HyJbIAmlqbeSY/pVqmGMKJwLJk=;
+ b=25uYSdjolSwkXORasbz17bR7o5eYGc+M1MYMGSVpjhe1KpQGjD6sDhmJ37bj5r1xzL
+ pK1ZMePKwphdriEST/WJqSMCPxQN98FRjfo7Xfi/FeWaxqmEYWXmNLYTHU+W45loo1dV
+ 42X4Sa34lBUASz1tvvYwvTgT2O72TDh2QpUIqtZyD1sLSPbRJvMGW6yvtwZNR1KcGz2f
+ At710dqUMlryQi45a8akA+ee0kvvSJ3vOlrGsi6ZgB39ubMIXdMVwEGmr5ZNkiyLKHtU
+ S4wi79yWeNpfl8FUnr2WJctupWoE/jpMSraY7lcDrz9s+TXeehYfQmclLTGPWSHuVtEY
+ lY4w==
+X-Gm-Message-State: AOAM531xJBUBE2YVpxZ8/3IresERMx9hXs8mF0CtAHaw/np3ZI6J31p4
+ TyuZTPgVp4eXM2h8M+j4WPk=
+X-Google-Smtp-Source: ABdhPJwUN0BUpDlgp6c08hsp752MSFhAFyo6awcZ0a7owxfYBlbD/uFPHQjHzo63O3ZbwHKc143c7w==
+X-Received: by 2002:a17:902:ecd1:: with SMTP id
+ a17mr35603421plh.28.1643889235521; 
+ Thu, 03 Feb 2022 03:53:55 -0800 (PST)
+Received: from voyager.lan ([45.124.203.14])
+ by smtp.gmail.com with ESMTPSA id mp22sm9586389pjb.28.2022.02.03.03.53.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Feb 2022 03:53:54 -0800 (PST)
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 3 Feb 2022 11:39:38 +0000
-Message-ID: <CACPK8XcYFZUtw_-8A5hzT0dYqtnifuFOf7qoER0YVsbCsReH8A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ARM: aspeed: Add secure boot controller support
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+To: Arnd Bergmann <arnd@arndb.de>, Andrew Jeffery <andrew@aj.id.au>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>
+Subject: [PATCH v2 0/3] firmware: Add boot information to sysfs
+Date: Thu,  3 Feb 2022 22:23:41 +1030
+Message-Id: <20220203115344.267159-1-joel@jms.id.au>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,64 +81,49 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 1 Feb 2022 at 08:41, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Feb 01, 2022 at 03:35:01PM +1030, Joel Stanley wrote:
+v2 reworks the series to put the sysfs properties in the core, and
+optionally show them with the is_visible() callback.
 
-> > --- a/drivers/soc/aspeed/aspeed-socinfo.c
-> > +++ b/drivers/soc/aspeed/aspeed-socinfo.c
-> > @@ -8,6 +8,9 @@
-> >  #include <linux/platform_device.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/sys_soc.h>
-> > +#include <linux/firmware_bootinfo.h>
-> > +
-> > +static u32 security_status;
-> >
-> >  static struct {
-> >       const char *name;
-> > @@ -74,6 +77,83 @@ static const char *siliconid_to_rev(u32 siliconid)
-> >       return "??";
-> >  }
-> >
-> > +#define SEC_STATUS           0x14
-> > +#define ABR_IMAGE_SOURCE     BIT(13)
-> > +#define OTP_PROTECTED                BIT(8)
-> > +#define LOW_SEC_KEY          BIT(7)
-> > +#define SECURE_BOOT          BIT(6)
-> > +#define UART_BOOT            BIT(5)
->
-> Where do these bits come from?
+This is the second iteration of this idea. The first used socinfo
+custom attribute groups, but Arnd suggested we make this something
+standardised under /sys/firmware instead:
 
-They are taken from the datasheet.
+ http://lore.kernel.org/all/CAK8P3a3MRf0aGt1drkgsuZyBbeoy+S7Ha18SBM01q+3f33oL+Q@mail.gmail.com
 
-> > +     pr_info("AST2600 secure boot %s\n",
-> > +             (security_status & SECURE_BOOT) ? "enabled" : "disabled");
->
-> When all is good, no need to print anything out.
+Some ARM systems have a firmware that provides a hardware root of
+trust. It's useful for the system to know how this root of trust has
+been configured, so provide a standardised interface that expose this
+information to userspace.
 
-We had some back and forth on this in an earlier iteration of this change:
+This is implemented as a sysfs attribute group registration in the
+driver core, with platforms populating values obtained from firmware at
+kernel boot time.
 
- https://lore.kernel.org/all/57584776-06e7-0faf-aeb2-eab0c7c5ae1f@molgen.mpg.de/
+Patch 2 provides a user of the properties on an ARM system.
 
-It boils down to what is "good"? The system is fine if it is not
-provisioned with secure boot keys, if that's the intent of the system
-builder.
+Patch 3 is new in v2 and is an example of populating bootinfo with the
+EFI secure boot status.
 
-A similar thing is done for efi secure boot, where it prints out
-whether it's enabled, disabled or unable to determine.
+Joel Stanley (3):
+  firmware: Add boot information to sysfs
+  ARM: aspeed: Add secure boot controller support
+  x86/setup: Populate bootinfo with secure boot status
 
-I'll send out a v2 that takes on the suggestions you made in the cover letter.
+ .../ABI/testing/sysfs-firmware-bootinfo       | 43 +++++++++
+ arch/x86/kernel/setup.c                       |  6 ++
+ drivers/base/firmware.c                       | 90 +++++++++++++++++++
+ drivers/soc/aspeed/aspeed-socinfo.c           | 46 +++++++++-
+ include/linux/firmware_bootinfo.h             | 22 +++++
+ 5 files changed, 206 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-firmware-bootinfo
+ create mode 100644 include/linux/firmware_bootinfo.h
 
-Cheers,
+-- 
+2.34.1
 
-Joel
