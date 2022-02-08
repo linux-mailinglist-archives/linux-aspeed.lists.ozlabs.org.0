@@ -1,77 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 823754AE242
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Feb 2022 20:30:07 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE3B4AE542
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Feb 2022 00:10:56 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JtY4X60TXz3bXn
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Feb 2022 06:30:04 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JtdzL0F6Pz30hm
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Feb 2022 10:10:54 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=opT1ONKv;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=QTbpsk9P;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=pass (sender SPF authorized) smtp.mailfrom=ti.com
- (client-ip=198.47.19.142; helo=fllv0016.ext.ti.com;
- envelope-from=p.yadav@ti.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::82f;
+ helo=mail-qt1-x82f.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256
- header.s=ti-com-17Q1 header.b=opT1ONKv; 
- dkim-atps=neutral
-X-Greylist: delayed 1366 seconds by postgrey-1.36 at boromir;
- Wed, 09 Feb 2022 06:29:59 AEDT
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=QTbpsk9P; dkim-atps=neutral
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
+ [IPv6:2607:f8b0:4864:20::82f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JtY4R4y04z3bN6
- for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Feb 2022 06:29:58 +1100 (AEDT)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 218J6cbj046485;
- Tue, 8 Feb 2022 13:06:38 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1644347198;
- bh=6UqkATHFYuKMAaK02BGNEELKOaebX+fdRGwvNctEq64=;
- h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=opT1ONKvoXJeiWDy4C7+obV7cOaSEKXJp0DwOGZwB2jKBrjPCWqC3Kvh80OM4HrN5
- PHjgX3pPUUhVAuJA9cA0M6669bUEwT8DUgejKSFMCEjCnofGhch26ZmzNP1Cv8jSJ5
- o3QFhE2IOf9vzOSK6uCtXTtapOb0lYGVkgcuUM4Y=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 218J6caC084086
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 8 Feb 2022 13:06:38 -0600
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Tue, 8
- Feb 2022 13:06:37 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Tue, 8 Feb 2022 13:06:37 -0600
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 218J6axK108441;
- Tue, 8 Feb 2022 13:06:37 -0600
-Date: Wed, 9 Feb 2022 00:36:36 +0530
-From: Pratyush Yadav <p.yadav@ti.com>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH] mtd: aspeed-smc: improve probe resilience
-Message-ID: <20220208190636.h6dubktkmuosvdxo@ti.com>
-References: <Yc3Qav+ULNdF5zRT@heinlein>
- <20211231102623.izaqlzjvracbbgmp@ti.com>
- <20220103171721.46c8e697@xps13> <YdSP6tKyQ2ZRUC+2@heinlein>
- <20220105063244.lno3xur64uepa7i5@ti.com>
- <d4ba6413-57ce-14c1-ed48-d00db2f74bd3@kaod.org>
- <20220124153644.m3iwlvq5ld5cpbyz@ti.com>
- <b222361a-288a-55b2-fc02-04c0b93b4220@kaod.org>
- <20220124203708.lm23sgsub234wlhq@ti.com>
- <53d53523-7174-89fd-8661-550346d53141@kaod.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JtdzC1vw5z2yNv;
+ Wed,  9 Feb 2022 10:10:45 +1100 (AEDT)
+Received: by mail-qt1-x82f.google.com with SMTP id l14so444768qtp.7;
+ Tue, 08 Feb 2022 15:10:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=H4AnW21UTOBpl9IT37GON9GbIZ1V0rMPgsXoaPMebDo=;
+ b=QTbpsk9PRPSO+jL6VeAS/zIqycwhiMi8VI9kFSQ8mz+rJ0Sgl9r+2qTBwIX+W0FPku
+ K3Xe6YfZUw+pzU6PXxC1A1Gc3oyQxKQR6x9VEwI3kmTBdD0AALVccl9qYTy6fd/50fyq
+ 6ttWICxKb8l00IHv8Q8i9FfPBoKi4ItMhqFFc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=H4AnW21UTOBpl9IT37GON9GbIZ1V0rMPgsXoaPMebDo=;
+ b=oyYWuTlqVdLJYkxTyNmdIKjTiYJ8pAcoXNkkha4caaUaDx0Z+3sJjKK7L6ujr/VyQJ
+ wzXxa1dR+7aoNynAomZkGYj1fM45uKXkwHqmp5UFcZsRKXFuw0vH4q8s2keqvZzhx4QU
+ +csBNhCQZPWLee3KLngxWaGY9cTX22hUaQ5jDrPXnqEATC+lWIrzqtqUMC8rNuP9QvyH
+ PSfahRu74yPR2VG7H1hdNItPZxGmHSILsO5v7eZjvNui00vZsEePA0DLc70HMtxk94qu
+ 4rX1H7E9uxLt4RsvPQ9K3fy2ZGPKID2IyywWxCDEKU+fv5uDNqWYwsP073EAB71wnUdW
+ S97Q==
+X-Gm-Message-State: AOAM531EietXuAKFW9bgIiX2leRv8lY8GgyIEO6VUcS/f5q8/9PztM/0
+ 9lHMQDxlykiGSU5qyPToK9oAJAUpT1wXLx8Ge3c=
+X-Google-Smtp-Source: ABdhPJxkCZok6w5MQZS9BOo+D+4Sd3aja5mP4w7wQ435bkoOoCphhvgl5XGJsyBlfcRdrsRN27hO+AY0/gaqcez1v4w=
+X-Received: by 2002:ac8:7c4c:: with SMTP id o12mr4613615qtv.475.1644361840346; 
+ Tue, 08 Feb 2022 15:10:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <53d53523-7174-89fd-8661-550346d53141@kaod.org>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20220208153639.255278-1-iwona.winiarska@intel.com>
+In-Reply-To: <20220208153639.255278-1-iwona.winiarska@intel.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 8 Feb 2022 23:10:28 +0000
+Message-ID: <CACPK8Xe46DiorxRhrLejVp1M8oE5055cfAnMH48dsnf+poTNTw@mail.gmail.com>
+Subject: Re: [PATCH v8 00/13] Introduce PECI subsystem
+To: Iwona Winiarska <iwona.winiarska@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,63 +70,238 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>, linux-aspeed@lists.ozlabs.org,
- Tudor Ambarus <tudor.ambarus@microchip.com>,
- Richard Weinberger <richard@nod.at>, Potin Lai <potin.lai@quantatw.com>,
- linux-kernel@vger.kernel.org, Patrick Williams <patrick@stwcx.xyz>,
- Michael Walle <michael@walle.cc>, linux-mtd@lists.infradead.org,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>, linux-doc@vger.kernel.org,
+ Dave Hansen <dave.hansen@intel.com>, Zev Weiss <zweiss@equinix.com>,
+ Jonathan Corbet <corbet@lwn.net>, OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Guenter Roeck <linux@roeck-us.net>, devicetree <devicetree@vger.kernel.org>,
+ Jean Delvare <jdelvare@suse.com>, Arnd Bergmann <arnd@arndb.de>,
+ Rob Herring <robh+dt@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-hwmon@vger.kernel.org,
+ Tony Luck <tony.luck@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ David Muller <d.mueller@elsoft.ch>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 07/02/22 06:13PM, Cédric Le Goater wrote:
-> Hello,
-> 
-> On 1/24/22 21:37, Pratyush Yadav wrote:
-> > On 24/01/22 07:34PM, Cédric Le Goater wrote:
-> > > > > spimem needs an extension I think. Sorry I have not been able to
-> > > > > push that forward. Lack of time and other tasks to address on the
-> > > > > host side of the machine. This is really a software problem, we
-> > > > > have the HW procedures ready. If a spimem expert could get involved
-> > > > > to make a few proposals, I would be happy to help and do some testing.
-> > > > > QEMU models are good enough for the software part. We can do the
-> > > > > training validation on real HW when ready.
-> > > > 
-> > > > What information about the flash do you need for this training?
-> > > 
-> > > Last time I looked, we lacked some post_init handler to setup a slave:
-> > > configure the registers defining the AHB windows for each flash
-> > > slave and perform the read timing calibration. calibration should
-> > > only be done once.
-> > > 
-> > > See how the aspeed_spi_flash_init() routine doing the calibration
-> > > is hooked up under aspeed_spi_claim_bus() in the u-boot driver :
-> > 
-> > My patch series should provide a hook for doing the calibration _after_
-> > the flash is initialized.
-> 
-> You can also use the .dirmap_create handler. The flash device has
-> been scanned when called and the size is available in the spi-mem
-> dirmap descriptor.
+On Tue, 8 Feb 2022 at 15:37, Iwona Winiarska <iwona.winiarska@intel.com> wrote:
+>
+> Hi Greg,
+>
+> I applied the fixups to sysfs ABI docs, I would appreciate if PECI
+> could go through your tree into v5.18.
 
-I feel uncomfortable doing that since the API does not actually make 
-this guarantee. Who knows if a future change will violate that 
-assumption. That is why I added a new API call to explicitly mark the 
-flash as ready. I suppose you can get the op from the .dirmap_create 
-handler, but I guess we can debate that over the patches.
+Acked-by: Joel Stanley <joel@jms.id.au>
 
-> 
-> I reworked the current Aspeed driver with this approach and it
-> seems sufficient for read calibration.
-> 
-> Thanks,
-> 
-> C.
-> 
-
--- 
-Regards,
-Pratyush Yadav
-Texas Instruments Inc.
+>
+> Here is the usual cover letter from the previous revision:
+>
+> The Platform Environment Control Interface (PECI) is a communication
+> interface between Intel processors and management controllers (e.g.
+> Baseboard Management Controller, BMC).
+>
+> This series adds a PECI subsystem and introduces drivers which run in
+> the Linux instance on the management controller (not the main Intel
+> processor) and is intended to be used by the OpenBMC [1], a Linux
+> distribution for BMC devices.
+> The information exposed over PECI (like processor and DIMM
+> temperature) refers to the Intel processor and can be consumed by
+> daemons running on the BMC to, for example, display the processor
+> temperature in its web interface.
+>
+> The PECI bus is collection of code that provides interface support
+> between PECI devices (that actually represent processors) and PECI
+> controllers (such as the "peci-aspeed" controller) that allow to
+> access physical PECI interface. PECI devices are bound to PECI
+> drivers that provides access to PECI services. This series introduces
+> a generic "peci-cpu" driver that exposes hardware monitoring "cputemp"
+> and "dimmtemp" using the auxiliary bus.
+>
+> Exposing "raw" PECI to userspace, either to write userspace drivers or
+> for debug/testing purpose was left out of this series to encourage
+> writing kernel drivers instead, but may be pursued in the future.
+>
+> Introducing PECI to upstream Linux was already attempted before [2].
+> Since it's been over a year since last revision, and the series
+> changed quite a bit in the meantime, I've decided to start from v1.
+>
+> I would also like to give credit to everyone who helped me with
+> different aspects of preliminary review:
+> - Pierre-Louis Bossart,
+> - Tony Luck,
+> - Andy Shevchenko,
+> - Dave Hansen.
+>
+> [1] https://github.com/openbmc/openbmc
+> [2] https://lore.kernel.org/openbmc/20191211194624.2872-1-jae.hyun.yoo@linux.intel.com/
+>
+> Changes v7 -> v8:
+> * Updated "KernelVersion" in sysfs ABI docs (Greg)
+>
+> Changes v6 -> v7:
+> * Fixed Kconfig warnings (lkp@intel.com)
+>
+> Changes v5 -> v6:
+> * Added missing COMMON_CLK selection (lkp@intel.com)
+> * Fixed WARN_ON always evaluated to true (lkp@intel.com)
+> * Clean interrupt status unconditionally (Joel)
+> * Replaced memcpy_toio()/memcpy_fromio() with writel()/readl() to
+>   avoid issues when submitting unaligned PECI commands
+>
+> Changes v4 -> v5:
+> * Added clk_aspeed_peci to express controller programming using common
+>   clock framework (Billy)
+> * Modified peci-aspeed DTS schema to match clock changes (Billy)
+> * Added workaround for peci-aspeed controller hang (Billy)
+> * Removed unnecessary "else after return" (Guenter)
+>
+> Changes v3 -> v4:
+> * Fixed an issue where peci doesn't work after host shutdown (Zev)
+> * Replaced kill_device() with peci_device_del_lock (Greg)
+> * Fixed dts_valid() parameter type (Guenter)
+> * Removed Jae from MAINTAINERS file (Jae)
+>
+> Changes v2 -> v3:
+>
+> * Dropped x86/cpu patches (Boris)
+> * Dropped pr_fmt() for PECI module (Dan)
+> * Fixed releasing peci controller device flow (Dan)
+> * Improved peci-aspeed commit-msg and Kconfig help (Dan)
+> * Fixed aspeed_peci_xfer() to use the proper spin_lock function (Dan)
+> * Wrapped print_hex_dump_bytes() in CONFIG_DYNAMIC_DEBUG (Dan)
+> * Removed debug status logs from aspeed_peci_irq_handler() (Dan)
+> * Renamed functions using devres to start with "devm" (Dan)
+> * Changed request to be allocated on stack in peci_detect (Dan)
+> * Removed redundant WARN_ON on invalid PECI addr (Dan)
+> * Changed peci_device_create() to use device_initialize() + device_add() pattern (Dan)
+> * Fixed peci_device_destroy() to use kill_device() avoiding double-free (Dan)
+> * Renamed functions that perform xfer using "peci_xfer_*" prefix (Dan)
+> * Renamed peci_request_data_dib(temp) -> peci_request_dib(temp)_read (Dan)
+> * Fixed thermal margin readings for older Intel processors (Zev)
+> * Misc hwmon simplifications (Guenter)
+> * Used BIT_PER_TYPE to verify macro value constrains (Guenter)
+> * Improved WARN_ON message to print chan_rank_max and idx_dimm_max (Guenter)
+> * Improved dimmtemp to not reattempt probe if no dimms are populated
+>
+> Changes v1 -> v2:
+>
+> Biggest changes when it comes to diffstat are locking in HWMON
+> (I decided to clean things up a bit while adding it), switching to
+> devres usage in more places and exposing sysfs interface in separate patch.
+>
+> * Moved extending X86 ARCHITECTURE MAINTAINERS earlier in series (Dan)
+> * Removed "default n" for GENERIC_LIB_X86 (Dan)
+> * Added vendor prefix for peci-aspeed specific properties (Rob)
+> * Refactored PECI to use devres consistently (Dan)
+> * Added missing sysfs documentation and excluded adding peci-sysfs to
+>   separate patch (Dan)
+> * Used module_init() instead of subsys_init() for peci module initialization (Dan)
+> * Removed redundant struct peci_device member (Dan)
+> * Improved PECI Kconfig help (Randy/Dan)
+> * Fixed/removed log messages (Dan, Guenter)
+> * Refactored peci-cputemp and peci-dimmtemp and added missing locks (Guenter)
+> * Removed unused dev_set_drvdata() in peci-cputemp and peci-dimmtemp (Guenter)
+> * Fixed used types, names, fixed broken and added additional comments
+>   to peci-hwmon (Guenter, Zev)
+> * Refactored peci-dimmtemp to not return -ETIMEDOUT (Guenter)
+> * Added sanity check for min_peci_revision in peci-hwmon drivers (Zev)
+> * Added assert for DIMM_NUMS_MAX and additional warning in peci-dimmtemp (Zev)
+> * Fixed macro names in peci-aspeed (Zev)
+> * Refactored peci-aspeed sanitizing properties to a single helper function (Zev)
+> * Fixed peci_cpu_device_ids definition for Broadwell Xeon D (David)
+> * Refactor peci_request to use a single allocation (Zev)
+> * Used min_t() to improve code readability (Zev)
+> * Added macro for PECI_RDENDPTCFG_MMIO_WR_LEN_BASE and fixed adev type
+>   array name to more descriptive (Zev)
+> * Fixed peci-hwmon commit-msg and documentation (Zev)
+>
+> Thanks
+> -Iwona
+>
+> Iwona Winiarska (11):
+>   dt-bindings: Add generic bindings for PECI
+>   dt-bindings: Add bindings for peci-aspeed
+>   ARM: dts: aspeed: Add PECI controller nodes
+>   peci: Add core infrastructure
+>   peci: Add device detection
+>   peci: Add sysfs interface for PECI bus
+>   peci: Add support for PECI device drivers
+>   peci: Add peci-cpu driver
+>   hwmon: peci: Add cputemp driver
+>   hwmon: peci: Add dimmtemp driver
+>   docs: Add PECI documentation
+>
+> Jae Hyun Yoo (2):
+>   peci: Add peci-aspeed controller driver
+>   docs: hwmon: Document PECI drivers
+>
+>  Documentation/ABI/testing/sysfs-bus-peci      |  16 +
+>  .../devicetree/bindings/peci/peci-aspeed.yaml |  72 ++
+>  .../bindings/peci/peci-controller.yaml        |  33 +
+>  Documentation/hwmon/index.rst                 |   2 +
+>  Documentation/hwmon/peci-cputemp.rst          |  90 +++
+>  Documentation/hwmon/peci-dimmtemp.rst         |  57 ++
+>  Documentation/index.rst                       |   1 +
+>  Documentation/peci/index.rst                  |  16 +
+>  Documentation/peci/peci.rst                   |  51 ++
+>  MAINTAINERS                                   |  26 +
+>  arch/arm/boot/dts/aspeed-g4.dtsi              |  11 +
+>  arch/arm/boot/dts/aspeed-g5.dtsi              |  11 +
+>  arch/arm/boot/dts/aspeed-g6.dtsi              |  11 +
+>  drivers/Kconfig                               |   3 +
+>  drivers/Makefile                              |   1 +
+>  drivers/hwmon/Kconfig                         |   2 +
+>  drivers/hwmon/Makefile                        |   1 +
+>  drivers/hwmon/peci/Kconfig                    |  31 +
+>  drivers/hwmon/peci/Makefile                   |   7 +
+>  drivers/hwmon/peci/common.h                   |  58 ++
+>  drivers/hwmon/peci/cputemp.c                  | 592 ++++++++++++++++
+>  drivers/hwmon/peci/dimmtemp.c                 | 630 ++++++++++++++++++
+>  drivers/peci/Kconfig                          |  36 +
+>  drivers/peci/Makefile                         |  10 +
+>  drivers/peci/controller/Kconfig               |  18 +
+>  drivers/peci/controller/Makefile              |   3 +
+>  drivers/peci/controller/peci-aspeed.c         | 599 +++++++++++++++++
+>  drivers/peci/core.c                           | 236 +++++++
+>  drivers/peci/cpu.c                            | 343 ++++++++++
+>  drivers/peci/device.c                         | 252 +++++++
+>  drivers/peci/internal.h                       | 136 ++++
+>  drivers/peci/request.c                        | 482 ++++++++++++++
+>  drivers/peci/sysfs.c                          |  82 +++
+>  include/linux/peci-cpu.h                      |  40 ++
+>  include/linux/peci.h                          | 112 ++++
+>  35 files changed, 4071 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-bus-peci
+>  create mode 100644 Documentation/devicetree/bindings/peci/peci-aspeed.yaml
+>  create mode 100644 Documentation/devicetree/bindings/peci/peci-controller.yaml
+>  create mode 100644 Documentation/hwmon/peci-cputemp.rst
+>  create mode 100644 Documentation/hwmon/peci-dimmtemp.rst
+>  create mode 100644 Documentation/peci/index.rst
+>  create mode 100644 Documentation/peci/peci.rst
+>  create mode 100644 drivers/hwmon/peci/Kconfig
+>  create mode 100644 drivers/hwmon/peci/Makefile
+>  create mode 100644 drivers/hwmon/peci/common.h
+>  create mode 100644 drivers/hwmon/peci/cputemp.c
+>  create mode 100644 drivers/hwmon/peci/dimmtemp.c
+>  create mode 100644 drivers/peci/Kconfig
+>  create mode 100644 drivers/peci/Makefile
+>  create mode 100644 drivers/peci/controller/Kconfig
+>  create mode 100644 drivers/peci/controller/Makefile
+>  create mode 100644 drivers/peci/controller/peci-aspeed.c
+>  create mode 100644 drivers/peci/core.c
+>  create mode 100644 drivers/peci/cpu.c
+>  create mode 100644 drivers/peci/device.c
+>  create mode 100644 drivers/peci/internal.h
+>  create mode 100644 drivers/peci/request.c
+>  create mode 100644 drivers/peci/sysfs.c
+>  create mode 100644 include/linux/peci-cpu.h
+>  create mode 100644 include/linux/peci.h
+>
+> --
+> 2.34.1
+>
