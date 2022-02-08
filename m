@@ -1,12 +1,12 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49AE54AE27B
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Feb 2022 21:08:38 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 823754AE242
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Feb 2022 20:30:07 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JtYx00KMLz3bWR
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Feb 2022 07:08:36 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JtY4X60TXz3bXn
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Feb 2022 06:30:04 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
 	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=opT1ONKv;
 	dkim-atps=neutral
@@ -20,11 +20,13 @@ Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256
  header.s=ti-com-17Q1 header.b=opT1ONKv; 
  dkim-atps=neutral
+X-Greylist: delayed 1366 seconds by postgrey-1.36 at boromir;
+ Wed, 09 Feb 2022 06:29:59 AEDT
 Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JtYwt448Rz30Ds
- for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Feb 2022 07:08:28 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JtY4R4y04z3bN6
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Feb 2022 06:29:58 +1100 (AEDT)
 Received: from lelv0266.itg.ti.com ([10.180.67.225])
  by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 218J6cbj046485;
  Tue, 8 Feb 2022 13:06:38 -0600
