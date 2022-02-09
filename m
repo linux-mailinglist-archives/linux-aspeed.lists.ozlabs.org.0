@@ -1,73 +1,60 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C3F54B622D
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 05:37:42 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 707204B622E
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 05:37:45 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JySxb5h5Hz3bW9
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 15:37:39 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JySxf6jpkz3bT0
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 15:37:42 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=YKjkFETz;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=S9GgMbVD;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62c;
- helo=mail-pl1-x62c.google.com; envelope-from=davidcomponentone@gmail.com;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org;
+ envelope-from=patchwork-bot+netdevbpf@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=YKjkFETz; dkim-atps=neutral
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=S9GgMbVD; 
+ dkim-atps=neutral
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JtzV440Lgz30Mf
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Feb 2022 23:20:12 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Jth8T1rCdz2xsb
- for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Feb 2022 11:48:56 +1100 (AEDT)
-Received: by mail-pl1-x62c.google.com with SMTP id w20so770979plq.12
- for <linux-aspeed@lists.ozlabs.org>; Tue, 08 Feb 2022 16:48:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CI+hs3F4c1QaxzVBV/sm+QTUejv8UzZhOXTGUR0B9uI=;
- b=YKjkFETzIsoNqqkAmCjyV0mNIUkQkRSnB2T7NJbtwbxXJrArMifhGPLxUyR08q5bHv
- 6t6xNyXKagTaEW+KSMpYR3r4SbqfopBqIabBi+Bh1fJayxMOKtbhngW1ctk39HR50gH4
- MYsyS5IcJWmB30Pl/WeDdxFuIZdY7mfU3kxJWH5aq333hrqbWiWRic52tY8NagHRDlj2
- gK/rkVOkK9+A9qgg+Q1MvkC6YBVpwnQyMFdaE/bDvYcC7flw6GKEjQEqAkDcLRC8IpG5
- KVqeIch3RcnvS/X3Yba319rF8IfT/0KfRROc11/Le/eccSmeIN+5fjh4gl4m1UDO+zhs
- xABA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CI+hs3F4c1QaxzVBV/sm+QTUejv8UzZhOXTGUR0B9uI=;
- b=ek0e5uQdvva9bNz+spzrzdOg6ssV4F8SsEKPBm6N6bJPE4BbUSr2GD4cDDQPKPDgRN
- 45ggY9XNtfq+mTLXO0XNahYVG5wD9HFtqFZekk7q0xe1jiVQXMxAFy5hBtH8vhCjr6G1
- QvnCe+U9bMKdTlBXM4Hk3nhUwYP+80PzsUA+o1bM31qbPwz6MAAjqq6xTSZpvK0jdPPr
- iMplaZVYXmj1Ffllpka+9dVg2DQSLMctqmhWON3Pa+rxLcZvjwfA5SU3iTH7q8mswbU4
- Jkq/yfekgw0qNW/Ju7TrhgELgUQ/s9KZhTyI8qEkZqfl/C9d8k1Uv9GMGwPlFL0OjVJW
- 9nHg==
-X-Gm-Message-State: AOAM530ysjNm6ZZjzBN4iABVIc2bTFEirMIqMJMQIRWyOTPVAvkddCHj
- DpUOUCi/wTxECCYF67gPwiQ=
-X-Google-Smtp-Source: ABdhPJxKenclyaWuFcTHESCPUiTtBJ90EFW/FDClHKa7xQUCowiN2FiI9OlBQjPUKIjxdeTncsF5Ow==
-X-Received: by 2002:a17:90a:b947:: with SMTP id
- f7mr659505pjw.184.1644367733798; 
- Tue, 08 Feb 2022 16:48:53 -0800 (PST)
-Received: from localhost.localdomain (192.243.120.166.16clouds.com.
- [192.243.120.166])
- by smtp.gmail.com with ESMTPSA id t2sm17020154pfj.211.2022.02.08.16.48.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Feb 2022 16:48:53 -0800 (PST)
-From: davidcomponentone@gmail.com
-To: gregkh@linuxfoundation.org
-Subject: [PATCH] serial: 8259: replace snprintf with sysfs_emit
-Date: Wed,  9 Feb 2022 08:48:40 +0800
-Message-Id: <96f0e23f49d708ce2476a6c19867443a48d78f65.1644283006.git.yang.guang5@zte.com.cn>
-X-Mailer: git-send-email 2.30.2
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D1ADA617EB;
+ Wed,  9 Feb 2022 12:20:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3EB9FC340EB;
+ Wed,  9 Feb 2022 12:20:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644409209;
+ bh=8KBLJhIZR4akoo0mHv8cKFpRdN0RPoLkFd/gVVTr/u0=;
+ h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+ b=S9GgMbVD8dWdF8waLh23wcpIrOP2oWSwhhAHhjsd4Z5H9Gs4ctC3Ep1UelumJHL0u
+ OTblZGtM7KhtnPEJGhB6oKF1AKx1DT8nysM3LcnWhjaqQiCB/ndSGuaXPx6Q01aa4y
+ U1zqhQ2aIGJSJOaRG1XaLqVsaA3I2BzbcMbZAtFoG9p9E6nPcrM86+rwdXEB+hRSpd
+ w+HYjc8LkqKhrfIMirumhOJ0jT0TzFx3YK0jDnnLBZEaI3HQ41xERF2J4vVapjkUGP
+ 5kANOofBzxvgZjlETFIRXAG3Oh3ay/FjeLfdHjJUP+GIWvLphLcAph7KB6w87qTGqw
+ 53135soDt0hDg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 28D65E5D084; Wed,  9 Feb 2022 12:20:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] net: mdio: aspeed: Add missing MODULE_DEVICE_TABLE
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: <164440920916.21838.3965616722762050917.git-patchwork-notify@kernel.org>
+Date: Wed, 09 Feb 2022 12:20:09 +0000
+References: <20220209000359.372978-1-joel@jms.id.au>
+In-Reply-To: <20220209000359.372978-1-joel@jms.id.au>
+To: Joel Stanley <joel@jms.id.au>
 X-Mailman-Approved-At: Tue, 15 Feb 2022 15:34:29 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -80,65 +67,33 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, zev@bewilderbeest.net,
- linux-kernel@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>, johan@kernel.org,
- davidcomponentone@gmail.com, yang.guang5@zte.com.cn,
- linux-serial@vger.kernel.org, jirislaby@kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: andrew@lunn.ch, linux-aspeed@lists.ozlabs.org, netdev@vger.kernel.org,
+ kuba@kernel.org, davem@davemloft.net
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Yang Guang <yang.guang5@zte.com.cn>
+Hello:
 
-coccinelle report:
-./drivers/tty/serial/8250/8250_aspeed_vuart.c:85:8-16:
-WARNING: use scnprintf or sprintf
-./drivers/tty/serial/8250/8250_aspeed_vuart.c:174:8-16:
-WARNING: use scnprintf or sprintf
-./drivers/tty/serial/8250/8250_aspeed_vuart.c:127:8-16:
-WARNING: use scnprintf or sprintf
+This patch was applied to netdev/net.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-Use sysfs_emit instead of scnprintf or sprintf makes more sense.
+On Wed,  9 Feb 2022 10:33:59 +1030 you wrote:
+> Fix loading of the driver when built as a module.
+> 
+> Fixes: f160e99462c6 ("net: phy: Add mdio-aspeed")
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> ---
+>  drivers/net/mdio/mdio-aspeed.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Yang Guang <yang.guang5@zte.com.cn>
-Signed-off-by: David Yang <davidcomponentone@gmail.com>
----
- drivers/tty/serial/8250/8250_aspeed_vuart.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Here is the summary with links:
+  - [net] net: mdio: aspeed: Add missing MODULE_DEVICE_TABLE
+    https://git.kernel.org/netdev/net/c/bc1c3c3b10db
 
-diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
-index 2350fb3bb5e4..36c39b8ea7af 100644
---- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
-+++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
-@@ -82,7 +82,7 @@ static ssize_t lpc_address_show(struct device *dev,
- 	addr = (aspeed_vuart_readb(vuart, ASPEED_VUART_ADDRH) << 8) |
- 		(aspeed_vuart_readb(vuart, ASPEED_VUART_ADDRL));
- 
--	return snprintf(buf, PAGE_SIZE - 1, "0x%x\n", addr);
-+	return sysfs_emit(buf, "0x%x\n", addr);
- }
- 
- static int aspeed_vuart_set_lpc_address(struct aspeed_vuart *vuart, u32 addr)
-@@ -124,7 +124,7 @@ static ssize_t sirq_show(struct device *dev,
- 	reg &= ASPEED_VUART_GCRB_HOST_SIRQ_MASK;
- 	reg >>= ASPEED_VUART_GCRB_HOST_SIRQ_SHIFT;
- 
--	return snprintf(buf, PAGE_SIZE - 1, "%u\n", reg);
-+	return sysfs_emit(buf, "%u\n", reg);
- }
- 
- static int aspeed_vuart_set_sirq(struct aspeed_vuart *vuart, u32 sirq)
-@@ -171,7 +171,7 @@ static ssize_t sirq_polarity_show(struct device *dev,
- 	reg = aspeed_vuart_readb(vuart, ASPEED_VUART_GCRA);
- 	reg &= ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
- 
--	return snprintf(buf, PAGE_SIZE - 1, "%u\n", reg ? 1 : 0);
-+	return sysfs_emit(buf, "%u\n", reg ? 1 : 0);
- }
- 
- static void aspeed_vuart_set_sirq_polarity(struct aspeed_vuart *vuart,
+You are awesome, thank you!
 -- 
-2.30.2
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
