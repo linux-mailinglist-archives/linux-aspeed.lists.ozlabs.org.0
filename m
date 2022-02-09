@@ -1,50 +1,68 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3AF04AEBA2
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Feb 2022 09:00:36 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEB9D4AEC25
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Feb 2022 09:22:34 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JtskV2f6wz3bTT
-	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Feb 2022 19:00:34 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JttCr4T3Lz3bTS
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Feb 2022 19:22:32 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=IhXDd7OG;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
+ smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::52c;
+ helo=mail-ed1-x52c.google.com; envelope-from=andy.shevchenko@gmail.com;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20210112 header.b=IhXDd7OG; dkim-atps=neutral
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JtskQ144jz2ybD;
- Wed,  9 Feb 2022 19:00:27 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 2197pbHw068866;
- Wed, 9 Feb 2022 15:51:37 +0800 (GMT-8)
- (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 9 Feb
- 2022 15:59:49 +0800
-Message-ID: <e498b84e-c8b1-f2ad-4364-f871491fb507@aspeedtech.com>
-Date: Wed, 9 Feb 2022 15:59:50 +0800
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JttCj0jmgz2yPv
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Feb 2022 19:22:24 +1100 (AEDT)
+Received: by mail-ed1-x52c.google.com with SMTP id ch26so3407891edb.12
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 09 Feb 2022 00:22:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XpQU7MwvnnmzkAtetNTBKBwEhnc+PKqXnl8IukTROIA=;
+ b=IhXDd7OGarp3eySx5bkZfw12VJDhaOaz7OC5hMX1/gqGa7Kv64i/UfuFWYOZ646SMC
+ +COGlUX3M8SLh5qgaI138hDe5mHFI1ah2h7Ya68sA5Q7NyR5UNd88Cq+eFVzeZ0Of76Q
+ N79j63SOMOlONqN/c5Vnjih/sDEW67NcDoHTdj80hEUuU977wg/Ju+LaEfTp+Nh/xPIg
+ gXvQUAdJ15BHg5TDeROrmqmxo6PYPCBvlKC+wU5FTqSMf6SlivQeu9IoTBM6O9QBFqjB
+ TaFiiZFMvdRL6qTgtEccmtyHtpgbNJKnaQw8U76C9RzU7NLskUOUdEI0p0ZrQRJ9NLkj
+ JrlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XpQU7MwvnnmzkAtetNTBKBwEhnc+PKqXnl8IukTROIA=;
+ b=rujntC3ME8HlgiLPozTLDTmJkJgsBrVhrTIaDW7DAZe5CezaWLH0RL9pL8sSZAuJax
+ sfFo64bkmDtL2ASBkvqn7EoFvszysU5BMtNZLkq+iEHKNALIdw9FihcRjC2XdEvg9wRQ
+ 5iLDB25+WXIaD7D0YsMv1NxcSnpJCWM5z0wyx0JZvqRrdZw02s4546viNg9mMqRHwOip
+ zGytOv6JJnxK3zdTL2tzJTYditgGm9VaTxwJaEvcDAiobGqKrDcJwij+OwbRAk/GOau9
+ qLeVeKvuZtNs0E+xJWi3wlTbV0WcDHkpYd5XsapAS2BEQnlGTIivtgPt2Ug4XK8NqUz7
+ TDAw==
+X-Gm-Message-State: AOAM533vSHphu0ftwfUEhD9qp/cxhCOLHMN3qHzpDZQG9EiFEe5VcuQz
+ 5WeN5KIHAu9RQLd61SD6rBZ2EtYGq1cHJWtegPM=
+X-Google-Smtp-Source: ABdhPJxgbIM9HkQTeMr8qIeIvkRgzKugj11n3DUKBGJfOENttEguf2tvMkGSkDAJKiQ90eexactk/erkyNtZaQFulHQ=
+X-Received: by 2002:a05:6402:4254:: with SMTP id
+ g20mr1242666edb.281.1644394936606; 
+ Wed, 09 Feb 2022 00:22:16 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1] media: aspeed: Fix incorrect color
-Content-Language: en-US
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-References: <20220209024312.2218-1-jammy_huang@aspeedtech.com>
- <554448a9-bc65-7c0b-9878-fb2c0fe9bfe4@molgen.mpg.de>
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <554448a9-bc65-7c0b-9878-fb2c0fe9bfe4@molgen.mpg.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 2197pbHw068866
+References: <96f0e23f49d708ce2476a6c19867443a48d78f65.1644283006.git.yang.guang5@zte.com.cn>
+In-Reply-To: <96f0e23f49d708ce2476a6c19867443a48d78f65.1644283006.git.yang.guang5@zte.com.cn>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 9 Feb 2022 10:21:40 +0200
+Message-ID: <CAHp75VfQMkb0Ek6HG_FL+4OJV91=nd3QKjYFCobQPCt5PzdASA@mail.gmail.com>
+Subject: Re: [PATCH] serial: 8259: replace snprintf with sysfs_emit
+To: davidcomponentone@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,84 +74,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: "moderated list:ARM/ASPEED MACHINE SUPPORT"
+ <linux-aspeed@lists.ozlabs.org>, Zev Weiss <zev@bewilderbeest.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Zeal Robot <zealci@zte.com.cn>, Johan Hovold <johan@kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Yang Guang <yang.guang5@zte.com.cn>,
+ "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Dear Paul,
+On Wed, Feb 9, 2022 at 9:24 AM <davidcomponentone@gmail.com> wrote:
+>
+> From: Yang Guang <yang.guang5@zte.com.cn>
+>
+> coccinelle report:
+> ./drivers/tty/serial/8250/8250_aspeed_vuart.c:85:8-16:
+> WARNING: use scnprintf or sprintf
+> ./drivers/tty/serial/8250/8250_aspeed_vuart.c:174:8-16:
+> WARNING: use scnprintf or sprintf
+> ./drivers/tty/serial/8250/8250_aspeed_vuart.c:127:8-16:
+> WARNING: use scnprintf or sprintf
+>
+> Use sysfs_emit instead of scnprintf or sprintf makes more sense.
 
-Thanks for your review and suggestion.
+Subject should start with "serial: 8250_aspeed_vuart: "
 
-On 2022/2/9 下午 02:23, Paul Menzel wrote:
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Yang Guang <yang.guang5@zte.com.cn>
+> Signed-off-by: David Yang <davidcomponentone@gmail.com>
 
-> Dear Jammy,
->
->
-> Am 09.02.22 um 03:43 schrieb Jammy Huang:
->> Current settings for rgb-2-yuv is BT.601(studio swing), but JFIF
->> uses BT.601(full swing).
-> Could you please describe the problem in a little more detail? On an
-> attached monitor to the BMC (which one) what incorrect colors are seen?
-Aspeed video 's input is gfx' output which is ARGB format. To generate 
-jpg, video
-engine will transform ARGB into YUV first. Previously, aspeed video's 
-default
-settings is studio swing (16~235), but jpg is full swing (0~255) as you 
-can see in
-'Conversion to and from RGB' of https://www.w3.org/Graphics/JPEG/jfif3.pdf.
-
-This will lead to incorrect color. For example, a RGB color on gfx, 
-blue(0, 0, 255) will
-become (16, 16, 235) after we see the output jpg of aspeed video.
-> Maybe use:
->
->> media: aspeed: Use full swing for JFIF to fix incorrect color
-Thanks, I will update a more suitable subject for this patch.
->> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->> ---
->>    drivers/media/platform/aspeed-video.c | 2 +-
->>    1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
->> index eb9c17ac0e14..08b63b8297f0 100644
->> --- a/drivers/media/platform/aspeed-video.c
->> +++ b/drivers/media/platform/aspeed-video.c
->> @@ -1089,7 +1089,7 @@ static void aspeed_video_init_regs(struct aspeed_video *video)
->>    	u32 comp_ctrl = VE_COMP_CTRL_RSVD |
->>    		FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
->>    		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10);
->> -	u32 ctrl = VE_CTRL_AUTO_OR_CURSOR;
->> +	u32 ctrl = VE_CTRL_AUTO_OR_CURSOR | VE_CTRL_YUV;
-> Excuse my ignorance, but reading [1][2] YUV can be represented by studio
-> and full swing. How is the register/bit described in the datasheet, and
-> can the macro name be improved?
-VR008[7:6] will decide the data format for video capture:
-00: CCIR601 studio swing compliant YUV format
-01: CCIR601 full swing compliant YUV format
-10: RGB format
-11: Gray color mode
-
-I will update this part as well.
->
->>    	u32 seq_ctrl = video->jpeg_mode;
->>    
->>    	if (video->frame_rate)
->
-> Kind regards,
->
-> Paul
->
->
-> [1]: https://mymusing.co/bt601-yuv-to-rgb-conversion-color/
-> [2]: https://www.hisour.com/yuv-color-system-25916/
+Who is the author(s)?
 
 -- 
-Best Regards
-Jammy
-
+With Best Regards,
+Andy Shevchenko
