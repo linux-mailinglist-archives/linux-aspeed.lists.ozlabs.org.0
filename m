@@ -2,94 +2,73 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF8C4B5A01
-	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Feb 2022 19:36:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C3F54B622D
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 05:37:42 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JyCbQ6LTkz3cDY
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 05:36:02 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JySxb5h5Hz3bW9
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 15:37:39 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=ZfY/IqGe;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=Yf2rCmo1;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=YKjkFETz;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=stwcx.xyz (client-ip=66.111.4.27;
- helo=out3-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62c;
+ helo=mail-pl1-x62c.google.com; envelope-from=davidcomponentone@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256
- header.s=fm1 header.b=ZfY/IqGe; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=Yf2rCmo1; 
- dkim-atps=neutral
-X-Greylist: delayed 467 seconds by postgrey-1.36 at boromir;
- Tue, 15 Feb 2022 05:35:54 AEDT
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20210112 header.b=YKjkFETz; dkim-atps=neutral
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JyCbG4rWLz2xKR
- for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Feb 2022 05:35:54 +1100 (AEDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 490F15C0250;
- Mon, 14 Feb 2022 13:28:03 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 14 Feb 2022 13:28:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; bh=Qcwq5i6dPGz8fm
- 2l69OpbijAoZXeTdKUljxVFonj5pg=; b=ZfY/IqGewCEVDT+SpQQimzo7lV0aXw
- o7oOy+w/TdWN9r+Ip12oZbb8PvYA2rtzB884ybRgDBKxqlT+Ql7OQ04MJqWO5zhj
- iThCX/QxuWlO3G9NC90STBpKK6282ALvS/bLObbanvTo1lO6Q/mj5NvQr5JTrnAE
- JyE1mRsmgM9dC+D2dEMxQ/NCZ6Hk+iSJGek9Ydm2/EJRy9Az35IPUDzgmG9nWOPz
- e7Bqyt3LCc+BwmNbTeHnfF33CekhYUVCKj19eUghckHByFSoyE/w+MGOaBkAergd
- 5+VJZNYS5/NX1NtJvpGE6F6LWjrxNiBrntb1d3TndcYd1zEDJ4/LKTKg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=Qcwq5i6dPGz8fm2l69OpbijAoZXeTdKUljxVFonj5
- pg=; b=Yf2rCmo191gvt55Y3HNHTt+drZO+Zk9lpbcdD0hH6iG3tRmmwoBB9coJm
- XYFD6VAa6ElSSqdIZC1kDo/nDJIt3aF0Qd03sR7FUA+4DfsNa7qkTh5lqGHyncGJ
- Um9NOoLp0JjkENh8zwDjSm1qbvGj+W9OxdZSKKNfs2NHwwQ3Nyj7DWwZ2SIaga6Z
- nq1OVm8EQAJxjx0OHWaTcW1MKjkH4bQpZakogejZv/uHIb8jMNISd77wzHXiobJA
- yt1wz2IvUEj8xx1zWDwxd4EY766Y5+zLMOFZYRux+4ErxxFcnpA0m9gAdD+PQvT/
- VqiNyq8t2u72pvs+NhReS/UxOvu7w==
-X-ME-Sender: <xms:Mp8KYhqDXSYTHlRvrGn5HWuEG5GbH29glKPOou4OJvMM25hgdIeMKw>
- <xme:Mp8KYjpKiAlKFCouRAvlmKSB9WQM7Ws9X9hLNefeCXlVyXuoqDx8_iEs096GI6M9e
- WHx1FOmEVGPOS12w0o>
-X-ME-Received: <xmr:Mp8KYuMOkDKYl0UJszQdSrzv-Va0hcirXmB3kYAj2_VfGXuc_vR14EK0Fg4lEc7yDrhA0AKF2QTTI7iUCwxkE4VrfMwvxCf2>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjedvgddutdekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- gfrhhlucfvnfffucdlfeehmdenucfjughrpeffhffvuffkfhggtggugfgjsehtqhertddt
- tddvnecuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghkse
- hsthiftgigrdighiiiqeenucggtffrrghtthgvrhhnpedtleffieffieeghfelueekteff
- uedvhfefffeigfeikeekuddtgfehvddvieehkeenucffohhmrghinhepkhgvrhhnvghlrd
- horhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
- phgrthhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:Mp8KYs603cxG8DTbpYBUzrWkPDAwp6k1loBUpyJv5_334M5j4dKgiw>
- <xmx:Mp8KYg7UAvn_v9K6qThCMsLMKygXZRA6l5CulYMZDv6bj0HeHUyKIg>
- <xmx:Mp8KYkh6h7JCrSzwvjez5dFrwv4F1j3qIwqAVuj830uH7L6Ea7ZmkA>
- <xmx:M58KYtvi-UsPV19EcRQGIezyZFYz-6wlN-IqMfkUdmavzZ1e2qijXQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 14 Feb 2022 13:28:01 -0500 (EST)
-Date: Mon, 14 Feb 2022 12:27:59 -0600
-From: Patrick Williams <patrick@stwcx.xyz>
-To: Potin Lai <potin.lai@quantatw.com>
-Subject: Re: [PATCH v2 00/10] update Facebook Bletchley BMC
-Message-ID: <Ygqe6lwWUdgv+8ss@patrickw3-mbp>
-References: <20220214042538.12132-1-potin.lai@quantatw.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Jth8T1rCdz2xsb
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Feb 2022 11:48:56 +1100 (AEDT)
+Received: by mail-pl1-x62c.google.com with SMTP id w20so770979plq.12
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 08 Feb 2022 16:48:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CI+hs3F4c1QaxzVBV/sm+QTUejv8UzZhOXTGUR0B9uI=;
+ b=YKjkFETzIsoNqqkAmCjyV0mNIUkQkRSnB2T7NJbtwbxXJrArMifhGPLxUyR08q5bHv
+ 6t6xNyXKagTaEW+KSMpYR3r4SbqfopBqIabBi+Bh1fJayxMOKtbhngW1ctk39HR50gH4
+ MYsyS5IcJWmB30Pl/WeDdxFuIZdY7mfU3kxJWH5aq333hrqbWiWRic52tY8NagHRDlj2
+ gK/rkVOkK9+A9qgg+Q1MvkC6YBVpwnQyMFdaE/bDvYcC7flw6GKEjQEqAkDcLRC8IpG5
+ KVqeIch3RcnvS/X3Yba319rF8IfT/0KfRROc11/Le/eccSmeIN+5fjh4gl4m1UDO+zhs
+ xABA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CI+hs3F4c1QaxzVBV/sm+QTUejv8UzZhOXTGUR0B9uI=;
+ b=ek0e5uQdvva9bNz+spzrzdOg6ssV4F8SsEKPBm6N6bJPE4BbUSr2GD4cDDQPKPDgRN
+ 45ggY9XNtfq+mTLXO0XNahYVG5wD9HFtqFZekk7q0xe1jiVQXMxAFy5hBtH8vhCjr6G1
+ QvnCe+U9bMKdTlBXM4Hk3nhUwYP+80PzsUA+o1bM31qbPwz6MAAjqq6xTSZpvK0jdPPr
+ iMplaZVYXmj1Ffllpka+9dVg2DQSLMctqmhWON3Pa+rxLcZvjwfA5SU3iTH7q8mswbU4
+ Jkq/yfekgw0qNW/Ju7TrhgELgUQ/s9KZhTyI8qEkZqfl/C9d8k1Uv9GMGwPlFL0OjVJW
+ 9nHg==
+X-Gm-Message-State: AOAM530ysjNm6ZZjzBN4iABVIc2bTFEirMIqMJMQIRWyOTPVAvkddCHj
+ DpUOUCi/wTxECCYF67gPwiQ=
+X-Google-Smtp-Source: ABdhPJxKenclyaWuFcTHESCPUiTtBJ90EFW/FDClHKa7xQUCowiN2FiI9OlBQjPUKIjxdeTncsF5Ow==
+X-Received: by 2002:a17:90a:b947:: with SMTP id
+ f7mr659505pjw.184.1644367733798; 
+ Tue, 08 Feb 2022 16:48:53 -0800 (PST)
+Received: from localhost.localdomain (192.243.120.166.16clouds.com.
+ [192.243.120.166])
+ by smtp.gmail.com with ESMTPSA id t2sm17020154pfj.211.2022.02.08.16.48.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Feb 2022 16:48:53 -0800 (PST)
+From: davidcomponentone@gmail.com
+To: gregkh@linuxfoundation.org
+Subject: [PATCH] serial: 8259: replace snprintf with sysfs_emit
+Date: Wed,  9 Feb 2022 08:48:40 +0800
+Message-Id: <96f0e23f49d708ce2476a6c19867443a48d78f65.1644283006.git.yang.guang5@zte.com.cn>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220214042538.12132-1-potin.lai@quantatw.com>
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 15 Feb 2022 15:34:29 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,70 +80,65 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+Cc: linux-aspeed@lists.ozlabs.org, zev@bewilderbeest.net,
+ linux-kernel@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>, johan@kernel.org,
+ davidcomponentone@gmail.com, yang.guang5@zte.com.cn,
+ linux-serial@vger.kernel.org, jirislaby@kernel.org,
  linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Feb 14, 2022 at 12:25:28PM +0800, Potin Lai wrote:
-> This patch series update Facebook Bletchley BMC devicetree base on EVT HW
-> schematioc design, and rebase SLED numbering to 1-based for OpenBMC
-> multi-host.
->=20
-> - GPIO:
->   - adding more gpio line names
->   - include interrupt line in io expander for gpio interrupt monitoring
->=20
-> - SPI flash:
->   - adding dual flash BSM module support
->   - switch to spi2-gpio on spi2 due to unstable signal issue
->=20
-> - Hwmon Sensors:
->   - adding INA230 sensors for monitoring
->   - fix ADM1278 shunt-resistor
->=20
-> - MDIO Bus: enable mido3 bus
->=20
-> - RTC: switch to external battery-backed rtc
->=20
-> - OpenBMC: 1-based SLED numbering
->=20
->=20
-> LINK: [v1] https://lore.kernel.org/all/20220211014347.24841-1-potin.lai@q=
-uantatw.com/
->=20
->=20
-> Changes v1 --> v2:
-> - update the details of new added gpio line names in commit message
-> - add battery-backed rtc information in comment and commit message
+From: Yang Guang <yang.guang5@zte.com.cn>
 
-Thank you for the details there Potin.
+coccinelle report:
+./drivers/tty/serial/8250/8250_aspeed_vuart.c:85:8-16:
+WARNING: use scnprintf or sprintf
+./drivers/tty/serial/8250/8250_aspeed_vuart.c:174:8-16:
+WARNING: use scnprintf or sprintf
+./drivers/tty/serial/8250/8250_aspeed_vuart.c:127:8-16:
+WARNING: use scnprintf or sprintf
 
->=20
-> Potin Lai (10):
->   arch: arm: dts: bletchley: switch sled numbering to 1-based
->   arch: arm: dts: bletchley: separate leds into multiple groups
->   arch: arm: dts: bletchley: update gpio-line-names
->   arch: arm: dts: bletchley: update fmc configurations
->   arch: arm: dts: bletchley: switch to spi-gpio for spi2
->   arch: arm: dts: bletchley: add interrupt support for sled io expander
->   arch: arm: dts: bletchley: add shunt-resistor for ADM1278
->   arch: arm: dts: bletchley: add INA230 sensor on each sled
->   arch: arm: dts: bletchley: enable mdio3 bus
->   arch: arm: dts: bletchley: cleanup redundant nodes
->=20
->  .../dts/aspeed-bmc-facebook-bletchley.dts     | 303 +++++++++++-------
->  1 file changed, 194 insertions(+), 109 deletions(-)
->=20
-> --=20
-> 2.17.1
->=20
+Use sysfs_emit instead of scnprintf or sprintf makes more sense.
 
-Entire series is
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Yang Guang <yang.guang5@zte.com.cn>
+Signed-off-by: David Yang <davidcomponentone@gmail.com>
+---
+ drivers/tty/serial/8250/8250_aspeed_vuart.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
+diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+index 2350fb3bb5e4..36c39b8ea7af 100644
+--- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
++++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+@@ -82,7 +82,7 @@ static ssize_t lpc_address_show(struct device *dev,
+ 	addr = (aspeed_vuart_readb(vuart, ASPEED_VUART_ADDRH) << 8) |
+ 		(aspeed_vuart_readb(vuart, ASPEED_VUART_ADDRL));
+ 
+-	return snprintf(buf, PAGE_SIZE - 1, "0x%x\n", addr);
++	return sysfs_emit(buf, "0x%x\n", addr);
+ }
+ 
+ static int aspeed_vuart_set_lpc_address(struct aspeed_vuart *vuart, u32 addr)
+@@ -124,7 +124,7 @@ static ssize_t sirq_show(struct device *dev,
+ 	reg &= ASPEED_VUART_GCRB_HOST_SIRQ_MASK;
+ 	reg >>= ASPEED_VUART_GCRB_HOST_SIRQ_SHIFT;
+ 
+-	return snprintf(buf, PAGE_SIZE - 1, "%u\n", reg);
++	return sysfs_emit(buf, "%u\n", reg);
+ }
+ 
+ static int aspeed_vuart_set_sirq(struct aspeed_vuart *vuart, u32 sirq)
+@@ -171,7 +171,7 @@ static ssize_t sirq_polarity_show(struct device *dev,
+ 	reg = aspeed_vuart_readb(vuart, ASPEED_VUART_GCRA);
+ 	reg &= ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
+ 
+-	return snprintf(buf, PAGE_SIZE - 1, "%u\n", reg ? 1 : 0);
++	return sysfs_emit(buf, "%u\n", reg ? 1 : 0);
+ }
+ 
+ static void aspeed_vuart_set_sirq_polarity(struct aspeed_vuart *vuart,
+-- 
+2.30.2
 
---=20
-Patrick Williams
