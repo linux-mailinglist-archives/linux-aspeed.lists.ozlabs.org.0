@@ -1,51 +1,54 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6553B4B01CA
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Feb 2022 02:04:30 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE89D4B075C
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Feb 2022 08:40:56 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JvJRv3mhfz3bWj
-	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Feb 2022 12:04:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JvTFL0yDKz3bZG
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Feb 2022 18:40:54 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=wr9iaSYK;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
+ smtp.mailfrom=linuxfoundation.org (client-ip=139.178.84.217;
+ helo=dfw.source.kernel.org; envelope-from=gregkh@linuxfoundation.org;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org
+ header.a=rsa-sha256 header.s=korg header.b=wr9iaSYK; 
+ dkim-atps=neutral
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JvTFF1Bgtz301M;
+ Thu, 10 Feb 2022 18:40:47 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JvJRq3scXz2xtb;
- Thu, 10 Feb 2022 12:04:21 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 21A0tKwB069583;
- Thu, 10 Feb 2022 08:55:20 +0800 (GMT-8)
- (envelope-from jammy_huang@aspeedtech.com)
-Received: from [192.168.2.115] (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 10 Feb
- 2022 09:03:31 +0800
-Message-ID: <fcad21a9-c7f6-4dd9-7fa8-8a6e6f3853f2@aspeedtech.com>
-Date: Thu, 10 Feb 2022 09:03:35 +0800
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7BDF361D1E;
+ Thu, 10 Feb 2022 07:40:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 138DCC004E1;
+ Thu, 10 Feb 2022 07:40:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1644478844;
+ bh=N8/bXTmvWY7W+wVw+ygNVKaot4xb1H7ai8HRw78A9YQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=wr9iaSYKDze12KSvH+58tFW6xNQOBvBlJaBUaBfC1TGzuJiKEY2exs+gXUlxUM/MY
+ FrrSAXChq1k1wFXB2Jip2PXCmlfCjRKrSHT9LlJNvOQ8RhGMv+oVuB41k+Uir/l+T/
+ 1TXK2CHKx5mLeoALUH8qRvKL0c7qBpRJRs4FhthM=
+Date: Thu, 10 Feb 2022 08:40:42 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Zev Weiss <zev@bewilderbeest.net>
+Subject: Re: [PATCH] serial: 8250_aspeed_vuart: add PORT_ASPEED_VUART port type
+Message-ID: <YgTBennInxX3fE3X@kroah.com>
+References: <20220209203414.23491-1-zev@bewilderbeest.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH v2] media: aspeed: Use full swing as JFIF to fix incorrect
- color
-Content-Language: en-US
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-References: <20220209084225.4456-1-jammy_huang@aspeedtech.com>
- <f790f9aa-fcb7-d163-9c1c-9eb107d4b1bd@molgen.mpg.de>
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <f790f9aa-fcb7-d163-9c1c-9eb107d4b1bd@molgen.mpg.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 21A0tKwB069583
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220209203414.23491-1-zev@bewilderbeest.net>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,103 +60,92 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Cc: linux-aspeed@lists.ozlabs.org, Konstantin Aladyshev <aladyshev22@gmail.com>,
+ openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ Oskar Senft <osk@google.com>, linux-serial@vger.kernel.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Jiri Slaby <jirislaby@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Dear Paul,
+On Wed, Feb 09, 2022 at 12:34:14PM -0800, Zev Weiss wrote:
+> Commit 54da3e381c2b ("serial: 8250_aspeed_vuart: use UPF_IOREMAP to
+> set up register mapping") fixed a bug that had, as a side-effect,
+> prevented the 8250_aspeed_vuart driver from enabling the VUART's
+> FIFOs.  However, fixing that (and hence enabling the FIFOs) has in
+> turn revealed what appears to be a hardware bug in the ASPEED VUART in
+> which the host-side THRE bit doesn't get if the BMC-side receive FIFO
+> trigger level is set to anything but one byte.  This causes problems
+> for polled-mode writes from the host -- for example, Linux kernel
+> console writes proceed at a glacial pace (less than 100 bytes per
+> second) because the write path waits for a 10ms timeout to expire
+> after every character instead of being able to continue on to the next
+> character upon seeing THRE asserted.  (GRUB behaves similarly.)
+> 
+> As a workaround, introduce a new port type for the ASPEED VUART that's
+> identical to PORT_16550A as it had previously been using, but with
+> UART_FCR_R_TRIG_00 instead to set the receive FIFO trigger level to
+> one byte, which (experimentally) seems to avoid the problematic THRE
+> behavior.
+> 
+> Signed-off-by: Zev Weiss <zev@bewilderbeest.net>
+> Tested-by: Konstantin Aladyshev <aladyshev22@gmail.com>
 
-OK, I will update a new patch per your suggestion.
+Do we need a "Fixes:" tag here as well?
 
-Thanks for your help.
+> ---
+>  drivers/tty/serial/8250/8250_aspeed_vuart.c | 2 +-
+>  drivers/tty/serial/8250/8250_port.c         | 8 ++++++++
+>  include/uapi/linux/serial_core.h            | 3 +++
+>  3 files changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+> index 2350fb3bb5e4..c2cecc6f47db 100644
+> --- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
+> +++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
+> @@ -487,7 +487,7 @@ static int aspeed_vuart_probe(struct platform_device *pdev)
+>  	port.port.irq = irq_of_parse_and_map(np, 0);
+>  	port.port.handle_irq = aspeed_vuart_handle_irq;
+>  	port.port.iotype = UPIO_MEM;
+> -	port.port.type = PORT_16550A;
+> +	port.port.type = PORT_ASPEED_VUART;
+>  	port.port.uartclk = clk;
+>  	port.port.flags = UPF_SHARE_IRQ | UPF_BOOT_AUTOCONF | UPF_IOREMAP
+>  		| UPF_FIXED_PORT | UPF_FIXED_TYPE | UPF_NO_THRE_TEST;
+> diff --git a/drivers/tty/serial/8250/8250_port.c b/drivers/tty/serial/8250/8250_port.c
+> index 3b12bfc1ed67..973870ebff69 100644
+> --- a/drivers/tty/serial/8250/8250_port.c
+> +++ b/drivers/tty/serial/8250/8250_port.c
+> @@ -307,6 +307,14 @@ static const struct serial8250_config uart_config[] = {
+>  		.rxtrig_bytes	= {1, 32, 64, 112},
+>  		.flags		= UART_CAP_FIFO | UART_CAP_SLEEP,
+>  	},
+> +	[PORT_ASPEED_VUART] = {
+> +		.name		= "ASPEED VUART",
+> +		.fifo_size	= 16,
+> +		.tx_loadsz	= 16,
+> +		.fcr		= UART_FCR_ENABLE_FIFO | UART_FCR_R_TRIG_00,
+> +		.rxtrig_bytes	= {1, 4, 8, 14},
+> +		.flags		= UART_CAP_FIFO,
+> +	},
+>  };
+>  
+>  /* Uart divisor latch read */
+> diff --git a/include/uapi/linux/serial_core.h b/include/uapi/linux/serial_core.h
+> index c4042dcfdc0c..cd11748833e6 100644
+> --- a/include/uapi/linux/serial_core.h
+> +++ b/include/uapi/linux/serial_core.h
+> @@ -274,4 +274,7 @@
+>  /* Freescale LINFlexD UART */
+>  #define PORT_LINFLEXUART	122
+>  
+> +/* ASPEED AST2x00 virtual UART */
+> +#define PORT_ASPEED_VUART	123
 
-On 2022/2/9 下午 05:06, Paul Menzel wrote:
-> Dear Jammy,
->
->
-> Am 09.02.22 um 09:42 schrieb Jammy Huang:
->> Current settings for video capture rgb-2-yuv is BT.601(studio swing),
->> but JFIF uses BT.601(full swing) to deocde. This mismatch will lead
->> to incorrect color. For example, input RGB value, (0, 0, 255), will
->> become (16, 16, 235) after jpg decoded.
->>
->> Add an enum, aspeed_video_capture_format, to define VR008[7:6]
->> capture format and correct default settings for video capture to fix
->> the problem.
-> Maybe quote the datasheet:
->
-> VR008[7:6] will decide the data format for video capture:
-> 00: CCIR601 studio swing compliant YUV format
-> 01: CCIR601 full swing compliant YUV format
-> 10: RGB format
-> 11: Gray color mode
->
->> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
->> ---
->> v2:
->>    - update subject from 'media: aspeed: Fix-incorrect-color' to
->>      'media: aspeed: Use full swing as JFIF to fix incorrect'
->>    - update commit message
->>    - add enum, aspeed_video_capture_format, to define VR008[7:6]
->> ---
->>    drivers/media/platform/aspeed-video.c | 14 +++++++++++---
->>    1 file changed, 11 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
->> index eb9c17ac0e14..5bcf60b4628b 100644
->> --- a/drivers/media/platform/aspeed-video.c
->> +++ b/drivers/media/platform/aspeed-video.c
->> @@ -86,8 +86,6 @@
->>    #define  VE_CTRL_SOURCE			BIT(2)
->>    #define  VE_CTRL_INT_DE			BIT(4)
->>    #define  VE_CTRL_DIRECT_FETCH		BIT(5)
->> -#define  VE_CTRL_YUV			BIT(6)
->> -#define  VE_CTRL_RGB			BIT(7)
->>    #define  VE_CTRL_CAPTURE_FMT		GENMASK(7, 6)
->>    #define  VE_CTRL_AUTO_OR_CURSOR		BIT(8)
->>    #define  VE_CTRL_CLK_INVERSE		BIT(11)
->> @@ -202,6 +200,15 @@ enum {
->>    	VIDEO_CLOCKS_ON,
->>    };
->>    
->> +// for VE_CTRL_CAPTURE_FMT
->> +enum aspeed_video_capture_format {
->> +	VIDEO_CAP_FMT_YUV_STUDIO = 0,
-> Maybe also append `_SWING`?
->
->> +	VIDEO_CAP_FMT_YUV_FULL,
->> +	VIDEO_CAP_FMT_RGB,
->> +	VIDEO_CAP_FMT_GRAY,
->> +	VIDEO_CAP_FMT_MAX
->> +};
->> +
->>    struct aspeed_video_addr {
->>    	unsigned int size;
->>    	dma_addr_t dma;
->> @@ -1089,7 +1096,8 @@ static void aspeed_video_init_regs(struct aspeed_video *video)
->>    	u32 comp_ctrl = VE_COMP_CTRL_RSVD |
->>    		FIELD_PREP(VE_COMP_CTRL_DCT_LUM, video->jpeg_quality) |
->>    		FIELD_PREP(VE_COMP_CTRL_DCT_CHR, video->jpeg_quality | 0x10);
->> -	u32 ctrl = VE_CTRL_AUTO_OR_CURSOR;
->> +	u32 ctrl = VE_CTRL_AUTO_OR_CURSOR |
->> +		FIELD_PREP(VE_CTRL_CAPTURE_FMT, VIDEO_CAP_FMT_YUV_FULL);
->>    	u32 seq_ctrl = video->jpeg_mode;
->>    
->>    	if (video->frame_rate)
-> Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
->
->
-> Kind regards,
->
-> Paul
+Why does this value have to be in a uapi header file?  What userspace
+tool is going to need this?
 
--- 
-Best Regards
-Jammy
+thanks,
 
+greg k-h
