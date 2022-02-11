@@ -2,14 +2,14 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6394B3045
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Feb 2022 23:19:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E5AB4B3046
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Feb 2022 23:21:11 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JwSj243gjz3bcW
-	for <lists+linux-aspeed@lfdr.de>; Sat, 12 Feb 2022 09:19:50 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JwSkX6rJxz3bcW
+	for <lists+linux-aspeed@lfdr.de>; Sat, 12 Feb 2022 09:21:08 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=i7AsSyZj;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=dy2oHKAS;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=xeDJtk6z;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=P1WnFAFF;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
@@ -19,76 +19,74 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256
- header.s=fm1 header.b=i7AsSyZj; 
+ header.s=fm1 header.b=xeDJtk6z; 
  dkim=pass (2048-bit key;
  unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=dy2oHKAS; 
+ header.a=rsa-sha256 header.s=fm2 header.b=P1WnFAFF; 
  dkim-atps=neutral
-X-Greylist: delayed 191 seconds by postgrey-1.36 at boromir;
- Sat, 12 Feb 2022 09:19:41 AEDT
 Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
  [64.147.123.25])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JwShs4TPKz305B
- for <linux-aspeed@lists.ozlabs.org>; Sat, 12 Feb 2022 09:19:41 +1100 (AEDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 6208D3202152;
- Fri, 11 Feb 2022 17:19:39 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Fri, 11 Feb 2022 17:19:40 -0500
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JwSkP6CNQz30Ld
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 12 Feb 2022 09:21:01 +1100 (AEDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id BE9693200F9C;
+ Fri, 11 Feb 2022 17:20:59 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Fri, 11 Feb 2022 17:21:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; bh=RTc40DrDIwSBEwSKbaE6X7bElwvJ01jh9SfVla
- ee3V0=; b=i7AsSyZjLcSEF+5Hu0j8R6hc3REOMN+3DwOB6Jc5BH6hv7g9/leVPD
- NCtf7UC4CjEvQQBxXD9TIxq/CQDnkHCwaQl/6438gvnVewTqedvtsnnKKJarxCid
- 8W93S/5qKAgEjXEguQ81eiw8Z29eqEUymuB4W4WYHmYbcLHPmhohz5Y9bt/ZSnm0
- A0TWi41d2UNBLYjlRdNAwairhdKVPCBLRCmbA4PovJwKo/bE9eCo7UGcju/FfPoS
- MhTeX5434sM+hGpPXSSOGata2dWA7lc/lJ594gDgV4l6oy2YA8v1njhz+4mDZQKb
- RErBKfmO9x2RVZfY9y064QU8W9rtg/tw==
+ :subject:to:to; s=fm1; bh=YvSCKSU842KzUhf1LCRE65E1fnv+NK6PdKlIlr
+ Basv4=; b=xeDJtk6zHVtUdiFHLhCC/YBEB2g3ZJsr0pN0e/420tNIotNVFwBt2e
+ C45b16uOVdnz7RcPh587jto9J3KyZ4VKLO9/v3b8r7g9Y0aiqvPavimtQQsWtAAe
+ IRG0911yqXFINWdI9cm4wGSH4lXFVPz9+w5p1QOdSFOQmrR5yFCVI8HmBa+C7w/8
+ C1YqfpsYEPolsFufZheIc5I1Maz4Sd1FOYb4gRxzOjURbAxaziVQDviltIX6XHq4
+ c7dXV1chNbs09PeFgqSvVJPLI+AeUX4KvDaqiUE8OO3ynJ6kR/Qr3F3iFc5U+40D
+ oQwdaSVOrqNzvKHqcSDNMsa+mmpsGjYw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=RTc40DrDIwSBEwSKb
- aE6X7bElwvJ01jh9SfVlaee3V0=; b=dy2oHKAS3X3UyXDWTFApsolPkUO11Ipi9
- KEg0dotznhG0QKAhz8x9PO3q2cJhR2i3KFg7mV06VwJGADElDDXyHTRjzx+RbS8W
- cMxOV5a8Mwl2Gk1DZBJFFPBuFw5IS1ldxGlAGWNpCZPIvc1N4SYhEy/cuiLOCMjW
- INafyvl9hWGNqPQjqmXnbMVl8ybq4nKd/FW1DHEiVXQv7Qcij51BHvyAXxF2Lh/7
- LurwVhdM7tIUcLOZHywLg7ruV21MYsn9WPKBHwiORS7//XvBxfsUiLEcT6zebKIY
- qdC8PpohXK139gbh4eUAenDXSBbGUVib+WBvzu/Qq+8BDkCJvvQGw==
-X-ME-Sender: <xms:-uAGYnDKvdaCwFEgT89xro4hCiriuh172938UC2LkCXnD6x8bYcMgQ>
- <xme:-uAGYtjt5fla02LsKAZ0opi3pklL239h55HOH0jcraXka7Csc4upFKalsCJLRmG-P
- zX7fngyuWTDuQEUqeY>
-X-ME-Received: <xmr:-uAGYimtFoUmV1p-bf9pfEbevvDeBAxD_rB1AC1GPWDaqSOSS2HSRj9pT_NtHKf7EyIGQU1EHRrrdw1aNG-vml7kw_7eIA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrieefgdduheejucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=YvSCKSU842KzUhf1L
+ CRE65E1fnv+NK6PdKlIlrBasv4=; b=P1WnFAFFnm8D2e+2b0zfbIs5NtfVi/Zqv
+ eB4pyQhjvsFLoP5Ko1Li/Gee+xIjtMJ37Rln3khH3WHrfgcfIdJ0jaUy3RXx+2Lg
+ Su1+26M3dts9PaCQgCP3Xt1XD0YRwOTzqBy4VW9m3XT0Ehf8/vOBymdYjTOjIY7x
+ xq1MkyQg4t7tJp22kqk6+nFthrqUPSTtUM/oAzlIFwS+SaoCEKASG7MiftlQmsgX
+ HFQqMz2AxyK/brDuC1tTTuoqu31LS+fR6DWj/5buDmQiOdKu1H+eCyK2sNsZi4An
+ d2svM5FvLyyVlhKDWA/s+5EpDqzbQi1UiERMD7M32mKNG/Ougl6Ag==
+X-ME-Sender: <xms:SuEGYq9Up2Dm3DQXmA26el_nzm_9_wMSISTSaCYm6Qeii1qeDiJwHA>
+ <xme:SuEGYqtknph7FQOnM0NVYyt_pJ694Zea4XQdpfgq84UGYB2aIYK2olonq__6JE2z_
+ akKgZj1Ptu5Ahyj4IU>
+X-ME-Received: <xmr:SuEGYgDX5liqCcPCTD0-uqdZe9Dlv9-beCysXDFu_Ax6wNbF0VGhisF4kX6phjhoRLiGw4QSYumImG8bFXBxAELO7Aq-Bg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrieefgdduheekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  gfrhhlucfvnfffucdlfeehmdenucfjughrpeffhffvuffkfhggtggujgesghdtreertddt
  vdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
- htfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepgeehheefffegkeevhedthffgudfh
- geefgfdthefhkedtleffveekgfeuffehtdeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepphgrthhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:-uAGYpz86X5lMT_KrnV0qcOp0lIJQWacait7yMz7w7kTcLuJcxzaag>
- <xmx:-uAGYsR6qKZ3UU1sPyLTDj1hhfJ_r8V-3N-tYdS2ZrylCU6yLhm-4A>
- <xmx:-uAGYsb5nvnHysL_dj2K3O9OtJvTRj1AJY9dzvlhu2nrKhvP1tk3-Q>
- <xmx:-uAGYrGr8mclckFYz2PPdcq-CQakm8OjmO4grOnwUQoXa_FcK_BG-Q>
+ htfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepvdffgefgfeetiefgtefhieevuedu
+ gedvgffgjeefheduteejfeffteektdelhefhnecuffhomhgrihhnpehkvghrnhgvlhdroh
+ hrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehp
+ rghtrhhitghksehsthiftgigrdighiii
+X-ME-Proxy: <xmx:SuEGYif3VrhbjzMAesscHcS03PF8XG0vOzDobEPpKmJkhnj2sTRLAQ>
+ <xmx:SuEGYvMJTIUDhBnPt14lzV4jHuDPG2htCjfPSVe5mWSb7bDK_ChmFQ>
+ <xmx:SuEGYskqO3nohhsN_3OC6EVGHvHYgmOt2obWuf9QQVTRy-xaHhcOXQ>
+ <xmx:S-EGYrBD34OycxYFW1mgRMx81So_55a_OvRH8Li6w5TN_TDPThYGHA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 11 Feb 2022 17:19:37 -0500 (EST)
-Date: Fri, 11 Feb 2022 16:19:36 -0600
+ 11 Feb 2022 17:20:58 -0500 (EST)
+Date: Fri, 11 Feb 2022 16:20:56 -0600
 From: Patrick Williams <patrick@stwcx.xyz>
 To: Potin Lai <potin.lai@quantatw.com>
-Subject: Re: [PATCH 10/10] arch: arm: dts: bletchley: cleanup redundant node
-Message-ID: <Ygbg+KYK9qT90O2N@heinlein>
+Subject: Re: [PATCH 00/10] arch: arm: dts: update Facebook Bletchley BMC
+Message-ID: <YgbhSCx9qDinSAq/@heinlein>
 References: <20220211014347.24841-1-potin.lai@quantatw.com>
- <20220211014347.24841-11-potin.lai@quantatw.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="JisbnzQp48fIKCGa"
+ protocol="application/pgp-signature"; boundary="xmU4fn0mtBe9neDo"
 Content-Disposition: inline
-In-Reply-To: <20220211014347.24841-11-potin.lai@quantatw.com>
+In-Reply-To: <20220211014347.24841-1-potin.lai@quantatw.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,84 +106,65 @@ Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 
---JisbnzQp48fIKCGa
+--xmU4fn0mtBe9neDo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 11, 2022 at 09:43:47AM +0800, Potin Lai wrote:
-> Remove redundant i2c1 node.
-> Disable in-chip rtc, use external rtc (pcf85263) instead.
-
-A bit of "why" on the RTC change might be useful.  I suspect it has to do
-with where battery-backing is for the RTC in hardware.
-
+On Fri, Feb 11, 2022 at 09:43:37AM +0800, Potin Lai wrote:
+> Update Facebook Bletchley BMC devicetree base on EVT HW design and=20
+> rebase sled numbering to 1-based for OpenBMC multi-host
 >=20
-> Signed-off-by: Potin Lai <potin.lai@quantatw.com>
-> ---
->  arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts | 9 +--------
->  1 file changed, 1 insertion(+), 8 deletions(-)
+> This patch series are modified from
+> LINK: https://lore.kernel.org/all/20220209100413.23714-1-potin.lai@quanta=
+tw.com/
 >=20
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts b/arch/a=
-rm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-> index 946107bd8bc7..fb62a67cfeed 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-> @@ -205,10 +205,6 @@
->  	};
->  };
-> =20
-> -&rtc {
-> -	status =3D "okay";
-> -};
-> -
->  &fmc {
->  	status =3D "okay";
->  	flash@0 {
-> @@ -387,10 +383,6 @@
->  	};
->  };
-> =20
-> -&i2c1 {
-> -	status =3D "okay";
-> -};
-> -
->  &i2c2 {
->  	status =3D "okay";
->  	ina230@45 {
-> @@ -680,6 +672,7 @@
->  	};
-> =20
->  	rtc@51 {
-> +		/* in-chip rtc disabled, use this external rtc instead */
->  		compatible =3D "nxp,pcf85263";
->  		reg =3D <0x51>;
->  	};
+> Potin Lai (10):
+>   arch: arm: dts: bletchley: switch sled numbering to 1-based
+>   arch: arm: dts: bletchley: separate leds into multiple groups
+>   arch: arm: dts: bletchley: update gpio-line-names
+>   arch: arm: dts: bletchley: update fmc configurations
+>   arch: arm: dts: bletchley: switch to spi-gpio for spi2
+>   arch: arm: dts: bletchley: add interrupt support for sled io expander
+>   arch: arm: dts: bletchley: add shunt-resistor for ADM1278
+>   arch: arm: dts: bletchley: add INA230 sensor on each sled
+>   arch: arm: dts: bletchley: enable mdio3 bus
+>   arch: arm: dts: bletchley: cleanup redundant node
+>=20
+>  .../dts/aspeed-bmc-facebook-bletchley.dts     | 303 +++++++++++-------
+>  1 file changed, 194 insertions(+), 109 deletions(-)
+>=20
 > --=20
 > 2.17.1
 >=20
 
+Left a few minor comments on potential improvements to the commit messages,=
+ but
+otherwise whole series is:
+
+Reviewed-by: Patrick Williams <patrick@stwcx.xyz>=20
+
 --=20
 Patrick Williams
 
---JisbnzQp48fIKCGa
+--xmU4fn0mtBe9neDo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmIG4PgACgkQqwNHzC0A
-wRkWMBAAqRxDw0dBdIcOs4dccrmlv1gPYZ2wzaS8rizHSpKm2gz1IIt7ConmzmSv
-zYlkH4kioV4aBgP59r3CnyKObFARg7pTm4jelLYUoedzAidK6YgmpWDHslS835KG
-OHza3ZFZpjROw+Yxc+Uj4d5SJ2eCva5znFvp1FukcmahTMXJDUT+OT1KeKoq3BoV
-NVNlb1SXuXmJyCmooCiKQSO73xgW5KDUH3pVOzC9OsGc3xHq70uKIBmWd+1DD8ya
-CgLf/s3mk2OKlFfz0tn8nq1oLdXxzjygm+ymXNtmr0NwdGVHoDLA6Irld9xfAjt/
-mggDNLoYBcHw08eAydFYTRDkshEkxYiREWIK1Eb+b0Y7p0SWI8CYFE+eofdscwWt
-RA6889EWvdWffOYJKKfBGHbYFGBbytSuwwyCYYc/wxJ3zgPgzcR/QtOUvVxLi17N
-OpBnlyDZrPbpsVBGYoCL+ml+27UZAfVRtzkXTL05lMdZFVmg8lawiMcTtP7cb1FI
-0JlT4xWFOPRhkr13eOUfHFVa3H9+TuSNAaUroHu0oAd7f77HNt06O85eSo8KndXd
-nXsJkpnybmu29THPv2EHcvP1DUCbEpKL8I7ORwqigkLRnL21G+JwFJg7Y/sCDmpa
-ZiHJoWWpEEnBkPrela3DH/bjBx6cNh8bkmleWg5mSm60K92A3tQ=
-=CihP
+iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmIG4UgACgkQqwNHzC0A
+wRm1+Q//QGpQSab1LPXpRmbccPbMhY3kwnMBcOQ2Llp2NrnebTJqjVLaJcmWu62Z
+bBCXv5Ag6mDXh4Y0rOT/NfPkZpzqa0F65WkXaXNmCzOwOWDc7GTOhXFSKD6bjbH3
+84O4ZaVkczBWGbLun2C83gfVyv1nXuRSeWGJ0T0e9sMWUgV1TJPtSIQjwbv8ABFh
+lq38vC51sibgumC542MUetQO/UWCr5YYn34CLBwRwQPgaK15rCjr++sgd+r8sh+S
+O8SaeaqsdtMZfp+FpwY7lyeImhFE94r6qZ/bT7B+8AnP9QeC1rC2GnNrEHZKxT2i
+Y5XOmIwb9VFh5Y7nl/i3zLDqTaqhw6k9F/HbLZWbwFLRSaE+4SCk+Dv/bfAjb9Jp
+BAwlLZsa9S+dcJVeW2FxIxuWtMXvhH7xNFUnEBjaObvLQCal4ek5BDWydsvzFFzN
+HpMukmUAOmIe3yhxAi6uNqAj7Xn1B0ZElsc3G7skO+oLpqRraU9Ss2e+APgKy6Jq
+iDnXtnPsyW9C33nfOq0m5SVQHfRNlsnbG6Ez1nPZFgWcbLdYPo4+RLBYA/EPr66Y
+UBDyxT5UPdSQIuaqyf/a31qAqP8cpV3loeikAq5Zf1lTo0tZ9y9gT8tByctg3PTs
+Z2dZLZxnVKsRfwrdhppRk6ncUmN/XFMYo0/kJ/M9YZLS1kN+fgY=
+=4x0h
 -----END PGP SIGNATURE-----
 
---JisbnzQp48fIKCGa--
+--xmU4fn0mtBe9neDo--
