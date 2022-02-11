@@ -1,124 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BEDF4B1B7B
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Feb 2022 02:45:17 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F1D64B22F7
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Feb 2022 11:21:35 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JvxJW0sgRz3bZf
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Feb 2022 12:45:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Jw8mD66t2z3c9t
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Feb 2022 21:21:32 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=quantacorp.onmicrosoft.com header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-quantacorp-onmicrosoft-com header.b=WwPcPIGZ;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GMFLOziB;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=quantatw.com (client-ip=2a01:111:f400:febc::725;
- helo=apc01-hk2-obe.outbound.protection.outlook.com;
- envelope-from=potin.lai@quantatw.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=quantacorp.onmicrosoft.com
- header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256
- header.s=selector2-quantacorp-onmicrosoft-com header.b=WwPcPIGZ; 
- dkim-atps=neutral
-Received: from APC01-HK2-obe.outbound.protection.outlook.com
- (mail-hk2apc01on0725.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:febc::725])
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=linux.intel.com
+ (client-ip=192.55.52.120; helo=mga04.intel.com;
+ envelope-from=andriy.shevchenko@linux.intel.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256
+ header.s=Intel header.b=GMFLOziB; dkim-atps=neutral
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JvxHq018pz3bVt
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Feb 2022 12:44:38 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jUliPbWo+2pFF6XCuT8B25teqyJ57vu2gGJknsk3u1bBuedpiRfnrj3rA3Dn/2+ifXRg0FfyOMnTtJ5pEYmJwYKFd9dko50Q6GemYg1/9u4w0vDf4vM+ORbuzeQVQgu9bSJfgxVadjHYC77eASYsVRdKJ9QGVCOJaWFv3i8bzUoHvrrTDusKl3RI8tUTNTkifSkLuU6RuDr6QtD+aG36vGOlVNE/LP5N5ar1jk3Q1uBz6idrbK/GISdLl36DtaNNppP9T27npuxzomE0jhXrbp3CGtofWeSibPMM0dP+uAYe/TlGCTG80cWptZLCQJnxKYuh/wKhmujeaQApCU78mA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t0989AQrgtAi+w58RU2gYi9NJlJnSHgb/LxQ+6jxmXo=;
- b=NDU1yGW9scolC52yJKJxVHnY+Sg8wfLr/tfK9MRJwA/ErndLpVukze8xk1NNJ5sGAgI8bdT6lS84wRK9Sjn/Y9UTmbor9tmagLHM31l4ltZvqHJ8WwUKqeiAVenXF6Uu2xsd7CgeObEOml7mIDxZEDP78UdwoMDPx1z9HDu7Tw7binkmQbOcFAWkH0paJ0QmDn2sRdxjrl0qfQhdK74E0sNrociEtgXP55Rro4zFnLhdc+0ZeiDdwtbSwl9UBal/wh3tj59coCZnVr2f3D8Kqf1pCVDv57z51Vcz3ni+Dkp/r+HUM+naKpMOtJBFgOKHmjntkw4SMjGqWtDA2xrdGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quantacorp.onmicrosoft.com; s=selector2-quantacorp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t0989AQrgtAi+w58RU2gYi9NJlJnSHgb/LxQ+6jxmXo=;
- b=WwPcPIGZBvFcLRwbYyxIKon5GJV4QUY2Bo3XU1iUT20P2H2ualSXXYNC7Ug0E22TZNGYClfSDiRJ8v9stP6gJxbTtkSQM4L6inze94FHSNAWhFiSYGKQti8z+iFFAKxQL8pHc4gBjFg5+zp/HUfyom0nwnhkDb+jh+BoSBKxPW4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=quantatw.com;
-Received: from HK0PR04MB3282.apcprd04.prod.outlook.com (2603:1096:203:89::17)
- by SG2PR04MB3577.apcprd04.prod.outlook.com (2603:1096:4:9e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.17; Fri, 11 Feb
- 2022 01:44:19 +0000
-Received: from HK0PR04MB3282.apcprd04.prod.outlook.com
- ([fe80::8160:1a0:97e1:9e53]) by HK0PR04MB3282.apcprd04.prod.outlook.com
- ([fe80::8160:1a0:97e1:9e53%3]) with mapi id 15.20.4951.019; Fri, 11 Feb 2022
- 01:44:19 +0000
-From: Potin Lai <potin.lai@quantatw.com>
-To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH 10/10] arch: arm: dts: bletchley: cleanup redundant node
-Date: Fri, 11 Feb 2022 09:43:47 +0800
-Message-Id: <20220211014347.24841-11-potin.lai@quantatw.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220211014347.24841-1-potin.lai@quantatw.com>
-References: <20220211014347.24841-1-potin.lai@quantatw.com>
-Content-Type: text/plain
-X-ClientProxiedBy: HK2PR02CA0143.apcprd02.prod.outlook.com
- (2603:1096:202:16::27) To HK0PR04MB3282.apcprd04.prod.outlook.com
- (2603:1096:203:89::17)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Jw8m63z8yz3bW9;
+ Fri, 11 Feb 2022 21:21:25 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1644574887; x=1676110887;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=RJ+0ZmlVTd1NI8J1ND1o+WTJfa5qruEZ7EtRTsDra1o=;
+ b=GMFLOziB/0PcyPfu4htv5N57EGEYFRva8GTTGAmDHVVy4Pj/LcAOROW2
+ R++ljYjiTEXVLFf9ReY3p+rOKPoZ7ZeolVFxtL65uLwNVI/TEmpWwYyfi
+ zR9n81NxhQcCMv45oBGczjgzMG0CSwDkc6K00AXwmNtHfJpmx/NkFByRi
+ uyKxoEJ7wgFLBee+C/GZ9lrdEI+pNhVuBXKj7maiYg15nodC14fleLD26
+ Kxt24pNKcFigRPWuj93CIf6vIkD6Z9fsMN6sx17WaKxMIKbSAsdwkjk5h
+ MWYOrGkPxeoWlB1XsGRN3oHahTZ95cCjG1FjXovzNjV6FPQz+E/B6IHT8 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10254"; a="248538210"
+X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="248538210"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 02:20:14 -0800
+X-IronPort-AV: E=Sophos;i="5.88,360,1635231600"; d="scan'208";a="568999001"
+Received: from smile.fi.intel.com ([10.237.72.61])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2022 02:20:10 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1nIT1F-003PAX-4u; Fri, 11 Feb 2022 12:19:13 +0200
+Date: Fri, 11 Feb 2022 12:19:12 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Zev Weiss <zev@bewilderbeest.net>
+Subject: Re: [PATCH v2] serial: 8250_aspeed_vuart: add PORT_ASPEED_VUART port
+ type
+Message-ID: <YgY4IODZlKTG7yzn@smile.fi.intel.com>
+References: <20220211004203.14915-1-zev@bewilderbeest.net>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 88f2fd1f-245b-41db-a54d-08d9ed000435
-X-MS-TrafficTypeDiagnostic: SG2PR04MB3577:EE_
-X-Microsoft-Antispam-PRVS: <SG2PR04MB3577935DB1FC933E2993BAFE8E309@SG2PR04MB3577.apcprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1169;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mgvXX8Hd7GZOtYoEylFIfDDcoOrWKCi/ulj4rARrN09SclxLUw8zcd/kTifY0A40IJiXT/tJrDiV02MiLgoeAtRMeww5Gih2IaiYYf9t9alNyQrwoa1BUfMJUoyev6CBBjahK5F9PeojTEOkvkABDXwe/qJYM1Ah1FZnfsZxEFuUIHHut0J6zcJv9ZeQI+z8REv3GD6w5AyRKUpC6L+4GStLj4GSxKPaNhKa6R8xR32xHq/ejPr8JehcIse2y0vESNYfs5MDVB2g1DcNIWcpwvtcb24N+AcvWILI0O2uoh2tHKhIudLfyaNfU9PriVG6UE2xHN/BA45bQHpYpP5rafL/PyaBfmh4uZWavA3IAhwAa8M30bFaTuhoYjUryfzFTxNwgbFGsWi1U5kzTljYnYdwr1+IkMJassz4LYoP5rQYND1jj5/6eQwa8Od/wnIeYMCkbf03KkxVyOYx1NlHqfP1ubs+kYFUQyorjopggAEpUBwijxPEvCesr937VSZVm/QWeOZf+orpTuHB+xIR9UxdR5D2jnL3eH4xQzCYXi0xI879taaWnAcc7UQ+AQcWrwSP/3tO4Qkjjv3dSyejvlll7JyEUCI04wszN7WNYcpmM6woY87o66FFdqiODTYuaD9Tb9636srTj1tkbSJH/XXfW07oK4FbZR5RPGXbd8GBLi1pFMro/DJYjEF57EC1Rkd1QNiAXmVo3jUbQKJqkg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR04MB3282.apcprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(5660300002)(110136005)(107886003)(86362001)(54906003)(8936002)(8676002)(66476007)(66556008)(316002)(66946007)(186003)(38350700002)(2906002)(2616005)(1076003)(38100700002)(6486002)(508600001)(26005)(6506007)(6512007)(52116002)(44832011)(4744005)(83380400001)(6666004)(36756003)(4326008);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?V+vivwykLngGOcZk4B+XwfSQ0qcqZn+56qurf+gnm7nJ6/kczJuMvNug8e6l?=
- =?us-ascii?Q?po9A2idLKn7jwmhL4Oex2QtF95RhpJONoqWZ8rp4zX/3WOxm5DpWwNX6/6Qd?=
- =?us-ascii?Q?NxXmrmeNE/4/He5N+lbzRP3yvQQMulhtzQtB0jIbOMzjchauA3Q14usJ01kG?=
- =?us-ascii?Q?VD3VIpj/WoM1XTPNjJ0z8+rfb/xpWZlcnzJtX8tuASu/u1n4EFxPAYhKbzwK?=
- =?us-ascii?Q?Cvw7YvEqTtJMzved63hvvsDUWUhX0QJVSs8FLwjlN12bKaBsqe+LpqTf6Bbo?=
- =?us-ascii?Q?J6xX06X7RBE68Lbx78iMENJ88M4DooXmLptq0Kk+aO1JYm2pfze3zpYAPohR?=
- =?us-ascii?Q?SNU80yVFPomL/xmDv6BZquWMPZCbZpaaqiwnJzlqyrh8BBGBB4Jj2BmM38bW?=
- =?us-ascii?Q?Gm67sj15uKymKorPSKtEfSNuAPLLT2rOV8wjM9YfOTp4eDF1Zr8ba3abCWyU?=
- =?us-ascii?Q?FhOpzyCf0vgYLll87HkcfWe8UBsfRlQPzUCvdt7kdzMgz8keNm2TDlkxBr2j?=
- =?us-ascii?Q?i1vLo+8IGma2dnn+jTU4vQROwev2CUTEKHowsqL8ZW8ZP9LQ42vVSRfG1uS1?=
- =?us-ascii?Q?FKA72L9eIwY3IqMHR3h0uL7dSC7gVqLuTPjPU8NS9EOKbksgf2+RWqXWl+Xu?=
- =?us-ascii?Q?sh0Ad7xy2tUCYVGy2htYSHBhk3mxcVzZ25WyI8su6LhnWhPznTQpbg5BzERf?=
- =?us-ascii?Q?CP8pDvz6ukV4E5oGrIWF3ATsvpqiIyTFCFVuq4ivYg6EFki8XmrQbLtdSwAC?=
- =?us-ascii?Q?+TWGECrjT4qsvwK7J35ZoNF2t9YcsBXvQpmJoLYuesSWLvxH39n9VYeGEUKc?=
- =?us-ascii?Q?9jFHKneO3l+Vcnp7lJlcnr8jO5dlDdRxS+Ul7UbatlAfvqPoRW4enOREmSwY?=
- =?us-ascii?Q?iKG/9LsYtYl8eNgtM4WkZpCnVCnhT8t66llCGsVZCeAjQ6kgKW7WDYId1SnD?=
- =?us-ascii?Q?NQSiKagfs+PmOKLhbarlUV05PTqUCfZSUgcwf01JbSDHyzeYDN8s3rv1jlTx?=
- =?us-ascii?Q?9N5B9s7j6FTgtTbWPKabOCRGHeB4EwASQ3td3Swfym5rzkQQba/Gb1w0atD+?=
- =?us-ascii?Q?iPRcbjz208wqiQaX6wv52VdhywSl7Kqkq2lcrTJvVeKhnnuWKlTBoLE6riF7?=
- =?us-ascii?Q?tVZtZw5WOrnMeIz6P9uCBLiUeT2Zg6yw2W6X5BbntjrS4Y7djqKMhqiRTagV?=
- =?us-ascii?Q?Jg42yzneiwMDAjjQAE7EEcytonw6m2Zd6slHaR5svD9CSJZMHGgNdShYCg5R?=
- =?us-ascii?Q?9nNnSmfA/31sG1D+U6tHssWwuw6ot1xGwugWPktuW1kYSinCHsZLPQef7dji?=
- =?us-ascii?Q?pZ8eST6oX6ONR7Jxhd7ZVz45KH7Jyu+qvKofo7sNa4D1kd0iq+X8YlBxL97n?=
- =?us-ascii?Q?SCH1QLUjQQfFbMvs2J3DhKQU8zspUPQGC76R/STYCwtnbw2hrRyC5Zys3nrp?=
- =?us-ascii?Q?x1wUfdw7GAYo4AdYKYsJLDOq9fI6X156OaOCy3boX9jLpfv4Zkc9cYPu7nOO?=
- =?us-ascii?Q?mw68LK1CY/pRrKnctU+wC/wZcUlyosH2YpTmlSk+MEoNH4maeUqvp5GqWOmD?=
- =?us-ascii?Q?wRnL2zr2EpzF6+rr2ft4lcWi3+nxIr+EAeCKN5qY1tLFM7HY3tq0Qf9PvbBZ?=
- =?us-ascii?Q?195+iug3WxPzbX2s5nQuuQo=3D?=
-X-OriginatorOrg: quantatw.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88f2fd1f-245b-41db-a54d-08d9ed000435
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR04MB3282.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2022 01:44:17.7293 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 179b0327-07fc-4973-ac73-8de7313561b2
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C9qV3D+2KBoBvBRCtK0fbIwvvio1uq4fhHjZx6xbEeVs7wVU++glropCiLA5Yf0Tmzo1iDRFrYAM+S4yqQiCEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR04MB3577
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220211004203.14915-1-zev@bewilderbeest.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,55 +71,50 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org,
- Patrick Williams <patrick@stwcx.xyz>, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, Konstantin Aladyshev <aladyshev22@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, openbmc@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, Oskar Senft <osk@google.com>,
+ linux-serial@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Remove redundant i2c1 node.
-Disable in-chip rtc, use external rtc (pcf85263) instead.
+On Thu, Feb 10, 2022 at 04:42:03PM -0800, Zev Weiss wrote:
+> Commit 54da3e381c2b ("serial: 8250_aspeed_vuart: use UPF_IOREMAP to
+> set up register mapping") fixed a bug that had, as a side-effect,
+> prevented the 8250_aspeed_vuart driver from enabling the VUART's
+> FIFOs.  However, fixing that (and hence enabling the FIFOs) has in
+> turn revealed what appears to be a hardware bug in the ASPEED VUART in
+> which the host-side THRE bit doesn't get if the BMC-side receive FIFO
+> trigger level is set to anything but one byte.  This causes problems
+> for polled-mode writes from the host -- for example, Linux kernel
+> console writes proceed at a glacial pace (less than 100 bytes per
+> second) because the write path waits for a 10ms timeout to expire
+> after every character instead of being able to continue on to the next
+> character upon seeing THRE asserted.  (GRUB behaves similarly.)
+> 
+> As a workaround, introduce a new port type for the ASPEED VUART that's
+> identical to PORT_16550A as it had previously been using, but with
+> UART_FCR_R_TRIG_00 instead to set the receive FIFO trigger level to
+> one byte, which (experimentally) seems to avoid the problematic THRE
+> behavior.
 
-Signed-off-by: Potin Lai <potin.lai@quantatw.com>
----
- arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+...
 
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-index 946107bd8bc7..fb62a67cfeed 100644
---- a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-@@ -205,10 +205,6 @@
- 	};
- };
- 
--&rtc {
--	status = "okay";
--};
--
- &fmc {
- 	status = "okay";
- 	flash@0 {
-@@ -387,10 +383,6 @@
- 	};
- };
- 
--&i2c1 {
--	status = "okay";
--};
--
- &i2c2 {
- 	status = "okay";
- 	ina230@45 {
-@@ -680,6 +672,7 @@
- 	};
- 
- 	rtc@51 {
-+		/* in-chip rtc disabled, use this external rtc instead */
- 		compatible = "nxp,pcf85263";
- 		reg = <0x51>;
- 	};
+> +	[PORT_ASPEED_VUART] = {
+> +		.name		= "ASPEED VUART",
+> +		.fifo_size	= 16,
+> +		.tx_loadsz	= 16,
+> +		.fcr		= UART_FCR_ENABLE_FIFO | UART_FCR_R_TRIG_00,
+> +		.rxtrig_bytes	= {1, 4, 8, 14},
+> +		.flags		= UART_CAP_FIFO,
+> +	},
+
+This is quite similar to AR7 type. Can that be (re-)used?
+
 -- 
-2.17.1
+With Best Regards,
+Andy Shevchenko
+
 
