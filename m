@@ -2,47 +2,121 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6874B4049
-	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Feb 2022 04:28:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95AAA4B40B2
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Feb 2022 05:26:29 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JxqRq4dr8z3bVG
-	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Feb 2022 14:28:07 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Jxrl70Jh4z3bZy
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Feb 2022 15:26:27 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; unprotected) header.d=quantacorp.onmicrosoft.com header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-quantacorp-onmicrosoft-com header.b=Qao834F0;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=jammy_huang@aspeedtech.com;
- receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
+ smtp.mailfrom=quantatw.com (client-ip=2a01:111:f400:febc::704;
+ helo=apc01-hk2-obe.outbound.protection.outlook.com;
+ envelope-from=potin.lai@quantatw.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=quantacorp.onmicrosoft.com
+ header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256
+ header.s=selector2-quantacorp-onmicrosoft-com header.b=Qao834F0; 
+ dkim-atps=neutral
+Received: from APC01-HK2-obe.outbound.protection.outlook.com
+ (mail-hk2apc01on0704.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:febc::704])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JxqRm1x1mz2x9P;
- Mon, 14 Feb 2022 14:28:01 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 21E3IjpJ039545;
- Mon, 14 Feb 2022 11:18:45 +0800 (GMT-8)
- (envelope-from jammy_huang@aspeedtech.com)
-Received: from JammyHuang-PC.aspeed.com (192.168.2.115) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Mon, 14 Feb 2022 11:27:11 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <joel@jms.id.au>,
- <andrew@aj.id.au>, <linux-media@vger.kernel.org>,
- <openbmc@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] media: aspeed: Use of_device_get_match_data() helper
-Date: Mon, 14 Feb 2022 11:27:08 +0800
-Message-ID: <20220214032708.854-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Jxrky06XJz2xY3
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 14 Feb 2022 15:26:16 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kqMm85GZXRUYSxvvvOeBxrfwTfKR7tWsaVs61tPC6ESTy43SPgPU83fTuRZqAzPKYwnJRJllSomn4nEXrAqoVxz4ItCqbm+2hZ4xKQVuuug4UGtovnhVR2fDEugpVSFl/QvCGpAk0WhS1n/F9TXzYE32RxCQ63AkiQ4VB4MW6xX/MKrrxg1+lfbZuwW77J8g5jZh6Icp5U/NvmHjna3mD8B11lNIb6U0Sox9XoSjo6kUR4CV4ZghjLG9hpj6f+47Io0hN76pUFizN89pH3mOA2n8dG4wrHD7Iy8a4iEzuoTGVYEv7QCFldBJ7cYtiQEbRmlwiArYbdxVC8Yqk0Z+gQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DwPThxUa4lppSG4WcB365RJn7VMCO8VtnfeYQFpgnHk=;
+ b=T/dbIj0AD/qnlMdAdICYv2DMloRBen/8tTAt8Mn2/6DxQeroLrzV3QYNrDvEOrKu4BhCjr6MK9rgISwLx9H+Dn3ig3wc8PgQWt/1RrA9zNl6srCwcvwMl5NqoWsJ6eTT4e6mgfgn/qpdyofYc7bcG0SboL3UnI0cm/73BFWhkwy1cJCUxVqTBVM40iF8ECO79NpfrgKfKrQFKR1vySrX5NOND3IoQ6trxgUDf2hpVF8rHDab986DtiDAFurmldENi6B91zi0LFEr0lsBQwnVCt6kfhc1VpqblHMOiYoaaUUZiUUBdnTad6k08W3+2WYfW3ZSNZO7RhpNsK5bYltxMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quantacorp.onmicrosoft.com; s=selector2-quantacorp-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DwPThxUa4lppSG4WcB365RJn7VMCO8VtnfeYQFpgnHk=;
+ b=Qao834F0UO7bAM241PuZPgoPbnBpb4bjONFOQM4tKfwksHAVEXOj9e9d+sGfvt5JtgekGAZf3JwhGUJDtS5MMZZzPobtBTYOt7HtQ+Fpl9ALdtAoE76K2d9kqC3fNitXk267eab55QIpUVhLv/GyQ8Qok7TfzpZaFFHFC4MNtbA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=quantatw.com;
+Received: from HK0PR04MB3282.apcprd04.prod.outlook.com (2603:1096:203:89::17)
+ by HK0PR04MB2579.apcprd04.prod.outlook.com (2603:1096:203:64::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.14; Mon, 14 Feb
+ 2022 04:25:57 +0000
+Received: from HK0PR04MB3282.apcprd04.prod.outlook.com
+ ([fe80::ec21:c033:761d:3e03]) by HK0PR04MB3282.apcprd04.prod.outlook.com
+ ([fe80::ec21:c033:761d:3e03%4]) with mapi id 15.20.4975.018; Mon, 14 Feb 2022
+ 04:25:56 +0000
+From: Potin Lai <potin.lai@quantatw.com>
+To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>
+Subject: [PATCH v2 00/10] update Facebook Bletchley BMC
+Date: Mon, 14 Feb 2022 12:25:28 +0800
+Message-Id: <20220214042538.12132-1-potin.lai@quantatw.com>
+X-Mailer: git-send-email 2.17.1
 Content-Type: text/plain
-X-Originating-IP: [192.168.2.115]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 21E3IjpJ039545
+X-ClientProxiedBy: HK2PR02CA0127.apcprd02.prod.outlook.com
+ (2603:1096:202:16::11) To HK0PR04MB3282.apcprd04.prod.outlook.com
+ (2603:1096:203:89::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7878a3d4-c6bd-4054-40b2-08d9ef72180c
+X-MS-TrafficTypeDiagnostic: HK0PR04MB2579:EE_
+X-Microsoft-Antispam-PRVS: <HK0PR04MB257941989200E041B938E48A8E339@HK0PR04MB2579.apcprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:590;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2L5Cn7Mq1fUXe4nVY+YwzDJWjNdxYLPOwsDffNmVt3/smVN2nSv7O3u/zUxj0MTVDn1Ux/5DzyqHmkpwLUltE9seXBKG2vdg9q91GYvxWuPBxgNrzVMRZ7DoofR1uT8RiVjcSyqJrU3rcWvkbZrfuqT8BYQSCpV1LXslf1BH0mN4YV8k9o20nSsdX256LK/bKKzJv+taurGc5lUor8QT2opos20+EQfzUnyA+CQC8/U30QftGV3ZNLGJtxH7JkLmlb5hZeg6KGxxohVhNFimK7QKjlBbvqInkXD0VeXD+55gygYI9Yhpb7TOtX1CM7a9nRrRefynZb4uQKBq5ZBTKQKriaofawlyXkr+lmLc2O6Mh692FrqwHu9B6m1kTJB/yh+wTNspCyxYq/BH5tTomJAVol0s5TPlGijtuaX2WjZ/RND9g8l0I5b+jamrTbXtxiL6oe5pCL9fMtghThqATXtMDM/IuO3k/xf9hW4nvl7dmgUa79syGYEJfvT/MGmn/66YsIdq1vV6mzeQL9MGVE+V1Kjk6XeGYHVr1r5+7enBaTP+pyTbiNjmu+t0xkT4INlDGKCGmTSdJ1C4Tl4l6FairXxbAVFBiX0Yeo/1k4qMDRGWbKiQ8SmGbbH2n5V/NjO/2s5XqOSr6hP+a15PQ0jc8k88DssyX02exZBoR8ZHXf1d1n++KaQ3sCU5mh3dTGT05Oq6PeqSDyE7TrYchIXz5NtL/+mmW1DjraRBggeBYf+5amrSaHFHwxVuoECST6Z/MLfNm3fjPU5FVLU2MV+MnUPD0dqjysx2ye0NhQw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR04MB3282.apcprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(47680400002)(66946007)(6666004)(83380400001)(4326008)(44832011)(107886003)(86362001)(36756003)(2906002)(5660300002)(66556008)(66476007)(8936002)(15650500001)(8676002)(52116002)(38350700002)(110136005)(38100700002)(966005)(54906003)(6512007)(6506007)(6486002)(1076003)(186003)(2616005)(26005)(508600001)(316002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6P8puICVX2FPDZhzOioiFvEHEgNO8eOHMcQtZ5SboiC96KoMixl+1hBuWJ/o?=
+ =?us-ascii?Q?WBL3olWom0CKUe63BuoI02bHXqEYEFeIs097CUUr0ilRdCYScAj1Q3ofPd1m?=
+ =?us-ascii?Q?off1qFOhOXP4aP4jSWpdVx0DcOntsPvaZ9MMoHQ1CY8mGslPWTdaECN0E/aT?=
+ =?us-ascii?Q?OvOpTdmlSiLfnY3y6OkYuT7K6bRSK/TjGEQC7ev7Ldw9rJcNOzlxNVWnIBWK?=
+ =?us-ascii?Q?qrpsQxRVaxISLXuHSjPUDNXO32XKqROEPxFK44nDcJWJxKSSiAOiHHLhwqsf?=
+ =?us-ascii?Q?wOIQjxzyjjiWwKNmV98dmDRrYDo+QEUH5/2FnzSbXaxGp+JUgCokRdwQMwid?=
+ =?us-ascii?Q?eH02WN+55YEqUOMelYW88/R6Nm5iKo+FMITvZs9M8qp64OCdLFwycO+/l+OB?=
+ =?us-ascii?Q?EVBU/erlnmj6cPfeonwDNN4WnY6CJL5SSIE8c9aF5UhXfROagELEl07mW2gl?=
+ =?us-ascii?Q?losNruWHg1qdiCViHDNOT0WQMPPSP/caDD6mjU8bn2+PDdwcwWRU8VTsv6xH?=
+ =?us-ascii?Q?IOo99fCaxz6EsOqweFinf4pHslM8Uu8zsNafodhlZlgtEKRmj7R7B0KbVzKV?=
+ =?us-ascii?Q?E+R2MuXWxig44yI7FR6tklBju11Rc1wid0KuvpNy4SUMVYq0+v/7bsXtYzLw?=
+ =?us-ascii?Q?kh5fbHG6CL9/E10TDfT35ibtT/54xVRtw+eTmFKSQuLbOKheL5vqIoYPsYty?=
+ =?us-ascii?Q?emVQDCAY6BjNdO0Vhqpo2e0DoJn1R+ZmVx6n7GcK2iB/YaUlsnpJygVDqI1T?=
+ =?us-ascii?Q?lEcSTMGtJ8HOVx0Mz2cxw9+CsJKK9FkYI6cp+pd20IQKZIKg7iNXbvDjAG8r?=
+ =?us-ascii?Q?4DQcT9awAcv597W/fyGSDZzyIMMGFlOstjWYIsjNfTDFll+bffgjWW7UJiB2?=
+ =?us-ascii?Q?eLeMbidZA4wuiuwSeBO56F4HQspwKdM7xECZ+9RLfZ0lrq2lMR+nWzTcRRK5?=
+ =?us-ascii?Q?dK3JCDvlu84rUwi9bpwxU6TWl0Ae2o8Yw/w02AhukA+ciSPVTvi8cN9hvy+z?=
+ =?us-ascii?Q?2iiO1MhOON2Yg717S4L7rT185qferVJcrQpoGtTLt7pNRzDso3sovbLjchW9?=
+ =?us-ascii?Q?wmiJZCykNLmdtnIak7qYwDZWwdsBlCDuqGYA2mAYSsHePualK0pix4uBrEIM?=
+ =?us-ascii?Q?jVFdq8vrHSdSXY4UHz+IEXLergz3EMKiAOBw1erlJluKhYPF8furiY/Av8mn?=
+ =?us-ascii?Q?TE2r5amUc+00Gi7NeMN3iwTpl2JcVltCPKaRVVX30L26gu0Eq3nz+qouanQA?=
+ =?us-ascii?Q?NLhnH1MrA7/4z2r4jaFvjVFKHxn96WJPRScMwnygKBKAymza3WMb8d0trwyG?=
+ =?us-ascii?Q?RO3p5o8gZ4rGUeKWKPTwwt2QFcEn1t5BhKPucOJ8p6R/XYmukbIa7H+rwTv3?=
+ =?us-ascii?Q?rlnGgMeywMbdmxFBpLo0PP4j4t/KM35rAksoGl4A+/ignt8f0BISXZdDYo6+?=
+ =?us-ascii?Q?u5zPpGH8bhKVuWkU6Ai6cbyp4mDYRHcJ7hPZK9lSVHthqodQWOehO4W3ShyX?=
+ =?us-ascii?Q?tFcWoy5XnTWQ7eEQ8ks56M9dH48lAE9TP6UO62i51x8zu3KtMhQHAXACOWcR?=
+ =?us-ascii?Q?2jSSMgSS/uMSIUo19pvLlXZXLox2mZNi86XyNZTQ3BA6FFzirPS+myMgHZ88?=
+ =?us-ascii?Q?bFmvovTrTo+erMxIa6mudv8=3D?=
+X-OriginatorOrg: quantatw.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7878a3d4-c6bd-4054-40b2-08d9ef72180c
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR04MB3282.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2022 04:25:56.2620 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 179b0327-07fc-4973-ac73-8de7313561b2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1rO5xpxdK1Yj2XbIcm9zcE7MXHPeCZ66EFtGQB35MZmVfIrcyRxefN9PZg4TzYzgMJVBMXuePUCPCGx2ymnPxw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR04MB2579
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,50 +128,58 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org,
+ Patrick Williams <patrick@stwcx.xyz>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Use of_device_get_match_data() to simplify the code.
+This patch series update Facebook Bletchley BMC devicetree base on EVT HW
+schematioc design, and rebase SLED numbering to 1-based for OpenBMC
+multi-host.
 
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
- drivers/media/platform/aspeed-video.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+- GPIO:
+  - adding more gpio line names
+  - include interrupt line in io expander for gpio interrupt monitoring
 
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index 3904ded2052a..d4acf84cda9b 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -13,6 +13,7 @@
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/of.h>
-+#include <linux/of_device.h>
- #include <linux/of_irq.h>
- #include <linux/of_reserved_mem.h>
- #include <linux/platform_device.h>
-@@ -2451,7 +2452,6 @@ MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
- static int aspeed_video_probe(struct platform_device *pdev)
- {
- 	const struct aspeed_video_config *config;
--	const struct of_device_id *match;
- 	struct aspeed_video *video;
- 	int rc;
- 
-@@ -2463,11 +2463,7 @@ static int aspeed_video_probe(struct platform_device *pdev)
- 	if (IS_ERR(video->base))
- 		return PTR_ERR(video->base);
- 
--	match = of_match_node(aspeed_video_of_match, pdev->dev.of_node);
--	if (!match)
--		return -EINVAL;
--
--	config = match->data;
-+	config = of_device_get_match_data(&pdev->dev);
- 	video->version = config->version;
- 	video->jpeg_mode = config->jpeg_mode;
- 	video->comp_size_read = config->comp_size_read;
+- SPI flash:
+  - adding dual flash BSM module support
+  - switch to spi2-gpio on spi2 due to unstable signal issue
+
+- Hwmon Sensors:
+  - adding INA230 sensors for monitoring
+  - fix ADM1278 shunt-resistor
+
+- MDIO Bus: enable mido3 bus
+
+- RTC: switch to external battery-backed rtc
+
+- OpenBMC: 1-based SLED numbering
+
+
+LINK: [v1] https://lore.kernel.org/all/20220211014347.24841-1-potin.lai@quantatw.com/
+
+
+Changes v1 --> v2:
+- update the details of new added gpio line names in commit message
+- add battery-backed rtc information in comment and commit message
+
+Potin Lai (10):
+  arch: arm: dts: bletchley: switch sled numbering to 1-based
+  arch: arm: dts: bletchley: separate leds into multiple groups
+  arch: arm: dts: bletchley: update gpio-line-names
+  arch: arm: dts: bletchley: update fmc configurations
+  arch: arm: dts: bletchley: switch to spi-gpio for spi2
+  arch: arm: dts: bletchley: add interrupt support for sled io expander
+  arch: arm: dts: bletchley: add shunt-resistor for ADM1278
+  arch: arm: dts: bletchley: add INA230 sensor on each sled
+  arch: arm: dts: bletchley: enable mdio3 bus
+  arch: arm: dts: bletchley: cleanup redundant nodes
+
+ .../dts/aspeed-bmc-facebook-bletchley.dts     | 303 +++++++++++-------
+ 1 file changed, 194 insertions(+), 109 deletions(-)
+
 -- 
-2.25.1
+2.17.1
 
