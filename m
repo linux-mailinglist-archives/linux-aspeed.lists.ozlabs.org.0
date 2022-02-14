@@ -2,123 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7124B40D1
-	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Feb 2022 05:27:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB104B4202
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Feb 2022 07:35:49 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Jxrln6nKwz3bZW
-	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Feb 2022 15:27:01 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JxvcM1LTWz3bbG
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Feb 2022 17:35:47 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=quantacorp.onmicrosoft.com header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-quantacorp-onmicrosoft-com header.b=12mIa43N;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=kFGI58gk;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=quantatw.com (client-ip=2a01:111:f400:feae::72a;
- helo=apc01-psa-obe.outbound.protection.outlook.com;
- envelope-from=potin.lai@quantatw.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::833;
+ helo=mail-qt1-x833.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=quantacorp.onmicrosoft.com
- header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256
- header.s=selector2-quantacorp-onmicrosoft-com header.b=12mIa43N; 
- dkim-atps=neutral
-Received: from APC01-PSA-obe.outbound.protection.outlook.com
- (mail-psaapc01on2072a.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:feae::72a])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=kFGI58gk; dkim-atps=neutral
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
+ [IPv6:2607:f8b0:4864:20::833])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Jxrl43f93z3bTN
- for <linux-aspeed@lists.ozlabs.org>; Mon, 14 Feb 2022 15:26:24 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OfUJWg6tYOnUZWeTtjO9mM5nCoOcsnZpC+7YHgJJhw5TsKc02sx8u0qx6gYNsv1f5LkJe8a223YzJAZ6ImP/FtZE4aLRdavdEeNRKHT/WGySjEwe61ZRp2Au2iWSYb/QQm63aRfrmSCCGzibnmEk2TB2l2z4UB5pHXHlOyZvEI9/cKjMEik9h11y7rdqJZUhC97kZBTSvHchXausbparesii6auFPJuzoGKO8QinywDpOXozQWmWQFnL0hDXDD1DSySUOchg33UIIXrN3QFWzqnMyQiIR6KVWdB8drPIbHbyIhRpZLRZLKyRKXTVNRM2jX5BqpHjYehchm70wKUA1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YPOUxLPkgIHvneNPO+vh1qiWCiUwAAPBBO5un89I9W4=;
- b=Tti4wMMF+U4XynzENLGUzc0/up6XeArMOIVa43a8Ru64WoMLB7RL+7JvaV6yhf3xQGzK3HmLVvWYlrmaG0Z07YGGtaRn/WvVa0phDOy2dxCso3KhFLzsUe7ux5kVkkY+XsNAuaixQoWG8Vb3QQ637WBUoBIhvTCQqE8XtpC7baAMtq+LNMu9e07GMYgPzA1X6S1kFTo5oJMPh1LJaRF5qk6cJbqm4Loiy9ZFWzSnWJFA5kCcCNKDOtoi3I7/WAmUSCV3uWEEYw4wY15qKMhRT3+iVo4TJi2lIJN4XRF66pCO+RcW2kIRznBPPjdDksTg/gpaTpBAIJoQC74zxXLQzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quantacorp.onmicrosoft.com; s=selector2-quantacorp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YPOUxLPkgIHvneNPO+vh1qiWCiUwAAPBBO5un89I9W4=;
- b=12mIa43NRANrnkrzbxxadl7tCFDP1JERbTJ6CmJ83gZIrnVn3KintfXr6Ukf6r6QpxQw0ApHCnYvb+sBo0+vfDd+tGGiuDw9eyNTWO4qQVUOzDY5TszPD1gWGgIqJsBD1w1ITe23yn1hvMSswNcllmG70bmyAJECAtwzFG69HFA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=quantatw.com;
-Received: from HK0PR04MB3282.apcprd04.prod.outlook.com (2603:1096:203:89::17)
- by HK0PR04MB2451.apcprd04.prod.outlook.com (2603:1096:203:47::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4975.11; Mon, 14 Feb
- 2022 04:26:03 +0000
-Received: from HK0PR04MB3282.apcprd04.prod.outlook.com
- ([fe80::ec21:c033:761d:3e03]) by HK0PR04MB3282.apcprd04.prod.outlook.com
- ([fe80::ec21:c033:761d:3e03%4]) with mapi id 15.20.4975.018; Mon, 14 Feb 2022
- 04:26:02 +0000
-From: Potin Lai <potin.lai@quantatw.com>
-To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH v2 10/10] arch: arm: dts: bletchley: cleanup redundant nodes
-Date: Mon, 14 Feb 2022 12:25:38 +0800
-Message-Id: <20220214042538.12132-11-potin.lai@quantatw.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220214042538.12132-1-potin.lai@quantatw.com>
-References: <20220214042538.12132-1-potin.lai@quantatw.com>
-Content-Type: text/plain
-X-ClientProxiedBy: HK2PR02CA0127.apcprd02.prod.outlook.com
- (2603:1096:202:16::11) To HK0PR04MB3282.apcprd04.prod.outlook.com
- (2603:1096:203:89::17)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Jxvbh3HbWz3bbG;
+ Mon, 14 Feb 2022 17:35:11 +1100 (AEDT)
+Received: by mail-qt1-x833.google.com with SMTP id s1so14618247qtw.9;
+ Sun, 13 Feb 2022 22:35:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pyb5tWJcRHnLtMA4aomMpy/PR66GTMIsvJog689hRGc=;
+ b=kFGI58gk9L2wKQUEXFTQIbvdGcIcQo5SWS5Le+2Bz/yzMVC5mL9Te3zCOzUeI/andg
+ R0jO0pc9xYLWZ+lp0vuQyxunwlel8M6GupgUxW/zH0nsL/hjLvSsyDDsuWkSwUzoEw8g
+ QnHGQ55wKBkp1SdkzYlni7GuAzsLnTJWGNrSA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pyb5tWJcRHnLtMA4aomMpy/PR66GTMIsvJog689hRGc=;
+ b=yujh4H8oxdZbeC0gbLj3ZV92CfFSiGzgJUPgjaqzVXVWFu/r7l153VCVcqYNGJDwoy
+ s6oiWc0oVM0U+L/W8gsJurZ2d3mArSeVad68dR0dkrHtOuB7IUHNheTxRc4bIze5DwyA
+ 0nC9eiH52UbwuheCUgavG/XxaVNqg7MUvFbgldxQrSMCZKImNYKCV3vyvzxgeZuWBXLk
+ fD6BJWIgJn8G+8D+nKrbcdXn0XEWa9FHRh+68Ua6WzrCPDcxyUMTkCLEoOnmbErYax2r
+ LUh+o9mEfcsy3CbazgvckerdkZYSJq2XpGMjPRgLDfwrGgQ4kzRddcUnzC5NPca+3J2L
+ IoLw==
+X-Gm-Message-State: AOAM531y+z4eDayjfpm8j31DZV6ri6fGr/serFmocPAhe/LIqOH10tYN
+ CxAL60aih6Ar6UzzUm+ThaGYPBLE9l83DSGox90=
+X-Google-Smtp-Source: ABdhPJy9s/aFAuJqTSusNQt/lR4CkUZcKtx0CGfkmUOzhA2dqTW3wBKR7IQwfNsd1r9E1dqpyJV0U7n8PscONOlIaho=
+X-Received: by 2002:ac8:7e91:: with SMTP id w17mr8357451qtj.678.1644820506485; 
+ Sun, 13 Feb 2022 22:35:06 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ef025740-7972-4aeb-b547-08d9ef721c1b
-X-MS-TrafficTypeDiagnostic: HK0PR04MB2451:EE_
-X-Microsoft-Antispam-PRVS: <HK0PR04MB24512A1F6C11D52B5B216A448E339@HK0PR04MB2451.apcprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1002;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0ngTYyZ/eZaTT3IyntEJ2clPLykFizd6nnJXPn8HTUVQbEPqVo655R1e2ZXYJuUt1Q0SJMcTP6Od7EyoXM/imjYKxICv7jSuH3pr0+z3HGn3aeXqC0GtSjh+hV3cuXnmqIc6Nu7+6qVIVoTFAc3NU4dXW4uofMeL+647smADdhzyWl8a95g6pmWcNNyjReEs+yQ6PiFsE0J4nddArLCxRBgO8q8DEhuxMYeGqekklqxKNgLcokGIk0A6Rfh4eNb56Vgr1vYEbR02/92HeyKl4T2TNrLjOlf8vsSBB10Nu8HvQV1MRpPWuyT07kHxSXEk8WnkBsdrQOV2KuzE4d23ksHk9B/SfugLVu4oPF+8f5fdlRffIrXJeAiyYvSeZmsKfVHV4I+Q9xVP7z3kkgNw7BL+KKMPEzDs5yKvwCBhz48UREQSgg9qCaJe+KYm0EZ9XHx0uxpwuWlMklTlb9I4mT0iXUGWOBoepeccUDKN36FXECuvr4gQaImgYBHwNXZVq2fiQVQf4dSMe9DHhMs7HB0yeL/o4KYMms8FqPlx581Is6ONipXWJg3/bIe65eullvrbCTMbbV7VkGnO2SCKvsNGxmteilH9j6G/+9Fk8hVbqoCfVeLvGHE/Yox9c8b3QCgt2xRZz637GePhf+FHsLjZ7E8A8jSWlXyt+P/MwH14cLpcARZRWQW20kJdNsDJY+YseYweprp5DqV3gL0ImA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR04MB3282.apcprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(316002)(2906002)(52116002)(6506007)(36756003)(5660300002)(4744005)(38100700002)(38350700002)(6486002)(4326008)(8676002)(83380400001)(6666004)(66556008)(66476007)(86362001)(66946007)(186003)(26005)(107886003)(54906003)(2616005)(110136005)(1076003)(508600001)(8936002)(6512007)(44832011);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qNMNtKy297hY22UhFROzzmXn83kDs6qt8S3yMBc1mBHw5eGT51Urv3oRdaDe?=
- =?us-ascii?Q?aDkQUyYt9G5ouRVMVCpRlRuo47ktRgk9G28k504ZImGmx3+Uj3AZUK0ge75t?=
- =?us-ascii?Q?5mmhOAcLPZ8qT+Z9GuHiNoHLxE+P78dSR5Crd81zGw4+00wsA7vy4NJ0IbOy?=
- =?us-ascii?Q?08GPoGJ3QNz8WEhVkexWGkQ2Kv/G1YJoZS0bJERWoJPD33SV4Yg/gOrb/4FM?=
- =?us-ascii?Q?XanpYBriWXElEdE2hRSDkemCxVg5hPsS0ui/uu54PW0SDzFEgUHYTmN3EbkV?=
- =?us-ascii?Q?ahjnTj9UjZpJnMNlnRs9Vr8MpVdPkiCvVOuomMy41HuXQgPcs9yZceGFyaXb?=
- =?us-ascii?Q?teBqeQuNMzbozHfuoHko/68c8g1IcIY2UWIk2/VcikCf3xkVDGVXwp1V7AGr?=
- =?us-ascii?Q?BJNzPtaoFYO9CvKtA6rgwv8eZ75JfVSJe90WBPiafJ2qoLJ134Wj8Wv62g8f?=
- =?us-ascii?Q?CQZMTtlIL8ExEnPGCUQenNVO9yHQItardZrHDLcdy1XbsbuNmSjCz7151vXz?=
- =?us-ascii?Q?zgs7FTE/sJ60ajZXs82dm6vcLuYttnA2PCDmKUGiRgUh97Yi/cFc7gUp5dWv?=
- =?us-ascii?Q?rECGSUjMWHegTFa/rYHVkHKKDAJglgzLHDgbcIs048+WSbvRX7eXo4YBD+fJ?=
- =?us-ascii?Q?x9eEzqW3N+CfdiRAOhWFSgH0hmU48ZjEk7V89sIGhqazWD/DODGYdo99C8Qw?=
- =?us-ascii?Q?ReIwljSAAtNPExK1LGpFwc0CYWin5t6BPluq5jSugKago0lSUzF/EhfksTqM?=
- =?us-ascii?Q?vnsb2ZAw6bASjoeyUh5Ao1AWuTEZO4T81SEeaFUX+e90x3+qTtVRPshRENOX?=
- =?us-ascii?Q?YmcCbv5q0fIHNhrFaAHXqMwmzQ9iHjVVwFn/vlmA2ZYp3zOgDh19YRLCN7CR?=
- =?us-ascii?Q?ew5pE4NzZcFRHTmUgikYXV0y5kOahxi+x/kYWxlUFw4V88RAMqruaXbolfB2?=
- =?us-ascii?Q?/aL8PX0vx2kr39Ii1dhDWBCmHrYEysI8i6mOjoRa1a6WQBrVAupC+Rix98ZI?=
- =?us-ascii?Q?RgZEdA5doHJQQmkBZpQmZmUxG+oTt5mZThxZtZNtz37Ufh1927D4nUzFrRBx?=
- =?us-ascii?Q?hxFxydTeTgbMGj34HGSKrvoVnSTlj/wSqsVm3bZpJQ9orzg44WeOnXLz/e+/?=
- =?us-ascii?Q?uRT39vy1/ypa35ZghKm4gZAE/px2zSeGWTcW4p0JkeskjqhntX+r5Cj3Xqhb?=
- =?us-ascii?Q?JFit8+qpf/j7Hap4kASUbTDB+UHFRBBRt6mYwuHCQUp+iZw1j0YnsSgNSvIc?=
- =?us-ascii?Q?OquUOlQu71AHFrkjKbFH9xxX9t04aS0eHgVEHTMwMQwQk59loRspYdX7uShn?=
- =?us-ascii?Q?ye4GOx4AumIpXRzX2Y8Em4t0w2z0uVGCbY5J9RznB+dz2lRLKOs76gFvIbQU?=
- =?us-ascii?Q?hSzDmpcsc4R2tv7RuKYy+tY5o1VSL5Nsx/kB+IjKIEwispcVgoo9lAdeo0s0?=
- =?us-ascii?Q?VZ2sv1OFHXaemJF4tlUbsnTFCjf1xRDF3BU7nu6YSz8rY7T5HoflGqBKh6RR?=
- =?us-ascii?Q?DNtZoBe08BWzE1jHYuUtrxDHs4h59k7frrYhDhHX0RuL7bArQlgGXgmCZ6kk?=
- =?us-ascii?Q?PeHluz0V56q1DMXNUdhPOlzU8W+CbK86yx1LeG+0ehNjeSZbnIGM7YqbRa24?=
- =?us-ascii?Q?zePFB6bqmZQNWwWP7VQVDow=3D?=
-X-OriginatorOrg: quantatw.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef025740-7972-4aeb-b547-08d9ef721c1b
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR04MB3282.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2022 04:26:02.7932 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 179b0327-07fc-4973-ac73-8de7313561b2
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i949kmg1hdX89zlHW3mNSxLjB1pnZ8urrW4MJmpLTjAfwkSe6mUyfNHmMRGXs10Ki90KcGMkeuxhnHcqsUBWGw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR04MB2451
+References: <20220214032708.854-1-jammy_huang@aspeedtech.com>
+In-Reply-To: <20220214032708.854-1-jammy_huang@aspeedtech.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 14 Feb 2022 06:34:54 +0000
+Message-ID: <CACPK8XcLJuWitefi8LTAxDrhzAVe3b88haQYAJRLX5M=ceDg5g@mail.gmail.com>
+Subject: Re: [PATCH] media: aspeed: Use of_device_get_match_data() helper
+To: Jammy Huang <jammy_huang@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,58 +70,61 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org,
- Patrick Williams <patrick@stwcx.xyz>, linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-cleanup following nodes
+On Mon, 14 Feb 2022 at 03:27, Jammy Huang <jammy_huang@aspeedtech.com> wrote:
+>
+> Use of_device_get_match_data() to simplify the code.
+>
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+> ---
+>  drivers/media/platform/aspeed-video.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+> index 3904ded2052a..d4acf84cda9b 100644
+> --- a/drivers/media/platform/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+>  #include <linux/of.h>
+> +#include <linux/of_device.h>
+>  #include <linux/of_irq.h>
+>  #include <linux/of_reserved_mem.h>
+>  #include <linux/platform_device.h>
+> @@ -2451,7 +2452,6 @@ MODULE_DEVICE_TABLE(of, aspeed_video_of_match);
+>  static int aspeed_video_probe(struct platform_device *pdev)
+>  {
+>         const struct aspeed_video_config *config;
+> -       const struct of_device_id *match;
+>         struct aspeed_video *video;
+>         int rc;
+>
+> @@ -2463,11 +2463,7 @@ static int aspeed_video_probe(struct platform_device *pdev)
+>         if (IS_ERR(video->base))
+>                 return PTR_ERR(video->base);
+>
+> -       match = of_match_node(aspeed_video_of_match, pdev->dev.of_node);
+> -       if (!match)
+> -               return -EINVAL;
+> -
+> -       config = match->data;
+> +       config = of_device_get_match_data(&pdev->dev);
 
-1. Remove redundant i2c1 node.
-2. Disable in-chip rtc, use battery-backed external rtc (pcf85263)
-   instead.
+While normally this driver won't have probed without matching on some
+data, it would be sensible to add a check for a null pointer here.
 
-Signed-off-by: Potin Lai <potin.lai@quantatw.com>
----
- arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
-
-diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-index 946107bd8bc7..52201c6a69bc 100644
---- a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-+++ b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-@@ -205,10 +205,6 @@
- 	};
- };
- 
--&rtc {
--	status = "okay";
--};
--
- &fmc {
- 	status = "okay";
- 	flash@0 {
-@@ -387,10 +383,6 @@
- 	};
- };
- 
--&i2c1 {
--	status = "okay";
--};
--
- &i2c2 {
- 	status = "okay";
- 	ina230@45 {
-@@ -680,6 +672,7 @@
- 	};
- 
- 	rtc@51 {
-+		/* in-chip rtc disabled, use external rtc (battery-backed) */
- 		compatible = "nxp,pcf85263";
- 		reg = <0x51>;
- 	};
--- 
-2.17.1
-
+>         video->version = config->version;
+>         video->jpeg_mode = config->jpeg_mode;
+>         video->comp_size_read = config->comp_size_read;
+> --
+> 2.25.1
+>
