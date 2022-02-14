@@ -2,78 +2,94 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15B44B4679
-	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Feb 2022 10:43:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF8C4B5A01
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Feb 2022 19:36:05 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Jxzn634lLz3bck
-	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Feb 2022 20:43:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JyCbQ6LTkz3cDY
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 05:36:02 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=ZfY/IqGe;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=Yf2rCmo1;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=softfail (domain owner discourages use of this
- host) smtp.mailfrom=kaod.org (client-ip=148.163.158.5;
- helo=mx0b-001b2d01.pphosted.com; envelope-from=clg@kaod.org;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=stwcx.xyz (client-ip=66.111.4.27;
+ helo=out3-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz;
  receiver=<UNKNOWN>)
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256
+ header.s=fm1 header.b=ZfY/IqGe; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=Yf2rCmo1; 
+ dkim-atps=neutral
+X-Greylist: delayed 467 seconds by postgrey-1.36 at boromir;
+ Tue, 15 Feb 2022 05:35:54 AEDT
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Jxzmq2czHz3bYh
- for <linux-aspeed@lists.ozlabs.org>; Mon, 14 Feb 2022 20:43:22 +1100 (AEDT)
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21E9eP2H019510; 
- Mon, 14 Feb 2022 09:42:57 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3e779vdmbn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Feb 2022 09:42:57 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21E9bfsY004418;
- Mon, 14 Feb 2022 09:42:55 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06fra.de.ibm.com with ESMTP id 3e645jat6m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Feb 2022 09:42:55 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 21E9WYme38797792
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 14 Feb 2022 09:32:34 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 051CE52052;
- Mon, 14 Feb 2022 09:42:53 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 6085952050;
- Mon, 14 Feb 2022 09:42:52 +0000 (GMT)
-Received: from yukon.ibmuc.com (unknown [9.171.60.190])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 076D32201DE;
- Mon, 14 Feb 2022 10:42:50 +0100 (CET)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: linux-spi@vger.kernel.org, linux-mtd@lists.infradead.org
-Subject: [PATCH 10/10] spi: aspeed: Activate new spi-mem driver
-Date: Mon, 14 Feb 2022 10:42:31 +0100
-Message-Id: <20220214094231.3753686-11-clg@kaod.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220214094231.3753686-1-clg@kaod.org>
-References: <20220214094231.3753686-1-clg@kaod.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JyCbG4rWLz2xKR
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Feb 2022 05:35:54 +1100 (AEDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 490F15C0250;
+ Mon, 14 Feb 2022 13:28:03 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Mon, 14 Feb 2022 13:28:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; bh=Qcwq5i6dPGz8fm
+ 2l69OpbijAoZXeTdKUljxVFonj5pg=; b=ZfY/IqGewCEVDT+SpQQimzo7lV0aXw
+ o7oOy+w/TdWN9r+Ip12oZbb8PvYA2rtzB884ybRgDBKxqlT+Ql7OQ04MJqWO5zhj
+ iThCX/QxuWlO3G9NC90STBpKK6282ALvS/bLObbanvTo1lO6Q/mj5NvQr5JTrnAE
+ JyE1mRsmgM9dC+D2dEMxQ/NCZ6Hk+iSJGek9Ydm2/EJRy9Az35IPUDzgmG9nWOPz
+ e7Bqyt3LCc+BwmNbTeHnfF33CekhYUVCKj19eUghckHByFSoyE/w+MGOaBkAergd
+ 5+VJZNYS5/NX1NtJvpGE6F6LWjrxNiBrntb1d3TndcYd1zEDJ4/LKTKg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=Qcwq5i6dPGz8fm2l69OpbijAoZXeTdKUljxVFonj5
+ pg=; b=Yf2rCmo191gvt55Y3HNHTt+drZO+Zk9lpbcdD0hH6iG3tRmmwoBB9coJm
+ XYFD6VAa6ElSSqdIZC1kDo/nDJIt3aF0Qd03sR7FUA+4DfsNa7qkTh5lqGHyncGJ
+ Um9NOoLp0JjkENh8zwDjSm1qbvGj+W9OxdZSKKNfs2NHwwQ3Nyj7DWwZ2SIaga6Z
+ nq1OVm8EQAJxjx0OHWaTcW1MKjkH4bQpZakogejZv/uHIb8jMNISd77wzHXiobJA
+ yt1wz2IvUEj8xx1zWDwxd4EY766Y5+zLMOFZYRux+4ErxxFcnpA0m9gAdD+PQvT/
+ VqiNyq8t2u72pvs+NhReS/UxOvu7w==
+X-ME-Sender: <xms:Mp8KYhqDXSYTHlRvrGn5HWuEG5GbH29glKPOou4OJvMM25hgdIeMKw>
+ <xme:Mp8KYjpKiAlKFCouRAvlmKSB9WQM7Ws9X9hLNefeCXlVyXuoqDx8_iEs096GI6M9e
+ WHx1FOmEVGPOS12w0o>
+X-ME-Received: <xmr:Mp8KYuMOkDKYl0UJszQdSrzv-Va0hcirXmB3kYAj2_VfGXuc_vR14EK0Fg4lEc7yDrhA0AKF2QTTI7iUCwxkE4VrfMwvxCf2>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjedvgddutdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ gfrhhlucfvnfffucdlfeehmdenucfjughrpeffhffvuffkfhggtggugfgjsehtqhertddt
+ tddvnecuhfhrohhmpefrrghtrhhitghkucghihhllhhirghmshcuoehprghtrhhitghkse
+ hsthiftgigrdighiiiqeenucggtffrrghtthgvrhhnpedtleffieffieeghfelueekteff
+ uedvhfefffeigfeikeekuddtgfehvddvieehkeenucffohhmrghinhepkhgvrhhnvghlrd
+ horhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+ phgrthhrihgtkhesshhtfigtgidrgiihii
+X-ME-Proxy: <xmx:Mp8KYs603cxG8DTbpYBUzrWkPDAwp6k1loBUpyJv5_334M5j4dKgiw>
+ <xmx:Mp8KYg7UAvn_v9K6qThCMsLMKygXZRA6l5CulYMZDv6bj0HeHUyKIg>
+ <xmx:Mp8KYkh6h7JCrSzwvjez5dFrwv4F1j3qIwqAVuj830uH7L6Ea7ZmkA>
+ <xmx:M58KYtvi-UsPV19EcRQGIezyZFYz-6wlN-IqMfkUdmavzZ1e2qijXQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 14 Feb 2022 13:28:01 -0500 (EST)
+Date: Mon, 14 Feb 2022 12:27:59 -0600
+From: Patrick Williams <patrick@stwcx.xyz>
+To: Potin Lai <potin.lai@quantatw.com>
+Subject: Re: [PATCH v2 00/10] update Facebook Bletchley BMC
+Message-ID: <Ygqe6lwWUdgv+8ss@patrickw3-mbp>
+References: <20220214042538.12132-1-potin.lai@quantatw.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: hi9H4j9w4wgHr4Kw5X0RWQekIHI7ip-1
-X-Proofpoint-ORIG-GUID: hi9H4j9w4wgHr4Kw5X0RWQekIHI7ip-1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-14_01,2022-02-14_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0
- malwarescore=0 adultscore=0 lowpriorityscore=0 mlxscore=0 clxscore=1034
- impostorscore=0 spamscore=0 suspectscore=0 priorityscore=1501
- mlxlogscore=588 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202140058
+In-Reply-To: <20220214042538.12132-1-potin.lai@quantatw.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,85 +101,70 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
- linux-aspeed@lists.ozlabs.org, Tudor Ambarus <tudor.ambarus@microchip.com>,
- Richard Weinberger <richard@nod.at>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Pratyush Yadav <p.yadav@ti.com>,
- linux-arm-kernel@lists.infradead.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The previous driver using the MTD SPI NOR interface is kept in case we
-find some issues but we should remove it quickly once the new driver
-using the spi-mem interface has been sufficiently exposed.
+On Mon, Feb 14, 2022 at 12:25:28PM +0800, Potin Lai wrote:
+> This patch series update Facebook Bletchley BMC devicetree base on EVT HW
+> schematioc design, and rebase SLED numbering to 1-based for OpenBMC
+> multi-host.
+>=20
+> - GPIO:
+>   - adding more gpio line names
+>   - include interrupt line in io expander for gpio interrupt monitoring
+>=20
+> - SPI flash:
+>   - adding dual flash BSM module support
+>   - switch to spi2-gpio on spi2 due to unstable signal issue
+>=20
+> - Hwmon Sensors:
+>   - adding INA230 sensors for monitoring
+>   - fix ADM1278 shunt-resistor
+>=20
+> - MDIO Bus: enable mido3 bus
+>=20
+> - RTC: switch to external battery-backed rtc
+>=20
+> - OpenBMC: 1-based SLED numbering
+>=20
+>=20
+> LINK: [v1] https://lore.kernel.org/all/20220211014347.24841-1-potin.lai@q=
+uantatw.com/
+>=20
+>=20
+> Changes v1 --> v2:
+> - update the details of new added gpio line names in commit message
+> - add battery-backed rtc information in comment and commit message
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- arch/arm/configs/aspeed_g4_defconfig | 2 +-
- arch/arm/configs/aspeed_g5_defconfig | 2 +-
- arch/arm/configs/multi_v5_defconfig  | 2 +-
- arch/arm/configs/multi_v7_defconfig  | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+Thank you for the details there Potin.
 
-diff --git a/arch/arm/configs/aspeed_g4_defconfig b/arch/arm/configs/aspe=
-ed_g4_defconfig
-index 964536444cd7..b4a1b2ed1a17 100644
---- a/arch/arm/configs/aspeed_g4_defconfig
-+++ b/arch/arm/configs/aspeed_g4_defconfig
-@@ -64,7 +64,7 @@ CONFIG_MTD_BLOCK=3Dy
- CONFIG_MTD_PARTITIONED_MASTER=3Dy
- CONFIG_MTD_SPI_NOR=3Dy
- # CONFIG_MTD_SPI_NOR_USE_4K_SECTORS is not set
--CONFIG_SPI_ASPEED_SMC_MTD_SPI_NOR=3Dy
-+CONFIG_SPI_ASPEED_SMC=3Dy
- CONFIG_MTD_UBI=3Dy
- CONFIG_MTD_UBI_FASTMAP=3Dy
- CONFIG_MTD_UBI_BLOCK=3Dy
-diff --git a/arch/arm/configs/aspeed_g5_defconfig b/arch/arm/configs/aspe=
-ed_g5_defconfig
-index e809236ca88b..ccc4240ee4b5 100644
---- a/arch/arm/configs/aspeed_g5_defconfig
-+++ b/arch/arm/configs/aspeed_g5_defconfig
-@@ -103,7 +103,7 @@ CONFIG_MTD_BLOCK=3Dy
- CONFIG_MTD_PARTITIONED_MASTER=3Dy
- CONFIG_MTD_SPI_NOR=3Dy
- # CONFIG_MTD_SPI_NOR_USE_4K_SECTORS is not set
--CONFIG_SPI_ASPEED_SMC_MTD_SPI_NOR=3Dy
-+CONFIG_SPI_ASPEED_SMC=3Dy
- CONFIG_MTD_UBI=3Dy
- CONFIG_MTD_UBI_FASTMAP=3Dy
- CONFIG_MTD_UBI_BLOCK=3Dy
-diff --git a/arch/arm/configs/multi_v5_defconfig b/arch/arm/configs/multi=
-_v5_defconfig
-index 49083ef05fb0..80a3ae02d759 100644
---- a/arch/arm/configs/multi_v5_defconfig
-+++ b/arch/arm/configs/multi_v5_defconfig
-@@ -103,7 +103,7 @@ CONFIG_MTD_RAW_NAND=3Dy
- CONFIG_MTD_NAND_ATMEL=3Dy
- CONFIG_MTD_NAND_ORION=3Dy
- CONFIG_MTD_SPI_NOR=3Dy
--CONFIG_SPI_ASPEED_SMC_MTD_SPI_NOR=3Dy
-+CONFIG_SPI_ASPEED_SMC=3Dy
- CONFIG_MTD_UBI=3Dy
- CONFIG_BLK_DEV_LOOP=3Dy
- CONFIG_ATMEL_SSC=3Dm
-diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi=
-_v7_defconfig
-index fc1b69256b64..33572998dbbe 100644
---- a/arch/arm/configs/multi_v7_defconfig
-+++ b/arch/arm/configs/multi_v7_defconfig
-@@ -217,7 +217,7 @@ CONFIG_MTD_NAND_DAVINCI=3Dy
- CONFIG_MTD_NAND_STM32_FMC2=3Dy
- CONFIG_MTD_NAND_PL35X=3Dy
- CONFIG_MTD_SPI_NOR=3Dy
--CONFIG_SPI_ASPEED_SMC_MTD_SPI_NOR=3Dm
-+CONFIG_SPI_ASPEED_SMC=3Dm
- CONFIG_MTD_UBI=3Dy
- CONFIG_BLK_DEV_LOOP=3Dy
- CONFIG_BLK_DEV_RAM=3Dy
+>=20
+> Potin Lai (10):
+>   arch: arm: dts: bletchley: switch sled numbering to 1-based
+>   arch: arm: dts: bletchley: separate leds into multiple groups
+>   arch: arm: dts: bletchley: update gpio-line-names
+>   arch: arm: dts: bletchley: update fmc configurations
+>   arch: arm: dts: bletchley: switch to spi-gpio for spi2
+>   arch: arm: dts: bletchley: add interrupt support for sled io expander
+>   arch: arm: dts: bletchley: add shunt-resistor for ADM1278
+>   arch: arm: dts: bletchley: add INA230 sensor on each sled
+>   arch: arm: dts: bletchley: enable mdio3 bus
+>   arch: arm: dts: bletchley: cleanup redundant nodes
+>=20
+>  .../dts/aspeed-bmc-facebook-bletchley.dts     | 303 +++++++++++-------
+>  1 file changed, 194 insertions(+), 109 deletions(-)
+>=20
+> --=20
+> 2.17.1
+>=20
+
+Entire series is
+
+Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
+
 --=20
-2.34.1
-
+Patrick Williams
