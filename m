@@ -2,64 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C814B6316
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 06:49:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE054B631C
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 06:51:51 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JyVWv3dDQz3cBl
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 16:48:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JyVb853p6z3cBr
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 16:51:48 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=IcAfk0jc;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=dGCZJuIm;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::732;
- helo=mail-qk1-x732.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f2c;
+ helo=mail-qv1-xf2c.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=IcAfk0jc; dkim-atps=neutral
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
- [IPv6:2607:f8b0:4864:20::732])
+ header.s=google header.b=dGCZJuIm; dkim-atps=neutral
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
+ [IPv6:2607:f8b0:4864:20::f2c])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JyVWp4nCwz2xt0
- for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Feb 2022 16:48:53 +1100 (AEDT)
-Received: by mail-qk1-x732.google.com with SMTP id o25so16421540qkj.7
- for <linux-aspeed@lists.ozlabs.org>; Mon, 14 Feb 2022 21:48:53 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JyVb51p4vz30Mf
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Feb 2022 16:51:45 +1100 (AEDT)
+Received: by mail-qv1-xf2c.google.com with SMTP id n6so16727804qvk.13
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 14 Feb 2022 21:51:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bieAi62cXnjDaF9+psLIoa3qnNdCxk47hpRhQbwd4wU=;
- b=IcAfk0jc1uGalEZyNKcu/DnhhORNIOmxpzX7ZDMzgsIdfu1L91dKVfT0TFxsmYkPwd
- mf2VfdVvDtCJNrcolCauEeoaH8aavJnzW19a3oD31qX0GpWYzKUBKgO2PyVgjY/95y4A
- rLKsi0/g2XXR1Nh6Z/2VojL6qmfmS3iNzZw84=
+ :cc; bh=iytJY9QGZHgK1dR7TRPlRfso2KgivSYIHxmNeKfZdsI=;
+ b=dGCZJuImpISwcylMeDy7jztHJX1LTHvxJ/hDdJyyJfEw7baQk+ZA/B+5N5e8pDZRPg
+ AunIC0bQysjAao0JMBU6Ps/exYHloD9TOOvF3DIGIWGWt8wcm6FKqTrhgf2wryJuwYFM
+ vkn8CDHe0lTFepxz18DqiyMnf2dKQNTEU9th4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=bieAi62cXnjDaF9+psLIoa3qnNdCxk47hpRhQbwd4wU=;
- b=riA4yae7AE8cNhqeCWw2jFr34cAA7G3d+BuqrcxdqE/FrqDfGnfc2nGa1QEKQkbNUB
- ZFcVY7FIqM/X2DgcFZeXX3wLCsvOZs1n4qJChKquyRR+Rmlcc3k8/g4O1mVmqyanq/Z4
- G+KRgwus3i5vvrERkgSpYMDBGapSbSZIjb0cGoffHWeXU1Hq5KLwSVWh+yh0uFp9W3iq
- KvdSyclo9iGgYcUkEJL1+6v78J9eHWENeLOxXrq1Nol/kpFrmdT/smZbw32UkQmqBhH7
- B7NbCr7l7pJ5WGoLZNZJZNqcPSQRMpfu7xQNez7wSsEL4f7jq+LbfqXoBBevecW63w83
- cZMg==
-X-Gm-Message-State: AOAM533u/EAahIE1G4RDkWD8v4iXwIZCg2RtjAVCPJqcXjK9OXOZMu7/
- N0efLZVJQfws8m2QkeQW1yPkYsRZoniuZPjd+2E=
-X-Google-Smtp-Source: ABdhPJy0ddCs9WvjiZC4lM/FmWkHalSgAFzYH2nlatPRqwypfGD87kBmI2t4pz4vDpeqbPGkslg0MS8a2lVsbnJXbNs=
-X-Received: by 2002:a05:620a:44c7:: with SMTP id
- y7mr1245865qkp.347.1644904129664; 
- Mon, 14 Feb 2022 21:48:49 -0800 (PST)
+ bh=iytJY9QGZHgK1dR7TRPlRfso2KgivSYIHxmNeKfZdsI=;
+ b=jaTTqV7ijGwDTpAnwjQdtfHFEovQvscW7aTnWhXFWHQVItiMKjxzEsQBo7y7PZHNQK
+ iiTncrTFqbWndHWv5LD4s4/IV3vsdTpYLOe61cXNqF8WYXETZf4YBOFcZTFltM2GBR4E
+ hYDcfhCaZoTcgA3TBppOoZt4xtfJic8FpwXOlS73d5ZVRuH5wG6qB03rShp8u2+Z1el7
+ 80ki+EvwFwOMZN/kHJPDv/+nrFcguygixaqxmZxkW1XcuBNgcUNFwZuK7Ivdb12hEfkP
+ y0R8w+mWgx8pvdDZZsqyO7iVnXVjk5EHq+5UJev3QT3Zpqxhd2SfMV2TKyyoLZOiDsY8
+ tB7w==
+X-Gm-Message-State: AOAM530+j7lKuhnfok42xrSpJQwEYv2vuWC+HwQxudBS2dF1W0D/81My
+ 3P36+eExU5M/31OZzLq503pEoZoQJuDVf0M1gXU=
+X-Google-Smtp-Source: ABdhPJyviT6pQp+V6F57xIT2apVk7qMUv7vZUfJEXbd3ulavwnbHnrmHmHTrsCKbBGiomLGp5xGIQpfdT5bWcMLIClg=
+X-Received: by 2002:ad4:5dcb:: with SMTP id m11mr1565762qvh.130.1644904301705; 
+ Mon, 14 Feb 2022 21:51:41 -0800 (PST)
 MIME-Version: 1.0
 References: <20220214042538.12132-1-potin.lai@quantatw.com>
- <20220214042538.12132-6-potin.lai@quantatw.com>
-In-Reply-To: <20220214042538.12132-6-potin.lai@quantatw.com>
+In-Reply-To: <20220214042538.12132-1-potin.lai@quantatw.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 15 Feb 2022 05:48:37 +0000
-Message-ID: <CACPK8Xf5W4h=dcBg_Pe1zjXUK73h8YH1tfL4RvoxV3DVsCL90g@mail.gmail.com>
-Subject: Re: [PATCH v2 05/10] arch: arm: dts: bletchley: switch to spi-gpio
- for spi2
+Date: Tue, 15 Feb 2022 05:51:29 +0000
+Message-ID: <CACPK8Xcs7y2d9AGfizv9+Lr_Ri3gaq2gmwXMFt=04z7s9XmAMg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] update Facebook Bletchley BMC
 To: Potin Lai <potin.lai@quantatw.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -84,59 +81,68 @@ Sender: "Linux-aspeed"
 
 On Mon, 14 Feb 2022 at 04:26, Potin Lai <potin.lai@quantatw.com> wrote:
 >
-> Switch to spi-gpio driver to avoid unstable signal issue with EVT HW
+> This patch series update Facebook Bletchley BMC devicetree base on EVT HW
+> schematioc design, and rebase SLED numbering to 1-based for OpenBMC
+> multi-host.
 >
-> Signed-off-by: Potin Lai <potin.lai@quantatw.com>
-> ---
->  arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
+> - GPIO:
+>   - adding more gpio line names
+>   - include interrupt line in io expander for gpio interrupt monitoring
 >
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-> index b01f1e7adb81..3c54e4a892c9 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-> @@ -227,8 +227,16 @@
+> - SPI flash:
+>   - adding dual flash BSM module support
+>   - switch to spi2-gpio on spi2 due to unstable signal issue
 >
->  &spi2 {
->         status = "okay";
-> -       pinctrl-names = "default";
-> -       pinctrl-0 = <&pinctrl_spi2_default>;
-> +
-> +       compatible = "spi-gpio";
-
-This is a bit strange. You're effectively rewriting the node with a new one.
-
-It would make more sense to leave spi2 disabled (the default), and add
-a new node:
-
- spi {
-   compatible = "spi-gpio";
-   #address-cells = <1>;
-   #size-cells = <0>;
-   gpio-sck = <&gpio0 ASPEED_GPIO(X, 3) GPIO_ACTIVE_HIGH>;
-   gpio-mosi = <&gpio0 ASPEED_GPIO(X, 4) GPIO_ACTIVE_HIGH>;
-   gpio-miso = <&gpio0 ASPEED_GPIO(X, 5) GPIO_ACTIVE_HIGH>;
-   num-chipselects = <1>;
-  cs-gpios = <&gpio0 ASPEED_GPIO(X, 0) GPIO_ACTIVE_LOW>;
-
-   flash@0 {
-       status = "okay";
-
-etc.
-
-Your new spi node doesn't need the pinctrl or clock properties.
-
-> +       #address-cells = <1>;
-> +       #size-cells = <0>;
-> +
-> +       gpio-sck = <&gpio0 ASPEED_GPIO(X, 3) GPIO_ACTIVE_HIGH>;
-> +       gpio-mosi = <&gpio0 ASPEED_GPIO(X, 4) GPIO_ACTIVE_HIGH>;
-> +       gpio-miso = <&gpio0 ASPEED_GPIO(X, 5) GPIO_ACTIVE_HIGH>;
-> +       num-chipselects = <1>;
-> +       cs-gpios = <&gpio0 ASPEED_GPIO(X, 0) GPIO_ACTIVE_LOW>;
+> - Hwmon Sensors:
+>   - adding INA230 sensors for monitoring
+>   - fix ADM1278 shunt-resistor
 >
->         flash@0 {
->                 status = "okay";
+> - MDIO Bus: enable mido3 bus
+>
+> - RTC: switch to external battery-backed rtc
+>
+> - OpenBMC: 1-based SLED numbering
+>
+>
+> LINK: [v1] https://lore.kernel.org/all/20220211014347.24841-1-potin.lai@quantatw.com/
+>
+>
+> Changes v1 --> v2:
+> - update the details of new added gpio line names in commit message
+> - add battery-backed rtc information in comment and commit message
+
+Looks good. I made some comments on the spi2 patch, please fix those
+up and I will merge.
+
+Note that the convention for patch names is:
+
+ARM: dts: aspeed: bletchley: Description with sentence case
+
+If you could update your patches to follow that it would be appreciated.
+
+There's no need to re-send your series for the openbmc tree; I can
+merge those once we've reviewed the ones for mainline.
+
+Cheers,
+
+Joel
+
+>
+> Potin Lai (10):
+>   arch: arm: dts: bletchley: switch sled numbering to 1-based
+>   arch: arm: dts: bletchley: separate leds into multiple groups
+>   arch: arm: dts: bletchley: update gpio-line-names
+>   arch: arm: dts: bletchley: update fmc configurations
+>   arch: arm: dts: bletchley: switch to spi-gpio for spi2
+>   arch: arm: dts: bletchley: add interrupt support for sled io expander
+>   arch: arm: dts: bletchley: add shunt-resistor for ADM1278
+>   arch: arm: dts: bletchley: add INA230 sensor on each sled
+>   arch: arm: dts: bletchley: enable mdio3 bus
+>   arch: arm: dts: bletchley: cleanup redundant nodes
+>
+>  .../dts/aspeed-bmc-facebook-bletchley.dts     | 303 +++++++++++-------
+>  1 file changed, 194 insertions(+), 109 deletions(-)
+>
 > --
 > 2.17.1
 >
