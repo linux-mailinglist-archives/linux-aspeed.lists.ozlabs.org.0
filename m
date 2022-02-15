@@ -2,56 +2,59 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDD3D4B672F
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 10:14:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B034B6FB6
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 16:27:52 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Jyb4R3wV2z3cYX
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 20:13:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JylMp36h9z3cH2
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Feb 2022 02:27:50 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=l630TyCF;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kaod.org (client-ip=188.165.58.48; helo=6.mo548.mail-out.ovh.net;
- envelope-from=clg@kaod.org; receiver=<UNKNOWN>)
-Received: from 6.mo548.mail-out.ovh.net (6.mo548.mail-out.ovh.net
- [188.165.58.48])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org;
+ envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=l630TyCF; 
+ dkim-atps=neutral
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JylMk5X7Gz3bcn
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Feb 2022 02:27:46 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Jyb4D2DC6z3cQJ
- for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Feb 2022 20:13:47 +1100 (AEDT)
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.11])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 8335821EFF;
- Tue, 15 Feb 2022 09:07:53 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 15 Feb
- 2022 10:07:52 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002b27b64c4-57a5-44f9-a47c-4a83fe5690ca,
- 2487B4E7026A90D95ED29794538901B35B4D209A) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <76c3f352-a0fc-f72f-e66e-594f9249cb8c@kaod.org>
-Date: Tue, 15 Feb 2022 10:07:51 +0100
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 226E2615F7;
+ Tue, 15 Feb 2022 15:27:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF099C340FA;
+ Tue, 15 Feb 2022 15:27:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1644938864;
+ bh=6suctJEObTMyjXIebBno+7Rimc7/9sHGbBTfa2mh2BM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=l630TyCFVuI6ok/0zF+kG+AxgOof2RQMO05T2iJgksuhWNTiqE6FDTJMaun1yeH+Z
+ ZIr7z/NCV5smQcqy5vK4wFrHSkYwPr/SMnAKWxjCrz6/oZp6TLHV3BebQCJXpXvPcv
+ WgPzzhXvB7YoK3HnLgKe6ZhyTg+K/VsntYi/2dj/4rONSgkbinxunccyGkh+Qck6FS
+ nV6LELX/EIVnibVYrrLIzDjCFrvZdC0XplAQ6hue+u7TBHzxHvK+vD8ikFCIVx36x+
+ 9GhTY+C6AYOi4nBXaS+OxfWwK8oEl89uhNYQ5D7LQuE0nBNi3g/QZaaM2WhjJiCkWI
+ 0gCYs+68YXUuA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.16 23/34] soc: aspeed: lpc-ctrl: Block error
+ printing on probe defer cases
+Date: Tue, 15 Feb 2022 10:26:46 -0500
+Message-Id: <20220215152657.580200-23-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220215152657.580200-1-sashal@kernel.org>
+References: <20220215152657.580200-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 03/10] spi: spi-mem: Add driver for Aspeed SMC controllers
-Content-Language: en-US
-To: Lukas Wunner <lukas@wunner.de>
-References: <20220214094231.3753686-1-clg@kaod.org>
- <20220214094231.3753686-4-clg@kaod.org> <20220215062743.GA12431@wunner.de>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220215062743.GA12431@wunner.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 4e02782a-965d-4bc5-8fe7-6f59370c6abd
-X-Ovh-Tracer-Id: 7883832626687085383
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrjeefgdduvdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,58 +66,52 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
- linux-aspeed@lists.ozlabs.org, Tudor Ambarus <tudor.ambarus@microchip.com>,
- Richard Weinberger <richard@nod.at>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-spi@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
- Miquel Raynal <miquel.raynal@bootlin.com>, Pratyush Yadav <p.yadav@ti.com>,
+Cc: Sasha Levin <sashal@kernel.org>,
+ Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>, linux-aspeed@lists.ozlabs.org,
+ Arnd Bergmann <arnd@arndb.de>, yangyingliang@huawei.com,
  linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Lukas,
+From: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 
-On 2/15/22 07:27, Lukas Wunner wrote:
-> On Mon, Feb 14, 2022 at 10:42:24AM +0100, Cédric Le Goater wrote:
->> +static int aspeed_spi_probe(struct platform_device *pdev)
->> +{
-> [...]
->> +	ctlr = spi_alloc_master(dev, sizeof(*aspi));
->> +	if (!ctlr)
->> +		return -ENOMEM;
-> 
-> Use devm_spi_alloc_master() and remove the "put_controller" error path
-> for simplicity.
-  
-yes.
+[ Upstream commit 301a5d3ad2432d7829f59432ca0a93a6defbb9a1 ]
 
->> +	ret = devm_spi_register_controller(dev, ctlr);
-> [...]
->> +static int aspeed_spi_remove(struct platform_device *pdev)
->> +{
->> +	struct spi_controller *ctlr = platform_get_drvdata(pdev);
->> +	struct aspeed_spi *aspi = spi_controller_get_devdata(ctlr);
->> +
->> +	aspeed_spi_enable(aspi, false);
->> +	spi_unregister_controller(ctlr);
->> +	clk_disable_unprepare(aspi->clk);
->> +	return 0;
->> +}
-> 
-> You need to move the call to spi_unregister_controller() *before*
-> the call to aspeed_spi_enable().  The controller must be fully
-> operational until spi_unregister_controller() returns.
-> 
-> You also need to replace the call to devm_spi_register_controller()
-> in aspeed_spi_probe() with spi_register_controller().
-> Otherwise you'll unregister the controller twice because you're
-> calling spi_unregister_controller() in aspeed_spi_remove().
+Add a checking code when it gets -EPROBE_DEFER while getting a clock
+resource. In this case, it doesn't need to print out an error message
+because the probing will be re-visited.
 
-ok. Understood. Done in v2.
+Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+Reviewed-by: Iwona Winiarska <iwona.winiarska@intel.com>
+Link: https://lore.kernel.org/r/20211104173709.222912-1-jae.hyun.yoo@intel.com
+Link: https://lore.kernel.org/r/20220201070118.196372-1-joel@jms.id.au'
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/soc/aspeed/aspeed-lpc-ctrl.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-Thanks,
-
-C.
+diff --git a/drivers/soc/aspeed/aspeed-lpc-ctrl.c b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+index 72771e018c42e..258894ed234b3 100644
+--- a/drivers/soc/aspeed/aspeed-lpc-ctrl.c
++++ b/drivers/soc/aspeed/aspeed-lpc-ctrl.c
+@@ -306,10 +306,9 @@ static int aspeed_lpc_ctrl_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	lpc_ctrl->clk = devm_clk_get(dev, NULL);
+-	if (IS_ERR(lpc_ctrl->clk)) {
+-		dev_err(dev, "couldn't get clock\n");
+-		return PTR_ERR(lpc_ctrl->clk);
+-	}
++	if (IS_ERR(lpc_ctrl->clk))
++		return dev_err_probe(dev, PTR_ERR(lpc_ctrl->clk),
++				     "couldn't get clock\n");
+ 	rc = clk_prepare_enable(lpc_ctrl->clk);
+ 	if (rc) {
+ 		dev_err(dev, "couldn't enable clock\n");
+-- 
+2.34.1
 
