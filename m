@@ -1,75 +1,67 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A074B6230
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 05:37:51 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C814B6316
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 06:49:01 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JySxn09xlz2xgb
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 15:37:49 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JyVWv3dDQz3cBl
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 16:48:59 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=hIJSwGBw;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=IcAfk0jc;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1032;
- helo=mail-pj1-x1032.google.com; envelope-from=davidcomponentone@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::732;
+ helo=mail-qk1-x732.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=hIJSwGBw; dkim-atps=neutral
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=IcAfk0jc; dkim-atps=neutral
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
+ [IPv6:2607:f8b0:4864:20::732])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JwZ2M6WMJz30R0
- for <linux-aspeed@lists.ozlabs.org>; Sat, 12 Feb 2022 13:20:10 +1100 (AEDT)
-Received: by mail-pj1-x1032.google.com with SMTP id
- r64-20020a17090a43c600b001b8854e682eso10504546pjg.0
- for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Feb 2022 18:20:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=17pyCMYUdJRs5/I+oAtbnvmljOFXa0XqjKCSqRSFssE=;
- b=hIJSwGBwjoV1eeu9VKbrhLXYQVHUKfUJMEUxxRM7j/NivoJdv1LcivbeCfvsutaamV
- rkOwlNdGExHun9L1H76LddAZKpjTyBwnQolusGJzdpjN9erMbHEhfOqlVNUB/nQUjTq9
- +ANO1PrL77t+7ybRtncF5aqrPZlCQ5nsRXoT9OHEqD1VJj+wmndJ37nv3z8uXpczcNX9
- KtTgS4vNSdei4DX49SbQdEXTibSFk/6egZ0YWeLWxCrSYay5IHpvoSxcX1XpTX4CnVA7
- QoptaQAFV9zWyZ+iC6QMrgPj76CNMpXochr3Q/WgVYcEu4QHiD7hX4irno+mTtWyBhEa
- ZGvw==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JyVWp4nCwz2xt0
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Feb 2022 16:48:53 +1100 (AEDT)
+Received: by mail-qk1-x732.google.com with SMTP id o25so16421540qkj.7
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 14 Feb 2022 21:48:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bieAi62cXnjDaF9+psLIoa3qnNdCxk47hpRhQbwd4wU=;
+ b=IcAfk0jc1uGalEZyNKcu/DnhhORNIOmxpzX7ZDMzgsIdfu1L91dKVfT0TFxsmYkPwd
+ mf2VfdVvDtCJNrcolCauEeoaH8aavJnzW19a3oD31qX0GpWYzKUBKgO2PyVgjY/95y4A
+ rLKsi0/g2XXR1Nh6Z/2VojL6qmfmS3iNzZw84=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=17pyCMYUdJRs5/I+oAtbnvmljOFXa0XqjKCSqRSFssE=;
- b=Er3wLbwRB68V7CdxlxdiBGvNXxkMz+L1esUGXQUM27+lYOADjZQxrFeb9+AhlAsma+
- LeP8WQZcyFl8E/cwLnpEBQWhOgYVhRPBBvoCjflRsOk6Bw+zInfxh2J+JoBCS0Wh5Y3w
- jGyXdXs5I4z3NXs69L8wrZyIixT4pKi/SiSJjWcNx5j1Atkypgap9xNkM6SShhauY6Oy
- uH0wDbm7FlNCfD7lUjTT0lgUKFu6EkSGv1bPS8TY5XMPb7slmJxwfBEQWYcwjfO2/W5T
- L7tszls+dAwGXpSPqMVQ4Z6K9VkaT2DJGtdE282YCu0g1f0+xRsZsWQ4kvztHUjBC14E
- deZQ==
-X-Gm-Message-State: AOAM531o5XqRd/bdRPzRpqFe/DXufJcgwLLuI2fOhxTBrbPo6K2aYt2m
- GsHmVz0K5cuw127AiNcaq5E=
-X-Google-Smtp-Source: ABdhPJw1CgpJG8g9VxdycjemQbXKY+xXFw3BFj2mihwtdK2c44cuKTYH/q9r0w+1w9kHJvQFEuTQEQ==
-X-Received: by 2002:a17:90a:e549:: with SMTP id
- ei9mr3280517pjb.190.1644632408124; 
- Fri, 11 Feb 2022 18:20:08 -0800 (PST)
-Received: from localhost.localdomain (192.243.120.166.16clouds.com.
- [192.243.120.166])
- by smtp.gmail.com with ESMTPSA id a17sm6429806pju.15.2022.02.11.18.20.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Feb 2022 18:20:07 -0800 (PST)
-From: davidcomponentone@gmail.com
-To: gregkh@linuxfoundation.org
-Subject: [PATCH v3] serial: 8250_aspeed_vuart: replace snprintf with sysfs_emit
-Date: Sat, 12 Feb 2022 10:19:48 +0800
-Message-Id: <fed40753603dac4d14b17970c88e6f5f936348c1.1644541843.git.yang.guang5@zte.com.cn>
-X-Mailer: git-send-email 2.30.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bieAi62cXnjDaF9+psLIoa3qnNdCxk47hpRhQbwd4wU=;
+ b=riA4yae7AE8cNhqeCWw2jFr34cAA7G3d+BuqrcxdqE/FrqDfGnfc2nGa1QEKQkbNUB
+ ZFcVY7FIqM/X2DgcFZeXX3wLCsvOZs1n4qJChKquyRR+Rmlcc3k8/g4O1mVmqyanq/Z4
+ G+KRgwus3i5vvrERkgSpYMDBGapSbSZIjb0cGoffHWeXU1Hq5KLwSVWh+yh0uFp9W3iq
+ KvdSyclo9iGgYcUkEJL1+6v78J9eHWENeLOxXrq1Nol/kpFrmdT/smZbw32UkQmqBhH7
+ B7NbCr7l7pJ5WGoLZNZJZNqcPSQRMpfu7xQNez7wSsEL4f7jq+LbfqXoBBevecW63w83
+ cZMg==
+X-Gm-Message-State: AOAM533u/EAahIE1G4RDkWD8v4iXwIZCg2RtjAVCPJqcXjK9OXOZMu7/
+ N0efLZVJQfws8m2QkeQW1yPkYsRZoniuZPjd+2E=
+X-Google-Smtp-Source: ABdhPJy0ddCs9WvjiZC4lM/FmWkHalSgAFzYH2nlatPRqwypfGD87kBmI2t4pz4vDpeqbPGkslg0MS8a2lVsbnJXbNs=
+X-Received: by 2002:a05:620a:44c7:: with SMTP id
+ y7mr1245865qkp.347.1644904129664; 
+ Mon, 14 Feb 2022 21:48:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 15 Feb 2022 15:34:29 +1100
+References: <20220214042538.12132-1-potin.lai@quantatw.com>
+ <20220214042538.12132-6-potin.lai@quantatw.com>
+In-Reply-To: <20220214042538.12132-6-potin.lai@quantatw.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 15 Feb 2022 05:48:37 +0000
+Message-ID: <CACPK8Xf5W4h=dcBg_Pe1zjXUK73h8YH1tfL4RvoxV3DVsCL90g@mail.gmail.com>
+Subject: Re: [PATCH v2 05/10] arch: arm: dts: bletchley: switch to spi-gpio
+ for spi2
+To: Potin Lai <potin.lai@quantatw.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,75 +73,70 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, zev@bewilderbeest.net,
- linux-kernel@vger.kernel.org, Zeal Robot <zealci@zte.com.cn>, johan@kernel.org,
- davidcomponentone@gmail.com, yang.guang5@zte.com.cn,
- linux-serial@vger.kernel.org, jirislaby@kernel.org,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Patrick Williams <patrick@stwcx.xyz>, Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Yang Guang <yang.guang5@zte.com.cn>
+On Mon, 14 Feb 2022 at 04:26, Potin Lai <potin.lai@quantatw.com> wrote:
+>
+> Switch to spi-gpio driver to avoid unstable signal issue with EVT HW
+>
+> Signed-off-by: Potin Lai <potin.lai@quantatw.com>
+> ---
+>  arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+>
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
+> index b01f1e7adb81..3c54e4a892c9 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
+> @@ -227,8 +227,16 @@
+>
+>  &spi2 {
+>         status = "okay";
+> -       pinctrl-names = "default";
+> -       pinctrl-0 = <&pinctrl_spi2_default>;
+> +
+> +       compatible = "spi-gpio";
 
-coccinelle report:
-./drivers/tty/serial/8250/8250_aspeed_vuart.c:85:8-16:
-WARNING: use scnprintf or sprintf
-./drivers/tty/serial/8250/8250_aspeed_vuart.c:174:8-16:
-WARNING: use scnprintf or sprintf
-./drivers/tty/serial/8250/8250_aspeed_vuart.c:127:8-16:
-WARNING: use scnprintf or sprintf
+This is a bit strange. You're effectively rewriting the node with a new one.
 
-Use sysfs_emit instead of scnprintf or sprintf makes more sense.
+It would make more sense to leave spi2 disabled (the default), and add
+a new node:
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Yang Guang <yang.guang5@zte.com.cn>
-Signed-off-by: David Yang <davidcomponentone@gmail.com>
+ spi {
+   compatible = "spi-gpio";
+   #address-cells = <1>;
+   #size-cells = <0>;
+   gpio-sck = <&gpio0 ASPEED_GPIO(X, 3) GPIO_ACTIVE_HIGH>;
+   gpio-mosi = <&gpio0 ASPEED_GPIO(X, 4) GPIO_ACTIVE_HIGH>;
+   gpio-miso = <&gpio0 ASPEED_GPIO(X, 5) GPIO_ACTIVE_HIGH>;
+   num-chipselects = <1>;
+  cs-gpios = <&gpio0 ASPEED_GPIO(X, 0) GPIO_ACTIVE_LOW>;
 
----
-Change from v1-v2:
-- Modify the patch title
-- Use the CC for patch sender
+   flash@0 {
+       status = "okay";
 
-Change from v2-v3:
-- Fix the patch subject prefix typo ("8250")
-- Change back the SoB for patch submitter
+etc.
 
----
- drivers/tty/serial/8250/8250_aspeed_vuart.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Your new spi node doesn't need the pinctrl or clock properties.
 
-diff --git a/drivers/tty/serial/8250/8250_aspeed_vuart.c b/drivers/tty/serial/8250/8250_aspeed_vuart.c
-index 2350fb3bb5e4..36c39b8ea7af 100644
---- a/drivers/tty/serial/8250/8250_aspeed_vuart.c
-+++ b/drivers/tty/serial/8250/8250_aspeed_vuart.c
-@@ -82,7 +82,7 @@ static ssize_t lpc_address_show(struct device *dev,
- 	addr = (aspeed_vuart_readb(vuart, ASPEED_VUART_ADDRH) << 8) |
- 		(aspeed_vuart_readb(vuart, ASPEED_VUART_ADDRL));
- 
--	return snprintf(buf, PAGE_SIZE - 1, "0x%x\n", addr);
-+	return sysfs_emit(buf, "0x%x\n", addr);
- }
- 
- static int aspeed_vuart_set_lpc_address(struct aspeed_vuart *vuart, u32 addr)
-@@ -124,7 +124,7 @@ static ssize_t sirq_show(struct device *dev,
- 	reg &= ASPEED_VUART_GCRB_HOST_SIRQ_MASK;
- 	reg >>= ASPEED_VUART_GCRB_HOST_SIRQ_SHIFT;
- 
--	return snprintf(buf, PAGE_SIZE - 1, "%u\n", reg);
-+	return sysfs_emit(buf, "%u\n", reg);
- }
- 
- static int aspeed_vuart_set_sirq(struct aspeed_vuart *vuart, u32 sirq)
-@@ -171,7 +171,7 @@ static ssize_t sirq_polarity_show(struct device *dev,
- 	reg = aspeed_vuart_readb(vuart, ASPEED_VUART_GCRA);
- 	reg &= ASPEED_VUART_GCRA_HOST_SIRQ_POLARITY;
- 
--	return snprintf(buf, PAGE_SIZE - 1, "%u\n", reg ? 1 : 0);
-+	return sysfs_emit(buf, "%u\n", reg ? 1 : 0);
- }
- 
- static void aspeed_vuart_set_sirq_polarity(struct aspeed_vuart *vuart,
--- 
-2.30.2
-
+> +       #address-cells = <1>;
+> +       #size-cells = <0>;
+> +
+> +       gpio-sck = <&gpio0 ASPEED_GPIO(X, 3) GPIO_ACTIVE_HIGH>;
+> +       gpio-mosi = <&gpio0 ASPEED_GPIO(X, 4) GPIO_ACTIVE_HIGH>;
+> +       gpio-miso = <&gpio0 ASPEED_GPIO(X, 5) GPIO_ACTIVE_HIGH>;
+> +       num-chipselects = <1>;
+> +       cs-gpios = <&gpio0 ASPEED_GPIO(X, 0) GPIO_ACTIVE_LOW>;
+>
+>         flash@0 {
+>                 status = "okay";
+> --
+> 2.17.1
+>
