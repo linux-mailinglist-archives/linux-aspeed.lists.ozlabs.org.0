@@ -1,48 +1,57 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 043814B63BE
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 07:46:03 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD3D4B672F
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 10:14:01 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JyWnh3Rvjz3cBl
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 17:46:00 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Jyb4R3wV2z3cYX
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 20:13:59 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record)
- smtp.mailfrom=h08.hostsharing.net (client-ip=2a01:37:1000::53df:5f64:0;
- helo=bmailout1.hostsharing.net; envelope-from=foo00@h08.hostsharing.net;
- receiver=<UNKNOWN>)
-X-Greylist: delayed 396 seconds by postgrey-1.36 at boromir;
- Tue, 15 Feb 2022 17:34:29 AEDT
-Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net
- [IPv6:2a01:37:1000::53df:5f64:0])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=kaod.org (client-ip=188.165.58.48; helo=6.mo548.mail-out.ovh.net;
+ envelope-from=clg@kaod.org; receiver=<UNKNOWN>)
+Received: from 6.mo548.mail-out.ovh.net (6.mo548.mail-out.ovh.net
+ [188.165.58.48])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JyWXP5Nthz30R0
- for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Feb 2022 17:34:29 +1100 (AEDT)
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "*.hostsharing.net",
- Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
- by bmailout1.hostsharing.net (Postfix) with ESMTPS id 35C4530000E20;
- Tue, 15 Feb 2022 07:27:43 +0100 (CET)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
- id 282A6314429; Tue, 15 Feb 2022 07:27:43 +0100 (CET)
-Date: Tue, 15 Feb 2022 07:27:43 +0100
-From: Lukas Wunner <lukas@wunner.de>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 03/10] spi: spi-mem: Add driver for Aspeed SMC controllers
-Message-ID: <20220215062743.GA12431@wunner.de>
-References: <20220214094231.3753686-1-clg@kaod.org>
- <20220214094231.3753686-4-clg@kaod.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Jyb4D2DC6z3cQJ
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Feb 2022 20:13:47 +1100 (AEDT)
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.11])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 8335821EFF;
+ Tue, 15 Feb 2022 09:07:53 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Tue, 15 Feb
+ 2022 10:07:52 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002b27b64c4-57a5-44f9-a47c-4a83fe5690ca,
+ 2487B4E7026A90D95ED29794538901B35B4D209A) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <76c3f352-a0fc-f72f-e66e-594f9249cb8c@kaod.org>
+Date: Tue, 15 Feb 2022 10:07:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 03/10] spi: spi-mem: Add driver for Aspeed SMC controllers
+Content-Language: en-US
+To: Lukas Wunner <lukas@wunner.de>
+References: <20220214094231.3753686-1-clg@kaod.org>
+ <20220214094231.3753686-4-clg@kaod.org> <20220215062743.GA12431@wunner.de>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220215062743.GA12431@wunner.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220214094231.3753686-4-clg@kaod.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Approved-At: Tue, 15 Feb 2022 17:45:58 +1100
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 4e02782a-965d-4bc5-8fe7-6f59370c6abd
+X-Ovh-Tracer-Id: 7883832626687085383
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrjeefgdduvdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,40 +74,47 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Feb 14, 2022 at 10:42:24AM +0100, Cédric Le Goater wrote:
-> +static int aspeed_spi_probe(struct platform_device *pdev)
-> +{
-[...]
-> +	ctlr = spi_alloc_master(dev, sizeof(*aspi));
-> +	if (!ctlr)
-> +		return -ENOMEM;
+Hello Lukas,
 
-Use devm_spi_alloc_master() and remove the "put_controller" error path
-for simplicity.
+On 2/15/22 07:27, Lukas Wunner wrote:
+> On Mon, Feb 14, 2022 at 10:42:24AM +0100, CÃ©dric Le Goater wrote:
+>> +static int aspeed_spi_probe(struct platform_device *pdev)
+>> +{
+> [...]
+>> +	ctlr = spi_alloc_master(dev, sizeof(*aspi));
+>> +	if (!ctlr)
+>> +		return -ENOMEM;
+> 
+> Use devm_spi_alloc_master() and remove the "put_controller" error path
+> for simplicity.
+  
+yes.
 
+>> +	ret = devm_spi_register_controller(dev, ctlr);
+> [...]
+>> +static int aspeed_spi_remove(struct platform_device *pdev)
+>> +{
+>> +	struct spi_controller *ctlr = platform_get_drvdata(pdev);
+>> +	struct aspeed_spi *aspi = spi_controller_get_devdata(ctlr);
+>> +
+>> +	aspeed_spi_enable(aspi, false);
+>> +	spi_unregister_controller(ctlr);
+>> +	clk_disable_unprepare(aspi->clk);
+>> +	return 0;
+>> +}
+> 
+> You need to move the call to spi_unregister_controller() *before*
+> the call to aspeed_spi_enable().  The controller must be fully
+> operational until spi_unregister_controller() returns.
+> 
+> You also need to replace the call to devm_spi_register_controller()
+> in aspeed_spi_probe() with spi_register_controller().
+> Otherwise you'll unregister the controller twice because you're
+> calling spi_unregister_controller() in aspeed_spi_remove().
 
-> +	ret = devm_spi_register_controller(dev, ctlr);
-[...]
-> +static int aspeed_spi_remove(struct platform_device *pdev)
-> +{
-> +	struct spi_controller *ctlr = platform_get_drvdata(pdev);
-> +	struct aspeed_spi *aspi = spi_controller_get_devdata(ctlr);
-> +
-> +	aspeed_spi_enable(aspi, false);
-> +	spi_unregister_controller(ctlr);
-> +	clk_disable_unprepare(aspi->clk);
-> +	return 0;
-> +}
-
-You need to move the call to spi_unregister_controller() *before*
-the call to aspeed_spi_enable().  The controller must be fully
-operational until spi_unregister_controller() returns.
-
-You also need to replace the call to devm_spi_register_controller()
-in aspeed_spi_probe() with spi_register_controller().
-Otherwise you'll unregister the controller twice because you're
-calling spi_unregister_controller() in aspeed_spi_remove().
+ok. Understood. Done in v2.
 
 Thanks,
 
-Lukas
+C.
+
