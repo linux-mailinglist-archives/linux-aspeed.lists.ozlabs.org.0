@@ -1,56 +1,58 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B034B6FB6
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 16:27:52 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D86F4B6FC1
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Feb 2022 16:29:23 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JylMp36h9z3cH2
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Feb 2022 02:27:50 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JylPX40fQz3cGq
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Feb 2022 02:29:20 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=l630TyCF;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=GeSLQp5e;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org;
- envelope-from=sashal@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1;
+ helo=dfw.source.kernel.org; envelope-from=sashal@kernel.org;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=l630TyCF; 
+ header.s=k20201202 header.b=GeSLQp5e; 
  dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JylMk5X7Gz3bcn
- for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Feb 2022 02:27:46 +1100 (AEDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JylPT3pc4z3bZY
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Feb 2022 02:29:17 +1100 (AEDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 226E2615F7;
- Tue, 15 Feb 2022 15:27:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF099C340FA;
- Tue, 15 Feb 2022 15:27:42 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 609AC6158E;
+ Tue, 15 Feb 2022 15:29:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CDF3C340EB;
+ Tue, 15 Feb 2022 15:29:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1644938864;
+ s=k20201202; t=1644938954;
  bh=6suctJEObTMyjXIebBno+7Rimc7/9sHGbBTfa2mh2BM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=l630TyCFVuI6ok/0zF+kG+AxgOof2RQMO05T2iJgksuhWNTiqE6FDTJMaun1yeH+Z
- ZIr7z/NCV5smQcqy5vK4wFrHSkYwPr/SMnAKWxjCrz6/oZp6TLHV3BebQCJXpXvPcv
- WgPzzhXvB7YoK3HnLgKe6ZhyTg+K/VsntYi/2dj/4rONSgkbinxunccyGkh+Qck6FS
- nV6LELX/EIVnibVYrrLIzDjCFrvZdC0XplAQ6hue+u7TBHzxHvK+vD8ikFCIVx36x+
- 9GhTY+C6AYOi4nBXaS+OxfWwK8oEl89uhNYQ5D7LQuE0nBNi3g/QZaaM2WhjJiCkWI
- 0gCYs+68YXUuA==
+ b=GeSLQp5ewnvPArIImmCVanLz8N/IrXeDxEgc4IiErt8RUSXRv8bkFyTtnb4x3Ce/l
+ UEZtoV/lFdPwgP9+sfJhD+5h7Gb8QyVZ/WTc63MWjvANJcsywLJx5bIt1PZiDe2OAe
+ 7lytB3D1Yh7RSYtMrsj0g2uY/bKwoJmEfNoDFMoRM1pFBKMonmYHyhWI3IDllKSoEA
+ zohp0dKGpDtKxgVizPbxnottZbtXl8JYF7CuioD2HYfPECm3Jxz2V/427JXVra1sml
+ Rmot4kYImHDmxlSfvnjeq7L8XU6qromjLc82v7wsxjQFWYh8NEj/McIQw9zbSzHQSs
+ qa/PY+E4h9qBg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 23/34] soc: aspeed: lpc-ctrl: Block error
+Subject: [PATCH AUTOSEL 5.15 23/33] soc: aspeed: lpc-ctrl: Block error
  printing on probe defer cases
-Date: Tue, 15 Feb 2022 10:26:46 -0500
-Message-Id: <20220215152657.580200-23-sashal@kernel.org>
+Date: Tue, 15 Feb 2022 10:28:21 -0500
+Message-Id: <20220215152831.580780-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220215152657.580200-1-sashal@kernel.org>
-References: <20220215152657.580200-1-sashal@kernel.org>
+In-Reply-To: <20220215152831.580780-1-sashal@kernel.org>
+References: <20220215152831.580780-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
