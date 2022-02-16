@@ -2,63 +2,64 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44294B8147
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Feb 2022 08:21:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB3F4B8148
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Feb 2022 08:21:52 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Jz8X73Jhnz3c7S
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Feb 2022 18:21:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Jz8XZ3bFCz3c9d
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Feb 2022 18:21:50 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=nqq/1QEd;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=XIlpY2Ci;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::82a;
- helo=mail-qt1-x82a.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::82e;
+ helo=mail-qt1-x82e.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=nqq/1QEd; dkim-atps=neutral
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
- [IPv6:2607:f8b0:4864:20::82a])
+ header.s=google header.b=XIlpY2Ci; dkim-atps=neutral
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
+ [IPv6:2607:f8b0:4864:20::82e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4Jz8X10QbPz2xBL
- for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Feb 2022 18:21:18 +1100 (AEDT)
-Received: by mail-qt1-x82a.google.com with SMTP id b5so1270378qtq.11
- for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Feb 2022 23:21:19 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4Jz8XS2syyz2xBL
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Feb 2022 18:21:44 +1100 (AEDT)
+Received: by mail-qt1-x82e.google.com with SMTP id r14so1306877qtt.5
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 15 Feb 2022 23:21:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=pOcJAEz2qU41PX9tifsFjG0wojUZW1SvJzugMZiYuC0=;
- b=nqq/1QEdzD/5W/nv2zTp9XXZj9GEXhlgKtfxNAWzCJpuPUnCuJDSykqaLEkUu73Eee
- bpXiXJ2uphU0Cix+zo+9i2ba1WtVKzy4o7JqsKHE9ClIbqu0kFBMDG+Q5jLFF5yisf+P
- DgWLheZ+6e0nB1COWgkhri2ulmv9D5ph51brU=
+ bh=0OJpzZG2s6Ox5c2MteDuzD1t6oUEsSxi/uYhG05ln+o=;
+ b=XIlpY2CijHAufToCwE90Tw8Ji+c/jA0OZ+YYf3jN6xLY8wO4iqaaamGGULGGLcTUFH
+ fEnBSXHyCWr5aMej08c+2Dr5c86wncICv1QmdjgAx6q+aYC506EzL/BNvEg6ceMvjGRa
+ sKK4r39DL5tMTLBU/D5j9z9yaWYERTG15IWI0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=pOcJAEz2qU41PX9tifsFjG0wojUZW1SvJzugMZiYuC0=;
- b=W/p9caE+e1YT1SpMyEyt4NOiRg8mOy9MUgqkRPyrZhF04jp0E8mErlkfD8UACho67b
- cAU0X/LESaKC6dlCn/n8yuFXnL27qCTfyc8hekt8ZSkIrlAXqtx5SZRD7xt97aqc6w8a
- Vo+MwT6YqwVm5CoVuh3EauH+KOkYs3oraWIk23RwiPQnocu6y3SFkJYtwAYEpvHofcKY
- HEXQo9OFUjTJzu+CH1YjFmcfvIynaxycKnsqgszxl/Wao5jBTytaEUYBUmIFxG7OTIXh
- Hzce5zMDgNYik0J1u/C1ldQwgMAFKgn8PwqbHe9eiDSmz/JVEYoepMKFJdZmqt5YJJZZ
- NAOA==
-X-Gm-Message-State: AOAM532KKSpBR7B12ThuppssM9Q/ewqQSSPR1O2IRH0h0w9ngviHB1x/
- Rt6GwM7Z0JnsNFY1g5F6eJzQLQwzo+bz0Qp7GPE=
-X-Google-Smtp-Source: ABdhPJzW11flgp0zEGjBDsbZmQaNh3HD4dBznYiqY29J473H7ttZH/tN26OSjf6pOvHePn5DcqbqrSr9Ss1Ny09UdS4=
-X-Received: by 2002:ac8:5b91:0:b0:2db:acb7:2412 with SMTP id
- a17-20020ac85b91000000b002dbacb72412mr1055351qta.475.1644996075867; Tue, 15
- Feb 2022 23:21:15 -0800 (PST)
+ bh=0OJpzZG2s6Ox5c2MteDuzD1t6oUEsSxi/uYhG05ln+o=;
+ b=YjTirt54Iyp5b9w69U7Fs/XuM/d1p/KwVPtUD1K/ZAZIj0UbCcZPKH07mJPcy6Xzyf
+ lSS9eg+TuW2p5ViXrA9bOOi4oyYxAs8/enX4/g8AbNeH7fWy2xKGqD09gbCHy1DCTwcf
+ c0OLXBfULt+RMp6aGtHdAtFLC9s0xDP6EfxKhk6xA8FrmiC6LP19JrcN7v/p5VWq9Ymm
+ N4SItjQcLRqP1GhVvEl+bjgVvSDvXRcmUW5SM2+zk1h4RbEA2XkQMSeIqb0GodPSKdp1
+ N9b0ZWXPM6TDIjVX/+p4yj35MQ6hQqiLdna58TsmsacnFwNbfM8aBlh6SWII8QeB4S2G
+ MtWg==
+X-Gm-Message-State: AOAM531DNdFNlkWGCojug5iryjGaRXrqi7re6oNMwRzUK5tA6sHhr6au
+ tCivQFiRpybF6sXZ/vXWXXXc48+b4Bd+45z1aXs=
+X-Google-Smtp-Source: ABdhPJzA6l0C3w5nIyZqmUOGDNvMpQfSG2jJhyTSmE/2H0f84Ix2EkssFZZW204yIEa9skj6uTX2l/o+YpyukE86AmI=
+X-Received: by 2002:ac8:5b82:0:b0:2cf:232d:b1f8 with SMTP id
+ a2-20020ac85b82000000b002cf232db1f8mr1115201qta.58.1644996102080; Tue, 15 Feb
+ 2022 23:21:42 -0800 (PST)
 MIME-Version: 1.0
 References: <20220214094231.3753686-1-clg@kaod.org>
-In-Reply-To: <20220214094231.3753686-1-clg@kaod.org>
+ <20220214094231.3753686-10-clg@kaod.org>
+In-Reply-To: <20220214094231.3753686-10-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 16 Feb 2022 07:21:04 +0000
-Message-ID: <CACPK8Xe5_opc8W-00DZF1URcb2-OYSU6acjJg+c+aAoDxGBboA@mail.gmail.com>
-Subject: Re: [PATCH 00/10] spi: spi-mem: Add driver for Aspeed SMC controllers
+Date: Wed, 16 Feb 2022 07:21:29 +0000
+Message-ID: <CACPK8Xd5peBdJ2MYH6OcT+vWyjdmKaOpNFw=eHKp6=RPjc6X=g@mail.gmail.com>
+Subject: Re: [PATCH 09/10] ARM: dts: aspeed: Enable Dual SPI RX transfers
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -87,111 +88,187 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 14 Feb 2022 at 09:42, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Mon, 14 Feb 2022 at 09:43, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> Hi,
+> All these controllers support at least Dual SPI. Update the DTs.
 >
-> This series adds a new SPI driver using the spi-mem interface for the
-> Aspeed static memory controllers of the AST2600, AST2500 and AST2400
-> SoCs.
->
->  * AST2600 Firmware SPI Memory Controller (FMC)
->  * AST2600 SPI Flash Controller (SPI1 and SPI2)
->  * AST2500 Firmware SPI Memory Controller (FMC)
->  * AST2500 SPI Flash Controller (SPI1 and SPI2)
->  * AST2400 New Static Memory Controller (also referred as FMC)
->  * AST2400 SPI Flash Controller (SPI)
->
-> It is based on the current OpenBMC kernel driver [1], using directly
-> the MTD SPI-NOR interface and on a patchset [2] previously proposed
-> adding support for the AST2600 only. This driver takes a slightly
-> different approach to cover all 6 controllers.
->
-> It does not make use of the controller register disabling Address and
-> Data byte lanes because is not available on the AST2400 SoC. We could
-> introduce a specific handler for new features available on recent SoCs
-> if needed. As there is not much difference on performance, the driver
-> chooses the common denominator: "User mode" which has been heavily
-> tested in [1]. "User mode" is also used as a fall back method when
-> flash device mapping window is too small.
->
-> Problems to address with spi-mem were the configuration of the mapping
-> windows and the calibration of the read timings. The driver handles
-> them in the direct mapping handler when some knowledge on the size of
-> the flash device is know. It is not perfect but not incorrect either.
-> The algorithm is one from [1] because it doesn't require the DMA
-> registers which are not available on all controllers.
->
-> Direct mapping for writes is not supported (yet). I have seen some
-> corruption with writes and I preferred to use the safer and proven
-> method of the initial driver [1]. We can improve that later.
->
-> The driver supports Quad SPI RX transfers on the AST2600 SoC but it
-> didn't have the expected results. Therefore it is not activated yet.
-> This needs more tests.
->
-> The series does not remove the current Aspeed SMC driver but prepares
-> ground for its removal by changing its CONFIG option. This last step
-> can be addressed as a followup when the new driver using the spi-mem
-> interface has been sufficiently exposed.
->
-> Tested on:
->
->  * OpenPOWER Palmetto (AST2400)
->  * Evaluation board (AST2500)
->  * OpenPOWER Witherspoon (AST2500)
->  * Evaluation board (AST2600 A0)
->  * Rainier board (AST2600)
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Looks great! Thanks for doing this work C=C3=A9dric.
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-I reviewed all of the patches. The device tree and defconfig ones,
-which we will send via my aspeed tree, are good to go.
-
-The others look good too, to the best of my knowledge.
-
-I'll do some more testing of your v2 when you send it out.
-
-Cheers,
-
-Joel
-
+> ---
+>  arch/arm/boot/dts/aspeed-g4.dtsi | 6 ++++++
+>  arch/arm/boot/dts/aspeed-g5.dtsi | 7 +++++++
+>  arch/arm/boot/dts/aspeed-g6.dtsi | 8 ++++++++
+>  3 files changed, 21 insertions(+)
 >
-> [1] https://github.com/openbmc/linux/blob/dev-5.15/drivers/mtd/spi-nor/co=
-ntrollers/aspeed-smc.c
-> [2] https://patchwork.ozlabs.org/project/linux-aspeed/list/?series=3D2123=
-94
->
-> Thanks,
->
-> C.
->
-> C=C3=A9dric Le Goater (10):
->   mtd: spi-nor: aspeed: Rename Kconfig option
->   dt-bindings: spi: Add Aspeed SMC controllers device tree binding
->   spi: spi-mem: Add driver for Aspeed SMC controllers
->   spi: aspeed: Add support for direct mapping
->   spi: aspeed: Adjust direct mapping to device size
->   spi: aspeed: Workaround AST2500 limitations
->   spi: aspeed: Add support for the AST2400 SPI controller
->   spi: aspeed: Calibrate read timings
->   ARM: dts: aspeed: Enable Dual SPI RX transfers
->   spi: aspeed: Activate new spi-mem driver
->
->  drivers/spi/spi-aspeed-smc.c                  | 1241 +++++++++++++++++
->  .../bindings/spi/aspeed,ast2600-fmc.yaml      |   92 ++
->  arch/arm/boot/dts/aspeed-g4.dtsi              |    6 +
->  arch/arm/boot/dts/aspeed-g5.dtsi              |    7 +
->  arch/arm/boot/dts/aspeed-g6.dtsi              |    8 +
->  drivers/mtd/spi-nor/controllers/Kconfig       |    4 +-
->  drivers/mtd/spi-nor/controllers/Makefile      |    2 +-
->  drivers/spi/Kconfig                           |   11 +
->  drivers/spi/Makefile                          |    1 +
->  9 files changed, 1369 insertions(+), 3 deletions(-)
->  create mode 100644 drivers/spi/spi-aspeed-smc.c
->  create mode 100644 Documentation/devicetree/bindings/spi/aspeed,ast2600-=
-fmc.yaml
->
+> diff --git a/arch/arm/boot/dts/aspeed-g4.dtsi b/arch/arm/boot/dts/aspeed-=
+g4.dtsi
+> index f14dace34c5a..da211fbd8658 100644
+> --- a/arch/arm/boot/dts/aspeed-g4.dtsi
+> +++ b/arch/arm/boot/dts/aspeed-g4.dtsi
+> @@ -65,27 +65,32 @@ fmc: spi@1e620000 {
+>                         flash@0 {
+>                                 reg =3D < 0 >;
+>                                 compatible =3D "jedec,spi-nor";
+> +                               spi-rx-bus-width =3D <2>;
+>                                 spi-max-frequency =3D <50000000>;
+>                                 status =3D "disabled";
+>                         };
+>                         flash@1 {
+>                                 reg =3D < 1 >;
+>                                 compatible =3D "jedec,spi-nor";
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                         flash@2 {
+>                                 reg =3D < 2 >;
+>                                 compatible =3D "jedec,spi-nor";
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                         flash@3 {
+>                                 reg =3D < 3 >;
+>                                 compatible =3D "jedec,spi-nor";
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                         flash@4 {
+>                                 reg =3D < 4 >;
+>                                 compatible =3D "jedec,spi-nor";
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                 };
+> @@ -102,6 +107,7 @@ flash@0 {
+>                                 reg =3D < 0 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                 };
+> diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-=
+g5.dtsi
+> index 7495f93c5069..804b66d32127 100644
+> --- a/arch/arm/boot/dts/aspeed-g5.dtsi
+> +++ b/arch/arm/boot/dts/aspeed-g5.dtsi
+> @@ -67,18 +67,21 @@ flash@0 {
+>                                 reg =3D < 0 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                         flash@1 {
+>                                 reg =3D < 1 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                         flash@2 {
+>                                 reg =3D < 2 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                 };
+> @@ -95,12 +98,14 @@ flash@0 {
+>                                 reg =3D < 0 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                         flash@1 {
+>                                 reg =3D < 1 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                 };
+> @@ -117,12 +122,14 @@ flash@0 {
+>                                 reg =3D < 0 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                         flash@1 {
+>                                 reg =3D < 1 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                 };
+> diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-=
+g6.dtsi
+> index c32e87fad4dc..542714c61a85 100644
+> --- a/arch/arm/boot/dts/aspeed-g6.dtsi
+> +++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+> @@ -107,18 +107,21 @@ flash@0 {
+>                                 reg =3D < 0 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                         flash@1 {
+>                                 reg =3D < 1 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                         flash@2 {
+>                                 reg =3D < 2 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                 };
+> @@ -135,12 +138,14 @@ flash@0 {
+>                                 reg =3D < 0 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                         flash@1 {
+>                                 reg =3D < 1 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                 };
+> @@ -157,18 +162,21 @@ flash@0 {
+>                                 reg =3D < 0 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                         flash@1 {
+>                                 reg =3D < 1 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                         flash@2 {
+>                                 reg =3D < 2 >;
+>                                 compatible =3D "jedec,spi-nor";
+>                                 spi-max-frequency =3D <50000000>;
+> +                               spi-rx-bus-width =3D <2>;
+>                                 status =3D "disabled";
+>                         };
+>                 };
 > --
 > 2.34.1
 >
