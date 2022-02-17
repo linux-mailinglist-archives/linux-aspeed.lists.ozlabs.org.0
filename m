@@ -2,92 +2,59 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C8E64B8EF7
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Feb 2022 18:17:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2DC4B9B54
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Feb 2022 09:43:20 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4JzPmG4M4zz3cCS
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Feb 2022 04:17:50 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=NOU0wvUk;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ctDVde6C;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4JzpJ546m2z3cG3
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Feb 2022 19:43:17 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=stwcx.xyz (client-ip=64.147.123.24;
- helo=wout1-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256
- header.s=fm1 header.b=NOU0wvUk; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=ctDVde6C; 
- dkim-atps=neutral
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
+ smtp.mailfrom=kaod.org (client-ip=178.33.105.233;
+ helo=2.mo552.mail-out.ovh.net; envelope-from=clg@kaod.org; receiver=<UNKNOWN>)
+X-Greylist: delayed 358 seconds by postgrey-1.36 at boromir;
+ Thu, 17 Feb 2022 19:43:11 AEDT
+Received: from 2.mo552.mail-out.ovh.net (2.mo552.mail-out.ovh.net
+ [178.33.105.233])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4JzPm433Jsz3bc5
- for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Feb 2022 04:17:39 +1100 (AEDT)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 4EF473200953;
- Wed, 16 Feb 2022 12:17:34 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 16 Feb 2022 12:17:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; bh=oNwOSQ3qh0rFRs
- kCwE18LbAyBomZpSW2k/cB0L6ZHJs=; b=NOU0wvUk7VoHj5PaFSko4qNGTm3uMO
- KkrseP68AbFPwl3hv5mR3TeSgd64qS5uSVhAE7YwFcRVIObTa7wDJ/hv9NYMFl2Y
- xyViqXdDUq9H2JCWeuPnHAzTQu1NXm3+rAH33BT5xY535yRXCwsBRaBZ6Ih4S/GH
- F+OYmQgmvlQ2AmtWKnz2RpblExvLktwkPeLeoQLTrbfcYtfKiHFZmNnpHs2o7ht6
- i5wxPlarNIwABym4XOQPnm1uzDVG1phWLDi5WNPrgi3FIoiti88RWNnD3buf/ZnA
- 7iJRWpnXPjdyADOuTTbaRbrUUetiAPleUtFR2Ic7exledMrJyNz83xkw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=oNwOSQ3qh0rFRskCwE18LbAyBomZpSW2k/cB0L6ZH
- Js=; b=ctDVde6Cwf0HU65uLPJjAxX+sXZBkz/DXdTyz65f3WOPdPe7tFckvxK7X
- RJfNeJLCQOFkm/UkVq4yzMtzkuYqRSEttGmB2DagENcGykstCXIjQ103KPaOXBtP
- dQ3bOr9PtG+XA/nn8HUTwVLCzjb6xeGrDv75uaoXHYvCp80k/zxKtfn+PYNsAwXo
- VQh4cXmjVbxKBIp/LO0NYwEBaJ38ug49v4OfDChC3wKV/JX+ujkomJWD8We+BbDy
- McAlBcYV3cpHIU3XDMkocDeOsx3m6GVKkFd53PaNrwPkabndaq9erbxxq5l89Wsk
- lmowWEufcpoRn1yBnRkAnwQyoQnug==
-X-ME-Sender: <xms:rDENYlDyT9vfJQY8EOD_7yWM0xZYEFQrUe0FdKNctMUR8Oebgk8kFQ>
- <xme:rDENYjgodD57Sux7cagIGg9uuPEBwlslPErhh6uoEn3jZP8cmmP1Zhhg8ht_40ZiO
- P9EaI24Pk_ks-Ky-ko>
-X-ME-Received: <xmr:rDENYgnIl47-JMGupNvqIvOvJTW4NWnfwENQ49RQqJ4fssc29B02m7Ka8nDod9mjm1SujN1KoQ0hbFTJtPwT1sKQuM4e1Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjeeigdelkecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfg
- hrlhcuvffnffculdefhedmnecujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddt
- vdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
- htfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepudfgvdejvedtieeuteffkefgvdef
- geeiheetieeltddvveefhefhgefgudektefhnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepphgrthhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:rDENYvyth4-aOVdU-HNSfC_jchLjBikk72ieiKL--3FtACL7CHm8oA>
- <xmx:rDENYqRAqSu5tvsqIr9rVxze1p-2CbmXxVs3SxISlKnePBrQvLgJsg>
- <xmx:rDENYiZ6OvcCiLma39nAfAZbS2YSvx5bAOG8luDh0NZXLErn4OJ2EA>
- <xmx:rTENYpGL3sa8I5gV1Jh5cxACk-K57y7un5WX4G7383oBRxqacyxDIQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 16 Feb 2022 12:17:31 -0500 (EST)
-Date: Wed, 16 Feb 2022 11:17:29 -0600
-From: Patrick Williams <patrick@stwcx.xyz>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH v3 00/10] update Facebook Bletchley BMC
-Message-ID: <Yg0xqSV+k/O+vwSs@patrickw3-mbp>
-References: <20220215163151.32252-1-potin.lai@quantatw.com>
- <CACPK8Xfs34gw2_XGeduJ6D=-khN7RtMj3LY8hQ8B96fFxMuE8A@mail.gmail.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4JzpHz0rJwz30Mf
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Feb 2022 19:43:09 +1100 (AEDT)
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.173])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id ECDFB24EAF;
+ Thu, 17 Feb 2022 08:37:04 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 17 Feb
+ 2022 09:37:03 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002328e9798-957d-4e35-ae92-239b6e2566ca,
+ 6074F5EAC11FD030A47E229993F36105E76D55A4) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <a77fe4bb-c4d6-4329-b25e-26e990e8092b@kaod.org>
+Date: Thu, 17 Feb 2022 09:37:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CACPK8Xfs34gw2_XGeduJ6D=-khN7RtMj3LY8hQ8B96fFxMuE8A@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 02/10] dt-bindings: spi: Add Aspeed SMC controllers device
+ tree binding
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>
+References: <20220214094231.3753686-1-clg@kaod.org>
+ <20220214094231.3753686-3-clg@kaod.org> <YgwV5ZGCbrNhlk0s@robh.at.kernel.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <YgwV5ZGCbrNhlk0s@robh.at.kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 03c1adce-a0aa-4472-8090-987f0bcc8d30
+X-Ovh-Tracer-Id: 662029147249740676
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrjeejgdduvddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepudeutdegudegheefvdefhfeiteeifefhieduueethfffkeeiudeuueehgedugeefnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,26 +66,143 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Potin Lai <potin.lai@quantatw.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-aspeed@lists.ozlabs.org, Tudor Ambarus <tudor.ambarus@microchip.com>,
+ Richard Weinberger <richard@nod.at>, linux-kernel@vger.kernel.org,
+ linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ linux-mtd@lists.infradead.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Pratyush Yadav <p.yadav@ti.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Feb 16, 2022 at 05:01:56AM +0000, Joel Stanley wrote:
-> On Tue, 15 Feb 2022 at 16:32, Potin Lai <potin.lai@quantatw.com> wrote:
-> and given the minor differences from v2, lets add Patrick's review:
->=20
-> Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
->=20
-> I've applied these for submission in the v5.18 merge window, and to
-> the openbmc tree.
+On 2/15/22 22:06, Rob Herring wrote:
+> On Mon, Feb 14, 2022 at 10:42:23AM +0100, Cédric Le Goater wrote:
+>> The "interrupt" property is optional because it is only necessary for
+>> controllers supporting DMAs (Not implemented yet in the new driver).
+>>
+>> Cc: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>   .../bindings/spi/aspeed,ast2600-fmc.yaml      | 92 +++++++++++++++++++
+>>   1 file changed, 92 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml b/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
+>> new file mode 100644
+>> index 000000000000..ed71c4d86930
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
+>> @@ -0,0 +1,92 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/spi/aspeed,ast2600-fmc.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Aspeed SMC controllers bindings
+>> +
+>> +maintainers:
+>> +  - Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+>> +  - Cédric Le Goater <clg@kaod.org>
+>> +
+>> +description: |
+>> +  This binding describes the Aspeed Static Memory Controllers (FMC and
+>> +  SPI) of the AST2400, AST2500 and AST2600 SOCs.
+>> +
+>> +allOf:
+>> +  - $ref: "spi-controller.yaml#"
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - aspeed,ast2600-fmc
+>> +      - aspeed,ast2600-spi
+>> +      - aspeed,ast2500-fmc
+>> +      - aspeed,ast2500-spi
+>> +      - aspeed,ast2400-fmc
+>> +      - aspeed,ast2400-spi
+>> +
+>> +  reg:
+>> +    items:
+>> +      - description: registers
+>> +      - description: memory mapping
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +patternProperties:
+>> +  "@[0-9a-f]+":
+>> +    type: object
+>> +
+>> +    properties:
+>> +      spi-rx-bus-width:
+>> +        enum: [1, 2, 4]
+>> +
+>> +    required:
+>> +      - reg
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - clocks
+>> +
+>> +unevaluatedProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +    #include <dt-bindings/interrupt-controller/aspeed-scu-ic.h>
+>> +    #include <dt-bindings/clock/ast2600-clock.h>
+>> +
+>> +    spi@1e620000 {
+>> +        reg = < 0x1e620000 0xc4
+>> +                0x20000000 0x10000000 >;
+>> +        #address-cells = <1>;
+>> +        #size-cells = <0>;
+>> +        compatible = "aspeed,ast2600-fmc";
+>> +        clocks = <&syscon ASPEED_CLK_AHB>;
+>> +        status = "disabled";
+> 
+> Why is your example disabled? Drop 'status'.
 
-Thank you Joel.  Yes, I concur.
+my bad. I took the basic definition of the SoC and the devices
+are activated in the boards. I will fix in v2.
 
---=20
-Patrick Williams
+Thanks,
+
+C.
+
+
+> 
+>> +        interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
+>> +        flash@0 {
+>> +                reg = < 0 >;
+>> +                compatible = "jedec,spi-nor";
+>> +                spi-max-frequency = <50000000>;
+>> +                status = "disabled";
+> 
+> Ditto.
+> 
+>> +        };
+>> +        flash@1 {
+>> +                reg = < 1 >;
+>> +                compatible = "jedec,spi-nor";
+>> +                spi-max-frequency = <50000000>;
+>> +                status = "disabled";
+>> +        };
+>> +        flash@2 {
+>> +                reg = < 2 >;
+>> +                compatible = "jedec,spi-nor";
+>> +                spi-max-frequency = <50000000>;
+>> +                status = "disabled";
+>> +        };
+>> +    };
+>> -- 
+>> 2.34.1
+>>
+>>
+
