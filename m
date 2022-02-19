@@ -1,81 +1,60 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1919E4BB5B1
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Feb 2022 10:33:45 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0184BC93C
+	for <lists+linux-aspeed@lfdr.de>; Sat, 19 Feb 2022 16:53:31 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K0RMp49mFz3cR1
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Feb 2022 20:33:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K1ClV5n5mz3cDw
+	for <lists+linux-aspeed@lfdr.de>; Sun, 20 Feb 2022 02:53:26 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=NrQkJ89I;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=softfail (domain owner discourages use of this
- host) smtp.mailfrom=kaod.org (client-ip=148.163.156.1;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=clg@kaod.org;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1;
+ helo=dfw.source.kernel.org; envelope-from=jic23@kernel.org;
  receiver=<UNKNOWN>)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
+ header.s=k20201202 header.b=NrQkJ89I; 
+ dkim-atps=neutral
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K0RMh2LZvz2xrc;
- Fri, 18 Feb 2022 20:33:33 +1100 (AEDT)
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21I97Twl001085; 
- Fri, 18 Feb 2022 09:33:25 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ea7tssqge-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Feb 2022 09:33:25 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21I9LrWX009266;
- Fri, 18 Feb 2022 09:33:23 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3e645kgyj4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Feb 2022 09:33:22 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 21I9XKmf42729844
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Feb 2022 09:33:20 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7B9FD4C05C;
- Fri, 18 Feb 2022 09:33:20 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 352CC4C058;
- Fri, 18 Feb 2022 09:33:20 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri, 18 Feb 2022 09:33:20 +0000 (GMT)
-Received: from yukon.ibmuc.com (unknown [9.171.87.94])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 2F29222016E;
- Fri, 18 Feb 2022 10:33:19 +0100 (CET)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: Eddie James <eajames@linux.ibm.com>
-Subject: [PATCH] dt-bindings: soc: aspeed XDMA fixes
-Date: Fri, 18 Feb 2022 10:33:17 +0100
-Message-Id: <20220218093317.664559-1-clg@kaod.org>
-X-Mailer: git-send-email 2.34.1
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: bayXeQ1ynp1UmRZjAnU_KbdjcttOrgjC
-X-Proofpoint-ORIG-GUID: bayXeQ1ynp1UmRZjAnU_KbdjcttOrgjC
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K1ClM1M1Dz2ymb
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 20 Feb 2022 02:53:19 +1100 (AEDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 231FA60B14;
+ Sat, 19 Feb 2022 15:53:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F10FBC004E1;
+ Sat, 19 Feb 2022 15:53:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1645285995;
+ bh=11WW/0CiWWZWGKAlkXmLRY9zQt6EZ/inhLlfKd2t1A4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=NrQkJ89IEx40yyfAVF3VfET136xZuCzqYWcRFvS5ee2ja7Ft4X6napM2LZkJuwNBz
+ MWrPpGQVMACJwNX7COvOz67F/vFv0MbXghjvG33HGxVKrMn6cZHJ3QdIt2lkaeoUmq
+ uZj8JaNHbKDtXl9Ru43GMDMQ/LzR/MRIPQS0d5xh1viDi01JVO/YwSMw746uSYEFL7
+ eFCyEvtSSiZakS7BIqO5lEHFCXGYY0MqIH/pvBDHZxmZM8TFopsizZwu7VKuvxQi1i
+ 4ghNAtBMLKwQIfnoFp+34PqnlScK51VwXPSsIfol3WS7fiGCJMGBnnGKVVUPvJTk+R
+ vghP+RdHubACA==
+Date: Sat, 19 Feb 2022 16:00:02 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Subject: Re: [PATCH] iio: adc: aspeed: Add divider flag to fix incorrect
+ voltage reading.
+Message-ID: <20220219160002.46e301b8@jic23-huawei>
+In-Reply-To: <20220218085708.8194-1-billy_tsai@aspeedtech.com>
+References: <20220218085708.8194-1-billy_tsai@aspeedtech.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-02-18_04,2022-02-17_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- lowpriorityscore=0 mlxlogscore=749 spamscore=0 priorityscore=1501
- phishscore=0 impostorscore=0 clxscore=1034 malwarescore=0 mlxscore=0
- bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2201110000 definitions=main-2202180061
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,58 +66,59 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Konstantin Klubnichkin <kitsok@yandex-team.ru>, lars@metafoo.de,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, colin.king@canonical.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-This is to address warnings reported by make dt_binding_check.
+On Fri, 18 Feb 2022 16:57:08 +0800
+Billy Tsai <billy_tsai@aspeedtech.com> wrote:
 
-Cc: Eddie James <eajames@linux.ibm.com>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- Documentation/devicetree/bindings/soc/aspeed/xdma.yaml | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> The formula for the ADC sampling period in ast2400/ast2500 is:
+> ADC clock period = PCLK * 2 * (ADC0C[31:17] + 1) * (ADC0C[9:0])
+> When ADC0C[9:0] is set to 0 the sampling voltage will be lower than
+> expected, because the hardware may not have enough time to
+> charge/discharge to a stable voltage.
+> 
+> Reported-by: Konstantin Klubnichkin <kitsok@yandex-team.ru>
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+Hi Billy,
 
-diff --git a/Documentation/devicetree/bindings/soc/aspeed/xdma.yaml b/Docum=
-entation/devicetree/bindings/soc/aspeed/xdma.yaml
-index 495743581e2d..b3d2aeb5a9b9 100644
---- a/Documentation/devicetree/bindings/soc/aspeed/xdma.yaml
-+++ b/Documentation/devicetree/bindings/soc/aspeed/xdma.yaml
-@@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Aspeed AST25XX and AST26XX XDMA Engine
-=20
- maintainers:
-- - Eddie James <eajames@linux.ibm.com>
-+  - Eddie James <eajames@linux.ibm.com>
-=20
- description: |
-   This binding describes the XDMA Engine embedded in the AST2500 and AST26=
-00
-@@ -31,13 +31,11 @@ properties:
-     maxItems: 2
-=20
-   reset-names:
--    maxItems: 2
-     items:
-       - const: device
-       - const: root-complex
-=20
-   interrupts:
--    maxItems: 2
-     items:
-       - description: global interrupt for the XDMA engine
-       - description: PCI-E reset or PERST interrupt
-@@ -71,6 +69,8 @@ then:
-   required:
-     - reset-names
-=20
-+additionalProperties: false
-+
- examples:
-   - |
-     #include <dt-bindings/clock/ast2600-clock.h>
---=20
-2.34.1
+Fixes tag?
+
+Also, would be good to call out in the patch description that
+CLK_DIVIDER_ONE_BASED rules at 0 as a valid value and hence
+avoids the ADC0C[9:0] value of 0 that is causing problems.
+
+That may be obvious to people who make frequent use of clk dividers
+but it's not locally obvious when looking at this patch.
+
+Otherwise looks good to me.
+
+Thanks,
+
+Jonathan
+
+> ---
+>  drivers/iio/adc/aspeed_adc.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
+> index a957cad1bfab..ffae64f39221 100644
+> --- a/drivers/iio/adc/aspeed_adc.c
+> +++ b/drivers/iio/adc/aspeed_adc.c
+> @@ -539,7 +539,9 @@ static int aspeed_adc_probe(struct platform_device *pdev)
+>  	data->clk_scaler = devm_clk_hw_register_divider(
+>  		&pdev->dev, clk_name, clk_parent_name, scaler_flags,
+>  		data->base + ASPEED_REG_CLOCK_CONTROL, 0,
+> -		data->model_data->scaler_bit_width, 0, &data->clk_lock);
+> +		data->model_data->scaler_bit_width,
+> +		data->model_data->need_prescaler ? CLK_DIVIDER_ONE_BASED : 0,
+> +		&data->clk_lock);
+>  	if (IS_ERR(data->clk_scaler))
+>  		return PTR_ERR(data->clk_scaler);
+>  
 
