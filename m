@@ -2,65 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88AB44BD6D2
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Feb 2022 08:34:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FFB34BD866
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Feb 2022 09:58:20 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K2DZl6pYrz3cB0
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Feb 2022 18:34:23 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K2GRY3bTcz3c5g
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Feb 2022 19:58:17 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Z06LCpgN;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=fHdjhnCW;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f33;
- helo=mail-qv1-xf33.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f2e;
+ helo=mail-qv1-xf2e.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=Z06LCpgN; dkim-atps=neutral
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com
- [IPv6:2607:f8b0:4864:20::f33])
+ header.s=google header.b=fHdjhnCW; dkim-atps=neutral
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com
+ [IPv6:2607:f8b0:4864:20::f2e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K2DZc4nPyz30Mn
- for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Feb 2022 18:34:14 +1100 (AEDT)
-Received: by mail-qv1-xf33.google.com with SMTP id d7so29910011qvk.2
- for <linux-aspeed@lists.ozlabs.org>; Sun, 20 Feb 2022 23:34:15 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K2GRT4BWkz2yHL
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Feb 2022 19:58:11 +1100 (AEDT)
+Received: by mail-qv1-xf2e.google.com with SMTP id a19so30397514qvm.4
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Feb 2022 00:58:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=R4B6JGXR6mvZF1952Vke43JV0QR66SxjuMutQVOsFo8=;
- b=Z06LCpgN2MVimjjFUlm3IrOc0bB63t5ON0LGaE4naFFq5j3x0jb78evJj8rax3eWP/
- wgLsdIlXGADTXtwIZOPQPKaJFEYfYXwgtZ5UOBJuzO2T8WAjlN5DomYW9eZL93ICBZT8
- yimSlEUKhwEw4f1FPbp0zK/EwW0EF/4JAD5uY=
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=/YkJCPAEzy9lvOQKx0L5i2HCzqQLZCPvdJzlwKqKMEM=;
+ b=fHdjhnCW9k6koHGoL8t0LOjJFnL9DQxPvu/mqvFIyz74CqTTFK5blmbV8pDrWfCJ2p
+ xaGBIItbNHH+AjmvHGPtX0i6hlhwZWjX/48k1q0qQneg7qfoOm/RGvUYPPLLs5jEh+Am
+ +MMMyBPVojm5Pfxvz1rGjef4YjE/7F/x9D29k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=R4B6JGXR6mvZF1952Vke43JV0QR66SxjuMutQVOsFo8=;
- b=1uWzjRGcW2KOsc+rFNGzojd3VqVrJv/m+CoO/fDX7kULs37uqLoGvdo4TfM4nCT55A
- 9fPErgMQgjlb4PlwpTZMCMcQ68IN5CwnwqXNaADh5+qdc9ktr9DaT7ftV5p8MJtfNy5z
- oPdcoPvq5mlwv1iSv//+RdR/Bp8SG/fDk7WQqVqBopkjg1+6kuRYkOx8oNdUMqVlM5g9
- lPQGtRVzOO3TxtMINqE5uS162idM64vkJZucbUCuOkYx/Rt0Xbhk3dVJBmHwHEKzahS1
- P4Adoi2cOCu3q/Jg4mV3npGXvCxpppx1CXC934gIXZgymK1V3teIlSsX94yAH+lV2fQz
- zgpw==
-X-Gm-Message-State: AOAM533lRvJW0mxhyh/s95MZHmREBwxf1ElPVoyVxg/M4EEKnitflx5Q
- Rah7KmrnFTt7EuiLYQIqOTLeWZR2UVzFkuGDo+M=
-X-Google-Smtp-Source: ABdhPJx2pPvLE2lY8PhsDFi43EexUA016GTtes5KYX0xv/HLHfxhIxLOM/pn0HF05x8GWnFK30iX+BejJZ2bFcsMSdI=
-X-Received: by 2002:ac8:5b82:0:b0:2cf:232d:b1f8 with SMTP id
- a2-20020ac85b82000000b002cf232db1f8mr16728455qta.58.1645428851531; Sun, 20
- Feb 2022 23:34:11 -0800 (PST)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=/YkJCPAEzy9lvOQKx0L5i2HCzqQLZCPvdJzlwKqKMEM=;
+ b=yFu8xQEpk1l5ZUnWvATB6az8TjVqBg1mk4l444ZOBWvYl+n4up39/pp7Ff8kIFYHDn
+ 5Kn1yyuP0IMy9chbuJQ7cZ46aj/pex0z9iZBDo9FtyMdsQaVn4VKn0Fcm0GNm1DubD1w
+ PBMCcEEBepCgL6TaixZU8WDHsDgSCNaWAF84Pxq1P4Nu785AC/MlEuVAM1cRp9IY5d3n
+ Po0PCE8WlOO80FbaC61ST3cvFuhax4k+J5op45m4UyUAUn/EYkGRmDTa1visYDLHTCzi
+ ywUYXT9Sy//Ew40DugzMk17jQOkeaAOQQAx+uuXPW4rZkqWiG6aFRqvg7dtki9faWDkc
+ S1xA==
+X-Gm-Message-State: AOAM53235x92aOesd5XtrY9n7705m/+l9h9lbjRQd8YJLhjqnJC+4Kl7
+ 3tQ6taiw1CMELo96Z9sbuq9ra12vc5BtCG5p32w=
+X-Google-Smtp-Source: ABdhPJyn0WKGnhrzzpq1dvCmFMToH/JR7TwORUjkh/VfxntXGt87JDwSK+2FAU/rsYrtr9hW1TgvTzyVhYeQ6BCfaMI=
+X-Received: by 2002:a05:6214:d6e:b0:42d:7cb3:aa49 with SMTP id
+ 14-20020a0562140d6e00b0042d7cb3aa49mr14608483qvs.107.1645433888187; Mon, 21
+ Feb 2022 00:58:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20210921043936.468001-1-andrew@aj.id.au>
- <d2b85ad7-aef7-6088-03f5-cbd6e0bcab5d@kaod.org>
-In-Reply-To: <d2b85ad7-aef7-6088-03f5-cbd6e0bcab5d@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 21 Feb 2022 07:33:59 +0000
-Message-ID: <CACPK8Xdvns7PK9t1ZutAbkJqhb5eRcoWCDySQGsfbtLv+XMvqQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] leds: pca955x: Expose GPIOs for all pins
-To: Pavel Machek <pavel@ucw.cz>
+Date: Mon, 21 Feb 2022 08:57:57 +0000
+Message-ID: <CACPK8XcLpAA7b_hGea-Wc8H5eu9=YpPZ9b75nYF7rqMzDcMw9w@mail.gmail.com>
+Subject: [GIT PULL] ARM: aspeed: devicetree changes for 5.18
+To: SoC Team <soc@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -74,55 +71,59 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Andy Shevchenko <andy.shevchenko@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, linux-leds@vger.kernel.org
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Pavel,
+Hello Soc maintainers,
 
+A straightforward pull request of aspeed bits for v5.18.
 
+The following changes since commit e783362eb54cd99b2cac8b3a9aeac942e6f6ac07=
+:
 
-On Fri, 24 Sept 2021 at 06:41, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> On 9/21/21 06:39, Andrew Jeffery wrote:
-> > Without these patches the driver limits the number of pins exposed on
-> > the gpiochip to the number of pins specified as GPIO in the devicetree,
-> > but doesn't map between the GPIO and pin number spaces. The result is
-> > that specifying offset or interleaved GPIOs in the devicetree gives
-> > unexpected behaviour in userspace.
-> >
-> > By always exposing all pins as GPIOs the patches resolve the lack of
-> > mapping between GPIO offsets and pins on the package in the driver by
-> > ensuring we always have a 1-to-1 mapping.
-> >
-> > The issue is primarily addressed by patch 1/2. Patch 2/2 makes it
-> > possible to not expose any pins as LEDs (and therefore make them all
-> > accessible as GPIOs). This has a follow-on effect of allowing the drive=
-r
-> > to bind to a device instantiated at runtime without requiring a
-> > description in the devicetree.
-> >
-> > I've tested the series under qemu to inspect the various interactions
-> > between LEDs vs GPIOs as well as conflicting GPIO requests.
+  Linux 5.17-rc1 (2022-01-23 10:12:53 +0200)
 
-> > Please review!
->
-> This is simpler than the 'ngpio' business we had before.
->
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+are available in the Git repository at:
 
-I saw that you recently merged some LED patches. I was wondering if
-you could consider this series for v5.18. It still applies cleanly,
-and we've been running it for a while now, so it's very well tested.
+  git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
+tags/aspeed-5.18-devicetree
 
-Cheers,
+for you to fetch changes up to 43fd3d4d95cee85e187e5c4ef1d991f77d4d928c:
 
-Joel
+  MAINTAINERS: ARM/WPCM450: Add 'W:' line with wiki (2022-02-21 13:00:50 +1=
+030)
+
+----------------------------------------------------------------
+ASPEED device tree updates for 5.18
+
+ - New machines
+
+  * Quanta S6Q AST2600 BMC
+  * Facebook's Bletchley is not new, but has a large update
+
+ - Small clenaups and additions for Everest, Rainier and Tacoma, and the
+   flash layout
+
+----------------------------------------------------------------
+Jonathan Neusch=C3=A4fer (8):
+      dt-bindings: arm/npcm: Add binding for global control registers (GCR)
+      MAINTAINERS: Match all of bindings/arm/npcm/ as part of NPCM architec=
+ture
+      ARM: dts: wpcm450: Add global control registers (GCR) node
+      ARM: dts: wpcm450: Add pinctrl and GPIO nodes
+      ARM: dts: wpcm450: Add pin functions
+      ARM: dts: wpcm450-supermicro-x9sci-ln4f: Add GPIO LEDs and buttons
+      ARM: dts: wpcm450: Add pinmux information to UART0
+      MAINTAINERS: ARM/WPCM450: Add 'W:' line with wiki
+
+ .../devicetree/bindings/arm/npcm/nuvoton,gcr.yaml  |  48 +++
+ MAINTAINERS                                        |   2 +
+ .../dts/nuvoton-wpcm450-supermicro-x9sci-ln4f.dts  |  43 +++
+ arch/arm/boot/dts/nuvoton-wpcm450.dtsi             | 384 +++++++++++++++++=
+++++
+ 4 files changed, 477 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/arm/npcm/nuvoton,gcr.=
+yaml
