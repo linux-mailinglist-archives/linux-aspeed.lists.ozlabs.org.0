@@ -2,59 +2,138 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0184BC93C
-	for <lists+linux-aspeed@lfdr.de>; Sat, 19 Feb 2022 16:53:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 476944BD2F1
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Feb 2022 01:47:59 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K1ClV5n5mz3cDw
-	for <lists+linux-aspeed@lfdr.de>; Sun, 20 Feb 2022 02:53:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K23Ym3yXdz3cDV
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Feb 2022 11:47:56 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=NrQkJ89I;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=Y8wdsNSh;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1;
- helo=dfw.source.kernel.org; envelope-from=jic23@kernel.org;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feab::719;
+ helo=apc01-sg2-obe.outbound.protection.outlook.com;
+ envelope-from=billy_tsai@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=NrQkJ89I; 
+ unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
+ header.a=rsa-sha256 header.s=selector1 header.b=Y8wdsNSh; 
  dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-sgaapc01on20719.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:feab::719])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K1ClM1M1Dz2ymb
- for <linux-aspeed@lists.ozlabs.org>; Sun, 20 Feb 2022 02:53:19 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 231FA60B14;
- Sat, 19 Feb 2022 15:53:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F10FBC004E1;
- Sat, 19 Feb 2022 15:53:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645285995;
- bh=11WW/0CiWWZWGKAlkXmLRY9zQt6EZ/inhLlfKd2t1A4=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=NrQkJ89IEx40yyfAVF3VfET136xZuCzqYWcRFvS5ee2ja7Ft4X6napM2LZkJuwNBz
- MWrPpGQVMACJwNX7COvOz67F/vFv0MbXghjvG33HGxVKrMn6cZHJ3QdIt2lkaeoUmq
- uZj8JaNHbKDtXl9Ru43GMDMQ/LzR/MRIPQS0d5xh1viDi01JVO/YwSMw746uSYEFL7
- eFCyEvtSSiZakS7BIqO5lEHFCXGYY0MqIH/pvBDHZxmZM8TFopsizZwu7VKuvxQi1i
- 4ghNAtBMLKwQIfnoFp+34PqnlScK51VwXPSsIfol3WS7fiGCJMGBnnGKVVUPvJTk+R
- vghP+RdHubACA==
-Date: Sat, 19 Feb 2022 16:00:02 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K23Yc27gPz30KR
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Feb 2022 11:47:45 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kGR/TnN9jBem+otH9InPaS/rLXIdH6wsnhbd9oXOIPTnmuQPY4kjLzxR4nyl/U9LmcWiPqS/b4p58sjD+aqvSvaPOwzEp7zNHSJurP/8ahOGwO4GRqN+uBaoN1MM7kilXAVMyeCm+fRnpPldNCcUugX1/qY2b5djvOA8JPYfGgKJCZTtnelreFzGMw+6gA9Th3+o7sk3IsKGSAdtOdj6SZ49AXVKaBxaeCiViYf8vpWr2qmRLetknhJQmjvEbEA/4PU3ZyKemg/2KocKMzLPRKVbctr05UYgdg1cmZiocKK93EO8Vp/F/Rj9EK3ybvX6uW80G+JSMgpaigjQtMQJ3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gVlMQLYAqBh70H9l25ZyR/p5nQdTDuj4NAClUKxxmpk=;
+ b=nUcbxbueCZilLfXDXoS+xKDkgtlTsnVaSBIv71AzGLlfnwdQBwS4bWkxn8CdoBockffOMWJKcncrYPohh7bzheOGCNgczdpnIzUzF9xffpCiglo9fU/W7aQWrKgChgmwZ68Qkmm58oyAmyUA1QY93MruWjDPLBqLXHKrQX0UdsdnGgmPGCmlwCquY/kM41WmMU7yisuAzjWOoDg3Yni/qLLxMTrq+KcwnXg7ux0cz5J7h/gpLhjb+ju10gE5we8tXJCWNcL4HX0AAC0Xm8mfR1hrYhNMZPG/hIn3l9lFuojSgFFJGjkl5JA4qTTqwFoHkE5BYb+SKcrPdvZTGIsAmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gVlMQLYAqBh70H9l25ZyR/p5nQdTDuj4NAClUKxxmpk=;
+ b=Y8wdsNShOuLuU9EyHSgO4FhZHJ3bJRXRjUWzp7/ItKSNPTcSGxeIMWiQ7sZBfhwQvRdhxNLlkfdpuHFbLqjnIPVemw7RbH9EScCd3w+zpOVJoyPksRFC0NfNrGsuB7F8XE9TF8hL77Tn0f+ImnTRIlyrbP0p2uj+eo4Dky8UkdIfbBuAj9WGrxGnmpRIWi+4sWAwf7VHHB9A8VBlZ7reMo+jQpdJgrr5U8skuZFCw+20FJx1qskxc5NPOmKwbwZBKGgxLwZGzVyRM4ie0vcJMBvNEOHK4qsaLJTMLtEzT7UVLtIy0WWlUTLVDhV5QUcOVmCA8hilr/PrFsoyhQlc9Q==
+Received: from HK0PR06MB3362.apcprd06.prod.outlook.com (2603:1096:203:8b::10)
+ by TY2PR06MB2782.apcprd06.prod.outlook.com (2603:1096:404:3d::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4995.16; Mon, 21 Feb
+ 2022 00:47:15 +0000
+Received: from HK0PR06MB3362.apcprd06.prod.outlook.com
+ ([fe80::9576:433c:3460:2e8a]) by HK0PR06MB3362.apcprd06.prod.outlook.com
+ ([fe80::9576:433c:3460:2e8a%6]) with mapi id 15.20.4995.026; Mon, 21 Feb 2022
+ 00:47:15 +0000
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: Jonathan Cameron <jic23@kernel.org>
 Subject: Re: [PATCH] iio: adc: aspeed: Add divider flag to fix incorrect
  voltage reading.
-Message-ID: <20220219160002.46e301b8@jic23-huawei>
-In-Reply-To: <20220218085708.8194-1-billy_tsai@aspeedtech.com>
+Thread-Topic: [PATCH] iio: adc: aspeed: Add divider flag to fix incorrect
+ voltage reading.
+Thread-Index: AQHYJKVxjDaUYL7Z3kOU/yC++HY6YqybCjYAgAKrv4A=
+Date: Mon, 21 Feb 2022 00:47:15 +0000
+Message-ID: <E53FFC04-41C9-446C-8D11-7A1937D8674D@aspeedtech.com>
 References: <20220218085708.8194-1-billy_tsai@aspeedtech.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
+ <20220219160002.46e301b8@jic23-huawei>
+In-Reply-To: <20220219160002.46e301b8@jic23-huawei>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0fe7be9e-02c2-4c3a-5529-08d9f4d3b4da
+x-ms-traffictypediagnostic: TY2PR06MB2782:EE_
+x-microsoft-antispam-prvs: <TY2PR06MB278210694D453EF635E89D138B3A9@TY2PR06MB2782.apcprd06.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: w57doIIlYMl8lgH1KesLe3jnhmZqtgcxAcD9AW5WtIeSVbX/aWadGVv9YlzO9irThbqFLg0GkPMsXdxEO5SOe3Z5zG+lvkQ+Mh2RilEm+bkORyubyKIGlKucmUk3OKnP7o4tNWIUYnCgLumejxdI6fghbbzjh6ZaIe03iH3GqbDroRF261PHLmD3U+5om07MnVJfSBJrYQiOmk97eFLUafs28quBqIhE4oCpTHrB8P0ActKMNgQGHehLRxbTpNAf1RmOLWFTHwa1UETf537bXV8YGQDpLqiQJwpxAoz+bDOEB8TGHcGUrcRilLOnU2f+Z6ToLHuPSbqs+e3v0zoHWPgLV5BEtEjGeFOu6HCQvgGO/4J8hs/9S+WH+Ou75fhcEG9LFPn4sEyxxeNjUB1b/2N1b18oFOBsVBM4/4AZ16V+zMwIp54KB9hC+cm3YwoTthk7pMVLpmXgMEEGWWY5ro6LOBAZNV1FbHpGswn42F7LOHk8/TuSl/yfdeIwT1MyjohqliFY7GCaK6fA61fkVyiaMayUKOPk94/trpP98hGGZKFxbe0msELK+5gi7J1hXQyfTvlIo1c9M/L+NCRozzJIJ4CYNuryn8Jnu7ZZCfM8CsVo3PMVwdcaN47+8fyYOk0Jzvvb+37ImS63QpXLZT4IN8BfEiKRF2Ey+/TKUTJ6Ttibv0T+C4c2kjVtGyVtDiRBXDSwvtmJrYrQ0007MsAzgrLsp2tja0Iw5Ya291AxxNs0WzE+RvF5r6hkf/mH
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR06MB3362.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(346002)(39830400003)(396003)(366004)(136003)(376002)(54906003)(6916009)(8936002)(26005)(7416002)(5660300002)(186003)(76116006)(83380400001)(66556008)(66476007)(66446008)(64756008)(4326008)(8676002)(66946007)(316002)(122000001)(86362001)(508600001)(38070700005)(6486002)(6506007)(36756003)(71200400001)(2906002)(38100700002)(53546011)(6512007)(2616005)(33656002)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Y0RPL2J6VmJLUW05ZGNpeFZCMnZ4eHFEOGhEcTRyajMwMzZUKzJ0Y2VjUkZN?=
+ =?utf-8?B?VjNLR2QvZFVYekpyTUo1dVlmeHZZalY4NG5YdXYyR1pUS3ovWnJ0RE9NeHR1?=
+ =?utf-8?B?NVd2Rzg2VzVIUE5ZK3Z4L1B3Mit2QXNuREVsR0JlZ1Vya21xNU1mWi9tUXd6?=
+ =?utf-8?B?RjhmSnROK0dNTFFZS3UxRlUxQzdaN1dqMk9NVk5YWHJxaXdQdXJFOG9waE92?=
+ =?utf-8?B?NDkxSUY1SmQxWCt6V3k0c2lzb3p5amZDS0xTRW1lL0xnWEtLMlY1TDZBOHB1?=
+ =?utf-8?B?Tm9WMllGeG8yM0dqNnRVQXEzV2F2VmV3YW5lMVMxRThIc0MyVzdHSTdoRHBh?=
+ =?utf-8?B?ZTJlV2Z6b2FnT1V6N09teFpPbG83V2pCT01IME00T3BDV1g0ZGpmM1JFQ2Z1?=
+ =?utf-8?B?M1VMWm5IbDRKK21paUErdGNUMXZXRE1TS2l5QlhrOGluMTI0K1BiaDZXQURZ?=
+ =?utf-8?B?R3M3eVZXZHl6RXV5SGZ2b2dWelFpUjh0ZGU4OXhSaStHMURLWHRJTVR2Ry9j?=
+ =?utf-8?B?aVUwelZBeVhrRXRVL3U4b1BCWlRkYS9jcnY2YVZQc1ZEOUFYclJFOCt5eVlD?=
+ =?utf-8?B?TUxsZFFtQktnZWlsd2FhekFxMkxBMmxwOGt1SkZpaW9sdkpGMDV6MThMVmZ6?=
+ =?utf-8?B?czd5WFZVbE41QjgrbnZMdEVFWTEyc2ltdmxINi9veVVWbktTNWlCOVBCRlRk?=
+ =?utf-8?B?WVFobEgyOTlHb3Frb0F2YWVKTW5NNlZLQ0gwV2sxS1ljbnI3d2llT2I1MkUr?=
+ =?utf-8?B?VHBGbkc1SVV1RzBrZ1J2d3NYVHpFNmliTmQ2bjE0M3RIRkd5QldCV1VNZE5L?=
+ =?utf-8?B?T2dkclYweTNCcm42UlBUbFZjN2hZL244NTF5aVpxNG1GVjRyWFdtTG92Zmto?=
+ =?utf-8?B?cWFFL0h6Qy9SclBTZmlmTmxWU0o1UzNhaXUzc0prMHp0amFSa2kvRzJ2NU5K?=
+ =?utf-8?B?Rkc5Um9LNGZveFJMRmFQUnBWK2pqN21IWHk0OVhtTy90VTQ4M1BDNlJZdVNH?=
+ =?utf-8?B?NDN6UzJDTUNMVW00VVFKUUJ6TW9oVmhmenkydDQrUkVzdnh5d2RhSHhSMDMr?=
+ =?utf-8?B?RDAxbng1dW0xRlVpNnJwUDltWERMRENPY0EvVEVna0ZOeVl3VnhYd2paeXZY?=
+ =?utf-8?B?Z0dBd005REI4YWpkTTJid0N2YTJtZXlkcStTclRCVFJLUEhOa3h1RW9CdUJy?=
+ =?utf-8?B?L25FVnM2RENrQ1g1OW1tL0FuTm1yTk1ua2hjTDRUN3l0WHh4RGhvQjNZQWRt?=
+ =?utf-8?B?UFRqaDNGTHRGdTE0ODJSbGk1Q0VMcW5xMDVSK1p1MVZ0c2NhU0VTUTBGU1pG?=
+ =?utf-8?B?M1Q5cnRoRncycjlzNUJSV1AzdXo0SWNqRVRKWEU2dGx3dS8ybU5yQ29iZVk3?=
+ =?utf-8?B?NFMxaVFkeGQyWFJzUkF4d213T3QwejhWWU1YN3I2UVZBcEJWa0VKZXR2bFNC?=
+ =?utf-8?B?UTM3U1ZCeHpnemZYVE05V3RxNjd1Wm12amlSWEpHTlR1V281aWVTWkduNG1r?=
+ =?utf-8?B?aVU3TlY4S0dSWGQvNE5vZy9XYTlHc09nbW1KWS83SUlLdE9yTFhsTnNsRFl0?=
+ =?utf-8?B?OXlMNTFzUlhVbVBZaGFlUmJuejhqZkJDSklGeTJRRUJuSmZteWNibEFCbDg5?=
+ =?utf-8?B?NStSS2VreVAwRmIyOFkveVpndE9sYjBTdTRLOFhBb2RpQzZGa2lHL2djTi81?=
+ =?utf-8?B?MFNSclV3N1RRU2diKzZyOGVOYXUyQ0xFdU45eXBnUUVNUEZWN0dpaEQ3UnFa?=
+ =?utf-8?B?cUd4TS84ZDlOTmNoU3RFRXZEQmJkWlZTejhyQXN3cWtDZVNUV0JZUXlWRHJ6?=
+ =?utf-8?B?SEVhQ2tQRTVMbVZCckZWYUdLVDlUZmw0R1pSTXdFRkd1MVA4Y1ZPWjROckVS?=
+ =?utf-8?B?bkNSSGg5QWR6V0lXemZQaUFBRm1qcC91bjFkK1hKVU40NVRLM0VlZzlNOHYx?=
+ =?utf-8?B?dVIzVG0xSFQ4eFVkZVA5d2IvOW5ENmtTSlZlTVU4S0oxVlA1OWJmc1NqTUw3?=
+ =?utf-8?B?cXFFWVdpVVBaaGwza0hHYVArWFl1S2xjUmczajFnMEVnWm8vcDV4alNWRXQ1?=
+ =?utf-8?B?L21JQVhWQldhWVpneVQwdHozT3p5V25oMEgzV0ZMZVBBaVNiWHEzNjBpWkZB?=
+ =?utf-8?B?cFRvZ0tnNFQ3cXJMQVdEcld4ZExTYUZ2U2xPZXl0ZUVQODd4a0ZKanBZM3Rn?=
+ =?utf-8?B?M2hXL2M5eS9EK0YzRUlqUmEzUmN0cURpNW1NTWR0VWtob3ZucmVLcnVWMlVk?=
+ =?utf-8?Q?7jqb8PKY5S9TP+hG4gCKFn/r+G05L5QclzOPrKLyIs=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <50ECE10B143EBC43A67370ABEEFD7D50@apcprd06.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB3362.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fe7be9e-02c2-4c3a-5529-08d9f4d3b4da
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2022 00:47:15.8338 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xL0p1sL7FGsIiKCNClZizrsJkDFyJxpPRa6/sazp53DJlJZodIQPkT8BjSOIwy7Ea5HtnzBACOMigbun+U0sKhuheiEcKnkJyrhpI4GZvkw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR06MB2782
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,59 +145,54 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Konstantin Klubnichkin <kitsok@yandex-team.ru>, lars@metafoo.de,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, colin.king@canonical.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Konstantin Klubnichkin <kitsok@yandex-team.ru>,
+ "lars@metafoo.de" <lars@metafoo.de>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ "colin.king@canonical.com" <colin.king@canonical.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 18 Feb 2022 16:57:08 +0800
-Billy Tsai <billy_tsai@aspeedtech.com> wrote:
-
-> The formula for the ADC sampling period in ast2400/ast2500 is:
-> ADC clock period = PCLK * 2 * (ADC0C[31:17] + 1) * (ADC0C[9:0])
-> When ADC0C[9:0] is set to 0 the sampling voltage will be lower than
-> expected, because the hardware may not have enough time to
-> charge/discharge to a stable voltage.
-> 
-> Reported-by: Konstantin Klubnichkin <kitsok@yandex-team.ru>
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-Hi Billy,
-
-Fixes tag?
-
-Also, would be good to call out in the patch description that
-CLK_DIVIDER_ONE_BASED rules at 0 as a valid value and hence
-avoids the ADC0C[9:0] value of 0 that is causing problems.
-
-That may be obvious to people who make frequent use of clk dividers
-but it's not locally obvious when looking at this patch.
-
-Otherwise looks good to me.
-
-Thanks,
-
-Jonathan
-
-> ---
->  drivers/iio/adc/aspeed_adc.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
-> index a957cad1bfab..ffae64f39221 100644
-> --- a/drivers/iio/adc/aspeed_adc.c
-> +++ b/drivers/iio/adc/aspeed_adc.c
-> @@ -539,7 +539,9 @@ static int aspeed_adc_probe(struct platform_device *pdev)
->  	data->clk_scaler = devm_clk_hw_register_divider(
->  		&pdev->dev, clk_name, clk_parent_name, scaler_flags,
->  		data->base + ASPEED_REG_CLOCK_CONTROL, 0,
-> -		data->model_data->scaler_bit_width, 0, &data->clk_lock);
-> +		data->model_data->scaler_bit_width,
-> +		data->model_data->need_prescaler ? CLK_DIVIDER_ONE_BASED : 0,
-> +		&data->clk_lock);
->  	if (IS_ERR(data->clk_scaler))
->  		return PTR_ERR(data->clk_scaler);
->  
-
+SGkgSm9uYXRoYW4sDQoNCk9uIDIwMjIvMi8xOSwgMTE6NTMgUE0sICJKb25hdGhhbiBDYW1lcm9u
+IiA8amljMjNAa2VybmVsLm9yZz4gd3JvdGU6DQoNCiAgICBPbiBGcmksIDE4IEZlYiAyMDIyIDE2
+OjU3OjA4ICswODAwDQogICAgQmlsbHkgVHNhaSA8YmlsbHlfdHNhaUBhc3BlZWR0ZWNoLmNvbT4g
+d3JvdGU6DQoNCiAgICA+ICAgPiBUaGUgZm9ybXVsYSBmb3IgdGhlIEFEQyBzYW1wbGluZyBwZXJp
+b2QgaW4gYXN0MjQwMC9hc3QyNTAwIGlzOg0KICAgID4gICA+IEFEQyBjbG9jayBwZXJpb2QgPSBQ
+Q0xLICogMiAqIChBREMwQ1szMToxN10gKyAxKSAqIChBREMwQ1s5OjBdKQ0KICAgID4gICA+IFdo
+ZW4gQURDMENbOTowXSBpcyBzZXQgdG8gMCB0aGUgc2FtcGxpbmcgdm9sdGFnZSB3aWxsIGJlIGxv
+d2VyIHRoYW4NCiAgICA+ICAgPiBleHBlY3RlZCwgYmVjYXVzZSB0aGUgaGFyZHdhcmUgbWF5IG5v
+dCBoYXZlIGVub3VnaCB0aW1lIHRvDQogICAgPiAgID4gY2hhcmdlL2Rpc2NoYXJnZSB0byBhIHN0
+YWJsZSB2b2x0YWdlLg0KICAgID4gICA+IA0KICAgID4gICA+IFJlcG9ydGVkLWJ5OiBLb25zdGFu
+dGluIEtsdWJuaWNoa2luIDxraXRzb2tAeWFuZGV4LXRlYW0ucnU+DQogICAgPiAgID4gU2lnbmVk
+LW9mZi1ieTogQmlsbHkgVHNhaSA8YmlsbHlfdHNhaUBhc3BlZWR0ZWNoLmNvbT4NCiAgICA+ICAg
+SGkgQmlsbHksDQogICANCiAgICA+ICAgRml4ZXMgdGFnPw0KICAgDQogICAgPiAgIEFsc28sIHdv
+dWxkIGJlIGdvb2QgdG8gY2FsbCBvdXQgaW4gdGhlIHBhdGNoIGRlc2NyaXB0aW9uIHRoYXQNCiAg
+ICA+ICAgQ0xLX0RJVklERVJfT05FX0JBU0VEIHJ1bGVzIGF0IDAgYXMgYSB2YWxpZCB2YWx1ZSBh
+bmQgaGVuY2UNCiAgICA+ICAgYXZvaWRzIHRoZSBBREMwQ1s5OjBdIHZhbHVlIG9mIDAgdGhhdCBp
+cyBjYXVzaW5nIHByb2JsZW1zLg0KICAgDQogICAgPiAgIFRoYXQgbWF5IGJlIG9idmlvdXMgdG8g
+cGVvcGxlIHdobyBtYWtlIGZyZXF1ZW50IHVzZSBvZiBjbGsgZGl2aWRlcnMNCiAgICA+ICAgYnV0
+IGl0J3Mgbm90IGxvY2FsbHkgb2J2aW91cyB3aGVuIGxvb2tpbmcgYXQgdGhpcyBwYXRjaC4NCiAg
+IA0KICAgID4gICBPdGhlcndpc2UgbG9va3MgZ29vZCB0byBtZS4NCiAgIA0KICAgID4gICBUaGFu
+a3MsDQogICANCiAgICA+ICAgSm9uYXRoYW4NCg0KSSB3aWxsIGFkZCBmaXhlcyB0YWcgYW5kIGFk
+ZCBtb3JlIGRlc2NyaXB0aW9uIGFib3V0IHRoZSBDTEtfRElWSURFUl9PTkVfQkFTRUQgZmxhZyBp
+biB2Mi4NCg0KVGhhbmtzLA0KDQpCaWxseQ0KDQogICAgPiAgID4gLS0tDQogICAgPiAgID4gIGRy
+aXZlcnMvaWlvL2FkYy9hc3BlZWRfYWRjLmMgfCA0ICsrKy0NCiAgICA+ICAgPiAgMSBmaWxlIGNo
+YW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KICAgID4gICA+IA0KICAgID4g
+ICA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2lpby9hZGMvYXNwZWVkX2FkYy5jIGIvZHJpdmVycy9p
+aW8vYWRjL2FzcGVlZF9hZGMuYw0KICAgID4gICA+IGluZGV4IGE5NTdjYWQxYmZhYi4uZmZhZTY0
+ZjM5MjIxIDEwMDY0NA0KICAgID4gICA+IC0tLSBhL2RyaXZlcnMvaWlvL2FkYy9hc3BlZWRfYWRj
+LmMNCiAgICA+ICAgPiArKysgYi9kcml2ZXJzL2lpby9hZGMvYXNwZWVkX2FkYy5jDQogICAgPiAg
+ID4gQEAgLTUzOSw3ICs1MzksOSBAQCBzdGF0aWMgaW50IGFzcGVlZF9hZGNfcHJvYmUoc3RydWN0
+IHBsYXRmb3JtX2RldmljZSAqcGRldikNCiAgICA+ICAgPiAgCWRhdGEtPmNsa19zY2FsZXIgPSBk
+ZXZtX2Nsa19od19yZWdpc3Rlcl9kaXZpZGVyKA0KICAgID4gICA+ICAJCSZwZGV2LT5kZXYsIGNs
+a19uYW1lLCBjbGtfcGFyZW50X25hbWUsIHNjYWxlcl9mbGFncywNCiAgICA+ICAgPiAgCQlkYXRh
+LT5iYXNlICsgQVNQRUVEX1JFR19DTE9DS19DT05UUk9MLCAwLA0KICAgID4gICA+IC0JCWRhdGEt
+Pm1vZGVsX2RhdGEtPnNjYWxlcl9iaXRfd2lkdGgsIDAsICZkYXRhLT5jbGtfbG9jayk7DQogICAg
+PiAgID4gKwkJZGF0YS0+bW9kZWxfZGF0YS0+c2NhbGVyX2JpdF93aWR0aCwNCiAgICA+ICAgPiAr
+CQlkYXRhLT5tb2RlbF9kYXRhLT5uZWVkX3ByZXNjYWxlciA/IENMS19ESVZJREVSX09ORV9CQVNF
+RCA6IDAsDQogICAgPiAgID4gKwkJJmRhdGEtPmNsa19sb2NrKTsNCiAgICA+ICAgPiAgCWlmIChJ
+U19FUlIoZGF0YS0+Y2xrX3NjYWxlcikpDQogICAgPiAgID4gIAkJcmV0dXJuIFBUUl9FUlIoZGF0
+YS0+Y2xrX3NjYWxlcik7DQogICAgPiAgID4gIA0KDQoNCg==
