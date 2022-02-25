@@ -2,66 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F422E4C3F4B
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Feb 2022 08:50:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1541E4C4106
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Feb 2022 10:13:26 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K4hlr0MwRz3bYq
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Feb 2022 18:50:48 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K4kb60n6vz3bb7
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Feb 2022 20:13:22 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=H6LMFX+Q;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=OGKUSLCZ;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=pass (sender SPF authorized) smtp.mailfrom=ti.com
- (client-ip=198.47.23.248; helo=lelv0143.ext.ti.com;
+ (client-ip=198.47.19.141; helo=fllv0015.ext.ti.com;
  envelope-from=p.yadav@ti.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256
- header.s=ti-com-17Q1 header.b=H6LMFX+Q; 
+ header.s=ti-com-17Q1 header.b=OGKUSLCZ; 
  dkim-atps=neutral
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K4hlm1GY9z30Ld
- for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Feb 2022 18:50:42 +1100 (AEDT)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 21P7oArn092127;
- Fri, 25 Feb 2022 01:50:10 -0600
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K4kZy5kzHz3bSh
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Feb 2022 20:13:13 +1100 (AEDT)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 21P9CLvt015729;
+ Fri, 25 Feb 2022 03:12:21 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1645775410;
- bh=EE1HknnGs341fweb74p5Qo4hBGv3hC8wo+SMvmEQFYk=;
+ s=ti-com-17Q1; t=1645780341;
+ bh=4Miyo8dOd95mKRO8mU2Kx8Sh0YreYAK3dwwpYANjgHw=;
  h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=H6LMFX+QWdtSUd9VvRoMYXp26qbIWJ9Tggb5Zbkp7PLFAQKbI0xYk2cEzbkKNE651
- FLs/Vx3F5JAB5l+hTbumoFTuxAYP+T5CQ+rBxUiCsZbNcfpRkib5z9/AQK6mwJdEVG
- qz4KCVtYvxXIQDVkaL8TYT4lfSxkAFQE9h6xF8sk=
-Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 21P7o9pQ032657
+ b=OGKUSLCZIlA/gGJe5lacHZidKIqSWitcKtDi28JwAKKNmdARyqyaal0ZGqRH2tlrm
+ U+Q7WW2VOxoPHVgCwfli73dhks6nuQzqB607iTX8i3/niWQkXv/NJzBHH/CB5Mr97h
+ oXxn2nE2SP+xqSTc8GapywTbOhzd9+9iM+UouS6I=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 21P9CLjr035326
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 25 Feb 2022 01:50:10 -0600
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ Fri, 25 Feb 2022 03:12:21 -0600
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Fri, 25
- Feb 2022 01:50:08 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ Feb 2022 03:12:20 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Fri, 25 Feb 2022 01:50:08 -0600
+ Frontend Transport; Fri, 25 Feb 2022 03:12:20 -0600
 Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 21P7o7Ew043530;
- Fri, 25 Feb 2022 01:50:08 -0600
-Date: Fri, 25 Feb 2022 13:20:07 +0530
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 21P9CKxZ055223;
+ Fri, 25 Feb 2022 03:12:20 -0600
+Date: Fri, 25 Feb 2022 14:42:19 +0530
 From: Pratyush Yadav <p.yadav@ti.com>
 To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 03/10] spi: spi-mem: Add driver for Aspeed SMC controllers
-Message-ID: <20220225075007.73xypamm3zbjnkg6@ti.com>
+Subject: Re: [PATCH 04/10] spi: aspeed: Add support for direct mapping
+Message-ID: <20220225091219.bv62jm3nehg4e4z4@ti.com>
 References: <20220214094231.3753686-1-clg@kaod.org>
- <20220214094231.3753686-4-clg@kaod.org>
+ <20220214094231.3753686-5-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220214094231.3753686-4-clg@kaod.org>
+In-Reply-To: <20220214094231.3753686-5-clg@kaod.org>
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -85,157 +85,118 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On 14/02/22 10:42AM, CÃ©dric Le Goater wrote:
-> This SPI driver adds support for the Aspeed static memory controllers
-> of the AST2600, AST2500 and AST2400 SoCs using the spi-mem interface.
+On 14/02/22 10:42AM, Cédric Le Goater wrote:
+> Use direct mapping to read the flash device contents. This operation
+> mode is called "Command mode" on Aspeed SoC SMC controllers. It uses a
+> Control Register for the settings to apply when a memory operation is
+> performed on the flash device mapping window.
 > 
->  * AST2600 Firmware SPI Memory Controller (FMC)
->    . BMC firmware
->    . 3 chip select pins (CE0 ~ CE2)
->    . Only supports SPI type flash memory
->    . different segment register interface
->    . single, dual and quad mode.
+> If the window is not big enough, fall back to the "User mode" to
+> perform the read.
 > 
->  * AST2600 SPI Flash Controller (SPI1 and SPI2)
->    . host firmware
->    . 2 chip select pins (CE0 ~ CE1)
->    . different segment register interface
->    . single, dual and quad mode.
+> Direct mapping for writes will come later when validated.
 > 
->  * AST2500 Firmware SPI Memory Controller (FMC)
->    . BMC firmware
->    . 3 chip select pins (CE0 ~ CE2)
->    . supports SPI type flash memory (CE0-CE1)
->    . CE2 can be of NOR type flash but this is not supported by the driver
->    . single, dual mode.
-> 
->  * AST2500 SPI Flash Controller (SPI1 and SPI2)
->    . host firmware
->    . 2 chip select pins (CE0 ~ CE1)
->    . single, dual mode.
-> 
->  * AST2400 New Static Memory Controller (also referred as FMC)
->    . BMC firmware
->    . New register set
->    . 5 chip select pins (CE0 âˆ¼ CE4)
->    . supports NOR flash, NAND flash and SPI flash memory.
->    . single, dual and quad mode.
-> 
-> Each controller has a memory range on which flash devices contents are
-> mapped. Each device is assigned a window that can be changed at bootime
-> with the Segment Address Registers.
-> 
-> Each SPI flash device can then be accessed in two modes: Command and
-> User. When in User mode, SPI transfers are initiated with accesses to
-> the memory segment of a device. When in Command mode, memory
-> operations on the memory segment of a device generate SPI commands
-> automatically using a Control Register for the settings.
-> 
-> This initial patch adds support for User mode. Command mode needs a little
-> more work to check that the memory window on the AHB bus fits the device
-> size. It will come later when support for direct mapping is added.
-> 
-> Single and dual mode RX transfers are supported. Other types than SPI
-> are not supported.
-> 
-> Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-> Signed-off-by: CÃ©dric Le Goater <clg@kaod.org>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->  drivers/spi/spi-aspeed-smc.c            | 766 ++++++++++++++++++++++++
->  drivers/mtd/spi-nor/controllers/Kconfig |   2 +-
->  drivers/spi/Kconfig                     |  11 +
->  drivers/spi/Makefile                    |   1 +
->  4 files changed, 779 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/spi/spi-aspeed-smc.c
+>  drivers/spi/spi-aspeed-smc.c | 67 ++++++++++++++++++++++++++++++++++--
+>  1 file changed, 65 insertions(+), 2 deletions(-)
 > 
-[...]
-> +
-> +/* support for 1-1-1, 1-1-2 or 1-1-4 */
-> +static bool aspeed_spi_supports_op(struct spi_mem *mem, const struct spi_mem_op *op)
+> diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
+> index 0aeff6f468af..8d33fcb7736a 100644
+> --- a/drivers/spi/spi-aspeed-smc.c
+> +++ b/drivers/spi/spi-aspeed-smc.c
+> @@ -345,8 +345,8 @@ static int do_aspeed_spi_exec_op(struct spi_mem *mem, const struct spi_mem_op *o
+>  		if (!op->addr.nbytes)
+>  			ret = aspeed_spi_read_reg(chip, op);
+>  		else
+> -			ret = aspeed_spi_read_user(chip, op, op->addr.val,
+> -						   op->data.nbytes, op->data.buf.in);
+> +			memcpy_fromio(op->data.buf.in, chip->ahb_base + op->addr.val,
+> +				      op->data.nbytes);
+
+Why change this? exec_op should be independent from dirmap APIs. And you 
+don't even do the ahb_window_size checks here.
+
+>  	} else {
+>  		if (!op->addr.nbytes)
+>  			ret = aspeed_spi_write_reg(chip, op);
+> @@ -426,10 +426,73 @@ static int aspeed_spi_chip_set_default_window(struct aspeed_spi_chip *chip)
+>  	return chip->ahb_window_size ? 0 : -1;
+>  }
+>  
+> +static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
 > +{
-> +	if (op->cmd.buswidth > 1)
-> +		return false;
+> +	struct aspeed_spi *aspi = spi_controller_get_devdata(desc->mem->spi->master);
+> +	struct aspeed_spi_chip *chip = &aspi->chips[desc->mem->spi->chip_select];
+> +	struct spi_mem_op *op = &desc->info.op_tmpl;
+> +	u32 ctl_val;
+> +	int ret = 0;
 > +
-> +	if (op->addr.nbytes != 0) {
-> +		if (op->addr.buswidth > 1 || op->addr.nbytes > 4)
-> +			return false;
+> +	chip->clk_freq = desc->mem->spi->max_speed_hz;
+> +
+> +	/* Only for reads */
+> +	if (op->data.dir != SPI_MEM_DATA_IN)
+> +		return -EOPNOTSUPP;
+> +
+> +	if (desc->info.length > chip->ahb_window_size)
+> +		dev_warn(aspi->dev, "CE%d window (%dMB) too small for mapping",
+> +			 chip->cs, chip->ahb_window_size >> 20);
+> +
+> +	/* Define the default IO read settings */
+> +	ctl_val = readl(chip->ctl) & ~CTRL_IO_CMD_MASK;
+> +	ctl_val |= aspeed_spi_get_io_mode(op) |
+> +		op->cmd.opcode << CTRL_COMMAND_SHIFT |
+> +		CTRL_IO_DUMMY_SET(op->dummy.nbytes / op->dummy.buswidth) |
+> +		CTRL_IO_MODE_READ;
+> +
+> +	/* Tune 4BYTE address mode */
+> +	if (op->addr.nbytes) {
+> +		u32 addr_mode = readl(aspi->regs + CE_CTRL_REG);
+> +
+> +		if (op->addr.nbytes == 4)
+> +			addr_mode |= (0x11 << chip->cs);
+> +		else
+> +			addr_mode &= ~(0x11 << chip->cs);
+> +		writel(addr_mode, aspi->regs + CE_CTRL_REG);
 > +	}
 > +
-> +	if (op->dummy.nbytes != 0) {
-> +		if (op->dummy.buswidth > 1 || op->dummy.nbytes > 7)
-> +			return false;
-> +	}
+> +	/* READ mode is the controller default setting */
+> +	chip->ctl_val[ASPEED_SPI_READ] = ctl_val;
+> +	writel(chip->ctl_val[ASPEED_SPI_READ], chip->ctl);
 > +
-> +	if (op->data.nbytes != 0 && op->data.buswidth > 4)
-> +		return false;
+> +	dev_info(aspi->dev, "CE%d read buswidth:%d [0x%08x]\n",
+> +		 chip->cs, op->data.buswidth, chip->ctl_val[ASPEED_SPI_READ]);
 > +
-> +	if (!spi_mem_default_supports_op(mem, op))
-> +		return false;
-> +
-> +	return true;
-
-Nitpick: You can just do return spi_mem_default_supports_op(mem, op);
-
+> +	return ret;
 > +}
 > +
-[...]
-> +
-> +static int aspeed_spi_init_devices(struct platform_device *pdev, struct aspeed_spi *aspi)
+> +static int aspeed_spi_dirmap_read(struct spi_mem_dirmap_desc *desc,
+> +				  u64 offset, size_t len, void *buf)
 > +{
-> +	struct device_node *np;
-> +	unsigned int cs;
-> +	int ret;
+> +	struct aspeed_spi *aspi = spi_controller_get_devdata(desc->mem->spi->master);
+> +	struct aspeed_spi_chip *chip = &aspi->chips[desc->mem->spi->chip_select];
 > +
-> +	for_each_available_child_of_node(aspi->dev->of_node, np) {
-> +		struct aspeed_spi_chip *chip;
+> +	/* Switch to USER command mode if mapping window is too small */
+> +	if (chip->ahb_window_size < offset + len)
+> +		aspeed_spi_read_user(chip, &desc->info.op_tmpl, offset, len, buf);
+> +	else
+> +		memcpy_fromio(buf, chip->ahb_base + offset, len);
 > +
-> +		if (!of_device_is_compatible(np, "jedec,spi-nor"))
-> +			continue;
-> +
-> +		ret = of_property_read_u32(np, "reg", &cs);
-> +		if (ret) {
-> +			dev_err(aspi->dev, "Couldn't not read chip select.\n");
-> +			of_node_put(np);
-> +			return ret;
-> +		}
-> +
-> +		if (cs > aspi->data->max_cs) {
-> +			dev_err(aspi->dev, "Chip select %d out of range.\n", cs);
-> +			of_node_put(np);
-> +			return -ERANGE;
-> +		}
-> +
-> +		chip = &aspi->chips[cs];
-> +		chip->aspi = aspi;
-> +		chip->cs = cs;
-> +
-> +		ret = aspeed_spi_chip_init(chip);
-> +		if (ret) {
-> +			of_node_put(np);
-> +			return ret;
-> +		}
-> +
-> +		if (of_property_read_u32(np, "spi-max-frequency", &chip->clk_freq))
-> +			chip->clk_freq = ASPEED_SPI_DEFAULT_FREQ;
-> +
-> +		aspi->num_cs++;
-> +	}
-
-SPI MEM already gives you all this information. Get it from there, don't 
-parse it yourself.
-
-You can get Chip Select via spi_mem->spi->chip_select.
-You can get clock frequency via spi_mem->spi->max_speed_hz.
-
-With these comments fixed,
-
-Acked-by: Pratyush Yadav <p.yadav@ti.com>
-
-> +
-> +	return 0;
+> +	return len;
 > +}
 > +
-[...]
+>  static const struct spi_controller_mem_ops aspeed_spi_mem_ops = {
+>  	.supports_op = aspeed_spi_supports_op,
+>  	.exec_op = aspeed_spi_exec_op,
+>  	.get_name = aspeed_spi_get_name,
+> +	.dirmap_create = aspeed_spi_dirmap_create,
+> +	.dirmap_read = aspeed_spi_dirmap_read,
+>  };
+>  
+>  static void aspeed_spi_chip_set_type(struct aspeed_spi_chip *chip, int type)
+> -- 
+> 2.34.1
+> 
 
 -- 
 Regards,
