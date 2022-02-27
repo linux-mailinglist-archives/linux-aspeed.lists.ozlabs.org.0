@@ -2,60 +2,57 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7304C5AB2
-	for <lists+linux-aspeed@lfdr.de>; Sun, 27 Feb 2022 12:42:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 104324C5E46
+	for <lists+linux-aspeed@lfdr.de>; Sun, 27 Feb 2022 19:50:59 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K61pl3gVjz30hR
-	for <lists+linux-aspeed@lfdr.de>; Sun, 27 Feb 2022 22:42:55 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=nMMzAIUG;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K6CJc1rVJz3bVx
+	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Feb 2022 05:50:56 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=2604:1380:4601:e00::1;
- helo=ams.source.kernel.org; envelope-from=jic23@kernel.org;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=nMMzAIUG; 
- dkim-atps=neutral
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=kaod.org (client-ip=188.165.58.48; helo=6.mo548.mail-out.ovh.net;
+ envelope-from=clg@kaod.org; receiver=<UNKNOWN>)
+Received: from 6.mo548.mail-out.ovh.net (6.mo548.mail-out.ovh.net
+ [188.165.58.48])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K61pc51Lyz2yQ9
- for <linux-aspeed@lists.ozlabs.org>; Sun, 27 Feb 2022 22:42:48 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id E03D4B80B4B;
- Sun, 27 Feb 2022 11:42:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABC6BC340E9;
- Sun, 27 Feb 2022 11:42:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1645962162;
- bh=2GZAa88jl8nwc/hfdhteF303XDxGjwubhEYfJOwbaqQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=nMMzAIUGv35rsu8OipfLeJFxbKcKWV73XzPuf+i6arMdEuZmI7TKrmNekoDu4Hs44
- 377pGHtab86XXGGKsN0QqpbkH+GFOwWrwqpS9jX0JLVWw95AUxOXDBDZRe7QGnBJhE
- t8kj9gNcjnJMu+HKIh43cYkWdcLSkZZe1AKgrO/0A4reL9QFXoGrGoYa91nr6IMPOt
- QNWw9HCaB0TvGIIiz9sV7wy3tK6tFw2knx/KvVgnkA2hA329lpTM5d4ZQ5KD7Kr8es
- IsTjOyRgjZqeHIjlfe0hIxoKhcijSpGAShcrAo97PIrKrJb12oM056MaO9pXqv5s7L
- fIyd5oiXRTLnA==
-Date: Sun, 27 Feb 2022 11:49:44 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH v2] iio: adc: aspeed: Add divider flag to fix incorrect
- voltage reading.
-Message-ID: <20220227114944.4706bea1@jic23-huawei>
-In-Reply-To: <CACPK8XdsRorJvMjUMNYGAYNLGLzhYJEZSQMTk1ZywwY+SyqDbQ@mail.gmail.com>
-References: <20220221012705.22008-1-billy_tsai@aspeedtech.com>
- <CACPK8XdsRorJvMjUMNYGAYNLGLzhYJEZSQMTk1ZywwY+SyqDbQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-pc-linux-gnu)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K6CJT5tB7z2xrm
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 28 Feb 2022 05:50:47 +1100 (AEDT)
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.238])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 449B420F5D;
+ Sun, 27 Feb 2022 18:50:42 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Sun, 27 Feb
+ 2022 19:50:40 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0019dbb524f-1c55-405d-97b9-25daac512930,
+ 949565DF20DEE76D4A77FF7731A75FE8B07B1F6B) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <688b7a65-d4b6-682b-494a-1d4178699dba@kaod.org>
+Date: Sun, 27 Feb 2022 19:50:35 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 01/10] mtd: spi-nor: aspeed: Rename Kconfig option
+Content-Language: en-US
+To: Pratyush Yadav <p.yadav@ti.com>
+References: <20220214094231.3753686-1-clg@kaod.org>
+ <20220214094231.3753686-2-clg@kaod.org>
+ <20220225073155.f2cxfhm7surf34d4@ti.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220225073155.f2cxfhm7surf34d4@ti.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: bc842ac2-478e-418e-8a0a-cc8300debdda
+X-Ovh-Tracer-Id: 14411800285764684676
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrleekgdduudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,72 +64,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-iio@vger.kernel.org, Konstantin Klubnichkin <kitsok@yandex-team.ru>,
- Colin King <colin.king@canonical.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-aspeed@lists.ozlabs.org, Tudor Ambarus <tudor.ambarus@microchip.com>,
+ Richard Weinberger <richard@nod.at>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-spi@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, 21 Feb 2022 05:45:16 +0000
-Joel Stanley <joel@jms.id.au> wrote:
-
-> On Mon, 21 Feb 2022 at 01:26, Billy Tsai <billy_tsai@aspeedtech.com> wrote:
-> >
-> > The formula for the ADC sampling period in ast2400/ast2500 is:
-> > ADC clock period = PCLK * 2 * (ADC0C[31:17] + 1) * (ADC0C[9:0])
-> > When ADC0C[9:0] is set to 0 the sampling voltage will be lower than
-> > expected, because the hardware may not have enough time to
-> > charge/discharge to a stable voltage. This patch use the flag
-> > CLK_DIVIDER_ONE_BASED which will use the raw value read from the
-> > register, with the value of zero considered invalid to conform to the
-> > corrected formula.  
+On 2/25/22 08:31, Pratyush Yadav wrote:
+> On 14/02/22 10:42AM, Cédric Le Goater wrote:
+>> To prepare transition to the new Aspeed SMC SPI controller driver using
+>> the spi-mem interface, change the kernel CONFIG option of the current
+>> driver to reflect that the implementation uses the MTD SPI-NOR interface.
+>> Once the new driver is sufficiently exposed, we should remove the old one.
 > 
-> (to answer my own question)
-> 
-> ..and this is okay on the 2600, because we do not set need_prescaler =
-> true on that platform.
-> 
-> Reviewed-by: Joel Stanley <joel@jms.id.au>
+> I don't quite understand the reasoning behind this. Why keep the old
+> driver around? Why not directly replace it with the new one? Does the
+> new one have any limitations that this one doesn't?
 
-Applied to the fixes-togreg branch of iio.git.
+No. The old one has more limitations than the new one. The old one in
+mainline is half baked since we could never merge the necessary bits
+for training. We have been keeping a full version on the OpenBMC tree.
 
-Depending on how timing works out in the coming week I might just pull
-all the fixes in for the next merge window rather than doing a separate
-pull request.
+Joel, could we simply drop the old driver in mainline and keep the old
+one in the OpenBMC tree until we feel comfortable ? I guess we need
+more testing.
 
 Thanks,
 
-Jonathan
+C.
 
 > 
-> >
-> > Fixes: 573803234e72 ("iio: Aspeed ADC")
-> > Reported-by: Konstantin Klubnichkin <kitsok@yandex-team.ru>
-> > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> > ---
-> >  drivers/iio/adc/aspeed_adc.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
-> > index a957cad1bfab..ffae64f39221 100644
-> > --- a/drivers/iio/adc/aspeed_adc.c
-> > +++ b/drivers/iio/adc/aspeed_adc.c
-> > @@ -539,7 +539,9 @@ static int aspeed_adc_probe(struct platform_device *pdev)
-> >         data->clk_scaler = devm_clk_hw_register_divider(
-> >                 &pdev->dev, clk_name, clk_parent_name, scaler_flags,
-> >                 data->base + ASPEED_REG_CLOCK_CONTROL, 0,
-> > -               data->model_data->scaler_bit_width, 0, &data->clk_lock);
-> > +               data->model_data->scaler_bit_width,
-> > +               data->model_data->need_prescaler ? CLK_DIVIDER_ONE_BASED : 0,
-> > +               &data->clk_lock);
-> >         if (IS_ERR(data->clk_scaler))
-> >                 return PTR_ERR(data->clk_scaler);
-> >
-> > --
-> > 2.25.1
-> >  
 
