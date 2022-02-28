@@ -2,69 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601D54C62C1
-	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Feb 2022 07:07:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 123644C65EB
+	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Feb 2022 10:45:05 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K6VK43LXXz3bVd
-	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Feb 2022 17:07:20 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K6b8G0DJTz30NC
+	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Feb 2022 20:45:02 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=UJLrcu+K;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=BMCIAstr;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::832;
- helo=mail-qt1-x832.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::735;
+ helo=mail-qk1-x735.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=UJLrcu+K; dkim-atps=neutral
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
- [IPv6:2607:f8b0:4864:20::832])
+ header.s=google header.b=BMCIAstr; dkim-atps=neutral
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com
+ [IPv6:2607:f8b0:4864:20::735])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K6VK04LVSz2yPv
- for <linux-aspeed@lists.ozlabs.org>; Mon, 28 Feb 2022 17:07:15 +1100 (AEDT)
-Received: by mail-qt1-x832.google.com with SMTP id bc10so8080567qtb.5
- for <linux-aspeed@lists.ozlabs.org>; Sun, 27 Feb 2022 22:07:16 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K6b863tclz2yPY
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 28 Feb 2022 20:44:52 +1100 (AEDT)
+Received: by mail-qk1-x735.google.com with SMTP id z66so9851773qke.10
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 28 Feb 2022 01:44:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dX1IYuv+pKoE5RWQMebZf9zpCqSCm/Io5TiFn1oToxU=;
- b=UJLrcu+KI8inQtMLqAneJSCusa/UZBrkhLT4UfuM574uAB9MAt84mJh8YJmOeo1pH2
- fkeZvXwH8jtTmOzk/IQITotZ0akAy9IiDX/cFqmSi8zlPw8AdfG7hVTJAZG0cGaVnJ0Z
- fDcaGovRGGCqNQcL3V8LQZjLAsWfeOL1Bs6XE=
+ :cc; bh=m42zzm1A/Uk2fszLihUQmA9ldzbK7Fh11mCVbXlmHhY=;
+ b=BMCIAstrNglzIjoRryZMWNKrJVUS0F+gf66wVvxk/abudp6l7oRiEV9Go/1Tp2Z5UK
+ FZvgp6oJzdOMnvnNWiv4GiobNN5JtxdixkM5HIopzJq4MHyDAUH09wL2Zq8MKRGOY2G3
+ OGFe9OjLjCkrljdSbJTS3hg5mDsKWg+CbHqK0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dX1IYuv+pKoE5RWQMebZf9zpCqSCm/Io5TiFn1oToxU=;
- b=k6D02KGkLnm6hAiiPCs2Y2/qreTIZOhhCHTKDcUDOzFgxL2Lz9UyWhR+0MFPuHMpwy
- n1Iym/q0QMJYgqZ7iE/t0kcqy0CbMjuNe4ntlXQDOKCH7b37gt77Ty/7F7GdVnoLASGh
- jdVL8LY/TgtQTWMdKYoee/fCttb0YA44TugVrQx+AUfG+NJTdf9h9g1bg0HUgqTvSoDe
- 2ZFQiG1sBRUj9F7sxHTmUDqx/aM9hqGVyvh/NKAZlySVNJDsQAJkn1NpaPbKaZ4Qf41B
- dYdqp+Lv0YJ/3xtbnG2a01X8x5ULIcmtb8GL6bed0Es3BLGjRwmyxyTgpB8+BV/1wrK5
- zOLA==
-X-Gm-Message-State: AOAM531YFx7x35wspLI29GD6aUtTcMTLZcVUViu/eWbHyJMaL+oR0cuG
- MCd/FajFLze3nFSKSJiKed0iIHeFo4xuJ7xh+D4=
-X-Google-Smtp-Source: ABdhPJwx6e/7afLlxfw9imZxLs7kaRmaUVuH7jsAW+iB4UW00tnsvFIFNSUOuVEkA/Ke6pPE4HgOwn0IBfi1momwe5k=
-X-Received: by 2002:a05:622a:283:b0:2de:b3a2:b52d with SMTP id
- z3-20020a05622a028300b002deb3a2b52dmr11796494qtw.625.1646028432862; Sun, 27
- Feb 2022 22:07:12 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=m42zzm1A/Uk2fszLihUQmA9ldzbK7Fh11mCVbXlmHhY=;
+ b=aIwr4UEGjG1lOoXVm02xB67JxsiqaTxRvZETvAW50g9QotiftlYSESw8I5nni2VPIL
+ yRC5j7Ag2a448JghvEyy/gKfTGXOpwA6DW7cd2QiVtxRX5d2wNljTDQrJqUQ7zVl291R
+ LD8zjyDKYKw342TIdi3tzEXdnYGw9Ia1F1JEsHaZvfrGsq3IOGoxrlsJOTkQ1xumMigp
+ lhesWVDTph99PYfavmCK7S44ldqOiwIuy37UwNoSDaUcOD62B5E2e66nJedOtATXFEvh
+ 2rr5rAJaImb37Q0wp6beJbcTD1e+ZACusnu7zR9Kh4nOT+JYdB+WUxyxeZ+HH5EABNiU
+ XYGA==
+X-Gm-Message-State: AOAM532UvlTwMjUmmagI4YFsjqavrgHvTlYSU9ck9CfJCPDEnZYIML8g
+ 0nJYcskBDTsdbSBMXFfAn8K7MnjkVB+4JA1OXKA=
+X-Google-Smtp-Source: ABdhPJymavUC7phOQxSAzrnChJkit6X3vSfBJh8VvkrOfuYY39VSMX5xk/p7XeOex4FlAIcndtpkSyXMeeVQYGpGKKo=
+X-Received: by 2002:a37:f903:0:b0:648:ca74:b7dc with SMTP id
+ l3-20020a37f903000000b00648ca74b7dcmr10471405qkj.666.1646041489765; Mon, 28
+ Feb 2022 01:44:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20220214094231.3753686-1-clg@kaod.org>
- <20220214094231.3753686-2-clg@kaod.org>
- <20220225073155.f2cxfhm7surf34d4@ti.com>
- <688b7a65-d4b6-682b-494a-1d4178699dba@kaod.org>
-In-Reply-To: <688b7a65-d4b6-682b-494a-1d4178699dba@kaod.org>
+References: <20211208013337.13806-1-tommy_huang@aspeedtech.com>
+ <20211208013337.13806-5-tommy_huang@aspeedtech.com>
+In-Reply-To: <20211208013337.13806-5-tommy_huang@aspeedtech.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 28 Feb 2022 06:07:01 +0000
-Message-ID: <CACPK8XeCfLmEJSLV6q5BLpCVztzG3dZehCgqrjgrNr7LaOiReQ@mail.gmail.com>
-Subject: Re: [PATCH 01/10] mtd: spi-nor: aspeed: Rename Kconfig option
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Date: Mon, 28 Feb 2022 09:44:37 +0000
+Message-ID: <CACPK8XfJH=h_0f2Wp5akLWtdJwd=bmGdhrqJY8qrK9RX=4NtVQ@mail.gmail.com>
+Subject: Re: [PATCH v5 4/7] drm/aspeed: Add AST2600 chip support
+To: Tommy Haung <tommy_huang@aspeedtech.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,44 +73,53 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: devicetree <devicetree@vger.kernel.org>,
- Vignesh Raghavendra <vigneshr@ti.com>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- Tudor Ambarus <tudor.ambarus@microchip.com>,
- Richard Weinberger <richard@nod.at>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, BMC-SW <BMC-SW@aspeedtech.com>,
+ David Airlie <airlied@linux.ie>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, linux-spi@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Pratyush Yadav <p.yadav@ti.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sun, 27 Feb 2022 at 18:50, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Wed, 8 Dec 2021 at 01:34, Tommy Haung <tommy_huang@aspeedtech.com> wrote:
 >
-> On 2/25/22 08:31, Pratyush Yadav wrote:
-> > On 14/02/22 10:42AM, C=C3=A9dric Le Goater wrote:
-> >> To prepare transition to the new Aspeed SMC SPI controller driver usin=
-g
-> >> the spi-mem interface, change the kernel CONFIG option of the current
-> >> driver to reflect that the implementation uses the MTD SPI-NOR interfa=
-ce.
-> >> Once the new driver is sufficiently exposed, we should remove the old =
-one.
-> >
-> > I don't quite understand the reasoning behind this. Why keep the old
-> > driver around? Why not directly replace it with the new one? Does the
-> > new one have any limitations that this one doesn't?
+> From: tommy-huang <tommy_huang@aspeedtech.com>
 >
-> No. The old one has more limitations than the new one. The old one in
-> mainline is half baked since we could never merge the necessary bits
-> for training. We have been keeping a full version on the OpenBMC tree.
+> Add AST2600 chip support and setting.
 >
-> Joel, could we simply drop the old driver in mainline and keep the old
-> one in the OpenBMC tree until we feel comfortable ? I guess we need
-> more testing.
+> Signed-off-by: tommy-huang <tommy_huang@aspeedtech.com>
 
-I would answer Pratyush's question with: the old one is well tested,
-and the new one is not. We would intend to keep the old one around for
-a release cycle or two, and once we're confident the new one is stable
-we would remove the old.
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+
+> ---
+>  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> index d4b56b3c7597..d10246b1d1c2 100644
+> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> @@ -82,9 +82,18 @@ static const struct aspeed_gfx_config ast2500_config = {
+>         .scan_line_max = 128,
+>  };
+>
+> +static const struct aspeed_gfx_config ast2600_config = {
+> +       .dac_reg = 0xc0,
+> +       .int_clear_reg = 0x68,
+> +       .vga_scratch_reg = 0x50,
+> +       .throd_val = CRT_THROD_LOW(0x50) | CRT_THROD_HIGH(0x70),
+> +       .scan_line_max = 128,
+> +};
+> +
+>  static const struct of_device_id aspeed_gfx_match[] = {
+>         { .compatible = "aspeed,ast2400-gfx", .data = &ast2400_config },
+>         { .compatible = "aspeed,ast2500-gfx", .data = &ast2500_config },
+> +       { .compatible = "aspeed,ast2600-gfx", .data = &ast2600_config },
+>         { },
+>  };
+>  MODULE_DEVICE_TABLE(of, aspeed_gfx_match);
+> --
+> 2.17.1
+>
