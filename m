@@ -2,60 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E44E4CACC9
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 19:01:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA8754CB1E8
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 23:11:24 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K82465Cgzz3bvb
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 05:01:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K87cV0gJHz3bw6
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 09:11:22 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=nt03mWtT;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.161.49; helo=mail-oo1-f49.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com
- [209.85.161.49])
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=infradead.org
+ (client-ip=2001:8b0:10b:1236::1; helo=casper.infradead.org;
+ envelope-from=willy@infradead.org; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ secure) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256
+ header.s=casper.20170209 header.b=nt03mWtT; 
+ dkim-atps=neutral
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K82433l13z3bqt
- for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Mar 2022 05:01:22 +1100 (AEDT)
-Received: by mail-oo1-f49.google.com with SMTP id
- d134-20020a4a528c000000b00319244f4b04so2795738oob.8
- for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Mar 2022 10:01:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/goqT9AknfrrTEcTqtCY9P/6UOTTnBDztD2PHfR3fqA=;
- b=sEDFJdetA4DPYfLaIi/wyKE63c1/g/lJrk8Jr95D37aI5hJo5aq5SKp2nTZdGbZy1l
- 6gclMv+dHFWs0vy7q35z7hsnLJWuj58p8se1qs0Iw3ZaKP2J4pAgItjodu6LhzxEMmp6
- /dbTRmTJiqDzoK+6DDek9hzMkTbh4VbWHvXODwASGFa6ZG2eb0iHBskcKRJN/5RrDyH5
- mBbg0i5U8K1RsyOPQYvGgsVdyM9Ml91cne03bGwnKAkPUAfseOuBEmMR1tteQyVfMkP2
- RZqj9BmqIE1NRpEPnv/rZ1s6tOWLrStlbiSG2gWveKiiLh4dX9wDhzy6IA5jbhxadrkx
- Xl9w==
-X-Gm-Message-State: AOAM5322NhUUt+MeuFbPmSWZ7IQAbNF1vgA1N09DoFrcdwCJ1sdBdNkZ
- lt35dp39xJFB1GweYutQ9270PqzquA==
-X-Google-Smtp-Source: ABdhPJwU081ZnsYALg3ngDKnxVTNDVswhLhomVWcfKM5MhTUgPTmsvi/R9c2nx7mXVO6EHrERhIVNA==
-X-Received: by 2002:a05:6870:f58f:b0:d4:395b:535e with SMTP id
- eh15-20020a056870f58f00b000d4395b535emr820759oab.136.1646244081294; 
- Wed, 02 Mar 2022 10:01:21 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213]) by smtp.gmail.com with ESMTPSA id
- g2-20020a056830160200b005af14cf9962sm7986991otr.32.2022.03.02.10.01.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 10:01:20 -0800 (PST)
-Received: (nullmailer pid 3969417 invoked by uid 1000);
- Wed, 02 Mar 2022 18:01:19 -0000
-Date: Wed, 2 Mar 2022 12:01:19 -0600
-From: Rob Herring <robh@kernel.org>
-To: Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH] dt-bindings: gpu: Convert aspeed-gfx bindings to yaml
-Message-ID: <Yh+w7+CdtYYJoRkh@robh.at.kernel.org>
-References: <20220302051056.678367-1-joel@jms.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K6xNk0BXWz30MH;
+ Tue,  1 Mar 2022 10:26:56 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=kySnWHttTi8Odl1WzgGLjQ1pb3b/AWH5qnYZSwnte50=; b=nt03mWtTaEB9qwsFMTflxzDbvW
+ aPSsVBeLr8i8UFwA1l3fNavsuYE231uUwb0yDTUi43cd3zIwbEaMZqro2u+rXbOt0KZriPQpyGi5J
+ +pW6oqM84XOoVppIQh3QNnM4ANpt9aIP3ShEwC0IGa2NKI/m2xxapQAyHhJG42Bevn7SuMSAnyA27
+ 7+3DFdmFFllbJzk1MHudhAJj7GPo/5RsA7npxrePVRbtGBQKbJeOUSye2chevgvDMrFkod2y0FmL7
+ JW29U+rs2LR5a0WX3s04bvbvXotX/UjRCpaaxaXPYROyoDfpDk5Wuy418QovroPX+qbpGelik5Tc/
+ I0FC9RZw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
+ Hat Linux)) id 1nOpPe-0090gL-Ex; Mon, 28 Feb 2022 23:26:42 +0000
+Date: Mon, 28 Feb 2022 23:26:42 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Message-ID: <Yh1aMm3hFe/j9ZbI@casper.infradead.org>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com>
+ <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
+ <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
+ <Yh0tl3Lni4weIMkl@casper.infradead.org>
+ <CAHk-=wgBfJ1-cPA2LTvFyyy8owpfmtCuyiZi4+um8DhFNe+CyA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220302051056.678367-1-joel@jms.id.au>
+In-Reply-To: <CAHk-=wgBfJ1-cPA2LTvFyyy8owpfmtCuyiZi4+um8DhFNe+CyA@mail.gmail.com>
+X-Mailman-Approved-At: Thu, 03 Mar 2022 09:11:13 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,22 +69,88 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-wireless <linux-wireless@vger.kernel.org>,
+ alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>, linux-iio@vger.kernel.org,
+ nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
+ linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
+ linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
+ linux-aspeed@lists.ozlabs.org, linux-scsi <linux-scsi@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, linux-staging@lists.linux.dev,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ intel-wired-lan@lists.osuosl.org, kgdb-bugreport@lists.sourceforge.net,
+ bcm-kernel-feedback-list@broadcom.com,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Jakob Koschel <jakobkoschel@gmail.com>, v9fs-developer@lists.sourceforge.net,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sgx@vger.kernel.org,
+ linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
+ linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
+ tipc-discussion@lists.sourceforge.net,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Mike Rapoport <rppt@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Mar 02, 2022 at 03:40:56PM +1030, Joel Stanley wrote:
-> Convert the bindings to yaml and add the ast2600 compatible string.
+On Mon, Feb 28, 2022 at 12:37:15PM -0800, Linus Torvalds wrote:
+> On Mon, Feb 28, 2022 at 12:16 PM Matthew Wilcox <willy@infradead.org> wrote:
+> >
+> > Then we can never use -Wshadow ;-(  I'd love to be able to turn it on;
+> > it catches real bugs.
 > 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> ---
->  .../devicetree/bindings/gpu/aspeed,gfx.yaml   | 69 +++++++++++++++++++
->  .../devicetree/bindings/gpu/aspeed-gfx.txt    | 41 -----------
->  2 files changed, 69 insertions(+), 41 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
->  delete mode 100644 Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
+> Oh, we already can never use -Wshadow regardless of things like this.
+> That bridge hasn't just been burned, it never existed in the first
+> place.
+> 
+> The whole '-Wshadow' thing simply cannot work with local variables in
+> macros - something that we've used since day 1.
+> 
+> Try this (as a "p.c" file):
+> 
+>         #define min(a,b) ({                     \
+>                 typeof(a) __a = (a);            \
+>                 typeof(b) __b = (b);            \
+>                 __a < __b ? __a : __b; })
+> 
+>         int min3(int a, int b, int c)
+>         {
+>                 return min(a,min(b,c));
+>         }
+> 
+> and now do "gcc -O2 -S t.c".
+> 
+> Then try it with -Wshadow.
 
-Applied, thanks.
+#define ___PASTE(a, b)	a##b
+#define __PASTE(a, b) ___PASTE(a, b)
+#define _min(a, b, u) ({         \
+        typeof(a) __PASTE(__a,u) = (a);            \
+        typeof(b) __PASTE(__b,u) = (b);            \
+        __PASTE(__a,u) < __PASTE(__b,u) ? __PASTE(__a,u) : __PASTE(__b,u); })
+
+#define min(a, b) _min(a, b, __COUNTER__)
+
+int min3(int a, int b, int c)
+{
+        return min(a,min(b,c));
+}
+
+(probably there's a more elegant way to do this)
