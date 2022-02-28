@@ -2,63 +2,62 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3404C661F
-	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Feb 2022 10:51:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44EC84C6627
+	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Feb 2022 10:53:29 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K6bHF0B2jz30NW
-	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Feb 2022 20:51:05 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K6bKy2ThVz30NC
+	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Feb 2022 20:53:26 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=hTAs+3Xr;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=LNzfZAX5;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::729;
- helo=mail-qk1-x729.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::72d;
+ helo=mail-qk1-x72d.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=hTAs+3Xr; dkim-atps=neutral
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
+ header.s=google header.b=LNzfZAX5; dkim-atps=neutral
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K6bH71mHGz2yPY
- for <linux-aspeed@lists.ozlabs.org>; Mon, 28 Feb 2022 20:50:57 +1100 (AEDT)
-Received: by mail-qk1-x729.google.com with SMTP id j78so9891019qke.2
- for <linux-aspeed@lists.ozlabs.org>; Mon, 28 Feb 2022 01:50:57 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K6bKs1Vjvz2yPY
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 28 Feb 2022 20:53:20 +1100 (AEDT)
+Received: by mail-qk1-x72d.google.com with SMTP id bm39so9927037qkb.0
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 28 Feb 2022 01:53:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2ChCJy+0OwFHzxUqMKUpKVLhG2Ciw026npYT/0GQ0Yk=;
- b=hTAs+3Xrr+6O7Mn2pIyT3WlaYT4dcHLyCkL6jprx+rcKO4WDXKPAoVsxvKUYypPwwB
- IXO8ZfW2Xi8IyJ3LlYi+wST6t6yGyjM/N3uxgvUNyUP+3PH+Mn91ZWhX00qzZ0MdJSac
- 3Mqm6l9D+Bv6SwWPNpZqKI+pJ2BfbDqmjpr6Y=
+ :cc; bh=pc2xTazJcGjIwl7ZnhXxuCZmmMzULOqgCvZj3IlaMMY=;
+ b=LNzfZAX5hieB9FG9FLsPTrIanGwIyMKmJnXN/c610bQayVeDntvgfS92u1OMqT5EPE
+ y9Kx3Kd2H9XDu5uKrY/5hzx9MjcZUfKRWf/cDhEiK1rfoH6DQ6RTrSk0yxkASPnHujy9
+ L7f2UJFZ/hIrFNXgGWbU5ySh13EaWvCsdP0wY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2ChCJy+0OwFHzxUqMKUpKVLhG2Ciw026npYT/0GQ0Yk=;
- b=Z5dMeHjsUJC4HI+lDD8B2e51VaJXNhVX0Ssng2a2mP6jaSnHH4CLbawt4KMCJEBzy6
- C+NKo4AFZSuCKJVC1Um3pTx4B0D6NaSFIvzBXgY9TYO5wx+eJkR34IvdOj+TQVCgsUh4
- 2DFpEtGjBwQ+yzzGC98VPTCzSsAn0BkvQSIQiCMPgPt9w7ortrfToIvEtbeUVUm6E+i+
- TjSoA9CiXrVO5AIjx/lu6A/RIcMjfrUk1/rJZirB8ZjX0HgYedSkGBBKTVcou5cj6gGd
- b3fWb4RKll96yLi33j8oWjZUSiPjDzqWW66xDgcXJBr5IdPEuMZx897Iu8xa67PDfsoB
- hGVg==
-X-Gm-Message-State: AOAM530qIkiQpBx4vNL0WgQelumNTmZSuuizVvvXcciL3D3MIbYGSXa7
- PH/6Pm8sIdfo5XuZ+MEohmAUH6+YV8B0fwFGVXk=
-X-Google-Smtp-Source: ABdhPJxsSC68f5owG834t4sYFt0lQ26A2pHLgsq9IIBoF/ngeOjEx55gUbXsZf3pje2bAidXWaANv68oojEax4AM2qs=
-X-Received: by 2002:a37:f903:0:b0:648:ca74:b7dc with SMTP id
- l3-20020a37f903000000b00648ca74b7dcmr10479323qkj.666.1646041854321; Mon, 28
- Feb 2022 01:50:54 -0800 (PST)
+ bh=pc2xTazJcGjIwl7ZnhXxuCZmmMzULOqgCvZj3IlaMMY=;
+ b=DgUDCJXvKe+DiEE3JBFGZI3HJ2+P3GoNfK8lEcEhXC/Dy6bo1jxSjOy20p0z1jvv1M
+ fed/xPJqDlhIJ1V/gztag+GuyaA7lAZeupQDv9hNXEmzWonMLWFYo6dSjUzTQZ1GEyRG
+ KHQMeWS+LdjI/vuLL9gIMZEgZzCPdnslgAHx0rxg0HQdnS9K1lRaq6dZkNVHG4GQRSRD
+ nbOsbvfUNBvaRddXO3lLkRV6Mk3sJpJYTvmDbJRgBEw9rQ03cN+B5ZSXK4CrbII6K0WY
+ VdwQkBqqA1uXbCyopZzQYn1NzJIBGrBlGzGkKkCnuktDGcmZqxAb1gqmC/kKMuiTOktr
+ C9Cg==
+X-Gm-Message-State: AOAM530KGCoucPxg2XAwsp+OWA9vSb+VOMCt96kgfY9ji5uHZcAjlfuV
+ 8S5aNQiOxjbLxFDEvIDKDK9ALxqXOjLYFLaN8Dk=
+X-Google-Smtp-Source: ABdhPJzMUyYueL8jtRtjblWTAghUCWnWt1dd02X0kcufstS2QoUPX8Pj046KPyailSEuY0MJAUQBLTTjgurg5sosZGs=
+X-Received: by 2002:ae9:e841:0:b0:508:1f6e:f020 with SMTP id
+ a62-20020ae9e841000000b005081f6ef020mr10495084qkg.243.1646041998337; Mon, 28
+ Feb 2022 01:53:18 -0800 (PST)
 MIME-Version: 1.0
 References: <20211208013337.13806-1-tommy_huang@aspeedtech.com>
- <20211208013337.13806-6-tommy_huang@aspeedtech.com>
-In-Reply-To: <20211208013337.13806-6-tommy_huang@aspeedtech.com>
+In-Reply-To: <20211208013337.13806-1-tommy_huang@aspeedtech.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Mon, 28 Feb 2022 09:50:42 +0000
-Message-ID: <CACPK8XfA8Mz6tU2r=G+PxuVkvTZ5Nzw0g-V7EAoBhkKO-TOPfQ@mail.gmail.com>
-Subject: Re: [PATCH v5 5/7] drm/aspeed: Add reset and clock for AST2600
+Date: Mon, 28 Feb 2022 09:53:06 +0000
+Message-ID: <CACPK8XcTDUt8q+5s44nnFFK1XiisXw=PBoGaNZowGS7M-j=Phg@mail.gmail.com>
+Subject: Re: [PATCH v5 0/7] Add Aspeed AST2600 soc display support
 To: Tommy Haung <tommy_huang@aspeedtech.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -83,225 +82,91 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Tommy,
+
 On Wed, 8 Dec 2021 at 01:34, Tommy Haung <tommy_huang@aspeedtech.com> wrote:
 >
-> From: tommy-huang <tommy_huang@aspeedtech.com>
+> v5:
+>   Add lost reset define.
 >
-> Add more reset and clock select code for AST2600.
-> The gfx_flags parameter was added for chip caps idenified.
+> v4:
+>   Add necessary reset control for ast2600.
+>   Add chip caps for futher use.
+>   These code are test on AST2500 and AST2600 by below steps.
+>
+>   1. Add below config to turn VT and LOGO on.
+>
+>         CONFIG_TTY=y
+>         CONFIG_VT=y
+>         CONFIG_CONSOLE_TRANSLATIONS=y
+>         CONFIG_VT_CONSOLE=y
+>         CONFIG_VT_CONSOLE_SLEEP=y
+>         CONFIG_HW_CONSOLE=y
+>         CONFIG_VT_HW_CONSOLE_BINDING=y
+>         CONFIG_UNIX98_PTYS=y
+>         CONFIG_LDISC_AUTOLOAD=y
+>         CONFIG_DEVMEM=y
+>         CONFIG_DUMMY_CONSOLE=y
+>         CONFIG_FRAMEBUFFER_CONSOLE=y
+>         CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
+>         CONFIG_LOGO=y
+>         CONFIG_LOGO_LINUX_CLUT224=y
+>
+>   2. The Linux logo will be shown on the screen, when the BMC boot in Linux.
 
-Can you tell me a bit more about the two reset lines:
+Sorry for the long delay. I have tested your patches on an ast2600a3
+evb and they worked. I have some questions about the reset lines that
+I couldn't answer by reading the datasheet, so once they are cleared
+up we can go ahead with merging your patches.
 
-What is the CRT reset line controlling?
+When you re-send, you will need to fix your git configuration so your
+name appears correctly:
 
-What does the engine reset line control?
+git config --global user.name "Tommy Haung"
 
-Can we use devm_reset_control_array_get() to get whichever are
-specified in the device tree, so we don't need to have different logic
-for the 2600 and earlier chips?
+And then for each patch, do this to fix up the authorship and the s-o-b line:
+
+git commit --amend --reset-author -s
+
+Cheers,
+
+Joel
 
 
 
 >
-> Signed-off-by: tommy-huang <tommy_huang@aspeedtech.com>
-> ---
->  drivers/gpu/drm/aspeed/aspeed_gfx.h      | 16 +++++++-
->  drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c | 16 ++++++++
->  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c  | 50 ++++++++++++++++++++++--
->  3 files changed, 77 insertions(+), 5 deletions(-)
+> v3:
+>   Refine the patch for clear separate purpose.
+>   Skip to send devicetree patch
 >
-> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx.h b/drivers/gpu/drm/aspeed/aspeed_gfx.h
-> index 4e6a442c3886..2c733225d3c7 100644
-> --- a/drivers/gpu/drm/aspeed/aspeed_gfx.h
-> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx.h
-> @@ -8,7 +8,8 @@ struct aspeed_gfx {
->         struct drm_device               drm;
->         void __iomem                    *base;
->         struct clk                      *clk;
-> -       struct reset_control            *rst;
-> +       struct reset_control            *rst_crt;
-> +       struct reset_control            *rst_engine;
->         struct regmap                   *scu;
+> v2:
+>   Remove some unnecessary patch.
+>   Refine for reviwer request.
 >
->         u32                             dac_reg;
-> @@ -16,6 +17,7 @@ struct aspeed_gfx {
->         u32                             vga_scratch_reg;
->         u32                             throd_val;
->         u32                             scan_line_max;
-> +       u32                             flags;
+> v1:
+>   First add patch.
 >
->         struct drm_simple_display_pipe  pipe;
->         struct drm_connector            connector;
-> @@ -106,3 +108,15 @@ int aspeed_gfx_create_output(struct drm_device *drm);
->  /* CRT_THROD */
->  #define CRT_THROD_LOW(x)               (x)
->  #define CRT_THROD_HIGH(x)              ((x) << 8)
-> +
-> +/* SCU control */
-> +#define SCU_G6_CLK_COURCE              0x300
-> +
-> +/* GFX FLAGS */
-> +#define RESET_MASK                     BIT(0)
-> +#define RESET_G6                       BIT(0)
-> +#define CLK_MASK                       BIT(4)
-> +#define CLK_G6                         BIT(4)
-> +
-> +#define G6_CLK_MASK                    (BIT(8) | BIT(9) | BIT(10))
-> +#define G6_USB_40_CLK                  BIT(9)
-> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-> index 827e62c1daba..e0975ecda92d 100644
-> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-> @@ -77,6 +77,18 @@ static void aspeed_gfx_disable_controller(struct aspeed_gfx *priv)
->         regmap_update_bits(priv->scu, priv->dac_reg, BIT(16), 0);
->  }
+> Joel Stanley (2):
+>   ARM: dts: aspeed: Add GFX node to AST2600
+>   ARM: dts: aspeed: ast2600-evb: Enable GFX device
 >
-> +static void aspeed_gfx_set_clk(struct aspeed_gfx *priv)
-> +{
-> +       switch (priv->flags & CLK_MASK) {
-> +       case CLK_G6:
-> +               regmap_update_bits(priv->scu, SCU_G6_CLK_COURCE, G6_CLK_MASK, 0x0);
-> +               regmap_update_bits(priv->scu, SCU_G6_CLK_COURCE, G6_CLK_MASK, G6_USB_40_CLK);
-> +               break;
-> +       default:
-> +               break;
-> +       }
-> +}
-> +
->  static void aspeed_gfx_crtc_mode_set_nofb(struct aspeed_gfx *priv)
->  {
->         struct drm_display_mode *m = &priv->pipe.crtc.state->adjusted_mode;
-> @@ -87,6 +99,8 @@ static void aspeed_gfx_crtc_mode_set_nofb(struct aspeed_gfx *priv)
->         if (err)
->                 return;
+> Tommy Haung (1):
+>   dt-bindings:ast2600-clock Add CRT reset define
 >
-> +       aspeed_gfx_set_clk(priv);
-> +
->  #if 0
->         /* TODO: we have only been able to test with the 40MHz USB clock. The
->          * clock is fixed, so we cannot adjust it here. */
-> @@ -193,6 +207,7 @@ static void aspeed_gfx_pipe_update(struct drm_simple_display_pipe *pipe,
->  static int aspeed_gfx_enable_vblank(struct drm_simple_display_pipe *pipe)
->  {
->         struct aspeed_gfx *priv = drm_pipe_to_aspeed_gfx(pipe);
-> +
->         u32 reg = readl(priv->base + CRT_CTRL1);
+> tommy-huang (4):
+>   drm/aspeed: Update INTR_STS handling
+>   drm/aspeed: Add AST2600 chip support
+>   drm/aspeed: Add reset and clock for AST2600
+>   arm:boot:dts:aspeed-g6 Add more gfx reset control
 >
->         /* Clear pending VBLANK IRQ */
-> @@ -207,6 +222,7 @@ static int aspeed_gfx_enable_vblank(struct drm_simple_display_pipe *pipe)
->  static void aspeed_gfx_disable_vblank(struct drm_simple_display_pipe *pipe)
->  {
->         struct aspeed_gfx *priv = drm_pipe_to_aspeed_gfx(pipe);
-> +
->         u32 reg = readl(priv->base + CRT_CTRL1);
+>  arch/arm/boot/dts/aspeed-ast2600-evb.dts  | 18 +++++++
+>  arch/arm/boot/dts/aspeed-g6.dtsi          | 13 +++++
+>  drivers/gpu/drm/aspeed/aspeed_gfx.h       | 17 +++++-
+>  drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c  | 16 ++++++
+>  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c   | 65 +++++++++++++++++++++--
+>  include/dt-bindings/clock/ast2600-clock.h |  1 +
+>  6 files changed, 124 insertions(+), 6 deletions(-)
 >
->         reg &= ~CRT_CTRL_VERTICAL_INTR_EN;
-> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> index d10246b1d1c2..59a0de92650f 100644
-> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-> @@ -64,6 +64,7 @@ struct aspeed_gfx_config {
->         u32 vga_scratch_reg;    /* VGA scratch register in SCU */
->         u32 throd_val;          /* Default Threshold Seting */
->         u32 scan_line_max;      /* Max memory size of one scan line */
-> +       u32 gfx_flags;          /* Flags for gfx chip caps */
->  };
->
->  static const struct aspeed_gfx_config ast2400_config = {
-> @@ -72,6 +73,7 @@ static const struct aspeed_gfx_config ast2400_config = {
->         .vga_scratch_reg = 0x50,
->         .throd_val = CRT_THROD_LOW(0x1e) | CRT_THROD_HIGH(0x12),
->         .scan_line_max = 64,
-> +       .gfx_flags = 0,
->  };
->
->  static const struct aspeed_gfx_config ast2500_config = {
-> @@ -80,6 +82,7 @@ static const struct aspeed_gfx_config ast2500_config = {
->         .vga_scratch_reg = 0x50,
->         .throd_val = CRT_THROD_LOW(0x24) | CRT_THROD_HIGH(0x3c),
->         .scan_line_max = 128,
-> +       .gfx_flags = 0,
->  };
->
->  static const struct aspeed_gfx_config ast2600_config = {
-> @@ -88,6 +91,7 @@ static const struct aspeed_gfx_config ast2600_config = {
->         .vga_scratch_reg = 0x50,
->         .throd_val = CRT_THROD_LOW(0x50) | CRT_THROD_HIGH(0x70),
->         .scan_line_max = 128,
-> +       .gfx_flags = RESET_G6 | CLK_G6,
->  };
->
->  static const struct of_device_id aspeed_gfx_match[] = {
-> @@ -138,6 +142,44 @@ static irqreturn_t aspeed_gfx_irq_handler(int irq, void *data)
->         return IRQ_NONE;
->  }
->
-> +static int aspeed_gfx_reset(struct drm_device *drm)
-> +{
-> +       struct platform_device *pdev = to_platform_device(drm->dev);
-> +       struct aspeed_gfx *priv = to_aspeed_gfx(drm);
-> +
-> +       switch (priv->flags & RESET_MASK) {
-> +       case RESET_G6:
-> +               priv->rst_crt = devm_reset_control_get(&pdev->dev, "crt");
-> +               if (IS_ERR(priv->rst_crt)) {
-> +                       dev_err(&pdev->dev,
-> +                               "missing or invalid crt reset controller device tree entry");
-> +                       return PTR_ERR(priv->rst_crt);
-> +               }
-> +               reset_control_deassert(priv->rst_crt);
-> +
-> +               priv->rst_engine = devm_reset_control_get(&pdev->dev, "engine");
-> +               if (IS_ERR(priv->rst_engine)) {
-> +                       dev_err(&pdev->dev,
-> +                               "missing or invalid engine reset controller device tree entry");
-> +                       return PTR_ERR(priv->rst_engine);
-> +               }
-> +               reset_control_deassert(priv->rst_engine);
-> +               break;
-> +
-> +       default:
-> +               priv->rst_crt = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> +               if (IS_ERR(priv->rst_crt)) {
-> +                       dev_err(&pdev->dev,
-> +                               "missing or invalid reset controller device tree entry");
-> +                       return PTR_ERR(priv->rst_crt);
-> +               }
-> +               reset_control_deassert(priv->rst_crt);
-> +               break;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  static int aspeed_gfx_load(struct drm_device *drm)
->  {
->         struct platform_device *pdev = to_platform_device(drm->dev);
-> @@ -163,6 +205,7 @@ static int aspeed_gfx_load(struct drm_device *drm)
->         priv->vga_scratch_reg = config->vga_scratch_reg;
->         priv->throd_val = config->throd_val;
->         priv->scan_line_max = config->scan_line_max;
-> +       priv->flags = config->gfx_flags;
->
->         priv->scu = syscon_regmap_lookup_by_phandle(np, "syscon");
->         if (IS_ERR(priv->scu)) {
-> @@ -186,13 +229,12 @@ static int aspeed_gfx_load(struct drm_device *drm)
->                 return ret;
->         }
->
-> -       priv->rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> -       if (IS_ERR(priv->rst)) {
-> +       ret = aspeed_gfx_reset(drm);
-> +       if (ret) {
->                 dev_err(&pdev->dev,
->                         "missing or invalid reset controller device tree entry");
-> -               return PTR_ERR(priv->rst);
-> +               return ret;
->         }
-> -       reset_control_deassert(priv->rst);
->
->         priv->clk = devm_clk_get(drm->dev, NULL);
->         if (IS_ERR(priv->clk)) {
 > --
 > 2.17.1
 >
