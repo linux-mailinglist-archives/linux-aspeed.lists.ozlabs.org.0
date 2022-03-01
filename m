@@ -1,137 +1,68 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257D54C847E
-	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Mar 2022 08:01:08 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EDD34C8A46
+	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Mar 2022 12:05:17 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K77Sd1DcRz3brR
-	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Mar 2022 18:01:05 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K7DtL5KXTz3bwC
+	for <lists+linux-aspeed@lfdr.de>; Tue,  1 Mar 2022 22:05:14 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=DRgRzxvF;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=JoYXmgVK;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:febc::72e;
- helo=apc01-hk2-obe.outbound.protection.outlook.com;
- envelope-from=tommy_huang@aspeedtech.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
- header.a=rsa-sha256 header.s=selector1 header.b=DRgRzxvF; 
- dkim-atps=neutral
-Received: from APC01-HK2-obe.outbound.protection.outlook.com
- (mail-hk2apc01on072e.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:febc::72e])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f35;
+ helo=mail-qv1-xf35.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=JoYXmgVK; dkim-atps=neutral
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
+ [IPv6:2607:f8b0:4864:20::f35])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K77ST1SsXz3bd2
- for <linux-aspeed@lists.ozlabs.org>; Tue,  1 Mar 2022 18:00:42 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZcEKhzH2S4p50cTX3Buv7450mW/uo0+ZVh+bqkv+4Op95zpSYX1faJ2siCujDDL9Suqc58YxiPSOh2cui9CA+NrcMDCiU96tKMpyk8z2ztQr7uV7hI/a2lriTErzosvYpQHstWl5dW2AIwSRwK0fRAPD7OPgqQ3V7tK4QkVk2W0+ReRDuv56MYH2Vb9Dt3AeC/ue5EJbrzCczK3xjNg7qGHei+Jweyh/sA6UW6CnHDtqTmtsMzhi1BF2dmlnUZ/Y2d0u0YceasPCZm2Du6g9V3/FR11r8wkNyzvyV9YIXsSfrKAmhsIB0BwtfyWPb5MgB0OJq9zV3piyVGcHTqrLLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Zmxl0jAzYmkVy9OtL8deraJFeT+A73qcA8KoBrYH8nQ=;
- b=b2JLQQkph2z9AxdN/0fPkk0Nrf4jIv/sNP+pA94gV2ddgLs1l4aukRZ8G2mBlWU0wl3sSx4hIcMssePAjM35V2QlsX8rXtQD/naKnvY1yOriK7hu0KauJ0JnHwK5bQZjG8HdlxUn2nZI9G6/tVRKyR8AUbCLXzKvNQTmlsouTpJdaqCJiS7T10Y49sgR5sJaaEjT8kXOHNPTHO74NBoI6tTO01KbMuVGF10x3rcwWRSjY3plI+9WOFhwqeG6QRsGFGIYHRPuf/dhxcYaEOGJLrsWJJ741fgmsdOcRQ2Oa5j2G6EJile0GH9MdpN3m1IMlMQTb5yxSwjw8wHdSch48w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zmxl0jAzYmkVy9OtL8deraJFeT+A73qcA8KoBrYH8nQ=;
- b=DRgRzxvFb80QLaHRFylMWiY4v2FYQ++ZJrnxCmijcGAV258BsqBxRm8xhyRFcIWWA4nILRKm2AvbYdS9XqudZWUoqhKYQ7T0Bkfx21SAgqda4E0IXNup9nvQbljaJ2deM1mRaRYZM5Ls9T6klAJqEGGjbZ4jmE/wKJaA1jWZpHkeehQ7ZVKV0UC9ZYR+py5+3GCcBexUzEWSW17O+TbQufsbOeobWTnYWbXabyZ54Ltd2s+6JGIoNOGPa3voWYalj6vuFthehWsQpygrNXwuhLrGl21xueGGTDfYfma418p6HFw1LdXbHARG4UVJPYzotKEeK79BSbIexmxP1O2UhQ==
-Received: from SG2PR06MB4818.apcprd06.prod.outlook.com (2603:1096:4:172::13)
- by PS2PR06MB2920.apcprd06.prod.outlook.com (2603:1096:300:53::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.22; Tue, 1 Mar
- 2022 07:00:17 +0000
-Received: from SG2PR06MB4818.apcprd06.prod.outlook.com
- ([fe80::8da2:593e:eb2d:8713]) by SG2PR06MB4818.apcprd06.prod.outlook.com
- ([fe80::8da2:593e:eb2d:8713%9]) with mapi id 15.20.5017.027; Tue, 1 Mar 2022
- 07:00:17 +0000
-From: Tommy Huang <tommy_huang@aspeedtech.com>
-To: Joel Stanley <joel@jms.id.au>
-Subject: RE: [PATCH v5 5/7] drm/aspeed: Add reset and clock for AST2600
-Thread-Topic: [PATCH v5 5/7] drm/aspeed: Add reset and clock for AST2600
-Thread-Index: AQHX69OpoFQZvxq+kkaL0spHVAz7VaypOaQAgAFf0mA=
-Date: Tue, 1 Mar 2022 07:00:16 +0000
-Message-ID: <SG2PR06MB4818A370D5DDEC18D1B34FE6E1029@SG2PR06MB4818.apcprd06.prod.outlook.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K7DtD4mthz3brS
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  1 Mar 2022 22:05:07 +1100 (AEDT)
+Received: by mail-qv1-xf35.google.com with SMTP id c14so11510163qvk.10
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 01 Mar 2022 03:05:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eNwcCZs+3ecEfOTGDHb0yJb7mKFZMDv/GLNrupw/17E=;
+ b=JoYXmgVKIH9VUHvlFhkIw7PSpm8moOFoUhAVvm1VMVWi/ViQGl074+/ruZF4zyE66U
+ KdLLRQJfLEbHR+UhIoagz6d59NZLobhTVeOS7ng1PoYE136e3PBhv09DTyuPi2TSQWgL
+ /Kt/8hGTXRdJrU0xv3urnq4yTuuSh4lRIM6E0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eNwcCZs+3ecEfOTGDHb0yJb7mKFZMDv/GLNrupw/17E=;
+ b=oC/d8TEdAwwjlcc0b9F0+m9k4DLIG81+rFYjBd7TlSxDOOvpPtwKH9+KxS5Ndd3002
+ /bd5uW0SHA4xPEi44UlMqPX1ziFgNZbv6Y3iivSorQDS26kSqPdpWbHQKJOat0eXYAfn
+ UnNHxLJJ74kyZ4fz7b4GAx4K+yRLu8MGodh+w1UYVQvr4tZHwhnO4FuL7qJtgotML/fd
+ AloNLEKstFbGwaNf1hjGmdoIKHwFjupDfBxshrQ6KRMbGeaw2O2XIKFDDMf5pW1t3u71
+ ILZPnHriJET02F/9KIAXTpxjkY7/w7l+P8q2HypTSKSFCKrAhldOogwMnusH0bzqedWo
+ 9GdQ==
+X-Gm-Message-State: AOAM530gdj4SIX01OrGHWiOBDDPzgF45GUPBUKk0QMAUfnb0WIJr5WLb
+ sUxbLgp8GLERj4YJbqEEGmYlbKzA/7A7IMeB4so=
+X-Google-Smtp-Source: ABdhPJwDZ95OZcgGd7ihlsrgAQAioszvmBGbdKhq2Gm22rztIQG16pJLXF7C0pFz+/GW3luzlXIMKCey8L8RYjtDi8w=
+X-Received: by 2002:a05:6214:628:b0:432:c2db:94e3 with SMTP id
+ a8-20020a056214062800b00432c2db94e3mr12990477qvx.107.1646132704840; Tue, 01
+ Mar 2022 03:05:04 -0800 (PST)
+MIME-Version: 1.0
 References: <20211208013337.13806-1-tommy_huang@aspeedtech.com>
  <20211208013337.13806-6-tommy_huang@aspeedtech.com>
  <CACPK8XfA8Mz6tU2r=G+PxuVkvTZ5Nzw0g-V7EAoBhkKO-TOPfQ@mail.gmail.com>
-In-Reply-To: <CACPK8XfA8Mz6tU2r=G+PxuVkvTZ5Nzw0g-V7EAoBhkKO-TOPfQ@mail.gmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b22616e3-b2c9-47cc-0c89-08d9fb51246c
-x-ms-traffictypediagnostic: PS2PR06MB2920:EE_
-x-microsoft-antispam-prvs: <PS2PR06MB2920C93F9F93B725FFC442DCE1029@PS2PR06MB2920.apcprd06.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: eC+0XE/733xe9AyuK1mUqrRLsS8zC3mfhSQFtpbaQagcDAETSuB/wZGhareVynETvBZLWaX75YKGqSPLmk5VQkr6WOmYDocW3Ery99gVvR6xfd6KjQvbyoSAqnt6m6p0mQ04DkbCrzBvO7rG7rrj8e3L0bn/fFDCUA6CTuVmSIIB4OLziAYWn2JFp7PssxZ6nBzLGSGGegtMthOcTlCu80+zu2/c5GP+Ud07YiBra5pY1sC3FmrmtBRJ5dbLlxriEuFLVM72nCv8gt3U94v0AX6QuOQOvknyr7RUD9MVjwDQNebJpEBXOnACVzWugMcBw/3cXGGKMe6S1SFqgp6JZ64WQoYg6Nrx+y/ElEWbIlzytLvFGRF24QEl9J+WMPDyi/S9pXExBJsFFRTQQ6XVlFb9Szjp4jSn2gejQc2sF+TIfAlNcLNJnwQcKKWh3HLXUWTLhwcDwDaLQq/lBtKKjyxNemzORtoo1FPU3/dD0dfmDprk9z2MV4zH54jvbbm8TvIxta1vmgDgerrX9aov3F0BQAzOhpr2ePRqzpphAtCaN7c1Zhi52wGpr9a1tuuK4oFqIwV2FwFbyOP7mzdjbk4+pHxePmbDgqXoI7N2Zd54cTH2QU3+Pv2olL5aZtJASUJrmkUJuxVd840XvfvCKMs661zs5vOOyCDyAYVxK1n3Xuj6Rj7FqnvD6sIff1cWMS6NPijRUkEvJDf3W3zkkg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SG2PR06MB4818.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(136003)(376002)(39850400004)(346002)(396003)(366004)(86362001)(38070700005)(5660300002)(107886003)(4326008)(7696005)(8936002)(316002)(52536014)(66946007)(66446008)(66476007)(64756008)(66556008)(76116006)(8676002)(7416002)(2906002)(33656002)(186003)(26005)(38100700002)(6506007)(53546011)(71200400001)(122000001)(508600001)(55016003)(83380400001)(54906003)(6916009)(9686003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bTlJc1YzSklUaDNyMVBSL0NOZXZiaTlOOFBlbkpBU3UxbHBCZ2xleU5xa1hF?=
- =?utf-8?B?Q0FGNXM1UTdpb05lTWFzNk1lMFZReGNPZkQ4ZktzSDhGSm1CemJrQ3QrMGFP?=
- =?utf-8?B?WnFYa0ViQjVLZ0tHQktBVFI2c1hhTFYxaG5IQ01ua2hGTUpQcm4ySXZqMFZi?=
- =?utf-8?B?R3Q4WFJ2Zngvc2hlRG9QYVJnMThCWjBNZjV6bytiMU9yYlFKMUVJTGo1SEYw?=
- =?utf-8?B?dWVVbDdOR2duL3Z3ZTJQMHp5OU9LRlFBQW84RzFkeFlYNE5MSkZXYXR5bjFD?=
- =?utf-8?B?NGFlZ0F3MUpXNFp3Y3o4R3gySkltUWRKNGY0T1J6ZE1ZZTF0UzVTRmVtRGd4?=
- =?utf-8?B?ZVhybUZUTWx0anovOWUxUCtSaWNvU012WXV3eUhaZ05OcExiQk5mZVJOSnJx?=
- =?utf-8?B?KzhvUzZKcE9mZ1pYSDJETnFTbjBTYWZmTXkwemVSdGFrZENpMU5hNTM4Y09k?=
- =?utf-8?B?a3FVRlpreENZQzh2UUVXYmYydHJwSEN1N2p2a0VZMjJ3L3BVYmlMRWVyb3RC?=
- =?utf-8?B?a2x0cDZSNExZcktieFN0VDlkcVUzM3J5citMZFhEa1o5NjFpbWx3OGdCbkZU?=
- =?utf-8?B?R2ZVK1RDSmRZZVlrbm0wQUhKNjlLUzNCUnllbm90OS9KMjl0WWRITXdwVEpw?=
- =?utf-8?B?Q1VhOE9HNE4rYXpRbXJISlYyYlpMcHJNNjU4QUs5Um5RWVRtSzZxYnp4bzFr?=
- =?utf-8?B?UWluYXA3Z2RtRHFlbTBGZ0wyN1IyamUzVkxwWWxSZlNIUm16dTc2dUlJbXNs?=
- =?utf-8?B?QWdJWko0cE01T0JlTGpDbTFKWFlmcjFrY2VrcGwyc0FPbEQraG5hWGlobGdN?=
- =?utf-8?B?ZzN3Tjl4aTJSdEhQOGsvVm1kaDNKZmhZR3NiSlJNV2gyZm5xRXM1c1NOWHZS?=
- =?utf-8?B?NDBOZzExZ1VlZ3BDcDcyeEZkV1BGWmZTelYvUGI1UGhFcW82am1HS0ZNeXJJ?=
- =?utf-8?B?WFE1UUV1Vlp1VUh3cHcrS21zUllJWGlWT0JxdERQOFE1ZWhGbGs2RnBIMmtH?=
- =?utf-8?B?dEkxSGhsN0NZRVlWRmVPQ245ODc4QW9Ed2tTQW4rQ0JnVEkvejg1QmtoQmp3?=
- =?utf-8?B?cVZmbDhxdEc0S3orZjZxKzIveTBWUmxLcyt5THRNT1RkejFsWG1KNGhaM25W?=
- =?utf-8?B?NnR5T1o5MTZkVU5MSVBEK0cvazJzQWpRWEJsN1NRZUNQYmNpQjg4cjdQdjNv?=
- =?utf-8?B?RTJVOURFVTRYRWlOaWRCMjRTd0VKckdQNVgxN0hOMHBkbnVRWXlyREhmMkly?=
- =?utf-8?B?czZLaG9JMXFhNkdJS0JLZEFzRVBML1hETGxZMVl6Kzc3VzB4dkN0L2NlajV0?=
- =?utf-8?B?ZUxrNTBZNmhydWUrY0dnb0hqQWQ2SVRUVmJYbTJFdGcvWlFHSkswbFozOEli?=
- =?utf-8?B?WUNYcXNyOFNFUDF5QmtHam5pZUVYZjUwdVdza0JLaTl3MlBHdG8wdmw2VnJC?=
- =?utf-8?B?M3g1WnBYNm56YnNWT2RaaW15Ri9SRDVTb1dJT053VFBlL0o5TnhVd01hZ2hE?=
- =?utf-8?B?MERzUG1FVjlZbHZmcDZ3ak1uSnNLNjlxY1h6SlFoWXMyVysvWFY4S0RHcTFo?=
- =?utf-8?B?eXJVL0Z0N29rOElWSE1EdUhOMXJCdWlWamZpaTFXUHRGUlRONCtPZlJ2cDdS?=
- =?utf-8?B?ZDJxWjdpS0UwU0hWaE04b3NEb1BCNWxXN3k5OXRLK0orUGp3Y085R2RpSFZ6?=
- =?utf-8?B?Nk04OVh0eGZuVHE0SDNFNklhT2RTZ2hyMHRWY2hDOEFZL0pGWXc0M2RFeXFF?=
- =?utf-8?B?VmpXTW15MTFPcURJMkdkUHo3SUVxUFprcmozWllNcnZUSlk0SE1iSVZRZGR6?=
- =?utf-8?B?RUltdHhTS2VVNUNHVXZTYk1ybmxsSzZ0eUtzbkc5dXVSdnJRUmIxYnRuQjMw?=
- =?utf-8?B?WHg2dlNhNUxKZkRiQllaVDVIQ2tDTnczTVpGclEzREh4dmRtVFR4b0xlQUF3?=
- =?utf-8?B?UGh3dHVqdDBhTE4ycks2YkExb2N1cURMdnc0VnBaT1VZV1luY1pRL3JsYldE?=
- =?utf-8?B?MUJIYlBYMmZKaVN5UEF2ekNwMHpvb3I3c2loQmtjWVYxajRUREVYQkRsN0dT?=
- =?utf-8?B?Y2hGbGlvY3hGQlUxRzdOd2E3SlU3anFmYVVkVmcxWi9uZnpKQ3Y4YXlFOG11?=
- =?utf-8?B?K1VMREdoYldITEJQYnU1RGYxa0lIWkdsYlhhZExNaUduN3diaUhPbXZsajVK?=
- =?utf-8?B?RWhLZUthbXpqMmhsdjFpOHFvZzdKTE44blAzNi8xN0VXWVdma1p2eVlHeXpP?=
- =?utf-8?B?YXJpdkEybUF0MHV6ZVVIYVJJaUt3PT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB4818.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b22616e3-b2c9-47cc-0c89-08d9fb51246c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Mar 2022 07:00:17.0057 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HFPnLOtPF8TVXMtaLyZblD+R17AzceI/9M33Ti2XjD+z7huuMyYRFi3gpbZwV6oj7EwvxqH/Vv4EIR/LOvmDqX6Ud8xG5/zrXXhnfEFjfgg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS2PR06MB2920
+ <SG2PR06MB4818A370D5DDEC18D1B34FE6E1029@SG2PR06MB4818.apcprd06.prod.outlook.com>
+In-Reply-To: <SG2PR06MB4818A370D5DDEC18D1B34FE6E1029@SG2PR06MB4818.apcprd06.prod.outlook.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 1 Mar 2022 11:04:52 +0000
+Message-ID: <CACPK8Xdn8eqNieXhEKcCyFeuste_XKJneePwuZy9T7CAQZFocQ@mail.gmail.com>
+Subject: Re: [PATCH v5 5/7] drm/aspeed: Add reset and clock for AST2600
+To: Tommy Huang <tommy_huang@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,191 +85,283 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-SGkgSm9lbCwNCg0KCUl0IHNlZW1zIHRoYXQgdGhlIHJlc2V0IGNvbnRyb2wgY291bGQga2VlcCBv
-cmlnaW5hbCBjb2RlIGJlaGF2aW9yLg0KCUp1c3QgY2hhbmdlIHRoZSByZXNldCBkZWZpbmUgaW4g
-dGhlIC5kdHNpIGZpbGUgZnJvbSBBU1BFRURfUkVTRVRfQ1JUMSBpbnRvIEFTUEVFRF9SRVNFVF9H
-UkFQSElDUy4NCg0KCUJ5IHRoZSB3YXksIHRoZSBIVyBjb250cm9sbGVyIHN0YXRlcyBhbmQgRlcg
-cHJvZ3JhbW1pbmcgcmVnaXN0ZXIgd2lsbCBiZSByZXNldCBieSBDUlQgcmVzZXQgbGluZS4NCglB
-bmQgYW5vdGhlciBwYXJ0IEhXIGNvbnRyb2xsZXIgc3RhdGVzIHdpbGwgYmUgcmVzZXQgYnkgZW5n
-aW5lIHJlc2V0IGxpbmUuDQoNCglUaGFua3MsDQoNCglCeSBUb21teQ0KDQo+IC0tLS0tT3JpZ2lu
-YWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEpvZWwgU3RhbmxleSA8am9lbEBqbXMuaWQuYXU+DQo+
-IFNlbnQ6IE1vbmRheSwgRmVicnVhcnkgMjgsIDIwMjIgNTo1MSBQTQ0KPiBUbzogVG9tbXkgSHVh
-bmcgPHRvbW15X2h1YW5nQGFzcGVlZHRlY2guY29tPg0KPiBDYzogRGF2aWQgQWlybGllIDxhaXJs
-aWVkQGxpbnV4LmllPjsgRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPjsgUm9iDQo+IEhl
-cnJpbmcgPHJvYmgrZHRAa2VybmVsLm9yZz47IEFuZHJldyBKZWZmZXJ5IDxhbmRyZXdAYWouaWQu
-YXU+Ow0KPiBsaW51eC1hc3BlZWQgPGxpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnPjsgb3Bl
-biBsaXN0OkRSTSBEUklWRVJTDQo+IDxkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPjsg
-ZGV2aWNldHJlZSA8ZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc+Ow0KPiBMaW51eCBBUk0gPGxp
-bnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZz47IExpbnV4IEtlcm5lbCBNYWlsaW5n
-IExpc3QNCj4gPGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc+OyBCTUMtU1cgPEJNQy1TV0Bh
-c3BlZWR0ZWNoLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2NSA1LzddIGRybS9hc3BlZWQ6
-IEFkZCByZXNldCBhbmQgY2xvY2sgZm9yIEFTVDI2MDANCj4gDQo+IE9uIFdlZCwgOCBEZWMgMjAy
-MSBhdCAwMTozNCwgVG9tbXkgSGF1bmcNCj4gPHRvbW15X2h1YW5nQGFzcGVlZHRlY2guY29tPiB3
-cm90ZToNCj4gPg0KPiA+IEZyb206IHRvbW15LWh1YW5nIDx0b21teV9odWFuZ0Bhc3BlZWR0ZWNo
-LmNvbT4NCj4gPg0KPiA+IEFkZCBtb3JlIHJlc2V0IGFuZCBjbG9jayBzZWxlY3QgY29kZSBmb3Ig
-QVNUMjYwMC4NCj4gPiBUaGUgZ2Z4X2ZsYWdzIHBhcmFtZXRlciB3YXMgYWRkZWQgZm9yIGNoaXAg
-Y2FwcyBpZGVuaWZpZWQuDQo+IA0KPiBDYW4geW91IHRlbGwgbWUgYSBiaXQgbW9yZSBhYm91dCB0
-aGUgdHdvIHJlc2V0IGxpbmVzOg0KPiANCj4gV2hhdCBpcyB0aGUgQ1JUIHJlc2V0IGxpbmUgY29u
-dHJvbGxpbmc/DQo+IA0KPiBXaGF0IGRvZXMgdGhlIGVuZ2luZSByZXNldCBsaW5lIGNvbnRyb2w/
-DQo+IA0KPiBDYW4gd2UgdXNlIGRldm1fcmVzZXRfY29udHJvbF9hcnJheV9nZXQoKSB0byBnZXQg
-d2hpY2hldmVyIGFyZSBzcGVjaWZpZWQgaW4NCj4gdGhlIGRldmljZSB0cmVlLCBzbyB3ZSBkb24n
-dCBuZWVkIHRvIGhhdmUgZGlmZmVyZW50IGxvZ2ljIGZvciB0aGUgMjYwMCBhbmQNCj4gZWFybGll
-ciBjaGlwcz8NCj4gDQo+IA0KPiANCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IHRvbW15LWh1YW5n
-IDx0b21teV9odWFuZ0Bhc3BlZWR0ZWNoLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9ncHUv
-ZHJtL2FzcGVlZC9hc3BlZWRfZ2Z4LmggICAgICB8IDE2ICsrKysrKystDQo+ID4gIGRyaXZlcnMv
-Z3B1L2RybS9hc3BlZWQvYXNwZWVkX2dmeF9jcnRjLmMgfCAxNiArKysrKysrKw0KPiA+IGRyaXZl
-cnMvZ3B1L2RybS9hc3BlZWQvYXNwZWVkX2dmeF9kcnYuYyAgfCA1MA0KPiArKysrKysrKysrKysr
-KysrKysrKysrLS0NCj4gPiAgMyBmaWxlcyBjaGFuZ2VkLCA3NyBpbnNlcnRpb25zKCspLCA1IGRl
-bGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3BlZWQv
-YXNwZWVkX2dmeC5oDQo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vYXNwZWVkL2FzcGVlZF9nZnguaA0K
-PiA+IGluZGV4IDRlNmE0NDJjMzg4Ni4uMmM3MzMyMjVkM2M3IDEwMDY0NA0KPiA+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9hc3BlZWQvYXNwZWVkX2dmeC5oDQo+ID4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2FzcGVlZC9hc3BlZWRfZ2Z4LmgNCj4gPiBAQCAtOCw3ICs4LDggQEAgc3RydWN0IGFzcGVl
-ZF9nZnggew0KPiA+ICAgICAgICAgc3RydWN0IGRybV9kZXZpY2UgICAgICAgICAgICAgICBkcm07
-DQo+ID4gICAgICAgICB2b2lkIF9faW9tZW0gICAgICAgICAgICAgICAgICAgICpiYXNlOw0KPiA+
-ICAgICAgICAgc3RydWN0IGNsayAgICAgICAgICAgICAgICAgICAgICAqY2xrOw0KPiA+IC0gICAg
-ICAgc3RydWN0IHJlc2V0X2NvbnRyb2wgICAgICAgICAgICAqcnN0Ow0KPiA+ICsgICAgICAgc3Ry
-dWN0IHJlc2V0X2NvbnRyb2wgICAgICAgICAgICAqcnN0X2NydDsNCj4gPiArICAgICAgIHN0cnVj
-dCByZXNldF9jb250cm9sICAgICAgICAgICAgKnJzdF9lbmdpbmU7DQo+ID4gICAgICAgICBzdHJ1
-Y3QgcmVnbWFwICAgICAgICAgICAgICAgICAgICpzY3U7DQo+ID4NCj4gPiAgICAgICAgIHUzMiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgZGFjX3JlZzsNCj4gPiBAQCAtMTYsNiArMTcsNyBA
-QCBzdHJ1Y3QgYXNwZWVkX2dmeCB7DQo+ID4gICAgICAgICB1MzIgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIHZnYV9zY3JhdGNoX3JlZzsNCj4gPiAgICAgICAgIHUzMiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgdGhyb2RfdmFsOw0KPiA+ICAgICAgICAgdTMyICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBzY2FuX2xpbmVfbWF4Ow0KPiA+ICsgICAgICAgdTMyICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBmbGFnczsNCj4gPg0KPiA+ICAgICAgICAgc3RydWN0IGRybV9zaW1w
-bGVfZGlzcGxheV9waXBlICBwaXBlOw0KPiA+ICAgICAgICAgc3RydWN0IGRybV9jb25uZWN0b3Ig
-ICAgICAgICAgICBjb25uZWN0b3I7DQo+ID4gQEAgLTEwNiwzICsxMDgsMTUgQEAgaW50IGFzcGVl
-ZF9nZnhfY3JlYXRlX291dHB1dChzdHJ1Y3QgZHJtX2RldmljZQ0KPiA+ICpkcm0pOw0KPiA+ICAv
-KiBDUlRfVEhST0QgKi8NCj4gPiAgI2RlZmluZSBDUlRfVEhST0RfTE9XKHgpICAgICAgICAgICAg
-ICAgKHgpDQo+ID4gICNkZWZpbmUgQ1JUX1RIUk9EX0hJR0goeCkgICAgICAgICAgICAgICgoeCkg
-PDwgOCkNCj4gPiArDQo+ID4gKy8qIFNDVSBjb250cm9sICovDQo+ID4gKyNkZWZpbmUgU0NVX0c2
-X0NMS19DT1VSQ0UgICAgICAgICAgICAgIDB4MzAwDQo+ID4gKw0KPiA+ICsvKiBHRlggRkxBR1Mg
-Ki8NCj4gPiArI2RlZmluZSBSRVNFVF9NQVNLICAgICAgICAgICAgICAgICAgICAgQklUKDApDQo+
-ID4gKyNkZWZpbmUgUkVTRVRfRzYgICAgICAgICAgICAgICAgICAgICAgIEJJVCgwKQ0KPiA+ICsj
-ZGVmaW5lIENMS19NQVNLICAgICAgICAgICAgICAgICAgICAgICBCSVQoNCkNCj4gPiArI2RlZmlu
-ZSBDTEtfRzYgICAgICAgICAgICAgICAgICAgICAgICAgQklUKDQpDQo+ID4gKw0KPiA+ICsjZGVm
-aW5lIEc2X0NMS19NQVNLICAgICAgICAgICAgICAgICAgICAoQklUKDgpIHwgQklUKDkpIHwgQklU
-KDEwKSkNCj4gPiArI2RlZmluZSBHNl9VU0JfNDBfQ0xLICAgICAgICAgICAgICAgICAgQklUKDkp
-DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3BlZWQvYXNwZWVkX2dmeF9jcnRj
-LmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9hc3BlZWQvYXNwZWVkX2dmeF9jcnRjLmMNCj4gPiBp
-bmRleCA4MjdlNjJjMWRhYmEuLmUwOTc1ZWNkYTkyZCAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vYXNwZWVkL2FzcGVlZF9nZnhfY3J0Yy5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2FzcGVlZC9hc3BlZWRfZ2Z4X2NydGMuYw0KPiA+IEBAIC03Nyw2ICs3NywxOCBAQCBzdGF0
-aWMgdm9pZCBhc3BlZWRfZ2Z4X2Rpc2FibGVfY29udHJvbGxlcihzdHJ1Y3QNCj4gYXNwZWVkX2dm
-eCAqcHJpdikNCj4gPiAgICAgICAgIHJlZ21hcF91cGRhdGVfYml0cyhwcml2LT5zY3UsIHByaXYt
-PmRhY19yZWcsIEJJVCgxNiksIDApOyAgfQ0KPiA+DQo+ID4gK3N0YXRpYyB2b2lkIGFzcGVlZF9n
-Znhfc2V0X2NsayhzdHJ1Y3QgYXNwZWVkX2dmeCAqcHJpdikgew0KPiA+ICsgICAgICAgc3dpdGNo
-IChwcml2LT5mbGFncyAmIENMS19NQVNLKSB7DQo+ID4gKyAgICAgICBjYXNlIENMS19HNjoNCj4g
-PiArICAgICAgICAgICAgICAgcmVnbWFwX3VwZGF0ZV9iaXRzKHByaXYtPnNjdSwgU0NVX0c2X0NM
-S19DT1VSQ0UsDQo+IEc2X0NMS19NQVNLLCAweDApOw0KPiA+ICsgICAgICAgICAgICAgICByZWdt
-YXBfdXBkYXRlX2JpdHMocHJpdi0+c2N1LCBTQ1VfRzZfQ0xLX0NPVVJDRSwNCj4gRzZfQ0xLX01B
-U0ssIEc2X1VTQl80MF9DTEspOw0KPiA+ICsgICAgICAgICAgICAgICBicmVhazsNCj4gPiArICAg
-ICAgIGRlZmF1bHQ6DQo+ID4gKyAgICAgICAgICAgICAgIGJyZWFrOw0KPiA+ICsgICAgICAgfQ0K
-PiA+ICt9DQo+ID4gKw0KPiA+ICBzdGF0aWMgdm9pZCBhc3BlZWRfZ2Z4X2NydGNfbW9kZV9zZXRf
-bm9mYihzdHJ1Y3QgYXNwZWVkX2dmeCAqcHJpdikgIHsNCj4gPiAgICAgICAgIHN0cnVjdCBkcm1f
-ZGlzcGxheV9tb2RlICptID0NCj4gPiAmcHJpdi0+cGlwZS5jcnRjLnN0YXRlLT5hZGp1c3RlZF9t
-b2RlOw0KPiA+IEBAIC04Nyw2ICs5OSw4IEBAIHN0YXRpYyB2b2lkIGFzcGVlZF9nZnhfY3J0Y19t
-b2RlX3NldF9ub2ZiKHN0cnVjdA0KPiBhc3BlZWRfZ2Z4ICpwcml2KQ0KPiA+ICAgICAgICAgaWYg
-KGVycikNCj4gPiAgICAgICAgICAgICAgICAgcmV0dXJuOw0KPiA+DQo+ID4gKyAgICAgICBhc3Bl
-ZWRfZ2Z4X3NldF9jbGsocHJpdik7DQo+ID4gKw0KPiA+ICAjaWYgMA0KPiA+ICAgICAgICAgLyog
-VE9ETzogd2UgaGF2ZSBvbmx5IGJlZW4gYWJsZSB0byB0ZXN0IHdpdGggdGhlIDQwTUh6IFVTQg0K
-PiBjbG9jay4gVGhlDQo+ID4gICAgICAgICAgKiBjbG9jayBpcyBmaXhlZCwgc28gd2UgY2Fubm90
-IGFkanVzdCBpdCBoZXJlLiAqLyBAQCAtMTkzLDYNCj4gPiArMjA3LDcgQEAgc3RhdGljIHZvaWQg
-YXNwZWVkX2dmeF9waXBlX3VwZGF0ZShzdHJ1Y3QNCj4gPiBkcm1fc2ltcGxlX2Rpc3BsYXlfcGlw
-ZSAqcGlwZSwgIHN0YXRpYyBpbnQNCj4gPiBhc3BlZWRfZ2Z4X2VuYWJsZV92Ymxhbmsoc3RydWN0
-IGRybV9zaW1wbGVfZGlzcGxheV9waXBlICpwaXBlKSAgew0KPiA+ICAgICAgICAgc3RydWN0IGFz
-cGVlZF9nZnggKnByaXYgPSBkcm1fcGlwZV90b19hc3BlZWRfZ2Z4KHBpcGUpOw0KPiA+ICsNCj4g
-PiAgICAgICAgIHUzMiByZWcgPSByZWFkbChwcml2LT5iYXNlICsgQ1JUX0NUUkwxKTsNCj4gPg0K
-PiA+ICAgICAgICAgLyogQ2xlYXIgcGVuZGluZyBWQkxBTksgSVJRICovIEBAIC0yMDcsNiArMjIy
-LDcgQEAgc3RhdGljIGludA0KPiA+IGFzcGVlZF9nZnhfZW5hYmxlX3ZibGFuayhzdHJ1Y3QgZHJt
-X3NpbXBsZV9kaXNwbGF5X3BpcGUgKnBpcGUpICBzdGF0aWMNCj4gPiB2b2lkIGFzcGVlZF9nZnhf
-ZGlzYWJsZV92Ymxhbmsoc3RydWN0IGRybV9zaW1wbGVfZGlzcGxheV9waXBlICpwaXBlKQ0KPiA+
-IHsNCj4gPiAgICAgICAgIHN0cnVjdCBhc3BlZWRfZ2Z4ICpwcml2ID0gZHJtX3BpcGVfdG9fYXNw
-ZWVkX2dmeChwaXBlKTsNCj4gPiArDQo+ID4gICAgICAgICB1MzIgcmVnID0gcmVhZGwocHJpdi0+
-YmFzZSArIENSVF9DVFJMMSk7DQo+ID4NCj4gPiAgICAgICAgIHJlZyAmPSB+Q1JUX0NUUkxfVkVS
-VElDQUxfSU5UUl9FTjsgZGlmZiAtLWdpdA0KPiA+IGEvZHJpdmVycy9ncHUvZHJtL2FzcGVlZC9h
-c3BlZWRfZ2Z4X2Rydi5jDQo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vYXNwZWVkL2FzcGVlZF9nZnhf
-ZHJ2LmMNCj4gPiBpbmRleCBkMTAyNDZiMWQxYzIuLjU5YTBkZTkyNjUwZiAxMDA2NDQNCj4gPiAt
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vYXNwZWVkL2FzcGVlZF9nZnhfZHJ2LmMNCj4gPiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vYXNwZWVkL2FzcGVlZF9nZnhfZHJ2LmMNCj4gPiBAQCAtNjQsNiArNjQs
-NyBAQCBzdHJ1Y3QgYXNwZWVkX2dmeF9jb25maWcgew0KPiA+ICAgICAgICAgdTMyIHZnYV9zY3Jh
-dGNoX3JlZzsgICAgLyogVkdBIHNjcmF0Y2ggcmVnaXN0ZXIgaW4gU0NVICovDQo+ID4gICAgICAg
-ICB1MzIgdGhyb2RfdmFsOyAgICAgICAgICAvKiBEZWZhdWx0IFRocmVzaG9sZCBTZXRpbmcgKi8N
-Cj4gPiAgICAgICAgIHUzMiBzY2FuX2xpbmVfbWF4OyAgICAgIC8qIE1heCBtZW1vcnkgc2l6ZSBv
-ZiBvbmUgc2NhbiBsaW5lICovDQo+ID4gKyAgICAgICB1MzIgZ2Z4X2ZsYWdzOyAgICAgICAgICAv
-KiBGbGFncyBmb3IgZ2Z4IGNoaXAgY2FwcyAqLw0KPiA+ICB9Ow0KPiA+DQo+ID4gIHN0YXRpYyBj
-b25zdCBzdHJ1Y3QgYXNwZWVkX2dmeF9jb25maWcgYXN0MjQwMF9jb25maWcgPSB7IEBAIC03Miw2
-DQo+ID4gKzczLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBhc3BlZWRfZ2Z4X2NvbmZpZyBhc3Qy
-NDAwX2NvbmZpZyA9IHsNCj4gPiAgICAgICAgIC52Z2Ffc2NyYXRjaF9yZWcgPSAweDUwLA0KPiA+
-ICAgICAgICAgLnRocm9kX3ZhbCA9IENSVF9USFJPRF9MT1coMHgxZSkgfCBDUlRfVEhST0RfSElH
-SCgweDEyKSwNCj4gPiAgICAgICAgIC5zY2FuX2xpbmVfbWF4ID0gNjQsDQo+ID4gKyAgICAgICAu
-Z2Z4X2ZsYWdzID0gMCwNCj4gPiAgfTsNCj4gPg0KPiA+ICBzdGF0aWMgY29uc3Qgc3RydWN0IGFz
-cGVlZF9nZnhfY29uZmlnIGFzdDI1MDBfY29uZmlnID0geyBAQCAtODAsNg0KPiA+ICs4Miw3IEBA
-IHN0YXRpYyBjb25zdCBzdHJ1Y3QgYXNwZWVkX2dmeF9jb25maWcgYXN0MjUwMF9jb25maWcgPSB7
-DQo+ID4gICAgICAgICAudmdhX3NjcmF0Y2hfcmVnID0gMHg1MCwNCj4gPiAgICAgICAgIC50aHJv
-ZF92YWwgPSBDUlRfVEhST0RfTE9XKDB4MjQpIHwgQ1JUX1RIUk9EX0hJR0goMHgzYyksDQo+ID4g
-ICAgICAgICAuc2Nhbl9saW5lX21heCA9IDEyOCwNCj4gPiArICAgICAgIC5nZnhfZmxhZ3MgPSAw
-LA0KPiA+ICB9Ow0KPiA+DQo+ID4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgYXNwZWVkX2dmeF9jb25m
-aWcgYXN0MjYwMF9jb25maWcgPSB7IEBAIC04OCw2DQo+ID4gKzkxLDcgQEAgc3RhdGljIGNvbnN0
-IHN0cnVjdCBhc3BlZWRfZ2Z4X2NvbmZpZyBhc3QyNjAwX2NvbmZpZyA9IHsNCj4gPiAgICAgICAg
-IC52Z2Ffc2NyYXRjaF9yZWcgPSAweDUwLA0KPiA+ICAgICAgICAgLnRocm9kX3ZhbCA9IENSVF9U
-SFJPRF9MT1coMHg1MCkgfCBDUlRfVEhST0RfSElHSCgweDcwKSwNCj4gPiAgICAgICAgIC5zY2Fu
-X2xpbmVfbWF4ID0gMTI4LA0KPiA+ICsgICAgICAgLmdmeF9mbGFncyA9IFJFU0VUX0c2IHwgQ0xL
-X0c2LA0KPiA+ICB9Ow0KPiA+DQo+ID4gIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lk
-IGFzcGVlZF9nZnhfbWF0Y2hbXSA9IHsgQEAgLTEzOCw2DQo+ID4gKzE0Miw0NCBAQCBzdGF0aWMg
-aXJxcmV0dXJuX3QgYXNwZWVkX2dmeF9pcnFfaGFuZGxlcihpbnQgaXJxLCB2b2lkICpkYXRhKQ0K
-PiA+ICAgICAgICAgcmV0dXJuIElSUV9OT05FOw0KPiA+ICB9DQo+ID4NCj4gPiArc3RhdGljIGlu
-dCBhc3BlZWRfZ2Z4X3Jlc2V0KHN0cnVjdCBkcm1fZGV2aWNlICpkcm0pIHsNCj4gPiArICAgICAg
-IHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYgPSB0b19wbGF0Zm9ybV9kZXZpY2UoZHJtLT5k
-ZXYpOw0KPiA+ICsgICAgICAgc3RydWN0IGFzcGVlZF9nZnggKnByaXYgPSB0b19hc3BlZWRfZ2Z4
-KGRybSk7DQo+ID4gKw0KPiA+ICsgICAgICAgc3dpdGNoIChwcml2LT5mbGFncyAmIFJFU0VUX01B
-U0spIHsNCj4gPiArICAgICAgIGNhc2UgUkVTRVRfRzY6DQo+ID4gKyAgICAgICAgICAgICAgIHBy
-aXYtPnJzdF9jcnQgPSBkZXZtX3Jlc2V0X2NvbnRyb2xfZ2V0KCZwZGV2LT5kZXYsDQo+ICJjcnQi
-KTsNCj4gPiArICAgICAgICAgICAgICAgaWYgKElTX0VSUihwcml2LT5yc3RfY3J0KSkgew0KPiA+
-ICsgICAgICAgICAgICAgICAgICAgICAgIGRldl9lcnIoJnBkZXYtPmRldiwNCj4gPiArICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICJtaXNzaW5nIG9yIGludmFsaWQgY3J0IHJlc2V0IGNv
-bnRyb2xsZXINCj4gZGV2aWNlIHRyZWUgZW50cnkiKTsNCj4gPiArICAgICAgICAgICAgICAgICAg
-ICAgICByZXR1cm4gUFRSX0VSUihwcml2LT5yc3RfY3J0KTsNCj4gPiArICAgICAgICAgICAgICAg
-fQ0KPiA+ICsgICAgICAgICAgICAgICByZXNldF9jb250cm9sX2RlYXNzZXJ0KHByaXYtPnJzdF9j
-cnQpOw0KPiA+ICsNCj4gPiArICAgICAgICAgICAgICAgcHJpdi0+cnN0X2VuZ2luZSA9IGRldm1f
-cmVzZXRfY29udHJvbF9nZXQoJnBkZXYtPmRldiwNCj4gImVuZ2luZSIpOw0KPiA+ICsgICAgICAg
-ICAgICAgICBpZiAoSVNfRVJSKHByaXYtPnJzdF9lbmdpbmUpKSB7DQo+ID4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgZGV2X2VycigmcGRldi0+ZGV2LA0KPiA+ICsgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIm1pc3Npbmcgb3IgaW52YWxpZCBlbmdpbmUgcmVzZXQNCj4gY29udHJvbGxl
-ciBkZXZpY2UgdHJlZSBlbnRyeSIpOw0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIHJldHVy
-biBQVFJfRVJSKHByaXYtPnJzdF9lbmdpbmUpOw0KPiA+ICsgICAgICAgICAgICAgICB9DQo+ID4g
-KyAgICAgICAgICAgICAgIHJlc2V0X2NvbnRyb2xfZGVhc3NlcnQocHJpdi0+cnN0X2VuZ2luZSk7
-DQo+ID4gKyAgICAgICAgICAgICAgIGJyZWFrOw0KPiA+ICsNCj4gPiArICAgICAgIGRlZmF1bHQ6
-DQo+ID4gKyAgICAgICAgICAgICAgIHByaXYtPnJzdF9jcnQgPQ0KPiBkZXZtX3Jlc2V0X2NvbnRy
-b2xfZ2V0X2V4Y2x1c2l2ZSgmcGRldi0+ZGV2LCBOVUxMKTsNCj4gPiArICAgICAgICAgICAgICAg
-aWYgKElTX0VSUihwcml2LT5yc3RfY3J0KSkgew0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
-IGRldl9lcnIoJnBkZXYtPmRldiwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICJtaXNzaW5nIG9yIGludmFsaWQgcmVzZXQgY29udHJvbGxlcg0KPiBkZXZpY2UgdHJlZSBlbnRy
-eSIpOw0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKHByaXYtPnJz
-dF9jcnQpOw0KPiA+ICsgICAgICAgICAgICAgICB9DQo+ID4gKyAgICAgICAgICAgICAgIHJlc2V0
-X2NvbnRyb2xfZGVhc3NlcnQocHJpdi0+cnN0X2NydCk7DQo+ID4gKyAgICAgICAgICAgICAgIGJy
-ZWFrOw0KPiA+ICsgICAgICAgfQ0KPiA+ICsNCj4gPiArICAgICAgIHJldHVybiAwOw0KPiA+ICt9
-DQo+ID4gKw0KPiA+ICBzdGF0aWMgaW50IGFzcGVlZF9nZnhfbG9hZChzdHJ1Y3QgZHJtX2Rldmlj
-ZSAqZHJtKSAgew0KPiA+ICAgICAgICAgc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldiA9IHRv
-X3BsYXRmb3JtX2RldmljZShkcm0tPmRldik7DQo+ID4gQEAgLTE2Myw2ICsyMDUsNyBAQCBzdGF0
-aWMgaW50IGFzcGVlZF9nZnhfbG9hZChzdHJ1Y3QgZHJtX2RldmljZSAqZHJtKQ0KPiA+ICAgICAg
-ICAgcHJpdi0+dmdhX3NjcmF0Y2hfcmVnID0gY29uZmlnLT52Z2Ffc2NyYXRjaF9yZWc7DQo+ID4g
-ICAgICAgICBwcml2LT50aHJvZF92YWwgPSBjb25maWctPnRocm9kX3ZhbDsNCj4gPiAgICAgICAg
-IHByaXYtPnNjYW5fbGluZV9tYXggPSBjb25maWctPnNjYW5fbGluZV9tYXg7DQo+ID4gKyAgICAg
-ICBwcml2LT5mbGFncyA9IGNvbmZpZy0+Z2Z4X2ZsYWdzOw0KPiA+DQo+ID4gICAgICAgICBwcml2
-LT5zY3UgPSBzeXNjb25fcmVnbWFwX2xvb2t1cF9ieV9waGFuZGxlKG5wLCAic3lzY29uIik7DQo+
-ID4gICAgICAgICBpZiAoSVNfRVJSKHByaXYtPnNjdSkpIHsNCj4gPiBAQCAtMTg2LDEzICsyMjks
-MTIgQEAgc3RhdGljIGludCBhc3BlZWRfZ2Z4X2xvYWQoc3RydWN0IGRybV9kZXZpY2UNCj4gKmRy
-bSkNCj4gPiAgICAgICAgICAgICAgICAgcmV0dXJuIHJldDsNCj4gPiAgICAgICAgIH0NCj4gPg0K
-PiA+IC0gICAgICAgcHJpdi0+cnN0ID0gZGV2bV9yZXNldF9jb250cm9sX2dldF9leGNsdXNpdmUo
-JnBkZXYtPmRldiwgTlVMTCk7DQo+ID4gLSAgICAgICBpZiAoSVNfRVJSKHByaXYtPnJzdCkpIHsN
-Cj4gPiArICAgICAgIHJldCA9IGFzcGVlZF9nZnhfcmVzZXQoZHJtKTsNCj4gPiArICAgICAgIGlm
-IChyZXQpIHsNCj4gPiAgICAgICAgICAgICAgICAgZGV2X2VycigmcGRldi0+ZGV2LA0KPiA+ICAg
-ICAgICAgICAgICAgICAgICAgICAgICJtaXNzaW5nIG9yIGludmFsaWQgcmVzZXQgY29udHJvbGxl
-ciBkZXZpY2UgdHJlZQ0KPiBlbnRyeSIpOw0KPiA+IC0gICAgICAgICAgICAgICByZXR1cm4gUFRS
-X0VSUihwcml2LT5yc3QpOw0KPiA+ICsgICAgICAgICAgICAgICByZXR1cm4gcmV0Ow0KPiA+ICAg
-ICAgICAgfQ0KPiA+IC0gICAgICAgcmVzZXRfY29udHJvbF9kZWFzc2VydChwcml2LT5yc3QpOw0K
-PiA+DQo+ID4gICAgICAgICBwcml2LT5jbGsgPSBkZXZtX2Nsa19nZXQoZHJtLT5kZXYsIE5VTEwp
-Ow0KPiA+ICAgICAgICAgaWYgKElTX0VSUihwcml2LT5jbGspKSB7DQo+ID4gLS0NCj4gPiAyLjE3
-LjENCj4gPg0K
+On Tue, 1 Mar 2022 at 07:00, Tommy Huang <tommy_huang@aspeedtech.com> wrote:
+>
+> Hi Joel,
+>
+>         It seems that the reset control could keep original code behavior.
+>         Just change the reset define in the .dtsi file from ASPEED_RESET_CRT1 into ASPEED_RESET_GRAPHICS.
+
+Right, because the ASPEED_RESET_CRT reset is released by the
+ASPEED_CLK_GATE_D1CLK line?
+
+include/dt-bindings/clock/ast2600-clock.h:#define ASPEED_RESET_CRT
+         13
+
+drivers/clk/clk-ast2600.c:      /*
+clk rst  name               parent   flags */
+drivers/clk/clk-ast2600.c:      [ASPEED_CLK_GATE_D1CLK]         = {
+10, 13, "d1clk-gate",       "d1clk", 0 >
+
+
+
+>
+>         By the way, the HW controller states and FW programming register will be reset by CRT reset line.
+>         And another part HW controller states will be reset by engine reset line.
+
+Thanks. Can we include that in the commit message for the device tree change?
+
+>
+>         Thanks,
+>
+>         By Tommy
+>
+> > -----Original Message-----
+> > From: Joel Stanley <joel@jms.id.au>
+> > Sent: Monday, February 28, 2022 5:51 PM
+> > To: Tommy Huang <tommy_huang@aspeedtech.com>
+> > Cc: David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Rob
+> > Herring <robh+dt@kernel.org>; Andrew Jeffery <andrew@aj.id.au>;
+> > linux-aspeed <linux-aspeed@lists.ozlabs.org>; open list:DRM DRIVERS
+> > <dri-devel@lists.freedesktop.org>; devicetree <devicetree@vger.kernel.org>;
+> > Linux ARM <linux-arm-kernel@lists.infradead.org>; Linux Kernel Mailing List
+> > <linux-kernel@vger.kernel.org>; BMC-SW <BMC-SW@aspeedtech.com>
+> > Subject: Re: [PATCH v5 5/7] drm/aspeed: Add reset and clock for AST2600
+> >
+> > On Wed, 8 Dec 2021 at 01:34, Tommy Haung
+> > <tommy_huang@aspeedtech.com> wrote:
+> > >
+> > > From: tommy-huang <tommy_huang@aspeedtech.com>
+> > >
+> > > Add more reset and clock select code for AST2600.
+> > > The gfx_flags parameter was added for chip caps idenified.
+> >
+> > Can you tell me a bit more about the two reset lines:
+> >
+> > What is the CRT reset line controlling?
+> >
+> > What does the engine reset line control?
+> >
+> > Can we use devm_reset_control_array_get() to get whichever are specified in
+> > the device tree, so we don't need to have different logic for the 2600 and
+> > earlier chips?
+> >
+> >
+> >
+> > >
+> > > Signed-off-by: tommy-huang <tommy_huang@aspeedtech.com>
+> > > ---
+> > >  drivers/gpu/drm/aspeed/aspeed_gfx.h      | 16 +++++++-
+> > >  drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c | 16 ++++++++
+> > > drivers/gpu/drm/aspeed/aspeed_gfx_drv.c  | 50
+> > ++++++++++++++++++++++--
+> > >  3 files changed, 77 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx.h
+> > > b/drivers/gpu/drm/aspeed/aspeed_gfx.h
+> > > index 4e6a442c3886..2c733225d3c7 100644
+> > > --- a/drivers/gpu/drm/aspeed/aspeed_gfx.h
+> > > +++ b/drivers/gpu/drm/aspeed/aspeed_gfx.h
+> > > @@ -8,7 +8,8 @@ struct aspeed_gfx {
+> > >         struct drm_device               drm;
+> > >         void __iomem                    *base;
+> > >         struct clk                      *clk;
+> > > -       struct reset_control            *rst;
+> > > +       struct reset_control            *rst_crt;
+> > > +       struct reset_control            *rst_engine;
+> > >         struct regmap                   *scu;
+> > >
+> > >         u32                             dac_reg;
+> > > @@ -16,6 +17,7 @@ struct aspeed_gfx {
+> > >         u32                             vga_scratch_reg;
+> > >         u32                             throd_val;
+> > >         u32                             scan_line_max;
+> > > +       u32                             flags;
+> > >
+> > >         struct drm_simple_display_pipe  pipe;
+> > >         struct drm_connector            connector;
+> > > @@ -106,3 +108,15 @@ int aspeed_gfx_create_output(struct drm_device
+> > > *drm);
+> > >  /* CRT_THROD */
+> > >  #define CRT_THROD_LOW(x)               (x)
+> > >  #define CRT_THROD_HIGH(x)              ((x) << 8)
+> > > +
+> > > +/* SCU control */
+> > > +#define SCU_G6_CLK_COURCE              0x300
+> > > +
+> > > +/* GFX FLAGS */
+> > > +#define RESET_MASK                     BIT(0)
+> > > +#define RESET_G6                       BIT(0)
+> > > +#define CLK_MASK                       BIT(4)
+> > > +#define CLK_G6                         BIT(4)
+> > > +
+> > > +#define G6_CLK_MASK                    (BIT(8) | BIT(9) | BIT(10))
+> > > +#define G6_USB_40_CLK                  BIT(9)
+> > > diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+> > > b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+> > > index 827e62c1daba..e0975ecda92d 100644
+> > > --- a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+> > > +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
+> > > @@ -77,6 +77,18 @@ static void aspeed_gfx_disable_controller(struct
+> > aspeed_gfx *priv)
+> > >         regmap_update_bits(priv->scu, priv->dac_reg, BIT(16), 0);  }
+> > >
+> > > +static void aspeed_gfx_set_clk(struct aspeed_gfx *priv) {
+> > > +       switch (priv->flags & CLK_MASK) {
+> > > +       case CLK_G6:
+> > > +               regmap_update_bits(priv->scu, SCU_G6_CLK_COURCE,
+> > G6_CLK_MASK, 0x0);
+> > > +               regmap_update_bits(priv->scu, SCU_G6_CLK_COURCE,
+> > G6_CLK_MASK, G6_USB_40_CLK);
+> > > +               break;
+> > > +       default:
+> > > +               break;
+> > > +       }
+> > > +}
+> > > +
+> > >  static void aspeed_gfx_crtc_mode_set_nofb(struct aspeed_gfx *priv)  {
+> > >         struct drm_display_mode *m =
+> > > &priv->pipe.crtc.state->adjusted_mode;
+> > > @@ -87,6 +99,8 @@ static void aspeed_gfx_crtc_mode_set_nofb(struct
+> > aspeed_gfx *priv)
+> > >         if (err)
+> > >                 return;
+> > >
+> > > +       aspeed_gfx_set_clk(priv);
+> > > +
+> > >  #if 0
+> > >         /* TODO: we have only been able to test with the 40MHz USB
+> > clock. The
+> > >          * clock is fixed, so we cannot adjust it here. */ @@ -193,6
+> > > +207,7 @@ static void aspeed_gfx_pipe_update(struct
+> > > drm_simple_display_pipe *pipe,  static int
+> > > aspeed_gfx_enable_vblank(struct drm_simple_display_pipe *pipe)  {
+> > >         struct aspeed_gfx *priv = drm_pipe_to_aspeed_gfx(pipe);
+> > > +
+> > >         u32 reg = readl(priv->base + CRT_CTRL1);
+> > >
+> > >         /* Clear pending VBLANK IRQ */ @@ -207,6 +222,7 @@ static int
+> > > aspeed_gfx_enable_vblank(struct drm_simple_display_pipe *pipe)  static
+> > > void aspeed_gfx_disable_vblank(struct drm_simple_display_pipe *pipe)
+> > > {
+> > >         struct aspeed_gfx *priv = drm_pipe_to_aspeed_gfx(pipe);
+> > > +
+> > >         u32 reg = readl(priv->base + CRT_CTRL1);
+> > >
+> > >         reg &= ~CRT_CTRL_VERTICAL_INTR_EN; diff --git
+> > > a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> > > b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> > > index d10246b1d1c2..59a0de92650f 100644
+> > > --- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> > > +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+> > > @@ -64,6 +64,7 @@ struct aspeed_gfx_config {
+> > >         u32 vga_scratch_reg;    /* VGA scratch register in SCU */
+> > >         u32 throd_val;          /* Default Threshold Seting */
+> > >         u32 scan_line_max;      /* Max memory size of one scan line */
+> > > +       u32 gfx_flags;          /* Flags for gfx chip caps */
+> > >  };
+> > >
+> > >  static const struct aspeed_gfx_config ast2400_config = { @@ -72,6
+> > > +73,7 @@ static const struct aspeed_gfx_config ast2400_config = {
+> > >         .vga_scratch_reg = 0x50,
+> > >         .throd_val = CRT_THROD_LOW(0x1e) | CRT_THROD_HIGH(0x12),
+> > >         .scan_line_max = 64,
+> > > +       .gfx_flags = 0,
+> > >  };
+> > >
+> > >  static const struct aspeed_gfx_config ast2500_config = { @@ -80,6
+> > > +82,7 @@ static const struct aspeed_gfx_config ast2500_config = {
+> > >         .vga_scratch_reg = 0x50,
+> > >         .throd_val = CRT_THROD_LOW(0x24) | CRT_THROD_HIGH(0x3c),
+> > >         .scan_line_max = 128,
+> > > +       .gfx_flags = 0,
+> > >  };
+> > >
+> > >  static const struct aspeed_gfx_config ast2600_config = { @@ -88,6
+> > > +91,7 @@ static const struct aspeed_gfx_config ast2600_config = {
+> > >         .vga_scratch_reg = 0x50,
+> > >         .throd_val = CRT_THROD_LOW(0x50) | CRT_THROD_HIGH(0x70),
+> > >         .scan_line_max = 128,
+> > > +       .gfx_flags = RESET_G6 | CLK_G6,
+> > >  };
+> > >
+> > >  static const struct of_device_id aspeed_gfx_match[] = { @@ -138,6
+> > > +142,44 @@ static irqreturn_t aspeed_gfx_irq_handler(int irq, void *data)
+> > >         return IRQ_NONE;
+> > >  }
+> > >
+> > > +static int aspeed_gfx_reset(struct drm_device *drm) {
+> > > +       struct platform_device *pdev = to_platform_device(drm->dev);
+> > > +       struct aspeed_gfx *priv = to_aspeed_gfx(drm);
+> > > +
+> > > +       switch (priv->flags & RESET_MASK) {
+> > > +       case RESET_G6:
+> > > +               priv->rst_crt = devm_reset_control_get(&pdev->dev,
+> > "crt");
+> > > +               if (IS_ERR(priv->rst_crt)) {
+> > > +                       dev_err(&pdev->dev,
+> > > +                               "missing or invalid crt reset controller
+> > device tree entry");
+> > > +                       return PTR_ERR(priv->rst_crt);
+> > > +               }
+> > > +               reset_control_deassert(priv->rst_crt);
+> > > +
+> > > +               priv->rst_engine = devm_reset_control_get(&pdev->dev,
+> > "engine");
+> > > +               if (IS_ERR(priv->rst_engine)) {
+> > > +                       dev_err(&pdev->dev,
+> > > +                               "missing or invalid engine reset
+> > controller device tree entry");
+> > > +                       return PTR_ERR(priv->rst_engine);
+> > > +               }
+> > > +               reset_control_deassert(priv->rst_engine);
+> > > +               break;
+> > > +
+> > > +       default:
+> > > +               priv->rst_crt =
+> > devm_reset_control_get_exclusive(&pdev->dev, NULL);
+> > > +               if (IS_ERR(priv->rst_crt)) {
+> > > +                       dev_err(&pdev->dev,
+> > > +                               "missing or invalid reset controller
+> > device tree entry");
+> > > +                       return PTR_ERR(priv->rst_crt);
+> > > +               }
+> > > +               reset_control_deassert(priv->rst_crt);
+> > > +               break;
+> > > +       }
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > >  static int aspeed_gfx_load(struct drm_device *drm)  {
+> > >         struct platform_device *pdev = to_platform_device(drm->dev);
+> > > @@ -163,6 +205,7 @@ static int aspeed_gfx_load(struct drm_device *drm)
+> > >         priv->vga_scratch_reg = config->vga_scratch_reg;
+> > >         priv->throd_val = config->throd_val;
+> > >         priv->scan_line_max = config->scan_line_max;
+> > > +       priv->flags = config->gfx_flags;
+> > >
+> > >         priv->scu = syscon_regmap_lookup_by_phandle(np, "syscon");
+> > >         if (IS_ERR(priv->scu)) {
+> > > @@ -186,13 +229,12 @@ static int aspeed_gfx_load(struct drm_device
+> > *drm)
+> > >                 return ret;
+> > >         }
+> > >
+> > > -       priv->rst = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+> > > -       if (IS_ERR(priv->rst)) {
+> > > +       ret = aspeed_gfx_reset(drm);
+> > > +       if (ret) {
+> > >                 dev_err(&pdev->dev,
+> > >                         "missing or invalid reset controller device tree
+> > entry");
+> > > -               return PTR_ERR(priv->rst);
+> > > +               return ret;
+> > >         }
+> > > -       reset_control_deassert(priv->rst);
+> > >
+> > >         priv->clk = devm_clk_get(drm->dev, NULL);
+> > >         if (IS_ERR(priv->clk)) {
+> > > --
+> > > 2.17.1
+> > >
