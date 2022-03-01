@@ -1,74 +1,86 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E287C4CB1E9
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 23:11:28 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5D54CB1EA
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 23:11:32 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K87cZ08Vfz3bvd
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 09:11:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K87cd4YLpz3bbn
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 09:11:29 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kbOPECi0;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=gduPBw6T;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=none (no SPF record) smtp.mailfrom=linux.intel.com
- (client-ip=192.55.52.88; helo=mga01.intel.com;
- envelope-from=yong.b.li@linux.intel.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256
- header.s=Intel header.b=kbOPECi0; dkim-atps=neutral
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=linuxfoundation.org (client-ip=2a00:1450:4864:20::12b;
+ helo=mail-lf1-x12b.google.com; envelope-from=torvalds@linuxfoundation.org;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org
+ header.a=rsa-sha256 header.s=google header.b=gduPBw6T; 
+ dkim-atps=neutral
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K6yvN0B6yz30RR;
- Tue,  1 Mar 2022 11:35:10 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1646094913; x=1677630913;
- h=from:to:cc:references:in-reply-to:subject:date:
- message-id:mime-version:content-transfer-encoding;
- bh=YuZO4OlaL+j1Hz0MmUZERoJwsTLfUDX//Mg77p/cZZw=;
- b=kbOPECi0fcHaC4YNsrRQEJYgW3uFaLtJSuhT4Dn0R926e0/v9IwZr+8u
- 5fDrsJiCJ3Hk9kGdnjv1B1yry4F0MPDwamHjcucz6MaMap1fZQaeNfcal
- T9O7A8GAlcFvM0ffQZnhoLLuZhb/lcFq0oIQS4/59f/ZGxMvKAX6QPPUF
- UOSUCsZshwmaAc3eQB3jM2z1XUZgR0wqhbuL/swsBqRNjGdDZazrsbJOR
- XqndBeBQMaPFydd31Nt0tJveE5S8y6Nw0Xq0hj5T4ziu6/fuYxt16LwoK
- rhSzBrMdzjaabbqGLv5KV/A7AQpUKbLKmXsNPhmtzIc74q0HZjn4SUpny Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="277684310"
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="277684310"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Feb 2022 16:34:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="608636851"
-Received: from linux.intel.com ([10.54.29.200])
- by fmsmga004.fm.intel.com with ESMTP; 28 Feb 2022 16:34:08 -0800
-Received: from yongli3MOBL1 (yongli3-MOBL1.ccr.corp.intel.com [10.255.30.72])
- by linux.intel.com (Postfix) with ESMTP id 58EB65807D2;
- Mon, 28 Feb 2022 16:34:05 -0800 (PST)
-From: "Yong Li" <yong.b.li@linux.intel.com>
-To: "'Chia-Wei Wang'" <chiawei_wang@aspeedtech.com>, <robh+dt@kernel.org>,
- <joel@jms.id.au>, <andrew@aj.id.au>, <cyrilbur@gmail.com>,
- <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
- <openbmc@lists.ozlabs.org>
-References: <20210817025848.19914-1-chiawei_wang@aspeedtech.com>
-In-Reply-To: <20210817025848.19914-1-chiawei_wang@aspeedtech.com>
-Subject: RE: [PATCH v2 0/2] aspeed: Add LPC mailbox support
-Date: Tue, 1 Mar 2022 08:34:04 +0800
-Message-ID: <000501d82d04$0ffa9870$2fefc950$@linux.intel.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K6z2j0bwvz3bYk
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  1 Mar 2022 11:41:31 +1100 (AEDT)
+Received: by mail-lf1-x12b.google.com with SMTP id bu29so24379788lfb.0
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 28 Feb 2022 16:41:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cUh7YOptqnvj33mIS3WykOaibv0ctq8lQu0USbAcExo=;
+ b=gduPBw6Te4zeyjZyaNuQQxqABiMq6fHp34ckrObT/FmzNLnDhHL/6KerjIgP5i0R8H
+ Vm0a8HwZ8W8PnRRZRxnIsSc7yENLFtSGfKUqeeqvjpp8888PKIgF8NBwqM5k9ZzIrQCZ
+ iYuicfiGesL4zlgkSDywOQeUUhyrP2kMozUBc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cUh7YOptqnvj33mIS3WykOaibv0ctq8lQu0USbAcExo=;
+ b=2RWvZAFWvtCovIH9JxUopVITiSbgE2ITOFzVWNlJS3dBJIJ/CkFNtXTYqsS1abLLnj
+ qn1oZrJsgw9SQKSnSBgveKIz5S8TPB7las+i1lJ7+cZv06f+N23XspERMrN27R9A0AB5
+ JWXeRFGl4zNLudMoPqgUIOBg4ihUonoscOXTpsKF55A/2M7FjOCDpG5vpj2LLGM6MxOK
+ s0TnayXAuB7CUSOODRyf+RWy0oFpvlnQlP0HhLOW1veMTytiN7UiIAL8V0tAl723DkzJ
+ yzMYCSZy6WzY+m990JlpcmC0euCdoywL5VfybEXMG46YzY7zTaBvjL+9/t1U6RBM8RtA
+ X9Gw==
+X-Gm-Message-State: AOAM530hqrVM7ZaLe6vRmPqr1G6andvfOMNJbqjI4jwxSm9grZDzKvri
+ 96wTsRmGloR91qcQlrqBj5Vs4Yuae3eT/ikhTLM=
+X-Google-Smtp-Source: ABdhPJyNkgpQ19z4Anu5ztvQ8n+0YoJOIKz9tqpjVBaFSwjJsDpYxipdTGZyV6xVD1LvqlCZFQ1+OQ==
+X-Received: by 2002:a05:6512:a8b:b0:43c:81fb:8b26 with SMTP id
+ m11-20020a0565120a8b00b0043c81fb8b26mr14150055lfu.479.1646095281891; 
+ Mon, 28 Feb 2022 16:41:21 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com.
+ [209.85.167.54]) by smtp.gmail.com with ESMTPSA id
+ f18-20020ac25332000000b00442e9987b7fsm1207998lfh.106.2022.02.28.16.41.21
+ for <linux-aspeed@lists.ozlabs.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Feb 2022 16:41:21 -0800 (PST)
+Received: by mail-lf1-f54.google.com with SMTP id f37so24206359lfv.8
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 28 Feb 2022 16:41:21 -0800 (PST)
+X-Received: by 2002:ac2:4d91:0:b0:443:127b:558a with SMTP id
+ g17-20020ac24d91000000b00443127b558amr14552706lfe.542.1646095280878; Mon, 28
+ Feb 2022 16:41:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQFpITV8ohJziVpZHKVTEr+hR1WqCK2HxEiw
-Content-Language: en-us
-dlp-product: dlpe-windows
-dlp-version: 11.6.401.20
-dlp-reaction: request-justification,no-action
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+ <20220228110822.491923-3-jakobkoschel@gmail.com>
+ <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
+ <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
+ <FC710A1A-524E-481B-A668-FC258F529A2E@gmail.com>
+In-Reply-To: <FC710A1A-524E-481B-A668-FC258F529A2E@gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 28 Feb 2022 16:41:04 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
+Message-ID: <CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+To: Jakob Koschel <jakobkoschel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Thu, 03 Mar 2022 09:11:13 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -81,48 +93,142 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "Li, Yong B" <yong.b.li@intel.com>
+Cc: linux-wireless <linux-wireless@vger.kernel.org>,
+ alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>, linux-iio@vger.kernel.org,
+ nouveau@lists.freedesktop.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Cristiano Giuffrida <c.giuffrida@vu.nl>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
+ linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
+ linux-aspeed@lists.ozlabs.org, linux-scsi <linux-scsi@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, linux-staging@lists.linux.dev, "Bos,
+ H.J." <h.j.bos@vu.nl>, Jason Gunthorpe <jgg@ziepe.ca>,
+ intel-wired-lan@lists.osuosl.org, kgdb-bugreport@lists.sourceforge.net,
+ bcm-kernel-feedback-list@broadcom.com,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ v9fs-developer@lists.sourceforge.net,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sgx@vger.kernel.org,
+ linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
+ linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
+ tipc-discussion@lists.sourceforge.net,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-mediatek@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mike Rapoport <rppt@kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-@andrew@aj.id.au @Chia-Wei Wang @joel@jms.id.au
+On Mon, Feb 28, 2022 at 1:47 PM Jakob Koschel <jakobkoschel@gmail.com> wrote:
+>
+> The goal of this is to get compiler warnings right? This would indeed be great.
 
-Just want to check the latest status about this mailbox driver. I would like
-to get this driver upstreamed too. 
+Yes, so I don't mind having a one-time patch that has been gathered
+using some automated checker tool, but I don't think that works from a
+long-term maintenance perspective.
 
-Thanks,
-Yong
+So if we have the basic rule being "don't use the loop iterator after
+the loop has finished, because it can cause all kinds of subtle
+issues", then in _addition_ to fixing the existing code paths that
+have this issue, I really would want to (a) get a compiler warning for
+future cases and (b) make it not actually _work_ for future cases.
 
------Original Message-----
-From: openbmc <openbmc-bounces+yong.b.li=linux.intel.com@lists.ozlabs.org>
-On Behalf Of Chia-Wei Wang
-Sent: Tuesday, August 17, 2021 10:59 AM
-To: robh+dt@kernel.org; joel@jms.id.au; andrew@aj.id.au; cyrilbur@gmail.com;
-devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
-linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org;
-openbmc@lists.ozlabs.org
-Subject: [PATCH v2 0/2] aspeed: Add LPC mailbox support
+Because otherwise it will just happen again.
 
-Add driver support for the LPC mailbox controller of ASPEED SoCs.
+> Changing the list_for_each_entry() macro first will break all of those cases
+> (e.g. the ones using 'list_entry_is_head()).
 
-v2:
- - Fix error handling for copy_to_user
- - Fix incorrect type in the .poll initializer
+So I have no problems with breaking cases that we basically already
+have a patch for due to  your automated tool. There were certainly
+more than a handful, but it didn't look _too_ bad to just make the
+rule be "don't use the iterator after the loop".
 
-Chia-Wei Wang (2):
-  soc: aspeed: Add LPC mailbox support
-  ARM: dts: aspeed: Add mailbox to device tree
+Of course, that's just based on that patch of yours. Maybe there are a
+ton of other cases that your patch didn't change, because they didn't
+match your trigger case, so I may just be overly optimistic here.
 
- arch/arm/boot/dts/aspeed-g4.dtsi     |   7 +
- arch/arm/boot/dts/aspeed-g5.dtsi     |   8 +-
- arch/arm/boot/dts/aspeed-g6.dtsi     |   7 +
- drivers/soc/aspeed/Kconfig           |  10 +
- drivers/soc/aspeed/Makefile          |   9 +-
- drivers/soc/aspeed/aspeed-lpc-mbox.c | 418 +++++++++++++++++++++++++++
- 6 files changed, 454 insertions(+), 5 deletions(-)  create mode 100644
-drivers/soc/aspeed/aspeed-lpc-mbox.c
+But basically to _me_, the important part is that the end result is
+maintainable longer-term. I'm more than happy to have a one-time patch
+to fix a lot of dubious cases if we can then have clean rules going
+forward.
 
---
-2.17.1
+> I assumed it is better to fix those cases first and then have a simple
+> coccinelle script changing the macro + moving the iterator into the scope
+> of the macro.
 
+So that had been another plan of mine, until I actually looked at
+changing the macro. In the one case I looked at, it was ugly beyond
+belief.
+
+It turns out that just syntactically, it's really nice to give the
+type of the iterator from outside the way we do now. Yeah, it may be a
+bit odd, and maybe it's partly because I'm so used to the
+"list_for_each_list_entry()" syntax, but moving the type into the loop
+construct really made it nasty - either one very complex line, or
+having to split it over two lines which was even worse.
+
+Maybe the place I looked at just happened to have a long typename, but
+it's basically always going to be a struct, so it's never a _simple_
+type. And it just looked very odd adn unnatural to have the type as
+one of the "arguments" to that list_for_each_entry() macro.
+
+So yes, initially my idea had been to just move the iterator entirely
+inside the macro. But specifying the type got so ugly that I think
+that
+
+        typeof (pos) pos
+
+trick inside the macro really ends up giving us the best of all worlds:
+
+ (a) let's us keep the existing syntax and code for all the nice cases
+that did everything inside the loop anyway
+
+ (b) gives us a nice warning for any normal use-after-loop case
+(unless you explicitly initialized it like that
+sgx_mmu_notifier_release() function did for no good reason
+
+ (c) also guarantees that even if you don't get a warning,
+non-converted (or newly written) bad code won't actually _work_
+
+so you end up getting the new rules without any ambiguity or mistaken
+
+> With this you are no longer able to set the 'outer' pos within the list
+> iterator loop body or am I missing something?
+
+Correct. Any assignment inside the loop will be entirely just to the
+local loop case. So any "break;" out of the loop will have to set
+another variable - like your updated patch did.
+
+> I fail to see how this will make most of the changes in this
+> patch obsolete (if that was the intention).
+
+I hope my explanation above clarifies my thinking: I do not dislike
+your patch, and in fact your patch is indeed required to make the new
+semantics work.
+
+What I disliked was always the maintainability of your patch - making
+the rules be something that isn't actually visible in the source code,
+and letting the old semantics still work as well as they ever did, and
+having to basically run some verification pass to find bad users.
+
+(I also disliked your original patch that mixed up the "CPU
+speculation type safety" with the actual non-speculative problems, but
+that was another issue).
+
+                Linus
