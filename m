@@ -2,65 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 846A04CB28D
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 23:49:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D74F54CB2C3
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 00:38:35 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K88SG4MfKz3bcg
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 09:49:18 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K89Y44Nhrz3bd6
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 10:38:32 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=afkxXKmP;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=A/8uC4OL;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::830;
- helo=mail-qt1-x830.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::835;
+ helo=mail-qt1-x835.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=afkxXKmP; dkim-atps=neutral
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com
- [IPv6:2607:f8b0:4864:20::830])
+ header.s=google header.b=A/8uC4OL; dkim-atps=neutral
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com
+ [IPv6:2607:f8b0:4864:20::835])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K88S90VtXz306m
- for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Mar 2022 09:49:12 +1100 (AEDT)
-Received: by mail-qt1-x830.google.com with SMTP id a1so3059832qta.13
- for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Mar 2022 14:49:13 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K89Xz3csFz3bP4
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Mar 2022 10:38:26 +1100 (AEDT)
+Received: by mail-qt1-x835.google.com with SMTP id f18so3212017qtb.3
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Mar 2022 15:38:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=w/QeTGizctCe/lCvmDH1b/DvToPpxOQCqRpfxZuWv28=;
- b=afkxXKmP4vgQGD2EE5HprQH2X5UgEcVUkXVmApWi5dntSCUUp3EaVbVDV9STJR8z59
- D5N0AieGgMKi3GyCkx2a8Ks2SsJ67PPkisdxWEQAXzqTvkVEz8JUwswyS6Dg/86N3JoF
- 88bjGJMQTFVAibzkb8Gj7zZaqx9EHHkREazbo=
+ bh=0UHeOvGnIMNoM6NqeyF78xFos6+YD8GiFF2O+NX+I08=;
+ b=A/8uC4OLZK85x/RsG6wFgeWjAayUjjUSlMWGVzfPxubGvRVyL6+UqPMrijz8hBNBae
+ 7+Xma0aYf2Wnr1goOeR8vCpaBIDCURIghfyk8+CPkPm8Wjlh4XrVXzXMmlU7y9LZ5llU
+ Ra7+w69qG+z5lQmzrnsv6xktbsN0B2rEgy1R4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=w/QeTGizctCe/lCvmDH1b/DvToPpxOQCqRpfxZuWv28=;
- b=6C6eGtPK4zrzV0n7GfWoFObtvSvp24RceHRwYry4m9v5PPInc46UI43JKBZmClt0cE
- F86Vv3AzbfEu7b0pYLbhrDmS94lxGDQmBdxqw15e8jAB9IPVYdC999/zoXGoW54BToCX
- D2oCQrSTux6tKTonqJhULi7Gv9k0enz6LaGKdOh18tmJhS5i5GJ/Y3njWQAbxGmHGUJE
- 8Xa2JEG5HmyIygohn18Nq+Pxe8SKGIcczMa0HVYitBsjXg1lWRmHUcs0A0khc29kGtgP
- GuS52YzoTk2LaOZQpPJ6QWNwQ0JwsIlv63uSFmsuSLBu5EnwP5vDwvWJ9EVsUX/D/3Ho
- Cb+Q==
-X-Gm-Message-State: AOAM5304nFpDerP0nCrBhefi1gAVZSFD6xmK84uDkc9xnC5O0sefzx4r
- RqFgh/+FCF9fKz9eM2l5MWvPpLUxrOnZ65mBvt4=
-X-Google-Smtp-Source: ABdhPJwcRIUuSCOa0NIMdNnY7uIfvSl3sBRNTtNc09Jy3EHvdAiMXNhsdMI3cg/+3wWITyoi069ULAwsRr28IETf5DQ=
-X-Received: by 2002:ac8:5b82:0:b0:2cf:232d:b1f8 with SMTP id
- a2-20020ac85b82000000b002cf232db1f8mr25803033qta.58.1646261351104; Wed, 02
- Mar 2022 14:49:11 -0800 (PST)
+ bh=0UHeOvGnIMNoM6NqeyF78xFos6+YD8GiFF2O+NX+I08=;
+ b=IuJk38Pds/9JpkogDPmPGm9RqBsv9DdUGFfZQ6jos0s7vCR2iDy0+c4Tb8G5bfEdES
+ J3Wys9d+iv7djpvPQ9/OdvhPK10yswFo7EbmRY+Ey4xlmPqoK0CmZOqmlezw/GV/bgey
+ QU/FFb0VDToODGLjyZh2mts3ETbYae44edYryzLuROx/8XJwZc7vDv5JCPs70iiK5us0
+ LR6hrK7cb/0R3BmY2TEjfrROsq74E9zV0xsvimBQtNTQ0zhIkXcmU6RfUdK9aK+ESVT4
+ hibZ1ZflKVUdRAeEU5QG2JHNIWIgW9h5O3N5HspFa8HJeacYrDvcloxZ81Cm44t9pi6y
+ UGAg==
+X-Gm-Message-State: AOAM532BLDQX0zxWw0CDOtOp9/jLBY3JdI8WnDsj/Ql09OYjZa5vhBDA
+ GfBnS6Mmi7Qp1QmUlpWt/c9a2NxY0g72ys9mMxM=
+X-Google-Smtp-Source: ABdhPJwCs5BS/vb/0Gnia8sBd/4fwz2M9pisx/6g/jEojI9HtPhU1m7xtnkyYUd9xlwgdUsE3xPO2rpi1UAXpFZPYeE=
+X-Received: by 2002:a05:622a:1b8d:b0:2c6:59a9:360e with SMTP id
+ bp13-20020a05622a1b8d00b002c659a9360emr25551831qtb.678.1646264303744; Wed, 02
+ Mar 2022 15:38:23 -0800 (PST)
 MIME-Version: 1.0
 References: <20220302173114.927476-1-clg@kaod.org>
- <20220302173114.927476-11-clg@kaod.org>
- <CACPK8XeDBCMCEO4=w7qUQxsYiFUDKPAuBhXW5Sr6=UHM_GRsWA@mail.gmail.com>
-In-Reply-To: <CACPK8XeDBCMCEO4=w7qUQxsYiFUDKPAuBhXW5Sr6=UHM_GRsWA@mail.gmail.com>
+ <20220302173114.927476-5-clg@kaod.org>
+In-Reply-To: <20220302173114.927476-5-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 2 Mar 2022 22:48:58 +0000
-Message-ID: <CACPK8Xd6VJLuWsvSjYrQ-y=yS+yR7vjdWECfsd2W9_J7e09K-A@mail.gmail.com>
-Subject: Re: [PATCH v2 10/10] ARM: dts: aspeed: Enable Dual SPI RX transfers
+Date: Wed, 2 Mar 2022 23:38:10 +0000
+Message-ID: <CACPK8Xc5DMeBnQnVWk4YUsiN7YFsujYh9Qs9okrc8vFvaF28Fw@mail.gmail.com>
+Subject: Re: [PATCH v2 04/10] spi: spi-mem: Add driver for Aspeed SMC
+ controllers
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -89,197 +89,62 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, 2 Mar 2022 at 22:45, Joel Stanley <joel@jms.id.au> wrote:
+On Wed, 2 Mar 2022 at 17:31, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> On Wed, 2 Mar 2022 at 17:31, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
-> >
-> > All these controllers support at least Dual SPI. Update the DTs.
-> >
-> > Reviewed-by: Joel Stanley <joel@jms.id.au>
-> > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> This SPI driver adds support for the Aspeed static memory controllers
+> of the AST2600, AST2500 and AST2400 SoCs using the spi-mem interface.
 >
-> Thanks. I'll apply this to the aspeed tree now.
+>  * AST2600 Firmware SPI Memory Controller (FMC)
+>    . BMC firmware
+>    . 3 chip select pins (CE0 ~ CE2)
+>    . Only supports SPI type flash memory
+>    . different segment register interface
+>    . single, dual and quad mode.
 >
-> Did you also have a patch to add a second flash chip to the AST2400 FMC?
+>  * AST2600 SPI Flash Controller (SPI1 and SPI2)
+>    . host firmware
+>    . 2 chip select pins (CE0 ~ CE1)
+>    . different segment register interface
+>    . single, dual and quad mode.
+>
+>  * AST2500 Firmware SPI Memory Controller (FMC)
+>    . BMC firmware
+>    . 3 chip select pins (CE0 ~ CE2)
+>    . supports SPI type flash memory (CE0-CE1)
+>    . CE2 can be of NOR type flash but this is not supported by the driver
+>    . single, dual mode.
+>
+>  * AST2500 SPI Flash Controller (SPI1 and SPI2)
+>    . host firmware
+>    . 2 chip select pins (CE0 ~ CE1)
+>    . single, dual mode.
+>
+>  * AST2400 New Static Memory Controller (also referred as FMC)
+>    . BMC firmware
+>    . New register set
+>    . 5 chip select pins (CE0 =E2=88=BC CE4)
+>    . supports NOR flash, NAND flash and SPI flash memory.
+>    . single, dual and quad mode.
+>
+> Each controller has a memory range on which flash devices contents are
+> mapped. Each device is assigned a window that can be changed at bootime
+> with the Segment Address Registers.
+>
+> Each SPI flash device can then be accessed in two modes: Command and
+> User. When in User mode, SPI transfers are initiated with accesses to
+> the memory segment of a device. When in Command mode, memory
+> operations on the memory segment of a device generate SPI commands
+> automatically using a Control Register for the settings.
+>
+> This initial patch adds support for User mode. Command mode needs a littl=
+e
+> more work to check that the memory window on the AHB bus fits the device
+> size. It will come later when support for direct mapping is added.
+>
+> Single and dual mode RX transfers are supported. Other types than SPI
+> are not supported.
+>
+> Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-That was a reference to the discussion on the openbmc list with Tao. I
-was mistaken; the flash chips are there, but they lack the
-spi-max-frequency property.
-
->
-> > ---
-> >  arch/arm/boot/dts/aspeed-g4.dtsi | 6 ++++++
-> >  arch/arm/boot/dts/aspeed-g5.dtsi | 7 +++++++
-> >  arch/arm/boot/dts/aspeed-g6.dtsi | 8 ++++++++
-> >  3 files changed, 21 insertions(+)
-> >
-> > diff --git a/arch/arm/boot/dts/aspeed-g4.dtsi b/arch/arm/boot/dts/aspee=
-d-g4.dtsi
-> > index 9ae67e83cf60..31e6569db97e 100644
-> > --- a/arch/arm/boot/dts/aspeed-g4.dtsi
-> > +++ b/arch/arm/boot/dts/aspeed-g4.dtsi
-> > @@ -64,27 +64,32 @@ fmc: spi@1e620000 {
-> >                         flash@0 {
-> >                                 reg =3D < 0 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 spi-max-frequency =3D <50000000>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                         flash@1 {
-> >                                 reg =3D < 1 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                         flash@2 {
-> >                                 reg =3D < 2 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                         flash@3 {
-> >                                 reg =3D < 3 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                         flash@4 {
-> >                                 reg =3D < 4 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                 };
-> > @@ -100,6 +105,7 @@ flash@0 {
-> >                                 reg =3D < 0 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                 };
-> > diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspee=
-d-g5.dtsi
-> > index c3e0a8e13c8a..29bf017899b6 100644
-> > --- a/arch/arm/boot/dts/aspeed-g5.dtsi
-> > +++ b/arch/arm/boot/dts/aspeed-g5.dtsi
-> > @@ -66,18 +66,21 @@ flash@0 {
-> >                                 reg =3D < 0 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                         flash@1 {
-> >                                 reg =3D < 1 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                         flash@2 {
-> >                                 reg =3D < 2 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                 };
-> > @@ -93,12 +96,14 @@ flash@0 {
-> >                                 reg =3D < 0 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                         flash@1 {
-> >                                 reg =3D < 1 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                 };
-> > @@ -114,12 +119,14 @@ flash@0 {
-> >                                 reg =3D < 0 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                         flash@1 {
-> >                                 reg =3D < 1 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                 };
-> > diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspee=
-d-g6.dtsi
-> > index 1ad05dde19d2..ce93c56a21a7 100644
-> > --- a/arch/arm/boot/dts/aspeed-g6.dtsi
-> > +++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-> > @@ -106,18 +106,21 @@ flash@0 {
-> >                                 reg =3D < 0 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                         flash@1 {
-> >                                 reg =3D < 1 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                         flash@2 {
-> >                                 reg =3D < 2 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                 };
-> > @@ -133,12 +136,14 @@ flash@0 {
-> >                                 reg =3D < 0 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                         flash@1 {
-> >                                 reg =3D < 1 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                 };
-> > @@ -154,18 +159,21 @@ flash@0 {
-> >                                 reg =3D < 0 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                         flash@1 {
-> >                                 reg =3D < 1 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                         flash@2 {
-> >                                 reg =3D < 2 >;
-> >                                 compatible =3D "jedec,spi-nor";
-> >                                 spi-max-frequency =3D <50000000>;
-> > +                               spi-rx-bus-width =3D <2>;
-> >                                 status =3D "disabled";
-> >                         };
-> >                 };
-> > --
-> > 2.34.1
-> >
+Reviewed-by: Joel Stanley <joel@jms.id.au>
