@@ -2,91 +2,47 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5D14C99C5
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 01:16:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9849A4C9B75
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 03:50:52 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K7ZQw5G0Dz3bfb
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 11:16:08 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=xPqb8e1d;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=aNVTKyQA;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K7dsP4fkzz3bpj
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 13:50:49 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.26;
- helo=out2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
+ smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
+ helo=twspam01.aspeedtech.com; envelope-from=tommy_huang@aspeedtech.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm2 header.b=xPqb8e1d; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=aNVTKyQA; 
- dkim-atps=neutral
-X-Greylist: delayed 388 seconds by postgrey-1.36 at boromir;
- Wed, 02 Mar 2022 11:15:57 AEDT
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K7ZQj1f58z30Hg
- for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Mar 2022 11:15:57 +1100 (AEDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 2AB9B5C01FC;
- Tue,  1 Mar 2022 19:09:26 -0500 (EST)
-Received: from imap49 ([10.202.2.99])
- by compute3.internal (MEProxy); Tue, 01 Mar 2022 19:09:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm2; bh=RC3OmsTlLAhw7qINDi2JUOqFcPDvTCTiD6tbe8
- w7L70=; b=xPqb8e1dCyqjyeCQzx+FwlVDTHpTYXPz3BHoolYCe4az6zkOnHIpVy
- gbHg+XZJ1ae2+4fEPjZehmt3m4+4NG4379ml25sTopsN1i2jaOSJ1/A4zZ8hwCMW
- J0ME4E6bvAGFoYBPrAuZq2s58BLDSPfGksnAWzSKm0H0/uvasNDv45VAL05mLr9H
- FNYUC4mZJjTgHFhtdmJhstnQVt8hc515nFUjSIRHu8e/0zcspFqF+1MGnUf9xAVn
- heoUTeVjmTbHrTh9t9oGdRoOHRuCr+ja+K74ZDpG8yfU6MHi2GYt4WwnqJWWeXKv
- qHo47/3w20q69xV3KV1CnfDRJpK++VLg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=RC3OmsTlLAhw7qIND
- i2JUOqFcPDvTCTiD6tbe8w7L70=; b=aNVTKyQAnxF/xm+0rRxaXuuAThkyZZ1AM
- c3Sq5QqXo/ZnvInff00STzPQkWSnn/6ZYqoTghFdIg2v/H7fcihS1fiXKzQy/5Vy
- 5qGCk2q9EaCrZ1sLS0uRl3pYFeA7VovEcNNeuVFek+vxuet4zsCMUWDRe04JWoOS
- OKf3ss4lsH3BhbpVhtKv4bdV/uurfolpkyluXAK2Ma8uOqB7WgtTOzu8imI5ob72
- igPnDlVUgZaytWs6CtdImP8bXVLM86K2lCjeW5zuJG84YBtm4F3SEvDR6P5UFxYb
- qPymS1/jF0ClrKAoXTeH5xhaIiADp2w27D5iD3f+sGXj19VW69bjg==
-X-ME-Sender: <xms:tbUeYj5J-NGuWU_qmdrzTHfrQkOeCF_wnIgN0gd261zHXsNX61wUww>
- <xme:tbUeYo7_ogkzJaVtEB5RijUHn-2sAiZCS7X16igIthqpIwkrNILxMKFvGJgJYQN4r
- _wJtdCoo5mpm3WpdQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtfedguddtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
- rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
- grthhtvghrnhephefhfeekgfekudevheffheeihedujeefjeevjeefudfgfeeutdeuvdeh
- hfevueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
- eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:tbUeYqe7SD6MqRBlP96aQpQKrehwigutIIY8NsdvFjQSEGXdckx9Sg>
- <xmx:tbUeYkJcZ_K2B2O0Pqk1Lg7Ae_hvvWY3mmPTbOfPSvXgVfl0WdL-1A>
- <xmx:tbUeYnJYAZjEoaVoEA0wSYCBUe1l336K10Qw1QdfAuBpZatqUOz2UQ>
- <xmx:trUeYtjtgOCu9s-_tKUMJa3UGo4SVSOcjuICjWjsUASq-DTbFnZjhQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 23800F60084; Tue,  1 Mar 2022 19:09:25 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-4778-g14fba9972e-fm-20220217.001-g14fba997
-Mime-Version: 1.0
-Message-Id: <c51e5a79-168e-4189-ba8e-a426ab82cd89@www.fastmail.com>
-In-Reply-To: <tencent_BBDF8D2C89ECC450F3349D6E46F8EAF87F0A@qq.com>
-References: <tencent_BBDF8D2C89ECC450F3349D6E46F8EAF87F0A@qq.com>
-Date: Wed, 02 Mar 2022 10:39:04 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "Weiguo Li" <liwg06@foxmail.com>
-Subject: Re: [PATCH] pinctrl: aspeed: fix null dereference in debug
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K7dsC5h3Wz3bbj
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Mar 2022 13:50:39 +1100 (AEDT)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 2222eJP7029206;
+ Wed, 2 Mar 2022 10:40:19 +0800 (GMT-8)
+ (envelope-from tommy_huang@aspeedtech.com)
+Received: from tommy0527-VirtualBox.aspeedtech.com (192.168.2.141) by
+ TWMBX02.aspeed.com (192.168.0.24) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 2 Mar 2022 10:49:40 +0800
+From: Tommy Haung <tommy_huang@aspeedtech.com>
+To: <joel@jms.id.au>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <robh+dt@kernel.org>, <andrew@aj.id.au>,
+ <linux-aspeed@lists.ozlabs.org>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v6 0/5] Add Aspeed AST2600 soc display support
+Date: Wed, 2 Mar 2022 10:49:25 +0800
+Message-ID: <20220302024930.18758-1-tommy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
 Content-Type: text/plain
+X-Originating-IP: [192.168.2.141]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 2222eJP7029206
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,46 +54,70 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org
+Cc: BMC-SW@aspeedtech.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+v6:
+  Remove some unnecessary reset patch.
+  Refine patch format.
+  Add detail explain of SOC display reset bits.
 
+v5:
+  Add lost reset define.
 
-On Wed, 2 Mar 2022, at 06:00, Weiguo Li wrote:
-> "pdesc" is null checked, but already dereferenced ahead in debug.
-> Swap their positions to avoid potential null dereference.
->
-> Signed-off-by: Weiguo Li <liwg06@foxmail.com>
+v4:
+  Add necessary reset control for ast2600.
+  Add chip caps for futher use.
+  These code are test on AST2500 and AST2600 by below steps.
 
-Thanks.
+  1. Add below config to turn VT and LOGO on.
 
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+	CONFIG_TTY=y
+	CONFIG_VT=y
+	CONFIG_CONSOLE_TRANSLATIONS=y
+	CONFIG_VT_CONSOLE=y
+	CONFIG_VT_CONSOLE_SLEEP=y
+	CONFIG_HW_CONSOLE=y
+	CONFIG_VT_HW_CONSOLE_BINDING=y
+	CONFIG_UNIX98_PTYS=y
+	CONFIG_LDISC_AUTOLOAD=y
+	CONFIG_DEVMEM=y
+	CONFIG_DUMMY_CONSOLE=y
+	CONFIG_FRAMEBUFFER_CONSOLE=y
+	CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
+	CONFIG_LOGO=y
+	CONFIG_LOGO_LINUX_CLUT224=y
 
-> ---
->  drivers/pinctrl/aspeed/pinctrl-aspeed.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed.c 
-> b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
-> index c94e24aadf92..83d47ff1cea8 100644
-> --- a/drivers/pinctrl/aspeed/pinctrl-aspeed.c
-> +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed.c
-> @@ -236,11 +236,11 @@ int aspeed_pinmux_set_mux(struct pinctrl_dev 
-> *pctldev, unsigned int function,
->  		const struct aspeed_sig_expr **funcs;
->  		const struct aspeed_sig_expr ***prios;
-> 
-> -		pr_debug("Muxing pin %s for %s\n", pdesc->name, pfunc->name);
-> -
->  		if (!pdesc)
->  			return -EINVAL;
-> 
-> +		pr_debug("Muxing pin %s for %s\n", pdesc->name, pfunc->name);
-> +
->  		prios = pdesc->prios;
-> 
->  		if (!prios)
-> -- 
-> 2.25.1
+  2. The Linux logo will be shown on the screen, when the BMC boot in Linux.
+
+v3:
+  Refine the patch for clear separate purpose.
+  Skip to send devicetree patch
+
+v2:
+  Remove some unnecessary patch.
+  Refine for reviwer request.
+
+v1:
+  First add patch.
+
+Joel Stanley (2):
+  ARM: dts: aspeed: Add GFX node to AST2600
+  ARM: dts: aspeed: ast2600-evb: Enable GFX device
+
+Tommy Haung (3):
+  drm/aspeed: Update INTR_STS handling
+  drm/aspeed: Add AST2600 chip support
+  ARM: dtsi: aspeed: Modified gfx reset control
+
+ arch/arm/boot/dts/aspeed-ast2600-evb.dts | 18 ++++++++++++++++++
+ arch/arm/boot/dts/aspeed-g6.dtsi         | 11 +++++++++++
+ drivers/gpu/drm/aspeed/aspeed_gfx.h      |  1 +
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c  | 15 ++++++++++++++-
+ 4 files changed, 44 insertions(+), 1 deletion(-)
+
+-- 
+2.17.1
+
