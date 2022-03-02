@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBE24C9B74
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 03:50:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A4C34C9B70
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 03:50:45 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K7dsM5YxXz3bbw
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 13:50:47 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K7dsG1TVdz3bpj
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 13:50:42 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,10 +17,10 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K7dsC3rRWz3bZf
- for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Mar 2022 13:50:39 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K7dsB6RFbz30H3
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Mar 2022 13:50:37 +1100 (AEDT)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 2222eJgK029207;
+ by twspam01.aspeedtech.com with ESMTP id 2222eJrJ029208;
  Wed, 2 Mar 2022 10:40:19 +0800 (GMT-8)
  (envelope-from tommy_huang@aspeedtech.com)
 Received: from tommy0527-VirtualBox.aspeedtech.com (192.168.2.141) by
@@ -32,9 +32,9 @@ To: <joel@jms.id.au>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <linux-aspeed@lists.ozlabs.org>, <dri-devel@lists.freedesktop.org>,
  <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 1/5] ARM: dts: aspeed: Add GFX node to AST2600
-Date: Wed, 2 Mar 2022 10:49:26 +0800
-Message-ID: <20220302024930.18758-2-tommy_huang@aspeedtech.com>
+Subject: [PATCH v6 2/5] ARM: dts: aspeed: ast2600-evb: Enable GFX device
+Date: Wed, 2 Mar 2022 10:49:27 +0800
+Message-ID: <20220302024930.18758-3-tommy_huang@aspeedtech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220302024930.18758-1-tommy_huang@aspeedtech.com>
 References: <20220302024930.18758-1-tommy_huang@aspeedtech.com>
@@ -44,7 +44,7 @@ X-Originating-IP: [192.168.2.141]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 2222eJgK029207
+X-MAIL: twspam01.aspeedtech.com 2222eJrJ029208
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,36 +63,47 @@ Sender: "Linux-aspeed"
 
 From: Joel Stanley <joel@jms.id.au>
 
-The GFX device is present in the AST2600 SoC.
+Enable the GFX device with a framebuffer memory region.
 
 Signed-off-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Tommy Haung <tommy_huang@aspeedtech.com>
 ---
- arch/arm/boot/dts/aspeed-g6.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ arch/arm/boot/dts/aspeed-ast2600-evb.dts | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-index 1b47be1704f8..e38c3742761b 100644
---- a/arch/arm/boot/dts/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-@@ -351,6 +351,17 @@
- 				quality = <100>;
- 			};
+diff --git a/arch/arm/boot/dts/aspeed-ast2600-evb.dts b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+index b7eb552640cb..e223dad2abd0 100644
+--- a/arch/arm/boot/dts/aspeed-ast2600-evb.dts
++++ b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
+@@ -23,6 +23,19 @@
+ 		reg = <0x80000000 0x80000000>;
+ 	};
  
-+			gfx: display@1e6e6000 {
-+				compatible = "aspeed,ast2600-gfx", "aspeed,ast2500-gfx", "syscon";
-+				reg = <0x1e6e6000 0x1000>;
-+				reg-io-width = <4>;
-+				clocks = <&syscon ASPEED_CLK_GATE_D1CLK>;
-+				resets = <&syscon ASPEED_RESET_GRAPHICS>;
-+				syscon = <&syscon>;
-+				status = "disabled";
-+				interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>;
-+			};
++	reserved-memory {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
 +
- 			xdma: xdma@1e6e7000 {
- 				compatible = "aspeed,ast2600-xdma";
- 				reg = <0x1e6e7000 0x100>;
++		gfx_memory: framebuffer {
++			size = <0x01000000>;
++			alignment = <0x01000000>;
++			compatible = "shared-dma-pool";
++			reusable;
++		};
++	};
++
+ 	vcc_sdhci0: regulator-vcc-sdhci0 {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "SDHCI0 Vcc";
+@@ -300,3 +313,8 @@
+ 	vqmmc-supply = <&vccq_sdhci1>;
+ 	clk-phase-sd-hs = <7>, <200>;
+ };
++
++&gfx {
++	status = "okay";
++	memory-region = <&gfx_memory>;
++};
 -- 
 2.17.1
 
