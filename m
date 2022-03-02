@@ -1,66 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD7704CB22C
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 23:21:03 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F6844CB255
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 23:30:35 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K87qc5SHDz3bd6
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 09:21:00 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K882c3Dh4z3bcg
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 09:30:32 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=MtnSgvQx;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=VD19IUJb;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::730;
- helo=mail-qk1-x730.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f32;
+ helo=mail-qv1-xf32.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=MtnSgvQx; dkim-atps=neutral
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com
- [IPv6:2607:f8b0:4864:20::730])
+ header.s=google header.b=VD19IUJb; dkim-atps=neutral
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com
+ [IPv6:2607:f8b0:4864:20::f32])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K87qW1mCpz30Hp
- for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Mar 2022 09:20:55 +1100 (AEDT)
-Received: by mail-qk1-x730.google.com with SMTP id q4so2513369qki.11
- for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Mar 2022 14:20:55 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K882T4vkPz30J7
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Mar 2022 09:30:23 +1100 (AEDT)
+Received: by mail-qv1-xf32.google.com with SMTP id gm1so2708543qvb.7
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Mar 2022 14:30:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=IwOBwMpi2OwEzG0VtigJWsM6dutoMlGx5jRzY5Yz/Vc=;
- b=MtnSgvQxlGt5TGIFQMfRkRf4KK1L85s9MA4ZXLuK105X6YoXUOfkr173xoepXU0fiu
- UuhHi/gN1IKGbUa02Oi4DiEVaJZ/yqhWE6k0hILSueUBtPjBk8tj7hvZICj1J1mOVdmZ
- oUIkmayyOSwIO+lHl6kgMI1DLJJXj1VZG2GzU=
+ bh=ML24VFxrXfMfqzwDIQgpfFTM0/emw2jp9VMO0/xXk6E=;
+ b=VD19IUJbn22IqGQs1TEnEdJ37rFzmLayB1HYyyMoWx7NVuIy7o5mYADHLr1b8cOxcb
+ 3Qpv3FDvdxxZnrp4UQLLp+15C+GY2NT4O8omYxlurZrzNO470WmltkCPDLJFc8dKNvQB
+ KMM1JcMP2ZTm/PqIEJmdQXjsYEoiz1nngw/kM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=IwOBwMpi2OwEzG0VtigJWsM6dutoMlGx5jRzY5Yz/Vc=;
- b=0eFQJXLn7NABzN0EBOV+Of4F4j2hMvaFkYOQyQjzS2FnNkoZfKhAAbpwjj7ccjtO3/
- miEh3Xz0lunGF6qkHLCOLKNZITbatVJunPEDFsTiiUnMmZ7U7Squ/pycx+eNmNNTFD3y
- xkSMJI01Xj8qXAaLwWBvwLoAIiaM2lSz6+cKl2PA3JvSiaCagNQExzmGLl96eE21kmrz
- MuIyhk59HQsrm5VDStolP3DoTcBrozM8HfbltIUYT4cYYf+pe6KL8kYWtMWuZD0JM+W9
- h6aQ59jefR+2N62qGC42/iQnUke7mXRnIxg8VNVQmFuJWm4bjLBjodWogtRRyqneHMPw
- QaCw==
-X-Gm-Message-State: AOAM530WgB7c/E2meHNZQ3i3pwBmE27733mOp9gom77DAkyP++ZalSvc
- o8c6/8Xw0JYa7zOMmtpfhvdLtu1RbRC+OcuUBJg=
-X-Google-Smtp-Source: ABdhPJxvmmE3gaxqf1AN8AAcq15J2+/3h1dIbI7rXUBxAE1ecVlQbf15Jy/H6IC8/REhnKs2t2BL89C3wdGw7Mg0B6A=
-X-Received: by 2002:a05:620a:2fc:b0:649:a4e:c430 with SMTP id
- a28-20020a05620a02fc00b006490a4ec430mr17818002qko.347.1646259651990; Wed, 02
- Mar 2022 14:20:51 -0800 (PST)
+ bh=ML24VFxrXfMfqzwDIQgpfFTM0/emw2jp9VMO0/xXk6E=;
+ b=aKdEGVU7uS2NXji7XJBTTT0Qph6hT6bRemdMyHkmnv57zryO24dzuk5MIClSGK0WoT
+ uQ4MKGdBy5sEUIlSY0By/Nbli7hcpPPayhrfBmSE2m+1Tznh+d+y/3ro05j4C5V24C2A
+ fH0IwUTPsA9oB5RyqMf388oh8F5gQWMm4/4F1MFx3bTXQAsduPlW7DraVJSrWUjB0xf0
+ +5vyURneegZqQyqfBW/tJQPHzz+/F+l1QGvRGIbjeK0sTzGzSTID7i9jy1Vs3DoI7a/a
+ zh4dYYhxCSvI77tgA3RiP1ZKlSerEQn3lxtIkAYAf1ZhjQCR2eHOHM/dDjCZMshwMfRb
+ ygBw==
+X-Gm-Message-State: AOAM532Drj3/2u/C96D1ftOR70WwQiBDY/KR5qBoA1fpRSu6ua8WMSo/
+ UIgBgwdM/M0MlAKs7VE4DiQF4nFTf2Mm7jSK+dk=
+X-Google-Smtp-Source: ABdhPJzJtD+iy3qA83qK2b0/uPlG0vWYsMm4HqktSZgOxSO0FWDUN9MgnYNyp1h+Wqy5l3jmjQa5X2HV+/qsLwLVQrA=
+X-Received: by 2002:ad4:4347:0:b0:432:a1f0:f5aa with SMTP id
+ q7-20020ad44347000000b00432a1f0f5aamr21695306qvs.49.1646260220663; Wed, 02
+ Mar 2022 14:30:20 -0800 (PST)
 MIME-Version: 1.0
 References: <20220302173114.927476-1-clg@kaod.org>
- <20220302173114.927476-4-clg@kaod.org>
-In-Reply-To: <20220302173114.927476-4-clg@kaod.org>
+ <20220302173114.927476-8-clg@kaod.org>
+In-Reply-To: <20220302173114.927476-8-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 2 Mar 2022 22:20:40 +0000
-Message-ID: <CACPK8XcWZ6jQEo4-78fMrSxqZW5Cc8ecsNf+j5X7av-HbJwMKg@mail.gmail.com>
-Subject: Re: [PATCH v2 03/10] dt-bindings: spi: Add Aspeed SMC controllers
- device tree binding
+Date: Wed, 2 Mar 2022 22:30:08 +0000
+Message-ID: <CACPK8Xesu-3cfH+fPvNGW=JfntTarTSv1njb1FBZ7pD2-TMbMA@mail.gmail.com>
+Subject: Re: [PATCH v2 07/10] spi: aspeed: Workaround AST2500 limitations
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -91,138 +90,56 @@ Sender: "Linux-aspeed"
 
 On Wed, 2 Mar 2022 at 17:31, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> The "interrupt" property is optional because it is only necessary for
-> controllers supporting DMAs (Not implemented yet in the new driver).
+> It is not possible to configure a full 128MB window for a chip of the
+> same size on the AST2500 SPI controller. For his case, the maximum
+
+typo: this
+
+> window size is restricted to 120MB for CE0.
 >
-> Cc: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 
 > ---
->  .../bindings/spi/aspeed,ast2600-fmc.yaml      | 90 +++++++++++++++++++
->  MAINTAINERS                                   |  9 ++
->  2 files changed, 99 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/spi/aspeed,ast2600-=
-fmc.yaml
+>  drivers/spi/spi-aspeed-smc.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 >
-> diff --git a/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yam=
-l b/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
-> new file mode 100644
-> index 000000000000..0289a4f52196
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
-> @@ -0,0 +1,90 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/spi/aspeed,ast2600-fmc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
+> index 974ab215ec34..e133984d3c95 100644
+> --- a/drivers/spi/spi-aspeed-smc.c
+> +++ b/drivers/spi/spi-aspeed-smc.c
+> @@ -445,6 +445,8 @@ static int aspeed_spi_set_window(struct aspeed_spi *a=
+spi,
+>   * - ioremap each window, not strictly necessary since the overall windo=
+w
+>   *   is correct.
+>   */
+> +static const struct aspeed_spi_data ast2500_spi_data;
 > +
-> +title: Aspeed SMC controllers bindings
-> +
-> +maintainers:
-> +  - Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-> +  - C=C3=A9dric Le Goater <clg@kaod.org>
-> +
-> +description: |
-> +  This binding describes the Aspeed Static Memory Controllers (FMC and
-> +  SPI) of the AST2400, AST2500 and AST2600 SOCs.
-> +
-> +allOf:
-> +  - $ref: "spi-controller.yaml#"
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2600-fmc
-> +      - aspeed,ast2600-spi
-> +      - aspeed,ast2500-fmc
-> +      - aspeed,ast2500-spi
-> +      - aspeed,ast2400-fmc
-> +      - aspeed,ast2400-spi
-> +
-> +  reg:
-> +    items:
-> +      - description: registers
-> +      - description: memory mapping
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +patternProperties:
-> +  "@[0-9a-f]+":
-> +    type: object
-> +
-> +    properties:
-> +      spi-rx-bus-width:
-> +        enum: [1, 2, 4]
-> +
-> +    required:
-> +      - reg
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/aspeed-scu-ic.h>
-> +    #include <dt-bindings/clock/ast2600-clock.h>
-> +
-> +    spi@1e620000 {
-> +        reg =3D <0x1e620000 0xc4>, <0x20000000 0x10000000>;
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +        compatible =3D "aspeed,ast2600-fmc";
-> +        clocks =3D <&syscon ASPEED_CLK_AHB>;
-> +        interrupts =3D <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
-> +        flash@0 {
-> +                reg =3D < 0 >;
-> +                compatible =3D "jedec,spi-nor";
-> +                spi-max-frequency =3D <50000000>;
-> +                spi-rx-bus-width =3D <2>;
-> +        };
-> +        flash@1 {
-> +                reg =3D < 1 >;
-> +                compatible =3D "jedec,spi-nor";
-> +                spi-max-frequency =3D <50000000>;
-> +                spi-rx-bus-width =3D <2>;
-> +        };
-> +        flash@2 {
-> +                reg =3D < 2 >;
-> +                compatible =3D "jedec,spi-nor";
-> +                spi-max-frequency =3D <50000000>;
-> +                spi-rx-bus-width =3D <2>;
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 4175103e928d..f5ab77548ef6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2925,6 +2925,15 @@ S:       Maintained
->  F:     Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
->  F:     drivers/mmc/host/sdhci-of-aspeed*
+>  static int aspeed_spi_chip_adjust_window(struct aspeed_spi_chip *chip,
+>                                          u32 local_offset, u32 size)
+>  {
+> @@ -453,6 +455,16 @@ static int aspeed_spi_chip_adjust_window(struct aspe=
+ed_spi_chip *chip,
+>         struct aspeed_spi_window *win =3D &windows[chip->cs];
+>         int ret;
 >
-> +ASPEED SMC SPI DRIVER
-> +M:     Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-> +M:     C=C3=A9dric Le Goater <clg@kaod.org>
-> +L:     linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
-> +L:     openbmc@lists.ozlabs.org (moderated for non-subscribers)
-> +L:     linux-spi@vger.kernel.org
-> +S:     Maintained
-> +F:     Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
+> +       /*
+> +        * Due to an HW issue on the AST2500 SPI controller, the CE0
+> +        * window size should be smaller than the maximum 128MB.
+> +        */
+> +       if (aspi->data =3D=3D &ast2500_spi_data && chip->cs =3D=3D 0 && s=
+ize =3D=3D SZ_128M) {
+> +               size =3D 120 << 20;
+> +               dev_info(aspi->dev, "CE%d window resized to %dMB (AST2500=
+ HW quirk)",
+> +                        chip->cs, size >> 20);
+> +       }
 > +
->  ASPEED VIDEO ENGINE DRIVER
->  M:     Eddie James <eajames@linux.ibm.com>
->  L:     linux-media@vger.kernel.org
+>         aspeed_spi_get_windows(aspi, windows);
+>
+>         /* Adjust this chip window */
 > --
 > 2.34.1
 >
