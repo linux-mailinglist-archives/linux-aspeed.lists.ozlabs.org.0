@@ -1,65 +1,68 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDDB04CB144
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 22:26:59 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1001D4CB21D
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 23:17:03 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K86dD731fz3brl
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 08:26:56 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K87l00HMYz3bfL
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 09:17:00 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=TGLsEu6t;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.161.44; helo=mail-oo1-f44.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com
- [209.85.161.44])
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::82b;
+ helo=mail-qt1-x82b.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=TGLsEu6t; dkim-atps=neutral
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com
+ [IPv6:2607:f8b0:4864:20::82b])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K86d66x8Kz30QR
- for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Mar 2022 08:26:49 +1100 (AEDT)
-Received: by mail-oo1-f44.google.com with SMTP id
- k13-20020a4a948d000000b003172f2f6bdfso3495157ooi.1
- for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Mar 2022 13:26:49 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K87ks6bl3z2yph
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Mar 2022 09:16:51 +1100 (AEDT)
+Received: by mail-qt1-x82b.google.com with SMTP id bt3so3069685qtb.0
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 02 Mar 2022 14:16:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=qFb1AQXGto8rW2v4HENONQPyad9zpp2Lw3iyL5e2hcw=;
+ b=TGLsEu6t++tXeHwptrWF0tmRCBkIkJHDm4VFCqheaPgdP8JHAuqJrpBzSg8NQ9fp8F
+ XGDXGLQ9OJkcaVoPa7f/ow+MOL8mQC7QNnJ6ZoiOKaO0jqhk5+Mefa7o+fgkgIQA8GqA
+ QF3kXKcFGBmGfZhGMttHslQaXysRkuvCylHUI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=hbPLIPVEhqYqHfs1Um9iAPDP4qWKQ+uSdm7/6sopBSs=;
- b=pAGe6+rDWy/5dPGrnlP630oSKZZ8imoqU1489x6aTYXqrC9t44ocUzLq/Zvh7O+a68
- 8UNGV/LOkqhsFWy6tvXC2mFtSb564niENj6kPJNMRJldg1BmA1n2iJ53b1bkO5H7Pwdq
- 2Vq0K3outuQq5ED91GoeAk2kt1733YP8aIyn/DtkwzLpEQG/Xt6Pbm3NBbLEN0dumdmy
- DJXsUndLCJYwoXX///E4Xmr/AUwJXzgeRPFwjBo90iO9YP1fl7njPrdUeYcxtmuOIDw4
- hIVvcTWz7ZPBVDzGsXw+psgJ/aKE88PHSvot+7MQQ2+P6sNNkvCjwu+BdOBoVMiVH3JU
- FR1A==
-X-Gm-Message-State: AOAM530UCAd5pnBW5av0E8PdGLmHZGVVVae4FV+sX89cSftc5DVqYYIz
- 5PLcd1wjw3gwwHTORpQg2g==
-X-Google-Smtp-Source: ABdhPJze+wINl7VQoz5UIFxIOi5ofrkD+iYOPHxAw6NzR+bGkT+e8/nTZouORjU+OMOwKXIhDU/5pA==
-X-Received: by 2002:a05:6870:1242:b0:d3:6168:3191 with SMTP id
- 2-20020a056870124200b000d361683191mr1471979oao.9.1646256407349; 
- Wed, 02 Mar 2022 13:26:47 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213]) by smtp.gmail.com with ESMTPSA id
- p185-20020aca5bc2000000b002d97bda3871sm49303oib.54.2022.03.02.13.26.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Mar 2022 13:26:46 -0800 (PST)
-Received: (nullmailer pid 79377 invoked by uid 1000);
- Wed, 02 Mar 2022 21:26:45 -0000
-Date: Wed, 2 Mar 2022 15:26:45 -0600
-From: Rob Herring <robh@kernel.org>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v2 03/10] dt-bindings: spi: Add Aspeed SMC controllers
- device tree binding
-Message-ID: <Yh/hFS2XW9SjK4Pl@robh.at.kernel.org>
-References: <20220302173114.927476-1-clg@kaod.org>
- <20220302173114.927476-4-clg@kaod.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=qFb1AQXGto8rW2v4HENONQPyad9zpp2Lw3iyL5e2hcw=;
+ b=X6OMelSD/OKlMqzfQaHPEHp8GumNMnduqVKVBvrT+j74Q7Kityxr0DEMheU+dya2C0
+ Zg7iInSHCORkj89dZyudNPj2HSZEddfy5hR/iX8voTVTt6a+JtxIChl+nKjHx6c6E5YR
+ PO+Ox8TQOZpfAf+vyuDqTkDXjkKNU51IKwaq7zL0HrTFaJUrseuf0UUaTe4mv100OwqU
+ YwswXJE3UCXc/Sgh/I35OZeiDFk//Nyz16StyO5BcwDa9z6yTpqeofGNQojizRst8hRS
+ BwX4MquSugCYtXGLQjTIU4UCKsLbWXqKH//IuPvu5zqfU6M38dPbGAtFjgHITBGWsjka
+ xt1Q==
+X-Gm-Message-State: AOAM532OQJY9mvXpnjpsbA6C9kZBNmqpHrr6hocYrhYIL8J3uYq3jA4N
+ cLkLKum7l1Al6cCr8Z44cTadU5CFlXCGelzjbEs=
+X-Google-Smtp-Source: ABdhPJzkJ0p0YYS9ZflUh9jGYrmogt5rxOjUJMxJJf96LA6FonDZUDNtoD1pgTQcDhJlQxMnIZ36OkJc+TL5n2hUco4=
+X-Received: by 2002:ac8:5b82:0:b0:2cf:232d:b1f8 with SMTP id
+ a2-20020ac85b82000000b002cf232db1f8mr25724587qta.58.1646259409105; Wed, 02
+ Mar 2022 14:16:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220302173114.927476-4-clg@kaod.org>
+References: <20220302173114.927476-1-clg@kaod.org>
+ <20220302173114.927476-2-clg@kaod.org>
+In-Reply-To: <20220302173114.927476-2-clg@kaod.org>
+From: Joel Stanley <joel@jms.id.au>
+Date: Wed, 2 Mar 2022 22:16:35 +0000
+Message-ID: <CACPK8XcQfC6qfMDLzzLeK5BKmBnrspruvruJ9xGdydZgWefVOw@mail.gmail.com>
+Subject: Re: [PATCH v2 01/10] mtd: spi-nor: aspeed: Rename Kconfig option
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,152 +74,64 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
- linux-aspeed@lists.ozlabs.org, Tudor Ambarus <tudor.ambarus@microchip.com>,
- Richard Weinberger <richard@nod.at>, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- linux-mtd@lists.infradead.org, Miquel Raynal <miquel.raynal@bootlin.com>,
- Pratyush Yadav <p.yadav@ti.com>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree <devicetree@vger.kernel.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Tudor Ambarus <tudor.ambarus@microchip.com>,
+ Richard Weinberger <richard@nod.at>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, linux-spi@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Pratyush Yadav <p.yadav@ti.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Mar 02, 2022 at 06:31:07PM +0100, Cédric Le Goater wrote:
-> The "interrupt" property is optional because it is only necessary for
-> controllers supporting DMAs (Not implemented yet in the new driver).
-> 
-> Cc: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+On Wed, 2 Mar 2022 at 17:31, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> To prepare transition to the new Aspeed SMC SPI controller driver using
+> the spi-mem interface, change the kernel CONFIG option of the current
+> driver to reflect that the implementation uses the MTD SPI-NOR interface.
+> Once the new driver is sufficiently exposed, we should remove the old one=
+.
+>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+As the maintianer of the aspeed systems and the openbmc kernel, I
+think this makes the most sense.
+
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+
 > ---
->  .../bindings/spi/aspeed,ast2600-fmc.yaml      | 90 +++++++++++++++++++
->  MAINTAINERS                                   |  9 ++
->  2 files changed, 99 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml b/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
-> new file mode 100644
-> index 000000000000..0289a4f52196
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
-> @@ -0,0 +1,90 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/spi/aspeed,ast2600-fmc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Aspeed SMC controllers bindings
-> +
-> +maintainers:
-> +  - Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-> +  - Cédric Le Goater <clg@kaod.org>
-> +
-> +description: |
-> +  This binding describes the Aspeed Static Memory Controllers (FMC and
-> +  SPI) of the AST2400, AST2500 and AST2600 SOCs.
-> +
-> +allOf:
-> +  - $ref: "spi-controller.yaml#"
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2600-fmc
-> +      - aspeed,ast2600-spi
-> +      - aspeed,ast2500-fmc
-> +      - aspeed,ast2500-spi
-> +      - aspeed,ast2400-fmc
-> +      - aspeed,ast2400-spi
-> +
-> +  reg:
-> +    items:
-> +      - description: registers
-> +      - description: memory mapping
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +patternProperties:
-> +  "@[0-9a-f]+":
-> +    type: object
-> +
-> +    properties:
-> +      spi-rx-bus-width:
-> +        enum: [1, 2, 4]
-> +
-> +    required:
-> +      - reg
-
-No need for required here, spi-controller.yaml already enforces that.
-
-Otherwise,
-
-Reviewed-by: Rob Herring <robh@kernel.org>
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/aspeed-scu-ic.h>
-> +    #include <dt-bindings/clock/ast2600-clock.h>
-> +
-> +    spi@1e620000 {
-> +        reg = <0x1e620000 0xc4>, <0x20000000 0x10000000>;
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        compatible = "aspeed,ast2600-fmc";
-> +        clocks = <&syscon ASPEED_CLK_AHB>;
-> +        interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
-> +        flash@0 {
-> +                reg = < 0 >;
-> +                compatible = "jedec,spi-nor";
-> +                spi-max-frequency = <50000000>;
-> +                spi-rx-bus-width = <2>;
-> +        };
-> +        flash@1 {
-> +                reg = < 1 >;
-> +                compatible = "jedec,spi-nor";
-> +                spi-max-frequency = <50000000>;
-> +                spi-rx-bus-width = <2>;
-> +        };
-> +        flash@2 {
-> +                reg = < 2 >;
-> +                compatible = "jedec,spi-nor";
-> +                spi-max-frequency = <50000000>;
-> +                spi-rx-bus-width = <2>;
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 4175103e928d..f5ab77548ef6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2925,6 +2925,15 @@ S:	Maintained
->  F:	Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
->  F:	drivers/mmc/host/sdhci-of-aspeed*
->  
-> +ASPEED SMC SPI DRIVER
-> +M:	Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-> +M:	Cédric Le Goater <clg@kaod.org>
-> +L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
-> +L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
-> +L:	linux-spi@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
-> +
->  ASPEED VIDEO ENGINE DRIVER
->  M:	Eddie James <eajames@linux.ibm.com>
->  L:	linux-media@vger.kernel.org
-> -- 
+>  drivers/mtd/spi-nor/controllers/Kconfig  | 2 +-
+>  drivers/mtd/spi-nor/controllers/Makefile | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/mtd/spi-nor/controllers/Kconfig b/drivers/mtd/spi-no=
+r/controllers/Kconfig
+> index 5c0e0ec2e6d1..876a47042fec 100644
+> --- a/drivers/mtd/spi-nor/controllers/Kconfig
+> +++ b/drivers/mtd/spi-nor/controllers/Kconfig
+> @@ -1,5 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> -config SPI_ASPEED_SMC
+> +config SPI_ASPEED_SMC_MTD_SPI_NOR
+>         tristate "Aspeed flash controllers in SPI mode"
+>         depends on ARCH_ASPEED || COMPILE_TEST
+>         depends on HAS_IOMEM && OF
+> diff --git a/drivers/mtd/spi-nor/controllers/Makefile b/drivers/mtd/spi-n=
+or/controllers/Makefile
+> index e7abba491d98..1e28297fb1e8 100644
+> --- a/drivers/mtd/spi-nor/controllers/Makefile
+> +++ b/drivers/mtd/spi-nor/controllers/Makefile
+> @@ -1,5 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> -obj-$(CONFIG_SPI_ASPEED_SMC)   +=3D aspeed-smc.o
+> +obj-$(CONFIG_SPI_ASPEED_SMC_MTD_SPI_NOR)       +=3D aspeed-smc.o
+>  obj-$(CONFIG_SPI_HISI_SFC)     +=3D hisi-sfc.o
+>  obj-$(CONFIG_SPI_NXP_SPIFI)    +=3D nxp-spifi.o
+>  obj-$(CONFIG_SPI_INTEL_SPI)    +=3D intel-spi.o
+> --
 > 2.34.1
-> 
-> 
+>
