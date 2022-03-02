@@ -2,90 +2,41 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2249C4CB20A
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 23:13:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 886214CB20B
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 23:13:17 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K87fc1jHzz3bZf
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 09:13:12 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=A1xSV6w+;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K87ff4Zdpz3byZ
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 09:13:14 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linuxfoundation.org (client-ip=2a00:1450:4864:20::129;
- helo=mail-lf1-x129.google.com; envelope-from=torvalds@linuxfoundation.org;
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=ucw.cz
+ (client-ip=46.255.230.98; helo=jabberwock.ucw.cz; envelope-from=pavel@ucw.cz;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org
- header.a=rsa-sha256 header.s=google header.b=A1xSV6w+; 
- dkim-atps=neutral
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
+X-Greylist: delayed 333 seconds by postgrey-1.36 at boromir;
+ Wed, 02 Mar 2022 20:00:12 AEDT
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K7Yzq428fz30LL
- for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Mar 2022 10:56:05 +1100 (AEDT)
-Received: by mail-lf1-x129.google.com with SMTP id b11so29563878lfb.12
- for <linux-aspeed@lists.ozlabs.org>; Tue, 01 Mar 2022 15:56:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4H0hy1V+vsSL/J4iRHU98fs6Ghx9E/bawvPg5OjXQmQ=;
- b=A1xSV6w+mnGI8KddmZFT+SVp47UhRqZlj7dZE7Ue1BgWjGw2+QCc51Zb6PIPvKiXuh
- /TGd1P3o63R0kiFyLwVU+kzDBf6Kt9wFSZwwJYnrWAqavu9szp3nfmKm0Qe68N3l8Mdl
- bWvesgtwBf4BWRSm4aUiCmj0pmAaHYwmzAjUs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4H0hy1V+vsSL/J4iRHU98fs6Ghx9E/bawvPg5OjXQmQ=;
- b=jo0uD8CNlQjJzFbBYHEJPFb4HBTGWpP9zldeG7PE+GPcE8jzlFFOxC4GG5bBElMsSi
- xGYS8razhiUeL0EAnnaH/cnwAPWZrhVniRoHBjQEgWAFLtYQYdbtbHv1wKoHeuhAKtfL
- eMXDCSzx5UxCs2bUedzcD80tw+busAo6fU/IVGt/kTy4IEdalGa1xlalrR4rmxBPw3s5
- /iddVH5yfnR7ckFpp4AuCnKC42F8WeJlxJYv05Ozm0/DwKaKu9hkq8fvA74qqH+hXXnj
- tUaqKJfDyuL/cfp3yF4jXyvvxrZu55ybSBBx7UhNG5eb3Wuo5+vMascd7vQGkf5wXvVU
- k/KA==
-X-Gm-Message-State: AOAM532GubQjgA6lEPDzFRuCG1ovrcKCxM1pkbQ1G9QAyzJMEyYX8nf4
- o7mcI1iEG6m/FnrEz4w514i64C5xNzV+m1PKdm0=
-X-Google-Smtp-Source: ABdhPJxDfUI4RFaAM0rC/3RFzOI+TzEkA6yA9GMXPYs241bHfWZV5k0SzlHkvM9egpw0N1Ia5Nc4aQ==
-X-Received: by 2002:ac2:43d9:0:b0:444:263b:d90f with SMTP id
- u25-20020ac243d9000000b00444263bd90fmr17220214lfl.467.1646178961522; 
- Tue, 01 Mar 2022 15:56:01 -0800 (PST)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com.
- [209.85.167.47]) by smtp.gmail.com with ESMTPSA id
- c19-20020a056512325300b004435b7107ddsm1730393lfr.185.2022.03.01.15.55.58
- for <linux-aspeed@lists.ozlabs.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Mar 2022 15:55:59 -0800 (PST)
-Received: by mail-lf1-f47.google.com with SMTP id bu29so35296lfb.0
- for <linux-aspeed@lists.ozlabs.org>; Tue, 01 Mar 2022 15:55:58 -0800 (PST)
-X-Received: by 2002:a05:6512:3042:b0:437:96f5:e68a with SMTP id
- b2-20020a056512304200b0043796f5e68amr17643498lfb.449.1646178958685; Tue, 01
- Mar 2022 15:55:58 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K7p3c69LSz3bbn
+ for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Mar 2022 20:00:12 +1100 (AEDT)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id 91B021C0B81; Wed,  2 Mar 2022 09:54:32 +0100 (CET)
+Date: Wed, 2 Mar 2022 09:54:32 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Joel Stanley <joel@jms.id.au>
+Subject: Re: [PATCH 0/2] leds: pca955x: Expose GPIOs for all pins
+Message-ID: <20220302085432.GA11054@duo.ucw.cz>
+References: <20210921043936.468001-1-andrew@aj.id.au>
+ <d2b85ad7-aef7-6088-03f5-cbd6e0bcab5d@kaod.org>
+ <CACPK8Xdvns7PK9t1ZutAbkJqhb5eRcoWCDySQGsfbtLv+XMvqQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220228110822.491923-1-jakobkoschel@gmail.com>
- <20220228110822.491923-3-jakobkoschel@gmail.com>
- <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
- <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
- <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com>
- <b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
- <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
- <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
- <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
- <7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com>
- <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
- <0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
-In-Reply-To: <0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 1 Mar 2022 15:55:42 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
-Message-ID: <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
-Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
- as a ptr
-To: David Laight <David.Laight@aculab.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="zhXaljGHf11kAtnf"
+Content-Disposition: inline
+In-Reply-To: <CACPK8Xdvns7PK9t1ZutAbkJqhb5eRcoWCDySQGsfbtLv+XMvqQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Approved-At: Thu, 03 Mar 2022 09:11:13 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -98,113 +49,80 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
- "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
- "linux1394-devel@lists.sourceforge.net"
- <linux1394-devel@lists.sourceforge.net>,
- "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
- linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
- KVM list <kvm@vger.kernel.org>, linux-scsi <linux-scsi@vger.kernel.org>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
- "kgdb-bugreport@lists.sourceforge.net" <kgdb-bugreport@lists.sourceforge.net>,
- "bcm-kernel-feedback-list@broadcom.com"
- <bcm-kernel-feedback-list@broadcom.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
- Linux PM <linux-pm@vger.kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Jakob Koschel <jakobkoschel@gmail.com>,
- "v9fs-developer@lists.sourceforge.net" <v9fs-developer@lists.sourceforge.net>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
- linux-block <linux-block@vger.kernel.org>, Netdev <netdev@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- linux-wireless <linux-wireless@vger.kernel.org>,
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
- "tipc-discussion@lists.sourceforge.net"
- <tipc-discussion@lists.sourceforge.net>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- dma <dmaengine@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Mike Rapoport <rppt@kernel.org>
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, linux-leds@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Mar 1, 2022 at 3:19 PM David Laight <David.Laight@aculab.com> wrote:
->
-> Having said that there are so few users of list_entry_is_head()
-> it is reasonable to generate two new names.
 
-Well, the problem is that the users of list_entry_is_head() may be few
-- but there are a number of _other_ ways to check "was that the HEAD
-pointer", and not all of them are necessarily correct.
+--zhXaljGHf11kAtnf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-IOW, different places do different random tests for "did we walk the
-whole loop without breaking out". And many of them happen to work. In
-fact, in practice, pretty much *all* of them happen to work, and you
-have to have the right struct layout and really really bad luck to hit
-a case of "type confusion ended up causing the test to not work".
+Hi!
 
-And *THAT* is the problem here. It's not the "there are 25ish places
-that current use list_entry_is_head()".
+> > > Without these patches the driver limits the number of pins exposed on
+> > > the gpiochip to the number of pins specified as GPIO in the devicetre=
+e,
+> > > but doesn't map between the GPIO and pin number spaces. The result is
+> > > that specifying offset or interleaved GPIOs in the devicetree gives
+> > > unexpected behaviour in userspace.
+> > >
+> > > By always exposing all pins as GPIOs the patches resolve the lack of
+> > > mapping between GPIO offsets and pins on the package in the driver by
+> > > ensuring we always have a 1-to-1 mapping.
+> > >
+> > > The issue is primarily addressed by patch 1/2. Patch 2/2 makes it
+> > > possible to not expose any pins as LEDs (and therefore make them all
+> > > accessible as GPIOs). This has a follow-on effect of allowing the dri=
+ver
+> > > to bind to a device instantiated at runtime without requiring a
+> > > description in the devicetree.
+> > >
+> > > I've tested the series under qemu to inspect the various interactions
+> > > between LEDs vs GPIOs as well as conflicting GPIO requests.
+>=20
+> > > Please review!
+> >
+> > This is simpler than the 'ngpio' business we had before.
+> >
+> > Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
+>=20
+> I saw that you recently merged some LED patches. I was wondering if
+> you could consider this series for v5.18. It still applies cleanly,
+> and we've been running it for a while now, so it's very well tested.
 
-It's the "there are ~480 places that use the type-confused HEAD entry
-that has been cast to the wrong type".
+Thanks, applied. I must say this is really ninja-mutant driver, but I
+see no better way.
 
-And THAT is why I think we'd be better off with that bigger change
-that simply means that you can't use the iterator variable at all
-outside the loop, and try to make it something where the compiler can
-help catch mis-uses.
++++ b/drivers/leds/leds-pca955x.c
+@@ -429,7 +429,7 @@ pca955x_get_pdata(struct i2c_client *client, struct pca=
+955x_chipdef *chip)
+        int count;
 
-Now, making the list_for_each_entry() thing force the iterator to NULL
-at the end of the loop does fix the problem. The issue I have with it
-is really just that you end up getting no warning at all from the
-compiler if you mix old-style and new-style semantics. Now, you *will*
-get an oops (if using a new-style iterator with an old-style check),
-but many of these things will be in odd driver code and may happen
-only for error cases.
+This really should be unsigned. Care to fix/submit a patch?
 
-And if you use a new-style check with an old-style iterator (ie some
-backport problem), you will probably end up getting random memory
-corruption, because you'll decide "it's not a HEAD entry", and then
-you'll actually *use* the HEAD that has the wrong type cast associated
-with it.
+Best regards,
+								Pavel
+--=20
+http://www.livejournal.com/~pavelmachek
 
-See what my worry is?
+--zhXaljGHf11kAtnf
+Content-Type: application/pgp-signature; name="signature.asc"
 
-With the "don't use iterator outside the loop" approach, the exact
-same code works in both the old world order and the new world order,
-and you don't have the semantic confusion. And *if* you try to use the
-iterator outside the loop, you'll _mostly_ (*) get a compiler warning
-about it not being initialized.
+-----BEGIN PGP SIGNATURE-----
 
-             Linus
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYh8wyAAKCRAw5/Bqldv6
+8oNLAJ96DjXmoElXBR+MSiaDzZLxaLlC0QCdGgbx+NMDlutN+emWDQPClInhLhc=
+=IHSy
+-----END PGP SIGNATURE-----
 
-(*) Unless somebody initializes the iterator pointer pointlessly.
-Which clearly does happen. Thus the "mostly". It's not perfect, and
-that's most definitely not nice - but it should at least hopefully
-make it that much harder to mess up.
+--zhXaljGHf11kAtnf--
