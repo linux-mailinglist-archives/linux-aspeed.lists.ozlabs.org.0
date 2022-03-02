@@ -2,63 +2,63 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A1314CABFC
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 18:32:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C444CAC08
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 18:32:45 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K81QH33fcz3byW
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 04:32:07 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K81Qy0QCBz3bwQ
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 04:32:42 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=softfail (domain owner discourages use of this
- host) smtp.mailfrom=kaod.org (client-ip=148.163.158.5;
+ host) smtp.mailfrom=kaod.org (client-ip=148.163.156.1;
  helo=mx0a-001b2d01.pphosted.com; envelope-from=clg@kaod.org;
  receiver=<UNKNOWN>)
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K81Q513ycz3brJ
- for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Mar 2022 04:31:55 +1100 (AEDT)
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 222GN1Vd006806; 
- Wed, 2 Mar 2022 17:31:24 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3ejc28se3y-1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K81Qv4BKxz30M3
+ for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Mar 2022 04:32:39 +1100 (AEDT)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 222FrqMW005719; 
+ Wed, 2 Mar 2022 17:32:15 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ejbmdt32p-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Mar 2022 17:31:24 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222HD6eq001668;
- Wed, 2 Mar 2022 17:31:21 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03fra.de.ibm.com with ESMTP id 3efbu9dy38-1
+ Wed, 02 Mar 2022 17:32:14 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 222HDSVA008084;
+ Wed, 2 Mar 2022 17:31:22 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04ams.nl.ibm.com with ESMTP id 3egbj1amfq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Mar 2022 17:31:21 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 222HVJ6n55771424
+ Wed, 02 Mar 2022 17:31:22 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 222HVKEU51511702
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 2 Mar 2022 17:31:19 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 11E6811C050;
+ Wed, 2 Mar 2022 17:31:20 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 64AFD4203F;
+ Wed,  2 Mar 2022 17:31:20 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BF6D642042;
  Wed,  2 Mar 2022 17:31:19 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6CB8711C054;
- Wed,  2 Mar 2022 17:31:18 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed,  2 Mar 2022 17:31:18 +0000 (GMT)
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Wed,  2 Mar 2022 17:31:19 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.58.125])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 07645220294;
- Wed,  2 Mar 2022 18:31:16 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 581E42200FE;
+ Wed,  2 Mar 2022 18:31:18 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: linux-spi@vger.kernel.org, linux-mtd@lists.infradead.org
-Subject: [PATCH v2 01/10] mtd: spi-nor: aspeed: Rename Kconfig option
-Date: Wed,  2 Mar 2022 18:31:05 +0100
-Message-Id: <20220302173114.927476-2-clg@kaod.org>
+Subject: [PATCH v2 02/10] ARM: dts: aspeed: Adjust "reg" property of FMC/SPI
+ controllers
+Date: Wed,  2 Mar 2022 18:31:06 +0100
+Message-Id: <20220302173114.927476-3-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220302173114.927476-1-clg@kaod.org>
 References: <20220302173114.927476-1-clg@kaod.org>
@@ -66,16 +66,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 5kqQgAyvQhzzbyqq2PnBEY-w7m14ksG1
-X-Proofpoint-GUID: 5kqQgAyvQhzzbyqq2PnBEY-w7m14ksG1
+X-Proofpoint-ORIG-GUID: UYF6sFSv9nuLXwvrpwtM6l_8y6ANseni
+X-Proofpoint-GUID: UYF6sFSv9nuLXwvrpwtM6l_8y6ANseni
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-02_12,2022-02-26_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 bulkscore=0 phishscore=0 spamscore=0 malwarescore=0
- lowpriorityscore=0 impostorscore=0 clxscore=1034 mlxscore=0 suspectscore=0
- mlxlogscore=694 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1034 impostorscore=0
+ phishscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0 adultscore=0
+ mlxlogscore=507 malwarescore=0 priorityscore=1501 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2201110000 definitions=main-2203020076
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -99,42 +99,112 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-To prepare transition to the new Aspeed SMC SPI controller driver using
-the spi-mem interface, change the kernel CONFIG option of the current
-driver to reflect that the implementation uses the MTD SPI-NOR interface.
-Once the new driver is sufficiently exposed, we should remove the old one=
-.
+This is compatible with the current driver and addresses issues when
+running 'make dt_binding_check'.
 
+Cc: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- drivers/mtd/spi-nor/controllers/Kconfig  | 2 +-
- drivers/mtd/spi-nor/controllers/Makefile | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ arch/arm/boot/dts/aspeed-g4.dtsi | 6 ++----
+ arch/arm/boot/dts/aspeed-g5.dtsi | 9 +++------
+ arch/arm/boot/dts/aspeed-g6.dtsi | 9 +++------
+ 3 files changed, 8 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/mtd/spi-nor/controllers/Kconfig b/drivers/mtd/spi-no=
-r/controllers/Kconfig
-index 5c0e0ec2e6d1..876a47042fec 100644
---- a/drivers/mtd/spi-nor/controllers/Kconfig
-+++ b/drivers/mtd/spi-nor/controllers/Kconfig
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
--config SPI_ASPEED_SMC
-+config SPI_ASPEED_SMC_MTD_SPI_NOR
- 	tristate "Aspeed flash controllers in SPI mode"
- 	depends on ARCH_ASPEED || COMPILE_TEST
- 	depends on HAS_IOMEM && OF
-diff --git a/drivers/mtd/spi-nor/controllers/Makefile b/drivers/mtd/spi-n=
-or/controllers/Makefile
-index e7abba491d98..1e28297fb1e8 100644
---- a/drivers/mtd/spi-nor/controllers/Makefile
-+++ b/drivers/mtd/spi-nor/controllers/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
--obj-$(CONFIG_SPI_ASPEED_SMC)	+=3D aspeed-smc.o
-+obj-$(CONFIG_SPI_ASPEED_SMC_MTD_SPI_NOR)	+=3D aspeed-smc.o
- obj-$(CONFIG_SPI_HISI_SFC)	+=3D hisi-sfc.o
- obj-$(CONFIG_SPI_NXP_SPIFI)	+=3D nxp-spifi.o
- obj-$(CONFIG_SPI_INTEL_SPI)	+=3D intel-spi.o
+diff --git a/arch/arm/boot/dts/aspeed-g4.dtsi b/arch/arm/boot/dts/aspeed-=
+g4.dtsi
+index f14dace34c5a..9ae67e83cf60 100644
+--- a/arch/arm/boot/dts/aspeed-g4.dtsi
++++ b/arch/arm/boot/dts/aspeed-g4.dtsi
+@@ -54,8 +54,7 @@ ahb {
+ 		ranges;
+=20
+ 		fmc: spi@1e620000 {
+-			reg =3D < 0x1e620000 0x94
+-				0x20000000 0x10000000 >;
++			reg =3D <0x1e620000 0x94>, <0x20000000 0x10000000>;
+ 			#address-cells =3D <1>;
+ 			#size-cells =3D <0>;
+ 			compatible =3D "aspeed,ast2400-fmc";
+@@ -91,8 +90,7 @@ flash@4 {
+ 		};
+=20
+ 		spi: spi@1e630000 {
+-			reg =3D < 0x1e630000 0x18
+-				0x30000000 0x10000000 >;
++			reg =3D <0x1e630000 0x18>, <0x30000000 0x10000000>;
+ 			#address-cells =3D <1>;
+ 			#size-cells =3D <0>;
+ 			compatible =3D "aspeed,ast2400-spi";
+diff --git a/arch/arm/boot/dts/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed-=
+g5.dtsi
+index 7495f93c5069..c3e0a8e13c8a 100644
+--- a/arch/arm/boot/dts/aspeed-g5.dtsi
++++ b/arch/arm/boot/dts/aspeed-g5.dtsi
+@@ -55,8 +55,7 @@ ahb {
+ 		ranges;
+=20
+ 		fmc: spi@1e620000 {
+-			reg =3D < 0x1e620000 0xc4
+-				0x20000000 0x10000000 >;
++			reg =3D <0x1e620000 0xc4>, <0x20000000 0x10000000>;
+ 			#address-cells =3D <1>;
+ 			#size-cells =3D <0>;
+ 			compatible =3D "aspeed,ast2500-fmc";
+@@ -84,8 +83,7 @@ flash@2 {
+ 		};
+=20
+ 		spi1: spi@1e630000 {
+-			reg =3D < 0x1e630000 0xc4
+-				0x30000000 0x08000000 >;
++			reg =3D <0x1e630000 0xc4>, <0x30000000 0x08000000>;
+ 			#address-cells =3D <1>;
+ 			#size-cells =3D <0>;
+ 			compatible =3D "aspeed,ast2500-spi";
+@@ -106,8 +104,7 @@ flash@1 {
+ 		};
+=20
+ 		spi2: spi@1e631000 {
+-			reg =3D < 0x1e631000 0xc4
+-				0x38000000 0x08000000 >;
++			reg =3D <0x1e631000 0xc4>, <0x38000000 0x08000000>;
+ 			#address-cells =3D <1>;
+ 			#size-cells =3D <0>;
+ 			compatible =3D "aspeed,ast2500-spi";
+diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-=
+g6.dtsi
+index c32e87fad4dc..1ad05dde19d2 100644
+--- a/arch/arm/boot/dts/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+@@ -95,8 +95,7 @@ gic: interrupt-controller@40461000 {
+ 			};
+=20
+ 		fmc: spi@1e620000 {
+-			reg =3D < 0x1e620000 0xc4
+-				0x20000000 0x10000000 >;
++			reg =3D <0x1e620000 0xc4>, <0x20000000 0x10000000>;
+ 			#address-cells =3D <1>;
+ 			#size-cells =3D <0>;
+ 			compatible =3D "aspeed,ast2600-fmc";
+@@ -124,8 +123,7 @@ flash@2 {
+ 		};
+=20
+ 		spi1: spi@1e630000 {
+-			reg =3D < 0x1e630000 0xc4
+-				0x30000000 0x10000000 >;
++			reg =3D <0x1e630000 0xc4>, <0x30000000 0x10000000>;
+ 			#address-cells =3D <1>;
+ 			#size-cells =3D <0>;
+ 			compatible =3D "aspeed,ast2600-spi";
+@@ -146,8 +144,7 @@ flash@1 {
+ 		};
+=20
+ 		spi2: spi@1e631000 {
+-			reg =3D < 0x1e631000 0xc4
+-				0x50000000 0x10000000 >;
++			reg =3D <0x1e631000 0xc4>, <0x50000000 0x10000000>;
+ 			#address-cells =3D <1>;
+ 			#size-cells =3D <0>;
+ 			compatible =3D "aspeed,ast2600-spi";
 --=20
 2.34.1
 
