@@ -2,11 +2,11 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9849A4C9B75
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 03:50:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBE24C9B74
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 03:50:50 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K7dsP4fkzz3bpj
-	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 13:50:49 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K7dsM5YxXz3bbw
+	for <lists+linux-aspeed@lfdr.de>; Wed,  2 Mar 2022 13:50:47 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
@@ -17,10 +17,10 @@ Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K7dsC5h3Wz3bbj
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K7dsC3rRWz3bZf
  for <linux-aspeed@lists.ozlabs.org>; Wed,  2 Mar 2022 13:50:39 +1100 (AEDT)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 2222eJP7029206;
+ by twspam01.aspeedtech.com with ESMTP id 2222eJgK029207;
  Wed, 2 Mar 2022 10:40:19 +0800 (GMT-8)
  (envelope-from tommy_huang@aspeedtech.com)
 Received: from tommy0527-VirtualBox.aspeedtech.com (192.168.2.141) by
@@ -32,17 +32,19 @@ To: <joel@jms.id.au>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <linux-aspeed@lists.ozlabs.org>, <dri-devel@lists.freedesktop.org>,
  <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 0/5] Add Aspeed AST2600 soc display support
-Date: Wed, 2 Mar 2022 10:49:25 +0800
-Message-ID: <20220302024930.18758-1-tommy_huang@aspeedtech.com>
+Subject: [PATCH v6 1/5] ARM: dts: aspeed: Add GFX node to AST2600
+Date: Wed, 2 Mar 2022 10:49:26 +0800
+Message-ID: <20220302024930.18758-2-tommy_huang@aspeedtech.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220302024930.18758-1-tommy_huang@aspeedtech.com>
+References: <20220302024930.18758-1-tommy_huang@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [192.168.2.141]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 2222eJP7029206
+X-MAIL: twspam01.aspeedtech.com 2222eJgK029207
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,65 +61,38 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-v6:
-  Remove some unnecessary reset patch.
-  Refine patch format.
-  Add detail explain of SOC display reset bits.
+From: Joel Stanley <joel@jms.id.au>
 
-v5:
-  Add lost reset define.
+The GFX device is present in the AST2600 SoC.
 
-v4:
-  Add necessary reset control for ast2600.
-  Add chip caps for futher use.
-  These code are test on AST2500 and AST2600 by below steps.
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Tommy Haung <tommy_huang@aspeedtech.com>
+---
+ arch/arm/boot/dts/aspeed-g6.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-  1. Add below config to turn VT and LOGO on.
-
-	CONFIG_TTY=y
-	CONFIG_VT=y
-	CONFIG_CONSOLE_TRANSLATIONS=y
-	CONFIG_VT_CONSOLE=y
-	CONFIG_VT_CONSOLE_SLEEP=y
-	CONFIG_HW_CONSOLE=y
-	CONFIG_VT_HW_CONSOLE_BINDING=y
-	CONFIG_UNIX98_PTYS=y
-	CONFIG_LDISC_AUTOLOAD=y
-	CONFIG_DEVMEM=y
-	CONFIG_DUMMY_CONSOLE=y
-	CONFIG_FRAMEBUFFER_CONSOLE=y
-	CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
-	CONFIG_LOGO=y
-	CONFIG_LOGO_LINUX_CLUT224=y
-
-  2. The Linux logo will be shown on the screen, when the BMC boot in Linux.
-
-v3:
-  Refine the patch for clear separate purpose.
-  Skip to send devicetree patch
-
-v2:
-  Remove some unnecessary patch.
-  Refine for reviwer request.
-
-v1:
-  First add patch.
-
-Joel Stanley (2):
-  ARM: dts: aspeed: Add GFX node to AST2600
-  ARM: dts: aspeed: ast2600-evb: Enable GFX device
-
-Tommy Haung (3):
-  drm/aspeed: Update INTR_STS handling
-  drm/aspeed: Add AST2600 chip support
-  ARM: dtsi: aspeed: Modified gfx reset control
-
- arch/arm/boot/dts/aspeed-ast2600-evb.dts | 18 ++++++++++++++++++
- arch/arm/boot/dts/aspeed-g6.dtsi         | 11 +++++++++++
- drivers/gpu/drm/aspeed/aspeed_gfx.h      |  1 +
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c  | 15 ++++++++++++++-
- 4 files changed, 44 insertions(+), 1 deletion(-)
-
+diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
+index 1b47be1704f8..e38c3742761b 100644
+--- a/arch/arm/boot/dts/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+@@ -351,6 +351,17 @@
+ 				quality = <100>;
+ 			};
+ 
++			gfx: display@1e6e6000 {
++				compatible = "aspeed,ast2600-gfx", "aspeed,ast2500-gfx", "syscon";
++				reg = <0x1e6e6000 0x1000>;
++				reg-io-width = <4>;
++				clocks = <&syscon ASPEED_CLK_GATE_D1CLK>;
++				resets = <&syscon ASPEED_RESET_GRAPHICS>;
++				syscon = <&syscon>;
++				status = "disabled";
++				interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>;
++			};
++
+ 			xdma: xdma@1e6e7000 {
+ 				compatible = "aspeed,ast2600-xdma";
+ 				reg = <0x1e6e7000 0x100>;
 -- 
 2.17.1
 
