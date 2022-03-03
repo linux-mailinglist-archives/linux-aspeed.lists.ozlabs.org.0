@@ -2,64 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B2964CC60F
-	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 20:35:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD8B24CC828
+	for <lists+linux-aspeed@lfdr.de>; Thu,  3 Mar 2022 22:36:03 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K8h5j2LRyz3c3h
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 06:35:05 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K8knD2MMYz3c3Y
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 08:36:00 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=O8pgv7tG;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=d4iSdfFL;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1;
- helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=O8pgv7tG; 
- dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::836;
+ helo=mail-qt1-x836.google.com; envelope-from=joel.stan@gmail.com;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=d4iSdfFL; dkim-atps=neutral
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
+ [IPv6:2607:f8b0:4864:20::836])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K8h5Z0jQzz3bZf
- for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Mar 2022 06:34:57 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E268661B40
- for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Mar 2022 19:34:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A51AC004E1
- for <linux-aspeed@lists.ozlabs.org>; Thu,  3 Mar 2022 19:34:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646336094;
- bh=qZLIT90F4XcplM2Lo3kJ4q65/znkvPWFcOp2eDwbEIs=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=O8pgv7tGknqom+09KiuHD5GRcYP/ohbBHnXPelng8Yi0MmNgyuNCc8GkwVCINEy7P
- HhDeTtYhnm98tBJYI0e7FYR4OPj1mE/7nlJDO0RLz7Z7PghGTJvJN5cYn6He6nmemH
- 6SXsaoJwKkL2Ees+CBz7ah+TrQyFuJ3ecLeqwD3tbMLxst3tk2bGFYKJz7K5MBpavY
- KgKsWaVfv1UASAmeg/OGip1yhG0cdl41ogh2gYsbPqHEg6Pl5p/n7Zr0+bLdob4y0Q
- YPILwxzcPQfOtJlHG486I4nH3sZZYSZGsEWYXeVQjWFPpZvNgXtuVKjtJ7lf9BzLZB
- KGzlM4rSEqEQw==
-Received: by mail-ej1-f53.google.com with SMTP id p15so12866001ejc.7
- for <linux-aspeed@lists.ozlabs.org>; Thu, 03 Mar 2022 11:34:54 -0800 (PST)
-X-Gm-Message-State: AOAM530pwhp2N3JfVjhE1Q5Xe790RNOKcFuoE12iGK+ilULIv+2eigI1
- i7GSffd9HGx7rzxAd7yw4rj85myuNJ3PAQc2Wg==
-X-Google-Smtp-Source: ABdhPJx0hlwzgKGdlH4tw49VP50LJrLmoRLBkcohsBvqowt5gK8H0KLMAqPTBTvqX8a4DBd0nJg6hrqm54G1z2AvljU=
-X-Received: by 2002:a17:906:181a:b0:6d0:ebf5:c064 with SMTP id
- v26-20020a170906181a00b006d0ebf5c064mr27654515eje.82.1646336092554; Thu, 03
- Mar 2022 11:34:52 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K8kn51CVfz3bbm
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Mar 2022 08:35:53 +1100 (AEDT)
+Received: by mail-qt1-x836.google.com with SMTP id s15so5814468qtk.10
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 03 Mar 2022 13:35:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=L1Q9sdnTqYlZlLU7twPdWgz9bcNxdvX07ZYQ1tXE7K4=;
+ b=d4iSdfFLz79BntOhrp2p23HpQHlgolCX34pjwXD+Bt64bl6GqMOLNaU7D0XXuJYsI0
+ +yY46c+Q+80iklOBa6DgVfWb+h2jyvOtLH4TaaK3dxZ1SEeoAtTj4zw2Ug4CQR1dN11F
+ Ws8OWXekp6+7uJFhnPWiATWP6JI95i0+Tke3Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=L1Q9sdnTqYlZlLU7twPdWgz9bcNxdvX07ZYQ1tXE7K4=;
+ b=BmcElt6P5it9pXaUstS3RLAHDMJn8wNzIGFnCHXAknury/z73aIbmY5+c5CSWZn3bo
+ BnHtzJGFYkYOrwlzD/zSAguZQvltllsLtuCQiFDMlBfHobLfGwxqmRbtd/nvx2r1wRMh
+ 6cWnYxl5Pd2piCaZ1MV8rALlRdlLVFtRNhHz8niZtl6qM9Ai1A6f26mi075gnh85zK3o
+ UeUi0pv6gclXZxGKuj3Wvkha26DXSvXldvod2cEG0XoeioLa2364OmgzCHNv+Iv+mtUg
+ k13wtbI/KhAYU74kte5cnOvL89KbLnVwh9Ky8pDiHy9eHqSewkhpHhYX4VwgqkPiSkEL
+ zdvw==
+X-Gm-Message-State: AOAM5320bONs0974QwDtKrFQucTE8+toDEl4QX3efudCR90+Y/JnFUeN
+ zchM2uu7OJCrzWnVRdnRA2mg++VX7vM3czw5ELk=
+X-Google-Smtp-Source: ABdhPJx1dtBQ1EOQRQQ2DfFAxZ+hxlYYPAxznboh4jmMsmSM2GTXYrz2DJR6SYcMuO7VVOrl354ZqMz2TfqnaZuFIUs=
+X-Received: by 2002:ac8:5b82:0:b0:2cf:232d:b1f8 with SMTP id
+ a2-20020ac85b82000000b002cf232db1f8mr29367893qta.58.1646343348365; Thu, 03
+ Mar 2022 13:35:48 -0800 (PST)
 MIME-Version: 1.0
 References: <20220302051056.678367-1-joel@jms.id.au>
  <Yh+w7+CdtYYJoRkh@robh.at.kernel.org>
-In-Reply-To: <Yh+w7+CdtYYJoRkh@robh.at.kernel.org>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 3 Mar 2022 13:34:40 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+zDTfZaYf3H98rub8e-fSmtFFQ_ok=cQ3bqPojx0_Ckg@mail.gmail.com>
-Message-ID: <CAL_Jsq+zDTfZaYf3H98rub8e-fSmtFFQ_ok=cQ3bqPojx0_Ckg@mail.gmail.com>
+ <CAL_Jsq+zDTfZaYf3H98rub8e-fSmtFFQ_ok=cQ3bqPojx0_Ckg@mail.gmail.com>
+In-Reply-To: <CAL_Jsq+zDTfZaYf3H98rub8e-fSmtFFQ_ok=cQ3bqPojx0_Ckg@mail.gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 3 Mar 2022 21:35:36 +0000
+Message-ID: <CACPK8XfYRHTPz50wgNp7Q0Pi4rKVag9-bLD7kHcyKrHwHdKW7A@mail.gmail.com>
 Subject: Re: [PATCH] dt-bindings: gpu: Convert aspeed-gfx bindings to yaml
-To: Joel Stanley <joel@jms.id.au>
+To: Rob Herring <robh@kernel.org>, Andrew Jeffery <andrew@aj.id.au>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -72,32 +73,37 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel@ffwll.ch>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Wed, Mar 2, 2022 at 12:01 PM Rob Herring <robh@kernel.org> wrote:
+On Thu, 3 Mar 2022 at 19:34, Rob Herring <robh@kernel.org> wrote:
 >
-> On Wed, Mar 02, 2022 at 03:40:56PM +1030, Joel Stanley wrote:
-> > Convert the bindings to yaml and add the ast2600 compatible string.
+> On Wed, Mar 2, 2022 at 12:01 PM Rob Herring <robh@kernel.org> wrote:
 > >
-> > Signed-off-by: Joel Stanley <joel@jms.id.au>
-> > ---
-> >  .../devicetree/bindings/gpu/aspeed,gfx.yaml   | 69 +++++++++++++++++++
-> >  .../devicetree/bindings/gpu/aspeed-gfx.txt    | 41 -----------
-> >  2 files changed, 69 insertions(+), 41 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
+> > On Wed, Mar 02, 2022 at 03:40:56PM +1030, Joel Stanley wrote:
+> > > Convert the bindings to yaml and add the ast2600 compatible string.
+> > >
+> > > Signed-off-by: Joel Stanley <joel@jms.id.au>
+> > > ---
+> > >  .../devicetree/bindings/gpu/aspeed,gfx.yaml   | 69 +++++++++++++++++++
+> > >  .../devicetree/bindings/gpu/aspeed-gfx.txt    | 41 -----------
+> > >  2 files changed, 69 insertions(+), 41 deletions(-)
+> > >  create mode 100644 Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
+> > >  delete mode 100644 Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
+> >
+> > Applied, thanks.
 >
-> Applied, thanks.
+> Uggg, now dropped...
+>
+> What's Documentation/devicetree/bindings/mfd/aspeed-gfx.txt and also
+> the example in Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml?
+> Please sort those out.
 
-Uggg, now dropped...
+I think the aspeed-gfx.txt can be deleted. And the example in the
+pinctrl bindings needs to be updated with the required properties.
 
-What's Documentation/devicetree/bindings/mfd/aspeed-gfx.txt and also
-the example in Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml?
-Please sort those out.
-
-Rob
+Andrew, can you clarify what's going on with those other files?
