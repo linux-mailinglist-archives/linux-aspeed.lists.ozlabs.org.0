@@ -1,77 +1,123 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EDBE4CCA67
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 01:03:50 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD2A04CCADE
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 01:36:05 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K8p3l4Fq9z2yLv
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 11:03:47 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K8pmy5P8Xz2yJw
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 11:36:02 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=aksTpisV;
+	dkim=pass (1024-bit key; unprotected) header.d=quantacorp.onmicrosoft.com header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-quantacorp-onmicrosoft-com header.b=UeLMXB9F;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1033;
- helo=mail-pj1-x1033.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=aksTpisV; dkim-atps=neutral
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ smtp.mailfrom=quantatw.com (client-ip=2a01:111:f400:feab::70c;
+ helo=apc01-sg2-obe.outbound.protection.outlook.com;
+ envelope-from=potin.lai@quantatw.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=quantacorp.onmicrosoft.com
+ header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256
+ header.s=selector2-quantacorp-onmicrosoft-com header.b=UeLMXB9F; 
+ dkim-atps=neutral
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-sgaapc01on2070c.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:feab::70c])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K8p3Y5bwwz2xtb
- for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Mar 2022 11:03:37 +1100 (AEDT)
-Received: by mail-pj1-x1033.google.com with SMTP id
- p3-20020a17090a680300b001bbfb9d760eso9212101pjj.2
- for <linux-aspeed@lists.ozlabs.org>; Thu, 03 Mar 2022 16:03:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=i4Na1N1IMcDiqM3XRO5aUsCt6DvAkHmrn4n5xsrfFdU=;
- b=aksTpisVOu8Uh3NepbnfMUB9aa45qUzmbOgSd4baOPEjlXfuyqmztPiilq2fGdJh6w
- 5puTwtz4TuAJIObrFm4cf0Alz0Cp0cSO1zD8H8fdGAHce0D1HGDRsUBnOuLCuc3kfEqA
- 684NIdrTHa7dsL4qQsUO60+rl8IXloVdWy9QjHk23YCSkT8Bhq64ujbbk31Ix8nmJPIm
- TWobxtxzNg7fQTM7QuFeZ93UF6UC9m89KY0kV22sAP+2DGYrDtjpBzupiGmbvqSFZHZN
- ozPxsQM8F7tkkjl7F/r5Bf07TG1p5xPGrnbxsj2Ph21ao6/ADl8TVNSmj80xycqyoJFT
- OeyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=i4Na1N1IMcDiqM3XRO5aUsCt6DvAkHmrn4n5xsrfFdU=;
- b=u5XGh099hdFzbNV3lsZmvJUGFLBmL9utsCEO6J7GdNBenr3pXDXLaaFOtptn2G2lN3
- UFvUrGR1ep9p9iccV2k6lKReoB60I8Lr79y79dBXMgoYWdwb64sd9ue7Ga0dX2I8GXij
- isJSauRoX64Muf4HqwgMh6EafJ+fOXD0gyk03h9/1sk6cPqRjLLKjfSv3ml6zlozOJM3
- TOXhpdKjk5ajXx/mTzuigIkt3hSEPwQX16XNr+kz/zIcw/SPD56Bn1A4BOGUeakj+4TC
- BKPWyNx3C2c34zd8E+uIajsLJ7W2hhoOQBxT5muh2FVKwKhGAyP2iTUhpFKASLl07bU/
- 6SlA==
-X-Gm-Message-State: AOAM533HRKRIT/6GbdnpIrYVXKcj9WsyOb5r6hriSBIchCjFu3jGCiw4
- mwvp4v1dnYCQvVUK//v8cIo=
-X-Google-Smtp-Source: ABdhPJyFQ7V0jyTkRptySF21wS+UPkx2IVBsSDOyqX7OEgOlQYE3EIIDIJ180eGmwMlEgjVLq8JPmQ==
-X-Received: by 2002:a17:902:ef4d:b0:14f:e82b:25fd with SMTP id
- e13-20020a170902ef4d00b0014fe82b25fdmr38376369plx.80.1646352215575; 
- Thu, 03 Mar 2022 16:03:35 -0800 (PST)
-Received: from localhost.localdomain ([45.124.203.14])
- by smtp.gmail.com with ESMTPSA id
- z8-20020aa79588000000b004e1dc67ead3sm3579070pfj.126.2022.03.03.16.03.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 16:03:33 -0800 (PST)
-From: Joel Stanley <joel@jms.id.au>
-To: Rob Herring <robh+dt@kernel.org>,
-	Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH v2 2/2] dt-bindings: gpu: Convert aspeed-gfx bindings to yaml
-Date: Fri,  4 Mar 2022 10:33:11 +1030
-Message-Id: <20220304000311.970267-3-joel@jms.id.au>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220304000311.970267-1-joel@jms.id.au>
-References: <20220304000311.970267-1-joel@jms.id.au>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K8pmp5Xf8z2xWc
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Mar 2022 11:35:52 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ttd8LyZEzmwLGHPbmPNeIQQeelUGfG2pgndosWEnMY//e8/ZcjnooyWQLTuHOx+IbdNYrMTEJrUUvx7QaHZRCfhWBDcVMA2HqHW0MwXAR3EBsLy1gnKjPB1G8Ug3i+cETcVsf8sVj1xNQ0tqhWH/UE/c3NvKwNj8v37JUMLaeghMDP6ncPqJQnaZiQTJw44qqN0/fyl7SBSo0YmIAPj6FkWukFfpUnfm2DyHHwmFw0ZDCucN3NwqgJWgCOgyxAgsSYvKLfuxEBFDepZXu2swTiCuZU86iXLU+CWa4ruhVVOI2bEd/4ZjbzxmJHjImGBG4VJIah28+bZE0ZupxLmWzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B/bj018B+wt3+3fZftHIFn+PHQrkd953TkmVr0utHkM=;
+ b=bY2wpQewocP+XACRwnbUbR8cPrGazq3pJP0N2vyamIrp8GG54UuJ434jcvwh/9HrurqT2biYTVKV3MGRhRgB7W206b8BsAXUgb0wj7O08iHEb6NXj3WqXhAwQCpiiXM8SyAAxiBei+c1e0vmm0+CjqHhQwu+l8HSMa+tZwt2AmdBIBZuiTspeGfVEkcIcbVUPj2TJzfKTqQmf9XyTNOl2paMUcrFmHX6Z+v8QAIwko9ZKzQPYk4TIqpaqZWK9+2LGdQYz9XDW0vAut4TESoFFzOE/0MNw91Lt/Zg4V1SLxVawknry8WL95GOAapjBATuGyDMTC0zIYEgKKLKUH+c8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quantatw.com; dmarc=pass action=none header.from=quantatw.com;
+ dkim=pass header.d=quantatw.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quantacorp.onmicrosoft.com; s=selector2-quantacorp-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B/bj018B+wt3+3fZftHIFn+PHQrkd953TkmVr0utHkM=;
+ b=UeLMXB9F/n2ozQpOP9uiilo7cP+fym8BajMNrmYccZYL3EExtWyMdhzMS5EPZPNj5hGU3Zh3m8xiMQ5ErXTuv/9nKL+wHVbWYx6zSCFAa9gyvhTVulHOVzGey1jPp7s13lmCey2yVKLCzVwobjbOs5cY69AmhOqA0KF/D86xHKs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=quantatw.com;
+Received: from HK0PR04MB3282.apcprd04.prod.outlook.com (2603:1096:203:89::17)
+ by HK0PR04MB2323.apcprd04.prod.outlook.com (2603:1096:203:4d::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Fri, 4 Mar
+ 2022 00:35:29 +0000
+Received: from HK0PR04MB3282.apcprd04.prod.outlook.com
+ ([fe80::b57e:962a:3820:eab]) by HK0PR04MB3282.apcprd04.prod.outlook.com
+ ([fe80::b57e:962a:3820:eab%3]) with mapi id 15.20.5017.027; Fri, 4 Mar 2022
+ 00:35:29 +0000
+From: Potin Lai <potin.lai@quantatw.com>
+To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>
+Subject: [PATCH 1/1] ARM: dts: aspeed: bletchley: add sample averaging for
+ ADM1278
+Date: Fri,  4 Mar 2022 08:35:06 +0800
+Message-Id: <20220304003506.4243-1-potin.lai@quantatw.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR02CA0135.apcprd02.prod.outlook.com
+ (2603:1096:202:16::19) To HK0PR04MB3282.apcprd04.prod.outlook.com
+ (2603:1096:203:89::17)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0981b4a6-c8a1-4557-2cbe-08d9fd76e263
+X-MS-TrafficTypeDiagnostic: HK0PR04MB2323:EE_
+X-Microsoft-Antispam-PRVS: <HK0PR04MB232319CA01F14BAD758DA7B88E059@HK0PR04MB2323.apcprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: J9cdfxlz14/Vc53rgpmjWbR/5Um3BWWHVPrRaZ3X6gd7kcWXFzRAxMAq+VKpLiIBiPwHWkJA6Z6akIJ4mpxE8I7eBIMBO/yL9IB0VnSw6YQM6abp1AA9tytacBHCfGp7vqW7583+3uLJEr+trWahez/AYgPtwC0z2XM1j7jjZDG5LBJQfheIIglCHWobjGzKSWohynOub4+Xi6MBNhIBB2LNz1Z+AMYQtA5soMJTZUvisoYo/AYk3WQsGuhvneB3ihovnJflEg28qifG7X0DYdtKQRB4ZDvYfPHM/4bQSVXg/Kf3Ue89bGCLgbC2JMJRGJuFChfisKVOOVM6UO8kTn4+yTRbIm8ds1gskUaV2peMgj40qSK8b8pswYHrVxO+cYBIQ/gdQghJsC5dVePhj4fnhBsOjsUfPfh+lYGaNqvqFq+xldzESAwRKsrW21t935vqcF4luwBdC265FB2kKGaXNcC56m6GgR0xTo0V+O5KqPzlntrv9gJ9bBKRYAp76dbPxCRzv/7WAFZfwM/TX556GjI89yAkiW+G4PDDHWET3F4xuPk28cidFOxeKCDVrvt2oOPj/rA03PnBy1sG5HIqJ6/i6U+b2bMoXvqWX6QwfH6vE7hnSu3hwd7PFre51P4CyKZJMLtv8rSa/f8NRJnTGEqdNVCIr1pyAkahHuYBK1PQOt0Ehme/+NAlNnVl0LpvRtrdbw1zuuaxRvMZ8w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR04MB3282.apcprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(6486002)(5660300002)(6512007)(4744005)(110136005)(44832011)(8936002)(38350700002)(54906003)(38100700002)(508600001)(52116002)(2616005)(26005)(4326008)(186003)(1076003)(316002)(66556008)(66476007)(66946007)(2906002)(86362001)(36756003)(8676002)(6506007)(6666004);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VLO9SLs3WpcR0nJGOofYlcrbXgIR9qQ1JYCu4WaLwlelhaHY0i4E0l2CIFlE?=
+ =?us-ascii?Q?CGkBzMmVeZHNYDdtv55dH3TmmRuFOHvIk8Gn46Mf/lZ4Mx72LvXebQaYdrTp?=
+ =?us-ascii?Q?QdZrfuOpfN4jp2VCQ1niJvkxViFmYxn4khTT9AibBT9aDmq378/1X2db8wzK?=
+ =?us-ascii?Q?qHPn3r1Gq6P7BBUDf9YcWOw6/D7taNZp3AK2d6XSmFEb/BlizT1nN0pn1qyB?=
+ =?us-ascii?Q?F2jfYPVI+3AukyV30krwPbDK9sqhDJz8Z8di53W38b/5vwcqRKLs38hi5sKw?=
+ =?us-ascii?Q?G8kdtoskNJIk6GIksIHh3UH20N4Woxb17wjnQuYLydAc/wp275bI0TKZp6tl?=
+ =?us-ascii?Q?3kdl0VPDUPULOqAnyHgn/KqW2XzHIgEx4n4EAR2p9Ftia2SjOtO0Klai1FW4?=
+ =?us-ascii?Q?/i5JfGAZ7y1QnHBYM0cDouomTS8fNk+SxgvyOgNra7bTfbxRTde7zq3i4eif?=
+ =?us-ascii?Q?GWatAapGcznQAxAYOLPiN/1VuKTX0eo1RuWXqQQqvltHbl7PcMb5sHZpHYK0?=
+ =?us-ascii?Q?/H+PBim4/PO1MkeIWZMYYZZ4i8IF+vlgef6vz2qRo2VGCmHuUJOcSpqrT3VS?=
+ =?us-ascii?Q?B36jxdrl54ZPrKZG+PUpRod7C4NokspMx5TdTst1Q9UbqXiulo+ash0Gv2/3?=
+ =?us-ascii?Q?Gcxl1ju6EL3ml9iesqyJ2XVdI24VBPgZAqaNPKVNXszHuGsH3/CZi+RDGGQB?=
+ =?us-ascii?Q?YsAwz9x7lmHwX6j8r39eDVZQnZyb5PHaYaKypc4Pv85SpYSHuYt5NPba8SMz?=
+ =?us-ascii?Q?ccLSMXWphM8eSNIdVsfbDzTALRvBtUtOqi0Q1V3BU+tMRF91NYwO+FZs7oR5?=
+ =?us-ascii?Q?6oDrxHRZLwcMDCntAcsxTFfb5qMlxe5oGPluiIMt36AqCtmpDutf2offUW3C?=
+ =?us-ascii?Q?hvZFb3L5nqIwVMDQnR/eLF6onTXlPGvKbN1cWdXKfI7m4PiRDLHfDKv9TRf9?=
+ =?us-ascii?Q?aGmXV9wgjk1G8DbqbVCBmIIElWkirAYLtUHv2POR0bfc9m+kBsIB0HbweOf6?=
+ =?us-ascii?Q?NqReZExXnUXuHupaQTrt7kmfS42cK7qVaFFIVKt9ExKCOLYSS+WZhuC8u22H?=
+ =?us-ascii?Q?2cPbNeAzsz8ZZOyhkyXbsz8bzu6bK2zogG8dx94gZfmg6ezbNoYf0w7UsnVG?=
+ =?us-ascii?Q?MN+walESjq9TilpaMPC2kjAoxOQKAs2+n+tSjAWPFtLHPkSkGrjEWP+cQnxE?=
+ =?us-ascii?Q?d3WN0mgmK2S9vbAq5rXvPiwd8trx1o2PpUza1NCUJSatgp6E9b+NnPx/rokh?=
+ =?us-ascii?Q?SVOP+emn0tGcinjvZN0uy0Uhegofu8qKiI01HynlsL6fMx8Ov5gTVEP6m4Pu?=
+ =?us-ascii?Q?aaJfDv5qOTEmq8ftb4mZcCveIRsEcQ2buCOD+pD+vNUH4T6kTGdGWLqPEiuM?=
+ =?us-ascii?Q?bi9KH/g3baHBS1uRwGREudXxBTWaVWVs+e8ILV3Im3AnaSGcQPMgmrW1XnGw?=
+ =?us-ascii?Q?WAUW83NXdpxowYWbH8gbtuSscdqC1mBNabsp5UJYdBD+fmFa9yd5EkkCZLn2?=
+ =?us-ascii?Q?8sA9unf+MrtTrV+VrlP/r3afy5erYCHVH0LFaIc690n0dCP9pWLa2OEFf7Uv?=
+ =?us-ascii?Q?6/xuS0xhg0hY/IND2ZZZAYl5nUFu/uJ9GiHVMcPZDIEoNA0hVeebMCJaWYGc?=
+ =?us-ascii?Q?/SdOyCvLm4QXhQWUYQR6b4U=3D?=
+X-OriginatorOrg: quantatw.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0981b4a6-c8a1-4557-2cbe-08d9fd76e263
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR04MB3282.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2022 00:35:29.9035 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 179b0327-07fc-4973-ac73-8de7313561b2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2F/00u52Fc/v1upM2KiyBWQCNe9AHgguSZM7ctAoKKi0YSewgDWyJlYPKlt5Akfg/4XMzuezbDVBeq06V+S17w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR04MB2323
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,174 +129,33 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>,
- Lee Jones <lee.jones@linaro.org>, linux-aspeed@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Potin Lai <potin.lai@quantatw.com>, linux-kernel@vger.kernel.org,
+ Patrick Williams <patrick@stwcx.xyz>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Convert the bindings to yaml and add the ast2600 compatible string.
+set number of sample averaging to 128 for both PWR_AVG and VI_AVG
 
-The legacy mfd description was put in place before the gfx bindings
-existed, to document the compatible that is used in the pinctrl
-bindings.
-
-Signed-off-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Potin Lai <potin.lai@quantatw.com>
 ---
- .../devicetree/bindings/gpu/aspeed,gfx.yaml   | 69 +++++++++++++++++++
- .../devicetree/bindings/gpu/aspeed-gfx.txt    | 41 -----------
- .../devicetree/bindings/mfd/aspeed-gfx.txt    | 17 -----
- 3 files changed, 69 insertions(+), 58 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
- delete mode 100644 Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
- delete mode 100644 Documentation/devicetree/bindings/mfd/aspeed-gfx.txt
+ arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml b/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
-new file mode 100644
-index 000000000000..8ddc4fa6e8e4
---- /dev/null
-+++ b/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
-@@ -0,0 +1,69 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/gpu/aspeed,gfx.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ASPEED GFX display device
-+
-+maintainers:
-+  - Joel Stanley <joel@jms.id.au>
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - aspeed,ast2400-gfx
-+          - aspeed,ast2500-gfx
-+          - aspeed,ast2600-gfx
-+      - const: syscon
-+
-+  reg:
-+    minItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+  memory-region: true
-+
-+  syscon: true
-+
-+  reg-io-width: true
-+
-+required:
-+  - reg
-+  - compatible
-+  - interrupts
-+  - clocks
-+  - resets
-+  - memory-region
-+  - syscon
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+   #include <dt-bindings/clock/aspeed-clock.h>
-+   gfx: display@1e6e6000 {
-+       compatible = "aspeed,ast2500-gfx", "syscon";
-+       reg = <0x1e6e6000 0x1000>;
-+       reg-io-width = <4>;
-+       clocks = <&syscon ASPEED_CLK_GATE_D1CLK>;
-+       resets = <&syscon ASPEED_RESET_CRT1>;
-+       interrupts = <0x19>;
-+       syscon = <&syscon>;
-+       memory-region = <&gfx_memory>;
-+   };
-+
-+   gfx_memory: framebuffer {
-+       size = <0x01000000>;
-+       alignment = <0x01000000>;
-+       compatible = "shared-dma-pool";
-+       reusable;
-+   };
-diff --git a/Documentation/devicetree/bindings/gpu/aspeed-gfx.txt b/Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
-deleted file mode 100644
-index 958bdf962339..000000000000
---- a/Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
-+++ /dev/null
-@@ -1,41 +0,0 @@
--Device tree configuration for the GFX display device on the ASPEED SoCs
--
--Required properties:
--  - compatible
--    * Must be one of the following:
--      + aspeed,ast2500-gfx
--      + aspeed,ast2400-gfx
--    * In addition, the ASPEED pinctrl bindings require the 'syscon' property to
--      be present
--
--  - reg: Physical base address and length of the GFX registers
--
--  - interrupts: interrupt number for the GFX device
--
--  - clocks: clock number used to generate the pixel clock
--
--  - resets: reset line that must be released to use the GFX device
--
--  - memory-region:
--    Phandle to a memory region to allocate from, as defined in
--    Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
--
--
--Example:
--
--gfx: display@1e6e6000 {
--	compatible = "aspeed,ast2500-gfx", "syscon";
--	reg = <0x1e6e6000 0x1000>;
--	reg-io-width = <4>;
--	clocks = <&syscon ASPEED_CLK_GATE_D1CLK>;
--	resets = <&syscon ASPEED_RESET_CRT1>;
--	interrupts = <0x19>;
--	memory-region = <&gfx_memory>;
--};
--
--gfx_memory: framebuffer {
--	size = <0x01000000>;
--	alignment = <0x01000000>;
--	compatible = "shared-dma-pool";
--	reusable;
--};
-diff --git a/Documentation/devicetree/bindings/mfd/aspeed-gfx.txt b/Documentation/devicetree/bindings/mfd/aspeed-gfx.txt
-deleted file mode 100644
-index aea5370efd97..000000000000
---- a/Documentation/devicetree/bindings/mfd/aspeed-gfx.txt
-+++ /dev/null
-@@ -1,17 +0,0 @@
--* Device tree bindings for Aspeed SoC Display Controller (GFX)
--
--The Aspeed SoC Display Controller primarily does as its name suggests, but also
--participates in pinmux requests on the g5 SoCs. It is therefore considered a
--syscon device.
--
--Required properties:
--- compatible:		"aspeed,ast2500-gfx", "syscon"
--- reg:			contains offset/length value of the GFX memory
--			region.
--
--Example:
--
--gfx: display@1e6e6000 {
--	compatible = "aspeed,ast2500-gfx", "syscon";
--	reg = <0x1e6e6000 0x1000>;
--};
+diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
+index eaf1bc261ee3..be76cd955129 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
+@@ -732,6 +732,8 @@
+ 		compatible = "adi,adm1278";
+ 		reg = <0x11>;
+ 		shunt-resistor-micro-ohms = <300>;
++		adi,volt-curr-sample-average = <128>;
++		adi,power-sample-average = <128>;
+ 	};
+ 
+ 	tmp421@4c {
 -- 
-2.34.1
+2.17.1
 
