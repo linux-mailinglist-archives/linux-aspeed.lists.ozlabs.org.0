@@ -1,93 +1,124 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF18D4CD9B4
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 18:06:14 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2275E4CD9C4
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 18:08:59 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K9DlR58n5z3ch4
-	for <lists+linux-aspeed@lfdr.de>; Sat,  5 Mar 2022 04:06:11 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K9Dpc1Tl1z2yQC
+	for <lists+linux-aspeed@lfdr.de>; Sat,  5 Mar 2022 04:08:56 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=QzRfuJqG;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=NfZxkzs/;
+	dkim=pass (1024-bit key; unprotected) header.d=quantacorp.onmicrosoft.com header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-quantacorp-onmicrosoft-com header.b=kOm6fwrZ;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=stwcx.xyz (client-ip=66.111.4.29;
- helo=out5-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256
- header.s=fm1 header.b=QzRfuJqG; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm2 header.b=NfZxkzs/; 
+ smtp.mailfrom=quantatw.com (client-ip=2a01:111:f400:feae::706;
+ helo=apc01-psa-obe.outbound.protection.outlook.com;
+ envelope-from=potin.lai@quantatw.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=quantacorp.onmicrosoft.com
+ header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256
+ header.s=selector2-quantacorp-onmicrosoft-com header.b=kOm6fwrZ; 
  dkim-atps=neutral
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on20706.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:feae::706])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K9Djk1Pjtz3bYw
- for <linux-aspeed@lists.ozlabs.org>; Sat,  5 Mar 2022 04:04:40 +1100 (AEDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 9C1DC5C0294;
- Fri,  4 Mar 2022 12:04:37 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 04 Mar 2022 12:04:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; bh=19N+V6o+FQXpDoOacL5Tst7trUS8I31eJl+exI
- QkyAA=; b=QzRfuJqGM6ZdcwMgmuN7etzIjqBRwQOL+z8zzpPWeHR8ZahsL0tzr4
- 1yA6vZtEUn1Qp2tQYvdliAeErt6mnRd2RWyGLDLyw0kSJhzCyTN6quZwk75fhSC1
- z7OAjr7jpFi74YVR7vV6YmDowGdI5Of+uCoYaUHutAAArscXY677moChObN3sTbo
- 9rcIu008b2p5bd+W2099U1UZg8lenDt+1yxzYfVKDkt466x+33Gk8PDKhMWxtueL
- WWwki6cR5DJrSCElIdV2HyxV0YkgVTnFV92kDU/o81uEsf9jwtVhGGNoP31G2gFe
- U1B2A5QLYi3VqRvkOFVkg8LktMCXHohg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=19N+V6o+FQXpDoOac
- L5Tst7trUS8I31eJl+exIQkyAA=; b=NfZxkzs/z2dP53kDlRr48k+zoDztkBRGq
- ZgqZL9c6HE4z4+mRUKWXQweWivvRrlv11Dm0txBu0bM8Euc3GVs1yWe33+uqRf4B
- owHF4ZW3BmeskJ3nSthhZw8hCJ2Mrzp3wk6hBJfPl42J+3cOmEEosZi+hLf9XqNC
- Klnufg8It1Cs2vuL7UFuL6YqTGoi41e0ZHjROV6gH4AwLFRBwZzjfQ5DTeQM5/RW
- ApAXys/aWi7Futu0IMYYZkWKBof+ic/P+cDvCEWKnOhs1pinmvsi6/RNKrVGlO7F
- SaNtDfrid0HDIOFEkpqyQiByTR8P4aoeHSKQ3NGDygk0NKmm9hWBg==
-X-ME-Sender: <xms:pEYiYtoZoC9_jwKUEfNj3lS82mA2L8P3d3FWXtJDsOOBj2PXBQgZGQ>
- <xme:pEYiYvr5UkcLcN0vfPzjJXRCHX51Imdy1fKZpr20uDQpnGZ8ykT6zmRW-gJ85lnnQ
- hJ2ZTe5Yw15qORshXM>
-X-ME-Received: <xmr:pEYiYqNjwyDHY-pos8tNeBIQSpbtvRmmQ5NsyDxQ8PKywmE115wkEav_Z1PXWuRHh5WtDTUzrgfJpo0oC4DQxWPSyHAvOye5wzE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtkedgleeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- gfrhhlucfvnfffucdlvdefmdenucfjughrpeffhffvuffkfhggtggujgesghdtreertddt
- vdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
- htfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepvdffgefgfeetiefgtefhieevuedu
- gedvgffgjeefheduteejfeffteektdelhefhnecuffhomhgrihhnpehkvghrnhgvlhdroh
- hrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehp
- rghtrhhitghksehsthiftgigrdighiii
-X-ME-Proxy: <xmx:pEYiYo5K3ffizSWnxKWJBo2BXFJ6wh2iIu0CLfeoSnQxT3U1cNRKeA>
- <xmx:pEYiYs4WYHVgVd6WoizmJFwvO-YGsAxac6B0O5Ry894RVMf7k8VZNg>
- <xmx:pEYiYghmNXkU0lAOJNDcVZLWDAFIDevssYBPo022ckIRgg0cJsm8OQ>
- <xmx:pUYiYpupD3roEySVQ7uILmXG96OkExFVYj_uXhFtmmvQfc8IU8GoDw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Mar 2022 12:04:36 -0500 (EST)
-Date: Fri, 4 Mar 2022 11:04:35 -0600
-From: Patrick Williams <patrick@stwcx.xyz>
-To: Potin Lai <potin.lai@quantatw.com>
-Subject: Re: [PATCH 1/1] ARM: dts: aspeed: bletchley: add sample averaging
- for ADM1278
-Message-ID: <YiJGo7Tor3IKEToq@heinlein>
-References: <20220304003506.4243-1-potin.lai@quantatw.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K9DpQ4pjVz2yPF;
+ Sat,  5 Mar 2022 04:08:45 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QYnfwoXROIA2EetyMdNbrIMLqrRvElPQIQByQgoCp64+BEzk7hr1bYcax+RUUslk7vh5kW9lhVOULza7fnZXcOsKSSYvzquHkEIB4tJ/YLckOcwZ2DKf8w2kL0+iLFzq1bu2X9MNOgFfmt9dYkjWDUgf2f/aMoijAEemTBeXrMLrawQJzZWcbtRyIe17rP0ooGqumFHtj2Ee+tiRw+tjUfE/XfHMiLwDgggHL97v+bQBj37uGb4WyOlOQ3g6uIP+Ps6riZ3cHa/D8Nb+bTzrElA5FZX5FWuYKTcPvtWcUmbh4fnpMuMSpaNpF7vLwMK8YJrNiAlJn7PulGdgQ6gUng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Gh3esM3Kud7RNcC6G5XItWwVKqAaVCVp+6IDLw3qdYg=;
+ b=fUKMKXNltGRBrI5ZX9LVqpFPUa6cg94JdxpPYD0huGlZPcN7D06+KO9s6E9RNgjTUBm+RrnjoxeWABiPrX625DmZ2vqpr0eDfrSR2VBFl1LhJMUOVj+sV6ogp2dKlAlCYzISuxnv9HEAfJY1hPdK0hGkUtFwvo/vVA/GAAL6ar0D53ZMuMOsnbQ6r1oPZgm1Xu9FaA3zqS9y6aztkn3B7GlJ5iM0h9pTLkSLAxWPCXHw1mMoNFNgFhgs1NJ28EzF/uJURSiG5Mcn36WLFU8QNbgfUoEx9xwxxdwjmYdxhR1610YbFnYAWxsHdBVyvSsmJbtDxdrcVXIvvtK6Bq5d+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quantatw.com; dmarc=pass action=none header.from=quantatw.com;
+ dkim=pass header.d=quantatw.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quantacorp.onmicrosoft.com; s=selector2-quantacorp-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Gh3esM3Kud7RNcC6G5XItWwVKqAaVCVp+6IDLw3qdYg=;
+ b=kOm6fwrZIk683agPDdjVmX0M1/tPYQvT11VS9onNIM6VLTTMcj1rgx5bpwiPN1w85J4P+GGHrXkVWkVtbFbO7a1JA8DD9pFf1Z5iBfEiNHByrjYRLL5r/lsQZrbxOgBQYBcxK8JuQ7PooZlFtRsicGYprvm+qNV35TZk2k7TpWA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=quantatw.com;
+Received: from HK0PR04MB3282.apcprd04.prod.outlook.com (2603:1096:203:89::17)
+ by HK0PR04MB3091.apcprd04.prod.outlook.com (2603:1096:203:89::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Fri, 4 Mar
+ 2022 17:08:18 +0000
+Received: from HK0PR04MB3282.apcprd04.prod.outlook.com
+ ([fe80::b57e:962a:3820:eab]) by HK0PR04MB3282.apcprd04.prod.outlook.com
+ ([fe80::b57e:962a:3820:eab%3]) with mapi id 15.20.5017.031; Fri, 4 Mar 2022
+ 17:08:18 +0000
+From: Potin Lai <potin.lai@quantatw.com>
+To: Joel Stanley <joel@jms.id.au>, Cedric Le Goater <clg@kaod.org>,
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ Patrick Williams <patrick@stwcx.xyz>
+Subject: [PATCH 1/1] mtd: spi-nor: aspeed: set the decoding size to at least
+ 2MB for AST2600
+Date: Sat,  5 Mar 2022 01:07:57 +0800
+Message-Id: <20220304170757.16924-1-potin.lai@quantatw.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR02CA0135.apcprd02.prod.outlook.com
+ (2603:1096:202:16::19) To HK0PR04MB3282.apcprd04.prod.outlook.com
+ (2603:1096:203:89::17)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VYm2G0+QLn/4yGoL"
-Content-Disposition: inline
-In-Reply-To: <20220304003506.4243-1-potin.lai@quantatw.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 83951c7b-a1c8-457d-0a82-08d9fe019423
+X-MS-TrafficTypeDiagnostic: HK0PR04MB3091:EE_
+X-Microsoft-Antispam-PRVS: <HK0PR04MB309144830C2C14E38CCDDE958E059@HK0PR04MB3091.apcprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: B76cIeO53qLqWuen9ssLqRD0p/kZrbA3ipqCzfvqQFMsEeJ1s/1bxlidvnOiL4lCV0idtI3pNZz7C1r5Aon2Fd/efIu7a8qEO/8UoVhgxkXyiHth7N8I5Zq1Qow0Asu5sdvoDGKy+hfPO3YUhgzgfQlffO6DryHpOtL5RetpdozY3JWBReVNrO/brV5NkI2pa0DP0jReNJqOtyrwmNUJQQmiDnPInm9BkKiKquf9JS9WO9MUcL7Gaq3n3B6h214vUibyXUnoiwKAGg/wqyBKvF6YKmuR58LsHjqQZyZrB4Om2enHgwB3kKGI2uZ1h8wFr0FqBQnpZLOfw4ImvEAn5RsSeZCko7qEHKsdRpz6S3juza1ntTuKqMnk8x7qB64FE6xCtslnrmy6yWmg/eKI1X72aVxMr5mgUzPBdwqfsZTMIjy65KQHBGIi0kmPcdSozfYOg7maCX+2FpT+t4vQT0TS18Zjg44tRGQv3m5b57cFyy8+2E+DdynKs0uh4xLHD+ZsW0VEa8Oya5U8DWDZtq5P5ZrrxMM6+d/SWDULFNd8UJcR5x1PRZhQChz84WVD4ZoMV9DaVPQ8xB8OKCJSh9jhrzrSCGDFsSyv00Zh5gu+JLFITdD05qGRkT/MreJaRWncyv8gl0Uovh8lLMftNMIxEWkfff4gQGQxt+fUDwoB/W7mIL810n9Jt+1MYJ2YbPgqE2kL8WUVth/OcquV7w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR04MB3282.apcprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(66556008)(107886003)(66946007)(6486002)(4326008)(26005)(186003)(1076003)(2616005)(38350700002)(8676002)(508600001)(44832011)(66476007)(8936002)(86362001)(36756003)(110136005)(5660300002)(6506007)(6512007)(6666004)(52116002)(38100700002)(316002)(2906002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WSllK+EaojABRWa1QD6YFIWK/GYyAvzZoK+CHBPgkT5bbtTImOZ3pbMEraDs?=
+ =?us-ascii?Q?kenB2a/QXn8g04eWugxTH1G7vIRA/zH9udgxlI4AXY0qYAUFuzpcxO5YVA+9?=
+ =?us-ascii?Q?djlqf+WsjkJT/WskCvGKnEn5lMjo0o18d6VEncdhQDiDzOCrxag+TwRQdHE5?=
+ =?us-ascii?Q?MjEbTfStmqUWwvFlheZbohtDOIaLs9joB85zgvRBtrzL2vhulRM5z0Gf+3hW?=
+ =?us-ascii?Q?+g+SWVeHS5oMAOS1wIg8z92fv9HkGbU4LVaOYXgaMwwq7D2kwLy3aMW0OAGr?=
+ =?us-ascii?Q?7L//vlRZKvXXkuC1YP4d8ZOUFEt9E7G5o1LT05M8zfo3q965iTVbr2o+34t7?=
+ =?us-ascii?Q?f0EXtsi6DwQ+BBf8q3x7lFIZzxBYkgGz2A4R4rxa/8jBDgLrmwytecYtGnpt?=
+ =?us-ascii?Q?UJRKCTuJG9xdkDWjTOzb+j5ZJgB56t5HkmND7czZ30RxhpryoBrAlJS4Z6m/?=
+ =?us-ascii?Q?1eNMyVs9w6vqJwSz0w98pJdKD3AkhONG+cy1fqCET6v6ZPb552NRq+FwGZAq?=
+ =?us-ascii?Q?va2xuur4wfGfcZeNbXdVpzxW0HGFspQlWOG45RFYuAXye/TYr8CZiE2w/U/V?=
+ =?us-ascii?Q?GyENBCo5S/SJ88R+Wbb99kewGwEP+Yl7uuAHNOHxjSxRHoz/AHrblmmSscUK?=
+ =?us-ascii?Q?mQD51epAZKsVzAswYPdMh0sQa73tBYGzjL5BYKiihorMvQk5Pnihv8nazlIR?=
+ =?us-ascii?Q?igcwZ6ZrQ1nbe71N9GdbxobPZGxAwbvl6jlCUzsSRKf/EceM/irDFb6NHcKj?=
+ =?us-ascii?Q?S4DIZLuAhc4j8bOu/vyp+5RHd/Ogn3as6IJT2TlTO/OTf3MZ5WvqXHYsBmUn?=
+ =?us-ascii?Q?EQLHgaZt7w6ueRsVbkTdKH7p4monJuLhsYP2TAQl9iyaq9cDEc1RFRiAKZfq?=
+ =?us-ascii?Q?Abrl1pkmbWMJ20Fi9hWPPpt1oqsj7F5+kLaQPu9AawZ6b0i+09nPQ+A1fTqL?=
+ =?us-ascii?Q?NDCvj45C3lngjt4EWviSagBwnP5dvc+cAxp+9jkgENugYwppqzn+ZGy+885O?=
+ =?us-ascii?Q?yaYzUXmGPiTjy/O0zwKTcLmGRYj2h2tJFP5Gjur9g1Ye3QkCMQykfirLnf60?=
+ =?us-ascii?Q?KIkDyAH/AToZi4quh5l+4+6MFelcT46dPDhPX44TTfPhM6cYtMufmjT0i1qM?=
+ =?us-ascii?Q?P3PEhxTXMdKJvPP65jsG6Q2Syu7rZ+1iS/9kc+lmNQqp65rwVxkIdnGH+AME?=
+ =?us-ascii?Q?LAfWawMr8QJVh/ec4244+TKw5UwGVmlmjiNNJmh/E1RlmszZ9GC8Jz/tbnA3?=
+ =?us-ascii?Q?7YVf1PgyLVy47nSH+0ft/RKnJetyxq0uEkg3/1aRpSp6+FP8F4ApVHRXiFe5?=
+ =?us-ascii?Q?PFnDZqtmX/eoK92UuqTI8Fd8KSLUNejxrw2HuaIjhDPg5BCnoTV3nPXWc2kV?=
+ =?us-ascii?Q?5LkDxjVgGdGYOIirVt45KaC9KjgQEs/V3KL4or1++Ke1hkfz3UAHpJMpU8DL?=
+ =?us-ascii?Q?l/CFy4346USV6aNqk1fgXmNWMrWa3tDpALQIrD3KFHy4nMq3lvFOnMwKaOm3?=
+ =?us-ascii?Q?cA+pvPhpfrvfBCIvCIHBectJgqcm5O4B/tkFY7/0ivzXW1PobikSsvpI7Q7o?=
+ =?us-ascii?Q?666tSaSgOftN18RocamEuEOb6andQxJh36hcy+80w8/3GsFT2FpLBDe8dE8M?=
+ =?us-ascii?Q?UZmKShBy435Aff41WLtoOc4=3D?=
+X-OriginatorOrg: quantatw.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83951c7b-a1c8-457d-0a82-08d9fe019423
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR04MB3282.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2022 17:08:18.6351 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 179b0327-07fc-4973-ac73-8de7313561b2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 68z68O33mToH/PW7jUwem6tOJ8kk87G6D+ZJLJu8/OdytbCQKu+bYatviNfBySuADrcj24GtJKCf0gHeXlxI3A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR04MB3091
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,74 +130,52 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Potin Lai <potin.lai@quantatw.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+In AST2600, the unit of SPI CEx decoding range register is 1MB, and end
+address offset is set to the acctual offset - 1MB. If the flash only has
+1MB, the end address will has same value as start address, which will
+causing unexpected errors.
 
---VYm2G0+QLn/4yGoL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch set the decoding size to at least 2MB to avoid decoding errors.
 
-On Fri, Mar 04, 2022 at 08:35:06AM +0800, Potin Lai wrote:
-> set number of sample averaging to 128 for both PWR_AVG and VI_AVG
->=20
-> Signed-off-by: Potin Lai <potin.lai@quantatw.com>
-> ---
->  arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts b/arch/a=
-rm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-> index eaf1bc261ee3..be76cd955129 100644
-> --- a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
-> @@ -732,6 +732,8 @@
->  		compatible =3D "adi,adm1278";
->  		reg =3D <0x11>;
->  		shunt-resistor-micro-ohms =3D <300>;
-> +		adi,volt-curr-sample-average =3D <128>;
-> +		adi,power-sample-average =3D <128>;
->  	};
-> =20
->  	tmp421@4c {
-> --=20
-> 2.17.1
->=20
+Tested:
+root@bletchley:~# dmesg | grep "aspeed-smc 1e631000.spi: CE0 window"
+[   59.328134] aspeed-smc 1e631000.spi: CE0 window resized to 2MB (AST2600 Decoding)
+[   59.343001] aspeed-smc 1e631000.spi: CE0 window [ 0x50000000 - 0x50200000 ] 2MB
+root@bletchley:~# devmem 0x1e631030
+0x00100000
 
-Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
+Signed-off-by: Potin Lai <potin.lai@quantatw.com>
+---
+ drivers/mtd/spi-nor/controllers/aspeed-smc.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Note that this code depends on ADM1275 support pulled into groeck/linux-sta=
-ging
-already.
+diff --git a/drivers/mtd/spi-nor/controllers/aspeed-smc.c b/drivers/mtd/spi-nor/controllers/aspeed-smc.c
+index 416ea247f843..6db35732c0fb 100644
+--- a/drivers/mtd/spi-nor/controllers/aspeed-smc.c
++++ b/drivers/mtd/spi-nor/controllers/aspeed-smc.c
+@@ -781,6 +781,17 @@ static u32 aspeed_smc_chip_set_segment(struct aspeed_smc_chip *chip)
+ 			 chip->cs, size >> 20);
+ 	}
+ 
++	/*
++	 * The decoding size of AST2600 SPI controller should set at
++	 * least 2MB.
++	 */
++	if (controller->info == &spi_2600_info && size < SZ_2M) {
++		size = SZ_2M;
++		dev_info(chip->nor.dev,
++			 "CE%d window resized to %dMB (AST2600 Decoding)",
++			 chip->cs, size >> 20);
++	}
++
+ 	ahb_base_phy = controller->ahb_base_phy;
+ 
+ 	/*
+-- 
+2.17.1
 
-https://lore.kernel.org/all/20220222223610.23098-1-linux@roeck-us.net/
-
---=20
-Patrick Williams
-
---VYm2G0+QLn/4yGoL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmIiRqMACgkQqwNHzC0A
-wRnPgQ/8CvQ5AKgdzdynopTHa+Iz0ECeeFQi98vSMKhKUOdz9sHmItqjiEf9BtPa
-lTYj0lPOrkAW+tkzN6hfLdhmWFg5z7z1vpWPqKRYhoVtORtjO/EATja3iEua4p2a
-6JhUvRQXryduEwKvulEZ7CGbL8VgCaZTZHUrawdwEtfyQkmOxaLjfOtA/tksWmxU
-aa5/OG06Dk3wV7HejScWSJXyLYt0Mv4+R0PQUOPuVIfHYx18hd7hPzsyuga2UuWw
-yY11KcvA5Deyp5U195pUNDar9J2VrSe+fAAmuBqR214P7wC8qBK19dwx4j7qXfQt
-kfWnbJs481DQas7uLBH4WxytuoWVslB1fTUQu6XWgCQj7jjcODKVdmuQZLRLXiz7
-kiIPk/pqJWwZr5No300pbc0EfAsKKfdCuTjJe2chz3TmCkbky4opehVKTOafSB2o
-UBMB1Nz2LL1l1Kwe2XDvViS0rbQlLw3sn82SO7ez+gXjjKh9OivelUgOhcPeRGTv
-s48za2Nq3MUuaSbSBJaAB2NZaZ19zi8BnM9m5aohnYa3yzElW+yrHzHmx/rJdanZ
-JqA9RoCmtB4krTFDeOAV+kAHUSSHK0HL3O0ecJViSKt70fM4jAHKJzoag2Fn5FMB
-GrCRNd+OCs+H+y4Y0e6bBTEMbcycb5XWK8Z4XeyiWrcIkpkWsyQ=
-=Uw+x
------END PGP SIGNATURE-----
-
---VYm2G0+QLn/4yGoL--
