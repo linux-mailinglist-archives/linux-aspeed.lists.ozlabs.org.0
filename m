@@ -2,59 +2,92 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FDBA4CD7C5
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 16:29:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF18D4CD9B4
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 18:06:14 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K9BbX2cYJz30L1
-	for <lists+linux-aspeed@lfdr.de>; Sat,  5 Mar 2022 02:29:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K9DlR58n5z3ch4
+	for <lists+linux-aspeed@lfdr.de>; Sat,  5 Mar 2022 04:06:11 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256 header.s=fm1 header.b=QzRfuJqG;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=NfZxkzs/;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.161.42; helo=mail-oo1-f42.google.com;
- envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com
- [209.85.161.42])
+ smtp.mailfrom=stwcx.xyz (client-ip=66.111.4.29;
+ helo=out5-smtp.messagingengine.com; envelope-from=patrick@stwcx.xyz;
+ receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=stwcx.xyz header.i=@stwcx.xyz header.a=rsa-sha256
+ header.s=fm1 header.b=QzRfuJqG; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=NfZxkzs/; 
+ dkim-atps=neutral
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+ [66.111.4.29])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K9BbR0Rngz2yPF
- for <linux-aspeed@lists.ozlabs.org>; Sat,  5 Mar 2022 02:29:06 +1100 (AEDT)
-Received: by mail-oo1-f42.google.com with SMTP id
- h16-20020a4a6f10000000b00320507b9ccfso9746594ooc.7
- for <linux-aspeed@lists.ozlabs.org>; Fri, 04 Mar 2022 07:29:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=J5ioJmCSVVWCtbo+u6o5MHD3cE9Z/JYc9eT4jBLaSTU=;
- b=6DfFY21tXf114lHWidkEvzvtAoWnOqPPJGROdHCJSVnu1ly7gQudpwGRAz/HQfYQaU
- 5NLEQZQ1uMJxwTCwJP7odIfZFwJlDp9Ku+Ffx48dnoVHZyu7BYxL/SGbvqvcxbLLC+Jw
- 2i4ZLSt9pzu1OdvI0XaR67ADINyNdyvnTx8Ig/Wolu33zF1M9vELOeXXp3Ydw+mD92IC
- t2/Hc2LbExA0tyx4ng/24IOVeJdHPg3rqmFiomCbBmykaBSuutsLMjNASQFl7Hk8uECs
- rkuCldGMcciDOor+6aA1u825qwJTAU9Hax6tSb7172zBFLCjTASkVvXDHYYY19IK5gEU
- KTNA==
-X-Gm-Message-State: AOAM531MCB8VIN8MjYMa/894R0jqYQ0lnmXX9Ez0zPN6T3Jk5D+gfFpD
- Eujl5LWFOnK3+j3B7WokYQ==
-X-Google-Smtp-Source: ABdhPJxuZOHatViaL6tiAhK4OShzYUiPIoRUY4TN0tNXWjvpW9YkoKjUjPortO9oOaQCOPdVHFxMNg==
-X-Received: by 2002:a05:6870:a406:b0:d9:b303:7dc2 with SMTP id
- m6-20020a056870a40600b000d9b3037dc2mr6864276oal.23.1646407742846; 
- Fri, 04 Mar 2022 07:29:02 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213]) by smtp.gmail.com with ESMTPSA id
- e3-20020a056870c34300b000d9d83493bfsm590564oak.8.2022.03.04.07.29.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Mar 2022 07:29:02 -0800 (PST)
-Received: (nullmailer pid 3970571 invoked by uid 1000);
- Fri, 04 Mar 2022 15:29:01 -0000
-From: Rob Herring <robh@kernel.org>
-To: Joel Stanley <joel@jms.id.au>
-In-Reply-To: <20220304000311.970267-3-joel@jms.id.au>
-References: <20220304000311.970267-1-joel@jms.id.au>
- <20220304000311.970267-3-joel@jms.id.au>
-Subject: Re: [PATCH v2 2/2] dt-bindings: gpu: Convert aspeed-gfx bindings to
- yaml
-Date: Fri, 04 Mar 2022 09:29:01 -0600
-Message-Id: <1646407741.272520.3970570.nullmailer@robh.at.kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K9Djk1Pjtz3bYw
+ for <linux-aspeed@lists.ozlabs.org>; Sat,  5 Mar 2022 04:04:40 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 9C1DC5C0294;
+ Fri,  4 Mar 2022 12:04:37 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Fri, 04 Mar 2022 12:04:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; bh=19N+V6o+FQXpDoOacL5Tst7trUS8I31eJl+exI
+ QkyAA=; b=QzRfuJqGM6ZdcwMgmuN7etzIjqBRwQOL+z8zzpPWeHR8ZahsL0tzr4
+ 1yA6vZtEUn1Qp2tQYvdliAeErt6mnRd2RWyGLDLyw0kSJhzCyTN6quZwk75fhSC1
+ z7OAjr7jpFi74YVR7vV6YmDowGdI5Of+uCoYaUHutAAArscXY677moChObN3sTbo
+ 9rcIu008b2p5bd+W2099U1UZg8lenDt+1yxzYfVKDkt466x+33Gk8PDKhMWxtueL
+ WWwki6cR5DJrSCElIdV2HyxV0YkgVTnFV92kDU/o81uEsf9jwtVhGGNoP31G2gFe
+ U1B2A5QLYi3VqRvkOFVkg8LktMCXHohg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=19N+V6o+FQXpDoOac
+ L5Tst7trUS8I31eJl+exIQkyAA=; b=NfZxkzs/z2dP53kDlRr48k+zoDztkBRGq
+ ZgqZL9c6HE4z4+mRUKWXQweWivvRrlv11Dm0txBu0bM8Euc3GVs1yWe33+uqRf4B
+ owHF4ZW3BmeskJ3nSthhZw8hCJ2Mrzp3wk6hBJfPl42J+3cOmEEosZi+hLf9XqNC
+ Klnufg8It1Cs2vuL7UFuL6YqTGoi41e0ZHjROV6gH4AwLFRBwZzjfQ5DTeQM5/RW
+ ApAXys/aWi7Futu0IMYYZkWKBof+ic/P+cDvCEWKnOhs1pinmvsi6/RNKrVGlO7F
+ SaNtDfrid0HDIOFEkpqyQiByTR8P4aoeHSKQ3NGDygk0NKmm9hWBg==
+X-ME-Sender: <xms:pEYiYtoZoC9_jwKUEfNj3lS82mA2L8P3d3FWXtJDsOOBj2PXBQgZGQ>
+ <xme:pEYiYvr5UkcLcN0vfPzjJXRCHX51Imdy1fKZpr20uDQpnGZ8ykT6zmRW-gJ85lnnQ
+ hJ2ZTe5Yw15qORshXM>
+X-ME-Received: <xmr:pEYiYqNjwyDHY-pos8tNeBIQSpbtvRmmQ5NsyDxQ8PKywmE115wkEav_Z1PXWuRHh5WtDTUzrgfJpo0oC4DQxWPSyHAvOye5wzE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtkedgleeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ gfrhhlucfvnfffucdlvdefmdenucfjughrpeffhffvuffkfhggtggujgesghdtreertddt
+ vdenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
+ htfigtgidrgiihiieqnecuggftrfgrthhtvghrnhepvdffgefgfeetiefgtefhieevuedu
+ gedvgffgjeefheduteejfeffteektdelhefhnecuffhomhgrihhnpehkvghrnhgvlhdroh
+ hrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehp
+ rghtrhhitghksehsthiftgigrdighiii
+X-ME-Proxy: <xmx:pEYiYo5K3ffizSWnxKWJBo2BXFJ6wh2iIu0CLfeoSnQxT3U1cNRKeA>
+ <xmx:pEYiYs4WYHVgVd6WoizmJFwvO-YGsAxac6B0O5Ry894RVMf7k8VZNg>
+ <xmx:pEYiYghmNXkU0lAOJNDcVZLWDAFIDevssYBPo022ckIRgg0cJsm8OQ>
+ <xmx:pUYiYpupD3roEySVQ7uILmXG96OkExFVYj_uXhFtmmvQfc8IU8GoDw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 4 Mar 2022 12:04:36 -0500 (EST)
+Date: Fri, 4 Mar 2022 11:04:35 -0600
+From: Patrick Williams <patrick@stwcx.xyz>
+To: Potin Lai <potin.lai@quantatw.com>
+Subject: Re: [PATCH 1/1] ARM: dts: aspeed: bletchley: add sample averaging
+ for ADM1278
+Message-ID: <YiJGo7Tor3IKEToq@heinlein>
+References: <20220304003506.4243-1-potin.lai@quantatw.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="VYm2G0+QLn/4yGoL"
+Content-Disposition: inline
+In-Reply-To: <20220304003506.4243-1-potin.lai@quantatw.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,45 +100,73 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 04 Mar 2022 10:33:11 +1030, Joel Stanley wrote:
-> Convert the bindings to yaml and add the ast2600 compatible string.
-> 
-> The legacy mfd description was put in place before the gfx bindings
-> existed, to document the compatible that is used in the pinctrl
-> bindings.
-> 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
+
+--VYm2G0+QLn/4yGoL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Mar 04, 2022 at 08:35:06AM +0800, Potin Lai wrote:
+> set number of sample averaging to 128 for both PWR_AVG and VI_AVG
+>=20
+> Signed-off-by: Potin Lai <potin.lai@quantatw.com>
 > ---
->  .../devicetree/bindings/gpu/aspeed,gfx.yaml   | 69 +++++++++++++++++++
->  .../devicetree/bindings/gpu/aspeed-gfx.txt    | 41 -----------
->  .../devicetree/bindings/mfd/aspeed-gfx.txt    | 17 -----
->  3 files changed, 69 insertions(+), 58 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
->  delete mode 100644 Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
->  delete mode 100644 Documentation/devicetree/bindings/mfd/aspeed-gfx.txt
-> 
+>  arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts b/arch/a=
+rm/boot/dts/aspeed-bmc-facebook-bletchley.dts
+> index eaf1bc261ee3..be76cd955129 100644
+> --- a/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
+> +++ b/arch/arm/boot/dts/aspeed-bmc-facebook-bletchley.dts
+> @@ -732,6 +732,8 @@
+>  		compatible =3D "adi,adm1278";
+>  		reg =3D <0x11>;
+>  		shunt-resistor-micro-ohms =3D <300>;
+> +		adi,volt-curr-sample-average =3D <128>;
+> +		adi,power-sample-average =3D <128>;
+>  	};
+> =20
+>  	tmp421@4c {
+> --=20
+> 2.17.1
+>=20
 
-Running 'make dtbs_check' with the schema in this patch gives the
-following warnings. Consider if they are expected or the schema is
-incorrect. These may not be new warnings.
+Reviewed-by: Patrick Williams <patrick@stwcx.xyz>
 
-Note that it is not yet a requirement to have 0 warnings for dtbs_check.
-This will change in the future.
+Note that this code depends on ADM1275 support pulled into groeck/linux-sta=
+ging
+already.
 
-Full log is available here: https://patchwork.ozlabs.org/patch/1600723
+https://lore.kernel.org/all/20220222223610.23098-1-linux@roeck-us.net/
 
+--=20
+Patrick Williams
 
-display@1e6e6000: 'memory-region' is a required property
-	arch/arm/boot/dts/aspeed-bmc-arm-centriq2400-rep.dt.yaml
-	arch/arm/boot/dts/aspeed-bmc-arm-stardragon4800-rep2.dt.yaml
-	arch/arm/boot/dts/aspeed-bmc-intel-s2600wf.dt.yaml
-	arch/arm/boot/dts/aspeed-bmc-opp-lanyang.dt.yaml
-	arch/arm/boot/dts/aspeed-bmc-opp-zaius.dt.yaml
-	arch/arm/boot/dts/aspeed-bmc-supermicro-x11spi.dt.yaml
+--VYm2G0+QLn/4yGoL
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmIiRqMACgkQqwNHzC0A
+wRnPgQ/8CvQ5AKgdzdynopTHa+Iz0ECeeFQi98vSMKhKUOdz9sHmItqjiEf9BtPa
+lTYj0lPOrkAW+tkzN6hfLdhmWFg5z7z1vpWPqKRYhoVtORtjO/EATja3iEua4p2a
+6JhUvRQXryduEwKvulEZ7CGbL8VgCaZTZHUrawdwEtfyQkmOxaLjfOtA/tksWmxU
+aa5/OG06Dk3wV7HejScWSJXyLYt0Mv4+R0PQUOPuVIfHYx18hd7hPzsyuga2UuWw
+yY11KcvA5Deyp5U195pUNDar9J2VrSe+fAAmuBqR214P7wC8qBK19dwx4j7qXfQt
+kfWnbJs481DQas7uLBH4WxytuoWVslB1fTUQu6XWgCQj7jjcODKVdmuQZLRLXiz7
+kiIPk/pqJWwZr5No300pbc0EfAsKKfdCuTjJe2chz3TmCkbky4opehVKTOafSB2o
+UBMB1Nz2LL1l1Kwe2XDvViS0rbQlLw3sn82SO7ez+gXjjKh9OivelUgOhcPeRGTv
+s48za2Nq3MUuaSbSBJaAB2NZaZ19zi8BnM9m5aohnYa3yzElW+yrHzHmx/rJdanZ
+JqA9RoCmtB4krTFDeOAV+kAHUSSHK0HL3O0ecJViSKt70fM4jAHKJzoag2Fn5FMB
+GrCRNd+OCs+H+y4Y0e6bBTEMbcycb5XWK8Z4XeyiWrcIkpkWsyQ=
+=Uw+x
+-----END PGP SIGNATURE-----
+
+--VYm2G0+QLn/4yGoL--
