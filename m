@@ -2,79 +2,87 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C004CD024
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 09:38:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E544CD016
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 09:37:55 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K91T34xK2z30Pq
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 19:37:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K91Sw74h8z3bTD
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 19:37:52 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org;
  spf=softfail (domain owner discourages use of this
- host) smtp.mailfrom=kaod.org (client-ip=148.163.158.5;
- helo=mx0b-001b2d01.pphosted.com; envelope-from=clg@kaod.org;
+ host) smtp.mailfrom=kaod.org (client-ip=148.163.156.1;
+ helo=mx0a-001b2d01.pphosted.com; envelope-from=clg@kaod.org;
  receiver=<UNKNOWN>)
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
- [148.163.158.5])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K91Sv2Fc9z30jV
- for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Mar 2022 19:37:51 +1100 (AEDT)
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2245JNOH021192; 
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K91Sd0Qyzz30DT
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Mar 2022 19:37:36 +1100 (AEDT)
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2248Nc26021958; 
+ Fri, 4 Mar 2022 08:36:55 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ekf7j06t2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Mar 2022 08:36:55 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 2248X4tO015738;
+ Fri, 4 Mar 2022 08:36:54 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ekf7j06s8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Mar 2022 08:36:54 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2248Xlwh010641;
  Fri, 4 Mar 2022 08:36:52 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ek8mxpp6e-1
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04ams.nl.ibm.com with ESMTP id 3ek4kg97h2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Mar 2022 08:36:52 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2248XJ2V027393;
- Fri, 4 Mar 2022 08:36:50 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma01fra.de.ibm.com with ESMTP id 3ek4k8124g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Mar 2022 08:36:50 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2248amEB47186186
+ Fri, 04 Mar 2022 08:36:51 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 2248PowQ41550280
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 4 Mar 2022 08:36:48 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1AEAD42042;
+ Fri, 4 Mar 2022 08:25:50 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9795FA405B;
+ Fri,  4 Mar 2022 08:36:49 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E54B2A4060;
  Fri,  4 Mar 2022 08:36:48 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 73D0D42045;
- Fri,  4 Mar 2022 08:36:47 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri,  4 Mar 2022 08:36:47 +0000 (GMT)
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Fri,  4 Mar 2022 08:36:48 +0000 (GMT)
 Received: from yukon.home (unknown [9.171.91.16])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 89B872200FD;
- Fri,  4 Mar 2022 09:36:45 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 401832201B4;
+ Fri,  4 Mar 2022 09:36:47 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: linux-spi@vger.kernel.org, linux-mtd@lists.infradead.org
-Subject: [PATCH v3 00/11] spi: spi-mem: Add driver for Aspeed SMC controllers
-Date: Fri,  4 Mar 2022 09:36:32 +0100
-Message-Id: <20220304083643.1079142-1-clg@kaod.org>
+Subject: [PATCH v3 01/11] mtd: spi-nor: aspeed: Rename Kconfig option
+Date: Fri,  4 Mar 2022 09:36:33 +0100
+Message-Id: <20220304083643.1079142-2-clg@kaod.org>
 X-Mailer: git-send-email 2.34.1
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: RFuuLzC8JejxWrm4oynsn6-IAqVUMeMt
-X-Proofpoint-ORIG-GUID: RFuuLzC8JejxWrm4oynsn6-IAqVUMeMt
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+In-Reply-To: <20220304083643.1079142-1-clg@kaod.org>
+References: <20220304083643.1079142-1-clg@kaod.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: LnWESykupjq_S7j0EAUU6WBeIH3Is_Lz
+X-Proofpoint-ORIG-GUID: oZipzQISZHy2rYXkESpcX2Rhv1ZOI369
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
  definitions=2022-03-04_02,2022-02-26_01,2022-02-23_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- mlxlogscore=999 lowpriorityscore=0 mlxscore=0 impostorscore=0 adultscore=0
- spamscore=0 priorityscore=1501 phishscore=0 suspectscore=0 bulkscore=0
- clxscore=1034 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxscore=0 bulkscore=0
+ adultscore=0 priorityscore=1501 suspectscore=0 malwarescore=0 phishscore=0
+ spamscore=0 mlxlogscore=907 impostorscore=0 clxscore=1034
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2202240000 definitions=main-2203040044
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -98,120 +106,45 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi,
+To prepare transition to the new Aspeed SMC SPI controller driver using
+the spi-mem interface, change the kernel CONFIG option of the current
+driver to reflect that the implementation uses the MTD SPI-NOR interface.
+Once the new driver is sufficiently exposed, we should remove the old one=
+.
 
-This series adds a new SPI driver using the spi-mem interface for the
-Aspeed static memory controllers of the AST2600, AST2500 and AST2400
-SoCs.
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Tested-by: Joel Stanley <joel@jms.id.au>
+Tested-by: Tao Ren <rentao.bupt@gmail.com>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ drivers/mtd/spi-nor/controllers/Kconfig  | 2 +-
+ drivers/mtd/spi-nor/controllers/Makefile | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
- * AST2600 Firmware SPI Memory Controller (FMC)
- * AST2600 SPI Flash Controller (SPI1 and SPI2)
- * AST2500 Firmware SPI Memory Controller (FMC)
- * AST2500 SPI Flash Controller (SPI1 and SPI2)
- * AST2400 New Static Memory Controller (also referred as FMC)
- * AST2400 SPI Flash Controller (SPI)
-
-It is based on the current OpenBMC kernel driver [1], using directly
-the MTD SPI-NOR interface and on a patchset [2] previously proposed
-adding support for the AST2600 only. This driver takes a slightly
-different approach to cover all 6 controllers.
-
-It does not make use of the controller register disabling Address and
-Data byte lanes because is not available on the AST2400 SoC. We could
-introduce a specific handler for new features available on recent SoCs
-if needed. As there is not much difference on performance, the driver
-chooses the common denominator: "User mode" which has been heavily
-tested in [1]. "User mode" is also used as a fall back method when
-flash device mapping window is too small.
-
-Problems to address with spi-mem were the configuration of the mapping
-windows and the calibration of the read timings. The driver handles
-them in the direct mapping handler when some knowledge on the size of
-the flash device is know. It is not perfect but not incorrect either.
-The algorithm is one from [1] because it doesn't require the DMA
-registers which are not available on all controllers.
-
-Direct mapping for writes is not supported (yet). I have seen some
-corruption with writes and I preferred to use the safer and proven
-method of the initial driver [1]. We can improve that later.
-
-The driver supports Quad SPI RX transfers on the AST2600 SoC but it
-didn't have the expected results. Therefore it is not activated yet.
-There are some issues on the pinctrl to investigate first.=20
-
-The series does not remove the current Aspeed SMC driver but prepares
-ground for its removal by changing its CONFIG option. This last step
-can be addressed as a followup when the new driver using the spi-mem
-interface has been sufficiently exposed.=20
-
-Tested on:
-=20
- * OpenPOWER Palmetto (AST2400)
- * Facebook Wedge 100 BMC (AST2400) by Tao Ren <rentao.bupt@gmail.com>
- * Evaluation board (AST2500)=20
- * Inspur FP5280G2 BMC (AST2500) by John Wang <wangzq.jn@gmail.com>
- * Facebook Backpack CMM BMC (AST2500) by Tao Ren <rentao.bupt@gmail.com>
- * OpenPOWER Witherspoon (AST2500)
- * Evaluation board (AST2600 A0 and A3)
- * Rainier board (AST2600)
-=20
-[1] https://github.com/openbmc/linux/blob/dev-5.15/drivers/mtd/spi-nor/cont=
-rollers/aspeed-smc.c
-[2] https://patchwork.ozlabs.org/project/linux-aspeed/list/?series=3D212394
-
-Thanks,
-
-C.=20
-
-Changes in v3:
-
- - Fixed compile warning on aspeed_spi_dirmap_read() prototype reported
-   by kernel test robot=20
- - Removed unnecessary entry in ast2600-fmc.yaml
- - New patch from Tao to set spi-max-frequency on all FMC devices
-
-Changes in v2:
-
- - Fixed dt_binding_check warnings (Rob)
- - New entry in MAINTAINERS=20
- - Addressed Lukas comments regarding the SPI controller registration
-   and device removal. Checked with driver bind/unbind=20=20=20
- - Introduced setup and cleanup handlers and removed routine looping
-   on the DT children properties (Pratyush)
- - Clarified in commit log requirements for training.
- - Removed defconfig changes of patch 1 since they were reverted in
-   the last patch (Joel)
-
-C=C3=A9dric Le Goater (10):
-  mtd: spi-nor: aspeed: Rename Kconfig option
-  ARM: dts: aspeed: Adjust "reg" property of FMC/SPI controllers
-  dt-bindings: spi: Add Aspeed SMC controllers device tree binding
-  spi: spi-mem: Add driver for Aspeed SMC controllers
-  spi: aspeed: Add support for direct mapping
-  spi: aspeed: Adjust direct mapping to device size
-  spi: aspeed: Workaround AST2500 limitations
-  spi: aspeed: Add support for the AST2400 SPI controller
-  spi: aspeed: Calibrate read timings
-  ARM: dts: aspeed: Enable Dual SPI RX transfers
-
-Tao Ren (1):
-  ARM: dts: aspeed-g4: Set spi-max-frequency for all flashes
-
- drivers/spi/spi-aspeed-smc.c                  | 1184 +++++++++++++++++
- .../bindings/spi/aspeed,ast2600-fmc.yaml      |   87 ++
- MAINTAINERS                                   |   10 +
- arch/arm/boot/dts/aspeed-g4.dtsi              |   16 +-
- arch/arm/boot/dts/aspeed-g5.dtsi              |   16 +-
- arch/arm/boot/dts/aspeed-g6.dtsi              |   17 +-
- drivers/mtd/spi-nor/controllers/Kconfig       |    4 +-
- drivers/mtd/spi-nor/controllers/Makefile      |    2 +-
- drivers/spi/Kconfig                           |   11 +
- drivers/spi/Makefile                          |    1 +
- 10 files changed, 1329 insertions(+), 19 deletions(-)
- create mode 100644 drivers/spi/spi-aspeed-smc.c
- create mode 100644 Documentation/devicetree/bindings/spi/aspeed,ast2600-fm=
-c.yaml
-
+diff --git a/drivers/mtd/spi-nor/controllers/Kconfig b/drivers/mtd/spi-no=
+r/controllers/Kconfig
+index 5c0e0ec2e6d1..876a47042fec 100644
+--- a/drivers/mtd/spi-nor/controllers/Kconfig
++++ b/drivers/mtd/spi-nor/controllers/Kconfig
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-config SPI_ASPEED_SMC
++config SPI_ASPEED_SMC_MTD_SPI_NOR
+ 	tristate "Aspeed flash controllers in SPI mode"
+ 	depends on ARCH_ASPEED || COMPILE_TEST
+ 	depends on HAS_IOMEM && OF
+diff --git a/drivers/mtd/spi-nor/controllers/Makefile b/drivers/mtd/spi-n=
+or/controllers/Makefile
+index e7abba491d98..1e28297fb1e8 100644
+--- a/drivers/mtd/spi-nor/controllers/Makefile
++++ b/drivers/mtd/spi-nor/controllers/Makefile
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0
+-obj-$(CONFIG_SPI_ASPEED_SMC)	+=3D aspeed-smc.o
++obj-$(CONFIG_SPI_ASPEED_SMC_MTD_SPI_NOR)	+=3D aspeed-smc.o
+ obj-$(CONFIG_SPI_HISI_SFC)	+=3D hisi-sfc.o
+ obj-$(CONFIG_SPI_NXP_SPIFI)	+=3D nxp-spifi.o
+ obj-$(CONFIG_SPI_INTEL_SPI)	+=3D intel-spi.o
 --=20
 2.34.1
 
