@@ -2,72 +2,75 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500EA4CCA65
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 01:03:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72AEA4CCA66
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 01:03:46 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K8p3Z1xQwz2yK6
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 11:03:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K8p3g34HHz2yPv
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 11:03:43 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=epc/hkkP;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=hi2XA1mG;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::102d;
- helo=mail-pj1-x102d.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1032;
+ helo=mail-pj1-x1032.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=epc/hkkP; dkim-atps=neutral
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
+ header.s=20210112 header.b=hi2XA1mG; dkim-atps=neutral
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K8p3Q2258z2xWd
- for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Mar 2022 11:03:27 +1100 (AEDT)
-Received: by mail-pj1-x102d.google.com with SMTP id
- m11-20020a17090a7f8b00b001beef6143a8so6491289pjl.4
- for <linux-aspeed@lists.ozlabs.org>; Thu, 03 Mar 2022 16:03:28 -0800 (PST)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K8p3R4rKhz2xWd
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Mar 2022 11:03:31 +1100 (AEDT)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ em10-20020a17090b014a00b001bc3071f921so9190662pjb.5
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 03 Mar 2022 16:03:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uhcD4UvaPOzmyw+JIMMImnAjRph755cmDjQJ7NEOGPo=;
- b=epc/hkkPONQlmZ2L6W9lZGK93Yj9NTYnrX9YhoRHv7uSPpZFJOeEeI9TMf6AZgGbAA
- cZa2P3MQ57+v/jQK4M0xtcY8ft/B6paTbrfvKHag90BjZm6vRk3lErU5m6EYgLLvWWHz
- xpN1iSrHPHLvZCj+mpDl3J6BtKsDOfKDHnAe6XeHUdA69lLgz7DuOacfxwMAqL8+DHzT
- ZrKMnodmNP9+HlzcbqAT1PxHtRGGpw+KYjcdf6IO6SJ2AY6a85u3snSNwc+wyb4mY08y
- 15ME72/O9ucYQNfFbVngQ57XLjIVvE8DcM/hbNEWc9DPPRkROUrxDhewz7I2/CxEya6r
- 0Rrg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=wLbnAogNT/oWqYux4yLvZ6VmokfE6BJtRW5+y3qAKWc=;
+ b=hi2XA1mGuWmzBzW2eI21+QsIerzLq33JIxiQE5ib685tWM9tZWUvnicxNP8036rM21
+ u6fRHECcwEvvDNdCvQbJuComVS7o2Q89BBXL1/NDnR0RHJUQXDq2U6UHAuN7+TxO4eW0
+ 4SgV7FZnhLt50QFYEBELcSByrEzKbYDqLphlprmwV641hOF2t+Y1czJPeuofptpykR3t
+ iDCnhEOK7DA9aDrBepcvkBbqWH7arkkPvCch6hH6bXgQCmbwm4H0XZ5FqVNRn83I8mXi
+ TZwQ3Zt2y0mfKNo76TqOGc54qd8K4u6RTit7M6Zupof3RKtFDlfece48fZzkyrrH2apC
+ fJuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=uhcD4UvaPOzmyw+JIMMImnAjRph755cmDjQJ7NEOGPo=;
- b=HAnRHNt8VnNrN/Tc3NIE7UD5cGLfz6H136NToc6h/qXoyxNwFzR1RGNYwsPdkzadVf
- u5QuBgp2n3Ulx/l1ci/Gu0Yrzj+MbCcFa7OlOPeIN310MLVBfuFQWcqSBZaGekm2+JGz
- WI64hqUW7AuQMYM29kb7jNZOHENjWUR/IXyDMeHqs6+M+dZSeRTA3kN1HKsO0Ux8TCzt
- y5B+Jrd5iJAXXfiIWGpra1Xf2R+w/mH3q4UyOIRJxYhLJm3ICsQZuKGxCnVbUCKiEK8T
- osEvyBhjjHvCdaKvgx7WFhP/u3KzOTq6YosY1KgDrqqgxGkY9xUw67pEZDmb+ibQiGgh
- EiFw==
-X-Gm-Message-State: AOAM530GcDXfJzeDAll8NSaTR4RWajRr3/zrAK4+RhPKmSo5YZoS3aN1
- uYwsxX+86uwRVbzwmK9MYmU=
-X-Google-Smtp-Source: ABdhPJxnSRBdeXggNjwOC3GlHeBWS9e08z+WqN7h9hP28KglwVu0Nxdfq7EsiiynMdPOJRjcp+FEGg==
-X-Received: by 2002:a17:90b:4d8a:b0:1be:f5f1:89d3 with SMTP id
- oj10-20020a17090b4d8a00b001bef5f189d3mr8012723pjb.79.1646352206557; 
- Thu, 03 Mar 2022 16:03:26 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=wLbnAogNT/oWqYux4yLvZ6VmokfE6BJtRW5+y3qAKWc=;
+ b=SLGVZiCiYsbkyfNL+3pS6JfqdTzkLwKBFe1dwT5Dc3AJMqtLE2LcuX8w+SFy4P8zx3
+ 1k6xRNhmfKBvfDiLfoF08VSJKNEuofWZc3HtSPH7PWuN1EVkYQyKHnmAvwUM0TPQsxDn
+ 6epnTVY8GcykZy63BDZfrtFkUXm8PTmaKaW3PWFwSZhLIpWBKNoXIkhoBCyStTTf/R4d
+ hT4x478dCJK8Z1d8zPdthW6GYPHoxIhRH36zfXZ12wUlT3dVxSqmArrGQqftPCQt/ByA
+ pkG3nh4ObOsq4SonKCzcucl0u0ZcTWXulCFk9zRzD7zBXqqbTN4/CnNUqVTq0EdGJj5Q
+ ebYg==
+X-Gm-Message-State: AOAM533MjzENIMJpFON7LaQd/Vd63KRtosP8tdK8lRpJTLspAQfvojXA
+ qwsX1fTFbtGs9YMMO8ooWCQ=
+X-Google-Smtp-Source: ABdhPJyELqxSTPbuNUbV618Zl9NffFmwo6n9gQkEBZYjAx7lveDnXUSUAAOKa93JYUPwetl8+4Ufdg==
+X-Received: by 2002:a17:90a:4749:b0:1be:ea64:4348 with SMTP id
+ y9-20020a17090a474900b001beea644348mr7804979pjg.231.1646352210357; 
+ Thu, 03 Mar 2022 16:03:30 -0800 (PST)
 Received: from localhost.localdomain ([45.124.203.14])
  by smtp.gmail.com with ESMTPSA id
- z8-20020aa79588000000b004e1dc67ead3sm3579070pfj.126.2022.03.03.16.03.22
+ z8-20020aa79588000000b004e1dc67ead3sm3579070pfj.126.2022.03.03.16.03.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Mar 2022 16:03:25 -0800 (PST)
+ Thu, 03 Mar 2022 16:03:29 -0800 (PST)
 From: Joel Stanley <joel@jms.id.au>
 To: Rob Herring <robh+dt@kernel.org>,
 	Andrew Jeffery <andrew@aj.id.au>
-Subject: [PATCH v2 0/2] dt-bindings: Convert GFX bindings to yaml
-Date: Fri,  4 Mar 2022 10:33:09 +1030
-Message-Id: <20220304000311.970267-1-joel@jms.id.au>
+Subject: [PATCH v2 1/2] dt-bindings: pinctrl: aspeed: Update gfx node in
+ example
+Date: Fri,  4 Mar 2022 10:33:10 +1030
+Message-Id: <20220304000311.970267-2-joel@jms.id.au>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220304000311.970267-1-joel@jms.id.au>
+References: <20220304000311.970267-1-joel@jms.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -88,33 +91,59 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-v1: https://lore.kernel.org/all/20220302051056.678367-1-joel@jms.id.au/
+The example needs updating to match the to be added yaml bindings for
+the gfx node.
 
-This series cleans up the bindings for the ASPEED GFX unit.
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+---
+ .../bindings/pinctrl/aspeed,ast2500-pinctrl.yaml | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-The old text files are deleted for both the description under gpu, and the
-placeholder one under mfd.
-
-The mfd one existed because pinctrl for the 2500 depends on the gfx
-bindings, and at the time we didn't have any support fo the gfx device,
-so Andrew added the mfd ones.
-
-The example in the pinctrl bindings is updated to prevent warnings about
-missing properties that pop up when the gfx yaml bindings are added.
-
-Joel Stanley (2):
-  dt-bindings: pinctrl: aspeed: Update gfx node in example
-  dt-bindings: gpu: Convert aspeed-gfx bindings to yaml
-
- .../devicetree/bindings/gpu/aspeed,gfx.yaml   | 69 +++++++++++++++++++
- .../devicetree/bindings/gpu/aspeed-gfx.txt    | 41 -----------
- .../devicetree/bindings/mfd/aspeed-gfx.txt    | 17 -----
- .../pinctrl/aspeed,ast2500-pinctrl.yaml       | 16 +++++
- 4 files changed, 85 insertions(+), 58 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
- delete mode 100644 Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
- delete mode 100644 Documentation/devicetree/bindings/mfd/aspeed-gfx.txt
-
+diff --git a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml
+index d316cc082107..9969997c2f1b 100644
+--- a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml
++++ b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml
+@@ -73,6 +73,7 @@ additionalProperties: false
+ 
+ examples:
+   - |
++    #include <dt-bindings/clock/aspeed-clock.h>
+     apb {
+         compatible = "simple-bus";
+         #address-cells = <1>;
+@@ -82,6 +83,8 @@ examples:
+         syscon: scu@1e6e2000 {
+             compatible = "aspeed,ast2500-scu", "syscon", "simple-mfd";
+             reg = <0x1e6e2000 0x1a8>;
++            #clock-cells = <1>;
++            #reset-cells = <1>;
+ 
+             pinctrl: pinctrl {
+                 compatible = "aspeed,ast2500-pinctrl";
+@@ -102,6 +105,12 @@ examples:
+         gfx: display@1e6e6000 {
+             compatible = "aspeed,ast2500-gfx", "syscon";
+             reg = <0x1e6e6000 0x1000>;
++            reg-io-width = <4>;
++            clocks = <&syscon ASPEED_CLK_GATE_D1CLK>;
++            resets = <&syscon ASPEED_RESET_CRT1>;
++            interrupts = <0x19>;
++            syscon = <&syscon>;
++            memory-region = <&gfx_memory>;
+         };
+     };
+ 
+@@ -128,3 +137,10 @@ examples:
+             };
+         };
+     };
++
++    gfx_memory: framebuffer {
++        size = <0x01000000>;
++        alignment = <0x01000000>;
++        compatible = "shared-dma-pool";
++        reusable;
++    };
 -- 
 2.34.1
 
