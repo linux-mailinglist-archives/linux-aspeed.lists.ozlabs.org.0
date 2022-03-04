@@ -2,49 +2,79 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148874CCDC9
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 07:33:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAB774CCF68
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 08:58:02 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4K8yhp0rtVz30FM
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 17:32:58 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4K90Zv72Zfz30Hg
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Mar 2022 18:57:59 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=DY4pRiga;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.71;
- helo=twspam01.aspeedtech.com; envelope-from=tommy_huang@aspeedtech.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1032;
+ helo=mail-pj1-x1032.google.com; envelope-from=rentao.bupt@gmail.com;
  receiver=<UNKNOWN>)
-Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
- [211.20.114.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20210112 header.b=DY4pRiga; dkim-atps=neutral
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4K8yhd11p9z2yww
- for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Mar 2022 17:32:46 +1100 (AEDT)
-Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 2246MIcb041906;
- Fri, 4 Mar 2022 14:22:18 +0800 (GMT-8)
- (envelope-from tommy_huang@aspeedtech.com)
-Received: from tommy0527-VirtualBox.aspeedtech.com (192.168.2.141) by
- TWMBX02.aspeed.com (192.168.0.24) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 4 Mar 2022 14:31:44 +0800
-From: Tommy Haung <tommy_huang@aspeedtech.com>
-To: <joel@jms.id.au>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <robh+dt@kernel.org>, <andrew@aj.id.au>,
- <linux-aspeed@lists.ozlabs.org>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v1 2/2] drm/aspeed: Add 1024x768 mode for AST2600
-Date: Fri, 4 Mar 2022 14:31:37 +0800
-Message-ID: <20220304063137.12970-3-tommy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220304063137.12970-1-tommy_huang@aspeedtech.com>
-References: <20220304063137.12970-1-tommy_huang@aspeedtech.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4K90Zq6tCzz2xsc
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Mar 2022 18:57:55 +1100 (AEDT)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ ev16-20020a17090aead000b001bc3835fea8so7360443pjb.0
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 03 Mar 2022 23:57:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=b5JJahJbPSg5PuTw+HrbCqpeRRIjKIFlWzoeU01rKTU=;
+ b=DY4pRigayZTq/5rjtD2bjuRYX10CoBCJokMk8l+MP82c190ULI8mFEuacqaLNPAXPD
+ g19dQFm0zMVhGKiOsNUY9WJgsc90AJDeeLgEAB5cpBbXEMt6heWnf2gMNbOruuNvF17k
+ tXwKAv2lg7nTWKjS4zTcwxp73K/Vbt1z1Gar1VAgmd5Ag6hG/VXjy+dML3IARlgqC2B6
+ cGI/FVM8Zba/wkYhqCgAMgtvHPZVw74vWCg4uHmsYZyJaQoCdjis0QGRG8L1OWv6BWMe
+ j0uwGPD8wkT83IJ+e+RJJqDuugr6zMJGNHLqy9gJLwrC/UgMPBBtoo1bFd9Z8PQlBUsR
+ KiUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=b5JJahJbPSg5PuTw+HrbCqpeRRIjKIFlWzoeU01rKTU=;
+ b=22XL3taMV6F86r7rkU3B7dyur4WNXPlPv72gYQR9fWe/ZvaAH+Eq1RxjDPz6LHLuqk
+ rZm0UAQ+ViBLT49FwIXTruiFZMGdQue6IAcmFZB9mu6UoLPmdLNma0+KWZXxpxPOBQf7
+ Jo1yXnYMn4YP4cIXEJDVlbtqC3jP1d3UbqhCquWsRQoTSaI4p6OhJahmjTLvjak8SMW4
+ XAtC+Bi1pxbpKXBjFtjFcrDcTDl3dSMgQigjk68rnJ9kbfG2VOP5TDunes1R4Pa0KXG/
+ OcNc8vQYMUedB1ce0kpjsgDbvEXTb9uWn6BCfZKy3C20wOFj3kS4nfF6QYCb6V8JPs9x
+ ATOg==
+X-Gm-Message-State: AOAM533HpDyK6qBk8PRwZXC0+pfyO53Ka9XyXYA7TbIjTFLB90NJpkDU
+ GQZmEOiLzfHZT+sb0PowcGA=
+X-Google-Smtp-Source: ABdhPJxvuPW+GS4d0R4GqvhhYiQKHdTrokQg6qHNRrkq/DtJ47Gkay/NlA31+zVRMc3ZiLuUSflWGA==
+X-Received: by 2002:a17:90a:4286:b0:1b8:8ba1:730c with SMTP id
+ p6-20020a17090a428600b001b88ba1730cmr9376289pjg.181.1646380673939; 
+ Thu, 03 Mar 2022 23:57:53 -0800 (PST)
+Received: from taoren-fedora-PC23YAB4 ([98.47.137.113])
+ by smtp.gmail.com with ESMTPSA id
+ q7-20020a056a0002a700b004f357e3e42fsm4936341pfs.36.2022.03.03.23.57.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Mar 2022 23:57:53 -0800 (PST)
+Date: Thu, 3 Mar 2022 23:57:50 -0800
+From: Tao Ren <rentao.bupt@gmail.com>
+To: Joel Stanley <joel@jms.id.au>
+Subject: Re: [PATCH v2 00/10] spi: spi-mem: Add driver for Aspeed SMC
+ controllers
+Message-ID: <YiHGfh/4xZRim6Ka@taoren-fedora-PC23YAB4>
+References: <20220302173114.927476-1-clg@kaod.org>
+ <CACPK8Xdo=krCNVVs5=jiSnmyiPkNPd9Dxxyx0Tv8eUHKR5J3cQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [192.168.2.141]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 2246MIcb041906
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACPK8Xdo=krCNVVs5=jiSnmyiPkNPd9Dxxyx0Tv8eUHKR5J3cQ@mail.gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,171 +86,52 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com
+Cc: devicetree <devicetree@vger.kernel.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Tudor Ambarus <tudor.ambarus@microchip.com>,
+ Richard Weinberger <richard@nod.at>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, linux-spi@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Pratyush Yadav <p.yadav@ti.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Update the aspeed_gfx_set_clk with display width.
-At AST2600, the display clock could be coming from
-HPLL clock / 16 = 75MHz. It would fit 1024x768@70Hz.
-Another chip will still keep 800x600.
+On Thu, Mar 03, 2022 at 10:01:20AM +0000, Joel Stanley wrote:
+> On Wed, 2 Mar 2022 at 17:31, Cédric Le Goater <clg@kaod.org> wrote:
+> >
+> > Hi,
+> >
+> > This series adds a new SPI driver using the spi-mem interface for the
+> > Aspeed static memory controllers of the AST2600, AST2500 and AST2400
+> > SoCs.
+> >
+> >  * AST2600 Firmware SPI Memory Controller (FMC)
+> >  * AST2600 SPI Flash Controller (SPI1 and SPI2)
+> 
+> I've performed read and write tests on the 2600 controllers, and the
+> driver seems stable at the settings you have in the device tree.
+> 
+> Tested-by: Joel Stanley <joel@jms.id.au>
+> 
+> I've added Tao and John to cc as they have tested the 2400 and 2500,
+> and I'm sure will be able to provide some Tested-by.
+> 
+> Cheers,
+> 
+> Joel
 
-Signed-off-by: Tommy Haung <tommy_huang@aspeedtech.com>
----
- drivers/gpu/drm/aspeed/aspeed_gfx.h      | 12 ++++++----
- drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c | 29 ++++++++++++++++++++----
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c  | 16 +++++++++++--
- drivers/gpu/drm/aspeed/aspeed_gfx_out.c  | 14 +++++++++++-
- 4 files changed, 60 insertions(+), 11 deletions(-)
+I've tested the patch series on ast2400 (wedge100) and ast2500 (cmm) by
+reading/writing FMC flash0 and flash1 for several times, and no issues
+observed so far.
 
-diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx.h b/drivers/gpu/drm/aspeed/aspeed_gfx.h
-index eb4c267cde5e..c7aefee0657a 100644
---- a/drivers/gpu/drm/aspeed/aspeed_gfx.h
-+++ b/drivers/gpu/drm/aspeed/aspeed_gfx.h
-@@ -109,11 +109,15 @@ int aspeed_gfx_create_output(struct drm_device *drm);
- #define CRT_THROD_HIGH(x)		((x) << 8)
- 
- /* SCU control */
--#define SCU_G6_CLK_COURCE		0x300
-+#define G6_CLK_SOURCE			0x300
-+#define G6_CLK_SOURCE_MASK		(BIT(8) | BIT(9) | BIT(10))
-+#define G6_CLK_SOURCE_HPLL		(BIT(8) | BIT(9) | BIT(10))
-+#define G6_CLK_SOURCE_USB		BIT(9)
-+#define G6_CLK_SEL3			0x308
-+#define G6_CLK_DIV_MASK			0x3F000
-+#define G6_CLK_DIV_16			(BIT(16)|BIT(15)|BIT(13)|BIT(12))
-+#define G6_USB_40_CLK			BIT(9)
- 
- /* GFX FLAGS */
- #define CLK_MASK			BIT(0)
- #define CLK_G6				BIT(0)
--
--#define G6_CLK_MASK			(BIT(8) | BIT(9) | BIT(10))
--#define G6_USB_40_CLK			BIT(9)
-diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-index a24fab22eac4..5829be9c7c67 100644
---- a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-+++ b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
-@@ -23,6 +23,28 @@ drm_pipe_to_aspeed_gfx(struct drm_simple_display_pipe *pipe)
- 	return container_of(pipe, struct aspeed_gfx, pipe);
- }
- 
-+static void aspeed_gfx_set_clock_source(struct aspeed_gfx *priv, int mode_width)
-+{
-+	regmap_update_bits(priv->scu, G6_CLK_SOURCE, G6_CLK_SOURCE_MASK, 0x0);
-+	regmap_update_bits(priv->scu, G6_CLK_SEL3, G6_CLK_DIV_MASK, 0x0);
-+
-+	switch (mode_width) {
-+	case 1024:
-+		/* hpll div 16 = 75Mhz */
-+		regmap_update_bits(priv->scu, G6_CLK_SOURCE,
-+		G6_CLK_SOURCE_MASK, G6_CLK_SOURCE_HPLL);
-+		regmap_update_bits(priv->scu, G6_CLK_SEL3,
-+		G6_CLK_DIV_MASK, G6_CLK_DIV_16);
-+		break;
-+	case 800:
-+	default:
-+		/* usb 40Mhz */
-+		regmap_update_bits(priv->scu, G6_CLK_SOURCE,
-+		G6_CLK_SOURCE_MASK, G6_CLK_SOURCE_USB);
-+		break;
-+	}
-+}
-+
- static int aspeed_gfx_set_pixel_fmt(struct aspeed_gfx *priv, u32 *bpp)
- {
- 	struct drm_crtc *crtc = &priv->pipe.crtc;
-@@ -77,12 +99,11 @@ static void aspeed_gfx_disable_controller(struct aspeed_gfx *priv)
- 	regmap_update_bits(priv->scu, priv->dac_reg, BIT(16), 0);
- }
- 
--static void aspeed_gfx_set_clk(struct aspeed_gfx *priv)
-+static void aspeed_gfx_set_clk(struct aspeed_gfx *priv, int mode_width)
- {
- 	switch (priv->flags & CLK_MASK) {
- 	case CLK_G6:
--		regmap_update_bits(priv->scu, SCU_G6_CLK_COURCE, G6_CLK_MASK, 0x0);
--		regmap_update_bits(priv->scu, SCU_G6_CLK_COURCE, G6_CLK_MASK, G6_USB_40_CLK);
-+		aspeed_gfx_set_clock_source(priv, mode_width);
- 		break;
- 	default:
- 		break;
-@@ -99,7 +120,7 @@ static void aspeed_gfx_crtc_mode_set_nofb(struct aspeed_gfx *priv)
- 	if (err)
- 		return;
- 
--	aspeed_gfx_set_clk(priv);
-+	aspeed_gfx_set_clk(priv, m->hdisplay);
- 
- #if 0
- 	/* TODO: we have only been able to test with the 40MHz USB clock. The
-diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-index af56ffdccc65..e1a814aebc2d 100644
---- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-+++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-@@ -110,6 +110,7 @@ static const struct drm_mode_config_funcs aspeed_gfx_mode_config_funcs = {
- 
- static int aspeed_gfx_setup_mode_config(struct drm_device *drm)
- {
-+	struct aspeed_gfx *priv = to_aspeed_gfx(drm);
- 	int ret;
- 
- 	ret = drmm_mode_config_init(drm);
-@@ -118,8 +119,18 @@ static int aspeed_gfx_setup_mode_config(struct drm_device *drm)
- 
- 	drm->mode_config.min_width = 0;
- 	drm->mode_config.min_height = 0;
--	drm->mode_config.max_width = 800;
--	drm->mode_config.max_height = 600;
-+
-+	switch (priv->flags & CLK_MASK) {
-+	case CLK_G6:
-+		drm->mode_config.max_width = 1024;
-+		drm->mode_config.max_height = 768;
-+		break;
-+	default:
-+		drm->mode_config.max_width = 800;
-+		drm->mode_config.max_height = 600;
-+		break;
-+	}
-+
- 	drm->mode_config.funcs = &aspeed_gfx_mode_config_funcs;
- 
- 	return ret;
-@@ -167,6 +178,7 @@ static int aspeed_gfx_load(struct drm_device *drm)
- 	priv->vga_scratch_reg = config->vga_scratch_reg;
- 	priv->throd_val = config->throd_val;
- 	priv->scan_line_max = config->scan_line_max;
-+	priv->flags = config->gfx_flags;
- 
- 	priv->scu = syscon_regmap_lookup_by_phandle(np, "syscon");
- 	if (IS_ERR(priv->scu)) {
-diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_out.c b/drivers/gpu/drm/aspeed/aspeed_gfx_out.c
-index 6759cb88415a..5d5e04f15c59 100644
---- a/drivers/gpu/drm/aspeed/aspeed_gfx_out.c
-+++ b/drivers/gpu/drm/aspeed/aspeed_gfx_out.c
-@@ -10,7 +10,19 @@
- 
- static int aspeed_gfx_get_modes(struct drm_connector *connector)
- {
--	return drm_add_modes_noedid(connector, 800, 600);
-+	struct aspeed_gfx *priv = container_of(connector, struct aspeed_gfx, connector);
-+	int mode_count = 0;
-+
-+	switch (priv->flags & CLK_MASK) {
-+	case CLK_G6:
-+		mode_count = drm_add_modes_noedid(connector, 1024, 768);
-+		break;
-+	default:
-+		mode_count = drm_add_modes_noedid(connector, 800, 600);
-+		break;
-+	}
-+
-+	return mode_count;
- }
- 
- static const struct
--- 
-2.17.1
+Tested-by: Tao Ren <rentao.bupt@gmail.com>
 
+
+Cheers,
+
+Tao
