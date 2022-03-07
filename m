@@ -1,138 +1,66 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3C44CF3B9
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Mar 2022 09:36:13 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 611D34CFFC3
+	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Mar 2022 14:16:34 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KBsHZ1qvqz2xDD
-	for <lists+linux-aspeed@lfdr.de>; Mon,  7 Mar 2022 19:36:10 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.a=rsa-sha256 header.s=selector2 header.b=QBzxMHYs;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KBzW32P3pz3bSs
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Mar 2022 00:16:31 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=os.amperecomputing.com (client-ip=2a01:111:f400:7eaa::730;
- helo=nam11-dm6-obe.outbound.protection.outlook.com;
- envelope-from=quan@os.amperecomputing.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com
- header.a=rsa-sha256 header.s=selector2 header.b=QBzxMHYs; 
- dkim-atps=neutral
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on20730.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eaa::730])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KBsD50DQdz3bT0;
- Mon,  7 Mar 2022 19:33:08 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T7Xq3vGySDcMPdOcl2+J0ZHVDba5ShuYAwf/IMTmfeuHQkJvTJXM7QE+nhM16c1jdoCzyXzjArCCtIsDQZw5yoqwOjgPbax/mulbr0SxrEm13NKCYPjvJBlGp7LWPiwxMkFSETRpkyeASm26BG6/3nEmzwFnFHxUVRX2AOrQZkCYFEtJimGMAh5rfONhsG09hudu1ZBFNv44eizg/nNyRabm64hMvKnq6EUQV3W4iMfCzJg7FU+nD+ydNIfiU1N+vVIMsqQ7nuySDVGdqS17sqf5mRiSj0PIsc2/tTOEcbO6nmZ1YDrVVI4XK/G7XbdELBOpqqjfurIBcXSqFSWEGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ejNFzhyq3rLVYygfcN1fEvoQOAGjXiqFUPdGEhfGMlI=;
- b=erg2WmoGaWqSAZZoWZS0NBC9oKpsFAwOzEkZM1R/d768E82TNSIqvEpYRCYB7eUZ3QDo8uhbGCjdGgYmagN4/4DUqodJ4jtb3+9bM7f0Re6Q7CpTwrFesuIZ8CDNbaMrq8wL5ufpHwwcmS6jw5aw7lOBdBOzNwImrxMJfNSaELhlC8k36Lv3hbvILd2u3df0KZPOC2h6t5aAu9plSvHvSOM3Z0byN08ttJA3/ZsHGX98emaD/7FieC85LGmprz8VWxnJe5zTYyUIiw1yY/Jc+IBHWUZRTSa3BgIhiPUEbjh3ksxkaFZmsRsiy5pC0uomfbVfWiDyY225Z9O2KUSLjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ejNFzhyq3rLVYygfcN1fEvoQOAGjXiqFUPdGEhfGMlI=;
- b=QBzxMHYseXHgieFQczn4WyYqAQciOtXQUnbxSOdpGOrKmJZZxxU8BQUvsixmXqORZ+RwCzZqRim0QF1WOOtMj/C+6rhtXb3i5Dm58+5yQBOJaMR0WFObg02xCbMRxLu3D3tjZ6cj3z8UbsVqFi1J7/aZa3I/Wf89nmCVwbuRjbA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from SJ0PR01MB7282.prod.exchangelabs.com (2603:10b6:a03:3f2::24) by
- BL0PR01MB4660.prod.exchangelabs.com (2603:10b6:208:75::18) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5038.14; Mon, 7 Mar 2022 08:32:50 +0000
-Received: from SJ0PR01MB7282.prod.exchangelabs.com
- ([fe80::cd24:39ed:7042:46d6]) by SJ0PR01MB7282.prod.exchangelabs.com
- ([fe80::cd24:39ed:7042:46d6%6]) with mapi id 15.20.5038.026; Mon, 7 Mar 2022
- 08:32:49 +0000
-Message-ID: <51603aa7-4113-dba4-9a38-0a6683a1d249@os.amperecomputing.com>
-Date: Mon, 7 Mar 2022 15:32:36 +0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.6.1
-From: Quan Nguyen <quan@os.amperecomputing.com>
-Subject: Re: [PATCH v6 8/9] misc: smpro-misc: Add Ampere's Altra SMpro misc
- driver
-To: Lee Jones <lee.jones@linaro.org>
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=arndb.de
+ (client-ip=212.227.126.187; helo=mout.kundenserver.de;
+ envelope-from=arnd@arndb.de; receiver=<UNKNOWN>)
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KBzVy3x7yz30BF;
+ Tue,  8 Mar 2022 00:16:25 +1100 (AEDT)
+Received: from mail-wm1-f42.google.com ([209.85.128.42]) by
+ mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MLRI3-1nibeG1my3-00IQoR; Mon, 07 Mar 2022 14:16:23 +0100
+Received: by mail-wm1-f42.google.com with SMTP id r65so9175709wma.2;
+ Mon, 07 Mar 2022 05:16:23 -0800 (PST)
+X-Gm-Message-State: AOAM531pVk0tk19y5nn348WqbFM9UJfFOKFvUwFV9BL7QL0Y9N+jYBuZ
+ R106h0DeUpkrBH6zpgRDdcMt112es+CxPpx28MI=
+X-Google-Smtp-Source: ABdhPJysabRPmKcRrE/Kx/6xr0pdCTUYYBYzw9UdGhnsD750vY5MOm+A6ymUb8srsaOas8KbFQonhsx1JUb8yl80qaQ=
+X-Received: by 2002:a1c:7919:0:b0:389:79c5:fe83 with SMTP id
+ l25-20020a1c7919000000b0038979c5fe83mr10387102wme.173.1646658983039; Mon, 07
+ Mar 2022 05:16:23 -0800 (PST)
+MIME-Version: 1.0
 References: <20211224041352.29405-1-quan@os.amperecomputing.com>
  <20211224041352.29405-9-quan@os.amperecomputing.com>
-Content-Language: en-US
-In-Reply-To: <20211224041352.29405-9-quan@os.amperecomputing.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: HK0PR03CA0117.apcprd03.prod.outlook.com
- (2603:1096:203:b0::33) To SJ0PR01MB7282.prod.exchangelabs.com
- (2603:10b6:a03:3f2::24)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cd29670f-9adf-4f39-0f28-08da00150feb
-X-MS-TrafficTypeDiagnostic: BL0PR01MB4660:EE_
-X-Microsoft-Antispam-PRVS: <BL0PR01MB4660613DD98D6C26EAE3CFEFF2089@BL0PR01MB4660.prod.exchangelabs.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mgJXKxgCfy/EMPnIE7HrOEdj7KemYRQs5ZstODwyd7K9iI4ogLyl0ANbRws0gpP6BuHay3Rul9wQDVit5AZSpalDB2PiSNvb7mAeSVxEbkD1mN+vsLpP9MX7xSsMlvlAX3s9ycoG9CB3FwbksLiVJud463UZb78jeRPbmcGAtckTdhq5SsbmFDyEBZMCZstEj9LbpVDD1SAA20YFMB0Sh9TIUxnq8KLRYq1fms6AxwMrAUq/oj3hPkGGwFwcuVe7ZAYflS7Ic7dLGYPAheEDaSbpwcnLdzG7/lec2bKhSUt3SF4KoaQ6pWQhVVCtacHS6GttWkulCqdLVTLC55iIMRAvGuiSh09w8WRZUNql84YCE8LfmVuGviideBhKfkPCr4cd8qWHc2ZunNg8cZtDlnS3YG/cDRieBjSO78kMczMXDvnZDHhn7Xew06KJ7GW0cmCy06gzzbs1wf0vpgX0KEEhL1z5dS6U+4+esL4dEovwt4bU+5iE/FpdH+D0azNaNB9wBpdjLLoZ+Y+h4k114cFCpZToZcpbafoLG6pKsOrHnyyh35ytPTkZBzAkHBgMhJ4Q+a8aMulPZUSMB4b20ErPXbPhoaGkdfOjl2Djch73NKIZVwd41JieArSNFTKqb/uw8rr9c2v0fS2aHTu0J+kPKUTMNwi4DG75CdWkYE8m1Bzce88shU5SBct4BVahY386yCdDJrK9JwDP1jIgRpMDgEcXGExsTq52pXaPDThzVidI7aUhngid2kuUwyv/ZkFx4HIxI4MMWrWl4oH13X6XUE9sw9FbHrDgxSMPaNkq9VMDTWfGlPqQzmkkZiad
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR01MB7282.prod.exchangelabs.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(508600001)(966005)(6666004)(31696002)(54906003)(316002)(6916009)(6486002)(66476007)(8676002)(4326008)(66556008)(86362001)(186003)(38100700002)(38350700002)(66946007)(5660300002)(26005)(6506007)(8936002)(53546011)(2616005)(52116002)(7416002)(2906002)(55236004)(83380400001)(31686004)(6512007)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L0h0NGpWb2xtZkpsZW41eHVITFdMMDFsUHpuVmYwMDdxMC9PZ01OdDhLczFu?=
- =?utf-8?B?ZDVTd0l6NU1vOFNXRFB0RDhEQU5HM3pQVS9ZNGg2NVVsNjRMNFQvS0NRQXpZ?=
- =?utf-8?B?anVtVzdGdlVNTXQ1VG9RVStBN3BzVXNic3RPRHJHa1pTblN0OC82UjMwMkgr?=
- =?utf-8?B?UzkvekZqM3JGNTkrKzNiZ2N4MzYzT0pURVFWZnhLcFQ4VFVvZDdIS1prcEhK?=
- =?utf-8?B?eUJMdCtUUXJBMDQ2eHErLzRQc0tyVmxDOFVHcVNtYldmUHJxTjE2ZnE5YnAr?=
- =?utf-8?B?bG1rcE9DUUNvcGl3MzFBSmNwSlFRNG5zQW9DQURJeGQ4eHh1Y2ZIRkFGSUlj?=
- =?utf-8?B?em9mVGVZbmpiV0h1bDQ4ZXRuRGRqUGkrZzl6VFJQamIrYXpHdmhSdEdpTGJp?=
- =?utf-8?B?cXJtQjA0QS9XWEw3NW9WSC81MTNsTGpsK1BybUhtdmtCSzBKVDJscmpUZjFJ?=
- =?utf-8?B?V3pSSTY0Z2x3dEpVaXJZRVVDb0ZrdTUwa2x3VkcybUxoZTBaTDMxdVFsOHZo?=
- =?utf-8?B?T2hXOFZ2akRFU1Qybis2cDhGMGEvbjhtRVp0QXkxMHd0ekFQZStSUkUzSjE5?=
- =?utf-8?B?aEJSUTc4eG5XUG5YRnlqVURmNW8xeHVQUTFKZHpDUisxNWdvakdhK3VyUnhB?=
- =?utf-8?B?WGV1NVA0eWwyTDVxeTJXRWZuRENwTnlIUC9CYmE1bUN3anFKdWhrSDV1ZXk2?=
- =?utf-8?B?OVlMblpsYUtIbXJYbkNpeVJlRzlFTVdKcHdhZEFyeWxsdjc1TDVBV1FneTRq?=
- =?utf-8?B?OXBXUDRvUStiTlJiK2pSLzY3Q1Z6WlJ3UmlvYjRBc2FrZEk5SjVtMUlQbXdI?=
- =?utf-8?B?d2gyYi8xM2JTVC9wQVQvKy9HcmZ0V09CMmRzcTJNbWFOK0JLL3N2RGxadW5T?=
- =?utf-8?B?YmE3M2o0TmJjcXIveDdWcTR3alZmejF0amRCL1JyVGc1Qzk1MjY1VHJWQ3FI?=
- =?utf-8?B?MFk0T1ZNMTU2WlF1Wng5QjY4NU5kYUxYUXBmY2FwckV0bGh4QVNWSzlSZkhD?=
- =?utf-8?B?MU84L01HcEdwdDREM1pkL3FaVjNHeDF0VlpwdWN2NUZsTkJjUmMxd05aek1r?=
- =?utf-8?B?MjFMUDFMdU5SWktOSGtJR2w3bGhraWhZemZ0TmxDdm1Xa1JaWHpxaVdxZkdP?=
- =?utf-8?B?aFBOTHFtTWducnAyblJLcytDV1dEMUY3TDFnR2dUUFFacWZBUDFpRVNWdC9S?=
- =?utf-8?B?d1RjWlFWS2g0Tms4cUFqM3BMSHBFRnRoUWxRN3BLNytlYU00cnRlei96Tmcx?=
- =?utf-8?B?b0ZBN2ROZjdmWUpHRG95KzhMSXNiV1lJNDdLeTNBYk5sWUp2bXVSNnpYYVNG?=
- =?utf-8?B?SVlGdW55TjM0UDc4enZIbmxlQ1BnMDZTS0R0OGFENnBuSWRmN2VMR1VkSm1w?=
- =?utf-8?B?NkVZWFp6bEtCYnRTNDYzTm1qbXhFZHJtUGpmR3YxL1JQVVdKUVVFdlpjU3Nn?=
- =?utf-8?B?dVMxbjc5c25PZGFSOHJHQTA2azR5NFVTMFpneldLaXVINVBPa0NkNkVIbnF0?=
- =?utf-8?B?UFI5Y1hxS1dOeE1mN2JzRFZGY2c0aUJEMWpyKzh3eTBTdnp0U29qSkVNWVlU?=
- =?utf-8?B?Zk9OeUVqS1lIc05QK2Q0d3AySmRZNE8wR2VxcUcvQXlTUHFnOFI3VzNjS3JY?=
- =?utf-8?B?UTdIU21HQldsaUtZeXhsb2RMSENjLzZZeEU1VUpjWkFuR1pyUVhiakIxS0xm?=
- =?utf-8?B?czhVVGRBMkZjWER5eG56Q2RWd3VoR0hJNDEyVkd3RnRxY0JkNkFDY2hJbFc1?=
- =?utf-8?B?ZnRQTXNqNURwSjl5N04rcEYwczVBc1RDRStRMnAyemFzaHNhZlFIYzRIYlVH?=
- =?utf-8?B?a3dxSkFZbjFnV0VlbDVaUDJObHk4cCtGZWZqcDMvRkNOMC9uVFV1WVVjR3Zo?=
- =?utf-8?B?eWxlZ0toZkQ4ZENjeTd3ZE9HdG9IeVVuVWZueTRCYURjaU41cnJXQ1FvbVZz?=
- =?utf-8?B?SVRxNUJKVFRnV0VKUGVpc3ZYWTFIcmtaWnVwOTYvQmtxVnRuS2x2VC95UVZB?=
- =?utf-8?B?QnRWVzJVakt5RDVXZjZkZEhETndtNEVLWjhrVkxyYzFSa1lqWjZJMW5qd2I3?=
- =?utf-8?B?eE9udVo1SVhjN3daSWNNa2tmeWV3Y0N1NGpNN3YrUzNYY1BkWS9TVi9taFhT?=
- =?utf-8?B?VkJwRWhaUlBLaEJ5dXVKTkF2bVIxTWJQYjlBQy9kQzczVVJUakNBbC96S3pC?=
- =?utf-8?B?YnZkVEpSeEJjWFRQanc2WjhvZWpTMFBuSkZ1eUppSEJmUkpDSnhGM1NNVUJr?=
- =?utf-8?B?OThkNEYrQWpwRVI2VlRqcVVRcVpBPT0=?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd29670f-9adf-4f39-0f28-08da00150feb
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR01MB7282.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2022 08:32:49.0860 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tSCJDKdxqVXKHnEn5CG+upqMv8ua06Fva7R+8UskyGArnPfNaCaxGiPX7jteZ76CI7bhlM4WS6ds3wM3WLz573NRta5Ml3kw6ItWZgdDSns=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR01MB4660
+ <51603aa7-4113-dba4-9a38-0a6683a1d249@os.amperecomputing.com>
+In-Reply-To: <51603aa7-4113-dba4-9a38-0a6683a1d249@os.amperecomputing.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Mon, 7 Mar 2022 14:16:06 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1Fw5cdxtr3LeG=tNbrTRbseXP+fDzfr-2B+LqbShA99w@mail.gmail.com>
+Message-ID: <CAK8P3a1Fw5cdxtr3LeG=tNbrTRbseXP+fDzfr-2B+LqbShA99w@mail.gmail.com>
+Subject: Re: [PATCH v6 8/9] misc: smpro-misc: Add Ampere's Altra SMpro misc
+ driver
+To: Quan Nguyen <quan@os.amperecomputing.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:/Io6Ks6I9pcY068kSw94wWMYdRGfCRr3GVwmcryyCmlvZ725Mbs
+ 0TUeGyidkjDnEhWmp9gY2RUwYgOtjt6MuUmtut75V0/nmhxrRPJaKPpBWYQ/fIsQWEqKmTL
+ H5EH9DrGOu0afi31jW9fBnfv2IbMs7QjRNbmzyEGl/4w7naIFJG8ft5qH2a86lzl2W0QoEp
+ GB20nsNsShZh8fcnP66VA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:n+Mi6XyyCq8=:AxQV9L4M5Qt/oeb0TolL3v
+ 79dnqb4XJSxrInjC7K2u5LCC+7BbVd09Py2P1+KH6YUWC9MDOCsS0RpFrqR50L9xmCHr+qO7j
+ a2DrmCXunzs6+chUh73B5Bl82mGv6rwB24/Vk5qi2LvsL0+RiHh311xzN2fRqBqIl7xKi219P
+ fXF+HVDhCD9qBuDp/FGnf3yTKXW10kvOkCm1wAItvfsRa9idOtX3bEHm15/H3Cm1hHFfyGqSb
+ mFNSw+uVgQEMyoKigdj9ZecRtEKCY77dIXdLuqRLm0Qmxt9NuMKN6lMLkv+WFx5bCb5zorghH
+ oD1q7IahQA+j7LDUaaXorn+7nlttNe9YTOPJ8uDnP1HYwL4+sTJ8YG+leI4M2V5MAN/TrzMJ5
+ Z+wfpBNmVVVHyoZDi1pcHRQ7yrVtZT3b3wNhUydH3L7+KBlHKW4CDSsh/oIm3wioZZnVN/WrO
+ yjjgwOK0TH8r+vGJ+L4D1ofZsC4QQIlkH/RaLlTGVacx3SZqSVIruTn6vtdWgnOHECdGGjVTA
+ 3ih2MTHnHf/SyjD8D0D5nvTzQwd1cABKyc6MVqS7jNgLMMkWoeW8xzz6cgh+ta9N/iPqjQomw
+ JZqWFnz6xBuOcDUqtIdOG3E8phCpgkBuOWdsLIoPWFZgZO48NJj8+DhXyfwkwg98h4wb5LcWL
+ AwYvUWVA4u0k1JyWxGgVAeVES07z8iTXgNZVGqxKXtFKA32Ce2950nt1YKyJ3Ng0oDDxBKapZ
+ z4kxpt4MS204zpLOD/c9TSIoWrSbs0k+u+Udkf7PSSkAYILC0nqqzzIiACF+TZ7WN6cIeZvme
+ ENFxmLn4OtSZj7QTFZy/AEvoMWooXUyrD4osQ8RrcnMgyY5Fuk=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,12 +72,15 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-doc@vger.kernel.org,
- Dragan Cvetic <dragan.cvetic@xilinx.com>, linux-kernel@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, openbmc@lists.ozlabs.org,
+Cc: linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Dragan Cvetic <dragan.cvetic@xilinx.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Lee Jones <lee.jones@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ OpenBMC Maillist <openbmc@lists.ozlabs.org>,
  "Rafael J . Wysocki" <rafael@kernel.org>,
  Open Source Submission <patches@amperecomputing.com>,
- Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
+ Guenter Roeck <linux@roeck-us.net>, DTML <devicetree@vger.kernel.org>,
  Jean Delvare <jdelvare@suse.com>, Arnd Bergmann <arnd@arndb.de>,
  "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
  Rob Herring <robh+dt@kernel.org>, Derek Kiernan <derek.kiernan@xilinx.com>,
@@ -160,57 +91,30 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Dear Lee Jones,
+On Mon, Mar 7, 2022 at 9:32 AM Quan Nguyen <quan@os.amperecomputing.com> wrote:
+> > diff --git a/drivers/mfd/smpro-mfd.c b/drivers/mfd/smpro-mfd.c
+> > index a7cd64bf9eaa..5611dd30f8f4 100644
+> > --- a/drivers/mfd/smpro-mfd.c
+> > +++ b/drivers/mfd/smpro-mfd.c
+> > @@ -28,6 +28,7 @@ static const struct regmap_config simple_word_regmap_config = {
+> >   static const struct mfd_cell smpro_devs[] = {
+> >       MFD_CELL_NAME("smpro-hwmon"),
+> >       MFD_CELL_NAME("smpro-errmon"),
+> > +     MFD_CELL_NAME("smpro-misc"),
+>
+> [Lee Jones]
+> Misc is a Linuxisum which are not allowed in DT.
+>
+> What does this driver actually do?
+>
+> [Quan]
+> This drivers is to report the boot progress to BMC and allow BMC to
+> configure the Soc Power Limit of Ampere's Altra family processor.
 
-This to reply your comment in https://lkml.org/lkml/2021/12/29/121
+That doesn't sound like it should be platform specific at all, but rather
+a generic BMC interface. I see you already have the openbmc list on Cc,
+so I assume the right people can see this. Presumably this is a BMC that
+already runs on openbmc and can have a platform-independent interface
+for doing this.
 
-Thanks for the review,
-- Quan
-
-On 24/12/2021 11:13, Quan Nguyen wrote:
-> This commit adds driver support for accessing various information
-> reported by Ampere's SMpro co-processor such as Boot Progress and
-> other miscellaneous data.
-> 
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
-> ---
-> Change in v6:
->    + First introduced in v6 [Quan]
-> 
->   drivers/mfd/smpro-mfd.c   |   1 +
-
-[Lee Jones]
-Please pull all of these patches out.
-
-There are no build dependencies here.
-
-[Quan]
-Will separate this smpro-mfd and other child drivers in next version
-
->   drivers/misc/Kconfig      |   7 ++
->   drivers/misc/Makefile     |   1 +
->   drivers/misc/smpro-misc.c | 177 ++++++++++++++++++++++++++++++++++++++
->   4 files changed, 186 insertions(+)
->   create mode 100644 drivers/misc/smpro-misc.c
-> 
-> diff --git a/drivers/mfd/smpro-mfd.c b/drivers/mfd/smpro-mfd.c
-> index a7cd64bf9eaa..5611dd30f8f4 100644
-> --- a/drivers/mfd/smpro-mfd.c
-> +++ b/drivers/mfd/smpro-mfd.c
-> @@ -28,6 +28,7 @@ static const struct regmap_config simple_word_regmap_config = {
->   static const struct mfd_cell smpro_devs[] = {
->   	MFD_CELL_NAME("smpro-hwmon"),
->   	MFD_CELL_NAME("smpro-errmon"),
-> +	MFD_CELL_NAME("smpro-misc"),
-
-[Lee Jones]
-Misc is a Linuxisum which are not allowed in DT.
-
-What does this driver actually do?
-
-[Quan]
-This drivers is to report the boot progress to BMC and allow BMC to 
-configure the Soc Power Limit of Ampere's Altra family processor.
-
-
-
+        Arnd
