@@ -1,60 +1,92 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890934D0C74
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Mar 2022 01:09:43 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40CC54D0C5D
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Mar 2022 01:00:11 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KCG0h2bvNz3bTP
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Mar 2022 11:09:40 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KCFnh0mM8z3bPJ
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Mar 2022 11:00:08 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=Pk4G7Fjg;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ObwHECK+;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aculab.com (client-ip=185.58.86.151;
- helo=eu-smtp-delivery-151.mimecast.com; envelope-from=david.laight@aculab.com;
+ smtp.mailfrom=aj.id.au (client-ip=64.147.123.25;
+ helo=wout2-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm2 header.b=Pk4G7Fjg; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=ObwHECK+; 
+ dkim-atps=neutral
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KC2Pb1Ts4z30KV
- for <linux-aspeed@lists.ozlabs.org>; Tue,  8 Mar 2022 02:26:57 +1100 (AEDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-85-dcBRBPURPaqNT771jbYVzw-1; Mon, 07 Mar 2022 15:26:52 +0000
-X-MC-Unique: dcBRBPURPaqNT771jbYVzw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.28; Mon, 7 Mar 2022 15:26:48 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.028; Mon, 7 Mar 2022 15:26:48 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Dan Carpenter' <dan.carpenter@oracle.com>, Jakob Koschel
- <jakobkoschel@gmail.com>
-Subject: RE: [PATCH 0/6] Remove usage of list iterator past the loop body
-Thread-Topic: [PATCH 0/6] Remove usage of list iterator past the loop body
-Thread-Index: AQHYMjRtYqIeET2JD0yO+p9PX3jHEKy0Bmqg
-Date: Mon, 7 Mar 2022 15:26:48 +0000
-Message-ID: <f7ffd78aa68340e1ade6af15fa2f06d8@AcuMS.aculab.com>
-References: <20220228110822.491923-1-jakobkoschel@gmail.com>
- <20220307150037.GD3293@kadam>
-In-Reply-To: <20220307150037.GD3293@kadam>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KCFnV3t6Qz2ywb
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  8 Mar 2022 10:59:57 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 7F12D3200B25;
+ Mon,  7 Mar 2022 18:59:54 -0500 (EST)
+Received: from imap49 ([10.202.2.99])
+ by compute3.internal (MEProxy); Mon, 07 Mar 2022 18:59:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; bh=V7i6d1/zoSIj8y
+ jrC94ahJsp08pYVQsAAj6J5U58ios=; b=Pk4G7FjgiLwBM+Zjzd2NDKgEZox8Kx
+ 5LN9D5bAjVml767nD5tWFhZlGUb3xoSF3uwvJD9MsGAqXVkihWCuuaMY62nsbsJT
+ 8JoD3H0LcWGt132QyEkOB3VNuWjZykvnVO4yHMQgXpBSEU3mhOwhyoaalHb+bhS+
+ 3GJ2x+dxbwCoFJhVET0Nxl9PQ/uzot+IzAjr6P5zMmBhs2bF5GKNtolK4DJDpj1X
+ NE/e//5CbmHaBA5Hlh/Gyt1NY68X+aJdP6DhYGCoIPPxaF7Kko1+rFsbcVzz2py+
+ sN94AmbqZnyYwZhIklvIzx/dRbEPxMJmdZOjSx8F6kTp/p+0t9YdzOLQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=V7i6d1/zoSIj8yjrC94ahJsp08pYVQsAAj6J5U58i
+ os=; b=ObwHECK+TEjc0RWRUZdmdwX7CKOvDgeoO1MRBRmvvSOGHVv1KoycUqSMN
+ jgbKOzyxgYQn1doPN/Ha1Bpzo7ROtz748rLEUcSHGbr7HC8P1ECGZ8K+x+DtICRi
+ rmeYBvQJeB124H/SgtpUSBE7wNoDG5LnS2lpsw241djqCtJryrRhfoOA/bUV+lzg
+ Tcj3BbGriJmxNmOPiGstXpCHwuo91Zi/3+z3w6vK1dUUKhEf25j4gW6/qfi1xl0d
+ mEfLThtVzzMRJ6d1or13gsGWmvTeQROkavDzqD09CrrdZWmiw5flDc1sWuSj87lW
+ sdbk1Lt9CvfrJOJTfMLInGWeY/emQ==
+X-ME-Sender: <xms:eZwmYvVx1gDFSYaBGGGypuURHHPU_0IHDVUdou6_GkpPi_IlTZ6Neg>
+ <xme:eZwmYnm_gtFhdMi7E05gCRmdHEhClRKmFIJo-6A505Nrt_fmhd3pOk-CcsFG3CeBx
+ ek35g5F3pR5EM5Vww>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudduhedgudegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedftehn
+ ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+ frrghtthgvrhhnpedvgeekheegfedvhfethefhudetteegueeggfeiieegueehkedugedt
+ kefglefgheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:eZwmYraUnhWbFGrcbuNEDrHLxDTx2vmZXucqZoQl-iGpMZ7sVFZVZA>
+ <xmx:eZwmYqVBzN6e5uL5PV3MQNP8HuHjAOS9Y0hO_jH-qrdxydb2shDtig>
+ <xmx:eZwmYpn1UTYpUuAN9d2-iJl_HJNIxNJ_E0MhvlgccJM8ALMal4YPDA>
+ <xmx:epwmYpv8SahdjUnvIi5E8eT5BKok5i7ZZQLKpYgI_R_8mKNik5Cvnw>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 8C016F6007E; Mon,  7 Mar 2022 18:59:53 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-4778-g14fba9972e-fm-20220217.001-g14fba997
+Mime-Version: 1.0
+Message-Id: <22db3bbf-9796-43ac-84a4-081977827ac5@www.fastmail.com>
+In-Reply-To: <20220304011010.974863-1-joel@jms.id.au>
+References: <20220304011010.974863-1-joel@jms.id.au>
+Date: Tue, 08 Mar 2022 10:29:33 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Joel Stanley" <joel@jms.id.au>
+Subject: Re: [PATCH] ARM: dts: aspeed: Fix AST2600 quad spi group
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 08 Mar 2022 11:09:22 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,111 +98,45 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "Gustavo A.
- R. Silva" <gustavo@embeddedor.com>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Cristiano Giuffrida <c.giuffrida@vu.nl>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux1394-devel@lists.sourceforge.net"
- <linux1394-devel@lists.sourceforge.net>,
- "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
- linux-arch <linux-arch@vger.kernel.org>,
- "linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "Bos,
- H.J." <h.j.bos@vu.nl>, Jason Gunthorpe <jgg@ziepe.ca>,
- "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
- "kgdb-bugreport@lists.sourceforge.net" <kgdb-bugreport@lists.sourceforge.net>,
- "bcm-kernel-feedback-list@broadcom.com"
- <bcm-kernel-feedback-list@broadcom.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- Kees Cook <keescook@chromium.org>, Arnd
- Bergman <arnd@arndb.de>, "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- "v9fs-developer@lists.sourceforge.net" <v9fs-developer@lists.sourceforge.net>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-f2fs-devel@lists.sourceforge.net"
- <linux-f2fs-devel@lists.sourceforge.net>,
- "tipc-discussion@lists.sourceforge.net"
- <tipc-discussion@lists.sourceforge.net>,
- "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>, Linus
- Torvalds <torvalds@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Dan Carpenter
-> Sent: 07 March 2022 15:01
->=20
-> Updating this API is risky because some places rely on the old behavior
-> and not all of them have been updated.  Here are some additional places
-> you might want to change.
 
-I really can't help thinking that trying to merge this patch is
-actually impossible.
-It affects far too many different parts of the tree.
 
-Since (I believe) this is a doubly linked list with forwards and
-backwards pointers that point to a 'node' (not that there is a
-nice comment to that effect in the header - and there are lots of
-ways to do linked lists) the 'head' pretty much has to be a 'node'.
+On Fri, 4 Mar 2022, at 11:40, Joel Stanley wrote:
+> Requesting quad mode for the FMC resulted in an error:
+>
+>   &fmc {
+>          status =3D "okay";
+>  +       pinctrl-names =3D "default";
+>  +       pinctrl-0 =3D <&pinctrl_fwqspi_default>'
+>
+> [    0.742963] aspeed-g6-pinctrl 1e6e2000.syscon:pinctrl: invalid=20
+> function FWQSPID in map table
+> =EF=BF=BC
+>
+> This is because the quad mode pins are a group of pins, not a function.
+>
+> After applying this patch we can request the pins and the QSPI data
+> lines are muxed:
+>
+>  # cat=20
+> /sys/kernel/debug/pinctrl/1e6e2000.syscon\:pinctrl-aspeed-g6-pinctrl/p=
+inmux-pins=20
+> |grep 1e620000.spi
+>  pin 196 (AE12): device 1e620000.spi function FWSPID group FWQSPID
+>  pin 197 (AF12): device 1e620000.spi function FWSPID group FWQSPID
+>  pin 240 (Y1): device 1e620000.spi function FWSPID group FWQSPID
+>  pin 241 (Y2): device 1e620000.spi function FWSPID group FWQSPID
+>  pin 242 (Y3): device 1e620000.spi function FWSPID group FWQSPID
+>  pin 243 (Y4): device 1e620000.spi function FWSPID group FWQSPID
+>
+> Fixes: f510f04c8c83 ("ARM: dts: aspeed: Add AST2600 pinmux nodes")
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
 
-I'd write the following new defines (but I might be using
-the old names here):
+Looks good to me.
 
-list_first(head, field) First item, NULL if empty.
-list_last(head, field) Last item NULL if empty.
-list_next(head, item, field) Item after 'item', NULL if last.
-list_prev(head, item. field) Item before 'item', NULL if first.
-
-You get (something like):
-#define list_first(head, field) \
-=09head->next =3D=3D &head ? NULL : list_item(head->next, field)
-(probably needs typeof(item) from somewhere).
-
-The iterator loop is then just:
-#define loop_iterate(item, head, field) \
-=09for (item =3D list_first(head, field); item; \
-=09=09item =3D list_next(head, item, field)
-
-I'm not sure, but making the 'head' be a structure that contains
-a single member that is a 'node' might help type checking.
-
-Then all the code that uses the current defines can slowly be
-moved over (probably a couple of releases) before the existing
-defines are deleted.
-
-That should simplify all the open-coded search loops that are
-just as likely to be buggy (possibly more so).
-
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
-
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
