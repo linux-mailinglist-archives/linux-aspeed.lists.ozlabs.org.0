@@ -1,64 +1,94 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28254D0D20
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Mar 2022 01:57:45 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 589A14D0D2E
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Mar 2022 02:03:18 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KCH464gkrz30hh
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Mar 2022 11:57:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KCHBW1FvXz3bNs
+	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Mar 2022 12:03:15 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm2 header.b=cYCI3SQv;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=gIthevPK;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=209.85.167.182;
- helo=mail-oi1-f182.google.com; envelope-from=robherring2@gmail.com;
+ smtp.mailfrom=aj.id.au (client-ip=66.111.4.27;
+ helo=out3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
  receiver=<UNKNOWN>)
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
- [209.85.167.182])
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
+ header.s=fm2 header.b=cYCI3SQv; 
+ dkim=pass (2048-bit key;
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm2 header.b=gIthevPK; 
+ dkim-atps=neutral
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KCH425twqz2yZc
- for <linux-aspeed@lists.ozlabs.org>; Tue,  8 Mar 2022 11:57:38 +1100 (AEDT)
-Received: by mail-oi1-f182.google.com with SMTP id q189so1589054oia.9
- for <linux-aspeed@lists.ozlabs.org>; Mon, 07 Mar 2022 16:57:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=gq59UE3cTSs3qNXLzpjqXYkCpDSstIwAsqV4QUkUf5U=;
- b=nj6Ac0hW2ZwL6U6y23OYtUgIQK1dHWOvFBu/3PBOyRXIxKiy2/1CLYjc3JzI5JeWSm
- IAUZ7mObnLnZzi7UD/XIePS/zLo4GZ3EJ8R+5DYJD30Nw1or6D3Yabxx9Av6ESajZHzR
- U737bPGeFd6OBERipJorgxTA1g8bUSYgj6PBVUrMa/lSUFMq0M+KiqkeQxzWn+CTZuUz
- /gg5KTgIJrnx0YFWDm1WDG1Zv9a0UEH2xKdVP9V9rMO4xb/Jo80Ne0kdDuVP146TsdiJ
- K4lRf870G6tkR1KbbiqbBVzvpX+iPJ7vXgPmckwSAwUP8SUVWNBp3NVL27JZodqL1rAS
- HskQ==
-X-Gm-Message-State: AOAM531h1aBjpRONcFJu030GNMZPXj3FNAK7xE8nsiJcZFWjJ4cnTMDp
- 9XMVi/mnYign/V3v3dmD2Q==
-X-Google-Smtp-Source: ABdhPJyNzfmC3eXDfqkGUdgxXQi9iFr9d6NGbT86dkIYFRYjW7BxPs5o55rCdVmWsq7DztwRgxOOLg==
-X-Received: by 2002:a05:6808:169f:b0:2d7:9bbd:ae82 with SMTP id
- bb31-20020a056808169f00b002d79bbdae82mr1085492oib.136.1646701056249; 
- Mon, 07 Mar 2022 16:57:36 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- o2-20020a05687072c200b000d9ae3e1fabsm6217940oak.12.2022.03.07.16.57.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Mar 2022 16:57:35 -0800 (PST)
-Received: (nullmailer pid 3606977 invoked by uid 1000);
- Tue, 08 Mar 2022 00:57:33 -0000
-Date: Mon, 7 Mar 2022 18:57:33 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: Re: [PATCH v2 2/2] dt-bindings: gpu: Convert aspeed-gfx bindings to
- yaml
-Message-ID: <Yiap/f48pLUXzaQ0@robh.at.kernel.org>
-References: <20220304000311.970267-1-joel@jms.id.au>
- <20220304000311.970267-3-joel@jms.id.au>
- <44308465-db4c-80e7-2beb-b0f676d16edf@canonical.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <44308465-db4c-80e7-2beb-b0f676d16edf@canonical.com>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KCHBL6ZBfz2xBV
+ for <linux-aspeed@lists.ozlabs.org>; Tue,  8 Mar 2022 12:03:05 +1100 (AEDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 403395C0278;
+ Mon,  7 Mar 2022 20:03:04 -0500 (EST)
+Received: from imap49 ([10.202.2.99])
+ by compute3.internal (MEProxy); Mon, 07 Mar 2022 20:03:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; bh=+exSsSKAiC7Evi9rH2ZTNIwfg5fo7D3S8bypoA
+ Qltjg=; b=cYCI3SQv3HxNbowwApY+kJr9n1SzprCyTNRe9pxZgaxs0JbD7uKlL2
+ fCqfTc5xxWLM0U0W59WgyiSfkETEIAM+mOSvxTAvxvKr0BWT3ilKHLCXktkymq97
+ Lzh7ED3Tv2NXTYIURUdSVoVo0YLlnPs4BeAHHzhcuBcMqh1F6Nv5vylmUI2HI1Me
+ DT2ltn7USpGmk3VEy5WlervZTy7faiVGQxlJJqnOq3utkQl4vaYYm2jFMWbjgZlr
+ lLlS97hkyBxAqkAJzJKksJ+YVI9HWoHblpSJsaC5SAs0Y6Nbm95NmzEpYi1rr+Q9
+ rmDZBmFsEi0Ck1udsnvQkBEJchf0ZqLw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=+exSsSKAiC7Evi9rH
+ 2ZTNIwfg5fo7D3S8bypoAQltjg=; b=gIthevPKFrRttwUEPPBiS4d5xYyXinU6u
+ Wa4YB1uQ+gZp0QdRdYQPGNDVNagSz8YzhEJUn9+k+OHb9Yd004g4SotPYHrY4HRS
+ koR/VZ0aXrEtXlaxt+8wq3hqBR9K8QXlKXsrVG20InYw9vYzsPfKzZkKtqE6P1m5
+ TsmZLKz5PPnjMnllGkbC84/x7/rFGFSwZQYc9UUZUBwmMrMB2CrtJcRiLA8/d6Kg
+ J/MLE9mKXZN/gpIkLQWFJEYaRNaeQTVH1rliPv2LuTSK4nW9P+9yeCE5mQauSXa9
+ 0LFMxmWfORThbyoNg23N9/nlUFRSIc334pD7P+zTvjzqjb2+AphuQ==
+X-ME-Sender: <xms:R6smYgdZY38lRUGGqmQqNPD67CiJ9HlWDy0sDp1niD9NUXsuwAgFmQ>
+ <xme:R6smYiNOs-un3uct8Rr6U1xmfLE8iiR626BmLIIqs2_h4hqVLLNS8mAG4t-0rn3Pw
+ mTugOS9pplvEdCz9Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudduhedgvdeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdetnhgu
+ rhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecuggftrf
+ grthhtvghrnhepudfftddvveekfffgteffffeuveegjeelgefhffejtdehtdfhlefgkeef
+ hfefkeeinecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:R6smYhgPMM3PmTtbakJG57DCwp-n0xcy5dDaWsyuKpr7V1ZdLScW8g>
+ <xmx:R6smYl9pCYpQTEXDts7n5AG26vELVJk02x1BYXJPhyxt14Yc3ClCHg>
+ <xmx:R6smYsv7hPwb9cuAN-Mo2izvmlw1PNaJD3SYfQd3YtXlPT9NOZsQcQ>
+ <xmx:SKsmYh-naLmtWNWI1vapLKJ6uFkafPC8qTraY3Lyaa8Ggga8fvT2UQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 5EC0DF6007E; Mon,  7 Mar 2022 20:03:03 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-4778-g14fba9972e-fm-20220217.001-g14fba997
+Mime-Version: 1.0
+Message-Id: <e541828f-f0bc-419a-a5fc-d8aefe97832d@www.fastmail.com>
+In-Reply-To: <73a487ed-312b-72b3-4e64-dc580ba80704@quicinc.com>
+References: <20220308003136.3930466-1-quic_jaehyoo@quicinc.com>
+ <d2f125d8-07d1-4bff-8718-7dfba4d8fdb3@www.fastmail.com>
+ <73a487ed-312b-72b3-4e64-dc580ba80704@quicinc.com>
+Date: Tue, 08 Mar 2022 11:32:43 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Jae Hyun Yoo" <quic_jaehyoo@quicinc.com>,
+ "Joel Stanley" <joel@jms.id.au>, "Rob Herring" <robh+dt@kernel.org>,
+ "Linus Walleij" <linus.walleij@linaro.org>
+Subject: Re: [PATCH] pinctrl: aspeed: Add FWQSPI pinmux
+Content-Type: text/plain
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,93 +100,40 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org,
- Lee Jones <lee.jones@linaro.org>
+Cc: devicetree@vger.kernel.org, Johnny Huang <johnny_huang@aspeedtech.com>,
+ linux-aspeed@lists.ozlabs.org, Jamie Iles <quic_jiles@quicinc.com>,
+ Graeme Gregory <quic_ggregory@quicinc.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Sat, Mar 05, 2022 at 10:49:05PM +0100, Krzysztof Kozlowski wrote:
-> On 04/03/2022 01:03, Joel Stanley wrote:
-> > Convert the bindings to yaml and add the ast2600 compatible string.
-> > 
-> > The legacy mfd description was put in place before the gfx bindings
-> > existed, to document the compatible that is used in the pinctrl
-> > bindings.
-> > 
-> > Signed-off-by: Joel Stanley <joel@jms.id.au>
-> > ---
-> >  .../devicetree/bindings/gpu/aspeed,gfx.yaml   | 69 +++++++++++++++++++
-> >  .../devicetree/bindings/gpu/aspeed-gfx.txt    | 41 -----------
-> >  .../devicetree/bindings/mfd/aspeed-gfx.txt    | 17 -----
-> >  3 files changed, 69 insertions(+), 58 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/gpu/aspeed-gfx.txt
-> >  delete mode 100644 Documentation/devicetree/bindings/mfd/aspeed-gfx.txt
-> > 
-> > diff --git a/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml b/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
-> > new file mode 100644
-> > index 000000000000..8ddc4fa6e8e4
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/gpu/aspeed,gfx.yaml
-> > @@ -0,0 +1,69 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/gpu/aspeed,gfx.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: ASPEED GFX display device
-> > +
-> > +maintainers:
-> > +  - Joel Stanley <joel@jms.id.au>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +          - aspeed,ast2400-gfx
-> > +          - aspeed,ast2500-gfx
-> > +          - aspeed,ast2600-gfx
-> 
-> That's different than original bindings - new patch. It's not currently
-> supported, so adding it is more than just updating bindings to current
-> state.
-> 
-> > +      - const: syscon
-> > +
-> > +  reg:
-> > +    minItems: 1
-> 
-> maxItems?
-> 
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +
-> > +  memory-region: true
 
-Also need to define how many (maxItems: 1).
 
-> > +
-> > +  syscon: true
-> 
-> You need at least description. I see old bindings did not mention it
-> (except that it is required)... I think you also need a type, because it
-> is not a standard property.
-> 
-> > +
-> > +  reg-io-width: true
-> 
-> Some constraints? Can it be anything from syscon schema?
-> 
-> Best regards,
-> Krzysztof
-> 
+On Tue, 8 Mar 2022, at 11:16, Jae Hyun Yoo wrote:
+> Hi Andrew,
+>
+> On 3/7/2022 4:41 PM, Andrew Jeffery wrote:
+>> 
+>> 
+>> On Tue, 8 Mar 2022, at 11:01, Jae Hyun Yoo wrote:
+>>> From: Johnny Huang <johnny_huang@aspeedtech.com>
+>>>
+>>> AST2600 FW SPI quad mode only need to set AE12 and AF12, no need
+>>> to set Y1~Y4. FW SPI cs, clk, mosi and miso pins are dedicated.
+>> 
+>> They're not dedicated according to the datasheet?
+>> 
+>> Can you please look at this patch?
+>> 
+>> https://lore.kernel.org/all/20220304011010.974863-1-joel@jms.id.au/
+>
+> Sorry. Please ignore this patch.
+> I mistakenly sent this patch while making a patch series.
+>
+> Please check this patch series instead.
+> https://lore.kernel.org/linux-arm-kernel/20220308003745.3930607-1-quic_jaehyoo@quicinc.com/T/#t
+
+No worries, I'll take a look though it might be a couple of days due to chasing some other issues.
+
+Andrew
