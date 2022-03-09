@@ -1,124 +1,56 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14F94D1341
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Mar 2022 10:23:26 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CE804D3237
+	for <lists+linux-aspeed@lfdr.de>; Wed,  9 Mar 2022 16:53:57 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KCVHb4kYyz3bTj
-	for <lists+linux-aspeed@lfdr.de>; Tue,  8 Mar 2022 20:23:23 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=quantacorp.onmicrosoft.com header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-quantacorp-onmicrosoft-com header.b=CgEOdWxW;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KDGvj6tnVz3bVK
+	for <lists+linux-aspeed@lfdr.de>; Thu, 10 Mar 2022 02:53:53 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=quantatw.com (client-ip=2a01:111:f400:feae::715;
- helo=apc01-psa-obe.outbound.protection.outlook.com;
- envelope-from=potin.lai@quantatw.com; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=quantacorp.onmicrosoft.com
- header.i=@quantacorp.onmicrosoft.com header.a=rsa-sha256
- header.s=selector2-quantacorp-onmicrosoft-com header.b=CgEOdWxW; 
- dkim-atps=neutral
-Received: from APC01-PSA-obe.outbound.protection.outlook.com
- (mail-psaapc01on20715.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:feae::715])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=kaod.org (client-ip=178.33.254.192;
+ helo=3.mo552.mail-out.ovh.net; envelope-from=clg@kaod.org; receiver=<UNKNOWN>)
+Received: from 3.mo552.mail-out.ovh.net (3.mo552.mail-out.ovh.net
+ [178.33.254.192])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KCVHR1Jp1z2ymb;
- Tue,  8 Mar 2022 20:23:13 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iKzFGQrApDlpLkl/WyAIVc9F5OCr7vzSI6Dt1OTgTgRyotXGU21e2CMrZOcaCqHvMxoxCx/GO6wpmNBqhjYoApO4Nks3o0caCAcErqESa4hw4aqlXUjQNCFDtyHJ4onTtY2kmEqSySTbYFZ1fsISRVKnoEpYDMHSIQ282mczA4CQoZuuIc6hifTixVzs9/f7EoNhiE/w23yt5AlQr6NS+/BrJW2olv5jYHB4N0rOK0MqkvIGg2HNeZ0Y/yMK0eigE7/QYd4R3vKSX/Yg3JyiMlbJhl6Nt1AAiP9fiSXrVr5QzZK6ZCsOL8xpiBk9Pj4wUFHE7RetICf8VHkOwedvYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XC2w7DMnS86RxCpDlb8R4qIxlLyZBo2ymKFWoAh4NCc=;
- b=DfNENECuhkHqBSGElUu4cTfnQ06MOkkJiEre/Mo7cCAnY0oMXfcfDxvdP4pDQkzDDLC/fZqL7G95zyZ6E9/eviip0StY1oWdRIDStX+9KAcep8GRMnaHLI7BxbjX+Tq2sftheXTqPbRXqa26nDpsGN24loPPXTyLTu8/z4m5SZg3FKzEAQ1zsOXqJayc6qTVJ8lvjC3mVNGQx1+UpPB7ws2cEAYVyYsZ1uFKkJJ/Fu7gCLwrubK56W4EK/H7ZBqwVP3uDCT/S88zJxXDT6h6RlVNB+M8YcD3Ksv24xOOOvu8bsAd7vfRf5glaAGuIoXUJdnamNqJTI8j2w/u7xL+7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quantatw.com; dmarc=pass action=none header.from=quantatw.com;
- dkim=pass header.d=quantatw.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quantacorp.onmicrosoft.com; s=selector2-quantacorp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XC2w7DMnS86RxCpDlb8R4qIxlLyZBo2ymKFWoAh4NCc=;
- b=CgEOdWxWHeT3H91vfdTkI4Z/Y9XbU/MWKQkhoICLrDzAsMFfcXh1fYInAWGTcKKQZh/Of/TMF5AbLY5E+t38KrKZps0CTt1Yu1OuGGpigdsLCcNAVtWh0z99kqD5jXM4tYNbWAcxxz7hjlb0tAcp10WU1rFEjB5Bfpf46S93rD8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=quantatw.com;
-Received: from HK0PR04MB3282.apcprd04.prod.outlook.com (2603:1096:203:89::17)
- by HK2PR04MB3620.apcprd04.prod.outlook.com (2603:1096:202:3c::12)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KDGvZ2nXyz2xsq
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 10 Mar 2022 02:53:43 +1100 (AEDT)
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.68])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 90FB1242BD;
+ Wed,  9 Mar 2022 15:53:39 +0000 (UTC)
+Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Tue, 8 Mar
- 2022 09:22:53 +0000
-Received: from HK0PR04MB3282.apcprd04.prod.outlook.com
- ([fe80::78b6:1b99:df59:4982]) by HK0PR04MB3282.apcprd04.prod.outlook.com
- ([fe80::78b6:1b99:df59:4982%5]) with mapi id 15.20.5038.027; Tue, 8 Mar 2022
- 09:22:53 +0000
-From: Potin Lai <potin.lai@quantatw.com>
-To: Joel Stanley <joel@jms.id.au>, Cedric Le Goater <clg@kaod.org>,
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- Patrick Williams <patrick@stwcx.xyz>
-Subject: [PATCH v2 1/1] mtd: spi-nor: aspeed: set the decoding size to at
- least 2MB for AST2600
-Date: Tue,  8 Mar 2022 17:22:34 +0800
-Message-Id: <20220308092234.5186-1-potin.lai@quantatw.com>
-X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain
-X-ClientProxiedBy: HK2PR02CA0147.apcprd02.prod.outlook.com
- (2603:1096:202:16::31) To HK0PR04MB3282.apcprd04.prod.outlook.com
- (2603:1096:203:89::17)
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 9 Mar
+ 2022 16:53:37 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G006823af12e-97fb-4feb-b06d-d1d19df1e0d1,
+ 4C617328B094ABD9DFA4DE296C3C041D1A210FDA) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <92c2301f-5759-c13c-84f6-52ec69af7de6@kaod.org>
+Date: Wed, 9 Mar 2022 16:53:28 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e882cf04-275e-4d74-d202-08da00e53944
-X-MS-TrafficTypeDiagnostic: HK2PR04MB3620:EE_
-X-Microsoft-Antispam-PRVS: <HK2PR04MB3620C5CD1F669C8C95310ACF8E099@HK2PR04MB3620.apcprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +Fn7WO1Ag8R8GmsirFEcukXBJK5P3rRLkRpNjObvIqRdNmgAED7dkzgztKkdl5PTMQW+bDBrnM3UdP1QQ95+SVMGbr+FzLqbxNUfFcWNr42ucgXHAOggqheXFH47aLBZ94tHL/A0rSHVspXdQNwb9hyc66/AWC9DQBKlSZFaBsLiBguaNMy3RDVcQf9gH1wvQjebjREX/Wxwi+khqmkeSWzyqyJCBRYgHW4riv2nizDruoZ01H+FrCG7eFh+We1FNknXCacY3+O7kqfurvmgmxuJtqZhgAFYcBEzBrioOCEuaEUymO7RxMnJOCi8OAiwUpxys7qKSUHsuzyeZttsXHUgtKW2ZaO/gY5qJ9Ydfbr5Xh/zHuTSvw++Lvlkl6Is6ZS/GS5YM60PU+Oz0LwG+X02ysrZIZ+UMnI2V2aInkllEGgCUuJ04LtJP88t/LiLPdQc3ix5JZkGLz1hVber2KKIQtD9BTpOiZ5plN/L2YxTkcOK3woUtl7eBPtPnA6ajguO40bQITHhDYk2+JRHoiviPEOS2dKfoXxZjVYJKv7niBQSu6trMryKcWf4N6iZLSg6XKFwdUTfX/ECo2J31UhmqP1iODMUVN5egGKno04HjQuVmw2lzTcdlVVekyY8IA8wwLiOeRcB4IpRxrs7AngXrIPJXSHMJYT5ViIo36jsbH4zJsYyYFf1h9QFB7+xvH8DkRh5auA0C8A502HuR0Rpysa74EG673R8ZUCB1oT4zhcxMwxbcEBKWsvElaTKbB3LpB3gDtLtm/TQybRqRu00oK4Ne4qzNQ1sOZZ7oik=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK0PR04MB3282.apcprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6666004)(66556008)(66946007)(8676002)(110136005)(508600001)(86362001)(966005)(6486002)(5660300002)(316002)(66476007)(4326008)(38100700002)(6512007)(38350700002)(52116002)(6506007)(186003)(26005)(2616005)(1076003)(107886003)(8936002)(36756003)(2906002)(44832011);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZJe+SWTA4i3CCEac66bI5ukSSyDxa2eM9+1lxMugi1UvwzuTJ1xye3I5gRLt?=
- =?us-ascii?Q?xqAQePB9lO9kXg8CLQsgpLZJd8Y/RPVVR2b5XaKMPmKjoJ09MbjSJsN/RIOu?=
- =?us-ascii?Q?/qdRayx11h+tYxqlEvj+KiLHTcsvxV6vDA5Bs2SzxTmeVgD1xf1088tSIQvE?=
- =?us-ascii?Q?BiNVnTz30AptdvGyWCPRB8QsEVcc5poY5X+YzePvYyWp/LJjw3Szwef5Eyaz?=
- =?us-ascii?Q?7v+IK14f/jcqxgpyPFFbmQFuXeoZHA8RWcFEFVHct+Nv3Kaar37nA5SAzV7Q?=
- =?us-ascii?Q?XLq6LgMW6QV5t23UhYXqF1w2eUidG8uljb6sjfiKvqJ95cOmLXxv+pbP+5Px?=
- =?us-ascii?Q?7m2SQgnSKZJRzFcE+pRtluwox0s8ghxJjyu0Y9jOTereCzgzJasbyHzlAohZ?=
- =?us-ascii?Q?K7hMPk0P4fmVH5HyZfZG6QmhNldgN2OqjQg+N8ikoZI7rhdFZ5TdrsFfGZWh?=
- =?us-ascii?Q?6cseOeVhqKNbz0pWi3M08gIv57T10xYYVuvtlQkzZIOyHpXVGNDIJuka38Ub?=
- =?us-ascii?Q?CEgi13naxQ3zu2irN7GwJALT4J+wlTFd5n1EI9mAzbL7kVF4j6//CwWfIx2+?=
- =?us-ascii?Q?0XmDhd0hfSzImwb8s/08hQncLyYPKVC7tBzbcg7+4g1fRUtoa1dqxlkwFALR?=
- =?us-ascii?Q?VmjNHfr4Bsvmy2xg7Qatigk5Z/Fqcws453BWPJWb6gEJ8jesrw+DdySgse7+?=
- =?us-ascii?Q?TJBC1bfLWACvlYroFMNWWHkbRncarPpHDVYHC9tv3pT/0/wp1C2H7BRth1BP?=
- =?us-ascii?Q?eVsGibIBl9ENpwAumHKboMazs6zC9rsSZ+ycK4NCP2LeV6PrgofldXHjMqcj?=
- =?us-ascii?Q?GxNwHJ6f+AWmtY4X9itxLEOxpRG4ICThcNKCJ9MKCUB9AShpUYZzx5pI08MQ?=
- =?us-ascii?Q?fWRb+7koXS56HrtbB2UH976tVIPdpKE+71tl3WQdxPb+lkvkM0jkr51IaqGz?=
- =?us-ascii?Q?UQLh5F+5aYp+n4P8kgLjpGwN3YEUtnZ96k0geUg+i64zDmXrwC+ZV95XaJKu?=
- =?us-ascii?Q?E0aX7dFm4yhhkFwtIBMH5EpSE4e6YHk93avP861yoj8yw1Q7t10vo5rM3awE?=
- =?us-ascii?Q?ALbEDURkS42bknJo7FRiM1BVjQlypiR+RxJe2mE0C96FC4Yy6auW3amSvolj?=
- =?us-ascii?Q?1Mg1iZWkUFQFbRK9sG3GNO+VrRdKeahK8cTAZFo1wy0mLdn+kh9l0RvkFhEP?=
- =?us-ascii?Q?hfMqzuHrkX/KWGLoFNNOushCaoXzDSsi3qUDJ//qQ+gyeHrX8JitK0msWQZh?=
- =?us-ascii?Q?qI5Vl1qCoXBQ3QZzIoK2Ee54cERM/+7zOtPm9SMwe7M8MqDeaZgfyBqz+Zt+?=
- =?us-ascii?Q?ASNdKJObWRCKwFVHuoPjexcUyhWin8QBPQLutY13cVHTUgIX07bKAHrZq4w2?=
- =?us-ascii?Q?xHu/B1K1d9jmrLiSHATE437m8Yjn0Xd3tEx/lFxEujKwBRGaQQAOBJvnLak4?=
- =?us-ascii?Q?BA2qann+Ms6u7ytNDhToYlZapSvbPhICMyjdJV4RdR2/o4ngm1xSvFhJ4rgw?=
- =?us-ascii?Q?RiktWI2gvaPcE0Fr+wIzdL0x/5ipz/oHY4bmXkDanIYE6BttIN5MuONCgqjj?=
- =?us-ascii?Q?KTP4gwXYlidQRreGo/VUd5em5jhL8zVxdCln4rWmaKFjLQCo+abC4gb+SxBl?=
- =?us-ascii?Q?w0pZ9Ent6E+8D6+78zmnqN8=3D?=
-X-OriginatorOrg: quantatw.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e882cf04-275e-4d74-d202-08da00e53944
-X-MS-Exchange-CrossTenant-AuthSource: HK0PR04MB3282.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2022 09:22:53.6699 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 179b0327-07fc-4973-ac73-8de7313561b2
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t2pKLUe8Mf/xe6c/fUW9yxJRX9x7BPLxuwz+yYCRunZ1hKEUQgyscRRQ0K695AzoK8H+GpnlxehxAQg2SHC7Dg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2PR04MB3620
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] ARM: soc: aspeed: Add secure boot controller support
+Content-Language: en-US
+To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
+References: <20220304030336.1017197-1-joel@jms.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220304030336.1017197-1-joel@jms.id.au>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 24ea044a-bdd3-4a74-90a4-7a6dbccab1a0
+X-Ovh-Tracer-Id: 14808398525096102819
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddruddukedgkedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgfdthedvjeekhfduveekkeffkeelteeffedtkeduleeiudejfedtieekffevgfefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegrrhhnugesrghrnhgusgdruggv
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,59 +62,174 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Potin Lai <potin.lai@quantatw.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-In AST2600, the unit of SPI CEx decoding range register is 1MB, and end
-address offset is set to the acctual offset - 1MB. If the flash only has
-1MB, the end address will has same value as start address, which will
-causing unexpected errors.
+Hello Joel,
 
-This patch set the decoding size to at least 2MB to avoid decoding errors.
+On 3/4/22 04:03, Joel Stanley wrote:
+> This reads out the status of the secure boot controller and exposes it
+> in debugfs.
+> 
+> An example on a AST2600A3 QEMU model:
+> 
+>   # grep -r . /sys/kernel/debug/aspeed/*
+>   /sys/kernel/debug/aspeed/abr_image:0
+>   /sys/kernel/debug/aspeed/low_security_key:0
+>   /sys/kernel/debug/aspeed/otp_protected:0
+>   /sys/kernel/debug/aspeed/secure_boot:1
+>   /sys/kernel/debug/aspeed/uart_boot:0
+> 
+> On boot the state of the system according to the secure boot controller
+> will be printed:
+> 
+>   [    0.037634] AST2600 secure boot enabled
+> 
+> or
+> 
+>   [    0.037935] AST2600 secure boot disabled
+> 
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> ---
+> We're creating a common API for a subset of this information in sysfs:
+> 
+>   https://lore.kernel.org/all/20220204072234.304543-1-joel@jms.id.au/
+> 
+> However, machines with an ASPEED soc need the detailed information from
+> the SBE that is not relevant for other systems, so expose it all in
+> debugfs.
+> 
+>   drivers/soc/aspeed/aspeed-sbc.c | 71 +++++++++++++++++++++++++++++++++
+>   drivers/soc/aspeed/Kconfig      |  7 ++++
+>   drivers/soc/aspeed/Makefile     |  1 +
+>   3 files changed, 79 insertions(+)
+>   create mode 100644 drivers/soc/aspeed/aspeed-sbc.c
+> 
+> diff --git a/drivers/soc/aspeed/aspeed-sbc.c b/drivers/soc/aspeed/aspeed-sbc.c
+> new file mode 100644
+> index 000000000000..ee466f02ae4c
+> --- /dev/null
+> +++ b/drivers/soc/aspeed/aspeed-sbc.c
+> @@ -0,0 +1,71 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/* Copyright 2022 IBM Corp. */
+> +
+> +#include <linux/io.h>
+> +#include <linux/of.h>
+> +#include <linux/of_address.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/debugfs.h>
+> +
+> +#define SEC_STATUS		0x14
+> +#define ABR_IMAGE_SOURCE	BIT(13)
+> +#define OTP_PROTECTED		BIT(8)
+> +#define LOW_SEC_KEY		BIT(7)
+> +#define SECURE_BOOT		BIT(6)
+> +#define UART_BOOT		BIT(5)
 
-Tested:
-root@bletchley:~# dmesg | grep "aspeed-smc 1e631000.spi: CE0 window"
-[   59.328134] aspeed-smc 1e631000.spi: CE0 window resized to 2MB (AST2600 Decoding)
-[   59.343001] aspeed-smc 1e631000.spi: CE0 window [ 0x50000000 - 0x50200000 ] 2MB
-root@bletchley:~# devmem 0x1e631030
-0x00100000
+Why not put these definitions under a common header file ?
 
-Signed-off-by: Potin Lai <potin.lai@quantatw.com>
+> +struct sbe {> +	u8 abr_image;
+> +	u8 low_security_key;
+> +	u8 otp_protected;
+> +	u8 secure_boot;
+> +	u8 invert;
+> +	u8 uart_boot;
 
----
-[v1]: https://lore.kernel.org/all/20220304170757.16924-1-potin.lai@quantatw.com/
+ From what the code does below, these could be of type 'bool'
 
-Changes v1 --> v2:
-- add fmc controller into decoding range resize checking
----
- drivers/mtd/spi-nor/controllers/aspeed-smc.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+> +};
+> +
+> +static struct sbe sbe;
+> +
+> +static int __init aspeed_sbc_init(void)
+> +{
+> +	struct device_node *np;
+> +	void __iomem *base;
+> +	struct dentry *debugfs_root;
+> +	u32 security_status;
+> +
+> +	/* AST2600 only */
+> +	np = of_find_compatible_node(NULL, NULL, "aspeed,ast2600-sbc");
+> +	if (!of_device_is_available(np))
+> +		return -ENODEV;
+> +
+> +	base = of_iomap(np, 0);
+> +	if (!base) {
+> +		of_node_put(np);
+> +		return -ENODEV;
+> +	}
+> +
+> +	security_status = readl(base + SEC_STATUS);
+> +
+> +	iounmap(base);
+> +	of_node_put(np);
+> +
+> +	sbe.abr_image = !!(security_status & ABR_IMAGE_SOURCE);
+> +	sbe.low_security_key = !!(security_status & LOW_SEC_KEY);
+> +	sbe.otp_protected = !!(security_status & OTP_PROTECTED);
+> +	sbe.secure_boot = !!(security_status & SECURE_BOOT);
+> +	/* Invert the bit, as 1 is boot from SPI/eMMC */
+> +	sbe.uart_boot =  !(security_status & UART_BOOT);
+> +
+> +	debugfs_root = debugfs_create_dir("aspeed", NULL);
 
-diff --git a/drivers/mtd/spi-nor/controllers/aspeed-smc.c b/drivers/mtd/spi-nor/controllers/aspeed-smc.c
-index 416ea247f843..74fa46439246 100644
---- a/drivers/mtd/spi-nor/controllers/aspeed-smc.c
-+++ b/drivers/mtd/spi-nor/controllers/aspeed-smc.c
-@@ -781,6 +781,18 @@ static u32 aspeed_smc_chip_set_segment(struct aspeed_smc_chip *chip)
- 			 chip->cs, size >> 20);
- 	}
- 
-+	/*
-+	 * The decoding size of AST2600 SPI controller should set at
-+	 * least 2MB.
-+	 */
-+	if ((controller->info == &spi_2600_info ||
-+	     controller->info == &fmc_2600_info) && size < SZ_2M) {
-+		size = SZ_2M;
-+		dev_info(chip->nor.dev,
-+			 "CE%d window resized to %dMB (AST2600 Decoding)",
-+			 chip->cs, size >> 20);
-+	}
-+
- 	ahb_base_phy = controller->ahb_base_phy;
- 
- 	/*
--- 
-2.17.1
+may be use 'arch_debugfs_dir' or is that the same ? and test the returned
+value as it can fail.
+
+Also, instead of 'debugfs_root', we could introduce an extern
+'aspeed_debugfs_dir' for other aspeed drivers. For instance, the spi-mem
+driver for flash devices could expose some internal settings like the
+direct mapping ranges for each flash device. I am sure other drivers
+would use it.
+
+> +	debugfs_create_u8("abr_image", 0444, debugfs_root, &sbe.abr_image);
+> +	debugfs_create_u8("low_security_key", 0444, debugfs_root, &sbe.low_security_key);
+> +	debugfs_create_u8("otp_protected", 0444, debugfs_root, &sbe.otp_protected);
+> +	debugfs_create_u8("uart_boot", 0444, debugfs_root, &sbe.uart_boot);
+> +	debugfs_create_u8("secure_boot", 0444, debugfs_root, &sbe.secure_boot);
+
+It would be cleaner if these files were under a 'sbe' or 'sbc' directory.
+
+Thanks,
+
+C.
+
+> +
+> +	pr_info("AST2600 secure boot %s\n", sbe.secure_boot ? "enabled" : "disabled");
+> +
+> +	return 0;
+> +}
+> +
+> +
+> +subsys_initcall(aspeed_sbc_init);
+> diff --git a/drivers/soc/aspeed/Kconfig b/drivers/soc/aspeed/Kconfig
+> index f579ee0b5afa..7a2a5bed8bc5 100644
+> --- a/drivers/soc/aspeed/Kconfig
+> +++ b/drivers/soc/aspeed/Kconfig
+> @@ -52,6 +52,13 @@ config ASPEED_SOCINFO
+>   	help
+>   	  Say yes to support decoding of ASPEED BMC information.
+>   
+> +config ASPEED_SBC
+> +	bool "ASPEED Secure Boot Controller driver"
+> +	default MACH_ASPEED_G6> +	help
+> +	  Say yes to provide information about the secure boot controller in
+> +	  debugfs.
+> +
+>   endmenu
+>   
+>   endif
+> diff --git a/drivers/soc/aspeed/Makefile b/drivers/soc/aspeed/Makefile
+> index b35d74592964..042235ffa05b 100644
+> --- a/drivers/soc/aspeed/Makefile
+> +++ b/drivers/soc/aspeed/Makefile
+> @@ -4,3 +4,4 @@ obj-$(CONFIG_ASPEED_LPC_SNOOP)		+= aspeed-lpc-snoop.o
+>   obj-$(CONFIG_ASPEED_UART_ROUTING)	+= aspeed-uart-routing.o
+>   obj-$(CONFIG_ASPEED_P2A_CTRL)		+= aspeed-p2a-ctrl.o
+>   obj-$(CONFIG_ASPEED_SOCINFO)		+= aspeed-socinfo.o
+> +obj-$(CONFIG_ASPEED_SBC)		+= aspeed-sbc.o
 
