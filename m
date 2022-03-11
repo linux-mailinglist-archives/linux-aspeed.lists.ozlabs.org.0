@@ -2,73 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 725CC4D5BCD
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Mar 2022 07:59:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26BFE4D62DB
+	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Mar 2022 15:08:11 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KFGxh6Xx1z30C8
-	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Mar 2022 17:59:04 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KFSSm74hrz30Fw
+	for <lists+linux-aspeed@lfdr.de>; Sat, 12 Mar 2022 01:08:08 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=E/bqfdCe;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=QpWCf0Qr;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
  smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1;
- helo=dfw.source.kernel.org; envelope-from=wsa@kernel.org; receiver=<UNKNOWN>)
+ helo=dfw.source.kernel.org; envelope-from=mchehab@kernel.org;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=E/bqfdCe; 
+ header.s=k20201202 header.b=QpWCf0Qr; 
  dkim-atps=neutral
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KFGxY4sZzz2yMy;
- Fri, 11 Mar 2022 17:58:57 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KFSSc6gJqz2xTp;
+ Sat, 12 Mar 2022 01:08:00 +1100 (AEDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C198761D48;
- Fri, 11 Mar 2022 06:58:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 808ECC340E9;
- Fri, 11 Mar 2022 06:58:52 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CD79061D7C;
+ Fri, 11 Mar 2022 14:07:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 339ADC340F7;
+ Fri, 11 Mar 2022 14:07:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1646981933;
- bh=57QZ3z3TEDeIuuizUKu4lfq1+BF92zuxMI5WApqedIc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=E/bqfdCeMyOPzV6SS9ZruCs09qR+6vq8r1D1pyHSqRBRr9HN+JA6/AWG8pEfA2uKT
- 3otvhvpBZf0OG3sUzODx2C7OLX18Ni/nq3XHNUMM3y/q9GXdQ2Au3AbdzuiE9e+ko6
- dCQIX8fa8v69mNfE71hxT3B1GxLH9tn0m6/F3RbYlZThnGObIz8umKrsLKGCqU3udv
- kMIdklBvY1wg+Gf3ZqMZx/ia9FvEtvmv+9gG1/Darl2KwHsF3N3QG/6JmetdYqpUAl
- ApnoeX9PXhnBfGMbeLB8jv/k2Th3dJdggjwGT24HDrsYrQKtUiHvygPJuVhzhhU+0S
- rgZa5ome2AaRQ==
-Date: Fri, 11 Mar 2022 07:58:46 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Quan Nguyen <quan@os.amperecomputing.com>
-Subject: Re: [PATCH v6 3/4] ipmi: ssif_bmc: Return -EFAULT if
- copy_from_user() fails
-Message-ID: <YirzJj/BBUQTbKS3@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
- Quan Nguyen <quan@os.amperecomputing.com>,
- Corey Minyard <minyard@acm.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Brendan Higgins <brendanhiggins@google.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- openipmi-developer@lists.sourceforge.net,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org,
- Open Source Submission <patches@amperecomputing.com>,
- Phong Vo <phong@os.amperecomputing.com>,
- "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-References: <20220310114119.13736-1-quan@os.amperecomputing.com>
- <20220310114119.13736-4-quan@os.amperecomputing.com>
+ s=k20201202; t=1647007676;
+ bh=yWuOwgCKKH3cUQ5RmtkkII7ase31tF+oYbnerblLvgM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=QpWCf0Qrck+zSaJE47tBgImiRqglXOFjUPQxPhC5ayhWGorCOKPdrECbanYgw2Ybp
+ VsOka/+ZKE/Msht00BGN3dcBaMpQ9JWm2vlHpse5XVjjAQ/ioDe+IjBkbscB9fiZCC
+ VKUPg9ztSO21kJVpBMmKy/NGGP9rlWkubVZW6hL17gcO/mAJiL6p8UkJ70ZLsC+QVR
+ MggGCjVA1YsZvek+yXv5B3vLre1tLHTPIfrbjx31DkMRF3xZo+2lynbzQceX7SVZW/
+ Dkkr+LJIq1hGjVVm3M0rOXFQx/WsQEalMemdlIpypOd4NJ+5+H0RCP7luF1a3IJ0xB
+ +EvgYifjDZ2yg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
+ (envelope-from <mchehab@kernel.org>)
+ id 1nSfvt-000lAu-SD; Fri, 11 Mar 2022 15:07:53 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: 
+Subject: [PATCH v2 06/38] media: platform: place Aspeed driver on a separate
+ dir
+Date: Fri, 11 Mar 2022 15:07:19 +0100
+Message-Id: <97fe1a5a4183c04ac8bed0cee7583fcda96a3dd6.1647006877.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <cover.1647006877.git.mchehab@kernel.org>
+References: <cover.1647006877.git.mchehab@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="c+D6WiTH4AhpNkI6"
-Content-Disposition: inline
-In-Reply-To: <20220310114119.13736-4-quan@os.amperecomputing.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,87 +68,122 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Corey Minyard <minyard@acm.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- openbmc@lists.ozlabs.org, "Thang Q . Nguyen" <thang@os.amperecomputing.com>,
- Brendan Higgins <brendanhiggins@google.com>, linux-kernel@vger.kernel.org,
- Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>,
- openipmi-developer@lists.sourceforge.net,
- Open Source Submission <patches@amperecomputing.com>,
- linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, =?UTF-8?q?Niklas=20S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>, linux-aspeed@lists.ozlabs.org,
+ Zev Weiss <zev@bewilderbeest.net>, Paul Menzel <pmenzel@molgen.mpg.de>,
+ openbmc@lists.ozlabs.org, Jacopo Mondi <jacopo@jmondi.org>,
+ linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Eugen Hristev <eugen.hristev@microchip.com>,
+ Dmitry Osipenko <digetx@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-media@vger.kernel.org, Ming Qian <ming.qian@nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+In order to cleanup the main platform media directory, move Aspeed
+driver to its own directory.
 
---c+D6WiTH4AhpNkI6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
 
-On Thu, Mar 10, 2022 at 06:41:18PM +0700, Quan Nguyen wrote:
-> From: Dan Carpenter <dan.carpenter@oracle.com>
->=20
-> The copy_from_user() function returns the number of bytes remaining to
-> be copied but we should return -EFAULT here.
->=20
-> Fixes: 501c25b59508 ("ipmi: ssif_bmc: Add SSIF BMC driver")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Signed-off-by: Corey Minyard <cminyard@mvista.com>
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+See [PATCH v2 00/38] at: https://lore.kernel.org/all/cover.1647006877.git.mchehab@kernel.org/
 
-It is nice that you want to keep this patch seperate to give Dan
-credits, but I still think it should be merged into patch 1, so the
-initial driver is as flawless as it can be. You could give Dan still
-credits by mentioning him in the commit message IMO. Dan, would you be
-fine with this?
+ MAINTAINERS                                        |  2 +-
+ drivers/media/platform/Kconfig                     | 10 +---------
+ drivers/media/platform/Makefile                    |  2 +-
+ drivers/media/platform/aspeed/Kconfig              | 10 ++++++++++
+ drivers/media/platform/aspeed/Makefile             |  1 +
+ drivers/media/platform/{ => aspeed}/aspeed-video.c |  0
+ 6 files changed, 14 insertions(+), 11 deletions(-)
+ create mode 100644 drivers/media/platform/aspeed/Kconfig
+ create mode 100644 drivers/media/platform/aspeed/Makefile
+ rename drivers/media/platform/{ => aspeed}/aspeed-video.c (100%)
 
-> v6:
->   + New add in v6, thanks Dan for the patch     [Dan]
->=20
->  drivers/char/ipmi/ssif_bmc.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/char/ipmi/ssif_bmc.c b/drivers/char/ipmi/ssif_bmc.c
-> index 62db97773654..91ac2cae756e 100644
-> --- a/drivers/char/ipmi/ssif_bmc.c
-> +++ b/drivers/char/ipmi/ssif_bmc.c
-> @@ -87,9 +87,8 @@ static ssize_t ssif_bmc_write(struct file *file, const =
-char __user *buf, size_t
->  	if (count > sizeof(struct ssif_msg))
->  		return -EINVAL;
-> =20
-> -	ret =3D copy_from_user(&msg, buf, count);
-> -	if (ret)
-> -		return ret;
-> +	if (copy_from_user(&msg, buf, count))
-> +		return -EFAULT;
-> =20
->  	if (!msg.len || count < ssif_msg_len(&msg))
->  		return -EINVAL;
-> --=20
-> 2.35.1
->=20
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1a9fb0615925..1b6f48a660de 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3026,7 +3026,7 @@ L:	linux-media@vger.kernel.org
+ L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/aspeed-video.txt
+-F:	drivers/media/platform/aspeed-video.c
++F:	drivers/media/platform/aspeed/
+ 
+ ASUS NOTEBOOKS AND EEEPC ACPI/WMI EXTRAS DRIVERS
+ M:	Corentin Chary <corentin.chary@gmail.com>
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index 1cb73f09d0b5..ad95a25ae2fc 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -57,15 +57,7 @@ source "drivers/media/platform/davinci/Kconfig"
+ 
+ source "drivers/media/platform/omap/Kconfig"
+ 
+-config VIDEO_ASPEED
+-	tristate "Aspeed AST2400 and AST2500 Video Engine driver"
+-	depends on V4L_PLATFORM_DRIVERS
+-	depends on VIDEO_V4L2
+-	select VIDEOBUF2_DMA_CONTIG
+-	help
+-	  Support for the Aspeed Video Engine (VE) embedded in the Aspeed
+-	  AST2400 and AST2500 SOCs. The VE can capture and compress video data
+-	  from digital or analog sources.
++source "drivers/media/platform/aspeed/Kconfig"
+ 
+ config VIDEO_SH_VOU
+ 	tristate "SuperH VOU video output driver"
+diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+index c7ee7dafe6b3..1a52a1a784b5 100644
+--- a/drivers/media/platform/Makefile
++++ b/drivers/media/platform/Makefile
+@@ -5,6 +5,7 @@
+ 
+ # Place here, alphabetically sorted, all directories
+ obj-y += allegro-dvt/
++obj-y += aspeed/
+ obj-y += am437x/
+ obj-y += amphion/
+ obj-y += atmel/
+@@ -44,7 +45,6 @@ obj-y += vsp1/
+ obj-y += xilinx/
+ 
+ # Please place here only ancillary drivers that aren't SoC-specific
+-obj-$(CONFIG_VIDEO_ASPEED)		+= aspeed-video.o
+ obj-$(CONFIG_VIDEO_IMX_PXP)		+= imx-pxp.o
+ obj-$(CONFIG_VIDEO_MEM2MEM_DEINTERLACE)	+= m2m-deinterlace.o
+ obj-$(CONFIG_VIDEO_MUX)			+= video-mux.o
+diff --git a/drivers/media/platform/aspeed/Kconfig b/drivers/media/platform/aspeed/Kconfig
+new file mode 100644
+index 000000000000..5025e892844c
+--- /dev/null
++++ b/drivers/media/platform/aspeed/Kconfig
+@@ -0,0 +1,10 @@
++# SPDX-License-Identifier: GPL-2.0-only
++config VIDEO_ASPEED
++	tristate "Aspeed AST2400 and AST2500 Video Engine driver"
++	depends on V4L_PLATFORM_DRIVERS
++	depends on VIDEO_V4L2
++	select VIDEOBUF2_DMA_CONTIG
++	help
++	  Support for the Aspeed Video Engine (VE) embedded in the Aspeed
++	  AST2400 and AST2500 SOCs. The VE can capture and compress video data
++	  from digital or analog sources.
+diff --git a/drivers/media/platform/aspeed/Makefile b/drivers/media/platform/aspeed/Makefile
+new file mode 100644
+index 000000000000..4ee15b3ddd90
+--- /dev/null
++++ b/drivers/media/platform/aspeed/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_VIDEO_ASPEED)		+= aspeed-video.o
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
+similarity index 100%
+rename from drivers/media/platform/aspeed-video.c
+rename to drivers/media/platform/aspeed/aspeed-video.c
+-- 
+2.35.1
 
---c+D6WiTH4AhpNkI6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmIq8yIACgkQFA3kzBSg
-KbZEgBAAiUx2Df2QUChkO0IP8Cx64ymzUxiS8tVADYlH1t77TAN/0RmIWSkUXD4U
-eHPAqnUOUcScJqidUpOhNT8v/4JKeW2/SSw7NpJyDL3n9BqddH+3QRDVDxuvT7ga
-I9pVMmEPoU5PjSOfWyzfMzbJhs99UwcFtkqOvZRUSQsoUxWsVoPCs6Aknwstz6DD
-bmfDpwJxNKRadqLA/bO6uQcpxUvCQM4hIq/zKMWnF8Yqsxg8Rr4raQJFGj0VIcp9
-Zd4WIs4ZauwTu0RGbOX7++6QslOY6FN0HfVqTuWWGsBF7Z9dep51gC06vFM9+92t
-lTofulwsmdMNAKKRz2QFAsL9P7fL6pA5sF+qCKJdu3NcYIKm9Ql+nm0UQt9Oq8ZY
-fJqR6uPYlcv773QThNTSj8dhWCbvGDsxRxGV85DBt3syfohIKt1q4hkD9QsoDlpg
-bS5SVmVwNxRTRSqWk1Swuf0ARHqF6SHBj6XIR1c/w5FGrTJ7GMHn+KPeUlK4Qr+d
-az0Sm7lOQCJeW3RnT7c3FMDL3D8vLWt1qvwxBY4IcBQmor4v+5PlMFKxbIYcsnYt
-vThbUi+zj+XfbVFLdv2+7iOgNM+69pYMfkHfH7tnyhoCPeo5VCtH6urycWRx1Zlb
-CkfWmKciuaVVasw5wHT8svjZqVqKFqkfecbL29RMHbkim4743Q0=
-=s5hT
------END PGP SIGNATURE-----
-
---c+D6WiTH4AhpNkI6--
