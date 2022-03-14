@@ -1,60 +1,85 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9985E4D7C69
-	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Mar 2022 08:56:48 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D1D4D7D0A
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Mar 2022 09:02:12 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KH84t475Zz306J
-	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Mar 2022 18:56:46 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KH8C56RFCz2xb1
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Mar 2022 19:02:09 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=k3gOK9FY;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=baylibre-com.20210112.gappssmtp.com header.i=@baylibre-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=Px/AIFSk;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org;
- envelope-from=mchehab@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=baylibre.com (client-ip=2a00:1450:4864:20::431;
+ helo=mail-wr1-x431.google.com; envelope-from=narmstrong@baylibre.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=k3gOK9FY; 
- dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KH84B0BnJz2xb1;
- Mon, 14 Mar 2022 18:56:10 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=baylibre-com.20210112.gappssmtp.com
+ header.i=@baylibre-com.20210112.gappssmtp.com header.a=rsa-sha256
+ header.s=20210112 header.b=Px/AIFSk; dkim-atps=neutral
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 740FA6123F;
- Mon, 14 Mar 2022 07:56:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B48CC341E0;
- Mon, 14 Mar 2022 07:56:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1647244563;
- bh=jpf8+CIVlqR8P2WBdHaMDbksXFiChRDZHqcPhOPZxpg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=k3gOK9FYDSyQTro+KDltlDja6OlqkxpOjkMgAdaFOK+OphpYfcSEUfsaUMj+pKf/2
- UDxcfOfWwerG+1YpwVypDQ1pPxBCauqub+I0/CZ05EXFfqJq3ALrN/aBfsPg63uQPl
- qKQIRKt5dKlzo/tJdKtheIB4SVijvGWkPXL6pXT6TEIfSg8bcplsyimevdBTvMCSrD
- AL5HNRqybv3LxyDq2uKBvxCHK43gYmGyfSEGFY8jIKw+Qd6HfbmAqepUFuicnw7JHN
- H2zXm/U66XUY8m6gayq7iCR5nrwmSierMsmQGptUS7QqlPqk4s/yvGGkxONlTwPJHx
- 7UqZIXhPMMHtw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
- (envelope-from <mchehab@kernel.org>)
- id 1nTfYf-001kYF-15; Mon, 14 Mar 2022 08:56:01 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: 
-Subject: [PATCH 63/64] media: platform/*/Kconfig: make manufacturer menus more
- uniform
-Date: Mon, 14 Mar 2022 08:55:55 +0100
-Message-Id: <39f2340fa38093ace4cfe1bec3209157d3f6e4cf.1647242579.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1647242578.git.mchehab@kernel.org>
-References: <cover.1647242578.git.mchehab@kernel.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KH8BG6YrCz2xF0
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 14 Mar 2022 19:01:23 +1100 (AEDT)
+Received: by mail-wr1-x431.google.com with SMTP id i8so22468137wrr.8
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 14 Mar 2022 01:01:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=ZbQvHoyGIYzvUki2Rr3koBlbf8HphwGvoPoiGFCWjVI=;
+ b=Px/AIFSkS5xiQntL+czEDZNooaKyKwCT5+5oX3Dxiuaq0p2Muil6CAGE/yKjTcSPRk
+ zDe4uh38/LLZAeLwbHMGwjTg12kmpC6yeWSofKA0umP5cCfX9/OYY82Bw345RNYb0ncn
+ orCm5F+5ZfCmlxK+d1VXp7nIMCWzluoafQnmDOcfqWejvaYNcsBVEphbI2O0YMhV2/Sw
+ btjwvk4hgGfi1Ebtg7vyteqdSKhr8lp3tlnQhW8mViZOmcTxC9P84ODdx/3FeHEOfW8P
+ 6h58+Jo9NlVZHRXuw0qPEJXdJKCF5VgLcohK/rtJkyKSW2QSe8R2Hvd+nhg3g9Uwmmee
+ CRRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=ZbQvHoyGIYzvUki2Rr3koBlbf8HphwGvoPoiGFCWjVI=;
+ b=b3L5hyiw1MlLwE5FDWaGbPGVScm+7KGJ68OtiyWUVr23bm+6lRzdtcxKJh+otaFoBw
+ E6w8PaIePXkNnqMdSNfQ3v48EmpVcE1ZcwA0vPja6tP0kDIy29srOwS8irL50vj8A+QF
+ tmUn/T6vQuXdHRzOLfkiHu3/eeQaanQ5uM5ySQIUkEWmlcrvIc5Sq0JvjaoTnwqE2BXJ
+ WGxHrkETTYiVH6a9cejjhGCdOJgEMy9SuT5kXC4v2bz+SMLGW9fnKvHxagU+2k0d+p8N
+ 4/Vc3Da9dEy5ZozsiRvspwQd7fQ+E6BeLrQ/7Rr8dNU+AuXIr0ROIAmk5RiCVEz1sclY
+ GqHg==
+X-Gm-Message-State: AOAM532421DpiqzH3rAxkp7639tuYSpb1e5EWptAGJA9B2ulNl76gbqK
+ ZPAvIEIN84G3a05U21hplnWZRw==
+X-Google-Smtp-Source: ABdhPJztePfcEZyw3gKDCW6el7zVf+skc/7D+PKs0YU6FDvddmqBB//lsO2gITU97Xj5EZ5qC+/51g==
+X-Received: by 2002:adf:fb4e:0:b0:1e3:3e66:d5f6 with SMTP id
+ c14-20020adffb4e000000b001e33e66d5f6mr16194756wrs.615.1647244875196; 
+ Mon, 14 Mar 2022 01:01:15 -0700 (PDT)
+Received: from ?IPV6:2001:861:44c0:66c0:67f0:57f7:2185:6d18?
+ ([2001:861:44c0:66c0:67f0:57f7:2185:6d18])
+ by smtp.gmail.com with ESMTPSA id
+ v188-20020a1cacc5000000b00384b71a50d5sm14188253wme.24.2022.03.14.01.01.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Mar 2022 01:01:14 -0700 (PDT)
+Message-ID: <18f984ff-36c8-dbe5-6dd0-404c4fe9deab@baylibre.com>
+Date: Mon, 14 Mar 2022 09:01:19 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 64/64] media: Kconfig: cleanup VIDEO_DEV dependencies
+Content-Language: en-US
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <cover.1647242578.git.mchehab@kernel.org>
+ <decd26e90adc5c16470e4f738810f22fe6478b27.1647242579.git.mchehab@kernel.org>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+In-Reply-To: <decd26e90adc5c16470e4f738810f22fe6478b27.1647242579.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,360 +91,189 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Heiko Stuebner <heiko@sntech.de>, linux-aspeed@lists.ozlabs.org,
- Michael Tretter <m.tretter@pengutronix.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, openbmc@lists.ozlabs.org,
- Michal Simek <michal.simek@xilinx.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-rockchip@lists.infradead.org,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- Andy Gross <agross@kernel.org>, linux-media@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- linux-arm-kernel@lists.infradead.org, Hyun Kwon <hyun.kwon@xilinx.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Eugen Hristev <eugen.hristev@microchip.com>
+Cc: alsa-devel@alsa-project.org, linux-samsung-soc@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ linux-arm-msm@vger.kernel.org, mjpeg-users@lists.sourceforge.net,
+ linux-staging@lists.linux.dev, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-usb@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Do some adjustments at the per-vendor Kconfig, adding a comment at
-the beginning in order to identify the manufacturer, and adjust
-a few entries to make them look more uniform.
+On 14/03/2022 08:55, Mauro Carvalho Chehab wrote:
+> media Kconfig has two entries associated to V4L API:
+> VIDEO_DEV and VIDEO_V4L2.
+> 
+> On Kernel 2.6.x, there were two V4L APIs, each one with its own flag.
+> VIDEO_DEV were meant to:
+> 	1) enable Video4Linux and make its Kconfig options to appear;
+> 	2) it makes the Kernel build the V4L core.
+> 
+> while VIDEO_V4L2 where used to distinguish between drivers that
+> implement the newer API and drivers that implemented the former one.
+> 
+> With time, such meaning changed, specially after the removal of
+> all V4L version 1 drivers.
+> 
+> At the current implementation, VIDEO_DEV only does (1): it enables
+> the media options related to V4L, that now has:
+> 
+> 	menu "Video4Linux options"
+> 		visible if VIDEO_DEV
+> 
+> 	source "drivers/media/v4l2-core/Kconfig"
+> 	endmenu
+> 
+> but it doesn't affect anymore the V4L core drivers.
+> 
+> The rationale is that the V4L2 core has a "soft" dependency
+> at the I2C bus, and now requires to select a number of other
+> Kconfig options:
+> 
+> 	config VIDEO_V4L2
+> 		tristate
+> 		depends on (I2C || I2C=n) && VIDEO_DEV
+> 		select RATIONAL
+> 		select VIDEOBUF2_V4L2 if VIDEOBUF2_CORE
+> 		default (I2C || I2C=n) && VIDEO_DEV
+> 
+> In the past, merging them would be tricky, but it seems that it is now
+> possible to merge those symbols, in order to simplify V4L dependencies.
+> 
+> Let's keep VIDEO_DEV, as this one is used on some make *defconfig
+> configurations.
+> 
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+> 
+> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH 00/64] at: https://lore.kernel.org/all/cover.1647242578.git.mchehab@kernel.org/
+> 
+>   drivers/input/rmi4/Kconfig                    |   2 +-
+>   drivers/input/touchscreen/Kconfig             |   4 +-
+>   drivers/media/Kconfig                         |   3 +
+>   drivers/media/common/saa7146/Kconfig          |   2 +-
+>   drivers/media/dvb-core/Kconfig                |   2 +-
+>   drivers/media/dvb-frontends/Kconfig           |   4 +-
+>   drivers/media/i2c/Kconfig                     | 250 +++++++++---------
+>   drivers/media/i2c/ccs/Kconfig                 |   2 +-
+>   drivers/media/i2c/cx25840/Kconfig             |   2 +-
+>   drivers/media/i2c/et8ek8/Kconfig              |   2 +-
+>   drivers/media/i2c/m5mols/Kconfig              |   2 +-
+>   drivers/media/pci/Kconfig                     |   2 +-
+>   drivers/media/pci/bt8xx/Kconfig               |   2 +-
+>   drivers/media/pci/cobalt/Kconfig              |   2 +-
+>   drivers/media/pci/cx18/Kconfig                |   2 +-
+>   drivers/media/pci/dt3155/Kconfig              |   2 +-
+>   drivers/media/pci/intel/ipu3/Kconfig          |   2 +-
+>   drivers/media/pci/ivtv/Kconfig                |   2 +-
+>   drivers/media/pci/meye/Kconfig                |   2 +-
+>   drivers/media/pci/saa7146/Kconfig             |   6 +-
+>   drivers/media/pci/sta2x11/Kconfig             |   2 +-
+>   drivers/media/pci/tw5864/Kconfig              |   2 +-
+>   drivers/media/pci/tw68/Kconfig                |   2 +-
+>   drivers/media/pci/tw686x/Kconfig              |   2 +-
+>   drivers/media/platform/Kconfig                |   6 +-
+>   drivers/media/platform/allegro-dvt/Kconfig    |   2 +-
+>   .../platform/allwinner/sun4i-csi/Kconfig      |   2 +-
+>   .../platform/allwinner/sun6i-csi/Kconfig      |   2 +-
+>   .../media/platform/allwinner/sun8i-di/Kconfig |   2 +-
+>   .../platform/allwinner/sun8i-rotate/Kconfig   |   2 +-
+>   .../media/platform/amlogic/meson-ge2d/Kconfig |   2 +-
+>   drivers/media/platform/aspeed/Kconfig         |   2 +-
+>   drivers/media/platform/atmel/Kconfig          |   8 +-
+>   drivers/media/platform/cadence/Kconfig        |   4 +-
+>   drivers/media/platform/chips-media/Kconfig    |   2 +-
+>   drivers/media/platform/intel/Kconfig          |   2 +-
+>   drivers/media/platform/marvell/Kconfig        |   4 +-
+>   .../media/platform/mediatek/mtk-jpeg/Kconfig  |   2 +-
+>   .../media/platform/mediatek/mtk-mdp/Kconfig   |   2 +-
+>   .../platform/mediatek/mtk-vcodec/Kconfig      |   2 +-
+>   .../media/platform/mediatek/mtk-vpu/Kconfig   |   2 +-
+>   .../media/platform/nvidia/tegra-vde/Kconfig   |   2 +-
+>   drivers/media/platform/nxp/Kconfig            |   6 +-
+>   drivers/media/platform/nxp/amphion/Kconfig    |   2 +-
+>   drivers/media/platform/nxp/imx-jpeg/Kconfig   |   2 +-
+>   drivers/media/platform/qcom/camss/Kconfig     |   2 +-
+>   drivers/media/platform/qcom/venus/Kconfig     |   2 +-
+>   drivers/media/platform/renesas/Kconfig        |  30 +--
+>   .../media/platform/renesas/rcar-vin/Kconfig   |   4 +-
+>   drivers/media/platform/rockchip/rga/Kconfig   |   2 +-
+>   .../media/platform/rockchip/rkisp1/Kconfig    |   2 +-
+>   .../media/platform/samsung/exynos-gsc/Kconfig |   2 +-
+>   .../media/platform/samsung/exynos4-is/Kconfig |   2 +-
+>   .../media/platform/samsung/s3c-camif/Kconfig  |   2 +-
+>   .../media/platform/samsung/s5p-g2d/Kconfig    |   2 +-
+>   .../media/platform/samsung/s5p-jpeg/Kconfig   |   2 +-
+>   .../media/platform/samsung/s5p-mfc/Kconfig    |   2 +-
+>   drivers/media/platform/sti/bdisp/Kconfig      |   2 +-
+>   drivers/media/platform/sti/delta/Kconfig      |   2 +-
+>   drivers/media/platform/sti/hva/Kconfig        |   2 +-
+>   drivers/media/platform/sti/stm32/Kconfig      |   4 +-
+>   drivers/media/platform/ti/am437x/Kconfig      |   2 +-
+>   drivers/media/platform/ti/davinci/Kconfig     |  12 +-
+>   drivers/media/platform/ti/omap/Kconfig        |   2 +-
+>   drivers/media/platform/ti/omap3isp/Kconfig    |   2 +-
+>   drivers/media/platform/ti/vpe/Kconfig         |   4 +-
+>   drivers/media/platform/via/Kconfig            |   2 +-
+>   drivers/media/platform/xilinx/Kconfig         |   2 +-
+>   drivers/media/radio/Kconfig                   |  54 ++--
+>   drivers/media/radio/si470x/Kconfig            |   2 +-
+>   drivers/media/radio/wl128x/Kconfig            |   2 +-
+>   drivers/media/spi/Kconfig                     |   4 +-
+>   drivers/media/test-drivers/Kconfig            |   2 +-
+>   drivers/media/test-drivers/vicodec/Kconfig    |   2 +-
+>   drivers/media/test-drivers/vimc/Kconfig       |   2 +-
+>   drivers/media/test-drivers/vivid/Kconfig      |   2 +-
+>   drivers/media/tuners/Kconfig                  |   6 +-
+>   drivers/media/tuners/e4000.c                  |   6 +-
+>   drivers/media/tuners/fc2580.c                 |   6 +-
+>   drivers/media/usb/airspy/Kconfig              |   2 +-
+>   drivers/media/usb/au0828/Kconfig              |   6 +-
+>   drivers/media/usb/cpia2/Kconfig               |   2 +-
+>   drivers/media/usb/dvb-usb-v2/Kconfig          |   8 +-
+>   drivers/media/usb/dvb-usb/Kconfig             |   4 +-
+>   drivers/media/usb/gspca/Kconfig               |  96 +++----
+>   drivers/media/usb/gspca/gl860/Kconfig         |   2 +-
+>   drivers/media/usb/gspca/m5602/Kconfig         |   2 +-
+>   drivers/media/usb/hackrf/Kconfig              |   2 +-
+>   drivers/media/usb/hdpvr/Kconfig               |   2 +-
+>   drivers/media/usb/msi2500/Kconfig             |   2 +-
+>   drivers/media/usb/pvrusb2/Kconfig             |   2 +-
+>   drivers/media/usb/pwc/Kconfig                 |   2 +-
+>   drivers/media/usb/s2255/Kconfig               |   2 +-
+>   drivers/media/usb/stkwebcam/Kconfig           |   2 +-
+>   drivers/media/usb/usbtv/Kconfig               |   2 +-
+>   drivers/media/usb/uvc/Kconfig                 |   2 +-
+>   drivers/media/usb/zr364xx/Kconfig             |   2 +-
+>   drivers/media/v4l2-core/Kconfig               |  12 +-
+>   drivers/media/v4l2-core/Makefile              |   2 +-
+>   drivers/staging/media/atomisp/Kconfig         |   2 +-
+>   drivers/staging/media/atomisp/i2c/Kconfig     |  14 +-
+>   drivers/staging/media/hantro/Kconfig          |   2 +-
+>   drivers/staging/media/imx/Kconfig             |   2 +-
+>   drivers/staging/media/ipu3/Kconfig            |   2 +-
+>   drivers/staging/media/max96712/Kconfig        |   2 +-
+>   drivers/staging/media/meson/vdec/Kconfig      |   2 +-
+>   drivers/staging/media/omap4iss/Kconfig        |   2 +-
+>   drivers/staging/media/rkvdec/Kconfig          |   2 +-
+>   drivers/staging/media/sunxi/cedrus/Kconfig    |   2 +-
+>   drivers/staging/media/tegra-video/Kconfig     |   2 +-
+>   drivers/staging/media/zoran/Kconfig           |   2 +-
+>   drivers/staging/most/video/Kconfig            |   2 +-
+>   .../vc04_services/bcm2835-camera/Kconfig      |   2 +-
+>   drivers/usb/gadget/Kconfig                    |   2 +-
+>   drivers/usb/gadget/legacy/Kconfig             |   2 +-
+>   sound/pci/Kconfig                             |   4 +-
+>   116 files changed, 371 insertions(+), 376 deletions(-)
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
 
-To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH 00/64] at: https://lore.kernel.org/all/cover.1647242578.git.mchehab@kernel.org/
-
- drivers/media/platform/allegro-dvt/Kconfig |  3 +++
- drivers/media/platform/amlogic/Kconfig     |  3 +++
- drivers/media/platform/aspeed/Kconfig      |  3 +++
- drivers/media/platform/atmel/Kconfig       |  3 +++
- drivers/media/platform/cadence/Kconfig     | 13 +------------
- drivers/media/platform/chips-media/Kconfig |  3 +++
- drivers/media/platform/intel/Kconfig       |  3 +++
- drivers/media/platform/marvell/Kconfig     |  3 +++
- drivers/media/platform/mediatek/Kconfig    |  3 +++
- drivers/media/platform/nvidia/Kconfig      |  3 +++
- drivers/media/platform/nxp/Kconfig         | 22 +++++-----------------
- drivers/media/platform/qcom/Kconfig        |  2 ++
- drivers/media/platform/renesas/Kconfig     |  2 ++
- drivers/media/platform/rockchip/Kconfig    |  3 +++
- drivers/media/platform/samsung/Kconfig     |  3 +++
- drivers/media/platform/sti/Kconfig         |  3 +++
- drivers/media/platform/ti/Kconfig          |  3 +++
- drivers/media/platform/via/Kconfig         |  3 +++
- drivers/media/platform/xilinx/Kconfig      |  7 +++----
- 19 files changed, 55 insertions(+), 33 deletions(-)
-
-diff --git a/drivers/media/platform/allegro-dvt/Kconfig b/drivers/media/platform/allegro-dvt/Kconfig
-index dd528e9d0958..674d234be5de 100644
---- a/drivers/media/platform/allegro-dvt/Kconfig
-+++ b/drivers/media/platform/allegro-dvt/Kconfig
-@@ -1,4 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "Allegro DVT drivers"
-+
- config VIDEO_ALLEGRO_DVT
- 	tristate "Allegro DVT Video IP Core"
- 	depends on V4L_MEM2MEM_DRIVERS
-diff --git a/drivers/media/platform/amlogic/Kconfig b/drivers/media/platform/amlogic/Kconfig
-index c67e00df6202..c1376ec1fe23 100644
---- a/drivers/media/platform/amlogic/Kconfig
-+++ b/drivers/media/platform/amlogic/Kconfig
-@@ -1,2 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "Amlogic drivers"
-+
- source "drivers/media/platform/amlogic/meson-ge2d/Kconfig"
-diff --git a/drivers/media/platform/aspeed/Kconfig b/drivers/media/platform/aspeed/Kconfig
-index 5025e892844c..153e3e5381d5 100644
---- a/drivers/media/platform/aspeed/Kconfig
-+++ b/drivers/media/platform/aspeed/Kconfig
-@@ -1,4 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "Aspeed drivers"
-+
- config VIDEO_ASPEED
- 	tristate "Aspeed AST2400 and AST2500 Video Engine driver"
- 	depends on V4L_PLATFORM_DRIVERS
-diff --git a/drivers/media/platform/atmel/Kconfig b/drivers/media/platform/atmel/Kconfig
-index 5122290729ae..cef12629f4ef 100644
---- a/drivers/media/platform/atmel/Kconfig
-+++ b/drivers/media/platform/atmel/Kconfig
-@@ -1,4 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "Atmel drivers"
-+
- config VIDEO_ATMEL_ISC
- 	tristate "ATMEL Image Sensor Controller (ISC) support"
- 	depends on V4L_PLATFORM_DRIVERS
-diff --git a/drivers/media/platform/cadence/Kconfig b/drivers/media/platform/cadence/Kconfig
-index 79a7e9fb2575..3ae6f4e51eec 100644
---- a/drivers/media/platform/cadence/Kconfig
-+++ b/drivers/media/platform/cadence/Kconfig
-@@ -1,15 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
--config VIDEO_CADENCE
--	bool "Cadence Video Devices"
--	depends on V4L_PLATFORM_DRIVERS
--	help
--	  If you have a media device designed by Cadence, say Y.
- 
--	  Note that this option doesn't include new drivers in the kernel:
--	  saying N will just cause Kconfig to skip all the questions about
--	  Cadence media devices.
--
--if VIDEO_CADENCE
-+comment "Cadence drivers"
- 
- config VIDEO_CADENCE_CSI2RX
- 	tristate "Cadence MIPI-CSI2 RX Controller"
-@@ -34,5 +25,3 @@ config VIDEO_CADENCE_CSI2TX
- 
- 	  To compile this driver as a module, choose M here: the module will be
- 	  called cdns-csi2tx.
--
--endif
-diff --git a/drivers/media/platform/chips-media/Kconfig b/drivers/media/platform/chips-media/Kconfig
-index ae495fd7b25a..adf466a05699 100644
---- a/drivers/media/platform/chips-media/Kconfig
-+++ b/drivers/media/platform/chips-media/Kconfig
-@@ -1,4 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "Chips&Media drivers"
-+
- config VIDEO_CODA
- 	tristate "Chips&Media Coda multi-standard codec IP"
- 	depends on V4L_MEM2MEM_DRIVERS
-diff --git a/drivers/media/platform/intel/Kconfig b/drivers/media/platform/intel/Kconfig
-index aeda421f7248..8a730d9bcf52 100644
---- a/drivers/media/platform/intel/Kconfig
-+++ b/drivers/media/platform/intel/Kconfig
-@@ -1,4 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "Intel drivers"
-+
- config VIDEO_PXA27x
- 	tristate "PXA27x Quick Capture Interface driver"
- 	depends on V4L_PLATFORM_DRIVERS
-diff --git a/drivers/media/platform/marvell/Kconfig b/drivers/media/platform/marvell/Kconfig
-index bfe655b2cedd..626e0673f12c 100644
---- a/drivers/media/platform/marvell/Kconfig
-+++ b/drivers/media/platform/marvell/Kconfig
-@@ -1,4 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "Marvell drivers"
-+
- config VIDEO_CAFE_CCIC
- 	tristate "Marvell 88ALP01 (Cafe) CMOS Camera Controller support"
- 	depends on V4L_PLATFORM_DRIVERS
-diff --git a/drivers/media/platform/mediatek/Kconfig b/drivers/media/platform/mediatek/Kconfig
-index 6d74839df3d6..aa79626088ec 100644
---- a/drivers/media/platform/mediatek/Kconfig
-+++ b/drivers/media/platform/mediatek/Kconfig
-@@ -1,4 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "Mediatek drivers"
-+
- source "drivers/media/platform/mediatek/mtk-jpeg/Kconfig"
- source "drivers/media/platform/mediatek/mtk-mdp/Kconfig"
- source "drivers/media/platform/mediatek/mtk-vcodec/Kconfig"
-diff --git a/drivers/media/platform/nvidia/Kconfig b/drivers/media/platform/nvidia/Kconfig
-index 1162e272b5f9..597402090680 100644
---- a/drivers/media/platform/nvidia/Kconfig
-+++ b/drivers/media/platform/nvidia/Kconfig
-@@ -1,2 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "NVidia drivers"
-+
- source "drivers/media/platform/nvidia/tegra-vde/Kconfig"
-diff --git a/drivers/media/platform/nxp/Kconfig b/drivers/media/platform/nxp/Kconfig
-index e82bfcd97ac7..3478b1b45c6c 100644
---- a/drivers/media/platform/nxp/Kconfig
-+++ b/drivers/media/platform/nxp/Kconfig
-@@ -2,20 +2,10 @@
- 
- # V4L drivers
- 
--menuconfig VIDEO_IMX
--	bool "V4L2 capture drivers for NXP i.MX devices"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on ARCH_MXC || COMPILE_TEST
--	depends on VIDEO_DEV && VIDEO_V4L2
--	help
--	  Say yes here to enable support for capture drivers on i.MX SoCs.
--	  Support for the single SoC features are selectable in the sub-menu
--	  options.
--
--if VIDEO_IMX
-+comment "NXP drivers"
- 
- config VIDEO_IMX_MIPI_CSIS
--	tristate "MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
-+	tristate "NXP MIPI CSI-2 CSIS receiver found on i.MX7 and i.MX8 models"
- 	select MEDIA_CONTROLLER
- 	select V4L2_FWNODE
- 	select VIDEO_V4L2_SUBDEV_API
-@@ -24,10 +14,8 @@ config VIDEO_IMX_MIPI_CSIS
- 	  Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
- 	  v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
- 
--endif # VIDEO_IMX
--
- config VIDEO_VIU
--	tristate "Freescale/NXP VIU Video Driver"
-+	tristate "NXP VIU Video Driver"
- 	depends on V4L_PLATFORM_DRIVERS
- 	depends on VIDEO_V4L2 && (PPC_MPC512x || COMPILE_TEST) && I2C
- 	select VIDEOBUF_DMA_CONTIG
-@@ -42,7 +30,7 @@ config VIDEO_VIU
- # mem2mem drivers
- 
- config VIDEO_IMX_PXP
--	tristate "i.MX Pixel Pipeline (PXP)"
-+	tristate "NXP i.MX Pixel Pipeline (PXP)"
- 	depends on V4L_MEM2MEM_DRIVERS
- 	depends on VIDEO_DEV && VIDEO_V4L2 && (ARCH_MXC || COMPILE_TEST)
- 	select VIDEOBUF2_DMA_CONTIG
-@@ -52,7 +40,7 @@ config VIDEO_IMX_PXP
- 	  color space conversion, and rotation.
- 
- config VIDEO_MX2_EMMAPRP
--	tristate "Freescale/NXP MX2 eMMa-PrP support"
-+	tristate "NXP MX2 eMMa-PrP support"
- 	depends on V4L_MEM2MEM_DRIVERS
- 	depends on VIDEO_DEV && VIDEO_V4L2
- 	depends on SOC_IMX27 || COMPILE_TEST
-diff --git a/drivers/media/platform/qcom/Kconfig b/drivers/media/platform/qcom/Kconfig
-index 9f6c91cc95ca..4a89587e932d 100644
---- a/drivers/media/platform/qcom/Kconfig
-+++ b/drivers/media/platform/qcom/Kconfig
-@@ -1,4 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
-+comment "Qualcomm drivers"
-+
- source "drivers/media/platform/qcom/camss/Kconfig"
- source "drivers/media/platform/qcom/venus/Kconfig"
-diff --git a/drivers/media/platform/renesas/Kconfig b/drivers/media/platform/renesas/Kconfig
-index 3f35f1b5106d..2e3a66ea95bd 100644
---- a/drivers/media/platform/renesas/Kconfig
-+++ b/drivers/media/platform/renesas/Kconfig
-@@ -1,5 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
-+comment "Renesas drivers"
-+
- # V4L drivers
- 
- config VIDEO_RCAR_ISP
-diff --git a/drivers/media/platform/rockchip/Kconfig b/drivers/media/platform/rockchip/Kconfig
-index 2f97c0e0268a..4351e3258d14 100644
---- a/drivers/media/platform/rockchip/Kconfig
-+++ b/drivers/media/platform/rockchip/Kconfig
-@@ -1,3 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "Rockchip drivers"
-+
- source "drivers/media/platform/rockchip/rga/Kconfig"
- source "drivers/media/platform/rockchip/rkisp1/Kconfig"
-diff --git a/drivers/media/platform/samsung/Kconfig b/drivers/media/platform/samsung/Kconfig
-index 94f30c1bca9b..c187cefbec5a 100644
---- a/drivers/media/platform/samsung/Kconfig
-+++ b/drivers/media/platform/samsung/Kconfig
-@@ -1,4 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "Samsung drivers"
-+
- source "drivers/media/platform/samsung/exynos-gsc/Kconfig"
- source "drivers/media/platform/samsung/exynos4-is/Kconfig"
- source "drivers/media/platform/samsung/s3c-camif/Kconfig"
-diff --git a/drivers/media/platform/sti/Kconfig b/drivers/media/platform/sti/Kconfig
-index d5423743d905..a352087dba27 100644
---- a/drivers/media/platform/sti/Kconfig
-+++ b/drivers/media/platform/sti/Kconfig
-@@ -1,4 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "STMicroelectronics drivers"
-+
- source "drivers/media/platform/sti/bdisp/Kconfig"
- source "drivers/media/platform/sti/c8sectpfe/Kconfig"
- source "drivers/media/platform/sti/delta/Kconfig"
-diff --git a/drivers/media/platform/ti/Kconfig b/drivers/media/platform/ti/Kconfig
-index f422c68f4a99..d286027ff1c1 100644
---- a/drivers/media/platform/ti/Kconfig
-+++ b/drivers/media/platform/ti/Kconfig
-@@ -1,4 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "Texas Instruments drivers"
-+
- source "drivers/media/platform/ti/am437x/Kconfig"
- source "drivers/media/platform/ti/davinci/Kconfig"
- source "drivers/media/platform/ti/omap/Kconfig"
-diff --git a/drivers/media/platform/via/Kconfig b/drivers/media/platform/via/Kconfig
-index 1dcf789dce96..f4f4293cf25c 100644
---- a/drivers/media/platform/via/Kconfig
-+++ b/drivers/media/platform/via/Kconfig
-@@ -1,4 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+
-+comment "VIA drivers"
-+
- config VIDEO_VIA_CAMERA
- 	tristate "VIAFB camera controller support"
- 	depends on V4L_PLATFORM_DRIVERS
-diff --git a/drivers/media/platform/xilinx/Kconfig b/drivers/media/platform/xilinx/Kconfig
-index a9531d5efd50..47f1eeb5d669 100644
---- a/drivers/media/platform/xilinx/Kconfig
-+++ b/drivers/media/platform/xilinx/Kconfig
-@@ -1,5 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- 
-+comment "Xilinx drivers"
-+
- config VIDEO_XILINX
- 	tristate "Xilinx Video IP (EXPERIMENTAL)"
- 	depends on V4L_PLATFORM_DRIVERS
-@@ -11,9 +13,8 @@ config VIDEO_XILINX
- 	help
- 	  Driver for Xilinx Video IP Pipelines
- 
--if VIDEO_XILINX
--
- config VIDEO_XILINX_CSI2RXSS
-+	depends on VIDEO_XILINX
- 	tristate "Xilinx CSI-2 Rx Subsystem"
- 	help
- 	  Driver for Xilinx MIPI CSI-2 Rx Subsystem. This is a V4L sub-device
-@@ -32,5 +33,3 @@ config VIDEO_XILINX_VTC
- 	depends on VIDEO_XILINX
- 	help
- 	   Driver for the Xilinx Video Timing Controller
--
--endif #VIDEO_XILINX
--- 
-2.35.1
-
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com> # for meson-vdec & meson-ge2d
