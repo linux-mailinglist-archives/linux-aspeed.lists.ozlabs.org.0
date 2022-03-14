@@ -2,55 +2,58 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F9A04D74C7
-	for <lists+linux-aspeed@lfdr.de>; Sun, 13 Mar 2022 12:00:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5425A4D7C4F
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Mar 2022 08:56:15 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KGcC92ly8z30H5
-	for <lists+linux-aspeed@lfdr.de>; Sun, 13 Mar 2022 22:00:21 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KH84F1NvSz30HR
+	for <lists+linux-aspeed@lfdr.de>; Mon, 14 Mar 2022 18:56:13 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=f6FajvJW;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=bMe7ehKm;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=145.40.68.75; helo=ams.source.kernel.org;
+ smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org;
  envelope-from=mchehab@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=f6FajvJW; 
+ header.s=k20201202 header.b=bMe7ehKm; 
  dkim-atps=neutral
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KGcC53sbSz2x9S;
- Sun, 13 Mar 2022 22:00:17 +1100 (AEDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KH8446V5Wz2xF0;
+ Mon, 14 Mar 2022 18:56:04 +1100 (AEDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id AD0F1B80CA8;
- Sun, 13 Mar 2022 11:00:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9060C340EC;
- Sun, 13 Mar 2022 11:00:05 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6371061147;
+ Mon, 14 Mar 2022 07:56:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C52B2C340F6;
+ Mon, 14 Mar 2022 07:56:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1647169213;
- bh=K6raQ3hcVYXvtlWvYXOLgzshf6ywpYtouqfgtS4XSgI=;
- h=Date:From:Cc:Subject:In-Reply-To:References:From;
- b=f6FajvJWGzBUEAJpip4FTCW+ziT2N4Fes+bwxhm6P4X7wHhwUaOMcP7i6caQXwqAV
- SWFJaTRBzr7UeVqgZ+iQvK2L3/es8ZmF5h5H5xaq7iNbSQ7hOWUmfOoqgkr4yH0Kyi
- NtI8zelQGEh4QkIsNyt+pRe1NmA2S5GeVN6NyJtGOiToEcx9OvPpDe6BbFPYjsJ0TW
- Q2BxYhRUItV5G1A7lThY+qbpnEFFMkYGlshPOVw01Xmd9feBk2BRWRn4e0xWiwwXF3
- /6jc7G1QK35edetsIKmeke+nHWz8o2iqh3gG38fXqgG+tLtV3iKAFRUZpClo/8XJVp
- Lk/RW6spFk5+g==
-Date: Sun, 13 Mar 2022 12:00:02 +0100
+ s=k20201202; t=1647244560;
+ bh=Cjpduq8olBZOgE+bYd/xOtdGUWEVLm0mAF9YidPcc4I=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=bMe7ehKmKI7iAZ3JBOvmU90PvcAQOYZewF1R8qBm88XkVIV+u0wtazak35hnhoycR
+ KFJd6FXUjelIJoCScrRv9v07mFDrbjcYB71NFBNAGupZX2Yw4GTFOnbgAlJnexguzm
+ XMq7hsVzI6kcBawGNTn4B4U1gzUhOm9k9e7hRAY+O5YcQXmKv2afSrnuDpIXLGqWd5
+ YHewaS/BRrEGXiiDZThkvYODp1WKQ81gxVub0PAcRokwGAuar2SFYcc9LKF7YkaIiR
+ XpdoqSC1z5/BTKMBqpW/QwbKlAg1slOl6ixDNnk1W2/EQuSKAJxpve2dDb7IjNyoTc
+ TeQTEvlmS3G+g==
+Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
+ (envelope-from <mchehab@kernel.org>)
+ id 1nTfYc-001kUZ-JA; Mon, 14 Mar 2022 08:55:58 +0100
 From: Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 00/24] Organize media platform drivers per manufacturer
-Message-ID: <20220313120002.0d782ce7@coco.lan>
-In-Reply-To: <cover.1647167750.git.mchehab@kernel.org>
-References: <cover.1647167750.git.mchehab@kernel.org>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+To: 
+Subject: [PATCH 06/64] media: platform: place Aspeed driver on a separate dir
+Date: Mon, 14 Mar 2022 08:54:58 +0100
+Message-Id: <6b24deadd7706454612c14e6fde45af062633261.1647242579.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <cover.1647242578.git.mchehab@kernel.org>
+References: <cover.1647242578.git.mchehab@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,242 +65,124 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Heiko Stuebner <heiko@sntech.de>, linux-aspeed@lists.ozlabs.org,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, linux-tegra@vger.kernel.org,
- "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fabio Estevam <festevam@gmail.com>,
- linux-stm32@st-md-mailman.stormreply.com, Jerome Brunet <jbrunet@baylibre.com>,
- linux-samsung-soc@vger.kernel.org, Kevin Hilman <khilman@baylibre.com>,
- openbmc@lists.ozlabs.org, linux-rockchip@lists.infradead.org,
- Andy Gross <agross@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
- linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-arm-msm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-mediatek@lists.infradead.org,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Yong Deng <yong.deng@magewell.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-amlogic@lists.infradead.org,
- Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
+Cc: linux-aspeed@lists.ozlabs.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dmitry Osipenko <digetx@gmail.com>, Zev Weiss <zev@bewilderbeest.net>,
+ openbmc@lists.ozlabs.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-media@vger.kernel.org, Paul Menzel <pmenzel@molgen.mpg.de>,
+ Jacopo Mondi <jacopo@jmondi.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  linux-arm-kernel@lists.infradead.org,
- Michael Tretter <m.tretter@pengutronix.de>, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>
+ =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Eugen Hristev <eugen.hristev@microchip.com>, Ming Qian <ming.qian@nxp.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Em Sun, 13 Mar 2022 11:51:41 +0100
-Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
+In order to cleanup the main platform media directory, move Aspeed
+driver to its own directory.
 
-> This series comes after the one I sent earlier today sorting media/platform Makefile and Kconfig.
-> 
-> It basically groups all drivers per vendor, ensuring that each vendor has a Makefile/Kconfig
-> pair.
-> 
-> The end goal is to keep the platform Makefile/Kconfig clean and easier to maintain, less
-> prune to errors. After applying both series, the size of such files were drastically reduced:
-> 
-> 	 drivers/media/platform/Kconfig  |  731 ++------------------------------
-> 	 drivers/media/platform/Makefile |  115 +----
-> 	 2 files changed, 78 insertions(+), 768 deletions(-)
-> 
-> Mauro Carvalho Chehab (24):
->   media: platform: rename coda/ to chips-media/
->   media: platform: rename marvell-ccic/ to marvell/
->   media: platform: rename meson/ge2d/ to amlogic/meson-ge2d/
->   media: platform: rename mtk-jpeg/ to mediatek/mtk-jpeg/
->   media: platform: rename mtk-mdp/ to mediatek/mtk-mdp/
->   media: platform: rename mtk-vcodec/ to mediatek/mtk-vcodec/
->   media: platform: rename mtk-vpu/ to mediatek/mtk-vpu/
->   media: platform: rename sunxi/ to allwinner/
->   media: platform: rename tegra/vde/ to nvidia/tegra-vde/
->   media: platform: rename amphion/ to nxp/amphion/
->   media: platform: rename exynos4-is/ to samsung/exynos4-is/
->   media: platform: rename exynos-gsc/ to samsung/exynos-gsc/
->   media: platform: rename s3c-camif/ to samsung/s3c-camif/
->   media: platform: rename s5p-g2d/ to samsung/s5p-g2d/
->   media: platform: rename s5p-jpeg/ to samsung/s5p-jpeg/
->   media: platform: rename s5p-mfc/ to samsung/s5p-mfc/
->   media: platform: rename stm32/ to sti/stm32/
->   media: platform: rename am437x/ to ti/am437x/
->   media: platform: rename davinci/ to ti/davinci/
->   media: platform: rename omap3isp/ to ti/omap3isp/
->   media: platform: rename omap/ to ti/omap/
->   media: platform: rename ti-vpe/ to ti/vpe/
->   media: platform: Create vendor/{Makefile,Kconfig} files
-
-Worth mention that, while the above changes are really trivial, it is
-no fun to do them individually. It is also subject to errors.
-
-So, after manually doing a couple of them, I decided to revert
-to the original state and do it via the script below, checking
-the patches and editing the last one.
-
-Thanks,
-Mauro
-
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
 
-#!/bin/bash -e
+To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+See [PATCH 00/64] at: https://lore.kernel.org/all/cover.1647242578.git.mchehab@kernel.org/
 
-export LC_ALL=C # Needed by sort
+ MAINTAINERS                                        |  2 +-
+ drivers/media/platform/Kconfig                     | 10 +---------
+ drivers/media/platform/Makefile                    |  2 +-
+ drivers/media/platform/aspeed/Kconfig              | 10 ++++++++++
+ drivers/media/platform/aspeed/Makefile             |  2 ++
+ drivers/media/platform/{ => aspeed}/aspeed-video.c |  0
+ 6 files changed, 15 insertions(+), 11 deletions(-)
+ create mode 100644 drivers/media/platform/aspeed/Kconfig
+ create mode 100644 drivers/media/platform/aspeed/Makefile
+ rename drivers/media/platform/{ => aspeed}/aspeed-video.c (100%)
 
-TMP=$(mktemp /tmp/rename.XXXXXXXXX)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1a9fb0615925..1b6f48a660de 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3026,7 +3026,7 @@ L:	linux-media@vger.kernel.org
+ L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/aspeed-video.txt
+-F:	drivers/media/platform/aspeed-video.c
++F:	drivers/media/platform/aspeed/
+ 
+ ASUS NOTEBOOKS AND EEEPC ACPI/WMI EXTRAS DRIVERS
+ M:	Corentin Chary <corentin.chary@gmail.com>
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index 1446a99159c5..10f453ff2717 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -50,15 +50,7 @@ source "drivers/media/platform/davinci/Kconfig"
+ 
+ source "drivers/media/platform/omap/Kconfig"
+ 
+-config VIDEO_ASPEED
+-	tristate "Aspeed AST2400 and AST2500 Video Engine driver"
+-	depends on V4L_PLATFORM_DRIVERS
+-	depends on VIDEO_V4L2
+-	select VIDEOBUF2_DMA_CONTIG
+-	help
+-	  Support for the Aspeed Video Engine (VE) embedded in the Aspeed
+-	  AST2400 and AST2500 SOCs. The VE can capture and compress video data
+-	  from digital or analog sources.
++source "drivers/media/platform/aspeed/Kconfig"
+ 
+ config VIDEO_SH_VOU
+ 	tristate "SuperH VOU video output driver"
+diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+index e319044c57e9..18ec3d208483 100644
+--- a/drivers/media/platform/Makefile
++++ b/drivers/media/platform/Makefile
+@@ -6,6 +6,7 @@
+ # Place here, alphabetically sorted by directory
+ # (e. g. LC_ALL=C sort Makefile)
+ obj-y += allegro-dvt/
++obj-y += aspeed/
+ obj-y += am437x/
+ obj-y += amphion/
+ obj-y += atmel/
+@@ -47,7 +48,6 @@ obj-y += xilinx/
+ # Please place here only ancillary drivers that aren't SoC-specific
+ # Please keep it alphabetically sorted by Kconfig name
+ # (e. g. LC_ALL=C sort Makefile)
+-obj-$(CONFIG_VIDEO_ASPEED)		+= aspeed-video.o
+ obj-$(CONFIG_VIDEO_IMX_PXP)		+= imx-pxp.o
+ obj-$(CONFIG_VIDEO_MEM2MEM_DEINTERLACE)	+= m2m-deinterlace.o
+ obj-$(CONFIG_VIDEO_MUX)			+= video-mux.o
+diff --git a/drivers/media/platform/aspeed/Kconfig b/drivers/media/platform/aspeed/Kconfig
+new file mode 100644
+index 000000000000..5025e892844c
+--- /dev/null
++++ b/drivers/media/platform/aspeed/Kconfig
+@@ -0,0 +1,10 @@
++# SPDX-License-Identifier: GPL-2.0-only
++config VIDEO_ASPEED
++	tristate "Aspeed AST2400 and AST2500 Video Engine driver"
++	depends on V4L_PLATFORM_DRIVERS
++	depends on VIDEO_V4L2
++	select VIDEOBUF2_DMA_CONTIG
++	help
++	  Support for the Aspeed Video Engine (VE) embedded in the Aspeed
++	  AST2400 and AST2500 SOCs. The VE can capture and compress video data
++	  from digital or analog sources.
+diff --git a/drivers/media/platform/aspeed/Makefile b/drivers/media/platform/aspeed/Makefile
+new file mode 100644
+index 000000000000..1979af63dadd
+--- /dev/null
++++ b/drivers/media/platform/aspeed/Makefile
+@@ -0,0 +1,2 @@
++# SPDX-License-Identifier: GPL-2.0-only
++obj-$(CONFIG_VIDEO_ASPEED) += aspeed-video.o
+diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
+similarity index 100%
+rename from drivers/media/platform/aspeed-video.c
+rename to drivers/media/platform/aspeed/aspeed-video.c
+-- 
+2.35.1
 
-trap 'catch $LINENO' ERR SIGINT
-catch()
-{
-	echo "Error on line $1"
-	rm $TMP || true
-	exit 1
-}
-
-sort_makefile()
-{
-	# sort Makefile
-	sed '/^obj-y/Q' drivers/media/platform/Makefile> $TMP
-	grep "^obj-y" drivers/media/platform/Makefile |sort | uniq >> $TMP
-	cat <<EOF >> $TMP
-
-# Please place here only ancillary drivers that aren't SoC-specific
-# Please keep it alphabetically sorted by Kconfig name
-# (e. g. LC_ALL=C sort Makefile)
-obj-\$(CONFIG_VIDEO_MEM2MEM_DEINTERLACE)	+= m2m-deinterlace.o
-obj-\$(CONFIG_VIDEO_MUX)			+= video-mux.o
-EOF
-	mv $TMP drivers/media/platform/Makefile
-}
-
-sort_kconfig()
-{
-	# sort Kconfig
-	sed '/^source/Q' drivers/media/platform/Kconfig> $TMP
-	grep "^source" drivers/media/platform/Kconfig |sort | uniq >> $TMP
-	cat <<EOF >> $TMP
-
-endif # MEDIA_PLATFORM_DRIVERS
-EOF
-
-	mv $TMP drivers/media/platform/Kconfig
-}
-
-do_rename_vendor()
-{
-	old=$(echo $1 |perl -ne 's,/$,,; print $_')
-	new=$(echo $2 |perl -ne 's,/$,,; print $_')
-
-	echo "$old -> $new"
-
-	mkdir -p dirname drivers/media/platform/$new
-
-	git mv drivers/media/platform/$old/* drivers/media/platform/$new/
-
-	sed s,$old/,$new/, -i $(find drivers/media/platform/ -name Kconfig) $(find drivers/media/platform/ -name Makefile)
-	sed s,drivers/media/platform/$old,drivers/media/platform/$new, -i $(git grep -l drivers/media/platform/$old) || true
-
-	# Remove obj files, to make the directory cleaner
-	rm -rf drivers/media/platform/$old/ || true
-
-	sort_makefile
-	sort_kconfig
-
-	cat <<EOF >> $TMP
-media: platform: rename $old/ to $new/
-
-As the end goal is to have platform drivers split by vendor,
-rename $old/ to $new/.
-EOF
-
-	git commit -as -m "$(cat $TMP)" --no-edit
-}
-
-do_rename_vendor coda chips-media
-do_rename_vendor marvell-ccic/ marvell/
-do_rename_vendor meson/ge2d/ amlogic/meson-ge2d/
-do_rename_vendor mtk-jpeg mediatek/mtk-jpeg
-do_rename_vendor mtk-mdp mediatek/mtk-mdp
-do_rename_vendor mtk-vcodec mediatek/mtk-vcodec
-do_rename_vendor mtk-vpu mediatek/mtk-vpu
-do_rename_vendor sunxi/ allwinner/
-do_rename_vendor tegra/vde nvidia/tegra-vde
-do_rename_vendor amphion nxp/amphion
-do_rename_vendor exynos4-is/ samsung/exynos4-is/
-do_rename_vendor exynos-gsc samsung/exynos-gsc
-do_rename_vendor s3c-camif samsung/s3c-camif
-do_rename_vendor s5p-g2d samsung/s5p-g2d
-do_rename_vendor s5p-jpeg samsung/s5p-jpeg
-do_rename_vendor s5p-mfc samsung/s5p-mfc
-do_rename_vendor stm32 sti/stm32
-do_rename_vendor am437x/ ti/am437x/
-do_rename_vendor davinci ti/davinci
-do_rename_vendor omap3isp ti/omap3isp
-do_rename_vendor omap ti/omap
-do_rename_vendor ti-vpe ti/vpe
-
-# Create or update drivers/media/platform/*/Kconfig
-
-IFS=$'\n'
-
-# Fixup Kconfig files
-for i in $(cat drivers/media/platform/Kconfig|perl -ne 'if (m,platform/([^/]+)/([^/]+)/Kconfig,) { print "$1 $2\n" }'); do
-        echo "Handling $i Kconfig entries"
-
-        a=$(echo $i|cut -d' ' -f1)
-        b=$(echo $i|cut -d' ' -f2)
-
-	kconfig="drivers/media/platform/$a/$b/Kconfig"
-	parent="drivers/media/platform/$a/Kconfig"
-
-        if [ ! -e $parent ]; then
-                echo "creating $parent..."
-                echo "# SPDX-License-Identifier: GPL-2.0" > $parent
-		git add $parent
-        fi
-
-        echo "source \"$kconfig\"" >> drivers/media/platform/$a/Kconfig
-        echo "source \"$parent\"" >> drivers/media/platform/Kconfig
-
-        sed s,$kconfig,$parent, -i drivers/media/platform/Kconfig
-
-        echo "sorting..."
-	sort_kconfig
-done
-
-# Create or update drivers/media/platform/*/Makefile
-
-for i in $(cat drivers/media/platform/Makefile|perl -ne 'if (m,.*=\s*([^/]+)/([^/]+)/,) { print "$1 $2\n" }'); do
-        echo "Handling $i Makefile entries"
-
-        a=$(echo $i|cut -d' ' -f1)
-        b=$(echo $i|cut -d' ' -f2)
-
-        make="$a/$b/"
-        parent="$a/"
-
-        if [ ! -e drivers/media/platform/$a/Makefile ]; then
-                echo "creating $parent..."
-                echo "# SPDX-License-Identifier: GPL-2.0" > drivers/media/platform/$a/Makefile
-                git add drivers/media/platform/$a/Makefile
-        fi
-        echo "obj-y += $b/" >> drivers/media/platform/$a/Makefile
-        echo "obj-y += $parent" >> drivers/media/platform/Makefile
-
-        sed s,$make\$,$parent, -i drivers/media/platform/Makefile
-done
-
-sort_kconfig
-sort_makefile
-
-	cat <<EOF >> $TMP
-media: platform: Create vendor/{Makefile,Kconfig} files
-
-Instead of placing multiple per-vendor entries at the
-platform/{Makefile,Kconfig}, create them at the per-vendor
-directories.
-EOF
-
-git commit -as -m "$(cat $TMP)" --no-edit
