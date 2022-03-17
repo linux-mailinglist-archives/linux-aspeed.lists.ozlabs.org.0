@@ -2,59 +2,61 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BFB84DCF0F
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Mar 2022 20:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97FC34DD05F
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Mar 2022 22:46:30 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KKHt02Twmz30Nj
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 06:54:48 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KKLLr3lGFz30Md
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 08:46:28 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=RxiHc14Z;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=gW+CwaDy;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org;
+ smtp.mailfrom=kernel.org (client-ip=145.40.68.75; helo=ams.source.kernel.org;
  envelope-from=maz@kernel.org; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
  unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=RxiHc14Z; 
+ header.s=k20201202 header.b=gW+CwaDy; 
  dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KKHsr528Kz2yyn
- for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Mar 2022 06:54:40 +1100 (AEDT)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KKLLh2623z2xKR
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Mar 2022 08:46:20 +1100 (AEDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D7B45618BB;
- Thu, 17 Mar 2022 19:54:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FFF7C340E9;
- Thu, 17 Mar 2022 19:54:37 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 46C02B81FCB;
+ Thu, 17 Mar 2022 21:46:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8200C340E9;
+ Thu, 17 Mar 2022 21:46:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1647546877;
- bh=5hffbwsJCKcVChBEOg9xhWcvocoqaI4B/ouojGPSnrE=;
+ s=k20201202; t=1647553575;
+ bh=qdQVSRg2hXKIggnMTH/zj9zs5OSmnRHv038Yej8jfPY=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=RxiHc14Zqm22aG9h2QsH8B1KyDqMNIxQAWh7qozUoaDyGZybMVlaajZhcTagUs4BI
- cqZpS2taU21pOd4f1ZeMvqg1quZaByxuLi/ekn+LfBJ11LfJX8stjRvTsUU79L/K05
- goeVTAzqAVZnQ3Vtxa2FQu06QkDEKMoFRJFk6n6HjUjqda/c/OUV1a3zUlSdHxz/JS
- 1Pqa8+ohcjkATUF8szIEVzbjxV+fnETQ0eOYa4CZ7RnZRESyeKZOphcO44KhshBJsi
- 1O4K7p3rCY1rE6+KloP9x0ZQbAxxOkecQi/q1AGrgajPjk3hov2K4cay8bUTFCbh51
- cO2Lld/mTkZcA==
+ b=gW+CwaDyNFxQzel4/T6w13sOlU975El2hm1WPnyo8V2TSrMHOa0B8HtT7WNCDwSwD
+ G9ec4nWaKayphDIfYeop4ENYvAK8TfXaHYaXqXa8iGQA/ybABtJ5l+iTxHEVW84VZV
+ kPq5/RnxamUmBWt6aYH4z9x97Upbm6tr5iFCS2+O8l/ZgpZ2TsgSQhiN5KugkCIHUH
+ 64811tXrVj4hQa2ulhyqDWjAgYJ5yOoAR/LiSG/DpCvVZEpSu+VBzcKW5uxmNNtIwY
+ P2D/U+LLOD4RbtCbGykS3oajptHbWkgDCYvZyW3vVvKiZvCaRXhTBLZKdbkpQa8H2h
+ jR4fgLbOAOb4A==
 Received: from sofa.misterjones.org ([185.219.108.64]
  helo=wait-a-minute.misterjones.org)
  by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <maz@kernel.org>)
- id 1nUwCg-00FHTs-QI; Thu, 17 Mar 2022 19:54:34 +0000
-Date: Thu, 17 Mar 2022 19:54:34 +0000
-Message-ID: <87h77wxslh.wl-maz@kernel.org>
+ id 1nUxwi-00FIZx-Nl; Thu, 17 Mar 2022 21:46:12 +0000
+Date: Thu, 17 Mar 2022 21:46:12 +0000
+Message-ID: <87fsngxnff.wl-maz@kernel.org>
 From: Marc Zyngier <maz@kernel.org>
 To: Kuldeep Singh <singh.kuldeep87k@gmail.com>
 Subject: Re: [PATCH v2 3/3] ARM: dts: aspeed: Remove arch timer clocks property
-In-Reply-To: <20220317191527.96237-4-singh.kuldeep87k@gmail.com>
+In-Reply-To: <20220317211024.GA99538@9a2d8922b8f1>
 References: <20220317191527.96237-1-singh.kuldeep87k@gmail.com>
  <20220317191527.96237-4-singh.kuldeep87k@gmail.com>
+ <87h77wxslh.wl-maz@kernel.org>
+ <20220317211024.GA99538@9a2d8922b8f1>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
  (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -86,53 +88,79 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 17 Mar 2022 19:15:26 +0000,
+On Thu, 17 Mar 2022 21:10:24 +0000,
 Kuldeep Singh <singh.kuldeep87k@gmail.com> wrote:
 > 
-> Arch timer either require clock-frequency property or doesn't need to
-> specify clock at all in DT. In general, frequency can be determined
-> internally and in case of brokern firmwares, need to extend
-> clock-frequency to pass info to driver.
+> On Thu, Mar 17, 2022 at 07:54:34PM +0000, Marc Zyngier wrote:
+> > On Thu, 17 Mar 2022 19:15:26 +0000,
+> > Kuldeep Singh <singh.kuldeep87k@gmail.com> wrote:
+> > > 
+> > > Arch timer either require clock-frequency property or doesn't need to
+> > > specify clock at all in DT. In general, frequency can be determined
+> > > internally and in case of brokern firmwares, need to extend
+> > > clock-frequency to pass info to driver.
+> > 
+> > A clock frequency and a clock are not the same thing.
+> 
+> Yes Marc, That's what I have mentioned in commit description.
+>
+> Driver uses "clock-frequency" property only and doesn't take inputs from
+> "clocks" property. So, any platform should refrain from defining such
+> entity at first place in DT. Binding also says the same i.e pass info
+> via "clock-frequency" property and no mention of "clocks".
 
-A clock frequency and a clock are not the same thing.
+And what do you think provides this clock frequency? Do you believe it
+comes out of thin air? No, the driver doesn't use a clock, because it
+*assumes* the clock feeding the counter is enabled at all times.
+
+Does it mean such clock doesn't exist?
 
 > 
-> Aspeed BMC is the platform which defines clocks property, an invalid
-> entry which can be safely removed.
-
-Safely removed? Says who? Have you tested this change?
-
+> > 
+> > > 
+> > > Aspeed BMC is the platform which defines clocks property, an invalid
+> > > entry which can be safely removed.
+> > 
+> > Safely removed? Says who? Have you tested this change?
 > 
-> Moreover, clocks also matches incorrectly with the regex pattern.
-> Remove this entry altogether to fix it.
-> 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+> Since "clocks" is never read by driver and driver incorporates
+> "clock-frequency" which was certainly not defined here, I believe this
+> reasoning is sufficient for my clause. As it's safe to remove an entry
+> which was never used.
 
-NAK. That's not a reason to randomly butcher things.
+Really? And you have of course audited all possible firmware
+implementations (the bootloader, for example, which would *enable*
+this clock) and other operating systems than Linux that use the same
+DT and run on the same HW?
+
+The kernel tree unfortunately serves as a repository for all the DTs,
+including for payloads other than Linux.
+
+> Please note, it's just Aspeed BMC which had "clocks" defined, other
+> platforms which require input from DT have extended "clock-frequency"
+> property like I mentioned before.
+
+Again: clock frequency and clock are not the same thing.
+
+> I don't possess this platform physically,and did successfull compile
+> time testing. I have initally copied few Aspeed folks, they can help in
+> reviewing and confirming this.
+> 
+> > 
+> > > 
+> > > Moreover, clocks also matches incorrectly with the regex pattern.
+> > > Remove this entry altogether to fix it.
+> > > 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+> > 
+> > NAK. That's not a reason to randomly butcher things.
+> 
+> I hope I explained my reasons above.
+
+My position on this sort of change remains. Blindly changing existing
+DTs based on a warning provided by a tool that totally ignores the
+reality of what is out there is not acceptable.
 
 	M.
-
-> 
-> Signed-off-by: Kuldeep Singh <singh.kuldeep87k@gmail.com>
-> ---
->  arch/arm/boot/dts/aspeed-g6.dtsi | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
-> index c32e87fad4dc..d5ef9aceb632 100644
-> --- a/arch/arm/boot/dts/aspeed-g6.dtsi
-> +++ b/arch/arm/boot/dts/aspeed-g6.dtsi
-> @@ -64,7 +64,6 @@ timer {
->  			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
->  			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
->  			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>;
-> -		clocks = <&syscon ASPEED_CLK_HPLL>;
->  		arm,cpu-registers-not-fw-configured;
->  		always-on;
->  	};
-> -- 
-> 2.25.1
-> 
-> 
 
 -- 
 Without deviation from the norm, progress is not possible.
