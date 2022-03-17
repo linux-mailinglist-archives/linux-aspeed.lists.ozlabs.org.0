@@ -2,68 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8A04DBC18
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Mar 2022 02:11:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C481D4DBC27
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Mar 2022 02:18:23 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KJpyJ3n1Xz30Df
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Mar 2022 12:11:52 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KJq5n490Pz30Dh
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Mar 2022 12:18:21 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=g7r7I95U;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=bCWEuu9t;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::112c;
- helo=mail-yw1-x112c.google.com; envelope-from=linus.walleij@linaro.org;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f2a;
+ helo=mail-qv1-xf2a.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
- header.s=google header.b=g7r7I95U; dkim-atps=neutral
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
- [IPv6:2607:f8b0:4864:20::112c])
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
+ header.s=google header.b=bCWEuu9t; dkim-atps=neutral
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com
+ [IPv6:2607:f8b0:4864:20::f2a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KJpyB18fWz2xTq
- for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Mar 2022 12:11:43 +1100 (AEDT)
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-2e59939b862so42443447b3.10
- for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Mar 2022 18:11:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KJq5g6lF7z2xKK
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Mar 2022 12:18:13 +1100 (AEDT)
+Received: by mail-qv1-xf2a.google.com with SMTP id kj21so3207698qvb.11
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Mar 2022 18:18:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=HihXKlHycjx4RswzLPo//YprAlmxVU5qmWi+4h7HrVM=;
- b=g7r7I95UXH97tR/0xx/CeaXFKin4xe7Fhjf/ILcQ2mQpd2wG2TAjOR3CEgBMIMUWbN
- z5dl3wI9u0+8RPblANkWrUypLbH6BnYWhnCHrEGuvOdZXJgtsNFHY7POvvDqFrYTBwXH
- 4o23XQt/4em5W5oEIUXcIuQT0mAx/UeqTNsbl6l6ZLEzFoF3bBVBNvrU2d6kuNzfdNxw
- jY4mlT8JSf1WMIugg+dQN+EFs2V1jBMOICUADe437wdEmzwUsxzegeq2RSeyRVjOxfsm
- 12ZnpV8Uhwl989A7k+l5iTYJFxi1l9Dkx+y/ldwoXePCzh9IzELS+67vAmlKy4c7AClH
- qX0w==
+ bh=B3/Zb6dWqTjucFfwyqJe9d5nv5unSJBHO6UrUJxCnSo=;
+ b=bCWEuu9tf6HdTODZwO24DXPmBGMlmBbFJFOh6gUAocW5CCpvt44APDkjwmpkwXdYAd
+ In5y4sHoZCoDjCwx/7q6V3Ls4JA9N4pc1gKKNte+Gy6ILNomtmGZmlDy4YeZvagfXNn+
+ x45TK7Cu7Ahb/eNxjF5gu/j31YdNrXgLhUIgU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=HihXKlHycjx4RswzLPo//YprAlmxVU5qmWi+4h7HrVM=;
- b=cSKUGpKiVWvh5vqFnu/ukGJiz78i6mz4rJlIBqZN4zj8DvWGEz7YmHVNbc7bb8sgzQ
- uGjPrTz5e/jYmBQXyXEx4fkWdKUpe1j4I/ulePMJNquspbSjoeMNGJ6C8/OFB0wwbysx
- uf+MJ8yushkkH40XOFYP22FYRUYPAvK3Bm6sOUEUQYYWoK3oXqQRPszG00+e1czXOHVy
- ATCSHqWFYdKYwfZcfT2Hm7kbpI6VY/D0ZTtrCHkWFoL43AwoX3/DUM05kBAEYdPZm7G5
- ASsSZ7dW0AWpe+b8rw1LnE/52/FgpVOICcP5R3hxb20dNGSg9UdDay9Fv/jIdwNjO5qT
- onBg==
-X-Gm-Message-State: AOAM531/bFqU5V2Bf+CM1fPDCw8QpYbEhgwp2NZQTEMvqmNYjKRi5p1x
- o4qcT7ZpwMKgi2NNdtuOsoj2uOwOt3nupP/v2WSidQ==
-X-Google-Smtp-Source: ABdhPJyWmAaWK1aeShbp3JXnJNVTEdEba4dWiBZbV73y0uTMQXzTrgv3goP2pT+5pEG0BKeuQMivJDtEifudSMlU/6o=
-X-Received: by 2002:a0d:d68e:0:b0:2e5:9f48:a24a with SMTP id
- y136-20020a0dd68e000000b002e59f48a24amr3230663ywd.151.1647479498884; Wed, 16
- Mar 2022 18:11:38 -0700 (PDT)
+ bh=B3/Zb6dWqTjucFfwyqJe9d5nv5unSJBHO6UrUJxCnSo=;
+ b=MglSqzU2zdaKrl//Ftb54rJMp+/Lgo7HwyEIgepc5cq6VFbSLxTHkc5uFfKGUqudFY
+ Al1/H4AW39XeJeCdDJUPmW2NQgAdbcPtD2w+pBABIBfGMG1CPrs6vyhXZsGcaeUjYGDR
+ up/oPViRkauMiz3BiRTYL/gV6SK1o8br3WITx3Z4lxaDXOvfZRZ1FWWQ86iExbUAOr3W
+ MxHarbWTQKyzdKaIMOjWDAGJt0DpiuDEL7BQX90Cu2LQfTJWM8xLLbe8/+QtjqiEoFEC
+ tV4kD+O00fW4kfqQGvu/sPs8HPYxzEJqK7KG05vdHd+A/0C5hcrPHMNnCMNsqwNMYV4A
+ zK9w==
+X-Gm-Message-State: AOAM531PZ9FFvn9pjPDrraL1SqEk5MnMqlNlq6QF0A+VjZ19Vcsjrc6u
+ cEiJB2DYoY7aQgoAA7Rz1mO25BzzVOvdUF7llLI=
+X-Google-Smtp-Source: ABdhPJyogCwUsCTWn79Pjurh1J5wIA5vUEldxxZvi4ZqNwaGDwj8gETdwK6oH35IrSdfb2DTy6pr1U6d9b9xX09SztU=
+X-Received: by 2002:a05:6214:c67:b0:435:bbb2:5c40 with SMTP id
+ t7-20020a0562140c6700b00435bbb25c40mr1778258qvj.21.1647479889902; Wed, 16 Mar
+ 2022 18:18:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220308003745.3930607-1-quic_jaehyoo@quicinc.com>
-In-Reply-To: <20220308003745.3930607-1-quic_jaehyoo@quicinc.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 17 Mar 2022 02:11:27 +0100
-Message-ID: <CACRpkdbFNLLve1-JntNW=eMT9ivZTZHBk-xpwK6w-kE0fczr+g@mail.gmail.com>
+ <CACRpkdbFNLLve1-JntNW=eMT9ivZTZHBk-xpwK6w-kE0fczr+g@mail.gmail.com>
+In-Reply-To: <CACRpkdbFNLLve1-JntNW=eMT9ivZTZHBk-xpwK6w-kE0fczr+g@mail.gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 17 Mar 2022 01:17:58 +0000
+Message-ID: <CACPK8Xejcvv37uhGUXOTrbXJ=0O17tiDNizo9jtbRqHxyFiLhg@mail.gmail.com>
 Subject: Re: [PATCH 0/5] Fix AST2600 quad mode SPI pinmux settings
-To: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+To: Linus Walleij <linus.walleij@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
@@ -77,24 +74,39 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
  Jamie Iles <quic_jiles@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
  Graeme Gregory <quic_ggregory@quicinc.com>,
- linux-arm-kernel@lists.infradead.org
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, Mar 8, 2022 at 1:37 AM Jae Hyun Yoo <quic_jaehyoo@quicinc.com> wrot=
+On Thu, 17 Mar 2022 at 01:11, Linus Walleij <linus.walleij@linaro.org> wrot=
 e:
+>
+> On Tue, Mar 8, 2022 at 1:37 AM Jae Hyun Yoo <quic_jaehyoo@quicinc.com> wr=
+ote:
+>
+> > I=E2=80=99m sending this patch series to fix current issues in AST2600 =
+pinmux
+> > settings while enabling quad mode SPI support.
+>
+> Patches 2 & 3 applied to the pinctrl tree.
+>
+> Please funnel the DTS patches through the SoC tree.
 
-> I=E2=80=99m sending this patch series to fix current issues in AST2600 pi=
-nmux
-> settings while enabling quad mode SPI support.
+Thanks for jumping on this Linus. We're not sure that this is the
+correct fix, Andrew is still reviewing (see the comments on patch 3):
 
-Patches 2 & 3 applied to the pinctrl tree.
+ https://lore.kernel.org/linux-arm-kernel/CACRpkdbFNLLve1-JntNW=3DeMT9ivZTZ=
+HBk-xpwK6w-kE0fczr+g@mail.gmail.com/T/#m2cdf4f8b55427d6040f5c13eb85dd656f35=
+79c48
 
-Please funnel the DTS patches through the SoC tree.
+If you haven't pushed it out then please hold off. If you have, I'll
+let Andrew jump in and recommend the best course of action.
 
-Yours,
-Linus Walleij
+>
+> Yours,
+> Linus Walleij
