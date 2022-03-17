@@ -2,123 +2,76 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9D104DD2DF
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 03:11:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1954E4DD2EB
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 03:12:24 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KKSDn3Kb2z30Jk
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 13:11:37 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KKSFd6lRQz2xDM
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 13:12:21 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=SSsYA3sB;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=cLbT42cp;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=samsung.com (client-ip=210.118.77.11;
- helo=mailout1.w1.samsung.com; envelope-from=l.stelmach@samsung.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1033;
+ helo=mail-pj1-x1033.google.com; envelope-from=singh.kuldeep87k@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256
- header.s=mail20170921 header.b=SSsYA3sB; 
- dkim-atps=neutral
-X-Greylist: delayed 338 seconds by postgrey-1.36 at boromir;
- Fri, 18 Mar 2022 06:27:25 AEDT
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20210112 header.b=cLbT42cp; dkim-atps=neutral
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KKHGP0prnz306S;
- Fri, 18 Mar 2022 06:27:22 +1100 (AEDT)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220317192137euoutp017e71ba0ed22d1b91ba2d8624c345a9c9~dQVr6851W0692706927euoutp01j;
- Thu, 17 Mar 2022 19:21:37 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20220317192137euoutp017e71ba0ed22d1b91ba2d8624c345a9c9~dQVr6851W0692706927euoutp01j
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1647544897;
- bh=8AJD7LLy/THFDuNHTzws2WZ7Rh8dubqLenZAtO6y33w=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SSsYA3sB8VCPS64sV7bKPBdT8Gs/9iazS1cVIbja0uftAb3Jtq7aVK0HmcrvM88Y1
- NoEJ9kl4mWA5MXUH10J7hVGyfodyRX1b5gMz1n+rN5J9woekIMHDbFexQ8XqDOWVDm
- SBXoHQ05p7Jo9XqAW4y1w7OlZTplPAkddYsl9vKc=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20220317192137eucas1p26a509d5aaf346c7b64b070301bf61eb3~dQVrnVIS11741017410eucas1p2i;
- Thu, 17 Mar 2022 19:21:37 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 08.B3.09887.14A83326; Thu, 17
- Mar 2022 19:21:37 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220317192136eucas1p185dfbf79e792ebdc4c5614a90c1b0cd8~dQVqafbfc3134231342eucas1p1O;
- Thu, 17 Mar 2022 19:21:36 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20220317192136eusmtrp180d92f8748820fe9ee93ff913a9123e8~dQVqZWQ871868218682eusmtrp1x;
- Thu, 17 Mar 2022 19:21:36 +0000 (GMT)
-X-AuditID: cbfec7f4-45bff7000000269f-39-62338a41cdcf
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id C4.14.09404.F3A83326; Thu, 17
- Mar 2022 19:21:35 +0000 (GMT)
-Received: from localhost (unknown [106.120.51.46]) by eusmtip1.samsung.com
- (KnoxPortal) with ESMTPA id
- 20220317192135eusmtip11512036116a92f228b87ec99e1e8e94b~dQVqJMrcG1419214192eusmtip1r;
- Thu, 17 Mar 2022 19:21:35 +0000 (GMT)
-From: Lukasz Stelmach <l.stelmach@samsung.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 65/67] media: Kconfig: cleanup VIDEO_DEV dependencies
-Date: Thu, 17 Mar 2022 20:21:35 +0100
-In-Reply-To: <d5b6678363c4374436014137fecc22ff666e3ebc.1647274407.git.mchehab@kernel.org>
- (Mauro Carvalho Chehab's message of "Mon, 14 Mar 2022 17:35:00 +0100")
-Message-ID: <dleftj1qz0mlkw.fsf%l.stelmach@samsung.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KKKYN0RRfz2xrv
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Mar 2022 08:10:31 +1100 (AEDT)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ rm8-20020a17090b3ec800b001c55791fdb1so6633554pjb.1
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Mar 2022 14:10:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=5119qc3EtEQdDi8mG4lL3e8ynwtRHGtpJfUH9ad79BM=;
+ b=cLbT42cpQNWZwjJlG1HnfdtUY2sEaO3MFC70NXE52i6GLZibAK6Lc+lPwcNb8Ix9pl
+ KERlUCP/9Nu8tzePGfDRvKLgtyQpV9zbLKOP3MmzlIBK9OaRMaBz31mVX/VzB0K4+nEQ
+ nvXspkRLxRJg5R3ZB2ih+tf0A9N34hPWap1kgA99fyVmUNOK/X7LkBFR81em8dCeb0om
+ sdTaSTkk+0RIHwCQ7IDD3jDo4xa86MYRSCSwbYhAp2QWnirLfqKmhEgmwpa80PDQBZRl
+ FjpOb12nlrmX0h9IV+bjY6i6u4jq69yZDk3XP4+M3sHvjwIcNg7KcB5b5zs1ukiJ5IVf
+ tXSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5119qc3EtEQdDi8mG4lL3e8ynwtRHGtpJfUH9ad79BM=;
+ b=5+EIqTHhhRAs78SOoS96T+3wdOiGkOhQsNeA0r/51e6DAFx0S3ZRJ6hU+PiCEna5ig
+ m8TdBMbR2DLAnrAFxBrCvXSELPmGnAg4lTWQnz5kk7uRt5xvgkey4raZW+OXuVPpR7St
+ AdOAlG2n0lmv05EuKRRMRGbOfeFoIlCnjrvQ51ZNgkakIm8wrli1UYZ74FLCdIS3IT4w
+ DBGLc7TSJaHLyjnWCH/7QG7WmaMA8k9ZrsFAP4HrC/uMyyCFAOc3GaeP66X3FJLKWFn7
+ 3CSVNKUhzIvm1bnhSMAMyVi1YVDx+pt6gPMf5UlMiIY444dY3AgdrExOZhW0HxqKJwuN
+ 4SPw==
+X-Gm-Message-State: AOAM533VfKdejoqeWB7hDZrOZgMz0I5zCGLv9uwW0VblKllyi16C0PEm
+ lCUCQQBCv1eM4kfaKUPZrDw=
+X-Google-Smtp-Source: ABdhPJxXmdglkWtd/gJOeOPGrLtSGqZac2mfJTMtH5m81DtDv/2NIUQ7qhi00BvFz4PDEuRQCWqbZA==
+X-Received: by 2002:a17:90b:2242:b0:1c6:80e3:71b6 with SMTP id
+ hk2-20020a17090b224200b001c680e371b6mr6024596pjb.152.1647551429768; 
+ Thu, 17 Mar 2022 14:10:29 -0700 (PDT)
+Received: from 9a2d8922b8f1 ([122.161.51.18]) by smtp.gmail.com with ESMTPSA id
+ m11-20020a17090a3f8b00b001bc299e0aefsm10187305pjc.56.2022.03.17.14.10.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Mar 2022 14:10:29 -0700 (PDT)
+Date: Fri, 18 Mar 2022 02:40:24 +0530
+From: Kuldeep Singh <singh.kuldeep87k@gmail.com>
+To: Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH v2 3/3] ARM: dts: aspeed: Remove arch timer clocks property
+Message-ID: <20220317211024.GA99538@9a2d8922b8f1>
+References: <20220317191527.96237-1-singh.kuldeep87k@gmail.com>
+ <20220317191527.96237-4-singh.kuldeep87k@gmail.com>
+ <87h77wxslh.wl-maz@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-="; micalg="pgp-sha256";
- protocol="application/pgp-signature"
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sf1DTZRzHe77f7777Dhw+DpDnlkfdMCo4QcPySQj0sLvvVWdcWnnVNSd8
- BY6xrf3IrDNmUMGaIAMvmJhACZ78aA5FI52JlqfEYETkgoSEFCe6k3GQhNC2L9753/vz+bzf
- r+f5PPcwpKSUljK5Kj2nVSmUMjqEav/lvnPVRlPSjtV/+8Jwv6uTwC37fqZw7cFQbB8dEODy
- c91CXNjkJLF7clqAf+uoobHZdtKvCl0An7x1l8CTIwskLh+0CXFVj4PAF30cNg2MCXClo4PG
- JVNWGtc3fE7iBvscgfsLXTS+UjRObVjO2nyf0ax1uJtm7cdKaLbtuwJ2vK0asD1VdYD9sdZH
- sOcda1ifPTpD9E5IShanzP2Q0yambg/JcR9Sac5lfOS746CMoDvZBEQMgmvR78YaygRCGAk8
- CtDtwQeLxZS/GHcL+cIH0I0+i/BhxHSiIqglsBGgQnsOb7oJ0IzxG2ACDEPDBNTSsi3gifDL
- m22uIJWEfQI0MlBOBQbh8DXU5hgMgij4FBo1zQoCWgTrAXowvzrAEcN16KuFjEA7Er6I5m7c
- C9rFcBm6XD0WxJAwH1X3TIAAH8FpESobHAP8RTehhVNzJK/DkefSicUFVqCuCjMV4CNYgCos
- L/BZM0DtNf9SvCcZDTlnaV5vRJMXviR4fxi6emcZf24YsrR/TfJtMSr+QsK7V6LWsjOLFCna
- 5zkKeAuLLjue4F+qGSBX6RC9HzxpfWQb6yPbWP0REj6Lvu9I5NvxqKHuNsnrl1Brq5eqBYJj
- IIoz6PKzOd1zKm5Xgk6RrzOoshMy1fl24P+mXfOXpk6DRs+9hE5AMKATrPSHr9uaeoGUUqlV
- nCxC/Ot44g6JOEux+2NOq5ZrDUpO1wkeZyhZlDgz16aQwGyFnsvjOA2nfTglGJHUSCz5jwiT
- Wuf7RPGMO0ZuT1txPm1XkdfIls/Id8rfDE9LuYqFOvnFmLzZvriu++7imOvc3U+lWUmHt2yO
- X/hpiIJdbrOtd/3zfzmUu/fH1Vz5IzZ9xHDw7AFxaDdXJd++NEUc++7a9brmptKYvMhrFq/y
- afVpvUEtK4YTinWV2Y/1vz165NVXNlSFbrFr0jPet+6xaupPSXGvfucz8tSRt6hts9NJwkNQ
- f2RJkbh55nikWd+YWnLGLV1aklz3AV7Vku6JOr75FpP5Hrd36z/RzuE3csctzJDn8ITrdW/l
- /IGXzw57DWWfwGvfOlMKNBfizVunueU/RPzp3rM32hs7kFMmo3Q5ijVxpFan+B+mhywbIQQA
- AA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmplleLIzCtJLcpLzFFi42I5/e/4XV37LuMkg4XvLSyuXDzEZLG29yiL
- xYLZ3BabHl9jtZi4/yy7RfPqc8wWNz99Y7W4vGsOm0XPhq1AVvNFRoutL98xWXx68J/ZYuLt
- DewWM87vY7I48jnVouvaE1aLKft2sVl0fpnFZrFoWSuzxbJNf5gsrjRfZLM41fKCxUHMY8Pn
- JjaPWffPsnlsWtXJ5rF5Sb3Hi80zGT3Oz1jI6LF7wWcmj4P7DD0+b5IL4IzSsynKLy1JVcjI
- Ly6xVYo2tDDSM7S00DMysdQzNDaPtTIyVdK3s0lJzcksSy3St0vQy7g5N69gf0DF57f7WBoY
- z1p3MXJySAiYSHRtmcwOYgsJLGWU+Po2p4uRAyguJbFybjpEibDEn2tdbBAlTxklVr1yAClh
- E9CTWLs2AiQsAmQ+33yRpYuRi4NZ4A6rRPPBLUwgCWEBH4nN+25DjY+QeDT/ClicRUBV4nHX
- L1YQm1NgEaPE338GIDN5Bcwluv8HgIRFBSwl/jz7CNbKKyAocXLmExYQm1kgW+Lr6ufMExgF
- ZiFJzUKSmgU0iVlAU2L9Ln2IsLbEsoWvmSFsW4l1696zLGBkXcUoklpanJueW2ykV5yYW1ya
- l66XnJ+7iRGYBrYd+7llB+PKVx/1DjEycTAeYlQB6ny0YfUFRimWvPy8VCUR3jMv9JOEeFMS
- K6tSi/Lji0pzUosPMZoCfTaRWUo0OR+YoPJK4g3NDEwNTcwsDUwtzYyVxHk9CzoShQTSE0tS
- s1NTC1KLYPqYODilGphibDLLzno6a12RuDKlvcxuZvKmx2eWWB5gnB5gUWXGNVsodHGRqhCz
- Pg9XyWxtr7VzpZ9P3hNRbMCt65M2a2Ge2rfLJw5tj9m7M9oh9VdhTkTaD/uPSTwRbxS7jzSL
- B4vd17WZInhyi7znJvmJfHYZ0y9uzPf51et2rNRa7eyadRl3RJdb7c6dG5/5ZvPfVelu/OFy
- pQ0xXB+yAqOC/zGZPEqxNDt5IlYh/0Lr14P3pCMCd6oZ3JLTZbry59WdaRMc3e6+YHjx+I13
- 6cwlzY/az/VOm73l4jPeGON4HienzZ/YF5RyXNizpM3tTnXW/W13Xuzus3NWTZE+0dB6LGOj
- pbZ4/N24dTtW7mBSmajEUpyRaKjFXFScCABQmWVNmAMAAA==
-X-CMS-MailID: 20220317192136eucas1p185dfbf79e792ebdc4c5614a90c1b0cd8
-X-Msg-Generator: CA
-X-RootMTR: 20220317192136eucas1p185dfbf79e792ebdc4c5614a90c1b0cd8
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220317192136eucas1p185dfbf79e792ebdc4c5614a90c1b0cd8
-References: <d5b6678363c4374436014137fecc22ff666e3ebc.1647274407.git.mchehab@kernel.org>
- <CGME20220317192136eucas1p185dfbf79e792ebdc4c5614a90c1b0cd8@eucas1p1.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87h77wxslh.wl-maz@kernel.org>
 X-Mailman-Approved-At: Fri, 18 Mar 2022 12:56:13 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -131,237 +84,59 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-samsung-soc@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-arm-msm@vger.kernel.org, mjpeg-users@lists.sourceforge.net,
- linux-staging@lists.linux.dev, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-usb@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, linux-input@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
---=-=-=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Mar 17, 2022 at 07:54:34PM +0000, Marc Zyngier wrote:
+> On Thu, 17 Mar 2022 19:15:26 +0000,
+> Kuldeep Singh <singh.kuldeep87k@gmail.com> wrote:
+> > 
+> > Arch timer either require clock-frequency property or doesn't need to
+> > specify clock at all in DT. In general, frequency can be determined
+> > internally and in case of brokern firmwares, need to extend
+> > clock-frequency to pass info to driver.
+> 
+> A clock frequency and a clock are not the same thing.
 
-It was <2022-03-14 pon 17:35>, when Mauro Carvalho Chehab wrote:
-> media Kconfig has two entries associated to V4L API:
-> VIDEO_DEV and VIDEO_V4L2.
->
-> On Kernel 2.6.x, there were two V4L APIs, each one with its own flag.
-> VIDEO_DEV were meant to:
-> 	1) enable Video4Linux and make its Kconfig options to appear;
-> 	2) it makes the Kernel build the V4L core.
->
-> while VIDEO_V4L2 where used to distinguish between drivers that
-> implement the newer API and drivers that implemented the former one.
->
-> With time, such meaning changed, specially after the removal of
-> all V4L version 1 drivers.
->
-> At the current implementation, VIDEO_DEV only does (1): it enables
-> the media options related to V4L, that now has:
->
-> 	menu "Video4Linux options"
-> 		visible if VIDEO_DEV
->
-> 	source "drivers/media/v4l2-core/Kconfig"
-> 	endmenu
->
-> but it doesn't affect anymore the V4L core drivers.
->
-> The rationale is that the V4L2 core has a "soft" dependency
-> at the I2C bus, and now requires to select a number of other
-> Kconfig options:
->
-> 	config VIDEO_V4L2
-> 		tristate
-> 		depends on (I2C || I2C=3Dn) && VIDEO_DEV
-> 		select RATIONAL
-> 		select VIDEOBUF2_V4L2 if VIDEOBUF2_CORE
-> 		default (I2C || I2C=3Dn) && VIDEO_DEV
->
-> In the past, merging them would be tricky, but it seems that it is now
-> possible to merge those symbols, in order to simplify V4L dependencies.
->
-> Let's keep VIDEO_DEV, as this one is used on some make *defconfig
-> configurations.
->
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
->
-> To avoid mailbombing on a large number of people, only mailing lists were=
- C/C on the cover.
-> See [PATCH v2 00/67] at: https://lore.kernel.org/all/cover.1647274406.git=
-.mchehab@kernel.org/
->
->  drivers/input/rmi4/Kconfig                    |   2 +-
->  drivers/input/touchscreen/Kconfig             |   4 +-
->  drivers/media/Kconfig                         |   3 +
->  drivers/media/common/saa7146/Kconfig          |   2 +-
->  drivers/media/dvb-core/Kconfig                |   2 +-
->  drivers/media/dvb-frontends/Kconfig           |   4 +-
->  drivers/media/i2c/Kconfig                     | 250 +++++++++---------
->  drivers/media/i2c/ccs/Kconfig                 |   2 +-
->  drivers/media/i2c/cx25840/Kconfig             |   2 +-
->  drivers/media/i2c/et8ek8/Kconfig              |   2 +-
->  drivers/media/i2c/m5mols/Kconfig              |   2 +-
->  drivers/media/pci/Kconfig                     |   2 +-
->  drivers/media/pci/bt8xx/Kconfig               |   2 +-
->  drivers/media/pci/cobalt/Kconfig              |   2 +-
->  drivers/media/pci/cx18/Kconfig                |   2 +-
->  drivers/media/pci/dt3155/Kconfig              |   2 +-
->  drivers/media/pci/intel/ipu3/Kconfig          |   2 +-
->  drivers/media/pci/ivtv/Kconfig                |   2 +-
->  drivers/media/pci/meye/Kconfig                |   2 +-
->  drivers/media/pci/saa7146/Kconfig             |   6 +-
->  drivers/media/pci/sta2x11/Kconfig             |   2 +-
->  drivers/media/pci/tw5864/Kconfig              |   2 +-
->  drivers/media/pci/tw68/Kconfig                |   2 +-
->  drivers/media/pci/tw686x/Kconfig              |   2 +-
->  drivers/media/platform/Kconfig                |   6 +-
->  drivers/media/platform/allegro-dvt/Kconfig    |   2 +-
->  .../platform/allwinner/sun4i-csi/Kconfig      |   2 +-
->  .../platform/allwinner/sun6i-csi/Kconfig      |   2 +-
->  .../media/platform/allwinner/sun8i-di/Kconfig |   2 +-
->  .../platform/allwinner/sun8i-rotate/Kconfig   |   2 +-
->  .../media/platform/amlogic/meson-ge2d/Kconfig |   2 +-
->  drivers/media/platform/amphion/Kconfig        |   1 -
->  drivers/media/platform/aspeed/Kconfig         |   2 +-
->  drivers/media/platform/atmel/Kconfig          |   8 +-
->  drivers/media/platform/cadence/Kconfig        |   4 +-
->  drivers/media/platform/chips-media/Kconfig    |   2 +-
->  drivers/media/platform/intel/Kconfig          |   2 +-
->  drivers/media/platform/marvell/Kconfig        |   4 +-
->  .../media/platform/mediatek/mtk-jpeg/Kconfig  |   2 +-
->  .../media/platform/mediatek/mtk-mdp/Kconfig   |   2 +-
->  .../platform/mediatek/mtk-vcodec/Kconfig      |   2 +-
->  .../media/platform/mediatek/mtk-vpu/Kconfig   |   2 +-
->  .../media/platform/nvidia/tegra-vde/Kconfig   |   2 +-
->  drivers/media/platform/nxp/Kconfig            |   6 +-
->  drivers/media/platform/nxp/imx-jpeg/Kconfig   |   2 +-
->  drivers/media/platform/qcom/camss/Kconfig     |   2 +-
->  drivers/media/platform/qcom/venus/Kconfig     |   2 +-
->  drivers/media/platform/renesas/Kconfig        |  30 +--
->  .../media/platform/renesas/rcar-vin/Kconfig   |   4 +-
->  drivers/media/platform/rockchip/rga/Kconfig   |   2 +-
->  .../media/platform/rockchip/rkisp1/Kconfig    |   2 +-
->  .../media/platform/samsung/exynos-gsc/Kconfig |   2 +-
->  .../media/platform/samsung/exynos4-is/Kconfig |   2 +-
->  .../media/platform/samsung/s3c-camif/Kconfig  |   2 +-
->  .../media/platform/samsung/s5p-g2d/Kconfig    |   2 +-
->  .../media/platform/samsung/s5p-jpeg/Kconfig   |   2 +-
->  .../media/platform/samsung/s5p-mfc/Kconfig    |   2 +-
->  drivers/media/platform/stm/sti/bdisp/Kconfig  |   2 +-
->  drivers/media/platform/stm/sti/delta/Kconfig  |   2 +-
->  drivers/media/platform/stm/sti/hva/Kconfig    |   2 +-
->  drivers/media/platform/stm/stm32/Kconfig      |   4 +-
->  drivers/media/platform/ti/am437x/Kconfig      |   2 +-
->  drivers/media/platform/ti/davinci/Kconfig     |  12 +-
->  drivers/media/platform/ti/omap/Kconfig        |   2 +-
->  drivers/media/platform/ti/omap3isp/Kconfig    |   2 +-
->  drivers/media/platform/via/Kconfig            |   2 +-
->  drivers/media/platform/xilinx/Kconfig         |   2 +-
->  drivers/media/radio/Kconfig                   |  42 ++-
->  drivers/media/radio/si470x/Kconfig            |   2 +-
->  drivers/media/radio/wl128x/Kconfig            |   2 +-
->  drivers/media/spi/Kconfig                     |   4 +-
->  drivers/media/test-drivers/Kconfig            |   2 +-
->  drivers/media/test-drivers/vicodec/Kconfig    |   2 +-
->  drivers/media/test-drivers/vimc/Kconfig       |   2 +-
->  drivers/media/test-drivers/vivid/Kconfig      |   2 +-
->  drivers/media/tuners/Kconfig                  |   6 +-
->  drivers/media/tuners/e4000.c                  |   6 +-
->  drivers/media/tuners/fc2580.c                 |   6 +-
->  drivers/media/usb/airspy/Kconfig              |   2 +-
->  drivers/media/usb/au0828/Kconfig              |   6 +-
->  drivers/media/usb/cpia2/Kconfig               |   2 +-
->  drivers/media/usb/dvb-usb-v2/Kconfig          |   8 +-
->  drivers/media/usb/dvb-usb/Kconfig             |   4 +-
->  drivers/media/usb/gspca/Kconfig               |  96 +++----
->  drivers/media/usb/gspca/gl860/Kconfig         |   2 +-
->  drivers/media/usb/gspca/m5602/Kconfig         |   2 +-
->  drivers/media/usb/hackrf/Kconfig              |   2 +-
->  drivers/media/usb/hdpvr/Kconfig               |   2 +-
->  drivers/media/usb/msi2500/Kconfig             |   2 +-
->  drivers/media/usb/pvrusb2/Kconfig             |   2 +-
->  drivers/media/usb/pwc/Kconfig                 |   2 +-
->  drivers/media/usb/s2255/Kconfig               |   2 +-
->  drivers/media/usb/stkwebcam/Kconfig           |   2 +-
->  drivers/media/usb/usbtv/Kconfig               |   2 +-
->  drivers/media/usb/uvc/Kconfig                 |   2 +-
->  drivers/media/usb/zr364xx/Kconfig             |   2 +-
->  drivers/media/v4l2-core/Kconfig               |  12 +-
->  drivers/media/v4l2-core/Makefile              |   2 +-
->  drivers/staging/media/atomisp/Kconfig         |   2 +-
->  drivers/staging/media/atomisp/i2c/Kconfig     |  14 +-
->  drivers/staging/media/hantro/Kconfig          |   2 +-
->  drivers/staging/media/imx/Kconfig             |   2 +-
->  drivers/staging/media/ipu3/Kconfig            |   2 +-
->  drivers/staging/media/max96712/Kconfig        |   2 +-
->  drivers/staging/media/meson/vdec/Kconfig      |   2 +-
->  drivers/staging/media/omap4iss/Kconfig        |   2 +-
->  drivers/staging/media/rkvdec/Kconfig          |   2 +-
->  drivers/staging/media/sunxi/cedrus/Kconfig    |   2 +-
->  drivers/staging/media/tegra-video/Kconfig     |   2 +-
->  drivers/staging/media/zoran/Kconfig           |   2 +-
->  drivers/staging/most/video/Kconfig            |   2 +-
->  .../vc04_services/bcm2835-camera/Kconfig      |   2 +-
->  drivers/usb/gadget/Kconfig                    |   2 +-
->  drivers/usb/gadget/legacy/Kconfig             |   2 +-
->  sound/pci/Kconfig                             |   4 +-
->  115 files changed, 356 insertions(+), 374 deletions(-)
->
+Yes Marc, That's what I have mentioned in commit description.
 
-Acked-by: =C5=81ukasz Stelmach <l.stelmach@samsung.com>
+Driver uses "clock-frequency" property only and doesn't take inputs from
+"clocks" property. So, any platform should refrain from defining such
+entity at first place in DT. Binding also says the same i.e pass info
+via "clock-frequency" property and no mention of "clocks".
 
-[...]
+> 
+> > 
+> > Aspeed BMC is the platform which defines clocks property, an invalid
+> > entry which can be safely removed.
+> 
+> Safely removed? Says who? Have you tested this change?
 
+Since "clocks" is never read by driver and driver incorporates
+"clock-frequency" which was certainly not defined here, I believe this
+reasoning is sufficient for my clause. As it's safe to remove an entry
+which was never used.
 
-> diff --git a/drivers/media/platform/samsung/s5p-g2d/Kconfig b/drivers/med=
-ia/platform/samsung/s5p-g2d/Kconfig
-> index 9bc9d90a666a..28ab88fc2d7c 100644
-> --- a/drivers/media/platform/samsung/s5p-g2d/Kconfig
-> +++ b/drivers/media/platform/samsung/s5p-g2d/Kconfig
-> @@ -1,7 +1,7 @@
->  config VIDEO_SAMSUNG_S5P_G2D
->  	tristate "Samsung S5P and EXYNOS4 G2D 2d graphics accelerator driver"
->  	depends on V4L_MEM2MEM_DRIVERS
-> -	depends on VIDEO_DEV && VIDEO_V4L2
-> +	depends on VIDEO_DEV
->  	depends on ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
->  	select VIDEOBUF2_DMA_CONTIG
->  	select V4L2_MEM2MEM_DEV
+Please note, it's just Aspeed BMC which had "clocks" defined, other
+platforms which require input from DT have extended "clock-frequency"
+property like I mentioned before.
 
-[...]
+I don't possess this platform physically,and did successfull compile
+time testing. I have initally copied few Aspeed folks, they can help in
+reviewing and confirming this.
 
+> 
+> > 
+> > Moreover, clocks also matches incorrectly with the regex pattern.
+> > Remove this entry altogether to fix it.
+> > 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+> 
+> NAK. That's not a reason to randomly butcher things.
 
-=2D-=20
-=C5=81ukasz Stelmach
-Samsung R&D Institute Poland
-Samsung Electronics
+I hope I explained my reasons above.
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEXpuyqjq9kGEVr9UQsK4enJilgBAFAmIzij8ACgkQsK4enJil
-gBBbcgf/aneuRLpVmb3t9XhFHinqWTwAHjmHijfM4Bxpeie5LGPD+ZODOQbbTHI/
-SXYJS3DSxcgXnRGiv7g4MNmazBgof2zjvt/C8g0cTWdthAC4RALkjvOFd+4JyyJP
-ozwCmesdus9emei4oZwgFKK914YZDEjYr8bWMicgALtwdnF7z9A00O5RwqaptPTX
-jSFQlpjo5s4gYR2xpQZaLPRwnr328DtW8oertBocpd32+OtNe+A2u1cjdxKuOPqt
-1iB2h/WFOgzqi5noKYu5eQ37WtWZsiPlUuEcrUXRddHEj/TYOFwBEclb+TtkaO0X
-ysdUvYWSGALn6XAUtaiDpl43o6bQ2A==
-=1sCe
------END PGP SIGNATURE-----
---=-=-=--
+- Kuldeep
