@@ -2,74 +2,77 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97FC34DD05F
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Mar 2022 22:46:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F7034DD2D4
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 03:10:59 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KKLLr3lGFz30Md
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 08:46:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KKSD071spz30Bm
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 13:10:56 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=gW+CwaDy;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=M4AvDjXI;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=145.40.68.75; helo=ams.source.kernel.org;
- envelope-from=maz@kernel.org; receiver=<UNKNOWN>)
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1033;
+ helo=mail-pj1-x1033.google.com; envelope-from=singh.kuldeep87k@gmail.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=gW+CwaDy; 
- dkim-atps=neutral
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20210112 header.b=M4AvDjXI; dkim-atps=neutral
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KKLLh2623z2xKR
- for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Mar 2022 08:46:20 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 46C02B81FCB;
- Thu, 17 Mar 2022 21:46:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8200C340E9;
- Thu, 17 Mar 2022 21:46:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1647553575;
- bh=qdQVSRg2hXKIggnMTH/zj9zs5OSmnRHv038Yej8jfPY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=gW+CwaDyNFxQzel4/T6w13sOlU975El2hm1WPnyo8V2TSrMHOa0B8HtT7WNCDwSwD
- G9ec4nWaKayphDIfYeop4ENYvAK8TfXaHYaXqXa8iGQA/ybABtJ5l+iTxHEVW84VZV
- kPq5/RnxamUmBWt6aYH4z9x97Upbm6tr5iFCS2+O8l/ZgpZ2TsgSQhiN5KugkCIHUH
- 64811tXrVj4hQa2ulhyqDWjAgYJ5yOoAR/LiSG/DpCvVZEpSu+VBzcKW5uxmNNtIwY
- P2D/U+LLOD4RbtCbGykS3oajptHbWkgDCYvZyW3vVvKiZvCaRXhTBLZKdbkpQa8H2h
- jR4fgLbOAOb4A==
-Received: from sofa.misterjones.org ([185.219.108.64]
- helo=wait-a-minute.misterjones.org)
- by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <maz@kernel.org>)
- id 1nUxwi-00FIZx-Nl; Thu, 17 Mar 2022 21:46:12 +0000
-Date: Thu, 17 Mar 2022 21:46:12 +0000
-Message-ID: <87fsngxnff.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Kuldeep Singh <singh.kuldeep87k@gmail.com>
-Subject: Re: [PATCH v2 3/3] ARM: dts: aspeed: Remove arch timer clocks property
-In-Reply-To: <20220317211024.GA99538@9a2d8922b8f1>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KKH175N0rz3bWj
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Mar 2022 06:15:54 +1100 (AEDT)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ mp6-20020a17090b190600b001c6841b8a52so2553257pjb.5
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Mar 2022 12:15:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ra3lig8Mw5jgrfIYORH6OPZQGSdQZUTC0lhaPMPwJKY=;
+ b=M4AvDjXI/NitZPtXNLOus/tMJ6/l+u6+pfomdfirI+wQmqSMdTDoI/O/PZPXJSj+b9
+ KLDjtwGI4mJga86llA0NxD1YdZMQE23lNYkgShZQTlJpU8i4CDveEVR4f4/KavMXqX6L
+ PBQTxnsS0gFUXD5pm/jtbVBQQ1ZxWOsnSYLBsPIaC5FZzZu+UheAbZZIexi70gE569ys
+ X7Dhp2n/ngtAI/QXcR30cBMLEZ2YxUNwl0MsO/azrk0MDrQChZghK3wWbriiYnj5yFCi
+ J0L0Z8biOyjoKGk6A7N4vTDG+Fd3W5CmxXWc3/zrU7mVJQTxM9h462oWG4sQ6AUGleKL
+ x+4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ra3lig8Mw5jgrfIYORH6OPZQGSdQZUTC0lhaPMPwJKY=;
+ b=CyCjxWVnU2bpijRRCavOnKJ5PsNRIzrO+eOleOcZ0KHk9/7eEn38pO1ZGG1M0Hjx8b
+ 596DO8xxo1Suge5lw8WH2SevnseIvI8FPoidVrCHsfmTPtkez/KBLRyVIi8Wd1CbDMNW
+ OXKGS1oFNDh88uCej8yBsN8k7WEhX7MYgLGLlUcTAEeXQvRDshnp1WHH+BpnEvEb0s8J
+ Yxg39n2OKFHdM24NC+vxMg4ZRIoD0iijwPfQUAlh99wMj2k6FfDh6MwlMdxn216dFkdd
+ rihwI7tjYmAUbm4QOINsyui2L8RxhpVWmt9yafCIVzKi4XPKHTuyTG5NOd6jdKIwxfL+
+ TGxg==
+X-Gm-Message-State: AOAM531jtca3UrIUDSh098CZ/u8UpV6tm/Kps02ilFJnqiAVzDZl1tYz
+ G2lVGO5BWxXpFUiFSV01rII=
+X-Google-Smtp-Source: ABdhPJzZrFOfTfDFR/A+MlW2V7H/O5+s8KWluMgYHWIxVUMEOBwUxz7hGpUNjliJLIqA0EyC3gBN2A==
+X-Received: by 2002:a17:90a:558b:b0:1c6:6f44:a36a with SMTP id
+ c11-20020a17090a558b00b001c66f44a36amr7028417pji.141.1647544551687; 
+ Thu, 17 Mar 2022 12:15:51 -0700 (PDT)
+Received: from localhost.localdomain ([122.161.51.18])
+ by smtp.gmail.com with ESMTPSA id
+ d11-20020a056a0010cb00b004e1b76b09c0sm7623076pfu.74.2022.03.17.12.15.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Mar 2022 12:15:51 -0700 (PDT)
+From: Kuldeep Singh <singh.kuldeep87k@gmail.com>
+To: Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
+Subject: [PATCH v2 3/3] ARM: dts: aspeed: Remove arch timer clocks property
+Date: Fri, 18 Mar 2022 00:45:26 +0530
+Message-Id: <20220317191527.96237-4-singh.kuldeep87k@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220317191527.96237-1-singh.kuldeep87k@gmail.com>
 References: <20220317191527.96237-1-singh.kuldeep87k@gmail.com>
- <20220317191527.96237-4-singh.kuldeep87k@gmail.com>
- <87h77wxslh.wl-maz@kernel.org>
- <20220317211024.GA99538@9a2d8922b8f1>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: singh.kuldeep87k@gmail.com, robh+dt@kernel.org,
- joel@jms.id.au, andrew@aj.id.au, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
- SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Fri, 18 Mar 2022 12:56:13 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,85 +85,40 @@ List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 17 Mar 2022 21:10:24 +0000,
-Kuldeep Singh <singh.kuldeep87k@gmail.com> wrote:
-> 
-> On Thu, Mar 17, 2022 at 07:54:34PM +0000, Marc Zyngier wrote:
-> > On Thu, 17 Mar 2022 19:15:26 +0000,
-> > Kuldeep Singh <singh.kuldeep87k@gmail.com> wrote:
-> > > 
-> > > Arch timer either require clock-frequency property or doesn't need to
-> > > specify clock at all in DT. In general, frequency can be determined
-> > > internally and in case of brokern firmwares, need to extend
-> > > clock-frequency to pass info to driver.
-> > 
-> > A clock frequency and a clock are not the same thing.
-> 
-> Yes Marc, That's what I have mentioned in commit description.
->
-> Driver uses "clock-frequency" property only and doesn't take inputs from
-> "clocks" property. So, any platform should refrain from defining such
-> entity at first place in DT. Binding also says the same i.e pass info
-> via "clock-frequency" property and no mention of "clocks".
+Arch timer either require clock-frequency property or doesn't need to
+specify clock at all in DT. In general, frequency can be determined
+internally and in case of brokern firmwares, need to extend
+clock-frequency to pass info to driver.
 
-And what do you think provides this clock frequency? Do you believe it
-comes out of thin air? No, the driver doesn't use a clock, because it
-*assumes* the clock feeding the counter is enabled at all times.
+Aspeed BMC is the platform which defines clocks property, an invalid
+entry which can be safely removed.
 
-Does it mean such clock doesn't exist?
+Moreover, clocks also matches incorrectly with the regex pattern.
+Remove this entry altogether to fix it.
+'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
 
-> 
-> > 
-> > > 
-> > > Aspeed BMC is the platform which defines clocks property, an invalid
-> > > entry which can be safely removed.
-> > 
-> > Safely removed? Says who? Have you tested this change?
-> 
-> Since "clocks" is never read by driver and driver incorporates
-> "clock-frequency" which was certainly not defined here, I believe this
-> reasoning is sufficient for my clause. As it's safe to remove an entry
-> which was never used.
+Signed-off-by: Kuldeep Singh <singh.kuldeep87k@gmail.com>
+---
+ arch/arm/boot/dts/aspeed-g6.dtsi | 1 -
+ 1 file changed, 1 deletion(-)
 
-Really? And you have of course audited all possible firmware
-implementations (the bootloader, for example, which would *enable*
-this clock) and other operating systems than Linux that use the same
-DT and run on the same HW?
-
-The kernel tree unfortunately serves as a repository for all the DTs,
-including for payloads other than Linux.
-
-> Please note, it's just Aspeed BMC which had "clocks" defined, other
-> platforms which require input from DT have extended "clock-frequency"
-> property like I mentioned before.
-
-Again: clock frequency and clock are not the same thing.
-
-> I don't possess this platform physically,and did successfull compile
-> time testing. I have initally copied few Aspeed folks, they can help in
-> reviewing and confirming this.
-> 
-> > 
-> > > 
-> > > Moreover, clocks also matches incorrectly with the regex pattern.
-> > > Remove this entry altogether to fix it.
-> > > 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-> > 
-> > NAK. That's not a reason to randomly butcher things.
-> 
-> I hope I explained my reasons above.
-
-My position on this sort of change remains. Blindly changing existing
-DTs based on a warning provided by a tool that totally ignores the
-reality of what is out there is not acceptable.
-
-	M.
-
+diff --git a/arch/arm/boot/dts/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed-g6.dtsi
+index c32e87fad4dc..d5ef9aceb632 100644
+--- a/arch/arm/boot/dts/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed-g6.dtsi
+@@ -64,7 +64,6 @@ timer {
+ 			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
+ 			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>,
+ 			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>;
+-		clocks = <&syscon ASPEED_CLK_HPLL>;
+ 		arm,cpu-registers-not-fw-configured;
+ 		always-on;
+ 	};
 -- 
-Without deviation from the norm, progress is not possible.
+2.25.1
+
