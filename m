@@ -2,64 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168D84DD50F
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 08:06:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B331E4DD523
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 08:16:22 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KKZnQ6fvJz30Kb
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 18:06:50 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KKb0N3g16z30Ld
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 18:16:20 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=hRtySJnh;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=MEbhBjVa;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f31;
- helo=mail-qv1-xf31.google.com; envelope-from=joel.stan@gmail.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::836;
+ helo=mail-qt1-x836.google.com; envelope-from=joel.stan@gmail.com;
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=hRtySJnh; dkim-atps=neutral
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com
- [IPv6:2607:f8b0:4864:20::f31])
+ header.s=google header.b=MEbhBjVa; dkim-atps=neutral
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
+ [IPv6:2607:f8b0:4864:20::836])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KKZmb0MC0z2yyf;
- Fri, 18 Mar 2022 18:06:05 +1100 (AEDT)
-Received: by mail-qv1-xf31.google.com with SMTP id k7so439631qvc.4;
- Fri, 18 Mar 2022 00:06:05 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KKb0J4wxgz2xXV
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Mar 2022 18:16:15 +1100 (AEDT)
+Received: by mail-qt1-x836.google.com with SMTP id i8so6262787qtx.6
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Mar 2022 00:16:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1POxteJqhn86ccNlL5l8f0s/frZWvjX/O/O2Vw5LzMw=;
- b=hRtySJnhJAo4m+08dy2m+2JR5AqPTU0EGkY40IBv5MYBCejbGhKpqquHDCuKRCuQvL
- i45REsUOGp2WdDGKBaBgD9z8f4VSE+te0EHVdMZgk/CObTWpRiUiU99QKBgrnaGMJoRn
- +sypfMBlmhtlMmRHBe9Kz51xIPL1sjW3Y6y8M=
+ :cc; bh=89OsK1h888j5O8PwwjdBMZbY6X+2qCZ2e29zwEkV4RY=;
+ b=MEbhBjVaGSyH4xQnmIwIyh58Fmh2UtgxlC06Npo95ke4TckjjWIKNz9NGQ4BQ8bpvG
+ 4xUUa0ux/yv1EQIyymWH2BtFv/qbvnbDLlXdQNLgNffwF5wzJ3zJEbxe3se1DJb12jwx
+ 5HhYBoOTmUBC03oethUrcHYJKVpRgQRqKeM7w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=1POxteJqhn86ccNlL5l8f0s/frZWvjX/O/O2Vw5LzMw=;
- b=gZ+/4gSJLHEjrVupWuCwBsH/MGHl2ulQReljVf0nxnEMXso1s9NoQAuER9cpsW+kMh
- c2wbZuDA24nl8seuGzaYjGsFyORvv1x3Iai6esrhVt4CbYWW5wFkt15y4KE4s4ok4bMo
- hpwv8QeXKxltrIVI8poJAj0VBLVnXtJEsQthwpEUNzJdiv9k+OvCrGA92mKqChm7uy5Q
- EyrgwSNtcc/uyCLguPR9gLHA31n7fNavbpnH6ytWBsaMaBwGFIpCRUqYhEW+4G/Q3ChC
- OJLIpPFtwsjQHF3Ml8NTKTXgSZpogbs7KcW0mrrjfj18T8T2c23KHhw1aueeMajUuzR1
- uklw==
-X-Gm-Message-State: AOAM532Q94nL3xFBY2ZmCNpFNvp2IYCH6IH7nTayDKDJ7zDaB+7ExlT7
- SN87YJjk19Kub0TplqfZwTaf0Fot0mHSSg8g3YEnJrbyvYE=
-X-Google-Smtp-Source: ABdhPJwGwhb7fCzeyvFIv7e/qapj5R2TYP9QkcWNDqhK7NXXAzV7ODN8teo6BoOVmAN7F3kgK6rYqFLvdC66anGfHCw=
-X-Received: by 2002:ad4:5fc5:0:b0:435:4420:d056 with SMTP id
- jq5-20020ad45fc5000000b004354420d056mr6165427qvb.130.1647587162290; Fri, 18
- Mar 2022 00:06:02 -0700 (PDT)
+ bh=89OsK1h888j5O8PwwjdBMZbY6X+2qCZ2e29zwEkV4RY=;
+ b=C3k9lSHsK+/THEgi05KcJJgiPuYTcGEztZu30RIhRr1N02IMxVzmYVFRbtbqLj4dMP
+ XfaAuVGfozG07uCvMn+cTUBsHiZOlune5qmxoEqfi7ptHMibV7oqv9p2bRUqHhaqIpWc
+ c45Ijzn/vJp+W4hzeHGVwbe7F/0JpgEvZrKWiSEzPo3OkLPQarIltFUNWCg5ZAEBvTr4
+ y45IviCETPrfLjUkicqCJZ4gf9i6kWX39WApX50BZFlctX2PF5sCA+bL4lBg7LfKmyGk
+ fiSQsheuHwxpacxdlBLmcSWYmv5Pwjwv4IdQ3UyxsAAp1S5ZWdfEfyDzf7Ui3T8yqz1g
+ IOjA==
+X-Gm-Message-State: AOAM533uWutSHllm7uaI5rH4eiYgLnF77uiMi5k33LmtN3xq5gd7kU1f
+ GF9nz1LMYnxoSssnGvJ3x1AS35tF0FVYbfWlT9Q=
+X-Google-Smtp-Source: ABdhPJzm9GO33XtUnrpTB3lOo8TGbARsbhbHYemBU66G/o3pUDWxiu3Q+/qseAmrsX/uDjIlN9Eosn92J67SH2zprjU=
+X-Received: by 2002:a05:622a:285:b0:2e1:dcda:98fd with SMTP id
+ z5-20020a05622a028500b002e1dcda98fdmr6524543qtw.625.1647587771981; Fri, 18
+ Mar 2022 00:16:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210817025848.19914-1-chiawei_wang@aspeedtech.com>
- <20210817025848.19914-2-chiawei_wang@aspeedtech.com>
-In-Reply-To: <20210817025848.19914-2-chiawei_wang@aspeedtech.com>
+References: <20220310000629.119699-1-joel@jms.id.au>
+ <20220310000629.119699-3-joel@jms.id.au>
+ <CAK8P3a0LKG25Zu1X0m0FmSXpbC6YmWcvyhW1MOcw4XgnazS4sw@mail.gmail.com>
+In-Reply-To: <CAK8P3a0LKG25Zu1X0m0FmSXpbC6YmWcvyhW1MOcw4XgnazS4sw@mail.gmail.com>
 From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 18 Mar 2022 07:05:50 +0000
-Message-ID: <CACPK8XcmZVXX6a-PY6BnpSrbZ2UZysBtVMCL7qxkOF=hvE2QfQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] soc: aspeed: Add LPC mailbox support
-To: Chia-Wei Wang <chiawei_wang@aspeedtech.com>, Arnd Bergmann <arnd@arndb.de>
+Date: Fri, 18 Mar 2022 07:16:00 +0000
+Message-ID: <CACPK8XdunkxWx-Lb=9Gi7WnNfRyVtrsdPMnasNv1sBtZRxOmfw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] ARM: soc: aspeed: Add secure boot controller
+ support
+To: Arnd Bergmann <arnd@arndb.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -72,507 +74,78 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
+Cc: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
  linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Cyril Bur <cyrilbur@gmail.com>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Tue, 17 Aug 2021 at 02:58, Chia-Wei Wang <chiawei_wang@aspeedtech.com> wrote:
+On Thu, 10 Mar 2022 at 08:03, Arnd Bergmann <arnd@arndb.de> wrote:
 >
-> The LPC mailbox controller consists of multiple general
-> registers for the communication between the Host and the BMC.
-> The interrupts for data update signaling are also introduced.
-
-The concern with this approach is the userspace API. We don't want
-every driver to invent it's own way of communicating with usersapce.
-
-I know when Cyril first submitted this driver it was suggested to use
-the kernel mailbox subsystem. After investigation it was decided that
-this hardware is not a fit; although it is a mailbox it is more like a
-IPMI BT or KCS device, that needs an interface to push data to and
-from userspace over the device.
-
-Chai-Wei, can you link to some userspace programs that use the
-existing ioctl interface?
-
-Arnd, do you have any suggestions?
-
+> On Thu, Mar 10, 2022 at 1:06 AM Joel Stanley <joel@jms.id.au> wrote:
+> >
+> > This reads out the status of the secure boot controller and exposes it
+> > in debugfs.
+> >
+> > An example on a AST2600A3 QEMU model:
+> >
+> >  # grep -r . /sys/kernel/debug/aspeed/*
+> >  /sys/kernel/debug/aspeed/sbc/abr_image:0
+> >  /sys/kernel/debug/aspeed/sbc/low_security_key:0
+> >  /sys/kernel/debug/aspeed/sbc/otp_protected:0
+> >  /sys/kernel/debug/aspeed/sbc/secure_boot:1
+> >  /sys/kernel/debug/aspeed/sbc/uart_boot:0
+> >
+> > On boot the state of the system according to the secure boot controller
+> > will be printed:
+> >
+> >  [    0.037634] AST2600 secure boot enabled
+> >
+> > or
+> >
+> >  [    0.037935] AST2600 secure boot disabled
+> >
+> > Signed-off-by: Joel Stanley <joel@jms.id.au>
+> > ---
+> > v2:
+> >   - Place files in aspeed/sbc
+> >   - Check for error when creating directory
+> >   - Print secure boot message even if debugfs is disabled
 >
-> Signed-off-by: Chia-Wei Wang <chiawei_wang@aspeedtech.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
->  drivers/soc/aspeed/Kconfig           |  10 +
->  drivers/soc/aspeed/Makefile          |   9 +-
->  drivers/soc/aspeed/aspeed-lpc-mbox.c | 418 +++++++++++++++++++++++++++
->  3 files changed, 433 insertions(+), 4 deletions(-)
->  create mode 100644 drivers/soc/aspeed/aspeed-lpc-mbox.c
+> The implementation looks fine to me, but I think the changelog needs to
+> explain why you picked debugfs over a sysfs interface, and how the
+> interface is going to be used.
 >
-> diff --git a/drivers/soc/aspeed/Kconfig b/drivers/soc/aspeed/Kconfig
-> index 243ca196e6ad..5b31a6e2620c 100644
-> --- a/drivers/soc/aspeed/Kconfig
-> +++ b/drivers/soc/aspeed/Kconfig
-> @@ -24,6 +24,16 @@ config ASPEED_LPC_SNOOP
->           allows the BMC to listen on and save the data written by
->           the host to an arbitrary LPC I/O port.
->
-> +config ASPEED_LPC_MAILBOX
-> +       tristate "ASPEED LPC mailbox support"
-> +       select REGMAP
-> +       select MFD_SYSCON
-> +       default ARCH_ASPEED
-> +       help
-> +         Provides a driver to control the LPC mailbox which possesses
-> +         up to 32 data registers for the communication between the Host
-> +         and the BMC over LPC.
-> +
->  config ASPEED_P2A_CTRL
->         tristate "ASPEED P2A (VGA MMIO to BMC) bridge control"
->         select REGMAP
-> diff --git a/drivers/soc/aspeed/Makefile b/drivers/soc/aspeed/Makefile
-> index fcab7192e1a4..cde6b4514c97 100644
-> --- a/drivers/soc/aspeed/Makefile
-> +++ b/drivers/soc/aspeed/Makefile
-> @@ -1,5 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> -obj-$(CONFIG_ASPEED_LPC_CTRL)  += aspeed-lpc-ctrl.o
-> -obj-$(CONFIG_ASPEED_LPC_SNOOP) += aspeed-lpc-snoop.o
-> -obj-$(CONFIG_ASPEED_P2A_CTRL)  += aspeed-p2a-ctrl.o
-> -obj-$(CONFIG_ASPEED_SOCINFO)   += aspeed-socinfo.o
-> +obj-$(CONFIG_ASPEED_LPC_CTRL)          += aspeed-lpc-ctrl.o
-> +obj-$(CONFIG_ASPEED_LPC_SNOOP)         += aspeed-lpc-snoop.o
-> +obj-$(CONFIG_ASPEED_LPC_MAILBOX)       += aspeed-lpc-mbox.o
-> +obj-$(CONFIG_ASPEED_P2A_CTRL)          += aspeed-p2a-ctrl.o
-> +obj-$(CONFIG_ASPEED_SOCINFO)           += aspeed-socinfo.o
-> diff --git a/drivers/soc/aspeed/aspeed-lpc-mbox.c b/drivers/soc/aspeed/aspeed-lpc-mbox.c
-> new file mode 100644
-> index 000000000000..a09ca6a175f7
-> --- /dev/null
-> +++ b/drivers/soc/aspeed/aspeed-lpc-mbox.c
-> @@ -0,0 +1,418 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright 2017 IBM Corporation
-> + * Copyright 2021 Aspeed Technology Inc.
-> + */
-> +#include <linux/interrupt.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/miscdevice.h>
-> +#include <linux/module.h>
-> +#include <linux/of_irq.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/poll.h>
-> +#include <linux/regmap.h>
-> +#include <linux/slab.h>
-> +
-> +#define DEVICE_NAME    "aspeed-mbox"
-> +
-> +#define ASPEED_MBOX_DR(dr, n)  (dr + (n * 4))
-> +#define ASPEED_MBOX_STR(str, n)        (str + (n / 8) * 4)
-> +#define ASPEED_MBOX_BIE(bie, n)        (bie + (n / 8) * 4)
-> +#define ASPEED_MBOX_HIE(hie, n) (hie + (n / 8) * 4)
-> +
-> +#define ASPEED_MBOX_BCR_RECV   BIT(7)
-> +#define ASPEED_MBOX_BCR_MASK   BIT(1)
-> +#define ASPEED_MBOX_BCR_SEND   BIT(0)
-> +
-> +/* ioctl code */
-> +#define ASPEED_MBOX_IOCTL              0xA3
-> +#define ASPEED_MBOX_IOCTL_GET_SIZE     \
-> +       _IOR(ASPEED_MBOX_IOCTL, 0, struct aspeed_mbox_ioctl_data)
-> +
-> +struct aspeed_mbox_ioctl_data {
-> +       unsigned int data;
-> +};
-> +
-> +struct aspeed_mbox_model {
-> +       unsigned int dr_num;
-> +
-> +       /* offsets to the MBOX registers */
-> +       unsigned int dr;
-> +       unsigned int str;
-> +       unsigned int bcr;
-> +       unsigned int hcr;
-> +       unsigned int bie;
-> +       unsigned int hie;
-> +};
-> +
-> +struct aspeed_mbox {
-> +       struct miscdevice miscdev;
-> +       struct regmap *map;
-> +       unsigned int base;
-> +       wait_queue_head_t queue;
-> +       struct mutex mutex;
-> +       const struct aspeed_mbox_model *model;
-> +};
-> +
-> +static atomic_t aspeed_mbox_open_count = ATOMIC_INIT(0);
-> +
-> +static u8 aspeed_mbox_inb(struct aspeed_mbox *mbox, int reg)
-> +{
-> +       /*
-> +        * The mbox registers are actually only one byte but are addressed
-> +        * four bytes apart. The other three bytes are marked 'reserved',
-> +        * they *should* be zero but lets not rely on it.
-> +        * I am going to rely on the fact we can casually read/write to them...
-> +        */
-> +       unsigned int val = 0xff; /* If regmap throws an error return 0xff */
-> +       int rc = regmap_read(mbox->map, mbox->base + reg, &val);
-> +
-> +       if (rc)
-> +               dev_err(mbox->miscdev.parent, "regmap_read() failed with "
-> +                       "%d (reg: 0x%08x)\n", rc, reg);
-> +
-> +       return val & 0xff;
-> +}
-> +
-> +static void aspeed_mbox_outb(struct aspeed_mbox *mbox, u8 data, int reg)
-> +{
-> +       int rc = regmap_write(mbox->map, mbox->base + reg, data);
-> +
-> +       if (rc)
-> +               dev_err(mbox->miscdev.parent, "regmap_write() failed with "
-> +                       "%d (data: %u reg: 0x%08x)\n", rc, data, reg);
-> +}
-> +
-> +static struct aspeed_mbox *file_mbox(struct file *file)
-> +{
-> +       return container_of(file->private_data, struct aspeed_mbox, miscdev);
-> +}
-> +
-> +static int aspeed_mbox_open(struct inode *inode, struct file *file)
-> +{
-> +       struct aspeed_mbox *mbox = file_mbox(file);
-> +       const struct aspeed_mbox_model *model = mbox->model;
-> +
-> +       if (atomic_inc_return(&aspeed_mbox_open_count) == 1) {
-> +               /*
-> +                * Clear the interrupt status bit if it was left on and unmask
-> +                * interrupts.
-> +                * ASPEED_MBOX_BCR_RECV bit is W1C, this also unmasks in 1 step
-> +                */
-> +               aspeed_mbox_outb(mbox, ASPEED_MBOX_BCR_RECV, model->bcr);
-> +               return 0;
-> +       }
-> +
-> +       atomic_dec(&aspeed_mbox_open_count);
-> +       return -EBUSY;
-> +}
-> +
-> +static ssize_t aspeed_mbox_read(struct file *file, char __user *buf,
-> +                               size_t count, loff_t *ppos)
-> +{
-> +       struct aspeed_mbox *mbox = file_mbox(file);
-> +       const struct aspeed_mbox_model *model = mbox->model;
-> +       char __user *p = buf;
-> +       ssize_t ret;
-> +       int i;
-> +
-> +       if (!access_ok(buf, count))
-> +               return -EFAULT;
-> +
-> +       if (count + *ppos > model->dr_num)
-> +               return -EINVAL;
-> +
-> +       if (file->f_flags & O_NONBLOCK) {
-> +               if (!(aspeed_mbox_inb(mbox, model->bcr) &
-> +                               ASPEED_MBOX_BCR_RECV))
-> +                       return -EAGAIN;
-> +       } else if (wait_event_interruptible(mbox->queue,
-> +                               aspeed_mbox_inb(mbox, model->bcr) &
-> +                               ASPEED_MBOX_BCR_RECV)) {
-> +               return -ERESTARTSYS;
-> +       }
-> +
-> +       mutex_lock(&mbox->mutex);
-> +
-> +       for (i = *ppos; count > 0 && i < model->dr_num; i++) {
-> +               uint8_t reg = aspeed_mbox_inb(mbox, ASPEED_MBOX_DR(model->dr, i));
-> +
-> +               ret = __put_user(reg, p);
-> +               if (ret)
-> +                       goto out_unlock;
-> +
-> +               p++;
-> +               count--;
-> +       }
-> +
-> +       /* ASPEED_MBOX_BCR_RECV bit is write to clear, this also unmasks in 1 step */
-> +       aspeed_mbox_outb(mbox, ASPEED_MBOX_BCR_RECV, model->bcr);
-> +       ret = p - buf;
-> +
-> +out_unlock:
-> +       mutex_unlock(&mbox->mutex);
-> +       return ret;
-> +}
-> +
-> +static ssize_t aspeed_mbox_write(struct file *file, const char __user *buf,
-> +                               size_t count, loff_t *ppos)
-> +{
-> +       struct aspeed_mbox *mbox = file_mbox(file);
-> +       const struct aspeed_mbox_model *model = mbox->model;
-> +       const char __user *p = buf;
-> +       ssize_t ret;
-> +       char c;
-> +       int i;
-> +
-> +       if (!access_ok(buf, count))
-> +               return -EFAULT;
-> +
-> +       if (count + *ppos > model->dr_num)
-> +               return -EINVAL;
-> +
-> +       mutex_lock(&mbox->mutex);
-> +
-> +       for (i = *ppos; count > 0 && i < model->dr_num; i++) {
-> +               ret = __get_user(c, p);
-> +               if (ret)
-> +                       goto out_unlock;
-> +
-> +               aspeed_mbox_outb(mbox, c, ASPEED_MBOX_DR(model->dr, i));
-> +               p++;
-> +               count--;
-> +       }
-> +
-> +       aspeed_mbox_outb(mbox, ASPEED_MBOX_BCR_SEND, model->bcr);
-> +       ret = p - buf;
-> +
-> +out_unlock:
-> +       mutex_unlock(&mbox->mutex);
-> +       return ret;
-> +}
-> +
-> +static __poll_t aspeed_mbox_poll(struct file *file, poll_table *wait)
-> +{
-> +       struct aspeed_mbox *mbox = file_mbox(file);
-> +       const struct aspeed_mbox_model *model = mbox->model;
-> +       __poll_t mask = 0;
-> +
-> +       poll_wait(file, &mbox->queue, wait);
-> +
-> +       if (aspeed_mbox_inb(mbox, model->bcr) & ASPEED_MBOX_BCR_RECV)
-> +               mask |= POLLIN;
-> +
-> +       return mask;
-> +}
-> +
-> +static int aspeed_mbox_release(struct inode *inode, struct file *file)
-> +{
-> +       atomic_dec(&aspeed_mbox_open_count);
-> +       return 0;
-> +}
-> +
-> +static long aspeed_mbox_ioctl(struct file *file, unsigned int cmd,
-> +                                unsigned long param)
-> +{
-> +       long ret = 0;
-> +       struct aspeed_mbox *mbox = file_mbox(file);
-> +       const struct aspeed_mbox_model *model = mbox->model;
-> +       struct aspeed_mbox_ioctl_data data;
-> +
-> +       switch (cmd) {
-> +       case ASPEED_MBOX_IOCTL_GET_SIZE:
-> +               data.data = model->dr_num;
-> +               if (copy_to_user((void __user *)param, &data, sizeof(data)))
-> +                       ret = -EFAULT;
-> +               break;
-> +       default:
-> +               ret = -ENOTTY;
-> +               break;
-> +       }
-> +
-> +       return ret;
-> +}
-> +
-> +static const struct file_operations aspeed_mbox_fops = {
-> +       .owner          = THIS_MODULE,
-> +       .llseek         = no_seek_end_llseek,
-> +       .read           = aspeed_mbox_read,
-> +       .write          = aspeed_mbox_write,
-> +       .open           = aspeed_mbox_open,
-> +       .release        = aspeed_mbox_release,
-> +       .poll           = aspeed_mbox_poll,
-> +       .unlocked_ioctl = aspeed_mbox_ioctl,
-> +};
-> +
-> +static irqreturn_t aspeed_mbox_irq(int irq, void *arg)
-> +{
-> +       struct aspeed_mbox *mbox = arg;
-> +       const struct aspeed_mbox_model *model = mbox->model;
-> +
-> +       if (!(aspeed_mbox_inb(mbox, model->bcr) & ASPEED_MBOX_BCR_RECV))
-> +               return IRQ_NONE;
-> +
-> +       /*
-> +        * Leave the status bit set so that we know the data is for us,
-> +        * clear it once it has been read.
-> +        */
-> +
-> +       /* Mask it off, we'll clear it when we the data gets read */
-> +       aspeed_mbox_outb(mbox, ASPEED_MBOX_BCR_MASK, model->bcr);
-> +
-> +       wake_up(&mbox->queue);
-> +       return IRQ_HANDLED;
-> +}
-> +
-> +static int aspeed_mbox_config_irq(struct aspeed_mbox *mbox,
-> +               struct platform_device *pdev)
-> +{
-> +       const struct aspeed_mbox_model *model = mbox->model;
-> +       struct device *dev = &pdev->dev;
-> +       int i, rc, irq;
-> +
-> +       irq = irq_of_parse_and_map(dev->of_node, 0);
-> +       if (!irq)
-> +               return -ENODEV;
-> +
-> +       rc = devm_request_irq(dev, irq, aspeed_mbox_irq,
-> +                       IRQF_SHARED, DEVICE_NAME, mbox);
-> +       if (rc < 0) {
-> +               dev_err(dev, "Unable to request IRQ %d\n", irq);
-> +               return rc;
-> +       }
-> +
-> +       /*
-> +        * Disable all register based interrupts.
-> +        */
-> +       for (i = 0; i < model->dr_num / 8; ++i)
-> +               aspeed_mbox_outb(mbox, 0x00, ASPEED_MBOX_BIE(model->bie, i));
-> +
-> +       /* These registers are write one to clear. Clear them. */
-> +       for (i = 0; i < model->dr_num / 8; ++i)
-> +               aspeed_mbox_outb(mbox, 0xff, ASPEED_MBOX_STR(model->str, i));
-> +
-> +       aspeed_mbox_outb(mbox, ASPEED_MBOX_BCR_RECV, model->bcr);
-> +       return 0;
-> +}
-> +
-> +static int aspeed_mbox_probe(struct platform_device *pdev)
-> +{
-> +       struct aspeed_mbox *mbox;
-> +       struct device *dev;
-> +       int rc;
-> +
-> +       dev = &pdev->dev;
-> +
-> +       mbox = devm_kzalloc(dev, sizeof(*mbox), GFP_KERNEL);
-> +       if (!mbox)
-> +               return -ENOMEM;
-> +
-> +       dev_set_drvdata(&pdev->dev, mbox);
-> +
-> +       rc = of_property_read_u32(dev->of_node, "reg", &mbox->base);
-> +       if (rc) {
-> +               dev_err(dev, "Couldn't read reg device tree property\n");
-> +               return rc;
-> +       }
-> +
-> +       mbox->model = of_device_get_match_data(dev);
-> +       if (IS_ERR(mbox->model)) {
-> +               dev_err(dev, "Couldn't get model data\n");
-> +               return -ENODEV;
-> +       }
-> +
-> +       mbox->map = syscon_node_to_regmap(
-> +                       pdev->dev.parent->of_node);
-> +       if (IS_ERR(mbox->map)) {
-> +               dev_err(dev, "Couldn't get regmap\n");
-> +               return -ENODEV;
-> +       }
-> +
-> +       mutex_init(&mbox->mutex);
-> +       init_waitqueue_head(&mbox->queue);
-> +
-> +       mbox->miscdev.minor = MISC_DYNAMIC_MINOR;
-> +       mbox->miscdev.name = DEVICE_NAME;
-> +       mbox->miscdev.fops = &aspeed_mbox_fops;
-> +       mbox->miscdev.parent = dev;
-> +       rc = misc_register(&mbox->miscdev);
-> +       if (rc) {
-> +               dev_err(dev, "Unable to register device\n");
-> +               return rc;
-> +       }
-> +
-> +       rc = aspeed_mbox_config_irq(mbox, pdev);
-> +       if (rc) {
-> +               dev_err(dev, "Failed to configure IRQ\n");
-> +               misc_deregister(&mbox->miscdev);
-> +               return rc;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int aspeed_mbox_remove(struct platform_device *pdev)
-> +{
-> +       struct aspeed_mbox *mbox = dev_get_drvdata(&pdev->dev);
-> +
-> +       misc_deregister(&mbox->miscdev);
-> +
-> +       return 0;
-> +}
-> +
-> +static const struct aspeed_mbox_model ast2400_model = {
-> +       .dr_num = 16,
-> +       .dr     = 0x0,
-> +       .str = 0x40,
-> +       .bcr = 0x48,
-> +       .hcr = 0x4c,
-> +       .bie = 0x50,
-> +       .hie = 0x58,
-> +};
-> +
-> +static const struct aspeed_mbox_model ast2500_model = {
-> +       .dr_num = 16,
-> +       .dr     = 0x0,
-> +       .str = 0x40,
-> +       .bcr = 0x48,
-> +       .hcr = 0x4c,
-> +       .bie = 0x50,
-> +       .hie = 0x58,
-> +};
-> +
-> +static const struct aspeed_mbox_model ast2600_model = {
-> +       .dr_num = 32,
-> +       .dr     = 0x0,
-> +       .str = 0x80,
-> +       .bcr = 0x90,
-> +       .hcr = 0x94,
-> +       .bie = 0xa0,
-> +       .hie = 0xb0,
-> +};
-> +
-> +static const struct of_device_id aspeed_mbox_match[] = {
-> +       { .compatible = "aspeed,ast2400-mbox",
-> +         .data = &ast2400_model },
-> +       { .compatible = "aspeed,ast2500-mbox",
-> +         .data = &ast2500_model },
-> +       { .compatible = "aspeed,ast2600-mbox",
-> +         .data = &ast2600_model },
-> +       { },
-> +};
-> +
-> +static struct platform_driver aspeed_mbox_driver = {
-> +       .driver = {
-> +               .name           = DEVICE_NAME,
-> +               .of_match_table = aspeed_mbox_match,
-> +       },
-> +       .probe = aspeed_mbox_probe,
-> +       .remove = aspeed_mbox_remove,
-> +};
-> +
-> +module_platform_driver(aspeed_mbox_driver);
-> +MODULE_DEVICE_TABLE(of, aspeed_mbox_match);
-> +MODULE_LICENSE("GPL");
-> +MODULE_AUTHOR("Cyril Bur <cyrilbur@gmail.com>");
-> +MODULE_AUTHOR("Chia-Wei Wang <chiawei_wang@aspeedtech.com");
-> +MODULE_DESCRIPTION("Aspeed mailbox device driver");
-> --
-> 2.17.1
->
+> As a rule, sysfs interfaces need to be documented and kept stable
+> so that user space can rely on it, while debugfs interfaces should only
+> be used for development and never be accessed by applications
+> that need to work across kernel versions. If no stable user space
+> is allowed to access these files, what is accessing them?
+
+I hear what you're saying, but we're now going around in circles. The
+first proposal added a soc-specific sysfs interface, which was
+rejected in favor of creating a common interface. The common interface
+didn't get any support, and with the feedback being the files were too
+soc-specific. You rightly point out that the debugfs API is not
+supposed to be relied on as a stable userspace API.
+
+Do you think we should revisit the soc-specific sysfs?
+
+The userspace that accesses the files comes in two forms: a runtime
+application that checks the system state, and some manufacturing line
+scripts that checks if the machine was correctly provisioned. The
+application source can be viewed here:
+
+ https://gerrit.openbmc-project.xyz/c/openbmc/phosphor-state-manager/+/51766
+
+The discussion has lost momentum for me, as in practice we needed to
+ship the hardware, so the openbmc kernel will support the version of
+the patches that were merged there for the lifetime of the product.
+This isn't a threat, but an observation that the mainline kernel
+process has failed in this instance, despite the best intentions of
+everyone involved.
+
+Cheers,
+
+Joel
