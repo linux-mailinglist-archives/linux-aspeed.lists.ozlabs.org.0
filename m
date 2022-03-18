@@ -1,66 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A384DD667
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 09:46:52 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE5AD4DDAC6
+	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 14:44:20 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KKd0p0NPRz30NW
-	for <lists+linux-aspeed@lfdr.de>; Fri, 18 Mar 2022 19:46:50 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=Z5aK/m5h;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KKlc26GR2z30RJ
+	for <lists+linux-aspeed@lfdr.de>; Sat, 19 Mar 2022 00:44:18 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::836;
- helo=mail-qt1-x836.google.com; envelope-from=joel.stan@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=Z5aK/m5h; dkim-atps=neutral
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
- [IPv6:2607:f8b0:4864:20::836])
+ smtp.mailfrom=gmail.com (client-ip=209.85.167.50; helo=mail-lf1-f50.google.com;
+ envelope-from=k.kozlowski.k@gmail.com; receiver=<UNKNOWN>)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KKd0h3JJQz2yyf
- for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Mar 2022 19:46:43 +1100 (AEDT)
-Received: by mail-qt1-x836.google.com with SMTP id i8so6367364qtx.6
- for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Mar 2022 01:46:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HX28KG1ETTyJqfzKGPZZd77iKDoX+t1pmuXVdkh9BBc=;
- b=Z5aK/m5hJp461lI1t0YTLkryZtCz8/3HW4RW38wNu7h2EGUqR5UuMrj7IZGKTu0qKc
- xqozWfz6HUk279WPyFj16B30DdNahbNTYWsIbBSEex9sA3PsaUSBV+ktq32E+IVv++KN
- JVM+hWttBMY+pzT/KNggcxpvmXVD20QHebxdo=
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KKlby2DkYz3096
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 19 Mar 2022 00:44:12 +1100 (AEDT)
+Received: by mail-lf1-f50.google.com with SMTP id l20so14126365lfg.12
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 18 Mar 2022 06:44:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HX28KG1ETTyJqfzKGPZZd77iKDoX+t1pmuXVdkh9BBc=;
- b=Go4tbHGgJdUr93Wd+R2WjxUPs9K2NNvb0GzuzruFCIwC9e3QWEQdRNbJTPTRmRVBZ0
- YlXbAj+e1KLKa9Q89RV96saflS12omrml+83C9VVHnyTK9ULY05TWkFOxpoN/mQpUImX
- lr0jCUmu/N404q07X+bk+0/A7j8dDsGr1FGMOJE3OEXaEUWWQw1iei6HG4aZkP9ldmBW
- 0lpPrmB2tV3zWxkzxpsHIlKAu6mxNKhSdyJkmI6sV0G8ZuH6tYOuhTPf9+VeMwRyK7W9
- fB8VRoG//aVfFyt+JqhFnqHrAwpGCmMP8TPBxtaKdLOSdoRAEDGjMUKTwurTLojzuP/u
- 9aFA==
-X-Gm-Message-State: AOAM533kKeCmh8kUFrXk2BAu5lfLfgo6dlF/FWdebZfc3HTfJgVzreu9
- R8p+XMTDKEcEFTMR/YIVoKD1uYpjJ6FTFmiXyUIR4p/60fo=
-X-Google-Smtp-Source: ABdhPJwbpE/yU8SuU3bVcc+6HfWkUhrdPIgYdcuCEFhWvubB6MvFcV8t9gzlh4c9xyYxHO1Eosyq9q6syDlj8eCbRI4=
-X-Received: by 2002:a05:622a:14c8:b0:2e1:d626:66ea with SMTP id
- u8-20020a05622a14c800b002e1d62666eamr6640121qtx.58.1647593200510; Fri, 18 Mar
- 2022 01:46:40 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+13Af56+e0RqW04Edcq76EyluIRDM9JaL8dIazHbckc=;
+ b=USRJrmWSYGIdeB52h4e3oD3LfG7Q8abpu9V4aUNVGxxO5Ttl8UIBZsd7sszRh7RI1b
+ CvLrBPjfL6sC6sFz1PzfgfLASXNK/zjvyLwvWWQ13fug9Hg23zmMBNxhZ/29zSLNr3jZ
+ JNXBQysCSxFP+7OFEZXPhqDW4bsAVqTIKL+/ngTNFwNqjsvoLD02qnqrr0UFBeAyZV62
+ LOk1izn+S0d8j8MyFn2g/Fuza3hJ59lZucA/OcOoKcVuFR1EM0RAoL2ocpSji85LcLZg
+ kn1jBHw+JCdJgvctkDdf3u6+EChhxmfuqiEpdstpwn4Xr8tzs56NIDp4qsVknCs7SLpZ
+ 7qQg==
+X-Gm-Message-State: AOAM533G1ztkiWefO0eoa9w8863QoyJhIl6+3+/eRB0uVeVc99/kBqPG
+ 1MxfGa4D1thVabHbO8TLG0g=
+X-Google-Smtp-Source: ABdhPJxBG0gMB7P6i31hX6URblEoIk15XK26/WiOk2L5XQrQkklk9dI2CS32ZTycPzHM2+9Bp954qg==
+X-Received: by 2002:a05:6512:2613:b0:448:5164:689d with SMTP id
+ bt19-20020a056512261300b004485164689dmr6030983lfb.526.1647611048126; 
+ Fri, 18 Mar 2022 06:44:08 -0700 (PDT)
+Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl.
+ [78.11.189.27]) by smtp.googlemail.com with ESMTPSA id
+ y23-20020a2e95d7000000b00247e4e386aasm965319ljh.121.2022.03.18.06.44.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Mar 2022 06:44:07 -0700 (PDT)
+Message-ID: <ad56b5bc-a9d4-b584-3c04-7c47995381f1@kernel.org>
+Date: Fri, 18 Mar 2022 14:44:05 +0100
 MIME-Version: 1.0
-References: <SG2PR06MB2315A7BAE2F1B384CDADB57FE6139@SG2PR06MB2315.apcprd06.prod.outlook.com>
-In-Reply-To: <SG2PR06MB2315A7BAE2F1B384CDADB57FE6139@SG2PR06MB2315.apcprd06.prod.outlook.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Fri, 18 Mar 2022 08:46:28 +0000
-Message-ID: <CACPK8XdYHb-PgVVQuTtMBokxu4GTObG7nCohm4dosK9XWzE9ow@mail.gmail.com>
-Subject: Re: [PATCH v1] ARM: dts: aspeed: ast2600-evb: Enable RX delay for
- MAC0/MAC1
-To: Howard Chiu <howard_chiu@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 3/3] ARM: dts: aspeed: Remove arch timer clocks property
+Content-Language: en-US
+To: Kuldeep Singh <singh.kuldeep87k@gmail.com>, Marc Zyngier
+ <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
+References: <20220317191527.96237-1-singh.kuldeep87k@gmail.com>
+ <20220317191527.96237-4-singh.kuldeep87k@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20220317191527.96237-4-singh.kuldeep87k@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,86 +71,23 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi Howard,
+On 17/03/2022 20:15, Kuldeep Singh wrote:
+> 
+> Moreover, clocks also matches incorrectly with the regex pattern.
+> Remove this entry altogether to fix it.
+> 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
 
-On Fri, 18 Mar 2022 at 08:09, Howard Chiu <howard_chiu@aspeedtech.com> wrote:
->
-> Since mac0/1 and mac2/3 are physically located on different die,
-> they have different properties by nature, which is mac0/1 has smaller delay step.
->
-> The property 'phy-mode' on ast2600 mac0 and mac1 is recommended to set to 'rgmii-rxid'
-> which enables the RX interface delay from the PHY chip.
-> Refer page 45 of SDK User Guide v08.00
-> https://github.com/AspeedTech-BMC/openbmc/releases/download/v08.00/SDK_User_Guide_v08.00.pdf
->
-> Set mac delay according to the mactest result.
+Except of ongoing discussion, this paragraph is incorrect.  There is no
+incorrect match of regex pattern. The field is simply not documented in
+the bindings (not allowed by bindings). This paragraph is actually
+confusing and misleading.
 
-This bit confused me. How does the rxid relate to the mac delay
-numbers? Which device and code is responsible for using them?
 
->
-> Signed-off-by: Howard Chiu <howard_chiu@aspeedtech.com>
-> ---
->  arch/arm/boot/dts/aspeed-ast2600-evb.dts | 19 +++++++++++++++++--
->  1 file changed, 17 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/arm/boot/dts/aspeed-ast2600-evb.dts b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
-> index b7eb552640cb..db16ba307e97 100644
-> --- a/arch/arm/boot/dts/aspeed-ast2600-evb.dts
-> +++ b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
-> @@ -103,7 +103,7 @@ ethphy3: ethernet-phy@0 {
->  &mac0 {
->         status = "okay";
->
-> -       phy-mode = "rgmii";
-> +       phy-mode = "rgmii-rxid";
->         phy-handle = <&ethphy0>;
->
->         pinctrl-names = "default";
-> @@ -114,7 +114,7 @@ &mac0 {
->  &mac1 {
->         status = "okay";
->
-> -       phy-mode = "rgmii";
-> +       phy-mode = "rgmii-rxid";
->         phy-handle = <&ethphy1>;
->
->         pinctrl-names = "default";
-> @@ -141,6 +141,21 @@ &mac3 {
->         pinctrl-0 = <&pinctrl_rgmii4_default>;
->  };
->
-> +&syscon {
-> +       mac0-clk-delay = <0x10 0x0a
-> +                         0x10 0x10
-> +                         0x10 0x10>;
-
-These properties aren't supported by the mainline kernel. Do you have
-some code coming for that support?
-
-> +       mac1-clk-delay = <0x10 0x0a
-> +                         0x10 0x10
-> +                         0x10 0x10>;
-> +       mac2-clk-delay = <0x08 0x04
-> +                         0x08 0x04
-> +                         0x08 0x04>;
-> +       mac3-clk-delay = <0x08 0x04
-> +                         0x08 0x04
-> +                         0x08 0x04>;
-> +};
-> +
->  &emmc_controller {
->         status = "okay";
->  };
-> --
-> 2.25.1
->
+Best regards,
+Krzysztof
