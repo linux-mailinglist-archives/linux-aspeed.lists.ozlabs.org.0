@@ -2,58 +2,50 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC7C4E2414
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Mar 2022 11:15:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06654E26DA
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Mar 2022 13:47:14 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KMVr84K64z30QD
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Mar 2022 21:15:52 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KMZBm6Xcpz30M3
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Mar 2022 23:47:12 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=S8EhJW9b;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
- helo=metis.ext.pengutronix.de; envelope-from=p.zabel@pengutronix.de;
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch
+ (client-ip=185.16.172.187; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch;
  receiver=<UNKNOWN>)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256
+ header.s=20171124 header.b=S8EhJW9b; dkim-atps=neutral
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KMVr25886z2xgY
- for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Mar 2022 21:15:45 +1100 (AEDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1nWF4U-0002Cp-A5; Mon, 21 Mar 2022 11:15:30 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1nWF4O-0024FB-Af; Mon, 21 Mar 2022 11:15:25 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1nWF4O-0005mG-5W; Mon, 21 Mar 2022 11:15:24 +0100
-Message-ID: <15c3836ecc42c1fea36a51b11a0f47757d06605f.camel@pengutronix.de>
-Subject: Re: [PATCH v2 2/3] net: mdio: add reset control for Aspeed MDIO
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Dylan Hung <dylan_hung@aspeedtech.com>, robh+dt@kernel.org,
- joel@jms.id.au,  andrew@aj.id.au, andrew@lunn.ch, hkallweit1@gmail.com,
- linux@armlinux.org.uk,  davem@davemloft.net, kuba@kernel.org,
- pabeni@redhat.com,  devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,  linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org,  netdev@vger.kernel.org
-Date: Mon, 21 Mar 2022 11:15:24 +0100
-In-Reply-To: <20220321095648.4760-3-dylan_hung@aspeedtech.com>
-References: <20220321095648.4760-1-dylan_hung@aspeedtech.com>
- <20220321095648.4760-3-dylan_hung@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.38.3-1 
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KMZBj3MKMz2xrv
+ for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Mar 2022 23:47:09 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+ s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+ Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+ bh=wfPqTrMLZmI62s7w5pDJOhr0oJWgwZyXFkacCjOAFtg=; b=S8EhJW9bc1yCRidAUH8gazE1IQ
+ tPFmz4auIwvdRcZ2vgyddW+hz3/QfSTWPC8gCVlEDmU5C7a7L/6Upx1AoKFU8rAFH7jzdvZkQELzv
+ 9TPFPM2fQi/Yc5MRRE9B/UCIVcL4F052ICKlQoQzo7TGU87X5j7R0GuJVOCWRodjiANk=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+ (envelope-from <andrew@lunn.ch>)
+ id 1nWGsE-00BwHU-Tb; Mon, 21 Mar 2022 13:10:58 +0100
+Date: Mon, 21 Mar 2022 13:10:58 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Dylan Hung <dylan_hung@aspeedtech.com>
+Subject: Re: [PATCH 0/2] Add reset deassertion for Aspeed MDIO
+Message-ID: <YjhrUrXzLxvKtDP8@lunn.ch>
+References: <20220321070131.23363-1-dylan_hung@aspeedtech.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220321070131.23363-1-dylan_hung@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,22 +57,24 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: BMC-SW@aspeedtech.com, stable@vger.kernel.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ BMC-SW@aspeedtech.com, netdev@vger.kernel.org, linux@armlinux.org.uk,
+ linux-kernel@vger.kernel.org, robh+dt@kernel.org, p.zabel@pengutronix.de,
+ kuba@kernel.org, pabeni@redhat.com, davem@davemloft.net,
+ linux-arm-kernel@lists.infradead.org, hkallweit1@gmail.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mo, 2022-03-21 at 17:56 +0800, Dylan Hung wrote:
-> Add reset assertion/deassertion for Aspeed MDIO.=C2=A0 There are 4 MDIO
-> controllers embedded in Aspeed AST2600 SOC and share one reset
-> control
-> register SCU50[3]. So devm_reset_control_get_shared is used in this
-> change.
->=20
-> Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
+On Mon, Mar 21, 2022 at 03:01:29PM +0800, Dylan Hung wrote:
+> Add missing reset deassertion for Aspeed MDIO. There are 4 MDIOs
+> embedded in Aspeed AST2600 and share one reset control bit SCU50[3].
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Is the reset limited to the MDIO bus masters, or are PHYs one the bus
+potentially also reset?
 
+Who asserts the reset in the first place? Don't you want the first
+MDIO bus to probe to assert and then deassert the reset in order that
+all the hardware is reset?
 
-regards
-Philipp
+    Andrew
