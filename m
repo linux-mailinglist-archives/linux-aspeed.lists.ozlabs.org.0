@@ -1,59 +1,130 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E014E3B75
-	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Mar 2022 10:08:57 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 148604E3B78
+	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Mar 2022 10:10:59 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KN5JR0Cw9z2yjc
-	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Mar 2022 20:08:55 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KN5Ln00mRz2ykS
+	for <lists+linux-aspeed@lfdr.de>; Tue, 22 Mar 2022 20:10:57 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=gIfMretg;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=pengutronix.de (client-ip=2001:67c:670:201:290:27ff:fe1d:cc33;
- helo=metis.ext.pengutronix.de; envelope-from=p.zabel@pengutronix.de;
- receiver=<UNKNOWN>)
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KN5JK1Ckcz2xVn
- for <linux-aspeed@lists.ozlabs.org>; Tue, 22 Mar 2022 20:08:46 +1100 (AEDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1nWaV3-0002h8-Qv; Tue, 22 Mar 2022 10:08:21 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1nWaUn-002G5K-VH; Tue, 22 Mar 2022 10:08:08 +0100
-Received: from pza by lupine with local (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1nWaUq-00015B-0c; Tue, 22 Mar 2022 10:08:08 +0100
-Message-ID: <b861bc8259084432dffe3ca6b3a76ee682fd4b64.camel@pengutronix.de>
-Subject: Re: [PATCH v2 3/3] ARM: dts: aspeed: add reset properties into MDIO
- nodes
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Dylan Hung <dylan_hung@aspeedtech.com>, Andrew Lunn <andrew@lunn.ch>
-Date: Tue, 22 Mar 2022 10:08:07 +0100
-In-Reply-To: <HK0PR06MB28348F925FEDA3853DD3489D9C179@HK0PR06MB2834.apcprd06.prod.outlook.com>
-References: <20220321095648.4760-1-dylan_hung@aspeedtech.com>
- <20220321095648.4760-4-dylan_hung@aspeedtech.com>
- <eefe6dd8-6542-a5c2-6bdf-2c3ffe06e06b@kernel.org>
- <HK0PR06MB2834CFADF087A439B06F87C29C179@HK0PR06MB2834.apcprd06.prod.outlook.com>
- <Yjk722CyEW3q1ntm@lunn.ch>
- <HK0PR06MB28348F925FEDA3853DD3489D9C179@HK0PR06MB2834.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.38.3-1 
+ smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::70a;
+ helo=apc01-psa-obe.outbound.protection.outlook.com;
+ envelope-from=dylan_hung@aspeedtech.com; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
+ header.a=rsa-sha256 header.s=selector1 header.b=gIfMretg; 
+ dkim-atps=neutral
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on2070a.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:feae::70a])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KN5Lf0KmMz2xZk
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 22 Mar 2022 20:10:48 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mVEBw2DpiGxrX3fh8CCD4BCDozpUljAakCI7WMbbN/ygbtwzp6oWbVcJbBiXOBVB6bxDzg5us/8/EfLIspgyHplEq4y6YspjADZeRQuEYXLCyluBAeDDyV7GaFtceeHHXLIZ95ADh4dfH0EMM/vLhuAtyM5BltMSvf1tre51+vXGv2t2hWsFJ8FlYeC7qPh19BHvj/xRjxwWUfSsQaK4YCqPpqAZyYooD2v3/VtS8LQ3Y0VKJGrLflclUvEoGwRGS6e+oesGg2RK2zndUUVdTkVUzcpxftdQNCOfKWQ2xs+0sDmClKaE8o9eTL0oq/kb8P9YixLrEJYTx+n/4dY3IA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U0GOadY8wjRS4P7H6OQf0zYhzqc2SpOIY12nVYug/P8=;
+ b=El6gebkVUr67QTF5CCrgHIhBPD0t/KfXuRTeLna46tePeXpfIRsyBcgEx5TK/dICFkNa0OYVUs0eyvUFXt3UN8efqwjDQHSPLBvyBlH4n7NngDktl0QAKtMtK2c0+6njv+gppAvZ/2QfTdpcCZu3ehlb4fRI5ox7bj8npsFKdnrnHbZvLMLIHNcX2kmgew/zlycpWOE+DEJU1hxoZhur/jS5GM2IACpO3Tur5m2DSL73xbG638JufzGpFw5RtsOIkRL+ji0cZiKHQn39BJITIOq4u3Kq1KQ6woF9XHZHoK7MZow4LY8dpE1hyfjreGt4HoYFaft206ua0VCSU4pVzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U0GOadY8wjRS4P7H6OQf0zYhzqc2SpOIY12nVYug/P8=;
+ b=gIfMretgXAEJOxPE7I/UWteoFwSPnnaGSf5ftN3H10aZe2zSWNXKIheILA8eiQoD2Nvx59dGBm9GaRdwQ1EozqvZgJ7SaduH+SgZyLaRVD6fFVEhtWO61SmSDQOcAAjNGqiJ3EO1nGUN4cA7H1XtFT2wo5ZpYmyf0+DSwU1qb47ioj2st5QOVfh3W0cgGv8Q0K1eW+I6L13y4NFRoeRUw25LoPEzywl9UQKIC1khXEOdvaHWIPtWVhkL3XWfsvgf6JI9P4ef5cOD71ZAqxoHfU7PDad4i2CdsLFf4cZfPVhfqHS06LU9oEfhKZuVWbTgtaiP4NUzB3uX4mgPnQGxSg==
+Received: from HK0PR06MB2834.apcprd06.prod.outlook.com (2603:1096:203:5c::20)
+ by TYAPR06MB2335.apcprd06.prod.outlook.com (2603:1096:404:18::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5081.14; Tue, 22 Mar
+ 2022 09:10:28 +0000
+Received: from HK0PR06MB2834.apcprd06.prod.outlook.com
+ ([fe80::e175:c8be:f868:447]) by HK0PR06MB2834.apcprd06.prod.outlook.com
+ ([fe80::e175:c8be:f868:447%5]) with mapi id 15.20.5081.023; Tue, 22 Mar 2022
+ 09:10:28 +0000
+From: Dylan Hung <dylan_hung@aspeedtech.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Subject: RE: [PATCH 0/2] Add reset deassertion for Aspeed MDIO
+Thread-Topic: [PATCH 0/2] Add reset deassertion for Aspeed MDIO
+Thread-Index: AQHYPPFxAnAfoEafR0q0cBMTgEqZAKzJv48AgAD+4aA=
+Date: Tue, 22 Mar 2022 09:10:28 +0000
+Message-ID: <HK0PR06MB283430933D2FE015531B52749C179@HK0PR06MB2834.apcprd06.prod.outlook.com>
+References: <20220321070131.23363-1-dylan_hung@aspeedtech.com>
+ <YjhrUrXzLxvKtDP8@lunn.ch>
+In-Reply-To: <YjhrUrXzLxvKtDP8@lunn.ch>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6f57fd5e-7233-4427-4e99-08da0be3cf0d
+x-ms-traffictypediagnostic: TYAPR06MB2335:EE_
+x-microsoft-antispam-prvs: <TYAPR06MB23355021FE18D39643DD9CF39C179@TYAPR06MB2335.apcprd06.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: m/Gr0wV/hqw82bzjhUYo8YXlzOtXP/8xWGlqkAdx8vr4gYVmsZhQX4rggts+mEh3QOIat0YCTAlQrKDr8gmNhFJtV9/wsj8iv+L5mn006pfroGYB5NgE0Ko085mUIhai2y3Cf7TwIC0CnwNFlBqe0sALyPcI/E5L5nYFFMV6jFtQ33DoO6cNGe+Wfi4SoGjitb1Mpf5hbOkQaaOzYDl+0j4r0FBZEIpEocyZcV1B1n36n3hD7qaLCWzxjjldoW4pnbBC8yQ+HzrQAlrLM7S9a7Tlv2lnXKlVidJjVEsXpBPMYdPzbKFWk6ki3v1/N6zd0VXSxlzHolZPi+ncOujqizr0S/ZpKtowgj0pMPw9qqUQMX41ONHdmf3pRGbY0XFguXPLkeTdAoFyCaHa4MCPqruFrxggDE0pmkYfvJKLDz3Ip5YHaA9HHOXgMsqB6TtgruymZTDMFd8mJFYoNU/U3YGlY3nHAQpmK4sQxw5Dg3FAVPUgkSYgec1Vj6B1aEgC1HIw/CliOnWUoaS7PdGpIcqkqX+PnC21abM2Uqcscd8YYxVt8flcYl3fFCynI1GVarPdO1YnOw1BgSG0wGTqQm8MMP6tT+OizmVjLT4dGsuUHWtzmMaUFzGTXk2YpQxaG+n9wHA9rg84lG9dhHE+Qdnx9UnHKSrW7tXauDwa1p6qobsjSyDh53ECtYpx1J3ldy/us3UZI1RxVDKjsPnr/w==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK0PR06MB2834.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(396003)(39840400004)(366004)(136003)(376002)(346002)(53546011)(66446008)(33656002)(186003)(26005)(8676002)(64756008)(66476007)(66946007)(66556008)(9686003)(55016003)(7696005)(6506007)(71200400001)(38070700005)(7416002)(8936002)(5660300002)(2906002)(4326008)(76116006)(52536014)(86362001)(316002)(38100700002)(54906003)(122000001)(508600001)(83380400001)(107886003)(6916009);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?big5?B?VjQvSm1PbGlKNWRRQnRNdlkybDBHMTgrMzhDellybHQ1VUx3Y0JCZGpmVXVoZHBK?=
+ =?big5?B?bVVSVmFoWTBvdWRaUjBPNE1RdWFWRjdVYjU3VUdzanNOcWFrcDRYUHNKQU52TitK?=
+ =?big5?B?RGxZQ3NoT285aExkWlk2WEpnbC9oR1Z5NStJWmdlWmVyWHhlZFVkN1E4WVdiaDgr?=
+ =?big5?B?ajgvZktiUk5pVWpObXJqeUVWQnRMQS9kWDJnYVBCTm9DM2R3VDBCUlZEeG9yZ1hm?=
+ =?big5?B?aE96ZHZKSjM4dkxCdzU1cS9aSnVxQ21nUXdTam00cWlwSzJsdEoraUlwb2Vvaktu?=
+ =?big5?B?cEp5a1pYTGFGaTBhcEw1VmM3NmlCd1IxWEhjamQzTGlSeUpNYWdVRm5vQzMreE5h?=
+ =?big5?B?RmZyQzhTb09hcTYvSENUb3JqUlNiVU9QcnNLRGFZVUk0MnB1N3UyaDM2bERYalVG?=
+ =?big5?B?d2l2MU5hNnRqa2JnMksyYXUrRjJhVXlPRkFka0MwRHNBM2N5LzZPbmlDZ1lTakVT?=
+ =?big5?B?ZmdaQlRJM2NEclplSXRvUXBkb01vNmFZOEVwZW1rNGs2eXlhakNzcW9HalFzL25P?=
+ =?big5?B?VGVEZFFXaHlzZ3czM09NaFU0cXg0UStvaGpFemw0cFNWa241Z3F0WnRqdGtYZXZP?=
+ =?big5?B?anVjNmZuU1hJOWtvSkxIbG9RM2paTkowdVY5cCt5UnIxeFNSc0JWS2xWbFdLeUll?=
+ =?big5?B?cXRyZlJSTFB5TGdCekJUSWNQeFJveFpFOVJMdmU3dHhrdWNYTmlXc0pveUIwTkNv?=
+ =?big5?B?VXNSSnFkR2xQTTkzTWlqRUFLb0NvU2NWcStaVHJzQ0pQcHVaV1FRWWE4aHIzM29l?=
+ =?big5?B?VVRMMWYrekRpTzMzQ0YwbmU0NW9kalllbHRkTVdPbjlzcmN5OXJSdCt3cGVWcU9o?=
+ =?big5?B?aG5iWFhIWU9zYW5QdE9LS3V1emYyZWFpOGVmRVlEL2NLQVJTa1k3ZG5VMHNOd0pN?=
+ =?big5?B?eXRTd3BuVG1mTzROYnJVM0tKMWJMcDBGalc4NXlJckNFVTM2c3hmM3lJMHFCVW9r?=
+ =?big5?B?STcvbXRUTStkMXUzRkt4MjVoV2l3czFWbGJidGpHUndaNnhHWlB6TElVdnJPekll?=
+ =?big5?B?bG5ieU5NeWVMeUVDUlFieU5jaEZlWVAwajIySXp4SERQb1NEdnV4T0lCMTVFRjlF?=
+ =?big5?B?TFdtN0U4aFJvZU5BWW1CeERYOS9FcVI3c3Vya2xtYUwzVnUzQXB5WFBJeFBnSTlP?=
+ =?big5?B?UTdURStHd2pTUjhHc2ovSzgwclRaOG41Tjc2RHdrc2x3cjBNOU96Q2dwdjlSR1lG?=
+ =?big5?B?WjVWamV6cW1ndkp4Zi9GNHFXRlpXeVJYellBMWdTd0dxaGIyQVBFYjJHR1grMlRv?=
+ =?big5?B?NmlXR3lka3F6UjB2UjJuRk13Z3N6K3JISk4ycytaZ3IxRzlTbHlqZ1pVTTNBU01P?=
+ =?big5?B?MFczSjJhdVpvYmRCaUNXYnJRc3ZjTGtEbnJSdDBaaGZlelFBZ1lGWm1HMkYvMHB4?=
+ =?big5?B?ejE1Q2pQbE1wMzY0YTVpL3ZnZzhIM3RvNVArandPUCtXYnRkTlh3bVF6bU9RUGw1?=
+ =?big5?B?c3FpK1VwVm5UVXQxQWozeTg3VStSVVFQQ05jdHlGQWttS0JDRURjWGh6WmhmY28w?=
+ =?big5?B?RCtqcXFPZ2toNFlpRG5nQmRLNEJzaWlaem41N2pSNGQ5S3h1dkZqYXdFb2FTbkxI?=
+ =?big5?B?U0tvRGpyTnYxSHZQdVZPdEhlQzlGUW9uemdOcVJndVN1SlVNWnF1aG5rdGF2ekRt?=
+ =?big5?B?S2c0cmRWQmFGbVdxbmJkNVdKTXpKelhubVErZHh2YkNWbmxnbG0xaWVjZHdHWk54?=
+ =?big5?B?L0wwKzFvcWU1U3NYYllQZno3ZGRPWXBRaENZNkxwT0FVNGZkbFZPTzFwdkl0dEox?=
+ =?big5?B?bi9icTBrK0IzYloyeUxxc3NUR3I3VUZFaWlVb01UdlB2TkJCU0ZOclN2NWVOeFha?=
+ =?big5?B?UWpEdEI0SjV1N1dOTmJONUUzOWowMmhWYzdzQlJnQmQxb3lYclhKZVlTRkdFZ2FQ?=
+ =?big5?B?VVJKOU5BPT0=?=
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-aspeed@lists.ozlabs.org
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK0PR06MB2834.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f57fd5e-7233-4427-4e99-08da0be3cf0d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Mar 2022 09:10:28.4490 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EZviLM48Y6jWNUmrCPRijCBPXzjOYxtfeqa1iuvJyrv+wNp1IzOvrNMkUVH5TNZFE4lxhN2Nzp7FcvAAALzHkE/ez8RYPiekhUpNKU7Hy4s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR06MB2335
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,11 +141,10 @@ Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
  BMC-SW <BMC-SW@aspeedtech.com>,
  "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
  "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
- Krzysztof Kozlowski <krzk@kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>, "kuba@kernel.org" <kuba@kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- "pabeni@redhat.com" <pabeni@redhat.com>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
  "davem@davemloft.net" <davem@davemloft.net>,
  "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
  "hkallweit1@gmail.com" <hkallweit1@gmail.com>
@@ -82,91 +152,27 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Di, 2022-03-22 at 03:22 +0000, Dylan Hung wrote:
-> > -----Original Message-----
-> > From: Andrew Lunn [mailto:andrew@lunn.ch]
-> > Sent: 2022=E5=B9=B43=E6=9C=8822=E6=97=A5 11:01 AM
-> > To: Dylan Hung <dylan_hung@aspeedtech.com>
-> > Cc: Krzysztof Kozlowski <krzk@kernel.org>; robh+dt@kernel.org;
-> > joel@jms.id.au; andrew@aj.id.au; hkallweit1@gmail.com;
-> > linux@armlinux.org.uk; davem@davemloft.net; kuba@kernel.org;
-> > pabeni@redhat.com; p.zabel@pengutronix.de;=20
-> > devicetree@vger.kernel.org;
-> > linux-arm-kernel@lists.infradead.org;
-> > linux-aspeed@lists.ozlabs.org;
-> > linux-kernel@vger.kernel.org; netdev@vger.kernel.org; BMC-SW
-> > <BMC-SW@aspeedtech.com>; stable@vger.kernel.org
-> > Subject: Re: [PATCH v2 3/3] ARM: dts: aspeed: add reset properties
-> > into MDIO
-> > nodes
-> >=20
-> > On Tue, Mar 22, 2022 at 02:32:13AM +0000, Dylan Hung wrote:
-> > > > -----Original Message-----
-> > > > From: Krzysztof Kozlowski [mailto:krzk@kernel.org]
-> > > > Sent: 2022=E5=B9=B43=E6=9C=8821=E6=97=A5 11:53 PM
-> > > > To: Dylan Hung <dylan_hung@aspeedtech.com>; robh+dt@kernel.org;
-> > > > joel@jms.id.au; andrew@aj.id.au; andrew@lunn.ch;
-> > > > hkallweit1@gmail.com; linux@armlinux.org.uk;=20
-> > > > davem@davemloft.net;
-> > > > kuba@kernel.org; pabeni@redhat.com; p.zabel@pengutronix.de;
-> > > > devicetree@vger.kernel.org;=20
-> > > > linux-arm-kernel@lists.infradead.org;
-> > > > linux-aspeed@lists.ozlabs.org; linux-kernel@vger.kernel.org;
-> > > > netdev@vger.kernel.org
-> > > > Cc: BMC-SW <BMC-SW@aspeedtech.com>; stable@vger.kernel.org
-> > > > Subject: Re: [PATCH v2 3/3] ARM: dts: aspeed: add reset
-> > > > properties
-> > > > into MDIO nodes
-> > > >=20
-> > > > On 21/03/2022 10:56, Dylan Hung wrote:
-> > > > > Add reset control properties into MDIO nodes.=C2=A0 The 4 MDIO
-> > > > > controllers in
-> > > > > AST2600 SOC share one reset control bit SCU50[3].
-> > > > >=20
-> > > > > Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
-> > > > > Cc: stable@vger.kernel.org
-> > > >=20
-> > > > Please describe the bug being fixed. See stable-kernel-rules.
-> > >=20
-> > > Thank you for your comment.
-> > > The reset deassertion of the MDIO device was usually done by the
-> > bootloader (u-boot).
-> > > However, one of our clients uses proprietary bootloader and
-> > > doesn't
-> > > deassert the MDIO reset so failed to access the HW in kernel
-> > > driver.
-> >=20
-> > So are you saying mainline u-boot releases the reset?
-> >=20
-> Yes, if the mdio devices are used in u-boot.
->=20
-> > > The reset deassertion is missing in the kernel driver since it
-> > > was
-> > > created, should I add a BugFix for the first commit of this
-> > > driver?
-> >=20
-> > Yes, that is normal. Ideally the kernel should not depend on u-
-> > boot, because
-> > often people want to use other bootloaders, e.g. barebox. You
-> > should also
-> > consider kexec, where one kernel hands over to another kernel,
-> > without the
-> > bootloader being involved. In such a situation, you ideally want to
-> > assert and
-> > deassert the reset just to clean away any state the old kernel left
-> > around.
-> >=20
-> > But please do note, that the reset is optional, since you need to
-> > be able to
-> > work with old DT blobs which don't have the reset property in them.
-> >=20
->=20
-> Thank you. I will let the reset property be optional and modify the
-> error-checking in the driver accordingly in V3.
-
-No need to change the error checking, just use=20
-devm_reset_control_get_optional_shared().
-
-
-regards
-Philipp
+SGkgQW5kcmV3LA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEFuZHJl
+dyBMdW5uIFttYWlsdG86YW5kcmV3QGx1bm4uY2hdDQo+IFNlbnQ6IDIwMjKmfjOk6zIxpOkgODox
+MSBQTQ0KPiBUbzogRHlsYW4gSHVuZyA8ZHlsYW5faHVuZ0Bhc3BlZWR0ZWNoLmNvbT4NCj4gQ2M6
+IHJvYmgrZHRAa2VybmVsLm9yZzsgam9lbEBqbXMuaWQuYXU7IGFuZHJld0Bhai5pZC5hdTsNCj4g
+aGthbGx3ZWl0MUBnbWFpbC5jb207IGxpbnV4QGFybWxpbnV4Lm9yZy51azsgZGF2ZW1AZGF2ZW1s
+b2Z0Lm5ldDsNCj4ga3ViYUBrZXJuZWwub3JnOyBwYWJlbmlAcmVkaGF0LmNvbTsgcC56YWJlbEBw
+ZW5ndXRyb25peC5kZTsNCj4gZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWFybS1r
+ZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZzsNCj4gbGludXgtYXNwZWVkQGxpc3RzLm96bGFicy5v
+cmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7DQo+IG5ldGRldkB2Z2VyLmtlcm5lbC5v
+cmc7IEJNQy1TVyA8Qk1DLVNXQGFzcGVlZHRlY2guY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENI
+IDAvMl0gQWRkIHJlc2V0IGRlYXNzZXJ0aW9uIGZvciBBc3BlZWQgTURJTw0KPiANCj4gT24gTW9u
+LCBNYXIgMjEsIDIwMjIgYXQgMDM6MDE6MjlQTSArMDgwMCwgRHlsYW4gSHVuZyB3cm90ZToNCj4g
+PiBBZGQgbWlzc2luZyByZXNldCBkZWFzc2VydGlvbiBmb3IgQXNwZWVkIE1ESU8uIFRoZXJlIGFy
+ZSA0IE1ESU9zDQo+ID4gZW1iZWRkZWQgaW4gQXNwZWVkIEFTVDI2MDAgYW5kIHNoYXJlIG9uZSBy
+ZXNldCBjb250cm9sIGJpdCBTQ1U1MFszXS4NCj4gDQo+IElzIHRoZSByZXNldCBsaW1pdGVkIHRv
+IHRoZSBNRElPIGJ1cyBtYXN0ZXJzLCBvciBhcmUgUEhZcyBvbmUgdGhlIGJ1cw0KPiBwb3RlbnRp
+YWxseSBhbHNvIHJlc2V0Pw0KDQpJdCBpcyBsaW1pdGVkIHRvIHRoZSBNRElPIGJ1cyBtYXN0ZXJz
+Lg0KDQo+IA0KPiBXaG8gYXNzZXJ0cyB0aGUgcmVzZXQgaW4gdGhlIGZpcnN0IHBsYWNlPyANCg0K
+VGhlIGhhcmR3YXJlIGFzc2VydHMgdGhlIHJlc2V0IGJ5IGRlZmF1bHQuDQoNCj4gRG9uJ3QgeW91
+IHdhbnQgdGhlIGZpcnN0IE1ESU8gYnVzIHRvDQo+IHByb2JlIHRvIGFzc2VydCBhbmQgdGhlbiBk
+ZWFzc2VydCB0aGUgcmVzZXQgaW4gb3JkZXIgdGhhdCBhbGwgdGhlIGhhcmR3YXJlIGlzDQo+IHJl
+c2V0Pw0KDQpEbyBJIHN0aWxsIG5lZWQgdG8gYWRkIGEgcmVzZXQgYXNzZXJ0aW9uL2RlYXNzZXJ0
+aW9uIGlmIHRoZSBoYXJkd2FyZSBhc3NlcnRzIHRoZSByZXNldCBieSBkZWZhdWx0Pw0KDQo+IA0K
+PiAgICAgQW5kcmV3DQoNCi0tDQpEeWxhbg0KDQo=
