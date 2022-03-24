@@ -1,83 +1,78 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94694E70C1
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 11:10:01 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id B88464E729C
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 13:00:08 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KPyWW5QlGz30Bm
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 21:09:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KQ0yZ4sNcz30Dv
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 23:00:06 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=XZ7OPtxv;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=XZ7OPtxv;
+	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org;
- spf=softfail (domain owner discourages use of this
- host) smtp.mailfrom=kaod.org (client-ip=148.163.156.1;
- helo=mx0a-001b2d01.pphosted.com; envelope-from=clg@kaod.org;
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
+ smtp.mailfrom=redhat.com (client-ip=170.10.133.124;
+ helo=us-smtp-delivery-124.mimecast.com; envelope-from=hdegoede@redhat.com;
  receiver=<UNKNOWN>)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256
+ header.s=mimecast20190719 header.b=XZ7OPtxv; 
+ dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com
+ header.a=rsa-sha256 header.s=mimecast20190719 header.b=XZ7OPtxv; 
+ dkim-atps=neutral
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KPyW86zx0z2yHc
- for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Mar 2022 21:09:40 +1100 (AEDT)
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22P8oIMP016467; 
- Fri, 25 Mar 2022 10:09:16 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3f0gnk1qrh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Mar 2022 10:09:16 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 22P9w5Ql004280;
- Fri, 25 Mar 2022 10:09:13 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma03ams.nl.ibm.com with ESMTP id 3ew6t94x4f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 25 Mar 2022 10:09:13 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 22PA9Bq149348926
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 25 Mar 2022 10:09:11 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8E84011C04A;
- Fri, 25 Mar 2022 10:09:11 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E24A211C04C;
- Fri, 25 Mar 2022 10:09:10 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri, 25 Mar 2022 10:09:10 +0000 (GMT)
-Received: from yukon.ibmuc.com (unknown [9.171.95.248])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 4A760220158;
- Fri, 25 Mar 2022 11:09:09 +0100 (CET)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: linux-spi@vger.kernel.org, linux-mtd@lists.infradead.org
-Subject: [PATCH v4 11/11] mtd: spi-nor: aspeed: set the decoding size to at
- least 2MB for AST2600
-Date: Fri, 25 Mar 2022 11:08:49 +0100
-Message-Id: <20220325100849.2019209-12-clg@kaod.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220325100849.2019209-1-clg@kaod.org>
-References: <20220325100849.2019209-1-clg@kaod.org>
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KPWfY6tLVz3048
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Mar 2022 03:59:32 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648141167;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=b/sS1I4x2XsmlSGjKr1ZTMhx5qQzprN548q1C8bCjuA=;
+ b=XZ7OPtxvW5kkPqJ/J4zGNTCvY1ggLTMzqv64m+FjUfBvULQ8dURDTDNqZasnONSaD/aiDp
+ aQIUhA3oZ57fS6pqzvmMC8+0CsiPzzc0KepUiOW96+kgwUcVALt6GT5kbeqWyiahuUSjUx
+ HvwHg5YTshmPcF+yB81EVoBILzQjsbk=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648141167;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=b/sS1I4x2XsmlSGjKr1ZTMhx5qQzprN548q1C8bCjuA=;
+ b=XZ7OPtxvW5kkPqJ/J4zGNTCvY1ggLTMzqv64m+FjUfBvULQ8dURDTDNqZasnONSaD/aiDp
+ aQIUhA3oZ57fS6pqzvmMC8+0CsiPzzc0KepUiOW96+kgwUcVALt6GT5kbeqWyiahuUSjUx
+ HvwHg5YTshmPcF+yB81EVoBILzQjsbk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-18-08azyXoUOjCal3lrW4fzKA-1; Thu, 24 Mar 2022 12:59:24 -0400
+X-MC-Unique: 08azyXoUOjCal3lrW4fzKA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 792FD1C0E341;
+ Thu, 24 Mar 2022 16:59:23 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7F160C15D7D;
+ Thu, 24 Mar 2022 16:59:19 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: "Rafael J . Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Zhang Rui <rui.zhang@intel.com>, Huang Jianan <huangjianan@oppo.com>,
+ Chia-Wei Wang <chiawei_wang@aspeedtech.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH 0/3] Documentation/ABI/testing: Sphinx warning fixes
+Date: Thu, 24 Mar 2022 17:59:15 +0100
+Message-Id: <20220324165918.22005-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: dLn_uyNuaBgXXxkKZwl1H-aVA55JLQjM
-X-Proofpoint-ORIG-GUID: dLn_uyNuaBgXXxkKZwl1H-aVA55JLQjM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-03-25_02,2022-03-24_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- phishscore=0 spamscore=0 bulkscore=0 priorityscore=1501 mlxscore=0
- mlxlogscore=896 clxscore=1034 suspectscore=0 malwarescore=0 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2203250057
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+X-Mailman-Approved-At: Fri, 25 Mar 2022 23:00:04 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,77 +84,44 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
- linux-aspeed@lists.ozlabs.org, Tudor Ambarus <tudor.ambarus@microchip.com>,
- Richard Weinberger <richard@nod.at>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Potin Lai <potin.lai@quantatw.com>,
- Mark Brown <broonie@kernel.org>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Pratyush Yadav <p.yadav@ti.com>, linux-arm-kernel@lists.infradead.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, linux-aspeed@lists.ozlabs.org,
+ linux-pm@vger.kernel.org, Amit Kucheria <amitk@kernel.org>,
+ linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+ Gao Xiang <hsiangkao@linux.alibaba.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Potin Lai <potin.lai@quantatw.com>
+Hi All,
 
-In AST2600, the unit of SPI CEx decoding range register is 1MB, and end
-address offset is set to the acctual offset - 1MB. If the flash only has
-1MB, the end address will has same value as start address, which will
-causing unexpected errors.
+After Stephen reported some Sphinx warnings for the platform-drivers-x86,
+I had to first figure out how to reproduce these. It turns out that to
+regenerate the htmldocs for Documentation/ABI/testing one has to run:
 
-This patch set the decoding size to at least 2MB to avoid decoding errors=
-.
+touch Documentation/admin-guide/abi-testing.rst && make htmldocs
 
-Tested:
-root@bletchley:~# dmesg | grep "aspeed-smc 1e631000.spi: CE0 window"
-[   59.328134] aspeed-smc 1e631000.spi: CE0 window resized to 2MB (AST260=
-0 Decoding)
-[   59.343001] aspeed-smc 1e631000.spi: CE0 window [ 0x50000000 - 0x50200=
-000 ] 2MB
-root@bletchley:~# devmem 0x1e631030
-0x00100000
+This turned up not only warnings from platform/x86 driver ABI but also
+for some others. While at it I've written fixes for those too.
 
-Signed-off-by: Potin Lai <potin.lai@quantatw.com>
-[ clg : Ported on new spi-mem driver ]
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- drivers/spi/spi-aspeed-smc.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+I'm not sure how these should be merged, I guess that the relevant
+subsys maintainers will pick these up?
 
-diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
-index 660451667a39..227797e13997 100644
---- a/drivers/spi/spi-aspeed-smc.c
-+++ b/drivers/spi/spi-aspeed-smc.c
-@@ -466,6 +466,8 @@ static int aspeed_spi_set_window(struct aspeed_spi *a=
-spi,
-  *   is correct.
-  */
- static const struct aspeed_spi_data ast2500_spi_data;
-+static const struct aspeed_spi_data ast2600_spi_data;
-+static const struct aspeed_spi_data ast2600_fmc_data;
-=20
- static int aspeed_spi_chip_adjust_window(struct aspeed_spi_chip *chip,
- 					 u32 local_offset, u32 size)
-@@ -489,6 +491,17 @@ static int aspeed_spi_chip_adjust_window(struct aspe=
-ed_spi_chip *chip,
- 			 chip->cs, size >> 20);
- 	}
-=20
-+	/*
-+	 * The decoding size of AST2600 SPI controller should set at
-+	 * least 2MB.
-+	 */
-+	if ((aspi->data =3D=3D &ast2600_spi_data || aspi->data =3D=3D &ast2600_=
-fmc_data) &&
-+	    size < SZ_2M) {
-+		size =3D SZ_2M;
-+		dev_info(aspi->dev, "CE%d window resized to %dMB (AST2600 Decoding)",
-+			 chip->cs, size >> 20);
-+	}
-+
- 	aspeed_spi_get_windows(aspi, windows);
-=20
- 	/* Adjust this chip window */
---=20
-2.34.1
+Regards,
+
+Hans
+   
+
+Hans de Goede (3):
+  Documentation/ABI: sysfs-driver-aspeed-uart-routing: Fix sphinx
+    warning
+  Documentation/ABI: sysfs-class-thermal: Fix Sphinx warning
+  Documentation/ABI: sysfs-fs-erofs: Fix Sphinx errors
+
+ Documentation/ABI/testing/sysfs-class-thermal              | 2 +-
+ Documentation/ABI/testing/sysfs-driver-aspeed-uart-routing | 7 ++++---
+ Documentation/ABI/testing/sysfs-fs-erofs                   | 5 +++--
+ 3 files changed, 8 insertions(+), 6 deletions(-)
+
+-- 
+2.35.1
 
