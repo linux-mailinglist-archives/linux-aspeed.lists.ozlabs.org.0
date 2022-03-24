@@ -1,73 +1,65 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3BFE4E646F
-	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Mar 2022 14:52:22 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEFA74E6734
+	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Mar 2022 17:46:38 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KPRVX3Lqsz30BV
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 00:52:20 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KPWMc5ptlz30Bk
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 03:46:36 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcdkim header.b=j67ZlDZV;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcdkim header.b=cBLRoANa;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=quicinc.com (client-ip=129.46.98.28; helo=alexa-out.qualcomm.com;
- envelope-from=quic_jaehyoo@quicinc.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=quicinc.com (client-ip=199.106.114.38;
+ helo=alexa-out-sd-01.qualcomm.com; envelope-from=quic_jaehyoo@quicinc.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256
- header.s=qcdkim header.b=j67ZlDZV; dkim-atps=neutral
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KPRVR0yhDz2x9S
- for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Mar 2022 00:52:14 +1100 (AEDT)
+ header.s=qcdkim header.b=cBLRoANa; dkim-atps=neutral
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KPWMY0XmJz2yyG
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Mar 2022 03:46:32 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648129935; x=1679665935;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=Ny+OtPA6h21ghUzgKKjrwXzddS0ScrUMnjIeLdzE4yo=;
- b=j67ZlDZVRTZukLh47DrT7giq0n+Q27mLGFejrUuuPZBy5yHunZ0t3Vd/
- P8yZvipdkQ+72hMm98BoRqLgcqWY1Y0DEJCXalIxvXRC4tRnojGdCOQS8
- f6xlSIRvKmCfdQImxjI42qBUkmF1vLeTi84pEVUgnXKADljhGc781nWAo c=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 24 Mar 2022 06:51:12 -0700
+ t=1648140393; x=1679676393;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=lwto1VwnvH6iLJmIEmMj6s7xMVgsBA6iULINLgVR2pc=;
+ b=cBLRoANalMbX8It7uvnV38SOFImdft+a6RQnUbiMd2QDBY+lqZCZol00
+ 2jcY45BdanocXmAb4AGSKIG+xWeOm65aRJSmOrvFNviV19BmfWTeq4OQK
+ wzAxZQBw6gTbQQ/P8olzTN+kaOtbxJrd6PyTSw/rQynEFgip2Fjczro76 o=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 24 Mar 2022 09:46:31 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 06:51:12 -0700
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Mar 2022 09:46:30 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 24 Mar 2022 06:51:11 -0700
-Received: from [10.110.37.17] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ 15.2.986.22; Thu, 24 Mar 2022 09:46:30 -0700
+Received: from maru.qualcomm.com (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 24 Mar
- 2022 06:51:10 -0700
-Message-ID: <527e9d9e-0dac-3a97-da83-068891a41381@quicinc.com>
-Date: Thu, 24 Mar 2022 06:51:09 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v1 2/3] dt-bindings: clock: Add AST2600 video engine reset
- definition
-Content-Language: en-US
-To: Howard Chiu <howard_chiu@aspeedtech.com>, "robh+dt@kernel.org"
- <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "andrew@aj.id.au"
- <andrew@aj.id.au>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
- <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-References: <SG2PR06MB2315F68B23BB0998B8F7E93EE6199@SG2PR06MB2315.apcprd06.prod.outlook.com>
+ 2022 09:46:29 -0700
 From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-In-Reply-To: <SG2PR06MB2315F68B23BB0998B8F7E93EE6199@SG2PR06MB2315.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
+ Jeffery" <andrew@aj.id.au>
+Subject: [PATCH] ARM: dts: aspeed: add Nuvia DC-SCM BMC
+Date: Thu, 24 Mar 2022 09:45:51 -0700
+Message-ID: <20220324164551.359570-1-quic_jaehyoo@quicinc.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -80,35 +72,233 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Jamie Iles <quic_jiles@quicinc.com>,
+ Graeme Gregory <quic_ggregory@quicinc.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+From: Graeme Gregory <quic_ggregory@quicinc.com>
 
+Add initial version of device tree for Nuvia DC-SCM BMC which is
+equipped with Aspeed AST2600 BMC SoC.
 
-On 3/24/2022 12:27 AM, Howard Chiu wrote:
-> Reset bit for VE is 6
-> 
-> Signed-off-by: Howard Chiu <howard_chiu@aspeedtech.com>
-> ---
->   include/dt-bindings/clock/ast2600-clock.h | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/include/dt-bindings/clock/ast2600-clock.h b/include/dt-bindings/clock/ast2600-clock.h
-> index 62b9520a00fd..a7d0ad9539eb 100644
-> --- a/include/dt-bindings/clock/ast2600-clock.h
-> +++ b/include/dt-bindings/clock/ast2600-clock.h
-> @@ -110,6 +110,7 @@
->   #define ASPEED_RESET_PCIE_DEV_OEN	20
->   #define ASPEED_RESET_PCIE_RC_O		19
->   #define ASPEED_RESET_PCIE_RC_OEN	18
-> +#define ASPEED_RESET_VIDEO		6
+Signed-off-by: Graeme Gregory <quic_ggregory@quicinc.com>
+Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+---
+ arch/arm/boot/dts/Makefile                    |   1 +
+ arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts | 188 ++++++++++++++++++
+ 2 files changed, 189 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
 
-You don't need to add 'resets' for video node in DT so it wouldn't be
-needed.
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index ec801dc22b61..22c515ca20f2 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -1486,6 +1486,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+ 	aspeed-bmc-lenovo-hr630.dtb \
+ 	aspeed-bmc-lenovo-hr855xg2.dtb \
+ 	aspeed-bmc-microsoft-olympus.dtb \
++	aspeed-bmc-nuvia-dc-scm.dtb \
+ 	aspeed-bmc-opp-lanyang.dtb \
+ 	aspeed-bmc-opp-mihawk.dtb \
+ 	aspeed-bmc-opp-mowgli.dtb \
+diff --git a/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts b/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
+new file mode 100644
+index 000000000000..54ac6b30c213
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
+@@ -0,0 +1,188 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++// Copyright (c) 2021-2022 Qualcomm Innovation Center, Inc. All rights reserved.
++
++/dts-v1/;
++
++#include "aspeed-g6.dtsi"
++
++/ {
++	model = "Nuvia DC-SCM BMC";
++	compatible = "nuvia,dc-scm-bmc", "aspeed,ast2600";
++
++	aliases {
++		serial4 = &uart5;
++	};
++
++	chosen {
++		bootargs = "console=ttyS4,115200n8";
++	};
++
++	memory@80000000 {
++		device_type = "memory";
++		reg = <0x80000000 0x40000000>;
++	};
++};
++
++&mdio3 {
++	status = "okay";
++
++	ethphy3: ethernet-phy@1 {
++		compatible = "ethernet-phy-ieee802.3-c22";
++		reg = <1>;
++	};
++};
++
++&mac2 {
++	status = "okay";
++
++	phy-mode = "rgmii";
++	phy-handle = <&ethphy3>;
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rgmii3_default>;
++};
++
++&mac3 {
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rmii4_default>;
++
++	use-ncsi;
++};
++
++&rtc {
++	status = "okay";
++};
++
++&fmc {
++	status = "okay";
++
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "bmc";
++		spi-max-frequency = <133000000>;
++#include "openbmc-flash-layout-64.dtsi"
++	};
++
++	flash@1 {
++		status = "okay";
++		m25p,fast-read;
++		label = "alt-bmc";
++		spi-max-frequency = <133000000>;
++#include "openbmc-flash-layout-64-alt.dtsi"
++	};
++};
++
++&spi1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_spi1_default>;
++
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "bios";
++		spi-max-frequency = <133000000>;
++	};
++};
++
++&gpio0 {
++	gpio-line-names =
++	/*A0-A7*/	"","","","","","","","",
++	/*B0-B7*/	"BMC_FLASH_MUX_SEL","","","","","","","",
++	/*C0-C7*/	"","","","","","","","",
++	/*D0-D7*/	"","","","","","","","",
++	/*E0-E7*/	"","","","","","","","",
++	/*F0-F7*/	"","","","","","","","",
++	/*G0-G7*/	"","","","","","","","",
++	/*H0-H7*/	"","","","","","","","",
++	/*I0-I7*/	"","","","","","","","",
++	/*J0-J7*/	"","","","","","","","",
++	/*K0-K7*/	"","","","","","","","",
++	/*L0-L7*/	"","","","","","","","",
++	/*M0-M7*/	"","","","","","","","",
++	/*N0-N7*/	"BMC_FWSPI_RST_N","","GPIO_1_BMC_3V3","","","","","",
++	/*O0-O7*/	"JTAG_MUX_A","JTAG_MUX_B","","","","","","",
++	/*P0-P7*/	"","","","","","","","",
++	/*Q0-Q7*/	"","","","","","","","",
++	/*R0-R7*/	"","","","","","","","",
++	/*S0-S7*/	"","","","","","","","",
++	/*T0-T7*/	"","","","","","","","",
++	/*U0-U7*/	"","","","","","","","",
++	/*V0-V7*/	"","","","SCMFPGA_SPARE_GPIO1_3V3",
++			"SCMFPGA_SPARE_GPIO2_3V3","SCMFPGA_SPARE_GPIO3_3V3",
++			"SCMFPGA_SPARE_GPIO4_3V3","SCMFPGA_SPARE_GPIO5_3V3",
++	/*W0-W7*/	"","","","","","","","",
++	/*X0-X7*/	"","","","","","","","",
++	/*Y0-Y7*/	"","","","","","","","",
++	/*Z0-Z7*/	"","","","","","","","",
++	/*AA0-AA7*/	"","","","","","","","",
++	/*AB0-AB7*/	"","","","","","","","",
++	/*AC0-AC7*/	"","","","","","","","";
++};
++
++&gpio1 {
++	gpio-line-names =
++	/*A0-A7*/	"GPI_1_BMC_1V8","","","","","",
++			"SCMFPGA_SPARE_GPIO1_1V8","SCMFPGA_SPARE_GPIO2_1V8",
++	/*B0-B7*/	"SCMFPGA_SPARE_GPIO3_1V8","SCMFPGA_SPARE_GPIO4_1V8",
++			"SCMFPGA_SPARE_GPIO5_1V8","","","","","",
++	/*C0-C7*/	"","","","","","","","",
++	/*D0-D7*/	"","BMC_SPI1_RST_N","BIOS_FLASH_MUX_SEL","",
++			"","TPM2_PIRQ_N","TPM2_RST_N","",
++	/*E0-E7*/	"","","","","","","","";
++};
++
++&i2c2 {
++	status = "okay";
++};
++
++&i2c4 {
++	status = "okay";
++};
++
++&i2c5 {
++	status = "okay";
++};
++
++&i2c6 {
++	status = "okay";
++};
++
++&i2c7 {
++	status = "okay";
++};
++
++&i2c8 {
++	status = "okay";
++};
++
++&i2c9 {
++	status = "okay";
++};
++
++&i2c10 {
++	status = "okay";
++};
++
++&i2c12 {
++	status = "okay";
++};
++
++&i2c13 {
++	status = "okay";
++};
++
++&i2c14 {
++	status = "okay";
++};
++
++&i2c15 {
++	status = "okay";
++};
++
++&vhub {
++	status = "okay";
++};
+-- 
+2.25.1
 
--Jae
-
->   #define ASPEED_RESET_PCI_DP		5
->   #define ASPEED_RESET_AHB		1
->   #define ASPEED_RESET_SDRAM		0
