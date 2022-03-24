@@ -1,66 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEFA74E6734
-	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Mar 2022 17:46:38 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9EC4E691F
+	for <lists+linux-aspeed@lfdr.de>; Thu, 24 Mar 2022 20:11:39 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KPWMc5ptlz30Bk
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 03:46:36 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KPZZt50Wwz30BK
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 06:11:34 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcdkim header.b=cBLRoANa;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=weWqZdGO;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=quicinc.com (client-ip=199.106.114.38;
- helo=alexa-out-sd-01.qualcomm.com; envelope-from=quic_jaehyoo@quicinc.com;
+ smtp.mailfrom=linaro.org (client-ip=2607:f8b0:4864:20::1135;
+ helo=mail-yw1-x1135.google.com; envelope-from=linus.walleij@linaro.org;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256
- header.s=qcdkim header.b=cBLRoANa; dkim-atps=neutral
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256
+ header.s=google header.b=weWqZdGO; dkim-atps=neutral
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
+ [IPv6:2607:f8b0:4864:20::1135])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KPWMY0XmJz2yyG
- for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Mar 2022 03:46:32 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648140393; x=1679676393;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=lwto1VwnvH6iLJmIEmMj6s7xMVgsBA6iULINLgVR2pc=;
- b=cBLRoANalMbX8It7uvnV38SOFImdft+a6RQnUbiMd2QDBY+lqZCZol00
- 2jcY45BdanocXmAb4AGSKIG+xWeOm65aRJSmOrvFNviV19BmfWTeq4OQK
- wzAxZQBw6gTbQQ/P8olzTN+kaOtbxJrd6PyTSw/rQynEFgip2Fjczro76 o=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 24 Mar 2022 09:46:31 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Mar 2022 09:46:30 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 24 Mar 2022 09:46:30 -0700
-Received: from maru.qualcomm.com (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 24 Mar
- 2022 09:46:29 -0700
-From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
- Jeffery" <andrew@aj.id.au>
-Subject: [PATCH] ARM: dts: aspeed: add Nuvia DC-SCM BMC
-Date: Thu, 24 Mar 2022 09:45:51 -0700
-Message-ID: <20220324164551.359570-1-quic_jaehyoo@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KPZZm2yDbz301s
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Mar 2022 06:11:25 +1100 (AEDT)
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-2e5827a76f4so61353317b3.6
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 24 Mar 2022 12:11:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nzI2Ptra96kLBKRjEaED+zGkgY7+4rTTAppT9oSKNJg=;
+ b=weWqZdGOagSSdbx8MBQitSlj+RV3DvRUBmB6zRGph1kdYeAHCYc2JtIfN96JP7c3IJ
+ oILG6ewHmmWiRtqDUmgGAEWyT4b3KnTi9VNJFfEs0XBY5/B9b+fqRGaJre0ZCVFm2w1Z
+ pCKDbSDBGsGhmYnDAwiq/nuRfcfXB0N4689EWt3gVmtV3pjupoCtWyUNxLDw9ndVVXfe
+ UBUedEjjdKsf1eIBfj7MnsXmSJ6k8C+SOI3PW9EP4k/wk/tMCf6RvBVouV/VyuzioaUM
+ Kcq9aoThof47R56iAs0jTRZbMQXE/Sv7WnuLjGDgSrfjjEM0ED4YdZwyKqyuushmoTC2
+ CtmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nzI2Ptra96kLBKRjEaED+zGkgY7+4rTTAppT9oSKNJg=;
+ b=5EGy6JGoJGME66aTT7Pw/n0H+whJVrrDhmAa80Ejg5EAQBosbFK8aY9YL/p2wFRLLq
+ 1kon3YuRTSWvU72HZpFI0Tvds91nuQQ1nfR5SkUeSNebYd3PM6QlTnwHaAl0gfozKuZN
+ QVdv+tqurgPxnIp0yfaqO17mZ4xeuPPXGWVEkHzqeqU0wcn96aP0gvgynFyHvBncVmCl
+ 5dQ7k8HqKTQoKqT1637ZyKWHZm9tWekMlM3kqODaJ5gotLS5areWtC69v+Bm1day+Kq3
+ eEPwGYjcNksTsXBHzvNVfRLV4/NGibTXi5u9s9QL+/10G2hW9gRq/LQqCjCVF0MkYA/I
+ DMOg==
+X-Gm-Message-State: AOAM533kikZ5oZv8LyPBKPSRWllOnWOHaj/4jyxI39g2mxw44d0j+vf9
+ 74THax//xkk1xHfpkURXkkpmnMujnQxaDOtbVormxg==
+X-Google-Smtp-Source: ABdhPJwGqpU6WKxIPdYbC87irVrC94guHnyeitOgVL8saG6LpgunCTzt36BGTJcLpTbXgk2xQ6Z5ANo2sxioQlWx6hc=
+X-Received: by 2002:a0d:d68e:0:b0:2e5:9f48:a24a with SMTP id
+ y136-20020a0dd68e000000b002e59f48a24amr6650614ywd.151.1648149079903; Thu, 24
+ Mar 2022 12:11:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+References: <20220308003745.3930607-1-quic_jaehyoo@quicinc.com>
+ <CACRpkdbFNLLve1-JntNW=eMT9ivZTZHBk-xpwK6w-kE0fczr+g@mail.gmail.com>
+ <CACPK8Xejcvv37uhGUXOTrbXJ=0O17tiDNizo9jtbRqHxyFiLhg@mail.gmail.com>
+In-Reply-To: <CACPK8Xejcvv37uhGUXOTrbXJ=0O17tiDNizo9jtbRqHxyFiLhg@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 24 Mar 2022 20:11:08 +0100
+Message-ID: <CACRpkdY72b3PWsmi98Fsirb3wVkskSpRhg+Anzf3xPSsa3EXZw@mail.gmail.com>
+Subject: Re: [PATCH 0/5] Fix AST2600 quad mode SPI pinmux settings
+To: Joel Stanley <joel@jms.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,233 +79,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Jamie Iles <quic_jiles@quicinc.com>,
+Cc: devicetree <devicetree@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ Jamie Iles <quic_jiles@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
  Graeme Gregory <quic_ggregory@quicinc.com>,
- linux-arm-kernel@lists.infradead.org
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Graeme Gregory <quic_ggregory@quicinc.com>
+On Thu, Mar 17, 2022 at 2:18 AM Joel Stanley <joel@jms.id.au> wrote:
+> On Thu, 17 Mar 2022 at 01:11, Linus Walleij <linus.walleij@linaro.org> wr=
+ote:
+> >
+> > On Tue, Mar 8, 2022 at 1:37 AM Jae Hyun Yoo <quic_jaehyoo@quicinc.com> =
+wrote:
+> >
+> > > I=E2=80=99m sending this patch series to fix current issues in AST260=
+0 pinmux
+> > > settings while enabling quad mode SPI support.
+> >
+> > Patches 2 & 3 applied to the pinctrl tree.
+> >
+> > Please funnel the DTS patches through the SoC tree.
+>
+> Thanks for jumping on this Linus. We're not sure that this is the
+> correct fix, Andrew is still reviewing (see the comments on patch 3):
+>
+>  https://lore.kernel.org/linux-arm-kernel/CACRpkdbFNLLve1-JntNW=3DeMT9ivZ=
+TZHBk-xpwK6w-kE0fczr+g@mail.gmail.com/T/#m2cdf4f8b55427d6040f5c13eb85dd656f=
+3579c48
+>
+> If you haven't pushed it out then please hold off. If you have, I'll
+> let Andrew jump in and recommend the best course of action.
 
-Add initial version of device tree for Nuvia DC-SCM BMC which is
-equipped with Aspeed AST2600 BMC SoC.
+I just dropped them again.
 
-Signed-off-by: Graeme Gregory <quic_ggregory@quicinc.com>
-Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
----
- arch/arm/boot/dts/Makefile                    |   1 +
- arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts | 188 ++++++++++++++++++
- 2 files changed, 189 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
-
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index ec801dc22b61..22c515ca20f2 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1486,6 +1486,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-lenovo-hr630.dtb \
- 	aspeed-bmc-lenovo-hr855xg2.dtb \
- 	aspeed-bmc-microsoft-olympus.dtb \
-+	aspeed-bmc-nuvia-dc-scm.dtb \
- 	aspeed-bmc-opp-lanyang.dtb \
- 	aspeed-bmc-opp-mihawk.dtb \
- 	aspeed-bmc-opp-mowgli.dtb \
-diff --git a/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts b/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
-new file mode 100644
-index 000000000000..54ac6b30c213
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
-@@ -0,0 +1,188 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+// Copyright (c) 2021-2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+
-+/dts-v1/;
-+
-+#include "aspeed-g6.dtsi"
-+
-+/ {
-+	model = "Nuvia DC-SCM BMC";
-+	compatible = "nuvia,dc-scm-bmc", "aspeed,ast2600";
-+
-+	aliases {
-+		serial4 = &uart5;
-+	};
-+
-+	chosen {
-+		bootargs = "console=ttyS4,115200n8";
-+	};
-+
-+	memory@80000000 {
-+		device_type = "memory";
-+		reg = <0x80000000 0x40000000>;
-+	};
-+};
-+
-+&mdio3 {
-+	status = "okay";
-+
-+	ethphy3: ethernet-phy@1 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <1>;
-+	};
-+};
-+
-+&mac2 {
-+	status = "okay";
-+
-+	phy-mode = "rgmii";
-+	phy-handle = <&ethphy3>;
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rgmii3_default>;
-+};
-+
-+&mac3 {
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii4_default>;
-+
-+	use-ncsi;
-+};
-+
-+&rtc {
-+	status = "okay";
-+};
-+
-+&fmc {
-+	status = "okay";
-+
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc";
-+		spi-max-frequency = <133000000>;
-+#include "openbmc-flash-layout-64.dtsi"
-+	};
-+
-+	flash@1 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "alt-bmc";
-+		spi-max-frequency = <133000000>;
-+#include "openbmc-flash-layout-64-alt.dtsi"
-+	};
-+};
-+
-+&spi1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_spi1_default>;
-+
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bios";
-+		spi-max-frequency = <133000000>;
-+	};
-+};
-+
-+&gpio0 {
-+	gpio-line-names =
-+	/*A0-A7*/	"","","","","","","","",
-+	/*B0-B7*/	"BMC_FLASH_MUX_SEL","","","","","","","",
-+	/*C0-C7*/	"","","","","","","","",
-+	/*D0-D7*/	"","","","","","","","",
-+	/*E0-E7*/	"","","","","","","","",
-+	/*F0-F7*/	"","","","","","","","",
-+	/*G0-G7*/	"","","","","","","","",
-+	/*H0-H7*/	"","","","","","","","",
-+	/*I0-I7*/	"","","","","","","","",
-+	/*J0-J7*/	"","","","","","","","",
-+	/*K0-K7*/	"","","","","","","","",
-+	/*L0-L7*/	"","","","","","","","",
-+	/*M0-M7*/	"","","","","","","","",
-+	/*N0-N7*/	"BMC_FWSPI_RST_N","","GPIO_1_BMC_3V3","","","","","",
-+	/*O0-O7*/	"JTAG_MUX_A","JTAG_MUX_B","","","","","","",
-+	/*P0-P7*/	"","","","","","","","",
-+	/*Q0-Q7*/	"","","","","","","","",
-+	/*R0-R7*/	"","","","","","","","",
-+	/*S0-S7*/	"","","","","","","","",
-+	/*T0-T7*/	"","","","","","","","",
-+	/*U0-U7*/	"","","","","","","","",
-+	/*V0-V7*/	"","","","SCMFPGA_SPARE_GPIO1_3V3",
-+			"SCMFPGA_SPARE_GPIO2_3V3","SCMFPGA_SPARE_GPIO3_3V3",
-+			"SCMFPGA_SPARE_GPIO4_3V3","SCMFPGA_SPARE_GPIO5_3V3",
-+	/*W0-W7*/	"","","","","","","","",
-+	/*X0-X7*/	"","","","","","","","",
-+	/*Y0-Y7*/	"","","","","","","","",
-+	/*Z0-Z7*/	"","","","","","","","",
-+	/*AA0-AA7*/	"","","","","","","","",
-+	/*AB0-AB7*/	"","","","","","","","",
-+	/*AC0-AC7*/	"","","","","","","","";
-+};
-+
-+&gpio1 {
-+	gpio-line-names =
-+	/*A0-A7*/	"GPI_1_BMC_1V8","","","","","",
-+			"SCMFPGA_SPARE_GPIO1_1V8","SCMFPGA_SPARE_GPIO2_1V8",
-+	/*B0-B7*/	"SCMFPGA_SPARE_GPIO3_1V8","SCMFPGA_SPARE_GPIO4_1V8",
-+			"SCMFPGA_SPARE_GPIO5_1V8","","","","","",
-+	/*C0-C7*/	"","","","","","","","",
-+	/*D0-D7*/	"","BMC_SPI1_RST_N","BIOS_FLASH_MUX_SEL","",
-+			"","TPM2_PIRQ_N","TPM2_RST_N","",
-+	/*E0-E7*/	"","","","","","","","";
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+};
-+
-+&i2c5 {
-+	status = "okay";
-+};
-+
-+&i2c6 {
-+	status = "okay";
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+};
-+
-+&i2c8 {
-+	status = "okay";
-+};
-+
-+&i2c9 {
-+	status = "okay";
-+};
-+
-+&i2c10 {
-+	status = "okay";
-+};
-+
-+&i2c12 {
-+	status = "okay";
-+};
-+
-+&i2c13 {
-+	status = "okay";
-+};
-+
-+&i2c14 {
-+	status = "okay";
-+};
-+
-+&i2c15 {
-+	status = "okay";
-+};
-+
-+&vhub {
-+	status = "okay";
-+};
--- 
-2.25.1
-
+Yours,
+Linus Walleij
