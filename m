@@ -1,114 +1,64 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F154E72A2
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 13:00:25 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4884E72C5
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 13:11:13 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KQ0yv0G4Wz30F2
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 23:00:23 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=eJjdFzr2;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=eJjdFzr2;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KQ1CM4sMjz3081
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 23:11:11 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=redhat.com (client-ip=170.10.133.124;
- helo=us-smtp-delivery-124.mimecast.com; envelope-from=hdegoede@redhat.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256
- header.s=mimecast20190719 header.b=eJjdFzr2; 
- dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com
- header.a=rsa-sha256 header.s=mimecast20190719 header.b=eJjdFzr2; 
- dkim-atps=neutral
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ smtp.mailfrom=gmail.com (client-ip=209.85.218.53; helo=mail-ej1-f53.google.com;
+ envelope-from=k.kozlowski.k@gmail.com; receiver=<UNKNOWN>)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+ [209.85.218.53])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KPzGD1FNYz302S
- for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Mar 2022 21:43:29 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648205006;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SyWiTIMiSmG4u6YzwD4u0xt7w+vIGYOcYZHs6UnFBQE=;
- b=eJjdFzr2Rxkt/Fc336re0ukzCLGrympQOXu4WK9exMaPk1HtgnfRqCKELSj+BYeRKY8dNz
- M8VIqcmWM/YFIdkWh0G6Os1lOeuDpBSD6B0yMVgke2kAv10BttW8yLQXQn4uYrzE3nvAOD
- KPBInNZ7PS0MoVcph8iD67pvdIWB6ik=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648205006;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SyWiTIMiSmG4u6YzwD4u0xt7w+vIGYOcYZHs6UnFBQE=;
- b=eJjdFzr2Rxkt/Fc336re0ukzCLGrympQOXu4WK9exMaPk1HtgnfRqCKELSj+BYeRKY8dNz
- M8VIqcmWM/YFIdkWh0G6Os1lOeuDpBSD6B0yMVgke2kAv10BttW8yLQXQn4uYrzE3nvAOD
- KPBInNZ7PS0MoVcph8iD67pvdIWB6ik=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-252-s5NJUDQRMNOjV3riHrz8KQ-1; Fri, 25 Mar 2022 06:43:24 -0400
-X-MC-Unique: s5NJUDQRMNOjV3riHrz8KQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- m12-20020a1709062acc00b006cfc98179e2so3925843eje.6
- for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Mar 2022 03:43:24 -0700 (PDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KQ1CF34Tfz2yLT
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Mar 2022 23:11:04 +1100 (AEDT)
+Received: by mail-ej1-f53.google.com with SMTP id a8so14905469ejc.8
+ for <linux-aspeed@lists.ozlabs.org>; Fri, 25 Mar 2022 05:11:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=SyWiTIMiSmG4u6YzwD4u0xt7w+vIGYOcYZHs6UnFBQE=;
- b=uBHmWvTZv0+OXpuIDJF5Ocfnhsbn7c2QRQVyIhhwp8zumd9HUCaAuVndC8HIVcrwQm
- MD+vp60Z6YJJKY/GdL6KF0WGvo11787Bis+lmFy0wa+hfBCRC5rKbtlEm44+aa04ZJq1
- p/3lRFR4W1OHbgzWZVue/RG7MUepXeDqeidW9qwFuqmKeVaLH9RxqF1T0/VmT5uTNh2G
- aEkiq9isrltl3SCCje6sxZc35r8jqGtd3f10Xn55CxcCvQz8MTjYu8v2vnJM/YmEWk1a
- z/DRksMoXlCR/Ovzie6wAl6d2bPkWZt00Oodt045NJDTygBevL/FGiEQbW5eNT/1z6qa
- BEnw==
-X-Gm-Message-State: AOAM533BWD2LWDJ4aM3q+FbqsuwHW68JFWj5c3MXD8y6KEBxLgY4qGWP
- BGguFxtVLRBbEQCtquS+IAIjjIGyGwlZ+n3UysKbrnmLAeQyzYfUOOxi5w/mnDfkrx5iWZHgsAM
- enhB5Wi8gqnqgi1Pp2zGl36lDIQ==
-X-Received: by 2002:a17:907:7f0b:b0:6e0:a336:a3f5 with SMTP id
- qf11-20020a1709077f0b00b006e0a336a3f5mr2269071ejc.541.1648205003498; 
- Fri, 25 Mar 2022 03:43:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzn7dUpU6RhGkH+cmx02L2Lt5GssfkfC3amGgQ/83AFggV0T8LFHEtxdXiKDxurycDIh0lMlg==
-X-Received: by 2002:a17:907:7f0b:b0:6e0:a336:a3f5 with SMTP id
- qf11-20020a1709077f0b00b006e0a336a3f5mr2269046ejc.541.1648205003312; 
- Fri, 25 Mar 2022 03:43:23 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:cdb2:2781:c55:5db0?
- (2001-1c00-0c1e-bf00-cdb2-2781-0c55-5db0.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:cdb2:2781:c55:5db0])
- by smtp.gmail.com with ESMTPSA id
- d23-20020aa7d5d7000000b00418f7b2f1dbsm2658310eds.71.2022.03.25.03.43.22
+ bh=3ZWXvCs/Q6kxcr/JmHxNuvohTupQgzCSrmsL9q3KkKg=;
+ b=YzfK4AbbXI8QSLgUbnI1MvrABSTrDM6YBgDGOt2Xl/Uisz6ZZ8BGokeBAgW0993eja
+ +UPo9JHaHJxtbjJZnrd0HH/RCPBcGiKiwhoH6JbXXOKYo9tgyu7BUzkv0haqwRbfOqI7
+ O++7qat6yAD3rhE29d1zt2YXneF8q+h6yzhL4e42wKp1zztghfUMUGbzJ8AbprI6uyWs
+ lkaVdGnLu3kyXxpy0LxdcAvWbHE7niCk9oovx431ffpoyLbLHa2dkLDKenW+Hg4hTTs8
+ wkW9b5wNoDZ2z5r3IAWsSUCWxA5PBt7v9tvGDcWivI82TkuUoQ+qtNk22PI3m7Rn8jLJ
+ ZQeg==
+X-Gm-Message-State: AOAM531eEQdXEyy/ohu2JbRzqhXganiGAZj6Bd/97jUXjiwFsqRkAjMq
+ cqZIfctyn/9TFNqtykcs3qU=
+X-Google-Smtp-Source: ABdhPJz6udRZv1zxb/GwFg1uDoKALI3TINJjhCbOR0thlbYDWbZ1g9Qt5Elr5zk4wg6nB0QgOQADCg==
+X-Received: by 2002:a17:907:1c82:b0:6e0:acef:d238 with SMTP id
+ nb2-20020a1709071c8200b006e0acefd238mr1968938ejc.96.1648210259859; 
+ Fri, 25 Mar 2022 05:10:59 -0700 (PDT)
+Received: from [192.168.0.160] (xdsl-188-155-201-27.adslplus.ch.
+ [188.155.201.27]) by smtp.googlemail.com with ESMTPSA id
+ cr19-20020a170906d55300b006df6b316e29sm2343511ejc.208.2022.03.25.05.10.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 25 Mar 2022 03:43:22 -0700 (PDT)
-Message-ID: <5c372eb8-d1f6-a001-fad2-fe11e0b37575@redhat.com>
-Date: Fri, 25 Mar 2022 11:43:22 +0100
+ Fri, 25 Mar 2022 05:10:59 -0700 (PDT)
+Message-ID: <37768dc5-16ac-23ea-61a0-27f44e2fbd84@kernel.org>
+Date: Fri, 25 Mar 2022 13:10:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 1/3] Documentation/ABI: sysfs-driver-aspeed-uart-routing:
- Fix sphinx warning
-To: "Rafael J . Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
- Huang Jianan <huangjianan@oppo.com>,
- Chia-Wei Wang <chiawei_wang@aspeedtech.com>, Arnd Bergmann <arnd@arndb.de>
-References: <20220324165918.22005-1-hdegoede@redhat.com>
- <20220324165918.22005-2-hdegoede@redhat.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220324165918.22005-2-hdegoede@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2] ARM: dts: aspeed: add Nuvia DC-SCM BMC
 Content-Language: en-US
+To: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>, Rob Herring
+ <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@aj.id.au>, Andrew Lunn <andrew@lunn.ch>
+References: <20220325010316.451471-1-quic_jaehyoo@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20220325010316.451471-1-quic_jaehyoo@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailman-Approved-At: Fri, 25 Mar 2022 23:00:04 +1100
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,58 +70,71 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, linux-aspeed@lists.ozlabs.org,
- linux-pm@vger.kernel.org, Amit Kucheria <amitk@kernel.org>,
- linux-kernel@vger.kernel.org, Gao Xiang <hsiangkao@linux.alibaba.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Graeme Gregory <quic_ggregory@quicinc.com>,
+ linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ Jamie Iles <quic_jiles@quicinc.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hi,
-
-On 3/24/22 17:59, Hans de Goede wrote:
-> Fix the following warning from "make htmldocs":
+On 25/03/2022 02:03, Jae Hyun Yoo wrote:
+> From: Graeme Gregory <quic_ggregory@quicinc.com>
 > 
-> Documentation/ABI/testing/sysfs-driver-aspeed-uart-routing:2:
->   WARNING: Inline emphasis start-string without end-string.
+> Add initial version of device tree for Nuvia DC-SCM BMC which is
+> equipped with Aspeed AST2600 BMC SoC.
 > 
-> This is caused by the used of '*' in the example cat command,
-> mark the command as code to fix this.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-
-I see that this was already fixed by escaping the '*' with a '\',
-apologies.
-
-So this patch can be ignored / dropped.
-
-Regards,
-
-Hans
-
-
-
+> Signed-off-by: Graeme Gregory <quic_ggregory@quicinc.com>
+> Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
 > ---
->  Documentation/ABI/testing/sysfs-driver-aspeed-uart-routing | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+> Changes in v2:
+> * Added a comment to explain 'rgmii' phy mode setting. (Andrew)
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-driver-aspeed-uart-routing b/Documentation/ABI/testing/sysfs-driver-aspeed-uart-routing
-> index b363827da437..1e25cd2cacc1 100644
-> --- a/Documentation/ABI/testing/sysfs-driver-aspeed-uart-routing
-> +++ b/Documentation/ABI/testing/sysfs-driver-aspeed-uart-routing
-> @@ -8,9 +8,10 @@ Description:	Selects the RX source of the UARTx device.
->  		selected option marked by brackets "[]". The list of available options
->  		depends on the selected file.
->  
-> -		e.g.
-> -		cat /sys/bus/platform/drivers/aspeed-uart-routing/*.uart_routing/uart1
-> -		[io1] io2 io3 io4 uart2 uart3 uart4 io6
-> +		e.g.::
-> +
-> +			# cat /sys/bus/platform/drivers/aspeed-uart-routing/*.uart_routing/uart1
-> +			[io1] io2 io3 io4 uart2 uart3 uart4 io6
->  
->  		In this case, UART1 gets its input from IO1 (physical serial port 1).
->  
+>  arch/arm/boot/dts/Makefile                    |   1 +
+>  arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts | 189 ++++++++++++++++++
+>  2 files changed, 190 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
+> 
+> diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+> index 7c16f8a2b738..e63cd6ed0faa 100644
+> --- a/arch/arm/boot/dts/Makefile
+> +++ b/arch/arm/boot/dts/Makefile
+> @@ -1546,6 +1546,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+>  	aspeed-bmc-lenovo-hr630.dtb \
+>  	aspeed-bmc-lenovo-hr855xg2.dtb \
+>  	aspeed-bmc-microsoft-olympus.dtb \
+> +	aspeed-bmc-nuvia-dc-scm.dtb \
+>  	aspeed-bmc-opp-lanyang.dtb \
+>  	aspeed-bmc-opp-mihawk.dtb \
+>  	aspeed-bmc-opp-mowgli.dtb \
+> diff --git a/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts b/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
+> new file mode 100644
+> index 000000000000..1984d545b66e
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
+> @@ -0,0 +1,189 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +// Copyright (c) 2021-2022 Qualcomm Innovation Center, Inc. All rights reserved.
 
+This does not look like DTS comment style (Only SPDX should be in //).
+
+> +
+> +/dts-v1/;
+> +
+> +#include "aspeed-g6.dtsi"
+> +
+> +/ {
+> +	model = "Nuvia DC-SCM BMC";
+> +	compatible = "nuvia,dc-scm-bmc", "aspeed,ast2600";
+> +
+> +	aliases {
+> +		serial4 = &uart5;
+> +	};
+> +
+> +	chosen {
+> +		bootargs = "console=ttyS4,115200n8";
+
+You should use stdout path instead.
+
+
+Best regards,
+Krzysztof
