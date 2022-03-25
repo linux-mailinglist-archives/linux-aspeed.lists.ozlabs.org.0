@@ -1,14 +1,14 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83BA94E7824
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 16:42:09 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DF44E7A57
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 20:03:13 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KQ5tl3JDZz3071
-	for <lists+linux-aspeed@lfdr.de>; Sat, 26 Mar 2022 02:42:07 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KQBLl3LNGz30DF
+	for <lists+linux-aspeed@lfdr.de>; Sat, 26 Mar 2022 06:03:11 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcdkim header.b=YevwieDs;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcdkim header.b=w7Yuzp9i;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
@@ -18,50 +18,48 @@ Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
  receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256
- header.s=qcdkim header.b=YevwieDs; dkim-atps=neutral
+ header.s=qcdkim header.b=w7Yuzp9i; dkim-atps=neutral
 Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
  [199.106.114.39])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KQ5t93kcSz30Jj
- for <linux-aspeed@lists.ozlabs.org>; Sat, 26 Mar 2022 02:41:37 +1100 (AEDT)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KQBLb41YJz2yLT
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 26 Mar 2022 06:03:03 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648222897; x=1679758897;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=IFcwkw0ChYMrKdMzLxdkJFRH7VV3hwdHok6sJeSzKZc=;
- b=YevwieDskQc42J+Bn/fTe5e1+t3iEhifYiX4eau7yfwOZA+TwOwa5YzI
- Z2SF93Fhi92YzJRNxppsPksyXpVsWznygs9Z+rm8D53uAciyAm4dJn95z
- ceCidAiHTIRVuRN/p8rqtyke3IWaEPk0NRZ/D+Sj7YdiKdjd7g0LJKc47 E=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 25 Mar 2022 08:41:35 -0700
+ t=1648234983; x=1679770983;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=1zO031c3bJsSsxrOVnDvFQQB+5zdijL2awpPTUIWSmA=;
+ b=w7Yuzp9iHi/INq6KZEXgpwfOAtDAe4g7vvgw961pVlFZMMxTZLiUJDsx
+ xXPnjtW0hZfmrgo2Pl6cLcfL4/54JPWZkpFCgg/VEYotvWXYwBO9vvE6W
+ NUM1b4ZcdBKMHZBaqP+aFbN/w8HWIFsvKnAQbFVZMhv0DOAJxEiXnjyJ/ k=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 25 Mar 2022 12:03:00 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2022 08:41:35 -0700
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2022 12:02:59 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 25 Mar 2022 08:41:34 -0700
+ 15.2.986.22; Fri, 25 Mar 2022 12:02:59 -0700
 Received: from maru.qualcomm.com (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 25 Mar
- 2022 08:41:33 -0700
+ 2022 12:02:58 -0700
 From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
 To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
  Jeffery" <andrew@aj.id.au>, Andrew Lunn <andrew@lunn.ch>
-Subject: [PATCH v2 5/5] ARM: dts: aspeed-g6: fix SPI1/SPI2 quad pin group
-Date: Fri, 25 Mar 2022 08:40:48 -0700
-Message-ID: <20220325154048.467245-6-quic_jaehyoo@quicinc.com>
+Subject: [PATCH v3] ARM: dts: aspeed: add Nuvia DC-SCM BMC
+Date: Fri, 25 Mar 2022 12:02:47 -0700
+Message-ID: <20220325190247.468079-1-quic_jaehyoo@quicinc.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220325154048.467245-1-quic_jaehyoo@quicinc.com>
-References: <20220325154048.467245-1-quic_jaehyoo@quicinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -82,38 +80,233 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Fix incorrect function mappings in pinctrl_qspi1_default and
-pinctrl_qspi2_default since there function should be SPI1 and
-SPI2 respectively.
+From: Graeme Gregory <quic_ggregory@quicinc.com>
 
+Add initial version of device tree for Nuvia DC-SCM BMC which is
+equipped with Aspeed AST2600 BMC SoC.
+
+Signed-off-by: Graeme Gregory <quic_ggregory@quicinc.com>
 Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-Fixes: f510f04c8c83 ("ARM: dts: aspeed: Add AST2600 pinmux nodes")
 ---
+Changes in v3:
+* Added 'stdout-path'. (Krzysztof)
+
 Changes in v2:
- * None.
+* Added a comment to explain 'rgmii' phy mode setting. (Andrew)
 
- arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm/boot/dts/Makefile                    |   1 +
+ arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts | 190 ++++++++++++++++++
+ 2 files changed, 191 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
 
-diff --git a/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi b/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
-index 47c3fb137cbc..7cd4f075e325 100644
---- a/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
-@@ -653,12 +653,12 @@ pinctrl_pwm9g1_default: pwm9g1_default {
- 	};
- 
- 	pinctrl_qspi1_default: qspi1_default {
--		function = "QSPI1";
-+		function = "SPI1";
- 		groups = "QSPI1";
- 	};
- 
- 	pinctrl_qspi2_default: qspi2_default {
--		function = "QSPI2";
-+		function = "SPI2";
- 		groups = "QSPI2";
- 	};
- 
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 7c16f8a2b738..e63cd6ed0faa 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -1546,6 +1546,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
+ 	aspeed-bmc-lenovo-hr630.dtb \
+ 	aspeed-bmc-lenovo-hr855xg2.dtb \
+ 	aspeed-bmc-microsoft-olympus.dtb \
++	aspeed-bmc-nuvia-dc-scm.dtb \
+ 	aspeed-bmc-opp-lanyang.dtb \
+ 	aspeed-bmc-opp-mihawk.dtb \
+ 	aspeed-bmc-opp-mowgli.dtb \
+diff --git a/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts b/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
+new file mode 100644
+index 000000000000..f4a97cfb0f23
+--- /dev/null
++++ b/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
+@@ -0,0 +1,190 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++// Copyright (c) 2021-2022 Qualcomm Innovation Center, Inc. All rights reserved.
++
++/dts-v1/;
++
++#include "aspeed-g6.dtsi"
++
++/ {
++	model = "Nuvia DC-SCM BMC";
++	compatible = "nuvia,dc-scm-bmc", "aspeed,ast2600";
++
++	aliases {
++		serial4 = &uart5;
++	};
++
++	chosen {
++		stdout-path = &uart5;
++		bootargs = "console=ttyS4,115200n8";
++	};
++
++	memory@80000000 {
++		device_type = "memory";
++		reg = <0x80000000 0x40000000>;
++	};
++};
++
++&mdio3 {
++	status = "okay";
++
++	ethphy3: ethernet-phy@1 {
++		compatible = "ethernet-phy-ieee802.3-c22";
++		reg = <1>;
++	};
++};
++
++&mac2 {
++	status = "okay";
++
++	/* Bootloader sets up the MAC to insert delay */
++	phy-mode = "rgmii";
++	phy-handle = <&ethphy3>;
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rgmii3_default>;
++};
++
++&mac3 {
++	status = "okay";
++
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_rmii4_default>;
++
++	use-ncsi;
++};
++
++&rtc {
++	status = "okay";
++};
++
++&fmc {
++	status = "okay";
++
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "bmc";
++		spi-max-frequency = <133000000>;
++#include "openbmc-flash-layout-64.dtsi"
++	};
++
++	flash@1 {
++		status = "okay";
++		m25p,fast-read;
++		label = "alt-bmc";
++		spi-max-frequency = <133000000>;
++#include "openbmc-flash-layout-64-alt.dtsi"
++	};
++};
++
++&spi1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_spi1_default>;
++
++	flash@0 {
++		status = "okay";
++		m25p,fast-read;
++		label = "bios";
++		spi-max-frequency = <133000000>;
++	};
++};
++
++&gpio0 {
++	gpio-line-names =
++	/*A0-A7*/	"","","","","","","","",
++	/*B0-B7*/	"BMC_FLASH_MUX_SEL","","","","","","","",
++	/*C0-C7*/	"","","","","","","","",
++	/*D0-D7*/	"","","","","","","","",
++	/*E0-E7*/	"","","","","","","","",
++	/*F0-F7*/	"","","","","","","","",
++	/*G0-G7*/	"","","","","","","","",
++	/*H0-H7*/	"","","","","","","","",
++	/*I0-I7*/	"","","","","","","","",
++	/*J0-J7*/	"","","","","","","","",
++	/*K0-K7*/	"","","","","","","","",
++	/*L0-L7*/	"","","","","","","","",
++	/*M0-M7*/	"","","","","","","","",
++	/*N0-N7*/	"BMC_FWSPI_RST_N","","GPIO_1_BMC_3V3","","","","","",
++	/*O0-O7*/	"JTAG_MUX_A","JTAG_MUX_B","","","","","","",
++	/*P0-P7*/	"","","","","","","","",
++	/*Q0-Q7*/	"","","","","","","","",
++	/*R0-R7*/	"","","","","","","","",
++	/*S0-S7*/	"","","","","","","","",
++	/*T0-T7*/	"","","","","","","","",
++	/*U0-U7*/	"","","","","","","","",
++	/*V0-V7*/	"","","","SCMFPGA_SPARE_GPIO1_3V3",
++			"SCMFPGA_SPARE_GPIO2_3V3","SCMFPGA_SPARE_GPIO3_3V3",
++			"SCMFPGA_SPARE_GPIO4_3V3","SCMFPGA_SPARE_GPIO5_3V3",
++	/*W0-W7*/	"","","","","","","","",
++	/*X0-X7*/	"","","","","","","","",
++	/*Y0-Y7*/	"","","","","","","","",
++	/*Z0-Z7*/	"","","","","","","","",
++	/*AA0-AA7*/	"","","","","","","","",
++	/*AB0-AB7*/	"","","","","","","","",
++	/*AC0-AC7*/	"","","","","","","","";
++};
++
++&gpio1 {
++	gpio-line-names =
++	/*A0-A7*/	"GPI_1_BMC_1V8","","","","","",
++			"SCMFPGA_SPARE_GPIO1_1V8","SCMFPGA_SPARE_GPIO2_1V8",
++	/*B0-B7*/	"SCMFPGA_SPARE_GPIO3_1V8","SCMFPGA_SPARE_GPIO4_1V8",
++			"SCMFPGA_SPARE_GPIO5_1V8","","","","","",
++	/*C0-C7*/	"","","","","","","","",
++	/*D0-D7*/	"","BMC_SPI1_RST_N","BIOS_FLASH_MUX_SEL","",
++			"","TPM2_PIRQ_N","TPM2_RST_N","",
++	/*E0-E7*/	"","","","","","","","";
++};
++
++&i2c2 {
++	status = "okay";
++};
++
++&i2c4 {
++	status = "okay";
++};
++
++&i2c5 {
++	status = "okay";
++};
++
++&i2c6 {
++	status = "okay";
++};
++
++&i2c7 {
++	status = "okay";
++};
++
++&i2c8 {
++	status = "okay";
++};
++
++&i2c9 {
++	status = "okay";
++};
++
++&i2c10 {
++	status = "okay";
++};
++
++&i2c12 {
++	status = "okay";
++};
++
++&i2c13 {
++	status = "okay";
++};
++
++&i2c14 {
++	status = "okay";
++};
++
++&i2c15 {
++	status = "okay";
++};
++
++&vhub {
++	status = "okay";
++};
 -- 
 2.25.1
 
