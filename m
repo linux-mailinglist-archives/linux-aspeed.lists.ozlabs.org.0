@@ -1,58 +1,60 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5995B4E7827
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 16:42:40 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2454A4E7822
+	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 16:42:03 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KQ5vL1QQ0z30CP
-	for <lists+linux-aspeed@lfdr.de>; Sat, 26 Mar 2022 02:42:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KQ5td0cvmz307L
+	for <lists+linux-aspeed@lfdr.de>; Sat, 26 Mar 2022 02:42:01 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcdkim header.b=VUySMdIf;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcdkim header.b=IN8USoZ4;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=quicinc.com (client-ip=129.46.98.28; helo=alexa-out.qualcomm.com;
- envelope-from=quic_jaehyoo@quicinc.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=quicinc.com (client-ip=199.106.114.38;
+ helo=alexa-out-sd-01.qualcomm.com; envelope-from=quic_jaehyoo@quicinc.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256
- header.s=qcdkim header.b=VUySMdIf; dkim-atps=neutral
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KQ5vG1RTJz2yLT
- for <linux-aspeed@lists.ozlabs.org>; Sat, 26 Mar 2022 02:42:34 +1100 (AEDT)
+ header.s=qcdkim header.b=IN8USoZ4; dkim-atps=neutral
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KQ5t65RxHz30DF
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 26 Mar 2022 02:41:34 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648222954; x=1679758954;
+ t=1648222895; x=1679758895;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=cTvbYx0tt9yaGhc+XsYyBYClg2yvPrwbUTEhKiXr1Ic=;
- b=VUySMdIfBYRfhRWQQaxFnaTxN3xrf6jtkMtrzuWWC9so3XZQgf4re/Iq
- RkeLbTpc1QnXVAoSb5KqvsFKTrFHGIjtq++Vgy4aSgQjBqVeHXWrpsEM8
- c4EhT6E0PMb3EJlBRXhORpWYsL8TNPbJV+Y45/Ged24OPPw7P+V0K8C30 g=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 25 Mar 2022 08:41:31 -0700
+ bh=yRPcX1qt7mcbuOlkE25fdtzogcUmDCPUy/Db0j9B4PM=;
+ b=IN8USoZ4sxSjWzr0aDzDKeaUVtf8hK9ChPbrsbD2CEpZhoyBZVMUBM6V
+ 35vgzho+mS22+bcxZ4jAeXKCJejAwTGPDmeST9nApdgn9GjUC/yzwQMdq
+ QHG/q66suvPM3JjKWwOPWvQcVfrIzfNRKNxKz0W4sf16GKbZLbgRAtuyv 0=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 25 Mar 2022 08:41:32 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2022 08:41:31 -0700
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Mar 2022 08:41:32 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 25 Mar 2022 08:41:31 -0700
+ 15.2.986.22; Fri, 25 Mar 2022 08:41:32 -0700
 Received: from maru.qualcomm.com (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 25 Mar
- 2022 08:41:30 -0700
+ 2022 08:41:31 -0700
 From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
 To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
  Jeffery" <andrew@aj.id.au>, Andrew Lunn <andrew@lunn.ch>
-Subject: [PATCH v2 1/5] ARM: dts: aspeed-g6: remove FWQSPID group in pinctrl
- dtsi
-Date: Fri, 25 Mar 2022 08:40:44 -0700
-Message-ID: <20220325154048.467245-2-quic_jaehyoo@quicinc.com>
+Subject: [PATCH v2 2/5] pinctrl: pinctrl-aspeed-g6: remove FWQSPID group in
+ pinctrl
+Date: Fri, 25 Mar 2022 08:40:45 -0700
+Message-ID: <20220325154048.467245-3-quic_jaehyoo@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220325154048.467245-1-quic_jaehyoo@quicinc.com>
 References: <20220325154048.467245-1-quic_jaehyoo@quicinc.com>
@@ -82,40 +84,63 @@ Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
 FWSPIDQ2 and FWSPIDQ3 are not part of FWSPI18 interface so remove
-FWQSPID group in pinctrl dtsi. These pins must be used with the
-FWSPI pins that are dedicated for boot SPI interface which provides
+FWQSPID group in pinctrl. These pins must be used with the FWSPI
+pins that are dedicated for boot SPI interface which provides
 same 3.3v logic level.
 
 Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-Fixes: 2f6edb6bcb2f ("ARM: dts: aspeed: Fix AST2600 quad spi group")
+Fixes: 2eda1cdec49f ("pinctrl: aspeed: Add AST2600 pinmux support")
 ---
 Changes in v2:
- * Rebased it on the latest.
- * Updated 'Fixes' while rebasing it on the latest.
+ * None.
 
-Note:
- * Removing 'pinctrl_fwqspid_default' doesn't break any existing DT since
-   it has not been used in any DTs.
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
- arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi | 5 -----
- 1 file changed, 5 deletions(-)
-
-diff --git a/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi b/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
-index e4775bbceecc..06d60a8540e9 100644
---- a/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
-+++ b/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
-@@ -117,11 +117,6 @@ pinctrl_fwspid_default: fwspid_default {
- 		groups = "FWSPID";
- 	};
+diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
+index a3fa03bcd9a3..54064714d73f 100644
+--- a/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
++++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c
+@@ -1236,18 +1236,12 @@ FUNC_GROUP_DECL(SALT8, AA12);
+ FUNC_GROUP_DECL(WDTRST4, AA12);
  
--	pinctrl_fwqspid_default: fwqspid_default {
--		function = "FWSPID";
--		groups = "FWQSPID";
--	};
--
- 	pinctrl_fwspiwp_default: fwspiwp_default {
- 		function = "FWSPIWP";
- 		groups = "FWSPIWP";
+ #define AE12 196
+-SIG_EXPR_LIST_DECL_SEMG(AE12, FWSPIDQ2, FWQSPID, FWSPID,
+-			SIG_DESC_SET(SCU438, 4));
+ SIG_EXPR_LIST_DECL_SESG(AE12, GPIOY4, GPIOY4);
+-PIN_DECL_(AE12, SIG_EXPR_LIST_PTR(AE12, FWSPIDQ2),
+-	  SIG_EXPR_LIST_PTR(AE12, GPIOY4));
++PIN_DECL_(AE12, SIG_EXPR_LIST_PTR(AE12, GPIOY4));
+ 
+ #define AF12 197
+-SIG_EXPR_LIST_DECL_SEMG(AF12, FWSPIDQ3, FWQSPID, FWSPID,
+-			SIG_DESC_SET(SCU438, 5));
+ SIG_EXPR_LIST_DECL_SESG(AF12, GPIOY5, GPIOY5);
+-PIN_DECL_(AF12, SIG_EXPR_LIST_PTR(AF12, FWSPIDQ3),
+-	  SIG_EXPR_LIST_PTR(AF12, GPIOY5));
++PIN_DECL_(AF12, SIG_EXPR_LIST_PTR(AF12, GPIOY5));
+ 
+ #define AC12 198
+ SSSF_PIN_DECL(AC12, GPIOY6, FWSPIABR, SIG_DESC_SET(SCU438, 6));
+@@ -1520,9 +1514,8 @@ SIG_EXPR_LIST_DECL_SEMG(Y4, EMMCDAT7, EMMCG8, EMMC, SIG_DESC_SET(SCU404, 3));
+ PIN_DECL_3(Y4, GPIO18E3, FWSPIDMISO, VBMISO, EMMCDAT7);
+ 
+ GROUP_DECL(FWSPID, Y1, Y2, Y3, Y4);
+-GROUP_DECL(FWQSPID, Y1, Y2, Y3, Y4, AE12, AF12);
+ GROUP_DECL(EMMCG8, AB4, AA4, AC4, AA5, Y5, AB5, AB6, AC5, Y1, Y2, Y3, Y4);
+-FUNC_DECL_2(FWSPID, FWSPID, FWQSPID);
++FUNC_DECL_1(FWSPID, FWSPID);
+ FUNC_GROUP_DECL(VB, Y1, Y2, Y3, Y4);
+ FUNC_DECL_3(EMMC, EMMCG1, EMMCG4, EMMCG8);
+ /*
+@@ -1918,7 +1911,6 @@ static const struct aspeed_pin_group aspeed_g6_groups[] = {
+ 	ASPEED_PINCTRL_GROUP(FSI2),
+ 	ASPEED_PINCTRL_GROUP(FWSPIABR),
+ 	ASPEED_PINCTRL_GROUP(FWSPID),
+-	ASPEED_PINCTRL_GROUP(FWQSPID),
+ 	ASPEED_PINCTRL_GROUP(FWSPIWP),
+ 	ASPEED_PINCTRL_GROUP(GPIT0),
+ 	ASPEED_PINCTRL_GROUP(GPIT1),
 -- 
 2.25.1
 
