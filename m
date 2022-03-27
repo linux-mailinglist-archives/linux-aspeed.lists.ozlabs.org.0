@@ -2,65 +2,69 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3DF44E7A57
-	for <lists+linux-aspeed@lfdr.de>; Fri, 25 Mar 2022 20:03:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC9F4E8648
+	for <lists+linux-aspeed@lfdr.de>; Sun, 27 Mar 2022 08:24:51 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KQBLl3LNGz30DF
-	for <lists+linux-aspeed@lfdr.de>; Sat, 26 Mar 2022 06:03:11 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KR5Qn058Qz3c1d
+	for <lists+linux-aspeed@lfdr.de>; Sun, 27 Mar 2022 17:24:49 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcdkim header.b=w7Yuzp9i;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=NrLU0Tud;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=quicinc.com (client-ip=199.106.114.39;
- helo=alexa-out-sd-02.qualcomm.com; envelope-from=quic_jaehyoo@quicinc.com;
+ smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::102d;
+ helo=mail-pj1-x102d.google.com; envelope-from=xiam0nd.tong@gmail.com;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256
- header.s=qcdkim header.b=w7Yuzp9i; dkim-atps=neutral
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
+ header.s=20210112 header.b=NrLU0Tud; dkim-atps=neutral
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KQBLb41YJz2yLT
- for <linux-aspeed@lists.ozlabs.org>; Sat, 26 Mar 2022 06:03:03 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648234983; x=1679770983;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=1zO031c3bJsSsxrOVnDvFQQB+5zdijL2awpPTUIWSmA=;
- b=w7Yuzp9iHi/INq6KZEXgpwfOAtDAe4g7vvgw961pVlFZMMxTZLiUJDsx
- xXPnjtW0hZfmrgo2Pl6cLcfL4/54JPWZkpFCgg/VEYotvWXYwBO9vvE6W
- NUM1b4ZcdBKMHZBaqP+aFbN/w8HWIFsvKnAQbFVZMhv0DOAJxEiXnjyJ/ k=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 25 Mar 2022 12:03:00 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Mar 2022 12:02:59 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 25 Mar 2022 12:02:59 -0700
-Received: from maru.qualcomm.com (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 25 Mar
- 2022 12:02:58 -0700
-From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-To: Rob Herring <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
- Jeffery" <andrew@aj.id.au>, Andrew Lunn <andrew@lunn.ch>
-Subject: [PATCH v3] ARM: dts: aspeed: add Nuvia DC-SCM BMC
-Date: Fri, 25 Mar 2022 12:02:47 -0700
-Message-ID: <20220325190247.468079-1-quic_jaehyoo@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KR5Qf5yhlz2yMx
+ for <linux-aspeed@lists.ozlabs.org>; Sun, 27 Mar 2022 17:24:41 +1100 (AEDT)
+Received: by mail-pj1-x102d.google.com with SMTP id bx5so11185592pjb.3
+ for <linux-aspeed@lists.ozlabs.org>; Sat, 26 Mar 2022 23:24:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id;
+ bh=dr1pfWEjH/LtXsB7tWBt6bQIyc8GynNaruocx5UK+p4=;
+ b=NrLU0Tud7dKyPrRn8FqNdKPZ7B+J9NM5tUooHHg3BkdUnZcMyXyEWggcERwvymf/D5
+ NHttV+aFJg3cbs6CYTIPfr6oAxg1Uik0CQ5xkH6Pk8XYDOOtm0Sc+VPIDE8v5FIcDER4
+ ujPKjNuz0Im4hQ5LXHN+57P1RWpXRdLtM3HNNeNaIr8RIulQStfCfLil2W2gN7rXDTfL
+ qqFGTlabkl4FVmxP8AM/qfqWNnAshka/ZgPMYw974Yl1LonF47klbzkITdVK6S87SVZh
+ pGxeGJHwamPBf0b9qkfcoMoMnpQTuRIIurLdpeOiEeyDEfQFSElvZxFP9ZNzo2CTM9mw
+ yELw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=dr1pfWEjH/LtXsB7tWBt6bQIyc8GynNaruocx5UK+p4=;
+ b=VAwIaU35oYzufuCCmNFxlMgb9yXN2nubRncSmnCsHRTILKbxS71WlFz19EnhXs5+EF
+ JzDjoWQUI2ySMA7yUebS10nX6cmOoLHwzW7m8TaLWWW5GXDXDcolvD6q2dYY+H/hfbBF
+ eWb15ijP5pPGy8QJMKVEM2vnLRi5soWt2oWNiXcVb09gNfoBZ4Hd1CxEBD432lff7Q0T
+ 6nLW+uq3toCFx+Mf74iXcRIlNf99kHnMKU/QP3+c2s9KbnbIem62LMgGmh8knxXFZgAk
+ 77ZCHpeSH9a7QpXNycY7kMqAdW/H0K3bZVwmoJHwdSJFgc2ItFhSdyE8W7M+eBw517Xw
+ M+sQ==
+X-Gm-Message-State: AOAM530vkfMKN5gRWgMQ7SKNwBvl1Ag+ATeC3HQdHWHo3wgIDCHveGYJ
+ VQY+qFQPDd4UL9+83xawOa8=
+X-Google-Smtp-Source: ABdhPJyGXjU/L3SAlfRX+kjprH5TGZQAun8MSIIIXSf68KUd+2NTcRZWbqiVuhcKNd4iHFEwB3EEyA==
+X-Received: by 2002:a17:90a:ca96:b0:1c6:b478:788e with SMTP id
+ y22-20020a17090aca9600b001c6b478788emr22401255pjt.162.1648362278797; 
+ Sat, 26 Mar 2022 23:24:38 -0700 (PDT)
+Received: from localhost.localdomain ([115.220.243.108])
+ by smtp.googlemail.com with ESMTPSA id
+ l5-20020a056a0016c500b004f768db4c94sm12228443pfc.212.2022.03.26.23.24.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 26 Mar 2022 23:24:38 -0700 (PDT)
+From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+To: balbi@kernel.org
+Subject: [PATCH] aspeed-vhub: epn: fix an incorrect member check on list
+ iterator
+Date: Sun, 27 Mar 2022 14:24:31 +0800
+Message-Id: <20220327062431.5847-1-xiam0nd.tong@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,241 +76,75 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- Jamie Iles <quic_jiles@quicinc.com>,
- Graeme Gregory <quic_ggregory@quicinc.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, caihuoqing@baidu.com,
+ Xiaomeng Tong <xiam0nd.tong@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-From: Graeme Gregory <quic_ggregory@quicinc.com>
+The bug is here:
+	if (&req->req == u_req) {
 
-Add initial version of device tree for Nuvia DC-SCM BMC which is
-equipped with Aspeed AST2600 BMC SoC.
+The list iterator 'req' will point to a bogus position containing
+HEAD if the list is empty or no element is found. This case must
+be checked before any use of the iterator, otherwise it may bypass
+the 'if (&req->req == u_req) {' check in theory, if '*u_req' obj is
+just allocated in the same addr with '&req->req'.
 
-Signed-off-by: Graeme Gregory <quic_ggregory@quicinc.com>
-Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+To fix this bug, just mova all thing inside the loop and return 0,
+otherwise return error.
+
+Cc: stable@vger.kernel.org
+Fixes: 7ecca2a4080cb ("usb/gadget: Add driver for Aspeed SoC virtual hub")
+Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
 ---
-Changes in v3:
-* Added 'stdout-path'. (Krzysztof)
+ drivers/usb/gadget/udc/aspeed-vhub/epn.c | 23 ++++++++++-------------
+ 1 file changed, 10 insertions(+), 13 deletions(-)
 
-Changes in v2:
-* Added a comment to explain 'rgmii' phy mode setting. (Andrew)
-
- arch/arm/boot/dts/Makefile                    |   1 +
- arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts | 190 ++++++++++++++++++
- 2 files changed, 191 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
-
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 7c16f8a2b738..e63cd6ed0faa 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -1546,6 +1546,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-lenovo-hr630.dtb \
- 	aspeed-bmc-lenovo-hr855xg2.dtb \
- 	aspeed-bmc-microsoft-olympus.dtb \
-+	aspeed-bmc-nuvia-dc-scm.dtb \
- 	aspeed-bmc-opp-lanyang.dtb \
- 	aspeed-bmc-opp-mihawk.dtb \
- 	aspeed-bmc-opp-mowgli.dtb \
-diff --git a/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts b/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
-new file mode 100644
-index 000000000000..f4a97cfb0f23
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed-bmc-nuvia-dc-scm.dts
-@@ -0,0 +1,190 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+// Copyright (c) 2021-2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+
-+/dts-v1/;
-+
-+#include "aspeed-g6.dtsi"
-+
-+/ {
-+	model = "Nuvia DC-SCM BMC";
-+	compatible = "nuvia,dc-scm-bmc", "aspeed,ast2600";
-+
-+	aliases {
-+		serial4 = &uart5;
-+	};
-+
-+	chosen {
-+		stdout-path = &uart5;
-+		bootargs = "console=ttyS4,115200n8";
-+	};
-+
-+	memory@80000000 {
-+		device_type = "memory";
-+		reg = <0x80000000 0x40000000>;
-+	};
-+};
-+
-+&mdio3 {
-+	status = "okay";
-+
-+	ethphy3: ethernet-phy@1 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <1>;
-+	};
-+};
-+
-+&mac2 {
-+	status = "okay";
-+
-+	/* Bootloader sets up the MAC to insert delay */
-+	phy-mode = "rgmii";
-+	phy-handle = <&ethphy3>;
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rgmii3_default>;
-+};
-+
-+&mac3 {
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii4_default>;
-+
-+	use-ncsi;
-+};
-+
-+&rtc {
-+	status = "okay";
-+};
-+
-+&fmc {
-+	status = "okay";
-+
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc";
-+		spi-max-frequency = <133000000>;
-+#include "openbmc-flash-layout-64.dtsi"
-+	};
-+
-+	flash@1 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "alt-bmc";
-+		spi-max-frequency = <133000000>;
-+#include "openbmc-flash-layout-64-alt.dtsi"
-+	};
-+};
-+
-+&spi1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_spi1_default>;
-+
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bios";
-+		spi-max-frequency = <133000000>;
-+	};
-+};
-+
-+&gpio0 {
-+	gpio-line-names =
-+	/*A0-A7*/	"","","","","","","","",
-+	/*B0-B7*/	"BMC_FLASH_MUX_SEL","","","","","","","",
-+	/*C0-C7*/	"","","","","","","","",
-+	/*D0-D7*/	"","","","","","","","",
-+	/*E0-E7*/	"","","","","","","","",
-+	/*F0-F7*/	"","","","","","","","",
-+	/*G0-G7*/	"","","","","","","","",
-+	/*H0-H7*/	"","","","","","","","",
-+	/*I0-I7*/	"","","","","","","","",
-+	/*J0-J7*/	"","","","","","","","",
-+	/*K0-K7*/	"","","","","","","","",
-+	/*L0-L7*/	"","","","","","","","",
-+	/*M0-M7*/	"","","","","","","","",
-+	/*N0-N7*/	"BMC_FWSPI_RST_N","","GPIO_1_BMC_3V3","","","","","",
-+	/*O0-O7*/	"JTAG_MUX_A","JTAG_MUX_B","","","","","","",
-+	/*P0-P7*/	"","","","","","","","",
-+	/*Q0-Q7*/	"","","","","","","","",
-+	/*R0-R7*/	"","","","","","","","",
-+	/*S0-S7*/	"","","","","","","","",
-+	/*T0-T7*/	"","","","","","","","",
-+	/*U0-U7*/	"","","","","","","","",
-+	/*V0-V7*/	"","","","SCMFPGA_SPARE_GPIO1_3V3",
-+			"SCMFPGA_SPARE_GPIO2_3V3","SCMFPGA_SPARE_GPIO3_3V3",
-+			"SCMFPGA_SPARE_GPIO4_3V3","SCMFPGA_SPARE_GPIO5_3V3",
-+	/*W0-W7*/	"","","","","","","","",
-+	/*X0-X7*/	"","","","","","","","",
-+	/*Y0-Y7*/	"","","","","","","","",
-+	/*Z0-Z7*/	"","","","","","","","",
-+	/*AA0-AA7*/	"","","","","","","","",
-+	/*AB0-AB7*/	"","","","","","","","",
-+	/*AC0-AC7*/	"","","","","","","","";
-+};
-+
-+&gpio1 {
-+	gpio-line-names =
-+	/*A0-A7*/	"GPI_1_BMC_1V8","","","","","",
-+			"SCMFPGA_SPARE_GPIO1_1V8","SCMFPGA_SPARE_GPIO2_1V8",
-+	/*B0-B7*/	"SCMFPGA_SPARE_GPIO3_1V8","SCMFPGA_SPARE_GPIO4_1V8",
-+			"SCMFPGA_SPARE_GPIO5_1V8","","","","","",
-+	/*C0-C7*/	"","","","","","","","",
-+	/*D0-D7*/	"","BMC_SPI1_RST_N","BIOS_FLASH_MUX_SEL","",
-+			"","TPM2_PIRQ_N","TPM2_RST_N","",
-+	/*E0-E7*/	"","","","","","","","";
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+};
-+
-+&i2c5 {
-+	status = "okay";
-+};
-+
-+&i2c6 {
-+	status = "okay";
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+};
-+
-+&i2c8 {
-+	status = "okay";
-+};
-+
-+&i2c9 {
-+	status = "okay";
-+};
-+
-+&i2c10 {
-+	status = "okay";
-+};
-+
-+&i2c12 {
-+	status = "okay";
-+};
-+
-+&i2c13 {
-+	status = "okay";
-+};
-+
-+&i2c14 {
-+	status = "okay";
-+};
-+
-+&i2c15 {
-+	status = "okay";
-+};
-+
-+&vhub {
-+	status = "okay";
-+};
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/epn.c b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
+index 917892ca8753..aae4ce3e1029 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/epn.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
+@@ -468,27 +468,24 @@ static int ast_vhub_epn_dequeue(struct usb_ep* u_ep, struct usb_request *u_req)
+ 	struct ast_vhub *vhub = ep->vhub;
+ 	struct ast_vhub_req *req;
+ 	unsigned long flags;
+-	int rc = -EINVAL;
+ 
+ 	spin_lock_irqsave(&vhub->lock, flags);
+ 
+ 	/* Make sure it's actually queued on this endpoint */
+ 	list_for_each_entry (req, &ep->queue, queue) {
+-		if (&req->req == u_req)
+-			break;
+-	}
+-
+-	if (&req->req == u_req) {
+-		EPVDBG(ep, "dequeue req @%p active=%d\n",
+-		       req, req->active);
+-		if (req->active)
+-			ast_vhub_stop_active_req(ep, true);
+-		ast_vhub_done(ep, req, -ECONNRESET);
+-		rc = 0;
++		if (&req->req == u_req) {
++			EPVDBG(ep, "dequeue req @%p active=%d\n",
++				req, req->active);
++			if (req->active)
++				ast_vhub_stop_active_req(ep, true);
++			ast_vhub_done(ep, req, -ECONNRESET);
++			spin_unlock_irqrestore(&vhub->lock, flags);
++			return 0;
++		}
+ 	}
+ 
+ 	spin_unlock_irqrestore(&vhub->lock, flags);
+-	return rc;
++	return -EINVAL;
+ }
+ 
+ void ast_vhub_update_epn_stall(struct ast_vhub_ep *ep)
 -- 
-2.25.1
+2.17.1
 
