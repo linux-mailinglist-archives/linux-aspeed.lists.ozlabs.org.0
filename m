@@ -1,78 +1,79 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22CB4E9818
-	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Mar 2022 15:27:26 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D2A4E9876
+	for <lists+linux-aspeed@lfdr.de>; Mon, 28 Mar 2022 15:41:25 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KRtlw5M3gz3c29
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Mar 2022 00:27:24 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KRv430lRrz3c2B
+	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Mar 2022 00:41:23 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=P+Xah39W;
+	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=gmx.net header.i=@gmx.net header.a=rsa-sha256 header.s=badeba3b8450 header.b=cha0m9oF;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::52e;
- helo=mail-ed1-x52e.google.com; envelope-from=ansuelsmth@gmail.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256
- header.s=20210112 header.b=P+Xah39W; dkim-atps=neutral
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.mailfrom=gmx.net
+ (client-ip=212.227.15.15; helo=mout.gmx.net;
+ envelope-from=j.neuschaefer@gmx.net; receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
+ secure) header.d=gmx.net header.i=@gmx.net header.a=rsa-sha256
+ header.s=badeba3b8450 header.b=cha0m9oF; 
+ dkim-atps=neutral
+X-Greylist: delayed 323 seconds by postgrey-1.36 at boromir;
+ Tue, 29 Mar 2022 00:41:19 AEDT
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KRtlq5tTfz3c12;
- Tue, 29 Mar 2022 00:27:18 +1100 (AEDT)
-Received: by mail-ed1-x52e.google.com with SMTP id r23so16946020edb.0;
- Mon, 28 Mar 2022 06:27:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=PJXGZlpigjTh6H9JMMa18nQ2vBOjy1Eubx2lpLSUCN4=;
- b=P+Xah39W4u3PaDSAqPLufO5/H/K2gU2w/d2wFaGX2dVMn3ptW0NhEHGwzIdwRpRl/0
- z1FSOdPVtx96dA5F7FeFqr/xM+E7aaBMX+Jrr4ATSqkcDJ6ByLiqoci0ikB8zblEPzRr
- AgfVgEhpKJPDuyJpnsbMs0owuaCWieQCxknWTP5AisVim3x2oWgpvZspTe1rCjJ71yEY
- k1XEvY3EOHeoQH9GnIpyLgDu0KacloeGCU6qlaS6y84XNz0XNDoFZ24ZhfgNJ0IJhypy
- Itw+T2ZDe09wzSYH9OizIncV+P60OAXYspmhj2dwWHF5nT/b4EcIUOf1ZGBuS6ErOxv8
- XOvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=PJXGZlpigjTh6H9JMMa18nQ2vBOjy1Eubx2lpLSUCN4=;
- b=ghcv45S8WWrbp0zIz6Ic+7ng8BES+boiUhC3vEbPOfKpFx788wIGt+tgArCKqF6GSg
- 7JEPfcdkFt3u2dINPUiiux9btg/N8IIU+A3W1YbBwrJNKtAIBpi92wvJ7WUEUhIso34o
- P2oMl/dfcWZMKFabptC+MluIzH2Vo1mJOgDOfzE+zWrLxiso3cy90iqTHOA5yl5aMhgV
- 1SCEyxMzdDG7s0mtwE270G69kgrjwxXHilTMYMySpQ4lFPRhTA/ey6U5I/XbNg0UNXtZ
- P/uz8PjoGQfM5Ie85i7K45G5DmF5mdpr4U/r++o9EQ24Z6jKX4J3HuQKce9n2ru/k7Mi
- JFag==
-X-Gm-Message-State: AOAM533gkBR5fCKZVZ7oc6zxEqF0G/7Xv+dRymbPpkbJU05QbK+YB9oR
- 7YDqHSDsMMwkI3ManTe2ssM=
-X-Google-Smtp-Source: ABdhPJzfZMouNxSUPChSrobO0DmZY1dpjyjoJXynXzykI+ox1dAeHmzyb365QAjutoruA3M7o01bCQ==
-X-Received: by 2002:a05:6402:27d0:b0:419:5184:58ae with SMTP id
- c16-20020a05640227d000b00419518458aemr16315076ede.314.1648474034597; 
- Mon, 28 Mar 2022 06:27:14 -0700 (PDT)
-Received: from Ansuel-xps.localdomain (93-42-69-170.ip85.fastwebnet.it.
- [93.42.69.170]) by smtp.gmail.com with ESMTPSA id
- y16-20020aa7d510000000b004197c1cec7dsm6986648edq.6.2022.03.28.06.27.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Mar 2022 06:27:14 -0700 (PDT)
-Date: Mon, 28 Mar 2022 15:27:13 +0200
-From: Ansuel Smith <ansuelsmth@gmail.com>
-To: Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KRv3z40Gsz3073
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Mar 2022 00:41:18 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1648474875;
+ bh=NfSRIzvzOPgU4rZ4xpgMRIXSS+N3V0+Ii+jGxlTZq5E=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=cha0m9oFGw2Uy2c8phYMMtBjTj9MOMtJMvYL4MnP+EZHld4wAVuZMUYvi6mYEz5cl
+ k4Wkr2JklXc1uku+/5G3V9cOX4bePLownKwAzWO+s5pwWb7nhBq9WSOYLROMvbFQjc
+ 7/plC2PLTmuAfsCI85a6iPdCoyVZqdZPh5TWKZX0=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([37.201.215.112]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MQvCv-1nN3y00Tep-00O1oc; Mon, 28
+ Mar 2022 15:35:23 +0200
+Date: Mon, 28 Mar 2022 15:35:18 +0200
+From: Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To: Ansuel Smith <ansuelsmth@gmail.com>
 Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Message-ID: <YkG3sQ3MDhVoW8l4@Ansuel-xps.localdomain>
+Message-ID: <YkG5lsXhNk+9ulnl@latitude>
 References: <20220328000915.15041-1-ansuelsmth@gmail.com>
  <YkG2RPrtPaBNXb7a@latitude>
+ <YkG3sQ3MDhVoW8l4@Ansuel-xps.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="fF1LzePeKn57rJis"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YkG2RPrtPaBNXb7a@latitude>
+In-Reply-To: <YkG3sQ3MDhVoW8l4@Ansuel-xps.localdomain>
+X-Provags-ID: V03:K1:qrlsZgi0Jlf5u32fwM6O7HB37vWISNYC2WTXBzEgnEUsaV8YaNw
+ c3UuZWLJ+6kLvFkIEoGMdp/pY0xTM+H2S6Fg6FRdbibr+FtHBJSNmaMWRBPDJ6JWpI8ALlv
+ xfvEbk/BLLn/YarzsR+ub+9viR80VK3a+J2yS7G8ktIyRuzmg9ViY8j72BhfFQFHHhZLLB+
+ SgbBh2uDTnWNV+hXMQqHw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OEO5BikaLa8=:ODIEDMi+cp0ciKf6ktnHHO
+ v7E8dbcu4ApMz4QswPsUOqJv+JDO+riYuQND5Krj/xLsXrxICRjMD6h77D54hdovwLx6wvSBU
+ LSrs7c6e9zDejITTWEzdfCB/UOk0iFaUoVZKIum80vI6jmVTosd3Ib1sIxo2MVq3LPKxLx0Sf
+ hYIIUaHJnRsSdx66VSln5MWTG1RdOZqq6T7w5GoElnYDAkbqgknijCrH2mznh6xXHMH8gk7Pj
+ /aMDPS3jyqIZWY08sXNY1ZeDItaLPoUnKObr5wML3ITkXNyHjeUATMUrNb/5LdnuIulb4QYQb
+ oQtzhjSMLYv6lfyNvH20EsmuQWPUci86C036hKoSwZAI0sV8hTodhz8DH84w+HZJMRV3U/6Q/
+ s2ru65uW4X/Ju/Wpgthi8QfvFGTDFYZ2Cq6TTSFgmrzrG0FpykpsFeDfgiJOf3qLXkZr7Nb9b
+ YVBVVivSFLaSZIw5NjYAhVWH/rEIvV5XBfaUKwik1tXgCCtHFz2j69PWHm/J2ketZraI4Vpjk
+ bTDXMvEJCdO4uw0bATFKTsO0//vb+Fe4Xegf2F+IfLgRL2NsWk4AlgTNxFzC5SFb+F++VTH5k
+ UjWr++Zi1AxGPAXejCHTLaBTcDcEaOsfnPf3inGv7oM7tHszAUTHoWeDQNEUey2lTT3+tIIs1
+ fNNoYzxgAG+dgNi8YuINEipFkw+nBfkUSXq/wd8ZOshy1s/P6eLE+FTxa5SlwZpXhuLZ6U2mh
+ nyP+EHQFeW+uak0xaamhoM0I4rHbTdb7sY5bI+BApi4DoXpHYMi1+XRiYodNkhhCVaSNq+0Yz
+ c6f5TnsvbTVVeFE1nsIlBKN4lHsLnor+uNBVP5S7uS7zhwph1tSe4xcsozurq+mUwchSXfzBB
+ zfArwwoniitsl0Y1QynhJzMI0GMtvDR6+N67yqU8pXnobtvCi5nS/pDlMsj+1CUB45t/6Goff
+ sbBjjMvB5h30tCNTFZ+IdfotZFlGyOMeXp2NP2UYIhMRVGFW5mOd41IAV2i6Jql9FUGw8JEG/
+ F1XS0s9+/oKyqrLg9TCH15TiDHgEJToRqlbEIFDlzm4WsM8svFMySG64fjQfqqc3yjleFLCSs
+ PlFmXxLLmHiMBw=
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,6 +91,7 @@ Cc: linux-aspeed@lists.ozlabs.org, linux-realtek-soc@lists.infradead.org,
  linux-arm-kernel@axis.com, linux-rockchip@lists.infradead.org,
  linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org,
+ Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
  linux-unisoc@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
  linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
  linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
@@ -101,93 +103,81 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Mon, Mar 28, 2022 at 03:21:08PM +0200, Jonathan Neuschäfer wrote:
-> On Mon, Mar 28, 2022 at 02:09:14AM +0200, Ansuel Smith wrote:
-> > Hi,
-> > as the title say, the intention of this ""series"" is to finally categorize
-> > the ARM dts directory in subdirectory for each oem.
-> [...]
-> > [1] https://gist.github.com/Ansuel/47c49925ee7ef4b1dd035afc74679ab5
-> > [2] https://gist.github.com/Ansuel/19f61f1e583c49407ce35c10e770fbe0
-> 
-> Nice idea, thank you!
-> 
-> A few notes on categorization below.
-> 
-> 
-> >  create mode 100644 arch/arm/boot/dts/broadcom/Makefile
-> >  rename arch/arm/boot/dts/{ => broadcom}/bcm-cygnus-clock.dtsi (100%)
-> 
-> Or maybe bcm instead of broadcom. Not sure which is preferred by
-> Broadcom people.
-> 
 
-In arm64 they used broadcom so i assume the full name looks correct.
+--fF1LzePeKn57rJis
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> >  create mode 100644 arch/arm/boot/dts/dove/Makefile
-> >  rename arch/arm/boot/dts/{ => dove}/dove-cm-a510.dtsi (100%)
-> 
-> Arguably part of Marvell.
-> 
-> >  create mode 100644 arch/arm/boot/dts/edac/Makefile
-> >  rename arch/arm/boot/dts/{ => edac}/ecx-2000.dts (100%)
-> >  rename arch/arm/boot/dts/{ => edac}/ecx-common.dtsi (100%)
-> >  rename arch/arm/boot/dts/{ => edac}/highbank.dts (100%)
-> 
-> Why edac?
-> The most obvious name I can see here is calxeda.
-> 
-> >  create mode 100644 arch/arm/boot/dts/freescale/Makefile
-> 
-> Freescale has been part of NXP for a while, so it might make sense to
-> merge the freescale and nxp directories. I can't speak for
-> NXP-the-company, so that's just my view as a bystander.
-> 
-> >  create mode 100644 arch/arm/boot/dts/kirkwood/Makefile
-> 
-> The Kirkwood family should probably be sorted into Marvell.
-> 
-> >  create mode 100644 arch/arm/boot/dts/layerscape/Makefile
-> >  rename arch/arm/boot/dts/{ => layerscape}/ls1021a-moxa-uc-8410a.dts (100%)
-> >  rename arch/arm/boot/dts/{ => layerscape}/ls1021a-qds.dts (100%)
-> >  rename arch/arm/boot/dts/{ => layerscape}/ls1021a-tsn.dts (100%)
-> >  rename arch/arm/boot/dts/{ => layerscape}/ls1021a-twr.dts (100%)
-> >  rename arch/arm/boot/dts/{ => layerscape}/ls1021a.dtsi (100%)
-> 
-> The Layerscape family is part of Freescale/NXP.
-> 
-> >  create mode 120000 arch/arm/boot/dts/nxp/armv7-m.dtsi
-> 
-> armv7-m.dtsi is a bit confusing, because it contains a few devices at
-> fixed addresses, so it looks vendor-specific at a first glance into the
-> file. However, if it is actually as vendor-neutral as the name implies,
-> I think it should live dts/ directly, rather than in vendor
-> subdirectories.
->
+On Mon, Mar 28, 2022 at 03:27:13PM +0200, Ansuel Smith wrote:
+> On Mon, Mar 28, 2022 at 03:21:08PM +0200, Jonathan Neusch=C3=A4fer wrote:
+> > On Mon, Mar 28, 2022 at 02:09:14AM +0200, Ansuel Smith wrote:
+> > > Hi,
+> > > as the title say, the intention of this ""series"" is to finally cate=
+gorize
+> > > the ARM dts directory in subdirectory for each oem.
+> > [...]
+> > > [1] https://gist.github.com/Ansuel/47c49925ee7ef4b1dd035afc74679ab5
+> > > [2] https://gist.github.com/Ansuel/19f61f1e583c49407ce35c10e770fbe0
+> >=20
+> > Nice idea, thank you!
+> >=20
+> > A few notes on categorization below.
+> >=20
+> >=20
+> > >  create mode 100644 arch/arm/boot/dts/broadcom/Makefile
+> > >  rename arch/arm/boot/dts/{ =3D> broadcom}/bcm-cygnus-clock.dtsi (100=
+%)
+> >=20
+> > Or maybe bcm instead of broadcom. Not sure which is preferred by
+> > Broadcom people.
+> >=20
+>=20
+> In arm64 they used broadcom so i assume the full name looks correct.
 
-Considering it's really just 3 binding IMHO it should be just dropped
-and merged in other dtsi... But lets not extend this too much.
-This is really just a simplic link and armv7-m.dtsi is placed in dts/
-I create links in each oem that includes it to skip any changes to the
-dts.
+Alright.
 
-> >  rename arch/arm/boot/dts/{ => nxp}/lpc18xx.dtsi (100%)
-> 
-> Here we have the NXP LPCxxxx family, which is AFAIK unrelated to the
-> i.MX family (and thus the bulk of the Freescale legacy).
-> 
-> >  create mode 100644 arch/arm/boot/dts/vybrid/Makefile
-> 
-> Vybrid is another chip family of NXP, with a good deal of Freescale
-> legacy in it as evidenced by the "fsl," prefix in the devicetrees.
-> 
-> 
-> 
-> Thanks,
-> Jonathan
 
-Thx for the hint hope to get more comments about the dubious
-categorization about nxp and freescale.
+[...]
+> > >  create mode 120000 arch/arm/boot/dts/nxp/armv7-m.dtsi
+> >=20
+> > armv7-m.dtsi is a bit confusing, because it contains a few devices at
+> > fixed addresses, so it looks vendor-specific at a first glance into the
+> > file. However, if it is actually as vendor-neutral as the name implies,
+> > I think it should live dts/ directly, rather than in vendor
+> > subdirectories.
+> >
+>=20
+> Considering it's really just 3 binding IMHO it should be just dropped
+> and merged in other dtsi... But lets not extend this too much.
+> This is really just a simplic link and armv7-m.dtsi is placed in dts/
+> I create links in each oem that includes it to skip any changes to the
+> dts.
 
--- 
-	Ansuel
+Ah, I missed the link bit (hidden in the file permissions) :)
+I agree, this is something that can be cleaned up later.
+
+
+Jonathan
+
+--fF1LzePeKn57rJis
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAmJBuUMACgkQCDBEmo7z
+X9ur/BAAxp7NDDTo4RBniT+eRykNPIJqV8+GHgUE3wvhGZOkoojmuiOEbi9oqjeS
+b2FyMFrZ8yEgl87fra/tP0pq11rAHFlgTJFIS8WxfNyA8OH70j0pZN6C30ZpUst4
+W4SXDyfvQfyzM6W2xfcpb+TJn4v0CX6t0HL0/Oy3kO8KzP9fuEi9Kn7Zi9kIM5U8
+BZ2K0MueiWCobUaQYTApyJs3oFAD2QoHyT+u9wQasbUKyLZcuMaNrSjIV84rs+9y
+UlsIw5CVbqbrUAwLJqZFjW06DO86JwmvLtn3AT1tpC3enzoPuQUqhGfKh9lYRfRe
+DWaQr7+81KMWwO4MvMPjzOYpE30ejDnoKQUN1hQpVnQn6n/to0xZBTEgm5t4453c
+YBBUPG4z1Na8V671xU7Z1vhOtDHhcBhlPdvo5Jjyb3BLdAeKaQxXz0PEtW+/8HYE
+ds1ajff627fAyrlTf89qzY0Hr9dfh9Ig8jLOiiMsXhoOpEp4/G5dGZhl2rj4XlkM
+arHIOOSO+2Inoa1WnCvxI0qFSCP7oFvB6mZc6mbrKssh3nB/InQig4rPZvvf8bwY
+PGxmj+VaapfZwxRXSI6cEpAlmFk3sWeWD/Qm2Wgm6iJV30OVPSaaYQN5A2ZxNiVg
+oDJI2Sthg7qN10DGIscE4FqOVhKJ4KrhCosnkONoYhjYsC1ZxoE=
+=sVOd
+-----END PGP SIGNATURE-----
+
+--fF1LzePeKn57rJis--
