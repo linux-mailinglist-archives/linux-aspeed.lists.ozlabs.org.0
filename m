@@ -1,56 +1,37 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244A24EA6AF
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Mar 2022 06:45:38 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D124EA8E1
+	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Mar 2022 10:00:19 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KSH7M4nZbz2xYB
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Mar 2022 15:45:35 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=JVgTwdJM;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KSMS13MwFz2xtJ
+	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Mar 2022 19:00:17 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org;
- envelope-from=kuba@kernel.org; receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256
- header.s=k20201202 header.b=JVgTwdJM; 
- dkim-atps=neutral
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KSH7C6gYHz2xBf
- for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Mar 2022 15:45:27 +1100 (AEDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8958C6144A;
- Tue, 29 Mar 2022 04:45:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49671C340ED;
- Tue, 29 Mar 2022 04:45:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648529124;
- bh=6hJOtf0eN1JPWyNYTlK4OfqUxK64irFgfVb+4qtqv2I=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=JVgTwdJM7LTPHhgBoMYT/ZUmYbTqUSmbbz/jg3r+HoEsNAK6HqHxef2uUISQTSDe2
- Hb9jTxx95gh6wquGFQF9jB7VJDKlehXpa30qchSkwlpgu4VQ0HhVke/2vcWpuBxTLQ
- qiBlZbT5tfEVhsBNPv7ifQYMnYY0VQEqd0eo2V6VFNqWYJSAH0nzZfS7Ow+KFTnYbR
- boAbdxkJC33OkKyBJVd8ggPpJpDA7JH7mBgJ3HaDCg0V5UVrvoAB3eOmqxyAN9+3Ef
- SBWtZ7jBy7dozNrQUjmewvHcvGV3NHaS9kEH2ROrZU5Dyge/BLQU8EclOm7o/c0LY9
- kIM8UjAJP6viA==
-Date: Mon, 28 Mar 2022 21:45:22 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Dylan Hung <dylan_hung@aspeedtech.com>
-Subject: Re: [PATCH v3 0/3] Add reset deassertion for Aspeed MDIO
-Message-ID: <20220328214522.7cfdff1e@kernel.org>
-In-Reply-To: <20220325041451.894-1-dylan_hung@aspeedtech.com>
-References: <20220325041451.894-1-dylan_hung@aspeedtech.com>
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=atomide.com
+ (client-ip=72.249.23.125; helo=muru.com; envelope-from=tony@atomide.com;
+ receiver=<UNKNOWN>)
+X-Greylist: delayed 399 seconds by postgrey-1.36 at boromir;
+ Tue, 29 Mar 2022 19:00:12 AEDT
+Received: from muru.com (muru.com [72.249.23.125])
+ by lists.ozlabs.org (Postfix) with ESMTP id 4KSMRw4c4fz2xCC;
+ Tue, 29 Mar 2022 19:00:12 +1100 (AEDT)
+Received: from localhost (localhost [127.0.0.1])
+ by muru.com (Postfix) with ESMTPS id 727F580F9;
+ Tue, 29 Mar 2022 07:51:24 +0000 (UTC)
+Date: Tue, 29 Mar 2022 10:53:27 +0300
+From: Tony Lindgren <tony@atomide.com>
+To: Daniel Palmer <daniel@0x0f.com>
+Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
+Message-ID: <YkK691VG6ON/6Ysn@atomide.com>
+References: <20220328000915.15041-1-ansuelsmth@gmail.com>
+ <CAFr9PXkgrRe-=E=GhNnZ4w1x_FMb97-_RmX6ND1vEd74_TbZSw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFr9PXkgrRe-=E=GhNnZ4w1x_FMb97-_RmX6ND1vEd74_TbZSw@mail.gmail.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,29 +43,57 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: andrew@lunn.ch, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
- netdev@vger.kernel.org, linux@armlinux.org.uk, linux-kernel@vger.kernel.org,
- robh+dt@kernel.org, p.zabel@pengutronix.de, BMC-SW@aspeedtech.com,
- pabeni@redhat.com, davem@davemloft.net, linux-arm-kernel@lists.infradead.org,
- hkallweit1@gmail.com
+Cc: linux-aspeed@lists.ozlabs.org, linux-realtek-soc@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, chrome-platform@lists.linux.dev,
+ linux-samsung-soc@vger.kernel.org, openbmc@lists.ozlabs.org,
+ linux-arm-kernel@axis.com, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, DTML <devicetree@vger.kernel.org>,
+ linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org,
+ linux-unisoc@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-omap@vger.kernel.org,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Ansuel Smith <ansuelsmth@gmail.com>, linux-renesas-soc@vger.kernel.org,
+ kernel@dh-electronics.com, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ linux-oxnas@groups.io
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Fri, 25 Mar 2022 12:14:48 +0800 Dylan Hung wrote:
-> Add missing reset deassertion for Aspeed MDIO bus controller. The reset
-> is asserted by the hardware when power-on so the driver only needs to
-> deassert it. To be able to work with the old DT blobs, the reset is
-> optional since it may be deasserted by the bootloader or the previous
-> kernel.
+Hi,
 
-# Form letter - net-next is closed
+* Daniel Palmer <daniel@0x0f.com> [220328 08:53]:
+> Hi Ansuel
+> 
+> On Mon, 28 Mar 2022 at 09:09, Ansuel Smith <ansuelsmth@gmail.com> wrote:
+> >
+> > Hi,
+> > as the title say, the intention of this ""series"" is to finally categorize
+> > the ARM dts directory in subdirectory for each oem.
+> 
+> While I agree with this change and think it's for the good (browsing
+> the ARM dts directory at the moment is frustrating..) I think
+> buildroot and others need to be told about this as it'll potentially
+> break their kernel build scripting for ARM and probably messes up the
+> configs they have for existing boards.
 
-We have already sent the networking pull request for 5.18
-and therefore net-next is closed for new drivers, features,
-code refactoring and optimizations. We are currently accepting
-bug fixes only.
+Yeah.. And ideally this would be done in smaller steps as these will
+conflict with all the other pending patches.
 
-Please repost when net-next reopens after 5.18-rc1 is cut, in ~1 week.
+For example, I have a pile of pending omap clock clean-up dts patches
+posted and tested waiting for v5.19-rc1 to apply. I'd rather not start
+redoing or fixing up the patches with sed :)
 
-RFC patches sent for review only are obviously welcome at any time.
+What I'd like to have see is that at some point when suitable we move
+one machine at a time with a script if possible.. Maybe the dtb files
+generated would need to remain in the current directory until all of
+the machine dts files are moved? That should help with the build
+scripting too probably :)
+
+In general I like the idea though and I think we should do it.
+
+Regards,
+
+Tony
