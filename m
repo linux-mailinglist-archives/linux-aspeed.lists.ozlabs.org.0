@@ -1,63 +1,68 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 158954EB2DB
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Mar 2022 19:41:15 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5118A4EB2CF
+	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Mar 2022 19:40:20 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KScLJ6fCCz2xfP
-	for <lists+linux-aspeed@lfdr.de>; Wed, 30 Mar 2022 04:41:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KScKG1Nj2z2yR4
+	for <lists+linux-aspeed@lfdr.de>; Wed, 30 Mar 2022 04:40:18 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcdkim header.b=v2opZ3NY;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcdkim header.b=sr7IwiYG;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=quicinc.com (client-ip=129.46.98.28; helo=alexa-out.qualcomm.com;
- envelope-from=quic_jaehyoo@quicinc.com; receiver=<UNKNOWN>)
+ smtp.mailfrom=quicinc.com (client-ip=199.106.114.38;
+ helo=alexa-out-sd-01.qualcomm.com; envelope-from=quic_jaehyoo@quicinc.com;
+ receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
  unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256
- header.s=qcdkim header.b=v2opZ3NY; dkim-atps=neutral
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KScLF3sPwz2x9v
- for <linux-aspeed@lists.ozlabs.org>; Wed, 30 Mar 2022 04:41:09 +1100 (AEDT)
+ header.s=qcdkim header.b=sr7IwiYG; dkim-atps=neutral
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KScK76pWmz2x9v
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 30 Mar 2022 04:40:11 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648575670; x=1680111670;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=L9a82y/lcvJzSe4xQ687SKzEc2I5M+TduJKXm5ghFVg=;
- b=v2opZ3NYNm9cDnZTxKtKrEizwMMYmZvgdhfztQ69JOIOK/tqNK9el1eE
- sfses9PL15agz28RU0R1D/Tk4cIO1PgsjFQnaDEe6T+zkjkiZWnVs2K9W
- DrtOkxWStPfx2LZsLGdHju6ofEaB+pNxCPKPjM7znsZoUHLWk0fN1qb4J Y=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
- by alexa-out.qualcomm.com with ESMTP; 29 Mar 2022 10:40:07 -0700
+ t=1648575612; x=1680111612;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=PQUFDzBMaFAzQRcBm4vkC8oA52XRe+Y4BErXK9V1SFs=;
+ b=sr7IwiYGo2hyLl2K8Ih7WO9lYoqdvNC2LTeOZD2BQFmXf045o/c0p2aT
+ AQ4Tkn13IMjBqI77cTjtDDTHEzjUtLqujdXWoEEAvLHf7ngP/wHO9vHDD
+ HR6HXvJz9va9p5G27x8Zd7fZPTidjICV7gbRIBwciXMZmG/k17YGELM34 I=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 29 Mar 2022 10:40:08 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2022 10:40:06 -0700
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2022 10:40:07 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 29 Mar 2022 10:40:06 -0700
+ 15.2.986.22; Tue, 29 Mar 2022 10:40:07 -0700
 Received: from maru.qualcomm.com (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 29 Mar
- 2022 10:40:05 -0700
+ 2022 10:40:06 -0700
 From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
 To: Andrew Jeffery <andrew@aj.id.au>, Linus Walleij
  <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
  Kozlowski" <krzk+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Arnd Bergmann
  <arnd@arndb.de>
-Subject: [PATCH v3 0/7] Fix AST2600 quad mode SPI pinmux settings
-Date: Tue, 29 Mar 2022 10:39:25 -0700
-Message-ID: <20220329173932.2588289-1-quic_jaehyoo@quicinc.com>
+Subject: [PATCH v3 1/7] ARM: dts: aspeed-g6: remove FWQSPID group in pinctrl
+ dtsi
+Date: Tue, 29 Mar 2022 10:39:26 -0700
+Message-ID: <20220329173932.2588289-2-quic_jaehyoo@quicinc.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220329173932.2588289-1-quic_jaehyoo@quicinc.com>
+References: <20220329173932.2588289-1-quic_jaehyoo@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
@@ -80,63 +85,45 @@ Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-I’m sending this patch series to fix current issues in AST2600 pinmux
-settings while enabling quad mode SPI support.
+FWSPIDQ2 and FWSPIDQ3 are not part of FWSPI18 interface so remove
+FWQSPID group in pinctrl dtsi. These pins must be used with the
+FWSPI pins that are dedicated for boot SPI interface which provides
+same 3.3v logic level.
 
-FWSPI18 pins are basically 1.8v logic pins that are different from the
-dedicated FWSPI pins that provide 3.3v logic level, so FWSPI18 pins can’t
-be grouped with FWSPIDQ2 and FWSPIDQ3, so this series fix the issue.
-
-Also, fixes QSPI1 and QSPI2 function settings in AST2600 pinctrl dtsi to
-make it able to enable quad mode on SPI1 and SPI2 interfaces.
-
-With this series, quad mode pinmux can be set like below.
-
-FW SPI:
-&fmc {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_fwqspi_default>;
-}
-
-SPI1:
-&spi1 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_qspi1_default>;
-}
-
-SPI2:
-&spi2 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_qspi2_default>;
-}
-
-Please review.
-
-Thanks,
-Jae
-
+Fixes: 2f6edb6bcb2f ("ARM: dts: aspeed: Fix AST2600 quad spi group")
+Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+---
 Changes in v3:
- * Added bindings patches. (Andrew)
+ * None.
 
 Changes in v2:
  * Rebased it on the latest.
+ * Updated 'Fixes' while rebasing it on the latest.
 
-Jae Hyun Yoo (5):
-  ARM: dts: aspeed-g6: remove FWQSPID group in pinctrl dtsi
-  pinctrl: pinctrl-aspeed-g6: remove FWQSPID group in pinctrl
-  dt-bindings: pinctrl: aspeed-g6: remove FWQSPID group
-  dt-bindings: pinctrl: aspeed-g6: add FWQSPI function/group
-  ARM: dts: aspeed-g6: fix SPI1/SPI2 quad pin group
+Note:
+ * Removing 'pinctrl_fwqspid_default' doesn't break any existing DT since
+   it has not been used in any DTs.
 
-Johnny Huang (2):
-  pinctrl: pinctrl-aspeed-g6: add FWQSPI function-group
-  ARM: dts: aspeed-g6: add FWQSPI group in pinctrl dtsi
+ arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi | 5 -----
+ 1 file changed, 5 deletions(-)
 
- .../pinctrl/aspeed,ast2600-pinctrl.yaml         |  4 ++--
- arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi        | 10 +++++-----
- drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c      | 17 ++++++++---------
- 3 files changed, 15 insertions(+), 16 deletions(-)
-
+diff --git a/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi b/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
+index e4775bbceecc..06d60a8540e9 100644
+--- a/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
++++ b/arch/arm/boot/dts/aspeed-g6-pinctrl.dtsi
+@@ -117,11 +117,6 @@ pinctrl_fwspid_default: fwspid_default {
+ 		groups = "FWSPID";
+ 	};
+ 
+-	pinctrl_fwqspid_default: fwqspid_default {
+-		function = "FWSPID";
+-		groups = "FWQSPID";
+-	};
+-
+ 	pinctrl_fwspiwp_default: fwspiwp_default {
+ 		function = "FWSPIWP";
+ 		groups = "FWSPIWP";
 -- 
 2.25.1
 
