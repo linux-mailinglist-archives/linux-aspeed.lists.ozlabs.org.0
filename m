@@ -1,69 +1,63 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BCBE4EB300
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Mar 2022 19:58:33 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C44A84EB6E1
+	for <lists+linux-aspeed@lfdr.de>; Wed, 30 Mar 2022 01:38:26 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KSckH00g7z2yP7
-	for <lists+linux-aspeed@lfdr.de>; Wed, 30 Mar 2022 04:58:31 +1100 (AEDT)
-Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=c7hmFmhA;
-	dkim-atps=neutral
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KSmGS2wSLz2yXP
+	for <lists+linux-aspeed@lfdr.de>; Wed, 30 Mar 2022 10:38:24 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=google.com (client-ip=2607:f8b0:4864:20::b34;
- helo=mail-yb1-xb34.google.com; envelope-from=aaelhaj@google.com;
- receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256
- header.s=20210112 header.b=c7hmFmhA; dkim-atps=neutral
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
- [IPv6:2607:f8b0:4864:20::b34])
+ smtp.mailfrom=gmail.com (client-ip=209.85.160.46; helo=mail-oa1-f46.google.com;
+ envelope-from=robherring2@gmail.com; receiver=<UNKNOWN>)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com
+ [209.85.160.46])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KSck73vBhz2xZB
- for <linux-aspeed@lists.ozlabs.org>; Wed, 30 Mar 2022 04:58:21 +1100 (AEDT)
-Received: by mail-yb1-xb34.google.com with SMTP id g9so30451757ybf.1
- for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Mar 2022 10:58:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yfXvsdGt/25h5fNG8H1uxlVvZsMmUrYBtSkMng4/6E0=;
- b=c7hmFmhA3h/KUgbpWode4/bKqY9ujXjmYOpboZ+UXqCicTgcsd6SaXyjG/iM116cD5
- SzZKADs38rbHfpr5U84mvr8ngRQD9ewZzgWgzRSLGObaxJWemj2uS3mSatREoo4ugget
- ry6yBRTQN3xawQH14wHBM1pK19C6lcTPpuVVzDhkxbg4oSlGaDCiSBAu4O8itbPp7d3X
- s0VJFMm7Bs23aOXeEXaRLEiqz7KjcLOVr8X2oHRleueX6dmG8MVAJ/tYYGwbBTbZAEAX
- DfmuH4B7ChqGuw/IKi1EI/+daltTbIU1nhDaMHzEnE9TPAlHPVCr+Qn4hXaNPe5wo6u5
- 0ZgQ==
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KSmGL2Bxsz2xYB
+ for <linux-aspeed@lists.ozlabs.org>; Wed, 30 Mar 2022 10:38:17 +1100 (AEDT)
+Received: by mail-oa1-f46.google.com with SMTP id
+ 586e51a60fabf-deb9295679so13207243fac.6
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Mar 2022 16:38:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yfXvsdGt/25h5fNG8H1uxlVvZsMmUrYBtSkMng4/6E0=;
- b=QcJ2mmkwsWuSFCXDmH4tCi9wSpO+uEvMfx4DOb5yaJ/wDqisbNsLSyO4ayG2+55+lg
- O/mqLV8lPFjc4Q+fTBUcucKD1cpqaz/QrKo5xpH5qez8RCD1RqZtyE0cEyJ4X9N+Y51c
- WTchYnIOY76/I8vxLvUuOJNw/K0jyqL2Aez3V0AhmK8Yq9zVPe6pD3Jts5BPTg0G57dD
- EXzSEW19kOLf/ejGbau/wPdRibdzGOPVh5ErE2V9RgmjPZkcJkXqhcYp/CNXcL++Alif
- i7XJBD8UOG2BC8ijpeKqF3QZzbmD6Tboj4DBxzU4repSJkLhw0Zu7XnhOdkdLA72zd55
- IWYw==
-X-Gm-Message-State: AOAM531YaxOzwhzJYAPRb8rYcXKsDc3pBnHOD7/2gCJG369oSUZBYf31
- lx+rrm84gjoYTQXzdrwAu78l2bOYBE5mtXiFbNC3RQ==
-X-Google-Smtp-Source: ABdhPJxTOqx3U7DdLI/nqre1zKzR2WiSFPWDFZzEVy0VebprgWthXU0XDH8n5DOInzpXTjgfS434mKx4k4LwcS5MHYY=
-X-Received: by 2002:a05:6902:20e:b0:627:f1cb:a9ee with SMTP id
- j14-20020a056902020e00b00627f1cba9eemr28272819ybs.129.1648576698675; Tue, 29
- Mar 2022 10:58:18 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=+1cAZLTqZFTwl/X7nyWvDSu6q8lZr9S0RABiAIxFkuM=;
+ b=jrstKKXPL6e+G9EhwEcWi7ADBqPxjfRIiclWb0pKSguJ7RVh60dLhJPC6tu6a1xf9x
+ lOGDvl8cBU2nL8dbIGVrKKy/RTJRLtWR2ftGaNEp0Ks3FgxTFOlrHtTI1/B8bbxyXg7o
+ D55B3Jit355KUlNE5O7sWeHUNXMlpQG5WcEcZQsjmPvdt8CVs1xAjhdIEEG+n+/BRnrD
+ QU1uQnxrlh3FVwL4R+mtJ046hNqq0AQAAKJRctUt1zC/PWptk6D51nDuTyT2tbJNQ0QL
+ hjK9C/yaUrEeadmJo+IyltmiltOszv28FW238JBa2R11j9jPpfKxHuueiT48Kt09b5Ie
+ JXdg==
+X-Gm-Message-State: AOAM532iIO8uevbGrKgb2Ipl3yfS7PsLGrlM2/LRVo5RbzPlkpGqibNi
+ EhLbWzSqwMAL/3rUyhTRqw==
+X-Google-Smtp-Source: ABdhPJxkrGtgBbZuZzBG3H5iUHI4ZnV53mjbZvAZawZm3fbdUcidO+Lw9+Yu0tCay2j9wBItP2MuyQ==
+X-Received: by 2002:a05:6870:d354:b0:dd:d425:d4de with SMTP id
+ h20-20020a056870d35400b000ddd425d4demr922292oag.210.1648597094905; 
+ Tue, 29 Mar 2022 16:38:14 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ k22-20020a056830243600b005af5fb99326sm9382190ots.63.2022.03.29.16.38.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Mar 2022 16:38:14 -0700 (PDT)
+Received: (nullmailer pid 1572927 invoked by uid 1000);
+ Tue, 29 Mar 2022 23:38:13 -0000
+Date: Tue, 29 Mar 2022 18:38:13 -0500
+From: Rob Herring <robh@kernel.org>
+To: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+Subject: Re: [PATCH v3 3/7] dt-bindings: pinctrl: aspeed-g6: remove FWQSPID
+ group
+Message-ID: <YkOYZQQ2D4zuBspP@robh.at.kernel.org>
+References: <20220329173932.2588289-1-quic_jaehyoo@quicinc.com>
+ <20220329173932.2588289-4-quic_jaehyoo@quicinc.com>
 MIME-Version: 1.0
-References: <CAFPZpNbNc5Fx1tBtmM1x0n-qEB_qp+wSSrR2+_0bxPrPyh1xMw@mail.gmail.com>
- <c29de2ea-0f60-4e7f-8308-11849a7de8e8@www.fastmail.com>
-In-Reply-To: <c29de2ea-0f60-4e7f-8308-11849a7de8e8@www.fastmail.com>
-From: Ali El-Haj-Mahmoud <aaelhaj@google.com>
-Date: Tue, 29 Mar 2022 13:57:52 -0400
-Message-ID: <CAFPZpNZ1+UDVcEs_gp1zCzxXfP6PqZ8kx+UGhb73BusiScRk+g@mail.gmail.com>
-Subject: Re: aspeed2500 SPI1 control at run-time with OpenBMC
-To: Andrew Jeffery <andrew@aj.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220329173932.2588289-4-quic_jaehyoo@quicinc.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,23 +69,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Oskar Senft <osk@google.com>, linux-aspeed@lists.ozlabs.org
+Cc: devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linus.walleij@linaro.org>,
+ Jamie Iles <quic_jiles@quicinc.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Graeme Gregory <quic_ggregory@quicinc.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Thanks for the reply Andrew.
+On Tue, 29 Mar 2022 10:39:28 -0700, Jae Hyun Yoo wrote:
+> FWQSPID is not a group of FWSPID so remove it.
+> 
+> Fixes: 7488838f2315 ("dt-bindings: pinctrl: aspeed: Document AST2600 pinmux")
+> Signed-off-by: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+> ---
+> Changes in v3:
+>  * Newly added in v3. (Andrew)
+> 
+>  .../devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml     | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-> Not explicitly as I mentioned. You're also going to run into the
-> constraints here:
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c?h=v5.17#n2739
->
-> Fundamentally that needs to be changed. We could do something like have
-> it default to pass-through unless a driver is bound.
-
-Could you please elaborate on this a bit? I'm way out of my depth here
-and would appreciate any additional pointers.
-
-I already ran into the read-only constraints in the pinctrl driver,
-and I have a patch that excludes SCU70[13:12], but that wasn't enough.
+Acked-by: Rob Herring <robh@kernel.org>
