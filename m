@@ -2,95 +2,129 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 267674EA421
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Mar 2022 02:24:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD0974EA4AE
+	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Mar 2022 03:39:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KS9Kr07dBz3c1c
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Mar 2022 11:24:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KSC0p4Gz9z3c1R
+	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Mar 2022 12:39:38 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256 header.s=fm3 header.b=GV8iKIgk;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=MfUF/QO1;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=xUPfM4iM;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=aj.id.au (client-ip=66.111.4.229;
- helo=new3-smtp.messagingengine.com; envelope-from=andrew@aj.id.au;
- receiver=<UNKNOWN>)
+ smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f400:feae::721;
+ helo=apc01-psa-obe.outbound.protection.outlook.com;
+ envelope-from=howard_chiu@aspeedtech.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
- unprotected) header.d=aj.id.au header.i=@aj.id.au header.a=rsa-sha256
- header.s=fm3 header.b=GV8iKIgk; 
- dkim=pass (2048-bit key;
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm3 header.b=MfUF/QO1; 
+ unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com
+ header.a=rsa-sha256 header.s=selector1 header.b=xUPfM4iM; 
  dkim-atps=neutral
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from APC01-PSA-obe.outbound.protection.outlook.com
+ (mail-psaapc01on20721.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:feae::721])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KS9Kf66yWz2xWc;
- Tue, 29 Mar 2022 11:24:05 +1100 (AEDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id AA157580367;
- Mon, 28 Mar 2022 20:24:01 -0400 (EDT)
-Received: from imap49 ([10.202.2.99])
- by compute5.internal (MEProxy); Mon, 28 Mar 2022 20:24:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; bh=YVcOcYXKVU4PEK
- ENIKD3lZlfbqMF8OkXUPWQPtT0ZzA=; b=GV8iKIgkifB/LyajStlhIzzaA2PqSU
- rEPGZBnWRziuDMlxEaU3fjhl0DHmyiueo1E3rsDwPrq1dyaythjr8LeJ4NZ3kmFH
- v7J0UO7b64vG5VRtrXZ/OicN/3vDmtLy+M6As/zf5/EYH2TO2OF+YIkppderpdcN
- ocuY8KYW/dUFglcgTgXnC/6f5bvCH2TNkniwuNDGczxXDBDNnP2nHRX3u9u0y3Go
- 2HHhDpJUS8OMLXTkUmRtrROlDXASYpEdp57tTxY7G7Ci6RHcafVgGiKZGpjbHNDZ
- //P9ySL7tvarTkKke+QN7H1PCcvhD3CsMcxHphO+TJq7W+71Q2wgIxYw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=YVcOcYXKVU4PEKENIKD3lZlfbqMF8OkXUPWQPtT0Z
- zA=; b=MfUF/QO1w2kk8LobJGDnDjGmGT9HUgvaIsBRcZJH4NP16C60y/NJslTt7
- orhhkgHh49rbOiH30mg+9nD++QY3WWgzSB2sDT9Qr4nBx6DPKrUBtQOsEMz/dHsj
- tnZTX8+5b3lvOKKTTCyQClpi0fsj22EquswXftZXPkMfoj2QCv1jAapgIQLAxfMF
- S0z3hjnx7eO2S93c8UZottn5LmdiG0YcFFuK5zB8/ar7yCvc0Jy0dFV5KjDfSzzb
- 3LrydgytiTwdKd8S3tKaPDcolfNGWpjEyPMA80KKZ8LEsNOU94avhhnY8yVPYBI+
- z15/ibq45vK+JxVduu76w45M0nzjQ==
-X-ME-Sender: <xms:oFFCYs9K0yagZswp7rFBq_h4vFfHgzOKyc_TzBu90N89g92vvi8M3A>
- <xme:oFFCYkvw9h1jnh95ii6UH3c9xPcsfcQHqQiMHfK2AbFZHDfMquci3iY3KqTCG7jHE
- woyrhqOfmB1RNSngg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehkedgfedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedftehn
- ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
- frrghtthgvrhhnpedvgeekheegfedvhfethefhudetteegueeggfeiieegueehkedugedt
- kefglefgheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:oVFCYiAKjCQA5Zb05U61crJ5MlOJCJLgZQqyWNA7a6PSqL49ds9rcQ>
- <xmx:oVFCYsd7HLs87jVXkH1pk4ddv_005tSApo64HS9hBsjced9RxeZQlg>
- <xmx:oVFCYhNCDSxTTbHGsk6l4iYUYPZLYU9gbpl7DI-t2s9QTshCOjdDqA>
- <xmx:oVFCYjVxoE5j7ipqETgwLEOiheaMjFzqbcptYMrhCgrHpWjYJYVlwQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id E057EF6043F; Mon, 28 Mar 2022 20:24:00 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-4911-g925b585eab-fm-20220323.003-g925b585e
-Mime-Version: 1.0
-Message-Id: <d5e6c96b-5882-4602-93cb-b08a65bfa37e@www.fastmail.com>
-In-Reply-To: <D9AFAC3C-46CA-4C40-8559-FD6934411CAB@goldelico.com>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com>
- <YkG2RPrtPaBNXb7a@latitude>
- <D9AFAC3C-46CA-4C40-8559-FD6934411CAB@goldelico.com>
-Date: Tue, 29 Mar 2022 10:53:40 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- "Ansuel Smith" <ansuelsmth@gmail.com>
-Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Content-Type: text/plain;charset=utf-8
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KSC0Z6sVpz2xDD
+ for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Mar 2022 12:39:05 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=l5sSuaTBXZ1qjjDRL7NZSEVm486rOlsd7alfQVS1FNnoJ4cpGp+nZHiJcVVNScgYvA01YhGQ/4qqb+RUJJIdou8F6MJdmt8Lz4MAn3bBn3wRRcm881n4syuFvt1/SWKsIKzDcuqBq3brX6EL4SeUxa6hRv+pwIp3faoRcjnhcP4cJEls2EWPeE1zkS39T+T9nBt7IWGna5z7dmLmGLqoWtLPG74jd0EsaJJD1XWOf1hdFbgDEZb3/kuEMFWh5EDQJroJkLEOauZ3IcX3NWC1UU9jprIX33L4zTe0FcLPiFj6tmkNFK9nl5kZ5sENalVJk7J5/GtuRSHRrfXwVUqW8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A8I+I+Lrphv2JvL8E2BXLJDFUqxC0Nt+42ON9Jx8dAk=;
+ b=mLLKQfBRcVM97vGaD4xzNH+kt54gQ9P0dZ0zqbXTj0hmFRfdt61odjN9/82HDDONKiUnQ4V+9LS9OiYzHj08Z4mEc6/GjPiwYY91Ho7AlVY3C3CMyQlR8QhzIkJSVktGPAYm31/wZOpCCVq9ePm85vOWWLFmiRhHrm/JSED7JgLMT0tigfOPQVUvjXR9o7uAoapEm1WiqfYuudxnVW1PlSdOAD4MwIguwtRgbeibZDVd+xDru+sdWVO2RaK2IVZULVhhoAjhuE+2MInksjfh0KC5RwAkSMmMQndyGptcvFc1IobTl5/7xSMRdNSeiy6MmbTupAh3Be+SqSORBgRzow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A8I+I+Lrphv2JvL8E2BXLJDFUqxC0Nt+42ON9Jx8dAk=;
+ b=xUPfM4iMVD3pztpgGCFqVjb/qQV4PgIVDu7GmZDKFvCV4M4ukz2tLNh48owUE3QhTsYaC/ySJnDR1rrhwKD1b/xAm54cBnpgWgtLjA1NN8T9bJ1XlN+0ruko+yhlutxYmG/qZAq+qLPL+5jkTq3TmmbNP8dQKu+K0yu2HAbm2IXgXlIYvF8siRHd33cPYAVleKBBOuu59rLGP1eDOQ5hyQO8J6TGWPaqVzD//vmDKjOZF3x7AguAkcdnOHpn/6k9keqFzO7aZvyvYhjQN8ZDooSijAQxAsAk7skLKGqbhwNuldrXrFDrHpTT2RcwZqxxp1HlXTyoBUSlNHqXidkyqQ==
+Received: from SG2PR06MB2315.apcprd06.prod.outlook.com (2603:1096:4:b::19) by
+ SEZPR06MB5414.apcprd06.prod.outlook.com (2603:1096:101:65::13) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5102.16; Tue, 29 Mar 2022 01:38:42 +0000
+Received: from SG2PR06MB2315.apcprd06.prod.outlook.com
+ ([fe80::69db:d6a9:d891:e1fc]) by SG2PR06MB2315.apcprd06.prod.outlook.com
+ ([fe80::69db:d6a9:d891:e1fc%7]) with mapi id 15.20.5102.023; Tue, 29 Mar 2022
+ 01:38:42 +0000
+From: Howard Chiu <howard_chiu@aspeedtech.com>
+To: "robh+dt@kernel.org" <robh+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ "andrew@aj.id.au" <andrew@aj.id.au>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+ <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3 0/2] Enable ast2600-evb KVM
+Thread-Topic: [PATCH v3 0/2] Enable ast2600-evb KVM
+Thread-Index: AdhCSKNsviNagc20SGm1dk/H7s7zYQ==
+Date: Tue, 29 Mar 2022 01:38:41 +0000
+Message-ID: <SG2PR06MB2315A39490DD5282FC6CF2ABE61E9@SG2PR06MB2315.apcprd06.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fa99a85a-4a51-4a32-3c51-08da1124db4e
+x-ms-traffictypediagnostic: SEZPR06MB5414:EE_
+x-microsoft-antispam-prvs: <SEZPR06MB5414A0B880840B53A6858A70E61E9@SEZPR06MB5414.apcprd06.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: orTJW9Q2Wu9H27FMV2S+QMq8N3cKNsp0App0Y3f10pusZYNaHfsahtoSswv+cdSbzHlA9yvsNFIUzdmv877KDHDphIe3dpVxl/faSBm6qyqjc1x+hGVJFPdQxGw1jBcozLcvADgFi4Rx7yFGcI0OAE0Sf+unUWCbHudn+SSZJBGvLa2JnqYnsZC1C3rTIKhosBBVgNCYYuiFXqxZvFpfuZHbzdkVpH4J9urAUFz2j8BXqovCtJj+e8gyC7AoIE0e/BPF+SQrwFv9HpJKGazNllPrFfYEOXHx+mHU9o7DhWOJF1P36xIt0xv6zfGM2jjti8PNIBeg2RICoeJKJrRL/vGnldvP/YT7Yg13nF5Fc4aLIYpQmjuVsZAB+E8U4GbOCAwPz+VqqkbxCXHsHF9JusIW2B1pAgOb8/LhZY7U8t6jZD+HL2yLb7QE9dyFtsZKaf5zfkKUb4WKSceEORCq/lq55gN6K9ANXGoOgETWdiz2JgwPf5Bi/buUM/ZzRW9MnJvyZSCfUV1y+Wd/mkaK0gWpYJfLIerAVVfwRUwXET2jf2XfdOgvUGgCfgw4BuWnLVuxmLQV6gqzHBXWK3POk9jX7h/imUjeEUY6xORbEyK87DvBkW5ZuzoV1AmQpiUGdSG+4cK7SOD5iRZhMGUx9/uzZiGoCJ1WCkhaFaRq8vOy/9dvA+LI14up4Pq2xIUpi0X/l6wcb7c2UnslIc+jeA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SG2PR06MB2315.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(39840400004)(136003)(376002)(346002)(396003)(366004)(5660300002)(38100700002)(86362001)(316002)(4744005)(8936002)(38070700005)(33656002)(122000001)(52536014)(2906002)(4326008)(508600001)(186003)(107886003)(71200400001)(26005)(9686003)(6506007)(110136005)(7696005)(66946007)(55016003)(76116006)(66476007)(64756008)(66446008)(66556008)(8676002)(83380400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?VC32yxnnPqxLGKQmmBBrAv8MC63iGlr6S9POmlQbocNIYhEussMxvMynSn2a?=
+ =?us-ascii?Q?4qfTnAQ1MYZpgvjUv8yjne6hOjMKpLS6K2l/MuV8jZsGdfZu80FT7+bDLwwh?=
+ =?us-ascii?Q?gNKZaix7IvWvv7OnjI+xcv//1vCVAOPxlDmryq1x79upgPDeBIcj1mKSKg4+?=
+ =?us-ascii?Q?Sm8u00kHXmbuH9AchcAEqUaw+cLdxE2lqKCaJD5xkmLz8TDtFF/+ECOWmuj6?=
+ =?us-ascii?Q?XdZc77KCaYLIgJQWJS4j+o6vTMLSpUNxFv24MdCaEee/G2LkZfXEVx5shB4T?=
+ =?us-ascii?Q?9f2L2ZZgSVrlBBJZnBNHjUVcEhQ6vxCjKaHC7eUl8zw5nTVWx/eVrzP8YWUh?=
+ =?us-ascii?Q?El64E0SGB3Bp6SkV3V32cTbLeFuqiXLXBXxPFFI4ZnRHybLPcCNf2rfj6FBB?=
+ =?us-ascii?Q?k9Kctn9vW2vRKEqU8u466ZxHPGqiikxKAgu1KHMfANTGcBEib34JbRTOPU4Y?=
+ =?us-ascii?Q?Inv0LQ3r5J/SkNMQbTIeG1QBdcE1Bc5Zrzkuk0fl/9ZrbyN6nsc5lpZedCwg?=
+ =?us-ascii?Q?8YHEVO16LK2Vzg70G0lpYMaONtTmlRuasgf0l206R84a9qW7Nofwifxc4ila?=
+ =?us-ascii?Q?Jk+UFde7smH4vIxCTQqOUHTm+3kPESu6NQSWL3MWw5pB1bqlsacNLsZxgyJX?=
+ =?us-ascii?Q?8HvEG3+WJNjJO7ThKHd/kXrqRDaHy/L3DkgGIQ7bN4dvbjRwsnI7V0kdccsS?=
+ =?us-ascii?Q?lQ6YHtubfh5xOoF1b7+dCBDFFPTs+M6wY62RWbCzOlbBGjNVfWFayL560Vcq?=
+ =?us-ascii?Q?nHULKhSTr91EoY3qhvFKdw7RWLyq5ChjGcyc7IbLnKbLyU22VeFV7T7QhZ9E?=
+ =?us-ascii?Q?VtSBAi1QNDG6OlsR1AjVVKGWAU2GhAQbXJ2q7ZmEf8mP5TEGvMHFoUsP3E3m?=
+ =?us-ascii?Q?yviQOLKpZVh4hloFl+88cdnLLE5GKeYOXcmhCe0XOWUighUTCrXYAKmhnniP?=
+ =?us-ascii?Q?JUWBQSJgQId1Wf6BMPE0dSwVj+ji2eBqKJMAY7/GoM2FlbkraRvmDLzKZUun?=
+ =?us-ascii?Q?bN09SWUeEVRrRsMnhODxHjhnRzMCFOY9yZAarbIdom1OXuIR2PKvojbcz9mF?=
+ =?us-ascii?Q?4Qx9o+VMAw1hVOdSFxzbSmfOJOkJYmtoSCWULuNe9L2N4/NRwroi0C5pRV2R?=
+ =?us-ascii?Q?KhxyX4YW5pzmkgZJuU80OUaBIKkYF3CFZJw3biz0YVI6ls5baqgB6VJVwA44?=
+ =?us-ascii?Q?XfyrY5gWYTqkWo89q/tqA5aZUmnlsCui9jcaUtWDzF5kRB05lIObIXquQM87?=
+ =?us-ascii?Q?XY6rCvWBfbNego3nHaJf3ddCXcPA/tXxIs4dG4p/YsTmpltUmjdnoMMBnrCD?=
+ =?us-ascii?Q?O6y1BVMq1ITnjo7VRz9HjIm+Td8YP9Ava4Ro1mwvxk1GGoBPcuVUxtN5XzRd?=
+ =?us-ascii?Q?mefPWfmecIoReCnkZH8Gz0EbIH5EtXhzAoIChSYyvlAaQazCpTD4iXbT4Vqn?=
+ =?us-ascii?Q?KuZquOFIVygW/REpeKm3PwAjrt82C26B+ZFgPvtaDLu6LX9ATboIL2OP903T?=
+ =?us-ascii?Q?Vqz0VkNIGWRWlUUN/OC+5wXcwoTin3XYwKxO8lPwXWSDwSCNJjFnbBi+MXh9?=
+ =?us-ascii?Q?XQkkNf31JwBn1q4gHlx4K++1mH+lLgq0eD9hkVJR+YnfK7mY4ywHyz3Oa2WC?=
+ =?us-ascii?Q?xlTYZ+K89R3aDkJQwHp9ygEoJRc/ImcQ2u2vO3gRnvJDty89gVI/HZAc5O0D?=
+ =?us-ascii?Q?cIZhLJPws2xsPwLG+8cqg61f2lbZa5Z6FogP6/XhlQojC4qP3/ILYecHEb0x?=
+ =?us-ascii?Q?UUkvCcM5m+gDb5zuHCBJx+jc/+gyHYA=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB2315.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa99a85a-4a51-4a32-3c51-08da1124db4e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Mar 2022 01:38:41.6710 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: YhWXIASnbsQNMML+lepBKD9ACSxHjgm+DDtOauMh+IyBbdvSjHJe21PwmUy3tkhISTJIrDtJ9n1xjD/c8wmQCZMpiysUfrKt/FQkihcvOeo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5414
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,39 +136,27 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, linux-realtek-soc@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, chrome-platform@lists.linux.dev,
- linux-samsung-soc@vger.kernel.org, openbmc@lists.ozlabs.org,
- linux-arm-kernel@axis.com, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev,
- OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetree@vger.kernel.org>,
- linux-arm-msm@vger.kernel.org, linux-actions@lists.infradead.org,
- linux-unisoc@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
- Linux-OMAP <linux-omap@vger.kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, linux-renesas-soc@vger.kernel.org,
- kernel@dh-electronics.com, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-oxnas@groups.io
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Change since v2:
+1. Add video engine node back which was removed by commit 645afe7 unintenti=
+onally.
 
+Change since v1:
+1. Remove video engine node which was added by commit bcee389.
+2. Remove reset definition because the reset is handled by clk-ast2600 driv=
+er currently.
 
-On Tue, 29 Mar 2022, at 00:20, H. Nikolaus Schaller wrote:
->> Am 28.03.2022 um 15:21 schrieb Jonathan Neusch=C3=A4fer <j.neuschaefe=
-r@gmx.net>:
->>=20
->> Or maybe bcm instead of broadcom. Not sure which is preferred by
->> Broadcom people.
->
-> Maybe it should always follow the list of vendor prefixes as we are=20
-> talking about DTS?
+Howard Chiu (2):
+  ARM: dts: aspeed: Add video engine
+  ARM: dts: aspeed: ast2600-evb: Support KVM
 
-+1 (if we're actually going to do this). That would neuter most the=20
-mistakes and discussion and can be extracted from the dts files=20
-themselves.
+ arch/arm/boot/dts/aspeed-ast2600-evb.dts | 39 +++++++++++++++++++-----
+ arch/arm/boot/dts/aspeed-g6.dtsi         | 10 ++++++
+ 2 files changed, 41 insertions(+), 8 deletions(-)
 
-Andrew
+--=20
+2.25.1
+
