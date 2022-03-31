@@ -1,73 +1,68 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9286F4EDE5E
-	for <lists+linux-aspeed@lfdr.de>; Thu, 31 Mar 2022 18:07:01 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B17B74EDEFE
+	for <lists+linux-aspeed@lfdr.de>; Thu, 31 Mar 2022 18:42:18 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KTp8g3DzCz2ynF
-	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Apr 2022 03:06:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KTpxN2vHSz2ynF
+	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Apr 2022 03:42:16 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcdkim header.b=GNCGSjV/;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256 header.s=ti-com-17Q1 header.b=q0Xzj8+b;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=quicinc.com (client-ip=199.106.114.38;
- helo=alexa-out-sd-01.qualcomm.com; envelope-from=quic_jaehyoo@quicinc.com;
- receiver=<UNKNOWN>)
+Authentication-Results: lists.ozlabs.org;
+ spf=pass (sender SPF authorized) smtp.mailfrom=ti.com
+ (client-ip=198.47.19.141; helo=fllv0015.ext.ti.com;
+ envelope-from=p.yadav@ti.com; receiver=<UNKNOWN>)
 Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256
- header.s=qcdkim header.b=GNCGSjV/; dkim-atps=neutral
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
+ unprotected) header.d=ti.com header.i=@ti.com header.a=rsa-sha256
+ header.s=ti-com-17Q1 header.b=q0Xzj8+b; 
+ dkim-atps=neutral
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KTp8b0xYLz2xvw
- for <linux-aspeed@lists.ozlabs.org>; Fri,  1 Apr 2022 03:06:54 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648742815; x=1680278815;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=kFnw7dJUzYNVuYo76Qjh+kui113vMoaYyH7pGpND/9o=;
- b=GNCGSjV/lEYBTEI6PfywKcCxhts7vj9tLaIfkp0LMN7SNvRHiPX/6g4q
- NtzRhbnU1dZyxW3wI6rc3w22s++lBUET1Q+W9SVj8vnTLhWpyArMay/r3
- /bdaVrMTeaILLQwjjKGe4Fb7sy/a3aY6V7wOR91XSIFjS5SxA8iam8JiA k=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 31 Mar 2022 09:06:51 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 09:06:47 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 31 Mar 2022 09:06:15 -0700
-Received: from [10.110.21.173] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 31 Mar
- 2022 09:06:14 -0700
-Message-ID: <42694139-61d0-fb0d-d4c3-a81cc31488d2@quicinc.com>
-Date: Thu, 31 Mar 2022 09:06:13 -0700
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KTpxD34mCz2xTd
+ for <linux-aspeed@lists.ozlabs.org>; Fri,  1 Apr 2022 03:42:06 +1100 (AEDT)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 22VGfHbT077632;
+ Thu, 31 Mar 2022 11:41:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1648744877;
+ bh=q4I8OmbE9lpXlZiTsZ65bC0HGywDTKwPLArPoG/uE2k=;
+ h=Date:From:To:CC:Subject:References:In-Reply-To;
+ b=q0Xzj8+bwKSW6n1SqCu0ajMaUE0JPYpjhHRhw91vS23GJPbmNB2y4KvnSyMwK4b0G
+ tICwB/nlIKOZogc7v+AgBb7Nkgi4L+dNaEnoD/OTRXYvqtb41WlnIaWJh/1ja6UlnB
+ Z/18XT7txfkmCyGW5GBJXH9G+eMWUZRcGGK66ZrM=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 22VGfHo6024529
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 31 Mar 2022 11:41:17 -0500
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Thu, 31
+ Mar 2022 11:41:17 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Thu, 31 Mar 2022 11:41:17 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 22VGfG1R087297;
+ Thu, 31 Mar 2022 11:41:16 -0500
+Date: Thu, 31 Mar 2022 22:11:15 +0530
+From: Pratyush Yadav <p.yadav@ti.com>
+To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v4 08/11] spi: aspeed: Calibrate read timings
+Message-ID: <20220331164115.w5q3wxlmwcg3w4ns@ti.com>
+References: <20220325100849.2019209-1-clg@kaod.org>
+ <20220325100849.2019209-9-clg@kaod.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3 0/7] Fix AST2600 quad mode SPI pinmux settings
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, Joel Stanley
- <joel@jms.id.au>
-References: <20220329173932.2588289-1-quic_jaehyoo@quicinc.com>
- <CACPK8Xed5Kh_Y2B3NY41bjgoALvz1gC4zbNfmUaHn_8EbHio4g@mail.gmail.com>
- <ea2ecef9-f47f-2a4e-8dda-ffd0c3691389@quicinc.com>
- <c4bcb633-02d2-1cd5-3485-787ebd4b1e0a@kaod.org>
-From: Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-In-Reply-To: <c4bcb633-02d2-1cd5-3485-787ebd4b1e0a@kaod.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+In-Reply-To: <20220325100849.2019209-9-clg@kaod.org>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,81 +74,80 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, Arnd Bergmann <arnd@arndb.de>,
- Linus Walleij <linus.walleij@linaro.org>, Jamie Iles <quic_jiles@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Graeme Gregory <quic_ggregory@quicinc.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
+ linux-aspeed@lists.ozlabs.org, Tudor Ambarus <tudor.ambarus@microchip.com>,
+ Richard Weinberger <richard@nod.at>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-spi@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, linux-mtd@lists.infradead.org,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Hello Cédric,
+Hi,
 
-On 3/31/2022 8:56 AM, Cédric Le Goater wrote:
-> Hello Jae,
+On 25/03/22 11:08AM, C�dric Le Goater wrote:
+> To accommodate the different response time of SPI transfers on different
+> boards and different SPI NOR devices, the Aspeed controllers provide a
+> set of Read Timing Compensation registers to tune the timing delays
+> depending on the frequency being used. The AST2600 SoC has one of these
+> registers per device. On the AST2500 and AST2400 SoCs, the timing
+> register is shared by all devices which is problematic to get good
+> results other than for one device.
 > 
-> On 3/31/22 17:44, Jae Hyun Yoo wrote:
->> On 3/30/2022 10:50 PM, Joel Stanley wrote:
->>> On Tue, 29 Mar 2022 at 17:40, Jae Hyun Yoo <quic_jaehyoo@quicinc.com> 
->>> wrote:
->>>>
->>>> I’m sending this patch series to fix current issues in AST2600 pinmux
->>>> settings while enabling quad mode SPI support.
->>>>
->>>> FWSPI18 pins are basically 1.8v logic pins that are different from the
->>>> dedicated FWSPI pins that provide 3.3v logic level, so FWSPI18 pins 
->>>> can’t
->>>> be grouped with FWSPIDQ2 and FWSPIDQ3, so this series fix the issue.
->>>>
->>>> Also, fixes QSPI1 and QSPI2 function settings in AST2600 pinctrl 
->>>> dtsi to
->>>> make it able to enable quad mode on SPI1 and SPI2 interfaces.
->>>>
->>>> With this series, quad mode pinmux can be set like below.
->>>>
->>>> FW SPI:
->>>> &fmc {
->>>>          pinctrl-names = "default";
->>>>          pinctrl-0 = <&pinctrl_fwqspi_default>;
->>>> }
->>>>
->>>> SPI1:
->>>> &spi1 {
->>>>          pinctrl-names = "default";
->>>>          pinctrl-0 = <&pinctrl_qspi1_default>;
->>>> }
->>>>
->>>> SPI2:
->>>> &spi2 {
->>>>          pinctrl-names = "default";
->>>>          pinctrl-0 = <&pinctrl_qspi2_default>;
->>>> }
->>>
->>> Thanks. I hope to see a board from you that uses this soon :)
->>>
->>> I'll send the patches as fixes once -rc1 is out.
->>
->> Thanks Joel!
->>
->> Yes, I would be able to send my BMC board dts soon.
->> Thanks in advance for your review on that too.
+> The algorithm first reads a golden buffer at low speed and then performs
+> reads with different clocks and delay cycle settings to find a breaking
+> point. This selects a default good frequency for the CEx control register.
+> The current settings are a bit optimistic as we pick the first delay giving
+> good results. A safer approach would be to determine an interval and
+> choose the middle value.
 > 
-> Out of curiosity, which driver are you using ? the one from SDK ?
+> Calibration is performed when the direct mapping for reads is created.
+> Since the underlying spi-nor object needs to be initialized to create
+> the spi_mem operation for direct mapping, we should be fine. Having a
+> specific API would clarify the requirements though.
 > 
-> I proposed a new one for upstream supporting all AST2400, AST2500, AST2600
-> controllers. I would be glad to have some feedback if you have time.
-
-Yes, I saw your patch set of the new driver.
-
-I'm currently using this fix with legacy aspeed-smc driver after
-adding some fixes. I'll give it a try with your new driver as well and
-will give you some feedback if I find any.
-
-Thanks,
-Jae
-
-> Thanks,
+> Cc: Pratyush Yadav <p.yadav@ti.com>
+> Reviewed-by: Joel Stanley <joel@jms.id.au>
+> Tested-by: Joel Stanley <joel@jms.id.au>
+> Tested-by: Tao Ren <rentao.bupt@gmail.com>
+> Signed-off-by: C�dric Le Goater <clg@kaod.org>
+> ---
+>  drivers/spi/spi-aspeed-smc.c | 281 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 281 insertions(+)
 > 
-> C.
+[...]
+> @@ -517,6 +527,8 @@ static int aspeed_spi_chip_adjust_window(struct aspeed_spi_chip *chip,
+>  	return 0;
+>  }
+>  
+> +static int aspeed_spi_do_calibration(struct aspeed_spi_chip *chip);
+> +
+>  static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
+>  {
+>  	struct aspeed_spi *aspi = spi_controller_get_devdata(desc->mem->spi->master);
+> @@ -565,6 +577,8 @@ static int aspeed_spi_dirmap_create(struct spi_mem_dirmap_desc *desc)
+>  	chip->ctl_val[ASPEED_SPI_READ] = ctl_val;
+>  	writel(chip->ctl_val[ASPEED_SPI_READ], chip->ctl);
+>  
+> +	ret = aspeed_spi_do_calibration(chip);
+> +
+
+I am still not convinced this is a good idea. The API does not say 
+anywhere what dirmap_create must be called after the flash is completely 
+initialized, though that is what is done currently in practice. I think 
+an explicit API to mark flash as "ready for calibration" would be a 
+better idea.
+
+Tudor/Mark/Miquel, what do you think?
+
+>  	dev_info(aspi->dev, "CE%d read buswidth:%d [0x%08x]\n",
+>  		 chip->cs, op->data.buswidth, chip->ctl_val[ASPEED_SPI_READ]);
+>  
+[...]
+
+-- 
+Regards,
+Pratyush Yadav
+Texas Instruments Inc.
