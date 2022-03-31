@@ -2,69 +2,66 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6399E4ED3CF
-	for <lists+linux-aspeed@lfdr.de>; Thu, 31 Mar 2022 08:16:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6185E4ED4B5
+	for <lists+linux-aspeed@lfdr.de>; Thu, 31 Mar 2022 09:20:36 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4KTY3s1KjKz2xsH
-	for <lists+linux-aspeed@lfdr.de>; Thu, 31 Mar 2022 17:16:57 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4KTZTG1VrMz2yZw
+	for <lists+linux-aspeed@lfdr.de>; Thu, 31 Mar 2022 18:20:34 +1100 (AEDT)
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256 header.s=google header.b=gHU+rFSS;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.a=rsa-sha256 header.s=pandora-2019 header.b=ssEaxSvr;
 	dkim-atps=neutral
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized)
- smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::834;
- helo=mail-qt1-x834.google.com; envelope-from=joel.stan@gmail.com;
+Authentication-Results: lists.ozlabs.org;
+ spf=none (no SPF record) smtp.mailfrom=armlinux.org.uk
+ (client-ip=2001:4d48:ad52:32c8:5054:ff:fe00:142; helo=pandora.armlinux.org.uk;
+ envelope-from=linux+linux-aspeed=lists.ozlabs.org@armlinux.org.uk;
  receiver=<UNKNOWN>)
-Authentication-Results: lists.ozlabs.org; dkim=pass (1024-bit key;
- secure) header.d=jms.id.au header.i=@jms.id.au header.a=rsa-sha256
- header.s=google header.b=gHU+rFSS; dkim-atps=neutral
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
- [IPv6:2607:f8b0:4864:20::834])
+Authentication-Results: lists.ozlabs.org; dkim=pass (2048-bit key;
+ secure) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.a=rsa-sha256
+ header.s=pandora-2019 header.b=ssEaxSvr; 
+ dkim-atps=neutral
+X-Greylist: delayed 441 seconds by postgrey-1.36 at boromir;
+ Thu, 31 Mar 2022 18:20:26 AEDT
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
+ [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by lists.ozlabs.org (Postfix) with ESMTPS id 4KTY3n1YcMz2xsW;
- Thu, 31 Mar 2022 17:16:52 +1100 (AEDT)
-Received: by mail-qt1-x834.google.com with SMTP id b18so20603318qtk.13;
- Wed, 30 Mar 2022 23:16:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dgO8zqC7WC/fib4XYuirXf5iop7Wh43rpP9KdHmr0IA=;
- b=gHU+rFSSXlKU+USG/wXOYdDH5qJOU+skcxLJ3YnptpmfQB+2MjNdA5rafhbDw76Xwi
- Z+dQmsBbnXkmqgXGCHRv0/Sc2I/xZYmcC8jfrAZu0RgimhYmjrVFIPKLAWl8xiGUsCnk
- oas7YCrop00X/cr1c/2szyxllv0pT6QvkvLaE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=dgO8zqC7WC/fib4XYuirXf5iop7Wh43rpP9KdHmr0IA=;
- b=KffCnCs8mTOMU8ocilGszaiB/5ptB5TvwdiLCm7XTsX2K9YH9aBcZALDP4RWFywaq0
- RzdZ51UXTFeT8y4xM7aFp7KUQpQCereoH2ndzUIBw7b6DWw6/9GZmRiwQsBljJFym+I7
- WyFgeHJU1yXD1+BSfuYoNUy4vxp7gsbZU6fewjdvLqVa5GTt1b+Sc7vxmqCcfsqtZkIt
- uWo8eSL4zWv6AwGv6lZzi5Uvruh4M1uTE9/+7w/DHTw62VYcVlXX7XCTBmHGi+OUhCfO
- fSetInWyxTghXmAsVKVKWRhImQmqRPpDN1mff7CcLRWsB/1IuwvBIbjLPShSjAXp5xBp
- kKpg==
-X-Gm-Message-State: AOAM533t7loxB2OT3v7pXwgHaYrhiyNn757keIYKups4hd1E4B9J4S8M
- Y9RguH78cU0mMdXMbAhaiokO6zGB3QdgCszCpB0=
-X-Google-Smtp-Source: ABdhPJx0f7ZOamDZuctFquKMe7ImfyiAXkszBmDp5Tew9EA05hXkQlU6cG36s1yNYnamTK2Ton+En13ncGVGPFCfGPg=
-X-Received: by 2002:a05:622a:4cd:b0:2e1:ec2f:8c22 with SMTP id
- q13-20020a05622a04cd00b002e1ec2f8c22mr2950468qtx.494.1648707408895; Wed, 30
- Mar 2022 23:16:48 -0700 (PDT)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by lists.ozlabs.org (Postfix) with ESMTPS id 4KTZT64XCdz2yJQ
+ for <linux-aspeed@lists.ozlabs.org>; Thu, 31 Mar 2022 18:20:25 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Cftje8rQgS4kiDHkpH8Em2qt4GFjMGVk4OywwnZsT04=; b=ssEaxSvrpdL50MKhgA/GLcEdZz
+ i9m33P4y2/jk8y2I+ZL/elPceIuEkXA45RCJWN2KjxG9mRjZdJEWo5KxtSZKCtqdqr+bJ6cuLQyLx
+ CDsD/PeJ316Q+x8leqTfW4Z6s3jwQzC6UXvfTfnA9joUyWfUiRqolCSc1R3nrYXV2GIU6lohQpgzw
+ I44ZNFkMqJLHtpEx3bYmUGX08DrMgSsJLL8ZTLU3ZeDVmVIhif+8NkU92cRiSa4uyS5eM2d/3vsSc
+ 9/bKLjQHacLGo6bsKXPWHznODqpyla/o/Y2B3CaNoCo1QQk7IKfBeO9SD07zpTdNP4pl47EUusC+T
+ srf56/xQ==;
+Received: from shell.armlinux.org.uk
+ ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:58042)
+ by pandora.armlinux.org.uk with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <linux@armlinux.org.uk>)
+ id 1nZoyt-0004LR-Vq; Thu, 31 Mar 2022 08:12:31 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+ (envelope-from <linux@shell.armlinux.org.uk>)
+ id 1nZoyn-0007QN-D8; Thu, 31 Mar 2022 08:12:25 +0100
+Date: Thu, 31 Mar 2022 08:12:25 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Dylan Hung <dylan_hung@aspeedtech.com>
+Subject: Re: [PATCH v3 2/3] net: mdio: add reset control for Aspeed MDIO
+Message-ID: <YkVUWV0czTzo6MrJ@shell.armlinux.org.uk>
+References: <20220325041451.894-1-dylan_hung@aspeedtech.com>
+ <20220325041451.894-3-dylan_hung@aspeedtech.com>
 MIME-Version: 1.0
-References: <20220331002914.30495-1-potin.lai@quantatw.com>
- <CACPK8XfzFNqyoa4Fe0sY3usfAd75KAVg2pO8fnW+BzyvSSp9dg@mail.gmail.com>
- <f62f43ad-8eda-c4fc-ad56-04227ef38c9f@kaod.org>
-In-Reply-To: <f62f43ad-8eda-c4fc-ad56-04227ef38c9f@kaod.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 31 Mar 2022 06:16:36 +0000
-Message-ID: <CACPK8Xceo6wozKNbwU8ppvZnK8g1i6z0Hfboy_XDpefFQxGUDA@mail.gmail.com>
-Subject: Re: [RESEND][PATCH linux dev-5.15 v2 1/1] mtd: spi-nor: aspeed: set
- the decoding size to at least 2MB for AST2600
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220325041451.894-3-dylan_hung@aspeedtech.com>
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,91 +73,29 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Patrick Williams <patrick@stwcx.xyz>, Potin Lai <potin.lai@quantatw.com>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>
+Cc: andrew@lunn.ch, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org,
+ p.zabel@pengutronix.de, BMC-SW@aspeedtech.com, kuba@kernel.org,
+ pabeni@redhat.com, davem@davemloft.net, linux-arm-kernel@lists.infradead.org,
+ hkallweit1@gmail.com
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed"
  <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-On Thu, 31 Mar 2022 at 05:51, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> On 3/31/22 03:07, Joel Stanley wrote:
-> > On Thu, 31 Mar 2022 at 00:29, Potin Lai <potin.lai@quantatw.com> wrote:
-> >>
-> >> In AST2600, the unit of SPI CEx decoding range register is 1MB, and en=
-d
-> >> address offset is set to the acctual offset - 1MB. If the flash only h=
-as
-> >> 1MB, the end address will has same value as start address, which will
-> >> causing unexpected errors.
-> >>
-> >> This patch set the decoding size to at least 2MB to avoid decoding err=
-ors.
-> >>
-> >> Tested:
-> >> root@bletchley:~# dmesg | grep "aspeed-smc 1e631000.spi: CE0 window"
-> >> [   59.328134] aspeed-smc 1e631000.spi: CE0 window resized to 2MB (AST=
-2600 Decoding)
-> >> [   59.343001] aspeed-smc 1e631000.spi: CE0 window [ 0x50000000 - 0x50=
-200000 ] 2MB
-> >> root@bletchley:~# devmem 0x1e631030
-> >> 0x00100000
-> >>
-> >> Signed-off-by: Potin Lai <potin.lai@quantatw.com>
-> >>
-> >> ---
-> >> [v1]: https://lore.kernel.org/all/20220304170757.16924-1-potin.lai@qua=
-ntatw.com/
-> >
-> > C=C3=A9dric, can I get an ack from you before I put this in the openbmc=
- tree?
->
->
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Hi,
 
-Thanks, I've applied this to dev-5.15.
+On Fri, Mar 25, 2022 at 12:14:50PM +0800, Dylan Hung wrote:
+> Add reset assertion/deassertion for Aspeed MDIO.  There are 4 MDIO
+> controllers embedded in Aspeed AST2600 SOC and share one reset control
+> register SCU50[3].  To work with old DT blobs which don't have the reset
+> property, devm_reset_control_get_optional_shared is used in this change.
+> 
+> Signed-off-by: Dylan Hung <dylan_hung@aspeedtech.com>
+> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
->
-> Thanks,
->
-> C.
->
-> >>
-> >> Changes v1 --> v2:
-> >> - add fmc controller into decoding range resize checking
-> >> ---
-> >>   drivers/mtd/spi-nor/controllers/aspeed-smc.c | 12 ++++++++++++
-> >>   1 file changed, 12 insertions(+)
-> >>
-> >> diff --git a/drivers/mtd/spi-nor/controllers/aspeed-smc.c b/drivers/mt=
-d/spi-nor/controllers/aspeed-smc.c
-> >> index 416ea247f843..74fa46439246 100644
-> >> --- a/drivers/mtd/spi-nor/controllers/aspeed-smc.c
-> >> +++ b/drivers/mtd/spi-nor/controllers/aspeed-smc.c
-> >> @@ -781,6 +781,18 @@ static u32 aspeed_smc_chip_set_segment(struct asp=
-eed_smc_chip *chip)
-> >>                           chip->cs, size >> 20);
-> >>          }
-> >>
-> >> +       /*
-> >> +        * The decoding size of AST2600 SPI controller should set at
-> >> +        * least 2MB.
-> >> +        */
-> >> +       if ((controller->info =3D=3D &spi_2600_info ||
-> >> +            controller->info =3D=3D &fmc_2600_info) && size < SZ_2M) =
-{
-> >> +               size =3D SZ_2M;
-> >> +               dev_info(chip->nor.dev,
-> >> +                        "CE%d window resized to %dMB (AST2600 Decodin=
-g)",
-> >> +                        chip->cs, size >> 20);
-> >> +       }
-> >> +
-> >>          ahb_base_phy =3D controller->ahb_base_phy;
-> >>
-> >>          /*
-> >> --
-> >> 2.17.1
-> >>
->
+Should this really be specific to one driver rather than being handled
+in the core mdio code?
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
